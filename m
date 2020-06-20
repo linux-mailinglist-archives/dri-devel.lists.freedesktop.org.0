@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528BA201ED1
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 01:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE6A201EF6
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 02:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17DDE6ECD9;
-	Fri, 19 Jun 2020 23:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC486ECF0;
+	Sat, 20 Jun 2020 00:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C395E6ECD9;
- Fri, 19 Jun 2020 23:57:03 +0000 (UTC)
-IronPort-SDR: LwBWcDuKcO1bY0UUq4eCrxcEXmhTAmB0/AlWkPzA8KCfcrLzUHEO1uryk/GnKWR4o1SYuWTAz7
- k9EuT6DseLWQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9657"; a="123408249"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 582E96ECEF;
+ Sat, 20 Jun 2020 00:08:41 +0000 (UTC)
+IronPort-SDR: BS6aRNLondaAK857ybmwexBeRyHLxqk+82ydo2QDsAzCpPrzEmXmYPZBFcO4Kn6qU+iMCEi66A
+ lJL1M43WTPNQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9657"; a="144629929"
 X-IronPort-AV: E=Sophos;i="5.75,256,1589266800"; 
- d="gz'50?scan'50,208,50";a="123408249"
+ d="gz'50?scan'50,208,50";a="144629929"
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 16:57:02 -0700
-IronPort-SDR: Le7tMuoqUqCqQsoS6XMPrYkB8VoRB+gNsLFiBRe57ciKtIHddXtJGOEJUdSkLIf8e2KUKvEg8t
- aun32f/PXPVg==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2020 17:08:40 -0700
+IronPort-SDR: D/7Mxty5+FDelM3b4TC0hr8Xuu00J798FjmXjz1okL/7vy83S94WyxmEUh7DzEBYJJHx3n0TJm
+ hq8iLsiwJ+HQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,256,1589266800"; 
- d="gz'50?scan'50,208,50";a="274439512"
+ d="gz'50?scan'50,208,50";a="352879973"
 Received: from lkp-server02.sh.intel.com (HELO 3aa54c81372e) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 19 Jun 2020 16:56:59 -0700
+ by orsmga001.jf.intel.com with ESMTP; 19 Jun 2020 17:08:37 -0700
 Received: from kbuild by 3aa54c81372e with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1jmQsU-0000Lj-Rr; Fri, 19 Jun 2020 23:56:58 +0000
-Date: Sat, 20 Jun 2020 07:56:15 +0800
+ id 1jmR3k-0000Ph-JC; Sat, 20 Jun 2020 00:08:36 +0000
+Date: Sat, 20 Jun 2020 08:07:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [drm-intel:topic/core-for-CI 17/21] include/net/ax25.h:121:24:
- error: redeclaration of enumerator 'AX25_PROTO_DAMA_MASTER'
-Message-ID: <202006200702.0F3Jbjbf%lkp@intel.com>
+Subject: [drm-intel:topic/core-for-CI 17/21]
+ drivers/staging/media/soc_camera/soc_mediabus.c:19:4: error: 'struct
+ soc_mbus_pixelfmt' has no member named 'name'
+Message-ID: <202006200836.ATsXJORs%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="HcAYCG3uE/tztfnV"
+Content-Type: multipart/mixed; boundary="sdtB3X0nJg68CQEu"
 Content-Disposition: inline
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,9 +62,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---HcAYCG3uE/tztfnV
+--sdtB3X0nJg68CQEu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+
+Hi Joonas,
+
+First bad commit (maybe != root cause):
 
 tree:   git://anongit.freedesktop.org/drm-intel topic/core-for-CI
 head:   7baab4e528ef38546a32f0a368285289aa2c981f
@@ -80,51 +85,498 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/ipv4/arp.c:110:
->> include/net/ax25.h:121:24: error: redeclaration of enumerator 'AX25_PROTO_DAMA_MASTER'
-     121 | #define AX25_PROTO_MAX AX25_PROTO_DAMA_MASTER
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   include/net/ax25.h:125:2: note: in expansion of macro 'AX25_PROTO_MAX'
-     125 |  AX25_PROTO_MAX = __AX25_PROTO_MAX -1
-         |  ^~~~~~~~~~~~~~
-   include/net/ax25.h:120:2: note: previous definition of 'AX25_PROTO_DAMA_MASTER' was here
-     120 |  AX25_PROTO_DAMA_MASTER,
-         |  ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/soc_camera/soc_mediabus.c:19:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      19 |   .name   = "YUYV",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:19:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      19 |   .name   = "YUYV",
+         |             ^~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:29:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      29 |   .name   = "YVYU",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:29:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      29 |   .name   = "YVYU",
+         |             ^~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:39:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      39 |   .name   = "UYVY",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:39:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      39 |   .name   = "UYVY",
+         |             ^~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:49:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      49 |   .name   = "VYUY",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:49:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      49 |   .name   = "VYUY",
+         |             ^~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:59:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      59 |   .name   = "RGB555",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:59:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      59 |   .name   = "RGB555",
+         |             ^~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:69:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      69 |   .name   = "RGB555X",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:69:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      69 |   .name   = "RGB555X",
+         |             ^~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:79:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      79 |   .name   = "RGB565",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:79:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      79 |   .name   = "RGB565",
+         |             ^~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:89:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      89 |   .name   = "RGB565X",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:89:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      89 |   .name   = "RGB565X",
+         |             ^~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:99:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+      99 |   .name   = "RGB666/32bpp",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:99:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+      99 |   .name   = "RGB666/32bpp",
+         |             ^~~~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:108:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     108 |   .name   = "RGB888/32bpp",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:108:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     108 |   .name   = "RGB888/32bpp",
+         |             ^~~~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:117:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     117 |   .name   = "RGB888/32bpp",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:117:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     117 |   .name   = "RGB888/32bpp",
+         |             ^~~~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:126:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     126 |   .name   = "RGB888/32bpp",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:126:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     126 |   .name   = "RGB888/32bpp",
+         |             ^~~~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:135:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     135 |   .name   = "Bayer 8 BGGR",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:135:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     135 |   .name   = "Bayer 8 BGGR",
+         |             ^~~~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:145:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     145 |   .name   = "Bayer 10 BGGR",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:145:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     145 |   .name   = "Bayer 10 BGGR",
+         |             ^~~~~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:155:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     155 |   .name   = "Grey",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:155:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     155 |   .name   = "Grey",
+         |             ^~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:165:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     165 |   .name   = "Grey 10bit",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:165:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     165 |   .name   = "Grey 10bit",
+         |             ^~~~~~~~~~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:175:4: error: 'struct soc_mbus_pixelfmt' has no member named 'name'
+     175 |   .name   = "Bayer 10 BGGR",
+         |    ^~~~
+   drivers/staging/media/soc_camera/soc_mediabus.c:175:13: error: incompatible types when initializing type 'enum soc_mbus_packing' using type 'char *'
+     175 |   .name   = "Bayer 10 BGGR",
 
-vim +/AX25_PROTO_DAMA_MASTER +121 include/net/ax25.h
+vim +19 drivers/staging/media/soc_camera/soc_mediabus.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  113  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  114  enum {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  115  	AX25_PROTO_STD_SIMPLEX,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  116  	AX25_PROTO_STD_DUPLEX,
-c7c694d196a39a Ralf Baechle   2006-03-19  117  #ifdef CONFIG_AX25_DAMA_SLAVE
-^1da177e4c3f41 Linus Torvalds 2005-04-16  118  	AX25_PROTO_DAMA_SLAVE,
-c7c694d196a39a Ralf Baechle   2006-03-19  119  #ifdef CONFIG_AX25_DAMA_MASTER
-c7c694d196a39a Ralf Baechle   2006-03-19  120  	AX25_PROTO_DAMA_MASTER,
-c7c694d196a39a Ralf Baechle   2006-03-19 @121  #define AX25_PROTO_MAX AX25_PROTO_DAMA_MASTER
-c7c694d196a39a Ralf Baechle   2006-03-19  122  #endif
-c7c694d196a39a Ralf Baechle   2006-03-19  123  #endif
-c7c694d196a39a Ralf Baechle   2006-03-19  124  	__AX25_PROTO_MAX,
-c7c694d196a39a Ralf Baechle   2006-03-19  125  	AX25_PROTO_MAX = __AX25_PROTO_MAX -1
-^1da177e4c3f41 Linus Torvalds 2005-04-16  126  };
-^1da177e4c3f41 Linus Torvalds 2005-04-16  127  
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   13  
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   14  static const struct soc_mbus_lookup mbus_fmt[] = {
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   15  {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   16  	.code = MEDIA_BUS_FMT_YUYV8_2X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   17  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   18  		.fourcc			= V4L2_PIX_FMT_YUYV,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  @19  		.name			= "YUYV",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   20  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   21  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   22  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   23  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   24  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   25  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   26  	.code = MEDIA_BUS_FMT_YVYU8_2X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   27  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   28  		.fourcc			= V4L2_PIX_FMT_YVYU,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   29  		.name			= "YVYU",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   30  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   31  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   32  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   33  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   34  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   35  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   36  	.code = MEDIA_BUS_FMT_UYVY8_2X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   37  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   38  		.fourcc			= V4L2_PIX_FMT_UYVY,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   39  		.name			= "UYVY",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   40  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   41  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   42  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   43  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   44  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   45  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   46  	.code = MEDIA_BUS_FMT_VYUY8_2X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   47  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   48  		.fourcc			= V4L2_PIX_FMT_VYUY,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   49  		.name			= "VYUY",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   50  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   51  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   52  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   53  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   54  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   55  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   56  	.code = MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   57  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   58  		.fourcc			= V4L2_PIX_FMT_RGB555,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   59  		.name			= "RGB555",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   60  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   61  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   62  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   63  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   64  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   65  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   66  	.code = MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   67  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   68  		.fourcc			= V4L2_PIX_FMT_RGB555X,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   69  		.name			= "RGB555X",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   70  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   71  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+abcb6b99f5e5d2c drivers/media/platform/soc_camera/soc_mediabus.c Guennadi Liakhovetski 2013-03-08   72  		.order			= SOC_MBUS_ORDER_BE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   73  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   74  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   75  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   76  	.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   77  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   78  		.fourcc			= V4L2_PIX_FMT_RGB565,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   79  		.name			= "RGB565",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   80  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   81  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   82  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   83  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   84  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   85  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   86  	.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13   87  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   88  		.fourcc			= V4L2_PIX_FMT_RGB565X,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   89  		.name			= "RGB565X",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   90  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11   91  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+abcb6b99f5e5d2c drivers/media/platform/soc_camera/soc_mediabus.c Guennadi Liakhovetski 2013-03-08   92  		.order			= SOC_MBUS_ORDER_BE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21   93  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24   94  	},
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18   95  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10   96  	.code = MEDIA_BUS_FMT_RGB666_1X18,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18   97  	.fmt = {
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18   98  		.fourcc			= V4L2_PIX_FMT_RGB32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18   99  		.name			= "RGB666/32bpp",
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  100  		.bits_per_sample	= 18,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  101  		.packing		= SOC_MBUS_PACKING_EXTEND32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  102  		.order			= SOC_MBUS_ORDER_LE,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  103  	},
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  104  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  105  	.code = MEDIA_BUS_FMT_RGB888_1X24,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  106  	.fmt = {
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  107  		.fourcc			= V4L2_PIX_FMT_RGB32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  108  		.name			= "RGB888/32bpp",
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  109  		.bits_per_sample	= 24,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  110  		.packing		= SOC_MBUS_PACKING_EXTEND32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  111  		.order			= SOC_MBUS_ORDER_LE,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  112  	},
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  113  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  114  	.code = MEDIA_BUS_FMT_RGB888_2X12_BE,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  115  	.fmt = {
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  116  		.fourcc			= V4L2_PIX_FMT_RGB32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  117  		.name			= "RGB888/32bpp",
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  118  		.bits_per_sample	= 12,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  119  		.packing		= SOC_MBUS_PACKING_EXTEND32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  120  		.order			= SOC_MBUS_ORDER_BE,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  121  	},
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  122  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  123  	.code = MEDIA_BUS_FMT_RGB888_2X12_LE,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  124  	.fmt = {
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  125  		.fourcc			= V4L2_PIX_FMT_RGB32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  126  		.name			= "RGB888/32bpp",
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  127  		.bits_per_sample	= 12,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  128  		.packing		= SOC_MBUS_PACKING_EXTEND32,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  129  		.order			= SOC_MBUS_ORDER_LE,
+7b88fc086a217be drivers/media/platform/soc_camera/soc_mediabus.c Phil Edworthy         2013-03-18  130  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  131  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  132  	.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  133  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  134  		.fourcc			= V4L2_PIX_FMT_SBGGR8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  135  		.name			= "Bayer 8 BGGR",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  136  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  137  		.packing		= SOC_MBUS_PACKING_NONE,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  138  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  139  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  140  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  141  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  142  	.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  143  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  144  		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  145  		.name			= "Bayer 10 BGGR",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  146  		.bits_per_sample	= 10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  147  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  148  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  149  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  150  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  151  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  152  	.code = MEDIA_BUS_FMT_Y8_1X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  153  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  154  		.fourcc			= V4L2_PIX_FMT_GREY,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  155  		.name			= "Grey",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  156  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  157  		.packing		= SOC_MBUS_PACKING_NONE,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  158  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  159  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  160  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  161  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  162  	.code = MEDIA_BUS_FMT_Y10_1X10,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  163  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  164  		.fourcc			= V4L2_PIX_FMT_Y10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  165  		.name			= "Grey 10bit",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  166  		.bits_per_sample	= 10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  167  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  168  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  169  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  170  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  171  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  172  	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  173  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  174  		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  175  		.name			= "Bayer 10 BGGR",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  176  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  177  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  178  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  179  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  180  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  181  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  182  	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  183  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  184  		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  185  		.name			= "Bayer 10 BGGR",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  186  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  187  		.packing		= SOC_MBUS_PACKING_2X8_PADLO,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  188  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  189  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  190  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  191  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  192  	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  193  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  194  		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  195  		.name			= "Bayer 10 BGGR",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  196  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  197  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  198  		.order			= SOC_MBUS_ORDER_BE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  199  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+81355e40826acea drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-24  200  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  201  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  202  	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  203  	.fmt = {
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  204  		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  205  		.name			= "Bayer 10 BGGR",
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  206  		.bits_per_sample	= 8,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  207  		.packing		= SOC_MBUS_PACKING_2X8_PADLO,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  208  		.order			= SOC_MBUS_ORDER_BE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  209  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  210  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  211  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  212  	.code = MEDIA_BUS_FMT_JPEG_1X8,
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  213  	.fmt = {
+64149deb6a9ec35 drivers/media/video/soc_mediabus.c               Kassey Li             2011-05-20  214  		.fourcc                 = V4L2_PIX_FMT_JPEG,
+64149deb6a9ec35 drivers/media/video/soc_mediabus.c               Kassey Li             2011-05-20  215  		.name                   = "JPEG",
+64149deb6a9ec35 drivers/media/video/soc_mediabus.c               Kassey Li             2011-05-20  216  		.bits_per_sample        = 8,
+64149deb6a9ec35 drivers/media/video/soc_mediabus.c               Kassey Li             2011-05-20  217  		.packing                = SOC_MBUS_PACKING_VARIABLE,
+64149deb6a9ec35 drivers/media/video/soc_mediabus.c               Kassey Li             2011-05-20  218  		.order                  = SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  219  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+64149deb6a9ec35 drivers/media/video/soc_mediabus.c               Kassey Li             2011-05-20  220  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  221  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  222  	.code = MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  223  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  224  		.fourcc			= V4L2_PIX_FMT_RGB444,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  225  		.name			= "RGB444",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  226  		.bits_per_sample	= 8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  227  		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  228  		.order			= SOC_MBUS_ORDER_BE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  229  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  230  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  231  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  232  	.code = MEDIA_BUS_FMT_YUYV8_1_5X8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  233  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  234  		.fourcc			= V4L2_PIX_FMT_YUV420,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  235  		.name			= "YUYV 4:2:0",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  236  		.bits_per_sample	= 8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  237  		.packing		= SOC_MBUS_PACKING_1_5X8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  238  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  239  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  240  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  241  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  242  	.code = MEDIA_BUS_FMT_YVYU8_1_5X8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  243  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  244  		.fourcc			= V4L2_PIX_FMT_YVU420,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  245  		.name			= "YVYU 4:2:0",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  246  		.bits_per_sample	= 8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  247  		.packing		= SOC_MBUS_PACKING_1_5X8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  248  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  249  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  250  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  251  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  252  	.code = MEDIA_BUS_FMT_UYVY8_1X16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  253  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  254  		.fourcc			= V4L2_PIX_FMT_UYVY,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  255  		.name			= "UYVY 16bit",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  256  		.bits_per_sample	= 16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  257  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  258  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  259  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  260  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  261  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  262  	.code = MEDIA_BUS_FMT_VYUY8_1X16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  263  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  264  		.fourcc			= V4L2_PIX_FMT_VYUY,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  265  		.name			= "VYUY 16bit",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  266  		.bits_per_sample	= 16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  267  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  268  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  269  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  270  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  271  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  272  	.code = MEDIA_BUS_FMT_YUYV8_1X16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  273  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  274  		.fourcc			= V4L2_PIX_FMT_YUYV,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  275  		.name			= "YUYV 16bit",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  276  		.bits_per_sample	= 16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  277  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  278  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  279  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  280  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  281  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  282  	.code = MEDIA_BUS_FMT_YVYU8_1X16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  283  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  284  		.fourcc			= V4L2_PIX_FMT_YVYU,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  285  		.name			= "YVYU 16bit",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  286  		.bits_per_sample	= 16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  287  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  288  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  289  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  290  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  291  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  292  	.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  293  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  294  		.fourcc			= V4L2_PIX_FMT_SGRBG8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  295  		.name			= "Bayer 8 GRBG",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  296  		.bits_per_sample	= 8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  297  		.packing		= SOC_MBUS_PACKING_NONE,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  298  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  299  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  300  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  301  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  302  	.code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  303  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  304  		.fourcc			= V4L2_PIX_FMT_SGRBG10DPCM8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  305  		.name			= "Bayer 10 BGGR DPCM 8",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  306  		.bits_per_sample	= 8,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  307  		.packing		= SOC_MBUS_PACKING_NONE,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  308  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  309  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  310  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  311  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  312  	.code = MEDIA_BUS_FMT_SGBRG10_1X10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  313  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  314  		.fourcc			= V4L2_PIX_FMT_SGBRG10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  315  		.name			= "Bayer 10 GBRG",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  316  		.bits_per_sample	= 10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  317  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  318  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  319  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  320  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  321  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  322  	.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  323  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  324  		.fourcc			= V4L2_PIX_FMT_SGRBG10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  325  		.name			= "Bayer 10 GRBG",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  326  		.bits_per_sample	= 10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  327  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  328  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  329  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  330  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  331  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  332  	.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  333  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  334  		.fourcc			= V4L2_PIX_FMT_SRGGB10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  335  		.name			= "Bayer 10 RGGB",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  336  		.bits_per_sample	= 10,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  337  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  338  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  339  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  340  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  341  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  342  	.code = MEDIA_BUS_FMT_SBGGR12_1X12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  343  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  344  		.fourcc			= V4L2_PIX_FMT_SBGGR12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  345  		.name			= "Bayer 12 BGGR",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  346  		.bits_per_sample	= 12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  347  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  348  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  349  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  350  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  351  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  352  	.code = MEDIA_BUS_FMT_SGBRG12_1X12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  353  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  354  		.fourcc			= V4L2_PIX_FMT_SGBRG12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  355  		.name			= "Bayer 12 GBRG",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  356  		.bits_per_sample	= 12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  357  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  358  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  359  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  360  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  361  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  362  	.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  363  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  364  		.fourcc			= V4L2_PIX_FMT_SGRBG12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  365  		.name			= "Bayer 12 GRBG",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  366  		.bits_per_sample	= 12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  367  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  368  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  369  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  370  	},
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  371  }, {
+27ffaeb0ab16085 drivers/media/platform/soc_camera/soc_mediabus.c Boris Brezillon       2014-11-10  372  	.code = MEDIA_BUS_FMT_SRGGB12_1X12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  373  	.fmt = {
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  374  		.fourcc			= V4L2_PIX_FMT_SRGGB12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  375  		.name			= "Bayer 12 RGGB",
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  376  		.bits_per_sample	= 12,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  377  		.packing		= SOC_MBUS_PACKING_EXTEND16,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  378  		.order			= SOC_MBUS_ORDER_LE,
+ad3b81faa1db60b drivers/media/video/soc_mediabus.c               Laurent Pinchart      2012-03-21  379  		.layout			= SOC_MBUS_LAYOUT_PACKED,
+e23b961dd1206ac drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-17  380  	},
+93f116d595e9aa7 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2011-05-13  381  },
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  382  };
+9a74251d8bee7a2 drivers/media/video/soc_mediabus.c               Guennadi Liakhovetski 2009-12-11  383  
 
-:::::: The code at line 121 was first introduced by commit
-:::::: c7c694d196a39af6e644e24279953d04f30362db [AX.25]: Fix potencial memory hole.
+:::::: The code at line 19 was first introduced by commit
+:::::: 9a74251d8bee7a25fee89a0be3ccea73e01c1a05 V4L/DVB (13658): v4l: add a media-bus API for configuring v4l2 subdev pixel and frame formats
 
-:::::: TO: Ralf Baechle DL5RB <ralf@linux-mips.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---HcAYCG3uE/tztfnV
+--sdtB3X0nJg68CQEu
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICMxF7V4AAy5jb25maWcAlDzJdty2svt8RR9nkyySq8mKc97xAg2CbKRJggbAVrc3PIrc
+H4sICDpM7V4AAy5jb25maWcAlDzJdty2svt8RR9nkyySq8mKc97xAg2CbKRJggbAVrc3PIrc
 dnSeLflquDf++1cFcCiAoJyXRSxWYSzUjEL/+MOPK/b8dP/l+un25vrz52+rT8e748P10/HD
 6uPt5+P/rDK1qpVdiUzaX6FxeXv3/Pe/bs/fXK5e//rm15NfHm5OV9vjw93x84rf3328/fQM
 vW/v73748Qeu6lwWHefdTmgjVd1ZsbdvX326ufnl99VP2fHP2+u71e+/nsMwp+c/+79ekW7S
@@ -1500,7 +1952,7 @@ puVQXzr6KEL7AnVSK1cugvbrm0Jfnu1oNtoeG3I/6rx9mbUOyJwedkPkmd/iomMs7EUCMVpv
 3AlgquqpDXzIahek+jEBr/hFVkRes7L7pBPCKs5C2ENKp7FmlDm2PG1R8Bg28asAySEupAYU
 R0W+hgm6a+UwVRVO6gWeRyf+8ECftOpIrejYpwi3md1T/T/XpxYmD8IEAA==
 
---HcAYCG3uE/tztfnV
+--sdtB3X0nJg68CQEu
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1511,4 +1963,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---HcAYCG3uE/tztfnV--
+--sdtB3X0nJg68CQEu--
