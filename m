@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339B62026E1
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 23:33:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6382026EF
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 23:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D82D96E370;
-	Sat, 20 Jun 2020 21:33:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568596E375;
+	Sat, 20 Jun 2020 21:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDFA26E370
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 21:33:06 +0000 (UTC)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2CC6E375
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 21:42:30 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 4C1A080462;
- Sat, 20 Jun 2020 23:33:03 +0200 (CEST)
-Date: Sat, 20 Jun 2020 23:33:02 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 9C20520021;
+ Sat, 20 Jun 2020 23:42:26 +0200 (CEST)
+Date: Sat, 20 Jun 2020 23:42:25 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [RESEND PATCH v4 0/7] Convert mtk-dsi to drm_bridge API and get
- EDID for ps8640 bridge
-Message-ID: <20200620213302.GC74146@ravnborg.org>
-References: <20200615203108.786083-1-enric.balletbo@collabora.com>
+Subject: Re: [PATCH 3/3] drm/bridge: ps8640: Rework power state handling
+Message-ID: <20200620214225.GD74146@ravnborg.org>
+References: <20200615205320.790334-1-enric.balletbo@collabora.com>
+ <20200615205320.790334-4-enric.balletbo@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200615203108.786083-1-enric.balletbo@collabora.com>
+In-Reply-To: <20200615205320.790334-4-enric.balletbo@collabora.com>
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
+X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8 a=e5mUnYsNAAAA:8
- a=BRaO1eXc-lkJNI1u5j0A:9 a=CjuIK1q_8ugA:10 a=W4TVW4IDbPiebHqcZpNg:22
+ a=kj9zAlcOel0A:10 a=QX4gbG5DAAAA:8 a=e5mUnYsNAAAA:8
+ a=gsnspH9XThcp_ju6__IA:9 a=CjuIK1q_8ugA:10 a=AbAUZ8qAyYyZVLSsDulk:22
  a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,84 +45,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- linux-mediatek@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, hsinyi@chromium.org,
- matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Enric
+Hi Enric.
 
-On Mon, Jun 15, 2020 at 10:31:01PM +0200, Enric Balletbo i Serra wrote:
-> (This resend is to fix some trivial conflicts due the merge window)
+On Mon, Jun 15, 2020 at 10:53:20PM +0200, Enric Balletbo i Serra wrote:
+> The get_edid() callback can be triggered anytime by an ioctl, i.e
 > 
-> The PS8640 dsi-to-eDP bridge driver is using the panel bridge API,
-> however, not all the components in the chain have been ported to the
-> drm_bridge API. Actually, when a panel is attached the default panel's mode
-> is used, but in some cases we can't get display up if mode getting from
-> eDP control EDID is not chosen.
+>   drm_mode_getconnector (ioctl)
+>     -> drm_helper_probe_single_connector_modes
+>        -> drm_bridge_connector_get_modes
+>           -> ps8640_bridge_get_edid
 > 
-> This series address that problem, first implements the .get_edid()
-> callback in the PS8640 driver (which is not used until the conversion is
-> done) and then, converts the Mediatek DSI driver to use the drm_bridge
-> API.
-> 
-> As far as I know, we're the only users of the mediatek dsi driver in
-> mainline, so should be safe to switch to the new chain of drm_bridge API
-> unconditionally.
-> 
-> The patches has been tested on a Acer Chromebook R13 (Elm) running a
-> Chrome OS userspace and checking that the valid EDID mode reported by
-> the bridge is selected.
-> 
-> Changes in v4:
-> - Remove double call to drm_encoder_init(). (Chun-Kuang Hu)
-> - Cleanup the encoder in mtk_dsi_unbind(). (Chun-Kuang Hu)
-> 
-> Changes in v3:
-> - Replace s/bridge/next bridge/ for comment. (Laurent Pinchart)
-> - Add the bridge.type. (Laurent Pinchart)
-> - Use next_bridge field to store the panel bridge. (Laurent Pinchart)
-> - Add the bridge.type field. (Laurent Pinchart)
-> - This patch requires https://lkml.org/lkml/2020/4/16/2080 to work
->   properly.
-> - Move the bridge.type line to the patch that adds drm_bridge support. (Laurent Pinchart)
-> 
-> Changes in v2:
-> - Do not set connector_type for panel here. (Sam Ravnborg)
-> 
-> Enric Balletbo i Serra (7):
->   drm/bridge: ps8640: Get the EDID from eDP control
->   drm/bridge_connector: Set default status connected for eDP connectors
->   drm/mediatek: mtk_dsi: Rename bridge to next_bridge
->   drm/mediatek: mtk_dsi: Convert to bridge driver
->   drm/mediatek: mtk_dsi: Use simple encoder
->   drm/mediatek: mtk_dsi: Use the drm_panel_bridge API
->   drm/mediatek: mtk_dsi: Create connector for bridges
+> Actually if the bridge pre_enable() function was not called before
+> get_edid(), the driver will not be able to get the EDID properly and
+> display will not work until a second get_edid() call is issued and if
+> pre_enable() is called before.
+Is it correct to fix this in the driver?
+Why not just fail and tell user-sapce to try again later?
+(Dunno what error-code to use - there must be one).
 
-Patch seems ready to apply. Will they be applied to a mediatek tree
-or to drm-misc-next?
-Or shall we take the first two patches via drm-misc-next, and the
-remaning via a mediatek tree? (I hope not)
+Then we avoid complicating drivers fro somethign we really should
+fix in user-space.
 
-	Sam
+> The side effect of this, for example, is
+> that you see anything when `Frecon` starts, neither the splash screen,
+that you do not see ...
 
+(Otherwise I do not parse the above).
+
+> until the graphical session manager starts.
+> 
+> To fix this we need to make sure that all we need is enabled before
+> reading the EDID. This means the following:
+> 
+> 1. If get_edid() is called before having the device powered we need to
+>    power on the device. In such case, the driver will power off again the
+>    device.
+> 
+> 2. If get_edid() is called after having the device powered, all should
+>    just work. We added a powered flag in order to avoid recurrent calls
+>    to ps8640_bridge_poweron() and unneeded delays.
+> 
+> 3. This seems to be specific for this device, but we need to make sure
+>    the panel is powered on before do a power on cycle on this device.
+>    Otherwise the device fails to retrieve the EDID.
+Step 3. looks like an ugly hack too....
 
 > 
->  drivers/gpu/drm/bridge/parade-ps8640.c |  12 ++
->  drivers/gpu/drm/drm_bridge_connector.c |   1 +
->  drivers/gpu/drm/mediatek/mtk_dsi.c     | 269 ++++++++-----------------
->  3 files changed, 97 insertions(+), 185 deletions(-)
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> ---
 > 
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 79 ++++++++++++++++++++++++--
+>  1 file changed, 73 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 9f7b7a9c53c52..ca651480891df 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -65,6 +65,7 @@ struct ps8640 {
+>  	struct regulator_bulk_data supplies[2];
+>  	struct gpio_desc *gpio_reset;
+>  	struct gpio_desc *gpio_powerdown;
+> +	bool powered;
+>  };
+>  
+>  static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+> @@ -91,13 +92,25 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+>  	return 0;
+>  }
+>  
+> -static void ps8640_pre_enable(struct drm_bridge *bridge)
+> +static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+>  {
+> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+>  	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
+> +	struct drm_bridge *panel;
+>  	unsigned long timeout;
+>  	int ret, status;
+>  
+> +	if (ps_bridge->powered)
+> +		return;
+> +
+> +	/*
+> +	 * That seems to be specific to this chip, and a weird behaviour, but
+> +	 * we need to call drm_panel_prepare before issuing a poweron cycle. If
+> +	 * we don't do this, the chip is not able to read properly the EDID.
+> +	 */
+> +	panel = ps_bridge->panel_bridge;
+> +	if (panel->funcs && panel->funcs->pre_enable)
+> +		panel->funcs->pre_enable(panel);
+> +
+>  	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
+>  				    ps_bridge->supplies);
+>  	if (ret < 0) {
+> @@ -164,6 +177,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>  		goto err_regulators_disable;
+>  	}
+>  
+> +	ps_bridge->powered = true;
+> +
+>  	return;
+>  
+>  err_regulators_disable:
+> @@ -171,12 +186,13 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+>  			       ps_bridge->supplies);
+>  }
+>  
+> -static void ps8640_post_disable(struct drm_bridge *bridge)
+> +static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
+>  {
+> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +	struct drm_bridge *panel;
+>  	int ret;
+>  
+> -	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> +	if (!ps_bridge->powered)
+> +		return;
+>  
+>  	gpiod_set_value(ps_bridge->gpio_reset, 1);
+>  	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
+> @@ -184,6 +200,32 @@ static void ps8640_post_disable(struct drm_bridge *bridge)
+>  				     ps_bridge->supplies);
+>  	if (ret < 0)
+>  		DRM_ERROR("cannot disable regulators %d\n", ret);
+> +
+> +	panel = ps_bridge->panel_bridge;
+> +	if (panel->funcs && panel->funcs->post_disable)
+> +		panel->funcs->post_disable(panel);
+> +
+> +	ps_bridge->powered = false;
+> +}
+> +
+> +static void ps8640_pre_enable(struct drm_bridge *bridge)
+> +{
+> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +	int ret;
+> +
+> +	ps8640_bridge_poweron(ps_bridge);
+> +
+> +	ret = ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> +	if (ret < 0)
+> +		ps8640_bridge_poweroff(ps_bridge);
+> +}
+> +
+> +static void ps8640_post_disable(struct drm_bridge *bridge)
+> +{
+> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +
+> +	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> +	ps8640_bridge_poweroff(ps_bridge);
+>  }
+>  
+>  static int ps8640_bridge_attach(struct drm_bridge *bridge,
+> @@ -249,9 +291,34 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>  					   struct drm_connector *connector)
+>  {
+>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +	bool poweroff = !ps_bridge->powered;
+> +	struct edid *edid;
+> +
+> +	/*
+> +	 * When we end calling get_edid() triggered by an ioctl, i.e
+> +	 *
+> +	 *   drm_mode_getconnector (ioctl)
+> +	 *     -> drm_helper_probe_single_connector_modes
+> +	 *        -> drm_bridge_connector_get_modes
+> +	 *           -> ps8640_bridge_get_edid
+> +	 *
+> +	 * We need to make sure that what we need is enabled before reading
+> +	 * EDID, for this chip, we need to do a full poweron, otherwise it will
+> +	 * fail.
+> +	 */
+> +	ps8640_bridge_poweron(ps_bridge);
+>  
+> -	return drm_get_edid(connector,
+> +	edid = drm_get_edid(connector,
+>  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
+> +
+> +	/*
+> +	 * If we call the get_edid() function without having enabled the chip
+> +	 * before, return the chip to its original power state.
+> +	 */
+> +	if (poweroff)
+> +		ps8640_bridge_poweroff(ps_bridge);
+> +
+> +	return edid;
+>  }
+>  
+>  static const struct drm_bridge_funcs ps8640_bridge_funcs = {
 > -- 
 > 2.27.0
 > 
