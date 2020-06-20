@@ -1,41 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8023820236E
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 13:50:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BFA202387
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 14:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEACF6E13D;
-	Sat, 20 Jun 2020 11:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39846E19C;
+	Sat, 20 Jun 2020 12:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098446E13D
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 11:50:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5E74552;
- Sat, 20 Jun 2020 13:49:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1592653798;
- bh=Yse0xxkqBA9zQB6NsSCfIUQj4zPL9RqWGQSBetYmgs0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=caO5V8De5kZPcWSI3NiTx50Pyd+048IPqlDXioJyxqyW6a9pEgbGV8+AlYIYDJRSy
- 9W5I1Rd/UvI5MkhlWUbfPmQBPuhybIVAG/MqS72vC/EFTw3OzsdGGpKpaVycEsuSuN
- TFd87E3I4eFwFqyE77kJr5H8D0e6/N6eaj2z0Eu4=
-Date: Sat, 20 Jun 2020 14:49:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for
- some panels
-Message-ID: <20200620114934.GB5829@pendragon.ideasonboard.com>
-References: <20200617222703.17080-1-digetx@gmail.com>
- <20200617222703.17080-8-digetx@gmail.com>
- <20200620112132.GB16901@ravnborg.org>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B957F6E19C
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 12:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592655490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ILY0HXzYbH5WHATzGX0prIL9XMIDTzdOqRuYE0zzTt8=;
+ b=V7MunuwdpVi/MXvgUBO3pv7ZAZrEdkPeFdkm38sStiOGGQLU3Snr4lLr+5CKDgvQBrJ7uU
+ jgLtkfnIlTZ3tFo3z4dr6AxGXMBGUhiz/B6Cq+B9lrYiE0gt2nic5Djst8A9wYBYGezWkm
+ N15vI/iasURhAjh/Eo2u8iNQ94KMYt0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-Vv7zVyLPMDeVLl8-y_R0Fw-1; Sat, 20 Jun 2020 08:18:05 -0400
+X-MC-Unique: Vv7zVyLPMDeVLl8-y_R0Fw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB51C801503;
+ Sat, 20 Jun 2020 12:18:03 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-42.ams2.redhat.com [10.36.112.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F3761001E91;
+ Sat, 20 Jun 2020 12:18:00 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
+Subject: [PATCH v3 00/15] acpi/pwm/i915: Convert pwm-crc and i915 driver's PWM
+ code to use the atomic PWM API
+Date: Sat, 20 Jun 2020 14:17:43 +0200
+Message-Id: <20200620121758.14836-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200620112132.GB16901@ravnborg.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,134 +60,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, Frank Rowand <frowand.list@gmail.com>
+Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam and Dmitry,
+Hi All,
 
-On Sat, Jun 20, 2020 at 01:21:32PM +0200, Sam Ravnborg wrote:
-> On Thu, Jun 18, 2020 at 01:27:03AM +0300, Dmitry Osipenko wrote:
-> > The DRM panel bridge core requires connector type to be set up properly,
-> > otherwise it rejects the panel. The missing connector type problem popped
-> > up while I was trying to wrap CLAA070WP03XG panel into a DRM bridge in
-> > order to test whether panel's rotation property work properly using
-> > panel-simple driver on NVIDIA Tegra30 Nexus 7 tablet device, which uses
-> > CLAA070WP03XG display panel.
-> > 
-> > The NVIDIA Tegra DRM driver recently gained DRM bridges support for the
-> > RGB output and now driver wraps directly-connected panels into DRM bridge.
-> > Hence all panels should have connector type set properly now, otherwise
-> > the panel's wrapping fails.
-> > 
-> > This patch adds missing connector types for the LVDS panels that are found
-> > on NVIDIA Tegra devices:
-> > 
-> >   1. AUO B101AW03
-> >   2. Chunghwa CLAA070WP03XG
-> >   3. Chunghwa CLAA101WA01A
-> >   4. Chunghwa CLAA101WB01
-> >   5. EDT ET057090DHU
-> >   6. Innolux N156BGE L21
-> >   7. Samsung LTN101NT05
-> > 
-> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> Very good to have this fixed.
-> I went ahead and pushed this commit to drm-misc-next as it is really
-> independent from the rest of the series.
-> 
-> > ---
-> >  drivers/gpu/drm/panel/panel-simple.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index 6764ac630e22..9eb2dbb7bfa6 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -687,6 +687,7 @@ static const struct panel_desc auo_b101aw03 = {
-> >  		.width = 223,
-> >  		.height = 125,
-> >  	},
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+Here is v3 of my patch series converting the i915 driver's code for
+controlling the panel's backlight with an external PWM controller to
+use the atomic PWM API. See below for the changelog.
 
-Note that, for LVDS panels, the bus_format field is mandatory. This
-panel, for instance, according to
-http://www.vslcd.com/Specification/B101AW03%20V.0.pdf, uses
-MEDIA_BUS_FMT_RGB666_1X7X3_SPWG (see
-https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/subdev-formats.html#v4l2-mbus-pixelcode).
-The panels below need to be investigated similarly.
+Initially the plan was for this series to consist of 2 parts:
+1. convert the pwm-crc driver to support the atomic PWM API and
+2. convert the i915 driver's PWM code to use the atomic PWM API.
 
-> >  };
-> >  
-> >  static const struct display_timing auo_b101ean01_timing = {
-> > @@ -1340,6 +1341,7 @@ static const struct panel_desc chunghwa_claa070wp03xg = {
-> >  		.width = 94,
-> >  		.height = 150,
-> >  	},
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> >  static const struct drm_display_mode chunghwa_claa101wa01a_mode = {
-> > @@ -1362,6 +1364,7 @@ static const struct panel_desc chunghwa_claa101wa01a = {
-> >  		.width = 220,
-> >  		.height = 120,
-> >  	},
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> >  static const struct drm_display_mode chunghwa_claa101wb01_mode = {
-> > @@ -1384,6 +1387,7 @@ static const struct panel_desc chunghwa_claa101wb01 = {
-> >  		.width = 223,
-> >  		.height = 125,
-> >  	},
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> >  static const struct drm_display_mode dataimage_scf0700c48ggu18_mode = {
-> > @@ -1573,6 +1577,7 @@ static const struct panel_desc edt_et057090dhu = {
-> >  	},
-> >  	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-> >  	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+But during testing I've found a number of bugs in the pwm-lpss and I
+found that the acpi_lpss code needs some special handling because of
+some ugliness found in most Cherry Trail DSDTs.
 
-This contradicts .bus_format and .bus_flags that hint that the panel is
-a DPI panel, not an LVDS panel. According to
-https://www.lcdtek.co.uk/dwpdf/ET057090DHU-RoHS.pdf, this isn't an LVDS
-panel.
+So now this series has grown somewhat large and consists of 4 parts:
 
-I'm worried enough research hasn't gone into this patch, and I'd prefer
-reverting it until we check each panel individually.
+1. acpi_lpss fixes workarounds for Cherry Trail DSTD nastiness
+2. various fixes to the pwm-lpss driver
+3. convert the pwm-crc driver to support the atomic PWM API and
+4. convert the i915 driver's PWM code to use the atomic PWM API
 
-> >  };
-> >  
-> >  static const struct drm_display_mode edt_etm0700g0dh6_mode = {
-> > @@ -2055,6 +2060,7 @@ static const struct panel_desc innolux_n156bge_l21 = {
-> >  		.width = 344,
-> >  		.height = 193,
-> >  	},
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> >  static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
-> > @@ -3001,6 +3007,7 @@ static const struct panel_desc samsung_ltn101nt05 = {
-> >  		.width = 223,
-> >  		.height = 125,
-> >  	},
-> > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> >  static const struct drm_display_mode samsung_ltn140at29_301_mode = {
+So we need to discuss how to merge this (once it passes review).
+Although the inter-dependencies are only runtime I still think we should
+make sure that 1-3 are in the drm-intel-next-queued (dinq) tree before
+merging the i915 changes. Both to make sure that the intel-gfx CI system
+does not become unhappy and for bisecting reasons.
 
--- 
+The involved acpi_lpss and pwm drivers do not see a whole lot of churn, so
+it likely is the easiest to just merge everything through dinq.
+
+Rafael and Thierry, can I get your Acked-by for directly merging this into
+dinq?
+
+This series has been tested (and re-tested after adding various bug-fixes)
+extensively. It has been tested on the following devices:
+
+-Asus T100TA  BYT + CRC-PMIC PWM
+-Toshiba WT8-A  BYT + CRC-PMIC PWM
+-Thundersoft TS178 BYT + CRC-PMIC PWM, inverse PWM
+-Asus T100HA  CHT + CRC-PMIC PWM
+-Terra Pad 1061  BYT + LPSS PWM
+-Trekstor Twin 10.1 BYT + LPSS PWM
+-Asus T101HA  CHT + CRC-PMIC PWM
+-GPD Pocket  CHT + CRC-PMIC PWM
+
+Changelog:
+
+Changes in v2:
+- Fix coverletter subject
+- Drop accidentally included debugging patch
+- "[PATCH v3 02/15] ACPI / LPSS: Save Cherry Trail PWM ctx registers only once (
+  - Move #define LPSS_SAVE_CTX_ONCE define to group it with LPSS_SAVE_CTX
+
+Changes in v3:
+- "[PATCH v3 04/15] pwm: lpss: Add range limit check for the base_unit register value"
+  - Use base_unit_range - 1 as maximum value for the clamp()
+- "[PATCH v3 05/15] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume"
+  - This replaces the "pwm: lpss: Set SW_UPDATE bit when enabling the PWM"
+    patch from previous versions of this patch-set, which really was a hack
+    working around the resume issue which this patch fixes properly.
+- PATCH v3 6 - 11 pwm-crc changes:
+  - Various small changes resulting from the reviews by Andy and Uwe,
+    including some refactoring of the patches to reduce the amount of churn
+    in the patch-set
+
 Regards,
 
-Laurent Pinchart
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
