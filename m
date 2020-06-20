@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9AE2024C5
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 17:30:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1D920253E
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jun 2020 18:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF416E2EA;
-	Sat, 20 Jun 2020 15:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1043F6E2EC;
+	Sat, 20 Jun 2020 16:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4141F6E2E8
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 15:30:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 7CF968053D;
- Sat, 20 Jun 2020 17:30:13 +0200 (CEST)
-Date: Sat, 20 Jun 2020 17:30:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for
- some panels
-Message-ID: <20200620153012.GA22743@ravnborg.org>
-References: <20200617222703.17080-1-digetx@gmail.com>
- <20200617222703.17080-8-digetx@gmail.com>
- <20200620112132.GB16901@ravnborg.org>
- <20200620114934.GB5829@pendragon.ideasonboard.com>
- <ea421084-a91c-bc03-5997-1723075b7cae@gmail.com>
- <20200620143114.GA22329@ravnborg.org>
- <e77a34c1-3e0b-7f30-25d0-a955ec8d8c86@gmail.com>
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C506E2EC;
+ Sat, 20 Jun 2020 16:27:29 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id e12so10221565eds.2;
+ Sat, 20 Jun 2020 09:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/BMMpD7qtU5pkOn7Z4pc22pm3d3A2SjW9M7WNCHeAiY=;
+ b=QVIIupKxa71Or8M1ClPfavFaWT0DeX7jreTr2LyxDbUbYAeTT4y0fkSdjacNshjutr
+ BeMoZok/aRl/E36YP4z8utRYnCpQeJ5Aosyto1cXGGEwZB9Gra6J+qWzl386BId7q3Kb
+ 8zIuaryYutyw+jQVByn0gym1OPyOV3sBKxcJyokF47KHEjiSyBh68bw3mluJMNUxiviE
+ l2IIgYY1n6WTEeHI9b0DBJl/ZMaQPepwgGW+9b4jLj3L9tvm3gZwBORH5uWTbppWk5Vy
+ fg8a4rck24+F1awR4f3zwPG04llDWfBqgeOfpU4yIasIHqci9y8XaLPxj/eXRtObYhOw
+ GO5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/BMMpD7qtU5pkOn7Z4pc22pm3d3A2SjW9M7WNCHeAiY=;
+ b=LVz1mWb+4YGCXJU9E5hR6rmucNOIpRP07U5/DAFSsbKtCyiTDpDuWaOpuPoLbougbm
+ HYl35rc0fyIasbNJRwR3g2/7Flx/uUcFWTgVazq1EHxao2DWV0Uc7EeCQSEYxwEP2sLP
+ gg+QFblozSvEV1toJcvvIaFlV/q1AkVRh0McGce19BdIgMcW94QmSe99ZbgM5RQqsTCi
+ n+luR2DQ337xHdHSa0HPintBal6fJEC8bjOSZmIpnsAZ5+E0q9/oPfHlYn2fut7e1O/b
+ ZIYdBHYh5i/4GKT6gSm/o9RgnIXm2WQF2hiVoteHFhvHdJOThJqV54L8R1Xlojk7pXTK
+ A3ng==
+X-Gm-Message-State: AOAM533sjNDCnwxFoLht+aD+JgMre810yEN039NvfK7xKv0FXaQOvYsA
+ Jz3haT9Ed6yqS5iB9/aSsI2x8PgLwYa/NX5d5ZCV2eoOr3k=
+X-Google-Smtp-Source: ABdhPJypOsgdt+fPQZQTGg7oTELjjmivaxGQ2UlMWlYWToihFkcE5WrbmvWFN/dybafH1Uk8WYjOZIkXCWzA5J5yOUI=
+X-Received: by 2002:aa7:d952:: with SMTP id l18mr8585130eds.151.1592670447699; 
+ Sat, 20 Jun 2020 09:27:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e77a34c1-3e0b-7f30-25d0-a955ec8d8c86@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=I1XKC5YfttuoCrzH9m8A:9 a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200528130816.1670-1-yuzenghui@huawei.com>
+ <f1357380-9e98-4c1e-c1bf-a0a95bb5910d@huawei.com>
+In-Reply-To: <f1357380-9e98-4c1e-c1bf-a0a95bb5910d@huawei.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sat, 20 Jun 2020 09:27:56 -0700
+Message-ID: <CAF6AEGun5DgsTzLRswxt2NRG9P+HVake0hQUKPR6czcNvc5LxQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: Fix usage of ERR_PTR()
+To: Zenghui Yu <yuzenghui@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,37 +61,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, wanghaibin.wang@huawei.com,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5Ck9uIFNhdCwgSnVuIDIwLCAyMDIwIGF0IDA2OjA1OjM3UE0gKzAzMDAsIERtaXRy
-eSBPc2lwZW5rbyB3cm90ZToKPiAyMC4wNi4yMDIwIDE3OjMxLCBTYW0gUmF2bmJvcmcg0L/QuNGI
-0LXRgjoKPiA+IEhpIERtaXRyeQo+ID4gCj4gPj4KPiA+PiBPb3BzISBHb29kIGNhdGNoIQo+ID4g
-WWVwLCB0aGFua3MgTGF1cmVudC4gU2hvdWxkIGhhdmUgdGFrZW4gYSBiZXR0ZXIgbG9vayBiZWZv
-cmUgYXBwbHlpbmcuCj4gPiAKPiA+PiBJbmRlZWQsIEkgYmxpbmRseSBzZXQgdGhlIExWRFMgdHlw
-ZSB0byBhbGwgdGhlc2UKPiA+PiBwYW5lbHMuIFBsZWFzZSByZXZlcnQgdGhpcyBwYXRjaCwgSSds
-bCBkb3VibGUgY2hlY2sgZWFjaCBwYW5lbCBhbmQKPiA+PiBwcmVwYXJlIGFuIHVwZGF0ZWQgdmVy
-c2lvbiBvZiB0aGlzIHBhdGNoLiBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB0aGUKPiA+PiByZXZp
-ZXchCj4gPiAKPiA+IElmIHlvdSBjYW4gcHJlcGFyZSBhIGZpeCB3aXRoaW4gYSBmZXcgZGF5cyB0
-aGVuIGxldHMgd2FpdCBmb3IgdGhhdC4KPiA+IEkgd2lsbCBkbyBhIGJldHRlciByZXZpZXcgbmV4
-dCB0aW1lLgo+IAo+IEhlbGxvIFNhbSwKPiAKPiBJIHNob3VsZCBiZSBhYmxlIHRvIG1ha2UgaXQg
-bGF0ZXIgdG9kYXkgb3IgdG9tb3Jyb3cuIENvdWxkIHlvdSBwbGVhc2UKPiBjbGFyaWZ5IHdoYXQg
-ZG8geW91IG1lYW4gYnkgdGhlIGZpeCwgZG8geW91IHdoYXQgaXQgdG8gYmUgYXMgYW4KPiBhZGRp
-dGlvbmFsIHBhdGNoIG9uIHRvcCBvZiB0aGUgYXBwbGllZCBvbmUgb3IgYSBuZXcgdmVyc2lvbiBv
-ZiB0aGUgcGF0Y2g/CkFuIGFkZGl0aW9uYWwgcGF0Y2ggb24gdG9wIG9mIHRoZSBvbmUgYXBwbGll
-ZC4KSXQgc2hhbGwgY2FycnkgYSBwcm9wZXIgZml4ZXM6IHRhZyBsaWtlIHRoaXM6CgpGaXhlczog
-OTRmMDc5MTdlYmU4ICgiZHJtL3BhbmVsLXNpbXBsZTogQWRkIG1pc3NpbmcgY29ubmVjdG9yIHR5
-cGUgZm9yIHNvbWUgcGFuZWxzIikKQ2M6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNv
-bT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IFRoaWVycnkgUmVkaW5n
-IDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCgoJU2FtCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On Sat, Jun 20, 2020 at 3:26 AM Zenghui Yu <yuzenghui@huawei.com> wrote:
+>
+> ping for this obvious fix...
+
+Hi, thanks, but there is already a similar fix in msm-next:
+
+commit aa472721c8dbe1713cf510f56ffbc56ae9e14247
+Refs: v5.7-rc5-33-gaa472721c8db
+Author:     Chen Tao <chentao107@huawei.com>
+AuthorDate: Mon Jun 8 09:48:59 2020 +0800
+Commit:     Rob Clark <robdclark@chromium.org>
+CommitDate: Thu Jun 11 20:07:21 2020 -0700
+
+    drm/msm/dpu: fix error return code in dpu_encoder_init
+
+    Fix to return negative error code -ENOMEM with the use of
+    ERR_PTR from dpu_encoder_init.
+
+    Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+    Signed-off-by: Chen Tao <chentao107@huawei.com>
+    Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+
+BR,
+-R
+
+>
+> On 2020/5/28 21:08, Zenghui Yu wrote:
+> > ERR_PTR() is used in the kernel to encode an usual *negative* errno code
+> > into a pointer.  Passing a positive value (ENOMEM) to it will break the
+> > following IS_ERR() check.
+> >
+> > Though memory allocation is unlikely to fail, it's still worth fixing.
+> > And grepping shows that this is the only misuse of ERR_PTR() in kernel.
+> >
+> > Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> > Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index a1b79ee2bd9d..a2f6b688a976 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -2173,7 +2173,7 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+> >
+> >       dpu_enc = devm_kzalloc(dev->dev, sizeof(*dpu_enc), GFP_KERNEL);
+> >       if (!dpu_enc)
+> > -             return ERR_PTR(ENOMEM);
+> > +             return ERR_PTR(-ENOMEM);
+> >
+> >       rc = drm_encoder_init(dev, &dpu_enc->base, &dpu_encoder_funcs,
+> >                       drm_enc_mode, NULL);
+> >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
