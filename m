@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EFD20301F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE6220304B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A055B6E22D;
-	Mon, 22 Jun 2020 07:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1481A6E233;
+	Mon, 22 Jun 2020 07:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7CCE36E06B
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 14:18:46 +0000 (UTC)
-X-UUID: 2c4fd55c4f7344869aa6647e79990df6-20200621
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3011A6E06B
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 14:18:44 +0000 (UTC)
+X-UUID: e125096b405f44278cb953e13374a93c-20200621
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=nRSxux3jPezOAmIEYBHHJHw/jcJ6YJjo04hJRda3rGo=; 
- b=hLIqvh/+7LwxHU8QgEpPf5uurerRA4dqmxyzjGX7WwY+fGnsiz9MeP5MhKvgtzpVv4Vm75mH03sLGHp79VSzGMqRrbHrMW9oDsPtjwG+dwGbDZY5n1angeKetzZ7xZ2P6naK0oXX6ZAcEweT0d3/EfkWDTtVHFQGP6poHfvEvz4=;
-X-UUID: 2c4fd55c4f7344869aa6647e79990df6-20200621
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ bh=TkOkIDLhlS19sptnDuqd/11Wt1fkDOu2XgPHJBhqzx0=; 
+ b=mhRGmrFR8w90RrdcRZ6zGJFfnaaxs9OfsT4BIFKgLD1uVO4EU9pJTyCNRyB77J1wPiKodQEVVZLTZsAlaMTQvUl9yjoDxGuHJTee2OFuZF3q+UT7JJhErr+3PNx2tIwSfaxxu3mTTDTVygqwY7ysjpz6/IkRQritzmv4AnmNJyg=;
+X-UUID: e125096b405f44278cb953e13374a93c-20200621
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
  (envelope-from <dennis-yc.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 400774330; Sun, 21 Jun 2020 22:18:39 +0800
+ with ESMTP id 678863230; Sun, 21 Jun 2020 22:18:40 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Sun, 21 Jun 2020 22:18:30 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -34,9 +34,9 @@ To: Matthias Brugger <matthias.bgg@gmail.com>, Philipp Zabel
  <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
  <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>, Bibby Hsieh
  <bibby.hsieh@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>
-Subject: [PATCH v1 07/11] soc: mediatek: cmdq: add write_s_mask value function
-Date: Sun, 21 Jun 2020 22:18:31 +0800
-Message-ID: <1592749115-24158-8-git-send-email-dennis-yc.hsieh@mediatek.com>
+Subject: [PATCH v1 08/11] soc: mediatek: cmdq: export finalize function
+Date: Sun, 21 Jun 2020 22:18:32 +0800
+Message-ID: <1592749115-24158-9-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1592749115-24158-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1592749115-24158-1-git-send-email-dennis-yc.hsieh@mediatek.com>
@@ -64,74 +64,81 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add write_s_mask_value function in cmdq helper functions which
-writes a constant value to address with mask and large dma
-access support.
+Export finalize function to client which helps append eoc and jump
+command to pkt. Let client decide call finalize or not.
 
 Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/soc/mediatek/mtk-cmdq-helper.c |   21 +++++++++++++++++++++
- include/linux/soc/mediatek/mtk-cmdq.h  |   15 +++++++++++++++
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c |    1 +
+ drivers/soc/mediatek/mtk-cmdq-helper.c  |    7 ++-----
+ include/linux/soc/mediatek/mtk-cmdq.h   |    8 ++++++++
+ 3 files changed, 11 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 0dfcd1787e65..7daaabc26eb1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -490,6 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
+ 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+ 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
+ 		mtk_crtc_ddp_config(crtc, cmdq_handle);
++		cmdq_pkt_finalize(cmdq_handle);
+ 		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
+ 	}
+ #endif
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 2ad78df46636..e372ae065240 100644
+index e372ae065240..248945108a36 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -293,6 +293,27 @@ int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
+@@ -391,7 +391,7 @@ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
  }
- EXPORT_SYMBOL(cmdq_pkt_write_s_value);
+ EXPORT_SYMBOL(cmdq_pkt_assign);
  
-+int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
-+				u16 addr_low, u32 value, u32 mask)
-+{
-+	struct cmdq_instruction inst = {};
-+	int err;
-+
-+	inst.op = CMDQ_CODE_MASK;
-+	inst.mask = ~mask;
-+	err = cmdq_pkt_append_command(pkt, inst);
-+	if (err < 0)
-+		return err;
-+
-+	inst.op = CMDQ_CODE_WRITE_S_MASK;
-+	inst.sop = high_addr_reg_idx;
-+	inst.offset = addr_low;
-+	inst.value = value;
-+
-+	return cmdq_pkt_append_command(pkt, inst);
-+}
-+EXPORT_SYMBOL(cmdq_pkt_write_s_mask_value);
-+
- int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
+-static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
++int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
  {
  	struct cmdq_instruction inst = { {0} };
+ 	int err;
+@@ -411,6 +411,7 @@ static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+ 
+ 	return err;
+ }
++EXPORT_SYMBOL(cmdq_pkt_finalize);
+ 
+ static void cmdq_pkt_flush_async_cb(struct cmdq_cb_data data)
+ {
+@@ -445,10 +446,6 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
+ 	unsigned long flags = 0;
+ 	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
+ 
+-	err = cmdq_pkt_finalize(pkt);
+-	if (err < 0)
+-		return err;
+-
+ 	pkt->cb.cb = cb;
+ 	pkt->cb.data = data;
+ 	pkt->async_cb.cb = cmdq_pkt_flush_async_cb;
 diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 7f1c115a66b8..6e8caacedc80 100644
+index 6e8caacedc80..eac1405e4872 100644
 --- a/include/linux/soc/mediatek/mtk-cmdq.h
 +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -165,6 +165,21 @@ int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
- 			   u16 addr_low, u32 value);
+@@ -244,6 +244,14 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+ int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
  
  /**
-+ * cmdq_pkt_write_s_mask_value() - append write_s command with mask to the CMDQ
-+ *				   packet which write value to a physical
-+ *				   address
++ * cmdq_pkt_finalize() - Append EOC and jump command to pkt.
 + * @pkt:	the CMDQ packet
-+ * @high_addr_reg_idx:	internal register ID which contains high address of pa
-+ * @addr_low:	low address of pa
-+ * @value:	the specified target value
-+ * @mask:	the specified target mask
 + *
 + * Return: 0 for success; else the error code is returned
 + */
-+int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
-+				u16 addr_low, u32 value, u32 mask);
++int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
 +
 +/**
-  * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
+  * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
+  *                          packet and call back at the end of done packet
   * @pkt:	the CMDQ packet
-  * @event:	the desired event type to "wait and CLEAR"
 -- 
 1.7.9.5
 _______________________________________________
