@@ -2,72 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FEF202C9C
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jun 2020 22:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619DF202D0F
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jun 2020 23:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 098C46E4DE;
-	Sun, 21 Jun 2020 20:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233756E511;
+	Sun, 21 Jun 2020 21:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51A926E194
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 20:01:08 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id q2so12170150wrv.8
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 13:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=fEpisrHVuvECE9QkwBWX7rZQTVSunxWmuYR8YMHiI7w=;
- b=byvZO+Rl76mwx+UB97zJe2wRVGFXsyHVh1g6yyCSGTEbtPMHZ6PekdjrhFTPms5iT9
- O5rQ60hDjYeFOE9E8+8Cd8jsH0OhxkGsnzwpY9RdGnAfzvdfwVITBGSoqEc++ubhg1HK
- yNXCwFIntsKcaqylggT66AAeH7oBzRhBsED64=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=fEpisrHVuvECE9QkwBWX7rZQTVSunxWmuYR8YMHiI7w=;
- b=h3ntDEMnX61S+ZO30UR9s0rq6eYWqBezou9tcJyFbYOZ5DnHHexIYcyxJuNMrbZKYB
- Fp4md0pg4G+33Frr7ZBhTRN/BG7zK8NSYl+e4CHuhAJsQ5TmWZ5vCOXDSgfpknYdDlsH
- QtpED2r41HTivbB1QF1ENvQKyshNkjF5UXUHn2a7l27kX4QerP+BlGFv7VB4rhDqva2N
- tEE3CeLxXYDue/adtXEkrzb4f7JnAyoo4gDeWV1huZiyIigydCFEuNoFDjWJCJ4hHFRT
- /lQTFHnLvPkeD0+szVOzLrMzCzmAG2V+pLzXaJUbfgx3GHw0NeWh0HOMFQiQ9CZscIjD
- fX+Q==
-X-Gm-Message-State: AOAM531uPfAyYEALCthX+QpBTJ2NbZv8Cqym9ir+34PzzLW+R+Xa3K0x
- hQNjNQ8qLMAv1Cw2He+EF+C+vA==
-X-Google-Smtp-Source: ABdhPJxsRdQgv4E6GNxYz9Nhgg1RI6byFsAnQ/h3xQ/Wq/o2gy4VUYHPLMtLpYgEyS1HiUHhsSp98Q==
-X-Received: by 2002:a5d:664a:: with SMTP id f10mr15413013wrw.300.1592769666648; 
- Sun, 21 Jun 2020 13:01:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l1sm15793401wrb.31.2020.06.21.13.01.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 13:01:05 -0700 (PDT)
-Date: Sun, 21 Jun 2020 22:01:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH] mm: Track mmu notifiers in fs_reclaim_acquire/release
-Message-ID: <20200621200103.GV20149@phenom.ffwll.local>
-Mail-Followup-To: Qian Cai <cai@lca.pw>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@mellanox.com>, Linux MM <linux-mm@kvack.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-xfs@vger.kernel.org
-References: <20200604081224.863494-2-daniel.vetter@ffwll.ch>
- <20200610194101.1668038-1-daniel.vetter@ffwll.ch>
- <20200621174205.GB1398@lca.pw>
- <CAKMK7uFZAFVmceoYvqPovOifGw_Y8Ey-OMy6wioMjwPWhu9dDg@mail.gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2053.outbound.protection.outlook.com [40.107.223.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36AA86E511
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 21:37:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QUyF8I5WKy+36tkIJjl1X/TtHktreit0ZAy4L5BwXjZGLEOCT++myZ3BQ5vbKGAKCVNxmi3fwwnjjr5H6tAQqDNZ7iifnF8B8Y/QpUhAdzQWE84sivDZ8e7r5xafRSKyq7P6xX3J74lPaAebDDHz4dVoUiCkH148X9KkAT3woIlErRrRFCZPApz8RtIuPVEZtyWBPXVxbWMYnXeWYA9yUcnIIY2md6d1bh+WkUkkAzMQoCR3RLCIQCVSfxRosjcqp0rHUfiaF/Ei1N3LCPCXBKIcL7Ha9/DLARh0jRsxMSj3vXPcoJPUGcYFcdkC4p5bX1WhtKt/2nXFxrl+4fhaGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r6oAUJ8pYV/44zRm+IN1h7uzDfs5MhDW9N9sGe/4xTU=;
+ b=MdmGZJOE/0YhyghXmr48GLkxto0pCU+KSboF6GKCLVaHCnQOwXPmioiShVe11IdW3OZopLnPATFzc6rhWm268irJ17YBiBHYd3LyYUywCdhTpdQULI4bPUVe6skh7l3RfeQgU/XwuOxqNqHn3qUt31Hc+KDixYbh5o8q+Z4iStUbkYNLrDrmtl2CbOFvynr+wGx1CSyahoAAN6cEdB+z7BgiW0useXA8Cd1Ca+rR28RXvpyLaYvSyDEw0X865p+9QmjxnFhwqXyaTWPBoVvvRbuv/I5CrHVBjrqQQdaMU3prs5WghTK3WAcQqPAlL+QQ7dqA6kl3jyUy07K9Zoo9tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r6oAUJ8pYV/44zRm+IN1h7uzDfs5MhDW9N9sGe/4xTU=;
+ b=QYdu535adqDNFUSs0CZ+SicewA6+X6tQn0MJmco/a0I8fhSDRLyuR4SA2VDYufq5gFW9YkXsYYfHhWCAxU/OhQEaUB/TZbmcAQSPaD1GEAWvDkuUn67kBY6gNQYxTDAHHk8YgITgNJVpc2/67nO1PA7+6tbHeatwdIXiunxuxfQ=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3872.namprd12.prod.outlook.com (2603:10b6:208:168::17)
+ by MN2PR12MB4240.namprd12.prod.outlook.com (2603:10b6:208:1d3::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.25; Sun, 21 Jun
+ 2020 21:37:18 +0000
+Received: from MN2PR12MB3872.namprd12.prod.outlook.com
+ ([fe80::8843:c094:fb2a:d60a]) by MN2PR12MB3872.namprd12.prod.outlook.com
+ ([fe80::8843:c094:fb2a:d60a%7]) with mapi id 15.20.3109.026; Sun, 21 Jun 2020
+ 21:37:18 +0000
+Subject: Re: [PATCH][next] drm/mm/selftests: fix unsigned comparison with less
+ than zero
+To: Dan Carpenter <dan.carpenter@oracle.com>,
+ Colin King <colin.king@canonical.com>
+References: <20200617155959.231740-1-colin.king@canonical.com>
+ <20200618103956.GQ4151@kadam>
+From: Nirmoy <nirmodas@amd.com>
+Message-ID: <21094d57-c64e-ea7e-426e-997cd45d4635@amd.com>
+Date: Sun, 21 Jun 2020 23:38:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+In-Reply-To: <20200618103956.GQ4151@kadam>
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR10CA0085.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::38) To MN2PR12MB3872.namprd12.prod.outlook.com
+ (2603:10b6:208:168::17)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFZAFVmceoYvqPovOifGw_Y8Ey-OMy6wioMjwPWhu9dDg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.178.87] (217.86.124.39) by
+ AM0PR10CA0085.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3109.22 via Frontend Transport; Sun, 21 Jun 2020 21:37:15 +0000
+X-Originating-IP: [217.86.124.39]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: aa67af55-3e05-4755-24e1-08d8162b44d7
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4240:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42403CD514A5699464ED19148B960@MN2PR12MB4240.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 04410E544A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rXX3ATVuviYpsB0i1XjQUyeYVxkehFvDivkrUajgPcJCxHuOPKQjBDQoLR9NndNtFUTpL4MD8PqoShy7CTG7s/NfbfG7GmUURQ1L3aztZGdIXmDDxLL0h7S9P098C6zUPPFjL78+wAXrGGOsfTWlaAfZ1iX8xSA7Y4JRufgRnbk3pHz6rJ9VqKtI2+da4kK9/efL5Ge5+h0IYO60etvqfgjaM0NGzzmquWEvk/zH/pkZAxb1wMtWMLczyz2sGDIbJJaVlY+rwDCPc7w4xJnfg5ztx39aMM2LBldVTID2XVdfKtz+A3rqKiA65Pd82mMCm6CggI4Nw1y6y7j5apIS7TEcEs/X4ljow0ScslZfrD9CDq6VrWNq8l6AHwdnqxtErzJzL+aC2Ec8y8ceaMUjEl5L5BEjfjYTLAcE6pspAQQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3872.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(376002)(39850400004)(136003)(366004)(396003)(26005)(36756003)(16526019)(956004)(2616005)(31696002)(53546011)(186003)(316002)(110136005)(16576012)(54906003)(4326008)(6486002)(52116002)(8936002)(5660300002)(83380400001)(66556008)(66476007)(45080400002)(66946007)(478600001)(8676002)(966005)(31686004)(2906002)(6666004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: Bds6sjZWIUmfgzjd1h3B3U052Mgn3hCL0odA+sIjDTIZGmyir0YX3nQyvZCIC66SyTr57PyW78b7PJ8OLIcbdFuAh3kTfWlukzuMH4RGRT4zs+NS/SUriecf3w4Pm6s+2jUO11SirbL6hdHHXhY7xHr+iM/BwMT+w+FDAmqU9233+us/drFfLbuK585Il2LSF6HFig2sGY/UJ5SU0/n3i/MNYQ2Q+zS4TNQHON67O3aELB+7xStYes/qwAc7PgluiT2xnNwu4qb0bf0dfKHhxAm8B+2I9OczWTXUz3aBsXsbfWnPfw87j5FECaeifuiqvltG/LZEr8Q/E6ec2VbZblf8c/FtnbISsaWIx/B2uT2ySaZ8/d3YrhEaX0xsK8Q8tIKY121L9I4Y2K2EZB5/epCccEgt7EDQNUPt/Ws+PP/v33pfkJZdst9rimkcp7pDhR+mHZ0g7HZIMtjWSFvssXvued+yrqu/l3Zbt+qWqo8=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa67af55-3e05-4755-24e1-08d8162b44d7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2020 21:37:18.2661 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X2ADpn9bZOrCKoRFcL6zxth7SrmHntf1B1BhPznyvMBXEAyRxRmjaeVT7TmxdKpO44o8ObT4FsBppQHpF948oQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4240
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,133 +99,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-xfs@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
- Jason Gunthorpe <jgg@mellanox.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 21, 2020 at 08:07:08PM +0200, Daniel Vetter wrote:
-> On Sun, Jun 21, 2020 at 7:42 PM Qian Cai <cai@lca.pw> wrote:
-> >
-> > On Wed, Jun 10, 2020 at 09:41:01PM +0200, Daniel Vetter wrote:
-> > > fs_reclaim_acquire/release nicely catch recursion issues when
-> > > allocating GFP_KERNEL memory against shrinkers (which gpu drivers tend
-> > > to use to keep the excessive caches in check). For mmu notifier
-> > > recursions we do have lockdep annotations since 23b68395c7c7
-> > > ("mm/mmu_notifiers: add a lockdep map for invalidate_range_start/end"=
-).
-> > >
-> > > But these only fire if a path actually results in some pte
-> > > invalidation - for most small allocations that's very rarely the case.
-> > > The other trouble is that pte invalidation can happen any time when
-> > > __GFP_RECLAIM is set. Which means only really GFP_ATOMIC is a safe
-> > > choice, GFP_NOIO isn't good enough to avoid potential mmu notifier
-> > > recursion.
-> > >
-> > > I was pondering whether we should just do the general annotation, but
-> > > there's always the risk for false positives. Plus I'm assuming that
-> > > the core fs and io code is a lot better reviewed and tested than
-> > > random mmu notifier code in drivers. Hence why I decide to only
-> > > annotate for that specific case.
-> > >
-> > > Furthermore even if we'd create a lockdep map for direct reclaim, we'd
-> > > still need to explicit pull in the mmu notifier map - there's a lot
-> > > more places that do pte invalidation than just direct reclaim, these
-> > > two contexts arent the same.
-> > >
-> > > Note that the mmu notifiers needing their own independent lockdep map
-> > > is also the reason we can't hold them from fs_reclaim_acquire to
-> > > fs_reclaim_release - it would nest with the acquistion in the pte
-> > > invalidation code, causing a lockdep splat. And we can't remove the
-> > > annotations from pte invalidation and all the other places since
-> > > they're called from many other places than page reclaim. Hence we can
-> > > only do the equivalent of might_lock, but on the raw lockdep map.
-> > >
-> > > With this we can also remove the lockdep priming added in 66204f1d2d1b
-> > > ("mm/mmu_notifiers: prime lockdep") since the new annotations are
-> > > strictly more powerful.
-> > >
-> > > v2: Review from Thomas Hellstrom:
-> > > - unbotch the fs_reclaim context check, I accidentally inverted it,
-> > >   but it didn't blow up because I inverted it immediately
-> > > - fix compiling for !CONFIG_MMU_NOTIFIER
-> > >
-> > > Cc: Thomas Hellstr=F6m (Intel) <thomas_os@shipmail.org>
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Cc: Jason Gunthorpe <jgg@mellanox.com>
-> > > Cc: linux-mm@kvack.org
-> > > Cc: linux-rdma@vger.kernel.org
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Christian K=F6nig <christian.koenig@amd.com>
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >
-> > Replying the right patch here...
-> >
-> > Reverting this commit [1] fixed the lockdep warning below while applying
-> > some memory pressure.
-> >
-> > [1] linux-next cbf7c9d86d75 ("mm: track mmu notifiers in fs_reclaim_acq=
-uire/release")
-> =
 
-> Hm, then I'm confused because
-> - there's not mmut notifier lockdep map in the splat at a..
-> - the patch is supposed to not change anything for fs_reclaim (but the
-> interim version got that wrong)
-> - looking at the paths it's kmalloc vs kswapd, both places I totally
-> expect fs_reflaim to be used.
-> =
+On 6/18/20 12:39 PM, Dan Carpenter wrote:
+> On Wed, Jun 17, 2020 at 04:59:59PM +0100, Colin King wrote:
+>> From: Colin Ian King <colin.king@canonical.com>
+>>
+>> Function get_insert_time can return error values that are cast
+>> to a u64. The checks of insert_time1 and insert_time2 check for
+>> the errors but because they are u64 variables the check for less
+>> than zero can never be true. Fix this by casting the value to s64
+>> to allow of the negative error check to succeed.
+>>
+>> Addresses-Coverity: ("Unsigned compared against 0, no effect")
+>> Fixes: 6e60d5ded06b ("drm/mm: add ig_frag selftest")
+>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+>> ---
+>>   drivers/gpu/drm/selftests/test-drm_mm.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/selftests/test-drm_mm.c b/drivers/gpu/drm/selftests/test-drm_mm.c
+>> index 3846b0f5bae3..671a152a6df2 100644
+>> --- a/drivers/gpu/drm/selftests/test-drm_mm.c
+>> +++ b/drivers/gpu/drm/selftests/test-drm_mm.c
+>> @@ -1124,12 +1124,12 @@ static int igt_frag(void *ignored)
+>>   
+>>   		insert_time1 = get_insert_time(&mm, insert_size,
+>>   					       nodes + insert_size, mode);
+>> -		if (insert_time1 < 0)
+>> +		if ((s64)insert_time1 < 0)
+>>   			goto err;
+> The error codes in this function seem pretty messed up.
+>
+> Speaking of error codes, what the heck is going on with
+> prepare_igt_frag().
 
-> But you're claiming reverting this prevents the lockdep splat. If
-> that's right, then my reasoning above is broken somewhere. Someone
-> less blind than me having an idea?
-> =
 
-> Aside this is the first email I've typed, until I realized the first
-> report was against the broken patch and that looked like a much more
-> reasonable explanation (but didn't quite match up with the code
-> paths).
+This is on me. I will send a patch to correct this mistake.
 
-Below diff should undo the functional change in my patch. Can you pls test
-whether the lockdep splat is really gone with that? Might need a lot of
-testing and memory pressure to be sure, since all these reclaim paths
-aren't very deterministic.
--Daniel
 
----
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index d807587c9ae6..27ea763c6155 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4191,11 +4191,6 @@ void fs_reclaim_acquire(gfp_t gfp_mask)
- 		if (gfp_mask & __GFP_FS)
- 			__fs_reclaim_acquire();
- =
+Thanks,
 
--#ifdef CONFIG_MMU_NOTIFIER
--		lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
--		lock_map_release(&__mmu_notifier_invalidate_range_start_map);
--#endif
--
- 	}
- }
- EXPORT_SYMBOL_GPL(fs_reclaim_acquire);
--- =
+Nirmoy
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+>
+>    1037  static int prepare_igt_frag(struct drm_mm *mm,
+>    1038                              struct drm_mm_node *nodes,
+>    1039                              unsigned int num_insert,
+>    1040                              const struct insert_mode *mode)
+>    1041  {
+>    1042          unsigned int size = 4096;
+>    1043          unsigned int i;
+>    1044          u64 ret = -EINVAL;
+>                  ^^^^^^^^^^^^^^^^^^
+> Why is it u64?
+>
+>    1045
+>    1046          for (i = 0; i < num_insert; i++) {
+>    1047                  if (!expect_insert(mm, &nodes[i], size, 0, i,
+>    1048                                     mode) != 0) {
+>    1049                          pr_err("%s insert failed\n", mode->name);
+>    1050                          goto out;
+>                                  ^^^^^^^^
+> One of the common bugs with do nothing gotos is that we forget to set
+> the error code.  If we did a direct "return -EINVAL;" here, then there
+> would be no ambiguity.
+>
+>    1051                  }
+>    1052          }
+>    1053
+>    1054          /* introduce fragmentation by freeing every other node */
+>    1055          for (i = 0; i < num_insert; i++) {
+>    1056                  if (i % 2 == 0)
+>    1057                          drm_mm_remove_node(&nodes[i]);
+>    1058          }
+>    1059
+>    1060  out:
+>    1061          return ret;
+>    1062
+>    1063  }
+>
+> regards,
+> dan carpenter
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cnirmoy.das%40amd.com%7C74bcb0163ea04eaf0ca008d8137403ac%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637280736306420244&amp;sdata=kZ7BUVaFWI5aV4OztJr8GMS8QWjz%2F7JIb9jwRM3ct5g%3D&amp;reserved=0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
