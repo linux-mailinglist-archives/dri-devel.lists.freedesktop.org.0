@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C28E202BBB
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jun 2020 19:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD58E202BBC
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jun 2020 19:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC256E14E;
-	Sun, 21 Jun 2020 17:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD3D86E326;
+	Sun, 21 Jun 2020 17:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A616E14E
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 17:22:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF266E326
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 17:25:32 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208269] Polaris HDMI passthrough for TrueHD and DTS-HD does not
  work without snoop enabled, which leads to clipping
-Date: Sun, 21 Jun 2020 17:22:55 +0000
+Date: Sun, 21 Jun 2020 17:25:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208269-2300-zyUMh6y6jE@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-208269-2300-V5WrThiFrc@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208269-2300@https.bugzilla.kernel.org/>
 References: <bug-208269-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208269
 
---- Comment #2 from Brady (brady.w.clark@gmail.com) ---
-Created attachment 289775
-  --> https://bugzilla.kernel.org/attachment.cgi?id=289775&action=edit
-alsa-test.sh results without snoop
+Brady (brady.w.clark@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #289775|0                           |1
+        is obsolete|                            |
+
+--- Comment #3 from Brady (brady.w.clark@gmail.com) ---
+Created attachment 289777
+  --> https://bugzilla.kernel.org/attachment.cgi?id=289777&action=edit
+alsa-info.sh results without snoop
 
 -- 
 You are receiving this mail because:
