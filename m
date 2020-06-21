@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B0D20303D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A349F20301C
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC586E56D;
-	Mon, 22 Jun 2020 07:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 557CD6E1DE;
+	Mon, 22 Jun 2020 07:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611D96E17E
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 17:01:07 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id r22so12062740qke.13
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 10:01:07 -0700 (PDT)
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3026E478
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 17:42:10 +0000 (UTC)
+Received: by mail-qt1-x843.google.com with SMTP id g13so669840qtv.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 10:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=4IW0tXR/mpDYC4NFvk1L+/PIhxOlHSqhtHjHb8hvbaI=;
- b=hVLhkOJkp0Fk5aGFzHR+ThgT0CBzNawLXlLM72wKP0YRQwpCqKZ1N9rnWKn64RdTxJ
- dAhvAxyqc7ROQXd2615zDI6mW9/2Y+YxhID/+TyxZW+5Y0ydVnPuZSzwMeiColKV8BRg
- iLfvZh1wfayW/h6mJ3ojFVTgcuuEaG2UuZNDUnzI6ANezenUyYA2lSd8HQivzWcTqGKH
- E9vMEimR5InrG70jcN+75796gLxZDaYxAQGAhecdWf+4Z9VE3GxVeRLPydZwRpb+7PtK
- o1khaXKPM5l3sjtemmPsBG1cve865OpFfqY6MuMpeWS04WIPFMdcjZaNGDJBhZ7bALu1
- dYtg==
+ bh=rVxHH3LEdwuF+yLKGpUNDiWH+OtKENSR+1b7JVVNmNA=;
+ b=p6D9lG4wM3/I8euXaSkrvNDBnXJmUU4/JFTNfjAluH0v9i13oTEbDon5tcDdMz13Zm
+ TxiY3wB8E8l8ZFanNBjdovV/jkNt3/afMIKDOfLHBjYvCY+w+eZlA4Gz3sW97vuIS6Ys
+ 2Ji9vHgk4Yhgyi+DLyoqFgV3YMKSVpT4Lp+i0+P2hcH+L6d8PH/ZcZ/NysunigXxo7un
+ 51mqJrQ4pT/L6cn9/Y93ULAtdP5tnJKVCTXBayXydF84A360PLljlNXRrnY4YZJC04gb
+ pEer7X2IJQwcWD1XrTTzK+M/hT7R9DTI9nXqxPsXT2QhlluNGLmNyLhC7Z568cLPH0SB
+ HxSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=4IW0tXR/mpDYC4NFvk1L+/PIhxOlHSqhtHjHb8hvbaI=;
- b=VWgncvUzaldAzU6wc9N6/kl1H8o5uneLUXcI0HmsYjGI9jeHAfmwJMsaAIs9T1golx
- KJql8p17zVpmoGo0RvkVbEr9jVdWgL6tIphPljBZNUQ0w0EVXW+1Ps23gmhPS5WjSxhg
- bDhRzrtgP38jRQaYqtwTchoUZodo1nwId7rK6WxmnA8LuRr9LSYI1AvH5iKVmwzhL5zi
- J8/tBRCoZMNZQ2tJAVF44heQVuAsUoRpPkJGBhysamkRXLdvn1PLTP+BJn0GHhVC1Nko
- bxDAMP8u69uJhLBvCrEz3H16IlXQOW58QkFC4trOynoip6xEV6fjHDrJoCBQ006U841+
- ej2w==
-X-Gm-Message-State: AOAM532AyJFkdv8iythyvJ+P2W+AYH364s7jkLkS3j1i5ZppA6Z1TuyL
- kSKTDDnzG5VKroOQQ6vMJlNbUg==
-X-Google-Smtp-Source: ABdhPJyJ12ne6jqTc576YVDylh9jKcdn5VQZV8bqr/CrO/FfglTpnxIYrYwzLzykjZd4oTCNCC3rzg==
-X-Received: by 2002:a37:5c7:: with SMTP id 190mr85321qkf.479.1592758865784;
- Sun, 21 Jun 2020 10:01:05 -0700 (PDT)
+ bh=rVxHH3LEdwuF+yLKGpUNDiWH+OtKENSR+1b7JVVNmNA=;
+ b=WIXptI1q8Cx0KmowXaf+91dvbnITy/O6aJjk5m44s6UkLCOSqxCMD3tAv6y5unjnS9
+ 5KnEXMdUx51EMr1XLoNuNnlZdatCaN+w+qOO801fTXW6fQif82st3FjDv5QA36zWf5+U
+ aUctoBoFT/jVbD+EHzTeIp2GD7VygkUhX5YXomfhBtefeUmXC9AUjNJQlgvaHhblX4rC
+ wU5zxsHyE/9kdoPECqINqgbqMPdj2YSsxrDqg2xIVKEMGnj1jG8P2ys5i9juo0K0lovT
+ fOYQTa9u9z601wStS5grsp3M46NmGV1gPBKyiPXw1EH+jh42DnQk7iGHnvHpw7mpdwJB
+ mmEA==
+X-Gm-Message-State: AOAM531C+PctP0YMw69s6n/T1nlZHlTIDIDwQae1jOmyz1ptyp0eIMAB
+ A5DuqzPIYx5mMH4muVUA/OoYYg==
+X-Google-Smtp-Source: ABdhPJxb4UFbFRz5m8V+wkDHKCxPu2tCXaVGEFa2wShcxETjoZiVch20E/HghT08MM/S6lFBVodC7g==
+X-Received: by 2002:ac8:4982:: with SMTP id f2mr13416164qtq.182.1592761328886; 
+ Sun, 21 Jun 2020 10:42:08 -0700 (PDT)
 Received: from lca.pw (pool-71-184-117-43.bstnma.fios.verizon.net.
  [71.184.117.43])
- by smtp.gmail.com with ESMTPSA id l2sm14249673qtc.80.2020.06.21.10.01.03
+ by smtp.gmail.com with ESMTPSA id o21sm4504554qtt.25.2020.06.21.10.42.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 10:01:05 -0700 (PDT)
-Date: Sun, 21 Jun 2020 13:00:54 -0400
+ Sun, 21 Jun 2020 10:42:08 -0700 (PDT)
+Date: Sun, 21 Jun 2020 13:42:05 -0400
 From: Qian Cai <cai@lca.pw>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 01/18] mm: Track mmu notifiers in
- fs_reclaim_acquire/release
-Message-ID: <20200621170054.GA1398@lca.pw>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-2-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] mm: Track mmu notifiers in fs_reclaim_acquire/release
+Message-ID: <20200621174205.GB1398@lca.pw>
+References: <20200604081224.863494-2-daniel.vetter@ffwll.ch>
+ <20200610194101.1668038-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200604081224.863494-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200610194101.1668038-1-daniel.vetter@ffwll.ch>
 X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,18 +73,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-rdma@vger.kernel.org,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  linux-xfs@vger.kernel.org, linux-mm@kvack.org,
  Jason Gunthorpe <jgg@mellanox.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 04, 2020 at 10:12:07AM +0200, Daniel Vetter wrote:
+On Wed, Jun 10, 2020 at 09:41:01PM +0200, Daniel Vetter wrote:
 > fs_reclaim_acquire/release nicely catch recursion issues when
 > allocating GFP_KERNEL memory against shrinkers (which gpu drivers tend
 > to use to keep the excessive caches in check). For mmu notifier
@@ -128,6 +128,13 @@ On Thu, Jun 04, 2020 at 10:12:07AM +0200, Daniel Vetter wrote:
 > strictly more powerful.
 > =
 
+> v2: Review from Thomas Hellstrom:
+> - unbotch the fs_reclaim context check, I accidentally inverted it,
+>   but it didn't blow up because I inverted it immediately
+> - fix compiling for !CONFIG_MMU_NOTIFIER
+> =
+
+> Cc: Thomas Hellstr=F6m (Intel) <thomas_os@shipmail.org>
 > Cc: Andrew Morton <akpm@linux-foundation.org>
 > Cc: Jason Gunthorpe <jgg@mellanox.com>
 > Cc: linux-mm@kvack.org
@@ -136,8 +143,13 @@ On Thu, Jun 04, 2020 at 10:12:07AM +0200, Daniel Vetter wrote:
 > Cc: Christian K=F6nig <christian.koenig@amd.com>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Reverting this commit fixed the lockdep splat below while applying some
-memory pressure,
+Replying the right patch here...
+
+Reverting this commit [1] fixed the lockdep warning below while applying
+some memory pressure.
+
+[1] linux-next cbf7c9d86d75 ("mm: track mmu notifiers in fs_reclaim_acquire=
+/release")
 
 [  190.455003][  T369] WARNING: possible circular locking dependency detect=
 ed
@@ -305,8 +317,8 @@ kswapd_shrink_node at mm/vmscan.c:3521
 > -Daniel
 > ---
 >  mm/mmu_notifier.c |  7 -------
->  mm/page_alloc.c   | 23 ++++++++++++++---------
->  2 files changed, 14 insertions(+), 16 deletions(-)
+>  mm/page_alloc.c   | 25 ++++++++++++++++---------
+>  2 files changed, 16 insertions(+), 16 deletions(-)
 > =
 
 > diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
@@ -330,7 +342,7 @@ scription,
 >  		/*
 >  		 * kmalloc cannot be called under mm_take_all_locks(), but we
 > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 13cc653122b7..f8a222db4a53 100644
+> index 13cc653122b7..7536faaaa0fd 100644
 > --- a/mm/page_alloc.c
 > +++ b/mm/page_alloc.c
 > @@ -57,6 +57,7 @@
@@ -366,7 +378,7 @@ gned int order, int alloc_fla
 >  		return false;
 >  =
 
-> @@ -4158,15 +4155,23 @@ void __fs_reclaim_release(void)
+> @@ -4158,15 +4155,25 @@ void __fs_reclaim_release(void)
 >  =
 
 >  void fs_reclaim_acquire(gfp_t gfp_mask)
@@ -374,11 +386,13 @@ gned int order, int alloc_fla
 > -	if (__need_fs_reclaim(gfp_mask))
 > -		__fs_reclaim_acquire();
 > +	if (__need_reclaim(gfp_mask)) {
-> +		if (!(gfp_mask & __GFP_FS))
+> +		if (gfp_mask & __GFP_FS)
 > +			__fs_reclaim_acquire();
 > +
+> +#ifdef CONFIG_MMU_NOTIFIER
 > +		lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
 > +		lock_map_release(&__mmu_notifier_invalidate_range_start_map);
+> +#endif
 > +
 > +	}
 >  }
@@ -390,7 +404,7 @@ gned int order, int alloc_fla
 > -	if (__need_fs_reclaim(gfp_mask))
 > -		__fs_reclaim_release();
 > +	if (__need_reclaim(gfp_mask)) {
-> +		if (!(gfp_mask & __GFP_FS))
+> +		if (gfp_mask & __GFP_FS)
 > +			__fs_reclaim_release();
 > +	}
 >  }
