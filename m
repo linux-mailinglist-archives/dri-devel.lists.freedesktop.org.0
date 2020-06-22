@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70342203024
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A3D203029
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81636E30C;
-	Mon, 22 Jun 2020 07:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCC7F6E216;
+	Mon, 22 Jun 2020 07:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4CD89E8C
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 22:28:06 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id d7so8487199lfi.12
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 15:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3gpWZvRfCvlHf7NtxX+3427d5thggZdJwdjj+htiUY4=;
- b=iYjGmbgbU5QQOVUlQlQWv4yfAS1JWsQPDOc/qaef/ipp10YQTroEhWpINX3UFQT0zJ
- ej3eXlmW6YzhDbFBIpiPSUXjnQ29a7rMfWPy+091pK5hKK00rKGN/+PVjsgGW21PFzfs
- CUXRcmVK7MVjE+Z7Z5/UCgX63yeryFgsoDNQehkJ1AiahFi/NXzQoOFGXxQJrWGtFd0l
- DuIoy/18NLVznVE1SAjd9HU1Lu4hepJMJoV0JwG1k1vxdp7sR1iKd+FK3e6YWr85BnCA
- K3cKaILKbp0HZHcp4wK791gtGBlhTjn05e9oioXiV4fZ9Q+aufiFGBb9bUlatKWNbuw9
- ebLQ==
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15D8A6E0C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 05:32:40 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id h95so8064781pje.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 22:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FOs8/vOcSTNojAnkjIJLl6Zwh7pEFROh/lHqucoCGw4=;
+ b=dPCYMgxwutm6jIq2Wj18eM2TXJW8xWvR97Y37deovDDlPXTd+KGT1+Ju9/iINFjIht
+ NCUTlZdh+IITFYHEEyBkDxE4y2z67kqprIsFDboISSXR+1vtlhazfUh8hCWCDTSOUdaT
+ StTuEMbg+XmgJ+ClOhdbG3/p4rJCeIwGLQDdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3gpWZvRfCvlHf7NtxX+3427d5thggZdJwdjj+htiUY4=;
- b=A2bYrdYEfoJaaWD2yKqfjrSTw1W/hlsZY4oyefTN8m9R56B78Cez4Qfb5oxMQ95Bl0
- S1lsiZy3GWS1ZntXrSEiwcIPqwcLUiOFaNNIpy1HTzmqp5PQD1X0EhbdEmoVzumf52et
- pfIB+kDIaE9fmtQTPbeCmmkhWo5Sl8jgWsk+qP8wUMWu59T3R0V/P3VWRFUtkt9UQGfy
- UROE/pACJ+QjjJmfrbnCg/odnB1SGbGFvCLnE4QqMRR0LbJeho2XfJdG14EgLpCsZxsu
- q4TI1E2Rp6Vy8VBLx/6g9OKczeTFMfSSWmdrAOOFofizpyNg71kJcEhah/jxtPH3WgD1
- BkmQ==
-X-Gm-Message-State: AOAM532IJtgn4PEfhdPrRbfyViYPZmppDd7qzjt3kM74+SXPTXNImU9g
- n52dqHPWtXlgyLJu87ubmJ0=
-X-Google-Smtp-Source: ABdhPJxx90OzdENre2w/gS/55wOw8HSAbFai550KDVjSfFoglYrYNACk/U9n3Jr+2bVByFIJxWOj6w==
-X-Received: by 2002:a19:87c2:: with SMTP id j185mr7700444lfd.183.1592778485052; 
- Sun, 21 Jun 2020 15:28:05 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id 11sm2361295lju.118.2020.06.21.15.28.04
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FOs8/vOcSTNojAnkjIJLl6Zwh7pEFROh/lHqucoCGw4=;
+ b=OVqbrPyIVaw0wo/O4up74PaASebG+bmGEy+3pIy5szLS7Zs2lG8P3kEb5TpYXNih3/
+ OkM1qzarcWEoxT+nq5X3YIVYHmyaOTnAESu0KDFPDiB9WMioR8G2ENb0z9z/2391DTkm
+ /oB6Al5CgZOYrvdEGVZZJok1zt28nNW09pK1F5svWtQlQv2+szXN67797Z5lAGFA7zZh
+ NaGgClOOijIrZRgnZBKPKHpn/6AQbM6M/yVfKgXP7d6B2uN4vHWQ3cJLlF2av8S2jB0T
+ GFaOf9eJ01r5JPHJpx/GnRvLc5AOxL54IoGtqujVf4gTe0240pwb3dO+Xvhu6xqrLf3y
+ Eaig==
+X-Gm-Message-State: AOAM530LTyaQk67xPhJYhNZqOfsF4kS/se+0g41qj6VcBQGaDLNqbZtW
+ AsTjj81bsBvCZsQIACQr1Ug+ZQ==
+X-Google-Smtp-Source: ABdhPJyZmlvjgo1vg45lGnOaXcMAlL6/gigFUFN6X5r+Q50PTwVNyET7M9/6fIkpx0Z3VHooFu3v5w==
+X-Received: by 2002:a17:90a:1a17:: with SMTP id
+ 23mr16362040pjk.231.1592803959593; 
+ Sun, 21 Jun 2020 22:32:39 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:b852:bd51:9305:4261])
+ by smtp.gmail.com with ESMTPSA id b1sm12240078pjc.33.2020.06.21.22.32.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Jun 2020 15:28:04 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v1 2/2] drm/panel-simple: Add missing BUS descriptions for
- some panels
-Date: Mon, 22 Jun 2020 01:27:42 +0300
-Message-Id: <20200621222742.25695-3-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200621222742.25695-1-digetx@gmail.com>
-References: <20200621222742.25695-1-digetx@gmail.com>
+ Sun, 21 Jun 2020 22:32:39 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: linux-arm-kernel@lists.infradead.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH] drm/mediatek: check plane visibility in atomic_update
+Date: Mon, 22 Jun 2020 13:32:34 +0800
+Message-Id: <20200622053234.122120-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.27.0.111.gc72c7da667-goog
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,89 +65,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yongqiang.niu@mediatek.com,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ tfiga@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds missing BUS fields to the display panel descriptions of
-the panels which are found on NVIDIA Tegra devices:
+Disable the plane if it's not visible. Otherwise mtk_ovl_layer_config()
+would proceed with invalid plane and we may see vblank timeout.
 
-  1. AUO B101AW03
-  2. Chunghwa CLAA070WP03XG
-  3. Chunghwa CLAA101WA01A
-  4. Chunghwa CLAA101WB01
-  5. Innolux N156BGE L21
-  6. Samsung LTN101NT05
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 87edd2bdf09a..986df9937650 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -698,6 +698,8 @@ static const struct panel_desc auo_b101aw03 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index c2bd683a87c8..74dc71c7f3b6 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -164,6 +164,16 @@ static int mtk_plane_atomic_check(struct drm_plane *plane,
+ 						   true, true);
+ }
  
-@@ -1352,6 +1354,8 @@ static const struct panel_desc chunghwa_claa070wp03xg = {
- 		.width = 94,
- 		.height = 150,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
++static void mtk_plane_atomic_disable(struct drm_plane *plane,
++				     struct drm_plane_state *old_state)
++{
++	struct mtk_plane_state *state = to_mtk_plane_state(plane->state);
++
++	state->pending.enable = false;
++	wmb(); /* Make sure the above parameter is set before update */
++	state->pending.dirty = true;
++}
++
+ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ 				    struct drm_plane_state *old_state)
+ {
+@@ -178,6 +188,9 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ 	if (!crtc || WARN_ON(!fb))
+ 		return;
  
-@@ -1375,6 +1379,8 @@ static const struct panel_desc chunghwa_claa101wa01a = {
- 		.width = 220,
- 		.height = 120,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
++	if (!plane->state->visible)
++		return mtk_plane_atomic_disable(plane, old_state);
++
+ 	gem = fb->obj[0];
+ 	mtk_gem = to_mtk_gem_obj(gem);
+ 	addr = mtk_gem->dma_addr;
+@@ -200,16 +213,6 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ 	state->pending.dirty = true;
+ }
  
-@@ -1398,6 +1404,8 @@ static const struct panel_desc chunghwa_claa101wb01 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-@@ -2071,6 +2079,8 @@ static const struct panel_desc innolux_n156bge_l21 = {
- 		.width = 344,
- 		.height = 193,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-@@ -3018,6 +3028,8 @@ static const struct panel_desc samsung_ltn101nt05 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
+-static void mtk_plane_atomic_disable(struct drm_plane *plane,
+-				     struct drm_plane_state *old_state)
+-{
+-	struct mtk_plane_state *state = to_mtk_plane_state(plane->state);
+-
+-	state->pending.enable = false;
+-	wmb(); /* Make sure the above parameter is set before update */
+-	state->pending.dirty = true;
+-}
+-
+ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
+ 	.prepare_fb = drm_gem_fb_prepare_fb,
+ 	.atomic_check = mtk_plane_atomic_check,
 -- 
-2.26.0
+2.27.0.111.gc72c7da667-goog
 
 _______________________________________________
 dri-devel mailing list
