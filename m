@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A18203318
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B45203340
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA70C6E0FA;
-	Mon, 22 Jun 2020 09:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E386E0D4;
+	Mon, 22 Jun 2020 09:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF456E0D6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:16:26 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id d4so12504440otk.2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:16:26 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31036E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:25:31 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id g21so10538728wmg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZSeaMlE7GUutcCnGTBRyHmDL2wVD0AT7mD7yKh2KGMo=;
- b=H5vK5ouIPrJPZWDsfQ3DH3OjxhnJ+FDUdSyhVh2Ejj8/rsBPNCpbVe+HVV8SfXGtCc
- yGooR5PrZ7Q7Reu6OHaJ21Xk6My7JHgbvY164c4so/v+VzDkrKaFhB3a9X27YGWVZ+HD
- 9f0TVFR7O4aFInSAo4+hO4Lk5fOamlWZm0rZQ=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kYACjSKc7kBwIgyJSLeNmla7BncwtBZMkMEVzJSYEZk=;
+ b=fwT8J/3+qL8BpkQJGBJHPmbBj7Txozgx74DsEfJgxiLXJSQt0ME/bZEYc20s7hk+7e
+ 3Ac9V1rM0ER2PlPQQ2zPsop5L2//pb2XxTx5hVgzRV1OOYXnGU9tDjoFMChWyDLroWAT
+ lnl5sWJeLaX0sWzOUEQbOSYl4nlixlFWpgSQA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZSeaMlE7GUutcCnGTBRyHmDL2wVD0AT7mD7yKh2KGMo=;
- b=HQCS31ERxkEJvgsoh2I5ZB2XlxmmSHMdtomFY7V6ciel52jCyngMMDFjAyMqKUthfg
- ru51zEo4fuGh1f4/JTNETKdaGmajblM3fLtMJXw2coGG7vmTj2B+HgyD3CUn+7P1S8yE
- 0WHMj+eZp93Ooq0T5FkToh6Wd7XXkacDDyi+GDc6I210jAD3OxOV0CdpjeLg/8pG8pG7
- qJM5zpQnx8Apco08mG5NfCJVPaL2o/kjj1/YQD0oaNUsC3Bz+zFN540JRqhH3lfILhAN
- J2Bte5ytmxL9ibYJgyVYZzYU5wTiC725dkNM0Z7yzjAOtRt2w8PtXxwA4oSyYnGLZICm
- tQqA==
-X-Gm-Message-State: AOAM530pw5+/jVn6VbdDEGNHZna1Ixm2WHfp6E66ma3LIP8NN4XAVTuX
- cXOXNjjpJ3x+l2CkhNiJENOJXYrBt96sw+j74NGUdA==
-X-Google-Smtp-Source: ABdhPJzIZC4iHlgUR+Yu5PeT4ypjAmYK05V91KLSkvEtVAiftAA5v9bvKYgkF5yc4xBoBP7cOtRYbpIjiRIH9kD4kJM=
-X-Received: by 2002:a9d:4cd:: with SMTP id 71mr14110772otm.188.1592817385783; 
- Mon, 22 Jun 2020 02:16:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-4-daniel.vetter@ffwll.ch>
- <159186243606.1506.4437341616828968890@build.alporthouse.com>
- <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
- <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
- <159255511144.7737.12635440776531222029@build.alporthouse.com>
- <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
- <159255801588.7737.4425728073225310839@build.alporthouse.com>
- <20200619094309.GT20149@phenom.ffwll.local>
- <159257233754.7737.17318605310513355800@build.alporthouse.com>
-In-Reply-To: <159257233754.7737.17318605310513355800@build.alporthouse.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kYACjSKc7kBwIgyJSLeNmla7BncwtBZMkMEVzJSYEZk=;
+ b=hhXaNwYx0ndhq8jLCJnZqcbspWuceqiyEtKkUntVhvPPK8xb+SCibjGTcXhS0fNiIc
+ USImZV5uSrWWuFfXCzQt5KyLCC9KmEImt4xSJmJYZRsWXZsrc5LiY8G/1obj/9ACljH9
+ RLCOCs9O6MxqOL3huRsTyuMwElXlh7UJWVo7yXK58hv1Ou+bbvALeejupmHhTfcfM2jS
+ zKo5tl6fZyn58iPzkciBszBzG7yfzf6KLJQWqoH/aYp4Zl6/Gj57x/TmYQkkvchs3FvU
+ r5i10xEa63GQcvChvY4uraREgnaUScooHozlGSw2wBhQzuvqWA9pz3Pb9njYJ0lTlzZo
+ aV/A==
+X-Gm-Message-State: AOAM532KdxImlvbOWoCCviIdRDwHtLhk3/f/K0s0KGzv5TdEPoGS2l33
+ E42aJkFGShttxfK5rcjLS0F/iQ==
+X-Google-Smtp-Source: ABdhPJy8hUCRZOfsY0DWVJcOEt+p6hxVYJPFuixehc3tBpQW0+P7U4VQVqha5hGxPcXzXl4U6ytOQg==
+X-Received: by 2002:a7b:cd07:: with SMTP id f7mr6162727wmj.115.1592817930080; 
+ Mon, 22 Jun 2020 02:25:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y80sm17101152wmc.34.2020.06.22.02.25.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 02:25:29 -0700 (PDT)
+Date: Mon, 22 Jun 2020 11:25:27 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 22 Jun 2020 11:16:14 +0200
-Message-ID: <CAKMK7uG4KzUa5yJMXQ0ffUwC_fR+pPTEnag7=qfJNtobFH3+pQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
-To: Chris Wilson <chris@chris-wilson.co.uk>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH 1/3] drm: uapi: Use SPDX in DRM core uAPI headers
+Message-ID: <20200622092527.GW20149@phenom.ffwll.local>
+References: <20200621020703.864-1-laurent.pinchart+renesas@ideasonboard.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200621020703.864-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,176 +64,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 19, 2020 at 3:12 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
->
-> Quoting Daniel Vetter (2020-06-19 10:43:09)
-> > On Fri, Jun 19, 2020 at 10:13:35AM +0100, Chris Wilson wrote:
-> > > Quoting Daniel Vetter (2020-06-19 09:51:59)
-> > > > On Fri, Jun 19, 2020 at 10:25 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > > > Forcing a generic primitive to always be part of the same global map is
-> > > > > horrible.
-> > > >
-> > > > And  no concrete example or reason for why that's not possible.
-> > > > Because frankly it's not horrible, this is what upstream is all about:
-> > > > Shared concepts, shared contracts, shared code.
-> > > >
-> > > > The proposed patches might very well encode the wrong contract, that's
-> > > > all up for discussion. But fundamentally questioning that we need one
-> > > > is missing what upstream is all about.
-> > >
-> > > Then I have not clearly communicated, as my opinion is not that
-> > > validation is worthless, but that the implementation is enshrining a
-> > > global property on a low level primitive that prevents it from being
-> > > used elsewhere. And I want to replace completion [chains] with fences, and
-> > > bio with fences, and closures with fences, and what other equivalencies
-> > > there are in the kernel. The fence is as central a locking construct as
-> > > struct completion and deserves to be a foundational primitive provided
-> > > by kernel/ used throughout all drivers for discrete problem domains.
-> > >
-> > > This is narrowing dma_fence whereby adding
-> > >       struct lockdep_map *dma_fence::wait_map
-> > > and annotating linkage, allows you to continue to specify that all
-> > > dma_fence used for a particular purpose must follow common rules,
-> > > without restricting the primitive for uses outside of this scope.
-> >
-> > Somewhere else in this thread I had discussions with Jason Gunthorpe about
-> > this topic. It might maybe change somewhat depending upon exact rules, but
-> > his take is very much "I don't want dma_fence in rdma". Or pretty close to
-> > that at least.
-> >
-> > Similar discussions with habanalabs, they're using dma_fence internally
-> > without any of the uapi. Discussion there has also now concluded that it's
-> > best if they remove them, and simply switch over to a wait_queue or
-> > completion like every other driver does.
-> >
-> > The next round of the patches already have a paragraph to at least
-> > somewhat limit how non-gpu drivers use dma_fence. And I guess actual
-> > consensus might be pointing even more strongly at dma_fence being solely
-> > something for gpus and closely related subsystem (maybe media) for syncing
-> > dma-buf access.
-> >
-> > So dma_fence as general replacement for completion chains I think just
-> > wont happen.
->
-> That is sad. I cannot comprehend going back to pure completions after a
-> taste of fence scheduling. And we are not even close to fully utilising
-> them, as not all the async cpu [allocation!] tasks are fully tracked by
-> fences yet and are still stuck in a FIFO workqueue.
->
-> > What might make sense is if e.g. the lockdep annotations could be reused,
-> > at least in design, for wait_queue or completion or anything else
-> > really. I do think that has a fair chance compared to the automagic
-> > cross-release annotations approach, which relied way too heavily on
-> > guessing where barriers are. My experience from just a bit of playing
-> > around with these patches here and discussing them with other driver
-> > maintainers is that accurately deciding where critical sections start and
-> > end is a job for humans only. And if you get it wrong, you will have a
-> > false positive.
-> >
-> > And you're indeed correct that if we'd do annotations for completions and
-> > wait queues, then that would need to have a class per semantically
-> > equivalent user, like we have lockdep classes for mutexes, not just one
-> > overall.
-> >
-> > But dma_fence otoh is something very specific, which comes with very
-> > specific rules attached - it's not a generic wait_queue at all. Originally
-> > it did start out as one even, but it is a very specialized wait_queue.
-> >
-> > So there's imo two cases:
-> >
-> > - Your completion is entirely orthogonal of dma_fences, and can never ever
-> >   block a dma_fence. Don't use dma_fence for this, and no problem. It's
-> >   just another wait_queue somewhere.
-> >
-> > - Your completion can eventually, maybe through lots of convolutions and
-> >   depdencies, block a dma_fence. In that case full dma_fence rules apply,
-> >   and the only thing you can do with a custom annotation is make the rules
-> >   even stricter. E.g. if a sub-timeline in the scheduler isn't allowed to
-> >   take certain scheduler locks. But the userspace visible/published fence
-> >   do take them, maybe as part of command submission or retirement.
-> >   Entirely hypotethical, no idea any driver actually needs this.
->
-> I think we are faced with this very real problem.
->
-> The papering we have today over userptr is so very thin, and if you
-> squint you can already see it is coupled into the completion signal. Just
-> it happens to be on the other side of the fence.
->
-> The next batch of priority inversions involve integrating the async cpu
-> tasks into the scheduler, and have full dependency tracking over every
-> internal fence. I do not see any way to avoid coupling the completion
-> signal from the GPU to the earliest resource allocation, as it's an
-> unbroken chain of work, at least from the user's perspective. [Next up
-> for annotations is that we need to always assume that userspace has an
-> implicit lock on GPU resources; having to break that lock with a GPU
-> reset should be a breach of our data integrity, and best avoided, for
-> compute does not care one iota about system integrity and insist
-> userspace knows best.] Such allocations have to be allowed to fail and
-> for that failure to propagate cancelling the queued work, such that I'm
-> considering what rules we need for gfp_t. That might allow enough
-> leverage to break any fs_reclaim loops, but userptr is likely forever
-> doomed [aside from its fs_reclaim loop is as preventable as the normal
-> shrinker paths], but we still need to suggest to pin_user_pages that
-> failure is better than oom and that is not clear atm. Plus the usual
-> failure can happen at any time after updating the user facing
-> bookkeeping, but that is just extra layers in the execution monitor
-> ready to step in and replacing failing work with the error propagation.
-> Or where the system grinds to a halt, requiring the monitor to patch in
-> a new page / resource.
+On Sun, Jun 21, 2020 at 05:07:01AM +0300, Laurent Pinchart wrote:
+> The DRM core uAPI headers are licensed under the MIT license, and carry
+> copies of the license with slight variations. Replace them with SPDX
+> headers.
+> 
+> Following a discussion with Daniel Vetter on this topic, add a
+> clarification in the drm-uapi.rst file that independent closed-source
+> userspace implementations of software using the DRM uAPI are accepted,
+> as allowed by the MIT license.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 
-Zooming out a bunch, since this is a lot about the details of making
-this happen, and I want to make sure I'm understanding your aim
-correctly. I think we have 2 big things here interacting:
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-On one side the "everything async" push, for some value of everything.
-Once everything is async we let either the linux scheduler (for
-dma_fence_work) or the gpu scheduler (for i915_request) figure out how
-to order everything, with all the dependencies. For memory allocations
-there's likely quite a bit of retrying (on the allocation side) and
-skipping (on the shrinker/mmu notifier side) involved to make this all
-pan out. Maybe something like a GFP_NOGPU flag.
+> ---
+>  Documentation/gpu/drm-uapi.rst |  4 ++++
+>  include/uapi/drm/drm.h         | 20 +-------------------
+>  include/uapi/drm/drm_fourcc.h  | 20 +-------------------
+>  include/uapi/drm/drm_mode.h    | 19 +------------------
+>  include/uapi/drm/drm_sarea.h   | 20 +-------------------
+>  5 files changed, 8 insertions(+), 75 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 56fec6ed1ad8..de2ecc76dd6c 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -107,6 +107,10 @@ is already rather painful for the DRM subsystem, with multiple different uAPIs
+>  for the same thing co-existing. If we add a few more complete mistakes into the
+>  mix every year it would be entirely unmanageable.
+>  
+> +The DRM subsystem has however no concern with independent closed-source
+> +userspace implementations. To officialize that position, the DRM uAPI headers
+> +are covered by the MIT license.
+> +
+>  .. _drm_render_node:
+>  
+>  Render nodes
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 808b48a93330..14d57361e580 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /**
+>   * \file drm.h
+>   * Header for the Direct Rendering Manager
+> @@ -12,25 +13,6 @@
+>   * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
+>   * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
+>   * All rights reserved.
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef _DRM_H_
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 490143500a50..d2c4a597620f 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -1,24 +1,6 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /*
+>   * Copyright 2011 Intel Corporation
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef DRM_FOURCC_H
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 735c8cfdaaa1..c34a544fdf29 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1,27 +1,10 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /*
+>   * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
+>   * Copyright (c) 2007 Jakob Bornecrantz <wallbraker@gmail.com>
+>   * Copyright (c) 2008 Red Hat Inc.
+>   * Copyright (c) 2007-2008 Tungsten Graphics, Inc., Cedar Park, TX., USA
+>   * Copyright (c) 2007-2008 Intel Corporation
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice shall be included in
+> - * all copies or substantial portions of the Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+> - * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+> - * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+> - * IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef _DRM_MODE_H
+> diff --git a/include/uapi/drm/drm_sarea.h b/include/uapi/drm/drm_sarea.h
+> index a951ced60ebe..1e38d028332d 100644
+> --- a/include/uapi/drm/drm_sarea.h
+> +++ b/include/uapi/drm/drm_sarea.h
+> @@ -1,3 +1,4 @@
+> +/* SPDX-License-Identifier: MIT */
+>  /**
+>   * \file drm_sarea.h
+>   * \brief SAREA definitions
+> @@ -8,25 +9,6 @@
+>  /*
+>   * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
+>   * All Rights Reserved.
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the "Software"),
+> - * to deal in the Software without restriction, including without limitation
+> - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> - * and/or sell copies of the Software, and to permit persons to whom the
+> - * Software is furnished to do so, subject to the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the next
+> - * paragraph) shall be included in all copies or substantial portions of the
+> - * Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> - * TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> - * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+>  #ifndef _DRM_SAREA_H_
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
-On the other side we have opinionated userspace with both very
-long-running batches (they might as well be infinite, best we can do
-is check that they still preempt within a reasonable amount of time,
-lack of hw support for preemption in all cases notwithstanding). And
-batches which synchronize across engines and whatever entirely under
-userspace controls, with stuff like gpu semaphore waits entirely in
-the cmd stream, without any kernel or gpu scheduler involvement. Well
-maybe a slightly smarter gpu scheduler which converts the semaphore
-wait from a pure busy loop into a "repoll on each scheduler
-timeslice". But not actual dependency tracking awareness in the kernel
-(or guc/hw fwiw) of what userspace is really trying to do.
-
-Later is a big motivator for the former, since with arbitrary long
-batches and arbitrary fences any wait for a batch to complete can take
-forever, hence anything that might end up doing that needs to be done
-async and without locks. That way we don't have to shoot anything if a
-batch takes too long.
-
-Finally if anything goes wrong (on the kernel side at least) we just
-propagete fence error state through the entire ladder of in-flight
-things (only if it goes wrong terminally ofc).
-
-Roughly correct or did I miss a big (or small but really important) thing?
-
-Thanks, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
