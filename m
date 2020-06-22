@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AA5203904
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 16:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746E3203908
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 16:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B906E817;
-	Mon, 22 Jun 2020 14:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2976C6E80B;
+	Mon, 22 Jun 2020 14:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 457C16E817
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 14:22:20 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t194so15916663wmt.4
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bJSKL8sfjoItMlLZIHvSZPyc9+WORmnIJIkfFHS/Uhc=;
- b=feZREHIMAeCKCnPPAFWeIamudTiI2hndBHx8gCPufSriYMHHewVeh8yLFbdjBYhuS/
- A7GFYLPR5RoZndfJUADG4GY/2u8/Uia7jurvKStBl3zH6uZRkywjEoVw01+kE0NChzOc
- VN05+Rp1Sm0iCKvlcmDNjItZq1FNxg3So8FZSWXsKC9bHlU417QwWol6je2VQmdoVK1u
- h/iuxoXJnWtiXbi76Ddc5mT8jtZKGWInHVYFSgp4KEQGCcVQNiGx01PmlHOThUnGGGWR
- 5ycd2gUnQ5/GOeZJkSZF4P2Xt4++bax/z9Y374W5fF6tYepk4CwEEDjmj/dB1HSPxPMS
- rNFA==
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8796E80B
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 14:23:12 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id n5so13201963otj.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:23:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WyXZWmBpbzEo+Phm6ZvRFTBhULTv1iYromZnyvkMduE=;
+ b=WIaGQZFaYtrpZQVpp88VLhJOkqa/Rxo5eYPQTFi558vrLuIvRzeLZ+nzTzAmG0kdri
+ h9kg6PCxM2ENTvBUA/8a/3vc3AY5BjEw7K3bxWuSNLvZlE/+ZK1Sg8obMHTlpvg1rDjP
+ Y3+GGtCfV3HsqyypVEl4b+Cp6tobrGShCkv2I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bJSKL8sfjoItMlLZIHvSZPyc9+WORmnIJIkfFHS/Uhc=;
- b=VwSs5mKOMfonMDwfAtuA93jkyctUoOdyG7JT4+eyDNvpBGgnK0cKf8hxPX7IWiNd+3
- 2dokoLkaYPz1BnsWZyYhrq559V3LhkPi3HWmd8VQ6ixJkbOIgjEPQuFU5Nz/WzJjABN/
- 1yev6pIQuZC3g/RmxHvfOLTmMYSCAwv1+zuff0GmYT2u/7j1tuyKBhwiqmpNYFXBJsD/
- JBJj4m1trZVgNmTjLV32y4V+3pytVjRbpMpg97gGHIn7mK/erLuAkBj6EqJk0C6J1ceQ
- ol53yXVSGg5DCzZgmvgWvhWcGQiF/nL9ijoN8+LoZed12OmgAwrx2UE8oXJJTvqznecv
- X5Rg==
-X-Gm-Message-State: AOAM5307uoWfxGOZWUpZNzWC3bdlPQsobrfU0XusWB4oPBYmfepPhYD3
- pU5outbDIyUmnQsKw+afhleEkA==
-X-Google-Smtp-Source: ABdhPJwa0y5j0FoupL7KxiiKxqCc0LORL3TMqBTcZBpU8Hjnw6rSwhmgMhnha+I5P52T/2yZa/ljwg==
-X-Received: by 2002:a1c:e303:: with SMTP id a3mr1000199wmh.26.1592835738837;
- Mon, 22 Jun 2020 07:22:18 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id v24sm20804558wrd.92.2020.06.22.07.22.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 07:22:17 -0700 (PDT)
-Date: Mon, 22 Jun 2020 15:22:15 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: backlight: Convert common backlight
- bindings to DT schema
-Message-ID: <20200622142215.biy2g6sd44czky4u@holly.lan>
-References: <20200618224413.1115849-1-robh@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WyXZWmBpbzEo+Phm6ZvRFTBhULTv1iYromZnyvkMduE=;
+ b=aOkd25Qzt//8yv7P1qKMeDugRvGQWTIoUDymHRKz0m7l7ggjQ/f1x6Yaurq5G3KHSu
+ Op5suUOhgSWsnKfkZUUVN7HkliF3wHVwmO7XeyEyVEFDxFo6Cx5lXZTJ/OfL6lENeHtq
+ oru4CX0GDlZmKVzeN5glUf5C1PdeQspWzyEf9hUcWaSrEsykkclukRXh8O2nCRXsK1aN
+ Dt2vAaKHiZKK5M/3fSlCxHIT9o+9gPgcjkhowIjk5RMjcFocr1esTNp6ISqyxPC+KZ0m
+ shfaiPpsFcJG935+/S4rgBxqcQ0F8TZwgnBM35IqfVsEdJM3DnHXHwBIlt6xR52LMEpy
+ DUfQ==
+X-Gm-Message-State: AOAM530xJVLrDy7c4U8RriiElu8y1KT4JN//HyPw96YNbMsmtNF8Zq3W
+ VwT0oyfqnqxc5ISNLIrnvuEt99V8nu4DASsxYBKeWw==
+X-Google-Smtp-Source: ABdhPJxJVNdtFnys0+kG3cqaZy+Y0cB1s+N36TWZE3WOri9YJcGHU6DAkaniOnNyg6+IHsaPJNkGTEcVR8plhXafalQ=
+X-Received: by 2002:a05:6830:54:: with SMTP id
+ d20mr14982897otp.281.1592835791884; 
+ Mon, 22 Jun 2020 07:23:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200618224413.1115849-1-robh@kernel.org>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-2-git-send-email-andrey.grodzovsky@amd.com>
+ <6809de08-2035-edda-ebd2-05e7f77a1068@gmail.com>
+In-Reply-To: <6809de08-2035-edda-ebd2-05e7f77a1068@gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 22 Jun 2020 16:23:00 +0200
+Message-ID: <CAKMK7uG9UyFyD22tf0-k28UbK2drP=VEAhsN3fNkQznYPrG3nw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] drm: Add dummy page per device or GEM object
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,158 +61,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jingoo Han <jingoohan1@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 18, 2020 at 04:44:13PM -0600, Rob Herring wrote:
-> Convert the common GPIO, LED, and PWM backlight bindings to DT schema
-> format.
-> 
-> Given there's only 2 common properties and the descriptions are slightly
-> different, I opted to not create a common backlight schema.
-> 
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-...
-
-
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> new file mode 100644
-> index 000000000000..ae50945d2798
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/led-backlight.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: led-backlight bindings
-> +
-> +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +description:
-> +  This binding is used to describe a basic backlight device made of LEDs. It
-> +  can also be used to describe a backlight device controlled by the output of
-> +  a LED driver.
-> +
-> +properties:
-> +  compatible:
-> +    const: led-backlight
-> +
-> +  leds:
-> +    description: A list of LED nodes
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +
-> +  brightness-levels:
-> +    description: Array of distinct brightness levels. The levels must be
-> +      in the range accepted by the underlying LED devices. This is used
-> +      to translate a backlight brightness level into a LED brightness level.
-> +      If it is not provided, the identity mapping is used.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  default-brightness-level:
-> +    description: The default brightness level (index into the array defined
-> +      by the "brightness-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +dependencies:
-> +  default-brightness-level: [brightness-levels]
-
-I don't think there is a dependency here. default-brightness-level still
-makes sense with there is no mapping table present.
-
-Based on Sam's feedback perhaps adding ("if one is provided") to the
-parenthetic text.
-
-
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> new file mode 100644
-> index 000000000000..7e1f109a38a4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/pwm-backlight.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: pwm-backlight bindings
-> +
-> +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-backlight
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  pwm-names: true
-> +
-> +  power-supply:
-> +    description: regulator for supply voltage
-> +
-> +  enable-gpios:
-> +    description: Contains a single GPIO specifier for the GPIO which enables
-> +      and disables the backlight
-> +    maxItems: 1
-> +
-> +  post-pwm-on-delay-ms:
-> +    description: Delay in ms between setting an initial (non-zero) PWM and
-> +      enabling the backlight using GPIO.
-> +
-> +  pwm-off-delay-ms:
-> +    description: Delay in ms between disabling the backlight using GPIO
-> +      and setting PWM value to 0.
-> +
-> +  brightness-levels:
-> +    description: Array of distinct brightness levels. Typically these are
-> +      in the range from 0 to 255, but any range starting at 0 will do. The
-> +      actual brightness level (PWM duty cycle) will be interpolated from
-> +      these values. 0 means a 0% duty cycle (darkest/off), while the last
-> +      value in the array represents a 100% duty cycle (brightest).
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  default-brightness-level:
-> +    description: The default brightness level (index into the array defined
-> +      by the "brightness-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  num-interpolated-steps:
-> +    description: Number of interpolated steps between each value of brightness-levels
-> +      table. This way a high resolution pwm duty cycle can be used without
-> +      having to list out every possible value in the brightness-level array.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +dependencies:
-> +  default-brightness-level: [brightness-levels]
-> +  num-interpolated-steps: [brightness-levels]
-
-Just for the record, these dependencies are OK. Iit isn't really a good
-idea to map 1:1 to a PWM since we end up with a gazillion
-indistinguishable levels so the bindings (and the driver) to not allow
-such a mode.
-
-
-Daniel.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBKdW4gMjIsIDIwMjAgYXQgMzoxOCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyMS4wNi4yMCB1bSAwODow
+MyBzY2hyaWViIEFuZHJleSBHcm9kem92c2t5Ogo+ID4gV2lsbCBiZSB1c2VkIHRvIHJlcm91dGUg
+Q1BVIG1hcHBlZCBCTydzIHBhZ2UgZmF1bHRzIG9uY2UKPiA+IGRldmljZSBpcyByZW1vdmVkLgo+
+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNr
+eUBhbWQuY29tPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jICB8ICA4
+ICsrKysrKysrCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyB8IDEwICsrKysrKysr
+KysKPiA+ICAgaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaCAgICAgIHwgIDIgKysKPiA+ICAgaW5jbHVk
+ZS9kcm0vZHJtX2dlbS5oICAgICAgIHwgIDIgKysKPiA+ICAgNCBmaWxlcyBjaGFuZ2VkLCAyMiBp
+bnNlcnRpb25zKCspCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmls
+ZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9maWxlLmMKPiA+IGluZGV4IGM0YzcwNGUuLjY3YzA3
+NzAgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYwo+ID4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9maWxlLmMKPiA+IEBAIC0xODgsNiArMTg4LDEyIEBAIHN0cnVj
+dCBkcm1fZmlsZSAqZHJtX2ZpbGVfYWxsb2Moc3RydWN0IGRybV9taW5vciAqbWlub3IpCj4gPiAg
+ICAgICAgICAgICAgICAgICAgICAgZ290byBvdXRfcHJpbWVfZGVzdHJveTsKPiA+ICAgICAgIH0K
+PiA+Cj4gPiArICAgICBmaWxlLT5kdW1teV9wYWdlID0gYWxsb2NfcGFnZShHRlBfS0VSTkVMIHwg
+X19HRlBfWkVSTyk7Cj4gPiArICAgICBpZiAoIWZpbGUtPmR1bW15X3BhZ2UpIHsKPiA+ICsgICAg
+ICAgICAgICAgcmV0ID0gLUVOT01FTTsKPiA+ICsgICAgICAgICAgICAgZ290byBvdXRfcHJpbWVf
+ZGVzdHJveTsKPiA+ICsgICAgIH0KPiA+ICsKPiA+ICAgICAgIHJldHVybiBmaWxlOwo+ID4KPiA+
+ICAgb3V0X3ByaW1lX2Rlc3Ryb3k6Cj4gPiBAQCAtMjg0LDYgKzI5MCw4IEBAIHZvaWQgZHJtX2Zp
+bGVfZnJlZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUpCj4gPiAgICAgICBpZiAoZGV2LT5kcml2ZXIt
+PnBvc3RjbG9zZSkKPiA+ICAgICAgICAgICAgICAgZGV2LT5kcml2ZXItPnBvc3RjbG9zZShkZXYs
+IGZpbGUpOwo+ID4KPiA+ICsgICAgIF9fZnJlZV9wYWdlKGZpbGUtPmR1bW15X3BhZ2UpOwo+ID4g
+Kwo+ID4gICAgICAgZHJtX3ByaW1lX2Rlc3Ryb3lfZmlsZV9wcml2YXRlKCZmaWxlLT5wcmltZSk7
+Cj4gPgo+ID4gICAgICAgV0FSTl9PTighbGlzdF9lbXB0eSgmZmlsZS0+ZXZlbnRfbGlzdCkpOwo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fcHJpbWUuYwo+ID4gaW5kZXggMWRlMmNkZS4uYzQ4MmU5YyAxMDA2NDQKPiA+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9wcmltZS5jCj4gPiBAQCAtMzM1LDYgKzMzNSwxMyBAQCBpbnQgZHJtX2dlbV9wcmltZV9m
+ZF90b19oYW5kbGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+Cj4gPiAgICAgICByZXQgPSBk
+cm1fcHJpbWVfYWRkX2J1Zl9oYW5kbGUoJmZpbGVfcHJpdi0+cHJpbWUsCj4gPiAgICAgICAgICAg
+ICAgICAgICAgICAgZG1hX2J1ZiwgKmhhbmRsZSk7Cj4gPiArCj4gPiArICAgICBpZiAoIXJldCkg
+ewo+ID4gKyAgICAgICAgICAgICBvYmotPmR1bW15X3BhZ2UgPSBhbGxvY19wYWdlKEdGUF9LRVJO
+RUwgfCBfX0dGUF9aRVJPKTsKPiA+ICsgICAgICAgICAgICAgaWYgKCFvYmotPmR1bW15X3BhZ2Up
+Cj4gPiArICAgICAgICAgICAgICAgICAgICAgcmV0ID0gLUVOT01FTTsKPiA+ICsgICAgIH0KPiA+
+ICsKPgo+IFdoaWxlIHRoZSBwZXIgZmlsZSBjYXNlIHN0aWxsIGxvb2tzIGFjY2VwdGFibGUgdGhp
+cyBpcyBhIGNsZWFyIE5BSyBzaW5jZQo+IGl0IHdpbGwgbWFzc2l2ZWx5IGluY3JlYXNlIHRoZSBt
+ZW1vcnkgbmVlZGVkIGZvciBhIHByaW1lIGV4cG9ydGVkIG9iamVjdC4KPgo+IEkgdGhpbmsgdGhh
+dCB0aGlzIGlzIHF1aXRlIG92ZXJraWxsIGluIHRoZSBmaXJzdCBwbGFjZSBhbmQgZm9yIHRoZSBo
+b3QKPiB1bnBsdWcgY2FzZSB3ZSBjYW4ganVzdCB1c2UgdGhlIGdsb2JhbCBkdW1teSBwYWdlIGFz
+IHdlbGwuCgpJbW8gd2UgZWl0aGVyIGRvbid0IGJvdGhlciB3aXRoIHBlci1maWxlIGR1bW15IHBh
+Z2UsIG9yIHdlIG5lZWQgdGhpcy4KSGFsZi13YXkgZG9lc24ndCBtYWtlIG11Y2ggc2Vuc2UsIHNp
+bmNlIGZvciBhbnl0aGluZyB5b3UgZG1hLWJ1ZgpleHBvcnRlZCB5b3UgaGF2ZSBubyBpZGVhIHdo
+ZXRoZXIgaXQgbGVmdCBhIHNhbmRib3ggb3Igbm90LgoKRS5nLiBhbnl0aGluZyB0aGF0J3Mgc2hh
+cmVkIGJldHdlZW4gY2xpZW50L2NvbXBvc2l0b3IgaGFzIGEgZGlmZmVyZW50CnNlY3VyaXR5IGNv
+bnRleHQsIHNvIHBpY2tpbmcgdGhlIGR1bW15IHBhZ2Ugb2YgZWl0aGVyIGlzIHRoZSB3cm9uZwp0
+aGluZy4KCklmIHlvdSdyZSB3b3JyaWVkIGFib3V0IHRoZSBvdmVyaGVhZCB3ZSBjYW4gYWxzbyBh
+bGxvY2F0ZSB0aGUgZHVtbXkKcGFnZSBvbiBkZW1hbmQsIGFuZCBTSUdCVVMgaWYgd2UgY2FuJ3Qg
+YWxsb2NhdGUgdGhlIHJpZ2h0IG9uZS4gVGhlbiB3ZQpqdXN0IG5lZWQgdG8gdHJhY2sgd2hldGhl
+ciBhIGJ1ZmZlciBoYXMgZXZlciBiZWVuIGV4cG9ydGVkLgotRGFuaWVsCgo+Cj4gQ2hyaXN0aWFu
+Lgo+Cj4gPiAgICAgICBtdXRleF91bmxvY2soJmZpbGVfcHJpdi0+cHJpbWUubG9jayk7Cj4gPiAg
+ICAgICBpZiAocmV0KQo+ID4gICAgICAgICAgICAgICBnb3RvIGZhaWw7Cj4gPiBAQCAtMTAwNiw2
+ICsxMDEzLDkgQEAgdm9pZCBkcm1fcHJpbWVfZ2VtX2Rlc3Ryb3koc3RydWN0IGRybV9nZW1fb2Jq
+ZWN0ICpvYmosIHN0cnVjdCBzZ190YWJsZSAqc2cpCj4gPiAgICAgICAgICAgICAgIGRtYV9idWZf
+dW5tYXBfYXR0YWNobWVudChhdHRhY2gsIHNnLCBETUFfQklESVJFQ1RJT05BTCk7Cj4gPiAgICAg
+ICBkbWFfYnVmID0gYXR0YWNoLT5kbWFidWY7Cj4gPiAgICAgICBkbWFfYnVmX2RldGFjaChhdHRh
+Y2gtPmRtYWJ1ZiwgYXR0YWNoKTsKPiA+ICsKPiA+ICsgICAgIF9fZnJlZV9wYWdlKG9iai0+ZHVt
+bXlfcGFnZSk7Cj4gPiArCj4gPiAgICAgICAvKiByZW1vdmUgdGhlIHJlZmVyZW5jZSAqLwo+ID4g
+ICAgICAgZG1hX2J1Zl9wdXQoZG1hX2J1Zik7Cj4gPiAgIH0KPiA+IGRpZmYgLS1naXQgYS9pbmNs
+dWRlL2RybS9kcm1fZmlsZS5oIGIvaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaAo+ID4gaW5kZXggMTlk
+ZjgwMi4uMzQ5YTY1OCAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9maWxlLmgKPiA+
+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9maWxlLmgKPiA+IEBAIC0zMzUsNiArMzM1LDggQEAgc3Ry
+dWN0IGRybV9maWxlIHsKPiA+ICAgICAgICAqLwo+ID4gICAgICAgc3RydWN0IGRybV9wcmltZV9m
+aWxlX3ByaXZhdGUgcHJpbWU7Cj4gPgo+ID4gKyAgICAgc3RydWN0IHBhZ2UgKmR1bW15X3BhZ2U7
+Cj4gPiArCj4gPiAgICAgICAvKiBwcml2YXRlOiAqLwo+ID4gICAjaWYgSVNfRU5BQkxFRChDT05G
+SUdfRFJNX0xFR0FDWSkKPiA+ICAgICAgIHVuc2lnbmVkIGxvbmcgbG9ja19jb3VudDsgLyogRFJJ
+MSBsZWdhY3kgbG9jayBjb3VudCAqLwo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9n
+ZW0uaCBiL2luY2x1ZGUvZHJtL2RybV9nZW0uaAo+ID4gaW5kZXggMGIzNzUwNi4uNDc0NjBkMSAx
+MDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9nZW0uaAo+ID4gKysrIGIvaW5jbHVkZS9k
+cm0vZHJtX2dlbS5oCj4gPiBAQCAtMzEwLDYgKzMxMCw4IEBAIHN0cnVjdCBkcm1fZ2VtX29iamVj
+dCB7Cj4gPiAgICAgICAgKgo+ID4gICAgICAgICovCj4gPiAgICAgICBjb25zdCBzdHJ1Y3QgZHJt
+X2dlbV9vYmplY3RfZnVuY3MgKmZ1bmNzOwo+ID4gKwo+ID4gKyAgICAgc3RydWN0IHBhZ2UgKmR1
+bW15X3BhZ2U7Cj4gPiAgIH07Cj4gPgo+ID4gICAvKioKPgoKCi0tIApEYW5pZWwgVmV0dGVyClNv
+ZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
