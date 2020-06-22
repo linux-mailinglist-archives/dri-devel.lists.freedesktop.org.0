@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263D92040C3
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 22:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4D72040E3
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 22:08:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4836E8E1;
-	Mon, 22 Jun 2020 20:00:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F27F89C6E;
+	Mon, 22 Jun 2020 20:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCA16E8E1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 20:00:47 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Mon, 22 Jun 2020 20:00:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: rtmasura+kernel@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-RDCC5bTBLK@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CCF289736
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 20:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592856479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kkQ4Tgs3X4g3eGpW/5pvnwvAP51AInpOm8TlMF50UWo=;
+ b=Ny4JLNLEkEJk0PSVf3CS0QcbBwbJyCpoI2lV7tRhr36y4KoiLvZUphl2PTmnzhuasbR2zE
+ 1enk+5L+2dzzcWRmIOzZ6AVQ6wQadouxHiRylkcJ7yLp9WEg6ieIbGJIM9XiaqV89n5bn+
+ nSJ5ghIMXPCkF08mcUeIXGT1cxMKag4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-Odg_2Z8TMUuNGdmLeV0fVQ-1; Mon, 22 Jun 2020 16:07:55 -0400
+X-MC-Unique: Odg_2Z8TMUuNGdmLeV0fVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BB8B8005AD;
+ Mon, 22 Jun 2020 20:07:54 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-117-166.rdu2.redhat.com
+ [10.10.117.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0295C1BD;
+ Mon, 22 Jun 2020 20:07:54 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org
+Subject: [RFC v5 00/10] drm/nouveau: Introduce CRC support for gf119+
+Date: Mon, 22 Jun 2020 16:07:20 -0400
+Message-Id: <20200622200730.120716-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,21 +58,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
-
---- Comment #20 from rtmasura+kernel@hotmail.com ---
-I have XFCE4 installed as well, I'll give it a test and let you know in 24
-hours; a GPF should have happened by then
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TnZpZGlhIHJlbGVhc2VkIHNvbWUgZG9jdW1lbnRhdGlvbiBvbiBob3cgQ1JDIHN1cHBvcnQgd29y
+a3Mgb24gdGhlaXIKR1BVcywgaG9vcmF5IQoKU286IHRoaXMgcGF0Y2ggc2VyaWVzIGltcGxlbWVu
+dHMgc2FpZCBDUkMgc3VwcG9ydCBpbiBub3V2ZWF1LCBhbG9uZyB3aXRoCmFkZGluZyBzb21lIHNw
+ZWNpYWwgZGVidWdmcyBpbnRlcmZhY2VzIGZvciBzb21lIHJlbGV2YW50IGlndC1ncHUtdG9vbHMK
+dGVzdHMgKGFscmVhZHkgb24gdGhlIE1MKS4KCkZpcnN0IC0gd2UgYWRkIHNvbWUgbmV3IGZ1bmN0
+aW9uYWxpdHkgdG8ga3RocmVhZF93b3JrIGluIHRoZSBrZXJuZWwsIGFuZAp0aGVuIHVzZSB0aGlz
+IHRvIGFkZCBhIG5ldyBmZWF0dXJlIHRvIERSTSB0aGF0IFZpbGxlIFN5cmrDpGzDpCBjYW1lIHVw
+CndpdGg6IHZibGFuayB3b3JrZXJzLiBCYXNpY2FsbHksIHRoaXMgaXMganVzdCBhIGdlbmVyaWMg
+RFJNIGludGVyZmFjZQp0aGF0IGFsbG93cyBmb3Igc2NoZWR1bGluZyBoaWdoLXByaW9yaXR5IHdv
+cmtlcnMgdGhhdCBzdGFydCBvbiBhIGdpdmVuCnZibGFuayBpbnRlcnJ1cHQuIE5vdGUgdGhhdCB3
+aGlsZSB3ZSdyZSBjdXJyZW50bHkgb25seSB1c2luZyB0aGlzIGluCm5vdXZlYXUsIEludGVsIGhh
+cyBwbGFucyB0byB1c2UgdGhpcyBmb3IgaTkxNSBhcyB3ZWxsIChoZW5jZSB3aHkgdGhleQpjYW1l
+IHVwIHdpdGggaXQhKS4KCkFuZCBmaW5hbGx5OiBpbiBvcmRlciB0byBpbXBsZW1lbnQgdGhlIGxh
+c3QgZmVhdHVyZSwgd2UgZXhwb3NlIHNvbWUgbmV3CmZ1bmN0aW9ucyBpbiB0aGUga2VybmVsJ3Mg
+a3RocmVhZF93b3JrZXIgaW5mcmFzdHJ1Y3R1cmUgc28gdGhhdCB3ZSBjYW4KZGUtY29tcGxpY2F0
+ZSBvdXIgaW1wbGVtZW50YXRpb24gb2YgdGhpcy4KCkFueXdheS13ZWxjb21lIHRvIHRoZSBmdXR1
+cmUhIDopCgpNYWpvciBjaGFuZ2VzIHNpbmNlIHY0OgoqIFJlbW92ZSB0aGUgaW50ZXJmYWNlcyB3
+ZSB0cmllZCBhZGRpbmcgdG8ga3RocmVhZF93b3JrZXIgYW5kIHVzZSBhIHdhaXQKICBxdWV1ZSAr
+IHNlcWNvdW50IGluIG9yZGVyIHRvIGltcGxlbWVudCBmbHVzaGluZyB2Ymxhbmsgd29ya2Vycy4K
+KiBSZWJhc2UKTWFqb3IgY2hhbmdlcyBzaW5jZSB2MzoKKiBTdHlsZSBmaXhlcyBvbiBub3V2ZWF1
+IHBhdGNoZXMgZnJvbSBjaGVja3BhdGNoLCBubyBmdW5jdGlvbmFsIGNoYW5nZXMKKiBEb24ndCBp
+bnRlZ3JhdGUgc28gdGlnaHRseSB3aXRoIGt0aHJlYWRfd29yayAoYW5kIHVzZSBvdXIgb3duIGxv
+Y2spLAogIGluc3RlYWQgaW50cm9kdWNlIHNvbWUgbmV3IGZ1bmN0aW9ucyBmb3IgZG9pbmcgc2lt
+cGxlIGFzeW5jIGZsdXNoaW5nCiAgYW5kIGNhbmNlbGxpbmcuIEkgdGhpbmsgdGhpcyBpbnRlcmZh
+Y2UgbG9va3MgYSBsb3QgbW9yZSBhY2NlcHRhYmxlCiAgdGhlbiB3aGF0IEkgd2FzIHByZXZpb3Vz
+bHkgdHJ5aW5nLgoqIEFwcGx5IHNvbWUgY2hhbmdlcyByZXF1ZXN0ZWQgYnkgZGFudmV0Ck1ham9y
+IGNoYW5nZXMgc2luY2UgdjI6CiogVXNlIGt0aHJlYWRfd29ya2VyIGluc3RlYWQgb2Yga3RocmVh
+ZGQgZm9yIHZibGFuayB3b3JrZXJzCiogRG9uJ3QgY2hlY2sgZGVidWdmcyByZXR1cm4gdmFsdWVz
+CgpMeXVkZSBQYXVsICgxMCk6CiAgZHJtL3ZibGFuazogUmVnaXN0ZXIgZHJtbSBjbGVhbnVwIGFj
+dGlvbiBvbmNlIHBlciBkcm1fdmJsYW5rX2NydGMKICBkcm0vdmJsYW5rOiBBZGQgdmJsYW5rIHdv
+cmtzCiAgZHJtL25vdXZlYXUva21zL252NTAtOiBVbnJvbGwgZXJyb3IgY2xlYW51cCBpbiBudjUw
+X2hlYWRfY3JlYXRlKCkKICBkcm0vbm91dmVhdS9rbXMvbnYxNDAtOiBEb24ndCBtb2RpZnkgZGVw
+dGggaW4gc3RhdGUgZHVyaW5nIGF0b21pYwogICAgY29tbWl0CiAgZHJtL25vdXZlYXUva21zL252
+NTAtOiBGaXggZGlzYWJsaW5nIGRpdGhlcmluZwogIGRybS9ub3V2ZWF1L2ttcy9udjUwLTogcy9o
+YXJtL2FybWgvZwogIGRybS9ub3V2ZWF1L2ttcy9udjE0MC06IFRyYWNrIHduZHcgbWFwcGluZ3Mg
+aW4gbnY1MF9oZWFkX2F0b20KICBkcm0vbm91dmVhdS9rbXMvbnY1MC06IEV4cG9zZSBudjUwX291
+dHBfYXRvbSBpbiBkaXNwLmgKICBkcm0vbm91dmVhdS9rbXMvbnY1MC06IE1vdmUgaGFyZC1jb2Rl
+ZCBvYmplY3QgaGFuZGxlcyBpbnRvIGhlYWRlcgogIGRybS9ub3V2ZWF1L2ttcy9udmQ5LTogQWRk
+IENSQyBzdXBwb3J0CgogZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyAgICAgICAgICAgICAg
+ICB8IDI4NyArKysrKysrLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52MDQvY3J0Yy5j
+ICAgICB8ICAyNSArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvS2J1aWxkICAg
+ICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9hdG9tLmggICAgIHwg
+IDIxICsKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NvcmUuaCAgICAgfCAgIDQg
+KwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY29yZTkwN2QuYyB8ICAgMyArCiBk
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jb3JlOTE3ZC5jIHwgICAzICsKIGRyaXZl
+cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NvcmVjMzdkLmMgfCAgIDMgKwogZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY29yZWM1N2QuYyB8ICAgMyArCiBkcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuYyAgICAgIHwgNzE0ICsrKysrKysrKysrKysrKysrKysr
+CiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaCAgICAgIHwgMTI1ICsrKysK
+IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYzkwN2QuYyAgfCAxMzkgKysrKwog
+ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjYzM3ZC5jICB8IDE1MyArKysrKwog
+ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jICAgICB8ICA1OCArLQogZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5oICAgICB8ICAyNCArCiBkcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oYW5kbGVzLmggIHwgIDE2ICsKIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWQuYyAgICAgfCAxMzQgKysrLQogZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvZGlzcG52NTAvaGVhZC5oICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvZGlzcG52NTAvaGVhZDkwN2QuYyB8ICAxNCArLQogZHJpdmVycy9ncHUvZHJtL25v
+dXZlYXUvZGlzcG52NTAvaGVhZGMzN2QuYyB8ICAyNyArLQogZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvZGlzcG52NTAvaGVhZGM1N2QuYyB8ICAyMCArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+ZGlzcG52NTAvd25kdy5jICAgICB8ICAxNSArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91
+dmVhdV9kaXNwbGF5LmMgICB8ICA2MCArLQogaW5jbHVkZS9kcm0vZHJtX3ZibGFuay5oICAgICAg
+ICAgICAgICAgICAgICB8ICA0OSArKwogMjQgZmlsZXMgY2hhbmdlZCwgMTc3NSBpbnNlcnRpb25z
+KCspLCAxMzggZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvZGlzcG52NTAvY3JjLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYzkwN2QuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZl
+cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyY2MzN2QuYwogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hhbmRsZXMuaAoKLS0gCjIuMjYuMgoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
