@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4092041BE
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 22:15:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95957204378
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 00:20:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7176E176;
-	Mon, 22 Jun 2020 20:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3EB26E1D8;
+	Mon, 22 Jun 2020 22:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF5C6E176
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 20:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592856951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TSUweuZT4DKGDzPl0W0mgX7uetKvmHq3b3GY3r5obEQ=;
- b=AvujDWVv1fJT1dJn+N4SkW5GMmDU7IzbCKKcFRWYUi39vcyRdTrOXRiPgl3E7M3zge/VvR
- ZkRQMMmnk1YvVdlxpk+BsrqFbmZI7D1S3R3L9QdDGE/3EqgrbhDjYqVmFyvP22lTRRtz4m
- 8LgSdLETYuzgVcOxuBQArD3DxdwY2O0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-f7cc3XQuNW-UeEjQYsAiCA-1; Mon, 22 Jun 2020 16:15:47 -0400
-X-MC-Unique: f7cc3XQuNW-UeEjQYsAiCA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03BD218FF665;
- Mon, 22 Jun 2020 20:15:45 +0000 (UTC)
-Received: from redhat.com (ovpn-119-159.rdu2.redhat.com [10.10.119.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8972560F89;
- Mon, 22 Jun 2020 20:15:42 +0000 (UTC)
-Date: Mon, 22 Jun 2020 16:15:40 -0400
-From: Jerome Glisse <jglisse@redhat.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-Message-ID: <20200622201540.GB9708@redhat.com>
-References: <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
- <20200619151551.GP6578@ziepe.ca>
- <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
- <20200619172308.GQ6578@ziepe.ca>
- <20200619180935.GA10009@redhat.com>
- <20200619181849.GR6578@ziepe.ca>
- <56008d64-772d-5757-6136-f20591ef71d2@amd.com>
- <20200619195538.GT6578@ziepe.ca>
- <20200619203147.GC13117@redhat.com>
- <20200622114617.GU6578@ziepe.ca>
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A946E1D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 22:20:37 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id n2so8178048pld.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 15:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=mikDJjTv3iBXAil2F4gJwj77CVERBi3Vn6zbk95TUlA=;
+ b=Qg9ZfZoPFXmlSNKhq0zAE4/MoLjPryElQwaPFpqSWwAFzbvQd0uCAy1wNdspJM4Act
+ ycmO5BTppQHX8UcA6kOdeMSg7fnhQmA8NWD4v8bMnFWh8m5j4qZlIIbhL+jznYae2EEX
+ Jq3K5dnxMKw/jlRxOmHn6r/5FxDQHU0jiOCeMmpPG14b/Hgeeqx5NQ8/9USZKUnZcrvP
+ LPV0w+kgFjV1wqN5oQcHxNPzuGGzhbNiU+hjx9ihiG7BThLBzBR9rl59SyCVOZRgnrD9
+ /prVspOKE3Iu3pU605j5wWnXu07CHO6rzP3iaVpa84xibUbfuDp/anCgv/KrskmrsyiP
+ U4Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=mikDJjTv3iBXAil2F4gJwj77CVERBi3Vn6zbk95TUlA=;
+ b=dyhcbl23olrjo/rVcVNgt8QNSOC+8YMuIBtQ1dZmsME+sg9AOxsnYmCmjd/YR9IoPT
+ gRaojKJuTHeFydHZkEE9RvzwXqh7Fj2s/vRDXbJnE3/+n6qfr7KGd1+nq0U5HWDT6kGQ
+ 2t0TSBcXupnviscRatWIatjWtMNeQW7G6n08KMOzD6QrR4sNMY2ktUBxyf57yhBLtuAd
+ ncB1GQeLh2W8yMLNVfqCOnUHwge8jimKxxr3mXuOrTwSd09z/FnodxzJ4t+0qpIHONnH
+ ItAqvVgR2r5+vaq7s3k1yOH35o8RuabhTCjIBqOhnpJ/QkwEUzNG3RrrER5yZ3HJsoVA
+ N8aw==
+X-Gm-Message-State: AOAM531cZD11VxdApokLOTeDVxpPP5/YJlZyX9Ul84GhoU56iQGHLado
+ h6DJp0vLvZ0J9Ah8kbRG3yU=
+X-Google-Smtp-Source: ABdhPJwWqgYGd+aoe2YVkfvuD1whrh9WyIk5ZmjHTAZDIVp6POEhKEyMfKtpkHOmdo/rvBUlkutnKw==
+X-Received: by 2002:a17:902:7008:: with SMTP id
+ y8mr22046673plk.84.1592864437239; 
+ Mon, 22 Jun 2020 15:20:37 -0700 (PDT)
+Received: from arch ([2601:600:9500:4390::d3ee])
+ by smtp.gmail.com with ESMTPSA id o20sm448930pjw.19.2020.06.22.15.20.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 15:20:36 -0700 (PDT)
+Message-ID: <f6923296368dc676df10e75593ebc18575efc476.camel@gmail.com>
+Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
+ video device
+From: Deepak Rawat <drawat.floss@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Mon, 22 Jun 2020 15:20:34 -0700
+In-Reply-To: <20200622124622.yioa53bvipvd4c42@sirius.home.kraxel.org>
+References: <20200622110623.113546-1-drawat.floss@gmail.com>
+ <20200622110623.113546-2-drawat.floss@gmail.com>
+ <20200622124622.yioa53bvipvd4c42@sirius.home.kraxel.org>
+User-Agent: Evolution 3.36.3 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200622114617.GU6578@ziepe.ca>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,72 +70,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Felix Kuehling <felix.kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-hyperv@vger.kernel.org, Stephen Hemminger <sthemmin@microsoft.com>,
+ David Airlie <airlied@linux.ie>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, dri-devel@lists.freedesktop.org,
+ Michael Kelley <mikelley@microsoft.com>, Jork Loeser <jloeser@microsoft.com>,
+ Wei Hu <weh@microsoft.com>, K Y Srinivasan <kys@microsoft.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 22, 2020 at 08:46:17AM -0300, Jason Gunthorpe wrote:
-> On Fri, Jun 19, 2020 at 04:31:47PM -0400, Jerome Glisse wrote:
-> > Not doable as page refcount can change for things unrelated to GUP, with
-> > John changes we can identify GUP and we could potentialy copy GUPed page
-> > instead of COW but this can potentialy slow down fork() and i am not su=
-re
-> > how acceptable this would be. Also this does not solve GUP against page
-> > that are already in fork tree ie page P0 is in process A which forks,
-> > we now have page P0 in process A and B. Now we have process A which for=
-ks
-> > again and we have page P0 in A, B, and C. Here B and C are two branches
-> > with root in A. B and/or C can keep forking and grow the fork tree.
-> =
+On Mon, 2020-06-22 at 14:46 +0200, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > +/* Should be done only once during init and resume */
+> > +static int synthvid_update_vram_location(struct hv_device *hdev,
+> > +					  phys_addr_t vram_pp)
+> > +{
+> > +	struct hyperv_device *hv = hv_get_drvdata(hdev);
+> > +	struct synthvid_msg *msg = (struct synthvid_msg *)hv->init_buf;
+> > +	unsigned long t;
+> > +	int ret = 0;
+> > +
+> > +	memset(msg, 0, sizeof(struct synthvid_msg));
+> > +	msg->vid_hdr.type = SYNTHVID_VRAM_LOCATION;
+> > +	msg->vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
+> > +		sizeof(struct synthvid_vram_location);
+> > +	msg->vram.user_ctx = msg->vram.vram_gpa = vram_pp;
+> > +	msg->vram.is_vram_gpa_specified = 1;
+> > +	synthvid_send(hdev, msg);
+> 
+> That suggests it is possible to define multiple framebuffers in vram,
+> then pageflip by setting vram.vram_gpa.  If that is the case I'm
+> wondering whenever vram helpers are a better fit maybe?  You don't
+> have
+> to blit each and every display update then.
 
-> For a long time now RDMA has broken COW pages when creating user DMA
-> regions.
-> =
+Thanks for the review. Unfortunately only the first vmbus message take
+effect and subsequent calls are ignored. I originally implemented using
+vram helpers but I figured out calling this vmbus message again won't
+change the vram location.
 
-> The problem has been that fork re-COW's regions that had their COW
-> broken.
-> =
-
-> So, if you break the COW upon mapping and prevent fork (and others)
-> from copying DMA pinned then you'd cover the cases.
-
-I am not sure we want to prevent COW for pinned GUP pages, this would
-change current semantic and potentialy break/slow down existing apps.
-
-Anyway i think we focus too much on fork/COW, it is just an unfixable
-broken corner cases, mmu notifier allows you to avoid it. Forcing real
-copy on fork would likely be seen as regression by most people.
-
-
-> > Semantic was change with 17839856fd588f4ab6b789f482ed3ffd7c403e1f to so=
-me
-> > what "fix" that but GUP fast is still succeptible to this.
-> =
-
-> Ah, so everyone breaks the COW now, not just RDMA..
-> =
-
-> What do you mean 'GUP fast is still succeptible to this' ?
-
-Not all GUP fast path are updated (intentionaly) __get_user_pages_fast()
-for instance still keeps COW intact. People using GUP should really knows
-what they are doing.
-
-Cheers,
-J=E9r=F4me
+> 
+> FYI: cirrus goes the blit route because (a) the amount of vram is
+> very
+> small so trying to store multiple framebuffers there is out of
+> question,
+> and (b) cirrus converts formats on the fly to hide some hardware
+> oddities.
+> 
+> take care,
+>   Gerd
+> 
 
 _______________________________________________
 dri-devel mailing list
