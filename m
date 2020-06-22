@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B52A203355
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:29:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F7E203381
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:35:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA4246E131;
-	Mon, 22 Jun 2020 09:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 606AB6E14B;
+	Mon, 22 Jun 2020 09:35:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC8F56E159
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:29:37 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id l17so14184907wmj.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:29:37 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B3D6E14B
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:35:05 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id k6so3462014wrn.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=KDcE4Ir6+23od4kjjxVOUpl21xdXNZXgYHzf6+7rLfo=;
- b=eqnQEdMxMw4E0E1UAUQe7HgMBwxAjmUtluQHBl8v56PXohEET2Ff0e+RUqUdzJhsV8
- 7vgtNSbD44CBQDP9gLMJr6/uZjcU7lKINoYae6ppGHUT7EmrnokfMNl5UgPt0ZS3QJpw
- D3MXgkdsXKKy/C73Ox6MwFaluCKeVTr8NJ1ME=
+ :content-disposition:in-reply-to;
+ bh=56PznvIiJcuQgBejMIKzLS8u6VayrEALfsbNc2P7T2w=;
+ b=jG11Qy3gBYVIjYgW/Ta42AM7TqM74H7MbV/H3v5ykd/cA+Z6OqD/rMdF20QWOeeLdB
+ aFan9xX+kMgoYiPNm7LpqVxylru9BEFeyZB2rwaNL2uH/XWB75NgBTdWvOmz/v8Uacm3
+ zwzBm8prcEE4D9Pi9hpG1uhrLuavB2t2wuOyk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=KDcE4Ir6+23od4kjjxVOUpl21xdXNZXgYHzf6+7rLfo=;
- b=sR7puE5nisYsyVq4utzzXqLfZ3R0eNwofLROShqzckB2Edb753KILSts4CBXsiYmEC
- zWI/irovTPLl8Xj5yrzMnoWNgh8asautQmhmk0XuQojTH7n5lYyK+HCXPRHZ4fg5Vl7Z
- ZPkz39KQhOkzBibNgkZdPjxOeXETfad+m8wN3TLnCODZVmJhLiYxTcYvB7XPaLQxpz7f
- cFfam9bEoKA5OyhGZN6YmULFg3SNztr1+cTa7cw7HNCOVShxI9iA0mkgA/06wt/QCqci
- xZ4yYwFOYKV8bpr7+EHlETi5ode3aiU417UBbH+sjIYJyn8QDgVl6Tw7ieYRacwv01ob
- 4ZiA==
-X-Gm-Message-State: AOAM530na919oJ75JXG35qDQBVUEvlbAnEayV0J2h8930g/k7+TX9V+Z
- IOpcWILoVmyXAAui7/5Ns4S07A==
-X-Google-Smtp-Source: ABdhPJzDdRT68EDEwj3BGsSxuL9NZ+PfsYprTXzcMD60c8xCqddtmm9PqPaTzQGtfWDNXSzZqRBdXQ==
-X-Received: by 2002:a7b:c186:: with SMTP id y6mr18348926wmi.82.1592818176056; 
- Mon, 22 Jun 2020 02:29:36 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=56PznvIiJcuQgBejMIKzLS8u6VayrEALfsbNc2P7T2w=;
+ b=jbty5gFT2Bmt5I51PqzuKr/8YMyz7iwP5c/vHSj0zsTHHmzruhxg6fMBsm3H9ZKt/9
+ jb0nNXcNOZn6wp+qVaOIt/A0AZUoLwvqhe9QQzQm3Eqfi5FNoEwEKpzgwk/BTG77ziEs
+ +cxn56PfgAKnmePWZdcgHCtY52CqvyKvU+aUb7WtPKntdeW8n1ZVtFh7/S+qGPbAxFsw
+ uvp1h2WA2fYqzJ3+ftrVr5/DAJlMtRSSCBS9E8P7YrnM9qwBpHVqULEV30OaHGfWD6ci
+ wsPtqAAfexhmb5mWc4atf+Qot0l87+Q04+6dgIzHApxV0OIpo5vzUuvzir9oFTqnoqHT
+ f9Xg==
+X-Gm-Message-State: AOAM530GZzj9I4CYrNyYuao5uDJkjQrVZb097vR8bMrWRK9LpedCmvpF
+ u+OrwJKkxemzo2pdmJBAMy+5cA==
+X-Google-Smtp-Source: ABdhPJyNDS6iUQoaorC7cr4nACPTJGyW2marTjzaaCpG8lasCYmYuWFT1LcgSq1ymomiYYjn0dfEOA==
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr17656682wrp.369.1592818504507; 
+ Mon, 22 Jun 2020 02:35:04 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z1sm3306753wrh.14.2020.06.22.02.29.34
+ by smtp.gmail.com with ESMTPSA id 63sm18592902wra.86.2020.06.22.02.35.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 02:29:35 -0700 (PDT)
-Date: Mon, 22 Jun 2020 11:29:33 +0200
+ Mon, 22 Jun 2020 02:35:03 -0700 (PDT)
+Date: Mon, 22 Jun 2020 11:35:01 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 2/3] drm: uapi: Use SPDX in DRM drivers uAPI headers
-Message-ID: <20200622092933.GY20149@phenom.ffwll.local>
-References: <20200621020703.864-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200621020703.864-2-laurent.pinchart+renesas@ideasonboard.com>
- <1e5f7ae2-8b41-dcda-4306-7751e8fbf02b@amd.com>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Subject: Re: [PATCH v2 1/8] drm: Add dummy page per device or GEM object
+Message-ID: <20200622093501.GZ20149@phenom.ffwll.local>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-2-git-send-email-andrey.grodzovsky@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1e5f7ae2-8b41-dcda-4306-7751e8fbf02b@amd.com>
+In-Reply-To: <1592719388-13819-2-git-send-email-andrey.grodzovsky@amd.com>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,816 +65,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Thomas Hellstrom <thellstrom@vmware.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 22, 2020 at 09:58:44AM +0200, Christian K=F6nig wrote:
-> Am 21.06.20 um 04:07 schrieb Laurent Pinchart:
-> > Most of the DRM drivers uAPI headers are licensed under the MIT license,
-> > and carry copies of the license with slight variations. Replace them
-> > with SPDX headers.
-> =
+On Sun, Jun 21, 2020 at 02:03:01AM -0400, Andrey Grodzovsky wrote:
+> Will be used to reroute CPU mapped BO's page faults once
+> device is removed.
+> 
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>  drivers/gpu/drm/drm_file.c  |  8 ++++++++
+>  drivers/gpu/drm/drm_prime.c | 10 ++++++++++
+>  include/drm/drm_file.h      |  2 ++
+>  include/drm/drm_gem.h       |  2 ++
+>  4 files changed, 22 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index c4c704e..67c0770 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -188,6 +188,12 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+>  			goto out_prime_destroy;
+>  	}
+>  
+> +	file->dummy_page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> +	if (!file->dummy_page) {
+> +		ret = -ENOMEM;
+> +		goto out_prime_destroy;
+> +	}
+> +
+>  	return file;
+>  
+>  out_prime_destroy:
+> @@ -284,6 +290,8 @@ void drm_file_free(struct drm_file *file)
+>  	if (dev->driver->postclose)
+>  		dev->driver->postclose(dev, file);
+>  
+> +	__free_page(file->dummy_page);
+> +
+>  	drm_prime_destroy_file_private(&file->prime);
+>  
+>  	WARN_ON(!list_empty(&file->event_list));
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 1de2cde..c482e9c 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -335,6 +335,13 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>  
+>  	ret = drm_prime_add_buf_handle(&file_priv->prime,
+>  			dma_buf, *handle);
+> +
+> +	if (!ret) {
+> +		obj->dummy_page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> +		if (!obj->dummy_page)
+> +			ret = -ENOMEM;
+> +	}
+> +
+>  	mutex_unlock(&file_priv->prime.lock);
+>  	if (ret)
+>  		goto fail;
+> @@ -1006,6 +1013,9 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
+>  		dma_buf_unmap_attachment(attach, sg, DMA_BIDIRECTIONAL);
+>  	dma_buf = attach->dmabuf;
+>  	dma_buf_detach(attach->dmabuf, attach);
+> +
+> +	__free_page(obj->dummy_page);
+> +
+>  	/* remove the reference */
+>  	dma_buf_put(dma_buf);
+>  }
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index 19df802..349a658 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -335,6 +335,8 @@ struct drm_file {
+>  	 */
+>  	struct drm_prime_file_private prime;
+>  
 
-> My personal opinion is that this is a really good idea, but my profession=
-al
-> is that we need the acknowledgment from our legal department for this.
+Kerneldoc for these please, including why we need them and when. E.g. the
+one in gem_bo should say it's only for exported buffers, so that we're not
+colliding security spaces.
 
-I think official ack from amd on first patch, especially the .rst snippet,
-would be really good indeed.
+> +	struct page *dummy_page;
+> +
+>  	/* private: */
+>  #if IS_ENABLED(CONFIG_DRM_LEGACY)
+>  	unsigned long lock_count; /* DRI1 legacy lock count */
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 0b37506..47460d1 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -310,6 +310,8 @@ struct drm_gem_object {
+>  	 *
+>  	 */
+>  	const struct drm_gem_object_funcs *funcs;
+> +
+> +	struct page *dummy_page;
+>  };
 
-> Please separate that change into one for each driver/company/maintainer.
-> Amdgpu, radeon, r128 can be one for example.
+I think amdgpu doesn't care, but everyone else still might care somewhat
+about flink. That also shares buffers, so also needs to allocate the
+per-bo dummy page.
 
-You can leave all the other legacy drivers in one patch (mga, savage, sis,
-via), since there's likely no one around anymore and will just boil down
-to drm maintainer ack from Dave&me.
+I also wonder whether we shouldn't have a helper to look up the dummy
+page, just to encode in core code how it's supposedo to cascade.
 -Daniel
 
-> =
+>  
+>  /**
+> -- 
+> 2.7.4
+> 
 
-> Thanks,
-> Christian.
-> =
-
-> > =
-
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > ---
-> >   include/uapi/drm/amdgpu_drm.h  | 19 +------------------
-> >   include/uapi/drm/i915_drm.h    | 22 +---------------------
-> >   include/uapi/drm/mga_drm.h     | 20 +-------------------
-> >   include/uapi/drm/msm_drm.h     | 20 +-------------------
-> >   include/uapi/drm/nouveau_drm.h | 20 +-------------------
-> >   include/uapi/drm/qxl_drm.h     | 20 +-------------------
-> >   include/uapi/drm/r128_drm.h    | 20 +-------------------
-> >   include/uapi/drm/radeon_drm.h  | 20 +-------------------
-> >   include/uapi/drm/savage_drm.h  | 20 +-------------------
-> >   include/uapi/drm/sis_drm.h     | 21 +--------------------
-> >   include/uapi/drm/tegra_drm.h   | 19 +------------------
-> >   include/uapi/drm/v3d_drm.h     | 20 +-------------------
-> >   include/uapi/drm/vc4_drm.h     | 20 +-------------------
-> >   include/uapi/drm/vgem_drm.h    | 22 +---------------------
-> >   include/uapi/drm/via_drm.h     | 20 +-------------------
-> >   include/uapi/drm/virtgpu_drm.h | 20 +-------------------
-> >   include/uapi/drm/vmwgfx_drm.h  | 21 +--------------------
-> >   17 files changed, 17 insertions(+), 327 deletions(-)
-> > =
-
-> > diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_dr=
-m.h
-> > index 4e873dcbe68f..c6adda72bec7 100644
-> > --- a/include/uapi/drm/amdgpu_drm.h
-> > +++ b/include/uapi/drm/amdgpu_drm.h
-> > @@ -1,3 +1,4 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /* amdgpu_drm.h -- Public header for the amdgpu driver -*- linux-c -*-
-> >    *
-> >    * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
-> > @@ -5,24 +6,6 @@
-> >    * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
-> >    * Copyright 2014 Advanced Micro Devices, Inc.
-> >    *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice shall be incl=
-uded in
-> > - * all copies or substantial portions of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAG=
-ES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR
-> > - * OTHER DEALINGS IN THE SOFTWARE.
-> > - *
-> >    * Authors:
-> >    *    Kevin E. Martin <martin@valinux.com>
-> >    *    Gareth Hughes <gareth@valinux.com>
-> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > index 14b67cd6b54b..c29e3acb3026 100644
-> > --- a/include/uapi/drm/i915_drm.h
-> > +++ b/include/uapi/drm/i915_drm.h
-> > @@ -1,27 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright 2003 Tungsten Graphics, Inc., Cedar Park, Texas.
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the
-> > - * "Software"), to deal in the Software without restriction, including
-> > - * without limitation the rights to use, copy, modify, merge, publish,
-> > - * distribute, sub license, and/or sell copies of the Software, and to
-> > - * permit persons to whom the Software is furnished to do so, subject =
-to
-> > - * the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including the
-> > - * next paragraph) shall be included in all copies or substantial port=
-ions
-> > - * of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS
-> > - * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> > - * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEM=
-ENT.
-> > - * IN NO EVENT SHALL TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE =
-FOR
-> > - * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONT=
-RACT,
-> > - * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-> > - * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-> > - *
-> >    */
-> >   #ifndef _UAPI_I915_DRM_H_
-> > diff --git a/include/uapi/drm/mga_drm.h b/include/uapi/drm/mga_drm.h
-> > index 8c4337548ab5..4415efefe0cf 100644
-> > --- a/include/uapi/drm/mga_drm.h
-> > +++ b/include/uapi/drm/mga_drm.h
-> > @@ -1,3 +1,4 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /* mga_drm.h -- Public header for the Matrox g200/g400 driver -*- lin=
-ux-c -*-
-> >    * Created: Tue Jan 25 01:50:01 1999 by jhartmann@precisioninsight.com
-> >    *
-> > @@ -5,25 +6,6 @@
-> >    * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-> >    * All rights reserved.
-> >    *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMA=
-GES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR
-> > - * OTHER DEALINGS IN THE SOFTWARE.
-> > - *
-> >    * Authors:
-> >    *    Jeff Hartmann <jhartmann@valinux.com>
-> >    *    Keith Whitwell <keith@tungstengraphics.com>
-> > diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-> > index 0b85ed6a3710..189d1a7f7a7b 100644
-> > --- a/include/uapi/drm/msm_drm.h
-> > +++ b/include/uapi/drm/msm_drm.h
-> > @@ -1,25 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright (C) 2013 Red Hat
-> >    * Author: Rob Clark <robdclark@gmail.com>
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> > - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING FROM,
-> > - * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
-NGS IN THE
-> > - * SOFTWARE.
-> >    */
-> >   #ifndef __MSM_DRM_H__
-> > diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_=
-drm.h
-> > index 853a327433d3..555283b49080 100644
-> > --- a/include/uapi/drm/nouveau_drm.h
-> > +++ b/include/uapi/drm/nouveau_drm.h
-> > @@ -1,25 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright 2005 Stephane Marchesin.
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMA=
-GES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR
-> > - * OTHER DEALINGS IN THE SOFTWARE.
-> >    */
-> >   #ifndef __NOUVEAU_DRM_H__
-> > diff --git a/include/uapi/drm/qxl_drm.h b/include/uapi/drm/qxl_drm.h
-> > index 880999d2d863..9fbf97ad7272 100644
-> > --- a/include/uapi/drm/qxl_drm.h
-> > +++ b/include/uapi/drm/qxl_drm.h
-> > @@ -1,25 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright 2013 Red Hat
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR
-> > - * OTHER DEALINGS IN THE SOFTWARE.
-> >    */
-> >   #ifndef QXL_DRM_H
-> >   #define QXL_DRM_H
-> > diff --git a/include/uapi/drm/r128_drm.h b/include/uapi/drm/r128_drm.h
-> > index 690e9c62f510..c426e6a1c843 100644
-> > --- a/include/uapi/drm/r128_drm.h
-> > +++ b/include/uapi/drm/r128_drm.h
-> > @@ -1,3 +1,4 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /* r128_drm.h -- Public header for the r128 driver -*- linux-c -*-
-> >    * Created: Wed Apr  5 19:24:19 2000 by kevin@precisioninsight.com
-> >    */
-> > @@ -6,25 +7,6 @@
-> >    * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-> >    * All rights reserved.
-> >    *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAM=
-AGES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR OTHER
-> > - * DEALINGS IN THE SOFTWARE.
-> > - *
-> >    * Authors:
-> >    *    Gareth Hughes <gareth@valinux.com>
-> >    *    Kevin E. Martin <martin@valinux.com>
-> > diff --git a/include/uapi/drm/radeon_drm.h b/include/uapi/drm/radeon_dr=
-m.h
-> > index 490a59cc4532..b5c4ef813a9e 100644
-> > --- a/include/uapi/drm/radeon_drm.h
-> > +++ b/include/uapi/drm/radeon_drm.h
-> > @@ -1,3 +1,4 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /* radeon_drm.h -- Public header for the radeon driver -*- linux-c -*-
-> >    *
-> >    * Copyright 2000 Precision Insight, Inc., Cedar Park, Texas.
-> > @@ -5,25 +6,6 @@
-> >    * Copyright 2002 Tungsten Graphics, Inc., Cedar Park, Texas.
-> >    * All rights reserved.
-> >    *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAM=
-AGES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR OTHER
-> > - * DEALINGS IN THE SOFTWARE.
-> > - *
-> >    * Authors:
-> >    *    Kevin E. Martin <martin@valinux.com>
-> >    *    Gareth Hughes <gareth@valinux.com>
-> > diff --git a/include/uapi/drm/savage_drm.h b/include/uapi/drm/savage_dr=
-m.h
-> > index 0f6eddef74aa..bd5e74348db4 100644
-> > --- a/include/uapi/drm/savage_drm.h
-> > +++ b/include/uapi/drm/savage_drm.h
-> > @@ -1,26 +1,8 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /* savage_drm.h -- Public header for the savage driver
-> >    *
-> >    * Copyright 2004  Felix Kuehling
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sub li=
-cense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including the
-> > - * next paragraph) shall be included in all copies or substantial port=
-ions
-> > - * of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-> > - * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> > - * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-> > - * NON-INFRINGEMENT. IN NO EVENT SHALL FELIX KUEHLING BE LIABLE FOR
-> > - * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-> > - * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-> > - * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-> >    */
-> >   #ifndef __SAVAGE_DRM_H__
-> > diff --git a/include/uapi/drm/sis_drm.h b/include/uapi/drm/sis_drm.h
-> > index 3e3f7e989e0b..9f7eb13b1975 100644
-> > --- a/include/uapi/drm/sis_drm.h
-> > +++ b/include/uapi/drm/sis_drm.h
-> > @@ -1,27 +1,8 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /* sis_drv.h -- Private header for sis driver -*- linux-c -*- */
-> >   /*
-> >    * Copyright 2005 Eric Anholt
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> > - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING FROM,
-> > - * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
-NGS IN THE
-> > - * SOFTWARE.
-> > - *
-> >    */
-> >   #ifndef __SIS_DRM_H__
-> > diff --git a/include/uapi/drm/tegra_drm.h b/include/uapi/drm/tegra_drm.h
-> > index c4df3c3668b3..98c2f17aa7de 100644
-> > --- a/include/uapi/drm/tegra_drm.h
-> > +++ b/include/uapi/drm/tegra_drm.h
-> > @@ -1,23 +1,6 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright (c) 2012-2013, NVIDIA CORPORATION.  All rights reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice shall be incl=
-uded in
-> > - * all copies or substantial portions of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAG=
-ES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR
-> > - * OTHER DEALINGS IN THE SOFTWARE.
-> >    */
-> >   #ifndef _UAPI_TEGRA_DRM_H_
-> > diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
-> > index 1ce746e228d9..7895fb9bc018 100644
-> > --- a/include/uapi/drm/v3d_drm.h
-> > +++ b/include/uapi/drm/v3d_drm.h
-> > @@ -1,24 +1,6 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright =A9 2014-2018 Broadcom
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> > - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING
-> > - * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER=
- DEALINGS
-> > - * IN THE SOFTWARE.
-> >    */
-> >   #ifndef _V3D_DRM_H_
-> > diff --git a/include/uapi/drm/vc4_drm.h b/include/uapi/drm/vc4_drm.h
-> > index 2cac6277a1d7..14b9a2186eae 100644
-> > --- a/include/uapi/drm/vc4_drm.h
-> > +++ b/include/uapi/drm/vc4_drm.h
-> > @@ -1,24 +1,6 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright =A9 2014-2015 Broadcom
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> > - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING
-> > - * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER=
- DEALINGS
-> > - * IN THE SOFTWARE.
-> >    */
-> >   #ifndef _UAPI_VC4_DRM_H_
-> > diff --git a/include/uapi/drm/vgem_drm.h b/include/uapi/drm/vgem_drm.h
-> > index bf66f5db6da8..965e1ad00dcb 100644
-> > --- a/include/uapi/drm/vgem_drm.h
-> > +++ b/include/uapi/drm/vgem_drm.h
-> > @@ -1,27 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright 2016 Intel Corporation
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the
-> > - * "Software"), to deal in the Software without restriction, including
-> > - * without limitation the rights to use, copy, modify, merge, publish,
-> > - * distribute, sub license, and/or sell copies of the Software, and to
-> > - * permit persons to whom the Software is furnished to do so, subject =
-to
-> > - * the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including the
-> > - * next paragraph) shall be included in all copies or substantial port=
-ions
-> > - * of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS
-> > - * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> > - * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEM=
-ENT.
-> > - * IN NO EVENT SHALL TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE =
-FOR
-> > - * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONT=
-RACT,
-> > - * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-> > - * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-> > - *
-> >    */
-> >   #ifndef _UAPI_VGEM_DRM_H_
-> > diff --git a/include/uapi/drm/via_drm.h b/include/uapi/drm/via_drm.h
-> > index a1e125d42208..d77a21e7eb70 100644
-> > --- a/include/uapi/drm/via_drm.h
-> > +++ b/include/uapi/drm/via_drm.h
-> > @@ -1,25 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright 1998-2003 VIA Technologies, Inc. All Rights Reserved.
-> >    * Copyright 2001-2003 S3 Graphics, Inc. All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sub li=
-cense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including the
-> > - * next paragraph) shall be included in all copies or substantial port=
-ions
-> > - * of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT =
-SHALL
-> > - * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAM=
-AGES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR OTHER
-> > - * DEALINGS IN THE SOFTWARE.
-> >    */
-> >   #ifndef _VIA_DRM_H_
-> >   #define _VIA_DRM_H_
-> > diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_=
-drm.h
-> > index f06a789f34cd..cea0352bc319 100644
-> > --- a/include/uapi/drm/virtgpu_drm.h
-> > +++ b/include/uapi/drm/virtgpu_drm.h
-> > @@ -1,25 +1,7 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /*
-> >    * Copyright 2013 Red Hat
-> >    * All Rights Reserved.
-> > - *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the "Soft=
-ware"),
-> > - * to deal in the Software without restriction, including without limi=
-tation
-> > - * the rights to use, copy, modify, merge, publish, distribute, sublic=
-ense,
-> > - * and/or sell copies of the Software, and to permit persons to whom t=
-he
-> > - * Software is furnished to do so, subject to the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including th=
-e next
-> > - * paragraph) shall be included in all copies or substantial portions =
-of the
-> > - * Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT =
-SHALL
-> > - * THE AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> > - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWIS=
-E,
-> > - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE =
-OR
-> > - * OTHER DEALINGS IN THE SOFTWARE.
-> >    */
-> >   #ifndef VIRTGPU_DRM_H
-> >   #define VIRTGPU_DRM_H
-> > diff --git a/include/uapi/drm/vmwgfx_drm.h b/include/uapi/drm/vmwgfx_dr=
-m.h
-> > index 02e917507479..728e432f09a1 100644
-> > --- a/include/uapi/drm/vmwgfx_drm.h
-> > +++ b/include/uapi/drm/vmwgfx_drm.h
-> > @@ -1,28 +1,9 @@
-> > +/* SPDX-License-Identifier: MIT */
-> >   /********************************************************************=
-******
-> >    *
-> >    * Copyright =A9 2009-2015 VMware, Inc., Palo Alto, CA., USA
-> >    * All Rights Reserved.
-> >    *
-> > - * Permission is hereby granted, free of charge, to any person obtaini=
-ng a
-> > - * copy of this software and associated documentation files (the
-> > - * "Software"), to deal in the Software without restriction, including
-> > - * without limitation the rights to use, copy, modify, merge, publish,
-> > - * distribute, sub license, and/or sell copies of the Software, and to
-> > - * permit persons to whom the Software is furnished to do so, subject =
-to
-> > - * the following conditions:
-> > - *
-> > - * The above copyright notice and this permission notice (including the
-> > - * next paragraph) shall be included in all copies or substantial port=
-ions
-> > - * of the Software.
-> > - *
-> > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > - * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT =
-SHALL
-> > - * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR A=
-NY CLAIM,
-> > - * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT =
-OR
-> > - * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE =
-OR THE
-> > - * USE OR OTHER DEALINGS IN THE SOFTWARE.
-> > - *
-> >    ********************************************************************=
-******/
-> >   #ifndef __VMWGFX_DRM_H__
-> =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
