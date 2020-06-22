@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529D42030DF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:55:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F472030EB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBDD6E109;
-	Mon, 22 Jun 2020 07:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C74AB6E12A;
+	Mon, 22 Jun 2020 07:57:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4408E6E109
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:55:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 728BC6E12A
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:57:35 +0000 (UTC)
 Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1jnHIN-0001K2-Ul; Mon, 22 Jun 2020 09:55:11 +0200
+ id 1jnHKc-0001oP-PG; Mon, 22 Jun 2020 09:57:30 +0200
 Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
  (envelope-from <ukl@pengutronix.de>)
- id 1jnHIL-0002Ni-O7; Mon, 22 Jun 2020 09:55:09 +0200
-Date: Mon, 22 Jun 2020 09:55:09 +0200
+ id 1jnHKc-0002V0-Ec; Mon, 22 Jun 2020 09:57:30 +0200
+Date: Mon, 22 Jun 2020 09:57:30 +0200
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 09/15] pwm: crc: Enable/disable PWM output on
- enable/disable
-Message-ID: <20200622075509.v4jlvqeyjip6wr6c@taurus.defre.kleine-koenig.org>
+Subject: Re: [PATCH v3 11/15] pwm: crc: Implement get_state() method
+Message-ID: <20200622075730.lenaflptqnemagff@taurus.defre.kleine-koenig.org>
 References: <20200620121758.14836-1-hdegoede@redhat.com>
- <20200620121758.14836-10-hdegoede@redhat.com>
+ <20200620121758.14836-12-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200620121758.14836-10-hdegoede@redhat.com>
+In-Reply-To: <20200620121758.14836-12-hdegoede@redhat.com>
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
@@ -48,54 +47,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Shobhit Kumar <shobhit.kumar@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
  Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0766412318=="
+Content-Type: multipart/mixed; boundary="===============0673925937=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0766412318==
+--===============0673925937==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ypxyr4o4mparzkst"
+	protocol="application/pgp-signature"; boundary="mw6jshimogmdgtin"
 Content-Disposition: inline
 
 
---ypxyr4o4mparzkst
+--mw6jshimogmdgtin
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-[adding Shobhit Kumar <shobhit.kumar@intel.com> to Cc who is the author
-of this driver according to the comment on the top of the driver]
-
-On Sat, Jun 20, 2020 at 02:17:52PM +0200, Hans de Goede wrote:
-> The pwm-crc code is using 2 different enable bits:
-> 1. bit 7 of the PWM0_CLK_DIV (PWM_OUTPUT_ENABLE)
-> 2. bit 0 of the BACKLIGHT_EN register
+On Sat, Jun 20, 2020 at 02:17:54PM +0200, Hans de Goede wrote:
+> Implement the pwm_ops.get_state() method to complete the support for the
+> new atomic PWM API.
 >=20
-> So far we've kept the PWM_OUTPUT_ENABLE bit set when disabling the PWM,
-> this commit makes crc_pwm_disable() clear it on disable and makes
-> crc_pwm_enable() set it again on re-enable.
->=20
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
 > Changes in v3:
-> - Remove paragraph about tri-stating the output from the commit message,
->   we don't have a datasheet so this was just an unfounded guess
+> - Add Andy's Reviewed-by tag
+> - Remove extra whitespace to align some code after assignments (requested=
+ by
+>   Uwe Kleine-K=F6nig)
+> ---
+>  drivers/pwm/pwm-crc.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>=20
+> diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
+> index 8a7f4707279c..b311354d40a3 100644
+> --- a/drivers/pwm/pwm-crc.c
+> +++ b/drivers/pwm/pwm-crc.c
+> @@ -119,8 +119,37 @@ static int crc_pwm_apply(struct pwm_chip *chip, stru=
+ct pwm_device *pwm,
+>  	return 0;
+>  }
+> =20
+> +static void crc_pwm_get_state(struct pwm_chip *chip, struct pwm_device *=
+pwm,
+> +			       struct pwm_state *state)
+> +{
+> +	struct crystalcove_pwm *crc_pwm =3D to_crc_pwm(chip);
+> +	struct device *dev =3D crc_pwm->chip.dev;
+> +	unsigned int clk_div, clk_div_reg, duty_cycle_reg;
+> +	int error;
+> +
+> +	error =3D regmap_read(crc_pwm->regmap, PWM0_CLK_DIV, &clk_div_reg);
+> +	if (error) {
+> +		dev_err(dev, "Error reading PWM0_CLK_DIV %d\n", error);
+> +		return;
+> +	}
+> +
+> +	error =3D regmap_read(crc_pwm->regmap, PWM0_DUTY_CYCLE, &duty_cycle_reg=
+);
+> +	if (error) {
+> +		dev_err(dev, "Error reading PWM0_DUTY_CYCLE %d\n", error);
+> +		return;
+> +	}
+> +
+> +	clk_div =3D (clk_div_reg & ~PWM_OUTPUT_ENABLE) + 1;
+> +
+> +	state->period =3D clk_div * NSEC_PER_USEC * 256 / PWM_BASE_CLK_MHZ;
+> +	state->duty_cycle =3D duty_cycle_reg * state->period / PWM_MAX_LEVEL;
 
-I have the impression you spend quite some time with this driver trying
-to understand it. What I still think is a bit unfortunate is that there
-is quite some guesswork involved. I wonder if it would be possible to
-get the manual of that PWM. Do I understand correctly that this is IP
-=66rom Intel? There are quite some Intel people on Cc; maybe someone can
-help/put in a good word/check and ack the changes?
+Please round up here.
+
+> +	state->polarity =3D PWM_POLARITY_NORMAL;
+> +	state->enabled =3D !!(clk_div_reg & PWM_OUTPUT_ENABLE);
+> +}
+> +
 
 Best regards
 Uwe
@@ -104,24 +134,24 @@ Uwe
 Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
 Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---ypxyr4o4mparzkst
+--mw6jshimogmdgtin
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl7wY9oACgkQwfwUeK3K
-7AkBmgf/URbPK5r1qmeNU0sD1f40ci/9rHAXc+ZNpi4zW8VvyuyQj2u5/EdJYhgf
-fwkjwPzjlecESF9XX+5WWa8ohURIuJa7HdUIEdo2nEd8Z8aSlVIEXCyDOAxhguQB
-P1qCZ4yliJyxKzRcfVisrYm4Io6w58KwViYxE3ugpGj3qLNGD3IPlsH0g0ZRmy3q
-Ky8iwMTz55C6DBNipijnVWPxzJZspMY8z5EVQvlrG1fh2JNyTNn591T0VY4chvXY
-+TYaKr8uL8Pl7vTXtiaYt21dUklwrRqMHkHtXlkMYMO0g+k6kjNOuD101q8RE/uS
-pcqP7McwMxOwfxdclHZc1e4LdzPcQg==
-=UqkS
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl7wZGcACgkQwfwUeK3K
+7AnHYQf/UHqz0iNoAxOSBKo9y/pZht9suxpbM0Dp6bl4N2KZwBFN1vRfXlrVWMJG
+qWIz+M0A3GBYongVW69fl0CauYETSXE5fovQEmBVi6f+XcWHgH5LcktEXfBKPkY/
+x0ZoDxdgT8/8ON4bLXxOmC0GaNV8/Ba5adw3mLO02RMYkTwOlL/v9uyS/++yXv6u
+XrJla8RQxooyswhJAQHMrN8es6OrlHb3C2/kEr7Bk4Zdhr6JSmL6jcLKyGXmcwpv
+fcc3RiYvvDU06sWU1Gw3W3qUqvoNRtFofHL7ocfsLzxqdAzWZqoQRSuLuHaxP/9n
+jAO635ahwfhHvpPtCa1nnE5Gm8HRug==
+=DPSI
 -----END PGP SIGNATURE-----
 
---ypxyr4o4mparzkst--
+--mw6jshimogmdgtin--
 
---===============0766412318==
+--===============0673925937==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -132,4 +162,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0766412318==--
+--===============0673925937==--
