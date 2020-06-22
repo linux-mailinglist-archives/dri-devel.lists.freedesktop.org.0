@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E01202E77
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 04:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8A4202E79
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 04:42:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D45206E20F;
-	Mon, 22 Jun 2020 02:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB07B6E211;
+	Mon, 22 Jun 2020 02:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id BCA4B6E20F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:40:58 +0000 (UTC)
-X-UUID: b1e749a258184360b17d3bc83fcace74-20200622
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6A7406E211
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:42:05 +0000 (UTC)
+X-UUID: fd81c072e57144a39b84c4196b87ed28-20200622
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=T4N0GSeOss5sx6v+I2srZbNSei5hWxozktRdtKpgDsU=; 
- b=tNcs7CFNtCl0e0JfkEeyo2nrT2dnMJmHavJ1teDsfECouJAzXeAfMHsKiWnZrs7AZeUOgyzUTEDOBSxnlhIIhGwWHqHQoSMdJbOU9LbGoPtLx9vDMUF9y68IgutW8Ed6Y4u98gW9iZIQE7AZZRdoSvRdZLIwf0kSAMBrosDNZsg=;
-X-UUID: b1e749a258184360b17d3bc83fcace74-20200622
+ bh=cB8SOTSbnezNpmNBAOc7AwgCBVUaB05yWxYs3kD21Ak=; 
+ b=HUpMNTj10uivzOWnCi5tAl7RzZ0gh0gQV6V3y/85EPEyCB+7dclnoG0opc7mJcWL5fjL0Sike7u/cbaj23vTrSXQfYQgy7d3v7rd6iTA27B2jwv5XPaj1gwpn7EbexQLmxgBjE7SdjesRFuH1EKhWGqY6oodnCFyKMhuehNAfhA=;
+X-UUID: fd81c072e57144a39b84c4196b87ed28-20200622
 Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
  mailgw02.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1486169950; Mon, 22 Jun 2020 10:40:56 +0800
+ with ESMTP id 11815441; Mon, 22 Jun 2020 10:42:04 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 22 Jun 2020 10:40:44 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 22 Jun 2020 10:42:01 +0800
 Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 22 Jun 2020 10:40:45 +0800
-Message-ID: <1592793655.11692.9.camel@mtksdaap41>
-Subject: Re: [PATCH v1 0/11] support cmdq helper function on mt6779 platform
+ Transport; Mon, 22 Jun 2020 10:41:52 +0800
+Message-ID: <1592793722.11692.10.camel@mtksdaap41>
+Subject: Re: [PATCH v1 01/11] soc: mediatek: cmdq: add address shift in jump
 From: Bibby Hsieh <bibby.hsieh@mediatek.com>
 To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Date: Mon, 22 Jun 2020 10:40:55 +0800
-In-Reply-To: <1592749115-24158-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+Date: Mon, 22 Jun 2020 10:42:02 +0800
+In-Reply-To: <1592749115-24158-2-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1592749115-24158-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1592749115-24158-2-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 X-MTK: N
@@ -61,37 +62,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dennis,
+Reviewed-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
 
-Please add "depends on patch: support gce on mt6779 platform" in cover
-letter. Thanks
-
-Bibby
+Thanks.
 
 On Sun, 2020-06-21 at 22:18 +0800, Dennis YC Hsieh wrote:
-> This patch support cmdq helper function on mt6779 platform,
-> based on "support gce on mt6779 platform" patchset.
+> Add address shift when compose jump instruction
+> to compatible with 35bit format.
 > 
+> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mtk-cmdq-helper.c |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Dennis YC Hsieh (11):
->   soc: mediatek: cmdq: add address shift in jump
->   soc: mediatek: cmdq: add assign function
->   soc: mediatek: cmdq: add write_s function
->   soc: mediatek: cmdq: add write_s_mask function
->   soc: mediatek: cmdq: add read_s function
->   soc: mediatek: cmdq: add write_s value function
->   soc: mediatek: cmdq: add write_s_mask value function
->   soc: mediatek: cmdq: export finalize function
->   soc: mediatek: cmdq: add jump function
->   soc: mediatek: cmdq: add clear option in cmdq_pkt_wfe api
->   soc: mediatek: cmdq: add set event function
-> 
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |   3 +-
->  drivers/soc/mediatek/mtk-cmdq-helper.c   | 159 +++++++++++++++++++++--
->  include/linux/mailbox/mtk-cmdq-mailbox.h |   8 +-
->  include/linux/soc/mediatek/mtk-cmdq.h    | 124 +++++++++++++++++-
->  4 files changed, 280 insertions(+), 14 deletions(-)
-> 
+> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> index c67081759728..98f23ba3ba47 100644
+> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> @@ -291,7 +291,8 @@ static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+>  
+>  	/* JUMP to end */
+>  	inst.op = CMDQ_CODE_JUMP;
+> -	inst.value = CMDQ_JUMP_PASS;
+> +	inst.value = CMDQ_JUMP_PASS >>
+> +		cmdq_mbox_shift(((struct cmdq_client *)pkt->cl)->chan);
+>  	err = cmdq_pkt_append_command(pkt, inst);
+>  
+>  	return err;
 
 _______________________________________________
 dri-devel mailing list
