@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC3A203056
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:09:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15995203098
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49EF66E573;
-	Mon, 22 Jun 2020 07:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24EC36E249;
+	Mon, 22 Jun 2020 07:26:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 913CF6E560
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:09:38 +0000 (UTC)
-Received: from localhost (unknown [171.61.66.58])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A54F25440;
- Mon, 22 Jun 2020 07:09:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592809778;
- bh=oQfZYFEK5TzA58baDfjiFR4quEk2JmrbUpxr4Y4OY1k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=obWIgoG2HbCErNH6CrWpyWHVaLgzv5zgbpsfOH3hgbjA+565FWwDlEoYCjC9nSFA9
- pbGbOncwMUBZZMefktQmKx5Ne9W1PweltyIuiadv9bE2zKOzi+3D3VhjL9B52+b0v6
- aUQk7bKDsaHi0h+KGL7BJiwxi7c14Zd7LpaLOdE0=
-Date: Mon, 22 Jun 2020 12:39:34 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 3/3] drm/bridge: Introduce LT9611 DSI to HDMI bridge
-Message-ID: <20200622070934.GG2324254@vkoul-mobl>
-References: <20200617105950.3165360-1-vkoul@kernel.org>
- <20200617105950.3165360-4-vkoul@kernel.org>
- <20200620180516.GA27870@ravnborg.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33D0A6E249
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:26:00 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1jnGq3-0007TP-4w; Mon, 22 Jun 2020 09:25:55 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1jnGq2-00011S-8g; Mon, 22 Jun 2020 09:25:54 +0200
+Date: Mon, 22 Jun 2020 09:25:54 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 03/15] pwm: lpss: Fix off by one error in base_unit
+ math in pwm_lpss_prepare()
+Message-ID: <20200622072554.qkuvf25xmy3vyjd2@taurus.defre.kleine-koenig.org>
+References: <20200620121758.14836-1-hdegoede@redhat.com>
+ <20200620121758.14836-4-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200620180516.GA27870@ravnborg.org>
+In-Reply-To: <20200620121758.14836-4-hdegoede@redhat.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,184 +48,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+Content-Type: multipart/mixed; boundary="===============0806420104=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
 
-On 20-06-20, 20:05, Sam Ravnborg wrote:
-> Hi Vinod.
-> 
-> Looks good but some some of small nits.
+--===============0806420104==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="s33yr6daqbbyscr3"
+Content-Disposition: inline
 
-Great :)
 
-> And a few larger things in the following.
-> The larger things is releated to prepare the bridge driver to live in a
-> world with chained bridges.
+--s33yr6daqbbyscr3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure, so that entails adding the callbacks specified below right or is
-there anything else required to do?
+On Sat, Jun 20, 2020 at 02:17:46PM +0200, Hans de Goede wrote:
+> According to the data-sheet the way the PWM controller works is that
+> each input clock-cycle the base_unit gets added to a N bit counter and
+> that counter overflowing determines the PWM output frequency.
+>=20
+> So assuming e.g. a 16 bit counter this means that if base_unit is set to =
+1,
+> after 65535 input clock-cycles the counter has been increased from 0 to
+> 65535 and it will overflow on the next cycle, so it will overflow after
+> every 65536 clock cycles and thus the calculations done in
+> pwm_lpss_prepare() should use 65536 and not 65535.
+>=20
+> This commit fixes this. Note this also aligns the calculations in
+> pwm_lpss_prepare() with those in pwm_lpss_get_state().
+>=20
+> Note this effectively reverts commit 684309e5043e ("pwm: lpss: Avoid
+> potential overflow of base_unit"). The next patch in this series really
+> fixes the potential overflow of the base_unit value.
+>=20
+> Fixes: 684309e5043e ("pwm: lpss: Avoid potential overflow of base_unit")
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v3:
+> - Add Fixes tag
+> - Add Reviewed-by: Andy Shevchenko tag
+> ---
+>  drivers/pwm/pwm-lpss.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
+> index 9d965ffe66d1..43b1fc634af1 100644
+> --- a/drivers/pwm/pwm-lpss.c
+> +++ b/drivers/pwm/pwm-lpss.c
+> @@ -93,7 +93,7 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *lpwm=
+, struct pwm_device *pwm,
+>  	 * The equation is:
+>  	 * base_unit =3D round(base_unit_range * freq / c)
+>  	 */
+> -	base_unit_range =3D BIT(lpwm->info->base_unit_bits) - 1;
+> +	base_unit_range =3D BIT(lpwm->info->base_unit_bits);
+>  	freq *=3D base_unit_range;
+> =20
+>  	base_unit =3D DIV_ROUND_CLOSEST_ULL(freq, c);
+> @@ -104,8 +104,8 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *lp=
+wm, struct pwm_device *pwm,
+> =20
+>  	orig_ctrl =3D ctrl =3D pwm_lpss_read(pwm);
+>  	ctrl &=3D ~PWM_ON_TIME_DIV_MASK;
+> -	ctrl &=3D ~(base_unit_range << PWM_BASE_UNIT_SHIFT);
+> -	base_unit &=3D base_unit_range;
+> +	ctrl &=3D ~((base_unit_range - 1) << PWM_BASE_UNIT_SHIFT);
+> +	base_unit &=3D (base_unit_range - 1);
+>  	ctrl |=3D (u32) base_unit << PWM_BASE_UNIT_SHIFT;
+>  	ctrl |=3D on_time_div;
 
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_graph.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <sound/hdmi-codec.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_bridge.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_print.h>
-> Please add empty lines between each group of includes.
-> They are already sorted within each group and in preferred order - good.
+I willing to believe your change is right, what I don't like is that the
+calculation is really hard to follow. But that's nothing I want to
+burden on you to improve. (If however you are motivated, adding some
+comments about the hardware would probably help.)
 
-Okay if that is the preference, sure
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-> > +static int lt9611_mipi_input_analog(struct lt9611 *lt9611)
-> > +{
-> > +	const struct reg_sequence reg_cfg[] = {
-> > +		{ 0x8106, 0x40 }, /*port A rx current*/
-> > +		{ 0x810a, 0xfe }, /*port A ldo voltage set*/
-> > +		{ 0x810b, 0xbf }, /*enable port A lprx*/
-> > +		{ 0x8111, 0x40 }, /*port B rx current*/
-> > +		{ 0x8115, 0xfe }, /*port B ldo voltage set*/
-> > +		{ 0x8116, 0xbf }, /*enable port B lprx*/
-> > +
-> > +		{ 0x811c, 0x03 }, /*PortA clk lane no-LP mode*/
-> > +		{ 0x8120, 0x03 }, /*PortB clk lane with-LP mode*/
-> Add space after "/*" and before closing "*/".
-> Like is done a few lines up in lt9611_modes[]
+Thanks
+Uwe
 
-Oops seems to have missed these, will fix this and others if any
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> > +static int lt9611_mipi_input_digital(struct lt9611 *lt9611,
-> > +				     const struct drm_display_mode *mode)
-> > +{
-> > +	struct reg_sequence reg_cfg[] = {
-> > +		{ 0x8300, LT9611_4LANES },
-> > +		{ 0x830a, 0x00 },
-> > +		{ 0x824f, 0x80 },
-> > +		{ 0x8250, 0x10 },
-> > +		{ 0x8302, 0x0a },
-> > +		{ 0x8306, 0x0a },
-> > +	};
-> > +
-> > +	if (mode->hdisplay == 3840)
-> > +		reg_cfg[1].def = 0x03;
-> Please check if some of these constants be replaced by something readable
-> from the datasheet.
-> Same goes for other places where constants are used.
+--s33yr6daqbbyscr3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The problem is that the datasheet I have doesn't define register names.
-Worse some of them are not even documented. I did give it a shot to
-define these, but gave up half way due to lack on inventive names :(
+-----BEGIN PGP SIGNATURE-----
 
-I would like to keep the registers and replace them in future if we get
-a good spec from vendor.. or i can define REG_1...REG_N!
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl7wXP8ACgkQwfwUeK3K
+7AnlQggAnmb/EK9bchCisGMTtET3A8MmMvsLrGaMsQG0BI4fWzS2SnYifvpSTs57
+BrrYG0y72GKb6hx7rxvlkTHRHIq9x0jMvcEan6ZFjVjdrX7cqKo3/yd399PmE0VB
+ewOY+xd2xKIT/NXtUdcsoU6jfNA9+NxVMZpNBuA9sPS+Bn3pXbeBWrl0w7gAefhs
+S08mgy7B9a+njGYt5wF1n3hhyrDZ7kJIUdS4jCczjgC8zQ6QciVRRoSw+cyWU58o
+AkvPSA/e99kHzkKTns/j2BTx7fKqyelpqTFy0+Sc4LEqr7H2N+1mToBYGiDgb87Q
+4uD50mRhYHbfRtzms/sOWvjRfPvsGQ==
+=qThH
+-----END PGP SIGNATURE-----
 
-> > +static void lt9611_mipi_video_setup(struct lt9611 *lt9611,
-> > +				    const struct drm_display_mode *mode)
-> > +{
-> > +	u32 h_total, h_act, hpw, hfp, hss;
-> > +	u32 v_total, v_act, vpw, vfp, vss;
-> > +
-> > +	h_total = mode->htotal;
-> > +	v_total = mode->vtotal;
-> > +
-> > +	h_act = mode->hdisplay;
-> > +	hpw = mode->hsync_end - mode->hsync_start;
-> > +	hfp = mode->hsync_start - mode->hdisplay;
-> > +	hss = (mode->hsync_end - mode->hsync_start) +
-> > +	      (mode->htotal - mode->hsync_end);
-> > +
-> > +	v_act = mode->vdisplay;
-> > +	vpw = mode->vsync_end - mode->vsync_start;
-> > +	vfp = mode->vsync_start - mode->vdisplay;
-> > +	vss = (mode->vsync_end - mode->vsync_start) +
-> > +	      (mode->vtotal - mode->vsync_end);
-> Using the names from display_timings would make this easier to recognize
-> for the reader.
-> Examples:
-> vfp versus vfront_porch
-> vss versus vsync_len
-> 
-> I do not say the names from display_timing are much better, only that they
-> are more recognizeable.
+--s33yr6daqbbyscr3--
 
-okay will do
+--===============0806420104==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-> > +static irqreturn_t lt9611_irq_thread_handler(int irq, void *dev_id)
-> > +{
-> > +	struct lt9611 *lt9611 = dev_id;
-> > +	unsigned int irq_flag0 = 0;
-> > +	unsigned int irq_flag3 = 0;
-> > +
-> > +	regmap_read(lt9611->regmap, 0x820f, &irq_flag3);
-> > +	regmap_read(lt9611->regmap, 0x820c, &irq_flag0);
-> > +
-> > +	pr_debug("%s() irq_flag0: %#x irq_flag3: %#x\n",
-> > +		 __func__, irq_flag0, irq_flag3);
-> debug artifact you can delete now?
-
-Okay, will remove this and rest
-
-> 
-> > +
-> > +	 /* hpd changed low */
-> Drop extra space in indent of this comment and following comments as
-> well.
-
-Ok
-
-> > +static int lt9611_bridge_attach(struct drm_bridge *bridge,
-> > +				enum drm_bridge_attach_flags flags)
-> > +{
-> > +	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-> > +	int ret;
-> > +
-> > +	dev_dbg(lt9611->dev, "bridge attach\n");
-> > +
-> > +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> > +		DRM_ERROR("Fix bridge driver to make connector optional!");
-> > +		return -EINVAL;
-> > +	}
-> Please fix bridge so connector creation is optional.
-> for new bridge driver this is mandatory.
-
-Can you elaborate what is means by fixing bridge here, what are the
-things that should be done and are expected for new bridge drivers
-
-> > +static const struct drm_bridge_funcs lt9611_bridge_funcs = {
-> > +	.attach = lt9611_bridge_attach,
-> > +	.detach = lt9611_bridge_detach,
-> > +	.mode_valid = lt9611_bridge_mode_valid,
-> > +	.enable = lt9611_bridge_enable,
-> > +	.disable = lt9611_bridge_disable,
-> > +	.post_disable = lt9611_bridge_post_disable,
-> > +	.mode_set = lt9611_bridge_mode_set,
-> 
-> Add relevant bridge functions - .get_edid, .detect looks like
-> candidates.
-> See other bridge drivers for inspiration.
-
-Any good examples?
--- 
-~Vinod
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0806420104==--
