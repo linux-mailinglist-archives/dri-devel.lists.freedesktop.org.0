@@ -1,44 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D6B204B1D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:30:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EDF204B98
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52BE46E947;
-	Tue, 23 Jun 2020 07:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4296E95A;
+	Tue, 23 Jun 2020 07:48:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 256DC6E947;
- Tue, 23 Jun 2020 07:30:22 +0000 (UTC)
-IronPort-SDR: qXcQg0K4zi9HEZ6uAVgmx1gQgZj43UBP8Xv1vMMyiDB0clkxJjSZMNz6LRnqlak+0nelgRyf6+
- JhhAcrMc9wqw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="123660812"
-X-IronPort-AV: E=Sophos;i="5.75,270,1589266800"; d="scan'208";a="123660812"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2020 00:30:21 -0700
-IronPort-SDR: /5HxP1/hdIaqYfnC6/nlaI1qepVLZtCN2f+36qDwE1ToU+CgsyTaFYA6fxRMKgtIzGPfJhCxsr
- vSfU9Vp6hREA==
-X-IronPort-AV: E=Sophos;i="5.75,270,1589266800"; d="scan'208";a="264721429"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2020 00:30:20 -0700
-Date: Tue, 23 Jun 2020 10:30:10 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v2 6/6] drm/i915/dp_mst: Ensure the DPCD ACT sent flag is
- cleared before waiting for it
-Message-ID: <20200623073010.GB21923@ideak-desk.fi.intel.com>
-References: <20200616141855.746-6-imre.deak@intel.com>
- <20200616211146.23027-3-imre.deak@intel.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5FD36E0D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:26:43 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1592818006; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=ITYrsfJ9XT9p4LwafDewTjOHi2C3c1vMwb7EtEX/UxY=;
+ b=sIwjRh8HKUKzaG4chvR5ePQklAG4eUDc35BvSnb5b72BKNffFpspitKMukwgbb65kgFxrNTz
+ sjy5DE+LDNYM1IStc0OkkMeMder7yJ9pl7x/tZupMa5IoHLKlR/FJ6mCKLkTCOKdzopysWj+
+ AHH872iXEmb5Fmq2k0+pWQaRzf8=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5ef07944c4bb4f886dd1f22f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 22 Jun 2020 09:26:28
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 22B34C43391; Mon, 22 Jun 2020 09:26:28 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.102] (unknown [183.83.143.239])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: charante)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2471AC433CA;
+ Mon, 22 Jun 2020 09:26:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2471AC433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=charante@codeaurora.org
+Subject: Re: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "David.Laight@ACULAB.COM" <David.Laight@ACULAB.COM>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+References: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
+ <14063C7AD467DE4B82DEDB5C278E866301154BAE9E@FMSMSX108.amr.corp.intel.com>
+From: Charan Teja Kalla <charante@codeaurora.org>
+Message-ID: <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
+Date: Mon, 22 Jun 2020 14:56:21 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200616211146.23027-3-imre.deak@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301154BAE9E@FMSMSX108.amr.corp.intel.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 23 Jun 2020 07:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,163 +74,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 17, 2020 at 12:11:46AM +0300, Imre Deak wrote:
-> Atm, we clear the ACT sent flag in the sink's DPCD before updating the
-> sink's payload table, along clearing the payload table updated flag.
-> The sink is supposed to set this flag once it detects that the source
-> has completed the ACT sequence (after detecting the 4 required ACT MTPH
-> symbols sent by the source). As opposed to this 2 DELL monitors I have
-> set the flag already along the payload table updated flag, which is not
-> quite correct.
-> =
+Hello Mike,
 
-> To be sure that the sink has detected the ACT MTPH symbols before
-> continuing enabling the encoder, clear the ACT sent flag before enabling
-> or disabling the transcoder VC payload allocation (which is what starts
-> the ACT sequence).
-> =
+On 6/19/2020 7:11 PM, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: charante=codeaurora.org@mg.codeaurora.org
+>> <charante=codeaurora.org@mg.codeaurora.org> On Behalf Of Charan Teja
+>> Kalla
+>> Sent: Friday, June 19, 2020 7:57 AM
+>> To: Sumit Semwal <sumit.semwal@linaro.org>; Ruhl, Michael J
+>> <michael.j.ruhl@intel.com>; David.Laight@ACULAB.COM; open list:DMA
+>> BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing
+>> list <dri-devel@lists.freedesktop.org>
+>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>; LKML <linux-
+>> kernel@vger.kernel.org>
+>> Subject: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+>>
+>> There exists a sleep-while-atomic bug while accessing the dmabuf->name
+>> under mutex in the dmabuffs_dname(). This is caused from the SELinux
+>> permissions checks on a process where it tries to validate the inherited
+>> files from fork() by traversing them through iterate_fd() (which
+>> traverse files under spin_lock) and call
+>> match_file(security/selinux/hooks.c) where the permission checks happen.
+>> This audit information is logged using dump_common_audit_data() where it
+>> calls d_path() to get the file path name. If the file check happen on
+>> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
+>> access dmabuf->name. The flow will be like below:
+>> flush_unauthorized_files()
+>>  iterate_fd()
+>>    spin_lock() --> Start of the atomic section.
+>>      match_file()
+>>        file_has_perm()
+>>          avc_has_perm()
+>>            avc_audit()
+>>              slow_avc_audit()
+>> 	        common_lsm_audit()
+>> 		  dump_common_audit_data()
+>> 		    audit_log_d_path()
+>> 		      d_path()
+>>                        dmabuffs_dname()
+>>                          mutex_lock()--> Sleep while atomic.
+>>
+>> Call trace captured (on 4.19 kernels) is below:
+>> ___might_sleep+0x204/0x208
+>> __might_sleep+0x50/0x88
+>> __mutex_lock_common+0x5c/0x1068
+>> __mutex_lock_common+0x5c/0x1068
+>> mutex_lock_nested+0x40/0x50
+>> dmabuffs_dname+0xa0/0x170
+>> d_path+0x84/0x290
+>> audit_log_d_path+0x74/0x130
+>> common_lsm_audit+0x334/0x6e8
+>> slow_avc_audit+0xb8/0xf8
+>> avc_has_perm+0x154/0x218
+>> file_has_perm+0x70/0x180
+>> match_file+0x60/0x78
+>> iterate_fd+0x128/0x168
+>> selinux_bprm_committing_creds+0x178/0x248
+>> security_bprm_committing_creds+0x30/0x48
+>> install_exec_creds+0x1c/0x68
+>> load_elf_binary+0x3a4/0x14e0
+>> search_binary_handler+0xb0/0x1e0
+>>
+>> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+>>
+>> Cc: <stable@vger.kernel.org> [5.3+]
+>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+>> ---
+>>
+>> Changes in V2: Addressed review comments from Ruhl, Michael J
+>>
+>> Changes in V1: https://lore.kernel.org/patchwork/patch/1255055/
+>>
+>> drivers/dma-buf/dma-buf.c | 11 +++++++----
+>> include/linux/dma-buf.h   |  1 +
+>> 2 files changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index 01ce125..d81d298 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry,
+>> char *buffer, int buflen)
+>> 	size_t ret = 0;
+>>
+>> 	dmabuf = dentry->d_fsdata;
+>> -	dma_resv_lock(dmabuf->resv, NULL);
+>> +	spin_lock(&dmabuf->name_lock);
+>> 	if (dmabuf->name)
+>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>> -	dma_resv_unlock(dmabuf->resv);
+>> +	spin_unlock(&dmabuf->name_lock);
+>>
+>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>> 			     dentry->d_name.name, ret > 0 ? name : "");
+>> @@ -341,8 +341,10 @@ static long dma_buf_set_name(struct dma_buf
+>> *dmabuf, const char __user *buf)
+>> 		kfree(name);
+>> 		goto out_unlock;
+>> 	}
+>> +	spin_lock(&dmabuf->name_lock);
+>> 	kfree(dmabuf->name);
+>> 	dmabuf->name = name;
+>> +	spin_unlock(&dmabuf->name_lock);
+> 
+> While this code path is ok, I would have separated the protection of the
+> attachment list and the name manipulation.
+> 
+> dma_resv_lock(resv)
+> if (!list_empty(attachment)
+> 	ret = -EBUSY
+> dma_resv_unlock(resv)
+> 
+> if (ret) {
+> 	kfree(name)
+> 	return ret;
+> }
 
-> v2 (Ville):
-> - Use the correct bit to clear the flags.
-> - Add code comment explaining the clearing semantics of the ACT handled
->   flag.
-> =
+Is it that the name should be visible before importer attaches to the
+dmabuf,(using dma_buf_attach()), thus _buf_set_name() is under the
+_resv_lock() as well?
 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> 
+> spinlock(nam_lock)
+> ...
+> 
+> Nesting locks  that don't need to be nested always makes me nervous
+> for future use that misses the lock/unlock pattern.
+> 
+> However, this looks reasonable.
+> 
+> With this current code, or if you update to the above pattern:
+> 
+> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 
-Dropping this patch because clearing the ACT handled flag from DPCD
-causes a problem for some sinks, which set this flag only once when the
-VC payload table is updated and do not set it when the ACT symbols are
-actually sent by the source.
+Thanks for the ACK.
+> 
+> Mike
+> 
+> 
+>> out_unlock:
+>> 	dma_resv_unlock(dmabuf->resv);
+>> @@ -405,10 +407,10 @@ static void dma_buf_show_fdinfo(struct seq_file
+>> *m, struct file *file)
+>> 	/* Don't count the temporary reference taken inside procfs seq_show
+>> */
+>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+>> -	dma_resv_lock(dmabuf->resv, NULL);
+>> +	spin_lock(&dmabuf->name_lock);
+>> 	if (dmabuf->name)
+>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
+>> -	dma_resv_unlock(dmabuf->resv);
+>> +	spin_unlock(&dmabuf->name_lock);
+>> }
+>>
+>> static const struct file_operations dma_buf_fops = {
+>> @@ -546,6 +548,7 @@ struct dma_buf *dma_buf_export(const struct
+>> dma_buf_export_info *exp_info)
+>> 	dmabuf->size = exp_info->size;
+>> 	dmabuf->exp_name = exp_info->exp_name;
+>> 	dmabuf->owner = exp_info->owner;
+>> +	spin_lock_init(&dmabuf->name_lock);
+>> 	init_waitqueue_head(&dmabuf->poll);
+>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>> index ab0c156..93108fd 100644
+>> --- a/include/linux/dma-buf.h
+>> +++ b/include/linux/dma-buf.h
+>> @@ -311,6 +311,7 @@ struct dma_buf {
+>> 	void *vmap_ptr;
+>> 	const char *exp_name;
+>> 	const char *name;
+>> +	spinlock_t name_lock;
+>> 	struct module *owner;
+>> 	struct list_head list_node;
+>> 	void *priv;
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>> Forum, a Linux Foundation Collaborative Project
 
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c       | 38 +++++++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_dp_mst.c |  2 ++
->  include/drm/drm_dp_mst_helper.h             |  2 ++
->  3 files changed, 40 insertions(+), 2 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
-dp_mst_topology.c
-> index b2f5a84b4cfb..1f5d14128c1a 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -4377,6 +4377,41 @@ void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_=
-topology_mgr *mgr,
->  }
->  EXPORT_SYMBOL(drm_dp_mst_deallocate_vcpi);
->  =
-
-> +/**
-> + * drm_dp_clear_payload_status() - Clears the payload table status flags
-> + * @mgr: manager to use
-> + *
-> + * Clears the payload table ACT handled and table updated flags in the M=
-ST hub's
-> + * DPCD. This function must be called before updating the payload table =
-or
-> + * starting the ACT sequence and waiting for the corresponding flags to =
-get
-> + * set by the hub.
-> + *
-> + * Returns:
-> + * 0 if the flags got cleared successfully, otherwise a negative error c=
-ode.
-> + */
-> +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *mgr)
-> +{
-> +	int ret;
-> +
-> +	/*
-> +	 * Note that the following is based on the DP Standard stating that
-> +	 * writing the DP_PAYLOAD_TABLE_UPDATED bit alone will clear both the
-> +	 * DP_PAYLOAD_TABLE_UPDATED and the DP_PAYLOAD_ACT_HANDLED flags. This
-> +	 * seems to be also the only way to clear DP_PAYLOAD_ACT_HANDLED.
-> +	 */
-> +	ret =3D drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
-> +				 DP_PAYLOAD_TABLE_UPDATED);
-> +	if (ret < 0) {
-> +		DRM_DEBUG_DRIVER("Can't clear the ACT handled/table updated flags (%d)=
-\n",
-> +				 ret);
-> +		return ret;
-> +	}
-> +	WARN_ON(ret !=3D 1);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_clear_payload_status);
-> +
->  static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
->  				     int id, struct drm_dp_payload *payload)
->  {
-> @@ -4384,8 +4419,7 @@ static int drm_dp_dpcd_write_payload(struct drm_dp_=
-mst_topology_mgr *mgr,
->  	int ret;
->  	int retries =3D 0;
->  =
-
-> -	drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
-> -			   DP_PAYLOAD_TABLE_UPDATED);
-> +	drm_dp_clear_payload_status(mgr);
->  =
-
->  	payload_alloc[0] =3D id;
->  	payload_alloc[1] =3D payload->start_slot;
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/dr=
-m/i915/display/intel_dp_mst.c
-> index 9308b5920780..3c4b0fb10d8b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -323,6 +323,8 @@ static void clear_act_sent(struct intel_dp *intel_dp)
->  =
-
->  	intel_de_write(i915, intel_dp->regs.dp_tp_status,
->  		       DP_TP_STATUS_ACT_SENT);
-> +
-> +	drm_dp_clear_payload_status(&intel_dp->mst_mgr);
->  }
->  =
-
->  static void wait_for_act_sent(struct intel_dp *intel_dp)
-> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_hel=
-per.h
-> index 8b9eb4db3381..2facb87624bf 100644
-> --- a/include/drm/drm_dp_mst_helper.h
-> +++ b/include/drm/drm_dp_mst_helper.h
-> @@ -763,6 +763,8 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology=
-_mgr *mgr,
->  			   int pbn);
->  =
-
->  =
-
-> +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *mgr);
-> +
->  int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr);
->  =
-
->  =
-
-> -- =
-
-> 2.23.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+Forum, a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
