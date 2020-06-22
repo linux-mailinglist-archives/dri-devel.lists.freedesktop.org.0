@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904BB2038D0
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 16:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93242038D5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 16:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B3A6E075;
-	Mon, 22 Jun 2020 14:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018196E084;
+	Mon, 22 Jun 2020 14:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 212966E075
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 14:10:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADFE76E084
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 14:11:18 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207673] amdgpu/radeon: crash due to over temperature
-Date: Mon, 22 Jun 2020 14:10:38 +0000
+Date: Mon, 22 Jun 2020 14:11:18 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-207673-2300-B8mdBFrcV7@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-207673-2300-ZhZbrVSQ1s@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207673-2300@https.bugzilla.kernel.org/>
 References: <bug-207673-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -62,8 +62,7 @@ phileimer (phil@jpmr.org) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-            Summary|radeon: crash due to over   |amdgpu/radeon: crash due to
-                   |temperature                 |over temperature
+     Kernel Version|5.6.x and previous          |5.6.x, 5.7.x
 
 -- 
 You are receiving this mail because:
