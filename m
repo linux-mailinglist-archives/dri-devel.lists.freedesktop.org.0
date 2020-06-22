@@ -1,44 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED34203FBA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 21:00:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47601204066
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 21:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC6E6E8C2;
-	Mon, 22 Jun 2020 19:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB2106E8C7;
+	Mon, 22 Jun 2020 19:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78AA56E8BF;
- Mon, 22 Jun 2020 19:00:44 +0000 (UTC)
-IronPort-SDR: p6bXJ2xTtZqKxi7/v4eXxb39awlTpKDX+/5QO1WLFEL33yYxVmsZ8UVWcLGWr3+SJRTlmF9baQ
- Dmsz+QyCwSNw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="161927763"
-X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="161927763"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2020 12:00:43 -0700
-IronPort-SDR: cXwXur80jFHbaLsA7UWEMB2uEp2ePrDX5f9MY7RJLBUVhkYZ8VPmNQ4YpyZ2Qn5iRadBQXH8Fc
- TBf6/N9mLPjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="318862157"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by FMSMGA003.fm.intel.com with ESMTP; 22 Jun 2020 12:00:42 -0700
-Date: Mon, 22 Jun 2020 12:02:03 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Subject: Re: [v9 2/3] drm/debug: Expose connector VRR monitor range via debugfs
-Message-ID: <20200622190203.GB18249@intel.com>
-References: <20200622142519.16214-1-bhanuprakash.modem@intel.com>
- <20200622142519.16214-3-bhanuprakash.modem@intel.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81BC6E156;
+ Mon, 22 Jun 2020 19:30:07 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id g18so8829791wrm.2;
+ Mon, 22 Jun 2020 12:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=wIz2fxyJWX5nrUWTsvGpZwEGo68Own2v4V5TIKYuKeM=;
+ b=JYMnCxYXiET/lonw0pp9l46R/rRDPA9XoSyvUzv5/O3V9Cnu+i/C/nzga/dBivorCR
+ Oc1obl0Pljww26yb+urCN5jcaTI8W1UpLmkY6rcUD3VsdM7i3jKlJKQae+YkXfiTyx4x
+ Bcn4XUslKbdCaoZ2ZKYb897b/BWY93T88AaExzy338Bw1EsjFe0LbEKbWFIN08v9Ax40
+ TdMG0GjXL8nR3/qq7DOk2LbxYJm9uO2tOmzocfOTwO4adjth1052/7fatXeC0OPXBNwL
+ RtHrApAt2vnQbU7bJ6arqOuTQA3kmxxWlts0wWFZxj+E3ToK9MsWi5T4w2CsX8GWlZ5j
+ oZQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=wIz2fxyJWX5nrUWTsvGpZwEGo68Own2v4V5TIKYuKeM=;
+ b=suNMNgLiEQUsgGxujGtrnlr8RPBxUce4JQQsRdzADjGGMpADL1GH3yll6Bk8AXyyMf
+ zcQRs1tfHV9p6wNCZ1JlmxGXKABF7qE5Xx0uffiJs+nxbSKWaJCTXxHGPVSTMPIh+u/p
+ w/qwqpqDqihrMUfuZPNpvzWG2x1lAZVq1ueraNhPHe20m4ua/qdllyXL2CjSxoXjgSni
+ trZK1j1ipXr7tWGKGRUngpUWvvGiC2QSMRyuD2EyM7vutDhxk/7n/geSrudOP4wooDk3
+ O9+G+Zynhdzahzv0AL03elUdOl3QfUHMphCGbk/qc5NwRFA3ofT407YaOcgKwjGHq3N8
+ 7kyw==
+X-Gm-Message-State: AOAM530NewekKuVXS9XvEgqpqiPAnLpbBQMNvoKhu8JOafG9aUwpvR3k
+ I5wfKhDIejIpDNx7a8Pq+dY=
+X-Google-Smtp-Source: ABdhPJwjJFOTfh0hXLbn6lTfNeF0wxjFiBrK4qS0CqWp60rTog4OrSPE3fCu6mlHFMglnHjwdOG6RQ==
+X-Received: by 2002:a5d:458a:: with SMTP id p10mr15644694wrq.184.1592854206562; 
+ Mon, 22 Jun 2020 12:30:06 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id b201sm597846wmb.36.2020.06.22.12.30.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 22 Jun 2020 12:30:05 -0700 (PDT)
+Subject: Re: [PATCH v2 2/8] drm/ttm: Remap all page faults to per process
+ dummy page.
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-3-git-send-email-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <80798cef-1adc-088b-ee0c-54c13a31c425@gmail.com>
+Date: Mon, 22 Jun 2020 21:30:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200622142519.16214-3-bhanuprakash.modem@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <1592719388-13819-3-git-send-email-andrey.grodzovsky@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,122 +73,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: christian.koenig@amd.com
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 22, 2020 at 07:55:18PM +0530, Bhanuprakash Modem wrote:
-> [Why]
-> It's useful to know the min and max vrr range for IGT testing.
-> =
-
-> [How]
-> Expose the min and max vfreq for the connector via a debugfs file
-> on the connector, "vrr_range".
-> =
-
-> Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> =
-
-> v2:
-> * Fix the typo in max_vfreq (Manasi)
-> * Change the name of node to i915_vrr_info so we can add
-> other vrr info for more debug info (Manasi)
-> * Change the VRR capable to display Yes or No (Manasi)
-> * Fix indentation checkpatch errors (Manasi)
-> v3:
-> * Remove the unnecessary debug print (Manasi)
-> v4:
-> * Rebase
-> v5:
-> * Rename to vrr_range to match AMD debugfs
-> v6:
-> * Rebase (manasi)
-> v7:
-> * Fix cmpilation due to rebase
-> v8:
-> * Move debugfs node creation logic to DRM (Emil)
-> * Remove AMD specific logic (Emil)
-> v9:
-> * Seperate patch for removal of AMD specific logic (Manasi)
-> =
-
-> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> CC: Emil Velikov <emil.l.velikov@gmail.com>
-
-Looks good to me,
-
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
-
-Manasi
-
+Am 21.06.20 um 08:03 schrieb Andrey Grodzovsky:
+> On device removal reroute all CPU mappings to dummy page per drm_file
+> instance or imported GEM object.
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 > ---
->  drivers/gpu/drm/drm_debugfs.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> =
+>   drivers/gpu/drm/ttm/ttm_bo_vm.c | 65 ++++++++++++++++++++++++++++++++++++-----
+>   1 file changed, 57 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index 389128b..2f8bf5e 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -35,6 +35,8 @@
+>   #include <drm/ttm/ttm_bo_driver.h>
+>   #include <drm/ttm/ttm_placement.h>
+>   #include <drm/drm_vma_manager.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_file.h>
+>   #include <linux/mm.h>
+>   #include <linux/pfn_t.h>
+>   #include <linux/rbtree.h>
+> @@ -328,19 +330,66 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
+>   	pgprot_t prot;
+>   	struct ttm_buffer_object *bo = vma->vm_private_data;
+>   	vm_fault_t ret;
+> +	int idx;
+> +	struct drm_device *ddev = bo->base.dev;
+>   
+> -	ret = ttm_bo_vm_reserve(bo, vmf);
+> -	if (ret)
+> -		return ret;
+> +	if (drm_dev_enter(ddev, &idx)) {
 
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index bfe4602f206b..3d7182001004 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -376,6 +376,24 @@ static ssize_t edid_write(struct file *file, const c=
-har __user *ubuf,
->  	return (ret) ? ret : len;
->  }
->  =
+Better do this like if (!drm_dev_enter(...)) return ttm_bo_vm_dummy(..);
 
-> +/*
-> + * Returns the min and max vrr vfreq through the connector's debugfs fil=
-e.
-> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> + */
-> +static int vrr_range_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_connector *connector =3D m->private;
-> +
-> +	if (connector->status !=3D connector_status_connected)
-> +		return -ENODEV;
-> +
-> +	seq_printf(m, "Min: %u\n", (u8)connector->display_info.monitor_range.mi=
-n_vfreq);
-> +	seq_printf(m, "Max: %u\n", (u8)connector->display_info.monitor_range.ma=
-x_vfreq);
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(vrr_range);
-> +
->  static const struct file_operations drm_edid_fops =3D {
->  	.owner =3D THIS_MODULE,
->  	.open =3D edid_open,
-> @@ -413,6 +431,10 @@ void drm_debugfs_connector_add(struct drm_connector =
-*connector)
->  	/* edid */
->  	debugfs_create_file("edid_override", S_IRUGO | S_IWUSR, root, connector,
->  			    &drm_edid_fops);
-> +
-> +	/* vrr range */
-> +	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
-> +			    &vrr_range_fops);
->  }
->  =
+This way you can move all the dummy fault handling into a separate 
+function without cluttering this one here to much.
 
->  void drm_debugfs_connector_remove(struct drm_connector *connector)
-> -- =
+Christian.
 
-> 2.20.1
-> =
+> +		ret = ttm_bo_vm_reserve(bo, vmf);
+> +		if (ret)
+> +			goto exit;
+> +
+> +		prot = vma->vm_page_prot;
+>   
+> -	prot = vma->vm_page_prot;
+> -	ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT);
+> -	if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+> +		ret = ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT);
+> +		if (ret == VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NOWAIT))
+> +			goto exit;
+> +
+> +		dma_resv_unlock(bo->base.resv);
+> +
+> +exit:
+> +		drm_dev_exit(idx);
+>   		return ret;
+> +	} else {
+>   
+> -	dma_resv_unlock(bo->base.resv);
+> +		struct drm_file *file = NULL;
+> +		struct page *dummy_page = NULL;
+> +		int handle;
+>   
+> -	return ret;
+> +		/* We are faulting on imported BO from dma_buf */
+> +		if (bo->base.dma_buf && bo->base.import_attach) {
+> +			dummy_page = bo->base.dummy_page;
+> +		/* We are faulting on non imported BO, find drm_file owning the BO*/
+> +		} else {
+> +			struct drm_gem_object *gobj;
+> +
+> +			mutex_lock(&ddev->filelist_mutex);
+> +			list_for_each_entry(file, &ddev->filelist, lhead) {
+> +				spin_lock(&file->table_lock);
+> +				idr_for_each_entry(&file->object_idr, gobj, handle) {
+> +					if (gobj == &bo->base) {
+> +						dummy_page = file->dummy_page;
+> +						break;
+> +					}
+> +				}
+> +				spin_unlock(&file->table_lock);
+> +			}
+> +			mutex_unlock(&ddev->filelist_mutex);
+> +		}
+> +
+> +		if (dummy_page) {
+> +			/*
+> +			 * Let do_fault complete the PTE install e.t.c using vmf->page
+> +			 *
+> +			 * TODO - should i call free_page somewhere ?
+> +			 */
+> +			get_page(dummy_page);
+> +			vmf->page = dummy_page;
+> +			return 0;
+> +		} else {
+> +			return VM_FAULT_SIGSEGV;
+> +		}
+> +	}
+>   }
+>   EXPORT_SYMBOL(ttm_bo_vm_fault);
+>   
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
