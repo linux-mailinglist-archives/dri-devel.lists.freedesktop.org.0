@@ -1,141 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6595F20358C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 13:22:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 833692035EA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 13:41:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A8E6E40C;
-	Mon, 22 Jun 2020 11:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E92A66E4D2;
+	Mon, 22 Jun 2020 11:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 002596E40C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 11:22:39 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id j18so952828wmi.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 04:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DWYAiFta54ZvZ/sCOtU8SDjxbiXee4rKb0b3dGOPQSg=;
- b=PRLC3xYVIDZtljQwiaNqnloQoxMhMAqBJcNmrLT5vwpAUu6OokUetVeiwveSOsdj7s
- B5vRWNw6j+rLTFDufhvj9oB8DNbMa8uJdKtkMBR2UWTcf8rPTuxnqEA3YDX2QmP46nXC
- WtFrMoTLBiU/WCDNDY8Eac5I693IhiG24kGk4oRGR5+XDmP31GZ2bZLJ/u9k8/XkFQZq
- /j21qNXNlZ4pkLggmMBT3gIrE7Dg0wKQzpjOqC9Z01LgWkU70F4QACu+CyTYvCjFSiyg
- bM4lyoyi54rLdHc2n8aKdT4Zf6QtjKEQw9qB7FZMHYU2Lz1PcBX4Q+tYjME1kEDB/nAN
- Co3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=DWYAiFta54ZvZ/sCOtU8SDjxbiXee4rKb0b3dGOPQSg=;
- b=s06E3J1eTzS1jRn1il1BHwtP/gT4hl90bS4yU2dz+Ozh4WHWo9bt+5X4gGHvLN8jYi
- jPHXjdGFewKhZkgKazWKQw2Cq1ZJTZbEx/OCAARzCwZPAsg+zeNdsl+xo7iqgs3moBya
- gFT7Trxovn+UbZxGXne73NtyplwZzfMQlkMPLQkalXu/q5AV0iykv4D+IHCl18Y96oW6
- 6wONDB6vYS/XTat9/FrpIAiUQ33ICkbnC/zudsmrd4q6tfFvMVa7oG3XYcKmA+HFR2oC
- JuskQIZnHuvnbRdog+BdwBzzKj4YQgrKohYz8HuR+wUgH0uawwhSd5RweWcNf20UCe5T
- lIuw==
-X-Gm-Message-State: AOAM532Em2HXJWgxNv7+tdBcHp5pPeU2YNKtgZZwx1KU65ou74SbLPMS
- F2pLQGHGjes/aUlyESpVblQ=
-X-Google-Smtp-Source: ABdhPJw9EukyRz67XNGR0g+R5OfvpgfMfvIVuNMKT2aO+jhddjOvKnMgytDOlbKKAB+gUjo9yR5RXg==
-X-Received: by 2002:a1c:1d46:: with SMTP id d67mr19049492wmd.152.1592824958653; 
- Mon, 22 Jun 2020 04:22:38 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.114.138])
- by smtp.gmail.com with ESMTPSA id c143sm20733786wmd.1.2020.06.22.04.22.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 04:22:37 -0700 (PDT)
-Subject: Re: [PATCH v1 11/11] soc: mediatek: cmdq: add set event function
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
- Bibby Hsieh <bibby.hsieh@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>
-References: <1592749115-24158-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1592749115-24158-12-git-send-email-dennis-yc.hsieh@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <2131b7c2-7d12-9782-9fec-9da113a9cf4c@gmail.com>
-Date: Mon, 22 Jun 2020 13:22:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <1592749115-24158-12-git-send-email-dennis-yc.hsieh@mediatek.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34EA86E0A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 11:40:58 +0000 (UTC)
+IronPort-SDR: LyDTQfPjhDcl6zAJ/VSDXwQw+aOmpYsPSH9t8Ugeb5yk2knD76eToJex1Fbk+mVqJuh9TAIImv
+ fuiRS8hjpTXA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9659"; a="161813672"
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="161813672"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2020 04:40:57 -0700
+IronPort-SDR: a34dBW4tc9fUUjFHOSHElAWnkcRXlTv8h9hbjzF4peJrOc5trSCZHC+xqIpVOSyuMx8vQqCxkn
+ QPNv5wijiIbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="262943724"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by fmsmga007.fm.intel.com with ESMTP; 22 Jun 2020 04:40:57 -0700
+Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 22 Jun 2020 04:40:57 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.193]) by
+ FMSMSX113.amr.corp.intel.com ([169.254.13.85]) with mapi id 14.03.0439.000;
+ Mon, 22 Jun 2020 04:40:57 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Charan Teja Kalla <charante@codeaurora.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, "David.Laight@ACULAB.COM"
+ <David.Laight@ACULAB.COM>, "open list:DMA BUFFER SHARING FRAMEWORK"
+ <linux-media@vger.kernel.org>, DRI mailing list
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+Thread-Topic: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+Thread-Index: AQHWRjDU8ynrfmeG7EGyHovmSs13oqjf8L+wgATmmYD//64hEA==
+Date: Mon, 22 Jun 2020 11:40:56 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E866301154C1A5E@FMSMSX108.amr.corp.intel.com>
+References: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
+ <14063C7AD467DE4B82DEDB5C278E866301154BAE9E@FMSMSX108.amr.corp.intel.com>
+ <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
+In-Reply-To: <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.108]
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,90 +69,263 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+>-----Original Message-----
+>From: charante=codeaurora.org@mg.codeaurora.org
+><charante=codeaurora.org@mg.codeaurora.org> On Behalf Of Charan Teja
+>Kalla
+>Sent: Monday, June 22, 2020 5:26 AM
+>To: Ruhl, Michael J <michael.j.ruhl@intel.com>; Sumit Semwal
+><sumit.semwal@linaro.org>; David.Laight@ACULAB.COM; open list:DMA
+>BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing
+>list <dri-devel@lists.freedesktop.org>
+>Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>; LKML <linux-
+>kernel@vger.kernel.org>
+>Subject: Re: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+>
+>Hello Mike,
+>
+>On 6/19/2020 7:11 PM, Ruhl, Michael J wrote:
+>>> -----Original Message-----
+>>> From: charante=codeaurora.org@mg.codeaurora.org
+>>> <charante=codeaurora.org@mg.codeaurora.org> On Behalf Of Charan
+>Teja
+>>> Kalla
+>>> Sent: Friday, June 19, 2020 7:57 AM
+>>> To: Sumit Semwal <sumit.semwal@linaro.org>; Ruhl, Michael J
+>>> <michael.j.ruhl@intel.com>; David.Laight@ACULAB.COM; open list:DMA
+>>> BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI
+>mailing
+>>> list <dri-devel@lists.freedesktop.org>
+>>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>; LKML <linux-
+>>> kernel@vger.kernel.org>
+>>> Subject: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+>>>
+>>> There exists a sleep-while-atomic bug while accessing the dmabuf->name
+>>> under mutex in the dmabuffs_dname(). This is caused from the SELinux
+>>> permissions checks on a process where it tries to validate the inherited
+>>> files from fork() by traversing them through iterate_fd() (which
+>>> traverse files under spin_lock) and call
+>>> match_file(security/selinux/hooks.c) where the permission checks
+>happen.
+>>> This audit information is logged using dump_common_audit_data() where
+>it
+>>> calls d_path() to get the file path name. If the file check happen on
+>>> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
+>>> access dmabuf->name. The flow will be like below:
+>>> flush_unauthorized_files()
+>>>  iterate_fd()
+>>>    spin_lock() --> Start of the atomic section.
+>>>      match_file()
+>>>        file_has_perm()
+>>>          avc_has_perm()
+>>>            avc_audit()
+>>>              slow_avc_audit()
+>>> 	        common_lsm_audit()
+>>> 		  dump_common_audit_data()
+>>> 		    audit_log_d_path()
+>>> 		      d_path()
+>>>                        dmabuffs_dname()
+>>>                          mutex_lock()--> Sleep while atomic.
+>>>
+>>> Call trace captured (on 4.19 kernels) is below:
+>>> ___might_sleep+0x204/0x208
+>>> __might_sleep+0x50/0x88
+>>> __mutex_lock_common+0x5c/0x1068
+>>> __mutex_lock_common+0x5c/0x1068
+>>> mutex_lock_nested+0x40/0x50
+>>> dmabuffs_dname+0xa0/0x170
+>>> d_path+0x84/0x290
+>>> audit_log_d_path+0x74/0x130
+>>> common_lsm_audit+0x334/0x6e8
+>>> slow_avc_audit+0xb8/0xf8
+>>> avc_has_perm+0x154/0x218
+>>> file_has_perm+0x70/0x180
+>>> match_file+0x60/0x78
+>>> iterate_fd+0x128/0x168
+>>> selinux_bprm_committing_creds+0x178/0x248
+>>> security_bprm_committing_creds+0x30/0x48
+>>> install_exec_creds+0x1c/0x68
+>>> load_elf_binary+0x3a4/0x14e0
+>>> search_binary_handler+0xb0/0x1e0
+>>>
+>>> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+>>>
+>>> Cc: <stable@vger.kernel.org> [5.3+]
+>>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+>>> ---
+>>>
+>>> Changes in V2: Addressed review comments from Ruhl, Michael J
+>>>
+>>> Changes in V1: https://lore.kernel.org/patchwork/patch/1255055/
+>>>
+>>> drivers/dma-buf/dma-buf.c | 11 +++++++----
+>>> include/linux/dma-buf.h   |  1 +
+>>> 2 files changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index 01ce125..d81d298 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry
+>*dentry,
+>>> char *buffer, int buflen)
+>>> 	size_t ret = 0;
+>>>
+>>> 	dmabuf = dentry->d_fsdata;
+>>> -	dma_resv_lock(dmabuf->resv, NULL);
+>>> +	spin_lock(&dmabuf->name_lock);
+>>> 	if (dmabuf->name)
+>>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>>> -	dma_resv_unlock(dmabuf->resv);
+>>> +	spin_unlock(&dmabuf->name_lock);
+>>>
+>>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>>> 			     dentry->d_name.name, ret > 0 ? name : "");
+>>> @@ -341,8 +341,10 @@ static long dma_buf_set_name(struct dma_buf
+>>> *dmabuf, const char __user *buf)
+>>> 		kfree(name);
+>>> 		goto out_unlock;
+>>> 	}
+>>> +	spin_lock(&dmabuf->name_lock);
+>>> 	kfree(dmabuf->name);
+>>> 	dmabuf->name = name;
+>>> +	spin_unlock(&dmabuf->name_lock);
+>>
+>> While this code path is ok, I would have separated the protection of the
+>> attachment list and the name manipulation.
+>>
+>> dma_resv_lock(resv)
+>> if (!list_empty(attachment)
+>> 	ret = -EBUSY
+>> dma_resv_unlock(resv)
+>>
+>> if (ret) {
+>> 	kfree(name)
+>> 	return ret;
+>> }
+>
+>Is it that the name should be visible before importer attaches to the
+>dmabuf,(using dma_buf_attach()), thus _buf_set_name() is under the
+>_resv_lock() as well?
 
+That is the name that was being freed in the error path of the lock block.
+Alternatively:
 
-On 21/06/2020 16:18, Dennis YC Hsieh wrote:
-> Add set event function in cmdq helper functions to set specific event.
-> 
-> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> ---
->  drivers/soc/mediatek/mtk-cmdq-helper.c   |   15 +++++++++++++++
->  include/linux/mailbox/mtk-cmdq-mailbox.h |    1 +
->  include/linux/soc/mediatek/mtk-cmdq.h    |    9 +++++++++
->  3 files changed, 25 insertions(+)
-> 
+dma_resv_lock(resv)
+if (!list_empty(attachment) {
+ 	ret = -EBUSY
+	kfree(name)
+}
+dma_resv_unlock(resv)
 
-Applied to v5.8-next/soc
+if (ret)
+ 	return ret;
 
-Thanks!
+I was limiting what was happening in the lock block.
 
-> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 13f78c9b5901..e6133a42d229 100644
-> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -346,6 +346,21 @@ int cmdq_pkt_clear_event(struct cmdq_pkt *pkt, u16 event)
->  }
->  EXPORT_SYMBOL(cmdq_pkt_clear_event);
->  
-> +int cmdq_pkt_set_event(struct cmdq_pkt *pkt, u16 event)
-> +{
-> +	struct cmdq_instruction inst = {};
-> +
-> +	if (event >= CMDQ_MAX_EVENT)
-> +		return -EINVAL;
-> +
-> +	inst.op = CMDQ_CODE_WFE;
-> +	inst.value = CMDQ_WFE_UPDATE | CMDQ_WFE_UPDATE_VALUE;
-> +	inst.event = event;
-> +
-> +	return cmdq_pkt_append_command(pkt, inst);
-> +}
-> +EXPORT_SYMBOL(cmdq_pkt_set_event);
-> +
->  int cmdq_pkt_poll(struct cmdq_pkt *pkt, u8 subsys,
->  		  u16 offset, u32 value)
->  {
-> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> index 42d2a30e6a70..ba2d811183a9 100644
-> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> @@ -17,6 +17,7 @@
->  #define CMDQ_JUMP_PASS			CMDQ_INST_SIZE
->  
->  #define CMDQ_WFE_UPDATE			BIT(31)
-> +#define CMDQ_WFE_UPDATE_VALUE		BIT(16)
->  #define CMDQ_WFE_WAIT			BIT(15)
->  #define CMDQ_WFE_WAIT_VALUE		0x1
->  
-> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> index 4b5f5d154bad..960704d75994 100644
-> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> @@ -199,6 +199,15 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
->  int cmdq_pkt_clear_event(struct cmdq_pkt *pkt, u16 event);
->  
->  /**
-> + * cmdq_pkt_set_event() - append set event command to the CMDQ packet
-> + * @pkt:	the CMDQ packet
-> + * @event:	the desired event to be set
-> + *
-> + * Return: 0 for success; else the error code is returned
-> + */
-> +int cmdq_pkt_set_event(struct cmdq_pkt *pkt, u16 event);
-> +
-> +/**
->   * cmdq_pkt_poll() - Append polling command to the CMDQ packet, ask GCE to
->   *		     execute an instruction that wait for a specified
->   *		     hardware register to check for the value w/o mask.
-> 
+You have two distinct locks, that protect two distinct items:
+
+dmabuf->attachment
+dmabuf->name
+
+Nesting the locking is ok, but if the code ever changes
+you can get that nesting wrong, so:
+
+	long ret = 0;
+
+	if (IS_ERR(name))
+		return PTR_ERR(name);
+
+	dma_resv_lock(dmabuf->resv, NULL);
+	if (!list_empty(&dmabuf->attachments)) {
+		ret = -EBUSY;
+		kfree(name);
+	}
+	dma_resv_unlock(dmabuf->resv);
+	if (ret)
+		return ret;
+
+	spinlock(dmabuf->name_lock)
+	kfree(dmabuf->name);
+	dmabuf->name = name;
+	spinunlock(dmabuf->name_lock)
+
+	return 0;
+}
+
+M
+
+>
+>>
+>> spinlock(nam_lock)
+>> ...
+>>
+>> Nesting locks  that don't need to be nested always makes me nervous
+>> for future use that misses the lock/unlock pattern.
+>>
+>> However, this looks reasonable.
+>>
+>> With this current code, or if you update to the above pattern:
+>>
+>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>
+>Thanks for the ACK.
+>>
+>> Mike
+>>
+>>
+>>> out_unlock:
+>>> 	dma_resv_unlock(dmabuf->resv);
+>>> @@ -405,10 +407,10 @@ static void dma_buf_show_fdinfo(struct seq_file
+>>> *m, struct file *file)
+>>> 	/* Don't count the temporary reference taken inside procfs seq_show
+>>> */
+>>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+>>> -	dma_resv_lock(dmabuf->resv, NULL);
+>>> +	spin_lock(&dmabuf->name_lock);
+>>> 	if (dmabuf->name)
+>>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
+>>> -	dma_resv_unlock(dmabuf->resv);
+>>> +	spin_unlock(&dmabuf->name_lock);
+>>> }
+>>>
+>>> static const struct file_operations dma_buf_fops = {
+>>> @@ -546,6 +548,7 @@ struct dma_buf *dma_buf_export(const struct
+>>> dma_buf_export_info *exp_info)
+>>> 	dmabuf->size = exp_info->size;
+>>> 	dmabuf->exp_name = exp_info->exp_name;
+>>> 	dmabuf->owner = exp_info->owner;
+>>> +	spin_lock_init(&dmabuf->name_lock);
+>>> 	init_waitqueue_head(&dmabuf->poll);
+>>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>> index ab0c156..93108fd 100644
+>>> --- a/include/linux/dma-buf.h
+>>> +++ b/include/linux/dma-buf.h
+>>> @@ -311,6 +311,7 @@ struct dma_buf {
+>>> 	void *vmap_ptr;
+>>> 	const char *exp_name;
+>>> 	const char *name;
+>>> +	spinlock_t name_lock;
+>>> 	struct module *owner;
+>>> 	struct list_head list_node;
+>>> 	void *priv;
+>>> --
+>>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>>> Forum, a Linux Foundation Collaborative Project
+>
+>--
+>The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>Forum, a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
