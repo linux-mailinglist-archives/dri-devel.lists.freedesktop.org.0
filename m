@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7234203E62
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 19:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7973203E92
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 19:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F7A6E887;
-	Mon, 22 Jun 2020 17:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC40A6E898;
+	Mon, 22 Jun 2020 17:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A1D6E888
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 17:50:36 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id a137so16412022oii.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 10:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VLoZH+zU7vRwJiZNEzlRt+m/2je56sAVmtE6GsLb93w=;
- b=UBPmWL8qJGdUxQQh+LxmtGf4JOS658nPNcinujiAL6blXfi0N5tKEE44nxnJQ9Ax/o
- L/3Rt7SPva4vtgQcqBMGV8UZ1k+mwD40K9HNMDHWRpC5u3h6PxBDBk6MHiQZw8vIUfmF
- Auo+7abQid+kps38DTQxnbbLrUnNEug5l7Oho=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VLoZH+zU7vRwJiZNEzlRt+m/2je56sAVmtE6GsLb93w=;
- b=ijSpNoLA10KazUWBG9XJedlCyOkizzWqH5/Hy9czR64vmDfm2cjUmuufveC+P48PTT
- JfzcdyC8iVZhnHqGXA2j7xYOJrqhXYx4nkzinWmyvHlHOvEhNB14CM0nYqLWAlhx3gCo
- i7i2wPKZKuvUCpVHCccsEppqXljObUtFRyPBxfSoBnYLrh1FwSzHFklNzaElLd5UxmgF
- 95YK1inbHKbz4mCBRKmKB+0e+rJlOU5xGi5hPPGBgSHeKmBL+PgfCUp70t5Brq7LFNeG
- GjXsTeVlTkDf2//ChDS+XHSK5pvPVlohu/SNwkdy9MpmAent4XTgN+l/ySheIrX4oYD5
- U5Mg==
-X-Gm-Message-State: AOAM530mAJnN/Ep8sGOn6SiyOetEmffkRkbqUQO5xh2Cwra7QusEj6ds
- eXINoayGL955Z9jO57HO1MeXhmF0C6TyYLT8Lswr1w==
-X-Google-Smtp-Source: ABdhPJzjK8/qwjo4fJmgTm3Brn6X50TwQyv4stSk086nRUIOoyWMO7a/8mU9M8Z0C/71PpXzFVP6noZTFheLlIbd8G0=
-X-Received: by 2002:aca:ad97:: with SMTP id
- w145mr13458237oie.128.1592848235657; 
- Mon, 22 Jun 2020 10:50:35 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27FE56E898
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 17:57:26 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Mon, 22 Jun 2020 17:57:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: rtmasura+kernel@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-In0rNBlZYI@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-2-git-send-email-andrey.grodzovsky@amd.com>
- <6809de08-2035-edda-ebd2-05e7f77a1068@gmail.com>
- <cda48298-1e0b-7cad-7979-6d5c2f99ef94@amd.com>
- <78fd1669-e39b-d407-b558-f9ac76e494e2@amd.com>
-In-Reply-To: <78fd1669-e39b-d407-b558-f9ac76e494e2@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 22 Jun 2020 19:50:24 +0200
-Message-ID: <CAKMK7uHa386Reo4q99sLQDaQR6nh6dgGm3duOq135h+kC2dLjA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] drm: Add dummy page per device or GEM object
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,117 +52,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdW4gMjIsIDIwMjAgYXQgNzo0NSBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMjIuMDYuMjAgdW0gMTY6MzIgc2Nocmll
-YiBBbmRyZXkgR3JvZHpvdnNreToKPiA+Cj4gPiBPbiA2LzIyLzIwIDk6MTggQU0sIENocmlzdGlh
-biBLw7ZuaWcgd3JvdGU6Cj4gPj4gQW0gMjEuMDYuMjAgdW0gMDg6MDMgc2NocmllYiBBbmRyZXkg
-R3JvZHpvdnNreToKPiA+Pj4gV2lsbCBiZSB1c2VkIHRvIHJlcm91dGUgQ1BVIG1hcHBlZCBCTydz
-IHBhZ2UgZmF1bHRzIG9uY2UKPiA+Pj4gZGV2aWNlIGlzIHJlbW92ZWQuCj4gPj4+Cj4gPj4+IFNp
-Z25lZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29t
-Pgo+ID4+PiAtLS0KPiA+Pj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYyAgfCAgOCArKysr
-KysrKwo+ID4+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyB8IDEwICsrKysrKysrKysK
-PiA+Pj4gICBpbmNsdWRlL2RybS9kcm1fZmlsZS5oICAgICAgfCAgMiArKwo+ID4+PiAgIGluY2x1
-ZGUvZHJtL2RybV9nZW0uaCAgICAgICB8ICAyICsrCj4gPj4+ICAgNCBmaWxlcyBjaGFuZ2VkLCAy
-MiBpbnNlcnRpb25zKCspCj4gPj4+Cj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2ZpbGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jCj4gPj4+IGluZGV4IGM0Yzcw
-NGUuLjY3YzA3NzAgMTAwNjQ0Cj4gPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5j
-Cj4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jCj4gPj4+IEBAIC0xODgsNiAr
-MTg4LDEyIEBAIHN0cnVjdCBkcm1fZmlsZSAqZHJtX2ZpbGVfYWxsb2Moc3RydWN0Cj4gPj4+IGRy
-bV9taW5vciAqbWlub3IpCj4gPj4+ICAgICAgICAgICAgICAgZ290byBvdXRfcHJpbWVfZGVzdHJv
-eTsKPiA+Pj4gICAgICAgfQo+ID4+PiAgICsgICAgZmlsZS0+ZHVtbXlfcGFnZSA9IGFsbG9jX3Bh
-Z2UoR0ZQX0tFUk5FTCB8IF9fR0ZQX1pFUk8pOwo+ID4+PiArICAgIGlmICghZmlsZS0+ZHVtbXlf
-cGFnZSkgewo+ID4+PiArICAgICAgICByZXQgPSAtRU5PTUVNOwo+ID4+PiArICAgICAgICBnb3Rv
-IG91dF9wcmltZV9kZXN0cm95Owo+ID4+PiArICAgIH0KPiA+Pj4gKwo+ID4+PiAgICAgICByZXR1
-cm4gZmlsZTsKPiA+Pj4gICAgIG91dF9wcmltZV9kZXN0cm95Ogo+ID4+PiBAQCAtMjg0LDYgKzI5
-MCw4IEBAIHZvaWQgZHJtX2ZpbGVfZnJlZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUpCj4gPj4+ICAg
-ICAgIGlmIChkZXYtPmRyaXZlci0+cG9zdGNsb3NlKQo+ID4+PiAgICAgICAgICAgZGV2LT5kcml2
-ZXItPnBvc3RjbG9zZShkZXYsIGZpbGUpOwo+ID4+PiAgICsgICAgX19mcmVlX3BhZ2UoZmlsZS0+
-ZHVtbXlfcGFnZSk7Cj4gPj4+ICsKPiA+Pj4gICAgICAgZHJtX3ByaW1lX2Rlc3Ryb3lfZmlsZV9w
-cml2YXRlKCZmaWxlLT5wcmltZSk7Cj4gPj4+ICAgICAgICAgV0FSTl9PTighbGlzdF9lbXB0eSgm
-ZmlsZS0+ZXZlbnRfbGlzdCkpOwo+ID4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9wcmltZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jCj4gPj4+IGluZGV4IDFkZTJj
-ZGUuLmM0ODJlOWMgMTAwNjQ0Cj4gPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUu
-Ywo+ID4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiA+Pj4gQEAgLTMzNSw2
-ICszMzUsMTMgQEAgaW50IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlKHN0cnVjdAo+ID4+PiBk
-cm1fZGV2aWNlICpkZXYsCj4gPj4+ICAgICAgICAgcmV0ID0gZHJtX3ByaW1lX2FkZF9idWZfaGFu
-ZGxlKCZmaWxlX3ByaXYtPnByaW1lLAo+ID4+PiAgICAgICAgICAgICAgIGRtYV9idWYsICpoYW5k
-bGUpOwo+ID4+PiArCj4gPj4+ICsgICAgaWYgKCFyZXQpIHsKPiA+Pj4gKyAgICAgICAgb2JqLT5k
-dW1teV9wYWdlID0gYWxsb2NfcGFnZShHRlBfS0VSTkVMIHwgX19HRlBfWkVSTyk7Cj4gPj4+ICsg
-ICAgICAgIGlmICghb2JqLT5kdW1teV9wYWdlKQo+ID4+PiArICAgICAgICAgICAgcmV0ID0gLUVO
-T01FTTsKPiA+Pj4gKyAgICB9Cj4gPj4+ICsKPiA+Pgo+ID4+IFdoaWxlIHRoZSBwZXIgZmlsZSBj
-YXNlIHN0aWxsIGxvb2tzIGFjY2VwdGFibGUgdGhpcyBpcyBhIGNsZWFyIE5BSwo+ID4+IHNpbmNl
-IGl0IHdpbGwgbWFzc2l2ZWx5IGluY3JlYXNlIHRoZSBtZW1vcnkgbmVlZGVkIGZvciBhIHByaW1l
-Cj4gPj4gZXhwb3J0ZWQgb2JqZWN0Lgo+ID4+Cj4gPj4gSSB0aGluayB0aGF0IHRoaXMgaXMgcXVp
-dGUgb3ZlcmtpbGwgaW4gdGhlIGZpcnN0IHBsYWNlIGFuZCBmb3IgdGhlCj4gPj4gaG90IHVucGx1
-ZyBjYXNlIHdlIGNhbiBqdXN0IHVzZSB0aGUgZ2xvYmFsIGR1bW15IHBhZ2UgYXMgd2VsbC4KPiA+
-Pgo+ID4+IENocmlzdGlhbi4KPiA+Cj4gPgo+ID4gR2xvYmFsIGR1bW15IHBhZ2UgaXMgZ29vZCBm
-b3IgcmVhZCBhY2Nlc3MsIHdoYXQgZG8geW91IGRvIG9uIHdyaXRlCj4gPiBhY2Nlc3MgPyBNeSBm
-aXJzdCBhcHByb2FjaCB3YXMgaW5kZWVkIHRvIG1hcCBhdCBmaXJzdCBnbG9iYWwgZHVtbXkKPiA+
-IHBhZ2UgYXMgcmVhZCBvbmx5IGFuZCBtYXJrIHRoZSB2bWEtPnZtX2ZsYWdzIGFzICFWTV9TSEFS
-RUQgYXNzdW1pbmcKPiA+IHRoYXQgdGhpcyB3b3VsZCB0cmlnZ2VyIENvcHkgT24gV3JpdGUgZmxv
-dyBpbiBjb3JlIG1tCj4gPiAoaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuNy1y
-Yzcvc291cmNlL21tL21lbW9yeS5jI0wzOTc3KQo+ID4gb24gdGhlIG5leHQgcGFnZSBmYXVsdCB0
-byBzYW1lIGFkZHJlc3MgdHJpZ2dlcmVkIGJ5IGEgd3JpdGUgYWNjZXNzIGJ1dAo+ID4gdGhlbiBp
-IHJlYWxpemVkIGEgbmV3IENPVyBwYWdlIHdpbGwgYmUgYWxsb2NhdGVkIGZvciBlYWNoIHN1Y2gg
-bWFwcGluZwo+ID4gYW5kIHRoaXMgaXMgbXVjaCBtb3JlIHdhc3RlZnVsIHRoZW4gaGF2aW5nIGEg
-ZGVkaWNhdGVkIHBhZ2UgcGVyIEdFTQo+ID4gb2JqZWN0Lgo+Cj4gWWVhaCwgYnV0IHRoaXMgaXMg
-b25seSBmb3IgYSB2ZXJ5IHZlcnkgc21hbGwgY29ybmVyIGNhc2VzLiBXaGF0IHdlIG5lZWQKPiB0
-byBwcmV2ZW50IGlzIGluY3JlYXNpbmcgdGhlIG1lbW9yeSB1c2FnZSBkdXJpbmcgbm9ybWFsIG9w
-ZXJhdGlvbiB0byBtdWNoLgo+Cj4gVXNpbmcgbWVtb3J5IGR1cmluZyB0aGUgdW5wbHVnIGlzIGNv
-bXBsZXRlbHkgdW5wcm9ibGVtYXRpYyBiZWNhdXNlIHdlCj4ganVzdCByZWxlYXNlZCBxdWl0ZSBh
-IGJ1bmNoIG9mIGl0IGJ5IHJlbGVhc2luZyBhbGwgdGhvc2Ugc3lzdGVtIG1lbW9yeQo+IGJ1ZmZl
-cnMuCj4KPiBBbmQgSSdtIHByZXR0eSBzdXJlIHRoYXQgQ09XZWQgcGFnZXMgYXJlIGNvcnJlY3Rs
-eSBhY2NvdW50ZWQgdG93YXJkcyB0aGUKPiB1c2VkIG1lbW9yeSBvZiBhIHByb2Nlc3MuCj4KPiBT
-byBJIHRoaW5rIGlmIHRoYXQgYXBwcm9hY2ggd29ya3MgYXMgaW50ZW5kZWQgYW5kIHRoZSBDT1cg
-cGFnZXMgYXJlCj4gcmVsZWFzZWQgYWdhaW4gb24gdW5tYXBwaW5nIGl0IHdvdWxkIGJlIHRoZSBw
-ZXJmZWN0IHNvbHV0aW9uIHRvIHRoZSBwcm9ibGVtLgo+Cj4gRGFuaWVsIHdoYXQgZG8geW91IHRo
-aW5rPwoKSWYgQ09XIHdvcmtzLCBzdXJlIHNvdW5kcyByZWFzb25hYmxlLiBBbmQgaWYgd2UgY2Fu
-IG1ha2Ugc3VyZSB3ZQptYW5hZ2VkIHRvIGRyb3AgYWxsIHRoZSBzeXN0ZW0gYWxsb2NhdGlvbnMg
-KG90aGVyd2lzZSBzdWRkZW5seSAyeAptZW1vcnkgdXNhZ2UsIHdvcnN0IGNhc2UpLiBCdXQgSSBo
-YXZlIG5vIGlkZWEgd2hldGhlciB3ZSBjYW4KcmV0cm9zaG9laG9ybiB0aGF0IGludG8gYW4gZXN0
-YWJsaXNoZWQgdm1hLCB5b3UgbWlnaHQgaGF2ZSBmdW4gc3R1ZmYKbGlrZSBhIG1rd3JpdGUgaGFu
-ZGxlciB0aGVyZSAod2hpY2ggSSB0aG91Z2h0IGlzIHRoZSBDT1cgaGFuZGxlcgp0aGluZywgYnV0
-IHJlYWxseSBubyBpZGVhKS4KCklmIHdlIG5lZWQgdG8gbWFzc2l2ZWx5IGNoYW5nZSBzdHVmZiB0
-aGVuIEkgdGhpbmsgcncgZHVtbXkgcGFnZSwKYWxsb2NhdGVkIG9uIGZpcnN0IGZhdWx0IGFmdGVy
-IGhvdHVucGx1ZyAobWF5YmUganVzdCBtYWtlIGl0IG9uZSBwZXIKb2JqZWN0LCB0aGF0J3Mgc2lt
-cGxlc3QpIHNlZW1zIGxpa2UgdGhlIG11Y2ggc2FmZXIgb3B0aW9uLiBNdWNoIGxlc3MKY29kZSB0
-aGF0IGNhbiBnbyB3cm9uZy4KLURhbmllbAoKPiBSZWdhcmRzLAo+IENocmlzdGlhbi4KPgo+ID4g
-V2UgY2FuIGluZGVlZCBvcHRpbWl6ZSBieSBhbGxvY2F0aW5nIHRoaXMgZHVtbXkgcGFnZSBvbiB0
-aGUgZmlyc3QgcGFnZQo+ID4gZmF1bHQgYWZ0ZXIgZGV2aWNlIGRpc2Nvbm5lY3QgaW5zdGVhZCBv
-biBHRU0gb2JqZWN0IGNyZWF0aW9uLgo+ID4KPiA+IEFuZHJleQo+ID4KPiA+Cj4gPj4KPiA+Pj4g
-bXV0ZXhfdW5sb2NrKCZmaWxlX3ByaXYtPnByaW1lLmxvY2spOwo+ID4+PiAgICAgICBpZiAocmV0
-KQo+ID4+PiAgICAgICAgICAgZ290byBmYWlsOwo+ID4+PiBAQCAtMTAwNiw2ICsxMDEzLDkgQEAg
-dm9pZCBkcm1fcHJpbWVfZ2VtX2Rlc3Ryb3koc3RydWN0Cj4gPj4+IGRybV9nZW1fb2JqZWN0ICpv
-YmosIHN0cnVjdCBzZ190YWJsZSAqc2cpCj4gPj4+ICAgICAgICAgICBkbWFfYnVmX3VubWFwX2F0
-dGFjaG1lbnQoYXR0YWNoLCBzZywgRE1BX0JJRElSRUNUSU9OQUwpOwo+ID4+PiAgICAgICBkbWFf
-YnVmID0gYXR0YWNoLT5kbWFidWY7Cj4gPj4+ICAgICAgIGRtYV9idWZfZGV0YWNoKGF0dGFjaC0+
-ZG1hYnVmLCBhdHRhY2gpOwo+ID4+PiArCj4gPj4+ICsgICAgX19mcmVlX3BhZ2Uob2JqLT5kdW1t
-eV9wYWdlKTsKPiA+Pj4gKwo+ID4+PiAgICAgICAvKiByZW1vdmUgdGhlIHJlZmVyZW5jZSAqLwo+
-ID4+PiAgICAgICBkbWFfYnVmX3B1dChkbWFfYnVmKTsKPiA+Pj4gICB9Cj4gPj4+IGRpZmYgLS1n
-aXQgYS9pbmNsdWRlL2RybS9kcm1fZmlsZS5oIGIvaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaAo+ID4+
-PiBpbmRleCAxOWRmODAyLi4zNDlhNjU4IDEwMDY0NAo+ID4+PiAtLS0gYS9pbmNsdWRlL2RybS9k
-cm1fZmlsZS5oCj4gPj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9maWxlLmgKPiA+Pj4gQEAgLTMz
-NSw2ICszMzUsOCBAQCBzdHJ1Y3QgZHJtX2ZpbGUgewo+ID4+PiAgICAgICAgKi8KPiA+Pj4gICAg
-ICAgc3RydWN0IGRybV9wcmltZV9maWxlX3ByaXZhdGUgcHJpbWU7Cj4gPj4+ICAgKyAgICBzdHJ1
-Y3QgcGFnZSAqZHVtbXlfcGFnZTsKPiA+Pj4gKwo+ID4+PiAgICAgICAvKiBwcml2YXRlOiAqLwo+
-ID4+PiAgICNpZiBJU19FTkFCTEVEKENPTkZJR19EUk1fTEVHQUNZKQo+ID4+PiAgICAgICB1bnNp
-Z25lZCBsb25nIGxvY2tfY291bnQ7IC8qIERSSTEgbGVnYWN5IGxvY2sgY291bnQgKi8KPiA+Pj4g
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9nZW0uaCBiL2luY2x1ZGUvZHJtL2RybV9nZW0u
-aAo+ID4+PiBpbmRleCAwYjM3NTA2Li40NzQ2MGQxIDEwMDY0NAo+ID4+PiAtLS0gYS9pbmNsdWRl
-L2RybS9kcm1fZ2VtLmgKPiA+Pj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2dlbS5oCj4gPj4+IEBA
-IC0zMTAsNiArMzEwLDggQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0IHsKPiA+Pj4gICAgICAgICoK
-PiA+Pj4gICAgICAgICovCj4gPj4+ICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9m
-dW5jcyAqZnVuY3M7Cj4gPj4+ICsKPiA+Pj4gKyAgICBzdHJ1Y3QgcGFnZSAqZHVtbXlfcGFnZTsK
-PiA+Pj4gICB9Owo+ID4+PiAgICAgLyoqCj4gPj4KPgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
+
+--- Comment #18 from rtmasura+kernel@hotmail.com ---
+lspci:
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890 Northbridge
+only single slot PCI-e GFX Hydra part (rev 02)
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD/ATI] RD890S/RD990 I/O Memory
+Management Unit (IOMMU)
+00:02.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GFX port 0)
+00:04.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GPP Port 0)
+00:07.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GPP Port 3)
+00:0b.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD990 PCI to
+PCI bridge (PCI Express GFX2 port 0)
+00:0d.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
+PCI to PCI bridge (PCI Express GPP2 Port 0)
+00:11.0 RAID bus controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 SATA Controller [RAID5 mode] (rev 40)
+00:12.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
+00:12.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB EHCI Controller
+00:13.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
+00:13.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB EHCI Controller
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 SMBus Controller
+(rev 42)
+00:14.2 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 Azalia
+(Intel HDA) (rev 40)
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD/ATI] SB7x0/SB8x0/SB9x0
+LPC host controller (rev 40)
+00:14.4 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 PCI to PCI
+Bridge (rev 40)
+00:14.5 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI2 Controller
+00:16.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
+00:16.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
+SB7x0/SB8x0/SB9x0 USB EHCI Controller
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+HyperTransport Configuration
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+Address Map
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+DRAM Controller
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+Miscellaneous Control
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
+Link Control
+02:00.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:04.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:05.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:06.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:08.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+03:09.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
+Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
+04:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+04:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+06:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+06:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+07:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+07:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
+(rev 01)
+09:00.0 VGA compatible controller: NVIDIA Corporation GP104GL [Quadro P4000]
+(rev a1)
+09:00.1 Audio device: NVIDIA Corporation GP104 High Definition Audio Controller
+(rev a1)
+0a:00.0 USB controller: NEC Corporation uPD720200 USB 3.0 Host Controller (rev
+03)
+0b:00.0 SATA controller: JMicron Technology Corp. JMB363 SATA/IDE Controller
+(rev 03)
+0b:00.1 IDE interface: JMicron Technology Corp. JMB363 SATA/IDE Controller (rev
+03)
+0c:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Device 1470 (rev c3)
+0d:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Device 1471
+0e:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Vega
+10 XL/XT [Radeon RX Vega 56/64] (rev c3)
+0e:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Vega 10 HDMI Audio
+[Radeon Vega 56/64]
+
+A few notes on that: The AMD Vega56 is used for this PC, the Quadro P4000 is
+disabled on my system and passed through to VMs. 
+
+I haven't found any way to trigger it. Seems completely random. Sat down this
+morning to update a VM (not the one with the nvidia passthrough) and it froze,
+wasn't any real graphical things going on other than normal KDE stuff. 
+
+
+lscpu:
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   48 bits physical, 48 bits virtual
+CPU(s):                          6
+On-line CPU(s) list:             0-5
+Thread(s) per core:              1
+Core(s) per socket:              6
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       AuthenticAMD
+CPU family:                      16
+Model:                           10
+Model name:                      AMD Phenom(tm) II X6 1090T Processor
+Stepping:                        0
+CPU MHz:                         3355.192
+BogoMIPS:                        6421.46
+Virtualization:                  AMD-V
+L1d cache:                       384 KiB
+L1i cache:                       384 KiB
+L2 cache:                        3 MiB
+L3 cache:                        6 MiB
+NUMA node0 CPU(s):               0-5
+Vulnerability Itlb multihit:     Not affected
+Vulnerability L1tf:              Not affected
+Vulnerability Mds:               Not affected
+Vulnerability Meltdown:          Not affected
+Vulnerability Spec store bypass: Not affected
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and
+__user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Full AMD retpoline, STIBP
+disabled, RSB filling
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Not affected
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep
+mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext
+fxsr_
+                                 opt pdpe1gb rdtscp lm 3dnowext 3dnow
+constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf pni monitor
+cx16 po
+                                 pcnt lahf_lm cmp_legacy svm extapic cr8_legacy
+abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt cpb hw_pstate vmmcall
+                                  npt lbrv svm_lock nrip_save pausefilter
+
+
+I would be happy to help with any testing, just let me know what information
+you need.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
