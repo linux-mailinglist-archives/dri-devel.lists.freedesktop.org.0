@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF968202FB9
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 08:29:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F69202FBA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 08:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA236E0DA;
-	Mon, 22 Jun 2020 06:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 530D56E10C;
+	Mon, 22 Jun 2020 06:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40C626E0DA;
- Mon, 22 Jun 2020 06:29:20 +0000 (UTC)
-IronPort-SDR: QGqM+PxDqZFHtqiLU0vj5lG2neZ60TIJCR0AvFc9/h++qXsJoz7Ec23hwHhLrq2qtv1KL8bNQP
- 9fUiEtS+4bOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9659"; a="205153040"
-X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="205153040"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D056E08C;
+ Mon, 22 Jun 2020 06:29:21 +0000 (UTC)
+IronPort-SDR: rdAkhjes6paNYwDleUTTWPWi1S/u8i2RKkjzMMfwvNvLSy/ZwoJP4kWGWQZW1evNMquZUmIk/x
+ BpXLnl6+JszQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9659"; a="205153045"
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="205153045"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2020 23:29:20 -0700
-IronPort-SDR: g77WJpEOgCrN4s6VYHp+s+mfOzn3duKRBUhq8phVNJrYuFe18RIR+RkOdR+4/WOAMYiKhK++1C
- l0UqLoGxqoJg==
+ 21 Jun 2020 23:29:21 -0700
+IronPort-SDR: tlktYmtsMe6LFri9tEs5rWaoKPhpVS/hZrGQRO3IHDCK1jJd6i2tdpBa/0mxmNP1dUEemErjwf
+ XEhlzvgdEbZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="300735621"
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="300735626"
 Received: from bhanu-nuc8i7beh.iind.intel.com ([10.145.162.210])
- by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2020 23:29:18 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2020 23:29:20 -0700
 From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 To: bhanuprakash.modem@intel.com, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [v9 2/3] drm/debug: Expose connector VRR monitor range via debugfs
-Date: Mon, 22 Jun 2020 19:55:18 +0530
-Message-Id: <20200622142519.16214-3-bhanuprakash.modem@intel.com>
+Subject: [v1 3/3] Revert "drm/amd/display: Expose connector VRR range via
+ debugfs"
+Date: Mon, 22 Jun 2020 19:55:19 +0530
+Message-Id: <20200622142519.16214-4-bhanuprakash.modem@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200622142519.16214-1-bhanuprakash.modem@intel.com>
 References: <20200622142519.16214-1-bhanuprakash.modem@intel.com>
@@ -49,56 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1doeV0KSXQncyB1c2VmdWwgdG8ga25vdyB0aGUgbWluIGFuZCBtYXggdnJyIHJhbmdlIGZvciBJ
-R1QgdGVzdGluZy4KCltIb3ddCkV4cG9zZSB0aGUgbWluIGFuZCBtYXggdmZyZXEgZm9yIHRoZSBj
-b25uZWN0b3IgdmlhIGEgZGVidWdmcyBmaWxlCm9uIHRoZSBjb25uZWN0b3IsICJ2cnJfcmFuZ2Ui
-LgoKRXhhbXBsZSB1c2FnZTogY2F0IC9zeXMva2VybmVsL2RlYnVnL2RyaS8wL0RQLTEvdnJyX3Jh
-bmdlCgp2MjoKKiBGaXggdGhlIHR5cG8gaW4gbWF4X3ZmcmVxIChNYW5hc2kpCiogQ2hhbmdlIHRo
-ZSBuYW1lIG9mIG5vZGUgdG8gaTkxNV92cnJfaW5mbyBzbyB3ZSBjYW4gYWRkCm90aGVyIHZyciBp
-bmZvIGZvciBtb3JlIGRlYnVnIGluZm8gKE1hbmFzaSkKKiBDaGFuZ2UgdGhlIFZSUiBjYXBhYmxl
-IHRvIGRpc3BsYXkgWWVzIG9yIE5vIChNYW5hc2kpCiogRml4IGluZGVudGF0aW9uIGNoZWNrcGF0
-Y2ggZXJyb3JzIChNYW5hc2kpCnYzOgoqIFJlbW92ZSB0aGUgdW5uZWNlc3NhcnkgZGVidWcgcHJp
-bnQgKE1hbmFzaSkKdjQ6CiogUmViYXNlCnY1OgoqIFJlbmFtZSB0byB2cnJfcmFuZ2UgdG8gbWF0
-Y2ggQU1EIGRlYnVnZnMKdjY6CiogUmViYXNlIChtYW5hc2kpCnY3OgoqIEZpeCBjbXBpbGF0aW9u
-IGR1ZSB0byByZWJhc2UKdjg6CiogTW92ZSBkZWJ1Z2ZzIG5vZGUgY3JlYXRpb24gbG9naWMgdG8g
-RFJNIChFbWlsKQoqIFJlbW92ZSBBTUQgc3BlY2lmaWMgbG9naWMgKEVtaWwpCnY5OgoqIFNlcGVy
-YXRlIHBhdGNoIGZvciByZW1vdmFsIG9mIEFNRCBzcGVjaWZpYyBsb2dpYyAoTWFuYXNpKQoKU2ln
-bmVkLW9mZi1ieTogQmhhbnVwcmFrYXNoIE1vZGVtIDxiaGFudXByYWthc2gubW9kZW1AaW50ZWwu
-Y29tPgpTaWduZWQtb2ZmLWJ5OiBNYW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5uYXZhcmVAaW50ZWwu
-Y29tPgpDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFZp
-bGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBIYXJyeSBX
-ZW50bGFuZCA8aGFycnkud2VudGxhbmRAYW1kLmNvbT4KQ0M6IEVtaWwgVmVsaWtvdiA8ZW1pbC5s
-LnZlbGlrb3ZAZ21haWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmcy5jIHwg
-MjIgKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlvbnMo
-KykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZGVidWdmcy5jCmluZGV4IGJmZTQ2MDJmMjA2Yi4uM2Q3MTgyMDAxMDA0IDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYworKysgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2RlYnVnZnMuYwpAQCAtMzc2LDYgKzM3NiwyNCBAQCBzdGF0aWMgc3NpemVfdCBl
-ZGlkX3dyaXRlKHN0cnVjdCBmaWxlICpmaWxlLCBjb25zdCBjaGFyIF9fdXNlciAqdWJ1ZiwKIAly
-ZXR1cm4gKHJldCkgPyByZXQgOiBsZW47CiB9CiAKKy8qCisgKiBSZXR1cm5zIHRoZSBtaW4gYW5k
-IG1heCB2cnIgdmZyZXEgdGhyb3VnaCB0aGUgY29ubmVjdG9yJ3MgZGVidWdmcyBmaWxlLgorICog
-RXhhbXBsZSB1c2FnZTogY2F0IC9zeXMva2VybmVsL2RlYnVnL2RyaS8wL0RQLTEvdnJyX3Jhbmdl
-CisgKi8KK3N0YXRpYyBpbnQgdnJyX3JhbmdlX3Nob3coc3RydWN0IHNlcV9maWxlICptLCB2b2lk
-ICpkYXRhKQoreworCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IgPSBtLT5wcml2YXRl
-OworCisJaWYgKGNvbm5lY3Rvci0+c3RhdHVzICE9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVk
-KQorCQlyZXR1cm4gLUVOT0RFVjsKKworCXNlcV9wcmludGYobSwgIk1pbjogJXVcbiIsICh1OClj
-b25uZWN0b3ItPmRpc3BsYXlfaW5mby5tb25pdG9yX3JhbmdlLm1pbl92ZnJlcSk7CisJc2VxX3By
-aW50ZihtLCAiTWF4OiAldVxuIiwgKHU4KWNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLm1vbml0b3Jf
-cmFuZ2UubWF4X3ZmcmVxKTsKKworCXJldHVybiAwOworfQorREVGSU5FX1NIT1dfQVRUUklCVVRF
-KHZycl9yYW5nZSk7CisKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGRybV9l
-ZGlkX2ZvcHMgPSB7CiAJLm93bmVyID0gVEhJU19NT0RVTEUsCiAJLm9wZW4gPSBlZGlkX29wZW4s
-CkBAIC00MTMsNiArNDMxLDEwIEBAIHZvaWQgZHJtX2RlYnVnZnNfY29ubmVjdG9yX2FkZChzdHJ1
-Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogCS8qIGVkaWQgKi8KIAlkZWJ1Z2ZzX2NyZWF0
-ZV9maWxlKCJlZGlkX292ZXJyaWRlIiwgU19JUlVHTyB8IFNfSVdVU1IsIHJvb3QsIGNvbm5lY3Rv
-ciwKIAkJCSAgICAmZHJtX2VkaWRfZm9wcyk7CisKKwkvKiB2cnIgcmFuZ2UgKi8KKwlkZWJ1Z2Zz
-X2NyZWF0ZV9maWxlKCJ2cnJfcmFuZ2UiLCBTX0lSVUdPLCByb290LCBjb25uZWN0b3IsCisJCQkg
-ICAgJnZycl9yYW5nZV9mb3BzKTsKIH0KIAogdm9pZCBkcm1fZGVidWdmc19jb25uZWN0b3JfcmVt
-b3ZlKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCi0tIAoyLjIwLjEKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+As both VRR min and max are already part of drm_display_info,
+drm can expose this VRR range for each connector.
+
+Hence this logic should move to core DRM.
+
+This reverts commit 727962f030c23422a01e8b22d0f463815fb15ec4.
+
+Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: AMD gfx <amd-gfx@lists.freedesktop.org>
+---
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 -------------------
+ 1 file changed, 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 076af267b488..71387d2af2ed 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -820,24 +820,6 @@ static int output_bpc_show(struct seq_file *m, void *data)
+ 	return res;
+ }
+ 
+-/*
+- * Returns the min and max vrr vfreq through the connector's debugfs file.
+- * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
+- */
+-static int vrr_range_show(struct seq_file *m, void *data)
+-{
+-	struct drm_connector *connector = m->private;
+-	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+-
+-	if (connector->status != connector_status_connected)
+-		return -ENODEV;
+-
+-	seq_printf(m, "Min: %u\n", (unsigned int)aconnector->min_vfreq);
+-	seq_printf(m, "Max: %u\n", (unsigned int)aconnector->max_vfreq);
+-
+-	return 0;
+-}
+-
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ /*
+  * Returns the HDCP capability of the Display (1.4 for now).
+@@ -1001,7 +983,6 @@ static ssize_t dp_dpcd_data_read(struct file *f, char __user *buf,
+ DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
+ DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
+ DEFINE_SHOW_ATTRIBUTE(output_bpc);
+-DEFINE_SHOW_ATTRIBUTE(vrr_range);
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
+ #endif
+@@ -1059,7 +1040,6 @@ static const struct {
+ 		{"phy_settings", &dp_phy_settings_debugfs_fop},
+ 		{"test_pattern", &dp_phy_test_pattern_fops},
+ 		{"output_bpc", &output_bpc_fops},
+-		{"vrr_range", &vrr_range_fops},
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ 		{"hdcp_sink_capability", &hdcp_sink_capability_fops},
+ #endif
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
