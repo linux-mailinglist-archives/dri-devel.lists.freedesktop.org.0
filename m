@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155FC20390F
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 16:24:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C72A7203970
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 16:28:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110EA6E81C;
-	Mon, 22 Jun 2020 14:24:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA6F6E804;
+	Mon, 22 Jun 2020 14:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 473946E81C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 14:24:50 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id d67so15742104oig.6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 07:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Pq0o845q+TFQnWFAED4xcPE0QdHR/oMejdmFT1x2Uzs=;
- b=i0IOWNGGdNTWcqQLuW+vUKnjl4aKC1xOUiF70Mp2zvzwru/EEg0bXrrXPmy3GeMiCn
- IU1HdQYfoeJZFsm8ACrVC6IMustvrxDtVvaP4+WDTrSNcF/dhMevovEJxw+P1MqTb7GT
- tg9eszkYj/qY5Qtmv8RuOsDCGlHXy0hbkcrvc=
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6647C6E0EB;
+ Mon, 22 Jun 2020 14:28:24 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id n23so19519992ljh.7;
+ Mon, 22 Jun 2020 07:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=P5gBKjnB1OsXDdzy1+PQDW2YHOnzPHmavQRkrhB8/ks=;
+ b=pmYe8CFrf/1oTHQD7/8NK7Q3f8a2RLFe5qOEE56ftVtE91mg1r2qJXrzxiQz5HgII3
+ ihM+eO3QwqPiKlCN71XPpxkiXGOYE8GOtlXP7tgK629Ia435CXRdn6CFmj7g2G1rdZNN
+ lJYjgJ4VrMtwa+vbYb5093qepsquLGbljQEdGVUoYWGCh7/kvK8m0U/R+/FYPc/kh+cK
+ svtL71wHV+TxPd/2ZUet635lNM9xYvr4+LJdUmIo0/DM8TCQYMu/dvdu1yUhU/RXMXm9
+ 7YMzqztx0g56ySAQ7atK2bM9P+1z1RLz7lXSy1uxIoW5pl4CGfwTRZ3DMMq7qd52z+fs
+ hO/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Pq0o845q+TFQnWFAED4xcPE0QdHR/oMejdmFT1x2Uzs=;
- b=lpQWMFMYuHjXJn5b4h+MTo/a8+uHiu+EYhuuxHK5xltjQWk7O7yetlOYXVYwI0ydLW
- 0mElmrxIAYa2pm4rsWY5e7HAjkMBnAvOoQp1Yr4SsnK2BzaUJql9Jd2JDOn4TjvASY6p
- DCwa/wxALLxZtVL331/ZZbSPJlw6XIHI1RcMC7AVRmu5JCi1AOABtnTvPDryGRzFrkb3
- i6pNNjTDU5AORr/tgbtBkzTjQbjTBhkAyZ547vCI+mmzFN04PqLiPJF7uboUmG771V2/
- ggYNFxoMEJylLtH9iWOfiEJ8kWmFX6VAh7Nspquo0fCwpSx/g5VWMWeK4H98nW5VD0pu
- 9XeA==
-X-Gm-Message-State: AOAM5310YBxH46IPuNn8u9YXk9YUa4X0WFpQuElgXxTf92Be2GPM+EKw
- RPS/cxJZYfAHC4JrHfRyw08MH24421a1zxPa+YZCog==
-X-Google-Smtp-Source: ABdhPJxynmWvG+o/4EbTUhESpNF8T0bjh0oo/UhhSp2gK3yu79zD1BCCEtPMCyC+Sd6x2stT7jV4+WgNcwRpv720yEI=
-X-Received: by 2002:aca:ad97:: with SMTP id
- w145mr12706039oie.128.1592835889599; 
- Mon, 22 Jun 2020 07:24:49 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=P5gBKjnB1OsXDdzy1+PQDW2YHOnzPHmavQRkrhB8/ks=;
+ b=lJx6wOjaJthTXgEhe30DQyiRfiGseNaTyp3hSqqWaXU95U/8fu4QIurUWZHOUVU4vc
+ KLXl2fy9pFk7kFWLYhDcpYg1z/IlparY4mk5E2Qwh4ZW+w8JpsWhwjwbepu3FeMPWpt1
+ DL0ji7OCai8t5MXzRHM7hjhDXfVDa4I05qq6mF+iZc447xoWqg7R1LJI5h90uwkDcASC
+ 69LaOy0SpHUQJe1A1p6ShCkLG9/ktDtC6lXdkZVbNAthbmRp7p60/mausD/EVMJLFMXu
+ sinzBjVRyqcpzb6HUzMQwQF/UWt3wYBN2OkQ0w+w+gry0s0AgTZCoTR9MsxenAUHVKsN
+ ejSg==
+X-Gm-Message-State: AOAM5328818D6wtwSkJWSwz9pigL11Nguhs4Rd/5vcCPbkeqgR2NP5SJ
+ RdlU9XKr5l/ucJa7Hopw6cY=
+X-Google-Smtp-Source: ABdhPJyeuLaNYxxmzjgf+lD2RopbCcx+47YCVlE8qX0wgtkcnCQ8Lb3EfE5uStg7ADgeuGgn61xDzw==
+X-Received: by 2002:a2e:5758:: with SMTP id r24mr338992ljd.203.1592836102483; 
+ Mon, 22 Jun 2020 07:28:22 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id s17sm2744431ljd.51.2020.06.22.07.28.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 07:28:22 -0700 (PDT)
+Date: Mon, 22 Jun 2020 17:28:18 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 1/8] drm: Add dummy page per device or GEM object
+Message-ID: <20200622172818.307f626b@eldfell>
+In-Reply-To: <CAKMK7uG+RTRZ39na3GO7OWiUASokEhe0Ndkex9vNOMj7R34Dwg@mail.gmail.com>
 References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
  <1592719388-13819-2-git-send-email-andrey.grodzovsky@amd.com>
- <20200622093501.GZ20149@phenom.ffwll.local> <20200622172157.49b835ca@eldfell>
-In-Reply-To: <20200622172157.49b835ca@eldfell>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 22 Jun 2020 16:24:38 +0200
-Message-ID: <CAKMK7uG+RTRZ39na3GO7OWiUASokEhe0Ndkex9vNOMj7R34Dwg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] drm: Add dummy page per device or GEM object
-To: Pekka Paalanen <ppaalanen@gmail.com>
+ <20200622093501.GZ20149@phenom.ffwll.local>
+ <20200622172157.49b835ca@eldfell>
+ <CAKMK7uG+RTRZ39na3GO7OWiUASokEhe0Ndkex9vNOMj7R34Dwg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +69,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+Cc: Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1109442430=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 22, 2020 at 4:22 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Mon, 22 Jun 2020 11:35:01 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Sun, Jun 21, 2020 at 02:03:01AM -0400, Andrey Grodzovsky wrote:
-> > > Will be used to reroute CPU mapped BO's page faults once
-> > > device is removed.
-> > >
-> > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_file.c  |  8 ++++++++
-> > >  drivers/gpu/drm/drm_prime.c | 10 ++++++++++
-> > >  include/drm/drm_file.h      |  2 ++
-> > >  include/drm/drm_gem.h       |  2 ++
-> > >  4 files changed, 22 insertions(+)
->
-> ...
->
-> > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > > index 0b37506..47460d1 100644
-> > > --- a/include/drm/drm_gem.h
-> > > +++ b/include/drm/drm_gem.h
-> > > @@ -310,6 +310,8 @@ struct drm_gem_object {
-> > >      *
-> > >      */
-> > >     const struct drm_gem_object_funcs *funcs;
-> > > +
-> > > +   struct page *dummy_page;
-> > >  };
+--===============1109442430==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/GZ6mKcFtfhRl.t+Qvy7Pj+y"; protocol="application/pgp-signature"
+
+--Sig_/GZ6mKcFtfhRl.t+Qvy7Pj+y
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 22 Jun 2020 16:24:38 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Mon, Jun 22, 2020 at 4:22 PM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
 > >
-> > I think amdgpu doesn't care, but everyone else still might care somewhat
-> > about flink. That also shares buffers, so also needs to allocate the
-> > per-bo dummy page.
->
-> Do you really care about making flink not explode on device
-> hot-unplug? Why not just leave flink users die in a fire?
-> It's not a regression.
+> > On Mon, 22 Jun 2020 11:35:01 +0200
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > =20
+> > > On Sun, Jun 21, 2020 at 02:03:01AM -0400, Andrey Grodzovsky wrote: =20
+> > > > Will be used to reroute CPU mapped BO's page faults once
+> > > > device is removed.
+> > > >
+> > > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_file.c  |  8 ++++++++
+> > > >  drivers/gpu/drm/drm_prime.c | 10 ++++++++++
+> > > >  include/drm/drm_file.h      |  2 ++
+> > > >  include/drm/drm_gem.h       |  2 ++
+> > > >  4 files changed, 22 insertions(+) =20
+> >
+> > ...
+> > =20
+> > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > > > index 0b37506..47460d1 100644
+> > > > --- a/include/drm/drm_gem.h
+> > > > +++ b/include/drm/drm_gem.h
+> > > > @@ -310,6 +310,8 @@ struct drm_gem_object {
+> > > >      *
+> > > >      */
+> > > >     const struct drm_gem_object_funcs *funcs;
+> > > > +
+> > > > +   struct page *dummy_page;
+> > > >  }; =20
+> > >
+> > > I think amdgpu doesn't care, but everyone else still might care somew=
+hat
+> > > about flink. That also shares buffers, so also needs to allocate the
+> > > per-bo dummy page. =20
+> >
+> > Do you really care about making flink not explode on device
+> > hot-unplug? Why not just leave flink users die in a fire?
+> > It's not a regression. =20
+>=20
+> It's not about exploding, they won't. With flink you can pass a buffer
+> from one address space to the other, so imo we should avoid false
+> sharing. E.g. if you happen to write something $secret into a private
+> buffer, but only $non-secret stuff into shared buffers. Then if you
+> unplug, your well-kept $secret might suddenly be visible by lots of
+> other processes you never intended to share it with.
+>=20
+> Just feels safer to plug that hole completely.
 
-It's not about exploding, they won't. With flink you can pass a buffer
-from one address space to the other, so imo we should avoid false
-sharing. E.g. if you happen to write something $secret into a private
-buffer, but only $non-secret stuff into shared buffers. Then if you
-unplug, your well-kept $secret might suddenly be visible by lots of
-other processes you never intended to share it with.
+Ah! Ok, I clearly didn't understand the consequences.
 
-Just feels safer to plug that hole completely.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Thanks,
+pq
+
+--Sig_/GZ6mKcFtfhRl.t+Qvy7Pj+y
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7wwAIACgkQI1/ltBGq
+qqcE9A//Z3UNEnWcqO8aJ0C7ncKWgq8M8BVs9oU78I/4P4lQLK0lpw+zQYKlgzWY
+LUc53AqymxN/BWsm+8c8AuKmu6r7plkigZzu1Ee77YKIshEQiblMhyKG6MIC+wwH
+jhTtB45p8BbRjpBuO2v1Il9aEd1r9FENxbY1S0AU2arCntoAlg1kaGgTilRiPrsr
+NAVqxuwOLCcD+uI/1w6BFAvU1OYmfOcc41lB/UJHc84ftAfHzuRqjrIqHQbpLvkV
+OtBHHHAQEWsVkW5G2BUes7Umh8zwmUBOUwwy1hXaWg/sOI1TID6NzVVqYlIY/jXw
+SVWiPPB8/lBGSyYBA5IEyxO+1ijMHchvpn9vqWz/3NU6ibpcReN0i0JBUhEDPWIm
+uQzYWJy2I2j3Sai4hiz0b4m3JRx1TOrg0ysbPDON48Rlq8lZxRMGaA8P1qmtcuwv
+6l7deV5C9uCy8jmx9p0WXoR8RBS1WDm/JFhrGXk8Sw1HZBpv1/Bp6mrPqiIcxFyG
+S7bm8UgklOHOHQXgXHe6XgME5hD6D3Kw+Sl/CBv9Ac/f5Sz2EX7I7MGop3XzPZzi
+/ut1tcFJL5mJowNR3vUJXVDmh5pKvBC0qITkMs3KPChdNQNObNdAgFjl8vO8kqeC
+7BxaVkcHVKEJ6BzddPwsRQmNieoeBOPwxYG0FQYFY4/wvcVQBAg=
+=PNHM
+-----END PGP SIGNATURE-----
+
+--Sig_/GZ6mKcFtfhRl.t+Qvy7Pj+y--
+
+--===============1109442430==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1109442430==--
