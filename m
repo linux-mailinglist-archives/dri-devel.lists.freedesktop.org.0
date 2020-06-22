@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4952033E3
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:47:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 005CC2033EC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDADF6E13B;
-	Mon, 22 Jun 2020 09:46:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F0076E159;
+	Mon, 22 Jun 2020 09:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF006E14D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:46:59 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id j18so674852wmi.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:46:58 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23E6E6E14D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:48:53 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id g18so6906122wrm.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=miFL2961FbncsSScUNeK360vgCDlWzuEunNQejl5RPM=;
- b=YwuSPeN3ZvN7UaijlAaE6eayg9M9jTGKQ50rQ0CXlUMIjgPT3KKdPoHZHXSsiyQme1
- jTAvdlJPtFl9FiMvQLfx5NL/CZ3ZcDlfMhlCdbGSpeBSSTjD3NZilT/lspxiF42xDwGw
- KAk8wrI81KOvQViRMejKa2DxRS0/IrfJhJAqc=
+ :content-disposition:in-reply-to;
+ bh=8Lqofcsk3EiaL1vTYLPUsPdckNQSLxhNM7di78Tz8WM=;
+ b=KGyFGp3vCgjBWy83PyvGnx5e09iI9rqKsqrWO6kZhYT6d2/wBHiFN924YspndhSqPI
+ jS3Fw+S9OiNhn+ihY8KcTqv8tKaJbbngMM/YlkSb5Q8NLKq8jUbCHqagdEVwKy4169sJ
+ uBRk+udKRhmlT7bLmK1yLweVU6eVlbYW7/DY4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=miFL2961FbncsSScUNeK360vgCDlWzuEunNQejl5RPM=;
- b=hcrIpMvCD4omr/as2jShcDoyX+DSzfmTObgcAIjvlC/1bZCJzi67LtxX7cvTEaSX7m
- 0doM/16JiYa17zsJbHggotJh44eERjuHjB/xZQRg9sKwMpQLXvFSEt454diRROkc9ZWm
- Vc+qNoGJvknZH6w2ICTqOz8MgnKP9KIHc4kS5P6WYz0j38SZP9zkvxp4+m6nuR9deAHG
- 1bWwdT60Yk6mnkAI4CzRQmBLcWD1Cz1oWkJo/G839SE/i0IlhUHO52eiPPXlHdgTyBaT
- 00xGLCBz2ZBU1YlEWsSJ8V339H7u/Fep2QINtbfRdgN9G6v/YB3mmjWUOaq91tsQNXjK
- 5dUQ==
-X-Gm-Message-State: AOAM530BzWEfewnPLcWylwaO53wUj8X7UeH5XmG0KcjfG9ejr1un4KLy
- Hm7C2075E21P+JgYTa2WfcgLIA==
-X-Google-Smtp-Source: ABdhPJyOyy0GLvbc2/RmwDCo+XeRVGIipqXPcMIMIBQpR2iTAL9ZvsWDzrV/SOt9m/Dle6OpXYwFjQ==
-X-Received: by 2002:a1c:2485:: with SMTP id
- k127mr14952635wmk.138.1592819217607; 
- Mon, 22 Jun 2020 02:46:57 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=8Lqofcsk3EiaL1vTYLPUsPdckNQSLxhNM7di78Tz8WM=;
+ b=tlymiY205gFrd9BRTZ8lFbZwOkgCY7KLf/SES+da66LUNZ4AmZ7SIkgL36G5iGUkNM
+ yd1pAbDVt1d4YhFz9TEMjfKZI+g0VbV7u1C2Q9uKqKDwC/7I0Fal/GjBaYi+f/dloItP
+ /cJXqbX3ZQSKfklB/PHwCcU6BbYIaF+K5gqCNjTj+oviE7nJAWcC8Qu+1Tv6bdpOvqWk
+ m95ARMhU+6lzZds4ujZNOTUmZVIGmanc4h88LnDIggmY4HQwlmUfaitaD3WpX2JAMB0R
+ 2ISuSvz27HCQleqph1iGdiZn8SDqoTtMWZXvZBX7azT84PCKtFifLGKXpRf8eDWFsVCh
+ EcPQ==
+X-Gm-Message-State: AOAM531SzUYZPtstQxS+YvabG4KhHOUSLNI1flLr4TqJ6TqIQ43e5dJS
+ mpSR1gEnmtMBdecvEOLsMPECpw==
+X-Google-Smtp-Source: ABdhPJz2RCZA/C2pGvUYQOWdrv+TItEaKagg4bSLWlvz0PXaF8jb8COakGPPq2tqA5Wyoep3RXc/pA==
+X-Received: by 2002:a5d:6748:: with SMTP id l8mr19990620wrw.347.1592819331766; 
+ Mon, 22 Jun 2020 02:48:51 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c65sm15927903wme.8.2020.06.22.02.46.56
+ by smtp.gmail.com with ESMTPSA id v4sm1964738wro.26.2020.06.22.02.48.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 02:46:57 -0700 (PDT)
-Date: Mon, 22 Jun 2020 11:46:55 +0200
+ Mon, 22 Jun 2020 02:48:51 -0700 (PDT)
+Date: Mon, 22 Jun 2020 11:48:49 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH v2 0/8] RFC Support hot device unplug in amdgpu
-Message-ID: <20200622094655.GC20149@phenom.ffwll.local>
+Subject: Re: [PATCH v2 4/8] drm/amdgpu: Split amdgpu_device_fini into early
+ and late
+Message-ID: <20200622094849.GD20149@phenom.ffwll.local>
 References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-5-git-send-email-andrey.grodzovsky@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+In-Reply-To: <1592719388-13819-5-git-send-email-andrey.grodzovsky@amd.com>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,135 +68,276 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 21, 2020 at 02:03:00AM -0400, Andrey Grodzovsky wrote:
-> This RFC is more of a proof of concept then a fully working solution as t=
-here are a few unresolved issues we are hoping to get advise on from people=
- on the mailing list.
-> Until now extracting a card either by physical extraction (e.g. eGPU with=
- thunderbolt connection or by emulation through syfs -> /sys/bus/pci/device=
-s/device_id/remove)
-> would cause random crashes in user apps. The random crashes in apps were =
-mostly due to the app having mapped a device backed BO into its address spa=
-ce was still
-> trying to access the BO while the backing device was gone.
-> To answer this first problem Christian suggested to fix the handling of m=
-apped memory in the clients when the device goes away by forcibly unmap all=
- buffers
-> the user processes has by clearing their respective VMAs mapping the devi=
-ce BOs. Then when the VMAs try to fill in the page tables again we check in=
- the fault handler
-> if the device is removed and if so, return an error. This will generate a=
- SIGBUS to the application which can then cleanly terminate.
-> This indeed was done but this in turn created a problem of kernel OOPs we=
-re the OOPSes were due to the fact that while the app was terminating becau=
-se of the SIGBUS
-> it would trigger use after free in the driver by calling to accesses devi=
-ce structures that were already released from the pci remove sequence.
-> This was handled by introducing a 'flush' sequence during device removal =
-were we wait for drm file reference to drop to 0 meaning all user clients d=
-irectly using this device terminated.
-> With this I was able to cleanly emulate device unplug with X and glxgears=
- running and later emulate device plug back and restart of X and glxgears.
-> =
+On Sun, Jun 21, 2020 at 02:03:04AM -0400, Andrey Grodzovsky wrote:
+> Some of the stuff in amdgpu_device_fini such as HW interrupts
+> disable and pending fences finilization must be done right away on
+> pci_remove while most of the stuff which relates to finilizing and releasing
+> driver data structures can be kept until drm_driver.release hook is called, i.e.
+> when the last device reference is dropped.
+> 
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
-> v2:
-> Based on discussions in the mailing list with Daniel and Pekka [1] and ba=
-sed on the document produced by Pekka from those discussions [2] the whole =
-approach with returning SIGBUS
-> and waiting for all user clients having CPU mapping of device BOs to die =
-was dropped. Instead as per the document suggestion the device structures a=
-re kept alive until the last
-> reference to the device is dropped by user client and in the meanwhile al=
-l existing and new CPU mappings of the BOs belonging to the device directly=
- or by dma-buf import are rerouted
-> to per user process dummy rw page.
-> Also, I skipped the 'Requirements for KMS UAPI' section of [2] since i am=
- trying to get the minimal set of requiremnts that still give useful soluti=
-on to work and this is the
-> 'Requirements for Render and Cross-Device UAPI' section and so my test ca=
-se is removing a secondary device, which is render only and is not involved=
- in KMS.
->  =
+Long term I think best if as much of this code is converted over to devm
+(for hw stuff) and drmm (for sw stuff and allocations). Doing this all
+manually is very error prone.
 
-> This iteration is still more of a draft as I am still facing a few unsolv=
-ed issues such as a crash in user client when trying to CPU map imported BO=
- if the map happens after device was
-> removed and HW failure to plug back a removed device. Also since i don't =
-have real life setup with external GPU connected through TB I am using sysf=
-s to emulate pci remove and i
-> expect to encounter more issues once i try this on real life case. I am a=
-lso expecting some help on this from a user who volunteered to test in the =
-related gitlab ticket.
-> So basically this is more of a  way to get feedback if I am moving in the=
- right direction.
-> =
-
-> [1] - Discussions during v1 of the patchset https://lists.freedesktop.org=
-/archives/dri-devel/2020-May/265386.html
-> [2] - drm/doc: device hot-unplug for userspace https://www.spinics.net/li=
-sts/dri-devel/msg259755.html
-> [3] - Related gitlab ticket https://gitlab.freedesktop.org/drm/amd/-/issu=
-es/1081
-
-A few high-level commments on the generic parts, I didn't really look at
-the amdgpu side yet.
-
-Also a nit: Please tell your mailer to break long lines, it looks funny
-and inconsistent otherwise, at least in some of the mailers I use here :-/
+I've started various such patches and others followed, but thus far only
+very simple drivers tackled. But it should be doable step by step at
+least, so you should have incremental benefits in code complexity right
+away I hope.
 -Daniel
-> =A0
-> =
 
-> Andrey Grodzovsky (8):
->   drm: Add dummy page per device or GEM object
->   drm/ttm: Remap all page faults to per process dummy page.
->   drm/ttm: Add unampping of the entire device address space
->   drm/amdgpu: Split amdgpu_device_fini into early and late
->   drm/amdgpu: Refactor sysfs removal
->   drm/amdgpu: Unmap entire device address space on device remove.
->   drm/amdgpu: Fix sdma code crash post device unplug
->   drm/amdgpu: Prevent any job recoveries after device is unplugged.
-> =
-
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h          | 19 +++++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c |  7 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 50 +++++++++++++++++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      | 23 ++++++++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 12 +++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c      | 24 ++++++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h      |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c      |  8 ++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c      | 23 +++++++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c      |  8 +++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c      |  3 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c  | 21 ++++++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 17 +++++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c     | 13 +++++-
->  drivers/gpu/drm/amd/amdgpu/df_v3_6.c         | 10 +++--
->  drivers/gpu/drm/drm_file.c                   |  8 ++++
->  drivers/gpu/drm/drm_prime.c                  | 10 +++++
->  drivers/gpu/drm/ttm/ttm_bo.c                 |  8 +++-
->  drivers/gpu/drm/ttm/ttm_bo_vm.c              | 65 ++++++++++++++++++++++=
-++----
->  include/drm/drm_file.h                       |  2 +
->  include/drm/drm_gem.h                        |  2 +
->  include/drm/ttm/ttm_bo_driver.h              |  7 +++
->  22 files changed, 286 insertions(+), 55 deletions(-)
-> =
-
-> -- =
-
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  6 +++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 15 +++++++++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  6 ++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c    | 24 +++++++++++++++---------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h    |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 23 +++++++++++++++++------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c    |  3 +++
+>  7 files changed, 54 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 2a806cb..604a681 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1003,7 +1003,9 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>  		       struct drm_device *ddev,
+>  		       struct pci_dev *pdev,
+>  		       uint32_t flags);
+> -void amdgpu_device_fini(struct amdgpu_device *adev);
+> +void amdgpu_device_fini_early(struct amdgpu_device *adev);
+> +void amdgpu_device_fini_late(struct amdgpu_device *adev);
+> +
+>  int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
+>  
+>  void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
+> @@ -1188,6 +1190,8 @@ void amdgpu_driver_lastclose_kms(struct drm_device *dev);
+>  int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
+>  void amdgpu_driver_postclose_kms(struct drm_device *dev,
+>  				 struct drm_file *file_priv);
+> +void amdgpu_driver_release_kms(struct drm_device *dev);
+> +
+>  int amdgpu_device_ip_suspend(struct amdgpu_device *adev);
+>  int amdgpu_device_suspend(struct drm_device *dev, bool fbcon);
+>  int amdgpu_device_resume(struct drm_device *dev, bool fbcon);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index cc41e8f..e7b9065 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -2309,6 +2309,8 @@ static int amdgpu_device_ip_fini(struct amdgpu_device *adev)
+>  {
+>  	int i, r;
+>  
+> +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
+> +
+>  	amdgpu_ras_pre_fini(adev);
+>  
+>  	if (adev->gmc.xgmi.num_physical_nodes > 1)
+> @@ -3304,10 +3306,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>   * Tear down the driver info (all asics).
+>   * Called at driver shutdown.
+>   */
+> -void amdgpu_device_fini(struct amdgpu_device *adev)
+> +void amdgpu_device_fini_early(struct amdgpu_device *adev)
+>  {
+> -	int r;
+> -
+>  	DRM_INFO("amdgpu: finishing device.\n");
+>  	flush_delayed_work(&adev->delayed_init_work);
+>  	adev->shutdown = true;
+> @@ -3330,7 +3330,13 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
+>  	if (adev->pm_sysfs_en)
+>  		amdgpu_pm_sysfs_fini(adev);
+>  	amdgpu_fbdev_fini(adev);
+> -	r = amdgpu_device_ip_fini(adev);
+> +
+> +	amdgpu_irq_fini_early(adev);
+> +}
+> +
+> +void amdgpu_device_fini_late(struct amdgpu_device *adev)
+> +{
+> +	amdgpu_device_ip_fini(adev);
+>  	if (adev->firmware.gpu_info_fw) {
+>  		release_firmware(adev->firmware.gpu_info_fw);
+>  		adev->firmware.gpu_info_fw = NULL;
+> @@ -3368,6 +3374,7 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
+>  		amdgpu_pmu_fini(adev);
+>  	if (amdgpu_discovery && adev->asic_type >= CHIP_NAVI10)
+>  		amdgpu_discovery_fini(adev);
+> +
+>  }
+>  
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 9e5afa5..43592dc 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1134,12 +1134,9 @@ amdgpu_pci_remove(struct pci_dev *pdev)
+>  {
+>  	struct drm_device *dev = pci_get_drvdata(pdev);
+>  
+> -#ifdef MODULE
+> -	if (THIS_MODULE->state != MODULE_STATE_GOING)
+> -#endif
+> -		DRM_ERROR("Hotplug removal is not supported\n");
+>  	drm_dev_unplug(dev);
+>  	amdgpu_driver_unload_kms(dev);
+> +
+>  	pci_disable_device(pdev);
+>  	pci_set_drvdata(pdev, NULL);
+>  	drm_dev_put(dev);
+> @@ -1445,6 +1442,7 @@ static struct drm_driver kms_driver = {
+>  	.dumb_create = amdgpu_mode_dumb_create,
+>  	.dumb_map_offset = amdgpu_mode_dumb_mmap,
+>  	.fops = &amdgpu_driver_kms_fops,
+> +	.release = &amdgpu_driver_release_kms,
+>  
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> index 0cc4c67..1697655 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> @@ -49,6 +49,7 @@
+>  #include <drm/drm_irq.h>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/amdgpu_drm.h>
+> +#include <drm/drm_drv.h>
+>  #include "amdgpu.h"
+>  #include "amdgpu_ih.h"
+>  #include "atom.h"
+> @@ -297,6 +298,20 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
+>  	return 0;
+>  }
+>  
+> +
+> +void amdgpu_irq_fini_early(struct amdgpu_device *adev)
+> +{
+> +	if (adev->irq.installed) {
+> +		drm_irq_uninstall(adev->ddev);
+> +		adev->irq.installed = false;
+> +		if (adev->irq.msi_enabled)
+> +			pci_free_irq_vectors(adev->pdev);
+> +
+> +		if (!amdgpu_device_has_dc_support(adev))
+> +			flush_work(&adev->hotplug_work);
+> +	}
+> +}
+> +
+>  /**
+>   * amdgpu_irq_fini - shut down interrupt handling
+>   *
+> @@ -310,15 +325,6 @@ void amdgpu_irq_fini(struct amdgpu_device *adev)
+>  {
+>  	unsigned i, j;
+>  
+> -	if (adev->irq.installed) {
+> -		drm_irq_uninstall(adev->ddev);
+> -		adev->irq.installed = false;
+> -		if (adev->irq.msi_enabled)
+> -			pci_free_irq_vectors(adev->pdev);
+> -		if (!amdgpu_device_has_dc_support(adev))
+> -			flush_work(&adev->hotplug_work);
+> -	}
+> -
+>  	for (i = 0; i < AMDGPU_IRQ_CLIENTID_MAX; ++i) {
+>  		if (!adev->irq.client[i].sources)
+>  			continue;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+> index c718e94..718c70f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+> @@ -104,6 +104,7 @@ irqreturn_t amdgpu_irq_handler(int irq, void *arg);
+>  
+>  int amdgpu_irq_init(struct amdgpu_device *adev);
+>  void amdgpu_irq_fini(struct amdgpu_device *adev);
+> +void amdgpu_irq_fini_early(struct amdgpu_device *adev);
+>  int amdgpu_irq_add_id(struct amdgpu_device *adev,
+>  		      unsigned client_id, unsigned src_id,
+>  		      struct amdgpu_irq_src *source);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index c0b1904..9d0af22 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -29,6 +29,7 @@
+>  #include "amdgpu.h"
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/amdgpu_drm.h>
+> +#include <drm/drm_drv.h>
+>  #include "amdgpu_sched.h"
+>  #include "amdgpu_uvd.h"
+>  #include "amdgpu_vce.h"
+> @@ -86,7 +87,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
+>  	amdgpu_unregister_gpu_instance(adev);
+>  
+>  	if (adev->rmmio == NULL)
+> -		goto done_free;
+> +		return;
+>  
+>  	if (adev->runpm) {
+>  		pm_runtime_get_sync(dev->dev);
+> @@ -95,11 +96,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
+>  
+>  	amdgpu_acpi_fini(adev);
+>  
+> -	amdgpu_device_fini(adev);
+> -
+> -done_free:
+> -	kfree(adev);
+> -	dev->dev_private = NULL;
+> +	amdgpu_device_fini_early(adev);
+>  }
+>  
+>  void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
+> @@ -1108,6 +1105,20 @@ void amdgpu_driver_postclose_kms(struct drm_device *dev,
+>  	pm_runtime_put_autosuspend(dev->dev);
+>  }
+>  
+> +
+> +void amdgpu_driver_release_kms (struct drm_device *dev)
+> +{
+> +	struct amdgpu_device *adev = dev->dev_private;
+> +
+> +	amdgpu_device_fini_late(adev);
+> +
+> +	kfree(adev);
+> +	dev->dev_private = NULL;
+> +
+> +	drm_dev_fini(dev);
+> +	kfree(dev);
+> +}
+> +
+>  /*
+>   * VBlank related functions.
+>   */
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> index 7348619..169c2239 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> @@ -2056,9 +2056,12 @@ int amdgpu_ras_pre_fini(struct amdgpu_device *adev)
+>  {
+>  	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+>  
+> +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
+> +
+>  	if (!con)
+>  		return 0;
+>  
+> +
+>  	/* Need disable ras on all IPs here before ip [hw/sw]fini */
+>  	amdgpu_ras_disable_all_features(adev, 0);
+>  	amdgpu_ras_recovery_fini(adev);
+> -- 
 > 2.7.4
-> =
+> 
 
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
