@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7973203E92
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 19:57:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BAE203F90
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 20:59:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC40A6E898;
-	Mon, 22 Jun 2020 17:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716126E8BC;
+	Mon, 22 Jun 2020 18:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27FE56E898
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 17:57:26 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Mon, 22 Jun 2020 17:57:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: rtmasura+kernel@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-In0rNBlZYI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA396E8B7;
+ Mon, 22 Jun 2020 18:59:25 +0000 (UTC)
+IronPort-SDR: cimKlrIpCjFHxk2g2cnrVL2PUtrOQ/e9E8qqasYEauqSgYHFKQXMX8NF2/zPPyRbRI1OlH2C7i
+ Pbz/6dJh/bEw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="142099491"
+X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="142099491"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2020 11:59:22 -0700
+IronPort-SDR: RIVfqPdrAw2prsZLVy6b8ZWHqatBkrv9mSbmXAEOjpHP4UK5HNl2C5SEagNtXT67TwX49va3sZ
+ 8KsYxiQcai4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="278856012"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by orsmga006.jf.intel.com with ESMTP; 22 Jun 2020 11:59:22 -0700
+Date: Mon, 22 Jun 2020 12:00:43 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Subject: Re: [Intel-gfx] [v1 3/3] Revert "drm/amd/display: Expose connector
+ VRR range via debugfs"
+Message-ID: <20200622190042.GA18249@intel.com>
+References: <20200622142519.16214-1-bhanuprakash.modem@intel.com>
+ <20200622142519.16214-4-bhanuprakash.modem@intel.com>
+ <f9c32dfa-0a23-45c0-8991-545c071da388@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <f9c32dfa-0a23-45c0-8991-545c071da388@amd.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,164 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+On Mon, Jun 22, 2020 at 10:57:02AM -0400, Kazlauskas, Nicholas wrote:
+> On 2020-06-22 10:25 a.m., Bhanuprakash Modem wrote:
+> >As both VRR min and max are already part of drm_display_info,
+> >drm can expose this VRR range for each connector.
+> >
+> >Hence this logic should move to core DRM.
+> >
+> >This reverts commit 727962f030c23422a01e8b22d0f463815fb15ec4.
+> >
+> >Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> >Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> >Cc: Harry Wentland <harry.wentland@amd.com>
+> >Cc: Alex Deucher <alexander.deucher@amd.com>
+> >Cc: Manasi Navare <manasi.d.navare@intel.com>
+> >Cc: AMD gfx <amd-gfx@lists.freedesktop.org>
+> 
+> 
+> Looks good to me with Patch 2 part of the series.
+> 
+> Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> 
 
---- Comment #18 from rtmasura+kernel@hotmail.com ---
-lspci:
-00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890 Northbridge
-only single slot PCI-e GFX Hydra part (rev 02)
-00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD/ATI] RD890S/RD990 I/O Memory
-Management Unit (IOMMU)
-00:02.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
-PCI to PCI bridge (PCI Express GFX port 0)
-00:04.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
-PCI to PCI bridge (PCI Express GPP Port 0)
-00:07.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
-PCI to PCI bridge (PCI Express GPP Port 3)
-00:0b.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD990 PCI to
-PCI bridge (PCI Express GFX2 port 0)
-00:0d.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980
-PCI to PCI bridge (PCI Express GPP2 Port 0)
-00:11.0 RAID bus controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 SATA Controller [RAID5 mode] (rev 40)
-00:12.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
-00:12.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB EHCI Controller
-00:13.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
-00:13.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB EHCI Controller
-00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 SMBus Controller
-(rev 42)
-00:14.2 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 Azalia
-(Intel HDA) (rev 40)
-00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD/ATI] SB7x0/SB8x0/SB9x0
-LPC host controller (rev 40)
-00:14.4 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] SBx00 PCI to PCI
-Bridge (rev 40)
-00:14.5 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB OHCI2 Controller
-00:16.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB OHCI0 Controller
-00:16.2 USB controller: Advanced Micro Devices, Inc. [AMD/ATI]
-SB7x0/SB8x0/SB9x0 USB EHCI Controller
-00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
-HyperTransport Configuration
-00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
-Address Map
-00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
-DRAM Controller
-00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
-Miscellaneous Control
-00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 10h Processor
-Link Control
-02:00.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
-Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
-03:04.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
-Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
-03:05.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
-Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
-03:06.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
-Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
-03:08.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
-Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
-03:09.0 PCI bridge: PLX Technology, Inc. PEX 8624 24-lane, 6-Port PCI Express
-Gen 2 (5.0 GT/s) Switch [ExpressLane] (rev bb)
-04:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
-(rev 01)
-04:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
-(rev 01)
-06:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
-(rev 01)
-06:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
-(rev 01)
-07:00.0 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
-(rev 01)
-07:00.1 Ethernet controller: Intel Corporation 82576 Gigabit Network Connection
-(rev 01)
-09:00.0 VGA compatible controller: NVIDIA Corporation GP104GL [Quadro P4000]
-(rev a1)
-09:00.1 Audio device: NVIDIA Corporation GP104 High Definition Audio Controller
-(rev a1)
-0a:00.0 USB controller: NEC Corporation uPD720200 USB 3.0 Host Controller (rev
-03)
-0b:00.0 SATA controller: JMicron Technology Corp. JMB363 SATA/IDE Controller
-(rev 03)
-0b:00.1 IDE interface: JMicron Technology Corp. JMB363 SATA/IDE Controller (rev
-03)
-0c:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Device 1470 (rev c3)
-0d:00.0 PCI bridge: Advanced Micro Devices, Inc. [AMD] Device 1471
-0e:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Vega
-10 XL/XT [Radeon RX Vega 56/64] (rev c3)
-0e:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Vega 10 HDMI Audio
-[Radeon Vega 56/64]
+Thanks for your review, do we have your r-b on patch 2/3 also?
+In that case, how do you think we should merge the patches?
+Patch 2/3 will be merged through drm-misc, how about this one?
 
-A few notes on that: The AMD Vega56 is used for this PC, the Quadro P4000 is
-disabled on my system and passed through to VMs. 
+Manasi
 
-I haven't found any way to trigger it. Seems completely random. Sat down this
-morning to update a VM (not the one with the nvidia passthrough) and it froze,
-wasn't any real graphical things going on other than normal KDE stuff. 
-
-
-lscpu:
-Architecture:                    x86_64
-CPU op-mode(s):                  32-bit, 64-bit
-Byte Order:                      Little Endian
-Address sizes:                   48 bits physical, 48 bits virtual
-CPU(s):                          6
-On-line CPU(s) list:             0-5
-Thread(s) per core:              1
-Core(s) per socket:              6
-Socket(s):                       1
-NUMA node(s):                    1
-Vendor ID:                       AuthenticAMD
-CPU family:                      16
-Model:                           10
-Model name:                      AMD Phenom(tm) II X6 1090T Processor
-Stepping:                        0
-CPU MHz:                         3355.192
-BogoMIPS:                        6421.46
-Virtualization:                  AMD-V
-L1d cache:                       384 KiB
-L1i cache:                       384 KiB
-L2 cache:                        3 MiB
-L3 cache:                        6 MiB
-NUMA node0 CPU(s):               0-5
-Vulnerability Itlb multihit:     Not affected
-Vulnerability L1tf:              Not affected
-Vulnerability Mds:               Not affected
-Vulnerability Meltdown:          Not affected
-Vulnerability Spec store bypass: Not affected
-Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and
-__user pointer sanitization
-Vulnerability Spectre v2:        Mitigation; Full AMD retpoline, STIBP
-disabled, RSB filling
-Vulnerability Srbds:             Not affected
-Vulnerability Tsx async abort:   Not affected
-Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep
-mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext
-fxsr_
-                                 opt pdpe1gb rdtscp lm 3dnowext 3dnow
-constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf pni monitor
-cx16 po
-                                 pcnt lahf_lm cmp_legacy svm extapic cr8_legacy
-abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt cpb hw_pstate vmmcall
-                                  npt lbrv svm_lock nrip_save pausefilter
-
-
-I would be happy to help with any testing, just let me know what information
-you need.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> Thanks,
+> Nicholas Kazlauskas
+> 
+> >---
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 -------------------
+> >  1 file changed, 20 deletions(-)
+> >
+> >diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> >index 076af267b488..71387d2af2ed 100644
+> >--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> >+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+> >@@ -820,24 +820,6 @@ static int output_bpc_show(struct seq_file *m, void *data)
+> >  	return res;
+> >  }
+> >-/*
+> >- * Returns the min and max vrr vfreq through the connector's debugfs file.
+> >- * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
+> >- */
+> >-static int vrr_range_show(struct seq_file *m, void *data)
+> >-{
+> >-	struct drm_connector *connector = m->private;
+> >-	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+> >-
+> >-	if (connector->status != connector_status_connected)
+> >-		return -ENODEV;
+> >-
+> >-	seq_printf(m, "Min: %u\n", (unsigned int)aconnector->min_vfreq);
+> >-	seq_printf(m, "Max: %u\n", (unsigned int)aconnector->max_vfreq);
+> >-
+> >-	return 0;
+> >-}
+> >-
+> >  #ifdef CONFIG_DRM_AMD_DC_HDCP
+> >  /*
+> >   * Returns the HDCP capability of the Display (1.4 for now).
+> >@@ -1001,7 +983,6 @@ static ssize_t dp_dpcd_data_read(struct file *f, char __user *buf,
+> >  DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
+> >  DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
+> >  DEFINE_SHOW_ATTRIBUTE(output_bpc);
+> >-DEFINE_SHOW_ATTRIBUTE(vrr_range);
+> >  #ifdef CONFIG_DRM_AMD_DC_HDCP
+> >  DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
+> >  #endif
+> >@@ -1059,7 +1040,6 @@ static const struct {
+> >  		{"phy_settings", &dp_phy_settings_debugfs_fop},
+> >  		{"test_pattern", &dp_phy_test_pattern_fops},
+> >  		{"output_bpc", &output_bpc_fops},
+> >-		{"vrr_range", &vrr_range_fops},
+> >  #ifdef CONFIG_DRM_AMD_DC_HDCP
+> >  		{"hdcp_sink_capability", &hdcp_sink_capability_fops},
+> >  #endif
+> >
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
