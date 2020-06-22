@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E7F204099
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 21:39:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9FF2040A2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 21:41:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 494926E056;
-	Mon, 22 Jun 2020 19:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02AA56E8CB;
+	Mon, 22 Jun 2020 19:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAFBF6E056;
- Mon, 22 Jun 2020 19:38:58 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 17so753029wmo.1;
- Mon, 22 Jun 2020 12:38:58 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE1E56E8CB;
+ Mon, 22 Jun 2020 19:41:00 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id q5so5532147wru.6;
+ Mon, 22 Jun 2020 12:41:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=B0J3Y1KfngHlRGhNaKohiEuVABGkpS2QatWF48jID1Y=;
- b=T/IQCP3N7lax0ljStlTkM2Upg2aF8qk2MwLZGSRq8uH0TaRPrEKvrlanyET/4PXBJo
- WFfgREcmEJ/ZJpWnP0gVMSdbiik0x4Z6LUTSuB5bXKMUt5CtcEoDeTYqeOlCizO3llz3
- UUT5G/wnOjTQ9tKC6VG8KkwPVJ9SLqH9zHu9HatKRAOGMchYWsiMEjw0enEye2yJs7tM
- awvLLBunAIRt/+fJFhDCJyAcoOZcS88gA3p7GlEVQsfVPgSEQXId29pRhJWlxfrQEWQW
- +cWJX4i1UOVKb73Fz35mgfXZSJfukRz4JTkwjXrU7BecJ/jnA0jpX0ft4KReMzTUHkse
- Itxg==
+ bh=rr6iocEv4oH0EjL1OiRgqRFhQ7fPgcRkYGyaAyLkEq0=;
+ b=anyHKTzMlJ3ha/2dYvkoG2aghSHLSuxsmURcNbOqzOah4uolKP0Eo+XMRZsEhVtN8n
+ hF+XXgyJde8Bkyy18Y0+ogXncaekv0u+PXlPl1DhSO06qYHehILVUNMzQxzyPjxH67+D
+ Xn+fjgBZ36C9AvrSrgMLOHz3v93vBk/68bDXEEdWoDrBzUhmZRr4boxn5k0XmwwGMFz+
+ XvyD14XcYRGCuEXtuUVxMQPXpd47dGrV11YZ+ef7Rbzt0IrS+Uv3oXTeyIuLU2iByiob
+ bYwhq3kWiKDUXJcqnr1l2vlbgsDXXalTT6hUFkiSXr2Ndsoptp8db2JMzjgp6pYTrjIT
+ 7JUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=B0J3Y1KfngHlRGhNaKohiEuVABGkpS2QatWF48jID1Y=;
- b=lVJ6B1JruzgsGIRZa5MpWELqA4ZvChRUFDJ/4Z9iZ1nrNenWJK3dW7vXulRoEIzOwO
- qYFwmZ8h3rmM0/pVr06EVy4zr5FuXfgOptQc9pU7UOGj7q5ZRo1dMRbhTLjXKKKB9NM5
- e7DUJ95lS7Q4FUegcHSGwRZT0ZBzpN9Wb0P4TRXqFC0lmgPgiGL24CNdxNzP8BlXPwS3
- pYBqU+oV1SQmVnixOvmVTaypTCKL1QF/xDF+JjkmF295qeHBQ8fUQSoLR/6Q/FbfMdxu
- Qdmyd5RCQiGOv07aGxYN4WvhMpPSRb7tcGsNl67VKl2/gwBZ6y0u2poKN9JgwNS/Bhll
- 3yMw==
-X-Gm-Message-State: AOAM532Vmu5DNDn+UifQn8HeW2eBjoD3mMyGOCXXsgTZnE510oF44sx0
- +2vJBQribC2zAIQP1VmSoqQ=
-X-Google-Smtp-Source: ABdhPJyHtkFdOxpabnAlEoL8/oblY4fQjDDaW4aKQb4M5yOJSbAHwJN0B7Bzky60PKYjiMcC0XTAew==
-X-Received: by 2002:a7b:c5c4:: with SMTP id n4mr14995151wmk.67.1592854737367; 
- Mon, 22 Jun 2020 12:38:57 -0700 (PDT)
+ bh=rr6iocEv4oH0EjL1OiRgqRFhQ7fPgcRkYGyaAyLkEq0=;
+ b=fhxRwJl15Biop6pkesNK0Diis59DdEKY/mfxcsWK2DYDOpkbh+Fjo2xRZGgvuZtz3L
+ c1kQJ5k+NiWWmRdfTMqYexrjU6hHZIBUqsT5ZRyRZqHMLBlCwFOUoFKBg3FHOlea94GI
+ BlP+ya7hCA1xhnk6GJWYUk4WOnwARw4yWvYCorEQGAR4YJf33jA5CykIfpf/9GIowQqz
+ +1JznqmNewEv8K6BkgtxRTvm01ASbTE/aZ+u4rxs+wXN9ml9yvt/MzVxbydY/HNylj4n
+ 4AQrAxk36I0ICbgZ/D9EqsZr8e1xF674s8B8ddUSH8zSJvFtljNDziUy1F5ic98gaYpw
+ 2Ysw==
+X-Gm-Message-State: AOAM5323GVmlqvcvaWAXBUqjh+V6zT3VjdFIZzTijFAScIczdkcHDFKc
+ gKdTyFb2128u5qGTqbdbsGyPJ5In
+X-Google-Smtp-Source: ABdhPJzvRLoSHmdO0tK1dQCGyiQRgQLsblKIk4UEhdst8gyD5KvABg6uN8ZPOSkomV6P7a2kyH5hYg==
+X-Received: by 2002:a5d:4611:: with SMTP id t17mr19837619wrq.243.1592854859392; 
+ Mon, 22 Jun 2020 12:40:59 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
  ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id b17sm10444130wrp.32.2020.06.22.12.38.55
+ by smtp.gmail.com with ESMTPSA id t188sm645202wmt.27.2020.06.22.12.40.58
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Jun 2020 12:38:56 -0700 (PDT)
-Subject: Re: [PATCH v2 6/8] drm/amdgpu: Unmap entire device address space on
- device remove.
+ Mon, 22 Jun 2020 12:40:58 -0700 (PDT)
+Subject: Re: [PATCH v2 7/8] drm/amdgpu: Fix sdma code crash post device unplug
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-7-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-8-git-send-email-andrey.grodzovsky@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ec7dc51a-231f-f9e7-6082-5aad02965c67@gmail.com>
-Date: Mon, 22 Jun 2020 21:38:55 +0200
+Message-ID: <8b27df86-c4c9-8e98-e525-993a3e00ee00@gmail.com>
+Date: Mon, 22 Jun 2020 21:40:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <1592719388-13819-7-git-send-email-andrey.grodzovsky@amd.com>
+In-Reply-To: <1592719388-13819-8-git-send-email-andrey.grodzovsky@amd.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,29 +74,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: christian.koenig@amd.com
 Cc: daniel.vetter@ffwll.ch, michel@daenzer.net
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjEuMDYuMjAgdW0gMDg6MDMgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiBVc2UgdGhl
-IG5ldyBUVE0gaW50ZXJmYWNlIHRvIGludmFsaWRhdGUgYWxsIGV4c2lzdGluZyBCTyBDUFUgbWFw
-cGluZ3MKPiBmb3JtIGFsbCB1c2VyIHByb2NjZXNzZXMuCj4KPiBTaWduZWQtb2ZmLWJ5OiBBbmRy
-ZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4KClJldmlld2VkLWJ5OiBD
-aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CgpJIHRoaW5rIHRob3Nl
-IHR3byBwYXRjaGVzIGNvdWxkIGFscmVhZHkgbGFuZCBpbiBhbWQtc3RhZ2luZy1kcm0tbmV4dCAK
-c2luY2UgdGhleSBhcmUgYSBnb29kIGlkZWEgaW5kZXBlbmRlbnQgb2YgaG93IGVsc2Ugd2UgZml4
-IHRoZSBvdGhlciBpc3N1ZXMuCgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2Rydi5jIHwgMSArCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPgo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMKPiBpbmRleCA0MzU5MmRjLi42
-OTMyZDc1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9k
-cnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYwo+IEBA
-IC0xMTM1LDYgKzExMzUsNyBAQCBhbWRncHVfcGNpX3JlbW92ZShzdHJ1Y3QgcGNpX2RldiAqcGRl
-dikKPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gcGNpX2dldF9kcnZkYXRhKHBkZXYpOwo+
-ICAgCj4gICAJZHJtX2Rldl91bnBsdWcoZGV2KTsKPiArCXR0bV9ib191bm1hcF92aXJ0dWFsX2Fk
-ZHJlc3Nfc3BhY2UoJmFkZXYtPm1tYW4uYmRldik7Cj4gICAJYW1kZ3B1X2RyaXZlcl91bmxvYWRf
-a21zKGRldik7Cj4gICAKPiAgIAlwY2lfZGlzYWJsZV9kZXZpY2UocGRldik7CgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Am 21.06.20 um 08:03 schrieb Andrey Grodzovsky:
+> entity->rq becomes null aftre device unplugged so just return early
+> in that case.
+
+Mhm, do you have a backtrace for this?
+
+This should only be called by an IOCTL and IOCTLs should already call 
+drm_dev_enter()/exit() on their own...
+
+Christian.
+
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 21 ++++++++++++++++-----
+>   1 file changed, 16 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+> index 8d9c6fe..d252427 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+> @@ -24,6 +24,7 @@
+>   #include "amdgpu_job.h"
+>   #include "amdgpu_object.h"
+>   #include "amdgpu_trace.h"
+> +#include <drm/drm_drv.h>
+>   
+>   #define AMDGPU_VM_SDMA_MIN_NUM_DW	256u
+>   #define AMDGPU_VM_SDMA_MAX_NUM_DW	(16u * 1024u)
+> @@ -94,7 +95,12 @@ static int amdgpu_vm_sdma_commit(struct amdgpu_vm_update_params *p,
+>   	struct drm_sched_entity *entity;
+>   	struct amdgpu_ring *ring;
+>   	struct dma_fence *f;
+> -	int r;
+> +	int r, idx;
+> +
+> +	if (!drm_dev_enter(p->adev->ddev, &idx)) {
+> +		r = -ENODEV;
+> +		goto nodev;
+> +	}
+>   
+>   	entity = p->immediate ? &p->vm->immediate : &p->vm->delayed;
+>   	ring = container_of(entity->rq->sched, struct amdgpu_ring, sched);
+> @@ -104,7 +110,7 @@ static int amdgpu_vm_sdma_commit(struct amdgpu_vm_update_params *p,
+>   	WARN_ON(ib->length_dw > p->num_dw_left);
+>   	r = amdgpu_job_submit(p->job, entity, AMDGPU_FENCE_OWNER_VM, &f);
+>   	if (r)
+> -		goto error;
+> +		goto job_fail;
+>   
+>   	if (p->unlocked) {
+>   		struct dma_fence *tmp = dma_fence_get(f);
+> @@ -118,10 +124,15 @@ static int amdgpu_vm_sdma_commit(struct amdgpu_vm_update_params *p,
+>   	if (fence && !p->immediate)
+>   		swap(*fence, f);
+>   	dma_fence_put(f);
+> -	return 0;
+>   
+> -error:
+> -	amdgpu_job_free(p->job);
+> +	r = 0;
+> +
+> +job_fail:
+> +	drm_dev_exit(idx);
+> +nodev:
+> +	if (r)
+> +		amdgpu_job_free(p->job);
+> +
+>   	return r;
+>   }
+>   
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
