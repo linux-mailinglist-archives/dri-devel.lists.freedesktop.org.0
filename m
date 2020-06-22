@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A21E20334B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180AD203352
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 11:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 702E06E0D6;
-	Mon, 22 Jun 2020 09:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B196E0F0;
+	Mon, 22 Jun 2020 09:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C626E0D6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:27:28 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id z13so4143019wrw.5
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 02:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Lepq6rJbwM4TeInEKirpSRbwvDeEasresiexhG2Ejk4=;
- b=D3raIQ/M6/Ilj2W9Qri5KZj0NttJXACka0P8ZbyUPCfIMQnw0xUvhfm83SXdvcZq4x
- ODzdMEh+gtiUBC3JuwlZGfT02G6bIRCjzHNcRCTQ6R/wIjeetc0TpoO5+9gv+nW7iSWM
- 1HsvOC93doESqcV2La1/PUZx+1P4jt7S++oJc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Lepq6rJbwM4TeInEKirpSRbwvDeEasresiexhG2Ejk4=;
- b=UlF9PbkXUhMplFMX5OWEVw+ckkZEW/OHANGuZvNavGt0tQZ6rgPEGExoXYJtE99Tze
- le1UzL0eFdzYkH5BfMLZNLIh6ASOBB4iq+kfFYG1tNj48k7o/KN3VNl1al4BmSzT1xEj
- 1pT2Gq+NYzMJrhWbLOVpbbM8xAtucBxaBMrPjPsHqycetkgqYNQ/yY5tc31p+VnrUSsI
- CdH7nKeyoCdIKhu2X2tmWIu80rsQUsFOcWJZT06HZCE1Vf+NMRytxQRFA+5TY2MfIB6G
- oI6PnCgA9cumRo8RmE3FQ4MumCITiDeBVw/7gckZwMXwFitjVfCZJ99KojP0vQSfeSH6
- VzRA==
-X-Gm-Message-State: AOAM533mY7VbQHi63UlRsDbB8HEOCRCMm7uJ21lSQXxKeStRuU4Rptu/
- H5W+MkZR0y6zpaT/Yj7RfobDEA==
-X-Google-Smtp-Source: ABdhPJwwGbYNhnOrYIqdeInNdwLdPByu0sRmNSU56auW9FrYv2wqm6Kc1rCkVFwsd8kWJc6DOLLy9A==
-X-Received: by 2002:a5d:4c86:: with SMTP id z6mr6423751wrs.345.1592818046805; 
- Mon, 22 Jun 2020 02:27:26 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 2sm7821820wmo.44.2020.06.22.02.27.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Jun 2020 02:27:26 -0700 (PDT)
-Date: Mon, 22 Jun 2020 11:27:24 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 3/3] drm: uapi: Remove copies of GPL license text from
- headers
-Message-ID: <20200622092724.GX20149@phenom.ffwll.local>
-References: <20200621020703.864-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200621020703.864-3-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4566E0F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 09:28:51 +0000 (UTC)
+IronPort-SDR: q9f4lx1gJs3vNXmGHOZ8ZUPcqQnt8UmjzDMRTocvvfi4daP72kHOoRl6s7yxSfZ81xkTxodYgb
+ 17T7FUahjPgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9659"; a="142763255"
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="142763255"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2020 02:28:50 -0700
+IronPort-SDR: DYfUSnMSpl17B46igein1OOlahoUHMek9dQ8NjyWvq24ZZB/iVze/Bi2s/NjA4MiVwYcVv6fwx
+ Ed4zZzeizOcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; d="scan'208";a="478388254"
+Received: from shao2-debian.sh.intel.com (HELO [10.239.13.3]) ([10.239.13.3])
+ by fmsmga005.fm.intel.com with ESMTP; 22 Jun 2020 02:28:47 -0700
+Subject: Re: [kbuild-all] Re: [PATCH 4/4] drm: pl111: Update documentation
+To: Philip Li <philip.li@intel.com>, Linus Walleij <linus.walleij@linaro.org>
+References: <20200609200446.153209-4-linus.walleij@linaro.org>
+ <202006101538.mV5c2loX%lkp@intel.com>
+ <CACRpkda+GJpHQjvfjcFfhher+Vfr66DRgf6my2Fx7qg9=-5ATQ@mail.gmail.com>
+ <20200612124017.GD7636@intel.com>
+From: Rong Chen <rong.a.chen@intel.com>
+Message-ID: <d9fe3168-d226-2c97-13ea-2495eea23034@intel.com>
+Date: Mon, 22 Jun 2020 17:28:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200621020703.864-3-laurent.pinchart+renesas@ideasonboard.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200612124017.GD7636@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,124 +53,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Russell King <linux@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, Kyungmin Park <kyungmin.park@samsung.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 21, 2020 at 05:07:03AM +0300, Laurent Pinchart wrote:
-> Several DRM drivers uAPI headers that are licensed under the GPL carry
-> both an SPDX header and a copy of the license text. Drop the latter.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-I do kinda wonder how much lolz these gpl-only headers are. With or
-without syscall exception, the ioctls in here are imo very far away from a
-standardized syscall of any form.
 
-But also not my problem :-)
+On 6/12/20 8:40 PM, Philip Li wrote:
+> On Fri, Jun 12, 2020 at 01:04:02PM +0200, Linus Walleij wrote:
+>> On Wed, Jun 10, 2020 at 9:38 AM kernel test robot <lkp@intel.com> wrote:
+>>
+>>> I love your patch! Perhaps something to improve:
+>>>
+>>> [auto build test WARNING on drm-exynos/exynos-drm-next]
+>>> [also build test WARNING on drm-intel/for-linux-next tegra-drm/drm/tegra/for-next linus/master v5.7 next-20200609]
+>>> [cannot apply to drm-tip/drm-tip drm/drm-next]
+>>> [if your patch is applied to the wrong git tree, please drop us a note to help
+>>> improve the system. BTW, we also suggest to use '--base' option to specify the
+>>> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+>>>
+>>> url:    https://github.com/0day-ci/linux/commits/Linus-Walleij/drm-pl111-Credit-where-credit-is-due/20200610-041025
+>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+>>> reproduce: make htmldocs
+>>>
+>>> If you fix the issue, kindly add following tag as appropriate
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>> What on earth was that. The robot reports on a patch only adding a few lines
+>> of comments as breaking the whole universe, and none of these systems
+>> even use the PL111.
+> Thanks for feedback, this is supposed to check make htmldocs. We will double
+> check this to fix issue. Sorry for noise.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Hi Linus,
 
-> ---
->  include/uapi/drm/armada_drm.h  |  4 ----
->  include/uapi/drm/etnaviv_drm.h | 12 ------------
->  include/uapi/drm/exynos_drm.h  |  5 -----
->  include/uapi/drm/omap_drm.h    | 12 ------------
->  4 files changed, 33 deletions(-)
-> 
-> diff --git a/include/uapi/drm/armada_drm.h b/include/uapi/drm/armada_drm.h
-> index af1c14c837c5..f711e63a9758 100644
-> --- a/include/uapi/drm/armada_drm.h
-> +++ b/include/uapi/drm/armada_drm.h
-> @@ -2,10 +2,6 @@
->  /*
->   * Copyright (C) 2012 Russell King
->   *  With inspiration from the i915 driver
-> - *
-> - * This program is free software; you can redistribute it and/or modify
-> - * it under the terms of the GNU General Public License version 2 as
-> - * published by the Free Software Foundation.
->   */
->  #ifndef DRM_ARMADA_IOCTL_H
->  #define DRM_ARMADA_IOCTL_H
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-> index 09d0df8b71c5..e23e0f885655 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -1,18 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->  /*
->   * Copyright (C) 2015 Etnaviv Project
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms of the GNU General Public License version 2 as published by
-> - * the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->  
->  #ifndef __ETNAVIV_DRM_H__
-> diff --git a/include/uapi/drm/exynos_drm.h b/include/uapi/drm/exynos_drm.h
-> index a51aa1c618c1..a96fa566433c 100644
-> --- a/include/uapi/drm/exynos_drm.h
-> +++ b/include/uapi/drm/exynos_drm.h
-> @@ -6,11 +6,6 @@
->   *	Inki Dae <inki.dae@samsung.com>
->   *	Joonyoung Shim <jy0922.shim@samsung.com>
->   *	Seung-Woo Kim <sw0312.kim@samsung.com>
-> - *
-> - * This program is free software; you can redistribute  it and/or modify it
-> - * under  the terms of  the GNU General  Public License as published by the
-> - * Free Software Foundation;  either version 2 of the  License, or (at your
-> - * option) any later version.
->   */
->  
->  #ifndef _UAPI_EXYNOS_DRM_H_
-> diff --git a/include/uapi/drm/omap_drm.h b/include/uapi/drm/omap_drm.h
-> index 5a142fad473c..b51dad32122d 100644
-> --- a/include/uapi/drm/omap_drm.h
-> +++ b/include/uapi/drm/omap_drm.h
-> @@ -4,18 +4,6 @@
->   *
->   * Copyright (C) 2011 Texas Instruments
->   * Author: Rob Clark <rob@ti.com>
-> - *
-> - * This program is free software; you can redistribute it and/or modify it
-> - * under the terms of the GNU General Public License version 2 as published by
-> - * the Free Software Foundation.
-> - *
-> - * This program is distributed in the hope that it will be useful, but WITHOUT
-> - * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> - * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> - * more details.
-> - *
-> - * You should have received a copy of the GNU General Public License along with
-> - * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->  
->  #ifndef __OMAP_DRM_H__
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+We won't show unrelated htmldocs warnings in the future,
+but the warning (with prefix '>>') was found in this patch,
+could you take a look?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>> drivers/gpu/drm/pl111/pl111_drv.c:1: warning: 'ARM PrimeCell PL111 CLCD Driver' not found
+
+
+Best Regards,
+Rong Chen
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
