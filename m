@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E028A204DB9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 11:19:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B51204E32
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 11:42:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEB7B6E985;
-	Tue, 23 Jun 2020 09:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A576E98A;
+	Tue, 23 Jun 2020 09:42:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0A36E418
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 09:19:21 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 75E15B03B;
- Tue, 23 Jun 2020 09:19:19 +0000 (UTC)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F39B6E98A
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 09:42:29 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id q5so7402898wru.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 02:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VzNSsdeUH8JNw88cmIzOtYPBzpzKsJvphsT+xrVMiHQ=;
+ b=OOgJZnFE49aFE/I7hbWmMS9hh9nzMs281n8olVKh8YTFHWdYuItpydCFunIKoJE3Fm
+ 16jqzbTcyshM7imZHCSbbTpf6kC2Vd1tkifRRjl/sez3Q3RbMZjZFOJOi2SPcuVowLej
+ IyYgSv5zAPXSnIhuEa4QgTkDKxuu0BX5EO5O0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VzNSsdeUH8JNw88cmIzOtYPBzpzKsJvphsT+xrVMiHQ=;
+ b=lkjUUSswxKtdaBh3zO8dydDtxakM6UZ6VM/yhm97TZv1PXsmMB4OxIwiPhhSJbsb2d
+ LHcAhJlHhguHdfEknlTyF9YAW1jdHDXWNnC04f4Px0zUAFH0tQEQ+9Cz5HAn7fsOLG1D
+ 27x4Pmxw/hRpraWkYptg6l1lMYqMa3iQklB8Wmx8qpl4dy8d7XF2f0D1xy3OCw7MiMZD
+ Sjpoq1gds8qtF/C4fPUe6maBu09CvDoo73kf96XwAvkXeh4WGVX2waIGMg92EigkV3XL
+ OctXe4sx0kTIcvU5Mu8KpRq7LwAoKw4tzcdYRwZN/S8h/73RgUmTcJ4SWcg402n0iTe4
+ dZYA==
+X-Gm-Message-State: AOAM531dBtGgUZj0Sb91nY0LRwVVhVP8tbLuVarm3cUTv4SNaJjJag13
+ itU384J+mDEjpAyWZMkgYqwakg==
+X-Google-Smtp-Source: ABdhPJwPPueVqvUOzPzdk2c9vaBHBEksacY4IoP/Pq0cPyhqF5ia0SGWfVr8kta8laPZCFdjyR2bcg==
+X-Received: by 2002:adf:a34d:: with SMTP id d13mr23196016wrb.270.1592905348437; 
+ Tue, 23 Jun 2020 02:42:28 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l17sm3043454wmh.14.2020.06.23.02.42.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 02:42:27 -0700 (PDT)
+Date: Tue, 23 Jun 2020 11:42:25 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Deepak Rawat <drawat.floss@gmail.com>
 Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
  video device
-To: Deepak Rawat <drawat.floss@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <20200623094225.GJ20149@phenom.ffwll.local>
 References: <20200622110623.113546-1-drawat.floss@gmail.com>
  <20200622110623.113546-2-drawat.floss@gmail.com>
- <20200622151913.GA655276@ravnborg.org>
- <ea38c268-01e6-e43e-343d-a413142d450f@suse.de>
- <2699290fb7ab566987da8f648a9234c6a4fbc24e.camel@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <215ad0dc-64ed-939e-5eee-e4b1b6cefe74@suse.de>
-Date: Tue, 23 Jun 2020 11:19:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <20200622124622.yioa53bvipvd4c42@sirius.home.kraxel.org>
+ <f6923296368dc676df10e75593ebc18575efc476.camel@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2699290fb7ab566987da8f648a9234c6a4fbc24e.camel@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <f6923296368dc676df10e75593ebc18575efc476.camel@gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,145 +72,75 @@ Cc: linux-hyperv@vger.kernel.org, Stephen Hemminger <sthemmin@microsoft.com>,
  David Airlie <airlied@linux.ie>, Haiyang Zhang <haiyangz@microsoft.com>,
  Wei Liu <wei.liu@kernel.org>, dri-devel@lists.freedesktop.org,
  Michael Kelley <mikelley@microsoft.com>, Jork Loeser <jloeser@microsoft.com>,
- Wei Hu <weh@microsoft.com>, K Y Srinivasan <kys@microsoft.com>
-Content-Type: multipart/mixed; boundary="===============1807753581=="
+ Gerd Hoffmann <kraxel@redhat.com>, Wei Hu <weh@microsoft.com>,
+ K Y Srinivasan <kys@microsoft.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1807753581==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="B6nPgP0u8ekIr8pgfFX1H4OZIjK39tzgG"
+On Mon, Jun 22, 2020 at 03:20:34PM -0700, Deepak Rawat wrote:
+> On Mon, 2020-06-22 at 14:46 +0200, Gerd Hoffmann wrote:
+> >   Hi,
+> > 
+> > > +/* Should be done only once during init and resume */
+> > > +static int synthvid_update_vram_location(struct hv_device *hdev,
+> > > +					  phys_addr_t vram_pp)
+> > > +{
+> > > +	struct hyperv_device *hv = hv_get_drvdata(hdev);
+> > > +	struct synthvid_msg *msg = (struct synthvid_msg *)hv->init_buf;
+> > > +	unsigned long t;
+> > > +	int ret = 0;
+> > > +
+> > > +	memset(msg, 0, sizeof(struct synthvid_msg));
+> > > +	msg->vid_hdr.type = SYNTHVID_VRAM_LOCATION;
+> > > +	msg->vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
+> > > +		sizeof(struct synthvid_vram_location);
+> > > +	msg->vram.user_ctx = msg->vram.vram_gpa = vram_pp;
+> > > +	msg->vram.is_vram_gpa_specified = 1;
+> > > +	synthvid_send(hdev, msg);
+> > 
+> > That suggests it is possible to define multiple framebuffers in vram,
+> > then pageflip by setting vram.vram_gpa.  If that is the case I'm
+> > wondering whenever vram helpers are a better fit maybe?  You don't
+> > have
+> > to blit each and every display update then.
+> 
+> Thanks for the review. Unfortunately only the first vmbus message take
+> effect and subsequent calls are ignored. I originally implemented using
+> vram helpers but I figured out calling this vmbus message again won't
+> change the vram location.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---B6nPgP0u8ekIr8pgfFX1H4OZIjK39tzgG
-Content-Type: multipart/mixed; boundary="zfw343xoU3AzHKa6HTwJKTEFqTqX2BbHT";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Deepak Rawat <drawat.floss@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: linux-hyperv@vger.kernel.org, Stephen Hemminger <sthemmin@microsoft.com>,
- David Airlie <airlied@linux.ie>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, dri-devel@lists.freedesktop.org,
- Michael Kelley <mikelley@microsoft.com>, Jork Loeser
- <jloeser@microsoft.com>, Wei Hu <weh@microsoft.com>,
- K Y Srinivasan <kys@microsoft.com>
-Message-ID: <215ad0dc-64ed-939e-5eee-e4b1b6cefe74@suse.de>
-Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-References: <20200622110623.113546-1-drawat.floss@gmail.com>
- <20200622110623.113546-2-drawat.floss@gmail.com>
- <20200622151913.GA655276@ravnborg.org>
- <ea38c268-01e6-e43e-343d-a413142d450f@suse.de>
- <2699290fb7ab566987da8f648a9234c6a4fbc24e.camel@gmail.com>
-In-Reply-To: <2699290fb7ab566987da8f648a9234c6a4fbc24e.camel@gmail.com>
+I think that needs a very big comment. Maybe even enforce that with a
+"vram_gpa_set" boolean in the device structure, and complain if we try to
+do that twice.
 
---zfw343xoU3AzHKa6HTwJKTEFqTqX2BbHT
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Also I guess congrats to microsoft for defining things like that :-/
+-Daniel
 
-Hi
-
-Am 23.06.20 um 11:12 schrieb Deepak Rawat:
-> On Tue, 2020-06-23 at 09:59 +0200, Thomas Zimmermann wrote:
->> Hi Deepak
->>
->> I did not receive you pat series, so I can only comment on Sam's
->> reply.
->> See below for some points.
->=20
-> Hi Thomas, Thanks for the review. I wanted to add you in cc list but
-> messed it up with final git send-email. Sorry about that. I am not sure=
-
-> why you didn't received it via dri-devel. The patch series do show up
-> in dri-devel archive. I wonder if other people also have similar
-> issues.
-
-I think it's related to a problem on my side. Some of my email
-infrastructure was not available over the weekend.
-
-Best regards
-Thomas
-
->=20
->=20
->>>>
->>>> +	struct hv_device *hdev;
->>>> +};
->>>> +
->>>> +#define to_hv(_dev) container_of(_dev, struct hyperv_device,
->>>> dev)
->>
->> Could this be a function?
->=20
-> Is there a reason to use a function here?
->=20
->>
->>>> +
->>>> +/* -----------------------------------------------------------
->>>> ----------- */
->>>> +/* Hyper-V Synthetic Video
->>>> Protocol                                       */
->>
->> The comments look awkward. Unless this style has been used within
->> DRM,
->> maybe just use
->>
->>  /*
->>   * ...
->>   */
->>
->=20
-> This style is copy-paste from cirrus, and bochs also have same style.
-> Perhaps historical. Anyway I agree to I should get rid of this.
->=20
->=20
+> 
+> > 
+> > FYI: cirrus goes the blit route because (a) the amount of vram is
+> > very
+> > small so trying to store multiple framebuffers there is out of
+> > question,
+> > and (b) cirrus converts formats on the fly to hide some hardware
+> > oddities.
+> > 
+> > take care,
+> >   Gerd
+> > 
+> 
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---zfw343xoU3AzHKa6HTwJKTEFqTqX2BbHT--
-
---B6nPgP0u8ekIr8pgfFX1H4OZIjK39tzgG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7xyRQACgkQaA3BHVML
-eiOr4Af/QHNBylMCn5mX6VPxXHsRbGDMgQawCEY9wG5TvVOze7v3eEGr7lVnW/Bf
-Z59w6M4XiRatWz5TRiB1FuZMB+Vdf4kSLtS8FQZolEU2/8diTyYKQYhOBmm8Y92f
-jrUyaKurOJBA8aTi73OqxWkZgSIyTsjPPuIglklnF46Dgd53vnyZ4BVojh8AZO66
-Egsf63P6iz4m98TyYgD2N/y+UkOGmXc5F5xYfaGpEPWNxArWx4euM0f5mnNHelwM
-AtLUWIh1CG1dbFORWlDIXkbTh1F2VCYxAi6pSgVx8aH6SzNz1Fx1C7bz7OkLbHix
-9ekfyZY8KtX7LTPvEBhlGnP8mu+5sQ==
-=za5W
------END PGP SIGNATURE-----
-
---B6nPgP0u8ekIr8pgfFX1H4OZIjK39tzgG--
-
---===============1807753581==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1807753581==--
