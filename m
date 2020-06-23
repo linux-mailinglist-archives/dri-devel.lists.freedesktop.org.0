@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C8E20569C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 17:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F00B20569D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 17:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1916EA06;
-	Tue, 23 Jun 2020 15:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 725D36E9ED;
+	Tue, 23 Jun 2020 15:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D548C6E9EB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 15:59:39 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id z1so15762342qtn.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 08:59:39 -0700 (PDT)
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459376E9FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 15:59:41 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id g11so9896703qvs.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 08:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=skvdzVdyJzttyp8JYtI9zQqJNrVl2PsD0vpycfJgDwg=;
- b=JTNFnjOTLULWmg9STq26NbyplIobMWQK6gIvKlsDH2hfkp5fEc8bp3srnNvVL/gKP4
- c1NJLVu7HnBc7t79zYXWf0d1fMiINOvTg/heUmpJQVbRVBMFapzYK1NWLJz7llrsV/OI
- A68EnE93Xvq0BIFlnnPXEX5w6LKXkTBUuFVJCnHlORMhkBXL1NZkLqB21b4QsM1crD6U
- 0nrszWldtk3MAbKnSmWEfLK8bNn93onDUkOMQCv0FNm1/gAZ4aa74hAMdrhFpgu07j+y
- esiHURuSe0XcgYAqUPGkM+C8wYkhgPgmR8As16iWd6r/5kRlFx+Rqd2p0B3VHcWPYc6q
- r3qw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=DG2oCGEEbDEz7rhKPqzYsdU18dk6ckyluQv+uSJ4My0=;
+ b=JCsKmtgj11Qlm0tY0uqiKOsfuw0TUyl2c2Stzra5K3xTJFEPf02NhG2yjspnqapjGn
+ h6VXsGH/ncqategfHCnGxbGuAsHwYH1I+/guVxWuZlhtP3uvqBDvXHrMmJ2VsipMkS2+
+ L4pKr4glZ5qaUo16d/hsQpf4OkN2XWaQKWiWau7sXgKhnUN7isNMUfoCRXne6aHpTmQO
+ nwYK7T+uEBeelCqXd1FK7xyoO2Uzt0PsVFy3YHfXR8MhlJLnONqWbWImn4Om89XXJcCZ
+ ly6iocwF5GbSU/eNCgs953M3PImjeHxo3bfMxGe5T+lixbVP54pa0zSFWva4+tTds7Pw
+ jreQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=skvdzVdyJzttyp8JYtI9zQqJNrVl2PsD0vpycfJgDwg=;
- b=Vyhr99RjVVlAzyekrAKO/4kJDpbWQnMkHH86nkh7rAd7pm5PkXrUUBdQE7+nTQzIJx
- F8CdOjM3a88YjDfZjMI3jVQ37I/mXuPTIoWJHSvLhduEK6s641Z1pdNCyhF35kuPu97T
- ko6+MsnBRfj+Uq16/dZ212QXPUa3Wkr970XDeNHnOOkRhQ9AXtHlaiglQJg7gfx4RN59
- X4IuQCTrXlyqJdqpawa9EAPM7VAG6DJoKoI5k3SRGFxgwCJMUXko3gLcOg0dpf3kQWkD
- AM0yM7CF4MlHzrO/qQs67NcIwV03CwQSkNJApO1bftk44ox/wwoy6o2eelt7xv90JLLF
- JaIQ==
-X-Gm-Message-State: AOAM530NXpNeG2p9AdSQhXcbZvzvWOrYfOc9in3f8op4GkX9TNIUQwrN
- TrSJ/BUwk2QRtuC98wYRm5wPIXSLQbk=
-X-Google-Smtp-Source: ABdhPJxdF/41moD0siWSzABVcWR8WN7hF08307IfrpTSnLrY8R3H4vmgcI8Jy/uhgCzyQcoWXgcAaA==
-X-Received: by 2002:ac8:72d1:: with SMTP id o17mr23046183qtp.303.1592927977940; 
- Tue, 23 Jun 2020 08:59:37 -0700 (PDT)
+ :references;
+ bh=DG2oCGEEbDEz7rhKPqzYsdU18dk6ckyluQv+uSJ4My0=;
+ b=muU0dMUmvPP3E3GdQl3jqOE4tQLNfoLfBDpxTldgAs0IkAtc68l0q5SgdcG+1PbCmy
+ 90RfM8B0MZuRDhcldG79mL0ltc/n9LL8QqbSTnjXHfcSD08mq0EW+n20j8Jy1mO1W1EX
+ OoL8CMzQUxdCDLQeiz5yQEId7h9ov7dj4PT9+rNKMKwPqoZat3WSF0g55b6lB+bOeeIW
+ q8PqEUcUtnpR1B1y1hcRdMuVL+Espr4BQeiYS41af2gZuanmsYCILHQ6jPDciaIp51yK
+ DZeStqmBVNUvFPKt5JpGcSc79v5paZuNxiq2NMAi+kc2Uaj3+YZ5XhpJELGomLbBcVWy
+ fi6A==
+X-Gm-Message-State: AOAM531kyuoVCAYwZ0/o91mIckaD0dLTNkZ7yeP3ZMK7Ivf1FELog/nn
+ cqhcQ85/JNbnicRfam9layLSbFHbfc4=
+X-Google-Smtp-Source: ABdhPJzpSsMewoGVJNuFSvuvQ7rrUOQAKvEdPSN18whMWb+gVr1LQp3qIdem+LDifiEIQxMJ1aPJjg==
+X-Received: by 2002:a05:6214:10e5:: with SMTP id
+ q5mr27165509qvt.47.1592927979574; 
+ Tue, 23 Jun 2020 08:59:39 -0700 (PDT)
 Received: from localhost ([166.137.96.174])
- by smtp.gmail.com with ESMTPSA id r7sm862341qtm.66.2020.06.23.08.59.37
+ by smtp.gmail.com with ESMTPSA id a25sm1005585qtk.40.2020.06.23.08.59.38
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 23 Jun 2020 08:59:37 -0700 (PDT)
+ Tue, 23 Jun 2020 08:59:39 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v7 13/17] drm/i915: Plumb port through hdcp init
-Date: Tue, 23 Jun 2020 11:59:03 -0400
-Message-Id: <20200623155907.22961-14-sean@poorly.run>
+Subject: [PATCH v7 14/17] drm/i915: Add connector to hdcp_shim->check_link()
+Date: Tue, 23 Jun 2020 11:59:04 -0400
+Message-Id: <20200623155907.22961-15-sean@poorly.run>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200623155907.22961-1-sean@poorly.run>
 References: <20200623155907.22961-1-sean@poorly.run>
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,98 +68,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@ffwll.ch, Sean Paul <seanpaul@chromium.org>,
  juston.li@intel.com, rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpUaGlzIHBhdGNoIHBsdW1i
-cyBwb3J0IHRocm91Z2ggaGRjcCBpbml0IGluc3RlYWQgb2YgcmVseWluZyBvbgppbnRlbF9hdHRh
-Y2hlZF9lbmNvZGVyKCkgdG8gcmV0dXJuIGEgbm9uLU5VTEwgZW5jb2RlciB3aGljaCB3b24ndCB3
-b3JrCmZvciBNU1QgY29ubmVjdG9ycy4KCkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmph
-bGFAbGludXguaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNo
-cm9taXVtLm9yZz4KTGluazogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNo
-L21zZ2lkLzIwMjAwMzA1MjAxMjM2LjE1MjMwNy0xMy1zZWFuQHBvb3JseS5ydW4gI3Y1Ckxpbms6
-IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDIwMDQyOTE5
-NTUwMi4zOTkxOS0xMy1zZWFuQHBvb3JseS5ydW4gI3Y2CgpDaGFuZ2VzIGluIHY1OgotQWRkZWQg
-dG8gdGhlIHNldApDaGFuZ2VzIGluIHY2OgotTm9uZQpDaGFuZ2VzIGluIHY3OgotTm9uZQotLS0K
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfaGRjcC5jIHwgIDMgKystCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuYyAgICB8IDExICsrKysrKy0t
-LS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuaCAgICB8ICAyICst
-CiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYyAgICB8ICAyICstCiA0
-IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9oZGNwLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX2hkY3AuYwppbmRleCAwZTA2YTEwNjZk
-NjEuLmUyNmE0NWY4ODBjYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcF9oZGNwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kcF9oZGNwLmMKQEAgLTYzMCw3ICs2MzAsOCBAQCBpbnQgaW50ZWxfZHBfaW5pdF9oZGNwKHN0
-cnVjdCBpbnRlbF9kaWdpdGFsX3BvcnQgKmludGVsX2RpZ19wb3J0LAogCQlyZXR1cm4gMDsKIAog
-CWlmICghaW50ZWxfZHBfaXNfZWRwKGludGVsX2RwKSkKLQkJcmV0dXJuIGludGVsX2hkY3BfaW5p
-dChpbnRlbF9jb25uZWN0b3IsICZpbnRlbF9kcF9oZGNwX3NoaW0pOworCQlyZXR1cm4gaW50ZWxf
-aGRjcF9pbml0KGludGVsX2Nvbm5lY3RvciwgcG9ydCwKKwkJCQkgICAgICAgJmludGVsX2RwX2hk
-Y3Bfc2hpbSk7CiAKIAlyZXR1cm4gMDsKIH0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9oZGNwLmMKaW5kZXggNTY3OTg3N2M2YjRjLi5kNzlkNDE0MmFlYTcgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jCkBAIC0xOTU1LDYgKzE5NTUsNyBAQCBz
-dGF0aWMgZW51bSBtZWlfZndfdGMgaW50ZWxfZ2V0X21laV9md190YyhlbnVtIHRyYW5zY29kZXIg
-Y3B1X3RyYW5zY29kZXIpCiB9CiAKIHN0YXRpYyBpbnQgaW5pdGlhbGl6ZV9oZGNwX3BvcnRfZGF0
-YShzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCisJCQkJICAgICBlbnVtIHBvcnQg
-cG9ydCwKIAkJCQkgICAgIGNvbnN0IHN0cnVjdCBpbnRlbF9oZGNwX3NoaW0gKnNoaW0pCiB7CiAJ
-c3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjb25uZWN0b3ItPmJh
-c2UuZGV2KTsKQEAgLTE5NjIsOCArMTk2Myw3IEBAIHN0YXRpYyBpbnQgaW5pdGlhbGl6ZV9oZGNw
-X3BvcnRfZGF0YShzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCiAJc3RydWN0IGhk
-Y3BfcG9ydF9kYXRhICpkYXRhID0gJmhkY3AtPnBvcnRfZGF0YTsKIAogCWlmIChJTlRFTF9HRU4o
-ZGV2X3ByaXYpIDwgMTIpCi0JCWRhdGEtPmZ3X2RkaSA9Ci0JCQlpbnRlbF9nZXRfbWVpX2Z3X2Rk
-aV9pbmRleChpbnRlbF9hdHRhY2hlZF9lbmNvZGVyKGNvbm5lY3RvciktPnBvcnQpOworCQlkYXRh
-LT5md19kZGkgPSBpbnRlbF9nZXRfbWVpX2Z3X2RkaV9pbmRleChwb3J0KTsKIAllbHNlCiAJCS8q
-CiAJCSAqIEFzIHBlciBNRSBGVyBBUEkgZXhwZWN0YXRpb24sIGZvciBHRU4gMTIrLCBmd19kZGkg
-aXMgZmlsbGVkCkBAIC0yMDMzLDE0ICsyMDMzLDE0IEBAIHZvaWQgaW50ZWxfaGRjcF9jb21wb25l
-bnRfaW5pdChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCiAJfQogfQogCi1zdGF0
-aWMgdm9pZCBpbnRlbF9oZGNwMl9pbml0KHN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3Rv
-ciwKK3N0YXRpYyB2b2lkIGludGVsX2hkY3AyX2luaXQoc3RydWN0IGludGVsX2Nvbm5lY3RvciAq
-Y29ubmVjdG9yLCBlbnVtIHBvcnQgcG9ydCwKIAkJCSAgICAgY29uc3Qgc3RydWN0IGludGVsX2hk
-Y3Bfc2hpbSAqc2hpbSkKIHsKIAlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IHRvX2k5
-MTUoY29ubmVjdG9yLT5iYXNlLmRldik7CiAJc3RydWN0IGludGVsX2hkY3AgKmhkY3AgPSAmY29u
-bmVjdG9yLT5oZGNwOwogCWludCByZXQ7CiAKLQlyZXQgPSBpbml0aWFsaXplX2hkY3BfcG9ydF9k
-YXRhKGNvbm5lY3Rvciwgc2hpbSk7CisJcmV0ID0gaW5pdGlhbGl6ZV9oZGNwX3BvcnRfZGF0YShj
-b25uZWN0b3IsIHBvcnQsIHNoaW0pOwogCWlmIChyZXQpIHsKIAkJZHJtX2RiZ19rbXMoJmk5MTUt
-PmRybSwgIk1laSBoZGNwIGRhdGEgaW5pdCBmYWlsZWRcbiIpOwogCQlyZXR1cm47CkBAIC0yMDUw
-LDYgKzIwNTAsNyBAQCBzdGF0aWMgdm9pZCBpbnRlbF9oZGNwMl9pbml0KHN0cnVjdCBpbnRlbF9j
-b25uZWN0b3IgKmNvbm5lY3RvciwKIH0KIAogaW50IGludGVsX2hkY3BfaW5pdChzdHJ1Y3QgaW50
-ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCisJCSAgICBlbnVtIHBvcnQgcG9ydCwKIAkJICAgIGNv
-bnN0IHN0cnVjdCBpbnRlbF9oZGNwX3NoaW0gKnNoaW0pCiB7CiAJc3RydWN0IGRybV9pOTE1X3By
-aXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjb25uZWN0b3ItPmJhc2UuZGV2KTsKQEAgLTIwNjAs
-NyArMjA2MSw3IEBAIGludCBpbnRlbF9oZGNwX2luaXQoc3RydWN0IGludGVsX2Nvbm5lY3RvciAq
-Y29ubmVjdG9yLAogCQlyZXR1cm4gLUVJTlZBTDsKIAogCWlmIChpc19oZGNwMl9zdXBwb3J0ZWQo
-ZGV2X3ByaXYpKQotCQlpbnRlbF9oZGNwMl9pbml0KGNvbm5lY3Rvciwgc2hpbSk7CisJCWludGVs
-X2hkY3AyX2luaXQoY29ubmVjdG9yLCBwb3J0LCBzaGltKTsKIAogCXJldCA9CiAJZHJtX2Nvbm5l
-Y3Rvcl9hdHRhY2hfY29udGVudF9wcm90ZWN0aW9uX3Byb3BlcnR5KCZjb25uZWN0b3ItPmJhc2Us
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuaCBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5oCmluZGV4IDg2YmJhZWMx
-MjBjYy4uMWJiZjViNjdlZDBhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
-bGF5L2ludGVsX2hkY3AuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2hkY3AuaApAQCAtMjIsNyArMjIsNyBAQCBlbnVtIHRyYW5zY29kZXI7CiB2b2lkIGludGVsX2hk
-Y3BfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCiAJCQkgICAg
-IHN0cnVjdCBkcm1fY29ubmVjdG9yX3N0YXRlICpvbGRfc3RhdGUsCiAJCQkgICAgIHN0cnVjdCBk
-cm1fY29ubmVjdG9yX3N0YXRlICpuZXdfc3RhdGUpOwotaW50IGludGVsX2hkY3BfaW5pdChzdHJ1
-Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCitpbnQgaW50ZWxfaGRjcF9pbml0KHN0cnVj
-dCBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvciwgZW51bSBwb3J0IHBvcnQsCiAJCSAgICBjb25z
-dCBzdHJ1Y3QgaW50ZWxfaGRjcF9zaGltICpoZGNwX3NoaW0pOwogaW50IGludGVsX2hkY3BfZW5h
-YmxlKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAkJICAgICAgZW51bSB0cmFu
-c2NvZGVyIGNwdV90cmFuc2NvZGVyLCB1OCBjb250ZW50X3R5cGUpOwpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYwppbmRleCBhNTlhY2ZmZjQ1NmUuLmNhNzFlZTNkZDFj
-NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9oZG1pLmMKQEAgLTMyNjAs
-NyArMzI2MCw3IEBAIHZvaWQgaW50ZWxfaGRtaV9pbml0X2Nvbm5lY3RvcihzdHJ1Y3QgaW50ZWxf
-ZGlnaXRhbF9wb3J0ICppbnRlbF9kaWdfcG9ydCwKIAlpbnRlbF9oZG1pLT5hdHRhY2hlZF9jb25u
-ZWN0b3IgPSBpbnRlbF9jb25uZWN0b3I7CiAKIAlpZiAoaXNfaGRjcF9zdXBwb3J0ZWQoZGV2X3By
-aXYsIHBvcnQpKSB7Ci0JCWludCByZXQgPSBpbnRlbF9oZGNwX2luaXQoaW50ZWxfY29ubmVjdG9y
-LAorCQlpbnQgcmV0ID0gaW50ZWxfaGRjcF9pbml0KGludGVsX2Nvbm5lY3RvciwgcG9ydCwKIAkJ
-CQkJICAmaW50ZWxfaGRtaV9oZGNwX3NoaW0pOwogCQlpZiAocmV0KQogCQkJZHJtX2RiZ19rbXMo
-JmRldl9wcml2LT5kcm0sCi0tIApTZWFuIFBhdWwsIFNvZnR3YXJlIEVuZ2luZWVyLCBHb29nbGUg
-LyBDaHJvbWl1bSBPUwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+From: Sean Paul <seanpaul@chromium.org>
+
+Currently we derive the connector from digital port in check_link(). For
+MST, this isn't sufficient since the digital port passed into the
+function can have multiple connectors downstream. This patch adds
+connector to the check_link() arguments so we have it when we need it.
+
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-13-sean@poorly.run #v4
+Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-14-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-14-sean@poorly.run #v6
+
+Changes in v4:
+-Added to the set
+Changes in v5:
+-None
+Changes in v6:
+-None
+Changes in v7:
+-None
+---
+ drivers/gpu/drm/i915/display/intel_display_types.h | 3 ++-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c       | 3 ++-
+ drivers/gpu/drm/i915/display/intel_hdcp.c          | 2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c          | 5 ++---
+ 4 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 811085ef3fba..94211b8fc159 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -318,7 +318,8 @@ struct intel_hdcp_shim {
+ 				 bool enable);
+ 
+ 	/* Ensures the link is still protected */
+-	bool (*check_link)(struct intel_digital_port *intel_dig_port);
++	bool (*check_link)(struct intel_digital_port *intel_dig_port,
++			   struct intel_connector *connector);
+ 
+ 	/* Detects panel's hdcp capability. This is optional for HDMI. */
+ 	int (*hdcp_capable)(struct intel_digital_port *intel_dig_port,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+index e26a45f880cb..43446a6cae8d 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+@@ -223,7 +223,8 @@ int intel_dp_hdcp_toggle_signalling(struct intel_digital_port *intel_dig_port,
+ }
+ 
+ static
+-bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port)
++bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port,
++			      struct intel_connector *connector)
+ {
+ 	struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
+ 	ssize_t ret;
+diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+index d79d4142aea7..6bd0e4616ee1 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+@@ -953,7 +953,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+ 		goto out;
+ 	}
+ 
+-	if (hdcp->shim->check_link(intel_dig_port)) {
++	if (hdcp->shim->check_link(intel_dig_port, connector)) {
+ 		if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+ 			intel_hdcp_update_value(connector,
+ 				DRM_MODE_CONTENT_PROTECTION_ENABLED, true);
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index ca71ee3dd1c7..b12f1af0611d 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -1546,11 +1546,10 @@ int intel_hdmi_hdcp_toggle_signalling(struct intel_digital_port *intel_dig_port,
+ }
+ 
+ static
+-bool intel_hdmi_hdcp_check_link(struct intel_digital_port *intel_dig_port)
++bool intel_hdmi_hdcp_check_link(struct intel_digital_port *intel_dig_port,
++				struct intel_connector *connector)
+ {
+ 	struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
+-	struct intel_connector *connector =
+-		intel_dig_port->hdmi.attached_connector;
+ 	enum port port = intel_dig_port->base.port;
+ 	enum transcoder cpu_transcoder = connector->hdcp.cpu_transcoder;
+ 	int ret;
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
