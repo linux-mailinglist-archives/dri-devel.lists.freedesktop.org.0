@@ -1,47 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD042056B3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 18:02:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320E32056EB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 18:17:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 386D76E9E8;
-	Tue, 23 Jun 2020 16:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB0D66E152;
+	Tue, 23 Jun 2020 16:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF07C6E9E8;
- Tue, 23 Jun 2020 16:02:10 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5C5F320781;
- Tue, 23 Jun 2020 16:02:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592928130;
- bh=lgwtT19xKweBZEzgfBI2ZvdEk0sjRs5leWn5RlZvKaA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=d1IKjLsEya0MJkIt+nk5fRxEmnGTb/EJDOBs5H+vqMjWkDwKLfesfZYGiCxf2kgpz
- b07f3BGARP6qlArza6MEGzQxbceDfhirf6Gxx9i7MJaOtg3fMJKTNqa+maZtXq8hgy
- 16DoDeCeDN3cGYnxvVluzEZnHrVHD8qaimi679Ko=
-Received: by mail-ed1-f52.google.com with SMTP id t21so16748075edr.12;
- Tue, 23 Jun 2020 09:02:10 -0700 (PDT)
-X-Gm-Message-State: AOAM533tfarrEEExh9KLgfGBGOl8LBczE4kWhP+lxbZoZSWwEXHQuKWU
- sJ3RsLOtRHlXxmf2YIUhlISsDIsXJzR7HY5SrA==
-X-Google-Smtp-Source: ABdhPJzh79zfALzI26cvItAmyebzTyzXB9kb7DS7PCOiS06ZO4zZJ1rMJnd9vUT0V3TK0pqS41FF02ejyfhgY4fzBEE=
-X-Received: by 2002:a50:cd53:: with SMTP id d19mr3588430edj.300.1592928128985; 
- Tue, 23 Jun 2020 09:02:08 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA9216E152
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 16:17:45 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id r12so3853441wrj.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 09:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=mtC3PJGWDMIcehgxPBpR+PLKV5Q1ssV6CDNH3+eOQLw=;
+ b=AgZt1w4gGD2RpEAMlnkEkOstZUnDRyAAjz/EQMmp6yPl3Lis6UbhheQUte9x7A3Sl8
+ INAAavAqBXoG8u813E9qRNezIwY3TA/qTfYzBEtibXtlJot3xHssjhseNF9Iko9zdxlZ
+ gSBzxiH+ouRSdrfa366RTmwgZ2QRhz5Frxqn4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=mtC3PJGWDMIcehgxPBpR+PLKV5Q1ssV6CDNH3+eOQLw=;
+ b=cZrTyLQwKfVkNlKLpX5v2Nvo1C42H8k2ZYrburaK0GDPHS1TbQngfuGOCm4XI/Ge9L
+ j1jqLaEImFOi5moiH9clm5xrr5IAJiRNcUbSyPvKgy9BGsv9bXrXaMaQB1aBBIf/CNEW
+ AJ+UqAxxbXdBaKT5KurWKucdST2EcZ+3p0aqeov38c/SYCrVYEeuaZXLm8cbmC6mjD5P
+ bnLUb2OHQ8E06TjhccauYMvaTS57tUwPljyyxFICazKL9q168OAJFr9Uv+o5iCDFRET/
+ 9lX8GqqfxBz2rucTzvfVJGV5g9419vg40wtMYDqe8RBvqwKuMHtFraRZy5SRyvZXysFA
+ FxjQ==
+X-Gm-Message-State: AOAM531meKX6RAiXZXoF26w+vJ9eOftsuj9YEe7e1zqLhMreFjuqMzRD
+ ptKC/FWpWxNRk6WKEWg+CYqEMA==
+X-Google-Smtp-Source: ABdhPJyWm7Jfm7MiyZs5D80QWQxf/J5hWl6QhbRvpHGCjtbEL/+fbiu5ejjrpoum+qf6AjPPBpCveg==
+X-Received: by 2002:adf:e38d:: with SMTP id e13mr5383859wrm.304.1592929064445; 
+ Tue, 23 Jun 2020 09:17:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y19sm4146273wmi.6.2020.06.23.09.17.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Jun 2020 09:17:43 -0700 (PDT)
+Date: Tue, 23 Jun 2020 18:17:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [RFC v5 01/10] drm/vblank: Register drmm cleanup action once per
+ drm_vblank_crtc
+Message-ID: <20200623161741.GN20149@phenom.ffwll.local>
+Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20200622200730.120716-1-lyude@redhat.com>
+ <20200622200730.120716-2-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
- <20200612160056.2082681-4-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200612160056.2082681-4-daniel.vetter@ffwll.ch>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 24 Jun 2020 00:01:58 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__Vvu8C97j3-zfUFeY4OgWZvUzqOm+=A2AQyJcRUWWidQ@mail.gmail.com>
-Message-ID: <CAAOTY__Vvu8C97j3-zfUFeY4OgWZvUzqOm+=A2AQyJcRUWWidQ@mail.gmail.com>
-Subject: Re: [PATCH 4/8] drm/mtk: Use __drm_atomic_helper_crtc_reset
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20200622200730.120716-2-lyude@redhat.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,52 +75,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERhbmllbDoKCkRhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IOaWvCAy
-MDIw5bm0NuaciDEz5pelIOmAseWFrSDkuIrljYgxMjowMeWvq+mBk++8mgo+Cj4gTm93IGFsc28g
-Y29tZXMgd2l0aCB0aGUgYWRkZWQgYmVuZWZpdCBvZiBkb2luZyBhIGRybV9jcnRjX3ZibGFua19v
-ZmYoKSwKPiB3aGljaCBtZWFucyB2Ymxhbmsgc3RhdGUgaXNuJ3QgaWxsLWRlZmluZWQgYW5kIGZh
-aWwteSBhdCBkcml2ZXIgbG9hZAo+IGJlZm9yZSB0aGUgZmlyc3QgbW9kZXNldCBvbiBlYWNoIGNy
-dGMuCj4KCkFja2VkLWJ5OiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4K
-Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+
-Cj4gQ2M6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+IENjOiBQaGls
-aXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPgo+IENjOiBNYXR0aGlhcyBCcnVnZ2Vy
-IDxtYXR0aGlhcy5iZ2dAZ21haWwuY29tPgo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKPiBDYzogbGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IC0t
-LQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgfCAxNiArKysrKyst
-LS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9u
-cygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Ny
-dGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+IGluZGV4IGE3
-ZGJhNGNlZDkwMi4uZDY1NGM3ZDUxNGJkIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZHJtX2NydGMuYwo+IEBAIC0xMTIsMTkgKzExMiwxNSBAQCBzdGF0aWMgdm9pZCBtdGtfZHJt
-X2NydGNfcmVzZXQoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3Qg
-bXRrX2NydGNfc3RhdGUgKnN0YXRlOwo+Cj4gLSAgICAgICBpZiAoY3J0Yy0+c3RhdGUpIHsKPiAr
-ICAgICAgIGlmIChjcnRjLT5zdGF0ZSkKPiAgICAgICAgICAgICAgICAgX19kcm1fYXRvbWljX2hl
-bHBlcl9jcnRjX2Rlc3Ryb3lfc3RhdGUoY3J0Yy0+c3RhdGUpOwo+Cj4gLSAgICAgICAgICAgICAg
-IHN0YXRlID0gdG9fbXRrX2NydGNfc3RhdGUoY3J0Yy0+c3RhdGUpOwo+IC0gICAgICAgICAgICAg
-ICBtZW1zZXQoc3RhdGUsIDAsIHNpemVvZigqc3RhdGUpKTsKPiAtICAgICAgIH0gZWxzZSB7Cj4g
-LSAgICAgICAgICAgICAgIHN0YXRlID0ga3phbGxvYyhzaXplb2YoKnN0YXRlKSwgR0ZQX0tFUk5F
-TCk7Cj4gLSAgICAgICAgICAgICAgIGlmICghc3RhdGUpCj4gLSAgICAgICAgICAgICAgICAgICAg
-ICAgcmV0dXJuOwo+IC0gICAgICAgICAgICAgICBjcnRjLT5zdGF0ZSA9ICZzdGF0ZS0+YmFzZTsK
-PiAtICAgICAgIH0KPiArICAgICAgIGtmcmVlKHRvX210a19jcnRjX3N0YXRlKGNydGMtPnN0YXRl
-KSk7Cj4gKyAgICAgICBjcnRjLT5zdGF0ZSA9IE5VTEw7Cj4KPiAtICAgICAgIHN0YXRlLT5iYXNl
-LmNydGMgPSBjcnRjOwo+ICsgICAgICAgc3RhdGUgPSBremFsbG9jKHNpemVvZigqc3RhdGUpLCBH
-RlBfS0VSTkVMKTsKPiArICAgICAgIGlmIChzdGF0ZSkKPiArICAgICAgICAgICAgICAgX19kcm1f
-YXRvbWljX2hlbHBlcl9jcnRjX3Jlc2V0KGNydGMsICZzdGF0ZS0+YmFzZSk7Cj4gIH0KPgo+ICBz
-dGF0aWMgc3RydWN0IGRybV9jcnRjX3N0YXRlICptdGtfZHJtX2NydGNfZHVwbGljYXRlX3N0YXRl
-KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiAtLQo+IDIuMjYuMgo+Cl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Jun 22, 2020 at 04:07:21PM -0400, Lyude Paul wrote:
+> Since we'll be allocating resources for kthread_create_worker() in the
+> next commit (which could fail and require us to clean up the mess),
+> let's simplify the cleanup process a bit by registering a
+> drm_vblank_init_release() action for each drm_vblank_crtc so they're
+> still cleaned up if we fail to initialize one of them.
+> =
+
+> Changes since v3:
+> * Use drmm_add_action_or_reset() - Daniel Vetter
+> =
+
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 23 ++++++++++-------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 85e5f2db16085..ce5c1e1d29963 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -492,16 +492,12 @@ static void vblank_disable_fn(struct timer_list *t)
+>  =
+
+>  static void drm_vblank_init_release(struct drm_device *dev, void *ptr)
+>  {
+> -	unsigned int pipe;
+> -
+> -	for (pipe =3D 0; pipe < dev->num_crtcs; pipe++) {
+> -		struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
+> +	struct drm_vblank_crtc *vblank =3D ptr;
+>  =
+
+> -		drm_WARN_ON(dev, READ_ONCE(vblank->enabled) &&
+> -			    drm_core_check_feature(dev, DRIVER_MODESET));
+> +	drm_WARN_ON(dev, READ_ONCE(vblank->enabled) &&
+> +		    drm_core_check_feature(dev, DRIVER_MODESET));
+>  =
+
+> -		del_timer_sync(&vblank->disable_timer);
+> -	}
+> +	del_timer_sync(&vblank->disable_timer);
+>  }
+>  =
+
+>  /**
+> @@ -511,7 +507,7 @@ static void drm_vblank_init_release(struct drm_device=
+ *dev, void *ptr)
+>   *
+>   * This function initializes vblank support for @num_crtcs display pipel=
+ines.
+>   * Cleanup is handled automatically through a cleanup function added with
+> - * drmm_add_action().
+> + * drmm_add_action_or_reset().
+>   *
+>   * Returns:
+>   * Zero on success or a negative error code on failure.
+> @@ -530,10 +526,6 @@ int drm_vblank_init(struct drm_device *dev, unsigned=
+ int num_crtcs)
+>  =
+
+>  	dev->num_crtcs =3D num_crtcs;
+>  =
+
+> -	ret =3D drmm_add_action(dev, drm_vblank_init_release, NULL);
+> -	if (ret)
+> -		return ret;
+> -
+>  	for (i =3D 0; i < num_crtcs; i++) {
+>  		struct drm_vblank_crtc *vblank =3D &dev->vblank[i];
+>  =
+
+> @@ -542,6 +534,11 @@ int drm_vblank_init(struct drm_device *dev, unsigned=
+ int num_crtcs)
+>  		init_waitqueue_head(&vblank->queue);
+>  		timer_setup(&vblank->disable_timer, vblank_disable_fn, 0);
+>  		seqlock_init(&vblank->seqlock);
+> +
+> +		ret =3D drmm_add_action_or_reset(dev, drm_vblank_init_release,
+> +					       vblank);
+> +		if (ret)
+> +			return ret;
+>  	}
+>  =
+
+>  	return 0;
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> -- =
+
+> 2.26.2
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
