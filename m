@@ -2,50 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426592052FE
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 15:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E9320533D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 15:16:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0ED6E3EC;
-	Tue, 23 Jun 2020 13:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC0E6E235;
+	Tue, 23 Jun 2020 13:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 3175 seconds by postgrey-1.36 at gabe;
- Tue, 23 Jun 2020 13:03:18 UTC
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD086E3EC
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 13:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
- Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=L8ebQa4XgTVdwYLNW83+6j8t7nF4EOLJTT/MIkR9Q58=; b=SXmNOwrvEZsYCmsITySx9/7D30
- qsSgYKq3RFT5rrpo94zyvNKXNTso8hLI659DTAkWFMzdPsqryl2IKRl8k97QOS2bH9tqCj/lpe4w6
- Q1CNSC9bmFmRvez30VsBOfvXLJyQksWo0ESmIfK2UVj3n8KhAleULaLnsmM3NIq1RzUxQ1yRIhKlK
- dz2dTFhW906x+LO7KH0/9cJe9Lrl/NHvLVq7VbycL2+yl+xu3QBM6LzuJiKCm9fLplrKWelw8bGya
- S9MjTmFpscsqE+sjhl5lgxaAyjh/jebRCrWjLcfXJczlE8w+9K+uwrMj1dvz0bUz7wI+ha+Z4t8QS
- UPy4k3PA==;
-Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1jnhkn-0007UK-VL; Tue, 23 Jun 2020 15:10:18 +0300
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jon Hunter <jonathanh@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- sumit.semwal@linaro.org, gustavo@padovan.org
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [RFC] Host1x/TegraDRM UAPI
-Message-ID: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
-Date: Tue, 23 Jun 2020 15:09:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2068.outbound.protection.outlook.com [40.107.92.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE666E235;
+ Tue, 23 Jun 2020 13:16:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lnRhu8geKEFngRJHuIVheFOSO7eyro6/Z9rEeOzLan1s75x0NW4DhG3aOvFtECBC4TuArUZ/xBjQ80nCdAajMp9Vz+9JTLv+zveVViWyMLmo2ae9+GU5qs5Ae53p4SqCYzUyB0FcSNNlu7Q0sFbHmI/5vKSUQISkI9Fpb7LhzJ1fLyJBnRGVO5Ik7g6FjY97B351qgeYnvc/KMcg6skQAxreasrmVY3DTn04PzsQ5CJHkGJ3hpyICOA4gcRx3sBJGgoiTyNImTtMiDw/6Smy44Yij4vBuB/mZebwUwnlIiIXPHWOmtuTVJ/FJf8JS389bI2dXm8sV6l3hT+sfjczfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nJFw02q0uYhHnOYKqfu/T9VcydLOziqaycpWegwYAPU=;
+ b=biPF/00zE23pGhkKaXMCoG/+RVkCuuex5F69XlBylOmg8Oqm2pROPXICfHt4n8CPr7jZCwlo5/lklOdXlDWGsUIlpj0S4Eh///Evc3XHkIgFoQ42IzgeOcC8thBQk6ucIork0FGbui7mcDKvCMWTNb+cu28wb9dGWLLB8UuEM0/F4pVv4n4U5Sgk5XVP43jWRn5IjkLxQNy44a0hSLc3UFIgbNSzj4yGZgCq9U6SCLyvLGX7a3n4OlswL6lnJrRn49bLI9B/OUrEyzqKi5UGcBWnQkqrCEL3mUIs47aO/xPUJjtQBpzezELDH8eotRG5yBvI36hs4wP+oo440S7FNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nJFw02q0uYhHnOYKqfu/T9VcydLOziqaycpWegwYAPU=;
+ b=aJkczNXzFAVPaG9hpXr2DQb/BhJ0HIr6L5wIq72wAjD1+8nZa4zFVhQNzvh0R9Wty7DOQ3YoJ8OXKuJ7ZY5vtYEwBPrrYyXVdEJK5GGT+oYCp6BP7wyH3ZtFjH+JseqynfiCqAmb1QHaPg4PgHTQw0UG4NPb+FpoR8cChtwT41Y=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB4204.namprd12.prod.outlook.com (2603:10b6:5:212::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Tue, 23 Jun
+ 2020 13:16:19 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::a045:f8c0:8edb:1ef1]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::a045:f8c0:8edb:1ef1%9]) with mapi id 15.20.3109.027; Tue, 23 Jun 2020
+ 13:16:19 +0000
+Subject: Re: [PATCH v2 6/8] drm/amdgpu: Unmap entire device address space on
+ device remove.
+To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-7-git-send-email-andrey.grodzovsky@amd.com>
+ <ec7dc51a-231f-f9e7-6082-5aad02965c67@gmail.com>
+ <CADnq5_Oz_858bq-PRc=DsL62=TiqFaONw4qARK8NVbUVzMfuCw@mail.gmail.com>
+ <20200623102203.GK20149@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <1bd67cd4-abd3-a6a8-e109-aea9752fff48@amd.com>
+Date: Tue, 23 Jun 2020 15:16:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <20200623102203.GK20149@phenom.ffwll.local>
 Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.250.171.65
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-ClientProxiedBy: FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19)
+ To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3109.23 via Frontend Transport; Tue, 23 Jun 2020 13:16:17 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 26c4af61-028e-4477-7cc5-08d817779e08
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4204:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB42042D6D540B8BD5F5397E2783940@DM6PR12MB4204.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 04433051BF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dBED2JpXWylH8T8mjI3icSEosAbHYniFk8Rxyv5NWZdP9qrNtCTF0ArfB6UMZH5UR1Y+uuNZlBDv9Tqpy5GznYdpNY5rfsOBFGgGSo/xFTiqEJwLmNyYTP89/+w7cQh0nPkvE9aUNj4h8OLgj/+Bq0tr7D/4wDKNeG3jbOcY6b1Tr0p6X29A8zPUHEbzIcQLealO5YMCR0SQrgT88SlZeSE/tWlzUiiEJD9Ed3wFgcKW46c3DjPP6W8iwEfsO/t/grhn7f2zJudPzV4NYHNZrCFJZvMDs5i3vz8OjBOTE3+MQR7CHS9NSrkDlWjyna5u97Smm5vw99aABtivrHTPtuqkOj5t5abRdQDXuJZhBA/cfc0fdxoiOl4A9fuhduLC
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(346002)(136003)(396003)(39860400002)(366004)(110136005)(83380400001)(6666004)(8676002)(54906003)(53546011)(6486002)(316002)(16526019)(31686004)(52116002)(2906002)(186003)(478600001)(5660300002)(4326008)(66946007)(86362001)(66556008)(8936002)(36756003)(2616005)(31696002)(66476007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: qEVoTj/ah8q4TUHrnkh2qXuqJFdBlebyBlBTtPxK1L47lSi/I3ggTQ9UZw+vQYMubHxbHMkHYa7v83TatD4QVkqIofmVbUmJBUJ7VF80cOx/eFcucVvIhJ/qBky6oN7P+1AJ27XHrk2RggsSW0mXVH5CP7pIcfXFi4mehjdYhIB2VfZRVWtY44HsgMPWO345vZa5bQqgRn+jOEC6IXiYNJX0adQKJCzkdkqLpDITdCRkPYO8A2dE+X02bBEkM6lkum2EOXUbpJ82w9cSQOrBlV6W+27v1ZWtVeemU2j8FToWhJf9CD7rBZNFN1U2dov0nbf1QC69OsPkdm2hrCTH2A+QyReAzd/Sp3huQn8xH9vKCSqt2zgakN82uzUFPwDWpz7xRQx6499Pe9JhCBly1zFHKot4LKv8xWzNaMEGWbNDZ7UwiuioCggk5vbcN4+EOWIR5gJC3C0P71s82adZ+V2IS4CLTzuyR6lvhXnT9HmJElgXvtyAKnaRfWXGRtyYKlSvKblKIzSpnInxiLM6fE6+zpDi87yi3Jh7SAfd7Tf/xkHDW3nsBYTij4GtSj0f
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26c4af61-028e-4477-7cc5-08d817779e08
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2020 13:16:19.5735 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FfO8fQszEHP0jfw/4+81Y/JiHC+tCk8pB3sfRyPvJGcs3GpOjDr0RgUZuCzbPE28
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4204
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,673 +102,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-# Host1x/TegraDRM UAPI proposal
-
-This is a proposal for a stable UAPI for Host1x and TegraDRM, to replace 
-the current TegraDRM UAPI that is behind `STAGING` and quite obsolete in 
-many ways.
-
-I haven't written any implementation yet -- I'll do that once there is 
-some agreement on the high-level design.
-
-Current open items:
-
-* The syncpoint UAPI allows userspace to create sync_file FDs with 
-arbitrary syncpoint fences. dma_fence code currently seems to assume all 
-fences will be signaled, which would not necessarily be the case with 
-this interface.
-* Previously present GEM IOCTLs (GEM_CREATE, GEM_MMAP) are not present. 
-Not sure if they are still needed.
-
-## Introduction to the hardware
-
-Tegra Host1x is a hardware block providing the following capabilities:
-
-* Syncpoints, a unified whole-system synchronization primitive, allowing 
-synchronization of work between graphics, compute and multimedia 
-engines, CPUs including cross-VM synchronization, and devices on the 
-PCIe bus, without incurring CPU overhead.
-* Channels, a command DMA mechanism allowing asynchronous programming of 
-various engines, integrating with syncpoints.
-* Hardware virtualization support for syncpoints and channels. (On 
-Tegra186 and newer)
-
-This proposal defines APIs for userspace access to syncpoints and 
-channels. Kernel drivers can additionally use syncpoints and channels 
-internally, providing other userspace interfaces (e.g. V4L2).
-
-Syncpoint and channel interfaces are split into separate parts, as 
-syncpoints are useful as a system synchronization primitive even without 
-using the engine drivers provided through TegraDRM. For example, a 
-computer vision pipeline consisting of video capture, CPU processing and 
-GPU processing would not necessarily use the engines provided by 
-TegraDRM. See the Example workflows section for more details.
-
-## Syncpoint interface
-
-Syncpoints are a set of 32-bit values providing the following operations:
-
-* Atomically increment value by one
-* Read current value
-* Wait until value reaches specified threshold. For waiting, the 32-bit 
-value space is treated modulo 2^32; e.g. if the current value is 
-0xffffffff, then value 0x0 is considered to be one increment in the future.
-
-Each syncpoint is identified by a system-global ID ranging between [0, 
-number of syncpoints supported by hardware). The entire system has 
-read-only access to all syncpoints based on their ID.
-
-Syncpoints are managed through the device node /dev/host1x provided by 
-the gpu/host1x driver.
-
-### IOCTL HOST1X_ALLOCATE_SYNCPOINT (on /dev/host1x)
-
-Allocates a free syncpoint, returning a file descriptor representing it. 
-Only the owner of the file descriptor is allowed to mutate the value of 
-the syncpoint.
-
-```
-struct host1x_ctrl_allocate_syncpoint {
-        /**
-         * @fd:
-         *
-         * [out] New file descriptor representing the allocated syncpoint.
-         */
-        __s32 fd;
-
-        __u32 reserved[3];
-};
-```
-
-### IOCTL HOST1X_SYNCPOINT_INFO (on syncpoint file descriptor)
-
-Allows retrieval of system-global syncpoint ID corresponding to syncpoint.
-
-Use cases:
-
-* Passing ID to other system components that identify syncpoints by ID
-* Debugging and testing
-
-```
-struct host1x_syncpoint_info {
-        /**
-         * @id:
-         *
-         * [out] System-global ID of the syncpoint.
-         */
-        __u32 id;
-
-        __u32 reserved[3];
-};
-```
-
-### IOCTL HOST1X_SYNCPOINT_INCREMENT (on syncpoint file descriptor)
-
-Allows incrementing of the syncpoint value.
-
-Use cases:
-
-* Signalling work completion when executing a pipeline step on the CPU
-* Debugging and testing
-
-```
-struct host1x_syncpoint_increment {
-        /**
-         * @count:
-         *
-         * [in] Number of times to increment syncpoint. Value can be
-         *   observed in in-between values, but increments are atomic.
-         */
-        __u32 count;
-};
-```
-
-### IOCTL HOST1X_READ_SYNCPOINT (on /dev/host1x)
-
-Read the value of a syncpoint based on its ID.
-
-Use cases:
-
-* Allows more fine-grained tracking of task progression for debugging 
-purposes
-
-```
-struct host1x_ctrl_read_syncpoint {
-        /**
-         * @id:
-         *
-         * [in] ID of syncpoint to read.
-         */
-        __u32 id;
-
-        /**
-         * @value:
-         *
-         * [out] Value of the syncpoint.
-         */
-        __u32 value;
-};
-```
-
-### IOCTL HOST1X_CREATE_FENCE (on /dev/host1x)
-
-Creates a new SYNC_FILE fence file descriptor for the specified 
-syncpoint ID and threshold.
-
-Use cases:
-
-* Creating a fence when receiving ID/threshold pair from another system 
-component
-* Creating a postfence when executing a pipeline step on the CPU
-* Creating a postfence when executing a pipeline step controlled by 
-userspace (e.g. GPU userspace submission)
-
-```
-struct host1x_ctrl_create_fence {
-        /**
-         * @id:
-         *
-         * [in] ID of the syncpoint for which to create a fence.
-         */
-        __u32 id;
-
-        /**
-         * @threshold:
-         *
-         * [in] Threshold value for fence.
-         */
-        __u32 threshold;
-
-        /**
-         * @fence_fd:
-         *
-         * [out] New sync_file FD corresponding to the ID and threshold.
-         */
-        __s32 fence_fd;
-
-        __u32 reserved[1];
-};
-```
-
-### IOCTL HOST1X_GET_FENCE_INFO (on /dev/host1x)
-
-Allows retrieval of the ID/threshold pairs corresponding to a SYNC_FILE 
-fence or fence array.
-
-Use cases:
-
-* Debugging and testing
-* Transmitting a fence to another system component requiring ID/threshold
-* Getting ID/threshold for prefence when programming a pipeline step 
-controlled by userspace (e.g. GPU userspace submission)
-
-```
-/* If set, corresponding fence is backed by Host1x syncpoints. */
-#define HOST1X_CTRL_FENCE_INFO_SYNCPOINT_FENCE      (1 << 0)
-
-struct host1x_ctrl_fence_info {
-        /**
-         * @flags:
-         *
-         * [out] HOST1X_CTRL_FENCE_INFO flags.
-         */
-        __u32 flags;
-
-        /**
-         * @id:
-         *
-         * [out] ID of the syncpoint corresponding to this fence.
-         * Only set if HOST1X_CTRL_FENCE_INFO_SYNCPOINT_FENCE is set.
-         */
-        __u32 id;
-
-        /**
-         * @threshold:
-         *
-         * [out] Signalling threshold of the fence.
-         * Only set if HOST1X_CTRL_FENCE_INFO_SYNCPOINT_FENCE is set.
-         */
-        __u32 threshold;
-
-        __u32 reserved[1];
-};
-
-struct host1x_ctrl_get_fence_info {
-        /**
-         * @fence_fd:
-         *
-         * [in] Syncpoint-backed sync_file FD for which to retrieve info.
-         */
-        __s32 fence_fd;
-
-        /**
-         * @num_fences:
-         *
-         * [in] Size of `fence_info` array in elements.
-         * [out] Number of fences held by the FD.
-         */
-        __u32 num_fences;
-
-        /**
-         * @fence_info:
-         *
-         * [in] Pointer to array of 'struct host1x_ctrl_fence_info' 
-where info will be stored.
-         */
-        __u64 fence_info;
-
-        __u32 reserved[1];
-};
-```
-
-## Channel interface
-
-### DRM_TEGRA_OPEN_CHANNEL
-
-```
-struct drm_tegra_open_channel {
-         /**
-           * @class:
-           *
-           * [in] Host1x class (engine) the channel will target.
-           */
-         __u32 host1x_class;
-
-         /**
-           * @flags:
-           *
-           * [in] Flags. Currently none are specified.
-           */
-         __u32 flags;
-
-         /**
-           * @channel_id:
-           *
-           * [out] Process-specific identifier corresponding to opened
-           *   channel. Not the hardware channel ID.
-           */
-         __u32 channel_id;
-
-         /**
-          * @hardware_version:
-          *
-          * [out] Hardware version of the engine targeted by the channel.
-          *   Userspace can use this to select appropriate programming
-          *   sequences.
-          */
-         __u32 hardware_version;
-
-         /**
-          * @mode:
-          *
-          * [out] Mode the hardware is executing in. Some engines can be
-          *   configured with different firmware supporting different
-          *   functionality depending on the system configuration. This
-          *   value allows userspace to detect if the engine is configured
-          *   for the intended use case.
-          */
-         __u32 mode;
-
-         __u32 reserved[3];
-};
-```
-
-### DRM_TEGRA_CLOSE_CHANNEL
-
-```
-struct drm_tegra_close_channel {
-         /**
-           * @channel_id:
-           *
-           * [in] ID of channel to close.
-           */
-         __u32 channel_id;
-
-         __u32 reserved[3];
-};
-```
-
-### DRM_TEGRA_CHANNEL_MAP
-
-Make memory accessible by the engine while executing work on the channel.
-
-```
-#define DRM_TEGRA_CHANNEL_MAP_READWRITE        (1<<0)
-
-struct drm_tegra_channel_map {
-         /*
-          * [in] ID of the channel for which to map memory to.
-          */
-         __u32 channel_id;
-
-         /*
-          * [in] GEM handle of the memory to map.
-          */
-         __u32 handle;
-
-         /*
-          * [in] Offset in GEM handle of the memory area to map.
-          *
-          * Must be aligned by 4K.
-          */
-         __u64 offset;
-
-         /*
-          * [in] Length of memory area to map in bytes.
-          *
-          * Must be aligned by 4K.
-          */
-         __u64 length;
-
-         /*
-          * [out] IOVA of mapped memory. Userspace can use this IOVA
-          *   directly to refer to the memory to skip using relocations.
-          *   Only available if hardware memory isolation is enabled.
-          *
-          *   Will be set to 0xffff_ffff_ffff_ffff if unavailable.
-          */
-         __u64 iova;
-
-         /*
-          * [out] ID corresponding to the mapped memory to be used for
-          *   relocations or unmapping.
-          */
-         __u32 mapping_id;
-
-         /*
-          * [in] Flags.
-          */
-         __u32 flags;
-
-         __u32 reserved[6];
-};
-```
-
-### DRM_TEGRA_CHANNEL_UNMAP
-
-Unmap previously mapped memory. Userspace shall do this only after it 
-has determined the channel will no longer access the memory.
-
-```
-struct drm_tegra_channel_unmap {
-         /*
-          * [in] ID of the mapping to remove.
-          */
-         __u32 mapping_id;
-
-         __u32 reserved[3];
-};
-```
-
-### DRM_TEGRA_CHANNEL_SUBMIT
-
-Submit a job to the engine/class targeted by the channel.
-
-```
-struct drm_tegra_submit_syncpt_incr {
-         /*
-          * [in] Syncpoint FD of the syncpoint that the job will
-          *   increment.
-          */
-         __s32 syncpt_fd;
-
-         /*
-          * [in] Number of increments that the job will do.
-          */
-         __u32 num_incrs;
-
-         /*
-          * [out] Value the syncpoint will have once all increments have
-          *   executed.
-          */
-         __u32 fence_value;
-
-         __u32 reserved[1];
-};
-
-/* Sets paddr/IOVA bit 39 on T194 to enable MC swizzling */
-#define DRM_TEGRA_SUBMIT_RELOCATION_BLOCKLINEAR   (1<<0)
-
-struct drm_tegra_submit_relocation {
-         /* [in] Index of GATHER or GATHER_UPTR command in commands. */
-         __u32 gather_command_index;
-
-         /*
-          * [in] Mapping handle (obtained through CHANNEL_MAP) of the memory
-          *   the address of which will be patched in.
-          */
-         __u32 mapping_id;
-
-         /*
-          * [in] Offset in the gather that will be patched.
-          */
-         __u64 gather_offset;
-
-         /*
-          * [in] Offset in target buffer whose paddr/IOVA will be written
-          *   to the gather.
-          */
-         __u64 target_offset;
-
-         /*
-          * [in] Number of bits the resulting address will be logically
-          *   shifted right before writing to gather.
-          */
-         __u32 shift;
-
-         __u32 reserved[1];
-};
-
-/* Command is an opcode gather from a GEM handle */
-#define DRM_TEGRA_SUBMIT_COMMAND_GATHER             0
-/* Command is an opcode gather from a user pointer */
-#define DRM_TEGRA_SUBMIT_COMMAND_GATHER_UPTR        1
-/* Command is a wait for syncpt fence completion */
-#define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNCPT        2
-/* Command is a wait for SYNC_FILE FD completion */
-#define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNC_FILE     3
-/* Command is a wait for DRM syncobj completion */
-#define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNCOBJ       4
-
-/*
-  * Allow driver to skip command execution if engine
-  * was not accessed by another channel between
-  * submissions.
-  */
-#define DRM_TEGRA_SUBMIT_CONTEXT_SETUP                        (1<<0)
-
-struct drm_tegra_submit_command {
-         __u16 type;
-         __u16 flags;
-
-         union {
-                 struct {
-                     /* GEM handle */
-                     __u32 handle;
-
-                     /*
-                      * Offset into GEM object in bytes.
-                      * Must be aligned by 4.
-                      */
-                     __u64 offset;
-
-                     /*
-                      * Length of gather in bytes.
-                      * Must be aligned by 4.
-                      */
-                     __u64 length;
-                 } gather;
-
-                 struct {
-                         __u32 reserved[1];
-
-                         /*
-                          * Pointer to gather data.
-                          * Must be aligned by 4 bytes.
-                          */
-                         __u64 base;
-
-                         /*
-                          * Length of gather in bytes.
-                          * Must be aligned by 4.
-                          */
-                         __u64 length;
-                 } gather_uptr;
-
-                 struct {
-                     __u32 syncpt_id;
-                     __u32 threshold;
-
-                     __u32 reserved[1];
-                 } wait_syncpt;
-
-                 struct {
-                         __s32 fd;
-                 } wait_sync_file;
-
-                 struct {
-                         __u32 handle;
-                 } wait_syncobj;
-         };
-};
-
-
-#define DRM_TEGRA_SUBMIT_CREATE_POST_SYNC_FILE      (1<<0)
-#define DRM_TEGRA_SUBMIT_CREATE_POST_SYNCOBJ        (1<<1)
-
-struct drm_tegra_channel_submit {
-         __u32 channel_id;
-         __u32 flags;
-
-         /**
-          * [in] Timeout in microseconds after which the kernel may
-          *   consider the job to have hung and may reap it and
-          *   fast-forward its syncpoint increments.
-          *
-          *   The value may be capped by the kernel.
-          */
-         __u32 timeout;
-
-         __u32 num_syncpt_incrs;
-         __u32 num_relocations;
-         __u32 num_commands;
-
-         __u64 syncpt_incrs;
-         __u64 relocations;
-         __u64 commands;
-
-         /**
-          * [out] Invalid, SYNC_FILE FD or syncobj handle, depending on
-          *   if DRM_TEGRA_SUBMIT_CREATE_POST_SYNC_FILE,
-          *   DRM_TEGRA_SUBMIT_CREATE_POST_SYNCOBJ, or neither are passed.
-          *   Passing both is an error.
-          *
-          * The created fence object is signaled when all syncpoint
-          * increments specified in `syncpt_incrs' have executed.
-          */
-         __u32 post_fence;
-
-         __u32 reserved[3];
-};
-```
-
-## Example workflows
-
-### Image processing with TegraDRM/VIC
-
-This example is a simple single-step operation using VIC through 
-TegraDRM. For example, assume we have a dma-buf fd with an image we want 
-to convert from YUV to RGB. This can occur for example as part of video 
-decoding.
-
-Syncpoint initialization
-
-1. Allocate syncpoint (HOST1X_ALLOCATE_SYNCPOINT)
-    1. This is used to track VIC submission completion.
-2. Retrieve syncpoint ID (HOST1X_SYNCPOINT_INFO)
-    1. The ID is required to program the increment as part of the 
-submission.
-
-Buffer allocation
-
-3. Allocate memory for configuration buffers (DMA Heaps)
-4. Import configuration buffer dma-buf as GEM object
-5. Import input image dma-buf as GEM object
-
-Channel initialization
-
-6. Open VIC channel (DRM_TEGRA_OPEN_CHANNEL)
-7. Map buffers for access by VIC (DRM_TEGRA_CHANNEL_MAP)
-8. Create Host1x opcode buffer as userspace memory
-    1. If buffer mapping returned an IOVA, that IOVA can be placed 
-directly into the buffer. Otherwise, a relocation has to be passed as 
-part of the submission
-    2. The buffer should contain a syncpoint increment for the syncpoint 
-allocated earlier.
-9. Submit work, passing in the syncpoint file descriptor allocated in 
-the beginning. The submit optionally returns a syncfd/syncobj that can 
-be used to wait for submission completion.
-    1. If more fine-grained syncpoint waiting is required, the 'fence' 
-out-parameter of 'drm_tegra_submit_syncpt_incr' can be used in 
-conjunction with HOST1X_CREATE_FENCE to create specific fences.
-
-### Camera-GPU-CPU pipeline without TegraDRM
-
-This example shows a pipeline with image input from a camera being 
-processed using the GPU programmed from userspace, and then finally 
-analyzed by CPU. This kind of usecase can occur e.g. as part of a 
-computer vision usecase.
-
-Syncpoint initialization
-
-1. Camera V4L2 driver allocates a syncpoint internally within the kernel.
-2. For CPU job tracking, allocate a syncpoint as in "Image processing 
-with TegraDRM/VIC".
-3. For GPU job tracking, the GPU kernel driver would allocate a 
-syncpoint and assign it such that the GPU channel can access it.
-
-Camera pipeline step
-
-4. Allocate a dma-buf to store the captured image.
-5. Trigger camera capture and store the resulting sync_file fd.
-
-GPU pipeline step
-
-6. Use HOST1X_GET_FENCE_INFO to extract syncpoint ID/threshold pair(s) 
-from camera step's post-fence sync_file FD. If the sync_file FD is not 
-backed by syncpoints, wait for the sync_file FD to signal otherwise 
-(e.g. through polling it).
-7. Use HOST1X_CREATE_FENCE to create a postfence that is signaled when 
-the GPU step is complete.
-8. Program the GPU to
-    1. Wait for the syncpoint thresholds extracted from the camera 
-postfence, if we were able to do so.
-    2. Execute image processing on GPU.
-    3. Increment GPU's job tracking syncpoint, causing the GPU 
-post-fence FD to get signaled.
-
-CPU pipeline step
-
-9. Wait for GPU's post-fence sync_file FD
-10. Map the dma-buf containing the image and retrieve results.
-
-In place of the GPU pipeline step, a similar workflow would apply for a 
-step executed on the CPU.
-
---
-
-thanks,
-Mikko
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjMuMDYuMjAgdW0gMTI6MjIgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIE1vbiwgSnVu
+IDIyLCAyMDIwIGF0IDAzOjQ4OjI5UE0gLTA0MDAsIEFsZXggRGV1Y2hlciB3cm90ZToKPj4gT24g
+TW9uLCBKdW4gMjIsIDIwMjAgYXQgMzozOCBQTSBDaHJpc3RpYW4gS8O2bmlnCj4+IDxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4+PiBBbSAyMS4wNi4yMCB1bSAwODow
+MyBzY2hyaWViIEFuZHJleSBHcm9kem92c2t5Ogo+Pj4+IFVzZSB0aGUgbmV3IFRUTSBpbnRlcmZh
+Y2UgdG8gaW52YWxpZGF0ZSBhbGwgZXhzaXN0aW5nIEJPIENQVSBtYXBwaW5ncwo+Pj4+IGZvcm0g
+YWxsIHVzZXIgcHJvY2Nlc3Nlcy4KPj4+Pgo+Pj4+IFNpZ25lZC1vZmYtYnk6IEFuZHJleSBHcm9k
+em92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tPgo+Pj4gUmV2aWV3ZWQtYnk6IENocmlz
+dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPj4+Cj4+PiBJIHRoaW5rIHRo
+b3NlIHR3byBwYXRjaGVzIGNvdWxkIGFscmVhZHkgbGFuZCBpbiBhbWQtc3RhZ2luZy1kcm0tbmV4
+dAo+Pj4gc2luY2UgdGhleSBhcmUgYSBnb29kIGlkZWEgaW5kZXBlbmRlbnQgb2YgaG93IGVsc2Ug
+d2UgZml4IHRoZSBvdGhlciBpc3N1ZXMuCj4+IFBsZWFzZSBtYWtlIHN1cmUgdGhleSBsYW5kIGlu
+IGRybS1taXNjIGFzIHdlbGwuCj4gTm90IHN1cmUgdGhhdCdzIG11Y2ggdXNlLCBzaW5jZSB3aXRo
+b3V0IGFueSBvZiB0aGUgZmF1bHQgc2lkZSBjaGFuZ2VzIHlvdQo+IGp1c3QgYmxvdyB1cCBvbiB0
+aGUgZmlyc3QgcmVmYXVsdC4gU2VlbXMgc29tZXdoYXQgc2lsbHkgdG8gY2hhcmdlIGFoZWFkIG9u
+Cj4gdGhpcyB3aXRoIHRoZSBvdGhlciBiaXRzIHN0aWxsIHZlcnkgbXVjaCB1bmRlciBkaXNjdXNz
+aW9uLgoKV2VsbCB3aGF0IEkgd2FudGVkIHRvIHNheSBpcyB0aGF0IHdlIGRvbid0IG5lZWQgdG8g
+c2VuZCBvdXQgdGhvc2Ugc2ltcGxlIApwYXRjaGVzIG9uY2UgbW9yZS4KCj4gUGx1cyBJIHN1Z2dl
+c3RlZCBhIHBvc3NpYmxlIGJpa2VzaGVkIGhlcmUgOi0pCgpObyBiaWtlc2hlZCwgYnV0IGluZGVl
+ZCBhIHJhdGhlciBnb29kIGlkZWEgdG8gbm90IG1ha2UgdGhpcyBhIFRUTSBmdW5jdGlvbi4KCkNo
+cmlzdGlhbi4KCj4gLURhbmllbAo+Cj4+IEFsZXgKPj4KPj4+PiAtLS0KPj4+PiAgICBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgfCAxICsKPj4+PiAgICAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKykKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfZHJ2LmMKPj4+PiBpbmRleCA0MzU5MmRjLi42OTMyZDc1IDEwMDY0NAo+Pj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYwo+Pj4+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYwo+Pj4+IEBAIC0xMTM1LDYgKzExMzUs
+NyBAQCBhbWRncHVfcGNpX3JlbW92ZShzdHJ1Y3QgcGNpX2RldiAqcGRldikKPj4+PiAgICAgICAg
+c3RydWN0IGRybV9kZXZpY2UgKmRldiA9IHBjaV9nZXRfZHJ2ZGF0YShwZGV2KTsKPj4+Pgo+Pj4+
+ICAgICAgICBkcm1fZGV2X3VucGx1ZyhkZXYpOwo+Pj4+ICsgICAgIHR0bV9ib191bm1hcF92aXJ0
+dWFsX2FkZHJlc3Nfc3BhY2UoJmFkZXYtPm1tYW4uYmRldik7Cj4+Pj4gICAgICAgIGFtZGdwdV9k
+cml2ZXJfdW5sb2FkX2ttcyhkZXYpOwo+Pj4+Cj4+Pj4gICAgICAgIHBjaV9kaXNhYmxlX2Rldmlj
+ZShwZGV2KTsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
