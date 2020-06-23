@@ -1,28 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464E9204C2A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 10:19:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EF7204C20
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 10:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52F006E983;
-	Tue, 23 Jun 2020 08:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264246E977;
+	Tue, 23 Jun 2020 08:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617806E97C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E546E97B
  for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 08:19:06 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 31915B021;
+ by mx2.suse.de (Postfix) with ESMTP id 57B62B023;
  Tue, 23 Jun 2020 08:19:04 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, noralf@tronnes.org, kraxel@redhat.com,
  emil.l.velikov@gmail.com, sam@ravnborg.org, yc_chen@aspeedtech.com
-Subject: [PATCH 11/14] drm/ast: Init cursors before creating modesetting
- structures
-Date: Tue, 23 Jun 2020 10:18:58 +0200
-Message-Id: <20200623081901.10667-12-tzimmermann@suse.de>
+Subject: [PATCH 12/14] drm/ast: Replace struct ast_crtc with struct drm_crtc
+Date: Tue, 23 Jun 2020 10:18:59 +0200
+Message-Id: <20200623081901.10667-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200623081901.10667-1-tzimmermann@suse.de>
 References: <20200623081901.10667-1-tzimmermann@suse.de>
@@ -45,41 +44,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The cursor helpers reserve buffer objects in VRAM and update their
-content. So although tied to modesetting, cursor helpers are more
-of a memory manager. The modesetting's cursor plane requires this
-functionality, so initialize cursors before modesetting.
-
-While at it, also add an error check for ast_cursor_init().
+Struct ast_crtc has been cleaned up and it's now a wrapper around the
+DRM CRTC structure struct drm_crtc. This patch converts the driver to
+struct drm_crtc and removes struct ast_crtc.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ast/ast_drv.h  |  5 -----
+ drivers/gpu/drm/ast/ast_mode.c | 11 ++++++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index ea4de3dce2c4..77226e2fd7c0 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -238,11 +238,6 @@ struct ast_connector {
+ 	struct ast_i2c_chan *i2c;
+ };
+ 
+-struct ast_crtc {
+-	struct drm_crtc base;
+-};
+-
+-#define to_ast_crtc(x) container_of(x, struct ast_crtc, base)
+ #define to_ast_connector(x) container_of(x, struct ast_connector, base)
+ 
+ struct ast_vbios_stdtable {
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 4724a38c001a..89d9ee0a9e81 100644
+index 89d9ee0a9e81..43c9686ba0f7 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1073,6 +1073,10 @@ int ast_mode_init(struct drm_device *dev)
+@@ -881,21 +881,22 @@ static const struct drm_crtc_funcs ast_crtc_funcs = {
+ static int ast_crtc_init(struct drm_device *dev)
+ {
  	struct ast_private *ast = to_ast_private(dev);
+-	struct ast_crtc *crtc;
++	struct drm_crtc *crtc;
  	int ret;
  
-+	ret = ast_cursor_init(ast);
-+	if (ret)
-+		return ret;
-+
- 	memset(&ast->primary_plane, 0, sizeof(ast->primary_plane));
- 	ret = drm_universal_plane_init(dev, &ast->primary_plane, 0x01,
- 				       &ast_primary_plane_funcs,
-@@ -1098,7 +1102,6 @@ int ast_mode_init(struct drm_device *dev)
- 	drm_plane_helper_add(&ast->cursor_plane,
- 			     &ast_cursor_plane_helper_funcs);
+-	crtc = kzalloc(sizeof(struct ast_crtc), GFP_KERNEL);
++	crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
+ 	if (!crtc)
+ 		return -ENOMEM;
  
--	ast_cursor_init(ast);
- 	ast_crtc_init(dev);
- 	ast_encoder_init(dev);
- 	ast_connector_init(dev);
+-	ret = drm_crtc_init_with_planes(dev, &crtc->base, &ast->primary_plane,
++	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane,
+ 					&ast->cursor_plane, &ast_crtc_funcs,
+ 					NULL);
+ 	if (ret)
+ 		goto err_kfree;
+ 
+-	drm_mode_crtc_set_gamma_size(&crtc->base, 256);
+-	drm_crtc_helper_add(&crtc->base, &ast_crtc_helper_funcs);
++	drm_mode_crtc_set_gamma_size(crtc, 256);
++	drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
++
+ 	return 0;
+ 
+ err_kfree:
 -- 
 2.27.0
 
