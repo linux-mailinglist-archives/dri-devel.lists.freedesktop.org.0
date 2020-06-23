@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D5D204B8C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1C5204B9E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC6FE6E958;
-	Tue, 23 Jun 2020 07:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872396E968;
+	Tue, 23 Jun 2020 07:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97F956E391
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 01:31:39 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id q8so17399007qkm.12
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 18:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eHCbxa4yLLq+0pOhVBKweZwAtR1jWaAM46jnceQkpwE=;
- b=lzk/L5n62mkf/Wo6a6zH8O6wr3Zw88adM8VMgiuL8jPiS//Hx1thymfjN6+oEGvYz3
- 3bAJFxPc+ArHIAW7wLZuNUJaKeeSdo4HxIYoAC6F64avprFgnqqC7pbUc4IFCsjrKAHh
- gKgi9bb6RSIig4GQna3l0IIkjp+zf3Z+VI2pY=
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D7A6E219
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 01:36:20 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id d67so17452028oig.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 18:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6xUzhKnsOu6gQ8wo5pNQ9aUbiM+zR6hakYUaVJ25KuY=;
+ b=jQ+k9fFJJ6wao/pAeyhtXubATETSraRIKy+LkYNdX0mwxIbSgAtWYLREjqUMYYasbm
+ AUShJj8cYZ3ySM5RLlfT6IebvuG7RlzJSVzbP6ndZJ+/fOqTzcjBiPyX2deW+Ag2k/wQ
+ 082nggYK5t46GylyCV6wXBvULOw9xjfgM2Gwj1g0MN2ThzwzL1hw3pZanyS83XS4FNTX
+ cG5CA6zRBlKLbF0vWgBEVpHuDwj2vA9kGVRYlav7R143QbQE569WHfI9+1oJrfJY/nEC
+ yGDVKBb4He6zy2FkYSuwnT6QEvMDPSaIK2JZ8+MZ/HUCmBXh3/XWo9VZbgEqnHBWysbi
+ lRAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eHCbxa4yLLq+0pOhVBKweZwAtR1jWaAM46jnceQkpwE=;
- b=JqYuIg9dHsKxwUxfF8IEGC79DjY3UP4efDeg573ZhVaPL4pE+k8NGJP9tSVn1ovZxS
- RnlgpWzubqIwyh5J6RE0fOiWCwsSOkRlfgezGBPruS/gjmgHKjwXAWS+1UkFnnsahF7f
- 3cieryiE2e9nEhW1k5d+WD2jd9sdtrahFtm8K0ZGF2H1XHWgS5U7YLPSvAjOAm1qVCL5
- Ia1HeAdLKGHopB3YzAHOHqZ4Z+tCbyu2tVyQ914/ZOZ+sbzfmU3ghrQHoP7PdWHTwB0V
- QuAkvyrnBY8pUpev+W76cmm2Qcy3teGhOMF9hU0ZbA0zNDwZOGOydd/vYglOw6pcCjOt
- R/Yw==
-X-Gm-Message-State: AOAM531hah53McCm2/U5bCJ2paYs5IBcFv7r2DAxsxwyKuV/JSy63+nI
- ry0LrbI7u6CzQ4Y555OaEOIN2sKSmZRpfwEoQiSzkw==
-X-Google-Smtp-Source: ABdhPJwMJlxh1gtY97I2kVKm9OIAts8GWq+RuGfGOUmzRWY4SAjkUqzw8u1O4Yn7AgYcPbJZ0Vsm0B2frMtXAAEZyiE=
-X-Received: by 2002:a05:620a:40c1:: with SMTP id
- g1mr12395512qko.391.1592875898709; 
- Mon, 22 Jun 2020 18:31:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6xUzhKnsOu6gQ8wo5pNQ9aUbiM+zR6hakYUaVJ25KuY=;
+ b=g7v1Q03nKVf0yF5SyF20cldsddNi3LtIAdRxlThlAo40xbyQ8C/hwXIrxEWrf1Urdv
+ 7/ek0hYKAj3OG8Br8CDbnKXtR0RMkl9eheaLYvwDtgHoJqpKwDwB+y33RSQWZFlbr5+T
+ 3YBnT9xrFjNr7o1KmGZm+FuqogL9W85tTKcY2PJCuSRljLjOGIxgoymXXwB8xbq5Tt+W
+ BFjogjgzAn/5Xs7GBuHtlkyUffP1yrhPoW2VIxQQnUhkpk7W2edawmKEuK4aZlyx85SO
+ KnIGQdOgP0EhoFepS1SbA1yUMlsBhp4mV0MomXnVWFwbTTRE8P2SyaH7Qv08fKxyOImF
+ VT+A==
+X-Gm-Message-State: AOAM5336QxTiz76gdARmUJIlqLQoyDMOaHOE5FtfaJrdepP6cbWawolJ
+ PJ6as4AkJh1Oxxv6YjMd6JU=
+X-Google-Smtp-Source: ABdhPJxaVLeLGTXxnw01SkIUJf4ClKrnziWYeidk+XMgDIH3PlOiFDay7sjX9ZcaDqPuG1tKRu2qBA==
+X-Received: by 2002:aca:4e0d:: with SMTP id c13mr14664131oib.30.1592876180059; 
+ Mon, 22 Jun 2020 18:36:20 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::3])
+ by smtp.gmail.com with ESMTPSA id j71sm3624030otj.6.2020.06.22.18.36.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 18:36:19 -0700 (PDT)
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCH] drm/omap: Remove aggregate initialization of new_mode in
+ omap_connector_mode_valid
+Date: Mon, 22 Jun 2020 18:36:10 -0700
+Message-Id: <20200623013610.555610-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200609012518.198908-1-stevensd@chromium.org>
- <20200609055021-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200609055021-mutt-send-email-mst@kernel.org>
-From: David Stevens <stevensd@chromium.org>
-Date: Tue, 23 Jun 2020 10:31:28 +0900
-Message-ID: <CAD=HUj7wJfoKj_K44Cs9eEmh=OQHZ1+qz7ZHxoscHjYgOMXvZQ@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: [PATCH v5 0/3] Support virtio cross-device
- resources
-To: "Michael S. Tsirkin" <mst@redhat.com>
+X-Patchwork-Bot: notify
 X-Mailman-Approved-At: Tue, 23 Jun 2020 07:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,85 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- alex.williamson@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: clang-built-linux@googlegroups.com,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unless there are any remaining objections to these patches, what are
-the next steps towards getting these merged? Sorry, I'm not familiar
-with the workflow for contributing patches to Linux.
+After commit 42acb06b01b1 ("drm: pahole struct drm_display_mode"), clang
+warns:
 
-Thanks,
-David
+drivers/gpu/drm/omapdrm/omap_connector.c:92:39: warning: braces around
+scalar initializer [-Wbraced-scalar-init]
+        struct drm_display_mode new_mode = { { 0 } };
+                                             ^~~~~~
+1 warning generated.
 
-On Tue, Jun 9, 2020 at 6:53 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Jun 09, 2020 at 10:25:15AM +0900, David Stevens wrote:
-> > This patchset implements the current proposal for virtio cross-device
-> > resource sharing [1]. It will be used to import virtio resources into
-> > the virtio-video driver currently under discussion [2]. The patch
-> > under consideration to add support in the virtio-video driver is [3].
-> > It uses the APIs from v3 of this series, but the changes to update it
-> > are relatively minor.
-> >
-> > This patchset adds a new flavor of dma-bufs that supports querying the
-> > underlying virtio object UUID, as well as adding support for exporting
-> > resources from virtgpu.
->
-> Gerd, David, if possible, please test this in configuration with
-> virtual VTD enabled but with iommu_platform=off
-> to make sure we didn't break this config.
->
->
-> Besides that, for virtio parts:
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->
->
-> > [1] https://markmail.org/thread/2ypjt5cfeu3m6lxu
-> > [2] https://markmail.org/thread/p5d3k566srtdtute
-> > [3] https://markmail.org/thread/j4xlqaaim266qpks
-> >
-> > v4 -> v5 changes:
-> >  - Remove virtio_dma_buf_export_info.
-> >
-> > David Stevens (3):
-> >   virtio: add dma-buf support for exported objects
-> >   virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
-> >   drm/virtio: Support virtgpu exported resources
-> >
-> >  drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 +
-> >  drivers/gpu/drm/virtio/virtgpu_drv.h   | 20 ++++++
-> >  drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
-> >  drivers/gpu/drm/virtio/virtgpu_prime.c | 96 +++++++++++++++++++++++++-
-> >  drivers/gpu/drm/virtio/virtgpu_vq.c    | 55 +++++++++++++++
-> >  drivers/virtio/Makefile                |  2 +-
-> >  drivers/virtio/virtio.c                |  6 ++
-> >  drivers/virtio/virtio_dma_buf.c        | 82 ++++++++++++++++++++++
-> >  include/linux/virtio.h                 |  1 +
-> >  include/linux/virtio_dma_buf.h         | 37 ++++++++++
-> >  include/uapi/linux/virtio_gpu.h        | 19 +++++
-> >  11 files changed, 321 insertions(+), 4 deletions(-)
-> >  create mode 100644 drivers/virtio/virtio_dma_buf.c
-> >  create mode 100644 include/linux/virtio_dma_buf.h
-> >
-> > --
-> > 2.27.0.278.ge193c7cf3a9-goog
->
->
-> ---------------------------------------------------------------------
-> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
->
+After the struct was shuffled, the second set of braces is no longer
+needed because we are not initializing a structure (struct list_head)
+but a regular integer (int clock).
+
+However, looking into it further, this initialization is pointless
+because new_mode is used as the destination of drm_mode_copy, where the
+members of new_mode will just be completely overwritten with the members
+of mode. Just remove the initialization of new_mode so that there is no
+more warning and we don't need to worry about updating the
+initialization if the structure ever get shuffled again.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1059
+Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ drivers/gpu/drm/omapdrm/omap_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/omapdrm/omap_connector.c b/drivers/gpu/drm/omapdrm/omap_connector.c
+index 528764566b17..ce4da1511920 100644
+--- a/drivers/gpu/drm/omapdrm/omap_connector.c
++++ b/drivers/gpu/drm/omapdrm/omap_connector.c
+@@ -89,7 +89,7 @@ static enum drm_mode_status omap_connector_mode_valid(struct drm_connector *conn
+ 				 struct drm_display_mode *mode)
+ {
+ 	struct omap_connector *omap_connector = to_omap_connector(connector);
+-	struct drm_display_mode new_mode = { { 0 } };
++	struct drm_display_mode new_mode;
+ 	enum drm_mode_status status;
+ 
+ 	status = omap_connector_mode_fixup(omap_connector->output, mode,
+
+base-commit: 27f11fea33608cbd321a97cbecfa2ef97dcc1821
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
