@@ -1,35 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78B62055C4
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 17:25:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D98205608
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 17:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6A26E9C6;
-	Tue, 23 Jun 2020 15:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305076E04B;
+	Tue, 23 Jun 2020 15:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACF7B6E9C6
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 15:25:13 +0000 (UTC)
-Date: Tue, 23 Jun 2020 15:25:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1592925911;
- bh=Mw0Po0mcsg0alb/m0Q+f8gfaWs7LcjXxj1Qw3eo0KJY=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=tHQ1U/gQ3UGzuJablq0BEEAa+5+FAk9k+ulZ+s8jz4Ut2SdXMbwOkFGteYtILje6K
- Ni9Qskq6QJAtNy3VYNxrq7oPoTAfChhUTRrcAbWTJd4ny84mTCfXkAeecfifb+eacT
- GpHNSIGXRXU4dUbT0zTWX84q2sC2oCHHMmlQ556E=
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5606E04B
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 15:36:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v5] drm/fourcc: document modifier uniqueness requirements
-Message-ID: <rq4ENYWGZ-rcmWZd1GT2lfUyU6n5fhimWeCPOct0dFKVK4OJ0pKbujgy6A4ldMZkg5ldKUzDMX_6Vjnjb_Vnst3a0YCI2RFQin42nUn_Hgk=@emersion.fr>
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Tue, 23 Jun 2020 15:36:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: rtmasura+kernel@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-TJzbktuRRD@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,78 +52,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgaGF2ZSBzdWdnZXN0aW9ucyB0byBiYWtlIHBpdGNoIGFsaWdubWVudCwgYWRkcmVzcyBh
-bGlnbmVtZW50LApjb250aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBW
-UkFNLCBHVFQvQkFSLCBldGMpCmNvbnN0cmFpbnRzIGludG8gbW9kaWZpZXJzLiBMYXN0IHRpbWUg
-dGhpcyB3YXMgYnJvdWdodCB1cCBpdCBzZWVtZWQKbGlrZSB0aGUgY29uc2Vuc3VzIHdhcyB0byBu
-b3QgYWxsb3cgdGhpcy4gRG9jdW1lbnQgdGhpcyBpbiBkcm1fZm91cmNjLmguCgpUaGVyZSBhcmUg
-c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgoKLSBFbmNvZGluZyBhbGwgb2YgdGhlc2UgY29uc3Ry
-YWludHMgaW4gdGhlIG1vZGlmaWVycyB3b3VsZCBleHBsb2RlIHRoZQogIHNlYXJjaCBzcGFjZSBw
-cmV0dHkgcXVpY2tseSAod2Ugb25seSBoYXZlIDY0IGJpdHMgdG8gd29yayB3aXRoKS4KLSBNb2Rp
-ZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2FuIG9ubHkgaGF2ZSBhIHNp
-bmdsZQogIG1vZGlmaWVyLgotIE1vZGlmaWVyIHVzZXJzIGFyZW4ndCBleHBlY3RlZCB0byBwYXJz
-ZSBtb2RpZmllcnMgKGV4Y2VwdCBkcml2ZXJzKS4KCnYyOiBhZGQgcGFyYWdyYXBoIGFib3V0IGFs
-aWFzZXMgKERhbmllbCkKCnYzOiBmaXggdW5yZWxhdGVkIGNoYW5nZXMgc2VudCB3aXRoIHRoZSBw
-YXRjaAoKdjQ6IGRpc2FtYmlndWF0ZSB1c2VycyBiZXR3ZWVuIGRyaXZlciBhbmQgaGlnaGVyLWxl
-dmVsIHByb2dyYW1zIChCcmlhbiwKRGFuaWVsKQoKdjU6IGZpeCBBRkJDIGV4YW1wbGUgKEJyaWFu
-LCBEYW5pZWwpCgpTaWduZWQtb2ZmLWJ5OiBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+
-ClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzog
-RGFuaWVsIFN0b25lIDxkYW5pZWxAZm9vaXNoYmFyLm9yZz4KQ2M6IEJhcyBOaWV1d2VuaHVpemVu
-IDxiYXNAYmFzbmlldXdlbmh1aXplbi5ubD4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQGdtYWls
-LmNvbT4KQ2M6IE1hcmVrIE9sxaHDoWsgPG1hcmFlb0BnbWFpbC5jb20+CkNjOiBBbGV4IERldWNo
-ZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4KQ2M6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25n
-QGJheWxpYnJlLmNvbT4KQ2M6IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+CkNj
-OiBCcmlhbiBTdGFya2V5IDxicmlhbi5zdGFya2V5QGFybS5jb20+Ci0tLQogaW5jbHVkZS91YXBp
-L2RybS9kcm1fZm91cmNjLmggfCAyOCArKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAxIGZp
-bGUgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9k
-cm0vZHJtX2ZvdXJjYy5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKaW5kZXggNDkw
-MTQzNTAwYTUwLi44Mjk2MTk3MTg5YmYgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJt
-X2ZvdXJjYy5oCisrKyBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCkBAIC01OCw2ICs1
-OCwzNCBAQCBleHRlcm4gIkMiIHsKICAqIG1heSBwcmVzZXJ2ZSBtZWFuaW5nIC0gc3VjaCBhcyBu
-dW1iZXIgb2YgcGxhbmVzIC0gZnJvbSB0aGUgZm91cmNjIGNvZGUsCiAgKiB3aGVyZWFzIG90aGVy
-cyBtYXkgbm90LgogICoKKyAqIE1vZGlmaWVycyBtdXN0IHVuaXF1ZWx5IGVuY29kZSBidWZmZXIg
-bGF5b3V0LiBJbiBvdGhlciB3b3JkcywgYSBidWZmZXIgbXVzdAorICogbWF0Y2ggb25seSBhIHNp
-bmdsZSBtb2RpZmllci4gQSBtb2RpZmllciBtdXN0IG5vdCBiZSBhIHN1YnNldCBvZiBsYXlvdXRz
-IG9mCisgKiBhbm90aGVyIG1vZGlmaWVyLiBGb3IgaW5zdGFuY2UsIGl0J3MgaW5jb3JyZWN0IHRv
-IGVuY29kZSBwaXRjaCBhbGlnbm1lbnQgaW4KKyAqIGEgbW9kaWZpZXI6IGEgYnVmZmVyIG1heSBt
-YXRjaCBhIDY0LXBpeGVsIGFsaWduZWQgbW9kaWZpZXIgYW5kIGEgMzItcGl4ZWwKKyAqIGFsaWdu
-ZWQgbW9kaWZpZXIuIFRoYXQgc2FpZCwgbW9kaWZpZXJzIGNhbiBoYXZlIGltcGxpY2l0IG1pbmlt
-YWwKKyAqIHJlcXVpcmVtZW50cy4KKyAqCisgKiBGb3IgbW9kaWZpZXJzIHdoZXJlIHRoZSBjb21i
-aW5hdGlvbiBvZiBmb3VyY2MgY29kZSBhbmQgbW9kaWZpZXIgY2FuIGFsaWFzLAorICogYSBjYW5v
-bmljYWwgcGFpciBuZWVkcyB0byBiZSBkZWZpbmVkIGFuZCB1c2VkIGJ5IGFsbCBkcml2ZXJzLiBB
-biBleGFtcGxlCisgKiBpcyBBRkJDLCB3aGVyZSBib3RoIEFSR0IgYW5kIEFCR1IgaGF2ZSB0aGUg
-ZXhhY3Qgc2FtZSBjb21wcmVzc2VkIGxheW91dC4KKyAqCisgKiBGb3IgbW9kaWZpZXJzIHdoZXJl
-IHRoZSBjb21iaW5hdGlvbiBvZiBmb3VyY2MgY29kZSBhbmQgbW9kaWZpZXIgY2FuIGFsaWFzLAor
-ICogYSBjYW5vbmljYWwgcGFpciBuZWVkcyB0byBiZSBkZWZpbmVkIGFuZCB1c2VkIGJ5IGFsbCBk
-cml2ZXJzLiBQcmVmZXJyZWQKKyAqIGNvbWJpbmF0aW9ucyBhcmUgYWxzbyBlbmNvdXJhZ2VkIHdo
-ZXJlIGFsbCBjb21iaW5hdGlvbnMgbWlnaHQgbGVhZCB0bworICogY29uZnVzaW9uIGFuZCB1bm5l
-Y2Vzc2FyaWx5IHJlZHVjZWQgaW50ZXJvcGVyYWJpbGl0eS4gQW4gZXhhbXBsZSBmb3IgdGhlCisg
-KiBsYXR0ZXIgaXMgQUZCQywgd2hlcmUgdGhlIEFCR1IgbGF5b3V0cyBhcmUgcHJlZmVycmVkIG92
-ZXIgQVJHQiBsYXlvdXRzLgorICoKKyAqIFRoZXJlIGFyZSB0d28ga2luZHMgb2YgbW9kaWZpZXIg
-dXNlcnM6CisgKgorICogLSBLZXJuZWwgYW5kIHVzZXItc3BhY2UgZHJpdmVyczogZm9yIGRyaXZl
-cnMgaXQncyBpbXBvcnRhbnQgdGhhdCBtb2RpZmllcnMKKyAqICAgZG9uJ3QgYWxpYXMsIG90aGVy
-d2lzZSB0d28gZHJpdmVycyBtaWdodCBzdXBwb3J0IHRoZSBzYW1lIGZvcm1hdCBidXQgdXNlCisg
-KiAgIGRpZmZlcmVudCBhbGlhc2VzLCBwcmV2ZW50aW5nIHRoZW0gZnJvbSBzaGFyaW5nIGJ1ZmZl
-cnMgaW4gYW4gZWZmaWNpZW50CisgKiAgIGZvcm1hdC4KKyAqIC0gSGlnaGVyLWxldmVsIHByb2dy
-YW1zIGludGVyZmFjaW5nIHdpdGggS01TL0dCTS9FR0wvVnVsa2FuL2V0YzogdGhlc2UgdXNlcnMK
-KyAqICAgc2VlIG1vZGlmaWVycyBhcyBvcGFxdWUgdG9rZW5zIHRoZXkgY2FuIGNoZWNrIGZvciBl
-cXVhbGl0eSBhbmQgaW50ZXJzZWN0LgorICogICBUaGVzZSB1c2VycyBtdXNuJ3QgbmVlZCB0byBr
-bm93IHRvIHJlYXNvbiBhYm91dCB0aGUgbW9kaWZpZXIgdmFsdWUKKyAqICAgKGkuZS4gdGhleSBh
-cmUgbm90IGV4cGVjdGVkIHRvIGV4dHJhY3QgaW5mb3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmll
-cikuCisgKgogICogVmVuZG9ycyBzaG91bGQgZG9jdW1lbnQgdGhlaXIgbW9kaWZpZXIgdXNhZ2Ug
-aW4gYXMgbXVjaCBkZXRhaWwgYXMKICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21w
-YXRpYmlsaXR5IGFjcm9zcyBkZXZpY2VzLCBkcml2ZXJzIGFuZAogICogYXBwbGljYXRpb25zLgot
-LSAKMi4yNy4wCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
+
+--- Comment #21 from rtmasura+kernel@hotmail.com ---
+OK. I've uninstalled the vast majority of KDE and am using a vanilla XFCE4.
+It's been about 12 hours on 5.7.4-arch1-1 and I have yet to have a crash. It is
+looking like it may be something with KDE.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
