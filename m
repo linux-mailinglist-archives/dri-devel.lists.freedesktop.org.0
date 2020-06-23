@@ -2,51 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF982054CA
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 16:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B56205502
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 16:41:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 156F96E1B6;
-	Tue, 23 Jun 2020 14:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A97346E9C2;
+	Tue, 23 Jun 2020 14:41:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F8016E1B6
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 14:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592922819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4I4Qivb5w4jyprxt0EFgItXgYzrBck8wJAlBQcWWPP0=;
- b=SfSd+IQ01VHn+wq8v08FnoV8E9TpPfyGPIFobw+VsPL3ZyPTKtyR8wRSDpFCWAawJ7+xuW
- edukUfEvYwNclxgjZcSbp96yXSl97Tu9mpi8fJIFgYeRewWmYGLYoxIyeVQLUkMzhngxW3
- uzJixCUlDvgv5408CO3pDOF+XsvjdJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-9Zi2lXCVOn6d7kM1PAyGIQ-1; Tue, 23 Jun 2020 10:33:22 -0400
-X-MC-Unique: 9Zi2lXCVOn6d7kM1PAyGIQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16F7A8B5E41;
- Tue, 23 Jun 2020 14:33:13 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-112-157.rdu2.redhat.com
- [10.10.112.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CC3F619C9;
- Tue, 23 Jun 2020 14:32:58 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org
-Subject: [RFC v6] drm/nouveau/kms/nvd9-: Add CRC support
-Date: Tue, 23 Jun 2020 10:32:02 -0400
-Message-Id: <20200623143234.132852-1-lyude@redhat.com>
-In-Reply-To: <20200622200730.120716-11-lyude@redhat.com>
-References: <20200622200730.120716-11-lyude@redhat.com>
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E42E16E9C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 14:41:24 +0000 (UTC)
+Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Tue, 23 Jun 2020 07:41:17 -0700
+Received: from [0.0.0.0] (oddjob.vmware.com [10.253.4.32])
+ by sc9-mailhost2.vmware.com (Postfix) with ESMTP id 9BEC5B2902;
+ Tue, 23 Jun 2020 10:41:16 -0400 (EDT)
+Subject: Re: [Linux-graphics-maintainer] [PATCH 2/3] drm: uapi: Use SPDX in
+ DRM drivers uAPI headers
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20200621020703.864-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621020703.864-2-laurent.pinchart+renesas@ideasonboard.com>
+From: Roland Scheidegger <sroland@vmware.com>
+Message-ID: <24a48acc-706d-0044-d901-de95ee247a02@vmware.com>
+Date: Tue, 23 Jun 2020 16:41:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200621020703.864-2-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: de-DE
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: sroland@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,1969 +47,525 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jani Nikula <jani.nikula@intel.com>,
- David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- James Jones <jajones@nvidia.com>, open list <linux-kernel@vger.kernel.org>,
- Ben Skeggs <bskeggs@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This introduces support for CRC readback on gf119+, using the
-documentation generously provided to us by Nvidia:
-
-https://github.com/NVIDIA/open-gpu-doc/blob/master/Display-CRC/display-crc.txt
-
-We expose all available CRC sources. SF, SOR, PIOR, and DAC are exposed
-through a single set of "outp" sources: outp-active/auto for a CRC of
-the scanout region, outp-complete for a CRC of both the scanout and
-blanking/sync region combined, and outp-inactive for a CRC of only the
-blanking/sync region. For each source, nouveau selects the appropriate
-tap point based on the output path in use. We also expose an "rg"
-source, which allows for capturing CRCs of the scanout raster before
-it's encoded into a video signal in the output path. This tap point is
-referred to as the raster generator.
-
-Note that while there's some other neat features that can be used with
-CRC capture on nvidia hardware, like capturing from two CRC sources
-simultaneously, I couldn't see any usecase for them and did not
-implement them.
-
-Nvidia only allows for accessing CRCs through a shared DMA region that
-we program through the core EVO/NvDisplay channel which is referred to
-as the notifier context. The notifier context is limited to either 255
-(for Fermi-Pascal) or 2047 (Volta+) entries to store CRCs in, and
-unfortunately the hardware simply drops CRCs and reports an overflow
-once all available entries in the notifier context are filled.
-
-Since the DRM CRC API and igt-gpu-tools don't expect there to be a limit
-on how many CRCs can be captured, we work around this in nouveau by
-allocating two separate notifier contexts for each head instead of one.
-We schedule a vblank worker ahead of time so that once we start getting
-close to filling up all of the available entries in the notifier
-context, we can swap the currently used notifier context out with
-another pre-prepared notifier context in a manner similar to page
-flipping.
-
-Unfortunately, the hardware only allows us to this by flushing two
-separate updates on the core channel: one to release the current
-notifier context handle, and one to program the next notifier context's
-handle. When the hardware processes the first update, the CRC for the
-current frame is lost. However, the second update can be flushed
-immediately without waiting for the first to complete so that CRC
-generation resumes on the next frame. According to Nvidia's hardware
-engineers, there isn't any cleaner way of flipping notifier contexts
-that would avoid this.
-
-Since using vblank workers to swap out the notifier context will ensure
-we can usually flush both updates to hardware within the timespan of a
-single frame, we can also ensure that there will only be exactly one
-frame lost between the first and second update being executed by the
-hardware. This gives us the guarantee that we're always correctly
-matching each CRC entry with it's respective frame even after a context
-flip. And since IGT will retrieve the CRC entry for a frame by waiting
-until it receives a CRC for any subsequent frames, this doesn't cause an
-issue with any tests and is much simpler than trying to change the
-current DRM API to accommodate.
-
-In order to facilitate testing of correct handling of this limitation,
-we also expose a debugfs interface to manually control the threshold for
-when we start trying to flip the notifier context. We will use this in
-igt to trigger a context flip for testing purposes without needing to
-wait for the notifier to completely fill up. This threshold is reset
-to the default value set by nouveau after each capture, and is exposed
-in a separate folder within each CRTC's debugfs directory labelled
-"nv_crc".
-
-Changes since v1:
-* Forgot to finish saving crc.h before saving, whoops. This just adds
-  some corrections to the empty function declarations that we use if
-  CONFIG_DEBUG_FS isn't enabled.
-Changes since v2:
-* Don't check return code from debugfs_create_dir() or
-  debugfs_create_file() - Greg K-H
-Changes since v3:
-  (no functional changes)
-* Fix SPDX license identifiers (checkpatch)
-* s/uint32_t/u32/ (checkpatch)
-* Fix indenting in switch cases (checkpatch)
-Changes since v4:
-* Remove unneeded param changes with nv50_head_flush_clr/set
-* Rebase
-Changes since v5:
-* Remove set but unused variable (outp) in nv50_crc_atomic_check() -
-  Kbuild bot
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  25 +-
- drivers/gpu/drm/nouveau/dispnv50/Kbuild     |   4 +
- drivers/gpu/drm/nouveau/dispnv50/atom.h     |  20 +
- drivers/gpu/drm/nouveau/dispnv50/core.h     |   4 +
- drivers/gpu/drm/nouveau/dispnv50/core907d.c |   3 +
- drivers/gpu/drm/nouveau/dispnv50/core917d.c |   3 +
- drivers/gpu/drm/nouveau/dispnv50/corec37d.c |   3 +
- drivers/gpu/drm/nouveau/dispnv50/corec57d.c |   3 +
- drivers/gpu/drm/nouveau/dispnv50/crc.c      | 712 ++++++++++++++++++++
- drivers/gpu/drm/nouveau/dispnv50/crc.h      | 125 ++++
- drivers/gpu/drm/nouveau/dispnv50/crc907d.c  | 139 ++++
- drivers/gpu/drm/nouveau/dispnv50/crcc37d.c  | 153 +++++
- drivers/gpu/drm/nouveau/dispnv50/disp.c     |  17 +
- drivers/gpu/drm/nouveau/dispnv50/disp.h     |  10 +
- drivers/gpu/drm/nouveau/dispnv50/handles.h  |   1 +
- drivers/gpu/drm/nouveau/dispnv50/head.c     |  77 ++-
- drivers/gpu/drm/nouveau/dispnv50/head.h     |  10 +-
- drivers/gpu/drm/nouveau/dispnv50/head907d.c |  14 +-
- drivers/gpu/drm/nouveau/dispnv50/headc37d.c |   6 +-
- drivers/gpu/drm/nouveau/dispnv50/headc57d.c |   7 +-
- drivers/gpu/drm/nouveau/nouveau_display.c   |  60 +-
- 21 files changed, 1326 insertions(+), 70 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/dispnv50/crc.c
- create mode 100644 drivers/gpu/drm/nouveau/dispnv50/crc.h
- create mode 100644 drivers/gpu/drm/nouveau/dispnv50/crc907d.c
- create mode 100644 drivers/gpu/drm/nouveau/dispnv50/crcc37d.c
-
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-index 640738f3196ce..cec65a12e8ec5 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-@@ -44,6 +44,9 @@
- #include <subdev/bios/pll.h>
- #include <subdev/clk.h>
- 
-+#include <nvif/event.h>
-+#include <nvif/cl0046.h>
-+
- static int
- nv04_crtc_mode_set_base(struct drm_crtc *crtc, int x, int y,
- 			struct drm_framebuffer *old_fb);
-@@ -756,6 +759,7 @@ static void nv_crtc_destroy(struct drm_crtc *crtc)
- 	nouveau_bo_unmap(nv_crtc->cursor.nvbo);
- 	nouveau_bo_unpin(nv_crtc->cursor.nvbo);
- 	nouveau_bo_ref(NULL, &nv_crtc->cursor.nvbo);
-+	nvif_notify_fini(&nv_crtc->vblank);
- 	kfree(nv_crtc);
- }
- 
-@@ -1297,9 +1301,19 @@ create_primary_plane(struct drm_device *dev)
-         return primary;
- }
- 
-+static int nv04_crtc_vblank_handler(struct nvif_notify *notify)
-+{
-+	struct nouveau_crtc *nv_crtc =
-+		container_of(notify, struct nouveau_crtc, vblank);
-+
-+	drm_crtc_handle_vblank(&nv_crtc->base);
-+	return NVIF_NOTIFY_KEEP;
-+}
-+
- int
- nv04_crtc_create(struct drm_device *dev, int crtc_num)
- {
-+	struct nouveau_display *disp = nouveau_display(dev);
- 	struct nouveau_crtc *nv_crtc;
- 	int ret;
- 
-@@ -1337,5 +1351,14 @@ nv04_crtc_create(struct drm_device *dev, int crtc_num)
- 
- 	nv04_cursor_init(nv_crtc);
- 
--	return 0;
-+	ret = nvif_notify_init(&disp->disp.object, nv04_crtc_vblank_handler,
-+			       false, NV04_DISP_NTFY_VBLANK,
-+			       &(struct nvif_notify_head_req_v0) {
-+				    .head = nv_crtc->index,
-+			       },
-+			       sizeof(struct nvif_notify_head_req_v0),
-+			       sizeof(struct nvif_notify_head_rep_v0),
-+			       &nv_crtc->vblank);
-+
-+	return ret;
- }
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/Kbuild b/drivers/gpu/drm/nouveau/dispnv50/Kbuild
-index e0c435eae6646..6fdddb266fb1b 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/Kbuild
-+++ b/drivers/gpu/drm/nouveau/dispnv50/Kbuild
-@@ -10,6 +10,10 @@ nouveau-y += dispnv50/core917d.o
- nouveau-y += dispnv50/corec37d.o
- nouveau-y += dispnv50/corec57d.o
- 
-+nouveau-$(CONFIG_DEBUG_FS) += dispnv50/crc.o
-+nouveau-$(CONFIG_DEBUG_FS) += dispnv50/crc907d.o
-+nouveau-$(CONFIG_DEBUG_FS) += dispnv50/crcc37d.o
-+
- nouveau-y += dispnv50/dac507d.o
- nouveau-y += dispnv50/dac907d.o
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/atom.h b/drivers/gpu/drm/nouveau/dispnv50/atom.h
-index 62faaf60f47a5..3d82b3c67decc 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/atom.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/atom.h
-@@ -2,6 +2,9 @@
- #define __NV50_KMS_ATOM_H__
- #define nv50_atom(p) container_of((p), struct nv50_atom, state)
- #include <drm/drm_atomic.h>
-+#include "crc.h"
-+
-+struct nouveau_encoder;
- 
- struct nv50_atom {
- 	struct drm_atomic_state state;
-@@ -115,9 +118,12 @@ struct nv50_head_atom {
- 		u8 nhsync:1;
- 		u8 nvsync:1;
- 		u8 depth:4;
-+		u8 crc_raster:2;
- 		u8 bpc;
- 	} or;
- 
-+	struct nv50_crc_atom crc;
-+
- 	/* Currently only used for MST */
- 	struct {
- 		int pbn;
-@@ -135,6 +141,7 @@ struct nv50_head_atom {
- 			bool ovly:1;
- 			bool dither:1;
- 			bool procamp:1;
-+			bool crc:1;
- 			bool or:1;
- 		};
- 		u16 mask;
-@@ -150,6 +157,19 @@ nv50_head_atom_get(struct drm_atomic_state *state, struct drm_crtc *crtc)
- 	return nv50_head_atom(statec);
- }
- 
-+static inline struct drm_encoder *
-+nv50_head_atom_get_encoder(struct nv50_head_atom *atom)
-+{
-+	struct drm_encoder *encoder = NULL;
-+
-+	/* We only ever have a single encoder */
-+	drm_for_each_encoder_mask(encoder, atom->state.crtc->dev,
-+				  atom->state.encoder_mask)
-+		break;
-+
-+	return encoder;
-+}
-+
- #define nv50_wndw_atom(p) container_of((p), struct nv50_wndw_atom, state)
- 
- struct nv50_wndw_atom {
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core.h b/drivers/gpu/drm/nouveau/dispnv50/core.h
-index 99157dc94d235..e021cb340569b 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core.h
-@@ -2,6 +2,7 @@
- #define __NV50_KMS_CORE_H__
- #include "disp.h"
- #include "atom.h"
-+#include "crc.h"
- #include <nouveau_encoder.h>
- 
- struct nv50_core {
-@@ -26,6 +27,9 @@ struct nv50_core_func {
- 	} wndw;
- 
- 	const struct nv50_head_func *head;
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	const struct nv50_crc_func *crc;
-+#endif
- 	const struct nv50_outp_func {
- 		void (*ctrl)(struct nv50_core *, int or, u32 ctrl,
- 			     struct nv50_head_atom *);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core907d.c b/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-index 2716298326299..b17c03529c784 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core907d.c
-@@ -30,6 +30,9 @@ core907d = {
- 	.ntfy_wait_done = core507d_ntfy_wait_done,
- 	.update = core507d_update,
- 	.head = &head907d,
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	.crc = &crc907d,
-+#endif
- 	.dac = &dac907d,
- 	.sor = &sor907d,
- };
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/core917d.c b/drivers/gpu/drm/nouveau/dispnv50/core917d.c
-index 5cc072d4c30fe..66846f3720805 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/core917d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/core917d.c
-@@ -30,6 +30,9 @@ core917d = {
- 	.ntfy_wait_done = core507d_ntfy_wait_done,
- 	.update = core507d_update,
- 	.head = &head917d,
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	.crc = &crc907d,
-+#endif
- 	.dac = &dac907d,
- 	.sor = &sor907d,
- };
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/corec37d.c b/drivers/gpu/drm/nouveau/dispnv50/corec37d.c
-index e0c8811fb8e45..ec83189a1d481 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/corec37d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/corec37d.c
-@@ -142,6 +142,9 @@ corec37d = {
- 	.wndw.owner = corec37d_wndw_owner,
- 	.head = &headc37d,
- 	.sor = &sorc37d,
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	.crc = &crcc37d,
-+#endif
- };
- 
- int
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/corec57d.c b/drivers/gpu/drm/nouveau/dispnv50/corec57d.c
-index 10ba9e9e4ae6b..e1c11eba0ce17 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/corec57d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/corec57d.c
-@@ -52,6 +52,9 @@ corec57d = {
- 	.wndw.owner = corec37d_wndw_owner,
- 	.head = &headc57d,
- 	.sor = &sorc37d,
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+	.crc = &crcc37d,
-+#endif
- };
- 
- int
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.c b/drivers/gpu/drm/nouveau/dispnv50/crc.c
-new file mode 100644
-index 0000000000000..633c166d5a9bd
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/dispnv50/crc.c
-@@ -0,0 +1,712 @@
-+// SPDX-License-Identifier: MIT
-+#include <linux/string.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_vblank.h>
-+
-+#include <nvif/class.h>
-+#include <nvif/cl0002.h>
-+#include <nvif/timer.h>
-+
-+#include "nouveau_drv.h"
-+#include "core.h"
-+#include "head.h"
-+#include "wndw.h"
-+#include "handles.h"
-+#include "crc.h"
-+
-+static const char * const nv50_crc_sources[] = {
-+	[NV50_CRC_SOURCE_NONE] = "none",
-+	[NV50_CRC_SOURCE_AUTO] = "auto",
-+	[NV50_CRC_SOURCE_RG] = "rg",
-+	[NV50_CRC_SOURCE_OUTP_ACTIVE] = "outp-active",
-+	[NV50_CRC_SOURCE_OUTP_COMPLETE] = "outp-complete",
-+	[NV50_CRC_SOURCE_OUTP_INACTIVE] = "outp-inactive",
-+};
-+
-+static int nv50_crc_parse_source(const char *buf, enum nv50_crc_source *s)
-+{
-+	int i;
-+
-+	if (!buf) {
-+		*s = NV50_CRC_SOURCE_NONE;
-+		return 0;
-+	}
-+
-+	i = match_string(nv50_crc_sources, ARRAY_SIZE(nv50_crc_sources), buf);
-+	if (i < 0)
-+		return i;
-+
-+	*s = i;
-+	return 0;
-+}
-+
-+int
-+nv50_crc_verify_source(struct drm_crtc *crtc, const char *source_name,
-+		       size_t *values_cnt)
-+{
-+	struct nouveau_drm *drm = nouveau_drm(crtc->dev);
-+	enum nv50_crc_source source;
-+
-+	if (nv50_crc_parse_source(source_name, &source) < 0) {
-+		NV_DEBUG(drm, "unknown source %s\n", source_name);
-+		return -EINVAL;
-+	}
-+
-+	*values_cnt = 1;
-+	return 0;
-+}
-+
-+const char *const *nv50_crc_get_sources(struct drm_crtc *crtc, size_t *count)
-+{
-+	*count = ARRAY_SIZE(nv50_crc_sources);
-+	return nv50_crc_sources;
-+}
-+
-+static void
-+nv50_crc_program_ctx(struct nv50_head *head,
-+		     struct nv50_crc_notifier_ctx *ctx)
-+{
-+	struct nv50_disp *disp = nv50_disp(head->base.base.dev);
-+	struct nv50_core *core = disp->core;
-+	u32 interlock[NV50_DISP_INTERLOCK__SIZE] = { 0 };
-+
-+	core->func->crc->set_ctx(head, ctx);
-+	core->func->update(core, interlock, false);
-+}
-+
-+static void nv50_crc_ctx_flip_work(struct drm_vblank_work *work)
-+{
-+	struct nv50_crc *crc = container_of(work, struct nv50_crc, flip_work);
-+	struct nv50_head *head = container_of(crc, struct nv50_head, crc);
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct nv50_disp *disp = nv50_disp(crtc->dev);
-+	u8 new_idx = crc->ctx_idx ^ 1;
-+
-+	/*
-+	 * We don't want to accidentally wait for longer then the vblank, so
-+	 * try again for the next vblank if we don't grab the lock
-+	 */
-+	if (!mutex_trylock(&disp->mutex)) {
-+		DRM_DEV_DEBUG_KMS(crtc->dev->dev,
-+				  "Lock contended, delaying CRC ctx flip for head-%d\n",
-+				  head->base.index);
-+		drm_vblank_work_schedule(work,
-+					 drm_crtc_vblank_count(crtc) + 1,
-+					 true);
-+		return;
-+	}
-+
-+	DRM_DEV_DEBUG_KMS(crtc->dev->dev,
-+			  "Flipping notifier ctx for head %d (%d -> %d)\n",
-+			  drm_crtc_index(crtc), crc->ctx_idx, new_idx);
-+
-+	nv50_crc_program_ctx(head, NULL);
-+	nv50_crc_program_ctx(head, &crc->ctx[new_idx]);
-+	mutex_unlock(&disp->mutex);
-+
-+	spin_lock_irq(&crc->lock);
-+	crc->ctx_changed = true;
-+	spin_unlock_irq(&crc->lock);
-+}
-+
-+static inline void nv50_crc_reset_ctx(struct nv50_crc_notifier_ctx *ctx)
-+{
-+	memset_io(ctx->mem.object.map.ptr, 0, ctx->mem.object.map.size);
-+}
-+
-+static void
-+nv50_crc_get_entries(struct nv50_head *head,
-+		     const struct nv50_crc_func *func,
-+		     enum nv50_crc_source source)
-+{
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct nv50_crc *crc = &head->crc;
-+	u32 output_crc;
-+
-+	while (crc->entry_idx < func->num_entries) {
-+		/*
-+		 * While Nvidia's documentation says CRCs are written on each
-+		 * subsequent vblank after being enabled, in practice they
-+		 * aren't written immediately.
-+		 */
-+		output_crc = func->get_entry(head, &crc->ctx[crc->ctx_idx],
-+					     source, crc->entry_idx);
-+		if (!output_crc)
-+			return;
-+
-+		drm_crtc_add_crc_entry(crtc, true, crc->frame, &output_crc);
-+		crc->frame++;
-+		crc->entry_idx++;
-+	}
-+}
-+
-+void nv50_crc_handle_vblank(struct nv50_head *head)
-+{
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct nv50_crc *crc = &head->crc;
-+	const struct nv50_crc_func *func =
-+		nv50_disp(head->base.base.dev)->core->func->crc;
-+	struct nv50_crc_notifier_ctx *ctx;
-+	bool need_reschedule = false;
-+
-+	if (!func)
-+		return;
-+
-+	/*
-+	 * We don't lose events if we aren't able to report CRCs until the
-+	 * next vblank, so only report CRCs if the locks we need aren't
-+	 * contended to prevent missing an actual vblank event
-+	 */
-+	if (!spin_trylock(&crc->lock))
-+		return;
-+
-+	if (!crc->src)
-+		goto out;
-+
-+	ctx = &crc->ctx[crc->ctx_idx];
-+	if (crc->ctx_changed && func->ctx_finished(head, ctx)) {
-+		nv50_crc_get_entries(head, func, crc->src);
-+
-+		crc->ctx_idx ^= 1;
-+		crc->entry_idx = 0;
-+		crc->ctx_changed = false;
-+
-+		/*
-+		 * Unfortunately when notifier contexts are changed during CRC
-+		 * capture, we will inevitably lose the CRC entry for the
-+		 * frame where the hardware actually latched onto the first
-+		 * UPDATE. According to Nvidia's hardware engineers, there's
-+		 * no workaround for this.
-+		 *
-+		 * Now, we could try to be smart here and calculate the number
-+		 * of missed CRCs based on audit timestamps, but those were
-+		 * removed starting with volta. Since we always flush our
-+		 * updates back-to-back without waiting, we'll just be
-+		 * optimistic and assume we always miss exactly one frame.
-+		 */
-+		DRM_DEV_DEBUG_KMS(head->base.base.dev->dev,
-+				  "Notifier ctx flip for head-%d finished, lost CRC for frame %llu\n",
-+				  head->base.index, crc->frame);
-+		crc->frame++;
-+
-+		nv50_crc_reset_ctx(ctx);
-+		need_reschedule = true;
-+	}
-+
-+	nv50_crc_get_entries(head, func, crc->src);
-+
-+	if (need_reschedule)
-+		drm_vblank_work_schedule(&crc->flip_work,
-+					 drm_crtc_vblank_count(crtc)
-+					 + crc->flip_threshold
-+					 - crc->entry_idx,
-+					 true);
-+
-+out:
-+	spin_unlock(&crc->lock);
-+}
-+
-+static void nv50_crc_wait_ctx_finished(struct nv50_head *head,
-+				       const struct nv50_crc_func *func,
-+				       struct nv50_crc_notifier_ctx *ctx)
-+{
-+	struct drm_device *dev = head->base.base.dev;
-+	struct nouveau_drm *drm = nouveau_drm(dev);
-+	s64 ret;
-+
-+	ret = nvif_msec(&drm->client.device, 50,
-+			if (func->ctx_finished(head, ctx)) break;);
-+	if (ret == -ETIMEDOUT)
-+		NV_ERROR(drm,
-+			 "CRC notifier ctx for head %d not finished after 50ms\n",
-+			 head->base.index);
-+	else if (ret)
-+		NV_ATOMIC(drm,
-+			  "CRC notifier ctx for head-%d finished after %lldns\n",
-+			  head->base.index, ret);
-+}
-+
-+void nv50_crc_atomic_stop_reporting(struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_crtc *crtc;
-+	int i;
-+
-+	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
-+		struct nv50_head *head = nv50_head(crtc);
-+		struct nv50_head_atom *asyh = nv50_head_atom(crtc_state);
-+		struct nv50_crc *crc = &head->crc;
-+
-+		if (!asyh->clr.crc)
-+			continue;
-+
-+		spin_lock_irq(&crc->lock);
-+		crc->src = NV50_CRC_SOURCE_NONE;
-+		spin_unlock_irq(&crc->lock);
-+
-+		drm_crtc_vblank_put(crtc);
-+		drm_vblank_work_cancel_sync(&crc->flip_work);
-+
-+		NV_ATOMIC(nouveau_drm(crtc->dev),
-+			  "CRC reporting on vblank for head-%d disabled\n",
-+			  head->base.index);
-+
-+		/* CRC generation is still enabled in hw, we'll just report
-+		 * any remaining CRC entries ourselves after it gets disabled
-+		 * in hardware
-+		 */
-+	}
-+}
-+
-+void nv50_crc_atomic_prepare_notifier_contexts(struct drm_atomic_state *state)
-+{
-+	const struct nv50_crc_func *func =
-+		nv50_disp(state->dev)->core->func->crc;
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_crtc *crtc;
-+	int i;
-+
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		struct nv50_head *head = nv50_head(crtc);
-+		struct nv50_head_atom *asyh = nv50_head_atom(new_crtc_state);
-+		struct nv50_crc *crc = &head->crc;
-+		struct nv50_crc_notifier_ctx *ctx = &crc->ctx[crc->ctx_idx];
-+		int i;
-+
-+		if (asyh->clr.crc && asyh->crc.src) {
-+			if (crc->ctx_changed) {
-+				nv50_crc_wait_ctx_finished(head, func, ctx);
-+				ctx = &crc->ctx[crc->ctx_idx ^ 1];
-+			}
-+			nv50_crc_wait_ctx_finished(head, func, ctx);
-+		}
-+
-+		if (asyh->set.crc) {
-+			crc->entry_idx = 0;
-+			crc->ctx_changed = false;
-+			for (i = 0; i < ARRAY_SIZE(crc->ctx); i++)
-+				nv50_crc_reset_ctx(&crc->ctx[i]);
-+		}
-+	}
-+}
-+
-+void nv50_crc_atomic_start_reporting(struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_crtc *crtc;
-+	int i;
-+
-+	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
-+		struct nv50_head *head = nv50_head(crtc);
-+		struct nv50_head_atom *asyh = nv50_head_atom(crtc_state);
-+		struct nv50_crc *crc = &head->crc;
-+		u64 vbl_count;
-+
-+		if (!asyh->set.crc)
-+			continue;
-+
-+		drm_crtc_vblank_get(crtc);
-+
-+		spin_lock_irq(&crc->lock);
-+		vbl_count = drm_crtc_vblank_count(crtc);
-+		crc->frame = vbl_count;
-+		crc->src = asyh->crc.src;
-+		drm_vblank_work_schedule(&crc->flip_work,
-+					 vbl_count + crc->flip_threshold,
-+					 true);
-+		spin_unlock_irq(&crc->lock);
-+
-+		NV_ATOMIC(nouveau_drm(crtc->dev),
-+			  "CRC reporting on vblank for head-%d enabled\n",
-+			  head->base.index);
-+	}
-+}
-+
-+int nv50_crc_atomic_check(struct nv50_head *head,
-+			  struct nv50_head_atom *asyh,
-+			  struct nv50_head_atom *armh)
-+{
-+	struct drm_atomic_state *state = asyh->state.state;
-+	struct drm_device *dev = head->base.base.dev;
-+	struct nv50_atom *atom = nv50_atom(state);
-+	struct nv50_disp *disp = nv50_disp(dev);
-+	struct drm_encoder *encoder;
-+	struct nv50_outp_atom *outp_atom;
-+	bool changed = armh->crc.src != asyh->crc.src;
-+
-+	if (!armh->crc.src && !asyh->crc.src) {
-+		asyh->set.crc = false;
-+		asyh->clr.crc = false;
-+		return 0;
-+	}
-+
-+	/* While we don't care about entry tags, Volta+ hw always needs the
-+	 * controlling wndw channel programmed to a wndw that's owned by our
-+	 * head
-+	 */
-+	if (asyh->crc.src && disp->disp->object.oclass >= GV100_DISP &&
-+	    !(BIT(asyh->crc.wndw) & asyh->wndw.owned)) {
-+		if (!asyh->wndw.owned) {
-+			/* TODO: once we support flexible channel ownership,
-+			 * we should write some code here to handle attempting
-+			 * to "steal" a plane: e.g. take a plane that is
-+			 * currently not-visible and owned by another head,
-+			 * and reassign it to this head. If we fail to do so,
-+			 * we shuld reject the mode outright as CRC capture
-+			 * then becomes impossible.
-+			 */
-+			NV_ATOMIC(nouveau_drm(dev),
-+				  "No available wndws for CRC readback\n");
-+			return -EINVAL;
-+		}
-+		asyh->crc.wndw = ffs(asyh->wndw.owned) - 1;
-+	}
-+
-+	if (drm_atomic_crtc_needs_modeset(&asyh->state) || changed ||
-+	    armh->crc.wndw != asyh->crc.wndw) {
-+		asyh->clr.crc = armh->crc.src && armh->state.active;
-+		asyh->set.crc = asyh->crc.src && asyh->state.active;
-+		if (changed)
-+			asyh->set.or |= armh->or.crc_raster !=
-+					asyh->or.crc_raster;
-+
-+		/*
-+		 * If we're reprogramming our OR, we need to flush the CRC
-+		 * disable first
-+		 */
-+		if (asyh->clr.crc) {
-+			encoder = nv50_head_atom_get_encoder(armh);
-+
-+			list_for_each_entry(outp_atom, &atom->outp, head) {
-+				if (outp_atom->encoder == encoder) {
-+					if (outp_atom->set.mask)
-+						atom->flush_disable = true;
-+					break;
-+				}
-+			}
-+		}
-+	} else {
-+		asyh->set.crc = false;
-+		asyh->clr.crc = false;
-+	}
-+
-+	return 0;
-+}
-+
-+static enum nv50_crc_source_type
-+nv50_crc_source_type(struct nouveau_encoder *outp,
-+		     enum nv50_crc_source source)
-+{
-+	struct dcb_output *dcbe = outp->dcb;
-+
-+	switch (source) {
-+	case NV50_CRC_SOURCE_NONE: return NV50_CRC_SOURCE_TYPE_NONE;
-+	case NV50_CRC_SOURCE_RG:   return NV50_CRC_SOURCE_TYPE_RG;
-+	default:		   break;
-+	}
-+
-+	if (dcbe->location != DCB_LOC_ON_CHIP)
-+		return NV50_CRC_SOURCE_TYPE_PIOR;
-+
-+	switch (dcbe->type) {
-+	case DCB_OUTPUT_DP:	return NV50_CRC_SOURCE_TYPE_SF;
-+	case DCB_OUTPUT_ANALOG:	return NV50_CRC_SOURCE_TYPE_DAC;
-+	default:		return NV50_CRC_SOURCE_TYPE_SOR;
-+	}
-+}
-+
-+void nv50_crc_atomic_set(struct nv50_head *head,
-+			 struct nv50_head_atom *asyh)
-+{
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct drm_device *dev = crtc->dev;
-+	struct nv50_crc *crc = &head->crc;
-+	const struct nv50_crc_func *func = nv50_disp(dev)->core->func->crc;
-+	struct nouveau_encoder *outp =
-+		nv50_real_outp(nv50_head_atom_get_encoder(asyh));
-+
-+	func->set_src(head, outp->or,
-+		      nv50_crc_source_type(outp, asyh->crc.src),
-+		      &crc->ctx[crc->ctx_idx], asyh->crc.wndw);
-+}
-+
-+void nv50_crc_atomic_clr(struct nv50_head *head)
-+{
-+	const struct nv50_crc_func *func =
-+		nv50_disp(head->base.base.dev)->core->func->crc;
-+
-+	func->set_src(head, 0, NV50_CRC_SOURCE_TYPE_NONE, NULL, 0);
-+}
-+
-+#define NV50_CRC_RASTER_ACTIVE   0
-+#define NV50_CRC_RASTER_COMPLETE 1
-+#define NV50_CRC_RASTER_INACTIVE 2
-+
-+static inline int
-+nv50_crc_raster_type(enum nv50_crc_source source)
-+{
-+	switch (source) {
-+	case NV50_CRC_SOURCE_NONE:
-+	case NV50_CRC_SOURCE_AUTO:
-+	case NV50_CRC_SOURCE_RG:
-+	case NV50_CRC_SOURCE_OUTP_ACTIVE:
-+		return NV50_CRC_RASTER_ACTIVE;
-+	case NV50_CRC_SOURCE_OUTP_COMPLETE:
-+		return NV50_CRC_RASTER_COMPLETE;
-+	case NV50_CRC_SOURCE_OUTP_INACTIVE:
-+		return NV50_CRC_RASTER_INACTIVE;
-+	}
-+
-+	return 0;
-+}
-+
-+/* We handle mapping the memory for CRC notifiers ourselves, since each
-+ * notifier needs it's own handle
-+ */
-+static inline int
-+nv50_crc_ctx_init(struct nv50_head *head, struct nvif_mmu *mmu,
-+		  struct nv50_crc_notifier_ctx *ctx, size_t len, int idx)
-+{
-+	struct nv50_core *core = nv50_disp(head->base.base.dev)->core;
-+	int ret;
-+
-+	ret = nvif_mem_init_map(mmu, NVIF_MEM_VRAM, len, &ctx->mem);
-+	if (ret)
-+		return ret;
-+
-+	ret = nvif_object_init(&core->chan.base.user,
-+			       NV50_DISP_HANDLE_CRC_CTX(head, idx),
-+			       NV_DMA_IN_MEMORY,
-+			       &(struct nv_dma_v0) {
-+					.target = NV_DMA_V0_TARGET_VRAM,
-+					.access = NV_DMA_V0_ACCESS_RDWR,
-+					.start = ctx->mem.addr,
-+					.limit =  ctx->mem.addr
-+						+ ctx->mem.size - 1,
-+			       }, sizeof(struct nv_dma_v0),
-+			       &ctx->ntfy);
-+	if (ret)
-+		goto fail_fini;
-+
-+	return 0;
-+
-+fail_fini:
-+	nvif_mem_fini(&ctx->mem);
-+	return ret;
-+}
-+
-+static inline void
-+nv50_crc_ctx_fini(struct nv50_crc_notifier_ctx *ctx)
-+{
-+	nvif_object_fini(&ctx->ntfy);
-+	nvif_mem_fini(&ctx->mem);
-+}
-+
-+int nv50_crc_set_source(struct drm_crtc *crtc, const char *source_str)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_atomic_state *state;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct nv50_head *head = nv50_head(crtc);
-+	struct nv50_crc *crc = &head->crc;
-+	const struct nv50_crc_func *func = nv50_disp(dev)->core->func->crc;
-+	struct nvif_mmu *mmu = &nouveau_drm(dev)->client.mmu;
-+	struct nv50_head_atom *asyh;
-+	struct drm_crtc_state *crtc_state;
-+	enum nv50_crc_source source;
-+	int ret = 0, ctx_flags = 0, i;
-+
-+	ret = nv50_crc_parse_source(source_str, &source);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Since we don't want the user to accidentally interrupt us as we're
-+	 * disabling CRCs
-+	 */
-+	if (source)
-+		ctx_flags |= DRM_MODESET_ACQUIRE_INTERRUPTIBLE;
-+	drm_modeset_acquire_init(&ctx, ctx_flags);
-+
-+	state = drm_atomic_state_alloc(dev);
-+	if (!state) {
-+		ret = -ENOMEM;
-+		goto out_acquire_fini;
-+	}
-+	state->acquire_ctx = &ctx;
-+
-+	if (source) {
-+		for (i = 0; i < ARRAY_SIZE(head->crc.ctx); i++) {
-+			ret = nv50_crc_ctx_init(head, mmu, &crc->ctx[i],
-+						func->notifier_len, i);
-+			if (ret)
-+				goto out_ctx_fini;
-+		}
-+	}
-+
-+retry:
-+	crtc_state = drm_atomic_get_crtc_state(state, &head->base.base);
-+	if (IS_ERR(crtc_state)) {
-+		ret = PTR_ERR(crtc_state);
-+		if (ret == -EDEADLK)
-+			goto deadlock;
-+		else if (ret)
-+			goto out_drop_locks;
-+	}
-+	asyh = nv50_head_atom(crtc_state);
-+	asyh->crc.src = source;
-+	asyh->or.crc_raster = nv50_crc_raster_type(source);
-+
-+	ret = drm_atomic_commit(state);
-+	if (ret == -EDEADLK)
-+		goto deadlock;
-+	else if (ret)
-+		goto out_drop_locks;
-+
-+	if (!source) {
-+		/*
-+		 * If the user specified a custom flip threshold through
-+		 * debugfs, reset it
-+		 */
-+		crc->flip_threshold = func->flip_threshold;
-+	}
-+
-+out_drop_locks:
-+	drm_modeset_drop_locks(&ctx);
-+out_ctx_fini:
-+	if (!source || ret) {
-+		for (i = 0; i < ARRAY_SIZE(crc->ctx); i++)
-+			nv50_crc_ctx_fini(&crc->ctx[i]);
-+	}
-+	drm_atomic_state_put(state);
-+out_acquire_fini:
-+	drm_modeset_acquire_fini(&ctx);
-+	return ret;
-+
-+deadlock:
-+	drm_atomic_state_clear(state);
-+	drm_modeset_backoff(&ctx);
-+	goto retry;
-+}
-+
-+static int
-+nv50_crc_debugfs_flip_threshold_get(struct seq_file *m, void *data)
-+{
-+	struct nv50_head *head = m->private;
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct nv50_crc *crc = &head->crc;
-+	int ret;
-+
-+	ret = drm_modeset_lock_single_interruptible(&crtc->mutex);
-+	if (ret)
-+		return ret;
-+
-+	seq_printf(m, "%d\n", crc->flip_threshold);
-+
-+	drm_modeset_unlock(&crtc->mutex);
-+	return ret;
-+}
-+
-+static int
-+nv50_crc_debugfs_flip_threshold_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, nv50_crc_debugfs_flip_threshold_get,
-+			   inode->i_private);
-+}
-+
-+static ssize_t
-+nv50_crc_debugfs_flip_threshold_set(struct file *file,
-+				    const char __user *ubuf, size_t len,
-+				    loff_t *offp)
-+{
-+	struct seq_file *m = file->private_data;
-+	struct nv50_head *head = m->private;
-+	struct nv50_head_atom *armh;
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct nouveau_drm *drm = nouveau_drm(crtc->dev);
-+	struct nv50_crc *crc = &head->crc;
-+	const struct nv50_crc_func *func =
-+		nv50_disp(crtc->dev)->core->func->crc;
-+	int value, ret;
-+
-+	ret = kstrtoint_from_user(ubuf, len, 10, &value);
-+	if (ret)
-+		return ret;
-+
-+	if (value > func->flip_threshold)
-+		return -EINVAL;
-+	else if (value == -1)
-+		value = func->flip_threshold;
-+	else if (value < -1)
-+		return -EINVAL;
-+
-+	ret = drm_modeset_lock_single_interruptible(&crtc->mutex);
-+	if (ret)
-+		return ret;
-+
-+	armh = nv50_head_atom(crtc->state);
-+	if (armh->crc.src) {
-+		ret = -EBUSY;
-+		goto out;
-+	}
-+
-+	NV_DEBUG(drm,
-+		 "Changing CRC flip threshold for next capture on head-%d to %d\n",
-+		 head->base.index, value);
-+	crc->flip_threshold = value;
-+	ret = len;
-+
-+out:
-+	drm_modeset_unlock(&crtc->mutex);
-+	return ret;
-+}
-+
-+static const struct file_operations nv50_crc_flip_threshold_fops = {
-+	.owner = THIS_MODULE,
-+	.open = nv50_crc_debugfs_flip_threshold_open,
-+	.read = seq_read,
-+	.write = nv50_crc_debugfs_flip_threshold_set,
-+};
-+
-+int nv50_head_crc_late_register(struct nv50_head *head)
-+{
-+	struct drm_crtc *crtc = &head->base.base;
-+	const struct nv50_crc_func *func =
-+		nv50_disp(crtc->dev)->core->func->crc;
-+	struct dentry *root;
-+
-+	if (!func || !crtc->debugfs_entry)
-+		return 0;
-+
-+	root = debugfs_create_dir("nv_crc", crtc->debugfs_entry);
-+	debugfs_create_file("flip_threshold", 0644, root, head,
-+			    &nv50_crc_flip_threshold_fops);
-+
-+	return 0;
-+}
-+
-+static inline void
-+nv50_crc_init_head(struct nv50_disp *disp, const struct nv50_crc_func *func,
-+		   struct nv50_head *head)
-+{
-+	struct nv50_crc *crc = &head->crc;
-+
-+	crc->flip_threshold = func->flip_threshold;
-+	spin_lock_init(&crc->lock);
-+	drm_vblank_work_init(&crc->flip_work, &head->base.base,
-+			     nv50_crc_ctx_flip_work);
-+}
-+
-+void nv50_crc_init(struct drm_device *dev)
-+{
-+	struct nv50_disp *disp = nv50_disp(dev);
-+	struct drm_crtc *crtc;
-+	const struct nv50_crc_func *func = disp->core->func->crc;
-+
-+	if (!func)
-+		return;
-+
-+	drm_for_each_crtc(crtc, dev)
-+		nv50_crc_init_head(disp, func, nv50_head(crtc));
-+}
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.h b/drivers/gpu/drm/nouveau/dispnv50/crc.h
-new file mode 100644
-index 0000000000000..fce3e20043a44
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/dispnv50/crc.h
-@@ -0,0 +1,125 @@
-+// SPDX-License-Identifier: MIT
-+#ifndef __NV50_CRC_H__
-+#define __NV50_CRC_H__
-+
-+#include <linux/mutex.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_vblank.h>
-+
-+#include <nvif/mem.h>
-+#include <nvkm/subdev/bios.h>
-+#include "nouveau_encoder.h"
-+
-+struct nv50_disp;
-+struct nv50_head;
-+
-+#if IS_ENABLED(CONFIG_DEBUG_FS)
-+enum nv50_crc_source {
-+	NV50_CRC_SOURCE_NONE = 0,
-+	NV50_CRC_SOURCE_AUTO,
-+	NV50_CRC_SOURCE_RG,
-+	NV50_CRC_SOURCE_OUTP_ACTIVE,
-+	NV50_CRC_SOURCE_OUTP_COMPLETE,
-+	NV50_CRC_SOURCE_OUTP_INACTIVE,
-+};
-+
-+/* RG -> SF (DP only)
-+ *    -> SOR
-+ *    -> PIOR
-+ *    -> DAC
-+ */
-+enum nv50_crc_source_type {
-+	NV50_CRC_SOURCE_TYPE_NONE = 0,
-+	NV50_CRC_SOURCE_TYPE_SOR,
-+	NV50_CRC_SOURCE_TYPE_PIOR,
-+	NV50_CRC_SOURCE_TYPE_DAC,
-+	NV50_CRC_SOURCE_TYPE_RG,
-+	NV50_CRC_SOURCE_TYPE_SF,
-+};
-+
-+struct nv50_crc_notifier_ctx {
-+	struct nvif_mem mem;
-+	struct nvif_object ntfy;
-+};
-+
-+struct nv50_crc_atom {
-+	enum nv50_crc_source src;
-+	/* Only used for gv100+ */
-+	u8 wndw : 4;
-+};
-+
-+struct nv50_crc_func {
-+	void (*set_src)(struct nv50_head *, int or, enum nv50_crc_source_type,
-+			struct nv50_crc_notifier_ctx *, u32 wndw);
-+	void (*set_ctx)(struct nv50_head *, struct nv50_crc_notifier_ctx *);
-+	u32 (*get_entry)(struct nv50_head *, struct nv50_crc_notifier_ctx *,
-+			 enum nv50_crc_source, int idx);
-+	bool (*ctx_finished)(struct nv50_head *,
-+			     struct nv50_crc_notifier_ctx *);
-+	short flip_threshold;
-+	short num_entries;
-+	size_t notifier_len;
-+};
-+
-+struct nv50_crc {
-+	spinlock_t lock;
-+	struct nv50_crc_notifier_ctx ctx[2];
-+	struct drm_vblank_work flip_work;
-+	enum nv50_crc_source src;
-+
-+	u64 frame;
-+	short entry_idx;
-+	short flip_threshold;
-+	u8 ctx_idx : 1;
-+	bool ctx_changed : 1;
-+};
-+
-+void nv50_crc_init(struct drm_device *dev);
-+int nv50_head_crc_late_register(struct nv50_head *);
-+void nv50_crc_handle_vblank(struct nv50_head *head);
-+
-+int nv50_crc_verify_source(struct drm_crtc *, const char *, size_t *);
-+const char *const *nv50_crc_get_sources(struct drm_crtc *, size_t *);
-+int nv50_crc_set_source(struct drm_crtc *, const char *);
-+
-+int nv50_crc_atomic_check(struct nv50_head *, struct nv50_head_atom *,
-+			  struct nv50_head_atom *);
-+void nv50_crc_atomic_stop_reporting(struct drm_atomic_state *);
-+void nv50_crc_atomic_prepare_notifier_contexts(struct drm_atomic_state *);
-+void nv50_crc_atomic_start_reporting(struct drm_atomic_state *);
-+void nv50_crc_atomic_set(struct nv50_head *, struct nv50_head_atom *);
-+void nv50_crc_atomic_clr(struct nv50_head *);
-+
-+extern const struct nv50_crc_func crc907d;
-+extern const struct nv50_crc_func crcc37d;
-+
-+#else /* IS_ENABLED(CONFIG_DEBUG_FS) */
-+struct nv50_crc {};
-+struct nv50_crc_func {};
-+struct nv50_crc_atom {};
-+
-+#define nv50_crc_verify_source NULL
-+#define nv50_crc_get_sources NULL
-+#define nv50_crc_set_source NULL
-+
-+static inline void nv50_crc_init(struct drm_device *dev) {}
-+static inline int nv50_head_crc_late_register(struct nv50_head *) {}
-+static inline void
-+nv50_crc_handle_vblank(struct nv50_head *head) { return 0; }
-+
-+static inline int
-+nv50_crc_atomic_check(struct nv50_head *, struct nv50_head_atom *,
-+		      struct nv50_head_atom *) {}
-+static inline void
-+nv50_crc_atomic_stop_reporting(struct drm_atomic_state *) {}
-+static inline void
-+nv50_crc_atomic_prepare_notifier_contexts(struct drm_atomic_state *) {}
-+static inline void
-+nv50_crc_atomic_start_reporting(struct drm_atomic_state *) {}
-+static inline void
-+nv50_crc_atomic_set(struct nv50_head *, struct nv50_head_atom *) {}
-+static inline void
-+nv50_crc_atomic_clr(struct nv50_head *) {}
-+
-+#endif /* IS_ENABLED(CONFIG_DEBUG_FS) */
-+#endif /* !__NV50_CRC_H__ */
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc907d.c b/drivers/gpu/drm/nouveau/dispnv50/crc907d.c
-new file mode 100644
-index 0000000000000..92e907de76454
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/dispnv50/crc907d.c
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: MIT
-+#include <drm/drm_crtc.h>
-+
-+#include "crc.h"
-+#include "core.h"
-+#include "disp.h"
-+#include "head.h"
-+
-+#define CRC907D_MAX_ENTRIES 255
-+
-+struct crc907d_notifier {
-+	u32 status;
-+	u32 :32; /* reserved */
-+	struct crc907d_entry {
-+		u32 status;
-+		u32 compositor_crc;
-+		u32 output_crc[2];
-+	} entries[CRC907D_MAX_ENTRIES];
-+} __packed;
-+
-+static void
-+crc907d_set_src(struct nv50_head *head, int or,
-+		enum nv50_crc_source_type source,
-+		struct nv50_crc_notifier_ctx *ctx, u32 wndw)
-+{
-+	struct drm_crtc *crtc = &head->base.base;
-+	struct nv50_dmac *core = &nv50_disp(head->base.base.dev)->core->chan;
-+	const u32 hoff = head->base.index * 0x300;
-+	u32 *push;
-+	u32 crc_args = 0xfff00000;
-+
-+	switch (source) {
-+	case NV50_CRC_SOURCE_TYPE_SOR:
-+		crc_args |= (0x00000f0f + or * 16) << 8;
-+		break;
-+	case NV50_CRC_SOURCE_TYPE_PIOR:
-+		crc_args |= (0x000000ff + or * 256) << 8;
-+		break;
-+	case NV50_CRC_SOURCE_TYPE_DAC:
-+		crc_args |= (0x00000ff0 + or) << 8;
-+		break;
-+	case NV50_CRC_SOURCE_TYPE_RG:
-+		crc_args |= (0x00000ff8 + drm_crtc_index(crtc)) << 8;
-+		break;
-+	case NV50_CRC_SOURCE_TYPE_SF:
-+		crc_args |= (0x00000f8f + drm_crtc_index(crtc) * 16) << 8;
-+		break;
-+	case NV50_CRC_SOURCE_NONE:
-+		crc_args |= 0x000fff00;
-+		break;
-+	}
-+
-+	push = evo_wait(core, 4);
-+	if (!push)
-+		return;
-+
-+	if (source) {
-+		evo_mthd(push, 0x0438 + hoff, 1);
-+		evo_data(push, ctx->ntfy.handle);
-+		evo_mthd(push, 0x0430 + hoff, 1);
-+		evo_data(push, crc_args);
-+	} else {
-+		evo_mthd(push, 0x0430 + hoff, 1);
-+		evo_data(push, crc_args);
-+		evo_mthd(push, 0x0438 + hoff, 1);
-+		evo_data(push, 0);
-+	}
-+	evo_kick(push, core);
-+}
-+
-+static void crc907d_set_ctx(struct nv50_head *head,
-+			    struct nv50_crc_notifier_ctx *ctx)
-+{
-+	struct nv50_dmac *core = &nv50_disp(head->base.base.dev)->core->chan;
-+	u32 *push = evo_wait(core, 2);
-+
-+	if (!push)
-+		return;
-+
-+	evo_mthd(push, 0x0438 + (head->base.index * 0x300), 1);
-+	evo_data(push, ctx ? ctx->ntfy.handle : 0);
-+	evo_kick(push, core);
-+}
-+
-+static u32 crc907d_get_entry(struct nv50_head *head,
-+			     struct nv50_crc_notifier_ctx *ctx,
-+			     enum nv50_crc_source source, int idx)
-+{
-+	struct crc907d_notifier __iomem *notifier = ctx->mem.object.map.ptr;
-+
-+	return ioread32_native(&notifier->entries[idx].output_crc[0]);
-+}
-+
-+static bool crc907d_ctx_finished(struct nv50_head *head,
-+				 struct nv50_crc_notifier_ctx *ctx)
-+{
-+	struct nouveau_drm *drm = nouveau_drm(head->base.base.dev);
-+	struct crc907d_notifier __iomem *notifier = ctx->mem.object.map.ptr;
-+	const u32 status = ioread32_native(&notifier->status);
-+	const u32 overflow = status & 0x0000003e;
-+
-+	if (!(status & 0x00000001))
-+		return false;
-+
-+	if (overflow) {
-+		const char *engine = NULL;
-+
-+		switch (overflow) {
-+		case 0x00000004: engine = "DSI"; break;
-+		case 0x00000008: engine = "Compositor"; break;
-+		case 0x00000010: engine = "CRC output 1"; break;
-+		case 0x00000020: engine = "CRC output 2"; break;
-+		}
-+
-+		if (engine)
-+			NV_ERROR(drm,
-+				 "CRC notifier context for head %d overflowed on %s: %x\n",
-+				 head->base.index, engine, status);
-+		else
-+			NV_ERROR(drm,
-+				 "CRC notifier context for head %d overflowed: %x\n",
-+				 head->base.index, status);
-+	}
-+
-+	NV_DEBUG(drm, "Head %d CRC context status: %x\n",
-+		 head->base.index, status);
-+
-+	return true;
-+}
-+
-+const struct nv50_crc_func crc907d = {
-+	.set_src = crc907d_set_src,
-+	.set_ctx = crc907d_set_ctx,
-+	.get_entry = crc907d_get_entry,
-+	.ctx_finished = crc907d_ctx_finished,
-+	.flip_threshold = CRC907D_MAX_ENTRIES - 10,
-+	.num_entries = CRC907D_MAX_ENTRIES,
-+	.notifier_len = sizeof(struct crc907d_notifier),
-+};
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c b/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c
-new file mode 100644
-index 0000000000000..940cefd5517d5
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c
-@@ -0,0 +1,153 @@
-+// SPDX-License-Identifier: MIT
-+#include <drm/drm_crtc.h>
-+
-+#include "crc.h"
-+#include "core.h"
-+#include "disp.h"
-+#include "head.h"
-+
-+#define CRCC37D_MAX_ENTRIES 2047
-+
-+struct crcc37d_notifier {
-+	u32 status;
-+
-+	/* reserved */
-+	u32 :32;
-+	u32 :32;
-+	u32 :32;
-+	u32 :32;
-+	u32 :32;
-+	u32 :32;
-+	u32 :32;
-+
-+	struct crcc37d_entry {
-+		u32 status[2];
-+		u32 :32; /* reserved */
-+		u32 compositor_crc;
-+		u32 rg_crc;
-+		u32 output_crc[2];
-+		u32 :32; /* reserved */
-+	} entries[CRCC37D_MAX_ENTRIES];
-+} __packed;
-+
-+static void
-+crcc37d_set_src(struct nv50_head *head, int or,
-+		enum nv50_crc_source_type source,
-+		struct nv50_crc_notifier_ctx *ctx, u32 wndw)
-+{
-+	struct nv50_dmac *core = &nv50_disp(head->base.base.dev)->core->chan;
-+	const u32 hoff = head->base.index * 0x400;
-+	u32 *push;
-+	u32 crc_args;
-+
-+	switch (source) {
-+	case NV50_CRC_SOURCE_TYPE_SOR:
-+		crc_args = (0x00000050 + or) << 12;
-+		break;
-+	case NV50_CRC_SOURCE_TYPE_PIOR:
-+		crc_args = (0x00000060 + or) << 12;
-+		break;
-+	case NV50_CRC_SOURCE_TYPE_SF:
-+		crc_args = 0x00000030 << 12;
-+		break;
-+	default:
-+		crc_args = 0;
-+		break;
-+	}
-+
-+	push = evo_wait(core, 4);
-+	if (!push)
-+		return;
-+
-+	if (source) {
-+		evo_mthd(push, 0x2180 + hoff, 1);
-+		evo_data(push, ctx->ntfy.handle);
-+		evo_mthd(push, 0x2184 + hoff, 1);
-+		evo_data(push, crc_args | wndw);
-+	} else {
-+		evo_mthd(push, 0x2184 + hoff, 1);
-+		evo_data(push, 0);
-+		evo_mthd(push, 0x2180 + hoff, 1);
-+		evo_data(push, 0);
-+	}
-+
-+	evo_kick(push, core);
-+}
-+
-+static void crcc37d_set_ctx(struct nv50_head *head,
-+			    struct nv50_crc_notifier_ctx *ctx)
-+{
-+	struct nv50_dmac *core = &nv50_disp(head->base.base.dev)->core->chan;
-+	u32 *push = evo_wait(core, 2);
-+
-+	if (!push)
-+		return;
-+
-+	evo_mthd(push, 0x2180 + (head->base.index * 0x400), 1);
-+	evo_data(push, ctx ? ctx->ntfy.handle : 0);
-+	evo_kick(push, core);
-+}
-+
-+static u32 crcc37d_get_entry(struct nv50_head *head,
-+			     struct nv50_crc_notifier_ctx *ctx,
-+			     enum nv50_crc_source source, int idx)
-+{
-+	struct crcc37d_notifier __iomem *notifier = ctx->mem.object.map.ptr;
-+	struct crcc37d_entry __iomem *entry = &notifier->entries[idx];
-+	u32 __iomem *crc_addr;
-+
-+	if (source == NV50_CRC_SOURCE_RG)
-+		crc_addr = &entry->rg_crc;
-+	else
-+		crc_addr = &entry->output_crc[0];
-+
-+	return ioread32_native(crc_addr);
-+}
-+
-+static bool crcc37d_ctx_finished(struct nv50_head *head,
-+				 struct nv50_crc_notifier_ctx *ctx)
-+{
-+	struct nouveau_drm *drm = nouveau_drm(head->base.base.dev);
-+	struct crcc37d_notifier __iomem *notifier = ctx->mem.object.map.ptr;
-+	const u32 status = ioread32_native(&notifier->status);
-+	const u32 overflow = status & 0x0000007e;
-+
-+	if (!(status & 0x00000001))
-+		return false;
-+
-+	if (overflow) {
-+		const char *engine = NULL;
-+
-+		switch (overflow) {
-+		case 0x00000004: engine = "Front End"; break;
-+		case 0x00000008: engine = "Compositor"; break;
-+		case 0x00000010: engine = "RG"; break;
-+		case 0x00000020: engine = "CRC output 1"; break;
-+		case 0x00000040: engine = "CRC output 2"; break;
-+		}
-+
-+		if (engine)
-+			NV_ERROR(drm,
-+				 "CRC notifier context for head %d overflowed on %s: %x\n",
-+				 head->base.index, engine, status);
-+		else
-+			NV_ERROR(drm,
-+				 "CRC notifier context for head %d overflowed: %x\n",
-+				 head->base.index, status);
-+	}
-+
-+	NV_DEBUG(drm, "Head %d CRC context status: %x\n",
-+		 head->base.index, status);
-+
-+	return true;
-+}
-+
-+const struct nv50_crc_func crcc37d = {
-+	.set_src = crcc37d_set_src,
-+	.set_ctx = crcc37d_set_ctx,
-+	.get_entry = crcc37d_get_entry,
-+	.ctx_finished = crcc37d_ctx_finished,
-+	.flip_threshold = CRCC37D_MAX_ENTRIES - 30,
-+	.num_entries = CRCC37D_MAX_ENTRIES,
-+	.notifier_len = sizeof(struct crcc37d_notifier),
-+};
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index bf7ba1e1c0f74..9cb06d6d6c3fb 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -783,6 +783,19 @@ struct nv50_msto {
- 	bool disabled;
- };
- 
-+struct nouveau_encoder *nv50_real_outp(struct drm_encoder *encoder)
-+{
-+	struct nv50_msto *msto;
-+
-+	if (encoder->encoder_type != DRM_MODE_ENCODER_DPMST)
-+		return nouveau_encoder(encoder);
-+
-+	msto = nv50_msto(encoder);
-+	if (!msto->mstc)
-+		return NULL;
-+	return msto->mstc->mstm->outp;
-+}
-+
- static struct drm_dp_payload *
- nv50_msto_payload(struct nv50_msto *msto)
- {
-@@ -1932,6 +1945,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
- 	int i;
- 
- 	NV_ATOMIC(drm, "commit %d %d\n", atom->lock_core, atom->flush_disable);
-+	nv50_crc_atomic_stop_reporting(state);
- 	drm_atomic_helper_wait_for_fences(dev, state, false);
- 	drm_atomic_helper_wait_for_dependencies(state);
- 	drm_atomic_helper_update_legacy_modeset_state(dev, state);
-@@ -2002,6 +2016,8 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
- 		}
- 	}
- 
-+	nv50_crc_atomic_prepare_notifier_contexts(state);
-+
- 	/* Update output path(s). */
- 	list_for_each_entry_safe(outp, outt, &atom->outp, head) {
- 		const struct drm_encoder_helper_funcs *help;
-@@ -2115,6 +2131,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
- 		}
- 	}
- 
-+	nv50_crc_atomic_start_reporting(state);
- 	drm_atomic_helper_commit_hw_done(state);
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 	drm_atomic_helper_commit_cleanup_done(state);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index c7b72fa850995..1968c6921f9e7 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -1,10 +1,12 @@
- #ifndef __NV50_KMS_H__
- #define __NV50_KMS_H__
-+#include <linux/workqueue.h>
- #include <nvif/mem.h>
- 
- #include "nouveau_display.h"
- 
- struct nv50_msto;
-+struct nouveau_encoder;
- 
- struct nv50_disp {
- 	struct nvif_disp *disp;
-@@ -90,6 +92,14 @@ int nv50_dmac_create(struct nvif_device *device, struct nvif_object *disp,
- 		     u64 syncbuf, struct nv50_dmac *dmac);
- void nv50_dmac_destroy(struct nv50_dmac *);
- 
-+/*
-+ * For normal encoders this just returns the encoder. For active MST encoders,
-+ * this returns the real outp that's driving displays on the topology.
-+ * Inactive MST encoders return NULL, since they would have no real outp to
-+ * return anyway.
-+ */
-+struct nouveau_encoder *nv50_real_outp(struct drm_encoder *encoder);
-+
- u32 *evo_wait(struct nv50_dmac *, int nr);
- void evo_kick(u32 *, struct nv50_dmac *);
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/handles.h b/drivers/gpu/drm/nouveau/dispnv50/handles.h
-index d1beeb9a444db..27af7680294c6 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/handles.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/handles.h
-@@ -11,5 +11,6 @@
- #define NV50_DISP_HANDLE_VRAM                                           0xf0000001
- 
- #define NV50_DISP_HANDLE_WNDW_CTX(kind)                        (0xfb000000 | kind)
-+#define NV50_DISP_HANDLE_CRC_CTX(head, i) (0xfc000000 | head->base.index << 1 | i)
- 
- #endif /* !__NV50_KMS_HANDLES_H__ */
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-index 72bc3bce396a7..eb905cdd54fe1 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-@@ -24,13 +24,17 @@
- #include "core.h"
- #include "curs.h"
- #include "ovly.h"
-+#include "crc.h"
- 
- #include <nvif/class.h>
-+#include <nvif/event.h>
-+#include <nvif/cl0046.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_vblank.h>
- #include "nouveau_connector.h"
-+
- void
- nv50_head_flush_clr(struct nv50_head *head,
- 		    struct nv50_head_atom *asyh, bool flush)
-@@ -38,6 +42,7 @@ nv50_head_flush_clr(struct nv50_head *head,
- 	union nv50_head_atom_mask clr = {
- 		.mask = asyh->clr.mask & ~(flush ? 0 : asyh->set.mask),
- 	};
-+	if (clr.crc)  nv50_crc_atomic_clr(head);
- 	if (clr.olut) head->func->olut_clr(head);
- 	if (clr.core) head->func->core_clr(head);
- 	if (clr.curs) head->func->curs_clr(head);
-@@ -61,6 +66,7 @@ nv50_head_flush_set(struct nv50_head *head, struct nv50_head_atom *asyh)
- 	if (asyh->set.ovly   ) head->func->ovly    (head, asyh);
- 	if (asyh->set.dither ) head->func->dither  (head, asyh);
- 	if (asyh->set.procamp) head->func->procamp (head, asyh);
-+	if (asyh->set.crc    ) nv50_crc_atomic_set (head, asyh);
- 	if (asyh->set.or     ) head->func->or      (head, asyh);
- }
- 
-@@ -313,7 +319,7 @@ nv50_head_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state)
- 	struct nouveau_conn_atom *asyc = NULL;
- 	struct drm_connector_state *conns;
- 	struct drm_connector *conn;
--	int i;
-+	int i, ret;
- 
- 	NV_ATOMIC(drm, "%s atomic_check %d\n", crtc->name, asyh->state.active);
- 	if (asyh->state.active) {
-@@ -408,6 +414,10 @@ nv50_head_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state)
- 		asyh->set.curs = asyh->curs.visible;
- 	}
- 
-+	ret = nv50_crc_atomic_check(head, asyh, armh);
-+	if (ret)
-+		return ret;
-+
- 	if (asyh->clr.mask || asyh->set.mask)
- 		nv50_atom(asyh->state.state)->lock_core = true;
- 	return 0;
-@@ -446,6 +456,7 @@ nv50_head_atomic_duplicate_state(struct drm_crtc *crtc)
- 	asyh->ovly = armh->ovly;
- 	asyh->dither = armh->dither;
- 	asyh->procamp = armh->procamp;
-+	asyh->crc = armh->crc;
- 	asyh->or = armh->or;
- 	asyh->dp = armh->dp;
- 	asyh->clr.mask = 0;
-@@ -467,10 +478,18 @@ nv50_head_reset(struct drm_crtc *crtc)
- 	__drm_atomic_helper_crtc_reset(crtc, &asyh->state);
- }
- 
-+static int
-+nv50_head_late_register(struct drm_crtc *crtc)
-+{
-+	return nv50_head_crc_late_register(nv50_head(crtc));
-+}
-+
- static void
- nv50_head_destroy(struct drm_crtc *crtc)
- {
- 	struct nv50_head *head = nv50_head(crtc);
-+
-+	nvif_notify_fini(&head->base.vblank);
- 	nv50_lut_fini(&head->olut);
- 	drm_crtc_cleanup(crtc);
- 	kfree(head);
-@@ -488,8 +507,38 @@ nv50_head_func = {
- 	.enable_vblank = nouveau_display_vblank_enable,
- 	.disable_vblank = nouveau_display_vblank_disable,
- 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.late_register = nv50_head_late_register,
-+};
-+
-+static const struct drm_crtc_funcs
-+nvd9_head_func = {
-+	.reset = nv50_head_reset,
-+	.gamma_set = drm_atomic_helper_legacy_gamma_set,
-+	.destroy = nv50_head_destroy,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = nv50_head_atomic_duplicate_state,
-+	.atomic_destroy_state = nv50_head_atomic_destroy_state,
-+	.enable_vblank = nouveau_display_vblank_enable,
-+	.disable_vblank = nouveau_display_vblank_disable,
-+	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.verify_crc_source = nv50_crc_verify_source,
-+	.get_crc_sources = nv50_crc_get_sources,
-+	.set_crc_source = nv50_crc_set_source,
-+	.late_register = nv50_head_late_register,
- };
- 
-+static int nv50_head_vblank_handler(struct nvif_notify *notify)
-+{
-+	struct nouveau_crtc *nv_crtc =
-+		container_of(notify, struct nouveau_crtc, vblank);
-+
-+	if (drm_crtc_handle_vblank(&nv_crtc->base))
-+		nv50_crc_handle_vblank(nv50_head(&nv_crtc->base));
-+
-+	return NVIF_NOTIFY_KEEP;
-+}
-+
- struct nv50_head *
- nv50_head_create(struct drm_device *dev, int index)
- {
-@@ -497,7 +546,9 @@ nv50_head_create(struct drm_device *dev, int index)
- 	struct nv50_disp *disp = nv50_disp(dev);
- 	struct nv50_head *head;
- 	struct nv50_wndw *base, *ovly, *curs;
-+	struct nouveau_crtc *nv_crtc;
- 	struct drm_crtc *crtc;
-+	const struct drm_crtc_funcs *funcs;
- 	int ret;
- 
- 	head = kzalloc(sizeof(*head), GFP_KERNEL);
-@@ -507,6 +558,11 @@ nv50_head_create(struct drm_device *dev, int index)
- 	head->func = disp->core->func->head;
- 	head->base.index = index;
- 
-+	if (disp->disp->object.oclass < GF110_DISP)
-+		funcs = &nv50_head_func;
-+	else
-+		funcs = &nvd9_head_func;
-+
- 	if (disp->disp->object.oclass < GV100_DISP) {
- 		ret = nv50_base_new(drm, head->base.index, &base);
- 		if (ret)
-@@ -531,9 +587,10 @@ nv50_head_create(struct drm_device *dev, int index)
- 	if (ret)
- 		goto fail_free;
- 
--	crtc = &head->base.base;
-+	nv_crtc = &head->base;
-+	crtc = &nv_crtc->base;
- 	drm_crtc_init_with_planes(dev, crtc, &base->plane, &curs->plane,
--				  &nv50_head_func, "head-%d", head->base.index);
-+				  funcs, "head-%d", head->base.index);
- 	drm_crtc_helper_add(crtc, &nv50_head_help);
- 	/* Keep the legacy gamma size at 256 to avoid compatibility issues */
- 	drm_mode_crtc_set_gamma_size(crtc, 256);
-@@ -547,8 +604,22 @@ nv50_head_create(struct drm_device *dev, int index)
- 			goto fail_crtc_cleanup;
- 	}
- 
-+	ret = nvif_notify_init(&disp->disp->object, nv50_head_vblank_handler,
-+			       false, NV04_DISP_NTFY_VBLANK,
-+			       &(struct nvif_notify_head_req_v0) {
-+				    .head = nv_crtc->index,
-+			       },
-+			       sizeof(struct nvif_notify_head_req_v0),
-+			       sizeof(struct nvif_notify_head_rep_v0),
-+			       &nv_crtc->vblank);
-+	if (ret)
-+		goto fail_lut_fini;
-+
- 	return head;
- 
-+fail_lut_fini:
-+	if (head->func->olut_set)
-+		nv50_lut_fini(&head->olut);
- fail_crtc_cleanup:
- 	drm_crtc_cleanup(crtc);
- fail_free:
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.h b/drivers/gpu/drm/nouveau/dispnv50/head.h
-index c05bbba9e247c..30501ad1824ec 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.h
-@@ -1,22 +1,28 @@
- #ifndef __NV50_KMS_HEAD_H__
- #define __NV50_KMS_HEAD_H__
- #define nv50_head(c) container_of((c), struct nv50_head, base.base)
-+#include <linux/workqueue.h>
-+
- #include "disp.h"
- #include "atom.h"
-+#include "crc.h"
- #include "lut.h"
- 
- #include "nouveau_crtc.h"
-+#include "nouveau_encoder.h"
- 
- struct nv50_head {
- 	const struct nv50_head_func *func;
- 	struct nouveau_crtc base;
-+	struct nv50_crc crc;
- 	struct nv50_lut olut;
- 	struct nv50_msto *msto;
- };
- 
- struct nv50_head *nv50_head_create(struct drm_device *, int index);
--void nv50_head_flush_set(struct nv50_head *, struct nv50_head_atom *);
--void nv50_head_flush_clr(struct nv50_head *, struct nv50_head_atom *, bool y);
-+void nv50_head_flush_set(struct nv50_head *head, struct nv50_head_atom *asyh);
-+void nv50_head_flush_clr(struct nv50_head *head,
-+			 struct nv50_head_atom *asyh, bool flush);
- 
- struct nv50_head_func {
- 	void (*view)(struct nv50_head *, struct nv50_head_atom *);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head907d.c b/drivers/gpu/drm/nouveau/dispnv50/head907d.c
-index 3002ec23d7a6f..63a0b45d96d63 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head907d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head907d.c
-@@ -19,8 +19,15 @@
-  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-  * OTHER DEALINGS IN THE SOFTWARE.
-  */
-+#include <drm/drm_connector.h>
-+#include <drm/drm_mode_config.h>
-+#include <drm/drm_vblank.h>
-+#include "nouveau_drv.h"
-+#include "nouveau_bios.h"
-+#include "nouveau_connector.h"
- #include "head.h"
- #include "core.h"
-+#include "crc.h"
- 
- void
- head907d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
-@@ -29,9 +36,10 @@ head907d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
- 	u32 *push;
- 	if ((push = evo_wait(core, 3))) {
- 		evo_mthd(push, 0x0404 + (head->base.index * 0x300), 2);
--		evo_data(push, 0x00000001 | asyh->or.depth  << 6 |
--					    asyh->or.nvsync << 4 |
--					    asyh->or.nhsync << 3);
-+		evo_data(push, asyh->or.depth  << 6 |
-+			       asyh->or.nvsync << 4 |
-+			       asyh->or.nhsync << 3 |
-+			       asyh->or.crc_raster);
- 		evo_data(push, 0x31ec6000 | head->base.index << 25 |
- 					    asyh->mode.interlace);
- 		evo_kick(push, core);
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc37d.c b/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
-index c2619652ff2ee..35fcdf8825b5a 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
-@@ -46,10 +46,10 @@ headc37d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
- 		}
- 
- 		evo_mthd(push, 0x2004 + (head->base.index * 0x400), 1);
--		evo_data(push, 0x00000001 |
--			       asyh->or.depth << 4 |
-+		evo_data(push, depth << 4 |
- 			       asyh->or.nvsync << 3 |
--			       asyh->or.nhsync << 2);
-+			       asyh->or.nhsync << 2 |
-+			       asyh->or.crc_raster);
- 		evo_kick(push, core);
- 	}
- }
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-index 1c1887749f4c5..c7d04dd935fdf 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-@@ -46,10 +46,11 @@ headc57d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
- 		}
- 
- 		evo_mthd(push, 0x2004 + (head->base.index * 0x400), 1);
--		evo_data(push, 0xfc000001 |
--			       asyh->or.depth << 4 |
-+		evo_data(push, 0xfc000000 |
-+			       depth << 4 |
- 			       asyh->or.nvsync << 3 |
--			       asyh->or.nhsync << 2);
-+			       asyh->or.nhsync << 2 |
-+			       asyh->or.crc_raster);
- 		evo_kick(push, core);
- 	}
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 901ac55506d65..657554cf011ee 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -44,15 +44,7 @@
- #include <nvif/class.h>
- #include <nvif/cl0046.h>
- #include <nvif/event.h>
--
--static int
--nouveau_display_vblank_handler(struct nvif_notify *notify)
--{
--	struct nouveau_crtc *nv_crtc =
--		container_of(notify, typeof(*nv_crtc), vblank);
--	drm_crtc_handle_vblank(&nv_crtc->base);
--	return NVIF_NOTIFY_KEEP;
--}
-+#include <dispnv50/crc.h>
- 
- int
- nouveau_display_vblank_enable(struct drm_crtc *crtc)
-@@ -136,50 +128,6 @@ nouveau_display_scanoutpos(struct drm_crtc *crtc,
- 					       stime, etime);
- }
- 
--static void
--nouveau_display_vblank_fini(struct drm_device *dev)
--{
--	struct drm_crtc *crtc;
--
--	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
--		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
--		nvif_notify_fini(&nv_crtc->vblank);
--	}
--}
--
--static int
--nouveau_display_vblank_init(struct drm_device *dev)
--{
--	struct nouveau_display *disp = nouveau_display(dev);
--	struct drm_crtc *crtc;
--	int ret;
--
--	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
--		struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
--		ret = nvif_notify_init(&disp->disp.object,
--				       nouveau_display_vblank_handler, false,
--				       NV04_DISP_NTFY_VBLANK,
--				       &(struct nvif_notify_head_req_v0) {
--					.head = nv_crtc->index,
--				       },
--				       sizeof(struct nvif_notify_head_req_v0),
--				       sizeof(struct nvif_notify_head_rep_v0),
--				       &nv_crtc->vblank);
--		if (ret) {
--			nouveau_display_vblank_fini(dev);
--			return ret;
--		}
--	}
--
--	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
--	if (ret) {
--		nouveau_display_vblank_fini(dev);
--		return ret;
--	}
--
--	return 0;
--}
--
- static const struct drm_framebuffer_funcs nouveau_framebuffer_funcs = {
- 	.destroy = drm_gem_fb_destroy,
- 	.create_handle = drm_gem_fb_create_handle,
-@@ -705,9 +653,12 @@ nouveau_display_create(struct drm_device *dev)
- 	drm_mode_config_reset(dev);
- 
- 	if (dev->mode_config.num_crtc) {
--		ret = nouveau_display_vblank_init(dev);
-+		ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
- 		if (ret)
- 			goto vblank_err;
-+
-+		if (disp->disp.object.oclass >= NV50_DISP)
-+			nv50_crc_init(dev);
- 	}
- 
- 	INIT_WORK(&drm->hpd_work, nouveau_display_hpd_work);
-@@ -734,7 +685,6 @@ nouveau_display_destroy(struct drm_device *dev)
- #ifdef CONFIG_ACPI
- 	unregister_acpi_notifier(&nouveau_drm(dev)->acpi_nb);
- #endif
--	nouveau_display_vblank_fini(dev);
- 
- 	drm_kms_helper_poll_fini(dev);
- 	drm_mode_config_cleanup(dev);
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXQgbGVhc3QgZm9yIHRoZSB2bXdnZnggYml0cywgbm8gb2JqZWN0aW9ucyBoZXJlLApSZXZpZXdl
+ZC1ieTogUm9sYW5kIFNjaGVpZGVnZ2VyIDxzcm9sYW5kQHZtd2FyZS5jb20+CgpBbSAyMS4wNi4y
+MCB1bSAwNDowNyBzY2hyaWViIExhdXJlbnQgUGluY2hhcnQ6Cj4gTW9zdCBvZiB0aGUgRFJNIGRy
+aXZlcnMgdUFQSSBoZWFkZXJzIGFyZSBsaWNlbnNlZCB1bmRlciB0aGUgTUlUIGxpY2Vuc2UsCj4g
+YW5kIGNhcnJ5IGNvcGllcyBvZiB0aGUgbGljZW5zZSB3aXRoIHNsaWdodCB2YXJpYXRpb25zLiBS
+ZXBsYWNlIHRoZW0KPiB3aXRoIFNQRFggaGVhZGVycy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMYXVy
+ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4K
+PiAtLS0KPiAgaW5jbHVkZS91YXBpL2RybS9hbWRncHVfZHJtLmggIHwgMTkgKy0tLS0tLS0tLS0t
+LS0tLS0tLQo+ICBpbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmggICAgfCAyMiArLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vbWdhX2RybS5oICAgICB8IDIwICstLS0t
+LS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vbXNtX2RybS5oICAgICB8IDIwICst
+LS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vbm91dmVhdV9kcm0uaCB8IDIw
+ICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vcXhsX2RybS5oICAgICB8
+IDIwICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vcjEyOF9kcm0uaCAg
+ICB8IDIwICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vcmFkZW9uX2Ry
+bS5oICB8IDIwICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vc2F2YWdl
+X2RybS5oICB8IDIwICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9kcm0vc2lz
+X2RybS5oICAgICB8IDIxICstLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICBpbmNsdWRlL3VhcGkvZHJt
+L3RlZ3JhX2RybS5oICAgfCAxOSArLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFwaS9k
+cm0vdjNkX2RybS5oICAgICB8IDIwICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUvdWFw
+aS9kcm0vdmM0X2RybS5oICAgICB8IDIwICstLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGluY2x1ZGUv
+dWFwaS9kcm0vdmdlbV9kcm0uaCAgICB8IDIyICstLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgaW5j
+bHVkZS91YXBpL2RybS92aWFfZHJtLmggICAgIHwgMjAgKy0tLS0tLS0tLS0tLS0tLS0tLS0KPiAg
+aW5jbHVkZS91YXBpL2RybS92aXJ0Z3B1X2RybS5oIHwgMjAgKy0tLS0tLS0tLS0tLS0tLS0tLS0K
+PiAgaW5jbHVkZS91YXBpL2RybS92bXdnZnhfZHJtLmggIHwgMjEgKy0tLS0tLS0tLS0tLS0tLS0t
+LS0tCj4gIDE3IGZpbGVzIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKyksIDMyNyBkZWxldGlvbnMo
+LSkKPiAKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9hbWRncHVfZHJtLmggYi9pbmNs
+dWRlL3VhcGkvZHJtL2FtZGdwdV9kcm0uaAo+IGluZGV4IDRlODczZGNiZTY4Zi4uYzZhZGRhNzJi
+ZWM3IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vYW1kZ3B1X2RybS5oCj4gKysrIGIv
+aW5jbHVkZS91YXBpL2RybS9hbWRncHVfZHJtLmgKPiBAQCAtMSwzICsxLDQgQEAKPiArLyogU1BE
+WC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVCAqLwo+ICAvKiBhbWRncHVfZHJtLmggLS0gUHVibGlj
+IGhlYWRlciBmb3IgdGhlIGFtZGdwdSBkcml2ZXIgLSotIGxpbnV4LWMgLSotCj4gICAqCj4gICAq
+IENvcHlyaWdodCAyMDAwIFByZWNpc2lvbiBJbnNpZ2h0LCBJbmMuLCBDZWRhciBQYXJrLCBUZXhh
+cy4KPiBAQCAtNSwyNCArNiw2IEBACj4gICAqIENvcHlyaWdodCAyMDAyIFR1bmdzdGVuIEdyYXBo
+aWNzLCBJbmMuLCBDZWRhciBQYXJrLCBUZXhhcy4KPiAgICogQ29weXJpZ2h0IDIwMTQgQWR2YW5j
+ZWQgTWljcm8gRGV2aWNlcywgSW5jLgo+ICAgKgo+IC0gKiBQZXJtaXNzaW9uIGlzIGhlcmVieSBn
+cmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQo+IC0gKiBj
+b3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAo
+dGhlICJTb2Z0d2FyZSIpLAo+IC0gKiB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJl
+c3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uCj4gLSAqIHRoZSByaWdodHMg
+dG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmlidXRlLCBzdWJsaWNl
+bnNlLAo+IC0gKiBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVy
+bWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKPiAtICogU29mdHdhcmUgaXMgZnVybmlzaGVkIHRvIGRv
+IHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKPiAtICoKPiAtICogVGhl
+IGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwg
+YmUgaW5jbHVkZWQgaW4KPiAtICogYWxsIGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBv
+ZiB0aGUgU29mdHdhcmUuCj4gLSAqCj4gLSAqIFRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMg
+SVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIE9SCj4gLSAqIElNUExJ
+RUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hB
+TlRBQklMSVRZLAo+IC0gKiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9O
+SU5GUklOR0VNRU5ULiAgSU4gTk8gRVZFTlQgU0hBTEwKPiAtICogVEhFIENPUFlSSUdIVCBIT0xE
+RVIoUykgT1IgQVVUSE9SKFMpIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VTIE9SCj4g
+LSAqIE9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRP
+UlQgT1IgT1RIRVJXSVNFLAo+IC0gKiBBUklTSU5HIEZST00sIE9VVCBPRiBPUiBJTiBDT05ORUNU
+SU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IKPiAtICogT1RIRVIgREVBTElOR1Mg
+SU4gVEhFIFNPRlRXQVJFLgo+IC0gKgo+ICAgKiBBdXRob3JzOgo+ICAgKiAgICBLZXZpbiBFLiBN
+YXJ0aW4gPG1hcnRpbkB2YWxpbnV4LmNvbT4KPiAgICogICAgR2FyZXRoIEh1Z2hlcyA8Z2FyZXRo
+QHZhbGludXguY29tPgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmgg
+Yi9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmgKPiBpbmRleCAxNGI2N2NkNmI1NGIuLmMyOWUz
+YWNiMzAyNiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmgKPiArKysg
+Yi9pbmNsdWRlL3VhcGkvZHJtL2k5MTVfZHJtLmgKPiBAQCAtMSwyNyArMSw3IEBACj4gKy8qIFNQ
+RFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQgKi8KPiAgLyoKPiAgICogQ29weXJpZ2h0IDIwMDMg
+VHVuZ3N0ZW4gR3JhcGhpY3MsIEluYy4sIENlZGFyIFBhcmssIFRleGFzLgo+ICAgKiBBbGwgUmln
+aHRzIFJlc2VydmVkLgo+IC0gKgo+IC0gKiBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBm
+cmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQo+IC0gKiBjb3B5IG9mIHRo
+aXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlCj4gLSAq
+ICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9u
+LCBpbmNsdWRpbmcKPiAtICogd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHMgdG8gdXNlLCBj
+b3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLAo+IC0gKiBkaXN0cmlidXRlLCBzdWIgbGljZW5z
+ZSwgYW5kL29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvCj4gLSAqIHBlcm1p
+dCBwZXJzb25zIHRvIHdob20gdGhlIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3Vi
+amVjdCB0bwo+IC0gKiB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRoZSBh
+Ym92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNsdWRp
+bmcgdGhlCj4gLSAqIG5leHQgcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29w
+aWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zCj4gLSAqIG9mIHRoZSBTb2Z0d2FyZS4KPiAtICoK
+PiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkg
+T0YgQU5ZIEtJTkQsIEVYUFJFU1MKPiAtICogT1IgSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1Qg
+TElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRgo+IC0gKiBNRVJDSEFOVEFCSUxJVFksIEZJVE5F
+U1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT04tSU5GUklOR0VNRU5ULgo+IC0gKiBJ
+TiBOTyBFVkVOVCBTSEFMTCBUVU5HU1RFTiBHUkFQSElDUyBBTkQvT1IgSVRTIFNVUFBMSUVSUyBC
+RSBMSUFCTEUgRk9SCj4gLSAqIEFOWSBDTEFJTSwgREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFks
+IFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULAo+IC0gKiBUT1JUIE9SIE9USEVSV0lT
+RSwgQVJJU0lORyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRQo+IC0gKiBT
+T0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KPiAt
+ICoKPiAgICovCj4gIAo+ICAjaWZuZGVmIF9VQVBJX0k5MTVfRFJNX0hfCj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvdWFwaS9kcm0vbWdhX2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS9tZ2FfZHJtLmgK
+PiBpbmRleCA4YzQzMzc1NDhhYjUuLjQ0MTVlZmVmZTBjZiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRl
+L3VhcGkvZHJtL21nYV9kcm0uaAo+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vbWdhX2RybS5oCj4g
+QEAgLTEsMyArMSw0IEBACj4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQgKi8KPiAg
+LyogbWdhX2RybS5oIC0tIFB1YmxpYyBoZWFkZXIgZm9yIHRoZSBNYXRyb3ggZzIwMC9nNDAwIGRy
+aXZlciAtKi0gbGludXgtYyAtKi0KPiAgICogQ3JlYXRlZDogVHVlIEphbiAyNSAwMTo1MDowMSAx
+OTk5IGJ5IGpoYXJ0bWFubkBwcmVjaXNpb25pbnNpZ2h0LmNvbQo+ICAgKgo+IEBAIC01LDI1ICs2
+LDYgQEAKPiAgICogQ29weXJpZ2h0IDIwMDAgVkEgTGludXggU3lzdGVtcywgSW5jLiwgU3Vubnl2
+YWxlLCBDYWxpZm9ybmlhLgo+ICAgKiBBbGwgcmlnaHRzIHJlc2VydmVkLgo+ICAgKgo+IC0gKiBQ
+ZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNv
+biBvYnRhaW5pbmcgYQo+IC0gKiBjb3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQg
+ZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLAo+IC0gKiB0byBkZWFsIGluIHRo
+ZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0
+aW9uCj4gLSAqIHRoZSByaWdodHMgdG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNo
+LCBkaXN0cmlidXRlLCBzdWJsaWNlbnNlLAo+IC0gKiBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhl
+IFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKPiAtICogU29mdHdh
+cmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0
+aW9uczoKPiAtICoKPiAtICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVy
+bWlzc2lvbiBub3RpY2UgKGluY2x1ZGluZyB0aGUgbmV4dAo+IC0gKiBwYXJhZ3JhcGgpIHNoYWxs
+IGJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhl
+Cj4gLSAqIFNvZnR3YXJlLgo+IC0gKgo+IC0gKiBUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFT
+IElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgo+IC0gKiBJTVBM
+SUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNI
+QU5UQUJJTElUWSwKPiAtICogRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5P
+TklORlJJTkdFTUVOVC4gIElOIE5PIEVWRU5UIFNIQUxMCj4gLSAqIFZBIExJTlVYIFNZU1RFTVMg
+QU5EL09SIElUUyBTVVBQTElFUlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IK
+PiAtICogT1RIRVIgTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwg
+VE9SVCBPUiBPVEhFUldJU0UsCj4gLSAqIEFSSVNJTkcgRlJPTSwgT1VUIE9GIE9SIElOIENPTk5F
+Q1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUgo+IC0gKiBPVEhFUiBERUFMSU5H
+UyBJTiBUSEUgU09GVFdBUkUuCj4gLSAqCj4gICAqIEF1dGhvcnM6Cj4gICAqICAgIEplZmYgSGFy
+dG1hbm4gPGpoYXJ0bWFubkB2YWxpbnV4LmNvbT4KPiAgICogICAgS2VpdGggV2hpdHdlbGwgPGtl
+aXRoQHR1bmdzdGVuZ3JhcGhpY3MuY29tPgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJt
+L21zbV9kcm0uaCBiL2luY2x1ZGUvdWFwaS9kcm0vbXNtX2RybS5oCj4gaW5kZXggMGI4NWVkNmEz
+NzEwLi4xODlkMWE3ZjdhN2IgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS91YXBpL2RybS9tc21fZHJt
+LmgKPiArKysgYi9pbmNsdWRlL3VhcGkvZHJtL21zbV9kcm0uaAo+IEBAIC0xLDI1ICsxLDcgQEAK
+PiArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVCAqLwo+ICAvKgo+ICAgKiBDb3B5cmln
+aHQgKEMpIDIwMTMgUmVkIEhhdAo+ICAgKiBBdXRob3I6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdt
+YWlsLmNvbT4KPiAtICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBv
+ZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICogY29weSBvZiB0aGlzIHNv
+ZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUi
+KSwKPiAtICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5j
+bHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRzIHRvIHVzZSwgY29weSwg
+bW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwKPiAtICogYW5k
+L29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25zIHRv
+IHdob20gdGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0
+byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRoZSBhYm92ZSBjb3B5cmln
+aHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNsdWRpbmcgdGhlIG5leHQK
+PiAtICogcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0
+YW50aWFsIHBvcnRpb25zIG9mIHRoZQo+IC0gKiBTb2Z0d2FyZS4KPiAtICoKPiAtICogVEhFIFNP
+RlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQs
+IEVYUFJFU1MgT1IKPiAtICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBU
+SEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gLSAqIEZJVE5FU1MgRk9SIEEgUEFS
+VElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFMTAo+
+IC0gKiBUSEUgQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBD
+TEFJTSwgREFNQUdFUyBPUiBPVEhFUgo+IC0gKiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNU
+SU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORyBGUk9NLAo+IC0gKiBP
+VVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9U
+SEVSIERFQUxJTkdTIElOIFRIRQo+IC0gKiBTT0ZUV0FSRS4KPiAgICovCj4gIAo+ICAjaWZuZGVm
+IF9fTVNNX0RSTV9IX18KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9ub3V2ZWF1X2Ry
+bS5oIGIvaW5jbHVkZS91YXBpL2RybS9ub3V2ZWF1X2RybS5oCj4gaW5kZXggODUzYTMyNzQzM2Qz
+Li41NTUyODNiNDkwODAgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS91YXBpL2RybS9ub3V2ZWF1X2Ry
+bS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9ub3V2ZWF1X2RybS5oCj4gQEAgLTEsMjUgKzEs
+NyBAQAo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUICovCj4gIC8qCj4gICAqIENv
+cHlyaWdodCAyMDA1IFN0ZXBoYW5lIE1hcmNoZXNpbi4KPiAgICogQWxsIFJpZ2h0cyBSZXNlcnZl
+ZC4KPiAtICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFy
+Z2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICogY29weSBvZiB0aGlzIHNvZnR3YXJl
+IGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwKPiAt
+ICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5n
+IHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRzIHRvIHVzZSwgY29weSwgbW9kaWZ5
+LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwKPiAtICogYW5kL29yIHNl
+bGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25zIHRvIHdob20g
+dGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUg
+Zm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90
+aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNsdWRpbmcgdGhlIG5leHQKPiAtICog
+cGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50aWFs
+IHBvcnRpb25zIG9mIHRoZQo+IC0gKiBTb2Z0d2FyZS4KPiAtICoKPiAtICogVEhFIFNPRlRXQVJF
+IElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJF
+U1MgT1IKPiAtICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FS
+UkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gLSAqIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxB
+UiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFMTAo+IC0gKiBW
+QSBMSU5VWCBTWVNURU1TIEFORC9PUiBJVFMgU1VQUExJRVJTIEJFIExJQUJMRSBGT1IgQU5ZIENM
+QUlNLCBEQU1BR0VTIE9SCj4gLSAqIE9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJ
+T04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLAo+IC0gKiBBUklTSU5HIEZST00sIE9V
+VCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IKPiAt
+ICogT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgo+ICAgKi8KPiAgCj4gICNpZm5kZWYg
+X19OT1VWRUFVX0RSTV9IX18KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9xeGxfZHJt
+LmggYi9pbmNsdWRlL3VhcGkvZHJtL3F4bF9kcm0uaAo+IGluZGV4IDg4MDk5OWQyZDg2My4uOWZi
+Zjk3YWQ3MjcyIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vcXhsX2RybS5oCj4gKysr
+IGIvaW5jbHVkZS91YXBpL2RybS9xeGxfZHJtLmgKPiBAQCAtMSwyNSArMSw3IEBACj4gKy8qIFNQ
+RFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQgKi8KPiAgLyoKPiAgICogQ29weXJpZ2h0IDIwMTMg
+UmVkIEhhdAo+ICAgKiBBbGwgUmlnaHRzIFJlc2VydmVkLgo+IC0gKgo+IC0gKiBQZXJtaXNzaW9u
+IGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5p
+bmcgYQo+IC0gKiBjb3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRh
+dGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLAo+IC0gKiB0byBkZWFsIGluIHRoZSBTb2Z0d2Fy
+ZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uCj4gLSAq
+IHRoZSByaWdodHMgdG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmli
+dXRlLCBzdWJsaWNlbnNlLAo+IC0gKiBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJl
+LCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKPiAtICogU29mdHdhcmUgaXMgZnVy
+bmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKPiAt
+ICoKPiAtICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBu
+b3RpY2UgKGluY2x1ZGluZyB0aGUgbmV4dAo+IC0gKiBwYXJhZ3JhcGgpIHNoYWxsIGJlIGluY2x1
+ZGVkIGluIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlCj4gLSAqIFNv
+ZnR3YXJlLgo+IC0gKgo+IC0gKiBUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lU
+SE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgo+IC0gKiBJTVBMSUVELCBJTkNM
+VURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElU
+WSwKPiAtICogRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdF
+TUVOVC4gIElOIE5PIEVWRU5UIFNIQUxMCj4gLSAqIFRIRSBBVVRIT1JTIEFORC9PUiBJVFMgU1VQ
+UExJRVJTIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VTIE9SCj4gLSAqIE9USEVSIExJ
+QUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJX
+SVNFLAo+IC0gKiBBUklTSU5HIEZST00sIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhF
+IFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IKPiAtICogT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRX
+QVJFLgo+ICAgKi8KPiAgI2lmbmRlZiBRWExfRFJNX0gKPiAgI2RlZmluZSBRWExfRFJNX0gKPiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9yMTI4X2RybS5oIGIvaW5jbHVkZS91YXBpL2Ry
+bS9yMTI4X2RybS5oCj4gaW5kZXggNjkwZTljNjJmNTEwLi5jNDI2ZTZhMWM4NDMgMTAwNjQ0Cj4g
+LS0tIGEvaW5jbHVkZS91YXBpL2RybS9yMTI4X2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2Ry
+bS9yMTI4X2RybS5oCj4gQEAgLTEsMyArMSw0IEBACj4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlm
+aWVyOiBNSVQgKi8KPiAgLyogcjEyOF9kcm0uaCAtLSBQdWJsaWMgaGVhZGVyIGZvciB0aGUgcjEy
+OCBkcml2ZXIgLSotIGxpbnV4LWMgLSotCj4gICAqIENyZWF0ZWQ6IFdlZCBBcHIgIDUgMTk6MjQ6
+MTkgMjAwMCBieSBrZXZpbkBwcmVjaXNpb25pbnNpZ2h0LmNvbQo+ICAgKi8KPiBAQCAtNiwyNSAr
+Nyw2IEBACj4gICAqIENvcHlyaWdodCAyMDAwIFZBIExpbnV4IFN5c3RlbXMsIEluYy4sIFN1bm55
+dmFsZSwgQ2FsaWZvcm5pYS4KPiAgICogQWxsIHJpZ2h0cyByZXNlcnZlZC4KPiAgICoKPiAtICog
+UGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJz
+b24gb2J0YWluaW5nIGEKPiAtICogY29weSBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVk
+IGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwKPiAtICogdG8gZGVhbCBpbiB0
+aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRh
+dGlvbgo+IC0gKiB0aGUgcmlnaHRzIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlz
+aCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwKPiAtICogYW5kL29yIHNlbGwgY29waWVzIG9mIHRo
+ZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25zIHRvIHdob20gdGhlCj4gLSAqIFNvZnR3
+YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRp
+dGlvbnM6Cj4gLSAqCj4gLSAqIFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBl
+cm1pc3Npb24gbm90aWNlIChpbmNsdWRpbmcgdGhlIG5leHQKPiAtICogcGFyYWdyYXBoKSBzaGFs
+bCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRo
+ZQo+IC0gKiBTb2Z0d2FyZS4KPiAtICoKPiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJB
+UyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKPiAtICogSU1Q
+TElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJD
+SEFOVEFCSUxJVFksCj4gLSAqIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBO
+T05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFMTAo+IC0gKiBQUkVDSVNJT04gSU5TSUdI
+VCBBTkQvT1IgSVRTIFNVUFBMSUVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBP
+Ugo+IC0gKiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNU
+LCBUT1JUIE9SIE9USEVSV0lTRSwKPiAtICogQVJJU0lORyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09O
+TkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSCj4gLSAqIERFQUxJ
+TkdTIElOIFRIRSBTT0ZUV0FSRS4KPiAtICoKPiAgICogQXV0aG9yczoKPiAgICogICAgR2FyZXRo
+IEh1Z2hlcyA8Z2FyZXRoQHZhbGludXguY29tPgo+ICAgKiAgICBLZXZpbiBFLiBNYXJ0aW4gPG1h
+cnRpbkB2YWxpbnV4LmNvbT4KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9yYWRlb25f
+ZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJtL3JhZGVvbl9kcm0uaAo+IGluZGV4IDQ5MGE1OWNjNDUz
+Mi4uYjVjNGVmODEzYTllIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vcmFkZW9uX2Ry
+bS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9yYWRlb25fZHJtLmgKPiBAQCAtMSwzICsxLDQg
+QEAKPiArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVCAqLwo+ICAvKiByYWRlb25fZHJt
+LmggLS0gUHVibGljIGhlYWRlciBmb3IgdGhlIHJhZGVvbiBkcml2ZXIgLSotIGxpbnV4LWMgLSot
+Cj4gICAqCj4gICAqIENvcHlyaWdodCAyMDAwIFByZWNpc2lvbiBJbnNpZ2h0LCBJbmMuLCBDZWRh
+ciBQYXJrLCBUZXhhcy4KPiBAQCAtNSwyNSArNiw2IEBACj4gICAqIENvcHlyaWdodCAyMDAyIFR1
+bmdzdGVuIEdyYXBoaWNzLCBJbmMuLCBDZWRhciBQYXJrLCBUZXhhcy4KPiAgICogQWxsIHJpZ2h0
+cyByZXNlcnZlZC4KPiAgICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJl
+ZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICogY29weSBvZiB0aGlz
+IHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdh
+cmUiKSwKPiAtICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwg
+aW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRzIHRvIHVzZSwgY29w
+eSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwKPiAtICog
+YW5kL29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25z
+IHRvIHdob20gdGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVj
+dCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRoZSBhYm92ZSBjb3B5
+cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNsdWRpbmcgdGhlIG5l
+eHQKPiAtICogcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1
+YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZQo+IC0gKiBTb2Z0d2FyZS4KPiAtICoKPiAtICogVEhF
+IFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJ
+TkQsIEVYUFJFU1MgT1IKPiAtICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBU
+TyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gLSAqIEZJVE5FU1MgRk9SIEEg
+UEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFM
+TAo+IC0gKiBQUkVDSVNJT04gSU5TSUdIVCBBTkQvT1IgSVRTIFNVUFBMSUVSUyBCRSBMSUFCTEUg
+Rk9SIEFOWSBDTEFJTSwgREFNQUdFUyBPUgo+IC0gKiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIg
+SU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwKPiAtICogQVJJU0lO
+RyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUg
+VVNFIE9SIE9USEVSCj4gLSAqIERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KPiAtICoKPiAgICog
+QXV0aG9yczoKPiAgICogICAgS2V2aW4gRS4gTWFydGluIDxtYXJ0aW5AdmFsaW51eC5jb20+Cj4g
+ICAqICAgIEdhcmV0aCBIdWdoZXMgPGdhcmV0aEB2YWxpbnV4LmNvbT4KPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS91YXBpL2RybS9zYXZhZ2VfZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJtL3NhdmFnZV9k
+cm0uaAo+IGluZGV4IDBmNmVkZGVmNzRhYS4uYmQ1ZTc0MzQ4ZGI0IDEwMDY0NAo+IC0tLSBhL2lu
+Y2x1ZGUvdWFwaS9kcm0vc2F2YWdlX2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9zYXZh
+Z2VfZHJtLmgKPiBAQCAtMSwyNiArMSw4IEBACj4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
+OiBNSVQgKi8KPiAgLyogc2F2YWdlX2RybS5oIC0tIFB1YmxpYyBoZWFkZXIgZm9yIHRoZSBzYXZh
+Z2UgZHJpdmVyCj4gICAqCj4gICAqIENvcHlyaWdodCAyMDA0ICBGZWxpeCBLdWVobGluZwo+ICAg
+KiBBbGwgUmlnaHRzIFJlc2VydmVkLgo+IC0gKgo+IC0gKiBQZXJtaXNzaW9uIGlzIGhlcmVieSBn
+cmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQo+IC0gKiBj
+b3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAo
+dGhlICJTb2Z0d2FyZSIpLAo+IC0gKiB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJl
+c3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uCj4gLSAqIHRoZSByaWdodHMg
+dG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmlidXRlLCBzdWIgbGlj
+ZW5zZSwKPiAtICogYW5kL29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBl
+cm1pdCBwZXJzb25zIHRvIHdob20gdGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBk
+byBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRo
+ZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNs
+dWRpbmcgdGhlCj4gLSAqIG5leHQgcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwg
+Y29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zCj4gLSAqIG9mIHRoZSBTb2Z0d2FyZS4KPiAt
+ICoKPiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFO
+VFkgT0YgQU5ZIEtJTkQsCj4gLSAqIEVYUFJFU1MgT1IgSU1QTElFRCwgSU5DTFVESU5HIEJVVCBO
+T1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRgo+IC0gKiBNRVJDSEFOVEFCSUxJVFksIEZJ
+VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORAo+IC0gKiBOT04tSU5GUklOR0VNRU5U
+LiBJTiBOTyBFVkVOVCBTSEFMTCBGRUxJWCBLVUVITElORyBCRSBMSUFCTEUgRk9SCj4gLSAqIEFO
+WSBDTEFJTSwgREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9O
+IE9GCj4gLSAqIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORyBGUk9NLCBPVVQg
+T0YgT1IgSU4gQ09OTkVDVElPTgo+IC0gKiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9S
+IE9USEVSIERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KPiAgICovCj4gIAo+ICAjaWZuZGVmIF9f
+U0FWQUdFX0RSTV9IX18KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9zaXNfZHJtLmgg
+Yi9pbmNsdWRlL3VhcGkvZHJtL3Npc19kcm0uaAo+IGluZGV4IDNlM2Y3ZTk4OWUwYi4uOWY3ZWIx
+M2IxOTc1IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vc2lzX2RybS5oCj4gKysrIGIv
+aW5jbHVkZS91YXBpL2RybS9zaXNfZHJtLmgKPiBAQCAtMSwyNyArMSw4IEBACj4gKy8qIFNQRFgt
+TGljZW5zZS1JZGVudGlmaWVyOiBNSVQgKi8KPiAgLyogc2lzX2Rydi5oIC0tIFByaXZhdGUgaGVh
+ZGVyIGZvciBzaXMgZHJpdmVyIC0qLSBsaW51eC1jIC0qLSAqLwo+ICAvKgo+ICAgKiBDb3B5cmln
+aHQgMjAwNSBFcmljIEFuaG9sdAo+ICAgKiBBbGwgUmlnaHRzIFJlc2VydmVkLgo+IC0gKgo+IC0g
+KiBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBl
+cnNvbiBvYnRhaW5pbmcgYQo+IC0gKiBjb3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0
+ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLAo+IC0gKiB0byBkZWFsIGlu
+IHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1p
+dGF0aW9uCj4gLSAqIHRoZSByaWdodHMgdG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJs
+aXNoLCBkaXN0cmlidXRlLCBzdWJsaWNlbnNlLAo+IC0gKiBhbmQvb3Igc2VsbCBjb3BpZXMgb2Yg
+dGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKPiAtICogU29m
+dHdhcmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29u
+ZGl0aW9uczoKPiAtICoKPiAtICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMg
+cGVybWlzc2lvbiBub3RpY2UgKGluY2x1ZGluZyB0aGUgbmV4dAo+IC0gKiBwYXJhZ3JhcGgpIHNo
+YWxsIGJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2Yg
+dGhlCj4gLSAqIFNvZnR3YXJlLgo+IC0gKgo+IC0gKiBUSEUgU09GVFdBUkUgSVMgUFJPVklERUQg
+IkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgo+IC0gKiBJ
+TVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1F
+UkNIQU5UQUJJTElUWSwKPiAtICogRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5E
+IE5PTklORlJJTkdFTUVOVC4gIElOIE5PIEVWRU5UIFNIQUxMCj4gLSAqIFRIRSBBVVRIT1JTIE9S
+IENPUFlSSUdIVCBIT0xERVJTIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VTIE9SIE9U
+SEVSCj4gLSAqIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRP
+UlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sCj4gLSAqIE9VVCBPRiBPUiBJTiBDT05ORUNU
+SU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4gVEhF
+Cj4gLSAqIFNPRlRXQVJFLgo+IC0gKgo+ICAgKi8KPiAgCj4gICNpZm5kZWYgX19TSVNfRFJNX0hf
+Xwo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL3RlZ3JhX2RybS5oIGIvaW5jbHVkZS91
+YXBpL2RybS90ZWdyYV9kcm0uaAo+IGluZGV4IGM0ZGYzYzM2NjhiMy4uOThjMmYxN2FhN2RlIDEw
+MDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vdGVncmFfZHJtLmgKPiArKysgYi9pbmNsdWRl
+L3VhcGkvZHJtL3RlZ3JhX2RybS5oCj4gQEAgLTEsMjMgKzEsNiBAQAo+ICsvKiBTUERYLUxpY2Vu
+c2UtSWRlbnRpZmllcjogTUlUICovCj4gIC8qCj4gICAqIENvcHlyaWdodCAoYykgMjAxMi0yMDEz
+LCBOVklESUEgQ09SUE9SQVRJT04uICBBbGwgcmlnaHRzIHJlc2VydmVkLgo+IC0gKgo+IC0gKiBQ
+ZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNv
+biBvYnRhaW5pbmcgYQo+IC0gKiBjb3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQg
+ZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLAo+IC0gKiB0byBkZWFsIGluIHRo
+ZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0
+aW9uCj4gLSAqIHRoZSByaWdodHMgdG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNo
+LCBkaXN0cmlidXRlLCBzdWJsaWNlbnNlLAo+IC0gKiBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhl
+IFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKPiAtICogU29mdHdh
+cmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0
+aW9uczoKPiAtICoKPiAtICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVy
+bWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4KPiAtICogYWxsIGNvcGllcyBvciBz
+dWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29mdHdhcmUuCj4gLSAqCj4gLSAqIFRIRSBTT0ZU
+V0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBF
+WFBSRVNTIE9SCj4gLSAqIElNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhF
+IFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZLAo+IC0gKiBGSVRORVNTIEZPUiBBIFBBUlRJ
+Q1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiAgSU4gTk8gRVZFTlQgU0hBTEwKPiAt
+ICogVEhFIENPUFlSSUdIVCBIT0xERVIoUykgT1IgQVVUSE9SKFMpIEJFIExJQUJMRSBGT1IgQU5Z
+IENMQUlNLCBEQU1BR0VTIE9SCj4gLSAqIE9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBB
+Q1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLAo+IC0gKiBBUklTSU5HIEZST00s
+IE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IK
+PiAtICogT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgo+ICAgKi8KPiAgCj4gICNpZm5k
+ZWYgX1VBUElfVEVHUkFfRFJNX0hfCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vdjNk
+X2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS92M2RfZHJtLmgKPiBpbmRleCAxY2U3NDZlMjI4ZDku
+Ljc4OTVmYjliYzAxOCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaAo+
+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vdjNkX2RybS5oCj4gQEAgLTEsMjQgKzEsNiBAQAo+ICsv
+KiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUICovCj4gIC8qCj4gICAqIENvcHlyaWdodCDC
+qSAyMDE0LTIwMTggQnJvYWRjb20KPiAtICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3Jh
+bnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICogY29w
+eSBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRo
+ZSAiU29mdHdhcmUiKSwKPiAtICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0
+cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRzIHRv
+IHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5z
+ZSwKPiAtICogYW5kL29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1p
+dCBwZXJzb25zIHRvIHdob20gdGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBz
+bywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRoZSBh
+Ym92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNsdWRp
+bmcgdGhlIG5leHQKPiAtICogcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29w
+aWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZQo+IC0gKiBTb2Z0d2FyZS4KPiAtICoK
+PiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkg
+T0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKPiAtICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1Qg
+TElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gLSAqIEZJVE5F
+U1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBF
+VkVOVCBTSEFMTAo+IC0gKiBUSEUgQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFC
+TEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBPUiBPVEhFUgo+IC0gKiBMSUFCSUxJVFksIFdIRVRI
+RVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORwo+
+IC0gKiBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBU
+SEUgVVNFIE9SIE9USEVSIERFQUxJTkdTCj4gLSAqIElOIFRIRSBTT0ZUV0FSRS4KPiAgICovCj4g
+IAo+ICAjaWZuZGVmIF9WM0RfRFJNX0hfCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0v
+dmM0X2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS92YzRfZHJtLmgKPiBpbmRleCAyY2FjNjI3N2Ex
+ZDcuLjE0YjlhMjE4NmVhZSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL3VhcGkvZHJtL3ZjNF9kcm0u
+aAo+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vdmM0X2RybS5oCj4gQEAgLTEsMjQgKzEsNiBAQAo+
+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUICovCj4gIC8qCj4gICAqIENvcHlyaWdo
+dCDCqSAyMDE0LTIwMTUgQnJvYWRjb20KPiAtICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkg
+Z3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICog
+Y29weSBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMg
+KHRoZSAiU29mdHdhcmUiKSwKPiAtICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCBy
+ZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRz
+IHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGlj
+ZW5zZSwKPiAtICogYW5kL29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBl
+cm1pdCBwZXJzb25zIHRvIHdob20gdGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBk
+byBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRo
+ZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNs
+dWRpbmcgdGhlIG5leHQKPiAtICogcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwg
+Y29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZQo+IC0gKiBTb2Z0d2FyZS4KPiAt
+ICoKPiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFO
+VFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKPiAtICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBO
+T1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gLSAqIEZJ
+VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBO
+TyBFVkVOVCBTSEFMTAo+IC0gKiBUSEUgQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBM
+SUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBPUiBPVEhFUgo+IC0gKiBMSUFCSUxJVFksIFdI
+RVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lO
+Rwo+IC0gKiBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBP
+UiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTCj4gLSAqIElOIFRIRSBTT0ZUV0FSRS4KPiAgICov
+Cj4gIAo+ICAjaWZuZGVmIF9VQVBJX1ZDNF9EUk1fSF8KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91
+YXBpL2RybS92Z2VtX2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS92Z2VtX2RybS5oCj4gaW5kZXgg
+YmY2NmY1ZGI2ZGE4Li45NjVlMWFkMDBkY2IgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS91YXBpL2Ry
+bS92Z2VtX2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS92Z2VtX2RybS5oCj4gQEAgLTEs
+MjcgKzEsNyBAQAo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUICovCj4gIC8qCj4g
+ICAqIENvcHlyaWdodCAyMDE2IEludGVsIENvcnBvcmF0aW9uCj4gICAqIEFsbCBSaWdodHMgUmVz
+ZXJ2ZWQuCj4gLSAqCj4gLSAqIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2Yg
+Y2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhCj4gLSAqIGNvcHkgb2YgdGhpcyBzb2Z0
+d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUKPiAtICogIlNvZnR3
+YXJlIiksIHRvIGRlYWwgaW4gdGhlIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rpb24sIGluY2x1
+ZGluZwo+IC0gKiB3aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cyB0byB1c2UsIGNvcHksIG1v
+ZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsCj4gLSAqIGRpc3RyaWJ1dGUsIHN1YiBsaWNlbnNlLCBhbmQv
+b3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8KPiAtICogcGVybWl0IHBlcnNv
+bnMgdG8gd2hvbSB0aGUgU29mdHdhcmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRv
+Cj4gLSAqIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKPiAtICoKPiAtICogVGhlIGFib3ZlIGNv
+cHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2UgKGluY2x1ZGluZyB0aGUK
+PiAtICogbmV4dCBwYXJhZ3JhcGgpIHNoYWxsIGJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb3Ig
+c3Vic3RhbnRpYWwgcG9ydGlvbnMKPiAtICogb2YgdGhlIFNvZnR3YXJlLgo+IC0gKgo+IC0gKiBU
+SEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkg
+S0lORCwgRVhQUkVTUwo+IC0gKiBPUiBJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVE
+IFRPIFRIRSBXQVJSQU5USUVTIE9GCj4gLSAqIE1FUkNIQU5UQUJJTElUWSwgRklUTkVTUyBGT1Ig
+QSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTi1JTkZSSU5HRU1FTlQuCj4gLSAqIElOIE5PIEVW
+RU5UIFNIQUxMIFRVTkdTVEVOIEdSQVBISUNTIEFORC9PUiBJVFMgU1VQUExJRVJTIEJFIExJQUJM
+RSBGT1IKPiAtICogQU5ZIENMQUlNLCBEQU1BR0VTIE9SIE9USEVSIExJQUJJTElUWSwgV0hFVEhF
+UiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsCj4gLSAqIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklT
+SU5HIEZST00sIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFCj4gLSAqIFNPRlRXQVJF
+IE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgo+IC0gKgo+ICAg
+Ki8KPiAgCj4gICNpZm5kZWYgX1VBUElfVkdFTV9EUk1fSF8KPiBkaWZmIC0tZ2l0IGEvaW5jbHVk
+ZS91YXBpL2RybS92aWFfZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJtL3ZpYV9kcm0uaAo+IGluZGV4
+IGExZTEyNWQ0MjIwOC4uZDc3YTIxZTdlYjcwIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9k
+cm0vdmlhX2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS92aWFfZHJtLmgKPiBAQCAtMSwy
+NSArMSw3IEBACj4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQgKi8KPiAgLyoKPiAg
+ICogQ29weXJpZ2h0IDE5OTgtMjAwMyBWSUEgVGVjaG5vbG9naWVzLCBJbmMuIEFsbCBSaWdodHMg
+UmVzZXJ2ZWQuCj4gICAqIENvcHlyaWdodCAyMDAxLTIwMDMgUzMgR3JhcGhpY3MsIEluYy4gQWxs
+IFJpZ2h0cyBSZXNlcnZlZC4KPiAtICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRl
+ZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICogY29weSBv
+ZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAi
+U29mdHdhcmUiKSwKPiAtICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmlj
+dGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRzIHRvIHVz
+ZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3ViIGxpY2Vuc2Us
+Cj4gLSAqIGFuZC9vciBzZWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQg
+cGVyc29ucyB0byB3aG9tIHRoZQo+IC0gKiBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8gc28s
+IHN1YmplY3QgdG8gdGhlIGZvbGxvd2luZyBjb25kaXRpb25zOgo+IC0gKgo+IC0gKiBUaGUgYWJv
+dmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSAoaW5jbHVkaW5n
+IHRoZQo+IC0gKiBuZXh0IHBhcmFncmFwaCkgc2hhbGwgYmUgaW5jbHVkZWQgaW4gYWxsIGNvcGll
+cyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucwo+IC0gKiBvZiB0aGUgU29mdHdhcmUuCj4gLSAqCj4g
+LSAqIFRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9G
+IEFOWSBLSU5ELCBFWFBSRVNTIE9SCj4gLSAqIElNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJ
+TUlURUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZLAo+IC0gKiBGSVRORVNT
+IEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OLUlORlJJTkdFTUVOVC4gSU4gTk8gRVZF
+TlQgU0hBTEwKPiAtICogVklBLCBTMyBHUkFQSElDUywgQU5EL09SIElUUyBTVVBQTElFUlMgQkUg
+TElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IKPiAtICogT1RIRVIgTElBQklMSVRZLCBX
+SEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsCj4gLSAq
+IEFSSVNJTkcgRlJPTSwgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUg
+T1IgVEhFIFVTRSBPUiBPVEhFUgo+IC0gKiBERUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCj4gICAq
+Lwo+ICAjaWZuZGVmIF9WSUFfRFJNX0hfCj4gICNkZWZpbmUgX1ZJQV9EUk1fSF8KPiBkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS91YXBpL2RybS92aXJ0Z3B1X2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS92
+aXJ0Z3B1X2RybS5oCj4gaW5kZXggZjA2YTc4OWYzNGNkLi5jZWEwMzUyYmMzMTkgMTAwNjQ0Cj4g
+LS0tIGEvaW5jbHVkZS91YXBpL2RybS92aXJ0Z3B1X2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBp
+L2RybS92aXJ0Z3B1X2RybS5oCj4gQEAgLTEsMjUgKzEsNyBAQAo+ICsvKiBTUERYLUxpY2Vuc2Ut
+SWRlbnRpZmllcjogTUlUICovCj4gIC8qCj4gICAqIENvcHlyaWdodCAyMDEzIFJlZCBIYXQKPiAg
+ICogQWxsIFJpZ2h0cyBSZXNlcnZlZC4KPiAtICoKPiAtICogUGVybWlzc2lvbiBpcyBoZXJlYnkg
+Z3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiAtICog
+Y29weSBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMg
+KHRoZSAiU29mdHdhcmUiKSwKPiAtICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCBy
+ZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+IC0gKiB0aGUgcmlnaHRz
+IHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGlj
+ZW5zZSwKPiAtICogYW5kL29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBl
+cm1pdCBwZXJzb25zIHRvIHdob20gdGhlCj4gLSAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBk
+byBzbywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gLSAqCj4gLSAqIFRo
+ZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNs
+dWRpbmcgdGhlIG5leHQKPiAtICogcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwg
+Y29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZQo+IC0gKiBTb2Z0d2FyZS4KPiAt
+ICoKPiAtICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFO
+VFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKPiAtICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBO
+T1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gLSAqIEZJ
+VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBO
+TyBFVkVOVCBTSEFMTAo+IC0gKiBUSEUgQVVUSE9SUyBBTkQvT1IgSVRTIFNVUFBMSUVSUyBCRSBM
+SUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBPUgo+IC0gKiBPVEhFUiBMSUFCSUxJVFksIFdI
+RVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwKPiAtICog
+QVJJU0lORyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBP
+UiBUSEUgVVNFIE9SCj4gLSAqIE9USEVSIERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KPiAgICov
+Cj4gICNpZm5kZWYgVklSVEdQVV9EUk1fSAo+ICAjZGVmaW5lIFZJUlRHUFVfRFJNX0gKPiBkaWZm
+IC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS92bXdnZnhfZHJtLmggYi9pbmNsdWRlL3VhcGkvZHJt
+L3Ztd2dmeF9kcm0uaAo+IGluZGV4IDAyZTkxNzUwNzQ3OS4uNzI4ZTQzMmYwOWExIDEwMDY0NAo+
+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vdm13Z2Z4X2RybS5oCj4gKysrIGIvaW5jbHVkZS91YXBp
+L2RybS92bXdnZnhfZHJtLmgKPiBAQCAtMSwyOCArMSw5IEBACj4gKy8qIFNQRFgtTGljZW5zZS1J
+ZGVudGlmaWVyOiBNSVQgKi8KPiAgLyoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqCj4gICAqCj4gICAqIENvcHly
+aWdodCDCqSAyMDA5LTIwMTUgVk13YXJlLCBJbmMuLCBQYWxvIEFsdG8sIENBLiwgVVNBCj4gICAq
+IEFsbCBSaWdodHMgUmVzZXJ2ZWQuCj4gICAqCj4gLSAqIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdy
+YW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhCj4gLSAqIGNv
+cHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0
+aGUKPiAtICogIlNvZnR3YXJlIiksIHRvIGRlYWwgaW4gdGhlIFNvZnR3YXJlIHdpdGhvdXQgcmVz
+dHJpY3Rpb24sIGluY2x1ZGluZwo+IC0gKiB3aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cyB0
+byB1c2UsIGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsCj4gLSAqIGRpc3RyaWJ1dGUsIHN1
+YiBsaWNlbnNlLCBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8KPiAt
+ICogcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUgU29mdHdhcmUgaXMgZnVybmlzaGVkIHRvIGRv
+IHNvLCBzdWJqZWN0IHRvCj4gLSAqIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKPiAtICoKPiAt
+ICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ug
+KGluY2x1ZGluZyB0aGUKPiAtICogbmV4dCBwYXJhZ3JhcGgpIHNoYWxsIGJlIGluY2x1ZGVkIGlu
+IGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMKPiAtICogb2YgdGhlIFNvZnR3YXJl
+Lgo+IC0gKgo+IC0gKiBUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBX
+QVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgo+IC0gKiBJTVBMSUVELCBJTkNMVURJTkcg
+QlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSwKPiAt
+ICogRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTi1JTkZSSU5HRU1FTlQu
+IElOIE5PIEVWRU5UIFNIQUxMCj4gLSAqIFRIRSBDT1BZUklHSFQgSE9MREVSUywgQVVUSE9SUyBB
+TkQvT1IgSVRTIFNVUFBMSUVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwKPiAtICogREFNQUdF
+UyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBU
+T1JUIE9SCj4gLSAqIE9USEVSV0lTRSwgQVJJU0lORyBGUk9NLCBPVVQgT0YgT1IgSU4gQ09OTkVD
+VElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUKPiAtICogVVNFIE9SIE9USEVSIERFQUxJTkdT
+IElOIFRIRSBTT0ZUV0FSRS4KPiAtICoKPiAgICoqKioqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqLwo+ICAKPiAgI2lm
+bmRlZiBfX1ZNV0dGWF9EUk1fSF9fCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
