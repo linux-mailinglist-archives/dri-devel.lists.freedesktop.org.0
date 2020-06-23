@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7146A204C1C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 10:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990B6204C25
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 10:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 569566E96C;
-	Tue, 23 Jun 2020 08:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6666E97B;
+	Tue, 23 Jun 2020 08:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9516E973
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D88D6E978
  for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 08:19:06 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B7B70ADFF;
+ by mx2.suse.de (Postfix) with ESMTP id DDA98B01C;
  Tue, 23 Jun 2020 08:19:03 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, noralf@tronnes.org, kraxel@redhat.com,
  emil.l.velikov@gmail.com, sam@ravnborg.org, yc_chen@aspeedtech.com
-Subject: [PATCH 08/14] drm/ast: Add helper to hide cursor
-Date: Tue, 23 Jun 2020 10:18:55 +0200
-Message-Id: <20200623081901.10667-9-tzimmermann@suse.de>
+Subject: [PATCH 09/14] drm/ast: Keep cursor HW BOs mapped
+Date: Tue, 23 Jun 2020 10:18:56 +0200
+Message-Id: <20200623081901.10667-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200623081901.10667-1-tzimmermann@suse.de>
 References: <20200623081901.10667-1-tzimmermann@suse.de>
@@ -44,53 +44,171 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the inverse to ast_cursor_show(), ast_cursor_hide() disables the
-HW cursor.
+Updating the image in a cursor's HW BO requires a mapping of the BO's
+buffer in the kernel's address space. Cursor image updates can happen
+frequently and create CPU overhead.
+
+As cursor HW BOs are small and never move, they are now map exactly
+once during the initialization and the mapping is used throughout the
+driver's lifetime.
+
+This change also removes a possible source of failures from
+ast_cursor_show(). As the helper does not establish mappings, it cannot
+fail. As a result, the cursor plane's atomic-update helper does not
+call any failable interfaces. All failures are detected before trying
+to update the cursor plane.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_cursor.c | 5 +++++
- drivers/gpu/drm/ast/ast_drv.h    | 1 +
- drivers/gpu/drm/ast/ast_mode.c   | 2 +-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ast/ast_cursor.c | 44 +++++++++++++-------------------
+ drivers/gpu/drm/ast/ast_drv.h    |  5 ++--
+ 2 files changed, 21 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 8f8fdc831830..5421241015d6 100644
+index 5421241015d6..35680402e410 100644
 --- a/drivers/gpu/drm/ast/ast_cursor.c
 +++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -284,3 +284,8 @@ int ast_cursor_show(struct ast_private *ast, int x, int y,
+@@ -39,6 +39,7 @@ int ast_cursor_init(struct ast_private *ast)
+ 	struct drm_device *dev = ast->dev;
+ 	size_t size, i;
+ 	struct drm_gem_vram_object *gbo;
++	void __iomem *vaddr;
+ 	int ret;
+ 
+ 	size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+@@ -55,8 +56,16 @@ int ast_cursor_init(struct ast_private *ast)
+ 			drm_gem_vram_put(gbo);
+ 			goto err_drm_gem_vram_put;
+ 		}
++		vaddr = drm_gem_vram_vmap(gbo);
++		if (IS_ERR(vaddr)) {
++			ret = PTR_ERR(vaddr);
++			drm_gem_vram_unpin(gbo);
++			drm_gem_vram_put(gbo);
++			goto err_drm_gem_vram_put;
++		}
+ 
+ 		ast->cursor.gbo[i] = gbo;
++		ast->cursor.vaddr[i] = vaddr;
+ 	}
  
  	return 0;
+@@ -65,9 +74,11 @@ int ast_cursor_init(struct ast_private *ast)
+ 	while (i) {
+ 		--i;
+ 		gbo = ast->cursor.gbo[i];
++		drm_gem_vram_vunmap(gbo, ast->cursor.vaddr[i]);
+ 		drm_gem_vram_unpin(gbo);
+ 		drm_gem_vram_put(gbo);
+ 		ast->cursor.gbo[i] = NULL;
++		ast->cursor.vaddr[i] = NULL;
+ 	}
+ 	return ret;
  }
-+
-+void ast_cursor_hide(struct ast_private *ast)
-+{
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
-+}
+@@ -79,6 +90,7 @@ void ast_cursor_fini(struct ast_private *ast)
+ 
+ 	for (i = 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
+ 		gbo = ast->cursor.gbo[i];
++		drm_gem_vram_vunmap(gbo, ast->cursor.vaddr[i]);
+ 		drm_gem_vram_unpin(gbo);
+ 		drm_gem_vram_put(gbo);
+ 	}
+@@ -154,7 +166,7 @@ int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
+ 	struct drm_gem_vram_object *gbo;
+ 	int ret;
+ 	void *src;
+-	void *dst;
++	void __iomem *dst;
+ 
+ 	if (drm_WARN_ON_ONCE(dev, fb->width > AST_MAX_HWC_WIDTH) ||
+ 	    drm_WARN_ON_ONCE(dev, fb->height > AST_MAX_HWC_HEIGHT))
+@@ -171,28 +183,16 @@ int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
+ 		goto err_drm_gem_vram_unpin;
+ 	}
+ 
+-	dst = drm_gem_vram_vmap(ast->cursor.gbo[ast->cursor.next_index]);
+-	if (IS_ERR(dst)) {
+-		ret = PTR_ERR(dst);
+-		goto err_drm_gem_vram_vunmap_src;
+-	}
++	dst = ast->cursor.vaddr[ast->cursor.next_index];
+ 
+ 	/* do data transfer to cursor BO */
+ 	update_cursor_image(dst, src, fb->width, fb->height);
+ 
+-	/*
+-	 * Always unmap buffers here. Destination buffers are
+-	 * perma-pinned while the driver is active. We're only
+-	 * changing ref-counters here.
+-	 */
+-	drm_gem_vram_vunmap(ast->cursor.gbo[ast->cursor.next_index], dst);
+ 	drm_gem_vram_vunmap(gbo, src);
+ 	drm_gem_vram_unpin(gbo);
+ 
+ 	return 0;
+ 
+-err_drm_gem_vram_vunmap_src:
+-	drm_gem_vram_vunmap(gbo, src);
+ err_drm_gem_vram_unpin:
+ 	drm_gem_vram_unpin(gbo);
+ 	return ret;
+@@ -243,18 +243,14 @@ static void ast_cursor_set_location(struct ast_private *ast, u16 x, u16 y,
+ 	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, y1);
+ }
+ 
+-int ast_cursor_show(struct ast_private *ast, int x, int y,
+-		    unsigned int offset_x, unsigned int offset_y)
++void ast_cursor_show(struct ast_private *ast, int x, int y,
++		     unsigned int offset_x, unsigned int offset_y)
+ {
+-	struct drm_gem_vram_object *gbo;
+ 	u8 x_offset, y_offset;
+-	u8 *dst, *sig;
++	u8 __iomem *dst, __iomem *sig;
+ 	u8 jreg;
+ 
+-	gbo = ast->cursor.gbo[ast->cursor.next_index];
+-	dst = drm_gem_vram_vmap(gbo);
+-	if (IS_ERR(dst))
+-		return PTR_ERR(dst);
++	dst = ast->cursor.vaddr[ast->cursor.next_index];
+ 
+ 	sig = dst + AST_HWC_SIZE;
+ 	writel(x, sig + AST_HWC_SIGNATURE_X);
+@@ -279,10 +275,6 @@ int ast_cursor_show(struct ast_private *ast, int x, int y,
+ 	jreg = 0x02 |
+ 	       0x01; /* enable ARGB4444 cursor */
+ 	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, jreg);
+-
+-	drm_gem_vram_vunmap(gbo, dst);
+-
+-	return 0;
+ }
+ 
+ void ast_cursor_hide(struct ast_private *ast)
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index b00091798ef5..92af0637ac48 100644
+index 92af0637ac48..f465e0c0984b 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -321,5 +321,6 @@ int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb);
+@@ -116,6 +116,7 @@ struct ast_private {
+ 
+ 	struct {
+ 		struct drm_gem_vram_object *gbo[AST_DEFAULT_HWC_NUM];
++		void __iomem *vaddr[AST_DEFAULT_HWC_NUM];
+ 		unsigned int next_index;
+ 	} cursor;
+ 
+@@ -319,8 +320,8 @@ int ast_cursor_init(struct ast_private *ast);
+ void ast_cursor_fini(struct ast_private *ast);
+ int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb);
  void ast_cursor_page_flip(struct ast_private *ast);
- int ast_cursor_show(struct ast_private *ast, int x, int y,
- 		    unsigned int offset_x, unsigned int offset_y);
-+void ast_cursor_hide(struct ast_private *ast);
+-int ast_cursor_show(struct ast_private *ast, int x, int y,
+-		    unsigned int offset_x, unsigned int offset_y);
++void ast_cursor_show(struct ast_private *ast, int x, int y,
++		     unsigned int offset_x, unsigned int offset_y);
+ void ast_cursor_hide(struct ast_private *ast);
  
  #endif
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 4836e2ba5508..7863a49968b4 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -683,7 +683,7 @@ ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
- {
- 	struct ast_private *ast = to_ast_private(plane->dev);
- 
--	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
-+	ast_cursor_hide(ast);
- }
- 
- static const struct drm_plane_helper_funcs ast_cursor_plane_helper_funcs = {
 -- 
 2.27.0
 
