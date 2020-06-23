@@ -2,51 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6C1204B9A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0626204BA3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03C706E95C;
-	Tue, 23 Jun 2020 07:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6996E963;
+	Tue, 23 Jun 2020 07:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 089E76E931;
- Mon, 22 Jun 2020 23:48:10 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id ga4so6190747ejb.11;
- Mon, 22 Jun 2020 16:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=1Ei5EFb83ZRTk7RRE9ddzMkWkL8bjizPYUGj8oBnkJ0=;
- b=S5nrwd4xJkOQrfJ288XBDZMJOVRqnjOeIOyW3vHprKkpgzUQ5RfagkHU0D9FBdehKa
- 3lvfRQMn3nqaWQ9DzIM6QGHySUnEsWSZNrJr/VU8qqaOoQ85evpn89nyInyL5BNeUaBT
- LaTzCZO2iNCi94Rd06KiIhoothpHzGh8HHU/8+VoWgDMVhgNN7qh+SMTzs9abORUqj3F
- uq5OMMcbNkP//6wUitfYTeAFfLYOnO1Rudk90MGn9Oyk0BBYJ/01O8/aymdQIjOQhhE3
- FNxlCudBJTgPi3ZZOv9PHDGfPUY56Y9hTGN22/4AfqS8J8+O5Xm608f8m0S/ev+jMqR0
- PO7w==
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428196E935
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 00:02:34 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id d27so14128639qtg.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 17:02:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=fL1wENgZCNwSv3s/JTNbtGHYfJcNOvZphPgobRgCX+0=;
+ b=jOiz5xhY4H9RrA31ewUoMb6lWoSEJluMNJ4pFLIyuL2C/PAw2cU4NhHZPSbOtneWmY
+ ozUMm9lxePnw9yOjxx4YXvXCK3kITgyY6VI+mhuSl9fkmcyIppyhy/Jz6vVv/4LKzuRn
+ Gb8qhMwxyR4RKm7f3IBCU6P9IiqbHgwNX0yoHpJ3PAkHDvus22DcgqWtCXRMKvuPd80+
+ GtMIE29iM9uSkrK/mkJM41mZz+r3jtg9ekirUsyx5erxi/e/W0HuUH+SRS8iBijVSbYY
+ gVUrM+bjvjO7k15tkl2NlzpoPMdsvYPWVTdqh0sfLGGUDdoylYfcONvUD2B6N+OO84GZ
+ lj3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=1Ei5EFb83ZRTk7RRE9ddzMkWkL8bjizPYUGj8oBnkJ0=;
- b=S8Mm1H6tnr6CsU/BOtTGcW0EbW5c7m5aJhIl/8txT/vhRWnxNq4bP5IiGeHH/C8+MM
- yPoMpb9DFFo/1ip7mazLoT8nmUqklmJKxB98A1lrmwQJ7GeASld/efX5+/5yzUVZG78H
- zN3vVUoS1zNma16GBMRzIdHRG0rMuJo3doN0DXzPWC4FF7RPkU4z7ZqgMKfur31c4Ngu
- dbaQeSYPXXLbFsYugMgoHLD6KknvOZ48qi5qken0BT8aBUmfa3gnClQ+WtRIKE+LUZ9i
- w2o1M4q008xplyCCFS8yZ+c1r8saCUXObYQPQL1Sj2PKtCd+JRtnYFM4YB0mJ42FezEi
- Xl3g==
-X-Gm-Message-State: AOAM532Slu6yWwoNbm9kCeffS6ZLK88Bbvm43TRNEZ5FpJQUlMb4w9qM
- dGcKaqwn/ebBmzFwmkpfMJUGyaqncKh0mUGxiGe2ajTWiXc=
-X-Google-Smtp-Source: ABdhPJxui+/e+ejrbxJH+iIDV6DwzB67kK+hi2we+XySxQDjG4zf6jPg54+irzPyB4Cjj82AMbVNGPoGXg0ruO1ek1w=
-X-Received: by 2002:a17:906:60cb:: with SMTP id
- f11mr14987419ejk.159.1592869688404; 
- Mon, 22 Jun 2020 16:48:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fL1wENgZCNwSv3s/JTNbtGHYfJcNOvZphPgobRgCX+0=;
+ b=FqXClXQvicuenPFk6ahme3Ctc/nY5yy7OZDTEJI0ym7+G+yvQAuz5nHy7J6GuyK/1j
+ dpRxwZi0bDoFBxmJc/fmDnj+PNP4oUXfWq7ZYjNHivmmhvWTT5fsO5QSJBww6C8fd0yf
+ CvHjW4fLEba6ke33DcT4x5M/Q09HZMa91KuCIBPXM+4obxZjQdM6RYyp5WH1iGm7Uetg
+ q+sbMc0D6NsBHBiOxm4zZWeOG+dfhGZa0Amv1OA3VprSZ6nvEleFlroGTUYkEN2R969h
+ fEcW3ecQpMIyBR5bPe0HRXO1CXOsHhEKRllL7BbVHfUODs6zX/1gURXl7QVs0YmqkuvH
+ qJ6w==
+X-Gm-Message-State: AOAM5320ffTxyCYn3+qPRXovm7meIPs5gI+GXb6qi1LymXHGNBttZBWd
+ WoxW+VIVqw+WMSBmjbDh1mGwCg==
+X-Google-Smtp-Source: ABdhPJyCyWWM03fNzzwWcrkorPAde8ZwkJyT1NwEy7u+QyW/bvUE+EE8dkCWV5n1HdRyI+PQxXYPRQ==
+X-Received: by 2002:ac8:70da:: with SMTP id g26mr17916678qtp.333.1592870553204; 
+ Mon, 22 Jun 2020 17:02:33 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id d186sm6145604qkb.110.2020.06.22.17.02.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Jun 2020 17:02:32 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93) (envelope-from <jgg@ziepe.ca>)
+ id 1jnWOV-00CHMM-GL; Mon, 22 Jun 2020 21:02:31 -0300
+Date: Mon, 22 Jun 2020 21:02:31 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jerome Glisse <jglisse@redhat.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+Message-ID: <20200623000231.GW6578@ziepe.ca>
+References: <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca>
+ <20200619180935.GA10009@redhat.com>
+ <20200619181849.GR6578@ziepe.ca>
+ <56008d64-772d-5757-6136-f20591ef71d2@amd.com>
+ <20200619195538.GT6578@ziepe.ca>
+ <20200619203147.GC13117@redhat.com>
+ <20200622114617.GU6578@ziepe.ca> <20200622201540.GB9708@redhat.com>
 MIME-Version: 1.0
-From: Rhys Kidd <rhyskidd@gmail.com>
-Date: Tue, 23 Jun 2020 09:47:57 +1000
-Message-ID: <CA+iOQUHn1x8HQ1+_QrSb9wEiH8m2G7mmd2Q3V4Gz6WAPnp8TWw@mail.gmail.com>
-Subject: valgrind-mmt: rebased against latest upstream valgrind release v3.16.1
-To: nouveau <nouveau@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
+Content-Disposition: inline
+In-Reply-To: <20200622201540.GB9708@redhat.com>
 X-Mailman-Approved-At: Tue, 23 Jun 2020 07:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,83 +77,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1056887016=="
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ Felix Kuehling <felix.kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= <thomas_os@shipmail.org>,
+ Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1056887016==
-Content-Type: multipart/alternative; boundary="000000000000f36d6405a8b4df77"
+On Mon, Jun 22, 2020 at 04:15:40PM -0400, Jerome Glisse wrote:
+> On Mon, Jun 22, 2020 at 08:46:17AM -0300, Jason Gunthorpe wrote:
+> > On Fri, Jun 19, 2020 at 04:31:47PM -0400, Jerome Glisse wrote:
+> > > Not doable as page refcount can change for things unrelated to GUP, with
+> > > John changes we can identify GUP and we could potentialy copy GUPed page
+> > > instead of COW but this can potentialy slow down fork() and i am not sure
+> > > how acceptable this would be. Also this does not solve GUP against page
+> > > that are already in fork tree ie page P0 is in process A which forks,
+> > > we now have page P0 in process A and B. Now we have process A which forks
+> > > again and we have page P0 in A, B, and C. Here B and C are two branches
+> > > with root in A. B and/or C can keep forking and grow the fork tree.
+> > 
+> > For a long time now RDMA has broken COW pages when creating user DMA
+> > regions.
+> > 
+> > The problem has been that fork re-COW's regions that had their COW
+> > broken.
+> > 
+> > So, if you break the COW upon mapping and prevent fork (and others)
+> > from copying DMA pinned then you'd cover the cases.
+> 
+> I am not sure we want to prevent COW for pinned GUP pages, this would
+> change current semantic and potentialy break/slow down existing apps.
 
---000000000000f36d6405a8b4df77
-Content-Type: text/plain; charset="UTF-8"
+Isn't that basically exactly what 17839856fd588 does? It looks like it
+uses the same approach RDMA does by sticking FOLL_WRITE even though it
+is a read action.
 
-As an update to the nouveau development community, the downstream fork of
-Valgrind with a mmap tracing tool ("mmt") we maintain has been rebased
-against the latest upstream release of Valgrind, v3.16.1
+After that change the reamining bug is that fork can re-establish a
+COW./
 
-Code branch: https://github.com/envytools/valgrind/tree/mmt-3.16.1
+> Anyway i think we focus too much on fork/COW, it is just an unfixable
+> broken corner cases, mmu notifier allows you to avoid it. Forcing real
+> copy on fork would likely be seen as regression by most people.
 
-Features of upstream Valgrind 3.16.x:
-https://www.valgrind.org/docs/manual/dist.news.html
+If you don't copy the there are data corruption bugs though. Real apps
+probably don't hit a problem here as they are not forking while GUP's
+are active (RDMA excluded, which does do this)
 
-In selected highlights, the benefits of tracking the latest version of
-Valgrind is added support for AArch64 v8.1 and reduced memcheck false
-positive rate on highly optimised code. There are, as ever, many smaller
-refinements and bug fixes. v3.16.1 includes two bugs fixed after 3.16.0 was
-frozen. As our downstream valgrind-mmt was last released against v3.14, we
-also get the benefit of all bug fixes and features since then, including
-that the RDRAND and F16C insn set extensions are now supported.
+I think that implementing page pinning by blocking mmu notifiers for
+the duration of the pin is a particularly good idea either, that
+actually seems a lot worse than just having the pin in the first
+place.
 
-For anyone unfamiliar with valgrind-mmt, it is a userspace mmio tracer that
-assists nouveau reverse engineering efforts by tracing the commands sent to
-the card. There is an accompanying demmt tool within the enytools repo to
-better understand these trace logs.
+Particularly if it is only being done to avoid corner case bugs that
+already afflict other GUP cases :(
 
-I would like to thank all the other nouveau developers who have worked on
-mmt over many years, including specifically airlied, mslusarz and kherbst.
+> > What do you mean 'GUP fast is still succeptible to this' ?
+> 
+> Not all GUP fast path are updated (intentionaly) __get_user_pages_fast()
 
-Best,
-Rhys
+Sure, that is is the 'raw' accessor
 
---000000000000f36d6405a8b4df77
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>As an update to the nouveau development community, th=
-e downstream fork of Valgrind with a mmap tracing tool (&quot;mmt&quot;) we=
- maintain has been rebased against the latest upstream release of Valgrind,=
- v3.16.1</div><div><br></div><div>Code branch: <a href=3D"https://github.co=
-m/envytools/valgrind/tree/mmt-3.16.1">https://github.com/envytools/valgrind=
-/tree/mmt-3.16.1</a></div><div><br></div><div>Features of upstream Valgrind=
- 3.16.x: <a href=3D"https://www.valgrind.org/docs/manual/dist.news.html">ht=
-tps://www.valgrind.org/docs/manual/dist.news.html</a></div><div><br></div><=
-div>In selected highlights, the benefits of tracking the latest version of =
-Valgrind is added support for AArch64
-    v8.1 and reduced memcheck false positive rate on highly optimised code.
-    There are, as ever, many smaller refinements and bug fixes. v3.16.1 inc=
-ludes two bugs fixed after 3.16.0 was frozen. As our downstream valgrind-mm=
-t was last released against v3.14, we also get the benefit of all bug fixes=
- and features since then, including that the=C2=A0RDRAND=C2=A0and=C2=A0F16C=
-=C2=A0insn=C2=A0set=C2=A0extensions=C2=A0are=C2=A0now=C2=A0supported.</div>=
-<div><br></div><div>For anyone unfamiliar with valgrind-mmt, it is a usersp=
-ace mmio tracer that assists nouveau reverse engineering efforts by tracing=
- the commands sent to the card. There is an accompanying demmt tool within =
-the enytools repo to better understand these trace logs.<br></div><div><br>=
-</div><div>I would like to thank all the other nouveau developers who have =
-worked on mmt over many years, including specifically airlied, mslusarz and=
- kherbst.</div><div><br></div><div>Best,</div><div>Rhys<br></div></div>
-
---000000000000f36d6405a8b4df77--
-
---===============1056887016==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1056887016==--
