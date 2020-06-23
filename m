@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35079204B9C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D5D204B8C
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520DB6E94E;
-	Tue, 23 Jun 2020 07:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC6FE6E958;
+	Tue, 23 Jun 2020 07:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 609506E21A
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 00:54:18 +0000 (UTC)
-X-UUID: 2e9d2a6374814e77ae0f1fa196a145e9-20200623
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=pUOGn8kL8Ke7ijuL0FfLWBV3LoSmmUlsqh7iKh4FAnI=; 
- b=NhEduwSFomrmMlRJqUPZLEAwA1P0UUGhhz1+UZVDrDddLhdqXtY2z4ScBMb5Q+g0t62Rnq0bxTmJk6AIPpVNO8K6SpMlF27HaTIeWszIgqPl2GK4+m3Ol5rEBzStzzl14CRMw/ICDmgaVOhvnDk8VOtGieoY/lgFYVrge/QHnzs=;
-X-UUID: 2e9d2a6374814e77ae0f1fa196a145e9-20200623
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <dennis-yc.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1688874106; Tue, 23 Jun 2020 08:54:14 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 23 Jun 2020 08:54:07 +0800
-Received: from [172.21.77.33] (172.21.77.33) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 23 Jun 2020 08:54:07 +0800
-Message-ID: <1592873653.28977.1.camel@mtkswgap22>
-Subject: Re: [PATCH v1 03/11] soc: mediatek: cmdq: add write_s function
-From: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Date: Tue, 23 Jun 2020 08:54:13 +0800
-In-Reply-To: <10c40f18-8620-6e9a-7bc1-3e192abbe170@gmail.com>
-References: <1592749115-24158-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1592749115-24158-4-git-send-email-dennis-yc.hsieh@mediatek.com>
- <a9c6f28a-94d1-f92b-a017-935e80d0ec26@gmail.com>
- <1592840183.1307.12.camel@mtkswgap22>
- <8bdfff5f-9fa8-7a13-79d3-dcb63d587629@gmail.com>
- <1592842372.3619.8.camel@mtkswgap22>
- <10c40f18-8620-6e9a-7bc1-3e192abbe170@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97F956E391
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 01:31:39 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id q8so17399007qkm.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 18:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eHCbxa4yLLq+0pOhVBKweZwAtR1jWaAM46jnceQkpwE=;
+ b=lzk/L5n62mkf/Wo6a6zH8O6wr3Zw88adM8VMgiuL8jPiS//Hx1thymfjN6+oEGvYz3
+ 3bAJFxPc+ArHIAW7wLZuNUJaKeeSdo4HxIYoAC6F64avprFgnqqC7pbUc4IFCsjrKAHh
+ gKgi9bb6RSIig4GQna3l0IIkjp+zf3Z+VI2pY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eHCbxa4yLLq+0pOhVBKweZwAtR1jWaAM46jnceQkpwE=;
+ b=JqYuIg9dHsKxwUxfF8IEGC79DjY3UP4efDeg573ZhVaPL4pE+k8NGJP9tSVn1ovZxS
+ RnlgpWzubqIwyh5J6RE0fOiWCwsSOkRlfgezGBPruS/gjmgHKjwXAWS+1UkFnnsahF7f
+ 3cieryiE2e9nEhW1k5d+WD2jd9sdtrahFtm8K0ZGF2H1XHWgS5U7YLPSvAjOAm1qVCL5
+ Ia1HeAdLKGHopB3YzAHOHqZ4Z+tCbyu2tVyQ914/ZOZ+sbzfmU3ghrQHoP7PdWHTwB0V
+ QuAkvyrnBY8pUpev+W76cmm2Qcy3teGhOMF9hU0ZbA0zNDwZOGOydd/vYglOw6pcCjOt
+ R/Yw==
+X-Gm-Message-State: AOAM531hah53McCm2/U5bCJ2paYs5IBcFv7r2DAxsxwyKuV/JSy63+nI
+ ry0LrbI7u6CzQ4Y555OaEOIN2sKSmZRpfwEoQiSzkw==
+X-Google-Smtp-Source: ABdhPJwMJlxh1gtY97I2kVKm9OIAts8GWq+RuGfGOUmzRWY4SAjkUqzw8u1O4Yn7AgYcPbJZ0Vsm0B2frMtXAAEZyiE=
+X-Received: by 2002:a05:620a:40c1:: with SMTP id
+ g1mr12395512qko.391.1592875898709; 
+ Mon, 22 Jun 2020 18:31:38 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
+References: <20200609012518.198908-1-stevensd@chromium.org>
+ <20200609055021-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200609055021-mutt-send-email-mst@kernel.org>
+From: David Stevens <stevensd@chromium.org>
+Date: Tue, 23 Jun 2020 10:31:28 +0900
+Message-ID: <CAD=HUj7wJfoKj_K44Cs9eEmh=OQHZ1+qz7ZHxoscHjYgOMXvZQ@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: [PATCH v5 0/3] Support virtio cross-device
+ resources
+To: "Michael S. Tsirkin" <mst@redhat.com>
 X-Mailman-Approved-At: Tue, 23 Jun 2020 07:48:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,224 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>,
- HS Liao <hs.liao@mediatek.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ alex.williamson@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
+Unless there are any remaining objections to these patches, what are
+the next steps towards getting these merged? Sorry, I'm not familiar
+with the workflow for contributing patches to Linux.
 
+Thanks,
+David
 
-On Mon, 2020-06-22 at 19:08 +0200, Matthias Brugger wrote:
-> 
-> On 22/06/2020 18:12, Dennis-YC Hsieh wrote:
-> > Hi Matthias,
-> > 
-> > On Mon, 2020-06-22 at 17:54 +0200, Matthias Brugger wrote:
-> >>
-> >> On 22/06/2020 17:36, Dennis-YC Hsieh wrote:
-> >>> Hi Matthias,
-> >>>
-> >>> thanks for your comment.
-> >>>
-> >>> On Mon, 2020-06-22 at 13:07 +0200, Matthias Brugger wrote:
-> >>>>
-> >>>> On 21/06/2020 16:18, Dennis YC Hsieh wrote:
-> >>>>> add write_s function in cmdq helper functions which
-> >>>>> writes value contains in internal register to address
-> >>>>> with large dma access support.
-> >>>>>
-> >>>>> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> >>>>> ---
-> >>>>>  drivers/soc/mediatek/mtk-cmdq-helper.c   |   19 +++++++++++++++++++
-> >>>>>  include/linux/mailbox/mtk-cmdq-mailbox.h |    1 +
-> >>>>>  include/linux/soc/mediatek/mtk-cmdq.h    |   19 +++++++++++++++++++
-> >>>>>  3 files changed, 39 insertions(+)
-> >>>>>
-> >>>>> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> >>>>> index bf32e3b2ca6c..817a5a97dbe5 100644
-> >>>>> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> >>>>> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> >>>>> @@ -18,6 +18,10 @@ struct cmdq_instruction {
-> >>>>>  	union {
-> >>>>>  		u32 value;
-> >>>>>  		u32 mask;
-> >>>>> +		struct {
-> >>>>> +			u16 arg_c;
-> >>>>> +			u16 src_reg;
-> >>>>> +		};
-> >>>>>  	};
-> >>>>>  	union {
-> >>>>>  		u16 offset;
-> >>>>> @@ -222,6 +226,21 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
-> >>>>>  }
-> >>>>>  EXPORT_SYMBOL(cmdq_pkt_write_mask);
-> >>>>>  
-> >>>>> +int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >>>>> +		     u16 addr_low, u16 src_reg_idx)
-> >>>>> +{
-> >>>>
-> >>>> Do I understand correctly that we use CMDQ_ADDR_HIGH(addr) and
-> >>>> CMDQ_ADDR_LOW(addr) to calculate in the client high_addr_reg_idx and addr_low
-> >>>> respectively?
-> >>>>
-> >>>> In that case I think a better interface would be to pass the address and do the
-> >>>> high/low calculation in the cmdq_pkt_write_s
-> >>>
-> >>> Not exactly. The high_addr_reg_idx parameter is index of internal
-> >>> register (which store address bit[47:16]), not result of
-> >>> CMDQ_ADDR_HIGH(addr). 
-> >>>
-> >>> The CMDQ_ADDR_HIGH macro use in patch 02/11 cmdq_pkt_assign() api. This
-> >>> api helps assign address bit[47:16] into one of internal register by
-> >>> index. And same index could be use in cmdq_pkt_write_s(). The gce
-> >>> combine bit[47:16] in internal register and bit[15:0] in addr_low
-> >>> parameter to final address. So it is better to keep interface in this
-> >>> way.
-> >>>
-> >>
-> >> Got it, but then why don't we call cmdq_pkt_assign() in cmdq_pkt_write_s()? This
-> >> way we would get a clean API for what we want to do.
-> >> Do we expect other users of cmdq_pkt_assign()? Otherwise we could keep it
-> >> private the this file and don't export it.
-> > 
-> > Considering this case: write 2 register 0xaabb00c0 0xaabb00d0.
-> > 
-> > If we call assign inside write_s api it will be:
-> > assign aabb to internal reg 0
-> > write reg 0 + 0x00c0
-> > assign aabb to internal reg 0
-> > write reg 0 + 0x00d0
-> > 
-> > 
-> > But if we let client decide timing to call assign, it will be like:
-> > assign aabb to internal reg 0
-> > write reg 0 + 0x00c0
-> > write reg 0 + 0x00d0
-> > 
-> 
-> Ok, thanks for clarification. Is this something you exepect to see in the gce
-> consumer driver?
-> 
-
-yes it is, less command means better performance and save memory, so it
-is a good practice for consumer.
-
-> > 
-> > The first way uses 4 command and second one uses only 3 command.
-> > Thus it is better to let client call assign explicitly.
-> > 
-> >>
-> >> By the way, why do you postfix the _s, I understand that it reflects the large
-> >> DMA access but I wonder why you choose '_s'.
-> >>
-> > 
-> > The name of this command is "write_s" which is hardware spec.
-> > I'm just following it since it is a common language between gce sw/hw
-> > designers.
-> > 
-> 
-> Ok, I will probably have to look that up every time have a look at the driver,
-> but that's OK.
-> 
-
-ok thanks for your comment
-
-
-
-Regards,
-Dennis
-
-> Regards,
-> Matthias
-> 
-> > 
-> > Regards,
-> > Dennis
-> > 
-> >> Regards,
-> >> Matthias
-> >>
-> >>>
-> >>> Regards,
-> >>> Dennis
-> >>>
-> >>>>
-> >>>> Regards,
-> >>>> Matthias
-> >>>>
-> >>>>> +	struct cmdq_instruction inst = {};
-> >>>>> +
-> >>>>> +	inst.op = CMDQ_CODE_WRITE_S;
-> >>>>> +	inst.src_t = CMDQ_REG_TYPE;
-> >>>>> +	inst.sop = high_addr_reg_idx;
-> >>>>> +	inst.offset = addr_low;
-> >>>>> +	inst.src_reg = src_reg_idx;
-> >>>>> +
-> >>>>> +	return cmdq_pkt_append_command(pkt, inst);
-> >>>>> +}
-> >>>>> +EXPORT_SYMBOL(cmdq_pkt_write_s);
-> >>>>> +
-> >>>>>  int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
-> >>>>>  {
-> >>>>>  	struct cmdq_instruction inst = { {0} };
-> >>>>> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> >>>>> index 121c3bb6d3de..ee67dd3b86f5 100644
-> >>>>> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-> >>>>> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> >>>>> @@ -59,6 +59,7 @@ enum cmdq_code {
-> >>>>>  	CMDQ_CODE_JUMP = 0x10,
-> >>>>>  	CMDQ_CODE_WFE = 0x20,
-> >>>>>  	CMDQ_CODE_EOC = 0x40,
-> >>>>> +	CMDQ_CODE_WRITE_S = 0x90,
-> >>>>>  	CMDQ_CODE_LOGIC = 0xa0,
-> >>>>>  };
-> >>>>>  
-> >>>>> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> >>>>> index 83340211e1d3..e1c5a7549b4f 100644
-> >>>>> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> >>>>> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> >>>>> @@ -12,6 +12,8 @@
-> >>>>>  #include <linux/timer.h>
-> >>>>>  
-> >>>>>  #define CMDQ_NO_TIMEOUT		0xffffffffu
-> >>>>> +#define CMDQ_ADDR_HIGH(addr)	((u32)(((addr) >> 16) & GENMASK(31, 0)))
-> >>>>> +#define CMDQ_ADDR_LOW(addr)	((u16)(addr) | BIT(1))
-> >>>>>  
-> >>>>>  struct cmdq_pkt;
-> >>>>>  
-> >>>>> @@ -103,6 +105,23 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
-> >>>>>  			u16 offset, u32 value, u32 mask);
-> >>>>>  
-> >>>>>  /**
-> >>>>> + * cmdq_pkt_write_s() - append write_s command to the CMDQ packet
-> >>>>> + * @pkt:	the CMDQ packet
-> >>>>> + * @high_addr_reg_idx:	internal register ID which contains high address of pa
-> >>>>> + * @addr_low:	low address of pa
-> >>>>> + * @src_reg_idx:	the CMDQ internal register ID which cache source value
-> >>>>> + *
-> >>>>> + * Return: 0 for success; else the error code is returned
-> >>>>> + *
-> >>>>> + * Support write value to physical address without subsys. Use CMDQ_ADDR_HIGH()
-> >>>>> + * to get high address and call cmdq_pkt_assign() to assign value into internal
-> >>>>> + * reg. Also use CMDQ_ADDR_LOW() to get low address for addr_low parameter when
-> >>>>> + * call to this function.
-> >>>>> + */
-> >>>>> +int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >>>>> +		     u16 addr_low, u16 src_reg_idx);
-> >>>>> +
-> >>>>> +/**
-> >>>>>   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
-> >>>>>   * @pkt:	the CMDQ packet
-> >>>>>   * @event:	the desired event type to "wait and CLEAR"
-> >>>>>
-> >>>
-> > 
-
+On Tue, Jun 9, 2020 at 6:53 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Tue, Jun 09, 2020 at 10:25:15AM +0900, David Stevens wrote:
+> > This patchset implements the current proposal for virtio cross-device
+> > resource sharing [1]. It will be used to import virtio resources into
+> > the virtio-video driver currently under discussion [2]. The patch
+> > under consideration to add support in the virtio-video driver is [3].
+> > It uses the APIs from v3 of this series, but the changes to update it
+> > are relatively minor.
+> >
+> > This patchset adds a new flavor of dma-bufs that supports querying the
+> > underlying virtio object UUID, as well as adding support for exporting
+> > resources from virtgpu.
+>
+> Gerd, David, if possible, please test this in configuration with
+> virtual VTD enabled but with iommu_platform=off
+> to make sure we didn't break this config.
+>
+>
+> Besides that, for virtio parts:
+>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>
+>
+> > [1] https://markmail.org/thread/2ypjt5cfeu3m6lxu
+> > [2] https://markmail.org/thread/p5d3k566srtdtute
+> > [3] https://markmail.org/thread/j4xlqaaim266qpks
+> >
+> > v4 -> v5 changes:
+> >  - Remove virtio_dma_buf_export_info.
+> >
+> > David Stevens (3):
+> >   virtio: add dma-buf support for exported objects
+> >   virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
+> >   drm/virtio: Support virtgpu exported resources
+> >
+> >  drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 +
+> >  drivers/gpu/drm/virtio/virtgpu_drv.h   | 20 ++++++
+> >  drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
+> >  drivers/gpu/drm/virtio/virtgpu_prime.c | 96 +++++++++++++++++++++++++-
+> >  drivers/gpu/drm/virtio/virtgpu_vq.c    | 55 +++++++++++++++
+> >  drivers/virtio/Makefile                |  2 +-
+> >  drivers/virtio/virtio.c                |  6 ++
+> >  drivers/virtio/virtio_dma_buf.c        | 82 ++++++++++++++++++++++
+> >  include/linux/virtio.h                 |  1 +
+> >  include/linux/virtio_dma_buf.h         | 37 ++++++++++
+> >  include/uapi/linux/virtio_gpu.h        | 19 +++++
+> >  11 files changed, 321 insertions(+), 4 deletions(-)
+> >  create mode 100644 drivers/virtio/virtio_dma_buf.c
+> >  create mode 100644 include/linux/virtio_dma_buf.h
+> >
+> > --
+> > 2.27.0.278.ge193c7cf3a9-goog
+>
+>
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
