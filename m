@@ -1,66 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6572044D7
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 01:56:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C3E2046C4
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 03:35:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4534A6E933;
-	Mon, 22 Jun 2020 23:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81BBA6E1D5;
+	Tue, 23 Jun 2020 01:35:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1A66E933
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 23:56:33 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id i3so21366421ljg.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 16:56:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JY9QzZUA1y1+jgxR7s19vmqrTfZ4xFz7vZtREOBsHLw=;
- b=W6nBFh43wlYWhv0Sdnp0i9rsPh2PDBKHFLjrl/tLXzCzN0DfI+y4sluKrarjogCq5n
- sDLNzZYEqu2sEHjzoMY8XWLmz3Crbcjmflp54xOI0bCfXDJ0zDkYc6e+kEGPWMQwCYDH
- SpR5V4Z8UhjiaHwrSrpqDFCP1OoDPsoI2rRDs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JY9QzZUA1y1+jgxR7s19vmqrTfZ4xFz7vZtREOBsHLw=;
- b=Ygx22n0Na4hTGrI+YeUekUiheMH8B1tjmbwAQ6v7jlYtYhIxW8LuO811/bRTtjFRvn
- Pxa+CctxeYQcpIFJZQH92l0059K0MpssgxnRE6374Rd8l4+5tUDRk/zwvc3vwnb/9g1u
- 3xsWkdM26KX+jxYHtoz2fipAVxRMAGHePZL5nj83ocAY9BDIBSG4vmdRdMhFcqdSrY7o
- xKUHe4LUDxkEaK4lB/gccKsX0/n8rEEW+pRZF84mSBrloXECHljPg5JUi3m3HbrcD3gC
- R79rLy6/vfQd6N+kI3lGNeiq3cEny2IEZ7Oy72ZmpwExkNEh3bmv2bcEBrKLCJ5NVfJ5
- aIsA==
-X-Gm-Message-State: AOAM5334elinH3FB+E/33C5h5lzVbsPSjr40sbqMCNRXvE+Q9fjy5GVl
- c6rBEYh5f1J5NIebJMJHjEvFbpDmgQo=
-X-Google-Smtp-Source: ABdhPJz/xXN23slPXAlWitYUAfSqvUhtv9YEq1tGosSlnK9ie8Rmoko6VRZ8BvxSUCDZQZnR1bxJfg==
-X-Received: by 2002:a2e:85d8:: with SMTP id h24mr9419844ljj.274.1592870191746; 
- Mon, 22 Jun 2020 16:56:31 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
- [209.85.208.180])
- by smtp.gmail.com with ESMTPSA id m12sm2932133ljc.59.2020.06.22.16.56.30
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Jun 2020 16:56:31 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id a9so21328218ljn.6
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 16:56:30 -0700 (PDT)
-X-Received: by 2002:a2e:8e78:: with SMTP id t24mr9595009ljk.314.1592870190539; 
- Mon, 22 Jun 2020 16:56:30 -0700 (PDT)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C3F89FA7;
+ Tue, 23 Jun 2020 01:35:41 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49rTPQ5Cvmz9sPF;
+ Tue, 23 Jun 2020 11:35:38 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1592876139;
+ bh=gv/mXw/BbJZGLfHpBd4783FUndIhkUoL0uMKLMWOnn4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=BJSylrnTPaBKP3LK6PNDofs1RnT+g7l1YfMYAGBd3EnjVtth5ia4iuBnm4u04bhun
+ MvcmtyRM2G07GsiYMldltLpYjiZN0/8/rIea7rbpJSqvv0fWe5BWWV4xmYiJf8P5NL
+ YIEaCVNzK8/PQEgMaJnI7nTnUBkEsYIrkRMu5U7IBxd7B9LtcTHUi1Fx7ZMU0muE6t
+ 06wKEZh1GSFww8fT0WvqhSZJ+fFbt8DOCL/gFFw2+KtmbS+047vnEmb/EcpRicfXY2
+ 5gks9kilXCz4o5WQApI+3+wA8xfSrD2ErsD0DwNMOuYepINzQg4nFdkchqeNG3G+ud
+ J4pu8GDsenzWA==
+Date: Tue, 23 Jun 2020 11:35:36 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
+Message-ID: <20200623113536.427ba57a@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20200612013625.547-1-gurchetansingh@chromium.org>
- <b1b26b94-b0a5-6af8-a151-ad6310358708@suse.de>
- <20200612101650.2kp7wvpz5gfv3vyg@sirius.home.kraxel.org>
- <CAAfnVBn=3_ekqKXoUKMGMHw+VWxL2RK0mJO72vx79RvvUa8cPw@mail.gmail.com>
- <20200615072105.cvyh6wmepmqlhont@sirius.home.kraxel.org>
-In-Reply-To: <20200615072105.cvyh6wmepmqlhont@sirius.home.kraxel.org>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Mon, 22 Jun 2020 16:56:16 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBnzQHzbDgOKj_HOPeOF0Y0+9dsbiMVrkHSb4urfv3G30A@mail.gmail.com>
-Message-ID: <CAAfnVBnzQHzbDgOKj_HOPeOF0Y0+9dsbiMVrkHSb4urfv3G30A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/shmem: add support for per object dma api
- operations
-To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +50,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0567347959=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 15, 2020 at 12:21 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Fri, Jun 12, 2020 at 11:54:54AM -0700, Gurchetan Singh wrote:
->
-> > Plus, I just realized the virtio dma ops and ops used by drm shmem are
-> > different, so virtio would have to unconditionally have to skip the
-> > shmem path.  Perhaps the best policy is to revert d323bb44e4d2?
->
-> Reverting d323bb44e4d2 should work given that virtio-gpu doesn't support
-> dma-buf imports, but when doing so please add a comment to the code
-> explaining why virtio-gpu handles this different than everybody else.
+--===============0567347959==
+Content-Type: multipart/signed; boundary="Sig_/SABs9GvvEkfEy8uX9Ob=Io1";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Done -- sent out "drm/virtio: Revert "drm/virtio: Call the right shmem
-helpers" ".
+--Sig_/SABs9GvvEkfEy8uX9Ob=Io1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
->
-> thanks,
->   Gerd
->
+Hi all,
+
+Today's linux-next merge of the drm-intel tree got a conflict in:
+
+  drivers/gpu/drm/i915/i915_drv.h
+
+between commit:
+
+  7fb81e9d8073 ("drm/i915: Use drmm_add_final_kfree")
+
+from Linus' tree and commit:
+
+  8a25c4be583d ("drm/i915/params: switch to device specific parameters")
+
+from the drm-intel tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/i915_drv.h
+index adb9bf34cf97,2697960f15a9..000000000000
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@@ -826,9 -827,9 +827,12 @@@ struct i915_selftest_stash=20
+  struct drm_i915_private {
+  	struct drm_device drm;
+ =20
++ 	/* i915 device parameters */
++ 	struct i915_params params;
++=20
+ +	/* FIXME: Device release actions should all be moved to drmm_ */
+ +	bool do_release;
+ +
+  	const struct intel_device_info __info; /* Use INTEL_INFO() to access. */
+  	struct intel_runtime_info __runtime; /* Use RUNTIME_INFO() to access. */
+  	struct intel_driver_caps caps;
+
+--Sig_/SABs9GvvEkfEy8uX9Ob=Io1
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7xXGgACgkQAVBC80lX
+0Gw8KQf/fWB/Dh7RSZ0e3knufDjbCy+pXUVrrSwOakMzSkHde+laUhmZQK8ckJvL
+v3sb+TPv2YlNKmY7tcSrkVnfKIaVw+scdrl0MUJHAg0qumJ3Y58CCGG7loFZNfQp
+H+4+LIQt/3/LudgUMDs4faUYdqVe7t/JNLlu7afcGACB95rZUHOuFyGp9A46Xsiv
+qowZISoffQTut1+Ry4fbVodArQRx+JlYLXXQEpVDN4z49kLYeX5/jFEeyzgM971J
+bmsai0wv8lSUNR+N2iqe2l81jZVmLINqpNfPtpfLbtbWztOGYJMsL5JqCL3DRizE
+cHcj2zjyOdmjvL4tm9IBoUFfSCbuYQ==
+=7AvC
+-----END PGP SIGNATURE-----
+
+--Sig_/SABs9GvvEkfEy8uX9Ob=Io1--
+
+--===============0567347959==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0567347959==--
