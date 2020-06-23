@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A25204AC7
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D6B204B1D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jun 2020 09:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31F156E945;
-	Tue, 23 Jun 2020 07:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52BE46E947;
+	Tue, 23 Jun 2020 07:30:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF136E392;
- Tue, 23 Jun 2020 07:14:55 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id z13so7568119wrw.5;
- Tue, 23 Jun 2020 00:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=MUg0RQZsEXTee7wPm+x7akpfhRwi+agphcAJ1gJzpCw=;
- b=OQUeiqANe9Qh7ccBZgYBZgylg8ahGjYH4PT1JVV0CijAiNaHrkTeXaJB+TnIJm8klo
- s1+Ebsp5NVn38C5TT/O0gdgWxIuqhA+npGogIQz3SvKJUDXYoqiY6U/z8HbYvn1Vl/5/
- Kmz7+pgtWsvBt6O2Ql09hD1s+eTj4VVKpWSOe5bHiZHJvg/JsJxtooJJm3vtp2rg6IJo
- OOrrfiQKVsG/Zjkf2+r0OkiDUkKhRU2+nuwmdpFtL8EX/m/DuCXvENRFTMnozYiCB69T
- rFcCNdGkPvf44yLwTN5iP2hi4hRmmwWStPk0xUitPzXbhPfEL24JLaFBdO+BZDGMkliM
- 2bnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=MUg0RQZsEXTee7wPm+x7akpfhRwi+agphcAJ1gJzpCw=;
- b=IdJAV/HOnFOsrp3NXig3xT6UUzxZUfuAcE8L6UYbhZyR1jWCknfabGUeZHlTkRlWyc
- lB46eoWvIVUxFqLZ4XYm0ExyyqECEI0R/rz9LsMf+e0PitTFJyamGfsnBcEHamptY2IK
- yoTPkh80GUz7Y2z4BfWH2Bnxt76Qv1RfOkBZV3JZnDtPcGVfNJ5dWrCr4tnBfI1RJt7G
- MayeOo8q5lEZiX7VcZPjIMP7mkQqwhXfEqE5ml5g/L9qUH/ixe+WQ3EhvM3Oaw8iBuFf
- ZqZdKEi8kN6zCEYUHrj6BdGBi+yytUJg11aUzJGkLQulSl7jb19oJQEF43u4Yxx07szb
- C6Jw==
-X-Gm-Message-State: AOAM531yg1XWC7frcNn66A7nwcKwFp1JX7ys+8kRWJphgmAwgWaHWCwW
- u9D9CUBpxWNG5mfi93yzAPc=
-X-Google-Smtp-Source: ABdhPJxc5wtzSXYEhGfr0GyN784X+OdYA2bevV9vfgXEkPY+wBHKwknasYbkUaVu8Rh/n0K1N/GEmw==
-X-Received: by 2002:adf:f08b:: with SMTP id n11mr22795273wro.312.1592896493584; 
- Tue, 23 Jun 2020 00:14:53 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id m65sm2454155wmf.17.2020.06.23.00.14.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 Jun 2020 00:14:52 -0700 (PDT)
-Subject: Re: [PATCH v2 7/8] drm/amdgpu: Fix sdma code crash post device unplug
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, christian.koenig@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-8-git-send-email-andrey.grodzovsky@amd.com>
- <8b27df86-c4c9-8e98-e525-993a3e00ee00@gmail.com>
- <98e99191-e69a-2e94-bfb7-4a18290c1580@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <546b78c3-7b01-6539-e04c-d46b1f049713@gmail.com>
-Date: Tue, 23 Jun 2020 09:14:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256DC6E947;
+ Tue, 23 Jun 2020 07:30:22 +0000 (UTC)
+IronPort-SDR: qXcQg0K4zi9HEZ6uAVgmx1gQgZj43UBP8Xv1vMMyiDB0clkxJjSZMNz6LRnqlak+0nelgRyf6+
+ JhhAcrMc9wqw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="123660812"
+X-IronPort-AV: E=Sophos;i="5.75,270,1589266800"; d="scan'208";a="123660812"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2020 00:30:21 -0700
+IronPort-SDR: /5HxP1/hdIaqYfnC6/nlaI1qepVLZtCN2f+36qDwE1ToU+CgsyTaFYA6fxRMKgtIzGPfJhCxsr
+ vSfU9Vp6hREA==
+X-IronPort-AV: E=Sophos;i="5.75,270,1589266800"; d="scan'208";a="264721429"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2020 00:30:20 -0700
+Date: Tue, 23 Jun 2020 10:30:10 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v2 6/6] drm/i915/dp_mst: Ensure the DPCD ACT sent flag is
+ cleared before waiting for it
+Message-ID: <20200623073010.GB21923@ideak-desk.fi.intel.com>
+References: <20200616141855.746-6-imre.deak@intel.com>
+ <20200616211146.23027-3-imre.deak@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <98e99191-e69a-2e94-bfb7-4a18290c1580@amd.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200616211146.23027-3-imre.deak@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,160 +51,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: imre.deak@intel.com
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjMuMDYuMjAgdW0gMDc6MTEgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPgo+IE9uIDYv
-MjIvMjAgMzo0MCBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4gQW0gMjEuMDYuMjAgdW0g
-MDg6MDMgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPj4+IGVudGl0eS0+cnEgYmVjb21lcyBu
-dWxsIGFmdHJlIGRldmljZSB1bnBsdWdnZWQgc28ganVzdCByZXR1cm4gZWFybHkKPj4+IGluIHRo
-YXQgY2FzZS4KPj4KPj4gTWhtLCBkbyB5b3UgaGF2ZSBhIGJhY2t0cmFjZSBmb3IgdGhpcz8KPj4K
-Pj4gVGhpcyBzaG91bGQgb25seSBiZSBjYWxsZWQgYnkgYW4gSU9DVEwgYW5kIElPQ1RMcyBzaG91
-bGQgYWxyZWFkeSBjYWxsIAo+PiBkcm1fZGV2X2VudGVyKCkvZXhpdCgpIG9uIHRoZWlyIG93bi4u
-Lgo+Pgo+PiBDaHJpc3RpYW4uCj4KPgo+IFNlZSBiZWxsb3csIGl0J3Mgbm90IGR1cmluZyBJT0NU
-TCBidXQgZHVyaW5nIGFsbCBHRU0gb2JqZWN0cyByZWxlYXNlIAo+IHdoZW4gcmVsZWFzaW5nIHRo
-ZSBkZXZpY2UuIGVudGl0eS0+cnEgYmVjb21lcyBudWxsIGJlY2F1c2UgYWxsIHRoZSBncHUgCj4g
-c2NoZWR1bGVycyBhcmUgbWFya2VkIGFzIG5vdCByZWFkeSBkdXJpbmcgdGhlIGVhcmx5IHBjaSBy
-ZW1vdmUgc3RhZ2UgCj4gYW5kIHNvIHRoZSBuZXh0IHRpbWUgc2RtYSBqb2IgdHJpZXMgdG8gcGlj
-ayBhIHNjaGVkdWxlciB0byBydW4gbm90aGluZyAKPiBpcyBhdmFpbGFibGUgYW5kIGl0J3Mgc2V0
-IHRvIG51bGwuCgpJIHNlZS4gVGhpcyBzaG91bGQgdGhlbiBwcm9iYWJseSBnbyBpbnRvIGFtZGdw
-dV9nZW1fb2JqZWN0X2Nsb3NlKCkgCmJlZm9yZSB3ZSByZXNlcnZlIHRoZSBQRC4KClNlZSBkcm1f
-ZGV2X2VudGVyKCkvZXhpdCgpIGFyZSBraW5kIG9mIGEgcmVhZCBzaWRlIGxvY2sgYW5kIHdpdGgg
-dGhpcyB3ZSAKY3JlYXRlIGEgbmljZSBsb2NrIGludmVyc2lvbiB3aGVuIHdlIGRvIGl0IGluIHRo
-ZSBsb3cgbGV2ZWwgU0RNQSBWTSBiYWNrZW5kLgoKQ2hyaXN0aWFuLgoKPgo+IEp1bsKgIDggMTE6
-MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJuZWw6IFvCoMKgIDQ0LjM4MjY0OF0gQlVHOiBrZXJu
-ZWwgCj4gTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlLCBhZGRyZXNzOiAwMDAwMDAwMDAwMDAwMDM4
-Cj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgy
-NjUxXSAjUEY6IAo+IHN1cGVydmlzb3IgcmVhZCBhY2Nlc3MgaW4ga2VybmVsIG1vZGUKPiBKdW7C
-oCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI2NTJdICNQ
-RjogCj4gZXJyb3JfY29kZSgweDAwMDApIC0gbm90LXByZXNlbnQgcGFnZQo+IEp1bsKgIDggMTE6
-MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJuZWw6IFvCoMKgIDQ0LjM4MjY1M10gUEdEIDAgUDRE
-IDAKPiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4z
-ODI2NTZdIE9vcHM6IDAwMDAgCj4gWyMxXSBTTVAgUFRJCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVu
-dHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyNjU4XSBDUFU6IDYgUElEOiAKPiAyNTk4
-IENvbW06IGxsdm1waXBlLTYgVGFpbnRlZDogR8KgwqDCoMKgwqDCoMKgwqDCoMKgIE9FwqDCoMKg
-wqAgNS42LjAtZGV2KyAjNTEKPiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2Vy
-bmVsOiBbwqDCoCA0NC4zODI2NTldIEhhcmR3YXJlIG5hbWU6IAo+IFN5c3RlbSBtYW51ZmFjdHVy
-ZXIgU3lzdGVtIFByb2R1Y3QgTmFtZS9SQU1QQUdFIElWIEZPUk1VTEEsIEJJT1MgNDgwNCAKPiAx
-Mi8zMC8yMDEzCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8Kg
-wqAgNDQuMzgyNzAwXSBSSVA6IAo+IDAwMTA6YW1kZ3B1X3ZtX3NkbWFfY29tbWl0KzB4NmMvMHgy
-NzAgW2FtZGdwdV0KPiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBb
-wqDCoCA0NC4zODI3MDJdIENvZGU6IDAxIDAwIDAwIAo+IDQ4IDg5IGVlIDQ4IGM3IGM3IGVmIGQ0
-IDg1IGMwIGU4IGZjIDVmIGU4IGZmIDQ4IDhiIDc1IDEwIDQ4IGM3IGM3IGZkIAo+IGQ0IDg1IGMw
-IGU4IGVjIDVmIGU4IGZmIDQ4IDhiIDQ1IDEwIDQxIDhiIDU1IDA4IDw0OD4gOGIgNDAgMzggODUg
-ZDIgNDggCj4gOGQgYjggMzAgZmYgZmYgZmYgMGYgODQgOWIgMDEgMDAgMDAgNDggOGIgODAKPiBK
-dW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI3MDRd
-IFJTUDogCj4gMDAxODpmZmZmYTg4ZTQwZjU3OTUwIEVGTEFHUzogMDAwMTAyODIKPiBKdW7CoCA4
-IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI3MDVdIFJBWDog
-Cj4gMDAwMDAwMDAwMDAwMDAwMCBSQlg6IGZmZmZhODhlNDBmNTc5YTggUkNYOiAwMDAwMDAwMDAw
-MDAwMDAxCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAg
-NDQuMzgyNzA3XSBSRFg6IAo+IDAwMDAwMDAwMDAwMDAwMTQgUlNJOiBmZmZmOTRkNGQ2MjM4OGUw
-IFJESTogZmZmZjk0ZDRkYmQ5OGUzMAo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVz
-dCBrZXJuZWw6IFvCoMKgIDQ0LjM4MjcwOF0gUkJQOiAKPiBmZmZmOTRkNGQyYWQzMjg4IFIwODog
-MDAwMDAwMDAwMDAwMDAwMCBSMDk6IDAwMDAwMDAwMDAwMDAwMDEKPiBKdW7CoCA4IDExOjE0OjU2
-IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI3MDldIFIxMDogCj4gMDAwMDAw
-MDAwMDAwMDAxZiBSMTE6IDAwMDAwMDAwMDAwMDAwMDAgUjEyOiBmZmZmYTg4ZTQwZjU3YTQ4Cj4g
-SnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyNzEw
-XSBSMTM6IAo+IGZmZmY5NGQ0ZDYyN2E1ZTggUjE0OiBmZmZmOTRkNGQ0MjRkOTc4IFIxNTogMDAw
-MDAwMDgwMDEwMDAyMAo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJuZWw6
-IFvCoMKgIDQ0LjM4MjcxMl0gRlM6IAo+IDAwMDA3ZjMwYWU2OTQ3MDAoMDAwMCkgR1M6ZmZmZjk0
-ZDRkYmQ4MDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCj4gSnVuwqAgOCAxMToxNDo1
-NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyNzEzXSBDUzrCoCAwMDEwIERT
-OiAKPiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwo+IEp1bsKgIDggMTE6MTQ6
-NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJuZWw6IFvCoMKgIDQ0LjM4MjcxNF0gQ1IyOiAKPiAwMDAw
-MDAwMDAwMDAwMDM4IENSMzogMDAwMDAwMDEyMTgxMDAwNiBDUjQ6IDAwMDAwMDAwMDAwNjA2ZTAK
-PiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI3
-MTZdIENhbGwgVHJhY2U6Cj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5l
-bDogW8KgwqAgNDQuMzgyNzU1XSAKPiBhbWRncHVfdm1fYm9fdXBkYXRlX21hcHBpbmcuY29uc3Rw
-cm9wLjMwKzB4MTZiLzB4MjMwIFthbWRncHVdCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYw
-NC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyNzk1XSAKPiBhbWRncHVfdm1fY2xlYXJfZnJlZWQr
-MHhkNy8weDIxMCBbYW1kZ3B1XQo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBr
-ZXJuZWw6IFvCoMKgIDQ0LjM4MjgzM10gCj4gYW1kZ3B1X2dlbV9vYmplY3RfY2xvc2UrMHgyMDAv
-MHgyYjAgW2FtZGdwdV0KPiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVs
-OiBbwqDCoCA0NC4zODI4NTZdwqAgPyAKPiBkcm1fZ2VtX29iamVjdF9oYW5kbGVfcHV0X3VubG9j
-a2VkKzB4OTAvMHg5MCBbZHJtXQo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBr
-ZXJuZWw6IFvCoMKgIDQ0LjM4Mjg2NF3CoCA/IAo+IGRybV9nZW1fb2JqZWN0X3JlbGVhc2VfaGFu
-ZGxlKzB4MmMvMHg5MCBbZHJtXQo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBr
-ZXJuZWw6IFvCoMKgIDQ0LjM4Mjg3Ml0gCj4gZHJtX2dlbV9vYmplY3RfcmVsZWFzZV9oYW5kbGUr
-MHgyYy8weDkwIFtkcm1dCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5l
-bDogW8KgwqAgNDQuMzgyODc5XcKgID8gCj4gZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxv
-Y2tlZCsweDkwLzB4OTAgW2RybV0KPiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qg
-a2VybmVsOiBbwqDCoCA0NC4zODI4ODJdIAo+IGlkcl9mb3JfZWFjaCsweDQ4LzB4ZDAKPiBKdW7C
-oCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI4ODVdwqAg
-PyAKPiBfcmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUrMHgyZC8weDUwCj4gSnVuwqAgOCAxMTox
-NDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyODkzXSAKPiBkcm1fZ2Vt
-X3JlbGVhc2UrMHgxYy8weDMwIFtkcm1dCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10
-ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyOTAxXSAKPiBkcm1fZmlsZV9mcmVlKzB4MjFkLzB4Mjcw
-IFtkcm1dCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAg
-NDQuMzgyOTA4XSAKPiBkcm1fcmVsZWFzZSsweDY3LzB4ZTAgW2RybV0KPiBKdW7CoCA4IDExOjE0
-OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI5MTJdIF9fZnB1dCsweGM2
-LzB4MjYwCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAg
-NDQuMzgyOTE2XSAKPiB0YXNrX3dvcmtfcnVuKzB4NzkvMHhiMAo+IEp1bsKgIDggMTE6MTQ6NTYg
-dWJ1bnR1LTE2MDQtdGVzdCBrZXJuZWw6IFvCoMKgIDQ0LjM4MjkxOV0gCj4gZG9fZXhpdCsweDNk
-MC8weGM0MAo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJuZWw6IFvCoMKg
-IDQ0LjM4MjkyMV3CoCA/IAo+IGdldF9zaWduYWwrMHgxM2QvMHhjMzAKPiBKdW7CoCA4IDExOjE0
-OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI5MjRdIAo+IGRvX2dyb3Vw
-X2V4aXQrMHg0Ny8weGIwCj4gSnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5l
-bDogW8KgwqAgNDQuMzgyOTI2XSAKPiBnZXRfc2lnbmFsKzB4MThiLzB4YzMwCj4gSnVuwqAgOCAx
-MToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyOTI5XSAKPiBkb19z
-aWduYWwrMHgzNi8weDZhMAo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJu
-ZWw6IFvCoMKgIDQ0LjM4MjkzMV3CoCA/IAo+IF9fc2V0X3Rhc2tfY29tbSsweDYyLzB4MTIwCj4g
-SnVuwqAgOCAxMToxNDo1NiB1YnVudHUtMTYwNC10ZXN0IGtlcm5lbDogW8KgwqAgNDQuMzgyOTM1
-XcKgID8gCj4gX194NjRfc3lzX2Z1dGV4KzB4ODgvMHgxODAKPiBKdW7CoCA4IDExOjE0OjU2IHVi
-dW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI5MzhdIAo+IGV4aXRfdG9fdXNlcm1v
-ZGVfbG9vcCsweDZmLzB4YzAKPiBKdW7CoCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2Vy
-bmVsOiBbwqDCoCA0NC4zODI5NDFdIAo+IGRvX3N5c2NhbGxfNjQrMHgxNDkvMHgxYzAKPiBKdW7C
-oCA4IDExOjE0OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI5NDNdIAo+
-IGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5LzB4YmUKPiBKdW7CoCA4IDExOjE0
-OjU2IHVidW50dS0xNjA0LXRlc3Qga2VybmVsOiBbwqDCoCA0NC4zODI5NDRdIFJJUDogCj4gMDAz
-MzoweDdmMzBmN2YzNTM2MAo+IEp1bsKgIDggMTE6MTQ6NTYgdWJ1bnR1LTE2MDQtdGVzdCBrZXJu
-ZWw6IFvCoMKgIDQ0LjM4Mjk0N10gQ29kZTogQmFkIFJJUCAKPiB2YWx1ZS4KPgo+Cj4gQW5kcmV5
-Cj4KPgo+Pgo+Pj4KPj4+IFNpZ25lZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXku
-Z3JvZHpvdnNreUBhbWQuY29tPgo+Pj4gLS0tCj4+PiDCoCBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfdm1fc2RtYS5jIHwgMjEgCj4+PiArKysrKysrKysrKysrKysrLS0tLS0KPj4+
-IMKgIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQo+Pj4K
-Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm1fc2Rt
-YS5jIAo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm1fc2RtYS5jCj4+
-PiBpbmRleCA4ZDljNmZlLi5kMjUyNDI3IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X3ZtX3NkbWEuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X3ZtX3NkbWEuYwo+Pj4gQEAgLTI0LDYgKzI0LDcgQEAKPj4+IMKgICNp
-bmNsdWRlICJhbWRncHVfam9iLmgiCj4+PiDCoCAjaW5jbHVkZSAiYW1kZ3B1X29iamVjdC5oIgo+
-Pj4gwqAgI2luY2x1ZGUgImFtZGdwdV90cmFjZS5oIgo+Pj4gKyNpbmNsdWRlIDxkcm0vZHJtX2Ry
-di5oPgo+Pj4gwqAgwqAgI2RlZmluZSBBTURHUFVfVk1fU0RNQV9NSU5fTlVNX0RXwqDCoMKgIDI1
-NnUKPj4+IMKgICNkZWZpbmUgQU1ER1BVX1ZNX1NETUFfTUFYX05VTV9EV8KgwqDCoCAoMTZ1ICog
-MTAyNHUpCj4+PiBAQCAtOTQsNyArOTUsMTIgQEAgc3RhdGljIGludCBhbWRncHVfdm1fc2RtYV9j
-b21taXQoc3RydWN0IAo+Pj4gYW1kZ3B1X3ZtX3VwZGF0ZV9wYXJhbXMgKnAsCj4+PiDCoMKgwqDC
-oMKgIHN0cnVjdCBkcm1fc2NoZWRfZW50aXR5ICplbnRpdHk7Cj4+PiDCoMKgwqDCoMKgIHN0cnVj
-dCBhbWRncHVfcmluZyAqcmluZzsKPj4+IMKgwqDCoMKgwqAgc3RydWN0IGRtYV9mZW5jZSAqZjsK
-Pj4+IC3CoMKgwqAgaW50IHI7Cj4+PiArwqDCoMKgIGludCByLCBpZHg7Cj4+PiArCj4+PiArwqDC
-oMKgIGlmICghZHJtX2Rldl9lbnRlcihwLT5hZGV2LT5kZGV2LCAmaWR4KSkgewo+Pj4gK8KgwqDC
-oMKgwqDCoMKgIHIgPSAtRU5PREVWOwo+Pj4gK8KgwqDCoMKgwqDCoMKgIGdvdG8gbm9kZXY7Cj4+
-PiArwqDCoMKgIH0KPj4+IMKgIMKgwqDCoMKgwqAgZW50aXR5ID0gcC0+aW1tZWRpYXRlID8gJnAt
-PnZtLT5pbW1lZGlhdGUgOiAmcC0+dm0tPmRlbGF5ZWQ7Cj4+PiDCoMKgwqDCoMKgIHJpbmcgPSBj
-b250YWluZXJfb2YoZW50aXR5LT5ycS0+c2NoZWQsIHN0cnVjdCBhbWRncHVfcmluZywgCj4+PiBz
-Y2hlZCk7Cj4+PiBAQCAtMTA0LDcgKzExMCw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3ZtX3NkbWFf
-Y29tbWl0KHN0cnVjdCAKPj4+IGFtZGdwdV92bV91cGRhdGVfcGFyYW1zICpwLAo+Pj4gwqDCoMKg
-wqDCoCBXQVJOX09OKGliLT5sZW5ndGhfZHcgPiBwLT5udW1fZHdfbGVmdCk7Cj4+PiDCoMKgwqDC
-oMKgIHIgPSBhbWRncHVfam9iX3N1Ym1pdChwLT5qb2IsIGVudGl0eSwgQU1ER1BVX0ZFTkNFX09X
-TkVSX1ZNLCAmZik7Cj4+PiDCoMKgwqDCoMKgIGlmIChyKQo+Pj4gLcKgwqDCoMKgwqDCoMKgIGdv
-dG8gZXJyb3I7Cj4+PiArwqDCoMKgwqDCoMKgwqAgZ290byBqb2JfZmFpbDsKPj4+IMKgIMKgwqDC
-oMKgwqAgaWYgKHAtPnVubG9ja2VkKSB7Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRt
-YV9mZW5jZSAqdG1wID0gZG1hX2ZlbmNlX2dldChmKTsKPj4+IEBAIC0xMTgsMTAgKzEyNCwxNSBA
-QCBzdGF0aWMgaW50IGFtZGdwdV92bV9zZG1hX2NvbW1pdChzdHJ1Y3QgCj4+PiBhbWRncHVfdm1f
-dXBkYXRlX3BhcmFtcyAqcCwKPj4+IMKgwqDCoMKgwqAgaWYgKGZlbmNlICYmICFwLT5pbW1lZGlh
-dGUpCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc3dhcCgqZmVuY2UsIGYpOwo+Pj4gwqDCoMKgwqDC
-oCBkbWFfZmVuY2VfcHV0KGYpOwo+Pj4gLcKgwqDCoCByZXR1cm4gMDsKPj4+IMKgIC1lcnJvcjoK
-Pj4+IC3CoMKgwqAgYW1kZ3B1X2pvYl9mcmVlKHAtPmpvYik7Cj4+PiArwqDCoMKgIHIgPSAwOwo+
-Pj4gKwo+Pj4gK2pvYl9mYWlsOgo+Pj4gK8KgwqDCoCBkcm1fZGV2X2V4aXQoaWR4KTsKPj4+ICtu
-b2RldjoKPj4+ICvCoMKgwqAgaWYgKHIpCj4+PiArwqDCoMKgwqDCoMKgwqAgYW1kZ3B1X2pvYl9m
-cmVlKHAtPmpvYik7Cj4+PiArCj4+PiDCoMKgwqDCoMKgIHJldHVybiByOwo+Pj4gwqAgfQo+Pgo+
-IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gYW1kLWdm
-eCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeAoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Jun 17, 2020 at 12:11:46AM +0300, Imre Deak wrote:
+> Atm, we clear the ACT sent flag in the sink's DPCD before updating the
+> sink's payload table, along clearing the payload table updated flag.
+> The sink is supposed to set this flag once it detects that the source
+> has completed the ACT sequence (after detecting the 4 required ACT MTPH
+> symbols sent by the source). As opposed to this 2 DELL monitors I have
+> set the flag already along the payload table updated flag, which is not
+> quite correct.
+> =
+
+> To be sure that the sink has detected the ACT MTPH symbols before
+> continuing enabling the encoder, clear the ACT sent flag before enabling
+> or disabling the transcoder VC payload allocation (which is what starts
+> the ACT sequence).
+> =
+
+> v2 (Ville):
+> - Use the correct bit to clear the flags.
+> - Add code comment explaining the clearing semantics of the ACT handled
+>   flag.
+> =
+
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+
+Dropping this patch because clearing the ACT handled flag from DPCD
+causes a problem for some sinks, which set this flag only once when the
+VC payload table is updated and do not set it when the ACT symbols are
+actually sent by the source.
+
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c       | 38 +++++++++++++++++++--
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c |  2 ++
+>  include/drm/drm_dp_mst_helper.h             |  2 ++
+>  3 files changed, 40 insertions(+), 2 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
+dp_mst_topology.c
+> index b2f5a84b4cfb..1f5d14128c1a 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -4377,6 +4377,41 @@ void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_=
+topology_mgr *mgr,
+>  }
+>  EXPORT_SYMBOL(drm_dp_mst_deallocate_vcpi);
+>  =
+
+> +/**
+> + * drm_dp_clear_payload_status() - Clears the payload table status flags
+> + * @mgr: manager to use
+> + *
+> + * Clears the payload table ACT handled and table updated flags in the M=
+ST hub's
+> + * DPCD. This function must be called before updating the payload table =
+or
+> + * starting the ACT sequence and waiting for the corresponding flags to =
+get
+> + * set by the hub.
+> + *
+> + * Returns:
+> + * 0 if the flags got cleared successfully, otherwise a negative error c=
+ode.
+> + */
+> +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *mgr)
+> +{
+> +	int ret;
+> +
+> +	/*
+> +	 * Note that the following is based on the DP Standard stating that
+> +	 * writing the DP_PAYLOAD_TABLE_UPDATED bit alone will clear both the
+> +	 * DP_PAYLOAD_TABLE_UPDATED and the DP_PAYLOAD_ACT_HANDLED flags. This
+> +	 * seems to be also the only way to clear DP_PAYLOAD_ACT_HANDLED.
+> +	 */
+> +	ret =3D drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
+> +				 DP_PAYLOAD_TABLE_UPDATED);
+> +	if (ret < 0) {
+> +		DRM_DEBUG_DRIVER("Can't clear the ACT handled/table updated flags (%d)=
+\n",
+> +				 ret);
+> +		return ret;
+> +	}
+> +	WARN_ON(ret !=3D 1);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_clear_payload_status);
+> +
+>  static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr *mgr,
+>  				     int id, struct drm_dp_payload *payload)
+>  {
+> @@ -4384,8 +4419,7 @@ static int drm_dp_dpcd_write_payload(struct drm_dp_=
+mst_topology_mgr *mgr,
+>  	int ret;
+>  	int retries =3D 0;
+>  =
+
+> -	drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
+> -			   DP_PAYLOAD_TABLE_UPDATED);
+> +	drm_dp_clear_payload_status(mgr);
+>  =
+
+>  	payload_alloc[0] =3D id;
+>  	payload_alloc[1] =3D payload->start_slot;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/dr=
+m/i915/display/intel_dp_mst.c
+> index 9308b5920780..3c4b0fb10d8b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -323,6 +323,8 @@ static void clear_act_sent(struct intel_dp *intel_dp)
+>  =
+
+>  	intel_de_write(i915, intel_dp->regs.dp_tp_status,
+>  		       DP_TP_STATUS_ACT_SENT);
+> +
+> +	drm_dp_clear_payload_status(&intel_dp->mst_mgr);
+>  }
+>  =
+
+>  static void wait_for_act_sent(struct intel_dp *intel_dp)
+> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_hel=
+per.h
+> index 8b9eb4db3381..2facb87624bf 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -763,6 +763,8 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology=
+_mgr *mgr,
+>  			   int pbn);
+>  =
+
+>  =
+
+> +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *mgr);
+> +
+>  int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr);
+>  =
+
+>  =
+
+> -- =
+
+> 2.23.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
