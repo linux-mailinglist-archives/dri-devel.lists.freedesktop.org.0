@@ -1,52 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041882073DD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 14:58:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D7D2073E3
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 15:00:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074866EB33;
-	Wed, 24 Jun 2020 12:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9986EB35;
+	Wed, 24 Jun 2020 13:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3116F6EB33
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 12:58:17 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id n6so1826500otl.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 05:58:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uLckDPOba5Be2s5sQCUEAPYdRRM6x91T05t3w6yd+5Q=;
- b=Qx60mNwneGcAbgMvO1LAQ/bKjX1gJzu3sfOmiIIOfoRpestQyq2Q38AFBBzjgZmrnO
- JPDiaFxYeVvx6/T9v8FhwsVUK4s8K+rOgXaciH5mc4zLAw/48wwpfORHTChTgqfeMVQT
- x1/ilTMaaD06+C9ByylthLCArRZjrHuhcRGYQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uLckDPOba5Be2s5sQCUEAPYdRRM6x91T05t3w6yd+5Q=;
- b=fR0mpMdsjqmlouwdLAXO96JuBszR2YS7siwZCyDHOkjM6+0unWE/KYBxKG8XSHNQpU
- DLNCn6cfGGi3B60WUTsdgDzqD2LeMc4/f+u5O8AlRPk/UvTUY6cyXCd3OVEIuhUbkWBx
- ht2Ut5uvrnAoiCQj5vnLcZVxpEfHdnNhNg2VmBsYzk8O58awazKNL7Do9rNbfrBiix/Z
- uBClzk37HmCVYpuH1G317mPsWFJHET8mfPr3N+HbJYIvxvqWg0uiuS0OY23dCP4osgok
- 2fyBeseyMdDfcyxN0vElBUCxZ9rsPvx2UpSt/YzyxdHoiOdtXWe6SLzkSVPbxKOCQ9k6
- b4lw==
-X-Gm-Message-State: AOAM531S/1o/N4jbHXDC6CWiMb7GHJ+osc3xbhwKj+0O7eA46qWklcGc
- sw9IONvquprE1wMNF9+UbOoHD2hxw5WIXvJQkpAcqkE2
-X-Google-Smtp-Source: ABdhPJx+UIq/jXCa9QKBCeWPaTgKEuX7v7z9F17YC15y4aFxvFc3NvwyChHDBRNB4GbAo0Zq4TxRZ5OSJFqUeenlVpM=
-X-Received: by 2002:a9d:4cd:: with SMTP id 71mr24046889otm.188.1593003496467; 
- Wed, 24 Jun 2020 05:58:16 -0700 (PDT)
-MIME-Version: 1.0
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F166EB35
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 13:00:31 +0000 (UTC)
+Date: Wed, 24 Jun 2020 13:00:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1593003629;
+ bh=+Q0jPxOqb0AIvIUIGWi9TEzOEu644Z6MOjn9/7ejmyA=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=r6G6KKy6kozWMs1krzuPRAAqbS7wfsTMnqkl0OBjFcNo3b4I/Vs1fEIPVZGdmKcuQ
+ JvwJsGQ/6hsj6eAEurc8/zDo5prZtwy8b3iFHe5LFqwl9yqJhyUjM6JB1t6lnffKDa
+ 49o7LTCz91s1K3/3ZRt3zwkyad41wwHDBkWsHQq0=
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v5] drm/fourcc: document modifier uniqueness requirements
+Message-ID: <4L3gyUXh1sjFXZG4PwRjuRp1P0qDMj--TIcNy0srks5n1zkPhmZL7Z-cDPujx7kL8vwbnBSwGJdRQLmjFa5Y2rl2QwZ0L6zDA5R6YwYgUZU=@emersion.fr>
+In-Reply-To: <CAKMK7uGZ+iAiyuGf=SAB3ZMmYyAttFdHF3qqRf_2_iTox_KKBw@mail.gmail.com>
 References: <rq4ENYWGZ-rcmWZd1GT2lfUyU6n5fhimWeCPOct0dFKVK4OJ0pKbujgy6A4ldMZkg5ldKUzDMX_6Vjnjb_Vnst3a0YCI2RFQin42nUn_Hgk=@emersion.fr>
  <20200624110804.fynorcdkxcbqbasj@DESKTOP-E1NTVVP.localdomain>
-In-Reply-To: <20200624110804.fynorcdkxcbqbasj@DESKTOP-E1NTVVP.localdomain>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 24 Jun 2020 14:58:05 +0200
-Message-ID: <CAKMK7uGZ+iAiyuGf=SAB3ZMmYyAttFdHF3qqRf_2_iTox_KKBw@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/fourcc: document modifier uniqueness requirements
-To: Brian Starkey <brian.starkey@arm.com>
+ <CAKMK7uGZ+iAiyuGf=SAB3ZMmYyAttFdHF3qqRf_2_iTox_KKBw@mail.gmail.com>
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +46,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
  dri-devel <dri-devel@lists.freedesktop.org>, nd <nd@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMTowOCBQTSBCcmlhbiBTdGFya2V5IDxicmlhbi5zdGFy
-a2V5QGFybS5jb20+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiBUdWUsIEp1biAyMywgMjAyMCBhdCAw
-MzoyNTowOFBNICswMDAwLCBTaW1vbiBTZXIgd3JvdGU6Cj4gPiBUaGVyZSBoYXZlIHN1Z2dlc3Rp
-b25zIHRvIGJha2UgcGl0Y2ggYWxpZ25tZW50LCBhZGRyZXNzIGFsaWduZW1lbnQsCj4gPiBjb250
-aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBWUkFNLCBHVFQvQkFSLCBl
-dGMpCj4gPiBjb25zdHJhaW50cyBpbnRvIG1vZGlmaWVycy4gTGFzdCB0aW1lIHRoaXMgd2FzIGJy
-b3VnaHQgdXAgaXQgc2VlbWVkCj4gPiBsaWtlIHRoZSBjb25zZW5zdXMgd2FzIHRvIG5vdCBhbGxv
-dyB0aGlzLiBEb2N1bWVudCB0aGlzIGluIGRybV9mb3VyY2MuaC4KPiA+Cj4gPiBUaGVyZSBhcmUg
-c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgo+ID4KPiA+IC0gRW5jb2RpbmcgYWxsIG9mIHRoZXNl
-IGNvbnN0cmFpbnRzIGluIHRoZSBtb2RpZmllcnMgd291bGQgZXhwbG9kZSB0aGUKPiA+ICAgc2Vh
-cmNoIHNwYWNlIHByZXR0eSBxdWlja2x5ICh3ZSBvbmx5IGhhdmUgNjQgYml0cyB0byB3b3JrIHdp
-dGgpLgo+ID4gLSBNb2RpZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2Fu
-IG9ubHkgaGF2ZSBhIHNpbmdsZQo+ID4gICBtb2RpZmllci4KPiA+IC0gTW9kaWZpZXIgdXNlcnMg
-YXJlbid0IGV4cGVjdGVkIHRvIHBhcnNlIG1vZGlmaWVycyAoZXhjZXB0IGRyaXZlcnMpLgo+ID4K
-PiA+IHYyOiBhZGQgcGFyYWdyYXBoIGFib3V0IGFsaWFzZXMgKERhbmllbCkKPiA+Cj4gPiB2Mzog
-Zml4IHVucmVsYXRlZCBjaGFuZ2VzIHNlbnQgd2l0aCB0aGUgcGF0Y2gKPiA+Cj4gPiB2NDogZGlz
-YW1iaWd1YXRlIHVzZXJzIGJldHdlZW4gZHJpdmVyIGFuZCBoaWdoZXItbGV2ZWwgcHJvZ3JhbXMg
-KEJyaWFuLAo+ID4gRGFuaWVsKQo+ID4KPiA+IHY1OiBmaXggQUZCQyBleGFtcGxlIChCcmlhbiwg
-RGFuaWVsKQo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lv
-bi5mcj4KPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xs
-LmNoPgo+ID4gQ2M6IERhbmllbCBTdG9uZSA8ZGFuaWVsQGZvb2lzaGJhci5vcmc+Cj4gPiBDYzog
-QmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPgo+ID4gQ2M6IERhdmUg
-QWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KPiA+IENjOiBNYXJlayBPbMWhw6FrIDxtYXJhZW9A
-Z21haWwuY29tPgo+ID4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPgo+
-ID4gQ2M6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPiA+IENjOiBN
-aWNoZWwgRMOkbnplciA8bWljaGVsQGRhZW56ZXIubmV0Pgo+ID4gQ2M6IEJyaWFuIFN0YXJrZXkg
-PGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4KPiA+IC0tLQo+ID4gIGluY2x1ZGUvdWFwaS9kcm0vZHJt
-X2ZvdXJjYy5oIHwgMjggKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ID4gIDEgZmlsZSBj
-aGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFw
-aS9kcm0vZHJtX2ZvdXJjYy5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKPiA+IGlu
-ZGV4IDQ5MDE0MzUwMGE1MC4uODI5NjE5NzE4OWJmIDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS91
-YXBpL2RybS9kcm1fZm91cmNjLmgKPiA+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJj
-Yy5oCj4gPiBAQCAtNTgsNiArNTgsMzQgQEAgZXh0ZXJuICJDIiB7Cj4gPiAgICogbWF5IHByZXNl
-cnZlIG1lYW5pbmcgLSBzdWNoIGFzIG51bWJlciBvZiBwbGFuZXMgLSBmcm9tIHRoZSBmb3VyY2Mg
-Y29kZSwKPiA+ICAgKiB3aGVyZWFzIG90aGVycyBtYXkgbm90Lgo+ID4gICAqCj4gPiArICogTW9k
-aWZpZXJzIG11c3QgdW5pcXVlbHkgZW5jb2RlIGJ1ZmZlciBsYXlvdXQuIEluIG90aGVyIHdvcmRz
-LCBhIGJ1ZmZlciBtdXN0Cj4gPiArICogbWF0Y2ggb25seSBhIHNpbmdsZSBtb2RpZmllci4gQSBt
-b2RpZmllciBtdXN0IG5vdCBiZSBhIHN1YnNldCBvZiBsYXlvdXRzIG9mCj4gPiArICogYW5vdGhl
-ciBtb2RpZmllci4gRm9yIGluc3RhbmNlLCBpdCdzIGluY29ycmVjdCB0byBlbmNvZGUgcGl0Y2gg
-YWxpZ25tZW50IGluCj4gPiArICogYSBtb2RpZmllcjogYSBidWZmZXIgbWF5IG1hdGNoIGEgNjQt
-cGl4ZWwgYWxpZ25lZCBtb2RpZmllciBhbmQgYSAzMi1waXhlbAo+ID4gKyAqIGFsaWduZWQgbW9k
-aWZpZXIuIFRoYXQgc2FpZCwgbW9kaWZpZXJzIGNhbiBoYXZlIGltcGxpY2l0IG1pbmltYWwKPiA+
-ICsgKiByZXF1aXJlbWVudHMuCj4gPiArICoKPiA+ICsgKiBGb3IgbW9kaWZpZXJzIHdoZXJlIHRo
-ZSBjb21iaW5hdGlvbiBvZiBmb3VyY2MgY29kZSBhbmQgbW9kaWZpZXIgY2FuIGFsaWFzLAo+ID4g
-KyAqIGEgY2Fub25pY2FsIHBhaXIgbmVlZHMgdG8gYmUgZGVmaW5lZCBhbmQgdXNlZCBieSBhbGwg
-ZHJpdmVycy4gQW4gZXhhbXBsZQo+ID4gKyAqIGlzIEFGQkMsIHdoZXJlIGJvdGggQVJHQiBhbmQg
-QUJHUiBoYXZlIHRoZSBleGFjdCBzYW1lIGNvbXByZXNzZWQgbGF5b3V0Lgo+Cj4gVGhlIG5ldyBw
-YXJhZ3JhcGggYmVsb3cgbG9va3MgZ29vZCwgYnV0IHRoaXMgc2VudGVuY2UgZnJvbSB0aGUgZW5k
-IG9mCj4gdGhlIHBhcmFncmFwaCBhYm92ZSBzdGlsbCBuZWVkcyB0byBiZSByZW1vdmVkOgo+Cj4g
-ICBBbiBleGFtcGxlIGlzIEFGQkMsIHdoZXJlIGJvdGggQVJHQiBhbmQgQUJHUiBoYXZlIHRoZSBl
-eGFjdCBzYW1lIGNvbXByZXNzZWQgbGF5b3V0LgoKSSB0aGluayB0aGF0IGVudGlyZSBwYXJhZ3Jh
-cGggd2FzIG1lYW50IHRvIGJlIGRlbGV0ZWQsIHRoZSByZXBsYWNlbWVudAppcyB0aGUgbmV3IG9u
-ZSBiZWxvdy4gT3RoZXJ3aXNlIHdlIGhhdmUgMnggdGhlIGV4YWN0IHNhbWUgc2VudGVuY2UgOi0p
-Ci1EYW5pZWwKCj4KPiBXaXRoIHRoYXQgZml4ZWQ6Cj4KPiBSZXZpZXdlZC1ieTogQnJpYW4gU3Rh
-cmtleSA8YnJpYW4uc3RhcmtleUBhcm0uY29tPgo+Cj4gVGhhbmtzLAo+IC1Ccmlhbgo+Cj4gPiAr
-ICoKPiA+ICsgKiBGb3IgbW9kaWZpZXJzIHdoZXJlIHRoZSBjb21iaW5hdGlvbiBvZiBmb3VyY2Mg
-Y29kZSBhbmQgbW9kaWZpZXIgY2FuIGFsaWFzLAo+ID4gKyAqIGEgY2Fub25pY2FsIHBhaXIgbmVl
-ZHMgdG8gYmUgZGVmaW5lZCBhbmQgdXNlZCBieSBhbGwgZHJpdmVycy4gUHJlZmVycmVkCj4gPiAr
-ICogY29tYmluYXRpb25zIGFyZSBhbHNvIGVuY291cmFnZWQgd2hlcmUgYWxsIGNvbWJpbmF0aW9u
-cyBtaWdodCBsZWFkIHRvCj4gPiArICogY29uZnVzaW9uIGFuZCB1bm5lY2Vzc2FyaWx5IHJlZHVj
-ZWQgaW50ZXJvcGVyYWJpbGl0eS4gQW4gZXhhbXBsZSBmb3IgdGhlCj4gPiArICogbGF0dGVyIGlz
-IEFGQkMsIHdoZXJlIHRoZSBBQkdSIGxheW91dHMgYXJlIHByZWZlcnJlZCBvdmVyIEFSR0IgbGF5
-b3V0cy4KPiA+ICsgKgo+ID4gKyAqIFRoZXJlIGFyZSB0d28ga2luZHMgb2YgbW9kaWZpZXIgdXNl
-cnM6Cj4gPiArICoKPiA+ICsgKiAtIEtlcm5lbCBhbmQgdXNlci1zcGFjZSBkcml2ZXJzOiBmb3Ig
-ZHJpdmVycyBpdCdzIGltcG9ydGFudCB0aGF0IG1vZGlmaWVycwo+ID4gKyAqICAgZG9uJ3QgYWxp
-YXMsIG90aGVyd2lzZSB0d28gZHJpdmVycyBtaWdodCBzdXBwb3J0IHRoZSBzYW1lIGZvcm1hdCBi
-dXQgdXNlCj4gPiArICogICBkaWZmZXJlbnQgYWxpYXNlcywgcHJldmVudGluZyB0aGVtIGZyb20g
-c2hhcmluZyBidWZmZXJzIGluIGFuIGVmZmljaWVudAo+ID4gKyAqICAgZm9ybWF0Lgo+ID4gKyAq
-IC0gSGlnaGVyLWxldmVsIHByb2dyYW1zIGludGVyZmFjaW5nIHdpdGggS01TL0dCTS9FR0wvVnVs
-a2FuL2V0YzogdGhlc2UgdXNlcnMKPiA+ICsgKiAgIHNlZSBtb2RpZmllcnMgYXMgb3BhcXVlIHRv
-a2VucyB0aGV5IGNhbiBjaGVjayBmb3IgZXF1YWxpdHkgYW5kIGludGVyc2VjdC4KPiA+ICsgKiAg
-IFRoZXNlIHVzZXJzIG11c24ndCBuZWVkIHRvIGtub3cgdG8gcmVhc29uIGFib3V0IHRoZSBtb2Rp
-ZmllciB2YWx1ZQo+ID4gKyAqICAgKGkuZS4gdGhleSBhcmUgbm90IGV4cGVjdGVkIHRvIGV4dHJh
-Y3QgaW5mb3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmllcikuCj4gPiArICoKPiA+ICAgKiBWZW5k
-b3JzIHNob3VsZCBkb2N1bWVudCB0aGVpciBtb2RpZmllciB1c2FnZSBpbiBhcyBtdWNoIGRldGFp
-bCBhcwo+ID4gICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21wYXRpYmlsaXR5IGFj
-cm9zcyBkZXZpY2VzLCBkcml2ZXJzIGFuZAo+ID4gICAqIGFwcGxpY2F0aW9ucy4KPiA+IC0tCj4g
-PiAyLjI3LjAKPiA+Cj4gPgoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwg
-SW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+> > The new paragraph below looks good, but this sentence from the end of
+> > the paragraph above still needs to be removed:
+> > An example is AFBC, where both ARGB and ABGR have the exact same compressed layout.
+>
+> I think that entire paragraph was meant to be deleted, the replacement
+> is the new one below. Otherwise we have 2x the exact same sentence :-)
+
+Err, indeed, sorry about that! Sending a fixed version.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
