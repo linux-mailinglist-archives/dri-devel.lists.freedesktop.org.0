@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DBF20695C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 03:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C049020699A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 03:36:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32A416EA9E;
-	Wed, 24 Jun 2020 01:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE656EAA6;
+	Wed, 24 Jun 2020 01:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF776EA9E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 01:12:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74B962A9;
- Wed, 24 Jun 2020 03:12:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1592961155;
- bh=RUOEeSmJX14CTX33gPvKu3UYxqdpKTDunJy6H0wsVGU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fZ7dw5wNeeVmIweJoenHmW4+fen1ycAAGEbLsWc74voni2gMz+D4WflUyYkXgqgb8
- uaNlF2BUkt9kPSMLPUhqPXqZkRVwBN7AM3CeR1b2P8TZUjRGOkjD+kRSQs3LXX7eT3
- D8zvIqHtKB3T390GvNQkkIheU5Zw5SLr6h93wojs=
-Date: Wed, 24 Jun 2020 04:12:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200624011209.GU5870@pendragon.ideasonboard.com>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 840AE6EAA6;
+ Wed, 24 Jun 2020 01:36:46 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49s5N82Wjnz9s1x;
+ Wed, 24 Jun 2020 11:36:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1592962603;
+ bh=hE3syjjpUgG/Yw3Us91XR89PrAnJarPgCLuOWZUvYw8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=FfUXPXnfgv1ztc/UbzBPlufFtMePjIrT24YQKhePA3w0oCrMQmKMpA+MbMUC3dfZR
+ QzW5vTErerNe2PCTg/nTaS0SscjVjh9kdFQMI/Vyr+bVmLP/cL/L9fgPG+FInE9d7I
+ 8SgsuTPdqectA0WS3H8Sr7niwvh1Ul0kquJ78sLW/Cftoy22z1T0XWWx4F1+C2py6+
+ GcWR/W92W33OLI093JAYfW0w1Xjrq/2W5YOn+ezBNDaiWG4MJLdrHhYGwe8FATuTq4
+ qaTs09aSM6ViTdOcQN0PYZVmmKDtm+oUNKuC2Y0pN86oQ7Cv9nP4bNZJEmxvvGETby
+ auvZU//J8Hb7w==
+Date: Wed, 24 Jun 2020 11:36:37 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20200624113452.54b72fcc@canb.auug.org.au>
+In-Reply-To: <20200617105929.534edd34@canb.auug.org.au>
+References: <20200617105929.534edd34@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200621084000.GM74146@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,90 +48,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: multipart/mixed; boundary="===============1418471351=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+--===============1418471351==
+Content-Type: multipart/signed; boundary="Sig_/8DN3z5BV6jK2fslpma_1rH2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
-> On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
-> > The DRM CRTC helpers add default modes to connectors in the connected
-> > state if no mode can be retrieved from the connector. This behaviour is
-> > useful for VGA or DVI outputs that have no connected DDC bus. However,
-> > in such cases, the status of the output usually can't be retrieved and
-> > is reported as connector_status_unknown.
-> > 
-> > Extend the addition of default modes to connectors in an unknown state
-> > to support outputs that can retrieve neither the modes nor the
-> > connection status.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> From your description sounds like an OK approach.
-> But this is not something I feel too familiar with.
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+--Sig_/8DN3z5BV6jK2fslpma_1rH2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
-too.
+Hi all,
 
-> > ---
-> >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
-> >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
-> >  2 files changed, 9 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> > index f5d141e0400f..9055d9573c90 100644
-> > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
-> >  	if (count == 0 && connector->status == connector_status_connected)
-> >  		count = drm_add_override_edid_modes(connector);
-> >  
-> > -	if (count == 0 && connector->status == connector_status_connected)
-> > +	if (count == 0 && (connector->status == connector_status_connected ||
-> > +			   connector->status == connector_status_unknown))
-> >  		count = drm_add_modes_noedid(connector, 1024, 768);
-> >  	count += drm_helper_probe_add_cmdline_mode(connector);
-> >  	if (count == 0)
-> > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > index 421a30f08463..afe55e2e93d2 100644
-> > --- a/include/drm/drm_modeset_helper_vtables.h
-> > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
-> >  	 * The usual way to implement this is to cache the EDID retrieved in the
-> >  	 * probe callback somewhere in the driver-private connector structure.
-> >  	 * In this function drivers then parse the modes in the EDID and add
-> > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
-> > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
-> >  	 * fixed panel can also manually add specific modes using
-> >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
-> >  	 * make sure that the &drm_connector.display_info,
-> >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
-> >  	 * filled in.
-> >  	 *
-> > +	 * Note that the caller function will automatically add standard VESA
-> > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
-> > +	 * no mode and if the connector status is connector_status_connected or
-> > +	 * connector_status_unknown. There is no need to call
-> > +	 * drm_add_edid_modes() manually in that case.
-> > +	 *
-> >  	 * Virtual drivers that just want some standard VESA mode with a given
-> >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
-> >  	 * one using drm_set_preferred_mode().
+On Wed, 17 Jun 2020 10:59:29 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> After merging the drm-misc tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+>=20
+> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c: In function 'amdgpu_amd=
+kfd_gpuvm_free_memory_of_gpu':
+> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:1357:2: error: implicit =
+declaration of function 'drm_gem_object_put_unlocked'; did you mean 'drm_ge=
+m_object_put_locked'? [-Werror=3Dimplicit-function-declaration]
+>  1357 |  drm_gem_object_put_unlocked(&mem->bo->tbo.base);
+>       |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |  drm_gem_object_put_locked
+>=20
+> Caused by commit
+>=20
+>   ab15d56e27be ("drm: remove transient drm_gem_object_put_unlocked()")
+>=20
+> interacting with commit
+>=20
+>   fd9a9f8801de ("drm/amdgpu: Use GEM obj reference for KFD BOs")
+>=20
+> from Linus' tree.
+>=20
+> I have applied the following merge fix up patch for today.
+>=20
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Wed, 17 Jun 2020 10:55:32 +1000
+> Subject: [PATCH] drm/amdgpu: remove stray drm_gem_object_put_unlocked
+>=20
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index b91b5171270f..9015c7b76d60 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -1354,7 +1354,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
+>  	}
+> =20
+>  	/* Free the BO*/
+> -	drm_gem_object_put_unlocked(&mem->bo->tbo.base);
+> +	drm_gem_object_put(&mem->bo->tbo.base);
+>  	mutex_destroy(&mem->lock);
+>  	kfree(mem);
+> =20
+> --=20
+> 2.26.2
 
--- 
-Regards,
+This fix is now needed when I merge the drm tree :-(
 
-Laurent Pinchart
+Given that the drm tree is based on v5.8-rc2 and the commit from Linus'
+tree above was merged before v5.8-rc1, the above patch should be
+applied to the drm tree (and should have been part of the patch that
+merged the drm-misc tree).  I am a bit suprised that the drm tree
+currently passes CI.
+
+Sorry, Dave, for not cc'ing you in the original report.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/8DN3z5BV6jK2fslpma_1rH2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7yriUACgkQAVBC80lX
+0GwNcAf/QqzDnDku/39dtXLSK2VfBLF7RPUofetUB1100VAIApOXKASbrnlJP5Hh
+cDGYnEca819sC97bqgzGp8TqgfB2CiepISTcdmFVqd/5HQHWvr9LF4TmfmZ4wnzP
+T4vquiMRi//Br6kJs2lCjcDsitdYcBcBfmXhVLmaauMVBh66L3Vc73UOR73X/nq7
+4gEMZI39gzvXkrhQ5bCp+fuVYiRtWv8387hqoC9A+c7hNagyI3lpGhnfO9rxvmZh
+eHvbfoqazGO4HDEUyxlVnrZqfv/4H65m8LECSWsPoma0uI5bD6Z/KtmjwipU8Rtf
+DFyYpyk1TudS4z4rMy7aLtTYaAt1hg==
+=ZvId
+-----END PGP SIGNATURE-----
+
+--Sig_/8DN3z5BV6jK2fslpma_1rH2--
+
+--===============1418471351==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1418471351==--
