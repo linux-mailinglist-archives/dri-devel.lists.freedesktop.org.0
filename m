@@ -1,99 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D47A207253
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A09207255
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9006EB0A;
-	Wed, 24 Jun 2020 11:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CFB6EB0B;
+	Wed, 24 Jun 2020 11:41:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 916096EB07
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:39 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200624114138euoutp02776c32c01ef40418520612ad69e4899e~beA7YDpqo1752317523euoutp02F
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200624114138euoutp02776c32c01ef40418520612ad69e4899e~beA7YDpqo1752317523euoutp02F
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCE4B6EB03
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:40 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200624114139euoutp01ce74c21ac89d3c4b13516c8cdfb2f21c~beA8cl7ZR2526325263euoutp01k
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200624114139euoutp01ce74c21ac89d3c4b13516c8cdfb2f21c~beA8cl7ZR2526325263euoutp01k
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1592998898;
- bh=PLcfbVbE8i4C8d+Nje5jm1KODRXZ6RkpBF4pFp7dgN0=;
+ s=mail20170921; t=1592998899;
+ bh=X33emPDExizY8bpBUTV4hhXKJz6IkQyPKvGe23DV6IU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gz061wWwnckgFshr7IHV/S56brednP/fCQN2DoCvt+lOLedpHvoWuBZeA3A9KsT3g
- YoA4EdOZ3Kab191G9YTSBCBfdMshslJW5od/RbI36r4UDd0Iz6ivjUmvsvNkR8UjIB
- sBtr/mLupNn0hGQfZWMj8+FCaH4cd42c3YYFkHGU=
+ b=H/NO/4fOSF/d6Uwz3KYzsBNHnBO9He3xTGXWmYe1nj6t+ZN+r5hoZ8oO5wNzg8seF
+ n6rQpkENbYQVrIxCC3RG9DwSpZWWDoa81UzzRt63zRFJ2SUHNV0M1YA+LXEmQYX+hX
+ Qk21DJoQnnCtSocqEcAErMIg5zsVuSV+yL/JszuU=
 Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200624114137eucas1p23e078ad0759d9748c9282f41addeff25~beA7CGXw43078130781eucas1p2-;
- Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 08.5A.06318.1FB33FE5; Wed, 24
- Jun 2020 12:41:37 +0100 (BST)
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200624114139eucas1p17443dbd7bd4ab9da8e94ca361e9a7b57~beA8DzfVo0380603806eucas1p1c;
+ Wed, 24 Jun 2020 11:41:39 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 99.5A.06318.2FB33FE5; Wed, 24
+ Jun 2020 12:41:38 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b~beA6t-j1g1213312133eucas1p1o;
- Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200624114138eucas1p262505da3ad1067720080d20209ff32de~beA7bnkeo0284802848eucas1p2a;
+ Wed, 24 Jun 2020 11:41:38 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200624114137eusmtrp10d73154fb2485ece760b250727d8f1fe~beA6tUGSX0702007020eusmtrp1Q;
- Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
-X-AuditID: cbfec7f5-371ff700000018ae-3c-5ef33bf187fe
+ 20200624114138eusmtrp18a17f57b5a73296f6d6bac1c769c480a~beA7a6fvi0702007020eusmtrp1S;
+ Wed, 24 Jun 2020 11:41:38 +0000 (GMT)
+X-AuditID: cbfec7f5-371ff700000018ae-40-5ef33bf2c735
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 74.74.06314.1FB33FE5; Wed, 24
- Jun 2020 12:41:37 +0100 (BST)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 06.53.06017.2FB33FE5; Wed, 24
+ Jun 2020 12:41:38 +0100 (BST)
 Received: from AMDC3748.digital.local (unknown [106.120.51.74]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200624114136eusmtip2e30c14611d99889046fee0d88d874173~beA6ExH1q1775617756eusmtip2L;
- Wed, 24 Jun 2020 11:41:36 +0000 (GMT)
+ 20200624114137eusmtip2331767d1009f8c93f97e804d1503ae21~beA6uKWf32681426814eusmtip2k;
+ Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
 From: Andrzej Hajda <a.hajda@samsung.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [RESEND PATCH v5 4/5] drm/bridge/sii8620: fix resource acquisition
- error handling
-Date: Wed, 24 Jun 2020 13:41:26 +0200
-Message-Id: <20200624114127.3016-5-a.hajda@samsung.com>
+Subject: [RESEND PATCH v5 5/5] drm/bridge: lvds-codec: simplify error
+ handling code
+Date: Wed, 24 Jun 2020 13:41:27 +0200
+Message-Id: <20200624114127.3016-6-a.hajda@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200624114127.3016-1-a.hajda@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSWUxTQRiFM70r1eqlJWGCW6wxcQVMiY5KFI0mN5oYt/hQFa1ygyitpAXc
- HhCpCAhYqo2IYoiiVUSBsigIgmWppAFFBAEh1YhLq7KEUhFFbXtd3r6c/5zzz0yGxsRWIoCO
- UsVyapUiWkoK8Yqmb62Lh1eOhAfrbq9APfdaCWTX1QNUkl1EIMObfhL9qsjC0IvRQRIlXS8i
- UcdXO4aaP3fgKDUrn0Kmt50Eaq+6QiKzoQaguw19FDJn7kS5TgMWxrDtnW0YO9h1mmJrXHk4
- W5nTR7GXUy4RrKkglWSf6J4L2NrcQoq1nbUI2NL8BDazrACwdRnncXbENHOzSC4MjeCio+I5
- ddCqvcIDje12MubmlKOtn6qpk2BgUhrwoSETAhsHywgPi5lbACa6Qnh2AjiQGpYGhG4eAbDg
- ewn4G6juOYXzAyOAd7Va8l8iL93XwyQzH06Udnt1P0YGz7XkUJ4AxozjsONMsnedhNkFHfde
- eVtxZi6s7//hNtG0iFkGJ57K+WWz4J3iOszDPgyCem0b8PRAZpiC+RdbCI8fMuvg2KiE90ug
- w1JG8TwdWs+n4zwnQNstLcZnUwAsL67E+MFK2Ns6Tnp6MPehi6qCeHkNvJDdA/j6KbDri/da
- mBv1FRcxXhbBlGQx754NbS3lfwr94Y1noyTPLLx2P0XAP9VZAEuM9ykdmJXzf1keAAXAn4vT
- KCM5jUzFHQnUKJSaOFVk4P7DShNwfzHrT8voA/Doxz4zYGggnSwqfj0cLiYU8ZpjSjOANCb1
- E61tsYaLRRGKY8c59eE96rhoTmMG02hc6i+SXbPvFjORiljuEMfFcOq/UwHtE3ASHFEOBCw3
- GuW1WSNbYra3vc9+s1H2bsbVtvFP4Z22apXO2WwAsvpM1Yp9J/rSH0s+mPTbbB8zXjY+JIYc
- iS56tXzOKWeMpVewY3HhJkfHmHxq9/SN4q3JG/S1Q0mrhXOWLgqUZoZaytc3PXsslexpSsv4
- vHBef4PLN+Fn6cFgv0Q/Ka45oFiyAFNrFL8BSXvZ814DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRmVeSWpSXmKPExsVy+t/xe7ofrT/HGdx4rmpxa905VouXEw4z
- WmycsZ7VYurDJ2wW/7dNZLa48vU9m0Xz4vVsFle/v2S2OPnmKotF58Ql7BabHl9jtbi8aw6b
- xaGpexkt1h65y25xqC/aYu6XqcwOAh6Xr11k9nh/o5XdY++3BSweO2fdZfeY3TGT1WPTqk42
- jxMTLjF57J+7ht3jfvdxJo/NS+o9+rasYvQ40DuZxePzJrkA3ig9m6L80pJUhYz84hJbpWhD
- CyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jKOXX7IVLOOrOPd6D3sD4zvuLkZO
- DgkBE4k9t5pYuhi5OIQEljJK7Lp7mxUiIS6xe/5bZghbWOLPtS42iKJPjBLz2reCJdgENCX+
- br7JBmKLCBhL9J+dxQ5SxCzQxiox9/wTdpCEsECUxPU5D8GmsgioShx+8gcozsHBK2Au8fd8
- FMQCeYnVGw6AzeQUsJCY1HKREcQWAio5dH0x6wRGvgWMDKsYRVJLi3PTc4sN9YoTc4tL89L1
- kvNzNzECY2vbsZ+bdzBe2hh8iFGAg1GJh3fDg49xQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUms
- rEotyo8vKs1JLT7EaAp000RmKdHkfGDc55XEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnN
- Tk0tSC2C6WPi4JRqYEzZe8Q4eu8nrqd1WpEmE1N8z54Wa39usfpn6/nT6wW/V7K5dzj/NErb
- Knlu5ZRPh9q72suuf7Jzmz3D/7hy5eOdDScOXfHbVJjYt91ku3Hi9lsrp35OsWH/NK1LwfeN
- 23a7LzlMUbFRSVzHj0yS2zbviVSAeOf5KY45rTv3Sf/Z57zIsumZ0QElluKMREMt5qLiRAAc
- CbrgwwIAAA==
-X-CMS-MailID: 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSaUhUURTHufPevPdmcOw5Cl4skyYKVNLElkuWWZi8D30QIggjbdKHijOO
+ zLhkC0qay2g2ara45LiEYpo6LrnkwiSpyJh7JskUWai4YC6ppeX4tL79zv/8/+ccLpfCxAa+
+ DRUcGs4qQ6UyCSHE69+tvT/yw23R92hJ3Bk09qqXj6Y0bwGqflrJR1lfJgj0pz4dQ0PL8wSK
+ K6ok0PDPKQx1zwzjKDm9mES6ryN8NNiUSyB9VgtAFR3jJNKnXUV5S1mYB80MjvRjzPzofZJp
+ WdHiTGP2OMnkJD3jM7qyZILp0gzwmLa8cpIxpnTymJriGCattgww7Q8ycWZRt99b5CM8HcDK
+ giNZpbP7dWFQdXsuHtYluNlceDsWaCg1EFCQPgbrBlswNRBSYroUwPLWRT5XLAE421bC44pF
+ ANW6WP5uZPlxH2FiMV0CYGL7iX+J5pzvwNQgaHu4UfNx22RFu8KHhmzSZMLodRwOJyZsT7Kk
+ L8O1lYptE04fgs+ni3ETi+iTMP/DHOC22cGXVe2YiQU0ghnx/cA0CNJTJFztnsQ4kyfUaFN4
+ HFvC6c5akuN9sCczFec4BhpL4zEunARgXVXjTtgNfupd37qC2jrPHlY2OXPyOTinNZImGdLm
+ cHTWwiRjW5hR/wTjZBFMShBz7gPQaKjbGWgNX/QtE5yFgSuaC9z7pABY0t0FNMAu+/8uLQBl
+ wJqNUMkDWZVrKBvlpJLKVRGhgU7+CrkObH2yns3O5QbQ+vuGHtAUkJiJqj4v+Ir50khVtFwP
+ IIVJrETnDT2+YlGANPoWq1T4KSNkrEoP9lK4xFrkWjh1TUwHSsPZEJYNY5W7XR4lsIkFlnI7
+ Y4F5mvNZb4vqPvb1cHac+6jEUdif1PGry83TX5LsnF8hveJiNl3rYMTvua0aLimGCC8zj40c
+ v9QixcZEh/qu7I7D5tqkT6/tnrH6gkcyW7pAcTx1ydPrTbFjWIW/rdq9oSgKhICJbws1h93L
+ 4mwHLgoun0ozzIzlHpxrk+CqIKmLA6ZUSf8C5ER1kGADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRmVeSWpSXmKPExsVy+t/xe7qfrD/HGXT1iVrcWneO1eLlhMOM
+ FhtnrGe1mPrwCZvF/20TmS2ufH3PZtG8eD2bxdXvL5ktTr65ymLROXEJu8Wmx9dYLS7vmsNm
+ cWjqXkaLtUfuslsc6ou2mPtlKrODgMflaxeZPd7faGX32PttAYvHzll32T1md8xk9di0qpPN
+ 48SES0we++euYfe4332cyWPzknqPvi2rGD0O9E5m8fi8SS6AN0rPpii/tCRVISO/uMRWKdrQ
+ wkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY+OBOSwFJzgrdi+qbmCcwNHFyMkh
+ IWAi8XXaBbYuRi4OIYGljBJf/81igUiIS+ye/5YZwhaW+HOtC6roE6PEmpsf2UASbAKaEn83
+ 3wSzRQSMJfrPzmIHKWIWaGOVmHv+CTtIQlggWOLEu4lgRSwCqhLzXi0B28ArYC4x//o7RogN
+ 8hKrNxwA28YpYCExqeUiWFwIqObQ9cWsExj5FjAyrGIUSS0tzk3PLTbSK07MLS7NS9dLzs/d
+ xAiMrW3Hfm7Zwdj1LvgQowAHoxIP74YHH+OEWBPLiitzDzFKcDArifA6nT0dJ8SbklhZlVqU
+ H19UmpNafIjRFOioicxSosn5wLjPK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQ
+ WgTTx8TBKdXAaOazOerERIb2reoCy7V8Mk9z7j64vTIod/40I4O1qVVPzqkb/Kh2DTlflSp3
+ /wNffOqkzyIPZ/2Vigj9KDNjYWjNfgatC8/fXVHfUlm98alIxrztrIbSJutUSq12S91VeMon
+ MN93gXCv3DpHQ8ul2tP/zk6p2h2mfyVfevv6e3OM3/d4i/1WVmIpzkg01GIuKk4EAIHGSnLD
+ AgAA
+X-CMS-MailID: 20200624114138eucas1p262505da3ad1067720080d20209ff32de
 X-Msg-Generator: CA
-X-RootMTR: 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b
+X-RootMTR: 20200624114138eucas1p262505da3ad1067720080d20209ff32de
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b
+X-CMS-RootMailID: 20200624114138eucas1p262505da3ad1067720080d20209ff32de
 References: <20200624114127.3016-1-a.hajda@samsung.com>
- <CGME20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b@eucas1p1.samsung.com>
+ <CGME20200624114138eucas1p262505da3ad1067720080d20209ff32de@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,53 +123,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case of error during resource acquisition driver should print error
-message only in case it is not deferred probe, using probe_err helper
-solves the issue. Moreover it records defer probe reason for debugging.
+Using probe_err code has following advantages:
+- shorter code,
+- recorded defer probe reason for debugging,
+- uniform error code logging.
 
 Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
 ---
- drivers/gpu/drm/bridge/sil-sii8620.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/bridge/lvds-codec.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-index 92acd336aa89..2f825b2d0098 100644
---- a/drivers/gpu/drm/bridge/sil-sii8620.c
-+++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-@@ -2299,10 +2299,8 @@ static int sii8620_probe(struct i2c_client *client,
- 	INIT_LIST_HEAD(&ctx->mt_queue);
- 
- 	ctx->clk_xtal = devm_clk_get(dev, "xtal");
--	if (IS_ERR(ctx->clk_xtal)) {
--		dev_err(dev, "failed to get xtal clock from DT\n");
--		return PTR_ERR(ctx->clk_xtal);
+diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+index 24fb1befdfa2..c76fa0239e39 100644
+--- a/drivers/gpu/drm/bridge/lvds-codec.c
++++ b/drivers/gpu/drm/bridge/lvds-codec.c
+@@ -71,13 +71,8 @@ static int lvds_codec_probe(struct platform_device *pdev)
+ 	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
+ 	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+ 							     GPIOD_OUT_HIGH);
+-	if (IS_ERR(lvds_codec->powerdown_gpio)) {
+-		int err = PTR_ERR(lvds_codec->powerdown_gpio);
+-
+-		if (err != -EPROBE_DEFER)
+-			dev_err(dev, "powerdown GPIO failure: %d\n", err);
+-		return err;
 -	}
-+	if (IS_ERR(ctx->clk_xtal))
-+		return probe_err(dev, ctx->clk_xtal, "failed to get xtal clock from DT\n");
++	if (IS_ERR(lvds_codec->powerdown_gpio))
++		return probe_err(dev, lvds_codec->powerdown_gpio, "powerdown GPIO failure\n");
  
- 	if (!client->irq) {
- 		dev_err(dev, "no irq provided\n");
-@@ -2313,16 +2311,12 @@ static int sii8620_probe(struct i2c_client *client,
- 					sii8620_irq_thread,
- 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
- 					"sii8620", ctx);
--	if (ret < 0) {
--		dev_err(dev, "failed to install IRQ handler\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return probe_err(dev, ret, "failed to install IRQ handler\n");
- 
- 	ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(ctx->gpio_reset)) {
--		dev_err(dev, "failed to get reset gpio from DT\n");
--		return PTR_ERR(ctx->gpio_reset);
--	}
-+	if (IS_ERR(ctx->gpio_reset))
-+		return probe_err(dev, ctx->gpio_reset, "failed to get reset gpio from DT\n");
- 
- 	ctx->supplies[0].supply = "cvcc10";
- 	ctx->supplies[1].supply = "iovcc18";
+ 	/* Locate the panel DT node. */
+ 	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
 -- 
 2.17.1
 
