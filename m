@@ -1,49 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C155A206D21
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 08:58:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9C9206D47
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 09:07:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5080E88FF4;
-	Wed, 24 Jun 2020 06:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7105B6E7E2;
+	Wed, 24 Jun 2020 07:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1846 seconds by postgrey-1.36 at gabe;
- Tue, 23 Jun 2020 23:02:29 UTC
-Received: from mail108.syd.optusnet.com.au (mail108.syd.optusnet.com.au
- [211.29.132.59])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC8C36EA82;
- Tue, 23 Jun 2020 23:02:29 +0000 (UTC)
-Received: from dread.disaster.area (pa49-180-124-177.pa.nsw.optusnet.com.au
- [49.180.124.177])
- by mail108.syd.optusnet.com.au (Postfix) with ESMTPS id 7EAF41A8342;
- Wed, 24 Jun 2020 08:31:36 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1jnrS3-0000sh-12; Wed, 24 Jun 2020 08:31:35 +1000
-Date: Wed, 24 Jun 2020 08:31:35 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH] mm: Track mmu notifiers in fs_reclaim_acquire/release
-Message-ID: <20200623223134.GC2005@dread.disaster.area>
-References: <20200604081224.863494-2-daniel.vetter@ffwll.ch>
- <20200610194101.1668038-1-daniel.vetter@ffwll.ch>
- <20200621174205.GB1398@lca.pw>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFDAC6E7E2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 07:07:45 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 654772002F;
+ Wed, 24 Jun 2020 09:07:40 +0200 (CEST)
+Date: Wed, 24 Jun 2020 09:07:38 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCH 3/3] drm/bridge: ps8640: Rework power state handling
+Message-ID: <20200624070738.GA1807736@ravnborg.org>
+References: <20200615205320.790334-1-enric.balletbo@collabora.com>
+ <20200615205320.790334-4-enric.balletbo@collabora.com>
+ <20200620214225.GD74146@ravnborg.org>
+ <0220cfe5-2ac9-2d8b-529d-bb1a61478395@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200621174205.GB1398@lca.pw>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=W5xGqiek c=1 sm=1 tr=0
- a=k3aV/LVJup6ZGWgigO6cSA==:117 a=k3aV/LVJup6ZGWgigO6cSA==:17
- a=8nJEP1OIZ-IA:10 a=nTHF0DUjJn0A:10 a=WwJGiR1sAAAA:8 a=Z4Rwk6OoAAAA:8
- a=CbDCq_QkAAAA:8 a=37rDS-QxAAAA:8 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
- a=zd2uoN0lAAAA:8 a=7-415B0cAAAA:8 a=YFjDoilscawXd35iVQoA:9
- a=wPNLvfGTeEIA:10 a=Ke8zcFn7cQlxtk25vvl_:22 a=HkZW87K1Qel5hWWM3VKY:22
- a=1qrBK16LubpBFNPVNq2M:22 a=k1Nq6YrhK2t884LQW06G:22
- a=AjGcO6oz07-iQ99wixmX:22 a=biEYGPWJfzWAr4FL6Ov7:22
-X-Mailman-Approved-At: Wed, 24 Jun 2020 06:58:05 +0000
+In-Reply-To: <0220cfe5-2ac9-2d8b-529d-bb1a61478395@collabora.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=QX4gbG5DAAAA:8 a=e5mUnYsNAAAA:8
+ a=fPFVr3NBQ--GmxzU-DwA:9 a=CjuIK1q_8ugA:10 a=AbAUZ8qAyYyZVLSsDulk:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,202 +47,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org,
- Jason Gunthorpe <jgg@mellanox.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas_os@shipmail.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, drinkcat@chromium.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, hsinyi@chromium.org,
+ matthias.bgg@gmail.com, Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 21, 2020 at 01:42:05PM -0400, Qian Cai wrote:
-> On Wed, Jun 10, 2020 at 09:41:01PM +0200, Daniel Vetter wrote:
-> > fs_reclaim_acquire/release nicely catch recursion issues when
-> > allocating GFP_KERNEL memory against shrinkers (which gpu drivers tend
-> > to use to keep the excessive caches in check). For mmu notifier
-> > recursions we do have lockdep annotations since 23b68395c7c7
-> > ("mm/mmu_notifiers: add a lockdep map for invalidate_range_start/end").
-> > =
+Hi Enric.
 
-> > But these only fire if a path actually results in some pte
-> > invalidation - for most small allocations that's very rarely the case.
-> > The other trouble is that pte invalidation can happen any time when
-> > __GFP_RECLAIM is set. Which means only really GFP_ATOMIC is a safe
-> > choice, GFP_NOIO isn't good enough to avoid potential mmu notifier
-> > recursion.
-> > =
+On Tue, Jun 23, 2020 at 05:16:43PM +0200, Enric Balletbo i Serra wrote:
+> Hi Sam,
+> 
+> Many thanks for your feedback. See my answers below.
+> 
+> On 20/6/20 23:42, Sam Ravnborg wrote:
+> > Hi Enric.
+> > 
+> > On Mon, Jun 15, 2020 at 10:53:20PM +0200, Enric Balletbo i Serra wrote:
+> >> The get_edid() callback can be triggered anytime by an ioctl, i.e
+> >>
+> >>   drm_mode_getconnector (ioctl)
+> >>     -> drm_helper_probe_single_connector_modes
+> >>        -> drm_bridge_connector_get_modes
+> >>           -> ps8640_bridge_get_edid
+> >>
+> >> Actually if the bridge pre_enable() function was not called before
+> >> get_edid(), the driver will not be able to get the EDID properly and
+> >> display will not work until a second get_edid() call is issued and if
+> >> pre_enable() is called before.
+> > Is it correct to fix this in the driver?
+> > Why not just fail and tell user-sapce to try again later?
+> > (Dunno what error-code to use - there must be one).
+> > 
+> 
+> My undestanding, I might be wrong, is that userspace should don't know which
+> bits, regulators, etc, are needed to get the EDID with an ioctl. Is the kernel
+> that should make sure that all is set properly (the required regulators, etc)
+> when userspace wants to read the EDID.
 
-> > I was pondering whether we should just do the general annotation, but
-> > there's always the risk for false positives. Plus I'm assuming that
-> > the core fs and io code is a lot better reviewed and tested than
-> > random mmu notifier code in drivers. Hence why I decide to only
-> > annotate for that specific case.
-> > =
+The idea I suggest is that the kernel side should just error
+out and let user-space retry later.
+So we avoid all the extra logic in the kernel because userspace wants
+info before the HW is ready.
+And userspace shall anyway deal with the ioctl that fails.
 
-> > Furthermore even if we'd create a lockdep map for direct reclaim, we'd
-> > still need to explicit pull in the mmu notifier map - there's a lot
-> > more places that do pte invalidation than just direct reclaim, these
-> > two contexts arent the same.
-> > =
+	Sam
 
-> > Note that the mmu notifiers needing their own independent lockdep map
-> > is also the reason we can't hold them from fs_reclaim_acquire to
-> > fs_reclaim_release - it would nest with the acquistion in the pte
-> > invalidation code, causing a lockdep splat. And we can't remove the
-> > annotations from pte invalidation and all the other places since
-> > they're called from many other places than page reclaim. Hence we can
-> > only do the equivalent of might_lock, but on the raw lockdep map.
-> > =
-
-> > With this we can also remove the lockdep priming added in 66204f1d2d1b
-> > ("mm/mmu_notifiers: prime lockdep") since the new annotations are
-> > strictly more powerful.
-> > =
-
-> > v2: Review from Thomas Hellstrom:
-> > - unbotch the fs_reclaim context check, I accidentally inverted it,
-> >   but it didn't blow up because I inverted it immediately
-> > - fix compiling for !CONFIG_MMU_NOTIFIER
-> > =
-
-> > Cc: Thomas Hellstr=F6m (Intel) <thomas_os@shipmail.org>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Jason Gunthorpe <jgg@mellanox.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Christian K=F6nig <christian.koenig@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> =
-
-> Replying the right patch here...
-> =
-
-> Reverting this commit [1] fixed the lockdep warning below while applying
-> some memory pressure.
-> =
-
-> [1] linux-next cbf7c9d86d75 ("mm: track mmu notifiers in fs_reclaim_acqui=
-re/release")
-> =
-
-> [  190.455003][  T369] WARNING: possible circular locking dependency dete=
-cted
-> [  190.487291][  T369] 5.8.0-rc1-next-20200621 #1 Not tainted
-> [  190.512363][  T369] --------------------------------------------------=
-----
-> [  190.543354][  T369] kswapd3/369 is trying to acquire lock:
-> [  190.568523][  T369] ffff889fcf694528 (&xfs_nondir_ilock_class){++++}-{=
-3:3}, at: xfs_reclaim_inode+0xdf/0x860
-> spin_lock at include/linux/spinlock.h:353
-> (inlined by) xfs_iflags_test_and_set at fs/xfs/xfs_inode.h:166
-> (inlined by) xfs_iflock_nowait at fs/xfs/xfs_inode.h:249
-> (inlined by) xfs_reclaim_inode at fs/xfs/xfs_icache.c:1127
-> [  190.614359][  T369]
-> [  190.614359][  T369] but task is already holding lock:
-> [  190.647763][  T369] ffffffffb50ced00 (fs_reclaim){+.+.}-{0:0}, at: __f=
-s_reclaim_acquire+0x0/0x30
-> __fs_reclaim_acquire at mm/page_alloc.c:4200
-> [  190.687845][  T369]
-> [  190.687845][  T369] which lock already depends on the new lock.
-> [  190.687845][  T369]
-> [  190.734890][  T369]
-> [  190.734890][  T369] the existing dependency chain (in reverse order) i=
-s:
-> [  190.775991][  T369]
-> [  190.775991][  T369] -> #1 (fs_reclaim){+.+.}-{0:0}:
-> [  190.808150][  T369]        fs_reclaim_acquire+0x77/0x80
-> [  190.832152][  T369]        slab_pre_alloc_hook.constprop.52+0x20/0x120
-> slab_pre_alloc_hook at mm/slab.h:507
-> [  190.862173][  T369]        kmem_cache_alloc+0x43/0x2a0
-> [  190.885602][  T369]        kmem_zone_alloc+0x113/0x3ef
-> kmem_zone_alloc at fs/xfs/kmem.c:129
-> [  190.908702][  T369]        xfs_inode_item_init+0x1d/0xa0
-> xfs_inode_item_init at fs/xfs/xfs_inode_item.c:639
-> [  190.934461][  T369]        xfs_trans_ijoin+0x96/0x100
-> xfs_trans_ijoin at fs/xfs/libxfs/xfs_trans_inode.c:34
-> [  190.961530][  T369]        xfs_setattr_nonsize+0x1a6/0xcd0
-
-OK, this patch has royally screwed something up if this path thinks
-it can enter memory reclaim. This path is inside a transaction, so
-it is running under PF_MEMALLOC_NOFS context, so should *never*
-enter memory reclaim.
-
-I'd suggest that whatever mods were made to fs_reclaim_acquire by
-this patch broke it's basic functionality....
-
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index 13cc653122b7..7536faaaa0fd 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -57,6 +57,7 @@
-> >  #include <trace/events/oom.h>
-> >  #include <linux/prefetch.h>
-> >  #include <linux/mm_inline.h>
-> > +#include <linux/mmu_notifier.h>
-> >  #include <linux/migrate.h>
-> >  #include <linux/hugetlb.h>
-> >  #include <linux/sched/rt.h>
-> > @@ -4124,7 +4125,7 @@ should_compact_retry(struct alloc_context *ac, un=
-signed int order, int alloc_fla
-> >  static struct lockdep_map __fs_reclaim_map =3D
-> >  	STATIC_LOCKDEP_MAP_INIT("fs_reclaim", &__fs_reclaim_map);
-> >  =
-
-> > -static bool __need_fs_reclaim(gfp_t gfp_mask)
-> > +static bool __need_reclaim(gfp_t gfp_mask)
-> >  {
-> >  	gfp_mask =3D current_gfp_context(gfp_mask);
-
-This is applies the per-task memory allocation context flags to the
-mask that is checked here.
-
-> > @@ -4136,10 +4137,6 @@ static bool __need_fs_reclaim(gfp_t gfp_mask)
-> >  	if (current->flags & PF_MEMALLOC)
-> >  		return false;
-> >  =
-
-> > -	/* We're only interested __GFP_FS allocations for now */
-> > -	if (!(gfp_mask & __GFP_FS))
-> > -		return false;
-> > -
-> >  	if (gfp_mask & __GFP_NOLOCKDEP)
-> >  		return false;
-> >  =
-
-> > @@ -4158,15 +4155,25 @@ void __fs_reclaim_release(void)
-> >  =
-
-> >  void fs_reclaim_acquire(gfp_t gfp_mask)
-> >  {
-> > -	if (__need_fs_reclaim(gfp_mask))
-> > -		__fs_reclaim_acquire();
-> > +	if (__need_reclaim(gfp_mask)) {
-> > +		if (gfp_mask & __GFP_FS)
-> > +			__fs_reclaim_acquire();
-
-.... and they have not been applied in this path. There's your
-breakage.
-
-For future reference, please post anything that changes NOFS
-allocation contexts or behaviours to linux-fsdevel, as filesystem
-developers need to know about proposed changes to infrastructure
-that is critical to the correct functioning of filesystems...
-
-Cheers,
-
-Dave.
--- =
-
-Dave Chinner
-david@fromorbit.com
+> 
+> > Then we avoid complicating drivers fro somethign we really should
+> > fix in user-space.
+> > 
+> >> The side effect of this, for example, is
+> >> that you see anything when `Frecon` starts, neither the splash screen,
+> > that you do not see ...
+> > 
+> > (Otherwise I do not parse the above).
+> > 
+> >> until the graphical session manager starts.
+> >>
+> >> To fix this we need to make sure that all we need is enabled before
+> >> reading the EDID. This means the following:
+> >>
+> >> 1. If get_edid() is called before having the device powered we need to
+> >>    power on the device. In such case, the driver will power off again the
+> >>    device.
+> >>
+> >> 2. If get_edid() is called after having the device powered, all should
+> >>    just work. We added a powered flag in order to avoid recurrent calls
+> >>    to ps8640_bridge_poweron() and unneeded delays.
+> >>
+> >> 3. This seems to be specific for this device, but we need to make sure
+> >>    the panel is powered on before do a power on cycle on this device.
+> >>    Otherwise the device fails to retrieve the EDID.
+> > Step 3. looks like an ugly hack too....
+> > 
+> 
+> It is, but I don't have enough hardware details to be able to answer why we need
+> to do this. What is well tested is that, if I don't power the panel before
+> powering on the bridge, it doesn't get a proper EDID. Seems that when the bridge
+> goes up, the firmware tries to read the EDID and caches somehow. Well not sure.
+> 
+> >>
+> >> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> >> ---
+> >>
+> >>  drivers/gpu/drm/bridge/parade-ps8640.c | 79 ++++++++++++++++++++++++--
+> >>  1 file changed, 73 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> >> index 9f7b7a9c53c52..ca651480891df 100644
+> >> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> >> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> >> @@ -65,6 +65,7 @@ struct ps8640 {
+> >>  	struct regulator_bulk_data supplies[2];
+> >>  	struct gpio_desc *gpio_reset;
+> >>  	struct gpio_desc *gpio_powerdown;
+> >> +	bool powered;
+> >>  };
+> >>  
+> >>  static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+> >> @@ -91,13 +92,25 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+> >>  	return 0;
+> >>  }
+> >>  
+> >> -static void ps8640_pre_enable(struct drm_bridge *bridge)
+> >> +static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+> >>  {
+> >> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> >>  	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
+> >> +	struct drm_bridge *panel;
+> >>  	unsigned long timeout;
+> >>  	int ret, status;
+> >>  
+> >> +	if (ps_bridge->powered)
+> >> +		return;
+> >> +
+> >> +	/*
+> >> +	 * That seems to be specific to this chip, and a weird behaviour, but
+> >> +	 * we need to call drm_panel_prepare before issuing a poweron cycle. If
+> >> +	 * we don't do this, the chip is not able to read properly the EDID.
+> >> +	 */
+> >> +	panel = ps_bridge->panel_bridge;
+> >> +	if (panel->funcs && panel->funcs->pre_enable)
+> >> +		panel->funcs->pre_enable(panel);
+> >> +
+> >>  	ret = regulator_bulk_enable(ARRAY_SIZE(ps_bridge->supplies),
+> >>  				    ps_bridge->supplies);
+> >>  	if (ret < 0) {
+> >> @@ -164,6 +177,8 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+> >>  		goto err_regulators_disable;
+> >>  	}
+> >>  
+> >> +	ps_bridge->powered = true;
+> >> +
+> >>  	return;
+> >>  
+> >>  err_regulators_disable:
+> >> @@ -171,12 +186,13 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+> >>  			       ps_bridge->supplies);
+> >>  }
+> >>  
+> >> -static void ps8640_post_disable(struct drm_bridge *bridge)
+> >> +static void ps8640_bridge_poweroff(struct ps8640 *ps_bridge)
+> >>  {
+> >> -	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> >> +	struct drm_bridge *panel;
+> >>  	int ret;
+> >>  
+> >> -	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> >> +	if (!ps_bridge->powered)
+> >> +		return;
+> >>  
+> >>  	gpiod_set_value(ps_bridge->gpio_reset, 1);
+> >>  	gpiod_set_value(ps_bridge->gpio_powerdown, 1);
+> >> @@ -184,6 +200,32 @@ static void ps8640_post_disable(struct drm_bridge *bridge)
+> >>  				     ps_bridge->supplies);
+> >>  	if (ret < 0)
+> >>  		DRM_ERROR("cannot disable regulators %d\n", ret);
+> >> +
+> >> +	panel = ps_bridge->panel_bridge;
+> >> +	if (panel->funcs && panel->funcs->post_disable)
+> >> +		panel->funcs->post_disable(panel);
+> >> +
+> >> +	ps_bridge->powered = false;
+> >> +}
+> >> +
+> >> +static void ps8640_pre_enable(struct drm_bridge *bridge)
+> >> +{
+> >> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> >> +	int ret;
+> >> +
+> >> +	ps8640_bridge_poweron(ps_bridge);
+> >> +
+> >> +	ret = ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> >> +	if (ret < 0)
+> >> +		ps8640_bridge_poweroff(ps_bridge);
+> >> +}
+> >> +
+> >> +static void ps8640_post_disable(struct drm_bridge *bridge)
+> >> +{
+> >> +	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> >> +
+> >> +	ps8640_bridge_vdo_control(ps_bridge, DISABLE);
+> >> +	ps8640_bridge_poweroff(ps_bridge);
+> >>  }
+> >>  
+> >>  static int ps8640_bridge_attach(struct drm_bridge *bridge,
+> >> @@ -249,9 +291,34 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+> >>  					   struct drm_connector *connector)
+> >>  {
+> >>  	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> >> +	bool poweroff = !ps_bridge->powered;
+> >> +	struct edid *edid;
+> >> +
+> >> +	/*
+> >> +	 * When we end calling get_edid() triggered by an ioctl, i.e
+> >> +	 *
+> >> +	 *   drm_mode_getconnector (ioctl)
+> >> +	 *     -> drm_helper_probe_single_connector_modes
+> >> +	 *        -> drm_bridge_connector_get_modes
+> >> +	 *           -> ps8640_bridge_get_edid
+> >> +	 *
+> >> +	 * We need to make sure that what we need is enabled before reading
+> >> +	 * EDID, for this chip, we need to do a full poweron, otherwise it will
+> >> +	 * fail.
+> >> +	 */
+> >> +	ps8640_bridge_poweron(ps_bridge);
+> >>  
+> >> -	return drm_get_edid(connector,
+> >> +	edid = drm_get_edid(connector,
+> >>  			    ps_bridge->page[PAGE0_DP_CNTL]->adapter);
+> >> +
+> >> +	/*
+> >> +	 * If we call the get_edid() function without having enabled the chip
+> >> +	 * before, return the chip to its original power state.
+> >> +	 */
+> >> +	if (poweroff)
+> >> +		ps8640_bridge_poweroff(ps_bridge);
+> >> +
+> >> +	return edid;
+> >>  }
+> >>  
+> >>  static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+> >> -- 
+> >> 2.27.0
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
