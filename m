@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651E5209688
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 00:47:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E34232096AE
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 01:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314336E0BF;
-	Wed, 24 Jun 2020 22:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFEA6E11B;
+	Wed, 24 Jun 2020 23:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A50B46E0BF;
- Wed, 24 Jun 2020 22:47:17 +0000 (UTC)
-IronPort-SDR: 3hM6xRQGfUTITa1Wf+FunBz92XOweOF8YgYdPysZ+O2Gd2HhfaeCkdQci8PONYJ1RR5bjA/pz5
- Xe3HAi2dD1oQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="132110826"
-X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="132110826"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2020 15:47:16 -0700
-IronPort-SDR: fj7uCr4+gfgWjoptZ15jySUo2cniGrs/T2oY0+lwgvYz2LpARLRSx3s4nTeO7RDQNRfPjMHOzU
- lUWNyU1NgNTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="479437828"
-Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
- by fmsmga005.fm.intel.com with ESMTP; 24 Jun 2020 15:47:15 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] Revert "drm/amd/display: Expose connector VRR range
- via debugfs"
-Date: Wed, 24 Jun 2020 15:48:30 -0700
-Message-Id: <20200624224830.26093-1-manasi.d.navare@intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20200622142519.16214-4-bhanuprakash.modem@intel.com>
-References: <20200622142519.16214-4-bhanuprakash.modem@intel.com>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 874DE6E117
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 23:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593039811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=47e4R4MX45RHYkvOMdq8CQpNKFVhVKgINg/IpfZ7Tss=;
+ b=Y/y4WyZys8CaPKB9MOb6ImYnymTONTMtBdhK4ijTvmAsP9hr9juHnCQR4Wem5XcMJyOGSj
+ FQKHFlYeUapSuwRHl054f8+KVVPg7FEbce1d17QhEasP2GRvy0gwV7p2eY+qHWbuviDLws
+ 4IFG9jf9i+htPfnUNDh/ilzt+PKyWco=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-UoPwQAY-PPGALMampGq1Kg-1; Wed, 24 Jun 2020 19:03:29 -0400
+X-MC-Unique: UoPwQAY-PPGALMampGq1Kg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3565D184D162;
+ Wed, 24 Jun 2020 23:03:28 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-115-214.rdu2.redhat.com
+ [10.10.115.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABE581001B07;
+ Wed, 24 Jun 2020 23:03:27 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org
+Subject: [RFC v7 00/11] drm/nouveau: Introduce CRC support for gf119+
+Date: Wed, 24 Jun 2020 19:03:07 -0400
+Message-Id: <20200624230318.126256-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,88 +58,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: AMD gfx <amd-gfx@lists.freedesktop.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-
-v2:
-* Rebase (Manasi)
-
-As both VRR min and max are already part of drm_display_info,
-drm can expose this VRR range for each connector.
-
-Hence this logic should move to core DRM.
-
-This reverts commit 727962f030c23422a01e8b22d0f463815fb15ec4.
-
-Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Cc: AMD gfx <amd-gfx@lists.freedesktop.org>
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
----
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 -------------------
- 1 file changed, 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 076af267b488..71387d2af2ed 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -820,24 +820,6 @@ static int output_bpc_show(struct seq_file *m, void *data)
- 	return res;
- }
- 
--/*
-- * Returns the min and max vrr vfreq through the connector's debugfs file.
-- * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-- */
--static int vrr_range_show(struct seq_file *m, void *data)
--{
--	struct drm_connector *connector = m->private;
--	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
--
--	if (connector->status != connector_status_connected)
--		return -ENODEV;
--
--	seq_printf(m, "Min: %u\n", (unsigned int)aconnector->min_vfreq);
--	seq_printf(m, "Max: %u\n", (unsigned int)aconnector->max_vfreq);
--
--	return 0;
--}
--
- #ifdef CONFIG_DRM_AMD_DC_HDCP
- /*
-  * Returns the HDCP capability of the Display (1.4 for now).
-@@ -1001,7 +983,6 @@ static ssize_t dp_dpcd_data_read(struct file *f, char __user *buf,
- DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
- DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
- DEFINE_SHOW_ATTRIBUTE(output_bpc);
--DEFINE_SHOW_ATTRIBUTE(vrr_range);
- #ifdef CONFIG_DRM_AMD_DC_HDCP
- DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
- #endif
-@@ -1059,7 +1040,6 @@ static const struct {
- 		{"phy_settings", &dp_phy_settings_debugfs_fop},
- 		{"test_pattern", &dp_phy_test_pattern_fops},
- 		{"output_bpc", &output_bpc_fops},
--		{"vrr_range", &vrr_range_fops},
- #ifdef CONFIG_DRM_AMD_DC_HDCP
- 		{"hdcp_sink_capability", &hdcp_sink_capability_fops},
- #endif
--- 
-2.19.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TnZpZGlhIHJlbGVhc2VkIHNvbWUgZG9jdW1lbnRhdGlvbiBvbiBob3cgQ1JDIHN1cHBvcnQgd29y
+a3Mgb24gdGhlaXIKR1BVcywgaG9vcmF5IQoKU286IHRoaXMgcGF0Y2ggc2VyaWVzIGltcGxlbWVu
+dHMgc2FpZCBDUkMgc3VwcG9ydCBpbiBub3V2ZWF1LCBhbG9uZyB3aXRoCmFkZGluZyBzb21lIHNw
+ZWNpYWwgZGVidWdmcyBpbnRlcmZhY2VzIGZvciBzb21lIHJlbGV2YW50IGlndC1ncHUtdG9vbHMK
+dGVzdHMgKGFscmVhZHkgb24gdGhlIE1MKS4KCkZpcnN0IC0gd2UgYWRkIHNvbWUgbmV3IGZ1bmN0
+aW9uYWxpdHkgdG8ga3RocmVhZF93b3JrIGluIHRoZSBrZXJuZWwsIGFuZAp0aGVuIHVzZSB0aGlz
+IHRvIGFkZCBhIG5ldyBmZWF0dXJlIHRvIERSTSB0aGF0IFZpbGxlIFN5cmrDpGzDpCBjYW1lIHVw
+CndpdGg6IHZibGFuayB3b3JrZXJzLiBCYXNpY2FsbHksIHRoaXMgaXMganVzdCBhIGdlbmVyaWMg
+RFJNIGludGVyZmFjZQp0aGF0IGFsbG93cyBmb3Igc2NoZWR1bGluZyBoaWdoLXByaW9yaXR5IHdv
+cmtlcnMgdGhhdCBzdGFydCBvbiBhIGdpdmVuCnZibGFuayBpbnRlcnJ1cHQuIE5vdGUgdGhhdCB3
+aGlsZSB3ZSdyZSBjdXJyZW50bHkgb25seSB1c2luZyB0aGlzIGluCm5vdXZlYXUsIEludGVsIGhh
+cyBwbGFucyB0byB1c2UgdGhpcyBmb3IgaTkxNSBhcyB3ZWxsIChoZW5jZSB3aHkgdGhleQpjYW1l
+IHVwIHdpdGggaXQhKS4KCkFuZCBmaW5hbGx5OiBpbiBvcmRlciB0byBpbXBsZW1lbnQgdGhlIGxh
+c3QgZmVhdHVyZSwgd2UgZXhwb3NlIHNvbWUgbmV3CmZ1bmN0aW9ucyBpbiB0aGUga2VybmVsJ3Mg
+a3RocmVhZF93b3JrZXIgaW5mcmFzdHJ1Y3R1cmUgc28gdGhhdCB3ZSBjYW4KZGUtY29tcGxpY2F0
+ZSBvdXIgaW1wbGVtZW50YXRpb24gb2YgdGhpcy4KCkFueXdheS13ZWxjb21lIHRvIHRoZSBmdXR1
+cmUhIDopCgpNYWpvciBjaGFuZ2VzIHNpbmNlIHY2OgoqIE1vdmUgdmJsYW5rX3dvcmsgcmVsYXRl
+ZCBmdW5jdGlvbnMgaW50byB0aGVpciBvd24gZmlsZXMKKiBXcml0ZSBkb2N1bWVudGF0aW9uCiog
+U2ltcGxpZnkgd29yayBmbHVzaGluZyBhbmQgY2FuY2VsbGF0aW9uIGJ5IGdldHRpbmcgcmlkIG9m
+IHNlcWNvdW50cwogIGFuZCAtPnBlbmRpbmcKTWFqb3IgY2hhbmdlcyBzaW5jZSB2NDoKKiBSZW1v
+dmUgdGhlIGludGVyZmFjZXMgd2UgdHJpZWQgYWRkaW5nIHRvIGt0aHJlYWRfd29ya2VyIGFuZCB1
+c2UgYSB3YWl0CiAgcXVldWUgKyBzZXFjb3VudCBpbiBvcmRlciB0byBpbXBsZW1lbnQgZmx1c2hp
+bmcgdmJsYW5rIHdvcmtlcnMuCiogUmViYXNlCk1ham9yIGNoYW5nZXMgc2luY2UgdjM6CiogU3R5
+bGUgZml4ZXMgb24gbm91dmVhdSBwYXRjaGVzIGZyb20gY2hlY2twYXRjaCwgbm8gZnVuY3Rpb25h
+bCBjaGFuZ2VzCiogRG9uJ3QgaW50ZWdyYXRlIHNvIHRpZ2h0bHkgd2l0aCBrdGhyZWFkX3dvcmsg
+KGFuZCB1c2Ugb3VyIG93biBsb2NrKSwKICBpbnN0ZWFkIGludHJvZHVjZSBzb21lIG5ldyBmdW5j
+dGlvbnMgZm9yIGRvaW5nIHNpbXBsZSBhc3luYyBmbHVzaGluZwogIGFuZCBjYW5jZWxsaW5nLiBJ
+IHRoaW5rIHRoaXMgaW50ZXJmYWNlIGxvb2tzIGEgbG90IG1vcmUgYWNjZXB0YWJsZQogIHRoZW4g
+d2hhdCBJIHdhcyBwcmV2aW91c2x5IHRyeWluZy4KKiBBcHBseSBzb21lIGNoYW5nZXMgcmVxdWVz
+dGVkIGJ5IGRhbnZldApNYWpvciBjaGFuZ2VzIHNpbmNlIHYyOgoqIFVzZSBrdGhyZWFkX3dvcmtl
+ciBpbnN0ZWFkIG9mIGt0aHJlYWRkIGZvciB2Ymxhbmsgd29ya2VycwoqIERvbid0IGNoZWNrIGRl
+YnVnZnMgcmV0dXJuIHZhbHVlcwoKTHl1ZGUgUGF1bCAoMTEpOgogIGRybS92Ymxhbms6IFJlZ2lz
+dGVyIGRybW0gY2xlYW51cCBhY3Rpb24gb25jZSBwZXIgZHJtX3ZibGFua19jcnRjCiAgZHJtL3Zi
+bGFuazogVXNlIHNwaW5fKHVuKWxvY2tfaXJxKCkgaW4gZHJtX2NydGNfdmJsYW5rX29mZigpCiAg
+ZHJtL3ZibGFuazogQWRkIHZibGFuayB3b3JrcwogIGRybS9ub3V2ZWF1L2ttcy9udjUwLTogVW5y
+b2xsIGVycm9yIGNsZWFudXAgaW4gbnY1MF9oZWFkX2NyZWF0ZSgpCiAgZHJtL25vdXZlYXUva21z
+L252MTQwLTogRG9uJ3QgbW9kaWZ5IGRlcHRoIGluIHN0YXRlIGR1cmluZyBhdG9taWMKICAgIGNv
+bW1pdAogIGRybS9ub3V2ZWF1L2ttcy9udjUwLTogRml4IGRpc2FibGluZyBkaXRoZXJpbmcKICBk
+cm0vbm91dmVhdS9rbXMvbnY1MC06IHMvaGFybS9hcm1oL2cKICBkcm0vbm91dmVhdS9rbXMvbnYx
+NDAtOiBUcmFjayB3bmR3IG1hcHBpbmdzIGluIG52NTBfaGVhZF9hdG9tCiAgZHJtL25vdXZlYXUv
+a21zL252NTAtOiBFeHBvc2UgbnY1MF9vdXRwX2F0b20gaW4gZGlzcC5oCiAgZHJtL25vdXZlYXUv
+a21zL252NTAtOiBNb3ZlIGhhcmQtY29kZWQgb2JqZWN0IGhhbmRsZXMgaW50byBoZWFkZXIKICBk
+cm0vbm91dmVhdS9rbXMvbnZkOS06IEFkZCBDUkMgc3VwcG9ydAoKIERvY3VtZW50YXRpb24vZ3B1
+L2RybS1rbXMucnN0ICAgICAgICAgICAgICAgfCAgMTUgKwogZHJpdmVycy9ncHUvZHJtL01ha2Vm
+aWxlICAgICAgICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL2RybV92Ymxh
+bmsuYyAgICAgICAgICAgICAgICB8ICA4MyArKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5r
+X2ludGVybmFsLmggICAgICAgfCAgMTkgKwogZHJpdmVycy9ncHUvZHJtL2RybV92Ymxhbmtfd29y
+ay5jICAgICAgICAgICB8IDI1OSArKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFua193
+b3JrX2ludGVybmFsLmggIHwgIDI0ICsKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjA0
+L2NydGMuYyAgICAgfCAgMjUgKy0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL0ti
+dWlsZCAgICAgfCAgIDQgKwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvYXRvbS5o
+ICAgICB8ICAyMSArCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jb3JlLmggICAg
+IHwgICA0ICsKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NvcmU5MDdkLmMgfCAg
+IDMgKwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY29yZTkxN2QuYyB8ICAgMyAr
+CiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jb3JlYzM3ZC5jIHwgICAzICsKIGRy
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NvcmVjNTdkLmMgfCAgIDMgKwogZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjLmMgICAgICB8IDcxNCArKysrKysrKysrKysr
+KysrKysrKwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjLmggICAgICB8IDEy
+NSArKysrCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmM5MDdkLmMgIHwgMTM5
+ICsrKysKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyY2MzN2QuYyAgfCAxNTMg
+KysrKysKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyAgICAgfCAgNTgg
+Ky0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuaCAgICAgfCAgMjQgKwog
+ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvaGFuZGxlcy5oICB8ICAxNiArCiBkcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oZWFkLmMgICAgIHwgMTM0ICsrKy0KIGRyaXZl
+cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWQuaCAgICAgfCAgMTIgKy0KIGRyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWQ5MDdkLmMgfCAgMTQgKy0KIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWRjMzdkLmMgfCAgMjcgKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWRjNTdkLmMgfCAgMjAgKy0KIGRyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L2Rpc3BudjUwL3duZHcuYyAgICAgfCAgMTUgKy0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L25vdXZlYXVfZGlzcGxheS5jICAgfCAgNjAgKy0KIGluY2x1ZGUvZHJtL2RybV92Ymxhbmsu
+aCAgICAgICAgICAgICAgICAgICAgfCAgMjAgKwogaW5jbHVkZS9kcm0vZHJtX3ZibGFua193b3Jr
+LmggICAgICAgICAgICAgICB8ICA3MSArKwogMzAgZmlsZXMgY2hhbmdlZCwgMTkxMCBpbnNlcnRp
+b25zKCspLCAxNjAgZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUv
+ZHJtL2RybV92YmxhbmtfaW50ZXJuYWwuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
+L2RybS9kcm1fdmJsYW5rX3dvcmsuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2Ry
+bS9kcm1fdmJsYW5rX3dvcmtfaW50ZXJuYWwuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmM5MDdkLmMKIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmNjMzdkLmMKIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oYW5kbGVzLmgKIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2RybS9kcm1fdmJsYW5rX3dvcmsuaAoKLS0gCjIuMjYuMgoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
