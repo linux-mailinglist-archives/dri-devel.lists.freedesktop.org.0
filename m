@@ -2,33 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D7D2073E3
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 15:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765352073E7
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 15:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9986EB35;
-	Wed, 24 Jun 2020 13:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93DA36EB37;
+	Wed, 24 Jun 2020 13:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3F166EB35
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 13:00:31 +0000 (UTC)
-Date: Wed, 24 Jun 2020 13:00:21 +0000
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DEE36EB37
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 13:01:42 +0000 (UTC)
+Date: Wed, 24 Jun 2020 13:01:31 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1593003629;
- bh=+Q0jPxOqb0AIvIUIGWi9TEzOEu644Z6MOjn9/7ejmyA=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=r6G6KKy6kozWMs1krzuPRAAqbS7wfsTMnqkl0OBjFcNo3b4I/Vs1fEIPVZGdmKcuQ
- JvwJsGQ/6hsj6eAEurc8/zDo5prZtwy8b3iFHe5LFqwl9yqJhyUjM6JB1t6lnffKDa
- 49o7LTCz91s1K3/3ZRt3zwkyad41wwHDBkWsHQq0=
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+ s=protonmail; t=1593003700;
+ bh=OPfxGU97dOv05X35ljs6m7gWPRFRNlr0Rlq9eq8SKbU=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=KpAB+ViW5BDbIwi0XMnExamYWKeBnNsRXudW6QBio5G7X0OghXhaX7P3cjPslS7rI
+ gJBrjr6BvE2fsx6q/+EHru568xbMuDZQPq41lJdDyRaI/GyttWCJCNlSOS3rBmZPWQ
+ pr8otIvJcKRTZ01IoXVx17opBu2O7HPWr3wJpBuM=
+To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v5] drm/fourcc: document modifier uniqueness requirements
-Message-ID: <4L3gyUXh1sjFXZG4PwRjuRp1P0qDMj--TIcNy0srks5n1zkPhmZL7Z-cDPujx7kL8vwbnBSwGJdRQLmjFa5Y2rl2QwZ0L6zDA5R6YwYgUZU=@emersion.fr>
-In-Reply-To: <CAKMK7uGZ+iAiyuGf=SAB3ZMmYyAttFdHF3qqRf_2_iTox_KKBw@mail.gmail.com>
-References: <rq4ENYWGZ-rcmWZd1GT2lfUyU6n5fhimWeCPOct0dFKVK4OJ0pKbujgy6A4ldMZkg5ldKUzDMX_6Vjnjb_Vnst3a0YCI2RFQin42nUn_Hgk=@emersion.fr>
- <20200624110804.fynorcdkxcbqbasj@DESKTOP-E1NTVVP.localdomain>
- <CAKMK7uGZ+iAiyuGf=SAB3ZMmYyAttFdHF3qqRf_2_iTox_KKBw@mail.gmail.com>
+Subject: [PATCH v6] drm/fourcc: document modifier uniqueness requirements
+Message-ID: <MGwgeXojKNdNXjCxuMhRlwcJM4vdYph_WJcMeGPPGMcRKtHV41XAXlh2tCc-pPJZCAhS3gwbWMWTd8f03NBA2ZYKfr0QxLhcPivpopr5c6M=@emersion.fr>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -49,22 +44,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Reply-To: Simon Ser <contact@emersion.fr>
 Cc: =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>, nd <nd@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > The new paragraph below looks good, but this sentence from the end of
-> > the paragraph above still needs to be removed:
-> > An example is AFBC, where both ARGB and ABGR have the exact same compressed layout.
->
-> I think that entire paragraph was meant to be deleted, the replacement
-> is the new one below. Otherwise we have 2x the exact same sentence :-)
-
-Err, indeed, sorry about that! Sending a fixed version.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgaGF2ZSBzdWdnZXN0aW9ucyB0byBiYWtlIHBpdGNoIGFsaWdubWVudCwgYWRkcmVzcyBh
+bGlnbmVtZW50LApjb250aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBW
+UkFNLCBHVFQvQkFSLCBldGMpCmNvbnN0cmFpbnRzIGludG8gbW9kaWZpZXJzLiBMYXN0IHRpbWUg
+dGhpcyB3YXMgYnJvdWdodCB1cCBpdCBzZWVtZWQKbGlrZSB0aGUgY29uc2Vuc3VzIHdhcyB0byBu
+b3QgYWxsb3cgdGhpcy4gRG9jdW1lbnQgdGhpcyBpbiBkcm1fZm91cmNjLmguCgpUaGVyZSBhcmUg
+c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgoKLSBFbmNvZGluZyBhbGwgb2YgdGhlc2UgY29uc3Ry
+YWludHMgaW4gdGhlIG1vZGlmaWVycyB3b3VsZCBleHBsb2RlIHRoZQogIHNlYXJjaCBzcGFjZSBw
+cmV0dHkgcXVpY2tseSAod2Ugb25seSBoYXZlIDY0IGJpdHMgdG8gd29yayB3aXRoKS4KLSBNb2Rp
+ZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2FuIG9ubHkgaGF2ZSBhIHNp
+bmdsZQogIG1vZGlmaWVyLgotIE1vZGlmaWVyIHVzZXJzIGFyZW4ndCBleHBlY3RlZCB0byBwYXJz
+ZSBtb2RpZmllcnMgKGV4Y2VwdCBkcml2ZXJzKS4KCnYyOiBhZGQgcGFyYWdyYXBoIGFib3V0IGFs
+aWFzZXMgKERhbmllbCkKCnYzOiBmaXggdW5yZWxhdGVkIGNoYW5nZXMgc2VudCB3aXRoIHRoZSBw
+YXRjaAoKdjQ6IGRpc2FtYmlndWF0ZSB1c2VycyBiZXR3ZWVuIGRyaXZlciBhbmQgaGlnaGVyLWxl
+dmVsIHByb2dyYW1zIChCcmlhbiwKRGFuaWVsKQoKdjU6IGZpeCBBRkJDIGV4YW1wbGUgKEJyaWFu
+LCBEYW5pZWwpCgp2NjogcmVtb3ZlIGR1cGxpY2F0ZWQgcGFyYWdyYXBoIChEYW5pZWwpCgpTaWdu
+ZWQtb2ZmLWJ5OiBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+ClJldmlld2VkLWJ5OiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogRGFuaWVsIFN0b25lIDxk
+YW5pZWxAZm9vaXNoYmFyLm9yZz4KQ2M6IEJhcyBOaWV1d2VuaHVpemVuIDxiYXNAYmFzbmlldXdl
+bmh1aXplbi5ubD4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KQ2M6IE1hcmVr
+IE9sxaHDoWsgPG1hcmFlb0BnbWFpbC5jb20+CkNjOiBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVy
+QGdtYWlsLmNvbT4KQ2M6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4K
+Q2M6IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+CkNjOiBCcmlhbiBTdGFya2V5
+IDxicmlhbi5zdGFya2V5QGFybS5jb20+Ci0tLQogaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNj
+LmggfCAyNCArKysrKysrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAyNCBpbnNl
+cnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmggYi9p
+bmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaAppbmRleCA0OTAxNDM1MDBhNTAuLjhlYWExNThm
+ZWY4MSAxMDA2NDQKLS0tIGEvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKKysrIGIvaW5j
+bHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKQEAgLTU4LDYgKzU4LDMwIEBAIGV4dGVybiAiQyIg
+ewogICogbWF5IHByZXNlcnZlIG1lYW5pbmcgLSBzdWNoIGFzIG51bWJlciBvZiBwbGFuZXMgLSBm
+cm9tIHRoZSBmb3VyY2MgY29kZSwKICAqIHdoZXJlYXMgb3RoZXJzIG1heSBub3QuCiAgKgorICog
+TW9kaWZpZXJzIG11c3QgdW5pcXVlbHkgZW5jb2RlIGJ1ZmZlciBsYXlvdXQuIEluIG90aGVyIHdv
+cmRzLCBhIGJ1ZmZlciBtdXN0CisgKiBtYXRjaCBvbmx5IGEgc2luZ2xlIG1vZGlmaWVyLiBBIG1v
+ZGlmaWVyIG11c3Qgbm90IGJlIGEgc3Vic2V0IG9mIGxheW91dHMgb2YKKyAqIGFub3RoZXIgbW9k
+aWZpZXIuIEZvciBpbnN0YW5jZSwgaXQncyBpbmNvcnJlY3QgdG8gZW5jb2RlIHBpdGNoIGFsaWdu
+bWVudCBpbgorICogYSBtb2RpZmllcjogYSBidWZmZXIgbWF5IG1hdGNoIGEgNjQtcGl4ZWwgYWxp
+Z25lZCBtb2RpZmllciBhbmQgYSAzMi1waXhlbAorICogYWxpZ25lZCBtb2RpZmllci4gVGhhdCBz
+YWlkLCBtb2RpZmllcnMgY2FuIGhhdmUgaW1wbGljaXQgbWluaW1hbAorICogcmVxdWlyZW1lbnRz
+LgorICoKKyAqIEZvciBtb2RpZmllcnMgd2hlcmUgdGhlIGNvbWJpbmF0aW9uIG9mIGZvdXJjYyBj
+b2RlIGFuZCBtb2RpZmllciBjYW4gYWxpYXMsCisgKiBhIGNhbm9uaWNhbCBwYWlyIG5lZWRzIHRv
+IGJlIGRlZmluZWQgYW5kIHVzZWQgYnkgYWxsIGRyaXZlcnMuIFByZWZlcnJlZAorICogY29tYmlu
+YXRpb25zIGFyZSBhbHNvIGVuY291cmFnZWQgd2hlcmUgYWxsIGNvbWJpbmF0aW9ucyBtaWdodCBs
+ZWFkIHRvCisgKiBjb25mdXNpb24gYW5kIHVubmVjZXNzYXJpbHkgcmVkdWNlZCBpbnRlcm9wZXJh
+YmlsaXR5LiBBbiBleGFtcGxlIGZvciB0aGUKKyAqIGxhdHRlciBpcyBBRkJDLCB3aGVyZSB0aGUg
+QUJHUiBsYXlvdXRzIGFyZSBwcmVmZXJyZWQgb3ZlciBBUkdCIGxheW91dHMuCisgKgorICogVGhl
+cmUgYXJlIHR3byBraW5kcyBvZiBtb2RpZmllciB1c2VyczoKKyAqCisgKiAtIEtlcm5lbCBhbmQg
+dXNlci1zcGFjZSBkcml2ZXJzOiBmb3IgZHJpdmVycyBpdCdzIGltcG9ydGFudCB0aGF0IG1vZGlm
+aWVycworICogICBkb24ndCBhbGlhcywgb3RoZXJ3aXNlIHR3byBkcml2ZXJzIG1pZ2h0IHN1cHBv
+cnQgdGhlIHNhbWUgZm9ybWF0IGJ1dCB1c2UKKyAqICAgZGlmZmVyZW50IGFsaWFzZXMsIHByZXZl
+bnRpbmcgdGhlbSBmcm9tIHNoYXJpbmcgYnVmZmVycyBpbiBhbiBlZmZpY2llbnQKKyAqICAgZm9y
+bWF0LgorICogLSBIaWdoZXItbGV2ZWwgcHJvZ3JhbXMgaW50ZXJmYWNpbmcgd2l0aCBLTVMvR0JN
+L0VHTC9WdWxrYW4vZXRjOiB0aGVzZSB1c2VycworICogICBzZWUgbW9kaWZpZXJzIGFzIG9wYXF1
+ZSB0b2tlbnMgdGhleSBjYW4gY2hlY2sgZm9yIGVxdWFsaXR5IGFuZCBpbnRlcnNlY3QuCisgKiAg
+IFRoZXNlIHVzZXJzIG11c24ndCBuZWVkIHRvIGtub3cgdG8gcmVhc29uIGFib3V0IHRoZSBtb2Rp
+ZmllciB2YWx1ZQorICogICAoaS5lLiB0aGV5IGFyZSBub3QgZXhwZWN0ZWQgdG8gZXh0cmFjdCBp
+bmZvcm1hdGlvbiBvdXQgb2YgdGhlIG1vZGlmaWVyKS4KKyAqCiAgKiBWZW5kb3JzIHNob3VsZCBk
+b2N1bWVudCB0aGVpciBtb2RpZmllciB1c2FnZSBpbiBhcyBtdWNoIGRldGFpbCBhcwogICogcG9z
+c2libGUsIHRvIGVuc3VyZSBtYXhpbXVtIGNvbXBhdGliaWxpdHkgYWNyb3NzIGRldmljZXMsIGRy
+aXZlcnMgYW5kCiAgKiBhcHBsaWNhdGlvbnMuCi0tIAoyLjI3LjAKCgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
