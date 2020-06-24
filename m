@@ -2,103 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44D8207469
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 15:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53785207470
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 15:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081966EB45;
-	Wed, 24 Jun 2020 13:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51BD86EB41;
+	Wed, 24 Jun 2020 13:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4106EB41
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 13:26:19 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200624132617euoutp022976ffb51eb23a957de7b52dc1109739~bfcTepBP22079920799euoutp02w
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 13:26:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200624132617euoutp022976ffb51eb23a957de7b52dc1109739~bfcTepBP22079920799euoutp02w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593005177;
- bh=0gqxpn18q0iv1xmjJZRrD/hRcqgguNv5UewCRUP14cc=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=I65y0rS29qiRwmeZBLIUNxU65pHP2TFz4lMuJQkKnASe4yEKNrsUHUjf+nmCLtCRJ
- +5nh8m5aDzS396okzqEsSdejNZWM+4Lo4UKKp6vFDZzMOiZaJXWD1bA89DvddYNiKE
- Dwh9JC3GlWIsMtpMXbZcqj3nBu5U4FqXzBH2PySI=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200624132617eucas1p177e4764ae168a90cce619a5790491c75~bfcTL1Taw1737917379eucas1p1W;
- Wed, 24 Jun 2020 13:26:17 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id D0.EF.05997.97453FE5; Wed, 24
- Jun 2020 14:26:17 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200624132617eucas1p2a5588ef1821b826ff1aba8465f276b71~bfcS0sSNQ2249322493eucas1p2B;
- Wed, 24 Jun 2020 13:26:16 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200624132616eusmtrp1a7b178dcb4c5c2ecdd3230ac5e04b0d3~bfcSzOkKe1250812508eusmtrp11;
- Wed, 24 Jun 2020 13:26:16 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-1c-5ef354791ddc
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id D4.84.06314.87453FE5; Wed, 24
- Jun 2020 14:26:16 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200624132615eusmtip160f5fa79a788116bbd3770cdf1ada0ce~bfcR2qC0z2266522665eusmtip1V;
- Wed, 24 Jun 2020 13:26:15 +0000 (GMT)
-Subject: Re: [RESEND PATCH v5 2/5] driver core: add deferring probe reason
- to devices_deferred property
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <94ed179a-bcc7-1e52-985f-57e9c124a5f0@samsung.com>
-Date: Wed, 24 Jun 2020 15:26:15 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr10056.outbound.protection.outlook.com [40.107.1.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001636EB41
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 13:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5lSv1e4smJRMcXlMxx+0lSuvsYDFs0kmxfalW+WkqQI=;
+ b=82OJykcCjVDWYTmIsTN2VxIzC/enmVKXl0Ti9ibWQhCfggKkoQsM+DrhhIsZozUMjsaADrXeAm8pOtHUMMYnIxj3VZmVYX9ot1jMGVNEz3rdXbMcxCt6x1RNL1O87g5Pa68boAk6M6nhsmZhYlesjxzDtLmSovkJIri05iWclR4=
+Received: from AM6PR04CA0002.eurprd04.prod.outlook.com (2603:10a6:20b:92::15)
+ by DBBPR08MB4538.eurprd08.prod.outlook.com (2603:10a6:10:d2::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 24 Jun
+ 2020 13:27:04 +0000
+Received: from AM5EUR03FT020.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:92:cafe::d5) by AM6PR04CA0002.outlook.office365.com
+ (2603:10a6:20b:92::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend
+ Transport; Wed, 24 Jun 2020 13:27:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT020.mail.protection.outlook.com (10.152.16.116) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3131.20 via Frontend Transport; Wed, 24 Jun 2020 13:27:03 +0000
+Received: ("Tessian outbound 022d32fb9a40:v59");
+ Wed, 24 Jun 2020 13:27:03 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: a5130c5a9f1281e7
+X-CR-MTA-TID: 64aa7808
+Received: from ef6353c76fc5.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 78C6A35F-7E1D-4E9A-8ED9-54BD937B656E.1; 
+ Wed, 24 Jun 2020 13:26:58 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ef6353c76fc5.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Wed, 24 Jun 2020 13:26:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GsprRFMDf7DDXF7l0NYFMTi1B64k07Gtv7nlF3FYypjDMUN1DL67/uaPY4LWwH3da/epsSvT9O5O7m6RzcE+DPNixUZ5nhj+lnqqwsCTfYM+nmFh99s/f7Wj1vGa9hI76FHYyORpNrpRs7Ng07QyS1ePeRRIv3QEXRqjYko6jyOMv7xLct9jkn9cnDBCeQCfia72uqi7ynTEH/uo4B/F0vnE4pveC8gegV2s4WfqIrmr4nciLCk+qU9a68jdMalpHePgaU1ADtfEyRH2qk1sf06PnJ1+wQtIY979pGZXBFwjnqwQuj4gZFEI255jKGbg5etms5s3TiSqW3HstrNY1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5lSv1e4smJRMcXlMxx+0lSuvsYDFs0kmxfalW+WkqQI=;
+ b=l1EDc0l9X3k7ozDb4i6xXUAY2fq1j2P21v6mUgzeEjs3zafpjTSSEYB3Wwh1ime+UT8cZl/3TGV+GqaHKqY8fVW/FqifKzWvzhTKJ45XHjtthMlkIXEYaY8Psaurh2fqlHPdCs5YaIho1R47Eto/iJxPz3XVGuAG1J4CJIekwDKXpEFZCfK/5WDV6+yLEKA9kGN9Y14ZprSBzqCb306hV2oFXL3LJVCpWOYBKbHKFXbOfxDeB+x6IlJvG6OINuo0sxWE78NIm1geD3QHTNTAK7kD8pYJlS7WK2op3B3NqHsW/AmClDybsa3Ip7hPPN3CR0K6sW3MBsWO57jH45GK4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5lSv1e4smJRMcXlMxx+0lSuvsYDFs0kmxfalW+WkqQI=;
+ b=82OJykcCjVDWYTmIsTN2VxIzC/enmVKXl0Ti9ibWQhCfggKkoQsM+DrhhIsZozUMjsaADrXeAm8pOtHUMMYnIxj3VZmVYX9ot1jMGVNEz3rdXbMcxCt6x1RNL1O87g5Pa68boAk6M6nhsmZhYlesjxzDtLmSovkJIri05iWclR4=
+Authentication-Results-Original: emersion.fr; dkim=none (message not signed)
+ header.d=none;emersion.fr; dmarc=none action=none header.from=arm.com;
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com (2603:10a6:7:36::11) by
+ HE1PR08MB2825.eurprd08.prod.outlook.com (2603:10a6:7:35::21) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3131.20; Wed, 24 Jun 2020 13:26:55 +0000
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::18de:2773:77b4:4ce2]) by HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::18de:2773:77b4:4ce2%7]) with mapi id 15.20.3109.027; Wed, 24 Jun 2020
+ 13:26:55 +0000
+Date: Wed, 24 Jun 2020 14:26:55 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v6] drm/fourcc: document modifier uniqueness requirements
+Message-ID: <20200624132655.z53t3y74he3l4kos@DESKTOP-E1NTVVP.localdomain>
+References: <MGwgeXojKNdNXjCxuMhRlwcJM4vdYph_WJcMeGPPGMcRKtHV41XAXlh2tCc-pPJZCAhS3gwbWMWTd8f03NBA2ZYKfr0QxLhcPivpopr5c6M=@emersion.fr>
+Content-Disposition: inline
+In-Reply-To: <MGwgeXojKNdNXjCxuMhRlwcJM4vdYph_WJcMeGPPGMcRKtHV41XAXlh2tCc-pPJZCAhS3gwbWMWTd8f03NBA2ZYKfr0QxLhcPivpopr5c6M=@emersion.fr>
+User-Agent: NeoMutt/20180716-849-147d51-dirty
+X-ClientProxiedBy: LO3P123CA0009.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:ba::14) To HE1PR08MB2890.eurprd08.prod.outlook.com
+ (2603:10a6:7:36::11)
 MIME-Version: 1.0
-In-Reply-To: <20200624123438.GC1773782@kroah.com>
-Content-Language: pl
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUhTYRTGe3fv7q7i7DoXnjSsViEKambQhULMIi4RFGQKmR8rrx/kpu2q
- ZUgNW2lZaalUK9NSUWaxmh+VYdmUponrU1uUrWwUC6fFJn1nbrfI/37vc57znvPAITHJhDCQ
- zFbmsyqlPEdGeOOd97+Zw4vinSnLXQ+ktL2yF9HXz+qFdM1bG0E/m5ok6EMNeoIe/mLH6IHx
- YZw+eqpRRBvejQjpp10XCNpY043oq32jItp4MomuddVgsb7M05HHGDNpOSxibmlHRcz5snNC
- xqA7SjD9lU8EzN3aKyLGWm4SMG2NB5mT7TrE9JyowhmnIXiLz3bvNelsTnYhq4qMSfPOOtOX
- mlcZsq+6VkOo0fTCY8iLBGoljDVVo2PIm5RQLQic7+qE/MOFoNvWiNwuCeVE8Olr0r+OH5oG
- jDc1I7AaLv7tmERgsPzG3S5/KhvOT/djbpZS0VAxpBW5TRjViYN+XOMpEFQo/Gp7QbhZTMWA
- 3TEicDNOLYOS4W6PPo9KhuPWjxjv8YOBczbPAC8qChxvnB7GqIVww3EB41kKljGNJxBQNSQM
- q58gfu/1oNMfFvDsDx9N7SKeF8Bg1XGc54NgbdFgfHMZgo5rtzC+sBpemb/PbETOTAgFfVck
- L6+F1133PDJQvmBx+PE7+MLpzjMYL4uh7IiEdy8G61DH3w8DoOnRFFGJZNpZybSz0mhnpdH+
- n1uPcB0KYAs4RSbLrVCyeyM4uYIrUGZG7MpVGNDMFQ7+Nrluoq6fO42IIpHMR3ztzecUiVBe
- yBUpjAhITCYVxw0NpkjE6fKi/awqN1VVkMNyRhRE4rIAcfRle7KEypTns7tZNo9V/asKSK9A
- NerICK7vuZPxsjioNNZfljRhql5Xri4JL36/1d9gO7FxLC8yfMmlkNI47kPF5t49m0KiQ88m
- NwQkVCWmOaxRi5YqKmI1a8vpiP73bHvM80Nzm+rjd0w+XDw/q1khD7qZICKWFQYXzuHiEm+H
- GeM39LYKq8x124yvWts6m1+sMh/Qf5bhXJY8KgxTcfI/TYjOqIEDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42I5/e/4Xd2KkM9xBlt/mFq8nHCY0WLjjPWs
- FlMfPmGzuPL1PZtF8+L1bBZXv79ktjj55iqLRefEJewWmx5fY7W4vGsOm8WhqXsZLdYeuctu
- cagv2mLul6nMDnwel69dZPZ4f6OV3WPnrLvsHrM7ZrJ6bFrVyeZxYsIlJo/9c9ewe9zvPs7k
- sXlJvUffllWMHgd6J7N4fN4kF8ATpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtl
- ZKqkb2eTkpqTWZZapG+XoJcx/Uh8wQT1iilzW9gaGP/LdzFyckgImEj8blnM3MXIxSEksJRR
- 4uvU14wQCXGJ3fPfMkPYwhJ/rnWxQRS9ZZQ4/fgUC0hCWCBT4szW42wgtoiAsUT/2VnsIEXM
- ArtYJNb9+8cO0fGAUeLT+0tgVWwCmhJ/N98Es3kF7CRevr3GBGKzCKhKNF3dCxYXFYiV6F78
- gx2iRlDi5MwnYNs4BQwl3j74DGYzC5hJzNv8kBnClpfY/nYOlC0iceNRC+MERqFZSNpnIWmZ
- haRlFpKWBYwsqxhFUkuLc9Nziw31ihNzi0vz0vWS83M3MQLjf9uxn5t3MF7aGHyIUYCDUYmH
- d8ODj3FCrIllxZW5hxglOJiVRHidzp6OE+JNSaysSi3Kjy8qzUktPsRoCvTcRGYp0eR8YGrK
- K4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAqLWM87H021QjSRar
- vu2mKQKyUW3q20SXXky8s7pznVPYvjfaPxV87e4dn3/30Mmtdk9vPl5W9Ua9+4zefxEl3pNr
- ZXLzmacsOPr919kHfQp53uKH/pR6Pwh6fGw+iyvbdJYDV/cvVl23q2r/83TDji7diqnu0T6H
- G0xex3zy/zXpweSZO/uy+pVYijMSDbWYi4oTAQahVccVAwAA
-X-CMS-MailID: 20200624132617eucas1p2a5588ef1821b826ff1aba8465f276b71
-X-Msg-Generator: CA
-X-RootMTR: 20200624114136eucas1p1a3a31d95d86754201c7965f26ccd5de0
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200624114136eucas1p1a3a31d95d86754201c7965f26ccd5de0
-References: <20200624114127.3016-1-a.hajda@samsung.com>
- <CGME20200624114136eucas1p1a3a31d95d86754201c7965f26ccd5de0@eucas1p1.samsung.com>
- <20200624114127.3016-3-a.hajda@samsung.com>
- <20200624123438.GC1773782@kroah.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from DESKTOP-E1NTVVP.localdomain (217.140.99.251) by
+ LO3P123CA0009.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:ba::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3131.21 via Frontend Transport; Wed, 24 Jun 2020 13:26:54 +0000
+X-Originating-IP: [217.140.99.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 58afcea7-14bf-48e9-8280-08d8184248a5
+X-MS-TrafficTypeDiagnostic: HE1PR08MB2825:|DBBPR08MB4538:
+X-Microsoft-Antispam-PRVS: <DBBPR08MB4538C6B569FB9D5D528DA4F5F0950@DBBPR08MB4538.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;OLM:10000;
+X-Forefront-PRVS: 0444EB1997
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: zUd+RpXhxHIKkUQhXpPDvCo0j0JgJ0FOGS7I/trkk5TGBJUtT2Kxbe0sp5/HPV/f2FWh2QqB3HjE6WuMih4E8V/w22sL9/xh+L65rrnwQP447uJaIaYfNpu8b4bLbry5rFzSPR6ix0j3I3AYBKqDhCJosX7iLNC/emhNOLS3Cmu2ps0hzgSFd/NszZJ5obT+hap/tlA+NpPsL2jd6AZL0v5zt5QjF9b20q8IBcLA6mMQ/sqa4PwK0x+/RrZTGNT6ToO7XnSorLz6YSjPbfDO8VWjjRs28JzhoGNQDnzcGBw2OVsAnCgzK7CVa3OjAJ/0z5JOa7G9z20Cem5lY7fDnQ==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:HE1PR08MB2890.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFTY:;
+ SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39860400002)(66476007)(66556008)(66946007)(1076003)(8676002)(4326008)(478600001)(8936002)(44832011)(2906002)(16526019)(186003)(66574015)(26005)(55016002)(52116002)(6916009)(7696005)(5660300002)(54906003)(316002)(9686003)(956004)(6506007)(7416002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 7c+1mp+D8yXNDB7G5Ge7scGBB5CM5RkOqjai6h5WZqqHGCSyeiQyxCYQAERNIHI6aV+StIRKxOPrFq5s+u3fBd+7FU7wP8QvbwRLEd4eFwT1k8zGxcsKQRu6lYtjc2aMH/RsK1+uIOcXtSeuGPe9Wy56/lt9m9S2Nd5skmEaBgdzmwSZUw09GNUsTL/Z59+KNYMlyOIirrdhEHHRZhfd5qmz4vbBbQqUyxSg2/lPbjMXo5n0iSr7hfAAP3rjB63UvbkYS3nnvU5SwkaUgdbui9RLbRwoOXud09q+2Ud1cK4WxDkhVYL1/tO2anqoKPFal4AarPT0eGH1itTIJKlb5YHsillZPL7mrfirXCpELHo2eTw8DX0RzWJu50/gcTxuFju/P2mS20rL3srykjSoqpglrXIgYSRoHaGzUlwpWsHQRkmziS32oY19FQsCSJwD3U/UeqoXtWRuLcftJb7UmZpHgTDCJD2xzsDsh0vfaTKnTF5I0eejqW9boVp3F31f
+X-MS-Exchange-Transport-Forked: True
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR08MB2825
+Original-Authentication-Results: emersion.fr; dkim=none (message not signed)
+ header.d=none;emersion.fr; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT020.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
+ SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(46966005)(6506007)(44832011)(5660300002)(186003)(356005)(8676002)(316002)(54906003)(478600001)(86362001)(82740400003)(36906005)(4326008)(6862004)(26005)(82310400002)(55016002)(47076004)(2906002)(81166007)(7696005)(70586007)(9686003)(8936002)(70206006)(956004)(1076003)(336012)(16526019)(66574015);
+ DIR:OUT; SFP:1101; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: c4b88d1d-5aac-4479-4b61-08d81842439e
+X-Forefront-PRVS: 0444EB1997
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: K+shl6XR7I9S++KkL7vv55Y7rVY1Y+CGf+8UewpGMiVkyNRE99+NiuWx9UoyMbswfFzuTUmZ+TAxHg0mICn1LuZDZtI5WWeDoBFQdYdyL2BD6jK7ZNBjrj5sg+oDHtpc62b0Jbo5EvVVSm4c6trh/t5BcujT6Yt6GZ5xB6gU/c3+Lbg0rLSf1vP85YnWSRptQYMnXJjCIEoPhQ9VUxC5kRGfdj/vKeZg4Ljqf36N04ZCyB8/nl7xs7aeMjalSHjd4ZGCIVCgHkrEsraNJGV9KApJotnc6FZ832/L+M4kymcKaxWvjuIv4vIttSV0TItM3xAnA8/iwATf2NkHLko5BWUFv1MlEK6ByTPclaNw63rQtSqjVxqpmLKp8RagiOBqktF6uU2uDmJp27WIChijqA==
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2020 13:27:03.7985 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58afcea7-14bf-48e9-8280-08d8184248a5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4538
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,156 +151,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andy.shevchenko@gmail.com, Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel@lists.freedesktop.org, nd@arm.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24.06.2020 14:34, Greg Kroah-Hartman wrote:
-> On Wed, Jun 24, 2020 at 01:41:24PM +0200, Andrzej Hajda wrote:
->> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
->> This list does not contain reason why the driver deferred probe, the patch
->> improves it.
->> The natural place to set the reason is probe_err function introduced recently,
->> ie. if probe_err will be called with -EPROBE_DEFER instead of printk the message
->> will be attached to deferred device and printed when user read devices_deferred
->> property.
->>
->> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
->> Reviewed-by: Mark Brown <broonie@kernel.org>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->> ---
->>   drivers/base/base.h |  3 +++
->>   drivers/base/core.c | 10 ++++++----
->>   drivers/base/dd.c   | 21 ++++++++++++++++++++-
->>   3 files changed, 29 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/base/base.h b/drivers/base/base.h
->> index 95c22c0f9036..93ef1c2f4c1f 100644
->> --- a/drivers/base/base.h
->> +++ b/drivers/base/base.h
->> @@ -93,6 +93,7 @@ struct device_private {
->>   	struct klist_node knode_class;
->>   	struct list_head deferred_probe;
->>   	struct device_driver *async_driver;
->> +	char *deferred_probe_msg;
->>   	struct device *device;
->>   	u8 dead:1;
->>   };
->> @@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct device *dev,
->>   extern void driver_detach(struct device_driver *drv);
->>   extern int driver_probe_device(struct device_driver *drv, struct device *dev);
->>   extern void driver_deferred_probe_del(struct device *dev);
->> +extern void __deferred_probe_set_msg(const struct device *dev,
->> +				     struct va_format *vaf);
->>   static inline int driver_match_device(struct device_driver *drv,
->>   				      struct device *dev)
->>   {
->> diff --git a/drivers/base/core.c b/drivers/base/core.c
->> index ee9da66bff1b..2a96954d5460 100644
->> --- a/drivers/base/core.c
->> +++ b/drivers/base/core.c
->> @@ -3962,6 +3962,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
->>    *
->>    * This helper implements common pattern present in probe functions for error
->>    * checking: print message if the error is not -EPROBE_DEFER and propagate it.
->> + * In case of -EPROBE_DEFER it sets defer probe reason, which can be checked
->> + * later by reading devices_deferred debugfs attribute.
->>    * It replaces code sequence:
->>    * 	if (err != -EPROBE_DEFER)
->>    * 		dev_err(dev, ...);
->> @@ -3977,14 +3979,14 @@ int probe_err(const struct device *dev, int err, const char *fmt, ...)
->>   	struct va_format vaf;
->>   	va_list args;
->>   
->> -	if (err == -EPROBE_DEFER)
->> -		return err;
->> -
->>   	va_start(args, fmt);
->>   	vaf.fmt = fmt;
->>   	vaf.va = &args;
->>   
->> -	dev_err(dev, "error %d: %pV", err, &vaf);
->> +	if (err == -EPROBE_DEFER)
->> +		__deferred_probe_set_msg(dev, &vaf);
->> +	else
->> +		dev_err(dev, "error %d: %pV", err, &vaf);
->>   
->>   	va_end(args);
->>   
->> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
->> index 9a1d940342ac..f44d26454b6a 100644
->> --- a/drivers/base/dd.c
->> +++ b/drivers/base/dd.c
->> @@ -27,6 +27,7 @@
->>   #include <linux/async.h>
->>   #include <linux/pm_runtime.h>
->>   #include <linux/pinctrl/devinfo.h>
->> +#include <linux/slab.h>
->>   
->>   #include "base.h"
->>   #include "power/power.h"
->> @@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
->>   	if (!list_empty(&dev->p->deferred_probe)) {
->>   		dev_dbg(dev, "Removed from deferred list\n");
->>   		list_del_init(&dev->p->deferred_probe);
->> +		kfree(dev->p->deferred_probe_msg);
->> +		dev->p->deferred_probe_msg = NULL;
->>   	}
->>   	mutex_unlock(&deferred_probe_mutex);
->>   }
->> @@ -211,6 +214,21 @@ void device_unblock_probing(void)
->>   	driver_deferred_probe_trigger();
->>   }
->>   
->> +/*
->> + * __deferred_probe_set_msg() - Set defer probe reason message for device
->> + */
->> +void __deferred_probe_set_msg(const struct device *dev, struct va_format *vaf)
->> +{
->> +	const char *drv = dev_driver_string(dev);
->> +
->> +	mutex_lock(&deferred_probe_mutex);
->> +
->> +	kfree(dev->p->deferred_probe_msg);
->> +	dev->p->deferred_probe_msg = kasprintf(GFP_KERNEL, "%s: %pV", drv, vaf);
-> What about the device name?  Don't you also want that?
-
-
-deferred_devs_show prints it already, deferred_probe_msg is appended if 
-not null.
-
-
-Regards
-
-Andrzej
-
-
->
-> You want the same format that __dev_printk() outputs, please use that
-> to be consistant with all other messages that drivers are spitting out.
->
-> thanks,
->
-> greg k-h
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://protect2.fireeye.com/url?k=28daee95-7508f5cd-28db65da-0cc47a31c8b4-b3e8d1affcda9c08&q=1&u=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TG9va3MgZ29vZCBub3csIHRoYW5rcyEKCk9uIFdlZCwgSnVuIDI0LCAyMDIwIGF0IDAxOjAxOjMx
+UE0gKzAwMDAsIFNpbW9uIFNlciB3cm90ZToKPiBUaGVyZSBoYXZlIHN1Z2dlc3Rpb25zIHRvIGJh
+a2UgcGl0Y2ggYWxpZ25tZW50LCBhZGRyZXNzIGFsaWduZW1lbnQsCj4gY29udGlndW91cyBtZW1v
+cnkgb3Igb3RoZXIgcGxhY2VtZW50IChoaWRkZW4gVlJBTSwgR1RUL0JBUiwgZXRjKQo+IGNvbnN0
+cmFpbnRzIGludG8gbW9kaWZpZXJzLiBMYXN0IHRpbWUgdGhpcyB3YXMgYnJvdWdodCB1cCBpdCBz
+ZWVtZWQKPiBsaWtlIHRoZSBjb25zZW5zdXMgd2FzIHRvIG5vdCBhbGxvdyB0aGlzLiBEb2N1bWVu
+dCB0aGlzIGluIGRybV9mb3VyY2MuaC4KPiAKPiBUaGVyZSBhcmUgc2V2ZXJhbCByZWFzb25zIGZv
+ciB0aGlzLgo+IAo+IC0gRW5jb2RpbmcgYWxsIG9mIHRoZXNlIGNvbnN0cmFpbnRzIGluIHRoZSBt
+b2RpZmllcnMgd291bGQgZXhwbG9kZSB0aGUKPiAgIHNlYXJjaCBzcGFjZSBwcmV0dHkgcXVpY2ts
+eSAod2Ugb25seSBoYXZlIDY0IGJpdHMgdG8gd29yayB3aXRoKS4KPiAtIE1vZGlmaWVycyBuZWVk
+IHRvIGJlIHVuYW1iaWd1b3VzOiBhIGJ1ZmZlciBjYW4gb25seSBoYXZlIGEgc2luZ2xlCj4gICBt
+b2RpZmllci4KPiAtIE1vZGlmaWVyIHVzZXJzIGFyZW4ndCBleHBlY3RlZCB0byBwYXJzZSBtb2Rp
+ZmllcnMgKGV4Y2VwdCBkcml2ZXJzKS4KPiAKPiB2MjogYWRkIHBhcmFncmFwaCBhYm91dCBhbGlh
+c2VzIChEYW5pZWwpCj4gCj4gdjM6IGZpeCB1bnJlbGF0ZWQgY2hhbmdlcyBzZW50IHdpdGggdGhl
+IHBhdGNoCj4gCj4gdjQ6IGRpc2FtYmlndWF0ZSB1c2VycyBiZXR3ZWVuIGRyaXZlciBhbmQgaGln
+aGVyLWxldmVsIHByb2dyYW1zIChCcmlhbiwKPiBEYW5pZWwpCj4gCj4gdjU6IGZpeCBBRkJDIGV4
+YW1wbGUgKEJyaWFuLCBEYW5pZWwpCj4gCj4gdjY6IHJlbW92ZSBkdXBsaWNhdGVkIHBhcmFncmFw
+aCAoRGFuaWVsKQo+IAo+IFNpZ25lZC1vZmYtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lv
+bi5mcj4KPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
+aD4KPiBDYzogRGFuaWVsIFN0b25lIDxkYW5pZWxAZm9vaXNoYmFyLm9yZz4KPiBDYzogQmFzIE5p
+ZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPgo+IENjOiBEYXZlIEFpcmxpZSA8
+YWlybGllZEBnbWFpbC5jb20+Cj4gQ2M6IE1hcmVrIE9sxaHDoWsgPG1hcmFlb0BnbWFpbC5jb20+
+Cj4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPgo+IENjOiBOZWlsIEFy
+bXN0cm9uZyA8bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4gQ2M6IE1pY2hlbCBEw6RuemVyIDxt
+aWNoZWxAZGFlbnplci5uZXQ+Cj4gQ2M6IEJyaWFuIFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlAYXJt
+LmNvbT4KPiAtLS0KPiAgaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmggfCAyNCArKysrKysr
+KysrKysrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKykKPiAK
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmggYi9pbmNsdWRlL3Vh
+cGkvZHJtL2RybV9mb3VyY2MuaAo+IGluZGV4IDQ5MDE0MzUwMGE1MC4uOGVhYTE1OGZlZjgxIDEw
+MDY0NAo+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4gKysrIGIvaW5jbHVk
+ZS91YXBpL2RybS9kcm1fZm91cmNjLmgKPiBAQCAtNTgsNiArNTgsMzAgQEAgZXh0ZXJuICJDIiB7
+Cj4gICAqIG1heSBwcmVzZXJ2ZSBtZWFuaW5nIC0gc3VjaCBhcyBudW1iZXIgb2YgcGxhbmVzIC0g
+ZnJvbSB0aGUgZm91cmNjIGNvZGUsCj4gICAqIHdoZXJlYXMgb3RoZXJzIG1heSBub3QuCj4gICAq
+Cj4gKyAqIE1vZGlmaWVycyBtdXN0IHVuaXF1ZWx5IGVuY29kZSBidWZmZXIgbGF5b3V0LiBJbiBv
+dGhlciB3b3JkcywgYSBidWZmZXIgbXVzdAo+ICsgKiBtYXRjaCBvbmx5IGEgc2luZ2xlIG1vZGlm
+aWVyLiBBIG1vZGlmaWVyIG11c3Qgbm90IGJlIGEgc3Vic2V0IG9mIGxheW91dHMgb2YKPiArICog
+YW5vdGhlciBtb2RpZmllci4gRm9yIGluc3RhbmNlLCBpdCdzIGluY29ycmVjdCB0byBlbmNvZGUg
+cGl0Y2ggYWxpZ25tZW50IGluCj4gKyAqIGEgbW9kaWZpZXI6IGEgYnVmZmVyIG1heSBtYXRjaCBh
+IDY0LXBpeGVsIGFsaWduZWQgbW9kaWZpZXIgYW5kIGEgMzItcGl4ZWwKPiArICogYWxpZ25lZCBt
+b2RpZmllci4gVGhhdCBzYWlkLCBtb2RpZmllcnMgY2FuIGhhdmUgaW1wbGljaXQgbWluaW1hbAo+
+ICsgKiByZXF1aXJlbWVudHMuCj4gKyAqCj4gKyAqIEZvciBtb2RpZmllcnMgd2hlcmUgdGhlIGNv
+bWJpbmF0aW9uIG9mIGZvdXJjYyBjb2RlIGFuZCBtb2RpZmllciBjYW4gYWxpYXMsCj4gKyAqIGEg
+Y2Fub25pY2FsIHBhaXIgbmVlZHMgdG8gYmUgZGVmaW5lZCBhbmQgdXNlZCBieSBhbGwgZHJpdmVy
+cy4gUHJlZmVycmVkCj4gKyAqIGNvbWJpbmF0aW9ucyBhcmUgYWxzbyBlbmNvdXJhZ2VkIHdoZXJl
+IGFsbCBjb21iaW5hdGlvbnMgbWlnaHQgbGVhZCB0bwo+ICsgKiBjb25mdXNpb24gYW5kIHVubmVj
+ZXNzYXJpbHkgcmVkdWNlZCBpbnRlcm9wZXJhYmlsaXR5LiBBbiBleGFtcGxlIGZvciB0aGUKPiAr
+ICogbGF0dGVyIGlzIEFGQkMsIHdoZXJlIHRoZSBBQkdSIGxheW91dHMgYXJlIHByZWZlcnJlZCBv
+dmVyIEFSR0IgbGF5b3V0cy4KPiArICoKPiArICogVGhlcmUgYXJlIHR3byBraW5kcyBvZiBtb2Rp
+ZmllciB1c2VyczoKPiArICoKPiArICogLSBLZXJuZWwgYW5kIHVzZXItc3BhY2UgZHJpdmVyczog
+Zm9yIGRyaXZlcnMgaXQncyBpbXBvcnRhbnQgdGhhdCBtb2RpZmllcnMKPiArICogICBkb24ndCBh
+bGlhcywgb3RoZXJ3aXNlIHR3byBkcml2ZXJzIG1pZ2h0IHN1cHBvcnQgdGhlIHNhbWUgZm9ybWF0
+IGJ1dCB1c2UKPiArICogICBkaWZmZXJlbnQgYWxpYXNlcywgcHJldmVudGluZyB0aGVtIGZyb20g
+c2hhcmluZyBidWZmZXJzIGluIGFuIGVmZmljaWVudAo+ICsgKiAgIGZvcm1hdC4KPiArICogLSBI
+aWdoZXItbGV2ZWwgcHJvZ3JhbXMgaW50ZXJmYWNpbmcgd2l0aCBLTVMvR0JNL0VHTC9WdWxrYW4v
+ZXRjOiB0aGVzZSB1c2Vycwo+ICsgKiAgIHNlZSBtb2RpZmllcnMgYXMgb3BhcXVlIHRva2VucyB0
+aGV5IGNhbiBjaGVjayBmb3IgZXF1YWxpdHkgYW5kIGludGVyc2VjdC4KPiArICogICBUaGVzZSB1
+c2VycyBtdXNuJ3QgbmVlZCB0byBrbm93IHRvIHJlYXNvbiBhYm91dCB0aGUgbW9kaWZpZXIgdmFs
+dWUKPiArICogICAoaS5lLiB0aGV5IGFyZSBub3QgZXhwZWN0ZWQgdG8gZXh0cmFjdCBpbmZvcm1h
+dGlvbiBvdXQgb2YgdGhlIG1vZGlmaWVyKS4KPiArICoKPiAgICogVmVuZG9ycyBzaG91bGQgZG9j
+dW1lbnQgdGhlaXIgbW9kaWZpZXIgdXNhZ2UgaW4gYXMgbXVjaCBkZXRhaWwgYXMKPiAgICogcG9z
+c2libGUsIHRvIGVuc3VyZSBtYXhpbXVtIGNvbXBhdGliaWxpdHkgYWNyb3NzIGRldmljZXMsIGRy
+aXZlcnMgYW5kCj4gICAqIGFwcGxpY2F0aW9ucy4KPiAtLSAKPiAyLjI3LjAKPiAKPiAKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
