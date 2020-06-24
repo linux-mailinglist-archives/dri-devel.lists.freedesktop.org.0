@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D372073D6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 14:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041882073DD
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 14:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9636EB31;
-	Wed, 24 Jun 2020 12:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 074866EB33;
+	Wed, 24 Jun 2020 12:58:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35136EB31
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 12:56:10 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id d10so1033780pls.5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 05:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3116F6EB33
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 12:58:17 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id n6so1826500otl.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 05:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BudWo05ArRmRePLjA5xBNrNmyyzvRBGhzbvJwLCnkH0=;
- b=VovrAuXblBSTzq/6/XfemWZFoVjtapdBL6Wz1qU3Phgj++1U+GZ/hPAjZJP47h5hUi
- YQ/jkQ4l++Nn5DV1sG3GyQ/cxt37cIN49uMWF3Q0AFZpiHGMrUdmEnDK7DDcuKj4y2xA
- zM/tKFhuy/DLuPAj0FBsgEt4P9Po08dQxDQvTwUN+OzfAcGuW2GlVNzOkUbAlE5wqHij
- WdCzPRHrwIjOwaeA+n06Na5N/FyaVipSNKG+gG18MtoC4490gFP5fa/UYsnf9ydXTcpi
- IL78By7AvuimCTAqJ/f39CPa9CJXlp96nEtVQNCpYR9cHuG2/HCdx4C2FcqJ9SG5w248
- gvpg==
+ :cc:content-transfer-encoding;
+ bh=uLckDPOba5Be2s5sQCUEAPYdRRM6x91T05t3w6yd+5Q=;
+ b=Qx60mNwneGcAbgMvO1LAQ/bKjX1gJzu3sfOmiIIOfoRpestQyq2Q38AFBBzjgZmrnO
+ JPDiaFxYeVvx6/T9v8FhwsVUK4s8K+rOgXaciH5mc4zLAw/48wwpfORHTChTgqfeMVQT
+ x1/ilTMaaD06+C9ByylthLCArRZjrHuhcRGYQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BudWo05ArRmRePLjA5xBNrNmyyzvRBGhzbvJwLCnkH0=;
- b=NUIfVDxzxY2lPhhxoGr7UPXuGtZTo98TAK3q7VrEhUSR2WxDU4fXEizuuvO9jjPWQo
- 1O+QNJxF1h6V/zzt4N9EXMRLZeFKkZbTf884y/4/3mDXZhfHUYzir9t/EUeJYNkYGWCF
- khm9sZMvhi1u+VsyKoXWYqJddc3/iuzGKHLSkBbJ5KKIJrSZfOYd1j9bP82grKN5cwx5
- jtFVxQ24hPQsXN4qnywkyqpaB2b+WzKLVjEsOokwSesnQJeUZH4+8RxrsGfP5MqN6LRh
- +me+guKkqUhU9b38Fgi2Ni7bskrbmlyIvGu4M8wJ/Cz0bfTYlOjV41LjEOw7OgYiM9gN
- h4Qg==
-X-Gm-Message-State: AOAM532WyOZI6y2RRHHAPVM2qRF8rI5TNQ/3M+/0HErksDOf/adn5EKa
- +lUzWeohHmkjxh+LOoJT7S0gzCUvah25aJuT4IQ=
-X-Google-Smtp-Source: ABdhPJzRZKLEpWyeo/NoFUWrW4UU840RrPrJNsza9FDRmLTNMxPJHwy89VbbjHRpQ0HUrfYBNXlqYSSKeR87YQva7nE=
-X-Received: by 2002:a17:902:b206:: with SMTP id
- t6mr27559277plr.262.1593003370435; 
- Wed, 24 Jun 2020 05:56:10 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uLckDPOba5Be2s5sQCUEAPYdRRM6x91T05t3w6yd+5Q=;
+ b=fR0mpMdsjqmlouwdLAXO96JuBszR2YS7siwZCyDHOkjM6+0unWE/KYBxKG8XSHNQpU
+ DLNCn6cfGGi3B60WUTsdgDzqD2LeMc4/f+u5O8AlRPk/UvTUY6cyXCd3OVEIuhUbkWBx
+ ht2Ut5uvrnAoiCQj5vnLcZVxpEfHdnNhNg2VmBsYzk8O58awazKNL7Do9rNbfrBiix/Z
+ uBClzk37HmCVYpuH1G317mPsWFJHET8mfPr3N+HbJYIvxvqWg0uiuS0OY23dCP4osgok
+ 2fyBeseyMdDfcyxN0vElBUCxZ9rsPvx2UpSt/YzyxdHoiOdtXWe6SLzkSVPbxKOCQ9k6
+ b4lw==
+X-Gm-Message-State: AOAM531S/1o/N4jbHXDC6CWiMb7GHJ+osc3xbhwKj+0O7eA46qWklcGc
+ sw9IONvquprE1wMNF9+UbOoHD2hxw5WIXvJQkpAcqkE2
+X-Google-Smtp-Source: ABdhPJx+UIq/jXCa9QKBCeWPaTgKEuX7v7z9F17YC15y4aFxvFc3NvwyChHDBRNB4GbAo0Zq4TxRZ5OSJFqUeenlVpM=
+X-Received: by 2002:a9d:4cd:: with SMTP id 71mr24046889otm.188.1593003496467; 
+ Wed, 24 Jun 2020 05:58:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200624114127.3016-1-a.hajda@samsung.com>
- <CGME20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f@eucas1p1.samsung.com>
- <20200624114127.3016-4-a.hajda@samsung.com>
- <2203e0c2-016b-4dbe-452d-63c857f06dd1@arm.com>
-In-Reply-To: <2203e0c2-016b-4dbe-452d-63c857f06dd1@arm.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 24 Jun 2020 15:55:57 +0300
-Message-ID: <CAHp75VfpP1cGK3FvTL0hBudRY2N_7GpXYRuUHUCipz7X2sMLmQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v5 3/5] drivers core: allow probe_err accept
- integer and pointer types
-To: Robin Murphy <robin.murphy@arm.com>
+References: <rq4ENYWGZ-rcmWZd1GT2lfUyU6n5fhimWeCPOct0dFKVK4OJ0pKbujgy6A4ldMZkg5ldKUzDMX_6Vjnjb_Vnst3a0YCI2RFQin42nUn_Hgk=@emersion.fr>
+ <20200624110804.fynorcdkxcbqbasj@DESKTOP-E1NTVVP.localdomain>
+In-Reply-To: <20200624110804.fynorcdkxcbqbasj@DESKTOP-E1NTVVP.localdomain>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 24 Jun 2020 14:58:05 +0200
+Message-ID: <CAKMK7uGZ+iAiyuGf=SAB3ZMmYyAttFdHF3qqRf_2_iTox_KKBw@mail.gmail.com>
+Subject: Re: [PATCH v5] drm/fourcc: document modifier uniqueness requirements
+To: Brian Starkey <brian.starkey@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,65 +59,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>, nd <nd@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 24, 2020 at 3:37 PM Robin Murphy <robin.murphy@arm.com> wrote:
-> On 2020-06-24 12:41, Andrzej Hajda wrote:
-> > Many resource acquisition functions return error value encapsulated in
-> > pointer instead of integer value. To simplify coding we can use macro
-> > which will accept both types of error.
-> > With this patch user can use:
-> >       probe_err(dev, ptr, ...)
-> > instead of:
-> >       probe_err(dev, PTR_ERR(ptr), ...)
-> > Without loosing old functionality:
-> >       probe_err(dev, err, ...)
->
-> Personally I'm not convinced that simplification has much value, and I'd
-> say it *does* have a significant downside. This:
->
->         if (IS_ERR(x))
->                 do_something_with(PTR_ERR(x));
->
-> is a familiar and expected pattern when reading/reviewing code, and at a
-> glance is almost certainly doing the right thing. If I see this, on the
-> other hand:
->
->         if (IS_ERR(x))
->                 do_something_with(x);
-
-I don't consider your arguments strong enough. You are appealing to
-one pattern vs. new coming *pattern* just with a different name and
-actually much less characters to parse. We have a lot of clean ups
-like this, have you protested against them? JFYI: they are now
-*established patterns* and saved a ton of LOCs in some of which even
-were typos.
-
-> my immediate instinct is to be suspicious, and now I've got to go off
-> and double-check that if do_something_with() really expects a pointer
-> it's also robust against PTR_ERR values. Off-hand I can't think of any
-> APIs that work that way in the areas with which I'm familiar, so it
-> would be a pretty unusual and non-obvious thing.
-
--- 
-With Best Regards,
-Andy Shevchenko
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMTowOCBQTSBCcmlhbiBTdGFya2V5IDxicmlhbi5zdGFy
+a2V5QGFybS5jb20+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiBUdWUsIEp1biAyMywgMjAyMCBhdCAw
+MzoyNTowOFBNICswMDAwLCBTaW1vbiBTZXIgd3JvdGU6Cj4gPiBUaGVyZSBoYXZlIHN1Z2dlc3Rp
+b25zIHRvIGJha2UgcGl0Y2ggYWxpZ25tZW50LCBhZGRyZXNzIGFsaWduZW1lbnQsCj4gPiBjb250
+aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBWUkFNLCBHVFQvQkFSLCBl
+dGMpCj4gPiBjb25zdHJhaW50cyBpbnRvIG1vZGlmaWVycy4gTGFzdCB0aW1lIHRoaXMgd2FzIGJy
+b3VnaHQgdXAgaXQgc2VlbWVkCj4gPiBsaWtlIHRoZSBjb25zZW5zdXMgd2FzIHRvIG5vdCBhbGxv
+dyB0aGlzLiBEb2N1bWVudCB0aGlzIGluIGRybV9mb3VyY2MuaC4KPiA+Cj4gPiBUaGVyZSBhcmUg
+c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgo+ID4KPiA+IC0gRW5jb2RpbmcgYWxsIG9mIHRoZXNl
+IGNvbnN0cmFpbnRzIGluIHRoZSBtb2RpZmllcnMgd291bGQgZXhwbG9kZSB0aGUKPiA+ICAgc2Vh
+cmNoIHNwYWNlIHByZXR0eSBxdWlja2x5ICh3ZSBvbmx5IGhhdmUgNjQgYml0cyB0byB3b3JrIHdp
+dGgpLgo+ID4gLSBNb2RpZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2Fu
+IG9ubHkgaGF2ZSBhIHNpbmdsZQo+ID4gICBtb2RpZmllci4KPiA+IC0gTW9kaWZpZXIgdXNlcnMg
+YXJlbid0IGV4cGVjdGVkIHRvIHBhcnNlIG1vZGlmaWVycyAoZXhjZXB0IGRyaXZlcnMpLgo+ID4K
+PiA+IHYyOiBhZGQgcGFyYWdyYXBoIGFib3V0IGFsaWFzZXMgKERhbmllbCkKPiA+Cj4gPiB2Mzog
+Zml4IHVucmVsYXRlZCBjaGFuZ2VzIHNlbnQgd2l0aCB0aGUgcGF0Y2gKPiA+Cj4gPiB2NDogZGlz
+YW1iaWd1YXRlIHVzZXJzIGJldHdlZW4gZHJpdmVyIGFuZCBoaWdoZXItbGV2ZWwgcHJvZ3JhbXMg
+KEJyaWFuLAo+ID4gRGFuaWVsKQo+ID4KPiA+IHY1OiBmaXggQUZCQyBleGFtcGxlIChCcmlhbiwg
+RGFuaWVsKQo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lv
+bi5mcj4KPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xs
+LmNoPgo+ID4gQ2M6IERhbmllbCBTdG9uZSA8ZGFuaWVsQGZvb2lzaGJhci5vcmc+Cj4gPiBDYzog
+QmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPgo+ID4gQ2M6IERhdmUg
+QWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KPiA+IENjOiBNYXJlayBPbMWhw6FrIDxtYXJhZW9A
+Z21haWwuY29tPgo+ID4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPgo+
+ID4gQ2M6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPiA+IENjOiBN
+aWNoZWwgRMOkbnplciA8bWljaGVsQGRhZW56ZXIubmV0Pgo+ID4gQ2M6IEJyaWFuIFN0YXJrZXkg
+PGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4KPiA+IC0tLQo+ID4gIGluY2x1ZGUvdWFwaS9kcm0vZHJt
+X2ZvdXJjYy5oIHwgMjggKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ID4gIDEgZmlsZSBj
+aGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFw
+aS9kcm0vZHJtX2ZvdXJjYy5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91cmNjLmgKPiA+IGlu
+ZGV4IDQ5MDE0MzUwMGE1MC4uODI5NjE5NzE4OWJmIDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS91
+YXBpL2RybS9kcm1fZm91cmNjLmgKPiA+ICsrKyBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJj
+Yy5oCj4gPiBAQCAtNTgsNiArNTgsMzQgQEAgZXh0ZXJuICJDIiB7Cj4gPiAgICogbWF5IHByZXNl
+cnZlIG1lYW5pbmcgLSBzdWNoIGFzIG51bWJlciBvZiBwbGFuZXMgLSBmcm9tIHRoZSBmb3VyY2Mg
+Y29kZSwKPiA+ICAgKiB3aGVyZWFzIG90aGVycyBtYXkgbm90Lgo+ID4gICAqCj4gPiArICogTW9k
+aWZpZXJzIG11c3QgdW5pcXVlbHkgZW5jb2RlIGJ1ZmZlciBsYXlvdXQuIEluIG90aGVyIHdvcmRz
+LCBhIGJ1ZmZlciBtdXN0Cj4gPiArICogbWF0Y2ggb25seSBhIHNpbmdsZSBtb2RpZmllci4gQSBt
+b2RpZmllciBtdXN0IG5vdCBiZSBhIHN1YnNldCBvZiBsYXlvdXRzIG9mCj4gPiArICogYW5vdGhl
+ciBtb2RpZmllci4gRm9yIGluc3RhbmNlLCBpdCdzIGluY29ycmVjdCB0byBlbmNvZGUgcGl0Y2gg
+YWxpZ25tZW50IGluCj4gPiArICogYSBtb2RpZmllcjogYSBidWZmZXIgbWF5IG1hdGNoIGEgNjQt
+cGl4ZWwgYWxpZ25lZCBtb2RpZmllciBhbmQgYSAzMi1waXhlbAo+ID4gKyAqIGFsaWduZWQgbW9k
+aWZpZXIuIFRoYXQgc2FpZCwgbW9kaWZpZXJzIGNhbiBoYXZlIGltcGxpY2l0IG1pbmltYWwKPiA+
+ICsgKiByZXF1aXJlbWVudHMuCj4gPiArICoKPiA+ICsgKiBGb3IgbW9kaWZpZXJzIHdoZXJlIHRo
+ZSBjb21iaW5hdGlvbiBvZiBmb3VyY2MgY29kZSBhbmQgbW9kaWZpZXIgY2FuIGFsaWFzLAo+ID4g
+KyAqIGEgY2Fub25pY2FsIHBhaXIgbmVlZHMgdG8gYmUgZGVmaW5lZCBhbmQgdXNlZCBieSBhbGwg
+ZHJpdmVycy4gQW4gZXhhbXBsZQo+ID4gKyAqIGlzIEFGQkMsIHdoZXJlIGJvdGggQVJHQiBhbmQg
+QUJHUiBoYXZlIHRoZSBleGFjdCBzYW1lIGNvbXByZXNzZWQgbGF5b3V0Lgo+Cj4gVGhlIG5ldyBw
+YXJhZ3JhcGggYmVsb3cgbG9va3MgZ29vZCwgYnV0IHRoaXMgc2VudGVuY2UgZnJvbSB0aGUgZW5k
+IG9mCj4gdGhlIHBhcmFncmFwaCBhYm92ZSBzdGlsbCBuZWVkcyB0byBiZSByZW1vdmVkOgo+Cj4g
+ICBBbiBleGFtcGxlIGlzIEFGQkMsIHdoZXJlIGJvdGggQVJHQiBhbmQgQUJHUiBoYXZlIHRoZSBl
+eGFjdCBzYW1lIGNvbXByZXNzZWQgbGF5b3V0LgoKSSB0aGluayB0aGF0IGVudGlyZSBwYXJhZ3Jh
+cGggd2FzIG1lYW50IHRvIGJlIGRlbGV0ZWQsIHRoZSByZXBsYWNlbWVudAppcyB0aGUgbmV3IG9u
+ZSBiZWxvdy4gT3RoZXJ3aXNlIHdlIGhhdmUgMnggdGhlIGV4YWN0IHNhbWUgc2VudGVuY2UgOi0p
+Ci1EYW5pZWwKCj4KPiBXaXRoIHRoYXQgZml4ZWQ6Cj4KPiBSZXZpZXdlZC1ieTogQnJpYW4gU3Rh
+cmtleSA8YnJpYW4uc3RhcmtleUBhcm0uY29tPgo+Cj4gVGhhbmtzLAo+IC1Ccmlhbgo+Cj4gPiAr
+ICoKPiA+ICsgKiBGb3IgbW9kaWZpZXJzIHdoZXJlIHRoZSBjb21iaW5hdGlvbiBvZiBmb3VyY2Mg
+Y29kZSBhbmQgbW9kaWZpZXIgY2FuIGFsaWFzLAo+ID4gKyAqIGEgY2Fub25pY2FsIHBhaXIgbmVl
+ZHMgdG8gYmUgZGVmaW5lZCBhbmQgdXNlZCBieSBhbGwgZHJpdmVycy4gUHJlZmVycmVkCj4gPiAr
+ICogY29tYmluYXRpb25zIGFyZSBhbHNvIGVuY291cmFnZWQgd2hlcmUgYWxsIGNvbWJpbmF0aW9u
+cyBtaWdodCBsZWFkIHRvCj4gPiArICogY29uZnVzaW9uIGFuZCB1bm5lY2Vzc2FyaWx5IHJlZHVj
+ZWQgaW50ZXJvcGVyYWJpbGl0eS4gQW4gZXhhbXBsZSBmb3IgdGhlCj4gPiArICogbGF0dGVyIGlz
+IEFGQkMsIHdoZXJlIHRoZSBBQkdSIGxheW91dHMgYXJlIHByZWZlcnJlZCBvdmVyIEFSR0IgbGF5
+b3V0cy4KPiA+ICsgKgo+ID4gKyAqIFRoZXJlIGFyZSB0d28ga2luZHMgb2YgbW9kaWZpZXIgdXNl
+cnM6Cj4gPiArICoKPiA+ICsgKiAtIEtlcm5lbCBhbmQgdXNlci1zcGFjZSBkcml2ZXJzOiBmb3Ig
+ZHJpdmVycyBpdCdzIGltcG9ydGFudCB0aGF0IG1vZGlmaWVycwo+ID4gKyAqICAgZG9uJ3QgYWxp
+YXMsIG90aGVyd2lzZSB0d28gZHJpdmVycyBtaWdodCBzdXBwb3J0IHRoZSBzYW1lIGZvcm1hdCBi
+dXQgdXNlCj4gPiArICogICBkaWZmZXJlbnQgYWxpYXNlcywgcHJldmVudGluZyB0aGVtIGZyb20g
+c2hhcmluZyBidWZmZXJzIGluIGFuIGVmZmljaWVudAo+ID4gKyAqICAgZm9ybWF0Lgo+ID4gKyAq
+IC0gSGlnaGVyLWxldmVsIHByb2dyYW1zIGludGVyZmFjaW5nIHdpdGggS01TL0dCTS9FR0wvVnVs
+a2FuL2V0YzogdGhlc2UgdXNlcnMKPiA+ICsgKiAgIHNlZSBtb2RpZmllcnMgYXMgb3BhcXVlIHRv
+a2VucyB0aGV5IGNhbiBjaGVjayBmb3IgZXF1YWxpdHkgYW5kIGludGVyc2VjdC4KPiA+ICsgKiAg
+IFRoZXNlIHVzZXJzIG11c24ndCBuZWVkIHRvIGtub3cgdG8gcmVhc29uIGFib3V0IHRoZSBtb2Rp
+ZmllciB2YWx1ZQo+ID4gKyAqICAgKGkuZS4gdGhleSBhcmUgbm90IGV4cGVjdGVkIHRvIGV4dHJh
+Y3QgaW5mb3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmllcikuCj4gPiArICoKPiA+ICAgKiBWZW5k
+b3JzIHNob3VsZCBkb2N1bWVudCB0aGVpciBtb2RpZmllciB1c2FnZSBpbiBhcyBtdWNoIGRldGFp
+bCBhcwo+ID4gICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21wYXRpYmlsaXR5IGFj
+cm9zcyBkZXZpY2VzLCBkcml2ZXJzIGFuZAo+ID4gICAqIGFwcGxpY2F0aW9ucy4KPiA+IC0tCj4g
+PiAyLjI3LjAKPiA+Cj4gPgoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwg
+SW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
