@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD2E206D6C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 09:19:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF02D206D7A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 09:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7076EA80;
-	Wed, 24 Jun 2020 07:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048B06EA57;
+	Wed, 24 Jun 2020 07:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6666EA7D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 07:19:46 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id q15so1303372wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 00:19:46 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56846EA57
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 07:23:08 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a6so1193035wrm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 00:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=jocsJHNbwLMjmOaoHehdPc45R0YO9H8oPxEP5MW0m6U=;
- b=kgD+ydUydzSzBIqrXzEvT4vnT5iDLW+5wPwITJuaP1TNTwFGiWAurFzGLwQ4MiIPND
- lZQq4Cfq8VEEIP5JYaa3akusyk/OqLxkbNXI78pi+5Wb8H8qCsWhTZYviWcAPCJpl9PN
- F5RJixku582FYxbkNuZ1+4RY7g4QKf7uQMqzY=
+ :content-disposition:in-reply-to;
+ bh=EifhZnIbVxUxBgKfWD+MbByMzzVgxUGQ9dcLOhjditI=;
+ b=kw3kvZtr3+vn9sEiTThiMHOdBMg3e1izqRTYdBM2BGHXWNMLWW1TyYnZSfKCh2XcQ8
+ JAlX5IvySC6i5shOF9sSwYUKHmFvOKcnpvFhs2kquX++1fg4+R98S6G0uoDtukPzYWs7
+ nfu0te6p1iG5wbqxTR4Wo4kTU/qij8WizFNPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=jocsJHNbwLMjmOaoHehdPc45R0YO9H8oPxEP5MW0m6U=;
- b=DjcPKTFlhbdoJ8yFIwQ1qagNwOx9uTxBp/LhB4r7ONnkGiHBul/S3yNm80UPHoEX+z
- 6EgrgGIyJnlKNUY3efJkoRvYFcao+ndv+PRyY8g5TnaG76gcr7nw+eukrFxI/l9SlFw+
- MxH/C5wAvExHTFHvotg8leESmXJ8iaQA9qQhQvcrgWgsjPxooqpAE4hCUS48usfuwi8E
- d3iX0+QYBI8A9op+WdPAAg0JKa+Vt66g9pvWpZz3JLxect9fZcvjNEidwy/XSMayN2fN
- iwxhMz6tJdWyotKALWpfHoTzPUMPzsCXxTvzNOfsZDVHwe2nBwNt1wdmCZhKR5kUltfz
- RGQw==
-X-Gm-Message-State: AOAM531f97MOOR83yfBThUjqJpJ+/7shme3jN134EBDQtygfVkf0OixV
- Sey2oUfM8V48cDdiVGKG9rClgQ==
-X-Google-Smtp-Source: ABdhPJyET73fwB/PsjT8Iv70C+wg1wXaHS+xW6bEbzj8yPd6zbNmfQYXxr8B+wVjqX0wwaDYjbaXYg==
-X-Received: by 2002:a1c:9ac2:: with SMTP id c185mr17551524wme.24.1592983184840; 
- Wed, 24 Jun 2020 00:19:44 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=EifhZnIbVxUxBgKfWD+MbByMzzVgxUGQ9dcLOhjditI=;
+ b=G5rjBjXjgTIOCDnZuzGhP8mZ6sRr96rdj7Dl/yZuCm1Skh9sv/KItU67Xtit2opwMK
+ 2WwIFl3AF/hvyi2ui3MT0ga2YHkYsnpbiBS32nJEaDJV6lAVo8DRl/BnN5rD3xwLvMoY
+ wfXKd+cwPRJCJHqQduQLcHHLqDgKydbxZywO6jinf22dKSGKtlCd/1/kvisXg4qcmnE2
+ qVyK0wDgO2rni5ALKRGSXBocJu7p/bY8gXpvmx/T8jaPwi4+lnJXPGOpNt90E371Vjrk
+ zZBRRjHVQi1JVFBXR1mQ1bOLh5gukpVavXsm/xxzm4ODq9uhaXQ540G/OC4WIpfxG04X
+ Soig==
+X-Gm-Message-State: AOAM5331H3rry51Ro9ZlGidffqQyIwk9+PG/bJw+Q9peBQrHVVfO5sHg
+ Z/Sl0aMRC32GBgCdg9PqDTJOWg==
+X-Google-Smtp-Source: ABdhPJyfrqUTeIvtGQ3Xpv4GtDMtsLxGD+dT0TgrVnBF3swSrmxRF9c9YzUd9J4CQrbLeIW6WXdswA==
+X-Received: by 2002:adf:f14e:: with SMTP id y14mr29417639wro.151.1592983387402; 
+ Wed, 24 Jun 2020 00:23:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g195sm6982855wme.38.2020.06.24.00.19.43
+ by smtp.gmail.com with ESMTPSA id b10sm6675011wmj.30.2020.06.24.00.23.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 00:19:44 -0700 (PDT)
-Date: Wed, 24 Jun 2020 09:19:42 +0200
+ Wed, 24 Jun 2020 00:23:06 -0700 (PDT)
+Date: Wed, 24 Jun 2020 09:23:04 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Subject: Re: [PATCH v2 2/8] drm/ttm: Remap all page faults to per process
- dummy page.
-Message-ID: <20200624071942.GS20149@phenom.ffwll.local>
-References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-3-git-send-email-andrey.grodzovsky@amd.com>
- <20200622094103.GA20149@phenom.ffwll.local>
- <63be2315-b123-0d8f-729f-9ae47fb2138b@amd.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
+ state
+Message-ID: <20200624072304.GT20149@phenom.ffwll.local>
+References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621084000.GM74146@ravnborg.org>
+ <20200624011209.GU5870@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <63be2315-b123-0d8f-729f-9ae47fb2138b@amd.com>
+In-Reply-To: <20200624011209.GU5870@pendragon.ideasonboard.com>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,262 +68,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 23, 2020 at 11:31:45PM -0400, Andrey Grodzovsky wrote:
-> =
+On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wrote:
+> Hi Sam,
+> 
+> On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
+> > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
+> > > The DRM CRTC helpers add default modes to connectors in the connected
+> > > state if no mode can be retrieved from the connector. This behaviour is
+> > > useful for VGA or DVI outputs that have no connected DDC bus. However,
+> > > in such cases, the status of the output usually can't be retrieved and
+> > > is reported as connector_status_unknown.
+> > > 
+> > > Extend the addition of default modes to connectors in an unknown state
+> > > to support outputs that can retrieve neither the modes nor the
+> > > connection status.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > 
+> > From your description sounds like an OK approach.
+> > But this is not something I feel too familiar with.
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
+> too.
 
-> On 6/22/20 5:41 AM, Daniel Vetter wrote:
-> > On Sun, Jun 21, 2020 at 02:03:02AM -0400, Andrey Grodzovsky wrote:
-> > > On device removal reroute all CPU mappings to dummy page per drm_file
-> > > instance or imported GEM object.
-> > > =
+Makes sense, and at least pre-coffee me can't immediately think of a
+scenario where we're going to regret this. _unknown status is pretty much
+limited to old VGA and similar things where load detect somehow isn't well
+supported by the hw.
 
-> > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> 
 > > > ---
-> > >   drivers/gpu/drm/ttm/ttm_bo_vm.c | 65 ++++++++++++++++++++++++++++++=
-++++++-----
-> > >   1 file changed, 57 insertions(+), 8 deletions(-)
-> > > =
+> > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
+> > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
+> > >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > > index f5d141e0400f..9055d9573c90 100644
+> > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+> > >  	if (count == 0 && connector->status == connector_status_connected)
+> > >  		count = drm_add_override_edid_modes(connector);
+> > >  
+> > > -	if (count == 0 && connector->status == connector_status_connected)
+> > > +	if (count == 0 && (connector->status == connector_status_connected ||
+> > > +			   connector->status == connector_status_unknown))
+> > >  		count = drm_add_modes_noedid(connector, 1024, 768);
+> > >  	count += drm_helper_probe_add_cmdline_mode(connector);
+> > >  	if (count == 0)
+> > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> > > index 421a30f08463..afe55e2e93d2 100644
+> > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
+> > >  	 * The usual way to implement this is to cache the EDID retrieved in the
+> > >  	 * probe callback somewhere in the driver-private connector structure.
+> > >  	 * In this function drivers then parse the modes in the EDID and add
+> > > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
+> > > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
+> > >  	 * fixed panel can also manually add specific modes using
+> > >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
+> > >  	 * make sure that the &drm_connector.display_info,
+> > >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
+> > >  	 * filled in.
+> > >  	 *
+> > > +	 * Note that the caller function will automatically add standard VESA
+> > > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
+> > > +	 * no mode and if the connector status is connector_status_connected or
+> > > +	 * connector_status_unknown. There is no need to call
+> > > +	 * drm_add_edid_modes() manually in that case.
 
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/tt=
-m_bo_vm.c
-> > > index 389128b..2f8bf5e 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > @@ -35,6 +35,8 @@
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include <drm/drm_vma_manager.h>
-> > > +#include <drm/drm_drv.h>
-> > > +#include <drm/drm_file.h>
-> > >   #include <linux/mm.h>
-> > >   #include <linux/pfn_t.h>
-> > >   #include <linux/rbtree.h>
-> > > @@ -328,19 +330,66 @@ vm_fault_t ttm_bo_vm_fault(struct vm_fault *vmf)
-> > Hm I think diff and code flow look a bit bad now. What about renaming t=
-he
-> > current function to __ttm_bo_vm_fault and then having something like the
-> > below:
-> > =
+Hm calling drm_add_edid_modes if you have no edid is a bit a funny idea
+... Personally I'd just leave out the last sentence, I think that only
+confuses readers. Or I'm not grasphing what you're trying to tell here.
 
-> > ttm_bo_vm_fault(args) {
-> > =
+r-b with or without this change since imo super tiny nit.
 
-> > 	if (drm_dev_enter()) {
-> > 		__ttm_bo_vm_fault(args);
-> > 		drm_dev_exit();
-> > 	} else  {
-> > 		drm_gem_insert_dummy_pfn();
-> > 	}
-> > }
-> > =
+Cheers, Daniel
 
-> > I think drm_gem_insert_dummy_pfn(); should be portable across drivers, =
-so
-> > another nice point to try to unifiy drivers as much as possible.
-> > -Daniel
-> > =
+> > > +	 *
+> > >  	 * Virtual drivers that just want some standard VESA mode with a given
+> > >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
+> > >  	 * one using drm_set_preferred_mode().
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
-> > >   	pgprot_t prot;
-> > >   	struct ttm_buffer_object *bo =3D vma->vm_private_data;
-> > >   	vm_fault_t ret;
-> > > +	int idx;
-> > > +	struct drm_device *ddev =3D bo->base.dev;
-> > > -	ret =3D ttm_bo_vm_reserve(bo, vmf);
-> > > -	if (ret)
-> > > -		return ret;
-> > > +	if (drm_dev_enter(ddev, &idx)) {
-> > > +		ret =3D ttm_bo_vm_reserve(bo, vmf);
-> > > +		if (ret)
-> > > +			goto exit;
-> > > +
-> > > +		prot =3D vma->vm_page_prot;
-> > > -	prot =3D vma->vm_page_prot;
-> > > -	ret =3D ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT);
-> > > -	if (ret =3D=3D VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_NO=
-WAIT))
-> > > +		ret =3D ttm_bo_vm_fault_reserved(vmf, prot, TTM_BO_VM_NUM_PREFAULT=
-);
-> > > +		if (ret =3D=3D VM_FAULT_RETRY && !(vmf->flags & FAULT_FLAG_RETRY_N=
-OWAIT))
-> > > +			goto exit;
-> > > +
-> > > +		dma_resv_unlock(bo->base.resv);
-> > > +
-> > > +exit:
-> > > +		drm_dev_exit(idx);
-> > >   		return ret;
-> > > +	} else {
-> > > -	dma_resv_unlock(bo->base.resv);
-> > > +		struct drm_file *file =3D NULL;
-> > > +		struct page *dummy_page =3D NULL;
-> > > +		int handle;
-> > > -	return ret;
-> > > +		/* We are faulting on imported BO from dma_buf */
-> > > +		if (bo->base.dma_buf && bo->base.import_attach) {
-> > > +			dummy_page =3D bo->base.dummy_page;
-> > > +		/* We are faulting on non imported BO, find drm_file owning the BO=
-*/
-> > Uh, we can't fish that out of the vma->vm_file pointer somehow? Or is t=
-hat
-> > one all wrong? Doing this kind of list walk looks pretty horrible.
-> > =
-
-> > If the vma doesn't have the right pointer I guess next option is that we
-> > store the drm_file page in gem_bo->dummy_page, and replace it on first
-> > export. But that's going to be tricky to track ...
-> > =
-
-> > > +		} else {
-> > > +			struct drm_gem_object *gobj;
-> > > +
-> > > +			mutex_lock(&ddev->filelist_mutex);
-> > > +			list_for_each_entry(file, &ddev->filelist, lhead) {
-> > > +				spin_lock(&file->table_lock);
-> > > +				idr_for_each_entry(&file->object_idr, gobj, handle) {
-> > > +					if (gobj =3D=3D &bo->base) {
-> > > +						dummy_page =3D file->dummy_page;
-> > > +						break;
-> > > +					}
-> > > +				}
-> > > +				spin_unlock(&file->table_lock);
-> > > +			}
-> > > +			mutex_unlock(&ddev->filelist_mutex);
-> > > +		}
-> > > +
-> > > +		if (dummy_page) {
-> > > +			/*
-> > > +			 * Let do_fault complete the PTE install e.t.c using vmf->page
-> > > +			 *
-> > > +			 * TODO - should i call free_page somewhere ?
-> > Nah, instead don't call get_page. The page will be around as long as
-> > there's a reference for the drm_file or gem_bo, which is longer than any
-> > mmap. Otherwise yes this would like really badly.
-> =
-
-> =
-
-> So actually that was my thinking in the first place and I indeed avoided
-> taking reference and this ended up
-> with multiple BUG_ONs as seen bellow where=A0 refcount:-63 mapcount:-48 f=
-or a
-> page are deep into negative
-> values... Those warnings were gone once i added get_page(dummy) which in =
-my
-> opinion implies that there
-> is a page reference per each PTE and that when there is unmapping of the
-> process address
-> space and PTEs are deleted there is also put_page somewhere in mm core and
-> the get_page per mapping
-> keeps it balanced.
-> =
-
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762929] BUG: Bad page=
- map in
-> process glxgear:disk$0=A0 pte:8000000132284867 pmd:15aaec067
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762931]
-> page:ffffe63384c8a100 refcount:-63 mapcount:-48 mapping:0000000000000000
-> index:0x0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762932] flags:
-> 0x17fff8000000008(dirty)
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762933] raw:
-> 017fff8000000008 dead000000000100 dead000000000122 0000000000000000
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762934] raw:
-> 0000000000000000 0000000000000000 ffffffc1ffffffcf 0000000000000000
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762935] page dumped b=
-ecause: bad pte
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762937]
-> addr:00007fe086263000 vm_flags:1c0440fb anon_vma:0000000000000000
-> mapping:ffff9b5cd42db268 index:1008b3
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762981] file:renderD1=
-29
-> fault:ttm_bo_vm_fault [ttm] mmap:amdgpu_mmap [amdgpu] readpage:0x0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762984] CPU: 5 PID: 2=
-619
-> Comm: glxgear:disk$0 Tainted: G=A0=A0=A0 B=A0=A0=A0=A0=A0 OE 5.6.0-dev+ #=
-51
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762985] Hardware name:
-> System manufacturer System Product Name/RAMPAGE IV FORMULA, BIOS 4804
-> 12/30/2013
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762985] Call Trace:
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762988] dump_stack+0x=
-68/0x9b
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762990] print_bad_pte=
-+0x19f/0x270
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762992]=A0 ? lock_pag=
-e_memcg+0x5/0xf0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.762995] unmap_page_ra=
-nge+0x777/0xbe0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763000] unmap_vmas+0x=
-cc/0x160
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763004] exit_mmap+0xb=
-5/0x1b0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763009] mmput+0x65/0x=
-140
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763010] do_exit+0x362=
-/0xc40
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763013] do_group_exit=
-+0x47/0xb0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763016] get_signal+0x=
-18b/0xc30
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763019] do_signal+0x3=
-6/0x6a0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763021]=A0 ?
-> __set_task_comm+0x62/0x120
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763024]=A0 ?
-> __x64_sys_futex+0x88/0x180
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763028]
-> exit_to_usermode_loop+0x6f/0xc0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763030] do_syscall_64=
-+0x149/0x1c0
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763032]
-> entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763034] RIP: 0033:0x7=
-fe091bd9360
-> Jun 20 01:36:43 ubuntu-1604-test kernel: [=A0=A0 98.763037] Code: Bad RIP=
- value.
-
-Uh, I guess that just shows how little I understand how this all works.
-But yeah if we set vmf->page then I guess core mm takes care of
-everything, but apparently expects a page reference.
--Daniel
- =
-
-> Andrey
-> =
-
-> =
-
-> > =
-
-> > > +			 */
-> > > +			get_page(dummy_page);
-> > > +			vmf->page =3D dummy_page;
-> > > +			return 0;
-> > > +		} else {
-> > > +			return VM_FAULT_SIGSEGV;
-> > Hm that would be a kernel bug, wouldn't it? WARN_ON() required here imo.
-> > -Daniel
-> > =
-
-> > > +		}
-> > > +	}
-> > >   }
-> > >   EXPORT_SYMBOL(ttm_bo_vm_fault);
-> > > -- =
-
-> > > 2.7.4
-> > > =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
