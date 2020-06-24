@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3C5207F32
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 00:12:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAB820968C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 00:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 877336E0D0;
-	Wed, 24 Jun 2020 22:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F56C6E0D3;
+	Wed, 24 Jun 2020 22:47:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D05B892FE;
- Wed, 24 Jun 2020 22:12:16 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id u17so3114413qtq.1;
- Wed, 24 Jun 2020 15:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=67p7vtOZyPUiKQMGdl0SDJU9bXmMxLzL4Z6M8Z2tVLY=;
- b=Dp58GycaWyhb4IppRFn9IsUcNzEmPx65ZhM1KFmmWpbgKQjwDWv7ZFOQmH5N2FW9Ui
- 9eZyyg7pshLCjC5IzEspFRIl/ZRNCOKWJeW+hF5V5NmIq6+/a0LZYtTgZ7h8h57HbmSe
- UZdl6AY5Vp6P+ydMDOCm+H+U//UossNVbNhXfE3JWa/hQVu4fSmSONjrx09S3g9WHrfU
- 2dXIu5lvBx6bPy2FbtEtykmEUfdiBl0Dqzg+ISCJu2l6g5OnOjuowAZB8vYWHDiP0yyC
- OM77qIYJKcjn6w/yh44d+BEu5iDH/paApIixbQdbm/8TwW2c9afRaEQK0Uf46nPAsZes
- grhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=67p7vtOZyPUiKQMGdl0SDJU9bXmMxLzL4Z6M8Z2tVLY=;
- b=afbBQXTam3WcV5HSR4f23Ab8HR01YMorvdtU3ojak/grzBu5I9onnmcFHJwjcn0bXo
- ph3lulPGa/vmxHunP9d6p9xwQwh9Y4tFXYD+kYghH8/W4ijATZNqKWXkHTgtjrlbtBm4
- 9rnDPdc/BZgpea1IfBwfE/1cq+oze8vyoHfpzy19f19wt+csF7Pgp4m0ce8gpt3PrLk+
- X7i36dOE+FFzlrc1+ISnD3gKhKFg5Totw2+/NJ5FHTnALo7YyI5w+7ts3/LGa+lLOH3L
- /PbnPjtT++z3mWw87iRos1aVD92dY7kcuMhneYJ5I822Ww+0hDpDhcN0y01ObJH472eS
- qEzQ==
-X-Gm-Message-State: AOAM533JG/Ow9oP+fdejNqo5Cn4zJXglrXmjmZwnpQI1KOaQt++cJZDj
- PzATz/+cvwU8ysVL1yd/uQv61LHO
-X-Google-Smtp-Source: ABdhPJwZ8zoWAG5qQLE+QTaVowHt87AG6UtSubNCFWClIvzkth/7wZeyO6bETMc94VOjfnbRIZarAQ==
-X-Received: by 2002:ac8:34bd:: with SMTP id w58mr29062479qtb.359.1593036735378; 
- Wed, 24 Jun 2020 15:12:15 -0700 (PDT)
-Received: from localhost.localdomain ([71.219.51.205])
- by smtp.gmail.com with ESMTPSA id t57sm863492qtc.91.2020.06.24.15.12.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 15:12:14 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu, amdkfd, radeon drm-fixes-5.8
-Date: Wed, 24 Jun 2020 18:12:07 -0400
-Message-Id: <20200624221207.17773-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C27E6E0D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 22:47:57 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21CD22A8;
+ Thu, 25 Jun 2020 00:47:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1593038875;
+ bh=1phuELyAWC9kiLJ0qWlCpumeJ0WEjE52rPQPBrntzdU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uzkvI7/3NU65bdE16DR0ZnU58cC2uQGTek3RWQs5WYtZruSJi4ZeMZ8vPOp7xyzIu
+ ho/8fi0PXgpTC9SUpq5vmEzNsH43eQZZ5veeuix7YW2OyDpLI5A8xoREXUj58kEfGh
+ /SGkLTs9eACNuCF4tpF4Rm3dKHMiucQXs88hfGIk=
+Date: Thu, 25 Jun 2020 01:47:54 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
+ state
+Message-ID: <20200624224754.GJ5980@pendragon.ideasonboard.com>
+References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621084000.GM74146@ravnborg.org>
+ <20200624011209.GU5870@pendragon.ideasonboard.com>
+ <20200624072304.GT20149@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200624072304.GT20149@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,66 +50,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi Daniel,
 
-Fixes for 5.8.
+On Wed, Jun 24, 2020 at 09:23:04AM +0200, Daniel Vetter wrote:
+> On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wrote:
+> > On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
+> > > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
+> > > > The DRM CRTC helpers add default modes to connectors in the connected
+> > > > state if no mode can be retrieved from the connector. This behaviour is
+> > > > useful for VGA or DVI outputs that have no connected DDC bus. However,
+> > > > in such cases, the status of the output usually can't be retrieved and
+> > > > is reported as connector_status_unknown.
+> > > > 
+> > > > Extend the addition of default modes to connectors in an unknown state
+> > > > to support outputs that can retrieve neither the modes nor the
+> > > > connection status.
+> > > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > 
+> > > From your description sounds like an OK approach.
+> > > But this is not something I feel too familiar with.
+> > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
+> > too.
+> 
+> Makes sense, and at least pre-coffee me can't immediately think of a
+> scenario where we're going to regret this. _unknown status is pretty much
+> limited to old VGA and similar things where load detect somehow isn't well
+> supported by the hw.
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> > > > ---
+> > > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
+> > > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
+> > > >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > > > index f5d141e0400f..9055d9573c90 100644
+> > > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+> > > >  	if (count == 0 && connector->status == connector_status_connected)
+> > > >  		count = drm_add_override_edid_modes(connector);
+> > > >  
+> > > > -	if (count == 0 && connector->status == connector_status_connected)
+> > > > +	if (count == 0 && (connector->status == connector_status_connected ||
+> > > > +			   connector->status == connector_status_unknown))
+> > > >  		count = drm_add_modes_noedid(connector, 1024, 768);
+> > > >  	count += drm_helper_probe_add_cmdline_mode(connector);
+> > > >  	if (count == 0)
+> > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> > > > index 421a30f08463..afe55e2e93d2 100644
+> > > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
+> > > >  	 * The usual way to implement this is to cache the EDID retrieved in the
+> > > >  	 * probe callback somewhere in the driver-private connector structure.
+> > > >  	 * In this function drivers then parse the modes in the EDID and add
+> > > > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
+> > > > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
+> > > >  	 * fixed panel can also manually add specific modes using
+> > > >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
+> > > >  	 * make sure that the &drm_connector.display_info,
+> > > >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
+> > > >  	 * filled in.
+> > > >  	 *
+> > > > +	 * Note that the caller function will automatically add standard VESA
+> > > > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
+> > > > +	 * no mode and if the connector status is connector_status_connected or
+> > > > +	 * connector_status_unknown. There is no need to call
+> > > > +	 * drm_add_edid_modes() manually in that case.
+> 
+> Hm calling drm_add_edid_modes if you have no edid is a bit a funny idea
+> ... Personally I'd just leave out the last sentence, I think that only
+> confuses readers. Or I'm not grasphing what you're trying to tell here.
 
-The following changes since commit 48778464bb7d346b47157d21ffde2af6b2d39110:
+Sorry, I meant drm_add_modes_noedid(). Is that clearer ?
 
-  Linux 5.8-rc2 (2020-06-21 15:45:29 -0700)
+> r-b with or without this change since imo super tiny nit.
+> 
+> > > > +	 *
+> > > >  	 * Virtual drivers that just want some standard VESA mode with a given
+> > > >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
+> > > >  	 * one using drm_set_preferred_mode().
 
-are available in the Git repository at:
+-- 
+Regards,
 
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.8-2020-06-24
-
-for you to fetch changes up to b5b78a6c8d8cb9c307bc6b16a754603424459d6e:
-
-  drm/amd: fix potential memleak in err branch (2020-06-24 18:03:16 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.8-2020-06-24:
-
-amdgpu:
-- Fix missed mutex unlock in DC error path
-- Fix firmware leak for sdma5
-- DC bpc property fixes
-
-amdkfd:
-- Fix memleak in an error path
-
-radeon:
-- Fix copy paste typo in NI DPM spll validation
-
-----------------------------------------------------------------
-Bernard Zhao (1):
-      drm/amd: fix potential memleak in err branch
-
-Denis Efremov (1):
-      drm/radeon: fix fb_div check in ni_init_smc_spll_table()
-
-John van der Kamp (1):
-      drm/amdgpu/display: Unlock mutex on error
-
-Stylon Wang (2):
-      drm/amd/display: Enable output_bpc property on all outputs
-      drm/amd/display: Fix ineffective setting of max bpc property
-
-Wenhui Sheng (1):
-      drm/amdgpu: add fw release for sdma v5_0
-
- drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c                    | 6 +++++-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c                  | 1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 3 ++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 4 +++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c    | 6 ++++--
- drivers/gpu/drm/radeon/ni_dpm.c                           | 2 +-
- 6 files changed, 16 insertions(+), 6 deletions(-)
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
