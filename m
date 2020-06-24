@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9D0206FA0
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 11:04:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8CA206FA1
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 11:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C22D6E170;
-	Wed, 24 Jun 2020 09:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6F489875;
+	Wed, 24 Jun 2020 09:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC2B06E417
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 09:04:13 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05O93SLR016814;
- Wed, 24 Jun 2020 04:03:28 -0500
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB9889875
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 09:04:22 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05O93ef3052004;
+ Wed, 24 Jun 2020 04:03:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1592989408;
- bh=qawbol1Plx0PbElwJVlJpx05NeZYPWO7Diyq3ebs12Y=;
+ s=ti-com-17Q1; t=1592989420;
+ bh=uuW7XqrPW68cl2WN232AjYtO1bu3bp6zRxNefhKo+5M=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=qh3UN9IFtiWiV+7xpjDo9aGDL65GJKUrJp3cadAeSU94XL1URkaWSnHBcSkPO7u+C
- +lKkv+xShoxaCtYfopP7kEuGgVtxP/8oA87VtRC122389LqWkflc65rWYgmqkMKaFR
- lYi85pTdvjMblXw7IAlKaOH2za8a6f8gOxYD6dsE=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05O93SkY111549;
- Wed, 24 Jun 2020 04:03:28 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ b=wjTAzwMPm8Yo2//+nctIU3i51GnXyxyjoGvXkicc6YiOpUUI+vE4zWvPgxubonM+F
+ zcxobJIp98heUi7XbTofAihJjDUMTCrJaSCLn9xHAjhe1N+3j4tBu7J9+wcLR79H26
+ dpy0e7izQjXRh7/g+cXwFbdx5fkwCtyaHa2sex9M=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05O93exq012093
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 24 Jun 2020 04:03:40 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 24
- Jun 2020 04:03:27 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2020 04:03:40 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 24 Jun 2020 04:03:27 -0500
+ Frontend Transport; Wed, 24 Jun 2020 04:03:40 -0500
 Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05O93HL0073549;
- Wed, 24 Jun 2020 04:03:18 -0500
-Subject: Re: [PATCH v3 37/43] drm/tilcdc: Use GEM CMA object functions
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05O93UVa073748;
+ Wed, 24 Jun 2020 04:03:30 -0500
+Subject: Re: [PATCH v3 38/43] drm/tilcdc: Set GEM CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS
 To: Thomas Zimmermann <tzimmermann@suse.de>, <abrodkin@synopsys.com>,
  <airlied@linux.ie>, <daniel@ffwll.ch>, <james.qian.wang@arm.com>,
  <liviu.dudau@arm.com>, <mihail.atanassov@arm.com>,
@@ -59,7 +61,7 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, <abrodkin@synopsys.com>,
  <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>,
  <wens@csie.org>, <tomi.valkeinen@ti.com>, <noralf@tronnes.org>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
- <20200605073247.4057-38-tzimmermann@suse.de>
+ <20200605073247.4057-39-tzimmermann@suse.de>
 From: Jyri Sarha <jsarha@ti.com>
 Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
@@ -103,12 +105,12 @@ Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
  PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
  tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <b66ccc2f-221f-5ae7-b60b-9e2b77a98fc7@ti.com>
-Date: Wed, 24 Jun 2020 12:03:16 +0300
+Message-ID: <44a68de2-b176-f1c6-3865-ccd092ca3353@ti.com>
+Date: Wed, 24 Jun 2020 12:03:29 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200605073247.4057-38-tzimmermann@suse.de>
+In-Reply-To: <20200605073247.4057-39-tzimmermann@suse.de>
 Content-Language: en-GB
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -131,16 +133,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/06/2020 10:32, Thomas Zimmermann wrote:
-> Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
-> allocates the object and sets CMA's default object functions. Corresponding
-> callbacks in struct drm_driver are cleared. No functional changes are made.
-> 
-> Driver and object-function instances use the same callback functions, with
-> the exception of vunmap. The implementation of vunmap is empty and left out
-> in CMA's default object functions.
-> 
-> v3:
-> 	* convert to DRIVER_OPS macro in a separate patch
+> DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
+> to their defaults. No functional changes are made.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Acked-by: Emil Velikov <emil.velikov@collabora.com>
@@ -149,32 +143,28 @@ Reviewed-by: Jyri Sarha <jsarha@ti.com>
 Tested-by: Jyri Sarha <jsarha@ti.com>
 
 > ---
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> index a5e9ee4c7fbf4..a6582325651bd 100644
+> index a6582325651bd..0d74a64432633 100644
 > --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
 > +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -496,17 +496,12 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
+> @@ -496,13 +496,7 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
 >  static struct drm_driver tilcdc_driver = {
 >  	.driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
 >  	.irq_handler        = tilcdc_irq,
-> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> -	.gem_print_info     = drm_gem_cma_print_info,
-> -	.gem_vm_ops         = &drm_gem_cma_vm_ops,
-> +	.gem_create_object  = drm_gem_cma_create_object_default_funcs,
->  	.dumb_create        = drm_gem_cma_dumb_create,
->  
->  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
->  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
->  	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+> -	.gem_create_object  = drm_gem_cma_create_object_default_funcs,
+> -	.dumb_create        = drm_gem_cma_dumb_create,
+> -
+> -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+> -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+> +	DRM_GEM_CMA_DRIVER_OPS,
 >  #ifdef CONFIG_DEBUG_FS
 >  	.debugfs_init       = tilcdc_debugfs_init,
+>  #endif
 > 
 
 
