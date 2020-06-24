@@ -2,32 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3029209A8B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CAD209A90
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C05236E4B7;
-	Thu, 25 Jun 2020 07:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A976E87C;
+	Thu, 25 Jun 2020 07:31:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 489FE6EB14;
- Wed, 24 Jun 2020 11:57:08 +0000 (UTC)
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 24 Jun 2020 04:57:07 -0700
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 24 Jun 2020 04:57:06 -0700
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg02-blr.qualcomm.com with ESMTP; 24 Jun 2020 17:26:42 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 921DE4A40; Wed, 24 Jun 2020 17:26:40 +0530 (IST)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH] drm/msm/dpu: add support for dither block in display
-Date: Wed, 24 Jun 2020 17:26:36 +0530
-Message-Id: <1592999796-30501-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0659E6EB98
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:30:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 392291FB;
+ Wed, 24 Jun 2020 08:30:01 -0700 (PDT)
+Received: from [10.37.12.79] (unknown [10.37.12.79])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E01873F73C;
+ Wed, 24 Jun 2020 08:29:49 -0700 (PDT)
+Subject: Re: [RESEND][PATCH v8 4/8] PM / EM: add support for other devices
+ than CPUs in Energy Model
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20200527095854.21714-5-lukasz.luba@arm.com>
+ <20200610101223.7152-1-lukasz.luba@arm.com>
+ <CAJZ5v0i30Bbk_p+ZAedqJeDu5RfzN53m5PAMbOd3wE=adaBqSQ@mail.gmail.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <b162dfdc-60b2-7de7-e5b3-3ea49a28ed5b@arm.com>
+Date: Wed, 24 Jun 2020 16:29:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAJZ5v0i30Bbk_p+ZAedqJeDu5RfzN53m5PAMbOd3wE=adaBqSQ@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 25 Jun 2020 07:31:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,252 +45,565 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: Nishanth Menon <nm@ti.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Benjamin Segall <bsegall@google.com>, alyssa.rosenzweig@collabora.com,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Amit Kucheria <amit.kucheria@verdurent.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Kevin Hilman <khilman@kernel.org>, Andy Gross <agross@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, steven.price@arm.com,
+ Chanwoo Choi <cw00.choi@samsung.com>, Ingo Molnar <mingo@redhat.com>,
+ dl-linux-imx <linux-imx@nxp.com>, "Zhang, Rui" <rui.zhang@intel.com>,
+ Mel Gorman <mgorman@suse.de>, orjan.eide@arm.com,
+ Linux PM <linux-pm@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
+ "moderated list:ARM/Mediatek SoC..." <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+ Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ David Airlie <airlied@linux.ie>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Quentin Perret <qperret@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <kernel@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>,
+ patrick.bellasi@matbug.net, Shawn Guo <shawnguo@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change enables dither block for primary interface
-in display.
 
-Enabled for 6bpc in the current version.
 
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c     | 45 +++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 66 +++++++++++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 28 +++++++++++
- 3 files changed, 130 insertions(+), 9 deletions(-)
+On 6/24/20 4:21 PM, Rafael J. Wysocki wrote:
+> On Wed, Jun 10, 2020 at 12:12 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>>
+>> Add support for other devices than CPUs. The registration function
+>> does not require a valid cpumask pointer and is ready to handle new
+>> devices. Some of the internal structures has been reorganized in order to
+>> keep consistent view (like removing per_cpu pd pointers).
+>>
+>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>> ---
+>> Hi all,
+>>
+>> This is just a small change compared to v8 addressing Rafael's
+>> comments an Dan's static analyzes.
+>> Here are the changes:
+>> - added comment about mutex usage in the unregister function
+>> - changed 'dev' into @dev in the kerneldoc comments
+>> - removed 'else' statement from em_create_pd() to calm down static analizers
+> 
+> I've applied the series as 5.9 material with patch [4/8] replaced with this one.
+> 
+> Sorry for the delays in handling this!
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 63976dc..26e870a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -208,6 +208,42 @@ struct dpu_encoder_virt {
- 
- #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
- 
-+static u32 dither_matrix[DITHER_MATRIX_SZ] = {
-+	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
-+};
-+
-+static void _dpu_encoder_setup_dither(struct dpu_encoder_phys *phys)
-+{
-+	struct dpu_hw_dither_cfg dither_cfg = { 0 };
-+	struct drm_display_info *info;
-+
-+	if (!phys || !phys->connector || !phys->hw_pp ||
-+		!phys->hw_pp->ops.setup_dither)
-+		return;
-+
-+	info = &phys->connector->display_info;
-+	if (!info)
-+		return;
-+
-+	switch (phys->connector->display_info.bpc) {
-+	case 6:
-+		dither_cfg.c0_bitdepth = 6;
-+		dither_cfg.c1_bitdepth = 6;
-+		dither_cfg.c2_bitdepth = 6;
-+		dither_cfg.c3_bitdepth = 6;
-+		dither_cfg.temporal_en = 0;
-+		break;
-+	default:
-+		phys->hw_pp->ops.setup_dither(phys->hw_pp, NULL);
-+		return;
-+	}
-+
-+	memcpy(&dither_cfg.matrix, dither_matrix,
-+			sizeof(u32) * DITHER_MATRIX_SZ);
-+
-+	phys->hw_pp->ops.setup_dither(phys->hw_pp, &dither_cfg);
-+}
-+
- void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
- 		enum dpu_intr_idx intr_idx)
- {
-@@ -1082,6 +1118,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
- 	struct dpu_encoder_virt *dpu_enc = NULL;
- 	struct msm_drm_private *priv;
- 	struct dpu_kms *dpu_kms;
-+	int i;
- 
- 	if (!drm_enc || !drm_enc->dev) {
- 		DPU_ERROR("invalid parameters\n");
-@@ -1104,6 +1141,14 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
- 				dpu_kms->catalog);
- 
- 	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
-+
-+	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-+		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-+			struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-+
-+			_dpu_encoder_setup_dither(phys);
-+		}
-+	}
- }
- 
- void dpu_encoder_virt_runtime_resume(struct drm_encoder *drm_enc)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index d110a40..cf7603d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -28,6 +28,16 @@
- #define PP_FBC_BUDGET_CTL               0x038
- #define PP_FBC_LOSSY_MODE               0x03C
- 
-+#define PP_DITHER_EN			0x000
-+#define PP_DITHER_BITDEPTH		0x004
-+#define PP_DITHER_MATRIX		0x008
-+
-+#define DITHER_DEPTH_MAP_INDEX 9
-+
-+static u32 dither_depth_map[DITHER_DEPTH_MAP_INDEX] = {
-+	0, 0, 0, 0, 0, 0, 0, 1, 2
-+};
-+
- static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
- 		const struct dpu_mdss_cfg *m,
- 		void __iomem *addr,
-@@ -49,6 +59,40 @@ static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
- 	return ERR_PTR(-EINVAL);
- }
- 
-+static void dpu_hw_pp_setup_dither(struct dpu_hw_pingpong *pp,
-+				    struct dpu_hw_dither_cfg *cfg)
-+{
-+	struct dpu_hw_blk_reg_map *c;
-+	u32 i, base, data = 0;
-+
-+	if (!pp)
-+		return;
-+
-+	c = &pp->hw;
-+	base = pp->caps->sblk->dither.base;
-+	if (!cfg) {
-+		DPU_REG_WRITE(c, base + PP_DITHER_EN, 0);
-+		return;
-+	}
-+
-+	data = dither_depth_map[cfg->c0_bitdepth] & REG_MASK(2);
-+	data |= (dither_depth_map[cfg->c1_bitdepth] & REG_MASK(2)) << 2;
-+	data |= (dither_depth_map[cfg->c2_bitdepth] & REG_MASK(2)) << 4;
-+	data |= (dither_depth_map[cfg->c3_bitdepth] & REG_MASK(2)) << 6;
-+	data |= (cfg->temporal_en) ? (1 << 8) : 0;
-+
-+	DPU_REG_WRITE(c, base + PP_DITHER_BITDEPTH, data);
-+
-+	for (i = 0; i < DITHER_MATRIX_SZ - 3; i += 4) {
-+		data = (cfg->matrix[i] & REG_MASK(4)) |
-+			((cfg->matrix[i + 1] & REG_MASK(4)) << 4) |
-+			((cfg->matrix[i + 2] & REG_MASK(4)) << 8) |
-+			((cfg->matrix[i + 3] & REG_MASK(4)) << 12);
-+		DPU_REG_WRITE(c, base + PP_DITHER_MATRIX + i, data);
-+	}
-+	DPU_REG_WRITE(c, base + PP_DITHER_EN, 1);
-+}
-+
- static int dpu_hw_pp_setup_te_config(struct dpu_hw_pingpong *pp,
- 		struct dpu_hw_tear_check *te)
- {
-@@ -180,15 +224,19 @@ static u32 dpu_hw_pp_get_line_count(struct dpu_hw_pingpong *pp)
- 	return line;
- }
- 
--static void _setup_pingpong_ops(struct dpu_hw_pingpong_ops *ops,
--	const struct dpu_pingpong_cfg *hw_cap)
-+static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
-+				unsigned long features)
- {
--	ops->setup_tearcheck = dpu_hw_pp_setup_te_config;
--	ops->enable_tearcheck = dpu_hw_pp_enable_te;
--	ops->connect_external_te = dpu_hw_pp_connect_external_te;
--	ops->get_vsync_info = dpu_hw_pp_get_vsync_info;
--	ops->poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
--	ops->get_line_count = dpu_hw_pp_get_line_count;
-+	c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
-+	c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
-+	c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-+	c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
-+	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
-+	c->ops.get_line_count = dpu_hw_pp_get_line_count;
-+
-+	if (test_bit(DPU_PINGPONG_DITHER, &features) &&
-+		IS_SC7180_TARGET(c->hw.hwversion))
-+		c->ops.setup_dither = dpu_hw_pp_setup_dither;
- };
- 
- static struct dpu_hw_blk_ops dpu_hw_ops;
-@@ -212,7 +260,7 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(enum dpu_pingpong idx,
- 
- 	c->idx = idx;
- 	c->caps = cfg;
--	_setup_pingpong_ops(&c->ops, c->caps);
-+	_setup_pingpong_ops(c, c->caps->features);
- 
- 	dpu_hw_blk_init(&c->base, DPU_HW_BLK_PINGPONG, idx, &dpu_hw_ops);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-index d73cb73..065996b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-@@ -10,6 +10,8 @@
- #include "dpu_hw_util.h"
- #include "dpu_hw_blk.h"
- 
-+#define DITHER_MATRIX_SZ 16
-+
- struct dpu_hw_pingpong;
- 
- struct dpu_hw_tear_check {
-@@ -35,6 +37,26 @@ struct dpu_hw_pp_vsync_info {
- };
- 
- /**
-+ * struct dpu_hw_dither_cfg - dither feature structure
-+ * @flags: for customizing operations
-+ * @temporal_en: temperal dither enable
-+ * @c0_bitdepth: c0 component bit depth
-+ * @c1_bitdepth: c1 component bit depth
-+ * @c2_bitdepth: c2 component bit depth
-+ * @c3_bitdepth: c2 component bit depth
-+ * @matrix: dither strength matrix
-+ */
-+struct dpu_hw_dither_cfg {
-+	u64 flags;
-+	u32 temporal_en;
-+	u32 c0_bitdepth;
-+	u32 c1_bitdepth;
-+	u32 c2_bitdepth;
-+	u32 c3_bitdepth;
-+	u32 matrix[DITHER_MATRIX_SZ];
-+};
-+
-+/**
-  *
-  * struct dpu_hw_pingpong_ops : Interface to the pingpong Hw driver functions
-  *  Assumption is these functions will be called after clocks are enabled
-@@ -82,6 +104,12 @@ struct dpu_hw_pingpong_ops {
- 	 * Obtain current vertical line counter
- 	 */
- 	u32 (*get_line_count)(struct dpu_hw_pingpong *pp);
-+
-+	/**
-+	 * Setup dither matix for pingpong block
-+	 */
-+	void (*setup_dither)(struct dpu_hw_pingpong *pp,
-+			struct dpu_hw_dither_cfg *cfg);
- };
- 
- struct dpu_hw_pingpong {
--- 
-1.9.1
+No worries. Thank you very much!
 
+Regards,
+Lukasz
+
+> 
+> Thanks!
+> 
+>>   include/linux/device.h       |   5 +
+>>   include/linux/energy_model.h |  29 ++++-
+>>   kernel/power/energy_model.c  | 244 ++++++++++++++++++++++++-----------
+>>   3 files changed, 194 insertions(+), 84 deletions(-)
+>>
+>> diff --git a/include/linux/device.h b/include/linux/device.h
+>> index ac8e37cd716a..7023d3ea189b 100644
+>> --- a/include/linux/device.h
+>> +++ b/include/linux/device.h
+>> @@ -13,6 +13,7 @@
+>>   #define _DEVICE_H_
+>>
+>>   #include <linux/dev_printk.h>
+>> +#include <linux/energy_model.h>
+>>   #include <linux/ioport.h>
+>>   #include <linux/kobject.h>
+>>   #include <linux/klist.h>
+>> @@ -559,6 +560,10 @@ struct device {
+>>          struct dev_pm_info      power;
+>>          struct dev_pm_domain    *pm_domain;
+>>
+>> +#ifdef CONFIG_ENERGY_MODEL
+>> +       struct em_perf_domain   *em_pd;
+>> +#endif
+>> +
+>>   #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
+>>          struct irq_domain       *msi_domain;
+>>   #endif
+>> diff --git a/include/linux/energy_model.h b/include/linux/energy_model.h
+>> index 7076cb22b247..2d4689964029 100644
+>> --- a/include/linux/energy_model.h
+>> +++ b/include/linux/energy_model.h
+>> @@ -12,8 +12,10 @@
+>>
+>>   /**
+>>    * em_perf_state - Performance state of a performance domain
+>> - * @frequency: The CPU frequency in KHz, for consistency with CPUFreq
+>> - * @power:     The power consumed by 1 CPU at this level, in milli-watts
+>> + * @frequency: The frequency in KHz, for consistency with CPUFreq
+>> + * @power:     The power consumed at this level, in milli-watts (by 1 CPU or
+>> +               by a registered device). It can be a total power: static and
+>> +               dynamic.
+>>    * @cost:      The cost coefficient associated with this level, used during
+>>    *             energy calculation. Equal to: power * max_frequency / frequency
+>>    */
+>> @@ -27,12 +29,16 @@ struct em_perf_state {
+>>    * em_perf_domain - Performance domain
+>>    * @table:             List of performance states, in ascending order
+>>    * @nr_perf_states:    Number of performance states
+>> - * @cpus:              Cpumask covering the CPUs of the domain
+>> + * @cpus:              Cpumask covering the CPUs of the domain. It's here
+>> + *                     for performance reasons to avoid potential cache
+>> + *                     misses during energy calculations in the scheduler
+>> + *                     and simplifies allocating/freeing that memory region.
+>>    *
+>> - * A "performance domain" represents a group of CPUs whose performance is
+>> - * scaled together. All CPUs of a performance domain must have the same
+>> - * micro-architecture. Performance domains often have a 1-to-1 mapping with
+>> - * CPUFreq policies.
+>> + * In case of CPU device, a "performance domain" represents a group of CPUs
+>> + * whose performance is scaled together. All CPUs of a performance domain
+>> + * must have the same micro-architecture. Performance domains often have
+>> + * a 1-to-1 mapping with CPUFreq policies. In case of other devices the @cpus
+>> + * field is unused.
+>>    */
+>>   struct em_perf_domain {
+>>          struct em_perf_state *table;
+>> @@ -71,10 +77,12 @@ struct em_data_callback {
+>>   #define EM_DATA_CB(_active_power_cb) { .active_power = &_active_power_cb }
+>>
+>>   struct em_perf_domain *em_cpu_get(int cpu);
+>> +struct em_perf_domain *em_pd_get(struct device *dev);
+>>   int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
+>>                                                  struct em_data_callback *cb);
+>>   int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>>                                  struct em_data_callback *cb, cpumask_t *span);
+>> +void em_dev_unregister_perf_domain(struct device *dev);
+>>
+>>   /**
+>>    * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf. domain
+>> @@ -184,10 +192,17 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>>   {
+>>          return -EINVAL;
+>>   }
+>> +static inline void em_dev_unregister_perf_domain(struct device *dev)
+>> +{
+>> +}
+>>   static inline struct em_perf_domain *em_cpu_get(int cpu)
+>>   {
+>>          return NULL;
+>>   }
+>> +static inline struct em_perf_domain *em_pd_get(struct device *dev)
+>> +{
+>> +       return NULL;
+>> +}
+>>   static inline unsigned long em_pd_energy(struct em_perf_domain *pd,
+>>                          unsigned long max_util, unsigned long sum_util)
+>>   {
+>> diff --git a/kernel/power/energy_model.c b/kernel/power/energy_model.c
+>> index 5b8a1566526a..32d76e78f992 100644
+>> --- a/kernel/power/energy_model.c
+>> +++ b/kernel/power/energy_model.c
+>> @@ -1,9 +1,10 @@
+>>   // SPDX-License-Identifier: GPL-2.0
+>>   /*
+>> - * Energy Model of CPUs
+>> + * Energy Model of devices
+>>    *
+>> - * Copyright (c) 2018, Arm ltd.
+>> + * Copyright (c) 2018-2020, Arm ltd.
+>>    * Written by: Quentin Perret, Arm ltd.
+>> + * Improvements provided by: Lukasz Luba, Arm ltd.
+>>    */
+>>
+>>   #define pr_fmt(fmt) "energy_model: " fmt
+>> @@ -15,15 +16,17 @@
+>>   #include <linux/sched/topology.h>
+>>   #include <linux/slab.h>
+>>
+>> -/* Mapping of each CPU to the performance domain to which it belongs. */
+>> -static DEFINE_PER_CPU(struct em_perf_domain *, em_data);
+>> -
+>>   /*
+>>    * Mutex serializing the registrations of performance domains and letting
+>>    * callbacks defined by drivers sleep.
+>>    */
+>>   static DEFINE_MUTEX(em_pd_mutex);
+>>
+>> +static bool _is_cpu_device(struct device *dev)
+>> +{
+>> +       return (dev->bus == &cpu_subsys);
+>> +}
+>> +
+>>   #ifdef CONFIG_DEBUG_FS
+>>   static struct dentry *rootdir;
+>>
+>> @@ -49,22 +52,30 @@ static int em_debug_cpus_show(struct seq_file *s, void *unused)
+>>   }
+>>   DEFINE_SHOW_ATTRIBUTE(em_debug_cpus);
+>>
+>> -static void em_debug_create_pd(struct em_perf_domain *pd, int cpu)
+>> +static void em_debug_create_pd(struct device *dev)
+>>   {
+>>          struct dentry *d;
+>> -       char name[8];
+>>          int i;
+>>
+>> -       snprintf(name, sizeof(name), "pd%d", cpu);
+>> -
+>>          /* Create the directory of the performance domain */
+>> -       d = debugfs_create_dir(name, rootdir);
+>> +       d = debugfs_create_dir(dev_name(dev), rootdir);
+>>
+>> -       debugfs_create_file("cpus", 0444, d, pd->cpus, &em_debug_cpus_fops);
+>> +       if (_is_cpu_device(dev))
+>> +               debugfs_create_file("cpus", 0444, d, dev->em_pd->cpus,
+>> +                                   &em_debug_cpus_fops);
+>>
+>>          /* Create a sub-directory for each performance state */
+>> -       for (i = 0; i < pd->nr_perf_states; i++)
+>> -               em_debug_create_ps(&pd->table[i], d);
+>> +       for (i = 0; i < dev->em_pd->nr_perf_states; i++)
+>> +               em_debug_create_ps(&dev->em_pd->table[i], d);
+>> +
+>> +}
+>> +
+>> +static void em_debug_remove_pd(struct device *dev)
+>> +{
+>> +       struct dentry *debug_dir;
+>> +
+>> +       debug_dir = debugfs_lookup(dev_name(dev), rootdir);
+>> +       debugfs_remove_recursive(debug_dir);
+>>   }
+>>
+>>   static int __init em_debug_init(void)
+>> @@ -76,40 +87,34 @@ static int __init em_debug_init(void)
+>>   }
+>>   core_initcall(em_debug_init);
+>>   #else /* CONFIG_DEBUG_FS */
+>> -static void em_debug_create_pd(struct em_perf_domain *pd, int cpu) {}
+>> +static void em_debug_create_pd(struct device *dev) {}
+>> +static void em_debug_remove_pd(struct device *dev) {}
+>>   #endif
+>> -static struct em_perf_domain *
+>> -em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+>> -            cpumask_t *span)
+>> +
+>> +static int em_create_perf_table(struct device *dev, struct em_perf_domain *pd,
+>> +                               int nr_states, struct em_data_callback *cb)
+>>   {
+>>          unsigned long opp_eff, prev_opp_eff = ULONG_MAX;
+>>          unsigned long power, freq, prev_freq = 0;
+>> -       int i, ret, cpu = cpumask_first(span);
+>>          struct em_perf_state *table;
+>> -       struct em_perf_domain *pd;
+>> +       int i, ret;
+>>          u64 fmax;
+>>
+>> -       if (!cb->active_power)
+>> -               return NULL;
+>> -
+>> -       pd = kzalloc(sizeof(*pd) + cpumask_size(), GFP_KERNEL);
+>> -       if (!pd)
+>> -               return NULL;
+>> -
+>>          table = kcalloc(nr_states, sizeof(*table), GFP_KERNEL);
+>>          if (!table)
+>> -               goto free_pd;
+>> +               return -ENOMEM;
+>>
+>>          /* Build the list of performance states for this performance domain */
+>>          for (i = 0, freq = 0; i < nr_states; i++, freq++) {
+>>                  /*
+>>                   * active_power() is a driver callback which ceils 'freq' to
+>> -                * lowest performance state of 'cpu' above 'freq' and updates
+>> +                * lowest performance state of 'dev' above 'freq' and updates
+>>                   * 'power' and 'freq' accordingly.
+>>                   */
+>>                  ret = cb->active_power(&power, &freq, dev);
+>>                  if (ret) {
+>> -                       pr_err("pd%d: invalid perf. state: %d\n", cpu, ret);
+>> +                       dev_err(dev, "EM: invalid perf. state: %d\n",
+>> +                               ret);
+>>                          goto free_ps_table;
+>>                  }
+>>
+>> @@ -118,7 +123,8 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+>>                   * higher performance states.
+>>                   */
+>>                  if (freq <= prev_freq) {
+>> -                       pr_err("pd%d: non-increasing freq: %lu\n", cpu, freq);
+>> +                       dev_err(dev, "EM: non-increasing freq: %lu\n",
+>> +                               freq);
+>>                          goto free_ps_table;
+>>                  }
+>>
+>> @@ -127,7 +133,8 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+>>                   * positive, in milli-watts and to fit into 16 bits.
+>>                   */
+>>                  if (!power || power > EM_MAX_POWER) {
+>> -                       pr_err("pd%d: invalid power: %lu\n", cpu, power);
+>> +                       dev_err(dev, "EM: invalid power: %lu\n",
+>> +                               power);
+>>                          goto free_ps_table;
+>>                  }
+>>
+>> @@ -142,8 +149,8 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+>>                   */
+>>                  opp_eff = freq / power;
+>>                  if (opp_eff >= prev_opp_eff)
+>> -                       pr_warn("pd%d: hertz/watts ratio non-monotonically decreasing: em_perf_state %d >= em_perf_state%d\n",
+>> -                                       cpu, i, i - 1);
+>> +                       dev_dbg(dev, "EM: hertz/watts ratio non-monotonically decreasing: em_perf_state %d >= em_perf_state%d\n",
+>> +                                       i, i - 1);
+>>                  prev_opp_eff = opp_eff;
+>>          }
+>>
+>> @@ -156,30 +163,82 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+>>
+>>          pd->table = table;
+>>          pd->nr_perf_states = nr_states;
+>> -       cpumask_copy(to_cpumask(pd->cpus), span);
+>>
+>> -       em_debug_create_pd(pd, cpu);
+>> -
+>> -       return pd;
+>> +       return 0;
+>>
+>>   free_ps_table:
+>>          kfree(table);
+>> -free_pd:
+>> -       kfree(pd);
+>> +       return -EINVAL;
+>> +}
+>> +
+>> +static int em_create_pd(struct device *dev, int nr_states,
+>> +                       struct em_data_callback *cb, cpumask_t *cpus)
+>> +{
+>> +       struct em_perf_domain *pd;
+>> +       struct device *cpu_dev;
+>> +       int cpu, ret;
+>> +
+>> +       if (_is_cpu_device(dev)) {
+>> +               pd = kzalloc(sizeof(*pd) + cpumask_size(), GFP_KERNEL);
+>> +               if (!pd)
+>> +                       return -ENOMEM;
+>> +
+>> +               cpumask_copy(em_span_cpus(pd), cpus);
+>> +       } else {
+>> +               pd = kzalloc(sizeof(*pd), GFP_KERNEL);
+>> +               if (!pd)
+>> +                       return -ENOMEM;
+>> +       }
+>> +
+>> +       ret = em_create_perf_table(dev, pd, nr_states, cb);
+>> +       if (ret) {
+>> +               kfree(pd);
+>> +               return ret;
+>> +       }
+>> +
+>> +       if (_is_cpu_device(dev))
+>> +               for_each_cpu(cpu, cpus) {
+>> +                       cpu_dev = get_cpu_device(cpu);
+>> +                       cpu_dev->em_pd = pd;
+>> +               }
+>> +
+>> +       dev->em_pd = pd;
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +/**
+>> + * em_pd_get() - Return the performance domain for a device
+>> + * @dev : Device to find the performance domain for
+>> + *
+>> + * Returns the performance domain to which @dev belongs, or NULL if it doesn't
+>> + * exist.
+>> + */
+>> +struct em_perf_domain *em_pd_get(struct device *dev)
+>> +{
+>> +       if (IS_ERR_OR_NULL(dev))
+>> +               return NULL;
+>>
+>> -       return NULL;
+>> +       return dev->em_pd;
+>>   }
+>> +EXPORT_SYMBOL_GPL(em_pd_get);
+>>
+>>   /**
+>>    * em_cpu_get() - Return the performance domain for a CPU
+>>    * @cpu : CPU to find the performance domain for
+>>    *
+>> - * Return: the performance domain to which 'cpu' belongs, or NULL if it doesn't
+>> + * Returns the performance domain to which @cpu belongs, or NULL if it doesn't
+>>    * exist.
+>>    */
+>>   struct em_perf_domain *em_cpu_get(int cpu)
+>>   {
+>> -       return READ_ONCE(per_cpu(em_data, cpu));
+>> +       struct device *cpu_dev;
+>> +
+>> +       cpu_dev = get_cpu_device(cpu);
+>> +       if (!cpu_dev)
+>> +               return NULL;
+>> +
+>> +       return em_pd_get(cpu_dev);
+>>   }
+>>   EXPORT_SYMBOL_GPL(em_cpu_get);
+>>
+>> @@ -188,7 +247,7 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
+>>    * @dev                : Device for which the EM is to register
+>>    * @nr_states  : Number of performance states to register
+>>    * @cb         : Callback functions providing the data of the Energy Model
+>> - * @span       : Pointer to cpumask_t, which in case of a CPU device is
+>> + * @cpus       : Pointer to cpumask_t, which in case of a CPU device is
+>>    *             obligatory. It can be taken from i.e. 'policy->cpus'. For other
+>>    *             type of devices this should be set to NULL.
+>>    *
+>> @@ -201,13 +260,12 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
+>>    * Return 0 on success
+>>    */
+>>   int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>> -                               struct em_data_callback *cb, cpumask_t *span)
+>> +                               struct em_data_callback *cb, cpumask_t *cpus)
+>>   {
+>>          unsigned long cap, prev_cap = 0;
+>> -       struct em_perf_domain *pd;
+>> -       int cpu, ret = 0;
+>> +       int cpu, ret;
+>>
+>> -       if (!dev || !span || !nr_states || !cb)
+>> +       if (!dev || !nr_states || !cb)
+>>                  return -EINVAL;
+>>
+>>          /*
+>> @@ -216,47 +274,50 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+>>           */
+>>          mutex_lock(&em_pd_mutex);
+>>
+>> -       for_each_cpu(cpu, span) {
+>> -               /* Make sure we don't register again an existing domain. */
+>> -               if (READ_ONCE(per_cpu(em_data, cpu))) {
+>> -                       ret = -EEXIST;
+>> -                       goto unlock;
+>> -               }
+>> +       if (dev->em_pd) {
+>> +               ret = -EEXIST;
+>> +               goto unlock;
+>> +       }
+>>
+>> -               /*
+>> -                * All CPUs of a domain must have the same micro-architecture
+>> -                * since they all share the same table.
+>> -                */
+>> -               cap = arch_scale_cpu_capacity(cpu);
+>> -               if (prev_cap && prev_cap != cap) {
+>> -                       pr_err("CPUs of %*pbl must have the same capacity\n",
+>> -                                                       cpumask_pr_args(span));
+>> +       if (_is_cpu_device(dev)) {
+>> +               if (!cpus) {
+>> +                       dev_err(dev, "EM: invalid CPU mask\n");
+>>                          ret = -EINVAL;
+>>                          goto unlock;
+>>                  }
+>> -               prev_cap = cap;
+>> +
+>> +               for_each_cpu(cpu, cpus) {
+>> +                       if (em_cpu_get(cpu)) {
+>> +                               dev_err(dev, "EM: exists for CPU%d\n", cpu);
+>> +                               ret = -EEXIST;
+>> +                               goto unlock;
+>> +                       }
+>> +                       /*
+>> +                        * All CPUs of a domain must have the same
+>> +                        * micro-architecture since they all share the same
+>> +                        * table.
+>> +                        */
+>> +                       cap = arch_scale_cpu_capacity(cpu);
+>> +                       if (prev_cap && prev_cap != cap) {
+>> +                               dev_err(dev, "EM: CPUs of %*pbl must have the same capacity\n",
+>> +                                       cpumask_pr_args(cpus));
+>> +
+>> +                               ret = -EINVAL;
+>> +                               goto unlock;
+>> +                       }
+>> +                       prev_cap = cap;
+>> +               }
+>>          }
+>>
+>> -       /* Create the performance domain and add it to the Energy Model. */
+>> -       pd = em_create_pd(dev, nr_states, cb, span);
+>> -       if (!pd) {
+>> -               ret = -EINVAL;
+>> +       ret = em_create_pd(dev, nr_states, cb, cpus);
+>> +       if (ret)
+>>                  goto unlock;
+>> -       }
+>>
+>> -       for_each_cpu(cpu, span) {
+>> -               /*
+>> -                * The per-cpu array can be read concurrently from em_cpu_get().
+>> -                * The barrier enforces the ordering needed to make sure readers
+>> -                * can only access well formed em_perf_domain structs.
+>> -                */
+>> -               smp_store_release(per_cpu_ptr(&em_data, cpu), pd);
+>> -       }
+>> +       em_debug_create_pd(dev);
+>> +       dev_info(dev, "EM: created perf domain\n");
+>>
+>> -       pr_debug("Created perf domain %*pbl\n", cpumask_pr_args(span));
+>>   unlock:
+>>          mutex_unlock(&em_pd_mutex);
+>> -
+>>          return ret;
+>>   }
+>>   EXPORT_SYMBOL_GPL(em_dev_register_perf_domain);
+>> @@ -285,3 +346,32 @@ int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
+>>          return em_dev_register_perf_domain(cpu_dev, nr_states, cb, span);
+>>   }
+>>   EXPORT_SYMBOL_GPL(em_register_perf_domain);
+>> +
+>> +/**
+>> + * em_dev_unregister_perf_domain() - Unregister Energy Model (EM) for a device
+>> + * @dev                : Device for which the EM is registered
+>> + *
+>> + * Unregister the EM for the specified @dev (but not a CPU device).
+>> + */
+>> +void em_dev_unregister_perf_domain(struct device *dev)
+>> +{
+>> +       if (IS_ERR_OR_NULL(dev) || !dev->em_pd)
+>> +               return;
+>> +
+>> +       if (_is_cpu_device(dev))
+>> +               return;
+>> +
+>> +       /*
+>> +        * The mutex separates all register/unregister requests and protects
+>> +        * from potential clean-up/setup issues in the debugfs directories.
+>> +        * The debugfs directory name is the same as device's name.
+>> +        */
+>> +       mutex_lock(&em_pd_mutex);
+>> +       em_debug_remove_pd(dev);
+>> +
+>> +       kfree(dev->em_pd->table);
+>> +       kfree(dev->em_pd);
+>> +       dev->em_pd = NULL;
+>> +       mutex_unlock(&em_pd_mutex);
+>> +}
+>> +EXPORT_SYMBOL_GPL(em_dev_unregister_perf_domain);
+>> --
+>> 2.17.1
+>>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
