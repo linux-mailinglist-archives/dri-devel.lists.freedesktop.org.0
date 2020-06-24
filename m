@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CEC206893
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 01:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DBF20695C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 03:12:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3E86E48B;
-	Tue, 23 Jun 2020 23:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A416EA9E;
+	Wed, 24 Jun 2020 01:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021606E48B
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jun 2020 23:41:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Tue, 23 Jun 2020 23:41:25 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: 1i5t5.duncan@cox.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-Svi0SdyqOZ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF776EA9E
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 01:12:38 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74B962A9;
+ Wed, 24 Jun 2020 03:12:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1592961155;
+ bh=RUOEeSmJX14CTX33gPvKu3UYxqdpKTDunJy6H0wsVGU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fZ7dw5wNeeVmIweJoenHmW4+fen1ycAAGEbLsWc74voni2gMz+D4WflUyYkXgqgb8
+ uaNlF2BUkt9kPSMLPUhqPXqZkRVwBN7AM3CeR1b2P8TZUjRGOkjD+kRSQs3LXX7eT3
+ D8zvIqHtKB3T390GvNQkkIheU5Zw5SLr6h93wojs=
+Date: Wed, 24 Jun 2020 04:12:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
+ state
+Message-ID: <20200624011209.GU5870@pendragon.ideasonboard.com>
+References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621084000.GM74146@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200621084000.GM74146@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,52 +48,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+Hi Sam,
 
---- Comment #22 from Duncan (1i5t5.duncan@cox.net) ---
-(In reply to rtmasura+kernel from comment #21)
-> OK. I've uninstalled the vast majority of KDE and am using a vanilla XFCE4.
-> It's been about 12 hours on 5.7.4-arch1-1 and I have yet to have a crash. It
-> is looking like it may be something with KDE.
+On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
+> On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
+> > The DRM CRTC helpers add default modes to connectors in the connected
+> > state if no mode can be retrieved from the connector. This behaviour is
+> > useful for VGA or DVI outputs that have no connected DDC bus. However,
+> > in such cases, the status of the output usually can't be retrieved and
+> > is reported as connector_status_unknown.
+> > 
+> > Extend the addition of default modes to connectors in an unknown state
+> > to support outputs that can retrieve neither the modes nor the
+> > connection status.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> From your description sounds like an OK approach.
+> But this is not something I feel too familiar with.
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-Note that it is possible to run kwin (kwin_x11 being the actual executable) on
-another desktop, or conversely, a different WM on plasma.  To run kwin and make
-it replace the existing WM you'd simply type in (in the xfce runner or terminal
-window, it can be done from a different VT as well but then you gotta feed kwin
-the display information too) kwin_x11 --replace.  Presumably other WMs have a
-similar command-line option.
+Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
+too.
 
-I've never actually done it on a non-plasma desktop (tho I run live-git plasma
-and frameworks so I must always be prepared to restart it or various other
-plasma components, to the point I have non-kde-invoked shortcuts setup to do it
-there), but I /think/ kwin would continue to use the configuration setup on
-kde, the various window rules, configured kwin keyboard shortcuts and effects,
-etc.
-
-That could prove whether it's actually kwin triggering or not (tho it's a
-kernel bug regardless), tho I suspect the proof is academic at this point given
-that you've demonstrated that the trigger does appear to be kde/plasma related,
-at least.  IMO kwin triggering is a reasonably safe assumption given that.  But
-it does explain why the bug isn't widely reported, plasma being the apparent
-biggest trigger and limited to specific now older generations of hardware means
-few people, even of those running the latest kernels, are going to see it.
-
-Meanwhile, I actually got a log-dump on the 4th crash of the kernel at that
-bisect step, confirming it is indeed this bug, and have advanced a bisect step.
- But git says I still have ~11 steps, 1000+ commits, so it's still well too
-large to start trying to pick out candidate buggy commits from the remainder. 
-Slow going indeed.  At this rate a full bisect and fix could well be after 5.8
-release, giving us two full bad release cycles and kernels before a fix.  Not
-good. =:^(
+> > ---
+> >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
+> >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
+> >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > index f5d141e0400f..9055d9573c90 100644
+> > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+> >  	if (count == 0 && connector->status == connector_status_connected)
+> >  		count = drm_add_override_edid_modes(connector);
+> >  
+> > -	if (count == 0 && connector->status == connector_status_connected)
+> > +	if (count == 0 && (connector->status == connector_status_connected ||
+> > +			   connector->status == connector_status_unknown))
+> >  		count = drm_add_modes_noedid(connector, 1024, 768);
+> >  	count += drm_helper_probe_add_cmdline_mode(connector);
+> >  	if (count == 0)
+> > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> > index 421a30f08463..afe55e2e93d2 100644
+> > --- a/include/drm/drm_modeset_helper_vtables.h
+> > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
+> >  	 * The usual way to implement this is to cache the EDID retrieved in the
+> >  	 * probe callback somewhere in the driver-private connector structure.
+> >  	 * In this function drivers then parse the modes in the EDID and add
+> > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
+> > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
+> >  	 * fixed panel can also manually add specific modes using
+> >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
+> >  	 * make sure that the &drm_connector.display_info,
+> >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
+> >  	 * filled in.
+> >  	 *
+> > +	 * Note that the caller function will automatically add standard VESA
+> > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
+> > +	 * no mode and if the connector status is connector_status_connected or
+> > +	 * connector_status_unknown. There is no need to call
+> > +	 * drm_add_edid_modes() manually in that case.
+> > +	 *
+> >  	 * Virtual drivers that just want some standard VESA mode with a given
+> >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
+> >  	 * one using drm_set_preferred_mode().
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
