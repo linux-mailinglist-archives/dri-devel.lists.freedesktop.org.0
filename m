@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAB820968C
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 00:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651E5209688
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 00:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F56C6E0D3;
-	Wed, 24 Jun 2020 22:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 314336E0BF;
+	Wed, 24 Jun 2020 22:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C27E6E0D3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 22:47:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21CD22A8;
- Thu, 25 Jun 2020 00:47:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593038875;
- bh=1phuELyAWC9kiLJ0qWlCpumeJ0WEjE52rPQPBrntzdU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uzkvI7/3NU65bdE16DR0ZnU58cC2uQGTek3RWQs5WYtZruSJi4ZeMZ8vPOp7xyzIu
- ho/8fi0PXgpTC9SUpq5vmEzNsH43eQZZ5veeuix7YW2OyDpLI5A8xoREXUj58kEfGh
- /SGkLTs9eACNuCF4tpF4Rm3dKHMiucQXs88hfGIk=
-Date: Thu, 25 Jun 2020 01:47:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200624224754.GJ5980@pendragon.ideasonboard.com>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
- <20200624011209.GU5870@pendragon.ideasonboard.com>
- <20200624072304.GT20149@phenom.ffwll.local>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50B46E0BF;
+ Wed, 24 Jun 2020 22:47:17 +0000 (UTC)
+IronPort-SDR: 3hM6xRQGfUTITa1Wf+FunBz92XOweOF8YgYdPysZ+O2Gd2HhfaeCkdQci8PONYJ1RR5bjA/pz5
+ Xe3HAi2dD1oQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="132110826"
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="132110826"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2020 15:47:16 -0700
+IronPort-SDR: fj7uCr4+gfgWjoptZ15jySUo2cniGrs/T2oY0+lwgvYz2LpARLRSx3s4nTeO7RDQNRfPjMHOzU
+ lUWNyU1NgNTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; d="scan'208";a="479437828"
+Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
+ by fmsmga005.fm.intel.com with ESMTP; 24 Jun 2020 15:47:15 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 3/3] Revert "drm/amd/display: Expose connector VRR range
+ via debugfs"
+Date: Wed, 24 Jun 2020 15:48:30 -0700
+Message-Id: <20200624224830.26093-1-manasi.d.navare@intel.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20200622142519.16214-4-bhanuprakash.modem@intel.com>
+References: <20200622142519.16214-4-bhanuprakash.modem@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200624072304.GT20149@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,108 +50,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: AMD gfx <amd-gfx@lists.freedesktop.org>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 
-On Wed, Jun 24, 2020 at 09:23:04AM +0200, Daniel Vetter wrote:
-> On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wrote:
-> > On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
-> > > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
-> > > > The DRM CRTC helpers add default modes to connectors in the connected
-> > > > state if no mode can be retrieved from the connector. This behaviour is
-> > > > useful for VGA or DVI outputs that have no connected DDC bus. However,
-> > > > in such cases, the status of the output usually can't be retrieved and
-> > > > is reported as connector_status_unknown.
-> > > > 
-> > > > Extend the addition of default modes to connectors in an unknown state
-> > > > to support outputs that can retrieve neither the modes nor the
-> > > > connection status.
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > 
-> > > From your description sounds like an OK approach.
-> > > But this is not something I feel too familiar with.
-> > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
-> > too.
-> 
-> Makes sense, and at least pre-coffee me can't immediately think of a
-> scenario where we're going to regret this. _unknown status is pretty much
-> limited to old VGA and similar things where load detect somehow isn't well
-> supported by the hw.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> > > > ---
-> > > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
-> > > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
-> > > >  2 files changed, 9 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> > > > index f5d141e0400f..9055d9573c90 100644
-> > > > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
-> > > >  	if (count == 0 && connector->status == connector_status_connected)
-> > > >  		count = drm_add_override_edid_modes(connector);
-> > > >  
-> > > > -	if (count == 0 && connector->status == connector_status_connected)
-> > > > +	if (count == 0 && (connector->status == connector_status_connected ||
-> > > > +			   connector->status == connector_status_unknown))
-> > > >  		count = drm_add_modes_noedid(connector, 1024, 768);
-> > > >  	count += drm_helper_probe_add_cmdline_mode(connector);
-> > > >  	if (count == 0)
-> > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > > > index 421a30f08463..afe55e2e93d2 100644
-> > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
-> > > >  	 * The usual way to implement this is to cache the EDID retrieved in the
-> > > >  	 * probe callback somewhere in the driver-private connector structure.
-> > > >  	 * In this function drivers then parse the modes in the EDID and add
-> > > > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
-> > > > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
-> > > >  	 * fixed panel can also manually add specific modes using
-> > > >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
-> > > >  	 * make sure that the &drm_connector.display_info,
-> > > >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
-> > > >  	 * filled in.
-> > > >  	 *
-> > > > +	 * Note that the caller function will automatically add standard VESA
-> > > > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
-> > > > +	 * no mode and if the connector status is connector_status_connected or
-> > > > +	 * connector_status_unknown. There is no need to call
-> > > > +	 * drm_add_edid_modes() manually in that case.
-> 
-> Hm calling drm_add_edid_modes if you have no edid is a bit a funny idea
-> ... Personally I'd just leave out the last sentence, I think that only
-> confuses readers. Or I'm not grasphing what you're trying to tell here.
+v2:
+* Rebase (Manasi)
 
-Sorry, I meant drm_add_modes_noedid(). Is that clearer ?
+As both VRR min and max are already part of drm_display_info,
+drm can expose this VRR range for each connector.
 
-> r-b with or without this change since imo super tiny nit.
-> 
-> > > > +	 *
-> > > >  	 * Virtual drivers that just want some standard VESA mode with a given
-> > > >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
-> > > >  	 * one using drm_set_preferred_mode().
+Hence this logic should move to core DRM.
 
+This reverts commit 727962f030c23422a01e8b22d0f463815fb15ec4.
+
+Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: AMD gfx <amd-gfx@lists.freedesktop.org>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+---
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 -------------------
+ 1 file changed, 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 076af267b488..71387d2af2ed 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -820,24 +820,6 @@ static int output_bpc_show(struct seq_file *m, void *data)
+ 	return res;
+ }
+ 
+-/*
+- * Returns the min and max vrr vfreq through the connector's debugfs file.
+- * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
+- */
+-static int vrr_range_show(struct seq_file *m, void *data)
+-{
+-	struct drm_connector *connector = m->private;
+-	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+-
+-	if (connector->status != connector_status_connected)
+-		return -ENODEV;
+-
+-	seq_printf(m, "Min: %u\n", (unsigned int)aconnector->min_vfreq);
+-	seq_printf(m, "Max: %u\n", (unsigned int)aconnector->max_vfreq);
+-
+-	return 0;
+-}
+-
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ /*
+  * Returns the HDCP capability of the Display (1.4 for now).
+@@ -1001,7 +983,6 @@ static ssize_t dp_dpcd_data_read(struct file *f, char __user *buf,
+ DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
+ DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
+ DEFINE_SHOW_ATTRIBUTE(output_bpc);
+-DEFINE_SHOW_ATTRIBUTE(vrr_range);
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
+ #endif
+@@ -1059,7 +1040,6 @@ static const struct {
+ 		{"phy_settings", &dp_phy_settings_debugfs_fop},
+ 		{"test_pattern", &dp_phy_test_pattern_fops},
+ 		{"output_bpc", &output_bpc_fops},
+-		{"vrr_range", &vrr_range_fops},
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ 		{"hdcp_sink_capability", &hdcp_sink_capability_fops},
+ #endif
 -- 
-Regards,
+2.19.1
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
