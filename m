@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D071207C51
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 21:40:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86076207CDF
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 22:25:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC466E863;
-	Wed, 24 Jun 2020 19:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA826E81D;
+	Wed, 24 Jun 2020 20:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD466E4F3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 19:40:55 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id l2so2157847wmf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 12:40:55 -0700 (PDT)
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFD36E81D;
+ Wed, 24 Jun 2020 20:25:15 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id p20so3704914ejd.13;
+ Wed, 24 Jun 2020 13:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dXAXqut5aSaZdG9ZtmEgwzwmSPZ1+IznsVshWCkB5c0=;
- b=bg00z5/puRou3g277hwj1WayZZW78LhUBHNd+5yA4w9Si42OUo/ifLaf7S/4fsaJZ8
- o/EQALRcbxAOH63Vz7M/k8RXHtjvE4+M37uSmSXZpCzEpEEoMCJ8g8NRmtO2c29bricM
- kiqDJ6LrPbSK4rrHrsTJY2hKeDbZpem3JmIaGa0IeCLLzSCUuiEotzmB3LOV71DsqEUn
- Nfz5JgdIraeYIDqA3WbcKVbCtwxfwHD+vFrea7pXtfdRnAI2KRhjkEnI52z5AV4gmf5E
- mcJKzwo+N1s+6qYxWLQ62oz1qA7Na2uX7KFmav9J4VvqTY66Io0tmHMjt7Gem42Z2c2+
- XLwA==
+ :cc; bh=AIOfbi7IvAHWTFwhOSciS+mbpizJqu08bqyXcucoS5M=;
+ b=nUhGLW3eDrlXs1vQzcd3HopBFOlouYaMr9vDYVY6nynmwc6MmZ0kaiqmpZ79ejDyD3
+ 9Rh7hT7jp4Uu02HiccxvXZuxWCJQY+ghf8qzIGgnyeXGrk7x8aRf604LcK4o6iQ7FME1
+ WjONCe6aOoRfvLAqI6laKANxYC4lMbs5tmzAhvLvPWRWvArkggso1KymMtn5H0kmXfqO
+ 1eKKXnUGkQvS9nPTi6EfFvkC0N388p4zmbjR6YIPXRZRWu+ltLW+c6x01IztBjL+vM5H
+ 8QLg7iTON4Oix62ng62fZ2bFeuNNXIV8rRs+QNSoKGngXaiVvK797CDPbDCSQaom0gOi
+ EKaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dXAXqut5aSaZdG9ZtmEgwzwmSPZ1+IznsVshWCkB5c0=;
- b=H14CCSyFcPSSi5ahwPRoR3ZdVSyWgmBPPiNuyOMMhTUkr6qLZG7eOCd1vZQZDpF/y5
- Wd8etK3doC1iqkR9XCZp8kv0o5phogJuxJv417d7LF/XCgZR/a65coROnToidXDJcrqF
- sdxZsqLJSdNX2f8PJfGeJAAWaAFYghvdzQXrj8agSKXDwrTBOhEqypBmvmy07XqSlYer
- AuS2QAdUv4Nj4+TGj6vvzvUUJ1aIqhNb0Ylm2mtPNmRXgA+Ck2B9PuocUYSDCcZmujU7
- k0BR94Kh5DwnVTc+8JxGdw1QxDfmcsop8o5AiGXwqlZHPIEjztZFkAJlMMrdJLRKAoE7
- muwg==
-X-Gm-Message-State: AOAM533fXeHrOxn5hM0TYS9gzOMM60+nAhRncZp9O7GnfT6ifCiEStbi
- dM4B/bdFlKbVmMZWf/qoA8bsEnW/xyJ1GDZvqIc=
-X-Google-Smtp-Source: ABdhPJyMslWTL6MOO/+2JUVtHDVP6K2lV0BjEw417BOqJCl5h6ExhwcoQUQHmBVFQVx0ibY41bmBTV2O8nsK/x4V6K0=
-X-Received: by 2002:a1c:de07:: with SMTP id v7mr7942774wmg.56.1593027653739;
- Wed, 24 Jun 2020 12:40:53 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=AIOfbi7IvAHWTFwhOSciS+mbpizJqu08bqyXcucoS5M=;
+ b=HGCEpeYr5Erj7STw/UXR1viC3mHt24yCtKiUJLwz/7hzm4+sjI7SV18QqFmYE/9Uyq
+ x+5BuvYV1Rt6TQpcz9bboi6UvNb7PDZggObeHFKjo+9ePAJBzgI8IenvB5jerSXEUQms
+ j2NXlti3d23x7boavOwbpAbXwlzGgnvNEVXfzRxih2xEWho6nOP9Go0DGu0R6tFtn8va
+ P6clV7JzPG2oKF0XMTtJhgmBobAAmxgv21bL80hhoq8W3Wh+d972aK+TUtImo/pcOW9x
+ LquXWdJdzKXy3RUBLaVQDST7mGclEVorXEYXm7qlSWNX8Bta1xCPXhQnAV+HNGELhKew
+ haMA==
+X-Gm-Message-State: AOAM532ti5pD+KBWjySum23htN8yZBfMVMfwMC4S7qK2AzwdxF4gIlJZ
+ DROu6q8wIHa3PjCrO5+4wVMBP70HppYT1PQLnwA=
+X-Google-Smtp-Source: ABdhPJw/iDHgooLID2Ky+/3ZRdFuED7kHW7EMlqnbsWxPn5Wdf67DTKrgCJkW7NZvUPX0bi8xOT9Fri0vmHg/4aMFZs=
+X-Received: by 2002:a17:906:7c54:: with SMTP id
+ g20mr10689573ejp.460.1593030313919; 
+ Wed, 24 Jun 2020 13:25:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
- <20200624011209.GU5870@pendragon.ideasonboard.com>
- <20200624072304.GT20149@phenom.ffwll.local>
- <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
- <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
-In-Reply-To: <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 24 Jun 2020 15:40:42 -0400
-Message-ID: <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <1592999796-30501-1-git-send-email-kalyan_t@codeaurora.org>
+In-Reply-To: <1592999796-30501-1-git-send-email-kalyan_t@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 24 Jun 2020 13:25:43 -0700
+Message-ID: <CAF6AEGs_E+8p=-o1BHkAbAa8qY1ZaU8rPJsfzqV5L4wBBhvcAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: add support for dither block in display
+To: Kalyan Thota <kalyan_t@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,135 +61,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Raviteja Tamatam <travitej@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMzozMSBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+IHdyb3RlOgo+Cj4gT24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgNToyNCBQTSBBbGV4IERl
-dWNoZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gV2VkLCBKdW4g
-MjQsIDIwMjAgYXQgMzoyMyBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3Rl
-Ogo+ID4gPgo+ID4gPiBPbiBXZWQsIEp1biAyNCwgMjAyMCBhdCAwNDoxMjowOUFNICswMzAwLCBM
-YXVyZW50IFBpbmNoYXJ0IHdyb3RlOgo+ID4gPiA+IEhpIFNhbSwKPiA+ID4gPgo+ID4gPiA+IE9u
-IFN1biwgSnVuIDIxLCAyMDIwIGF0IDEwOjQwOjAwQU0gKzAyMDAsIFNhbSBSYXZuYm9yZyB3cm90
-ZToKPiA+ID4gPiA+IE9uIFR1ZSwgTWF5IDI2LCAyMDIwIGF0IDA0OjE1OjA1QU0gKzAzMDAsIExh
-dXJlbnQgUGluY2hhcnQgd3JvdGU6Cj4gPiA+ID4gPiA+IFRoZSBEUk0gQ1JUQyBoZWxwZXJzIGFk
-ZCBkZWZhdWx0IG1vZGVzIHRvIGNvbm5lY3RvcnMgaW4gdGhlIGNvbm5lY3RlZAo+ID4gPiA+ID4g
-PiBzdGF0ZSBpZiBubyBtb2RlIGNhbiBiZSByZXRyaWV2ZWQgZnJvbSB0aGUgY29ubmVjdG9yLiBU
-aGlzIGJlaGF2aW91ciBpcwo+ID4gPiA+ID4gPiB1c2VmdWwgZm9yIFZHQSBvciBEVkkgb3V0cHV0
-cyB0aGF0IGhhdmUgbm8gY29ubmVjdGVkIEREQyBidXMuIEhvd2V2ZXIsCj4gPiA+ID4gPiA+IGlu
-IHN1Y2ggY2FzZXMsIHRoZSBzdGF0dXMgb2YgdGhlIG91dHB1dCB1c3VhbGx5IGNhbid0IGJlIHJl
-dHJpZXZlZCBhbmQKPiA+ID4gPiA+ID4gaXMgcmVwb3J0ZWQgYXMgY29ubmVjdG9yX3N0YXR1c191
-bmtub3duLgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBFeHRlbmQgdGhlIGFkZGl0aW9uIG9mIGRl
-ZmF1bHQgbW9kZXMgdG8gY29ubmVjdG9ycyBpbiBhbiB1bmtub3duIHN0YXRlCj4gPiA+ID4gPiA+
-IHRvIHN1cHBvcnQgb3V0cHV0cyB0aGF0IGNhbiByZXRyaWV2ZSBuZWl0aGVyIHRoZSBtb2RlcyBu
-b3IgdGhlCj4gPiA+ID4gPiA+IGNvbm5lY3Rpb24gc3RhdHVzLgo+ID4gPiA+ID4gPgo+ID4gPiA+
-ID4gPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3Jl
-bmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBGcm9tIHlvdXIgZGVz
-Y3JpcHRpb24gc291bmRzIGxpa2UgYW4gT0sgYXBwcm9hY2guCj4gPiA+ID4gPiBCdXQgdGhpcyBp
-cyBub3Qgc29tZXRoaW5nIEkgZmVlbCB0b28gZmFtaWxpYXIgd2l0aC4KPiA+ID4gPiA+IEFja2Vk
-LWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gPiA+ID4KPiA+ID4gPiBUaGFu
-a3MgZm9yIHRoZSBhY2suIEknZCBsaWtlIHRvIGhhdmUgRGFuaWVsJ3MgKENDJ2VkKSBmZWVkYmFj
-ayBvbiB0aGlzCj4gPiA+ID4gdG9vLgo+ID4gPgo+ID4gPiBNYWtlcyBzZW5zZSwgYW5kIGF0IGxl
-YXN0IHByZS1jb2ZmZWUgbWUgY2FuJ3QgaW1tZWRpYXRlbHkgdGhpbmsgb2YgYQo+ID4gPiBzY2Vu
-YXJpbyB3aGVyZSB3ZSdyZSBnb2luZyB0byByZWdyZXQgdGhpcy4gX3Vua25vd24gc3RhdHVzIGlz
-IHByZXR0eSBtdWNoCj4gPiA+IGxpbWl0ZWQgdG8gb2xkIFZHQSBhbmQgc2ltaWxhciB0aGluZ3Mg
-d2hlcmUgbG9hZCBkZXRlY3Qgc29tZWhvdyBpc24ndCB3ZWxsCj4gPiA+IHN1cHBvcnRlZCBieSB0
-aGUgaHcuCj4gPiA+Cj4gPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPgo+ID4gPgo+ID4gPiA+Cj4gPiA+ID4gPiA+IC0tLQo+ID4gPiA+ID4gPiAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyAgICAgICB8IDMgKystCj4gPiA+ID4g
-PiA+ICBpbmNsdWRlL2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oIHwgOCArKysrKysr
-LQo+ID4gPiA+ID4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDIgZGVsZXRp
-b25zKC0pCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX3Byb2JlX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIu
-Ywo+ID4gPiA+ID4gPiBpbmRleCBmNWQxNDFlMDQwMGYuLjkwNTVkOTU3M2M5MCAxMDA2NDQKPiA+
-ID4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYwo+ID4gPiA+
-ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jCj4gPiA+ID4gPiA+
-IEBAIC00OTEsNyArNDkxLDggQEAgaW50IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rv
-cl9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ID4gPiA+ID4gPiAgIGlm
-IChjb3VudCA9PSAwICYmIGNvbm5lY3Rvci0+c3RhdHVzID09IGNvbm5lY3Rvcl9zdGF0dXNfY29u
-bmVjdGVkKQo+ID4gPiA+ID4gPiAgICAgICAgICAgY291bnQgPSBkcm1fYWRkX292ZXJyaWRlX2Vk
-aWRfbW9kZXMoY29ubmVjdG9yKTsKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gLSBpZiAoY291bnQg
-PT0gMCAmJiBjb25uZWN0b3ItPnN0YXR1cyA9PSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZCkK
-PiA+ID4gPiA+ID4gKyBpZiAoY291bnQgPT0gMCAmJiAoY29ubmVjdG9yLT5zdGF0dXMgPT0gY29u
-bmVjdG9yX3N0YXR1c19jb25uZWN0ZWQgfHwKPiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgY29ubmVjdG9yLT5zdGF0dXMgPT0gY29ubmVjdG9yX3N0YXR1c191bmtub3duKSkKPiA+ID4g
-PiA+ID4gICAgICAgICAgIGNvdW50ID0gZHJtX2FkZF9tb2Rlc19ub2VkaWQoY29ubmVjdG9yLCAx
-MDI0LCA3NjgpOwo+ID4gPiA+ID4gPiAgIGNvdW50ICs9IGRybV9oZWxwZXJfcHJvYmVfYWRkX2Nt
-ZGxpbmVfbW9kZShjb25uZWN0b3IpOwo+ID4gPiA+ID4gPiAgIGlmIChjb3VudCA9PSAwKQo+ID4g
-PiA+ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJs
-ZXMuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKPiA+ID4gPiA+
-ID4gaW5kZXggNDIxYTMwZjA4NDYzLi5hZmU1NWUyZTkzZDIgMTAwNjQ0Cj4gPiA+ID4gPiA+IC0t
-LSBhL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKPiA+ID4gPiA+ID4g
-KysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaAo+ID4gPiA+ID4g
-PiBAQCAtODc2LDEzICs4NzYsMTkgQEAgc3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNz
-IHsKPiA+ID4gPiA+ID4gICAgKiBUaGUgdXN1YWwgd2F5IHRvIGltcGxlbWVudCB0aGlzIGlzIHRv
-IGNhY2hlIHRoZSBFRElEIHJldHJpZXZlZCBpbiB0aGUKPiA+ID4gPiA+ID4gICAgKiBwcm9iZSBj
-YWxsYmFjayBzb21ld2hlcmUgaW4gdGhlIGRyaXZlci1wcml2YXRlIGNvbm5lY3RvciBzdHJ1Y3R1
-cmUuCj4gPiA+ID4gPiA+ICAgICogSW4gdGhpcyBmdW5jdGlvbiBkcml2ZXJzIHRoZW4gcGFyc2Ug
-dGhlIG1vZGVzIGluIHRoZSBFRElEIGFuZCBhZGQKPiA+ID4gPiA+ID4gLSAgKiB0aGVtIGJ5IGNh
-bGxpbmcgZHJtX2FkZF9lZGlkX21vZGVzKCkuIEJ1dCBjb25uZWN0b3JzIHRoYXQgZHJpdmVyIGEK
-PiA+ID4gPiA+ID4gKyAgKiB0aGVtIGJ5IGNhbGxpbmcgZHJtX2FkZF9lZGlkX21vZGVzKCkuIEJ1
-dCBjb25uZWN0b3JzIHRoYXQgZHJpdmUgYQo+ID4gPiA+ID4gPiAgICAqIGZpeGVkIHBhbmVsIGNh
-biBhbHNvIG1hbnVhbGx5IGFkZCBzcGVjaWZpYyBtb2RlcyB1c2luZwo+ID4gPiA+ID4gPiAgICAq
-IGRybV9tb2RlX3Byb2JlZF9hZGQoKS4gRHJpdmVycyB3aGljaCBtYW51YWxseSBhZGQgbW9kZXMg
-c2hvdWxkIGFsc28KPiA+ID4gPiA+ID4gICAgKiBtYWtlIHN1cmUgdGhhdCB0aGUgJmRybV9jb25u
-ZWN0b3IuZGlzcGxheV9pbmZvLAo+ID4gPiA+ID4gPiAgICAqICZkcm1fY29ubmVjdG9yLndpZHRo
-X21tIGFuZCAmZHJtX2Nvbm5lY3Rvci5oZWlnaHRfbW0gZmllbGRzIGFyZQo+ID4gPiA+ID4gPiAg
-ICAqIGZpbGxlZCBpbi4KPiA+ID4gPiA+ID4gICAgKgo+ID4gPiA+ID4gPiArICAqIE5vdGUgdGhh
-dCB0aGUgY2FsbGVyIGZ1bmN0aW9uIHdpbGwgYXV0b21hdGljYWxseSBhZGQgc3RhbmRhcmQgVkVT
-QQo+ID4gPiA+ID4gPiArICAqIERNVCBtb2RlcyB1cCB0byAxMDI0eDc2OCBpZiB0aGUgLmdldF9t
-b2RlcygpIGhlbHBlciBvcGVyYXRpb24gcmV0dXJucwo+ID4gPiA+ID4gPiArICAqIG5vIG1vZGUg
-YW5kIGlmIHRoZSBjb25uZWN0b3Igc3RhdHVzIGlzIGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVk
-IG9yCj4gPiA+ID4gPiA+ICsgICogY29ubmVjdG9yX3N0YXR1c191bmtub3duLiBUaGVyZSBpcyBu
-byBuZWVkIHRvIGNhbGwKPiA+ID4gPiA+ID4gKyAgKiBkcm1fYWRkX2VkaWRfbW9kZXMoKSBtYW51
-YWxseSBpbiB0aGF0IGNhc2UuCj4gPiA+Cj4gPiA+IEhtIGNhbGxpbmcgZHJtX2FkZF9lZGlkX21v
-ZGVzIGlmIHlvdSBoYXZlIG5vIGVkaWQgaXMgYSBiaXQgYSBmdW5ueSBpZGVhCj4gPiA+IC4uLiBQ
-ZXJzb25hbGx5IEknZCBqdXN0IGxlYXZlIG91dCB0aGUgbGFzdCBzZW50ZW5jZSwgSSB0aGluayB0
-aGF0IG9ubHkKPiA+ID4gY29uZnVzZXMgcmVhZGVycy4gT3IgSSdtIG5vdCBncmFzcGhpbmcgd2hh
-dCB5b3UncmUgdHJ5aW5nIHRvIHRlbGwgaGVyZS4KPiA+Cj4gPiBJSVJDLCBzb21lIGRyaXZlcnMg
-dXNlZCBhbmQgZGVza3RvcCBlbnZpcm9ubWVudHMgZXhwZWN0ZWQgdW5rbm93bgo+ID4gcmF0aGVy
-IHRoYW4gb2ZmIGZvciBMVkRTL2VEUCBwYW5lbHMgd2hlbiB0aGUgbGlkIHdhcyBzaHV0IG9yIGlm
-IHRoZQo+ID4gbXV4IHdhcyBzd2l0Y2hlZCB0byBhbm90aGVyIGRldmljZSBpbiB0aGUgY2FzZSBv
-ZiBoeWJyaWQgbGFwdG9wcy4KPgo+IFdlIHNlZW0gdG8gaGF2ZSB0b3RhbGx5IGRpdGNoZWQgdGhh
-dCBpbgo+Cj4gY29tbWl0IDA1YzcyZTc3Y2NkYTg5ZmY2MjQxMDhiMWI1OWEwZmM0Mzg0M2YzNDMK
-PiBBdXRob3I6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+
-Cj4gRGF0ZTogICBUdWUgSnVsIDE3IDIwOjQyOjE0IDIwMTggKzAzMDAKPgo+ICAgICBkcm0vaTkx
-NTogTnVrZSB0aGUgTFZEUyBsaWQgbm90aWZpZXIKPgo+IE5vIHNjcmVhbWluZyB5ZXQuCj4KPiBC
-dXQgSSdtIGFsc28gYSBiaXQgY29uZnVzZWQsIGZvciBhIHBhbmVsIHRoZXJlJ3MgZ2VuZXJhbGx5
-IGFuIGVkaWQKPiBhcm91bmQsIG9yIGEgZml4ZWQgKGxpc3Qgb2YpIG1vZGVzLiBUaGF0J3MgZW5v
-dWdoIHRvIHN0b3AgdGhpcwo+IGZhbGxiYWNrIGZyb20gcnVubmluZywgc28gc2hvdWxkIGJlIGFs
-bCBmaW5lLgoKTm8sIHlvdSBhcmUgcmlnaHQ7IHlvdSB3aWxsIGhhdmUgdGhlIEVESUQgc28gdGhp
-cyBzaG91bGRuJ3QgYmUgYW4KaXNzdWUuICBJIHdhcyBtaXMtcmVtZW1iZXJpbmcgdGhlIG9yaWdp
-bmFsIGlzc3VlLiAgV2Ugb3JpZ2luYWxseQphbHdheXMgcmVwb3J0ZWQgY29ubmVjdGVkIGZvciBM
-VkRTIGluIHJhZGVvbiBpZiB0aGUgcGFuZWwgd2FzIHByZXNlbnQsCmJ1dCB0aGVuIHdlIGdvdCBm
-bGFjayBiZWNhdXNlIHNvbWUgdXNlcnNwYWNlIGV4cGVjdGVkIHVua25vd24gaW4KY2VydGFpbiBj
-YXNlcyAoZS5nLiwgbGlkIG9yIG11eGVkIGRpc3BsYXlzKS4gIEVpdGhlciB3YXkgdGhlIEVESUQg
-aW5mbwppcyBzdGlsbCB0aGVyZS4KCkFsZXgKCgo+IC1EYW5pZWxsCj4KPiA+Cj4gPiBBbGV4Cj4g
-Pgo+ID4KPiA+ID4KPiA+ID4gci1iIHdpdGggb3Igd2l0aG91dCB0aGlzIGNoYW5nZSBzaW5jZSBp
-bW8gc3VwZXIgdGlueSBuaXQuCj4gPiA+Cj4gPiA+IENoZWVycywgRGFuaWVsCj4gPiA+Cj4gPiA+
-ID4gPiA+ICsgICoKPiA+ID4gPiA+ID4gICAgKiBWaXJ0dWFsIGRyaXZlcnMgdGhhdCBqdXN0IHdh
-bnQgc29tZSBzdGFuZGFyZCBWRVNBIG1vZGUgd2l0aCBhIGdpdmVuCj4gPiA+ID4gPiA+ICAgICog
-cmVzb2x1dGlvbiBjYW4gY2FsbCBkcm1fYWRkX21vZGVzX25vZWRpZCgpLCBhbmQgbWFyayB0aGUg
-cHJlZmVycmVkCj4gPiA+ID4gPiA+ICAgICogb25lIHVzaW5nIGRybV9zZXRfcHJlZmVycmVkX21v
-ZGUoKS4KPiA+ID4gPgo+ID4gPiA+IC0tCj4gPiA+ID4gUmVnYXJkcywKPiA+ID4gPgo+ID4gPiA+
-IExhdXJlbnQgUGluY2hhcnQKPiA+ID4KPiA+ID4gLS0KPiA+ID4gRGFuaWVsIFZldHRlcgo+ID4g
-PiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+ID4gaHR0cDovL2Jsb2cu
-ZmZ3bGwuY2gKPiA+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPiA+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gPiBkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCj4gPiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCj4KPgo+Cj4gLS0KPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdh
-cmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Jun 24, 2020 at 4:57 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
+>
+> This change enables dither block for primary interface
+> in display.
+>
+> Enabled for 6bpc in the current version.
+>
+> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c     | 45 +++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 66 +++++++++++++++++++++----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 28 +++++++++++
+>  3 files changed, 130 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 63976dc..26e870a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -208,6 +208,42 @@ struct dpu_encoder_virt {
+>
+>  #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
+>
+> +static u32 dither_matrix[DITHER_MATRIX_SZ] = {
+> +       15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
+> +};
+> +
+> +static void _dpu_encoder_setup_dither(struct dpu_encoder_phys *phys)
+> +{
+> +       struct dpu_hw_dither_cfg dither_cfg = { 0 };
+> +       struct drm_display_info *info;
+> +
+> +       if (!phys || !phys->connector || !phys->hw_pp ||
+> +               !phys->hw_pp->ops.setup_dither)
+> +               return;
+
+it looks like other than phys->hw_pp->ops.setup_dither, you shouldn't
+need to check most of these conditions.
+
+> +
+> +       info = &phys->connector->display_info;
+> +       if (!info)
+
+and definitely not this one
+
+> +               return;
+> +
+> +       switch (phys->connector->display_info.bpc) {
+> +       case 6:
+> +               dither_cfg.c0_bitdepth = 6;
+> +               dither_cfg.c1_bitdepth = 6;
+> +               dither_cfg.c2_bitdepth = 6;
+> +               dither_cfg.c3_bitdepth = 6;
+> +               dither_cfg.temporal_en = 0;
+> +               break;
+> +       default:
+> +               phys->hw_pp->ops.setup_dither(phys->hw_pp, NULL);
+> +               return;
+> +       }
+> +
+> +       memcpy(&dither_cfg.matrix, dither_matrix,
+> +                       sizeof(u32) * DITHER_MATRIX_SZ);
+> +
+> +       phys->hw_pp->ops.setup_dither(phys->hw_pp, &dither_cfg);
+> +}
+> +
+>  void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
+>                 enum dpu_intr_idx intr_idx)
+>  {
+> @@ -1082,6 +1118,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>         struct dpu_encoder_virt *dpu_enc = NULL;
+>         struct msm_drm_private *priv;
+>         struct dpu_kms *dpu_kms;
+> +       int i;
+>
+>         if (!drm_enc || !drm_enc->dev) {
+>                 DPU_ERROR("invalid parameters\n");
+> @@ -1104,6 +1141,14 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+>                                 dpu_kms->catalog);
+>
+>         _dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
+> +
+> +       if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+> +               for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> +                       struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> +
+> +                       _dpu_encoder_setup_dither(phys);
+> +               }
+> +       }
+>  }
+>
+>  void dpu_encoder_virt_runtime_resume(struct drm_encoder *drm_enc)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> index d110a40..cf7603d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> @@ -28,6 +28,16 @@
+>  #define PP_FBC_BUDGET_CTL               0x038
+>  #define PP_FBC_LOSSY_MODE               0x03C
+>
+> +#define PP_DITHER_EN                   0x000
+> +#define PP_DITHER_BITDEPTH             0x004
+> +#define PP_DITHER_MATRIX               0x008
+> +
+> +#define DITHER_DEPTH_MAP_INDEX 9
+> +
+> +static u32 dither_depth_map[DITHER_DEPTH_MAP_INDEX] = {
+> +       0, 0, 0, 0, 0, 0, 0, 1, 2
+> +};
+> +
+>  static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
+>                 const struct dpu_mdss_cfg *m,
+>                 void __iomem *addr,
+> @@ -49,6 +59,40 @@ static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
+>         return ERR_PTR(-EINVAL);
+>  }
+>
+> +static void dpu_hw_pp_setup_dither(struct dpu_hw_pingpong *pp,
+> +                                   struct dpu_hw_dither_cfg *cfg)
+> +{
+> +       struct dpu_hw_blk_reg_map *c;
+> +       u32 i, base, data = 0;
+> +
+> +       if (!pp)
+> +               return;
+
+can this ever be NULL..  at least currently you are checking this both
+here and in _dpu_encoder_setup_dither()
+
+BR,
+-R
+
+> +
+> +       c = &pp->hw;
+> +       base = pp->caps->sblk->dither.base;
+> +       if (!cfg) {
+> +               DPU_REG_WRITE(c, base + PP_DITHER_EN, 0);
+> +               return;
+> +       }
+> +
+> +       data = dither_depth_map[cfg->c0_bitdepth] & REG_MASK(2);
+> +       data |= (dither_depth_map[cfg->c1_bitdepth] & REG_MASK(2)) << 2;
+> +       data |= (dither_depth_map[cfg->c2_bitdepth] & REG_MASK(2)) << 4;
+> +       data |= (dither_depth_map[cfg->c3_bitdepth] & REG_MASK(2)) << 6;
+> +       data |= (cfg->temporal_en) ? (1 << 8) : 0;
+> +
+> +       DPU_REG_WRITE(c, base + PP_DITHER_BITDEPTH, data);
+> +
+> +       for (i = 0; i < DITHER_MATRIX_SZ - 3; i += 4) {
+> +               data = (cfg->matrix[i] & REG_MASK(4)) |
+> +                       ((cfg->matrix[i + 1] & REG_MASK(4)) << 4) |
+> +                       ((cfg->matrix[i + 2] & REG_MASK(4)) << 8) |
+> +                       ((cfg->matrix[i + 3] & REG_MASK(4)) << 12);
+> +               DPU_REG_WRITE(c, base + PP_DITHER_MATRIX + i, data);
+> +       }
+> +       DPU_REG_WRITE(c, base + PP_DITHER_EN, 1);
+> +}
+> +
+>  static int dpu_hw_pp_setup_te_config(struct dpu_hw_pingpong *pp,
+>                 struct dpu_hw_tear_check *te)
+>  {
+> @@ -180,15 +224,19 @@ static u32 dpu_hw_pp_get_line_count(struct dpu_hw_pingpong *pp)
+>         return line;
+>  }
+>
+> -static void _setup_pingpong_ops(struct dpu_hw_pingpong_ops *ops,
+> -       const struct dpu_pingpong_cfg *hw_cap)
+> +static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
+> +                               unsigned long features)
+>  {
+> -       ops->setup_tearcheck = dpu_hw_pp_setup_te_config;
+> -       ops->enable_tearcheck = dpu_hw_pp_enable_te;
+> -       ops->connect_external_te = dpu_hw_pp_connect_external_te;
+> -       ops->get_vsync_info = dpu_hw_pp_get_vsync_info;
+> -       ops->poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
+> -       ops->get_line_count = dpu_hw_pp_get_line_count;
+> +       c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
+> +       c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
+> +       c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
+> +       c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
+> +       c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
+> +       c->ops.get_line_count = dpu_hw_pp_get_line_count;
+> +
+> +       if (test_bit(DPU_PINGPONG_DITHER, &features) &&
+> +               IS_SC7180_TARGET(c->hw.hwversion))
+> +               c->ops.setup_dither = dpu_hw_pp_setup_dither;
+>  };
+>
+>  static struct dpu_hw_blk_ops dpu_hw_ops;
+> @@ -212,7 +260,7 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(enum dpu_pingpong idx,
+>
+>         c->idx = idx;
+>         c->caps = cfg;
+> -       _setup_pingpong_ops(&c->ops, c->caps);
+> +       _setup_pingpong_ops(c, c->caps->features);
+>
+>         dpu_hw_blk_init(&c->base, DPU_HW_BLK_PINGPONG, idx, &dpu_hw_ops);
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> index d73cb73..065996b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> @@ -10,6 +10,8 @@
+>  #include "dpu_hw_util.h"
+>  #include "dpu_hw_blk.h"
+>
+> +#define DITHER_MATRIX_SZ 16
+> +
+>  struct dpu_hw_pingpong;
+>
+>  struct dpu_hw_tear_check {
+> @@ -35,6 +37,26 @@ struct dpu_hw_pp_vsync_info {
+>  };
+>
+>  /**
+> + * struct dpu_hw_dither_cfg - dither feature structure
+> + * @flags: for customizing operations
+> + * @temporal_en: temperal dither enable
+> + * @c0_bitdepth: c0 component bit depth
+> + * @c1_bitdepth: c1 component bit depth
+> + * @c2_bitdepth: c2 component bit depth
+> + * @c3_bitdepth: c2 component bit depth
+> + * @matrix: dither strength matrix
+> + */
+> +struct dpu_hw_dither_cfg {
+> +       u64 flags;
+> +       u32 temporal_en;
+> +       u32 c0_bitdepth;
+> +       u32 c1_bitdepth;
+> +       u32 c2_bitdepth;
+> +       u32 c3_bitdepth;
+> +       u32 matrix[DITHER_MATRIX_SZ];
+> +};
+> +
+> +/**
+>   *
+>   * struct dpu_hw_pingpong_ops : Interface to the pingpong Hw driver functions
+>   *  Assumption is these functions will be called after clocks are enabled
+> @@ -82,6 +104,12 @@ struct dpu_hw_pingpong_ops {
+>          * Obtain current vertical line counter
+>          */
+>         u32 (*get_line_count)(struct dpu_hw_pingpong *pp);
+> +
+> +       /**
+> +        * Setup dither matix for pingpong block
+> +        */
+> +       void (*setup_dither)(struct dpu_hw_pingpong *pp,
+> +                       struct dpu_hw_dither_cfg *cfg);
+>  };
+>
+>  struct dpu_hw_pingpong {
+> --
+> 1.9.1
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
