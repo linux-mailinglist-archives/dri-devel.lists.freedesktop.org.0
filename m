@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A572079B6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 18:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59907207B0A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 19:58:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB836E0B9;
-	Wed, 24 Jun 2020 16:57:56 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD996E0B9
- for <dri-devel@freedesktop.org>; Wed, 24 Jun 2020 16:57:55 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id s14so1278698plq.6
- for <dri-devel@freedesktop.org>; Wed, 24 Jun 2020 09:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CmjIW8R8o5r2lBV1s31ea71JUTHcO/wI+cUm5Z7J13I=;
- b=mG6WvpR98paCQbz/iHfb07cJGGOD2+q40Ra14ZRfvRUEETTcl4Ka/lUveyjjpHB6G5
- Ju/6TESVKwG44SgDilOCn+26m3E8OlV7lRBczDoZ7u4nDMlJiEYjHFph6ib2Fy3dvn6Z
- FuV7JfBukoUvAnHscRTBFaTwnfBjk96ZjZ2z0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CmjIW8R8o5r2lBV1s31ea71JUTHcO/wI+cUm5Z7J13I=;
- b=TvTakhCRbCqeMU45jybQ8QJz3leeP+LlKTR+pBNpfUZJBeJg0fkvcWlS0dhtfSKXct
- 4euftQh7p0OHtAo/ET7qnyovdn0mkPNJIh7qbsSS2sSVlml7quGwciDWjq8/o5aA7/pC
- EJ7XFOvWJLoUbUpvKbjW0q/alxX4ogH3AjYQznsKa7fGTZpitnQuOhvXIM1HT7sUjxv3
- d0i03NfzL2Cr8q6LHj/Ar8CIAYAx1VJx/2ZuC6cXzoXzv7i0jyLrLHMKn6tmEgfrfc5B
- 5cGcAwAWxpRGjBwhn7d/YSV+F5ruUAZmciPTTwyFB52IOPHkdWAQz2WNk/GDmT9VMlLs
- MRJg==
-X-Gm-Message-State: AOAM530vnyilgNY+Atf1uz5YJtqSxaVXYbAMj4BXZ4zjmvb/6JlWYO7k
- 5VSNipqu1ovTRaRXrAyFfgayAA==
-X-Google-Smtp-Source: ABdhPJwcLj6W7e3dXuyoYT2CvePVH4Ccxc3lYrIKl6UXZvF7YtKEJWq8hq+uSRU1E/2jR+KVFLoDQA==
-X-Received: by 2002:a17:902:704a:: with SMTP id
- h10mr28656684plt.85.1593017875159; 
- Wed, 24 Jun 2020 09:57:55 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
- by smtp.gmail.com with ESMTPSA id mp15sm5731457pjb.45.2020.06.24.09.57.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jun 2020 09:57:54 -0700 (PDT)
-Date: Wed, 24 Jun 2020 09:57:52 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v3 2/6] drm: msm: a6xx: send opp instead of a frequency
-Message-ID: <20200624165752.GA39073@google.com>
-References: <1591417551-38051-1-git-send-email-smasetty@codeaurora.org>
- <1591417551-38051-3-git-send-email-smasetty@codeaurora.org>
- <CAF6AEGva1DyFc1P_5+U=P+Sh-ngN9PyN6Hh2ZXBnxB952UQ54w@mail.gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6426E2E1;
+	Wed, 24 Jun 2020 17:58:17 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 253C56E2E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 17:58:17 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05OHgTOo008402;
+ Wed, 24 Jun 2020 17:58:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=Ql5JvIytyz0KFGb7FOEjICxcs22heL33rDXyWZ7YKfw=;
+ b=n/3/gTpWneOe2+vAV7HCcdL7BqrZ+4AGhGuv+RIawOCW74uZ4+MdBBU55eg53sh190IH
+ l5wZRaN/z6gZcoX63GxyKoZ91K7pXrDTon5Q8POz5/ChtLPThfIk+0CjRlyy+TYACBVI
+ jTFpCbyQ/t+uYVu3VLB9ZC+yCREdCtoOGcZFYJrrJ5frINu7HPiKNVEF78+tkP2FWWtM
+ tNptRogrU4YMJEQhbVmkA+kuER9VD9GLyqlop4c1naP6hh0ek47gIZIyq/uwsxVcb9o1
+ 4x+Xrhi2DpDbnwYoJzBi8FFkwz69OhTji726Vs+2QtBL54v8oX/scjKtulCWpmycWBmW zw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 31uustmbfp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 24 Jun 2020 17:58:13 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05OHhYSR006925;
+ Wed, 24 Jun 2020 17:58:13 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 31uurr6m84-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Jun 2020 17:58:13 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05OHwBnu014045;
+ Wed, 24 Jun 2020 17:58:12 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 24 Jun 2020 17:58:11 +0000
+Date: Wed, 24 Jun 2020 20:58:06 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: boris.brezillon@collabora.com
+Subject: [bug report] drm/vc4: dsi: Fix bridge chain handling
+Message-ID: <20200624175806.GA7351@mwanda>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGva1DyFc1P_5+U=P+Sh-ngN9PyN6Hh2ZXBnxB952UQ54w@mail.gmail.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9662
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 bulkscore=0 suspectscore=3 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006240120
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9662
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999
+ cotscore=-2147483648 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
+ suspectscore=3 priorityscore=1501 lowpriorityscore=0 clxscore=1011
+ impostorscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006240120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +74,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
- saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@freedesktop.org, Viresh Kumar <viresh.kumar@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Sibi Sankar <sibis@codeaurora.org>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello Boris Brezillon,
 
-On Thu, Jun 18, 2020 at 10:52:09AM -0700, Rob Clark wrote:
-> On Fri, Jun 5, 2020 at 9:26 PM Sharat Masetty <smasetty@codeaurora.org> wrote:
-> >
-> > This patch changes the plumbing to send the devfreq recommended opp rather
-> > than the frequency. Also consolidate and rearrange the code in a6xx to set
-> > the GPU frequency and the icc vote in preparation for the upcoming
-> > changes for GPU->DDR scaling votes.
-> >
-> > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 62 +++++++++++++++++++----------------
-> >  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  2 +-
-> >  drivers/gpu/drm/msm/msm_gpu.c         |  3 +-
-> >  drivers/gpu/drm/msm/msm_gpu.h         |  3 +-
-> >  4 files changed, 38 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > index 748cd37..2d8124b 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > @@ -100,17 +100,30 @@ bool a6xx_gmu_gx_is_on(struct a6xx_gmu *gmu)
-> >                 A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_GX_HM_CLK_OFF));
-> >  }
-> >
-> > -static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
-> > +void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
-> >  {
-> > -       struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
-> > -       struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-> > -       struct msm_gpu *gpu = &adreno_gpu->base;
-> > -       int ret;
-> > +       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> > +       struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> > +       struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
-> > +       u32 perf_index;
-> > +       unsigned long gpu_freq;
-> > +       int ret = 0;
-> > +
-> > +       gpu_freq = dev_pm_opp_get_freq(opp);
-> > +
-> > +       if (gpu_freq == gmu->freq)
-> > +               return;
-> > +
-> > +       for (perf_index = 0; perf_index < gmu->nr_gpu_freqs - 1; perf_index++)
-> > +               if (gpu_freq == gmu->gpu_freqs[perf_index])
-> > +                       break;
-> > +
-> > +       gmu->current_perf_index = perf_index;
-> >
-> >         gmu_write(gmu, REG_A6XX_GMU_DCVS_ACK_OPTION, 0);
-> >
-> >         gmu_write(gmu, REG_A6XX_GMU_DCVS_PERF_SETTING,
-> > -               ((3 & 0xf) << 28) | index);
-> > +                       ((3 & 0xf) << 28) | perf_index);
-> >
-> >         /*
-> >          * Send an invalid index as a vote for the bus bandwidth and let the
-> > @@ -126,7 +139,7 @@ static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
-> >         if (ret)
-> >                 dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
-> >
-> > -       gmu->freq = gmu->gpu_freqs[index];
-> > +       gmu->freq = gmu->gpu_freqs[perf_index];
-> >
-> >         /*
-> >          * Eventually we will want to scale the path vote with the frequency but
-> > @@ -135,25 +148,6 @@ static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
-> >         icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
-> >  }
-> >
-> > -void a6xx_gmu_set_freq(struct msm_gpu *gpu, unsigned long freq)
-> > -{
-> > -       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> > -       struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> > -       struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
-> > -       u32 perf_index = 0;
-> > -
-> > -       if (freq == gmu->freq)
-> > -               return;
-> > -
-> > -       for (perf_index = 0; perf_index < gmu->nr_gpu_freqs - 1; perf_index++)
-> > -               if (freq == gmu->gpu_freqs[perf_index])
-> > -                       break;
-> > -
-> > -       gmu->current_perf_index = perf_index;
-> > -
-> > -       __a6xx_gmu_set_freq(gmu, perf_index);
-> > -}
-> 
-> this does end up conflicting a bit with some of the newer stuff that
-> landed this cycle, in particular "drm/msm/a6xx: HFI v2 for A640 and
-> A650"
-> 
-> Adding Jonathan on CC since I think he will want to test this on
-> a650/a640 as well..
+The patch 033bfe7538a1: "drm/vc4: dsi: Fix bridge chain handling"
+from Dec 27, 2019, leads to the following static checker warning:
 
-Sharat, please send an updated version that is rebased on the latest drm-msm.
+	drivers/gpu/drm/vc4/vc4_dsi.c:758 vc4_dsi_encoder_disable()
+	warn: iterator used outside loop: 'iter'
 
-Thanks
+drivers/gpu/drm/vc4/vc4_dsi.c
+   743  static void vc4_dsi_encoder_disable(struct drm_encoder *encoder)
+   744  {
+   745          struct vc4_dsi_encoder *vc4_encoder = to_vc4_dsi_encoder(encoder);
+   746          struct vc4_dsi *dsi = vc4_encoder->dsi;
+   747          struct device *dev = &dsi->pdev->dev;
+   748          struct drm_bridge *iter;
+   749  
+   750          list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
+   751                  if (iter->funcs->disable)
+   752                          iter->funcs->disable(iter);
+   753          }
 
-Matthias
+This loops backwards until iter is parked on the list head.
+
+   754  
+   755          vc4_dsi_ulps(dsi, true);
+   756  
+   757          list_for_each_entry_from(iter, &dsi->bridge_chain, chain_node) {
+
+But then this "continues" until the iter is parked on the list head.
+Since we ended with the iterator already on the list head then we never
+enter this loop and it is a no-op.
+
+Am I missing something?
+
+   758                  if (iter->funcs->post_disable)
+   759                          iter->funcs->post_disable(iter);
+   760          }
+   761  
+   762          clk_disable_unprepare(dsi->pll_phy_clock);
+   763          clk_disable_unprepare(dsi->escape_clock);
+   764          clk_disable_unprepare(dsi->pixel_clock);
+   765  
+   766          pm_runtime_put(dev);
+   767  }
+
+regards,
+dan carpenter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
