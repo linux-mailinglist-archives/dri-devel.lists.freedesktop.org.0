@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E401C20768B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2501C20768F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4EFD6EB6F;
-	Wed, 24 Jun 2020 15:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F4D6EB89;
+	Wed, 24 Jun 2020 15:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
  [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD076E133
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:04:45 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id l2so1373489wmf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:04:45 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001AB6E133
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:04:46 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l17so2656562wmj.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:04:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZjEPJ8/mm+wq5v36TYnyxcBS/a58z/cHHdKeFkfsfDE=;
- b=zPM0JoTekc3JwBTNgIwFO0P3svCMqz6zlvJHpDXyqSoLZJPlvT/40LKl7KnfnXmcOt
- qzD/hMl0Xi1GGBucNTt7iR4B4Xu1v04fUHYnRuvCkawtPjRw8DidaYzoxiJu6TZLLrOr
- Z5F3E2NaRAqvya3W1eGzceaDjDFLn/S08pifh4nAlO3JVcKUm5EOTsr3xiIuocLLSsTd
- /xyUNzkGVlysC/Y0PAaGQhWXhrhlJgo3T0Y83UmpYsnTZd6zUE+GCCuRwdATo1kAt5nc
- NljRyk6f15Lt1rFcApUW2wX5Kdbn9BDptRox73TfhNF0TsdTMSIopA8pPN/+fwS71EaG
- SURQ==
+ bh=+OscN/rzPmV+Ca3LDqP3+7QfjG8tQ3er8qfNyGN0efc=;
+ b=XNDfNdRiXmh7t9RgId/4XIu21fy4oogY+Nr/WCo6/NyZHQ4Itv6OslAVjjAeFK19iG
+ i0f5xKyDMsV7Y4sxJPI9YCbK1EV5DMyQj7kn5az4goE+ZWa4Hc/EbVOv8PPGwvzyvzbE
+ 4WqWCqGHmNWK5VT5Y/FG+T47fTbw53DNfdHg44MNHKBE2UAvgbjqSEO0jtByy5F7T5G/
+ ErFuGywjPZ/ZLSOfBNKzhIRi6Zi+cXmpf6gCITOXFnk+trenk9HoqGajs0aLJ5DdlAuo
+ iL8KWarHIl3WczC77gRnj4JI3dHaFMqREtkO9wIJig1PkRUTzCNZ3nVTe0zR5R0gh3Gu
+ h8rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZjEPJ8/mm+wq5v36TYnyxcBS/a58z/cHHdKeFkfsfDE=;
- b=XU8BjJyddjt76n848JEc2WeehYUfrTs1cY//toapg9A/u6ZC3Hz3mfuQw5vHVSZvkZ
- 4hxSHASY2RBCfFgsIJG+l2gyl442vlZweWg77PhDVZQQ8KmVO4ygMSstbVqjy3LoVhFO
- aSv2K1ifT5U+a8X+pzU0hTNebXKj2gTmsCSqBNx/rADcH0ZRCGsv/B3LNvWJWodPaTTg
- uKaQ/Ng6BVK0m0JovHYzPJbz24PlI85FbzmhJT4n9KbxGzJI5pUXFFk082vxLRBzQ1/q
- aopRu4XyFogT8msK9PDZpXMp0Oaac1LemPVPSeb1G/SiErRusaR1V1oOozAV3HZrybPV
- 9BTw==
-X-Gm-Message-State: AOAM531w/lnCXR1lEABs+yiGj7OxISxIbsqiihutMyJSQMeuDgcCEbiN
- Kkslq+XhcqoxeD3tkbGu19WFcw==
-X-Google-Smtp-Source: ABdhPJyBpq4p7XjDew8RzlYmMmVACRb7x1fhGgY5R/YmeMhjkFjmrwgSZSWjfeVp7THuMLPsMbh1fA==
-X-Received: by 2002:a7b:c30a:: with SMTP id k10mr25791251wmj.44.1593011084237; 
- Wed, 24 Jun 2020 08:04:44 -0700 (PDT)
+ bh=+OscN/rzPmV+Ca3LDqP3+7QfjG8tQ3er8qfNyGN0efc=;
+ b=WcUWWum9jsHyf48Ob9A22OzriVC5zz+77HkQeCLVnW/+aYDER8KGIcESddAvLS3pAO
+ tNP6caRsw5zlN7ktiKG4Ptcs6S2L9NI1p+lj9l2ffRtpseyM6SHQlZ3tVdPw/bbeofjj
+ yj26qEBwDgLU6ry0Mwj6ibh9N/RmWx4PpTek2PJpjtS7LWbfXB4rdWkHgOKiQ6gXwyKM
+ dDby9ax7gGFdbMM4krAJin43zjFmc0dPzel1eek0ENvqIrB9R80Zom5ij29WQb47daeZ
+ /xir+DE+pUsNCvm50Ywm5rYNh+2LKe2a/W2d0tgT3o94hEOz35cuX+nrm/fxozXqsYAb
+ 5MBA==
+X-Gm-Message-State: AOAM530lVCltIPMVOCbTfONKFTUUWPDKgyXC0aPNMsk+WA6DJ7LS50PP
+ FdCAeEUgbf1Qj9R1mOn+ClCOYw==
+X-Google-Smtp-Source: ABdhPJwVNF8XQROSvPdr0XQdKc3EWPYY8aw/n5FerSWHfY3zltFgb+IFcI7EijR9JNDoP40hEcO9eQ==
+X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr16795235wmi.95.1593011085576; 
+ Wed, 24 Jun 2020 08:04:45 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
- by smtp.gmail.com with ESMTPSA id f186sm8200319wmf.29.2020.06.24.08.04.42
+ by smtp.gmail.com with ESMTPSA id f186sm8200319wmf.29.2020.06.24.08.04.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 08:04:43 -0700 (PDT)
+ Wed, 24 Jun 2020 08:04:44 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: daniel.thompson@linaro.org, jingoohan1@gmail.com,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 3/8] backlight: ili922x: Add missing kerneldoc descriptions
- for CHECK_FREQ_REG() args
-Date: Wed, 24 Jun 2020 15:57:16 +0100
-Message-Id: <20200624145721.2590327-4-lee.jones@linaro.org>
+Subject: [PATCH 4/8] backlight: ili922x: Remove invalid use of kerneldoc syntax
+Date: Wed, 24 Jun 2020 15:57:17 +0100
+Message-Id: <20200624145721.2590327-5-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200624145721.2590327-1-lee.jones@linaro.org>
 References: <20200624145721.2590327-1-lee.jones@linaro.org>
@@ -77,34 +76,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kerneldoc syntax is used, but not complete.  Descriptions required.
+Kerneldoc is for documenting function arguments and return values.
 
 Prevents warnings like:
 
- drivers/video/backlight/ili922x.c:116: warning: Function parameter or member 's' not described in 'CHECK_FREQ_REG'
- drivers/video/backlight/ili922x.c:116: warning: Function parameter or member 'x' not described in 'CHECK_FREQ_REG'
+ drivers/video/backlight/ili922x.c:127: warning: cannot understand function prototype: 'int ili922x_id = 1; '
+ drivers/video/backlight/ili922x.c:136: warning: cannot understand function prototype: 'struct ili922x '
 
 Cc: <stable@vger.kernel.org>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Cc: Software Engineering <sbabic@denx.de>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/backlight/ili922x.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/video/backlight/ili922x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/backlight/ili922x.c b/drivers/video/backlight/ili922x.c
-index 9c5aa3fbb2842..8cb4b9d3c3bba 100644
+index 8cb4b9d3c3bba..cd41433b87aeb 100644
 --- a/drivers/video/backlight/ili922x.c
 +++ b/drivers/video/backlight/ili922x.c
-@@ -107,6 +107,8 @@
-  *	lower frequency when the registers are read/written.
-  *	The macro sets the frequency in the spi_transfer structure if
-  *	the frequency exceeds the maximum value.
-+ * @s: pointer to controller side proxy for an SPI slave device
-+ * @x: pointer to the read/write buffer pair
+@@ -123,7 +123,7 @@
+ 
+ #define set_tx_byte(b)		(tx_invert ? ~(b) : b)
+ 
+-/**
++/*
+  * ili922x_id - id as set by manufacturer
   */
- #define CHECK_FREQ_REG(s, x)	\
- 	do {			\
+ static int ili922x_id = 1;
+@@ -132,7 +132,7 @@ module_param(ili922x_id, int, 0);
+ static int tx_invert;
+ module_param(tx_invert, int, 0);
+ 
+-/**
++/*
+  * driver's private structure
+  */
+ struct ili922x {
 -- 
 2.25.1
 
