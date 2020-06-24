@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD268207677
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8E9207685
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8509B6E095;
-	Wed, 24 Jun 2020 15:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 974B26E161;
+	Wed, 24 Jun 2020 15:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8994B6E095
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:04:41 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id r12so2585763wrj.13
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:04:41 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41A36E14C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:04:43 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id o2so2855461wmh.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+GecQ66rmlEvjIvJ7QJtrKlUl0uFGquQecFmVEnG3vQ=;
- b=ggqKLpgIV8maJfSM69W3D1mszs39U+1t28FTlwnkcd84c+gIgGoPdF7HRsq/DM1jMk
- 9gqacJBySBP6gXjN151KeET3e+g/ISEwOAe2QvBA2VVsTUgmpGFsUvJcaS0zCbpK8PpK
- M+aW26fbiPFWEyMUqUmXFNJBEcnnX65jccbSs+sWKgE2FztQ4DtJkHSHVvLRRa0xOXG3
- 2iYC8lTFzIXBIq6hePP2rZUhhcMAg/AbI9WcyH3NGJwRc/cwRffpnHne6STLhq0zy8Ca
- B6tEj8wsr44ipYX9tEeaSJHZZci9T/rJQqKuCropA5cvL9bD0AGezcuGfPHafWHBXfd/
- BZaw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2m2sUpZpH0jbtcmYyVNBHchLvKZgU+7xWa4xsqTn03E=;
+ b=PruqKI5rmzrEACi4Yw4FtuSd9KORHRlamVPBe3qqmkvNpFexwSdnG4SfgHltKStskh
+ mva5w7RUtjo3uJjAaI+cNW5KHVSgyGm6ZovablsXX1U9W9K4v+NyOkE72Byf+dTKKkgE
+ KOiaRHTpCyuRsf5J4jAvNqqmU5btGJgwguhNQ1BnWbgdjRr0p5D4jtr91lroWU6vR32F
+ GCrDJDEiF8/7dfj64lTWImISFa4Np+pVFYTSpf4pdqvc65aSjeHo5ob/hmAWaljIMH3r
+ IggB0GwSnJRl6TjfzWrKX7nxh1UouC0/BKxUinGbWcmXeU2MgDrLsAVtrnjkOC5zhHKr
+ ZfEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+GecQ66rmlEvjIvJ7QJtrKlUl0uFGquQecFmVEnG3vQ=;
- b=JiNqRslHQ4cy7yNriMBt4wzkdpfeHk+ET1x2jNvRlpmzXmVtEMT5uwi53vi1Q1E5Rm
- ASj8cO9C1PrX8QezYSc10cQuIULCflbdueP+Bvkh263lUmNeUmbTmxNek97zwWNdTV7v
- JBqr7U2EpxQBfmAaiAlQsWV++ntJAVOMU8JHCEFE/kLK0ncSlnpstTLaQ3WDauImihhf
- /xk/S5T/c9LLopC1XAPh4nIe/PhCaCuXuFxwn2t96PujmEvNOWnZgE4h9mO+cHFEywS+
- 1z4Vi57Qpl5w/n24fp+5DSflpqR/o1QeEgqllaTBBmDflLeUx7SxWK8RoWu7fhDgHnVK
- jA8w==
-X-Gm-Message-State: AOAM532XhVintsLXh+yLs6OF0GhvOOr+QPMmS5aO3Gwb7kr8Vgnsc0k1
- gzoYQIkiKZ1OWuVySqLQnA2vQQ==
-X-Google-Smtp-Source: ABdhPJwlPY1Prth3NQ7J8sQFtWPaPtlNsxgKb6muWk22U+5w0GKI8UWdfsvMJUKmL/9pxgQ4mmDiXg==
-X-Received: by 2002:a5d:56c7:: with SMTP id m7mr31187536wrw.223.1593011080131; 
- Wed, 24 Jun 2020 08:04:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2m2sUpZpH0jbtcmYyVNBHchLvKZgU+7xWa4xsqTn03E=;
+ b=BGO5TE87UB2Cbh+BoOkNDWuaso9hocQhci1QmXhiKPzZ3y0F1fZFuI2zhTmaKnCQ/F
+ mowom3TihpmX8eWsgBIE/zy7r/TxF4gXtU4AhKRfrqO/ymHf1RDHrV35Mr4Q1yleoMWO
+ GDjA4/cXuoRaE3IOia/SywwgnCg8mwAErcNGZHm9Z83Vfc+gtASUXBHKpItYnA57LB3U
+ uk5/iOgQGu1dajMbuA831w/sXXPitLV5JnAnKDVNleEn76lHflvl+Pr0SXmeTgndIfhi
+ qKRuBzi8xN/4z1whezlN6aLgReWJAS6r+dCDCO+kxhm1JclMu7D9kojpGjAypIU/W/xm
+ mwcw==
+X-Gm-Message-State: AOAM532eBo5PVysWI9xStvPAw1BOcGHwOnTSUNesejmlR79PHred9Lcf
+ QINjcPMXFmCLrBy1lZ7E1r1TJQ==
+X-Google-Smtp-Source: ABdhPJxniWUuhOK6ni3DT7xPMV5Jy7/0VJHnvI3QDRXhrWY/QDvZQXT5F80At1ygpltfaC/n543E1A==
+X-Received: by 2002:a1c:c90a:: with SMTP id f10mr17453319wmb.121.1593011081473; 
+ Wed, 24 Jun 2020 08:04:41 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
- by smtp.gmail.com with ESMTPSA id f186sm8200319wmf.29.2020.06.24.08.04.38
+ by smtp.gmail.com with ESMTPSA id f186sm8200319wmf.29.2020.06.24.08.04.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 08:04:39 -0700 (PDT)
+ Wed, 24 Jun 2020 08:04:40 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: daniel.thompson@linaro.org, jingoohan1@gmail.com,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 0/8] Fix a bunch of W=1 warnings in Backlight
-Date: Wed, 24 Jun 2020 15:57:13 +0100
-Message-Id: <20200624145721.2590327-1-lee.jones@linaro.org>
+Subject: [PATCH 1/8] backlight: lms501kf03: Remove unused const variables
+Date: Wed, 24 Jun 2020 15:57:14 +0100
+Message-Id: <20200624145721.2590327-2-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200624145721.2590327-1-lee.jones@linaro.org>
+References: <20200624145721.2590327-1-lee.jones@linaro.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +67,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: stable@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attempting to clean-up W=1 kernel builds, which are currently
-overwhelmingly riddled with niggly little warnings.
-
-Lee Jones (8):
-  backlight: lms501kf03: Remove unused const variables
-  backlight: lcd: Add missing kerneldoc entry for 'struct device parent'
-  backlight: ili922x: Add missing kerneldoc descriptions for
-    CHECK_FREQ_REG() args
-  backlight: ili922x: Remove invalid use of kerneldoc syntax
-  backlight: ili922x: Add missing kerneldoc description for
-    ili922x_reg_dump()'s arg
-  backlight: backlight: Supply description for function args in existing
-    Kerneldocs
-  backlight: lm3630a_bl: Remove invalid checks for unsigned int < 0
-  backlight: qcom-wled: Remove unused configs for LED3 and LED4
-
- drivers/video/backlight/backlight.c  | 2 ++
- drivers/video/backlight/ili922x.c    | 8 ++++++--
- drivers/video/backlight/lcd.c        | 1 +
- drivers/video/backlight/lm3630a_bl.c | 4 ++--
- drivers/video/backlight/lms501kf03.c | 8 --------
- drivers/video/backlight/qcom-wled.c  | 8 --------
- 6 files changed, 11 insertions(+), 20 deletions(-)
-
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Vz0xIGtlcm5lbCBidWlsZCByZXBvcnRzOgoKIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2xtczUw
+MWtmMDMuYzo5NjoyODogd2FybmluZzog4oCYc2VxX3NsZWVwX2lu4oCZIGRlZmluZWQgYnV0IG5v
+dCB1c2VkIFstV3VudXNlZC1jb25zdC12YXJpYWJsZT1dCiA5NiB8IHN0YXRpYyBjb25zdCB1bnNp
+Z25lZCBjaGFyIHNlcV9zbGVlcF9pbltdID0gewogfCBefn5+fn5+fn5+fn4KIGRyaXZlcnMvdmlk
+ZW8vYmFja2xpZ2h0L2xtczUwMWtmMDMuYzo5MjoyODogd2FybmluZzog4oCYc2VxX3VwX2Ru4oCZ
+IGRlZmluZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1jb25zdC12YXJpYWJsZT1dCiA5MiB8IHN0
+YXRpYyBjb25zdCB1bnNpZ25lZCBjaGFyIHNlcV91cF9kbltdID0gewogfCBefn5+fn5+fn4KCkVp
+dGhlciAnc2VxX3NsZWVwX2luJyBub3IgJ3NlcV91cF9kbicgaGF2ZSBiZWVuIHVzZWQgc2luY2Ug
+dGhlCmRyaXZlciBmaXJzdCBsYW5kZWQgaW4gMjAxMy4KCkNjOiA8c3RhYmxlQHZnZXIua2VybmVs
+Lm9yZz4KQ2M6IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5n
+LmNvbT4KU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KLS0t
+CiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sbXM1MDFrZjAzLmMgfCA4IC0tLS0tLS0tCiAxIGZp
+bGUgY2hhbmdlZCwgOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2Jh
+Y2tsaWdodC9sbXM1MDFrZjAzLmMgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sbXM1MDFrZjAz
+LmMKaW5kZXggOGFlMzJlMzU3M2MxYS4uYzFiZDAyYmI4YjJlZSAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy92aWRlby9iYWNrbGlnaHQvbG1zNTAxa2YwMy5jCisrKyBiL2RyaXZlcnMvdmlkZW8vYmFja2xp
+Z2h0L2xtczUwMWtmMDMuYwpAQCAtODksMTQgKzg5LDYgQEAgc3RhdGljIGNvbnN0IHVuc2lnbmVk
+IGNoYXIgc2VxX3JnYl9nYW1tYVtdID0gewogCTB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAs
+IDB4MDAsIDB4MDAsIDB4MDAsCiB9OwogCi1zdGF0aWMgY29uc3QgdW5zaWduZWQgY2hhciBzZXFf
+dXBfZG5bXSA9IHsKLQkweDM2LCAweDEwLAotfTsKLQotc3RhdGljIGNvbnN0IHVuc2lnbmVkIGNo
+YXIgc2VxX3NsZWVwX2luW10gPSB7Ci0JMHgxMCwKLX07Ci0KIHN0YXRpYyBjb25zdCB1bnNpZ25l
+ZCBjaGFyIHNlcV9zbGVlcF9vdXRbXSA9IHsKIAkweDExLAogfTsKLS0gCjIuMjUuMQoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
