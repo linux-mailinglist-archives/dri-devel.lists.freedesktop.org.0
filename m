@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A7A20767E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:04:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E401C20768B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:04:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D0F6E14C;
-	Wed, 24 Jun 2020 15:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4EFD6EB6F;
+	Wed, 24 Jun 2020 15:04:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FF66E161
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:04:43 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id j18so2641137wmi.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:04:43 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD076E133
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:04:45 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l2so1373489wmf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N4d9MV/8IVDi6H6NDx3txaJsaoNizmHMUDUqyGZyRwc=;
- b=emOdUiDeUe+KFeHCqP/4Vwih/dwJXxtgOfA8pOQGoiPOx4UIAFEj52mjFAk5DhMU86
- gT5Wkp7zH2kxwdj2nAgh4si1eNBmRt6zQrHV/KaItnIMe2juaJ0mQG5otPsahO1pCdPJ
- uNv7FOOfhL9aTrRneY9in0QBdNS0svXag+qoK1jXiCuIROyJEZl6vCMGfgtx9e1iQCaZ
- fTogXsdUIy5yY0iXLhZIm6MgIN9gDmrnno6dwDdaJSxcXxVh5LP/EdDdXAVtip1VfRmS
- Qvg6LFloU7LYSBu/IitxhtD60aQwVHctr3SlOUisidawyOoQ3WVkyHKCgnAfwUkNPuA6
- Jdqw==
+ bh=ZjEPJ8/mm+wq5v36TYnyxcBS/a58z/cHHdKeFkfsfDE=;
+ b=zPM0JoTekc3JwBTNgIwFO0P3svCMqz6zlvJHpDXyqSoLZJPlvT/40LKl7KnfnXmcOt
+ qzD/hMl0Xi1GGBucNTt7iR4B4Xu1v04fUHYnRuvCkawtPjRw8DidaYzoxiJu6TZLLrOr
+ Z5F3E2NaRAqvya3W1eGzceaDjDFLn/S08pifh4nAlO3JVcKUm5EOTsr3xiIuocLLSsTd
+ /xyUNzkGVlysC/Y0PAaGQhWXhrhlJgo3T0Y83UmpYsnTZd6zUE+GCCuRwdATo1kAt5nc
+ NljRyk6f15Lt1rFcApUW2wX5Kdbn9BDptRox73TfhNF0TsdTMSIopA8pPN/+fwS71EaG
+ SURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N4d9MV/8IVDi6H6NDx3txaJsaoNizmHMUDUqyGZyRwc=;
- b=VjMfqKsDM1sjkbUQyOJ3B20voE6SaIONZAECn1EE8oy0NB9nEpo8XuPfjNy7P/my/S
- DPKf12I9YoeKLUtHHNyDqEfOz7V2ukJurl3/UM8nRaxwr+oCsYLw/0t4qF4TwcI1NmeF
- TijmBAtPhU2Km82EEF0CBx09kzetEEgsmaBqizwu2/JfXu6JqDgLp+BCsshatUOAL3Yg
- 6qv/BghsQJmbxW9rddBZCkvOdcd8Fy06aTK/udECQ07oT8VR4QEkgN5K+v9pRMSIBSnO
- Np9Ct/2qu1L2QhijVVMzgbS8bjODu60meUXEjJFwrdgp7xKnIBCTfEycq0SCHbLiP9sO
- qMpw==
-X-Gm-Message-State: AOAM530ATHywJfrApAaflIjQ9isfcdfQ5MUmlS7g6fOdzXfllZ42mzBg
- sM5/H2XsVhOSKWiFc1tgdZtiag==
-X-Google-Smtp-Source: ABdhPJygPsccHa5jOlhVGhJlJB4d/4S7eDfjo8Nvz6itCY61Cz7n4glf/TvzYk4QWergu4UvpagYdQ==
-X-Received: by 2002:a05:600c:204d:: with SMTP id
- p13mr29834871wmg.88.1593011082536; 
- Wed, 24 Jun 2020 08:04:42 -0700 (PDT)
+ bh=ZjEPJ8/mm+wq5v36TYnyxcBS/a58z/cHHdKeFkfsfDE=;
+ b=XU8BjJyddjt76n848JEc2WeehYUfrTs1cY//toapg9A/u6ZC3Hz3mfuQw5vHVSZvkZ
+ 4hxSHASY2RBCfFgsIJG+l2gyl442vlZweWg77PhDVZQQ8KmVO4ygMSstbVqjy3LoVhFO
+ aSv2K1ifT5U+a8X+pzU0hTNebXKj2gTmsCSqBNx/rADcH0ZRCGsv/B3LNvWJWodPaTTg
+ uKaQ/Ng6BVK0m0JovHYzPJbz24PlI85FbzmhJT4n9KbxGzJI5pUXFFk082vxLRBzQ1/q
+ aopRu4XyFogT8msK9PDZpXMp0Oaac1LemPVPSeb1G/SiErRusaR1V1oOozAV3HZrybPV
+ 9BTw==
+X-Gm-Message-State: AOAM531w/lnCXR1lEABs+yiGj7OxISxIbsqiihutMyJSQMeuDgcCEbiN
+ Kkslq+XhcqoxeD3tkbGu19WFcw==
+X-Google-Smtp-Source: ABdhPJyBpq4p7XjDew8RzlYmMmVACRb7x1fhGgY5R/YmeMhjkFjmrwgSZSWjfeVp7THuMLPsMbh1fA==
+X-Received: by 2002:a7b:c30a:: with SMTP id k10mr25791251wmj.44.1593011084237; 
+ Wed, 24 Jun 2020 08:04:44 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.35.144])
- by smtp.gmail.com with ESMTPSA id f186sm8200319wmf.29.2020.06.24.08.04.41
+ by smtp.gmail.com with ESMTPSA id f186sm8200319wmf.29.2020.06.24.08.04.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 08:04:41 -0700 (PDT)
+ Wed, 24 Jun 2020 08:04:43 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: daniel.thompson@linaro.org, jingoohan1@gmail.com,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH 2/8] backlight: lcd: Add missing kerneldoc entry for 'struct
- device parent'
-Date: Wed, 24 Jun 2020 15:57:15 +0100
-Message-Id: <20200624145721.2590327-3-lee.jones@linaro.org>
+Subject: [PATCH 3/8] backlight: ili922x: Add missing kerneldoc descriptions
+ for CHECK_FREQ_REG() args
+Date: Wed, 24 Jun 2020 15:57:16 +0100
+Message-Id: <20200624145721.2590327-4-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200624145721.2590327-1-lee.jones@linaro.org>
 References: <20200624145721.2590327-1-lee.jones@linaro.org>
@@ -69,39 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Zabolotny <zap@homelink.ru>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jamey Hicks <jamey.hicks@hp.com>, stable@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ Software Engineering <sbabic@denx.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This has been missing since the conversion to 'struct device' in 2007.
+Kerneldoc syntax is used, but not complete.  Descriptions required.
+
+Prevents warnings like:
+
+ drivers/video/backlight/ili922x.c:116: warning: Function parameter or member 's' not described in 'CHECK_FREQ_REG'
+ drivers/video/backlight/ili922x.c:116: warning: Function parameter or member 'x' not described in 'CHECK_FREQ_REG'
 
 Cc: <stable@vger.kernel.org>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Jamey Hicks <jamey.hicks@hp.com>
-Cc: Andrew Zabolotny <zap@homelink.ru>
+Cc: Software Engineering <sbabic@denx.de>
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/backlight/lcd.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/backlight/ili922x.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/video/backlight/lcd.c b/drivers/video/backlight/lcd.c
-index 78b0333586258..db56e465aaff3 100644
---- a/drivers/video/backlight/lcd.c
-+++ b/drivers/video/backlight/lcd.c
-@@ -179,6 +179,7 @@ ATTRIBUTE_GROUPS(lcd_device);
-  * lcd_device_register - register a new object of lcd_device class.
-  * @name: the name of the new object(must be the same as the name of the
-  *   respective framebuffer device).
-+ * @parent: pointer to the parent's struct device .
-  * @devdata: an optional pointer to be stored in the device. The
-  *   methods may retrieve it by using lcd_get_data(ld).
-  * @ops: the lcd operations structure.
+diff --git a/drivers/video/backlight/ili922x.c b/drivers/video/backlight/ili922x.c
+index 9c5aa3fbb2842..8cb4b9d3c3bba 100644
+--- a/drivers/video/backlight/ili922x.c
++++ b/drivers/video/backlight/ili922x.c
+@@ -107,6 +107,8 @@
+  *	lower frequency when the registers are read/written.
+  *	The macro sets the frequency in the spi_transfer structure if
+  *	the frequency exceeds the maximum value.
++ * @s: pointer to controller side proxy for an SPI slave device
++ * @x: pointer to the read/write buffer pair
+  */
+ #define CHECK_FREQ_REG(s, x)	\
+ 	do {			\
 -- 
 2.25.1
 
