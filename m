@@ -2,82 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF96720778C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:35:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE882077CF
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3150B6EB9A;
-	Wed, 24 Jun 2020 15:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024ED6E0F7;
+	Wed, 24 Jun 2020 15:43:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 888416EB9A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:35:08 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05OFJYoi024017; Wed, 24 Jun 2020 17:35:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=b+udD3OXhTb7dseIg7ZIscRe7YziBcqF8XPAUo/vPPs=;
- b=pl9JPAtPrhWMl+xBkAeN6miQKnlay1SPmoUhuBmZNqzXzw9qqgB5Ke3fBSkn9LQXkbAq
- 0mrAbItaXum+GYqRLVQScSdEG43BOxXlbnexcjC4lBCSZJB+iZKSaizDLWiotpPRJcoX
- s7uWNtX/WUdfqnv6Z2N4tHbuWkQk4hybCdBT6GoDrRJw5nRCY2simVpVqe1aM78qPXfz
- zsjpZlaLDdNYxO8vL1VCQldkjnvTWVrCao+1pMTzwWtrn/8cSe7czcxSm0AHc2k9TjfZ
- +a6HmA1HnLfS93fzwDsHhIyMhrCDeKPQp6MPpAQ0Ra2OrPE8TgAQQwLUrOndRvCy/iMm 8w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 31uuumcwdq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 17:35:05 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4A996100034;
- Wed, 24 Jun 2020 17:35:04 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 823A62C5BAE;
- Wed, 24 Jun 2020 17:35:04 +0200 (CEST)
-Received: from SFHDAG6NODE1.st.com (10.75.127.16) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 24 Jun
- 2020 17:35:04 +0200
-Received: from SFHDAG6NODE1.st.com ([fe80::8d96:4406:44e3:eb27]) by
- SFHDAG6NODE1.st.com ([fe80::8d96:4406:44e3:eb27%20]) with mapi id
- 15.00.1473.003; Wed, 24 Jun 2020 17:35:04 +0200
-From: Yannick FERTRE <yannick.fertre@st.com>
-To: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>, Philippe CORNU
- <philippe.cornu@st.com>, Benjamin GAIGNARD <benjamin.gaignard@st.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, Alexandre TORGUE
- <alexandre.torgue@st.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "pop.adrian61@gmail.com"
- <pop.adrian61@gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: dw-mipi-dsi.c: Add VPG runtime config
- through debugfs
-Thread-Topic: [PATCH v2] drm/bridge: dw-mipi-dsi.c: Add VPG runtime config
- through debugfs
-Thread-Index: AQHWDBotLzsm/jdHJ0Ge7FgHm5JcQqjoQFOA
-Date: Wed, 24 Jun 2020 15:35:04 +0000
-Message-ID: <d46d3aaf-d3cd-e5e1-81b9-c019537bd09a@st.com>
-References: <a809feb7d7153a92e323416f744f1565e995da01.1586180592.git.angelo.ribeiro@synopsys.com>
-In-Reply-To: <a809feb7d7153a92e323416f744f1565e995da01.1586180592.git.angelo.ribeiro@synopsys.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.47]
-Content-ID: <71B9D6134796BA45821981F3137C9CC2@st.com>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 467816E0F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:43:25 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id a6so4781235wmm.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 08:43:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=QM8WHNX4JVzp1tT3alZnq1KeTZs+/wuqZ6hsAIKxcMA=;
+ b=Olmv6gOFR6NbOAqgFzCBJx/sCYV/IREx2uVFDnyNUpwSY/mDxH4RQEaIIqwkxB4ICw
+ OmlyLQtUPS7BKq9rjxqW7PsmSayRlxNsp3CBwqOphzrTJesmqsd/9oNQrA3IlpYUW0PZ
+ fudSy31IumvzQrnLbUbjZSN5JGU9DP5XWjcMbAryKvmqsYifSefNVUqu2Su8OXQvPMVE
+ dsVZolchYV5cK7gk0/DRSho+Ia0WuTzYBvKGvhRhtgPUURP4Ndkk9KgCqzQ81nwD7C0z
+ CNpkJgEMvLNJ4qfZ1RFZnaKXBpWwSTDYACp0W4/tSjgSY9pUvicATh27hnBP4HKau3Ho
+ XwDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QM8WHNX4JVzp1tT3alZnq1KeTZs+/wuqZ6hsAIKxcMA=;
+ b=bBQucfvj/797M6PjY2RSFeQ8/4uqugVNMoEeElQ6z/T9mOKyUXGcNHzLG1U5uPU/6g
+ l/YFvMwVAJUyZqE+GyQjWg3BhiLjzZE1oIpPWLDEihnbi3PrQ6zWWCkbNCC6xm7o1hN0
+ zhWKtvCEh9Qq8i5N4KdZnI+WVDgyt+mSN36FO4cDUVFw/RJuqBP8I7nygMcwAsV8VzLX
+ uWBZz8sPupz/7UBRMX97/4LgeVbGlz0knHmL3WIPq2QEOAcW0x2DpJonQTzz+bdzBoEN
+ FJ7vF9Bk8Hh0e5nY1HHeVuEW/k6ZjDKu493ToL5KskEr6q+J0aR3gX8MaOd1GnUJIUnE
+ dEhQ==
+X-Gm-Message-State: AOAM530aC+4srV+Wu4/XoSTbWMryFUETIVjxfE043yg5VQYbb6Szv5rc
+ aCyYHi1YPqixsHS9NkKoocC9eA==
+X-Google-Smtp-Source: ABdhPJwj67zlK538LD9M3+i8IFmwRhOZYaUWn/TQagj8Vmc62JySmFUQKYtWcbTLacIAWDoe1q9dnA==
+X-Received: by 2002:a7b:c345:: with SMTP id l5mr32069049wmj.31.1593013403867; 
+ Wed, 24 Jun 2020 08:43:23 -0700 (PDT)
+Received: from dell ([2.27.35.144])
+ by smtp.gmail.com with ESMTPSA id c143sm8597840wmd.1.2020.06.24.08.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jun 2020 08:43:23 -0700 (PDT)
+Date: Wed, 24 Jun 2020 16:43:21 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 0/8] Fix a bunch of W=1 warnings in Backlight
+Message-ID: <20200624154321.GH954398@dell>
+References: <20200624145721.2590327-1-lee.jones@linaro.org>
+ <20200624153216.GA1814806@ravnborg.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-24_08:2020-06-24,
- 2020-06-24 signatures=0
+Content-Disposition: inline
+In-Reply-To: <20200624153216.GA1814806@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,196 +68,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jose Abreu <Jose.Abreu@synopsys.com>,
- Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
- Joao Pinto <Joao.Pinto@synopsys.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Angelo,
-thanks for the patch.
-Tested-by: Yannick Fertre <yannick.fertre@st.com>
-Tested OK on STM32MP1-DISCO, DSI v1.31
-
-Best regards
-
-
-On 4/6/20 3:49 PM, Angelo Ribeiro wrote:
-> Add support for the video pattern generator (VPG) BER pattern mode and
-> configuration in runtime.
-> 
-> This enables using the debugfs interface to manipulate the VPG after
-> the pipeline is set.
-> Also, enables the usage of the VPG BER pattern.
-> 
-> Changes in v2:
->    - Added VID_MODE_VPG_MODE
->    - Solved incompatible return type on __get and __set
-> 
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Reported-by: Adrian Pop <pop.adrian61@gmail.com>
-> Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> Cc: Joao Pinto <jpinto@synopsys.com>
-> Cc: Jose Abreu <jose.abreu@synopsys.com>
-> Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 98 ++++++++++++++++++++++++---
->   1 file changed, 90 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index b18351b..9de3645 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -91,6 +91,7 @@
->   #define VID_MODE_TYPE_BURST			0x2
->   #define VID_MODE_TYPE_MASK			0x3
->   #define VID_MODE_VPG_ENABLE		BIT(16)
-> +#define VID_MODE_VPG_MODE		BIT(20)
->   #define VID_MODE_VPG_HORIZONTAL		BIT(24)
->   
->   #define DSI_VID_PKT_SIZE		0x3c
-> @@ -221,6 +222,21 @@
->   #define PHY_STATUS_TIMEOUT_US		10000
->   #define CMD_PKT_STATUS_TIMEOUT_US	20000
->   
-> +#ifdef CONFIG_DEBUG_FS
-> +#define VPG_DEFS(name, dsi) \
-> +	((void __force *)&((*dsi).vpg_defs.name))
-> +
-> +#define REGISTER(name, mask, dsi) \
-> +	{ #name, VPG_DEFS(name, dsi), mask, dsi }
-> +
-> +struct debugfs_entries {
-> +	const char				*name;
-> +	bool					*reg;
-> +	u32					mask;
-> +	struct dw_mipi_dsi			*dsi;
-> +};
-> +#endif /* CONFIG_DEBUG_FS */
-> +
->   struct dw_mipi_dsi {
->   	struct drm_bridge bridge;
->   	struct mipi_dsi_host dsi_host;
-> @@ -238,9 +254,12 @@ struct dw_mipi_dsi {
->   
->   #ifdef CONFIG_DEBUG_FS
->   	struct dentry *debugfs;
-> -
-> -	bool vpg;
-> -	bool vpg_horizontal;
-> +	struct debugfs_entries *debugfs_vpg;
-> +	struct {
-> +		bool vpg;
-> +		bool vpg_horizontal;
-> +		bool vpg_ber_pattern;
-> +	} vpg_defs;
->   #endif /* CONFIG_DEBUG_FS */
->   
->   	struct dw_mipi_dsi *master; /* dual-dsi master ptr */
-> @@ -530,9 +549,11 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
->   		val |= VID_MODE_TYPE_NON_BURST_SYNC_EVENTS;
->   
->   #ifdef CONFIG_DEBUG_FS
-> -	if (dsi->vpg) {
-> +	if (dsi->vpg_defs.vpg) {
->   		val |= VID_MODE_VPG_ENABLE;
-> -		val |= dsi->vpg_horizontal ? VID_MODE_VPG_HORIZONTAL : 0;
-> +		val |= dsi->vpg_defs.vpg_horizontal ?
-> +		       VID_MODE_VPG_HORIZONTAL : 0;
-> +		val |= dsi->vpg_defs.vpg_ber_pattern ? VID_MODE_VPG_MODE : 0;
->   	}
->   #endif /* CONFIG_DEBUG_FS */
->   
-> @@ -961,6 +982,68 @@ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
->   
->   #ifdef CONFIG_DEBUG_FS
->   
-> +int dw_mipi_dsi_debugfs_write(void *data, u64 val)
-> +{
-> +	struct debugfs_entries *vpg = data;
-> +	struct dw_mipi_dsi *dsi;
-> +	u32 mode_cfg;
-> +
-> +	if (!vpg)
-> +		return -ENODEV;
-> +
-> +	dsi = vpg->dsi;
-> +
-> +	*vpg->reg = (bool)val;
-> +
-> +	mode_cfg = dsi_read(dsi, DSI_VID_MODE_CFG);
-> +
-> +	if (*vpg->reg)
-> +		mode_cfg |= vpg->mask;
-> +	else
-> +		mode_cfg &= ~vpg->mask;
-> +
-> +	dsi_write(dsi, DSI_VID_MODE_CFG, mode_cfg);
-> +
-> +	return 0;
-> +}
-> +
-> +int dw_mipi_dsi_debugfs_show(void *data, u64 *val)
-> +{
-> +	struct debugfs_entries *vpg = data;
-> +
-> +	if (!vpg)
-> +		return -ENODEV;
-> +
-> +	*val = *vpg->reg;
-> +
-> +	return 0;
-> +}
-> +
-> +DEFINE_DEBUGFS_ATTRIBUTE(fops_x32, dw_mipi_dsi_debugfs_show,
-> +			 dw_mipi_dsi_debugfs_write, "%llu\n");
-> +
-> +static void debugfs_create_files(void *data)
-> +{
-> +	struct dw_mipi_dsi *dsi = data;
-> +	struct debugfs_entries debugfs[] = {
-> +		REGISTER(vpg, VID_MODE_VPG_ENABLE, dsi),
-> +		REGISTER(vpg_horizontal, VID_MODE_VPG_HORIZONTAL, dsi),
-> +		REGISTER(vpg_ber_pattern, VID_MODE_VPG_MODE, dsi),
-> +	};
-> +	int i;
-> +
-> +	dsi->debugfs_vpg = kmalloc(sizeof(debugfs), GFP_KERNEL);
-> +	if (!dsi->debugfs_vpg)
-> +		return;
-> +
-> +	memcpy(dsi->debugfs_vpg, debugfs, sizeof(debugfs));
-> +
-> +	for (i = 0; i < ARRAY_SIZE(debugfs); i++)
-> +		debugfs_create_file(dsi->debugfs_vpg[i].name, 0644,
-> +				    dsi->debugfs, &dsi->debugfs_vpg[i],
-> +				    &fops_x32);
-> +}
-> +
->   static void dw_mipi_dsi_debugfs_init(struct dw_mipi_dsi *dsi)
->   {
->   	dsi->debugfs = debugfs_create_dir(dev_name(dsi->dev), NULL);
-> @@ -969,14 +1052,13 @@ static void dw_mipi_dsi_debugfs_init(struct dw_mipi_dsi *dsi)
->   		return;
->   	}
->   
-> -	debugfs_create_bool("vpg", 0660, dsi->debugfs, &dsi->vpg);
-> -	debugfs_create_bool("vpg_horizontal", 0660, dsi->debugfs,
-> -			    &dsi->vpg_horizontal);
-> +	debugfs_create_files(dsi);
->   }
->   
->   static void dw_mipi_dsi_debugfs_remove(struct dw_mipi_dsi *dsi)
->   {
->   	debugfs_remove_recursive(dsi->debugfs);
-> +	kfree(dsi->debugfs_vpg);
->   }
->   
->   #else
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAyNCBKdW4gMjAyMCwgU2FtIFJhdm5ib3JnIHdyb3RlOgoKPiBIaSBMZWUuCj4gCj4g
+T24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMDM6NTc6MTNQTSArMDEwMCwgTGVlIEpvbmVzIHdyb3Rl
+Ogo+ID4gQXR0ZW1wdGluZyB0byBjbGVhbi11cCBXPTEga2VybmVsIGJ1aWxkcywgd2hpY2ggYXJl
+IGN1cnJlbnRseQo+ID4gb3ZlcndoZWxtaW5nbHkgcmlkZGxlZCB3aXRoIG5pZ2dseSBsaXR0bGUg
+d2FybmluZ3MuCj4gPiAKPiA+IExlZSBKb25lcyAoOCk6Cj4gPiAgIGJhY2tsaWdodDogbG1zNTAx
+a2YwMzogUmVtb3ZlIHVudXNlZCBjb25zdCB2YXJpYWJsZXMKPiA+ICAgYmFja2xpZ2h0OiBsY2Q6
+IEFkZCBtaXNzaW5nIGtlcm5lbGRvYyBlbnRyeSBmb3IgJ3N0cnVjdCBkZXZpY2UgcGFyZW50Jwo+
+IAo+IAo+ID4gICBiYWNrbGlnaHQ6IGlsaTkyMng6IEFkZCBtaXNzaW5nIGtlcm5lbGRvYyBkZXNj
+cmlwdGlvbnMgZm9yCj4gPiAgICAgQ0hFQ0tfRlJFUV9SRUcoKSBhcmdzCj4gPiAgIGJhY2tsaWdo
+dDogaWxpOTIyeDogUmVtb3ZlIGludmFsaWQgdXNlIG9mIGtlcm5lbGRvYyBzeW50YXgKPiA+ICAg
+YmFja2xpZ2h0OiBpbGk5MjJ4OiBBZGQgbWlzc2luZyBrZXJuZWxkb2MgZGVzY3JpcHRpb24gZm9y
+Cj4gPiAgICAgaWxpOTIyeF9yZWdfZHVtcCgpJ3MgYXJnCj4gSSB3b25kZXIgd2h5IHRoZXNlIHdh
+cm5pbmdzIHNob3cgdXAgYXMgbm90aGluZyBwdWxscyBpbiB0aGlzIC5jIGZpbGUuCj4gQW55d2F5
+IEkgd291bGQgc3VnZ2VzdCB0byBkcm9wIHVzaW5nIGtlcm5lbGRvYyBzeW50YXggZm9yIHNpbmds
+ZSBkcml2ZXJzCj4gbGlrZSB0aGlzIC0gYW5kIHRoZSBiZW5lZml0IGhlcmUgaXMgbG93Lgo+IE5v
+dyB0aGV5IGFyZSB0eXBlZCwgb3RoZXJ3aXNlIHRoaXMgYWhkIGJlZW4gZmluZSBpbiBhIHNpbmds
+ZSBwYXRjaC4KCldoYXQgZG8geW91IG1lYW4gYnkgJ25vdGhpbmcgcHVsbHMgaXQgaW4nPwoKPiA+
+ICAgYmFja2xpZ2h0OiBiYWNrbGlnaHQ6IFN1cHBseSBkZXNjcmlwdGlvbiBmb3IgZnVuY3Rpb24g
+YXJncyBpbiBleGlzdGluZwo+ID4gICAgIEtlcm5lbGRvY3MKPiA+ICAgYmFja2xpZ2h0OiBsbTM2
+MzBhX2JsOiBSZW1vdmUgaW52YWxpZCBjaGVja3MgZm9yIHVuc2lnbmVkIGludCA8IDAKPiA+ICAg
+YmFja2xpZ2h0OiBxY29tLXdsZWQ6IFJlbW92ZSB1bnVzZWQgY29uZmlncyBmb3IgTEVEMyBhbmQg
+TEVENAo+IAo+IFRoZSBvdGhlciBmaXhlcyBsb29rcyBnb29kLgo+IFRoZXkgYXJlIGFsbDoKPiBB
+Y2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgoKVGhhbmtzIChhbHRob3Vn
+aCB0aGlzIHNob3VsZCBiZSBSZXZpZXdlZC1ieSkuCgo+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xp
+Z2h0L2JhY2tsaWdodC5jICB8IDIgKysKPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9pbGk5
+MjJ4LmMgICAgfCA4ICsrKysrKy0tCj4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbGNkLmMg
+ICAgICAgIHwgMSArCj4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbG0zNjMwYV9ibC5jIHwg
+NCArKy0tCj4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbG1zNTAxa2YwMy5jIHwgOCAtLS0t
+LS0tLQo+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3Fjb20td2xlZC5jICB8IDggLS0tLS0t
+LS0KPiA+ICA2IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygt
+KQo+ID4gCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAt
+IERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBm
+b3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
