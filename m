@@ -1,80 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4582076AC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:08:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 975172076E6
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:12:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33956E0D2;
-	Wed, 24 Jun 2020 15:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C206E0F9;
+	Wed, 24 Jun 2020 15:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41AF36E0D2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:08:28 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 05OEt93L010328; Wed, 24 Jun 2020 17:08:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=Cu4nJcdjPPiXb+n9YzK3G3D0pd94rG3fyGCZHC0HXdU=;
- b=aSZwJ24DpUjFZhrkHkWOa1/MEMhBLZcaESz0n0A0LYGLkrYGTtSp9nsVZO2Zq5S6PIAl
- tqyrFHJLTI36HFsQznZsq+/mZJsV9vm1dEAXPnj+DAfSGOgGLVV2i/YHxDziQS3ue1tE
- 2/tBAfSPPmTt8M9h+ZooVyP2dMpLGA77//FaQUcCfbrScsb8Gfl5UqARSf53mcOOBnTc
- 4fpceT1xIVdROqbFzg8+I/ARBnBjO/URtsh+eWKHnA2+lH9FAGlTDy8xc5rlURMYtRvl
- +QV8ngb4Q1NIk8Ggm769qCmWH/CzS5oAukuCKd3EZN/WS1D+tSnOH72+DR8Z0c8cBsjo LQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 31uuuccr50-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Jun 2020 17:08:24 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7F47710002A;
- Wed, 24 Jun 2020 17:08:22 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id AF46520D8D2;
- Wed, 24 Jun 2020 17:08:22 +0200 (CEST)
-Received: from SFHDAG6NODE1.st.com (10.75.127.16) by SFHDAG3NODE3.st.com
- (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 24 Jun
- 2020 17:08:22 +0200
-Received: from SFHDAG6NODE1.st.com ([fe80::8d96:4406:44e3:eb27]) by
- SFHDAG6NODE1.st.com ([fe80::8d96:4406:44e3:eb27%20]) with mapi id
- 15.00.1473.003; Wed, 24 Jun 2020 17:08:22 +0200
-From: Yannick FERTRE <yannick.fertre@st.com>
-To: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>, Philippe CORNU
- <philippe.cornu@st.com>, Benjamin GAIGNARD <benjamin.gaignard@st.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, Alexandre TORGUE
- <alexandre.torgue@st.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi.c: remove unused header file
-Thread-Topic: [PATCH] drm/bridge: dw-mipi-dsi.c: remove unused header file
-Thread-Index: AQHWCbwe7FvpTwh4cUii/3igo3RUm6joPZmA
-Date: Wed, 24 Jun 2020 15:08:22 +0000
-Message-ID: <669d5484-b1e5-dd5c-b4e5-f3b5a8b436b4@st.com>
-References: <171ff1fb3918664a570dc8f2f34b446612505f76.1585832665.git.angelo.ribeiro@synopsys.com>
-In-Reply-To: <171ff1fb3918664a570dc8f2f34b446612505f76.1585832665.git.angelo.ribeiro@synopsys.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.50]
-Content-ID: <4F4842D5A8AC36458A785A495C391551@st.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0026A6E0F9;
+ Wed, 24 Jun 2020 15:11:57 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id b6so2629557wrs.11;
+ Wed, 24 Jun 2020 08:11:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ujwQciPl+L7lbdcyijKwCUqH7IK4/9USSSXUk6qmZOg=;
+ b=SLLo7z94ccgwtDRo0DFIuN0STQWBcNUVZRVpDAX0TnbXHV/3AfY7PhJ3vY6yeCIH/p
+ J/bRTe2lxeuS/kMB3cPIpFqxkvT0V9JUW7F1Ogi7YXj5mrC0SW4YKpNJGfXyMdgUTSBN
+ SL7zioevlWWqq2F5+Iyq0KGMeVPqSp2qDGZpkKCoQzpDrArtAR+pd1Fg3z7EVwTM3afV
+ rv5/iz2fwdHuzU1R8q0Hq0Bm1wz3GL/3HDF1q9XuOipEvbPrfp6UC8cg3iTIEEsBxCq0
+ sJN8yqiKVu+Zr9WIQvF4U2zzpiW7BoCgHCEFi3VDNhDmtRVpsaAFiutq3h55vS7ysc2w
+ jVRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ujwQciPl+L7lbdcyijKwCUqH7IK4/9USSSXUk6qmZOg=;
+ b=LSnyPfWXTd7usnL2jgUjYa2vraWxULgD0ZVyTmxAEkpGUwvaUqIEnSmq1uB8Pjxvbw
+ f2NBpLz0MIbTRs2x8Be+u7UUBwuYRNwTkgl3LOEhWeBXMJiwquQpCbVcdCsIleoFXSAw
+ qYCqLoKTbZfKMtBkWDXdcH8RSOAq4IuQ4oQkrQ7Hpl76MS5xMps3ulyfM+31g48Bz7yw
+ Y4k89q/Q7vAeKSqIwOMb32Ho3WbTspXAHdX5mrsUu7F2f1psFUHf0Rvne4A25eXPs+bY
+ 7qKYwsWeXwCcxmqJUeffVQi8s/5cZ2rIVYrEDRCa11LVIhY9ieyeIndLkub4Unu46qdV
+ 94cw==
+X-Gm-Message-State: AOAM530nkseW5IawdpZfKSMHejVmvyYV5AL/u7e4uYTQWQ63kgIR8PRv
+ jd9knNcgPFAo5Wp/Pt5SiTbccnTgTEIpnI1z4GY=
+X-Google-Smtp-Source: ABdhPJxcZ8Rrz4WTVA4JzfkWUwnDA9iyEW5D2N5Bj7502ovzHh8Sp8ZDl5fWVo+v3zOctaqg18jwU0autp6y1oTfP34=
+X-Received: by 2002:a5d:5549:: with SMTP id g9mr28913930wrw.419.1593011516671; 
+ Wed, 24 Jun 2020 08:11:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-06-24_08:2020-06-24,
- 2020-06-24 signatures=0
+References: <20200624141423.6307-1-colin.king@canonical.com>
+ <f9ceecb4-2679-c0e2-8f64-4dd2a4f5401f@amd.com>
+In-Reply-To: <f9ceecb4-2679-c0e2-8f64-4dd2a4f5401f@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 24 Jun 2020 11:11:45 -0400
+Message-ID: <CADnq5_PA+Qs=oBkWwSneD1ptAVMdLcN3zL=UrjsNQFnaA2wLYQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm: amdgpu: fix premature goto because of missing
+ braces
+To: Nirmoy <nirmodas@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,50 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jose Abreu <Jose.Abreu@synopsys.com>,
- Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
- Joao Pinto <Joao.Pinto@synopsys.com>
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Sonny Jiang <sonny.jiang@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Colin King <colin.king@canonical.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Angelo,
-thank for patch.
+Applied.  Thanks!
 
-Reviewed-by: Yannick Fertre <yannick.fertre@st.com>
+Alex
 
-
-
-On 4/3/20 3:30 PM, Angelo Ribeiro wrote:
-> dw-mipi-dsi does not use any definition from drm_probe_helper.
-> 
-> Coverity output:
-> Event unnecessary_header:
-> Including .../include/drm/drm_probe_helper.h does not provide any
-> needed symbols.
-> 
-> Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> Cc: Joao Pinto <jpinto@synopsys.com>
-> Cc: Jose Abreu <jose.abreu@synopsys.com>
-> Signed-off-by: Angelo Ribeiro <angelo.ribeiro@synopsys.com>
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index 024acad..582635d 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -27,7 +27,6 @@
->   #include <drm/drm_modes.h>
->   #include <drm/drm_of.h>
->   #include <drm/drm_print.h>
-> -#include <drm/drm_probe_helper.h>
->   
->   #define HWVER_131			0x31333100	/* IP version 1.31 */
->   
-> 
+On Wed, Jun 24, 2020 at 10:32 AM Nirmoy <nirmodas@amd.com> wrote:
+>
+> Acked-by: Nirmoy Das <nirmoy.das@amd.com>
+>
+>
+> Thanks,
+>
+> Nirmoy
+>
+> On 6/24/20 4:14 PM, Colin King wrote:
+> > From: Colin Ian King <colin.king@canonical.com>
+> >
+> > Currently the goto statement is skipping over a lot of setup code
+> > because it is outside of an if-block and should be inside it. Fix
+> > this by adding missing if statement braces.
+> >
+> > Addresses-Coverity: ("Structurally dead code")
+> > Fixes: fd151ca5396d ("drm amdgpu: SI UVD v3_1")
+> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c | 5 +++--
+> >   1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
+> > index 599719e89c31..7cf4b11a65c5 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
+> > @@ -642,9 +642,10 @@ static int uvd_v3_1_hw_init(void *handle)
+> >       uvd_v3_1_start(adev);
+> >
+> >       r = amdgpu_ring_test_helper(ring);
+> > -     if (r)
+> > +     if (r) {
+> >               DRM_ERROR("amdgpu: UVD ring test fail (%d).\n", r);
+> > -     goto done;
+> > +             goto done;
+> > +     }
+> >
+> >       r = amdgpu_ring_alloc(ring, 10);
+> >       if (r) {
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
