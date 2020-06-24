@@ -1,45 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5570E207761
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:28:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E4220776E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 17:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A63E6EB91;
-	Wed, 24 Jun 2020 15:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D594A6EB98;
+	Wed, 24 Jun 2020 15:32:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 965816EB91
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:28:10 +0000 (UTC)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D29966EB98
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 15:32:20 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EE59B2078A;
- Wed, 24 Jun 2020 15:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593012490;
- bh=gYYRwt6GotEmTxPBlpzCjJGMURjga0QZ2WSAw4yPjpw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dy2fAdxt4yd6pYZmlrrQjI6l5D1uUGKsD8D57+NhVw3pmC/B/A6vCnnYEMWXXbsvz
- JgBv5Z2rCPEFAYp03qCmNSUoR+4FMh9xAFnx8xeOUT2HK/tuSmfvSUJWSRH61fVh91
- BhophuIwMxaADBgyPRuYeQ9J8G++Q3L4CQnXhzcA=
-Date: Wed, 24 Jun 2020 16:28:08 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [RESEND PATCH v5 1/5] driver core: add probe_err log helper
-Message-ID: <20200624152808.GI5472@sirena.org.uk>
-References: <20200624114127.3016-1-a.hajda@samsung.com>
- <CGME20200624114135eucas1p26e2e4683d60cebdce7acd55177013992@eucas1p2.samsung.com>
- <20200624114127.3016-2-a.hajda@samsung.com>
- <20200624132714.GD5472@sirena.org.uk>
- <CAHp75Ve9V1Vyxe3bEeHJ9H2J900wUXHMmXFJt-dn9sO5OMejHA@mail.gmail.com>
- <20200624140207.GE5472@sirena.org.uk>
- <6373a4eb-2f1b-b56f-48a8-ae97b4e4476a@arm.com>
+ by asavdk3.altibox.net (Postfix) with ESMTPS id CF78F20043;
+ Wed, 24 Jun 2020 17:32:17 +0200 (CEST)
+Date: Wed, 24 Jun 2020 17:32:16 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 0/8] Fix a bunch of W=1 warnings in Backlight
+Message-ID: <20200624153216.GA1814806@ravnborg.org>
+References: <20200624145721.2590327-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <6373a4eb-2f1b-b56f-48a8-ae97b4e4476a@arm.com>
-X-Cookie: So this is it.  We're going to die.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Disposition: inline
+In-Reply-To: <20200624145721.2590327-1-lee.jones@linaro.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+ a=YMhH-mIloVz_U1S6btoA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,76 +44,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jonas Karlman <jonas@kwiboo.se>
-Content-Type: multipart/mixed; boundary="===============0647678899=="
+Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Lee.
 
---===============0647678899==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jaTU8Y2VLE5tlY1O"
-Content-Disposition: inline
+On Wed, Jun 24, 2020 at 03:57:13PM +0100, Lee Jones wrote:
+> Attempting to clean-up W=1 kernel builds, which are currently
+> overwhelmingly riddled with niggly little warnings.
+> 
+> Lee Jones (8):
+>   backlight: lms501kf03: Remove unused const variables
+>   backlight: lcd: Add missing kerneldoc entry for 'struct device parent'
 
 
---jaTU8Y2VLE5tlY1O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+>   backlight: ili922x: Add missing kerneldoc descriptions for
+>     CHECK_FREQ_REG() args
+>   backlight: ili922x: Remove invalid use of kerneldoc syntax
+>   backlight: ili922x: Add missing kerneldoc description for
+>     ili922x_reg_dump()'s arg
+I wonder why these warnings show up as nothing pulls in this .c file.
+Anyway I would suggest to drop using kerneldoc syntax for single drivers
+like this - and the benefit here is low.
+Now they are typed, otherwise this ahd been fine in a single patch.
 
-On Wed, Jun 24, 2020 at 04:00:34PM +0100, Robin Murphy wrote:
+>   backlight: backlight: Supply description for function args in existing
+>     Kerneldocs
+>   backlight: lm3630a_bl: Remove invalid checks for unsigned int < 0
+>   backlight: qcom-wled: Remove unused configs for LED3 and LED4
 
-> Be thankful... And count me in as one of those miserable users; here's one
-> of mine being bad enough without even printing any specific messages about
-> deferring ;)
+The other fixes looks good.
+They are all:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-> [robin@weasel-cheese ~]$ dmesg | grep dwmmc
-> [    3.046297] dwmmc_rockchip ff0c0000.mmc: IDMAC supports 32-bit address mode.
-> [    3.054312] dwmmc_rockchip ff0c0000.mmc: Using internal DMA controller.
-> [    3.061774] dwmmc_rockchip ff0c0000.mmc: Version ID is 270a
-> [    3.068101] dwmmc_rockchip ff0c0000.mmc: DW MMC controller at irq 30,32 bit host data width,256 deep fifo
+	Sam
 
-Looking at that driver it's going to have lots of problems whatever
-happens - it's printing out a huge amount of stuff before it's finished
-acquiring resources.
-
---jaTU8Y2VLE5tlY1O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7zcQcACgkQJNaLcl1U
-h9Cxggf/XCM1wfeUvaPwZWSZFgtAlPut0w2X9xlNsnHazAVjkdM2s7WvZKGWOene
-pK9xzo21jPp/35tOSgtNySQGd489Jpb8haEPfW7znU+TsVdJVGI3tO2KpXRN1ueM
-5uWopW7g/6uV6ArccbT+z49GyqeAMbAWXsarVUx21IAJlmcmKpbqFrxifmu+DHVN
-FXKi6h9nEEa9OtF3lMTtv/dttM0QFXjGQeVMXmO26oJ2r6wykKLxkChaeJ5ItE6y
-fRDFM+QKKrfYpZJDOyYo2hV3wbFnh7Ee0u1r+pzLGiD0/oNHDHgOpc1wmuu36Niz
-mIr4ohC8aXHMeOohqmFMcjdwjVubPQ==
-=egLK
------END PGP SIGNATURE-----
-
---jaTU8Y2VLE5tlY1O--
-
---===============0647678899==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  drivers/video/backlight/backlight.c  | 2 ++
+>  drivers/video/backlight/ili922x.c    | 8 ++++++--
+>  drivers/video/backlight/lcd.c        | 1 +
+>  drivers/video/backlight/lm3630a_bl.c | 4 ++--
+>  drivers/video/backlight/lms501kf03.c | 8 --------
+>  drivers/video/backlight/qcom-wled.c  | 8 --------
+>  6 files changed, 11 insertions(+), 20 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0647678899==--
