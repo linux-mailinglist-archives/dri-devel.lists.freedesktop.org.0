@@ -2,98 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50230207254
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D47A207253
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jun 2020 13:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D046EB09;
-	Wed, 24 Jun 2020 11:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9006EB0A;
+	Wed, 24 Jun 2020 11:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6DC6EB03
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 916096EB07
  for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:39 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200624114137euoutp012865eebe809a877e79718b8bd8b269ed~beA6wQ2xj2526025260euoutp01g
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200624114137euoutp012865eebe809a877e79718b8bd8b269ed~beA6wQ2xj2526025260euoutp01g
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200624114138euoutp02776c32c01ef40418520612ad69e4899e~beA7YDpqo1752317523euoutp02F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 11:41:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200624114138euoutp02776c32c01ef40418520612ad69e4899e~beA7YDpqo1752317523euoutp02F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1592998897;
- bh=528msPEeeKbk20X6ucIg/zFrY6Boo/jOU+18Jk7kUgA=;
+ s=mail20170921; t=1592998898;
+ bh=PLcfbVbE8i4C8d+Nje5jm1KODRXZ6RkpBF4pFp7dgN0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XTlmQqsxqgPhToYxHb3ALKE8Fovmdx4CYIJg9ikt1tH7TgyqD/RbqvjBL1/kX2Gx4
- XJD2ZgF6uAA89Um1ocvynSLdzY/kiPyCOFwzV2QuHKaRcBVL052yYbg/O7BlIpbEoR
- jBgV6fqykiyhcQNIs7h65DBdHeJfKh4NIe0FPs/M=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200624114137eucas1p1a534acdb8d435a6cf47b1f66a846424f~beA6bu2uB2487924879eucas1p1K;
+ b=Gz061wWwnckgFshr7IHV/S56brednP/fCQN2DoCvt+lOLedpHvoWuBZeA3A9KsT3g
+ YoA4EdOZ3Kab191G9YTSBCBfdMshslJW5od/RbI36r4UDd0Iz6ivjUmvsvNkR8UjIB
+ sBtr/mLupNn0hGQfZWMj8+FCaH4cd42c3YYFkHGU=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200624114137eucas1p23e078ad0759d9748c9282f41addeff25~beA7CGXw43078130781eucas1p2-;
  Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id E0.1A.06456.1FB33FE5; Wed, 24
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 08.5A.06318.1FB33FE5; Wed, 24
  Jun 2020 12:41:37 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f~beA6EzgEI2487924879eucas1p1J;
- Wed, 24 Jun 2020 11:41:36 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b~beA6t-j1g1213312133eucas1p1o;
+ Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200624114136eusmtrp129f7028dd669bad7eb0477985e570453~beA6EEtO-0702007020eusmtrp1O;
- Wed, 24 Jun 2020 11:41:36 +0000 (GMT)
-X-AuditID: cbfec7f2-7efff70000001938-4d-5ef33bf1c91a
+ 20200624114137eusmtrp10d73154fb2485ece760b250727d8f1fe~beA6tUGSX0702007020eusmtrp1Q;
+ Wed, 24 Jun 2020 11:41:37 +0000 (GMT)
+X-AuditID: cbfec7f5-371ff700000018ae-3c-5ef33bf187fe
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 84.53.06017.0FB33FE5; Wed, 24
- Jun 2020 12:41:36 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 74.74.06314.1FB33FE5; Wed, 24
+ Jun 2020 12:41:37 +0100 (BST)
 Received: from AMDC3748.digital.local (unknown [106.120.51.74]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200624114136eusmtip219790ef495719a8f910be072e9f0316f~beA5amx7E2617226172eusmtip2l;
+ 20200624114136eusmtip2e30c14611d99889046fee0d88d874173~beA6ExH1q1775617756eusmtip2L;
  Wed, 24 Jun 2020 11:41:36 +0000 (GMT)
 From: Andrzej Hajda <a.hajda@samsung.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [RESEND PATCH v5 3/5] drivers core: allow probe_err accept integer
- and pointer types
-Date: Wed, 24 Jun 2020 13:41:25 +0200
-Message-Id: <20200624114127.3016-4-a.hajda@samsung.com>
+Subject: [RESEND PATCH v5 4/5] drm/bridge/sii8620: fix resource acquisition
+ error handling
+Date: Wed, 24 Jun 2020 13:41:26 +0200
+Message-Id: <20200624114127.3016-5-a.hajda@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200624114127.3016-1-a.hajda@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSaUhUURjlzls1J55jNjeLpLF+JJiJhpfUqJR4BIr/iqTRqXku5NY8l8pA
- wSX3XJDSMsRywcyZxgWNTJ1MrXHMJUMtmaQgLMNqHLdSc3wj/Tv3O+d85/BxaUxiIJzoqNgE
- ThWriJaRtnhb38pbt18+JvnRyQUGTTUNEWi26CVAT++qCVQ284VEG23FGHpnnidR+kM1icaX
- ZjH0em4cRznFjyik/fyeQGPP7pNIV9YJ0JPeaQrpCkNQ5UIZdpJhx96PYOz8RCbFdi5W4WxH
- xTTF3ssuJ1htQw7JDhSNitiuykaKNeb1i9jmR6lsYUsDYLsLSnHWpN0fLL5g66vkoqOSOJX7
- iTDbyHp9Gojvcbr2c+ArlQb0jrnAhoaMF6wvGcRygS0tYeoBfDM6DoTHAoD51d+tjAnAasN3
- attiWmmxquoA7C2YJC3ElqVXLbVgkjkM15qF+S7GE942VFAWA8as4nD8VhaRC2jagQmFy1mu
- Fg3OHIKapp6tADHjDfuMVaQQ5gwfa7oxC7ZhECzJGNkKhswsBfsa80SCKABWmJcJATvAb/0t
- 1qb7oL40HxdwKjTWZ2CCORvAVk0HJhA+8OPQKmkphG22Vj9zt0DInIIdPWcFuBNO/LC3iLFN
- WNJ2BxPGYpidJRF2HIBGQ6t1nxTWDJut7Vn46kuZSDhVHoALiytEEXCu+J9VBUADkHKJfEwE
- x3vEcslHeEUMnxgbceRyXIwWbH4y/Xr/73ZgHr2kAwwNZHZizadfcgmhSOKvx+gApDHZLvFp
- g14uESsV129wqrhQVWI0x+vAXhqXScWe1bMXJUyEIoG7wnHxnGqbFdE2Tmmg0T8qMrixtdTv
- Rbp8N+/SHXh5ubZn2Bie079j0NxcZ4rTzzw4E7yOdQat1f7Rpjg2KP2rb/rl9R4L9Tk/GoCf
- Ox92wCsDLlUGPXc5WB5y5m+GXciHqeCr7Xsy7wWlyG2iEwLLjwe6hSuTy6U7a4pAfLZzYof3
- huYn6ds1F5rWYi/D+UiFhyum4hX/ABHMHEBgAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRmVeSWpSXmKPExsVy+t/xe7ofrD/HGay8bG5xa905VouXEw4z
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSWUxTQRiFM70r1eqlJWGCW6wxcQVMiY5KFI0mN5oYt/hQFa1ygyitpAXc
+ HhCpCAhYqo2IYoiiVUSBsigIgmWppAFFBAEh1YhLq7KEUhFFbXtd3r6c/5zzz0yGxsRWIoCO
+ UsVyapUiWkoK8Yqmb62Lh1eOhAfrbq9APfdaCWTX1QNUkl1EIMObfhL9qsjC0IvRQRIlXS8i
+ UcdXO4aaP3fgKDUrn0Kmt50Eaq+6QiKzoQaguw19FDJn7kS5TgMWxrDtnW0YO9h1mmJrXHk4
+ W5nTR7GXUy4RrKkglWSf6J4L2NrcQoq1nbUI2NL8BDazrACwdRnncXbENHOzSC4MjeCio+I5
+ ddCqvcIDje12MubmlKOtn6qpk2BgUhrwoSETAhsHywgPi5lbACa6Qnh2AjiQGpYGhG4eAbDg
+ ewn4G6juOYXzAyOAd7Va8l8iL93XwyQzH06Udnt1P0YGz7XkUJ4AxozjsONMsnedhNkFHfde
+ eVtxZi6s7//hNtG0iFkGJ57K+WWz4J3iOszDPgyCem0b8PRAZpiC+RdbCI8fMuvg2KiE90ug
+ w1JG8TwdWs+n4zwnQNstLcZnUwAsL67E+MFK2Ns6Tnp6MPehi6qCeHkNvJDdA/j6KbDri/da
+ mBv1FRcxXhbBlGQx754NbS3lfwr94Y1noyTPLLx2P0XAP9VZAEuM9ykdmJXzf1keAAXAn4vT
+ KCM5jUzFHQnUKJSaOFVk4P7DShNwfzHrT8voA/Doxz4zYGggnSwqfj0cLiYU8ZpjSjOANCb1
+ E61tsYaLRRGKY8c59eE96rhoTmMG02hc6i+SXbPvFjORiljuEMfFcOq/UwHtE3ASHFEOBCw3
+ GuW1WSNbYra3vc9+s1H2bsbVtvFP4Z22apXO2WwAsvpM1Yp9J/rSH0s+mPTbbB8zXjY+JIYc
+ iS56tXzOKWeMpVewY3HhJkfHmHxq9/SN4q3JG/S1Q0mrhXOWLgqUZoZaytc3PXsslexpSsv4
+ vHBef4PLN+Fn6cFgv0Q/Ka45oFiyAFNrFL8BSXvZ814DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRmVeSWpSXmKPExsVy+t/xe7ofrT/HGdx4rmpxa905VouXEw4z
  WmycsZ7VYurDJ2wW/7dNZLa48vU9m0Xz4vVsFle/v2S2OPnmKotF58Ql7BabHl9jtbi8aw6b
  xaGpexkt1h65y25xqC/aYu6XqcwOAh6Xr11k9nh/o5XdY++3BSweO2fdZfeY3TGT1WPTqk42
  jxMTLjF57J+7ht3jfvdxJo/NS+o9+rasYvQ40DuZxePzJrkA3ig9m6L80pJUhYz84hJbpWhD
- CyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jBWnGxgLDkpVfDjxnL2B8bRoFyMn
- h4SAicTnn1sYuxi5OIQEljJKHPn6hA0iIS6xe/5bZghbWOLPtS42iKJPjBK/NkAk2AQ0Jf5u
- vgnWICJgLNF/dhY7SBGzQBurxNzzT9hBEsICsRKXW84zgtgsAqoSG9YdBIvzCphLHLu/AGqb
- vMTqDQfAhnIKWEhMarkIVi8EVHPo+mLWCYx8CxgZVjGKpJYW56bnFhvpFSfmFpfmpesl5+du
- YgRG17ZjP7fsYOx6F3yIUYCDUYmHd8ODj3FCrIllxZW5hxglOJiVRHidzp6OE+JNSaysSi3K
- jy8qzUktPsRoCnTURGYp0eR8YOTnlcQbmhqaW1gamhubG5tZKInzdggcjBESSE8sSc1OTS1I
- LYLpY+LglGpgzHyWe33Sr6odrDr9/Lpa3bwmxtEJK04yNRb1xlw+cCctITmh7U6Hr8thySjd
- TaKNN8xnyP1zZO9JeNhfd9P80M42s31Lrj4r+q0d+iLy8SWRC4ky8n45veH5NzznVn+8zvh5
- inUcc8fd3P/Cf52ktxx1XVTmbbpNsfb293V8bX8Dl1b5LvFXYinOSDTUYi4qTgQAUptpfMQC
- AAA=
-X-CMS-MailID: 20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f
+ CyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jKOXX7IVLOOrOPd6D3sD4zvuLkZO
+ DgkBE4k9t5pYuhi5OIQEljJK7Lp7mxUiIS6xe/5bZghbWOLPtS42iKJPjBLz2reCJdgENCX+
+ br7JBmKLCBhL9J+dxQ5SxCzQxiox9/wTdpCEsECUxPU5D8GmsgioShx+8gcozsHBK2Au8fd8
+ FMQCeYnVGw6AzeQUsJCY1HKREcQWAio5dH0x6wRGvgWMDKsYRVJLi3PTc4sN9YoTc4tL89L1
+ kvNzNzECY2vbsZ+bdzBe2hh8iFGAg1GJh3fDg49xQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUms
+ rEotyo8vKs1JLT7EaAp000RmKdHkfGDc55XEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnN
+ Tk0tSC2C6WPi4JRqYEzZe8Q4eu8nrqd1WpEmE1N8z54Wa39usfpn6/nT6wW/V7K5dzj/NErb
+ Knlu5ZRPh9q72suuf7Jzmz3D/7hy5eOdDScOXfHbVJjYt91ku3Hi9lsrp35OsWH/NK1LwfeN
+ 23a7LzlMUbFRSVzHj0yS2zbviVSAeOf5KY45rTv3Sf/Z57zIsumZ0QElluKMREMt5qLiRAAc
+ CbrgwwIAAA==
+X-CMS-MailID: 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b
 X-Msg-Generator: CA
-X-RootMTR: 20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f
+X-RootMTR: 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f
+X-CMS-RootMailID: 20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b
 References: <20200624114127.3016-1-a.hajda@samsung.com>
- <CGME20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f@eucas1p1.samsung.com>
+ <CGME20200624114137eucas1p13599d33a0c4a9abf7708bf8c8e77264b@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,101 +123,53 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many resource acquisition functions return error value encapsulated in
-pointer instead of integer value. To simplify coding we can use macro
-which will accept both types of error.
-With this patch user can use:
-	probe_err(dev, ptr, ...)
-instead of:
-	probe_err(dev, PTR_ERR(ptr), ...)
-Without loosing old functionality:
-	probe_err(dev, err, ...)
+In case of error during resource acquisition driver should print error
+message only in case it is not deferred probe, using probe_err helper
+solves the issue. Moreover it records defer probe reason for debugging.
 
 Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
 ---
- drivers/base/core.c    | 25 ++-----------------------
- include/linux/device.h | 25 ++++++++++++++++++++++++-
- 2 files changed, 26 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/bridge/sil-sii8620.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 2a96954d5460..df283c62d9c0 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3953,28 +3953,7 @@ define_dev_printk_level(_dev_info, KERN_INFO);
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 92acd336aa89..2f825b2d0098 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2299,10 +2299,8 @@ static int sii8620_probe(struct i2c_client *client,
+ 	INIT_LIST_HEAD(&ctx->mt_queue);
  
- #endif
+ 	ctx->clk_xtal = devm_clk_get(dev, "xtal");
+-	if (IS_ERR(ctx->clk_xtal)) {
+-		dev_err(dev, "failed to get xtal clock from DT\n");
+-		return PTR_ERR(ctx->clk_xtal);
+-	}
++	if (IS_ERR(ctx->clk_xtal))
++		return probe_err(dev, ctx->clk_xtal, "failed to get xtal clock from DT\n");
  
--/**
-- * probe_err - probe error check and log helper
-- * @dev: the pointer to the struct device
-- * @err: error value to test
-- * @fmt: printf-style format string
-- * @...: arguments as specified in the format string
-- *
-- * This helper implements common pattern present in probe functions for error
-- * checking: print message if the error is not -EPROBE_DEFER and propagate it.
-- * In case of -EPROBE_DEFER it sets defer probe reason, which can be checked
-- * later by reading devices_deferred debugfs attribute.
-- * It replaces code sequence:
-- * 	if (err != -EPROBE_DEFER)
-- * 		dev_err(dev, ...);
-- * 	return err;
-- * with
-- * 	return probe_err(dev, err, ...);
-- *
-- * Returns @err.
-- *
-- */
--int probe_err(const struct device *dev, int err, const char *fmt, ...)
-+int __probe_err(const struct device *dev, int err, const char *fmt, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-@@ -3992,7 +3971,7 @@ int probe_err(const struct device *dev, int err, const char *fmt, ...)
+ 	if (!client->irq) {
+ 		dev_err(dev, "no irq provided\n");
+@@ -2313,16 +2311,12 @@ static int sii8620_probe(struct i2c_client *client,
+ 					sii8620_irq_thread,
+ 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+ 					"sii8620", ctx);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to install IRQ handler\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return probe_err(dev, ret, "failed to install IRQ handler\n");
  
- 	return err;
- }
--EXPORT_SYMBOL_GPL(probe_err);
-+EXPORT_SYMBOL_GPL(__probe_err);
+ 	ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+-	if (IS_ERR(ctx->gpio_reset)) {
+-		dev_err(dev, "failed to get reset gpio from DT\n");
+-		return PTR_ERR(ctx->gpio_reset);
+-	}
++	if (IS_ERR(ctx->gpio_reset))
++		return probe_err(dev, ctx->gpio_reset, "failed to get reset gpio from DT\n");
  
- static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
- {
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 40a90d9bf799..22d3c3d4f461 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -965,7 +965,30 @@ void device_links_supplier_sync_state_pause(void);
- void device_links_supplier_sync_state_resume(void);
- 
- extern __printf(3, 4)
--int probe_err(const struct device *dev, int err, const char *fmt, ...);
-+int __probe_err(const struct device *dev, int err, const char *fmt, ...);
-+
-+/**
-+ * probe_err - probe error check and log helper
-+ * @dev: the pointer to the struct device
-+ * @err: error value to test, can be integer or pointer type
-+ * @fmt: printf-style format string
-+ * @...: arguments as specified in the format string
-+ *
-+ * This helper implements common pattern present in probe functions for error
-+ * checking: print message if the error is not -EPROBE_DEFER and propagate it.
-+ * In case of -EPROBE_DEFER it sets defer probe reason, which can be checked
-+ * later by reading devices_deferred debugfs attribute.
-+ * It replaces code sequence:
-+ * 	if (err != -EPROBE_DEFER)
-+ * 		dev_err(dev, ...);
-+ * 	return err;
-+ * with
-+ * 	return probe_err(dev, err, ...);
-+ *
-+ * Returns @err.
-+ *
-+ */
-+#define probe_err(dev, err, args...) __probe_err(dev, (long)(err), args)
- 
- /* Create alias, so I can be autoloaded. */
- #define MODULE_ALIAS_CHARDEV(major,minor) \
+ 	ctx->supplies[0].supply = "cvcc10";
+ 	ctx->supplies[1].supply = "iovcc18";
 -- 
 2.17.1
 
