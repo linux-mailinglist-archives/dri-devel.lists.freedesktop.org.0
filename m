@@ -1,45 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD12E209D09
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 12:47:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F11209DF3
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 13:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F84F6EA4A;
-	Thu, 25 Jun 2020 10:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C003D6EA89;
+	Thu, 25 Jun 2020 11:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7356EA49;
- Thu, 25 Jun 2020 10:47:05 +0000 (UTC)
-IronPort-SDR: iGOfyL34zG25t9/35F7GZGvu3aczrRRi/qBAU+ihlScSM/C1w74721ih/S+uV4M9nKUtfX+4UG
- 0B3yl7dpuJaQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="143930611"
-X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="143930611"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2020 03:47:05 -0700
-IronPort-SDR: btF6jUho8XetpiafJLLh8GGSORHeTir2fWMA8jwCoLnV/fAo0k7Ipqf2W6ib6oAmTfYQol0R+g
- EbkPwdJ4kNLA==
-X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="301949687"
-Received: from slisovsk-lenovo-ideapad-720s-13ikb.fi.intel.com (HELO
- intel.com) ([10.237.72.190])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2020 03:47:03 -0700
-Date: Thu, 25 Jun 2020 13:46:24 +0300
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v6 3/3] drm/i915: Send hotplug event if edid had changed
-Message-ID: <20200625104624.GA29687@intel.com>
-References: <20200623185756.19502-1-kunal1.joshi@intel.com>
- <20200623185756.19502-4-kunal1.joshi@intel.com>
- <61952a12-bd15-92ce-fd81-88a35ed88acb@linux.intel.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <61952a12-bd15-92ce-fd81-88a35ed88acb@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEFE6EA89
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 11:58:23 +0000 (UTC)
+Received: from localhost.localdomain (unknown [80.251.214.228])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0DA9E206C0;
+ Thu, 25 Jun 2020 11:58:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593086303;
+ bh=n+NIDwq4Yu1dlj95q6O8WbIlXFw5he30oA79V5wNIzA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cOk0H55IKLgHd/SEWqK2NNv39cFmXwAdcMNWWBG2/ySGVIHhes28OlKolB4P5eHiz
+ Sin1L/7NSQsIdyL2Ee3bixpHKnJTCBXBHc214drM1aB6vuOM1B2B4sj63HTO5QGoJR
+ L+Sr4hPd5t4mF5b8LCUPUVUkVNHNzeld3/HRPPdU=
+From: Shawn Guo <shawnguo@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/atomic_helper: duplicate state for drm_private_obj
+Date: Thu, 25 Jun 2020 19:57:46 +0800
+Message-Id: <20200625115746.13396-1-shawnguo@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,108 +42,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kunal Joshi <kunal1.joshi@intel.com>, dri-devel@lists.freedesktop.org,
- daniel.vetter@intel.com, arkadiusz.hiler@intel.com,
- Intel-gfx@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org,
+ Boris Brezillon <boris.brezillon@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 25, 2020 at 10:36:28AM +0200, Maarten Lankhorst wrote:
-> Op 23-06-2020 om 20:57 schreef Kunal Joshi:
-> > From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> >
-> > Added epoch counter checking to intel_encoder_hotplug
-> > in order to be able process all the connector changes,
-> > besides connection status. Also now any change in connector
-> > would result in epoch counter change, so no multiple checks
-> > are needed.
-> >
-> > v2: Renamed change counter to epoch counter. Fixed type name.
-> >
-> > v3: Fixed rebase conflict
-> >
-> > v4: Remove duplicate drm_edid_equal checks from hdmi and dp,
-> >     lets use only once edid property is getting updated and
-> >     increment epoch counter from there.
-> >     Also lets now call drm_connector_update_edid_property
-> >     right after we get edid always to make sure there is a
-> >     unified way to handle edid change, without having to
-> >     change tons of source code as currently
-> >     drm_connector_update_edid_property is called only in
-> >     certain cases like reprobing and not right after edid is
-> >     actually updated.
-> >
-> > v5: Fixed const modifiers, removed blank line
-> >
-> > v6: Removed drm specific part from this patch, leaving only
-> >     i915 specific changes here.
-> >
-> > Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> > ---
-> 
-> Much better!
-> 
-> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> 
-> for whole series
+From: Shawn Guo <shawn.guo@linaro.org>
 
-I think it had been for year in that state already :)
-At some point I was just distracted by some other things.
+The msm/mdp5 driver uses drm_private_obj as its global atomic state,
+which keeps the assignment of hwpipe to plane.  With drm_private_obj
+missing from duplicate state call, mdp5 suspend works with no problem
+only for the very first time.  Any subsequent suspend will hit the
+following warning, because hwpipe assignment doesn't get duplicated for
+suspend state.  Adding drm_private_obj handling for duplicate state call
+fixes the problem.
 
-Stan
+$ echo mem > /sys/power/state
+[   38.111144] PM: suspend entry (deep)
+[   38.111185] PM: Syncing filesystems ... done.
+[   38.114630] Freezing user space processes ... (elapsed 0.001 seconds) done.
+[   38.115912] OOM killer disabled.
+[   38.115914] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+[   38.122170] ------------[ cut here ]------------
+[   38.122212] WARNING: CPU: 0 PID: 1747 at drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c:145 mdp5_pipe_release+0x90/0xc0
+[   38.122215] Modules linked in:
+[   38.122222] CPU: 0 PID: 1747 Comm: sh Not tainted 4.19.107-00515-g9d5e4d7a33ed-dirty #323
+[   38.122224] Hardware name: Square, Inc. T2 Devkit (DT)
+[   38.122228] pstate: 40000005 (nZcv daif -PAN -UAO)
+[   38.122230] pc : mdp5_pipe_release+0x90/0xc0
+[   38.122233] lr : mdp5_pipe_release+0x90/0xc0
+[   38.122235] sp : ffff00000d13b7f0
+[   38.122236] x29: ffff00000d13b7f0 x28: 0000000000000000
+[   38.122240] x27: 0000000000000002 x26: ffff800079adce00
+[   38.122243] x25: ffff800079405200 x24: 0000000000000000
+[   38.122246] x23: ffff80007a78cc08 x22: ffff80007b1cc018
+[   38.122249] x21: ffff80007b1cc000 x20: ffff80007b317080
+[   38.122252] x19: ffff80007a78ce80 x18: 0000000000020000
+[   38.122255] x17: 0000000000000000 x16: 0000000000000000
+[   38.122258] x15: 00000000fffffff0 x14: ffff000008c3fb48
+[   38.122261] x13: ffff000008cdac4a x12: ffff000008c3f000
+[   38.122264] x11: 0000000000000000 x10: ffff000008cda000
+[   38.122267] x9 : 0000000000000000 x8 : ffff000008ce4a40
+[   38.122269] x7 : 0000000000000000 x6 : 0000000039ea41a9
+[   38.122272] x5 : 0000000000000000 x4 : 0000000000000000
+[   38.122275] x3 : ffffffffffffffff x2 : c7580c109cae4500
+[   38.122278] x1 : 0000000000000000 x0 : 0000000000000024
+[   38.122281] Call trace:
+[   38.122285]  mdp5_pipe_release+0x90/0xc0
+[   38.122288]  mdp5_plane_atomic_check+0x2c0/0x448
+[   38.122294]  drm_atomic_helper_check_planes+0xd0/0x208
+[   38.122298]  drm_atomic_helper_check+0x38/0xa8
+[   38.122302]  drm_atomic_check_only+0x3e8/0x630
+[   38.122305]  drm_atomic_commit+0x18/0x58
+[   38.122309]  __drm_atomic_helper_disable_all.isra.12+0x15c/0x1a8
+[   38.122312]  drm_atomic_helper_suspend+0x80/0xf0
+[   38.122316]  msm_pm_suspend+0x4c/0x70
+[   38.122320]  dpm_run_callback.isra.6+0x20/0x68
+[   38.122323]  __device_suspend+0x110/0x308
+[   38.122326]  dpm_suspend+0x100/0x1f0
+[   38.122329]  dpm_suspend_start+0x64/0x70
+[   38.122334]  suspend_devices_and_enter+0x110/0x500
+[   38.122336]  pm_suspend+0x268/0x2c0
+[   38.122339]  state_store+0x88/0x110
+[   38.122345]  kobj_attr_store+0x14/0x28
+[   38.122352]  sysfs_kf_write+0x3c/0x50
+[   38.122355]  kernfs_fop_write+0x118/0x1e0
+[   38.122360]  __vfs_write+0x30/0x168
+[   38.122363]  vfs_write+0xa4/0x1a8
+[   38.122366]  ksys_write+0x64/0xe8
+[   38.122368]  __arm64_sys_write+0x18/0x20
+[   38.122374]  el0_svc_common+0x6c/0x178
+[   38.122377]  el0_svc_compat_handler+0x1c/0x28
+[   38.122381]  el0_svc_compat+0x8/0x18
+[   38.122383] ---[ end trace 24145b7d8545345b ]---
+[   38.491552] Disabling non-boot CPUs ...
 
-> 
-> >  drivers/gpu/drm/i915/display/intel_hotplug.c | 26 +++++++++++---------
-> >  1 file changed, 15 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/drm/i915/display/intel_hotplug.c
-> > index 2e94c1413c02..393813494523 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
-> > @@ -283,6 +283,8 @@ intel_encoder_hotplug(struct intel_encoder *encoder,
-> >  {
-> >  	struct drm_device *dev = connector->base.dev;
-> >  	enum drm_connector_status old_status;
-> > +        u64 old_epoch_counter;
-> > +        bool ret = false;
-> >  
-> >  	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
-> >  	old_status = connector->base.status;
-> > @@ -290,17 +292,19 @@ intel_encoder_hotplug(struct intel_encoder *encoder,
-> >  	connector->base.status =
-> >  		drm_helper_probe_detect(&connector->base, NULL, false);
-> >  
-> > -	if (old_status == connector->base.status)
-> > -		return INTEL_HOTPLUG_UNCHANGED;
-> > -
-> > -	drm_dbg_kms(&to_i915(dev)->drm,
-> > -		    "[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> > -		    connector->base.base.id,
-> > -		    connector->base.name,
-> > -		    drm_get_connector_status_name(old_status),
-> > -		    drm_get_connector_status_name(connector->base.status));
-> > -
-> > -	return INTEL_HOTPLUG_CHANGED;
-> > +        if (old_epoch_counter != connector->base.epoch_counter)
-> > +                ret = true;
-> > +
-> > +        if(ret) {
-> > +		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s(epoch counter %llu)\n",
-> > +			      connector->base.base.id,
-> > +			      connector->base.name,
-> > +			      drm_get_connector_status_name(old_status),
-> > +			      drm_get_connector_status_name(connector->base.status),
-> > +			      connector->base.epoch_counter);
-> > +		return INTEL_HOTPLUG_CHANGED;
-> > +        }
-> > +        return INTEL_HOTPLUG_UNCHANGED;
-> >  }
-> >  
-> >  static bool intel_encoder_has_hpd_pulse(struct intel_encoder *encoder)
-> 
-> 
+Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 85d163f16801..024985a92156 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -3140,6 +3140,7 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
+ 	struct drm_atomic_state *state;
+ 	struct drm_connector *conn;
+ 	struct drm_connector_list_iter conn_iter;
++	struct drm_private_obj *priv_obj;
+ 	struct drm_plane *plane;
+ 	struct drm_crtc *crtc;
+ 	int err = 0;
+@@ -3184,6 +3185,16 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+ 
++	drm_for_each_privobj(priv_obj, dev) {
++		struct drm_private_state *priv_state;
++
++		priv_state = drm_atomic_get_private_obj_state(state, priv_obj);
++		if (IS_ERR(priv_state)) {
++			err = PTR_ERR(priv_state);
++			goto free;
++		}
++	}
++
+ 	/* clear the acquire context so that it isn't accidentally reused */
+ 	state->acquire_ctx = NULL;
+ 
+@@ -3278,6 +3289,8 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
+ 	struct drm_connector_state *new_conn_state;
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *new_crtc_state;
++	struct drm_private_state *new_priv_state;
++	struct drm_private_obj *priv_obj;
+ 
+ 	state->acquire_ctx = ctx;
+ 
+@@ -3290,6 +3303,9 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
+ 	for_each_new_connector_in_state(state, connector, new_conn_state, i)
+ 		state->connectors[i].old_state = connector->state;
+ 
++	for_each_new_private_obj_in_state(state, priv_obj, new_priv_state, i)
++		state->private_objs[i].old_state = priv_obj->state;
++
+ 	ret = drm_atomic_commit(state);
+ 
+ 	state->acquire_ctx = NULL;
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
