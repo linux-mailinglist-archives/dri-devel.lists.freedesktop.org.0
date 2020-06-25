@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4640B209E01
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D239209E03
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B786EBC0;
-	Thu, 25 Jun 2020 12:00:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47C46EBC2;
+	Thu, 25 Jun 2020 12:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F70F6EBBA
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:00:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1136EBBA
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:00:16 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E6348AD6B;
- Thu, 25 Jun 2020 12:00:13 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 39E3FAD79;
+ Thu, 25 Jun 2020 12:00:14 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, kraxel@redhat.com, lgirdwood@gmail.com,
  broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
  emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
  hdegoede@redhat.com
-Subject: [PATCH 4/9] drm/simplekms: Add fbdev emulation
-Date: Thu, 25 Jun 2020 14:00:06 +0200
-Message-Id: <20200625120011.16168-5-tzimmermann@suse.de>
+Subject: [PATCH 5/9] drm/simplekms: Initialize framebuffer data from
+ device-tree node
+Date: Thu, 25 Jun 2020 14:00:07 +0200
+Message-Id: <20200625120011.16168-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200625120011.16168-1-tzimmermann@suse.de>
 References: <20200625120011.16168-1-tzimmermann@suse.de>
@@ -47,35 +48,123 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This displays a console on the simplefb framebuffer. The default
-framebuffer format is being used.
+A firmware framebuffer might also be specified via device-tree files. If
+no device platform data is given, try the DT device node.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/simplekms.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/tiny/simplekms.c | 84 ++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
 diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
-index dc7cf3983945..ac2ebfcedd22 100644
+index ac2ebfcedd22..87636307aa4f 100644
 --- a/drivers/gpu/drm/tiny/simplekms.c
 +++ b/drivers/gpu/drm/tiny/simplekms.c
-@@ -8,6 +8,7 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_shmem_helper.h>
-@@ -469,6 +470,8 @@ static int simplekms_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	drm_fbdev_generic_setup(dev, 0);
-+
- 	return 0;
+@@ -113,6 +113,76 @@ simplefb_get_format_pd(struct drm_device *dev,
+ 	return simplefb_get_validated_format(dev, pd->format);
  }
  
++static int
++simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
++		     const char* name, u32 *value)
++{
++	int ret = of_property_read_u32(of_node, name, value);
++	if (ret)
++		drm_err(dev, "simplefb: can't parse framebuffer %s: error %d\n",
++			name, ret);
++	return ret;
++}
++
++static int
++simplefb_read_string_of(struct drm_device *dev, struct device_node *of_node,
++			const char* name, const char **value)
++{
++	int ret = of_property_read_string(of_node, name, value);
++	if (ret)
++		drm_err(dev, "simplefb: can't parse framebuffer %s: error %d\n",
++			name, ret);
++	return ret;
++}
++
++static int
++simplefb_get_width_of(struct drm_device *dev, struct device_node *of_node)
++{
++	int ret;
++	u32 width;
++
++	ret = simplefb_read_u32_of(dev, of_node, "width", &width);
++	if (ret)
++		return ret;
++	return simplefb_get_validated_int0(dev, "width", width);
++}
++
++static int
++simplefb_get_height_of(struct drm_device *dev, struct device_node *of_node)
++{
++	int ret;
++	u32 height;
++
++	ret = simplefb_read_u32_of(dev, of_node, "height", &height);
++	if (ret)
++		return ret;
++	return simplefb_get_validated_int0(dev, "height", height);
++}
++
++static int
++simplefb_get_stride_of(struct drm_device *dev, struct device_node *of_node)
++{
++	int ret;
++	u32 stride;
++
++	ret = simplefb_read_u32_of(dev, of_node, "stride", &stride);
++	if (ret)
++		return ret;
++	return simplefb_get_validated_int(dev, "stride", stride);
++}
++
++static const struct drm_format_info *
++simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
++{
++	int ret;
++	const char *format;
++
++	ret = simplefb_read_string_of(dev, of_node, "format", &format);
++	if (ret)
++		return ERR_PTR(ret);
++	return simplefb_get_validated_format(dev, format);
++}
++
+ /*
+  * Simple Framebuffer device
+  */
+@@ -163,6 +233,7 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
+ 	struct drm_device *dev = &sdev->dev;
+ 	struct platform_device *pdev = sdev->pdev;
+ 	const struct simplefb_platform_data *pd = dev_get_platdata(&pdev->dev);
++	struct device_node *of_node = pdev->dev.of_node;
+ 
+ 	if (pd) {
+ 		width = simplefb_get_width_pd(dev, pd);
+@@ -177,6 +248,19 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
+ 		format = simplefb_get_format_pd(dev, pd);
+ 		if (IS_ERR(format))
+ 			return PTR_ERR(format);
++	} else if (of_node) {
++		width = simplefb_get_width_of(dev, of_node);
++		if (width < 0)
++			return width;
++		height = simplefb_get_height_of(dev, of_node);
++		if (height < 0)
++			return height;
++		stride = simplefb_get_stride_of(dev, of_node);
++		if (stride < 0)
++			return stride;
++		format = simplefb_get_format_of(dev, of_node);
++		if (IS_ERR(format))
++			return PTR_ERR(format);
+ 	} else {
+ 		drm_err(dev, "no simplefb configuration found\n");
+ 		return -ENODEV;
 -- 
 2.27.0
 
