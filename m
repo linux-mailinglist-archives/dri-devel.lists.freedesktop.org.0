@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA3320A01A
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 15:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF12120A043
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 15:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D13CF6E27C;
-	Thu, 25 Jun 2020 13:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D416E297;
+	Thu, 25 Jun 2020 13:47:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC836E27C
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 13:36:24 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id w17so4259891oie.6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 06:36:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QeCtp++xxPCZRBvlYZrASZvj7xdKLbOl2rvnced1sLM=;
- b=eYDiQl2P7MPjUAKXhSyUSytUSKJBpmlIHpWf0WmUwcTLRq44zqkirCzd/Q+xzi5XEb
- hr7BtcRIZdxQaWHvrjv5skwxugPZJdTvcCKjC8VHPyX3pPDOe2Izp/ut/V0Y1rJ2KRNx
- Ecgyiq5Z+5la8S0XrbCWk0GYXhobA37tieZKEYTkSvK8XGgYNzXvjiThIGbf4VtuoxCc
- 9EVYp0wt5dHzj/GE68xaFHTD89gp8OS1LidDpeZVisdOuKFcnsmt5ZST0C9srqq/ItA0
- UL9u9bTHVx/Op1UAgzBZphsHUpC/kqMZMJFaN9X6VCL0JFLIS1AvsntCMcMWr/gkN/cQ
- 9LoA==
-X-Gm-Message-State: AOAM5318uuRcDNNKXX4yemBRIZU7uwpM/sPeXnssvpf3rC/xjJLR4ipZ
- HSQkapoFyMPPN82NZRR9b3NyMq/fkkPJuGCJhWI=
-X-Google-Smtp-Source: ABdhPJz/e1bJcF5m5wILBXZ9/eGsnTS3LKqZ0+cNl/UdWI4IxGukvTRoaJ/B+f6OwGV1hbSB2tKpqyPBg+dpOqks/mI=
-X-Received: by 2002:aca:849:: with SMTP id 70mr2067473oii.153.1593092184238;
- Thu, 25 Jun 2020 06:36:24 -0700 (PDT)
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 086486E297;
+ Thu, 25 Jun 2020 13:47:31 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21614223-1500050 for multiple; Thu, 25 Jun 2020 14:47:28 +0100
 MIME-Version: 1.0
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-8-tzimmermann@suse.de>
-In-Reply-To: <20200625120011.16168-8-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 25 Jun 2020 15:36:12 +0200
-Message-ID: <CAMuHMdXgJu__Pph1ba2d8erqvT1gbLDwnM8X6QW1w4RzXteaiw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] drm/simplekms: Acquire regulators from DT device node
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <c6f72d4d-c8a0-c484-7c31-761e9c37b85e@intel.com>
+References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
+ <20200625123443.19680-2-lionel.g.landwerlin@intel.com>
+ <159309113252.4527.2883585204850736358@build.alporthouse.com>
+ <c6f72d4d-c8a0-c484-7c31-761e9c37b85e@intel.com>
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 2/2] dma-buf: fix dma-fence-chain out of order
+ test
+From: Chris Wilson <chris@chris-wilson.co.uk>
+Message-ID: <159309284429.31486.10956987302705466275@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Thu, 25 Jun 2020 14:47:24 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,80 +43,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: intel-gfx@lists.freedesktop.org, christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Quoting Lionel Landwerlin (2020-06-25 14:23:25)
+> On 25/06/2020 16:18, Chris Wilson wrote:
+> > Quoting Lionel Landwerlin (2020-06-25 13:34:43)
+> >> There was probably a misunderstand on how the dma-fence-chain is
+> >> supposed to work or what dma_fence_chain_find_seqno() is supposed to
+> >> return.
+> >>
+> >> dma_fence_chain_find_seqno() is here to give us the fence to wait upon
+> >> for a particular point in the timeline. The timeline progresses only
+> >> when all the points prior to a given number have completed.
+> > Hmm, the question was what point is it supposed to wait for.
+> >
+> > For the simple chain of [1, 3], does 1 being signaled imply that all
+> > points up to 3 are signaled, or does 3 not being signaled imply that all
+> > points after 1 are not. If that's mentioned already somewhere, my bad.
+> > If not, could you put the answer somewhere.
+> > -Chris
+> 
+> In [1, 3], if 1 is signaled, the timeline value is 1. And find_seqno(2) 
+> should return NULL.
+> 
+> 
+> In the out_of_order selftest the chain was [1, 2, 3], 2 was signaled and 
+> the test was expecting no fence to be returned by find_seqno(2).
+> 
+> But we still have to wait on 1 to complete before find_seqno(2) can 
+> return NULL (as in you don't have to wait on anything).
 
-On Thu, Jun 25, 2020 at 2:00 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Make sure required hardware regulators are enabled while the firmware
-> framebuffer is in use.
->
-> The basic code has been taken from the simplefb driver and adapted
-> to DRM. Regulators are released automatically via devres helpers.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+* scratches head
 
-Thanks for your patch!
+I thought it was meant to be expecting fc.chain[1] to still be present
+as the chain at that point was not yet signaled.
 
-> --- a/drivers/gpu/drm/tiny/simplekms.c
-> +++ b/drivers/gpu/drm/tiny/simplekms.c
-> @@ -4,6 +4,7 @@
->  #include <linux/of_clk.h>
->  #include <linux/platform_data/simplefb.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
->
->  #include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_connector.h>
-> @@ -198,6 +199,11 @@ struct simplekms_device {
->         unsigned int clk_count;
->         struct clk **clks;
->  #endif
-> +       /* regulators */
-> +#if defined CONFIG_OF && defined CONFIG_REGULATOR
-> +       unsigned int regulator_count;
-> +       struct regulator **regulators;
-> +#endif
->
->         /* simplefb settings */
->         struct drm_display_mode mode;
-> @@ -315,6 +321,125 @@ static int simplekms_device_init_clocks(struct simplekms_device *sdev)
->  }
->  #endif
->
-> +#if defined CONFIG_OF && defined CONFIG_REGULATOR
-> +
-> +#define SUPPLY_SUFFIX "-supply"
-> +
-> +/*
-> + * Regulator handling code.
-> + *
-> + * Here we handle the num-supplies and vin*-supply properties of our
-> + * "simple-framebuffer" dt node. This is necessary so that we can make sure
-> + * that any regulators needed by the display hardware that the bootloader
-> + * set up for us (and for which it provided a simplefb dt node), stay up,
-> + * for the life of the simplefb driver.
-
-Looks like there's a bulk regulator API, too?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Oh well, a mistake compounded. :|
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
