@@ -1,62 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AB620A82B
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 00:21:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9B620A846
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 00:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3006EC1E;
-	Thu, 25 Jun 2020 22:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D61E6E02C;
+	Thu, 25 Jun 2020 22:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A426EC1E
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 22:21:29 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id k7so3109097vso.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 15:21:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HiC4BtBcvypNi0TT+uKmaMyQomfNIooMQQ9SMeSvJuE=;
- b=hQeh5IvCT9+c5THqtc6WWb2AHU0aYgWF5ReZ+qFjCCpfIqgW19aaZnB90R90eRy0XI
- aqqBosgZeXnP5zp2JACRzpjqBvLLkUVWfrSy6pNESy7bXlN8NAGyTcPtiDfqcYQkAXxh
- Dtax+BMxyCZeltX5LaizJxMHd1OeZVgKaCSgM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HiC4BtBcvypNi0TT+uKmaMyQomfNIooMQQ9SMeSvJuE=;
- b=iYm20gZdcDydlmluIU+YMT2Mqyh0UiiZ7syd7S9K7nyHZ/oXh41uf4xxMtKPxWoVTJ
- ZK1764IvQh9V671U3jXbXd+AtMexBU5Ka+7jzHHYDcPiu1bdkAQvqTEkRh4L/ixKkHpu
- 4IMbS84CpaChduZLb9uLcmvOJWfNIm8K9YBiZ1GIskRycDbb5dDQzkgK6OmyqW7z0GYk
- U784eOqXfX5EJQMPJz5lo5l1hLEfFsEXEF5oKMYBqqZRbB7TGa+VHOzymQ4FvNXRX1Ml
- oxXkwzYmLLsMSEDmyoS8c2pz5pGlPrpshVBMe0h7PqcKVsZZZTcTZut+sayxEwuS9RLg
- pBSA==
-X-Gm-Message-State: AOAM5305FEIZRsFHA6oYTyYiM0LfEvw61QDQTiuEaKhI025ZfLn/lZcF
- c7Fur+HFYQd11zl6D2zTiy5LDuzBYUA=
-X-Google-Smtp-Source: ABdhPJxMiG6QP+5SS4Me6298qEuvFiYavf1m8lsj7IjyqGxuSYLXbCVeBpIElNI2LSLfJHkE8YO5wg==
-X-Received: by 2002:a67:f688:: with SMTP id n8mr342564vso.116.1593123688150;
- Thu, 25 Jun 2020 15:21:28 -0700 (PDT)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com.
- [209.85.217.42])
- by smtp.gmail.com with ESMTPSA id d200sm2414233vkd.16.2020.06.25.15.21.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 15:21:27 -0700 (PDT)
-Received: by mail-vs1-f42.google.com with SMTP id m62so4478325vsd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 15:21:27 -0700 (PDT)
-X-Received: by 2002:a05:6102:20c8:: with SMTP id
- i8mr347826vsr.106.1593123686688; 
- Thu, 25 Jun 2020 15:21:26 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBB296E02C
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 22:39:27 +0000 (UTC)
+IronPort-SDR: j8OUm+vuw5RckjAaae55Yl+EDbFiZarQcMG0iKKW5jbjdDhAPaf/wevsHESRAgRZj9OVkRYXOO
+ QK/dG0ucACWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="229847811"
+X-IronPort-AV: E=Sophos;i="5.75,280,1589266800"; 
+ d="gz'50?scan'50,208,50";a="229847811"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2020 15:39:26 -0700
+IronPort-SDR: wngwW7zXwa1J0mLKbAeVmMkBykmNGRhz/aySSpLXIMS1DTCXtJpNT3JALamsMVgfT213VRaced
+ u7xmDL4W7MPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,280,1589266800"; 
+ d="gz'50?scan'50,208,50";a="423893142"
+Received: from lkp-server01.sh.intel.com (HELO 538b5e3c8319) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 25 Jun 2020 15:39:24 -0700
+Received: from kbuild by 538b5e3c8319 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1joaWi-0001qh-1G; Thu, 25 Jun 2020 22:39:24 +0000
+Date: Fri, 26 Jun 2020 06:38:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nirmoy Das <nirmoy.das@amd.com>
+Subject: [radeon-alex:amd-staging-drm-next 9928/9999]
+ drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2522:26:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202006260635.X2r7qX6v%lkp@intel.com>
 MIME-Version: 1.0
-References: <1593087419-903-1-git-send-email-kalyan_t@codeaurora.org>
-In-Reply-To: <1593087419-903-1-git-send-email-kalyan_t@codeaurora.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 25 Jun 2020 15:21:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VXAQagbM-dn7MWGm08DdBxefc4jHNbkvHzuBjSM_jWnw@mail.gmail.com>
-Message-ID: <CAD=FV=VXAQagbM-dn7MWGm08DdBxefc4jHNbkvHzuBjSM_jWnw@mail.gmail.com>
-Subject: Re: [v2] drm/msm/dpu: add support for dither block in display
-To: Kalyan Thota <kalyan_t@codeaurora.org>
+Content-Type: multipart/mixed; boundary="G4iJoqBmSsgzjUCe"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +56,841 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, mkrishn@codeaurora.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, travitej@codeaurora.org,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, Jun 25, 2020 at 5:17 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
->
-> This change enables dither block for primary interface
-> in display.
->
-> Enabled for 6bpc in the current version.
->
-> Changes in v1:
->  - Remove redundant error checks (Rob).
->
-> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c     | 39 +++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 63 +++++++++++++++++++++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 28 +++++++++++
->  3 files changed, 121 insertions(+), 9 deletions(-)
+--G4iJoqBmSsgzjUCe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Tested-by: Douglas Anderson <dianders@chromium.org>
+tree:   git://people.freedesktop.org/~agd5f/linux.git amd-staging-drm-next
+head:   cd5dd023c24f097393cd351bfaaba81284d1a15b
+commit: e060721131c59a375125f7e5202d8e2cd7462406 [9928/9999] drm/powerplay: label internally used symbols as static
+config: s390-randconfig-s032-20200624 (attached as .config)
+compiler: s390-linux-gcc (GCC) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.2-dirty
+        git checkout e060721131c59a375125f7e5202d8e2cd7462406
+        # save the attached .config to linux build tree
+        make W=1 C=1 ARCH=s390 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1479:36: sparse:     expected unsigned int [usertype] McArbDramTiming
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1479:36: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1480:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] McArbDramTiming2 @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1480:36: sparse:     expected unsigned int [usertype] McArbDramTiming2
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1480:36: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1568:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] BootMVdd @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1568:9: sparse:     expected unsigned short [usertype] BootMVdd
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1568:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1673:37: sparse: sparse: cast to restricted __be32
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1689:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] minFreq @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1689:9: sparse:     expected unsigned short [usertype] minFreq
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1689:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1691:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] maxFreq @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1691:9: sparse:     expected unsigned short [usertype] maxFreq
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1691:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1717:38: sparse: sparse: cast to restricted __be32
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1732:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] setting @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1732:17: sparse:     expected unsigned short [usertype] setting
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1732:17: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1838:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] DefaultTdp @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1838:31: sparse:     expected unsigned short [usertype] DefaultTdp
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1838:31: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1840:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] TargetTdp @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1840:30: sparse:     expected unsigned short [usertype] TargetTdp
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1840:30: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1852:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] BAPM_TEMP_GRADIENT @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1852:39: sparse:     expected unsigned int [usertype] BAPM_TEMP_GRADIENT
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1852:39: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1860:62: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1860:62: sparse:     expected unsigned short
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1860:62: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1862:63: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1862:63: sparse:     expected unsigned short
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1862:63: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1901:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] tdc_limit @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1901:25: sparse:     expected unsigned short [assigned] [usertype] tdc_limit
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1901:25: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1954:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] FuzzyFan_PwmSetDelta @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1954:57: sparse:     expected signed short [usertype] FuzzyFan_PwmSetDelta
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1954:57: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1987:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] hi_sidd @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1987:25: sparse:     expected unsigned short [assigned] [usertype] hi_sidd
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1987:25: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1989:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] lo_sidd @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1989:25: sparse:     expected unsigned short [assigned] [usertype] lo_sidd
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:1989:25: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2077:53: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] s0 @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2077:53: sparse:     expected unsigned short [usertype] s0
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2077:53: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2079:53: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] s1 @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2079:53: sparse:     expected unsigned short [usertype] s1
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2079:53: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2100:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2100:40: sparse:     expected unsigned int
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2100:40: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2423:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2423:32: sparse:     expected unsigned int
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2423:32: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2424:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] SystemFlags @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2424:9: sparse:     expected unsigned int [usertype] SystemFlags
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2424:9: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2425:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] VRConfig @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2425:9: sparse:     expected unsigned int [usertype] VRConfig
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2425:9: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2426:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] SmioMask1 @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2426:9: sparse:     expected unsigned int [usertype] SmioMask1
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2426:9: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2427:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] SmioMask2 @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2427:9: sparse:     expected unsigned int [usertype] SmioMask2
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2427:9: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2428:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] SclkStepSize @@     got restricted __be32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2428:9: sparse:     expected unsigned int [usertype] SclkStepSize
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2428:9: sparse:     got restricted __be32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2429:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] TemperatureLimitHigh @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2429:9: sparse:     expected unsigned short [usertype] TemperatureLimitHigh
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2429:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2430:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] TemperatureLimitLow @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2430:9: sparse:     expected unsigned short [usertype] TemperatureLimitLow
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2430:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2431:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] VoltageResponseTime @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2431:9: sparse:     expected unsigned short [usertype] VoltageResponseTime
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2431:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2432:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] PhaseResponseTime @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2432:9: sparse:     expected unsigned short [usertype] PhaseResponseTime
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2432:9: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2515:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] TempMin @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2515:27: sparse:     expected signed short [usertype] TempMin
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2515:27: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2516:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] TempMed @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2516:27: sparse:     expected signed short [usertype] TempMed
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2516:27: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2517:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] TempMax @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2517:27: sparse:     expected signed short [usertype] TempMax
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2517:27: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2519:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] Slope1 @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2519:26: sparse:     expected signed short [usertype] Slope1
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2519:26: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2520:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] Slope2 @@     got restricted __be16 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2520:26: sparse:     expected signed short [usertype] Slope2
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2520:26: sparse:     got restricted __be16 [usertype]
+>> drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2522:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed short [usertype] FdoMin @@     got restricted __be16 [usertype] @@
+>> drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2522:26: sparse:     expected signed short [usertype] FdoMin
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2522:26: sparse:     got restricted __be16 [usertype]
+   drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c:2524:28: sparse: sparse: too many warnings
+
+vim +2522 drivers/gpu/drm/amd/amdgpu/../powerplay/smumgr/tonga_smumgr.c
+
+4dddc212a354cc Rex Zhu 2017-10-09  2459  
+4dddc212a354cc Rex Zhu 2017-10-09  2460  static int tonga_thermal_setup_fan_table(struct pp_hwmgr *hwmgr)
+4dddc212a354cc Rex Zhu 2017-10-09  2461  {
+4dddc212a354cc Rex Zhu 2017-10-09  2462  	struct tonga_smumgr *smu_data =
+4dddc212a354cc Rex Zhu 2017-10-09  2463  			(struct tonga_smumgr *)(hwmgr->smu_backend);
+4dddc212a354cc Rex Zhu 2017-10-09  2464  	SMU72_Discrete_FanTable fan_table = { FDO_MODE_HARDWARE };
+4dddc212a354cc Rex Zhu 2017-10-09  2465  	uint32_t duty100;
+4dddc212a354cc Rex Zhu 2017-10-09  2466  	uint32_t t_diff1, t_diff2, pwm_diff1, pwm_diff2;
+4dddc212a354cc Rex Zhu 2017-10-09  2467  	uint16_t fdo_min, slope1, slope2;
+4dddc212a354cc Rex Zhu 2017-10-09  2468  	uint32_t reference_clock;
+4dddc212a354cc Rex Zhu 2017-10-09  2469  	int res;
+4dddc212a354cc Rex Zhu 2017-10-09  2470  	uint64_t tmp64;
+4dddc212a354cc Rex Zhu 2017-10-09  2471  
+4dddc212a354cc Rex Zhu 2017-10-09  2472  	if (!phm_cap_enabled(hwmgr->platform_descriptor.platformCaps,
+4dddc212a354cc Rex Zhu 2017-10-09  2473  					PHM_PlatformCaps_MicrocodeFanControl))
+4dddc212a354cc Rex Zhu 2017-10-09  2474  		return 0;
+4dddc212a354cc Rex Zhu 2017-10-09  2475  
+4dddc212a354cc Rex Zhu 2017-10-09  2476  	if (hwmgr->thermal_controller.fanInfo.bNoFan) {
+4dddc212a354cc Rex Zhu 2017-10-09  2477  		phm_cap_unset(hwmgr->platform_descriptor.platformCaps,
+4dddc212a354cc Rex Zhu 2017-10-09  2478  			PHM_PlatformCaps_MicrocodeFanControl);
+4dddc212a354cc Rex Zhu 2017-10-09  2479  		return 0;
+4dddc212a354cc Rex Zhu 2017-10-09  2480  	}
+4dddc212a354cc Rex Zhu 2017-10-09  2481  
+4dddc212a354cc Rex Zhu 2017-10-09  2482  	if (0 == smu_data->smu7_data.fan_table_start) {
+4dddc212a354cc Rex Zhu 2017-10-09  2483  		phm_cap_unset(hwmgr->platform_descriptor.platformCaps,
+4dddc212a354cc Rex Zhu 2017-10-09  2484  					PHM_PlatformCaps_MicrocodeFanControl);
+4dddc212a354cc Rex Zhu 2017-10-09  2485  		return 0;
+4dddc212a354cc Rex Zhu 2017-10-09  2486  	}
+4dddc212a354cc Rex Zhu 2017-10-09  2487  
+4dddc212a354cc Rex Zhu 2017-10-09  2488  	duty100 = PHM_READ_VFPF_INDIRECT_FIELD(hwmgr->device,
+4dddc212a354cc Rex Zhu 2017-10-09  2489  						CGS_IND_REG__SMC,
+4dddc212a354cc Rex Zhu 2017-10-09  2490  						CG_FDO_CTRL1, FMAX_DUTY100);
+4dddc212a354cc Rex Zhu 2017-10-09  2491  
+4dddc212a354cc Rex Zhu 2017-10-09  2492  	if (0 == duty100) {
+4dddc212a354cc Rex Zhu 2017-10-09  2493  		phm_cap_unset(hwmgr->platform_descriptor.platformCaps,
+4dddc212a354cc Rex Zhu 2017-10-09  2494  				PHM_PlatformCaps_MicrocodeFanControl);
+4dddc212a354cc Rex Zhu 2017-10-09  2495  		return 0;
+4dddc212a354cc Rex Zhu 2017-10-09  2496  	}
+4dddc212a354cc Rex Zhu 2017-10-09  2497  
+4dddc212a354cc Rex Zhu 2017-10-09  2498  	tmp64 = hwmgr->thermal_controller.advanceFanControlParameters.usPWMMin * duty100;
+4dddc212a354cc Rex Zhu 2017-10-09  2499  	do_div(tmp64, 10000);
+4dddc212a354cc Rex Zhu 2017-10-09  2500  	fdo_min = (uint16_t)tmp64;
+4dddc212a354cc Rex Zhu 2017-10-09  2501  
+4dddc212a354cc Rex Zhu 2017-10-09  2502  	t_diff1 = hwmgr->thermal_controller.advanceFanControlParameters.usTMed -
+4dddc212a354cc Rex Zhu 2017-10-09  2503  		   hwmgr->thermal_controller.advanceFanControlParameters.usTMin;
+4dddc212a354cc Rex Zhu 2017-10-09  2504  	t_diff2 = hwmgr->thermal_controller.advanceFanControlParameters.usTHigh -
+4dddc212a354cc Rex Zhu 2017-10-09  2505  		  hwmgr->thermal_controller.advanceFanControlParameters.usTMed;
+4dddc212a354cc Rex Zhu 2017-10-09  2506  
+4dddc212a354cc Rex Zhu 2017-10-09  2507  	pwm_diff1 = hwmgr->thermal_controller.advanceFanControlParameters.usPWMMed -
+4dddc212a354cc Rex Zhu 2017-10-09  2508  		    hwmgr->thermal_controller.advanceFanControlParameters.usPWMMin;
+4dddc212a354cc Rex Zhu 2017-10-09  2509  	pwm_diff2 = hwmgr->thermal_controller.advanceFanControlParameters.usPWMHigh -
+4dddc212a354cc Rex Zhu 2017-10-09  2510  		    hwmgr->thermal_controller.advanceFanControlParameters.usPWMMed;
+4dddc212a354cc Rex Zhu 2017-10-09  2511  
+4dddc212a354cc Rex Zhu 2017-10-09  2512  	slope1 = (uint16_t)((50 + ((16 * duty100 * pwm_diff1) / t_diff1)) / 100);
+4dddc212a354cc Rex Zhu 2017-10-09  2513  	slope2 = (uint16_t)((50 + ((16 * duty100 * pwm_diff2) / t_diff2)) / 100);
+4dddc212a354cc Rex Zhu 2017-10-09  2514  
+4dddc212a354cc Rex Zhu 2017-10-09  2515  	fan_table.TempMin = cpu_to_be16((50 + hwmgr->thermal_controller.advanceFanControlParameters.usTMin) / 100);
+4dddc212a354cc Rex Zhu 2017-10-09  2516  	fan_table.TempMed = cpu_to_be16((50 + hwmgr->thermal_controller.advanceFanControlParameters.usTMed) / 100);
+4dddc212a354cc Rex Zhu 2017-10-09  2517  	fan_table.TempMax = cpu_to_be16((50 + hwmgr->thermal_controller.advanceFanControlParameters.usTMax) / 100);
+4dddc212a354cc Rex Zhu 2017-10-09  2518  
+4dddc212a354cc Rex Zhu 2017-10-09  2519  	fan_table.Slope1 = cpu_to_be16(slope1);
+4dddc212a354cc Rex Zhu 2017-10-09  2520  	fan_table.Slope2 = cpu_to_be16(slope2);
+4dddc212a354cc Rex Zhu 2017-10-09  2521  
+4dddc212a354cc Rex Zhu 2017-10-09 @2522  	fan_table.FdoMin = cpu_to_be16(fdo_min);
+4dddc212a354cc Rex Zhu 2017-10-09  2523  
+4dddc212a354cc Rex Zhu 2017-10-09  2524  	fan_table.HystDown = cpu_to_be16(hwmgr->thermal_controller.advanceFanControlParameters.ucTHyst);
+4dddc212a354cc Rex Zhu 2017-10-09  2525  
+4dddc212a354cc Rex Zhu 2017-10-09  2526  	fan_table.HystUp = cpu_to_be16(1);
+4dddc212a354cc Rex Zhu 2017-10-09  2527  
+4dddc212a354cc Rex Zhu 2017-10-09  2528  	fan_table.HystSlope = cpu_to_be16(1);
+4dddc212a354cc Rex Zhu 2017-10-09  2529  
+4dddc212a354cc Rex Zhu 2017-10-09  2530  	fan_table.TempRespLim = cpu_to_be16(5);
+4dddc212a354cc Rex Zhu 2017-10-09  2531  
+2538090cb62ab8 Rex Zhu 2018-03-16  2532  	reference_clock = amdgpu_asic_get_xclk((struct amdgpu_device *)hwmgr->adev);
+4dddc212a354cc Rex Zhu 2017-10-09  2533  
+4dddc212a354cc Rex Zhu 2017-10-09  2534  	fan_table.RefreshPeriod = cpu_to_be32((hwmgr->thermal_controller.advanceFanControlParameters.ulCycleDelay * reference_clock) / 1600);
+4dddc212a354cc Rex Zhu 2017-10-09  2535  
+4dddc212a354cc Rex Zhu 2017-10-09  2536  	fan_table.FdoMax = cpu_to_be16((uint16_t)duty100);
+4dddc212a354cc Rex Zhu 2017-10-09  2537  
+4dddc212a354cc Rex Zhu 2017-10-09  2538  	fan_table.TempSrc = (uint8_t)PHM_READ_VFPF_INDIRECT_FIELD(hwmgr->device, CGS_IND_REG__SMC, CG_MULT_THERMAL_CTRL, TEMP_SEL);
+4dddc212a354cc Rex Zhu 2017-10-09  2539  
+4dddc212a354cc Rex Zhu 2017-10-09  2540  	fan_table.FanControl_GL_Flag = 1;
+4dddc212a354cc Rex Zhu 2017-10-09  2541  
+4dddc212a354cc Rex Zhu 2017-10-09  2542  	res = smu7_copy_bytes_to_smc(hwmgr,
+4dddc212a354cc Rex Zhu 2017-10-09  2543  					smu_data->smu7_data.fan_table_start,
+4dddc212a354cc Rex Zhu 2017-10-09  2544  					(uint8_t *)&fan_table,
+4dddc212a354cc Rex Zhu 2017-10-09  2545  					(uint32_t)sizeof(fan_table),
+4dddc212a354cc Rex Zhu 2017-10-09  2546  					SMC_RAM_END);
+4dddc212a354cc Rex Zhu 2017-10-09  2547  
+4dddc212a354cc Rex Zhu 2017-10-09  2548  	return 0;
+4dddc212a354cc Rex Zhu 2017-10-09  2549  }
+4dddc212a354cc Rex Zhu 2017-10-09  2550  
+
+:::::: The code at line 2522 was first introduced by commit
+:::::: 4dddc212a354cc3924d60ca240cd338b0a3f6c49 drm/amd/pp: remove tonga_smc/smumgr split.
+
+:::::: TO: Rex Zhu <Rex.Zhu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+--G4iJoqBmSsgzjUCe
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+
+--G4iJoqBmSsgzjUCe
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--G4iJoqBmSsgzjUCe--
