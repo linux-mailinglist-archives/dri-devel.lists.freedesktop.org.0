@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69EF209B5E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 10:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77463209B74
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 10:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8040C6E81E;
-	Thu, 25 Jun 2020 08:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC456E5D5;
+	Thu, 25 Jun 2020 08:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03ABE6E5C6;
- Thu, 25 Jun 2020 08:36:31 +0000 (UTC)
-IronPort-SDR: JaZkXi2B3vKmteauWkkEW2lMaEmOvk/+0PiEE8miySYznxzOKuxO4nZB7r36Qm06UZwBLh8Xrr
- QDpEJax2Iwjw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="132239833"
-X-IronPort-AV: E=Sophos;i="5.75,278,1589266800"; d="scan'208";a="132239833"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2020 01:36:31 -0700
-IronPort-SDR: nptsyqABQqfl3whN377X0nrbm72up2EHiG8O08fQmmz1aatU+f/Goicbu0H5gwFoMXQRkDf0u1
- PQZUbKUhbXwQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,278,1589266800"; d="scan'208";a="296015442"
-Received: from pietryga-mobl1.ger.corp.intel.com (HELO [10.249.41.109])
- ([10.249.41.109])
- by orsmga007.jf.intel.com with ESMTP; 25 Jun 2020 01:36:28 -0700
-Subject: Re: [PATCH v6 3/3] drm/i915: Send hotplug event if edid had changed
-To: Kunal Joshi <kunal1.joshi@intel.com>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20200623185756.19502-1-kunal1.joshi@intel.com>
- <20200623185756.19502-4-kunal1.joshi@intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <61952a12-bd15-92ce-fd81-88a35ed88acb@linux.intel.com>
-Date: Thu, 25 Jun 2020 10:36:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56ED16E5D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 08:42:07 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id z5so2988401pgb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 01:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GU/dRkgQDpr9iw62AixUC1kVf/kYhjdwq8ObET+oNC8=;
+ b=aD5XCCCYMBYfnYftEvzlMtdYLSuRDmX+CPFGMUNSvAjujtddg8Ko2Qh1hZScr8E3hC
+ VUHdOwGax68Ruo/XnH8rLV3FHrcWpdIyaXTb/D1GlN4PabQQiPVmxHEwyGWUWyIwhyiO
+ EZu9nREZ9b3ij2dBfLrcwxDWPHcFPW31Q+6+0tpuuZes+OkKGgCPmo7HUbp3N0GgMyxr
+ r/S0B68REb0nkWf2WnfsHjMymYrGw/GpCryE6uFFO7fGlDRX6PRGVYfYv5M3Xe46bccJ
+ iFUbPmqgvwJHOu8oohOOo/XAIsE+IBM+PiRAMiAMbTwRMcFIircqvwnklKTJMUHPeJBf
+ iBhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GU/dRkgQDpr9iw62AixUC1kVf/kYhjdwq8ObET+oNC8=;
+ b=WwLLMhtZ5XUS9iQHrapYFMIxelTTCMj3L80Md3ssCQvDFz+71pI5rYvPTggLNzc7qL
+ MXOsh2FiwsjsOUAhXGkb+/z5mRc5OZgEQK0ZPkHJVESH2wCmycGeJPf4kKgwDCZUrsJ6
+ q79/6JogIs9oOtf4LSRxOvV67vGMdu/O/1iyDdShIRZkA9ZpjCH1wIIZl1PKjMHm2eQa
+ 1oWpFBo7UJuHxKtgvL1wfCqQPtIgkGScD/w59IjTxwVbZWKAS+Z77Vhl+bylvFobPMFf
+ 8ZeWdnZjHtXlMEUNJkc/bvzkZBcOCGo6UD7e5268AMKpxg5JvqIhRi2UrrU5Mf5f4MR+
+ 9NKw==
+X-Gm-Message-State: AOAM530kATg3tPK3noDzt05zBpUuYS5MVjhw0RQmh5qEzm1Og8R5esww
+ 4yxHlUB6E1/5HkmeMFYAD5MtqEiTuPR38dJ7/SA=
+X-Google-Smtp-Source: ABdhPJwF0Hl8GGRnPxFLftmdeC1miOVc1ZdvpotybNbXAyxg4QkjTMyM9o8rj7A1t8eWmkzECLsfKekYfiyFWAyAwxM=
+X-Received: by 2002:a63:924b:: with SMTP id s11mr24565556pgn.74.1593074526947; 
+ Thu, 25 Jun 2020 01:42:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200623185756.19502-4-kunal1.joshi@intel.com>
-Content-Language: en-US
+References: <20200624114127.3016-1-a.hajda@samsung.com>
+ <CGME20200624114136eucas1p1c84f81b1d78e2dbad7ac1b762f0a4b4f@eucas1p1.samsung.com>
+ <20200624114127.3016-4-a.hajda@samsung.com>
+ <2203e0c2-016b-4dbe-452d-63c857f06dd1@arm.com>
+ <CAHp75VfpP1cGK3FvTL0hBudRY2N_7GpXYRuUHUCipz7X2sMLmQ@mail.gmail.com>
+ <be755825-b413-e5c1-7ea4-06506b20d1f0@arm.com>
+ <20200624150434.GH5472@sirena.org.uk>
+ <381de683-df5e-4112-5690-13dd9272ae22@arm.com>
+ <70b61b75-c68b-ad89-5f6a-f1d681b9f5d0@samsung.com>
+In-Reply-To: <70b61b75-c68b-ad89-5f6a-f1d681b9f5d0@samsung.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 25 Jun 2020 11:41:54 +0300
+Message-ID: <CAHp75VfQdwHotuGWMUGUvEWNcZNkm+VkdmNuVJDS_T6hbcTqsg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v5 3/5] drivers core: allow probe_err accept
+ integer and pointer types
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,100 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, daniel.vetter@intel.com,
- arkadiusz.hiler@intel.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 23-06-2020 om 20:57 schreef Kunal Joshi:
-> From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
->
-> Added epoch counter checking to intel_encoder_hotplug
-> in order to be able process all the connector changes,
-> besides connection status. Also now any change in connector
-> would result in epoch counter change, so no multiple checks
-> are needed.
->
-> v2: Renamed change counter to epoch counter. Fixed type name.
->
-> v3: Fixed rebase conflict
->
-> v4: Remove duplicate drm_edid_equal checks from hdmi and dp,
->     lets use only once edid property is getting updated and
->     increment epoch counter from there.
->     Also lets now call drm_connector_update_edid_property
->     right after we get edid always to make sure there is a
->     unified way to handle edid change, without having to
->     change tons of source code as currently
->     drm_connector_update_edid_property is called only in
->     certain cases like reprobing and not right after edid is
->     actually updated.
->
-> v5: Fixed const modifiers, removed blank line
->
-> v6: Removed drm specific part from this patch, leaving only
->     i915 specific changes here.
->
-> Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> ---
+On Wed, Jun 24, 2020 at 10:40 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+> On 24.06.2020 17:16, Robin Murphy wrote:
 
-Much better!
+...
 
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> I have proposed such thing in my previous iteration[1], except it was
+> macro because of variadic arguments.
 
-for whole series
+You may have a function with variadic arguments. Macros are beasts and
+make in some cases more harm than help.
 
->  drivers/gpu/drm/i915/display/intel_hotplug.c | 26 +++++++++++---------
->  1 file changed, 15 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/drm/i915/display/intel_hotplug.c
-> index 2e94c1413c02..393813494523 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
-> @@ -283,6 +283,8 @@ intel_encoder_hotplug(struct intel_encoder *encoder,
->  {
->  	struct drm_device *dev = connector->base.dev;
->  	enum drm_connector_status old_status;
-> +        u64 old_epoch_counter;
-> +        bool ret = false;
->  
->  	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
->  	old_status = connector->base.status;
-> @@ -290,17 +292,19 @@ intel_encoder_hotplug(struct intel_encoder *encoder,
->  	connector->base.status =
->  		drm_helper_probe_detect(&connector->base, NULL, false);
->  
-> -	if (old_status == connector->base.status)
-> -		return INTEL_HOTPLUG_UNCHANGED;
-> -
-> -	drm_dbg_kms(&to_i915(dev)->drm,
-> -		    "[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> -		    connector->base.base.id,
-> -		    connector->base.name,
-> -		    drm_get_connector_status_name(old_status),
-> -		    drm_get_connector_status_name(connector->base.status));
-> -
-> -	return INTEL_HOTPLUG_CHANGED;
-> +        if (old_epoch_counter != connector->base.epoch_counter)
-> +                ret = true;
-> +
-> +        if(ret) {
-> +		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s(epoch counter %llu)\n",
-> +			      connector->base.base.id,
-> +			      connector->base.name,
-> +			      drm_get_connector_status_name(old_status),
-> +			      drm_get_connector_status_name(connector->base.status),
-> +			      connector->base.epoch_counter);
-> +		return INTEL_HOTPLUG_CHANGED;
-> +        }
-> +        return INTEL_HOTPLUG_UNCHANGED;
->  }
->  
->  static bool intel_encoder_has_hpd_pulse(struct intel_encoder *encoder)
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
