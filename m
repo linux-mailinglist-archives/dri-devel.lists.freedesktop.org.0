@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A957209E00
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93CF209DFD
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D016F6EBC1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264676EB42;
 	Thu, 25 Jun 2020 12:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32CC96EBBB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B916EB42
  for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:00:15 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 733C4ACF0;
+ by mx2.suse.de (Postfix) with ESMTP id B58FAAD5F;
  Thu, 25 Jun 2020 12:00:13 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
@@ -22,9 +22,9 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
  emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
  hdegoede@redhat.com
-Subject: [PATCH 2/9] drm/format-helper: Add blitter functions
-Date: Thu, 25 Jun 2020 14:00:04 +0200
-Message-Id: <20200625120011.16168-3-tzimmermann@suse.de>
+Subject: [PATCH 3/9] drm: Add simplekms driver
+Date: Thu, 25 Jun 2020 14:00:05 +0200
+Message-Id: <20200625120011.16168-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200625120011.16168-1-tzimmermann@suse.de>
 References: <20200625120011.16168-1-tzimmermann@suse.de>
@@ -47,127 +47,584 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The blitter functions copy a framebuffer to I/O memory using one of
-the existing conversion functions.
+The simplekms driver is a DRM driver for simplefb framebuffers as
+provided by the kernel's boot code. This driver enables basic
+graphical output on many different graphics devices that are provided
+by the platform (e.g., EFI, VESA, embedded framebuffers).
+
+With the kernel's simplefb infrastructure, the kernel receives a
+pre-configured framebuffer from the system (i.e., firmware, boot
+loader). It creates a platform device to which simplekms attaches.
+The system's framebuffer consists of a memory range, size and format.
+Based on these values, simplekms creates a DRM devices. No actual
+modesetting is possible.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_format_helper.c | 87 +++++++++++++++++++++++++++++
- include/drm/drm_format_helper.h     |  8 +++
- 2 files changed, 95 insertions(+)
+ MAINTAINERS                      |   6 +
+ drivers/gpu/drm/tiny/Kconfig     |  16 +
+ drivers/gpu/drm/tiny/Makefile    |   1 +
+ drivers/gpu/drm/tiny/simplekms.c | 495 +++++++++++++++++++++++++++++++
+ 4 files changed, 518 insertions(+)
+ create mode 100644 drivers/gpu/drm/tiny/simplekms.c
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 8d5a683afea7..0e885cd34107 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -344,3 +344,90 @@ void drm_fb_xrgb8888_to_gray8(u8 *dst, void *vaddr, struct drm_framebuffer *fb,
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_gray8);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f17d99164a77..ac517dc8d05d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5505,6 +5505,12 @@ S:	Orphan / Obsolete
+ F:	drivers/gpu/drm/savage/
+ F:	include/uapi/drm/savage_drm.h
  
-+/**
-+ * drm_fb_blit_rect_dstclip - Copy parts of a framebuffer to display memory
-+ * @dst:	The display memory to copy to
-+ * @dst_pitch:	Number of bytes between two consecutive scanlines within dst
-+ * @dst_format:	FOURCC code of the display's color format
-+ * @vmap:	The framebuffer memory to copy from
-+ * @fb:		The framebuffer to copy from
-+ * @clip:	Clip rectangle area to copy
-+ *
-+ * This function copies parts of a framebuffer to display memory. If the
-+ * formats of the display and the framebuffer mismatch, the blit function
-+ * will attempt to convert between them.
-+ *
-+ * Use drm_fb_blit_dstclip() to copy the full framebuffer.
-+ *
-+ * Returns:
-+ * 0 on success, or
-+ * -EINVAL if the color-format conversion failed, or
-+ * a negative error code otherwise.
++DRM DRIVER FOR SIMPLE FRAMEBUFFERS
++M:	Thomas Zimmermann <tzimmermann@suse.de>
++S:	Maintained
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	drivers/gpu/drm/tiny/simplekms.c
++
+ DRM DRIVER FOR SIS VIDEO CARDS
+ S:	Orphan / Obsolete
+ F:	drivers/gpu/drm/sis/
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 2b6414f0fa75..50dbde8bdcb2 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -28,6 +28,22 @@ config DRM_GM12U320
+ 	 This is a KMS driver for projectors which use the GM12U320 chipset
+ 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
+ 
++config DRM_SIMPLEKMS
++	tristate "Simple framebuffer driver"
++	depends on DRM
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_KMS_HELPER
++	help
++	  DRM driver for simple platform-provided framebuffers.
++
++	  This driver assumes that the display hardware has been initialized
++	  by the firmware or bootloader before the kernel boots. Scanout
++	  buffer, size, and display format must be provided via device tree,
++	  UEFI, VESA, etc.
++
++	  On x86 and compatible, you should also select CONFIG_X86_SYSFB to
++	  use UEFI and VESA framebuffers.
++
+ config TINYDRM_HX8357D
+ 	tristate "DRM support for HX8357D display panels"
+ 	depends on DRM && SPI
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index 6ae4e9e5a35f..e83fbbfa7344 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -2,6 +2,7 @@
+ 
+ obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
+ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
++obj-$(CONFIG_DRM_SIMPLEKMS)		+= simplekms.o
+ obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+ obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+ obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
+diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
+new file mode 100644
+index 000000000000..dc7cf3983945
+--- /dev/null
++++ b/drivers/gpu/drm/tiny/simplekms.c
+@@ -0,0 +1,495 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/platform_data/simplefb.h>
++#include <linux/platform_device.h>
++
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_damage_helper.h>
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_format_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_simple_kms_helper.h>
++
++#define DRIVER_NAME	"simplekms"
++#define DRIVER_DESC	"DRM driver for simple-framebuffer platform devices"
++#define DRIVER_DATE	"20200625"
++#define DRIVER_MAJOR	1
++#define DRIVER_MINOR	0
++
++/*
++ * Assume a monitor resolution of 96 dpi to
++ * get a somewhat reasonable screen size.
 + */
-+int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
-+			     uint32_t dst_format, void *vmap,
-+			     struct drm_framebuffer *fb,
-+			     struct drm_rect *clip)
++#define RES_MM(d)	\
++	(((d) * 254ul) / (96ul * 10ul))
++
++#define SIMPLEKMS_MODE(hd, vd)	\
++	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
++
++/*
++ * Helpers for simplefb
++ */
++
++static int
++simplefb_get_validated_int(struct drm_device *dev, const char *name,
++			   uint32_t value)
 +{
-+	uint32_t fb_format = fb->format->format;
++	if (value > INT_MAX) {
++		drm_err(dev, "simplefb: invalid framebuffer %s of %u\n",
++			name, value);
++		return -EINVAL;
++	}
++	return (int)value;
++}
 +
-+	/* treat alpha channel like filler bits */
-+	if (fb_format == DRM_FORMAT_ARGB8888)
-+		fb_format = DRM_FORMAT_XRGB8888;
-+	if (dst_format == DRM_FORMAT_ARGB8888)
-+		dst_format = DRM_FORMAT_XRGB8888;
++static int
++simplefb_get_validated_int0(struct drm_device *dev, const char *name,
++			    uint32_t value)
++{
++	if (!value) {
++		drm_err(dev, "simplefb: invalid framebuffer %s of %u\n",
++			name, value);
++		return -EINVAL;
++	}
++	return simplefb_get_validated_int(dev, name, value);
++}
 +
-+	if (dst_format == fb_format) {
-+		drm_fb_memcpy_dstclip(dst, dst_pitch, vmap, fb, clip);
-+		return 0;
++static const struct drm_format_info *
++simplefb_get_validated_format(struct drm_device *dev, const char *format_name)
++{
++	static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
++	const struct simplefb_format *fmt = formats;
++	const struct simplefb_format *end = fmt + ARRAY_SIZE(formats);
 +
-+	} else if (dst_format == DRM_FORMAT_RGB565) {
-+		if (fb_format == DRM_FORMAT_XRGB8888) {
-+			drm_fb_xrgb8888_to_rgb565_dstclip(dst, dst_pitch,
-+							  vmap, fb, clip,
-+							  false);
-+			return 0;
-+		}
-+	} else if (dst_format == DRM_FORMAT_RGB888) {
-+		if (fb_format == DRM_FORMAT_XRGB8888) {
-+			drm_fb_xrgb8888_to_rgb888_dstclip(dst, dst_pitch,
-+							  vmap, fb, clip);
-+			return 0;
-+		}
++	if (!format_name) {
++		drm_err(dev, "simplefb: missing framebuffer format\n");
++		return ERR_PTR(-EINVAL);
 +	}
 +
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL(drm_fb_blit_rect_dstclip);
++	while (fmt < end) {
++		if (!strcmp(format_name, fmt->name))
++			return drm_format_info(fmt->fourcc);
++		++fmt;
++	}
 +
-+/**
-+ * drm_fb_blit_dstclip - Copy framebuffer to display memory
-+ * @dst:	The display memory to copy to
-+ * @dst_pitch:	Number of bytes between two consecutive scanlines within dst
-+ * @dst_format:	FOURCC code of the display's color format
-+ * @vmap:	The framebuffer memory to copy from
-+ * @fb:		The framebuffer to copy from
-+ *
-+ * This function copies a full framebuffer to display memory. If the formats
-+ * of the display and the framebuffer mismatch, the copy function will
-+ * attempt to convert between them.
-+ *
-+ * See drm_fb_blit_rect_dstclip() for more inforamtion.
-+ *
-+ * Returns:
-+ * 0 on success, or a negative error code otherwise.
-+ */
-+int drm_fb_blit_dstclip(void __iomem *dst, unsigned int dst_pitch,
-+			uint32_t dst_format, void *vmap,
-+			struct drm_framebuffer *fb)
++	drm_err(dev, "simplefb: unknown framebuffer format %s\n",
++		format_name);
++
++	return ERR_PTR(-EINVAL);
++}
++
++static int
++simplefb_get_width_pd(struct drm_device *dev,
++		      const struct simplefb_platform_data *pd)
 +{
-+	struct drm_rect fullscreen = {
-+		.x1 = 0,
-+		.x2 = fb->width,
-+		.y1 = 0,
-+		.y2 = fb->height,
-+	};
-+	return drm_fb_blit_rect_dstclip(dst, dst_pitch, dst_format, vmap, fb,
-+					&fullscreen);
++	return simplefb_get_validated_int0(dev, "width", pd->width);
 +}
-+EXPORT_SYMBOL(drm_fb_blit_dstclip);
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 2b5036a5fbe7..4e0258a61311 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -28,4 +28,12 @@ void drm_fb_xrgb8888_to_rgb888_dstclip(void __iomem *dst, unsigned int dst_pitch
- void drm_fb_xrgb8888_to_gray8(u8 *dst, void *vaddr, struct drm_framebuffer *fb,
- 			      struct drm_rect *clip);
- 
-+int drm_fb_blit_rect_dstclip(void __iomem *dst, unsigned int dst_pitch,
-+			     uint32_t dst_format, void *vmap,
-+			     struct drm_framebuffer *fb,
-+			     struct drm_rect *rect);
-+int drm_fb_blit_dstclip(void __iomem *dst, unsigned int dst_pitch,
-+			uint32_t dst_format, void *vmap,
-+			struct drm_framebuffer *fb);
 +
- #endif /* __LINUX_DRM_FORMAT_HELPER_H */
++static int
++simplefb_get_height_pd(struct drm_device *dev,
++		       const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_int0(dev, "height", pd->height);
++}
++
++static int
++simplefb_get_stride_pd(struct drm_device *dev,
++		       const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_int(dev, "stride", pd->stride);
++}
++
++static const struct drm_format_info *
++simplefb_get_format_pd(struct drm_device *dev,
++		       const struct simplefb_platform_data *pd)
++{
++	return simplefb_get_validated_format(dev, pd->format);
++}
++
++/*
++ * Simple Framebuffer device
++ */
++
++struct simplekms_device {
++	struct drm_device dev;
++	struct platform_device *pdev;
++
++	/* simplefb settings */
++	struct drm_display_mode mode;
++	const struct drm_format_info *format;
++	unsigned int pitch;
++
++	/* memory management */
++	struct resource *mem;
++	void __iomem *screen_base;
++
++	/* modesetting */
++	struct drm_connector connector;
++	struct drm_simple_display_pipe pipe;
++};
++
++static struct simplekms_device *simplekms_device_of_dev(struct drm_device *dev)
++{
++	return container_of(dev, struct simplekms_device, dev);
++}
++
++/*
++ *  Simplefb settings
++ */
++
++static struct drm_display_mode simplekms_mode(unsigned int width,
++					      unsigned int height)
++{
++	struct drm_display_mode mode = { SIMPLEKMS_MODE(width, height) };
++
++	mode.clock = 60 /* Hz */ * mode.hdisplay * mode.vdisplay;
++	drm_mode_set_name(&mode);
++
++	return mode;
++}
++
++static int simplekms_device_init_fb(struct simplekms_device *sdev)
++{
++	int width, height, stride;
++	const struct drm_format_info *format;
++	struct drm_format_name_buf buf;
++	struct drm_device *dev = &sdev->dev;
++	struct platform_device *pdev = sdev->pdev;
++	const struct simplefb_platform_data *pd = dev_get_platdata(&pdev->dev);
++
++	if (pd) {
++		width = simplefb_get_width_pd(dev, pd);
++		if (width < 0)
++			return width;
++		height = simplefb_get_height_pd(dev, pd);
++		if (height < 0)
++			return height;
++		stride = simplefb_get_stride_pd(dev, pd);
++		if (stride < 0)
++			return stride;
++		format = simplefb_get_format_pd(dev, pd);
++		if (IS_ERR(format))
++			return PTR_ERR(format);
++	} else {
++		drm_err(dev, "no simplefb configuration found\n");
++		return -ENODEV;
++	}
++
++	sdev->mode = simplekms_mode(width, height);
++	sdev->format = format;
++	sdev->pitch = stride;
++
++	drm_dbg_kms(dev, "display mode={" DRM_MODE_FMT "}\n",
++		    DRM_MODE_ARG(&sdev->mode));
++	drm_dbg_kms(dev,
++		    "framebuffer format=\"%s\", size=%dx%d, stride=%d byte\n",
++		    drm_get_format_name(format->format, &buf), width,
++		    height, stride);
++
++	return 0;
++}
++
++/*
++ * Memory management
++ */
++
++static int simplekms_device_init_mm(struct simplekms_device *sdev)
++{
++	struct platform_device *pdev = sdev->pdev;
++	struct resource *mem;
++	void __iomem *screen_base;
++
++	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!mem)
++		return -EINVAL;
++
++	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
++				      resource_size(mem));
++	if (!screen_base)
++		return -ENOMEM;
++
++	sdev->mem = mem;
++	sdev->screen_base = screen_base;
++
++	return 0;
++}
++
++/*
++ * Modesetting
++ */
++
++/*
++ * Support all formats of simplefb and maybe more; in order
++ * of preference. The display's update function will do any
++ * conversion necessary.
++ *
++ * TODO: Add blit helpers for remaining formats and uncomment
++ *       constants.
++ */
++static const uint32_t simplekms_formats[] = {
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGB565,
++	//DRM_FORMAT_XRGB1555,
++	//DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_RGB888,
++	//DRM_FORMAT_XRGB2101010,
++	//DRM_FORMAT_ARGB2101010,
++};
++
++static const uint64_t simplekms_format_modifiers[] = {
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID
++};
++
++static int simplekms_connector_get_modes(struct drm_connector *connector)
++{
++	struct simplekms_device *sdev = simplekms_device_of_dev(connector->dev);
++	struct drm_display_mode *mode;
++
++	mode = drm_mode_duplicate(connector->dev, &sdev->mode);
++	if (!mode)
++                return 0;
++
++	if (mode->name[0] == '\0')
++		drm_mode_set_name(mode);
++
++	mode->type |= DRM_MODE_TYPE_PREFERRED;
++	drm_mode_probed_add(connector, mode);
++
++	if (mode->width_mm)
++                connector->display_info.width_mm = mode->width_mm;
++	if (mode->height_mm)
++                connector->display_info.height_mm = mode->height_mm;
++
++        return 1;
++}
++
++static const struct drm_connector_helper_funcs simplekms_connector_helper_funcs = {
++	.get_modes = simplekms_connector_get_modes,
++};
++
++static const struct drm_connector_funcs simplekms_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static int
++simplekms_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
++				    const struct drm_display_mode *mode)
++{
++	struct simplekms_device *sdev = simplekms_device_of_dev(pipe->connector->dev);
++
++	if (mode->hdisplay != sdev->mode.hdisplay &&
++	    mode->vdisplay != sdev->mode.vdisplay)
++		return MODE_ONE_SIZE;
++	else if (mode->hdisplay != sdev->mode.hdisplay)
++		return MODE_ONE_WIDTH;
++	else if (mode->vdisplay != sdev->mode.vdisplay)
++		return MODE_ONE_HEIGHT;
++
++	return MODE_OK;
++}
++
++static void
++simplekms_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
++				struct drm_crtc_state *crtc_state,
++				struct drm_plane_state *plane_state)
++{
++	struct simplekms_device *sdev = simplekms_device_of_dev(pipe->connector->dev);
++	struct drm_plane_state *state = pipe->plane.state;
++	struct drm_framebuffer *fb = state->fb;
++	void *vmap;
++
++	vmap = drm_gem_shmem_vmap(fb->obj[0]);
++	if (!vmap)
++		return;
++
++	drm_fb_blit_dstclip(sdev->screen_base, sdev->pitch,
++			    sdev->format->format, vmap, fb);
++
++	drm_gem_shmem_vunmap(fb->obj[0], vmap);
++}
++
++static void
++simplekms_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
++				struct drm_plane_state *old_plane_state)
++{
++	struct simplekms_device *sdev = simplekms_device_of_dev(pipe->connector->dev);
++	struct drm_plane_state *state = pipe->plane.state;
++	struct drm_framebuffer *fb = state->fb;
++	struct drm_rect clip;
++	void *vmap;
++
++	if (!drm_atomic_helper_damage_merged(old_plane_state, state, &clip))
++		return;
++
++	vmap = drm_gem_shmem_vmap(fb->obj[0]);
++	if (!vmap)
++		return;
++
++	drm_fb_blit_rect_dstclip(sdev->screen_base, sdev->pitch,
++				 sdev->format->format, vmap, fb, &clip);
++
++	drm_gem_shmem_vunmap(fb->obj[0], vmap);
++}
++
++static const struct drm_simple_display_pipe_funcs
++simplekms_simple_display_pipe_funcs = {
++	.mode_valid = simplekms_simple_display_pipe_mode_valid,
++	.enable = simplekms_simple_display_pipe_enable,
++	.update = simplekms_simple_display_pipe_update,
++	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
++};
++
++static const struct drm_mode_config_funcs simplekms_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create_with_dirty,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static int simplekms_device_init_modeset(struct simplekms_device *sdev)
++{
++	struct drm_device *dev = &sdev->dev;
++	struct drm_display_mode *mode = &sdev->mode;
++	struct drm_connector *connector = &sdev->connector;
++	struct drm_simple_display_pipe *pipe = &sdev->pipe;
++	int ret;
++
++	ret = drmm_mode_config_init(dev);
++	if (ret)
++		return ret;
++
++	dev->mode_config.min_width = mode->hdisplay;
++	dev->mode_config.max_width = mode->hdisplay;
++	dev->mode_config.min_height = mode->vdisplay;
++	dev->mode_config.max_height = mode->vdisplay;
++	dev->mode_config.prefer_shadow = true;
++	dev->mode_config.preferred_depth = sdev->format->cpp[0] * 8;
++	dev->mode_config.funcs = &simplekms_mode_config_funcs;
++
++	drm_connector_helper_add(connector, &simplekms_connector_helper_funcs);
++	ret = drm_connector_init(dev, connector, &simplekms_connector_funcs,
++				 DRM_MODE_CONNECTOR_Unknown);
++	if (ret)
++		return ret;
++
++	ret = drm_simple_display_pipe_init(dev, pipe,
++					   &simplekms_simple_display_pipe_funcs,
++					   simplekms_formats,
++					   ARRAY_SIZE(simplekms_formats),
++					   simplekms_format_modifiers,
++					   connector);
++	if (ret)
++		return ret;
++
++	drm_mode_config_reset(dev);
++
++	return 0;
++}
++
++/*
++ * Init / Cleanup
++ */
++
++static void simplekms_device_cleanup(struct simplekms_device* sdev)
++{
++	struct drm_device *dev = &sdev->dev;
++
++	drm_dev_unregister(dev);
++}
++
++static struct simplekms_device *
++simplekms_device_create(struct drm_driver *drv, struct platform_device *pdev)
++{
++	struct simplekms_device *sdev;
++	int ret;
++
++	sdev = devm_drm_dev_alloc(&pdev->dev, drv, struct simplekms_device,
++				  dev);
++	if (IS_ERR(sdev))
++		return ERR_CAST(sdev);
++	sdev->pdev = pdev;
++
++	ret = simplekms_device_init_fb(sdev);
++	if (ret)
++		return ERR_PTR(ret);
++	ret = simplekms_device_init_mm(sdev);
++	if (ret)
++		return ERR_PTR(ret);
++	ret = simplekms_device_init_modeset(sdev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return sdev;
++}
++
++/*
++ * DRM driver
++ */
++
++DEFINE_DRM_GEM_FOPS(simplekms_fops);
++
++static struct drm_driver simplekms_driver = {
++	DRM_GEM_SHMEM_DRIVER_OPS,
++	.name			= DRIVER_NAME,
++	.desc			= DRIVER_DESC,
++	.date			= DRIVER_DATE,
++	.major			= DRIVER_MAJOR,
++	.minor			= DRIVER_MINOR,
++	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
++	.fops			= &simplekms_fops,
++};
++
++/*
++ * Platform driver
++ */
++
++static int simplekms_probe(struct platform_device *pdev)
++{
++	struct simplekms_device *sdev;
++	struct drm_device *dev;
++	int ret;
++
++	sdev = simplekms_device_create(&simplekms_driver, pdev);
++	if (IS_ERR(sdev))
++		return PTR_ERR(sdev);
++	dev = &sdev->dev;
++
++	ret = drm_dev_register(dev, 0);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int simplekms_remove(struct platform_device *pdev)
++{
++	struct simplekms_device *sdev = platform_get_drvdata(pdev);
++
++	simplekms_device_cleanup(sdev);
++
++	return 0;
++}
++
++static struct platform_driver simplekms_platform_driver = {
++	.driver = {
++		.name = "simple-framebuffer", /* connect to sysfb */
++	},
++	.probe = simplekms_probe,
++	.remove = simplekms_remove,
++};
++
++module_platform_driver(simplekms_platform_driver);
++
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_LICENSE("GPL v2");
 -- 
 2.27.0
 
