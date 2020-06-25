@@ -2,51 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6809209C5D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 11:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA91209C5E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 11:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE0F6EA1D;
-	Thu, 25 Jun 2020 09:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 599BF6EA1E;
+	Thu, 25 Jun 2020 09:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D1289FDE
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 09:57:39 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id u23so4679000otq.10
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 02:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tm1AzxJH/Er4ljLrqb3LZ92iGdy3+zjo6TdMqR/MKm8=;
- b=AFNRBrgV8ypyozohBnf50wGJE3P+FCnE0BMzXxYje5hknaJlJtzZfzCfTfOXYFaGum
- 7ts+7mCBdpMf/i/C9+pl9DfLW6VAXUbO8fsTTQB6Cb5DhTLKAgflH96XT8+ry2p3m+/R
- c0x5nqqCdOKZN6LPloP1BwotF5itxh2mFI32o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tm1AzxJH/Er4ljLrqb3LZ92iGdy3+zjo6TdMqR/MKm8=;
- b=SyKm1/uD5mPs3e7irqfESJEuH404EjsVDo7GaVq1k7aeznhy3YDVsAPIntv+eEwLjW
- gtndhJcp8tPG5TjtpjmWGiZhcUKe5o/T3TwSif63v7CPb6ySg1pmRVw6h/XB83Ke0+6a
- SSrvHDhFiSNR4KJ7W3zH1HnibdWTNma7lHcfn67g+0gHhd8lprnrMxONvN/0saATcMl/
- uaJPLD/AeGatkOFZv32IHeHFWkcCOw/LD5s/UGQXpCZ8czFacJoWdv9VqF3nVcTnj1kN
- iuKI/D33dHzmi6JzxOCiI1+RQ+IgclOEDGsesaDq9R84TehZWyATVIwrhbFYygwApcnv
- bYeg==
-X-Gm-Message-State: AOAM530b8kTOhu4eqk+91CIDWHYFzdEQ01hDU4CWEFd5RNRlHJsrfluA
- OGt8THKlXmIT36LQcQuKdJeiBRcaHuAU3iMoS35qGQ==
-X-Google-Smtp-Source: ABdhPJyHaumCiRZUVAev2E8BtFePZ29r+wIo2bYax1IK0aRbwgRX2KbOTo3ykFoFhp+jbIxETZGQ9jp1fczvmOgihT0=
-X-Received: by 2002:a9d:4cd:: with SMTP id 71mr27881821otm.188.1593079058802; 
- Thu, 25 Jun 2020 02:57:38 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7766E6EA1E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 09:58:47 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206475] amdgpu under load drop signal to monitor until hard reset
+Date: Thu, 25 Jun 2020 09:58:46 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andrewammerlaan@riseup.net
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206475-2300-aIdLihGIhf@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206475-2300@https.bugzilla.kernel.org/>
+References: <bug-206475-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20200624182648.6976-1-nirmoy.das@amd.com>
- <b5629fcc-ba5e-4882-bafb-d88ef0ef144e@amd.com>
-In-Reply-To: <b5629fcc-ba5e-4882-bafb-d88ef0ef144e@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 25 Jun 2020 11:57:27 +0200
-Message-ID: <CAKMK7uEA2A9AiCUfSP6yizLZQM_b-dc5D6Mj+ProRkW5yKcC8Q@mail.gmail.com>
-Subject: Re: [RESEND] [PATCH v6 0/8] do not store GPU address in TTM
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,96 +51,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Thomas Hellstrom <thellstrom@vmware.com>,
- Dave Airlie <airlied@linux.ie>, "Ho, Kenny" <kenny.ho@amd.com>,
- Brian Welty <brian.welty@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Nirmoy Das <nirmoy.das@amd.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Sean Paul <sean@poorly.run>, Nirmoy Das <nirmoy.aiemd@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMjUsIDIwMjAgYXQgMTE6NTAgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0
-aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEkndmUgcHVzaGVkIHBhdGNoZXMgIzEsICMy
-IGFuZCAjNS0jOCBvZiB0aGlzIHNlcmllcyB0byBkcm0tbWlzYy1uZXh0Lgo+Cj4gT25seSBWTUdG
-WCBhbmQgTm91dmVhdSBhcmUgbWlzc2luZyBhbmQgSSdtIHByZXR0eSBjbG9zZSB0byBqdXN0IHB1
-c2gKPiB0aGVtIHdpdGggbXkgQWNrZWQtYnkgc2luY2UgdGhleSBzaG91bGQgbm90IGNvbnRhaW4g
-YW55IGZ1bmN0aW9uYWwgY2hhbmdlLgo+Cj4gQW55IG9iamVjdGlvbnM/CgpTb3VuZHMgZ29vZCB0
-byBtZSwgSSBqdXN0IHN1Z2dlc3RlZCB0byBBbGV4IG9uIGlyYyB5b3UgZG8ganVzdCB0aGF0LgpU
-aGVzZSBwYXRjaGVzIGhhdmUgYmVlbiBmbG9hdGluZyBmb3IgbG9uZyBlbm91Z2ggdGhhdCB0aGVy
-ZSdzIHN0YWxsaW5nCmZvciBkcml2ZXIgbWFpbnRhaW5lcnMgaXMgaW1vIG5vdCBuZWVkZWQgZm9y
-IGxvbmdlci4KLURhbmllbAoKPgo+IFRoYW5rcywKPiBDaHJpc3RpYW4uCj4KPiBBbSAyNC4wNi4y
-MCB1bSAyMDoyNiBzY2hyaWViIE5pcm1veSBEYXM6Cj4gPiBXaXRoIHRoaXMgcGF0Y2ggc2VyaWVz
-IEkgYW0gdHJ5aW5nIHRvIHJlbW92ZSBHUFUgYWRkcmVzcyBkZXBlbmRlbmN5IGluCj4gPiBUVE0g
-YW5kIG1vdmluZyBHUFUgYWRkcmVzcyBjYWxjdWxhdGlvbiB0byBpbmRpdmlkdWFsIGRybSBkcml2
-ZXJzLiBUaGlzCj4gPiBjbGVhbnVwIHdpbGwgc2ltcGxpZnkgaW50cm9kdWN0aW9uIG9mIGRybV9t
-ZW1fcmVnaW9uL2RvbWFpbiB3b3JrIHN0YXJ0ZWQKPiA+IGJ5IEJyaWFuIFdlbHR5WzFdLgo+ID4K
-PiA+Cj4gPiBJdCB3b3VsZCBiZSBuaWNlIGlmIHNvbWVvbmUgdGVzdCB0aGlzIGZvciBub3V2ZWF1
-LiBSZXN0IG9mIHRoZSBkcml2ZXJzCj4gPiBhcmUgYWxyZWFkeSB0ZXN0ZWQuCj4gPgo+ID4gdjI6
-Cj4gPiAqIHNldCBiby0+b2Zmc2V0ID0gMCBmb3IgZHJtL25vdXZlYXUgaWYgYm8tPm1lbS5tbV9u
-b2RlID09IE5VTEwKPiA+Cj4gPiB2MzoKPiA+ICogY2F0Y2ggcmV0dXJuIHZhbHVlIG9mIGRybV9n
-ZW1fdnJhbV9vZmZzZXQoKSBpbiBkcm0vYm9jaHMKPiA+ICogaW50cm9kdWNlIGRybV9nZW1fdnJh
-bV9wZ19vZmZzZXQoKSBpbiB2cmFtIGhlbHBlcgo+ID4gKiBpbXByb3ZlIG5iby0+b2Zmc2V0IGNh
-bGN1bGF0aW9uIGZvciBub3V2ZWF1Cj4gPgo+ID4gdjQ6Cj4gPiAqIG1pbm9yIGNvZGluZyBzdHls
-ZSBmaXhlcyBpbiBhbWRncHUgYW5kIHJhZGVvbgo+ID4gKiByZW1vdmUgdW5uZWNlc3Nhcnkga2Vy
-bmVsZG9jIGZvciBpbnRlcm5hbCBmdW5jdGlvbgo+ID4KPiA+IHY1Ogo+ID4gKiByZWJhc2Ugb24g
-dG9wIG9mIGRybS1taXNjLW5leHQKPiA+ICogZml4IHJldHVybiB2YWx1ZSBvZiBkcm1fZ2VtX3Zy
-YW1fcGdfb2Zmc2V0KCkKPiA+ICogYWRkIGEgY29tbWVudCBpbiBkcm1fZ2VtX3ZyYW1fcGdfb2Zm
-c2V0KCkgdG8gY2xlYXJpZnkgd2h5IHdlIHJldHVybiAwLgo+ID4KPiA+IHY2Ogo+ID4gKiByZWJh
-c2UgdG8gZHJtLW1pc2MtbmV4dAo+ID4gKiByZW1vdmVkIGFja2VkIGZvciB2bXdnZnggYXMgdGhl
-cmUgd2FzIGEgc21hbGwgY29uZmxpY3QKPiA+Cj4gPiBOaXJtb3kgRGFzICg4KToKPiA+ICAgIGRy
-bS9hbWRncHU6IG1vdmUgdHRtIGJvLT5vZmZzZXQgdG8gYW1kZ3B1X2JvCj4gPiAgICBkcm0vcmFk
-ZW9uOiBkb24ndCB1c2UgdHRtIGJvLT5vZmZzZXQKPiA+ICAgIGRybS92bXdnZng6IGRvbid0IHVz
-ZSB0dG0gYm8tPm9mZnNldAo+ID4gICAgZHJtL25vdXZlYXU6IGRvbid0IHVzZSB0dG0gYm8tPm9m
-ZnNldCB2Mwo+ID4gICAgZHJtL3F4bDogZG9uJ3QgdXNlIHR0bSBiby0+b2Zmc2V0Cj4gPiAgICBk
-cm0vdnJhbS1oZWxwZXI6IGRvbid0IHVzZSB0dG0gYm8tPm9mZnNldCB2NAo+ID4gICAgZHJtL2Jv
-Y2hzOiB1c2UgZHJtX2dlbV92cmFtX29mZnNldCB0byBnZXQgYm8gb2Zmc2V0IHYyCj4gPiAgICBk
-cm0vdHRtOiBkbyBub3Qga2VlcCBHUFUgZGVwZW5kZW50IGFkZHJlc3Nlcwo+ID4KPiA+ICAgZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5jICB8IDIzICsrKysrKysrKysr
-KysrLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5oICB8
-ICAxICsKPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jICAgICB8
-IDMwICsrKysrKysrKysrKysrKystLS0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9hbWRncHVfdHRtLmggICAgIHwgIDEgKwo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9hbWRncHVfdm1fc2RtYS5jIHwgIDQgKy0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9ib2Nocy9i
-b2Noc19rbXMuYyAgICAgICAgICAgfCAgNyArKysrLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbV92cmFtX2hlbHBlci5jICAgICAgIHwgMTEgKysrKysrKy0KPiA+ICAgZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvZGlzcG52MDQvY3J0Yy5jICAgICB8ICA2ICsrLS0tCj4gPiAgIGRyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L2Rpc3BudjA0L2Rpc3AuYyAgICAgfCAgMyArKy0KPiA+ICAgZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52MDQvb3ZlcmxheS5jICB8ICA2ICsrLS0tCj4gPiAgIGRy
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Jhc2U1MDdjLmMgfCAgMiArLQo+ID4gICBk
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jb3JlNTA3ZC5jIHwgIDIgKy0KPiA+ICAg
-ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvb3ZseTUwN2UuYyB8ICAyICstCj4gPiAg
-IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL3duZHcuYyAgICAgfCAgMiArLQo+ID4g
-ICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC93bmR3YzM3ZS5jIHwgIDIgKy0KPiA+
-ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5jICAgICB8ICA4ICsrKy0t
-LQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgICAgICAgIHwgIDgg
-KysrKysrCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uaCAgICAgICAg
-fCAgMyArKysKPiA+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jaGFuLmMgICAg
-ICB8ICAyICstCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1lbS5jICAg
-ICAgfCAgMiArLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2ZiY29uLmMg
-ICAgIHwgIDIgKy0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9nZW0uYyAg
-ICAgICB8IDEwICsrKy0tLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmggICAg
-ICAgICAgICAgICB8ICA2ICsrLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2ttcy5j
-ICAgICAgICAgICAgICAgfCAgNSArKy0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX29i
-amVjdC5oICAgICAgICAgICAgfCAgNSAtLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
-X3R0bS5jICAgICAgICAgICAgICAgfCAgOSAtLS0tLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vcmFkZW9uLmggICAgICAgICAgICAgfCAgMSArCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vcmFkZW9uX29iamVjdC5oICAgICAgfCAxNiArKysrKysrKysrLQo+ID4gICBkcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyAgICAgICAgIHwgIDQgKy0tCj4gPiAgIGRyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgICAgICAgfCAgNyAtLS0tLQo+ID4gICBk
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9iby5jICAgICAgICAgIHwgIDQgKy0tCj4gPiAg
-IGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2V4ZWNidWYuYyAgICAgfCAgMiArLQo+ID4g
-ICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9maWZvLmMgICAgICAgIHwgIDIgKy0KPiA+
-ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jICB8ICAyIC0tCj4g
-PiAgIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggICAgICAgICAgICAgICAgfCAgMiAtLQo+
-ID4gICBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oICAgICAgICAgICAgIHwgIDEgLQo+
-ID4gICAzNiBmaWxlcyBjaGFuZ2VkLCAxMjUgaW5zZXJ0aW9ucygrKSwgNzggZGVsZXRpb25zKC0p
-Cj4gPgo+ID4gLS0KPiA+IDIuMjcuMAo+ID4KPgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJl
-IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=206475
+
+--- Comment #17 from Andrew Ammerlaan (andrewammerlaan@riseup.net) ---
+(In reply to Alex Deucher from comment #16)
+> When the GPU is in reset all reads to the MMIO BAR return 1s so you are just
+> getting all ones until the reset succeeds.  511 is just all ones.  This
+> patch will fix that issue:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
+> ?id=9271dfd9e0f79e2969dcbe28568bce0fdc4f8f73
+
+Well there goes my hypotheses of the broken thermal sensor xD.
+
+I did discover yesterday that the fan of my GPU spins relatively slow under
+high load. When the GPU reached ~80 degrees Celsius, the fan didn't even spin
+at half the maximum RPM! I used the pwmconfig script and the fancontrol service
+from lm_sensors to force the fan to go to the maximum RPM just before reaching
+80 degrees Celsius. It's very noisy, *but* the GPU stays well below 70 degrees
+Celsius now, even under heavy load. As this issue seems to occur only when the
+GPU is hotter then ~75 degrees Celsius, I'm hoping that this will help in
+preventing the problem.
+
+I'm still confused as to why this is at all necessary, the critical temperature
+is 91, so why do I encounter these issues at ~80?
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
