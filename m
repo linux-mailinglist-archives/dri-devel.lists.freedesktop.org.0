@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB56209FB3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 15:23:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC60520A006
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 15:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB4F6E1EE;
-	Thu, 25 Jun 2020 13:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4416E1B9;
+	Thu, 25 Jun 2020 13:34:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC626E1B9;
- Thu, 25 Jun 2020 13:23:28 +0000 (UTC)
-IronPort-SDR: 0eYm+A90jFXafHK1SIexs3GSxmh13Dv2DvHIZkNpfpfcIM7bAhisLZx9BjeGcSN/uOB4m3WGaC
- HYdiBTJ9HiSw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="209990372"
-X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="209990372"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2020 06:23:28 -0700
-IronPort-SDR: mWEGvML3jEQqPLMelPh2EfBTjv1fT6AMQsZTNt9y/46FEmSMPnFGUejTB3T8hB/to1NiHIrve0
- Mt3aQevFIsPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="479473571"
-Received: from schiml-mobl3.ger.corp.intel.com (HELO [10.249.41.48])
- ([10.249.41.48])
- by fmsmga006.fm.intel.com with ESMTP; 25 Jun 2020 06:23:26 -0700
-Subject: Re: [Intel-gfx] [PATCH 2/2] dma-buf: fix dma-fence-chain out of order
- test
-To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
-References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
- <20200625123443.19680-2-lionel.g.landwerlin@intel.com>
- <159309113252.4527.2883585204850736358@build.alporthouse.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Message-ID: <c6f72d4d-c8a0-c484-7c31-761e9c37b85e@intel.com>
-Date: Thu, 25 Jun 2020 16:23:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 728B06E1B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 13:34:20 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id 72so5253120otc.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 06:34:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TRchS3u19fiIS7C0UK/+ytBsjjoblV6gX2Npu5INAM4=;
+ b=ZjPSXBh0Heou547AjT0Hd/0/TZFJAOFL4eq46W7z2DD1BX9ZoFwRhX8cS1BJcqQC3c
+ IrnFM72dtxUrBcKNP01LAhOW/Tq7zmbZZZ+bOkNF3Hd2wyQpnNOTfVYLCYVR8YHLPsAz
+ 5lOC6YwrxX8rTBN2Svtdgs9SGbGh50alckAjVJBZRNRvoXAKI4kWQhE57ZmQHjBY9gyB
+ sp9mOaJZwQ3a4Lia8XXUqPZajQtwq8GXP4McwsUXT7IEhe8sMnJzg0HMRW3gHIrD6uw0
+ JS+bDBhshz0fBTaR7YCfUAFQD8f9GfA3g5XOrGqGOARIRmowY1089Taq/wr01z1eWFi+
+ 2N+g==
+X-Gm-Message-State: AOAM533QlVRTyyaFoLbDR8p7ACXdWUNaPjYls92L/Dg9tSg+uIQs/QjM
+ h4ML+E7L26llC5CppdYCs2OGQ2xNnqYNnkjNOEY=
+X-Google-Smtp-Source: ABdhPJyfZs5wkrSbKwnWnBwMiohr7YRapQqDrIV04olBcp+FF+AgnfXQu95DtWEricaRj/rfIg0LDIgDkjjgL35xt9c=
+X-Received: by 2002:a05:6830:10d6:: with SMTP id
+ z22mr6642778oto.250.1593092059705; 
+ Thu, 25 Jun 2020 06:34:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <159309113252.4527.2883585204850736358@build.alporthouse.com>
-Content-Language: en-US
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-7-tzimmermann@suse.de>
+In-Reply-To: <20200625120011.16168-7-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 25 Jun 2020 15:34:05 +0200
+Message-ID: <CAMuHMdUfO5QmUHwkTXqgtr+zEsz=29og33E3wuYC7qqGE+ES4g@mail.gmail.com>
+Subject: Re: [PATCH 6/9] drm/simplekms: Acquire clocks from DT device node
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +53,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, christian.koenig@amd.com
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/06/2020 16:18, Chris Wilson wrote:
-> Quoting Lionel Landwerlin (2020-06-25 13:34:43)
->> There was probably a misunderstand on how the dma-fence-chain is
->> supposed to work or what dma_fence_chain_find_seqno() is supposed to
->> return.
->>
->> dma_fence_chain_find_seqno() is here to give us the fence to wait upon
->> for a particular point in the timeline. The timeline progresses only
->> when all the points prior to a given number have completed.
-> Hmm, the question was what point is it supposed to wait for.
+Hi Thomas,
+
+On Thu, Jun 25, 2020 at 2:00 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Make sure required hardware clocks are enabled while the firmware
+> framebuffer is in use.
 >
-> For the simple chain of [1, 3], does 1 being signaled imply that all
-> points up to 3 are signaled, or does 3 not being signaled imply that all
-> points after 1 are not. If that's mentioned already somewhere, my bad.
-> If not, could you put the answer somewhere.
-> -Chris
+> The basic code has been taken from the simplefb driver and adapted
+> to DRM. Clocks are released automatically via devres helpers.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-In [1, 3], if 1 is signaled, the timeline value is 1. And find_seqno(2) 
-should return NULL.
+Thanks for your patch!
 
+> --- a/drivers/gpu/drm/tiny/simplekms.c
+> +++ b/drivers/gpu/drm/tiny/simplekms.c
 
-In the out_of_order selftest the chain was [1, 2, 3], 2 was signaled and 
-the test was expecting no fence to be returned by find_seqno(2).
+> @@ -210,6 +218,103 @@ static struct simplekms_device *simplekms_device_of_dev(struct drm_device *dev)
+>         return container_of(dev, struct simplekms_device, dev);
+>  }
+>
+> +/*
+> + * Hardware
+> + */
+> +
+> +#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
+> +/*
+> + * Clock handling code.
+> + *
+> + * Here we handle the clocks property of our "simple-framebuffer" dt node.
+> + * This is necessary so that we can make sure that any clocks needed by
+> + * the display engine that the bootloader set up for us (and for which it
+> + * provided a simplefb dt node), stay up, for the life of the simplefb
+> + * driver.
+> + *
+> + * When the driver unloads, we cleanly disable, and then release the clocks.
+> + *
+> + * We only complain about errors here, no action is taken as the most likely
+> + * error can only happen due to a mismatch between the bootloader which set
+> + * up simplefb, and the clock definitions in the device tree. Chances are
+> + * that there are no adverse effects, and if there are, a clean teardown of
+> + * the fb probe will not help us much either. So just complain and carry on,
+> + * and hope that the user actually gets a working fb at the end of things.
+> + */
+> +
+> +static void simplekms_device_release_clocks(void *res)
+> +{
+> +       struct simplekms_device *sdev = simplekms_device_of_dev(res);
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < sdev->clk_count; ++i) {
+> +               if (sdev->clks[i]) {
+> +                       clk_disable_unprepare(sdev->clks[i]);
+> +                       clk_put(sdev->clks[i]);
+> +               }
+> +       }
+> +}
+> +
+> +static int simplekms_device_init_clocks(struct simplekms_device *sdev)
+> +{
+> +       struct drm_device *dev = &sdev->dev;
+> +       struct platform_device *pdev = sdev->pdev;
+> +       struct device_node *of_node = pdev->dev.of_node;
+> +       struct clk *clock;
+> +       unsigned int i;
+> +       int ret;
+> +
+> +       if (dev_get_platdata(&pdev->dev) || !of_node)
+> +               return 0;
+> +
+> +       sdev->clk_count = of_clk_get_parent_count(of_node);
+> +       if (!sdev->clk_count)
+> +               return 0;
+> +
+> +       sdev->clks = drmm_kzalloc(dev, sdev->clk_count * sizeof(sdev->clks[0]),
+> +                                 GFP_KERNEL);
+> +       if (!sdev->clks)
+> +               return -ENOMEM;
+> +
+> +       for (i = 0; i < sdev->clk_count; ++i) {
+> +               clock = of_clk_get(of_node, i);
 
-But we still have to wait on 1 to complete before find_seqno(2) can 
-return NULL (as in you don't have to wait on anything).
+clk_bulk_get_all()?
 
+Gr{oetje,eeting}s,
 
-Hope that answer the question.
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--Lionel
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
