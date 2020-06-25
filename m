@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172CA20A3C7
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 19:13:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 419BA20A3D2
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 19:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 212C16E0A5;
-	Thu, 25 Jun 2020 17:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE526EBD3;
+	Thu, 25 Jun 2020 17:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677926E0A5;
- Thu, 25 Jun 2020 17:13:33 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id d15so4784785edm.10;
- Thu, 25 Jun 2020 10:13:33 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32D956EC00;
+ Thu, 25 Jun 2020 17:16:42 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a6so6659869wrm.4;
+ Thu, 25 Jun 2020 10:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lF0qy+v5jV2ozFLzJY/1pgZYkmaMzm6mj03LWcgaglI=;
- b=jPgOdrRnDqP9La2AS9BXce1BmmIbaFOEUW3CixHK2BhdlVEpkRoOtKfWRIEMvwm17L
- Lp539xjc0v1B+Ihc/Fs0IJ6FND5+yd0f37vTIvzrdTOrArGinK7sLcl4DURwD0EF+Vyg
- pCKLVGRCujS70k/tK3yP/wX1Qa2x8mRr7BrckSlmrurdj712DIKJl5F+VMuRtth8DuK6
- BG/ETuBSA/Zte+ds/HR238GG63voOnaHqUPLEljQ+78b7FVI9/WDVSWXd4yriwmDmsve
- bThLYojVNgW3+dnUOeKpdFWjr8FjL9wSnugHXaRZpjW3LWOriEZV+Z43B7p0/QvdP7uy
- p7Cg==
+ :cc; bh=yVQ9UuGl9K3XAoQkcU4sk60ru7Jl6/1Dd6NAYAebMXg=;
+ b=lIRxH08oBEtuy5h9XR66KqcOrsxZ0XlddiBu/lKKdWleODwNSaQM/WbnVXHsuvLvUh
+ agkgoxKGXBnSKFm5gB7hSS8yJLE7HDathIX15iveNqp21BTU9vcigalAcCXU8EY3JWUf
+ XXnTC11ape0jhLCHnTImNZr21PRnH2MsmwirJjJLe9LGrwMFt+DcYCgAIvfqU8A8taOh
+ ybrXosKbJnHy75RxSPj8T0YjjU67Se6ZfNLppxcybAorylHPm0I4ykbEs/80gTIaLRNa
+ qcv8Y7zSXGPg0IH2JfejT6U0tKcKzi1YPU3skGHjhTbj09Mc7YDgIz8mnexPVKRvWwyP
+ 5enQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lF0qy+v5jV2ozFLzJY/1pgZYkmaMzm6mj03LWcgaglI=;
- b=ArbghgTzeHYD2bbfVtRk8fSAunbseUJfobdqRwm6s0oFlobpQ18deGa6Z3+7Z5odO9
- rJANlB+RycK/sBLyPOZT8DZ1nCqY+9ej21f+xx0/dei5AvoSVPcR+x73pXzr3ow7FU6H
- Q1S1pUMhh7+i98MO56Oiclx0sLL1taPkngotrd//Gp1B7H60V+j9PCJ+/eVEJQ6vGGJK
- TX1O19k7NJx4WXHoAvuoq3Ac6L3XIrpb8hIyzHQlKMacHMSYX/FwjLOReGVp29WtvPoh
- bvoXLRG0hV62W3URg6UCSyCQfLKgvVh2kFIrzK4rEqr6zgHo3Ln5zajsav8aAUOFT3dT
- AJbw==
-X-Gm-Message-State: AOAM5331ExVKYK5kml4qIFH0F8rxR2BKXU0aUdakD0goujvSgSwfBxBY
- kjZuDlfV+O20kuxF4Bfgx6qXKgBQN4N/jBRojNfs/uwcm68=
-X-Google-Smtp-Source: ABdhPJz0HWigy/NA7BtGI9NCz7O7hufdrwRFM2qLcrGtpp3tTp0QKQxbqO3RQEoBiW8dUTLEpOeHLxDHT6Vmxmva+bE=
-X-Received: by 2002:a05:6402:796:: with SMTP id
- d22mr23294291edy.78.1593105211936; 
- Thu, 25 Jun 2020 10:13:31 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=yVQ9UuGl9K3XAoQkcU4sk60ru7Jl6/1Dd6NAYAebMXg=;
+ b=cPOATxN+tP/Gbr2SdxiKhrIXGnKgLtECBx68ilIIBmWXTxrWuzkMaME7RQIdrkjzb1
+ UQomwsl/O5z13vXdDXEzrdUGOk1RRjPigLo+LFL8ZiRSA1Bg0YuMBjYXAHv1jRNpLRrw
+ PaFHgwvQRbTi7Tpah4WLe3YRKV+Hf5iTvHLsbpI/C8EmRZ7jEQritnK/y4yuASNh24xy
+ rAYIIk82lmEc42FgKMWBgmZm1+hsaaJl9zhRUe3ayuQdDL5S2zSOfAmiqRohbM+owwN+
+ YO6dTvdEPZ7GAy0UAWEarP02shds1htVdNqcpTLoJyinh8kCfnA5+NQey9jLIB267BID
+ gUpA==
+X-Gm-Message-State: AOAM5333S9KC1f4emXpJuQJv0YK1iuMaSUwnGoZ0WxQ/kHMqWh2og+rA
+ 0krUg1fzZDx5Zay3lY5T8HIzqyJsiZUX2UwAgGU=
+X-Google-Smtp-Source: ABdhPJxZfMZ1K1HQA1XbNumMSVKKi36ZAB/pjLuv0BsyN6lesNEXqVUKOGIt8dkTenZnxe/2Sy9ztW2+SpjOTTCGJSU=
+X-Received: by 2002:adf:ef89:: with SMTP id d9mr24684664wro.124.1593105400767; 
+ Thu, 25 Jun 2020 10:16:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
- <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
-In-Reply-To: <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 26 Jun 2020 03:13:20 +1000
-Message-ID: <CAPM=9txhX5TVUdWibRFc1C+ip5a8-c07jZawds=k5T5pBTPASA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] Revert "dma-buf: Report signaled links
- inside dma-fence-chain"
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20200625165042.13708-1-mironov.ivan@gmail.com>
+In-Reply-To: <20200625165042.13708-1-mironov.ivan@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 25 Jun 2020 13:16:29 -0400
+Message-ID: <CADnq5_NgvGEW+4t5gzLdaOJo0HC10M5iEaE+j7O6yKB9H6H-5w@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/amd/powerplay: Fix NULL dereference in lock_bus()
+ on Vega20 w/o RAS
+To: Ivan Mironov <mironov.ivan@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +61,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, venkata.s.dhanalakota@intel.com,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Bjorn Nostvold <bjorn.nostvold@gmail.com>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V1RVRj8KCkhvdyBkaWQgdGhpcyBldmVyIGxhbmQgaW4gbXkgdHJlZSwgdGhlcmUgaXMgbm8gQUNL
-IG9uIHRoaXMgZnJvbSBhbnlvbmUKaW4gY29yZSBkbWEtYnVmLAoKSW50ZWwgdGVhbSwgY2xlYW4g
-eW91ciBob3VzZSB1cCBoZXJlLCBJJ20gZ29pbmcgdG8gaGF2ZSB0byBhc2sgeW91IHRvCnN0b3Ag
-Q2hyaXMgbWVyZ2luZyBzdHVmZiB3aXRob3V0IG92ZXJzaWdodCwgaWYgdGhpcyBzb3J0IG9mIHRo
-aW5nCmhhcHBlbnMsIHRoaXMgaXMgdG90YWxseSB1bmFjY2VwdGFibGUuCgpEYXZlLgoKCiBTaWdu
-ZWQtb2ZmLWJ5OiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KICAgIFRl
-c3RlZC1ieTogVmVua2F0YSBTYW5kZWVwIERoYW5hbGFrb3RhIDx2ZW5rYXRhLnMuZGhhbmFsYWtv
-dGFAaW50ZWwuY29tPgogICAgUmV2aWV3ZWQtYnk6IFZlbmthdGEgU2FuZGVlcCBEaGFuYWxha290
-YSA8dmVua2F0YS5zLmRoYW5hbGFrb3RhQGludGVsLmNvbT4KCgpPbiBUaHUsIDI1IEp1biAyMDIw
-IGF0IDIyOjQzLCBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdy
-b3RlOgo+Cj4gQW0gMjUuMDYuMjAgdW0gMTQ6MzQgc2NocmllYiBMaW9uZWwgTGFuZHdlcmxpbjoK
-PiA+IFRoaXMgcmV2ZXJ0cyBjb21taXQgNWRlMzc2YmI0MzRmODBhMTMxMzhmMGViZWRjODM1MWFi
-NzNkOGIwZC4KPiA+Cj4gPiBUaGlzIGNoYW5nZSBicmVha3Mgc3luY2hyb25pemF0aW9uIG9mIGEg
-dGltZWxpbmUuCj4gPiBkbWFfZmVuY2VfY2hhaW5fZmluZF9zZXFubygpIG1pZ2h0IGJlIGEgYml0
-IG9mIGEgY29uZnVzaW5nIG5hbWUgYnV0Cj4gPiB0aGlzIGZ1bmN0aW9uIGlzIG5vdCB0cnlpbmcg
-dG8gZmluZCBhIHBhcnRpY3VsYXIgc2Vxbm8sIGlzIHN1cHBvc2VkIHRvCj4gPiBnaXZlIGEgZmVu
-Y2UgdG8gd2FpdCBvbiBmb3IgYSBwYXJ0aWN1bGFyIHBvaW50IGluIHRoZSB0aW1lbGluZS4KPiA+
-Cj4gPiBJbiBhIHRpbWVsaW5lLCBhIHBhcnRpY3VsYXIgdmFsdWUgaXMgcmVhY2hlZCB3aGVuIGFs
-bCB0aGUgcG9pbnRzIHVwIHRvCj4gPiBhbmQgaW5jbHVkaW5nIHRoYXQgdmFsdWUgaGF2ZSBzaWdu
-YWxlZC4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcu
-bGFuZHdlcmxpbkBpbnRlbC5jb20+Cj4KPiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8
-Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9kbWEtYnVm
-L2RtYS1mZW5jZS1jaGFpbi5jIHwgNyAtLS0tLS0tCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCA3IGRl
-bGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
-LWNoYWluLmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLWNoYWluLmMKPiA+IGluZGV4IGM0
-MzViYmJhODUxYy4uM2QxMjM1MDJmZjEyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVm
-L2RtYS1mZW5jZS1jaGFpbi5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLWNo
-YWluLmMKPiA+IEBAIC05OSwxMiArOTksNiBAQCBpbnQgZG1hX2ZlbmNlX2NoYWluX2ZpbmRfc2Vx
-bm8oc3RydWN0IGRtYV9mZW5jZSAqKnBmZW5jZSwgdWludDY0X3Qgc2Vxbm8pCj4gPiAgICAgICAg
-ICAgICAgIHJldHVybiAtRUlOVkFMOwo+ID4KPiA+ICAgICAgIGRtYV9mZW5jZV9jaGFpbl9mb3Jf
-ZWFjaCgqcGZlbmNlLCAmY2hhaW4tPmJhc2UpIHsKPiA+IC0gICAgICAgICAgICAgaWYgKCgqcGZl
-bmNlKS0+c2Vxbm8gPCBzZXFubykgeyAvKiBhbHJlYWR5IHNpZ25hbGVkICovCj4gPiAtICAgICAg
-ICAgICAgICAgICAgICAgZG1hX2ZlbmNlX3B1dCgqcGZlbmNlKTsKPiA+IC0gICAgICAgICAgICAg
-ICAgICAgICAqcGZlbmNlID0gTlVMTDsKPiA+IC0gICAgICAgICAgICAgICAgICAgICBicmVhazsK
-PiA+IC0gICAgICAgICAgICAgfQo+ID4gLQo+ID4gICAgICAgICAgICAgICBpZiAoKCpwZmVuY2Up
-LT5jb250ZXh0ICE9IGNoYWluLT5iYXNlLmNvbnRleHQgfHwKPiA+ICAgICAgICAgICAgICAgICAg
-IHRvX2RtYV9mZW5jZV9jaGFpbigqcGZlbmNlKS0+cHJldl9zZXFubyA8IHNlcW5vKQo+ID4gICAg
-ICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+ID4gQEAgLTIyOCw3ICsyMjIsNiBAQCBFWFBPUlRf
-U1lNQk9MKGRtYV9mZW5jZV9jaGFpbl9vcHMpOwo+ID4gICAgKiBAY2hhaW46IHRoZSBjaGFpbiBu
-b2RlIHRvIGluaXRpYWxpemUKPiA+ICAgICogQHByZXY6IHRoZSBwcmV2aW91cyBmZW5jZQo+ID4g
-ICAgKiBAZmVuY2U6IHRoZSBjdXJyZW50IGZlbmNlCj4gPiAtICogQHNlcW5vOiB0aGUgc2VxdWVu
-Y2UgbnVtYmVyIChzeW5jcHQpIG9mIHRoZSBmZW5jZSB3aXRoaW4gdGhlIGNoYWluCj4gPiAgICAq
-Cj4gPiAgICAqIEluaXRpYWxpemUgYSBuZXcgY2hhaW4gbm9kZSBhbmQgZWl0aGVyIHN0YXJ0IGEg
-bmV3IGNoYWluIG9yIGFkZCB0aGUgbm9kZSB0bwo+ID4gICAgKiB0aGUgZXhpc3RpbmcgY2hhaW4g
-b2YgdGhlIHByZXZpb3VzIGZlbmNlLgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KPiBJbnRlbC1nZnggbWFpbGluZyBsaXN0Cj4gSW50ZWwtZ2Z4QGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vaW50ZWwtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+Applied.  Thanks!
+
+Alex
+
+On Thu, Jun 25, 2020 at 1:14 PM Ivan Mironov <mironov.ivan@gmail.com> wrote:
+>
+> I updated my system with Radeon VII from kernel 5.6 to kernel 5.7, and
+> following started to happen on each boot:
+>
+>         ...
+>         BUG: kernel NULL pointer dereference, address: 0000000000000128
+>         ...
+>         CPU: 9 PID: 1940 Comm: modprobe Tainted: G            E     5.7.2-200.im0.fc32.x86_64 #1
+>         Hardware name: System manufacturer System Product Name/PRIME X570-P, BIOS 1407 04/02/2020
+>         RIP: 0010:lock_bus+0x42/0x60 [amdgpu]
+>         ...
+>         Call Trace:
+>          i2c_smbus_xfer+0x3d/0xf0
+>          i2c_default_probe+0xf3/0x130
+>          i2c_detect.isra.0+0xfe/0x2b0
+>          ? kfree+0xa3/0x200
+>          ? kobject_uevent_env+0x11f/0x6a0
+>          ? i2c_detect.isra.0+0x2b0/0x2b0
+>          __process_new_driver+0x1b/0x20
+>          bus_for_each_dev+0x64/0x90
+>          ? 0xffffffffc0f34000
+>          i2c_register_driver+0x73/0xc0
+>          do_one_initcall+0x46/0x200
+>          ? _cond_resched+0x16/0x40
+>          ? kmem_cache_alloc_trace+0x167/0x220
+>          ? do_init_module+0x23/0x260
+>          do_init_module+0x5c/0x260
+>          __do_sys_init_module+0x14f/0x170
+>          do_syscall_64+0x5b/0xf0
+>          entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>         ...
+>
+> Error appears when some i2c device driver tries to probe for devices
+> using adapter registered by `smu_v11_0_i2c_eeprom_control_init()`.
+> Code supporting this adapter requires `adev->psp.ras.ras` to be not
+> NULL, which is true only when `amdgpu_ras_init()` detects HW support by
+> calling `amdgpu_ras_check_supported()`.
+>
+> Before 9015d60c9ee1, adapter was registered by
+>
+>         -> amdgpu_device_ip_init()
+>           -> amdgpu_ras_recovery_init()
+>             -> amdgpu_ras_eeprom_init()
+>               -> smu_v11_0_i2c_eeprom_control_init()
+>
+> after verifying that `adev->psp.ras.ras` is not NULL in
+> `amdgpu_ras_recovery_init()`. Currently it is registered
+> unconditionally by
+>
+>         -> amdgpu_device_ip_init()
+>           -> pp_sw_init()
+>             -> hwmgr_sw_init()
+>               -> vega20_smu_init()
+>                 -> smu_v11_0_i2c_eeprom_control_init()
+>
+> Fix simply adds HW support check (ras == NULL => no support) before
+> calling `smu_v11_0_i2c_eeprom_control_{init,fini}()`.
+>
+> Please note that there is a chance that similar fix is also required for
+> CHIP_ARCTURUS. I do not know whether any actual Arcturus hardware without
+> RAS exist, and whether calling `smu_i2c_eeprom_init()` makes any sense
+> when there is no HW support.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 9015d60c9ee1 ("drm/amdgpu: Move EEPROM I2C adapter to amdgpu_device")
+> Signed-off-by: Ivan Mironov <mironov.ivan@gmail.com>
+> Tested-by: Bjorn Nostvold <bjorn.nostvold@gmail.com>
+> ---
+> Changelog:
+>
+> v1:
+>   - Added "Tested-by" for another user who used this patch to fix the
+>     same issue.
+>
+> v0:
+>   - Patch introduced.
+> ---
+>  drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c
+> index 2fb97554134f..c2e0fbbccf56 100644
+> --- a/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c
+> +++ b/drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c
+> @@ -522,9 +522,11 @@ static int vega20_smu_init(struct pp_hwmgr *hwmgr)
+>         priv->smu_tables.entry[TABLE_ACTIVITY_MONITOR_COEFF].version = 0x01;
+>         priv->smu_tables.entry[TABLE_ACTIVITY_MONITOR_COEFF].size = sizeof(DpmActivityMonitorCoeffInt_t);
+>
+> -       ret = smu_v11_0_i2c_eeprom_control_init(&adev->pm.smu_i2c);
+> -       if (ret)
+> -               goto err4;
+> +       if (adev->psp.ras.ras) {
+> +               ret = smu_v11_0_i2c_eeprom_control_init(&adev->pm.smu_i2c);
+> +               if (ret)
+> +                       goto err4;
+> +       }
+>
+>         return 0;
+>
+> @@ -560,7 +562,8 @@ static int vega20_smu_fini(struct pp_hwmgr *hwmgr)
+>                         (struct vega20_smumgr *)(hwmgr->smu_backend);
+>         struct amdgpu_device *adev = hwmgr->adev;
+>
+> -       smu_v11_0_i2c_eeprom_control_fini(&adev->pm.smu_i2c);
+> +       if (adev->psp.ras.ras)
+> +               smu_v11_0_i2c_eeprom_control_fini(&adev->pm.smu_i2c);
+>
+>         if (priv) {
+>                 amdgpu_bo_free_kernel(&priv->smu_tables.entry[TABLE_PPTABLE].handle,
+> --
+> 2.26.2
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
