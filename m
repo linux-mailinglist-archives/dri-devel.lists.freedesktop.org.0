@@ -1,59 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C767820A47D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 20:13:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB2820A552
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 20:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18D66E128;
-	Thu, 25 Jun 2020 18:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E216E33F;
+	Thu, 25 Jun 2020 18:57:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8DE6E128
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 18:13:47 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id t85so6224248ili.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 11:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VstA5hrEq9VpvC9DROyBs75UqvmVwR+Se8yYm9DGqa8=;
- b=I31uubtQCWSvMe8Iqy47DbzfqdY4vTS0AyF0c9aMR3nSofHfDs6pooTiZpWwu0Ddny
- AG0YNuJ3LxePJHdnFYLQv15HXN7vs5prvWu+No7OcgCm8DR78mPmal5Io+tr+BOuZ05C
- xW7uIk501Tm6ft94zX5c2IPaFKjKsVw3aU0qcqKeeP/+GzmAjVBgNjNDxFD5lUrhTzZi
- 8dWk7sOZegMrWPKH8AUKg0LwmGb4fMwum0ce+UnmYIrkGzf9BuSiO8GnCSI9Up/D65rm
- /xIov4xTaFvU7XFFNLJqeP8OXIwas2P3oqnw8UPOgUUOgIRkuWRmz9zvZA4c/NEhhcfw
- Enew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=VstA5hrEq9VpvC9DROyBs75UqvmVwR+Se8yYm9DGqa8=;
- b=RiK7vSN5OygE0XDsEBLXu10EAoUqotHxYaTwM4aoNpk9yL8J8mcfnZeGXiJTN6qgzP
- GL5ZzMKPqJD71BkVD/Obz4zWsJhauRdEKUbctBZFuWoZghG85l6uIpK67BHHEWNngAUS
- PpFHoeuxiU2kqae119eqqBAWf5XDt4nn4Zsdy2xjwLw67sfpKfxczTalPYUkT5awP6UU
- 0OcyuDnINBv6SfijK8Vxw7OTRcX4tvsolVLAeUaVOvyXubXx14WfjR8b+ZHh7g0c0Hwf
- IJU3Gv/D/I4K0//echA9UbWai2yY5NO0AdUMC044c/cMn5nBF/L931YyjhlwfDWYZQ9A
- 6xFg==
-X-Gm-Message-State: AOAM531yPf3brt+h5PSCLjiyT1pG47ii6KhKXZilIFv2XUZYYny0hZig
- 1r8Vsxojxfw5BAk5PThjiAA=
-X-Google-Smtp-Source: ABdhPJzPuKkgQN9PSa3H/rALa3DgRRRH2bIq+c4kfXGelizF/bHWQsLE3Injws6j1LhG4T4/8f+ZmA==
-X-Received: by 2002:a92:da51:: with SMTP id p17mr25985989ilq.44.1593108826972; 
- Thu, 25 Jun 2020 11:13:46 -0700 (PDT)
-Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net.
- [73.202.231.77])
- by smtp.googlemail.com with ESMTPSA id f2sm7420163ioc.52.2020.06.25.11.13.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 11:13:46 -0700 (PDT)
-From: Steve Longerbeam <slongerbeam@gmail.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v2 3/3] gpu: ipu-v3: image-convert: Wait for all EOFs before
- completing a tile
-Date: Thu, 25 Jun 2020 11:13:37 -0700
-Message-Id: <20200625181337.11729-1-slongerbeam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200617224038.17889-3-slongerbeam@gmail.com>
-References: <20200617224038.17889-3-slongerbeam@gmail.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 877386E33F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 18:57:52 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 88DBD200DF;
+ Thu, 25 Jun 2020 20:57:47 +0200 (CEST)
+Date: Thu, 25 Jun 2020 20:57:46 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 0/8] Fix a bunch of W=1 warnings in Backlight
+Message-ID: <20200625185746.GA1875182@ravnborg.org>
+References: <20200624145721.2590327-1-lee.jones@linaro.org>
+ <20200624153216.GA1814806@ravnborg.org>
+ <20200624154321.GH954398@dell>
+ <20200624162446.GA1815586@ravnborg.org>
+ <20200625080337.GN954398@dell>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200625080337.GN954398@dell>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=KKAkSRfTAAAA:8
+ a=dC_rIlIaLDHj5HQ0j38A:9 a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,255 +48,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Steve Longerbeam <slongerbeam@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use a bit-mask of EOF irqs to determine when all required idmac
-channel EOFs have been received for a tile conversion, and only do
-tile completion processing after all EOFs have been received. Otherwise
-it was found that a conversion would stall after the completion of a
-tile and the start of the next tile, because the input/read idmac
-channel had not completed and entered idle state, thus locking up the
-channel when attempting to re-start it for the next tile.
-
-Fixes: 0537db801bb01 ("gpu: ipu-v3: image-convert: reconfigure IC per tile")
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
----
-Changes in v2:
-- need to clear eof_mask at completion of every tile, not just in
-  convert_start().
----
- drivers/gpu/ipu-v3/ipu-image-convert.c | 109 +++++++++++++++++++------
- 1 file changed, 82 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
-index f8b031ded3cf..aa1d4b6d278f 100644
---- a/drivers/gpu/ipu-v3/ipu-image-convert.c
-+++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
-@@ -137,6 +137,17 @@ struct ipu_image_convert_ctx;
- struct ipu_image_convert_chan;
- struct ipu_image_convert_priv;
- 
-+enum eof_irq_mask {
-+	EOF_IRQ_IN      = BIT(0),
-+	EOF_IRQ_ROT_IN  = BIT(1),
-+	EOF_IRQ_OUT     = BIT(2),
-+	EOF_IRQ_ROT_OUT = BIT(3),
-+};
-+
-+#define EOF_IRQ_COMPLETE (EOF_IRQ_IN | EOF_IRQ_OUT)
-+#define EOF_IRQ_ROT_COMPLETE (EOF_IRQ_IN | EOF_IRQ_OUT |	\
-+			      EOF_IRQ_ROT_IN | EOF_IRQ_ROT_OUT)
-+
- struct ipu_image_convert_ctx {
- 	struct ipu_image_convert_chan *chan;
- 
-@@ -173,6 +184,9 @@ struct ipu_image_convert_ctx {
- 	/* where to place converted tile in dest image */
- 	unsigned int out_tile_map[MAX_TILES];
- 
-+	/* mask of completed EOF irqs at every tile conversion */
-+	enum eof_irq_mask eof_mask;
-+
- 	struct list_head list;
- };
- 
-@@ -189,6 +203,8 @@ struct ipu_image_convert_chan {
- 	struct ipuv3_channel *rotation_out_chan;
- 
- 	/* the IPU end-of-frame irqs */
-+	int in_eof_irq;
-+	int rot_in_eof_irq;
- 	int out_eof_irq;
- 	int rot_out_eof_irq;
- 
-@@ -1380,6 +1396,9 @@ static int convert_start(struct ipu_image_convert_run *run, unsigned int tile)
- 	dev_dbg(priv->ipu->dev, "%s: task %u: starting ctx %p run %p tile %u -> %u\n",
- 		__func__, chan->ic_task, ctx, run, tile, dst_tile);
- 
-+	/* clear EOF irq mask */
-+	ctx->eof_mask = 0;
-+
- 	if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
- 		/* swap width/height for resizer */
- 		dest_width = d_image->tile[dst_tile].height;
-@@ -1615,7 +1634,7 @@ static bool ic_settings_changed(struct ipu_image_convert_ctx *ctx)
- }
- 
- /* hold irqlock when calling */
--static irqreturn_t do_irq(struct ipu_image_convert_run *run)
-+static irqreturn_t do_tile_complete(struct ipu_image_convert_run *run)
- {
- 	struct ipu_image_convert_ctx *ctx = run->ctx;
- 	struct ipu_image_convert_chan *chan = ctx->chan;
-@@ -1700,6 +1719,7 @@ static irqreturn_t do_irq(struct ipu_image_convert_run *run)
- 		ctx->cur_buf_num ^= 1;
- 	}
- 
-+	ctx->eof_mask = 0; /* clear EOF irq mask for next tile */
- 	ctx->next_tile++;
- 	return IRQ_HANDLED;
- done:
-@@ -1715,8 +1735,9 @@ static irqreturn_t eof_irq(int irq, void *data)
- 	struct ipu_image_convert_priv *priv = chan->priv;
- 	struct ipu_image_convert_ctx *ctx;
- 	struct ipu_image_convert_run *run;
-+	irqreturn_t ret = IRQ_HANDLED;
-+	bool tile_complete = false;
- 	unsigned long flags;
--	irqreturn_t ret;
- 
- 	spin_lock_irqsave(&chan->irqlock, flags);
- 
-@@ -1729,27 +1750,33 @@ static irqreturn_t eof_irq(int irq, void *data)
- 
- 	ctx = run->ctx;
- 
--	if (irq == chan->out_eof_irq) {
--		if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
--			/* this is a rotation op, just ignore */
--			ret = IRQ_HANDLED;
--			goto out;
--		}
--	} else if (irq == chan->rot_out_eof_irq) {
-+	if (irq == chan->in_eof_irq) {
-+		ctx->eof_mask |= EOF_IRQ_IN;
-+	} else if (irq == chan->out_eof_irq) {
-+		ctx->eof_mask |= EOF_IRQ_OUT;
-+	} else if (irq == chan->rot_in_eof_irq ||
-+		   irq == chan->rot_out_eof_irq) {
- 		if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
- 			/* this was NOT a rotation op, shouldn't happen */
- 			dev_err(priv->ipu->dev,
- 				"Unexpected rotation interrupt\n");
--			ret = IRQ_HANDLED;
- 			goto out;
- 		}
-+		ctx->eof_mask |= (irq == chan->rot_in_eof_irq) ?
-+			EOF_IRQ_ROT_IN : EOF_IRQ_ROT_OUT;
- 	} else {
- 		dev_err(priv->ipu->dev, "Received unknown irq %d\n", irq);
- 		ret = IRQ_NONE;
- 		goto out;
- 	}
- 
--	ret = do_irq(run);
-+	if (ipu_rot_mode_is_irt(ctx->rot_mode))
-+		tile_complete =	(ctx->eof_mask == EOF_IRQ_ROT_COMPLETE);
-+	else
-+		tile_complete = (ctx->eof_mask == EOF_IRQ_COMPLETE);
-+
-+	if (tile_complete)
-+		ret = do_tile_complete(run);
- out:
- 	spin_unlock_irqrestore(&chan->irqlock, flags);
- 	return ret;
-@@ -1783,6 +1810,10 @@ static void force_abort(struct ipu_image_convert_ctx *ctx)
- 
- static void release_ipu_resources(struct ipu_image_convert_chan *chan)
- {
-+	if (chan->in_eof_irq >= 0)
-+		free_irq(chan->in_eof_irq, chan);
-+	if (chan->rot_in_eof_irq >= 0)
-+		free_irq(chan->rot_in_eof_irq, chan);
- 	if (chan->out_eof_irq >= 0)
- 		free_irq(chan->out_eof_irq, chan);
- 	if (chan->rot_out_eof_irq >= 0)
-@@ -1801,7 +1832,27 @@ static void release_ipu_resources(struct ipu_image_convert_chan *chan)
- 
- 	chan->in_chan = chan->out_chan = chan->rotation_in_chan =
- 		chan->rotation_out_chan = NULL;
--	chan->out_eof_irq = chan->rot_out_eof_irq = -1;
-+	chan->in_eof_irq = -1;
-+	chan->rot_in_eof_irq = -1;
-+	chan->out_eof_irq = -1;
-+	chan->rot_out_eof_irq = -1;
-+}
-+
-+static int get_eof_irq(struct ipu_image_convert_chan *chan,
-+		       struct ipuv3_channel *channel)
-+{
-+	struct ipu_image_convert_priv *priv = chan->priv;
-+	int ret, irq;
-+
-+	irq = ipu_idmac_channel_irq(priv->ipu, channel, IPU_IRQ_EOF);
-+
-+	ret = request_threaded_irq(irq, eof_irq, do_bh, 0, "ipu-ic", chan);
-+	if (ret < 0) {
-+		dev_err(priv->ipu->dev, "could not acquire irq %d\n", irq);
-+		return ret;
-+	}
-+
-+	return irq;
- }
- 
- static int get_ipu_resources(struct ipu_image_convert_chan *chan)
-@@ -1837,31 +1888,33 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
- 	}
- 
- 	/* acquire the EOF interrupts */
--	chan->out_eof_irq = ipu_idmac_channel_irq(priv->ipu,
--						  chan->out_chan,
--						  IPU_IRQ_EOF);
-+	ret = get_eof_irq(chan, chan->in_chan);
-+	if (ret < 0) {
-+		chan->in_eof_irq = -1;
-+		goto err;
-+	}
-+	chan->in_eof_irq = ret;
- 
--	ret = request_threaded_irq(chan->out_eof_irq, eof_irq, do_bh,
--				   0, "ipu-ic", chan);
-+	ret = get_eof_irq(chan, chan->rotation_in_chan);
- 	if (ret < 0) {
--		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
--			 chan->out_eof_irq);
--		chan->out_eof_irq = -1;
-+		chan->rot_in_eof_irq = -1;
- 		goto err;
- 	}
-+	chan->rot_in_eof_irq = ret;
- 
--	chan->rot_out_eof_irq = ipu_idmac_channel_irq(priv->ipu,
--						     chan->rotation_out_chan,
--						     IPU_IRQ_EOF);
-+	ret = get_eof_irq(chan, chan->out_chan);
-+	if (ret < 0) {
-+		chan->out_eof_irq = -1;
-+		goto err;
-+	}
-+	chan->out_eof_irq = ret;
- 
--	ret = request_threaded_irq(chan->rot_out_eof_irq, eof_irq, do_bh,
--				   0, "ipu-ic", chan);
-+	ret = get_eof_irq(chan, chan->rotation_out_chan);
- 	if (ret < 0) {
--		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
--			chan->rot_out_eof_irq);
- 		chan->rot_out_eof_irq = -1;
- 		goto err;
- 	}
-+	chan->rot_out_eof_irq = ret;
- 
- 	return 0;
- err:
-@@ -2440,6 +2493,8 @@ int ipu_image_convert_init(struct ipu_soc *ipu, struct device *dev)
- 		chan->ic_task = i;
- 		chan->priv = priv;
- 		chan->dma_ch = &image_convert_dma_chan[i];
-+		chan->in_eof_irq = -1;
-+		chan->rot_in_eof_irq = -1;
- 		chan->out_eof_irq = -1;
- 		chan->rot_out_eof_irq = -1;
- 
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGVlLgoKT24gVGh1LCBKdW4gMjUsIDIwMjAgYXQgMDk6MDM6MzdBTSArMDEwMCwgTGVlIEpv
+bmVzIHdyb3RlOgo+IE9uIFdlZCwgMjQgSnVuIDIwMjAsIFNhbSBSYXZuYm9yZyB3cm90ZToKPiAK
+PiA+IEhpIExlZS4KPiA+IAo+ID4gT24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMDQ6NDM6MjFQTSAr
+MDEwMCwgTGVlIEpvbmVzIHdyb3RlOgo+ID4gPiBPbiBXZWQsIDI0IEp1biAyMDIwLCBTYW0gUmF2
+bmJvcmcgd3JvdGU6Cj4gPiA+IAo+ID4gPiA+IEhpIExlZS4KPiA+ID4gPiAKPiA+ID4gPiBPbiBX
+ZWQsIEp1biAyNCwgMjAyMCBhdCAwMzo1NzoxM1BNICswMTAwLCBMZWUgSm9uZXMgd3JvdGU6Cj4g
+PiA+ID4gPiBBdHRlbXB0aW5nIHRvIGNsZWFuLXVwIFc9MSBrZXJuZWwgYnVpbGRzLCB3aGljaCBh
+cmUgY3VycmVudGx5Cj4gPiA+ID4gPiBvdmVyd2hlbG1pbmdseSByaWRkbGVkIHdpdGggbmlnZ2x5
+IGxpdHRsZSB3YXJuaW5ncy4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gTGVlIEpvbmVzICg4KToKPiA+
+ID4gPiA+ICAgYmFja2xpZ2h0OiBsbXM1MDFrZjAzOiBSZW1vdmUgdW51c2VkIGNvbnN0IHZhcmlh
+Ymxlcwo+ID4gPiA+ID4gICBiYWNrbGlnaHQ6IGxjZDogQWRkIG1pc3Npbmcga2VybmVsZG9jIGVu
+dHJ5IGZvciAnc3RydWN0IGRldmljZSBwYXJlbnQnCj4gPiA+ID4gCj4gPiA+ID4gCj4gPiA+ID4g
+PiAgIGJhY2tsaWdodDogaWxpOTIyeDogQWRkIG1pc3Npbmcga2VybmVsZG9jIGRlc2NyaXB0aW9u
+cyBmb3IKPiA+ID4gPiA+ICAgICBDSEVDS19GUkVRX1JFRygpIGFyZ3MKPiA+ID4gPiA+ICAgYmFj
+a2xpZ2h0OiBpbGk5MjJ4OiBSZW1vdmUgaW52YWxpZCB1c2Ugb2Yga2VybmVsZG9jIHN5bnRheAo+
+ID4gPiA+ID4gICBiYWNrbGlnaHQ6IGlsaTkyMng6IEFkZCBtaXNzaW5nIGtlcm5lbGRvYyBkZXNj
+cmlwdGlvbiBmb3IKPiA+ID4gPiA+ICAgICBpbGk5MjJ4X3JlZ19kdW1wKCkncyBhcmcKPiA+ID4g
+PiBJIHdvbmRlciB3aHkgdGhlc2Ugd2FybmluZ3Mgc2hvdyB1cCBhcyBub3RoaW5nIHB1bGxzIGlu
+IHRoaXMgLmMgZmlsZS4KPiA+ID4gPiBBbnl3YXkgSSB3b3VsZCBzdWdnZXN0IHRvIGRyb3AgdXNp
+bmcga2VybmVsZG9jIHN5bnRheCBmb3Igc2luZ2xlIGRyaXZlcnMKPiA+ID4gPiBsaWtlIHRoaXMg
+LSBhbmQgdGhlIGJlbmVmaXQgaGVyZSBpcyBsb3cuCj4gPiA+ID4gTm93IHRoZXkgYXJlIHR5cGVk
+LCBvdGhlcndpc2UgdGhpcyBhaGQgYmVlbiBmaW5lIGluIGEgc2luZ2xlIHBhdGNoLgo+ID4gPiAK
+PiA+ID4gV2hhdCBkbyB5b3UgbWVhbiBieSAnbm90aGluZyBwdWxscyBpdCBpbic/Cj4gPiBUaGVy
+ZSBhcmUgbm8gLnJzdCBmaWxlcyB0aGF0IGluY2x1ZGVzIGFueToKPiA+IC4uIGtlcm5lbC1kb2M6
+OiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmMKPiA+IAo+ID4gc28gSSBkbyBub3Qg
+c2VlIGhvdyB0aGUga2VybmVsLWRvYyBjb21tZW50cyB3aWxsIGJlIHVzZWQgYnkgYW55Cj4gPiBv
+ZiB0aGUgZ2VuZXJhdGVkIGtlcm5lbC1kb2NzLgo+IAo+IExvb2tzIGxpa2UgYSBjb21tb24gcHJv
+YmxlbSAoaWYgaXQgaXMgYWN0dWFsbHkgYSBwcm9ibGVtKToKPiAKPiAgJCAuL3NjcmlwdHMvZmlu
+ZC11bnVzZWQtZG9jcy5zaCAuIHwgd2MgLWwKPiAgMTQ3Ngo+IAo+IFRoZSByb2xlIG9mIHRoaXMg
+cGF0Y2gtc2V0IGlzIG5vdCB0byBlcmFkaWNhdGUgdW51c2VkIGtlcm5lbGRvYwo+IGhlYWRlcnMs
+IGJ1dCB0byBlbnN1cmUgdGhleSBhcmUgZm9ybWF0dGVkIGNvcnJlY3RseS4gIFc9MSBidWlsZHMK
+PiBjdXJyZW50bHkgY29tcGxhaW4gb2YgaWxsIGZvcm1hdHRlZCBrZXJuZWxkb2NzLCB3aGljaCBp
+cyBjdXJyZW50bHkKPiBsaXR0ZXJpbmcgdGhlIGJ1aWxkLWxvZyBhbmQgbWFza2luZyBzb21lIG1v
+cmUgaW1wb3J0YW50IGlzc3VlcyAod2hpY2gKPiBJJ20gYWxzbyB0cnlpbmcgdG8gZml4IGVuIHJv
+dXRlKS4KCk15IHBvaW50IGlzIHRoYXQgSSBkbyBub3Qgc2VlIHdoeSB3ZSBzaG91bGQgbWFpbnRh
+aW4gY29ycmVjdCBrZXJuZWwtZG9jCnN0eWxlIGNvbW1lbnRzIGZvciBmaWxlcyB0aGF0IGFyZSBu
+b3QgdXNlZCB0byB0byBnZW5lcmF0ZSBrZXJuZWwtZG9jLgpJdCB3b3VsZCBzZXJ2ZSB1cyBiZXR0
+ZXIgdG8gZHJvcCB0aGUga2VybmVsLWRvYyBzdHlsZSBjb21tZW50cy4KQnV0IHRoYXRzIGp1c3Qg
+bXkgb3BpbmlvbiwgZmVlbCBmcmVlIHRvIGlnbm9yZS4KCkkgZGlnZ2VkIGEgbGl0dGxlIGFuZCBj
+YW4gc2VlIHdlIHJ1biBrZXJuZWwtZG9jIG9uIGFsbCAuYyBmaWxlcwp3aGVuIHdlIHNwZWNpZnkg
+Vz0xIC0gd2hpY2ggd2FzIGEgc3VwcmlzZSB0byBtZS4KVGhhdCBleHBsYWlucyB3aHkgSSBoYWQg
+bm90IHNlZW4gc2FpZCB3YXJuaW5ncyBpbiBteSByZWd1bGFyIG1ha2UKaHRtbGRvY3MgcnVucy4K
+CglTYW0KCj4gCj4gPiA+ID4gPiAgIGJhY2tsaWdodDogYmFja2xpZ2h0OiBTdXBwbHkgZGVzY3Jp
+cHRpb24gZm9yIGZ1bmN0aW9uIGFyZ3MgaW4gZXhpc3RpbmcKPiA+ID4gPiA+ICAgICBLZXJuZWxk
+b2NzCj4gPiA+ID4gPiAgIGJhY2tsaWdodDogbG0zNjMwYV9ibDogUmVtb3ZlIGludmFsaWQgY2hl
+Y2tzIGZvciB1bnNpZ25lZCBpbnQgPCAwCj4gPiA+ID4gPiAgIGJhY2tsaWdodDogcWNvbS13bGVk
+OiBSZW1vdmUgdW51c2VkIGNvbmZpZ3MgZm9yIExFRDMgYW5kIExFRDQKPiA+ID4gPiAKPiA+ID4g
+PiBUaGUgb3RoZXIgZml4ZXMgbG9va3MgZ29vZC4KPiA+ID4gPiBUaGV5IGFyZSBhbGw6Cj4gPiA+
+ID4gQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiA+ID4gCj4gPiA+
+IFRoYW5rcyAoYWx0aG91Z2ggdGhpcyBzaG91bGQgYmUgUmV2aWV3ZWQtYnkpLgo+ID4gPiAKPiA+
+ID4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9iYWNrbGlnaHQuYyAgfCAyICsrCj4gPiA+
+ID4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvaWxpOTIyeC5jICAgIHwgOCArKysrKystLQo+
+ID4gPiA+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2xjZC5jICAgICAgICB8IDEgKwo+ID4g
+PiA+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2xtMzYzMGFfYmwuYyB8IDQgKystLQo+ID4g
+PiA+ID4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2xtczUwMWtmMDMuYyB8IDggLS0tLS0tLS0K
+PiA+ID4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9xY29tLXdsZWQuYyAgfCA4IC0tLS0t
+LS0tCj4gPiA+ID4gPiAgNiBmaWxlcyBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAyMCBkZWxl
+dGlvbnMoLSkKPiA+ID4gPiA+IAo+ID4gPiAKPiAKPiAtLSAKPiBMZWUgSm9uZXMgW+adjueQvOaW
+r10KPiBTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9wZXIgU2VydmljZXMKPiBMaW5hcm8u
+b3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKPiBGb2xsb3cgTGluYXJv
+OiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
