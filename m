@@ -1,100 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC7B209858
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 03:52:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CE0209A5D
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115106E906;
-	Thu, 25 Jun 2020 01:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921E16E25D;
+	Thu, 25 Jun 2020 07:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690059.outbound.protection.outlook.com [40.107.69.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BE466E906;
- Thu, 25 Jun 2020 01:52:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z7cgAsH45kWDfEpyllLPvrbxrmJfil4DoKhK46CuUeXm3ORC3wjoF/rwiESmiZm0AcYqjNFFHYMimcT4a8PdByOv4x0XS1WT43vVSu1RPeW57pWgGz+HR7CBWItWWBtxgnZ/5t336ewndfEekUs8YuOsENykGykD6/hT3AVhXXS/IdmAAtsNlAwcfVKlQ33oPrOJcrIrGohQQ29zUWmlMW19Sjxsvh8RhKFKP56yg22YLsJWkQroOK6NW11yj68OOsKHLT1GpwV8kSuyGhL4kvqipXLDZNulDFCe5P+uWSH2Exrv9ZXNtNyavQofo65BJOXgHpPx4HpMDa07neKl+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bObtZdyFr+bG7kF7GhMBfUAy/7yNsxSLkzce240aa+M=;
- b=STDXkC7Np3Bodd2m/K/80uCWz0d9D2oQRA+fzqF+5P0QGgZ6rE5uqF6Nir4nI7arOhEStyt2QDmMqu25cMDTDwD1bXi1eIEqPsloLYXLfQR+3alvjX+Gt/CffVg63DmqTb/niCQAi9rgdhi+a0FlOZqBoNWD7kQlmy0FjGNx2Ng0GKsikp6E+q422xmZ5vNUdVb1N9iM1V8thcWfdjpSdclcoV8iB1KhzAXWv+81G6p/y8Ortt/I7HZEIS9h/qtJe0/1umNCMB/nhDsjr4OwMTQ2WJI9CUkoTm0hTZsz5T0D80GLPbWBJOsdnrOUN//55YYaiqsjwdNLTLodJsg6QQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bObtZdyFr+bG7kF7GhMBfUAy/7yNsxSLkzce240aa+M=;
- b=1Lfh8OB/bA8NOmIxdgm7gm6VBZZAXlGPnlDlHRxAERf0t2FPL7FrmFCmNT+CoD6eAKtcsDkDQoZQHpJn0R7DD9VLKgWIRrdoDrjeQLh4d3btDkp4bzo1dubqxTMaC46UZxfHt1bHEtfadkajU2EvTo8EZ4vgqTog33Sk0fECjNg=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
- DM5PR12MB2488.namprd12.prod.outlook.com (2603:10b6:4:b5::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.20; Thu, 25 Jun 2020 01:52:47 +0000
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::f5e6:e937:2eac:18cf]) by DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::f5e6:e937:2eac:18cf%3]) with mapi id 15.20.3109.027; Thu, 25 Jun 2020
- 01:52:47 +0000
-Subject: Re: [PATCH v2 5/8] drm/amdgpu: Refactor sysfs removal
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-6-git-send-email-andrey.grodzovsky@amd.com>
- <20200622095124.GE20149@phenom.ffwll.local>
- <20200622112139.GA3421602@kroah.com>
- <fdaebe5b-3930-66d6-4f62-3e59e515e3da@amd.com>
- <20200622164551.GA112181@kroah.com>
- <4787b2a9-e7bf-ea3c-02e9-484a4fcb4742@amd.com>
- <20200623060532.GB3818201@kroah.com>
- <090c5a35-3088-d6d0-dcaf-5ce5542a4298@amd.com>
- <20200624061153.GA933050@kroah.com>
-From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Message-ID: <c9b4dc5f-3b30-11e3-da33-bb92453f5f4a@amd.com>
-Date: Wed, 24 Jun 2020 21:52:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-In-Reply-To: <20200624061153.GA933050@kroah.com>
-Content-Language: en-US
-X-ClientProxiedBy: BN8PR15CA0066.namprd15.prod.outlook.com
- (2603:10b6:408:80::43) To DM6PR12MB4340.namprd12.prod.outlook.com
- (2603:10b6:5:2a8::7)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E731D6E25F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 07:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593069256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MVWau0LsYxkoKXpwztTiDi6I+HlC11E2MMspm/P0/vM=;
+ b=GGeELGeFeOgp8X9BNcdp3rUi7lSmi+d+GEGUgqw+R+cY/4L8lJVNWQXo6PlRvdBi1hdu3O
+ 1N+nvFmFJSNinXVwJ//P4zF0JzXdvPd1aDswPgdlmzB5D/HF0A5Yk93r8S0zoAMGjo4kRb
+ WZTyj7sXJLCPZYkWl8EjA+55Tze0glA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313--JtxL0ZzMuSh0v9BHsEQ3A-1; Thu, 25 Jun 2020 03:14:09 -0400
+X-MC-Unique: -JtxL0ZzMuSh0v9BHsEQ3A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C0A9107ACCA;
+ Thu, 25 Jun 2020 07:14:08 +0000 (UTC)
+Received: from starship (unknown [10.35.206.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 680EA5BAC7;
+ Thu, 25 Jun 2020 07:14:07 +0000 (UTC)
+Message-ID: <5bd8ffcc829b71651adca7f16cd52c6800508149.camel@redhat.com>
+Subject: Kernel issues with Radeon Pro WX4100 and DP->HDMI dongles
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: linux-kernel@vger.kernel.org
+Date: Thu, 25 Jun 2020 10:14:06 +0300
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:f841:dc76:7c07:f4bf]
- (2607:fea8:3edf:49b0:f841:dc76:7c07:f4bf) by
- BN8PR15CA0066.namprd15.prod.outlook.com (2603:10b6:408:80::43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.21 via Frontend Transport; Thu, 25 Jun 2020 01:52:46 +0000
-X-Originating-IP: [2607:fea8:3edf:49b0:f841:dc76:7c07:f4bf]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0ac1766c-2e34-40cb-bc51-08d818aa75e7
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2488:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB248839E84C9CB536AF7937BFEA920@DM5PR12MB2488.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
-X-Forefront-PRVS: 0445A82F82
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ymXyGIunN1+iERbHNzPGHAFFI5vkMLLMgfGbDmF3gkoeJN5rUDVsvQ5WX5TrHMcnC5IEBI8Jv2zBzakwqAH5qduor+2c5eGYkn89rTTchFt0E3X9Sq/k1ZEGM3UoROn0gWr/JUJZwXYR/UN1yCYXkY6Tw4IUXob45NT5mHxRf8sb+S98q59N5c1TMUUvZnc8y/NfCUT9ph+9T3HqOf5p34cj57WdUyV6ISclmZ1EEe/GQACM0E9YL430R+LPLySyLLaLErdKtgrhnCVrbixBEgG+E9cQxn9eh8vADVAIOr4d7jNF3LKeRo9VwbR/uYH02tUpfpNlDAj6cKleLqC4Q9z1Snz5qdZkAvuoTCiQIO94wrdlYs7xcvsRZ9jdvF3m
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(39860400002)(376002)(346002)(136003)(366004)(316002)(6666004)(16526019)(186003)(83380400001)(6916009)(8936002)(66556008)(66476007)(6486002)(8676002)(66946007)(5660300002)(86362001)(31696002)(478600001)(53546011)(2616005)(52116002)(4326008)(36756003)(2906002)(31686004)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: /A4gWMvkqb/NiYvYzFrG9+6JLPsIa7OZsCjvmave5GZReXVpkECpywUrKElW/FDT8oYG/piQf2xqaZnz9JLBl2nRPvtC0sM+8UVMEpT9BLbeNxVVYNeM0trkOemHPv3xNYw5IaiHjDDVujIN6zNPgkpK4pGkNVv/05pncGl6WWgP5nF4il9TCwheccJoyfHyAAANRa785f4arKmNItAZYEfLt7mPnVQN3AY+FB0dpIn1AdzNKFHH9Iybhfby3ITQSQwaO/74JEUlCOsYas8FnC01wrJLiAS/U1005ApHPtMF+NcKwPV3Xg7i89DhxvY1YaEewCBr47Ats1es3RFV9ZvI07+Mb3CFy0yNm8dQ/9XvqXNmYIt/UJPbzVe4m1dy+oMZbxZW3viMNj8Dvz4nqpZDa0DYiJALFm61BKAYYubesziG6LkH4zBKJzi56Eu01OmfKqlhD/ZiY/JfBM7YXk/lUyz0+WgFaAqpgXODRVfO68XeaibTd9m+/2C5RZHhLAK92rCamcKU+f4cfPL0wE2UNTmTTy2xomz7WMMvUwOqj0Vgrj38G2thz82txqHB
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac1766c-2e34-40cb-bc51-08d818aa75e7
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2020 01:52:47.5937 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UoPDTajnxqBq89g4MxdN2phDtH0W44WIi7JCveR7mGA0zIWzJU6+DUwQ8GJ9L2JvvipWFMuaQbS7N3n8+/8hrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2488
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,88 +55,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 6/24/20 2:11 AM, Greg KH wrote:
-> On Tue, Jun 23, 2020 at 11:04:30PM -0400, Andrey Grodzovsky wrote:
->> On 6/23/20 2:05 AM, Greg KH wrote:
->>> On Tue, Jun 23, 2020 at 12:51:00AM -0400, Andrey Grodzovsky wrote:
->>>> On 6/22/20 12:45 PM, Greg KH wrote:
->>>>> On Mon, Jun 22, 2020 at 12:07:25PM -0400, Andrey Grodzovsky wrote:
->>>>>> On 6/22/20 7:21 AM, Greg KH wrote:
->>>>>>> On Mon, Jun 22, 2020 at 11:51:24AM +0200, Daniel Vetter wrote:
->>>>>>>> On Sun, Jun 21, 2020 at 02:03:05AM -0400, Andrey Grodzovsky wrote:
->>>>>>>>> Track sysfs files in a list so they all can be removed during pci remove
->>>>>>>>> since otherwise their removal after that causes crash because parent
->>>>>>>>> folder was already removed during pci remove.
->>>>>>> Huh?  That should not happen, do you have a backtrace of that crash?
->>>>>> 2 examples in the attached trace.
->>>>> Odd, how did you trigger these?
->>>> By manually triggering PCI remove from sysfs
->>>>
->>>> cd /sys/bus/pci/devices/0000\:05\:00.0 && echo 1 > remove
->>> For some reason, I didn't think that video/drm devices could handle
->>> hot-remove like this.  The "old" PCI hotplug specification explicitly
->>> said that video devices were not supported, has that changed?
->>>
->>> And this whole issue is probably tied to the larger issue that Daniel
->>> was asking me about, when it came to device lifetimes and the drm layer,
->>> so odds are we need to fix that up first before worrying about trying to
->>> support this crazy request, right?  :)
->>>
->>>>>> [  925.738225 <    0.188086>] BUG: kernel NULL pointer dereference, address: 0000000000000090
->>>>>> [  925.738232 <    0.000007>] #PF: supervisor read access in kernel mode
->>>>>> [  925.738236 <    0.000004>] #PF: error_code(0x0000) - not-present page
->>>>>> [  925.738240 <    0.000004>] PGD 0 P4D 0
->>>>>> [  925.738245 <    0.000005>] Oops: 0000 [#1] SMP PTI
->>>>>> [  925.738249 <    0.000004>] CPU: 7 PID: 2547 Comm: amdgpu_test Tainted: G        W  OE     5.5.0-rc7-dev-kfd+ #50
->>>>>> [  925.738256 <    0.000007>] Hardware name: System manufacturer System Product Name/RAMPAGE IV FORMULA, BIOS 4804 12/30/2013
->>>>>> [  925.738266 <    0.000010>] RIP: 0010:kernfs_find_ns+0x18/0x110
->>>>>> [  925.738270 <    0.000004>] Code: a6 cf ff 0f 1f 44 00 00 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 41 57 41 56 49 89 f6 41 55 41 54 49 89 fd 55 53 49 89 d4 <0f> b7 af 90 00 00 00 8b 05 8f ee 6b 01 48 8b 5f 68 66 83 e5 20 41
->>>>>> [  925.738282 <    0.000012>] RSP: 0018:ffffad6d0118fb00 EFLAGS: 00010246
->>>>>> [  925.738287 <    0.000005>] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 2098a12076864b7e
->>>>>> [  925.738292 <    0.000005>] RDX: 0000000000000000 RSI: ffffffffb6606b31 RDI: 0000000000000000
->>>>>> [  925.738297 <    0.000005>] RBP: ffffffffb6606b31 R08: ffffffffb5379d10 R09: 0000000000000000
->>>>>> [  925.738302 <    0.000005>] R10: ffffad6d0118fb38 R11: ffff9a75f64820a8 R12: 0000000000000000
->>>>>> [  925.738307 <    0.000005>] R13: 0000000000000000 R14: ffffffffb6606b31 R15: ffff9a7612b06130
->>>>>> [  925.738313 <    0.000006>] FS:  00007f3eca4e8700(0000) GS:ffff9a763dbc0000(0000) knlGS:0000000000000000
->>>>>> [  925.738319 <    0.000006>] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>>>> [  925.738323 <    0.000004>] CR2: 0000000000000090 CR3: 0000000035e5a005 CR4: 00000000000606e0
->>>>>> [  925.738329 <    0.000006>] Call Trace:
->>>>>> [  925.738334 <    0.000005>]  kernfs_find_and_get_ns+0x2e/0x50
->>>>>> [  925.738339 <    0.000005>]  sysfs_remove_group+0x25/0x80
->>>>>> [  925.738344 <    0.000005>]  sysfs_remove_groups+0x29/0x40
->>>>>> [  925.738350 <    0.000006>]  free_msi_irqs+0xf5/0x190
->>>>>> [  925.738354 <    0.000004>]  pci_disable_msi+0xe9/0x120
->>>>> So the PCI core is trying to clean up attributes that it had registered,
->>>>> which is fine.  But we can't seem to find the attributes?  Were they
->>>>> already removed somewhere else?
->>>>>
->>>>> that's odd.
->>>> Yes, as i pointed above i am emulating device remove from sysfs and this
->>>> triggers pci device remove sequence and as part of that my specific device
->>>> folder (05:00.0) is removed from the sysfs tree.
->>> But why are things being removed twice?
->>
->> Not sure I understand what removed twice ? I remove only once per sysfs attribute.
-> This code path shows that the kernel is trying to remove a file that is
-> not present, so someone removed it already...
->
-> thanks,
->
-> gre k-h
+I recently tried to connect my TV and WX4100 via two different DP->HDMI dongles.
+One of them makes my main monitor to go dark, and system to lockup (I haven't yet debugged this futher), and the other one seems to work,
+most of the time, but sometimes causes a kernel panic on 5.8.0-rc1:
 
 
-That a mystery for me too...
+[  +0.000000] ---[ end trace 0ce8685fac3db6b5 ]---
+[  +2.142125] [drm:dc_link_detect_helper [amdgpu]] *ERROR* No EDID read.
+[  +0.065348] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.001002] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.006310] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.102119] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.000679] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[ +22.037707] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[ +16.202833] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.000685] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.053875] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.000351] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+[  +0.031764] ------------[ cut here ]------------
+[  +0.000001] WARNING: CPU: 58 PID: 504 at drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/gpio_base.c:66 dal_gpio_open_ex+0x1b/0x40 [amdgpu]
+[  +0.000001] Modules linked in: vfio_pci vfio_virqfd vfio_iommu_type1 vfio xfs rfcomm xt_MASQUERADE xt_conntrack ipt_REJECT iptable_mangle iptable_nat nf_nat ebtable_filter ebtables ip6table_filter
+ip6_tables tun bridge pmbus cmac pmbus_core ee1004 jc42 bnep sunrpc vfat fat dm_mirror dm_region_hash dm_log iwlmvm wmi_bmof mac80211 kvm_amd kvm libarc4 uvcvideo iwlwifi btusb btrtl btbcm btintel
+videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 snd_hda_codec_hdmi videobuf2_common snd_usb_audio bluetooth videodev input_leds snd_hda_intel cfg80211 snd_usbmidi_lib joydev snd_intel_dspcfg
+snd_rawmidi mc snd_hda_codec xpad ff_memless snd_hwdep thunderbolt ecdh_generic snd_seq ecc snd_hda_core irqbypass rfkill i2c_nvidia_gpu efi_pstore pcspkr snd_seq_device bfq snd_pcm snd_timer zenpower
+snd i2c_piix4 rtc_cmos tpm_crb tpm_tis tpm_tis_core tpm wmi button binfmt_misc dm_crypt sd_mod uas usb_storage hid_generic usbhid hid ext4 mbcache jbd2 amdgpu gpu_sched ttm drm_kms_helper syscopyarea
+sysfillrect
+[  +0.000018]  sysimgblt crc32_pclmul ahci crc32c_intel fb_sys_fops libahci igb ccp cec xhci_pci libata i2c_algo_bit rng_core nvme xhci_hcd drm nvme_core t10_pi nbd usbmon it87 hwmon_vid fuse i2c_dev
+i2c_core ipv6 autofs4 [last unloaded: nvidia]
+[  +0.000005] CPU: 58 PID: 504 Comm: kworker/58:1 Tainted: P        W  O      5.8.0-rc1.stable #118
+[  +0.000001] Hardware name: Gigabyte Technology Co., Ltd. TRX40 DESIGNARE/TRX40 DESIGNARE, BIOS F4c 03/05/2020
+[  +0.000000] Workqueue: events dm_irq_work_func [amdgpu]
+[  +0.000001] RIP: 0010:dal_gpio_open_ex+0x1b/0x40 [amdgpu]
+[  +0.000001] Code: 08 89 47 10 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 83 7f 08 00 75 0f 48 83 7f 18 00 74 15 89 77 20 e9 65 07 00 00 <0f> 0b e8 ae 5b 8a e0 b8 05 00 00 00 c3 0f 0b e8 a1
+5b 8a e0 b8 06
+[  +0.000000] RSP: 0018:ffffc90002e93b90 EFLAGS: 00010282
+[  +0.000001] RAX: 0000000000000000 RBX: ffff889fa4736ca0 RCX: 0000000000000000
+[  +0.000000] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffff889fa011ff00
+[  +0.000001] RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000231
+[  +0.000000] R10: 000000000000017f R11: ffff889fbeea4b84 R12: ffffc90002e93c74
+[  +0.000000] R13: 0000000000000000 R14: ffff889fa4736ca0 R15: ffff889fb0e2c100
+[  +0.000001] FS:  0000000000000000(0000) GS:ffff889fbee80000(0000) knlGS:0000000000000000
+[  +0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000001] CR2: 00001ee62a52b000 CR3: 000000174d175000 CR4: 0000000000340ea0
+[  +0.000000] Call Trace:
+[  +0.000000]  dal_ddc_open+0x2d/0xe0 [amdgpu]
+[  +0.000001]  ? dm_read_reg_func+0x33/0xa0 [amdgpu]
+[  +0.000000]  dce_aux_transfer_raw+0xb4/0xa30 [amdgpu]
+[  +0.000000]  ? hrtimer_try_to_cancel+0x28/0x100
+[  +0.000001]  dm_dp_aux_transfer+0x8f/0xf0 [amdgpu]
+[  +0.000000]  drm_dp_dpcd_access+0x6b/0x110 [drm_kms_helper]
+[  +0.000000]  drm_dp_dpcd_read+0xb6/0xf0 [drm_kms_helper]
+[  +0.000001]  dm_helpers_dp_read_dpcd+0x28/0x50 [amdgpu]
+[  +0.000000]  core_link_read_dpcd.part.0+0x1f/0x30 [amdgpu]
+[  +0.000000]  read_hpd_rx_irq_data+0x39/0x90 [amdgpu]
+[  +0.000001]  dc_link_handle_hpd_rx_irq+0x74/0x7c0 [amdgpu]
+[  +0.000000]  handle_hpd_rx_irq+0x62/0x2e0 [amdgpu]
+[  +0.000000]  ? __schedule+0x252/0x6a0
+[  +0.000001]  ? finish_task_switch+0x18d/0x280
+[  +0.000000]  dm_irq_work_func+0x43/0x50 [amdgpu]
+[  +0.000000]  process_one_work+0x1d2/0x390
+[  +0.000000]  worker_thread+0x225/0x3b0
+[  +0.000001]  ? process_one_work+0x390/0x390
+[  +0.000000]  kthread+0xf9/0x130
+[  +0.000000]  ? kthread_park+0x90/0x90
+[  +0.000001]  ret_from_fork+0x1f/0x30
+[  +0.000000] ---[ end trace 0ce8685fac3db6b6 ]---
+[  +0.002807] int3: 0000 [#1] SMP
+[  +0.000001] CPU: 58 PID: 504 Comm: kworker/58:1 Tainted: P        W  O      5.8.0-rc1.stable #118
+[  +0.000001] Hardware name: Gigabyte Technology Co., Ltd. TRX40 DESIGNARE/TRX40 DESIGNARE, BIOS F4c 03/05/2020
+[  +0.000000] Workqueue: events dm_irq_work_func [amdgpu]
+[  +0.000001] RIP: 0010:kgdb_breakpoint+0x10/0x20
+[  +0.000001] Code: 4d f9 ff eb c5 cc cc cc cc cc 0f 1f 44 00 00 31 c0 c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 f0 ff 05 3c be 3e 01 0f ae f8 cc <0f> ae f8 f0 ff 0d 2e be 3e 01 c3 0f 1f 44 00 00 0f
+1f 44 00 00 e8
+[  +0.000000] RSP: 0018:ffffc90002e93b88 EFLAGS: 00000202
+[  +0.000001] RAX: 0000000000000000 RBX: ffff889fa4736ca0 RCX: 0000000000000000
+[  +0.000001] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffff889fa011ff00
+[  +0.000000] RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000231
+[  +0.000001] R10: 000000000000017f R11: ffff889fbeea4b84 R12: ffffc90002e93c74
+[  +0.000000] R13: 0000000000000000 R14: ffff889fa4736ca0 R15: ffff889fb0e2c100
+[  +0.000001] FS:  0000000000000000(0000) GS:ffff889fbee80000(0000) knlGS:0000000000000000
+[  +0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000001] CR2: 00001ee62a52b000 CR3: 000000174d175000 CR4: 0000000000340ea0
+[  +0.000000] Call Trace:
+[  +0.000001]  dal_gpio_open_ex+0x22/0x40 [amdgpu]
+[  +0.000000]  dal_ddc_open+0x2d/0xe0 [amdgpu]
+[  +0.000000]  ? dm_read_reg_func+0x33/0xa0 [amdgpu]
+[  +0.000001]  dce_aux_transfer_raw+0xb4/0xa30 [amdgpu]
+[  +0.000000]  ? hrtimer_try_to_cancel+0x28/0x100
+[  +0.000000]  dm_dp_aux_transfer+0x8f/0xf0 [amdgpu]
+[  +0.000001]  drm_dp_dpcd_access+0x6b/0x110 [drm_kms_helper]
+[  +0.000000]  drm_dp_dpcd_read+0xb6/0xf0 [drm_kms_helper]
+[  +0.000000]  dm_helpers_dp_read_dpcd+0x28/0x50 [amdgpu]
+[  +0.000001]  core_link_read_dpcd.part.0+0x1f/0x30 [amdgpu]
+[  +0.000000]  read_hpd_rx_irq_data+0x39/0x90 [amdgpu]
+[  +0.000000]  dc_link_handle_hpd_rx_irq+0x74/0x7c0 [amdgpu]
+[  +0.000001]  handle_hpd_rx_irq+0x62/0x2e0 [amdgpu]
+[  +0.000000]  ? __schedule+0x252/0x6a0
+[  +0.000000]  ? finish_task_switch+0x18d/0x280
+[  +0.000001]  dm_irq_work_func+0x43/0x50 [amdgpu]
+[  +0.000000]  process_one_work+0x1d2/0x390
+[  +0.000000]  worker_thread+0x225/0x3b0
+[  +0.000001]  ? process_one_work+0x390/0x390
+[  +0.000000]  kthread+0xf9/0x130
+[  +0.000000]  ? kthread_park+0x90/0x90
+[  +0.000001]  ret_from_fork+0x1f/0x30
+[  +0.000000] Modules linked in: vfio_pci vfio_virqfd vfio_iommu_type1 vfio xfs rfcomm xt_MASQUERADE xt_conntrack ipt_REJECT iptable_mangle iptable_nat nf_nat ebtable_filter ebtables ip6table_filter
+ip6_tables tun bridge pmbus cmac pmbus_core ee1004 jc42 bnep sunrpc vfat fat dm_mirror dm_region_hash dm_log iwlmvm wmi_bmof mac80211 kvm_amd kvm libarc4 uvcvideo iwlwifi btusb btrtl btbcm btintel
+videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 snd_hda_codec_hdmi videobuf2_common snd_usb_audio bluetooth videodev input_leds snd_hda_intel cfg80211 snd_usbmidi_lib joydev snd_intel_dspcfg
+snd_rawmidi mc snd_hda_codec xpad ff_memless snd_hwdep thunderbolt ecdh_generic snd_seq ecc snd_hda_core irqbypass rfkill i2c_nvidia_gpu efi_pstore pcspkr snd_seq_device bfq snd_pcm snd_timer zenpower
+snd i2c_piix4 rtc_cmos tpm_crb tpm_tis tpm_tis_core tpm wmi button binfmt_misc dm_crypt sd_mod uas usb_storage hid_generic usbhid hid ext4 mbcache jbd2 amdgpu gpu_sched ttm drm_kms_helper syscopyarea
+sysfillrect
+[  +0.000018]  sysimgblt crc32_pclmul ahci crc32c_intel fb_sys_fops libahci igb ccp cec xhci_pci libata i2c_algo_bit rng_core nvme xhci_hcd drm nvme_core t10_pi nbd usbmon it87 hwmon_vid fuse i2c_dev
+i2c_core ipv6 autofs4 [last unloaded: nvidia]
+[  +0.021468] ---[ end trace 0ce8685fac3db6b7 ]---
+[  +0.000000] RIP: 0010:kgdb_breakpoint+0x10/0x20
+[  +0.000001] Code: 4d f9 ff eb c5 cc cc cc cc cc 0f 1f 44 00 00 31 c0 c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 f0 ff 05 3c be 3e 01 0f ae f8 cc <0f> ae f8 f0 ff 0d 2e be 3e 01 c3 0f 1f 44 00 00 0f
+1f 44 00 00 e8
+[  +0.000000] RSP: 0018:ffffc90002e93b88 EFLAGS: 00000202
+[  +0.000001] RAX: 0000000000000000 RBX: ffff889fa4736ca0 RCX: 0000000000000000
+[  +0.000001] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffff889fa011ff00
+[  +0.000000] RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000231
+[  +0.000001] R10: 000000000000017f R11: ffff889fbeea4b84 R12: ffffc90002e93c74
+[  +0.000000] R13: 0000000000000000 R14: ffff889fa4736ca0 R15: ffff889fb0e2c100
+[  +0.000001] FS:  0000000000000000(0000) GS:ffff889fbee80000(0000) knlGS:0000000000000000
+[  +0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000000] CR2: 00001ee62a52b000 CR3: 000000174d175000 CR4: 0000000000340ea0
+[  +0.000001] Kernel panic - not syncing: Fatal exception in interrupt
+[  +0.001035] Kernel Offset: disabled
 
-Andrey
 
+The 'amdgpu_dm_irq_schedule_work FAILED src 8' errors were from previous plugs of this adapter.
+
+On 5.7-rc7 kernel I also tried booting, I also see the 'amdgpu_dm_irq_schedule_work FAILED' errors
+but it seems for now that the crash doesn't happen, but it might have beeing luck.
+
+On top of all this, I tried a 3rd dongle and it does appear to work flawlessly (no messages in dmesg).
+
+Best regards,
+	Maxim Levitsky
 
 _______________________________________________
 dri-devel mailing list
