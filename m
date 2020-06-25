@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95202209C17
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 11:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF64B209C21
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 11:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E69F890C5;
-	Thu, 25 Jun 2020 09:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE01E6E098;
+	Thu, 25 Jun 2020 09:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97BAC890C5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 09:43:21 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 17so5236546wmo.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 02:43:21 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD0B6E098
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 09:43:47 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id k6so5151412wrn.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 02:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=j45b6+I6ZWwo5WxhN+GENPgTL8D/dlpGydw4pkMbgwU=;
- b=FhgGj3eWSC1oHWyWzjIGtgCX9lx/ezhW5C4SRbb+zwdkKsAS/VCcdVQA7zvlH5L6bB
- xns15Dvy1K/2RZ75ELM9TI7FxopbjabZM6Rs6CpC1uStJ0up/tSvBTOKWuRLn0hp8dqi
- n3clD9tw81MhCHAdhAuOAM1a64/PP/E6Pj9iPIJ4mm/iU3uc8/BeX0ksXQXsDI2VQsOH
- 72hia9pGoU1ngj60SObkuiwJYCdTRpIiX//NlUpSzT6UJY8PaQsezchlhDANZ5yPP9KC
- b+fAAhyEzRbO0sHF9OsxR034UrLImypDaYP40RaxKWK6q4rGvojBowjVVQJWLxLPwedB
- LMxg==
+ bh=MqP8eNt5kwKUBAByimv8vaw/hFZlRD99sPA2Bo3gQ/A=;
+ b=QcPIfJT0OYuMimVCuS3u7waeycKOlpWv1A6SwNnzq88479wkKhcjXVPkab2vluMUX5
+ LeeTArYmmhswzaY/daOOdr5sF6wdkDWQp17nI/brLbmrDDjepmJdul0+lk+0uX1UxvZr
+ buN0EhR1tUvzo4Z/TumMGB9c57ZCJHgulDKYH/BU9AGQURU7Dld75NtJwyyBlsrabgpG
+ dCWzNGGCrFwBPWctYAT6eG9ugrrhh08GlrzsmMrgGshMttLdCvsa3pwMT3xBVjpgSJKH
+ 7X+DHAadcNLe9HyuDwmDuQxk9yu4mk1E+zQKjoS76LezdLZc2d5mAutvLXMQ6Dehan0v
+ VqCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=j45b6+I6ZWwo5WxhN+GENPgTL8D/dlpGydw4pkMbgwU=;
- b=B0RdKSs6L4oZWIpITDtG+3K7MSvCkKCcAeEVhm2kH6TRiACda+wQ3GAhnsZJUhLUlQ
- 0Vuk4LmQ5c40Riz58L2U9RdcNddb3yNjkQMSdHPWYCHkjx9a7e/eNaoIYy+gapC8CBAP
- qpt5UBrzU9Ov3m+ubKB/8NrToJQhposPmPdsCR4vzzq4O0E6X/TNlYf35EqB8uw7l6V/
- 0e/vw4AYM4aBDvMbRJKjthGnHlagBK9odhcgbqj1Ud8kPhDF+aJyECTbFTA6vx5f+fEW
- C9GSCOxX7Qk8D3/BvJKfL7hQ0TERkddjOH3JnngDOZHVOpT5zTc/P31V7/3CqI8m3KhA
- XzOQ==
-X-Gm-Message-State: AOAM5322oC6s/6HKLvMUY8SYqEdSkxbwGzcVmoUNcUTYXdVyCJ73JNVd
- b0KgXRpUWGk7V6tHm2eDLee7ig==
-X-Google-Smtp-Source: ABdhPJyVh2/u8gPyZu7/vGbROSHCxcfYm8e4mf1Wh34YtHnJmRVH7cCnSRaIAX6Gp4xYZgro0tnotA==
-X-Received: by 2002:a1c:2402:: with SMTP id k2mr2437451wmk.138.1593078200289; 
- Thu, 25 Jun 2020 02:43:20 -0700 (PDT)
+ bh=MqP8eNt5kwKUBAByimv8vaw/hFZlRD99sPA2Bo3gQ/A=;
+ b=NL/n1nXbLeCkEuMSClK369ShukMVYuzkhlTe2h7uXqrrSpILtA2Ahhapxz6ohsumXR
+ Ah9X6iKqt4VXxDYhSauLjNo5oJKNFSRXPyYbNnAVuAj8AahexkW5XlPtAqu4ZRuwK4iB
+ Ox488IVv1ddu8eh9EutxMh2g/eVUnK59Qa2m2zGqmqixXL5WD6qs/MmA6srGOjMfBXqq
+ gDNh27JthdLwUabRxKqt6yZnZvn8ADFDyhPyRriBm90W1gEQJw415NZQW1CRMeSvoQKv
+ JJZvfybA8JZr3bhUI+g+zz5m4BwVALRW98nmZ1LDaJCEtmTo79LyA0ghiFRG03Np3lLR
+ OQvQ==
+X-Gm-Message-State: AOAM532Rm85vximB/kNnWSojUYUCyxBhJQKn1PLyPAtfcOrKvUXC8Ets
+ 0EtlWRyWYSfBlHLWFv8myyH4Cg==
+X-Google-Smtp-Source: ABdhPJxi4S3Sc2l8ebR+2X/0lvGbwaCCrXXH0BrvjqecfUvwyNjsH13vgYRHtDkjWkf3uBbECp8RmQ==
+X-Received: by 2002:a5d:4845:: with SMTP id n5mr19419236wrs.353.1593078226184; 
+ Thu, 25 Jun 2020 02:43:46 -0700 (PDT)
 Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
  [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id t188sm11873191wmt.27.2020.06.25.02.43.19
+ by smtp.gmail.com with ESMTPSA id f13sm10976485wmb.33.2020.06.25.02.43.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 02:43:19 -0700 (PDT)
-Date: Thu, 25 Jun 2020 10:43:18 +0100
+ Thu, 25 Jun 2020 02:43:45 -0700 (PDT)
+Date: Thu, 25 Jun 2020 10:43:43 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 5/8] backlight: ili922x: Add missing kerneldoc
- description for ili922x_reg_dump()'s arg
-Message-ID: <20200625094318.h6t22gkgi5d7wbv4@holly.lan>
+Subject: Re: [PATCH 6/8] backlight: backlight: Supply description for
+ function args in existing Kerneldocs
+Message-ID: <20200625094343.koh2ln4fy6v6h7mo@holly.lan>
 References: <20200624145721.2590327-1-lee.jones@linaro.org>
- <20200624145721.2590327-6-lee.jones@linaro.org>
+ <20200624145721.2590327-7-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200624145721.2590327-6-lee.jones@linaro.org>
+In-Reply-To: <20200624145721.2590327-7-lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, Andrew Zabolotny <zap@homelink.ru>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, jingoohan1@gmail.com,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Software Engineering <sbabic@denx.de>,
+ Jamey Hicks <jamey.hicks@hp.com>, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 24, 2020 at 03:57:18PM +0100, Lee Jones wrote:
+On Wed, Jun 24, 2020 at 03:57:19PM +0100, Lee Jones wrote:
 > Kerneldoc syntax is used, but not complete.  Descriptions required.
 > 
 > Prevents warnings like:
 > 
->  drivers/video/backlight/ili922x.c:298: warning: Function parameter or member 'spi' not described in 'ili922x_reg_dump'
+>  drivers/video/backlight/backlight.c:329: warning: Function parameter or member 'reason' not described in 'backlight_force_update'
+>  drivers/video/backlight/backlight.c:354: warning: Function parameter or member 'props' not described in 'backlight_device_register'
 > 
 > Cc: <stable@vger.kernel.org>
 > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: Software Engineering <sbabic@denx.de>
+> Cc: Jamey Hicks <jamey.hicks@hp.com>
+> Cc: Andrew Zabolotny <zap@homelink.ru>
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
+
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+
 > ---
->  drivers/video/backlight/ili922x.c | 2 ++
+>  drivers/video/backlight/backlight.c | 2 ++
 >  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/ili922x.c b/drivers/video/backlight/ili922x.c
-> index cd41433b87aeb..26193f38234e7 100644
-> --- a/drivers/video/backlight/ili922x.c
-> +++ b/drivers/video/backlight/ili922x.c
-> @@ -295,6 +295,8 @@ static int ili922x_write(struct spi_device *spi, u8 reg, u16 value)
->  #ifdef DEBUG
->  /**
->   * ili922x_reg_dump - dump all registers
-> + *
-> + * @spi: pointer to the controller side proxy for an SPI slave device
-
-Similar to previous... and I also noticed that there are several other
-existing @spi descriptions in this file and it would be good to make
-them consistent.
-
-
-Daniel.
-
->   */
->  static void ili922x_reg_dump(struct spi_device *spi)
->  {
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index 92d80aa0c0ef1..744ba58488e01 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -320,6 +320,7 @@ ATTRIBUTE_GROUPS(bl_device);
+>   * backlight_force_update - tell the backlight subsystem that hardware state
+>   *   has changed
+>   * @bd: the backlight device to update
+> + * @reason: reason for update
+>   *
+>   * Updates the internal state of the backlight in response to a hardware event,
+>   * and generate a uevent to notify userspace
+> @@ -344,6 +345,7 @@ EXPORT_SYMBOL(backlight_force_update);
+>   * @devdata: an optional pointer to be stored for private driver use. The
+>   *   methods may retrieve it by using bl_get_data(bd).
+>   * @ops: the backlight operations structure.
+> + * @props: pointer to backlight's properties structure.
+>   *
+>   * Creates and registers new backlight device. Returns either an
+>   * ERR_PTR() or a pointer to the newly allocated device.
 > -- 
 > 2.25.1
 > 
