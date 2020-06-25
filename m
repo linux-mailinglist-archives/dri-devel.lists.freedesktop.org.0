@@ -2,32 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC52209E07
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E3F209E82
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1726E6EBBA;
-	Thu, 25 Jun 2020 12:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED566E120;
+	Thu, 25 Jun 2020 12:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0236EBBA
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:00:17 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 741B2B053;
- Thu, 25 Jun 2020 12:00:15 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, kraxel@redhat.com, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
- emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
- hdegoede@redhat.com
-Subject: [PATCH 9/9] drm/simplekms: Acquire memory aperture for framebuffer
-Date: Thu, 25 Jun 2020 14:00:11 +0200
-Message-Id: <20200625120011.16168-10-tzimmermann@suse.de>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E4C6E120;
+ Thu, 25 Jun 2020 12:34:54 +0000 (UTC)
+IronPort-SDR: /9USE24iQMDjI3jS9g6iu/EFwTFFyXMRZjQKh4bt8RtVhE61srOZTavu6ZhO9y/emakAbtBeCK
+ RBmyzRVJgAdA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="125113127"
+X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="125113127"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2020 05:34:53 -0700
+IronPort-SDR: oMGGq2F8l+bsvKImEyOkV+f8usbKZnt97wqgRyxTEulZ5a3X8MfGQbgPAH6vuGdw+fTCE2SsKM
+ /hVS5Rbd2CDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="263910504"
+Received: from schiml-mobl3.ger.corp.intel.com (HELO delly.ger.corp.intel.com)
+ ([10.249.41.48])
+ by fmsmga007.fm.intel.com with ESMTP; 25 Jun 2020 05:34:52 -0700
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] Revert "dma-buf: Report signaled links inside
+ dma-fence-chain"
+Date: Thu, 25 Jun 2020 15:34:42 +0300
+Message-Id: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200625120011.16168-1-tzimmermann@suse.de>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,221 +48,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ chris@chris-wilson.co.uk
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We register the simplekms device with the DRM platform helpers. A
-native driver for the graphics hardware will kickout the simplekms
-driver before taking over the device.
+This reverts commit 5de376bb434f80a13138f0ebedc8351ab73d8b0d.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+This change breaks synchronization of a timeline.
+dma_fence_chain_find_seqno() might be a bit of a confusing name but
+this function is not trying to find a particular seqno, is supposed to
+give a fence to wait on for a particular point in the timeline.
+
+In a timeline, a particular value is reached when all the points up to
+and including that value have signaled.
+
+Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 ---
- drivers/gpu/drm/tiny/Kconfig     |  1 +
- drivers/gpu/drm/tiny/simplekms.c | 94 +++++++++++++++++++++++++++++++-
- 2 files changed, 92 insertions(+), 3 deletions(-)
+ drivers/dma-buf/dma-fence-chain.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 50dbde8bdcb2..a47ed337a7fe 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -33,6 +33,7 @@ config DRM_SIMPLEKMS
- 	depends on DRM
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
-+	select DRM_PLATFORM_HELPER
- 	help
- 	  DRM driver for simple platform-provided framebuffers.
- 
-diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
-index ae5d3cbadbe8..a903a4e0100a 100644
---- a/drivers/gpu/drm/tiny/simplekms.c
-+++ b/drivers/gpu/drm/tiny/simplekms.c
-@@ -5,6 +5,7 @@
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/spinlock.h>
- 
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
-@@ -17,6 +18,7 @@
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_platform.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
-@@ -36,6 +38,12 @@
- #define SIMPLEKMS_MODE(hd, vd)	\
- 	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
- 
-+/*
-+ * Protects the platform device's drvdata against
-+ * concurrent manipulation.
-+ */
-+static DEFINE_SPINLOCK(simplekms_drvdata_lock);
-+
- /*
-  * Helpers for simplefb
-  */
-@@ -211,6 +219,7 @@ struct simplekms_device {
- 	unsigned int pitch;
- 
- 	/* memory management */
-+	struct drm_aperture *aperture;
- 	struct resource *mem;
- 	void __iomem *screen_base;
- 
-@@ -224,6 +233,8 @@ static struct simplekms_device *simplekms_device_of_dev(struct drm_device *dev)
- 	return container_of(dev, struct simplekms_device, dev);
- }
- 
-+static void simplekms_device_cleanup(struct simplekms_device *sdev);
-+
- /*
-  * Hardware
-  */
-@@ -514,22 +525,72 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
-  * Memory management
-  */
- 
-+static void simplekms_aperture_kickout(struct drm_aperture *ap)
-+{
-+	struct drm_device *dev = ap->dev;
-+	struct simplekms_device *sdev = simplekms_device_of_dev(dev);
-+	struct platform_device *pdev = sdev->pdev;
-+
-+	if (WARN_ON(!sdev->aperture))
-+		return; /* BUG: driver already got kicked out */
-+
-+	drm_dev_unregister(dev);
-+
-+	sdev->aperture = NULL; /* memory is released by platform helpers */
-+
-+	spin_lock(&simplekms_drvdata_lock);
-+	sdev = platform_get_drvdata(pdev);
-+	platform_set_drvdata(pdev, NULL); /* required; see simplekms_remove() */
-+	spin_unlock(&simplekms_drvdata_lock);
-+
-+	/*
-+	 * Return if a concurrent simplekms_remove() cleans up the
-+	 * device. See simplekms_remove().
-+	 */
-+	if (!sdev)
-+		return;
-+
-+	/*
-+	 * After the aperture has been released, there's no reason
-+	 * to keep the DRM device around.
-+	 */
-+	simplekms_device_cleanup(sdev);
-+}
-+
-+static const struct drm_aperture_funcs simplekms_aperture_funcs = {
-+	.kickout = simplekms_aperture_kickout,
-+};
-+
- static int simplekms_device_init_mm(struct simplekms_device *sdev)
- {
-+	struct drm_device *dev = &sdev->dev;
- 	struct platform_device *pdev = sdev->pdev;
- 	struct resource *mem;
-+	struct drm_aperture *ap;
- 	void __iomem *screen_base;
-+	int ret;
- 
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (!mem)
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index c435bbba851c..3d123502ff12 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -99,12 +99,6 @@ int dma_fence_chain_find_seqno(struct dma_fence **pfence, uint64_t seqno)
  		return -EINVAL;
  
-+	ap = drmm_aperture_acquire(dev, mem->start, resource_size(mem),
-+				   &simplekms_aperture_funcs);
-+	if (IS_ERR(ap)) {
-+		ret = PTR_ERR(ap);
-+		drm_err(dev,
-+			"could not acquire memory range [0x%llx:0x%llx]: "
-+			"error %d\n", mem->start, mem->end, ret);
-+		return ret;
-+	}
-+
- 	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
- 				      resource_size(mem));
- 	if (!screen_base)
- 		return -ENOMEM;
- 
- 	sdev->mem = mem;
-+	sdev->aperture = ap;
- 	sdev->screen_base = screen_base;
- 
- 	return 0;
-@@ -625,6 +686,9 @@ simplekms_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct drm_framebuffer *fb = state->fb;
- 	void *vmap;
- 
-+	if (!sdev->aperture)
-+		return;
-+
- 	vmap = drm_gem_shmem_vmap(fb->obj[0]);
- 	if (!vmap)
- 		return;
-@@ -645,6 +709,9 @@ simplekms_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct drm_rect clip;
- 	void *vmap;
- 
-+	if (!sdev->aperture)
-+		return;
-+
- 	if (!drm_atomic_helper_damage_merged(old_plane_state, state, &clip))
- 		return;
- 
-@@ -716,11 +783,12 @@ static int simplekms_device_init_modeset(struct simplekms_device *sdev)
-  * Init / Cleanup
-  */
- 
--static void simplekms_device_cleanup(struct simplekms_device* sdev)
-+static void simplekms_device_cleanup(struct simplekms_device *sdev)
- {
- 	struct drm_device *dev = &sdev->dev;
- 
--	drm_dev_unregister(dev);
-+	if (dev->registered)
-+		drm_dev_unregister(dev);
- }
- 
- static struct simplekms_device *
-@@ -797,7 +865,27 @@ static int simplekms_probe(struct platform_device *pdev)
- 
- static int simplekms_remove(struct platform_device *pdev)
- {
--	struct simplekms_device *sdev = platform_get_drvdata(pdev);
-+	struct simplekms_device *sdev;
-+
-+	spin_lock(&simplekms_drvdata_lock);
-+	sdev = platform_get_drvdata(pdev);
-+	platform_set_drvdata(pdev, NULL);
-+	spin_unlock(&simplekms_drvdata_lock);
-+
-+	/*
-+	 * The platform driver shares its reference to dev with the
-+	 * platform helpers for apertures. That reference is either
-+	 * released here when unloading the driver; or it's released
-+	 * when the driver gets kicked out by another driver. In the
-+	 * latter case, the aperture release routine clears the data
-+	 * field of the platform device.
-+	 *
-+	 * Therefore, sdev being NULL is a valid state if the driver
-+	 * has been kicked out by another DRM driver. In this case,
-+	 * it's all been cleaned up and we can return immediately.
-+	 */
-+	if (!sdev)
-+		return 0;
- 
- 	simplekms_device_cleanup(sdev);
- 
+ 	dma_fence_chain_for_each(*pfence, &chain->base) {
+-		if ((*pfence)->seqno < seqno) { /* already signaled */
+-			dma_fence_put(*pfence);
+-			*pfence = NULL;
+-			break;
+-		}
+-
+ 		if ((*pfence)->context != chain->base.context ||
+ 		    to_dma_fence_chain(*pfence)->prev_seqno < seqno)
+ 			break;
+@@ -228,7 +222,6 @@ EXPORT_SYMBOL(dma_fence_chain_ops);
+  * @chain: the chain node to initialize
+  * @prev: the previous fence
+  * @fence: the current fence
+- * @seqno: the sequence number (syncpt) of the fence within the chain
+  *
+  * Initialize a new chain node and either start a new chain or add the node to
+  * the existing chain of the previous fence.
 -- 
 2.27.0
 
