@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09406209E06
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0E2209E08
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED7B6EBC3;
-	Thu, 25 Jun 2020 12:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113FC6EA8B;
+	Thu, 25 Jun 2020 12:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9556D6EBBE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A256EBC3
  for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:00:16 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 94F6AAFEF;
- Thu, 25 Jun 2020 12:00:14 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3D5CDB01D;
+ Thu, 25 Jun 2020 12:00:15 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, kraxel@redhat.com, lgirdwood@gmail.com,
  broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
  emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
  hdegoede@redhat.com
-Subject: [PATCH 7/9] drm/simplekms: Acquire regulators from DT device node
-Date: Thu, 25 Jun 2020 14:00:09 +0200
-Message-Id: <20200625120011.16168-8-tzimmermann@suse.de>
+Subject: [PATCH 8/9] drm: Add infrastructure for platform devices
+Date: Thu, 25 Jun 2020 14:00:10 +0200
+Message-Id: <20200625120011.16168-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200625120011.16168-1-tzimmermann@suse.de>
 References: <20200625120011.16168-1-tzimmermann@suse.de>
@@ -47,177 +47,277 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure required hardware regulators are enabled while the firmware
-framebuffer is in use.
+Platform devices might operate on firmware framebuffers, such as VESA or
+EFI. Before a native driver for the graphics hardware can take over the
+device, it has to remove any platform driver that operates on the firmware
+framebuffer. Platform helpers provide the infrastructure for platform
+drivers to acquire firmware framebuffers, and for native drivers to remove
+them lateron.
 
-The basic code has been taken from the simplefb driver and adapted
-to DRM. Regulators are released automatically via devres helpers.
+It works similar to the related fbdev mechanism. During initialization, the
+platform driver acquires the firmware framebuffer's I/O memory and provides
+a callback to be removed. The native driver later uses this inforamtion to
+remove any platform driver for it's framebuffer I/O memory.
+
+The platform helper's removal code is integrated into the existing code for
+removing conflicting fraembuffers, so native drivers use it automatically.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/simplekms.c | 128 +++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+ drivers/gpu/drm/Kconfig        |   6 ++
+ drivers/gpu/drm/Makefile       |   1 +
+ drivers/gpu/drm/drm_platform.c | 118 +++++++++++++++++++++++++++++++++
+ include/drm/drm_fb_helper.h    |  18 ++++-
+ include/drm/drm_platform.h     |  42 ++++++++++++
+ 5 files changed, 184 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/drm_platform.c
+ create mode 100644 include/drm/drm_platform.h
 
-diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
-index aca186decb48..ae5d3cbadbe8 100644
---- a/drivers/gpu/drm/tiny/simplekms.c
-+++ b/drivers/gpu/drm/tiny/simplekms.c
-@@ -4,6 +4,7 @@
- #include <linux/of_clk.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
-+#include <linux/regulator/consumer.h>
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index c4fd57d8b717..e9d6892f9d38 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -229,6 +229,12 @@ config DRM_SCHED
+ 	tristate
+ 	depends on DRM
  
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
-@@ -198,6 +199,11 @@ struct simplekms_device {
- 	unsigned int clk_count;
- 	struct clk **clks;
- #endif
-+	/* regulators */
-+#if defined CONFIG_OF && defined CONFIG_REGULATOR
-+	unsigned int regulator_count;
-+	struct regulator **regulators;
-+#endif
++config DRM_PLATFORM_HELPER
++	bool
++	depends on DRM
++	help
++	  Helpers for DRM platform devices
++
+ source "drivers/gpu/drm/i2c/Kconfig"
  
- 	/* simplefb settings */
- 	struct drm_display_mode mode;
-@@ -315,6 +321,125 @@ static int simplekms_device_init_clocks(struct simplekms_device *sdev)
- }
- #endif
+ source "drivers/gpu/drm/arm/Kconfig"
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 2c0e5a7e5953..8ceb21d0770a 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) += drm_agpsupport.o
+ drm-$(CONFIG_PCI) += drm_pci.o
+ drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+ drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
++drm-$(CONFIG_DRM_PLATFORM_HELPER) += drm_platform.o
  
-+#if defined CONFIG_OF && defined CONFIG_REGULATOR
+ drm_vram_helper-y := drm_gem_vram_helper.o
+ obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+diff --git a/drivers/gpu/drm/drm_platform.c b/drivers/gpu/drm/drm_platform.c
+new file mode 100644
+index 000000000000..09a2f2a31aa5
+--- /dev/null
++++ b/drivers/gpu/drm/drm_platform.c
+@@ -0,0 +1,118 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
 +
-+#define SUPPLY_SUFFIX "-supply"
++#include <linux/mutex.h>
++#include <linux/slab.h>
 +
-+/*
-+ * Regulator handling code.
-+ *
-+ * Here we handle the num-supplies and vin*-supply properties of our
-+ * "simple-framebuffer" dt node. This is necessary so that we can make sure
-+ * that any regulators needed by the display hardware that the bootloader
-+ * set up for us (and for which it provided a simplefb dt node), stay up,
-+ * for the life of the simplefb driver.
-+ *
-+ * When the driver unloads, we cleanly disable, and then release the
-+ * regulators.
-+ *
-+ * We only complain about errors here, no action is taken as the most likely
-+ * error can only happen due to a mismatch between the bootloader which set
-+ * up simplefb, and the regulator definitions in the device tree. Chances are
-+ * that there are no adverse effects, and if there are, a clean teardown of
-+ * the fb probe will not help us much either. So just complain and carry on,
-+ * and hope that the user actually gets a working fb at the end of things.
-+ */
++#include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_platform.h>
 +
-+static void simplekms_device_release_regulators(void *res)
++static LIST_HEAD(drm_apertures);
++
++static DEFINE_MUTEX(drm_apertures_lock);
++
++static bool overlap(resource_size_t base1, resource_size_t end1,
++		    resource_size_t base2, resource_size_t end2)
 +{
-+	struct simplekms_device *sdev = simplekms_device_of_dev(res);
-+	unsigned int i;
-+
-+	for (i = 0; i < sdev->regulator_count; ++i) {
-+		if (sdev->regulators[i]) {
-+			regulator_disable(sdev->regulators[i]);
-+			regulator_put(sdev->regulators[i]);
-+		}
-+	}
++	return (base1 < end2) && (end1 > base2);
 +}
 +
-+static int simplekms_device_init_regulators(struct simplekms_device *sdev)
++static struct drm_aperture *
++drm_aperture_acquire(struct drm_device *dev,
++		     resource_size_t base, resource_size_t size,
++		     const struct drm_aperture_funcs *funcs)
 +{
-+	struct drm_device *dev = &sdev->dev;
-+	struct platform_device *pdev = sdev->pdev;
-+	struct device_node *of_node = pdev->dev.of_node;
-+	struct property *prop;
-+	struct regulator *regulator;
-+	const char *p;
-+	unsigned int count = 0, i = 0;
++	size_t end = base + size;
++	struct list_head *pos;
++	struct drm_aperture *ap;
++
++	mutex_lock(&drm_apertures_lock);
++
++	list_for_each(pos, &drm_apertures) {
++		ap = container_of(pos, struct drm_aperture, lh);
++		if (overlap(base, end, ap->base, ap->base + ap->size))
++			return ERR_PTR(-EBUSY);
++	}
++
++	ap = drmm_kzalloc(dev, sizeof(*ap), GFP_KERNEL);
++	if (!ap)
++		return ERR_PTR(-ENOMEM);
++
++	ap->dev = dev;
++	ap->base = base;
++	ap->size = size;
++	ap->funcs = funcs;
++	INIT_LIST_HEAD(&ap->lh);
++
++	list_add(&ap->lh, &drm_apertures);
++
++	mutex_unlock(&drm_apertures_lock);
++
++	return ap;
++}
++
++static void drm_aperture_release(struct drm_aperture *ap)
++{
++	bool kicked_out = ap->kicked_out;
++
++	if (!kicked_out)
++		mutex_lock(&drm_apertures_lock);
++
++	list_del(&ap->lh);
++	if (ap->funcs->release)
++		ap->funcs->release(ap);
++
++	if (!kicked_out)
++		mutex_unlock(&drm_apertures_lock);
++}
++
++static void drm_aperture_acquire_release(struct drm_device *dev, void *ptr)
++{
++	struct drm_aperture *ap = ptr;
++
++	drm_aperture_release(ap);
++}
++
++struct drm_aperture *
++drmm_aperture_acquire(struct drm_device *dev,
++		      resource_size_t base, resource_size_t size,
++		      const struct drm_aperture_funcs *funcs)
++{
++	struct drm_aperture *ap;
 +	int ret;
 +
-+	if (dev_get_platdata(&pdev->dev) || !of_node)
-+		return 0;
++	ap = drm_aperture_acquire(dev, base, size, funcs);
++	if (IS_ERR(ap))
++		return ap;
++	ret = drmm_add_action_or_reset(dev, drm_aperture_acquire_release, ap);
++	if (ret)
++		return ERR_PTR(ret);
 +
-+	/* Count the number of regulator supplies */
-+	for_each_property_of_node(of_node, prop) {
-+		p = strstr(prop->name, SUPPLY_SUFFIX);
-+		if (p && p != prop->name)
-+			++count;
-+	}
-+
-+	if (!count)
-+		return 0;
-+
-+	sdev->regulators = drmm_kzalloc(dev,
-+					count * sizeof(sdev->regulators[0]),
-+					GFP_KERNEL);
-+	if (!sdev->regulators)
-+		return -ENOMEM;
-+
-+	for_each_property_of_node(of_node, prop) {
-+		char name[32]; /* 32 is max size of property name */
-+		size_t len;
-+
-+		p = strstr(prop->name, SUPPLY_SUFFIX);
-+		if (!p || p == prop->name)
-+			continue;
-+		len = strlen(prop->name) - strlen(SUPPLY_SUFFIX) + 1;
-+		strlcpy(name, prop->name, len);
-+
-+		regulator = regulator_get_optional(&pdev->dev, name);
-+		if (IS_ERR(regulator)) {
-+			ret = PTR_ERR(regulator);
-+			if (ret == -EPROBE_DEFER)
-+				goto err;
-+			drm_err(dev, "regulator %s not found: %d\n",
-+				name, ret);
-+			continue;
-+		}
-+
-+		ret = regulator_enable(regulator);
-+		if (ret) {
-+			drm_err(dev, "failed to enable regulator %u: %d\n",
-+				i, ret);
-+			regulator_put(regulator);
-+		}
-+
-+		sdev->regulators[i++] = regulator;
-+	}
-+	sdev->regulator_count = i;
-+
-+	return devm_add_action_or_reset(&pdev->dev,
-+					simplekms_device_release_regulators,
-+					sdev);
-+
-+err:
-+	while (i) {
-+		--i;
-+		if (sdev->regulators[i]) {
-+			regulator_disable(sdev->regulators[i]);
-+			regulator_put(sdev->regulators[i]);
-+		}
-+	}
-+	return ret;
++	return ap;
 +}
-+#else
-+static int simplekms_device_init_regulators(struct simplekms_device *sdev)
++EXPORT_SYMBOL(drmm_aperture_acquire);
++
++void drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
 +{
-+	return 0;
++	resource_size_t end = base + size;
++	struct list_head *pos, *n;
++
++	mutex_lock(&drm_apertures_lock);
++
++	list_for_each_safe(pos, n, &drm_apertures) {
++		struct drm_aperture *ap =
++			container_of(pos, struct drm_aperture, lh);
++
++		if (!overlap(base, end, ap->base, ap->base + ap->size))
++			continue;
++
++		ap->kicked_out = true;
++		if (ap->funcs->kickout)
++			ap->funcs->kickout(ap);
++		else
++			drm_dev_put(ap->dev);
++	}
++
++	mutex_unlock(&drm_apertures_lock);
++}
++EXPORT_SYMBOL(drm_kickout_apertures_at);
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 306aa3a60be9..a919b78b1961 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -35,7 +35,9 @@ struct drm_fb_helper;
+ #include <drm/drm_client.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_platform.h>
+ #include <linux/kgdb.h>
++#include <linux/pci.h>
+ #include <linux/vgaarb.h>
+ 
+ enum mode_set_atomic {
+@@ -465,6 +467,11 @@ static inline int
+ drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
+ 					      const char *name, bool primary)
+ {
++	int i;
++
++	for (i = 0; i < a->count; ++i)
++		drm_kickout_apertures_at(a->ranges[i].base, a->ranges[i].size);
++
+ #if IS_REACHABLE(CONFIG_FB)
+ 	return remove_conflicting_framebuffers(a, name, primary);
+ #else
+@@ -487,7 +494,16 @@ static inline int
+ drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+ 						  const char *name)
+ {
+-	int ret = 0;
++	resource_size_t base, size;
++	int bar, ret = 0;
++
++	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
++		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
++			continue;
++		base = pci_resource_start(pdev, bar);
++		size = pci_resource_len(pdev, bar);
++		drm_kickout_apertures_at(base, size);
++	}
+ 
+ 	/*
+ 	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+diff --git a/include/drm/drm_platform.h b/include/drm/drm_platform.h
+new file mode 100644
+index 000000000000..475e88ee1fbd
+--- /dev/null
++++ b/include/drm/drm_platform.h
+@@ -0,0 +1,42 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++
++#ifndef _DRM_PLATFORM_H_
++#define _DRM_PLATFORM_H_
++
++#include <linux/list.h>
++#include <linux/types.h>
++
++struct drm_aperture;
++struct drm_device;
++
++struct drm_aperture_funcs {
++	void (*kickout)(struct drm_aperture *ap);
++	void (*release)(struct drm_aperture *ap);
++};
++
++struct drm_aperture {
++	struct drm_device *dev;
++	resource_size_t base;
++	resource_size_t size;
++
++	const struct drm_aperture_funcs *funcs;
++
++	struct list_head lh;
++	bool kicked_out;
++};
++
++struct drm_aperture *
++drmm_aperture_acquire(struct drm_device *dev,
++		      resource_size_t base, resource_size_t size,
++		      const struct drm_aperture_funcs *funcs);
++
++#if defined (CONFIG_DRM_PLATFORM_HELPER)
++void drm_kickout_apertures_at(resource_size_t base, resource_size_t size);
++#else
++static inline void
++drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
++{
 +}
 +#endif
 +
- /*
-  *  Simplefb settings
-  */
-@@ -611,6 +736,9 @@ simplekms_device_create(struct drm_driver *drv, struct platform_device *pdev)
- 	sdev->pdev = pdev;
- 
- 	ret = simplekms_device_init_clocks(sdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	ret = simplekms_device_init_regulators(sdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 	ret = simplekms_device_init_fb(sdev);
++#endif
 -- 
 2.27.0
 
