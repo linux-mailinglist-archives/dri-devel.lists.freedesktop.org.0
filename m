@@ -2,53 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3ECC209AD7
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003AB209ADA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:57:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC3026E442;
-	Thu, 25 Jun 2020 07:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C106E25F;
+	Thu, 25 Jun 2020 07:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1EF6E25F
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 07:57:00 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id l2so3435847wmf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 00:56:59 -0700 (PDT)
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A73186E25F
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 07:57:56 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id k4so4211331oik.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 00:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=8OIMwuanJl4HmZcEF3LMkNCJV0PX3FzELwr5THzq6dA=;
- b=aiBnYwy4hD8HoFX/zs2bjVsacnwmxL8hjgY1/+zJKzbGeEmDqdBQJBDqnuIOdaThI+
- 2/ft28jzKbGQtM9Nat549HzXpNKetYWCD0/0Lo1gsNWSpnaWa5+f74ExOQ4KZPVgkV1C
- pRW93Ys0rX7qqc37xsXZqI3dUVBjpB4mbi/kc=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Fh/QRjqSh/AIDMMLAmkoRED38mfRi1Trge0R0zfKw/M=;
+ b=LV1WaJNiVNdQ+ZXGBrJGl3wqXVPK4n4btT7GoYkFpVmj9kSK/OhHJww9VkLgnLSNtt
+ pJHu+CdN2k/fC0iyDlOVjGMuxSg/t1Ms22PN9L1ng/LsCLOxh1N6FYQm60u3+maRWMpe
+ LeEjh2+U8c5xr2CMl+sYuJTa3jBjLW17daew0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=8OIMwuanJl4HmZcEF3LMkNCJV0PX3FzELwr5THzq6dA=;
- b=hgwTLDa3D6bDwx0jIhqzsF/SoN3bR9msJbfqgkyBfCR3ZixYi1j9cgML3BCI/42VT7
- gvYM3A8Bc+gSs4LbNo4C6j4l/LjSRhlHfyuPHgUJJWihEVvQqTwFyOt7IZLMNAlCoIcT
- ADCBeBshtI1u9pv0KanW2dSVLFtZQqHIQf3J2rMmlJlaQJCuhKHokz8AiVXUJs6MwvOE
- YkTlnd0Mlzn736CkjOOX0UhRcD2u4YOPGsnb7NNpEdIG1ngPgtgpD3H8a0RBNF60TrkT
- rPJd5/WPjorPSY0UxTfY0nV9zfDKJpmpABpMbca+oTVrbrkpkeMVBtptxpiBHAktzVc8
- /oEw==
-X-Gm-Message-State: AOAM531XjwuwbpQgDKtHu/AK2l3SHnSegpPc8MDxVe5FTIcABGTGbOTn
- ppmiTVuVqJ0ndfHUpc70iDPtTw==
-X-Google-Smtp-Source: ABdhPJwDwsu9Z33N3jB2aVJvsbx+4vaPhtuSnXVPwqO98ZPO+P5JVr9/Jnc6K+k7Btj9aG/rSVy8ng==
-X-Received: by 2002:a1c:d5:: with SMTP id 204mr1544012wma.174.1593071818586;
- Thu, 25 Jun 2020 00:56:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o29sm22741989wra.5.2020.06.25.00.56.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 00:56:57 -0700 (PDT)
-Date: Thu, 25 Jun 2020 09:56:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200625075655.GC3278063@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Fh/QRjqSh/AIDMMLAmkoRED38mfRi1Trge0R0zfKw/M=;
+ b=F0oEEU5ggIRc7XGPYZ289qNNbLHtTXPOu92YjskH7XZayWxhTiscjwepasi/StorES
+ Y41aekL7zZ+WXAwOXOYwh/jEt/aV+tmIPG1GTF7p76MI6emP5YiTXI/htqJQs7CgZWH7
+ 0uc13AhCPkK6FswdnqcJNZDxS2DkKxU7rZFowBhoBUxAPput4vJJ4woBTPYXCzt65WrQ
+ fUkP2GFFmtbQN9+MdBECwz1TkJx77P3zu8/42eAK0Voo9VD41lOrkC9HIDD83eRRgKjn
+ qtyFqsomWCH0YCUEKUEoI6AtjfAeoABfb8EUNMl1Zh8caRqhmQUqpXbjm8e0cKOa3Qba
+ 2BOw==
+X-Gm-Message-State: AOAM531buxzRHAN2BOeMytxPlb8SxtyQz9Tcs+6f4KEmgqvQM/3spk3z
+ nramvHufn+FkddUUrwGxUQfeQ5yOmqNznYcyJQnfKA==
+X-Google-Smtp-Source: ABdhPJwEv3DXO9ri4ndtxq/m8jGfBTohFNb1JASUBsnpbvWcQYw40zkUC+gD3dpeq40EXYMwLJp28xHHKayi/HSzfbU=
+X-Received: by 2002:aca:bc06:: with SMTP id m6mr1121257oif.101.1593071875840; 
+ Thu, 25 Jun 2020 00:57:55 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
  <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
  <20200621084000.GM74146@ravnborg.org>
@@ -57,10 +47,15 @@ References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
  <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
  <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
  <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+ <20200625075655.GC3278063@phenom.ffwll.local>
+In-Reply-To: <20200625075655.GC3278063@phenom.ffwll.local>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 25 Jun 2020 09:57:44 +0200
+Message-ID: <CAKMK7uF70UO=vDDnERnQ49rH1yN8gQQD91GKq1j8+eQV9mf1xA@mail.gmail.com>
+Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
+ state
+To: Alex Deucher <alexdeucher@gmail.com>, Simon Ser <contact@emersion.fr>, 
+ Pekka Paalanen <ppaalanen@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,224 +70,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
  Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 24, 2020 at 03:40:42PM -0400, Alex Deucher wrote:
-> On Wed, Jun 24, 2020 at 3:31 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, Jun 24, 2020 at 5:24 PM Alex Deucher <alexdeucher@gmail.com> wr=
-ote:
-> > >
-> > > On Wed, Jun 24, 2020 at 3:23 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wrote:
-> > > > > Hi Sam,
-> > > > >
-> > > > > On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
-> > > > > > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrot=
-e:
-> > > > > > > The DRM CRTC helpers add default modes to connectors in the c=
-onnected
-> > > > > > > state if no mode can be retrieved from the connector. This be=
-haviour is
-> > > > > > > useful for VGA or DVI outputs that have no connected DDC bus.=
- However,
-> > > > > > > in such cases, the status of the output usually can't be retr=
-ieved and
-> > > > > > > is reported as connector_status_unknown.
-> > > > > > >
-> > > > > > > Extend the addition of default modes to connectors in an unkn=
-own state
-> > > > > > > to support outputs that can retrieve neither the modes nor the
-> > > > > > > connection status.
-> > > > > > >
-> > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ide=
-asonboard.com>
-> > > > > >
-> > > > > > From your description sounds like an OK approach.
-> > > > > > But this is not something I feel too familiar with.
-> > > > > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > > > >
-> > > > > Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on=
- this
-> > > > > too.
-> > > >
-> > > > Makes sense, and at least pre-coffee me can't immediately think of a
-> > > > scenario where we're going to regret this. _unknown status is prett=
-y much
-> > > > limited to old VGA and similar things where load detect somehow isn=
-'t well
-> > > > supported by the hw.
-> > > >
-> > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > >
-> > > > >
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
-> > > > > > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
-> > > > > > >  2 files changed, 9 insertions(+), 2 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu=
-/drm/drm_probe_helper.c
-> > > > > > > index f5d141e0400f..9055d9573c90 100644
-> > > > > > > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > > > > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > > > > > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_mod=
-es(struct drm_connector *connector,
-> > > > > > >   if (count =3D=3D 0 && connector->status =3D=3D connector_st=
-atus_connected)
-> > > > > > >           count =3D drm_add_override_edid_modes(connector);
-> > > > > > >
-> > > > > > > - if (count =3D=3D 0 && connector->status =3D=3D connector_st=
-atus_connected)
-> > > > > > > + if (count =3D=3D 0 && (connector->status =3D=3D connector_s=
-tatus_connected ||
-> > > > > > > +                    connector->status =3D=3D connector_statu=
-s_unknown))
-> > > > > > >           count =3D drm_add_modes_noedid(connector, 1024, 768=
-);
-> > > > > > >   count +=3D drm_helper_probe_add_cmdline_mode(connector);
-> > > > > > >   if (count =3D=3D 0)
-> > > > > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/inclu=
-de/drm/drm_modeset_helper_vtables.h
-> > > > > > > index 421a30f08463..afe55e2e93d2 100644
-> > > > > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
-> > > > > > >    * The usual way to implement this is to cache the EDID ret=
-rieved in the
-> > > > > > >    * probe callback somewhere in the driver-private connector=
- structure.
-> > > > > > >    * In this function drivers then parse the modes in the EDI=
-D and add
-> > > > > > > -  * them by calling drm_add_edid_modes(). But connectors tha=
-t driver a
-> > > > > > > +  * them by calling drm_add_edid_modes(). But connectors tha=
-t drive a
-> > > > > > >    * fixed panel can also manually add specific modes using
-> > > > > > >    * drm_mode_probed_add(). Drivers which manually add modes =
-should also
-> > > > > > >    * make sure that the &drm_connector.display_info,
-> > > > > > >    * &drm_connector.width_mm and &drm_connector.height_mm fie=
-lds are
-> > > > > > >    * filled in.
-> > > > > > >    *
-> > > > > > > +  * Note that the caller function will automatically add sta=
-ndard VESA
-> > > > > > > +  * DMT modes up to 1024x768 if the .get_modes() helper oper=
-ation returns
-> > > > > > > +  * no mode and if the connector status is connector_status_=
-connected or
-> > > > > > > +  * connector_status_unknown. There is no need to call
-> > > > > > > +  * drm_add_edid_modes() manually in that case.
-> > > >
-> > > > Hm calling drm_add_edid_modes if you have no edid is a bit a funny =
-idea
-> > > > ... Personally I'd just leave out the last sentence, I think that o=
-nly
-> > > > confuses readers. Or I'm not grasphing what you're trying to tell h=
-ere.
-> > >
-> > > IIRC, some drivers used and desktop environments expected unknown
-> > > rather than off for LVDS/eDP panels when the lid was shut or if the
-> > > mux was switched to another device in the case of hybrid laptops.
-> >
-> > We seem to have totally ditched that in
-> >
-> > commit 05c72e77ccda89ff624108b1b59a0fc43843f343
-> > Author: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Date:   Tue Jul 17 20:42:14 2018 +0300
-> >
-> >     drm/i915: Nuke the LVDS lid notifier
-> >
-> > No screaming yet.
-> >
-> > But I'm also a bit confused, for a panel there's generally an edid
-> > around, or a fixed (list of) modes. That's enough to stop this
-> > fallback from running, so should be all fine.
-> =
-
-> No, you are right; you will have the EDID so this shouldn't be an
-> issue.  I was mis-remembering the original issue.  We originally
-> always reported connected for LVDS in radeon if the panel was present,
-> but then we got flack because some userspace expected unknown in
-> certain cases (e.g., lid or muxed displays).  Either way the EDID info
-> is still there.
-
-Yeah I think i915 started that habit, but I guess people realized it's
-unreliable enough that they should have their own lid handler in the
-desktop enviromnent doing whatever they want to do on lid close.
-
-Should we perhaps document that somewhere, that panels are always marked
-as connected? Not even sure where to put that in the docs ...
-
-Maybe adding a few of the usual suspects from the compositor side, Simon,
-Pekka?
--Daniel
-
-> =
-
-> Alex
-> =
-
-> =
-
-> > -Daniell
-> >
-> > >
-> > > Alex
-> > >
-> > >
-> > > >
-> > > > r-b with or without this change since imo super tiny nit.
-> > > >
-> > > > Cheers, Daniel
-> > > >
-> > > > > > > +  *
-> > > > > > >    * Virtual drivers that just want some standard VESA mode w=
-ith a given
-> > > > > > >    * resolution can call drm_add_modes_noedid(), and mark the=
- preferred
-> > > > > > >    * one using drm_set_preferred_mode().
-> > > > >
-> > > > > --
-> > > > > Regards,
-> > > > >
-> > > > > Laurent Pinchart
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBKdW4gMjUsIDIwMjAgYXQgOTo1NiBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+IHdyb3RlOgo+Cj4gT24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMDM6NDA6NDJQTSAtMDQw
+MCwgQWxleCBEZXVjaGVyIHdyb3RlOgo+ID4gT24gV2VkLCBKdW4gMjQsIDIwMjAgYXQgMzozMSBQ
+TSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+ID4gPgo+ID4gPiBPbiBX
+ZWQsIEp1biAyNCwgMjAyMCBhdCA1OjI0IFBNIEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21h
+aWwuY29tPiB3cm90ZToKPiA+ID4gPgo+ID4gPiA+IE9uIFdlZCwgSnVuIDI0LCAyMDIwIGF0IDM6
+MjMgQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+ID4gPiA+Cj4g
+PiA+ID4gPiBPbiBXZWQsIEp1biAyNCwgMjAyMCBhdCAwNDoxMjowOUFNICswMzAwLCBMYXVyZW50
+IFBpbmNoYXJ0IHdyb3RlOgo+ID4gPiA+ID4gPiBIaSBTYW0sCj4gPiA+ID4gPiA+Cj4gPiA+ID4g
+PiA+IE9uIFN1biwgSnVuIDIxLCAyMDIwIGF0IDEwOjQwOjAwQU0gKzAyMDAsIFNhbSBSYXZuYm9y
+ZyB3cm90ZToKPiA+ID4gPiA+ID4gPiBPbiBUdWUsIE1heSAyNiwgMjAyMCBhdCAwNDoxNTowNUFN
+ICswMzAwLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOgo+ID4gPiA+ID4gPiA+ID4gVGhlIERSTSBD
+UlRDIGhlbHBlcnMgYWRkIGRlZmF1bHQgbW9kZXMgdG8gY29ubmVjdG9ycyBpbiB0aGUgY29ubmVj
+dGVkCj4gPiA+ID4gPiA+ID4gPiBzdGF0ZSBpZiBubyBtb2RlIGNhbiBiZSByZXRyaWV2ZWQgZnJv
+bSB0aGUgY29ubmVjdG9yLiBUaGlzIGJlaGF2aW91ciBpcwo+ID4gPiA+ID4gPiA+ID4gdXNlZnVs
+IGZvciBWR0Egb3IgRFZJIG91dHB1dHMgdGhhdCBoYXZlIG5vIGNvbm5lY3RlZCBEREMgYnVzLiBI
+b3dldmVyLAo+ID4gPiA+ID4gPiA+ID4gaW4gc3VjaCBjYXNlcywgdGhlIHN0YXR1cyBvZiB0aGUg
+b3V0cHV0IHVzdWFsbHkgY2FuJ3QgYmUgcmV0cmlldmVkIGFuZAo+ID4gPiA+ID4gPiA+ID4gaXMg
+cmVwb3J0ZWQgYXMgY29ubmVjdG9yX3N0YXR1c191bmtub3duLgo+ID4gPiA+ID4gPiA+ID4KPiA+
+ID4gPiA+ID4gPiA+IEV4dGVuZCB0aGUgYWRkaXRpb24gb2YgZGVmYXVsdCBtb2RlcyB0byBjb25u
+ZWN0b3JzIGluIGFuIHVua25vd24gc3RhdGUKPiA+ID4gPiA+ID4gPiA+IHRvIHN1cHBvcnQgb3V0
+cHV0cyB0aGF0IGNhbiByZXRyaWV2ZSBuZWl0aGVyIHRoZSBtb2RlcyBub3IgdGhlCj4gPiA+ID4g
+PiA+ID4gPiBjb25uZWN0aW9uIHN0YXR1cy4KPiA+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4g
+PiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVz
+YXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IEZyb20geW91
+ciBkZXNjcmlwdGlvbiBzb3VuZHMgbGlrZSBhbiBPSyBhcHByb2FjaC4KPiA+ID4gPiA+ID4gPiBC
+dXQgdGhpcyBpcyBub3Qgc29tZXRoaW5nIEkgZmVlbCB0b28gZmFtaWxpYXIgd2l0aC4KPiA+ID4g
+PiA+ID4gPiBBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+ID4gPiA+
+ID4gPgo+ID4gPiA+ID4gPiBUaGFua3MgZm9yIHRoZSBhY2suIEknZCBsaWtlIHRvIGhhdmUgRGFu
+aWVsJ3MgKENDJ2VkKSBmZWVkYmFjayBvbiB0aGlzCj4gPiA+ID4gPiA+IHRvby4KPiA+ID4gPiA+
+Cj4gPiA+ID4gPiBNYWtlcyBzZW5zZSwgYW5kIGF0IGxlYXN0IHByZS1jb2ZmZWUgbWUgY2FuJ3Qg
+aW1tZWRpYXRlbHkgdGhpbmsgb2YgYQo+ID4gPiA+ID4gc2NlbmFyaW8gd2hlcmUgd2UncmUgZ29p
+bmcgdG8gcmVncmV0IHRoaXMuIF91bmtub3duIHN0YXR1cyBpcyBwcmV0dHkgbXVjaAo+ID4gPiA+
+ID4gbGltaXRlZCB0byBvbGQgVkdBIGFuZCBzaW1pbGFyIHRoaW5ncyB3aGVyZSBsb2FkIGRldGVj
+dCBzb21laG93IGlzbid0IHdlbGwKPiA+ID4gPiA+IHN1cHBvcnRlZCBieSB0aGUgaHcuCj4gPiA+
+ID4gPgo+ID4gPiA+ID4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJA
+ZmZ3bGwuY2g+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gLS0tCj4gPiA+
+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyAgICAgICB8IDMg
+KystCj4gPiA+ID4gPiA+ID4gPiAgaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJs
+ZXMuaCB8IDggKysrKysrKy0KPiA+ID4gPiA+ID4gPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDkgaW5z
+ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMKPiA+ID4gPiA+ID4gPiA+IGluZGV4IGY1ZDE0
+MWUwNDAwZi4uOTA1NWQ5NTczYzkwIDEwMDY0NAo+ID4gPiA+ID4gPiA+ID4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYwo+ID4gPiA+ID4gPiA+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYwo+ID4gPiA+ID4gPiA+ID4gQEAgLTQ5MSw3ICs0
+OTEsOCBAQCBpbnQgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKHN0cnVj
+dCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4gPiA+ID4gPiA+ID4gPiAgIGlmIChjb3VudCA9
+PSAwICYmIGNvbm5lY3Rvci0+c3RhdHVzID09IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkKQo+
+ID4gPiA+ID4gPiA+ID4gICAgICAgICAgIGNvdW50ID0gZHJtX2FkZF9vdmVycmlkZV9lZGlkX21v
+ZGVzKGNvbm5lY3Rvcik7Cj4gPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4gLSBpZiAoY291
+bnQgPT0gMCAmJiBjb25uZWN0b3ItPnN0YXR1cyA9PSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3Rl
+ZCkKPiA+ID4gPiA+ID4gPiA+ICsgaWYgKGNvdW50ID09IDAgJiYgKGNvbm5lY3Rvci0+c3RhdHVz
+ID09IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkIHx8Cj4gPiA+ID4gPiA+ID4gPiArICAgICAg
+ICAgICAgICAgICAgICBjb25uZWN0b3ItPnN0YXR1cyA9PSBjb25uZWN0b3Jfc3RhdHVzX3Vua25v
+d24pKQo+ID4gPiA+ID4gPiA+ID4gICAgICAgICAgIGNvdW50ID0gZHJtX2FkZF9tb2Rlc19ub2Vk
+aWQoY29ubmVjdG9yLCAxMDI0LCA3NjgpOwo+ID4gPiA+ID4gPiA+ID4gICBjb3VudCArPSBkcm1f
+aGVscGVyX3Byb2JlX2FkZF9jbWRsaW5lX21vZGUoY29ubmVjdG9yKTsKPiA+ID4gPiA+ID4gPiA+
+ICAgaWYgKGNvdW50ID09IDApCj4gPiA+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
+cm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0
+X2hlbHBlcl92dGFibGVzLmgKPiA+ID4gPiA+ID4gPiA+IGluZGV4IDQyMWEzMGYwODQ2My4uYWZl
+NTVlMmU5M2QyIDEwMDY0NAo+ID4gPiA+ID4gPiA+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21v
+ZGVzZXRfaGVscGVyX3Z0YWJsZXMuaAo+ID4gPiA+ID4gPiA+ID4gKysrIGIvaW5jbHVkZS9kcm0v
+ZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaAo+ID4gPiA+ID4gPiA+ID4gQEAgLTg3NiwxMyAr
+ODc2LDE5IEBAIHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyB7Cj4gPiA+ID4gPiA+
+ID4gPiAgICAqIFRoZSB1c3VhbCB3YXkgdG8gaW1wbGVtZW50IHRoaXMgaXMgdG8gY2FjaGUgdGhl
+IEVESUQgcmV0cmlldmVkIGluIHRoZQo+ID4gPiA+ID4gPiA+ID4gICAgKiBwcm9iZSBjYWxsYmFj
+ayBzb21ld2hlcmUgaW4gdGhlIGRyaXZlci1wcml2YXRlIGNvbm5lY3RvciBzdHJ1Y3R1cmUuCj4g
+PiA+ID4gPiA+ID4gPiAgICAqIEluIHRoaXMgZnVuY3Rpb24gZHJpdmVycyB0aGVuIHBhcnNlIHRo
+ZSBtb2RlcyBpbiB0aGUgRURJRCBhbmQgYWRkCj4gPiA+ID4gPiA+ID4gPiAtICAqIHRoZW0gYnkg
+Y2FsbGluZyBkcm1fYWRkX2VkaWRfbW9kZXMoKS4gQnV0IGNvbm5lY3RvcnMgdGhhdCBkcml2ZXIg
+YQo+ID4gPiA+ID4gPiA+ID4gKyAgKiB0aGVtIGJ5IGNhbGxpbmcgZHJtX2FkZF9lZGlkX21vZGVz
+KCkuIEJ1dCBjb25uZWN0b3JzIHRoYXQgZHJpdmUgYQo+ID4gPiA+ID4gPiA+ID4gICAgKiBmaXhl
+ZCBwYW5lbCBjYW4gYWxzbyBtYW51YWxseSBhZGQgc3BlY2lmaWMgbW9kZXMgdXNpbmcKPiA+ID4g
+PiA+ID4gPiA+ICAgICogZHJtX21vZGVfcHJvYmVkX2FkZCgpLiBEcml2ZXJzIHdoaWNoIG1hbnVh
+bGx5IGFkZCBtb2RlcyBzaG91bGQgYWxzbwo+ID4gPiA+ID4gPiA+ID4gICAgKiBtYWtlIHN1cmUg
+dGhhdCB0aGUgJmRybV9jb25uZWN0b3IuZGlzcGxheV9pbmZvLAo+ID4gPiA+ID4gPiA+ID4gICAg
+KiAmZHJtX2Nvbm5lY3Rvci53aWR0aF9tbSBhbmQgJmRybV9jb25uZWN0b3IuaGVpZ2h0X21tIGZp
+ZWxkcyBhcmUKPiA+ID4gPiA+ID4gPiA+ICAgICogZmlsbGVkIGluLgo+ID4gPiA+ID4gPiA+ID4g
+ICAgKgo+ID4gPiA+ID4gPiA+ID4gKyAgKiBOb3RlIHRoYXQgdGhlIGNhbGxlciBmdW5jdGlvbiB3
+aWxsIGF1dG9tYXRpY2FsbHkgYWRkIHN0YW5kYXJkIFZFU0EKPiA+ID4gPiA+ID4gPiA+ICsgICog
+RE1UIG1vZGVzIHVwIHRvIDEwMjR4NzY4IGlmIHRoZSAuZ2V0X21vZGVzKCkgaGVscGVyIG9wZXJh
+dGlvbiByZXR1cm5zCj4gPiA+ID4gPiA+ID4gPiArICAqIG5vIG1vZGUgYW5kIGlmIHRoZSBjb25u
+ZWN0b3Igc3RhdHVzIGlzIGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkIG9yCj4gPiA+ID4gPiA+
+ID4gPiArICAqIGNvbm5lY3Rvcl9zdGF0dXNfdW5rbm93bi4gVGhlcmUgaXMgbm8gbmVlZCB0byBj
+YWxsCj4gPiA+ID4gPiA+ID4gPiArICAqIGRybV9hZGRfZWRpZF9tb2RlcygpIG1hbnVhbGx5IGlu
+IHRoYXQgY2FzZS4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBIbSBjYWxsaW5nIGRybV9hZGRfZWRpZF9t
+b2RlcyBpZiB5b3UgaGF2ZSBubyBlZGlkIGlzIGEgYml0IGEgZnVubnkgaWRlYQo+ID4gPiA+ID4g
+Li4uIFBlcnNvbmFsbHkgSSdkIGp1c3QgbGVhdmUgb3V0IHRoZSBsYXN0IHNlbnRlbmNlLCBJIHRo
+aW5rIHRoYXQgb25seQo+ID4gPiA+ID4gY29uZnVzZXMgcmVhZGVycy4gT3IgSSdtIG5vdCBncmFz
+cGhpbmcgd2hhdCB5b3UncmUgdHJ5aW5nIHRvIHRlbGwgaGVyZS4KPiA+ID4gPgo+ID4gPiA+IElJ
+UkMsIHNvbWUgZHJpdmVycyB1c2VkIGFuZCBkZXNrdG9wIGVudmlyb25tZW50cyBleHBlY3RlZCB1
+bmtub3duCj4gPiA+ID4gcmF0aGVyIHRoYW4gb2ZmIGZvciBMVkRTL2VEUCBwYW5lbHMgd2hlbiB0
+aGUgbGlkIHdhcyBzaHV0IG9yIGlmIHRoZQo+ID4gPiA+IG11eCB3YXMgc3dpdGNoZWQgdG8gYW5v
+dGhlciBkZXZpY2UgaW4gdGhlIGNhc2Ugb2YgaHlicmlkIGxhcHRvcHMuCj4gPiA+Cj4gPiA+IFdl
+IHNlZW0gdG8gaGF2ZSB0b3RhbGx5IGRpdGNoZWQgdGhhdCBpbgo+ID4gPgo+ID4gPiBjb21taXQg
+MDVjNzJlNzdjY2RhODlmZjYyNDEwOGIxYjU5YTBmYzQzODQzZjM0Mwo+ID4gPiBBdXRob3I6IFZp
+bGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPiA+IERhdGU6
+ICAgVHVlIEp1bCAxNyAyMDo0MjoxNCAyMDE4ICswMzAwCj4gPiA+Cj4gPiA+ICAgICBkcm0vaTkx
+NTogTnVrZSB0aGUgTFZEUyBsaWQgbm90aWZpZXIKPiA+ID4KPiA+ID4gTm8gc2NyZWFtaW5nIHll
+dC4KPiA+ID4KPiA+ID4gQnV0IEknbSBhbHNvIGEgYml0IGNvbmZ1c2VkLCBmb3IgYSBwYW5lbCB0
+aGVyZSdzIGdlbmVyYWxseSBhbiBlZGlkCj4gPiA+IGFyb3VuZCwgb3IgYSBmaXhlZCAobGlzdCBv
+ZikgbW9kZXMuIFRoYXQncyBlbm91Z2ggdG8gc3RvcCB0aGlzCj4gPiA+IGZhbGxiYWNrIGZyb20g
+cnVubmluZywgc28gc2hvdWxkIGJlIGFsbCBmaW5lLgo+ID4KPiA+IE5vLCB5b3UgYXJlIHJpZ2h0
+OyB5b3Ugd2lsbCBoYXZlIHRoZSBFRElEIHNvIHRoaXMgc2hvdWxkbid0IGJlIGFuCj4gPiBpc3N1
+ZS4gIEkgd2FzIG1pcy1yZW1lbWJlcmluZyB0aGUgb3JpZ2luYWwgaXNzdWUuICBXZSBvcmlnaW5h
+bGx5Cj4gPiBhbHdheXMgcmVwb3J0ZWQgY29ubmVjdGVkIGZvciBMVkRTIGluIHJhZGVvbiBpZiB0
+aGUgcGFuZWwgd2FzIHByZXNlbnQsCj4gPiBidXQgdGhlbiB3ZSBnb3QgZmxhY2sgYmVjYXVzZSBz
+b21lIHVzZXJzcGFjZSBleHBlY3RlZCB1bmtub3duIGluCj4gPiBjZXJ0YWluIGNhc2VzIChlLmcu
+LCBsaWQgb3IgbXV4ZWQgZGlzcGxheXMpLiAgRWl0aGVyIHdheSB0aGUgRURJRCBpbmZvCj4gPiBp
+cyBzdGlsbCB0aGVyZS4KPgo+IFllYWggSSB0aGluayBpOTE1IHN0YXJ0ZWQgdGhhdCBoYWJpdCwg
+YnV0IEkgZ3Vlc3MgcGVvcGxlIHJlYWxpemVkIGl0J3MKPiB1bnJlbGlhYmxlIGVub3VnaCB0aGF0
+IHRoZXkgc2hvdWxkIGhhdmUgdGhlaXIgb3duIGxpZCBoYW5kbGVyIGluIHRoZQo+IGRlc2t0b3Ag
+ZW52aXJvbW5lbnQgZG9pbmcgd2hhdGV2ZXIgdGhleSB3YW50IHRvIGRvIG9uIGxpZCBjbG9zZS4K
+Pgo+IFNob3VsZCB3ZSBwZXJoYXBzIGRvY3VtZW50IHRoYXQgc29tZXdoZXJlLCB0aGF0IHBhbmVs
+cyBhcmUgYWx3YXlzIG1hcmtlZAo+IGFzIGNvbm5lY3RlZD8gTm90IGV2ZW4gc3VyZSB3aGVyZSB0
+byBwdXQgdGhhdCBpbiB0aGUgZG9jcyAuLi4KPgo+IE1heWJlIGFkZGluZyBhIGZldyBvZiB0aGUg
+dXN1YWwgc3VzcGVjdHMgZnJvbSB0aGUgY29tcG9zaXRvciBzaWRlLCBTaW1vbiwKPiBQZWtrYT8K
+CkFjdHVhbGx5IGFkZGluZyBTaW1vbiBhbmQgUGVra2EgdGhpcyB0aW1lIGFyb3VuZCAuLi4KCj4g
+LURhbmllbAo+Cj4gPgo+ID4gQWxleAo+ID4KPiA+Cj4gPiA+IC1EYW5pZWxsCj4gPiA+Cj4gPiA+
+ID4KPiA+ID4gPiBBbGV4Cj4gPiA+ID4KPiA+ID4gPgo+ID4gPiA+ID4KPiA+ID4gPiA+IHItYiB3
+aXRoIG9yIHdpdGhvdXQgdGhpcyBjaGFuZ2Ugc2luY2UgaW1vIHN1cGVyIHRpbnkgbml0Lgo+ID4g
+PiA+ID4KPiA+ID4gPiA+IENoZWVycywgRGFuaWVsCj4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ID4g
+KyAgKgo+ID4gPiA+ID4gPiA+ID4gICAgKiBWaXJ0dWFsIGRyaXZlcnMgdGhhdCBqdXN0IHdhbnQg
+c29tZSBzdGFuZGFyZCBWRVNBIG1vZGUgd2l0aCBhIGdpdmVuCj4gPiA+ID4gPiA+ID4gPiAgICAq
+IHJlc29sdXRpb24gY2FuIGNhbGwgZHJtX2FkZF9tb2Rlc19ub2VkaWQoKSwgYW5kIG1hcmsgdGhl
+IHByZWZlcnJlZAo+ID4gPiA+ID4gPiA+ID4gICAgKiBvbmUgdXNpbmcgZHJtX3NldF9wcmVmZXJy
+ZWRfbW9kZSgpLgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiAtLQo+ID4gPiA+ID4gPiBSZWdhcmRz
+LAo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBMYXVyZW50IFBpbmNoYXJ0Cj4gPiA+ID4gPgo+ID4g
+PiA+ID4gLS0KPiA+ID4gPiA+IERhbmllbCBWZXR0ZXIKPiA+ID4gPiA+IFNvZnR3YXJlIEVuZ2lu
+ZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4gPiA+ID4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPiA+
+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4g
+PiA+ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiA+ID4gPiBkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCj4gPiA+ID4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+ID4gPgo+ID4gPgo+ID4gPgo+ID4gPiAtLQo+ID4g
+PiBEYW5pZWwgVmV0dGVyCj4gPiA+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlv
+bgo+ID4gPiBodHRwOi8vYmxvZy5mZndsbC5jaAo+Cj4gLS0KPiBEYW5pZWwgVmV0dGVyCj4gU29m
+dHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gK
+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9u
+Cmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
