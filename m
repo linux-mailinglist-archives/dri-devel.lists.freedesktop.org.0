@@ -1,35 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F11209DF3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 13:58:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C89209DFF
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 14:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C003D6EA89;
-	Thu, 25 Jun 2020 11:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BA06EBBC;
+	Thu, 25 Jun 2020 12:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEFE6EA89
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 11:58:23 +0000 (UTC)
-Received: from localhost.localdomain (unknown [80.251.214.228])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0DA9E206C0;
- Thu, 25 Jun 2020 11:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593086303;
- bh=n+NIDwq4Yu1dlj95q6O8WbIlXFw5he30oA79V5wNIzA=;
- h=From:To:Cc:Subject:Date:From;
- b=cOk0H55IKLgHd/SEWqK2NNv39cFmXwAdcMNWWBG2/ySGVIHhes28OlKolB4P5eHiz
- Sin1L/7NSQsIdyL2Ee3bixpHKnJTCBXBHc214drM1aB6vuOM1B2B4sj63HTO5QGoJR
- L+Sr4hPd5t4mF5b8LCUPUVUkVNHNzeld3/HRPPdU=
-From: Shawn Guo <shawnguo@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/atomic_helper: duplicate state for drm_private_obj
-Date: Thu, 25 Jun 2020 19:57:46 +0800
-Message-Id: <20200625115746.13396-1-shawnguo@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7586EB42
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:00:14 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 41C9BAC85;
+ Thu, 25 Jun 2020 12:00:13 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, kraxel@redhat.com, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
+ emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
+ hdegoede@redhat.com
+Subject: [RFC][PATCH 0/9] drm: Support simple-framebuffer devices and firmware
+ fbs
+Date: Thu, 25 Jun 2020 14:00:02 +0200
+Message-Id: <20200625120011.16168-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,140 +40,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org,
- Boris Brezillon <boris.brezillon@bootlin.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shawn Guo <shawn.guo@linaro.org>
+This patchset adds support for simple-framebuffer platform devices and
+a handover mechanism for native drivers to take-over control of the
+hardware.
 
-The msm/mdp5 driver uses drm_private_obj as its global atomic state,
-which keeps the assignment of hwpipe to plane.  With drm_private_obj
-missing from duplicate state call, mdp5 suspend works with no problem
-only for the very first time.  Any subsequent suspend will hit the
-following warning, because hwpipe assignment doesn't get duplicated for
-suspend state.  Adding drm_private_obj handling for duplicate state call
-fixes the problem.
+The new driver, called simplekms, binds to a simple-frambuffer platform
+device. The kernel's boot code creates such devices for firmware-provided
+framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
+loader sets up the framebuffers. Description via device tree is also an
+option.
 
-$ echo mem > /sys/power/state
-[   38.111144] PM: suspend entry (deep)
-[   38.111185] PM: Syncing filesystems ... done.
-[   38.114630] Freezing user space processes ... (elapsed 0.001 seconds) done.
-[   38.115912] OOM killer disabled.
-[   38.115914] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-[   38.122170] ------------[ cut here ]------------
-[   38.122212] WARNING: CPU: 0 PID: 1747 at drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c:145 mdp5_pipe_release+0x90/0xc0
-[   38.122215] Modules linked in:
-[   38.122222] CPU: 0 PID: 1747 Comm: sh Not tainted 4.19.107-00515-g9d5e4d7a33ed-dirty #323
-[   38.122224] Hardware name: Square, Inc. T2 Devkit (DT)
-[   38.122228] pstate: 40000005 (nZcv daif -PAN -UAO)
-[   38.122230] pc : mdp5_pipe_release+0x90/0xc0
-[   38.122233] lr : mdp5_pipe_release+0x90/0xc0
-[   38.122235] sp : ffff00000d13b7f0
-[   38.122236] x29: ffff00000d13b7f0 x28: 0000000000000000
-[   38.122240] x27: 0000000000000002 x26: ffff800079adce00
-[   38.122243] x25: ffff800079405200 x24: 0000000000000000
-[   38.122246] x23: ffff80007a78cc08 x22: ffff80007b1cc018
-[   38.122249] x21: ffff80007b1cc000 x20: ffff80007b317080
-[   38.122252] x19: ffff80007a78ce80 x18: 0000000000020000
-[   38.122255] x17: 0000000000000000 x16: 0000000000000000
-[   38.122258] x15: 00000000fffffff0 x14: ffff000008c3fb48
-[   38.122261] x13: ffff000008cdac4a x12: ffff000008c3f000
-[   38.122264] x11: 0000000000000000 x10: ffff000008cda000
-[   38.122267] x9 : 0000000000000000 x8 : ffff000008ce4a40
-[   38.122269] x7 : 0000000000000000 x6 : 0000000039ea41a9
-[   38.122272] x5 : 0000000000000000 x4 : 0000000000000000
-[   38.122275] x3 : ffffffffffffffff x2 : c7580c109cae4500
-[   38.122278] x1 : 0000000000000000 x0 : 0000000000000024
-[   38.122281] Call trace:
-[   38.122285]  mdp5_pipe_release+0x90/0xc0
-[   38.122288]  mdp5_plane_atomic_check+0x2c0/0x448
-[   38.122294]  drm_atomic_helper_check_planes+0xd0/0x208
-[   38.122298]  drm_atomic_helper_check+0x38/0xa8
-[   38.122302]  drm_atomic_check_only+0x3e8/0x630
-[   38.122305]  drm_atomic_commit+0x18/0x58
-[   38.122309]  __drm_atomic_helper_disable_all.isra.12+0x15c/0x1a8
-[   38.122312]  drm_atomic_helper_suspend+0x80/0xf0
-[   38.122316]  msm_pm_suspend+0x4c/0x70
-[   38.122320]  dpm_run_callback.isra.6+0x20/0x68
-[   38.122323]  __device_suspend+0x110/0x308
-[   38.122326]  dpm_suspend+0x100/0x1f0
-[   38.122329]  dpm_suspend_start+0x64/0x70
-[   38.122334]  suspend_devices_and_enter+0x110/0x500
-[   38.122336]  pm_suspend+0x268/0x2c0
-[   38.122339]  state_store+0x88/0x110
-[   38.122345]  kobj_attr_store+0x14/0x28
-[   38.122352]  sysfs_kf_write+0x3c/0x50
-[   38.122355]  kernfs_fop_write+0x118/0x1e0
-[   38.122360]  __vfs_write+0x30/0x168
-[   38.122363]  vfs_write+0xa4/0x1a8
-[   38.122366]  ksys_write+0x64/0xe8
-[   38.122368]  __arm64_sys_write+0x18/0x20
-[   38.122374]  el0_svc_common+0x6c/0x178
-[   38.122377]  el0_svc_compat_handler+0x1c/0x28
-[   38.122381]  el0_svc_compat+0x8/0x18
-[   38.122383] ---[ end trace 24145b7d8545345b ]---
-[   38.491552] Disabling non-boot CPUs ...
+Simplekms is small enough to be linked into the kernel. The driver's main
+purpose is to provide graphical output during the early phases of the boot
+process, before the native DRM drivers are available. Native drivers are
+typically loaded from an initrd ram disk. Occationally simplekms can also
+serve as interim solution on graphics hardware without native DRM driver.
 
-Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
----
- drivers/gpu/drm/drm_atomic_helper.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+So far distributions rely on fbdev drivers, such as efifb, vesafb or
+simplefb, for early-boot graphical output. However fbdev is deprecated and
+the drivers do not provide DRM interfaces for modern userspace.
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 85d163f16801..024985a92156 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -3140,6 +3140,7 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
- 	struct drm_atomic_state *state;
- 	struct drm_connector *conn;
- 	struct drm_connector_list_iter conn_iter;
-+	struct drm_private_obj *priv_obj;
- 	struct drm_plane *plane;
- 	struct drm_crtc *crtc;
- 	int err = 0;
-@@ -3184,6 +3185,16 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
- 
-+	drm_for_each_privobj(priv_obj, dev) {
-+		struct drm_private_state *priv_state;
-+
-+		priv_state = drm_atomic_get_private_obj_state(state, priv_obj);
-+		if (IS_ERR(priv_state)) {
-+			err = PTR_ERR(priv_state);
-+			goto free;
-+		}
-+	}
-+
- 	/* clear the acquire context so that it isn't accidentally reused */
- 	state->acquire_ctx = NULL;
- 
-@@ -3278,6 +3289,8 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
- 	struct drm_connector_state *new_conn_state;
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *new_crtc_state;
-+	struct drm_private_state *new_priv_state;
-+	struct drm_private_obj *priv_obj;
- 
- 	state->acquire_ctx = ctx;
- 
-@@ -3290,6 +3303,9 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
- 	for_each_new_connector_in_state(state, connector, new_conn_state, i)
- 		state->connectors[i].old_state = connector->state;
- 
-+	for_each_new_private_obj_in_state(state, priv_obj, new_priv_state, i)
-+		state->private_objs[i].old_state = priv_obj->state;
-+
- 	ret = drm_atomic_commit(state);
- 
- 	state->acquire_ctx = NULL;
--- 
-2.17.1
+Patches 1 and 2 prepare the DRM format helpers for simplekms.
+
+Patches 3 to 7 add the simplekms driver. It's build on simple DRM helpers
+and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
+pageflips, SHMEM buffers are copied into the framebuffer memory, similar
+to cirrus or mgag200. The code in patches 6 and 7 handles clocks and
+regulators. It's based on the simplefb drivers, but has been modified for
+DRM.
+
+Patches 8 and 9 add a hand-over mechanism. Simplekms acquires it's
+framebuffer's I/O-memory range and provides a callback function to be
+removed by a native driver. The native driver will remove simplekms before
+taking over the hardware. The removal is integrated into existing helpers,
+so drivers use it automatically.
+
+I tested simplekms with x86 EFI and VESA framebuffers, which both work
+reliably. The fbdev console and Weston work automatically. Xorg requires
+manual configuration of the device. Xorgs current modesetting driver does
+not work with both, platform and PCI device, for the same physical
+hardware. Once configured, X11 works.
+
+One cosmetical issue is that simplekms's device file is card0 and the
+native driver's device file is card1. After simplekms has been kicked out,
+only card1 is left. This does not seem to be a practical problem however.
+
+TODO/IDEAS:
+
+	* provide deferred takeover
+	* provide bootsplash DRM client
+	* make simplekms usable with ARM-EFI fbs
+
+Thomas Zimmermann (9):
+  drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstclip()
+  drm/format-helper: Add blitter functions
+  drm: Add simplekms driver
+  drm/simplekms: Add fbdev emulation
+  drm/simplekms: Initialize framebuffer data from device-tree node
+  drm/simplekms: Acquire clocks from DT device node
+  drm/simplekms: Acquire regulators from DT device node
+  drm: Add infrastructure for platform devices
+  drm/simplekms: Acquire memory aperture for framebuffer
+
+ MAINTAINERS                            |   6 +
+ drivers/gpu/drm/Kconfig                |   6 +
+ drivers/gpu/drm/Makefile               |   1 +
+ drivers/gpu/drm/drm_format_helper.c    |  96 ++-
+ drivers/gpu/drm/drm_platform.c         | 118 ++++
+ drivers/gpu/drm/mgag200/mgag200_mode.c |   2 +-
+ drivers/gpu/drm/tiny/Kconfig           |  17 +
+ drivers/gpu/drm/tiny/Makefile          |   1 +
+ drivers/gpu/drm/tiny/cirrus.c          |   2 +-
+ drivers/gpu/drm/tiny/simplekms.c       | 906 +++++++++++++++++++++++++
+ include/drm/drm_fb_helper.h            |  18 +-
+ include/drm/drm_format_helper.h        |  10 +-
+ include/drm/drm_platform.h             |  42 ++
+ 13 files changed, 1217 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_platform.c
+ create mode 100644 drivers/gpu/drm/tiny/simplekms.c
+ create mode 100644 include/drm/drm_platform.h
+
+--
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
