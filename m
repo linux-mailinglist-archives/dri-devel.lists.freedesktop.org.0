@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB82720A1E5
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 17:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7329D20A1EC
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 17:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E957C6EBE2;
-	Thu, 25 Jun 2020 15:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89DA06E2B4;
+	Thu, 25 Jun 2020 15:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A8AF6EBE2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 15:27:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F5C6E2B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 15:28:36 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207901] Nouveau: In a 4 monitor setup, 1-2 displays remains
  black after boot
-Date: Thu, 25 Jun 2020 15:27:39 +0000
+Date: Thu, 25 Jun 2020 15:28:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207901-2300-m2tq6FDiQp@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-207901-2300-Vz31pLtKK2@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207901-2300@https.bugzilla.kernel.org/>
 References: <bug-207901-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,11 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207901
 
---- Comment #20 from Maurice Gale (mauricegale1@gmail.com) ---
-Hi,
-
-I tried the patch, but I am still missing two displays. I have attached the new
-log.
+--- Comment #21 from Maurice Gale (mauricegale1@gmail.com) ---
+Created attachment 289887
+  --> https://bugzilla.kernel.org/attachment.cgi?id=289887&action=edit
+Log after Nouveau Patch
 
 -- 
 You are receiving this mail because:
