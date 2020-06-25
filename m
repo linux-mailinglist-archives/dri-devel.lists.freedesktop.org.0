@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6FE20A15E
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 16:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB82720A1E5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 17:27:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 083E96EBD7;
-	Thu, 25 Jun 2020 14:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E957C6EBE2;
+	Thu, 25 Jun 2020 15:27:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71CFA6EBD6
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 14:55:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id C3418FB03;
- Thu, 25 Jun 2020 16:55:04 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1airAkfx232Y; Thu, 25 Jun 2020 16:55:03 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 3490445273; Thu, 25 Jun 2020 16:55:03 +0200 (CEST)
-Date: Thu, 25 Jun 2020 16:55:03 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH 0/5] drm/etnaviv: Ignore MC bit when checking for runtime
- suspend
-Message-ID: <20200625145503.GA48167@bogon.m.sigxcpu.org>
-References: <cover.1583176306.git.agx@sigxcpu.org>
- <4c61fde86c5e0dced249221dbc0a8d4207d5bffa.camel@pengutronix.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A8AF6EBE2
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 15:27:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207901] Nouveau: In a 4 monitor setup, 1-2 displays remains
+ black after boot
+Date: Thu, 25 Jun 2020 15:27:39 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mauricegale1@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207901-2300-m2tq6FDiQp@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207901-2300@https.bugzilla.kernel.org/>
+References: <bug-207901-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4c61fde86c5e0dced249221dbc0a8d4207d5bffa.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,69 +52,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=207901
+
+--- Comment #20 from Maurice Gale (mauricegale1@gmail.com) ---
 Hi,
-On Tue, Mar 03, 2020 at 12:55:04PM +0100, Lucas Stach wrote:
-> On Mo, 2020-03-02 at 20:13 +0100, Guido G=FCnther wrote:
-> > At least GC7000 fails to enter runtime suspend for long periods of time=
- since
-> > the MC becomes busy again even when the FE is idle. The rest of the ser=
-ies
-> > makes detecting similar issues easier to debug in the future by checking
-> > all known bits in debugfs and also warning in the EBUSY case.
-> =
 
-> Thanks, series applied to etnaviv/next.
-> =
+I tried the patch, but I am still missing two displays. I have attached the new
+log.
 
-> > Tested on GC7000 with a reduced runtime delay of 50ms. Patches are
-> > against next-20200226.
-> =
-
-> I've already wondered if 200ms is too long, 50ms sounds more
-> reasonable. Do you have any numbers on the power draw on the i.MX8M
-> with idle GPU, vs. being fully power gated?
-
-The difference is at least 250mW. It makes a huge difference over here.
-We hit
-https://lore.kernel.org/dri-devel/20200614064601.7872-1-navid.emamdoost@gma=
-il.com/
-recently and you notice instantly when that happens when looking at the
-SoC temperature.
-
-Cheers,
- -- Guido
-> =
-
-> Regards,
-> Lucas
-> =
-
-> > Thanks to Lucas Stach for pointing me in the right direction.
-> > =
-
-> > Guido G=FCnther (5):
-> >   drm/etnaviv: Fix typo in comment
-> >   drm/etnaviv: Update idle bits
-> >   drm/etnaviv: Consider all kwnown idle bits in debugfs
-> >   drm/etnaviv: Ignore MC when checking runtime suspend idleness
-> >   drm/etnaviv: Warn when GPU doesn't idle fast enough
-> > =
-
-> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 26 ++++++++++++++++++++++----
-> >  drivers/gpu/drm/etnaviv/state_hi.xml.h |  7 +++++++
-> >  2 files changed, 29 insertions(+), 4 deletions(-)
-> > =
-
-> =
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
