@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53921209A82
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:31:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5F9209A92
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 09:31:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683CE6E41D;
-	Thu, 25 Jun 2020 07:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5620E6E525;
+	Thu, 25 Jun 2020 07:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF0E6E8EC
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 00:59:30 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id d21so2270918lfb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 17:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=U7REP6InW27QF4cjlx544bdQ5rpHtibNJad6s2Fb/qE=;
- b=pJ+GwEm/hITNli8ltpxBHuXzyRogeXvrqAquU8W4QgksanJOmjkeR/2atFJmeJOo/3
- 75g45pnn4qQhwCLDdKweqQnvCYqMq7O1swLT2MGWp3JQXRLgu+fTO4D4GJLQ6q9zaZyI
- ugyXjAw44uUYlWcGNQzhJK2Y6kiixs/kSyfO3KAa/zAuhIsmp2+hCGKwO96zS1WmydLY
- KaZJEux+f0t05I9rANLAQffoEJj6JZ6BnAbJuMizRRAJfOvxgiSknR+aW1JqLCJtp832
- hk2sMvwPlshn7h0TXm1VpKs+zboQvesTpjroBqkFqJzys5LXme5We7FmLpwclsvYex7b
- zbUA==
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D356E8F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 01:07:20 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id x8so1099122plm.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jun 2020 18:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=DQNqb/XiJnv5S5KAYc7VnMgjA/JQZWT3OBZtTbZloYs=;
+ b=H0UbnxIw9yihnQXV7n5Vs/S+wHPE+4oI5wiVf1L0FkydepByp7tukHVSsmBjKzLtYX
+ yAcpeRrcRzj/Azf+tWW5QrIcwBLUlca1JeCMlp5VQ7O8QXhFKfAz6YcmO5rVSxdRxFr1
+ wb59f68RnJCNYPRZVH9RkF3A//MIGZ1RhhQZo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=U7REP6InW27QF4cjlx544bdQ5rpHtibNJad6s2Fb/qE=;
- b=sLmaIJQdlWH8WOGxgeI5o0ckfFzo2cdx6/yih/q0baQrUs/4tXPxLAJC4iUcCpPnK4
- S45SapS9WaxJ4nBCUHqGrRQyWD/zltjZY9p7u0wmzgNWRDK1kv770Z7sCzX0XqVzNoKE
- 72RyC/1/e1mT2CecXnN6olDhGXGNCpkizzK5hOYfc2QOW+EH2ApwsZ1n06oFNS+vt6Gn
- zPy2UftPUjIYiCpAFjWgHsQkAhTg5hopFTUpX4fPFt7qGN6ktjTOIypfux1sl082qr5a
- mZ7TfWR+oj/4JrO0/c6yLi8IjJWg51wjINFkRqQPakhjkHss5nD10czuRO3cbBMDS9kk
- yG4g==
-X-Gm-Message-State: AOAM531DWA/M2z3fcq4B/+a6cZWYGfDsKOtaMgRszjQl+bSRkxu6oquW
- +h1Cp3m2oY75VVyEqiEv4Y8=
-X-Google-Smtp-Source: ABdhPJxQAKxPQtHZm5CnlnMHT9rf3jpNUguoZXXmSvnsJ7hBBKy9RMSBU9a7A9koZAX7TxQO4Ch8dw==
-X-Received: by 2002:ac2:44cd:: with SMTP id d13mr16536048lfm.13.1593046769359; 
- Wed, 24 Jun 2020 17:59:29 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id j19sm1773411ljg.28.2020.06.24.17.59.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Jun 2020 17:59:28 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>,
- Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
- <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <f85f3fa0-ba18-ddd5-2bac-158dfed9b792@gmail.com>
-Message-ID: <c695bb1a-28d3-963f-868c-483005e3dd1d@gmail.com>
-Date: Thu, 25 Jun 2020 03:59:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=DQNqb/XiJnv5S5KAYc7VnMgjA/JQZWT3OBZtTbZloYs=;
+ b=bbWXBRegJH7iLXN7b1sc+vP1yoFH/N4bG+cgH8zevNGm79dR8qZMIjSBcXBv5ApJdh
+ Qjvwi3cWdt5snEINxX9XqyheTtM9Yk5bjfPY2z2ZluLcqMAOSOHm5JHJlXcM4AflIU0w
+ l+tiYYyvvJAbSflTJtlyCn2uQ2iBRgAoQ6AanDD8SAtO6Rt1LwOXWgkM/loZ/4YTyDS9
+ CQSdynr4cLmaEDfDo3OEJQPd2U21JTvrCT0gJYsFIoJhLYB7EqmY8Yj5HWn1t0Xxerq1
+ JvLTd4vjvvjmHQqu+5/O2FZDEyS7D3tA3luxPKTYTuT5P6hTEg0uJLQiW5gIgBxOxuyY
+ /ewA==
+X-Gm-Message-State: AOAM531NfG15ioUvUzJ5z/Gosp5HY0PtvgbHUjYUYFzFSgvdr+txo3Q3
+ bmjdejuIS06q+km5sNsVedypfQ==
+X-Google-Smtp-Source: ABdhPJwwcQxMpk75imsoh0sM8lNh+D5onW70er8+RgLQLUV8Zlj+nifCh0lPXsEWgtHbcZypSU21dQ==
+X-Received: by 2002:a17:90a:22ab:: with SMTP id
+ s40mr501452pjc.27.1593047240035; 
+ Wed, 24 Jun 2020 18:07:20 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id u8sm20760732pfh.215.2020.06.24.18.07.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Jun 2020 18:07:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f85f3fa0-ba18-ddd5-2bac-158dfed9b792@gmail.com>
-Content-Language: en-US
+In-Reply-To: <20200217085842.28333-1-harigovi@codeaurora.org>
+References: <20200217085842.28333-1-harigovi@codeaurora.org>
+Subject: Re: [v3] arm64: dts: sc7180: add nodes for idp display
+From: Stephen Boyd <swboyd@chromium.org>
+To: Harigovindan P <harigovi@codeaurora.org>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Date: Wed, 24 Jun 2020 18:07:18 -0700
+Message-ID: <159304723830.62212.5069780400830519255@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-Mailman-Approved-At: Thu, 25 Jun 2020 07:31:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,38 +68,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Harigovindan P <harigovi@codeaurora.org>, linux-kernel@vger.kernel.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjUuMDYuMjAyMCAwMjoxOCwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gMjMuMDYuMjAy
-MCAxNTowOSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IHN0cnVjdCBkcm1fdGVncmFf
-Y2hhbm5lbF9zdWJtaXQgewo+PiDCoMKgwqDCoMKgwqDCoCBfX3UzMiBjaGFubmVsX2lkOwo+PiDC
-oMKgwqDCoMKgwqDCoCBfX3UzMiBmbGFnczsKPj4KPj4gwqDCoMKgwqDCoMKgwqAgLyoqCj4+IMKg
-wqDCoMKgwqDCoMKgwqAgKiBbaW5dIFRpbWVvdXQgaW4gbWljcm9zZWNvbmRzIGFmdGVyIHdoaWNo
-IHRoZSBrZXJuZWwgbWF5Cj4+IMKgwqDCoMKgwqDCoMKgwqAgKsKgwqAgY29uc2lkZXIgdGhlIGpv
-YiB0byBoYXZlIGh1bmcgYW5kIG1heSByZWFwIGl0IGFuZAo+PiDCoMKgwqDCoMKgwqDCoMKgICrC
-oMKgIGZhc3QtZm9yd2FyZCBpdHMgc3luY3BvaW50IGluY3JlbWVudHMuCj4+IMKgwqDCoMKgwqDC
-oMKgwqAgKgo+PiDCoMKgwqDCoMKgwqDCoMKgICrCoMKgIFRoZSB2YWx1ZSBtYXkgYmUgY2FwcGVk
-IGJ5IHRoZSBrZXJuZWwuCj4+IMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4gwqDCoMKgwqDCoMKgwqAg
-X191MzIgdGltZW91dDsKPj4KPj4gwqDCoMKgwqDCoMKgwqAgX191MzIgbnVtX3N5bmNwdF9pbmNy
-czsKPj4gwqDCoMKgwqDCoMKgwqAgX191MzIgbnVtX3JlbG9jYXRpb25zOwo+PiDCoMKgwqDCoMKg
-wqDCoCBfX3UzMiBudW1fY29tbWFuZHM7Cj4+Cj4+IMKgwqDCoMKgwqDCoMKgIF9fdTY0IHN5bmNw
-dF9pbmNyczsKPj4gwqDCoMKgwqDCoMKgwqAgX191NjQgcmVsb2NhdGlvbnM7Cj4+IMKgwqDCoMKg
-wqDCoMKgIF9fdTY0IGNvbW1hbmRzOwo+IAo+IERvIHdlIHJlYWxseSBuZWVkIHRvIHJldGFpbiB0
-aGUgbXVsdGktZ2F0aGVyIHN1cHBvcnQ/IFRoZSBjb2RlLWJsb2F0Cj4gKGJvdGggdXNlcnNwYWNl
-IGFuZCBrZXJuZWwgZHJpdmVyKSBpcyB2ZXJ5IHNpZ25pZmljYW50IGp1c3QgZm9yCj4gcHJlcGFy
-aW5nIGFuZCBwYXRjaGluZyBvZiB0aGUgbXVsdGktYnVmZmVyIGNtZHN0cmVhbXMuCj4gCj4gSWYg
-dXNlcnNwYWNlIHJ1bnMgb3V0IG9mIGEgZnJlZSBzcGFjZSB3aXRoaW4gdGhlIHB1c2hidWZmZXIs
-IHRoZW4gaXQKPiBzaG91bGQgc2ltcGx5IHJlYWxsb2NhdGUgYSBsYXJnZXIgcHVzaGJ1ZmZlci4K
-PiAKPiBJJ20gc3VnZ2VzdGluZyB0aGF0IHdlIHNob3VsZCBoYXZlIGEgc2luZ2xlIGdhdGhlciBw
-ZXItam9iLCBhbnkgb2JqZWN0aW9ucz8KPiAKCk9oLCBJIGp1c3QgcmVjYWxsZWQgdGhhdCB0aGUg
-bGF0ZXIgSG9zdDF4IHZlcnNpb25zIGRvIG5vdCBhbGxvdyAgdG8Kc3dpdGNoIGNsYXNzIGZyb20g
-Z2F0aGVyISBMZXQgbWUgdGhpbmsgYSBiaXQgbW9yZSBhYm91dCBpdC4uCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Quoting Harigovindan P (2020-02-17 00:58:42)
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> index 388f50ad4fde..349db8fe78a5 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
+> @@ -232,6 +233,57 @@ vreg_bob: bob {
+>         };
+>  };
+>  
+> +&dsi0 {
+> +       status = "okay";
+> +
+> +       vdda-supply = <&vreg_l3c_1p2>;
+> +
+> +       panel@0 {
+> +               compatible = "visionox,rm69299-1080p-display";
+> +               reg = <0>;
+> +
+> +               vdda-supply = <&vreg_l8c_1p8>;
+> +               vdd3p3-supply = <&vreg_l18a_2p8>;
+> +
+> +               pinctrl-names = "default";
+> +               pinctrl-0 = <&disp_pins>;
+> +
+> +               reset-gpios = <&pm6150l_gpio 3 GPIO_ACTIVE_HIGH>;
+> +
+> +               ports {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       port@0 {
+> +                               reg = <0>;
+> +                               panel0_in: endpoint {
+> +                                       remote-endpoint = <&dsi0_out>;
+> +                               };
+> +                       };
+> +               };
+> +       };
+> +
+> +       ports {
+> +               port@1 {
+> +                       endpoint {
+> +                               remote-endpoint = <&panel0_in>;
+> +                               data-lanes = <0 1 2 3>;
+
+Is this property needed? If it's the default assumption it would be nice
+to omit it so that we don't have to think about it.
+
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_phy {
+> +       status = "okay";
+> +};
+> +
+> +&mdp {
+> +       status = "okay";
+> +};
+> +
+> +&mdss {
+> +       status = "okay";
+> +};
+> +
+>  &qspi {
+>         status = "okay";
+>         pinctrl-names = "default";
+> @@ -289,6 +341,17 @@ &usb_1_qmpphy {
+>  
+>  /* PINCTRL - additions to nodes defined in sc7180.dtsi */
+>  
+> +&pm6150l_gpio {
+> +       disp_pins: disp-pins {
+
+Curious how this works. It looks like PMIC GPIOS are expecting the node
+to look like:
+
+	disp_pins: disp-pins {
+		pinconf {
+			pins = "gpio3";
+			function = PMIC_GPIO_FUNC_FUNC1;
+			qcom,drive-strength = <PMIC_GPIO_STRENGTH_MED>;
+			power-source = <PM6150_GPIO_VPH>;
+			bias-disable;
+			output-low;
+		};
+
+but this doesn't use the macros or the subnode for pinconf. Why? Also,
+the PM6150_GPIO_VPH macro doesn't exist.
+
+> +               pins = "gpio3";
+> +               function = "func1";
+> +               qcom,drive-strength = <2>;
+> +               power-source = <0>;
+> +               bias-disable;
+> +               output-low;
+> +       };
+> +};
+> +
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
