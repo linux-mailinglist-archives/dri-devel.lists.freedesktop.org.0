@@ -1,61 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08EA20AD48
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 09:36:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5EF20AD5D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 09:37:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567046EC28;
-	Fri, 26 Jun 2020 07:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B016EC3E;
+	Fri, 26 Jun 2020 07:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37D826EB47
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 12:06:01 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id g75so5284251wme.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 05:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fQvzmSOhmBm69V2JWwIbn7+q13MxZEayg81lz2fTlqc=;
- b=dadEyqLxZO4yG6HmkhonoEqBi1eF15GLLwoYPmUJ2LoYOmgta4u2Axc6HfaFjHRsS8
- EXB1Y8bVeYSUi+uI7I6MeRCywSxjyteS4Bp7BdqIIrTcE2U1HpKC/cbaKP2wU54JKNXs
- tliEmOFSKQvvUDT+z5pd4gGq+HnPQ7+QhTy+huQ73RKWnpNSAi+hkmciJ9kX0fK/T6fL
- 141t8CTaOHgEIUw25IxRsEBWsEKHFieaWYx4EPsm+rVHzO1PClcBlVLG0uI1ps0u9AMP
- n6+T0g/fEkDJ9kI3jEIWrmyfffX5kPR8ja5Vz/8yJFe/4SVRkI4nhmzHwqNwICps5y0I
- HlSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fQvzmSOhmBm69V2JWwIbn7+q13MxZEayg81lz2fTlqc=;
- b=fhQLY0I3IVFg+eWlLZ4lTdwm2l5vXAdN76t1SyuAnDjP10gbUzgwJ45na4pOu1jj26
- nlzZegoSMhB+sbSY6V+bQo1H50/Jaub9d7mD/k6bHkVG3wy5cPl6RtzhCMRO0NGCH8Gd
- T0YrvFNEq2zjtmJJVyQIkYCkACfjSBUKvq0JWGm9iweDJ+vHggqrDPg/y8w3PqclBKgr
- 5q8Ee29L6JjUeIBxIO5uqL/WSma3LI/nDG48xFhvJadFi4qJSwq72CvLeTzqC3JxS/Po
- vYdsUZyKtQ0McOHrBiiBImGcGL+MJiXp8gdWFEwa0o3VZXTzDYBfHqFYkAo7xwcUa0ED
- hVzA==
-X-Gm-Message-State: AOAM531UmObZTFkQYtYcH5Z5WwpIhoUblVwynEeY8dPBiUGEqR3jV9qU
- faK9vmcRowddHqXcGltLUUXqgfMkPNj97D3V
-X-Google-Smtp-Source: ABdhPJz3dvKV6m1KMoqlDqVL/KA4ZqJMFz1pe8vZD/xvxu9hVWYKRqJSkOXJeW1um7QPAAHOSI+0Og==
-X-Received: by 2002:a05:600c:2253:: with SMTP id
- a19mr2904766wmm.136.1593086756425; 
- Thu, 25 Jun 2020 05:05:56 -0700 (PDT)
-Received: from brihaspati.fritz.box (pd95677c2.dip0.t-ipconnect.de.
- [217.86.119.194])
- by smtp.gmail.com with ESMTPSA id 207sm13549304wme.13.2020.06.25.05.05.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Jun 2020 05:05:55 -0700 (PDT)
-From: Nirmoy Das <nirmoy.aiemd@gmail.com>
-X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/1] drm/scheduler: improve job distribution with multiple
- queues
-Date: Thu, 25 Jun 2020 14:07:23 +0200
-Message-Id: <20200625120723.102314-1-nirmoy.das@amd.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E636E0E3;
+ Thu, 25 Jun 2020 12:17:30 +0000 (UTC)
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 25 Jun 2020 05:17:29 -0700
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 25 Jun 2020 05:17:27 -0700
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 25 Jun 2020 17:47:02 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 47F504A5B; Thu, 25 Jun 2020 17:47:02 +0530 (IST)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v2] drm/msm/dpu: add support for dither block in display
+Date: Thu, 25 Jun 2020 17:46:59 +0530
+Message-Id: <1593087419-903-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Fri, 26 Jun 2020 07:36:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,143 +41,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James.Zhu@amd.com, Nirmoy Das <nirmoy.das@amd.com>,
- christian.koenig@amd.com, changfeng.zhu@amd.com
+Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch uses score to select a new drm scheduler for better
-loadbalance between multiple drm schedulers instead of num_jobs.
+This change enables dither block for primary interface
+in display.
 
-Below are test results after running amdgpu_test for ~10 times.
+Enabled for 6bpc in the current version.
 
-Before this patch:
+Changes in v1:
+ - Remove redundant error checks (Rob).
 
-sched_name     num of many times it got schedule
-=========      ==================================
-sdma0          1463
-sdma1          198
-comp_1.0.1     280
-
-After this patch:
-
-sched_name     num of many times it got schedule
-=========      ==================================
-sdma0          925
-sdma1          928
-comp_1.0.1     177
-comp_1.1.1     44
-comp_1.2.1     43
-comp_1.3.1     44
-
-Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
- drivers/gpu/drm/scheduler/sched_main.c   | 14 ++++++++------
- include/drm/gpu_scheduler.h              |  6 +++---
- 3 files changed, 12 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c     | 39 +++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 63 +++++++++++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 28 +++++++++++
+ 3 files changed, 121 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index c803e14eed91..146380118962 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -486,7 +486,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job,
- 	bool first;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 63976dc..14df5ac 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -208,6 +208,36 @@ struct dpu_encoder_virt {
  
- 	trace_drm_sched_job(sched_job, entity);
--	atomic_inc(&entity->rq->sched->num_jobs);
-+	atomic_inc(&entity->rq->sched->score);
- 	WRITE_ONCE(entity->last_user, current->group_leader);
- 	first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
+ #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
  
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 8e731ed0d9d9..25a9e6911602 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -92,6 +92,7 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
- 	if (!list_empty(&entity->list))
- 		return;
- 	spin_lock(&rq->lock);
-+	atomic_inc(&rq->sched->score);
- 	list_add_tail(&entity->list, &rq->entities);
- 	spin_unlock(&rq->lock);
- }
-@@ -110,6 +111,7 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
- 	if (list_empty(&entity->list))
- 		return;
- 	spin_lock(&rq->lock);
-+	atomic_dec(&rq->sched->score);
- 	list_del_init(&entity->list);
- 	if (rq->current_entity == entity)
- 		rq->current_entity = NULL;
-@@ -647,7 +649,7 @@ static void drm_sched_process_job(struct dma_fence *f, struct dma_fence_cb *cb)
- 	struct drm_gpu_scheduler *sched = s_fence->sched;
- 
- 	atomic_dec(&sched->hw_rq_count);
--	atomic_dec(&sched->num_jobs);
-+	atomic_dec(&sched->score);
- 
- 	trace_drm_sched_process_job(s_fence);
- 
-@@ -712,7 +714,7 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
++static u32 dither_matrix[DITHER_MATRIX_SZ] = {
++	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
++};
++
++static void _dpu_encoder_setup_dither(struct dpu_encoder_phys *phys)
++{
++	struct dpu_hw_dither_cfg dither_cfg = { 0 };
++
++	if (!phys->hw_pp || !phys->hw_pp->ops.setup_dither)
++		return;
++
++	switch (phys->connector->display_info.bpc) {
++	case 6:
++		dither_cfg.c0_bitdepth = 6;
++		dither_cfg.c1_bitdepth = 6;
++		dither_cfg.c2_bitdepth = 6;
++		dither_cfg.c3_bitdepth = 6;
++		dither_cfg.temporal_en = 0;
++		break;
++	default:
++		phys->hw_pp->ops.setup_dither(phys->hw_pp, NULL);
++		return;
++	}
++
++	memcpy(&dither_cfg.matrix, dither_matrix,
++			sizeof(u32) * DITHER_MATRIX_SZ);
++
++	phys->hw_pp->ops.setup_dither(phys->hw_pp, &dither_cfg);
++}
++
+ void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
+ 		enum dpu_intr_idx intr_idx)
  {
- 	struct drm_gpu_scheduler *sched, *picked_sched = NULL;
- 	int i;
--	unsigned int min_jobs = UINT_MAX, num_jobs;
-+	unsigned int min_score = UINT_MAX, num_score;
+@@ -1082,6 +1112,7 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+ 	struct dpu_encoder_virt *dpu_enc = NULL;
+ 	struct msm_drm_private *priv;
+ 	struct dpu_kms *dpu_kms;
++	int i;
  
- 	for (i = 0; i < num_sched_list; ++i) {
- 		sched = sched_list[i];
-@@ -723,9 +725,9 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
- 			continue;
- 		}
+ 	if (!drm_enc || !drm_enc->dev) {
+ 		DPU_ERROR("invalid parameters\n");
+@@ -1104,6 +1135,14 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
+ 				dpu_kms->catalog);
  
--		num_jobs = atomic_read(&sched->num_jobs);
--		if (num_jobs < min_jobs) {
--			min_jobs = num_jobs;
-+		num_score = atomic_read(&sched->score);
-+		if (num_score < min_score) {
-+			min_score = num_score;
- 			picked_sched = sched;
- 		}
- 	}
-@@ -860,7 +862,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
- 	spin_lock_init(&sched->job_list_lock);
- 	atomic_set(&sched->hw_rq_count, 0);
- 	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
--	atomic_set(&sched->num_jobs, 0);
-+	atomic_set(&sched->score, 0);
- 	atomic64_set(&sched->job_id_count, 0);
+ 	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
++
++	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
++		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
++			struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
++
++			_dpu_encoder_setup_dither(phys);
++		}
++	}
+ }
  
- 	/* Each scheduler will run on a seperate kernel thread */
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index a21b3b92135a..b9780ae9dd26 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -263,7 +263,7 @@ struct drm_sched_backend_ops {
-  * @job_list_lock: lock to protect the ring_mirror_list.
-  * @hang_limit: once the hangs by a job crosses this limit then it is marked
-  *              guilty and it will be considered for scheduling further.
-- * @num_jobs: the number of jobs in queue in the scheduler
-+ * @score: score to help loadbalancer pick a idle sched
-  * @ready: marks if the underlying HW is ready to work
-  * @free_guilty: A hit to time out handler to free the guilty job.
-  *
-@@ -284,8 +284,8 @@ struct drm_gpu_scheduler {
- 	struct list_head		ring_mirror_list;
- 	spinlock_t			job_list_lock;
- 	int				hang_limit;
--	atomic_t                        num_jobs;
--	bool			ready;
-+	atomic_t                        score;
-+	bool				ready;
- 	bool				free_guilty;
+ void dpu_encoder_virt_runtime_resume(struct drm_encoder *drm_enc)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+index d110a40..7411ab6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+@@ -28,6 +28,16 @@
+ #define PP_FBC_BUDGET_CTL               0x038
+ #define PP_FBC_LOSSY_MODE               0x03C
+ 
++#define PP_DITHER_EN			0x000
++#define PP_DITHER_BITDEPTH		0x004
++#define PP_DITHER_MATRIX		0x008
++
++#define DITHER_DEPTH_MAP_INDEX 9
++
++static u32 dither_depth_map[DITHER_DEPTH_MAP_INDEX] = {
++	0, 0, 0, 0, 0, 0, 0, 1, 2
++};
++
+ static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
+ 		const struct dpu_mdss_cfg *m,
+ 		void __iomem *addr,
+@@ -49,6 +59,37 @@ static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
+ 	return ERR_PTR(-EINVAL);
+ }
+ 
++static void dpu_hw_pp_setup_dither(struct dpu_hw_pingpong *pp,
++				    struct dpu_hw_dither_cfg *cfg)
++{
++	struct dpu_hw_blk_reg_map *c;
++	u32 i, base, data = 0;
++
++	c = &pp->hw;
++	base = pp->caps->sblk->dither.base;
++	if (!cfg) {
++		DPU_REG_WRITE(c, base + PP_DITHER_EN, 0);
++		return;
++	}
++
++	data = dither_depth_map[cfg->c0_bitdepth] & REG_MASK(2);
++	data |= (dither_depth_map[cfg->c1_bitdepth] & REG_MASK(2)) << 2;
++	data |= (dither_depth_map[cfg->c2_bitdepth] & REG_MASK(2)) << 4;
++	data |= (dither_depth_map[cfg->c3_bitdepth] & REG_MASK(2)) << 6;
++	data |= (cfg->temporal_en) ? (1 << 8) : 0;
++
++	DPU_REG_WRITE(c, base + PP_DITHER_BITDEPTH, data);
++
++	for (i = 0; i < DITHER_MATRIX_SZ - 3; i += 4) {
++		data = (cfg->matrix[i] & REG_MASK(4)) |
++			((cfg->matrix[i + 1] & REG_MASK(4)) << 4) |
++			((cfg->matrix[i + 2] & REG_MASK(4)) << 8) |
++			((cfg->matrix[i + 3] & REG_MASK(4)) << 12);
++		DPU_REG_WRITE(c, base + PP_DITHER_MATRIX + i, data);
++	}
++	DPU_REG_WRITE(c, base + PP_DITHER_EN, 1);
++}
++
+ static int dpu_hw_pp_setup_te_config(struct dpu_hw_pingpong *pp,
+ 		struct dpu_hw_tear_check *te)
+ {
+@@ -180,15 +221,19 @@ static u32 dpu_hw_pp_get_line_count(struct dpu_hw_pingpong *pp)
+ 	return line;
+ }
+ 
+-static void _setup_pingpong_ops(struct dpu_hw_pingpong_ops *ops,
+-	const struct dpu_pingpong_cfg *hw_cap)
++static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
++				unsigned long features)
+ {
+-	ops->setup_tearcheck = dpu_hw_pp_setup_te_config;
+-	ops->enable_tearcheck = dpu_hw_pp_enable_te;
+-	ops->connect_external_te = dpu_hw_pp_connect_external_te;
+-	ops->get_vsync_info = dpu_hw_pp_get_vsync_info;
+-	ops->poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
+-	ops->get_line_count = dpu_hw_pp_get_line_count;
++	c->ops.setup_tearcheck = dpu_hw_pp_setup_te_config;
++	c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
++	c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
++	c->ops.get_vsync_info = dpu_hw_pp_get_vsync_info;
++	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
++	c->ops.get_line_count = dpu_hw_pp_get_line_count;
++
++	if (test_bit(DPU_PINGPONG_DITHER, &features) &&
++		IS_SC7180_TARGET(c->hw.hwversion))
++		c->ops.setup_dither = dpu_hw_pp_setup_dither;
  };
  
+ static struct dpu_hw_blk_ops dpu_hw_ops;
+@@ -212,7 +257,7 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(enum dpu_pingpong idx,
+ 
+ 	c->idx = idx;
+ 	c->caps = cfg;
+-	_setup_pingpong_ops(&c->ops, c->caps);
++	_setup_pingpong_ops(c, c->caps->features);
+ 
+ 	dpu_hw_blk_init(&c->base, DPU_HW_BLK_PINGPONG, idx, &dpu_hw_ops);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+index d73cb73..065996b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+@@ -10,6 +10,8 @@
+ #include "dpu_hw_util.h"
+ #include "dpu_hw_blk.h"
+ 
++#define DITHER_MATRIX_SZ 16
++
+ struct dpu_hw_pingpong;
+ 
+ struct dpu_hw_tear_check {
+@@ -35,6 +37,26 @@ struct dpu_hw_pp_vsync_info {
+ };
+ 
+ /**
++ * struct dpu_hw_dither_cfg - dither feature structure
++ * @flags: for customizing operations
++ * @temporal_en: temperal dither enable
++ * @c0_bitdepth: c0 component bit depth
++ * @c1_bitdepth: c1 component bit depth
++ * @c2_bitdepth: c2 component bit depth
++ * @c3_bitdepth: c2 component bit depth
++ * @matrix: dither strength matrix
++ */
++struct dpu_hw_dither_cfg {
++	u64 flags;
++	u32 temporal_en;
++	u32 c0_bitdepth;
++	u32 c1_bitdepth;
++	u32 c2_bitdepth;
++	u32 c3_bitdepth;
++	u32 matrix[DITHER_MATRIX_SZ];
++};
++
++/**
+  *
+  * struct dpu_hw_pingpong_ops : Interface to the pingpong Hw driver functions
+  *  Assumption is these functions will be called after clocks are enabled
+@@ -82,6 +104,12 @@ struct dpu_hw_pingpong_ops {
+ 	 * Obtain current vertical line counter
+ 	 */
+ 	u32 (*get_line_count)(struct dpu_hw_pingpong *pp);
++
++	/**
++	 * Setup dither matix for pingpong block
++	 */
++	void (*setup_dither)(struct dpu_hw_pingpong *pp,
++			struct dpu_hw_dither_cfg *cfg);
+ };
+ 
+ struct dpu_hw_pingpong {
 -- 
-2.27.0
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
