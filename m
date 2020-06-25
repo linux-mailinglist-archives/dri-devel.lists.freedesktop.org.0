@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A9B20A2CE
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 18:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172CA20A3C7
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jun 2020 19:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3316EBE8;
-	Thu, 25 Jun 2020 16:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 212C16E0A5;
+	Thu, 25 Jun 2020 17:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 591C06EBE8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 16:24:11 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id p20so6502336ejd.13
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 09:24:11 -0700 (PDT)
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 677926E0A5;
+ Thu, 25 Jun 2020 17:13:33 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id d15so4784785edm.10;
+ Thu, 25 Jun 2020 10:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l9KRbH0ihpUhOMxeg/B0qRAIhQa9pBGzvYv1ST+eqvE=;
- b=ZsT8Ei49qVBfk5COo/ClfdPxLovKdcRpD4SgBzbZG2UA1PBHVN0MzgZknMdQpL3B27
- 6SnlHxfdxFKY5zyTrLFC0SPC39t7iVBDUkkcmamncHTbt47yPhUt7fFtTxFub69PzyAi
- kB5nwCLQKBaWE4muEk+NsOvly2iqwrPDl8zCjatBCLZpSOH+KnR87iFeB6RshJi9a7y6
- gVDLCxU5Nz3iJYzFEbPABTl/iMYB0XQ9r8z6RwhkyGxRJWIWbRRFB71t7x/C2Jow/fcj
- Gmxa6j4xlyetoZFzWM3gfh4TKiFG05ze7ojHGxleIy+0w1AQLYL2iYwWaB+x0CVFK5mp
- tBQw==
+ :cc:content-transfer-encoding;
+ bh=lF0qy+v5jV2ozFLzJY/1pgZYkmaMzm6mj03LWcgaglI=;
+ b=jPgOdrRnDqP9La2AS9BXce1BmmIbaFOEUW3CixHK2BhdlVEpkRoOtKfWRIEMvwm17L
+ Lp539xjc0v1B+Ihc/Fs0IJ6FND5+yd0f37vTIvzrdTOrArGinK7sLcl4DURwD0EF+Vyg
+ pCKLVGRCujS70k/tK3yP/wX1Qa2x8mRr7BrckSlmrurdj712DIKJl5F+VMuRtth8DuK6
+ BG/ETuBSA/Zte+ds/HR238GG63voOnaHqUPLEljQ+78b7FVI9/WDVSWXd4yriwmDmsve
+ bThLYojVNgW3+dnUOeKpdFWjr8FjL9wSnugHXaRZpjW3LWOriEZV+Z43B7p0/QvdP7uy
+ p7Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l9KRbH0ihpUhOMxeg/B0qRAIhQa9pBGzvYv1ST+eqvE=;
- b=qHEAsbgGJexGV4iW8CcEpLa3UfoqfPKdbfBTPp6hTg5uH2mpBP409LlqSM13drUuSO
- JKyXt3wzjMQCpAlH63YztOWuxRZ29IIsY5tLx+13jKQLh1GaA/pLetE+EzezlYi6QzSI
- +w8Q2LNbrVSnzHV8cwpKsBmjkeI6mLa/KsGCOBTckYWpVyrbpQLqs5WUPhdpHjAUzAnN
- zyR6e6TLZc62Vapah5c8u/bywkYooFiTgswFkPANLJeJPYUyyjYYXlMAoeT1CrJbfM+K
- KcGGghmBOmetBPGyJ5fiWK91lCm1sufGsNvSaJJszQ/5WOPRXs/Agny0/GkYkLTSpRnQ
- Ctfg==
-X-Gm-Message-State: AOAM530CzwY5dWPQwzyjiMHjMWdo4dI5wq8MEw7WjMUrcEYUpI6AbWGY
- YeS5dEb83x1dCmikvaK9M8oMLlu4u+Ct+46JslQ=
-X-Google-Smtp-Source: ABdhPJxPabAdgPCEgxmR4NQfQ6CRh4b5Xn4HF1Gqx65y0sWKg5OQt72Qj9yj3wZJXtD5R+c6JWhQm2QQRshwQEJ06QA=
-X-Received: by 2002:a17:906:856:: with SMTP id
- f22mr20180525ejd.245.1593102249747; 
- Thu, 25 Jun 2020 09:24:09 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lF0qy+v5jV2ozFLzJY/1pgZYkmaMzm6mj03LWcgaglI=;
+ b=ArbghgTzeHYD2bbfVtRk8fSAunbseUJfobdqRwm6s0oFlobpQ18deGa6Z3+7Z5odO9
+ rJANlB+RycK/sBLyPOZT8DZ1nCqY+9ej21f+xx0/dei5AvoSVPcR+x73pXzr3ow7FU6H
+ Q1S1pUMhh7+i98MO56Oiclx0sLL1taPkngotrd//Gp1B7H60V+j9PCJ+/eVEJQ6vGGJK
+ TX1O19k7NJx4WXHoAvuoq3Ac6L3XIrpb8hIyzHQlKMacHMSYX/FwjLOReGVp29WtvPoh
+ bvoXLRG0hV62W3URg6UCSyCQfLKgvVh2kFIrzK4rEqr6zgHo3Ln5zajsav8aAUOFT3dT
+ AJbw==
+X-Gm-Message-State: AOAM5331ExVKYK5kml4qIFH0F8rxR2BKXU0aUdakD0goujvSgSwfBxBY
+ kjZuDlfV+O20kuxF4Bfgx6qXKgBQN4N/jBRojNfs/uwcm68=
+X-Google-Smtp-Source: ABdhPJz0HWigy/NA7BtGI9NCz7O7hufdrwRFM2qLcrGtpp3tTp0QKQxbqO3RQEoBiW8dUTLEpOeHLxDHT6Vmxmva+bE=
+X-Received: by 2002:a05:6402:796:: with SMTP id
+ d22mr23294291edy.78.1593105211936; 
+ Thu, 25 Jun 2020 10:13:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200625115746.13396-1-shawnguo@kernel.org>
- <CAKMK7uGoDnizoE4t47houeyK2y5sLQbvCM3LDMWcEeV3oB5rPA@mail.gmail.com>
- <CAF6AEGuaFFxWSqYDXE0XukeQHOS7H5s6E8WfjVS7EfotWfZmQA@mail.gmail.com>
- <CAKMK7uHDYSZBBKByxgaAhQMEs0gFmKe_QUCZsqt5wcgYZFYcOQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHDYSZBBKByxgaAhQMEs0gFmKe_QUCZsqt5wcgYZFYcOQ@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 25 Jun 2020 09:24:38 -0700
-Message-ID: <CAF6AEGs8vyFrNoGYTDaf81f28CkFqQsaqhAHrW3nBuHBzRCf7g@mail.gmail.com>
-Subject: Re: [PATCH] drm/atomic_helper: duplicate state for drm_private_obj
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
+ <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
+In-Reply-To: <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 26 Jun 2020 03:13:20 +1000
+Message-ID: <CAPM=9txhX5TVUdWibRFc1C+ip5a8-c07jZawds=k5T5pBTPASA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] Revert "dma-buf: Report signaled links
+ inside dma-fence-chain"
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,256 +64,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@bootlin.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, venkata.s.dhanalakota@intel.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 25, 2020 at 8:55 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Thu, Jun 25, 2020 at 4:17 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Thu, Jun 25, 2020 at 5:35 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >
-> > > On Thu, Jun 25, 2020 at 1:58 PM Shawn Guo <shawnguo@kernel.org> wrote:
-> > > >
-> > > > From: Shawn Guo <shawn.guo@linaro.org>
-> > > >
-> > > > The msm/mdp5 driver uses drm_private_obj as its global atomic state,
-> > > > which keeps the assignment of hwpipe to plane.  With drm_private_obj
-> > > > missing from duplicate state call, mdp5 suspend works with no problem
-> > > > only for the very first time.  Any subsequent suspend will hit the
-> > > > following warning, because hwpipe assignment doesn't get duplicated for
-> > > > suspend state.  Adding drm_private_obj handling for duplicate state call
-> > > > fixes the problem.
-> > >
-> > > If the driver needs a private state, it's supposed to duplicate that
-> > > in its atomic_check functionality. This isn't the helper's job.
-> > >
-> > > If this is a bug in msm code, then pretty sure if you try hard enough,
-> > > you can hit the exact same bug from userspace too. Maybe good idea to
-> > > try and reproduce this with igt or something.
-> >
-> > The problem is how duplicate_state is used by the atomic
-> > suspend/resume helpers.  They duplicate the running state on suspend,
-> > forgetting to duplicate the global state.  Then everything is
-> > disabled, the driver correctly duplicates and updates it's global
-> > atomic state releasing the hwpipe.
-> >
-> > But then on resume, we are re-applying plane state that thinks it
-> > already has a hwpipe assigned (because that is part of the plane state
-> > that was duplicated), without reapplying the matching global state.
-> >
-> > On a normal atomic commit, we would duplicate the plane state that has
-> > the hwpipe disabled, which would be in sync with the drivers global
-> > state.  But since that is not what the atomic resume helper does, we
-> > hit the situation where the plane state and the global state are out
-> > of sync.
-> >
-> > So the driver is dtrt, the problem really is with the helpers.  I
-> > think this patch is the right thing to do.  It is incorrect for the
-> > suspend/resume helpers to assume that they can re-apply duplicated
-> > state without including the global state.
->
-> Hm, this is a bit awkward. Generally the assumption is that you should
-> be recomputing the derived state (like hwpipe) no matter what. If your
-> driver doesn't do that, then all kinds of things can leak from the
-> pre-resume to the post-resume side of things, that's kinda why I'm not
-> thrilled with this patch, I think it has good potential to open up a
-> can of worms. Iirc this patch has come up in the past, and in those
-> cases it was a driver bug.
->
-> For this case, why is msm reusing a hw pipe assignment of a disabled plane?
-
-Because it is part of the plane state that is being restored.
-
-Since resume uses the old state saved before the
-drm_atomic_helper_disable_all(), rather than duplicating the current
-state, we end up with this mismatch between global and plane state.  I
-think stashing away the old state is probably ok, but we can't just do
-it piecemeal without including the global state.
-
-I suppose part of the problem is the hwpipe (and other such
-dynamically assigned resources) touch both private and plane (and
-crtc) state.  The global state object knows which resources are
-assigned to which plane/crtc.  But the plane/crtc state knows which of
-the (potentially) two hwpipe/mixers is "left" (primary) and "right"
-(secondary).
-
->
-> Unfortunately we can't copy the drm state into the overall structure
-> to solve this, since that would miss driver-private properties. So
-> unfortunately we can't make this match a real atomic commit from
-> userspace perfectly.
-
-I'm not sure I understand this?  The driver private properties
-would/should be part of one of the state objs (plane/crtc/global)?  If
-the atomic state (including global) represents the entirety of the hw
-state, you should be able to stash off N different versions of them
-and re-apply them in any order you want because they are all
-self-consistent.
-
->
-> Another option would be if msm just copies the private state it needs
-> to not go boom.
->
-> Doing this unconditionally might break other drivers that rely on
-> private state not being duplicated, but I guess that would also be
-> somewhat of a driver bug.
-
-I guess we could duplicate our own version of
-drm_atomic_helper_suspend().. or maybe add a 'duplicate_global' param
-to drm_atomic_helper_suspend().
-
-I'm not too sure how many drivers these days are using global atomic
-state, so not sure how many would be potentially broken, but opting in
-to duplicating global state seems reasonable if necessary.
-
-BR,
--R
-
-> -Daniel
->
-> >
-> > BR,
-> > -R
-> >
-> > > -Daniel
-> > >
-> > >
-> > > > $ echo mem > /sys/power/state
-> > > > [   38.111144] PM: suspend entry (deep)
-> > > > [   38.111185] PM: Syncing filesystems ... done.
-> > > > [   38.114630] Freezing user space processes ... (elapsed 0.001 seconds) done.
-> > > > [   38.115912] OOM killer disabled.
-> > > > [   38.115914] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-> > > > [   38.122170] ------------[ cut here ]------------
-> > > > [   38.122212] WARNING: CPU: 0 PID: 1747 at drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c:145 mdp5_pipe_release+0x90/0xc0
-> > > > [   38.122215] Modules linked in:
-> > > > [   38.122222] CPU: 0 PID: 1747 Comm: sh Not tainted 4.19.107-00515-g9d5e4d7a33ed-dirty #323
-> > > > [   38.122224] Hardware name: Square, Inc. T2 Devkit (DT)
-> > > > [   38.122228] pstate: 40000005 (nZcv daif -PAN -UAO)
-> > > > [   38.122230] pc : mdp5_pipe_release+0x90/0xc0
-> > > > [   38.122233] lr : mdp5_pipe_release+0x90/0xc0
-> > > > [   38.122235] sp : ffff00000d13b7f0
-> > > > [   38.122236] x29: ffff00000d13b7f0 x28: 0000000000000000
-> > > > [   38.122240] x27: 0000000000000002 x26: ffff800079adce00
-> > > > [   38.122243] x25: ffff800079405200 x24: 0000000000000000
-> > > > [   38.122246] x23: ffff80007a78cc08 x22: ffff80007b1cc018
-> > > > [   38.122249] x21: ffff80007b1cc000 x20: ffff80007b317080
-> > > > [   38.122252] x19: ffff80007a78ce80 x18: 0000000000020000
-> > > > [   38.122255] x17: 0000000000000000 x16: 0000000000000000
-> > > > [   38.122258] x15: 00000000fffffff0 x14: ffff000008c3fb48
-> > > > [   38.122261] x13: ffff000008cdac4a x12: ffff000008c3f000
-> > > > [   38.122264] x11: 0000000000000000 x10: ffff000008cda000
-> > > > [   38.122267] x9 : 0000000000000000 x8 : ffff000008ce4a40
-> > > > [   38.122269] x7 : 0000000000000000 x6 : 0000000039ea41a9
-> > > > [   38.122272] x5 : 0000000000000000 x4 : 0000000000000000
-> > > > [   38.122275] x3 : ffffffffffffffff x2 : c7580c109cae4500
-> > > > [   38.122278] x1 : 0000000000000000 x0 : 0000000000000024
-> > > > [   38.122281] Call trace:
-> > > > [   38.122285]  mdp5_pipe_release+0x90/0xc0
-> > > > [   38.122288]  mdp5_plane_atomic_check+0x2c0/0x448
-> > > > [   38.122294]  drm_atomic_helper_check_planes+0xd0/0x208
-> > > > [   38.122298]  drm_atomic_helper_check+0x38/0xa8
-> > > > [   38.122302]  drm_atomic_check_only+0x3e8/0x630
-> > > > [   38.122305]  drm_atomic_commit+0x18/0x58
-> > > > [   38.122309]  __drm_atomic_helper_disable_all.isra.12+0x15c/0x1a8
-> > > > [   38.122312]  drm_atomic_helper_suspend+0x80/0xf0
-> > > > [   38.122316]  msm_pm_suspend+0x4c/0x70
-> > > > [   38.122320]  dpm_run_callback.isra.6+0x20/0x68
-> > > > [   38.122323]  __device_suspend+0x110/0x308
-> > > > [   38.122326]  dpm_suspend+0x100/0x1f0
-> > > > [   38.122329]  dpm_suspend_start+0x64/0x70
-> > > > [   38.122334]  suspend_devices_and_enter+0x110/0x500
-> > > > [   38.122336]  pm_suspend+0x268/0x2c0
-> > > > [   38.122339]  state_store+0x88/0x110
-> > > > [   38.122345]  kobj_attr_store+0x14/0x28
-> > > > [   38.122352]  sysfs_kf_write+0x3c/0x50
-> > > > [   38.122355]  kernfs_fop_write+0x118/0x1e0
-> > > > [   38.122360]  __vfs_write+0x30/0x168
-> > > > [   38.122363]  vfs_write+0xa4/0x1a8
-> > > > [   38.122366]  ksys_write+0x64/0xe8
-> > > > [   38.122368]  __arm64_sys_write+0x18/0x20
-> > > > [   38.122374]  el0_svc_common+0x6c/0x178
-> > > > [   38.122377]  el0_svc_compat_handler+0x1c/0x28
-> > > > [   38.122381]  el0_svc_compat+0x8/0x18
-> > > > [   38.122383] ---[ end trace 24145b7d8545345b ]---
-> > > > [   38.491552] Disabling non-boot CPUs ...
-> > > >
-> > > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_atomic_helper.c | 16 ++++++++++++++++
-> > > >  1 file changed, 16 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > > > index 85d163f16801..024985a92156 100644
-> > > > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > > > @@ -3140,6 +3140,7 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
-> > > >         struct drm_atomic_state *state;
-> > > >         struct drm_connector *conn;
-> > > >         struct drm_connector_list_iter conn_iter;
-> > > > +       struct drm_private_obj *priv_obj;
-> > > >         struct drm_plane *plane;
-> > > >         struct drm_crtc *crtc;
-> > > >         int err = 0;
-> > > > @@ -3184,6 +3185,16 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
-> > > >         }
-> > > >         drm_connector_list_iter_end(&conn_iter);
-> > > >
-> > > > +       drm_for_each_privobj(priv_obj, dev) {
-> > > > +               struct drm_private_state *priv_state;
-> > > > +
-> > > > +               priv_state = drm_atomic_get_private_obj_state(state, priv_obj);
-> > > > +               if (IS_ERR(priv_state)) {
-> > > > +                       err = PTR_ERR(priv_state);
-> > > > +                       goto free;
-> > > > +               }
-> > > > +       }
-> > > > +
-> > > >         /* clear the acquire context so that it isn't accidentally reused */
-> > > >         state->acquire_ctx = NULL;
-> > > >
-> > > > @@ -3278,6 +3289,8 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
-> > > >         struct drm_connector_state *new_conn_state;
-> > > >         struct drm_crtc *crtc;
-> > > >         struct drm_crtc_state *new_crtc_state;
-> > > > +       struct drm_private_state *new_priv_state;
-> > > > +       struct drm_private_obj *priv_obj;
-> > > >
-> > > >         state->acquire_ctx = ctx;
-> > > >
-> > > > @@ -3290,6 +3303,9 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
-> > > >         for_each_new_connector_in_state(state, connector, new_conn_state, i)
-> > > >                 state->connectors[i].old_state = connector->state;
-> > > >
-> > > > +       for_each_new_private_obj_in_state(state, priv_obj, new_priv_state, i)
-> > > > +               state->private_objs[i].old_state = priv_obj->state;
-> > > > +
-> > > >         ret = drm_atomic_commit(state);
-> > > >
-> > > >         state->acquire_ctx = NULL;
-> > > > --
-> > > > 2.17.1
-> > > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+V1RVRj8KCkhvdyBkaWQgdGhpcyBldmVyIGxhbmQgaW4gbXkgdHJlZSwgdGhlcmUgaXMgbm8gQUNL
+IG9uIHRoaXMgZnJvbSBhbnlvbmUKaW4gY29yZSBkbWEtYnVmLAoKSW50ZWwgdGVhbSwgY2xlYW4g
+eW91ciBob3VzZSB1cCBoZXJlLCBJJ20gZ29pbmcgdG8gaGF2ZSB0byBhc2sgeW91IHRvCnN0b3Ag
+Q2hyaXMgbWVyZ2luZyBzdHVmZiB3aXRob3V0IG92ZXJzaWdodCwgaWYgdGhpcyBzb3J0IG9mIHRo
+aW5nCmhhcHBlbnMsIHRoaXMgaXMgdG90YWxseSB1bmFjY2VwdGFibGUuCgpEYXZlLgoKCiBTaWdu
+ZWQtb2ZmLWJ5OiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KICAgIFRl
+c3RlZC1ieTogVmVua2F0YSBTYW5kZWVwIERoYW5hbGFrb3RhIDx2ZW5rYXRhLnMuZGhhbmFsYWtv
+dGFAaW50ZWwuY29tPgogICAgUmV2aWV3ZWQtYnk6IFZlbmthdGEgU2FuZGVlcCBEaGFuYWxha290
+YSA8dmVua2F0YS5zLmRoYW5hbGFrb3RhQGludGVsLmNvbT4KCgpPbiBUaHUsIDI1IEp1biAyMDIw
+IGF0IDIyOjQzLCBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdy
+b3RlOgo+Cj4gQW0gMjUuMDYuMjAgdW0gMTQ6MzQgc2NocmllYiBMaW9uZWwgTGFuZHdlcmxpbjoK
+PiA+IFRoaXMgcmV2ZXJ0cyBjb21taXQgNWRlMzc2YmI0MzRmODBhMTMxMzhmMGViZWRjODM1MWFi
+NzNkOGIwZC4KPiA+Cj4gPiBUaGlzIGNoYW5nZSBicmVha3Mgc3luY2hyb25pemF0aW9uIG9mIGEg
+dGltZWxpbmUuCj4gPiBkbWFfZmVuY2VfY2hhaW5fZmluZF9zZXFubygpIG1pZ2h0IGJlIGEgYml0
+IG9mIGEgY29uZnVzaW5nIG5hbWUgYnV0Cj4gPiB0aGlzIGZ1bmN0aW9uIGlzIG5vdCB0cnlpbmcg
+dG8gZmluZCBhIHBhcnRpY3VsYXIgc2Vxbm8sIGlzIHN1cHBvc2VkIHRvCj4gPiBnaXZlIGEgZmVu
+Y2UgdG8gd2FpdCBvbiBmb3IgYSBwYXJ0aWN1bGFyIHBvaW50IGluIHRoZSB0aW1lbGluZS4KPiA+
+Cj4gPiBJbiBhIHRpbWVsaW5lLCBhIHBhcnRpY3VsYXIgdmFsdWUgaXMgcmVhY2hlZCB3aGVuIGFs
+bCB0aGUgcG9pbnRzIHVwIHRvCj4gPiBhbmQgaW5jbHVkaW5nIHRoYXQgdmFsdWUgaGF2ZSBzaWdu
+YWxlZC4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcu
+bGFuZHdlcmxpbkBpbnRlbC5jb20+Cj4KPiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8
+Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+Cj4gPiAtLS0KPiA+ICAgZHJpdmVycy9kbWEtYnVm
+L2RtYS1mZW5jZS1jaGFpbi5jIHwgNyAtLS0tLS0tCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCA3IGRl
+bGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
+LWNoYWluLmMgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLWNoYWluLmMKPiA+IGluZGV4IGM0
+MzViYmJhODUxYy4uM2QxMjM1MDJmZjEyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVm
+L2RtYS1mZW5jZS1jaGFpbi5jCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLWNo
+YWluLmMKPiA+IEBAIC05OSwxMiArOTksNiBAQCBpbnQgZG1hX2ZlbmNlX2NoYWluX2ZpbmRfc2Vx
+bm8oc3RydWN0IGRtYV9mZW5jZSAqKnBmZW5jZSwgdWludDY0X3Qgc2Vxbm8pCj4gPiAgICAgICAg
+ICAgICAgIHJldHVybiAtRUlOVkFMOwo+ID4KPiA+ICAgICAgIGRtYV9mZW5jZV9jaGFpbl9mb3Jf
+ZWFjaCgqcGZlbmNlLCAmY2hhaW4tPmJhc2UpIHsKPiA+IC0gICAgICAgICAgICAgaWYgKCgqcGZl
+bmNlKS0+c2Vxbm8gPCBzZXFubykgeyAvKiBhbHJlYWR5IHNpZ25hbGVkICovCj4gPiAtICAgICAg
+ICAgICAgICAgICAgICAgZG1hX2ZlbmNlX3B1dCgqcGZlbmNlKTsKPiA+IC0gICAgICAgICAgICAg
+ICAgICAgICAqcGZlbmNlID0gTlVMTDsKPiA+IC0gICAgICAgICAgICAgICAgICAgICBicmVhazsK
+PiA+IC0gICAgICAgICAgICAgfQo+ID4gLQo+ID4gICAgICAgICAgICAgICBpZiAoKCpwZmVuY2Up
+LT5jb250ZXh0ICE9IGNoYWluLT5iYXNlLmNvbnRleHQgfHwKPiA+ICAgICAgICAgICAgICAgICAg
+IHRvX2RtYV9mZW5jZV9jaGFpbigqcGZlbmNlKS0+cHJldl9zZXFubyA8IHNlcW5vKQo+ID4gICAg
+ICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+ID4gQEAgLTIyOCw3ICsyMjIsNiBAQCBFWFBPUlRf
+U1lNQk9MKGRtYV9mZW5jZV9jaGFpbl9vcHMpOwo+ID4gICAgKiBAY2hhaW46IHRoZSBjaGFpbiBu
+b2RlIHRvIGluaXRpYWxpemUKPiA+ICAgICogQHByZXY6IHRoZSBwcmV2aW91cyBmZW5jZQo+ID4g
+ICAgKiBAZmVuY2U6IHRoZSBjdXJyZW50IGZlbmNlCj4gPiAtICogQHNlcW5vOiB0aGUgc2VxdWVu
+Y2UgbnVtYmVyIChzeW5jcHQpIG9mIHRoZSBmZW5jZSB3aXRoaW4gdGhlIGNoYWluCj4gPiAgICAq
+Cj4gPiAgICAqIEluaXRpYWxpemUgYSBuZXcgY2hhaW4gbm9kZSBhbmQgZWl0aGVyIHN0YXJ0IGEg
+bmV3IGNoYWluIG9yIGFkZCB0aGUgbm9kZSB0bwo+ID4gICAgKiB0aGUgZXhpc3RpbmcgY2hhaW4g
+b2YgdGhlIHByZXZpb3VzIGZlbmNlLgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KPiBJbnRlbC1nZnggbWFpbGluZyBsaXN0Cj4gSW50ZWwtZ2Z4QGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vaW50ZWwtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
