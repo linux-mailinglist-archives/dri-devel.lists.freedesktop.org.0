@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DABC20C098
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 12:13:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CC920C096
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 12:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B08116E216;
-	Sat, 27 Jun 2020 10:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4824B6E13B;
+	Sat, 27 Jun 2020 10:12:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0E36ECDD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 16:35:13 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id i3so11016408ljg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OIecv9YlyKV61n8hk7i7ZPRxzKbVL2qdV5qLEcx5Ibs=;
- b=sEQIS+UATeSUymSPBjRcyB/ZglHPNkPbbE1DUztVSbSRViCxFUV/QTINRmMq82ANhK
- QN2C7+TmIAUI0mlYVoPFyO9GuPG6WHmWXIuybL/CMqStTeA7A5lZA8cJTCkutbjfeN7z
- iXd6u4lUNrhnbw88SHgZ7Q4MkIY8ZX7/v2z9LwlPCGDD5BFf6jmT2v7e9lVuslPjj9ph
- CwEmg4oSSkO6bl+lPs8XxJpucbtX/Gn4NuUbtNtZtayodF8bNqhG6RfqhsNE2xjoKLLg
- Y8u+WfijgNuj6y0hjF8IFhAgA+ouP03rX4juB9J9eVO5bJO+rPQ7cYc/VEsXp6w2gyyP
- bRJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OIecv9YlyKV61n8hk7i7ZPRxzKbVL2qdV5qLEcx5Ibs=;
- b=rVVO97js9QySm597RY90yHlaRehg5e91559MAXjYHIVBJuHJ2h78wY4m/KcVmC5+vy
- 7IY1UFQnAXZqoswKCvV084+ecdnEc1SH/Dp5N+UJT10qqY95X8X1nLwyygtTyNcAXSV+
- +gEPUEUW1U+GC6XXVuRaAh7ypNadgCLUmrNAtcFC8kfTnNo2BcX0YsTX0WJ9zmHcn4nT
- wPEQ6cHXUTT5F3sKYGr8iGYWISu9gpCwLC6yJUK94VHkJG6Zm4V06d3Nh4+5TsIPyxW3
- jP9qNECl9MS1LIHAH/7gI8oPOexs3Th2M6npGCd8U8ZEnbHOqTEJBQ8IpdiYuTl98Lgq
- 8GUg==
-X-Gm-Message-State: AOAM532UQ198E+vK/aYUZIRKRxGl/OuRyumrNNU+xGGj9ioxyOqQBOAd
- pQ8E1/Qp96UNl8Z9SNlHHY4=
-X-Google-Smtp-Source: ABdhPJyYtQMjkQ4XkujoBtJWlC7dnZLM1F89L00QsoyIyilEGnEhqjxg2o2D/qHrMKn6Hgpz2YrFmw==
-X-Received: by 2002:a2e:701a:: with SMTP id l26mr1980479ljc.88.1593189311420; 
- Fri, 26 Jun 2020 09:35:11 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id z16sm2649375ljn.50.2020.06.26.09.35.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 09:35:10 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_channel_map)
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <4f9ddf30-ad8d-3750-20d7-867be17a1006@gmail.com>
- <20200626073430.GA3109062@ulmo>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4c243f7a-4c53-d995-88a1-0fe03d41fc3a@gmail.com>
-Date: Fri, 26 Jun 2020 19:35:09 +0300
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3EC6E14F
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 17:11:27 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05QHBEAZ099969;
+ Fri, 26 Jun 2020 12:11:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1593191474;
+ bh=ux4wGZ9FAMPewCIiFjxwKiWjPcBoQzrGx8Tm3T6HdSc=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=FPWXKFQsFWefNWyjFpNnCg6GFcS2w6ONHUfxScGAaLZiH1uHyFU5LPQggJYBMiUNb
+ aYdeFyNv7Oh5q83ZCeegGXkmFQPJief1rBfW76/uD11wLWctFgYWYynkZ+Tze28htF
+ 3ScskuRr3exh6uXw+3J3hpksHzWB1/1UFq2eG/dA=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05QHBEOU025758
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 26 Jun 2020 12:11:14 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 26
+ Jun 2020 12:11:13 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 26 Jun 2020 12:11:13 -0500
+Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05QHB9sn000377;
+ Fri, 26 Jun 2020 12:11:10 -0500
+Subject: Re: [PATCH v6 2/4] driver core: add deferring probe reason to
+ devices_deferred property
+To: Andrzej Hajda <a.hajda@samsung.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+References: <20200626100103.18879-1-a.hajda@samsung.com>
+ <CGME20200626100110eucas1p2c5b91f2c98a5c6e5739f5af3207d192e@eucas1p2.samsung.com>
+ <20200626100103.18879-3-a.hajda@samsung.com>
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Message-ID: <5f159e00-44fd-515b-dd8c-4db9845dc9e6@ti.com>
+Date: Fri, 26 Jun 2020 20:11:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200626073430.GA3109062@ulmo>
+In-Reply-To: <20200626100103.18879-3-a.hajda@samsung.com>
 Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Sat, 27 Jun 2020 10:12:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,118 +66,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, David Airlie <airlied@linux.ie>,
- gustavo@padovan.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Jon Hunter <jonathanh@nvidia.com>, talho@nvidia.com, bhuntsman@nvidia.com,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, andy.shevchenko@gmail.com,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjYuMDYuMjAyMCAxMDozNCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBGcmksIEp1
-biAyNiwgMjAyMCBhdCAwMTo0Nzo0NkFNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
-IDIzLjA2LjIwMjAgMTU6MDksIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4gIyMjIERS
-TV9URUdSQV9DSEFOTkVMX01BUAo+Pj4KPj4+IE1ha2UgbWVtb3J5IGFjY2Vzc2libGUgYnkgdGhl
-IGVuZ2luZSB3aGlsZSBleGVjdXRpbmcgd29yayBvbiB0aGUgY2hhbm5lbC4KPj4+Cj4+PiBgYGAK
-Pj4+ICNkZWZpbmUgRFJNX1RFR1JBX0NIQU5ORUxfTUFQX1JFQURXUklURcKgwqDCoMKgwqDCoMKg
-ICgxPDwwKQo+Pj4KPj4+IHN0cnVjdCBkcm1fdGVncmFfY2hhbm5lbF9tYXAgewo+Pj4gwqDCoMKg
-wqDCoMKgwqAgLyoKPj4+IMKgwqDCoMKgwqDCoMKgwqAgKiBbaW5dIElEIG9mIHRoZSBjaGFubmVs
-IGZvciB3aGljaCB0byBtYXAgbWVtb3J5IHRvLgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4g
-wqDCoMKgwqDCoMKgwqAgX191MzIgY2hhbm5lbF9pZDsKPj4+IMKgwqDCoMKgwqDCoMKgIC8qCj4+
-PiDCoMKgwqDCoMKgwqDCoMKgICogW2luXSBHRU0gaGFuZGxlIG9mIHRoZSBtZW1vcnkgdG8gbWFw
-Lgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191MzIgaGFuZGxl
-Owo+Pj4KPj4+IMKgwqDCoMKgwqDCoMKgIC8qCj4+PiDCoMKgwqDCoMKgwqDCoMKgICogW2luXSBP
-ZmZzZXQgaW4gR0VNIGhhbmRsZSBvZiB0aGUgbWVtb3J5IGFyZWEgdG8gbWFwLgo+Pj4gwqDCoMKg
-wqDCoMKgwqDCoCAqCj4+PiDCoMKgwqDCoMKgwqDCoMKgICogTXVzdCBiZSBhbGlnbmVkIGJ5IDRL
-Lgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191NjQgb2Zmc2V0
-Owo+Pgo+PiBDb3VsZCB5b3UgcGxlYXNlIGdpdmUgYSB1c2UtY2FzZSBleGFtcGxlIGZvciB0aGlz
-IHBhcnRpYWwgbWFwcGluZz8KPj4KPj4gSSB2YWd1ZWx5IHJlY2FsbGluZyB0aGF0IG1heWJlIGl0
-IHdhcyBtZSB3aG8gc3VnZ2VzdGVkIHRoaXMgaW4gdGhlIHBhc3QuLgo+Pgo+PiBJIGtpbmRhIHNl
-ZSB0aGF0IHRoaXMgY291bGQgYmUgdXNlZnVsIGZvciBhIGNhc2Ugd2hlcmUgdXNlcnNwYWNlCj4+
-IGFsbG9jYXRlcyBhIGxhcmdlIGNodW5rIG9mIG1lbW9yeSBhbmQgdGhlbiBwZXJmb3JtcyBzdWIt
-YWxsb2NhdGlvbnMgaW4KPj4gdGhlIHVzZXJzcGFjZSBkcml2ZXIuIEJ1dCBkbyB3ZSBoYXZlIGEg
-cmVhbC13b3JsZCBleGFtcGxlIGZvciB0aGlzIHJpZ2h0Cj4+IG5vdz8KPiAKPiBJIHRoaW5rIHRo
-ZSBtYWluIHBvaW50IGFib3V0IHRoaXMgSU9DVEwgd2FzIHRvIG1ha2UgbWFwcGluZy91bm1hcHBp
-bmcKPiBtb3JlIGVmZmljaWVudCBhbmQgYXZvaWQgcmVsb2NhdGlvbnMgZm9yIHNpdHVhdGlvbnMg
-d2hlcmUgd2Uga25vdyBpdCBpcwo+IHNhZmUgdG8gZG8gc28uCj4gCj4gVGhlIGZhY3QgdGhhdCB0
-aGlzIGNhbiBiZSB1c2VkIHRvIGNyZWF0ZSBwYXJ0aWFsIG1hcHBpbmdzIGlzIG1vc3RseSBqdXN0
-Cj4gYW4gYWRkZWQgYm9udXMsIGluIG15IG9waW5pb24uIERvaW5nIHRoaXMgZG9lc24ndCBjcmVh
-dGUgbXVjaCBjb21wbGV4aXR5Cj4gYnV0IGluIHR1cm4gZ2l2ZXMgdXMgYSBsb3QgbW9yZSBmbGV4
-aWJpbGl0eS4KPiAKPiBBIGNvdXBsZSBvZiBwbGFjZXMgd2hlcmUgSSB0aGluayB0aGlzIGNvdWxk
-IGJlIHVzZWZ1bCBhcmUgT3BlbkdMIGFuZAo+IFZ1bGthbiwgYm90aCBvZiB3aGljaCBzdXBwb3J0
-IGJ1ZmZlciBzdWJhbGxvY2F0aW9uLiBUaGlzIGhhcyBhIGNvdXBsZSBvZgo+IGFkdmFudGFnZXMg
-b24gbW9kZXJuIEdQVXMgd2hlcmUgc29tZXRpbWVzIHlvdSB3YW50IHRvIHVzZSB2ZXJ5IGxhcmdl
-Cj4gYWxsb2NhdGlvbiBncmFudWxhcml0eSwgZXRjLgo+IAo+IE5vdywgSSBkb24ndCB0aGluayB0
-aGF0IHdlJ2xsIHNlZSBtdWNoIG9mIHRoYXQgaW4gVGVncmEgRFJNIGRpcmVjdGx5LAo+IGFsdGhv
-dWdoIGdyYXRlIGNvdWxkIGNlcnRhaW5seSBtYWtlIHVzZSBvZiB0aGlzLCBJIHN1c3BlY3QuIEhv
-d2V2ZXIsIEkKPiB0aGluayBmb3IgaW50ZXJvcGVyYXRpb24gb2YgZEdQVSBhbmQgVGVncmEgRFJN
-ICh3aXRoIFZJQyBmb3IgcG9zdC0KPiBwcm9jZXNzaW5nLCBvciBob3BlZnVsbHkgc29tZSBvZiB0
-aGUgb3RoZXIgaGFyZHdhcmUgYWNjZWxlcmF0aW9uCj4gZW5naW5lcyBhdCBzb21lIHBvaW50KSwg
-dGhpcyBtaWdodCBjb21lIGluIGhhbmR5Lgo+IAo+IFRoZXJlIGFyZSBvdGhlciBwb3NzaWJsZSB1
-c2UtY2FzZXMgd2l0aGluIGp1c3QgVGVncmEgRFJNIGFzIHdlbGwuIFdlIG1heQo+IHdhbnQgdG8g
-b25seSBwYXJ0aWFsbHkgbWFwIHBsYW5hciBidWZmZXJzIGZvciB2aWRlbyBwb3N0LXByb2Nlc3Np
-bmcsIGZvcgo+IGV4YW1wbGUuIE9yIG1hcCBlYWNoIHBsYW5lIHNlcGFyYXRlbHkuCj4gCj4+IFBs
-ZWFzZSBzZWUgbW9yZSBiZWxvdy4KPj4KPj4+IMKgwqDCoMKgwqDCoMKgIC8qCj4+PiDCoMKgwqDC
-oMKgwqDCoMKgICogW2luXSBMZW5ndGggb2YgbWVtb3J5IGFyZWEgdG8gbWFwIGluIGJ5dGVzLgo+
-Pj4gwqDCoMKgwqDCoMKgwqDCoCAqCj4+PiDCoMKgwqDCoMKgwqDCoMKgICogTXVzdCBiZSBhbGln
-bmVkIGJ5IDRLLgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191
-NjQgbGVuZ3RoOwo+Pj4KPj4+IMKgwqDCoMKgwqDCoMKgIC8qCj4+PiDCoMKgwqDCoMKgwqDCoMKg
-ICogW291dF0gSU9WQSBvZiBtYXBwZWQgbWVtb3J5LiBVc2Vyc3BhY2UgY2FuIHVzZSB0aGlzIElP
-VkEKPj4+IMKgwqDCoMKgwqDCoMKgwqAgKsKgwqAgZGlyZWN0bHkgdG8gcmVmZXIgdG8gdGhlIG1l
-bW9yeSB0byBza2lwIHVzaW5nIHJlbG9jYXRpb25zLgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAqwqDC
-oCBPbmx5IGF2YWlsYWJsZSBpZiBoYXJkd2FyZSBtZW1vcnkgaXNvbGF0aW9uIGlzIGVuYWJsZWQu
-Cj4+PiDCoMKgwqDCoMKgwqDCoMKgICoKPj4+IMKgwqDCoMKgwqDCoMKgwqAgKsKgwqAgV2lsbCBi
-ZSBzZXQgdG8gMHhmZmZmX2ZmZmZfZmZmZl9mZmZmIGlmIHVuYXZhaWxhYmxlLgo+Pj4gwqDCoMKg
-wqDCoMKgwqDCoCAqLwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191NjQgaW92YTsKPj4+Cj4+PiDCoMKg
-wqDCoMKgwqDCoCAvKgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAqIFtvdXRdIElEIGNvcnJlc3BvbmRp
-bmcgdG8gdGhlIG1hcHBlZCBtZW1vcnkgdG8gYmUgdXNlZCBmb3IKPj4+IMKgwqDCoMKgwqDCoMKg
-wqAgKsKgwqAgcmVsb2NhdGlvbnMgb3IgdW5tYXBwaW5nLgo+Pj4gwqDCoMKgwqDCoMKgwqDCoCAq
-Lwo+Pj4gwqDCoMKgwqDCoMKgwqAgX191MzIgbWFwcGluZ19pZDsKPj4+IMKgwqDCoMKgwqDCoMKg
-IC8qCj4+PiDCoMKgwqDCoMKgwqDCoMKgICogW2luXSBGbGFncy4KPj4+IMKgwqDCoMKgwqDCoMKg
-wqAgKi8KPj4+IMKgwqDCoMKgwqDCoMKgIF9fdTMyIGZsYWdzOwo+Pj4KPj4+IMKgwqDCoMKgwqDC
-oMKgIF9fdTMyIHJlc2VydmVkWzZdOwo+Pj4gfTsKPj4KPj4gSXQgbG9va3MgdG8gbWUgdGhhdCB3
-ZSBhY3R1YWxseSBuZWVkIGEgYml0IGRpZmZlcmVudCB0aGluZyBoZXJlLgo+Pgo+PiBUaGlzIE1B
-UCBJT0NUTCBtYXBzIGEgcG9ydGlvbiBvZiBhIEdFTSBhbmQgdGhlbiByZXR1cm5zIHRoZSBtYXBw
-aW5nX2lkLgo+PiBBbmQgSSB0aGluayB3ZSBuZWVkIHNvbWV0aGluZyBtb3JlIGZsZXhpYmxlIHRo
-YXQgd2lsbCBhbGxvdyB1cyB0byB1c2UKPj4gR0VNIGhhbmRsZXMgZm9yIHRoZSByZWxvY2F0aW9u
-IElEcywgd2hpY2ggc2hvdWxkIGZpdCBuaWNlbHkgd2l0aCB0aGUKPj4gRE1BLXJlc2VydmF0aW9u
-cy4KPj4KPj4gV2hhdCBhYm91dCBhbiBJT0NUTCB0aGF0IHdyYXBzIEdFTSBpbnRvIGFub3RoZXIg
-R0VNPyBXZSBjb3VsZCB3cmFwIGEKPj4gcG9ydGlvbiBvZiBHRU1fQSBpbnRvIGEgR0VNX0IsIGFu
-ZCB0aGVuIG1hcCB0aGUgR0VNX0IgdXNpbmcgdGhlIE1BUCBJT0NUTC4KPj4KPj4gSXQgY291bGQg
-YmUgc29tZXRoaW5nIGxpa2UgdGhpczoKPj4KPj4gIyMjIERSTV9URUdSQV9CT19XUkFQCj4+Cj4+
-IHN0cnVjdCBkcm1fdGVncmFfd3JhcF9ibyB7Cj4+IAlfX3UzMiBib19oYW5kbGVfd3JhcHBlZDsg
-Ly8gb3V0Cj4+IAlfX3UzMiBib19oYW5kbGU7ICAgICAgICAgLy8gaW4KPj4gCV9fdTY0IG9mZnNl
-dDsKPj4gCV9fdTY0IGxlbmd0aDsKPj4gfTsKPj4KPj4gIyMjIERSTV9URUdSQV9DSEFOTkVMX01B
-UAo+Pgo+PiBzdHJ1Y3QgZHJtX3RlZ3JhX2NoYW5uZWxfbWFwIHsKPj4gICAgICAgICBfX3UzMiBj
-aGFubmVsc19tYXNrOwo+PiAJX191MzIgbWFwcGluZ19pZDsKPj4gICAgICAgICBfX3UzMiBib19o
-YW5kbGU7Cj4+ICAgICAgICAgX191MzIgZmxhZ3M7Cj4+ICAgICAgICAgX191NjQgaW92YTsKPj4g
-fTsKPj4KPj4gPT09Cj4+Cj4+IFRoaXMgYWxsb3dzIG11bHRpcGxlIG1hcHBpbmdfaWRzIHRvIGhh
-dmUgdGhlIHNhbWUgYmFja2luZyBHRU0sIHNvIHRoZQo+PiBtYXBwaW5nX2lkIGNvdWxkIGJlIHJl
-c29sdmVkIGludG8gYSBCTyBkdXJpbmcgb2Ygam9iJ3Mgc3VibWlzc2lvbiBmb3IKPj4gdGhlIERN
-QS1yZXNlcnZhdGlvbnMgaGFuZGxpbmcuCj4gCj4gVGhhdCdzIHByZXR0eSBtdWNoIHdoYXQgd2Ug
-aGF2ZSBhbHJlYWR5IGFib3ZlLCBpc24ndCBpdD8gSnVzdCBiZWNhdXNlIHdlCj4gY2FsbCB0aGUg
-ZmllbGQgIm1hcHBpbmdfaWQiIGRvZXNuJ3QgbWVhbiB0aGF0IGluIHRoZSBiYWNrZ3JvdW5kIHdl
-IGNhbid0Cj4gY3JlYXRlIGEgR0VNIG9iamVjdCBhbmQgcmV0dXJuIGl0J3MgaGFuZGxlIGFzICJt
-YXBwaW5nX2lkIi4KPiAKPiBPbmUgYWR2YW50YWdlIG9mIE1pa2tvJ3MgcHJvcG9zYWwgaXMgdGhh
-dCB3ZSBoYXZlIGEgc2luZ2xlIElPQ1RMIHJhdGhlcgo+IHRoYW4gdHdvIHRvIGNyZWF0ZSB0aGUg
-bWFwcGluZywgbWFraW5nIGl0IGEgYml0IG1vcmUgbGlnaHR3ZWlnaHQuCgpUaGlua2luZyBhIGJp
-dCBtb3JlIGFib3V0IGl0LCBJIG5vdyBjaGFuZ2VkIG15IG1pbmQuCgpUaGVyZSBpcyBubyBuZWVk
-IHRvIHBlcmZvcm0gaW1wbGljaXQgZmVuY2luZyBvbiBlYWNoIHN1YmFsbG9jYXRpb24sCmluc3Rl
-YWQgZXhwbGljaXQgZmVuY2luZyBzaG91bGQgYmUgdXNlZCBmb3IgdGhlIHN1YmFsbG9jYXRpb25z
-LgoKU28sIHdlIHdpbGwgbmVlZCB0byBhZGQgdGhlIHJlbG9jYXRpb24gZmxhZ3MgZm9yIHRoZSBk
-aXJlY3Rpb24gYW5kCmV4cGxpY2l0IChvciBpbXBsaWNpdCkgZmVuY2luZyBwZXItcmVsb2NhdGlv
-bi4gVGhlIGRpcmVjdGlvbiB3aWxsIHRlbGwKaG93IGZlbmNlIHNob3VsZCBiZSBhdHRhY2hlZCB0
-byB0aGUgQk8ncyBETUEtcmVzZXJ2YXRpb24sIHdoaWxlIHRoZQpmZW5jZS1mbGFnIHdpbGwgdGVs
-bCB3aGV0aGVyIGpvYidzIHNjaGVkdWxlciBzaG91bGQgd2FpdCBmb3IgdGhlIEJPJ3MKcmVzZXJ2
-YXRpb24gYmVmb3JlIGV4ZWN1dGluZyBqb2Igb24gaGFyZHdhcmUuIFRoaXMgYWxsIHdpbGwgYmUg
-bmVlZGVkCmZvciBhIHByb3BlciBEUkkgaW1wbGVtZW50YXRpb24gb24gb2xkZXIgVGVncmFzLgoK
-QWN0dWFsbHksIGR1cmluZyBvZiBteSBleHBlcmltZW50cyB3aXRoIHRoZSBVQVBJLCBJIGFkZGVk
-IGJvdGggdGhlc2UKZmxhZ3MgZm9yIHRoZSByZWxvY2F0aW9ucyBbMV0sIGJ1dCByZWFsbHkgdXNl
-ZCBvbmx5IHRoZSBkaXJlY3Rpb24gZmxhZwpzbyBmYXIsIHJlbHlpbmcgb24gdGhlIGltcGxpY2l0
-IGZlbmNpbmcuCgpbMV0KaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saW51eC9ibG9i
-L21hc3Rlci9pbmNsdWRlL3VhcGkvZHJtL3RlZ3JhX2RybS5oI0w4OTQKClNvLCBsZXQncyBrZWVw
-IHRoZSBjdXJyZW50IHZhcmlhbnQgb2YgdGhpcyBNQVAgSU9DVEwgYXMtaXMuCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+
+On 26/06/2020 13:01, Andrzej Hajda wrote:
+> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
+> This list does not contain reason why the driver deferred probe, the patch
+> improves it.
+> The natural place to set the reason is probe_err function introduced recently,
+> ie. if probe_err will be called with -EPROBE_DEFER instead of printk the message
+> will be attached to deferred device and printed when user read devices_deferred
+> property.
+> 
+> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+> Reviewed-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> ---
+>   drivers/base/base.h |  3 +++
+>   drivers/base/core.c |  8 ++++++--
+>   drivers/base/dd.c   | 23 ++++++++++++++++++++++-
+>   3 files changed, 31 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/base/base.h b/drivers/base/base.h
+> index 95c22c0f9036..6954fccab3d7 100644
+> --- a/drivers/base/base.h
+> +++ b/drivers/base/base.h
+> @@ -93,6 +93,7 @@ struct device_private {
+>   	struct klist_node knode_class;
+>   	struct list_head deferred_probe;
+>   	struct device_driver *async_driver;
+> +	char *deferred_probe_reason;
+>   	struct device *device;
+>   	u8 dead:1;
+>   };
+> @@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct device *dev,
+>   extern void driver_detach(struct device_driver *drv);
+>   extern int driver_probe_device(struct device_driver *drv, struct device *dev);
+>   extern void driver_deferred_probe_del(struct device *dev);
+> +extern void device_set_deferred_probe_reson(const struct device *dev,
+> +					    struct va_format *vaf);
+>   static inline int driver_match_device(struct device_driver *drv,
+>   				      struct device *dev)
+>   {
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 3a827c82933f..fee047f03681 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -3963,6 +3963,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
+>    * This helper implements common pattern present in probe functions for error
+>    * checking: print debug or error message depending if the error value is
+>    * -EPROBE_DEFER and propagate error upwards.
+> + * In case of -EPROBE_DEFER it sets also defer probe reason, which can be
+> + * checked later by reading devices_deferred debugfs attribute.
+>    * It replaces code sequence:
+>    * 	if (err != -EPROBE_DEFER)
+>    * 		dev_err(dev, ...);
+> @@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
+>   	vaf.fmt = fmt;
+>   	vaf.va = &args;
+>   
+> -	if (err != -EPROBE_DEFER)
+> +	if (err != -EPROBE_DEFER) {
+>   		dev_err(dev, "error %d: %pV", err, &vaf);
+> -	else
+> +	} else {
+> +		device_set_deferred_probe_reson(dev, &vaf);
+>   		dev_dbg(dev, "error %d: %pV", err, &vaf);
+> +	}
+>   
+>   	va_end(args);
+>   
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 9a1d940342ac..dd5683b61f74 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -27,6 +27,7 @@
+>   #include <linux/async.h>
+>   #include <linux/pm_runtime.h>
+>   #include <linux/pinctrl/devinfo.h>
+> +#include <linux/slab.h>
+>   
+>   #include "base.h"
+>   #include "power/power.h"
+> @@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
+>   	if (!list_empty(&dev->p->deferred_probe)) {
+>   		dev_dbg(dev, "Removed from deferred list\n");
+>   		list_del_init(&dev->p->deferred_probe);
+> +		kfree(dev->p->deferred_probe_reason);
+> +		dev->p->deferred_probe_reason = NULL;
+>   	}
+>   	mutex_unlock(&deferred_probe_mutex);
+>   }
+> @@ -211,6 +214,23 @@ void device_unblock_probing(void)
+>   	driver_deferred_probe_trigger();
+>   }
+>   
+> +/**
+> + * device_set_deferred_probe_reson() - Set defer probe reason message for device
+> + * @dev: the pointer to the struct device
+> + * @vaf: the pointer to va_format structure with message
+> + */
+> +void device_set_deferred_probe_reson(const struct device *dev, struct va_format *vaf)
+> +{
+> +	const char *drv = dev_driver_string(dev);
+> +
+> +	mutex_lock(&deferred_probe_mutex);
+> +
+> +	kfree(dev->p->deferred_probe_reason);
+> +	dev->p->deferred_probe_reason = kasprintf(GFP_KERNEL, "%s: %pV", drv, vaf);
+> +
+> +	mutex_unlock(&deferred_probe_mutex);
+> +}
+> +
+>   /*
+>    * deferred_devs_show() - Show the devices in the deferred probe pending list.
+>    */
+> @@ -221,7 +241,8 @@ static int deferred_devs_show(struct seq_file *s, void *data)
+>   	mutex_lock(&deferred_probe_mutex);
+>   
+>   	list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
+> -		seq_printf(s, "%s\n", dev_name(curr->device));
+> +		seq_printf(s, "%s\t%s", dev_name(curr->device),
+> +			   curr->device->p->deferred_probe_reason ?: "\n");
+>   
+>   	mutex_unlock(&deferred_probe_mutex);
+>   
+> 
+
+Sry, may be i missing smth, but shouldn't it be optional
+(CONFIG_DEBUG_FS is probably too generic).
+
+-- 
+Best regards,
+grygorii
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
