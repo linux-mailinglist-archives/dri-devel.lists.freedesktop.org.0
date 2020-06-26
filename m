@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C63420B4AA
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4B820B4B3
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:35:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87D46ECBB;
-	Fri, 26 Jun 2020 15:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385466ECBF;
+	Fri, 26 Jun 2020 15:35:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF81F6ECBA
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:34:52 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id 18so8989078otv.6
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 08:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jHbpYQf2tnMD+tb9W4J8yb3qEBBRdsc1Pqznwnd2PP0=;
- b=wWwXA4Z3tk970INvxUAt9ucqnZVvXurigb22u8y1NxhRUTSWk9hyAtvJwRY1F10UbE
- BR4flEoADEzWANEOL5Binrk0BWj1Odizt/0Nbv4gWUexnaz6bKO4Zbt81j8qpbLYxSbI
- i61wrrIM5MMGtm+CqAZBy4sX1DzBinEVnD5IbuEZXUlJ4nkexwdBIlzJNHIpclpfEjTy
- 7rS63QlmnJN+LBYPNA0JGRyuDxKg4Qh+msWqF8V2aJXRP8cOjkoNMz+UjOz2qGj2eZhl
- CB+XQG3Q6gi6gHEH3pdGlzcQvtAcEOBsKjMv8wDjsqYUiCaAWfkgKdf9wu/OZ/7yrQQP
- VSLQ==
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605FC6ECBE;
+ Fri, 26 Jun 2020 15:35:52 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id dm19so1007697edb.13;
+ Fri, 26 Jun 2020 08:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=nxgdI0PHS9fZd2ASUWxvxCPW2bkr766GJBjvOuZLk+k=;
+ b=CRHD68toCt/9VGp07w4mYOLHRn3hIGw+Vm8TkX4eh2Y+RpKuLPkP5OLY2ZhV0PNHZU
+ ls3VbZ8XlFfN2Uv6fW1mNwvgwQiPhKrzl5JYmjvsi6bIIEPHr4+ryG+7c4jVr4NO9Jhd
+ M4/P49jxmgv9JZ2HkPy3TGGmsPX49kQKUDoRnuuSuuDqBt8Gfd8UIMYb5y0pnSboFAVf
+ XXxn4gTZViPoINfrRWO7tj6oNl5/3GxFuOgyaLrlV4d4UK3WKDWpkx/obpsKGwu0I7w3
+ gOwYHpf5O2SF2eqYbfTXi3QqAvsKKrZ+jOKzCI/RYfCL06csxokDz1Z5g0O+2ViiVMas
+ trBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jHbpYQf2tnMD+tb9W4J8yb3qEBBRdsc1Pqznwnd2PP0=;
- b=V+OrHJaETXkPylenkh2BW1meIlx6HKWwUbKwgIuhOP1P53CYUjskvYi5BJKSAlhqYv
- YTCrX5otRbK1s95jMAV2t6UCgx6gxxGF+pRecqYPoR4WZ0ZhrGY+GydqWEKk5L9gsv/h
- WcL3y/loKEtGXEVj4aihUxtD+GVtv+lmTIIdCIVMFMVxdwl3nKm7O/dOqhZIn2KuK/c5
- K8eOkxfzUGN4pEqGUnmrv6OCW6n012YF7sw4SMUiG6nKmySfvaNM6HkGE3P5fIS49kbf
- GjUH4Jv3o5FZaHUEulCuDopX0htlDZyFf0ardMv1NlYySRceA662PmZhxYJlUxgBwUOC
- iodg==
-X-Gm-Message-State: AOAM530WScc+UXUuBnrCCpM9cGWq1J9XFvje9jKyIPde0vRGOo5UR0iH
- ZQkbQi9h1HbY6t4euUKyLvfX6veiyvU/vKBgCLGFsQ==
-X-Google-Smtp-Source: ABdhPJyGXWusgqUH1G1hiUjJ4BGTP17jaTiCiNerFUczmMAIzgMdM0XlgnP5BFUxzX8v/iS5BoyT83PoWdgjoQJxQBo=
-X-Received: by 2002:a05:6830:452:: with SMTP id
- d18mr2837943otc.164.1593185692204; 
- Fri, 26 Jun 2020 08:34:52 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=nxgdI0PHS9fZd2ASUWxvxCPW2bkr766GJBjvOuZLk+k=;
+ b=nzRkqbKhAIkD63uYvbWltdAr1W7q0pv62G4oRyKeegLaKyoQDKHpzzJLpQj9IHL/mQ
+ crTtzlp8bC0DNqHulXx1M6TqU8wXdNYSP40FczaSJZWNmMAgQTu7lpwUhoID6PyijJDz
+ 5TEYYD8NEWR+mg1UK7/vKm9DXvX0CEsPql2T++1nkbRLwlXwymEzFoK9vraoUzF2YRmn
+ HqFDN+BjNnck0TYRPZzmRS2iPhheobPSNge2F15cLripnA0mJVj6JOisjIjNsG0ADDp1
+ 5buIXo4tMS3E3o2C6+7DLMPUWMo8zDJUf1KNRz7cwv7cqTb32jGAGwqNwploEfaQjmAL
+ f4lQ==
+X-Gm-Message-State: AOAM5301c6WccA3NFIJ7FO1z4EjJAvNJE2hEIRQyim+m1/5qGEIhn+Z3
+ 7A/yFkJj0XGbJrLhkZYo6YR8mb9BcL2ILaDO6Yg=
+X-Google-Smtp-Source: ABdhPJyKflh7rbf7+P3RC95QxeqWSkrhiz5R9M1XvZ0YJ8a1m63hDgbcRRE25gjcqOQX/Z7qVhDK6qWOXmd7ovRzO3U=
+X-Received: by 2002:a50:eb02:: with SMTP id y2mr1417044edp.281.1593185751055; 
+ Fri, 26 Jun 2020 08:35:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
- <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
- <CAPM=9txhX5TVUdWibRFc1C+ip5a8-c07jZawds=k5T5pBTPASA@mail.gmail.com>
- <874kqzndxj.fsf@intel.com>
- <CAKMK7uErpxoFrT_K==7-PMGyg_eqF07T50eYfh5BFQLzra7TbQ@mail.gmail.com>
- <CAO_48GEa2ZgMph-1ZdsMcOdomZc4zNuRcNn_DoBZS3sNZa-LTg@mail.gmail.com>
- <b7b1eb80-aa98-2d54-2344-dbc2e4bc0492@amd.com>
- <CAKMK7uE--1E59fOhQPZ3ib4a3bSK1Nf5ikLB_GHf2wRsFTvXhw@mail.gmail.com>
-In-Reply-To: <CAKMK7uE--1E59fOhQPZ3ib4a3bSK1Nf5ikLB_GHf2wRsFTvXhw@mail.gmail.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Fri, 26 Jun 2020 21:04:39 +0530
-Message-ID: <CAO_48GFBuO=c=ugenqo=m4_ydTn1s0J67oBCxCvHGkROU=EuGA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] Revert "dma-buf: Report signaled links
- inside dma-fence-chain"
-To: Daniel Vetter <daniel@ffwll.ch>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 26 Jun 2020 08:36:21 -0700
+Message-ID: <CAF6AEGv0SSXArdYs=mOLqJPJdkvk8CpxaJGecqgbOGazQ2n5og@mail.gmail.com>
+Subject: [pull] drm/msm: msm-fixes for 5.8-rc3
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,152 +57,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0237711627=="
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0237711627==
-Content-Type: multipart/alternative; boundary="0000000000003ed85e05a8fe7396"
+(retry with $subject)
 
---0000000000003ed85e05a8fe7396
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Dave,
 
-Hi Christian,
+A few fixes, mostly fallout from the address space refactor and dpu
+color processing.
 
-On Fri, 26 Jun 2020, 18:10 Daniel Vetter, <daniel@ffwll.ch> wrote:
 
-> On Fri, Jun 26, 2020 at 9:03 AM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 26.06.20 um 06:43 schrieb Sumit Semwal:
-> > > On Fri, 26 Jun 2020 at 01:24, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >> Ignoring everything else ...
-> > >>
-> > >> On Thu, Jun 25, 2020 at 9:28 PM Jani Nikula <
-> jani.nikula@linux.intel.com> wrote:
-> > >>> As a side note, there seem to be extra checks in place for acks whe=
-n
-> > >>> applying non-i915 patches to drm-intel; there are no such checks fo=
-r
-> > >>> drm-misc.
-> > >> One option to generalize that that I pondered is to consult
-> > >> get_maintainers.pl asking for git repo link, and if that returns
-> > >> something else, then insist that there's an ack from a relevant
-> > >> maintainer. It's a bit of typing, but I think the bigger problem is
-> > >> that there's a ton of false positives.
-> > > Right; for the particular patch, I wasn't even in the to: or cc: fiel=
-d
-> > > and that made it slip from my radar. I would definitely ask any one
-> > > sending patches for dma-buf directory to follow the get_maintainers.p=
-l
-> > > religiously.
-> > >> But maybe that's a good thing, would give some motivation to keep
-> > >> MAINTAINERS updated.
-> >
-> > Should I maybe add myself as maintainer as well? I've written enough
-> > stuff in there to know the code quite a bit.
->
-> I think that makes lots of sense, since defacto you already are :-)
->
-> If you feel like bikeshed, get_maintainers.pl also supports R: for
-> reviewer, but given that you also push patches to drm-misc M: for
-> maintainer feels more accurate.
->
+The following changes since commit 1cb2c4a2c89b2004a36399860c85a1af9b3fcba7:
 
-I think given you've been reviewing and changing most of the code around
-dma-fences, it should be ok to add you as the maintainer for those bits?
+  Revert "drm/msm/dpu: add support for clk and bw scaling for display"
+(2020-06-01 20:56:18 -0700)
 
--Daniel
->
+are available in the Git repository at:
 
-Best,
-Sumit.
+  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2020-06-25
 
---0000000000003ed85e05a8fe7396
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+for you to fetch changes up to 30480e6ed508e3ff7a3e03c975696aa5196ffe8a:
 
-<div dir=3D"auto"><div>Hi Christian,<br><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Fri, 26 Jun 2020, 18:10 Daniel Vetter,=
- &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">On Fri, Jun 26, 2020 at 9:03 AM Christi=
-an K=C3=B6nig<br>
-&lt;<a href=3D"mailto:christian.koenig@amd.com" target=3D"_blank" rel=3D"no=
-referrer">christian.koenig@amd.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Am 26.06.20 um 06:43 schrieb Sumit Semwal:<br>
-&gt; &gt; On Fri, 26 Jun 2020 at 01:24, Daniel Vetter &lt;<a href=3D"mailto=
-:daniel@ffwll.ch" target=3D"_blank" rel=3D"noreferrer">daniel@ffwll.ch</a>&=
-gt; wrote:<br>
-&gt; &gt;&gt; Ignoring everything else ...<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; On Thu, Jun 25, 2020 at 9:28 PM Jani Nikula &lt;<a href=3D"ma=
-ilto:jani.nikula@linux.intel.com" target=3D"_blank" rel=3D"noreferrer">jani=
-.nikula@linux.intel.com</a>&gt; wrote:<br>
-&gt; &gt;&gt;&gt; As a side note, there seem to be extra checks in place fo=
-r acks when<br>
-&gt; &gt;&gt;&gt; applying non-i915 patches to drm-intel; there are no such=
- checks for<br>
-&gt; &gt;&gt;&gt; drm-misc.<br>
-&gt; &gt;&gt; One option to generalize that that I pondered is to consult<b=
-r>
-&gt; &gt;&gt; <a href=3D"http://get_maintainers.pl" rel=3D"noreferrer noref=
-errer" target=3D"_blank">get_maintainers.pl</a> asking for git repo link, a=
-nd if that returns<br>
-&gt; &gt;&gt; something else, then insist that there&#39;s an ack from a re=
-levant<br>
-&gt; &gt;&gt; maintainer. It&#39;s a bit of typing, but I think the bigger =
-problem is<br>
-&gt; &gt;&gt; that there&#39;s a ton of false positives.<br>
-&gt; &gt; Right; for the particular patch, I wasn&#39;t even in the to: or =
-cc: field<br>
-&gt; &gt; and that made it slip from my radar. I would definitely ask any o=
-ne<br>
-&gt; &gt; sending patches for dma-buf directory to follow the <a href=3D"ht=
-tp://get_maintainers.pl" rel=3D"noreferrer noreferrer" target=3D"_blank">ge=
-t_maintainers.pl</a><br>
-&gt; &gt; religiously.<br>
-&gt; &gt;&gt; But maybe that&#39;s a good thing, would give some motivation=
- to keep<br>
-&gt; &gt;&gt; MAINTAINERS updated.<br>
-&gt;<br>
-&gt; Should I maybe add myself as maintainer as well? I&#39;ve written enou=
-gh<br>
-&gt; stuff in there to know the code quite a bit.<br>
-<br>
-I think that makes lots of sense, since defacto you already are :-)<br>
-<br>
-If you feel like bikeshed, <a href=3D"http://get_maintainers.pl" rel=3D"nor=
-eferrer noreferrer" target=3D"_blank">get_maintainers.pl</a> also supports =
-R: for<br>
-reviewer, but given that you also push patches to drm-misc M: for<br>
-maintainer feels more accurate.<br></blockquote></div></div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">I think given you&#39;ve been reviewing and =
-changing most of the code around dma-fences, it should be ok to add you as =
-the maintainer for those bits?</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
--Daniel<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">Best,</div><div dir=3D"auto">Sumit.</div></div>
+  drm/msm: Fix up the rest of the messed up address sizes (2020-06-22
+12:12:29 -0700)
 
---0000000000003ed85e05a8fe7396--
+----------------------------------------------------------------
+Bernard Zhao (1):
+      drm/msm: fix potential memleak in error branch
 
---===============0237711627==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Chen Tao (1):
+      drm/msm/dpu: fix error return code in dpu_encoder_init
 
+Eric Anholt (2):
+      drm/msm: Fix address space size after refactor.
+      drm/msm: Fix setup of a6xx create_address_space.
+
+John Stultz (1):
+      drm/msm: Fix 0xfffflub in "Refactor address space initialization"
+
+Jordan Crouse (1):
+      drm/msm: Fix up the rest of the messed up address sizes
+
+Kalyan Thota (1):
+      drm/msm/dpu: request for display color blocks based on hw catalog entry
+
+Krishna Manikandan (1):
+      drm/msm/dpu: allow initialization of encoder locks during encoder init
+
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c       |  2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 18 +++++++++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c    |  2 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c    |  2 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c       |  4 +++-
+ 9 files changed, 21 insertions(+), 15 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0237711627==--
