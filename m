@@ -1,70 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9769220AD60
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 09:37:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9039920AD42
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 09:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979456EC3B;
-	Fri, 26 Jun 2020 07:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82BDE6E424;
+	Fri, 26 Jun 2020 07:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 513186E83B
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 23:24:31 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id 9so8397132ljv.5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jun 2020 16:24:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KQBOQUALiqSKtvCGn8S3YcArtBy6E6PZbrpA69D4Zus=;
- b=WhnOBvJtKQNdrl8QfTTB/JHMXH0z6kTj+m1gGyVxG8e7VCGz59bMyJFbBFHnGBKtfE
- Uw5r3PyAp2xvfxdsekiiQO6dbS1qIhAhaNAFQePGN6FP/7VYcg+0g2AoUKnrKYJHTW/R
- LXbktqOKfVCiRDBer6Aj4xSh1AA9kElZTktwgcYZCSsjf4/eCUOXH4SnnMmsVhi/UrNJ
- qsNYBKJt/F/IxRzg6qIdhmxNO/kCTU20CxHxJUQZj2ZJojzKqe72csGAZ5OzkA+1yRQ6
- V+Ule+yt1dUk7RuCQhKeggS4dd/pV1M7xzn6ECUc0rjlmAaueVGcU7EUZUtiGVYd4cef
- sQjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KQBOQUALiqSKtvCGn8S3YcArtBy6E6PZbrpA69D4Zus=;
- b=MyOCKsk1xKRotD/of7afTiXGWCWGv9+B70mH2GlUHp+gKvKsD5gFan1HAUHodvhaGm
- dr/fwhy8HFWkLHGrZAJVi5f07p8J0MpB6Z9WMu+Z4Mw1GO70s9o90Vi48aS0SnC2GrQu
- HpxT4/U4Aa4vvmUH6CdE3p/+ycdAcRqP4Gwy61kSuq6wFXw0zudNxhqixExS02zGylBV
- 9SyMkttv4rAW0QCQKTzNQplaQkSGz3PKdYfiL4x9fOO3XFs4CMqwRhUFBbg7L9QquIqo
- psmbU/vIR2lKnG5LNXsnhnIOPYlbpNkGRv7B+kEysGkyoTE5eb3EeQ7G0FwD/mtBj8m0
- 4o2w==
-X-Gm-Message-State: AOAM533/MPOGy3IfCyimTgWzjEsk/QCbZgHxDIc/QGYbEG2/ijZMU2ic
- s22oLaxfQYJSSxE5flnqsxU=
-X-Google-Smtp-Source: ABdhPJy+3i2VMOH3bgCwGjRqvIDH1d2f1cMECaR79jG/6ShHgd8UIYoJvPhRhGMMviokg5nx3W+tJA==
-X-Received: by 2002:a05:651c:54e:: with SMTP id
- q14mr23077ljp.279.1593127469638; 
- Thu, 25 Jun 2020 16:24:29 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id t4sm6295754lfp.21.2020.06.25.16.24.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Jun 2020 16:24:27 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI
-To: Mikko Perttunen <cyndis@kapsi.fi>,
- Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
- <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <c6642ebd-c9f1-eab0-ff6d-109698af73e0@gmail.com>
- <5c0aa939-d722-5034-6328-4df5be8ee3c6@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c96af3cb-a15c-dd3f-ac5b-b0a56d2ed6d9@gmail.com>
-Date: Fri, 26 Jun 2020 02:24:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1556EC29
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 00:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1593132963; bh=d1pLcaDef4Me95L2X7dipb6sm+nm/smqudPJGr/v5sM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Xw0eueqvF8EvLsITl/CmUIa+ctT2ZIEAMF4BTKRdoHTWQIWYHVZM/dDOkkuyUGdY7
+ qmCQZrTtdL6BhyxPgCx2sGJ/iAFgANis8R6nI/dhOrxvFJM2wtzo0i9Y83KOT0essr
+ ND09SC57+3O+bsaFZdTJjfbr8DqVLOSnRS2//TMQ=
+From: Ondrej Jirman <megous@megous.com>
+To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH v5 00/13] Add support for PinePhone LCD panel
+Date: Fri, 26 Jun 2020 02:55:48 +0200
+Message-Id: <20200626005601.241022-1-megous@megous.com>
 MIME-Version: 1.0
-In-Reply-To: <5c0aa939-d722-5034-6328-4df5be8ee3c6@kapsi.fi>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 26 Jun 2020 07:36:15 +0000
+X-Mailman-Approved-At: Fri, 26 Jun 2020 07:36:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +43,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjUuMDYuMjAyMCAxMjoxNiwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gNi8yNS8y
-MCAyOjExIEFNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IDIzLjA2LjIwMjAgMTU6MDksIE1p
-a2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4gLyogQ29tbWFuZCBpcyBhbiBvcGNvZGUgZ2F0
-aGVyIGZyb20gYSBHRU0gaGFuZGxlICovCj4+PiAjZGVmaW5lIERSTV9URUdSQV9TVUJNSVRfQ09N
-TUFORF9HQVRIRVLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMAo+Pj4gLyogQ29tbWFuZCBpcyBh
-biBvcGNvZGUgZ2F0aGVyIGZyb20gYSB1c2VyIHBvaW50ZXIgKi8KPj4+ICNkZWZpbmUgRFJNX1RF
-R1JBX1NVQk1JVF9DT01NQU5EX0dBVEhFUl9VUFRSwqDCoMKgwqDCoMKgwqAgMQo+Pgo+PiBJJ20g
-YSBiaXQgZHViaW91cyBhYm91dCB3aGV0aGVyIHdlIHJlYWxseSBuZWVkIHRvIHJldGFpbiB0aGUg
-bm9uLVVQVFIKPj4gdmFyaWFudC4gVGhlIG1lbW9yeS1jb3B5aW5nIG92ZXJoZWFkIGlzIG5lZ2xp
-Z2libGUgYmVjYXVzZSBjbWRzdHJlYW0ncwo+PiBkYXRhIHVzdWFsbHkgaXMgaG90IGluIENQVSdz
-IGNhY2hlCj4+Cj4+IElJUkMsIHRoZSBtb3N0IChpZiBub3QgYWxsKSBvZiB0aGUgbW9kZXJuIERS
-TSBkcml2ZXJzIGRyaXZlcnMgdXNlIHRoZQo+PiB1c3JwdHItb25seSBmb3IgdGhlIGNtZHN0cmVh
-bS4KPj4KPj4gQXQgbGVhc3QgdGhlcmUgaXMgbm8gYW55IHJlYWwtd29ybGQgdXNlcnNwYWNlIGV4
-YW1wbGUgdG9kYXkgdGhhdCBjb3VsZAo+PiBiZW5lZml0IGZyb20gYSBub24tVVBUUiB2YXJpYW50
-Lgo+Pgo+PiBJJ20gc3VnZ2VzdGluZyB0byBsZWF2ZSBvdXQgdGhlIG5vbi1VUFRSIGdhdGhlciB2
-YXJpYW50IGZvciBub3csIGtlZXBpbmcKPj4gaXQgaW4gbWluZCBhcyBhIHBvdGVudGlhbCBmdXR1
-cmUgZXh0ZW5zaW9uIG9mIHRoZSBzdWJtaXNzaW9uIFVBUEkuIEFueQo+PiBvYmplY3Rpb25zPwo+
-Pgo+IAo+IFN1cmUsIHdlIHNob3VsZCBiZSBhYmxlIHRvIGRyb3AgaXQuIERvd25zdHJlYW0gdXNl
-cnNwYWNlIGlzIHVzaW5nIGl0LAo+IGJ1dCB3ZSBzaG91bGQgYmUgYWJsZSB0byBmaXggdGhhdC4g
-SSB3YXMgdGhpbmtpbmcgdGhhdCB3ZSBjYW4gZGlyZWN0bHkKPiBtYXAgdGhlIHVzZXIgcGFnZXMg
-YW5kIHBvaW50IHRoZSBnYXRoZXIgdG8gdGhlbSB3aXRob3V0IGNvcHlpbmcgLSB0aGF0Cj4gd2F5
-IHdlIHdvdWxkbid0IG5lZWQgdG8gbWFrZSBETUEgYWxsb2NhdGlvbnMgaW5zaWRlIHRoZSBkcml2
-ZXIgZm9yIGV2ZXJ5Cj4gc3VibWl0LgoKV2Ugd2lsbCBuZWVkIHRvIGNyZWF0ZSBhIEhvc3QxeCBE
-TUEgcG9vbCBhbmQgdGhlbiB0aGUgZHluYW1pYwphbGxvY2F0aW9ucyB3aWxsIGJlIGNoZWFwLiBU
-aGlzIGlzIGFuIGltcGxlbWVudGF0aW9uIGRldGFpbCB0aGF0IHdlIGNhbgpkaXNjdXNzIHNlcGFy
-YXRlbHkuCgpXZSB3aWxsIG5lZWQgdGhlIFVQVFIgYW55d2F5cyBmb3IgdGhlIG9sZGVyIFRlcmdh
-cyBiZWNhdXNlIHdlIG5lZWQgdG8KdmFsaWRhdGUgdGhlIGNtZHN0cmVhbXMgYW5kIGl0J3MgbXVj
-aCBtb3JlIGVmZmljaWVudCB0byBjb3B5IGZyb20gVVBUUgp0aGFuIGZyb20gdGhlIHVuY2FjaGVh
-YmxlIG1lbW9yeS4KClRoZSBub24tVVBUUiB2YXJpYW50IHdpbGwgYmUgZmluZSB0byBhZGQgaWYg
-eW91J2xsIGhhdmUgYSByZWFsd29ybGQKZXhhbXBsZSB0aGF0IGRlbW9uc3RyYXRlcyBhIG5vdGlj
-ZWFibGUgcGVyZm9ybWFuY2UgZGlmZmVyZW5jZS4KClByZXZpb3VzbHksIEkgdGhvdWdodCB0aGF0
-IHRoZXJlIHdpbGwgYmUgc29tZSBwZXJmIGRpZmZlcmVuY2UgaWYgR1IzRApzaGFkZXJzIGFyZSBt
-b3ZlZCBpbnRvIHRoZSAiaW5zZXJ0LW9wY29kZSIgZ2F0aGVyLCBidXQgaXQgd2FzIG5lZ2xpZ2li
-bGUKb25jZSBJIGltcGxlbWVudGVkIGl0IGFuZCBpdCBzaG91bGQgYmUgZXZlbiBtb3JlIG5lZ2xp
-Z2libGUgb24gYSBtb2Rlcm4KaGFyZHdhcmUuCgo+IChPbiBlYXJseSBUZWdyYXMgd2UgY291bGQg
-anVzdCBjb3B5IGludG8gdGhlIHB1c2hidWZmZXIgYnV0IHRoYXQKPiB3b24ndCB3b3JrIGZvciBu
-ZXdlciBvbmVzKS4KClllcywgd2Ugc2hvdWxkIGNvcHkgZGF0YSBpbnRvIGEgZ2F0aGVyIGFuZCB0
-aGVuIHB1c2ggaXQgaW50byBjaGFubmVsJ3MKcHVzaGJ1ZmZlci4gSnVzdCBsaWtlIGl0IHdvcmtz
-IHdpdGggdGhlIGN1cnJlbnQgdXBzdHJlYW0gZHJpdmVyLgoKT25jZSBhbGwgdGhlIFVBUEkgd2ls
-bCBiZSBzZXR0bGVkLCB3ZSdsbCBhbHNvIG5lZWQgdG8gZGlzY3VzcyB0aGUKcHVzaGJ1ZmZlcidz
-IGltcGxlbWVudGF0aW9uIGJlY2F1c2UgdGhlIGN1cnJlbnQgZHJpdmVyIGhhcyBzb21lIHByb2Js
-ZW1zCndpdGggaXQuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+This patchset adds support for the LCD panel of PinePhone.
+
+I've tested this on PinePhone 1.0 and 1.2.
+
+Please take a look.
+
+thank you and regards,
+  Ondrej Jirman
+
+Changes in v5:
+- rewritten on top of rocktech-jh057n00900 driver
+- rocktech-jh057n00900 renamed to st7703 (controller name)
+- converted rocktech-jh057n00900 bindings to yaml and extended for xbd599
+
+Changes in v4:
+- use ->type from the mode instead of hardcoding (Samuel)
+- move init_sequence to ->prepare (Samuel)
+- move anti-flicker delay to ->enable, explain it (Samuel)
+- add enter_sleep after display_off (Samuel)
+- drop ->disable (move code to ->unprepare)
+- add ID bytes dumping (Linus)
+  (I can't test it since allwinner DSI driver has a broken
+   dcs_read function, and I didn't manage to fix it.)
+- document magic bytes (Linus)
+- assert reset during powerup
+- cleanup powerup timings according to the datasheet
+
+Changes in v3:
+- Panel driver renamed to the name of the LCD controller
+- Re-organize the driver slightly to more easily support more panels
+  based on the same controller.
+- Add patch to enable the touchscreen to complete the LCD support
+  on PinePhone.
+- Dropped the "DSI fix" patch (the driver seems to work for me without it)
+- Improved brightness levels handling:
+  - PinePhone 1.0 uses default levels generated by the driver
+  - On PinePhone 1.1 duty cycles < 20% lead to black screen, so
+    default levels can't be used. Martijn Braam came up with a
+    list of duty cycle values that lead to perception of linear
+    brigtness level <-> light intensity on PinePhone 1.1
+- There was some feedback on v2 about this being similar to st7701.
+  It's only similar in name. Most of the "user commands" are different,
+  so I opted to keep this in a new driver instead of creating st770x.
+  
+  Anyone who likes to check the differences, here are datasheets:
+
+  - https://megous.com/dl/tmp/ST7703_DS_v01_20160128.pdf
+  - https://megous.com/dl/tmp/ST7701.pdf
+
+Changes in v2:
+- DT Example fix.
+- DT Format fix.
+- Raised copyright info to 2020.
+- Sort panel operation functions.
+- Sort inclusion.
+
+
+-- For phone owners: --
+
+There's an open question on how to set the backlight brightness values
+on post 1.0 revision phone, since lower duty cycles (< 10-20%) lead
+to backlight being black. It would be nice if more people can test
+the various backlight levels on 1.1 and 1.2 revision with this change
+in dts:
+
+       brightness-levels = <0 1000>;
+       num-interpolated-steps = <1000>;
+
+and report at what brightness level the backlight turns on. So far it
+seems this has a wide range. Lowest useable duty cycle for me is ~7%
+on 1.2 and for Martijn ~20% on 1.1.
+
+Icenowy Zheng (2):
+  dt-bindings: vendor-prefixes: Add Xingbangda
+  arm64: dts: sun50i-a64-pinephone: Enable LCD support on PinePhone
+
+Ondrej Jirman (11):
+  dt-bindings: panel: Convert rocktech,jh057n00900 to yaml
+  dt-bindings: panel: Add compatible for Xingbangda XBD599 panel
+  drm/panel: rocktech-jh057n00900: Rename the driver to st7703
+  drm/panel: st7703: Rename functions from jh057n prefix to st7703
+  drm/panel: st7703: Prepare for supporting multiple panels
+  drm/panel: st7703: Move code specific to jh057n closer together
+  drm/panel: st7703: Move generic part of init sequence to enable
+    callback
+  drm/panel: st7703: Add support for Xingbangda XBD599
+  drm/panel: st7703: Enter sleep after display off
+  drm/panel: st7703: Assert reset prior to powering down the regulators
+  arm64: dts: sun50i-a64-pinephone: Add touchscreen support
+
+ .../display/panel/rocktech,jh057n00900.txt    |  23 -
+ .../display/panel/rocktech,jh057n00900.yaml   |  70 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../allwinner/sun50i-a64-pinephone-1.1.dts    |  19 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  54 ++
+ drivers/gpu/drm/panel/Kconfig                 |  26 +-
+ drivers/gpu/drm/panel/Makefile                |   2 +-
+ .../drm/panel/panel-rocktech-jh057n00900.c    | 424 ------------
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 655 ++++++++++++++++++
+ 9 files changed, 814 insertions(+), 461 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+ delete mode 100644 drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
+ create mode 100644 drivers/gpu/drm/panel/panel-sitronix-st7703.c
+
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
