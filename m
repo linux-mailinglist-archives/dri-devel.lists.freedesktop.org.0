@@ -1,66 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2039A20B798
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 19:53:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B18B20B967
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 21:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449F96ECF5;
-	Fri, 26 Jun 2020 17:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26EC16E497;
+	Fri, 26 Jun 2020 19:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E47756ECF5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 17:53:29 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id f6so1230398pjq.5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=wAdU7mL6P+nlrHf9yeN4eKf2xJDesn/jgMMSfe2BmPk=;
- b=SCtYeOZOfSWUvYW8V3oMS24h0zlpP2ZilM2WK2OCukBvTTGUfahVKWNGr225ja+9R7
- M4am7Xq2ukKiWOtWF1fd5SWwVum0iBO7MawfNtQa+09SGlgzmlMVXGSn1wweYgyKUyY5
- h7P4ra3A8opJLRR9DIUFpe3SFqZmb8LFyUkZhiU23qAh0YBIY/orliz+WWpP1qvMfFal
- kFNOXwl3IISmdQHiGtSSFurviwdAL6eRDCWA0iBO8Kh6Zi2NGMI346mXgueJGqh5weib
- 1go95QOVO0wud7G5m3mru5HQHDByukrPx0F1cz2p564XKLACiu/vqyxQ2+GCxd8zrCOW
- gPcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=wAdU7mL6P+nlrHf9yeN4eKf2xJDesn/jgMMSfe2BmPk=;
- b=oggkia0zs+Yd9DliWPJe+Mg1eyr+HdrrKFWUkkRRvupY4BXeOE8fyOWLD31EO3DTVw
- J6uwpSKTL+noT7DuuWqv+7M2pSsKsObOgjBqwYLcap02SPf5NerKi/zxdaoJf0ZCXHSm
- GmuyqmBYCseuVoESF25eD7oSu9RmTJKV8OmvRzqLsCLKiMJgeae8aPm/SweMhC8Yr48u
- AON4nXbhMxiRSpaFY+gvYInb8agPGvdrkBevknQqcC4awhNXpKAXruDvQEHT2gWLC8Rk
- wMID8yoPVoZ/5PjQO1rB76TzNhctO/G4PMBrVd8JB7FmZho7e7DY/Li3pD/PNMpm8iz9
- x4lQ==
-X-Gm-Message-State: AOAM533r47PX9NmliqO78lkh3NKAxe7rhe+GfMEblcLJIic1qQD93jUS
- HDSvYM52Ligp/bakgs489OjK+JMC
-X-Google-Smtp-Source: ABdhPJxZryW6eI/QREsyD62dEPZidfNZ44kcxMAG9ciFpjGjE70+nrRb5AmhsWx7THg7kIcoRQW8Ng==
-X-Received: by 2002:a17:90a:e2c7:: with SMTP id
- fr7mr958200pjb.103.1593194009059; 
- Fri, 26 Jun 2020 10:53:29 -0700 (PDT)
-Received: from [172.30.88.83] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
- by smtp.gmail.com with ESMTPSA id az16sm462262pjb.7.2020.06.26.10.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 10:53:28 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] gpu: ipu-v3: image-convert: Wait for all EOFs
- before completing a tile
-To: Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200617224038.17889-3-slongerbeam@gmail.com>
- <20200625181337.11729-1-slongerbeam@gmail.com>
- <7be9dad66d8149126dd47dce4e4a280291f738db.camel@pengutronix.de>
-From: Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <5e0a1893-a97a-6d8d-0eb3-638a74bcd9bf@gmail.com>
-Date: Fri, 26 Jun 2020 10:53:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <7be9dad66d8149126dd47dce4e4a280291f738db.camel@pengutronix.de>
-Content-Language: en-US
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA9806E497
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 19:40:13 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for v5.8-rc3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593200413;
+ bh=KQLDeKNOJt32GB6hmzGC9odeyGYV4xyxDoxxfCB5yjk=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=HoaGFbHJFZHZhOSUuIpQDioX7hom3XyzYCaBilp/ICoaZQ4LdWYUS5Oi9ueeSjpj7
+ zAdRO73cAnGhYecKTE5/GjVyt98vaM3DzysPC1z/+v/vT/lEhNrXFCq13lJKjlJMTN
+ Cpz1pYCwq0LLfZTZmpq9v5Y/NvWA9C9oc4QhYUbk=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyuBF_AmAMxL1U=ofd4=kxN_39-EOW3c3rGNFyb4=ut8Q@mail.gmail.com>
+References: <CAPM=9tyuBF_AmAMxL1U=ofd4=kxN_39-EOW3c3rGNFyb4=ut8Q@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyuBF_AmAMxL1U=ofd4=kxN_39-EOW3c3rGNFyb4=ut8Q@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-06-26
+X-PR-Tracked-Commit-Id: 687a0ed337367be5267652af5f6dbcfc954b8732
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6a6c9b220a7fb7c8285ad1739ac3c909584feb43
+Message-Id: <159320041354.11855.17123223960471606973.pr-tracker-bot@kernel.org>
+Date: Fri, 26 Jun 2020 19:40:13 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,284 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+The pull request you sent on Fri, 26 Jun 2020 14:26:34 +1000:
 
-On 6/26/20 2:38 AM, Philipp Zabel wrote:
-> Hi Steve,
->
-> On Thu, 2020-06-25 at 11:13 -0700, Steve Longerbeam wrote:
->> Use a bit-mask of EOF irqs to determine when all required idmac
->> channel EOFs have been received for a tile conversion, and only do
->> tile completion processing after all EOFs have been received. Otherwise
->> it was found that a conversion would stall after the completion of a
->> tile and the start of the next tile, because the input/read idmac
->> channel had not completed and entered idle state, thus locking up the
->> channel when attempting to re-start it for the next tile.
-> Do I understand correctly that there are cases where the output channel
-> EOF IRQ has triggered and the next tile processing is kicked off before
-> the input channel EOF IRQ triggers even without rotation?
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-06-26
 
-Yes.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6a6c9b220a7fb7c8285ad1739ac3c909584feb43
 
-What is the cause of this? It would seem that the read channel EOF 
-should occur before the write channel EOF, but there are cases seen 
-where the opposite occurs. Maybe this has to do with idmac channel 
-priorities, the IC PP read/write channels are set to the same priority 
-(low), in which case the IPU should resort to round-robin when handling 
-requests on those channels. Maybe the EOF irq is not signalled until 
-after the IPU has updated CPMEM with status info after the transfers 
-complete, and round-robin selects the write channel before the read 
-channel for the CPMEM updates?
+Thank you!
 
-
-> Do you have any way to reproduce this?
-
-Yes, try a scaling only conversion, 1920x1080.422p -> 1024x768.422p. No 
-rotation needed.
-
-Steve
-
->
-> regards
-> Philipp
->
->> Fixes: 0537db801bb01 ("gpu: ipu-v3: image-convert: reconfigure IC per tile")
->> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
->> ---
->> Changes in v2:
->> - need to clear eof_mask at completion of every tile, not just in
->>    convert_start().
->> ---
->>   drivers/gpu/ipu-v3/ipu-image-convert.c | 109 +++++++++++++++++++------
->>   1 file changed, 82 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
->> index f8b031ded3cf..aa1d4b6d278f 100644
->> --- a/drivers/gpu/ipu-v3/ipu-image-convert.c
->> +++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
->> @@ -137,6 +137,17 @@ struct ipu_image_convert_ctx;
->>   struct ipu_image_convert_chan;
->>   struct ipu_image_convert_priv;
->>   
->> +enum eof_irq_mask {
->> +	EOF_IRQ_IN      = BIT(0),
->> +	EOF_IRQ_ROT_IN  = BIT(1),
->> +	EOF_IRQ_OUT     = BIT(2),
->> +	EOF_IRQ_ROT_OUT = BIT(3),
->> +};
->> +
->> +#define EOF_IRQ_COMPLETE (EOF_IRQ_IN | EOF_IRQ_OUT)
->> +#define EOF_IRQ_ROT_COMPLETE (EOF_IRQ_IN | EOF_IRQ_OUT |	\
->> +			      EOF_IRQ_ROT_IN | EOF_IRQ_ROT_OUT)
->> +
->>   struct ipu_image_convert_ctx {
->>   	struct ipu_image_convert_chan *chan;
->>   
->> @@ -173,6 +184,9 @@ struct ipu_image_convert_ctx {
->>   	/* where to place converted tile in dest image */
->>   	unsigned int out_tile_map[MAX_TILES];
->>   
->> +	/* mask of completed EOF irqs at every tile conversion */
->> +	enum eof_irq_mask eof_mask;
->> +
->>   	struct list_head list;
->>   };
->>   
->> @@ -189,6 +203,8 @@ struct ipu_image_convert_chan {
->>   	struct ipuv3_channel *rotation_out_chan;
->>   
->>   	/* the IPU end-of-frame irqs */
->> +	int in_eof_irq;
->> +	int rot_in_eof_irq;
->>   	int out_eof_irq;
->>   	int rot_out_eof_irq;
->>   
->> @@ -1380,6 +1396,9 @@ static int convert_start(struct ipu_image_convert_run *run, unsigned int tile)
->>   	dev_dbg(priv->ipu->dev, "%s: task %u: starting ctx %p run %p tile %u -> %u\n",
->>   		__func__, chan->ic_task, ctx, run, tile, dst_tile);
->>   
->> +	/* clear EOF irq mask */
->> +	ctx->eof_mask = 0;
->> +
->>   	if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
->>   		/* swap width/height for resizer */
->>   		dest_width = d_image->tile[dst_tile].height;
->> @@ -1615,7 +1634,7 @@ static bool ic_settings_changed(struct ipu_image_convert_ctx *ctx)
->>   }
->>   
->>   /* hold irqlock when calling */
->> -static irqreturn_t do_irq(struct ipu_image_convert_run *run)
->> +static irqreturn_t do_tile_complete(struct ipu_image_convert_run *run)
->>   {
->>   	struct ipu_image_convert_ctx *ctx = run->ctx;
->>   	struct ipu_image_convert_chan *chan = ctx->chan;
->> @@ -1700,6 +1719,7 @@ static irqreturn_t do_irq(struct ipu_image_convert_run *run)
->>   		ctx->cur_buf_num ^= 1;
->>   	}
->>   
->> +	ctx->eof_mask = 0; /* clear EOF irq mask for next tile */
->>   	ctx->next_tile++;
->>   	return IRQ_HANDLED;
->>   done:
->> @@ -1715,8 +1735,9 @@ static irqreturn_t eof_irq(int irq, void *data)
->>   	struct ipu_image_convert_priv *priv = chan->priv;
->>   	struct ipu_image_convert_ctx *ctx;
->>   	struct ipu_image_convert_run *run;
->> +	irqreturn_t ret = IRQ_HANDLED;
->> +	bool tile_complete = false;
->>   	unsigned long flags;
->> -	irqreturn_t ret;
->>   
->>   	spin_lock_irqsave(&chan->irqlock, flags);
->>   
->> @@ -1729,27 +1750,33 @@ static irqreturn_t eof_irq(int irq, void *data)
->>   
->>   	ctx = run->ctx;
->>   
->> -	if (irq == chan->out_eof_irq) {
->> -		if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
->> -			/* this is a rotation op, just ignore */
->> -			ret = IRQ_HANDLED;
->> -			goto out;
->> -		}
->> -	} else if (irq == chan->rot_out_eof_irq) {
->> +	if (irq == chan->in_eof_irq) {
->> +		ctx->eof_mask |= EOF_IRQ_IN;
->> +	} else if (irq == chan->out_eof_irq) {
->> +		ctx->eof_mask |= EOF_IRQ_OUT;
->> +	} else if (irq == chan->rot_in_eof_irq ||
->> +		   irq == chan->rot_out_eof_irq) {
->>   		if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
->>   			/* this was NOT a rotation op, shouldn't happen */
->>   			dev_err(priv->ipu->dev,
->>   				"Unexpected rotation interrupt\n");
->> -			ret = IRQ_HANDLED;
->>   			goto out;
->>   		}
->> +		ctx->eof_mask |= (irq == chan->rot_in_eof_irq) ?
->> +			EOF_IRQ_ROT_IN : EOF_IRQ_ROT_OUT;
->>   	} else {
->>   		dev_err(priv->ipu->dev, "Received unknown irq %d\n", irq);
->>   		ret = IRQ_NONE;
->>   		goto out;
->>   	}
->>   
->> -	ret = do_irq(run);
->> +	if (ipu_rot_mode_is_irt(ctx->rot_mode))
->> +		tile_complete =	(ctx->eof_mask == EOF_IRQ_ROT_COMPLETE);
->> +	else
->> +		tile_complete = (ctx->eof_mask == EOF_IRQ_COMPLETE);
->> +
->> +	if (tile_complete)
->> +		ret = do_tile_complete(run);
->>   out:
->>   	spin_unlock_irqrestore(&chan->irqlock, flags);
->>   	return ret;
->> @@ -1783,6 +1810,10 @@ static void force_abort(struct ipu_image_convert_ctx *ctx)
->>   
->>   static void release_ipu_resources(struct ipu_image_convert_chan *chan)
->>   {
->> +	if (chan->in_eof_irq >= 0)
->> +		free_irq(chan->in_eof_irq, chan);
->> +	if (chan->rot_in_eof_irq >= 0)
->> +		free_irq(chan->rot_in_eof_irq, chan);
->>   	if (chan->out_eof_irq >= 0)
->>   		free_irq(chan->out_eof_irq, chan);
->>   	if (chan->rot_out_eof_irq >= 0)
->> @@ -1801,7 +1832,27 @@ static void release_ipu_resources(struct ipu_image_convert_chan *chan)
->>   
->>   	chan->in_chan = chan->out_chan = chan->rotation_in_chan =
->>   		chan->rotation_out_chan = NULL;
->> -	chan->out_eof_irq = chan->rot_out_eof_irq = -1;
->> +	chan->in_eof_irq = -1;
->> +	chan->rot_in_eof_irq = -1;
->> +	chan->out_eof_irq = -1;
->> +	chan->rot_out_eof_irq = -1;
->> +}
->> +
->> +static int get_eof_irq(struct ipu_image_convert_chan *chan,
->> +		       struct ipuv3_channel *channel)
->> +{
->> +	struct ipu_image_convert_priv *priv = chan->priv;
->> +	int ret, irq;
->> +
->> +	irq = ipu_idmac_channel_irq(priv->ipu, channel, IPU_IRQ_EOF);
->> +
->> +	ret = request_threaded_irq(irq, eof_irq, do_bh, 0, "ipu-ic", chan);
->> +	if (ret < 0) {
->> +		dev_err(priv->ipu->dev, "could not acquire irq %d\n", irq);
->> +		return ret;
->> +	}
->> +
->> +	return irq;
->>   }
->>   
->>   static int get_ipu_resources(struct ipu_image_convert_chan *chan)
->> @@ -1837,31 +1888,33 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
->>   	}
->>   
->>   	/* acquire the EOF interrupts */
->> -	chan->out_eof_irq = ipu_idmac_channel_irq(priv->ipu,
->> -						  chan->out_chan,
->> -						  IPU_IRQ_EOF);
->> +	ret = get_eof_irq(chan, chan->in_chan);
->> +	if (ret < 0) {
->> +		chan->in_eof_irq = -1;
->> +		goto err;
->> +	}
->> +	chan->in_eof_irq = ret;
->>   
->> -	ret = request_threaded_irq(chan->out_eof_irq, eof_irq, do_bh,
->> -				   0, "ipu-ic", chan);
->> +	ret = get_eof_irq(chan, chan->rotation_in_chan);
->>   	if (ret < 0) {
->> -		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
->> -			 chan->out_eof_irq);
->> -		chan->out_eof_irq = -1;
->> +		chan->rot_in_eof_irq = -1;
->>   		goto err;
->>   	}
->> +	chan->rot_in_eof_irq = ret;
->>   
->> -	chan->rot_out_eof_irq = ipu_idmac_channel_irq(priv->ipu,
->> -						     chan->rotation_out_chan,
->> -						     IPU_IRQ_EOF);
->> +	ret = get_eof_irq(chan, chan->out_chan);
->> +	if (ret < 0) {
->> +		chan->out_eof_irq = -1;
->> +		goto err;
->> +	}
->> +	chan->out_eof_irq = ret;
->>   
->> -	ret = request_threaded_irq(chan->rot_out_eof_irq, eof_irq, do_bh,
->> -				   0, "ipu-ic", chan);
->> +	ret = get_eof_irq(chan, chan->rotation_out_chan);
->>   	if (ret < 0) {
->> -		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
->> -			chan->rot_out_eof_irq);
->>   		chan->rot_out_eof_irq = -1;
->>   		goto err;
->>   	}
->> +	chan->rot_out_eof_irq = ret;
->>   
->>   	return 0;
->>   err:
->> @@ -2440,6 +2493,8 @@ int ipu_image_convert_init(struct ipu_soc *ipu, struct device *dev)
->>   		chan->ic_task = i;
->>   		chan->priv = priv;
->>   		chan->dma_ch = &image_convert_dma_chan[i];
->> +		chan->in_eof_irq = -1;
->> +		chan->rot_in_eof_irq = -1;
->>   		chan->out_eof_irq = -1;
->>   		chan->rot_out_eof_irq = -1;
->>   
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
