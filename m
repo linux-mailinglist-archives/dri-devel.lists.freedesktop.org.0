@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E104C20B781
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 19:46:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2039A20B798
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 19:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05EA56ECF4;
-	Fri, 26 Jun 2020 17:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449F96ECF5;
+	Fri, 26 Jun 2020 17:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E4D6ECF4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 17:46:17 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id r12so10232667wrj.13
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:46:17 -0700 (PDT)
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E47756ECF5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 17:53:29 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id f6so1230398pjq.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:53:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:references:from:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=p5oCDSglmOGM8LtlOUxUyt5Y7jYtANXRw6weuC8natw=;
- b=WMjUKikKttbuTLdWpOQ5W/DDj0z09nDJlFDYJHI3B/ucTDw3PBxB3w/XWlZ1+Q9IFI
- ZJUL2Avjc5GQPUom4lfw070igaT30uuSjxkTHlBbo3fyMWtCWt2QbO37+TkyreWc8E4t
- Ax2DfL4IkWOmDtQOMbBs1nu9Fh7lhxBHzvhyW9kh85pgEAMh+H50Ddf3paQhlR3oe/So
- q+2D37gly5ggbeH4CGjiDKlaRMeM5ebVaoArKqWwjUoXnnww5NE4e4bLniFTOqRkuRUc
- E7ah/ZLZUjVCMGiV3ZoTFbpMcqGLg2FW986nag+Hrf3AhjpzyAL1xKPtr2NKL4vsKI0u
- JWPA==
+ bh=wAdU7mL6P+nlrHf9yeN4eKf2xJDesn/jgMMSfe2BmPk=;
+ b=SCtYeOZOfSWUvYW8V3oMS24h0zlpP2ZilM2WK2OCukBvTTGUfahVKWNGr225ja+9R7
+ M4am7Xq2ukKiWOtWF1fd5SWwVum0iBO7MawfNtQa+09SGlgzmlMVXGSn1wweYgyKUyY5
+ h7P4ra3A8opJLRR9DIUFpe3SFqZmb8LFyUkZhiU23qAh0YBIY/orliz+WWpP1qvMfFal
+ kFNOXwl3IISmdQHiGtSSFurviwdAL6eRDCWA0iBO8Kh6Zi2NGMI346mXgueJGqh5weib
+ 1go95QOVO0wud7G5m3mru5HQHDByukrPx0F1cz2p564XKLACiu/vqyxQ2+GCxd8zrCOW
+ gPcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=p5oCDSglmOGM8LtlOUxUyt5Y7jYtANXRw6weuC8natw=;
- b=FUA6OFThOoX1MgmqA9JWt3SBgi18n8uorBnA3h03X1HPaRbvBXSmTQdlxvkUYEy9Tm
- lM43xMWnKmH5qsBEJJdDP1fvkQWtu8b/bxJv81qMPCXXHUOijOV4iCgjHEarEajunhpX
- tz41uIFl5ZC46cj5ymI+ThIuMU3hL1NBRtazA3SOTiY3T6XNBHzOLZGCljdgrGDJGfmB
- 9dF9SG+x2w9q7xG+KAG8/O9F4zKEwhcL0GhhdzMP1p/5jxxuUAdCMjK0qkBMb/f4hm8B
- mn8C+0jYLdRV41xWcBrlu50Hdmm8w2EM8L76uJbt8nFMOhl5s2zU3pjdU0Q15Dc7EDvj
- t0IQ==
-X-Gm-Message-State: AOAM532w6/NAoJxAND2v5oPU8tlP9IsqnH5TFnB7W8tfMcUWjcTv5h+y
- 4ehjHTqJhq/7C2XM6nCFdEtwGOFC
-X-Google-Smtp-Source: ABdhPJxBm36ZANS+1DHiK2GXAOy/6h8MiguSRsfXcgs69A5OHdvqRhvVNfPrLmeKD3WcmOENtFwKjw==
-X-Received: by 2002:adf:dd83:: with SMTP id x3mr5302994wrl.292.1593193576296; 
- Fri, 26 Jun 2020 10:46:16 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id r11sm828419wmh.1.2020.06.26.10.46.15
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 26 Jun 2020 10:46:15 -0700 (PDT)
-Subject: Re: [PATCH 1/2] drm/ttm: cleanup ttm_mem_type_manager_func.get_node
- interface
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20200624133558.1758-1-christian.koenig@amd.com>
- <14063C7AD467DE4B82DEDB5C278E866301154CA0E1@FMSMSX108.amr.corp.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <4153d578-dc0d-0a4c-e252-413b3b512b0e@gmail.com>
-Date: Fri, 26 Jun 2020 19:46:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ bh=wAdU7mL6P+nlrHf9yeN4eKf2xJDesn/jgMMSfe2BmPk=;
+ b=oggkia0zs+Yd9DliWPJe+Mg1eyr+HdrrKFWUkkRRvupY4BXeOE8fyOWLD31EO3DTVw
+ J6uwpSKTL+noT7DuuWqv+7M2pSsKsObOgjBqwYLcap02SPf5NerKi/zxdaoJf0ZCXHSm
+ GmuyqmBYCseuVoESF25eD7oSu9RmTJKV8OmvRzqLsCLKiMJgeae8aPm/SweMhC8Yr48u
+ AON4nXbhMxiRSpaFY+gvYInb8agPGvdrkBevknQqcC4awhNXpKAXruDvQEHT2gWLC8Rk
+ wMID8yoPVoZ/5PjQO1rB76TzNhctO/G4PMBrVd8JB7FmZho7e7DY/Li3pD/PNMpm8iz9
+ x4lQ==
+X-Gm-Message-State: AOAM533r47PX9NmliqO78lkh3NKAxe7rhe+GfMEblcLJIic1qQD93jUS
+ HDSvYM52Ligp/bakgs489OjK+JMC
+X-Google-Smtp-Source: ABdhPJxZryW6eI/QREsyD62dEPZidfNZ44kcxMAG9ciFpjGjE70+nrRb5AmhsWx7THg7kIcoRQW8Ng==
+X-Received: by 2002:a17:90a:e2c7:: with SMTP id
+ fr7mr958200pjb.103.1593194009059; 
+ Fri, 26 Jun 2020 10:53:29 -0700 (PDT)
+Received: from [172.30.88.83] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+ by smtp.gmail.com with ESMTPSA id az16sm462262pjb.7.2020.06.26.10.53.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Jun 2020 10:53:28 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] gpu: ipu-v3: image-convert: Wait for all EOFs
+ before completing a tile
+To: Philipp Zabel <p.zabel@pengutronix.de>
+References: <20200617224038.17889-3-slongerbeam@gmail.com>
+ <20200625181337.11729-1-slongerbeam@gmail.com>
+ <7be9dad66d8149126dd47dce4e4a280291f738db.camel@pengutronix.de>
+From: Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <5e0a1893-a97a-6d8d-0eb3-638a74bcd9bf@gmail.com>
+Date: Fri, 26 Jun 2020 10:53:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301154CA0E1@FMSMSX108.amr.corp.intel.com>
+In-Reply-To: <7be9dad66d8149126dd47dce4e4a280291f738db.camel@pengutronix.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,131 +73,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjYuMDYuMjAgdW0gMTk6Mzkgc2NocmllYiBSdWhsLCBNaWNoYWVsIEo6Cj4+IC0tLS0tT3Jp
-Z2luYWwgTWVzc2FnZS0tLS0tCj4+IEZyb206IGRyaS1kZXZlbCA8ZHJpLWRldmVsLWJvdW5jZXNA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbiBCZWhhbGYgT2YKPj4gQ2hyaXN0aWFuIEvDtm5pZwo+
-PiBTZW50OiBXZWRuZXNkYXksIEp1bmUgMjQsIDIwMjAgOTozNiBBTQo+PiBUbzogZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBTdWJqZWN0OiBbUEFUQ0ggMS8yXSBkcm0vdHRtOiBj
-bGVhbnVwCj4+IHR0bV9tZW1fdHlwZV9tYW5hZ2VyX2Z1bmMuZ2V0X25vZGUgaW50ZXJmYWNlCj4+
-Cj4+IEluc3RlYWQgb2Ygc2lnbmFsaW5nIGZhaWx1cmUgYnkgc2V0dGluZyB0aGUgbm9kZSBwb2lu
-dGVyIHRvCj4+IE5VTEwgZG8gc28gYnkgcmV0dXJuaW5nIC1FTk9TUEMuCj4+Cj4+IFNpZ25lZC1v
-ZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPj4gLS0t
-Cj4+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMgICB8ICA0ICst
-LS0KPj4gZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMgIHwgIDUg
-KystLS0KPj4gZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV90dG0uYyAgICAgICAgIHwg
-IDggLS0tLS0tLS0KPj4gZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyAgICAgICAgICAgICAg
-ICAgIHwgMTEgKysrKystLS0tLS0KPj4gZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdl
-ci5jICAgICAgICAgIHwgIDIgKy0KPj4gZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZ21y
-aWRfbWFuYWdlci5jIHwgIDQgKy0tLQo+PiA2IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMo
-KyksIDI0IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X2d0dF9tZ3IuYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV9ndHRfbWdyLmMKPj4gaW5kZXggNjI3MTA0NDAxZTg0Li4yYmFhODAyMjRmYTQgMTAw
-NjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMK
-Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2d0dF9tZ3IuYwo+PiBA
-QCAtMjI5LDcgKzIyOSw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2d0dF9tZ3JfbmV3KHN0cnVjdAo+
-PiB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAo+PiAJaWYgKCgmdGJvLT5tZW0gPT0gbWVtIHx8
-IHRiby0+bWVtLm1lbV90eXBlICE9IFRUTV9QTF9UVCkgJiYKPj4gCSAgICBhdG9taWM2NF9yZWFk
-KCZtZ3ItPmF2YWlsYWJsZSkgPCBtZW0tPm51bV9wYWdlcykgewo+PiAJCXNwaW5fdW5sb2NrKCZt
-Z3ItPmxvY2spOwo+PiAtCQlyZXR1cm4gMDsKPj4gKwkJcmV0dXJuIC1FTk9TUEM7Cj4+IAl9Cj4+
-IAlhdG9taWM2NF9zdWIobWVtLT5udW1fcGFnZXMsICZtZ3ItPmF2YWlsYWJsZSk7Cj4+IAlzcGlu
-X3VubG9jaygmbWdyLT5sb2NrKTsKPj4gQEAgLTI0OSw4ICsyNDksNiBAQCBzdGF0aWMgaW50IGFt
-ZGdwdV9ndHRfbWdyX25ldyhzdHJ1Y3QKPj4gdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKPj4g
-CQlyID0gYW1kZ3B1X2d0dF9tZ3JfYWxsb2MobWFuLCB0Ym8sIHBsYWNlLCBtZW0pOwo+PiAJCWlm
-ICh1bmxpa2VseShyKSkgewo+PiAJCQlrZnJlZShub2RlKTsKPj4gLQkJCW1lbS0+bW1fbm9kZSA9
-IE5VTEw7Cj4gSG1tLCBhbWRncHVfZ3R0X21ncl9kZWwoKSBncmFicyBtZW0tPm1tX25vZGUgYW5k
-IGtmcmVlcyBpdC4KPgo+IElmIHRoaXMgdmFsdWUgaXMgbm90IE5VTCwgaXQgbG9va3MgbGlrZSBi
-YWQgdGhpbmdzIGNvdWxkIGhhcHBlbi4KPgo+IFdpbGwgX21ncl9kZWwgbmV2ZXIgZ2V0IGNhbGxl
-ZCBpbiB0aGlzIGNhc2U/CgpZZXMsIGV2ZXJ5dGhpbmcgZWxzZSB3b3VsZCBiZSBhIGJ1Zy4KCj4g
-VXNpbmcgdGhlIHJldHVybiB2YWx1ZSBzZWVtcyBwcmV0dHkgcmVhc29uYWJsZSwgbGVhdmluZyBi
-YWQgcG9pbnRlcnMKPiBseWluZyBhcm91bmQgbWFrZXMgbWUgc2xpZ2h0bHkgbmVydm91cy4KClRo
-ZSBjYWxsZXIgc2hvdWxkIG5vdCB0b3VjaCB0aGUgbWVtYmVyIHdoZW4gYW4gZXJyb3Igb2NjdXJy
-ZWQgc2luY2UgaXQgCmlzIGNlcnRhaW5seSBub3QgaW5pdGlhbGl6ZWQuCgpCdXQgaXQgbWlnaHQg
-YmUgYSBnb29kIGlkZWEgdG8gemVybyBpbml0aWFsaXplIHRoZSBzdHJ1Y3R1cmUgYnkgdGhlIApj
-YWxsZXIganVzdCB0byBiZSBzdXJlLgoKVGhhbmtzIGZvciB0aGUgY29tbWVudCwKQ2hyaXN0aWFu
-LgoKPgo+IE1pa2UKPgo+PiAtCQkJciA9IDA7Cj4+IAkJCWdvdG8gZXJyX291dDsKPj4gCQl9Cj4+
-IAl9IGVsc2Ugewo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X3ZyYW1fbWdyLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJh
-bV9tZ3IuYwo+PiBpbmRleCAxMjhhNjY3ZWQ4ZmEuLmU4ZDFkZDU2NDAwNiAxMDA2NDQKPj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMKPj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMKPj4gQEAgLTMzNiw4
-ICszMzYsNyBAQCBzdGF0aWMgaW50IGFtZGdwdV92cmFtX21ncl9uZXcoc3RydWN0Cj4+IHR0bV9t
-ZW1fdHlwZV9tYW5hZ2VyICptYW4sCj4+IAltZW1fYnl0ZXMgPSAodTY0KW1lbS0+bnVtX3BhZ2Vz
-IDw8IFBBR0VfU0hJRlQ7Cj4+IAlpZiAoYXRvbWljNjRfYWRkX3JldHVybihtZW1fYnl0ZXMsICZt
-Z3ItPnVzYWdlKSA+IG1heF9ieXRlcykgewo+PiAJCWF0b21pYzY0X3N1YihtZW1fYnl0ZXMsICZt
-Z3ItPnVzYWdlKTsKPj4gLQkJbWVtLT5tbV9ub2RlID0gTlVMTDsKPj4gLQkJcmV0dXJuIDA7Cj4+
-ICsJCXJldHVybiAtRU5PU1BDOwo+PiAJfQo+Pgo+PiAJaWYgKHBsYWNlLT5mbGFncyAmIFRUTV9Q
-TF9GTEFHX0NPTlRJR1VPVVMpIHsKPj4gQEAgLTQxNyw3ICs0MTYsNyBAQCBzdGF0aWMgaW50IGFt
-ZGdwdV92cmFtX21ncl9uZXcoc3RydWN0Cj4+IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sCj4+
-IAlhdG9taWM2NF9zdWIobWVtLT5udW1fcGFnZXMgPDwgUEFHRV9TSElGVCwgJm1nci0+dXNhZ2Up
-Owo+Pgo+PiAJa3ZmcmVlKG5vZGVzKTsKPj4gLQlyZXR1cm4gciA9PSAtRU5PU1BDID8gMCA6IHI7
-Cj4+ICsJcmV0dXJuIHI7Cj4+IH0KPj4KPj4gLyoqCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X3R0bS5jCj4+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-bm91dmVhdV90dG0uYwo+PiBpbmRleCA3Y2EwYTI0OTg1MzIuLmU4OWVhMDUyY2Y3MSAxMDA2NDQK
-Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV90dG0uYwo+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3R0bS5jCj4+IEBAIC03NSwxMCArNzUsNiBA
-QCBub3V2ZWF1X3ZyYW1fbWFuYWdlcl9uZXcoc3RydWN0Cj4+IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-ICptYW4sCj4+IAlyZXQgPSBub3V2ZWF1X21lbV92cmFtKHJlZywgbnZiby0+Y29udGlnLCBudmJv
-LT5wYWdlKTsKPj4gCWlmIChyZXQpIHsKPj4gCQlub3V2ZWF1X21lbV9kZWwocmVnKTsKPj4gLQkJ
-aWYgKHJldCA9PSAtRU5PU1BDKSB7Cj4+IC0JCQlyZWctPm1tX25vZGUgPSBOVUxMOwo+PiAtCQkJ
-cmV0dXJuIDA7Cj4+IC0JCX0KPj4gCQlyZXR1cm4gcmV0Owo+PiAJfQo+Pgo+PiBAQCAtMTM5LDEw
-ICsxMzUsNiBAQCBudjA0X2dhcnRfbWFuYWdlcl9uZXcoc3RydWN0Cj4+IHR0bV9tZW1fdHlwZV9t
-YW5hZ2VyICptYW4sCj4+IAkJCSAgIHJlZy0+bnVtX3BhZ2VzIDw8IFBBR0VfU0hJRlQsICZtZW0t
-PnZtYVswXSk7Cj4+IAlpZiAocmV0KSB7Cj4+IAkJbm91dmVhdV9tZW1fZGVsKHJlZyk7Cj4+IC0J
-CWlmIChyZXQgPT0gLUVOT1NQQykgewo+PiAtCQkJcmVnLT5tbV9ub2RlID0gTlVMTDsKPj4gLQkJ
-CXJldHVybiAwOwo+PiAtCQl9Cj4+IAkJcmV0dXJuIHJldDsKPj4gCX0KPj4KPj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9iby5jCj4+IGluZGV4IGY3M2I4MWMyNTc2ZS4uMTVmOWIxOWZhMDBkIDEwMDY0NAo+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX2JvLmMKPj4gQEAgLTkxNiwxMCArOTE2LDEwIEBAIHN0YXRpYyBpbnQgdHRtX2JvX21l
-bV9mb3JjZV9zcGFjZShzdHJ1Y3QKPj4gdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+PiAJdGlja2V0
-ID0gZG1hX3Jlc3ZfbG9ja2luZ19jdHgoYm8tPmJhc2UucmVzdik7Cj4+IAlkbyB7Cj4+IAkJcmV0
-ID0gKCptYW4tPmZ1bmMtPmdldF9ub2RlKShtYW4sIGJvLCBwbGFjZSwgbWVtKTsKPj4gLQkJaWYg
-KHVubGlrZWx5KHJldCAhPSAwKSkKPj4gLQkJCXJldHVybiByZXQ7Cj4+IC0JCWlmIChtZW0tPm1t
-X25vZGUpCj4+ICsJCWlmIChsaWtlbHkoIXJldCkpCj4+IAkJCWJyZWFrOwo+PiArCQlpZiAodW5s
-aWtlbHkocmV0ICE9IC1FTk9TUEMpKQo+PiArCQkJcmV0dXJuIHJldDsKPj4gCQlyZXQgPSB0dG1f
-bWVtX2V2aWN0X2ZpcnN0KGJkZXYsIG1lbS0+bWVtX3R5cGUsIHBsYWNlLAo+PiBjdHgsCj4+IAkJ
-CQkJICB0aWNrZXQpOwo+PiAJCWlmICh1bmxpa2VseShyZXQgIT0gMCkpCj4+IEBAIC0xMDYzLDEy
-ICsxMDYzLDExIEBAIGludCB0dG1fYm9fbWVtX3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVj
-dAo+PiAqYm8sCj4+Cj4+IAkJbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsKPj4gCQly
-ZXQgPSAoKm1hbi0+ZnVuYy0+Z2V0X25vZGUpKG1hbiwgYm8sIHBsYWNlLCBtZW0pOwo+PiArCQlp
-ZiAocmV0ID09IC1FTk9TUEMpCj4+ICsJCQljb250aW51ZTsKPj4gCQlpZiAodW5saWtlbHkocmV0
-KSkKPj4gCQkJZ290byBlcnJvcjsKPj4KPj4gLQkJaWYgKCFtZW0tPm1tX25vZGUpCj4+IC0JCQlj
-b250aW51ZTsKPj4gLQo+PiAJCXJldCA9IHR0bV9ib19hZGRfbW92ZV9mZW5jZShibywgbWFuLCBt
-ZW0sIGN0eC0KPj4+IG5vX3dhaXRfZ3B1KTsKPj4gCQlpZiAodW5saWtlbHkocmV0KSkgewo+PiAJ
-CQkoKm1hbi0+ZnVuYy0+cHV0X25vZGUpKG1hbiwgbWVtKTsKPj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
-dHRtX2JvX21hbmFnZXIuYwo+PiBpbmRleCAxOGQzZGViY2M5NDkuLmZhY2QzMDQ5YzNhYSAxMDA2
-NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCj4+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwo+PiBAQCAtODYsNyArODYsNyBA
-QCBzdGF0aWMgaW50IHR0bV9ib19tYW5fZ2V0X25vZGUoc3RydWN0Cj4+IHR0bV9tZW1fdHlwZV9t
-YW5hZ2VyICptYW4sCj4+IAkJbWVtLT5zdGFydCA9IG5vZGUtPnN0YXJ0Owo+PiAJfQo+Pgo+PiAt
-CXJldHVybiAwOwo+PiArCXJldHVybiByZXQ7Cj4+IH0KPj4KPj4gc3RhdGljIHZvaWQgdHRtX2Jv
-X21hbl9wdXRfbm9kZShzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKPj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dtcmlkX21hbmFnZXIuYwo+PiBi
-L2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dtcmlkX21hbmFnZXIuYwo+PiBpbmRleCA3
-ZGE3NTJjYTFjMzQuLjRhNzZmYzcxMTRhZCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3Ztd2dmeC92bXdnZnhfZ21yaWRfbWFuYWdlci5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92
-bXdnZngvdm13Z2Z4X2dtcmlkX21hbmFnZXIuYwo+PiBAQCAtNTMsOCArNTMsNiBAQCBzdGF0aWMg
-aW50IHZtd19nbXJpZF9tYW5fZ2V0X25vZGUoc3RydWN0Cj4+IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-ICptYW4sCj4+IAkJKHN0cnVjdCB2bXdnZnhfZ21yaWRfbWFuICopbWFuLT5wcml2Owo+PiAJaW50
-IGlkOwo+Pgo+PiAtCW1lbS0+bW1fbm9kZSA9IE5VTEw7Cj4+IC0KPj4gCWlkID0gaWRhX2FsbG9j
-X21heCgmZ21hbi0+Z21yX2lkYSwgZ21hbi0+bWF4X2dtcl9pZHMgLSAxLAo+PiBHRlBfS0VSTkVM
-KTsKPj4gCWlmIChpZCA8IDApCj4+IAkJcmV0dXJuIChpZCAhPSAtRU5PTUVNID8gMCA6IGlkKTsK
-Pj4gQEAgLTc4LDcgKzc2LDcgQEAgc3RhdGljIGludCB2bXdfZ21yaWRfbWFuX2dldF9ub2RlKHN0
-cnVjdAo+PiB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAo+PiAJZ21hbi0+dXNlZF9nbXJfcGFn
-ZXMgLT0gYm8tPm51bV9wYWdlczsKPj4gCXNwaW5fdW5sb2NrKCZnbWFuLT5sb2NrKTsKPj4gCWlk
-YV9mcmVlKCZnbWFuLT5nbXJfaWRhLCBpZCk7Cj4+IC0JcmV0dXJuIDA7Cj4+ICsJcmV0dXJuIC1F
-Tk9TUEM7Cj4+IH0KPj4KPj4gc3RhdGljIHZvaWQgdm13X2dtcmlkX21hbl9wdXRfbm9kZShzdHJ1
-Y3QgdHRtX21lbV90eXBlX21hbmFnZXIKPj4gKm1hbiwKPj4gLS0KPj4gMi4xNy4xCj4+Cj4+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+IGRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Philipp,
+
+On 6/26/20 2:38 AM, Philipp Zabel wrote:
+> Hi Steve,
+>
+> On Thu, 2020-06-25 at 11:13 -0700, Steve Longerbeam wrote:
+>> Use a bit-mask of EOF irqs to determine when all required idmac
+>> channel EOFs have been received for a tile conversion, and only do
+>> tile completion processing after all EOFs have been received. Otherwise
+>> it was found that a conversion would stall after the completion of a
+>> tile and the start of the next tile, because the input/read idmac
+>> channel had not completed and entered idle state, thus locking up the
+>> channel when attempting to re-start it for the next tile.
+> Do I understand correctly that there are cases where the output channel
+> EOF IRQ has triggered and the next tile processing is kicked off before
+> the input channel EOF IRQ triggers even without rotation?
+
+Yes.
+
+What is the cause of this? It would seem that the read channel EOF 
+should occur before the write channel EOF, but there are cases seen 
+where the opposite occurs. Maybe this has to do with idmac channel 
+priorities, the IC PP read/write channels are set to the same priority 
+(low), in which case the IPU should resort to round-robin when handling 
+requests on those channels. Maybe the EOF irq is not signalled until 
+after the IPU has updated CPMEM with status info after the transfers 
+complete, and round-robin selects the write channel before the read 
+channel for the CPMEM updates?
+
+
+> Do you have any way to reproduce this?
+
+Yes, try a scaling only conversion, 1920x1080.422p -> 1024x768.422p. No 
+rotation needed.
+
+Steve
+
+>
+> regards
+> Philipp
+>
+>> Fixes: 0537db801bb01 ("gpu: ipu-v3: image-convert: reconfigure IC per tile")
+>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+>> ---
+>> Changes in v2:
+>> - need to clear eof_mask at completion of every tile, not just in
+>>    convert_start().
+>> ---
+>>   drivers/gpu/ipu-v3/ipu-image-convert.c | 109 +++++++++++++++++++------
+>>   1 file changed, 82 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+>> index f8b031ded3cf..aa1d4b6d278f 100644
+>> --- a/drivers/gpu/ipu-v3/ipu-image-convert.c
+>> +++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+>> @@ -137,6 +137,17 @@ struct ipu_image_convert_ctx;
+>>   struct ipu_image_convert_chan;
+>>   struct ipu_image_convert_priv;
+>>   
+>> +enum eof_irq_mask {
+>> +	EOF_IRQ_IN      = BIT(0),
+>> +	EOF_IRQ_ROT_IN  = BIT(1),
+>> +	EOF_IRQ_OUT     = BIT(2),
+>> +	EOF_IRQ_ROT_OUT = BIT(3),
+>> +};
+>> +
+>> +#define EOF_IRQ_COMPLETE (EOF_IRQ_IN | EOF_IRQ_OUT)
+>> +#define EOF_IRQ_ROT_COMPLETE (EOF_IRQ_IN | EOF_IRQ_OUT |	\
+>> +			      EOF_IRQ_ROT_IN | EOF_IRQ_ROT_OUT)
+>> +
+>>   struct ipu_image_convert_ctx {
+>>   	struct ipu_image_convert_chan *chan;
+>>   
+>> @@ -173,6 +184,9 @@ struct ipu_image_convert_ctx {
+>>   	/* where to place converted tile in dest image */
+>>   	unsigned int out_tile_map[MAX_TILES];
+>>   
+>> +	/* mask of completed EOF irqs at every tile conversion */
+>> +	enum eof_irq_mask eof_mask;
+>> +
+>>   	struct list_head list;
+>>   };
+>>   
+>> @@ -189,6 +203,8 @@ struct ipu_image_convert_chan {
+>>   	struct ipuv3_channel *rotation_out_chan;
+>>   
+>>   	/* the IPU end-of-frame irqs */
+>> +	int in_eof_irq;
+>> +	int rot_in_eof_irq;
+>>   	int out_eof_irq;
+>>   	int rot_out_eof_irq;
+>>   
+>> @@ -1380,6 +1396,9 @@ static int convert_start(struct ipu_image_convert_run *run, unsigned int tile)
+>>   	dev_dbg(priv->ipu->dev, "%s: task %u: starting ctx %p run %p tile %u -> %u\n",
+>>   		__func__, chan->ic_task, ctx, run, tile, dst_tile);
+>>   
+>> +	/* clear EOF irq mask */
+>> +	ctx->eof_mask = 0;
+>> +
+>>   	if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
+>>   		/* swap width/height for resizer */
+>>   		dest_width = d_image->tile[dst_tile].height;
+>> @@ -1615,7 +1634,7 @@ static bool ic_settings_changed(struct ipu_image_convert_ctx *ctx)
+>>   }
+>>   
+>>   /* hold irqlock when calling */
+>> -static irqreturn_t do_irq(struct ipu_image_convert_run *run)
+>> +static irqreturn_t do_tile_complete(struct ipu_image_convert_run *run)
+>>   {
+>>   	struct ipu_image_convert_ctx *ctx = run->ctx;
+>>   	struct ipu_image_convert_chan *chan = ctx->chan;
+>> @@ -1700,6 +1719,7 @@ static irqreturn_t do_irq(struct ipu_image_convert_run *run)
+>>   		ctx->cur_buf_num ^= 1;
+>>   	}
+>>   
+>> +	ctx->eof_mask = 0; /* clear EOF irq mask for next tile */
+>>   	ctx->next_tile++;
+>>   	return IRQ_HANDLED;
+>>   done:
+>> @@ -1715,8 +1735,9 @@ static irqreturn_t eof_irq(int irq, void *data)
+>>   	struct ipu_image_convert_priv *priv = chan->priv;
+>>   	struct ipu_image_convert_ctx *ctx;
+>>   	struct ipu_image_convert_run *run;
+>> +	irqreturn_t ret = IRQ_HANDLED;
+>> +	bool tile_complete = false;
+>>   	unsigned long flags;
+>> -	irqreturn_t ret;
+>>   
+>>   	spin_lock_irqsave(&chan->irqlock, flags);
+>>   
+>> @@ -1729,27 +1750,33 @@ static irqreturn_t eof_irq(int irq, void *data)
+>>   
+>>   	ctx = run->ctx;
+>>   
+>> -	if (irq == chan->out_eof_irq) {
+>> -		if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
+>> -			/* this is a rotation op, just ignore */
+>> -			ret = IRQ_HANDLED;
+>> -			goto out;
+>> -		}
+>> -	} else if (irq == chan->rot_out_eof_irq) {
+>> +	if (irq == chan->in_eof_irq) {
+>> +		ctx->eof_mask |= EOF_IRQ_IN;
+>> +	} else if (irq == chan->out_eof_irq) {
+>> +		ctx->eof_mask |= EOF_IRQ_OUT;
+>> +	} else if (irq == chan->rot_in_eof_irq ||
+>> +		   irq == chan->rot_out_eof_irq) {
+>>   		if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
+>>   			/* this was NOT a rotation op, shouldn't happen */
+>>   			dev_err(priv->ipu->dev,
+>>   				"Unexpected rotation interrupt\n");
+>> -			ret = IRQ_HANDLED;
+>>   			goto out;
+>>   		}
+>> +		ctx->eof_mask |= (irq == chan->rot_in_eof_irq) ?
+>> +			EOF_IRQ_ROT_IN : EOF_IRQ_ROT_OUT;
+>>   	} else {
+>>   		dev_err(priv->ipu->dev, "Received unknown irq %d\n", irq);
+>>   		ret = IRQ_NONE;
+>>   		goto out;
+>>   	}
+>>   
+>> -	ret = do_irq(run);
+>> +	if (ipu_rot_mode_is_irt(ctx->rot_mode))
+>> +		tile_complete =	(ctx->eof_mask == EOF_IRQ_ROT_COMPLETE);
+>> +	else
+>> +		tile_complete = (ctx->eof_mask == EOF_IRQ_COMPLETE);
+>> +
+>> +	if (tile_complete)
+>> +		ret = do_tile_complete(run);
+>>   out:
+>>   	spin_unlock_irqrestore(&chan->irqlock, flags);
+>>   	return ret;
+>> @@ -1783,6 +1810,10 @@ static void force_abort(struct ipu_image_convert_ctx *ctx)
+>>   
+>>   static void release_ipu_resources(struct ipu_image_convert_chan *chan)
+>>   {
+>> +	if (chan->in_eof_irq >= 0)
+>> +		free_irq(chan->in_eof_irq, chan);
+>> +	if (chan->rot_in_eof_irq >= 0)
+>> +		free_irq(chan->rot_in_eof_irq, chan);
+>>   	if (chan->out_eof_irq >= 0)
+>>   		free_irq(chan->out_eof_irq, chan);
+>>   	if (chan->rot_out_eof_irq >= 0)
+>> @@ -1801,7 +1832,27 @@ static void release_ipu_resources(struct ipu_image_convert_chan *chan)
+>>   
+>>   	chan->in_chan = chan->out_chan = chan->rotation_in_chan =
+>>   		chan->rotation_out_chan = NULL;
+>> -	chan->out_eof_irq = chan->rot_out_eof_irq = -1;
+>> +	chan->in_eof_irq = -1;
+>> +	chan->rot_in_eof_irq = -1;
+>> +	chan->out_eof_irq = -1;
+>> +	chan->rot_out_eof_irq = -1;
+>> +}
+>> +
+>> +static int get_eof_irq(struct ipu_image_convert_chan *chan,
+>> +		       struct ipuv3_channel *channel)
+>> +{
+>> +	struct ipu_image_convert_priv *priv = chan->priv;
+>> +	int ret, irq;
+>> +
+>> +	irq = ipu_idmac_channel_irq(priv->ipu, channel, IPU_IRQ_EOF);
+>> +
+>> +	ret = request_threaded_irq(irq, eof_irq, do_bh, 0, "ipu-ic", chan);
+>> +	if (ret < 0) {
+>> +		dev_err(priv->ipu->dev, "could not acquire irq %d\n", irq);
+>> +		return ret;
+>> +	}
+>> +
+>> +	return irq;
+>>   }
+>>   
+>>   static int get_ipu_resources(struct ipu_image_convert_chan *chan)
+>> @@ -1837,31 +1888,33 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
+>>   	}
+>>   
+>>   	/* acquire the EOF interrupts */
+>> -	chan->out_eof_irq = ipu_idmac_channel_irq(priv->ipu,
+>> -						  chan->out_chan,
+>> -						  IPU_IRQ_EOF);
+>> +	ret = get_eof_irq(chan, chan->in_chan);
+>> +	if (ret < 0) {
+>> +		chan->in_eof_irq = -1;
+>> +		goto err;
+>> +	}
+>> +	chan->in_eof_irq = ret;
+>>   
+>> -	ret = request_threaded_irq(chan->out_eof_irq, eof_irq, do_bh,
+>> -				   0, "ipu-ic", chan);
+>> +	ret = get_eof_irq(chan, chan->rotation_in_chan);
+>>   	if (ret < 0) {
+>> -		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
+>> -			 chan->out_eof_irq);
+>> -		chan->out_eof_irq = -1;
+>> +		chan->rot_in_eof_irq = -1;
+>>   		goto err;
+>>   	}
+>> +	chan->rot_in_eof_irq = ret;
+>>   
+>> -	chan->rot_out_eof_irq = ipu_idmac_channel_irq(priv->ipu,
+>> -						     chan->rotation_out_chan,
+>> -						     IPU_IRQ_EOF);
+>> +	ret = get_eof_irq(chan, chan->out_chan);
+>> +	if (ret < 0) {
+>> +		chan->out_eof_irq = -1;
+>> +		goto err;
+>> +	}
+>> +	chan->out_eof_irq = ret;
+>>   
+>> -	ret = request_threaded_irq(chan->rot_out_eof_irq, eof_irq, do_bh,
+>> -				   0, "ipu-ic", chan);
+>> +	ret = get_eof_irq(chan, chan->rotation_out_chan);
+>>   	if (ret < 0) {
+>> -		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
+>> -			chan->rot_out_eof_irq);
+>>   		chan->rot_out_eof_irq = -1;
+>>   		goto err;
+>>   	}
+>> +	chan->rot_out_eof_irq = ret;
+>>   
+>>   	return 0;
+>>   err:
+>> @@ -2440,6 +2493,8 @@ int ipu_image_convert_init(struct ipu_soc *ipu, struct device *dev)
+>>   		chan->ic_task = i;
+>>   		chan->priv = priv;
+>>   		chan->dma_ch = &image_convert_dma_chan[i];
+>> +		chan->in_eof_irq = -1;
+>> +		chan->rot_in_eof_irq = -1;
+>>   		chan->out_eof_irq = -1;
+>>   		chan->rot_out_eof_irq = -1;
+>>   
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
