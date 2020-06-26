@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F7020BB46
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 23:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8ED20BB57
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 23:22:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED296E4D7;
-	Fri, 26 Jun 2020 21:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D456E941;
+	Fri, 26 Jun 2020 21:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 104CF6E4BB
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 21:18:34 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id g75so10002593wme.5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 14:18:33 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F06826E941
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 21:21:58 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id f139so10614036wmf.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 14:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=VYlXwrA6E7biz1psC96VOL2rQEV/RFyzRPEP3+ZW04A=;
- b=gWymAjsiQF3YhRwGXKgPRtYKq54T6Z4bmQ0F535mHoJsYl2QyMXBvvd0lrs8wB1FSI
- /znF6/AeSWCW0KI4YjzW/HuyEp4/cgJOdDY4fJfZZ38MePqQ+94zP2FJQGnB2DEacVHs
- DnXKYifsOZzgQNKtt6sNquQgFeVQIi5dnyM4o=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=c4sFnDT9VyQxEckpAghTzk6ScPS2rxNeBAe1Vu58eos=;
+ b=CbyUW/2ywgYUPr+e+clpauW+42Yg+i0/Xm42f1jW0HXeCg58pWc/H+gXvdhX6L91gJ
+ YMYb0hxd8iqVmxd4ogF7FHEAmyRQRhO6VWzgsl1LXph93KmZETRfE5Ey5eo2yPokks6g
+ tC/tBloL2U/LBQj/tyqwzspb78W6qJAVQmSN8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=VYlXwrA6E7biz1psC96VOL2rQEV/RFyzRPEP3+ZW04A=;
- b=Y6a8WnkAxQxtcvZsUq3AKbOmvy7/MPyAbHBI9UKH6QwxBPS8Aim87ueYv/FxtnfesT
- Kt17kkBI2mrpAq6gdmmnzCL7vMQxCdKVWNjB59M+WNDYHHi1vivVswl/uzssPpqRZ2b+
- tuJ/TcZhk6L8WoUevwAfs77Kj0AI7zYvjWwEu8uev5GlIHzrH7OZYyNtuZHUdQBqXiKH
- mU1HbiZTSqwKHram64l7vzEYqjLPtugShM73XqKhavjHx38quyGm1qnT4pzIzva2VVAu
- rsLuDLO+yj+UGrdA4ktjtu0edQgzE1dFbyp1Zj5ItOBlZa9cgAXWN951TwuztVSYJ+FM
- xwIg==
-X-Gm-Message-State: AOAM531wrPxAjFE9ZY1rhprmssaKcgETj+FVQjt2I4XFDDTaObjl/sjz
- cf+HF0i06XsB6yUn8lnaQYiEWQ==
-X-Google-Smtp-Source: ABdhPJwDaK85mN5gO+Q6s+HR8GMoJHBwLbavPfW+QgHBDKqYYtu3h/ygcbiIQtgB33qTGz2CHi3DIg==
-X-Received: by 2002:a1c:9650:: with SMTP id y77mr1626679wmd.101.1593206312492; 
- Fri, 26 Jun 2020 14:18:32 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=c4sFnDT9VyQxEckpAghTzk6ScPS2rxNeBAe1Vu58eos=;
+ b=qN/kHnQpdtVrVlfaI8bTl7qMBc16uX3VtMicRQG7c0e64UxZxb1ODWmHn11OUNFF/c
+ xRTegPKlQ20eMVxlWd7TF59BiCRpTRaPnx5p6rjP/LjCbaYBlEKnrrYCxf5x5StDkQ5R
+ iHTUgcBUBGf8hFBV6jKEtQKcE6ILYKC4Vv5nShzXFHqZXMOmQ/bd8QijN37tq3GCiKWE
+ wjAL3KldJPftaoQWVj4aZr8sNi47hIznJhbFDBcPzav9Al+u+SOtiLwgjkazSYqU37hk
+ mpVeP/DxL2O7fAxahawx+TkhG+CzwPUl8+vRmAM2IrnQc4GT6DSCUcV4OihsEyB+yIa6
+ ADhA==
+X-Gm-Message-State: AOAM531Z+PqHCemXhZC1m2tHYF0DGV62gd780HHOkuUpAVHGRcw4HxDV
+ ELyJ+p69RaqZcnXfhIalKCBRFg==
+X-Google-Smtp-Source: ABdhPJxZAguGoB5aLc5PtDxT7UW/xIflsB981LVe1Fl+JntwIcU5PV6VuP0h3jFqWMK+W7YIYqgnBQ==
+X-Received: by 2002:a05:600c:294a:: with SMTP id
+ n10mr5190620wmd.38.1593206517453; 
+ Fri, 26 Jun 2020 14:21:57 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 40sm15625264wrc.27.2020.06.26.14.18.30
+ by smtp.gmail.com with ESMTPSA id u20sm17578786wmm.15.2020.06.26.14.21.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 14:18:31 -0700 (PDT)
-Date: Fri, 26 Jun 2020 23:18:29 +0200
+ Fri, 26 Jun 2020 14:21:56 -0700 (PDT)
+Date: Fri, 26 Jun 2020 23:21:54 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [RFC v7 03/11] drm/vblank: Add vblank works
-Message-ID: <20200626211829.GH3278063@phenom.ffwll.local>
-Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Tejun Heo <tj@kernel.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20200624230318.126256-1-lyude@redhat.com>
- <20200624230318.126256-4-lyude@redhat.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/atomic_helper: duplicate state for drm_private_obj
+Message-ID: <20200626212154.GI3278063@phenom.ffwll.local>
+References: <20200625115746.13396-1-shawnguo@kernel.org>
+ <CAKMK7uGoDnizoE4t47houeyK2y5sLQbvCM3LDMWcEeV3oB5rPA@mail.gmail.com>
+ <CAF6AEGuaFFxWSqYDXE0XukeQHOS7H5s6E8WfjVS7EfotWfZmQA@mail.gmail.com>
+ <CAKMK7uHDYSZBBKByxgaAhQMEs0gFmKe_QUCZsqt5wcgYZFYcOQ@mail.gmail.com>
+ <CAF6AEGs8vyFrNoGYTDaf81f28CkFqQsaqhAHrW3nBuHBzRCf7g@mail.gmail.com>
+ <20200626134642.GF3278063@phenom.ffwll.local>
+ <CAF6AEGuJFRM-B3mNNfKpnxFTx0GdrANwykE5Neck3Sqxoyy4rA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200624230318.126256-4-lyude@redhat.com>
+In-Reply-To: <CAF6AEGuJFRM-B3mNNfKpnxFTx0GdrANwykE5Neck3Sqxoyy4rA@mail.gmail.com>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,954 +71,335 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@bootlin.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Shawn Guo <shawnguo@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 24, 2020 at 07:03:10PM -0400, Lyude Paul wrote:
-> Add some kind of vblank workers. The interface is similar to regular
-> delayed works, and is mostly based off kthread_work. It allows for
-> scheduling delayed works that execute once a particular vblank sequence
-> has passed. It also allows for accurate flushing of scheduled vblank
-> works - in that flushing waits for both the vblank sequence and job
-> execution to complete, or for the work to get cancelled - whichever
-> comes first.
-> =
-
-> Whatever hardware programming we do in the work must be fast (must at
-> least complete during the vblank or scanout period, sometimes during the
-> first few scanlines of the vblank). As such we use a high-priority
-> per-CRTC thread to accomplish this.
-> =
-
-> Changes since v6:
-> * Get rid of ->pending and seqcounts, and implement flushing through
->   simpler means - danvet
-> * Get rid of work_lock, just use drm_device->event_lock
-> * Move drm_vblank_work item cleanup into drm_crtc_vblank_off() so that
->   we ensure that all vblank work has finished before disabling vblanks
-> * Add checks into drm_crtc_vblank_reset() so we yell if it gets called
->   while there's vblank workers active
-> * Grab event_lock in both drm_crtc_vblank_on()/drm_crtc_vblank_off(),
->   the main reason for this is so that other threads calling
->   drm_vblank_work_schedule() are blocked from attempting to schedule
->   while we're in the middle of enabling/disabling vblanks.
-> * Move drm_handle_vblank_works() call below drm_handle_vblank_events()
-> * Simplify drm_vblank_work_cancel_sync()
-> * Fix drm_vblank_work_cancel_sync() documentation
-> * Move wake_up_all() calls out of spinlock where we can. The only one I
->   left was the call to wake_up_all() in drm_vblank_handle_works() as
->   this seemed like it made more sense just living in that function
->   (which is all technically under lock)
-> * Move drm_vblank_work related functions into their own source files
-> * Add drm_vblank_internal.h so we can export some functions we don't
->   want drivers using, but that we do need to use in drm_vblank_work.c
-> * Add a bunch of documentation
-> Changes since v4:
-> * Get rid of kthread interfaces we tried adding and move all of the
->   locking into drm_vblank.c. For implementing drm_vblank_work_flush(),
->   we now use a wait_queue and sequence counters in order to
->   differentiate between multiple work item executions.
-> * Get rid of drm_vblank_work_cancel() - this would have been pretty
->   difficult to actually reimplement and it occurred to me that neither
->   nouveau or i915 are even planning to use this function. Since there's
->   also no async cancel function for most of the work interfaces in the
->   kernel, it seems a bit unnecessary anyway.
-> * Get rid of to_drm_vblank_work() since we now are also able to just
->   pass the struct drm_vblank_work to work item callbacks anyway
-> Changes since v3:
-> * Use our own spinlocks, don't integrate so tightly with kthread_works
-> Changes since v2:
-> * Use kthread_workers instead of reinventing the wheel.
-> =
-
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Tejun Heo <tj@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Co-developed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-
-I found a bunch of tiny details below, but overall looks great and thanks
-for polishing the kerneldoc.
-
-With the details addressed one way or another:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-But feel free to resend and poke me again if you want me to recheck the
-details that needed changing.
-
-Cheers, Daniel
-
-
-> ---
->  Documentation/gpu/drm-kms.rst              |  15 ++
->  drivers/gpu/drm/Makefile                   |   2 +-
->  drivers/gpu/drm/drm_vblank.c               |  55 +++--
->  drivers/gpu/drm/drm_vblank_internal.h      |  19 ++
->  drivers/gpu/drm/drm_vblank_work.c          | 259 +++++++++++++++++++++
->  drivers/gpu/drm/drm_vblank_work_internal.h |  24 ++
->  include/drm/drm_vblank.h                   |  20 ++
->  include/drm/drm_vblank_work.h              |  71 ++++++
->  8 files changed, 447 insertions(+), 18 deletions(-)
->  create mode 100644 drivers/gpu/drm/drm_vblank_internal.h
->  create mode 100644 drivers/gpu/drm/drm_vblank_work.c
->  create mode 100644 drivers/gpu/drm/drm_vblank_work_internal.h
->  create mode 100644 include/drm/drm_vblank_work.h
-> =
-
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 975cfeb8a3532..3c5ae4f6dfd23 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -543,3 +543,18 @@ Vertical Blanking and Interrupt Handling Functions R=
-eference
->  =
-
->  .. kernel-doc:: drivers/gpu/drm/drm_vblank.c
->     :export:
-> +
-> +Vertical Blank Work
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_vblank_work.c
-> +   :doc: vblank works
-> +
-> +Vertical Blank Work Functions Reference
-> +---------------------------------------
-> +
-> +.. kernel-doc:: include/drm/drm_vblank_work.h
-> +   :internal:
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_vblank_work.c
-> +   :export:
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 2c0e5a7e59536..02ee5faf1a925 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -18,7 +18,7 @@ drm-y       :=3D	drm_auth.o drm_cache.o \
->  		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
->  		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
->  		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
-> -		drm_managed.o
-> +		drm_managed.o drm_vblank_work.o
->  =
-
->  drm-$(CONFIG_DRM_LEGACY) +=3D drm_legacy_misc.o drm_bufs.o drm_context.o=
- drm_dma.o drm_scatter.o drm_lock.o
->  drm-$(CONFIG_DRM_LIB_RANDOM) +=3D lib/drm_random.o
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index e895f5331fdb4..b353bc8328414 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -25,6 +25,7 @@
->   */
->  =
-
->  #include <linux/export.h>
-> +#include <linux/kthread.h>
->  #include <linux/moduleparam.h>
->  =
-
->  #include <drm/drm_crtc.h>
-> @@ -37,6 +38,8 @@
->  =
-
->  #include "drm_internal.h"
->  #include "drm_trace.h"
-> +#include "drm_vblank_internal.h"
-> +#include "drm_vblank_work_internal.h"
-
-Feels mild overkill to have these files with 1-2 functions each, I'd stuff
-them all into drm_internal.h. We do have other vblank stuff in there
-already.
-
->  =
-
->  /**
->   * DOC: vblank handling
-> @@ -363,7 +366,7 @@ static void drm_update_vblank_count(struct drm_device=
- *dev, unsigned int pipe,
->  	store_vblank(dev, pipe, diff, t_vblank, cur_vblank);
->  }
->  =
-
-> -static u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe)
-> +u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe)
->  {
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
->  	u64 count;
-> @@ -497,6 +500,7 @@ static void drm_vblank_init_release(struct drm_device=
- *dev, void *ptr)
->  	drm_WARN_ON(dev, READ_ONCE(vblank->enabled) &&
->  		    drm_core_check_feature(dev, DRIVER_MODESET));
->  =
-
-> +	drm_vblank_destroy_worker(vblank);
->  	del_timer_sync(&vblank->disable_timer);
->  }
->  =
-
-> @@ -539,6 +543,10 @@ int drm_vblank_init(struct drm_device *dev, unsigned=
- int num_crtcs)
->  					       vblank);
->  		if (ret)
->  			return ret;
-> +
-> +		ret =3D drm_vblank_worker_init(vblank);
-> +		if (ret)
-> +			return ret;
->  	}
->  =
-
->  	return 0;
-> @@ -1135,7 +1143,7 @@ static int drm_vblank_enable(struct drm_device *dev=
-, unsigned int pipe)
->  	return ret;
->  }
->  =
-
-> -static int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
-> +int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
->  {
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
->  	unsigned long irqflags;
-> @@ -1178,7 +1186,7 @@ int drm_crtc_vblank_get(struct drm_crtc *crtc)
->  }
->  EXPORT_SYMBOL(drm_crtc_vblank_get);
->  =
-
-> -static void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
-> +void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
->  {
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
->  =
-
-> @@ -1281,13 +1289,16 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc)
->  	unsigned int pipe =3D drm_crtc_index(crtc);
->  	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
->  	struct drm_pending_vblank_event *e, *t;
-> -
->  	ktime_t now;
->  	u64 seq;
->  =
-
->  	if (drm_WARN_ON(dev, pipe >=3D dev->num_crtcs))
->  		return;
->  =
-
-> +	/*
-> +	 * Grab event_lock early to prevent vblank work from being scheduled
-> +	 * while we're in the middle of shutting down vblank interrupts
-> +	 */
->  	spin_lock_irq(&dev->event_lock);
->  =
-
->  	spin_lock(&dev->vbl_lock);
-> @@ -1324,11 +1335,18 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc)
->  		drm_vblank_put(dev, pipe);
->  		send_vblank_event(dev, e, seq, now);
->  	}
-> +
-> +	/* Cancel any leftover pending vblank work */
-> +	drm_vblank_cancel_pending_works(vblank);
-> +
->  	spin_unlock_irq(&dev->event_lock);
->  =
-
->  	/* Will be reset by the modeset helpers when re-enabling the crtc by
->  	 * calling drm_calc_timestamping_constants(). */
->  	vblank->hwmode.crtc_clock =3D 0;
-> +
-> +	/* Wait for any vblank work that's still executing to finish */
-> +	drm_vblank_flush_worker(vblank);
->  }
->  EXPORT_SYMBOL(drm_crtc_vblank_off);
->  =
-
-> @@ -1363,6 +1381,7 @@ void drm_crtc_vblank_reset(struct drm_crtc *crtc)
->  	spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
->  =
-
->  	drm_WARN_ON(dev, !list_empty(&dev->vblank_event_list));
-> +	drm_WARN_ON(dev, !list_empty(&vblank->pending_work));
->  }
->  EXPORT_SYMBOL(drm_crtc_vblank_reset);
->  =
-
-> @@ -1417,7 +1436,10 @@ void drm_crtc_vblank_on(struct drm_crtc *crtc)
->  	if (drm_WARN_ON(dev, pipe >=3D dev->num_crtcs))
->  		return;
->  =
-
-> -	spin_lock_irqsave(&dev->vbl_lock, irqflags);
-> +	/* So vblank works can't be scheduled until we've finished */
-> +	spin_lock_irqsave(&dev->event_lock, irqflags);
-
-This smells fishy, why do we need this? drm_enable_vblank takes the
-->vblank_time_lock spinlock, which is the first thing drm_handle_vblank
-takes, so there's absolute no way for a vblank event or worker to get
-ahead of this here.
-
-Except if I'm missing something this isn't needed.
-
-> +
-> +	spin_lock(&dev->vbl_lock);
->  	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
->  		    pipe, vblank->enabled, vblank->inmodeset);
->  =
-
-> @@ -1435,7 +1457,9 @@ void drm_crtc_vblank_on(struct drm_crtc *crtc)
->  	 */
->  	if (atomic_read(&vblank->refcount) !=3D 0 || drm_vblank_offdelay =3D=3D=
- 0)
->  		drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
-> -	spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
-> +
-> +	spin_unlock(&dev->vbl_lock);
-> +	spin_unlock_irqrestore(&dev->event_lock, irqflags);
->  }
->  EXPORT_SYMBOL(drm_crtc_vblank_on);
->  =
-
-> @@ -1589,11 +1613,6 @@ int drm_legacy_modeset_ctl_ioctl(struct drm_device=
- *dev, void *data,
->  	return 0;
->  }
->  =
-
-> -static inline bool vblank_passed(u64 seq, u64 ref)
-> -{
-> -	return (seq - ref) <=3D (1 << 23);
-> -}
-> -
->  static int drm_queue_vblank_event(struct drm_device *dev, unsigned int p=
-ipe,
->  				  u64 req_seq,
->  				  union drm_wait_vblank *vblwait,
-> @@ -1650,7 +1669,7 @@ static int drm_queue_vblank_event(struct drm_device=
- *dev, unsigned int pipe,
->  	trace_drm_vblank_event_queued(file_priv, pipe, req_seq);
->  =
-
->  	e->sequence =3D req_seq;
-> -	if (vblank_passed(seq, req_seq)) {
-> +	if (drm_vblank_passed(seq, req_seq)) {
->  		drm_vblank_put(dev, pipe);
->  		send_vblank_event(dev, e, seq, now);
->  		vblwait->reply.sequence =3D seq;
-> @@ -1805,7 +1824,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, v=
-oid *data,
->  	}
->  =
-
->  	if ((flags & _DRM_VBLANK_NEXTONMISS) &&
-> -	    vblank_passed(seq, req_seq)) {
-> +	    drm_vblank_passed(seq, req_seq)) {
->  		req_seq =3D seq + 1;
->  		vblwait->request.type &=3D ~_DRM_VBLANK_NEXTONMISS;
->  		vblwait->request.sequence =3D req_seq;
-> @@ -1824,7 +1843,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, v=
-oid *data,
->  		drm_dbg_core(dev, "waiting on vblank count %llu, crtc %u\n",
->  			     req_seq, pipe);
->  		wait =3D wait_event_interruptible_timeout(vblank->queue,
-> -			vblank_passed(drm_vblank_count(dev, pipe), req_seq) ||
-> +			drm_vblank_passed(drm_vblank_count(dev, pipe), req_seq) ||
->  				      !READ_ONCE(vblank->enabled),
->  			msecs_to_jiffies(3000));
->  =
-
-> @@ -1873,7 +1892,7 @@ static void drm_handle_vblank_events(struct drm_dev=
-ice *dev, unsigned int pipe)
->  	list_for_each_entry_safe(e, t, &dev->vblank_event_list, base.link) {
->  		if (e->pipe !=3D pipe)
->  			continue;
-> -		if (!vblank_passed(seq, e->sequence))
-> +		if (!drm_vblank_passed(seq, e->sequence))
->  			continue;
->  =
-
->  		drm_dbg_core(dev, "vblank event on %llu, current %llu\n",
-> @@ -1943,6 +1962,7 @@ bool drm_handle_vblank(struct drm_device *dev, unsi=
-gned int pipe)
->  		       !atomic_read(&vblank->refcount));
->  =
-
->  	drm_handle_vblank_events(dev, pipe);
-> +	drm_handle_vblank_works(vblank);
->  =
-
->  	spin_unlock_irqrestore(&dev->event_lock, irqflags);
->  =
-
-> @@ -2096,7 +2116,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device=
- *dev, void *data,
->  	if (flags & DRM_CRTC_SEQUENCE_RELATIVE)
->  		req_seq +=3D seq;
->  =
-
-> -	if ((flags & DRM_CRTC_SEQUENCE_NEXT_ON_MISS) && vblank_passed(seq, req_=
-seq))
-> +	if ((flags & DRM_CRTC_SEQUENCE_NEXT_ON_MISS) && drm_vblank_passed(seq, =
-req_seq))
->  		req_seq =3D seq + 1;
->  =
-
->  	e->pipe =3D pipe;
-> @@ -2125,7 +2145,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device=
- *dev, void *data,
->  =
-
->  	e->sequence =3D req_seq;
->  =
-
-> -	if (vblank_passed(seq, req_seq)) {
-> +	if (drm_vblank_passed(seq, req_seq)) {
->  		drm_crtc_vblank_put(crtc);
->  		send_vblank_event(dev, e, seq, now);
->  		queue_seq->sequence =3D seq;
-> @@ -2145,3 +2165,4 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device=
- *dev, void *data,
->  	kfree(e);
->  	return ret;
->  }
-> +
-> diff --git a/drivers/gpu/drm/drm_vblank_internal.h b/drivers/gpu/drm/drm_=
-vblank_internal.h
-> new file mode 100644
-> index 0000000000000..217ae5442ddce
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_vblank_internal.h
-> @@ -0,0 +1,19 @@
-> +// SPDX-License-Identifier: MIT
-> +
-> +#ifndef DRM_VBLANK_INTERNAL_H
-> +#define DRM_VBLANK_INTERNAL_H
-> +
-> +#include <linux/types.h>
-> +
-> +#include <drm/drm_device.h>
-> +
-> +static inline bool drm_vblank_passed(u64 seq, u64 ref)
-> +{
-> +	return (seq - ref) <=3D (1 << 23);
-> +}
-> +
-> +int drm_vblank_get(struct drm_device *dev, unsigned int pipe);
-> +void drm_vblank_put(struct drm_device *dev, unsigned int pipe);
-> +u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe);
-> +
-> +#endif /* !DRM_VBLANK_INTERNAL_H */
-> diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vbla=
-nk_work.c
-> new file mode 100644
-> index 0000000000000..0762ad34cdcc0
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_vblank_work.c
-> @@ -0,0 +1,259 @@
-> +// SPDX-License-Identifier: MIT
-> +
-> +#include <uapi/linux/sched/types.h>
-> +
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_vblank.h>
-> +#include <drm/drm_vblank_work.h>
-> +#include <drm/drm_crtc.h>
-> +
-> +#include "drm_vblank_internal.h"
-> +#include "drm_vblank_work_internal.h"
-> +
-> +/**
-> + * DOC: vblank works
-> + *
-> + * Many DRM drivers need to program hardware in a time-sensitive manner,=
- many
-> + * times with a deadline of starting and finishing within a certain regi=
-on of
-> + * the scanout. Most of the time the safest way to accomplish this is to
-> + * simply do said time-sensitive programming in the driver's IRQ handler,
-> + * which allows drivers to avoid being preempted during these critical
-> + * regions. Or even better, the hardware may even handle applying such
-> + * time-critical programming independently of the CPU.
-> + *
-> + * While there's a decent amount of hardware that's designed so that the=
- CPU
-> + * doesn't need to be concerned with extremely time-sensitive programmin=
-g,
-> + * there's a few situations where it can't be helped. Some unforgiving
-> + * hardware may require that certain time-sensitive programming be handl=
-ed
-> + * completely by the CPU, and said programming may even take too long to
-> + * handle in an IRQ handler. Another such situation would be where the d=
-river
-> + * needs to perform a task that needs to complete within a specific scan=
-out
-> + * period, but might possibly block and thus cannot be handled in an IRQ
-> + * context. Both of these situations can't be solved perfectly in Linux =
-since
-> + * we're not a realtime kernel, and thus the scheduler may cause us to m=
-iss
-> + * our deadline if it decides to preempt us. But for some drivers, it's =
-good
-> + * enough if we can lower our chance of being preempted to an absolute
-> + * minimum.
-> + *
-> + * This is where &drm_vblank_work comes in. &drm_vblank_work provides a =
-simple
-> + * generic delayed work implementation which delays work execution until=
- a
-> + * particular vblank has passed, and then executes the work at realtime
-> + * priority. This provides the best possible chance at performing
-> + * time-sensitive hardware programming on time, even when the system is =
-under
-> + * heavy load. &drm_vblank_work also supports rescheduling, so that self
-> + * re-arming work items can be easily implemented.
-> + */
-> +
-> +void drm_handle_vblank_works(struct drm_vblank_crtc *vblank)
-> +{
-> +	struct drm_vblank_work *work, *next;
-> +	u64 count =3D atomic64_read(&vblank->count);
-> +	bool wake =3D false;
-> +
-> +	assert_spin_locked(&vblank->dev->event_lock);
-> +
-> +	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
-> +		if (!drm_vblank_passed(count, work->count))
-> +			continue;
-> +
-> +		list_del_init(&work->node);
-> +		drm_vblank_put(vblank->dev, vblank->pipe);
-> +		kthread_queue_work(vblank->worker, &work->base);
-> +		wake =3D true;
-> +	}
-> +	if (wake)
-> +		wake_up_all(&vblank->work_wait_queue);
-> +}
-> +
-> +/* Handle cancelling any pending vblank work items and drop respective v=
-blank
-> + * references in response to vblank interrupts being disabled.
-> + */
-> +void drm_vblank_cancel_pending_works(struct drm_vblank_crtc *vblank)
-> +{
-> +	struct drm_vblank_work *work, *next;
-> +
-> +	assert_spin_locked(&vblank->dev->event_lock);
-> +
-> +	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
-> +		list_del_init(&work->node);
-> +		drm_vblank_put(vblank->dev, vblank->pipe);
-> +	}
-> +
-> +	wake_up_all(&vblank->work_wait_queue);
-> +}
-> +
-> +/**
-> + * drm_vblank_work_schedule - schedule a vblank work
-> + * @work: vblank work to schedule
-> + * @count: target vblank count
-> + * @nextonmiss: defer until the next vblank if target vblank was missed
-> + *
-> + * Schedule @work for execution once the crtc vblank count reaches @coun=
-t.
-> + *
-> + * If the crtc vblank count has already reached @count and @nextonmiss is
-> + * %false the work starts to execute immediately.
-> + *
-> + * If the crtc vblank count has already reached @count and @nextonmiss is
-> + * %true the work is deferred until the next vblank (as if @count has be=
-en
-> + * specified as crtc vblank count + 1).
-> + *
-> + * If @work is already scheduled, this function will reschedule said work
-> + * using the new @count.
-
-Maybe clarify here that "This can be use for self-rearming work items." or
-something like that.
-
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +int drm_vblank_work_schedule(struct drm_vblank_work *work,
-> +			     u64 count, bool nextonmiss)
-> +{
-> +	struct drm_vblank_crtc *vblank =3D work->vblank;
-> +	struct drm_device *dev =3D vblank->dev;
-> +	u64 cur_vbl;
-> +	unsigned long irqflags;
-> +	bool passed, rescheduling =3D false, wake =3D false;
-> +	int ret =3D 0;
-> +
-> +	spin_lock_irqsave(&dev->event_lock, irqflags);
-> +	if (!vblank->worker || vblank->inmodeset || work->cancelling)
-
-Oh nice catch with ->inmodeset, I totally missed to check re-arming vs
-drm_crtc_vblank_off races. Only problem I'm seeing is that we're holding
-the wrong spinlock, this needs to be check under ->vbl_lock. But
-->cancelling needs the event_lock, so I think you need to split this check
-into two, and grab the ->vbl_lock around the ->inmodeset check.
-
-The ->worker check otoh looks fishy, that should never happen. If you feel
-like some defensive programming then I think that should be an
-
-	if (WARN_ON(!vblank->worker))
-		return;
-
-
-> +		goto out;
-> +
-> +	if (list_empty(&work->node)) {
-> +		ret =3D drm_vblank_get(dev, vblank->pipe);
-
-Ok that kills the idea of converting the _irqsave to _irq in
-drm_vblank_get. I do wonder whether it wouldn't be nicer to have the
-vblank_get outside of the spinlock, and unconditional - would allow you to
-drop the ->inmodeset check. But the end result in code flow cleanliness is
-not any better, so not a good idea I think.
-
-> +		if (ret < 0)
-> +			goto out;
-> +	} else if (work->count =3D=3D count) {
-> +		/* Already scheduled w/ same vbl count */
-> +		goto out;
-> +	} else {
-> +		rescheduling =3D true;
-> +	}
-> +
-> +	work->count =3D count;
-> +	cur_vbl =3D drm_vblank_count(dev, vblank->pipe);
-> +	passed =3D drm_vblank_passed(cur_vbl, count);
-> +	if (passed)
-> +		DRM_DEV_ERROR(dev->dev,
-> +			      "crtc %d vblank %llu already passed (current %llu)\n",
-> +			      vblank->pipe, count, cur_vbl);
-
-This is a bit loud, I think that should be debug out most. You can't
-really prevent races. I do wonder though whether we should do something
-like 1 indicates that the work item has been scheduled, and 0 that it
-hasn't been scheduled (aside from failure, which is negative).
-
-> +
-> +	if (!nextonmiss && passed) {
-> +		drm_vblank_put(dev, vblank->pipe);
-> +		kthread_queue_work(vblank->worker, &work->base);
-> +
-> +		if (rescheduling) {
-> +			list_del_init(&work->node);
-> +			wake =3D true;
-> +		}
-> +	} else if (!rescheduling) {
-> +		list_add_tail(&work->node, &vblank->pending_work);
-> +	}
-> +
-> +out:
-> +	spin_unlock_irqrestore(&dev->event_lock, irqflags);
-> +	if (wake)
-> +		wake_up_all(&vblank->work_wait_queue);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_vblank_work_schedule);
-
-I think the above control flow is all correct, but this is the kind of
-stuff that's prime material for some selftests. But we don't have enough
-ready-made mocking I think, so not going to ask for that. Just an idea.
-
-> +
-> +/**
-> + * drm_vblank_work_cancel_sync - cancel a vblank work and wait for it to
-> + * finish executing
-> + * @work: vblank work to cancel
-> + *
-> + * Cancel an already scheduled vblank work and wait for its
-> + * execution to finish.
-> + *
-> + * On return, @work is guaranteed to no longer be scheduled or running, =
-even
-> + * if it's self-arming.
-> + *
-> + * Returns:
-> + * %True if the work was cancelled before it started to execute, %false
-> + * otherwise.
-> + */
-> +bool drm_vblank_work_cancel_sync(struct drm_vblank_work *work)
-> +{
-> +	struct drm_vblank_crtc *vblank =3D work->vblank;
-> +	struct drm_device *dev =3D vblank->dev;
-> +	bool ret =3D false;
-> +
-> +	spin_lock_irq(&dev->event_lock);
-> +	if (!list_empty(&work->node)) {
-> +		list_del_init(&work->node);
-> +		drm_vblank_put(vblank->dev, vblank->pipe);
-> +		ret =3D true;
-> +	}
-> +
-> +	work->cancelling++;
-> +	spin_unlock_irq(&dev->event_lock);
-> +
-> +	wake_up_all(&vblank->work_wait_queue);
-> +
-> +	if (kthread_cancel_work_sync(&work->base))
-> +		ret =3D true;
-> +
-> +	spin_lock_irq(&dev->event_lock);
-> +	work->cancelling--;
-> +	spin_unlock_irq(&dev->event_lock);
-
-lgtm, everything looks ordered correctly to avoid a self-arming work
-escaping.
-
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_vblank_work_cancel_sync);
-> +
-> +/**
-> + * drm_vblank_work_flush - wait for a scheduled vblank work to finish
-> + * executing
-> + * @work: vblank work to flush
-> + *
-> + * Wait until @work has finished executing once.
-> + */
-> +void drm_vblank_work_flush(struct drm_vblank_work *work)
-> +{
-> +	struct drm_vblank_crtc *vblank =3D work->vblank;
-> +	struct drm_device *dev =3D vblank->dev;
-> +
-> +	spin_lock_irq(&dev->event_lock);
-> +	wait_event_lock_irq(vblank->work_wait_queue, list_empty(&work->node),
-> +			    dev->event_lock);
-> +	spin_unlock_irq(&dev->event_lock);
-> +
-> +	kthread_flush_work(&work->base);
-
-So much less magic here, I like.
-
-> +}
-> +EXPORT_SYMBOL(drm_vblank_work_flush);
-> +
-> +/**
-> + * drm_vblank_work_init - initialize a vblank work item
-> + * @work: vblank work item
-> + * @crtc: CRTC whose vblank will trigger the work execution
-> + * @func: work function to be executed
-> + *
-> + * Initialize a vblank work item for a specific crtc.
-> + */
-> +void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc =
-*crtc,
-> +			  void (*func)(struct kthread_work *work))
-> +{
-> +	kthread_init_work(&work->base, func);
-> +	INIT_LIST_HEAD(&work->node);
-> +	work->vblank =3D &crtc->dev->vblank[drm_crtc_index(crtc)];
-> +}
-> +EXPORT_SYMBOL(drm_vblank_work_init);
-> +
-> +int drm_vblank_worker_init(struct drm_vblank_crtc *vblank)
-> +{
-> +	struct sched_param param =3D {
-> +		.sched_priority =3D MAX_RT_PRIO - 1,
-> +	};
-> +	struct kthread_worker *worker;
-> +
-> +	INIT_LIST_HEAD(&vblank->pending_work);
-> +	init_waitqueue_head(&vblank->work_wait_queue);
-> +	worker =3D kthread_create_worker(0, "card%d-crtc%d",
-> +				       vblank->dev->primary->index,
-> +				       vblank->pipe);
-> +	if (IS_ERR(worker))
-> +		return PTR_ERR(worker);
-> +
-> +	vblank->worker =3D worker;
-> +
-> +	return sched_setscheduler(vblank->worker->task, SCHED_FIFO, &param);
-> +}
-> diff --git a/drivers/gpu/drm/drm_vblank_work_internal.h b/drivers/gpu/drm=
-/drm_vblank_work_internal.h
-> new file mode 100644
-> index 0000000000000..0a4abbc4ab295
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_vblank_work_internal.h
-> @@ -0,0 +1,24 @@
-> +// SPDX-License-Identifier: MIT
-> +
-> +#ifndef _DRM_VBLANK_WORK_INTERNAL_H_
-> +#define _DRM_VBLANK_WORK_INTERNAL_H_
-> +
-> +#include <drm/drm_vblank.h>
-> +
-> +int drm_vblank_worker_init(struct drm_vblank_crtc *vblank);
-> +void drm_vblank_cancel_pending_works(struct drm_vblank_crtc *vblank);
-> +void drm_handle_vblank_works(struct drm_vblank_crtc *vblank);
-> +
-> +static inline void drm_vblank_flush_worker(struct drm_vblank_crtc *vblan=
-k)
-> +{
-> +	if (vblank->worker)
-
-Is this check really required? We should always have a worker I thought?
-
-> +		kthread_flush_worker(vblank->worker);
-> +}
-> +
-> +static inline void drm_vblank_destroy_worker(struct drm_vblank_crtc *vbl=
-ank)
-> +{
-> +	if (vblank->worker)
-
-Same here.
-
-> +		kthread_destroy_worker(vblank->worker);
-> +}
-> +
-> +#endif /* !_DRM_VBLANK_WORK_INTERNAL_H_ */
-> diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-> index dd9f5b9e56e4e..dd125f8c766cf 100644
-> --- a/include/drm/drm_vblank.h
-> +++ b/include/drm/drm_vblank.h
-> @@ -27,12 +27,14 @@
->  #include <linux/seqlock.h>
->  #include <linux/idr.h>
->  #include <linux/poll.h>
-> +#include <linux/kthread.h>
->  =
-
->  #include <drm/drm_file.h>
->  #include <drm/drm_modes.h>
->  =
-
->  struct drm_device;
->  struct drm_crtc;
-> +struct drm_vblank_work;
->  =
-
->  /**
->   * struct drm_pending_vblank_event - pending vblank event tracking
-> @@ -203,6 +205,24 @@ struct drm_vblank_crtc {
->  	 * disabling functions multiple times.
->  	 */
->  	bool enabled;
-> +
-> +	/**
-> +	 * @worker: The &kthread_worker used for executing vblank works.
-> +	 */
-> +	struct kthread_worker *worker;
-> +
-> +	/**
-> +	 * @pending_work: A list of scheduled &drm_vblank_work items that are
-> +	 * waiting for a future vblank.
-> +	 */
-> +	struct list_head pending_work;
-> +
-> +	/**
-> +	 * @work_wait_queue: The wait queue used for signaling that a
-> +	 * &drm_vblank_work item has either finished executing, or was
-> +	 * cancelled.
-> +	 */
-> +	wait_queue_head_t work_wait_queue;
->  };
->  =
-
->  int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs);
-> diff --git a/include/drm/drm_vblank_work.h b/include/drm/drm_vblank_work.h
-> new file mode 100644
-> index 0000000000000..f0439c039f7ce
-> --- /dev/null
-> +++ b/include/drm/drm_vblank_work.h
-> @@ -0,0 +1,71 @@
-> +// SPDX-License-Identifier: MIT
-> +
-> +#ifndef _DRM_VBLANK_WORK_H_
-> +#define _DRM_VBLANK_WORK_H_
-> +
-> +#include <linux/kthread.h>
-> +
-> +struct drm_crtc;
-> +
-> +/**
-> + * struct drm_vblank_work - A delayed work item which delays until a tar=
-get
-> + * vblank passes, and then executes at realtime priority outside of IRQ
-> + * context.
-> + *
-> + * See also:
-> + * drm_vblank_work_schedule()
-> + * drm_vblank_work_init()
-> + * drm_vblank_work_cancel_sync()
-> + * drm_vblank_work_flush()
-> + */
-> +struct drm_vblank_work {
-> +	/**
-> +	 * @base: The base &kthread_work item which will be executed by
-> +	 * &drm_vblank_crtc.worker. Drivers should not interact with this
-> +	 * directly, and instead rely on drm_vblank_work_init() to initialize
-> +	 * this.
-> +	 */
-> +	struct kthread_work base;
-> +
-> +	/**
-> +	 * @vblank: A pointer to &drm_vblank_crtc this work item belongs to.
-> +	 */
-> +	struct drm_vblank_crtc *vblank;
-> +
-> +	/**
-> +	 * @count: The target vblank this work will execute on. Drivers should
-> +	 * not modify this value directly, and instead use
-> +	 * drm_vblank_work_schedule()
-> +	 */
-> +	u64 count;
-> +
-> +	/**
-> +	 * @cancelling: The number of drm_vblank_work_cancel_sync() calls that
-> +	 * are currently running. A work item cannot be rescheduled until all
-> +	 * calls have finished.
-> +	 */
-> +	int cancelling;
-> +
-> +	/**
-> +	 * @node: The position of this work item in
-> +	 * &drm_vblank_crtc.pending_work.
-> +	 */
-> +	struct list_head node;
-> +};
-> +
-> +/**
-> + * to_drm_vblank_work - Retrieve the respective &drm_vblank_work item fr=
-om a
-> + * &kthread_work
-> + * @_work: The &kthread_work embedded inside a &drm_vblank_work
-> + */
-> +#define to_drm_vblank_work(_work) \
-> +	container_of((_work), struct drm_vblank_work, base)
-> +
-> +int drm_vblank_work_schedule(struct drm_vblank_work *work,
-> +			     u64 count, bool nextonmiss);
-> +void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc =
-*crtc,
-> +			  void (*func)(struct kthread_work *work));
-> +bool drm_vblank_work_cancel_sync(struct drm_vblank_work *work);
-> +void drm_vblank_work_flush(struct drm_vblank_work *work);
-> +
-> +#endif /* !_DRM_VBLANK_WORK_H_ */
-> -- =
-
-> 2.26.2
-> =
-
-
--- =
-
+On Fri, Jun 26, 2020 at 08:25:18AM -0700, Rob Clark wrote:
+> On Fri, Jun 26, 2020 at 6:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Thu, Jun 25, 2020 at 09:24:38AM -0700, Rob Clark wrote:
+> > > On Thu, Jun 25, 2020 at 8:55 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > >
+> > > > On Thu, Jun 25, 2020 at 4:17 PM Rob Clark <robdclark@gmail.com> wrote:
+> > > > >
+> > > > > On Thu, Jun 25, 2020 at 5:35 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > > > >
+> > > > > > On Thu, Jun 25, 2020 at 1:58 PM Shawn Guo <shawnguo@kernel.org> wrote:
+> > > > > > >
+> > > > > > > From: Shawn Guo <shawn.guo@linaro.org>
+> > > > > > >
+> > > > > > > The msm/mdp5 driver uses drm_private_obj as its global atomic state,
+> > > > > > > which keeps the assignment of hwpipe to plane.  With drm_private_obj
+> > > > > > > missing from duplicate state call, mdp5 suspend works with no problem
+> > > > > > > only for the very first time.  Any subsequent suspend will hit the
+> > > > > > > following warning, because hwpipe assignment doesn't get duplicated for
+> > > > > > > suspend state.  Adding drm_private_obj handling for duplicate state call
+> > > > > > > fixes the problem.
+> > > > > >
+> > > > > > If the driver needs a private state, it's supposed to duplicate that
+> > > > > > in its atomic_check functionality. This isn't the helper's job.
+> > > > > >
+> > > > > > If this is a bug in msm code, then pretty sure if you try hard enough,
+> > > > > > you can hit the exact same bug from userspace too. Maybe good idea to
+> > > > > > try and reproduce this with igt or something.
+> > > > >
+> > > > > The problem is how duplicate_state is used by the atomic
+> > > > > suspend/resume helpers.  They duplicate the running state on suspend,
+> > > > > forgetting to duplicate the global state.  Then everything is
+> > > > > disabled, the driver correctly duplicates and updates it's global
+> > > > > atomic state releasing the hwpipe.
+> > > > >
+> > > > > But then on resume, we are re-applying plane state that thinks it
+> > > > > already has a hwpipe assigned (because that is part of the plane state
+> > > > > that was duplicated), without reapplying the matching global state.
+> > > > >
+> > > > > On a normal atomic commit, we would duplicate the plane state that has
+> > > > > the hwpipe disabled, which would be in sync with the drivers global
+> > > > > state.  But since that is not what the atomic resume helper does, we
+> > > > > hit the situation where the plane state and the global state are out
+> > > > > of sync.
+> > > > >
+> > > > > So the driver is dtrt, the problem really is with the helpers.  I
+> > > > > think this patch is the right thing to do.  It is incorrect for the
+> > > > > suspend/resume helpers to assume that they can re-apply duplicated
+> > > > > state without including the global state.
+> > > >
+> > > > Hm, this is a bit awkward. Generally the assumption is that you should
+> > > > be recomputing the derived state (like hwpipe) no matter what. If your
+> > > > driver doesn't do that, then all kinds of things can leak from the
+> > > > pre-resume to the post-resume side of things, that's kinda why I'm not
+> > > > thrilled with this patch, I think it has good potential to open up a
+> > > > can of worms. Iirc this patch has come up in the past, and in those
+> > > > cases it was a driver bug.
+> > > >
+> > > > For this case, why is msm reusing a hw pipe assignment of a disabled plane?
+> > >
+> > > Because it is part of the plane state that is being restored.
+> > >
+> > > Since resume uses the old state saved before the
+> > > drm_atomic_helper_disable_all(), rather than duplicating the current
+> > > state, we end up with this mismatch between global and plane state.  I
+> > > think stashing away the old state is probably ok, but we can't just do
+> > > it piecemeal without including the global state.
+> > >
+> > > I suppose part of the problem is the hwpipe (and other such
+> > > dynamically assigned resources) touch both private and plane (and
+> > > crtc) state.  The global state object knows which resources are
+> > > assigned to which plane/crtc.  But the plane/crtc state knows which of
+> > > the (potentially) two hwpipe/mixers is "left" (primary) and "right"
+> > > (secondary).
+> >
+> > Yeah I get all that, what I meant is: Why don't you just blindly recompute
+> > the hwpipe assignment every time a full modeset is done? Caching it for
+> > pure plane flips makes sense, but drm_crtc_needs_modset == true and just
+> > throw it all overboard and assign new ones I think would also solve this
+> > problem. Since the hwpipe global state would indicate that all pipes are
+> > unallocated that should work (I hope).
+> >
+> > Imo just recomputing state is a good atomic pattern, it avoids drivers
+> > getting stuck in a corner somewhere you can't reset them out of anymore.
+> >
+> > My question here was, why can't you do that?
+> 
+> We do release the hwpipe on disable, and that is where things are
+> getting out of sync.
+> 
+> I suppose we could do some hack if needs_modeset and walk thru the
+> global state to detect that we've got ourselves into this condition
+> and the hwpipe(s) the plane *thinks* it has assigned to itself are no
+> more.  That sounds like a worse solution.
+> 
+> (note that hwpipe can change for a lot of reasons other than modeset)
+> 
+> 
+> >
+> > > > Unfortunately we can't copy the drm state into the overall structure
+> > > > to solve this, since that would miss driver-private properties. So
+> > > > unfortunately we can't make this match a real atomic commit from
+> > > > userspace perfectly.
+> > >
+> > > I'm not sure I understand this?  The driver private properties
+> > > would/should be part of one of the state objs (plane/crtc/global)?  If
+> > > the atomic state (including global) represents the entirety of the hw
+> > > state, you should be able to stash off N different versions of them
+> > > and re-apply them in any order you want because they are all
+> > > self-consistent.
+> >
+> > So for normal atomic commit we have:
+> >
+> > 1. duplicate current state
+> > 2. set properties
+> >
+> > But for resume helpers it's some random older state, so the expectations
+> > break a bit. We could approximate that using something like:
+> >
+> > 1. duplicate current state into curr_state
+> > 2. set properties using a memcpy of the drm core state structure, leaving
+> > the driver private stuff as-is.
+> >
+> > But a) there's also some non-property state in drm state structures and b)
+> > properties which are driver extensions and set into the driver part of the
+> > state would get lost.
+> >
+> > So also not great.
+> 
+> Really the solution in this patch sounds like the cleanest solution
+> (assuming drivers are properly keeping all their state in various
+> atomic-state objs) ;-)
+> 
+> But replaying all the kms property setting should in theory arrive at
+> the same state as before the suspend.  But that sounds like the harder
+> way to do it.
+> 
+> >
+> > > > Another option would be if msm just copies the private state it needs
+> > > > to not go boom.
+> > > >
+> > > > Doing this unconditionally might break other drivers that rely on
+> > > > private state not being duplicated, but I guess that would also be
+> > > > somewhat of a driver bug.
+> > >
+> > > I guess we could duplicate our own version of
+> > > drm_atomic_helper_suspend().. or maybe add a 'duplicate_global' param
+> > > to drm_atomic_helper_suspend().
+> > >
+> > > I'm not too sure how many drivers these days are using global atomic
+> > > state, so not sure how many would be potentially broken, but opting in
+> > > to duplicating global state seems reasonable if necessary.
+> >
+> > dp mst uses it to track it's stuff at least, and I think it's spreading
+> > quite a bit into drivers using them to track all kinds of things, not just
+> > a single global state.
+> 
+> Hmm, if needed we could put a needs_restore flag in the private_state struct?
+
+drm_private_obj, not the state, since this should be invariant. And I
+think this is the cleanest solution of them all. Also gives us a nice
+place for some kerneldoc with links to suspend/resume helpers and why you
+might need this.
+-Daniel
+
+> 
+> BR,
+> -R
+> 
+> > -Daniel
+> >
+> > >
+> > > BR,
+> > > -R
+> > >
+> > > > -Daniel
+> > > >
+> > > > >
+> > > > > BR,
+> > > > > -R
+> > > > >
+> > > > > > -Daniel
+> > > > > >
+> > > > > >
+> > > > > > > $ echo mem > /sys/power/state
+> > > > > > > [   38.111144] PM: suspend entry (deep)
+> > > > > > > [   38.111185] PM: Syncing filesystems ... done.
+> > > > > > > [   38.114630] Freezing user space processes ... (elapsed 0.001 seconds) done.
+> > > > > > > [   38.115912] OOM killer disabled.
+> > > > > > > [   38.115914] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+> > > > > > > [   38.122170] ------------[ cut here ]------------
+> > > > > > > [   38.122212] WARNING: CPU: 0 PID: 1747 at drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c:145 mdp5_pipe_release+0x90/0xc0
+> > > > > > > [   38.122215] Modules linked in:
+> > > > > > > [   38.122222] CPU: 0 PID: 1747 Comm: sh Not tainted 4.19.107-00515-g9d5e4d7a33ed-dirty #323
+> > > > > > > [   38.122224] Hardware name: Square, Inc. T2 Devkit (DT)
+> > > > > > > [   38.122228] pstate: 40000005 (nZcv daif -PAN -UAO)
+> > > > > > > [   38.122230] pc : mdp5_pipe_release+0x90/0xc0
+> > > > > > > [   38.122233] lr : mdp5_pipe_release+0x90/0xc0
+> > > > > > > [   38.122235] sp : ffff00000d13b7f0
+> > > > > > > [   38.122236] x29: ffff00000d13b7f0 x28: 0000000000000000
+> > > > > > > [   38.122240] x27: 0000000000000002 x26: ffff800079adce00
+> > > > > > > [   38.122243] x25: ffff800079405200 x24: 0000000000000000
+> > > > > > > [   38.122246] x23: ffff80007a78cc08 x22: ffff80007b1cc018
+> > > > > > > [   38.122249] x21: ffff80007b1cc000 x20: ffff80007b317080
+> > > > > > > [   38.122252] x19: ffff80007a78ce80 x18: 0000000000020000
+> > > > > > > [   38.122255] x17: 0000000000000000 x16: 0000000000000000
+> > > > > > > [   38.122258] x15: 00000000fffffff0 x14: ffff000008c3fb48
+> > > > > > > [   38.122261] x13: ffff000008cdac4a x12: ffff000008c3f000
+> > > > > > > [   38.122264] x11: 0000000000000000 x10: ffff000008cda000
+> > > > > > > [   38.122267] x9 : 0000000000000000 x8 : ffff000008ce4a40
+> > > > > > > [   38.122269] x7 : 0000000000000000 x6 : 0000000039ea41a9
+> > > > > > > [   38.122272] x5 : 0000000000000000 x4 : 0000000000000000
+> > > > > > > [   38.122275] x3 : ffffffffffffffff x2 : c7580c109cae4500
+> > > > > > > [   38.122278] x1 : 0000000000000000 x0 : 0000000000000024
+> > > > > > > [   38.122281] Call trace:
+> > > > > > > [   38.122285]  mdp5_pipe_release+0x90/0xc0
+> > > > > > > [   38.122288]  mdp5_plane_atomic_check+0x2c0/0x448
+> > > > > > > [   38.122294]  drm_atomic_helper_check_planes+0xd0/0x208
+> > > > > > > [   38.122298]  drm_atomic_helper_check+0x38/0xa8
+> > > > > > > [   38.122302]  drm_atomic_check_only+0x3e8/0x630
+> > > > > > > [   38.122305]  drm_atomic_commit+0x18/0x58
+> > > > > > > [   38.122309]  __drm_atomic_helper_disable_all.isra.12+0x15c/0x1a8
+> > > > > > > [   38.122312]  drm_atomic_helper_suspend+0x80/0xf0
+> > > > > > > [   38.122316]  msm_pm_suspend+0x4c/0x70
+> > > > > > > [   38.122320]  dpm_run_callback.isra.6+0x20/0x68
+> > > > > > > [   38.122323]  __device_suspend+0x110/0x308
+> > > > > > > [   38.122326]  dpm_suspend+0x100/0x1f0
+> > > > > > > [   38.122329]  dpm_suspend_start+0x64/0x70
+> > > > > > > [   38.122334]  suspend_devices_and_enter+0x110/0x500
+> > > > > > > [   38.122336]  pm_suspend+0x268/0x2c0
+> > > > > > > [   38.122339]  state_store+0x88/0x110
+> > > > > > > [   38.122345]  kobj_attr_store+0x14/0x28
+> > > > > > > [   38.122352]  sysfs_kf_write+0x3c/0x50
+> > > > > > > [   38.122355]  kernfs_fop_write+0x118/0x1e0
+> > > > > > > [   38.122360]  __vfs_write+0x30/0x168
+> > > > > > > [   38.122363]  vfs_write+0xa4/0x1a8
+> > > > > > > [   38.122366]  ksys_write+0x64/0xe8
+> > > > > > > [   38.122368]  __arm64_sys_write+0x18/0x20
+> > > > > > > [   38.122374]  el0_svc_common+0x6c/0x178
+> > > > > > > [   38.122377]  el0_svc_compat_handler+0x1c/0x28
+> > > > > > > [   38.122381]  el0_svc_compat+0x8/0x18
+> > > > > > > [   38.122383] ---[ end trace 24145b7d8545345b ]---
+> > > > > > > [   38.491552] Disabling non-boot CPUs ...
+> > > > > > >
+> > > > > > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > > > > > > ---
+> > > > > > >  drivers/gpu/drm/drm_atomic_helper.c | 16 ++++++++++++++++
+> > > > > > >  1 file changed, 16 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > > > > > > index 85d163f16801..024985a92156 100644
+> > > > > > > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > > > > > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > > > > > > @@ -3140,6 +3140,7 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
+> > > > > > >         struct drm_atomic_state *state;
+> > > > > > >         struct drm_connector *conn;
+> > > > > > >         struct drm_connector_list_iter conn_iter;
+> > > > > > > +       struct drm_private_obj *priv_obj;
+> > > > > > >         struct drm_plane *plane;
+> > > > > > >         struct drm_crtc *crtc;
+> > > > > > >         int err = 0;
+> > > > > > > @@ -3184,6 +3185,16 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
+> > > > > > >         }
+> > > > > > >         drm_connector_list_iter_end(&conn_iter);
+> > > > > > >
+> > > > > > > +       drm_for_each_privobj(priv_obj, dev) {
+> > > > > > > +               struct drm_private_state *priv_state;
+> > > > > > > +
+> > > > > > > +               priv_state = drm_atomic_get_private_obj_state(state, priv_obj);
+> > > > > > > +               if (IS_ERR(priv_state)) {
+> > > > > > > +                       err = PTR_ERR(priv_state);
+> > > > > > > +                       goto free;
+> > > > > > > +               }
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > >         /* clear the acquire context so that it isn't accidentally reused */
+> > > > > > >         state->acquire_ctx = NULL;
+> > > > > > >
+> > > > > > > @@ -3278,6 +3289,8 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
+> > > > > > >         struct drm_connector_state *new_conn_state;
+> > > > > > >         struct drm_crtc *crtc;
+> > > > > > >         struct drm_crtc_state *new_crtc_state;
+> > > > > > > +       struct drm_private_state *new_priv_state;
+> > > > > > > +       struct drm_private_obj *priv_obj;
+> > > > > > >
+> > > > > > >         state->acquire_ctx = ctx;
+> > > > > > >
+> > > > > > > @@ -3290,6 +3303,9 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
+> > > > > > >         for_each_new_connector_in_state(state, connector, new_conn_state, i)
+> > > > > > >                 state->connectors[i].old_state = connector->state;
+> > > > > > >
+> > > > > > > +       for_each_new_private_obj_in_state(state, priv_obj, new_priv_state, i)
+> > > > > > > +               state->private_objs[i].old_state = priv_obj->state;
+> > > > > > > +
+> > > > > > >         ret = drm_atomic_commit(state);
+> > > > > > >
+> > > > > > >         state->acquire_ctx = NULL;
+> > > > > > > --
+> > > > > > > 2.17.1
+> > > > > > >
+> > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > Daniel Vetter
+> > > > > > Software Engineer, Intel Corporation
+> > > > > > http://blog.ffwll.ch
+> > > >
+> > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
