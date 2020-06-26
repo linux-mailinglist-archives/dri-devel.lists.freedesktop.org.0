@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CC920C096
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 12:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4724520C095
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 12:12:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4824B6E13B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 616BF6E14B;
 	Sat, 27 Jun 2020 10:12:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3EC6E14F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 17:11:27 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05QHBEAZ099969;
- Fri, 26 Jun 2020 12:11:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1593191474;
- bh=ux4wGZ9FAMPewCIiFjxwKiWjPcBoQzrGx8Tm3T6HdSc=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=FPWXKFQsFWefNWyjFpNnCg6GFcS2w6ONHUfxScGAaLZiH1uHyFU5LPQggJYBMiUNb
- aYdeFyNv7Oh5q83ZCeegGXkmFQPJief1rBfW76/uD11wLWctFgYWYynkZ+Tze28htF
- 3ScskuRr3exh6uXw+3J3hpksHzWB1/1UFq2eG/dA=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05QHBEOU025758
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 26 Jun 2020 12:11:14 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 26
- Jun 2020 12:11:13 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 26 Jun 2020 12:11:13 -0500
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05QHB9sn000377;
- Fri, 26 Jun 2020 12:11:10 -0500
-Subject: Re: [PATCH v6 2/4] driver core: add deferring probe reason to
- devices_deferred property
-To: Andrzej Hajda <a.hajda@samsung.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-References: <20200626100103.18879-1-a.hajda@samsung.com>
- <CGME20200626100110eucas1p2c5b91f2c98a5c6e5739f5af3207d192e@eucas1p2.samsung.com>
- <20200626100103.18879-3-a.hajda@samsung.com>
-From: Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <5f159e00-44fd-515b-dd8c-4db9845dc9e6@ti.com>
-Date: Fri, 26 Jun 2020 20:11:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BCFE89395
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 20:44:22 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 05QKhfYZ018492; Fri, 26 Jun 2020 22:44:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=STMicroelectronics;
+ bh=VAK04oSRk0V+FpML5MYWWrN1uyiNMP52mYEOCgEuyy0=;
+ b=En3YcPGlNbOcgJbE9RC4i56Zv0gjiuCnKBrHFsV7zDF3Fe8wfWhqjtq37N8GkXBJvPiy
+ Vdwy8f2NaqhHE4w6YJUST8+zrMpkW6bvo0E169FZCJXSUzhVdPuRefNYk9XTMr2j/jAU
+ I+41pYb7x/ZVAC+cse1D+bnQs4Fc1XqR4t5f6FJTXCZ+SnWmDvgsUo8tnR7UATGA4nyM
+ UYG+L7ZY1KmSVEd086O5GOb2QrLDRLLeJXitLhtmqtRXoDrEVQBwLKIQt9YLr6qLc40p
+ qlz2Fl48B9BO6Upn2ASgKCR+J4+D1f5iusyEondu385bSvmohJvL/njgQv9PkEPQs+PH hA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 31uuv9t2mc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Jun 2020 22:44:14 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B416A10002A;
+ Fri, 26 Jun 2020 22:44:12 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9C0512067FD;
+ Fri, 26 Jun 2020 22:44:12 +0200 (CEST)
+Received: from localhost (10.75.127.46) by SFHDAG5NODE3.st.com (10.75.127.15)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+ Fri, 26 Jun 2020 22:44:12 +0200
+From: Antonio Borneo <antonio.borneo@st.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/connector: fix minor typos in comments
+Date: Fri, 26 Jun 2020 22:42:52 +0200
+Message-ID: <20200626204252.44565-1-antonio.borneo@st.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200626100103.18879-3-a.hajda@samsung.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG5NODE3.st.com
+ (10.75.127.15)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-06-26_12:2020-06-26,
+ 2020-06-26 signatures=0
 X-Mailman-Approved-At: Sat, 27 Jun 2020 10:12:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,154 +68,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, andy.shevchenko@gmail.com,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Antonio Borneo <antonio.borneo@st.com>, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some of these comments are part of the Linux GPU Driver Developer's
+Guide.
+Fix some minor typo in the comments and remove a repeated 'the'.
 
+Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
+---
+ drivers/gpu/drm/drm_connector.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-On 26/06/2020 13:01, Andrzej Hajda wrote:
-> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
-> This list does not contain reason why the driver deferred probe, the patch
-> improves it.
-> The natural place to set the reason is probe_err function introduced recently,
-> ie. if probe_err will be called with -EPROBE_DEFER instead of printk the message
-> will be attached to deferred device and printed when user read devices_deferred
-> property.
-> 
-> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> ---
->   drivers/base/base.h |  3 +++
->   drivers/base/core.c |  8 ++++++--
->   drivers/base/dd.c   | 23 ++++++++++++++++++++++-
->   3 files changed, 31 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/base/base.h b/drivers/base/base.h
-> index 95c22c0f9036..6954fccab3d7 100644
-> --- a/drivers/base/base.h
-> +++ b/drivers/base/base.h
-> @@ -93,6 +93,7 @@ struct device_private {
->   	struct klist_node knode_class;
->   	struct list_head deferred_probe;
->   	struct device_driver *async_driver;
-> +	char *deferred_probe_reason;
->   	struct device *device;
->   	u8 dead:1;
->   };
-> @@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct device *dev,
->   extern void driver_detach(struct device_driver *drv);
->   extern int driver_probe_device(struct device_driver *drv, struct device *dev);
->   extern void driver_deferred_probe_del(struct device *dev);
-> +extern void device_set_deferred_probe_reson(const struct device *dev,
-> +					    struct va_format *vaf);
->   static inline int driver_match_device(struct device_driver *drv,
->   				      struct device *dev)
->   {
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 3a827c82933f..fee047f03681 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3963,6 +3963,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
->    * This helper implements common pattern present in probe functions for error
->    * checking: print debug or error message depending if the error value is
->    * -EPROBE_DEFER and propagate error upwards.
-> + * In case of -EPROBE_DEFER it sets also defer probe reason, which can be
-> + * checked later by reading devices_deferred debugfs attribute.
->    * It replaces code sequence:
->    * 	if (err != -EPROBE_DEFER)
->    * 		dev_err(dev, ...);
-> @@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
->   	vaf.fmt = fmt;
->   	vaf.va = &args;
->   
-> -	if (err != -EPROBE_DEFER)
-> +	if (err != -EPROBE_DEFER) {
->   		dev_err(dev, "error %d: %pV", err, &vaf);
-> -	else
-> +	} else {
-> +		device_set_deferred_probe_reson(dev, &vaf);
->   		dev_dbg(dev, "error %d: %pV", err, &vaf);
-> +	}
->   
->   	va_end(args);
->   
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 9a1d940342ac..dd5683b61f74 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -27,6 +27,7 @@
->   #include <linux/async.h>
->   #include <linux/pm_runtime.h>
->   #include <linux/pinctrl/devinfo.h>
-> +#include <linux/slab.h>
->   
->   #include "base.h"
->   #include "power/power.h"
-> @@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
->   	if (!list_empty(&dev->p->deferred_probe)) {
->   		dev_dbg(dev, "Removed from deferred list\n");
->   		list_del_init(&dev->p->deferred_probe);
-> +		kfree(dev->p->deferred_probe_reason);
-> +		dev->p->deferred_probe_reason = NULL;
->   	}
->   	mutex_unlock(&deferred_probe_mutex);
->   }
-> @@ -211,6 +214,23 @@ void device_unblock_probing(void)
->   	driver_deferred_probe_trigger();
->   }
->   
-> +/**
-> + * device_set_deferred_probe_reson() - Set defer probe reason message for device
-> + * @dev: the pointer to the struct device
-> + * @vaf: the pointer to va_format structure with message
-> + */
-> +void device_set_deferred_probe_reson(const struct device *dev, struct va_format *vaf)
-> +{
-> +	const char *drv = dev_driver_string(dev);
-> +
-> +	mutex_lock(&deferred_probe_mutex);
-> +
-> +	kfree(dev->p->deferred_probe_reason);
-> +	dev->p->deferred_probe_reason = kasprintf(GFP_KERNEL, "%s: %pV", drv, vaf);
-> +
-> +	mutex_unlock(&deferred_probe_mutex);
-> +}
-> +
->   /*
->    * deferred_devs_show() - Show the devices in the deferred probe pending list.
->    */
-> @@ -221,7 +241,8 @@ static int deferred_devs_show(struct seq_file *s, void *data)
->   	mutex_lock(&deferred_probe_mutex);
->   
->   	list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
-> -		seq_printf(s, "%s\n", dev_name(curr->device));
-> +		seq_printf(s, "%s\t%s", dev_name(curr->device),
-> +			   curr->device->p->deferred_probe_reason ?: "\n");
->   
->   	mutex_unlock(&deferred_probe_mutex);
->   
-> 
-
-Sry, may be i missing smth, but shouldn't it be optional
-(CONFIG_DEBUG_FS is probably too generic).
-
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index d877ddc6dc57..cb62fb8e594e 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -38,7 +38,7 @@
+  * DOC: overview
+  *
+  * In DRM connectors are the general abstraction for display sinks, and include
+- * als fixed panels or anything else that can display pixels in some form. As
++ * also fixed panels or anything else that can display pixels in some form. As
+  * opposed to all other KMS objects representing hardware (like CRTC, encoder or
+  * plane abstractions) connectors can be hotplugged and unplugged at runtime.
+  * Hence they are reference-counted using drm_connector_get() and
+@@ -129,7 +129,7 @@ EXPORT_SYMBOL(drm_get_connector_type_name);
+ 
+ /**
+  * drm_connector_get_cmdline_mode - reads the user's cmdline mode
+- * @connector: connector to quwery
++ * @connector: connector to query
+  *
+  * The kernel supports per-connector configuration of its consoles through
+  * use of the video= parameter. This function parses that option and
+@@ -991,7 +991,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  * 	DP MST sinks), or high-res integrated panels (like dual-link DSI) which
+  * 	are not gen-locked. Note that for tiled panels which are genlocked, like
+  * 	dual-link LVDS or dual-link DSI, the driver should try to not expose the
+- * 	tiling and virtualize both &drm_crtc and &drm_plane if needed. Drivers
++ * 	tiling and virtualise both &drm_crtc and &drm_plane if needed. Drivers
+  * 	should update this value using drm_connector_set_tile_property().
+  * 	Userspace cannot change this property.
+  * link-status:
+@@ -1131,7 +1131,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *
+  *	It will even need to do colorspace conversion and get all layers
+  *	to one common colorspace for blending. It can use either GL, Media
+- *	or display engine to get this done based on the capabilties of the
++ *	or display engine to get this done based on the capabilities of the
+  *	associated hardware.
+  *
+  *	Driver expects metadata to be put in &struct hdr_output_metadata
+@@ -1614,7 +1614,7 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+  * variable refresh rate capability for a connector.
+  *
+  * Returns:
+- * Zero on success, negative errono on failure.
++ * Zero on success, negative errno on failure.
+  */
+ int drm_connector_attach_vrr_capable_property(
+ 	struct drm_connector *connector)
+@@ -1759,7 +1759,7 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+  * HDMI connectors.
+  *
+  * Returns:
+- * Zero on success, negative errono on failure.
++ * Zero on success, negative errno on failure.
+  */
+ int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector)
+ {
+@@ -1788,7 +1788,7 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
+  * DP connectors.
+  *
+  * Returns:
+- * Zero on success, negative errono on failure.
++ * Zero on success, negative errno on failure.
+  */
+ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector)
+ {
+@@ -1840,7 +1840,7 @@ EXPORT_SYMBOL(drm_mode_create_content_type_property);
+  * drm_mode_create_suggested_offset_properties - create suggests offset properties
+  * @dev: DRM device
+  *
+- * Create the the suggested x/y offset property for connectors.
++ * Create the suggested x/y offset property for connectors.
+  */
+ int drm_mode_create_suggested_offset_properties(struct drm_device *dev)
+ {
+@@ -1963,7 +1963,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+ 		size = EDID_LENGTH * (1 + edid->extensions);
+ 
+ 	/* Set the display info, using edid if available, otherwise
+-	 * reseting the values to defaults. This duplicates the work
++	 * resetting the values to defaults. This duplicates the work
+ 	 * done in drm_add_edid_modes, but that function is not
+ 	 * consistently called before this one in all drivers and the
+ 	 * computation is cheap enough that it seems better to
+@@ -2076,7 +2076,7 @@ void drm_connector_set_vrr_capable_property(
+ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
+ 
+ /**
+- * drm_connector_set_panel_orientation - sets the connecter's panel_orientation
++ * drm_connector_set_panel_orientation - sets the connector's panel_orientation
+  * @connector: connector for which to set the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  *
+@@ -2131,7 +2131,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+ 
+ /**
+  * drm_connector_set_panel_orientation_with_quirk -
+- *	set the connecter's panel_orientation after checking for quirks
++ *	set the connector's panel_orientation after checking for quirks
+  * @connector: connector for which to init the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  * @width: width in pixels of the panel, used for panel quirk detection
 -- 
-Best regards,
-grygorii
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
