@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E69C20B117
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 14:05:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A90A20B14B
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 14:21:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E5F6EC7B;
-	Fri, 26 Jun 2020 12:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E54076E0E7;
+	Fri, 26 Jun 2020 12:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAFBC6EC7B
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 12:05:25 +0000 (UTC)
-Date: Fri, 26 Jun 2020 12:05:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1593173123;
- bh=uy03d4pApFyanUzPJXiERmqHFFLTbXO9IL+H2+sdMJg=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=PilCOIho4m//3Ix6MLxRnoWheqITdhmwPSqHyUVeeKxk1oJh3xkrIAbbsEr7k1U5g
- v2gCXK5F2x3POmlf2FZJG64lpJsgmzHNcjGBDv5/RK4Zk/ftkOmv3J3eIMxEouxqkN
- AjJ5Yebl//C9Y6vz1EiQq3EQeeX5pboUEOmhYZ5w=
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC] drm: expose connector status values in uapi
-Message-ID: <4MY6RJHdVv-Ad6CY6Ds1G3aXoDmtABtBaIQHoC3Rfaj5zJ6WV3fOzFOZnIrKczKBcdh4gTHljlRRDaoKKa2vCUzW5TTYNobB5p3BcRdLwdw=@emersion.fr>
-In-Reply-To: <20200626121541.31835549@eldfell>
-References: <-LYZxtmyBTf36wklyxa0PphDQ1FecAgEF7TMnSvyCm9Y_EFmz-4AUROX6qc4HKUjomE0HumDgVrSIbHsUMJnRSrBR2c3gPCVDNUmz7klPkE=@emersion.fr>
- <20200626121541.31835549@eldfell>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6E6D6E0E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 12:20:59 +0000 (UTC)
+IronPort-SDR: Eh+B2KCkgwnQktLjO96MKtHeECELh0g2O32Gggf7qL1CAGiTWbq+fh4mUuoAPpRToEDIPVapdJ
+ rT/h0Sd0/oig==
+X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="146794154"
+X-IronPort-AV: E=Sophos;i="5.75,283,1589266800"; d="scan'208";a="146794154"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2020 05:20:59 -0700
+IronPort-SDR: cOHEBMQ9ilVyeOMsntKYa73bFgBHh0VPD/STlcy0W2hAx6ZUc38lUxrSEpN+LUv6RXtXUj2tkk
+ XfPx0A10IBqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,283,1589266800"; d="scan'208";a="453346853"
+Received: from marisaku-mobl.ger.corp.intel.com (HELO
+ delly.ger.corp.intel.com) ([10.252.49.150])
+ by orsmga005.jf.intel.com with ESMTP; 26 Jun 2020 05:20:58 -0700
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf: document dma-fence-chain purpose/behavior
+Date: Fri, 26 Jun 2020 15:21:00 +0300
+Message-Id: <20200626122100.55123-1-lionel.g.landwerlin@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,29 +47,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, June 26, 2020 11:15 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+Trying to explain a bit how this thing works. In my opinion diagrams
+are a bit easier to understand than words.
 
-> I have no opinion really if adding yet another set of the same
-> definitions is good or not. We do need the UAPI doc, but that does not
-> necessarily mean we also need definition code in UAPI headers.
->
-> I give this one a shrug.
+Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+---
+ drivers/dma-buf/dma-fence-chain.c | 37 +++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-But then uapi docs don't document uapi, instead document internal
-kernel enums? And also user-space not using libdrm needs to have these
-hardcoded somewhere.
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index 3d123502ff12..ac90ddf37b55 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -9,6 +9,43 @@
+ 
+ #include <linux/dma-fence-chain.h>
+ 
++/**
++ * DOC: DMA fence chains overview
++ *
++ * DMA fence chains, represented by &struct dma_fence_chain, are a kernel
++ * internal synchronization primitive providing a wrapping mechanism of other
++ * DMA fences in the form a single link list.
++ *
++ * One of the use case of this primitive is to implement Vulkan timeline
++ * semaphores (see VK_KHR_timeline_semaphore extension or Vulkan specification
++ * 1.2).
++ *
++ * Each DMA fence chain item wraps 2 items :
++ *
++ * - A previous DMA fence.
++ *
++ * - A DMA fence associated to the current &struct dma_fence_chain.
++ *
++ * A DMA fence chain becomes signaled when its previous fence as well as its
++ * associated fence are signaled. If a chain of dma fence chains is created,
++ * this property recurses, meaning that any dma fence chain element in the
++ * list becomes signaled only if its associated fence and all the previous
++ * fences in the chain are also signaled.
++ *
++ * A DMA fence chain's seqno is specified through dma_fence_chain_init(). This
++ * value is lower bound to the seqno of the previous fence to ensure the chain
++ * is monotically increasing.
++ *
++ * By traversing the chain's linked list, one can compute a seqno number
++ * associated with the chain such that is the highest number for which all
++ * previous fences have signaled.
++ *
++ * One can also traverse the chain's linked list to find a &struct
++ * dma_fence_chain that when signaled guarantees that all previous fences in
++ * the chain are signaled. dma_fence_chain_find_seqno() provides this
++ * functionality.
++ */
++
+ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence);
+ 
+ /**
+-- 
+2.27.0
 
-The libdrm re-definitions are annoying. Maybe a better way forward
-would be to have a "status" prop, which could then also be used for
-the planned fine-grained uapi events.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
