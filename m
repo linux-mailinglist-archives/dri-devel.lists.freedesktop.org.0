@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B618C20B492
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9685020B4A0
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACA56ECB8;
-	Fri, 26 Jun 2020 15:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8A6B6ECBD;
+	Fri, 26 Jun 2020 15:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EBF6ECB8;
- Fri, 26 Jun 2020 15:32:14 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id s28so7225624edw.11;
- Fri, 26 Jun 2020 08:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=sisD+mlHl7C8CYQosxE2yZqCg+4na6/akZrccMrgES8=;
- b=M9rOG1iqUTGJfLzsMRU+uKmHxbYt6WXxk/ygFmzH1wC1TriYfTuDdqJ7SVki63sOWu
- lsp6STtO0LgJWFyJC+3GHqWiq90oDclHc1sLZ+PuZanQNSTeFpg8T8k1yo5tyxkrGh1C
- xlJfLdus2IGu9qL19iCWlnh1x7so34u/cT+7mfGAGwCwQASVnS3UQq4B7waxzmvfwMhw
- LU7xJl85nYcLRKWYKzmC/4JM9wWjY+UsLpt4xpI35Pcnk7MySppPH+Mn5Nirw4wMDoX3
- uKrT9DojirIOzcEEBN5tG7sfaubVr0NYtFmZZB9lpWuwY4U9EDPyQ7ZXF8tCN/5UkdSU
- YA0A==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4CB46ECBD
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:33:54 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id o8so9213381wmh.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 08:33:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rpso9ySNKoLDGZyCP/hQvs97M6SXDiiUl7b7MavvpwM=;
+ b=Im1TNyjYUqGtSxb3sVpOQyDfuWo+4jL/eqZNHs4NDDTYEFyid04tQdyu89ASBScZ4r
+ wb24XBrOxce/WjPuyNXPXoUHQtfJiOu0kaAMJjR3M59cyn6Vkqe368y2feEo+qQEiBk1
+ DGBfapEIfDFuUQ2BVVIu2qVIvQnFFinKhlLC/DFjzG2Vl42KM9ir4BThZQhjbOqbEaLn
+ PIGe/3KXrsysRdikgnP8sEL3JiLrgrISIBIssg0wXfm9CiCOt594i2d+P+H+yy96DPWd
+ chrGgttiyWu7uhIOKgZbaVf2bTgCFyCeXiE4mMc/P5bBOpgpq8XeNZk2VCtLj5y9RojH
+ FdvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=sisD+mlHl7C8CYQosxE2yZqCg+4na6/akZrccMrgES8=;
- b=dXFvijLQcWAkAoxJ9QCZN7SIurQqMdjjPp0vXnDch9DS+CAFbeMLkSqnviOZpaTWa3
- lT4tCBnhiZXp12cikJ4eTHlQz90SwOPUJChGNsJ82tlQQil2/hjHziv/JhPx8eeN5mdQ
- doDKSKaBo/P3oMjkD2bRHeBLJ50HKzEFp7FJtF79UaoRG6345vxlYC373Y25PJVRK2oD
- 5JzXrM7t6D2zHmnbr/Jk1XOMc0g17G3IQoFE2G12UKvDMZsq07+Sr6Uqcbx83isJyE+1
- d5CfaoQ6lX4SZBZQwLMilKYrIopgagWAgmc3tQZuqdWeZ7yQg/hjMNqtdfWu9LdPoV47
- 2jvQ==
-X-Gm-Message-State: AOAM5309keaPmHQFbprlp5b0jeFYI+FQcek6KqQAcoY9gCFl+zbygb+8
- geU9VdFmQ46mQVd4ZpW+Ok85tpXgztjhOKUcFNbBNdW9RVo=
-X-Google-Smtp-Source: ABdhPJwT1TINnsmEQHyFt81RhldxZNYfXLU69wEptxxMIBuc4S3lt+KRGyfgPnzqlOmQWT3BolOB8DQQOuf4mXXYlc4=
-X-Received: by 2002:a50:eb02:: with SMTP id y2mr1398536edp.281.1593185532634; 
- Fri, 26 Jun 2020 08:32:12 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rpso9ySNKoLDGZyCP/hQvs97M6SXDiiUl7b7MavvpwM=;
+ b=NhcACNJQvKW4lXVT5RA50dN5mOai1GUOZ9VUzfwuWD8NxRB09zph02xYh0k0iUVEcg
+ oXK+MpalkiD3PUm5tEdlJy9MH/TSpIXo/y4QFrsJjMF1omhZjcXxRpvFJEGS83cl4sGx
+ w5vXdZW1v3x8swYDLA9W4AV7OXAyIyeipOnGH00sK+9pAhddfyqOhfthEfCUBrli7n79
+ WwBYRwjyLhYtmVskhnl0tceXFD6tyR+gnnG7vNBO0xzYga7k4XFB+w2ORip1kUkHbcA4
+ Zb5T0WnGI94sExJnYXKtMZ4kofDB10+RRqHROiHhYrq+r61SfbDOAa2kL7r7yNywFd8b
+ SszA==
+X-Gm-Message-State: AOAM530WU3ng/FK4Eq6BZzEwhnZUfHo/WUDpAO0Lj5Vut5RErxUMbnwG
+ yfltakje67vy3RC6XJtxiMOZcQ==
+X-Google-Smtp-Source: ABdhPJz9yrxY45T9SAy1cdsmEGjRTcOB+Cz9/AF+lu25KlsF3R66G6fdX+qT3KF8kVohKRgE/ySkTg==
+X-Received: by 2002:a1c:32c4:: with SMTP id y187mr4112202wmy.79.1593185633299; 
+ Fri, 26 Jun 2020 08:33:53 -0700 (PDT)
+Received: from dell ([2.27.35.144])
+ by smtp.gmail.com with ESMTPSA id f16sm18168315wmh.27.2020.06.26.08.33.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jun 2020 08:33:52 -0700 (PDT)
+Date: Fri, 26 Jun 2020 16:33:51 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH 3/8] backlight: ili922x: Add missing kerneldoc
+ descriptions for CHECK_FREQ_REG() args
+Message-ID: <20200626153351.GD177734@dell>
+References: <20200624145721.2590327-1-lee.jones@linaro.org>
+ <20200624145721.2590327-4-lee.jones@linaro.org>
+ <20200625094051.u4hanl3rycczlwiy@holly.lan>
+ <20200625103334.GO954398@dell>
+ <20200626095405.nzhqsfjegj6qg2ro@holly.lan>
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 26 Jun 2020 08:32:42 -0700
-Message-ID: <CAF6AEGsYHgxo0+Nwr0Wq3A8W6LW69SmbpDN4ckpTqxPtAW3vww@mail.gmail.com>
-Subject: 
-To: Dave Airlie <airlied@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200626095405.nzhqsfjegj6qg2ro@holly.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,69 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Software Engineering <sbabic@denx.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
-
-A few fixes, mostly fallout from the address space refactor and dpu
-color processing.
-
-
-The following changes since commit 1cb2c4a2c89b2004a36399860c85a1af9b3fcba7:
-
-  Revert "drm/msm/dpu: add support for clk and bw scaling for display"
-(2020-06-01 20:56:18 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2020-06-25
-
-for you to fetch changes up to 30480e6ed508e3ff7a3e03c975696aa5196ffe8a:
-
-  drm/msm: Fix up the rest of the messed up address sizes (2020-06-22
-12:12:29 -0700)
-
-----------------------------------------------------------------
-Bernard Zhao (1):
-      drm/msm: fix potential memleak in error branch
-
-Chen Tao (1):
-      drm/msm/dpu: fix error return code in dpu_encoder_init
-
-Eric Anholt (2):
-      drm/msm: Fix address space size after refactor.
-      drm/msm: Fix setup of a6xx create_address_space.
-
-John Stultz (1):
-      drm/msm: Fix 0xfffflub in "Refactor address space initialization"
-
-Jordan Crouse (1):
-      drm/msm: Fix up the rest of the messed up address sizes
-
-Kalyan Thota (1):
-      drm/msm/dpu: request for display color blocks based on hw catalog entry
-
-Krishna Manikandan (1):
-      drm/msm/dpu: allow initialization of encoder locks during encoder init
-
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c       |  2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |  2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 18 +++++++++++-------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c    |  2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c    |  2 +-
- drivers/gpu/drm/msm/msm_submitqueue.c       |  4 +++-
- 9 files changed, 21 insertions(+), 15 deletions(-)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAyNiBKdW4gMjAyMCwgRGFuaWVsIFRob21wc29uIHdyb3RlOgoKPiBPbiBUaHUsIEp1
+biAyNSwgMjAyMCBhdCAxMTozMzozNEFNICswMTAwLCBMZWUgSm9uZXMgd3JvdGU6Cj4gPiBPbiBU
+aHUsIDI1IEp1biAyMDIwLCBEYW5pZWwgVGhvbXBzb24gd3JvdGU6Cj4gPiAKPiA+ID4gT24gV2Vk
+LCBKdW4gMjQsIDIwMjAgYXQgMDM6NTc6MTZQTSArMDEwMCwgTGVlIEpvbmVzIHdyb3RlOgo+ID4g
+PiA+IEtlcm5lbGRvYyBzeW50YXggaXMgdXNlZCwgYnV0IG5vdCBjb21wbGV0ZS4gIERlc2NyaXB0
+aW9ucyByZXF1aXJlZC4KPiA+ID4gPiAKPiA+ID4gPiBQcmV2ZW50cyB3YXJuaW5ncyBsaWtlOgo+
+ID4gPiA+IAo+ID4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmM6MTE2OiB3
+YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdzJyBub3QgZGVzY3JpYmVkIGlu
+ICdDSEVDS19GUkVRX1JFRycKPiA+ID4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvaWxpOTIy
+eC5jOjExNjogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAneCcgbm90IGRl
+c2NyaWJlZCBpbiAnQ0hFQ0tfRlJFUV9SRUcnCj4gPiA+ID4gCj4gPiA+ID4gQ2M6IDxzdGFibGVA
+dmdlci5rZXJuZWwub3JnPgo+ID4gPiA+IENjOiBCYXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6IDxi
+LnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+Cj4gPiA+ID4gQ2M6IFNvZnR3YXJlIEVuZ2luZWVyaW5n
+IDxzYmFiaWNAZGVueC5kZT4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5q
+b25lc0BsaW5hcm8ub3JnPgo+ID4gPiA+IC0tLQo+ID4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2ts
+aWdodC9pbGk5MjJ4LmMgfCAyICsrCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
+bnMoKykKPiA+ID4gPiAKPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGln
+aHQvaWxpOTIyeC5jIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvaWxpOTIyeC5jCj4gPiA+ID4g
+aW5kZXggOWM1YWEzZmJiMjg0Mi4uOGNiNGI5ZDNjM2JiYSAxMDA2NDQKPiA+ID4gPiAtLS0gYS9k
+cml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL3Zp
+ZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmMKPiA+ID4gPiBAQCAtMTA3LDYgKzEwNyw4IEBACj4gPiA+
+ID4gICAqCWxvd2VyIGZyZXF1ZW5jeSB3aGVuIHRoZSByZWdpc3RlcnMgYXJlIHJlYWQvd3JpdHRl
+bi4KPiA+ID4gPiAgICoJVGhlIG1hY3JvIHNldHMgdGhlIGZyZXF1ZW5jeSBpbiB0aGUgc3BpX3Ry
+YW5zZmVyIHN0cnVjdHVyZSBpZgo+ID4gPiA+ICAgKgl0aGUgZnJlcXVlbmN5IGV4Y2VlZHMgdGhl
+IG1heGltdW0gdmFsdWUuCj4gPiA+ID4gKyAqIEBzOiBwb2ludGVyIHRvIGNvbnRyb2xsZXIgc2lk
+ZSBwcm94eSBmb3IgYW4gU1BJIHNsYXZlIGRldmljZQo+ID4gPiAKPiA+ID4gV2hhdCdzIHdyb25n
+IHdpdGggImEgcG9pbnRlciB0byBhbiBTUEkgZGV2aWNlIj8KPiA+ID4gCj4gPiA+IEkgYW0gYXdh
+cmUsIGhhdmluZyBsb29rZWQgaXQgdXAgdG8gZmluZCBvdXQgd2hhdCB0aGUgYWJvdmUgYWN0dWFs
+bHkKPiA+ID4gbWVhbnMsIHRoYXQgdGhpcyBpcyBob3cgc3RydWN0IHNwaV9kZXZpY2UgaXMgZGVz
+Y3JpYmVkIGluIGl0cyBvd24ga2VybmVsCj4gPiA+IGRvYyBidXQgcXVvdGluZyBhdCB0aGF0IGxl
+dmVsIG9mIGRldGFpbCBvZiBib3RoIG92ZXJraWxsIGFuZCBjb25mdXNpbmcuCj4gPiAKPiA+IEkg
+ZmlndXJlZCB0aGF0IHVzaW5nIHRoZSBvZmZpY2lhbCBkZXNjcmlwdGlvbiB3b3VsZCBiZSBiZXR0
+ZXIgdGhhbgo+ID4gbWFraW5nIHNvbWV0aGluZyB1cC4gIEhvd2V2ZXIgaWYgeW91IHRoaW5rIGl0
+J3MgYmV0dGVyIHRvIEtJU1MsIHRoZW4gSQo+ID4gY2FuIGNoYW5nZSBpdC4KPiAKPiBZZXMsIEkn
+ZCBzdHJvbmdseSBwcmVmZXIgS0lTUyBoZXJlLgo+IAo+IEkga25vdyBpdCBpcyBhbiAiSSBhbSB0
+aGUgd29ybGQiIGFyZ3VtZW50WzFdIGJ1dCBJIGZvdW5kIHVzaW5nIHN1Y2ggYQo+IGRvZ21hdGlj
+YWxseSBhY2N1cmF0ZSBkZXNjcmlwdGlvbiBvdXQgb2YgY29udGV4dCB0byBiZSB2ZXJ5IGNvbmZ1
+c2luZwo+IGFuZCB0aGVyZWZvcmUgSSBkb24ndCB0aGluayBzdWNoIGEgY29tbWVudCBpbXByb3Zl
+cyByZWFkYWJpbGl0eS4KPiAKPiBbMV06IFNlZSAjMyBmcm9tIGh0dHA6Ly93d3cubGVhbnkuY29t
+L2xvZ2ljL0FkYW1zLmh0bWwKCkl0J3MgZmluZSwgeW91IGFyZSB0aGUgd29ybGQsIEkgZ2V0IGl0
+LiA7KQoKRG8geW91IGV2ZW4gbGlrZSBDb3VudHJ5IG11c2ljPwoKV2lsbCBmaXghCgotLSAKTGVl
+IEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2
+aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9s
+bG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
