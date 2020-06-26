@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3060A20B503
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:43:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA0320B5B6
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 18:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDEF488DF5;
-	Fri, 26 Jun 2020 15:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F586ECD5;
+	Fri, 26 Jun 2020 16:15:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296FB88DF5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:43:12 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id w10so4943299oih.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 08:43:12 -0700 (PDT)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38BF46ECD5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 16:15:48 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id k4so8521837oik.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vEQZo9olzBJiZJcwiDRlF3/VfdrlE6vXxmEcKsYsLJw=;
+ b=GsSCh42OoK/3I+9OpLjAyH+9aejAS8MbXPjbaOruuZDOwWKFzyRurGim/BB9pYu8B3
+ utOFlsy9/V4qBXBkj0t2wuzg8l6CxuNE6+8BQ1XuoS0Kv2yY7SNM3USDWiRrEsmlHrnD
+ Nh6Obw9NZV0VqkI/fZUWxz76LRUQlh2VSLT00=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZFS0A0GALa85jcwxFWd7qm3+ETIaduqsmP4v2A7mkd4=;
- b=Qj04K42OEL1U6YokrVFQSaJee/nxDtsDndF/62pnn54yCKS5Q78giTBd2/EY+gmrTl
- WMsQYPVqwcQlp6VdyB8tStx6aqjFuYQPZjcR6QftP01Uuah8gsTVLrUj1ZHeiKuoSPyt
- CIxV6qoS4U+PEGbRluf1H4bCabOi7Lm9w4DZj3N3HqCQ2WwTHhzapNDSkEI/eLktqOEf
- 3TnkJcTuU5XdfWY0uuyZg6mJObBUo2RCMJrA3vbT7VlzDCc/TmMXlS4G280mVxbZYHTT
- tG9TnRcLkYMmY+mN1pfcQMxa05xurRHzL/VVFybZqxluwC9H/jpKNZypjUJlBTd3Cwdo
- 1bdQ==
-X-Gm-Message-State: AOAM533H1vsN3yg6R4F2mnbNFpObdmWjhq0CgYAIQrG+lGz0ovqqZfFG
- 8rX3IVZOUNMm+U9qz5KjRoX5nC9d4vKDopI9x+I=
-X-Google-Smtp-Source: ABdhPJypLeDV2LckMOXvyTvsspyQajm/zBr0CubHbVFZYs8R4ojC/YhlMLPDnsf5S9DcOktseIn1onDAM7HB1zN92TM=
-X-Received: by 2002:a05:6808:99b:: with SMTP id
- a27mr2849111oic.68.1593186191326; 
- Fri, 26 Jun 2020 08:43:11 -0700 (PDT)
+ bh=vEQZo9olzBJiZJcwiDRlF3/VfdrlE6vXxmEcKsYsLJw=;
+ b=XqOoGmIwj9iNhh4ag/C0opp4MeMeaIP+dbdRyn5Hb1yp8D1/bedTdYYtZxAg5ESImF
+ QNhqCgRo1KvD0yAVynr3JFccdaoIRzyIsfQbyTflFyyMLl/SVaLxK67PXS+K+6MiSMzW
+ yQmR2qoJxQdMltPQy71Lbj3osEOrPy/ATIqDJgb2b6b1RywPzcir8r4bRao/zfvnCvRv
+ n0cSaaxOHab//XCtVD6ApbhzNMt7/KWKSwtTN4JkiufCxmww5JJCDDmOaldKyZ2mfjm5
+ c+BPjo5BGqNd04roqLKzN0rSG2EeArvToGU6FemnhfHxR67Vm//t/AQ7dOU1tajL6Y9G
+ Mxwg==
+X-Gm-Message-State: AOAM530HmF5P5xQjwnOIwYAxxW/IDrUAwk8sE1/VRRxeRHHykpAuZLxW
+ c6wX388Gq9oCuripS+aqopkxwNGF6qbSz2bZXbZGkw==
+X-Google-Smtp-Source: ABdhPJx5VN29FdiiUOQyfq7HZnztWSE28hTMNlz/YdDomEKNHGaOMPWSHrIjm5XLSSFB6taI9s8uppO6LJngER1VD50=
+X-Received: by 2002:aca:dc82:: with SMTP id t124mr3118558oig.14.1593188147459; 
+ Fri, 26 Jun 2020 09:15:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20200626100110eucas1p2c5b91f2c98a5c6e5739f5af3207d192e@eucas1p2.samsung.com>
- <20200626100103.18879-1-a.hajda@samsung.com>
- <20200626100103.18879-3-a.hajda@samsung.com>
-In-Reply-To: <20200626100103.18879-3-a.hajda@samsung.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 26 Jun 2020 17:43:00 +0200
-Message-ID: <CAJZ5v0g72gY70aKC9DZh=GH6dvGesV5ug0Dc8i0YbX_X1bkCTQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] driver core: add deferring probe reason to
- devices_deferred property
-To: Andrzej Hajda <a.hajda@samsung.com>
+References: <20200626135233.32137-1-brian.starkey@arm.com>
+ <CAKMK7uGCQV7XptAAycHG_XOW-VOtHpUB2qqp2Kvo+3oUhkmOQA@mail.gmail.com>
+ <20200626141557.g7vhzfyre764otr4@DESKTOP-E1NTVVP.localdomain>
+ <CAKMK7uFy59UegLzWhrx3a1u1Hiv3+0iDhViHC+SecPJBo+O0mA@mail.gmail.com>
+ <20200626152144.5e4pe3y4nw44mf2d@DESKTOP-E1NTVVP.localdomain>
+In-Reply-To: <20200626152144.5e4pe3y4nw44mf2d@DESKTOP-E1NTVVP.localdomain>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 26 Jun 2020 18:15:36 +0200
+Message-ID: <CAKMK7uG+Wc3aAThZekkaCMzAS9OVrLipw+VD8Ope+AOaM21ayQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: drm_fourcc: Add generic alias for 16_16_TILE modifier
+To: Brian Starkey <brian.starkey@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,153 +61,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrzej Pietrasiewicz <andrzej.p@samsung.com>, nd <nd@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, matteo.franchin@arm.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 26, 2020 at 12:01 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+On Fri, Jun 26, 2020 at 5:21 PM Brian Starkey <brian.starkey@arm.com> wrote:
 >
-> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
-> This list does not contain reason why the driver deferred probe, the patch
-> improves it.
-> The natural place to set the reason is probe_err function introduced recently,
-> ie. if probe_err will be called with -EPROBE_DEFER instead of printk the message
-> will be attached to deferred device and printed when user read devices_deferred
-> property.
+> On Fri, Jun 26, 2020 at 05:16:53PM +0200, Daniel Vetter wrote:
+> > On Fri, Jun 26, 2020 at 4:16 PM Brian Starkey <brian.starkey@arm.com> wrote:
+> > >
+> > > Hi Daniel,
+> > >
+> > > On Fri, Jun 26, 2020 at 04:07:43PM +0200, Daniel Vetter wrote:
+> > > > On Fri, Jun 26, 2020 at 3:52 PM Brian Starkey <brian.starkey@arm.com> wrote:
+> > > > >
+> > > > > In cases such as DRM_FORMAT_MOD_SAMSUNG_16_16_TILE, the modifier
+> > > > > describes a generic pixel re-ordering which can be applicable to
+> > > > > multiple vendors.
+> > > > >
+> > > > > Define an alias: DRM_FORMAT_MOD_GENERIC_16_16_TILE, which can be
+> > > > > used to describe this layout in a vendor-neutral way, and add a
+> > > > > comment about the expected usage of such "generic" modifiers.
+> > > > >
+> > > > > Signed-off-by: Brian Starkey <brian.starkey@arm.com>
+> > > > > ---
+> > > > >
+> > > > > This is based off a suggestion from Daniel here:
+> > > > > https://lore.kernel.org/dri-devel/20200529115328.GC1630358@phenom.ffwll.local/
+> > > > >
+> > > > > If there are future cases where a "generic" modifier is identified
+> > > > > before merging with a specific vendor code, perhaps we could use
+> > > > > `fourcc_mod_code(NONE, n)` or add a DRM_FORMAT_MOD_VENDOR_GENERIC.
+> > > > >
+> > > > > However, I also think we shouldn't try and "guess" what might be generic
+> > > > > up-front and end up polluting the generic namespace. It seems fine to
+> > > > > just alias vendor-specific definitions unless it's very clear-cut.
+> > > >
+> > > > I think the above two things would also be good additions to the comment.
+> > > >
+> > > > A totally different thing: I just noticed that we don't pull in all
+> > > > the comments for modifiers. I think we could convert them to
+> > > > kerneldoc, and then pull them into a separate section in drm-kms.rst.
+> > > > Maybe even worth to pull out into a new drm-fourcc.rst document, since
+> > > > these are officially shared with gl and vk standard extensions. Then
+> > > > this new modifier's doc could simply point at teh existing one (and
+> > > > the generated kerneldoc would make that a hyperlink for added
+> > > > awesomeness).
+> > > >
+> > > > Aside from that makes sense to me, maybe just add it to your patch
+> > > > series that will start making use of these.
+> > >
+> > > This is only supported by the GPU, so we wouldn't be using this on the
+> > > Display side.
+> >
+> > I mean the patch to add the NV15 fource, it mentions "suitable for 16
+> > by 16 tile layout", would be nice to just put the generic modifier in
+> > that comment.
+> > -Daniel
 >
-> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Ah right. I saw that one went out in Maarten's pull request this
+> morning.
 
-Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
+Oh I missed that, then maybe just amend this patch to update the other comment?
+-Daniel
 
-> ---
->  drivers/base/base.h |  3 +++
->  drivers/base/core.c |  8 ++++++--
->  drivers/base/dd.c   | 23 ++++++++++++++++++++++-
->  3 files changed, 31 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/base/base.h b/drivers/base/base.h
-> index 95c22c0f9036..6954fccab3d7 100644
-> --- a/drivers/base/base.h
-> +++ b/drivers/base/base.h
-> @@ -93,6 +93,7 @@ struct device_private {
->         struct klist_node knode_class;
->         struct list_head deferred_probe;
->         struct device_driver *async_driver;
-> +       char *deferred_probe_reason;
->         struct device *device;
->         u8 dead:1;
->  };
-> @@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct device *dev,
->  extern void driver_detach(struct device_driver *drv);
->  extern int driver_probe_device(struct device_driver *drv, struct device *dev);
->  extern void driver_deferred_probe_del(struct device *dev);
-> +extern void device_set_deferred_probe_reson(const struct device *dev,
-> +                                           struct va_format *vaf);
->  static inline int driver_match_device(struct device_driver *drv,
->                                       struct device *dev)
->  {
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 3a827c82933f..fee047f03681 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3963,6 +3963,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
->   * This helper implements common pattern present in probe functions for error
->   * checking: print debug or error message depending if the error value is
->   * -EPROBE_DEFER and propagate error upwards.
-> + * In case of -EPROBE_DEFER it sets also defer probe reason, which can be
-> + * checked later by reading devices_deferred debugfs attribute.
->   * It replaces code sequence:
->   *     if (err != -EPROBE_DEFER)
->   *             dev_err(dev, ...);
-> @@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
->         vaf.fmt = fmt;
->         vaf.va = &args;
+> -Brian
 >
-> -       if (err != -EPROBE_DEFER)
-> +       if (err != -EPROBE_DEFER) {
->                 dev_err(dev, "error %d: %pV", err, &vaf);
-> -       else
-> +       } else {
-> +               device_set_deferred_probe_reson(dev, &vaf);
->                 dev_dbg(dev, "error %d: %pV", err, &vaf);
-> +       }
->
->         va_end(args);
->
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 9a1d940342ac..dd5683b61f74 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -27,6 +27,7 @@
->  #include <linux/async.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/pinctrl/devinfo.h>
-> +#include <linux/slab.h>
->
->  #include "base.h"
->  #include "power/power.h"
-> @@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
->         if (!list_empty(&dev->p->deferred_probe)) {
->                 dev_dbg(dev, "Removed from deferred list\n");
->                 list_del_init(&dev->p->deferred_probe);
-> +               kfree(dev->p->deferred_probe_reason);
-> +               dev->p->deferred_probe_reason = NULL;
->         }
->         mutex_unlock(&deferred_probe_mutex);
->  }
-> @@ -211,6 +214,23 @@ void device_unblock_probing(void)
->         driver_deferred_probe_trigger();
->  }
->
-> +/**
-> + * device_set_deferred_probe_reson() - Set defer probe reason message for device
-> + * @dev: the pointer to the struct device
-> + * @vaf: the pointer to va_format structure with message
-> + */
-> +void device_set_deferred_probe_reson(const struct device *dev, struct va_format *vaf)
-> +{
-> +       const char *drv = dev_driver_string(dev);
-> +
-> +       mutex_lock(&deferred_probe_mutex);
-> +
-> +       kfree(dev->p->deferred_probe_reason);
-> +       dev->p->deferred_probe_reason = kasprintf(GFP_KERNEL, "%s: %pV", drv, vaf);
-> +
-> +       mutex_unlock(&deferred_probe_mutex);
-> +}
-> +
->  /*
->   * deferred_devs_show() - Show the devices in the deferred probe pending list.
->   */
-> @@ -221,7 +241,8 @@ static int deferred_devs_show(struct seq_file *s, void *data)
->         mutex_lock(&deferred_probe_mutex);
->
->         list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
-> -               seq_printf(s, "%s\n", dev_name(curr->device));
-> +               seq_printf(s, "%s\t%s", dev_name(curr->device),
-> +                          curr->device->p->deferred_probe_reason ?: "\n");
->
->         mutex_unlock(&deferred_probe_mutex);
->
-> --
-> 2.17.1
->
+> >
+> > >
+> > > Thanks,
+> > > -Brian
+> > >
+> > > > -Daniel
+> > > >
+> > > > >
+> > > > > I typed a version which was s/GENERIC/COMMON/, other suggestions
+> > > > > welcome.
+> > > > >
+> > > > > Cheers,
+> > > > > -Brian
+> > > > >
+> > > > >  include/uapi/drm/drm_fourcc.h | 19 +++++++++++++++++++
+> > > > >  1 file changed, 19 insertions(+)
+> > > > >
+> > > > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > > > > index 299f9ac4840b..ef78dc9c3fb0 100644
+> > > > > --- a/include/uapi/drm/drm_fourcc.h
+> > > > > +++ b/include/uapi/drm/drm_fourcc.h
+> > > > > @@ -345,8 +345,27 @@ extern "C" {
+> > > > >   * When adding a new token please document the layout with a code comment,
+> > > > >   * similar to the fourcc codes above. drm_fourcc.h is considered the
+> > > > >   * authoritative source for all of these.
+> > > > > + *
+> > > > > + * Generic modifier names:
+> > > > > + *
+> > > > > + * DRM_FORMAT_MOD_GENERIC_* definitions are used to provide vendor-neutral names
+> > > > > + * for layouts which are common across multiple vendors. To preserve
+> > > > > + * compatibility, in cases where a vendor-specific definition already exists and
+> > > > > + * a generic name for it is desired, the common name is a purely symbolic alias
+> > > > > + * and must use the same numerical value as the original definition.
+> > > > > + *
+> > > > > + * Note that generic names should only be used for modifiers which describe
+> > > > > + * generic layouts (such as pixel re-ordering), which may have
+> > > > > + * independently-developed support across multiple vendors.
+> > > > > + *
+> > > > > + * Generic names should not be used for cases where multiple hardware vendors
+> > > > > + * have implementations of the same standardised compression scheme (such as
+> > > > > + * AFBC). In those cases, all implementations should use the same format
+> > > > > + * modifier(s), reflecting the vendor of the standard.
+> > > > >   */
+> > > > >
+> > > > > +#define DRM_FORMAT_MOD_GENERIC_16_16_TILE DRM_FORMAT_MOD_SAMSUNG_16_16_TILE
+> > > > > +
+> > > > >  /*
+> > > > >   * Invalid Modifier
+> > > > >   *
+> > > > > --
+> > > > > 2.17.1
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
