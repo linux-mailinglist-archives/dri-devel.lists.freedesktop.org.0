@@ -1,98 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D948E20AF55
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 12:01:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE39420AFA5
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 12:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8046EC5A;
-	Fri, 26 Jun 2020 10:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 767B56EC62;
+	Fri, 26 Jun 2020 10:25:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD9216EC56
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:01:13 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200626100112euoutp02d2ae1bd199e8201ad6e7e30e5bc16dc6~cD7z6ex6J2540925409euoutp02J
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:01:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200626100112euoutp02d2ae1bd199e8201ad6e7e30e5bc16dc6~cD7z6ex6J2540925409euoutp02J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593165672;
- bh=fQMNu6sWDptDAr6/vT/QHkEA8xvrKj4wgjHFZNOz7Ao=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lpVNe9omwXEPlO6h8p0Gi1Fhy/ZRFWHx+0LogdW4+hAdnNc/vlpXE/VYqdMlHJgYg
- CT5hH0mxb1cNsJGVNpZaSAffSLjt7Yx0xoXVDYM7TieryTOigyCpStcg+6Oa4v0T3u
- 3LzT2gvGlC4Odf77k3D8jxtOEeAREXbQ03ZlPtzc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200626100112eucas1p24ede723f8f1211f52807bcd5beef82ee~cD7zkzPvd1856218562eucas1p2O;
- Fri, 26 Jun 2020 10:01:12 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id FA.B3.05997.867C5FE5; Fri, 26
- Jun 2020 11:01:12 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db~cD7zP1nsi1585815858eucas1p1T;
- Fri, 26 Jun 2020 10:01:11 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200626100111eusmtrp2d0bae6ed7bc417a53d8edd19c0ea7f1c~cD7zOhJL61350013500eusmtrp2F;
- Fri, 26 Jun 2020 10:01:11 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-d0-5ef5c7685195
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 17.86.06017.767C5FE5; Fri, 26
- Jun 2020 11:01:11 +0100 (BST)
-Received: from AMDC3748.digital.local (unknown [106.120.51.74]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200626100110eusmtip19acd13a6af9c0b1fd47584ae7feb08bf~cD7yenk9Q2495924959eusmtip1O;
- Fri, 26 Jun 2020 10:01:10 +0000 (GMT)
-From: Andrzej Hajda <a.hajda@samsung.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v6 4/4] drm/bridge: lvds-codec: simplify error handling
-Date: Fri, 26 Jun 2020 12:01:03 +0200
-Message-Id: <20200626100103.18879-5-a.hajda@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200626100103.18879-1-a.hajda@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSa0iTURjHOXuvjhZvM/Cg2WUllZBWFp0opLTLi4FlH/rQxXrLlyluSzat
- lCC7mfM2zbykRqOU2Uxnq0St0DZpiU68pKlkll3ITCrcCkdlm++sb7/zPP/n/3/O4dCY1E74
- 0wmqZF6t4hQyUow3PJvuWhNvc8aufWym0HBdF4HG860A3Ss1Eajo7XsSzTQUYOiF8yuJLt42
- kaj/5ziG2r/040hbUEkh87sBAvU1V5DIUvQEoNq2EQpZ8g6hG44ibBvD9g30YOzXwcsU++SH
- HmebykYotjzzOsGajVqSfZ7fK2Jbbtyl2NFsm4i9X3mOzXtgBGxrbiHOTpkX75McFG+N4xUJ
- p3h1aPgxcfzN+jxR0kefM9+N34l0UElnAR8aMhtgqaMB87CUqQaw6kJiFhC72QFgobaYEA5T
- ADZ2j2BzE1m9Q96GAUCXXo/9G7n2KIfwqEhmNfx9f4j08EImDOrsZZRHhDEuHPZfyZgV+TK7
- YelEzawIZ4Lgqztv3E40LWEQPG/bJaQtgTX1rbPJPsxmWDKcO5sMmUkKOrN1Io8eMjug4dFh
- Qe8LP9seUAIvgjNNN0UCn4Oj1ZcwYTYTwIf1Td7rbIGvulykxwdzL21qDhXK22FuhstrPx8O
- Ti7wlDE3Xm0owYSyBGZmSAX1Mjhqf+g19INV3U5SYBbWF4x5nycHwPaJDFE+WFL2P0wPgBH4
- 8SkapZzXrFfxp0M0nFKTopKHnDipNAP3J+v4Y3M0guZfxy2AoYFsnqS1wBErJbhTmlSlBUAa
- ky2URNg7YqWSOC41jVefPKpOUfAaCwigcZmfJOzW+BEpI+eS+USeT+LVc10R7eOfDojqp46N
- l3gTEV7LLd0UPq9mc/nbYmNFaKJNy2d/0uG9520rl0dF6qIjnMqpkOaoxZXW1/6BY1tdnHVn
- jLIuvcWQZgjrGaIj3nw4EFgavPfbpvQ7AVC+Z2b/WeunxhWq6Wj9WJ8soS0yJupwYKfrS0jk
- dCdTLv+Q1fFy1dj2IIUM18Rz64IxtYb7C5w2LdhgAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRmVeSWpSXmKPExsVy+t/xu7rpx7/GGeycpGNxa905VouXEw4z
- WmycsZ7VYurDJ2wW/7dNZLa48vU9m0Xz4vVsFle/v2S2OPnmKotF58Ql7BabHl9jtbi8aw6b
- xaGpexkt1h65y25xqC/aYu6XqcwOAh6Xr11k9nh/o5XdY++3BSweO2fdZfeY3TGT1WPTqk42
- jxMTLjF57J+7ht3jfvdxJo/NS+o9+rasYvQ40DuZxePzJrkA3ig9m6L80pJUhYz84hJbpWhD
- CyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jPkb+pgKnnFWfFz1kbWBcQlHFyMn
- h4SAiUTXpZusXYxcHEICSxklGi/sZIdIiEvsnv+WGcIWlvhzrYsNougTo8SMK7sYQRJsApoS
- fzffZAOxRQSMJfrPzmIHKWIWaGOVmHv+CdgkYQF3iRmvV4MVsQioStxZ+QBoKgcHr4CFRONx
- N4gF8hKrNxwAW8YpYCkx/VYvK0iJEFBJ55LICYx8CxgZVjGKpJYW56bnFhvpFSfmFpfmpesl
- 5+duYgRG1rZjP7fsYOx6F3yIUYCDUYmH98DEL3FCrIllxZW5hxglOJiVRHidzp6OE+JNSays
- Si3Kjy8qzUktPsRoCnTSRGYp0eR8YNTnlcQbmhqaW1gamhubG5tZKInzdggcjBESSE8sSc1O
- TS1ILYLpY+LglGpg3NjVe7L1+q32KTsdPoqGPlWym/J/9bmzl+VD5K9HfMzUkV6fy+OerlGS
- /LTkto9R4RGHh1l5P+/tCvN72PvgMHNjdMWClXa/2WclFZ+wDxYUeaP/9Vpv2sLA+p+Su5v9
- 7V994hI0mTj/8JnYXR9/psT+73/9+cFnLe30vDiufXPFdXzzs0W2KbEUZyQaajEXFScCACoG
- v53CAgAA
-X-CMS-MailID: 20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db
-X-Msg-Generator: CA
-X-RootMTR: 20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db
-References: <20200626100103.18879-1-a.hajda@samsung.com>
- <CGME20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db@eucas1p1.samsung.com>
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0C86EC62
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:25:05 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id 9so9774177ljv.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 03:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TNjCAgKAbk+msi5pmTXJi15eJti80Wxw8XhtgKoiBWg=;
+ b=tLZDmBeJsuQfZeiznHfGuvEM0wNsbctBKmcqcSBeZqUe4r0xz1l/F4HAr7tYjHHv9E
+ I9OGWGPh+kP3mbl8AIc3SSBrRtNGH8OJ4aHGgOe1rcq/u0LS94z/nvcdD+fF+j7ry210
+ vW3nw+JAKZPHSdK9utUZKsErRIh03iG0+xyRU6dugYGdxeb46nOP+JmzuGMc9KPYPiYC
+ +g+Dg881dWSd4GNjgIkqRXQgj+N7WaKjA5z8A6vgjfeEEAO3JrpvYTGdm7Fl6zAVSJgr
+ t+JfJ0V7xxz/sZYAneWFaYiOIwPiQ17jfvUGUFWbrcgRGNqDxApj9xJe+JpN6L9jsG8Y
+ 8XCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TNjCAgKAbk+msi5pmTXJi15eJti80Wxw8XhtgKoiBWg=;
+ b=aqlpz3OIknYhh0it9ChCqnoPDOQRcsVoSbd5khWxbSSZ3nnNZ/GsewpTqSUt3dyTUi
+ FT5k/dkXg0Iw2r8N2olGRe5paLPpLwiu9JsVVUBYA5MSulpk7Vc4Il3+Gzzc9O9hA0pU
+ PcZZzasoye789gmKCxK8B/uyeEeA75R1ylQkXt9H/xIzI71rasCnLM4Z5Covcyy0lFXT
+ LN9AnCNvolFCZUPkU3nMJMFxgTBk5Bki5cGGXfYc+gEZT6lV+DR7P6Us3lv/oxEQWMix
+ fXyhhsOFpIocEQ21AT5NokiTlvjS8VRDt8dGGBT6hx9wVYf1WBUYT2+xVZkkGhpsrH6G
+ 3TmA==
+X-Gm-Message-State: AOAM533JNjzHMs/of7JsQL/fHVcfQgcoHtz8uGitLnGv/RWc/h+pcc/1
+ CLpXJmtdjZQIgQ7sZElSdGHzxQ==
+X-Google-Smtp-Source: ABdhPJwaYiLKuuBzVDCK7oQNxoQ4n+lIDMMtQLPJROPMkS3yl5UnhYwhSt9rkmvfXLX95ial2uwtzQ==
+X-Received: by 2002:a2e:b8c2:: with SMTP id s2mr1179823ljp.368.1593167103481; 
+ Fri, 26 Jun 2020 03:25:03 -0700 (PDT)
+Received: from genomnajs.lan
+ (c-d63ee155.152980-0-69706f6e6c79.bbcust.telenor.se. [85.225.62.214])
+ by smtp.gmail.com with ESMTPSA id i8sm6311559lja.18.2020.06.26.03.25.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Jun 2020 03:25:02 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] backlight: Delete the OT200 backlight driver
+Date: Fri, 26 Jun 2020 12:25:00 +0200
+Message-Id: <20200626102500.292230-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.4
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,56 +67,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- andy.shevchenko@gmail.com, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using dev_err_probe code has following advantages:
-- shorter code,
-- recorded defer probe reason for debugging,
-- uniform error code logging.
+This driver has no in-kernel users. The device can only be populated
+by board files since it does not support device tree nor ACPI,
+and nothing in the kernel creates a device named "ot200-backlight".
 
-Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+This driver has been in the kernel since 2012. If it is used by
+out-of-tree code that code should have been upstreamed by now,
+it's been 8 years.
+
+It uses the idiomatic forked GPIO of the CS5535 which combines
+pin control and GPIO into its private custom interface, which
+causes me a headache because that is not how we do things these
+days: we creates separate pin control and GPIO drivers.
+
+Delete this unused driver.
+
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/bridge/lvds-codec.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/video/backlight/Kconfig    |   7 --
+ drivers/video/backlight/Makefile   |   1 -
+ drivers/video/backlight/ot200_bl.c | 162 -----------------------------
+ 3 files changed, 170 deletions(-)
+ delete mode 100644 drivers/video/backlight/ot200_bl.c
 
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index 24fb1befdfa2..f19d9f7a5db2 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -71,13 +71,9 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
- 	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
- 							     GPIOD_OUT_HIGH);
--	if (IS_ERR(lvds_codec->powerdown_gpio)) {
--		int err = PTR_ERR(lvds_codec->powerdown_gpio);
--
--		if (err != -EPROBE_DEFER)
--			dev_err(dev, "powerdown GPIO failure: %d\n", err);
--		return err;
--	}
-+	if (IS_ERR(lvds_codec->powerdown_gpio))
-+		return dev_err_probe(dev, PTR_ERR(lvds_codec->powerdown_gpio),
-+				     "powerdown GPIO failure\n");
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 7d22d7377606..95c546cc8774 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -386,13 +386,6 @@ config BACKLIGHT_LP8788
+ 	help
+ 	  This supports TI LP8788 backlight driver.
  
- 	/* Locate the panel DT node. */
- 	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
+-config BACKLIGHT_OT200
+-	tristate "Backlight driver for ot200 visualisation device"
+-	depends on CS5535_MFGPT && GPIO_CS5535
+-	help
+-	  To compile this driver as a module, choose M here: the module will be
+-	  called ot200_bl.
+-
+ config BACKLIGHT_PANDORA
+ 	tristate "Backlight driver for Pandora console"
+ 	depends on TWL4030_CORE
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 0c1a1524627a..2072d21b60f7 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -45,7 +45,6 @@ obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
+ obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
+ obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
+ obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
+-obj-$(CONFIG_BACKLIGHT_OT200)		+= ot200_bl.o
+ obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+ obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
+ obj-$(CONFIG_BACKLIGHT_PWM)		+= pwm_bl.o
+diff --git a/drivers/video/backlight/ot200_bl.c b/drivers/video/backlight/ot200_bl.c
+deleted file mode 100644
+index 23ee7106c72a..000000000000
+--- a/drivers/video/backlight/ot200_bl.c
++++ /dev/null
+@@ -1,162 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2012 Bachmann electronic GmbH
+- *	Christian Gmeiner <christian.gmeiner@gmail.com>
+- *
+- * Backlight driver for ot200 visualisation device from
+- * Bachmann electronic GmbH.
+- */
+-
+-#include <linux/module.h>
+-#include <linux/fb.h>
+-#include <linux/backlight.h>
+-#include <linux/gpio.h>
+-#include <linux/platform_device.h>
+-#include <linux/cs5535.h>
+-
+-static struct cs5535_mfgpt_timer *pwm_timer;
+-
+-/* this array defines the mapping of brightness in % to pwm frequency */
+-static const u8 dim_table[101] = {0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+-				  2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,
+-				  4, 5, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9,
+-				  10, 10, 11, 11, 12, 12, 13, 14, 15, 15, 16,
+-				  17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28,
+-				  30, 31, 33, 35, 37, 39, 41, 43, 45, 47, 50,
+-				  53, 55, 58, 61, 65, 68, 72, 75, 79, 84, 88,
+-				  93, 97, 103, 108, 114, 120, 126, 133, 140,
+-				  147, 155, 163};
+-
+-struct ot200_backlight_data {
+-	int current_brightness;
+-};
+-
+-#define GPIO_DIMM	27
+-#define SCALE		1
+-#define CMP1MODE	0x2	/* compare on GE; output high on compare
+-				 * greater than or equal */
+-#define PWM_SETUP	(SCALE | CMP1MODE << 6 | MFGPT_SETUP_CNTEN)
+-#define MAX_COMP2	163
+-
+-static int ot200_backlight_update_status(struct backlight_device *bl)
+-{
+-	struct ot200_backlight_data *data = bl_get_data(bl);
+-	int brightness = bl->props.brightness;
+-
+-	if (bl->props.state & BL_CORE_FBBLANK)
+-		brightness = 0;
+-
+-	/* enable or disable PWM timer */
+-	if (brightness == 0)
+-		cs5535_mfgpt_write(pwm_timer, MFGPT_REG_SETUP, 0);
+-	else if (data->current_brightness == 0) {
+-		cs5535_mfgpt_write(pwm_timer, MFGPT_REG_COUNTER, 0);
+-		cs5535_mfgpt_write(pwm_timer, MFGPT_REG_SETUP,
+-			MFGPT_SETUP_CNTEN);
+-	}
+-
+-	/* apply new brightness value */
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_CMP1,
+-		MAX_COMP2 - dim_table[brightness]);
+-	data->current_brightness = brightness;
+-
+-	return 0;
+-}
+-
+-static int ot200_backlight_get_brightness(struct backlight_device *bl)
+-{
+-	struct ot200_backlight_data *data = bl_get_data(bl);
+-	return data->current_brightness;
+-}
+-
+-static const struct backlight_ops ot200_backlight_ops = {
+-	.update_status	= ot200_backlight_update_status,
+-	.get_brightness	= ot200_backlight_get_brightness,
+-};
+-
+-static int ot200_backlight_probe(struct platform_device *pdev)
+-{
+-	struct backlight_device *bl;
+-	struct ot200_backlight_data *data;
+-	struct backlight_properties props;
+-	int retval = 0;
+-
+-	/* request gpio */
+-	if (devm_gpio_request(&pdev->dev, GPIO_DIMM,
+-				"ot200 backlight dimmer") < 0) {
+-		dev_err(&pdev->dev, "failed to request GPIO %d\n", GPIO_DIMM);
+-		return -ENODEV;
+-	}
+-
+-	/* request timer */
+-	pwm_timer = cs5535_mfgpt_alloc_timer(7, MFGPT_DOMAIN_ANY);
+-	if (!pwm_timer) {
+-		dev_err(&pdev->dev, "MFGPT 7 not available\n");
+-		return -ENODEV;
+-	}
+-
+-	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+-	if (!data) {
+-		retval = -ENOMEM;
+-		goto error_devm_kzalloc;
+-	}
+-
+-	/* setup gpio */
+-	cs5535_gpio_set(GPIO_DIMM, GPIO_OUTPUT_ENABLE);
+-	cs5535_gpio_set(GPIO_DIMM, GPIO_OUTPUT_AUX1);
+-
+-	/* setup timer */
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_CMP1, 0);
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_CMP2, MAX_COMP2);
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_SETUP, PWM_SETUP);
+-
+-	data->current_brightness = 100;
+-	props.max_brightness = 100;
+-	props.brightness = 100;
+-	props.type = BACKLIGHT_RAW;
+-
+-	bl = devm_backlight_device_register(&pdev->dev, dev_name(&pdev->dev),
+-					&pdev->dev, data, &ot200_backlight_ops,
+-					&props);
+-	if (IS_ERR(bl)) {
+-		dev_err(&pdev->dev, "failed to register backlight\n");
+-		retval = PTR_ERR(bl);
+-		goto error_devm_kzalloc;
+-	}
+-
+-	platform_set_drvdata(pdev, bl);
+-
+-	return 0;
+-
+-error_devm_kzalloc:
+-	cs5535_mfgpt_free_timer(pwm_timer);
+-	return retval;
+-}
+-
+-static int ot200_backlight_remove(struct platform_device *pdev)
+-{
+-	/* on module unload set brightness to 100% */
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_COUNTER, 0);
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_SETUP, MFGPT_SETUP_CNTEN);
+-	cs5535_mfgpt_write(pwm_timer, MFGPT_REG_CMP1,
+-		MAX_COMP2 - dim_table[100]);
+-
+-	cs5535_mfgpt_free_timer(pwm_timer);
+-
+-	return 0;
+-}
+-
+-static struct platform_driver ot200_backlight_driver = {
+-	.driver		= {
+-		.name	= "ot200-backlight",
+-	},
+-	.probe		= ot200_backlight_probe,
+-	.remove		= ot200_backlight_remove,
+-};
+-
+-module_platform_driver(ot200_backlight_driver);
+-
+-MODULE_DESCRIPTION("backlight driver for ot200 visualisation device");
+-MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
+-MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:ot200-backlight");
 -- 
-2.17.1
+2.25.4
 
 _______________________________________________
 dri-devel mailing list
