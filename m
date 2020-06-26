@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8280A20B9AC
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 22:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E4A20B9A3
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 22:01:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C11046E49F;
-	Fri, 26 Jun 2020 20:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F286E4A6;
+	Fri, 26 Jun 2020 20:01:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E4C6E49F
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 20:01:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A063A6E4A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 20:01:25 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1593201695; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=2y+LNzdtIXMVi5k8g41Y/QCp9p15+fIgDTNq1kYZi3c=;
- b=vrB1NUlz/jnNSrHjlMF6NvAi1dC9ymKXgaMHxMwzENo06Ajt1Dx2gDul1Ax1Cwa6IRNaYwum
- GZpaysGAyAnjf0UQPnoh8FDK5o9k0VH/tJe4TC338vFZNX6bpWPSSexowyG+RZTKme3zLz6a
- x/F/ccuAje/4BvRlQThsLDBn9/4=
+ s=smtp; t=1593201691; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=+BoTviuuFuUASUPv3f/YwplQ6t2//r78U5Hyc+PNRIA=;
+ b=GBkyN2D9zGTqAh+sK65oDupnEzoSojcZrRe13t6pdERrXiLTmpadnfnOFnz4NvgWBjAPLqkD
+ MDZsu0PUEq+3hvC4xT+mlF+yGGe47rPdYuB3IvwkbTxLjrj1vFO2MtXE/eJMPE+2lBMnq7Pl
+ m+2o2VBiucj+pYeZDDR16YuOUdU=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n12.prod.us-west-2.postgun.com with SMTP id
- 5ef653f0e144dd5115d681e4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Jun 2020 20:00:48
+ smtp-out-n14.prod.us-west-2.postgun.com with SMTP id
+ 5ef653fa117610c7ff462b5d (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Jun 2020 20:00:58
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 71161C433A1; Fri, 26 Jun 2020 20:00:48 +0000 (UTC)
+ id 84888C433A0; Fri, 26 Jun 2020 20:00:58 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,19 +39,22 @@ Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 13B03C433C8;
- Fri, 26 Jun 2020 20:00:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 13B03C433C8
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0BD6BC433CB;
+ Fri, 26 Jun 2020 20:00:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0BD6BC433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v9 0/7] iommu/arm-smmu: Enable split pagetable support
-Date: Fri, 26 Jun 2020 14:00:34 -0600
-Message-Id: <20200626200042.13713-1-jcrouse@codeaurora.org>
+Subject: [PATCH v9 6/7] drm/msm: Set the global virtual address range from the
+ IOMMU domain
+Date: Fri, 26 Jun 2020 14:00:40 -0600
+Message-Id: <20200626200042.13713-7-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200626200042.13713-1-jcrouse@codeaurora.org>
+References: <20200626200042.13713-1-jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +67,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
- David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, iommu@lists.linux-foundation.org,
- Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Brian Masney <masneyb@onstation.org>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ iommu@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Brian Masney <masneyb@onstation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Another iteration of the split-pagetable support for arm-smmu and the Adreno GPU
-SMMU. After email discussions [1] we opted to make a arm-smmu implementation for
-specifically for the Adreno GPU and use that to enable split pagetable support
-and later other implementation specific bits that we need.
+Use the aperture settings from the IOMMU domain to set up the virtual
+address range for the GPU. This allows us to transparently deal with
+IOMMU side features (like split pagetables).
 
-On the hardware side this is very close to the same code from before [2] only
-the TTBR1 quirk is turned on by the implementation and not a domain attribute.
-In drm/msm we use the returned size of the aperture as a clue to let us know
-which virtual address space we should use for global memory objects.
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+---
 
-There are two open items that you should be aware of. First, in the
-implementation specific code we have to check the compatible string of the
-device so that we only enable TTBR1 for the GPU (SID 0) and not the GMU (SID 4).
-I went back and forth trying to decide if I wanted to use the compatible string
-or the SID as the filter and settled on the compatible string but I could be
-talked out of it.
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 13 +++++++++++--
+ drivers/gpu/drm/msm/msm_iommu.c         |  7 +++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-The other open item is that in drm/msm the hardware only uses 49 bits of the
-address space but arm-smmu expects the address to be sign extended all the way
-to 64 bits. This isn't a problem normally unless you look at the hardware
-registers that contain a IOVA and then the upper bits will be zero. I opted to
-restrict the internal drm/msm IOVA range to only 49 bits and then sign extend
-right before calling iommu_map / iommu_unmap. This is a bit wonky but I thought
-that matching the hardware would be less confusing when debugging a hang.
-
-v9: Fix bot-detected merge conflict
-v7: Add attached device to smmu_domain to pass to implementation specific
-functions
-
-[1] https://lists.linuxfoundation.org/pipermail/iommu/2020-May/044537.html
-[2] https://patchwork.kernel.org/patch/11482591/
-
-
-Jordan Crouse (7):
-  iommu/arm-smmu: Pass io-pgtable config to implementation specific
-    function
-  iommu/arm-smmu: Add support for split pagetables
-  dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
-  iommu/arm-smmu: Add a pointer to the attached device to smmu_domain
-  iommu/arm-smmu: Add implementation for the adreno GPU SMMU
-  drm/msm: Set the global virtual address range from the IOMMU domain
-  arm: dts: qcom: sm845: Set the compatible string for the GPU SMMU
-
- .../devicetree/bindings/iommu/arm,smmu.yaml   |  4 ++
- arch/arm64/boot/dts/qcom/sdm845.dtsi          |  2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c       | 13 +++++-
- drivers/gpu/drm/msm/msm_iommu.c               |  7 +++
- drivers/iommu/arm-smmu-impl.c                 |  6 ++-
- drivers/iommu/arm-smmu-qcom.c                 | 45 ++++++++++++++++++-
- drivers/iommu/arm-smmu.c                      | 38 +++++++++++-----
- drivers/iommu/arm-smmu.h                      | 30 ++++++++++---
- 8 files changed, 120 insertions(+), 25 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 5db06b590943..3e717c1ebb7f 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -192,9 +192,18 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
+ 	struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
+ 	struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
+ 	struct msm_gem_address_space *aspace;
++	u64 start, size;
+ 
+-	aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
+-		0xffffffff - SZ_16M);
++	/*
++	 * Use the aperture start or SZ_16M, whichever is greater. This will
++	 * ensure that we align with the allocated pagetable range while still
++	 * allowing room in the lower 32 bits for GMEM and whatnot
++	 */
++	start = max_t(u64, SZ_16M, iommu->geometry.aperture_start);
++	size = iommu->geometry.aperture_end - start + 1;
++
++	aspace = msm_gem_address_space_create(mmu, "gpu",
++		start & GENMASK(48, 0), size);
+ 
+ 	if (IS_ERR(aspace) && !IS_ERR(mmu))
+ 		mmu->funcs->destroy(mmu);
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index 3a381a9674c9..1b6635504069 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -36,6 +36,10 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
+ 	struct msm_iommu *iommu = to_msm_iommu(mmu);
+ 	size_t ret;
+ 
++	/* The arm-smmu driver expects the addresses to be sign extended */
++	if (iova & BIT_ULL(48))
++		iova |= GENMASK_ULL(63, 49);
++
+ 	ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
+ 	WARN_ON(!ret);
+ 
+@@ -46,6 +50,9 @@ static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+ {
+ 	struct msm_iommu *iommu = to_msm_iommu(mmu);
+ 
++	if (iova & BIT_ULL(48))
++		iova |= GENMASK_ULL(63, 49);
++
+ 	iommu_unmap(iommu->domain, iova, len);
+ 
+ 	return 0;
 -- 
 2.17.1
 
