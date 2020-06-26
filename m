@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9685020B4A0
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:33:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C63420B4AA
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A6B6ECBD;
-	Fri, 26 Jun 2020 15:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B87D46ECBB;
+	Fri, 26 Jun 2020 15:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4CB46ECBD
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:33:54 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id o8so9213381wmh.4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 08:33:54 -0700 (PDT)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF81F6ECBA
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:34:52 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id 18so8989078otv.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 08:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rpso9ySNKoLDGZyCP/hQvs97M6SXDiiUl7b7MavvpwM=;
- b=Im1TNyjYUqGtSxb3sVpOQyDfuWo+4jL/eqZNHs4NDDTYEFyid04tQdyu89ASBScZ4r
- wb24XBrOxce/WjPuyNXPXoUHQtfJiOu0kaAMJjR3M59cyn6Vkqe368y2feEo+qQEiBk1
- DGBfapEIfDFuUQ2BVVIu2qVIvQnFFinKhlLC/DFjzG2Vl42KM9ir4BThZQhjbOqbEaLn
- PIGe/3KXrsysRdikgnP8sEL3JiLrgrISIBIssg0wXfm9CiCOt594i2d+P+H+yy96DPWd
- chrGgttiyWu7uhIOKgZbaVf2bTgCFyCeXiE4mMc/P5bBOpgpq8XeNZk2VCtLj5y9RojH
- FdvA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jHbpYQf2tnMD+tb9W4J8yb3qEBBRdsc1Pqznwnd2PP0=;
+ b=wWwXA4Z3tk970INvxUAt9ucqnZVvXurigb22u8y1NxhRUTSWk9hyAtvJwRY1F10UbE
+ BR4flEoADEzWANEOL5Binrk0BWj1Odizt/0Nbv4gWUexnaz6bKO4Zbt81j8qpbLYxSbI
+ i61wrrIM5MMGtm+CqAZBy4sX1DzBinEVnD5IbuEZXUlJ4nkexwdBIlzJNHIpclpfEjTy
+ 7rS63QlmnJN+LBYPNA0JGRyuDxKg4Qh+msWqF8V2aJXRP8cOjkoNMz+UjOz2qGj2eZhl
+ CB+XQG3Q6gi6gHEH3pdGlzcQvtAcEOBsKjMv8wDjsqYUiCaAWfkgKdf9wu/OZ/7yrQQP
+ VSLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=rpso9ySNKoLDGZyCP/hQvs97M6SXDiiUl7b7MavvpwM=;
- b=NhcACNJQvKW4lXVT5RA50dN5mOai1GUOZ9VUzfwuWD8NxRB09zph02xYh0k0iUVEcg
- oXK+MpalkiD3PUm5tEdlJy9MH/TSpIXo/y4QFrsJjMF1omhZjcXxRpvFJEGS83cl4sGx
- w5vXdZW1v3x8swYDLA9W4AV7OXAyIyeipOnGH00sK+9pAhddfyqOhfthEfCUBrli7n79
- WwBYRwjyLhYtmVskhnl0tceXFD6tyR+gnnG7vNBO0xzYga7k4XFB+w2ORip1kUkHbcA4
- Zb5T0WnGI94sExJnYXKtMZ4kofDB10+RRqHROiHhYrq+r61SfbDOAa2kL7r7yNywFd8b
- SszA==
-X-Gm-Message-State: AOAM530WU3ng/FK4Eq6BZzEwhnZUfHo/WUDpAO0Lj5Vut5RErxUMbnwG
- yfltakje67vy3RC6XJtxiMOZcQ==
-X-Google-Smtp-Source: ABdhPJz9yrxY45T9SAy1cdsmEGjRTcOB+Cz9/AF+lu25KlsF3R66G6fdX+qT3KF8kVohKRgE/ySkTg==
-X-Received: by 2002:a1c:32c4:: with SMTP id y187mr4112202wmy.79.1593185633299; 
- Fri, 26 Jun 2020 08:33:53 -0700 (PDT)
-Received: from dell ([2.27.35.144])
- by smtp.gmail.com with ESMTPSA id f16sm18168315wmh.27.2020.06.26.08.33.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 08:33:52 -0700 (PDT)
-Date: Fri, 26 Jun 2020 16:33:51 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH 3/8] backlight: ili922x: Add missing kerneldoc
- descriptions for CHECK_FREQ_REG() args
-Message-ID: <20200626153351.GD177734@dell>
-References: <20200624145721.2590327-1-lee.jones@linaro.org>
- <20200624145721.2590327-4-lee.jones@linaro.org>
- <20200625094051.u4hanl3rycczlwiy@holly.lan>
- <20200625103334.GO954398@dell>
- <20200626095405.nzhqsfjegj6qg2ro@holly.lan>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jHbpYQf2tnMD+tb9W4J8yb3qEBBRdsc1Pqznwnd2PP0=;
+ b=V+OrHJaETXkPylenkh2BW1meIlx6HKWwUbKwgIuhOP1P53CYUjskvYi5BJKSAlhqYv
+ YTCrX5otRbK1s95jMAV2t6UCgx6gxxGF+pRecqYPoR4WZ0ZhrGY+GydqWEKk5L9gsv/h
+ WcL3y/loKEtGXEVj4aihUxtD+GVtv+lmTIIdCIVMFMVxdwl3nKm7O/dOqhZIn2KuK/c5
+ K8eOkxfzUGN4pEqGUnmrv6OCW6n012YF7sw4SMUiG6nKmySfvaNM6HkGE3P5fIS49kbf
+ GjUH4Jv3o5FZaHUEulCuDopX0htlDZyFf0ardMv1NlYySRceA662PmZhxYJlUxgBwUOC
+ iodg==
+X-Gm-Message-State: AOAM530WScc+UXUuBnrCCpM9cGWq1J9XFvje9jKyIPde0vRGOo5UR0iH
+ ZQkbQi9h1HbY6t4euUKyLvfX6veiyvU/vKBgCLGFsQ==
+X-Google-Smtp-Source: ABdhPJyGXWusgqUH1G1hiUjJ4BGTP17jaTiCiNerFUczmMAIzgMdM0XlgnP5BFUxzX8v/iS5BoyT83PoWdgjoQJxQBo=
+X-Received: by 2002:a05:6830:452:: with SMTP id
+ d18mr2837943otc.164.1593185692204; 
+ Fri, 26 Jun 2020 08:34:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200626095405.nzhqsfjegj6qg2ro@holly.lan>
+References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
+ <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
+ <CAPM=9txhX5TVUdWibRFc1C+ip5a8-c07jZawds=k5T5pBTPASA@mail.gmail.com>
+ <874kqzndxj.fsf@intel.com>
+ <CAKMK7uErpxoFrT_K==7-PMGyg_eqF07T50eYfh5BFQLzra7TbQ@mail.gmail.com>
+ <CAO_48GEa2ZgMph-1ZdsMcOdomZc4zNuRcNn_DoBZS3sNZa-LTg@mail.gmail.com>
+ <b7b1eb80-aa98-2d54-2344-dbc2e4bc0492@amd.com>
+ <CAKMK7uE--1E59fOhQPZ3ib4a3bSK1Nf5ikLB_GHf2wRsFTvXhw@mail.gmail.com>
+In-Reply-To: <CAKMK7uE--1E59fOhQPZ3ib4a3bSK1Nf5ikLB_GHf2wRsFTvXhw@mail.gmail.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Fri, 26 Jun 2020 21:04:39 +0530
+Message-ID: <CAO_48GFBuO=c=ugenqo=m4_ydTn1s0J67oBCxCvHGkROU=EuGA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] Revert "dma-buf: Report signaled links
+ inside dma-fence-chain"
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +69,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, jingoohan1@gmail.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Software Engineering <sbabic@denx.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0237711627=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyNiBKdW4gMjAyMCwgRGFuaWVsIFRob21wc29uIHdyb3RlOgoKPiBPbiBUaHUsIEp1
-biAyNSwgMjAyMCBhdCAxMTozMzozNEFNICswMTAwLCBMZWUgSm9uZXMgd3JvdGU6Cj4gPiBPbiBU
-aHUsIDI1IEp1biAyMDIwLCBEYW5pZWwgVGhvbXBzb24gd3JvdGU6Cj4gPiAKPiA+ID4gT24gV2Vk
-LCBKdW4gMjQsIDIwMjAgYXQgMDM6NTc6MTZQTSArMDEwMCwgTGVlIEpvbmVzIHdyb3RlOgo+ID4g
-PiA+IEtlcm5lbGRvYyBzeW50YXggaXMgdXNlZCwgYnV0IG5vdCBjb21wbGV0ZS4gIERlc2NyaXB0
-aW9ucyByZXF1aXJlZC4KPiA+ID4gPiAKPiA+ID4gPiBQcmV2ZW50cyB3YXJuaW5ncyBsaWtlOgo+
-ID4gPiA+IAo+ID4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmM6MTE2OiB3
-YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdzJyBub3QgZGVzY3JpYmVkIGlu
-ICdDSEVDS19GUkVRX1JFRycKPiA+ID4gPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvaWxpOTIy
-eC5jOjExNjogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAneCcgbm90IGRl
-c2NyaWJlZCBpbiAnQ0hFQ0tfRlJFUV9SRUcnCj4gPiA+ID4gCj4gPiA+ID4gQ2M6IDxzdGFibGVA
-dmdlci5rZXJuZWwub3JnPgo+ID4gPiA+IENjOiBCYXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6IDxi
-LnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+Cj4gPiA+ID4gQ2M6IFNvZnR3YXJlIEVuZ2luZWVyaW5n
-IDxzYmFiaWNAZGVueC5kZT4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5q
-b25lc0BsaW5hcm8ub3JnPgo+ID4gPiA+IC0tLQo+ID4gPiA+ICBkcml2ZXJzL3ZpZGVvL2JhY2ts
-aWdodC9pbGk5MjJ4LmMgfCAyICsrCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKykKPiA+ID4gPiAKPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGln
-aHQvaWxpOTIyeC5jIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvaWxpOTIyeC5jCj4gPiA+ID4g
-aW5kZXggOWM1YWEzZmJiMjg0Mi4uOGNiNGI5ZDNjM2JiYSAxMDA2NDQKPiA+ID4gPiAtLS0gYS9k
-cml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL3Zp
-ZGVvL2JhY2tsaWdodC9pbGk5MjJ4LmMKPiA+ID4gPiBAQCAtMTA3LDYgKzEwNyw4IEBACj4gPiA+
-ID4gICAqCWxvd2VyIGZyZXF1ZW5jeSB3aGVuIHRoZSByZWdpc3RlcnMgYXJlIHJlYWQvd3JpdHRl
-bi4KPiA+ID4gPiAgICoJVGhlIG1hY3JvIHNldHMgdGhlIGZyZXF1ZW5jeSBpbiB0aGUgc3BpX3Ry
-YW5zZmVyIHN0cnVjdHVyZSBpZgo+ID4gPiA+ICAgKgl0aGUgZnJlcXVlbmN5IGV4Y2VlZHMgdGhl
-IG1heGltdW0gdmFsdWUuCj4gPiA+ID4gKyAqIEBzOiBwb2ludGVyIHRvIGNvbnRyb2xsZXIgc2lk
-ZSBwcm94eSBmb3IgYW4gU1BJIHNsYXZlIGRldmljZQo+ID4gPiAKPiA+ID4gV2hhdCdzIHdyb25n
-IHdpdGggImEgcG9pbnRlciB0byBhbiBTUEkgZGV2aWNlIj8KPiA+ID4gCj4gPiA+IEkgYW0gYXdh
-cmUsIGhhdmluZyBsb29rZWQgaXQgdXAgdG8gZmluZCBvdXQgd2hhdCB0aGUgYWJvdmUgYWN0dWFs
-bHkKPiA+ID4gbWVhbnMsIHRoYXQgdGhpcyBpcyBob3cgc3RydWN0IHNwaV9kZXZpY2UgaXMgZGVz
-Y3JpYmVkIGluIGl0cyBvd24ga2VybmVsCj4gPiA+IGRvYyBidXQgcXVvdGluZyBhdCB0aGF0IGxl
-dmVsIG9mIGRldGFpbCBvZiBib3RoIG92ZXJraWxsIGFuZCBjb25mdXNpbmcuCj4gPiAKPiA+IEkg
-ZmlndXJlZCB0aGF0IHVzaW5nIHRoZSBvZmZpY2lhbCBkZXNjcmlwdGlvbiB3b3VsZCBiZSBiZXR0
-ZXIgdGhhbgo+ID4gbWFraW5nIHNvbWV0aGluZyB1cC4gIEhvd2V2ZXIgaWYgeW91IHRoaW5rIGl0
-J3MgYmV0dGVyIHRvIEtJU1MsIHRoZW4gSQo+ID4gY2FuIGNoYW5nZSBpdC4KPiAKPiBZZXMsIEkn
-ZCBzdHJvbmdseSBwcmVmZXIgS0lTUyBoZXJlLgo+IAo+IEkga25vdyBpdCBpcyBhbiAiSSBhbSB0
-aGUgd29ybGQiIGFyZ3VtZW50WzFdIGJ1dCBJIGZvdW5kIHVzaW5nIHN1Y2ggYQo+IGRvZ21hdGlj
-YWxseSBhY2N1cmF0ZSBkZXNjcmlwdGlvbiBvdXQgb2YgY29udGV4dCB0byBiZSB2ZXJ5IGNvbmZ1
-c2luZwo+IGFuZCB0aGVyZWZvcmUgSSBkb24ndCB0aGluayBzdWNoIGEgY29tbWVudCBpbXByb3Zl
-cyByZWFkYWJpbGl0eS4KPiAKPiBbMV06IFNlZSAjMyBmcm9tIGh0dHA6Ly93d3cubGVhbnkuY29t
-L2xvZ2ljL0FkYW1zLmh0bWwKCkl0J3MgZmluZSwgeW91IGFyZSB0aGUgd29ybGQsIEkgZ2V0IGl0
-LiA7KQoKRG8geW91IGV2ZW4gbGlrZSBDb3VudHJ5IG11c2ljPwoKV2lsbCBmaXghCgotLSAKTGVl
-IEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2
-aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9s
-bG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============0237711627==
+Content-Type: multipart/alternative; boundary="0000000000003ed85e05a8fe7396"
+
+--0000000000003ed85e05a8fe7396
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Christian,
+
+On Fri, 26 Jun 2020, 18:10 Daniel Vetter, <daniel@ffwll.ch> wrote:
+
+> On Fri, Jun 26, 2020 at 9:03 AM Christian K=C3=B6nig
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 26.06.20 um 06:43 schrieb Sumit Semwal:
+> > > On Fri, 26 Jun 2020 at 01:24, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >> Ignoring everything else ...
+> > >>
+> > >> On Thu, Jun 25, 2020 at 9:28 PM Jani Nikula <
+> jani.nikula@linux.intel.com> wrote:
+> > >>> As a side note, there seem to be extra checks in place for acks whe=
+n
+> > >>> applying non-i915 patches to drm-intel; there are no such checks fo=
+r
+> > >>> drm-misc.
+> > >> One option to generalize that that I pondered is to consult
+> > >> get_maintainers.pl asking for git repo link, and if that returns
+> > >> something else, then insist that there's an ack from a relevant
+> > >> maintainer. It's a bit of typing, but I think the bigger problem is
+> > >> that there's a ton of false positives.
+> > > Right; for the particular patch, I wasn't even in the to: or cc: fiel=
+d
+> > > and that made it slip from my radar. I would definitely ask any one
+> > > sending patches for dma-buf directory to follow the get_maintainers.p=
+l
+> > > religiously.
+> > >> But maybe that's a good thing, would give some motivation to keep
+> > >> MAINTAINERS updated.
+> >
+> > Should I maybe add myself as maintainer as well? I've written enough
+> > stuff in there to know the code quite a bit.
+>
+> I think that makes lots of sense, since defacto you already are :-)
+>
+> If you feel like bikeshed, get_maintainers.pl also supports R: for
+> reviewer, but given that you also push patches to drm-misc M: for
+> maintainer feels more accurate.
+>
+
+I think given you've been reviewing and changing most of the code around
+dma-fences, it should be ok to add you as the maintainer for those bits?
+
+-Daniel
+>
+
+Best,
+Sumit.
+
+--0000000000003ed85e05a8fe7396
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi Christian,<br><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Fri, 26 Jun 2020, 18:10 Daniel Vetter,=
+ &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">On Fri, Jun 26, 2020 at 9:03 AM Christi=
+an K=C3=B6nig<br>
+&lt;<a href=3D"mailto:christian.koenig@amd.com" target=3D"_blank" rel=3D"no=
+referrer">christian.koenig@amd.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Am 26.06.20 um 06:43 schrieb Sumit Semwal:<br>
+&gt; &gt; On Fri, 26 Jun 2020 at 01:24, Daniel Vetter &lt;<a href=3D"mailto=
+:daniel@ffwll.ch" target=3D"_blank" rel=3D"noreferrer">daniel@ffwll.ch</a>&=
+gt; wrote:<br>
+&gt; &gt;&gt; Ignoring everything else ...<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; On Thu, Jun 25, 2020 at 9:28 PM Jani Nikula &lt;<a href=3D"ma=
+ilto:jani.nikula@linux.intel.com" target=3D"_blank" rel=3D"noreferrer">jani=
+.nikula@linux.intel.com</a>&gt; wrote:<br>
+&gt; &gt;&gt;&gt; As a side note, there seem to be extra checks in place fo=
+r acks when<br>
+&gt; &gt;&gt;&gt; applying non-i915 patches to drm-intel; there are no such=
+ checks for<br>
+&gt; &gt;&gt;&gt; drm-misc.<br>
+&gt; &gt;&gt; One option to generalize that that I pondered is to consult<b=
+r>
+&gt; &gt;&gt; <a href=3D"http://get_maintainers.pl" rel=3D"noreferrer noref=
+errer" target=3D"_blank">get_maintainers.pl</a> asking for git repo link, a=
+nd if that returns<br>
+&gt; &gt;&gt; something else, then insist that there&#39;s an ack from a re=
+levant<br>
+&gt; &gt;&gt; maintainer. It&#39;s a bit of typing, but I think the bigger =
+problem is<br>
+&gt; &gt;&gt; that there&#39;s a ton of false positives.<br>
+&gt; &gt; Right; for the particular patch, I wasn&#39;t even in the to: or =
+cc: field<br>
+&gt; &gt; and that made it slip from my radar. I would definitely ask any o=
+ne<br>
+&gt; &gt; sending patches for dma-buf directory to follow the <a href=3D"ht=
+tp://get_maintainers.pl" rel=3D"noreferrer noreferrer" target=3D"_blank">ge=
+t_maintainers.pl</a><br>
+&gt; &gt; religiously.<br>
+&gt; &gt;&gt; But maybe that&#39;s a good thing, would give some motivation=
+ to keep<br>
+&gt; &gt;&gt; MAINTAINERS updated.<br>
+&gt;<br>
+&gt; Should I maybe add myself as maintainer as well? I&#39;ve written enou=
+gh<br>
+&gt; stuff in there to know the code quite a bit.<br>
+<br>
+I think that makes lots of sense, since defacto you already are :-)<br>
+<br>
+If you feel like bikeshed, <a href=3D"http://get_maintainers.pl" rel=3D"nor=
+eferrer noreferrer" target=3D"_blank">get_maintainers.pl</a> also supports =
+R: for<br>
+reviewer, but given that you also push patches to drm-misc M: for<br>
+maintainer feels more accurate.<br></blockquote></div></div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">I think given you&#39;ve been reviewing and =
+changing most of the code around dma-fences, it should be ok to add you as =
+the maintainer for those bits?</div><div dir=3D"auto"><br></div><div dir=3D=
+"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+-Daniel<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">Best,</div><div dir=3D"auto">Sumit.</div></div>
+
+--0000000000003ed85e05a8fe7396--
+
+--===============0237711627==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0237711627==--
