@@ -1,149 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A73220B464
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:22:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED7620B471
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 17:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB1B6E2BC;
-	Fri, 26 Jun 2020 15:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335976ECB1;
+	Fri, 26 Jun 2020 15:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (mail-eopbgr30080.outbound.protection.outlook.com [40.107.3.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 477856E2BC
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:21:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDgj3DVRoJ5RrtFO+L0QKopADogIxFsGCbZdKK54aUs=;
- b=uHbnNenxrzu77DCALQ9VM24o5bYJnp9u4CxPkBohwGq+Uku68yXW8Pcu6eGWz11ulOAL+gURe0VmymAy9UzZMMtzG26aaVGZUFxtO8QSivwMGl5bh6WHOvj5Hb9Hw+YfkRTanV/o3QRYsxlmvWI8wAlkSdwK6QtEb8QOLcZeOFM=
-Received: from DB6PR0202CA0015.eurprd02.prod.outlook.com (2603:10a6:4:29::25)
- by VI1PR08MB5488.eurprd08.prod.outlook.com (2603:10a6:803:137::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Fri, 26 Jun
- 2020 15:21:54 +0000
-Received: from DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:4:29:cafe::db) by DB6PR0202CA0015.outlook.office365.com
- (2603:10a6:4:29::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21 via Frontend
- Transport; Fri, 26 Jun 2020 15:21:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT033.mail.protection.outlook.com (10.152.20.76) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.22 via Frontend Transport; Fri, 26 Jun 2020 15:21:53 +0000
-Received: ("Tessian outbound cea5956745d7:v60");
- Fri, 26 Jun 2020 15:21:53 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: f616660e4e32bbc0
-X-CR-MTA-TID: 64aa7808
-Received: from e1c0686678e1.2
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 3279B832-E2CB-460E-B2D7-DD8FDF617488.1; 
- Fri, 26 Jun 2020 15:21:48 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id e1c0686678e1.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Fri, 26 Jun 2020 15:21:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NLDWQDfMZlA1SkYLrNc+X+qwOA53eRckEzMEk6AmACYDHJFzTcyFtnKjv1pYfZTS2un6oLvCwbtYRDLzbHI+mw0Q2m9qRzqOsjAvMOn7seNcA63T5n03W/xLF2PnvmhGJU1zuYHIBo5k6JJ+iV7iruCjvEkQI62xVWQbyhRUqxDrfVqJJTeouqoMWnkEMvAr/OBnHPxNAh2gxzeLIp/o+Rt9z5EcfnrZW5oRCWTLTJKuGqYPXV9EV9ZR4eEBy2CRJIcgVawncOqmZ6edWLUHSrJb9csJehJ3BKMyKkTsWDMxtHW9yYffCGlk3AoSaChcregFWfnjGtiIZkQGRPZLEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDgj3DVRoJ5RrtFO+L0QKopADogIxFsGCbZdKK54aUs=;
- b=mavGzvrvASQIDmkA1SVL78oqpwMkOranMCL1UB//QIEhznTqovqj/B1eRoT99J6u0B+9Im49Qd2tG9btqWOaICH6llyxit52qnol84Ou0dSBATN3ai2q+ik5hS2DwO9a12a2qYrt5UZE9K6va/sEPiPEgS0L4Vb/AafqtXqWweNRNc9PWb1DqOS+RPFcwDLP+yi1k/9UqX7w1mFJBEWToLTvglhp0OtZkwSalPTUOxJ0zUD/flPwLbwpLldaTgj0RB6/E+Vc3IUdb3cKxJhzZ3A0vgClEnW+OVd2Vu7vlFOmrMNGklDwdsv0aUOSqZC0ps/7ZlkEmCNzG/pswIn96Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDgj3DVRoJ5RrtFO+L0QKopADogIxFsGCbZdKK54aUs=;
- b=uHbnNenxrzu77DCALQ9VM24o5bYJnp9u4CxPkBohwGq+Uku68yXW8Pcu6eGWz11ulOAL+gURe0VmymAy9UzZMMtzG26aaVGZUFxtO8QSivwMGl5bh6WHOvj5Hb9Hw+YfkRTanV/o3QRYsxlmvWI8wAlkSdwK6QtEb8QOLcZeOFM=
-Authentication-Results-Original: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=arm.com;
-Received: from HE1PR08MB2890.eurprd08.prod.outlook.com (2603:10a6:7:36::11) by
- HE1PR08MB2842.eurprd08.prod.outlook.com (2603:10a6:7:34::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.26; Fri, 26 Jun 2020 15:21:46 +0000
-Received: from HE1PR08MB2890.eurprd08.prod.outlook.com
- ([fe80::18de:2773:77b4:4ce2]) by HE1PR08MB2890.eurprd08.prod.outlook.com
- ([fe80::18de:2773:77b4:4ce2%7]) with mapi id 15.20.3131.024; Fri, 26 Jun 2020
- 15:21:46 +0000
-Date: Fri, 26 Jun 2020 16:21:44 +0100
-From: Brian Starkey <brian.starkey@arm.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: drm_fourcc: Add generic alias for 16_16_TILE modifier
-Message-ID: <20200626152144.5e4pe3y4nw44mf2d@DESKTOP-E1NTVVP.localdomain>
-References: <20200626135233.32137-1-brian.starkey@arm.com>
- <CAKMK7uGCQV7XptAAycHG_XOW-VOtHpUB2qqp2Kvo+3oUhkmOQA@mail.gmail.com>
- <20200626141557.g7vhzfyre764otr4@DESKTOP-E1NTVVP.localdomain>
- <CAKMK7uFy59UegLzWhrx3a1u1Hiv3+0iDhViHC+SecPJBo+O0mA@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFy59UegLzWhrx3a1u1Hiv3+0iDhViHC+SecPJBo+O0mA@mail.gmail.com>
-User-Agent: NeoMutt/20180716-849-147d51-dirty
-X-ClientProxiedBy: LO2P265CA0339.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:d::15) To HE1PR08MB2890.eurprd08.prod.outlook.com
- (2603:10a6:7:36::11)
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C6F6ECB1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 15:24:51 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id h28so7260336edz.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 08:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L6gXerTrIhYhpwiRU9Dit5t7CO05m7vNm8bQN/HHaUI=;
+ b=lSkeoQQsDeXuDwlqJ9378L3dU8FyRPG8veGdVJzsUQcARHX3lFY3sK7r7mCApql3kx
+ oDOtS6FARaUc7VZ6xevRUAvkK9jvLyMeDHKzhwYorYMK03FVClRwk/ediuVebnThF43Z
+ w1u5Eyp5OdVSkiLw0a7kQyJIkdvZxHez7O+dOTFUPiTmp2WQ4qV2Q9JLNFbBSAeOgA4d
+ FU0jCJWqLzTuXQ+2mA9g+RFagKFiqHyRqYIdoC14G3Tod8+CIm3I+8FwE7cWv0oL3T64
+ gD/mXwmztcY7MrzUnC3vLrEMcPyyBv4q+hxYw4CJ0oiOH5sNP2Ukw3V1tYiEr4rnMjXR
+ JEJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L6gXerTrIhYhpwiRU9Dit5t7CO05m7vNm8bQN/HHaUI=;
+ b=HYhH+CP493Gq7uEX1x87i8ZL73psBfO2z5ZuwDhPcvGwOSbdT/4bOPrmbyko9MJFnl
+ 5MiR0zMUq9pIZCTu551tEbsc8ggGyKYPUKSJ5AFBO3WYydi+2net7Q7faU92xBS4LRmM
+ c3+Vpq4DUJYZZsZQ/40ExlZ9hi6YNJ9RWWgOIZ8jg/ghH6ve13S0t+VDixVDort9j7nZ
+ RwOXqHhO1ghFMjeoobvrHp6yQnH3hsrS9TUjWt7vUyLinB6JHTvQonHkR7EBDQWcyHQ1
+ e++ei+5pBEPhMPQjIqy4wYRP83qHZfIe3m9YTk18lrEK0UifIAPfqF6rMSV0GOAxjGaa
+ bbXw==
+X-Gm-Message-State: AOAM532GKgqTaSseLRBiC4S8iNmx+e5dahT3X6rFn6MpFu1nRWzd6qB5
+ 35LvekDmSLgVQDHqSTnzbOeDFubRCm4i7HL18e0=
+X-Google-Smtp-Source: ABdhPJwrrmo0SxXbuENGXCQlX7maYS3gS+Z8G+4PMHMTMyDROZcRF7o+huH/8tQU9SxOsi7rAb5/t2bFhrn0apsb8WA=
+X-Received: by 2002:a50:cd1a:: with SMTP id z26mr4077213edi.120.1593185089845; 
+ Fri, 26 Jun 2020 08:24:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from DESKTOP-E1NTVVP.localdomain (217.140.99.251) by
- LO2P265CA0339.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:d::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.21 via Frontend Transport; Fri, 26 Jun 2020 15:21:45 +0000
-X-Originating-IP: [217.140.99.251]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e35b6b38-ae6a-4954-782d-08d819e4a844
-X-MS-TrafficTypeDiagnostic: HE1PR08MB2842:|VI1PR08MB5488:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB54884BAB42C8E30F9EC2D078F0930@VI1PR08MB5488.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;OLM:7219;
-X-Forefront-PRVS: 0446F0FCE1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: FF/rdLvEWYqeUKwzJCn0I5Lwf8u1cZdQBLBbBJlQibmZAR1OJ6eMTflY4vkY0lJb5ZHHo3B+qWOFKKuEUHU/MHQROpX/ivpXiJ6GuUytkVEy6p7lCF8ZiJWIJX7PRZOVGYYhAxeRph3Tb/eUOlKLarZYQa4o8J12AQeIhtT+a/dU3qOSK8+3RiegQA8RkCCHEwECJPurOCv/9/2htwd8TINgVpVCEZepQvmvJ7l7w/bvxP47JO8jomXkUkZCj/v1DU9NdM0UszWjqfzjMxgC8r6bBQ9wYhjoxQwVWPy5+rXrDkMy7NQViSRLSAe/UBCTbv3gCRpc9tsV8AmUClSbVDMkoFDQVCmWShDezxRIDnodJYOxP299HHMSI/8ErHe33l+ZWaAkBOCG5HpPmxserrixjFbsSJ2YKZZ/7Opi30bgqUOuRw+8ErSPlEVnXIYh
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:HE1PR08MB2890.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFTY:;
- SFS:(4636009)(39860400002)(376002)(346002)(136003)(366004)(396003)(66946007)(53546011)(55016002)(316002)(26005)(54906003)(966005)(6506007)(8936002)(52116002)(2906002)(1076003)(478600001)(5660300002)(7696005)(83080400001)(66476007)(956004)(9686003)(86362001)(66556008)(186003)(16526019)(8676002)(6916009)(4326008)(44832011)(83380400001)(41533002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: dbas2/KaYumVie5OwnRpP8V3aOaMORJ5F1GqBlIbeH68xCRl8BSge/xF6dRlLGd+kHKAXMbPlmDAkKCaHdO6T8hDegatGHVDjvqr7BLsDmTwYSeqDr0cZvUcuCK12mf2m4rUWAy6wjzryqUvcwMB6f7/qx2kE+2tiE6imnKMXi5+LhR67gqlI1e7p6ElQPM1aPjuyvzFGs5yjDWooLgsCMKOMxD/3LXyPPqHpMOhHUt32xHQ0Wb1ZgfYxgdBaazIlrM+4OPW71illIe2Dd//leZ2i6CRoZXGhokOisODZnKCSW5tsORk5a3uTXZA7sZ6cO20Tu9kWnjAs3SZY92LXa7a0P6+/uSL4vlN+//BQPbgtfciN6t9CoGfMq91CE1oDAwIuye3tEvc8koDQxJktvUufCyBXP2WY39fQrgwa9BoEPT1TcPqr8kYMR5IZUOsBgf4og3RCR53hcSowcV85BYcTB0rOjYH3zn4pBTKhP0UqmCnNhxou1WJhC9tX7ZG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR08MB2842
-Original-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
- SFS:(4636009)(136003)(396003)(346002)(376002)(39860400002)(46966005)(81166007)(336012)(356005)(54906003)(82740400003)(83380400001)(316002)(5660300002)(86362001)(55016002)(70206006)(2906002)(83080400001)(9686003)(186003)(16526019)(70586007)(82310400002)(26005)(7696005)(478600001)(8936002)(966005)(44832011)(6862004)(956004)(47076004)(8676002)(1076003)(4326008)(53546011)(6506007)(41533002);
- DIR:OUT; SFP:1101; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: aacd473e-1849-4bdb-bc69-08d819e4a3aa
-X-Forefront-PRVS: 0446F0FCE1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: w8ByCcLcS24yZUdV1IhGS2WWnQVz7y/kuaZDv9X0TL7H0iMQFsqMf+hqV/KuKwJygaaShMdjmIAylwakfDhVeKeWdrp4bqQNf+yq9BfcC3mqX27Tb0/hslZ0l+xjXpAR7A9aENouVr4lWXMbRDfGwcfmt7CGucmyq02sdGSKTWjO6nlCACtl7Y1JYzWs4EKvJV3r91gtx+4Lpe90u4OGq3m9M8caGsSuy3GRl1qqyysApi5hYWOJH0yqTjnY8hsATjNvI0BrX47/NozxYvZCOmGtfhh5dfkbZYfAPJi+KyqUdZ6L/FONdS3bXMIFyoYYyypmaFXHXjyXCCtgu+ycYvIpTUOptECXZh2JeYNOS5BL64SdDlpj8Zs57NzNrRPLZU3yxlJBLbWK9Rgs+ZKQ5heyfrFRAsYYhjqHYv51lV5UNKSspgXgQnLbYzBk/GoXPVBFHHqGsXLi998ZwGaWP6/xKVLMN/kw7BSCK7f+S1FJJjn+2drPg5yAqMrqimXx
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2020 15:21:53.9152 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e35b6b38-ae6a-4954-782d-08d819e4a844
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB5488
+References: <20200625115746.13396-1-shawnguo@kernel.org>
+ <CAKMK7uGoDnizoE4t47houeyK2y5sLQbvCM3LDMWcEeV3oB5rPA@mail.gmail.com>
+ <CAF6AEGuaFFxWSqYDXE0XukeQHOS7H5s6E8WfjVS7EfotWfZmQA@mail.gmail.com>
+ <CAKMK7uHDYSZBBKByxgaAhQMEs0gFmKe_QUCZsqt5wcgYZFYcOQ@mail.gmail.com>
+ <CAF6AEGs8vyFrNoGYTDaf81f28CkFqQsaqhAHrW3nBuHBzRCf7g@mail.gmail.com>
+ <20200626134642.GF3278063@phenom.ffwll.local>
+In-Reply-To: <20200626134642.GF3278063@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 26 Jun 2020 08:25:18 -0700
+Message-ID: <CAF6AEGuJFRM-B3mNNfKpnxFTx0GdrANwykE5Neck3Sqxoyy4rA@mail.gmail.com>
+Subject: Re: [PATCH] drm/atomic_helper: duplicate state for drm_private_obj
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,132 +65,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Pietrasiewicz <andrzej.p@samsung.com>, nd <nd@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, matteo.franchin@arm.com,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@bootlin.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Shawn Guo <shawnguo@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 26, 2020 at 05:16:53PM +0200, Daniel Vetter wrote:
-> On Fri, Jun 26, 2020 at 4:16 PM Brian Starkey <brian.starkey@arm.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > On Fri, Jun 26, 2020 at 04:07:43PM +0200, Daniel Vetter wrote:
-> > > On Fri, Jun 26, 2020 at 3:52 PM Brian Starkey <brian.starkey@arm.com> wrote:
-> > > >
-> > > > In cases such as DRM_FORMAT_MOD_SAMSUNG_16_16_TILE, the modifier
-> > > > describes a generic pixel re-ordering which can be applicable to
-> > > > multiple vendors.
-> > > >
-> > > > Define an alias: DRM_FORMAT_MOD_GENERIC_16_16_TILE, which can be
-> > > > used to describe this layout in a vendor-neutral way, and add a
-> > > > comment about the expected usage of such "generic" modifiers.
-> > > >
-> > > > Signed-off-by: Brian Starkey <brian.starkey@arm.com>
-> > > > ---
-> > > >
-> > > > This is based off a suggestion from Daniel here:
-> > > > https://lore.kernel.org/dri-devel/20200529115328.GC1630358@phenom.ffwll.local/
-> > > >
-> > > > If there are future cases where a "generic" modifier is identified
-> > > > before merging with a specific vendor code, perhaps we could use
-> > > > `fourcc_mod_code(NONE, n)` or add a DRM_FORMAT_MOD_VENDOR_GENERIC.
-> > > >
-> > > > However, I also think we shouldn't try and "guess" what might be generic
-> > > > up-front and end up polluting the generic namespace. It seems fine to
-> > > > just alias vendor-specific definitions unless it's very clear-cut.
+On Fri, Jun 26, 2020 at 6:46 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jun 25, 2020 at 09:24:38AM -0700, Rob Clark wrote:
+> > On Thu, Jun 25, 2020 at 8:55 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 > > >
-> > > I think the above two things would also be good additions to the comment.
+> > > On Thu, Jun 25, 2020 at 4:17 PM Rob Clark <robdclark@gmail.com> wrote:
+> > > >
+> > > > On Thu, Jun 25, 2020 at 5:35 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > > >
+> > > > > On Thu, Jun 25, 2020 at 1:58 PM Shawn Guo <shawnguo@kernel.org> wrote:
+> > > > > >
+> > > > > > From: Shawn Guo <shawn.guo@linaro.org>
+> > > > > >
+> > > > > > The msm/mdp5 driver uses drm_private_obj as its global atomic state,
+> > > > > > which keeps the assignment of hwpipe to plane.  With drm_private_obj
+> > > > > > missing from duplicate state call, mdp5 suspend works with no problem
+> > > > > > only for the very first time.  Any subsequent suspend will hit the
+> > > > > > following warning, because hwpipe assignment doesn't get duplicated for
+> > > > > > suspend state.  Adding drm_private_obj handling for duplicate state call
+> > > > > > fixes the problem.
+> > > > >
+> > > > > If the driver needs a private state, it's supposed to duplicate that
+> > > > > in its atomic_check functionality. This isn't the helper's job.
+> > > > >
+> > > > > If this is a bug in msm code, then pretty sure if you try hard enough,
+> > > > > you can hit the exact same bug from userspace too. Maybe good idea to
+> > > > > try and reproduce this with igt or something.
+> > > >
+> > > > The problem is how duplicate_state is used by the atomic
+> > > > suspend/resume helpers.  They duplicate the running state on suspend,
+> > > > forgetting to duplicate the global state.  Then everything is
+> > > > disabled, the driver correctly duplicates and updates it's global
+> > > > atomic state releasing the hwpipe.
+> > > >
+> > > > But then on resume, we are re-applying plane state that thinks it
+> > > > already has a hwpipe assigned (because that is part of the plane state
+> > > > that was duplicated), without reapplying the matching global state.
+> > > >
+> > > > On a normal atomic commit, we would duplicate the plane state that has
+> > > > the hwpipe disabled, which would be in sync with the drivers global
+> > > > state.  But since that is not what the atomic resume helper does, we
+> > > > hit the situation where the plane state and the global state are out
+> > > > of sync.
+> > > >
+> > > > So the driver is dtrt, the problem really is with the helpers.  I
+> > > > think this patch is the right thing to do.  It is incorrect for the
+> > > > suspend/resume helpers to assume that they can re-apply duplicated
+> > > > state without including the global state.
 > > >
-> > > A totally different thing: I just noticed that we don't pull in all
-> > > the comments for modifiers. I think we could convert them to
-> > > kerneldoc, and then pull them into a separate section in drm-kms.rst.
-> > > Maybe even worth to pull out into a new drm-fourcc.rst document, since
-> > > these are officially shared with gl and vk standard extensions. Then
-> > > this new modifier's doc could simply point at teh existing one (and
-> > > the generated kerneldoc would make that a hyperlink for added
-> > > awesomeness).
+> > > Hm, this is a bit awkward. Generally the assumption is that you should
+> > > be recomputing the derived state (like hwpipe) no matter what. If your
+> > > driver doesn't do that, then all kinds of things can leak from the
+> > > pre-resume to the post-resume side of things, that's kinda why I'm not
+> > > thrilled with this patch, I think it has good potential to open up a
+> > > can of worms. Iirc this patch has come up in the past, and in those
+> > > cases it was a driver bug.
 > > >
-> > > Aside from that makes sense to me, maybe just add it to your patch
-> > > series that will start making use of these.
+> > > For this case, why is msm reusing a hw pipe assignment of a disabled plane?
 > >
-> > This is only supported by the GPU, so we wouldn't be using this on the
-> > Display side.
-> 
-> I mean the patch to add the NV15 fource, it mentions "suitable for 16
-> by 16 tile layout", would be nice to just put the generic modifier in
-> that comment.
+> > Because it is part of the plane state that is being restored.
+> >
+> > Since resume uses the old state saved before the
+> > drm_atomic_helper_disable_all(), rather than duplicating the current
+> > state, we end up with this mismatch between global and plane state.  I
+> > think stashing away the old state is probably ok, but we can't just do
+> > it piecemeal without including the global state.
+> >
+> > I suppose part of the problem is the hwpipe (and other such
+> > dynamically assigned resources) touch both private and plane (and
+> > crtc) state.  The global state object knows which resources are
+> > assigned to which plane/crtc.  But the plane/crtc state knows which of
+> > the (potentially) two hwpipe/mixers is "left" (primary) and "right"
+> > (secondary).
+>
+> Yeah I get all that, what I meant is: Why don't you just blindly recompute
+> the hwpipe assignment every time a full modeset is done? Caching it for
+> pure plane flips makes sense, but drm_crtc_needs_modset == true and just
+> throw it all overboard and assign new ones I think would also solve this
+> problem. Since the hwpipe global state would indicate that all pipes are
+> unallocated that should work (I hope).
+>
+> Imo just recomputing state is a good atomic pattern, it avoids drivers
+> getting stuck in a corner somewhere you can't reset them out of anymore.
+>
+> My question here was, why can't you do that?
+
+We do release the hwpipe on disable, and that is where things are
+getting out of sync.
+
+I suppose we could do some hack if needs_modeset and walk thru the
+global state to detect that we've got ourselves into this condition
+and the hwpipe(s) the plane *thinks* it has assigned to itself are no
+more.  That sounds like a worse solution.
+
+(note that hwpipe can change for a lot of reasons other than modeset)
+
+
+>
+> > > Unfortunately we can't copy the drm state into the overall structure
+> > > to solve this, since that would miss driver-private properties. So
+> > > unfortunately we can't make this match a real atomic commit from
+> > > userspace perfectly.
+> >
+> > I'm not sure I understand this?  The driver private properties
+> > would/should be part of one of the state objs (plane/crtc/global)?  If
+> > the atomic state (including global) represents the entirety of the hw
+> > state, you should be able to stash off N different versions of them
+> > and re-apply them in any order you want because they are all
+> > self-consistent.
+>
+> So for normal atomic commit we have:
+>
+> 1. duplicate current state
+> 2. set properties
+>
+> But for resume helpers it's some random older state, so the expectations
+> break a bit. We could approximate that using something like:
+>
+> 1. duplicate current state into curr_state
+> 2. set properties using a memcpy of the drm core state structure, leaving
+> the driver private stuff as-is.
+>
+> But a) there's also some non-property state in drm state structures and b)
+> properties which are driver extensions and set into the driver part of the
+> state would get lost.
+>
+> So also not great.
+
+Really the solution in this patch sounds like the cleanest solution
+(assuming drivers are properly keeping all their state in various
+atomic-state objs) ;-)
+
+But replaying all the kms property setting should in theory arrive at
+the same state as before the suspend.  But that sounds like the harder
+way to do it.
+
+>
+> > > Another option would be if msm just copies the private state it needs
+> > > to not go boom.
+> > >
+> > > Doing this unconditionally might break other drivers that rely on
+> > > private state not being duplicated, but I guess that would also be
+> > > somewhat of a driver bug.
+> >
+> > I guess we could duplicate our own version of
+> > drm_atomic_helper_suspend().. or maybe add a 'duplicate_global' param
+> > to drm_atomic_helper_suspend().
+> >
+> > I'm not too sure how many drivers these days are using global atomic
+> > state, so not sure how many would be potentially broken, but opting in
+> > to duplicating global state seems reasonable if necessary.
+>
+> dp mst uses it to track it's stuff at least, and I think it's spreading
+> quite a bit into drivers using them to track all kinds of things, not just
+> a single global state.
+
+Hmm, if needed we could put a needs_restore flag in the private_state struct?
+
+BR,
+-R
+
 > -Daniel
-
-Ah right. I saw that one went out in Maarten's pull request this
-morning.
-
--Brian
-
-> 
+>
 > >
-> > Thanks,
-> > -Brian
+> > BR,
+> > -R
 > >
 > > > -Daniel
 > > >
 > > > >
-> > > > I typed a version which was s/GENERIC/COMMON/, other suggestions
-> > > > welcome.
+> > > > BR,
+> > > > -R
 > > > >
-> > > > Cheers,
-> > > > -Brian
-> > > >
-> > > >  include/uapi/drm/drm_fourcc.h | 19 +++++++++++++++++++
-> > > >  1 file changed, 19 insertions(+)
-> > > >
-> > > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > > > index 299f9ac4840b..ef78dc9c3fb0 100644
-> > > > --- a/include/uapi/drm/drm_fourcc.h
-> > > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > > @@ -345,8 +345,27 @@ extern "C" {
-> > > >   * When adding a new token please document the layout with a code comment,
-> > > >   * similar to the fourcc codes above. drm_fourcc.h is considered the
-> > > >   * authoritative source for all of these.
-> > > > + *
-> > > > + * Generic modifier names:
-> > > > + *
-> > > > + * DRM_FORMAT_MOD_GENERIC_* definitions are used to provide vendor-neutral names
-> > > > + * for layouts which are common across multiple vendors. To preserve
-> > > > + * compatibility, in cases where a vendor-specific definition already exists and
-> > > > + * a generic name for it is desired, the common name is a purely symbolic alias
-> > > > + * and must use the same numerical value as the original definition.
-> > > > + *
-> > > > + * Note that generic names should only be used for modifiers which describe
-> > > > + * generic layouts (such as pixel re-ordering), which may have
-> > > > + * independently-developed support across multiple vendors.
-> > > > + *
-> > > > + * Generic names should not be used for cases where multiple hardware vendors
-> > > > + * have implementations of the same standardised compression scheme (such as
-> > > > + * AFBC). In those cases, all implementations should use the same format
-> > > > + * modifier(s), reflecting the vendor of the standard.
-> > > >   */
-> > > >
-> > > > +#define DRM_FORMAT_MOD_GENERIC_16_16_TILE DRM_FORMAT_MOD_SAMSUNG_16_16_TILE
-> > > > +
-> > > >  /*
-> > > >   * Invalid Modifier
-> > > >   *
-> > > > --
-> > > > 2.17.1
-> > > >
+> > > > > -Daniel
+> > > > >
+> > > > >
+> > > > > > $ echo mem > /sys/power/state
+> > > > > > [   38.111144] PM: suspend entry (deep)
+> > > > > > [   38.111185] PM: Syncing filesystems ... done.
+> > > > > > [   38.114630] Freezing user space processes ... (elapsed 0.001 seconds) done.
+> > > > > > [   38.115912] OOM killer disabled.
+> > > > > > [   38.115914] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+> > > > > > [   38.122170] ------------[ cut here ]------------
+> > > > > > [   38.122212] WARNING: CPU: 0 PID: 1747 at drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c:145 mdp5_pipe_release+0x90/0xc0
+> > > > > > [   38.122215] Modules linked in:
+> > > > > > [   38.122222] CPU: 0 PID: 1747 Comm: sh Not tainted 4.19.107-00515-g9d5e4d7a33ed-dirty #323
+> > > > > > [   38.122224] Hardware name: Square, Inc. T2 Devkit (DT)
+> > > > > > [   38.122228] pstate: 40000005 (nZcv daif -PAN -UAO)
+> > > > > > [   38.122230] pc : mdp5_pipe_release+0x90/0xc0
+> > > > > > [   38.122233] lr : mdp5_pipe_release+0x90/0xc0
+> > > > > > [   38.122235] sp : ffff00000d13b7f0
+> > > > > > [   38.122236] x29: ffff00000d13b7f0 x28: 0000000000000000
+> > > > > > [   38.122240] x27: 0000000000000002 x26: ffff800079adce00
+> > > > > > [   38.122243] x25: ffff800079405200 x24: 0000000000000000
+> > > > > > [   38.122246] x23: ffff80007a78cc08 x22: ffff80007b1cc018
+> > > > > > [   38.122249] x21: ffff80007b1cc000 x20: ffff80007b317080
+> > > > > > [   38.122252] x19: ffff80007a78ce80 x18: 0000000000020000
+> > > > > > [   38.122255] x17: 0000000000000000 x16: 0000000000000000
+> > > > > > [   38.122258] x15: 00000000fffffff0 x14: ffff000008c3fb48
+> > > > > > [   38.122261] x13: ffff000008cdac4a x12: ffff000008c3f000
+> > > > > > [   38.122264] x11: 0000000000000000 x10: ffff000008cda000
+> > > > > > [   38.122267] x9 : 0000000000000000 x8 : ffff000008ce4a40
+> > > > > > [   38.122269] x7 : 0000000000000000 x6 : 0000000039ea41a9
+> > > > > > [   38.122272] x5 : 0000000000000000 x4 : 0000000000000000
+> > > > > > [   38.122275] x3 : ffffffffffffffff x2 : c7580c109cae4500
+> > > > > > [   38.122278] x1 : 0000000000000000 x0 : 0000000000000024
+> > > > > > [   38.122281] Call trace:
+> > > > > > [   38.122285]  mdp5_pipe_release+0x90/0xc0
+> > > > > > [   38.122288]  mdp5_plane_atomic_check+0x2c0/0x448
+> > > > > > [   38.122294]  drm_atomic_helper_check_planes+0xd0/0x208
+> > > > > > [   38.122298]  drm_atomic_helper_check+0x38/0xa8
+> > > > > > [   38.122302]  drm_atomic_check_only+0x3e8/0x630
+> > > > > > [   38.122305]  drm_atomic_commit+0x18/0x58
+> > > > > > [   38.122309]  __drm_atomic_helper_disable_all.isra.12+0x15c/0x1a8
+> > > > > > [   38.122312]  drm_atomic_helper_suspend+0x80/0xf0
+> > > > > > [   38.122316]  msm_pm_suspend+0x4c/0x70
+> > > > > > [   38.122320]  dpm_run_callback.isra.6+0x20/0x68
+> > > > > > [   38.122323]  __device_suspend+0x110/0x308
+> > > > > > [   38.122326]  dpm_suspend+0x100/0x1f0
+> > > > > > [   38.122329]  dpm_suspend_start+0x64/0x70
+> > > > > > [   38.122334]  suspend_devices_and_enter+0x110/0x500
+> > > > > > [   38.122336]  pm_suspend+0x268/0x2c0
+> > > > > > [   38.122339]  state_store+0x88/0x110
+> > > > > > [   38.122345]  kobj_attr_store+0x14/0x28
+> > > > > > [   38.122352]  sysfs_kf_write+0x3c/0x50
+> > > > > > [   38.122355]  kernfs_fop_write+0x118/0x1e0
+> > > > > > [   38.122360]  __vfs_write+0x30/0x168
+> > > > > > [   38.122363]  vfs_write+0xa4/0x1a8
+> > > > > > [   38.122366]  ksys_write+0x64/0xe8
+> > > > > > [   38.122368]  __arm64_sys_write+0x18/0x20
+> > > > > > [   38.122374]  el0_svc_common+0x6c/0x178
+> > > > > > [   38.122377]  el0_svc_compat_handler+0x1c/0x28
+> > > > > > [   38.122381]  el0_svc_compat+0x8/0x18
+> > > > > > [   38.122383] ---[ end trace 24145b7d8545345b ]---
+> > > > > > [   38.491552] Disabling non-boot CPUs ...
+> > > > > >
+> > > > > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/drm_atomic_helper.c | 16 ++++++++++++++++
+> > > > > >  1 file changed, 16 insertions(+)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > > > > > index 85d163f16801..024985a92156 100644
+> > > > > > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > > > > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > > > > > @@ -3140,6 +3140,7 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
+> > > > > >         struct drm_atomic_state *state;
+> > > > > >         struct drm_connector *conn;
+> > > > > >         struct drm_connector_list_iter conn_iter;
+> > > > > > +       struct drm_private_obj *priv_obj;
+> > > > > >         struct drm_plane *plane;
+> > > > > >         struct drm_crtc *crtc;
+> > > > > >         int err = 0;
+> > > > > > @@ -3184,6 +3185,16 @@ drm_atomic_helper_duplicate_state(struct drm_device *dev,
+> > > > > >         }
+> > > > > >         drm_connector_list_iter_end(&conn_iter);
+> > > > > >
+> > > > > > +       drm_for_each_privobj(priv_obj, dev) {
+> > > > > > +               struct drm_private_state *priv_state;
+> > > > > > +
+> > > > > > +               priv_state = drm_atomic_get_private_obj_state(state, priv_obj);
+> > > > > > +               if (IS_ERR(priv_state)) {
+> > > > > > +                       err = PTR_ERR(priv_state);
+> > > > > > +                       goto free;
+> > > > > > +               }
+> > > > > > +       }
+> > > > > > +
+> > > > > >         /* clear the acquire context so that it isn't accidentally reused */
+> > > > > >         state->acquire_ctx = NULL;
+> > > > > >
+> > > > > > @@ -3278,6 +3289,8 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
+> > > > > >         struct drm_connector_state *new_conn_state;
+> > > > > >         struct drm_crtc *crtc;
+> > > > > >         struct drm_crtc_state *new_crtc_state;
+> > > > > > +       struct drm_private_state *new_priv_state;
+> > > > > > +       struct drm_private_obj *priv_obj;
+> > > > > >
+> > > > > >         state->acquire_ctx = ctx;
+> > > > > >
+> > > > > > @@ -3290,6 +3303,9 @@ int drm_atomic_helper_commit_duplicated_state(struct drm_atomic_state *state,
+> > > > > >         for_each_new_connector_in_state(state, connector, new_conn_state, i)
+> > > > > >                 state->connectors[i].old_state = connector->state;
+> > > > > >
+> > > > > > +       for_each_new_private_obj_in_state(state, priv_obj, new_priv_state, i)
+> > > > > > +               state->private_objs[i].old_state = priv_obj->state;
+> > > > > > +
+> > > > > >         ret = drm_atomic_commit(state);
+> > > > > >
+> > > > > >         state->acquire_ctx = NULL;
+> > > > > > --
+> > > > > > 2.17.1
+> > > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > Daniel Vetter
+> > > > > Software Engineer, Intel Corporation
+> > > > > http://blog.ffwll.ch
+> > >
 > > >
 > > >
 > > > --
 > > > Daniel Vetter
 > > > Software Engineer, Intel Corporation
 > > > http://blog.ffwll.ch
-> 
-> 
-> 
+>
 > --
 > Daniel Vetter
 > Software Engineer, Intel Corporation
