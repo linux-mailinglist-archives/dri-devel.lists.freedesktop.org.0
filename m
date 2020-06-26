@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7E520B293
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 15:36:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B0920B29F
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 15:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059FF6E046;
-	Fri, 26 Jun 2020 13:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7F466EC97;
+	Fri, 26 Jun 2020 13:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A186E046
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 13:35:56 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 22so8865487wmg.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 06:35:56 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3D36EC97
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 13:38:41 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id o8so8865337wmh.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 06:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=DUYP0kDGls4xn6gexrnhT4lDqxkYAbZswvWk03qa/CY=;
- b=NJr3KisZ5ZL7jRavDurgiTgBAv8v6cNCm+jv8AmL1aIApQNSAwbXQWQDuIZZXf8Y2R
- BhDN0QmHNtsjqLwlD2U1uPOVQqJErK/zcOOyE5ZMNj96Cgdq2fzHfhTjF7kQ673t8mtz
- +XasLE7WO9HCuTMZv6Vbt9nz0krzKYtYxbANw=
+ bh=VIDsXKhd3FsLdPrj7iNBfRAKJOl7dEgIgZhDmwJcgIA=;
+ b=ZvIpsMiR3ItY9TwUnp047/SJ26E9IvAhE2ulCaxXXZACOGih6YCXTrosGUNCk5aJjQ
+ JZFBmULt8EVtd0P9t4xXSX2JtEr5tUmOnpPs4VCv4KwNesBI8u5z2E1Yhx0sVBiLVito
+ Xe5kfg92JFcjt5NfDDD5iZy/MXRB+x/EBZghU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DUYP0kDGls4xn6gexrnhT4lDqxkYAbZswvWk03qa/CY=;
- b=skDwrWcxd7oKUHn9x9lgcGr5cf96kMctpIVNbk2I1xpFTgvcrsDX79Ag+aqgy9pOqM
- FpizXr2Kp+Y9EFGsdXYhwlaS4XS40KkdzjVXUIMuObwKf9nAELDHoBgI+nuRBB+78jbd
- ZAulmL9bJrNXyhLxYjxf9BmRbYUEDiebKTKEkOlkeu625Pv7AlxYSzjyJohtPAQxsrUF
- Pp+HhAGtWkqiGhMxpOgdCRk/Qg1W/2lQnl4s9TDGd5E1m3InAayIZDICkeru0aeI7Zmc
- hQu+T+pWI348BQnNkVgOg+X9lGbhJqDzfvJE7lmwRFZcgJ6dmv0E+hXdmJMAYtqNOjUe
- jQCQ==
-X-Gm-Message-State: AOAM532NM4k9IHduuP/sq4LnffEJxF/dl0cCJZLN0ORVRWaIcqxDT1YP
- UPCCYr2Xdg/rSWr5F8vJV9fWnNhkeI0=
-X-Google-Smtp-Source: ABdhPJwhtYRJxNF1kaTKX+aJCImOkd/+U+J7LhqpDarS02nXxdzfNK2GKqgdTbUm1HFYTCTk/QUgtQ==
-X-Received: by 2002:a1c:6887:: with SMTP id d129mr3462339wmc.179.1593178555417; 
- Fri, 26 Jun 2020 06:35:55 -0700 (PDT)
+ bh=VIDsXKhd3FsLdPrj7iNBfRAKJOl7dEgIgZhDmwJcgIA=;
+ b=uf+H8jrc7fJwtRji3zmJ5Wyjbp/6+nrHoaZSVT/j0tTMDI+9ecdzmXywYb+JeffilR
+ uc4BPRORp08UT6MbefBMHalN1L5h3g4lhrixoxpW8Q1CcUypXQ2y6z1Zkw9alSPGJWKp
+ Ymz9UUpKayW7xypN0GOuBqqhD9EprVVrqUJkxCJKSbnsP6xZc23mZgB+C+r/lQVEBXEn
+ aK8DVW7knZL+BmhQT6tumWoSp8Ok5Aj/ILI9HBHsVVS0dAkTMeMyk4e4f9WVgMCC9Vmr
+ 0xK+fX81/5RR7vvFQv5Qt7XbH7pOTsf7uUVHFfoJTQ3uNBrtPSOW1LWgfgo7NXIebtjD
+ noVA==
+X-Gm-Message-State: AOAM531cjahi6Su1e/FwLs7nu0m7jbHMSEmTXmpAkRiaWlnFaVGKNXPo
+ QbpbrLLFBHwF0SApJ8JEabCBKQ==
+X-Google-Smtp-Source: ABdhPJz7xIMEJg4LwGuWXWiNSiA2dSID+PoB6ZsRuM8wgQ0JcL9uDGFVJ4rSMXj0F7YagoLR7WgwxA==
+X-Received: by 2002:a1c:4d11:: with SMTP id o17mr3441238wmh.134.1593178720233; 
+ Fri, 26 Jun 2020 06:38:40 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x185sm5532952wmg.41.2020.06.26.06.35.53
+ by smtp.gmail.com with ESMTPSA id d13sm21928052wrn.61.2020.06.26.06.38.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 06:35:53 -0700 (PDT)
-Date: Fri, 26 Jun 2020 15:35:51 +0200
+ Fri, 26 Jun 2020 06:38:39 -0700 (PDT)
+Date: Fri, 26 Jun 2020 15:38:37 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200626133551.GD3278063@phenom.ffwll.local>
-References: <20200624072304.GT20149@phenom.ffwll.local>
- <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
- <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
- <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
- <20200625075655.GC3278063@phenom.ffwll.local>
- <CAKMK7uF70UO=vDDnERnQ49rH1yN8gQQD91GKq1j8+eQV9mf1xA@mail.gmail.com>
- <20200625133157.0e749602@eldfell>
- <CAKMK7uGF_t+zW4tyO42HN2BbV1j6fVFfVHF8Xph10bAygdsXPQ@mail.gmail.com>
- <20200626115957.566efa5b@eldfell>
- <CAPj87rMo61nVdhVo4HVc2-Lqb9EHgZmGVc7cFaRuuN1zGHQtPQ@mail.gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [RFC] Host1x/TegraDRM UAPI
+Message-ID: <20200626133837.GE3278063@phenom.ffwll.local>
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <CACO55ttfwQDwnO8ep=YKBgo+HYBg=zLDLfBKtH67MrqKzMWw_w@mail.gmail.com>
+ <20200626114040.GA3143884@ulmo>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAPj87rMo61nVdhVo4HVc2-Lqb9EHgZmGVc7cFaRuuN1zGHQtPQ@mail.gmail.com>
+In-Reply-To: <20200626114040.GA3143884@ulmo>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,66 +66,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, Karol Herbst <kherbst@redhat.com>,
+ David Airlie <airlied@linux.ie>, gustavo@padovan.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Dmitry Osipenko <digetx@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 26, 2020 at 10:25:45AM +0100, Daniel Stone wrote:
-> Hi,
-> 
-> On Fri, 26 Jun 2020 at 10:00, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > On Thu, 25 Jun 2020 12:44:36 +0200 Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > Maybe an aside, but the guideline is for autoconfiguration:
-> > > - Light up everything that has connector status connected.
-> > > - If nothing has that status, try to light up the connectors with
-> > > status "unknown".
+On Fri, Jun 26, 2020 at 01:40:40PM +0200, Thierry Reding wrote:
+> On Fri, Jun 26, 2020 at 01:06:58PM +0200, Karol Herbst wrote:
+> > On Tue, Jun 23, 2020 at 3:03 PM Mikko Perttunen <cyndis@kapsi.fi> wrote:
 > > >
-> > > This is only really relevant on older platforms, mostly for VGA and
-> > > somewhat for dvi outputs.
+> > > # Host1x/TegraDRM UAPI proposal
 > > >
-> > > Maybe another thing we should put down somewhere in the uapi docs ...
-> >
-> > As I had no idea what "unknown" means or when it can happen, I assumed
-> > that it must mean "the hardware cannot know". If the hardware cannot
-> > know, then I certainly will not be trying to enable that, unless
-> > explicitly configured to do so. Having a phantom output is worse than
-> > having a real output that does not light up, because it's not obvious at
-> > first with phantom output that anything is wrong. You may just be
-> > wondering where your windows disappear, or where did you mouse cursor
-> > go, or why you see a wallpaper but no login dialog, etc.
+> > > This is a proposal for a stable UAPI for Host1x and TegraDRM, to replace
+> > > the current TegraDRM UAPI that is behind `STAGING` and quite obsolete in
+> > > many ways.
+> > >
+> > > I haven't written any implementation yet -- I'll do that once there is
+> > > some agreement on the high-level design.
+> > >
+> > > Current open items:
+> > >
+> > > * The syncpoint UAPI allows userspace to create sync_file FDs with
+> > > arbitrary syncpoint fences. dma_fence code currently seems to assume all
+> > > fences will be signaled, which would not necessarily be the case with
+> > > this interface.
+> > > * Previously present GEM IOCTLs (GEM_CREATE, GEM_MMAP) are not present.
+> > > Not sure if they are still needed.
+> > >
+> > 
+> > Hi, as this wasn't addressed here (and sorry if I missed it): is there
+> > an open source userspace making use of this UAPI? Because this is
+> > something which needs to be seen before it can be included at all.
 > 
-> How about a refinement of Dan's suggestion, proceeding down this
-> logical order and breaking if true:
-> - ignore all disconnected outputs
-> - if any outputs are connected, ignore all unknown outputs
-> - if only one output is unknown, use only that output (with default
-> mode if need be)
-> - if any outputs are unknown but have EDID present, use only those outputs
-> - at this point, we have multiple unknown outputs with no EDID - break
-> and demand explicit user configuration
+> There's a set of commits that implement an earlier draft here:
+> 
+>     https://github.com/thierryreding/linux/tree/for-5.6/drm-tegra-destage-abi
+> 
+> and corresponding changes to libdrm to make use of that and implement
+> tests using the various generations of VIC here:
+> 
+>     https://cgit.freedesktop.org/~tagr/drm/log/
+> 
+> Before actually jumping to an implementation we wanted to go over the
+> design a bit more to avoid wasting a lot of work, like we've done in
+> the past. Turns out it isn't easy to get everyone to agree on a good
+> ABI. Who would've thought? =)
+> 
+> I expect that once the discussion around the ABI settles Mikko will
+> start on implementing this ABI in the kernel and we'll update the
+> libdrm patches to make use of the new ABI as well.
 
-EDID present generally means the status will be "connected". So not much
-of a refined.
-
-I'd say if you have multiple unknown, use a cloned config to avoid the
-"windows are disappearing" problem. Which is also what fbcon does, and
-iirc also -modesetting by default.
-
-But the most important part is to not light up "unknown" outputs if
-there's another output with a solid "connected". That avoids the problems
-Pekka points out, phantom outputs are bad. Really no need to refine beyond
-that, since imo that's a kernel bug.
+Do we have more than libdrm and tests for this, like something somewhat
+functional? Since tegradrm landed years ago we've refined the criteria a
+bit in this regard, latest version is explicit in that it needs to be
+something that's functional (for end-users in some form), not just
+infrastructure and tests.
 -Daniel
 -- 
 Daniel Vetter
