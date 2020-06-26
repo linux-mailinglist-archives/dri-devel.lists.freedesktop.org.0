@@ -2,57 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FDE20AA2A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 03:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEC020AA3D
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 03:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C36C16EC2E;
-	Fri, 26 Jun 2020 01:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 409086E3B5;
+	Fri, 26 Jun 2020 01:43:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E99B06EC2E;
- Fri, 26 Jun 2020 01:37:07 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id o18so3355061eje.7;
- Thu, 25 Jun 2020 18:37:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5ev8M954A2xAvQp4C5xD3yd44XzdMUFOw91HonO88xA=;
- b=Dfu74YI321ajM0uHt4btGm4qgMfszKub3H+eD4wnoO9tYLmm9lG0owVlSRR5SS5vyB
- Zebj9SISLSi+sHh5WGuTA7bifEugKuLBa+N0r8GE1MVecg9ac10DhBIybaXsD/1vrRox
- p3brGUNGSdddNze4SqO72A9BhZZWbqy13cAqU/uBMdBodIA0RLg/Bf7ewvVpnE6fU/nA
- aoPXTwNrlbo6wr+Mv1neRFZr3jYcvtpGDRa8y5u3bIdGpRXeJ2q6wBKBnFsqzn9x3hFP
- hVzT6el58aaMHReQqSH8tnnvzMM06TGtfHvGcG4qpAlYtnT+mE/W3jmiAajawqwCImCx
- 09bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5ev8M954A2xAvQp4C5xD3yd44XzdMUFOw91HonO88xA=;
- b=U4airCXR3v2XiLGMxDNnz+if4ABFXv3s1qiGRH8FkqszH3RoG0KVBedy4wYpGtEXSU
- thwOHC6GPYIRwOndHlfF6QXbW6wpltaozIWbVCMf0rNmUBhkoPIshn2yGUMfyWytgaHF
- P2gqlVBQjxWZ64hRVVyRJhvclXOROpWA6z/Ag5VWFvIHVepQsFmibSfBFSGzl3gVca2P
- D9SVVF7KPaeSyzhp+L46RCn/Ff2qAH5tJBkgjamNl13a1jIWdOhSVH3QBYh9ogwHsYbq
- 9XOWUBHJgdpXdoB1Fes8Tjc5wEy38kS/5SuhtZqDjWBB6tHKBZxJ+yLFrlhEE94EaZCu
- Ymcg==
-X-Gm-Message-State: AOAM532FzOAle22n9qhXvznh8dE6KsME3Aa1coSvBXJyAJi9iksJBSVw
- RRNqRoGNypdwCFJeFGIqx2qJli+gLjCr/nRGzUJDs1vM
-X-Google-Smtp-Source: ABdhPJwp3euX5uQuwJtmqtKGT8+DqTU92juS7Tkino47iTQVCEVxIrKUiNAnM9ZNXS1HFXi5Y9bGT3tmQaAaF72hB2g=
-X-Received: by 2002:a17:906:da0f:: with SMTP id
- fi15mr503485ejb.237.1593135426176; 
- Thu, 25 Jun 2020 18:37:06 -0700 (PDT)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F436E39E;
+ Fri, 26 Jun 2020 01:43:33 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49tKR64GvLz9sQx;
+ Fri, 26 Jun 2020 11:43:29 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1593135812;
+ bh=eQESNewGabImUpWknhGtlDqUX7u13gKZdpajK88V8Oc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=r3wAAoWynW5ofY6RB24a7e7af76CCzxYSz/3hdzPSfdS+Q5jCfAFiBFGjsJlgihHz
+ vtXiF4a8VZdVSynnc5fWgRkrpvAUQbF6xer84Uc3a5p3a2KVn8Vpv89H3jDBcqI4pp
+ rl2xlVl4wHlRoEtSD1SVJ/4rhryOyBOTJKPk+RYxC06lkgYa5dBUX/64mOiPchwy3X
+ qqnJPtFGkqmJ+O69ih0d5Bcu21MPl+TV9MVaal3apLrZT0r24WwkpxHKZGbQhEV+mu
+ zIzVAM19iZjes9p9YijPWrb8I2q1P4r4fPCjjHawZJrbbLimnNKmNUiXzxTkxrttM7
+ z6hPbmOhSb0DQ==
+Date: Fri, 26 Jun 2020 11:43:28 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20200626114328.71ae6193@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
- <51e00eed-c8f1-aabf-ec2c-07be0453ab3b@amd.com>
- <CAPM=9txhX5TVUdWibRFc1C+ip5a8-c07jZawds=k5T5pBTPASA@mail.gmail.com>
- <874kqzndxj.fsf@intel.com>
-In-Reply-To: <874kqzndxj.fsf@intel.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 26 Jun 2020 11:36:54 +1000
-Message-ID: <CAPM=9twpNDqS=HDANHOiqy0JeqkqfpiA3bBsZn3vB4QVGJLGGQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] Revert "dma-buf: Report signaled links
- inside dma-fence-chain"
-To: Jani Nikula <jani.nikula@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,44 +47,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, venkata.s.dhanalakota@intel.com,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>
+Content-Type: multipart/mixed; boundary="===============0748285900=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Jun 2020 at 05:27, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Fri, 26 Jun 2020, Dave Airlie <airlied@gmail.com> wrote:
-> > WTUF?
-> >
-> > How did this ever land in my tree, there is no ACK on this from anyone
-> > in core dma-buf,
-> >
-> > Intel team, clean your house up here, I'm going to have to ask you to
-> > stop Chris merging stuff without oversight, if this sort of thing
-> > happens, this is totally unacceptable.
->
-> There's no argument, an ack is required.
->
-> In fairness to the i915 maintainers, though, this particular commit was
-> merged via drm-misc-next [1].
->
-> As a side note, there seem to be extra checks in place for acks when
-> applying non-i915 patches to drm-intel; there are no such checks for
-> drm-misc.
+--===============0748285900==
+Content-Type: multipart/signed; boundary="Sig_/SQrTN=RMELoppdikG/Zdzo0";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Sorry Jani, thanks for chasing that down.
+--Sig_/SQrTN=RMELoppdikG/Zdzo0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-drm-misc we need to oversight a bit more, I don't think we should be
-landing things that affect core code with single company acks.
+Hi all,
 
-Dave.
+Today's linux-next merge of the drm-misc tree got a conflict in:
+
+  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+
+between commit:
+
+  eaad0c3aa978 ("drm/amdgpu: rename direct to immediate for VM updates")
+
+from the Linus' and commit:
+
+  b1a8ef952a25 ("drm/amdgpu: move ttm bo->offset to amdgpu_bo")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+index 28bdfb3ac33d,2a7a6f62d627..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+@@@ -144,8 -141,8 +144,8 @@@ static void amdgpu_vm_sdma_copy_ptes(st
+ =20
+  	src +=3D p->num_dw_left * 4;
+ =20
+- 	pe +=3D amdgpu_gmc_sign_extend(bo->tbo.offset);
++ 	pe +=3D amdgpu_bo_gpu_offset_no_check(bo);
+ -	trace_amdgpu_vm_copy_ptes(pe, src, count, p->direct);
+ +	trace_amdgpu_vm_copy_ptes(pe, src, count, p->immediate);
+ =20
+  	amdgpu_vm_copy_pte(p->adev, ib, pe, src, count);
+  }
+@@@ -171,8 -168,8 +171,8 @@@ static void amdgpu_vm_sdma_set_ptes(str
+  {
+  	struct amdgpu_ib *ib =3D p->job->ibs;
+ =20
+- 	pe +=3D amdgpu_gmc_sign_extend(bo->tbo.offset);
++ 	pe +=3D amdgpu_bo_gpu_offset_no_check(bo);
+ -	trace_amdgpu_vm_set_ptes(pe, addr, count, incr, flags, p->direct);
+ +	trace_amdgpu_vm_set_ptes(pe, addr, count, incr, flags, p->immediate);
+  	if (count < 3) {
+  		amdgpu_vm_write_pte(p->adev, ib, pe, addr | flags,
+  				    count, incr);
+
+--Sig_/SQrTN=RMELoppdikG/Zdzo0
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl71UsAACgkQAVBC80lX
+0GyshQf/UnKvDsr4a32M1T4MZmRytJslGTYMmhzZWQbg6MPDHbbBQ2kgA9vE8ngN
+ICbfjJLPISBHaPhUkB7M5s/vCIDfYokSkL7SSoZzTlSBxq34e6WBF38T8Z4IjOIQ
+C7TmliGkh51hE1Pk4D0ylTjURIO04r0OzGFNK9Pp/W5ZLp/l1Bi3asmg5zebRFHi
+eaz0ONQjJcku5m1boIATljAB6xIY0NZxm77qWDlSykZ5CwvRyK+33ETDUBbb8V/7
+TgoGxfN41FObP2qKLqE3LR9PV673OGttXTtuqb6aYBF6VHIFm+U6AmZJPMGSczKT
+RTpdOzrCezHI9uIMRypvP2/apR1/Ng==
+=UgZP
+-----END PGP SIGNATURE-----
+
+--Sig_/SQrTN=RMELoppdikG/Zdzo0--
+
+--===============0748285900==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0748285900==--
