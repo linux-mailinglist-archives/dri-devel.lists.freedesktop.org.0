@@ -1,64 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C48920AF40
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 11:54:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C717820AF52
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 12:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 953996EC50;
-	Fri, 26 Jun 2020 09:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6293A6EC54;
+	Fri, 26 Jun 2020 10:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5516EC50
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:54:09 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 17so8780034wmo.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 02:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=e00BIFKWHJ6YcMg9EPGjuy1Mt05P2nAv4zIuOyB6gn0=;
- b=kinKxjmErW8QqeKv+vwukdSrfKkrbB8o0iVWzRuEXs3OFXf7u6MnH4Kg7U5g0REsV/
- 578rsYOmgZeG/fLiyvY8FlLKUXZRVs8qlITYyAo+TY9rQJ3AB44b+px2fXUv1amtwNv3
- dTs/AyEO3EXnqNAdlLk29enj+r+Hul7vvfqB1Bqszyw69P3d5+ZJac7DwFnyxXozNo6W
- bqHkPDFe0+AxafWEWVFftHIHOz8GmAsuI9yvCKRVtTgFM6VZnzXpnl6cVx1zBeHAF4sS
- bNcRZSWzPvjS0Ut+6KDTjatPpElQI6pZt8lmx7mf5yOH7eAnHNyy5nNX41ZWheDmxfi+
- Unnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=e00BIFKWHJ6YcMg9EPGjuy1Mt05P2nAv4zIuOyB6gn0=;
- b=abOQa24as8HbqHBZ6D01vsCHK4GDRQ8+1IlqOs0cpRquQPr6lizzkLcH+Lp5Svsv8P
- GS5S3rStonTGYkU8pQY3ygrQmAVvI9DnjJzJvTzAPessVqKecrv/j6RDPVJ0chfgysti
- ppgLJMzU0ACR/uBTVrvPnW2TRbPhPvRxiVgZWKdYFciiXTXvVRTiuxoMnGxNlZ8As6LO
- Y1rvdpGVMlgl7k4j7NVfnSDf8l+KsgJUdhSXr47qkKVHfQAFOdsKr/FYdDKIq2bRvKZe
- eIgchuQLOn7ggmpjYVyqMjMWmRZlgX/AF11phzF7Kjvin7PCctIZy7+f/WkWb72FXzld
- wHZg==
-X-Gm-Message-State: AOAM5301rKoirNOScKz54XbNBgLM1fX4conZDwblVVf4h2yoCx9O/cmt
- raRyY26Ltnn+CuXbCRUzQDHKRw==
-X-Google-Smtp-Source: ABdhPJydqBupAhWSjmw8CKfQPZw6AA+9m1XpfRrVUZ2xhSaLPXAfZJjn3oquBKDEjAXfIW5EDnmb2w==
-X-Received: by 2002:a1c:2982:: with SMTP id p124mr309487wmp.26.1593165248166; 
- Fri, 26 Jun 2020 02:54:08 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id x7sm37219108wrr.72.2020.06.26.02.54.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 02:54:07 -0700 (PDT)
-Date: Fri, 26 Jun 2020 10:54:05 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 3/8] backlight: ili922x: Add missing kerneldoc
- descriptions for CHECK_FREQ_REG() args
-Message-ID: <20200626095405.nzhqsfjegj6qg2ro@holly.lan>
-References: <20200624145721.2590327-1-lee.jones@linaro.org>
- <20200624145721.2590327-4-lee.jones@linaro.org>
- <20200625094051.u4hanl3rycczlwiy@holly.lan>
- <20200625103334.GO954398@dell>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200625103334.GO954398@dell>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF4C6EC54
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:01:11 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200626100109euoutp016f54681050190d50e5f4c5fa371780d6~cD7xEFrTe0663006630euoutp014
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 10:01:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200626100109euoutp016f54681050190d50e5f4c5fa371780d6~cD7xEFrTe0663006630euoutp014
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1593165669;
+ bh=SO77Bw5gQrFl8Eds3Cwku8UwfysQkGoodk10PGmyeSA=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=eI6Sw+09CqvyL3pbqIRbrKyxO0/Ewh8OyfGztNsXNvLcbfL3kQ+eBTncmbul0SFuF
+ XKo0ye+HMQXRMi+TXFEpp5ukhay7RoDFoBgk4l1UyLZ4CkxBLwbyRXzFmo7sQRFcBl
+ zit3RbQMksLa4HDbw5XFkBpYPtYA2ENMFj/pXJow=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200626100109eucas1p22b7e037fceafce87d59d5ffc646840f8~cD7wunfv41855318553eucas1p2C;
+ Fri, 26 Jun 2020 10:01:09 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 6B.EC.06318.467C5FE5; Fri, 26
+ Jun 2020 11:01:09 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200626100108eucas1p2c6d68625f3755a467d7316dd27704f7c~cD7wKTlte1860318603eucas1p21;
+ Fri, 26 Jun 2020 10:01:08 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200626100108eusmtrp2cdb3d4cda515199cc5f31c600b03056a~cD7wJhzv61306813068eusmtrp28;
+ Fri, 26 Jun 2020 10:01:08 +0000 (GMT)
+X-AuditID: cbfec7f5-371ff700000018ae-5c-5ef5c7644b38
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id E0.86.06017.467C5FE5; Fri, 26
+ Jun 2020 11:01:08 +0100 (BST)
+Received: from AMDC3748.digital.local (unknown [106.120.51.74]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200626100107eusmtip1f190a300a9e6c6eb437b040ab6d0d09b~cD7vXc_jP1665516655eusmtip1O;
+ Fri, 26 Jun 2020 10:01:07 +0000 (GMT)
+From: Andrzej Hajda <a.hajda@samsung.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v6 0/4] driver core: add probe error check helper
+Date: Fri, 26 Jun 2020 12:00:59 +0200
+Message-Id: <20200626100103.18879-1-a.hajda@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSeUhUURTGufPmLU6+eI2SNw2jAZGEXFLoQiUpBg8kkSCoTGvK51JuzEvT
+ QHJ3VNIZU1JT3NPUcl/DpdEcTcfK0lQ0ieqPkcJwaTHLfL2p/vud79zvO+deLoXJ+3BrKjTi
+ GqeKUIYpCJm0Y/j7xEFOvx7g/MgTzT2cwJFRMwhQc0EjjvLfvifQVocWQ6/WlwmUXNlIoKmv
+ RgyNfpySogxtFYla3k3j6GVPMYF0+b0APRhaIJEu2w+VrOVjxxn25fQLjF2eSSXZ3i9lUra7
+ aIFk76oLcbalLoNgRzSTEra/pIFkF7P0Era16iab3VYH2IFbt6XsaoutL31OdjSQCwuN4VRO
+ 7hdlIT/ypsmoCTo2Nb0LTwDzskxgRkHGDSYO5kkygYySM7UAdgy3EmKxBuDIUgEpFqsAVrYa
+ QCag/liatLzgljM1AHYnO/wzrC6oJUKDYA7An62zhMCWjCvMMRT9CcKYDSmcSk/DhSALxgPm
+ Vh0WUMrYwc5BF+E4zSD4uLwUE7fbB+ubBjDBCplJEhrSV3Cx4QWX9PUSkS22uY0UeS/c6i41
+ 6TfhYm2KyawGsL2p25R6BM5PbBDCYGx70cYeJ1H2gGXlFaY77oQzn3YJMraNuR13MFGmoTpN
+ Lp7eDxcN7aZAK1j9fJ0QmYX1SVm4+Dz+sGFUTWqAbdH/WWUA1AErLpoPD+Z41wjuuiOvDOej
+ I4IdL0eGt4DtXzX2S7/eBfo2L+kAQwGFOT2gXQuQ48oYPi5cByCFKSxpT8NYgJwOVMbd4FSR
+ F1TRYRyvAzaUVGFFu1YY/eVMsPIad5XjojjV366EMrNOAFfskz6ElJ+a250R73tiNCou8JtT
+ f/le5uwzVdKxIH2XtrnwKapx7kz+rHmy+9D4ZmLx+MkNjV/8itF75PSHnB5Y6H0/KN6QoplZ
+ 9ALRfvd83V2afWIbr7rtqHytHzYWJA6ZNyztsbKZXQ07Y0+XZPuY2+Czy45vzk/O2FUPxp2T
+ KKR8iNLFAVPxyt8OmsjvUQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGIsWRmVeSWpSXmKPExsVy+t/xu7opx7/GGfQel7C4te4cq8XLCYcZ
+ LTbOWM9qMfXhEzaL/9smMltc+fqezaJ58Xo2i6vfXzJbnHxzlcWic+ISdotNj6+xWlzeNYfN
+ 4tDUvYwWa4/cZbc41BdtMffLVGYHAY/L1y4ye7y/0crusffbAhaPnbPusnvM7pjJ6rFpVSeb
+ x4kJl5g89s9dw+5xv/s4k8fmJfUefVtWMXoc6J3M4vF5k1wAb5SeTVF+aUmqQkZ+cYmtUrSh
+ hZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexu8p19gLzvFWtLbvYG1gvMPVxcjB
+ ISFgIrFhYnEXIxeHkMBSRomH058wdjFyAsXFJXbPf8sMYQtL/LnWxQZR9IlR4veEHWBFbAKa
+ En8332QDsUUEjCX6z85iByliFmhjlZh7/gk7yAZhAUeJSUvMQUwWAVWJ7YcNQcp5BSwkDi6c
+ DzVfXmL1hgPMExh5FjAyrGIUSS0tzk3PLTbSK07MLS7NS9dLzs/dxAiMk23Hfm4BWv0u+BCj
+ AAejEg/vgYlf4oRYE8uKK3MPMUpwMCuJ8DqdPR0nxJuSWFmVWpQfX1Sak1p8iNEUaPdEZinR
+ 5HxgDOeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCUamBcNadt4vzm
+ CLcXjybaOF7687Zu0yez7VV/df2PJt9YpDq7R98mboq/is/Xfycl7+/nMv3sY3losulssV03
+ Jxxf3CqwIHSt+RqlTQIWj9UYDx/8sujhLtOOOzXuXA9f7XpS628W7hx0fHtjyVvF+7XvDjZp
+ GTCcKlgz/eHFw3dZXj54M9mz0Ce7XImlOCPRUIu5qDgRAEwdlFepAgAA
+X-CMS-MailID: 20200626100108eucas1p2c6d68625f3755a467d7316dd27704f7c
+X-Msg-Generator: CA
+X-RootMTR: 20200626100108eucas1p2c6d68625f3755a467d7316dd27704f7c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200626100108eucas1p2c6d68625f3755a467d7316dd27704f7c
+References: <CGME20200626100108eucas1p2c6d68625f3755a467d7316dd27704f7c@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +102,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, jingoohan1@gmail.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Software Engineering <sbabic@denx.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ andy.shevchenko@gmail.com, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 25, 2020 at 11:33:34AM +0100, Lee Jones wrote:
-> On Thu, 25 Jun 2020, Daniel Thompson wrote:
-> 
-> > On Wed, Jun 24, 2020 at 03:57:16PM +0100, Lee Jones wrote:
-> > > Kerneldoc syntax is used, but not complete.  Descriptions required.
-> > > 
-> > > Prevents warnings like:
-> > > 
-> > >  drivers/video/backlight/ili922x.c:116: warning: Function parameter or member 's' not described in 'CHECK_FREQ_REG'
-> > >  drivers/video/backlight/ili922x.c:116: warning: Function parameter or member 'x' not described in 'CHECK_FREQ_REG'
-> > > 
-> > > Cc: <stable@vger.kernel.org>
-> > > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > > Cc: Software Engineering <sbabic@denx.de>
-> > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > > ---
-> > >  drivers/video/backlight/ili922x.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/drivers/video/backlight/ili922x.c b/drivers/video/backlight/ili922x.c
-> > > index 9c5aa3fbb2842..8cb4b9d3c3bba 100644
-> > > --- a/drivers/video/backlight/ili922x.c
-> > > +++ b/drivers/video/backlight/ili922x.c
-> > > @@ -107,6 +107,8 @@
-> > >   *	lower frequency when the registers are read/written.
-> > >   *	The macro sets the frequency in the spi_transfer structure if
-> > >   *	the frequency exceeds the maximum value.
-> > > + * @s: pointer to controller side proxy for an SPI slave device
-> > 
-> > What's wrong with "a pointer to an SPI device"?
-> > 
-> > I am aware, having looked it up to find out what the above actually
-> > means, that this is how struct spi_device is described in its own kernel
-> > doc but quoting at that level of detail of both overkill and confusing.
-> 
-> I figured that using the official description would be better than
-> making something up.  However if you think it's better to KISS, then I
-> can change it.
+Hi All,
 
-Yes, I'd strongly prefer KISS here.
+Thanks for multiple comments.
 
-I know it is an "I am the world" argument[1] but I found using such a
-dogmatically accurate description out of context to be very confusing
-and therefore I don't think such a comment improves readability.
+Changes since v5:
+- removed patch adding macro, dev_err_probe(dev, PTR_ERR(ptr), ...) should be used instead,
+- added dev_dbg logging in case of -EPROBE_DEFER,
+- renamed functions and vars according to comments,
+- extended docs,
+- cosmetics.
+
+Original message (with small adjustments):
+
+Recently I took some time to re-check error handling in drivers probe code,
+and I have noticed that number of incorrect resource acquisition error handling
+increased and there are no other propositions which can cure the situation.
+
+So I have decided to resend my old proposition of probe_err helper which should
+simplify resource acquisition error handling, it also extend it with adding defer
+probe reason to devices_deferred debugfs property, which should improve debugging
+experience for developers/testers.
+
+I have also added two patches showing usage and benefits of the helper.
+
+My dirty/ad-hoc cocci scripts shows that this helper can be used in at least 2700 places
+saving about 3500 lines of code.
+
+Regards
+Andrzej
 
 
-Daniel.
+Andrzej Hajda (4):
+  driver core: add device probe log helper
+  driver core: add deferring probe reason to devices_deferred property
+  drm/bridge/sii8620: fix resource acquisition error handling
+  drm/bridge: lvds-codec: simplify error handling
 
+ drivers/base/base.h                  |  3 ++
+ drivers/base/core.c                  | 46 ++++++++++++++++++++++++++++
+ drivers/base/dd.c                    | 23 +++++++++++++-
+ drivers/gpu/drm/bridge/lvds-codec.c  | 10 ++----
+ drivers/gpu/drm/bridge/sil-sii8620.c | 21 ++++++-------
+ include/linux/device.h               |  3 ++
+ 6 files changed, 86 insertions(+), 20 deletions(-)
 
-[1]: See #3 from http://www.leany.com/logic/Adams.html
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
