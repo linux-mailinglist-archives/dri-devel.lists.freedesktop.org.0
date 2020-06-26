@@ -1,147 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CF020B354
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 16:16:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D31520B36C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 16:19:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732C66ECA8;
-	Fri, 26 Jun 2020 14:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1BB6ECA6;
+	Fri, 26 Jun 2020 14:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2064.outbound.protection.outlook.com [40.107.22.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866B46ECA8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 14:16:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x1YCAPd9WSV6hj3Syw9hKghT4sBqej2ZvsjrvPsb06o=;
- b=BZU+NiPPG6wE9NJLasat/t9BX/ED6Oiu/5hzSk3yOCa5hEKvWH87DpjNLt94mfnEhmE4Z+26zGFMf2RydfNgFViD5c4hargtS1Cn5Ohr2XFDdGc0cbg7r9tInviVr8qlxmXknhB3z5YtNCgYK/XM4T8/OOyqaV0tldJcTwjy2DM=
-Received: from AM5PR0502CA0001.eurprd05.prod.outlook.com
- (2603:10a6:203:91::11) by VE1PR08MB4640.eurprd08.prod.outlook.com
- (2603:10a6:802:b2::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Fri, 26 Jun
- 2020 14:16:06 +0000
-Received: from AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:203:91:cafe::43) by AM5PR0502CA0001.outlook.office365.com
- (2603:10a6:203:91::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend
- Transport; Fri, 26 Jun 2020 14:16:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM5EUR03FT016.mail.protection.outlook.com (10.152.16.142) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.20 via Frontend Transport; Fri, 26 Jun 2020 14:16:05 +0000
-Received: ("Tessian outbound 217a52b9caed:v59");
- Fri, 26 Jun 2020 14:16:05 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 8a5be40a3429317f
-X-CR-MTA-TID: 64aa7808
-Received: from fbabd4c7b729.2
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- BAB6AFCC-60E6-4CA4-8C17-4C45BA1E6EA6.1; 
- Fri, 26 Jun 2020 14:16:00 +0000
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id fbabd4c7b729.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Fri, 26 Jun 2020 14:16:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KkbB+sdQ1aV15SAFKbm2PuVnJ+glotOZNWPBF7HMjSJ9+5MHOgDWdeg94zJNTkJHdgHXu/4q7Xo6BmjQrjVMHNTSi1KxNJtIjg9wWFJ2DTdIf55eSdVF7lq+TUVkyWC/1H003LphlkkY6mqwSq5BpDO9pqLaeNP4palig8fvJUQ2/CmUdeQTk4C+kyLxWxXNrhLKgHLSzfrJdaQX8ZyQDgApDXWpk+4oazmoibg4tEgwD3UbpqXrv84BZKrZf50qryaqXrTbz47U0wTm5DnKLfRByyf8R4I9jb198KMx2gtTfDImVkfQfXnsXhhmYC3N2Zcg+Wi7g8lxhJ61UryDzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x1YCAPd9WSV6hj3Syw9hKghT4sBqej2ZvsjrvPsb06o=;
- b=l857Lm8DkdtTUNvdiom+EDr2MB0Gkz73uGgw4fX9oRILPQGW1FSujwI0RQTzTDz37LuFR/1aQRBL1Eh6wcYtfsYKkkv7BsIvvUC0IRfoJFTYRTvxB9K00Fxgz3Mlc6ljeTFjjzL0m9wHUHUn3h2EAwpx1Z9Td+PCXmHDePvvMGIrUz1pWfK1abHMxqCEWh/X/Tu9UhhrdoCdzsi2YFeWe44QSd4Bn5mjN5XR2OXnioTnNRbTQOHsaS4KE4v3FsFoScEav+MnorhOd8mwYbwmA+Gj0PPNt3wpEojqszzsVzVyni263o44l//XjzKkkcGtqDIpxL5eoPMo1Edyvww0mQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x1YCAPd9WSV6hj3Syw9hKghT4sBqej2ZvsjrvPsb06o=;
- b=BZU+NiPPG6wE9NJLasat/t9BX/ED6Oiu/5hzSk3yOCa5hEKvWH87DpjNLt94mfnEhmE4Z+26zGFMf2RydfNgFViD5c4hargtS1Cn5Ohr2XFDdGc0cbg7r9tInviVr8qlxmXknhB3z5YtNCgYK/XM4T8/OOyqaV0tldJcTwjy2DM=
-Authentication-Results-Original: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=arm.com;
-Received: from HE1PR08MB2890.eurprd08.prod.outlook.com (2603:10a6:7:36::11) by
- HE1PR0801MB1625.eurprd08.prod.outlook.com (2603:10a6:3:7f::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.21; Fri, 26 Jun 2020 14:15:59 +0000
-Received: from HE1PR08MB2890.eurprd08.prod.outlook.com
- ([fe80::18de:2773:77b4:4ce2]) by HE1PR08MB2890.eurprd08.prod.outlook.com
- ([fe80::18de:2773:77b4:4ce2%7]) with mapi id 15.20.3131.024; Fri, 26 Jun 2020
- 14:15:58 +0000
-Date: Fri, 26 Jun 2020 15:15:57 +0100
-From: Brian Starkey <brian.starkey@arm.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: drm_fourcc: Add generic alias for 16_16_TILE modifier
-Message-ID: <20200626141557.g7vhzfyre764otr4@DESKTOP-E1NTVVP.localdomain>
-References: <20200626135233.32137-1-brian.starkey@arm.com>
- <CAKMK7uGCQV7XptAAycHG_XOW-VOtHpUB2qqp2Kvo+3oUhkmOQA@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGCQV7XptAAycHG_XOW-VOtHpUB2qqp2Kvo+3oUhkmOQA@mail.gmail.com>
-User-Agent: NeoMutt/20180716-849-147d51-dirty
-X-ClientProxiedBy: LO2P265CA0402.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::30) To HE1PR08MB2890.eurprd08.prod.outlook.com
- (2603:10a6:7:36::11)
+Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 615EE6ECA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 14:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
+ content-transfer-encoding;
+ s=001; bh=FEGBRfIR1s0iOSC2ksl+oI8rZYqeM0zR23Uk0jXoKPc=;
+ b=jvWP7omtX/XrEkbtoiUz8aVRP7W6fn2S5YZgNCGD1+yYGeGNnWtDNA3Z/c8OtxpI9Sq2
+ IkSwSqRj6OMw8PeYGYci25iHhPU0N0BmjB1f96fw1MgFsmFJtwckyFNJBYvQ1JCJsgSubt
+ DeZkN7J3QfX6dZ7ZJ8N49vxrQJKC4/FYI=
+Received: by filterdrecv-p3las1-7754f7d4cc-h4ckv with SMTP id
+ filterdrecv-p3las1-7754f7d4cc-h4ckv-20-5EF60409-55
+ 2020-06-26 14:19:53.796366727 +0000 UTC m=+72377.440658206
+Received: from [10.13.72.114] (unknown)
+ by ismtpd0007p1lon1.sendgrid.net (SG) with ESMTP
+ id zPf15BMQRF-Lidn4m7Cubg Fri, 26 Jun 2020 14:19:53.332 +0000 (UTC)
+Subject: Re: [PATCH 1/2] drm: drm_fourcc: add NV20 YUV
+ =?UTF-8?B?Zm9ybWF044CQ6K+35rOo5oSP77yM6YKu5Lu255SxbGludXgtcm9ja2NoaXAtYm91bmNlcytzYQ==?=
+ =?us-ascii?Q?ndy=2Ehuang=3Drock-chips=2Ecom=40lists=2Einfradea?=
+ =?UTF-8?B?ZC5vcmfku6Plj5HjgJE=?=
+References: <20200607202521.18438-1-jonas@kwiboo.se>
+ <20200607202521.18438-2-jonas@kwiboo.se>
+ <d503eed1-571f-3e37-858b-b5de04cb79f7@rock-chips.com>
+From: Jonas Karlman <jonas@kwiboo.se>
+Message-ID: <f5c46547-3278-2226-e194-929fbfa95864@kwiboo.se>
+Date: Fri, 26 Jun 2020 14:19:53 +0000 (UTC)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from DESKTOP-E1NTVVP.localdomain (217.140.99.251) by
- LO2P265CA0402.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:f::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3131.20 via Frontend Transport; Fri, 26 Jun 2020 14:15:58 +0000
-X-Originating-IP: [217.140.99.251]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1bcb6648-c153-4031-73de-08d819db7715
-X-MS-TrafficTypeDiagnostic: HE1PR0801MB1625:|VE1PR08MB4640:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR08MB46402A702EB918487963ABE6F0930@VE1PR08MB4640.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;OLM:7219;
-X-Forefront-PRVS: 0446F0FCE1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: sSE+X3WT9yEJ4Fo9cXpEXUT+pcpfVujNhyAyKFTuoIv+RsDHMBcANpnMOt4tSnt9drbEJkVYyLwEk6WzM6McwTSebNd8L/drEa0tDJyYkjt+W0V8Cr4vwOPKInM5VI6sqaaOGKETRK/8UQJuy8+v+bnsv5MeuvHyU9sYezHs/CKjWBuWOAQ7isshkb5dS+32Y2Tg3vGon2fVE3NMc5AYuU2D36FxG3cVKwWqqGcE6ky0eNKy1NeF3CnhrUkh/gnsOOdF5amYwUm5Oc7m4IUIgNmVJwDSz9xeTL7vT+bBIxgpAW37ijFVkO39bUGywU1KgoIFKiv5dBKlLUvgPxPVdSfySdrhIcygMFXVSLEurgFHRW70/rK2s5zsptUHAocE2Hr9KGL6mmoRSuCDOqqGrUx2huKwAQiCdm66KDXqpxP/0Sf0KWhEnnX2vRB2xvht
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:HE1PR08MB2890.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFTY:;
- SFS:(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(66476007)(66556008)(316002)(16526019)(478600001)(1076003)(956004)(54906003)(86362001)(6916009)(44832011)(53546011)(6506007)(4326008)(9686003)(186003)(55016002)(5660300002)(52116002)(7696005)(8936002)(83080400001)(8676002)(966005)(2906002)(83380400001)(26005)(66946007)(41533002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: b8OPtrICf/30Isucwk3+ysLKH4FpQSC9jSY7kuS9ceXHAFi+0RdYHnCrtYaHVHcVAEFJKwGn4V909M0Zn14ifJEX3ohQVjpdTzHo79zlGmKKtb9uengK3+eTT8RJ1mHCcGeoyGNehP23n7W+Pw0UhbmVc7j8MqQgXeWGZBAYm56uyPOsjDxnEQXPJ5IfHCw3yAsSIGChvqdtFhtsDXyHp064EmORbRz2QOn0BvHJSM6CAP2rmuU3WRR5LN0tCCZjJvzsq05LnucQd/MjMdE6BUndaEztsGmtz4KVvFdGzdpD+chFEFY6AQDCZrl3j3Sdd7rEOLCt9WlCDHHdbM8pPP7N3vUp5tB1RsbbDyEMh7As9SYYUoZw/e81ODBy3p0RN8Hz8i+yhvHSs4iSljRVr86xGi1psechg0pSqIRqFS4wM1+z3tfFcdpc4z+8Hxcx1JLpp8toglkfcK7z/7LPegTRcxS6nDFqR65WIFWd9hnvhqusSJGt1Xr+l4qv+Ydc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1625
-Original-Authentication-Results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
- SFS:(4636009)(376002)(136003)(39860400002)(346002)(396003)(46966005)(478600001)(316002)(16526019)(6506007)(44832011)(956004)(54906003)(53546011)(1076003)(9686003)(4326008)(55016002)(186003)(7696005)(8936002)(5660300002)(86362001)(82740400003)(336012)(70206006)(356005)(2906002)(81166007)(70586007)(6862004)(47076004)(966005)(83380400001)(26005)(83080400001)(36906005)(8676002)(82310400002)(41533002);
- DIR:OUT; SFP:1101; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 9e6e5320-9629-4102-f6d6-08d819db72ae
-X-Forefront-PRVS: 0446F0FCE1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: veee+xdMYvwhZQuYQoFxpCNZO3SbrWjmCbab0czmytOSEaPT4bTjpUhJ1/34sOdpLeYtYebi2VumnQwC4NnDbDF+51fjLnoGQ9cVez4R6VBT+niXGpEH09HJGEeJHjuxlYnvqMtHQAA1TDcfxRgc7sz35v2yKrxWKSvSw7eE0zgAOchgDAvPj1pkaXW2ZUXiXGSBFCFcXUxU7vZ58ytj554O37SsydBufaYYPFKmjPdQkHEH6zzCrNzRO5TT5wWMR7MHZFbJnJDu9fpziXQSZhDZ1dXdTGRhKFVxB999+YXsR1cF4iqvQ8bsHu+NOyKFh1sZGdSlKNVjH1qnkBiLUeA1sXg1Uqreiu5YzeRrY84KpZOIY14mYOtOXK5t7lLk7FU2iRtOUUK3rDtSAHhdoAdsEkARP8cmf+fxOSxsNQNalQaxZXC1zblEBCzSIZfFGuAOeXLVbz/zLm7lA5nIwehbI8n54pwGnv7oqEOmB3KWWcD85EHKRPkNefFmXV6a
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2020 14:16:05.8732 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bcb6648-c153-4031-73de-08d819db7715
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4640
+In-Reply-To: <d503eed1-571f-3e37-858b-b5de04cb79f7@rock-chips.com>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hy6P=2FSOgwow3R0Z8y?=
+ =?us-ascii?Q?W1KoHyhm09b7AooB6A2o7db6A8+5y6zT2UI+303?=
+ =?us-ascii?Q?MS9NESYX+3Km3PkmWA=2FsT9auOwL7KKFnQDKNG5H?=
+ =?us-ascii?Q?4NCkW9oXZozkAglslePit1yFH6YjBLkTJDSPqca?=
+ =?us-ascii?Q?gaSjOTjx+GWR7meCxxZfnAt5maVowTLsws0Cw43?=
+ =?us-ascii?Q?WT6scW=2Fk=2FeTOid0rokL1Q=3D=3D?=
+To: Huang Jiachai <hjc@rock-chips.com>, Heiko =?iso-8859-1?q?St=FCbner?=
+ <heiko@sntech.de>
+Content-Language: sv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,115 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Pietrasiewicz <andrzej.p@samsung.com>, nd@arm.com,
- Liviu Dudau <liviu.dudau@arm.com>, matteo.franchin@arm.com,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?b?6Zer5a2d5Yab?= <andy.yan@rock-chips.com>,
+ Ben Davis <ben.davis@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On Fri, Jun 26, 2020 at 04:07:43PM +0200, Daniel Vetter wrote:
-> On Fri, Jun 26, 2020 at 3:52 PM Brian Starkey <brian.starkey@arm.com> wrote:
-> >
-> > In cases such as DRM_FORMAT_MOD_SAMSUNG_16_16_TILE, the modifier
-> > describes a generic pixel re-ordering which can be applicable to
-> > multiple vendors.
-> >
-> > Define an alias: DRM_FORMAT_MOD_GENERIC_16_16_TILE, which can be
-> > used to describe this layout in a vendor-neutral way, and add a
-> > comment about the expected usage of such "generic" modifiers.
-> >
-> > Signed-off-by: Brian Starkey <brian.starkey@arm.com>
-> > ---
-> >
-> > This is based off a suggestion from Daniel here:
-> > https://lore.kernel.org/dri-devel/20200529115328.GC1630358@phenom.ffwll.local/
-> >
-> > If there are future cases where a "generic" modifier is identified
-> > before merging with a specific vendor code, perhaps we could use
-> > `fourcc_mod_code(NONE, n)` or add a DRM_FORMAT_MOD_VENDOR_GENERIC.
-> >
-> > However, I also think we shouldn't try and "guess" what might be generic
-> > up-front and end up polluting the generic namespace. It seems fine to
-> > just alias vendor-specific definitions unless it's very clear-cut.
-> 
-> I think the above two things would also be good additions to the comment.
-> 
-> A totally different thing: I just noticed that we don't pull in all
-> the comments for modifiers. I think we could convert them to
-> kerneldoc, and then pull them into a separate section in drm-kms.rst.
-> Maybe even worth to pull out into a new drm-fourcc.rst document, since
-> these are officially shared with gl and vk standard extensions. Then
-> this new modifier's doc could simply point at teh existing one (and
-> the generated kerneldoc would make that a hyperlink for added
-> awesomeness).
-> 
-> Aside from that makes sense to me, maybe just add it to your patch
-> series that will start making use of these.
-
-This is only supported by the GPU, so we wouldn't be using this on the
-Display side.
-
-Thanks,
--Brian
-
-> -Daniel
-> 
-> >
-> > I typed a version which was s/GENERIC/COMMON/, other suggestions
-> > welcome.
-> >
-> > Cheers,
-> > -Brian
-> >
-> >  include/uapi/drm/drm_fourcc.h | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > index 299f9ac4840b..ef78dc9c3fb0 100644
-> > --- a/include/uapi/drm/drm_fourcc.h
-> > +++ b/include/uapi/drm/drm_fourcc.h
-> > @@ -345,8 +345,27 @@ extern "C" {
-> >   * When adding a new token please document the layout with a code comment,
-> >   * similar to the fourcc codes above. drm_fourcc.h is considered the
-> >   * authoritative source for all of these.
-> > + *
-> > + * Generic modifier names:
-> > + *
-> > + * DRM_FORMAT_MOD_GENERIC_* definitions are used to provide vendor-neutral names
-> > + * for layouts which are common across multiple vendors. To preserve
-> > + * compatibility, in cases where a vendor-specific definition already exists and
-> > + * a generic name for it is desired, the common name is a purely symbolic alias
-> > + * and must use the same numerical value as the original definition.
-> > + *
-> > + * Note that generic names should only be used for modifiers which describe
-> > + * generic layouts (such as pixel re-ordering), which may have
-> > + * independently-developed support across multiple vendors.
-> > + *
-> > + * Generic names should not be used for cases where multiple hardware vendors
-> > + * have implementations of the same standardised compression scheme (such as
-> > + * AFBC). In those cases, all implementations should use the same format
-> > + * modifier(s), reflecting the vendor of the standard.
-> >   */
-> >
-> > +#define DRM_FORMAT_MOD_GENERIC_16_16_TILE DRM_FORMAT_MOD_SAMSUNG_16_16_TILE
-> > +
-> >  /*
-> >   * Invalid Modifier
-> >   *
-> > --
-> > 2.17.1
-> >
-> 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wNi0xNyAxNDowNywgSHVhbmcgSmlhY2hhaSB3cm90ZToKPiBIaSBKb25hcyBLYXJs
+bWFuLAo+IAo+ICDCoMKgwqAgSXMgdGhlcmUgYW4gYW5vdGhlciB5dXYgMTBiaXQgZm9ybWF0IHdp
+dGggNDo0OjQgc3ViLXNpbXBsaW5nIGJ1dCAKPiBoYXMgbm8gcGFkZGluZz8KPiAKPiAgwqBNYXli
+ZSB3ZSBjYW4gY2FsbCBpdCBEUk1fRk9STUFUX05WMzA6Cj4gCj4geyAuZm9ybWF0ID0gRFJNX0ZP
+Uk1BVF9OVjMwLAkJLmRlcHRoID0gMCwKPiAgICAubnVtX3BsYW5lcyA9IDIsIC5jaGFyX3Blcl9i
+bG9jayA9IHsgNSwgNSwgMCB9LAo+ICAgIC5ibG9ja193ID0geyA0LCAyLCAwIH0sIC5ibG9ja19o
+ID0geyAxLCAxLCAwIH0sIC5oc3ViID0gMSwKPiAgICAudnN1YiA9IDEsIC5pc195dXYgPSB0cnVl
+IH0sCj4gCj4gdGhpcyBmb3JtYXQgY2FuIHN1cHBvcnRlZCBieSByb2NrY2hpcCByazMyODgvcmsz
+Mzk5Li4uIHBsYXRmb3JtLCBjYW4geW91IAo+IGFkZCB0aGlzIGZvcm1hdCBhdCB0aGlzIHNlcmll
+cyBwYXRjaGVzPwoKSSB3aWxsIHNlbmQgYSB2MiBpbmNsdWRpbmcgdGhpcyA0OjQ6NCBmb3JtYXQg
+bGF0ZXIgdGhpcyB3ZWVrZW5kLgoKSXMgdGhlcmUgYW55IGh3IGJsb2NrIG9uIHJrMzI4OC9yazMz
+OTkgdGhhdCBjYW4gcHJvZHVjZSBhIGJ1ZmZlciBpbiBzdWNoIGZvcm1hdD8KSWYgSSBhbSBub3Qg
+bWlzdGFrZW4gcmt2ZGVjIG9ubHkgc3VwcG9ydCAxMC1iaXQgaDI2NCBpbiA0OjI6MC80OjI6MiBh
+bmQKaGV2YyA0OjI6MCAxMC1iaXQsIHRob3NlIGFyZSB0aGUgZm9ybWF0cyBJIGhhdmUgYmVlbiBh
+YmxlIHRvIHRlc3Qgc28gZmFyLgoKUmVnYXJkcywKSm9uYXMKCj4gCj4g5ZyoIDIwMjAvNi84IDQ6
+MjUsIEpvbmFzIEthcmxtYW4g5YaZ6YGTOgo+PiBEUk1fRk9STUFUX05WMjAgaXMgYSAyIHBsYW5l
+IGZvcm1hdCBzdWl0YWJsZSBmb3IgbGluZWFyIG1lbW9yeSBsYXlvdXQuCj4+IFRoZSBmb3JtYXQg
+aXMgc2ltaWxhciB0byBQMjEwIHdpdGggNDoyOjIgc3ViLXNhbXBsaW5nIGJ1dCBoYXMgbm8gcGFk
+ZGluZwo+PiBiZXR3ZWVuIGNvbXBvbmVudHMuIEluc3RlYWQsIGx1bWluYW5jZSBhbmQgY2hyb21p
+bmFuY2Ugc2FtcGxlcyBhcmUgZ3JvdXBlZAo+PiBpbnRvIDRzIHNvIHRoYXQgZWFjaCBncm91cCBp
+cyBwYWNrZWQgaW50byBhbiBpbnRlZ2VyIG51bWJlciBvZiBieXRlczoKPj4KPj4gWVlZWSA9IFVW
+VVYgPSA0ICogMTAgYml0cyA9IDQwIGJpdHMgPSA1IGJ5dGVzCj4+Cj4+IFRoZSAnMjAnIHN1ZmZp
+eCByZWZlcnMgdG8gdGhlIG9wdGltdW0gZWZmZWN0aXZlIGJpdHMgcGVyIHBpeGVsIHdoaWNoIGlz
+Cj4+IGFjaGlldmVkIHdoZW4gdGhlIHRvdGFsIG51bWJlciBvZiBsdW1pbmFuY2Ugc2FtcGxlcyBp
+cyBhIG11bHRpcGxlIG9mIDQuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEpvbmFzIEthcmxtYW4gPGpv
+bmFzQGt3aWJvby5zZT4KPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYyAg
+fCA0ICsrKysKPj4gICBpbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCB8IDEgKwo+PiAgIDIg
+ZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2ZvdXJjYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYwo+PiBp
+bmRleCA3MjJjN2ViZTRlODguLjJhOWM4YWU3MTllZCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9mb3VyY2MuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5j
+Cj4+IEBAIC0yNzgsNiArMjc4LDEwIEBAIGNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKl9f
+ZHJtX2Zvcm1hdF9pbmZvKHUzMiBmb3JtYXQpCj4+ICAgCQkgIC5udW1fcGxhbmVzID0gMiwgLmNo
+YXJfcGVyX2Jsb2NrID0geyA1LCA1LCAwIH0sCj4+ICAgCQkgIC5ibG9ja193ID0geyA0LCAyLCAw
+IH0sIC5ibG9ja19oID0geyAxLCAxLCAwIH0sIC5oc3ViID0gMiwKPj4gICAJCSAgLnZzdWIgPSAy
+LCAuaXNfeXV2ID0gdHJ1ZSB9LAo+PiArCQl7IC5mb3JtYXQgPSBEUk1fRk9STUFUX05WMjAsCQku
+ZGVwdGggPSAwLAo+PiArCQkgIC5udW1fcGxhbmVzID0gMiwgLmNoYXJfcGVyX2Jsb2NrID0geyA1
+LCA1LCAwIH0sCj4+ICsJCSAgLmJsb2NrX3cgPSB7IDQsIDIsIDAgfSwgLmJsb2NrX2ggPSB7IDEs
+IDEsIDAgfSwgLmhzdWIgPSAyLAo+PiArCQkgIC52c3ViID0gMSwgLmlzX3l1diA9IHRydWUgfSwK
+Pj4gICAJCXsgLmZvcm1hdCA9IERSTV9GT1JNQVRfUTQxMCwJCS5kZXB0aCA9IDAsCj4+ICAgCQkg
+IC5udW1fcGxhbmVzID0gMywgLmNoYXJfcGVyX2Jsb2NrID0geyAyLCAyLCAyIH0sCj4+ICAgCQkg
+IC5ibG9ja193ID0geyAxLCAxLCAxIH0sIC5ibG9ja19oID0geyAxLCAxLCAxIH0sIC5oc3ViID0g
+MCwKPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oIGIvaW5jbHVk
+ZS91YXBpL2RybS9kcm1fZm91cmNjLmgKPj4gaW5kZXggYjViZjFjMGU2MzBlLi4yNDRkMzI0MzNh
+NjcgMTAwNjQ0Cj4+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4+ICsrKyBi
+L2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4+IEBAIC0yNDIsNiArMjQyLDcgQEAgZXh0
+ZXJuICJDIiB7Cj4+ICAgICogaW5kZXggMSA9IENyOkNiIHBsYW5lLCBbMzk6MF0gQ3IxOkNiMTpD
+cjA6Q2IwIGxpdHRsZSBlbmRpYW4KPj4gICAgKi8KPj4gICAjZGVmaW5lIERSTV9GT1JNQVRfTlYx
+NQkJZm91cmNjX2NvZGUoJ04nLCAnVicsICcxJywgJzUnKSAvKiAyeDIgc3Vic2FtcGxlZCBDcjpD
+YiBwbGFuZSAqLwo+PiArI2RlZmluZSBEUk1fRk9STUFUX05WMjAJCWZvdXJjY19jb2RlKCdOJywg
+J1YnLCAnMicsICcwJykgLyogMngxIHN1YnNhbXBsZWQgQ3I6Q2IgcGxhbmUgKi8KPj4gICAKPj4g
+ICAvKgo+PiAgICAqIDIgcGxhbmUgWUNiQ3IgTVNCIGFsaWduZWQKPiAKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
