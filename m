@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D67220B631
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 18:48:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE6220B726
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 19:35:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A356ECDE;
-	Fri, 26 Jun 2020 16:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA8E6ECEC;
+	Fri, 26 Jun 2020 17:35:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 27FEC6ECDE
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 16:48:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B60861042;
- Fri, 26 Jun 2020 09:48:15 -0700 (PDT)
-Received: from DESKTOP-E1NTVVP.localdomain (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 862933F71E;
- Fri, 26 Jun 2020 09:48:14 -0700 (PDT)
-From: Brian Starkey <brian.starkey@arm.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm: drm_fourcc: Add generic alias for 16_16_TILE modifier
-Date: Fri, 26 Jun 2020 17:48:00 +0100
-Message-Id: <20200626164800.11595-1-brian.starkey@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200626163256.46duuouu6ebvtakw@DESKTOP-E1NTVVP.localdomain>
-References: <20200626163256.46duuouu6ebvtakw@DESKTOP-E1NTVVP.localdomain>
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75766ECEC
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 17:35:04 +0000 (UTC)
+Received: from lwn.net (localhost [127.0.0.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id C7637374;
+ Fri, 26 Jun 2020 17:35:00 +0000 (UTC)
+Date: Fri, 26 Jun 2020 11:34:59 -0600
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v3 0/7] Convert the remaining text files to ReST
+Message-ID: <20200626113459.413c3843@lwn.net>
+In-Reply-To: <cover.1592918949.git.mchehab+huawei@kernel.org>
+References: <cover.1592918949.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,70 +38,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.p@samsung.com, liviu.dudau@arm.com, matteo.franchin@arm.com
-MIME-Version: 1.0
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Stephen Kitt <steve@sk2.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Pragat Pandya <pragat.pandya@gmail.com>, dri-devel@lists.freedesktop.org,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Harry Wei <harryxiyou@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, "Joel
+ Fernandes \(Google\)" <joel@joelfernandes.org>,
+ Alex Shi <alex.shi@linux.alibaba.com>, Will Deacon <will@kernel.org>,
+ Alexandre Ghiti <alex@ghiti.fr>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Phong Tran <tranmanphong@gmail.com>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ "Frank A. Cancio Bello" <frank@generalsoftwareinc.com>,
+ Harald Seiler <hws@denx.de>,
+ Ricardo =?UTF-8?B?Q2HDsXVlbG8=?= <ricardo.canuelo@collabora.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>,
+ "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
+ Rob Herring <robh+dt@kernel.org>, Nitin Gupta <nigupta@nvidia.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Peter Collingbourne <pcc@google.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@linux.ibm.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, linux-mm@kvack.org,
+ Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+ Patrick Bellasi <patrick.bellasi@arm.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Leach <mike.leach@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In cases such as DRM_FORMAT_MOD_SAMSUNG_16_16_TILE, the modifier
-describes a generic pixel re-ordering which can be applicable to
-multiple vendors.
+On Tue, 23 Jun 2020 15:31:33 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Define an alias: DRM_FORMAT_MOD_GENERIC_16_16_TILE, which can be
-used to describe this layout in a vendor-neutral way, and add a
-comment about the expected usage of such "generic" modifiers.
+> The main goal of this series is to finish the ReST conversion. After this
+> series, we have just those files still in plain old format:
+> 
+> 	- Documentation/RCU/RTFP.txt
+> 	- Documentation/atomic_bitops.txt
+> 	- Documentation/memory-barriers.txt
+> 	- Documentation/atomic_t.txt
+> 	- Documentation/filesystems/dax.txt
+> 	- Documentation/filesystems/path-lookup.txt
+> 	- Documentation/virt/kvm/devices/README
 
-Changes in v2:
- - Move note about future cases to comment (Daniel)
+OK, I've applied this set - glad to see the last one!
 
-Signed-off-by: Brian Starkey <brian.starkey@arm.com>
----
- include/uapi/drm/drm_fourcc.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Still *not* glad to see the LaTeX markup in the staging stuff; hopefully
+we can do something about that soon.
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 299f9ac4840b..cb3db4a21012 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -345,8 +345,33 @@ extern "C" {
-  * When adding a new token please document the layout with a code comment,
-  * similar to the fourcc codes above. drm_fourcc.h is considered the
-  * authoritative source for all of these.
-+ *
-+ * Generic modifier names:
-+ *
-+ * DRM_FORMAT_MOD_GENERIC_* definitions are used to provide vendor-neutral names
-+ * for layouts which are common across multiple vendors. To preserve
-+ * compatibility, in cases where a vendor-specific definition already exists and
-+ * a generic name for it is desired, the common name is a purely symbolic alias
-+ * and must use the same numerical value as the original definition.
-+ *
-+ * Note that generic names should only be used for modifiers which describe
-+ * generic layouts (such as pixel re-ordering), which may have
-+ * independently-developed support across multiple vendors.
-+ *
-+ * In future cases where a generic layout is identified before merging with a
-+ * vendor-specific modifier, a new 'GENERIC' vendor or modifier using vendor
-+ * 'NONE' could be considered. This should only be for obvious, exceptional
-+ * cases to avoid polluting the 'GENERIC' namespace with modifiers which only
-+ * apply to a single vendor.
-+ *
-+ * Generic names should not be used for cases where multiple hardware vendors
-+ * have implementations of the same standardised compression scheme (such as
-+ * AFBC). In those cases, all implementations should use the same format
-+ * modifier(s), reflecting the vendor of the standard.
-  */
- 
-+#define DRM_FORMAT_MOD_GENERIC_16_16_TILE DRM_FORMAT_MOD_SAMSUNG_16_16_TILE
-+
- /*
-  * Invalid Modifier
-  *
--- 
-2.17.1
+Thanks,
 
+jon
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
