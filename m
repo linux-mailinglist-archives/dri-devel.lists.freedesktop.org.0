@@ -1,70 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D41720AEA1
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 11:00:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0359F20AEA4
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 11:01:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D88F6EC36;
-	Fri, 26 Jun 2020 09:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3366EC42;
+	Fri, 26 Jun 2020 09:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B75FC6EC36
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:00:14 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id n23so9519767ljh.7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 02:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Ao9YTadEp0s2FWKTOdd0MJFofVwfH7gY8WnZItIgTv8=;
- b=R3A3XX5hvcZ5c3Uo7PL8SHK588RpcT+z26LsvfxNumtko2h6GBOgJ/+3lUSc+eY405
- DppNdteVLEyvmFhtDyf3tBAh5e+Xed5hKYYrStIU4WO4K75/w3Gr1LBrEQwTx38Ow1eE
- DPe5fMiMYJ9eULdK1EYRt9tSq4sLCNqnkkuWjK8w89DRzRlW0xoYz69LCtGr2olX0XTH
- Cx7EmOf7pJKagozsJbq+NN6VRJtygd5K3eii2O021jZdfsG3S++o6fQwU3a8g6Tj2qCr
- JX3Snnqk7FKhck1SPRHNvE0KXxKaND2qiSvSTSKAR11IW+r1ZMVmgbBnqifG5Pw1ybxO
- ffAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Ao9YTadEp0s2FWKTOdd0MJFofVwfH7gY8WnZItIgTv8=;
- b=dc6fNfLNC5HEIIPhk478kcRTy/5UobZ33tRo143HVCxkbXpGIfskX5izThZcvchxwS
- JjxEtDOAm9h3b8mfZTNFT0N+rBZ3jMM1nfmiHv7iV7fedsJbG2ZhCqBcD+WP0yqr8Yp8
- Y8IR4Vl+6yAgWbR+uFAhyFoz1R6/OBhIQXuTzsRzFKIoBgLHo2+sKc8VhzyedwLEK+pg
- BQJCBmDpCyEhH3Jtzw0lIDFPtDGsYcA2yrrxbrMjyJokqaq+oMWQLIHA6FJllSgYGis9
- E19kRuSw81of9hA1rFs7zuN5ttYM0QyyTSK9dnOJuUAHM7Gwrs8zHv0n417g+0OxlU8S
- KYcQ==
-X-Gm-Message-State: AOAM531P0RqHVAHA+uBrFNnyAnKEdvAc08H+XhHBDV33jXEjVgMTrqeE
- vgPU2C07AVoI+KcNB/5Jxqo=
-X-Google-Smtp-Source: ABdhPJzs9zYgb0haM+Ksfy8ux78Nnvp/+fMdG2RUAF4IySl/oHXbP7C7C4kvcyZD3TJfpItm13bJlQ==
-X-Received: by 2002:a2e:9d99:: with SMTP id c25mr920225ljj.404.1593162012963; 
- Fri, 26 Jun 2020 02:00:12 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id d20sm6636423lfi.22.2020.06.26.02.00.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 02:00:12 -0700 (PDT)
-Date: Fri, 26 Jun 2020 11:59:57 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200626115957.566efa5b@eldfell>
-In-Reply-To: <CAKMK7uGF_t+zW4tyO42HN2BbV1j6fVFfVHF8Xph10bAygdsXPQ@mail.gmail.com>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
- <20200624011209.GU5870@pendragon.ideasonboard.com>
- <20200624072304.GT20149@phenom.ffwll.local>
- <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
- <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
- <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
- <20200625075655.GC3278063@phenom.ffwll.local>
- <CAKMK7uF70UO=vDDnERnQ49rH1yN8gQQD91GKq1j8+eQV9mf1xA@mail.gmail.com>
- <20200625133157.0e749602@eldfell>
- <CAKMK7uGF_t+zW4tyO42HN2BbV1j6fVFfVHF8Xph10bAygdsXPQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065966EC42
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:01:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=nu6ZjKpZ+xMdFFIrl2P3rKhq0wmkDony0hAKRpmeWYQ=; b=OI3CHHJq0xACp5ptbe6LX7jw1z
+ iHyyMjkiJuRBz9rfB6esgQGR39Q2uXvw1T7SDiHdO2TPWuC4PPb8SCIYjXkwRMbCISqx0+wjZrAPQ
+ MMzn0m3fKcEufvj8hW4SQKqfYLzxKh6TV1A+89pFNqflDNod+B+/47h811pqOg569cAs4Xb+p8AQ4
+ RNkDDuEnpY7jNwPYVcTGkeSHg0QCQFUJxFCyKzon+e2ucWeWzGNOW3Op6Gky/qm1oLOzjPjPLDobU
+ lnuoCVdgsB0kDXySkuCWQxIM/k1phpCwJdx2SSki0BfFaHZ+fXGsW01ZIsop/51SOl89cT6jUGDKn
+ ruw1s3ww==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1jokEH-0005E1-EA; Fri, 26 Jun 2020 12:01:01 +0300
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_submit_relocation)
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
+ <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <7cc0d47b-024a-263e-3b63-1d1184b462b3@gmail.com>
+ <8d60baf4-45e8-296a-279e-dc105966361c@kapsi.fi>
+ <eb3cac23-cd8c-732b-684c-c2d531de00a2@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <9486b5c7-7588-34fd-bb60-a3b0f252f113@kapsi.fi>
+Date: Fri, 26 Jun 2020 12:01:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <eb3cac23-cd8c-732b-684c-c2d531de00a2@gmail.com>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,131 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============1671387931=="
+Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1671387931==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/F4=b=qzv72TRNlRwlpgbuD_"; protocol="application/pgp-signature"
-
---Sig_/F4=b=qzv72TRNlRwlpgbuD_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 25 Jun 2020 12:44:36 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Thu, Jun 25, 2020 at 12:32 PM Pekka Paalanen <ppaalanen@gmail.com> wro=
-te:
-> >
-> > On Thu, 25 Jun 2020 09:57:44 +0200
-> > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > =20
-> > > On Thu, Jun 25, 2020 at 9:56 AM Daniel Vetter <daniel@ffwll.ch> wrote=
-: =20
-> > > >
-> > > > On Wed, Jun 24, 2020 at 03:40:42PM -0400, Alex Deucher wrote: =20
-
-...
-
-> > > > > No, you are right; you will have the EDID so this shouldn't be an
-> > > > > issue.  I was mis-remembering the original issue.  We originally
-> > > > > always reported connected for LVDS in radeon if the panel was pre=
-sent,
-> > > > > but then we got flack because some userspace expected unknown in
-> > > > > certain cases (e.g., lid or muxed displays).  Either way the EDID=
- info
-> > > > > is still there. =20
-> > > >
-> > > > Yeah I think i915 started that habit, but I guess people realized i=
-t's
-> > > > unreliable enough that they should have their own lid handler in the
-> > > > desktop enviromnent doing whatever they want to do on lid close.
-> > > >
-> > > > Should we perhaps document that somewhere, that panels are always m=
-arked
-> > > > as connected? Not even sure where to put that in the docs ...
-> > > >
-> > > > Maybe adding a few of the usual suspects from the compositor side, =
-Simon,
-> > > > Pekka? =20
-> > >
-> > > Actually adding Simon and Pekka this time around ... =20
-> >
-> > I don't know what anyone else does, but Weston (is not a DE) does not
-> > look at any lid switch, and assumes that if connector status is not
-> > DRM_MODE_CONNECTED, then it is disconnected. So, if a driver switched
-> > to "Unknown" status, it would be taken as disconnected. =20
->=20
-> Maybe an aside, but the guideline is for autoconfiguration:
-> - Light up everything that has connector status connected.
-> - If nothing has that status, try to light up the connectors with
-> status "unknown".
->=20
-> This is only really relevant on older platforms, mostly for VGA and
-> somewhat for dvi outputs.
->=20
-> Maybe another thing we should put down somewhere in the uapi docs ...
-
-As I had no idea what "unknown" means or when it can happen, I assumed
-that it must mean "the hardware cannot know". If the hardware cannot
-know, then I certainly will not be trying to enable that, unless
-explicitly configured to do so. Having a phantom output is worse than
-having a real output that does not light up, because it's not obvious at
-first with phantom output that anything is wrong. You may just be
-wondering where your windows disappear, or where did you mouse cursor
-go, or why you see a wallpaper but no login dialog, etc.
-
-I certainly do hope no-one uses this quirk of Weston to get their lid
-do what they want... it's possible, OTOH the desktop user base of
-Weston according to what I've heard is around one person. It's not me.
-
-
-Thanks,
-pq
-
---Sig_/F4=b=qzv72TRNlRwlpgbuD_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl71uQ0ACgkQI1/ltBGq
-qqeY1Q/+MhwP6N1Y9lobFwLXKaEM3tJONA3OP40VDs+2S+ZeD181qptSKPPHySb1
-lHr+0f/QGr3nWPSEA7hRG+bsKDdcqGXOwyTK1it/YrtrevYp21aG0mzre2QZsSBl
-xiWxKSvC+3BAU5YiVN5u3FJEzUtp7gwr1OPvQdFhvq4+QZYM+hi8x5+O5ci6GSBT
-xi9W2nt4XdAImCfRqVxZhDuTO9NncyY0+6/GSTMoeMf3Xw+3qi3HCthF8kBl/Fz3
-dd0Elo2Q860lHny42YosSOzKW8CYBLykv24PctKcZjpEZMNWAHjJximHz68MqEvT
-DvK1PcFwAOJOJFTn+mCI9UW/dy2uczxtXexbcdw/dvBTClrQ+t7Wz9umog+Xz084
-GJZjbjrZf8PUUNMkX89+XluETS+SRj4CK0CiJ9jAOaHrW+pdTfOI6OZMDJgDFdK3
-jmIrMhgJeOs/uuxc4KEjag6eDR7A2SFcQEau3Bet5zJgrImCElFRsKn5hFAFldme
-ttxBmegyobK5G3R4olUa0LHUUBCg2tCTfaBMQdzNcQtOiEyllwoMnB7NlV475gOo
-GOTsczaSMlp0uLc1ckqZWa/m0ybFKVGaC7GXQ9QWZw4x+4uB48HDoVylG3CZQnn2
-YskecrYToTJYyu7U1B8gpwThUmsvhd0InOuy1PyK7fpBGss6Idg=
-=y3r3
------END PGP SIGNATURE-----
-
---Sig_/F4=b=qzv72TRNlRwlpgbuD_--
-
---===============1671387931==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1671387931==--
+T24gNi8yNi8yMCAxOjUwIEFNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjUuMDYuMjAyMCAx
+MjoyNywgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IE9uIDYvMjUvMjAgMTozMyBBTSwg
+RG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4gMjMuMDYuMjAyMCAxNTowOSwgTWlra28gUGVydHR1
+bmVuINC/0LjRiNC10YI6Cj4+Pj4gc3RydWN0IGRybV90ZWdyYV9zdWJtaXRfcmVsb2NhdGlvbiB7
+Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgLyogW2luXSBJbmRleCBvZiBHQVRIRVIgb3IgR0FUSEVS
+X1VQVFIgY29tbWFuZCBpbiBjb21tYW5kcy4gKi8KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3Uz
+MiBnYXRoZXJfY29tbWFuZF9pbmRleDsKPj4+Pgo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+
+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCAqIFtpbl0gTWFwcGluZyBoYW5kbGUgKG9idGFpbmVkIHRo
+cm91Z2ggQ0hBTk5FTF9NQVApIG9mIHRoZQo+Pj4+IG1lbW9yeQo+Pj4+ICDCoMKgwqDCoMKgwqDC
+oMKgwqAgKsKgwqAgdGhlIGFkZHJlc3Mgb2Ygd2hpY2ggd2lsbCBiZSBwYXRjaGVkIGluLgo+Pj4+
+ICDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3UzMiBtYXBw
+aW5nX2lkOwo+Pj4+Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgLyoKPj4+PiAgwqDCoMKgwqDCoMKg
+wqDCoMKgICogW2luXSBPZmZzZXQgaW4gdGhlIGdhdGhlciB0aGF0IHdpbGwgYmUgcGF0Y2hlZC4K
+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgX191NjQg
+Z2F0aGVyX29mZnNldDsKPj4+Pgo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4gIMKgwqDC
+oMKgwqDCoMKgwqDCoCAqIFtpbl0gT2Zmc2V0IGluIHRhcmdldCBidWZmZXIgd2hvc2UgcGFkZHIv
+SU9WQSB3aWxsIGJlCj4+Pj4gd3JpdHRlbgo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAgKsKgwqAg
+dG8gdGhlIGdhdGhlci4KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4+Pj4gIMKgwqDCoMKg
+wqDCoMKgwqAgX191NjQgdGFyZ2V0X29mZnNldDsKPj4+Pgo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKg
+IC8qCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCAqIFtpbl0gTnVtYmVyIG9mIGJpdHMgdGhlIHJl
+c3VsdGluZyBhZGRyZXNzIHdpbGwgYmUgbG9naWNhbGx5Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDC
+oCAqwqDCoCBzaGlmdGVkIHJpZ2h0IGJlZm9yZSB3cml0aW5nIHRvIGdhdGhlci4KPj4+PiAgwqDC
+oMKgwqDCoMKgwqDCoMKgICovCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgX191MzIgc2hpZnQ7Cj4+
+Pj4KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3UzMiByZXNlcnZlZFsxXTsKPj4+PiB9Owo+Pj4K
+Pj4+IFdlIHdpbGwgYWxzbyBuZWVkIHJlYWQvd3JpdGUgZGlyZWN0aW9uIGZsYWcgaGVyZSBmb3Ig
+dGhlCj4+PiBETUEtcmVzZXJ2YXRpb25zIHNldCB1cCwgaXQgd2lsbCBiZSB1c2VkIGZvciB0aGUg
+aW1wbGljaXQgQk8gZmVuY2luZyBieQo+Pj4gdGhlIGpvYidzIHNjaGVkdWxlci4KPj4+Cj4+Cj4+
+IElkZWFsbHkgb24gbmV3ZXIgY2hpcHMgd2l0aCBjb250ZXh0IGlzb2xhdGlvbiwgd2Ugbm8gbG9u
+Z2VyIGtub3cgd2hhdAo+PiBETUEtQlVGcyBhcmUgYmVpbmcgdXNlZCBieSB0aGUgam9iIGF0IHN1
+Ym1pdCB0aW1lIC0gdGhleSB3b3VsZCBqdXN0IGJlCj4+IHBvaW50ZXJzIGFmdGVyIGJlaW5nIE1B
+UHBlZC4KPiAKPiBUaGUgRE1BLUJVRnMgdGhlbXNlbHZlcyBzaG91bGRuJ3QgYmUgbmVlZGVkLCBi
+dXQgR0VNcyBzaG91bGQuCgpZZXMsIEkgbWVhbnQgdG8gc2F5IEdFTSBpbnN0ZWFkIG9mIERNQS1C
+VUYuCgo+IAo+PiBEbyB5b3Uga25vdyBob3cgb3RoZXIgR1BVcyBkZWFsIHdpdGggRE1BIHJlc2Vy
+dmF0aW9ucyAtIEkgZXhwZWN0Cj4+IHNlcGFyYXRlIE1BUCBhbmQgU1VCTUlUIHN0ZXBzIHdvdWxk
+IGJlIHByZXR0eSBjb21tb24/Cj4gCj4gSSBjYW4ndCBpbnN0YW50bHkgcmVjYWxsIHdoYXQgb3Ro
+ZXIgZHJpdmVycyBkbywgY291bGQgYmUgd29ydGh3aGlsZSB0bwo+IHRha2UgYSBjbG9zZXIgbG9v
+ay4KCkknbGwgc2VlIGlmIEkgY2FuIGZpbmQgc29tZSBzaW1pbGFyIHNpdHVhdGlvbnMgaW4gb3Ro
+ZXIgZHJpdmVycy4KCk1pa2tvCgo+IAo+PiBEbyB5b3UgaGF2ZSB0bwo+PiBwYXNzIHRoZSBETUEt
+QlVGIHRvIGJvdGggc3RlcHMgKGkuZS4gZG8gSU9NTVUgbWFwcGluZyBkdXJpbmcgTUFQLCBhbmQK
+Pj4gbWFuYWdlIHJlc2VydmF0aW9ucyBhdCBTVUJNSVQpPwo+IAo+IFllcywgdGhpcyBzb3VuZHMg
+Z29vZCB0byBtZSBpZiBETUEtQlVGIHBhcnQgaXMgcmVwbGFjZWQgd2l0aCBhIEdFTS4KPiAKPiBQ
+bGVhc2Ugc2VlIG15IG90aGVyIHJlcGx5IHJlZ2FyZGluZyB0aGUgTUFQIElPQ1RMIHdoZXJlIEkn
+bSBzdWdnZXN0aW5nCj4gdG8gYmFjayBtYXBwaW5nIElEcyB3aXRoIGEgR0VNLgo+Cl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
