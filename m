@@ -2,41 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC3A20B011
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 12:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E9820B031
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 13:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0201F6EC6A;
-	Fri, 26 Jun 2020 10:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17B576E456;
+	Fri, 26 Jun 2020 11:07:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACB76EC67;
- Fri, 26 Jun 2020 10:53:03 +0000 (UTC)
-IronPort-SDR: sb45Ak5+54vk9OSrMYNCfJ2EC+J6QN81eAFWSCW8iKMnnq0CVa26lt6LWhKd9DGx7AV1jxSz1U
- srlvqhB1iDXw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="146774080"
-X-IronPort-AV: E=Sophos;i="5.75,283,1589266800"; d="scan'208";a="146774080"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2020 03:53:02 -0700
-IronPort-SDR: 7P8p/1kkrkz5fuFAVVu8keAQ3GDgUKkWhoG8gXmnB5UOPrKjMY35rfk2J5tD7jqtI9nFwGjFVc
- 6KlE/HMXqkvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,283,1589266800"; d="scan'208";a="385736725"
-Received: from mbeldzik-mobl.ger.corp.intel.com (HELO [10.252.51.137])
- ([10.252.51.137])
- by fmsmga001.fm.intel.com with ESMTP; 26 Jun 2020 03:52:59 -0700
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <b1e53620-7937-895c-bfcf-ed208be59c7c@linux.intel.com>
-Date: Fri, 26 Jun 2020 12:52:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C385C6E456
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 11:07:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593169638;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HDwsYAvxSJZLDEgTlXLRsed5rIPTKot0z6UdCZU9/Iw=;
+ b=ADpsL1cNr+NtxOPYMokC18eUEJG3MYiwIpz+HcUMMWO1K/szPnjhyRbIoVYnbeTH65IJXl
+ fggLpKQLnUH3up+5tZi66juYCBMkQh7pV/a0w899vTD5qesFMRjkgIsHY9mHcxlefG7vgi
+ xD5rey2TfeVUY5BCxpsfh5ScGcZ3m38=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-FB8i2EizOBmUY9-qV3rfqA-1; Fri, 26 Jun 2020 07:07:11 -0400
+X-MC-Unique: FB8i2EizOBmUY9-qV3rfqA-1
+Received: by mail-qt1-f197.google.com with SMTP id c26so6241977qtq.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 04:07:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HDwsYAvxSJZLDEgTlXLRsed5rIPTKot0z6UdCZU9/Iw=;
+ b=JE9CGoxhcviFJXelwIbz5OFrDFmfUwTk2bJ0soTUjFewpl4WpXh24bY6ip7WxxodT1
+ pKtlPcGxw6xdJLKEHmURKmEXeyYIs8TIohx91LqYRV9KtaQkgJlCAqGnsbr07z1WKm46
+ Ypw0ZIGj0vWuYQIlsvXS5fw26y1cngnp6ZBuFM/v1Q6VBH5NwAyti7KZu8fzK8vAk/NX
+ /y/czU/ZOa3Cpk5CbI/T9iZlpBuejf+JpIvgirBAwVYKSSubLrQG6SaFNUc5zp7W7PQs
+ zixPYmo+KXhAzJqAdJlDXVSFfv+FDM+fpagwwKeAFXgh5xt7TMM5q1KUjbeUxORnJ/cD
+ Tttg==
+X-Gm-Message-State: AOAM532rY2/ldUcoWpSqR+Cm1yACLvT4x2qD/SkAOkai5tsLJJTnF1MW
+ tfLzd1pSwfLGkY1PdY1yuTZSExxO/F707rK1NGu22kQnLOjE/LyKABAsTJzOEJsCg7Qs49j7tsl
+ Y54hGYzzmELP7ZqDBp/ySa6KzSB0yGWAXdbAPstzFfsMG
+X-Received: by 2002:aed:23c6:: with SMTP id k6mr2208810qtc.378.1593169630518; 
+ Fri, 26 Jun 2020 04:07:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsRZdKwKa0Uc7C5GRxdjUv8abhwjADbZa5fIavU7Z89JyB7dByqsITA7hfm8D/g4Vn+mqvWIzahtrfMix3Vh8=
+X-Received: by 2002:aed:23c6:: with SMTP id k6mr2208747qtc.378.1593169629935; 
+ Fri, 26 Jun 2020 04:07:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+In-Reply-To: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 26 Jun 2020 13:06:58 +0200
+Message-ID: <CACO55ttfwQDwnO8ep=YKBgo+HYBg=zLDLfBKtH67MrqKzMWw_w@mail.gmail.com>
+Subject: Re: [RFC] Host1x/TegraDRM UAPI
+To: Mikko Perttunen <cyndis@kapsi.fi>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,201 +69,689 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, gustavo@padovan.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Dmitry Osipenko <digetx@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtLW1pc2MtbmV4dC0yMDIwLTA2LTI2Ogpkcm0tbWlzYy1uZXh0IGZvciB2NS45OgoKQ3Jvc3Mt
-c3Vic3lzdGVtIENoYW5nZXM6Ci0gSW1wcm92ZSBkbWEtYnVmIGRvY3MuCgpDb3JlIENoYW5nZXM6
-Ci0gQWRkIE5WMTUsIFE0MTAsIFE0MDEgeXV2IGZvcm1hdHMuCi0gQWRkIHVuY29tcHJlc3NlZCBB
-RkJDIG1vZGlmaWVyLgotIEFkZCBEUCBoZWxlcHIgZm9yIHJlYWRpbmcgSWdub3JlIE1TQSBmcm9t
-IERQQ0QuCi0gQWRkIG1pc3NpbmcgcGFuZWwgdHlwZSBmb3Igc29tZSBwYW5lbHMKLSBPcHRpbWl6
-ZSBkcm0vbW0gaG9sZSBoYW5kbGluZy4KLSBDb25zdGlmeSBjb25uZWN0b3IgdG8gaW5mb2ZyYW1l
-IGZ1bmN0aW9ucy4KLSBBZGQgZGVidWdmcyBmb3IgVlJSIG1vbml0b3IgcmFuZ2UuCgpEcml2ZXIg
-Q2hhbmdlczoKLSBBc3NvcnRlZCBzbWFsbCBidWdmaXhlcyBpbiBwYW5mcm9zdCwgbWFsaWRwLCBw
-YW5lbC9vdG04MDA5YS4KLSBDb252ZXJ0IHRmcDQxMCBkdCBiaW5kaW5ncyB0byB5YW1sLCBhbmQg
-cmV3b3JrIHRpbWUgY2FsY3VsYXRpb25zLgotIEFkZCBzdXBwb3J0IGZvciBhIGZldyBtb3JlIHNp
-bXBsZSBwYW5lbHMuCi0gQ2xlYW51cHMgYW5kIG9wdGltaXphdGlvbnMgZm9yIGFzdC4KLSBBbGxv
-dyBhZHY3NTExIGFuZCBzaW1wbGUtYnJpZGdlIHRvIGJlIHVzZWQgd2l0aG91dCBjb25uZWN0b3Ig
-Y3JlYXRpb24uCi0gQ2xlYW51cHMgdG8gZHctaGRtaSBmdW5jdGlvbiBwcm90b3R5cGVzLgotIFJl
-bW92ZSBlbmFibGVkIGJvb2wgZnJvbSB0aW55L3JlcGFwZXIgYW5kIG1pcGktZGJpLCBhdG9taWMg
-aGFuZGxlcyBpdC4KLSBSZW1vdmUgdW51c2VkIGhlYWRlciBmaWxlIGZyb20gZHctbWlwaS1kc2kK
-LSBCZWdpbiByZW1vdmluZyB0dG1fYm8tPm9mZnNldC4KVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNp
-bmNlIGNvbW1pdCAxMTQ0MjdiODkyN2E0ZGVmMjk0MmIyYjg4NmY3ZTRhZWFlMjg5Y2NiOgoKICBk
-cm0vcGFuZnJvc3Q6IFVzZSBrdmZyZWUoKSB0byBmcmVlIGJvLT5zZ3RzICgyMDIwLTA2LTE5IDEx
-OjAwOjAyICswMTAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cgog
-IGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYyB0YWdzL2RybS1taXNj
-LW5leHQtMjAyMC0wNi0yNgoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDQxNzUyNjYz
-YjQxMGM2MjY1ZTI0ZmYwNTcwMzUwYjBiMDVlY2RhZmU6CgogIGRybS9kZWJ1ZzogRXhwb3NlIGNv
-bm5lY3RvciBWUlIgbW9uaXRvciByYW5nZSB2aWEgZGVidWdmcyAoMjAyMC0wNi0yNSAxNTo0Nzox
-NCAtMDcwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KZHJtLW1pc2MtbmV4dCBmb3IgdjUuOToKCkNyb3NzLXN1YnN5c3Rl
-bSBDaGFuZ2VzOgotIEltcHJvdmUgZG1hLWJ1ZiBkb2NzLgoKQ29yZSBDaGFuZ2VzOgotIEFkZCBO
-VjE1LCBRNDEwLCBRNDAxIHl1diBmb3JtYXRzLgotIEFkZCB1bmNvbXByZXNzZWQgQUZCQyBtb2Rp
-Zmllci4KLSBBZGQgRFAgaGVsZXByIGZvciByZWFkaW5nIElnbm9yZSBNU0EgZnJvbSBEUENELgot
-IEFkZCBtaXNzaW5nIHBhbmVsIHR5cGUgZm9yIHNvbWUgcGFuZWxzCi0gT3B0aW1pemUgZHJtL21t
-IGhvbGUgaGFuZGxpbmcuCi0gQ29uc3RpZnkgY29ubmVjdG9yIHRvIGluZm9mcmFtZSBmdW5jdGlv
-bnMuCi0gQWRkIGRlYnVnZnMgZm9yIFZSUiBtb25pdG9yIHJhbmdlLgoKRHJpdmVyIENoYW5nZXM6
-Ci0gQXNzb3J0ZWQgc21hbGwgYnVnZml4ZXMgaW4gcGFuZnJvc3QsIG1hbGlkcCwgcGFuZWwvb3Rt
-ODAwOWEuCi0gQ29udmVydCB0ZnA0MTAgZHQgYmluZGluZ3MgdG8geWFtbCwgYW5kIHJld29yayB0
-aW1lIGNhbGN1bGF0aW9ucy4KLSBBZGQgc3VwcG9ydCBmb3IgYSBmZXcgbW9yZSBzaW1wbGUgcGFu
-ZWxzLgotIENsZWFudXBzIGFuZCBvcHRpbWl6YXRpb25zIGZvciBhc3QuCi0gQWxsb3cgYWR2NzUx
-MSBhbmQgc2ltcGxlLWJyaWRnZSB0byBiZSB1c2VkIHdpdGhvdXQgY29ubmVjdG9yIGNyZWF0aW9u
-LgotIENsZWFudXBzIHRvIGR3LWhkbWkgZnVuY3Rpb24gcHJvdG90eXBlcy4KLSBSZW1vdmUgZW5h
-YmxlZCBib29sIGZyb20gdGlueS9yZXBhcGVyIGFuZCBtaXBpLWRiaSwgYXRvbWljIGhhbmRsZXMg
-aXQuCi0gUmVtb3ZlIHVudXNlZCBoZWFkZXIgZmlsZSBmcm9tIGR3LW1pcGktZHNpCi0gQmVnaW4g
-cmVtb3ZpbmcgdHRtX2JvLT5vZmZzZXQuCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkFuZ2VsbyBSaWJlaXJvICgxKToKICAg
-ICAgZHJtL2JyaWRnZTogZHctbWlwaS1kc2kuYzogcmVtb3ZlIHVudXNlZCBoZWFkZXIgZmlsZQoK
-QmVuIERhdmlzICgyKToKICAgICAgZHJtOiBkcm1fZm91cmNjOiBhZGQgTlYxNSwgUTQxMCwgUTQw
-MSBZVVYgZm9ybWF0cwogICAgICBkcm06IGRybV9mb3VyY2M6IEFkZCB1bmNvbXByZXNzZWQgQUZC
-QyBtb2RpZmllcgoKQmhhbnVwcmFrYXNoIE1vZGVtICgxKToKICAgICAgZHJtL2RlYnVnOiBFeHBv
-c2UgY29ubmVjdG9yIFZSUiBtb25pdG9yIHJhbmdlIHZpYSBkZWJ1Z2ZzCgpDaHJpc3RpYW4gS8O2
-bmlnICgzKToKICAgICAgZHJtL21tOiByZW1vdmUgdW51c2VkIHJiX2hvbGVfc2l6ZSgpCiAgICAg
-IGRybS9tbTogb3B0aW1pemUgZmluZF9ob2xlKCkgYXMgd2VsbAogICAgICBkcm0vbW06IGNsZWFu
-dXAgYW5kIGltcHJvdmUgbmV4dF9ob2xlXypfYWRkcigpCgpDb2xpbiBJYW4gS2luZyAoMSk6CiAg
-ICAgIGRybS9hcm06IGZpeCB1bmludGVudGlvbmFsIGludGVnZXIgb3ZlcmZsb3cgb24gbGVmdCBz
-aGlmdAoKRGFuaWVsIFZldHRlciAoMyk6CiAgICAgIGRybS90aW55L3JlcGFwZXI6IERyb3AgZWRw
-LT5lbmFibGVkCiAgICAgIGRybS9taXBpLWRiaTogUmVtb3ZlIC0+ZW5hYmxlZAogICAgICBkbWEt
-YnVmOiBtaW5vciBkb2MgdG91Y2gtdXBzCgpEbWl0cnkgT3NpcGVua28gKDEpOgogICAgICBkcm0v
-cGFuZWwtc2ltcGxlOiBBZGQgbWlzc2luZyBjb25uZWN0b3IgdHlwZSBmb3Igc29tZSBwYW5lbHMK
-CkxhdXJlbnQgUGluY2hhcnQgKDIxKToKICAgICAgZHJtOiBicmlkZ2U6IGFkdjc1MTE6IFNwbGl0
-IEVESUQgcmVhZCB0byBhIHNlcGFyYXRlIGZ1bmN0aW9uCiAgICAgIGRybTogYnJpZGdlOiBhZHY3
-NTExOiBTcGxpdCBjb25uZWN0b3IgY3JlYXRpb24gdG8gYSBzZXBhcmF0ZSBmdW5jdGlvbgogICAg
-ICBkcm06IGJyaWRnZTogYWR2NzUxMTogSW1wbGVtZW50IGJyaWRnZSBjb25uZWN0b3Igb3BlcmF0
-aW9ucwogICAgICBkcm06IGJyaWRnZTogYWR2NzUxMTogTWFrZSBjb25uZWN0b3IgY3JlYXRpb24g
-b3B0aW9uYWwKICAgICAgZHJtOiBicmlkZ2U6IFJldHVybiBOVUxMIG9uIGVycm9yIGZyb20gZHJt
-X2JyaWRnZV9nZXRfZWRpZCgpCiAgICAgIGRybTogYnJpZGdlOiBzaW1wbGUtYnJpZGdlOiBEZWxl
-Z2F0ZSBvcGVyYXRpb25zIHRvIG5leHQgYnJpZGdlCiAgICAgIGRybTogYnJpZGdlOiBzaW1wbGUt
-YnJpZGdlOiBNYWtlIGNvbm5lY3RvciBjcmVhdGlvbiBvcHRpb25hbAogICAgICBkcm06IGVkaWQ6
-IENvbnN0aWZ5IGNvbm5lY3RvciBhcmd1bWVudCB0byBpbmZvZnJhbWUgZnVuY3Rpb25zCiAgICAg
-IGRybTogYnJpZGdlOiBQYXNzIGRybV9kaXNwbGF5X2luZm8gdG8gZHJtX2JyaWRnZV9mdW5jcyAu
-bW9kZV92YWxpZCgpCiAgICAgIGRybTogYnJpZGdlOiBkdy1oZG1pOiBQYXNzIHByaXZhdGUgZGF0
-YSBwb2ludGVyIHRvIC5tb2RlX3ZhbGlkKCkKICAgICAgZHJtOiBicmlkZ2U6IGR3LWhkbWk6IFBh
-c3MgcHJpdmF0ZSBkYXRhIHBvaW50ZXIgdG8gLmNvbmZpZ3VyZV9waHkoKQogICAgICBkcm06IGJy
-aWRnZTogZHctaGRtaTogUmVtb3ZlIHVudXNlZCBmaWVsZCBmcm9tIGR3X2hkbWlfcGxhdF9kYXRh
-CiAgICAgIGRybTogbWVzb246IGR3LWhkbWk6IFVzZSBkd19oZG1pIGNvbnRleHQgdG8gcmVwbGFj
-ZSBoYWNrCiAgICAgIGRybTogYnJpZGdlOiBkdy1oZG1pOiBQYXNzIGRybV9kaXNwbGF5X2luZm8g
-dG8gLm1vZGVfdmFsaWQoKQogICAgICBkcm06IGJyaWRnZTogZHctaGRtaTogQ29uc3RpZnkgbW9k
-ZSBhcmd1bWVudCB0byBkd19oZG1pX3BoeV9vcHMgLmluaXQoKQogICAgICBkcm06IGJyaWRnZTog
-ZHctaGRtaTogQ29uc3RpZnkgbW9kZSBhcmd1bWVudCB0byBpbnRlcm5hbCBmdW5jdGlvbnMKICAg
-ICAgZHJtOiBicmlkZ2U6IGR3LWhkbWk6IFBhc3MgZHJtX2Rpc3BsYXlfaW5mbyB0byBkd19oZG1p
-X3N1cHBvcnRfc2NkYygpCiAgICAgIGRybTogYnJpZGdlOiBkdy1oZG1pOiBTcGxpdCBjb25uZWN0
-b3IgY3JlYXRpb24gdG8gYSBzZXBhcmF0ZSBmdW5jdGlvbgogICAgICBkcm06IGJyaWRnZTogZHct
-aGRtaTogU3RvcmUgY3VycmVudCBjb25uZWN0b3IgaW4gc3RydWN0IGR3X2hkbWkKICAgICAgZHJt
-OiBicmlkZ2U6IGR3LWhkbWk6IFBhc3MgZHJtX2Nvbm5lY3RvciB0byBpbnRlcm5hbCBmdW5jdGlv
-bnMgYXMgbmVlZGVkCiAgICAgIGRybTogYnJpZGdlOiBkdy1oZG1pOiBNYWtlIGNvbm5lY3RvciBj
-cmVhdGlvbiBvcHRpb25hbAoKTWFuYXNpIE5hdmFyZSAoMSk6CiAgICAgIGRybS9kcDogRFJNIERQ
-IGhlbHBlciBmb3IgcmVhZGluZyBJZ25vcmUgTVNBIGZyb20gRFBDRAoKTWF0dGhpYXMgU2NoaWZm
-ZXIgKDIpOgogICAgICBkdC1iaW5kaW5nczogZGlzcGxheTogc2ltcGxlOiBhZGQgQ0RUZWNoIFMw
-NzBQV1MxOUhQLUZDMjEgYW5kIFMwNzBTV1YyOUhHLURDNDQKICAgICAgZHQtYmluZGluZ3M6IGRp
-c3BsYXk6IHNpbXBsZTogYWRkIFRpYW5tYSBUTTA3MEpWSEczMwoKTWF4IE1lcmNoZWwgKDEpOgog
-ICAgICBkcm0vcGFuZWw6IHNpbXBsZTogYWRkIFRpYW5tYSBUTTA3MEpWSEczMwoKTWljaGFlbCBL
-cnVtbXNkb3JmICgxKToKICAgICAgZHJtL3BhbmVsOiBzaW1wbGU6IGFkZCBDRFRlY2ggUzA3MFBX
-UzE5SFAtRkMyMSBhbmQgUzA3MFNXVjI5SEctREM0NAoKTmlybW95IERhcyAoNik6CiAgICAgIGRy
-bS9tbS9zZWxmdGVzdHM6IGZpeCB3cm9uZyByZXR1cm4gdHlwZSBjYXN0aW5nCiAgICAgIGRybS9h
-bWRncHU6IG1vdmUgdHRtIGJvLT5vZmZzZXQgdG8gYW1kZ3B1X2JvCiAgICAgIGRybS9yYWRlb246
-IGRvbid0IHVzZSB0dG0gYm8tPm9mZnNldAogICAgICBkcm0vcXhsOiBkb24ndCB1c2UgdHRtIGJv
-LT5vZmZzZXQKICAgICAgZHJtL3ZyYW0taGVscGVyOiBkb24ndCB1c2UgdHRtIGJvLT5vZmZzZXQg
-djQKICAgICAgZHJtL2JvY2hzOiB1c2UgZHJtX2dlbV92cmFtX29mZnNldCB0byBnZXQgYm8gb2Zm
-c2V0IHYyCgpSaWNhcmRvIENhw7F1ZWxvICg0KToKICAgICAgZHQtYmluZGluZ3M6IGRpc3BsYXk6
-IHRpLHRmcDQxMC50eHQ6IGNvbnZlcnQgdG8geWFtbAogICAgICBkdC1iaW5kaW5nczogZGlzcGxh
-eTogdGksIHRmcDQxMC55YW1sOiBSZWRlZmluZSB0aSwgZGVza2V3IHByb3BlcnR5CiAgICAgIGRy
-bS9icmlkZ2U6IHRmcDQxMDogZml4IGRlLXNrZXcgdmFsdWUgcmV0cmlldmFsIGZyb20gRFQKICAg
-ICAgZHJtL2JyaWRnZTogdGZwNDEwOiBGaXggc2V0dXAgYW5kIGhvbGQgdGltZSBjYWxjdWxhdGlv
-bgoKVGhvbWFzIFppbW1lcm1hbm4gKDQpOgogICAgICBkcm0vYXN0OiBSZW1vdmUgdW51c2VkIGNv
-ZGUgcGF0aHMgZm9yIEFTVCAxMTgwCiAgICAgIGRybS9hc3Q6IFJlbW92ZSB0ZXN0IGZvciBkZXZp
-Y2UgZnJvbSBhc3RfcG1fZnJlZXplKCkKICAgICAgZHJtL2FzdDogVXBjYXN0IGZyb20gRFJNIGRl
-dmljZSB0byBhc3Qgc3RydWN0dXJlIHZpYSB0b19hc3RfcHJpdmF0ZSgpCiAgICAgIGRybS9hc3Q6
-IFVzZSBwZXItZGV2aWNlIGxvZ2dpbmcgbWFjcm9zCgpXZWkgWW9uZ2p1biAoMSk6CiAgICAgIGRy
-bS9wYW5lbDogb3RtODAwOWE6IERyb3AgdW5uZXNzYXJ5IGJhY2tsaWdodF9kZXZpY2VfdW5yZWdp
-c3RlcigpCgogLi4uL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3RpLHRmcDQxMC50eHQgICAgICAg
-ICAgfCAgNjYgLS0tLS0KIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS90aSx0ZnA0MTAueWFt
-bCAgICAgICAgIHwgMTMxICsrKysrKysrKwogLi4uL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFu
-ZWwtc2ltcGxlLnlhbWwgICAgICAgfCAgIDYgKwogRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2Rt
-YS1idWYucnN0ICAgICAgICAgICAgICAgfCAgIDYgKy0KIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVm
-LmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA2ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9hbWRncHVfb2JqZWN0LmMgICAgICAgICB8ICAyMyArLQogZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X29iamVjdC5oICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jICAgICAgICAgICAgfCAgMzAgKy0KIGRyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uaCAgICAgICAgICAgIHwgICAxICsKIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bV9zZG1hLmMgICAgICAgIHwgICA0ICstCiBk
-cml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9wbGFuZXMuYyAgICAgICAgICAgICAgICB8ICAgMiAr
-LQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHA1MDEuYyAgICAgICAgICAgICAgICAgICAgfCAg
-MjQgKy0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5jICAgICAgICAgICAgICAgICAgICAg
-IHwgICA0IC0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oICAgICAgICAgICAgICAgICAg
-ICAgIHwgICA3ICstCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMgICAgICAgICAgICAg
-ICAgICAgICB8IDExNSArKysrLS0tLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jICAg
-ICAgICAgICAgICAgICAgICAgfCAgNzMgKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X3Bv
-c3QuYyAgICAgICAgICAgICAgICAgICAgIHwgIDI4ICstCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
-dF90dG0uYyAgICAgICAgICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL2Jv
-Y2hzL2JvY2hzX2ttcy5jICAgICAgICAgICAgICAgICAgfCAgIDcgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Rydi5jICAgICAgIHwgMTM3ICsrKysrKy0tLQogZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng2MzQ1LmMgfCAgIDEgKwog
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeC1hbng3OHh4LmMgfCAgIDEg
-KwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jZG5zLWRzaS5jICAgICAgICAgICAgICAgICAgfCAg
-IDEgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jaHJvbnRlbC1jaDcwMzMuYyAgICAgICAgICAg
-fCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ud2wtZHNpLmMgICAgICAgICAgICAgICAg
-ICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaWk5MjM0LmMgICAgICAgICAgICAg
-ICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaWwtc2lpODYyMC5jICAgICAg
-ICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaW1wbGUtYnJpZGdlLmMg
-ICAgICAgICAgICAgfCAxMTMgKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3Bz
-eXMvZHctaGRtaS5jICAgICAgICAgIHwgMzA3ICsrKysrKysrKysrKystLS0tLS0tLQogZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaS5jICAgICAgfCAgIDIgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYyAgICAgICAgICAgICAgICAgIHwgICAxICsK
-IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjguYyAgICAgICAgICAgICAgICAgIHwgICAx
-ICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGhjNjNsdmQxMDI0LmMgICAgICAgICAgICAgIHwg
-ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGZwNDEwLmMgICAgICAgICAgICAgICAg
-IHwgIDIxICstCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYyAgICAgICAgICAg
-ICAgICB8ICAgMyArLQogZHJpdmVycy9ncHUvZHJtL2RybV9icmlkZ2UuYyAgICAgICAgICAgICAg
-ICAgICAgICAgfCAgMTAgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmcy5jICAgICAgICAg
-ICAgICAgICAgICAgIHwgIDIyICsrCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgICAgICAg
-ICAgICAgICAgICAgICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYyAg
-ICAgICAgICAgICAgICAgICAgICAgfCAgMTIgKwogZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJh
-bV9oZWxwZXIuYyAgICAgICAgICAgICAgfCAgMTEgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fbWlw
-aV9kYmkuYyAgICAgICAgICAgICAgICAgICAgIHwgIDE2ICstCiBkcml2ZXJzL2dwdS9kcm0vZHJt
-X21tLmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDEyMCArKystLS0tLQogZHJpdmVycy9n
-cHUvZHJtL2RybV9wcm9iZV9oZWxwZXIuYyAgICAgICAgICAgICAgICAgfCAgIDQgKy0KIGRyaXZl
-cnMvZ3B1L2RybS9pMmMvdGRhOTk4eF9kcnYuYyAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRy
-aXZlcnMvZ3B1L2RybS9pbXgvZHdfaGRtaS1pbXguYyAgICAgICAgICAgICAgICAgIHwgICA2ICst
-CiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fZHdfaGRtaS5jICAgICAgICAgICAgICB8ICAz
-NCArKy0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9kcGkuYyAgICAgICAgICAgICAgICAg
-IHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9zZGkuYyAgICAgICAgICAgICAg
-ICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy92ZW5jLmMgICAgICAgICAg
-ICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1vcmlzZXRlY2gtb3Rt
-ODAwOWEuYyAgIHwgICAxIC0KIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYyAg
-ICAgICAgICAgICAgIHwgIDgyICsrKysrKwogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2Lmgg
-ICAgICAgICAgICAgICAgICAgICAgfCAgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2tt
-cy5jICAgICAgICAgICAgICAgICAgICAgIHwgICA1ICstCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4
-bF9vYmplY3QuaCAgICAgICAgICAgICAgICAgICB8ICAgNSAtCiBkcml2ZXJzL2dwdS9kcm0vcXhs
-L3F4bF90dG0uYyAgICAgICAgICAgICAgICAgICAgICB8ICAgOSAtCiBkcml2ZXJzL2dwdS9kcm0v
-cmFkZW9uL3JhZGVvbi5oICAgICAgICAgICAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9k
-cm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuaCAgICAgICAgICAgICB8ICAxNiArLQogZHJpdmVycy9n
-cHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgICAgICAgICAgICAgICAgfCAgIDQgKy0KIGRyaXZl
-cnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHdfaGRtaS5jICAgICAgICAgICAgIHwgICA2ICstCiBk
-cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5jICAgICAgICB8ICAgNiAr
-LQogZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9tbS5jICAgICAgICAgICAgfCAg
-MzIgKy0tCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdfaGRtaS5jICAgICAgICAgICAg
-ICB8ICAgNiArLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaCAgICAgICAg
-ICAgICAgfCAgIDMgKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9oZG1pX3BoeS5jICAg
-ICAgICAgICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5MjI1LmMgICAgICAg
-ICAgICAgICAgICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL3RpbnkvcmVwYXBlci5jICAg
-ICAgICAgICAgICAgICAgICAgfCAgMTMgKy0KIGRyaXZlcnMvZ3B1L2RybS90aW55L3N0NzU4Ni5j
-ICAgICAgICAgICAgICAgICAgICAgIHwgIDExICstCiBpbmNsdWRlL2RybS9icmlkZ2UvZHdfaGRt
-aS5oICAgICAgICAgICAgICAgICAgICAgICB8ICAyNiArLQogaW5jbHVkZS9kcm0vZHJtX2JyaWRn
-ZS5oICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDMgKwogaW5jbHVkZS9kcm0vZHJtX2Rw
-X2hlbHBlci5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDggKwogaW5jbHVkZS9kcm0vZHJt
-X2VkaWQuaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDYgKy0KIGluY2x1ZGUvZHJt
-L2RybV9taXBpX2RiaS5oICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA1IC0KIGluY2x1ZGUv
-dWFwaS9kcm0vZHJtX2ZvdXJjYy5oICAgICAgICAgICAgICAgICAgICAgIHwgIDM0ICsrKwogNzMg
-ZmlsZXMgY2hhbmdlZCwgMTAwNyBpbnNlcnRpb25zKCspLCA2NzYgZGVsZXRpb25zKC0pCiBkZWxl
-dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
-YnJpZGdlL3RpLHRmcDQxMC50eHQKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvdGksdGZwNDEwLnlhbWwKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Jun 23, 2020 at 3:03 PM Mikko Perttunen <cyndis@kapsi.fi> wrote:
+>
+> # Host1x/TegraDRM UAPI proposal
+>
+> This is a proposal for a stable UAPI for Host1x and TegraDRM, to replace
+> the current TegraDRM UAPI that is behind `STAGING` and quite obsolete in
+> many ways.
+>
+> I haven't written any implementation yet -- I'll do that once there is
+> some agreement on the high-level design.
+>
+> Current open items:
+>
+> * The syncpoint UAPI allows userspace to create sync_file FDs with
+> arbitrary syncpoint fences. dma_fence code currently seems to assume all
+> fences will be signaled, which would not necessarily be the case with
+> this interface.
+> * Previously present GEM IOCTLs (GEM_CREATE, GEM_MMAP) are not present.
+> Not sure if they are still needed.
+>
+
+Hi, as this wasn't addressed here (and sorry if I missed it): is there
+an open source userspace making use of this UAPI? Because this is
+something which needs to be seen before it can be included at all.
+
+> ## Introduction to the hardware
+>
+> Tegra Host1x is a hardware block providing the following capabilities:
+>
+> * Syncpoints, a unified whole-system synchronization primitive, allowing
+> synchronization of work between graphics, compute and multimedia
+> engines, CPUs including cross-VM synchronization, and devices on the
+> PCIe bus, without incurring CPU overhead.
+> * Channels, a command DMA mechanism allowing asynchronous programming of
+> various engines, integrating with syncpoints.
+> * Hardware virtualization support for syncpoints and channels. (On
+> Tegra186 and newer)
+>
+> This proposal defines APIs for userspace access to syncpoints and
+> channels. Kernel drivers can additionally use syncpoints and channels
+> internally, providing other userspace interfaces (e.g. V4L2).
+>
+> Syncpoint and channel interfaces are split into separate parts, as
+> syncpoints are useful as a system synchronization primitive even without
+> using the engine drivers provided through TegraDRM. For example, a
+> computer vision pipeline consisting of video capture, CPU processing and
+> GPU processing would not necessarily use the engines provided by
+> TegraDRM. See the Example workflows section for more details.
+>
+> ## Syncpoint interface
+>
+> Syncpoints are a set of 32-bit values providing the following operations:
+>
+> * Atomically increment value by one
+> * Read current value
+> * Wait until value reaches specified threshold. For waiting, the 32-bit
+> value space is treated modulo 2^32; e.g. if the current value is
+> 0xffffffff, then value 0x0 is considered to be one increment in the future.
+>
+> Each syncpoint is identified by a system-global ID ranging between [0,
+> number of syncpoints supported by hardware). The entire system has
+> read-only access to all syncpoints based on their ID.
+>
+> Syncpoints are managed through the device node /dev/host1x provided by
+> the gpu/host1x driver.
+>
+> ### IOCTL HOST1X_ALLOCATE_SYNCPOINT (on /dev/host1x)
+>
+> Allocates a free syncpoint, returning a file descriptor representing it.
+> Only the owner of the file descriptor is allowed to mutate the value of
+> the syncpoint.
+>
+> ```
+> struct host1x_ctrl_allocate_syncpoint {
+>         /**
+>          * @fd:
+>          *
+>          * [out] New file descriptor representing the allocated syncpoint.
+>          */
+>         __s32 fd;
+>
+>         __u32 reserved[3];
+> };
+> ```
+>
+> ### IOCTL HOST1X_SYNCPOINT_INFO (on syncpoint file descriptor)
+>
+> Allows retrieval of system-global syncpoint ID corresponding to syncpoint.
+>
+> Use cases:
+>
+> * Passing ID to other system components that identify syncpoints by ID
+> * Debugging and testing
+>
+> ```
+> struct host1x_syncpoint_info {
+>         /**
+>          * @id:
+>          *
+>          * [out] System-global ID of the syncpoint.
+>          */
+>         __u32 id;
+>
+>         __u32 reserved[3];
+> };
+> ```
+>
+> ### IOCTL HOST1X_SYNCPOINT_INCREMENT (on syncpoint file descriptor)
+>
+> Allows incrementing of the syncpoint value.
+>
+> Use cases:
+>
+> * Signalling work completion when executing a pipeline step on the CPU
+> * Debugging and testing
+>
+> ```
+> struct host1x_syncpoint_increment {
+>         /**
+>          * @count:
+>          *
+>          * [in] Number of times to increment syncpoint. Value can be
+>          *   observed in in-between values, but increments are atomic.
+>          */
+>         __u32 count;
+> };
+> ```
+>
+> ### IOCTL HOST1X_READ_SYNCPOINT (on /dev/host1x)
+>
+> Read the value of a syncpoint based on its ID.
+>
+> Use cases:
+>
+> * Allows more fine-grained tracking of task progression for debugging
+> purposes
+>
+> ```
+> struct host1x_ctrl_read_syncpoint {
+>         /**
+>          * @id:
+>          *
+>          * [in] ID of syncpoint to read.
+>          */
+>         __u32 id;
+>
+>         /**
+>          * @value:
+>          *
+>          * [out] Value of the syncpoint.
+>          */
+>         __u32 value;
+> };
+> ```
+>
+> ### IOCTL HOST1X_CREATE_FENCE (on /dev/host1x)
+>
+> Creates a new SYNC_FILE fence file descriptor for the specified
+> syncpoint ID and threshold.
+>
+> Use cases:
+>
+> * Creating a fence when receiving ID/threshold pair from another system
+> component
+> * Creating a postfence when executing a pipeline step on the CPU
+> * Creating a postfence when executing a pipeline step controlled by
+> userspace (e.g. GPU userspace submission)
+>
+> ```
+> struct host1x_ctrl_create_fence {
+>         /**
+>          * @id:
+>          *
+>          * [in] ID of the syncpoint for which to create a fence.
+>          */
+>         __u32 id;
+>
+>         /**
+>          * @threshold:
+>          *
+>          * [in] Threshold value for fence.
+>          */
+>         __u32 threshold;
+>
+>         /**
+>          * @fence_fd:
+>          *
+>          * [out] New sync_file FD corresponding to the ID and threshold.
+>          */
+>         __s32 fence_fd;
+>
+>         __u32 reserved[1];
+> };
+> ```
+>
+> ### IOCTL HOST1X_GET_FENCE_INFO (on /dev/host1x)
+>
+> Allows retrieval of the ID/threshold pairs corresponding to a SYNC_FILE
+> fence or fence array.
+>
+> Use cases:
+>
+> * Debugging and testing
+> * Transmitting a fence to another system component requiring ID/threshold
+> * Getting ID/threshold for prefence when programming a pipeline step
+> controlled by userspace (e.g. GPU userspace submission)
+>
+> ```
+> /* If set, corresponding fence is backed by Host1x syncpoints. */
+> #define HOST1X_CTRL_FENCE_INFO_SYNCPOINT_FENCE      (1 << 0)
+>
+> struct host1x_ctrl_fence_info {
+>         /**
+>          * @flags:
+>          *
+>          * [out] HOST1X_CTRL_FENCE_INFO flags.
+>          */
+>         __u32 flags;
+>
+>         /**
+>          * @id:
+>          *
+>          * [out] ID of the syncpoint corresponding to this fence.
+>          * Only set if HOST1X_CTRL_FENCE_INFO_SYNCPOINT_FENCE is set.
+>          */
+>         __u32 id;
+>
+>         /**
+>          * @threshold:
+>          *
+>          * [out] Signalling threshold of the fence.
+>          * Only set if HOST1X_CTRL_FENCE_INFO_SYNCPOINT_FENCE is set.
+>          */
+>         __u32 threshold;
+>
+>         __u32 reserved[1];
+> };
+>
+> struct host1x_ctrl_get_fence_info {
+>         /**
+>          * @fence_fd:
+>          *
+>          * [in] Syncpoint-backed sync_file FD for which to retrieve info.
+>          */
+>         __s32 fence_fd;
+>
+>         /**
+>          * @num_fences:
+>          *
+>          * [in] Size of `fence_info` array in elements.
+>          * [out] Number of fences held by the FD.
+>          */
+>         __u32 num_fences;
+>
+>         /**
+>          * @fence_info:
+>          *
+>          * [in] Pointer to array of 'struct host1x_ctrl_fence_info'
+> where info will be stored.
+>          */
+>         __u64 fence_info;
+>
+>         __u32 reserved[1];
+> };
+> ```
+>
+> ## Channel interface
+>
+> ### DRM_TEGRA_OPEN_CHANNEL
+>
+> ```
+> struct drm_tegra_open_channel {
+>          /**
+>            * @class:
+>            *
+>            * [in] Host1x class (engine) the channel will target.
+>            */
+>          __u32 host1x_class;
+>
+>          /**
+>            * @flags:
+>            *
+>            * [in] Flags. Currently none are specified.
+>            */
+>          __u32 flags;
+>
+>          /**
+>            * @channel_id:
+>            *
+>            * [out] Process-specific identifier corresponding to opened
+>            *   channel. Not the hardware channel ID.
+>            */
+>          __u32 channel_id;
+>
+>          /**
+>           * @hardware_version:
+>           *
+>           * [out] Hardware version of the engine targeted by the channel.
+>           *   Userspace can use this to select appropriate programming
+>           *   sequences.
+>           */
+>          __u32 hardware_version;
+>
+>          /**
+>           * @mode:
+>           *
+>           * [out] Mode the hardware is executing in. Some engines can be
+>           *   configured with different firmware supporting different
+>           *   functionality depending on the system configuration. This
+>           *   value allows userspace to detect if the engine is configured
+>           *   for the intended use case.
+>           */
+>          __u32 mode;
+>
+>          __u32 reserved[3];
+> };
+> ```
+>
+> ### DRM_TEGRA_CLOSE_CHANNEL
+>
+> ```
+> struct drm_tegra_close_channel {
+>          /**
+>            * @channel_id:
+>            *
+>            * [in] ID of channel to close.
+>            */
+>          __u32 channel_id;
+>
+>          __u32 reserved[3];
+> };
+> ```
+>
+> ### DRM_TEGRA_CHANNEL_MAP
+>
+> Make memory accessible by the engine while executing work on the channel.
+>
+> ```
+> #define DRM_TEGRA_CHANNEL_MAP_READWRITE        (1<<0)
+>
+> struct drm_tegra_channel_map {
+>          /*
+>           * [in] ID of the channel for which to map memory to.
+>           */
+>          __u32 channel_id;
+>
+>          /*
+>           * [in] GEM handle of the memory to map.
+>           */
+>          __u32 handle;
+>
+>          /*
+>           * [in] Offset in GEM handle of the memory area to map.
+>           *
+>           * Must be aligned by 4K.
+>           */
+>          __u64 offset;
+>
+>          /*
+>           * [in] Length of memory area to map in bytes.
+>           *
+>           * Must be aligned by 4K.
+>           */
+>          __u64 length;
+>
+>          /*
+>           * [out] IOVA of mapped memory. Userspace can use this IOVA
+>           *   directly to refer to the memory to skip using relocations.
+>           *   Only available if hardware memory isolation is enabled.
+>           *
+>           *   Will be set to 0xffff_ffff_ffff_ffff if unavailable.
+>           */
+>          __u64 iova;
+>
+>          /*
+>           * [out] ID corresponding to the mapped memory to be used for
+>           *   relocations or unmapping.
+>           */
+>          __u32 mapping_id;
+>
+>          /*
+>           * [in] Flags.
+>           */
+>          __u32 flags;
+>
+>          __u32 reserved[6];
+> };
+> ```
+>
+> ### DRM_TEGRA_CHANNEL_UNMAP
+>
+> Unmap previously mapped memory. Userspace shall do this only after it
+> has determined the channel will no longer access the memory.
+>
+> ```
+> struct drm_tegra_channel_unmap {
+>          /*
+>           * [in] ID of the mapping to remove.
+>           */
+>          __u32 mapping_id;
+>
+>          __u32 reserved[3];
+> };
+> ```
+>
+> ### DRM_TEGRA_CHANNEL_SUBMIT
+>
+> Submit a job to the engine/class targeted by the channel.
+>
+> ```
+> struct drm_tegra_submit_syncpt_incr {
+>          /*
+>           * [in] Syncpoint FD of the syncpoint that the job will
+>           *   increment.
+>           */
+>          __s32 syncpt_fd;
+>
+>          /*
+>           * [in] Number of increments that the job will do.
+>           */
+>          __u32 num_incrs;
+>
+>          /*
+>           * [out] Value the syncpoint will have once all increments have
+>           *   executed.
+>           */
+>          __u32 fence_value;
+>
+>          __u32 reserved[1];
+> };
+>
+> /* Sets paddr/IOVA bit 39 on T194 to enable MC swizzling */
+> #define DRM_TEGRA_SUBMIT_RELOCATION_BLOCKLINEAR   (1<<0)
+>
+> struct drm_tegra_submit_relocation {
+>          /* [in] Index of GATHER or GATHER_UPTR command in commands. */
+>          __u32 gather_command_index;
+>
+>          /*
+>           * [in] Mapping handle (obtained through CHANNEL_MAP) of the memory
+>           *   the address of which will be patched in.
+>           */
+>          __u32 mapping_id;
+>
+>          /*
+>           * [in] Offset in the gather that will be patched.
+>           */
+>          __u64 gather_offset;
+>
+>          /*
+>           * [in] Offset in target buffer whose paddr/IOVA will be written
+>           *   to the gather.
+>           */
+>          __u64 target_offset;
+>
+>          /*
+>           * [in] Number of bits the resulting address will be logically
+>           *   shifted right before writing to gather.
+>           */
+>          __u32 shift;
+>
+>          __u32 reserved[1];
+> };
+>
+> /* Command is an opcode gather from a GEM handle */
+> #define DRM_TEGRA_SUBMIT_COMMAND_GATHER             0
+> /* Command is an opcode gather from a user pointer */
+> #define DRM_TEGRA_SUBMIT_COMMAND_GATHER_UPTR        1
+> /* Command is a wait for syncpt fence completion */
+> #define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNCPT        2
+> /* Command is a wait for SYNC_FILE FD completion */
+> #define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNC_FILE     3
+> /* Command is a wait for DRM syncobj completion */
+> #define DRM_TEGRA_SUBMIT_COMMAND_WAIT_SYNCOBJ       4
+>
+> /*
+>   * Allow driver to skip command execution if engine
+>   * was not accessed by another channel between
+>   * submissions.
+>   */
+> #define DRM_TEGRA_SUBMIT_CONTEXT_SETUP                        (1<<0)
+>
+> struct drm_tegra_submit_command {
+>          __u16 type;
+>          __u16 flags;
+>
+>          union {
+>                  struct {
+>                      /* GEM handle */
+>                      __u32 handle;
+>
+>                      /*
+>                       * Offset into GEM object in bytes.
+>                       * Must be aligned by 4.
+>                       */
+>                      __u64 offset;
+>
+>                      /*
+>                       * Length of gather in bytes.
+>                       * Must be aligned by 4.
+>                       */
+>                      __u64 length;
+>                  } gather;
+>
+>                  struct {
+>                          __u32 reserved[1];
+>
+>                          /*
+>                           * Pointer to gather data.
+>                           * Must be aligned by 4 bytes.
+>                           */
+>                          __u64 base;
+>
+>                          /*
+>                           * Length of gather in bytes.
+>                           * Must be aligned by 4.
+>                           */
+>                          __u64 length;
+>                  } gather_uptr;
+>
+>                  struct {
+>                      __u32 syncpt_id;
+>                      __u32 threshold;
+>
+>                      __u32 reserved[1];
+>                  } wait_syncpt;
+>
+>                  struct {
+>                          __s32 fd;
+>                  } wait_sync_file;
+>
+>                  struct {
+>                          __u32 handle;
+>                  } wait_syncobj;
+>          };
+> };
+>
+>
+> #define DRM_TEGRA_SUBMIT_CREATE_POST_SYNC_FILE      (1<<0)
+> #define DRM_TEGRA_SUBMIT_CREATE_POST_SYNCOBJ        (1<<1)
+>
+> struct drm_tegra_channel_submit {
+>          __u32 channel_id;
+>          __u32 flags;
+>
+>          /**
+>           * [in] Timeout in microseconds after which the kernel may
+>           *   consider the job to have hung and may reap it and
+>           *   fast-forward its syncpoint increments.
+>           *
+>           *   The value may be capped by the kernel.
+>           */
+>          __u32 timeout;
+>
+>          __u32 num_syncpt_incrs;
+>          __u32 num_relocations;
+>          __u32 num_commands;
+>
+>          __u64 syncpt_incrs;
+>          __u64 relocations;
+>          __u64 commands;
+>
+>          /**
+>           * [out] Invalid, SYNC_FILE FD or syncobj handle, depending on
+>           *   if DRM_TEGRA_SUBMIT_CREATE_POST_SYNC_FILE,
+>           *   DRM_TEGRA_SUBMIT_CREATE_POST_SYNCOBJ, or neither are passed.
+>           *   Passing both is an error.
+>           *
+>           * The created fence object is signaled when all syncpoint
+>           * increments specified in `syncpt_incrs' have executed.
+>           */
+>          __u32 post_fence;
+>
+>          __u32 reserved[3];
+> };
+> ```
+>
+> ## Example workflows
+>
+> ### Image processing with TegraDRM/VIC
+>
+> This example is a simple single-step operation using VIC through
+> TegraDRM. For example, assume we have a dma-buf fd with an image we want
+> to convert from YUV to RGB. This can occur for example as part of video
+> decoding.
+>
+> Syncpoint initialization
+>
+> 1. Allocate syncpoint (HOST1X_ALLOCATE_SYNCPOINT)
+>     1. This is used to track VIC submission completion.
+> 2. Retrieve syncpoint ID (HOST1X_SYNCPOINT_INFO)
+>     1. The ID is required to program the increment as part of the
+> submission.
+>
+> Buffer allocation
+>
+> 3. Allocate memory for configuration buffers (DMA Heaps)
+> 4. Import configuration buffer dma-buf as GEM object
+> 5. Import input image dma-buf as GEM object
+>
+> Channel initialization
+>
+> 6. Open VIC channel (DRM_TEGRA_OPEN_CHANNEL)
+> 7. Map buffers for access by VIC (DRM_TEGRA_CHANNEL_MAP)
+> 8. Create Host1x opcode buffer as userspace memory
+>     1. If buffer mapping returned an IOVA, that IOVA can be placed
+> directly into the buffer. Otherwise, a relocation has to be passed as
+> part of the submission
+>     2. The buffer should contain a syncpoint increment for the syncpoint
+> allocated earlier.
+> 9. Submit work, passing in the syncpoint file descriptor allocated in
+> the beginning. The submit optionally returns a syncfd/syncobj that can
+> be used to wait for submission completion.
+>     1. If more fine-grained syncpoint waiting is required, the 'fence'
+> out-parameter of 'drm_tegra_submit_syncpt_incr' can be used in
+> conjunction with HOST1X_CREATE_FENCE to create specific fences.
+>
+> ### Camera-GPU-CPU pipeline without TegraDRM
+>
+> This example shows a pipeline with image input from a camera being
+> processed using the GPU programmed from userspace, and then finally
+> analyzed by CPU. This kind of usecase can occur e.g. as part of a
+> computer vision usecase.
+>
+> Syncpoint initialization
+>
+> 1. Camera V4L2 driver allocates a syncpoint internally within the kernel.
+> 2. For CPU job tracking, allocate a syncpoint as in "Image processing
+> with TegraDRM/VIC".
+> 3. For GPU job tracking, the GPU kernel driver would allocate a
+> syncpoint and assign it such that the GPU channel can access it.
+>
+> Camera pipeline step
+>
+> 4. Allocate a dma-buf to store the captured image.
+> 5. Trigger camera capture and store the resulting sync_file fd.
+>
+> GPU pipeline step
+>
+> 6. Use HOST1X_GET_FENCE_INFO to extract syncpoint ID/threshold pair(s)
+> from camera step's post-fence sync_file FD. If the sync_file FD is not
+> backed by syncpoints, wait for the sync_file FD to signal otherwise
+> (e.g. through polling it).
+> 7. Use HOST1X_CREATE_FENCE to create a postfence that is signaled when
+> the GPU step is complete.
+> 8. Program the GPU to
+>     1. Wait for the syncpoint thresholds extracted from the camera
+> postfence, if we were able to do so.
+>     2. Execute image processing on GPU.
+>     3. Increment GPU's job tracking syncpoint, causing the GPU
+> post-fence FD to get signaled.
+>
+> CPU pipeline step
+>
+> 9. Wait for GPU's post-fence sync_file FD
+> 10. Map the dma-buf containing the image and retrieve results.
+>
+> In place of the GPU pipeline step, a similar workflow would apply for a
+> step executed on the CPU.
+>
+> --
+>
+> thanks,
+> Mikko
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
