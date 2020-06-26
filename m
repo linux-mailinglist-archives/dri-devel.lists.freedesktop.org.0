@@ -1,65 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB9C20C093
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 12:12:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9C720C094
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 12:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09B06E131;
-	Sat, 27 Jun 2020 10:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3DE6E13C;
+	Sat, 27 Jun 2020 10:12:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A156ECA2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 13:59:49 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id c11so5216339lfh.8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 06:59:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BTgjm1/Uo1UjiBvzl85JcjpsUjI/1gpOs7wPPQzwe9Y=;
- b=vgCs6TNe08tb7eIjiBF30Ufr+wiA4b4IyKvFzEof+cgdnTf/1EKrqK/QEUw5Vfdo/z
- bUcEtziVVOHmUypUGb5Y9Ymi0/PG3f+q2oEGAqCpE9KqpNAXL63ACsSSIzVULwmWpHXO
- b+mUDDTlOTWtHnM4ksWNvt3Yx10eKY7S6lFl8UOTKhSLb41xLUQIEzdW5cw67D9XvWn8
- WbeACF6/ANEev1ECd047bjdTknmPdtxtSO823GB5GYtd1g9yyhrYLlXzzntZ2EBYpblw
- fwJBWLQRt1qVD+I6BEpVM/27dGNbkG+YbQtqkmQH6L/Z59gHJDwgh0agdkRohAXnTyYJ
- q/Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BTgjm1/Uo1UjiBvzl85JcjpsUjI/1gpOs7wPPQzwe9Y=;
- b=n/xdgq5KrCZwAeGr9UfLcXKtnpuHzYV/vk08WVy+zUqfc3Mx9Ibd/a8bbCHLMWq0Wf
- NvP1wqQ67OsaCJorWKA7/mBzdQ9m/0Qtt3v0wXWTwuQaV+Y7S1dZl3S42kK20Cbzj+5E
- wegk5X2zsB2aszTEQvAn743R0CRmtTio3EZioW6jruc4gWRiFUGz6Zq1eA9mpfyJxL9j
- CsTn4O0jfO6Dd+Y/hlKIAtVcam9hDzt8bEonsYGq2s2x3TAxvoctrmIpFn6mGx6AphV5
- XJpnyA7nurrR1331r2bqXyAobFVNVV5vnOu1ep5aozmIfra2wsv4tBIDiMGgb+P5Cgjp
- GEOQ==
-X-Gm-Message-State: AOAM530Ui0ulC+17KRde4T//j5Bp6l9oIoIr5TELhNEENcE3v6l4vt96
- pQrzCUyOG3DcBysH33GWE3o9vDgG7UQ=
-X-Google-Smtp-Source: ABdhPJz2TVL9rOK8hVAUH0vUXmMcdVxq0RO6Hu+BIQvYwoalcK0BLwZY1BgTsFDoZ//yFhjqY43Bqg==
-X-Received: by 2002:a19:6a02:: with SMTP id u2mr1967899lfu.9.1593179987416;
- Fri, 26 Jun 2020 06:59:47 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id f21sm761497ljj.121.2020.06.26.06.59.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Jun 2020 06:59:46 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI
-To: Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <CACO55ttfwQDwnO8ep=YKBgo+HYBg=zLDLfBKtH67MrqKzMWw_w@mail.gmail.com>
- <20200626114040.GA3143884@ulmo> <20200626133837.GE3278063@phenom.ffwll.local>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b46516eb-4077-c3ac-83d0-d8c57660dc3e@gmail.com>
-Date: Fri, 26 Jun 2020 16:59:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB31F6ECA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 14:17:01 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E9DD5AAE8;
+ Fri, 26 Jun 2020 14:16:59 +0000 (UTC)
+Received: from localhost (webern.olymp [local])
+ by webern.olymp (OpenSMTPD) with ESMTPA id 986dd79c;
+ Fri, 26 Jun 2020 15:16:58 +0100 (WEST)
+Date: Fri, 26 Jun 2020 15:16:58 +0100
+From: Luis Henriques <lhenriques@suse.de>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: Warning triggered in drm_dp_delayed_destroy_work workqueue
+Message-ID: <20200626141658.GA23513@suse.de>
+References: <20200625102221.GA66817@suse.de>
+ <CAKMK7uECFfCTZc2wihY4ztZ0WiKR6foUEv2ScbJ79bqt6YQELQ@mail.gmail.com>
+ <20200626140600.GA6112@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200626133837.GE3278063@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200626140600.GA6112@intel.com>
 X-Mailman-Approved-At: Sat, 27 Jun 2020 10:12:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,69 +43,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, Karol Herbst <kherbst@redhat.com>,
- David Airlie <airlied@linux.ie>, gustavo@padovan.org,
- dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjYuMDYuMjAyMCAxNjozOCwgRGFuaWVsIFZldHRlciDQv9C40YjQtdGCOgo+IE9uIEZyaSwgSnVu
-IDI2LCAyMDIwIGF0IDAxOjQwOjQwUE0gKzAyMDAsIFRoaWVycnkgUmVkaW5nIHdyb3RlOgo+PiBP
-biBGcmksIEp1biAyNiwgMjAyMCBhdCAwMTowNjo1OFBNICswMjAwLCBLYXJvbCBIZXJic3Qgd3Jv
-dGU6Cj4+PiBPbiBUdWUsIEp1biAyMywgMjAyMCBhdCAzOjAzIFBNIE1pa2tvIFBlcnR0dW5lbiA8
-Y3luZGlzQGthcHNpLmZpPiB3cm90ZToKPj4+Pgo+Pj4+ICMgSG9zdDF4L1RlZ3JhRFJNIFVBUEkg
-cHJvcG9zYWwKPj4+Pgo+Pj4+IFRoaXMgaXMgYSBwcm9wb3NhbCBmb3IgYSBzdGFibGUgVUFQSSBm
-b3IgSG9zdDF4IGFuZCBUZWdyYURSTSwgdG8gcmVwbGFjZQo+Pj4+IHRoZSBjdXJyZW50IFRlZ3Jh
-RFJNIFVBUEkgdGhhdCBpcyBiZWhpbmQgYFNUQUdJTkdgIGFuZCBxdWl0ZSBvYnNvbGV0ZSBpbgo+
-Pj4+IG1hbnkgd2F5cy4KPj4+Pgo+Pj4+IEkgaGF2ZW4ndCB3cml0dGVuIGFueSBpbXBsZW1lbnRh
-dGlvbiB5ZXQgLS0gSSdsbCBkbyB0aGF0IG9uY2UgdGhlcmUgaXMKPj4+PiBzb21lIGFncmVlbWVu
-dCBvbiB0aGUgaGlnaC1sZXZlbCBkZXNpZ24uCj4+Pj4KPj4+PiBDdXJyZW50IG9wZW4gaXRlbXM6
-Cj4+Pj4KPj4+PiAqIFRoZSBzeW5jcG9pbnQgVUFQSSBhbGxvd3MgdXNlcnNwYWNlIHRvIGNyZWF0
-ZSBzeW5jX2ZpbGUgRkRzIHdpdGgKPj4+PiBhcmJpdHJhcnkgc3luY3BvaW50IGZlbmNlcy4gZG1h
-X2ZlbmNlIGNvZGUgY3VycmVudGx5IHNlZW1zIHRvIGFzc3VtZSBhbGwKPj4+PiBmZW5jZXMgd2ls
-bCBiZSBzaWduYWxlZCwgd2hpY2ggd291bGQgbm90IG5lY2Vzc2FyaWx5IGJlIHRoZSBjYXNlIHdp
-dGgKPj4+PiB0aGlzIGludGVyZmFjZS4KPj4+PiAqIFByZXZpb3VzbHkgcHJlc2VudCBHRU0gSU9D
-VExzIChHRU1fQ1JFQVRFLCBHRU1fTU1BUCkgYXJlIG5vdCBwcmVzZW50Lgo+Pj4+IE5vdCBzdXJl
-IGlmIHRoZXkgYXJlIHN0aWxsIG5lZWRlZC4KPj4+Pgo+Pj4KPj4+IEhpLCBhcyB0aGlzIHdhc24n
-dCBhZGRyZXNzZWQgaGVyZSAoYW5kIHNvcnJ5IGlmIEkgbWlzc2VkIGl0KTogaXMgdGhlcmUKPj4+
-IGFuIG9wZW4gc291cmNlIHVzZXJzcGFjZSBtYWtpbmcgdXNlIG9mIHRoaXMgVUFQST8gQmVjYXVz
-ZSB0aGlzIGlzCj4+PiBzb21ldGhpbmcgd2hpY2ggbmVlZHMgdG8gYmUgc2VlbiBiZWZvcmUgaXQg
-Y2FuIGJlIGluY2x1ZGVkIGF0IGFsbC4KPj4KPj4gVGhlcmUncyBhIHNldCBvZiBjb21taXRzIHRo
-YXQgaW1wbGVtZW50IGFuIGVhcmxpZXIgZHJhZnQgaGVyZToKPj4KPj4gICAgIGh0dHBzOi8vZ2l0
-aHViLmNvbS90aGllcnJ5cmVkaW5nL2xpbnV4L3RyZWUvZm9yLTUuNi9kcm0tdGVncmEtZGVzdGFn
-ZS1hYmkKPj4KPj4gYW5kIGNvcnJlc3BvbmRpbmcgY2hhbmdlcyB0byBsaWJkcm0gdG8gbWFrZSB1
-c2Ugb2YgdGhhdCBhbmQgaW1wbGVtZW50Cj4+IHRlc3RzIHVzaW5nIHRoZSB2YXJpb3VzIGdlbmVy
-YXRpb25zIG9mIFZJQyBoZXJlOgo+Pgo+PiAgICAgaHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9y
-Zy9+dGFnci9kcm0vbG9nLwo+Pgo+PiBCZWZvcmUgYWN0dWFsbHkganVtcGluZyB0byBhbiBpbXBs
-ZW1lbnRhdGlvbiB3ZSB3YW50ZWQgdG8gZ28gb3ZlciB0aGUKPj4gZGVzaWduIGEgYml0IG1vcmUg
-dG8gYXZvaWQgd2FzdGluZyBhIGxvdCBvZiB3b3JrLCBsaWtlIHdlJ3ZlIGRvbmUgaW4KPj4gdGhl
-IHBhc3QuIFR1cm5zIG91dCBpdCBpc24ndCBlYXN5IHRvIGdldCBldmVyeW9uZSB0byBhZ3JlZSBv
-biBhIGdvb2QKPj4gQUJJLiBXaG8gd291bGQndmUgdGhvdWdodD8gPSkKPj4KPj4gSSBleHBlY3Qg
-dGhhdCBvbmNlIHRoZSBkaXNjdXNzaW9uIGFyb3VuZCB0aGUgQUJJIHNldHRsZXMgTWlra28gd2ls
-bAo+PiBzdGFydCBvbiBpbXBsZW1lbnRpbmcgdGhpcyBBQkkgaW4gdGhlIGtlcm5lbCBhbmQgd2Un
-bGwgdXBkYXRlIHRoZQo+PiBsaWJkcm0gcGF0Y2hlcyB0byBtYWtlIHVzZSBvZiB0aGUgbmV3IEFC
-SSBhcyB3ZWxsLgo+IAo+IERvIHdlIGhhdmUgbW9yZSB0aGFuIGxpYmRybSBhbmQgdGVzdHMgZm9y
-IHRoaXMsIGxpa2Ugc29tZXRoaW5nIHNvbWV3aGF0Cj4gZnVuY3Rpb25hbD8gU2luY2UgdGVncmFk
-cm0gbGFuZGVkIHllYXJzIGFnbyB3ZSd2ZSByZWZpbmVkIHRoZSBjcml0ZXJpYSBhCj4gYml0IGlu
-IHRoaXMgcmVnYXJkLCBsYXRlc3QgdmVyc2lvbiBpcyBleHBsaWNpdCBpbiB0aGF0IGl0IG5lZWRz
-IHRvIGJlCj4gc29tZXRoaW5nIHRoYXQncyBmdW5jdGlvbmFsIChmb3IgZW5kLXVzZXJzIGluIHNv
-bWUgZm9ybSksIG5vdCBqdXN0Cj4gaW5mcmFzdHJ1Y3R1cmUgYW5kIHRlc3RzLgoKV2UgaGF2ZSBP
-cGVudGVncmEgWzFdIGFuZCBWRFBBVSBbMl0gdXNlcnNwYWNlIGRyaXZlcnMgZm9yIG9sZGVyIFRl
-Z3JhClNvQ3MgdGhhdCBoYXZlIGJlZW4gdXNpbmcgdGhlIHN0YWdpbmcgVUFQSSBmb3IgeWVhcnMg
-bm93LgoKWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIveGY4Ni12aWRlby1vcGVu
-dGVncmEKWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGlidmRwYXUtdGVncmEK
-ClRoZSBVQVBJIGFuZCB0aGUga2VybmVsIGRyaXZlciB1cGRhdGVzIGFyZSB2ZXJ5IG5lZWRlZCBm
-b3IgdGhlc2UgZHJpdmVycwpiZWNhdXNlIG9mIHRoZSBtaXNzaW5nIFVBUEkgc3luY2hyb25pemF0
-aW9uIGZlYXR1cmVzIGFuZCBwZXJmb3JtYW5jZQpwcm9ibGVtcyBvZiB0aGUga2VybmVsIGRyaXZl
-ci4KClNvIHdlIGFscmVhZHkgaGF2ZSBzb21lIHJlYWwtd29ybGQgdXNlcnNwYWNlIGZvciB0aGUg
-dGVzdGluZyEKCkl0J3Mgbm90IHRoZSBmaXJzdCBhbmQgbm90IHRoZSBzZWNvbmQgdGltZSB3ZSdy
-ZSBkaXNjdXNzaW5nIHRoZSBUZWdyYQpEUk0gVUFQSSBjaGFuZ2VzLCBidXQgdGhpcyB0aW1lIGl0
-IGZlZWxzIGxpa2UgdGhlcmUgaXMgYSBnb29kIGNoYW5jZQp0aGF0IGl0IHdpbGwgZmluYWxseSBt
-YXRlcmlhbGl6ZSBhbmQgSSdtIHZlcnkgaGFwcHkgYWJvdXQgaXQgOikKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Jun 26, 2020 at 05:06:00PM +0300, Ville Syrj=E4l=E4 wrote:
+> On Fri, Jun 26, 2020 at 03:40:20PM +0200, Daniel Vetter wrote:
+> > Adding Lyude, she's been revamping all the lifetime refcouting in the
+> > dp code last few kernel releases. At a glance I don't even have an
+> > idea what's going wrong here ...
+> =
+
+> Already fixed by Imre I believe.
+> =
+
+> 7d11507605a7 ("drm/dp_mst: Fix the DDC I2C device unregistration of an MS=
+T port")
+> =
+
+
+Ah!  It does seems to be the same issue indeed!  Thanks a lot for pointing
+me at this commit.  Hopefully this fix can be included in 5.8.  Not that
+I'm seeing this WARNING frequently, but frequent enough to annoy me :-)
+
+Cheers,
+--
+Luis
+
+> > -Daniel
+> > =
+
+> > On Thu, Jun 25, 2020 at 12:22 PM Luis Henriques <lhenriques@suse.de> wr=
+ote:
+> > >
+> > > Hi!
+> > >
+> > > I've been seeing this warning occasionally, not sure if it has been
+> > > reported yet.  It's not a regression as I remember seeing it in, at l=
+east,
+> > > 5.7.
+> > >
+> > > Anyway, here it is:
+> > >
+> > > ------------[ cut here ]------------
+> > > sysfs group 'power' not found for kobject 'i2c-7'
+> > > WARNING: CPU: 1 PID: 17996 at fs/sysfs/group.c:279 sysfs_remove_group=
++0x74/0x80
+> > > Modules linked in: ccm(E) dell_rbtn(E) iwlmvm(E) mei_wdt(E) mac80211(=
+E) libarc4(E) uvcvideo(E) dell_laptop(E) videobuf2_vmalloc(E) intel_rapl_>
+> > >  soundcore(E) intel_soc_dts_iosf(E) rng_core(E) battery(E) acpi_pad(E=
+) sparse_keymap(E) acpi_thermal_rel(E) intel_pch_thermal(E) int3402_therm>
+> > >  sysfillrect(E) intel_lpss(E) sysimgblt(E) fb_sys_fops(E) idma64(E) s=
+csi_mod(E) virt_dma(E) mfd_core(E) drm(E) fan(E) thermal(E) i2c_hid(E) hi>
+> > > CPU: 1 PID: 17996 Comm: kworker/1:1 Tainted: G            E     5.8.0=
+-rc2+ #36
+> > > Hardware name: Dell Inc. Precision 5510/0N8J4R, BIOS 1.14.2 05/25/2020
+> > > Workqueue: events drm_dp_delayed_destroy_work [drm_kms_helper]
+> > > RIP: 0010:sysfs_remove_group+0x74/0x80
+> > > Code: ff 5b 48 89 ef 5d 41 5c e9 79 bc ff ff 48 89 ef e8 01 b8 ff ff =
+eb cc 49 8b 14 24 48 8b 33 48 c7 c7 90 ac 8b 93 e8 de b1 d4 ff <0f> 0b 5b>
+> > > RSP: 0000:ffffb12d40c13c38 EFLAGS: 00010282
+> > > RAX: 0000000000000000 RBX: ffffffff936e6a60 RCX: 0000000000000027
+> > > RDX: 0000000000000027 RSI: 0000000000000086 RDI: ffff8e37de097b68
+> > > RBP: 0000000000000000 R08: ffff8e37de097b60 R09: ffffffff93fb4624
+> > > R10: 0000000000000904 R11: 000000000001002c R12: ffff8e37d3081c18
+> > > R13: ffff8e375f1450a8 R14: 0000000000000000 R15: ffff8e375f145410
+> > > FS:  0000000000000000(0000) GS:ffff8e37de080000(0000) knlGS:000000000=
+0000000
+> > > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > CR2: 0000000000000000 CR3: 00000004ab20a001 CR4: 00000000003606e0
+> > > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > > Call Trace:
+> > >  device_del+0x97/0x3f0
+> > >  cdev_device_del+0x15/0x30
+> > >  put_i2c_dev+0x7b/0x90 [i2c_dev]
+> > >  i2cdev_detach_adapter+0x33/0x60 [i2c_dev]
+> > >  notifier_call_chain+0x47/0x70
+> > >  blocking_notifier_call_chain+0x3d/0x60
+> > >  device_del+0x8f/0x3f0
+> > >  device_unregister+0x16/0x60
+> > >  i2c_del_adapter+0x247/0x300
+> > >  drm_dp_port_set_pdt+0x90/0x2c0 [drm_kms_helper]
+> > >  drm_dp_delayed_destroy_work+0x2be/0x340 [drm_kms_helper]
+> > >  process_one_work+0x1ae/0x370
+> > >  worker_thread+0x50/0x3a0
+> > >  ? process_one_work+0x370/0x370
+> > >  kthread+0x11b/0x140
+> > >  ? kthread_associate_blkcg+0x90/0x90
+> > >  ret_from_fork+0x22/0x30
+> > > ---[ end trace 16486ad3c2627482 ]---
+> > > ------------[ cut here ]------------
+> > >
+> > > Cheers,
+> > > --
+> > > Luis
+> > =
+
+> > =
+
+> > =
+
+> > -- =
+
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> =
+
+> -- =
+
+> Ville Syrj=E4l=E4
+> Intel
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
