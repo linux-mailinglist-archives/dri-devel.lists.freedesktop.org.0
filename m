@@ -1,67 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8338420AEEA
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 11:26:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3089120AF19
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jun 2020 11:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E79646E1D7;
-	Fri, 26 Jun 2020 09:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D6A6E03E;
+	Fri, 26 Jun 2020 09:36:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 132036E1D7
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:25:58 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id g18so8823204wrm.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 02:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W4QboZ+2BYaxwFLVRZE8pYUcmIgl+vR3O91iE5KRbMc=;
- b=Artw0zulwtDI/tGmL95uMhiddF93m595rGy03Zk1iMnIh1widOXNePpRNBDDNkusI6
- nQBKrbeTvVBSwkhtq99Dgb6AGC7YIoQwcCtSB1oaFIUrZXfM8GsP4n2tUfQdzLK67PdG
- Bo8EXMjiI9nMmGS3v5cdpELPJKh1akyh837vaf6BddHTUNIAMmZ5ewdKN2JyenXDuUwd
- 1GbEqrtZScuDZknjwv+MQikYlwO1AK9U4Z7PVk2eMiSxdXtu5bfwnM6Gh+x1HLEhrs4K
- 0ag+n2DyGzeWjz1eeELP2TlQ6fuY1HJ7c289GSjvbK24jEghcCmeKmk5FGEK1uR7ceQi
- 2a5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W4QboZ+2BYaxwFLVRZE8pYUcmIgl+vR3O91iE5KRbMc=;
- b=UNSuqstaQPV5ZHcQrbXeB41efbv4KO2f3klWsbNYylLV0BCXurjHy0iiRCr2XTpCZW
- Og+2QINcMIDRxuHaqCl84/+s11Vy3rxMaWkT87/9jn69ApZf61iYYjsMC6CevCgrH7fO
- xRbol3KUeWywnQQr7EWBmOFlwFVewuusDbEGnqBlzI4hpqIDcnPqIe8HvMUtbZj88KWq
- fr4cM9t/aKXssJEaM6q767+wi7KZd6aQ295fJJGNZ8JETz2Z+ImkUsFMJzz6MkYLHUC9
- 4GwwX8/LXT81fuMxFhQXU41UlVdUgyhgq+qX4HNGLrRioaMkJDjUALYst919tQTNS1ma
- trHg==
-X-Gm-Message-State: AOAM531+pDB6vp4ksxUufP5eaRV0jUddGqWVZ/t3mDMly2c/fTa4A4XF
- WHuuFt904amEpqm0v1UzXqVGAvxcxDUZadiHjDU5kw==
-X-Google-Smtp-Source: ABdhPJziZBr18mhrggpfS2x3HdfY+CYO0A70NiaVkBhAoksbbX17oyoZOYgWqaoO72WmViYHknTtYHeVMn6O87BVprg=
-X-Received: by 2002:adf:8091:: with SMTP id 17mr2688885wrl.244.1593163556649; 
- Fri, 26 Jun 2020 02:25:56 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75AA46E03E
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jun 2020 09:36:24 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1jokmV-0005a8-5e; Fri, 26 Jun 2020 11:36:23 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1jokmU-0004Lf-Ke; Fri, 26 Jun 2020 11:36:22 +0200
+Message-ID: <9269e6e9347d599528432ac3b987623855829193.camel@pengutronix.de>
+Subject: Re: [PATCH 2/3] gpu: ipu-v3: image-convert: Combine
+ rotate/no-rotate irq handlers
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Steve Longerbeam <slongerbeam@gmail.com>
+Date: Fri, 26 Jun 2020 11:36:22 +0200
+In-Reply-To: <20200617224038.17889-2-slongerbeam@gmail.com>
+References: <20200617224038.17889-1-slongerbeam@gmail.com>
+ <20200617224038.17889-2-slongerbeam@gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
- <20200624011209.GU5870@pendragon.ideasonboard.com>
- <20200624072304.GT20149@phenom.ffwll.local>
- <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
- <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
- <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
- <20200625075655.GC3278063@phenom.ffwll.local>
- <CAKMK7uF70UO=vDDnERnQ49rH1yN8gQQD91GKq1j8+eQV9mf1xA@mail.gmail.com>
- <20200625133157.0e749602@eldfell>
- <CAKMK7uGF_t+zW4tyO42HN2BbV1j6fVFfVHF8Xph10bAygdsXPQ@mail.gmail.com>
- <20200626115957.566efa5b@eldfell>
-In-Reply-To: <20200626115957.566efa5b@eldfell>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 26 Jun 2020 10:25:45 +0100
-Message-ID: <CAPj87rMo61nVdhVo4HVc2-Lqb9EHgZmGVc7cFaRuuN1zGHQtPQ@mail.gmail.com>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-To: Pekka Paalanen <ppaalanen@gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,56 +50,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 2020-06-17 at 15:40 -0700, Steve Longerbeam wrote:
+> Combine the rotate_irq() and norotate_irq() handlers into a single
+> eof_irq() handler.
+> 
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 
-On Fri, 26 Jun 2020 at 10:00, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> On Thu, 25 Jun 2020 12:44:36 +0200 Daniel Vetter <daniel@ffwll.ch> wrote:
-> > Maybe an aside, but the guideline is for autoconfiguration:
-> > - Light up everything that has connector status connected.
-> > - If nothing has that status, try to light up the connectors with
-> > status "unknown".
-> >
-> > This is only really relevant on older platforms, mostly for VGA and
-> > somewhat for dvi outputs.
-> >
-> > Maybe another thing we should put down somewhere in the uapi docs ...
->
-> As I had no idea what "unknown" means or when it can happen, I assumed
-> that it must mean "the hardware cannot know". If the hardware cannot
-> know, then I certainly will not be trying to enable that, unless
-> explicitly configured to do so. Having a phantom output is worse than
-> having a real output that does not light up, because it's not obvious at
-> first with phantom output that anything is wrong. You may just be
-> wondering where your windows disappear, or where did you mouse cursor
-> go, or why you see a wallpaper but no login dialog, etc.
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-How about a refinement of Dan's suggestion, proceeding down this
-logical order and breaking if true:
-- ignore all disconnected outputs
-- if any outputs are connected, ignore all unknown outputs
-- if only one output is unknown, use only that output (with default
-mode if need be)
-- if any outputs are unknown but have EDID present, use only those outputs
-- at this point, we have multiple unknown outputs with no EDID - break
-and demand explicit user configuration
+regards
+Philipp
 
-Cheers,
-Daniel
+> ---
+>  drivers/gpu/ipu-v3/ipu-image-convert.c | 58 +++++++++-----------------
+>  1 file changed, 20 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+> index eeca50d9a1ee..f8b031ded3cf 100644
+> --- a/drivers/gpu/ipu-v3/ipu-image-convert.c
+> +++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+> @@ -1709,9 +1709,10 @@ static irqreturn_t do_irq(struct ipu_image_convert_run *run)
+>  	return IRQ_WAKE_THREAD;
+>  }
+>  
+> -static irqreturn_t norotate_irq(int irq, void *data)
+> +static irqreturn_t eof_irq(int irq, void *data)
+>  {
+>  	struct ipu_image_convert_chan *chan = data;
+> +	struct ipu_image_convert_priv *priv = chan->priv;
+>  	struct ipu_image_convert_ctx *ctx;
+>  	struct ipu_image_convert_run *run;
+>  	unsigned long flags;
+> @@ -1728,45 +1729,26 @@ static irqreturn_t norotate_irq(int irq, void *data)
+>  
+>  	ctx = run->ctx;
+>  
+> -	if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
+> -		/* this is a rotation operation, just ignore */
+> -		spin_unlock_irqrestore(&chan->irqlock, flags);
+> -		return IRQ_HANDLED;
+> -	}
+> -
+> -	ret = do_irq(run);
+> -out:
+> -	spin_unlock_irqrestore(&chan->irqlock, flags);
+> -	return ret;
+> -}
+> -
+> -static irqreturn_t rotate_irq(int irq, void *data)
+> -{
+> -	struct ipu_image_convert_chan *chan = data;
+> -	struct ipu_image_convert_priv *priv = chan->priv;
+> -	struct ipu_image_convert_ctx *ctx;
+> -	struct ipu_image_convert_run *run;
+> -	unsigned long flags;
+> -	irqreturn_t ret;
+> -
+> -	spin_lock_irqsave(&chan->irqlock, flags);
+> -
+> -	/* get current run and its context */
+> -	run = chan->current_run;
+> -	if (!run) {
+> +	if (irq == chan->out_eof_irq) {
+> +		if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
+> +			/* this is a rotation op, just ignore */
+> +			ret = IRQ_HANDLED;
+> +			goto out;
+> +		}
+> +	} else if (irq == chan->rot_out_eof_irq) {
+> +		if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
+> +			/* this was NOT a rotation op, shouldn't happen */
+> +			dev_err(priv->ipu->dev,
+> +				"Unexpected rotation interrupt\n");
+> +			ret = IRQ_HANDLED;
+> +			goto out;
+> +		}
+> +	} else {
+> +		dev_err(priv->ipu->dev, "Received unknown irq %d\n", irq);
+>  		ret = IRQ_NONE;
+>  		goto out;
+>  	}
+>  
+> -	ctx = run->ctx;
+> -
+> -	if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
+> -		/* this was NOT a rotation operation, shouldn't happen */
+> -		dev_err(priv->ipu->dev, "Unexpected rotation interrupt\n");
+> -		spin_unlock_irqrestore(&chan->irqlock, flags);
+> -		return IRQ_HANDLED;
+> -	}
+> -
+>  	ret = do_irq(run);
+>  out:
+>  	spin_unlock_irqrestore(&chan->irqlock, flags);
+> @@ -1859,7 +1841,7 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
+>  						  chan->out_chan,
+>  						  IPU_IRQ_EOF);
+>  
+> -	ret = request_threaded_irq(chan->out_eof_irq, norotate_irq, do_bh,
+> +	ret = request_threaded_irq(chan->out_eof_irq, eof_irq, do_bh,
+>  				   0, "ipu-ic", chan);
+>  	if (ret < 0) {
+>  		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
+> @@ -1872,7 +1854,7 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
+>  						     chan->rotation_out_chan,
+>  						     IPU_IRQ_EOF);
+>  
+> -	ret = request_threaded_irq(chan->rot_out_eof_irq, rotate_irq, do_bh,
+> +	ret = request_threaded_irq(chan->rot_out_eof_irq, eof_irq, do_bh,
+>  				   0, "ipu-ic", chan);
+>  	if (ret < 0) {
+>  		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
