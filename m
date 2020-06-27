@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D4D20CA5F
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 22:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B36020CA60
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 22:36:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 176E76E152;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498646E180;
 	Sun, 28 Jun 2020 20:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1618A6E057
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 19:43:14 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id a8so8263637edy.1
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 12:43:13 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEC756E311
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 21:47:16 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id t74so6988846lff.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 14:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uGY8B6Oe7XCHiADnLEqpel5yWhZGTgQFMZLJLu4AeLg=;
- b=Rc16qhzTaGkvar0RBwernOkMKUaB2kPbxraK853fDwlvWWhKavUOOmXLt+hsQMDnQC
- NQQjm3eyWCkcTkss7DUV5Bbs6lnHwIJxtikNZ+2hU13pN3y9YPIZT7Kjk8wOmiemCmme
- +WsbPSNfbSAEIjHWlHDmF00fPKbKEJwT6SMoXCVMOPsjpBsFXYCNZ1jnQENLd0gvAQw3
- rlwZ/lxlGi0swTvJ9mOnHX3+sABFxlv7iCHPx4fukAeVYdmqxcVSTAkoPTHfKE2eUstI
- VFy1cKoRZ0A2Df5tA0TsKm6yoSwvcEzXCXFWS+/aFGd29fYODwSMf1zuR7LrzkAdJQda
- 3/EQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ekENi2JYHEuJAdUbeYjX727t9pq4C9ly4N7cklnjims=;
+ b=Y+HHlMeUG0RxTatZAp0BPfDVMCKaT90nwXFPWAs42ZQKMIoxCS5yVC0FIxLIfp+tO1
+ ZhMq5RHuqS53fl9CjjZCU1GOElYN3Ze9brBStc5gSyzYbnSBrdJyggIfuwjwsh6DPRHv
+ xzaUq6GgjCTNyYCwL7kSB/bdDMlfD7nIhXsWU288Qj/4cLfno5qfnk1H4ToFlYVckZE4
+ orHv6ex4e+qr7MRXvbh713z9FQPxkXIKiuIus1rcG27AG7jNTvW9zoHoFszHOCgwYPUI
+ m1GbQRKuG7rGf8oe2iEAMXaymIev9tpn+bI9BTzOjsDkea0L53e7rYvG87vd2TNHx9WK
+ MFrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uGY8B6Oe7XCHiADnLEqpel5yWhZGTgQFMZLJLu4AeLg=;
- b=QYG7ey5+AGqsRovYN9jd1nTwTWmrCtEOvRbcucEm+yw+mjrD15kMAmyW2bHAevUJxP
- zylqQNzrKD4Y31XIMwF42JXTVmNhFNFtIZDJgLMsCIlsolGJu0cnW8VZkHiFArDDTOtV
- bgcFTCm/VHwg6D7QHh8O5QGgnMk/YL/YqMDhY4Yr7qxZLBTQxRK/aWwf4fTyI6veYOW9
- vw9FQ2BUC8R9X8sqbvAN62sq2w6p8/sbL9TZokjZDbFGyGvkf5PNghYWc9WL/PJyebFm
- JOeJaDi+LEcWmpTV+R8dd/b4sOtt53uIZ9+QBXq6YcgIsXDl7gjS4f4GHGR8TBHu7n0Z
- baKw==
-X-Gm-Message-State: AOAM530/AP0Cbf6Y26I/bjxBORxP7Nmpwm2pWEUGIC3MqIub3RVqlQ75
- mGgdmkPgmcdP3IZ7093OxYHEUCbegDUXGN6pfdU=
-X-Google-Smtp-Source: ABdhPJzQiWUDIYGSsX+B23VyHEVSNyAyfdKQrssW7lJL48zy17S+fQiaHNN7lg3dINy+2DQpLyN47qQsODs8ks9qGJM=
-X-Received: by 2002:a05:6402:542:: with SMTP id
- i2mr8211841edx.318.1593286992686; 
- Sat, 27 Jun 2020 12:43:12 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ekENi2JYHEuJAdUbeYjX727t9pq4C9ly4N7cklnjims=;
+ b=WkSjCpMlyEF4qjrPd5L3+oAX7NOiaKh/XgKlyK335qwFYGi6B5p7AQ5CnPcO2uDYBO
+ rxd94QDGZkbZWPz00pfCjLy9PoDvghkeseuPT45LIYIJRX8GbMfg7pgFIEPZ81p/o9w3
+ c2rTKAnbzd9A472a2JTLG9InLc2b9n+Rk2F6WGKm8leRm+9uLi8he51bqwSg+jqmOSny
+ lIL3QjmHWE36xWwO3dbOytD5pund1QXglC8He1tHpvKOmIqFSUh22JW3MTYDlrnPs0O1
+ EtO1rG+HPpavQYoAtUeW2TBXWJy0v9xl1LaEJzbjLAIn654moOfYeNKUr/wtSs90oaSv
+ 3+VA==
+X-Gm-Message-State: AOAM533rLHhzUrK8XPdg9CH5dpigGFASrLCZpAO8BgEezzT1KUVRd498
+ 9qOkiG1zd/GKCqLqmNCwhPg=
+X-Google-Smtp-Source: ABdhPJzDdiwU3twKlFT/dTT9VX4bQgwiRxsN/AhDhVDQqgiKa4z3Ss5iaPiYiwbzaI9FkKhAunhr3g==
+X-Received: by 2002:a19:ef09:: with SMTP id n9mr5354460lfh.215.1593294435138; 
+ Sat, 27 Jun 2020 14:47:15 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id u19sm854922ljk.0.2020.06.27.14.47.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 27 Jun 2020 14:47:14 -0700 (PDT)
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_submit_syncpt_incr)
+To: Mikko Perttunen <cyndis@kapsi.fi>,
+ Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
+ <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <9ddfedff-f465-b22d-5d6f-c7ba01731455@gmail.com>
+Date: Sun, 28 Jun 2020 00:47:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <202006210249.QHly8bQZ%lkp@intel.com>
- <CA+h21hpABfDvthiwq_JwWGpqZ68VJxu5TOBVbw_Gaxpq8j+XQg@mail.gmail.com>
- <CAKwvOdnAKR_CtOccZohR_r1kzKKVuvo8LbpLi0s3ek+3u+c_zw@mail.gmail.com>
-In-Reply-To: <CAKwvOdnAKR_CtOccZohR_r1kzKKVuvo8LbpLi0s3ek+3u+c_zw@mail.gmail.com>
-From: Vladimir Oltean <olteanv@gmail.com>
-Date: Sat, 27 Jun 2020 22:43:01 +0300
-Message-ID: <CA+h21hokCCF52O1wxkg0gLqS9ZcGtB0xMBm07_--i56=anJ=Rg@mail.gmail.com>
-Subject: Re: drivers/gpu/drm/panel/panel-samsung-ld9040.c:240:12: warning:
- stack frame size of 8312 bytes in function 'ld9040_prepare'
-To: Nick Desaulniers <ndesaulniers@google.com>
+In-Reply-To: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+Content-Language: en-US
 X-Mailman-Approved-At: Sun, 28 Jun 2020 20:36:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,52 +74,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>, Mark Brown <broonie@kernel.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Thierry Reding <thierry.reding@gmail.com>, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nick,
-
-On Mon, 22 Jun 2020 at 19:50, Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-
-> > I really don't get what's the problem here. The listing of
-> > ld9040_prepare at the given commit and with the given .config is:
->
-> I wrote a tool to help debug these.
-> https://github.com/ClangBuiltLinux/frame-larger-than
-> If you fetch the randconfig and rebuild with debug info, that tool
-> will help show you which variables are used in which stack frames and
-> what their sizes are.  Also note that strange things get dug up from
-> randconfigs.
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-I ran your tool and it basically told me that all 11 calls to
-ld9040_dcs_write from within ld9040_init are inlined by the compiler.
-Each of these ld9040_dcs_write functions calls ld9040_spi_write_word
-twice, so 22 inline calls to that. Now, sizeof(struct
-spi_transfer)=136 and sizeof(struct spi_message)=104, so, no wonder we
-run out of stack pretty quickly.
-
-But my question is: what's wrong with the code, if anything at all?
-Why does the compiler try to inline it, and then complain that it's
-using too much stack when basically nobody appears to have asked it to
-inline it?
-
-Thanks,
--Vladimir
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjMuMDYuMjAyMCAxNTowOSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gc3RydWN0IGRy
+bV90ZWdyYV9zdWJtaXRfc3luY3B0X2luY3Igewo+IMKgwqDCoMKgwqDCoMKgIC8qCj4gwqDCoMKg
+wqDCoMKgwqDCoCAqIFtpbl0gU3luY3BvaW50IEZEIG9mIHRoZSBzeW5jcG9pbnQgdGhhdCB0aGUg
+am9iIHdpbGwKPiDCoMKgwqDCoMKgwqDCoMKgICrCoMKgIGluY3JlbWVudC4KPiDCoMKgwqDCoMKg
+wqDCoMKgICovCj4gwqDCoMKgwqDCoMKgwqAgX19zMzIgc3luY3B0X2ZkOwo+IAo+IMKgwqDCoMKg
+wqDCoMKgIC8qCj4gwqDCoMKgwqDCoMKgwqDCoCAqIFtpbl0gTnVtYmVyIG9mIGluY3JlbWVudHMg
+dGhhdCB0aGUgam9iIHdpbGwgZG8uCj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+IMKgwqDCoMKgwqDC
+oMKgIF9fdTMyIG51bV9pbmNyczsKPiAKPiDCoMKgwqDCoMKgwqDCoCAvKgo+IMKgwqDCoMKgwqDC
+oMKgwqAgKiBbb3V0XSBWYWx1ZSB0aGUgc3luY3BvaW50IHdpbGwgaGF2ZSBvbmNlIGFsbCBpbmNy
+ZW1lbnRzIGhhdmUKPiDCoMKgwqDCoMKgwqDCoMKgICrCoMKgIGV4ZWN1dGVkLgo+IMKgwqDCoMKg
+wqDCoMKgwqAgKi8KPiDCoMKgwqDCoMKgwqDCoCBfX3UzMiBmZW5jZV92YWx1ZTsKPiAKPiDCoMKg
+wqDCoMKgwqDCoCBfX3UzMiByZXNlcnZlZFsxXTsKPiB9OwoKVGhlIGpvYiBzaG91bGQgYmUgY29u
+c2lkZXJlZCBleGVjdXRlZCBvbmNlIHRoZSBmaW5hbCBzeW5jIHBvaW50IGlzCmluY3JlbWVudGVk
+LgoKSGVuY2UsIHRoZXJlIHNob3VsZCBiZSBvbmx5IG9uZSBzeW5jIHBvaW50IHBlci1qb2IgZm9y
+IGluY3JlbWVudCwgd2h5CndvdWxkIHlvdSBldmVyIG5lZWQgbW9yZSB0aGFuIG9uZT8KCkNvdWxk
+IHlvdSBwbGVhc2UgZXhwbGFpbiB3aGF0IHRoaXMgc3VibWl0X3N5bmNwdF9pbmNyIGlzIGFib3V0
+PwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
