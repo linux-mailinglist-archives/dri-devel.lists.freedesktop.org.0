@@ -1,41 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF76B20C204
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 16:18:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4460C20C32D
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 19:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28BC96E067;
-	Sat, 27 Jun 2020 14:18:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5446E199;
+	Sat, 27 Jun 2020 17:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C796E067
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 14:18:07 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DC7DF21655;
- Sat, 27 Jun 2020 14:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593267487;
- bh=cIt6opZa+yAA6PsRPnToKEVJTOvIWVfLvMCDwYPe3Xk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dTMsD6U1Gd9Qs59wnuvSXVIWP5yBbcKqUWOEqIRqRg003TxHdGjemMqUAOW021M3y
- LDlPtAuI31mU3xn8qrXtq2QDqTSP5QolxLsRAKvrYHTzpwdnUsjZGyjJuFuLOycqOU
- AnY4+beRGssrk+yVQP7fbEVlO0Tvb6GdFd3ZedEA=
-Date: Sat, 27 Jun 2020 16:18:01 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Erwan Le Ray <erwan.leray@st.com>
-Subject: Re: [PATCH 1/2] dt-bindings: serial: add generic DT binding for
- announcing RTS/CTS lines
-Message-ID: <20200627141801.GA1945477@kroah.com>
-References: <20200520133932.30441-1-erwan.leray@st.com>
- <20200520133932.30441-2-erwan.leray@st.com>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BABB96E141;
+ Sat, 27 Jun 2020 17:09:46 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id e15so9307806edr.2;
+ Sat, 27 Jun 2020 10:09:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z0GB5ATaLVK7sa/BJElOVWK3jMO1+UU+ndSjuuUCcDQ=;
+ b=pX4PYXsppnxXZN7ARLZ6bjdBU2pMX3kilpUbKpoWOtgZKWmf8/wMcA6r45s1eT1j+3
+ Q0iC3VRsfVa6m5TFuXkLsfNfbH9XuunFjREtlhltY1yfCePuN2HUKqqK7cx8gCb7k+Al
+ 0q8vyljKd8lDzL5L5eutyvNDkKPGTwn2dhIWcyhYmGZmee0URrqMAiqyeCwcUHskwVLL
+ ShUToGP2iVq74Wdb3/W1JIidW/eKcuLPorOeGfIHZrYi+lh09k97F7DpvelDii5kGBKX
+ 2PtY+YcVCOyJwWNspB6hQobVqqKQXI077a/UZtWNIcSw7YEZcu4j5qbwzTYZWXm9sfIb
+ qMKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z0GB5ATaLVK7sa/BJElOVWK3jMO1+UU+ndSjuuUCcDQ=;
+ b=J12l3oJ1ie4y9+xsi90Ce+me7rfNSYeTWS+SiWUkzDbwM+rXB2nJNfe07M3iZZu/OF
+ P07ZyKMho2Pxvre+Z1rGXNsK5mUix6oW6Q8c8InsaA5EYSGPltyqgXxVs+06Mq97e6kR
+ lfOgHGCtLfwN05SnFHiUgWN3/UkDi85CDPuM9lJk8FbtAxgOJQeGtstvpe5c85IPGULj
+ CRO2GSlFX351d0p2x/mtysMFRDeE1cRfOEC7lMC3+gMLVIYN22oeZ0CqFZ/Aq/AI/MWd
+ f0yH7tIYmcEwy2VCwxgkjQK77eVkWSej/AF9QizjLjv6bAcuuVwoVqhzppnRlCf9yTcw
+ ecJg==
+X-Gm-Message-State: AOAM533V6j6m1ptzupLd7GMDOJ7PXsq6NmAD1PIziknaVOD5axhfJEE0
+ cTdszxs5mnNLhWbxV7CT2T8aed9idYnjdJLuX0g=
+X-Google-Smtp-Source: ABdhPJwuv8UKuJB24fZa+J6oFLwClzsveXOv9mXx9mOerBaR5o787gw6Sa0+gP5ZKeJAif51Vmu6nLs4OdCSklFPULE=
+X-Received: by 2002:a05:6402:1512:: with SMTP id
+ f18mr9553573edw.101.1593277785336; 
+ Sat, 27 Jun 2020 10:09:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200520133932.30441-2-erwan.leray@st.com>
+References: <20200626200042.13713-1-jcrouse@codeaurora.org>
+ <20200626200042.13713-7-jcrouse@codeaurora.org>
+In-Reply-To: <20200626200042.13713-7-jcrouse@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sat, 27 Jun 2020 10:10:14 -0700
+Message-ID: <CAF6AEGuNSAYNMG6CH6VMuyjiz5dfRoLWQ9OAFxPJrFmBrHe+Wg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v9 6/7] drm/msm: Set the global virtual
+ address range from the IOMMU domain
+To: Jordan Crouse <jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,47 +63,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
- linux-serial@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@st.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, Brian Masney <masneyb@onstation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 20, 2020 at 03:39:31PM +0200, Erwan Le Ray wrote:
-> Add support of generic DT binding for annoucing RTS/CTS lines. The initial
-> binding 'st,hw-flow-control' is not needed anymore since generic binding
-> is available, but is kept for backward compatibility.
-> 
-> Signed-off-by: Erwan Le Ray <erwan.leray@st.com>
-> 
-> diff --git a/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml b/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
-> index 75b8521eb7cb..06d5f251ec88 100644
-> --- a/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
-> +++ b/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
-> @@ -35,9 +35,11 @@ properties:
->      description: label associated with this uart
->  
->    st,hw-flow-ctrl:
-> -    description: enable hardware flow control
-> +    description: enable hardware flow control (deprecated)
->      $ref: /schemas/types.yaml#/definitions/flag
->  
-> +  uart-has-rtscts: true
+On Fri, Jun 26, 2020 at 1:01 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>
+> Use the aperture settings from the IOMMU domain to set up the virtual
+> address range for the GPU. This allows us to transparently deal with
+> IOMMU side features (like split pagetables).
+>
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
+>
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 13 +++++++++++--
+>  drivers/gpu/drm/msm/msm_iommu.c         |  7 +++++++
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 5db06b590943..3e717c1ebb7f 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -192,9 +192,18 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
+>         struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
+>         struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
+>         struct msm_gem_address_space *aspace;
+> +       u64 start, size;
+>
+> -       aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
+> -               0xffffffff - SZ_16M);
+> +       /*
+> +        * Use the aperture start or SZ_16M, whichever is greater. This will
+> +        * ensure that we align with the allocated pagetable range while still
+> +        * allowing room in the lower 32 bits for GMEM and whatnot
+> +        */
+> +       start = max_t(u64, SZ_16M, iommu->geometry.aperture_start);
+> +       size = iommu->geometry.aperture_end - start + 1;
 > +
->    dmas:
->      minItems: 1
->      maxItems: 2
-> -- 
-> 2.17.1
-> 
+> +       aspace = msm_gem_address_space_create(mmu, "gpu",
+> +               start & GENMASK(48, 0), size);
 
-Did this get ignored by the DT maintainers?  :(
+hmm, I kinda think this isn't going to play well for the 32b gpus
+(pre-a5xx).. possibly we should add address space size to 'struct
+adreno_info'?
+
+Or I guess it is always going to be the same for all devices within a
+generation?  So it could just be passed in to adreno_gpu_init()
+
+Hopefully that makes things smoother if we someday had more than 48bits..
+
+BR,
+-R
+
+>
+>         if (IS_ERR(aspace) && !IS_ERR(mmu))
+>                 mmu->funcs->destroy(mmu);
+> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+> index 3a381a9674c9..1b6635504069 100644
+> --- a/drivers/gpu/drm/msm/msm_iommu.c
+> +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> @@ -36,6 +36,10 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
+>         struct msm_iommu *iommu = to_msm_iommu(mmu);
+>         size_t ret;
+>
+> +       /* The arm-smmu driver expects the addresses to be sign extended */
+> +       if (iova & BIT_ULL(48))
+> +               iova |= GENMASK_ULL(63, 49);
+> +
+>         ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
+>         WARN_ON(!ret);
+>
+> @@ -46,6 +50,9 @@ static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+>  {
+>         struct msm_iommu *iommu = to_msm_iommu(mmu);
+>
+> +       if (iova & BIT_ULL(48))
+> +               iova |= GENMASK_ULL(63, 49);
+> +
+>         iommu_unmap(iommu->domain, iova, len);
+>
+>         return 0;
+> --
+> 2.17.1
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
