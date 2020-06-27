@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4460C20C32D
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 19:09:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB7820C3C3
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 21:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5446E199;
-	Sat, 27 Jun 2020 17:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 034B36E136;
+	Sat, 27 Jun 2020 19:47:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BABB96E141;
- Sat, 27 Jun 2020 17:09:46 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id e15so9307806edr.2;
- Sat, 27 Jun 2020 10:09:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z0GB5ATaLVK7sa/BJElOVWK3jMO1+UU+ndSjuuUCcDQ=;
- b=pX4PYXsppnxXZN7ARLZ6bjdBU2pMX3kilpUbKpoWOtgZKWmf8/wMcA6r45s1eT1j+3
- Q0iC3VRsfVa6m5TFuXkLsfNfbH9XuunFjREtlhltY1yfCePuN2HUKqqK7cx8gCb7k+Al
- 0q8vyljKd8lDzL5L5eutyvNDkKPGTwn2dhIWcyhYmGZmee0URrqMAiqyeCwcUHskwVLL
- ShUToGP2iVq74Wdb3/W1JIidW/eKcuLPorOeGfIHZrYi+lh09k97F7DpvelDii5kGBKX
- 2PtY+YcVCOyJwWNspB6hQobVqqKQXI077a/UZtWNIcSw7YEZcu4j5qbwzTYZWXm9sfIb
- qMKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z0GB5ATaLVK7sa/BJElOVWK3jMO1+UU+ndSjuuUCcDQ=;
- b=J12l3oJ1ie4y9+xsi90Ce+me7rfNSYeTWS+SiWUkzDbwM+rXB2nJNfe07M3iZZu/OF
- P07ZyKMho2Pxvre+Z1rGXNsK5mUix6oW6Q8c8InsaA5EYSGPltyqgXxVs+06Mq97e6kR
- lfOgHGCtLfwN05SnFHiUgWN3/UkDi85CDPuM9lJk8FbtAxgOJQeGtstvpe5c85IPGULj
- CRO2GSlFX351d0p2x/mtysMFRDeE1cRfOEC7lMC3+gMLVIYN22oeZ0CqFZ/Aq/AI/MWd
- f0yH7tIYmcEwy2VCwxgkjQK77eVkWSej/AF9QizjLjv6bAcuuVwoVqhzppnRlCf9yTcw
- ecJg==
-X-Gm-Message-State: AOAM533V6j6m1ptzupLd7GMDOJ7PXsq6NmAD1PIziknaVOD5axhfJEE0
- cTdszxs5mnNLhWbxV7CT2T8aed9idYnjdJLuX0g=
-X-Google-Smtp-Source: ABdhPJwuv8UKuJB24fZa+J6oFLwClzsveXOv9mXx9mOerBaR5o787gw6Sa0+gP5ZKeJAif51Vmu6nLs4OdCSklFPULE=
-X-Received: by 2002:a05:6402:1512:: with SMTP id
- f18mr9553573edw.101.1593277785336; 
- Sat, 27 Jun 2020 10:09:45 -0700 (PDT)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88BBB6E136
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 19:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593287227;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=y8eYeo39U4XWwRBj4tklNw/fzkQ36zLax8tMcAkd9mE=;
+ b=WFrQghv8NsGSYPDSGx5/29TvyShN9WQ6cvP+B3mY4rk4CTpzeK0dBgjnPY+MDef8zZHDOc
+ 9k/lb8OfhbiJGKmEp7/z1lCXnV7gh+g6fVZc6uYR/KS14dDAx5lQhxPbv7J8W53pqfoiI5
+ 9aLKAsj+hY7d12KRtTER2UvFkB/yhfk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-WRhYZ-UqNWGMPp6dwIWgVg-1; Sat, 27 Jun 2020 15:47:03 -0400
+X-MC-Unique: WRhYZ-UqNWGMPp6dwIWgVg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B39CF464;
+ Sat, 27 Jun 2020 19:47:02 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-112-223.rdu2.redhat.com
+ [10.10.112.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44A629032D;
+ Sat, 27 Jun 2020 19:47:02 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org
+Subject: [RFC v8 0/9] drm/nouveau: Introduce CRC support for gf119+
+Date: Sat, 27 Jun 2020 15:46:48 -0400
+Message-Id: <20200627194657.156514-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20200626200042.13713-1-jcrouse@codeaurora.org>
- <20200626200042.13713-7-jcrouse@codeaurora.org>
-In-Reply-To: <20200626200042.13713-7-jcrouse@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 27 Jun 2020 10:10:14 -0700
-Message-ID: <CAF6AEGuNSAYNMG6CH6VMuyjiz5dfRoLWQ9OAFxPJrFmBrHe+Wg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v9 6/7] drm/msm: Set the global virtual
- address range from the IOMMU domain
-To: Jordan Crouse <jcrouse@codeaurora.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,104 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Sean Paul <sean@poorly.run>, Brian Masney <masneyb@onstation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 26, 2020 at 1:01 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
->
-> Use the aperture settings from the IOMMU domain to set up the virtual
-> address range for the GPU. This allows us to transparently deal with
-> IOMMU side features (like split pagetables).
->
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
->
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 13 +++++++++++--
->  drivers/gpu/drm/msm/msm_iommu.c         |  7 +++++++
->  2 files changed, 18 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 5db06b590943..3e717c1ebb7f 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -192,9 +192,18 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
->         struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
->         struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
->         struct msm_gem_address_space *aspace;
-> +       u64 start, size;
->
-> -       aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
-> -               0xffffffff - SZ_16M);
-> +       /*
-> +        * Use the aperture start or SZ_16M, whichever is greater. This will
-> +        * ensure that we align with the allocated pagetable range while still
-> +        * allowing room in the lower 32 bits for GMEM and whatnot
-> +        */
-> +       start = max_t(u64, SZ_16M, iommu->geometry.aperture_start);
-> +       size = iommu->geometry.aperture_end - start + 1;
-> +
-> +       aspace = msm_gem_address_space_create(mmu, "gpu",
-> +               start & GENMASK(48, 0), size);
-
-hmm, I kinda think this isn't going to play well for the 32b gpus
-(pre-a5xx).. possibly we should add address space size to 'struct
-adreno_info'?
-
-Or I guess it is always going to be the same for all devices within a
-generation?  So it could just be passed in to adreno_gpu_init()
-
-Hopefully that makes things smoother if we someday had more than 48bits..
-
-BR,
--R
-
->
->         if (IS_ERR(aspace) && !IS_ERR(mmu))
->                 mmu->funcs->destroy(mmu);
-> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> index 3a381a9674c9..1b6635504069 100644
-> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> @@ -36,6 +36,10 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
->         struct msm_iommu *iommu = to_msm_iommu(mmu);
->         size_t ret;
->
-> +       /* The arm-smmu driver expects the addresses to be sign extended */
-> +       if (iova & BIT_ULL(48))
-> +               iova |= GENMASK_ULL(63, 49);
-> +
->         ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
->         WARN_ON(!ret);
->
-> @@ -46,6 +50,9 @@ static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
->  {
->         struct msm_iommu *iommu = to_msm_iommu(mmu);
->
-> +       if (iova & BIT_ULL(48))
-> +               iova |= GENMASK_ULL(63, 49);
-> +
->         iommu_unmap(iommu->domain, iova, len);
->
->         return 0;
-> --
-> 2.17.1
->
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TnZpZGlhIHJlbGVhc2VkIHNvbWUgZG9jdW1lbnRhdGlvbiBvbiBob3cgQ1JDIHN1cHBvcnQgd29y
+a3Mgb24gdGhlaXIKR1BVcywgaG9vcmF5IQoKU286IHRoaXMgcGF0Y2ggc2VyaWVzIGltcGxlbWVu
+dHMgc2FpZCBDUkMgc3VwcG9ydCBpbiBub3V2ZWF1LCBhbG9uZyB3aXRoCmFkZGluZyBzb21lIHNw
+ZWNpYWwgZGVidWdmcyBpbnRlcmZhY2VzIGZvciBzb21lIHJlbGV2YW50IGlndC1ncHUtdG9vbHMK
+dGVzdHMgKGFscmVhZHkgb24gdGhlIE1MKS4KCkZpcnN0IC0gd2UgYWRkIHNvbWUgbmV3IGZ1bmN0
+aW9uYWxpdHkgdG8ga3RocmVhZF93b3JrIGluIHRoZSBrZXJuZWwsIGFuZAp0aGVuIHVzZSB0aGlz
+IHRvIGFkZCBhIG5ldyBmZWF0dXJlIHRvIERSTSB0aGF0IFZpbGxlIFN5cmrDpGzDpCBjYW1lIHVw
+CndpdGg6IHZibGFuayB3b3JrZXJzLiBCYXNpY2FsbHksIHRoaXMgaXMganVzdCBhIGdlbmVyaWMg
+RFJNIGludGVyZmFjZQp0aGF0IGFsbG93cyBmb3Igc2NoZWR1bGluZyBoaWdoLXByaW9yaXR5IHdv
+cmtlcnMgdGhhdCBzdGFydCBvbiBhIGdpdmVuCnZibGFuayBpbnRlcnJ1cHQuIE5vdGUgdGhhdCB3
+aGlsZSB3ZSdyZSBjdXJyZW50bHkgb25seSB1c2luZyB0aGlzIGluCm5vdXZlYXUsIEludGVsIGhh
+cyBwbGFucyB0byB1c2UgdGhpcyBmb3IgaTkxNSBhcyB3ZWxsIChoZW5jZSB3aHkgdGhleQpjYW1l
+IHVwIHdpdGggaXQhKS4KCkFuZCBmaW5hbGx5OiBpbiBvcmRlciB0byBpbXBsZW1lbnQgdGhlIGxh
+c3QgZmVhdHVyZSwgd2UgZXhwb3NlIHNvbWUgbmV3CmZ1bmN0aW9ucyBpbiB0aGUga2VybmVsJ3Mg
+a3RocmVhZF93b3JrZXIgaW5mcmFzdHJ1Y3R1cmUgc28gdGhhdCB3ZSBjYW4KZGUtY29tcGxpY2F0
+ZSBvdXIgaW1wbGVtZW50YXRpb24gb2YgdGhpcy4KCkFueXdheS13ZWxjb21lIHRvIHRoZSBmdXR1
+cmUhIDopCgpNYWpvciBjaGFuZ2VzIHNpbmNlIHY3OgoqIERyb3AgL2hhcm0vYXJtaC8gcGF0Y2gK
+KiBBZGRyZXNzIGRhbnZldCdzIGNvbW1lbnRzCiogRHJvcCAiZHJtL25vdXZlYXUva21zL252NTAt
+OiBVbnJvbGwgZXJyb3IgY2xlYW51cCBpbgogIG52NTBfaGVhZF9jcmVhdGUoKSIKTWFqb3IgY2hh
+bmdlcyBzaW5jZSB2NjoKKiBNb3ZlIHZibGFua193b3JrIHJlbGF0ZWQgZnVuY3Rpb25zIGludG8g
+dGhlaXIgb3duIGZpbGVzCiogV3JpdGUgZG9jdW1lbnRhdGlvbgoqIFNpbXBsaWZ5IHdvcmsgZmx1
+c2hpbmcgYW5kIGNhbmNlbGxhdGlvbiBieSBnZXR0aW5nIHJpZCBvZiBzZXFjb3VudHMKICBhbmQg
+LT5wZW5kaW5nCk1ham9yIGNoYW5nZXMgc2luY2UgdjQ6CiogUmVtb3ZlIHRoZSBpbnRlcmZhY2Vz
+IHdlIHRyaWVkIGFkZGluZyB0byBrdGhyZWFkX3dvcmtlciBhbmQgdXNlIGEgd2FpdAogIHF1ZXVl
+ICsgc2VxY291bnQgaW4gb3JkZXIgdG8gaW1wbGVtZW50IGZsdXNoaW5nIHZibGFuayB3b3JrZXJz
+LgoqIFJlYmFzZQpNYWpvciBjaGFuZ2VzIHNpbmNlIHYzOgoqIFN0eWxlIGZpeGVzIG9uIG5vdXZl
+YXUgcGF0Y2hlcyBmcm9tIGNoZWNrcGF0Y2gsIG5vIGZ1bmN0aW9uYWwgY2hhbmdlcwoqIERvbid0
+IGludGVncmF0ZSBzbyB0aWdodGx5IHdpdGgga3RocmVhZF93b3JrIChhbmQgdXNlIG91ciBvd24g
+bG9jayksCiAgaW5zdGVhZCBpbnRyb2R1Y2Ugc29tZSBuZXcgZnVuY3Rpb25zIGZvciBkb2luZyBz
+aW1wbGUgYXN5bmMgZmx1c2hpbmcKICBhbmQgY2FuY2VsbGluZy4gSSB0aGluayB0aGlzIGludGVy
+ZmFjZSBsb29rcyBhIGxvdCBtb3JlIGFjY2VwdGFibGUKICB0aGVuIHdoYXQgSSB3YXMgcHJldmlv
+dXNseSB0cnlpbmcuCiogQXBwbHkgc29tZSBjaGFuZ2VzIHJlcXVlc3RlZCBieSBkYW52ZXQKTWFq
+b3IgY2hhbmdlcyBzaW5jZSB2MjoKKiBVc2Uga3RocmVhZF93b3JrZXIgaW5zdGVhZCBvZiBrdGhy
+ZWFkZCBmb3IgdmJsYW5rIHdvcmtlcnMKKiBEb24ndCBjaGVjayBkZWJ1Z2ZzIHJldHVybiB2YWx1
+ZXMKCkx5dWRlIFBhdWwgKDkpOgogIGRybS92Ymxhbms6IFJlZ2lzdGVyIGRybW0gY2xlYW51cCBh
+Y3Rpb24gb25jZSBwZXIgZHJtX3ZibGFua19jcnRjCiAgZHJtL3ZibGFuazogVXNlIHNwaW5fKHVu
+KWxvY2tfaXJxKCkgaW4gZHJtX2NydGNfdmJsYW5rX29mZigpCiAgZHJtL3ZibGFuazogQWRkIHZi
+bGFuayB3b3JrcwogIGRybS9ub3V2ZWF1L2ttcy9udjE0MC06IERvbid0IG1vZGlmeSBkZXB0aCBp
+biBzdGF0ZSBkdXJpbmcgYXRvbWljCiAgICBjb21taXQKICBkcm0vbm91dmVhdS9rbXMvbnY1MC06
+IEZpeCBkaXNhYmxpbmcgZGl0aGVyaW5nCiAgZHJtL25vdXZlYXUva21zL252MTQwLTogVHJhY2sg
+d25kdyBtYXBwaW5ncyBpbiBudjUwX2hlYWRfYXRvbQogIGRybS9ub3V2ZWF1L2ttcy9udjUwLTog
+RXhwb3NlIG52NTBfb3V0cF9hdG9tIGluIGRpc3AuaAogIGRybS9ub3V2ZWF1L2ttcy9udjUwLTog
+TW92ZSBoYXJkLWNvZGVkIG9iamVjdCBoYW5kbGVzIGludG8gaGVhZGVyCiAgZHJtL25vdXZlYXUv
+a21zL252ZDktOiBBZGQgQ1JDIHN1cHBvcnQKCiBEb2N1bWVudGF0aW9uL2dwdS9kcm0ta21zLnJz
+dCAgICAgICAgICAgICAgIHwgIDE1ICsKIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAg
+ICAgICAgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1faW50ZXJuYWwuaCAgICAg
+ICAgICAgICAgfCAgMjcgKwogZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyAgICAgICAgICAg
+ICAgICB8ICA3MiArLQogZHJpdmVycy9ncHUvZHJtL2RybV92Ymxhbmtfd29yay5jICAgICAgICAg
+ICB8IDI2NyArKysrKysrKwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52MDQvY3J0Yy5j
+ICAgICB8ICAyNSArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvS2J1aWxkICAg
+ICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9hdG9tLmggICAgIHwg
+IDIxICsKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NvcmUuaCAgICAgfCAgIDQg
+KwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY29yZTkwN2QuYyB8ICAgMyArCiBk
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jb3JlOTE3ZC5jIHwgICAzICsKIGRyaXZl
+cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NvcmVjMzdkLmMgfCAgIDMgKwogZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY29yZWM1N2QuYyB8ICAgMyArCiBkcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuYyAgICAgIHwgNzE0ICsrKysrKysrKysrKysrKysrKysr
+CiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaCAgICAgIHwgMTI1ICsrKysK
+IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYzkwN2QuYyAgfCAxMzkgKysrKwog
+ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjYzM3ZC5jICB8IDE1MyArKysrKwog
+ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jICAgICB8ICA1OCArLQogZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5oICAgICB8ICAyNCArCiBkcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oYW5kbGVzLmggIHwgIDE2ICsKIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2hlYWQuYyAgICAgfCAgOTggKystCiBkcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9kaXNwbnY1MC9oZWFkLmggICAgIHwgIDEyICstCiBkcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9kaXNwbnY1MC9oZWFkOTA3ZC5jIHwgIDE0ICstCiBkcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9kaXNwbnY1MC9oZWFkYzM3ZC5jIHwgIDI3ICstCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVh
+dS9kaXNwbnY1MC9oZWFkYzU3ZC5jIHwgIDIwICstCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9k
+aXNwbnY1MC93bmR3LmMgICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
+ZWF1X2Rpc3BsYXkuYyAgIHwgIDYwICstCiBpbmNsdWRlL2RybS9kcm1fdmJsYW5rLmggICAgICAg
+ICAgICAgICAgICAgIHwgIDIwICsKIGluY2x1ZGUvZHJtL2RybV92Ymxhbmtfd29yay5oICAgICAg
+ICAgICAgICAgfCAgNzEgKysKIDI5IGZpbGVzIGNoYW5nZWQsIDE4NjEgaW5zZXJ0aW9ucygrKSwg
+MTQyIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9kcm1f
+dmJsYW5rX3dvcmsuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L2Rpc3BudjUwL2NyYy5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvZGlzcG52NTAvY3JjLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9kaXNwbnY1MC9jcmM5MDdkLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9kaXNwbnY1MC9jcmNjMzdkLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oYW5kbGVzLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBp
+bmNsdWRlL2RybS9kcm1fdmJsYW5rX3dvcmsuaAoKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
