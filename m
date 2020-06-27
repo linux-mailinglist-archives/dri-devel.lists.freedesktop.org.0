@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCD420BED8
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 07:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AD120BEF0
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jun 2020 08:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477296E20C;
-	Sat, 27 Jun 2020 05:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E356E6E229;
+	Sat, 27 Jun 2020 06:08:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DADD6E20C
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 05:16:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B79B16E229
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 06:08:44 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
  amdgpu_atomic_commit_tail
-Date: Sat, 27 Jun 2020 05:16:46 +0000
+Date: Sat, 27 Jun 2020 06:08:43 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-YGkfAznWuk@https.bugzilla.kernel.org/>
+Message-ID: <bug-207383-2300-zimeW70ivy@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
 References: <bug-207383-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,13 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
---- Comment #26 from rtmasura+kernel@hotmail.com ---
-and just got another crash, only watching a video in chrome. Guess the chrome
-bit at the end might be more important than I thought
-
-I *think* I've turned off the glx for xfwm.. we'll see. My computer has been
-showing video in chrome every day without issues before today. I hadn't updated
-since last week either, no changes in the system.
+--- Comment #27 from rtmasura+kernel@hotmail.com ---
+and another crash, chrome's good at causing them (watching youtube). Used -s ""
+for the setting which I think should set it to 'auto', and what I assumed was
+default. I've changed that to -s "off" to see if that helps.
 
 -- 
 You are receiving this mail because:
