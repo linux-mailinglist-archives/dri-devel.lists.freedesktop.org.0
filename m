@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5890720C4AB
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 00:09:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4167020C4B3
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 00:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5476E145;
-	Sat, 27 Jun 2020 22:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6D516E181;
+	Sat, 27 Jun 2020 22:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFCB6E145
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 22:09:23 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id s1so13963127ljo.0
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 15:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9jJ0upPzGdRnfnZ1hTOkaFEGeu73NviogiaIXzHgu1g=;
- b=sE+BQuOOYL3jixtxLIdddAA84C3CVhIi8mfRWmrs1v7kCulgoFOm7hE++fzy47IkXJ
- RjNKfD8JA/byQDHOIiC9qMt9QXnanAyx6uQuPtzkFXX7ljcjfjAa8G9LTyavatszA0sY
- JVxJCcl5X54MEgHAkQ5aLAudn/AklLoSjTMccIQDR/GbtVj7YDzXPmD6zO+hrtBaYfi9
- evomx1mBtloTqDAj2bwjJ0bLMZ0Y0DwkI/viBs1ljBCHLBu10TzYWkUEm02N0X1PgnRT
- O9CiJRA2ufA8uRGgzgqljQ4qlnq6uBzS1oPCArE4SWT7O/v5L1AAZlF1VDg6d4cYBioO
- Wz8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9jJ0upPzGdRnfnZ1hTOkaFEGeu73NviogiaIXzHgu1g=;
- b=lXxkH0nlvT8VPQIlbpUfl8eAIlZUPSCs1UG1jmxK/bPY838XV63H8FTzQ/smSKWkjB
- LyaXYnr719SB5fR7+8xjKOoN5s74TcQWzTDgzYItiHgfu1+HE8BWbMuEH+jGLqmHtxZs
- +zOPfmnOT5WtdP4M9M43flCDXPAoIIZRVMejwb4avdpyF4cS2YDY9X0mSmwiBoYM9WCX
- Ei+x+zptZUKjWfppnfSwKZKavvxfPHfRqh+p0bVK6BcmyPlipwo0yYLPSJJfx0FkSICO
- jETpaelr+X7xcuEV2mXG1AgXaP9fwxld0tt41oWxjSoAom8xWqOt+svkvGT/u0u2M8yU
- C7CA==
-X-Gm-Message-State: AOAM532VBXzrGKM0GBEeD0Jvvpnzx9pYLLSu4gBxw7hoNrdNV42V0MwD
- XJrXzEKPtuuV3z1wykO7zCISlNPZYfmMzlJtab3iExNVkZo=
-X-Google-Smtp-Source: ABdhPJzTYmzUYevAiWYs3GtOcpcdZIgiXyT8BOQSYaCBJfGVOUu9+AbTZCS84SPOvzEhBpeMTzxqv9QYsUCUhA5uLEU=
-X-Received: by 2002:a2e:351a:: with SMTP id z26mr4575579ljz.144.1593295761707; 
- Sat, 27 Jun 2020 15:09:21 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 356406E181
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jun 2020 22:26:42 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Sat, 27 Jun 2020 22:26:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: zzyxpaw@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-207383-2300-bZYUBsNMkH@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20200626220134.340209-1-linus.walleij@linaro.org>
- <CAMeQTsYEzCTUUAqgfo3xGNYeZg1RM+kXT7CYNDMLwC9gOV1_-w@mail.gmail.com>
-In-Reply-To: <CAMeQTsYEzCTUUAqgfo3xGNYeZg1RM+kXT7CYNDMLwC9gOV1_-w@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 28 Jun 2020 00:09:10 +0200
-Message-ID: <CACRpkdbFyMkJ7sKM1EL0utAhrsVvn7HjtnTgVBYXwPhB8qAYcA@mail.gmail.com>
-Subject: Re: [PATCH] drm: gma500: Drop surplus include
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,29 +52,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 27, 2020 at 10:07 PM Patrik Jakobsson
-<patrik.r.jakobsson@gmail.com> wrote:
-> On Sat, Jun 27, 2020 at 12:01 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > This file includes <linux/gpio.h> but does not use any
-> > symbols from it, drop the include.
->
-> Hi Linus,
-> Seems the include should be moved to mdfld_dsi_output.c instead.
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
-Yeah we are in include file hell :/
+zzyxpaw@gmail.com changed:
 
-I'll figure it out.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |zzyxpaw@gmail.com
 
-Yours,
-Linus Walleij
+--- Comment #29 from zzyxpaw@gmail.com ---
+Just hit this on Archlinux with linux-5.7.6 on a Vega 64. So far I've had three
+crashes mostly occuring within the first few minutes of uptime. I'm not running
+kwin or chrome, just a light window manager (bspwm) and compton.
+
+During the first two, steam's fossilize was running which lead me to suspect it
+was triggered by an interaction with that. However the third crashed before I
+even managed to start steam, so either I'm just lucky or my system is good at
+triggering this. @Duncan I'm not sure if you want to muddle your bisect results
+with a different system configuration, but I'm happy to help test commits if
+that would be helpful.
+
+I've noticed the call traces reported in the kernel log are slightly different
+for each crash; I'm not sure if they're likely to be useful or not. Here's at
+least the one from my first crash:
+
+Jun 27 14:04:40 erebor kernel: general protection fault, probably for
+non-canonical address 0x5dda9795528973db: 0000 [#1] PREEMPT SMP NOPTI
+Jun 27 14:04:40 erebor kernel: CPU: 14 PID: 193610 Comm: kworker/u32:14
+Tainted: G           OE     5.7.6-arch1-1 #1
+Jun 27 14:04:40 erebor kernel: Hardware name: To Be Filled By O.E.M. To Be
+Filled By O.E.M./AB350 Pro4, BIOS P4.90 06/14/2018
+Jun 27 14:04:40 erebor kernel: Workqueue: events_unbound commit_work
+[drm_kms_helper]
+Jun 27 14:04:40 erebor kernel: RIP:
+0010:amdgpu_dm_atomic_commit_tail+0x2aa/0x2310 [amdgpu]
+Jun 27 14:04:40 erebor kernel: Code: 4f 08 8b 81 e0 02 00 00 41 83 c5 01 44 39
+e8 0f 87 46 ff ff ff 48 83 bd f0 fc ff ff 00 0f 84 03 01 00 00 48 8b bd f0 fc
+ff ff <80> bf b0 01 00 00 01 0f 86 ac 00 00>
+Jun 27 14:04:40 erebor kernel: RSP: 0018:ffffbcec0a4afaf8 EFLAGS: 00010206
+Jun 27 14:04:40 erebor kernel: RAX: 0000000000000006 RBX: ffff9b71dbaed000 RCX:
+ffff9b7472e4b800
+Jun 27 14:04:40 erebor kernel: RDX: ffff9b72504ea400 RSI: ffffffffc13181e0 RDI:
+5dda9795528973db
+Jun 27 14:04:40 erebor kernel: RBP: ffffbcec0a4afe60 R08: 0000000000000001 R09:
+0000000000000001
+Jun 27 14:04:40 erebor kernel: R10: 0000000000000082 R11: 00000000000730e2 R12:
+0000000000000000
+Jun 27 14:04:40 erebor kernel: R13: 0000000000000006 R14: ffff9b71dbaed800 R15:
+ffff9b71a8fdb580
+Jun 27 14:04:40 erebor kernel: FS:  0000000000000000(0000)
+GS:ffff9b747ef80000(0000) knlGS:0000000000000000
+Jun 27 14:04:40 erebor kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Jun 27 14:04:40 erebor kernel: CR2: 000056460ce164b0 CR3: 0000000341c86000 CR4:
+00000000003406e0
+Jun 27 14:04:40 erebor kernel: Call Trace:
+Jun 27 14:04:40 erebor kernel:  ? __erst_read+0x160/0x1d0
+Jun 27 14:04:40 erebor kernel:  ? __switch_to_asm+0x34/0x70
+Jun 27 14:04:40 erebor kernel:  ? __switch_to_asm+0x40/0x70
+Jun 27 14:04:40 erebor kernel:  ? __switch_to_asm+0x34/0x70
+Jun 27 14:04:40 erebor kernel:  ? __switch_to_asm+0x40/0x70
+Jun 27 14:04:40 erebor kernel:  ? rescuer_thread+0x3f0/0x3f0
+Jun 27 14:04:40 erebor kernel:  commit_tail+0x94/0x130 [drm_kms_helper]
+Jun 27 14:04:40 erebor kernel:  process_one_work+0x1da/0x3d0
+Jun 27 14:04:40 erebor kernel:  ? rescuer_thread+0x3f0/0x3f0
+Jun 27 14:04:40 erebor kernel:  worker_thread+0x4d/0x3e0
+Jun 27 14:04:40 erebor kernel:  ? rescuer_thread+0x3f0/0x3f0
+Jun 27 14:04:40 erebor kernel:  kthread+0x13e/0x160
+Jun 27 14:04:40 erebor kernel:  ? __kthread_bind_mask+0x60/0x60
+Jun 27 14:04:40 erebor kernel:  ret_from_fork+0x22/0x40
+Jun 27 14:04:40 erebor kernel: Modules linked in: snd_seq_midi snd_seq_dummy
+snd_seq_midi_event snd_hrtimer snd_seq fuse ccm 8021q garp mrp stp llc
+snd_usb_audio snd_usbmidi_lib snd_rawmidi snd_seq_de>
+Jun 27 14:04:40 erebor kernel:  blake2b_generic libcrc32c crc32c_generic xor
+uas usb_storage raid6_pq crc32c_intel xhci_pci xhci_hcd
+Jun 27 14:04:40 erebor kernel: ---[ end trace cb5c0d96dd991657 ]---
+Jun 27 14:04:40 erebor kernel: RIP:
+0010:amdgpu_dm_atomic_commit_tail+0x2aa/0x2310 [amdgpu]
+Jun 27 14:04:40 erebor kernel: Code: 4f 08 8b 81 e0 02 00 00 41 83 c5 01 44 39
+e8 0f 87 46 ff ff ff 48 83 bd f0 fc ff ff 00 0f 84 03 01 00 00 48 8b bd f0 fc
+ff ff <80> bf b0 01 00 00 01 0f 86 ac 00 00>
+Jun 27 14:04:40 erebor kernel: RSP: 0018:ffffbcec0a4afaf8 EFLAGS: 00010206
+Jun 27 14:04:40 erebor kernel: RAX: 0000000000000006 RBX: ffff9b71dbaed000 RCX:
+ffff9b7472e4b800
+Jun 27 14:04:40 erebor kernel: RDX: ffff9b72504ea400 RSI: ffffffffc13181e0 RDI:
+5dda9795528973db
+Jun 27 14:04:40 erebor kernel: RBP: ffffbcec0a4afe60 R08: 0000000000000001 R09:
+0000000000000001
+Jun 27 14:04:40 erebor kernel: R10: 0000000000000082 R11: 00000000000730e2 R12:
+0000000000000000
+Jun 27 14:04:40 erebor kernel: R13: 0000000000000006 R14: ffff9b71dbaed800 R15:
+ffff9b71a8fdb580
+Jun 27 14:04:40 erebor kernel: FS:  0000000000000000(0000)
+GS:ffff9b747ef80000(0000) knlGS:0000000000000000
+Jun 27 14:04:40 erebor kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Jun 27 14:04:40 erebor kernel: CR2: 000056460ce164b0 CR3: 0000000341c86000 CR4:
+00000000003406e0
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
