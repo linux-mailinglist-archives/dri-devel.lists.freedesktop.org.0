@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA69A20C6A1
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 09:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2EC20C6C1
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 09:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2A36E0AC;
-	Sun, 28 Jun 2020 07:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4261A6E16D;
+	Sun, 28 Jun 2020 07:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 837AA6E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 07:07:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED7B56E16D
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 07:24:48 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F1BE4FB;
- Sun, 28 Jun 2020 09:07:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 502244FB;
+ Sun, 28 Jun 2020 09:24:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593328068;
- bh=ImFuBGjxJULNuw+yqvo5n5X0F7D3HfmoOWnUOSbRzm8=;
+ s=mail; t=1593329087;
+ bh=lDJLYgo5DAMTz/2ZdYYg0U6WeJE3NuS2/RgMKA97/9A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mZWrQiCIL16vCYCEWGXxF5PFUeoYcRNgv6ZlEWX5oTEaRoSS/I30KYB7wW5Rm6RoK
- fYJznRM9kSQJlgZVYj0L5IQOB0OB+APHvUBdd6OS5lbbZM+bA6YdnbMMhH9jKhBhez
- ql+XjZI2kMN1PpOp+4cl1EiPcX4gCCbXnXUttJtM=
-Date: Sun, 28 Jun 2020 10:07:45 +0300
+ b=D82vwPQig11JOHMRyv/yZYP6lyVm8zSHDNpAs0wCDRKTXvpE+c5DucVv1Cv2X83RT
+ TJdPfYkU6pAuRhBrNqmysO/eOdeFqpg8qR6JQGz95C83P5RHew9bWDMGhXDQrmpLhs
+ vMoSUdCBnQvqz1GD8hajRAHRr79ryIsz/3AvgwTk=
+Date: Sun, 28 Jun 2020 10:24:44 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 2/2] drm/panel-simple: Add missing BUS descriptions
- for some panels
-Message-ID: <20200628070745.GC6954@pendragon.ideasonboard.com>
-References: <20200621222742.25695-1-digetx@gmail.com>
- <20200621222742.25695-3-digetx@gmail.com>
- <20200627204338.GL5966@pendragon.ideasonboard.com>
- <dd1c5972-bbac-c2d8-76e8-08997b951e52@gmail.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v5 2/2] drm/panel: simple: Add Satoz SAT050AT40H12R2
+ panel support
+Message-ID: <20200628072444.GA8391@pendragon.ideasonboard.com>
+References: <20200109184037.9091-1-miquel.raynal@bootlin.com>
+ <20200109184037.9091-2-miquel.raynal@bootlin.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <dd1c5972-bbac-c2d8-76e8-08997b951e52@gmail.com>
+In-Reply-To: <20200109184037.9091-2-miquel.raynal@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,47 +47,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG1pdHJ5LAoKT24gU3VuLCBKdW4gMjgsIDIwMjAgYXQgMDI6NDQ6MTVBTSArMDMwMCwgRG1p
-dHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDI3LjA2LjIwMjAgMjM6NDMsIExhdXJlbnQgUGluY2hhcnQg
-0L/QuNGI0LXRgjoKPiA+IE9uIE1vbiwgSnVuIDIyLCAyMDIwIGF0IDAxOjI3OjQyQU0gKzAzMDAs
-IERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiA+PiBUaGlzIHBhdGNoIGFkZHMgbWlzc2luZyBCVVMg
-ZmllbGRzIHRvIHRoZSBkaXNwbGF5IHBhbmVsIGRlc2NyaXB0aW9ucyBvZgo+ID4+IHRoZSBwYW5l
-bHMgd2hpY2ggYXJlIGZvdW5kIG9uIE5WSURJQSBUZWdyYSBkZXZpY2VzOgo+ID4+Cj4gPj4gICAx
-LiBBVU8gQjEwMUFXMDMKPiA+PiAgIDIuIENodW5naHdhIENMQUEwNzBXUDAzWEcKPiA+PiAgIDMu
-IENodW5naHdhIENMQUExMDFXQTAxQQo+ID4+ICAgNC4gQ2h1bmdod2EgQ0xBQTEwMVdCMDEKPiA+
-PiAgIDUuIElubm9sdXggTjE1NkJHRSBMMjEKPiA+PiAgIDYuIFNhbXN1bmcgTFROMTAxTlQwNQo+
-ID4+Cj4gPj4gU3VnZ2VzdGVkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
-QGlkZWFzb25ib2FyZC5jb20+Cj4gPj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxk
-aWdldHhAZ21haWwuY29tPgo+ID4+IC0tLQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFu
-ZWwtc2ltcGxlLmMgfCAxMiArKysrKysrKysrKysKPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDEyIGlu
-c2VydGlvbnMoKykKPiA+Pgo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
-cGFuZWwtc2ltcGxlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+
-PiBpbmRleCA4N2VkZDJiZGYwOWEuLjk4NmRmOTkzNzY1MCAxMDA2NDQKPiA+PiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+PiBAQCAtNjk4LDYgKzY5OCw4IEBAIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgcGFuZWxfZGVzYyBhdW9fYjEwMWF3MDMgPSB7Cj4gPj4gIAkJLndpZHRoID0g
-MjIzLAo+ID4+ICAJCS5oZWlnaHQgPSAxMjUsCj4gPj4gIAl9LAo+ID4+ICsJLmJ1c19mb3JtYXQg
-PSBNRURJQV9CVVNfRk1UX1JHQjY2Nl8xWDdYM19TUFdHLAo+ID4+ICsJLmJ1c19mbGFncyA9IERS
-TV9CVVNfRkxBR19ERV9ISUdIIHwgRFJNX0JVU19GTEFHX1BJWERBVEFfRFJJVkVfUE9TRURHRSwK
-PiA+IAo+ID4gRG9lcyBEUk1fQlVTX0ZMQUdfUElYREFUQV9EUklWRV8qIG1ha2Ugc2Vuc2UgZm9y
-IExWRFMgPwo+IAo+IFRvIGJlIGhvbmVzdCBJIGRvbid0IGtub3cgd2hldGhlciBpdCBtYWtlIHNl
-bnNlIG9yIG5vdCBmb3IgTFZEUy4gSSBzYXcKPiB0aGF0IG90aGVyIExWRFMgcGFuZWxzIGluIHBh
-bmVsLXNpbXBsZS5jIHVzZSB0aGUgUElYREFUQSBmbGFnIGFuZCB0aGVuCj4gbG9va2VkIGF0IHdo
-YXQgdGltaW5nIGRpYWdyYW1zIGluIHRoZSBkYXRhc2hlZXRzIHNob3cuCgpJIHRoaW5rIHdlIHNo
-b3VsZCBkcm9wIERSTV9CVVNfRkxBR19QSVhEQVRBX0RSSVZFXyogZm9yIExWRFMgcGFuZWxzLgpJ
-J2xsIHN1Ym1pdCBhIHBhdGNoLgoKPiA+IFRoZSByZXN0IGxvb2tzIGdvb2QsIGV4Y2VwdCB0aGUg
-U2Ftc3VuZyBwYW5lbCBmb3Igd2hpY2ggSSBoYXZlbid0IGJlZW4KPiA+IGFibGUgdG8gbG9jYXRl
-IGEgZGF0YXNoZWV0Lgo+ID4gCj4gPiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1
-cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+IAo+IFRoYW5rcyB0byB5b3UgYW5kIFNh
-bSEKCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Miquel,
+
+On Thu, Jan 09, 2020 at 07:40:37PM +0100, Miquel Raynal wrote:
+> Add support for the Satoz SAT050AT40H12R2 panel.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+> 
+> Changes since v4:
+> * None.
+> 
+> Changes since v3:
+> * Added connector type.
+> 
+> Changes since v2:
+> * Dropped two uneeded lines which would fail the build.
+> 
+> Changes since v1:
+> * Switched to display_timing's instead of display_mode.
+> 
+>  drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index aaa08beac13c..1aa6622abc49 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2577,6 +2577,30 @@ static const struct panel_desc samsung_ltn140at29_301 = {
+>  	},
+>  };
+>  
+> +static const struct display_timing satoz_sat050at40h12r2_timing = {
+> +	.pixelclock = {33300000, 33300000, 50000000},
+> +	.hactive = {800, 800, 800},
+> +	.hfront_porch = {16, 210, 354},
+> +	.hback_porch = {46, 46, 46},
+> +	.hsync_len = {1, 1, 40},
+> +	.vactive = {480, 480, 480},
+> +	.vfront_porch = {7, 22, 147},
+> +	.vback_porch = {23, 23, 23},
+> +	.vsync_len = {1, 1, 20},
+> +};
+> +
+> +static const struct panel_desc satoz_sat050at40h12r2 = {
+> +	.timings = &satoz_sat050at40h12r2_timing,
+> +	.num_timings = 1,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width = 108,
+> +		.height = 65,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+
+I'm trying to fix inconsistencies in the panel-simple driver, and this
+caught my eyes. MEDIA_BUS_FMT_RGB888_1X24 isn't a correct format for
+LVDS panels. MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+MEDIA_BUS_FMT_RGB888_1X7X4_SPWG or MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA
+should be used instead. As I couldn't find documentation for the panel,
+I can't tell which format is correct. Could you please help ?
+
+> +};
+> +
+>  static const struct drm_display_mode sharp_ld_d5116z01b_mode = {
+>  	.clock = 168480,
+>  	.hdisplay = 1920,
+> @@ -3377,6 +3401,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "samsung,ltn140at29-301",
+>  		.data = &samsung_ltn140at29_301,
+> +	}, {
+> +		.compatible = "satoz,sat050at40h12r2",
+> +		.data = &satoz_sat050at40h12r2,
+>  	}, {
+>  		.compatible = "sharp,ld-d5116z01b",
+>  		.data = &sharp_ld_d5116z01b,
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
