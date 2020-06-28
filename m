@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326D720C766
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 12:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0D120C76F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 12:48:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546186E1D2;
-	Sun, 28 Jun 2020 10:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C12776E0E1;
+	Sun, 28 Jun 2020 10:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0F16E1D2
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 10:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Q8Pp68rnJSv+jCKYAr9lGJaOwdmDwwVRCto7hZgLD1o=; b=grlYoZJR6QWSf5wkkYOThYHoMW
- FccCjwN6iG+qkheFuII3UrRpd1+zQShP7zdLeR73+GakN+1Njq0a+BKkfbYB5GqthLBjytajO/hj2
- uRc7IZUuiQXReZl9vtKvIUWypeJytwAA/Ka1MEruENVBHD940Q6mtAq1gT9ZH+24t5XQ2TtDnBAMp
- R4RHwfiIPAdLg4p6SbyY+PloP71/zDs06QOfM84oTGuYqeC8exwsRGMUZWE7INQdWBWRB1rbkxMTt
- qMtGdCZt1XTSSVx++9ZwmH5r0dBna34Mdr2EhbB2ncjVXHEPfcCQo52yOV9yE6iCLJTma1cHcEUu0
- /dWbrOnQ==;
-Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1jpUYQ-0003Rc-B2; Sun, 28 Jun 2020 13:28:54 +0300
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_submit_command)
-To: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
- <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <f31fbe3b-3fc5-2ece-4c2c-9ff4e99995d6@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <19b7b295-30fa-8897-02f3-3c3b8f2a0e53@kapsi.fi>
-Date: Sun, 28 Jun 2020 13:28:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D96E6E0E1
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 10:48:16 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Sun, 28 Jun 2020 10:48:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: 1i5t5.duncan@cox.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-207383-2300-cKeiG0LUSd@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <f31fbe3b-3fc5-2ece-4c2c-9ff4e99995d6@gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.250.171.65
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,106 +52,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNi8yOC8yMCAxOjMyIEFNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjMuMDYuMjAyMCAx
-NTowOSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IC8qIENvbW1hbmQgaXMgYW4gb3Bj
-b2RlIGdhdGhlciBmcm9tIGEgR0VNIGhhbmRsZSAqLwo+PiAjZGVmaW5lIERSTV9URUdSQV9TVUJN
-SVRfQ09NTUFORF9HQVRIRVLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMAo+PiAvKiBDb21tYW5k
-IGlzIGFuIG9wY29kZSBnYXRoZXIgZnJvbSBhIHVzZXIgcG9pbnRlciAqLwo+PiAjZGVmaW5lIERS
-TV9URUdSQV9TVUJNSVRfQ09NTUFORF9HQVRIRVJfVVBUUsKgwqDCoMKgwqDCoMKgIDEKPj4gLyog
-Q29tbWFuZCBpcyBhIHdhaXQgZm9yIHN5bmNwdCBmZW5jZSBjb21wbGV0aW9uICovCj4+ICNkZWZp
-bmUgRFJNX1RFR1JBX1NVQk1JVF9DT01NQU5EX1dBSVRfU1lOQ1BUwqDCoMKgwqDCoMKgwqAgMgo+
-PiAvKiBDb21tYW5kIGlzIGEgd2FpdCBmb3IgU1lOQ19GSUxFIEZEIGNvbXBsZXRpb24gKi8KPj4g
-I2RlZmluZSBEUk1fVEVHUkFfU1VCTUlUX0NPTU1BTkRfV0FJVF9TWU5DX0ZJTEXCoMKgwqDCoCAz
-Cj4+IC8qIENvbW1hbmQgaXMgYSB3YWl0IGZvciBEUk0gc3luY29iaiBjb21wbGV0aW9uICovCj4+
-ICNkZWZpbmUgRFJNX1RFR1JBX1NVQk1JVF9DT01NQU5EX1dBSVRfU1lOQ09CSsKgwqDCoMKgwqDC
-oCA0Cj4+Cj4+IC8qCj4+ICDCoCogQWxsb3cgZHJpdmVyIHRvIHNraXAgY29tbWFuZCBleGVjdXRp
-b24gaWYgZW5naW5lCj4+ICDCoCogd2FzIG5vdCBhY2Nlc3NlZCBieSBhbm90aGVyIGNoYW5uZWwg
-YmV0d2Vlbgo+PiAgwqAqIHN1Ym1pc3Npb25zLgo+PiAgwqAqLwo+PiAjZGVmaW5lIERSTV9URUdS
-QV9TVUJNSVRfQ09OVEVYVF9TRVRVUMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgKDE8PDApCj4+Cj4+IHN0cnVjdCBkcm1fdGVncmFfc3VibWl0X2NvbW1hbmQg
-ewo+PiAgwqDCoMKgwqDCoMKgwqAgX191MTYgdHlwZTsKPj4gIMKgwqDCoMKgwqDCoMKgIF9fdTE2
-IGZsYWdzOwo+IAo+IFNob3VsZG4ndCB0aGUgInBhY2tlZCIgYXR0cmlidXRlIGJlIG5lZWRlZCBp
-ZiBhIG5vbi0zMmJpdCBhbGlnbmVkIGZpZWxkcwo+IGFyZSB1c2VkPwoKSSBndWVzcyB3ZSBzaG91
-bGQgY2hhbmdlIHRoZXNlIHRvIHUzMiBmb3IgY29uc2lzdGVuY3kuCgo+IAo+PiAgwqDCoMKgwqDC
-oMKgwqAgdW5pb24gewo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB7
-Cj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBHRU0gaGFuZGxl
-ICovCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX3UzMiBoYW5k
-bGU7Cj4+Cj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKgo+PiAg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIE9mZnNldCBpbnRvIEdF
-TSBvYmplY3QgaW4gYnl0ZXMuCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICogTXVzdCBiZSBhbGlnbmVkIGJ5IDQuCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgICovCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBfX3U2NCBvZmZzZXQ7Cj4gCj4gNjRiaXRzIGZvciBhIGdhdGhlciBvZmZzZXQgaXMg
-YSBiaXQgdG9vIG11Y2gsIGluIG1vc3QgY2FzZXMgZ2F0aGVycyBhcmUKPiB1bmRlciA0Sy4KPiAK
-PiB1MzIgc2hvdWxkIGJlIG1vcmUgdGhhbiBlbm91Z2ggKG1heWJlIGV2ZW4gdTE2IGlmIG9mZnNl
-dCBpcyBnaXZlbiBpbiBhCj4gZHdvcmQgZ3JhbnVsYXJpdHkpLgoKSSBndWVzcyB0aGlzIGNhbiBi
-ZSBjaGFuZ2VkIHRvIHUzMiwgdGhvdWdoIEkgZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYW55IApwYXJ0
-aWN1bGFybHkgcHJlc3NpbmcgcmVhc29uIG5vdCB0byB1c2UgdTY0LgoKSW4gYW55IGNhc2UsIEkg
-dGhpbmsgd2UgY29uY2x1ZGVkIHRoYXQgd2UnbGwgZHJvcCB0aGUgR0VNIGdhdGhlciBjb21tYW5k
-IApmb3Igbm93LgoKPiAKPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IC8qCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogTGVuZ3Ro
-IG9mIGdhdGhlciBpbiBieXRlcy4KPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgKiBNdXN0IGJlIGFsaWduZWQgYnkgNC4KPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIF9fdTY0IGxlbmd0aDsKPiAKPiB1MzIvMTYKPiAKPj4gIMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB9IGdhdGhlcjsKPiAKPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBzdHJ1Y3Qgewo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBfX3UzMiByZXNlcnZlZFsxXTsKPj4KPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyoKPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIFBvaW50ZXIgdG8gZ2F0aGVyIGRhdGEuCj4+ICDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBNdXN0IGJl
-IGFsaWduZWQgYnkgNCBieXRlcy4KPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAqLwo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX3U2NCBiYXNlOwo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAvKgo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgICogTGVuZ3RoIG9mIGdhdGhlciBpbiBieXRlcy4KPj4gIMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIE11c3QgYmUgYWxp
-Z25lZCBieSA0Lgo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICovCj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fdTY0IGxlbmd0aDsKPj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9IGdh
-dGhlcl91cHRyOwo+IAo+IFdoYXQgYWJvdXQgdG8gaW5saW5lIHRoZSBVUFRSIGdhdGhlciBkYXRh
-IGFuZCByZWxvY3MgaW50byB0aGUKPiBkcm1fdGVncmFfc3VibWl0X2NvbW1hbmRbXSBidWZmZXI6
-Cj4gCj4gc3RydWN0IGRybV90ZWdyYV9zdWJtaXRfY29tbWFuZCB7Cj4gCXN0cnVjdCB7Cj4gCQl1
-MTYgbnVtX3dvcmRzOwo+IAkJdTE2IG51bV9yZWxvY3M7Cj4gCj4gCQlnYXRoZXJfZGF0YVtdOwo+
-IAkJZHJtX3RlZ3JhX3N1Ym1pdF9yZWxvY2F0aW9uIHJlbG9jc1tdOwo+IAl9IGdhdGhlcl91cHRy
-Owo+IH07Cj4gCj4gc3RydWN0IGRybV90ZWdyYV9jaGFubmVsX3N1Ym1pdCB7Cj4gICAgICAgICAg
-X191MzIgbnVtX3N5bmNwdF9pbmNyczsKPiAgICAgICAgICBfX3UzMiBzeW5jcHRfaWR4Owo+IAo+
-ICAgICAgICAgIF9fdTY0IGNvbW1hbmRzX3B0cjsKPiAJX191MzIgY29tbWFuZHNfc2l6ZTsKPiAu
-Li4KPiB9Owo+IAo+IHN0cnVjdCBkcm1fdGVncmFfc3VibWl0X2NvbW1hbmQgZXhhbXBsZVtdID0g
-ewo+IAljbWQuZ2F0aGVyX3VwdHJ7fSwKPiAJLi4uCj4gCWdhdGhlcl9kYXRhW10sCj4gCWdhdGhl
-cl9yZWxvY3NbXSwKPiAJY21kLndhaXRfc3luY3B0e30sCj4gCS4uLgo+IH07Cj4gCj4gVGhpcyB3
-YXkgd2Ugd2lsbCBoYXZlIG9ubHkgYSBzaW5nbGUgY29weV9mcm9tX3VzZXIoKSBmb3IgdGhlIHdo
-b2xlCj4gY21kc3RyZWFtLCB3aGljaCBzaG91bGQgYmUgbW9yZSBlZmZpY2llbnQgdG8gZG8gYW5k
-IG5pY2VyIGZyb20gYm90aAo+IHVzZXJzcGFjZSBhbmQga2VybmVsIHBlcnNwZWN0aXZlcyBpbiBy
-ZWdhcmRzIHRvIGZvcm1pbmcgYW5kIHBhcnNpbmcgdGhlCj4gY29tbWFuZHMuCj4gCgpJJ20gbm90
-IHN1cmUgSSBhZ3JlZSBpdCBiZWluZyBuaWNlciB3aXRoIHJlZ2FyZCB0byBmb3JtaW5nIGFuZCBw
-YXJzaW5nCi0gQ2FuIHlvdSBhY3R1YWxseSBwbGFjZSBtdWx0aXBsZSB1bnNpemVkIGFycmF5cyBp
-biBhIHN0cnVjdCB3aXRob3V0IApwb2ludGVycz8KLSBnYXRoZXJfZGF0YSdzIGxlbmd0aCBpcyBh
-IG11bHRpcGxlIG9mIDQsIGFuZCBzbyBzaW5jZSB3ZSBoYXZlIHU2NCdzIGluIApkcm1fdGVncmFf
-c3VibWl0X3JlbG9jYXRpb24sIGFsaWdubWVudCBuZWVkcyB0byBiZSB0YWtlbiBjYXJlIG9mIApt
-YW51YWxseSwgYm90aCB3aGVuIGZvcm1pbmcgYW5kIGtlcm5lbCBuZWVkcyB0byB2YWxpZGF0ZSBp
-dCB3aGlsZSAKcGFyc2luZy4gRGVwZW5kaW5nIG9uIG51bWJlciBvZiB3b3JkcyBpbiB0aGUgZ2F0
-aGVyLCBwYWRkaW5nIHdvdWxkIG5lZWQgCnRvIGJlIGluc2VydGVkLiBXZSBjb3VsZCBzd2FwIHRo
-ZSB0d28gYXJvdW5kIGJ1dCBpdCBzdGlsbCBmZWVscyBtb3JlIApicml0dGxlLgoKQWxzbywgaWYg
-d2UgcmVhZCB0aGUgZ2F0aGVyIGZyb20gYSBzZXBhcmF0ZSBhZGRyZXNzLCB1c2Vyc3BhY2UgZG9l
-c24ndCAKbmVjZXNzYXJpbHkgbmVlZCB0byBrbm93IHRoZSBsZW5ndGggb2YgdGhlIGdhdGhlciAo
-YW5kIG51bWJlciBvZiByZWxvY3MpIAp1cGZyb250LCBzbyBpdCdzIGVhc2llciB0byBoYXZlIGEg
-YnVpbGRlciBwYXR0ZXJuIHdpdGhvdXQgbmVlZGluZyB0byAKY29weSB0aGluZ3MgbGF0ZXIuCgpJ
-ZiB3ZSBhbGxvdyBkaXJlY3QgcGFnZSBtYXBwaW5ncyBmb3IgZ2F0aGVycyBsYXRlciwgYSBzZXBh
-cmF0ZSBhZGRyZXNzIAp3b3VsZCBtYWtlIHRoaW5ncyBhbHNvIGEgbGl0dGxlIGJpdCBlYXNpZXIu
-IEZvciBkaXJlY3QgcGFnZSBtYXBwaW5ncyAKdXNlcnNwYWNlIHdvdWxkIG5lZWQgdG8ga2VlcCB0
-aGUgb3Bjb2RlIGRhdGEgdW5jaGFuZ2VkIHdoaWxlIHRoZSBqb2IgaXMgCmJlaW5nIGV4ZWN1dGVk
-LCBzbyB1c2Vyc3BhY2UgY291bGQga2VlcCBhbiBhcmVuYSB3aGVyZSB0aGUgZ2F0aGVycyBhcmUg
-CnBsYWNlZCwgYW5kIHJlZmVyIHRvIHNlZ21lbnRzIG9mIHRoYXQsIGluc3RlYWQgb2YgaGF2aW5n
-IHRvIGtlZXAgdGhlIApkcm1fdGVncmFfc3VibWl0X2NvbW1hbmRzIGFsaXZlLgoKTWlra28KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
+
+Duncan (1i5t5.duncan@cox.net) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.7-rc1, 5.7-rc2, 5.7-rc3   |5.7-rc1 - 5.7 - 5.8-rc1+
+
+--- Comment #31 from Duncan (1i5t5.duncan@cox.net) ---
+(In reply to mnrzk from comment #30)
+> In some conditions, when amdgpu_dm_atomic_commit_tail calls
+> dm_atomic_get_new_state, dm_atomic_get_new_state returns a struct
+> dm_atomic_state* with an garbage context pointer.
+
+Good! Someone with the bug who can actually read and work the code, now.
+Portends well for a fix.  =:^)
+
+> I've also found that this bug exclusively occurs when commit_work is on the
+> workqueue. After forcing drm_atomic_helper_commit to run all of the commits
+> without adding to the workqueue and running the OS, the issue seems to have
+> disappeared.
+
+I see it always with the workqueue too, but not being a dev I simply assumed
+that was how it was; I had no idea it could be taken off the workqueue.
+
+> The system was stable for at least 1.5 hours before I manually
+> shut it down (meanwhile it has usually crashed within 30-45 minutes).
+
+You're seeing a crash much faster than I am.  I believe my longest uptime
+before a crash with the telltale trace was something like two and a half days,
+with the obvious implications for bisect good since it's always a gamble that
+I've simply not tested long enough.
+
+> Perhaps there's some sort of race condition occurring after commit_work is
+> queued?
+
+Agreed, FWIW, tho you've taken it farther than I could, not being able to work
+with code much beyond bisect or modifying an existing patch here or there.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
