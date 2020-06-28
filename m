@@ -2,41 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE68920C729
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 10:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A479920C732
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 11:13:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78196E20A;
-	Sun, 28 Jun 2020 08:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC22C6E202;
+	Sun, 28 Jun 2020 09:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3B96E20A
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 08:53:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921C66E202
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 09:13:50 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 38AD8200EC;
- Sun, 28 Jun 2020 10:53:32 +0200 (CEST)
-Date: Sun, 28 Jun 2020 10:53:30 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 4725E2002B;
+ Sun, 28 Jun 2020 11:13:48 +0200 (CEST)
+Date: Sun, 28 Jun 2020 11:13:47 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v1 2/2] drm/panel-simple: Add missing BUS descriptions
- for some panels
-Message-ID: <20200628085330.GA132428@ravnborg.org>
-References: <20200621222742.25695-1-digetx@gmail.com>
- <20200621222742.25695-3-digetx@gmail.com>
- <20200627204338.GL5966@pendragon.ideasonboard.com>
- <dd1c5972-bbac-c2d8-76e8-08997b951e52@gmail.com>
- <20200628070745.GC6954@pendragon.ideasonboard.com>
- <20200628075245.GA128039@ravnborg.org>
- <20200628080253.GD6954@pendragon.ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] drm: panel: simple: Drop drive/sample bus flags for LVDS
+ panels
+Message-ID: <20200628091347.GA133729@ravnborg.org>
+References: <20200628075401.10975-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200628080253.GD6954@pendragon.ideasonboard.com>
+In-Reply-To: <20200628075401.10975-1-laurent.pinchart+renesas@ideasonboard.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=XPbHadcwz-P33w-j3eAA:9
+ a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=IqnTTH7IcBKYc38AM6cA:9
  a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,41 +44,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+ Pascal Roeleven <dev@pascalroeleven.nl>,
+ Thierry Reding <thierry.reding@gmail.com>, Dmitry Osipenko <digetx@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 28, 2020 at 11:02:53AM +0300, Laurent Pinchart wrote:
-> Hi Sam,
+On Sun, Jun 28, 2020 at 10:54:01AM +0300, Laurent Pinchart wrote:
+> The DRM bus flags reporting on which clock edge the pixel data and sync
+> signals are sampled or driven don't make sense for LVDS panels, as the
+> bus then uses sub-clock timings to send data. Drop those flags and add a
+> warning in the probe function to make sure the mistake won't be
+> repeated.
 > 
-> > We should also clean up all the DRM_BUS_FLAG_* one day.
-> > No need for the deprecated values, so a few files needs an update.
-> > And we could document what flags makes sense for LVDS etc.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 30 +++++++++++++++++-----------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
 > 
-> Where would you add that documentation ? The hardest part is to find a
-> place that will be noticed by developers :-)
-I will try to extend drm_bus_flags documentation in drm_connector.h
-And then add a few comments in panel-simple as well.
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index bff1cab529d2..537d75ef7fc2 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -549,6 +549,14 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+>  	}
+>  
+> +	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS)
+> +		/* Catch common mistakes for LVDS panels. */
+> +		WARN_ON(desc->bus_flags &
+> +			(DRM_BUS_FLAG_PIXDATA_POSEDGE |
+> +			 DRM_BUS_FLAG_PIXDATA_NEGEDGE |
+> +			 DRM_BUS_FLAG_SYNC_POSEDGE |
+> +			 DRM_BUS_FLAG_SYNC_NEGEDGE));
+The above are only the legacy flags.
+For LVDS panels I think we could check if either
+DRM_BUS_FLAG_DE_LOW or DRM_BUS_FLAG_DE_HIGH is set and nothing else.
+And then as an additional check that the .bus_format is relevant.
+
+Then we have managed to catch most of the mistakes for LVDS panels.
+
+We could add checks for DPI panels too, but that would be later.
 
 	Sam
-> 
-> I've just submitted a patch that adds a WARN_ON to catch similar issues
-> in the panel-simple driver. It's not ideal as we really shouldn't have
-> such code in the kernel, this is something that should be caught as part
-> of the integration process.
 
-> 
-> > On the TODO list...
-> >
-> > >>> The rest looks good, except the Samsung panel for which I haven't been
-> > >>> able to locate a datasheet.
-> > >>> 
-> > >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
+> +
+>  	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+>  		       desc->connector_type);
+>  
+> @@ -688,7 +696,7 @@ static const struct panel_desc auo_b101aw03 = {
+>  		.height = 125,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -1398,7 +1406,7 @@ static const struct panel_desc chunghwa_claa070wp03xg = {
+>  		.height = 150,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -1423,7 +1431,7 @@ static const struct panel_desc chunghwa_claa101wa01a = {
+>  		.height = 120,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -1448,7 +1456,7 @@ static const struct panel_desc chunghwa_claa101wb01 = {
+>  		.height = 125,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -2123,7 +2131,7 @@ static const struct panel_desc innolux_n156bge_l21 = {
+>  		.height = 193,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -2256,7 +2264,7 @@ static const struct panel_desc koe_tx26d202vm0bwa = {
+>  		.disable = 1000,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -2497,9 +2505,7 @@ static const struct panel_desc logictechno_lt170410_2whc = {
+>  		.height = 136,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+> -		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+> -		     DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -3072,7 +3078,7 @@ static const struct panel_desc samsung_ltn101nt05 = {
+>  		.height = 125,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -3319,7 +3325,7 @@ static const struct panel_desc starry_kr070pe2t = {
+>  		.height = 86,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
+> @@ -3512,7 +3518,7 @@ static const struct panel_desc toshiba_lt089ac29000 = {
+>  		.height = 116,
+>  	},
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> -	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+>  };
+>  
 > -- 
 > Regards,
 > 
