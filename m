@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AB620C795
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 13:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6FA20C7A3
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jun 2020 13:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE0126E34E;
-	Sun, 28 Jun 2020 11:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83766E359;
+	Sun, 28 Jun 2020 11:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D346E359
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 11:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ADtLwD5341DufoVvK52RKHspMPIZ4SpRoi5MltNysrw=; b=EanXfFXzzWbRJpEi6ICmt1VPOZ
- TMJEMRJlCKhbc8slN323X6QHIQlHNb0F/3g3xJcQZWdgeqx96rlRD75Fre6bvqNY7oMyNt0g/mU4X
- IpyPw8zXuufVpERl6XcQdk2uYaMZEPepJjh5IpxEPc4K7QLPEi/wGFx6HZ8dU5p2VqqfPZHnPnSrE
- UC/t1VKW+NFJ3CneARdXRAxA31a7hv3INak4lYJSef3cj/IiFuWSUHzXukCnaUfQ7WId4l3M3Hptp
- v6v0Eb4mlfmbcdOexNefMarUGeQypECzCgjG9jbgUlLRAxFXGnyZhVIGAVwdop8Y1rUef2coDSdze
- yxZ1yEcQ==;
-Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1jpVI8-0000Vu-FJ; Sun, 28 Jun 2020 14:16:08 +0300
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_channel_map)
-To: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <4f9ddf30-ad8d-3750-20d7-867be17a1006@gmail.com>
- <20200626073430.GA3109062@ulmo>
- <4c243f7a-4c53-d995-88a1-0fe03d41fc3a@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <f622c8ed-efe4-0889-bd26-dc22e96b8e4d@kapsi.fi>
-Date: Sun, 28 Jun 2020 14:16:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B94066E359
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 11:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593343336;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z/WMKSGQI38TYlNW8WL946gfAiIfyGwK3d+9dBbUgPI=;
+ b=F4EZHdQqX63lrcc3gF/ZpmB6bcZokrdZqE5SbwIxdKOtEpJr0TeRcALwOQR1tfMj/7m1x0
+ A1y/c8ILu4Wt8MJGblQ8Fzs3fLwBMp6zYg7pJVvhAFSPOSAGV4yis9yLhSNDMp9REPsQh+
+ k4YNAoZDbBjR8ROQy/L7DJrOiOZIDSs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-PZ547Fe_O26JmXhR9Zau-A-1; Sun, 28 Jun 2020 07:22:12 -0400
+X-MC-Unique: PZ547Fe_O26JmXhR9Zau-A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5877ABFC0;
+ Sun, 28 Jun 2020 11:22:11 +0000 (UTC)
+Received: from starship (unknown [10.35.206.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D89B10013C2;
+ Sun, 28 Jun 2020 11:22:10 +0000 (UTC)
+Message-ID: <1b4f51c95a5c7c8c7c62c4e33d9c62584dbef3f2.camel@redhat.com>
+Subject: Re: Kernel issues with Radeon Pro WX4100 and DP->HDMI dongles
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: linux-kernel@vger.kernel.org
+Date: Sun, 28 Jun 2020 14:22:09 +0300
+In-Reply-To: <5bd8ffcc829b71651adca7f16cd52c6800508149.camel@redhat.com>
+References: <5bd8ffcc829b71651adca7f16cd52c6800508149.camel@redhat.com>
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-In-Reply-To: <4c243f7a-4c53-d995-88a1-0fe03d41fc3a@gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.250.171.65
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,134 +58,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, gustavo@padovan.org,
- dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNi8yNi8yMCA3OjM1IFBNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjYuMDYuMjAyMCAx
-MDozNCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPj4gT24gRnJpLCBKdW4gMjYsIDIwMjAg
-YXQgMDE6NDc6NDZBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4gMjMuMDYuMjAy
-MCAxNTowOSwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+Pj4gIyMjIERSTV9URUdSQV9D
-SEFOTkVMX01BUAo+Pj4+Cj4+Pj4gTWFrZSBtZW1vcnkgYWNjZXNzaWJsZSBieSB0aGUgZW5naW5l
-IHdoaWxlIGV4ZWN1dGluZyB3b3JrIG9uIHRoZSBjaGFubmVsLgo+Pj4+Cj4+Pj4gYGBgCj4+Pj4g
-I2RlZmluZSBEUk1fVEVHUkFfQ0hBTk5FTF9NQVBfUkVBRFdSSVRFwqDCoMKgwqDCoMKgwqAgKDE8
-PDApCj4+Pj4KPj4+PiBzdHJ1Y3QgZHJtX3RlZ3JhX2NoYW5uZWxfbWFwIHsKPj4+PiAgwqDCoMKg
-wqDCoMKgwqAgLyoKPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqIFtpbl0gSUQgb2YgdGhlIGNoYW5u
-ZWwgZm9yIHdoaWNoIHRvIG1hcCBtZW1vcnkgdG8uCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKi8K
-Pj4+PiAgwqDCoMKgwqDCoMKgwqAgX191MzIgY2hhbm5lbF9pZDsKPj4+PiAgwqDCoMKgwqDCoMKg
-wqAgLyoKPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqIFtpbl0gR0VNIGhhbmRsZSBvZiB0aGUgbWVt
-b3J5IHRvIG1hcC4KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4+ICDCoMKgwqDCoMKgwqDC
-oCBfX3UzMiBoYW5kbGU7Cj4+Pj4KPj4+PiAgwqDCoMKgwqDCoMKgwqAgLyoKPj4+PiAgwqDCoMKg
-wqDCoMKgwqDCoCAqIFtpbl0gT2Zmc2V0IGluIEdFTSBoYW5kbGUgb2YgdGhlIG1lbW9yeSBhcmVh
-IHRvIG1hcC4KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAg
-KiBNdXN0IGJlIGFsaWduZWQgYnkgNEsuCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+PiAg
-wqDCoMKgwqDCoMKgwqAgX191NjQgb2Zmc2V0Owo+Pj4KPj4+IENvdWxkIHlvdSBwbGVhc2UgZ2l2
-ZSBhIHVzZS1jYXNlIGV4YW1wbGUgZm9yIHRoaXMgcGFydGlhbCBtYXBwaW5nPwo+Pj4KPj4+IEkg
-dmFndWVseSByZWNhbGxpbmcgdGhhdCBtYXliZSBpdCB3YXMgbWUgd2hvIHN1Z2dlc3RlZCB0aGlz
-IGluIHRoZSBwYXN0Li4KPj4+Cj4+PiBJIGtpbmRhIHNlZSB0aGF0IHRoaXMgY291bGQgYmUgdXNl
-ZnVsIGZvciBhIGNhc2Ugd2hlcmUgdXNlcnNwYWNlCj4+PiBhbGxvY2F0ZXMgYSBsYXJnZSBjaHVu
-ayBvZiBtZW1vcnkgYW5kIHRoZW4gcGVyZm9ybXMgc3ViLWFsbG9jYXRpb25zIGluCj4+PiB0aGUg
-dXNlcnNwYWNlIGRyaXZlci4gQnV0IGRvIHdlIGhhdmUgYSByZWFsLXdvcmxkIGV4YW1wbGUgZm9y
-IHRoaXMgcmlnaHQKPj4+IG5vdz8KPj4KPj4gSSB0aGluayB0aGUgbWFpbiBwb2ludCBhYm91dCB0
-aGlzIElPQ1RMIHdhcyB0byBtYWtlIG1hcHBpbmcvdW5tYXBwaW5nCj4+IG1vcmUgZWZmaWNpZW50
-IGFuZCBhdm9pZCByZWxvY2F0aW9ucyBmb3Igc2l0dWF0aW9ucyB3aGVyZSB3ZSBrbm93IGl0IGlz
-Cj4+IHNhZmUgdG8gZG8gc28uCj4+Cj4+IFRoZSBmYWN0IHRoYXQgdGhpcyBjYW4gYmUgdXNlZCB0
-byBjcmVhdGUgcGFydGlhbCBtYXBwaW5ncyBpcyBtb3N0bHkganVzdAo+PiBhbiBhZGRlZCBib251
-cywgaW4gbXkgb3Bpbmlvbi4gRG9pbmcgdGhpcyBkb2Vzbid0IGNyZWF0ZSBtdWNoIGNvbXBsZXhp
-dHkKPj4gYnV0IGluIHR1cm4gZ2l2ZXMgdXMgYSBsb3QgbW9yZSBmbGV4aWJpbGl0eS4KPj4KPj4g
-QSBjb3VwbGUgb2YgcGxhY2VzIHdoZXJlIEkgdGhpbmsgdGhpcyBjb3VsZCBiZSB1c2VmdWwgYXJl
-IE9wZW5HTCBhbmQKPj4gVnVsa2FuLCBib3RoIG9mIHdoaWNoIHN1cHBvcnQgYnVmZmVyIHN1YmFs
-bG9jYXRpb24uIFRoaXMgaGFzIGEgY291cGxlIG9mCj4+IGFkdmFudGFnZXMgb24gbW9kZXJuIEdQ
-VXMgd2hlcmUgc29tZXRpbWVzIHlvdSB3YW50IHRvIHVzZSB2ZXJ5IGxhcmdlCj4+IGFsbG9jYXRp
-b24gZ3JhbnVsYXJpdHksIGV0Yy4KPj4KPj4gTm93LCBJIGRvbid0IHRoaW5rIHRoYXQgd2UnbGwg
-c2VlIG11Y2ggb2YgdGhhdCBpbiBUZWdyYSBEUk0gZGlyZWN0bHksCj4+IGFsdGhvdWdoIGdyYXRl
-IGNvdWxkIGNlcnRhaW5seSBtYWtlIHVzZSBvZiB0aGlzLCBJIHN1c3BlY3QuIEhvd2V2ZXIsIEkK
-Pj4gdGhpbmsgZm9yIGludGVyb3BlcmF0aW9uIG9mIGRHUFUgYW5kIFRlZ3JhIERSTSAod2l0aCBW
-SUMgZm9yIHBvc3QtCj4+IHByb2Nlc3NpbmcsIG9yIGhvcGVmdWxseSBzb21lIG9mIHRoZSBvdGhl
-ciBoYXJkd2FyZSBhY2NlbGVyYXRpb24KPj4gZW5naW5lcyBhdCBzb21lIHBvaW50KSwgdGhpcyBt
-aWdodCBjb21lIGluIGhhbmR5Lgo+Pgo+PiBUaGVyZSBhcmUgb3RoZXIgcG9zc2libGUgdXNlLWNh
-c2VzIHdpdGhpbiBqdXN0IFRlZ3JhIERSTSBhcyB3ZWxsLiBXZSBtYXkKPj4gd2FudCB0byBvbmx5
-IHBhcnRpYWxseSBtYXAgcGxhbmFyIGJ1ZmZlcnMgZm9yIHZpZGVvIHBvc3QtcHJvY2Vzc2luZywg
-Zm9yCj4+IGV4YW1wbGUuIE9yIG1hcCBlYWNoIHBsYW5lIHNlcGFyYXRlbHkuCj4+Cj4+PiBQbGVh
-c2Ugc2VlIG1vcmUgYmVsb3cuCj4+Pgo+Pj4+ICDCoMKgwqDCoMKgwqDCoCAvKgo+Pj4+ICDCoMKg
-wqDCoMKgwqDCoMKgICogW2luXSBMZW5ndGggb2YgbWVtb3J5IGFyZWEgdG8gbWFwIGluIGJ5dGVz
-Lgo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgICoKPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqIE11c3Qg
-YmUgYWxpZ25lZCBieSA0Sy4KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4+ICDCoMKgwqDC
-oMKgwqDCoCBfX3U2NCBsZW5ndGg7Cj4+Pj4KPj4+PiAgwqDCoMKgwqDCoMKgwqAgLyoKPj4+PiAg
-wqDCoMKgwqDCoMKgwqDCoCAqIFtvdXRdIElPVkEgb2YgbWFwcGVkIG1lbW9yeS4gVXNlcnNwYWNl
-IGNhbiB1c2UgdGhpcyBJT1ZBCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKsKgwqAgZGlyZWN0bHkg
-dG8gcmVmZXIgdG8gdGhlIG1lbW9yeSB0byBza2lwIHVzaW5nIHJlbG9jYXRpb25zLgo+Pj4+ICDC
-oMKgwqDCoMKgwqDCoMKgICrCoMKgIE9ubHkgYXZhaWxhYmxlIGlmIGhhcmR3YXJlIG1lbW9yeSBp
-c29sYXRpb24gaXMgZW5hYmxlZC4KPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqCj4+Pj4gIMKgwqDC
-oMKgwqDCoMKgwqAgKsKgwqAgV2lsbCBiZSBzZXQgdG8gMHhmZmZmX2ZmZmZfZmZmZl9mZmZmIGlm
-IHVuYXZhaWxhYmxlLgo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgICovCj4+Pj4gIMKgwqDCoMKgwqDC
-oMKgIF9fdTY0IGlvdmE7Cj4+Pj4KPj4+PiAgwqDCoMKgwqDCoMKgwqAgLyoKPj4+PiAgwqDCoMKg
-wqDCoMKgwqDCoCAqIFtvdXRdIElEIGNvcnJlc3BvbmRpbmcgdG8gdGhlIG1hcHBlZCBtZW1vcnkg
-dG8gYmUgdXNlZCBmb3IKPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAqwqDCoCByZWxvY2F0aW9ucyBv
-ciB1bm1hcHBpbmcuCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+PiAgwqDCoMKgwqDCoMKg
-wqAgX191MzIgbWFwcGluZ19pZDsKPj4+PiAgwqDCoMKgwqDCoMKgwqAgLyoKPj4+PiAgwqDCoMKg
-wqDCoMKgwqDCoCAqIFtpbl0gRmxhZ3MuCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+PiAg
-wqDCoMKgwqDCoMKgwqAgX191MzIgZmxhZ3M7Cj4+Pj4KPj4+PiAgwqDCoMKgwqDCoMKgwqAgX191
-MzIgcmVzZXJ2ZWRbNl07Cj4+Pj4gfTsKPj4+Cj4+PiBJdCBsb29rcyB0byBtZSB0aGF0IHdlIGFj
-dHVhbGx5IG5lZWQgYSBiaXQgZGlmZmVyZW50IHRoaW5nIGhlcmUuCj4+Pgo+Pj4gVGhpcyBNQVAg
-SU9DVEwgbWFwcyBhIHBvcnRpb24gb2YgYSBHRU0gYW5kIHRoZW4gcmV0dXJucyB0aGUgbWFwcGlu
-Z19pZC4KPj4+IEFuZCBJIHRoaW5rIHdlIG5lZWQgc29tZXRoaW5nIG1vcmUgZmxleGlibGUgdGhh
-dCB3aWxsIGFsbG93IHVzIHRvIHVzZQo+Pj4gR0VNIGhhbmRsZXMgZm9yIHRoZSByZWxvY2F0aW9u
-IElEcywgd2hpY2ggc2hvdWxkIGZpdCBuaWNlbHkgd2l0aCB0aGUKPj4+IERNQS1yZXNlcnZhdGlv
-bnMuCj4+Pgo+Pj4gV2hhdCBhYm91dCBhbiBJT0NUTCB0aGF0IHdyYXBzIEdFTSBpbnRvIGFub3Ro
-ZXIgR0VNPyBXZSBjb3VsZCB3cmFwIGEKPj4+IHBvcnRpb24gb2YgR0VNX0EgaW50byBhIEdFTV9C
-LCBhbmQgdGhlbiBtYXAgdGhlIEdFTV9CIHVzaW5nIHRoZSBNQVAgSU9DVEwuCj4+Pgo+Pj4gSXQg
-Y291bGQgYmUgc29tZXRoaW5nIGxpa2UgdGhpczoKPj4+Cj4+PiAjIyMgRFJNX1RFR1JBX0JPX1dS
-QVAKPj4+Cj4+PiBzdHJ1Y3QgZHJtX3RlZ3JhX3dyYXBfYm8gewo+Pj4gCV9fdTMyIGJvX2hhbmRs
-ZV93cmFwcGVkOyAvLyBvdXQKPj4+IAlfX3UzMiBib19oYW5kbGU7ICAgICAgICAgLy8gaW4KPj4+
-IAlfX3U2NCBvZmZzZXQ7Cj4+PiAJX191NjQgbGVuZ3RoOwo+Pj4gfTsKPj4+Cj4+PiAjIyMgRFJN
-X1RFR1JBX0NIQU5ORUxfTUFQCj4+Pgo+Pj4gc3RydWN0IGRybV90ZWdyYV9jaGFubmVsX21hcCB7
-Cj4+PiAgICAgICAgICBfX3UzMiBjaGFubmVsc19tYXNrOwo+Pj4gCV9fdTMyIG1hcHBpbmdfaWQ7
-Cj4+PiAgICAgICAgICBfX3UzMiBib19oYW5kbGU7Cj4+PiAgICAgICAgICBfX3UzMiBmbGFnczsK
-Pj4+ICAgICAgICAgIF9fdTY0IGlvdmE7Cj4+PiB9Owo+Pj4KPj4+ID09PQo+Pj4KPj4+IFRoaXMg
-YWxsb3dzIG11bHRpcGxlIG1hcHBpbmdfaWRzIHRvIGhhdmUgdGhlIHNhbWUgYmFja2luZyBHRU0s
-IHNvIHRoZQo+Pj4gbWFwcGluZ19pZCBjb3VsZCBiZSByZXNvbHZlZCBpbnRvIGEgQk8gZHVyaW5n
-IG9mIGpvYidzIHN1Ym1pc3Npb24gZm9yCj4+PiB0aGUgRE1BLXJlc2VydmF0aW9ucyBoYW5kbGlu
-Zy4KPj4KPj4gVGhhdCdzIHByZXR0eSBtdWNoIHdoYXQgd2UgaGF2ZSBhbHJlYWR5IGFib3ZlLCBp
-c24ndCBpdD8gSnVzdCBiZWNhdXNlIHdlCj4+IGNhbGwgdGhlIGZpZWxkICJtYXBwaW5nX2lkIiBk
-b2Vzbid0IG1lYW4gdGhhdCBpbiB0aGUgYmFja2dyb3VuZCB3ZSBjYW4ndAo+PiBjcmVhdGUgYSBH
-RU0gb2JqZWN0IGFuZCByZXR1cm4gaXQncyBoYW5kbGUgYXMgIm1hcHBpbmdfaWQiLgo+Pgo+PiBP
-bmUgYWR2YW50YWdlIG9mIE1pa2tvJ3MgcHJvcG9zYWwgaXMgdGhhdCB3ZSBoYXZlIGEgc2luZ2xl
-IElPQ1RMIHJhdGhlcgo+PiB0aGFuIHR3byB0byBjcmVhdGUgdGhlIG1hcHBpbmcsIG1ha2luZyBp
-dCBhIGJpdCBtb3JlIGxpZ2h0d2VpZ2h0Lgo+IAo+IFRoaW5raW5nIGEgYml0IG1vcmUgYWJvdXQg
-aXQsIEkgbm93IGNoYW5nZWQgbXkgbWluZC4KPiAKPiBUaGVyZSBpcyBubyBuZWVkIHRvIHBlcmZv
-cm0gaW1wbGljaXQgZmVuY2luZyBvbiBlYWNoIHN1YmFsbG9jYXRpb24sCj4gaW5zdGVhZCBleHBs
-aWNpdCBmZW5jaW5nIHNob3VsZCBiZSB1c2VkIGZvciB0aGUgc3ViYWxsb2NhdGlvbnMuCj4gCj4g
-U28sIHdlIHdpbGwgbmVlZCB0byBhZGQgdGhlIHJlbG9jYXRpb24gZmxhZ3MgZm9yIHRoZSBkaXJl
-Y3Rpb24gYW5kCj4gZXhwbGljaXQgKG9yIGltcGxpY2l0KSBmZW5jaW5nIHBlci1yZWxvY2F0aW9u
-LiBUaGUgZGlyZWN0aW9uIHdpbGwgdGVsbAo+IGhvdyBmZW5jZSBzaG91bGQgYmUgYXR0YWNoZWQg
-dG8gdGhlIEJPJ3MgRE1BLXJlc2VydmF0aW9uLCB3aGlsZSB0aGUKPiBmZW5jZS1mbGFnIHdpbGwg
-dGVsbCB3aGV0aGVyIGpvYidzIHNjaGVkdWxlciBzaG91bGQgd2FpdCBmb3IgdGhlIEJPJ3MKPiBy
-ZXNlcnZhdGlvbiBiZWZvcmUgZXhlY3V0aW5nIGpvYiBvbiBoYXJkd2FyZS4gVGhpcyBhbGwgd2ls
-bCBiZSBuZWVkZWQKPiBmb3IgYSBwcm9wZXIgRFJJIGltcGxlbWVudGF0aW9uIG9uIG9sZGVyIFRl
-Z3Jhcy4KPiAKPiBBY3R1YWxseSwgZHVyaW5nIG9mIG15IGV4cGVyaW1lbnRzIHdpdGggdGhlIFVB
-UEksIEkgYWRkZWQgYm90aCB0aGVzZQo+IGZsYWdzIGZvciB0aGUgcmVsb2NhdGlvbnMgWzFdLCBi
-dXQgcmVhbGx5IHVzZWQgb25seSB0aGUgZGlyZWN0aW9uIGZsYWcKPiBzbyBmYXIsIHJlbHlpbmcg
-b24gdGhlIGltcGxpY2l0IGZlbmNpbmcuCj4gCj4gWzFdCj4gaHR0cHM6Ly9naXRodWIuY29tL2dy
-YXRlLWRyaXZlci9saW51eC9ibG9iL21hc3Rlci9pbmNsdWRlL3VhcGkvZHJtL3RlZ3JhX2RybS5o
-I0w4OTQKPiAKPiBTbywgbGV0J3Mga2VlcCB0aGUgY3VycmVudCB2YXJpYW50IG9mIHRoaXMgTUFQ
-IElPQ1RMIGFzLWlzLgo+IAoKTGV0IG1lIHJlcGhyYXNlIHRvIG1ha2Ugc3VyZSBJIHVuZGVyc3Rh
-bmQ6CgpGb3IgcmVsb2NhdGlvbnMsIHdlIHNob3VsZCBhZGQgZmxhZ3MgZm9yIGRpcmVjdGlvbiBh
-bmQgZmVuY2luZy4gVGhpcyB3YXkgCmF0IHN1Ym1pdCB0aW1lIHdlIGNhbiBkbyB0aGUgcHJvcGVy
-IGZlbmNpbmcgb3BlcmF0aW9ucyBvbiB0aGUgcmVsb2NhdGVkIApCTydzIERNQSByZXNlcnZhdGlv
-bi4KClRoaXMgc291bmRzIGdvb2QgdG8gbWUsIGFuZCBJIHRoaW5rIGl0IG1ha2VzIHRoZSAicmVs
-b2NhdGlvbiIgY29uY2VwdCBhIApiaXQgbW9yZSBnZW5lcmFsIHRoYW4gaXQgaXMgY3VycmVudGx5
-LiBJIHRoaW5rIHdlIGNvdWxkIHJlbmFtZSBpdCB0byAKc29tZXRoaW5nIGxpa2UgImJ1ZmZlcl91
-c2FnZSIgKG9wZW4gdG8gYmlrZXNoZWRkaW5nKSwgYW5kIGl0IGNhbiBoYXZlIApmZW5jZS1yZWxh
-dGVkIGZsYWdzIGFuZCByZWxvY2F0aW9uLXJlbGF0ZWQgZmxhZ3MuIEZvciBuZXdlciBUZWdyYSBj
-aGlwcyAKd2UgZG9uJ3QgbmVjZXNzYXJpbHkgbmVlZCB0byByZWxvY2F0ZSwgYnV0IHdlIHN0aWxs
-IG1heSBuZWVkIHRvIGhhbmRsZSAKRE1BIHJlc2VydmF0aW9ucywgc28gaW4gdGhlc2UgY2FzZXMg
-b25seSB0aGUgZmVuY2luZyBmbGFncyB3b3VsZCBiZSBzZXQuCgpNaWtrbwpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, 2020-06-25 at 10:14 +0300, Maxim Levitsky wrote:
+> Hi,
+> 
+> I recently tried to connect my TV and WX4100 via two different DP->HDMI dongles.
+> One of them makes my main monitor to go dark, and system to lockup (I haven't yet debugged this futher), and the other one seems to work,
+> most of the time, but sometimes causes a kernel panic on 5.8.0-rc1:
+> 
+> 
+> [  +0.000000] ---[ end trace 0ce8685fac3db6b5 ]---
+> [  +2.142125] [drm:dc_link_detect_helper [amdgpu]] *ERROR* No EDID read.
+> [  +0.065348] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.001002] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.006310] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.102119] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.000679] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [ +22.037707] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [ +16.202833] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.000685] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.053875] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.000351] [drm] amdgpu_dm_irq_schedule_work FAILED src 8
+> [  +0.031764] ------------[ cut here ]------------
+> [  +0.000001] WARNING: CPU: 58 PID: 504 at drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/gpio_base.c:66 dal_gpio_open_ex+0x1b/0x40 [amdgpu]
+> [  +0.000001] Modules linked in: vfio_pci vfio_virqfd vfio_iommu_type1 vfio xfs rfcomm xt_MASQUERADE xt_conntrack ipt_REJECT iptable_mangle iptable_nat nf_nat ebtable_filter ebtables ip6table_filter
+> ip6_tables tun bridge pmbus cmac pmbus_core ee1004 jc42 bnep sunrpc vfat fat dm_mirror dm_region_hash dm_log iwlmvm wmi_bmof mac80211 kvm_amd kvm libarc4 uvcvideo iwlwifi btusb btrtl btbcm btintel
+> videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 snd_hda_codec_hdmi videobuf2_common snd_usb_audio bluetooth videodev input_leds snd_hda_intel cfg80211 snd_usbmidi_lib joydev snd_intel_dspcfg
+> snd_rawmidi mc snd_hda_codec xpad ff_memless snd_hwdep thunderbolt ecdh_generic snd_seq ecc snd_hda_core irqbypass rfkill i2c_nvidia_gpu efi_pstore pcspkr snd_seq_device bfq snd_pcm snd_timer zenpower
+> snd i2c_piix4 rtc_cmos tpm_crb tpm_tis tpm_tis_core tpm wmi button binfmt_misc dm_crypt sd_mod uas usb_storage hid_generic usbhid hid ext4 mbcache jbd2 amdgpu gpu_sched ttm drm_kms_helper syscopyarea
+> sysfillrect
+> [  +0.000018]  sysimgblt crc32_pclmul ahci crc32c_intel fb_sys_fops libahci igb ccp cec xhci_pci libata i2c_algo_bit rng_core nvme xhci_hcd drm nvme_core t10_pi nbd usbmon it87 hwmon_vid fuse i2c_dev
+> i2c_core ipv6 autofs4 [last unloaded: nvidia]
+> [  +0.000005] CPU: 58 PID: 504 Comm: kworker/58:1 Tainted: P        W  O      5.8.0-rc1.stable #118
+> [  +0.000001] Hardware name: Gigabyte Technology Co., Ltd. TRX40 DESIGNARE/TRX40 DESIGNARE, BIOS F4c 03/05/2020
+> [  +0.000000] Workqueue: events dm_irq_work_func [amdgpu]
+> [  +0.000001] RIP: 0010:dal_gpio_open_ex+0x1b/0x40 [amdgpu]
+> [  +0.000001] Code: 08 89 47 10 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 83 7f 08 00 75 0f 48 83 7f 18 00 74 15 89 77 20 e9 65 07 00 00 <0f> 0b e8 ae 5b 8a e0 b8 05 00 00 00 c3 0f 0b e8 a1
+> 5b 8a e0 b8 06
+> [  +0.000000] RSP: 0018:ffffc90002e93b90 EFLAGS: 00010282
+> [  +0.000001] RAX: 0000000000000000 RBX: ffff889fa4736ca0 RCX: 0000000000000000
+> [  +0.000000] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffff889fa011ff00
+> [  +0.000001] RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000231
+> [  +0.000000] R10: 000000000000017f R11: ffff889fbeea4b84 R12: ffffc90002e93c74
+> [  +0.000000] R13: 0000000000000000 R14: ffff889fa4736ca0 R15: ffff889fb0e2c100
+> [  +0.000001] FS:  0000000000000000(0000) GS:ffff889fbee80000(0000) knlGS:0000000000000000
+> [  +0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  +0.000001] CR2: 00001ee62a52b000 CR3: 000000174d175000 CR4: 0000000000340ea0
+> [  +0.000000] Call Trace:
+> [  +0.000000]  dal_ddc_open+0x2d/0xe0 [amdgpu]
+> [  +0.000001]  ? dm_read_reg_func+0x33/0xa0 [amdgpu]
+> [  +0.000000]  dce_aux_transfer_raw+0xb4/0xa30 [amdgpu]
+> [  +0.000000]  ? hrtimer_try_to_cancel+0x28/0x100
+> [  +0.000001]  dm_dp_aux_transfer+0x8f/0xf0 [amdgpu]
+> [  +0.000000]  drm_dp_dpcd_access+0x6b/0x110 [drm_kms_helper]
+> [  +0.000000]  drm_dp_dpcd_read+0xb6/0xf0 [drm_kms_helper]
+> [  +0.000001]  dm_helpers_dp_read_dpcd+0x28/0x50 [amdgpu]
+> [  +0.000000]  core_link_read_dpcd.part.0+0x1f/0x30 [amdgpu]
+> [  +0.000000]  read_hpd_rx_irq_data+0x39/0x90 [amdgpu]
+> [  +0.000001]  dc_link_handle_hpd_rx_irq+0x74/0x7c0 [amdgpu]
+> [  +0.000000]  handle_hpd_rx_irq+0x62/0x2e0 [amdgpu]
+> [  +0.000000]  ? __schedule+0x252/0x6a0
+> [  +0.000001]  ? finish_task_switch+0x18d/0x280
+> [  +0.000000]  dm_irq_work_func+0x43/0x50 [amdgpu]
+> [  +0.000000]  process_one_work+0x1d2/0x390
+> [  +0.000000]  worker_thread+0x225/0x3b0
+> [  +0.000001]  ? process_one_work+0x390/0x390
+> [  +0.000000]  kthread+0xf9/0x130
+> [  +0.000000]  ? kthread_park+0x90/0x90
+> [  +0.000001]  ret_from_fork+0x1f/0x30
+> [  +0.000000] ---[ end trace 0ce8685fac3db6b6 ]---
+> [  +0.002807] int3: 0000 [#1] SMP
+> [  +0.000001] CPU: 58 PID: 504 Comm: kworker/58:1 Tainted: P        W  O      5.8.0-rc1.stable #118
+> [  +0.000001] Hardware name: Gigabyte Technology Co., Ltd. TRX40 DESIGNARE/TRX40 DESIGNARE, BIOS F4c 03/05/2020
+> [  +0.000000] Workqueue: events dm_irq_work_func [amdgpu]
+> [  +0.000001] RIP: 0010:kgdb_breakpoint+0x10/0x20
+> [  +0.000001] Code: 4d f9 ff eb c5 cc cc cc cc cc 0f 1f 44 00 00 31 c0 c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 f0 ff 05 3c be 3e 01 0f ae f8 cc <0f> ae f8 f0 ff 0d 2e be 3e 01 c3 0f 1f 44 00 00 0f
+> 1f 44 00 00 e8
+> [  +0.000000] RSP: 0018:ffffc90002e93b88 EFLAGS: 00000202
+> [  +0.000001] RAX: 0000000000000000 RBX: ffff889fa4736ca0 RCX: 0000000000000000
+> [  +0.000001] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffff889fa011ff00
+> [  +0.000000] RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000231
+> [  +0.000001] R10: 000000000000017f R11: ffff889fbeea4b84 R12: ffffc90002e93c74
+> [  +0.000000] R13: 0000000000000000 R14: ffff889fa4736ca0 R15: ffff889fb0e2c100
+> [  +0.000001] FS:  0000000000000000(0000) GS:ffff889fbee80000(0000) knlGS:0000000000000000
+> [  +0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  +0.000001] CR2: 00001ee62a52b000 CR3: 000000174d175000 CR4: 0000000000340ea0
+> [  +0.000000] Call Trace:
+> [  +0.000001]  dal_gpio_open_ex+0x22/0x40 [amdgpu]
+> [  +0.000000]  dal_ddc_open+0x2d/0xe0 [amdgpu]
+> [  +0.000000]  ? dm_read_reg_func+0x33/0xa0 [amdgpu]
+> [  +0.000001]  dce_aux_transfer_raw+0xb4/0xa30 [amdgpu]
+> [  +0.000000]  ? hrtimer_try_to_cancel+0x28/0x100
+> [  +0.000000]  dm_dp_aux_transfer+0x8f/0xf0 [amdgpu]
+> [  +0.000001]  drm_dp_dpcd_access+0x6b/0x110 [drm_kms_helper]
+> [  +0.000000]  drm_dp_dpcd_read+0xb6/0xf0 [drm_kms_helper]
+> [  +0.000000]  dm_helpers_dp_read_dpcd+0x28/0x50 [amdgpu]
+> [  +0.000001]  core_link_read_dpcd.part.0+0x1f/0x30 [amdgpu]
+> [  +0.000000]  read_hpd_rx_irq_data+0x39/0x90 [amdgpu]
+> [  +0.000000]  dc_link_handle_hpd_rx_irq+0x74/0x7c0 [amdgpu]
+> [  +0.000001]  handle_hpd_rx_irq+0x62/0x2e0 [amdgpu]
+> [  +0.000000]  ? __schedule+0x252/0x6a0
+> [  +0.000000]  ? finish_task_switch+0x18d/0x280
+> [  +0.000001]  dm_irq_work_func+0x43/0x50 [amdgpu]
+> [  +0.000000]  process_one_work+0x1d2/0x390
+> [  +0.000000]  worker_thread+0x225/0x3b0
+> [  +0.000001]  ? process_one_work+0x390/0x390
+> [  +0.000000]  kthread+0xf9/0x130
+> [  +0.000000]  ? kthread_park+0x90/0x90
+> [  +0.000001]  ret_from_fork+0x1f/0x30
+> [  +0.000000] Modules linked in: vfio_pci vfio_virqfd vfio_iommu_type1 vfio xfs rfcomm xt_MASQUERADE xt_conntrack ipt_REJECT iptable_mangle iptable_nat nf_nat ebtable_filter ebtables ip6table_filter
+> ip6_tables tun bridge pmbus cmac pmbus_core ee1004 jc42 bnep sunrpc vfat fat dm_mirror dm_region_hash dm_log iwlmvm wmi_bmof mac80211 kvm_amd kvm libarc4 uvcvideo iwlwifi btusb btrtl btbcm btintel
+> videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 snd_hda_codec_hdmi videobuf2_common snd_usb_audio bluetooth videodev input_leds snd_hda_intel cfg80211 snd_usbmidi_lib joydev snd_intel_dspcfg
+> snd_rawmidi mc snd_hda_codec xpad ff_memless snd_hwdep thunderbolt ecdh_generic snd_seq ecc snd_hda_core irqbypass rfkill i2c_nvidia_gpu efi_pstore pcspkr snd_seq_device bfq snd_pcm snd_timer zenpower
+> snd i2c_piix4 rtc_cmos tpm_crb tpm_tis tpm_tis_core tpm wmi button binfmt_misc dm_crypt sd_mod uas usb_storage hid_generic usbhid hid ext4 mbcache jbd2 amdgpu gpu_sched ttm drm_kms_helper syscopyarea
+> sysfillrect
+> [  +0.000018]  sysimgblt crc32_pclmul ahci crc32c_intel fb_sys_fops libahci igb ccp cec xhci_pci libata i2c_algo_bit rng_core nvme xhci_hcd drm nvme_core t10_pi nbd usbmon it87 hwmon_vid fuse i2c_dev
+> i2c_core ipv6 autofs4 [last unloaded: nvidia]
+> [  +0.021468] ---[ end trace 0ce8685fac3db6b7 ]---
+> [  +0.000000] RIP: 0010:kgdb_breakpoint+0x10/0x20
+> [  +0.000001] Code: 4d f9 ff eb c5 cc cc cc cc cc 0f 1f 44 00 00 31 c0 c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 f0 ff 05 3c be 3e 01 0f ae f8 cc <0f> ae f8 f0 ff 0d 2e be 3e 01 c3 0f 1f 44 00 00 0f
+> 1f 44 00 00 e8
+> [  +0.000000] RSP: 0018:ffffc90002e93b88 EFLAGS: 00000202
+> [  +0.000001] RAX: 0000000000000000 RBX: ffff889fa4736ca0 RCX: 0000000000000000
+> [  +0.000001] RDX: 0000000000000000 RSI: 0000000000000003 RDI: ffff889fa011ff00
+> [  +0.000000] RBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000231
+> [  +0.000001] R10: 000000000000017f R11: ffff889fbeea4b84 R12: ffffc90002e93c74
+> [  +0.000000] R13: 0000000000000000 R14: ffff889fa4736ca0 R15: ffff889fb0e2c100
+> [  +0.000001] FS:  0000000000000000(0000) GS:ffff889fbee80000(0000) knlGS:0000000000000000
+> [  +0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  +0.000000] CR2: 00001ee62a52b000 CR3: 000000174d175000 CR4: 0000000000340ea0
+> [  +0.000001] Kernel panic - not syncing: Fatal exception in interrupt
+> [  +0.001035] Kernel Offset: disabled
+> 
+> 
+> The 'amdgpu_dm_irq_schedule_work FAILED src 8' errors were from previous plugs of this adapter.
+> 
+> On 5.7-rc7 kernel I also tried booting, I also see the 'amdgpu_dm_irq_schedule_work FAILED' errors
+> but it seems for now that the crash doesn't happen, but it might have beeing luck.
+> 
+> On top of all this, I tried a 3rd dongle and it does appear to work flawlessly (no messages in dmesg).
+Disregard this. The 3rd dongle also caused my kernel to crash yestarday.
+
+Best regards,
+	Maxim Levitsky
+
+> 
+> Best regards,
+> 	Maxim Levitsky
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
