@@ -2,57 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D4120CD90
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 11:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8920CDA6
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 11:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF68189CA2;
-	Mon, 29 Jun 2020 09:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6C8289F3B;
+	Mon, 29 Jun 2020 09:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D192289CA2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 09:27:45 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k6so15809723wrn.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 02:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=LSyMQLHXALePh+IULE3EEcaYo04mNclyOCFduokjzuE=;
- b=Mu4r0vmX2KDx3qWxWmRpIpO6b03IwowLtqbL3Br5GO22a4gBYO6od3AiA7prlBwO8O
- kWLYD2DOh94u17OSJh6He+SJ+jCAeAmWjQ/mRyeeKRJd7Rv2jH849nbiYdOMCeglmPNu
- hklsm11TyOxiK+IcNVrcIW7nMApx7Nx24yANM=
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCC9C89F3B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 09:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593423542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+7ru80Xuhrpvz+a+Wg1Lsi6BcSsR20WQgLQl/yb2O7c=;
+ b=DuW85i8ZP9PrRHlvsZOAjWJF7QykYXFsqWO9uNUlIId13fkG4JbyYvRZfyQlKPwoEAaATq
+ FgzMXo8Gb9d59e+ro9bFcBmSVnXgu9Xxq28j8ZdbcpRziaqrMNsBRvVIepgm88yf8Q0rYc
+ JkT+1D+b9v5lPpJljArI2v5cRP0VRNw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-0RUtcvjPMrOXuiLBSVreJw-1; Mon, 29 Jun 2020 05:38:57 -0400
+X-MC-Unique: 0RUtcvjPMrOXuiLBSVreJw-1
+Received: by mail-ej1-f72.google.com with SMTP id b14so10758298ejv.14
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 02:38:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LSyMQLHXALePh+IULE3EEcaYo04mNclyOCFduokjzuE=;
- b=nDRthrxRN5uaU2e2ps8q+iLI4e7VMIVQz7or4+FH/GjcNnVSCRP2KcNHrV0Bk+nclF
- LhvS37SsjOzmIy1JuBCfrN5nGHe8D2h9dHA8sHcUcPW4TFvb204StTiU0tuwtnYFGsay
- KeozTo0kRIb9jIoTHdTsZm9vVAffSyU9jZFZIKjfGcmWL0+AeulhY7I4GYaaMWzKflO5
- sYt5PeNSPzZQkvCSiz71O64PV1rU/UzY1j4pOKpIUpORe24cb75PPa4CZ3JIU/i7HFKz
- 9zU/YzCK8wREjEoDDiwB3CHI2s79DQn/Zq9uQngHuBT5lzMp24feMVzrTuodVAuNjFR8
- kxKw==
-X-Gm-Message-State: AOAM5304m3XrhFT3bdcgJgrQJLaExhVk++7Cr2lUCq3xv0ai9wlX4C99
- r1yLhZh20rRHmi/lnSKvVJ4Ujw==
-X-Google-Smtp-Source: ABdhPJyyW25EIt1EPxmQG+IoDubFyDo8S+A3heMR+m7g0FWI/ag1lfMEOt+J5qaGf3r+X3+02Ytz3w==
-X-Received: by 2002:adf:ecce:: with SMTP id s14mr16286111wro.154.1593422864449; 
- Mon, 29 Jun 2020 02:27:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f16sm28358909wmh.27.2020.06.29.02.27.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 02:27:43 -0700 (PDT)
-Date: Mon, 29 Jun 2020 11:27:41 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
-Message-ID: <20200629092741.GR3278063@phenom.ffwll.local>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+7ru80Xuhrpvz+a+Wg1Lsi6BcSsR20WQgLQl/yb2O7c=;
+ b=V7K15RS5xuFxnB9eDLxoQimUcUZr2CRYGhPfH87N0p1J0BASD3iuZ+IpAy0a53Kgah
+ O78MOQUIbKy7QEMHJFXKgEKsT1L69K+NySBJzh2f2LZ7hNf/vz2r3oIGBET2WZsIHIYg
+ 5a2YVwk6GLtJgLqptImUk/M9H0tNjhPhxfgBr7YUWPpEk6vIMIYPZkHGPvUbDzJFlu6o
+ l5mztUA5LNnLL86g7EvvkEd4NHiVoI4rt60ovXIYULvNjEj8T0wHsqmxbjVW5QqUUWge
+ 1hUkxV1FXREWUZAvPVNbI7qCWVJXPs5rNO5HcyMdrDQnNVjqHCWKeDqKwPAoPThW44QU
+ 1VQg==
+X-Gm-Message-State: AOAM5307IJ0HyEh8yUuHakdAqQ+WF8305J4zOfETvusDJPapcifpTmYO
+ Zya2JpkB1sdJwvIoT/eVS1pPJlgdIeRxhX+5dBNyTz4tX/xpO89z7gLx20c9LpbBgOpZDxVhLZC
+ /Ho53vrs8Kkf1AgjTwoQpsaEEl/6l
+X-Received: by 2002:a17:906:2b12:: with SMTP id
+ a18mr13017685ejg.186.1593423535732; 
+ Mon, 29 Jun 2020 02:38:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwthfD9C0w4wr8MwBbFdDmrCVNwX8cPF43Wf2eSblNSsAVEBVF7UarFOEBk2gO+DZOewOTrsw==
+X-Received: by 2002:a17:906:2b12:: with SMTP id
+ a18mr13017666ejg.186.1593423535445; 
+ Mon, 29 Jun 2020 02:38:55 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id c9sm20821183edv.8.2020.06.29.02.38.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Jun 2020 02:38:54 -0700 (PDT)
+Subject: Re: [RFC][PATCH 0/9] drm: Support simple-framebuffer devices and
+ firmware fbs
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, kraxel@redhat.com, lgirdwood@gmail.com, broonie@kernel.org,
+ robh@kernel.org, sam@ravnborg.org, emil.l.velikov@gmail.com,
+ noralf@tronnes.org, geert+renesas@glider.be
 References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-9-tzimmermann@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f23dcf97-52c7-682f-f713-a74839696fe3@redhat.com>
+Date: Mon, 29 Jun 2020 11:38:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200625120011.16168-9-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200625120011.16168-1-tzimmermann@suse.de>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,311 +87,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 25, 2020 at 02:00:10PM +0200, Thomas Zimmermann wrote:
-> Platform devices might operate on firmware framebuffers, such as VESA or
-> EFI. Before a native driver for the graphics hardware can take over the
-> device, it has to remove any platform driver that operates on the firmware
-> framebuffer. Platform helpers provide the infrastructure for platform
-> drivers to acquire firmware framebuffers, and for native drivers to remove
-> them lateron.
+Hi,
+
+On 6/25/20 2:00 PM, Thomas Zimmermann wrote:
+> This patchset adds support for simple-framebuffer platform devices and
+> a handover mechanism for native drivers to take-over control of the
+> hardware.
 > 
-> It works similar to the related fbdev mechanism. During initialization, the
-> platform driver acquires the firmware framebuffer's I/O memory and provides
-> a callback to be removed. The native driver later uses this inforamtion to
-> remove any platform driver for it's framebuffer I/O memory.
+> The new driver, called simplekms, binds to a simple-frambuffer platform
+> device. The kernel's boot code creates such devices for firmware-provided
+> framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
+> loader sets up the framebuffers. Description via device tree is also an
+> option.
 > 
-> The platform helper's removal code is integrated into the existing code for
-> removing conflicting fraembuffers, so native drivers use it automatically.
+> Simplekms is small enough to be linked into the kernel. The driver's main
+> purpose is to provide graphical output during the early phases of the boot
+> process, before the native DRM drivers are available. Native drivers are
+> typically loaded from an initrd ram disk. Occationally simplekms can also
+> serve as interim solution on graphics hardware without native DRM driver.
+
+Cool, thank you for doing this, this is a very welcome change,
+but ... (see below).
+
+> So far distributions rely on fbdev drivers, such as efifb, vesafb or
+> simplefb, for early-boot graphical output. However fbdev is deprecated and
+> the drivers do not provide DRM interfaces for modern userspace.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-I have some ideas for how to do this a notch cleaner in the next patch.
-Maybe best to discuss the actual implmenentation stuff there.
-
-Aside from that usual nits:
-- kerneldoc for these please, pulled into drm-kms.rst.
-- naming isn't super ocd with drm_platform.c but that prefix not used, but
-  I also don't have better ideas.
-- I think the functions from drm_fb_helper.h for removing other
-  framebuffers should be moved here, and function name prefix adjusted
-  acoordingly
-
-I'm wondering about the locking and deadlock potential here, is lockdep
-all happy with this?
-
-Cheers, Daniel
-
-> ---
->  drivers/gpu/drm/Kconfig        |   6 ++
->  drivers/gpu/drm/Makefile       |   1 +
->  drivers/gpu/drm/drm_platform.c | 118 +++++++++++++++++++++++++++++++++
->  include/drm/drm_fb_helper.h    |  18 ++++-
->  include/drm/drm_platform.h     |  42 ++++++++++++
->  5 files changed, 184 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/drm_platform.c
->  create mode 100644 include/drm/drm_platform.h
+> Patches 1 and 2 prepare the DRM format helpers for simplekms.
 > 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index c4fd57d8b717..e9d6892f9d38 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -229,6 +229,12 @@ config DRM_SCHED
->  	tristate
->  	depends on DRM
->  
-> +config DRM_PLATFORM_HELPER
-> +	bool
-> +	depends on DRM
-> +	help
-> +	  Helpers for DRM platform devices
-> +
->  source "drivers/gpu/drm/i2c/Kconfig"
->  
->  source "drivers/gpu/drm/arm/Kconfig"
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 2c0e5a7e5953..8ceb21d0770a 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) += drm_agpsupport.o
->  drm-$(CONFIG_PCI) += drm_pci.o
->  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
->  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
-> +drm-$(CONFIG_DRM_PLATFORM_HELPER) += drm_platform.o
->  
->  drm_vram_helper-y := drm_gem_vram_helper.o
->  obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
-> diff --git a/drivers/gpu/drm/drm_platform.c b/drivers/gpu/drm/drm_platform.c
-> new file mode 100644
-> index 000000000000..09a2f2a31aa5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_platform.c
-> @@ -0,0 +1,118 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +#include <linux/mutex.h>
-> +#include <linux/slab.h>
-> +
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_managed.h>
-> +#include <drm/drm_platform.h>
-> +
-> +static LIST_HEAD(drm_apertures);
-> +
-> +static DEFINE_MUTEX(drm_apertures_lock);
-> +
-> +static bool overlap(resource_size_t base1, resource_size_t end1,
-> +		    resource_size_t base2, resource_size_t end2)
-> +{
-> +	return (base1 < end2) && (end1 > base2);
-> +}
-> +
-> +static struct drm_aperture *
-> +drm_aperture_acquire(struct drm_device *dev,
-> +		     resource_size_t base, resource_size_t size,
-> +		     const struct drm_aperture_funcs *funcs)
-> +{
-> +	size_t end = base + size;
-> +	struct list_head *pos;
-> +	struct drm_aperture *ap;
-> +
-> +	mutex_lock(&drm_apertures_lock);
-> +
-> +	list_for_each(pos, &drm_apertures) {
-> +		ap = container_of(pos, struct drm_aperture, lh);
-> +		if (overlap(base, end, ap->base, ap->base + ap->size))
-> +			return ERR_PTR(-EBUSY);
-> +	}
-> +
-> +	ap = drmm_kzalloc(dev, sizeof(*ap), GFP_KERNEL);
-> +	if (!ap)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ap->dev = dev;
-> +	ap->base = base;
-> +	ap->size = size;
-> +	ap->funcs = funcs;
-> +	INIT_LIST_HEAD(&ap->lh);
-> +
-> +	list_add(&ap->lh, &drm_apertures);
-> +
-> +	mutex_unlock(&drm_apertures_lock);
-> +
-> +	return ap;
-> +}
-> +
-> +static void drm_aperture_release(struct drm_aperture *ap)
-> +{
-> +	bool kicked_out = ap->kicked_out;
-> +
-> +	if (!kicked_out)
-> +		mutex_lock(&drm_apertures_lock);
-> +
-> +	list_del(&ap->lh);
-> +	if (ap->funcs->release)
-> +		ap->funcs->release(ap);
-> +
-> +	if (!kicked_out)
-> +		mutex_unlock(&drm_apertures_lock);
-> +}
-> +
-> +static void drm_aperture_acquire_release(struct drm_device *dev, void *ptr)
-> +{
-> +	struct drm_aperture *ap = ptr;
-> +
-> +	drm_aperture_release(ap);
-> +}
-> +
-> +struct drm_aperture *
-> +drmm_aperture_acquire(struct drm_device *dev,
-> +		      resource_size_t base, resource_size_t size,
-> +		      const struct drm_aperture_funcs *funcs)
-> +{
-> +	struct drm_aperture *ap;
-> +	int ret;
-> +
-> +	ap = drm_aperture_acquire(dev, base, size, funcs);
-> +	if (IS_ERR(ap))
-> +		return ap;
-> +	ret = drmm_add_action_or_reset(dev, drm_aperture_acquire_release, ap);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return ap;
-> +}
-> +EXPORT_SYMBOL(drmm_aperture_acquire);
-> +
-> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
-> +{
-> +	resource_size_t end = base + size;
-> +	struct list_head *pos, *n;
-> +
-> +	mutex_lock(&drm_apertures_lock);
-> +
-> +	list_for_each_safe(pos, n, &drm_apertures) {
-> +		struct drm_aperture *ap =
-> +			container_of(pos, struct drm_aperture, lh);
-> +
-> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
-> +			continue;
-> +
-> +		ap->kicked_out = true;
-> +		if (ap->funcs->kickout)
-> +			ap->funcs->kickout(ap);
-> +		else
-> +			drm_dev_put(ap->dev);
-> +	}
-> +
-> +	mutex_unlock(&drm_apertures_lock);
-> +}
-> +EXPORT_SYMBOL(drm_kickout_apertures_at);
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 306aa3a60be9..a919b78b1961 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -35,7 +35,9 @@ struct drm_fb_helper;
->  #include <drm/drm_client.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_device.h>
-> +#include <drm/drm_platform.h>
->  #include <linux/kgdb.h>
-> +#include <linux/pci.h>
->  #include <linux/vgaarb.h>
->  
->  enum mode_set_atomic {
-> @@ -465,6 +467,11 @@ static inline int
->  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
->  					      const char *name, bool primary)
->  {
-> +	int i;
-> +
-> +	for (i = 0; i < a->count; ++i)
-> +		drm_kickout_apertures_at(a->ranges[i].base, a->ranges[i].size);
-> +
->  #if IS_REACHABLE(CONFIG_FB)
->  	return remove_conflicting_framebuffers(a, name, primary);
->  #else
-> @@ -487,7 +494,16 @@ static inline int
->  drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
->  						  const char *name)
->  {
-> -	int ret = 0;
-> +	resource_size_t base, size;
-> +	int bar, ret = 0;
-> +
-> +	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
-> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> +			continue;
-> +		base = pci_resource_start(pdev, bar);
-> +		size = pci_resource_len(pdev, bar);
-> +		drm_kickout_apertures_at(base, size);
-> +	}
->  
->  	/*
->  	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> diff --git a/include/drm/drm_platform.h b/include/drm/drm_platform.h
-> new file mode 100644
-> index 000000000000..475e88ee1fbd
-> --- /dev/null
-> +++ b/include/drm/drm_platform.h
-> @@ -0,0 +1,42 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +#ifndef _DRM_PLATFORM_H_
-> +#define _DRM_PLATFORM_H_
-> +
-> +#include <linux/list.h>
-> +#include <linux/types.h>
-> +
-> +struct drm_aperture;
-> +struct drm_device;
-> +
-> +struct drm_aperture_funcs {
-> +	void (*kickout)(struct drm_aperture *ap);
-> +	void (*release)(struct drm_aperture *ap);
-> +};
-> +
-> +struct drm_aperture {
-> +	struct drm_device *dev;
-> +	resource_size_t base;
-> +	resource_size_t size;
-> +
-> +	const struct drm_aperture_funcs *funcs;
-> +
-> +	struct list_head lh;
-> +	bool kicked_out;
-> +};
-> +
-> +struct drm_aperture *
-> +drmm_aperture_acquire(struct drm_device *dev,
-> +		      resource_size_t base, resource_size_t size,
-> +		      const struct drm_aperture_funcs *funcs);
-> +
-> +#if defined (CONFIG_DRM_PLATFORM_HELPER)
-> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t size);
-> +#else
-> +static inline void
-> +drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
-> +{
-> +}
-> +#endif
-> +
-> +#endif
-> -- 
+> Patches 3 to 7 add the simplekms driver. It's build on simple DRM helpers
+> and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
+> pageflips, SHMEM buffers are copied into the framebuffer memory, similar
+> to cirrus or mgag200. The code in patches 6 and 7 handles clocks and
+> regulators. It's based on the simplefb drivers, but has been modified for
+> DRM.
+> 
+> Patches 8 and 9 add a hand-over mechanism. Simplekms acquires it's
+> framebuffer's I/O-memory range and provides a callback function to be
+> removed by a native driver. The native driver will remove simplekms before
+> taking over the hardware. The removal is integrated into existing helpers,
+> so drivers use it automatically.
+> 
+> I tested simplekms with x86 EFI and VESA framebuffers, which both work
+> reliably. The fbdev console and Weston work automatically. Xorg requires
+> manual configuration of the device. Xorgs current modesetting driver does
+> not work with both, platform and PCI device, for the same physical
+> hardware. Once configured, X11 works.
+
+Ugh, Xorg not working OOTB is a bit of a showstopper, we cannot just go
+around and break userspace. OTOH this does seem like an userspace issue
+and not something which we can (or should try to) fix in the kernel.
+
+I guess the solution will have to be to have this default to N for now
+in Kconfig and clearly mention in the Kconfig help text that this needs
+a fixed Xorg modesetting driver before it can be enabled.
+
+Any chance you have time to work on fixing the Xorg modesetting driver
+so that this will just work with the standard Xorg autoconfiguration
+stuff?
+
+> One cosmetical issue is that simplekms's device file is card0 and the
+> native driver's device file is card1. After simplekms has been kicked out,
+> only card1 is left. This does not seem to be a practical problem however.
+> 
+> TODO/IDEAS:
+> 
+> 	* provide deferred takeover
+
+I assume you mean akin to CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER ?
+I don't think you need to do anything for that, as long as you just
+leave the fb contents intact until requested to change it.
+
+Right now with flickerfree boot we have fbcon on top of efifb and
+efifb does not do anything special wrt
+CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+ATM it does draw/restore the ACPI BGRT logo since since some firmwares
+don't draw that themselves, but that is not necessary in most cases
+and other then that all the deferred takeover magic is in the fbcon
+code, it does not bind to the fbdev (and thus does not draw to it)
+until the first time the kernel tries to output text to the console,
+together with the "quiet" kernel commandline argument that ensures
+that the fb is kept unmodified until e.g. a panic happens.
+
+With simplekms we would replace "fbcon on top of efifb" with
+"fbcon on top of emulated-fbdev on top of simplekms" so as long
+as the emulated-fbdev and simplekms code defer from say clearing
+the screen to black, but keep it as is. Then the fb contents
+should be preserved until fbcon decides to takeover the fbdev
+and draw to it.
+
+> 	* provide bootsplash DRM client
+
+Hmm, I guess this might be interesting for simple cases, but
+although I would love to kill plymouth (I've become one of the
+upstream maintainers for it) I'm afraid it is not that easy,
+it does a bunch of stuff which will be tricky to do in the kernel:
+
+1) Ask the user for diskcrypt passwords:
+https://ic.pics.livejournal.com/hansdegoede/13347631/1496/1496_900.png
+
+2) Show a nice splash + progressbar when installing updates in
+offline updates mode:
+https://ic.pics.livejournal.com/hansdegoede/13347631/899/899_900.png
+
+Still this would be nice for the non diskcrypt case I guess, then
+we could not use plymouth during normal boot and only use it
+for offline updates and it would also be nice for various embedded
+cases.
+
+Regards,
+
+Hans
+
+
+
+
+
+> 	* make simplekms usable with ARM-EFI fbs
+> 
+> Thomas Zimmermann (9):
+>    drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstclip()
+>    drm/format-helper: Add blitter functions
+>    drm: Add simplekms driver
+>    drm/simplekms: Add fbdev emulation
+>    drm/simplekms: Initialize framebuffer data from device-tree node
+>    drm/simplekms: Acquire clocks from DT device node
+>    drm/simplekms: Acquire regulators from DT device node
+>    drm: Add infrastructure for platform devices
+>    drm/simplekms: Acquire memory aperture for framebuffer
+> 
+>   MAINTAINERS                            |   6 +
+>   drivers/gpu/drm/Kconfig                |   6 +
+>   drivers/gpu/drm/Makefile               |   1 +
+>   drivers/gpu/drm/drm_format_helper.c    |  96 ++-
+>   drivers/gpu/drm/drm_platform.c         | 118 ++++
+>   drivers/gpu/drm/mgag200/mgag200_mode.c |   2 +-
+>   drivers/gpu/drm/tiny/Kconfig           |  17 +
+>   drivers/gpu/drm/tiny/Makefile          |   1 +
+>   drivers/gpu/drm/tiny/cirrus.c          |   2 +-
+>   drivers/gpu/drm/tiny/simplekms.c       | 906 +++++++++++++++++++++++++
+>   include/drm/drm_fb_helper.h            |  18 +-
+>   include/drm/drm_format_helper.h        |  10 +-
+>   include/drm/drm_platform.h             |  42 ++
+>   13 files changed, 1217 insertions(+), 8 deletions(-)
+>   create mode 100644 drivers/gpu/drm/drm_platform.c
+>   create mode 100644 drivers/gpu/drm/tiny/simplekms.c
+>   create mode 100644 include/drm/drm_platform.h
+> 
+> --
 > 2.27.0
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
