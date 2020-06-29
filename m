@@ -2,34 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E745220E958
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 01:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F6A20E959
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 01:33:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4166E89AAE;
-	Mon, 29 Jun 2020 23:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B04989B3C;
+	Mon, 29 Jun 2020 23:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A09C989AAE
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:33:29 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815B089AC6
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:33:31 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0EE4299;
- Tue, 30 Jun 2020 01:33:26 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA2DF734;
+ Tue, 30 Jun 2020 01:33:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593473607;
- bh=ZGM40xdl+FMYrBph60+J1WkDt3/CICMvSeWg4yoO478=;
- h=From:To:Cc:Subject:Date:From;
- b=OHUs5quk4MR6/Q1RGkSFDHtM1Qv8VxDkZDLponE50v1hkocBImwKg+0vsI2pBqp6i
- XBqkRGIjNGMtKFSqudBsJTp4Y9XhDfjx4heu1g+W4xhqwIahjzfagALKk5/zdYBsYl
- 088hya2oHvIEeRreHxIkVr8LuSkt2qD4AgXbWFyk=
+ s=mail; t=1593473608;
+ bh=6PL7u82o29Qb5v2BQxSmvdV+mwCVinyVGx5yNIhIPrE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=tdG7CBTs9Tu6RuMkI2/7PN3Cv80gSbwf/fl0ilSos7qke12UAv9ZIaDQo/DU3qf/x
+ JwFbXeN9uRgH7lM4RVEJm93sSy9Z6zrqswnj5DpVtbe25NeRDSIad/MJXL5/Pldcol
+ r1sIgJiMBC8/CSUui/XPrGCthfx79nU/ZG11d35I=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4] drm: panel: simple: Fix mistakes in panel descriptions
-Date: Tue, 30 Jun 2020 02:33:16 +0300
-Message-Id: <20200629233320.8774-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 1/4] drm: panel: simple: Correct connector type for Starry
+ KR070PE2T
+Date: Tue, 30 Jun 2020 02:33:17 +0300
+Message-Id: <20200629233320.8774-2-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200629233320.8774-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20200629233320.8774-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,25 +57,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+The Starry KR070PE2T panel is a DPI panel, not and LVDS panel. Fix its
+connector type.
 
-This small patch series is the second version of what has been
-previously submitted as "[PATCH] drm: panel: simple: Drop drive/sample
-bus flags for LVDS panels". It fixes incorrect bus format and connector
-type in the description of two panels (patches 1/4 and 2/4), drop
-invalid bus flags for LVDS panels (patch 3/4), and add a warning to
-catch invalid bus formats for future LVDS panels.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Laurent Pinchart (4):
-  drm: panel: simple: Correct connector type for Starry KR070PE2T
-  drm: panel: simple: Correct bus format for Satoz SAT050AT40H12R2
-  drm: panel: simple: Drop drive/sample bus flags for LVDS panels
-  drm: panel: simple: Warn in case of incorrect bus format for LVDS
-    panels
-
- drivers/gpu/drm/panel/panel-simple.c | 41 +++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index bff1cab529d2..ac6e8d55a3a2 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3320,7 +3320,7 @@ static const struct panel_desc starry_kr070pe2t = {
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+-	.connector_type = DRM_MODE_CONNECTOR_LVDS,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
+ static const struct drm_display_mode starry_kr122ea0sra_mode = {
 -- 
 Regards,
 
