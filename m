@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AB420CE15
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 13:08:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1B920CE1B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 13:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5D389D7B;
-	Mon, 29 Jun 2020 11:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701496E12F;
+	Mon, 29 Jun 2020 11:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBBCA89D7B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:08:54 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208373] New: drm:drm_atomic_helper_wait_for_dependencies -
- drm_kms_helper - flip_done timed out
-Date: Mon, 29 Jun 2020 11:08:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ionut_n2001@yahoo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-208373-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7D16E12F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:16:19 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id f18so15728043wml.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 04:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=+2xqZS20j7WwADTzivd5NRrmJ0ENwbtX5GoNx6Fe+vU=;
+ b=XLLgmXfhuWaN+N3Blm4XvjtjamUreLKdS5/QHTm4enePzjla+8NuL0BzUEsw5AsuPl
+ X1CQpwqioX86nUM+EC7gSfRoUeA+UAwdZO7g8FztPrbAYSdLN3Gj3MMH/W+8Ppj+uxgD
+ KAtFJqfQczCLRYDtIBfTkhIdFWI9YBhSWE5jq3YrBfCSPrugys7p0q4vwlUjd618SSZd
+ dMrBSFPR0uritIZokDchv9FSSZpRcgi21dJ7OIjtgbNo4V4MXb6yNjxlEeE6dPuMrUWE
+ 6oS0igkzFWZRG/dbKpdJB3FiC9mrrrHhLNEjsQXLJQ+1bLY2Jnypj4+kcokoQr5fAY2e
+ Ud0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+2xqZS20j7WwADTzivd5NRrmJ0ENwbtX5GoNx6Fe+vU=;
+ b=RIkqCJ9vGu/Oeq3zxTQ9Pi8zLYVx1Ay8cFtQmiwmbhi6SV5ACozKVVIWUldZYZ4Y9X
+ pmeuz0lBAS+4jo6isBgEBWEUPJbdFnggMlA2W1YkJZ3SB3rJje95M3oJnY+G1ksDv1jU
+ wp59J2hxMAqGfoaf7FbMfMWgrjX+f2qrleDfZ2EdAuAYXfgGMjZsXdRJM4oGoPJbrZIM
+ sMP8rOHXIcd1xqCP9i5L8jff27gVXFQG5Tq3wys7dPK4qys578O8f6rBxeFdbMAfHpAE
+ 6/kqZoorPoDSP0YXkw/FJxr/xp+HpDZbeoDiE+IKCB/rBjPnb1vT5pfhP0JNO4q1JlN/
+ 5d8Q==
+X-Gm-Message-State: AOAM530MuXDj/+zG523gcMtuIQTy6el7p5QsXfJ0halRqggf4fSnhMvk
+ D7wmQ+VmNiX2VI+cCAhv05b4hQ==
+X-Google-Smtp-Source: ABdhPJwaq3ltksxBStZJO/KdE8Qdopb4vyRHguNNilk7aIVZlKJpbDJ8kuqHWiBjfqVj7CoPPtX5cQ==
+X-Received: by 2002:a1c:3954:: with SMTP id g81mr16121628wma.73.1593429377863; 
+ Mon, 29 Jun 2020 04:16:17 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id n14sm27635244wro.81.2020.06.29.04.16.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Jun 2020 04:16:17 -0700 (PDT)
+Date: Mon, 29 Jun 2020 12:16:15 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/2] backlight: sky81452: Convert to GPIO descriptors
+Message-ID: <20200629111615.gzhppcl5nypqqsr6@holly.lan>
+References: <20200626203742.336780-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200626203742.336780-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,142 +67,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Gyungoh Yoo <jack.yoo@skyworksinc.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208373
+On Fri, Jun 26, 2020 at 10:37:41PM +0200, Linus Walleij wrote:
+> The SKY81452 backlight driver just obtains a GPIO (named "gpios"
+> in the device tree) drives it high and leaves it high until the
+> driver is removed.
+> 
+> Switch to use GPIO descriptors for this, simple and
+> straight-forward.
+> 
+> Cc: Gyungoh Yoo <jack.yoo@skyworksinc.com>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-            Bug ID: 208373
-           Summary: drm:drm_atomic_helper_wait_for_dependencies -
-                    drm_kms_helper - flip_done timed out
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.7.2
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: ionut_n2001@yahoo.com
-        Regression: No
-
-Hi Kernel Team,
-
-With 5.7.2, observe this issue:
-[1263266.374115] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1263276.614099] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
-[1266457.945569] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1266468.185524] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
-[1268050.016722] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1268060.256836] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
-[1270654.054668] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1270664.294675] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
-[1271127.144282] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1271137.384328] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
-[1274245.495567] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1274255.735657] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
-[1279238.818759] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [CRTC:38:crtc-0] flip_done timed out
-[1279249.058822] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
-*ERROR* [PLANE:34:plane-0] flip_done timed out
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-
-dmesg | grep drm
-[    2.598899] [drm] DMA map mode: Caching DMA mappings.
-[    2.599179] [drm] Capabilities:
-[    2.599297] [drm]   Rect copy.
-[    2.599369] [drm]   Cursor.
-[    2.599412] [drm]   Cursor bypass.
-[    2.599461] [drm]   Cursor bypass 2.
-[    2.599510] [drm]   8bit emulation.
-[    2.599558] [drm]   Alpha cursor.
-[    2.599605] [drm]   Extended Fifo.
-[    2.599653] [drm]   Multimon.
-[    2.599696] [drm]   Pitchlock.
-[    2.599740] [drm]   Irq mask.
-[    2.599784] [drm]   Display Topology.
-[    2.599834] [drm]   GMR.
-[    2.599873] [drm]   Traces.
-[    2.599915] [drm]   GMR2.
-[    2.599955] [drm]   Screen Object 2.
-[    2.600005] [drm]   Command Buffers.
-[    2.600054] [drm]   Command Buffers 2.
-[    2.600105] [drm]   Guest Backed Resources.
-[    2.600160] [drm]   DX Features.
-[    2.600476] [drm]   HP Command Queue.
-[    2.600527] [drm] Capabilities2:
-[    2.600573] [drm]   Grow oTable.
-[    2.600620] [drm]   IntraSurface copy.
-[    2.600671] [drm] Max GMR ids is 64
-[    2.600721] [drm] Max number of GMR pages is 65536
-[    2.600782] [drm] Max dedicated hypervisor surface memory is 0 kiB
-[    2.600857] [drm] Maximum display memory size is 16384 kiB
-[    2.600925] [drm] VRAM at 0xe8000000 size is 4096 kiB
-[    2.600990] [drm] MMIO at 0xfe000000 size is 256 kiB
-[    2.601616] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-[    2.601785] [drm] Screen Target Display device initialized
-[    2.601890] [drm] width 640
-[    2.601938] [drm] height 480
-[    2.601986] [drm] bpp 32
-[    2.621888] [drm] Fifo max 0x00040000 min 0x00001000 cap 0x0000077f
-[    2.625498] [drm] Using command buffers with DMA pool.
-[    2.625580] [drm] Atomic: yes.
-[    2.630205] fbcon: svgadrmfb (fb0) is primary device
-[    2.642217] [drm] Initialized vmwgfx 2.18.0 20200114 for 0000:00:0f.0 on
-minor 0
-
-cat /proc/cmdline
-BOOT_IMAGE=/boot/vmlinuz-5.7.2-vanilla
-root=UUID=27e2847b-d1ad-427c-97ed-b0b65028d30a ro video=SVIDEO-1:d
-
-lspci | grep 00:0f.0
-00:0f.0 VGA compatible controller: VMware SVGA II Adapter
-
-lspci -s 00:0f.0 -vvvvv
-00:0f.0 VGA compatible controller: VMware SVGA II Adapter (prog-if 00 [VGA
-controller])
-        Subsystem: VMware SVGA II Adapter
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
-Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 64, Cache Line Size: 32 bytes
-        Interrupt: pin A routed to IRQ 16
-        Region 0: I/O ports at 1070 [size=16]
-        Region 1: Memory at e8000000 (32-bit, prefetchable) [size=128M]
-        Region 2: Memory at fe000000 (32-bit, non-prefetchable) [size=8M]
-        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-        Capabilities: [40] Vendor Specific Information: Len=00 <?>
-        Capabilities: [44] PCI Advanced Features
-                AFCap: TP+ FLR+
-                AFCtrl: FLR-
-                AFStatus: TP-
-        Kernel driver in use: vmwgfx
-        Kernel modules: vmwgfx
-
-with 5.7.0, this issue not observe or not appear.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
