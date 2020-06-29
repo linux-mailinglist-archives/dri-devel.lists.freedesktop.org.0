@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A21020EF92
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5991020EF8D
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:36:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC08B89DD8;
-	Tue, 30 Jun 2020 07:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6851B89DF9;
+	Tue, 30 Jun 2020 07:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC5A89C89
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 15:54:29 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1593446074; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=nyhr+wKTuGHf9WtPCncyW6maFY7e62s62XEcHJ0A5CE=;
- b=mU7QsBXZoJsq96hn6dIlQ4HNkOwSE7LKksfYwnlB2tm5mFxRkJmfJHkfWgVom1xP/6XTZuJU
- fXW+FI6pwqK+MrJQ5lrWOy+Dbdd3mxs0STFsPK6CHpsJ1Kc3KZ/nS5XauyfdpSr+Ty8X/PPI
- fqq6RuDlRksoAEVR2iQ7GtzqwZo=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n17.prod.us-east-1.postgun.com with SMTP id
- 5efa0eac8fe116ddd92fe66d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 29 Jun 2020 15:54:20
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F3B95C43449; Mon, 29 Jun 2020 15:54:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-253.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 80E20C433CB;
- Mon, 29 Jun 2020 15:54:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 80E20C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none
- smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv3 7/7] drm/msm/a6xx: Add support for using system cache(LLC)
-Date: Mon, 29 Jun 2020 21:22:50 +0530
-Message-Id: <449a6544b10f0035d191ac52283198343187c153.1593344120.git.saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1593344119.git.saiprakash.ranjan@codeaurora.org>
-References: <cover.1593344119.git.saiprakash.ranjan@codeaurora.org>
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3835D89E33
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 16:56:54 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id g13so13359727qtv.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 09:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gmp0D2tdeFRnXQgw7lSdvfRGqahLRtacjy20V4Dgy4c=;
+ b=Jfgz6+ehlKKKW4qoq8xVJu2q7caS/mX7d2eerQrmJ/I8fEtrkUoYA5pgWnWcfjvIDt
+ utQSsqPaOEgIRXKX03NaualVOXjO63W2a35ig0TSMcEvHD/PcZNONbY9GUUYfk1mDK7a
+ ouQynf+wqQT5N4M8740UpW12VB7n9Jgyl+lX2odBXE5pal3VZrz0Gun2gLsRDsoSeCn1
+ 4izLQLIdLSK2kPxv32lSMlEo3LqIFrnsiB9ePxMtpwt8X5utuupEstYsFyha+jdQgRgh
+ WgnW+TwAW5sRiUUFiQ6MSEV88c8RfYaX8bxGe/hkSHOAZI8dMGVQyQmstOf6vv5SN6vx
+ oMTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gmp0D2tdeFRnXQgw7lSdvfRGqahLRtacjy20V4Dgy4c=;
+ b=kmvHjLWE2j3uLuRlmCPfo9clhH0ruWxK6BcdISJ96Cm6Io3tG0lCQYDSrmbsJ7hSXj
+ WydMfyH3rWEH+DUO1Onn57i+ZrmzTDhWa5m6qVLn8RPBddZja8OAtZQ4G7I+4BltPiKf
+ pYA09JkoIAp/riYWbNIF2bxswV/fZpBovlfOg8Icbs+cNiiaOzmz5a+ED7WKYt+ETSOi
+ 6v1JmfUya6MHitRKNXlfuOwbbN4SB2JLllv7PDM2UmGapL1c9AtWNHl4CrbvTP28vjJ9
+ +D+L3pD+dpvSD4avjrxN1gxOkhRbTZpXsw0A+4iwPrTDObp5lMMuG8sP1SJuZWAL6FcP
+ Sjng==
+X-Gm-Message-State: AOAM531ofB7hqzdccBzuW+VMFdA1gkrVhnRh1WpYPdeyvBVHKJXfAThO
+ GNRoMmvZt+KHqMQOGAnuQuo/FVo+zyoXf7Mbt1YrXg==
+X-Google-Smtp-Source: ABdhPJz4vWfkua2eG9MpTJ6k/kJDSLhEXhO0H2alk/afqT4ySNVYGzkUifS11LUHAxlT47DxEztZASWHQWqf40cxVOE=
+X-Received: by 2002:ac8:260b:: with SMTP id u11mr16891475qtu.380.1593449812975; 
+ Mon, 29 Jun 2020 09:56:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <000000000000a4293f0598ef165e@google.com>
+ <000000000000a1c96505a109a31b@google.com>
+In-Reply-To: <000000000000a1c96505a109a31b@google.com>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Mon, 29 Jun 2020 18:56:41 +0200
+Message-ID: <CACT4Y+bK_1tNXQoVHz=maMr-pCw4FK_chGzA7LuvChM6DGO-LA@mail.gmail.com>
+Subject: Re: KASAN: vmalloc-out-of-bounds Write in bitfill_aligned
+To: syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>, 
+ gk568005@gmail.com
 X-Mailman-Approved-At: Tue, 30 Jun 2020 07:34:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,273 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- iommu@lists.linux-foundation.org, Matthias Kaehlcke <mka@chromium.org>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sharat Masetty <smasetty@codeaurora.org>
+On Tue, Mar 17, 2020 at 10:34 AM syzbot
+<syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com> wrote:
+>
+> syzbot has found a reproducer for the following crash on:
+>
+> HEAD commit:    fb33c651 Linux 5.6-rc6
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=17dacd55e00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=9f894bd92023de02
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e5fd3e65515b48c02a30
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11b8ca75e00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=114800e5e00000
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com
 
-The last level system cache can be partitioned to 32 different
-slices of which GPU has two slices preallocated. One slice is
-used for caching GPU buffers and the other slice is used for
-caching the GPU SMMU pagetables. This talks to the core system
-cache driver to acquire the slice handles, configure the SCID's
-to those slices and activates and deactivates the slices upon
-GPU power collapse and restore.
++George who may know what causes this
 
-Some support from the IOMMU driver is also needed to make use
-of the system cache. IOMMU_SYS_CACHE_ONLY is a buffer protection
-flag which enables caching GPU data buffers in the system cache
-with memory attributes such as outer cacheable, read-allocate,
-write-allocate for buffers. The GPU then has the ability to
-override a few cacheability parameters which it does to override
-write-allocate to write-no-allocate as the GPU hardware does not
-benefit much from it.
-
-Similarly DOMAIN_ATTR_SYS_CACHE is another domain level attribute
-used by the IOMMU driver to set the right attributes to cache the
-hardware pagetables into the system cache.
-
-Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-(sai: fix to set attr before device attach to IOMMU and rebase)
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 82 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  3 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 23 ++++++-
- drivers/gpu/drm/msm/msm_iommu.c         |  3 +
- drivers/gpu/drm/msm/msm_mmu.h           |  4 ++
- 5 files changed, 114 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 6bee70853ea8..c33cd2a588e6 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -9,6 +9,8 @@
- #include "a6xx_gmu.xml.h"
- 
- #include <linux/devfreq.h>
-+#include <linux/bitfield.h>
-+#include <linux/soc/qcom/llcc-qcom.h>
- 
- #define GPU_PAS_ID 13
- 
-@@ -808,6 +810,79 @@ static const u32 a6xx_register_offsets[REG_ADRENO_REGISTER_MAX] = {
- 	REG_ADRENO_DEFINE(REG_ADRENO_CP_RB_CNTL, REG_A6XX_CP_RB_CNTL),
- };
- 
-+static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask, u32 or)
-+{
-+	return msm_rmw(a6xx_gpu->llc_mmio + (reg << 2), mask, or);
-+}
-+
-+static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 value)
-+{
-+	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
-+}
-+
-+static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
-+{
-+	llcc_slice_deactivate(a6xx_gpu->llc_slice);
-+	llcc_slice_deactivate(a6xx_gpu->htw_llc_slice);
-+}
-+
-+static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
-+{
-+	u32 cntl1_regval = 0;
-+
-+	if (IS_ERR(a6xx_gpu->llc_mmio))
-+		return;
-+
-+	if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
-+		u32 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
-+
-+		gpu_scid &= 0x1f;
-+		cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
-+			       (gpu_scid << 15) | (gpu_scid << 20);
-+	}
-+
-+	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
-+		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
-+
-+		gpuhtw_scid &= 0x1f;
-+		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
-+	}
-+
-+	if (cntl1_regval) {
-+		/*
-+		 * Program the slice IDs for the various GPU blocks and GPU MMU
-+		 * pagetables
-+		 */
-+		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
-+
-+		/*
-+		 * Program cacheability overrides to not allocate cache lines on
-+		 * a write miss
-+		 */
-+		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
-+	}
-+}
-+
-+static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
-+{
-+	llcc_slice_putd(a6xx_gpu->llc_slice);
-+	llcc_slice_putd(a6xx_gpu->htw_llc_slice);
-+}
-+
-+static void a6xx_llc_slices_init(struct platform_device *pdev,
-+		struct a6xx_gpu *a6xx_gpu)
-+{
-+	a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
-+	if (IS_ERR(a6xx_gpu->llc_mmio))
-+		return;
-+
-+	a6xx_gpu->llc_slice = llcc_slice_getd(LLCC_GPU);
-+	a6xx_gpu->htw_llc_slice = llcc_slice_getd(LLCC_GPUHTW);
-+
-+	if (IS_ERR(a6xx_gpu->llc_slice) && IS_ERR(a6xx_gpu->htw_llc_slice))
-+		a6xx_gpu->llc_mmio = ERR_PTR(-EINVAL);
-+}
-+
- static int a6xx_pm_resume(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-@@ -822,6 +897,8 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
- 
- 	msm_gpu_resume_devfreq(gpu);
- 
-+	a6xx_llc_activate(a6xx_gpu);
-+
- 	return 0;
- }
- 
-@@ -830,6 +907,8 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 
-+	a6xx_llc_deactivate(a6xx_gpu);
-+
- 	devfreq_suspend_device(gpu->devfreq.devfreq);
- 
- 	return a6xx_gmu_stop(a6xx_gpu);
-@@ -868,6 +947,7 @@ static void a6xx_destroy(struct msm_gpu *gpu)
- 		drm_gem_object_put_unlocked(a6xx_gpu->sqe_bo);
- 	}
- 
-+	a6xx_llc_slices_destroy(a6xx_gpu);
- 	a6xx_gmu_remove(a6xx_gpu);
- 
- 	adreno_gpu_cleanup(adreno_gpu);
-@@ -962,6 +1042,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 	adreno_gpu->registers = NULL;
- 	adreno_gpu->reg_offsets = a6xx_register_offsets;
- 
-+	a6xx_llc_slices_init(pdev, a6xx_gpu);
-+
- 	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
- 	if (ret) {
- 		a6xx_destroy(&(a6xx_gpu->base.base));
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 7239b8b60939..90043448fab1 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -21,6 +21,9 @@ struct a6xx_gpu {
- 	struct msm_ringbuffer *cur_ring;
- 
- 	struct a6xx_gmu gmu;
-+	void __iomem *llc_mmio;
-+	void *llc_slice;
-+	void *htw_llc_slice;
- };
- 
- #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 3e717c1ebb7f..4666d2df8e65 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -190,10 +190,31 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
- 		struct platform_device *pdev)
- {
- 	struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
--	struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 	struct msm_gem_address_space *aspace;
-+	struct msm_mmu *mmu;
- 	u64 start, size;
- 
-+	/*
-+	 * This allows GPU to set the bus attributes required to use system
-+	 * cache on behalf of the iommu page table walker.
-+	 */
-+	if (!IS_ERR(a6xx_gpu->htw_llc_slice)) {
-+		int gpu_htw_llc = 1;
-+
-+		iommu_domain_set_attr(iommu, DOMAIN_ATTR_SYS_CACHE, &gpu_htw_llc);
-+	}
-+
-+	mmu = msm_iommu_new(&pdev->dev, iommu);
-+	if (IS_ERR(mmu)) {
-+		iommu_domain_free(iommu);
-+		return ERR_CAST(mmu);
-+	}
-+
-+	if (!IS_ERR(a6xx_gpu->llc_slice))
-+		mmu->features |= MMU_FEATURE_USE_SYSTEM_CACHE;
-+
- 	/*
- 	 * Use the aperture start or SZ_16M, whichever is greater. This will
- 	 * ensure that we align with the allocated pagetable range while still
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index f455c597f76d..bd1d58229cc2 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -218,6 +218,9 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
- 		iova |= GENMASK_ULL(63, 49);
- 
- 
-+	if (mmu->features & MMU_FEATURE_USE_SYSTEM_CACHE)
-+		prot |= IOMMU_SYS_CACHE_ONLY;
-+
- 	ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
- 	WARN_ON(!ret);
- 
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index 61ade89d9e48..90965241e567 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -23,12 +23,16 @@ enum msm_mmu_type {
- 	MSM_MMU_IOMMU_PAGETABLE,
- };
- 
-+/* MMU features */
-+#define MMU_FEATURE_USE_SYSTEM_CACHE	BIT(0)
-+
- struct msm_mmu {
- 	const struct msm_mmu_funcs *funcs;
- 	struct device *dev;
- 	int (*handler)(void *arg, unsigned long iova, int flags);
- 	void *arg;
- 	enum msm_mmu_type type;
-+	u32 features;
- };
- 
- static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
-
+> ==================================================================
+> BUG: KASAN: vmalloc-out-of-bounds in bitfill_aligned drivers/video/fbdev/core/sysfillrect.c:54 [inline]
+> BUG: KASAN: vmalloc-out-of-bounds in bitfill_aligned+0x34b/0x410 drivers/video/fbdev/core/sysfillrect.c:25
+> Write of size 8 at addr ffffc90009621000 by task syz-executor767/9337
+>
+> CPU: 3 PID: 9337 Comm: syz-executor767 Not tainted 5.6.0-rc6-syzkaller #0
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:77 [inline]
+>  dump_stack+0x188/0x20d lib/dump_stack.c:118
+>  print_address_description.constprop.0.cold+0x5/0x315 mm/kasan/report.c:374
+>  __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:506
+>  kasan_report+0xe/0x20 mm/kasan/common.c:641
+>  bitfill_aligned drivers/video/fbdev/core/sysfillrect.c:54 [inline]
+>  bitfill_aligned+0x34b/0x410 drivers/video/fbdev/core/sysfillrect.c:25
+>  sys_fillrect+0x415/0x7a0 drivers/video/fbdev/core/sysfillrect.c:291
+>  drm_fb_helper_sys_fillrect+0x1c/0x190 drivers/gpu/drm/drm_fb_helper.c:719
+>  bit_clear_margins+0x2d5/0x4a0 drivers/video/fbdev/core/bitblit.c:232
+>  fbcon_clear_margins+0x1de/0x240 drivers/video/fbdev/core/fbcon.c:1379
+>  fbcon_switch+0xd1b/0x1740 drivers/video/fbdev/core/fbcon.c:2361
+>  redraw_screen+0x2a8/0x770 drivers/tty/vt/vt.c:1008
+>  fbcon_modechanged+0x5bd/0x780 drivers/video/fbdev/core/fbcon.c:2998
+>  fbcon_update_vcs+0x3a/0x50 drivers/video/fbdev/core/fbcon.c:3045
+>  fb_set_var+0xad0/0xd40 drivers/video/fbdev/core/fbmem.c:1056
+>  do_fb_ioctl+0x390/0x7d0 drivers/video/fbdev/core/fbmem.c:1109
+>  fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1185
+>  vfs_ioctl fs/ioctl.c:47 [inline]
+>  ksys_ioctl+0x11a/0x180 fs/ioctl.c:763
+>  __do_sys_ioctl fs/ioctl.c:772 [inline]
+>  __se_sys_ioctl fs/ioctl.c:770 [inline]
+>  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:770
+>  do_syscall_64+0xf6/0x7d0 arch/x86/entry/common.c:294
+>  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x433d29
+> Code: c4 18 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 eb da fc ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007fff33d61508 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00000000004002e0 RCX: 0000000000433d29
+> RDX: 00000000200001c0 RSI: 0000000000004601 RDI: 0000000000000003
+> RBP: 00000000006b2018 R08: 0000000000000000 R09: 00000000004002e0
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401bc0
+> R13: 0000000000401c50 R14: 0000000000000000 R15: 0000000000000000
+>
+>
+> Memory state around the buggy address:
+>  ffffc90009620f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>  ffffc90009620f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >ffffc90009621000: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+>                    ^
+>  ffffc90009621080: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+>  ffffc90009621100: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+> ==================================================================
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000a1c96505a109a31b%40google.com.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
