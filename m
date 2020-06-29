@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F44320CCD4
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 08:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8682F20CCCF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 08:51:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D4E6E406;
-	Mon, 29 Jun 2020 06:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D61B6E0EE;
+	Mon, 29 Jun 2020 06:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8156E3F7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 03:18:56 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id y18so8225160lfh.11
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 20:18:56 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB146E3F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 03:18:57 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id h19so16327974ljg.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 20:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZqX/ziB/3PC8jQi/MNjK/OF3UvmP/IxboFt/kpaG6UI=;
- b=C3CLAnY+ijK+28R1W4aD4su9eW20nda3aXUS0bXEU/A5x8k44CPpWCMbh8DZ5DfYxR
- DP+IryDAr8W7plPjMA9y56zOwQbEdz5GgLdHHFU9dynoQxNkBnuGNoFmGB8qRDay8xED
- EtdZJpOT8EQnBsrRHjrj6y6ccAWiSMN3raiUQRapljYhciukD63uys3QJbRiUfBFqh+/
- 9DNXMSJvdXBy5s9KFK7dWyBbL7jvt1mavps1p2oMraiPuIuTNmazLXo+6zZxMib2ksAe
- 76n0SKyqhnNcX1cNZAmyIogP76CjyB6fLi1/T9mGxLhSKPOWExyd41gY8yKvbHZuASak
- q0ig==
+ bh=EidOYNDtTRNJ+8EWo2ihqYeWgFnIbrPaGzDz8MoTfPU=;
+ b=Y+YodDPux7QGmbop0JYWpFp0BOokiRnETh7u8XOIj59/zwhMKOyuD6ffbK1rlp+IYy
+ tcBqK6n2xdr07S8OxbBHAgadJQY2cO8WwTzHmQG3zvevViS5Qn988RBdMlnTgJKP9uwg
+ iWX7m4LqSWDgLnkEqb5t0wpsiX+JNpcWAdCsiONkvsI62m+1Phi7Jx86Z/2dUIC61oJE
+ y7U5rySudAWbeUbpqaxfrc12bKJULjMcEM78OVKMJ/xLfjj1RC9JIJGE0mtfNa1eVjO3
+ 4xVmCrR0F+adH7AaQ6Ai5wImZ+ezRAEdrKFdnDLEPoNU3KIjsRXa4VpDyHIFwomFjE9u
+ /Olw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZqX/ziB/3PC8jQi/MNjK/OF3UvmP/IxboFt/kpaG6UI=;
- b=okdTMoaBq0Vwb6V43lWpLB6w4KfurWy1Mf3Z4FhxOcNVPNOzlsJSnpMlvohhnHx+l7
- aBzfsTNBuk/iF2U2jUD5XfDhU7L6HbJJWMd6qDngxuKO67ivhTH78JN0Pd6bozLTPT8b
- JJVRyOFch9JgjXH/lpz83W20ZWqGPRD28znFaJyOwzGa3Fx2ENDaUeJr9/ZS/XP+cWuk
- fCgWpUTjC1WZ2vxjtvJgY7cu+iJV3apumUjqVmu+fx/t0o/GPw/p+A4NVYzzU2fKnUUT
- 6N4jLeRSkptq7CDA/xajj1Xi3QbQZuT/338DnSp2lRUwB5VarrWlnCHsYfVuWsChywP2
- IHtA==
-X-Gm-Message-State: AOAM531PHUVN/5E/UJ7Q0sHERpHW6w4Nz/Ql/Jx57Q/M4qGU5NP37+hM
- PT798kKiENT5tgWwOkUksZk=
-X-Google-Smtp-Source: ABdhPJwL8kdj2UBzyr36CG0IGwXDZbazR20iwjZcmzVY4OcOr8SPrDKDMCFosjThrJ4jcE1cuhzpKw==
-X-Received: by 2002:ac2:5a5e:: with SMTP id r30mr8052760lfn.30.1593400734694; 
- Sun, 28 Jun 2020 20:18:54 -0700 (PDT)
+ bh=EidOYNDtTRNJ+8EWo2ihqYeWgFnIbrPaGzDz8MoTfPU=;
+ b=U5ViQLs8vTtTMQQCVQNZOMOgi70KgL8ySrkRKzfoFQ51cXsf73Jo9F8R0k1tqVftZE
+ YUdRkQg2oBsJMnpTPuogGlvYFPOWQbbkGxRLntwcTDEsw4cVt004dvTfHxRDVsYWKVe9
+ WI1E4HdbwFlMJHYYMaKHZKKgmvMnTz+/pBWL/9lKEMx2y3/lAmxpYmmR3dl5qPtZSsXk
+ hkYK0T/zUP2VdasKQn34TZBEF4DyY5d5cp5PNNYeJi5e1TtaNRPhIqQdqDybz+/ZPIVo
+ 5miakb+5bev0YxImJP4X9wpxN2u2/Ma2QHKIkDlACrcisTZM3CS0gnb0wfayYb1W9bYi
+ +oYw==
+X-Gm-Message-State: AOAM530j1H2AdeKxG1vOsON+InInwGjJo8sP8wI+aIU6D1xA3drcF+op
+ YuL/B929beOSBBwOzwhgEN8=
+X-Google-Smtp-Source: ABdhPJxLj+BbmYAqjK/EWXvwIUBZLwM/VqsFenHGt/B8hEyulXm5SHltxo39BOFkianXSP/Vo3goeQ==
+X-Received: by 2002:a2e:7f10:: with SMTP id a16mr7257364ljd.69.1593400735631; 
+ Sun, 28 Jun 2020 20:18:55 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id m1sm2383295ljg.60.2020.06.28.20.18.53
+ by smtp.gmail.com with ESMTPSA id m1sm2383295ljg.60.2020.06.28.20.18.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 20:18:54 -0700 (PDT)
+ Sun, 28 Jun 2020 20:18:55 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v2 3/6] gpu: host1x: Optimize BOs usage when firewall is
- enabled
-Date: Mon, 29 Jun 2020 06:18:39 +0300
-Message-Id: <20200629031842.32463-4-digetx@gmail.com>
+Subject: [PATCH v2 4/6] gpu: host1x: Put gather's BO on pinning error
+Date: Mon, 29 Jun 2020 06:18:40 +0300
+Message-Id: <20200629031842.32463-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200629031842.32463-1-digetx@gmail.com>
 References: <20200629031842.32463-1-digetx@gmail.com>
@@ -76,57 +75,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't need to hold and pin original BOs of the gathers in a case of
-enabled firewall because in this case gather's content is copied and the
-copy is used by the executed job.
+This patch fixes gather's BO refcounting on a pinning error. Gather's BO
+won't be leaked now if something goes wrong.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/host1x/job.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/gpu/host1x/job.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/host1x/job.c b/drivers/gpu/host1x/job.c
-index a10643aa89aa..a954bd41aa79 100644
+index a954bd41aa79..89b6c14b7392 100644
 --- a/drivers/gpu/host1x/job.c
 +++ b/drivers/gpu/host1x/job.c
-@@ -27,10 +27,13 @@ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
- 				    u32 num_cmdbufs, u32 num_relocs)
+@@ -105,6 +105,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
  {
- 	struct host1x_job *job = NULL;
--	unsigned int num_unpins = num_cmdbufs + num_relocs;
-+	unsigned int num_unpins = num_relocs;
- 	u64 total;
- 	void *mem;
+ 	struct host1x_client *client = job->client;
+ 	struct device *dev = client->dev;
++	struct host1x_job_gather *g;
+ 	struct iommu_domain *domain;
+ 	unsigned int i;
+ 	int err;
+@@ -194,7 +195,6 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 		return 0;
  
-+	if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
-+		num_unpins += num_cmdbufs;
-+
- 	/* Check that we're not going to overflow */
- 	total = sizeof(struct host1x_job) +
- 		(u64)num_relocs * sizeof(struct host1x_reloc) +
-@@ -183,6 +186,13 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 		job->num_unpins++;
- 	}
- 
-+	/*
-+	 * We will copy gathers BO content later, so there is no need to
-+	 * hold and pin them.
-+	 */
-+	if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
-+		return 0;
-+
  	for (i = 0; i < job->num_gathers; i++) {
- 		struct host1x_job_gather *g = &job->gathers[i];
+-		struct host1x_job_gather *g = &job->gathers[i];
  		size_t gather_size = 0;
-@@ -216,7 +226,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
- 			goto unpin;
+ 		struct scatterlist *sg;
+ 		struct sg_table *sgt;
+@@ -204,6 +204,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 		dma_addr_t *phys;
+ 		unsigned int j;
+ 
++		g = &job->gathers[i];
+ 		g->bo = host1x_bo_get(g->bo);
+ 		if (!g->bo) {
+ 			err = -EINVAL;
+@@ -223,7 +224,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 		sgt = host1x_bo_pin(host->dev, g->bo, phys);
+ 		if (IS_ERR(sgt)) {
+ 			err = PTR_ERR(sgt);
+-			goto unpin;
++			goto put;
  		}
  
--		if (!IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL) && host->domain) {
-+		if (host->domain) {
- 			for_each_sg(sgt->sgl, sg, sgt->nents, j)
- 				gather_size += sg->length;
- 			gather_size = iova_align(&host->iova, gather_size);
+ 		if (host->domain) {
+@@ -236,7 +237,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 					   host->iova_end >> shift, true);
+ 			if (!alloc) {
+ 				err = -ENOMEM;
+-				goto unpin;
++				goto put;
+ 			}
+ 
+ 			err = iommu_map_sg(host->domain,
+@@ -245,7 +246,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 			if (err == 0) {
+ 				__free_iova(&host->iova, alloc);
+ 				err = -EINVAL;
+-				goto unpin;
++				goto put;
+ 			}
+ 
+ 			job->unpins[job->num_unpins].size = gather_size;
+@@ -255,7 +256,7 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 					 DMA_TO_DEVICE);
+ 			if (!err) {
+ 				err = -ENOMEM;
+-				goto unpin;
++				goto put;
+ 			}
+ 
+ 			job->unpins[job->num_unpins].dir = DMA_TO_DEVICE;
+@@ -273,6 +274,8 @@ static unsigned int pin_job(struct host1x *host, struct host1x_job *job)
+ 
+ 	return 0;
+ 
++put:
++	host1x_bo_put(g->bo);
+ unpin:
+ 	host1x_job_unpin(job);
+ 	return err;
 -- 
 2.26.0
 
