@@ -2,68 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B3D20CCD7
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 08:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0AE20CCD2
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 08:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F41C36E40F;
-	Mon, 29 Jun 2020 06:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DDEA6E405;
+	Mon, 29 Jun 2020 06:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 237B089C6C
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 02:37:04 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id c11so8207535lfh.8
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 19:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3aaNWUY+ic1MhEW2thjjs+7K3aLg4Qeu7hsc8YXMuHY=;
- b=EYhTXqxhSGpSxd6RsvJ0XBzYbUqniYRkDlPnUra6tJaAMs9vicknh6hx4Dt3ekuZNU
- W3J2kEMpj5s+T+SYnJ1swdZWuACib/Bi4Mmcp9/XZ6nKQ/crSZ7vTVVi62tZJ1a4i1vR
- 96F0nwV9DhiqgGhLpfTNV11FOroHpVdlD38lM2Fc7Dk+tvO80hT/fl/PjRsALqaYQScF
- Mvx3l6D8N8AmJ3knKDxUI4sTQuRst3BzdHZo6g8yM7zrtrj6Cru7HBDGh4B6NTiywJO1
- pDVHRjJsCcKXcGGsUzkZDx5dZJj4hTIY5CAdJVNibraZVMuE9RWHJq+aB1I8p2S/1br+
- AdrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3aaNWUY+ic1MhEW2thjjs+7K3aLg4Qeu7hsc8YXMuHY=;
- b=aSTDrG+EseU0fShlS9Mcn4tJ7poDA8+u45hxMEh31aykksKx0ENP8yDATXeySWqg3k
- 6BNKjrx5biQA88Wphy7k7vPaq4N243TyAvLyIUkaBFdybRgq+yMWu5eRtadOVx84HlT8
- 9Qa46iBmYrlZX7JyIRg/KwxgNziPr0Rd1gRJ7uDW4Bhvkn0USxnYqWJp4ro6dv5by/9T
- GLG2IRqjAYoS/AzSncnYljQh0RL/bwZxqedeWuSXIBJ3RmyHiUH2kY+INiDD8B7tt21P
- 3uiAYcQRUfpOmCjTrhoGUNFUiRVwFA7J81h3uvcAxCNNQeC0OSFZZY3k9JBu2bVreHES
- Gn4g==
-X-Gm-Message-State: AOAM531a9RUIOvlIrf/i9q5FSYPBXhTIFnz6YkrN9B/ETN2RD1gJME2h
- H6uT11KcaJQ5VJ4h91DLWIs=
-X-Google-Smtp-Source: ABdhPJx7RgPdiojDAT7wK85anJetC3VhwGm+QifqURfbXc5dwtyt2+HBsew6eBfwn8fVGlcOLGbdAw==
-X-Received: by 2002:a05:6512:52a:: with SMTP id
- o10mr7957247lfc.137.1593398222191; 
- Sun, 28 Jun 2020 19:37:02 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id m9sm6967483lfb.5.2020.06.28.19.37.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Jun 2020 19:37:01 -0700 (PDT)
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (sync points)
-To: Mikko Perttunen <cyndis@kapsi.fi>,
- Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
- <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <5b1edaad-ba36-7b0f-5b02-457ae5b6d91e@gmail.com>
- <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <623c1eaa-31fb-8dff-f6c0-d8cd0be60070@gmail.com>
-Date: Mon, 29 Jun 2020 05:36:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr130042.outbound.protection.outlook.com [40.107.13.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6BF6E3F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 02:45:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kgakU0OHzLLD1SoSbkS4gcTuzBVy2zBA8EIfgZtW26PTZ6KZdPPz44wud8B+sYWT/l41cmGuxlIcQP7LeL1U7x40JfU5qL8Up24ikggb94rIZn5chFGZk8eMuq6qdylcoPdgXSs1YKJHbBQ5klLIZnSmLO6Uq1bh71ZK5f8CKgWLg/FWLvZAicY4g9wAmkgN4Pd9hLLIb6HceZthm7Im6ljVNCsY7i+fDeTAQbHIVhmD2vq5RQwpmQhyGE8wfYT96Uv9MPkx9kPYQcsbFC3zHiPoGHpCYIOIQDvPLjhYSc6g5zUJpP++jKvdxVEZNFy8hkp7v4V/46Gb3pH7sN1yBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eqyifVFj8mT1kb4vQAlDyxj3omhSyt0i5VzKIWiOrbc=;
+ b=fe1/HNRBr3V5ER25wH3v7BpLOvEJs+RkCep7r48FfejtgJvHUyjUfIPittIahHMcOJ9U2DgkYW12RjiHAI55Cz3mKiF6CriRCdR5jRRcPU9tnLsCaaxBB9EdpddIF23wvDzGmz/RFHrV5nD9YoMMViCnGiE4TXehJk1DFlkL7Swu6+kcsbcCN5CB99x197kQbmB5Ud62lFWBfn7WVDo4ER8E8AbsZZ6aioh22Eq+DIvGMK9cZ0e7tdTlbBqeMVlHzzaJ357HU+o/jAKiJtYm02SPrtxIlq+B72nQZNA09FH9DfPDlwIEFqL+Oa+O3KWGFobJIc3XOFfY+JCdOMWNtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eqyifVFj8mT1kb4vQAlDyxj3omhSyt0i5VzKIWiOrbc=;
+ b=WkIiCMiyNuVFg7DeWmx0qX/IUCzuKAhmt4HUwTB1rNq7H9AagGAvAMchzvtxBRJ5MaImSyQzdJACwUjY39oF0O+n9loq725mXt9th6yPrxoW9rIpk2seanMs10v+Jko2g8s13GcddlegJFJpyjXYYuUOw49/DY3PB3iL67w1y1g=
+Authentication-Results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB6112.eurprd04.prod.outlook.com (2603:10a6:803:fd::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Mon, 29 Jun
+ 2020 02:45:24 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
+ 02:45:24 +0000
+Message-ID: <527d3be2a8fde03920c6b4dfba25920e9a4be6ca.camel@nxp.com>
+Subject: Re: [PATCH 2/2] drm/bridge: dw-hdmi: Always add the bridge in the
+ global bridge list
+From: Liu Ying <victor.liu@nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Mon, 29 Jun 2020 10:44:25 +0800
+In-Reply-To: <20200628082210.GF6954@pendragon.ideasonboard.com>
+References: <1592298292-17634-1-git-send-email-victor.liu@nxp.com>
+ <1592298292-17634-2-git-send-email-victor.liu@nxp.com>
+ <20200628082210.GF6954@pendragon.ideasonboard.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-ClientProxiedBy: HK2PR03CA0053.apcprd03.prod.outlook.com
+ (2603:1096:202:17::23) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-In-Reply-To: <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from vbox (223.112.202.196) by
+ HK2PR03CA0053.apcprd03.prod.outlook.com (2603:1096:202:17::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.10 via Frontend Transport; Mon, 29 Jun 2020 02:45:19 +0000
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Originating-IP: [223.112.202.196]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 964a7f7b-b3de-456d-056e-08d81bd678d0
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6112:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB61121C588243304B8B246B33986E0@VI1PR04MB6112.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 044968D9E1
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UyLplCpALFta0vGWD4BJT7+3Fw0u6M2Xv0P9A/1SCmLYqk5AlZOFkgxHB93BXl0PE3Z9EvHTJpSmBDF+s0y+1yDW1/EAL/wNRgSZABwIEQv+GZGmccAYTxjLXqijfGLkERTz527xX90+snqE2X6I+abhKKWYJ5VVG4g6ZIbqLh5CCko4CFsMxUfwN1j6yaiYntrcTcg6hFvEHtMSzzcyQZUoc67BV1l6Z7eE2A193Wvc39rUw6CSJjaU0POwBBePcTJN7PN/9nRK/6qJ1r2R5T7/8AVESI9dYiI9r7rBV75zRFcXHE50mnaiNXDjWkJBp+xFokKTeGS2BQJ/X0bOB0TKMkrLNJXxFDvp77waXEkJ81VGbCCifAIk0Nhm4LsWEnA9wdvOg8a0r0JeQP1nKr3Mcnggb8pbShxAeXj2Bz5EwSsUd3VS8eQpZMAJRLKja9puWGEgr3YKx66j2msu/g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(316002)(83380400001)(6666004)(66476007)(36756003)(66556008)(52116002)(66946007)(6916009)(2906002)(8676002)(2616005)(6486002)(956004)(7416002)(86362001)(16526019)(186003)(4326008)(8936002)(26005)(6496006)(966005)(5660300002)(45080400002)(478600001)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: eWY6semZSPscgkeO5IIk6ykW3d0ugGlmBLAmqeXddHy+RCKKfzvDT6+NpGFufMOmV+ymFCvpOT55wEjpRQbJMXV2yU5ScYNQItpuRNb0UecHRUXMEg9BVchIqdDkKoE3TIsE6aBFckyM0g3xjPCDnlX+9bXLguqMlNbnowTXTYK4SINXigjIo8pWdTPIWL9DGddHYy4YGOsl4u7wdNVGrlTZSlPiqlBkmOIYFsQnvnbF23P6rvmwzncZBml1rXWEsOg5T2FJSkmCGiNUKg7fKzNcCW6efMp1L4zyzMVAK+JUVhjl+qKuRUWQvhryBw6UwGKKlO7abXF/qBSYn4jNzXr09U39N0xtblrjXbeO46Rcv7IcLl1b5ILps8KBon3LS8kY3WA4l8o6rKHEtDMxDuVfzw9240yjH7D8zsoyLliwtwAXJtf0cyfUa/RIQJt791myS9QuWLg6yrITYgbw+Kydt2zRcKXHh2AjENAwqUhVUg77zup/N9OINcuxv5Gj
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 964a7f7b-b3de-456d-056e-08d81bd678d0
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2020 02:45:24.0882 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1XO+DXmCJKM0u2UgwEDA2TQ4clRP0DvcmCIeBMPlIywSOHn36UsEPxEnAVfQKsaDX5bkCPt3X7B7bNSr2aBG3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6112
 X-Mailman-Approved-At: Mon, 29 Jun 2020 06:50:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,134 +100,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Erik Faye-Lund <kusmabite@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: joabreu@synopsys.com, jernej.skrabec@siol.net, darekm@google.com,
+ jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
+ dri-devel@lists.freedesktop.org, a.hajda@samsung.com,
+ boris.brezillon@collabora.com, linux-imx@nxp.com, cychiang@chromium.org,
+ Sam Ravnborg <sam@ravnborg.org>, jbrunet@baylibre.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjguMDYuMjAyMCAxMjo0NCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gNi8yOC8y
-MCAyOjI3IEFNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IDIzLjA2LjIwMjAgMTU6MDksIE1p
-a2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4KPj4+ICMjIyBJT0NUTCBIT1NUMVhfQUxMT0NB
-VEVfU1lOQ1BPSU5UIChvbiAvZGV2L2hvc3QxeCkKPj4+Cj4+PiBBbGxvY2F0ZXMgYSBmcmVlIHN5
-bmNwb2ludCwgcmV0dXJuaW5nIGEgZmlsZSBkZXNjcmlwdG9yIHJlcHJlc2VudGluZyBpdC4KPj4+
-IE9ubHkgdGhlIG93bmVyIG9mIHRoZSBmaWxlIGRlc2NyaXB0b3IgaXMgYWxsb3dlZCB0byBtdXRh
-dGUgdGhlIHZhbHVlIG9mCj4+PiB0aGUgc3luY3BvaW50Lgo+Pj4KPj4+IGBgYAo+Pj4gc3RydWN0
-IGhvc3QxeF9jdHJsX2FsbG9jYXRlX3N5bmNwb2ludCB7Cj4+PiDCoMKgwqDCoMKgwqDCoCAvKioK
-Pj4+IMKgwqDCoMKgwqDCoMKgwqAgKiBAZmQ6Cj4+PiDCoMKgwqDCoMKgwqDCoMKgICoKPj4+IMKg
-wqDCoMKgwqDCoMKgwqAgKiBbb3V0XSBOZXcgZmlsZSBkZXNjcmlwdG9yIHJlcHJlc2VudGluZyB0
-aGUgYWxsb2NhdGVkCj4+PiBzeW5jcG9pbnQuCj4+PiDCoMKgwqDCoMKgwqDCoMKgICovCj4+PiDC
-oMKgwqDCoMKgwqDCoCBfX3MzMiBmZDsKPj4+Cj4+PiDCoMKgwqDCoMKgwqDCoCBfX3UzMiByZXNl
-cnZlZFszXTsKPj4+IH07Cj4+Cj4+IFdlIHNob3VsZCBuZWVkIGF0IGxlYXN0IHRoZXNlIGJhc2lj
-IHRoaW5ncyBmcm9tIHRoZSBzeW5jIHBvaW50cyBBUEkgPgo+PiAtIEV4ZWN1dGlvbiBjb250ZXh0
-IHNob3VsZG4ndCBiZSBhYmxlIHRvIHRhbXBlciBzeW5jIHBvaW50cyBvZiB0aGUgb3RoZXIKPj4g
-Y29udGV4dHMuCj4gCj4gVGhpcyBpcyBjb3ZlcmVkIGJ5IHRoaXMgVUFQSSAtIHdoZW4gc3VibWl0
-dGluZywgYXMgcGFydCBvZiB0aGUKPiBzeW5jcHRfaW5jciBzdHJ1Y3QgeW91IHBhc3MgdGhlIHN5
-bmNwb2ludCBGRC4gVGhpcyB3YXkgdGhlIGRyaXZlciBjYW4KPiBjaGVjayB0aGUgc3luY3BvaW50
-cyB1c2VkIGFyZSBjb3JyZWN0LCBvciBwcm9ncmFtIEhXIHByb3RlY3Rpb24uCj4gCj4+Cj4+IC0g
-U3luYyBwb2ludCBjb3VsZCBiZSBzaGFyZWQgd2l0aCBvdGhlciBjb250ZXh0cyBmb3IgZXhwbGlj
-aXQgZmVuY2luZy4KPiAKPiBOb3Qgc3VyZSB3aGF0IHlvdSBzcGVjaWZpY2FsbHkgbWVhbjsgeW91
-IGNhbiBnZXQgdGhlIElEIG91dCBvZiB0aGUKPiBzeW5jcG9pbnQgZmQgYW5kIHNoYXJlIHRoZSBJ
-RCBmb3IgcmVhZC1vbmx5IGFjY2Vzcy4gKE9yIHRoZSBGRCBmb3IKPiByZWFkLXdyaXRlIGFjY2Vz
-cykKCkkgZW51bWVyYXRlZCB0aGUgb3ZlcmFsbCBwb2ludHMgdGhhdCBVQVBJIHNob3VsZCBwcm92
-aWRlIHRvIHVzLCBqdXN0IGZvcgpjbGFyaXR5LiBOb3QgbGlrZSB5b3UgaGF2ZW4ndCBjb3ZlcmVk
-IGFueSBvZiB0aGVtLCBzb3JyeSBmb3IgdGhlCmNvbmZ1c2lvbiEgOikKClBsZWFzZSBzZWUgbW9y
-ZSBjb21tZW50cyBiZWxvdyEKCj4+Cj4+IC0gU3luYyBwb2ludHMgc2hvdWxkIHdvcmsgcmVsaWFi
-bHkuCj4+Cj4+IFNvbWUgcHJvYmxlbXMgb2YgdGhlIGN1cnJlbnQgSG9zdDF4IGRyaXZlciwgbGlr
-ZSB3aGVyZSBpdCBmYWxscyBvdmVyIGlmCj4+IHN5bmMgcG9pbnQgdmFsdWUgaXMgb3V0LW9mLXN5
-bmMgKyBhbGwgdGhlIGhhbmctam9iIHJlY292ZXJ5IGxhYm9yIGNvdWxkCj4+IGJlIGVhc2lseSBy
-ZWR1Y2VkIGlmIHN5bmMgcG9pbnQgaGVhbHRoIGlzIHByb3RlY3RlZCBieSBleHRyYSBVQVBJCj4+
-IGNvbnN0cmFpbnRzLiA+Cj4+IFNvIEkgdGhpbmsgd2UgbWF5IHdhbnQgdGhlIGZvbGxvd2luZzoK
-Pj4KPj4gMS4gV2Ugc3RpbGwgc2hvdWxkIG5lZWQgdG8gYXNzaWduIHN5bmMgcG9pbnQgSUQgdG8g
-YSBEUk0tY2hhbm5lbCdzCj4+IGNvbnRleHQuIFRoaXMgc3luYyBwb2ludCBJRCB3aWxsIGJlIHVz
-ZWQgZm9yIGEgY29tbWFuZHMgc3RyZWFtIGZvcm1pbmcsCj4+IGxpa2UgaXQgaXMgZG9uZSBieSB0
-aGUgY3VycmVudCBzdGFnaW5nIFVBUEkuCj4+Cj4+IFNvIHdlIHNob3VsZCBuZWVkIHRvIHJldGFp
-biB0aGUgRFJNX1RFR1JBX0dFVF9TWU5DUFQgSU9DVEwsIGJ1dAo+PiBpbXByb3ZlIGl0LgoKTXkg
-cG9pbnQgaGVyZSBpcyB0aGF0IHRoZSBVQVBJIHNob3VsZG4ndCBiZSBhYmxlIHRvIGluY3JlbWVu
-dCB0aGUgam9iJ3MKc3luYyBwb2ludCB1c2luZyBTWU5DUE9JTlRfSU5DUkVNRU5UIElPQ1RMLCB3
-aGljaCBpcyBhbm90aGVyIFVBUEkKY29uc3RyYWludC4KCkknbSBzdWdnZXN0aW5nIHRoYXQgd2Ug
-c2hvdWxkIGhhdmUgdHdvIG1ldGhvZHMgb2Ygc3luYyBwb2ludCBhbGxvY2F0aW9uczoKCjEpIFN5
-bmMgcG9pbnQgdGhhdCBjb3VsZCBiZSB1c2VkIG9ubHkgYnkgYSBzdWJtaXR0ZWQgam9iLgoKMikg
-U3luYyBwb2ludCB0aGF0IGNvdWxkIGJlIGluY3JlbWVudGVkIGJ5IENQVS4KClRoZSBmaXJzdCBt
-ZXRob2Qgd2lsbCBhbGxvY2F0ZSBhIHJhdyBzeW5jIHBvaW50IElEIHRoYXQgaXMgYXNzaWduZWQg
-dG8KdGhlIGNoYW5uZWwncyBjb250ZXh0LiBUaGlzIElEIHdpbGwgYmUgdXNlZCBmb3IgdGhlIGpv
-YidzIGNvbXBsZXRpb24KdHJhY2tpbmcuIFBlcmhhcHMgdGhpcyBtZXRob2QgYWxzbyBjb3VsZCBv
-cHRpb25hbGx5IHJldHVybiBhIHN5bmMgcG9pbnQKRkQgaWYgeW91J2Qgd2FudCB0byB3YWl0IG9u
-IHRoaXMgc3luYyBwb2ludCBieSBhbm90aGVyIGpvYi4KCldlIGRvbid0IG5lZWQgYSBkZWRpY2F0
-ZWQgc3luYyBwb2ludCBGRCBmb3IgYWxsIGtpbmRzIG9mIGpvYnMsIGRvbid0IHdlPwpGb3IgZXhh
-bXBsZSwgSSBkb24ndCBzZWUgd2h5IGEgc3luYyBwb2ludCBGRCBtYXkgYmUgbmVlZGVkIGluIGEg
-Y2FzZSBvZgpPcGVudGVncmEgam9icy4KCj4+IDIuIEFsbG9jYXRlZCBzeW5jIHBvaW50IG11c3Qg
-aGF2ZSBhIGNsZWFuIGhhcmR3YXJlIHN0YXRlLgo+IAo+IFdoYXQgZG8geW91IG1lYW4gYnkgY2xl
-YW4gaGFyZHdhcmUgc3RhdGU/CgpJIG1lYW4gdGhhdCBzeW5jIHBvaW50IHNob3VsZCBoYXZlIGEg
-cHJlZGljdGFibGUgc3RhdGUgWzFdLCBpdCBzaG91bGRuJ3QKYWNjaWRlbnRhbGx5IGZpcmUgZHVy
-aW5nIG9mIGhhcmR3YXJlIHByb2dyYW1taW5nIGZvciBleGFtcGxlLgoKWzFdCmh0dHBzOi8vZ2l0
-aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvaG9zdDF4
-L3NvYy9zeW5jcG9pbnRzLmMjTDEzMgoKRm9yIGEgc3VibWl0dGVkIGpvYiwgdGhlIGpvYidzIHN5
-bmMgcG9pbnQgc3RhdGUgY291bGQgYmUgcmVzZXQgYXQgYQpzdWJtaXNzaW9uIHRpbWUsIGZvciBl
-eGFtcGxlIGxpa2UgSSBkaWQgaXQgaW4gdGhlIGdyYXRlLWtlcm5lbCdzCmV4cGVyaW1lbnRhbCBk
-cml2ZXIgWzJdLgoKWzJdCmh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGludXgvYmxv
-Yi9tYXN0ZXIvZHJpdmVycy9ncHUvaG9zdDF4L3NvYy9jaGFubmVsLmMjTDE0NQoKPj4KPj4gMy4g
-U3luYyBwb2ludHMgc2hvdWxkIGJlIHByb3Blcmx5IHJlZmNvdW50ZWQuIEpvYidzIHN5bmMgcG9p
-bnRzCj4+IHNob3VsZG4ndCBiZSByZS11c2VkIHdoaWxlIGpvYiBpcyBhbGl2ZS4KPj4KPj4gNC4g
-VGhlIGpvYidzIHN5bmMgcG9pbnQgY2FuJ3QgYmUgcmUtdXNlZCBhZnRlciBqb2IncyBzdWJtaXNz
-aW9uIChVQVBJCj4+IGNvbnN0cmFpbnQhKS4gVXNlcnNwYWNlIG11c3QgZnJlZSBzeW5jIHBvaW50
-IGFuZCBhbGxvY2F0ZSBhIG5ldyBvbmUgZm9yCj4+IHRoZSBuZXh0IGpvYiBzdWJtaXNzaW9uLiBB
-bmQgbm93IHdlOgo+Pgo+PiDCoMKgIC0gS25vdyB0aGF0IGpvYidzIHN5bmMgcG9pbnQgaXMgYWx3
-YXlzIGluIGEgaGVhbHRoeSBzdGF0ZSEKPj4KPj4gwqDCoCAtIFdlJ3JlIG5vdCBsaW1pdGVkIGJ5
-IGEgbnVtYmVyIG9mIHBoeXNpY2FsbHkgYXZhaWxhYmxlIGhhcmR3YXJlIHN5bmMKPj4gcG9pbnRz
-ISBBbGxvY2F0aW9uIHNob3VsZCBibG9jayB1bnRpbCBmcmVlIHN5bmMgcG9pbnQgaXMgYXZhaWxh
-YmxlLgo+Pgo+PiDCoMKgIC0gVGhlIGxvZ2ljYWwgbnVtYmVyIG9mIGpvYidzIHN5bmMgcG9pbnQg
-aW5jcmVtZW50cyBtYXRjaGVzIHRoZSBTUAo+PiBoYXJkd2FyZSBzdGF0ZSEgV2hpY2ggaXMgaGFu
-ZHkgZm9yIGEgam9iJ3MgZGVidWdnaW5nLgo+Pgo+PiBPcHRpb25hbGx5LCB0aGUgam9iJ3Mgc3lu
-YyBwb2ludCBjb3VsZCBiZSBhdXRvLXJlbW92ZWQgZnJvbSB0aGUgRFJNJ3MKPj4gY29udGV4dCBh
-ZnRlciBqb2IncyBzdWJtaXNzaW9uLCBhdm9pZGluZyBhIG5lZWQgZm9yIGFuIGV4dHJhIFNZTkNQ
-VF9QVVQKPj4gSU9DVEwgaW52b2NhdGlvbiB0byBiZSBkb25lIGJ5IHVzZXJzcGFjZSBhZnRlciB0
-aGUgam9iJ3Mgc3VibWlzc2lvbi4KPj4gQ291bGQgYmUgYSBqb2IncyBmbGFnLgo+IAo+IEkgdGhp
-bmsgdGhpcyB3b3VsZCBjYXVzZSBwcm9ibGVtcyB3aGVyZSBhZnRlciBhIGpvYiBjb21wbGV0ZXMg
-YnV0IGJlZm9yZQo+IHRoZSBmZW5jZSBoYXMgYmVlbiB3YWl0ZWQsIHRoZSBzeW5jcG9pbnQgaXMg
-YWxyZWFkeSByZWN5Y2xlZCAoZXNwZWNpYWxseQo+IGlmIHRoZSBzeW5jcG9pbnQgaXMgcmVzZXQg
-aW50byBzb21lIGNsZWFuIHN0YXRlKS4KCkV4YWN0bHksIGdvb2QgcG9pbnQhIFRoZSBkbWEtZmVu
-Y2Ugc2hvdWxkbid0IGJlIGhhcmR3aXJlZCB0byB0aGUgc3luYwpwb2ludCBpbiBvcmRlciB0byBh
-dm9pZCB0aGlzIHNpdHVhdGlvbiA6KQoKUGxlYXNlIHRha2UgYSBsb29rIGF0IHRoZSBmZW5jZSBp
-bXBsZW1lbnRhdGlvbiB0aGF0IEkgbWFkZSBmb3IgdGhlCmdyYXRlLWRyaXZlciBbM10uIFRoZSBo
-b3N0MXgtZmVuY2UgaXMgYSBkbWEtZmVuY2UgWzRdIHRoYXQgaXMgYXR0YWNoZWQKdG8gYSBzeW5j
-IHBvaW50IGJ5IGhvc3QxeF9mZW5jZV9jcmVhdGUoKS4gT25jZSBqb2IgaXMgY29tcGxldGVkLCB0
-aGUKaG9zdDF4LWZlbmNlIGlzIGRldGFjaGVkIGZyb20gdGhlIHN5bmMgcG9pbnQgWzVdWzZdIGFu
-ZCBzeW5jIHBvaW50IGNvdWxkCmJlIHJlY3ljbGVkIHNhZmVseSEKClszXQpodHRwczovL2dpdGh1
-Yi5jb20vZ3JhdGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2hvc3QxeC9m
-ZW5jZS5jCgpbNF0KaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saW51eC9ibG9iL21h
-c3Rlci9pbmNsdWRlL2xpbnV4L2hvc3QxeC5oI0w0NTAKCls1XQpodHRwczovL2dpdGh1Yi5jb20v
-Z3JhdGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2hvc3QxeC9zb2Mvc3lu
-Y3BvaW50c19ody5jI0w1MAoKWzZdCmh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGlu
-dXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3VhcGkvc2NoZWR1bGVyLmMjTDEz
-MwoKUGxlYXNlIHRyeSB0byB0YWtlIGEgY2xvc2VyIGxvb2sgYXQgdGhlIGdyYXRlLWRyaXZlcidz
-IGltcGxlbWVudGF0aW9uIGlmCnlvdSBoYXZlbid0IHlldC4gSSB0aGluayB3ZSBzaG91bGQgYmUg
-YWJsZSB0byByZXVzZSBvciBpbXByb3ZlIHNvbWUgb2YKdGhlIGlkZWFzLiBUaGF0IGltcGxlbWVu
-dGF0aW9uIGlzbid0IDEwMCUgY29tcGxldGUsIGl0IGRvZXNuJ3QgY292ZXIKdGhpbmdzIGxpa2Ug
-Q1BVLWluY3JlbWVudGVkIG9yIGV4cG9ydGVkIHN5bmMgcG9pbnRzIGZvciBleGFtcGxlLCBidXQK
-YmFzaWNzIGFyZSB0aGVyZS4KCj4gSSB3b3VsZCBwcmVmZXIgaGF2aW5nIGEgc3luY3BvaW50IGZv
-ciBlYWNoIHVzZXJzcGFjZSBjaGFubmVsIGNvbnRleHQKPiAoc2V2ZXJhbCBvZiB3aGljaCBjb3Vs
-ZCBzaGFyZSBhIGhhcmR3YXJlIGNoYW5uZWwgaWYgTUxPQ0tpbmcgaXMgbm90IHVzZWQpLgo+IAo+
-IEluIG15IGV4cGVyaWVuY2UgaXQncyB0aGVuIG5vdCBkaWZmaWN1bHQgdG8gcGlucG9pbnQgd2hp
-Y2ggam9iIGhhcwo+IGZhaWxlZCwgYW5kIGlmIGVhY2ggdXNlcnNwYWNlIGNoYW5uZWwgY29udGV4
-dCB1c2VzIGEgc2VwYXJhdGUgc3luY3BvaW50LAo+IGEgaGFuZ2luZyBqb2Igd291bGRuJ3QgbWVz
-cyB3aXRoIG90aGVyIGFwcGxpY2F0aW9uJ3Mgam9icywgZWl0aGVyLgoKSSBhZ3JlZSB0aGF0IHRo
-ZXJlIHNob3VsZG4ndCBiZSBhbnkgcHJvYmxlbXMgd2l0aCBmaW5kaW5nIHdoYXQgam9iIGlzCmhh
-bmdlZC4gVGhlIHRpbWVkIG91dCBqb2IgaXMgYWx3YXlzIHRoZSBoYW5nZWQgam9iLCBubz8gOikK
-CkFsc28sIHBsZWFzZSB0YWtlIGEgbG9vayBhdCB0aGUgRFJNIHNjaGVkdWxlci4gT25jZSBJIHN0
-YXJ0ZWQgdG8gd2lyZSB1cAp0aGUgRFJNIHNjaGVkdWxlciBzdXBwb3J0IGluIHRoZSBncmF0ZS1k
-cml2ZXIsIEkgcmVhbGl6ZWQgdGhhdCB0aGVyZSBpcwpubyByZWFsIG5lZWQgdG8gdHJ5IHRvIHJl
-Y292ZXIgc3luYyBwb2ludCdzIGNvdW50ZXIgYW5kIGV0YywgbGlrZSB0aGUKY3VycmVudCB1cHN0
-cmVhbSBob3N0MXggZHJpdmVyIGRvZXMgZm9yIGEgaGFuZ2VkIGpvYi4gV2hlbiBqb2IgaXMKaGFu
-Z2VkLCB0aGUgd2hvbGUgY2hhbm5lbCBzaG91bGQgYmUgdHVybmVkIGRvd24gYW5kIHJlc2V0LCB0
-aGUgam9iJ3MKc3luYyBwb2ludCBzdGF0ZSByZXNldCwgY2xpZW50J3MgSFcgZW5naW5lIHJlc2V0
-LCBhbGwgdGhlIHByZS1xdWV1ZWQKam9icyByZS1zdWJtaXR0ZWQuIEFuZCB0aGUgZ2VuZXJpYyBE
-Uk0gam9iIHNjaGVkdWxlciBoZWxwcyB1cyB3aXRoIHRoYXQhCkl0IGFsc28gaGFzIG90aGVyIG5l
-YXQgZmVhdHVyZXMgd2hpY2ggSSBoYXZlbid0IHRyaWVkIHlldCwgbGlrZSBqb2IKcHJpb3JpdGll
-cyBmb3IgZXhhbXBsZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+Hi Laurent,
+
+On Sun, 2020-06-28 at 11:22 +0300, Laurent Pinchart wrote:
+> Hi Liu,
+> 
+> (CC'ing Sam)
+> 
+> Thank you for the patch.
+
+Thanks for your review.
+
+> 
+> On Tue, Jun 16, 2020 at 05:04:52PM +0800, Liu Ying wrote:
+> > It doesn't hurt to add the bridge in the global bridge list also
+> > for
+> > platform specific dw-hdmi drivers which are based on the component
+> > framework.  This can be achieved by moving the drm_bridge_add()
+> > function
+> > call from dw_hdmi_probe() to __dw_hdmi_probe().  Moreover, putting
+> > the
+> > drm_bridge_add() function call prior to the interrupt registration
+> > and
+> > enablement ensures that the mutex hpd_mutex embedded in the
+> > structure
+> > drm_bridge can be initialized in drm_bridge_add() beforehand, which
+> > avoids accessing the uninitialized mutex in case people want to
+> > call
+> > function drm_bridge_hpd_notify() with the mutex locked internally
+> > to
+> > handle hot plug detection event in the interrupt handler
+> > dw_hdmi_irq().
+> > 
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > Cc: Cheng-Yi Chiang <cychiang@chromium.org>
+> > Cc: Dariusz Marcinkiewicz <darekm@google.com>
+> > Cc: Archit Taneja <architt@codeaurora.org>
+> > Cc: Jose Abreu <joabreu@synopsys.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> > Laurent,
+> > 
+> > I may see the uninitialized mutex accessing issue with
+> > i.MX dw-hdmi after applying your below patch set[1].
+> > I think patch '[22/27] drm: bridge: dw-hdmi: Make connector
+> > creation optional'
+> > triggers the issue.
+> > 
+> > [1] 
+> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fcover%2F11569709%2F&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7Cca86b38a5fbc49a44b1c08d81b3c5cde%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637289293354715359&amp;sdata=C7kz8HONVSNMYkQGb4h9uVcdZHqJVSmtwgnN4J2cKws%3D&amp;reserved=0
+> > 
+> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 34 ++++++++++++++-----
+> > ------------
+> >  1 file changed, 15 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> > b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> > index da84a91..4711700 100644
+> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> > @@ -3247,17 +3247,25 @@ __dw_hdmi_probe(struct platform_device
+> > *pdev,
+> >  
+> >  	dw_hdmi_init_hw(hdmi);
+> >  
+> > +	hdmi->bridge.driver_private = hdmi;
+> > +	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
+> > +#ifdef CONFIG_OF
+> > +	hdmi->bridge.of_node = pdev->dev.of_node;
+> > +#endif
+> > +
+> > +	drm_bridge_add(&hdmi->bridge);
+> 
+> This would introduce a race condition where a display driver could
+> get
+> hold of the bridge before it is fully initialized.
+
+Yes, it seems it's a bit too early to add the bridge in the global
+bridge list.
+
+> 
+> I fear the right fix for this may be to add a drm_bridge_init()
+> function
+> to move mutex initialization away from drm_bridge_add(). That's a
+> rather
+> intrusive change I'm afraid :-(
+
+Looking into the issue more closely, it may be solved by moving
+drm_bridge_add() from dw_hdmi_probe() to __dw_hdmi_probe() just before
+__dw_hdmi_probe() returns successfully and a counterpart movement for
+drm_bridge_remove(). The key is that hdmi->bridge.dev must be !NULL
+when drm_bridge_hpd_notify() is called in dw_hdmi_irq() and
+hdmi->bridge.dev is set in drm_bridge_attach() after drm_bridge_add()
+is called.
+
+This looks more safe because there is no logic change as
+dw_hdmi_probe()/dw_hdmi_remove() see and just an additional
+drm_bridge_add()/drm_bridge_remove() call as
+dw_hdmi_bind()/dw_hdmi_unbind() see.
+
+I plan to test this with i.MX dw-hdmi tomorrow.
+
+> 
+> > +
+> >  	irq = platform_get_irq(pdev, 0);
+> >  	if (irq < 0) {
+> >  		ret = irq;
+> > -		goto err_iahb;
+> > +		goto err_irq;
+> >  	}
+> >  
+> >  	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
+> >  					dw_hdmi_irq, IRQF_SHARED,
+> >  					dev_name(dev), hdmi);
+> >  	if (ret)
+> > -		goto err_iahb;
+> > +		goto err_irq;
+> >  
+> >  	/*
+> >  	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk
+> > regenerator
+> > @@ -3290,12 +3298,6 @@ __dw_hdmi_probe(struct platform_device
+> > *pdev,
+> >  			hdmi->ddc = NULL;
+> >  	}
+> >  
+> > -	hdmi->bridge.driver_private = hdmi;
+> > -	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
+> > -#ifdef CONFIG_OF
+> > -	hdmi->bridge.of_node = pdev->dev.of_node;
+> > -#endif
+> > -
+> >  	if (hdmi->version >= 0x200a)
+> >  		hdmi->connector.ycbcr_420_allowed =
+> >  			hdmi->plat_data->ycbcr_420_allowed;
+> > @@ -3357,6 +3359,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
+> >  
+> >  	return hdmi;
+> >  
+> > +err_irq:
+> > +	drm_bridge_remove(&hdmi->bridge);
+> >  err_iahb:
+> >  	clk_disable_unprepare(hdmi->iahb_clk);
+> >  	if (hdmi->cec_clk)
+> > @@ -3371,6 +3375,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
+> >  
+> >  static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
+> >  {
+> > +	drm_bridge_remove(&hdmi->bridge);
+> > +
+> >  	if (hdmi->audio && !IS_ERR(hdmi->audio))
+> >  		platform_device_unregister(hdmi->audio);
+> >  	if (!IS_ERR(hdmi->cec))
+> > @@ -3396,22 +3402,12 @@ static void __dw_hdmi_remove(struct dw_hdmi
+> > *hdmi)
+> >  struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+> >  			      const struct dw_hdmi_plat_data
+> > *plat_data)
+> >  {
+> > -	struct dw_hdmi *hdmi;
+> > -
+> > -	hdmi = __dw_hdmi_probe(pdev, plat_data);
+> > -	if (IS_ERR(hdmi))
+> > -		return hdmi;
+> > -
+> > -	drm_bridge_add(&hdmi->bridge);
+> > -
+> > -	return hdmi;
+> > +	return __dw_hdmi_probe(pdev, plat_data);
+> >  }
+> >  EXPORT_SYMBOL_GPL(dw_hdmi_probe);
+> 
+> Do we need to keep __dw_hdmi_probe() and dw_hdmi_probe(), can't we
+> rename __dw_hdmi_probe() to dw_hdmi_probe() ? Same for the remove
+> functions.
+
+Yes, the renaming makes sense. Will do that in V2 if the above new
+solution stands.
+
+Regards,
+Liu Ying
+
+> 
+> >  
+> >  void dw_hdmi_remove(struct dw_hdmi *hdmi)
+> >  {
+> > -	drm_bridge_remove(&hdmi->bridge);
+> > -
+> >  	__dw_hdmi_remove(hdmi);
+> >  }
+> >  EXPORT_SYMBOL_GPL(dw_hdmi_remove);
+> 
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
