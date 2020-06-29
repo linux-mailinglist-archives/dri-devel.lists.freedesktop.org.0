@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5F920D090
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 20:19:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9136D20D091
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 20:19:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D1789F1B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A205A89F35;
 	Mon, 29 Jun 2020 18:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17C489E39
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 18:19:25 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id b184so1833028pfa.6
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:19:25 -0700 (PDT)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1FC289F0A
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 18:19:26 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id d4so8678446pgk.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/NcQmzB/12sdIDSUANv/DWZPIgxSIz4p962Qo3Ee9Xk=;
- b=LMYg4oGGKEaTmenbEsK0CIKVFhkJl9YAlVxpJdly4EOkbl0HBYt/5Ha3Srnig1UBoT
- h/qtDvpv74MmjMgwV/9506Og5qSGCJS4PBTr6dfpCvg0SAypsOTCJWlbnS2WI3W6lbGg
- Axn0byRolbnuj2z0dG5vUAetEKbHsjSf+tgr2Kp3+KAWsPh4O8Kcop2ltFxfxWHz8xAW
- 8XwtIByCbeYbP9ZsKlGCD+/kFf5aZJQfNPO36x2f739Z+hm41rea47av0faYwnP1THe+
- oug4dfKuvUmE7TkKBumQDViI1es4IbdlihRotJdDQ43nRGgnfWdJ2prNvsLJ7P8nVnnL
- fmMg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1oi0v4BTqqsBj+gW6Vk8gVF71VLAujXP7ErpOuZ8DBU=;
+ b=yQLnvAyjAr+LxeKzCBz+Cz38qqs13PpJx/G/GeiT7S+YT7j/jCgsNknnuMVghwTLwa
+ p+B7z41EM1Sg+VeQ9+I4Ii1bpu12EIl+9TIXwwW2s4A2UziC7U31raM4gmDloGG7KreY
+ 3XQ+vjN2fr+VG+XPUuRYRaSThXnqdOLqD6pAv8vqTMeAuXGl/AXgyLtfNyU7t54zcDQn
+ xiCVg6AOhQlcTQWiOvjs8bRz9yU/gdGQXO+cB5MLKRY2MP642FevbdHkvjUOWZXTIN+M
+ WRVB8z0/ZnlvmcnGzsHaukTLfq1LnQ4/9GWydJFNGlrDTsCENJvlonF0h05dbumSvzwp
+ IHNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/NcQmzB/12sdIDSUANv/DWZPIgxSIz4p962Qo3Ee9Xk=;
- b=URyA53wOujBw4ngzE8wU/HoPrB8whsZ5lTB+GrdHHgyazw+MBvgBybdpGBHQebqzYj
- 4WK7Au/fFnldwGEZ61S/gC+rSGgKVrBvYAVXZEYNKqHjVktSEoj04hqFIGp7wBT8LM5M
- n+mIQQCgy20qYc19Ub10UImxUj3JnyAIt508QcuSIYUyVaIubdpohjhrXx234qrkz8Ra
- fTknLjjP8nxFvDuWZKCt5KNs/ikN4e3P/wuobGRvWt/8bL+J8yLgi7+inOosTuA6xHge
- aK780O8Fwv4SU6k7T867L/sn4P0wbqoOlx66UtrjWkoPqXqT+MdBKsm8VEfon7k/yKPp
- DISw==
-X-Gm-Message-State: AOAM532am2mlAQXAlsgZtefo8KdwOAi6eedspb6/JYLRQVtZyKzNzzg1
- 2JN1n3TBChXw2gNeHuO0ymuv2LodDK41mg==
-X-Google-Smtp-Source: ABdhPJydZmEj+KGJUb2VhyoF11wEycqqrieadtqlO/4guD0EeDtJASVLB7TAqDKHTzBvaC/X7SqBAw==
-X-Received: by 2002:aa7:91d4:: with SMTP id z20mr14642359pfa.153.1593454765199; 
- Mon, 29 Jun 2020 11:19:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1oi0v4BTqqsBj+gW6Vk8gVF71VLAujXP7ErpOuZ8DBU=;
+ b=q0V0+to/rkY4w/aA2bVs5YK8lIlhwGkQfp7Nqp3TPgJPCx3qMqmSjo7JYOmfQxa5pk
+ tey8NMQ1dl6NXKrUZ0hIlb1Oq6F85TNO7cspqZ6xlOIMIUBRm956mwpemO6D5aR+f9qB
+ Lm5qfO7ZiDtUbjSgyoc+FW7zRnpP7jGhEHGxyrU2uqm49FLyC7ToWQ07zKR0demC4RcA
+ ERHd3rlhj2rSvXRxtcEltY1WykqfGtEL9l/Rs16ajuNepiiVakjizht4I1Tfx1/u0wZU
+ y7JcE6m2EmJxSPE+7BbZknj49MtiM2uJsHvuWsMDvGNug2SgwNUmlrMaJWHxPYCYQrut
+ CA/g==
+X-Gm-Message-State: AOAM530yfKxtoO/BVVIsYR4A7L3I/Kj+3oDZCKZDMZltJ+5yCddx/3Ws
+ axYLBsAAIPIESoqvc2TUeTtqj3WgHxr4Vw==
+X-Google-Smtp-Source: ABdhPJwxzpypgasS1TUWuGtTez4i3IrG6t1gNltC8YqyLfhomKv2+LqAnOB6FD7cpbGSwbn/8KX1YQ==
+X-Received: by 2002:a63:fc09:: with SMTP id j9mr11866988pgi.308.1593454766126; 
+ Mon, 29 Jun 2020 11:19:26 -0700 (PDT)
 Received: from miranda.anholt.net ([97.115.155.172])
- by smtp.gmail.com with ESMTPSA id a9sm359463pfr.103.2020.06.29.11.19.24
+ by smtp.gmail.com with ESMTPSA id a9sm359463pfr.103.2020.06.29.11.19.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 11:19:24 -0700 (PDT)
+ Mon, 29 Jun 2020 11:19:25 -0700 (PDT)
 From: Eric Anholt <eric@anholt.net>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Jordan Crouse <jcrouse@codeaurora.org>
-Subject: [PATCH 1/2] drm/msm: Garbage collect unused resource _len fields.
-Date: Mon, 29 Jun 2020 11:19:20 -0700
-Message-Id: <20200629181921.3019271-1-eric@anholt.net>
+Subject: [PATCH 2/2] drm/msm: Quiet error during failure in optional resource
+ mappings.
+Date: Mon, 29 Jun 2020 11:19:21 -0700
+Message-Id: <20200629181921.3019271-2-eric@anholt.net>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200629181921.3019271-1-eric@anholt.net>
+References: <20200629181921.3019271-1-eric@anholt.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,117 +76,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nothing was using the lengths of these ioremaps.
+We don't expect to find vbif_nrt or regdma on cheza, but were clogging
+up dmesg with errors about it.
 
 Signed-off-by: Eric Anholt <eric@anholt.net>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 21 ---------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h  |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c |  9 ---------
- 3 files changed, 31 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  4 ++--
+ drivers/gpu/drm/msm/msm_drv.c           | 22 ++++++++++++++++++----
+ drivers/gpu/drm/msm/msm_drv.h           |  2 ++
+ 3 files changed, 22 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 680527e28d09..a4ab802fee6d 100644
+index a4ab802fee6d..d9aef2b5e930 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -45,20 +45,6 @@
- static int dpu_kms_hw_init(struct msm_kms *kms);
- static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
- 
--static unsigned long dpu_iomap_size(struct platform_device *pdev,
--				    const char *name)
--{
--	struct resource *res;
--
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
--	if (!res) {
--		DRM_ERROR("failed to get memory resource: %s\n", name);
--		return 0;
--	}
--
--	return resource_size(res);
--}
--
- #ifdef CONFIG_DEBUG_FS
- static int _dpu_danger_signal_status(struct seq_file *s,
- 		bool danger_status)
-@@ -844,7 +830,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 		goto error;
- 	}
- 	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
--	dpu_kms->mmio_len = dpu_iomap_size(dpu_kms->pdev, "mdp");
- 
- 	dpu_kms->vbif[VBIF_RT] = msm_ioremap(dpu_kms->pdev, "vbif", "vbif");
- 	if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
-@@ -853,22 +838,16 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+@@ -838,13 +838,13 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
  		dpu_kms->vbif[VBIF_RT] = NULL;
  		goto error;
  	}
--	dpu_kms->vbif_len[VBIF_RT] = dpu_iomap_size(dpu_kms->pdev, "vbif");
- 	dpu_kms->vbif[VBIF_NRT] = msm_ioremap(dpu_kms->pdev, "vbif_nrt", "vbif_nrt");
+-	dpu_kms->vbif[VBIF_NRT] = msm_ioremap(dpu_kms->pdev, "vbif_nrt", "vbif_nrt");
++	dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(dpu_kms->pdev, "vbif_nrt", "vbif_nrt");
  	if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
  		dpu_kms->vbif[VBIF_NRT] = NULL;
  		DPU_DEBUG("VBIF NRT is not defined");
--	} else {
--		dpu_kms->vbif_len[VBIF_NRT] = dpu_iomap_size(dpu_kms->pdev,
--							     "vbif_nrt");
  	}
  
- 	dpu_kms->reg_dma = msm_ioremap(dpu_kms->pdev, "regdma", "regdma");
+-	dpu_kms->reg_dma = msm_ioremap(dpu_kms->pdev, "regdma", "regdma");
++	dpu_kms->reg_dma = msm_ioremap_quiet(dpu_kms->pdev, "regdma", "regdma");
  	if (IS_ERR(dpu_kms->reg_dma)) {
  		dpu_kms->reg_dma = NULL;
  		DPU_DEBUG("REG_DMA is not defined");
--	} else {
--		dpu_kms->reg_dma_len = dpu_iomap_size(dpu_kms->pdev, "regdma");
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index f6ce40bf3699..df4a3c6a49cd 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -120,8 +120,8 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
+ 	return clk;
+ }
+ 
+-void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
+-		const char *dbgname)
++void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
++			   const char *dbgname, bool quiet)
+ {
+ 	struct resource *res;
+ 	unsigned long size;
+@@ -133,7 +133,8 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
+ 		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 
+ 	if (!res) {
+-		DRM_DEV_ERROR(&pdev->dev, "failed to get memory resource: %s\n", name);
++		if (!quiet)
++			DRM_DEV_ERROR(&pdev->dev, "failed to get memory resource: %s\n", name);
+ 		return ERR_PTR(-EINVAL);
  	}
  
- 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index 4e32d040f1e6..13034cdb8665 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -100,7 +100,6 @@ struct dpu_kms {
+@@ -141,7 +142,8 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
  
- 	/* io/register spaces: */
- 	void __iomem *mmio, *vbif[VBIF_MAX], *reg_dma;
--	unsigned long mmio_len, vbif_len[VBIF_MAX], reg_dma_len;
+ 	ptr = devm_ioremap(&pdev->dev, res->start, size);
+ 	if (!ptr) {
+-		DRM_DEV_ERROR(&pdev->dev, "failed to ioremap: %s\n", name);
++		if (!quiet)
++			DRM_DEV_ERROR(&pdev->dev, "failed to ioremap: %s\n", name);
+ 		return ERR_PTR(-ENOMEM);
+ 	}
  
- 	struct regulator *vdd;
- 	struct regulator *mmagic;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-index 80d3cfc14007..9f20b84d5c0a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-@@ -37,7 +37,6 @@ struct dpu_mdss_hw_init_handler {
- struct dpu_mdss {
- 	struct msm_mdss base;
- 	void __iomem *mmio;
--	unsigned long mmio_len;
- 	struct dss_module_power mp;
- 	struct dpu_irq_controller irq_controller;
- 	struct icc_path *path[2];
-@@ -292,7 +291,6 @@ int dpu_mdss_init(struct drm_device *dev)
+@@ -151,6 +153,18 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
+ 	return ptr;
+ }
+ 
++void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
++			  const char *dbgname)
++{
++	return _msm_ioremap(pdev, name, dbgname, false);
++}
++
++void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name,
++				const char *dbgname)
++{
++	return _msm_ioremap(pdev, name, dbgname, true);
++}
++
+ void msm_writel(u32 data, void __iomem *addr)
  {
- 	struct platform_device *pdev = to_platform_device(dev->dev);
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct resource *res;
- 	struct dpu_mdss *dpu_mdss;
- 	struct dss_module_power *mp;
- 	int ret = 0;
-@@ -308,13 +306,6 @@ int dpu_mdss_init(struct drm_device *dev)
+ 	if (reglog)
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index e2d6a6056418..2687f7a42c15 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -411,6 +411,8 @@ struct clk *msm_clk_bulk_get_clock(struct clk_bulk_data *bulk, int count,
+ 	const char *name);
+ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
+ 		const char *dbgname);
++void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name,
++		const char *dbgname);
+ void msm_writel(u32 data, void __iomem *addr);
+ u32 msm_readl(const void __iomem *addr);
  
- 	DRM_DEBUG("mapped mdss address space @%pK\n", dpu_mdss->mmio);
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mdss");
--	if (!res) {
--		DRM_ERROR("failed to get memory resource for mdss\n");
--		return -ENOMEM;
--	}
--	dpu_mdss->mmio_len = resource_size(res);
--
- 	ret = dpu_mdss_parse_data_bus_icc_path(dev, dpu_mdss);
- 	if (ret)
- 		return ret;
 -- 
 2.26.2
 
