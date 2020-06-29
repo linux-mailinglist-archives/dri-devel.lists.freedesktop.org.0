@@ -1,61 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BAE20CCD5
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 08:51:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DBD20CCDA
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 08:51:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7E096E409;
-	Mon, 29 Jun 2020 06:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F40106E41B;
+	Mon, 29 Jun 2020 06:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9666E40B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 03:18:59 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id t9so8239434lfl.5
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jun 2020 20:18:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SDOxLugkRc98jm7/ARfCzhMETuCaOUFDx45/EJB4D+Q=;
- b=bfBHZ1yogzA+VchQuTWQ0ker0M7Ji52RzCTwoGXm06HNI7t2KEy0ospuNpn1bEfOSw
- c7cI6vm3MJcC9QTkjncuEjp7GI9q3Kqlsgr2MhvKE6ltS/sj/njHE3j6bHDtttpAqogT
- rpy/fKBU+ZGp3BZiEK8sW7pj2sF6oF/oO2Wvdxj0EK+EF3kah1BKYf2SZnQxPzBFpkkL
- S82UVk4ewUdu0eBv+TaWi4sM4vglFiCsYVHJkx1pDzSGgVLIvJuESID8Pwdh3JXXQXQu
- ws/X5bvJrLAmGDdMoisRvW+V+pKq1JvwxrR7+D4dNalMbSAPVsz1MlVUb5Y54+QjPPRl
- 1glQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SDOxLugkRc98jm7/ARfCzhMETuCaOUFDx45/EJB4D+Q=;
- b=edSL/t1CsaApv/T0tno5VTxB7FCYFFvf9VEBNKg9eApX5gFeqMqgFlNl9/XqCwY6JS
- Gn536uLkXd1xY/kvB8o00j1pqOOM0LbMjdnBl6HS5tEpr/61g4wCdvr+i5IkXvq6VcYw
- H69tWdcF65mct4aUaj7fIK1n3SyguGuNkON/ArzKrW/hTJlOryc730gpvZJ3eSjeEylh
- BRKsct32+AJv05CJtAUG3b/RsgFNLH9DQJngEjPk3cJIaLex61y23VsKfqJyPBR0Jqkb
- tN5iXhe32Y+QB6yZtZ74bZOHKa8yElgGrRS2eH21s/M0++qrvm1goYHqbsv6mS/Pzyf9
- 3XNA==
-X-Gm-Message-State: AOAM532HN1zeUqrFz2/rn5CVXaxkgDHtLwZ2seAs0jNVJSBtKKIZs0NX
- +HlTNtLsnkcfFHtZrGIr3Xw=
-X-Google-Smtp-Source: ABdhPJyyQwfSCzRkdvYbrlKjQwQFxvBehxFedIbbhc6doEWkZGUOabFsSpUXNuMFOVNEocXvmKZUUw==
-X-Received: by 2002:ac2:5593:: with SMTP id v19mr8025383lfg.43.1593400737514; 
- Sun, 28 Jun 2020 20:18:57 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id m1sm2383295ljg.60.2020.06.28.20.18.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Jun 2020 20:18:57 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v2 6/6] gpu: host1x: debug: Dump push buffer state
-Date: Mon, 29 Jun 2020 06:18:42 +0300
-Message-Id: <20200629031842.32463-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200629031842.32463-1-digetx@gmail.com>
-References: <20200629031842.32463-1-digetx@gmail.com>
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70057.outbound.protection.outlook.com [40.107.7.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED1789FE8;
+ Mon, 29 Jun 2020 03:31:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ft6yglmTHDVtktlMCxhD3ymSmvoGXhnIDhqDHVQvr9GCpl/gEIJPktMMYuPzjL/N0uoBSlJRaAB+yDuK+yqPAwvWwW6YjTjdNg4izkml65jp6JQ2Z065mPV9S+qr31jOhCSZd/5s1xinsQej+FXh6r2cvRgPjpon8lkQRFM7CWBXLwhBuVSKGGOx6aswBKpEs1sWiXM/5NsLM/RHElyvUTGxhKB7S0MMpbHQAdOTnHjZWGnCMYefHdLIq+11h5JpPllQ9oQYyZoYoL86MIRtAjtPrzO0sc0g+/ycLyMLkNIBObcE5Iy6xDtICIM2IVXBKKLEd0Otx2NGMHo8O2JLjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mbKZYLhhSZayRn3tTTgkkMtREn3iOksaorqNPNx6jKw=;
+ b=dY4SWRWXZAR+OzMdKJESp1Fg/Yd65biXL30q/ouFgXLfc+kclwQB5Jp0csFkjDQTuROGKcCNNgHo4TLFzNseX4kFQR9nVd0lzPBAlag9j1ZWhhvgALXaRlPxpldDQKqhy0+AucSF4s+Q/Lkc5o0liWKT8P6mfJw9Hhf38LuUlTDwR9HgsorKWWJSeuI160H2ReaNEAFlPAweeBu/5GlztIcoPobffO9qHLbt8uwYG2y1an2esZnmB9Y47bjG0/BuLpcYQZOc5LzxBmpxh7eZFWcUILgTgemggfLVmmqdKrm1V9N3aG9v9K6+wxFwZdz06AT4Pd8jKoEfd6d//P2Yjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mbKZYLhhSZayRn3tTTgkkMtREn3iOksaorqNPNx6jKw=;
+ b=Sx1YMjRU9TVbQBX+5GNLK8ucd4kUsPr6T8rASCYgOmOv01+6F95YmMJPSB5r+ELfllGgp06LK3yPXXYG1paGWW/nPpk0amj/Kl+ClnHchKeP+Rkepel0pfqk6U0qTtbvx5ygGEgxlkffltdeDIF7igqfW5C80KgEOHNL/JED9u0=
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com (2603:10a6:20b:118::20)
+ by AM6PR04MB5320.eurprd04.prod.outlook.com (2603:10a6:20b:3::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Mon, 29 Jun
+ 2020 03:31:11 +0000
+Received: from AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a]) by AM7PR04MB7157.eurprd04.prod.outlook.com
+ ([fe80::1101:adaa:ee89:af2a%3]) with mapi id 15.20.3131.027; Mon, 29 Jun 2020
+ 03:31:11 +0000
+From: Peter Chen <peter.chen@nxp.com>
+To: Nicolas Boichat <drinkcat@chromium.org>
+Subject: Re: [PATCH 1/4] usb: cdns3: gadget: Replace trace_printk by dev_dbg
+Thread-Topic: [PATCH 1/4] usb: cdns3: gadget: Replace trace_printk by dev_dbg
+Thread-Index: AQHWTFEU7Ns/P6zMj06V9UlvThL4Oaju8vKA
+Date: Mon, 29 Jun 2020 03:31:11 +0000
+Message-ID: <20200629033134.GA30684@b29397-desktop>
+References: <20200627070307.516803-1-drinkcat@chromium.org>
+ <20200627070307.516803-2-drinkcat@chromium.org>
+In-Reply-To: <20200627070307.516803-2-drinkcat@chromium.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: chromium.org; dkim=none (message not signed)
+ header.d=none;chromium.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.67]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 19f9d785-7766-4c26-5286-08d81bdcdec2
+x-ms-traffictypediagnostic: AM6PR04MB5320:
+x-microsoft-antispam-prvs: <AM6PR04MB53209C23033CCB5B5DE292CF8B6E0@AM6PR04MB5320.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wOY4bwYTyOMFB6cCYp4abZPoOGUTO0s+HfgQNJnOKMgSoMN5Pk6EomxRk+Sqa4yVPhN9H2xSp28MMQKnvopGWxEn+JoVfOFr2lYLN6U7zrxOYZeytPyZ3A3XjEK4mV/UPyxrebMSHn66xuptz7uczTOR/ZSiklPzC7HtlOWZV0mcD5A4LDQmsyalyNjDyGPAT1tY7jtUnDRG0uAj8+jBkNwZQhP0V7kBJGrRW5BLwrdhcChjM5m0ifl7YNmZLsFVEZ9fX1fCIpYVvke7LARciBPuvkaNO2QtZzKI4FNx0bTRK57eiQ3TL9rtFFulO61Wkds5gjALGubHD1okUI8QmQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7157.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(7916004)(366004)(136003)(376002)(346002)(396003)(39860400002)(6486002)(66946007)(91956017)(76116006)(66476007)(83380400001)(66556008)(64756008)(66446008)(86362001)(54906003)(8676002)(8936002)(6506007)(53546011)(5660300002)(44832011)(186003)(4326008)(4744005)(26005)(478600001)(9686003)(6512007)(33716001)(71200400001)(33656002)(6916009)(1076003)(7416002)(7406005)(2906002)(316002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: UJBNCRkEMWrUuyeIaNECfY/rPk198XO/0DkgAID4y8CVG/DFFsq1Y+exsmDroSy319akil2gX5VNSsJT7Serzf7ZpxTYf8JuCRQUcqba3eQ3mHOQlIKbxOzUwBgDSjSOr5+5DHbqtWHYMPGcPaLbb/xpT4SGsfPxMCXqq7kYl86JdBQEMVIVw02QfWN3a5NZ5IOOgEh/nCG28qrnsCbbT8TGtGzKyylYclqh0AGLG9bDtNCKhnsv+47v9FvJ8cYYjr5vh7/YD2JKP+V3X22HL5xq+yJ2iwMorzuaS1oHJjzD6atvrNI6ujmFd+p9IGf69S2kGMm9zyv1sD7nfvtUJz1Q9k0zRcsecotU7/IJnUeDdwIvCgkLt0kC2xe7ldwXmzrMoiLmEsNo8KKWXIOAvTCn/Aud3ru3YQC8j9rCNwiLSCB+owhStUOg8qj71DONhWQGFZQt9ws1SXJvpXTBWpM7HtEZbGMTkZ1fsU/23pA=
+x-ms-exchange-transport-forked: True
+Content-ID: <8E174474B701384BA7BA90CB938E0144@eurprd04.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7157.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19f9d785-7766-4c26-5286-08d81bdcdec2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 03:31:11.6315 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gr8Ppd6maaY3NNnKCQ+jMhOUPQz4dm45gkCxdQGca7AZAdp/+jHYXfUeMOAv+ojAUhzes2JwFn5zGfzxHrCiUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5320
 X-Mailman-Approved-At: Mon, 29 Jun 2020 06:50:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,44 +95,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+ Rafael Aquini <aquini@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Howells <dhowells@redhat.com>, Tiezhu Yang <yangtiezhu@loongson.cn>,
+ Will Deacon <will@kernel.org>,
+ Christian Brauner <christian.brauner@ubuntu.com>,
+ Kees Cook <keescook@chromium.org>,
+ "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jayshri Pawar <jpawar@cadence.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andy Gross <agross@kernel.org>,
+ Tomas Winkler <tomas.winkler@intel.com>, Alexey Dobriyan <adobriyan@gmail.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Pawel Laszczak <pawell@cadence.com>, Arnd Bergmann <arnd@arndb.de>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Chao Yu <chao@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Divya Indi <divya.indi@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When job hangs and there is a memory error pointing at channel's push
-buffer, it is very handy to know the push buffer's state. This patch
-makes the push buffer's state to be dumped into KMSG in addition to the
-job's gathers.
+On 20-06-27 15:03:04, Nicolas Boichat wrote:
+> trace_printk should not be used in production code, replace it
+> call with dev_dbg.
+> 
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> 
+> ---
+> 
+> Unclear why a trace_printk was used in the first place, it's
+> possible that some rate-limiting is necessary here.
+> 
+>  drivers/usb/cdns3/gadget.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
+> index 5e24c2e57c0d8c8..c303ab7c62d1651 100644
+> --- a/drivers/usb/cdns3/gadget.c
+> +++ b/drivers/usb/cdns3/gadget.c
+> @@ -421,7 +421,7 @@ static int cdns3_start_all_request(struct cdns3_device *priv_dev,
+>  		if ((priv_req->flags & REQUEST_INTERNAL) ||
+>  		    (priv_ep->flags & EP_TDLCHK_EN) ||
+>  			priv_ep->use_streams) {
+> -			trace_printk("Blocking external request\n");
+> +			dev_dbg(priv_dev->dev, "Blocking external request\n");
+>  			return ret;
+>  		}
+>  	}
+> -- 
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/host1x/hw/debug_hw.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Reviewed-by: Peter Chen <peter.chen@nxp.com>
 
-diff --git a/drivers/gpu/host1x/hw/debug_hw.c b/drivers/gpu/host1x/hw/debug_hw.c
-index 02125842071c..f31bcfa1b837 100644
---- a/drivers/gpu/host1x/hw/debug_hw.c
-+++ b/drivers/gpu/host1x/hw/debug_hw.c
-@@ -192,8 +192,14 @@ static void show_gather(struct output *o, phys_addr_t phys_addr,
- 
- static void show_channel_gathers(struct output *o, struct host1x_cdma *cdma)
- {
-+	struct push_buffer *pb = &cdma->push_buffer;
- 	struct host1x_job *job;
- 
-+	host1x_debug_output(o, "PUSHBUF at %pad, %u words\n",
-+			    &pb->dma, pb->size / 4);
-+
-+	show_gather(o, pb->dma, pb->size / 4, cdma, pb->dma, pb->mapped);
-+
- 	list_for_each_entry(job, &cdma->sync_queue, list) {
- 		unsigned int i;
- 
 -- 
-2.26.0
 
+Thanks,
+Peter Chen
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
