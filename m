@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B9A20CD53
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 10:33:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A8B20CD54
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 10:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3576E423;
-	Mon, 29 Jun 2020 08:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 884D06E427;
+	Mon, 29 Jun 2020 08:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E226E423
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 08:33:14 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id j18so14528953wmi.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 01:33:14 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB2876E427
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 08:33:28 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z13so15626981wrw.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 01:33:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JL/R2Gk95aMqnh/tOQo8+arLcYW1SEEkw+GXG7Cww8A=;
- b=LdnlEGiclZ040S0PvH/uCI8WKJc61uscxqQFG32CjFluZY/v34pQE8JQgmFmQvIUc9
- GTiSZYfWPQWyST6m5IYg7JVyEmhS5VwXue/3eNlKQ7XgaiFpjIhVfTKzRSoh055dHEAa
- GGhJ+zMVtf1/ybKgrQ1k0lcWRIyWH98pr/QEDf5QyDF4BCVnvysySZc/1J6i9eMKcVHk
- h0ieANMn67jrRhCtmalHq3VasAawNdNd5t7vjR9lVMB7ZHM5ifsBGUCBDX18ZGdsvbcx
- e8ZitnbQ/ruG1lH0JfJuN2Rsjtj2Ivio1H4tksSA/UWOobyw8rJRfHM48RqLq+DqD0dI
- 2pQQ==
+ bh=T1ZbU8vDwhdcN6rgiPhuc72rEw4MuPQfNKpfu9j4QRU=;
+ b=IC09zSgSrs1I2e1DmNjrMQoFspgxJ1nQTpdXCg7kPe87xWvyqdKkLI2Gr/4viIXw3U
+ KAmpTLE4Af+u2AnvD3jDdlDp34ib9EpPBd9uHFUQrnc5zvHJnI0DTiwj/UdWWxMqewYV
+ PAMrXa3geZsS64U2hopBl7Z4bBG7BqTuaFUMHl+1cgNZsgBAJ7C0RsCPImWLs4Ahm9y+
+ 9QXJ1kpSuAzxR7PvQUS/7xCAQK5X+h7ZJ464UjS4vbEv5yx8uoUM32eK/OzapG+Y2wze
+ o1p1FSUcJ2hbtpu+Z/XLs3zoh/4AyRm/mSKlOm9NI1sbNUWKDFxORHFRwmhAR9nzVVoT
+ jvEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=JL/R2Gk95aMqnh/tOQo8+arLcYW1SEEkw+GXG7Cww8A=;
- b=UhFrJR2Cu4cTnJpnH8g78wFv6/ikXjKqb70KRRwTnINcHQB+99iggkhE16M8rwoo8i
- +fbWfDvs8OR7qoTPZc55YCVe3Js4h3BI2NlHqCkgN5wxOlrGIA9CSjlB53mCx9eVNKcp
- FSHUDqv1p8xP3ZCdhqvL5k7TUzeeRmrp9HG3r7YmEdfgAU3x8ETLPsAQFBB8x91fu1h8
- QKiw4KDwcBve1tp9KpsHNPaQnyxHUeQVHDJH0affygIkPsvdE9KsgaeiD7wyyFrOxvRV
- xAzuSkavwFDq/NGrMnzSwelypy7K9k2XnskTTJoRuy9oN1XdQXn/bfZ/AXbo9gHBiYON
- y3kA==
-X-Gm-Message-State: AOAM532dt8NWMwqmwcEZftGXOY6701iRt1eAFkVk2i3fQpkyIkhF6sgd
- JWE1XtJlJgIemsk6n2ekgH6H4brDUUmDXQ==
-X-Google-Smtp-Source: ABdhPJxFsIK+1+mJoCnkvaEWujQLMpGkxdRXRSbuf57/8c2xw8a6zbtlo0FrgQZt5lSwuMDeWw721g==
-X-Received: by 2002:a1c:4086:: with SMTP id
- n128mr16120246wma.118.1593419592416; 
- Mon, 29 Jun 2020 01:33:12 -0700 (PDT)
+ bh=T1ZbU8vDwhdcN6rgiPhuc72rEw4MuPQfNKpfu9j4QRU=;
+ b=Oxi1MxoykweYt6+IbbWCLEyCIrAbCwWqOJN/cd5fp5XKEY5PhGFoQ5R1UcGh5nr4de
+ O2zhamqrGqEmXnQhCuZOfAOylea+uo+2C6dGYaDjD3I3J88k/wfYTK21snjsKQ/XuTew
+ Orb6PQoC6V+rxNiVfUBYfZk5oj9IAc8DXO6459zJq7mkmHvbIl8fJrAC2r+CLjLlVrRL
+ 0hDfJbenzIovdfwlxM0f8QAjGQXBrSitQnLBkfZ+NYNBcjyMAGJ45/+BZjGTN4Up8W5H
+ 8kyOSLFpBmBMZhaePnmFyVrDRe2HNlI90tLtCYsdPVB4IBnntlfAgaI2J7UFSKniiKq3
+ P1sA==
+X-Gm-Message-State: AOAM532Xs0KTFOq63IWxeobrNO+Cp4Y28wmJhXnRVkHOraSApR0UE3uG
+ gfcuA75/Yz+iUFATN2SUi2Ko8+xx7/cBiQ==
+X-Google-Smtp-Source: ABdhPJwRR2Jmm8ZrMaeQGldw0JVg8lAEMT69W9vNwwlgZjmPWjSyRhnaYKF8gLxo3t/MV7EErvYagA==
+X-Received: by 2002:adf:e60e:: with SMTP id p14mr15589643wrm.31.1593419606691; 
+ Mon, 29 Jun 2020 01:33:26 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:9902:c1f0:76c7:9dbc?
  ([2a01:e35:2ec0:82b0:9902:c1f0:76c7:9dbc])
- by smtp.gmail.com with ESMTPSA id p17sm26734746wma.47.2020.06.29.01.33.09
+ by smtp.gmail.com with ESMTPSA id 63sm51120339wra.86.2020.06.29.01.33.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 01:33:11 -0700 (PDT)
-Subject: Re: [PATCH v6 3/4] drm/bridge/sii8620: fix resource acquisition error
- handling
+ Mon, 29 Jun 2020 01:33:25 -0700 (PDT)
+Subject: Re: [PATCH v6 4/4] drm/bridge: lvds-codec: simplify error handling
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 References: <20200626100103.18879-1-a.hajda@samsung.com>
- <CGME20200626100110eucas1p24327c924dada0c2e86ecf0ab5b5af571@eucas1p2.samsung.com>
- <20200626100103.18879-4-a.hajda@samsung.com>
+ <CGME20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db@eucas1p1.samsung.com>
+ <20200626100103.18879-5-a.hajda@samsung.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <15310ceb-64dc-db07-dad5-8a1fcb5433eb@baylibre.com>
-Date: Mon, 29 Jun 2020 10:33:09 +0200
+Message-ID: <ba4337c1-97b5-46e7-8181-ffadf98935e8@baylibre.com>
+Date: Mon, 29 Jun 2020 10:33:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200626100103.18879-4-a.hajda@samsung.com>
+In-Reply-To: <20200626100103.18879-5-a.hajda@samsung.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -144,59 +142,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/06/2020 12:01, Andrzej Hajda wrote:
-> In case of error during resource acquisition driver should print error
-> message only in case it is not deferred probe, using dev_err_probe helper
-> solves the issue. Moreover it records defer probe reason for debugging.
+> Using dev_err_probe code has following advantages:
+> - shorter code,
+> - recorded defer probe reason for debugging,
+> - uniform error code logging.
 > 
 > Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
 > ---
->  drivers/gpu/drm/bridge/sil-sii8620.c | 21 +++++++++------------
->  1 file changed, 9 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/bridge/lvds-codec.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-> index 92acd336aa89..389c1f029774 100644
-> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
-> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-> @@ -2299,10 +2299,9 @@ static int sii8620_probe(struct i2c_client *client,
->  	INIT_LIST_HEAD(&ctx->mt_queue);
->  
->  	ctx->clk_xtal = devm_clk_get(dev, "xtal");
-> -	if (IS_ERR(ctx->clk_xtal)) {
-> -		dev_err(dev, "failed to get xtal clock from DT\n");
-> -		return PTR_ERR(ctx->clk_xtal);
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> index 24fb1befdfa2..f19d9f7a5db2 100644
+> --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -71,13 +71,9 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
+>  	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+>  							     GPIOD_OUT_HIGH);
+> -	if (IS_ERR(lvds_codec->powerdown_gpio)) {
+> -		int err = PTR_ERR(lvds_codec->powerdown_gpio);
+> -
+> -		if (err != -EPROBE_DEFER)
+> -			dev_err(dev, "powerdown GPIO failure: %d\n", err);
+> -		return err;
 > -	}
-> +	if (IS_ERR(ctx->clk_xtal))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->clk_xtal),
-> +				     "failed to get xtal clock from DT\n");
+> +	if (IS_ERR(lvds_codec->powerdown_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(lvds_codec->powerdown_gpio),
+> +				     "powerdown GPIO failure\n");
 >  
->  	if (!client->irq) {
->  		dev_err(dev, "no irq provided\n");
-> @@ -2313,16 +2312,14 @@ static int sii8620_probe(struct i2c_client *client,
->  					sii8620_irq_thread,
->  					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
->  					"sii8620", ctx);
-> -	if (ret < 0) {
-> -		dev_err(dev, "failed to install IRQ handler\n");
-> -		return ret;
-> -	}
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to install IRQ handler\n");
->  
->  	ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(ctx->gpio_reset)) {
-> -		dev_err(dev, "failed to get reset gpio from DT\n");
-> -		return PTR_ERR(ctx->gpio_reset);
-> -	}
-> +	if (IS_ERR(ctx->gpio_reset))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->gpio_reset),
-> +				     "failed to get reset gpio from DT\n");
->  
->  	ctx->supplies[0].supply = "cvcc10";
->  	ctx->supplies[1].supply = "iovcc18";
+>  	/* Locate the panel DT node. */
+>  	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
 > 
-
-Nice helper, totally missed this patchset before !
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 _______________________________________________
