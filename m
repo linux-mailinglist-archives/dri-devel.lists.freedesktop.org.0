@@ -2,57 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D0220CEE9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 15:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B05120CF42
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 16:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA49089CF3;
-	Mon, 29 Jun 2020 13:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFDC89CE3;
+	Mon, 29 Jun 2020 14:52:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D9C89CF3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 13:52:38 +0000 (UTC)
-IronPort-SDR: 2OEBldUnJAxojPeIlNttlBTen2mb+O8dvUkChS9pvWP2ZDzirJH3hPDj0RgeCfKG5DU5N/KHul
- uW2NQGPg7ozw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="211043394"
-X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="211043394"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2020 06:52:37 -0700
-IronPort-SDR: kHP9v6Rlm1lA5xFKxsFMGqzZMstKbePoIuIBVd0bjso8usPVaJEvRZDVxivmYZJAljqyWmCheV
- ZkinQFqBSdfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,294,1589266800"; d="scan'208";a="320645618"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2020 06:52:37 -0700
-Received: from fmsmsx156.amr.corp.intel.com (10.18.116.74) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 29 Jun 2020 06:52:37 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.74]) by
- fmsmsx156.amr.corp.intel.com ([169.254.13.189]) with mapi id 14.03.0439.000;
- Mon, 29 Jun 2020 06:52:36 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 2/2] drm/ttm: make TT creation purely optional v2
-Thread-Topic: [PATCH 2/2] drm/ttm: make TT creation purely optional v2
-Thread-Index: AQHWTg/dxCUGokMmF0Ot1o/yxVJSb6jvnBng
-Date: Mon, 29 Jun 2020 13:52:36 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663011C5E20E9@fmsmsx107.amr.corp.intel.com>
-References: <20200629122132.2371-1-christian.koenig@amd.com>
- <20200629122132.2371-2-christian.koenig@amd.com>
-In-Reply-To: <20200629122132.2371-2-christian.koenig@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.106]
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A62E289CE3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 14:52:16 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1593442339; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=SBDpthJsACP4X9l/XtUwp2evGNFSv28FhmlHvAnZ2bs=;
+ b=sOUVcLIKd4v9XjFCcRhR5xrU9UAYju1b0/+ZsBHpB3i/h9vpzp83X0mZ2iVnj5HwVrZ+8HXN
+ WP4/BIfUH3fTSxgSkyWXVnc5FIf81qEd0TsALaXIJbzS8pMpxUMmH7egsLhyhf5VqhT1SFfF
+ ckhpivHXcpkuAE4gHL2QO5mBaJA=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n14.prod.us-east-1.postgun.com with SMTP id
+ 5efa001aa3d8a4474330b08c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 29 Jun 2020 14:52:10
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id DDF19C43391; Mon, 29 Jun 2020 14:52:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A262AC433C6;
+ Mon, 29 Jun 2020 14:52:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A262AC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 29 Jun 2020 08:52:04 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH v9 6/7] drm/msm: Set the global virtual
+ address range from the IOMMU domain
+Message-ID: <20200629145203.GB25740@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Takashi Iwai <tiwai@suse.de>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>, 
+ John Stultz <john.stultz@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawn.guo@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Brian Masney <masneyb@onstation.org>
+References: <20200626200042.13713-1-jcrouse@codeaurora.org>
+ <20200626200042.13713-7-jcrouse@codeaurora.org>
+ <CAF6AEGuNSAYNMG6CH6VMuyjiz5dfRoLWQ9OAFxPJrFmBrHe+Wg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGuNSAYNMG6CH6VMuyjiz5dfRoLWQ9OAFxPJrFmBrHe+Wg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,103 +86,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, Brian Masney <masneyb@onstation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
-Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZg0KPkNocmlzdGlhbiBL
-w7ZuaWcNCj5TZW50OiBNb25kYXksIEp1bmUgMjksIDIwMjAgODoyMiBBTQ0KPlRvOiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+U3ViamVjdDogW1BBVENIIDIvMl0gZHJtL3R0bTog
-bWFrZSBUVCBjcmVhdGlvbiBwdXJlbHkgb3B0aW9uYWwgdjINCj4NCj5XZSBvbmx5IG5lZWQgdGhl
-IHBhZ2UgYXJyYXkgd2hlbiB0aGUgQk8gaXMgYWJvdXQgdG8gYmUgYWNjZXNzZWQuDQo+DQo+U28g
-bm90IG9ubHkgcG9wdWxhdGUsIGJ1dCBhbHNvIGNyZWF0ZSBpdCBvbiBkZW1hbmQuDQo+DQo+djI6
-IG1vdmUgTlVMTCBjaGVjayBpbnRvIHR0bV90dF9jcmVhdGUoKQ0KPg0KPlNpZ25lZC1vZmYtYnk6
-IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4tLS0NCj4gZHJp
-dmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyAgICAgIHwgMzcgKysrKysrKystLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0KPiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMgfCAgOSArKysr
-KystLQ0KPiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib192bS5jICAgfCAgNSArKysrKw0KPiBk
-cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jICAgICAgfCAgNCArKystDQo+IDQgZmlsZXMgY2hh
-bmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMzEgZGVsZXRpb25zKC0pDQo+DQo+ZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9i
-by5jDQo+aW5kZXggMDZiOGJjMGQ4ZjIzLi5jOGMyNWU0NTc1MWEgMTAwNjQ0DQo+LS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYw0KPisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
-X2JvLmMNCj5AQCAtMjkyLDEyICsyOTIsMTEgQEAgc3RhdGljIGludCB0dG1fYm9faGFuZGxlX21v
-dmVfbWVtKHN0cnVjdA0KPnR0bV9idWZmZXJfb2JqZWN0ICpibywNCj4gCSAqLw0KPg0KPiAJaWYg
-KCEobmV3X21hbi0+ZmxhZ3MgJiBUVE1fTUVNVFlQRV9GTEFHX0ZJWEVEKSkgew0KPi0JCWlmIChi
-by0+dHRtID09IE5VTEwpIHsNCj4tCQkJYm9vbCB6ZXJvID0gIShvbGRfbWFuLT5mbGFncyAmDQo+
-VFRNX01FTVRZUEVfRkxBR19GSVhFRCk7DQo+LQkJCXJldCA9IHR0bV90dF9jcmVhdGUoYm8sIHpl
-cm8pOw0KPi0JCQlpZiAocmV0KQ0KPi0JCQkJZ290byBvdXRfZXJyOw0KPi0JCX0NCj4rCQlib29s
-IHplcm8gPSAhKG9sZF9tYW4tPmZsYWdzICYNCj5UVE1fTUVNVFlQRV9GTEFHX0ZJWEVEKTsNCj4r
-DQo+KwkJcmV0ID0gdHRtX3R0X2NyZWF0ZShibywgemVybyk7DQo+KwkJaWYgKHJldCkNCj4rCQkJ
-Z290byBvdXRfZXJyOw0KPg0KPiAJCXJldCA9IHR0bV90dF9zZXRfcGxhY2VtZW50X2NhY2hpbmco
-Ym8tPnR0bSwgbWVtLQ0KPj5wbGFjZW1lbnQpOw0KPiAJCWlmIChyZXQpDQo+QEAgLTY2MCwxMyAr
-NjU5LDggQEAgc3RhdGljIGludCB0dG1fYm9fZXZpY3Qoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0
-ICpibywNCj4gCXBsYWNlbWVudC5udW1fYnVzeV9wbGFjZW1lbnQgPSAwOw0KPiAJYmRldi0+ZHJp
-dmVyLT5ldmljdF9mbGFncyhibywgJnBsYWNlbWVudCk7DQo+DQo+LQlpZiAoIXBsYWNlbWVudC5u
-dW1fcGxhY2VtZW50ICYmDQo+IXBsYWNlbWVudC5udW1fYnVzeV9wbGFjZW1lbnQpIHsNCj4tCQly
-ZXQgPSB0dG1fYm9fcGlwZWxpbmVfZ3V0dGluZyhibyk7DQo+LQkJaWYgKHJldCkNCj4tCQkJcmV0
-dXJuIHJldDsNCj4tDQo+LQkJcmV0dXJuIHR0bV90dF9jcmVhdGUoYm8sIGZhbHNlKTsNCj4tCX0N
-Cj4rCWlmICghcGxhY2VtZW50Lm51bV9wbGFjZW1lbnQgJiYNCj4hcGxhY2VtZW50Lm51bV9idXN5
-X3BsYWNlbWVudCkNCj4rCQlyZXR1cm4gdHRtX2JvX3BpcGVsaW5lX2d1dHRpbmcoYm8pOw0KPg0K
-PiAJZXZpY3RfbWVtID0gYm8tPm1lbTsNCj4gCWV2aWN0X21lbS5tbV9ub2RlID0gTlVMTDsNCj5A
-QCAtMTE5NCwxMyArMTE4OCw4IEBAIGludCB0dG1fYm9fdmFsaWRhdGUoc3RydWN0IHR0bV9idWZm
-ZXJfb2JqZWN0ICpibywNCj4gCS8qDQo+IAkgKiBSZW1vdmUgdGhlIGJhY2tpbmcgc3RvcmUgaWYg
-bm8gcGxhY2VtZW50IGlzIGdpdmVuLg0KPiAJICovDQo+LQlpZiAoIXBsYWNlbWVudC0+bnVtX3Bs
-YWNlbWVudCAmJiAhcGxhY2VtZW50LQ0KPj5udW1fYnVzeV9wbGFjZW1lbnQpIHsNCj4tCQlyZXQg
-PSB0dG1fYm9fcGlwZWxpbmVfZ3V0dGluZyhibyk7DQo+LQkJaWYgKHJldCkNCj4tCQkJcmV0dXJu
-IHJldDsNCj4tDQo+LQkJcmV0dXJuIHR0bV90dF9jcmVhdGUoYm8sIGZhbHNlKTsNCj4tCX0NCj4r
-CWlmICghcGxhY2VtZW50LT5udW1fcGxhY2VtZW50ICYmICFwbGFjZW1lbnQtDQo+Pm51bV9idXN5
-X3BsYWNlbWVudCkNCj4rCQlyZXR1cm4gdHRtX2JvX3BpcGVsaW5lX2d1dHRpbmcoYm8pOw0KPg0K
-PiAJLyoNCj4gCSAqIENoZWNrIHdoZXRoZXIgd2UgbmVlZCB0byBtb3ZlIGJ1ZmZlci4NCj5AQCAt
-MTIxNywxNCArMTIwNiw2IEBAIGludCB0dG1fYm9fdmFsaWRhdGUoc3RydWN0IHR0bV9idWZmZXJf
-b2JqZWN0ICpibywNCj4gCQl0dG1fZmxhZ19tYXNrZWQoJmJvLT5tZW0ucGxhY2VtZW50LCBuZXdf
-ZmxhZ3MsDQo+IAkJCQl+VFRNX1BMX01BU0tfTUVNVFlQRSk7DQo+IAl9DQo+LQkvKg0KPi0JICog
-V2UgbWlnaHQgbmVlZCB0byBhZGQgYSBUVE0uDQo+LQkgKi8NCj4tCWlmIChiby0+bWVtLm1lbV90
-eXBlID09IFRUTV9QTF9TWVNURU0gJiYgYm8tPnR0bSA9PSBOVUxMKSB7DQo+LQkJcmV0ID0gdHRt
-X3R0X2NyZWF0ZShibywgdHJ1ZSk7DQo+LQkJaWYgKHJldCkNCj4tCQkJcmV0dXJuIHJldDsNCj4t
-CX0NCj4gCXJldHVybiAwOw0KPiB9DQo+IEVYUE9SVF9TWU1CT0wodHRtX2JvX3ZhbGlkYXRlKTsN
-Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jDQo+Yi9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMNCj5pbmRleCA1MmQyYjcxZjE1ODguLmY4NDE0
-ZjgyMDM1MCAxMDA2NDQNCj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMN
-Cj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMNCj5AQCAtNTgwLDEyICs1
-ODAsMTcgQEAgc3RhdGljIGludCB0dG1fYm9fa21hcF90dG0oc3RydWN0DQo+dHRtX2J1ZmZlcl9v
-YmplY3QgKmJvLA0KPiAJCS5pbnRlcnJ1cHRpYmxlID0gZmFsc2UsDQo+IAkJLm5vX3dhaXRfZ3B1
-ID0gZmFsc2UNCj4gCX07DQo+LQlzdHJ1Y3QgdHRtX3R0ICp0dG0gPSBiby0+dHRtOw0KPisJc3Ry
-dWN0IHR0bV90dCAqdHRtOw0KPiAJcGdwcm90X3QgcHJvdDsNCj4gCWludCByZXQ7DQo+DQo+LQlC
-VUdfT04oIXR0bSk7DQo+KwlpZiAoIWJvLT50dG0pIHsNCj4rCQlyZXQgPSB0dG1fdHRfY3JlYXRl
-KGJvLCB0cnVlKTsNCj4rCQlpZiAocmV0KQ0KPisJCQlyZXR1cm4gcmV0Ow0KPisJfQ0KDQpJIHRo
-aW5rIHRoYXQgdGhpcyBjaHVuayBjYW4gYmUgcmVkdWNlZCB0bzoNCg0KCXJldCA9IHR0bV90dF9j
-cmVhdGUoYm8sIHRydWUpOw0KCWlmIChyZXQpDQoJCXJldHVybiByZXQ7DQo/DQoNCldpdGggdGhh
-dCBjaGFuZ2UgKHVubGVzcyBJIG1pc3NlZCBzb21ldGhpbmcgaGVyZT8pOg0KDQpSZXZpZXdlZC1i
-eTogIE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPg0KDQpNaWtlDQoN
-Cj4NCj4rCXR0bSA9IGJvLT50dG07DQo+IAlyZXQgPSB0dG1fdHRfcG9wdWxhdGUodHRtLCAmY3R4
-KTsNCj4gCWlmIChyZXQpDQo+IAkJcmV0dXJuIHJldDsNCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm9fdm0uYw0KPmIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0u
-Yw0KPmluZGV4IDBhZDMwYjExMjk4Mi4uMDU4Njg3MGFiNjQyIDEwMDY0NA0KPi0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMNCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9ib192bS5jDQo+QEAgLTM0OSw2ICszNDksMTEgQEAgdm1fZmF1bHRfdCB0dG1fYm9fdm1fZmF1
-bHRfcmVzZXJ2ZWQoc3RydWN0DQo+dm1fZmF1bHQgKnZtZiwNCj4NCj4gCQl9Ow0KPg0KPisJCWlm
-ICh0dG1fdHRfY3JlYXRlKGJvLCB0cnVlKSkgew0KPisJCQlyZXQgPSBWTV9GQVVMVF9PT007DQo+
-KwkJCWdvdG8gb3V0X2lvX3VubG9jazsNCj4rCQl9DQo+Kw0KPiAJCXR0bSA9IGJvLT50dG07DQo+
-IAkJaWYgKHR0bV90dF9wb3B1bGF0ZShiby0+dHRtLCAmY3R4KSkgew0KPiAJCQlyZXQgPSBWTV9G
-QVVMVF9PT007DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgYi9k
-cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jDQo+aW5kZXggMmVjNDQ4ZTFkNjYzLi5lMjVkNDA5
-N2FhMTYgMTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYw0KPisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMNCj5AQCAtNTAsNiArNTAsOSBAQCBpbnQgdHRt
-X3R0X2NyZWF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBib29sDQo+emVyb19hbGxv
-YykNCj4NCj4gCWRtYV9yZXN2X2Fzc2VydF9oZWxkKGJvLT5iYXNlLnJlc3YpOw0KPg0KPisJaWYg
-KGJvLT50dG0pDQo+KwkJcmV0dXJuIDA7DQo+Kw0KPiAJaWYgKGJkZXYtPm5lZWRfZG1hMzIpDQo+
-IAkJcGFnZV9mbGFncyB8PSBUVE1fUEFHRV9GTEFHX0RNQTMyOw0KPg0KPkBAIC02Nyw3ICs3MCw2
-IEBAIGludCB0dG1fdHRfY3JlYXRlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wN
-Cj56ZXJvX2FsbG9jKQ0KPiAJCXBhZ2VfZmxhZ3MgfD0gVFRNX1BBR0VfRkxBR19TRzsNCj4gCQli
-cmVhazsNCj4gCWRlZmF1bHQ6DQo+LQkJYm8tPnR0bSA9IE5VTEw7DQo+IAkJcHJfZXJyKCJJbGxl
-Z2FsIGJ1ZmZlciBvYmplY3QgdHlwZVxuIik7DQo+IAkJcmV0dXJuIC1FSU5WQUw7DQo+IAl9DQo+
-LS0NCj4yLjE3LjENCj4NCj5fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXw0KPmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QNCj5kcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnDQo+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On Sat, Jun 27, 2020 at 10:10:14AM -0700, Rob Clark wrote:
+> On Fri, Jun 26, 2020 at 1:01 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+> >
+> > Use the aperture settings from the IOMMU domain to set up the virtual
+> > address range for the GPU. This allows us to transparently deal with
+> > IOMMU side features (like split pagetables).
+> >
+> > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> > ---
+> >
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 13 +++++++++++--
+> >  drivers/gpu/drm/msm/msm_iommu.c         |  7 +++++++
+> >  2 files changed, 18 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > index 5db06b590943..3e717c1ebb7f 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> > @@ -192,9 +192,18 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
+> >         struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
+> >         struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
+> >         struct msm_gem_address_space *aspace;
+> > +       u64 start, size;
+> >
+> > -       aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
+> > -               0xffffffff - SZ_16M);
+> > +       /*
+> > +        * Use the aperture start or SZ_16M, whichever is greater. This will
+> > +        * ensure that we align with the allocated pagetable range while still
+> > +        * allowing room in the lower 32 bits for GMEM and whatnot
+> > +        */
+> > +       start = max_t(u64, SZ_16M, iommu->geometry.aperture_start);
+> > +       size = iommu->geometry.aperture_end - start + 1;
+> > +
+> > +       aspace = msm_gem_address_space_create(mmu, "gpu",
+> > +               start & GENMASK(48, 0), size);
+> 
+> hmm, I kinda think this isn't going to play well for the 32b gpus
+> (pre-a5xx).. possibly we should add address space size to 'struct
+> adreno_info'?
+
+I checked and qcom-iommu sets the aperture correctly so this should be okay for
+everybody. To be honest, I'm nots sure if we even need to mask the start to 49
+bits. It seems that all of the iommu implementations do the right thing.  Of
+course it would be worth a check if you have a 4xx handy.
+
+> Or I guess it is always going to be the same for all devices within a
+> generation?  So it could just be passed in to adreno_gpu_init()
+
+We can do that easily if we are worried about it (see also: a2xx). I just
+figured this might save us a bit of code.
+
+> Hopefully that makes things smoother if we someday had more than 48bits..
+
+We'll be at 49 bits for as far ahead as I can see. 49 bits has a special
+meaning in the SMMU so it is a natural fit for the GPU hardware. If we change in
+N generations we can just shift to a family specific function at that point.
+
+Jordan
+
+> BR,
+> -R
+> 
+> >
+> >         if (IS_ERR(aspace) && !IS_ERR(mmu))
+> >                 mmu->funcs->destroy(mmu);
+> > diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+> > index 3a381a9674c9..1b6635504069 100644
+> > --- a/drivers/gpu/drm/msm/msm_iommu.c
+> > +++ b/drivers/gpu/drm/msm/msm_iommu.c
+> > @@ -36,6 +36,10 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
+> >         struct msm_iommu *iommu = to_msm_iommu(mmu);
+> >         size_t ret;
+> >
+> > +       /* The arm-smmu driver expects the addresses to be sign extended */
+> > +       if (iova & BIT_ULL(48))
+> > +               iova |= GENMASK_ULL(63, 49);
+> > +
+> >         ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
+> >         WARN_ON(!ret);
+> >
+> > @@ -46,6 +50,9 @@ static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+> >  {
+> >         struct msm_iommu *iommu = to_msm_iommu(mmu);
+> >
+> > +       if (iova & BIT_ULL(48))
+> > +               iova |= GENMASK_ULL(63, 49);
+> > +
+> >         iommu_unmap(iommu->domain, iova, len);
+> >
+> >         return 0;
+> > --
+> > 2.17.1
+> >
+> > _______________________________________________
+> > Freedreno mailing list
+> > Freedreno@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/freedreno
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
