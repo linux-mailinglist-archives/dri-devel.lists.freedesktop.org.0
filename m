@@ -2,41 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F2C20D01B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 18:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E9E20D034
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 18:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 338CB89C83;
-	Mon, 29 Jun 2020 16:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4A5789B83;
+	Mon, 29 Jun 2020 16:36:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCB689C83
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 16:23:18 +0000 (UTC)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E7BCD2558B;
- Mon, 29 Jun 2020 16:23:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593447798;
- bh=AjlqcdB7b/yBviJ2dBaRXJ18rVcn1CiQNkqMJCUoxNA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=2MN0pxKJUDbdvXhRNswVrjxGLmO105O2QOoqyE9kfch4ST+ofF32/GUuu1b4xpVNY
- m5sRkdHBB8Ul2KQF6mjUIIXw2u+YA4hPPZcY61IRvLiWbBbjdtiYqXi8nKuUNrc8Ix
- TfRsDIqCbMaQoOwrs+zsVrXo0DDbmhxwZV3rQW98=
-Date: Mon, 29 Jun 2020 17:23:16 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 9/9] drm/simplekms: Acquire memory aperture for framebuffer
-Message-ID: <20200629162316.GF5499@sirena.org.uk>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-10-tzimmermann@suse.de>
- <20200629092230.GQ3278063@phenom.ffwll.local>
- <20200629160421.GA627453@kroah.com>
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9763989B83
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 16:36:56 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id l6so5192184pjq.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 09:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cP6iQsVZnZL9cfv3sLl/5r6hzqX0rVayprzDZmD8fls=;
+ b=q5EC2OafxVTf2u/iQVD0g8yJF3Y1bDOuicqD7IHdDsvf5/fGCEdbx9n3vhiYTT2qiC
+ fXBtNHHkfMBVzxvHYFkKG4rc+UqQ1k+C6Zc1++iOwPtLEWdKwxKR0b4Hexnp5badz2e9
+ Emob2Nui7WvtyIQWV2bepfCdG5Z+H4LQOzS6+qE7Mk/UpmWlaayYsRadT8JfLDeJuF7b
+ ekEIDf7quMaUYxhU8LTapw6ta8ft2Dnmm1EFyyS+Va4/NSNILgilR0dN32QjzYEyHoPS
+ cVvD1LHMsN1bihCtlFjyMsdBqea389T0XZ7BeI/GjaXKXlZmPjNU8WYzYSUbXsvl1n2F
+ 1iIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cP6iQsVZnZL9cfv3sLl/5r6hzqX0rVayprzDZmD8fls=;
+ b=KkGL+6jKsUpbyfgvEHYrhZWTpExN19MKTaFbUt1/4oKmPGbRrkuGOw+sKuS1Ec8VFn
+ O57elDWdKF5LYSJMlJp1fA6b2lnF7ayizIreO2QVCmnyqVtiWSuER3RVha2mn10uKzht
+ d1dhq4n3sBufHv2O0gWsvY4BTdBlbuFUsrNIVBnAVd+goJHYGkNS0hlaHoxNRqTlPKGX
+ dXCgWyZifP4eu2/W8DWIBz2zSbpBHDOmADyy2qltYqDnnJb6WCYnarp8s2y8GSOtDe1G
+ /278PNBnfL12EA/AnMxlZvmsJkKDYCzDelmeQ54LIvIUZPhkTWr1uWjqrRPuZdlqcOm0
+ 2BKw==
+X-Gm-Message-State: AOAM532YPK+8K/4WeuB2UF+8/98pbCOvD1+cyNm4+Vl5Cj29PTgCb2Pt
+ Hgm3Rs8Zf5/VgXfbuKiXA8trbk6r6g+q5MRd2so=
+X-Google-Smtp-Source: ABdhPJxY0TieHGnK37IC/NZ8PHvS+nU0xr2yP6SeSbn2otyH5MinztJSPrmwBVJET9OWG4mysZKu95H1GtfccfKlpyw=
+X-Received: by 2002:a17:90a:b30d:: with SMTP id
+ d13mr18146343pjr.181.1593448616001; 
+ Mon, 29 Jun 2020 09:36:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200629160421.GA627453@kroah.com>
-X-Cookie: Real programs don't eat cache.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CGME20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da@eucas1p1.samsung.com>
+ <20200629112242.18380-1-a.hajda@samsung.com>
+ <20200629112242.18380-3-a.hajda@samsung.com>
+In-Reply-To: <20200629112242.18380-3-a.hajda@samsung.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 29 Jun 2020 19:36:42 +0300
+Message-ID: <CAHp75VdS_u8h4qfBxsQRUp1-2SL_hq20=dQkpteXH7Xg7epArQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/4] driver core: add deferring probe reason to
+ devices_deferred property
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,59 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
- kraxel@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1485427333=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 29, 2020 at 2:22 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+>
+> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
+> This list does not contain reason why the driver deferred probe, the patch
+> improves it.
+> The natural place to set the reason is dev_err_probe function introduced recently,
+> ie. if dev_err_probe will be called with -EPROBE_DEFER instead of printk the message
+> will be attached to deferred device and printed when user read devices_deferred
 
---===============1485427333==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hUH5gZbnpyIv7Mn4"
-Content-Disposition: inline
+to a deferred
 
+reads
 
---hUH5gZbnpyIv7Mn4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> property.
 
-On Mon, Jun 29, 2020 at 06:04:21PM +0200, Greg KH wrote:
+...
 
-> Yes, please do that.  Or, use the "virtual bus/device" code that some
-> people at Intel are still trying to get into mergable shape.  See the
-> posts on the netdev list for those details.
+> @@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
+>         vaf.fmt = fmt;
+>         vaf.va = &args;
+>
+> -       if (err != -EPROBE_DEFER)
 
-Any pointers on that?  There's also some ongoing discussion with MFD and
-that's not been mentioned at all.
+> +       if (err != -EPROBE_DEFER) {
 
---hUH5gZbnpyIv7Mn4
-Content-Type: application/pgp-signature; name="signature.asc"
+Why not positive conditional? (Okay, I'm fine with either in this case)
 
------BEGIN PGP SIGNATURE-----
+>                 dev_err(dev, "error %d: %pV", err, &vaf);
+> -       else
+> +       } else {
+> +               device_set_deferred_probe_reson(dev, &vaf);
+>                 dev_dbg(dev, "error %d: %pV", err, &vaf);
+> +       }
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl76FXMACgkQJNaLcl1U
-h9BMdQf+ObtQPXNkp3bEGTkFdoezfPjU4KbmmoYq2be7hGx/xXeqW8ko5xmyytaA
-bqBsKsUWdHBVddF1c8onMToPg54DNnifxahhumjCvPStf+IBTPjF5wZx4JliKT8E
-3tr8DsGOaHTndMnCeNLAQTc3eLLNE5TX6M1fZIlM1KCOHZGkt3FCZZQDksxweqo4
-xuHbk/TTrXlI0kFu8SuyIetPFxZarktgHVYAy/UE/nTcNeErbse4N8j1SmRjIzE1
-+2PcFyQNh//ldZJU5rArhC7yqmP3zPIP3RO1Pobnc5GvZjGKbihmRIPXiXQ/Tp0e
-z72g7TJi43v3DxiLDqFP8YMPHass7A==
-=+OVR
------END PGP SIGNATURE-----
+To reduce churn, you may move {} addition to the first patch.
 
---hUH5gZbnpyIv7Mn4--
+...
 
---===============1485427333==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+>         list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
+> -               seq_printf(s, "%s\n", dev_name(curr->device));
+> +               seq_printf(s, "%s\t%s", dev_name(curr->device),
+> +                          curr->device->p->deferred_probe_reason ?: "\n");
 
+Hmm... "\t" will be dangling in the latter case.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1485427333==--
