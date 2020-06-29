@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF0920EF86
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:35:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE0E20EF95
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C75289D89;
-	Tue, 30 Jun 2020 07:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 663C889E9B;
+	Tue, 30 Jun 2020 07:36:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D2F89D4B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:52:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA63B89D2F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1593474743; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1593474744; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TKoyWDHTmPwvnZijo2OLaLo5waupn9tuAEw4z2i+5ts=;
- b=YcEE2uK17ler+KedrxV0lth8CWujom/Z8mZ6kWVM1z6AaIAtJCjsGL0GfuH3Aarroyd+Qh
- r+x7m9EplHTfXhFwRppS3wxOM5VlAqCmV51zZAtNPnvzEd67vT3IFnQY+BCIHY2vC7gQs6
- IzAg4c0M+95W7gcAjktItnAuJNhfxNU=
+ bh=XhUI9cXsdT/2cw8/5dvvRfnnNMBhQmrV1moGXmAW/Lw=;
+ b=mpqOZSbM5JU2BKhHEQ0C0DcH7p9ZsEcJ1o58c9yUtf6P0ZHUwDFK98VyD5i5qAxjqqB7IW
+ KOktx4qh6rMJwrQ2nHix1hvysVlvS3W8q25aGxcaPoHRBO+7EBKBcLKMTmSft1nsulTFiQ
+ 8f6YFQvEnicwmtaVgtEYHx0VySIAN30=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 04/10] drm/ingenic: Add missing CR in debug strings
-Date: Tue, 30 Jun 2020 01:52:04 +0200
-Message-Id: <20200629235210.441709-4-paul@crapouillou.net>
+Subject: [PATCH v2 05/10] drm/ingenic: Fix incorrect assumption about
+ plane->index
+Date: Tue, 30 Jun 2020 01:52:05 +0200
+Message-Id: <20200629235210.441709-5-paul@crapouillou.net>
 In-Reply-To: <20200629235210.441709-1-paul@crapouillou.net>
 References: <20200629235210.441709-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -45,152 +46,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me
+ Paul Cercueil <paul@crapouillou.net>, od@zcrc.me, stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If you pass a string that is not terminated with a carriage return to
-dev_err(), it will eventually be printed with a carriage return, but
-not right away, since the kernel will wait for a pr_cont().
+plane->index is NOT the index of the color plane in a YUV frame.
+Actually, a YUV frame is represented by a single drm_plane, even though
+it contains three Y, U, V planes.
 
+Cc: stable@vger.kernel.org # v5.3
+Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx SoCs")
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
 
 Notes:
-    v2: New patch
+    v2: No change
 
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 30 +++++++++++------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 16f0740df507..a15f9a1940c6 100644
+index a15f9a1940c6..924c8daf071a 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -623,14 +623,14 @@ static int ingenic_drm_probe(struct platform_device *pdev)
+@@ -386,7 +386,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+ 		width = state->src_w >> 16;
+ 		height = state->src_h >> 16;
+-		cpp = state->fb->format->cpp[plane->index];
++		cpp = state->fb->format->cpp[0];
  
- 	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base)) {
--		dev_err(dev, "Failed to get memory resource");
-+		dev_err(dev, "Failed to get memory resource\n");
- 		return PTR_ERR(base);
- 	}
- 
- 	priv->map = devm_regmap_init_mmio(dev, base,
- 					  &ingenic_drm_regmap_config);
- 	if (IS_ERR(priv->map)) {
--		dev_err(dev, "Failed to create regmap");
-+		dev_err(dev, "Failed to create regmap\n");
- 		return PTR_ERR(priv->map);
- 	}
- 
-@@ -641,21 +641,21 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 	if (soc_info->needs_dev_clk) {
- 		priv->lcd_clk = devm_clk_get(dev, "lcd");
- 		if (IS_ERR(priv->lcd_clk)) {
--			dev_err(dev, "Failed to get lcd clock");
-+			dev_err(dev, "Failed to get lcd clock\n");
- 			return PTR_ERR(priv->lcd_clk);
- 		}
- 	}
- 
- 	priv->pix_clk = devm_clk_get(dev, "lcd_pclk");
- 	if (IS_ERR(priv->pix_clk)) {
--		dev_err(dev, "Failed to get pixel clock");
-+		dev_err(dev, "Failed to get pixel clock\n");
- 		return PTR_ERR(priv->pix_clk);
- 	}
- 
- 	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, &bridge);
- 	if (ret) {
- 		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get panel handle");
-+			dev_err(dev, "Failed to get panel handle\n");
- 		return ret;
- 	}
- 
-@@ -684,7 +684,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 				       ARRAY_SIZE(ingenic_drm_primary_formats),
- 				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
- 	if (ret) {
--		dev_err(dev, "Failed to register primary plane: %i", ret);
-+		dev_err(dev, "Failed to register primary plane: %i\n", ret);
- 		return ret;
- 	}
- 
-@@ -693,7 +693,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 	ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->primary,
- 					NULL, &ingenic_drm_crtc_funcs, NULL);
- 	if (ret) {
--		dev_err(dev, "Failed to init CRTC: %i", ret);
-+		dev_err(dev, "Failed to init CRTC: %i\n", ret);
- 		return ret;
- 	}
- 
-@@ -705,25 +705,25 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 	ret = drm_simple_encoder_init(drm, &priv->encoder,
- 				      DRM_MODE_ENCODER_DPI);
- 	if (ret) {
--		dev_err(dev, "Failed to init encoder: %i", ret);
-+		dev_err(dev, "Failed to init encoder: %i\n", ret);
- 		return ret;
- 	}
- 
- 	ret = drm_bridge_attach(&priv->encoder, bridge, NULL, 0);
- 	if (ret) {
--		dev_err(dev, "Unable to attach bridge");
-+		dev_err(dev, "Unable to attach bridge\n");
- 		return ret;
- 	}
- 
- 	ret = drm_irq_install(drm, irq);
- 	if (ret) {
--		dev_err(dev, "Unable to install IRQ handler");
-+		dev_err(dev, "Unable to install IRQ handler\n");
- 		return ret;
- 	}
- 
- 	ret = drm_vblank_init(drm, 1);
- 	if (ret) {
--		dev_err(dev, "Failed calling drm_vblank_init()");
-+		dev_err(dev, "Failed calling drm_vblank_init()\n");
- 		return ret;
- 	}
- 
-@@ -731,7 +731,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 
- 	ret = clk_prepare_enable(priv->pix_clk);
- 	if (ret) {
--		dev_err(dev, "Unable to start pixel clock");
-+		dev_err(dev, "Unable to start pixel clock\n");
- 		return ret;
- 	}
- 
-@@ -746,20 +746,20 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 		 */
- 		ret = clk_set_rate(priv->lcd_clk, parent_rate);
- 		if (ret) {
--			dev_err(dev, "Unable to set LCD clock rate");
-+			dev_err(dev, "Unable to set LCD clock rate\n");
- 			goto err_pixclk_disable;
- 		}
- 
- 		ret = clk_prepare_enable(priv->lcd_clk);
- 		if (ret) {
--			dev_err(dev, "Unable to start lcd clock");
-+			dev_err(dev, "Unable to start lcd clock\n");
- 			goto err_pixclk_disable;
- 		}
- 	}
- 
- 	ret = drm_dev_register(drm, 0);
- 	if (ret) {
--		dev_err(dev, "Failed to register DRM driver");
-+		dev_err(dev, "Failed to register DRM driver\n");
- 		goto err_devclk_disable;
- 	}
- 
+ 		priv->dma_hwdesc->addr = addr;
+ 		priv->dma_hwdesc->cmd = width * height * cpp / 4;
 -- 
 2.27.0
 
