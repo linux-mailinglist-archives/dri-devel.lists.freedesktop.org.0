@@ -2,98 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300AA20CE2C
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 13:23:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584B120CE2D
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 13:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C898F6E187;
-	Mon, 29 Jun 2020 11:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8278B6E170;
+	Mon, 29 Jun 2020 11:22:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2160C6E14F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:22:51 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2338A6E170
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:22:52 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200629112249euoutp029d69ec11d17ee839ab8db361f7239bb5~c-_7uJQai1880518805euoutp02Q
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:22:49 +0000 (GMT)
+ 20200629112250euoutp0232bc43a2714d2905fba676d95068fdee~c-_8hoRn_1879918799euoutp02U
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:22:50 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200629112249euoutp029d69ec11d17ee839ab8db361f7239bb5~c-_7uJQai1880518805euoutp02Q
+ 20200629112250euoutp0232bc43a2714d2905fba676d95068fdee~c-_8hoRn_1879918799euoutp02U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593429769;
- bh=CMERx4lgHtPROTVbuhhkyjsE+9cW7GAD7BGwlyn84mI=;
+ s=mail20170921; t=1593429770;
+ bh=ldZknbF9TPUSQxdpO3ouuzcL7PaF+JDqisngEE3mM30=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kVgkPGL4+wxH+Z0JxL+EtsiTIFaJtSxVI4hyDag1e/eNU2hDvmOwMrRZzHxgiZ7OW
- 7n3NaX9khYVPSujbsWw2I/0Iip5AD45mOrlzD7EiwrjQ+/S+ORpCfdinuUiMHh+4fh
- +jTB3s/f363QTcfmLgh6buum2pOIA2REEP0zhrZA=
+ b=CvYNjDi7vD5kVixtnoYzJ5QHtkc5b0JLF38t3tzPF5vMfbZ+XPjnc2pNFcgqmO3yN
+ F9qwv2bSLt0xS8tfzQjD38ikhJxnqBoCOHjlSe4c9Pmj1XfaLE1161KFR1d6SQgctp
+ qvdXaHDv6pUkxrjwiDyFMSp9XCn/KBd9paM9tIdg=
 Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200629112249eucas1p2fbd5791c8128b15d691229df630f96b4~c-_7WiTKj0840608406eucas1p2U;
- Mon, 29 Jun 2020 11:22:49 +0000 (GMT)
+ 20200629112250eucas1p207dd9dd07c8d2b62bce2b9d6ec01e958~c-_8MJKeT2471224712eucas1p2X;
+ Mon, 29 Jun 2020 11:22:50 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 2E.A7.06456.90FC9FE5; Mon, 29
- Jun 2020 12:22:49 +0100 (BST)
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id AF.A7.06456.A0FC9FE5; Mon, 29
+ Jun 2020 12:22:50 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da~c-_673odH1893118931eucas1p1a;
+ 20200629112249eucas1p12fc95f88729c12c78b1a5bfe32afad8f~c-_7wyhDZ0555905559eucas1p1Q;
  Mon, 29 Jun 2020 11:22:49 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200629112248eusmtrp2b89ff42eb1242f6b3f9794b94694cf28~c-_67L5Vj1960419604eusmtrp2o;
- Mon, 29 Jun 2020 11:22:48 +0000 (GMT)
-X-AuditID: cbfec7f2-809ff70000001938-c4-5ef9cf09a0a9
+ 20200629112249eusmtrp24df70e7112ccbe125aeb79667a9e74b2~c-_7wDt6k1939019390eusmtrp2f;
+ Mon, 29 Jun 2020 11:22:49 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-c7-5ef9cf0aab3b
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id EB.EC.06017.80FC9FE5; Mon, 29
- Jun 2020 12:22:48 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 4E.0F.06314.90FC9FE5; Mon, 29
+ Jun 2020 12:22:49 +0100 (BST)
 Received: from AMDC3748.digital.local (unknown [106.120.51.74]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200629112248eusmtip12146d8bc48fb9f86c4b5af32af8ff859~c-_6OPabQ2279922799eusmtip1A;
+ 20200629112249eusmtip169921d0a84a53bece075ad7bc3dcd372~c-_69HRf-2279622796eusmtip1I;
  Mon, 29 Jun 2020 11:22:48 +0000 (GMT)
 From: Andrzej Hajda <a.hajda@samsung.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v7 2/4] driver core: add deferring probe reason to
- devices_deferred property
-Date: Mon, 29 Jun 2020 13:22:40 +0200
-Message-Id: <20200629112242.18380-3-a.hajda@samsung.com>
+Subject: [PATCH v7 3/4] drm/bridge/sii8620: fix resource acquisition error
+ handling
+Date: Mon, 29 Jun 2020 13:22:41 +0200
+Message-Id: <20200629112242.18380-4-a.hajda@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200629112242.18380-1-a.hajda@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSa0hTYRjHeXeurlbHKfmipbXsQ4JZVPBGIl2kTlTkl4oSlysP09JlO2qt
- Cy68tkqnIZWXrlZLLc1StoFZ01KJ2dIUK0VFKxRFqC1bWebxrPr2e573/3+ePw8vjcnthD+d
- oEnhtBpVooKU4vUv3e2hXq/dypXu/AXo/cN2Ao0YmwB6dKWaQEWDwySari/A0FvXBIkybleT
- qGtyBENtY104OldQTqHaoW4CdVpLSWQragDoQXMfhWx50ajMWYRtYNjO7jcYO9GTRbEN327g
- rKW4j2JLcq8SbG3FOZJtNXZI2MayKortP98iYR+Xp7N5TyoA++ziJZz9WhsYJdsvDY/jEhPS
- OG1YRKw0ftBxS5JcGnyicOoToQemQAOgacisgfdbfQxASssZE4C5WS9IsXAC+PHOZ2AAXjPF
- VwANn3YLLBgsQ1OUKLoHYI7zPv7PkV3pJAQVySyHvx6/IwX2ZVbDfHvxrANjfuCwKyd7VuTD
- KOF3cyUl5MCZZbDvja/QljEI5ry+RIrbgmBlzTNMYC9mHex0XAXCHMiMUzDT6cJEUSR0VD3F
- RfaBoy1PKJEXwmnLdYnI6bDflImJ5lwA62osHvN62Nv+gxRCYDOpq61hYnsjbDYPkeKN5sGe
- cW+hjc1gYf1lTGzLYG62XFQvgf32Os9AP3jH4fLEZ+FUq8VznwsAnn1RihtBUPH/ZTcAqAB+
- XCqfpOb4VRru+ApelcSnatQrDh1NqgUzn+zV75YvZuDqOGgDDA0Uc2Wx7W6lnFCl8bokG4A0
- pvCVbbK/UsplcSrdSU579IA2NZHjbSCAxhV+stW3RmLkjFqVwh3huGRO+/dVQnv560GDvYo3
- B+iOBOzddVen27K2OOO5PXSPdXBxZgR0bM37XrIvvXHyw5jlesJAtrV+YMe+4arN26WNktHT
- 6pidJtCbvC2ySxo8ubL5mvHm+pu/1FF1zLHD+ibvxDkhvP+p8Hy9Lvbp0E8248yytqKXjqVt
- 0eV8WHrac0NHRoKDmL/IqMD5eNWqEEzLq/4AjIf7JGADAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRmVeSWpSXmKPExsVy+t/xu7oc53/GGexdaG1xa905VouXEw4z
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VSWUwTURT1daYzQ0N1KCo3aCRW/YAEKlHjMxKjSOIk/vihidGIFJkAKZsd
+ qmJiJK5ABQElCkhFxYgFpC2bYECshoKVgkUaXHGNYsStLEJEpEyNf+eec+695748hlA4pIFM
+ Yko6r01RJykpGdnYMeEIlfVMRK9srpyLn91ySPFQ/n2EzRdrpbjozXsKTzcWEPjJ6DcKH79W
+ S+H+8SECd33pJ3F2QQWNLe9cUtzXconC1qJWhGsevKSxNW83LhspIjayXJ/rMcF9GzhJc61j
+ 5STXXPKS5kqziqWcxZhNcZ35Tgl3t6ya5gb1NglXV3GUy6s3Iq499xzJuS1Ltsl3ySLi+KTE
+ A7xWtSFGlmDs6JCkXZt3qMRsk2SiTt8c5MMAuxpyDBVEDpIxCrYSwfmxY0gsRhBceddLi4Ub
+ gdFgkv5rMQ9MSkThBgLnWOb/lvsGN+VxUWwwTNU9ncXz2VVwtrtkdhTBTpLQf/rUzCiG8Wd3
+ wO+2NR4Pya6AOlfhrF/OYujIekiJ24KgytROeLAPuw76eouRyA/TkFsTIuIomCo3e9P5w2db
+ PS3ixTDdfFki4qMwWHli9lBgsxA0mJoJUVgPLxyTlCcPMRO6tkUl0pug546b8NDAzoWBYT8P
+ TczAwsYLXloOWacUonspDHY3eAcGwPXeUW96Dp6/MpHi85xBcO+jnspHQSX/l5UjZEQBvE5I
+ jueF8BT+YJigThZ0KfFh+1KTLWjml9n/2H7eRqPOWCtiGaT0lcc4JqIVUvUBISPZioAhlPPl
+ kd32aIU8Tp1xmNem7tXqknjBihYxpDJAvurq0B4FG69O5zU8n8Zr/6kSxicwE52TNyWunxOb
+ +T3Dzz+o62bT6+qVbUm791SFT3zasiUqJttgW1g6Z2lxyM4F9tjxD4sSt9M63/w05QlXaV5a
+ pP66ukFZbdNkpycUPlBtWu4KPnu5s1T16+rXTv28ZYYIN8Rofqwb/xKqcU6O6R2Va7fqIvof
+ RR75ur/M+DZ4yg7CZiUpJKjDQwitoP4Lj50BDmEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRmVeSWpSXmKPExsVy+t/xu7qc53/GGSzYqGdxa905VouXEw4z
  WmycsZ7VYurDJ2wW/7dNZLa48vU9m0Xz4vVsFle/v2S2OPnmKotF58Ql7BabHl9jtbi8aw6b
  xaGpexkt1h65y25xqC/aYu6XqcwOAh6Xr11k9nh/o5XdY++3BSweO2fdZfeY3TGT1WPTqk42
  jxMTLjF57J+7ht3jfvdxJo/NS+o9+rasYvQ40DuZxePzJrkA3ig9m6L80pJUhYz84hJbpWhD
- CyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jIcXFjEVzFGpmPTnGWsD4wq5LkZO
- DgkBE4mdj/+wdzFycQgJLGWUuPysnxkiIS6xe/5bKFtY4s+1LjaIok+MElfPzmUDSbAJaEr8
- 3XwTzBYRMJboPzsLbBKzQBurxNzzT9hBEsICMRJXp89j6WLk4GARUJW4e1EEJMwrYCHRfn4y
- G8QCeYnVGw6ALeMUsJS4fGEmI4gtBFRz4Wgn+wRGvgWMDKsYRVJLi3PTc4uN9IoTc4tL89L1
- kvNzNzECY2vbsZ9bdjB2vQs+xCjAwajEw5tw7mecEGtiWXFl7iFGCQ5mJRFep7On44R4UxIr
- q1KL8uOLSnNSiw8xmgLdNJFZSjQ5Hxj3eSXxhqaG5haWhubG5sZmFkrivB0CB2OEBNITS1Kz
- U1MLUotg+pg4OKUaGJW1jmdt6Z2qXCMfv1bo3ycvf/2qx+cP9Wn1S4dcLji4qnbdpfNz+e+l
- Bbt/3XU8McNl+n6Pd7x/rnlpTVSYxhtYm5Zf+IPxhsM2+4AHjTfyei8XR4VmLzRm4JrZc01F
- hbm0Z0Nd2MHLbZ4zrcw1RQUDN7M5bk95urJ3J+cLm77Qmb82T/ogqcRSnJFoqMVcVJwIAG3q
- 8PXDAgAA
-X-CMS-MailID: 20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da
+ CyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jFXHjjEVLOavmLXxOFMD4wmeLkZO
+ DgkBE4mNN34xdTFycQgJLGWU+LqohRUiIS6xe/5bZghbWOLPtS42iKJPjBIr181nAUmwCWhK
+ /N18kw3EFhEwlug/O4sdpIhZoI1VYu75J+wgCWGBYInrC+eATWIRUJXYfG0SWAOvgIXEsY5T
+ bBAb5CVWbzgAVsMpYClx+cJMRhBbCKjmwtFO9gmMfAsYGVYxiqSWFuem5xYb6hUn5haX5qXr
+ JefnbmIERte2Yz8372C8tDH4EKMAB6MSD2/CuZ9xQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUms
+ rEotyo8vKs1JLT7EaAp01ERmKdHkfGDk55XEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnN
+ Tk0tSC2C6WPi4JRqYAy04etaYaPrdlN87dtPq5qOhnF5MDNVvpsrve1H54Pfgb//y5YUZ9qU
+ VfFIurEoul78MOdx8B+jONdTfFVGsuUfdlkvWTO56fibquy9ny1KtxzT3uLIFXvkTo6k1Nvw
+ STc3nmiLOnexx7vn9re+81uMM34+PFNR3dDzqO5lr3eZ+9W1VQ2hgUosxRmJhlrMRcWJAPqX
+ CKDEAgAA
+X-CMS-MailID: 20200629112249eucas1p12fc95f88729c12c78b1a5bfe32afad8f
 X-Msg-Generator: CA
-X-RootMTR: 20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da
+X-RootMTR: 20200629112249eucas1p12fc95f88729c12c78b1a5bfe32afad8f
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da
+X-CMS-RootMailID: 20200629112249eucas1p12fc95f88729c12c78b1a5bfe32afad8f
 References: <20200629112242.18380-1-a.hajda@samsung.com>
- <CGME20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da@eucas1p1.samsung.com>
+ <CGME20200629112249eucas1p12fc95f88729c12c78b1a5bfe32afad8f@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,129 +123,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-/sys/kernel/debug/devices_deferred property contains list of deferred devices.
-This list does not contain reason why the driver deferred probe, the patch
-improves it.
-The natural place to set the reason is dev_err_probe function introduced recently,
-ie. if dev_err_probe will be called with -EPROBE_DEFER instead of printk the message
-will be attached to deferred device and printed when user read devices_deferred
-property.
+In case of error during resource acquisition driver should print error
+message only in case it is not deferred probe, using dev_err_probe helper
+solves the issue. Moreover it records defer probe reason for debugging.
 
 Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-Reviewed-by: Mark Brown <broonie@kernel.org>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/base/base.h |  3 +++
- drivers/base/core.c |  8 ++++++--
- drivers/base/dd.c   | 23 ++++++++++++++++++++++-
- 3 files changed, 31 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/sil-sii8620.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 95c22c0f9036..6954fccab3d7 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -93,6 +93,7 @@ struct device_private {
- 	struct klist_node knode_class;
- 	struct list_head deferred_probe;
- 	struct device_driver *async_driver;
-+	char *deferred_probe_reason;
- 	struct device *device;
- 	u8 dead:1;
- };
-@@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct device *dev,
- extern void driver_detach(struct device_driver *drv);
- extern int driver_probe_device(struct device_driver *drv, struct device *dev);
- extern void driver_deferred_probe_del(struct device *dev);
-+extern void device_set_deferred_probe_reson(const struct device *dev,
-+					    struct va_format *vaf);
- static inline int driver_match_device(struct device_driver *drv,
- 				      struct device *dev)
- {
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 3a827c82933f..fee047f03681 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3963,6 +3963,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
-  * This helper implements common pattern present in probe functions for error
-  * checking: print debug or error message depending if the error value is
-  * -EPROBE_DEFER and propagate error upwards.
-+ * In case of -EPROBE_DEFER it sets also defer probe reason, which can be
-+ * checked later by reading devices_deferred debugfs attribute.
-  * It replaces code sequence:
-  * 	if (err != -EPROBE_DEFER)
-  * 		dev_err(dev, ...);
-@@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
- 	vaf.fmt = fmt;
- 	vaf.va = &args;
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 92acd336aa89..389c1f029774 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2299,10 +2299,9 @@ static int sii8620_probe(struct i2c_client *client,
+ 	INIT_LIST_HEAD(&ctx->mt_queue);
  
--	if (err != -EPROBE_DEFER)
-+	if (err != -EPROBE_DEFER) {
- 		dev_err(dev, "error %d: %pV", err, &vaf);
--	else
-+	} else {
-+		device_set_deferred_probe_reson(dev, &vaf);
- 		dev_dbg(dev, "error %d: %pV", err, &vaf);
-+	}
+ 	ctx->clk_xtal = devm_clk_get(dev, "xtal");
+-	if (IS_ERR(ctx->clk_xtal)) {
+-		dev_err(dev, "failed to get xtal clock from DT\n");
+-		return PTR_ERR(ctx->clk_xtal);
+-	}
++	if (IS_ERR(ctx->clk_xtal))
++		return dev_err_probe(dev, PTR_ERR(ctx->clk_xtal),
++				     "failed to get xtal clock from DT\n");
  
- 	va_end(args);
+ 	if (!client->irq) {
+ 		dev_err(dev, "no irq provided\n");
+@@ -2313,16 +2312,14 @@ static int sii8620_probe(struct i2c_client *client,
+ 					sii8620_irq_thread,
+ 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+ 					"sii8620", ctx);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to install IRQ handler\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret,
++				     "failed to install IRQ handler\n");
  
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 9a1d940342ac..dd5683b61f74 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -27,6 +27,7 @@
- #include <linux/async.h>
- #include <linux/pm_runtime.h>
- #include <linux/pinctrl/devinfo.h>
-+#include <linux/slab.h>
+ 	ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+-	if (IS_ERR(ctx->gpio_reset)) {
+-		dev_err(dev, "failed to get reset gpio from DT\n");
+-		return PTR_ERR(ctx->gpio_reset);
+-	}
++	if (IS_ERR(ctx->gpio_reset))
++		return dev_err_probe(dev, PTR_ERR(ctx->gpio_reset),
++				     "failed to get reset gpio from DT\n");
  
- #include "base.h"
- #include "power/power.h"
-@@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
- 	if (!list_empty(&dev->p->deferred_probe)) {
- 		dev_dbg(dev, "Removed from deferred list\n");
- 		list_del_init(&dev->p->deferred_probe);
-+		kfree(dev->p->deferred_probe_reason);
-+		dev->p->deferred_probe_reason = NULL;
- 	}
- 	mutex_unlock(&deferred_probe_mutex);
- }
-@@ -211,6 +214,23 @@ void device_unblock_probing(void)
- 	driver_deferred_probe_trigger();
- }
- 
-+/**
-+ * device_set_deferred_probe_reson() - Set defer probe reason message for device
-+ * @dev: the pointer to the struct device
-+ * @vaf: the pointer to va_format structure with message
-+ */
-+void device_set_deferred_probe_reson(const struct device *dev, struct va_format *vaf)
-+{
-+	const char *drv = dev_driver_string(dev);
-+
-+	mutex_lock(&deferred_probe_mutex);
-+
-+	kfree(dev->p->deferred_probe_reason);
-+	dev->p->deferred_probe_reason = kasprintf(GFP_KERNEL, "%s: %pV", drv, vaf);
-+
-+	mutex_unlock(&deferred_probe_mutex);
-+}
-+
- /*
-  * deferred_devs_show() - Show the devices in the deferred probe pending list.
-  */
-@@ -221,7 +241,8 @@ static int deferred_devs_show(struct seq_file *s, void *data)
- 	mutex_lock(&deferred_probe_mutex);
- 
- 	list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
--		seq_printf(s, "%s\n", dev_name(curr->device));
-+		seq_printf(s, "%s\t%s", dev_name(curr->device),
-+			   curr->device->p->deferred_probe_reason ?: "\n");
- 
- 	mutex_unlock(&deferred_probe_mutex);
- 
+ 	ctx->supplies[0].supply = "cvcc10";
+ 	ctx->supplies[1].supply = "iovcc18";
 -- 
 2.17.1
 
