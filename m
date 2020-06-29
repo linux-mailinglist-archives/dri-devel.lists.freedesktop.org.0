@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6615D20CFC6
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 17:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BFF20CFF6
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 18:04:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E797A890AF;
-	Mon, 29 Jun 2020 15:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3C02897E9;
+	Mon, 29 Jun 2020 16:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D14890AF
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 15:43:22 +0000 (UTC)
-IronPort-SDR: asQKInOul8ZQ9Aa/B7chlzvS+rD/FYT0mraJQeqA/+t+ayKy7mjfVWLZK7MUd2cVY0+9dVdAw2
- qUvU+nI475ag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="125622960"
-X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; d="scan'208";a="125622960"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2020 08:43:22 -0700
-IronPort-SDR: ImVL4kc6enmfIp8xlLbXGl52OY+ys5wB/KKWHX6Ua423HANNRNhjDB9CVfuPaMYacItewEDXJ6
- WxodHZWzz4Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; d="scan'208";a="320675079"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2020 08:43:22 -0700
-Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 29 Jun 2020 08:43:21 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.74]) by
- fmsmsx158.amr.corp.intel.com ([169.254.15.146]) with mapi id 14.03.0439.000;
- Mon, 29 Jun 2020 08:43:22 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 1/2] drm/ttm: cleanup ttm_mem_type_manager_func.get_node
- interface v3
-Thread-Topic: [PATCH 1/2] drm/ttm: cleanup
- ttm_mem_type_manager_func.get_node interface v3
-Thread-Index: AQHWTii30IuIWUA7JU2OUxhLgOB/W6jvu6Cw
-Date: Mon, 29 Jun 2020 15:43:21 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663011C5E2740@fmsmsx107.amr.corp.intel.com>
-References: <20200629151925.2096-1-christian.koenig@amd.com>
-In-Reply-To: <20200629151925.2096-1-christian.koenig@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.106]
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81356897E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 16:04:30 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C782D25583;
+ Mon, 29 Jun 2020 16:04:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593446670;
+ bh=sgSQOtY/x/74MV4rGtAVyonSi8bOlHw3rAK7Fd0sqTQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EKjZCRSMW0PtJe08qG7smt91VirWRGw1e5fB76o1MqZEs86KbwyIJFx5pvauh6632
+ Q/8dc3FQEyV1M9GzF9eSpDL7tv3uTq3lw2L8XG+OQyLAGS8dhqt0d+EoJe5+S/nm01
+ p6u+DD7zXejjd0cfNm71KFFG4HurNc611sP/22do=
+Date: Mon, 29 Jun 2020 18:04:21 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 9/9] drm/simplekms: Acquire memory aperture for framebuffer
+Message-ID: <20200629160421.GA627453@kroah.com>
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-10-tzimmermann@suse.de>
+ <20200629092230.GQ3278063@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200629092230.GQ3278063@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,125 +48,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
-Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZg0KPkNocmlzdGlhbiBL
-w7ZuaWcNCj5TZW50OiBNb25kYXksIEp1bmUgMjksIDIwMjAgMTE6MTkgQU0NCj5UbzogZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPlN1YmplY3Q6IFtQQVRDSCAxLzJdIGRybS90dG06
-IGNsZWFudXANCj50dG1fbWVtX3R5cGVfbWFuYWdlcl9mdW5jLmdldF9ub2RlIGludGVyZmFjZSB2
-Mw0KPg0KPkluc3RlYWQgb2Ygc2lnbmFsaW5nIGZhaWx1cmUgYnkgc2V0dGluZyB0aGUgbm9kZSBw
-b2ludGVyIHRvDQo+TlVMTCBkbyBzbyBieSByZXR1cm5pbmcgLUVOT1NQQy4NCj4NCj52MjogYWRk
-IG1lbXNldCgpIHRvIG1ha2Ugc3VyZSB0aGF0IG1lbSBpcyBhbHdheXMgaW5pdGlhbGl6ZWQuDQo+
-djM6IGRyb3AgbWVtc2V0KCkgb25seSBzZXQgbW1fbm9kZSA9IE5VTEwsIG1vdmUgbW1fbm9kZSBp
-bml0IGluIGFtZGdwdQ0KDQpSZXZpZXdlZC1ieTogTWljaGFlbCBKLiBSdWhsIDxtaWNoYWVsLmou
-cnVobEBpbnRlbC5jb20+DQoNCm0NCg0KPlNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcg
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4tLS0NCj4gZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X2d0dF9tZ3IuYyAgIHwgIDMgKy0tDQo+IGRyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV92cmFtX21nci5jICB8ICA1ICsrLS0tDQo+IGRyaXZlcnMvZ3B1L2RybS9u
-b3V2ZWF1L25vdXZlYXVfdHRtLmMgICAgICAgICB8ICA4IC0tLS0tLS0tDQo+IGRyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgICAgICAgICB8IDEzICsrKysrKystLS0tLS0NCj4g
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jICAgICAgICAgIHwgIDIgKy0NCj4g
-ZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZ21yaWRfbWFuYWdlci5jIHwgIDQgKy0tLQ0K
-PiA2IGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQ0KPg0K
-PmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5j
-DQo+Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jDQo+aW5kZXgg
-NjI3MTA0NDAxZTg0Li4yYzIwZDIzZDYyZDEgMTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2d0dF9tZ3IuYw0KPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMNCj5AQCAtMjI5LDcgKzIyOSw3IEBAIHN0YXRpYyBpbnQg
-YW1kZ3B1X2d0dF9tZ3JfbmV3KHN0cnVjdA0KPnR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sDQo+
-IAlpZiAoKCZ0Ym8tPm1lbSA9PSBtZW0gfHwgdGJvLT5tZW0ubWVtX3R5cGUgIT0gVFRNX1BMX1RU
-KSAmJg0KPiAJICAgIGF0b21pYzY0X3JlYWQoJm1nci0+YXZhaWxhYmxlKSA8IG1lbS0+bnVtX3Bh
-Z2VzKSB7DQo+IAkJc3Bpbl91bmxvY2soJm1nci0+bG9jayk7DQo+LQkJcmV0dXJuIDA7DQo+KwkJ
-cmV0dXJuIC1FTk9TUEM7DQo+IAl9DQo+IAlhdG9taWM2NF9zdWIobWVtLT5udW1fcGFnZXMsICZt
-Z3ItPmF2YWlsYWJsZSk7DQo+IAlzcGluX3VubG9jaygmbWdyLT5sb2NrKTsNCj5AQCAtMjUwLDcg
-KzI1MCw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2d0dF9tZ3JfbmV3KHN0cnVjdA0KPnR0bV9tZW1f
-dHlwZV9tYW5hZ2VyICptYW4sDQo+IAkJaWYgKHVubGlrZWx5KHIpKSB7DQo+IAkJCWtmcmVlKG5v
-ZGUpOw0KPiAJCQltZW0tPm1tX25vZGUgPSBOVUxMOw0KPi0JCQlyID0gMDsNCj4gCQkJZ290byBl
-cnJfb3V0Ow0KPiAJCX0NCj4gCX0gZWxzZSB7DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2FtZGdwdV92cmFtX21nci5jDQo+Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfdnJhbV9tZ3IuYw0KPmluZGV4IDEyOGE2NjdlZDhmYS4uZThkMWRkNTY0MDA2
-IDEwMDY0NA0KPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92cmFtX21n
-ci5jDQo+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZyYW1fbWdyLmMN
-Cj5AQCAtMzM2LDggKzMzNiw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3ZyYW1fbWdyX25ldyhzdHJ1
-Y3QNCj50dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLA0KPiAJbWVtX2J5dGVzID0gKHU2NCltZW0t
-Pm51bV9wYWdlcyA8PCBQQUdFX1NISUZUOw0KPiAJaWYgKGF0b21pYzY0X2FkZF9yZXR1cm4obWVt
-X2J5dGVzLCAmbWdyLT51c2FnZSkgPiBtYXhfYnl0ZXMpIHsNCj4gCQlhdG9taWM2NF9zdWIobWVt
-X2J5dGVzLCAmbWdyLT51c2FnZSk7DQo+LQkJbWVtLT5tbV9ub2RlID0gTlVMTDsNCj4tCQlyZXR1
-cm4gMDsNCj4rCQlyZXR1cm4gLUVOT1NQQzsNCj4gCX0NCj4NCj4gCWlmIChwbGFjZS0+ZmxhZ3Mg
-JiBUVE1fUExfRkxBR19DT05USUdVT1VTKSB7DQo+QEAgLTQxNyw3ICs0MTYsNyBAQCBzdGF0aWMg
-aW50IGFtZGdwdV92cmFtX21ncl9uZXcoc3RydWN0DQo+dHRtX21lbV90eXBlX21hbmFnZXIgKm1h
-biwNCj4gCWF0b21pYzY0X3N1YihtZW0tPm51bV9wYWdlcyA8PCBQQUdFX1NISUZULCAmbWdyLT51
-c2FnZSk7DQo+DQo+IAlrdmZyZWUobm9kZXMpOw0KPi0JcmV0dXJuIHIgPT0gLUVOT1NQQyA/IDAg
-OiByOw0KPisJcmV0dXJuIHI7DQo+IH0NCj4NCj4gLyoqDQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfdHRtLmMNCj5iL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
-L25vdXZlYXVfdHRtLmMNCj5pbmRleCA3Y2EwYTI0OTg1MzIuLmU4OWVhMDUyY2Y3MSAxMDA2NDQN
-Cj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X3R0bS5jDQo+KysrIGIvZHJp
-dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV90dG0uYw0KPkBAIC03NSwxMCArNzUsNiBAQCBu
-b3V2ZWF1X3ZyYW1fbWFuYWdlcl9uZXcoc3RydWN0DQo+dHRtX21lbV90eXBlX21hbmFnZXIgKm1h
-biwNCj4gCXJldCA9IG5vdXZlYXVfbWVtX3ZyYW0ocmVnLCBudmJvLT5jb250aWcsIG52Ym8tPnBh
-Z2UpOw0KPiAJaWYgKHJldCkgew0KPiAJCW5vdXZlYXVfbWVtX2RlbChyZWcpOw0KPi0JCWlmIChy
-ZXQgPT0gLUVOT1NQQykgew0KPi0JCQlyZWctPm1tX25vZGUgPSBOVUxMOw0KPi0JCQlyZXR1cm4g
-MDsNCj4tCQl9DQo+IAkJcmV0dXJuIHJldDsNCj4gCX0NCj4NCj5AQCAtMTM5LDEwICsxMzUsNiBA
-QCBudjA0X2dhcnRfbWFuYWdlcl9uZXcoc3RydWN0DQo+dHRtX21lbV90eXBlX21hbmFnZXIgKm1h
-biwNCj4gCQkJICAgcmVnLT5udW1fcGFnZXMgPDwgUEFHRV9TSElGVCwgJm1lbS0+dm1hWzBdKTsN
-Cj4gCWlmIChyZXQpIHsNCj4gCQlub3V2ZWF1X21lbV9kZWwocmVnKTsNCj4tCQlpZiAocmV0ID09
-IC1FTk9TUEMpIHsNCj4tCQkJcmVnLT5tbV9ub2RlID0gTlVMTDsNCj4tCQkJcmV0dXJuIDA7DQo+
-LQkJfQ0KPiAJCXJldHVybiByZXQ7DQo+IAl9DQo+DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jDQo+aW5kZXgg
-Zjc4Y2ZjNzZhZDc4Li4yZGE4ZGJkMjU1M2IgMTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3R0bS90dG1fYm8uYw0KPisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMNCj5AQCAt
-OTA5LDEwICs5MDksMTAgQEAgc3RhdGljIGludCB0dG1fYm9fbWVtX2ZvcmNlX3NwYWNlKHN0cnVj
-dA0KPnR0bV9idWZmZXJfb2JqZWN0ICpibywNCj4gCXRpY2tldCA9IGRtYV9yZXN2X2xvY2tpbmdf
-Y3R4KGJvLT5iYXNlLnJlc3YpOw0KPiAJZG8gew0KPiAJCXJldCA9ICgqbWFuLT5mdW5jLT5nZXRf
-bm9kZSkobWFuLCBibywgcGxhY2UsIG1lbSk7DQo+LQkJaWYgKHVubGlrZWx5KHJldCAhPSAwKSkN
-Cj4tCQkJcmV0dXJuIHJldDsNCj4tCQlpZiAobWVtLT5tbV9ub2RlKQ0KPisJCWlmIChsaWtlbHko
-IXJldCkpDQo+IAkJCWJyZWFrOw0KPisJCWlmICh1bmxpa2VseShyZXQgIT0gLUVOT1NQQykpDQo+
-KwkJCXJldHVybiByZXQ7DQo+IAkJcmV0ID0gdHRtX21lbV9ldmljdF9maXJzdChiZGV2LCBtZW0t
-Pm1lbV90eXBlLCBwbGFjZSwNCj5jdHgsDQo+IAkJCQkJICB0aWNrZXQpOw0KPiAJCWlmICh1bmxp
-a2VseShyZXQgIT0gMCkpDQo+QEAgLTEwNTYsMTIgKzEwNTYsMTEgQEAgaW50IHR0bV9ib19tZW1f
-c3BhY2Uoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0DQo+KmJvLA0KPg0KPiAJCW1hbiA9ICZiZGV2
-LT5tYW5bbWVtLT5tZW1fdHlwZV07DQo+IAkJcmV0ID0gKCptYW4tPmZ1bmMtPmdldF9ub2RlKSht
-YW4sIGJvLCBwbGFjZSwgbWVtKTsNCj4rCQlpZiAocmV0ID09IC1FTk9TUEMpDQo+KwkJCWNvbnRp
-bnVlOw0KPiAJCWlmICh1bmxpa2VseShyZXQpKQ0KPiAJCQlnb3RvIGVycm9yOw0KPg0KPi0JCWlm
-ICghbWVtLT5tbV9ub2RlKQ0KPi0JCQljb250aW51ZTsNCj4tDQo+IAkJcmV0ID0gdHRtX2JvX2Fk
-ZF9tb3ZlX2ZlbmNlKGJvLCBtYW4sIG1lbSwgY3R4LQ0KPj5ub193YWl0X2dwdSk7DQo+IAkJaWYg
-KHVubGlrZWx5KHJldCkpIHsNCj4gCQkJKCptYW4tPmZ1bmMtPnB1dF9ub2RlKShtYW4sIG1lbSk7
-DQo+QEAgLTExMjYsNiArMTEyNSw4IEBAIHN0YXRpYyBpbnQgdHRtX2JvX21vdmVfYnVmZmVyKHN0
-cnVjdA0KPnR0bV9idWZmZXJfb2JqZWN0ICpibywNCj4gCW1lbS5wYWdlX2FsaWdubWVudCA9IGJv
-LT5tZW0ucGFnZV9hbGlnbm1lbnQ7DQo+IAltZW0uYnVzLmlvX3Jlc2VydmVkX3ZtID0gZmFsc2U7
-DQo+IAltZW0uYnVzLmlvX3Jlc2VydmVkX2NvdW50ID0gMDsNCj4rCW1lbS5tbV9ub2RlID0gTlVM
-TDsNCj4rDQo+IAkvKg0KPiAJICogRGV0ZXJtaW5lIHdoZXJlIHRvIG1vdmUgdGhlIGJ1ZmZlci4N
-Cj4gCSAqLw0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib19tYW5hZ2Vy
-LmMNCj5iL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYw0KPmluZGV4IDE4ZDNk
-ZWJjYzk0OS4uZmFjZDMwNDljM2FhIDEwMDY0NA0KPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0v
-dHRtX2JvX21hbmFnZXIuYw0KPisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFn
-ZXIuYw0KPkBAIC04Niw3ICs4Niw3IEBAIHN0YXRpYyBpbnQgdHRtX2JvX21hbl9nZXRfbm9kZShz
-dHJ1Y3QNCj50dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLA0KPiAJCW1lbS0+c3RhcnQgPSBub2Rl
-LT5zdGFydDsNCj4gCX0NCj4NCj4tCXJldHVybiAwOw0KPisJcmV0dXJuIHJldDsNCj4gfQ0KPg0K
-PiBzdGF0aWMgdm9pZCB0dG1fYm9fbWFuX3B1dF9ub2RlKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFu
-YWdlciAqbWFuLA0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9n
-bXJpZF9tYW5hZ2VyLmMNCj5iL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dtcmlkX21h
-bmFnZXIuYw0KPmluZGV4IDdkYTc1MmNhMWMzNC4uNGE3NmZjNzExNGFkIDEwMDY0NA0KPi0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dtcmlkX21hbmFnZXIuYw0KPisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dtcmlkX21hbmFnZXIuYw0KPkBAIC01Myw4ICs1
-Myw2IEBAIHN0YXRpYyBpbnQgdm13X2dtcmlkX21hbl9nZXRfbm9kZShzdHJ1Y3QNCj50dG1fbWVt
-X3R5cGVfbWFuYWdlciAqbWFuLA0KPiAJCShzdHJ1Y3Qgdm13Z2Z4X2dtcmlkX21hbiAqKW1hbi0+
-cHJpdjsNCj4gCWludCBpZDsNCj4NCj4tCW1lbS0+bW1fbm9kZSA9IE5VTEw7DQo+LQ0KPiAJaWQg
-PSBpZGFfYWxsb2NfbWF4KCZnbWFuLT5nbXJfaWRhLCBnbWFuLT5tYXhfZ21yX2lkcyAtIDEsDQo+
-R0ZQX0tFUk5FTCk7DQo+IAlpZiAoaWQgPCAwKQ0KPiAJCXJldHVybiAoaWQgIT0gLUVOT01FTSA/
-IDAgOiBpZCk7DQo+QEAgLTc4LDcgKzc2LDcgQEAgc3RhdGljIGludCB2bXdfZ21yaWRfbWFuX2dl
-dF9ub2RlKHN0cnVjdA0KPnR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sDQo+IAlnbWFuLT51c2Vk
-X2dtcl9wYWdlcyAtPSBiby0+bnVtX3BhZ2VzOw0KPiAJc3Bpbl91bmxvY2soJmdtYW4tPmxvY2sp
-Ow0KPiAJaWRhX2ZyZWUoJmdtYW4tPmdtcl9pZGEsIGlkKTsNCj4tCXJldHVybiAwOw0KPisJcmV0
-dXJuIC1FTk9TUEM7DQo+IH0NCj4NCj4gc3RhdGljIHZvaWQgdm13X2dtcmlkX21hbl9wdXRfbm9k
-ZShzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXINCj4qbWFuLA0KPi0tDQo+Mi4xNy4xDQo+DQo+
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj5kcmktZGV2
-ZWwgbWFpbGluZyBsaXN0DQo+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsDQpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Jun 29, 2020 at 11:22:30AM +0200, Daniel Vetter wrote:
+> On Thu, Jun 25, 2020 at 02:00:11PM +0200, Thomas Zimmermann wrote:
+> > We register the simplekms device with the DRM platform helpers. A
+> > native driver for the graphics hardware will kickout the simplekms
+> > driver before taking over the device.
+> > 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > ---
+> >  drivers/gpu/drm/tiny/Kconfig     |  1 +
+> >  drivers/gpu/drm/tiny/simplekms.c | 94 +++++++++++++++++++++++++++++++-
+> >  2 files changed, 92 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> > index 50dbde8bdcb2..a47ed337a7fe 100644
+> > --- a/drivers/gpu/drm/tiny/Kconfig
+> > +++ b/drivers/gpu/drm/tiny/Kconfig
+> > @@ -33,6 +33,7 @@ config DRM_SIMPLEKMS
+> >  	depends on DRM
+> >  	select DRM_GEM_SHMEM_HELPER
+> >  	select DRM_KMS_HELPER
+> > +	select DRM_PLATFORM_HELPER
+> >  	help
+> >  	  DRM driver for simple platform-provided framebuffers.
+> >  
+> > diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
+> > index ae5d3cbadbe8..a903a4e0100a 100644
+> > --- a/drivers/gpu/drm/tiny/simplekms.c
+> > +++ b/drivers/gpu/drm/tiny/simplekms.c
+> > @@ -5,6 +5,7 @@
+> >  #include <linux/platform_data/simplefb.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/regulator/consumer.h>
+> > +#include <linux/spinlock.h>
+> >  
+> >  #include <drm/drm_atomic_state_helper.h>
+> >  #include <drm/drm_connector.h>
+> > @@ -17,6 +18,7 @@
+> >  #include <drm/drm_gem_shmem_helper.h>
+> >  #include <drm/drm_managed.h>
+> >  #include <drm/drm_modeset_helper_vtables.h>
+> > +#include <drm/drm_platform.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/drm_simple_kms_helper.h>
+> >  
+> > @@ -36,6 +38,12 @@
+> >  #define SIMPLEKMS_MODE(hd, vd)	\
+> >  	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
+> >  
+> > +/*
+> > + * Protects the platform device's drvdata against
+> > + * concurrent manipulation.
+> > + */
+> > +static DEFINE_SPINLOCK(simplekms_drvdata_lock);
+> > +
+> >  /*
+> >   * Helpers for simplefb
+> >   */
+> > @@ -211,6 +219,7 @@ struct simplekms_device {
+> >  	unsigned int pitch;
+> >  
+> >  	/* memory management */
+> > +	struct drm_aperture *aperture;
+> >  	struct resource *mem;
+> >  	void __iomem *screen_base;
+> >  
+> > @@ -224,6 +233,8 @@ static struct simplekms_device *simplekms_device_of_dev(struct drm_device *dev)
+> >  	return container_of(dev, struct simplekms_device, dev);
+> >  }
+> >  
+> > +static void simplekms_device_cleanup(struct simplekms_device *sdev);
+> > +
+> >  /*
+> >   * Hardware
+> >   */
+> > @@ -514,22 +525,72 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
+> >   * Memory management
+> >   */
+> >  
+> > +static void simplekms_aperture_kickout(struct drm_aperture *ap)
+> > +{
+> > +	struct drm_device *dev = ap->dev;
+> > +	struct simplekms_device *sdev = simplekms_device_of_dev(dev);
+> > +	struct platform_device *pdev = sdev->pdev;
+> > +
+> > +	if (WARN_ON(!sdev->aperture))
+> > +		return; /* BUG: driver already got kicked out */
+> > +
+> > +	drm_dev_unregister(dev);
+> 
+> >From a semantic pov I think the platform driver getting kicked out is more
+> like a hotunplug, so drm_dev_unplug(dev); here is imo better.
+> 
+> That then also gives you a nice drm_dev_enter/exit to sprinkle over the
+> various driver callbacks, instead of the racy ->aperture check reinvented
+> wheel here.
+> 
+> I also wonder whether we couldn't go full driver model for these platform
+> devices, and instead of this here call a core driver model function to
+> force the unbding of the driver. Only change we'd need it that our
+> ->remove hook uses drm_dev_unplug().
+
+Yes, please do that.  Or, use the "virtual bus/device" code that some
+people at Intel are still trying to get into mergable shape.  See the
+posts on the netdev list for those details.
+
+Don't use platform devices for anything that is not actually a platform
+device (i.e. something described by hardware resources).
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
