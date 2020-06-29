@@ -1,118 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A8B20CD54
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 10:33:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90EF20CD56
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 10:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884D06E427;
-	Mon, 29 Jun 2020 08:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7A16E17C;
+	Mon, 29 Jun 2020 08:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB2876E427
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 08:33:28 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id z13so15626981wrw.5
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 01:33:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T1ZbU8vDwhdcN6rgiPhuc72rEw4MuPQfNKpfu9j4QRU=;
- b=IC09zSgSrs1I2e1DmNjrMQoFspgxJ1nQTpdXCg7kPe87xWvyqdKkLI2Gr/4viIXw3U
- KAmpTLE4Af+u2AnvD3jDdlDp34ib9EpPBd9uHFUQrnc5zvHJnI0DTiwj/UdWWxMqewYV
- PAMrXa3geZsS64U2hopBl7Z4bBG7BqTuaFUMHl+1cgNZsgBAJ7C0RsCPImWLs4Ahm9y+
- 9QXJ1kpSuAzxR7PvQUS/7xCAQK5X+h7ZJ464UjS4vbEv5yx8uoUM32eK/OzapG+Y2wze
- o1p1FSUcJ2hbtpu+Z/XLs3zoh/4AyRm/mSKlOm9NI1sbNUWKDFxORHFRwmhAR9nzVVoT
- jvEA==
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7469E6E17C
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 08:34:02 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id o11so15620680wrv.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 01:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=m1iLBqzd5JET/4+7q0bkqySBB/VEXvt/QPf9pQZxD4I=;
+ b=ioALFefxtWjpUGVv9aHBdWR6XYQ5mUGOiLyBKcCwX93YpoWp3xtVYvb6n6RB2S8Ckz
+ u3QFELzJpaqBiFOqrnUVJ2Wq7mtXuxbjmoKGKF4tV6Wn0jSwpXHOXITn+H14U5jKSdGf
+ DiIL0Vq9MDiO8em2RGk+86Hl1UFagXnZvgL9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=T1ZbU8vDwhdcN6rgiPhuc72rEw4MuPQfNKpfu9j4QRU=;
- b=Oxi1MxoykweYt6+IbbWCLEyCIrAbCwWqOJN/cd5fp5XKEY5PhGFoQ5R1UcGh5nr4de
- O2zhamqrGqEmXnQhCuZOfAOylea+uo+2C6dGYaDjD3I3J88k/wfYTK21snjsKQ/XuTew
- Orb6PQoC6V+rxNiVfUBYfZk5oj9IAc8DXO6459zJq7mkmHvbIl8fJrAC2r+CLjLlVrRL
- 0hDfJbenzIovdfwlxM0f8QAjGQXBrSitQnLBkfZ+NYNBcjyMAGJ45/+BZjGTN4Up8W5H
- 8kyOSLFpBmBMZhaePnmFyVrDRe2HNlI90tLtCYsdPVB4IBnntlfAgaI2J7UFSKniiKq3
- P1sA==
-X-Gm-Message-State: AOAM532Xs0KTFOq63IWxeobrNO+Cp4Y28wmJhXnRVkHOraSApR0UE3uG
- gfcuA75/Yz+iUFATN2SUi2Ko8+xx7/cBiQ==
-X-Google-Smtp-Source: ABdhPJwRR2Jmm8ZrMaeQGldw0JVg8lAEMT69W9vNwwlgZjmPWjSyRhnaYKF8gLxo3t/MV7EErvYagA==
-X-Received: by 2002:adf:e60e:: with SMTP id p14mr15589643wrm.31.1593419606691; 
- Mon, 29 Jun 2020 01:33:26 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:9902:c1f0:76c7:9dbc?
- ([2a01:e35:2ec0:82b0:9902:c1f0:76c7:9dbc])
- by smtp.gmail.com with ESMTPSA id 63sm51120339wra.86.2020.06.29.01.33.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Jun 2020 01:33:25 -0700 (PDT)
-Subject: Re: [PATCH v6 4/4] drm/bridge: lvds-codec: simplify error handling
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20200626100103.18879-1-a.hajda@samsung.com>
- <CGME20200626100111eucas1p18e175e6c77af483bd80fb90c171b05db@eucas1p1.samsung.com>
- <20200626100103.18879-5-a.hajda@samsung.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <ba4337c1-97b5-46e7-8181-ffadf98935e8@baylibre.com>
-Date: Mon, 29 Jun 2020 10:33:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=m1iLBqzd5JET/4+7q0bkqySBB/VEXvt/QPf9pQZxD4I=;
+ b=cmqQJXSqELQ7Gqxs7NKX84cFYr3zxcad/wNlN078S4LvMB7d3K8n4s4E/9J71r3era
+ 0Q68D5zvrHIdPE2KmFkB8O2jFXPK/CHUxgVCGDGdO7srDnUOsuO0KSbGU/ww3CAUh2CW
+ sg2ggKcNIjmVRoO2M5f5nGiVT/thSHoUqKO4WzqNeWVDgyA+GowCg9d+LYmbRLds8cC3
+ u+X9dmgwbT8Mt/EhXEF0+l05bpbPMpjlFCsl+uBGSCygBdh2OLcKdqvj+n5IPFDNSq0m
+ Ak6GK4W4Ps7YCUuGbBx0MXnkmDEJPcxibJ/zs2qvKGJdCqsr4UZ1ZpCeHTKWGr2z3ALN
+ BeeA==
+X-Gm-Message-State: AOAM533nt4hZ/veQF4baPPqeAQg5HdWLbPveOXARGp35VYneNKqVXeVq
+ B0KqqQ9r8Ky2EmNlTj4rs24sgPI8Oxs=
+X-Google-Smtp-Source: ABdhPJxoly9GEBebPkgfgZdpyDBicJrcaP5lLqpFp2lEkUI/aykgWwPjNusQB+uOOnfme7Z0sEXChg==
+X-Received: by 2002:adf:f5ce:: with SMTP id k14mr15246966wrp.234.1593419641020; 
+ Mon, 29 Jun 2020 01:34:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y20sm4657035wmi.8.2020.06.29.01.33.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Jun 2020 01:34:00 -0700 (PDT)
+Date: Mon, 29 Jun 2020 10:33:58 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Antonio Borneo <antonio.borneo@st.com>
+Subject: Re: [PATCH] drm/connector: fix minor typos in comments
+Message-ID: <20200629083358.GK3278063@phenom.ffwll.local>
+Mail-Followup-To: Antonio Borneo <antonio.borneo@st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20200626204252.44565-1-antonio.borneo@st.com>
 MIME-Version: 1.0
-In-Reply-To: <20200626100103.18879-5-a.hajda@samsung.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200626204252.44565-1-antonio.borneo@st.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,57 +72,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Jonas Karlman <jonas@kwiboo.se>, andy.shevchenko@gmail.com,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/06/2020 12:01, Andrzej Hajda wrote:
-> Using dev_err_probe code has following advantages:
-> - shorter code,
-> - recorded defer probe reason for debugging,
-> - uniform error code logging.
+On Fri, Jun 26, 2020 at 10:42:52PM +0200, Antonio Borneo wrote:
+> Some of these comments are part of the Linux GPU Driver Developer's
+> Guide.
+> Fix some minor typo in the comments and remove a repeated 'the'.
 > 
-> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+> Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
+
+Queued up for 5.9 in drm-misc-next, thanks for your patch.
+-Daniel
+
 > ---
->  drivers/gpu/drm/bridge/lvds-codec.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/drm_connector.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-> index 24fb1befdfa2..f19d9f7a5db2 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -71,13 +71,9 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
->  	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
->  							     GPIOD_OUT_HIGH);
-> -	if (IS_ERR(lvds_codec->powerdown_gpio)) {
-> -		int err = PTR_ERR(lvds_codec->powerdown_gpio);
-> -
-> -		if (err != -EPROBE_DEFER)
-> -			dev_err(dev, "powerdown GPIO failure: %d\n", err);
-> -		return err;
-> -	}
-> +	if (IS_ERR(lvds_codec->powerdown_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lvds_codec->powerdown_gpio),
-> +				     "powerdown GPIO failure\n");
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index d877ddc6dc57..cb62fb8e594e 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -38,7 +38,7 @@
+>   * DOC: overview
+>   *
+>   * In DRM connectors are the general abstraction for display sinks, and include
+> - * als fixed panels or anything else that can display pixels in some form. As
+> + * also fixed panels or anything else that can display pixels in some form. As
+>   * opposed to all other KMS objects representing hardware (like CRTC, encoder or
+>   * plane abstractions) connectors can be hotplugged and unplugged at runtime.
+>   * Hence they are reference-counted using drm_connector_get() and
+> @@ -129,7 +129,7 @@ EXPORT_SYMBOL(drm_get_connector_type_name);
 >  
->  	/* Locate the panel DT node. */
->  	panel_node = of_graph_get_remote_node(dev->of_node, 1, 0);
+>  /**
+>   * drm_connector_get_cmdline_mode - reads the user's cmdline mode
+> - * @connector: connector to quwery
+> + * @connector: connector to query
+>   *
+>   * The kernel supports per-connector configuration of its consoles through
+>   * use of the video= parameter. This function parses that option and
+> @@ -991,7 +991,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+>   * 	DP MST sinks), or high-res integrated panels (like dual-link DSI) which
+>   * 	are not gen-locked. Note that for tiled panels which are genlocked, like
+>   * 	dual-link LVDS or dual-link DSI, the driver should try to not expose the
+> - * 	tiling and virtualize both &drm_crtc and &drm_plane if needed. Drivers
+> + * 	tiling and virtualise both &drm_crtc and &drm_plane if needed. Drivers
+>   * 	should update this value using drm_connector_set_tile_property().
+>   * 	Userspace cannot change this property.
+>   * link-status:
+> @@ -1131,7 +1131,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+>   *
+>   *	It will even need to do colorspace conversion and get all layers
+>   *	to one common colorspace for blending. It can use either GL, Media
+> - *	or display engine to get this done based on the capabilties of the
+> + *	or display engine to get this done based on the capabilities of the
+>   *	associated hardware.
+>   *
+>   *	Driver expects metadata to be put in &struct hdr_output_metadata
+> @@ -1614,7 +1614,7 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+>   * variable refresh rate capability for a connector.
+>   *
+>   * Returns:
+> - * Zero on success, negative errono on failure.
+> + * Zero on success, negative errno on failure.
+>   */
+>  int drm_connector_attach_vrr_capable_property(
+>  	struct drm_connector *connector)
+> @@ -1759,7 +1759,7 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
+>   * HDMI connectors.
+>   *
+>   * Returns:
+> - * Zero on success, negative errono on failure.
+> + * Zero on success, negative errno on failure.
+>   */
+>  int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector)
+>  {
+> @@ -1788,7 +1788,7 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
+>   * DP connectors.
+>   *
+>   * Returns:
+> - * Zero on success, negative errono on failure.
+> + * Zero on success, negative errno on failure.
+>   */
+>  int drm_mode_create_dp_colorspace_property(struct drm_connector *connector)
+>  {
+> @@ -1840,7 +1840,7 @@ EXPORT_SYMBOL(drm_mode_create_content_type_property);
+>   * drm_mode_create_suggested_offset_properties - create suggests offset properties
+>   * @dev: DRM device
+>   *
+> - * Create the the suggested x/y offset property for connectors.
+> + * Create the suggested x/y offset property for connectors.
+>   */
+>  int drm_mode_create_suggested_offset_properties(struct drm_device *dev)
+>  {
+> @@ -1963,7 +1963,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+>  		size = EDID_LENGTH * (1 + edid->extensions);
+>  
+>  	/* Set the display info, using edid if available, otherwise
+> -	 * reseting the values to defaults. This duplicates the work
+> +	 * resetting the values to defaults. This duplicates the work
+>  	 * done in drm_add_edid_modes, but that function is not
+>  	 * consistently called before this one in all drivers and the
+>  	 * computation is cheap enough that it seems better to
+> @@ -2076,7 +2076,7 @@ void drm_connector_set_vrr_capable_property(
+>  EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
+>  
+>  /**
+> - * drm_connector_set_panel_orientation - sets the connecter's panel_orientation
+> + * drm_connector_set_panel_orientation - sets the connector's panel_orientation
+>   * @connector: connector for which to set the panel-orientation property.
+>   * @panel_orientation: drm_panel_orientation value to set
+>   *
+> @@ -2131,7 +2131,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+>  
+>  /**
+>   * drm_connector_set_panel_orientation_with_quirk -
+> - *	set the connecter's panel_orientation after checking for quirks
+> + *	set the connector's panel_orientation after checking for quirks
+>   * @connector: connector for which to init the panel-orientation property.
+>   * @panel_orientation: drm_panel_orientation value to set
+>   * @width: width in pixels of the panel, used for panel quirk detection
+> -- 
+> 2.27.0
 > 
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
