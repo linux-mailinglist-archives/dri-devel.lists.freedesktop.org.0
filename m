@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A963220CDE4
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 12:27:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AB420CE15
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 13:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAE389FA9;
-	Mon, 29 Jun 2020 10:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5D389D7B;
+	Mon, 29 Jun 2020 11:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527536E077
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 10:27:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=GeTt71jPkyvE8n3UDcsM5uwwI7c65TZU/3u6ogadEZk=; b=JaHu7ySB2PKfzB2ahPj6hSFoCf
- 6awpzmI+uDRxEHaguWVNIZe7/nixBg7mTRyRO/yRLUnk570WTedUxRwBvkajjkklHHrZj4thUl9Br
- JJubgvikETQ3+UEZniZAivjtV1bvOuPw2aKG3ZwPVPEheZN3CwlPkpOb0bIsCd9Svaj9Q+ApLNZ13
- t7x4fquGIdZnawAw2GOy0JTqTJRMOhUBDO6jmuu6wukCE3J2CZ27/vxNenetLr3S9Ug/6fBodJwVf
- g1y/pvQuaHCaUm/MI5stGYDufkUf2xUYZpgU7Fa6flcT+AzQ0zMT3fv94n2LFfYrhUMagTKeaFO00
- 2kNmxq2Q==;
-Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1jpr0m-0001BY-TD; Mon, 29 Jun 2020 13:27:41 +0300
-Subject: Re: [RFC] Host1x/TegraDRM UAPI (sync points)
-To: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
- <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <5b1edaad-ba36-7b0f-5b02-457ae5b6d91e@gmail.com>
- <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
- <623c1eaa-31fb-8dff-f6c0-d8cd0be60070@gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <827c92a6-7fed-a81c-ba8e-6c69416c4ab9@kapsi.fi>
-Date: Mon, 29 Jun 2020 13:27:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBBCA89D7B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 11:08:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208373] New: drm:drm_atomic_helper_wait_for_dependencies -
+ drm_kms_helper - flip_done timed out
+Date: Mon, 29 Jun 2020 11:08:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ionut_n2001@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-208373-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <623c1eaa-31fb-8dff-f6c0-d8cd0be60070@gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.250.171.65
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,152 +52,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Erik Faye-Lund <kusmabite@gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNi8yOS8yMCA1OjM2IEFNLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMjguMDYuMjAyMCAx
-Mjo0NCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IE9uIDYvMjgvMjAgMjoyNyBBTSwg
-RG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4gMjMuMDYuMjAyMCAxNTowOSwgTWlra28gUGVydHR1
-bmVuINC/0LjRiNC10YI6Cj4+Pj4KPj4+PiAjIyMgSU9DVEwgSE9TVDFYX0FMTE9DQVRFX1NZTkNQ
-T0lOVCAob24gL2Rldi9ob3N0MXgpCj4+Pj4KPj4+PiBBbGxvY2F0ZXMgYSBmcmVlIHN5bmNwb2lu
-dCwgcmV0dXJuaW5nIGEgZmlsZSBkZXNjcmlwdG9yIHJlcHJlc2VudGluZyBpdC4KPj4+PiBPbmx5
-IHRoZSBvd25lciBvZiB0aGUgZmlsZSBkZXNjcmlwdG9yIGlzIGFsbG93ZWQgdG8gbXV0YXRlIHRo
-ZSB2YWx1ZSBvZgo+Pj4+IHRoZSBzeW5jcG9pbnQuCj4+Pj4KPj4+PiBgYGAKPj4+PiBzdHJ1Y3Qg
-aG9zdDF4X2N0cmxfYWxsb2NhdGVfc3luY3BvaW50IHsKPj4+PiAgwqDCoMKgwqDCoMKgwqAgLyoq
-Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKiBAZmQ6Cj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgKgo+
-Pj4+ICDCoMKgwqDCoMKgwqDCoMKgICogW291dF0gTmV3IGZpbGUgZGVzY3JpcHRvciByZXByZXNl
-bnRpbmcgdGhlIGFsbG9jYXRlZAo+Pj4+IHN5bmNwb2ludC4KPj4+PiAgwqDCoMKgwqDCoMKgwqDC
-oCAqLwo+Pj4+ICDCoMKgwqDCoMKgwqDCoCBfX3MzMiBmZDsKPj4+Pgo+Pj4+ICDCoMKgwqDCoMKg
-wqDCoCBfX3UzMiByZXNlcnZlZFszXTsKPj4+PiB9Owo+Pj4KPj4+IFdlIHNob3VsZCBuZWVkIGF0
-IGxlYXN0IHRoZXNlIGJhc2ljIHRoaW5ncyBmcm9tIHRoZSBzeW5jIHBvaW50cyBBUEkgPgo+Pj4g
-LSBFeGVjdXRpb24gY29udGV4dCBzaG91bGRuJ3QgYmUgYWJsZSB0byB0YW1wZXIgc3luYyBwb2lu
-dHMgb2YgdGhlIG90aGVyCj4+PiBjb250ZXh0cy4KPj4KPj4gVGhpcyBpcyBjb3ZlcmVkIGJ5IHRo
-aXMgVUFQSSAtIHdoZW4gc3VibWl0dGluZywgYXMgcGFydCBvZiB0aGUKPj4gc3luY3B0X2luY3Ig
-c3RydWN0IHlvdSBwYXNzIHRoZSBzeW5jcG9pbnQgRkQuIFRoaXMgd2F5IHRoZSBkcml2ZXIgY2Fu
-Cj4+IGNoZWNrIHRoZSBzeW5jcG9pbnRzIHVzZWQgYXJlIGNvcnJlY3QsIG9yIHByb2dyYW0gSFcg
-cHJvdGVjdGlvbi4KPj4KPj4+Cj4+PiAtIFN5bmMgcG9pbnQgY291bGQgYmUgc2hhcmVkIHdpdGgg
-b3RoZXIgY29udGV4dHMgZm9yIGV4cGxpY2l0IGZlbmNpbmcuCj4+Cj4+IE5vdCBzdXJlIHdoYXQg
-eW91IHNwZWNpZmljYWxseSBtZWFuOyB5b3UgY2FuIGdldCB0aGUgSUQgb3V0IG9mIHRoZQo+PiBz
-eW5jcG9pbnQgZmQgYW5kIHNoYXJlIHRoZSBJRCBmb3IgcmVhZC1vbmx5IGFjY2Vzcy4gKE9yIHRo
-ZSBGRCBmb3IKPj4gcmVhZC13cml0ZSBhY2Nlc3MpCj4gCj4gSSBlbnVtZXJhdGVkIHRoZSBvdmVy
-YWxsIHBvaW50cyB0aGF0IFVBUEkgc2hvdWxkIHByb3ZpZGUgdG8gdXMsIGp1c3QgZm9yCj4gY2xh
-cml0eS4gTm90IGxpa2UgeW91IGhhdmVuJ3QgY292ZXJlZCBhbnkgb2YgdGhlbSwgc29ycnkgZm9y
-IHRoZQo+IGNvbmZ1c2lvbiEgOikKPiAKPiBQbGVhc2Ugc2VlIG1vcmUgY29tbWVudHMgYmVsb3ch
-CgpPaywgZ29vZCA6KQoKPiAKPj4+Cj4+PiAtIFN5bmMgcG9pbnRzIHNob3VsZCB3b3JrIHJlbGlh
-Ymx5Lgo+Pj4KPj4+IFNvbWUgcHJvYmxlbXMgb2YgdGhlIGN1cnJlbnQgSG9zdDF4IGRyaXZlciwg
-bGlrZSB3aGVyZSBpdCBmYWxscyBvdmVyIGlmCj4+PiBzeW5jIHBvaW50IHZhbHVlIGlzIG91dC1v
-Zi1zeW5jICsgYWxsIHRoZSBoYW5nLWpvYiByZWNvdmVyeSBsYWJvciBjb3VsZAo+Pj4gYmUgZWFz
-aWx5IHJlZHVjZWQgaWYgc3luYyBwb2ludCBoZWFsdGggaXMgcHJvdGVjdGVkIGJ5IGV4dHJhIFVB
-UEkKPj4+IGNvbnN0cmFpbnRzLiA+Cj4+PiBTbyBJIHRoaW5rIHdlIG1heSB3YW50IHRoZSBmb2xs
-b3dpbmc6Cj4+Pgo+Pj4gMS4gV2Ugc3RpbGwgc2hvdWxkIG5lZWQgdG8gYXNzaWduIHN5bmMgcG9p
-bnQgSUQgdG8gYSBEUk0tY2hhbm5lbCdzCj4+PiBjb250ZXh0LiBUaGlzIHN5bmMgcG9pbnQgSUQg
-d2lsbCBiZSB1c2VkIGZvciBhIGNvbW1hbmRzIHN0cmVhbSBmb3JtaW5nLAo+Pj4gbGlrZSBpdCBp
-cyBkb25lIGJ5IHRoZSBjdXJyZW50IHN0YWdpbmcgVUFQSS4KPj4+Cj4+PiBTbyB3ZSBzaG91bGQg
-bmVlZCB0byByZXRhaW4gdGhlIERSTV9URUdSQV9HRVRfU1lOQ1BUIElPQ1RMLCBidXQKPj4+IGlt
-cHJvdmUgaXQuCj4gCj4gTXkgcG9pbnQgaGVyZSBpcyB0aGF0IHRoZSBVQVBJIHNob3VsZG4ndCBi
-ZSBhYmxlIHRvIGluY3JlbWVudCB0aGUgam9iJ3MKPiBzeW5jIHBvaW50IHVzaW5nIFNZTkNQT0lO
-VF9JTkNSRU1FTlQgSU9DVEwsIHdoaWNoIGlzIGFub3RoZXIgVUFQSQo+IGNvbnN0cmFpbnQuCj4g
-Cj4gSSdtIHN1Z2dlc3RpbmcgdGhhdCB3ZSBzaG91bGQgaGF2ZSB0d28gbWV0aG9kcyBvZiBzeW5j
-IHBvaW50IGFsbG9jYXRpb25zOgo+IAo+IDEpIFN5bmMgcG9pbnQgdGhhdCBjb3VsZCBiZSB1c2Vk
-IG9ubHkgYnkgYSBzdWJtaXR0ZWQgam9iLgo+IAo+IDIpIFN5bmMgcG9pbnQgdGhhdCBjb3VsZCBi
-ZSBpbmNyZW1lbnRlZCBieSBDUFUuCj4gCj4gVGhlIGZpcnN0IG1ldGhvZCB3aWxsIGFsbG9jYXRl
-IGEgcmF3IHN5bmMgcG9pbnQgSUQgdGhhdCBpcyBhc3NpZ25lZCB0bwo+IHRoZSBjaGFubmVsJ3Mg
-Y29udGV4dC4gVGhpcyBJRCB3aWxsIGJlIHVzZWQgZm9yIHRoZSBqb2IncyBjb21wbGV0aW9uCj4g
-dHJhY2tpbmcuIFBlcmhhcHMgdGhpcyBtZXRob2QgYWxzbyBjb3VsZCBvcHRpb25hbGx5IHJldHVy
-biBhIHN5bmMgcG9pbnQKPiBGRCBpZiB5b3UnZCB3YW50IHRvIHdhaXQgb24gdGhpcyBzeW5jIHBv
-aW50IGJ5IGFub3RoZXIgam9iLgo+IAo+IFdlIGRvbid0IG5lZWQgYSBkZWRpY2F0ZWQgc3luYyBw
-b2ludCBGRCBmb3IgYWxsIGtpbmRzIG9mIGpvYnMsIGRvbid0IHdlPwo+IEZvciBleGFtcGxlLCBJ
-IGRvbid0IHNlZSB3aHkgYSBzeW5jIHBvaW50IEZEIG1heSBiZSBuZWVkZWQgaW4gYSBjYXNlIG9m
-Cj4gT3BlbnRlZ3JhIGpvYnMuCgpJIHRoaW5rIGl0J3MgY2xlYW5lciBpZiB3ZSBoYXZlIGp1c3Qg
-b25lIHdheSB0byBhbGxvY2F0ZSBzeW5jcG9pbnRzLCBhbmQgCnRoZW4gdGhvc2Ugc3luY3BvaW50
-cyBjYW4gYmUgcGFzc2VkIHRvIGRpZmZlcmVudCB0aGluZ3MgZGVwZW5kaW5nIG9uIHRoZSAKc2l0
-dWF0aW9uLgoKSWYgd2Ugd2FudCB0byBwcm90ZWN0IGRpcmVjdCBpbmNyZW1lbnRpbmcgd2hpbGUg
-YSBqb2IgaXMgc3VibWl0dGVkLCB3ZSAKY291bGQgaGF2ZSBhIGxvY2tpbmcgQVBJIHdoZXJlIGFu
-IG9uZ29pbmcgam9iIGNhbiB0YWtlIGEgbG9jayByZWZjb3VudCAKaW4gdGhlIHN5bmNwb2ludCwg
-YW5kIGluY3JlbWVudGluZyB3b3VsZCByZXR1cm4gLUVCVVNZLgoKPiAKPj4+IDIuIEFsbG9jYXRl
-ZCBzeW5jIHBvaW50IG11c3QgaGF2ZSBhIGNsZWFuIGhhcmR3YXJlIHN0YXRlLgo+Pgo+PiBXaGF0
-IGRvIHlvdSBtZWFuIGJ5IGNsZWFuIGhhcmR3YXJlIHN0YXRlPwo+IAo+IEkgbWVhbiB0aGF0IHN5
-bmMgcG9pbnQgc2hvdWxkIGhhdmUgYSBwcmVkaWN0YWJsZSBzdGF0ZSBbMV0sIGl0IHNob3VsZG4n
-dAo+IGFjY2lkZW50YWxseSBmaXJlIGR1cmluZyBvZiBoYXJkd2FyZSBwcm9ncmFtbWluZyBmb3Ig
-ZXhhbXBsZS4KPiAKPiBbMV0KPiBodHRwczovL2dpdGh1Yi5jb20vZ3JhdGUtZHJpdmVyL2xpbnV4
-L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2hvc3QxeC9zb2Mvc3luY3BvaW50cy5jI0wxMzIKPiAK
-PiBGb3IgYSBzdWJtaXR0ZWQgam9iLCB0aGUgam9iJ3Mgc3luYyBwb2ludCBzdGF0ZSBjb3VsZCBi
-ZSByZXNldCBhdCBhCj4gc3VibWlzc2lvbiB0aW1lLCBmb3IgZXhhbXBsZSBsaWtlIEkgZGlkIGl0
-IGluIHRoZSBncmF0ZS1rZXJuZWwncwo+IGV4cGVyaW1lbnRhbCBkcml2ZXIgWzJdLgo+IAo+IFsy
-XQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGludXgvYmxvYi9tYXN0ZXIvZHJp
-dmVycy9ncHUvaG9zdDF4L3NvYy9jaGFubmVsLmMjTDE0NQo+IAo+Pj4KPj4+IDMuIFN5bmMgcG9p
-bnRzIHNob3VsZCBiZSBwcm9wZXJseSByZWZjb3VudGVkLiBKb2IncyBzeW5jIHBvaW50cwo+Pj4g
-c2hvdWxkbid0IGJlIHJlLXVzZWQgd2hpbGUgam9iIGlzIGFsaXZlLgo+Pj4KPj4+IDQuIFRoZSBq
-b2IncyBzeW5jIHBvaW50IGNhbid0IGJlIHJlLXVzZWQgYWZ0ZXIgam9iJ3Mgc3VibWlzc2lvbiAo
-VUFQSQo+Pj4gY29uc3RyYWludCEpLiBVc2Vyc3BhY2UgbXVzdCBmcmVlIHN5bmMgcG9pbnQgYW5k
-IGFsbG9jYXRlIGEgbmV3IG9uZSBmb3IKPj4+IHRoZSBuZXh0IGpvYiBzdWJtaXNzaW9uLiBBbmQg
-bm93IHdlOgo+Pj4KPj4+ICDCoMKgIC0gS25vdyB0aGF0IGpvYidzIHN5bmMgcG9pbnQgaXMgYWx3
-YXlzIGluIGEgaGVhbHRoeSBzdGF0ZSEKPj4+Cj4+PiAgwqDCoCAtIFdlJ3JlIG5vdCBsaW1pdGVk
-IGJ5IGEgbnVtYmVyIG9mIHBoeXNpY2FsbHkgYXZhaWxhYmxlIGhhcmR3YXJlIHN5bmMKPj4+IHBv
-aW50cyEgQWxsb2NhdGlvbiBzaG91bGQgYmxvY2sgdW50aWwgZnJlZSBzeW5jIHBvaW50IGlzIGF2
-YWlsYWJsZS4KPj4+Cj4+PiAgwqDCoCAtIFRoZSBsb2dpY2FsIG51bWJlciBvZiBqb2IncyBzeW5j
-IHBvaW50IGluY3JlbWVudHMgbWF0Y2hlcyB0aGUgU1AKPj4+IGhhcmR3YXJlIHN0YXRlISBXaGlj
-aCBpcyBoYW5keSBmb3IgYSBqb2IncyBkZWJ1Z2dpbmcuCj4+Pgo+Pj4gT3B0aW9uYWxseSwgdGhl
-IGpvYidzIHN5bmMgcG9pbnQgY291bGQgYmUgYXV0by1yZW1vdmVkIGZyb20gdGhlIERSTSdzCj4+
-PiBjb250ZXh0IGFmdGVyIGpvYidzIHN1Ym1pc3Npb24sIGF2b2lkaW5nIGEgbmVlZCBmb3IgYW4g
-ZXh0cmEgU1lOQ1BUX1BVVAo+Pj4gSU9DVEwgaW52b2NhdGlvbiB0byBiZSBkb25lIGJ5IHVzZXJz
-cGFjZSBhZnRlciB0aGUgam9iJ3Mgc3VibWlzc2lvbi4KPj4+IENvdWxkIGJlIGEgam9iJ3MgZmxh
-Zy4KPj4KPj4gSSB0aGluayB0aGlzIHdvdWxkIGNhdXNlIHByb2JsZW1zIHdoZXJlIGFmdGVyIGEg
-am9iIGNvbXBsZXRlcyBidXQgYmVmb3JlCj4+IHRoZSBmZW5jZSBoYXMgYmVlbiB3YWl0ZWQsIHRo
-ZSBzeW5jcG9pbnQgaXMgYWxyZWFkeSByZWN5Y2xlZCAoZXNwZWNpYWxseQo+PiBpZiB0aGUgc3lu
-Y3BvaW50IGlzIHJlc2V0IGludG8gc29tZSBjbGVhbiBzdGF0ZSkuCj4gCj4gRXhhY3RseSwgZ29v
-ZCBwb2ludCEgVGhlIGRtYS1mZW5jZSBzaG91bGRuJ3QgYmUgaGFyZHdpcmVkIHRvIHRoZSBzeW5j
-Cj4gcG9pbnQgaW4gb3JkZXIgdG8gYXZvaWQgdGhpcyBzaXR1YXRpb24gOikKPiAKPiBQbGVhc2Ug
-dGFrZSBhIGxvb2sgYXQgdGhlIGZlbmNlIGltcGxlbWVudGF0aW9uIHRoYXQgSSBtYWRlIGZvciB0
-aGUKPiBncmF0ZS1kcml2ZXIgWzNdLiBUaGUgaG9zdDF4LWZlbmNlIGlzIGEgZG1hLWZlbmNlIFs0
-XSB0aGF0IGlzIGF0dGFjaGVkCj4gdG8gYSBzeW5jIHBvaW50IGJ5IGhvc3QxeF9mZW5jZV9jcmVh
-dGUoKS4gT25jZSBqb2IgaXMgY29tcGxldGVkLCB0aGUKPiBob3N0MXgtZmVuY2UgaXMgZGV0YWNo
-ZWQgZnJvbSB0aGUgc3luYyBwb2ludCBbNV1bNl0gYW5kIHN5bmMgcG9pbnQgY291bGQKPiBiZSBy
-ZWN5Y2xlZCBzYWZlbHkhCgpXaGF0IGlmIHRoZSBmZW5jZSBoYXMgYmVlbiBwcm9ncmFtbWVkIGFz
-IGEgcHJlZmVuY2UgdG8gYW5vdGhlciBjaGFubmVsIAoodGhhdCBpcyBnZXR0aW5nIGRlbGF5ZWQp
-LCBvciB0byB0aGUgR1BVLCBvciBzb21lIG90aGVyIGFjY2VsZXJhdG9yIGxpa2UgCkRMQSwgb3Ig
-bWF5YmUgc29tZSBvdGhlciBWTT8gVGhvc2UgZG9uJ3Qga25vdyB0aGUgZG1hX2ZlbmNlIGhhcyBi
-ZWVuIApzaWduYWxlZCwgdGhleSBjYW4gb25seSByZWx5IG9uIHRoZSBzeW5jcG9pbnQgSUQvdGhy
-ZXNob2xkIHBhaXIuCgo+IAo+IFszXQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIv
-bGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvaG9zdDF4L2ZlbmNlLmMKPiAKPiBbNF0KPiBo
-dHRwczovL2dpdGh1Yi5jb20vZ3JhdGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2luY2x1ZGUv
-bGludXgvaG9zdDF4LmgjTDQ1MAo+IAo+IFs1XQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1k
-cml2ZXIvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvaG9zdDF4L3NvYy9zeW5jcG9pbnRz
-X2h3LmMjTDUwCj4gCj4gWzZdCj4gaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saW51
-eC9ibG9iL21hc3Rlci9kcml2ZXJzL2dwdS9kcm0vdGVncmEvdWFwaS9zY2hlZHVsZXIuYyNMMTMz
-Cj4gCj4gUGxlYXNlIHRyeSB0byB0YWtlIGEgY2xvc2VyIGxvb2sgYXQgdGhlIGdyYXRlLWRyaXZl
-cidzIGltcGxlbWVudGF0aW9uIGlmCj4geW91IGhhdmVuJ3QgeWV0LiBJIHRoaW5rIHdlIHNob3Vs
-ZCBiZSBhYmxlIHRvIHJldXNlIG9yIGltcHJvdmUgc29tZSBvZgo+IHRoZSBpZGVhcy4gVGhhdCBp
-bXBsZW1lbnRhdGlvbiBpc24ndCAxMDAlIGNvbXBsZXRlLCBpdCBkb2Vzbid0IGNvdmVyCj4gdGhp
-bmdzIGxpa2UgQ1BVLWluY3JlbWVudGVkIG9yIGV4cG9ydGVkIHN5bmMgcG9pbnRzIGZvciBleGFt
-cGxlLCBidXQKPiBiYXNpY3MgYXJlIHRoZXJlLgoKU3VyZSwgSSdsbCB0YWtlIGEgbG9vay4KCj4g
-Cj4+IEkgd291bGQgcHJlZmVyIGhhdmluZyBhIHN5bmNwb2ludCBmb3IgZWFjaCB1c2Vyc3BhY2Ug
-Y2hhbm5lbCBjb250ZXh0Cj4+IChzZXZlcmFsIG9mIHdoaWNoIGNvdWxkIHNoYXJlIGEgaGFyZHdh
-cmUgY2hhbm5lbCBpZiBNTE9DS2luZyBpcyBub3QgdXNlZCkuCj4+Cj4+IEluIG15IGV4cGVyaWVu
-Y2UgaXQncyB0aGVuIG5vdCBkaWZmaWN1bHQgdG8gcGlucG9pbnQgd2hpY2ggam9iIGhhcwo+PiBm
-YWlsZWQsIGFuZCBpZiBlYWNoIHVzZXJzcGFjZSBjaGFubmVsIGNvbnRleHQgdXNlcyBhIHNlcGFy
-YXRlIHN5bmNwb2ludCwKPj4gYSBoYW5naW5nIGpvYiB3b3VsZG4ndCBtZXNzIHdpdGggb3RoZXIg
-YXBwbGljYXRpb24ncyBqb2JzLCBlaXRoZXIuCj4gCj4gSSBhZ3JlZSB0aGF0IHRoZXJlIHNob3Vs
-ZG4ndCBiZSBhbnkgcHJvYmxlbXMgd2l0aCBmaW5kaW5nIHdoYXQgam9iIGlzCj4gaGFuZ2VkLiBU
-aGUgdGltZWQgb3V0IGpvYiBpcyBhbHdheXMgdGhlIGhhbmdlZCBqb2IsIG5vPyA6KQo+IAo+IEFs
-c28sIHBsZWFzZSB0YWtlIGEgbG9vayBhdCB0aGUgRFJNIHNjaGVkdWxlci4gT25jZSBJIHN0YXJ0
-ZWQgdG8gd2lyZSB1cAo+IHRoZSBEUk0gc2NoZWR1bGVyIHN1cHBvcnQgaW4gdGhlIGdyYXRlLWRy
-aXZlciwgSSByZWFsaXplZCB0aGF0IHRoZXJlIGlzCj4gbm8gcmVhbCBuZWVkIHRvIHRyeSB0byBy
-ZWNvdmVyIHN5bmMgcG9pbnQncyBjb3VudGVyIGFuZCBldGMsIGxpa2UgdGhlCj4gY3VycmVudCB1
-cHN0cmVhbSBob3N0MXggZHJpdmVyIGRvZXMgZm9yIGEgaGFuZ2VkIGpvYi4gV2hlbiBqb2IgaXMK
-PiBoYW5nZWQsIHRoZSB3aG9sZSBjaGFubmVsIHNob3VsZCBiZSB0dXJuZWQgZG93biBhbmQgcmVz
-ZXQsIHRoZSBqb2Incwo+IHN5bmMgcG9pbnQgc3RhdGUgcmVzZXQsIGNsaWVudCdzIEhXIGVuZ2lu
-ZSByZXNldCwgYWxsIHRoZSBwcmUtcXVldWVkCj4gam9icyByZS1zdWJtaXR0ZWQuIEFuZCB0aGUg
-Z2VuZXJpYyBEUk0gam9iIHNjaGVkdWxlciBoZWxwcyB1cyB3aXRoIHRoYXQhCj4gSXQgYWxzbyBo
-YXMgb3RoZXIgbmVhdCBmZWF0dXJlcyB3aGljaCBJIGhhdmVuJ3QgdHJpZWQgeWV0LCBsaWtlIGpv
-Ygo+IHByaW9yaXRpZXMgZm9yIGV4YW1wbGUuCj4gCgpUaGFua3MsIEknbGwgdGFrZSBhIGxvb2sg
-YXQgdGhpcyBhcyB3ZWxsLgoKTWlra28KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=208373
+
+            Bug ID: 208373
+           Summary: drm:drm_atomic_helper_wait_for_dependencies -
+                    drm_kms_helper - flip_done timed out
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.7.2
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: ionut_n2001@yahoo.com
+        Regression: No
+
+Hi Kernel Team,
+
+With 5.7.2, observe this issue:
+[1263266.374115] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1263276.614099] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+[1266457.945569] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1266468.185524] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+[1268050.016722] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1268060.256836] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+[1270654.054668] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1270664.294675] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+[1271127.144282] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1271137.384328] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+[1274245.495567] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1274255.735657] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+[1279238.818759] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[1279249.058822] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+
+
+
+dmesg | grep drm
+[    2.598899] [drm] DMA map mode: Caching DMA mappings.
+[    2.599179] [drm] Capabilities:
+[    2.599297] [drm]   Rect copy.
+[    2.599369] [drm]   Cursor.
+[    2.599412] [drm]   Cursor bypass.
+[    2.599461] [drm]   Cursor bypass 2.
+[    2.599510] [drm]   8bit emulation.
+[    2.599558] [drm]   Alpha cursor.
+[    2.599605] [drm]   Extended Fifo.
+[    2.599653] [drm]   Multimon.
+[    2.599696] [drm]   Pitchlock.
+[    2.599740] [drm]   Irq mask.
+[    2.599784] [drm]   Display Topology.
+[    2.599834] [drm]   GMR.
+[    2.599873] [drm]   Traces.
+[    2.599915] [drm]   GMR2.
+[    2.599955] [drm]   Screen Object 2.
+[    2.600005] [drm]   Command Buffers.
+[    2.600054] [drm]   Command Buffers 2.
+[    2.600105] [drm]   Guest Backed Resources.
+[    2.600160] [drm]   DX Features.
+[    2.600476] [drm]   HP Command Queue.
+[    2.600527] [drm] Capabilities2:
+[    2.600573] [drm]   Grow oTable.
+[    2.600620] [drm]   IntraSurface copy.
+[    2.600671] [drm] Max GMR ids is 64
+[    2.600721] [drm] Max number of GMR pages is 65536
+[    2.600782] [drm] Max dedicated hypervisor surface memory is 0 kiB
+[    2.600857] [drm] Maximum display memory size is 16384 kiB
+[    2.600925] [drm] VRAM at 0xe8000000 size is 4096 kiB
+[    2.600990] [drm] MMIO at 0xfe000000 size is 256 kiB
+[    2.601616] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    2.601785] [drm] Screen Target Display device initialized
+[    2.601890] [drm] width 640
+[    2.601938] [drm] height 480
+[    2.601986] [drm] bpp 32
+[    2.621888] [drm] Fifo max 0x00040000 min 0x00001000 cap 0x0000077f
+[    2.625498] [drm] Using command buffers with DMA pool.
+[    2.625580] [drm] Atomic: yes.
+[    2.630205] fbcon: svgadrmfb (fb0) is primary device
+[    2.642217] [drm] Initialized vmwgfx 2.18.0 20200114 for 0000:00:0f.0 on
+minor 0
+
+cat /proc/cmdline
+BOOT_IMAGE=/boot/vmlinuz-5.7.2-vanilla
+root=UUID=27e2847b-d1ad-427c-97ed-b0b65028d30a ro video=SVIDEO-1:d
+
+lspci | grep 00:0f.0
+00:0f.0 VGA compatible controller: VMware SVGA II Adapter
+
+lspci -s 00:0f.0 -vvvvv
+00:0f.0 VGA compatible controller: VMware SVGA II Adapter (prog-if 00 [VGA
+controller])
+        Subsystem: VMware SVGA II Adapter
+        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
+Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort-
+<TAbort- <MAbort- >SERR- <PERR- INTx-
+        Latency: 64, Cache Line Size: 32 bytes
+        Interrupt: pin A routed to IRQ 16
+        Region 0: I/O ports at 1070 [size=16]
+        Region 1: Memory at e8000000 (32-bit, prefetchable) [size=128M]
+        Region 2: Memory at fe000000 (32-bit, non-prefetchable) [size=8M]
+        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
+        Capabilities: [40] Vendor Specific Information: Len=00 <?>
+        Capabilities: [44] PCI Advanced Features
+                AFCap: TP+ FLR+
+                AFCtrl: FLR-
+                AFStatus: TP-
+        Kernel driver in use: vmwgfx
+        Kernel modules: vmwgfx
+
+with 5.7.0, this issue not observe or not appear.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
