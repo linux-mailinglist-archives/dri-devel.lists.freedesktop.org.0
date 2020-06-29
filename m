@@ -1,55 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2A220D5E0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 21:57:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA9220DD0E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 23:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9F589F92;
-	Mon, 29 Jun 2020 19:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1D3A89C53;
+	Mon, 29 Jun 2020 21:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2653089F77;
- Mon, 29 Jun 2020 19:57:31 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id dm19so7771890edb.13;
- Mon, 29 Jun 2020 12:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AaIAGXzm3zle6m3IyH6J6bY+lak3D/cEfWozndthNJQ=;
- b=bH7wT0Px6bC7hXr1S6yEgmoWByAw/Sx0DSg0e3sBnS6GfVDVkgciX1P6xiXpE5ikWi
- EKNxcnejGmYA74L9W6I79GzlF+DEBoJDK9EZpI3DGdPHozeUi933NqosK1opTbyWgskW
- ta2XN6jexhlUpxoUpJJ68E+L+6RcUF4kcyij9OgF1o7eM6Y8JzUP8cafX4ViUqNz6TaB
- Lt0FKK9Nu+u4VEyFbOojPocJ0pnx/8RJPCHhxka9jm3y2F6G1YUMZAPRUbSdvYM8RrPh
- ANjOnT2SH02GOZKMLwoa4t0cOvQGEENFu0/ZhL9smtbFnj2dZfjMa2k4ysF/piDp7gd0
- Bl6Q==
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5E289C53
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 21:08:23 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id d15so14225833edm.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 14:08:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AaIAGXzm3zle6m3IyH6J6bY+lak3D/cEfWozndthNJQ=;
- b=lcsXFui/+wtakxX3P+lKasbnVwrv2uEELTwHz1OlcMNxuZaEUjSR8PRL8xikm1e1fD
- 09/EyQ0zj5ZEmVGG2slNlITHebzDbYJsCNw/8HSGEirs92fR9gli95fa1t4XrYZo1KjP
- Au/sg96NiEx2/ZHc5ZRqlWztwaGcEsylZDXUdnq8IOYRxK5tYnLsfD/H7Kl3zhYC0zA6
- KEAnYgEDbPvz/6mObl8g/qzBxQDBbW/YrBLvugWXIdhFXIV4Vp1Mx+pudUF8+/NzBcGG
- wjqT7hldPE/h6AZdKsqcbc4wndoSuKgsEuQe1WWD2YGYrJ24hhGf9TqMT1RdRgWKuCBs
- OBNQ==
-X-Gm-Message-State: AOAM531vxi3a+cwJYLPKLJ7fBaktmqlxTqz1ejokUKUkhg3fxY9oUAXt
- c1XxgPq+0eFIZzNPhpbu9Us16yM+tW5ojjOVpJY=
-X-Google-Smtp-Source: ABdhPJxuqVeCta8VoAgMN0v4dnb20yspX1tWXnf7++Cbpyc1biLAcvlB00qweNwifDIJzhl2qqHoB4gCEw2ejQUXIfA=
-X-Received: by 2002:aa7:d792:: with SMTP id s18mr19820549edq.7.1593460649733; 
- Mon, 29 Jun 2020 12:57:29 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=WVzOc0zshIAzur/W9UldDSamNUZIg6bYwU7gViF4xjM=;
+ b=enoXzPLDbnHssodD/F/gTJgrXYfWlCp3ovGq+4YW5PHdFwdBxkhTZ5jREIWU72glcQ
+ xaAAiFbFqSlikZiZQ+w0ZRTHWWwDQSMXKQCMYb38SLExSF8FtP1JfnIlZp584iN6OhGe
+ VN8Zs1O/FEmNrQGkzTZJc8vzRYSZQqycFUK1Fh3xHeoCw6EhzVBh84M/RGMWHSJaMN1s
+ BBNHBtriZrvXN2Li3Cw9MSFnvzuZiu1JTHM9VW7hs1OmxDT4EWtHbEJtFEjvozaw2MvF
+ 03I+svRNSczGx1NqHwWRTFmWAyNsk6G5e8can244mmkId4NPZ7Yhqu9G7ZnJLynfg11f
+ mmLA==
+X-Gm-Message-State: AOAM5305BZfdwfHOSoeYvAGQ4sf6FN5gwPfE1vs+JUqAFNA8nqDoXZHo
+ bi/TO5VnxZNQuuEIWCdUeiE=
+X-Google-Smtp-Source: ABdhPJz7uJ34zkR7UdIcDmO5eQD/05KE/U7ACuTf+SbkMdyaKDXIEt+RJAAp/9n0LB1FcwdSrdDevA==
+X-Received: by 2002:aa7:d6cc:: with SMTP id x12mr11487518edr.354.1593464901568; 
+ Mon, 29 Jun 2020 14:08:21 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.195])
+ by smtp.googlemail.com with ESMTPSA id q3sm736869eds.0.2020.06.29.14.08.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 29 Jun 2020 14:08:20 -0700 (PDT)
+Date: Mon, 29 Jun 2020 23:08:17 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: Re: [PATCH] Remove handhelds.org links and email addresses
+Message-ID: <20200629210817.GA32399@kozik-lap>
+References: <20200629203121.7892-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-References: <20200629181921.3019271-1-eric@anholt.net>
- <20200629181921.3019271-2-eric@anholt.net>
-In-Reply-To: <20200629181921.3019271-2-eric@anholt.net>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 29 Jun 2020 12:57:59 -0700
-Message-ID: <CAF6AEGstctXSCwW9Hv=MmB_Ca1VGA_DZNtzvqSY-1NqPTK+WPQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/msm: Quiet error during failure in optional
- resource mappings.
-To: Eric Anholt <eric@anholt.net>
+Content-Disposition: inline
+In-Reply-To: <20200629203121.7892-1-grandmaster@al2klimov.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,126 +57,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: ulf.hansson@linaro.org, gustavo@embeddedor.com, tony@atomide.com,
+ daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wsa+renesas@sang-engineering.com,
+ mchehab+samsung@kernel.org, lee.jones@linaro.org, corbet@lwn.net,
+ linux-samsung-soc@vger.kernel.org, aaro.koskinen@iki.fi,
+ robert.jarzmik@free.fr, rafael.j.wysocki@intel.com, yuehaibing@huawei.com,
+ linux@armlinux.org.uk, kgene@kernel.org, viresh.kumar@linaro.org,
+ kuba@kernel.org, arnd@arndb.de, b.zolnierkie@samsung.com,
+ jani.nikula@intel.com, linux-mmc@vger.kernel.org, linux-input@vger.kernel.org,
+ j.neuschaefer@gmx.net, haojian.zhuang@gmail.com, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ yanaijie@huawei.com, gregkh@linuxfoundation.org, dmitry.torokhov@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Julia.Lawall@inria.fr,
+ netdev@vger.kernel.org, davem@davemloft.net, daniel@zonque.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 29, 2020 at 11:19 AM Eric Anholt <eric@anholt.net> wrote:
->
-> We don't expect to find vbif_nrt or regdma on cheza, but were clogging
-> up dmesg with errors about it.
-
-nit: s/cheza/sdm845/ (since this really applies to the SoC rather than
-the board..
-
-also, maybe msm_ioremap_optional() ?
-
-BR,
--R
-
->
-> Signed-off-by: Eric Anholt <eric@anholt.net>
+On Mon, Jun 29, 2020 at 10:31:21PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> https://lore.kernel.org/linux-doc/20200626110706.7b5d4a38@lwn.net/
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  4 ++--
->  drivers/gpu/drm/msm/msm_drv.c           | 22 ++++++++++++++++++----
->  drivers/gpu/drm/msm/msm_drv.h           |  2 ++
->  3 files changed, 22 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index a4ab802fee6d..d9aef2b5e930 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -838,13 +838,13 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->                 dpu_kms->vbif[VBIF_RT] = NULL;
->                 goto error;
->         }
-> -       dpu_kms->vbif[VBIF_NRT] = msm_ioremap(dpu_kms->pdev, "vbif_nrt", "vbif_nrt");
-> +       dpu_kms->vbif[VBIF_NRT] = msm_ioremap_quiet(dpu_kms->pdev, "vbif_nrt", "vbif_nrt");
->         if (IS_ERR(dpu_kms->vbif[VBIF_NRT])) {
->                 dpu_kms->vbif[VBIF_NRT] = NULL;
->                 DPU_DEBUG("VBIF NRT is not defined");
->         }
->
-> -       dpu_kms->reg_dma = msm_ioremap(dpu_kms->pdev, "regdma", "regdma");
-> +       dpu_kms->reg_dma = msm_ioremap_quiet(dpu_kms->pdev, "regdma", "regdma");
->         if (IS_ERR(dpu_kms->reg_dma)) {
->                 dpu_kms->reg_dma = NULL;
->                 DPU_DEBUG("REG_DMA is not defined");
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index f6ce40bf3699..df4a3c6a49cd 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -120,8 +120,8 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
->         return clk;
->  }
->
-> -void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
-> -               const char *dbgname)
-> +void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
-> +                          const char *dbgname, bool quiet)
->  {
->         struct resource *res;
->         unsigned long size;
-> @@ -133,7 +133,8 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
->                 res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->
->         if (!res) {
-> -               DRM_DEV_ERROR(&pdev->dev, "failed to get memory resource: %s\n", name);
-> +               if (!quiet)
-> +                       DRM_DEV_ERROR(&pdev->dev, "failed to get memory resource: %s\n", name);
->                 return ERR_PTR(-EINVAL);
->         }
->
-> @@ -141,7 +142,8 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
->
->         ptr = devm_ioremap(&pdev->dev, res->start, size);
->         if (!ptr) {
-> -               DRM_DEV_ERROR(&pdev->dev, "failed to ioremap: %s\n", name);
-> +               if (!quiet)
-> +                       DRM_DEV_ERROR(&pdev->dev, "failed to ioremap: %s\n", name);
->                 return ERR_PTR(-ENOMEM);
->         }
->
-> @@ -151,6 +153,18 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
->         return ptr;
->  }
->
-> +void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
-> +                         const char *dbgname)
-> +{
-> +       return _msm_ioremap(pdev, name, dbgname, false);
-> +}
-> +
-> +void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name,
-> +                               const char *dbgname)
-> +{
-> +       return _msm_ioremap(pdev, name, dbgname, true);
-> +}
-> +
->  void msm_writel(u32 data, void __iomem *addr)
->  {
->         if (reglog)
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index e2d6a6056418..2687f7a42c15 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -411,6 +411,8 @@ struct clk *msm_clk_bulk_get_clock(struct clk_bulk_data *bulk, int count,
->         const char *name);
->  void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
->                 const char *dbgname);
-> +void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name,
-> +               const char *dbgname);
->  void msm_writel(u32 data, void __iomem *addr);
->  u32 msm_readl(const void __iomem *addr);
->
-> --
-> 2.26.2
->
+>  @Jon I thought about what I said and *no*, unfortunately I *can't* automate
+>  the detection of such as easy as the HTTPSifying. As you maybe see below
+>  cleaning up is even "harder".
+> 
+>  We have only 17 files and one domain here. Shall I split it up per subsystem
+>  or can we let it as is?
+> 
+>  Documentation/arm/sa1100/assabet.rst           |  2 --
+>  Documentation/arm/samsung-s3c24xx/h1940.rst    | 10 ----------
+>  Documentation/arm/samsung-s3c24xx/overview.rst |  3 +--
+>  Documentation/arm/samsung-s3c24xx/smdk2440.rst |  4 ----
+>  arch/arm/mach-omap1/Kconfig                    |  4 +---
+>  arch/arm/mach-pxa/h5000.c                      |  2 +-
+>  arch/arm/mach-s3c24xx/mach-h1940.c             |  2 --
+>  arch/arm/mach-s3c24xx/mach-n30.c               |  3 ---
+>  arch/arm/mach-s3c24xx/mach-rx3715.c            |  2 --
+
+For s3c24xx, I am fine taking it through docs tree:
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+Otherwise, after splitting, I could take the s3c-24xx bits.
+
+Best regards,
+Krzysztof
+
+
+>  drivers/input/keyboard/gpio_keys.c             |  2 +-
+>  drivers/input/keyboard/jornada720_kbd.c        |  2 +-
+>  drivers/input/touchscreen/jornada720_ts.c      |  2 +-
+>  drivers/mfd/asic3.c                            |  2 +-
+>  drivers/mmc/host/renesas_sdhi_core.c           |  2 +-
+>  drivers/net/ethernet/dec/tulip/de4x5.c         |  1 -
+>  drivers/video/fbdev/sa1100fb.c                 |  2 +-
+>  include/linux/apm-emulation.h                  |  2 --
+>  17 files changed, 9 insertions(+), 38 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
