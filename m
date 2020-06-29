@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E69620CD76
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 11:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D3920CD86
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jun 2020 11:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 489C089D79;
-	Mon, 29 Jun 2020 09:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED5B6E04B;
+	Mon, 29 Jun 2020 09:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB4D89D79
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 09:11:33 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id l2so13869029wmf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 02:11:33 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 546396E04B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 09:22:34 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l17so14690388wmj.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 02:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=fAiO1rFgpOm/I6YijU55QQd3dlYPh9BQxP+XXDSf6w8=;
- b=jVfXo+Bq23OCHyTQ3xEQE2g3migBIli0NqkXzMwBSn8IdovOjzXp6wZplzCSLjgsAj
- H18nB/MT+67CDA7FAXeAF862wgTA99pOUSOZGnk2zcn3bkDuiE7+bwenfgCRm9PO50PT
- QiORnrjFRJp9HTN0ofNn7kBXRyNz1m6QlaLfQ=
+ bh=gPje2L7j/zPW/sCsvhU4/rx/6+As8nrSldgTQttMxO0=;
+ b=TrXBtx6RrjDi9jX7CrI/CJYP5eis+/4+cMAW6UFXcFHrBaE9Ed6VEtjnX7xm+M5AOM
+ 6sGNhquY2stdMu+rirHOySTbd6dV5hNF+hFuTz8ATLGfE5/da8YQqqiZx3DPtBXFY6aU
+ 9f9Yek3zqkWU/qxKPMDAYhKWOo2uU5z4Ny4Rg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=fAiO1rFgpOm/I6YijU55QQd3dlYPh9BQxP+XXDSf6w8=;
- b=Vsf024+ZT9dy5BXn0KTZnh7JkhtaABxpATpGXmlFnimEAqa6npoTw+o/dBiR5HXH41
- bVgcf83zeRIxU9UERcQ7VxOex1hSNxZIvKTYy/XvIv3/ZegBLEX/PxFQbrrxazpUGegY
- 9VEKjP8RuUq/kf1a5iKVS5bHm8JYOUXTBDHGzMAOc0HvweJCQ31Najdnsxdw0Y9fk6cH
- H9ZOv0kruTF+RO330dVXZwheaYr2b6Idd/EghsKGVxhzraa+AXlSUHhgIJEFJMMsw+xv
- hCEWw7J++oNrmq5TZ+zlbgcaUA2yg7+qNLgcUeWpPBNn1EH/NRVq28ieS3Ud//T8tgxl
- xERg==
-X-Gm-Message-State: AOAM533VcGAnpwU+hIrSSl3pbm1rzEksHtUBrecxj+IqpTs4Rjv6elDb
- 3LNVTQVDUfYT+C1HUlhjX0hA8g==
-X-Google-Smtp-Source: ABdhPJzGxM3QDzwZh82Zc1G2uWTt6P/T65JO4byCTa9p9K6WlF78IK5WVBiZpmuSGhEPqbZPII3Aqg==
-X-Received: by 2002:a1c:e303:: with SMTP id a3mr15379719wmh.26.1593421892570; 
- Mon, 29 Jun 2020 02:11:32 -0700 (PDT)
+ bh=gPje2L7j/zPW/sCsvhU4/rx/6+As8nrSldgTQttMxO0=;
+ b=fH4UXj6Nzs0ljhri80VYwszgLritDUC9iroPODJQhc+qCH3BlFz3yI/dXjx6pU/kUe
+ BYaJgDrn2Al7j3uyU8Koi2CspJnPzY/gE4H/RH38Ny0n02UQXOhWuOadY+qiQCyvN3qt
+ F7S4+FjJ78+IA9FBeckafLrnpJnhVSMj5SbEcG0CdjhxtceBrqSUIecke64e/H5S0K6E
+ 6ECqmcKL24SSRxm+B0QOrFvxwmUYJO+Lipqi7TwrWxYVcrbVItlqygfkWAJg1Nh2/UGZ
+ 1W+O3+7SDLjcMKUYuuNgDdr00tC9sY/N3kPDuunuIs6KjPqKEvIaxyqD2gCeub7N0h82
+ poIA==
+X-Gm-Message-State: AOAM532VjzFFEMp4+bYqoxXGlL0JfuMbaJyOoN9N3Ec1Xi3yPeSpT4fg
+ MBl5IqGae/85ZrdtO2UVLSvzTw==
+X-Google-Smtp-Source: ABdhPJwXjRUfrMqsk4tmSbakeE6tMkv9y10GvY/aASsPmUAwhpkteYr8en9n1lv7Xlgjpiir2VozUQ==
+X-Received: by 2002:a7b:c3c7:: with SMTP id t7mr14521939wmj.97.1593422552952; 
+ Mon, 29 Jun 2020 02:22:32 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c18sm21580188wmk.18.2020.06.29.02.11.31
+ by smtp.gmail.com with ESMTPSA id s18sm53112376wra.85.2020.06.29.02.22.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Jun 2020 02:11:31 -0700 (PDT)
-Date: Mon, 29 Jun 2020 11:11:29 +0200
+ Mon, 29 Jun 2020 02:22:32 -0700 (PDT)
+Date: Mon, 29 Jun 2020 11:22:30 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/9] drm/simplekms: Add fbdev emulation
-Message-ID: <20200629091129.GP3278063@phenom.ffwll.local>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 9/9] drm/simplekms: Acquire memory aperture for framebuffer
+Message-ID: <20200629092230.GQ3278063@phenom.ffwll.local>
 References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-5-tzimmermann@suse.de>
+ <20200625120011.16168-10-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200625120011.16168-5-tzimmermann@suse.de>
+In-Reply-To: <20200625120011.16168-10-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,45 +74,244 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 25, 2020 at 02:00:06PM +0200, Thomas Zimmermann wrote:
-> This displays a console on the simplefb framebuffer. The default
-> framebuffer format is being used.
+On Thu, Jun 25, 2020 at 02:00:11PM +0200, Thomas Zimmermann wrote:
+> We register the simplekms device with the DRM platform helpers. A
+> native driver for the graphics hardware will kickout the simplekms
+> driver before taking over the device.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/tiny/simplekms.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/gpu/drm/tiny/Kconfig     |  1 +
+>  drivers/gpu/drm/tiny/simplekms.c | 94 +++++++++++++++++++++++++++++++-
+>  2 files changed, 92 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index 50dbde8bdcb2..a47ed337a7fe 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -33,6 +33,7 @@ config DRM_SIMPLEKMS
+>  	depends on DRM
+>  	select DRM_GEM_SHMEM_HELPER
+>  	select DRM_KMS_HELPER
+> +	select DRM_PLATFORM_HELPER
+>  	help
+>  	  DRM driver for simple platform-provided framebuffers.
+>  
 > diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
-> index dc7cf3983945..ac2ebfcedd22 100644
+> index ae5d3cbadbe8..a903a4e0100a 100644
 > --- a/drivers/gpu/drm/tiny/simplekms.c
 > +++ b/drivers/gpu/drm/tiny/simplekms.c
-> @@ -8,6 +8,7 @@
->  #include <drm/drm_damage_helper.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_drv.h>
-> +#include <drm/drm_fb_helper.h>
->  #include <drm/drm_format_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_gem_shmem_helper.h>
-> @@ -469,6 +470,8 @@ static int simplekms_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
+> @@ -5,6 +5,7 @@
+>  #include <linux/platform_data/simplefb.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regulator/consumer.h>
+> +#include <linux/spinlock.h>
 >  
-> +	drm_fbdev_generic_setup(dev, 0);
+>  #include <drm/drm_atomic_state_helper.h>
+>  #include <drm/drm_connector.h>
+> @@ -17,6 +18,7 @@
+>  #include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_platform.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  
+> @@ -36,6 +38,12 @@
+>  #define SIMPLEKMS_MODE(hd, vd)	\
+>  	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
+>  
+> +/*
+> + * Protects the platform device's drvdata against
+> + * concurrent manipulation.
+> + */
+> +static DEFINE_SPINLOCK(simplekms_drvdata_lock);
+> +
+>  /*
+>   * Helpers for simplefb
+>   */
+> @@ -211,6 +219,7 @@ struct simplekms_device {
+>  	unsigned int pitch;
+>  
+>  	/* memory management */
+> +	struct drm_aperture *aperture;
+>  	struct resource *mem;
+>  	void __iomem *screen_base;
+>  
+> @@ -224,6 +233,8 @@ static struct simplekms_device *simplekms_device_of_dev(struct drm_device *dev)
+>  	return container_of(dev, struct simplekms_device, dev);
+>  }
+>  
+> +static void simplekms_device_cleanup(struct simplekms_device *sdev);
+> +
+>  /*
+>   * Hardware
+>   */
+> @@ -514,22 +525,72 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
+>   * Memory management
+>   */
+>  
+> +static void simplekms_aperture_kickout(struct drm_aperture *ap)
+> +{
+> +	struct drm_device *dev = ap->dev;
+> +	struct simplekms_device *sdev = simplekms_device_of_dev(dev);
+> +	struct platform_device *pdev = sdev->pdev;
+> +
+> +	if (WARN_ON(!sdev->aperture))
+> +		return; /* BUG: driver already got kicked out */
+> +
+> +	drm_dev_unregister(dev);
 
-I think for the fastboot stuff what we could do is improve the generic
-fbdev code with essentially what intel_fbdev_init_bios does. Well actually
-just shovel that code into the helpers maybe, the other code to pick
-initial configs for fastboot has been moved already too.
+From a semantic pov I think the platform driver getting kicked out is more
+like a hotunplug, so drm_dev_unplug(dev); here is imo better.
 
-Otherwise lgtm ofc.
+That then also gives you a nice drm_dev_enter/exit to sprinkle over the
+various driver callbacks, instead of the racy ->aperture check reinvented
+wheel here.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+I also wonder whether we couldn't go full driver model for these platform
+devices, and instead of this here call a core driver model function to
+force the unbding of the driver. Only change we'd need it that our
+->remove hook uses drm_dev_unplug().
+
+Also I guess this nice plan doesn't work if efifb or vesafb don't have a
+platform_device of their own that the drm_platform.c code could use to
+nuke platform drivers. But if they have, we could just use
+device_driver_detach() from drm_platform.c and wouldn't need any of this.
+Worst case efi and vesa drm drivers could instantiate the platform device
+they bind against themselves ...
+
+I think that would be a lot cleaner than hand-rolling our own hotunplug
+infrastructure here.
+
+Adding Greg in case we're missing anything here.
 
 > +
+> +	sdev->aperture = NULL; /* memory is released by platform helpers */
+> +
+> +	spin_lock(&simplekms_drvdata_lock);
+> +	sdev = platform_get_drvdata(pdev);
+> +	platform_set_drvdata(pdev, NULL); /* required; see simplekms_remove() */
+> +	spin_unlock(&simplekms_drvdata_lock);
+> +
+> +	/*
+> +	 * Return if a concurrent simplekms_remove() cleans up the
+> +	 * device. See simplekms_remove().
+> +	 */
+> +	if (!sdev)
+> +		return;
+> +
+> +	/*
+> +	 * After the aperture has been released, there's no reason
+> +	 * to keep the DRM device around.
+> +	 */
+> +	simplekms_device_cleanup(sdev);
+
+Uh, you already unregistered, this unregisters again. Maybe a bit too much
+:-)
+
+> +}
+> +
+> +static const struct drm_aperture_funcs simplekms_aperture_funcs = {
+> +	.kickout = simplekms_aperture_kickout,
+> +};
+> +
+>  static int simplekms_device_init_mm(struct simplekms_device *sdev)
+>  {
+> +	struct drm_device *dev = &sdev->dev;
+>  	struct platform_device *pdev = sdev->pdev;
+>  	struct resource *mem;
+> +	struct drm_aperture *ap;
+>  	void __iomem *screen_base;
+> +	int ret;
+>  
+>  	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>  	if (!mem)
+>  		return -EINVAL;
+>  
+> +	ap = drmm_aperture_acquire(dev, mem->start, resource_size(mem),
+> +				   &simplekms_aperture_funcs);
+> +	if (IS_ERR(ap)) {
+> +		ret = PTR_ERR(ap);
+> +		drm_err(dev,
+> +			"could not acquire memory range [0x%llx:0x%llx]: "
+> +			"error %d\n", mem->start, mem->end, ret);
+> +		return ret;
+> +	}
+> +
+>  	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
+>  				      resource_size(mem));
+>  	if (!screen_base)
+>  		return -ENOMEM;
+>  
+>  	sdev->mem = mem;
+> +	sdev->aperture = ap;
+>  	sdev->screen_base = screen_base;
+>  
 >  	return 0;
+> @@ -625,6 +686,9 @@ simplekms_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+>  	struct drm_framebuffer *fb = state->fb;
+>  	void *vmap;
+>  
+> +	if (!sdev->aperture)
+> +		return;
+> +
+>  	vmap = drm_gem_shmem_vmap(fb->obj[0]);
+>  	if (!vmap)
+>  		return;
+> @@ -645,6 +709,9 @@ simplekms_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+>  	struct drm_rect clip;
+>  	void *vmap;
+>  
+> +	if (!sdev->aperture)
+> +		return;
+> +
+>  	if (!drm_atomic_helper_damage_merged(old_plane_state, state, &clip))
+>  		return;
+>  
+> @@ -716,11 +783,12 @@ static int simplekms_device_init_modeset(struct simplekms_device *sdev)
+>   * Init / Cleanup
+>   */
+>  
+> -static void simplekms_device_cleanup(struct simplekms_device* sdev)
+> +static void simplekms_device_cleanup(struct simplekms_device *sdev)
+>  {
+>  	struct drm_device *dev = &sdev->dev;
+>  
+> -	drm_dev_unregister(dev);
+> +	if (dev->registered)
+> +		drm_dev_unregister(dev);
 >  }
+>  
+>  static struct simplekms_device *
+> @@ -797,7 +865,27 @@ static int simplekms_probe(struct platform_device *pdev)
+>  
+>  static int simplekms_remove(struct platform_device *pdev)
+>  {
+> -	struct simplekms_device *sdev = platform_get_drvdata(pdev);
+> +	struct simplekms_device *sdev;
+> +
+> +	spin_lock(&simplekms_drvdata_lock);
+> +	sdev = platform_get_drvdata(pdev);
+> +	platform_set_drvdata(pdev, NULL);
+> +	spin_unlock(&simplekms_drvdata_lock);
+> +
+> +	/*
+> +	 * The platform driver shares its reference to dev with the
+> +	 * platform helpers for apertures. That reference is either
+> +	 * released here when unloading the driver; or it's released
+> +	 * when the driver gets kicked out by another driver. In the
+> +	 * latter case, the aperture release routine clears the data
+> +	 * field of the platform device.
+> +	 *
+> +	 * Therefore, sdev being NULL is a valid state if the driver
+> +	 * has been kicked out by another DRM driver. In this case,
+> +	 * it's all been cleaned up and we can return immediately.
+> +	 */
+> +	if (!sdev)
+> +		return 0;
+>  
+>  	simplekms_device_cleanup(sdev);
 >  
 > -- 
 > 2.27.0
