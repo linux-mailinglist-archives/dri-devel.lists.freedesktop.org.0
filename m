@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7A420EF7C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A449220EF79
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75C1B89CA4;
-	Tue, 30 Jun 2020 07:34:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9C2D89CD8;
+	Tue, 30 Jun 2020 07:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F191389C1B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 15:53:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8489C49
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 15:53:30 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1593446011; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=MMgpD5DCLQ6JjRpMGo318xv/+oipR7QB8aPXFQoSC2I=;
- b=l+69Y4Fz2Etpq2OW9ccNadexupQYYHZtkwT5SUVA5lCXE5Pxj+99viQ1QoQ1f7HjLeA6zlnU
- /FQpO4gU+VZeYQrrnp6/4e/VUKGXAQWrm6Js94umveck6yfuHf8y9IvmD4g2GWM0E454DSxd
- E288G/6AZoulPj2r5Y21IIfsCJ8=
+ s=smtp; t=1593446012; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Ky6EgIpsLXuCQ1ZyQQj8TAObCq/x3v8ZEUf9hqB0i5U=;
+ b=hzs0dCl5wqwKKfivyboiznQ/TD8W++1dl1FlN8POT5OQ1QJm+pLUAHh+n5stO7YutQu8PhH9
+ g+iyz5+wfzLe6YaLsdSq7MkGhZCfSt0mMqAmCvMyJ/eKm+K1ibZbcnGqFPn6HU2dUZEkksP4
+ AuiPTBpVSctBKrVWsk7njffYd3s=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n18.prod.us-west-2.postgun.com with SMTP id
- 5efa0e6a5866879c761e0d8d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 29 Jun 2020 15:53:14
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5efa0e786bebe35deb5cd0af (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 29 Jun 2020 15:53:28
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 67DE9C433C8; Mon, 29 Jun 2020 15:53:14 +0000 (UTC)
+ id 9B6EFC43391; Mon, 29 Jun 2020 15:53:28 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -40,9 +40,9 @@ Received: from blr-ubuntu-253.qualcomm.com
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 467E3C433CA;
- Mon, 29 Jun 2020 15:53:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 467E3C433CA
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 36CB3C433C8;
+ Mon, 29 Jun 2020 15:53:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 36CB3C433C8
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none
@@ -51,10 +51,13 @@ From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 To: Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
  Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv3 0/7] System Cache support for GPU and required SMMU support
-Date: Mon, 29 Jun 2020 21:22:43 +0530
-Message-Id: <cover.1593344119.git.saiprakash.ranjan@codeaurora.org>
+Subject: [PATCHv3 1/7] iommu/arm-smmu: Add a init_context_bank implementation
+ hook
+Date: Mon, 29 Jun 2020 21:22:44 +0530
+Message-Id: <cdcc6a1c95a84e774790389dc8b3b7feeee490dc.1593344119.git.saiprakash.ranjan@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1593344119.git.saiprakash.ranjan@codeaurora.org>
+References: <cover.1593344119.git.saiprakash.ranjan@codeaurora.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 30 Jun 2020 07:34:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,66 +87,149 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some hardware variants contain a system cache or the last level
-cache(llc). This cache is typically a large block which is shared
-by multiple clients on the SOC. GPU uses the system cache to cache
-both the GPU data buffers(like textures) as well the SMMU pagetables.
-This helps with improved render performance as well as lower power
-consumption by reducing the bus traffic to the system memory.
+From: Jordan Crouse <jcrouse@codeaurora.org>
 
-The system cache architecture allows the cache to be split into slices
-which then be used by multiple SOC clients. This patch series is an
-effort to enable and use two of those slices perallocated for the GPU,
-one for the GPU data buffers and another for the GPU SMMU hardware
-pagetables.
+Add a new implementation hook to allow the implementation specific code
+to tweek the context bank configuration just before it gets written.
+The first user will be the Adreno GPU implementation to turn on
+SCTLR.HUPCF to ensure that a page fault doesn't terminating pending
+transactions. Doing so could hang the GPU if one of the terminated
+transactions is a CP read.
 
-Patch 1 adds a init_context_bank implementation hook to set SCTLR.HUPCF.
-Patch 2,3,6,7 adds system cache support in SMMU and GPU driver.
-Patch 4 and 5 are minor cleanups for arm-smmu impl.
+This depends on the arm-smmu adreno SMMU implementation [1].
 
-Changes in v3:
- * Fix domain attribute setting to before iommu_attach_device()
- * Fix few code style and checkpatch warnings
- * Rebase on top of Jordan's latest split pagetables and per-instance
-   pagetables support [1][2]
+[1] https://lore.kernel.org/patchwork/patch/1264452/
 
-Changes in v2:
- * Addressed review comments and rebased on top of Jordan's split
-   pagetables series
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+---
+ drivers/iommu/arm-smmu-qcom.c | 13 +++++++++++++
+ drivers/iommu/arm-smmu.c      | 29 +++++++++++++----------------
+ drivers/iommu/arm-smmu.h      | 12 ++++++++++++
+ 3 files changed, 38 insertions(+), 16 deletions(-)
 
-[1] https://lore.kernel.org/patchwork/cover/1264446/
-[2] https://lore.kernel.org/patchwork/cover/1264460/
-
-Jordan Crouse (1):
-  iommu/arm-smmu: Add a init_context_bank implementation hook
-
-Sai Prakash Ranjan (4):
-  iommu/io-pgtable-arm: Add support to use system cache
-  iommu/arm-smmu: Add domain attribute for system cache
-  iommu: arm-smmu-impl: Remove unwanted extra blank lines
-  iommu: arm-smmu-impl: Convert to use of_match_node() for qcom impl
-
-Sharat Masetty (2):
-  drm/msm: rearrange the gpu_rmw() function
-  drm/msm/a6xx: Add support for using system cache(LLC)
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 82 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  3 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 23 ++++++-
- drivers/gpu/drm/msm/msm_drv.c           |  8 +++
- drivers/gpu/drm/msm/msm_drv.h           |  1 +
- drivers/gpu/drm/msm/msm_gpu.h           |  5 +-
- drivers/gpu/drm/msm/msm_iommu.c         |  3 +
- drivers/gpu/drm/msm/msm_mmu.h           |  4 ++
- drivers/iommu/arm-smmu-impl.c           | 13 ++--
- drivers/iommu/arm-smmu-qcom.c           | 13 ++++
- drivers/iommu/arm-smmu.c                | 46 +++++++++-----
- drivers/iommu/arm-smmu.h                | 13 ++++
- drivers/iommu/io-pgtable-arm.c          |  7 ++-
- include/linux/io-pgtable.h              |  4 ++
- include/linux/iommu.h                   |  1 +
- 15 files changed, 198 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
+index cb2acb6b19dd..6462fb00f493 100644
+--- a/drivers/iommu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm-smmu-qcom.c
+@@ -17,6 +17,18 @@ static bool qcom_adreno_smmu_is_gpu_device(struct arm_smmu_domain *smmu_domain)
+ 	return of_device_is_compatible(smmu_domain->dev->of_node, "qcom,adreno");
+ }
+ 
++static void qcom_adreno_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
++		struct arm_smmu_cb *cb)
++{
++	/*
++	 * On the GPU device we want to process subsequent transactions after a
++	 * fault to keep the GPU from hanging
++	 */
++
++	if (qcom_adreno_smmu_is_gpu_device(smmu_domain))
++		cb->sctlr |= ARM_SMMU_SCTLR_HUPCF;
++}
++
+ static int qcom_adreno_smmu_init_context(struct arm_smmu_domain *smmu_domain,
+ 		struct io_pgtable_cfg *pgtbl_cfg)
+ {
+@@ -92,6 +104,7 @@ static const struct arm_smmu_impl qcom_adreno_smmu_impl = {
+ 	.init_context = qcom_adreno_smmu_init_context,
+ 	.def_domain_type = qcom_smmu_def_domain_type,
+ 	.reset = qcom_smmu500_reset,
++	.init_context_bank = qcom_adreno_smmu_init_context_bank,
+ };
+ 
+ 
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 4bd247dfd703..b2564f93d685 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -86,14 +86,6 @@ struct arm_smmu_smr {
+ 	bool				valid;
+ };
+ 
+-struct arm_smmu_cb {
+-	u64				ttbr[2];
+-	u32				tcr[2];
+-	u32				mair[2];
+-	struct arm_smmu_cfg		*cfg;
+-	atomic_t			aux;
+-};
+-
+ struct arm_smmu_master_cfg {
+ 	struct arm_smmu_device		*smmu;
+ 	s16				smendx[];
+@@ -580,6 +572,18 @@ static void arm_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
+ 			cb->mair[1] = pgtbl_cfg->arm_lpae_s1_cfg.mair >> 32;
+ 		}
+ 	}
++
++	cb->sctlr = ARM_SMMU_SCTLR_CFIE | ARM_SMMU_SCTLR_CFRE | ARM_SMMU_SCTLR_AFE |
++		ARM_SMMU_SCTLR_TRE | ARM_SMMU_SCTLR_M;
++
++	if (stage1)
++		cb->sctlr |= ARM_SMMU_SCTLR_S1_ASIDPNE;
++	if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
++		cb->sctlr |= ARM_SMMU_SCTLR_E;
++
++	/* Give the implementation a chance to adjust the configuration */
++	if (smmu_domain->smmu->impl && smmu_domain->smmu->impl->init_context_bank)
++		smmu_domain->smmu->impl->init_context_bank(smmu_domain, cb);
+ }
+ 
+ static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
+@@ -658,14 +662,7 @@ static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
+ 	}
+ 
+ 	/* SCTLR */
+-	reg = ARM_SMMU_SCTLR_CFIE | ARM_SMMU_SCTLR_CFRE | ARM_SMMU_SCTLR_AFE |
+-	      ARM_SMMU_SCTLR_TRE | ARM_SMMU_SCTLR_M;
+-	if (stage1)
+-		reg |= ARM_SMMU_SCTLR_S1_ASIDPNE;
+-	if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
+-		reg |= ARM_SMMU_SCTLR_E;
+-
+-	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
++	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, cb->sctlr);
+ }
+ 
+ /*
+diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
+index 79d441024043..4a335ef3d97a 100644
+--- a/drivers/iommu/arm-smmu.h
++++ b/drivers/iommu/arm-smmu.h
+@@ -142,6 +142,7 @@ enum arm_smmu_cbar_type {
+ 
+ #define ARM_SMMU_CB_SCTLR		0x0
+ #define ARM_SMMU_SCTLR_S1_ASIDPNE	BIT(12)
++#define ARM_SMMU_SCTLR_HUPCF		BIT(8)
+ #define ARM_SMMU_SCTLR_CFCFG		BIT(7)
+ #define ARM_SMMU_SCTLR_CFIE		BIT(6)
+ #define ARM_SMMU_SCTLR_CFRE		BIT(5)
+@@ -349,6 +350,15 @@ struct arm_smmu_domain {
+ 	bool				aux;
+ };
+ 
++struct arm_smmu_cb {
++	u64			ttbr[2];
++	u32			tcr[2];
++	u32			mair[2];
++	u32			sctlr;
++	struct arm_smmu_cfg	*cfg;
++	atomic_t		aux;
++};
++
+ static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
+ {
+ 	u32 tcr = FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
+@@ -403,6 +413,8 @@ struct arm_smmu_impl {
+ 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
+ 			 int status);
+ 	int (*def_domain_type)(struct device *dev);
++	void (*init_context_bank)(struct arm_smmu_domain *smmu_domain,
++			struct arm_smmu_cb *cb);
+ };
+ 
+ static inline void __iomem *arm_smmu_page(struct arm_smmu_device *smmu, int n)
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
