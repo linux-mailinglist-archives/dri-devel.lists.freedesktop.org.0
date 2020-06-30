@@ -1,62 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4084020FC1B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:47:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BF120FC00
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:46:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BDA6E120;
-	Tue, 30 Jun 2020 18:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A2189BB0;
+	Tue, 30 Jun 2020 18:46:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACFC66E113
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:47:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1593542827; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=AxofWDSeZA/YEYkzd2REUrGBQ5qNyZ3n7BtupPVQgZI=;
- b=KF2Az3dmnbyhnrBl9aoUfLT5Zig8Lif8su7tMgORzgPtINaceXOxKKH4lj2aTJbkSfSRZo74
- Pfoy0t/u4d1TYp8tZBpT4Qwvco1nbU4dFV2nqKMgtSGp4V4xc70QT8uwUChjZN/x8zQyY+7x
- Cmz9WWUiwqxRAZ8o8o3ap8eAC8M=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n15.prod.us-west-2.postgun.com with SMTP id
- 5efb889dad153efa341af341 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 30 Jun 2020 18:46:53
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id ECF6DC433AD; Tue, 30 Jun 2020 18:46:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id ABD2AC433CB;
- Tue, 30 Jun 2020 18:46:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ABD2AC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=tanmay@codeaurora.org
-From: Tanmay Shah <tanmay@codeaurora.org>
-To: robh+dt@kernel.org,
-	swboyd@chromium.org,
-	sam@ravnborg.org
-Subject: [PATCH v8 6/6] drm/msm/dp: Add Display Port HPD feature
-Date: Tue, 30 Jun 2020 11:45:07 -0700
-Message-Id: <20200630184507.15589-7-tanmay@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200630184507.15589-1-tanmay@codeaurora.org>
-References: <20200630184507.15589-1-tanmay@codeaurora.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2987689BB0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:46:21 +0000 (UTC)
+IronPort-SDR: 1FlaQSUCXejBAr9zbd+x7dj2W3akgvCI6sz4uDRfWOoQc8+pfqYM1cMfn0YiXvLbSp0vtNyc4T
+ sFQ5NgCBGk3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="231221676"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="231221676"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2020 11:46:20 -0700
+IronPort-SDR: TDAqqfRoomjQd2s5lRmUMMprSjZaiIqtHBhp4bag9MzQELWBCpY2dQMCJ4BCRHFjmZyH8Ob2cR
+ 8P9rHb/7RYHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="277516248"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by orsmga003.jf.intel.com with ESMTP; 30 Jun 2020 11:46:20 -0700
+Received: from fmsmsx161.amr.corp.intel.com (10.18.125.9) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 30 Jun 2020 11:46:19 -0700
+Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
+ FMSMSX161.amr.corp.intel.com (10.18.125.9) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 30 Jun 2020 11:46:19 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
+ by edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Tue, 30 Jun 2020 11:46:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hfKUV9FNdmGrGWNikW7KNZKGPalkkjIRdEGOFDcN/UM1OlsXkR0gfa5TuHGPPt3Bi6uUcjVylWbdZeWj3s8VQakNMem5uDUmUJa3lZMAYuUz5WaCbxv5bp20Km1x5zRY7nC6fJhRW5QTOPpvstBiPdsE35saFj5cZ/Tr02/rpoDyT7FI6JBkKO14tABrQNzVlsdlto8Wl5bZCfrFI5IsoBzn5yg8S3OOHzkL+de09sdSHaSdEvEqnNtR0mg0cDdVfJg/cgS0mtsS+37r4pdOUR3npHIks1GW2iwmwMCrfwTToSOw4n+yGIl8kmnJ+map5v/CNzXlVlUctNJwClB1qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lA/C6ssbucOrc9/eQJd0REqVpKptppq90DUKc8elUsQ=;
+ b=kx7EQ+ASkPsk+o/sTpV4i5HnOSX9Kgx3guax5l81PY2SV4U0t5i96pX4lDWQ09x93yJAmDHBCNlmlsduwqY4uEoF/VwXOpAf2pgPElSGQabnSXticTopYBHbJbOTUimGbsDx0eeDzBIOgeu1XqI1NLdjwh7hlTDdyhifMjm1DLHmqigWI+DCZJQMLStlY2hLq+pSmWsL7GTnGkO8a9icA0HZ+oRQt8kex5ZC4Ipkn5Y0X2nIwFPLWHgDQrntFiJ8PtZShXTFdA/j1jzfQi+x2cFPb7p9BhEG6jYUqW97hwq+MLrRMgzp0xn8JbckonbxbthVpa0SBCI7on/l6wIimQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lA/C6ssbucOrc9/eQJd0REqVpKptppq90DUKc8elUsQ=;
+ b=DLWcRNEUjMlKuJeHiW9+9cw6U/S+hElrF4eqekYt2rKBlnZDyBg1Ohb1zG8QYJKKWoNXSJOecS5QEX9ikTf3RRRKMoHD6KYO3bySuxqBDHRLD3qMqmMlSmSTrKZeXSRJvdAWKZy/X2CdBltVNYjhAGlgaP5q2PqiWYi9uUH07QM=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by MWHPR11MB1680.namprd11.prod.outlook.com (2603:10b6:301:d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Tue, 30 Jun
+ 2020 18:46:17 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::ed68:a00b:2bb0:21cf]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::ed68:a00b:2bb0:21cf%8]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 18:46:17 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: RE: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+Thread-Topic: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+Thread-Index: AQHWTjmKZPnzyjUH+EiOzVuDukOX/Kjv8EEAgAFgqNCAABwVgIAACtww
+Date: Tue, 30 Jun 2020 18:46:17 +0000
+Message-ID: <MW3PR11MB45553FA6D144BF1053571D98E56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1593451903-30959-1-git-send-email-jianxin.xiong@intel.com>
+ <20200629185152.GD25301@ziepe.ca>
+ <MW3PR11MB4555A99038FA0CFC3ED80D3DE56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20200630173435.GK25301@ziepe.ca>
+In-Reply-To: <20200630173435.GK25301@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: ziepe.ca; dkim=none (message not signed)
+ header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [134.134.136.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e548edca-3f07-4939-45bb-08d81d25df79
+x-ms-traffictypediagnostic: MWHPR11MB1680:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR11MB16805FCEABDBFCE88510D360E56F0@MWHPR11MB1680.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0450A714CB
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: f+fFrAUPqCOsIdLz5a4Zpn6fJ0gu0dd2ofdXy57NGLA86mLgX7EfGY/LJMyftmfSHh9gQnYA/Gnr6UHvjsmUTqva0d7PZy7yPuSLhEkrl85YjgCs0oZSAC6SUpWk7nbxYiYUC+Q9NKH8AbH1wNixu/5t2xH4Gn+5ZO0labJVcO2fj+tai7jJ/3pnk25JhXbtfvaLnCu13HlTaVlJbjKNZAydxVc/maFEBwCbwova4x2FzajwJXzpUHmg4rU6LiSTD4FVEgZtlcvef4RkLTNILWcY58+NCgVPxmKZPgi9IxKPSMDy6kj0Y3M7V9vulZUY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(396003)(346002)(136003)(39860400002)(376002)(5660300002)(478600001)(53546011)(83380400001)(316002)(7696005)(66446008)(2906002)(66556008)(66476007)(64756008)(6506007)(4326008)(55016002)(8676002)(76116006)(8936002)(66946007)(9686003)(71200400001)(54906003)(186003)(86362001)(52536014)(26005)(6916009)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: UwF70kfnAkyURhqW00gwL+TvfhSmBl9uOpHSl5Sc612NcOYbLCUdAdqS1yyYxFc9l2zf0yYqq/CUEn4TcCccoSTMUAifxr57THqkMDeDRDGckKrQ4jKMqVSnCIUVqbG9/R3OB2aVsPst1352lTcPD5JWb5AWmbs2ntit+xzRYXb6cwt/+m4WTzZxXfcBNVyNyv9OXcGBRAxSw3v/bPiauL0Bx78cKIgLNy4jSyQpKHZJl/iljytm1xYmXD+dil7o83W8i86YLbbA+aUri09U6BXFyh0XjXVB8wmkzgKO/qLVEub4kBN15JpDAf2hDM/yq/I/XpVQfOmWkHhvMrdF0cCwEYnzQSuleEhqLJrXDaV2xA3WuRLoz6p7Di5zfJr5mQY9inPy03My1pvD8dJPHYwAzNEYx8Hg8QV4Wf5TB50YiBPKN+fEjhjeD2l7a5ZQSc+gK/Xq1DkS71RAaFxS0wBK3NxlbZqNFizhalz798DGE2iD5TUfnvVHSvoirSbO
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e548edca-3f07-4939-45bb-08d81d25df79
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 18:46:17.2520 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UOowHg0dGCRMacnE43iyjjB+rR5EG1VGprlqLf5p8vLJ889PGyCp//xg7l9bmU4Ul7ejY7xQLhBcFoRtRYRmsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1680
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,417 +122,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
- abhinavk@codeaurora.org, varar@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, chandanu@codeaurora.org
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Configure HPD registers in DP controller and
-enable HPD interrupt.
+> -----Original Message-----
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Tuesday, June 30, 2020 10:35 AM
+> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> Cc: linux-rdma@vger.kernel.org; Doug Ledford <dledford@redhat.com>; Sumit Semwal <sumit.semwal@linaro.org>; Leon Romanovsky
+> <leon@kernel.org>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig <christian.koenig@amd.com>
+> Subject: Re: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+> 
+> On Tue, Jun 30, 2020 at 05:21:33PM +0000, Xiong, Jianxin wrote:
+> > > > Heterogeneous Memory Management (HMM) utilizes
+> > > > mmu_interval_notifier and ZONE_DEVICE to support shared virtual
+> > > > address space and page migration between system memory and device
+> > > > memory. HMM doesn't support pinning device memory because pages
+> > > > located on device must be able to migrate to system memory when
+> > > > accessed by CPU. Peer-to-peer access is possible if the peer can
+> > > > handle page fault. For RDMA, that means the NIC must support on-demand paging.
+> > >
+> > > peer-peer access is currently not possible with hmm_range_fault().
+> >
+> > Currently hmm_range_fault() always sets the cpu access flag and device
+> > private pages are migrated to the system RAM in the fault handler.
+> > However, it's possible to have a modified code flow to keep the device
+> > private page info for use with peer to peer access.
+> 
+> Sort of, but only within the same device, RDMA or anything else generic can't reach inside a DEVICE_PRIVATE and extract anything useful.
 
-Add interrupt to handle HPD connect and disconnect events.
+But pfn is supposed to be all that is needed.
 
-Changes in v8: None
+> 
+> > > So.. this patch doesn't really do anything new? We could just make a MR against the DMA buf mmap and get to the same place?
+> >
+> > That's right, the patch alone is just half of the story. The
+> > functionality depends on availability of dma-buf exporter that can pin
+> > the device memory.
+> 
+> Well, what do you want to happen here? The RDMA parts are reasonable, but I don't want to add new functionality without a purpose - the
+> other parts need to be settled out first.
 
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  18 ++++
- drivers/gpu/drm/msm/dp/dp_catalog.c     |  67 +++++++++------
- drivers/gpu/drm/msm/dp/dp_catalog.h     |   5 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c        |   1 -
- drivers/gpu/drm/msm/dp/dp_display.c     | 108 ++++++++++++++++++++++--
- drivers/gpu/drm/msm/dp/dp_reg.h         |  12 +++
- drivers/gpu/drm/msm/msm_drv.h           |   6 ++
- 7 files changed, 182 insertions(+), 35 deletions(-)
+At the RDMA side, we mainly want to check if the changes are acceptable. For example,
+the part about adding 'fd' to the device ops and the ioctl interface. All the previous
+comments are very helpful for us to refine the patch so that we can be ready when
+GPU side support becomes available.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index f6c219f875db..8169238724b8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -765,6 +765,23 @@ static void dpu_irq_preinstall(struct msm_kms *kms)
- 	dpu_core_irq_preinstall(dpu_kms);
- }
- 
-+static int dpu_irq_postinstall(struct msm_kms *kms)
-+{
-+	struct msm_drm_private *priv;
-+	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-+
-+	if (!dpu_kms || !dpu_kms->dev)
-+		return -EINVAL;
-+
-+	priv = dpu_kms->dev->dev_private;
-+	if (!priv)
-+		return -EINVAL;
-+
-+	msm_dp_irq_postinstall(priv->dp);
-+
-+	return 0;
-+}
-+
- static void dpu_irq_uninstall(struct msm_kms *kms)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-@@ -775,6 +792,7 @@ static void dpu_irq_uninstall(struct msm_kms *kms)
- static const struct msm_kms_funcs kms_funcs = {
- 	.hw_init         = dpu_kms_hw_init,
- 	.irq_preinstall  = dpu_irq_preinstall,
-+	.irq_postinstall = dpu_irq_postinstall,
- 	.irq_uninstall   = dpu_irq_uninstall,
- 	.irq             = dpu_irq,
- 	.enable_commit   = dpu_kms_enable_commit,
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index b5898ad03e4f..ab69ae3e2dbd 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -17,7 +17,6 @@
- #define POLLING_SLEEP_US			1000
- #define POLLING_TIMEOUT_US			10000
- 
--#define REFTIMER_DEFAULT_VALUE			0x20000
- #define SCRAMBLER_RESET_COUNT_VALUE		0xFC
- 
- #define DP_INTERRUPT_STATUS_ACK_SHIFT	1
-@@ -761,35 +760,51 @@ void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog,
- 	}
- }
- 
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog, bool en)
-+void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
-+			u32 intr_mask, bool en)
- {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
- 
--	if (en) {
--		u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
--
--		dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
--				DP_DP_HPD_PLUG_INT_ACK |
--				DP_DP_IRQ_HPD_INT_ACK |
--				DP_DP_HPD_REPLUG_INT_ACK |
--				DP_DP_HPD_UNPLUG_INT_ACK);
--		dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
--				DP_DP_HPD_PLUG_INT_MASK |
--				DP_DP_IRQ_HPD_INT_MASK |
--				DP_DP_HPD_REPLUG_INT_MASK |
--				DP_DP_HPD_UNPLUG_INT_MASK);
--
--		/* Configure REFTIMER */
--		reftimer |= REFTIMER_DEFAULT_VALUE;
--		dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
--		/* Enable HPD */
--		dp_write_aux(catalog, REG_DP_DP_HPD_CTRL,
--				DP_DP_HPD_CTRL_HPD_EN);
--	} else {
--		/* Disable HPD */
--		dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, 0x0);
--	}
-+	u32 config = dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
-+
-+	config = (en ? config | intr_mask : config & ~intr_mask);
-+
-+	dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
-+				config & DP_DP_HPD_INT_MASK);
-+}
-+
-+void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-+
-+	/* enable HPD interrupts */
-+	dp_catalog_hpd_config_intr(dp_catalog,
-+		DP_DP_HPD_PLUG_INT_MASK | DP_DP_IRQ_HPD_INT_MASK
-+		| DP_DP_HPD_UNPLUG_INT_MASK, true);
-+
-+	/* Configure REFTIMER and enable it */
-+	reftimer |= DP_DP_HPD_REFTIMER_ENABLE;
-+	dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
-+
-+	/* Enable HPD */
-+	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
-+}
-+
-+u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+	int isr = 0;
-+
-+	isr = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
-+	dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
-+				 (isr & DP_DP_HPD_INT_MASK));
-+
-+	return isr;
- }
- 
- int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 4cf9ad4206cc..bcd381bfc9cd 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -75,7 +75,10 @@ void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_usb_reset(struct dp_catalog *dp_catalog, bool flip);
- bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog, bool enable);
-+void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
-+			u32 intr_mask, bool en);
-+void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
-+u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_phy_lane_cfg(struct dp_catalog *dp_catalog, bool flipped,
- 				u8 lane_cnt);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 0a2504ee08e6..98654f39806c 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1569,7 +1569,6 @@ int dp_ctrl_on(struct dp_ctrl *dp_ctrl)
- 	rate = ctrl->panel->link_info.rate;
- 
- 	dp_power_clk_enable(ctrl->power, DP_CORE_PM, true);
--	dp_catalog_ctrl_hpd_config(ctrl->catalog, true);
- 
- 	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
- 		DRM_DEBUG_DP("using phy test link parameters\n");
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 86c958b21c97..36b6ee4131bb 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -17,6 +17,7 @@
- #include "dp_power.h"
- #include "dp_catalog.h"
- #include "dp_aux.h"
-+#include "dp_reg.h"
- #include "dp_link.h"
- #include "dp_panel.h"
- #include "dp_ctrl.h"
-@@ -36,6 +37,7 @@ struct dp_display_private {
- 	bool power_on;
- 	bool hpd_irq_on;
- 	bool audio_supported;
-+	atomic_t hpd_isr_status;
- 
- 	struct platform_device *pdev;
- 	struct dentry *root;
-@@ -54,6 +56,8 @@ struct dp_display_private {
- 	struct dp_usbpd_cb usbpd_cb;
- 	struct dp_display_mode dp_mode;
- 	struct msm_dp dp_display;
-+
-+	struct delayed_work config_hpd_work;
- };
- 
- static const struct of_device_id dp_dt_match[] = {
-@@ -64,6 +68,20 @@ static const struct of_device_id dp_dt_match[] = {
- static irqreturn_t dp_display_irq(int irq, void *dev_id)
- {
- 	struct dp_display_private *dp = dev_id;
-+	irqreturn_t ret = IRQ_HANDLED;
-+	u32 hpd_isr_status;
-+
-+	if (!dp) {
-+		DRM_ERROR("invalid data\n");
-+		return IRQ_NONE;
-+	}
-+
-+	hpd_isr_status = dp_catalog_hpd_get_intr_status(dp->catalog);
-+
-+	if (hpd_isr_status & DP_DP_HPD_INT_MASK) {
-+		atomic_set(&dp->hpd_isr_status, hpd_isr_status);
-+		ret = IRQ_WAKE_THREAD;
-+	}
- 
- 	/* DP controller isr */
- 	dp_ctrl_isr(dp->ctrl);
-@@ -71,6 +89,54 @@ static irqreturn_t dp_display_irq(int irq, void *dev_id)
- 	/* DP aux isr */
- 	dp_aux_isr(dp->aux);
- 
-+	return ret;
-+}
-+
-+static irqreturn_t dp_display_hpd_isr_work(int irq, void *data)
-+{
-+	struct dp_display_private *dp;
-+	struct dp_usbpd *hpd;
-+	u32 isr = 0;
-+
-+	dp = (struct dp_display_private *)data;
-+	if (!dp)
-+		return IRQ_NONE;
-+
-+	isr = atomic_read(&dp->hpd_isr_status);
-+
-+	/* reset to default */
-+	atomic_set(&dp->hpd_isr_status, 0);
-+
-+	hpd = dp->usbpd;
-+	if (!hpd)
-+		return IRQ_NONE;
-+
-+	if (isr & DP_DP_HPD_PLUG_INT_MASK &&
-+		isr & DP_DP_HPD_STATE_STATUS_CONNECTED) {
-+		hpd->hpd_high = 1;
-+		dp->usbpd_cb.configure(&dp->pdev->dev);
-+	} else if (isr & DP_DP_HPD_UNPLUG_INT_MASK &&
-+		(isr & DP_DP_HPD_STATE_STATUS_MASK) ==
-+			 DP_DP_HPD_STATE_STATUS_DISCONNECTED) {
-+
-+		/* disable HPD plug interrupt until disconnect is done
-+		 */
-+		dp_catalog_hpd_config_intr(dp->catalog,
-+			DP_DP_HPD_PLUG_INT_MASK | DP_DP_IRQ_HPD_INT_MASK,
-+			false);
-+
-+		hpd->hpd_high = 0;
-+
-+		/* We don't need separate work for disconnect as
-+		 * connect/attention interrupts are disabled
-+		 */
-+		dp->usbpd_cb.disconnect(&dp->pdev->dev);
-+
-+		dp_catalog_hpd_config_intr(dp->catalog,
-+			DP_DP_HPD_PLUG_INT_MASK | DP_DP_IRQ_HPD_INT_MASK,
-+			true);
-+	}
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -212,8 +278,6 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 	int rc = 0;
- 	struct edid *edid;
- 
--	dp_aux_init(dp->aux);
--
- 	if (dp->link->psm_enabled)
- 		goto notify;
- 
-@@ -270,10 +334,6 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 		return;
- 	}
- 
--	dp_ctrl_host_deinit(dp->ctrl);
--	dp_aux_deinit(dp->aux);
--	dp_power_deinit(dp->power);
--	disable_irq(dp->irq);
- 	dp->core_initialized = false;
- }
- 
-@@ -630,7 +690,8 @@ int dp_display_request_irq(struct msm_dp *dp_display)
- 		return rc;
- 	}
- 
--	rc = devm_request_irq(&dp->pdev->dev, dp->irq, dp_display_irq,
-+	rc = devm_request_threaded_irq(&dp->pdev->dev, dp->irq,
-+		dp_display_irq, dp_display_hpd_isr_work,
- 		IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
- 	if (rc < 0) {
- 		DRM_ERROR("failed to request IRQ%u: %d\n",
-@@ -800,6 +861,39 @@ void __exit msm_dp_unregister(void)
- 	platform_driver_unregister(&dp_display_driver);
- }
- 
-+static void dp_display_config_hpd_work(struct work_struct *work)
-+{
-+	struct dp_display_private *dp;
-+	struct delayed_work *dw = to_delayed_work(work);
-+
-+	dp = container_of(dw, struct dp_display_private, config_hpd_work);
-+
-+	dp_display_host_init(dp);
-+	dp_catalog_ctrl_hpd_config(dp->catalog);
-+
-+	/* set default to 0 */
-+	atomic_set(&dp->hpd_isr_status, 0);
-+
-+	/* Enable interrupt first time
-+	 * we are leaving dp clocks on during disconnect
-+	 * and never disable interrupt
-+	 */
-+	enable_irq(dp->irq);
-+}
-+
-+void msm_dp_irq_postinstall(struct msm_dp *dp_display)
-+{
-+	struct dp_display_private *dp;
-+
-+	if (!dp_display)
-+		return;
-+
-+	dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	INIT_DELAYED_WORK(&dp->config_hpd_work, dp_display_config_hpd_work);
-+	queue_delayed_work(system_wq, &dp->config_hpd_work, HZ * 10);
-+}
-+
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder)
- {
-diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-index ad6f1760f893..6b3e297e4e04 100644
---- a/drivers/gpu/drm/msm/dp/dp_reg.h
-+++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-@@ -54,10 +54,22 @@
- #define DP_DP_IRQ_HPD_INT_MASK			(0x00000002)
- #define DP_DP_HPD_REPLUG_INT_MASK		(0x00000004)
- #define DP_DP_HPD_UNPLUG_INT_MASK		(0x00000008)
-+#define DP_DP_HPD_INT_MASK			(DP_DP_HPD_PLUG_INT_MASK | \
-+						DP_DP_IRQ_HPD_INT_MASK | \
-+						DP_DP_HPD_REPLUG_INT_MASK | \
-+						DP_DP_HPD_UNPLUG_INT_MASK)
-+#define DP_DP_HPD_STATE_STATUS_CONNECTED	(0x40000000)
-+#define DP_DP_HPD_STATE_STATUS_PENDING		(0x20000000)
-+#define DP_DP_HPD_STATE_STATUS_DISCONNECTED	(0x00000000)
-+#define DP_DP_HPD_STATE_STATUS_MASK		(0xE0000000)
- 
- #define REG_DP_DP_HPD_REFTIMER			(0x00000018)
-+#define DP_DP_HPD_REFTIMER_ENABLE		(1 << 16)
-+
- #define REG_DP_DP_HPD_EVENT_TIME_0		(0x0000001C)
- #define REG_DP_DP_HPD_EVENT_TIME_1		(0x00000020)
-+#define DP_DP_HPD_EVENT_TIME_0_VAL		(0x3E800FA)
-+#define DP_DP_HPD_EVENT_TIME_1_VAL		(0x1F407D0)
- 
- #define REG_DP_AUX_CTRL				(0x00000030)
- #define DP_AUX_CTRL_ENABLE			(0x00000001)
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 7be4c4f17fcd..d0b79321080c 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -391,6 +391,7 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder);
- void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
- 				struct drm_display_mode *mode,
- 				struct drm_display_mode *adjusted_mode);
-+void msm_dp_irq_postinstall(struct msm_dp *dp_display);
- 
- #else
- static inline int __init msm_dp_register(void)
-@@ -422,6 +423,11 @@ static inline void msm_dp_display_mode_set(struct msm_dp *dp,
- 				struct drm_display_mode *adjusted_mode)
- {
- }
-+
-+static inline void msm_dp_irq_postinstall(struct msm_dp *dp_display)
-+{
-+}
-+
- #endif
- 
- void __init msm_mdp_register(void);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+> 
+> The need for the dynamic mapping support for even the current DMA Buf hacky P2P users is really too bad. Can you get any GPU driver to
+> support non-dynamic mapping?
 
+We are working on direct direction.
+
+> 
+> > > > migrate to system RAM. This is due to the lack of knowledge about
+> > > > whether the importer can perform peer-to-peer access and the lack
+> > > > of resource limit control measure for GPU. For the first part, the
+> > > > latest dma-buf driver has a peer-to-peer flag for the importer,
+> > > > but the flag is currently tied to dynamic mapping support, which
+> > > > requires on-demand paging support from the NIC to work.
+> > >
+> > > ODP for DMA buf?
+> >
+> > Right.
+> 
+> Hum. This is not actually so hard to do. The whole dma buf proposal would make a lot more sense if the 'dma buf MR' had to be the
+> dynamic kind and the driver had to provide the faulting. It would not be so hard to change mlx5 to be able to work like this, perhaps. (the
+> locking might be a bit tricky though)
+
+The main issue is that not all NICs support ODP.
+
+> 
+> > > > There are a few possible ways to address these issues, such as
+> > > > decoupling peer-to-peer flag from dynamic mapping, allowing more
+> > > > leeway for individual drivers to make the pinning decision and
+> > > > adding GPU resource limit control via cgroup. We would like to get
+> > > > comments on this patch series with the assumption that device
+> > > > memory pinning via dma-buf is supported by some GPU drivers, and
+> > > > at the same time welcome open discussions on how to address the
+> > > > aforementioned issues as well as GPU-NIC peer-to-peer access solutions in general.
+> > >
+> > > These seem like DMA buf problems, not RDMA problems, why are you
+> > > asking these questions with a RDMA patch set? The usual DMA buf people are not even Cc'd here.
+> >
+> > The intention is to have people from both RDMA and DMA buffer side to
+> > comment. Sumit Semwal is the DMA buffer maintainer according to the
+> > MAINTAINERS file. I agree more people could be invited to the discussion.
+> > Just added Christian Koenig to the cc-list.
+> 
+> Would be good to have added the drm lists too
+
+Thanks, cc'd dri-devel here, and will also do the same for the previous part of the thread.
+
+> 
+> > If the umem_description you mentioned is for information used to
+> > create the umem (e.g. a structure for all the parameters), then this would work better.
+> 
+> It would make some more sense, and avoid all these weird EOPNOTSUPPS.
+
+Good, thanks for the suggestion.
+
+> 
+> Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
