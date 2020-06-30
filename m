@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC5720FEE5
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:29:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E339720FEFE
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3469F6E3EB;
-	Tue, 30 Jun 2020 21:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9476E445;
+	Tue, 30 Jun 2020 21:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5723B6E32A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9117A6E33C;
  Tue, 30 Jun 2020 21:28:48 +0000 (UTC)
-IronPort-SDR: 2BPNPbngrbv+FHYghHeZ6PiWLD/axlpYVblqTURn14dw13mkjuAfxQjfZPVdw2Tr8687CVP1o9
- pdlN7yvn04cw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="144554799"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="144554799"
+IronPort-SDR: YBFQr1KSl21UFxbY0jBzX/d1+G22oKC8pZrJOee+VQYtdMIP1kLJUeU1TDkag1MM/Ep9KDRRiF
+ fIiOzfAHaFow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="144554800"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="144554800"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Jun 2020 14:28:48 -0700
-IronPort-SDR: IczL9ysXv9Ex35m5hvXGuebg9W5tYKh7Jj4CGr5FTFxUMeQ6potHvTmMMzwB8uHvS9ZrUi3o+c
- iYvWLsiYFoHA==
+IronPort-SDR: ddNWGFshH52fefuB703xvaUPwR3WBAnEtgmZfQUsFsuiHRdM3espyBn3AGRtnzuw92/+MUkWCR
+ hpJHvuYoJLRw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066730"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066734"
 Received: from hdwiyono-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.254.176.225])
  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:46 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH 29/59] drm/kmb: Defer Probe
-Date: Tue, 30 Jun 2020 14:27:41 -0700
-Message-Id: <1593552491-23698-30-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH 30/59] drm/kmb: call bridge init in the very beginning
+Date: Tue, 30 Jun 2020 14:27:42 -0700
+Message-Id: <1593552491-23698-31-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
@@ -57,382 +57,316 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register DSI host first and then defer probe until ADV bridge is
-initialized.
+of probe and return probe_defer early on, so that all the other
+initializations can be done after adv driver is loaded successfully.
 
 Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_drv.c | 144 ++++++++++++++----------------------------
- drivers/gpu/drm/kmb/kmb_dsi.c |  46 ++++++++++++--
- drivers/gpu/drm/kmb/kmb_dsi.h |   3 +-
- 3 files changed, 89 insertions(+), 104 deletions(-)
+ drivers/gpu/drm/kmb/kmb_drv.c |  81 ++++++++++++++----------
+ drivers/gpu/drm/kmb/kmb_dsi.c | 144 ++++++++++++++++++++++++++----------------
+ drivers/gpu/drm/kmb/kmb_dsi.h |   6 +-
+ 3 files changed, 141 insertions(+), 90 deletions(-)
 
 diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index b4e1e50..f1bf258 100644
+index f1bf258..81af972 100644
 --- a/drivers/gpu/drm/kmb/kmb_drv.c
 +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -56,6 +56,8 @@ static irqreturn_t kmb_isr(int irq, void *arg);
- static struct clk *clk_lcd;
+@@ -57,11 +57,24 @@ static struct clk *clk_lcd;
  static struct clk *clk_mipi;
  
-+static int probe_deferred;
-+
+ static int probe_deferred;
++struct drm_bridge *adv_bridge;
+ 
  static int kmb_display_clk_enable(void)
  {
- 	clk_prepare_enable(clk_lcd);
-@@ -76,12 +78,11 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- {
- 	struct kmb_drm_private *dev_p = drm->dev_private;
- 	struct platform_device *pdev = to_platform_device(drm->dev);
--	struct drm_bridge *bridge;
-+/*	struct drm_bridge *bridge;*/
- 	/*struct resource *res;*/
- 	/*u32 version;*/
--	int irq_lcd, irq_mipi;
- 	int ret;
--	struct device_node *encoder_node;
-+/*	struct device_node *encoder_node;*/
- 
- 	/* TBD - not sure if clock_get needs to be called here */
- 	/*
-@@ -93,9 +94,10 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 	 * TBD call this in the future when device tree is ready,
- 	 * use hardcoded value for now
- 	 */
--	/*res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	 *dev_p->lcd_mmio = devm_ioremap_resource(drm->dev, res);
--	 *
-+	/*
-+	 * res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	 * dev_p->lcd_mmio = devm_ioremap_resource(drm->dev, res);
+-	clk_prepare_enable(clk_lcd);
+-	clk_prepare_enable(clk_mipi);
++	int ret;
 +
- 	 *if (IS_ERR(dev_p->lcd_mmio)) {
- 	 *	DRM_ERROR("failed to map control registers area\n");
- 	 *	ret = PTR_ERR(dev_p->lcd_mmio);
-@@ -103,7 +105,10 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 	 *	return ret;
++	ret = clk_prepare_enable(clk_lcd);
++	if (ret) {
++		DRM_ERROR("Failed to enable LCD clock: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(clk_mipi);
++	if (ret) {
++		DRM_ERROR("Failed to enable MIPI clock: %d\n", ret);
++		return ret;
++	}
++	DRM_INFO("SUCCESS : enabled LCD MIPI clocks\n");
+ 	return 0;
+ }
+ 
+@@ -106,8 +119,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
  	 *}
  	 */
--	 /* LCD mmio */
-+	/* LCD mmio */
-+	if (!probe_deferred) {
-+		probe_deferred = 1;
-+
+ 	/* LCD mmio */
+-	if (!probe_deferred) {
+-		probe_deferred = 1;
++	probe_deferred = 1;
+ 
  	if (!request_mem_region(LCD_BASE_ADDR, LCD_MMIO_SIZE, "kmb-lcd")) {
  		DRM_ERROR("failed to reserve LCD registers\n");
- 		return -ENOMEM;
-@@ -113,7 +118,6 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 		DRM_ERROR("failed to map LCD registers\n");
- 		return -ENOMEM;
- 	}
--
- 	/* Mipi mmio */
- 	if (!request_mem_region(MIPI_BASE_ADDR, MIPI_MMIO_SIZE, "kmb-mipi")) {
- 		DRM_ERROR("failed to reserve MIPI registers\n");
-@@ -126,35 +130,16 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 		iounmap(dev_p->lcd_mmio);
- 		return -ENOMEM;
- 	}
--
- 	/*this is only for MIPI_TX_MSS_LCD_MIPI_CFG register */
--	dev_p->msscam_mmio = ioremap_cache(MSS_CAM_BASE_ADDR,
-+	if (!dev_p->msscam_mmio) {
-+		dev_p->msscam_mmio = ioremap_cache(MSS_CAM_BASE_ADDR,
- 			MSS_CAM_MMIO_SIZE);
-+	}
- 
- 	/* register irqs here - section 17.3 in databook
+@@ -140,9 +152,10 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
  	 * lists LCD at 79 and 82 for MIPI under MSS CPU -
  	 * firmware has to redirect it to A53
  	 */
--	irq_lcd = platform_get_irq_byname(pdev, "irq_lcd");
--	if (irq_lcd < 0) {
--		DRM_ERROR("irq_lcd not found");
--		return irq_lcd;
--	}
--	pr_info("irq_lcd platform_get_irq = %d\n", irq_lcd);
--	ret = request_irq(irq_lcd, kmb_isr, IRQF_SHARED, "irq_lcd", dev_p);
--	dev_p->irq_lcd = irq_lcd;
--
--	irq_mipi = platform_get_irq_byname(pdev, "irq_mipi");
--	if (irq_mipi < 0) {
--		DRM_ERROR("irq_mipi not found");
--		return irq_mipi;
--	}
--	pr_info("irq_mipi platform_get_irq = %d\n", irq_mipi);
--	ret = request_irq(irq_mipi, kmb_isr, IRQF_SHARED, "irq_mipi", dev_p);
--	dev_p->irq_mipi = irq_mipi;
--
--
--
- /*TBD read and check for correct product version here */
+-/*TBD read and check for correct product version here */
  
- 	/* Get the optional framebuffer memory resource */
-@@ -169,52 +154,35 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
+-	/* Get the optional framebuffer memory resource */
++		/*TBD read and check for correct product version here */
++
++		/* Get the optional framebuffer memory resource */
+ 	ret = of_reserved_mem_device_init(drm->dev);
+ 	if (ret && ret != -ENODEV)
+ 		return ret;
+@@ -154,8 +167,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
  		goto setup_fail;
  	}
  
--	/* find ADV7535 node and initialize it */
--	encoder_node = of_parse_phandle(drm->dev->of_node, "encoder-slave", 0);
--	if (!encoder_node) {
--		DRM_ERROR("failed to get bridge info from DT\n");
--		ret = -EPROBE_DEFER;
--		goto setup_fail;
--	}
--
--	/* Locate drm bridge from the hdmi encoder DT node */
--	bridge = of_drm_find_bridge(encoder_node);
--	if (!bridge) {
--		DRM_ERROR("failed to get bridge driver from DT\n");
--		ret = -EPROBE_DEFER;
--		goto setup_fail;
--	}
--
--	of_node_put(encoder_node);
--
--	ret = kmb_dsi_init(drm, bridge);
--	if (ret) {
-+/*	ret = kmb_dsi_init(drm, bridge);*/
-+	ret = kmb_dsi_init(drm);
-+	if (ret == -EPROBE_DEFER) {
-+		DRM_INFO("%s: wait for external bridge driver DT", __func__);
-+		return -EPROBE_DEFER;
-+	} else if (ret) {
+-/*	ret = kmb_dsi_init(drm, bridge);*/
+-	ret = kmb_dsi_init(drm);
++	ret = kmb_dsi_init(drm, adv_bridge);
+ 	if (ret == -EPROBE_DEFER) {
+ 		DRM_INFO("%s: wait for external bridge driver DT", __func__);
+ 		return -EPROBE_DEFER;
+@@ -163,7 +175,6 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
  		DRM_ERROR("failed to initialize DSI\n");
  		goto setup_fail;
  	}
--
-+}
+-}
  	/* enable display clocks*/
  	clk_lcd = clk_get(&pdev->dev, "clk_lcd");
  	if (!clk_lcd) {
- 		DRM_ERROR("clk_get() failed clk_lcd\n");
+@@ -177,10 +188,9 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
  		goto setup_fail;
  	}
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	clk_mipi = clk_get(&pdev->dev, "clk_mipi");
- 	if (!clk_mipi) {
- 		DRM_ERROR("clk_get() failed clk_mipi\n");
- 		goto setup_fail;
- 	}
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	kmb_display_clk_enable();
+ 	DRM_INFO("%s : %d\n", __func__, __LINE__);
+-	kmb_display_clk_enable();
+-
+-	DRM_INFO("%s : %d\n", __func__, __LINE__);
++	ret = kmb_display_clk_enable();
  
--	ret = drm_irq_install(drm, platform_get_irq(pdev, 0));
--	if (ret < 0) {
--		DRM_ERROR("failed to install IRQ handler\n");
--		goto irq_fail;
--	}
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 
++	DRM_INFO("%s : %d clk enabling ret=%d\n", __func__, __LINE__, ret);
  	return 0;
  
--irq_fail:
  	drm_crtc_cleanup(&dev_p->crtc);
- setup_fail:
- 	of_reserved_mem_device_release(drm->dev);
-@@ -349,40 +317,38 @@ static int kmb_drm_bind(struct device *dev)
+@@ -287,7 +297,7 @@ static struct drm_driver kmb_driver = {
+ 	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
+ 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+ 	.fops = &fops,
+-	.name = "kmb",
++	.name = "kmb_display",
+ 	.desc = "KEEMBAY DISPLAY DRIVER ",
+ 	.date = "20190122",
+ 	.major = 1,
+@@ -296,26 +306,27 @@ static struct drm_driver kmb_driver = {
+ 
+ static int kmb_drm_bind(struct device *dev)
+ {
+-	struct drm_device *drm;
++	struct drm_device *drm = NULL;
+ 	struct kmb_drm_private *lcd;
+ 	int ret;
+ 
+-	DRM_DEBUG("kmb_bind : ENTER\n");
++	DRM_DEBUG("%s : ENTER", __func__);
+ 	drm = drm_dev_alloc(&kmb_driver, dev);
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
+ 
+-	DRM_DEBUG("kmb_bind : after alloc drm\n");
++	DRM_DEBUG("%s : after alloc drm", __func__);
+ 	lcd = devm_kzalloc(dev, sizeof(*lcd), GFP_KERNEL);
+ 	if (!lcd)
+ 		return -ENOMEM;
+ 
+-	DRM_DEBUG("kmb_bind : after alloc lcd\n");
++	DRM_DEBUG("%s : after alloc lcd", __func__);
+ 	drm->dev_private = lcd;
+-	dev_set_drvdata(dev, drm);
+ 
  	kmb_setup_mode_config(drm);
- 	DRM_DEBUG("kmb_bind : after kmb_setup_mode_config\n");
+-	DRM_DEBUG("kmb_bind : after kmb_setup_mode_config\n");
++	dev_set_drvdata(dev, drm);
++
++	/* load the driver */
  	ret = kmb_load(drm, 0);
--	if (ret)
-+	DRM_INFO("%s : %d ret = %d\n", __func__, __LINE__, ret);
-+	if (ret == -EPROBE_DEFER) {
-+		DRM_INFO("kmb_bind: wait for external bridge driver DT\n");
-+		return -EPROBE_DEFER;
-+	} else if (ret)
- 		goto err_free;
- 
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	/* Set the CRTC's port so that the encoder component can find it */
- 	lcd->crtc.port = of_graph_get_port_by_id(dev->of_node, 0);
--
--	ret = component_bind_all(dev, drm);
--	if (ret) {
--		DRM_ERROR("Failed to bind all components\n");
--		goto err_unload;
--	}
--
--	ret = pm_runtime_set_active(dev);
--	if (ret)
--		goto err_pm_active;
--
--	pm_runtime_enable(dev);
--
-+	DRM_INFO("crtc port = %pOF\n", lcd->crtc.port);
- 	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
- 	if (ret < 0) {
- 		DRM_ERROR("failed to initialise vblank\n");
- 		goto err_vblank;
- 	}
- 
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	drm_mode_config_reset(drm);
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	drm_kms_helper_poll_init(drm);
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 
- 	ret = drm_dev_register(drm, 0);
-+	DRM_INFO("%s : %d ret = %d\n", __func__, __LINE__, ret);
- 
- 	lcd->n_layers = KMB_MAX_PLANES;
- 	if (ret)
- 		goto err_register;
- 
- 	drm_fbdev_generic_setup(drm, 32);
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 
- 	return 0;
- 
-@@ -390,9 +356,7 @@ static int kmb_drm_bind(struct device *dev)
+ 	DRM_INFO("%s : %d ret = %d\n", __func__, __LINE__, ret);
+ 	if (ret == -EPROBE_DEFER) {
+@@ -356,7 +367,6 @@ static int kmb_drm_bind(struct device *dev)
  	drm_kms_helper_poll_fini(drm);
  err_vblank:
  	pm_runtime_disable(drm->dev);
--err_pm_active:
- 	component_unbind_all(dev, drm);
--err_unload:
+-	component_unbind_all(dev, drm);
  	of_node_put(lcd->crtc.port);
  	lcd->crtc.port = NULL;
  	drm_irq_uninstall(drm);
-@@ -451,16 +415,10 @@ static const struct component_master_ops kmb_master_ops = {
- 	.unbind = kmb_drm_unbind,
- };
+@@ -374,9 +384,9 @@ static void kmb_drm_unbind(struct device *dev)
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+ 	struct kmb_drm_private *dev_p = drm->dev_private;
  
--static int compare_dev(struct device *dev, void *data)
--{
--	return dev->of_node == data;
--}
++	dump_stack();
+ 	drm_dev_unregister(drm);
+ 	drm_kms_helper_poll_fini(drm);
+-	component_unbind_all(dev, drm);
+ 	of_node_put(dev_p->crtc.port);
+ 	dev_p->crtc.port = NULL;
+ 	pm_runtime_get_sync(drm->dev);
+@@ -384,12 +394,15 @@ static void kmb_drm_unbind(struct device *dev)
+ 	pm_runtime_put_sync(drm->dev);
+ 	pm_runtime_disable(drm->dev);
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	if (dev_p->lcd_mmio) {
++		DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 		iounmap(dev_p->lcd_mmio);
+ 		release_mem_region(LCD_BASE_ADDR, LCD_MMIO_SIZE);
+ 	}
+ 
+ 	if (dev_p->mipi_mmio) {
++		DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 		iounmap(dev_p->mipi_mmio);
+ 		release_mem_region(MIPI_BASE_ADDR, MIPI_MMIO_SIZE);
+ 	}
+@@ -397,6 +410,7 @@ static void kmb_drm_unbind(struct device *dev)
+ 	if (dev_p->msscam_mmio)
+ 		iounmap(dev_p->msscam_mmio);
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	of_reserved_mem_device_release(drm->dev);
+ 	drm_mode_config_cleanup(drm);
+ 
+@@ -408,32 +422,31 @@ static void kmb_drm_unbind(struct device *dev)
+ 	drm_dev_put(drm);
+ 	drm->dev_private = NULL;
+ 	dev_set_drvdata(dev, NULL);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ }
+ 
+-static const struct component_master_ops kmb_master_ops = {
+-	.bind = kmb_drm_bind,
+-	.unbind = kmb_drm_unbind,
+-};
 -
  static int kmb_probe(struct platform_device *pdev)
  {
- 	struct device_node *port;
--	struct component_match *match = NULL;
--	int ret;
-+	int ret = 0;
+-	struct device_node *port;
+-	int ret = 0;
++	struct device *device = get_device(&pdev->dev);
  
  	/* there is only one output port inside each device, find it */
  	DRM_DEBUG("%s : ENTER", __func__);
-@@ -469,18 +427,8 @@ static int kmb_probe(struct platform_device *pdev)
- 	DRM_DEBUG("%s : port = 0x%pOF\n", __func__, port);
- 	if (!port)
- 		return -ENODEV;
--
--	DRM_DEBUG("%s : after get_remote", __func__);
--	DRM_DEBUG("Adding component %pOF\n", port);
--	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
--	DRM_DEBUG("%s : after get_match", __func__);
--	of_node_put(port);
--
--	 ret = component_master_add_with_match(&pdev->dev, &kmb_master_ops,
--					match);
--
- 	DRM_DEBUG("%s : EXIT ret=%d\n", __func__, ret);
--	return ret;
-+	return kmb_drm_bind(&pdev->dev);
+ 
+-	port = of_graph_get_remote_node(pdev->dev.of_node, 0, 0);
+-	DRM_DEBUG("%s : port = 0x%pOF\n", __func__, port);
+-	if (!port)
+-		return -ENODEV;
+-	DRM_DEBUG("%s : EXIT ret=%d\n", __func__, ret);
++	adv_bridge =  kmb_dsi_host_bridge_init(device);
++	if (adv_bridge == ERR_PTR(-EPROBE_DEFER))
++		return -EPROBE_DEFER;
++	else if (adv_bridge < 0) {
++		DRM_ERROR(" PROBE failed\n");
++		return -EINVAL;
++	}
++
+ 	return kmb_drm_bind(&pdev->dev);
  }
  
  static int kmb_remove(struct platform_device *pdev)
-@@ -532,13 +480,13 @@ static int __maybe_unused kmb_pm_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(kmb_pm_ops, kmb_pm_suspend, kmb_pm_resume);
+ {
+-	component_master_del(&pdev->dev, &kmb_master_ops);
++//	component_master_del(&pdev->dev, &kmb_master_ops);
++	kmb_drm_unbind(&pdev->dev);
+ 	return 0;
+ }
  
- static struct platform_driver kmb_platform_driver = {
--	.probe = kmb_probe,
--	.remove = kmb_remove,
--	.driver = {
--		   .name = "Keembay_Display",
--		   .pm = &kmb_pm_ops,
--		   .of_match_table = kmb_of_match,
--		   },
-+	.probe		= kmb_probe,
-+	.remove		= kmb_remove,
-+	.driver	= {
-+		.name = "kmb_display",
-+		.pm = &kmb_pm_ops,
-+		.of_match_table	= kmb_of_match,
-+	},
- };
- 
- module_platform_driver(kmb_platform_driver);
 diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index 01014c8..cc7fb0e 100644
+index cc7fb0e..8741d78 100644
 --- a/drivers/gpu/drm/kmb/kmb_dsi.c
 +++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -289,10 +289,12 @@ static const struct mipi_dsi_host_ops kmb_dsi_host_ops = {
- 	.transfer = kmb_dsi_host_transfer,
- };
+@@ -79,6 +79,9 @@
+ #define PLL_M_MAX	623
+ #define PLL_FVCO_MAX	1250
  
--static struct kmb_dsi_host *kmb_dsi_host_init(struct kmb_dsi *kmb_dsi)
-+static struct kmb_dsi_host *kmb_dsi_host_init(struct drm_device *drm,
-+		struct kmb_dsi *kmb_dsi)
++static struct mipi_dsi_host *dsi_host;
++static struct mipi_dsi_device *dsi_device;
++
+ /*
+  * These are added here only temporarily for testing,
+  * these will eventually go to the device tree sections,
+@@ -293,33 +296,68 @@ static struct kmb_dsi_host *kmb_dsi_host_init(struct drm_device *drm,
+ 		struct kmb_dsi *kmb_dsi)
  {
  	struct kmb_dsi_host *host;
- 	struct mipi_dsi_device *device;
-+	int err;
+-	struct mipi_dsi_device *device;
+-	int err;
  
  	host = kzalloc(sizeof(*host), GFP_KERNEL);
  	if (!host)
-@@ -306,6 +308,15 @@ static struct kmb_dsi_host *kmb_dsi_host_init(struct kmb_dsi *kmb_dsi)
- 		kfree(host);
  		return NULL;
- 	}
-+
-+	host->base.dev = drm->dev;
-+	err = mipi_dsi_host_register(&host->base);
-+	if (err < 0) {
-+		DRM_ERROR("failed to register DSI host: %d\n", err);
-+		kfree(host);
-+		kfree(device);
-+	}
-+
- 	device->host = &host->base;
- 	host->device = device;
- 	return host;
-@@ -1293,7 +1304,8 @@ void mipi_tx_handle_irqs(struct kmb_drm_private *dev_p)
  
- }
+-	host->base.ops = &kmb_dsi_host_ops;
++	host->base = dsi_host;
++	host->base->ops = &kmb_dsi_host_ops;
+ 	host->kmb_dsi = kmb_dsi;
  
--int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
-+//int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
-+int kmb_dsi_init(struct drm_device *dev)
- {
- 	struct kmb_dsi *kmb_dsi;
- 	struct drm_encoder *encoder;
-@@ -1301,6 +1313,8 @@ int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
- 	struct drm_connector *connector;
- 	struct kmb_dsi_host *host;
- 	struct kmb_drm_private *dev_p = dev->dev_private;
+-	device = kzalloc(sizeof(*device), GFP_KERNEL);
+-	if (!device) {
+-		kfree(host);
+-		return NULL;
+-	}
++	host->base->dev = drm->dev;
++
++	dsi_device->host = host->base;
++	host->device = dsi_device;
++	return host;
++}
+ 
+-	host->base.dev = drm->dev;
+-	err = mipi_dsi_host_register(&host->base);
+-	if (err < 0) {
+-		DRM_ERROR("failed to register DSI host: %d\n", err);
+-		kfree(host);
+-		kfree(device);
++struct drm_bridge *kmb_dsi_host_bridge_init(struct device *dev)
++{
++	int ret;
 +	struct device_node *encoder_node;
 +	struct drm_bridge *bridge;
- 	int ret = 0;
- 
- 	kmb_dsi = kzalloc(sizeof(*kmb_dsi), GFP_KERNEL);
-@@ -1325,7 +1339,7 @@ int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
- 	drm_encoder_init(dev, encoder, &kmb_dsi_funcs, DRM_MODE_ENCODER_DSI,
- 			 "MIPI-DSI");
- 
--	host = kmb_dsi_host_init(kmb_dsi);
-+	host = kmb_dsi_host_init(dev, kmb_dsi);
- 	if (!host) {
- 		drm_encoder_cleanup(encoder);
- 		kfree(kmb_dsi);
-@@ -1336,8 +1350,30 @@ int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
- 			   DRM_MODE_CONNECTOR_DSI);
- 	drm_connector_helper_add(connector, &kmb_dsi_connector_helper_funcs);
- 
--	connector->encoder = encoder;
--	drm_connector_attach_encoder(connector, encoder);
-+//	connector->encoder = encoder;
-+	DRM_INFO("%s : %d connector = %s encoder = %s\n", __func__, __LINE__,
-+			connector->name, encoder->name);
-+	DRM_INFO("%s : %d connector->encoder = 0x%p\n", __func__, __LINE__,
-+			connector->encoder);
 +
-+	ret = drm_connector_attach_encoder(connector, encoder);
-+	DRM_INFO("%s : %d ret = %d\n", __func__, __LINE__, ret);
++	if (!dsi_host) {
++		dsi_host = kzalloc(sizeof(*dsi_host), GFP_KERNEL);
++		if (!dsi_host)
++			return ERR_PTR(-ENOMEM);
 +
++		dsi_host->ops = &kmb_dsi_host_ops;
++
++		if (!dsi_device)
++			dsi_device = kzalloc(sizeof(*dsi_device), GFP_KERNEL);
++		if (!dsi_device) {
++			kfree(dsi_host);
++			return ERR_PTR(-ENOMEM);
++		}
++
++		dsi_host->dev = dev;
++		ret = mipi_dsi_host_register(dsi_host);
++		if (ret < 0) {
++			DRM_ERROR("failed to register DSI host: %d\n", ret);
++			kfree(dsi_host);
++			kfree(dsi_device);
++			return ERR_PTR(ret);
++		}
+ 	}
+ 
+-	device->host = &host->base;
+-	host->device = device;
+-	return host;
 +	/* find ADV7535 node and initialize it */
-+	DRM_DEBUG("trying to get bridge info %pOF\n", dev->dev->of_node);
-+	encoder_node = of_parse_phandle(dev->dev->of_node, "encoder-slave", 0);
++	DRM_DEBUG("trying to get bridge info %pOF\n", dev->of_node);
++	encoder_node = of_parse_phandle(dev->of_node, "encoder-slave", 0);
 +	DRM_DEBUG("encoder node =  %pOF\n", encoder_node);
 +	if (!encoder_node) {
 +		DRM_ERROR("failed to get bridge info from DT\n");
@@ -443,22 +377,187 @@ index 01014c8..cc7fb0e 100644
 +	of_node_put(encoder_node);
 +	if (!bridge) {
 +		DRM_INFO("wait for external bridge driver DT\n");
-+		return -EPROBE_DEFER;
++		return ERR_PTR(-EPROBE_DEFER);
 +	}
++	return bridge;
+ }
  
+ u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
+@@ -682,7 +720,8 @@ static void mipi_tx_ctrl_cfg(struct kmb_drm_private *dev_p, u8 fg_id,
+ 	u32 sync_cfg = 0, ctrl = 0, fg_en;
+ 	u32 ctrl_no = MIPI_CTRL6;
+ 
+-	/*MIPI_TX_HS_SYNC_CFG */
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
++	/*MIPI_TX_HS_SYNC_CFG*/
+ 	if (ctrl_cfg->tx_ctrl_cfg.line_sync_pkt_en)
+ 		sync_cfg |= LINE_SYNC_PKT_ENABLE;
+ 	if (ctrl_cfg->tx_ctrl_cfg.frame_counter_active)
+@@ -693,6 +732,7 @@ static void mipi_tx_ctrl_cfg(struct kmb_drm_private *dev_p, u8 fg_id,
+ 		sync_cfg |= DSI_V_BLANKING;
+ 	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hsa_blanking)
+ 		sync_cfg |= DSI_HSA_BLANKING;
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hbp_blanking)
+ 		sync_cfg |= DSI_HBP_BLANKING;
+ 	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->hfp_blanking)
+@@ -704,6 +744,7 @@ static void mipi_tx_ctrl_cfg(struct kmb_drm_private *dev_p, u8 fg_id,
+ 	if (ctrl_cfg->tx_ctrl_cfg.tx_dsi_cfg->lpm_last_vfp_line)
+ 		sync_cfg |= DSI_LPM_LAST_VFP_LINE;
+ 	/* enable frame generator */
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	fg_en = 1 << fg_id;
+ 	sync_cfg |= FRAME_GEN_EN(fg_en);
+ 	if (ctrl_cfg->tx_ctrl_cfg.tx_always_use_hact)
+@@ -722,7 +763,9 @@ static void mipi_tx_ctrl_cfg(struct kmb_drm_private *dev_p, u8 fg_id,
+ 	/*67 ns stop time */
+ 	ctrl |= HSEXIT_CNT(0x43);
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	kmb_write_mipi(dev_p, MIPI_TXm_HS_SYNC_CFG(ctrl_no), sync_cfg);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	kmb_write_mipi(dev_p, MIPI_TXm_HS_CTRL(ctrl_no), ctrl);
+ }
+ 
+@@ -1304,8 +1347,8 @@ void mipi_tx_handle_irqs(struct kmb_drm_private *dev_p)
+ 
+ }
+ 
+-//int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
+-int kmb_dsi_init(struct drm_device *dev)
++int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
++//int kmb_dsi_init(struct drm_device *dev)
+ {
+ 	struct kmb_dsi *kmb_dsi;
+ 	struct drm_encoder *encoder;
+@@ -1313,10 +1356,9 @@ int kmb_dsi_init(struct drm_device *dev)
+ 	struct drm_connector *connector;
+ 	struct kmb_dsi_host *host;
+ 	struct kmb_drm_private *dev_p = dev->dev_private;
+-	struct device_node *encoder_node;
+-	struct drm_bridge *bridge;
+ 	int ret = 0;
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	kmb_dsi = kzalloc(sizeof(*kmb_dsi), GFP_KERNEL);
+ 	if (!kmb_dsi) {
+ 		DRM_ERROR("failed to allocate kmb_dsi\n");
+@@ -1330,52 +1372,44 @@ int kmb_dsi_init(struct drm_device *dev)
+ 		return -ENOMEM;
+ 	}
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	kmb_dsi->attached_connector = kmb_connector;
+ 
+-	connector = &kmb_connector->base;
+-	encoder = &kmb_dsi->base;
+-	encoder->possible_crtcs = 1;
+-	encoder->possible_clones = 0;
+-	drm_encoder_init(dev, encoder, &kmb_dsi_funcs, DRM_MODE_ENCODER_DSI,
+-			 "MIPI-DSI");
+-
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	host = kmb_dsi_host_init(dev, kmb_dsi);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	if (!host) {
+-		drm_encoder_cleanup(encoder);
++		DRM_ERROR("Faile to allocate host\n");
++//		drm_encoder_cleanup(encoder);
+ 		kfree(kmb_dsi);
+ 		kfree(kmb_connector);
++		return -ENOMEM;
+ 	}
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
++	connector = &kmb_connector->base;
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
++	encoder = &kmb_dsi->base;
++	encoder->possible_crtcs = 1;
++	encoder->possible_clones = 0;
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
++	drm_encoder_init(dev, encoder, &kmb_dsi_funcs, DRM_MODE_ENCODER_DSI,
++			"MIPI-DSI");
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
++
+ 	drm_connector_init(dev, connector, &kmb_dsi_connector_funcs,
+-			   DRM_MODE_CONNECTOR_DSI);
++						   DRM_MODE_CONNECTOR_DSI);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	drm_connector_helper_add(connector, &kmb_dsi_connector_helper_funcs);
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ //	connector->encoder = encoder;
+-	DRM_INFO("%s : %d connector = %s encoder = %s\n", __func__, __LINE__,
+-			connector->name, encoder->name);
+-	DRM_INFO("%s : %d connector->encoder = 0x%p\n", __func__, __LINE__,
+-			connector->encoder);
++	DRM_INFO("%s : %d connector = %s encoder = %s\n", __func__,
++			__LINE__, connector->name, encoder->name);
+ 
+ 	ret = drm_connector_attach_encoder(connector, encoder);
+-	DRM_INFO("%s : %d ret = %d\n", __func__, __LINE__, ret);
+-
+-	/* find ADV7535 node and initialize it */
+-	DRM_DEBUG("trying to get bridge info %pOF\n", dev->dev->of_node);
+-	encoder_node = of_parse_phandle(dev->dev->of_node, "encoder-slave", 0);
+-	DRM_DEBUG("encoder node =  %pOF\n", encoder_node);
+-	if (!encoder_node) {
+-		DRM_ERROR("failed to get bridge info from DT\n");
+-		ret = -EINVAL;
+-	}
+-	/* Locate drm bridge from the hdmi encoder DT node */
+-	bridge = of_drm_find_bridge(encoder_node);
+-	of_node_put(encoder_node);
+-	if (!bridge) {
+-		DRM_INFO("wait for external bridge driver DT\n");
+-		return -EPROBE_DEFER;
+-	}
+-
  	/* Link drm_bridge to encoder */
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
  	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+ 	if (ret) {
+ 		DRM_ERROR("failed to attach bridge to MIPI\n");
+@@ -1383,14 +1417,18 @@ int kmb_dsi_init(struct drm_device *dev)
+ 		return ret;
+ 	}
+ 
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 	/* initialize mipi controller */
+ 	mipi_tx_init_cntrl(dev_p, &mipi_tx_init_cfg);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 
+ 	/*d-phy initialization */
+ 	mipi_tx_init_dphy(dev_p, &mipi_tx_init_cfg);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 
+ 	/* irq initialization */
+ 	mipi_tx_init_irqs(dev_p, &int_cfg, &mipi_tx_init_cfg.tx_ctrl_cfg);
++	DRM_INFO("%s : %d\n", __func__, __LINE__);
+ 
+ 	return 0;
+ }
 diff --git a/drivers/gpu/drm/kmb/kmb_dsi.h b/drivers/gpu/drm/kmb/kmb_dsi.h
-index 8135252..5da52c7 100644
+index 5da52c7..cf234db 100644
 --- a/drivers/gpu/drm/kmb/kmb_dsi.h
 +++ b/drivers/gpu/drm/kmb/kmb_dsi.h
-@@ -329,7 +329,8 @@ union mipi_irq_cfg {
+@@ -42,7 +42,7 @@ struct kmb_dsi {
+ };
+ 
+ struct kmb_dsi_host {
+-	struct mipi_dsi_host base;
++	struct mipi_dsi_host *base;
+ 	struct kmb_dsi *kmb_dsi;
+ 	struct mipi_dsi_device *device;
+ };
+@@ -329,8 +329,8 @@ union mipi_irq_cfg {
  	} irq_cfg;
  };
  
--int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge);
-+//int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge);
-+int kmb_dsi_init(struct drm_device *dev);
+-//int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge);
+-int kmb_dsi_init(struct drm_device *dev);
++struct drm_bridge *kmb_dsi_host_bridge_init(struct device *dev);
++int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge);
  void kmb_plane_destroy(struct drm_plane *plane);
  void mipi_tx_handle_irqs(struct kmb_drm_private *dev_p);
  
