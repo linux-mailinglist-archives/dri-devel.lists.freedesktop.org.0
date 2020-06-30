@@ -1,48 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8639520FD56
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 22:02:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E6220FD70
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 22:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849EB6E1A2;
-	Tue, 30 Jun 2020 20:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C18F6E196;
+	Tue, 30 Jun 2020 20:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
- [209.85.166.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16ECB6E1A5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 20:02:20 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id o3so1527378ilo.12
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 13:02:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZkIYc/eqbgOWONYFCr/80s2mn+xe0bQWV+Ub3u8lp/o=;
- b=ooNiVLVPOp74ajUI+PnvXQazMP57B+jtzBvTK9Qxe2V8ogNZSfFsoSo2f0UuUaGJNR
- qgx8XEak0CfJo7RtK9tRsZoS5DF5zqwBfa7MaGt+jX69DF49tLpDQrO4/S6JGYf80cER
- 8SlontR9QyJ4n3ANRjNq1zXqPbbyyhAwBMDr0eBeXk2mFe2jsyDSbmGFFfBMEa1nxGQh
- 6uA+315Azr7RuPf0BMk/xQfHGdEH9tHNV6yT1f22ftIDZqSrlweDThMsP2ngojBTDH+q
- gIbrU7+mseMK0SB4bqRMCDbsx8mBQOm8WsO1hvRzqapIh8NxbXdOXSFX5H3qTaCXtJP9
- 64Mg==
-X-Gm-Message-State: AOAM530XmiXi1qb8Ex/yikndVlxO12y8ekONRHJqbSI0zWpdaZ0tCZyi
- 1ajdNl7/ctoP+11973kk9CnXKz3Y/g==
-X-Google-Smtp-Source: ABdhPJwqMH0XEJnv3BLQxqOL4D9OfmvZEmQ5ykiPH70KphbcBA4OOf/35gKmJJsgXajf4VzB8oqq7Q==
-X-Received: by 2002:a92:a1cf:: with SMTP id b76mr4141625ill.128.1593547338345; 
- Tue, 30 Jun 2020 13:02:18 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.255])
- by smtp.googlemail.com with ESMTPSA id u11sm1903512iob.43.2020.06.30.13.02.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 13:02:17 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] dt-bindings: display: Convert connectors to DT schema
-Date: Tue, 30 Jun 2020 14:02:16 -0600
-Message-Id: <20200630200216.1172566-1-robh@kernel.org>
-X-Mailer: git-send-email 2.25.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0386E196
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 20:08:54 +0000 (UTC)
+IronPort-SDR: XepKEbXnb7laU/G1SWKFvf21UA+6e+7vWh9+Ml8pCl2Oyi59JrOQkkgJYDzpGaoxuIwNmscsMQ
+ o3JoIj7Uo06Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="207888073"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="207888073"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2020 13:08:53 -0700
+IronPort-SDR: Z09R2WEjP+pQ+umDTqvA1TFHI6skQzEOQvdgmfQcBpwOksHlrsGgTiMXoM5IxWCtPW0HtxsvXJ
+ ZjylQO6gJ2mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="355880623"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+ by orsmga001.jf.intel.com with ESMTP; 30 Jun 2020 13:08:53 -0700
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 30 Jun 2020 13:08:53 -0700
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 30 Jun 2020 13:08:52 -0700
+Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
+ orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 30 Jun 2020 13:08:52 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.105)
+ by edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 30 Jun 2020 13:08:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ibeFoc3eERfXirbi+R8XN4WnO2C0nAKlHqYqEga9UOBM/9BqtERcxhctG8y9CCHk0lF7w0ramiPvhKdzkmw52xi94OZfkE8CVkb7I9tvDTsL9kez0ZCrx/+hg+qDPVKkaVKGuRuLt/9TTlmNpTjuQQ/CKH1S8ig9u3pYEb1X0r5TVN3Bbmr8+wqxpFmNZK/OE0XiEBrFvxdSfFOW444NvQJJn1iLxS0YaIREe+N6+MsJFTmxTGL9jqvOTeiuuMZtZYHpapHQS0DYIqigF+brXyIISsGs4sj1zYCoRqsYX6XEK0pwp70/b1kPsrPH2snJGwe5in8K7GRAdVI9EQiWXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8KG/74OqfhKkJgqJDTxALbGpa9FztQThvmjNIx6EsCU=;
+ b=YkWa+q0L31k+509nl5q/TJe1nQnpExRzma2/WQEACE3uz2Y5+WN5uOiUAm3CJMN2keUUgTzx91VDeNZD0eMV7Ax3ApKiMpYWWfITf+JfQgc1Ox63q9nqHLObIqhVhWlqlTDAfiLyM/qWXCYkTxfL354omefNjAsxEepALVoqj+SswqV6/KWN3LOpwDnAgJvYAOcj3hlIe9/IfuMELY2HSV7DZiSRzfsNC8LBkIsdx08v06ePCXeeNwx17hjLf8ERaVlcvn6Gdu1TkXnWVmariCeleTndRDqKU8sP61dULtSugVc5lP9qjtvNNxDxbuHXBP0jy4qxRndM6MEDEzuvjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8KG/74OqfhKkJgqJDTxALbGpa9FztQThvmjNIx6EsCU=;
+ b=dlwhrsfQlSjS9JxRjjqMEaV3Geh8yERNRBPxF1HqDo9GABJKFnTWU0G20xFwiB9iI2ArQ5jTS0DuWy/dZ+ZnIqOYLEPBSOkkUaKoapRCakDTxGS0l+8GleIuZKeJ+irU36vQopsW9RUfy1kKXREEZKsL0O9PFRwQ6GAgtEI+a1c=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by MWHPR11MB1310.namprd11.prod.outlook.com (2603:10b6:300:28::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Tue, 30 Jun
+ 2020 20:08:46 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::ed68:a00b:2bb0:21cf]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::ed68:a00b:2bb0:21cf%8]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 20:08:46 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: RE: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+Thread-Topic: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+Thread-Index: AQHWTjmKZPnzyjUH+EiOzVuDukOX/Kjv8EEAgAFgqNCAABwVgIAACtwwgAARwQCAAAePEA==
+Date: Tue, 30 Jun 2020 20:08:46 +0000
+Message-ID: <MW3PR11MB4555223B6D3C6E4829795798E56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1593451903-30959-1-git-send-email-jianxin.xiong@intel.com>
+ <20200629185152.GD25301@ziepe.ca>
+ <MW3PR11MB4555A99038FA0CFC3ED80D3DE56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20200630173435.GK25301@ziepe.ca>
+ <MW3PR11MB45553FA6D144BF1053571D98E56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20200630191700.GL25301@ziepe.ca>
+In-Reply-To: <20200630191700.GL25301@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: ziepe.ca; dkim=none (message not signed)
+ header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [134.134.136.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4329e27c-c962-4718-a827-08d81d316579
+x-ms-traffictypediagnostic: MWHPR11MB1310:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR11MB13103632EFAC27A8C04D70B6E56F0@MWHPR11MB1310.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0450A714CB
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 58K1WtKMYAmo6EuIv/fhkJaWJA8owqPebHOeaDtZ+SgMkjLb6/UvPE4qAe/rIQWVuIzEdgWF8qH6AdtOsVsjewGwbNG3SqByOikFqqIuVFU4QIna1sWXBrY/e/c6DFJeTsxW76T/4gWqHp9jvUi7vis8YbSNBHZxiSHAY27NEmeJ6ROTCSxgKe/9DEZ3ByiynaYSTPWOqx6ALhDbqbeQgnE7brB7HO0x1E3hXV/HXn1BhOs7LtNKt4DjRXAy4yNDyrSKiYuqpxblnqZAyDw77sPkOsJLZGiK2Wb2ztIVtdDQ2gO3Vr2ZZMvzZNRGgnoCCmN7vlXDkQDKf0eq4WEmug==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(346002)(39860400002)(396003)(136003)(376002)(55016002)(7696005)(9686003)(53546011)(6506007)(478600001)(71200400001)(86362001)(316002)(54906003)(83380400001)(4326008)(186003)(52536014)(8676002)(5660300002)(76116006)(66946007)(66446008)(64756008)(66556008)(66476007)(33656002)(2906002)(26005)(8936002)(6916009);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: bdTj1G6lFjN2tICCqgdZ9sK4WcTYtqugcom3VxNyY5SdH0hk2BCPfRirDb/GVubTvwEmWHPb++1AojGN3whKHO5AXNoNGQd0Y3e/MAEBLo1moj8z/M8IJDbA+siuEg7M2wurqTdEzSBK93F1NT0MZoZ88CkDGfAvLA5U1ENoQEFRMR0M12Fp8kX6XHMBiqVhoXe2O1FSXmNyf7c6CedkTrZQzr5z6hE9zuDkEsra/ElkETzHSa9x4zF6ih9ML7biEr/5l5L4QlaVLCBE6ae6R5ogFzGXBhXC+9cBtVf7FT8q5pO6swkJ/QuDRbC9p1jLQuVqgox79jB0YEUTRLKWJwpjQqlI7ig4p4hVtJrnLCazYvWZCEOVBoAQnwLHzoJqIDseZaIoHohkhEbmsHPk+Bdqmp6rdZJwjUh7+BoXLq0QCYhuGkTWuS04e9hWVr9aSwNML+oll+U4V3Iw6ZLEtEhfi1oxyUNcLGiZtpVzx7n7/hOEh7CAdSnWp5bErvsr
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4329e27c-c962-4718-a827-08d81d316579
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 20:08:46.4924 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Uyv/Isdl4WXin+pjwEXwBTXkPbFnwkYCcQu8Tv+2PHVGJr3XZkjA31hAyKurv2LUT2ttJyEo0viHSolcWBQPPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1310
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,462 +129,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the analog TV, DVI, HDMI, and VGA connector bindings to DT schema
-format.
+> -----Original Message-----
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Tuesday, June 30, 2020 12:17 PM
+> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> Cc: linux-rdma@vger.kernel.org; Doug Ledford <dledford@redhat.com>; Sumit Semwal <sumit.semwal@linaro.org>; Leon Romanovsky
+> <leon@kernel.org>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig <christian.koenig@amd.com>; dri-
+> devel@lists.freedesktop.org
+> Subject: Re: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+> 
+> > >
+> > > On Tue, Jun 30, 2020 at 05:21:33PM +0000, Xiong, Jianxin wrote:
+> > > > > > Heterogeneous Memory Management (HMM) utilizes
+> > > > > > mmu_interval_notifier and ZONE_DEVICE to support shared
+> > > > > > virtual address space and page migration between system memory
+> > > > > > and device memory. HMM doesn't support pinning device memory
+> > > > > > because pages located on device must be able to migrate to
+> > > > > > system memory when accessed by CPU. Peer-to-peer access is
+> > > > > > possible if the peer can handle page fault. For RDMA, that means the NIC must support on-demand paging.
+> > > > >
+> > > > > peer-peer access is currently not possible with hmm_range_fault().
+> > > >
+> > > > Currently hmm_range_fault() always sets the cpu access flag and
+> > > > device private pages are migrated to the system RAM in the fault handler.
+> > > > However, it's possible to have a modified code flow to keep the
+> > > > device private page info for use with peer to peer access.
+> > >
+> > > Sort of, but only within the same device, RDMA or anything else generic can't reach inside a DEVICE_PRIVATE and extract anything
+> useful.
+> >
+> > But pfn is supposed to be all that is needed.
+> 
+> Needed for what? The PFN of the DEVICE_PRIVATE pages is useless for anything.
 
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v2:
-- Make Laurent maintainer
-- Add missing port and compatible required
-- Drop copy-n-paste 'type' from dvi-connector
-- Use 4 space indent on examples
----
- .../display/connector/analog-tv-connector.txt | 31 --------
- .../connector/analog-tv-connector.yaml        | 52 ++++++++++++++
- .../display/connector/dvi-connector.txt       | 36 ----------
- .../display/connector/dvi-connector.yaml      | 70 +++++++++++++++++++
- .../display/connector/hdmi-connector.txt      | 31 --------
- .../display/connector/hdmi-connector.yaml     | 64 +++++++++++++++++
- .../display/connector/vga-connector.txt       | 36 ----------
- .../display/connector/vga-connector.yaml      | 46 ++++++++++++
- 8 files changed, 232 insertions(+), 134 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
- create mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.txt
- create mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
- create mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.txt
- create mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.yaml
+Hmm. I thought the pfn corresponds to the address in the BAR range. I could be
+wrong here. 
 
-diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-deleted file mode 100644
-index 883bcb2604c7..000000000000
---- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Analog TV Connector
--===================
--
--Required properties:
--- compatible: "composite-video-connector" or "svideo-connector"
--
--Optional properties:
--- label: a symbolic name for the connector
--- sdtv-standards: limit the supported TV standards on a connector to the given
--                  ones. If not specified all TV standards are allowed.
--                  Possible TV standards are defined in
--                  include/dt-bindings/display/sdtv-standards.h.
--
--Required nodes:
--- Video port for TV input
--
--Example
---------
--#include <dt-bindings/display/sdtv-standards.h>
--
--tv: connector {
--	compatible = "composite-video-connector";
--	label = "tv";
--	sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
--
--	port {
--		tv_connector_in: endpoint {
--			remote-endpoint = <&venc_out>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-new file mode 100644
-index 000000000000..eebe88fed999
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/connector/analog-tv-connector.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog TV Connector
-+
-+maintainers:
-+  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - composite-video-connector
-+      - svideo-connector
-+
-+  label: true
-+
-+  sdtv-standards:
-+    description:
-+      Limit the supported TV standards on a connector to the given ones. If
-+      not specified all TV standards are allowed. Possible TV standards are
-+      defined in include/dt-bindings/display/sdtv-standards.h.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+  port:
-+    description: Connection to controller providing analog TV signals
-+
-+required:
-+  - compatible
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/display/sdtv-standards.h>
-+
-+    connector {
-+        compatible = "composite-video-connector";
-+        label = "tv";
-+        sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-+
-+        port {
-+            tv_connector_in: endpoint {
-+                remote-endpoint = <&venc_out>;
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt b/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-deleted file mode 100644
-index 207e42e9eba0..000000000000
---- a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-+++ /dev/null
-@@ -1,36 +0,0 @@
--DVI Connector
--==============
--
--Required properties:
--- compatible: "dvi-connector"
--
--Optional properties:
--- label: a symbolic name for the connector
--- ddc-i2c-bus: phandle to the i2c bus that is connected to DVI DDC
--- analog: the connector has DVI analog pins
--- digital: the connector has DVI digital pins
--- dual-link: the connector has pins for DVI dual-link
--- hpd-gpios: HPD GPIO number
--
--Required nodes:
--- Video port for DVI input
--
--Note: One (or both) of 'analog' or 'digital' must be set.
--
--Example
---------
--
--dvi0: connector@0 {
--	compatible = "dvi-connector";
--	label = "dvi";
--
--	digital;
--
--	ddc-i2c-bus = <&i2c3>;
--
--	port {
--		dvi_connector_in: endpoint {
--			remote-endpoint = <&tfp410_out>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-new file mode 100644
-index 000000000000..71cb9220fa59
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-@@ -0,0 +1,70 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/connector/dvi-connector.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: DVI Connector
-+
-+maintainers:
-+  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-+
-+properties:
-+  compatible:
-+    const: dvi-connector
-+
-+  label: true
-+
-+  hpd-gpios:
-+    description: A GPIO line connected to HPD
-+    maxItems: 1
-+
-+  ddc-i2c-bus:
-+    description: phandle link to the I2C controller used for DDC EDID probing
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
-+  analog:
-+    type: boolean
-+    description: the connector has DVI analog pins
-+
-+  digital:
-+    type: boolean
-+    description: the connector has DVI digital pins
-+
-+  dual-link:
-+    type: boolean
-+    description: the connector has pins for DVI dual-link
-+
-+  port:
-+    description: Connection to controller providing DVI signals
-+
-+required:
-+  - compatible
-+  - port
-+
-+anyOf:
-+  - required:
-+      - analog
-+  - required:
-+      - digital
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    connector {
-+        compatible = "dvi-connector";
-+        label = "dvi";
-+
-+        digital;
-+
-+        ddc-i2c-bus = <&i2c3>;
-+
-+        port {
-+            dvi_connector_in: endpoint {
-+                remote-endpoint = <&tfp410_out>;
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt b/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
-deleted file mode 100644
-index aeb07c4bd703..000000000000
---- a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--HDMI Connector
--==============
--
--Required properties:
--- compatible: "hdmi-connector"
--- type: the HDMI connector type: "a", "b", "c", "d" or "e"
--
--Optional properties:
--- label: a symbolic name for the connector
--- hpd-gpios: HPD GPIO number
--- ddc-i2c-bus: phandle link to the I2C controller used for DDC EDID probing
--- ddc-en-gpios: signal to enable DDC bus
--
--Required nodes:
--- Video port for HDMI input
--
--Example
---------
--
--hdmi0: connector@1 {
--	compatible = "hdmi-connector";
--	label = "hdmi";
--
--	type = "a";
--
--	port {
--		hdmi_connector_in: endpoint {
--			remote-endpoint = <&tpd12s015_out>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
-new file mode 100644
-index 000000000000..14d7128af592
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
-@@ -0,0 +1,64 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/connector/hdmi-connector.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: HDMI Connector
-+
-+maintainers:
-+  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-+
-+properties:
-+  compatible:
-+    const: hdmi-connector
-+
-+  type:
-+    description: The HDMI connector type
-+    enum:
-+      - a   # Standard full size
-+      - b   # Never deployed?
-+      - c   # Mini
-+      - d   # Micro
-+      - e   # automotive
-+
-+  label: true
-+
-+  hpd-gpios:
-+    description: A GPIO line connected to HPD
-+    maxItems: 1
-+
-+  ddc-i2c-bus:
-+    description: phandle link to the I2C controller used for DDC EDID probing
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
-+  ddc-en-gpios:
-+    description: GPIO signal to enable DDC bus
-+    maxItems: 1
-+
-+  port:
-+    description: Connection to controller providing HDMI signals
-+
-+required:
-+  - compatible
-+  - port
-+  - type
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    connector {
-+        compatible = "hdmi-connector";
-+        label = "hdmi";
-+
-+        type = "a";
-+
-+        port {
-+            hdmi_connector_in: endpoint {
-+                remote-endpoint = <&tpd12s015_out>;
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.txt b/Documentation/devicetree/bindings/display/connector/vga-connector.txt
-deleted file mode 100644
-index c727f298e7ad..000000000000
---- a/Documentation/devicetree/bindings/display/connector/vga-connector.txt
-+++ /dev/null
-@@ -1,36 +0,0 @@
--VGA Connector
--=============
--
--Required properties:
--
--- compatible: "vga-connector"
--
--Optional properties:
--
--- label: a symbolic name for the connector corresponding to a hardware label
--- ddc-i2c-bus: phandle to the I2C bus that is connected to VGA DDC
--
--Required nodes:
--
--The VGA connector internal connections are modeled using the OF graph bindings
--specified in Documentation/devicetree/bindings/graph.txt.
--
--The VGA connector has a single port that must be connected to a video source
--port.
--
--
--Example
---------
--
--vga0: connector@0 {
--	compatible = "vga-connector";
--	label = "vga";
--
--	ddc-i2c-bus = <&i2c3>;
--
--	port {
--		vga_connector_in: endpoint {
--			remote-endpoint = <&adv7123_out>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-new file mode 100644
-index 000000000000..5782c4bb3252
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/connector/vga-connector.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: VGA Connector
-+
-+maintainers:
-+  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-+
-+properties:
-+  compatible:
-+    const: vga-connector
-+
-+  label: true
-+
-+  ddc-i2c-bus:
-+    description: phandle link to the I2C controller used for DDC EDID probing
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+
-+  port:
-+    description: Connection to controller providing VGA signals
-+
-+required:
-+  - compatible
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    connector {
-+        compatible = "vga-connector";
-+        label = "vga";
-+
-+        ddc-i2c-bus = <&i2c3>;
-+
-+        port {
-+            vga_connector_in: endpoint {
-+                remote-endpoint = <&adv7123_out>;
-+            };
-+        };
-+    };
-+
-+...
--- 
-2.25.1
+> 
+> > > Well, what do you want to happen here? The RDMA parts are
+> > > reasonable, but I don't want to add new functionality without a
+> > > purpose - the other parts need to be settled out first.
+> >
+> > At the RDMA side, we mainly want to check if the changes are
+> > acceptable. For example, the part about adding 'fd' to the device ops
+> > and the ioctl interface. All the previous comments are very helpful
+> > for us to refine the patch so that we can be ready when GPU side
+> > support becomes available.
+> 
+> Well, I'm not totally happy with the way the umem and the fd is handled so roughly and incompletely..
 
+Yes, this feedback is very helpful. Will work on improving the code.
+
+> 
+> > > Hum. This is not actually so hard to do. The whole dma buf proposal
+> > > would make a lot more sense if the 'dma buf MR' had to be the
+> > > dynamic kind and the driver had to provide the faulting. It would
+> > > not be so hard to change mlx5 to be able to work like this, perhaps.
+> > > (the locking might be a bit tricky though)
+> >
+> > The main issue is that not all NICs support ODP.
+> 
+> Sure, but there is lots of infrastructure work here to be done on dma buf, having a correct consumer in the form of ODP might be helpful to
+> advance it.
+
+Good point. Thanks.
+
+> 
+> Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
