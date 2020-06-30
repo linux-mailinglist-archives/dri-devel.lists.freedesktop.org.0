@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1C921048C
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432EF21048D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 836AB6E7D9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADA956E7DA;
 	Wed,  1 Jul 2020 07:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C2689CDE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 07:42:22 +0000 (UTC)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EC989DB7
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:02:44 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DD2D55C0198;
- Tue, 30 Jun 2020 03:42:19 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id B3F5C252;
+ Tue, 30 Jun 2020 04:02:41 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 30 Jun 2020 03:42:19 -0400
+ by compute4.internal (MEProxy); Tue, 30 Jun 2020 04:02:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=0DHtvsCozqCfxy01LPpZvG1dO/6
- 94+9yCwsCQkhOfkY=; b=ktlQX4EjBgi2ZOdexM/H5Caj3uHNI2aLjQ6glde/T+Y
- tRdvAm6ti2PpFXt9rDQsFUUKzw1ufSrO2vma8AZ8TPBzPG7nQbdjof3BSfDUX/U8
- oRF6foMciZzxghB2Zvdm2Yo1ezaXODRcDZHh9A5/esqfYYwoabW80czBF07qs3Ao
- d70cPtl8sQTmg6e/lcVams3yganEcqInNsuJWc3rOCQPVt7n/PzEXxiNzvFklhP2
- SZWgP81gSwDx1dITPTLzkvFnJV3ad04jp/YuRalTpmB1OQ5n26gh3ug75sB78nqj
- VmSf3SXUzdRZq6kMNrnhdPVFj9xWvvl6qi2oFi/WuLA==
+ :content-type:in-reply-to; s=fm3; bh=lu/WrihdsYQOer+w6h1sKVAQhhh
+ zpgn9ANfbrgSBg08=; b=g9qa6/3vky6RpenoRSFz45zMGoY4KA1E6jJ0ZUcRlEV
+ PQcFqd2AKRhgIaYvOf/xP29zscXyHpDGRrWtCl4WxMhPhmbQ+jRrNnBuMAcwCTdI
+ 5f0s03IvSlUqq2Wsb0eyaFpZ4emls8T4KMikrDhjWaYDcU/jbhqkrvBTQ+j/SaDM
+ frRilLO1PAoEStRK4Tpa4AU8+Lird/mo7WTS8GWFDoofnPbkvgp1803YopTt61n6
+ VYaM2OsbJct65v3QU2aCKXAN7KQbZpUkB/2irR7fA7szGLuzIxb4u8eltpWdx8xi
+ J3TvQIqfNXYrIadNJUyVlUdBjgqNLVjBBkMx3dmyBGA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0DHtvs
- CozqCfxy01LPpZvG1dO/694+9yCwsCQkhOfkY=; b=UFCfoBIMxSIeRuv+u3PB4T
- PqsZ5Y5IJet0Tt4TxML12g1Hs+kY3mrwgLC6dffUTpUfS9QvCSrGRkUH/iSpEWhv
- 3T9GOySVyVxHgbxdCuOZ22QsgiwFjzGkYHRLK+mDrZr+pquprSI5CA5Y/veaonXn
- 1PiTpUujDgGyaYqE8FKTfP5MHWMmOiN9u3IsgqkPVzc46Thk3XSYRiCeWQC2n2jA
- uF6tZR94mfCXgcoGNoaQpPlDq8kD2DGapNVWzroBWY2ylE5PcgK5CSjFMvmIbVCE
- parojsS9S41JD/FDN4SsZf/ZHGF8tP+TIzw+EePgDso7qA9byehnOy/vqRtxnK+A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lu/Wri
+ hdsYQOer+w6h1sKVAQhhhzpgn9ANfbrgSBg08=; b=IENVijjTKHsAo29my84QNt
+ HY8lF7lDEOJ1kLi3ESudeyXEHRivnOWiNwwtK0hFN0ul7TjHAChlcJ9b/UzEhDHo
+ 2eSoaardOH9Tki2+UbX0NcHp8T+t9rF6ldTEmBqXEeD0iRl/n+MqM88uGD/YexL0
+ i7rEqqodW1Nbz/TEu5c0Ktgyj2ZYvr5Sq8IKPiG+hAT4eIDXqbD+Df4RjhDxytpa
+ HQDi64fBZOLZPdGKuqhLFiD1D3ph99Tl74Payu2AtJc3oLcRgtinz2LfM2+qapUa
+ EhyIrnoGNF/cXhGkxJro55Kk40oA2hXYpU3L8v3v4EGPz5o64hxYzEowPxEE4gTw
  ==
-X-ME-Sender: <xms:2-z6XjTpHg4zP0mmeUfu1uMKKOde-g7o0kFVC-qoQtp-BeWukjHI8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvddttddguddvhecutefuodetggdotefrod
+X-ME-Sender: <xms:n_H6Xkl5STMdOqdfkt3UgUS68MEyZUSxq3JRCbrWivKFaQus7QqTjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvddttddguddvlecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
- heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:2-z6XkwflCSS2X7GYqwm33s9vuwNwTmN658UL-csWgNvRUO3kizv_g>
- <xmx:2-z6Xo3zn2BzaktfBtkcLd7zo4YTIXQH90WgSJkJB0waY4uTGcGI4Q>
- <xmx:2-z6XjDNyulNgYmbDiWln8spuei8OoGdse5mCewxmo2Grkx72JEnmg>
- <xmx:2-z6Xma3n-I_EM8d9w5hPFJ9OAZAX7RqKw-dftklAhgLJvHL1OTIVA>
+ htthgvrhhnpeefjeefkeduiefgkefgheefteekueetkeeiueekgedvvdevgfejgfduudei
+ veejieenucffohhmrghinhepshhuphgvrhhushgvrhdrtghomhdprghrmhgsihgrnhdrtg
+ homhenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:n_H6Xj1Wgj7m0IMsjDA-5IvL7RGLmM0Jnqca4MD3W9rSANjADEgZ0A>
+ <xmx:n_H6XirelRRngq7-TERnqrtXaDDByLZhYcxsz78xbouElrd66cwcXQ>
+ <xmx:n_H6XgnABOkXWd6TTqOF4FAFV72iOHSRpCk5Z-6-a0xY3kQAhUFRjA>
+ <xmx:ofH6XnydwAiBKEXYT_AJwIgA_erJoiMK9bYjJ5pqJUG8o5ThSUckXw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C74E83280060;
- Tue, 30 Jun 2020 03:42:18 -0400 (EDT)
-Date: Tue, 30 Jun 2020 09:42:17 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 04A033280066;
+ Tue, 30 Jun 2020 04:02:38 -0400 (EDT)
+Date: Tue, 30 Jun 2020 10:02:37 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH] dt-bindings: display: vc4: dpi: Fix panel warning
-Message-ID: <20200630074217.ft6wdubalslkcb2u@gilmour.lan>
-References: <20200626121131.127192-1-maxime@cerno.tech>
- <20200627105010.GA1960474@ravnborg.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [PATCH] drm: sun4i: hdmi: Remove extra HPD polling
+Message-ID: <20200630080237.dsg7umd6ju2oamg4@gilmour.lan>
+References: <20200629060032.24134-1-wens@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200627105010.GA1960474@ravnborg.org>
+In-Reply-To: <20200629060032.24134-1-wens@kernel.org>
 X-Mailman-Approved-At: Wed, 01 Jul 2020 07:12:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,60 +77,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Frank Rowand <frowand.list@gmail.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============1125531219=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0629802180=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1125531219==
+--===============0629802180==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="isrfr6evkzeuxcdt"
+	protocol="application/pgp-signature"; boundary="f6hdlqsued72r5t5"
 Content-Disposition: inline
 
 
---isrfr6evkzeuxcdt
+--f6hdlqsued72r5t5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 27, 2020 at 12:50:10PM +0200, Sam Ravnborg wrote:
-> On Fri, Jun 26, 2020 at 02:11:31PM +0200, Maxime Ripard wrote:
-> > The example used in the DPI binding before the conversion to YAML had a
-> > simple-panel example that got carried over to the YAML binding.
-> >=20
-> > However, that example doesn't match the simple-panel binding and result=
-s in
-> > validation errors. Since it's only marginally helpful, let's remove that
-> > part of the example entirely.
-> >=20
-> > Fixes: 094536003e06 ("dt-bindings: display: Convert VC4 bindings to sch=
-emas")
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Hi,
 
-Thanks for the review, I just applied it's
+On Mon, Jun 29, 2020 at 02:00:32PM +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>=20
+> The HPD sense mechanism in Allwinner's old HDMI encoder hardware is more
+> or less an input-only GPIO. Other GPIO-based HPD implementations
+> directly return the current state, instead of polling for a specific
+> state and returning the other if that times out.
+>=20
+> Remove the I/O polling from sun4i_hdmi_connector_detect() and directly
+> return a known state based on the current reading. This also gets rid
+> of excessive CPU usage by kworker as reported on Stack Exchange [1] and
+> Armbian forums [2].
+>=20
+>  [1] https://superuser.com/questions/1515001/debian-10-buster-on-cubietru=
+ck-with-bug-in-sun4i-drm-hdmi
+>  [2] https://forum.armbian.com/topic/14282-headless-systems-and-sun4i_drm=
+_hdmi-a10a20/
+>=20
+> Fixes: 9c5681011a0c ("drm/sun4i: Add HDMI support")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+
+Applied, thanks for figuring that out
+
 Maxime
 
---isrfr6evkzeuxcdt
+--f6hdlqsued72r5t5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXvrs2QAKCRDj7w1vZxhR
-xdbjAQDScWS6DXdJ2ySfh5ZkVw552IEDn8unq71dXGMtZRoI+QD+Or7PoRaTb6N4
-0SQcon3IPJLVplZQk8ny4YDPW/wz4Ag=
-=ECI3
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXvrxnQAKCRDj7w1vZxhR
+xe0/AP9AfcSEFn4bwp+kbpsDasBM88jTsQJiznSvcxSJ4WCaWwEA/XSg2I9jaQuc
+Vrmg3HbVedQSShsVClRiJer2EomSNgY=
+=Tbdr
 -----END PGP SIGNATURE-----
 
---isrfr6evkzeuxcdt--
+--f6hdlqsued72r5t5--
 
---===============1125531219==
+--===============0629802180==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -141,4 +147,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1125531219==--
+--===============0629802180==--
