@@ -1,98 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B33320F0B7
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 10:44:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 231CF20F0DB
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 10:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF7D189BBD;
-	Tue, 30 Jun 2020 08:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B0989BA1;
+	Tue, 30 Jun 2020 08:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D37989BBD
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:44:48 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200630084446euoutp029e4b1f3290b6d979b741faf98bfd576a~dReN8bodk0580605806euoutp026
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:44:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200630084446euoutp029e4b1f3290b6d979b741faf98bfd576a~dReN8bodk0580605806euoutp026
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2C4889BA1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:49:45 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200630084944euoutp0180dbc4f62c468b71dd3d1efa24c4c797~dRijUu9uX0179701797euoutp01B
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:49:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200630084944euoutp0180dbc4f62c468b71dd3d1efa24c4c797~dRijUu9uX0179701797euoutp01B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593506686;
- bh=lXmtVvOi3m7BClTCphUvb9QrD/BPO3J1D0W3H9sRRl8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RRrOjFfBh4VNzuEdaoyc+Eh9Ohxna44hidUV2nA4gjBEE6cMIO7ARANbq9g0UEJUG
- 4NeoS245VVYwV6Z8Rost0jDJDYGU7Osv5jxjcgzhHNcrrAv/wrXWTVkFb4wOYxxxRA
- cgLY6odOKxb3N/CS5UVyAnJ/XKTLUr5M879TO4XA=
+ s=mail20170921; t=1593506984;
+ bh=O6hwU0/ZbS8O0w3UsaeSLAcNBQv6ONEsbFj4G3YFm7k=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=JpxC2J4RBaebRmR854QrBNmXgeHsx+OdGWOJqGIBdDGUsdPx3Pi/UFBXXHb3smFLt
+ PSoi8okVh0p6v63aLhzPpbpHxjeZJk1NSB5newj9jJG+7WwOUiXUC1nr9l2Ph9OzXl
+ BYFHIOLF8iCBtxSw/yFKD+Y1cnbydjLadHfavKcQ=
 Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200630084446eucas1p13b09fade29608137f68bae8f0b60e780~dReNjgNmy1186511865eucas1p1M;
- Tue, 30 Jun 2020 08:44:46 +0000 (GMT)
+ 20200630084943eucas1p1397de9f1ccf058b4b07a0ed22ce94e9e~dRiiuUVvF0988409884eucas1p14;
+ Tue, 30 Jun 2020 08:49:43 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id F5.A6.06318.E7BFAFE5; Tue, 30
- Jun 2020 09:44:46 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id A9.87.06318.7ACFAFE5; Tue, 30
+ Jun 2020 09:49:43 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5~dReNOvCZB1180111801eucas1p1G;
- Tue, 30 Jun 2020 08:44:45 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200630084445eusmtrp1c40012032f3073b4340ec8d12cbfa4d4~dReNN-2SD2091120911eusmtrp1D;
- Tue, 30 Jun 2020 08:44:45 +0000 (GMT)
-X-AuditID: cbfec7f5-38bff700000018ae-ed-5efafb7eab0e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id E3.D3.06314.D7BFAFE5; Tue, 30
- Jun 2020 09:44:45 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200630084445eusmtip16232b756e66744d9f85ca187702d2593~dReMjdeol2968129681eusmtip1f;
- Tue, 30 Jun 2020 08:44:44 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
+ 20200630084943eucas1p175574f4a8f74aab87afea7c6186b0256~dRiiTvzjs1664516645eucas1p1i;
+ Tue, 30 Jun 2020 08:49:43 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200630084943eusmtrp242fb2a7e8ecdac333a82831d2b9b16b1~dRiiTHClV2302923029eusmtrp2W;
+ Tue, 30 Jun 2020 08:49:43 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-df-5efafca73d42
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id F3.92.06017.7ACFAFE5; Tue, 30
+ Jun 2020 09:49:43 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200630084942eusmtip2a2f37341c3fc97e834a6be1f0bbce556~dRihvINNA1683416834eusmtip2f;
+ Tue, 30 Jun 2020 08:49:42 +0000 (GMT)
+Subject: Re: [PATCH v7 00/36] DRM: fix struct sg_table nents vs. orig_nents
+ misuse
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8] rapidio: fix common struct sg_table related issues
-Date: Tue, 30 Jun 2020 10:44:31 +0200
-Message-Id: <20200630084431.4935-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200619103636.11974-34-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSe0hTURzHObvb3XU4u03Ng4+EQWFKmlh0U0uTiAsF1R9BBU1XXlRyU3bV
- VKQ0zWrNd5JK1FJRc75SW6mYabqpoyVqOi3fvVz5CF/4yHJes/++33M+39/38ONgiKCBY4uF
- SCMomVQcKkR5bLVmWb//xuqK6MDkAEKk6DtYxHipASGe51RyiD/qDIToXZhBiWeqNhahbPIi
- 5nvHWET1RB+H6Kl/hBLlrUNcIvv9EkI0z37m+PLJssdlgGxcVLLJurwhLqn4mcQhXy6OcsiR
- +1oWWVN4k/y4PoGQWYZiQDYMxKNkam0pIOeqd581v8TzDqRCQ6IomduxAF7wh6Y1VviLXdHy
- 1Dw0HjQK5MAMg/hBWDlewpYDHibASwAcvqMEjJkHUJM9zWXMHID91aXov0h+h3qLKgawoN/I
- 2Y7EFxewTBSKu0P5lHwzYYXfBrA9xdykEXyaBVvnnE3aEj8JB5ebNhk2vgeOzwxvaj7uDZ9M
- r3GZNkeoqnqDmLQZ7gMzM9YRUxnE9VyYPzS+YbANcwJO1kQzvCU0amu3svZQl6VgM3wigGP6
- ci5jFAD23MoBDOUFP+lXUNMgBN8HK+vdmOPjMLehhcvMt4CGqZ3M+y1gpvrhVi0f3k3e2uNe
- mKet2K5t7upGGE3CX20jKLOfTAC7nhah6cAx73+ZEoBSYENF0pIgivaQUtddabGEjpQGuV4N
- k1SDjS+lW9cuvAKv1660ABwDQnN+gH5ZJOCIo+gYSQuAGCK04vu904kE/EBxTCwlC/OXRYZS
- dAuww9hCG75H/uRlAR4kjqCuUVQ4Jft3y8LMbOPBhcOn3EYRqiSwL4fuq5NeDB8csOt8G8HL
- /VqUMKIROR3lTf5O8PRbLbT2UqzGWel2dB9Z+nY6XWWMMyjKYkHSalpIiFPjg0RD6pduewea
- 31eVpkn2O9de3O7bnj9RpP2RZFSdz6lZ/45X+M/6HOp0cfGxVnuKNEtdDmdUKfdqhGw6WOzu
- jMho8V+6eyNKTgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsVy+t/xu7q1v3/FGbQd1rDoPXeSyeLRqhvM
- FhtnrGe1+L9tIrPFla/v2SxWrj7KZLFgv7XFlysPmSw2Pb7GanF51xw2i7VH7rJbTD3/ndni
- 4IcnrA68HmvmrWH02PttAYvHzll32T163rSwemz/9oDV4373cSaPzUvqPW7/e8zsMfnGckaP
- 3Tcb2Dz6tqxi9Pi8SS6AJ0rPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/O
- JiU1J7MstUjfLkEv4+r+P0wFW8UquvpmsTUw7hXqYuTkkBAwkVh0chtjFyMXh5DAUkaJh1tn
- M0IkZCROTmtghbCFJf5c62KDKPrEKPFu0UWwBJuAoUTXW4iEiEAno8S07o/sIA6zwDcmiUlL
- b7GBVAkLuEnc+rkfzGYRUJV49P4emM0rYCMx/90fdogV8hKrNxxgBrE5BewlJk38B2YLCdhJ
- 3JmznmkCI98CRoZVjCKppcW56bnFhnrFibnFpXnpesn5uZsYgXGz7djPzTsYL20MPsQowMGo
- xMObcO5nnBBrYllxZe4hRgkOZiURXqezp+OEeFMSK6tSi/Lji0pzUosPMZoCHTWRWUo0OR8Y
- 03kl8YamhuYWlobmxubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhhDDnTNtLxxcdEW
- ibK2H7sl9vN7h52b1xP+wPkBt8W5A+k3Xi67fWl22J11G9RWxu+ftKT8UJzG3Xtrc96fj73O
- Lbbik6DwOuGrU5rlPbsKbB12u+q0hqRduFU+Q77z2Y0XXut2ybosfJBTsSfpgOst5usp+/mD
- w77PX2nw19w6K+kW22bHxSnFSizFGYmGWsxFxYkA1yBJGLECAAA=
-X-CMS-MailID: 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <10cb27c9-286a-5ee5-dab1-183939e5b12d@samsung.com>
+Date: Tue, 30 Jun 2020 10:49:42 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200619103636.11974-1-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTcRjG+e/szOPY5DQ131wkDQoTvGHEIcvMgs7HwupDpbn0MCXdZNO0
+ vrhKw7yRpZRr2tTM0qll856KWlsmLa+VFVhpd0xFExXRdnZm+e33PO/z530f+BOYZAD3JOKU
+ SYxaKY+XCYT8RvOi1bdyeSkyoOOFjMq19vKoR7fqcGq1MR+jhv9MCagH1c94lKEzmJob/sSj
+ 6sdf49RQq15AdU1P4KFC2lhiRHT7vIFPN81/xOmxbAuPfnw3jX6/Mo7RN95WIrptVCug80xV
+ iJ6t33JYeEK4J4aJjzvHqP1DooSxhWN7E0elqYsFmU5a1LwxCzkTQO6EK8ZpQRYSEhLyPoKb
+ +XrEiTkE33L6HWIWwexyhdPak4WyBpwbVCIYLP3pEFMIRoZq7ClX8ihM/f6NsexGZiB4niti
+ Qxj5C8F46bQ9JCADIWsyS8CymAyB6oFLduaT22DAqOex7E5GQF6FwZHZAL1FE3yWnW35X+ld
+ OMsY6QVNk3qMYw94N3GHx5066QTF7eEcH4SrEyUO3xV+WkyOOpthtYXNC218GcEnK9uAFTkI
+ hi7dQlwqGD5Yl2xXELYNO6Cu1Z+z90Ph5y92G0gXeDu5gbvBBa433sQ4WwyZVyRcejvoLLX/
+ 1nb1D2LXkEy3rpluXRvduja6/3sNiF+FPJhkTYKC0QQpmRQ/jTxBk6xU+EWrEuqR7aP1rVj+
+ NKOO5TPdiCSQTCSOsi5GSnD5Oc35hG4EBCZzE4e97IuUiGPk5y8watVpdXI8o+lGUoIv8xAH
+ lf2IkJAKeRJzlmESGfXalEc4e2pRWpiXtABvjxjdKi3/mvdVZZ4ReZuaL95OVI0caDtWtTs7
+ 4Iip501Rz8niQ0/HFgqb0h9ag2rdzU98+hUrY98H+LteZZi1we3Gqs5T5nvS9FStZWtQp/vx
+ jJnvu/2hJu1wX7ikxBjq7bqv0m1bq+f9+dXS8pSWosIC0aZO3+iGO5iMr4mVB/pgao38Lz1J
+ +/pkAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCIsWRmVeSWpSXmKPExsVy+t/xe7rL//yKM3h9hsei99xJJouNM9az
+ WvzfNpHZ4srX92wWK1cfZbJYsN/a4suVh0wWmx5fY7W4vGsOm8XBD09YHbg81sxbw+ix99sC
+ Fo/t3x6wetzvPs7ksXlJvcftf4+ZPSbfWM7osftmA5tH35ZVjB6fN8kFcEXp2RTll5akKmTk
+ F5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSWpRbp2yXoZUy9b1twU7ri55QO9gbG
+ HWJdjJwcEgImEj8WbWXtYuTiEBJYyihxbNIsFoiEjMTJaQ2sELawxJ9rXWwgtpDAW0aJ1o88
+ ILawQIjE+3fvmEGaRQRaGSWOPnjHDuIwC7xmlHh25QwzxNiJjBL/H+5iBGlhEzCU6HoLMYpX
+ wE5i9cUmMJtFQFXi4po5TCC2qECsxLd7W6BqBCVOznwCdhInUP3rloNgJzELmEnM2/yQGcKW
+ l9j+dg6ULS5x68l8pgmMQrOQtM9C0jILScssJC0LGFlWMYqklhbnpucWG+kVJ+YWl+al6yXn
+ 525iBMbwtmM/t+xg7HoXfIhRgINRiYc34dzPOCHWxLLiytxDjBIczEoivE5nT8cJ8aYkVlal
+ FuXHF5XmpBYfYjQFem4is5Rocj4wveSVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5N
+ LUgtgulj4uCUamAUfRmw9XOo4GLf7Q/Xn/zXtjW+izNDsrLg3i7R7dt0X6pnbtTSOPDt68xp
+ C5/MY0111xBflc/Mw/VH+cqRzrn3hTTKT7t5ZTisSRCr51VfkysVF1Iv5D3jVbrDo2Ovr0+L
+ /DRZl71XcPLl9C0adaI8lfvu8ywsFj87adqa3fkJjx2Yp/vlxq9VYinOSDTUYi4qTgQAM+BS
+ v/cCAAA=
+X-CMS-MailID: 20200630084943eucas1p175574f4a8f74aab87afea7c6186b0256
 X-Msg-Generator: CA
-X-RootMTR: 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5
+X-RootMTR: 20200619103652eucas1p203d684adff0faa672ff5c8d383b52f23
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5
-References: <20200619103636.11974-34-m.szyprowski@samsung.com>
- <CGME20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20200619103652eucas1p203d684adff0faa672ff5c8d383b52f23
+References: <CGME20200619103652eucas1p203d684adff0faa672ff5c8d383b52f23@eucas1p2.samsung.com>
+ <20200619103636.11974-1-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,90 +111,79 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Alexandre Bounine <alex.bou9@gmail.com>,
- Matt Porter <mporter@kernel.crashing.org>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
+ David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-returns the number of the created entries in the DMA address space.
-However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-dma_unmap_sg must be called with the original number of the entries
-passed to the dma_map_sg().
+Hi All,
 
-struct sg_table is a common structure used for describing a non-contiguous
-memory buffer, used commonly in the DRM and graphics subsystems. It
-consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-and DMA mapped pages (nents entry).
+On 19.06.2020 12:36, Marek Szyprowski wrote:
+> During the Exynos DRM GEM rework and fixing the issues in the.
+> drm_prime_sg_to_page_addr_arrays() function [1] I've noticed that most
+> drivers in DRM framework incorrectly use nents and orig_nents entries of
+> the struct sg_table.
+>
+> In case of the most DMA-mapping implementations exchanging those two
+> entries or using nents for all loops on the scatterlist is harmless,
+> because they both have the same value. There exists however a DMA-mapping
+> implementations, for which such incorrect usage breaks things. The nents
+> returned by dma_map_sg() might be lower than the nents passed as its
+> parameter and this is perfectly fine. DMA framework or IOMMU is allowed
+> to join consecutive chunks while mapping if such operation is supported
+> by the underlying HW (bus, bridge, IOMMU, etc). Example of the case
+> where dma_map_sg() might return 1 'DMA' chunk for the 4 'physical' pages
+> is described here [2]
+>
+> The DMA-mapping framework documentation [3] states that dma_map_sg()
+> returns the numer of the created entries in the DMA address space.
+> However the subsequent calls to dma_sync_sg_for_{device,cpu} and
+> dma_unmap_sg must be called with the original number of entries passed to
+> dma_map_sg. The common pattern in DRM drivers were to assign the
+> dma_map_sg() return value to sg_table->nents and use that value for
+> the subsequent calls to dma_sync_sg_* or dma_unmap_sg functions. Also
+> the code iterated over nents times to access the pages stored in the
+> processed scatterlist, while it should use orig_nents as the numer of
+> the page entries.
+>
+> I've tried to identify all such incorrect usage of sg_table->nents and
+> this is a result of my research. It looks that the incorrect pattern has
+> been copied over the many drivers mainly in the DRM subsystem. Too bad in
+> most cases it even worked correctly if the system used a simple, linear
+> DMA-mapping implementation, for which swapping nents and orig_nents
+> doesn't make any difference. To avoid similar issues in the future, I've
+> introduced a common wrappers for DMA-mapping calls, which operate directly
+> on the sg_table objects. I've also added wrappers for iterating over the
+> scatterlists stored in the sg_table objects and applied them where
+> possible. This, together with some common DRM prime helpers, allowed me
+> to almost get rid of all nents/orig_nents usage in the drivers. I hope
+> that such change makes the code robust, easier to follow and copy/paste
+> safe.
+>
+> The biggest TODO is DRM/i915 driver and I don't feel brave enough to fix
+> it fully. The driver creatively uses sg_table->orig_nents to store the
+> size of the allocate scatterlist and ignores the number of the entries
+> returned by dma_map_sg function. In this patchset I only fixed the
+> sg_table objects exported by dmabuf related functions. I hope that I
+> didn't break anything there.
+>
+> Patches are based on top of Linux next-20200618. The required changes to
+> DMA-mapping framework has been already merged to v5.8-rc1.
+>
+> If possible I would like ask for merging most of the patches via DRM
+> tree.
 
-It turned out that it was a common mistake to misuse nents and orig_nents
-entries, calling DMA-mapping functions with a wrong number of entries or
-ignoring the number of mapped entries returned by the dma_map_sg()
-function.
+David & Daniel: how would you like to merge those patches? They got 
+quite a lot acks and some of them have dependencies on the DRM core. I 
+would really like to get patches 1-28 merged via DRM (misc?) tree. Do 
+you want me to prepare a branch and send a pull request?
 
-To avoid such issues, lets use a common dma-mapping wrappers operating
-directly on the struct sg_table objects and use scatterlist page
-iterators where possible. This, almost always, hides references to the
-nents and orig_nents entries, making the code robust, easier to follow
-and copy/paste safe.
-
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-v8: fixed issues pointed by kbuilt test robot (use of uninitialized
-    variable)
----
- drivers/rapidio/devices/rio_mport_cdev.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/rapidio/devices/rio_mport_cdev.c b/drivers/rapidio/devices/rio_mport_cdev.c
-index 3abbba8c2b5b..351c08b886ec 100644
---- a/drivers/rapidio/devices/rio_mport_cdev.c
-+++ b/drivers/rapidio/devices/rio_mport_cdev.c
-@@ -573,8 +573,7 @@ static void dma_req_free(struct kref *ref)
- 			refcount);
- 	struct mport_cdev_priv *priv = req->priv;
- 
--	dma_unmap_sg(req->dmach->device->dev,
--		     req->sgt.sgl, req->sgt.nents, req->dir);
-+	dma_unmap_sgtable(req->dmach->device->dev, &req->sgt, req->dir, 0);
- 	sg_free_table(&req->sgt);
- 	if (req->page_list) {
- 		unpin_user_pages(req->page_list, req->nr_pages);
-@@ -814,7 +813,6 @@ rio_dma_transfer(struct file *filp, u32 transfer_mode,
- 	struct mport_dev *md = priv->md;
- 	struct dma_chan *chan;
- 	int ret;
--	int nents;
- 
- 	if (xfer->length == 0)
- 		return -EINVAL;
-@@ -930,15 +928,14 @@ rio_dma_transfer(struct file *filp, u32 transfer_mode,
- 				xfer->offset, xfer->length);
- 	}
- 
--	nents = dma_map_sg(chan->device->dev,
--			   req->sgt.sgl, req->sgt.nents, dir);
--	if (nents == 0) {
-+	ret = dma_map_sgtable(chan->device->dev, &req->sgt, dir, 0);
-+	if (ret) {
- 		rmcd_error("Failed to map SG list");
- 		ret = -EFAULT;
- 		goto err_pg;
- 	}
- 
--	ret = do_dma_request(req, xfer, sync, nents);
-+	ret = do_dma_request(req, xfer, sync, req->sgt.nents);
- 
- 	if (ret >= 0) {
- 		if (sync == RIO_TRANSFER_ASYNC)
+Best regards
 -- 
-2.17.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
 _______________________________________________
 dri-devel mailing list
