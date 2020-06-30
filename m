@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208A520F3A0
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 13:35:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FA920F3B5
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 13:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C978E6E0BE;
-	Tue, 30 Jun 2020 11:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F60D88D18;
+	Tue, 30 Jun 2020 11:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD8C6E0BE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:35:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACCCE88D18
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:44:56 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id BFD1E8053C;
- Tue, 30 Jun 2020 13:35:43 +0200 (CEST)
-Date: Tue, 30 Jun 2020 13:35:42 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 738CA804B4;
+ Tue, 30 Jun 2020 13:44:54 +0200 (CEST)
+Date: Tue, 30 Jun 2020 13:44:53 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 05/10] drm/ingenic: Fix incorrect assumption about
- plane->index
-Message-ID: <20200630113542.GA560155@ravnborg.org>
+Subject: Re: [PATCH v2 06/10] drm/ingenic: Set DMA descriptor chain address
+ in probe
+Message-ID: <20200630114453.GB560155@ravnborg.org>
 References: <20200629235210.441709-1-paul@crapouillou.net>
- <20200629235210.441709-5-paul@crapouillou.net>
+ <20200629235210.441709-6-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200629235210.441709-5-paul@crapouillou.net>
+In-Reply-To: <20200629235210.441709-6-paul@crapouillou.net>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
- a=e5mUnYsNAAAA:8 a=h8Z_pZuLarzTNQul7jAA:9 a=CjuIK1q_8ugA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=9LHmKk7ezEChjTCyhBa9:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=e5mUnYsNAAAA:8
+ a=_F4ZNtTwmw7fjDG2MVkA:9 a=7tZkzEg-RNLL3d5o:21 a=j8Rw1sZxBYetKqRA:21
+ a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22 a=Vxmtnl_E_bksehYqCbjh:22
  a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,51 +49,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, od@zcrc.me, David Airlie <airlied@linux.ie>,
  linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- stable@vger.kernel.org
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 30, 2020 at 01:52:05AM +0200, Paul Cercueil wrote:
-> plane->index is NOT the index of the color plane in a YUV frame.
-> Actually, a YUV frame is represented by a single drm_plane, even though
-> it contains three Y, U, V planes.
+Hi Paul.
+
+On Tue, Jun 30, 2020 at 01:52:06AM +0200, Paul Cercueil wrote:
+> The address of the DMA descriptor never changes. It can therefore be set
+> in the probe function.
 > 
-> Cc: stable@vger.kernel.org # v5.3
-> Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx SoCs")
 > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-
-Look correct to me.
-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-As this is tagged fixes: I assume this is for drm-misc-fixes and
-not for drm-misc-next.
-If you resend could you move it as patch 1/10 so this is more obvious.
-
-	Sam
 > ---
 > 
 > Notes:
 >     v2: No change
 > 
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index a15f9a1940c6..924c8daf071a 100644
+> index 924c8daf071a..f7b0c5dc8cd8 100644
 > --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 > +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -386,7 +386,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
->  		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
->  		width = state->src_w >> 16;
->  		height = state->src_h >> 16;
-> -		cpp = state->fb->format->cpp[plane->index];
-> +		cpp = state->fb->format->cpp[0];
+> @@ -358,8 +358,6 @@ static void ingenic_drm_crtc_atomic_flush(struct drm_crtc *crtc,
+>  		ingenic_drm_crtc_update_ctrl(priv, finfo);
 >  
->  		priv->dma_hwdesc->addr = addr;
->  		priv->dma_hwdesc->cmd = width * height * cpp / 4;
+>  		clk_set_rate(priv->pix_clk, state->adjusted_mode.clock * 1000);
+> -
+> -		regmap_write(priv->map, JZ_REG_LCD_DA0, priv->dma_hwdesc->next);
+>  	}
+>  
+>  	if (event) {
+> @@ -757,6 +755,9 @@ static int ingenic_drm_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> +	/* Set address of our DMA descriptor chain */
+> +	regmap_write(priv->map, JZ_REG_LCD_DA0, priv->dma_hwdesc_phys);
+> +
+
+
+What is the purpose of this code after the assignment was moved:
+
+static int ingenic_drm_probe(struct platform_device *pdev)
+{
+...
+	priv->dma_hwdesc->next = priv->dma_hwdesc_phys;
+
+I do not see ->next used anymore.
+Could this assignment be dropped?
+
+
+And the following line:
+	priv->dma_hwdesc->id = 0xdeafbead;
+
+I can only see ->id be assingned, it is never referenced??
+
+Maybe this is all related to the structure assumed by the data pointed
+to by JZ_REG_LCD_DA0?
+
+	Sam
+
+>  	ret = drm_dev_register(drm, 0);
+>  	if (ret) {
+>  		dev_err(dev, "Failed to register DRM driver\n");
 > -- 
 > 2.27.0
 > 
