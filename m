@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1772104BC
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C842104B2
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2DC6E847;
-	Wed,  1 Jul 2020 07:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50CF66E837;
+	Wed,  1 Jul 2020 07:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38F1989AB9
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:27:25 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id m65so1955471vsd.6
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 01:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=endlessm-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6TyFilXliZJy2d+mBi1GXmZQ03QK7DtnI0MwvDeR4fk=;
- b=CbgtUtIunRLER4yB3euokUNze9d9uxoJ5Et643+JAhV/AIM/JYGkYp6wRKA+vfY3iA
- 0uAQm/XS5fyEGuSP7fCODzq4WOnnMcbmJ3gK/o7JvnSLN1jQgwmxlvglyiLRjWQ9d1DK
- G3oWjo9EGntTmCL7rmn/GPZCW7KRREtAD50RPfxk0lOEeSZjbAH7pHnFKQGbA6j+xBDZ
- YCrEtI4B5ozVcVfRq8vw+uwZ1TvuHkFwgPk+KeC/7qDjTeidEp2fCBxslutoxYfOjZgv
- jaOhjuq5zqInQz6/KQJkx4+ZKXAhWTrchC/3PioCwpcUw6VsdjcUFu4TAzROH7ulEu72
- TY0g==
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F11A89C05
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:40:38 +0000 (UTC)
+Received: from mail-pf1-f198.google.com ([209.85.210.198])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>) id 1jqBlb-0007u7-87
+ for dri-devel@lists.freedesktop.org; Tue, 30 Jun 2020 08:37:23 +0000
+Received: by mail-pf1-f198.google.com with SMTP id e4so92805pfa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 01:37:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6TyFilXliZJy2d+mBi1GXmZQ03QK7DtnI0MwvDeR4fk=;
- b=ia5a7JLmyiv/E+MTnBVT+Tt4TJejRfmczyjnUJsy3bXo7Rtd13OyI/g111suxhU4as
- d25MNFfCeJk+ocy7ztQxJyP74mu9B/5cChK5uaA/1DJTSr0lS61qfkT9pVCDomsWG9Zn
- fb+wf80sMMSnthyrpbCTg6DZY+p90Zr9cj3SmyzsJY0fKQp99KcCTzWluT6yElQ5KRv4
- 6DX33BKX9bwfYMXVA9lrtIAlmYwNku0KfPTRwrmilIgYA9Es1T3CbhAM0D8I1B0J4RmL
- xyCsBDnHvM7uuN4q353WcxLeoGKiuLcmU9bIC91SlhnIilwRJNehmQ13OyxFlrRt6W1j
- saKA==
-X-Gm-Message-State: AOAM532R0m+mjVz358WtyvYlizhISHoYsibY1ZV2fEk5FDo37LFK9owl
- +5R0fKhqldFnC4axFtrNYjVO4pU5EDnKjrhIFR/mbQ==
-X-Google-Smtp-Source: ABdhPJyu6oqHNp3qR9Yq9yQ9alWgxok3aKdKZ7hxGD+ds4LcjTYsN+j/e8KcUWZCfBJjn6S0Y/kxY+eIMGTPHFoTH10=
-X-Received: by 2002:a67:1e45:: with SMTP id e66mr13255904vse.95.1593505644125; 
- Tue, 30 Jun 2020 01:27:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAPpJ_efxenmSXt2OXkhkQ1jDJ59tyWBDUvmpyOB-bfPMDENQZg@mail.gmail.com>
- <CAPpJ_ed9TMJjN8xS1_3saf5obQhULJSLNgQSAFxgiWM2QX9A7Q@mail.gmail.com>
- <20200526102018.kznh6aglpkqlp6en@gilmour.lan>
- <CAD8Lp467DiYWLwH6T1Jeq-uyN4VEuef-gGWw0_bBTtmSPr00Ag@mail.gmail.com>
- <20200527091335.7wc3uy67lbz7j4di@gilmour.lan>
- <CAD8Lp45ucK-yZ5G_DrUVA7rnxo58UF1LPUy65w2PCOcSxKx_Sg@mail.gmail.com>
- <20200528073055.znutrhkryzu3grrl@gilmour.lan>
- <CAPpJ_ec1KRwUrHGVVZrReaDPz4iga-Nvj5H652-tTKmkXL=Xmg@mail.gmail.com>
- <20200602110442.2ceuymhwuomvjj6i@gilmour>
- <CAPpJ_eePgLxO5URB3V5aeNMvBHOp+vXrW=+6SnVt4mB9J8oR+Q@mail.gmail.com>
- <20200629142145.aa2vdfkgeugrze4c@gilmour.lan>
-In-Reply-To: <20200629142145.aa2vdfkgeugrze4c@gilmour.lan>
-From: Jian-Hong Pan <jian-hong@endlessm.com>
-Date: Tue, 30 Jun 2020 16:26:20 +0800
-Message-ID: <CAPpJ_efVO9HxrYzbrZgYpcniX30YtvthcYAc=AOabLsThkO02Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipelin
-To: Maxime Ripard <maxime@cerno.tech>
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=wyvtwTjQow+LlW6bkGTLAQabOfLMRU7jhVMj5RXMOZs=;
+ b=FYyRcA7L8NNTUUQIAp6Qlt02Nml/unfLiVWfiP/D53t8EZQbbz0FO3VMzrfFJ9T+wP
+ ER4g5EOI/RXY4vplsv3QvmBhWImmiaNsPVW64JWoG/VELlqAUVS1LlyRp8wZduqUXwDQ
+ U96phCnndQfeOMyDXV8uacGjtboNpF6xLSgNqs98Qwkw3qYtXen2Ieaxqx+haB3a3n6r
+ IzGR5QrlQZDBIGrzsF8P9GXTQ70Hg1SSxtkzplsL5M8es2vmMQpGWkBfk6uWim91TwxN
+ t7nbpZHoVPziDRlsdvdg6qV+l1l/lmbtlv5S3raSgQTuL32KOKrLiNZAXGfH9jdMVWaM
+ Zelg==
+X-Gm-Message-State: AOAM530LOOV+W2MVEG+cbCsmneEYQOA2eZOhKBIbr24yfspNlcTXzXfl
+ 2kRSw80ZHyJ8n1s7cUpbodh/4IBVhca4ArBBiegw9Hb4KwnDfPhSwyGAsRoJ63VBOT9CYlX8+q6
+ EOq2HltyHXgrbf9oXTbAefVrVTs/to6WlscebGCz3bIpTxA==
+X-Received: by 2002:a63:3f42:: with SMTP id m63mr14401266pga.310.1593506241701; 
+ Tue, 30 Jun 2020 01:37:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxeCYUt7m+hJthYXsmq7CfvyghAtFKGBLOf+R4ZQPgCClHnOvstz4fHc9TS1/dfiRgJN8LuLg==
+X-Received: by 2002:a63:3f42:: with SMTP id m63mr14401239pga.310.1593506241305; 
+ Tue, 30 Jun 2020 01:37:21 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net.
+ [220.133.187.190])
+ by smtp.gmail.com with ESMTPSA id 4sm1983684pgk.68.2020.06.30.01.37.17
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 30 Jun 2020 01:37:20 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH v6] drm/i915: Init lspcon after HPD in intel_dp_detect()
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <20200610075542.12882-1-kai.heng.feng@canonical.com>
+Date: Tue, 30 Jun 2020 16:37:16 +0800
+Message-Id: <21A619C1-627F-49CC-B2F4-9B533F351DF3@canonical.com>
+References: <20200610075542.12882-1-kai.heng.feng@canonical.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 X-Mailman-Approved-At: Wed, 01 Jul 2020 07:12:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,158 +66,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- devicetree <devicetree@vger.kernel.org>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Daniel Drake <drake@endlessm.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Linux Upstreaming Team <linux@endlessm.com>, linux-clk@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?utf-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IOaWvCAyMDIw5bm0NuaciDI55pelIOmA
-seS4gCDkuIvljYgxMDoyMeWvq+mBk++8mgo+Cj4gSGkhCj4KPiBPbiBGcmksIEp1biAwNSwgMjAy
-MCBhdCAwNDo0NDo1MVBNICswODAwLCBKaWFuLUhvbmcgUGFuIHdyb3RlOgo+ID4gTWF4aW1lIFJp
-cGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IOaWvCAyMDIw5bm0NuaciDLml6Ug6YCx5LqMIOS4i+WN
-iDc6MDTlr6vpgZPvvJoKPiA+ID4KPiA+ID4gSGksCj4gPiA+Cj4gPiA+IE9uIE1vbiwgSnVuIDAx
-LCAyMDIwIGF0IDAzOjU4OjI2UE0gKzA4MDAsIEppYW4tSG9uZyBQYW4gd3JvdGU6Cj4gPiA+ID4g
-TWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IOaWvCAyMDIw5bm0NeaciDI45pelIOmA
-seWbmyDkuIvljYgzOjMw5a+r6YGT77yaCj4gPiA+ID4gPgo+ID4gPiA+ID4gSGkgRGFuaWVsLAo+
-ID4gPiA+ID4KPiA+ID4gPiA+IE9uIFdlZCwgTWF5IDI3LCAyMDIwIGF0IDA1OjE1OjEyUE0gKzA4
-MDAsIERhbmllbCBEcmFrZSB3cm90ZToKPiA+ID4gPiA+ID4gT24gV2VkLCBNYXkgMjcsIDIwMjAg
-YXQgNToxMyBQTSBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4gd3JvdGU6Cj4gPiA+
-ID4gPiA+ID4gSSdtIGFib3V0IHRvIHNlbmQgYSB2MyB0b2RheSBvciB0b21vcnJvdywgSSBjYW4g
-Q2MgeW91IChhbmQgSmlhbi1Ib25nKSBpZiB5b3UKPiA+ID4gPiA+ID4gPiB3YW50Lgo+ID4gPiA+
-ID4gPgo+ID4gPiA+ID4gPiBUaGF0IHdvdWxkIGJlIGdyZWF0LCBhbHRob3VnaCBnaXZlbiB0aGUg
-cG90ZW50aWFsbHkgaW5jb25zaXN0ZW50Cj4gPiA+ID4gPiA+IHJlc3VsdHMgd2UndmUgYmVlbiBz
-ZWVpbmcgc28gZmFyIGl0IHdvdWxkIGJlIGdyZWF0IGlmIHlvdSBjb3VsZAo+ID4gPiA+ID4gPiBh
-ZGRpdGlvbmFsbHkgcHVzaCBhIGdpdCBicmFuY2ggc29tZXdoZXJlLgo+ID4gPiA+ID4gPiBUaGF0
-IHdheSB3ZSBjYW4gaGF2ZSBoaWdoZXIgY29uZmlkZW5jZSB0aGF0IHdlIGFyZSBhcHBseWluZyBl
-eGFjdGx5Cj4gPiA+ID4gPiA+IHRoZSBzYW1lIHBhdGNoZXMgdG8gdGhlIHNhbWUgYmFzZSBldGMu
-Cj4gPiA+ID4gPgo+ID4gPiA+ID4gU28gSSBzZW50IGEgbmV3IGl0ZXJhdGlvbiB5ZXN0ZXJkYXks
-IGFuZCBvZiBjb3Vyc2UgZm9yZ290IHRvIGNjIHlvdS4uLiBTb3JyeSBmb3IKPiA+ID4gPiA+IHRo
-YXQuCj4gPiA+ID4gPgo+ID4gPiA+ID4gSSd2ZSBwdXNoZWQgbXkgY3VycmVudCBicmFuY2ggaGVy
-ZToKPiA+ID4gPiA+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
-Z2l0L21yaXBhcmQvbGludXguZ2l0L2xvZy8/aD1ycGk0LWttcwo+ID4gPiA+Cj4gPiA+ID4gVGhh
-bmtzIHRvIE1heGltZSEKPiA+ID4gPgo+ID4gPiA+IEkgaGF2ZSB0cmllZCB5b3VyIHJlcG9zaXRv
-cnkgb24gYnJhbmNoIHJwaTQta21zLiAgVGhlIERSTSBWQzQgaXMgdXNlZCEKPiA+ID4gPiBCdXQg
-Z290IHNvbWUgaXNzdWVzOgo+ID4gPiA+IDEuIFNvbWUgd2VpcmQgZXJyb3IgbWVzc2FnZSBpbiBk
-bWVzZy4gIE5vdCBzdXJlIGl0IGlzIHJlbGF0ZWQsIG9yIG5vdAo+ID4gPiA+IFsgICAgNS4yMTkz
-MjFdIFtkcm06dmM1X2hkbWlfaW5pdF9yZXNvdXJjZXNdICpFUlJPUiogRmFpbGVkIHRvIGdldAo+
-ID4gPiA+IEhETUkgc3RhdGUgbWFjaGluZSBjbG9jawo+ID4gPiA+IGh0dHBzOi8vZ2lzdC5naXRo
-dWIuY29tL3N0YXJuaWdodC8zZjMxN2RjYTEyMTA2NWEzNjFjZjA4ZTkxMjI1ZTM4OQo+ID4gPgo+
-ID4gPiBUaGF0J3MgYSBkZWZlcnJlZCBwcm9iaW5nLiBUaGUgZmlyc3QgdGltZSB0aGUgSERNSSBk
-cml2ZXIgaXMgYmVpbmcKPiA+ID4gcHJvYmVkLCB0aGUgZmlybXdhcmUgY2xvY2sgZHJpdmVyIGhh
-cyBub3QgYmVlbiBwcm9iZWQgeWV0LiBJdCdzIG1ha2luZwo+ID4gPiBhbm90aGVyIGF0dGVtcHQg
-bGF0ZXIgb24sIHdoaWNoIHN1Y2NlZWRzLgo+ID4gPgo+ID4gPiA+IDIuIFRoZSBzY3JlZW4gZmxh
-c2hlcyBzdWRkZW5seSBzb21ldGltZXMuCj4gPgo+ID4gSSBhcHBlbmQgZHJtLmRlYnVnPTB4MyB0
-byBib290IGNvbW1hbmQuICBXaGVuZXZlciwgdGhlIHNjcmVlbiBmbGFzaGVzLAo+ID4gSSBub3Rp
-Y2UgdGhlIGxvZ3MgbGlrZSB0aGlzOgo+ID4KPiA+IEp1biAwMSAxNToyMjo0MCBlbmRsZXNzIGtl
-cm5lbDogW2RybTpkcm1fY2FsY190aW1lc3RhbXBpbmdfY29uc3RhbnRzXQo+ID4gY3J0YyA2NDog
-aHdtb2RlOiBodG90YWwgMjIwMCwgdnRvdGFsIDExMjUsIHZkaXNwbGF5IDEwODAKPiA+IEp1biAw
-MSAxNToyMjo0MCBlbmRsZXNzIGtlcm5lbDogW2RybTpkcm1fY2FsY190aW1lc3RhbXBpbmdfY29u
-c3RhbnRzXQo+ID4gY3J0YyA2NDogY2xvY2sgMTQ4NTAwIGtIeiBmcmFtZWR1ciAxNjY2NjY2NiBs
-aW5lZHVyIDE0ODE0Cj4gPiBKdW4gMDEgMTU6MjI6NDAgZW5kbGVzcyBrZXJuZWw6IFtkcm06ZHJt
-X3ZibGFua19lbmFibGVdIGVuYWJsaW5nCj4gPiB2Ymxhbmsgb24gY3J0YyAzLCByZXQ6IDAKPiA+
-IEp1biAwMSAxNToyMjo0MCBlbmRsZXNzIGtlcm5lbDogW2RybTpkcm1fbW9kZV9vYmplY3RfcHV0
-LnBhcnQuMF0gT0JKIElEOiAxNTkgKDIpCj4gPiBKdW4gMDEgMTU6MjI6NDAgZW5kbGVzcyBrZXJu
-ZWw6IFtkcm06ZHJtX21vZGVfb2JqZWN0X3B1dC5wYXJ0LjBdIE9CSiBJRDogMTU0ICgxKQo+ID4g
-SnVuIDAxIDE1OjIyOjQwIGVuZGxlc3Mga2VybmVsOiBbZHJtOnZibGFua19kaXNhYmxlX2ZuXSBk
-aXNhYmxpbmcKPiA+IHZibGFuayBvbiBjcnRjIDMKPiA+IEp1biAwMSAxNToyMjo0MiBlbmRsZXNz
-IGtlcm5lbDogW2RybTpkcm1faW9jdGxdIHBpZD01ODQsIGRldj0weGUyMDAsCj4gPiBhdXRoPTEs
-IERSTV9JT0NUTF9NT0RFX0NVUlNPUgo+ID4gSnVuIDAxIDE1OjIyOjQyIGVuZGxlc3Mga2VybmVs
-OiBbZHJtOmRybV9pb2N0bF0gcGlkPTU4NCwgZGV2PTB4ZTIwMCwKPiA+IGF1dGg9MSwgRFJNX0lP
-Q1RMX01PREVfQ1VSU09SMgo+ID4gSnVuIDAxIDE1OjIyOjQyIGVuZGxlc3Mga2VybmVsOiBbZHJt
-OmRybV9tb2RlX29iamVjdF9nZXRdIE9CSiBJRDogMTU5ICgxKQo+ID4gSnVuIDAxIDE1OjIyOjQy
-IGVuZGxlc3Mga2VybmVsOiBbZHJtOmRybV9tb2RlX29iamVjdF9nZXRdIE9CSiBJRDogMTU0ICgx
-KQo+ID4gSnVuIDAxIDE1OjIyOjQyIGVuZGxlc3Mga2VybmVsOiBbZHJtOmRybV9jYWxjX3RpbWVz
-dGFtcGluZ19jb25zdGFudHNdCj4gPiBjcnRjIDY0OiBod21vZGU6IGh0b3RhbCAyMjAwLCB2dG90
-YWwgMTEyNSwgdmRpc3BsYXkgMTA4MAo+ID4gSnVuIDAxIDE1OjIyOjQyIGVuZGxlc3Mga2VybmVs
-OiBbZHJtOmRybV9jYWxjX3RpbWVzdGFtcGluZ19jb25zdGFudHNdCj4gPiBjcnRjIDY0OiBjbG9j
-ayAxNDg1MDAga0h6IGZyYW1lZHVyIDE2NjY2NjY2IGxpbmVkdXIgMTQ4MTQKPiA+IEp1biAwMSAx
-NToyMjo0MiBlbmRsZXNzIGtlcm5lbDogW2RybTpkcm1fdmJsYW5rX2VuYWJsZV0gZW5hYmxpbmcK
-PiA+IHZibGFuayBvbiBjcnRjIDMsIHJldDogMAo+ID4gSnVuIDAxIDE1OjIyOjQyIGVuZGxlc3Mg
-a2VybmVsOiBbZHJtOmRybV9tb2RlX29iamVjdF9wdXQucGFydC4wXSBPQkogSUQ6IDE1OSAoMikK
-PiA+IEp1biAwMSAxNToyMjo0MiBlbmRsZXNzIGtlcm5lbDogW2RybTpkcm1fbW9kZV9vYmplY3Rf
-cHV0LnBhcnQuMF0gT0JKIElEOiAxNTQgKDIpCj4gPgo+ID4gSGVyZSBpcyB0aGUgZnVsbCBsb2cK
-PiA+IGh0dHBzOi8vZ2lzdC5naXRodWIuY29tL3N0YXJuaWdodC84NWQ2NDE4MTk4MzllZGRjN2E1
-NWNhNzE3Mzk5MGE1Ngo+ID4KPiA+ID4gPiAzLiBUaGUgaGlnaGVyIHJlc29sdXRpb25zLCBsaWtl
-IDE5MjB4MTA4MCAuLi4gYXJlIGxvc3QgYWZ0ZXIgaG90Cj4gPiA+ID4gcmUtcGx1ZyBIRE1JIGNh
-YmxlIChIRE1JMCkKPiA+Cj4gPiBJIHNob3VsZCBleHBsYWluIHRoaXMgaW4gbW9yZSBkZXRhaWwu
-ICBIZXJlIGFyZSB0aGUgc3RlcHMgdG8gcmVwcm9kdWNlCj4gPiB0aGlzIGlzc3VlOgo+ID4gMS4g
-QmVmb3JlIHVucGx1ZyB0aGUgSERNSSBjYWJsZSBmcm9tIEhETUkwIHBvcnQuCj4gPiAkIHhyYW5k
-cgo+ID4gU2NyZWVuIDA6IG1pbmltdW0gMzIwIHggMjAwLCBjdXJyZW50IDE5MjAgeCAxMDgwLCBt
-YXhpbXVtIDIwNDggeCAyMDQ4Cj4gPiBIRE1JLTEgY29ubmVjdGVkIHByaW1hcnkgMTkyMHgxMDgw
-KzArMCAobm9ybWFsIGxlZnQgaW52ZXJ0ZWQgcmlnaHQgeAo+ID4gYXhpcyB5IGF4aXMpIDUyMW1t
-IHggMjkzbW0KPiA+ICAgIDE5MjB4MTA4MCAgICAgNjAuMDAqKyAgNTAuMDAgICAgNTkuOTQKPiA+
-ICAgIDE5MjB4MTA4MGkgICAgNjAuMDAgICAgNTAuMDAgICAgNTkuOTQKPiA+ICAgIDE2ODB4MTA1
-MCAgICAgNTkuODgKPiA+ICAgIDEyODB4MTAyNCAgICAgNzUuMDIgICAgNjAuMDIKPiA+ICAgIDE0
-NDB4OTAwICAgICAgNTkuOTAKPiA+ICAgIDEyODB4OTYwICAgICAgNjAuMDAKPiA+ICAgIDExNTJ4
-ODY0ICAgICAgNzUuMDAKPiA+ICAgIDEyODB4NzIwICAgICAgNjAuMDAgICAgNTAuMDAgICAgNTku
-OTQKPiA+ICAgIDE0NDB4NTc2ICAgICAgNTAuMDAKPiA+ICAgIDEwMjR4NzY4ICAgICAgNzUuMDMg
-ICAgNzAuMDcgICAgNjAuMDAKPiA+ICAgIDE0NDB4NDgwICAgICAgNjAuMDAgICAgNTkuOTQKPiA+
-ICAgIDgzMng2MjQgICAgICAgNzQuNTUKPiA+ICAgIDgwMHg2MDAgICAgICAgNzIuMTkgICAgNzUu
-MDAgICAgNjAuMzIgICAgNTYuMjUKPiA+ICAgIDcyMHg1NzYgICAgICAgNTAuMDAKPiA+ICAgIDcy
-MHg0ODAgICAgICAgNjAuMDAgICAgNTkuOTQKPiA+ICAgIDY0MHg0ODAgICAgICAgNzUuMDAgICAg
-NzIuODEgICAgNjYuNjcgICAgNjAuMDAgICAgNTkuOTQKPiA+ICAgIDcyMHg0MDAgICAgICAgNzAu
-MDgKPiA+IEhETUktMiBkaXNjb25uZWN0ZWQgKG5vcm1hbCBsZWZ0IGludmVydGVkIHJpZ2h0IHgg
-YXhpcyB5IGF4aXMpCj4gPgo+ID4gMi4gVW5wbHVnIHRoZSBIRE1JIGNhYmxlIGZyb20gSERNSTAg
-cG9ydC4KPiA+IDMuIFBsdWcgdGhlIEhETUkgY2FibGUgdG8gKipIRE1JMSoqIHBvcnQuCj4gPiAk
-IHhyYW5kcgo+ID4gU2NyZWVuIDA6IG1pbmltdW0gMzIwIHggMjAwLCBjdXJyZW50IDE5MjAgeCAx
-MDgwLCBtYXhpbXVtIDIwNDggeCAyMDQ4Cj4gPiBIRE1JLTEgZGlzY29ubmVjdGVkIChub3JtYWwg
-bGVmdCBpbnZlcnRlZCByaWdodCB4IGF4aXMgeSBheGlzKQo+ID4gSERNSS0yIGNvbm5lY3RlZCBw
-cmltYXJ5IDE5MjB4MTA4MCswKzAgKG5vcm1hbCBsZWZ0IGludmVydGVkIHJpZ2h0IHgKPiA+IGF4
-aXMgeSBheGlzKSA1MjFtbSB4IDI5M21tCj4gPiAgICAxOTIweDEwODAgICAgIDYwLjAwKisgIDUw
-LjAwICAgIDU5Ljk0Cj4gPiAgICAxOTIweDEwODBpICAgIDYwLjAwICAgIDUwLjAwICAgIDU5Ljk0
-Cj4gPiAgICAxNjgweDEwNTAgICAgIDU5Ljg4Cj4gPiAgICAxMjgweDEwMjQgICAgIDc1LjAyICAg
-IDYwLjAyCj4gPiAgICAxNDQweDkwMCAgICAgIDU5LjkwCj4gPiAgICAxMjgweDk2MCAgICAgIDYw
-LjAwCj4gPiAgICAxMTUyeDg2NCAgICAgIDc1LjAwCj4gPiAgICAxMjgweDcyMCAgICAgIDYwLjAw
-ICAgIDUwLjAwICAgIDU5Ljk0Cj4gPiAgICAxNDQweDU3NiAgICAgIDUwLjAwCj4gPiAgICAxMDI0
-eDc2OCAgICAgIDc1LjAzICAgIDcwLjA3ICAgIDYwLjAwCj4gPiAgICAxNDQweDQ4MCAgICAgIDYw
-LjAwICAgIDU5Ljk0Cj4gPiAgICA4MzJ4NjI0ICAgICAgIDc0LjU1Cj4gPiAgICA4MDB4NjAwICAg
-ICAgIDcyLjE5ICAgIDc1LjAwICAgIDYwLjMyICAgIDU2LjI1Cj4gPiAgICA3MjB4NTc2ICAgICAg
-IDUwLjAwCj4gPiAgICA3MjB4NDgwICAgICAgIDYwLjAwICAgIDU5Ljk0Cj4gPiAgICA2NDB4NDgw
-ICAgICAgIDc1LjAwICAgIDcyLjgxICAgIDY2LjY3ICAgIDYwLjAwICAgIDU5Ljk0Cj4gPiAgICA3
-MjB4NDAwICAgICAgIDcwLjA4Cj4gPgo+ID4gNC4gVW5wbHVnIHRoZSBIRE1JIGNhYmxlIGZyb20g
-KipIRE1JMSoqIHBvcnQuCj4gPiA1LiBQbHVnIHRoZSBIRE1JIGNhYmxlIGJhY2sgdG8gSERNSTAg
-cG9ydC4KPiA+ICQgeHJhbmRyCj4gPiBTY3JlZW4gMDogbWluaW11bSAzMjAgeCAyMDAsIGN1cnJl
-bnQgMTM2OCB4IDc2OCwgbWF4aW11bSAyMDQ4IHggMjA0OAo+ID4gSERNSS0xIGNvbm5lY3RlZCBw
-cmltYXJ5IDEzNjh4NzY4KzArMCAobm9ybWFsIGxlZnQgaW52ZXJ0ZWQgcmlnaHQgeAo+ID4gYXhp
-cyB5IGF4aXMpIDBtbSB4IDBtbQo+ID4gICAgMTM2OHg3NjggICAgICA1OS44OCoKPiA+ICAgIDEz
-NjB4NzY4ICAgICAgNTkuODAKPiA+ICAgIDEyODB4ODAwICAgICAgNTkuODEKPiA+ICAgIDExNTJ4
-ODY0ICAgICAgNjAuMDAKPiA+ICAgIDEyODB4NzIwICAgICAgNTkuODYKPiA+ICAgIDEwMjR4NzY4
-ICAgICAgNjAuMDAKPiA+ICAgIDEwMjR4NTc2ICAgICAgNTkuOTAKPiA+ICAgIDk2MHg1NDAgICAg
-ICAgNTkuNjMKPiA+ICAgIDgwMHg2MDAgICAgICAgNjAuMzIKPiA+ICAgIDgwMHg0NTAgICAgICAg
-NTkuODIKPiA+ICAgIDcwMHg0NTAgICAgICAgNTkuODgKPiA+ICAgIDY0MHg0ODAgICAgICAgNTku
-OTQKPiA+ICAgIDY4NHgzODQgICAgICAgNTkuODggICAgNTkuODUKPiA+ICAgIDY4MHgzODQgICAg
-ICAgNTkuODAgICAgNTkuOTYKPiA+ICAgIDY0MHg0MDAgICAgICAgNTkuODggICAgNTkuOTgKPiA+
-ICAgIDU3Nng0MzIgICAgICAgNjAuMDYKPiA+ICAgIDY0MHgzNjAgICAgICAgNTkuODYgICAgNTku
-ODMKPiA+ICAgIDUxMngzODQgICAgICAgNjAuMDAKPiA+ICAgIDUxMngyODggICAgICAgNjAuMDAg
-ICAgNTkuOTIKPiA+ICAgIDQ4MHgyNzAgICAgICAgNTkuNjMgICAgNTkuODIKPiA+ICAgIDQwMHgz
-MDAgICAgICAgNjAuMzIKPiA+ICAgIDMyMHgyNDAgICAgICAgNjAuMDUKPiA+IEhETUktMiBkaXNj
-b25uZWN0ZWQgKG5vcm1hbCBsZWZ0IGludmVydGVkIHJpZ2h0IHggYXhpcyB5IGF4aXMpCj4KPiBT
-b3JyeSBmb3IgZ2V0dGluZyBiYWNrIGF0IGl0IHNvIGxhdGUuIEkganVzdCB0ZXN0ZWQgd2l0aCBt
-b2RldGVzdCBvbmx5Cj4gYW5kIG15IGN1cnJlbnQgYnJhbmNoIGFuZCBpdCBzZWVtcyB0byBiZWhh
-dmUgcHJvcGVybHkuIERpZCB5b3UgaGFkIHRvCj4gcnVuIFggdG8gZ2V0IHRoYXQgaXNzdWUsIG9y
-IGlzIGl0IGp1c3QgaG93IHlvdSBub3RpY2VkIGl0Pwo+Cj4gQWxzbywgd2FzIHRoYXQgd2l0aCB0
-aGUgYnJhbmNoIGJhc2VkIG9uIDUuNyBJIHB1c2hlZCBvbiBteSBnaXQgdHJlZSBvbgo+IGtlcm5l
-bC5vcmcgb3Igc29tZSBlYXJsaWVyIHJldmlzaW9uIG9mIHRoZSBzZXJpZXM/CgpUaGFua3MgZm9y
-IGNvbWluZyBiYWNrIDopCgpJIHVzZSBHTk9NRSAzLjM2IHdpdGggWG9yZyAxLjIwLjQuCgpUbyB1
-bmRlcnN0YW5kIHdoZW4gaXQgc3RhcnRzIHRvIGhpdCB0aGUgaXNzdWVzLCBJIHNlcGFyYXRlIHRv
-IHN0ZXAgYnkgc3RlcDoKMS4gU3lzdGVtIGJvb3RzIGludG8gY29tbWFuZCBsaW5lIG1vZGUgZmly
-c3QgKHN5c3RlbWQgbXVsdGktdXNlci50YXJnZXQpCjIuIEV4ZWN1dGUgWG9yZywgdGhlbiB4dGVy
-bS4KMy4gRXhlY3V0ZSBtdXR0ZXIgdXBvbiB0aGUgc2NyZWVuIG9mIFhvcmcuCgpJIHRyaWVkIGJv
-dGggYnJhbmNoZXMgcnBpNC1rbXMgYW5kIHJwaTQta21zLTUuNyBvZgpodHRwczovL2dpdC5rZXJu
-ZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9tcmlwYXJkL2xpbnV4LmdpdApCb3RoIG9m
-IHRoZSBicmFuY2hlcyBoaXQgaXNzdWVzOgoqIFRoZSBzY3JlZW4gZmxhc2hlcyBzdWRkZW5seSBz
-b21ldGltZXMuICBUaGlzIGhhcHBlbnMgYWZ0ZXIgbXV0dGVyIGlzIGxhdW5jaGVkLgoqIFRoZSBo
-aWdoZXIgcmVzb2x1dGlvbnMsIGxpa2UgMTkyMHgxMDgwIC4uLiBhcmUgbG9zdCBhZnRlciBob3QK
-cmUtcGx1ZyBIRE1JIGNhYmxlIChIRE1JMCkuICBIRE1JIGNhYmxlIGNvbm5lY3RzIHRvIEhETUkw
-IC0+IEhETUkxIC0+CkhETUkwLiAgVGhpcyBoYXBwZW5zIG5vdCBvbmx5IHdpdGggR05PTUUsIGJ1
-dCBhbHNvIHB1cmUgWG9yZy4KCkppYW4tSG9uZyBQYW4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+> On Jun 10, 2020, at 15:55, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+> 
+> On HP 800 G4 DM, if HDMI cable isn't plugged before boot, the HDMI port
+> becomes useless and never responds to cable hotplugging:
+> [    3.031904] [drm:lspcon_init [i915]] *ERROR* Failed to probe lspcon
+> [    3.031945] [drm:intel_ddi_init [i915]] *ERROR* LSPCON init failed on port D
+> 
+> Seems like the lspcon chip on the system only gets powered after the
+> cable is plugged.
+> 
+> Consilidate lspcon_init() into lspcon_resume() to dynamically init
+> lspcon chip, and make HDMI port work.
+> 
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+
+A gentle ping...
+
+> ---
+> v6:
+> - Rebase on latest for-linux-next.
+> 
+> v5:
+> - Consolidate lspcon_resume() with lspcon_init().
+> - Move more logic into lspcon code.
+> 
+> v4:
+> - Trust VBT in intel_infoframe_init().
+> - Init lspcon in intel_dp_detect().
+> 
+> v3:
+> - Make sure it's handled under long HPD case.
+> 
+> v2: 
+> - Move lspcon_init() inside of intel_dp_hpd_pulse().
+> 
+> drivers/gpu/drm/i915/display/intel_ddi.c    | 19 +------
+> drivers/gpu/drm/i915/display/intel_dp.c     | 10 ++--
+> drivers/gpu/drm/i915/display/intel_hdmi.c   |  3 +-
+> drivers/gpu/drm/i915/display/intel_lspcon.c | 63 ++++++++++++---------
+> drivers/gpu/drm/i915/display/intel_lspcon.h |  3 +-
+> 5 files changed, 43 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index aa22465bb56e..af755b1aa24b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4805,7 +4805,7 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+> {
+> 	struct intel_digital_port *intel_dig_port;
+> 	struct intel_encoder *encoder;
+> -	bool init_hdmi, init_dp, init_lspcon = false;
+> +	bool init_hdmi, init_dp;
+> 	enum phy phy = intel_port_to_phy(dev_priv, port);
+> 
+> 	init_hdmi = intel_bios_port_supports_dvi(dev_priv, port) ||
+> @@ -4819,7 +4819,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+> 		 * is initialized before lspcon.
+> 		 */
+> 		init_dp = true;
+> -		init_lspcon = true;
+> 		init_hdmi = false;
+> 		drm_dbg_kms(&dev_priv->drm, "VBT says port %c has lspcon\n",
+> 			    port_name(port));
+> @@ -4904,22 +4903,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+> 			goto err;
+> 	}
+> 
+> -	if (init_lspcon) {
+> -		if (lspcon_init(intel_dig_port))
+> -			/* TODO: handle hdmi info frame part */
+> -			drm_dbg_kms(&dev_priv->drm,
+> -				    "LSPCON init success on port %c\n",
+> -				    port_name(port));
+> -		else
+> -			/*
+> -			 * LSPCON init faied, but DP init was success, so
+> -			 * lets try to drive as DP++ port.
+> -			 */
+> -			drm_err(&dev_priv->drm,
+> -				"LSPCON init failed on port %c\n",
+> -				port_name(port));
+> -	}
+> -
+> 	if (INTEL_GEN(dev_priv) >= 11) {
+> 		if (intel_phy_is_tc(dev_priv, phy))
+> 			intel_dig_port->connected = intel_tc_port_connected;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index ed9e53c373a7..398a104158a8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5962,15 +5962,14 @@ static enum drm_connector_status
+> intel_dp_detect_dpcd(struct intel_dp *intel_dp)
+> {
+> 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> -	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
+> +	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> 	u8 *dpcd = intel_dp->dpcd;
+> 	u8 type;
+> 
+> 	if (WARN_ON(intel_dp_is_edp(intel_dp)))
+> 		return connector_status_connected;
+> 
+> -	if (lspcon->active)
+> -		lspcon_resume(lspcon);
+> +	lspcon_resume(dig_port);
+> 
+> 	if (!intel_dp_get_dpcd(intel_dp))
+> 		return connector_status_disconnected;
+> @@ -7056,14 +7055,13 @@ void intel_dp_encoder_reset(struct drm_encoder *encoder)
+> {
+> 	struct drm_i915_private *dev_priv = to_i915(encoder->dev);
+> 	struct intel_dp *intel_dp = enc_to_intel_dp(to_intel_encoder(encoder));
+> -	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
+> +	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> 	intel_wakeref_t wakeref;
+> 
+> 	if (!HAS_DDI(dev_priv))
+> 		intel_dp->DP = intel_de_read(dev_priv, intel_dp->output_reg);
+> 
+> -	if (lspcon->active)
+> -		lspcon_resume(lspcon);
+> +	lspcon_resume(dig_port);
+> 
+> 	intel_dp->reset_link_params = true;
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index 010f37240710..643ad2127931 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -3155,7 +3155,8 @@ void intel_infoframe_init(struct intel_digital_port *intel_dig_port)
+> 		intel_dig_port->set_infoframes = g4x_set_infoframes;
+> 		intel_dig_port->infoframes_enabled = g4x_infoframes_enabled;
+> 	} else if (HAS_DDI(dev_priv)) {
+> -		if (intel_dig_port->lspcon.active) {
+> +		if (intel_bios_is_lspcon_present(dev_priv,
+> +						 intel_dig_port->base.port)) {
+> 			intel_dig_port->write_infoframe = lspcon_write_infoframe;
+> 			intel_dig_port->read_infoframe = lspcon_read_infoframe;
+> 			intel_dig_port->set_infoframes = lspcon_set_infoframes;
+> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
+> index 6ff7b226f0a1..e3dde4c25604 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lspcon.c
+> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+> @@ -525,44 +525,17 @@ u32 lspcon_infoframes_enabled(struct intel_encoder *encoder,
+> 	return 0;
+> }
+> 
+> -void lspcon_resume(struct intel_lspcon *lspcon)
+> -{
+> -	enum drm_lspcon_mode expected_mode;
+> -
+> -	if (lspcon_wake_native_aux_ch(lspcon)) {
+> -		expected_mode = DRM_LSPCON_MODE_PCON;
+> -		lspcon_resume_in_pcon_wa(lspcon);
+> -	} else {
+> -		expected_mode = DRM_LSPCON_MODE_LS;
+> -	}
+> -
+> -	if (lspcon_wait_mode(lspcon, expected_mode) == DRM_LSPCON_MODE_PCON)
+> -		return;
+> -
+> -	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
+> -		DRM_ERROR("LSPCON resume failed\n");
+> -	else
+> -		DRM_DEBUG_KMS("LSPCON resume success\n");
+> -}
+> -
+> void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon)
+> {
+> 	lspcon_wait_mode(lspcon, DRM_LSPCON_MODE_PCON);
+> }
+> 
+> -bool lspcon_init(struct intel_digital_port *intel_dig_port)
+> +static bool lspcon_init(struct intel_digital_port *intel_dig_port)
+> {
+> 	struct intel_dp *dp = &intel_dig_port->dp;
+> 	struct intel_lspcon *lspcon = &intel_dig_port->lspcon;
+> -	struct drm_device *dev = intel_dig_port->base.base.dev;
+> -	struct drm_i915_private *dev_priv = to_i915(dev);
+> 	struct drm_connector *connector = &dp->attached_connector->base;
+> 
+> -	if (!HAS_LSPCON(dev_priv)) {
+> -		DRM_ERROR("LSPCON is not supported on this platform\n");
+> -		return false;
+> -	}
+> -
+> 	lspcon->active = false;
+> 	lspcon->mode = DRM_LSPCON_MODE_INVALID;
+> 
+> @@ -586,3 +559,37 @@ bool lspcon_init(struct intel_digital_port *intel_dig_port)
+> 	DRM_DEBUG_KMS("Success: LSPCON init\n");
+> 	return true;
+> }
+> +
+> +void lspcon_resume(struct intel_digital_port *intel_dig_port)
+> +{
+> +	struct intel_lspcon *lspcon = &intel_dig_port->lspcon;
+> +	struct drm_device *dev = intel_dig_port->base.base.dev;
+> +	struct drm_i915_private *dev_priv = to_i915(dev);
+> +	enum drm_lspcon_mode expected_mode;
+> +
+> +	if (!intel_bios_is_lspcon_present(dev_priv, intel_dig_port->base.port))
+> +		return;
+> +
+> +	if (!lspcon->active) {
+> +		if (!lspcon_init(intel_dig_port)) {
+> +			DRM_ERROR("LSPCON init failed on port %c\n",
+> +				  port_name(intel_dig_port->base.port));
+> +			return;
+> +		}
+> +	}
+> +
+> +	if (lspcon_wake_native_aux_ch(lspcon)) {
+> +		expected_mode = DRM_LSPCON_MODE_PCON;
+> +		lspcon_resume_in_pcon_wa(lspcon);
+> +	} else {
+> +		expected_mode = DRM_LSPCON_MODE_LS;
+> +	}
+> +
+> +	if (lspcon_wait_mode(lspcon, expected_mode) == DRM_LSPCON_MODE_PCON)
+> +		return;
+> +
+> +	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
+> +		DRM_ERROR("LSPCON resume failed\n");
+> +	else
+> +		DRM_DEBUG_KMS("LSPCON resume success\n");
+> +}
+> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.h b/drivers/gpu/drm/i915/display/intel_lspcon.h
+> index 37cfddf8a9c5..169db35db13e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lspcon.h
+> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.h
+> @@ -15,8 +15,7 @@ struct intel_digital_port;
+> struct intel_encoder;
+> struct intel_lspcon;
+> 
+> -bool lspcon_init(struct intel_digital_port *intel_dig_port);
+> -void lspcon_resume(struct intel_lspcon *lspcon);
+> +void lspcon_resume(struct intel_digital_port *intel_dig_port);
+> void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon);
+> void lspcon_write_infoframe(struct intel_encoder *encoder,
+> 			    const struct intel_crtc_state *crtc_state,
+> -- 
+> 2.17.1
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
