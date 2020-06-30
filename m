@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412B820FB59
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1547920FB5B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:06:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A89BF6E0B7;
-	Tue, 30 Jun 2020 18:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 788476E091;
+	Tue, 30 Jun 2020 18:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
  [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A166E0B9
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:06:05 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id h19so23650275ljg.13
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:06:05 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9D16E091
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:06:06 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id f5so7786701ljj.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5g6HODAk2DBCjnx5JZW7GXPuVyTGvlIbzdH4kaUb6CI=;
- b=PxWUebACOzinV/cvM6lW1SF0YUIkfr1a4B58o2PFn8QBmlkmuvV0ZR4YM3StUCt+Ld
- j6PxZmb640gyby5YgLB8A71e2Xp2LBYDH+3QP+czWDKCF83IJ649I7HMQchipKWWVKky
- X5t51uz70Ai3JJ0A7CKpb7pTDG2j/0ysvlDbkiToNqCcanMuDYYK6EjdmcTNkNL+ibka
- +6NCwFMQ8/ysEXwcPvUwZ8U/4cEYTxQ5A9qtA+EuoNfystDhPH67fBonnN0noPyEF981
- nRLqsSLHIr74+eYDTogIurQICLyBEjM3tN+fsRQgmicF6SzIdP7w/pbomP2nPj+eqgMK
- nryQ==
+ bh=zM3QLSVuRc5t11YYc0eyAUVeFlCyX/4HEQGX3Y4hpeE=;
+ b=JIPKTxxNNQd/sHhBRMOLoKZbZnwST/Qki9dwivkTLn7b34GpQD6DilHxuoUGwSR46j
+ nDl2ktew4cUvXWh+Ik6ASe0E0mGZF5r/htVOcM+H8+jljCO7aIWQSxEQ/Acc2FofjouX
+ v44OlNSgGcrjmHJvHf5Gy7menDqQ0YH/D3fYVj35KIin03CNa8mz5EzOJ9KPAhVpQ3Zf
+ JAj2vjG8bBBf8NNSUQ3ZrBgOXJbvHmXIQVKoNR/Y8o0waDPh5Bi2SY7jDcDdw6rnRnqL
+ EHvMRHR5yCdd6CtyDQwzfRLgDkICF49UadNtAjhIBrCm6gJzzd50a4O7AabM+utBPPNQ
+ QM8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5g6HODAk2DBCjnx5JZW7GXPuVyTGvlIbzdH4kaUb6CI=;
- b=qXIC4yZlZVz+vxy1rJdVb4giCNvRNBP8LJK7LqCDSCee29+z8MAR2E2h6knN+BsZ7r
- a8eHn4UdeOgz0h6fgmbiLtJH8zxFeQbjCQM0LX4mKlQ5Esw+bZA/sB0+iHHfEvZ8s539
- LcNnJDGHYYQkhbYIjZPfP4C4u+6yK+BOIuR3MbRf8Pcpy4emKO7ynM2SbTYBdpqkqzQd
- tmwxv6NEw6O0eqpBVPAKqCb+WJF61qMtNi5HIBheSDMrvH+8BAmgIv2sUAq2kTpC8bEm
- gvXafs4eIw1hJ5XNKihs8wOim8B6YyJEowiwnit7BN9XTdJirAQApx1QT4DLpk8pG91O
- r6Ng==
-X-Gm-Message-State: AOAM533QhgpOBUjaWTRO2M2va/oxBnirY7jrml8H/wHMbb8uqVnAee0R
- /hJmpKL/tsvQDb9SVn5cjpIksfuFNi8=
-X-Google-Smtp-Source: ABdhPJxpnrlLiH0gqoBgTf9HrxAUtr1iVRVxyB+sI+hRFha/hA6MkyjLbUjLAbwSTwRwRW77s+0NwQ==
-X-Received: by 2002:a2e:9e87:: with SMTP id f7mr11640148ljk.44.1593540363238; 
- Tue, 30 Jun 2020 11:06:03 -0700 (PDT)
+ bh=zM3QLSVuRc5t11YYc0eyAUVeFlCyX/4HEQGX3Y4hpeE=;
+ b=ViUZ2bh1yBBensqyBzUUDufqqLHvL/TqeurgKxDKHyaTZdXtCYhhChmNXx7Vhn5MuU
+ uRC9ZF2xgCYlqy/mWOvc8pr2lC63SsgSixjNjAbIBUpXZi58+4XBb/EHWbeptByXpPVB
+ 9Hqp6T3SMkU1TBSGRm9xlmHu+RbgfhGBrxB/e6/K1tb7yY0QD6XZpS2B7HXk0Yoo0Ulp
+ S0AmHTD0+ruEYxE1NiZZMx2SUcKt6BcEdXbqK96yU7Kp41w/0qoIhQPX+oUHJVd7iyba
+ aCGVYPthIb6R0gmzqjj00Jtc4iXANVFTjAI+Fg9ZGksZTZlLCwV+sWpgLqF46E9YYiNw
+ HEVw==
+X-Gm-Message-State: AOAM533dAVCHJr0/WX5I7P8WvU3z1AY03AmLcVarbc9JVCz8356cj3zR
+ XwrCzYDLyNhM9mqXBH/uu+oIAhVzVU8=
+X-Google-Smtp-Source: ABdhPJxyye6+JFaUrgWkfD0xC/3PGnNRL1Mlvy9ZV5QYt0D+qDei9nFrMk7u+TFxmsaOjnqGslnozg==
+X-Received: by 2002:a2e:a410:: with SMTP id p16mr11214849ljn.231.1593540364950; 
+ Tue, 30 Jun 2020 11:06:04 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:ddb6:1d37:ac40:1f27])
- by smtp.gmail.com with ESMTPSA id c14sm948208ljj.112.2020.06.30.11.06.01
+ by smtp.gmail.com with ESMTPSA id c14sm948208ljj.112.2020.06.30.11.06.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 11:06:02 -0700 (PDT)
+ Tue, 30 Jun 2020 11:06:04 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 6/7] drm/drm_connector: drop legacy drm_bus_flags values
-Date: Tue, 30 Jun 2020 20:05:44 +0200
-Message-Id: <20200630180545.1132217-7-sam@ravnborg.org>
+Subject: [PATCH v1 7/7] drm/drm_connector: use inline comments for
+ drm_bus_flags
+Date: Tue, 30 Jun 2020 20:05:45 +0200
+Message-Id: <20200630180545.1132217-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200630180545.1132217-1-sam@ravnborg.org>
 References: <20200630180545.1132217-1-sam@ravnborg.org>
@@ -78,7 +79,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the now unused legacy drm_bus_flags values.
+Use inline comments for the drm_bus_flags enum.
+This makes it easier to add more description comments in the future
+should the need arise.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -88,57 +91,131 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- include/drm/drm_connector.h | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ include/drm/drm_connector.h | 100 +++++++++++++++++++++++++++---------
+ 1 file changed, 77 insertions(+), 23 deletions(-)
 
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 6a451b86c454..7dc804488ccd 100644
+index 7dc804488ccd..af145608b5ed 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -323,8 +323,6 @@ struct drm_monitor_range_info {
-  *
-  * @DRM_BUS_FLAG_DE_LOW:		The Data Enable signal is active low
-  * @DRM_BUS_FLAG_DE_HIGH:		The Data Enable signal is active high
-- * @DRM_BUS_FLAG_PIXDATA_POSEDGE:	Legacy value, do not use
-- * @DRM_BUS_FLAG_PIXDATA_NEGEDGE:	Legacy value, do not use
-  * @DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE:	Data is driven on the rising edge of
-  *					the pixel clock
-  * @DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE:	Data is driven on the falling edge of
-@@ -335,8 +333,6 @@ struct drm_monitor_range_info {
-  *					the pixel clock
-  * @DRM_BUS_FLAG_DATA_MSB_TO_LSB:	Data is transmitted MSB to LSB on the bus
-  * @DRM_BUS_FLAG_DATA_LSB_TO_MSB:	Data is transmitted LSB to MSB on the bus
-- * @DRM_BUS_FLAG_SYNC_POSEDGE:		Legacy value, do not use
-- * @DRM_BUS_FLAG_SYNC_NEGEDGE:		Legacy value, do not use
-  * @DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE:	Sync signals are driven on the rising
-  *					edge of the pixel clock
-  * @DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE:	Sync signals are driven on the falling
-@@ -351,20 +347,16 @@ struct drm_monitor_range_info {
+@@ -320,43 +320,97 @@ struct drm_monitor_range_info {
+  * opposite edge of the driving edge. Transmitters and receivers may however
+  * need to take other signal timings into account to convert between driving
+  * and sample edges.
+- *
+- * @DRM_BUS_FLAG_DE_LOW:		The Data Enable signal is active low
+- * @DRM_BUS_FLAG_DE_HIGH:		The Data Enable signal is active high
+- * @DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE:	Data is driven on the rising edge of
+- *					the pixel clock
+- * @DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE:	Data is driven on the falling edge of
+- *					the pixel clock
+- * @DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE: Data is sampled on the rising edge of
+- *					the pixel clock
+- * @DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE: Data is sampled on the falling edge of
+- *					the pixel clock
+- * @DRM_BUS_FLAG_DATA_MSB_TO_LSB:	Data is transmitted MSB to LSB on the bus
+- * @DRM_BUS_FLAG_DATA_LSB_TO_MSB:	Data is transmitted LSB to MSB on the bus
+- * @DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE:	Sync signals are driven on the rising
+- *					edge of the pixel clock
+- * @DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE:	Sync signals are driven on the falling
+- *					edge of the pixel clock
+- * @DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE:	Sync signals are sampled on the rising
+- *					edge of the pixel clock
+- * @DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE:	Sync signals are sampled on the falling
+- *					edge of the pixel clock
+- * @DRM_BUS_FLAG_SHARP_SIGNALS:		Set if the Sharp-specific signals
+- *					(SPL, CLS, PS, REV) must be used
+  */
  enum drm_bus_flags {
++	/**
++	 * @DRM_BUS_FLAG_DE_LOW:
++	 *
++	 * The Data Enable signal is active low
++	 */
  	DRM_BUS_FLAG_DE_LOW = BIT(0),
++
++	/**
++	 * @DRM_BUS_FLAG_DE_HIGH:
++	 *
++	 * The Data Enable signal is active high
++	 */
  	DRM_BUS_FLAG_DE_HIGH = BIT(1),
--	DRM_BUS_FLAG_PIXDATA_POSEDGE = BIT(2),
--	DRM_BUS_FLAG_PIXDATA_NEGEDGE = BIT(3),
--	DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE = DRM_BUS_FLAG_PIXDATA_POSEDGE,
--	DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_NEGEDGE,
--	DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE = DRM_BUS_FLAG_PIXDATA_NEGEDGE,
--	DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE = BIT(2),
-+	DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE = BIT(3),
-+	DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++
++	/**
++	 * @DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE:
++	 *
++	 * Data is driven on the rising edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE = BIT(2),
++
++	/**
++	 * @DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE:
++	 *
++	 * Data is driven on the falling edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE = BIT(3),
++
++	/**
++	 * @DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE:
++	 *
++	 * Data is sampled on the rising edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
++
++	/**
++	 * @DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE:
++	 *
++	 * Data is sampled on the falling edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++
++	/**
++	 * @DRM_BUS_FLAG_DATA_MSB_TO_LSB:
++	 *
++	 * Data is transmitted MSB to LSB on the bus
++	 */
  	DRM_BUS_FLAG_DATA_MSB_TO_LSB = BIT(4),
++
++	/**
++	 * @DRM_BUS_FLAG_DATA_LSB_TO_MSB:
++	 *
++	 * Data is transmitted LSB to MSB on the bus
++	 */
  	DRM_BUS_FLAG_DATA_LSB_TO_MSB = BIT(5),
--	DRM_BUS_FLAG_SYNC_POSEDGE = BIT(6),
--	DRM_BUS_FLAG_SYNC_NEGEDGE = BIT(7),
--	DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE = DRM_BUS_FLAG_SYNC_POSEDGE,
--	DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE = DRM_BUS_FLAG_SYNC_NEGEDGE,
--	DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE = DRM_BUS_FLAG_SYNC_NEGEDGE,
--	DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE = DRM_BUS_FLAG_SYNC_POSEDGE,
-+	DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE = BIT(6),
-+	DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE = BIT(7),
-+	DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE = DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE,
-+	DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE = DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
++
++	/**
++	 * @DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE:
++	 *
++	 * Sync signals are driven on the rising edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE = BIT(6),
++
++	/**
++	 * @DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE:
++	 *
++	 * Sync signals are driven on the falling edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE = BIT(7),
++
++	/**
++	 * @DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE:
++	 *
++	 * Sync signals are sampled on the rising edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE = DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE,
++
++	/**
++	 * @DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE:
++	 *
++	 * Sync signals are sampled on the falling edge of the pixel clock
++	 */
+ 	DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE = DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
++
++	/**
++	 * @DRM_BUS_FLAG_SHARP_SIGNALS:
++	 *
++	 *  Set if the Sharp-specific signals (SPL, CLS, PS, REV) must be used
++	 */
  	DRM_BUS_FLAG_SHARP_SIGNALS = BIT(8),
  };
  
