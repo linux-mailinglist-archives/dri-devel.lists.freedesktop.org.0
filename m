@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6191F20FEC8
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A24D20FEC9
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2386E30C;
-	Tue, 30 Jun 2020 21:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2C66E321;
+	Tue, 30 Jun 2020 21:28:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653E16E2E5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB6DE6E2E5;
  Tue, 30 Jun 2020 21:28:36 +0000 (UTC)
-IronPort-SDR: PHQ4tuDdFrYxZ8Uu1FdAndZzo31aZ2dd0rOhmr5R41cCTFHVCVoV9qlLe1z9ks9R6syOvRWkz2
- yIZM+rRNe7iw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="146386940"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="146386940"
+IronPort-SDR: HvPSqlA3gb1YLCshUfb2fkIilQR1+uN3T5zylGIDU5nP9vO8yLIIl3BvfJVnInFC9DQyfvV4fm
+ rV1HJ1TMAm6Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="146386942"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="146386942"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Jun 2020 14:28:36 -0700
-IronPort-SDR: M2F2NlIyR3oWkY0YYxbyrmzNyEEmE9d5jYneJab/1Iuxm0bjrLStxKSo4N3nBf0McFyC/i8oqI
- dGpD3zK6Gq6g==
+IronPort-SDR: MZtYoO7UZYC783HNSb5fkO2YU+2ldQOjrJI1CHdxORFoa6GIdM8325Wi56RJp6Riv+vqF8zYas
+ tKKZbsbg9nlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066619"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066623"
 Received: from hdwiyono-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.254.176.225])
- by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:35 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:36 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH 05/59] drm/kmb: Updated kmb_plane_atomic_check
-Date: Tue, 30 Jun 2020 14:27:17 -0700
-Message-Id: <1593552491-23698-6-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH 06/59] drm/kmb: Initial check-in for Mipi DSI
+Date: Tue, 30 Jun 2020 14:27:18 -0700
+Message-Id: <1593552491-23698-7-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,204 +52,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
  rodrigo.vivi@intel.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check if format is supported and size is within limits.
-
-v2: simplified the code as per code review
-
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
----
- drivers/gpu/drm/kmb/kmb_plane.c | 111 +++++++++++++++++++++++-----------------
- 1 file changed, 65 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 9f1e44f..886229a 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -41,15 +41,66 @@
- #include "kmb_regs.h"
- #include "kmb_drv.h"
- 
-+/* graphics layer ( layers 2 & 3) formats, only packed formats  are supported*/
-+static const u32 kmb_formats_g[] = {
-+	DRM_FORMAT_RGB332,
-+	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
-+	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
-+	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
-+	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
-+	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
-+};
-+
-+#define MAX_FORMAT_G	(ARRAY_SIZE(kmb_formats_g))
-+#define MAX_FORMAT_V	(ARRAY_SIZE(kmb_formats_v))
-+
-+/* video layer ( 0 & 1) formats, packed and planar formats are supported */
-+static const u32 kmb_formats_v[] = {
-+	/* packed formats */
-+	DRM_FORMAT_RGB332,
-+	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
-+	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
-+	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
-+	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
-+	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
-+	/*planar formats */
-+	DRM_FORMAT_YUV420, DRM_FORMAT_YVU420,
-+	DRM_FORMAT_YUV422, DRM_FORMAT_YVU422,
-+	DRM_FORMAT_YUV444, DRM_FORMAT_YVU444,
-+	DRM_FORMAT_NV12, DRM_FORMAT_NV21,
-+};
-+
-+static unsigned int check_pixel_format(struct drm_plane *plane, u32 format)
-+{
-+	int i;
-+
-+	for (i = 0; i < plane->format_count; i++) {
-+		if (plane->format_types[i] == format)
-+			return 0;
-+	}
-+	return -EINVAL;
-+}
-+
- static int kmb_plane_atomic_check(struct drm_plane *plane,
- 				  struct drm_plane_state *state)
- {
--/* TBD below structure will be used for implementation later
-- *	struct drm_crtc_state *crtc_state;
-- */
--	/* TBD */
--	/* Plane based checking */
-+	struct drm_framebuffer *fb;
-+	int ret;
-+
-+	fb = state->fb;
- 
-+	ret = check_pixel_format(plane, fb->format->format);
-+	if (ret)
-+		return ret;
-+
-+	if (state->crtc_w > KMB_MAX_WIDTH || state->crtc_h > KMB_MAX_HEIGHT)
-+		return -EINVAL;
- 	return 0;
- }
- 
-@@ -58,36 +109,36 @@ unsigned int set_pixel_format(u32 format)
- 	unsigned int val = 0;
- 
- 	switch (format) {
--	/*planar formats */
-+		/*planar formats */
- 	case DRM_FORMAT_YUV444:
- 		val = LCD_LAYER_FORMAT_YCBCR444PLAN | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_YVU444:
- 		val = LCD_LAYER_FORMAT_YCBCR444PLAN | LCD_LAYER_PLANAR_STORAGE
--			| LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
- 	case DRM_FORMAT_YUV422:
- 		val = LCD_LAYER_FORMAT_YCBCR422PLAN | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_YVU422:
- 		val = LCD_LAYER_FORMAT_YCBCR422PLAN | LCD_LAYER_PLANAR_STORAGE
--		       | LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
- 	case DRM_FORMAT_YUV420:
- 		val = LCD_LAYER_FORMAT_YCBCR420PLAN | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_YVU420:
- 		val = LCD_LAYER_FORMAT_YCBCR420PLAN | LCD_LAYER_PLANAR_STORAGE
--		       | LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
- 	case DRM_FORMAT_NV12:
- 		val = LCD_LAYER_FORMAT_NV12 | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_NV21:
- 		val = LCD_LAYER_FORMAT_NV12 | LCD_LAYER_PLANAR_STORAGE
--		       | LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
--	/* packed formats */
-+		/* packed formats */
- 	case DRM_FORMAT_RGB332:
- 		val = LCD_LAYER_FORMAT_RGB332;
- 		break;
-@@ -147,7 +198,7 @@ unsigned int set_bits_per_pixel(const struct drm_format_info *format)
- 	unsigned int val = 0;
- 
- 	for (i = 0; i < format->num_planes; i++)
--		bpp += 8*format->cpp[i];
-+		bpp += 8 * format->cpp[i];
- 
- 	switch (bpp) {
- 	case 8:
-@@ -191,8 +242,8 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	crtc_x = plane->state->crtc_x;
- 	crtc_y = plane->state->crtc_y;
- 
--	kmb_write(lcd, LCD_LAYERn_WIDTH(plane_id), src_w-1);
--	kmb_write(lcd, LCD_LAYERn_HEIGHT(plane_id), src_h-1);
-+	kmb_write(lcd, LCD_LAYERn_WIDTH(plane_id), src_w - 1);
-+	kmb_write(lcd, LCD_LAYERn_HEIGHT(plane_id), src_h - 1);
- 	kmb_write(lcd, LCD_LAYERn_COL_START(plane_id), crtc_x);
- 	kmb_write(lcd, LCD_LAYERn_ROW_START(plane_id), crtc_y);
- 
-@@ -315,38 +366,6 @@ static const struct drm_plane_funcs kmb_plane_funcs = {
- 	.atomic_destroy_state = kmb_destroy_plane_state,
- };
- 
--/* graphics layer ( layers 2 & 3) formats, only packed formats  are supported*/
--static const u32 kmb_formats_g[] = {
--	DRM_FORMAT_RGB332,
--	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
--	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
--	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
--	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
--	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
--	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
--	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
--	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
--};
--
--/* video layer (0 & 1) formats, packed and planar formats are supported */
--static const u32 kmb_formats_v[] = {
--	/* packed formats */
--	DRM_FORMAT_RGB332,
--	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
--	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
--	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
--	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
--	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
--	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
--	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
--	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
--	/*planar formats */
--	DRM_FORMAT_YUV420, DRM_FORMAT_YVU420,
--	DRM_FORMAT_YUV422, DRM_FORMAT_YVU422,
--	DRM_FORMAT_YUV444, DRM_FORMAT_YVU444,
--	DRM_FORMAT_NV12, DRM_FORMAT_NV21,
--};
--
- struct kmb_plane *kmb_plane_init(struct drm_device *drm)
- {
- 	struct kmb_drm_private *lcd = drm->dev_private;
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QmFzaWMgZnJhbWUgd29yayBmb3IgbWlwaSBlbmNvZGVyIGFuZCBjb25uZWN0b3IuCk1vcmUgaGFy
+ZHdhcmUgc3BlY2lmaWMgZGV0YWlscyB3aWxsIGJlIGFkZGVkIGluIHRoZSBmdXR1cmUgY29tbWl0
+cy4KClNpZ25lZC1vZmYtYnk6IEFuaXRoYSBDaHJpc2FudGh1cyA8YW5pdGhhLmNocmlzYW50aHVz
+QGludGVsLmNvbT4KUmV2aWV3ZWQtYnk6IEJvYiBQYWF1d2UgPGJvYi5qLnBhYXV3ZUBpbnRlbC5j
+b20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2ttYi9NYWtlZmlsZSAgfCAgIDIgKy0KIGRyaXZlcnMv
+Z3B1L2RybS9rbWIva21iX2Rydi5jIHwgICAyICsKIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rz
+aS5jIHwgMTE0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogZHJp
+dmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmggfCAgNTggKysrKysrKysrKysrKysrKysrKysrCiA0
+IGZpbGVzIGNoYW5nZWQsIDE3NSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiBjcmVhdGUg
+bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmMKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuaAoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9rbWIvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0va21iL01ha2VmaWxlCmluZGV4
+IGJlOWYxOWMuLjgxMDJiYzkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9rbWIvTWFrZWZp
+bGUKKysrIGIvZHJpdmVycy9ncHUvZHJtL2ttYi9NYWtlZmlsZQpAQCAtMSwyICsxLDIgQEAKLWtt
+Yi1kaXNwbGF5LXkgOj0ga21iX2NydGMubyBrbWJfZHJ2Lm8ga21iX3BsYW5lLm8KK2ttYi1kaXNw
+bGF5LXkgOj0ga21iX2NydGMubyBrbWJfZHJ2Lm8ga21iX3BsYW5lLm8ga21iX2RzaS5vCiBvYmot
+JChDT05GSUdfRFJNX0tNQl9ESVNQTEFZKQkrPSBrbWItZGlzcGxheS5vCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0va21iL2ttYl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Ry
+di5jCmluZGV4IGVlNGUzYmQuLjI0ZTdjMmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9r
+bWIva21iX2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rydi5jCkBAIC00Nyw2
+ICs0Nyw3IEBACiAjaW5jbHVkZSAia21iX3JlZ3MuaCIKICNpbmNsdWRlICJrbWJfY3J0Yy5oIgog
+I2luY2x1ZGUgImttYl9wbGFuZS5oIgorI2luY2x1ZGUgImttYl9kc2kuaCIKIAogc3RhdGljIGlu
+dCBrbWJfbG9hZChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCB1bnNpZ25lZCBsb25nIGZsYWdzKQog
+ewpAQCAtODMsNiArODQsNyBAQCBzdGF0aWMgaW50IGttYl9sb2FkKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkcm0sIHVuc2lnbmVkIGxvbmcgZmxhZ3MpCiAJCWdvdG8gc2V0dXBfZmFpbDsKIAl9CiAKKwlr
+bWJfZHNpX2luaXQoZHJtKTsKIAlyZXQgPSBkcm1faXJxX2luc3RhbGwoZHJtLCBwbGF0Zm9ybV9n
+ZXRfaXJxKHBkZXYsIDApKTsKIAlpZiAocmV0IDwgMCkgewogCQlEUk1fRVJST1IoImZhaWxlZCB0
+byBpbnN0YWxsIElSUSBoYW5kbGVyXG4iKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9r
+bWIva21iX2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmMKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKaW5kZXggMDAwMDAwMC4uYjVjNTdlMQotLS0gL2Rldi9udWxsCisrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9rbWIva21iX2RzaS5jCkBAIC0wLDAgKzEsMTE0IEBACisvLyBTUERYLUxpY2Vu
+c2UtSWRlbnRpZmllcjogR1BMLTIuMAorLyoKKyAqIENvcHlyaWdodCDCqSAyMDE5IEludGVsIENv
+cnBvcmF0aW9uCisgKgorICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBj
+aGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKKyAqIGNvcHkgb2YgdGhpcyBzb2Z0d2Fy
+ZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCisg
+KiB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcg
+d2l0aG91dCBsaW1pdGF0aW9uCisgKiB0aGUgcmlnaHRzIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBt
+ZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwKKyAqIGFuZC9vciBzZWxsIGNv
+cGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZQor
+ICogU29mdHdhcmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dp
+bmcgY29uZGl0aW9uczoKKyAqCisgKiBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhp
+cyBwZXJtaXNzaW9uIG5vdGljZSAoaW5jbHVkaW5nIHRoZSBuZXh0CisgKiBwYXJhZ3JhcGgpIHNo
+YWxsIGJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2Yg
+dGhlCisgKiBTb2Z0d2FyZS4KKyAqCisgKiBUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElT
+IiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgorICogSU1QTElFRCwg
+SU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFC
+SUxJVFksCisgKiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklO
+R0VNRU5ULiAgSU4gTk8gRVZFTlQgU0hBTEwKKyAqIFRIRSBBVVRIT1JTIE9SIENPUFlSSUdIVCBI
+T0xERVJTIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBEQU1BR0VTIE9SIE9USEVSCisgKiBMSUFC
+SUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lT
+RSwgQVJJU0lORyBGUk9NLAorICogT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09G
+VFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUiBERUFMSU5HUyBJTiBUSEUKKyAqIFNPRlRXQVJFLgor
+ICoKKyAqCisgKi8KKyNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4KKyNpbmNsdWRl
+IDxkcm0vZHJtX2NydGMuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX3Byb2JlX2hlbHBlci5oPgorI2lu
+Y2x1ZGUgPGRybS9kcm1fY3J0Y19oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2Nvbm5lY3Rv
+ci5oPgorI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPgorI2luY2x1ZGUgPGRybS9kcm1fbWlwaV9k
+c2kuaD4KKyNpbmNsdWRlIDxsaW51eC9zbGFiLmg+CisjaW5jbHVkZSA8bGludXgvZ3Bpby9jb25z
+dW1lci5oPgorI2luY2x1ZGUgImttYl9kcnYuaCIKKyNpbmNsdWRlICJrbWJfZHNpLmgiCisKK3N0
+YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cwora21iX2RzaV9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1f
+Y29ubmVjdG9yICpjb25uZWN0b3IsCisJCSAgIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2Rl
+KQoreworCXJldHVybiBNT0RFX09LOworfQorCitzdGF0aWMgaW50IGttYl9kc2lfZ2V0X21vZGVz
+KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCit7CisJc3RydWN0IGRybV9kaXNwbGF5
+X21vZGUgKm1vZGU7CisJc3RydWN0IGttYl9jb25uZWN0b3IgKmttYl9jb25uZWN0b3IgPSB0b19r
+bWJfY29ubmVjdG9yKGNvbm5lY3Rvcik7CisKKwltb2RlID0gZHJtX21vZGVfZHVwbGljYXRlKGNv
+bm5lY3Rvci0+ZGV2LCBrbWJfY29ubmVjdG9yLT5maXhlZF9tb2RlKTsKKwlkcm1fbW9kZV9wcm9i
+ZWRfYWRkKGNvbm5lY3RvciwgbW9kZSk7CisJcmV0dXJuIDE7Cit9CisKK3N0YXRpYyB2b2lkIGtt
+Yl9kc2lfY29ubmVjdG9yX2Rlc3Ryb3koc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikK
+K3sKKwlzdHJ1Y3Qga21iX2Nvbm5lY3RvciAqa21iX2Nvbm5lY3RvciA9IHRvX2ttYl9jb25uZWN0
+b3IoY29ubmVjdG9yKTsKKworCWRybV9jb25uZWN0b3JfY2xlYW51cChjb25uZWN0b3IpOworCWtm
+cmVlKGttYl9jb25uZWN0b3IpOworfQorCitzdGF0aWMgdm9pZCBrbWJfZHNpX2VuY29kZXJfZGVz
+dHJveShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpCit7CisJc3RydWN0IGttYl9kc2kgKmtt
+Yl9kc2kgPSB0b19rbWJfZHNpKGVuY29kZXIpOworCisJZHJtX2VuY29kZXJfY2xlYW51cChlbmNv
+ZGVyKTsKKwlrZnJlZShrbWJfZHNpKTsKK30KKworc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZW5j
+b2Rlcl9mdW5jcyBrbWJfZHNpX2Z1bmNzID0geworCS5kZXN0cm95ID0ga21iX2RzaV9lbmNvZGVy
+X2Rlc3Ryb3ksCit9OworCitzdGF0aWMgY29uc3Qgc3RydWN0Citkcm1fY29ubmVjdG9yX2hlbHBl
+cl9mdW5jcyBrbWJfZHNpX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgPSB7CisJLmdldF9tb2RlcyA9
+IGttYl9kc2lfZ2V0X21vZGVzLAorCS5tb2RlX3ZhbGlkID0ga21iX2RzaV9tb2RlX3ZhbGlkLAor
+fTsKKworc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIGttYl9kc2lfY29u
+bmVjdG9yX2Z1bmNzID0geworCS5kZXN0cm95ID0ga21iX2RzaV9jb25uZWN0b3JfZGVzdHJveSwK
+KwkuZmlsbF9tb2RlcyA9IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcywK
+KwkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfZGVz
+dHJveV9zdGF0ZSwKKwkuYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSA9IGRybV9hdG9taWNfaGVscGVy
+X2Nvbm5lY3Rvcl9kdXBsaWNhdGVfc3RhdGUsCit9OworCit2b2lkIGttYl9kc2lfaW5pdChzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2KQoreworCXN0cnVjdCBrbWJfZHNpICprbWJfZHNpOworCXN0cnVj
+dCBkcm1fZW5jb2RlciAqZW5jb2RlcjsKKwlzdHJ1Y3Qga21iX2Nvbm5lY3RvciAqa21iX2Nvbm5l
+Y3RvcjsKKwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOworCisJa21iX2RzaSA9IGt6
+YWxsb2Moc2l6ZW9mKCprbWJfZHNpKSwgR0ZQX0tFUk5FTCk7CisJaWYgKCFrbWJfZHNpKQorCQly
+ZXR1cm47CisKKwlrbWJfY29ubmVjdG9yID0ga3phbGxvYyhzaXplb2YoKmttYl9jb25uZWN0b3Ip
+LCBHRlBfS0VSTkVMKTsKKwlpZiAoIWttYl9jb25uZWN0b3IpIHsKKwkJa2ZyZWUoa21iX2RzaSk7
+CisJCXJldHVybjsKKwl9CisKKwlrbWJfZHNpLT5hdHRhY2hlZF9jb25uZWN0b3IgPSBrbWJfY29u
+bmVjdG9yOworCisJY29ubmVjdG9yID0gJmttYl9jb25uZWN0b3ItPmJhc2U7CisJZW5jb2RlciA9
+ICZrbWJfZHNpLT5iYXNlOworCWRybV9lbmNvZGVyX2luaXQoZGV2LCBlbmNvZGVyLCAma21iX2Rz
+aV9mdW5jcywgRFJNX01PREVfRU5DT0RFUl9EU0ksCisJCQkgIk1JUEktRFNJIik7CisJZHJtX2Nv
+bm5lY3Rvcl9pbml0KGRldiwgY29ubmVjdG9yLCAma21iX2RzaV9jb25uZWN0b3JfZnVuY3MsCisJ
+CQkgICBEUk1fTU9ERV9DT05ORUNUT1JfRFNJKTsKKwlkcm1fY29ubmVjdG9yX2hlbHBlcl9hZGQo
+Y29ubmVjdG9yLCAma21iX2RzaV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzKTsKK30KZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX2RzaS5oIGIvZHJpdmVycy9ncHUvZHJtL2ttYi9r
+bWJfZHNpLmgKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMC4uMzgyOTM2MAotLS0g
+L2Rldi9udWxsCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX2RzaS5oCkBAIC0wLDAgKzEs
+NTggQEAKKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQKKyAqCisgKiBDb3B5cmlnaHQg
+wqkgMjAxOSBJbnRlbCBDb3Jwb3JhdGlvbgorICoKKyAqIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdy
+YW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhCisgKiBjb3B5
+IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhl
+ICJTb2Z0d2FyZSIpLAorICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmlj
+dGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgorICogdGhlIHJpZ2h0cyB0byB1c2Us
+IGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsCisg
+KiBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNv
+bnMgdG8gd2hvbSB0aGUKKyAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVj
+dCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisgKgorICogVGhlIGFib3ZlIGNvcHlyaWdo
+dCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2UgKGluY2x1ZGluZyB0aGUgbmV4dAor
+ICogcGFyYWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50
+aWFsIHBvcnRpb25zIG9mIHRoZQorICogU29mdHdhcmUuCisgKgorICogVEhFIFNPRlRXQVJFIElT
+IFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1Mg
+T1IKKyAqIElNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJ
+RVMgT0YgTUVSQ0hBTlRBQklMSVRZLAorICogRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBP
+U0UgQU5EIE5PTklORlJJTkdFTUVOVC4gIElOIE5PIEVWRU5UIFNIQUxMCisgKiBUSEUgQVVUSE9S
+UyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdFUyBP
+UiBPVEhFUgorICogTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwg
+VE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwKKyAqIE9VVCBPRiBPUiBJTiBDT05ORUNU
+SU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIgREVBTElOR1MgSU4gVEhF
+CisgKiBTT0ZUV0FSRS4KKyAqCisgKgorICovCisjaWZuZGVmIF9fS01CX0RTSV9IX18KKyNkZWZp
+bmUgX19LTUJfRFNJX0hfXworCisjaW5jbHVkZSA8ZHJtL2RybV9jcnRjLmg+CisjaW5jbHVkZSA8
+ZHJtL2RybV9taXBpX2RzaS5oPgorI2luY2x1ZGUgPGRybS9kcm1fbW9kZXMuaD4KKyNpbmNsdWRl
+ICJrbWJfZHJ2LmgiCisKK3N0cnVjdCBrbWJfY29ubmVjdG9yOworCitzdHJ1Y3Qga21iX2RzaSB7
+CisJc3RydWN0IGRybV9lbmNvZGVyIGJhc2U7CisJc3RydWN0IGttYl9jb25uZWN0b3IgKmF0dGFj
+aGVkX2Nvbm5lY3RvcjsKK307CisKK3N0cnVjdCBrbWJfZHNpX2hvc3QgeworCXN0cnVjdCBtaXBp
+X2RzaV9ob3N0IGJhc2U7CisJc3RydWN0IGttYl9kc2kgKmttYl9kc2k7Cit9OworCitzdHJ1Y3Qg
+a21iX2Nvbm5lY3RvciB7CisJc3RydWN0IGRybV9jb25uZWN0b3IgYmFzZTsKKwlzdHJ1Y3QgZHJt
+X2Rpc3BsYXlfbW9kZSAqZml4ZWRfbW9kZTsKK307CisKK3ZvaWQga21iX2RzaV9pbml0KHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYpOwordm9pZCBrbWJfcGxhbmVfZGVzdHJveShzdHJ1Y3QgZHJtX3Bs
+YW5lICpwbGFuZSk7CisKKyNkZWZpbmUgdG9fa21iX2Nvbm5lY3Rvcih4KSBjb250YWluZXJfb2Yo
+eCwgc3RydWN0IGttYl9jb25uZWN0b3IsIGJhc2UpCisjZGVmaW5lIHRvX2ttYl9ob3N0KHgpIGNv
+bnRhaW5lcl9vZih4LCBzdHJ1Y3Qga21iX2RzaV9ob3N0LCBiYXNlKQorI2RlZmluZSB0b19rbWJf
+ZHNpKHgpIGNvbnRhaW5lcl9vZih4LCBzdHJ1Y3Qga21iX2RzaSwgYmFzZSkKKworI2VuZGlmIC8q
+IF9fS01CX0RTSV9IX18gKi8KLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
