@@ -1,122 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E6220FD70
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 22:08:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5558020FD81
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 22:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C18F6E196;
-	Tue, 30 Jun 2020 20:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF54889C19;
+	Tue, 30 Jun 2020 20:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0386E196
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 20:08:54 +0000 (UTC)
-IronPort-SDR: XepKEbXnb7laU/G1SWKFvf21UA+6e+7vWh9+Ml8pCl2Oyi59JrOQkkgJYDzpGaoxuIwNmscsMQ
- o3JoIj7Uo06Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="207888073"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="207888073"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 13:08:53 -0700
-IronPort-SDR: Z09R2WEjP+pQ+umDTqvA1TFHI6skQzEOQvdgmfQcBpwOksHlrsGgTiMXoM5IxWCtPW0HtxsvXJ
- ZjylQO6gJ2mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="355880623"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
- by orsmga001.jf.intel.com with ESMTP; 30 Jun 2020 13:08:53 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 30 Jun 2020 13:08:53 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 30 Jun 2020 13:08:52 -0700
-Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 30 Jun 2020 13:08:52 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.105)
- by edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 30 Jun 2020 13:08:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ibeFoc3eERfXirbi+R8XN4WnO2C0nAKlHqYqEga9UOBM/9BqtERcxhctG8y9CCHk0lF7w0ramiPvhKdzkmw52xi94OZfkE8CVkb7I9tvDTsL9kez0ZCrx/+hg+qDPVKkaVKGuRuLt/9TTlmNpTjuQQ/CKH1S8ig9u3pYEb1X0r5TVN3Bbmr8+wqxpFmNZK/OE0XiEBrFvxdSfFOW444NvQJJn1iLxS0YaIREe+N6+MsJFTmxTGL9jqvOTeiuuMZtZYHpapHQS0DYIqigF+brXyIISsGs4sj1zYCoRqsYX6XEK0pwp70/b1kPsrPH2snJGwe5in8K7GRAdVI9EQiWXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8KG/74OqfhKkJgqJDTxALbGpa9FztQThvmjNIx6EsCU=;
- b=YkWa+q0L31k+509nl5q/TJe1nQnpExRzma2/WQEACE3uz2Y5+WN5uOiUAm3CJMN2keUUgTzx91VDeNZD0eMV7Ax3ApKiMpYWWfITf+JfQgc1Ox63q9nqHLObIqhVhWlqlTDAfiLyM/qWXCYkTxfL354omefNjAsxEepALVoqj+SswqV6/KWN3LOpwDnAgJvYAOcj3hlIe9/IfuMELY2HSV7DZiSRzfsNC8LBkIsdx08v06ePCXeeNwx17hjLf8ERaVlcvn6Gdu1TkXnWVmariCeleTndRDqKU8sP61dULtSugVc5lP9qjtvNNxDxbuHXBP0jy4qxRndM6MEDEzuvjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8KG/74OqfhKkJgqJDTxALbGpa9FztQThvmjNIx6EsCU=;
- b=dlwhrsfQlSjS9JxRjjqMEaV3Geh8yERNRBPxF1HqDo9GABJKFnTWU0G20xFwiB9iI2ArQ5jTS0DuWy/dZ+ZnIqOYLEPBSOkkUaKoapRCakDTxGS0l+8GleIuZKeJ+irU36vQopsW9RUfy1kKXREEZKsL0O9PFRwQ6GAgtEI+a1c=
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
- by MWHPR11MB1310.namprd11.prod.outlook.com (2603:10b6:300:28::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Tue, 30 Jun
- 2020 20:08:46 +0000
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::ed68:a00b:2bb0:21cf]) by MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::ed68:a00b:2bb0:21cf%8]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
- 20:08:46 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: RE: [RFC PATCH v2 0/3] RDMA: add dma-buf support
-Thread-Topic: [RFC PATCH v2 0/3] RDMA: add dma-buf support
-Thread-Index: AQHWTjmKZPnzyjUH+EiOzVuDukOX/Kjv8EEAgAFgqNCAABwVgIAACtwwgAARwQCAAAePEA==
-Date: Tue, 30 Jun 2020 20:08:46 +0000
-Message-ID: <MW3PR11MB4555223B6D3C6E4829795798E56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
-References: <1593451903-30959-1-git-send-email-jianxin.xiong@intel.com>
- <20200629185152.GD25301@ziepe.ca>
- <MW3PR11MB4555A99038FA0CFC3ED80D3DE56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
- <20200630173435.GK25301@ziepe.ca>
- <MW3PR11MB45553FA6D144BF1053571D98E56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
- <20200630191700.GL25301@ziepe.ca>
-In-Reply-To: <20200630191700.GL25301@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: ziepe.ca; dkim=none (message not signed)
- header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [134.134.136.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4329e27c-c962-4718-a827-08d81d316579
-x-ms-traffictypediagnostic: MWHPR11MB1310:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR11MB13103632EFAC27A8C04D70B6E56F0@MWHPR11MB1310.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0450A714CB
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 58K1WtKMYAmo6EuIv/fhkJaWJA8owqPebHOeaDtZ+SgMkjLb6/UvPE4qAe/rIQWVuIzEdgWF8qH6AdtOsVsjewGwbNG3SqByOikFqqIuVFU4QIna1sWXBrY/e/c6DFJeTsxW76T/4gWqHp9jvUi7vis8YbSNBHZxiSHAY27NEmeJ6ROTCSxgKe/9DEZ3ByiynaYSTPWOqx6ALhDbqbeQgnE7brB7HO0x1E3hXV/HXn1BhOs7LtNKt4DjRXAy4yNDyrSKiYuqpxblnqZAyDw77sPkOsJLZGiK2Wb2ztIVtdDQ2gO3Vr2ZZMvzZNRGgnoCCmN7vlXDkQDKf0eq4WEmug==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(346002)(39860400002)(396003)(136003)(376002)(55016002)(7696005)(9686003)(53546011)(6506007)(478600001)(71200400001)(86362001)(316002)(54906003)(83380400001)(4326008)(186003)(52536014)(8676002)(5660300002)(76116006)(66946007)(66446008)(64756008)(66556008)(66476007)(33656002)(2906002)(26005)(8936002)(6916009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: bdTj1G6lFjN2tICCqgdZ9sK4WcTYtqugcom3VxNyY5SdH0hk2BCPfRirDb/GVubTvwEmWHPb++1AojGN3whKHO5AXNoNGQd0Y3e/MAEBLo1moj8z/M8IJDbA+siuEg7M2wurqTdEzSBK93F1NT0MZoZ88CkDGfAvLA5U1ENoQEFRMR0M12Fp8kX6XHMBiqVhoXe2O1FSXmNyf7c6CedkTrZQzr5z6hE9zuDkEsra/ElkETzHSa9x4zF6ih9ML7biEr/5l5L4QlaVLCBE6ae6R5ogFzGXBhXC+9cBtVf7FT8q5pO6swkJ/QuDRbC9p1jLQuVqgox79jB0YEUTRLKWJwpjQqlI7ig4p4hVtJrnLCazYvWZCEOVBoAQnwLHzoJqIDseZaIoHohkhEbmsHPk+Bdqmp6rdZJwjUh7+BoXLq0QCYhuGkTWuS04e9hWVr9aSwNML+oll+U4V3Iw6ZLEtEhfi1oxyUNcLGiZtpVzx7n7/hOEh7CAdSnWp5bErvsr
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1FBC89C19
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 20:15:23 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 4949380558;
+ Tue, 30 Jun 2020 22:15:20 +0200 (CEST)
+Date: Tue, 30 Jun 2020 22:15:18 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: backlight: Convert common backlight
+ bindings to DT schema
+Message-ID: <20200630201518.GA1163583@ravnborg.org>
+References: <20200630200111.1170742-1-robh@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4329e27c-c962-4718-a827-08d81d316579
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 20:08:46.4924 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Uyv/Isdl4WXin+pjwEXwBTXkPbFnwkYCcQu8Tv+2PHVGJr3XZkjA31hAyKurv2LUT2ttJyEo0viHSolcWBQPPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1310
-X-OriginatorOrg: intel.com
+Content-Disposition: inline
+In-Reply-To: <20200630200111.1170742-1-robh@kernel.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8
+ a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=LDWgo5KC_Z2-t0Z1-74A:9
+ a=D1p0UqrOMBU56ZgX:21 a=v5rLNfrWZjy50SLq:21 a=CjuIK1q_8ugA:10
+ a=cvBusfyB2V15izCimMoJ:22 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,83 +47,392 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Jason Gunthorpe <jgg@ziepe.ca>
-> Sent: Tuesday, June 30, 2020 12:17 PM
-> To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> Cc: linux-rdma@vger.kernel.org; Doug Ledford <dledford@redhat.com>; Sumit Semwal <sumit.semwal@linaro.org>; Leon Romanovsky
-> <leon@kernel.org>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig <christian.koenig@amd.com>; dri-
-> devel@lists.freedesktop.org
-> Subject: Re: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+On Tue, Jun 30, 2020 at 02:01:11PM -0600, Rob Herring wrote:
+> Convert the common GPIO, LED, and PWM backlight bindings to DT schema
+> format.
 > 
-> > >
-> > > On Tue, Jun 30, 2020 at 05:21:33PM +0000, Xiong, Jianxin wrote:
-> > > > > > Heterogeneous Memory Management (HMM) utilizes
-> > > > > > mmu_interval_notifier and ZONE_DEVICE to support shared
-> > > > > > virtual address space and page migration between system memory
-> > > > > > and device memory. HMM doesn't support pinning device memory
-> > > > > > because pages located on device must be able to migrate to
-> > > > > > system memory when accessed by CPU. Peer-to-peer access is
-> > > > > > possible if the peer can handle page fault. For RDMA, that means the NIC must support on-demand paging.
-> > > > >
-> > > > > peer-peer access is currently not possible with hmm_range_fault().
-> > > >
-> > > > Currently hmm_range_fault() always sets the cpu access flag and
-> > > > device private pages are migrated to the system RAM in the fault handler.
-> > > > However, it's possible to have a modified code flow to keep the
-> > > > device private page info for use with peer to peer access.
-> > >
-> > > Sort of, but only within the same device, RDMA or anything else generic can't reach inside a DEVICE_PRIVATE and extract anything
-> useful.
-> >
-> > But pfn is supposed to be all that is needed.
+> Given there's only 2 common properties and the descriptions are slightly
+> different, I opted to not create a common backlight schema.
 > 
-> Needed for what? The PFN of the DEVICE_PRIVATE pages is useless for anything.
-
-Hmm. I thought the pfn corresponds to the address in the BAR range. I could be
-wrong here. 
-
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+> v2:
+> - Reformat descriptions
+> - drop default-brightness-level dependency on brightness-levels for
+>   led-backlight
+> ---
+>  .../leds/backlight/gpio-backlight.txt         |  16 ---
+>  .../leds/backlight/gpio-backlight.yaml        |  41 +++++++
+>  .../bindings/leds/backlight/led-backlight.txt |  28 -----
+>  .../leds/backlight/led-backlight.yaml         |  57 ++++++++++
+>  .../bindings/leds/backlight/pwm-backlight.txt |  61 ----------
+>  .../leds/backlight/pwm-backlight.yaml         | 104 ++++++++++++++++++
+>  6 files changed, 202 insertions(+), 105 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
 > 
-> > > Well, what do you want to happen here? The RDMA parts are
-> > > reasonable, but I don't want to add new functionality without a
-> > > purpose - the other parts need to be settled out first.
-> >
-> > At the RDMA side, we mainly want to check if the changes are
-> > acceptable. For example, the part about adding 'fd' to the device ops
-> > and the ioctl interface. All the previous comments are very helpful
-> > for us to refine the patch so that we can be ready when GPU side
-> > support becomes available.
-> 
-> Well, I'm not totally happy with the way the umem and the fd is handled so roughly and incompletely..
-
-Yes, this feedback is very helpful. Will work on improving the code.
-
-> 
-> > > Hum. This is not actually so hard to do. The whole dma buf proposal
-> > > would make a lot more sense if the 'dma buf MR' had to be the
-> > > dynamic kind and the driver had to provide the faulting. It would
-> > > not be so hard to change mlx5 to be able to work like this, perhaps.
-> > > (the locking might be a bit tricky though)
-> >
-> > The main issue is that not all NICs support ODP.
-> 
-> Sure, but there is lots of infrastructure work here to be done on dma buf, having a correct consumer in the form of ODP might be helpful to
-> advance it.
-
-Good point. Thanks.
-
-> 
-> Jason
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
+> deleted file mode 100644
+> index 321be6640533..000000000000
+> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
+> +++ /dev/null
+> @@ -1,16 +0,0 @@
+> -gpio-backlight bindings
+> -
+> -Required properties:
+> -  - compatible: "gpio-backlight"
+> -  - gpios: describes the gpio that is used for enabling/disabling the backlight.
+> -    refer to bindings/gpio/gpio.txt for more details.
+> -
+> -Optional properties:
+> -  - default-on: enable the backlight at boot.
+> -
+> -Example:
+> -	backlight {
+> -		compatible = "gpio-backlight";
+> -		gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
+> -		default-on;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> new file mode 100644
+> index 000000000000..75cc569b9c55
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> @@ -0,0 +1,41 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/gpio-backlight.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: gpio-backlight bindings
+> +
+> +maintainers:
+> +  - Lee Jones <lee.jones@linaro.org>
+> +  - Daniel Thompson <daniel.thompson@linaro.org>
+> +  - Jingoo Han <jingoohan1@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: gpio-backlight
+> +
+> +  gpios:
+> +    description: The gpio that is used for enabling/disabling the backlight.
+> +    maxItems: 1
+> +
+> +  default-on:
+> +    description: enable the backlight at boot.
+> +    type: boolean
+> +
+> +required:
+> +  - compatible
+> +  - gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    backlight {
+> +        compatible = "gpio-backlight";
+> +        gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
+> +        default-on;
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> deleted file mode 100644
+> index 4c7dfbe7f67a..000000000000
+> --- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -led-backlight bindings
+> -
+> -This binding is used to describe a basic backlight device made of LEDs.
+> -It can also be used to describe a backlight device controlled by the output of
+> -a LED driver.
+> -
+> -Required properties:
+> -  - compatible: "led-backlight"
+> -  - leds: a list of LEDs
+> -
+> -Optional properties:
+> -  - brightness-levels: Array of distinct brightness levels. The levels must be
+> -                       in the range accepted by the underlying LED devices.
+> -                       This is used to translate a backlight brightness level
+> -                       into a LED brightness level. If it is not provided, the
+> -                       identity mapping is used.
+> -
+> -  - default-brightness-level: The default brightness level.
+> -
+> -Example:
+> -
+> -	backlight {
+> -		compatible = "led-backlight";
+> -
+> -		leds = <&led1>, <&led2>;
+> -		brightness-levels = <0 4 8 16 32 64 128 255>;
+> -		default-brightness-level = <6>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+> new file mode 100644
+> index 000000000000..625082bf3892
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+> @@ -0,0 +1,57 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/led-backlight.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: led-backlight bindings
+> +
+> +maintainers:
+> +  - Lee Jones <lee.jones@linaro.org>
+> +  - Daniel Thompson <daniel.thompson@linaro.org>
+> +  - Jingoo Han <jingoohan1@gmail.com>
+> +
+> +description:
+> +  This binding is used to describe a basic backlight device made of LEDs. It
+> +  can also be used to describe a backlight device controlled by the output of
+> +  a LED driver.
+> +
+> +properties:
+> +  compatible:
+> +    const: led-backlight
+> +
+> +  leds:
+> +    description: A list of LED nodes
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +
+> +  brightness-levels:
+> +    description:
+> +      Array of distinct brightness levels. The levels must be in the range
+> +      accepted by the underlying LED devices. This is used to translate a
+> +      backlight brightness level into a LED brightness level. If it is not
+> +      provided, the identity mapping is used.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
+> +  default-brightness-level:
+> +    description:
+> +      The default brightness level (index into the array defined by the
+> +      "brightness-levels" property).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +required:
+> +  - compatible
+> +  - leds
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    backlight {
+> +        compatible = "led-backlight";
+> +
+> +        leds = <&led1>, <&led2>;
+> +        brightness-levels = <0 4 8 16 32 64 128 255>;
+> +        default-brightness-level = <6>;
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
+> deleted file mode 100644
+> index 64fa2fbd98c9..000000000000
+> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -pwm-backlight bindings
+> -
+> -Required properties:
+> -  - compatible: "pwm-backlight"
+> -  - pwms: OF device-tree PWM specification (see PWM binding[0])
+> -  - power-supply: regulator for supply voltage
+> -
+> -Optional properties:
+> -  - pwm-names: a list of names for the PWM devices specified in the
+> -               "pwms" property (see PWM binding[0])
+> -  - enable-gpios: contains a single GPIO specifier for the GPIO which enables
+> -                  and disables the backlight (see GPIO binding[1])
+> -  - post-pwm-on-delay-ms: Delay in ms between setting an initial (non-zero) PWM
+> -                          and enabling the backlight using GPIO.
+> -  - pwm-off-delay-ms: Delay in ms between disabling the backlight using GPIO
+> -                      and setting PWM value to 0.
+> -  - brightness-levels: Array of distinct brightness levels. Typically these
+> -                       are in the range from 0 to 255, but any range starting at
+> -                       0 will do. The actual brightness level (PWM duty cycle)
+> -                       will be interpolated from these values. 0 means a 0% duty
+> -                       cycle (darkest/off), while the last value in the array
+> -                       represents a 100% duty cycle (brightest).
+> -  - default-brightness-level: The default brightness level (index into the
+> -                              array defined by the "brightness-levels" property).
+> -  - num-interpolated-steps: Number of interpolated steps between each value
+> -                            of brightness-levels table. This way a high
+> -                            resolution pwm duty cycle can be used without
+> -                            having to list out every possible value in the
+> -                            brightness-level array.
+> -
+> -[0]: Documentation/devicetree/bindings/pwm/pwm.txt
+> -[1]: Documentation/devicetree/bindings/gpio/gpio.txt
+> -
+> -Example:
+> -
+> -	backlight {
+> -		compatible = "pwm-backlight";
+> -		pwms = <&pwm 0 5000000>;
+> -
+> -		brightness-levels = <0 4 8 16 32 64 128 255>;
+> -		default-brightness-level = <6>;
+> -
+> -		power-supply = <&vdd_bl_reg>;
+> -		enable-gpios = <&gpio 58 0>;
+> -		post-pwm-on-delay-ms = <10>;
+> -		pwm-off-delay-ms = <10>;
+> -	};
+> -
+> -Example using num-interpolation-steps:
+> -
+> -	backlight {
+> -		compatible = "pwm-backlight";
+> -		pwms = <&pwm 0 5000000>;
+> -
+> -		brightness-levels = <0 2048 4096 8192 16384 65535>;
+> -		num-interpolated-steps = <2048>;
+> -		default-brightness-level = <4096>;
+> -
+> -		power-supply = <&vdd_bl_reg>;
+> -		enable-gpios = <&gpio 58 0>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> new file mode 100644
+> index 000000000000..fcb8429f3088
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> @@ -0,0 +1,104 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/pwm-backlight.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: pwm-backlight bindings
+> +
+> +maintainers:
+> +  - Lee Jones <lee.jones@linaro.org>
+> +  - Daniel Thompson <daniel.thompson@linaro.org>
+> +  - Jingoo Han <jingoohan1@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: pwm-backlight
+> +
+> +  pwms:
+> +    maxItems: 1
+> +
+> +  pwm-names: true
+> +
+> +  power-supply:
+> +    description: regulator for supply voltage
+> +
+> +  enable-gpios:
+> +    description:
+> +      Contains a single GPIO specifier for the GPIO which enables and disables
+> +      the backlight.
+> +    maxItems: 1
+> +
+> +  post-pwm-on-delay-ms:
+> +    description:
+> +      Delay in ms between setting an initial (non-zero) PWM and enabling the
+> +      backlight using GPIO.
+> +
+> +  pwm-off-delay-ms:
+> +    description:
+> +      Delay in ms between disabling the backlight using GPIO and setting PWM
+> +      value to 0.
+> +
+> +  brightness-levels:
+> +    description:
+> +      Array of distinct brightness levels. Typically these are in the range
+> +      from 0 to 255, but any range starting at 0 will do. The actual brightness
+> +      level (PWM duty cycle) will be interpolated from these values. 0 means a
+> +      0% duty cycle (darkest/off), while the last value in the array represents
+> +      a 100% duty cycle (brightest).
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
+> +  default-brightness-level:
+> +    description:
+> +      The default brightness level (index into the array defined by the
+> +      "brightness-levels" property).
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +  num-interpolated-steps:
+> +    description:
+> +      Number of interpolated steps between each value of brightness-levels
+> +      table. This way a high resolution pwm duty cycle can be used without
+> +      having to list out every possible value in the brightness-level array.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +dependencies:
+> +  default-brightness-level: [brightness-levels]
+> +  num-interpolated-steps: [brightness-levels]
+> +
+> +required:
+> +  - compatible
+> +  - pwms
+> +  - power-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    backlight {
+> +        compatible = "pwm-backlight";
+> +        pwms = <&pwm 0 5000000>;
+> +
+> +        brightness-levels = <0 4 8 16 32 64 128 255>;
+> +        default-brightness-level = <6>;
+> +
+> +        power-supply = <&vdd_bl_reg>;
+> +        enable-gpios = <&gpio 58 0>;
+> +        post-pwm-on-delay-ms = <10>;
+> +        pwm-off-delay-ms = <10>;
+> +    };
+> +
+> +  - |
+> +    // Example using num-interpolation-steps:
+> +    backlight {
+> +        compatible = "pwm-backlight";
+> +        pwms = <&pwm 0 5000000>;
+> +
+> +        brightness-levels = <0 2048 4096 8192 16384 65535>;
+> +        num-interpolated-steps = <2048>;
+> +        default-brightness-level = <4096>;
+> +
+> +        power-supply = <&vdd_bl_reg>;
+> +        enable-gpios = <&gpio 58 0>;
+> +    };
+> +
+> +...
+> -- 
+> 2.25.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
