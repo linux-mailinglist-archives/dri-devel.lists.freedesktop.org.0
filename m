@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB0820F121
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 11:06:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9BF20F133
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 11:09:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 129F4899C4;
-	Tue, 30 Jun 2020 09:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 328D289DC2;
+	Tue, 30 Jun 2020 09:09:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64587899C4
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 09:06:49 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id n6so17872043otl.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 02:06:49 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71EE189DC2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 09:09:14 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id o2so18842143wmh.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 02:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ua6KQmMz2zB2S0ojYXCHiljzMuoWlbIQTOHUIrgpyOg=;
- b=SIJgIcJNeGlNjJNR4QSHtTlBmx1LRaWpB2wWXf1bFgFRzEizcQxWn0K60pDboed1B4
- 7lOBM16S9szhfFDVH1R5zYZ6xuEGWFqXAoaGVPcPosmUavgbWDrOFCsula++qWBh2vji
- 2H/OmMvy0XEy5tL19ScokNOzEkqikbEqN+b8Y=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=v1q4QGXjMWZSBDrrcU4H5+qS7hC0O+sT9hyxnsYCcqE=;
+ b=W4Z47FuaGv4onoJ956YWoCbld2K8uLJoAdXFtJUqNigpqzWR5e31o4wolvqY33vTyr
+ dlLTVPKJo0VQP26UYJHw/Zwu2XMKywG5HTnXih9WQjpyzBff0POBSrbOTGsSr+zK+mzR
+ uB72DqCvjrPkVp/j8yRs/8+hpbhc7bzH/JMKE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ua6KQmMz2zB2S0ojYXCHiljzMuoWlbIQTOHUIrgpyOg=;
- b=JOiwzA2yd33nF7P1FFJpjHst4OZOjNBCRxDLtmQ5GEGrleFO3nhz4wmtx2d8l8NaEc
- ecdFMf3+EyhhSkitOSaDWkoutFo9UNxRHKiscnw/QDhrTJqS39VdMECdBvQDINeqJjve
- VHoBSsTDejEj/3Ni3E++L6+kZRdOzG4W+scLMhC2Op7tqu09mUttfV+2r2qcQLmFVmhT
- 9Fj3JjpV4t9pZ/CDd5wglp9BgeA3DPLnPzZUaFVKldp11HJjTlJb9XWSCO8KYwMWTkZD
- glXI1tMYIZ97yhipnloPbNJ6CfBfcVRrIoeWvSvWa9gDADX4q8syJGpiP6gB+0cXuzM0
- xZiw==
-X-Gm-Message-State: AOAM533RJraDu4+CrVdkbQ28/LMEFWUTNuJ9v5ihDw/9AoyXT12LhFQC
- oIlz1mBaiBeVBJh+FuXdVHqQ+mWU3E2lVTZwcsmyhA==
-X-Google-Smtp-Source: ABdhPJzgA836terLUs01oRz6oRTzmO5gWL6oDUnI1udUmJ7qzwNE/XH9gK1VuJsQp2RgruVvk9kU7WESwJPFYoy7vxg=
-X-Received: by 2002:a05:6830:1d0:: with SMTP id
- r16mr4344979ota.188.1593508008446; 
- Tue, 30 Jun 2020 02:06:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <f23dcf97-52c7-682f-f713-a74839696fe3@redhat.com>
-In-Reply-To: <f23dcf97-52c7-682f-f713-a74839696fe3@redhat.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=v1q4QGXjMWZSBDrrcU4H5+qS7hC0O+sT9hyxnsYCcqE=;
+ b=Nw3XiXUkbyTsxWkn8Wy/EuwSxGnSd/11GJ6NDMnaw8fLtv9o9F75B+Be0uRiOcdpGa
+ X1Cou9G18TDMDhRk4S5ZjEmlwhd51f9BZrNJ5yRbYHSuLUUlVVLmYALbAl4FrRv6l9JL
+ xQPZ0Xnb2E1kyK1zMTBvY6qnnxMW0ZfMYdGWB9c2gcOA6qmQwaPtNfmQfhuMBc8Q23zr
+ 3X8UOZy6WcCooQn2Oc7No1JOaG8eRF6dxPslleeWuqzsEc9wVyIBM7FnRH3uEQbP9Cnh
+ QNJE2dUgbxrMslbMAsFO1dsI2PkVFtXHleQGxXPRTqcvzHAMrRGc1N0/xp76egCwjRkD
+ Vyng==
+X-Gm-Message-State: AOAM532oFjxlvl9/S45gZ36iwm78SY+t28PKtZeQvUXKnkMqmDB2WYph
+ yHZAf/To3+6GsCS4GR24/fZJWA==
+X-Google-Smtp-Source: ABdhPJz01ctYAQj52pCdpr7xZk/xPr+GlIMvpe/7+P5dm7xJPg++jrM25CX+IV6hRjPxU/B7ZotATw==
+X-Received: by 2002:a1c:7f87:: with SMTP id a129mr21439003wmd.10.1593508152984; 
+ Tue, 30 Jun 2020 02:09:12 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f14sm3298455wro.90.2020.06.30.02.09.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Jun 2020 02:09:12 -0700 (PDT)
+Date: Tue, 30 Jun 2020 11:09:10 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 30 Jun 2020 11:06:37 +0200
-Message-ID: <CAKMK7uHd7_uR9U9B2x=9cxJ_eowNZ67RoxcJ-0vt8QvCSK=h5w@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/9] drm: Support simple-framebuffer devices and
- firmware fbs
-To: Hans de Goede <hdegoede@redhat.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [RFC] Host1x/TegraDRM UAPI
+Message-ID: <20200630090910.GS3278063@phenom.ffwll.local>
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <CACO55ttfwQDwnO8ep=YKBgo+HYBg=zLDLfBKtH67MrqKzMWw_w@mail.gmail.com>
+ <20200626114040.GA3143884@ulmo>
+ <20200626133837.GE3278063@phenom.ffwll.local>
+ <b46516eb-4077-c3ac-83d0-d8c57660dc3e@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <b46516eb-4077-c3ac-83d0-d8c57660dc3e@gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,193 +69,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mikko Perttunen <cyndis@kapsi.fi>, Karol Herbst <kherbst@redhat.com>,
+ David Airlie <airlied@linux.ie>, gustavo@padovan.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 29, 2020 at 11:39 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 6/25/20 2:00 PM, Thomas Zimmermann wrote:
-> > This patchset adds support for simple-framebuffer platform devices and
-> > a handover mechanism for native drivers to take-over control of the
-> > hardware.
-> >
-> > The new driver, called simplekms, binds to a simple-frambuffer platform
-> > device. The kernel's boot code creates such devices for firmware-provided
-> > framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
-> > loader sets up the framebuffers. Description via device tree is also an
-> > option.
-> >
-> > Simplekms is small enough to be linked into the kernel. The driver's main
-> > purpose is to provide graphical output during the early phases of the boot
-> > process, before the native DRM drivers are available. Native drivers are
-> > typically loaded from an initrd ram disk. Occationally simplekms can also
-> > serve as interim solution on graphics hardware without native DRM driver.
->
-> Cool, thank you for doing this, this is a very welcome change,
-> but ... (see below).
->
-> > So far distributions rely on fbdev drivers, such as efifb, vesafb or
-> > simplefb, for early-boot graphical output. However fbdev is deprecated and
-> > the drivers do not provide DRM interfaces for modern userspace.
-> >
-> > Patches 1 and 2 prepare the DRM format helpers for simplekms.
-> >
-> > Patches 3 to 7 add the simplekms driver. It's build on simple DRM helpers
-> > and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
-> > pageflips, SHMEM buffers are copied into the framebuffer memory, similar
-> > to cirrus or mgag200. The code in patches 6 and 7 handles clocks and
-> > regulators. It's based on the simplefb drivers, but has been modified for
-> > DRM.
-> >
-> > Patches 8 and 9 add a hand-over mechanism. Simplekms acquires it's
-> > framebuffer's I/O-memory range and provides a callback function to be
-> > removed by a native driver. The native driver will remove simplekms before
-> > taking over the hardware. The removal is integrated into existing helpers,
-> > so drivers use it automatically.
-> >
-> > I tested simplekms with x86 EFI and VESA framebuffers, which both work
-> > reliably. The fbdev console and Weston work automatically. Xorg requires
-> > manual configuration of the device. Xorgs current modesetting driver does
-> > not work with both, platform and PCI device, for the same physical
-> > hardware. Once configured, X11 works.
->
-> Ugh, Xorg not working OOTB is a bit of a showstopper, we cannot just go
-> around and break userspace. OTOH this does seem like an userspace issue
-> and not something which we can (or should try to) fix in the kernel.
->
-> I guess the solution will have to be to have this default to N for now
-> in Kconfig and clearly mention in the Kconfig help text that this needs
-> a fixed Xorg modesetting driver before it can be enabled.
->
-> Any chance you have time to work on fixing the Xorg modesetting driver
-> so that this will just work with the standard Xorg autoconfiguration
-> stuff?
-
-Hm, why do we even have both platform and pci drivers visible at the
-same time? I thought the point of this is that simplekms is built-in,
-then initrd loads the real drm driver, and by the time Xorg is
-running, simplekms should be long gone.
-
-Maybe a few more details of what's going wrong and why to help unconfuse me?
-
-> > One cosmetical issue is that simplekms's device file is card0 and the
-> > native driver's device file is card1. After simplekms has been kicked out,
-> > only card1 is left. This does not seem to be a practical problem however.
-> >
-> > TODO/IDEAS:
-> >
-> >       * provide deferred takeover
->
-> I assume you mean akin to CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER ?
-> I don't think you need to do anything for that, as long as you just
-> leave the fb contents intact until requested to change it.
-
-Yeah I think fastboot support is a requirement here, otherwise all the
-deferred fb takeover should already happen automatically I think.
-
-Also fastboot = flickerfree, depending whether you care more about
-"fewer modesets to save time" or "less flickering because it's ugly"
-:-)
-
-Cheers, Daniel
-
-> Right now with flickerfree boot we have fbcon on top of efifb and
-> efifb does not do anything special wrt
-> CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
-> ATM it does draw/restore the ACPI BGRT logo since since some firmwares
-> don't draw that themselves, but that is not necessary in most cases
-> and other then that all the deferred takeover magic is in the fbcon
-> code, it does not bind to the fbdev (and thus does not draw to it)
-> until the first time the kernel tries to output text to the console,
-> together with the "quiet" kernel commandline argument that ensures
-> that the fb is kept unmodified until e.g. a panic happens.
->
-> With simplekms we would replace "fbcon on top of efifb" with
-> "fbcon on top of emulated-fbdev on top of simplekms" so as long
-> as the emulated-fbdev and simplekms code defer from say clearing
-> the screen to black, but keep it as is. Then the fb contents
-> should be preserved until fbcon decides to takeover the fbdev
-> and draw to it.
->
-> >       * provide bootsplash DRM client
->
-> Hmm, I guess this might be interesting for simple cases, but
-> although I would love to kill plymouth (I've become one of the
-> upstream maintainers for it) I'm afraid it is not that easy,
-> it does a bunch of stuff which will be tricky to do in the kernel:
->
-> 1) Ask the user for diskcrypt passwords:
-> https://ic.pics.livejournal.com/hansdegoede/13347631/1496/1496_900.png
->
-> 2) Show a nice splash + progressbar when installing updates in
-> offline updates mode:
-> https://ic.pics.livejournal.com/hansdegoede/13347631/899/899_900.png
->
-> Still this would be nice for the non diskcrypt case I guess, then
-> we could not use plymouth during normal boot and only use it
-> for offline updates and it would also be nice for various embedded
-> cases.
->
-> Regards,
->
-> Hans
->
->
->
->
->
-> >       * make simplekms usable with ARM-EFI fbs
-> >
-> > Thomas Zimmermann (9):
-> >    drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstclip()
-> >    drm/format-helper: Add blitter functions
-> >    drm: Add simplekms driver
-> >    drm/simplekms: Add fbdev emulation
-> >    drm/simplekms: Initialize framebuffer data from device-tree node
-> >    drm/simplekms: Acquire clocks from DT device node
-> >    drm/simplekms: Acquire regulators from DT device node
-> >    drm: Add infrastructure for platform devices
-> >    drm/simplekms: Acquire memory aperture for framebuffer
-> >
-> >   MAINTAINERS                            |   6 +
-> >   drivers/gpu/drm/Kconfig                |   6 +
-> >   drivers/gpu/drm/Makefile               |   1 +
-> >   drivers/gpu/drm/drm_format_helper.c    |  96 ++-
-> >   drivers/gpu/drm/drm_platform.c         | 118 ++++
-> >   drivers/gpu/drm/mgag200/mgag200_mode.c |   2 +-
-> >   drivers/gpu/drm/tiny/Kconfig           |  17 +
-> >   drivers/gpu/drm/tiny/Makefile          |   1 +
-> >   drivers/gpu/drm/tiny/cirrus.c          |   2 +-
-> >   drivers/gpu/drm/tiny/simplekms.c       | 906 +++++++++++++++++++++++++
-> >   include/drm/drm_fb_helper.h            |  18 +-
-> >   include/drm/drm_format_helper.h        |  10 +-
-> >   include/drm/drm_platform.h             |  42 ++
-> >   13 files changed, 1217 insertions(+), 8 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/drm_platform.c
-> >   create mode 100644 drivers/gpu/drm/tiny/simplekms.c
-> >   create mode 100644 include/drm/drm_platform.h
-> >
-> > --
-> > 2.27.0
-> >
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBKdW4gMjYsIDIwMjAgYXQgMDQ6NTk6NDVQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDI2LjA2LjIwMjAgMTY6MzgsIERhbmllbCBWZXR0ZXIg0L/QuNGI0LXRgjoKPiA+
+IE9uIEZyaSwgSnVuIDI2LCAyMDIwIGF0IDAxOjQwOjQwUE0gKzAyMDAsIFRoaWVycnkgUmVkaW5n
+IHdyb3RlOgo+ID4+IE9uIEZyaSwgSnVuIDI2LCAyMDIwIGF0IDAxOjA2OjU4UE0gKzAyMDAsIEth
+cm9sIEhlcmJzdCB3cm90ZToKPiA+Pj4gT24gVHVlLCBKdW4gMjMsIDIwMjAgYXQgMzowMyBQTSBN
+aWtrbyBQZXJ0dHVuZW4gPGN5bmRpc0BrYXBzaS5maT4gd3JvdGU6Cj4gPj4+Pgo+ID4+Pj4gIyBI
+b3N0MXgvVGVncmFEUk0gVUFQSSBwcm9wb3NhbAo+ID4+Pj4KPiA+Pj4+IFRoaXMgaXMgYSBwcm9w
+b3NhbCBmb3IgYSBzdGFibGUgVUFQSSBmb3IgSG9zdDF4IGFuZCBUZWdyYURSTSwgdG8gcmVwbGFj
+ZQo+ID4+Pj4gdGhlIGN1cnJlbnQgVGVncmFEUk0gVUFQSSB0aGF0IGlzIGJlaGluZCBgU1RBR0lO
+R2AgYW5kIHF1aXRlIG9ic29sZXRlIGluCj4gPj4+PiBtYW55IHdheXMuCj4gPj4+Pgo+ID4+Pj4g
+SSBoYXZlbid0IHdyaXR0ZW4gYW55IGltcGxlbWVudGF0aW9uIHlldCAtLSBJJ2xsIGRvIHRoYXQg
+b25jZSB0aGVyZSBpcwo+ID4+Pj4gc29tZSBhZ3JlZW1lbnQgb24gdGhlIGhpZ2gtbGV2ZWwgZGVz
+aWduLgo+ID4+Pj4KPiA+Pj4+IEN1cnJlbnQgb3BlbiBpdGVtczoKPiA+Pj4+Cj4gPj4+PiAqIFRo
+ZSBzeW5jcG9pbnQgVUFQSSBhbGxvd3MgdXNlcnNwYWNlIHRvIGNyZWF0ZSBzeW5jX2ZpbGUgRkRz
+IHdpdGgKPiA+Pj4+IGFyYml0cmFyeSBzeW5jcG9pbnQgZmVuY2VzLiBkbWFfZmVuY2UgY29kZSBj
+dXJyZW50bHkgc2VlbXMgdG8gYXNzdW1lIGFsbAo+ID4+Pj4gZmVuY2VzIHdpbGwgYmUgc2lnbmFs
+ZWQsIHdoaWNoIHdvdWxkIG5vdCBuZWNlc3NhcmlseSBiZSB0aGUgY2FzZSB3aXRoCj4gPj4+PiB0
+aGlzIGludGVyZmFjZS4KPiA+Pj4+ICogUHJldmlvdXNseSBwcmVzZW50IEdFTSBJT0NUTHMgKEdF
+TV9DUkVBVEUsIEdFTV9NTUFQKSBhcmUgbm90IHByZXNlbnQuCj4gPj4+PiBOb3Qgc3VyZSBpZiB0
+aGV5IGFyZSBzdGlsbCBuZWVkZWQuCj4gPj4+Pgo+ID4+Pgo+ID4+PiBIaSwgYXMgdGhpcyB3YXNu
+J3QgYWRkcmVzc2VkIGhlcmUgKGFuZCBzb3JyeSBpZiBJIG1pc3NlZCBpdCk6IGlzIHRoZXJlCj4g
+Pj4+IGFuIG9wZW4gc291cmNlIHVzZXJzcGFjZSBtYWtpbmcgdXNlIG9mIHRoaXMgVUFQST8gQmVj
+YXVzZSB0aGlzIGlzCj4gPj4+IHNvbWV0aGluZyB3aGljaCBuZWVkcyB0byBiZSBzZWVuIGJlZm9y
+ZSBpdCBjYW4gYmUgaW5jbHVkZWQgYXQgYWxsLgo+ID4+Cj4gPj4gVGhlcmUncyBhIHNldCBvZiBj
+b21taXRzIHRoYXQgaW1wbGVtZW50IGFuIGVhcmxpZXIgZHJhZnQgaGVyZToKPiA+Pgo+ID4+ICAg
+ICBodHRwczovL2dpdGh1Yi5jb20vdGhpZXJyeXJlZGluZy9saW51eC90cmVlL2Zvci01LjYvZHJt
+LXRlZ3JhLWRlc3RhZ2UtYWJpCj4gPj4KPiA+PiBhbmQgY29ycmVzcG9uZGluZyBjaGFuZ2VzIHRv
+IGxpYmRybSB0byBtYWtlIHVzZSBvZiB0aGF0IGFuZCBpbXBsZW1lbnQKPiA+PiB0ZXN0cyB1c2lu
+ZyB0aGUgdmFyaW91cyBnZW5lcmF0aW9ucyBvZiBWSUMgaGVyZToKPiA+Pgo+ID4+ICAgICBodHRw
+czovL2NnaXQuZnJlZWRlc2t0b3Aub3JnL350YWdyL2RybS9sb2cvCj4gPj4KPiA+PiBCZWZvcmUg
+YWN0dWFsbHkganVtcGluZyB0byBhbiBpbXBsZW1lbnRhdGlvbiB3ZSB3YW50ZWQgdG8gZ28gb3Zl
+ciB0aGUKPiA+PiBkZXNpZ24gYSBiaXQgbW9yZSB0byBhdm9pZCB3YXN0aW5nIGEgbG90IG9mIHdv
+cmssIGxpa2Ugd2UndmUgZG9uZSBpbgo+ID4+IHRoZSBwYXN0LiBUdXJucyBvdXQgaXQgaXNuJ3Qg
+ZWFzeSB0byBnZXQgZXZlcnlvbmUgdG8gYWdyZWUgb24gYSBnb29kCj4gPj4gQUJJLiBXaG8gd291
+bGQndmUgdGhvdWdodD8gPSkKPiA+Pgo+ID4+IEkgZXhwZWN0IHRoYXQgb25jZSB0aGUgZGlzY3Vz
+c2lvbiBhcm91bmQgdGhlIEFCSSBzZXR0bGVzIE1pa2tvIHdpbGwKPiA+PiBzdGFydCBvbiBpbXBs
+ZW1lbnRpbmcgdGhpcyBBQkkgaW4gdGhlIGtlcm5lbCBhbmQgd2UnbGwgdXBkYXRlIHRoZQo+ID4+
+IGxpYmRybSBwYXRjaGVzIHRvIG1ha2UgdXNlIG9mIHRoZSBuZXcgQUJJIGFzIHdlbGwuCj4gPiAK
+PiA+IERvIHdlIGhhdmUgbW9yZSB0aGFuIGxpYmRybSBhbmQgdGVzdHMgZm9yIHRoaXMsIGxpa2Ug
+c29tZXRoaW5nIHNvbWV3aGF0Cj4gPiBmdW5jdGlvbmFsPyBTaW5jZSB0ZWdyYWRybSBsYW5kZWQg
+eWVhcnMgYWdvIHdlJ3ZlIHJlZmluZWQgdGhlIGNyaXRlcmlhIGEKPiA+IGJpdCBpbiB0aGlzIHJl
+Z2FyZCwgbGF0ZXN0IHZlcnNpb24gaXMgZXhwbGljaXQgaW4gdGhhdCBpdCBuZWVkcyB0byBiZQo+
+ID4gc29tZXRoaW5nIHRoYXQncyBmdW5jdGlvbmFsIChmb3IgZW5kLXVzZXJzIGluIHNvbWUgZm9y
+bSksIG5vdCBqdXN0Cj4gPiBpbmZyYXN0cnVjdHVyZSBhbmQgdGVzdHMuCj4gCj4gV2UgaGF2ZSBP
+cGVudGVncmEgWzFdIGFuZCBWRFBBVSBbMl0gdXNlcnNwYWNlIGRyaXZlcnMgZm9yIG9sZGVyIFRl
+Z3JhCj4gU29DcyB0aGF0IGhhdmUgYmVlbiB1c2luZyB0aGUgc3RhZ2luZyBVQVBJIGZvciB5ZWFy
+cyBub3cuCj4gCj4gWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIveGY4Ni12aWRl
+by1vcGVudGVncmEKPiBbMl0gaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saWJ2ZHBh
+dS10ZWdyYQo+IAo+IFRoZSBVQVBJIGFuZCB0aGUga2VybmVsIGRyaXZlciB1cGRhdGVzIGFyZSB2
+ZXJ5IG5lZWRlZCBmb3IgdGhlc2UgZHJpdmVycwo+IGJlY2F1c2Ugb2YgdGhlIG1pc3NpbmcgVUFQ
+SSBzeW5jaHJvbml6YXRpb24gZmVhdHVyZXMgYW5kIHBlcmZvcm1hbmNlCj4gcHJvYmxlbXMgb2Yg
+dGhlIGtlcm5lbCBkcml2ZXIuCj4gCj4gU28gd2UgYWxyZWFkeSBoYXZlIHNvbWUgcmVhbC13b3Js
+ZCB1c2Vyc3BhY2UgZm9yIHRoZSB0ZXN0aW5nIQoKQXdlc29tZSEgTWF5YmUgZm9yIGZ1dHVyZSBy
+b3VuZHMgaW5jbHVkZSB0aGUgbGlua3MgZm9yIHRoZSB2ZHBhdSBkcml2ZXIuIEkKZGlkbid0IGtu
+b3cgYWJvdXQgdGhhdCBvbmUgYXQgYWxsLiAtb3BlbnRlZ3JhIGlzIHByb2JhYmx5IG5vdCBzbyBy
+ZWxldmFudAphbnltb3JlIChhbmQgSSBmbGF0IG91dCBmb3Jnb3QgaXQgZXhpc3RzKSAuLi4gSW5j
+bHVkaW5nIHRoZSB1c2Vyc3BhY2Ugc2lkZQpsaW5rcyBpcyBnb29kIHNvIHRoYXQgZm9yZ2V0ZnVs
+IHBlb3BsZSBsaWtlIG1lIGRvbid0IG5hZyA6LSkKLURhbmllbAoKCj4gSXQncyBub3QgdGhlIGZp
+cnN0IGFuZCBub3QgdGhlIHNlY29uZCB0aW1lIHdlJ3JlIGRpc2N1c3NpbmcgdGhlIFRlZ3JhCj4g
+RFJNIFVBUEkgY2hhbmdlcywgYnV0IHRoaXMgdGltZSBpdCBmZWVscyBsaWtlIHRoZXJlIGlzIGEg
+Z29vZCBjaGFuY2UKPiB0aGF0IGl0IHdpbGwgZmluYWxseSBtYXRlcmlhbGl6ZSBhbmQgSSdtIHZl
+cnkgaGFwcHkgYWJvdXQgaXQgOikKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVy
+LCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
