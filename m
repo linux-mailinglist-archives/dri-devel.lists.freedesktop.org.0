@@ -2,97 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927C420F2E9
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 12:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D3A20F32E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 12:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 342366E053;
-	Tue, 30 Jun 2020 10:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5E089EAE;
+	Tue, 30 Jun 2020 10:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEC58991D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 10:45:30 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200630104528euoutp028e80f9672efd7e0b322f7fb43d7ab182~dTHms_Jba2346123461euoutp02B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 10:45:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200630104528euoutp028e80f9672efd7e0b322f7fb43d7ab182~dTHms_Jba2346123461euoutp02B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593513928;
- bh=cUETLd6FpqukuPDtMtJDa7WFMzO/MRWL/MsyCM3reGw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jcyDzxcZqX6Kz58nq7U9P0whzCloDqOZrHA3Mb59IMPMG+Gidh5yQ7s+fKWVOYMq4
- /8Y1JTyc6OGcH5KhMAI9aZJzO1bPRcJXAAMZkYE1isQIiXxNtVm4mvcr85HDxslm4c
- L7eXXYHD0FZByQN8v3uGz4vX+Ke/uLwrP3v7NH94=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200630104528eucas1p2f23d2b731b639f6643fe42e2cfc862df~dTHmSR8mB0978009780eucas1p2_;
- Tue, 30 Jun 2020 10:45:28 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id F6.B5.05997.8C71BFE5; Tue, 30
- Jun 2020 11:45:28 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200630104527eucas1p13f19c24ff053556fb1fa7dc72be14c77~dTHl3UM0R2539025390eucas1p1I;
- Tue, 30 Jun 2020 10:45:27 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200630104527eusmtrp252206fb5da44e6f0c16456efe5ac71a5~dTHl2icNj3252132521eusmtrp2N;
- Tue, 30 Jun 2020 10:45:27 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-7e-5efb17c8f27f
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id CB.86.06017.7C71BFE5; Tue, 30
- Jun 2020 11:45:27 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200630104525eusmtip12cf2edfda9c5b2cebe27f89dc948a33e~dTHjlTP4F1804318043eusmtip1H;
- Tue, 30 Jun 2020 10:45:25 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8] videobuf2: use sgtable-based scatterlist wrappers
-Date: Tue, 30 Jun 2020 12:45:16 +0200
-Message-Id: <20200630104516.32731-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200619103636.11974-37-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSa0hTYRjHec85Ozuaq9O0fNFIGGYoeOlCHdDUIuEQfbAPQQQtl55UdKt2
- UjPDJClqal4rNSkpS9PmZbWZ11TUzcR1M1F03rYPZYnGvGsuj0fr2+/5P7+XPzy8BCruFLgQ
- 0YqrjFIhi5Xg9piuc9HobXBelvrNZQmoDGMXQtXkVwkomy4bpXpnp3DqVUUHQn0uMGFU8Xt/
- aqZ3DKE05j4B9bW+CKfSq7UCSt1uElIvNSsIlTe5KKRapy2C4G306yevAd00V4zRmvJ7OF07
- NyqgR9L0CP2m5CY9uGpG6dz+UkA3DKTgtHnpB07ff1sOaKtmN/1h1ioMFZ21D4hgYqPjGaVv
- YJh9VEvdovByRei1wT+HU8DnYypgR0DyINRafuEqYE+IyTIAM+fzERUg1oYZAOudOEdMWgEc
- 0F3Y9LuWPm74pQDO501h/LDmf+pIwTkLJ/dB1aRqnZ3I2wAaMhw4CSWrULgwnAu4hSMZAnsn
- MhGOMXIPrCtqwLhmEXkE9tUgfJsbrKhuQTm2I4Pgi5aG9TJIjgvhqNaC8dJxWLI6ivPsCCf0
- b4U874K2uqcI/yAVwDGjWsgP6QB+vZUPeMsfDhmXcK4ZJT1hVb0vHx+FjZZmlIshuRX2T27n
- YnQNc3SPNmIRvHtHzNsesFBf+a+29dMXlGcaWkuXAX/FHAArh7yygFvh/65iAMqBMxPHyiMZ
- dr+CSfBhZXI2ThHpE35JrgFrv6t7VT/zDtSvXGgDJAEkDqIw46JULJDFs4nyNgAJVOIkOtbT
- LRWLImSJ1xnlpfPKuFiGbQOuBCZxFh149uOcmIyUXWViGOYyo9zcIoSdSwqAZZ5nTth+m0d/
- +omD+9w99qoXKrwLdn3xmg5vyA32HE+K2a4ZSZJqrdmppm+pQUO2sbSpB40G0xWiNliYafOt
- ybRtKXK923OyOUF9b35pZ/uh4RGJ2VdtCOuKik+/WOo+HrCjPZl5bjGFJ6exITeahlcDc0+1
- iAKnHj80fM8+LcHYKNk+L1TJyv4CUL5aYVkDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRmVeSWpSXmKPExsVy+t/xu7rHxX/HGXRP0bLoPXeSyWLjjPWs
- Fv+3TWS2uPL1PZvFytVHmSwuzrzLYrFgv7XFlysPmSw2Pb7GanF51xw2i54NW1kt1h65y26x
- bNMfJospb3+yWxz88ITVgd9jzbw1jB57vy1g8di0qpPNY/u3B6we97uPM3lsXlLvcfvfY2aP
- yTeWM3rsvtnA5vH410s2j74tqxg9Pm+S8zj19TN7AG+Unk1RfmlJqkJGfnGJrVK0oYWRnqGl
- hZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsaBnT/ZC1YHVNz+a97AeNGpi5GTQ0LAROLk
- r/NsXYxcHEICSxklNj1/wAaRkJE4Oa2BFcIWlvhzrQuq6BOjxNIfK1lAEmwChhJdbyESIgKd
- jBLTuj+ygzjMAjuZJSZeb2EGqRIWcJW48qqfCcRmEVCV2DlnN1A3BwevgK3EtY1MEBvkJVZv
- OABWzilgL7H0wG6wBUICdhKfdpxknMDIt4CRYRWjSGppcW56brGRXnFibnFpXrpecn7uJkZg
- RG079nPLDsaud8GHGAU4GJV4eBPO/YwTYk0sK67MPcQowcGsJMLrdPZ0nBBvSmJlVWpRfnxR
- aU5q8SFGU6CbJjJLiSbnA6M9ryTe0NTQ3MLS0NzY3NjMQkmct0PgYIyQQHpiSWp2ampBahFM
- HxMHp1QDo9ZB/Rvfj0+OOH9hVkSm+w8G79LyN0H7OvvnrmELel0aqtp2sXjHFy3z1XvniG5r
- XWgg02l2zl0/8HzbgYuVMUWzL+lOTm+8e8csqmP/jYLDj+fGvbrdtHH2n7ouv/2nxeXa94cn
- LVuX5MEn/6P2SeW+x2nWYTpdh9/u/fauw8pRv6tq6fs6BSWW4oxEQy3mouJEAPQegDS+AgAA
-X-CMS-MailID: 20200630104527eucas1p13f19c24ff053556fb1fa7dc72be14c77
-X-Msg-Generator: CA
-X-RootMTR: 20200630104527eucas1p13f19c24ff053556fb1fa7dc72be14c77
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200630104527eucas1p13f19c24ff053556fb1fa7dc72be14c77
-References: <20200619103636.11974-37-m.szyprowski@samsung.com>
- <CGME20200630104527eucas1p13f19c24ff053556fb1fa7dc72be14c77@eucas1p1.samsung.com>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B4D89EAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 10:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uywJDgVzsHC4s/XG5uRs4kHUYG9svE/F7UKr1ou9hMY=; b=DtaE9n0d28nCd6ajQt+CRrdsfl
+ SWwh8arcJHpGwHvaIrDi4bxIA84DlH+WQ//6OUCqEoHx8vRjtwSrxQcF7nGfLe7w9t6V5ybDwRFsL
+ 6cE1tYCiuyo/q4z0jvbVvnMJ5fssCpvxRnQ4c7ILDL7ey/fBe1QmAR/fxQqrcaCmbrgT45jcqQiQn
+ tqVMaxw9DvDom4WCrNH1t9QqvDRG8Y/oNVlDbqfqYcPc4Co2HLAq8xzaq8uojrMHShHUbtOUXi8XA
+ 1A2nnRtg1GtAy1vqfcKn1lU8y/6RRxMue7C5E+N3eZED+xH624Gkzg2JSUY8LEUWCDYTM6Qgj/3LG
+ hHBwRK7g==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1jqDvB-000232-Pi; Tue, 30 Jun 2020 13:55:25 +0300
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (drm_tegra_channel_map)
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <4f9ddf30-ad8d-3750-20d7-867be17a1006@gmail.com>
+ <20200626073430.GA3109062@ulmo>
+ <4c243f7a-4c53-d995-88a1-0fe03d41fc3a@gmail.com>
+ <f622c8ed-efe4-0889-bd26-dc22e96b8e4d@kapsi.fi>
+ <b8a8b05e-de1c-400f-3f35-bb1ea49789e9@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <76e46256-58d3-fdbe-41d6-8ac910fc7fd0@kapsi.fi>
+Date: Tue, 30 Jun 2020 13:55:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <b8a8b05e-de1c-400f-3f35-bb1ea49789e9@gmail.com>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,281 +61,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pawel Osciak <pawel@osciak.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-media@vger.kernel.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Erik Faye-Lund <kusmabite@gmail.com>, David Airlie <airlied@linux.ie>,
+ gustavo@padovan.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Jon Hunter <jonathanh@nvidia.com>, talho@nvidia.com, bhuntsman@nvidia.com,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use recently introduced common wrappers operating directly on the struct
-sg_table objects and scatterlist page iterators to make the code a bit
-more compact, robust, easier to follow and copy/paste safe.
-
-No functional change, because the code already properly did all the
-scaterlist related calls.
-
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-v8:
-- rebased after recent changes in the code
----
- .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
- .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
- .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
- 3 files changed, 31 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index ec3446cc45b8..1b242d844dde 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
- 	unsigned int i;
- 	unsigned long size = 0;
- 
--	for_each_sg(sgt->sgl, s, sgt->nents, i) {
-+	for_each_sgtable_dma_sg(sgt, s, i) {
- 		if (sg_dma_address(s) != expected)
- 			break;
--		expected = sg_dma_address(s) + sg_dma_len(s);
-+		expected += sg_dma_len(s);
- 		size += sg_dma_len(s);
- 	}
- 	return size;
-@@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
- 	if (!sgt)
- 		return;
- 
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
--			       buf->dma_dir);
-+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void vb2_dc_finish(void *buf_priv)
-@@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
- 	if (!sgt)
- 		return;
- 
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
- }
- 
- /*********************************************/
-@@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 		 * memory locations do not require any explicit cache
- 		 * maintenance prior or after being used by the device.
- 		 */
--		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
-@@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 	 * mapping to the client with new direction, no cache sync
- 	 * required see comment in vb2_dc_dmabuf_ops_detach()
- 	 */
--	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
-@@ -455,8 +453,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
- 		 * No need to sync to CPU, it's already synced to the CPU
- 		 * since the finish() memop will have been called before this.
- 		 */
--		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		pages = frame_vector_pages(buf->vec);
- 		/* sgt should exist only if vector contains pages... */
- 		BUG_ON(IS_ERR(pages));
-@@ -553,9 +551,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (sgt->nents <= 0) {
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		ret = -EIO;
- 		goto fail_sgt_init;
-@@ -577,8 +574,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
- 	return buf;
- 
- fail_map_sg:
--	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--			   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 
- fail_sgt_init:
- 	sg_free_table(sgt);
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 0a40e00f0d7e..0dd3b19025e0 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -148,9 +148,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents)
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC))
- 		goto fail_map;
- 
- 	buf->handler.refcount = &buf->refcount;
-@@ -186,8 +185,8 @@ static void vb2_dma_sg_put(void *buf_priv)
- 	if (refcount_dec_and_test(&buf->refcount)) {
- 		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
- 			buf->num_pages);
--		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		if (buf->vaddr)
- 			vm_unmap_ram(buf->vaddr, buf->num_pages);
- 		sg_free_table(buf->dma_sgt);
-@@ -204,8 +203,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
- 	struct vb2_dma_sg_buf *buf = buf_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
- 
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
--			       buf->dma_dir);
-+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void vb2_dma_sg_finish(void *buf_priv)
-@@ -213,7 +211,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
- 	struct vb2_dma_sg_buf *buf = buf_priv;
- 	struct sg_table *sgt = buf->dma_sgt;
- 
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
-@@ -256,9 +254,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents)
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC))
- 		goto userptr_fail_map;
- 
- 	return buf;
-@@ -284,8 +281,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
- 
- 	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
- 	       __func__, buf->num_pages);
--	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
--			   DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 	if (buf->vaddr)
- 		vm_unmap_ram(buf->vaddr, buf->num_pages);
- 	sg_free_table(buf->dma_sgt);
-@@ -408,8 +404,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -434,15 +429,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index c66fda4a65e4..bf5ac63a5742 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
- 		kfree(attach);
- 		return ret;
- 	}
--	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+	for_each_sgtable_sg(sgt, sg, i) {
- 		struct page *page = vmalloc_to_page(vaddr);
- 
- 		if (!page) {
-@@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiA2LzI5LzIwIDE6NTkgQU0sIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiAyOC4wNi4yMDIw
+IDE0OjE2LCBNaWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4gT24gNi8yNi8yMCA3OjM1IFBN
+LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+PiAyNi4wNi4yMDIwIDEwOjM0LCBUaGllcnJ5IFJl
+ZGluZyDQv9C40YjQtdGCOgo+Pj4+IE9uIEZyaSwgSnVuIDI2LCAyMDIwIGF0IDAxOjQ3OjQ2QU0g
+KzAzMDAsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4+Pj4gMjMuMDYuMjAyMCAxNTowOSwgTWlr
+a28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+Pj4+PiAjIyMgRFJNX1RFR1JBX0NIQU5ORUxfTUFQ
+Cj4+Pj4+Pgo+Pj4+Pj4gTWFrZSBtZW1vcnkgYWNjZXNzaWJsZSBieSB0aGUgZW5naW5lIHdoaWxl
+IGV4ZWN1dGluZyB3b3JrIG9uIHRoZQo+Pj4+Pj4gY2hhbm5lbC4KPj4+Pj4+Cj4+Pj4+PiBgYGAK
+Pj4+Pj4+ICNkZWZpbmUgRFJNX1RFR1JBX0NIQU5ORUxfTUFQX1JFQURXUklURcKgwqDCoMKgwqDC
+oMKgICgxPDwwKQo+Pj4+Pj4KPj4+Pj4+IHN0cnVjdCBkcm1fdGVncmFfY2hhbm5lbF9tYXAgewo+
+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgLyoKPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAgKiBb
+aW5dIElEIG9mIHRoZSBjaGFubmVsIGZvciB3aGljaCB0byBtYXAgbWVtb3J5IHRvLgo+Pj4+Pj4g
+IMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgX191MzIgY2hh
+bm5lbF9pZDsKPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+PiAgwqDCoMKgwqDCoMKg
+wqDCoMKgICogW2luXSBHRU0gaGFuZGxlIG9mIHRoZSBtZW1vcnkgdG8gbWFwLgo+Pj4+Pj4gIMKg
+wqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgX191MzIgaGFuZGxl
+Owo+Pj4+Pj4KPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+PiAgwqDCoMKgwqDCoMKg
+wqDCoMKgICogW2luXSBPZmZzZXQgaW4gR0VNIGhhbmRsZSBvZiB0aGUgbWVtb3J5IGFyZWEgdG8g
+bWFwLgo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCAqCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDC
+oMKgICogTXVzdCBiZSBhbGlnbmVkIGJ5IDRLLgo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCAq
+Lwo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgX191NjQgb2Zmc2V0Owo+Pj4+Pgo+Pj4+PiBDb3Vs
+ZCB5b3UgcGxlYXNlIGdpdmUgYSB1c2UtY2FzZSBleGFtcGxlIGZvciB0aGlzIHBhcnRpYWwgbWFw
+cGluZz8KPj4+Pj4KPj4+Pj4gSSB2YWd1ZWx5IHJlY2FsbGluZyB0aGF0IG1heWJlIGl0IHdhcyBt
+ZSB3aG8gc3VnZ2VzdGVkIHRoaXMgaW4gdGhlCj4+Pj4+IHBhc3QuLgo+Pj4+Pgo+Pj4+PiBJIGtp
+bmRhIHNlZSB0aGF0IHRoaXMgY291bGQgYmUgdXNlZnVsIGZvciBhIGNhc2Ugd2hlcmUgdXNlcnNw
+YWNlCj4+Pj4+IGFsbG9jYXRlcyBhIGxhcmdlIGNodW5rIG9mIG1lbW9yeSBhbmQgdGhlbiBwZXJm
+b3JtcyBzdWItYWxsb2NhdGlvbnMgaW4KPj4+Pj4gdGhlIHVzZXJzcGFjZSBkcml2ZXIuIEJ1dCBk
+byB3ZSBoYXZlIGEgcmVhbC13b3JsZCBleGFtcGxlIGZvciB0aGlzCj4+Pj4+IHJpZ2h0Cj4+Pj4+
+IG5vdz8KPj4+Pgo+Pj4+IEkgdGhpbmsgdGhlIG1haW4gcG9pbnQgYWJvdXQgdGhpcyBJT0NUTCB3
+YXMgdG8gbWFrZSBtYXBwaW5nL3VubWFwcGluZwo+Pj4+IG1vcmUgZWZmaWNpZW50IGFuZCBhdm9p
+ZCByZWxvY2F0aW9ucyBmb3Igc2l0dWF0aW9ucyB3aGVyZSB3ZSBrbm93IGl0IGlzCj4+Pj4gc2Fm
+ZSB0byBkbyBzby4KPj4+Pgo+Pj4+IFRoZSBmYWN0IHRoYXQgdGhpcyBjYW4gYmUgdXNlZCB0byBj
+cmVhdGUgcGFydGlhbCBtYXBwaW5ncyBpcyBtb3N0bHkganVzdAo+Pj4+IGFuIGFkZGVkIGJvbnVz
+LCBpbiBteSBvcGluaW9uLiBEb2luZyB0aGlzIGRvZXNuJ3QgY3JlYXRlIG11Y2ggY29tcGxleGl0
+eQo+Pj4+IGJ1dCBpbiB0dXJuIGdpdmVzIHVzIGEgbG90IG1vcmUgZmxleGliaWxpdHkuCj4+Pj4K
+Pj4+PiBBIGNvdXBsZSBvZiBwbGFjZXMgd2hlcmUgSSB0aGluayB0aGlzIGNvdWxkIGJlIHVzZWZ1
+bCBhcmUgT3BlbkdMIGFuZAo+Pj4+IFZ1bGthbiwgYm90aCBvZiB3aGljaCBzdXBwb3J0IGJ1ZmZl
+ciBzdWJhbGxvY2F0aW9uLiBUaGlzIGhhcyBhIGNvdXBsZSBvZgo+Pj4+IGFkdmFudGFnZXMgb24g
+bW9kZXJuIEdQVXMgd2hlcmUgc29tZXRpbWVzIHlvdSB3YW50IHRvIHVzZSB2ZXJ5IGxhcmdlCj4+
+Pj4gYWxsb2NhdGlvbiBncmFudWxhcml0eSwgZXRjLgo+Pj4+Cj4+Pj4gTm93LCBJIGRvbid0IHRo
+aW5rIHRoYXQgd2UnbGwgc2VlIG11Y2ggb2YgdGhhdCBpbiBUZWdyYSBEUk0gZGlyZWN0bHksCj4+
+Pj4gYWx0aG91Z2ggZ3JhdGUgY291bGQgY2VydGFpbmx5IG1ha2UgdXNlIG9mIHRoaXMsIEkgc3Vz
+cGVjdC4gSG93ZXZlciwgSQo+Pj4+IHRoaW5rIGZvciBpbnRlcm9wZXJhdGlvbiBvZiBkR1BVIGFu
+ZCBUZWdyYSBEUk0gKHdpdGggVklDIGZvciBwb3N0LQo+Pj4+IHByb2Nlc3NpbmcsIG9yIGhvcGVm
+dWxseSBzb21lIG9mIHRoZSBvdGhlciBoYXJkd2FyZSBhY2NlbGVyYXRpb24KPj4+PiBlbmdpbmVz
+IGF0IHNvbWUgcG9pbnQpLCB0aGlzIG1pZ2h0IGNvbWUgaW4gaGFuZHkuCj4+Pj4KPj4+PiBUaGVy
+ZSBhcmUgb3RoZXIgcG9zc2libGUgdXNlLWNhc2VzIHdpdGhpbiBqdXN0IFRlZ3JhIERSTSBhcyB3
+ZWxsLiBXZSBtYXkKPj4+PiB3YW50IHRvIG9ubHkgcGFydGlhbGx5IG1hcCBwbGFuYXIgYnVmZmVy
+cyBmb3IgdmlkZW8gcG9zdC1wcm9jZXNzaW5nLCBmb3IKPj4+PiBleGFtcGxlLiBPciBtYXAgZWFj
+aCBwbGFuZSBzZXBhcmF0ZWx5Lgo+Pj4+Cj4+Pj4+IFBsZWFzZSBzZWUgbW9yZSBiZWxvdy4KPj4+
+Pj4KPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIC8qCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKg
+ICogW2luXSBMZW5ndGggb2YgbWVtb3J5IGFyZWEgdG8gbWFwIGluIGJ5dGVzLgo+Pj4+Pj4gIMKg
+wqDCoMKgwqDCoMKgwqDCoCAqCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgICogTXVzdCBiZSBh
+bGlnbmVkIGJ5IDRLLgo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+Pj4+Pj4gIMKgwqDC
+oMKgwqDCoMKgwqAgX191NjQgbGVuZ3RoOwo+Pj4+Pj4KPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKg
+IC8qCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgICogW291dF0gSU9WQSBvZiBtYXBwZWQgbWVt
+b3J5LiBVc2Vyc3BhY2UgY2FuIHVzZSB0aGlzIElPVkEKPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKg
+wqAgKsKgwqAgZGlyZWN0bHkgdG8gcmVmZXIgdG8gdGhlIG1lbW9yeSB0byBza2lwIHVzaW5nCj4+
+Pj4+PiByZWxvY2F0aW9ucy4KPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAgKsKgwqAgT25seSBh
+dmFpbGFibGUgaWYgaGFyZHdhcmUgbWVtb3J5IGlzb2xhdGlvbiBpcyBlbmFibGVkLgo+Pj4+Pj4g
+IMKgwqDCoMKgwqDCoMKgwqDCoCAqCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgICrCoMKgIFdp
+bGwgYmUgc2V0IHRvIDB4ZmZmZl9mZmZmX2ZmZmZfZmZmZiBpZiB1bmF2YWlsYWJsZS4KPj4+Pj4+
+ICDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIF9fdTY0IGlv
+dmE7Cj4+Pj4+Pgo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgLyoKPj4+Pj4+ICDCoMKgwqDCoMKg
+wqDCoMKgwqAgKiBbb3V0XSBJRCBjb3JyZXNwb25kaW5nIHRvIHRoZSBtYXBwZWQgbWVtb3J5IHRv
+IGJlIHVzZWQgZm9yCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgICrCoMKgIHJlbG9jYXRpb25z
+IG9yIHVubWFwcGluZy4KPj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgwqAgKi8KPj4+Pj4+ICDCoMKg
+wqDCoMKgwqDCoMKgIF9fdTMyIG1hcHBpbmdfaWQ7Cj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoCAv
+Kgo+Pj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoCAqIFtpbl0gRmxhZ3MuCj4+Pj4+PiAgwqDCoMKg
+wqDCoMKgwqDCoMKgICovCj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3UzMiBmbGFnczsKPj4+
+Pj4+Cj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3UzMiByZXNlcnZlZFs2XTsKPj4+Pj4+IH07
+Cj4+Pj4+Cj4+Pj4+IEl0IGxvb2tzIHRvIG1lIHRoYXQgd2UgYWN0dWFsbHkgbmVlZCBhIGJpdCBk
+aWZmZXJlbnQgdGhpbmcgaGVyZS4KPj4+Pj4KPj4+Pj4gVGhpcyBNQVAgSU9DVEwgbWFwcyBhIHBv
+cnRpb24gb2YgYSBHRU0gYW5kIHRoZW4gcmV0dXJucyB0aGUgbWFwcGluZ19pZC4KPj4+Pj4gQW5k
+IEkgdGhpbmsgd2UgbmVlZCBzb21ldGhpbmcgbW9yZSBmbGV4aWJsZSB0aGF0IHdpbGwgYWxsb3cg
+dXMgdG8gdXNlCj4+Pj4+IEdFTSBoYW5kbGVzIGZvciB0aGUgcmVsb2NhdGlvbiBJRHMsIHdoaWNo
+IHNob3VsZCBmaXQgbmljZWx5IHdpdGggdGhlCj4+Pj4+IERNQS1yZXNlcnZhdGlvbnMuCj4+Pj4+
+Cj4+Pj4+IFdoYXQgYWJvdXQgYW4gSU9DVEwgdGhhdCB3cmFwcyBHRU0gaW50byBhbm90aGVyIEdF
+TT8gV2UgY291bGQgd3JhcCBhCj4+Pj4+IHBvcnRpb24gb2YgR0VNX0EgaW50byBhIEdFTV9CLCBh
+bmQgdGhlbiBtYXAgdGhlIEdFTV9CIHVzaW5nIHRoZSBNQVAKPj4+Pj4gSU9DVEwuCj4+Pj4+Cj4+
+Pj4+IEl0IGNvdWxkIGJlIHNvbWV0aGluZyBsaWtlIHRoaXM6Cj4+Pj4+Cj4+Pj4+ICMjIyBEUk1f
+VEVHUkFfQk9fV1JBUAo+Pj4+Pgo+Pj4+PiBzdHJ1Y3QgZHJtX3RlZ3JhX3dyYXBfYm8gewo+Pj4+
+PiAgwqDCoMKgwqBfX3UzMiBib19oYW5kbGVfd3JhcHBlZDsgLy8gb3V0Cj4+Pj4+ICDCoMKgwqDC
+oF9fdTMyIGJvX2hhbmRsZTvCoMKgwqDCoMKgwqDCoMKgIC8vIGluCj4+Pj4+ICDCoMKgwqDCoF9f
+dTY0IG9mZnNldDsKPj4+Pj4gIMKgwqDCoMKgX191NjQgbGVuZ3RoOwo+Pj4+PiB9Owo+Pj4+Pgo+
+Pj4+PiAjIyMgRFJNX1RFR1JBX0NIQU5ORUxfTUFQCj4+Pj4+Cj4+Pj4+IHN0cnVjdCBkcm1fdGVn
+cmFfY2hhbm5lbF9tYXAgewo+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3UzMiBjaGFubmVsc19t
+YXNrOwo+Pj4+PiAgwqDCoMKgwqBfX3UzMiBtYXBwaW5nX2lkOwo+Pj4+PiAgwqDCoMKgwqDCoMKg
+wqDCoCBfX3UzMiBib19oYW5kbGU7Cj4+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIF9fdTMyIGZsYWdz
+Owo+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBfX3U2NCBpb3ZhOwo+Pj4+PiB9Owo+Pj4+Pgo+Pj4+
+PiA9PT0KPj4+Pj4KPj4+Pj4gVGhpcyBhbGxvd3MgbXVsdGlwbGUgbWFwcGluZ19pZHMgdG8gaGF2
+ZSB0aGUgc2FtZSBiYWNraW5nIEdFTSwgc28gdGhlCj4+Pj4+IG1hcHBpbmdfaWQgY291bGQgYmUg
+cmVzb2x2ZWQgaW50byBhIEJPIGR1cmluZyBvZiBqb2IncyBzdWJtaXNzaW9uIGZvcgo+Pj4+PiB0
+aGUgRE1BLXJlc2VydmF0aW9ucyBoYW5kbGluZy4KPj4+Pgo+Pj4+IFRoYXQncyBwcmV0dHkgbXVj
+aCB3aGF0IHdlIGhhdmUgYWxyZWFkeSBhYm92ZSwgaXNuJ3QgaXQ/IEp1c3QgYmVjYXVzZSB3ZQo+
+Pj4+IGNhbGwgdGhlIGZpZWxkICJtYXBwaW5nX2lkIiBkb2Vzbid0IG1lYW4gdGhhdCBpbiB0aGUg
+YmFja2dyb3VuZCB3ZSBjYW4ndAo+Pj4+IGNyZWF0ZSBhIEdFTSBvYmplY3QgYW5kIHJldHVybiBp
+dCdzIGhhbmRsZSBhcyAibWFwcGluZ19pZCIuCj4+Pj4KPj4+PiBPbmUgYWR2YW50YWdlIG9mIE1p
+a2tvJ3MgcHJvcG9zYWwgaXMgdGhhdCB3ZSBoYXZlIGEgc2luZ2xlIElPQ1RMIHJhdGhlcgo+Pj4+
+IHRoYW4gdHdvIHRvIGNyZWF0ZSB0aGUgbWFwcGluZywgbWFraW5nIGl0IGEgYml0IG1vcmUgbGln
+aHR3ZWlnaHQuCj4+Pgo+Pj4gVGhpbmtpbmcgYSBiaXQgbW9yZSBhYm91dCBpdCwgSSBub3cgY2hh
+bmdlZCBteSBtaW5kLgo+Pj4KPj4+IFRoZXJlIGlzIG5vIG5lZWQgdG8gcGVyZm9ybSBpbXBsaWNp
+dCBmZW5jaW5nIG9uIGVhY2ggc3ViYWxsb2NhdGlvbiwKPj4+IGluc3RlYWQgZXhwbGljaXQgZmVu
+Y2luZyBzaG91bGQgYmUgdXNlZCBmb3IgdGhlIHN1YmFsbG9jYXRpb25zLgo+Pj4KPj4+IFNvLCB3
+ZSB3aWxsIG5lZWQgdG8gYWRkIHRoZSByZWxvY2F0aW9uIGZsYWdzIGZvciB0aGUgZGlyZWN0aW9u
+IGFuZAo+Pj4gZXhwbGljaXQgKG9yIGltcGxpY2l0KSBmZW5jaW5nIHBlci1yZWxvY2F0aW9uLiBU
+aGUgZGlyZWN0aW9uIHdpbGwgdGVsbAo+Pj4gaG93IGZlbmNlIHNob3VsZCBiZSBhdHRhY2hlZCB0
+byB0aGUgQk8ncyBETUEtcmVzZXJ2YXRpb24sIHdoaWxlIHRoZQo+Pj4gZmVuY2UtZmxhZyB3aWxs
+IHRlbGwgd2hldGhlciBqb2IncyBzY2hlZHVsZXIgc2hvdWxkIHdhaXQgZm9yIHRoZSBCTydzCj4+
+PiByZXNlcnZhdGlvbiBiZWZvcmUgZXhlY3V0aW5nIGpvYiBvbiBoYXJkd2FyZS4gVGhpcyBhbGwg
+d2lsbCBiZSBuZWVkZWQKPj4+IGZvciBhIHByb3BlciBEUkkgaW1wbGVtZW50YXRpb24gb24gb2xk
+ZXIgVGVncmFzLgo+Pj4KPj4+IEFjdHVhbGx5LCBkdXJpbmcgb2YgbXkgZXhwZXJpbWVudHMgd2l0
+aCB0aGUgVUFQSSwgSSBhZGRlZCBib3RoIHRoZXNlCj4+PiBmbGFncyBmb3IgdGhlIHJlbG9jYXRp
+b25zIFsxXSwgYnV0IHJlYWxseSB1c2VkIG9ubHkgdGhlIGRpcmVjdGlvbiBmbGFnCj4+PiBzbyBm
+YXIsIHJlbHlpbmcgb24gdGhlIGltcGxpY2l0IGZlbmNpbmcuCj4+Pgo+Pj4gWzFdCj4+PiBodHRw
+czovL2dpdGh1Yi5jb20vZ3JhdGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2luY2x1ZGUvdWFw
+aS9kcm0vdGVncmFfZHJtLmgjTDg5NAo+Pj4KPj4+Cj4+PiBTbywgbGV0J3Mga2VlcCB0aGUgY3Vy
+cmVudCB2YXJpYW50IG9mIHRoaXMgTUFQIElPQ1RMIGFzLWlzLgo+Pj4KPj4KPj4gTGV0IG1lIHJl
+cGhyYXNlIHRvIG1ha2Ugc3VyZSBJIHVuZGVyc3RhbmQ6Cj4+Cj4+IEZvciByZWxvY2F0aW9ucywg
+d2Ugc2hvdWxkIGFkZCBmbGFncyBmb3IgZGlyZWN0aW9uIGFuZCBmZW5jaW5nLiBUaGlzIHdheQo+
+PiBhdCBzdWJtaXQgdGltZSB3ZSBjYW4gZG8gdGhlIHByb3BlciBmZW5jaW5nIG9wZXJhdGlvbnMg
+b24gdGhlIHJlbG9jYXRlZAo+PiBCTydzIERNQSByZXNlcnZhdGlvbi4KPiAKPiBDb3JyZWN0Cj4g
+Cj4+IFRoaXMgc291bmRzIGdvb2QgdG8gbWUsIGFuZCBJIHRoaW5rIGl0IG1ha2VzIHRoZSAicmVs
+b2NhdGlvbiIgY29uY2VwdCBhCj4+IGJpdCBtb3JlIGdlbmVyYWwgdGhhbiBpdCBpcyBjdXJyZW50
+bHkuIEkgdGhpbmsgd2UgY291bGQgcmVuYW1lIGl0IHRvCj4+IHNvbWV0aGluZyBsaWtlICJidWZm
+ZXJfdXNhZ2UiIChvcGVuIHRvIGJpa2VzaGVkZGluZyksIGFuZCBpdCBjYW4gaGF2ZQo+PiBmZW5j
+ZS1yZWxhdGVkIGZsYWdzIGFuZCByZWxvY2F0aW9uLXJlbGF0ZWQgZmxhZ3MuIEZvciBuZXdlciBU
+ZWdyYSBjaGlwcwo+PiB3ZSBkb24ndCBuZWNlc3NhcmlseSBuZWVkIHRvIHJlbG9jYXRlLCBidXQg
+d2Ugc3RpbGwgbWF5IG5lZWQgdG8gaGFuZGxlCj4+IERNQSByZXNlcnZhdGlvbnMsIHNvIGluIHRo
+ZXNlIGNhc2VzIG9ubHkgdGhlIGZlbmNpbmcgZmxhZ3Mgd291bGQgYmUgc2V0Lgo+IAo+IEtlcm5l
+bCBkcml2ZXIgYWxyZWFkeSBrbm93cyB3aGV0aGVyIHJlbG9jYXRpb24gbmVlZHMgdG8gYmUgcGF0
+Y2hlZCBzaW5jZQo+IGl0IHJldHVybnMgMHhmZmZmZmZmZiBieSB0aGUgTUFQIGlmIHBhdGNoaW5n
+IGlzIG5lZWRlZCwgYW5kIHRodXMsCj4gcGF0Y2hpbmcgY291bGQgYmUgYXV0by1za2lwcGVkIGJ5
+IHRoZSBkcml2ZXIuCj4gCj4gSSBkb24ndCB0aGluayB0aGF0IGEgc3BlY2lhbCBmbGFnIGlzIHJl
+cXVpcmVkIGZvciB0ZWxsaW5nIGFib3V0IHdoZXRoZXIKPiByZWxvY2F0aW9uIG5lZWRzIHRvIGJl
+IGRvbmUuIFRoZSBkaXJlY3Rpb24gYW5kIGZlbmNlIGZsYWdzIHNob3VsZCBiZQo+IGVub3VnaCBm
+b3Igbm93LgoKWWVhaCwgSSBndWVzcyBpdCdzIG5vdCByZWFsbHkgcmVxdWlyZWQuCgo+IAo+ID09
+PQo+IAo+IEknbSBjdXJpb3Mgd2hhdCBkbyB5b3UgdGhpbmsgYWJvdXQgYW5vdGhlciB2YXJpYW50
+Ogo+IAo+IEluIHRoZSBncmF0ZS1rZXJuZWwgSSdtIHVzaW5nIGEgQk8gdGFibGUgd2hpY2ggY29u
+dGFpbnMgdW5pcXVlIEJPCj4gZW50cmllcyBmb3IgZWFjaCBqb2IncyByZWxvY2F0aW9uIFsxXSBh
+bmQgdGhlbiBJRHMgb2YgdGhpcyB0YWJsZSBhbmQKPiB0YXJnZXQgb2Zmc2V0cyBhcmUgZW1iZWRk
+ZWQgaW50byB0aGUgY21kc3RyZWFtIGluLXBsYWNlIG9mIHRoZSBtZW1vcnkKPiBhZGRyZXNzZXMg
+WzJdLiBUaGlzIHdheSwgd2hlbiBjbWRzdHJlYW0gaXMgZnVsbHkgZmlyZXdhbGxlZCwgd2UncmUK
+PiByZWFkaW5nIHRoZSBzdHJlYW0ncyBkYXRhIGFueXdheXMsIGFuZCB0aHVzLCBpdCdzIHF1aXRl
+IG5pY2UgdG8gZW1iZWQKPiB0aGUgQk8gdGFibGUgSURzIGFuZCBvZmZzZXRzIGludG8gY21kc3Ry
+ZWFtIGl0c2VsZiBbM10uCj4gCj4gSW4gYSByZXN1bHQ6Cj4gCj4gICAtIEVhY2ggam9iJ3MgQk8g
+aXMgcmVzb2x2ZWQgb25seSBvbmNlIGR1cmluZyBzdWJtaXNzaW9uLgo+IAo+ICAgLSBCTyB0YWJs
+ZSBpcyBrZXB0IHNtYWxsIGlmIGNtZHN0cmVhbSBjb250YWlucyBkdXBsaWNhdGVkIHJlbG9jYXRp
+b25zLgo+IAo+IFsxXQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIvbGludXgvYmxv
+Yi9tYXN0ZXIvaW5jbHVkZS91YXBpL2RybS90ZWdyYV9kcm0uaCNMODkyCj4gCj4gWzJdCj4gaHR0
+cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saW51eC9ibG9iL21hc3Rlci9pbmNsdWRlL3Vh
+cGkvZHJtL3RlZ3JhX2RybS5oI0w3ODMKPiAKPiBbM10KPiBodHRwczovL2dpdGh1Yi5jb20vZ3Jh
+dGUtZHJpdmVyL2xpbnV4L2Jsb2IvbWFzdGVyL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS91YXBpL3Bh
+dGNoaW5nLmMjTDQzCj4gCj4gT2YgY291cnNlIHRoaXMgbGltaXRzIHRoZSBudW1iZXIgb2YgQk9z
+IHBlci1qb2IuIEluIGEgY2FzZSBvZgo+IGdyYXRlLWtlcm5lbCBpdCdzIG1heCA2NCBCT3MgcGVy
+LWpvYiArIG1heCA2NE1CIGZvciB0YXJnZXQgb2Zmc2V0LiBJCj4gZ3Vlc3MgdGhlIEJPcyBudW1i
+ZXIgY291bGQgYmUgbG93ZXJlZCB0byAzMiBwZXItam9iLCB3aGljaCBzaG91bGQgYmUgYQo+IGJp
+dCBtb3JlIHJlYWxpc3RpYywgYW5kIHRoZW4gbWF4IHRhcmdldCBvZmZzZXQgd2lsbCBiZSAxMjhN
+Qi4KPiAKPiBTbywgd2UgY291bGQgcmVwbGFjZSB0aGUgQk8gdGFibGUgd2l0aCBhIG1hcHBpbmcg
+dGFibGUgYW5kIGhhdmUgdGhlCj4gTUFQUElOR19UQUJMRSEgOikgQW5kIGl0IGRvZXNuJ3QgbWF0
+dGVyIHdoZXRoZXIgY21kc3RyZWFtIHBhdGNoZWQgb3IKPiBub3QsIGVpdGhlciB3YXkgdGhlIE1B
+UFBJTkdfVEFCTEUgd2lsbCBjb250YWluIG1hcHBpbmcgSUQgKyBmbGFncy4KPiAKPiBUaGVyZSBh
+cmUgMyBwb3NzaWJsZSB2YXJpYW50cyBvZiBob3cgam9iIGNvdWxkIGJlIHByb2Nlc3NlZCwgZGVw
+ZW5kaW5nCj4gb24gaGFyZHdhcmUgZ2VuZXJhdGlvbiBhbmQgZHJpdmVyIHNlY3VyaXR5IGNvbmZp
+Z3VyYXRpb246Cj4gCj4gICAgMS4gSm9iIGlzIGZ1bGx5LXBhcnNlZCBhbmQgcGF0Y2hlZC4KPiAg
+ICAyLiBKb2IgaXMgcGF0Y2hlZC1vbmx5ICh3aXRoIHJlbG9jYXRpb25zKS4KPiAgICAzLiBKb2Ig
+aXNuJ3QgcGFyc2VkLCBub3IgcGF0Y2hlZC4KPiAKPiBNeSB2YXJpYW50IGNvdmVycyAxIGFuZCAz
+LiBJIGd1ZXNzIHdlIGNvdWxkIGp1c3QgaWdub3JlIHRoZSBjYXNlIDIgZm9yCj4gbm93IGFuZCBm
+YWxsIGJhY2sgdG8gMSwgZm9yIHNpbXBsaWNpdHkuIEl0IHNob3VsZG4ndCBiZSBhIHByb2JsZW0g
+dG8gYWRkCj4gc3VwcG9ydCBmb3IgdGhlIFJFTE9DU19UQUJMRSBpbiBhZGRpdGlvbiB0byBNQVBQ
+SU5HX1RBQkxFIGxhdGVyIG9uLCBpZgo+IHdpbGwgYmUgcmVhbGx5IG5lZWRlZC4KPiAKCkkgdGhp
+bmsgdGhlIGJpdGZpZWxkIHdpbGwgZ2V0IGEgYml0IHRpZ2h0IG9uY2Ugd2UgYWRkIHRoZSAnc2hp
+ZnQnIGZpZWxkIAphbmQgJ2Jsb2NrbGluZWFyJyBmbGFnIHRvIGl0IDopICh3aGljaCBtYWRlIG1l
+IG5vdGljZSB0aGF0IGFwcGFyZW50bHkgbXkgCm9yaWdpbmFsIHByb3Bvc2FsIGhhcyB0aGUgZGVm
+aW5lIGZvciAKRFJNX1RFR1JBX1NVQk1JVF9SRUxPQ0FUSU9OX0JMT0NLTElORUFSLCBidXQgZG9l
+c24ndCBoYXZlIGEgZmxhZ3MgZmllbGQgCmluIHRoZSByZWxvY2F0aW9uIHN0cnVjdHVyZSwgb29w
+cyEpCkJvdGggb2YgdGhvc2UgYWZmZWN0IHRoZSByZWxvY2F0aW9uIHZhbHVlLgoKRldJVywgd2Ug
+c2hvdWxkIGRlc2lnbiBvcHRpb24gMSB0byBiZSBmdW5jdGlvbmFsIGZvciBuZXcgY2hpcHMgYXMg
+d2VsbCwgCmFzIHdlIG5lZWQgdG8gdXNlIGl0IGUuZy4gaWYgSU9NTVUgaXMgZGlzYWJsZWQuCgpN
+aWtrbwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
