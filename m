@@ -2,49 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A1020EF72
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A716720EF8A
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:36:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C61189CCE;
-	Tue, 30 Jun 2020 07:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982A489D8D;
+	Tue, 30 Jun 2020 07:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21FCD89B5F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 05:45:32 +0000 (UTC)
-From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1593495930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e0jTHQoxks+qBbNy0dT5aGqcUc2Cr1SJenmjgFYt3N0=;
- b=YlxVqzCRdCLagIuiSN5nItBjqQPZ2DP/4ckSar2DXzbSswXn/ue/b3BeDrtKXJn8SCKPbe
- pWdtbU2WttkDk3HhnnV7n84yjDP+j8FIgu1dbFfwLX+YEKhVzZpSb/yDCAuvs5EguUB6vl
- zsrWIv1wTdjqfz+W2JbO6PYEexxRFv3MowEDdeaDFaLdHdmki4loeuCpJoNR5d8c3AaSxU
- IQK4+XvZ/zn4f/qaSnG+mfMoCO/xZn7nEO5YVmw2o5IkPJVGZ0A6et+OToHo9wigvwfqZh
- QFAiLaPIp0D5qoRFG4xxm8VCo5XK4PlDSNio7/iWULQIdcSt05eQtuf/G3rn1A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1593495930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e0jTHQoxks+qBbNy0dT5aGqcUc2Cr1SJenmjgFYt3N0=;
- b=a11DQheLWNJeNZ9gNWThCp1M/5fUStr7/eAN6H/sAjWwH6voOIB1uCPnzRXmjXUo+A8OgP
- dfrY76usUX8tVyBg==
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v3 08/20] dma-buf: Use sequence counter with associated
- wound/wait mutex
-Date: Tue, 30 Jun 2020 07:44:40 +0200
-Message-Id: <20200630054452.3675847-9-a.darwish@linutronix.de>
-In-Reply-To: <20200630054452.3675847-1-a.darwish@linutronix.de>
-References: <20200519214547.352050-1-a.darwish@linutronix.de>
- <20200630054452.3675847-1-a.darwish@linutronix.de>
+Received: from smtp.al2klimov.de (smtp.al2klimov.de
+ [IPv6:2a01:4f8:c0c:1465::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6692589C16
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 06:31:53 +0000 (UTC)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+ by smtp.al2klimov.de (Postfix) with ESMTPA id 4EA0BBC078;
+ Tue, 30 Jun 2020 06:31:41 +0000 (UTC)
+Subject: Re: [PATCH] Remove handhelds.org links and email addresses
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20200629203121.7892-1-grandmaster@al2klimov.de>
+ <20200629211027.GA1481@kunai>
+From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Message-ID: <09c27ac7-f5bc-064b-6751-9edc04de1679@al2klimov.de>
+Date: Tue, 30 Jun 2020 08:31:40 +0200
 MIME-Version: 1.0
+In-Reply-To: <20200629211027.GA1481@kunai>
+Content-Language: en-US
+X-Spamd-Bar: +
+X-Spam-Level: *
+Authentication-Results: smtp.al2klimov.de;
+ auth=pass smtp.auth=aklimov@al2klimov.de
+ smtp.mailfrom=grandmaster@al2klimov.de
 X-Mailman-Approved-At: Tue, 30 Jun 2020 07:34:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,140 +44,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, David Airlie <airlied@linux.ie>,
- "Sebastian A. Siewior" <bigeasy@linutronix.de>,
- LKML <linux-kernel@vger.kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- dri-devel@lists.freedesktop.org, "Ahmed S. Darwish" <a.darwish@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="us-ascii"
+Cc: ulf.hansson@linaro.org, gustavo@embeddedor.com, tony@atomide.com,
+ daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mchehab+samsung@kernel.org,
+ lee.jones@linaro.org, corbet@lwn.net, linux-samsung-soc@vger.kernel.org,
+ aaro.koskinen@iki.fi, robert.jarzmik@free.fr, rafael.j.wysocki@intel.com,
+ yuehaibing@huawei.com, linux@armlinux.org.uk, krzk@kernel.org,
+ kgene@kernel.org, viresh.kumar@linaro.org, kuba@kernel.org, arnd@arndb.de,
+ b.zolnierkie@samsung.com, jani.nikula@intel.com, linux-mmc@vger.kernel.org,
+ linux-input@vger.kernel.org, j.neuschaefer@gmx.net, haojian.zhuang@gmail.com,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org, yanaijie@huawei.com, gregkh@linuxfoundation.org,
+ dmitry.torokhov@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Julia.Lawall@inria.fr, netdev@vger.kernel.org,
+ davem@davemloft.net, daniel@zonque.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A sequence counter write side critical section must be protected by some
-form of locking to serialize writers. If the serialization primitive is
-not disabling preemption implicitly, preemption has to be explicitly
-disabled before entering the sequence counter write side critical
-section.
 
-The dma-buf reservation subsystem uses plain sequence counters to manage
-updates to reservations. Writer serialization is accomplished through a
-wound/wait mutex.
 
-Acquiring a wound/wait mutex does not disable preemption, so this needs
-to be done manually before and after the write side critical section.
+Am 29.06.20 um 23:10 schrieb Wolfram Sang:
+> Hi Alexander,
+> 
+> thanks for trying to fix this, yet I have some doubts.
+> 
+> On Mon, Jun 29, 2020 at 10:31:21PM +0200, Alexander A. Klimov wrote:
+>> Rationale:
+>> https://lore.kernel.org/linux-doc/20200626110706.7b5d4a38@lwn.net/
+> 
+> I think we need some text here. Clicking on a link to understand what a
+> patch is about is not comfortable. You can add the link with a Link: tag
+> for additional information.
+Fine. I can easily make a v2 patch, but first...
 
-Use the newly-added seqcount_ww_mutex_t instead:
+> 
+> Removing stale email addresses may have some value, but removing...
+> 
+>>   Compaq's Bootldr + John Dorsey's patch for Assabet support
+>> -(http://www.handhelds.org/Compaq/bootldr.html)
+> 
+> ... information like this is not good. 'Wayback machine' still has
+> copies in case someone wants to look at where the infos came from.
+If we shall not remove *this link*, maybe we shall not remove *all links*?
 
-  - It associates the ww_mutex with the sequence count, which enables
-    lockdep to validate that the write side critical section is properly
-    serialized.
+@Jon You've kinda initiated the patch, what's your opinion? Bad 
+squatters or good Wayback machine?
 
-  - It removes the need to explicitly add preempt_disable/enable()
-    around the write side critical section because the write_begin/end()
-    functions for this new data type automatically do this.
+> 
+>> - * Copyright 2004-2005  Phil Blundell <pb@handhelds.org>
+>> + * Copyright 2004-2005  Phil Blundell
+> 
+> This is an OK case in my book...
+> 
+> 
+>> -MODULE_AUTHOR("Phil Blundell <pb@handhelds.org>");
+>> +MODULE_AUTHOR("Phil Blundell");
+> 
+> ... same here ...
+> 
+>> @@ -435,7 +435,6 @@
+>>                              case a PCI bridge (DEC chip 21152). The value of
+>>                              'pb' is now only initialized if a de4x5 chip is
+>>                              present.
+>> -                           <france@handhelds.org>
+> 
+> This is kind of a signature and should be kept IMO.
+What for? An email address is for someone who'd like to send an email to 
+it. At the moment handhelds.org doesn't even have an MX record.
 
-If lockdep is disabled this ww_mutex lock association is compiled out
-and has neither storage size nor runtime overhead.
+> 
+>>    * 2001/07/23: <rmk@arm.linux.org.uk>
+>> - *	- Hand merge version from handhelds.org CVS tree.  See patch
+>> + *	- Hand merge version from CVS tree.  See patch
+> 
+> That information may be useful.
+Again: What for? For visiting it and thinking like damn, it's gone?
 
-Signed-off-by: Ahmed S. Darwish <a.darwish@linutronix.de>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/dma-buf/dma-resv.c                       | 8 +-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 --
- include/linux/dma-resv.h                         | 2 +-
- 3 files changed, 2 insertions(+), 10 deletions(-)
+> 
+> 
+>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>>   /* -*- linux-c -*-
+>> - *
+>> - * (C) 2003 zecke@handhelds.org
+> 
+> Removing copyright is a bad idea.
+IMAO the CREDITS file is for (c) headers.
+If you didn't submit a patch for that - your problem.
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 15efa0c2dacb..a7631352a486 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -129,7 +129,7 @@ subsys_initcall(dma_resv_lockdep);
- void dma_resv_init(struct dma_resv *obj)
- {
- 	ww_mutex_init(&obj->lock, &reservation_ww_class);
--	seqcount_init(&obj->seq);
-+	seqcount_ww_mutex_init(&obj->seq, &obj->lock);
- 
- 	RCU_INIT_POINTER(obj->fence, NULL);
- 	RCU_INIT_POINTER(obj->fence_excl, NULL);
-@@ -260,7 +260,6 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
- 	fobj = dma_resv_get_list(obj);
- 	count = fobj->shared_count;
- 
--	preempt_disable();
- 	write_seqcount_begin(&obj->seq);
- 
- 	for (i = 0; i < count; ++i) {
-@@ -282,7 +281,6 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
- 	smp_store_mb(fobj->shared_count, count);
- 
- 	write_seqcount_end(&obj->seq);
--	preempt_enable();
- 	dma_fence_put(old);
- }
- EXPORT_SYMBOL(dma_resv_add_shared_fence);
-@@ -309,14 +307,12 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
- 	if (fence)
- 		dma_fence_get(fence);
- 
--	preempt_disable();
- 	write_seqcount_begin(&obj->seq);
- 	/* write_seqcount_begin provides the necessary memory barrier */
- 	RCU_INIT_POINTER(obj->fence_excl, fence);
- 	if (old)
- 		old->shared_count = 0;
- 	write_seqcount_end(&obj->seq);
--	preempt_enable();
- 
- 	/* inplace update, no shared fences */
- 	while (i--)
-@@ -394,13 +390,11 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
- 	src_list = dma_resv_get_list(dst);
- 	old = dma_resv_get_excl(dst);
- 
--	preempt_disable();
- 	write_seqcount_begin(&dst->seq);
- 	/* write_seqcount_begin provides the necessary memory barrier */
- 	RCU_INIT_POINTER(dst->fence_excl, new);
- 	RCU_INIT_POINTER(dst->fence, dst_list);
- 	write_seqcount_end(&dst->seq);
--	preempt_enable();
- 
- 	dma_resv_list_free(src_list);
- 	dma_fence_put(old);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index b91b5171270f..ff4b583cb96a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -258,11 +258,9 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
- 	new->shared_count = k;
- 
- 	/* Install the new fence list, seqcount provides the barriers */
--	preempt_disable();
- 	write_seqcount_begin(&resv->seq);
- 	RCU_INIT_POINTER(resv->fence, new);
- 	write_seqcount_end(&resv->seq);
--	preempt_enable();
- 
- 	/* Drop the references to the removed fences or move them to ef_list */
- 	for (i = j, k = 0; i < old->shared_count; ++i) {
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index a6538ae7d93f..d44a77e8a7e3 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -69,7 +69,7 @@ struct dma_resv_list {
-  */
- struct dma_resv {
- 	struct ww_mutex lock;
--	seqcount_t seq;
-+	seqcount_ww_mutex_t seq;
- 
- 	struct dma_fence __rcu *fence_excl;
- 	struct dma_resv_list __rcu *fence;
--- 
-2.20.1
+If you disagree, I can look up git blame.
 
+> 
+> Probably some comment blocks are cruft meanwhile and can be removed as a
+> whole. That can be discussed. But removing only the handhelds.org part
+> makes most parts worse IMHO.
+> 
+> Thanks and happy hacking,
+> 
+>     Wolfram
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
