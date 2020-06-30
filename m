@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8316D20FF01
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E00F520FF0B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F406E479;
-	Tue, 30 Jun 2020 21:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45BB66E486;
+	Tue, 30 Jun 2020 21:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8C76E357;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 670876E35F;
  Tue, 30 Jun 2020 21:28:50 +0000 (UTC)
-IronPort-SDR: Jo8AE2bMSFpBI25biETZyOHOSf0+GdmbUgKi9z9TWyi15YWDJhUKTEz4wPlM1RC33wdYqI1RCQ
- LpwixUdQWqiA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="133846893"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="133846893"
+IronPort-SDR: ZfhtuP9Eyvo5aM5W/sMcnbz7qF8T6SYKe0ku/KQmErEWqWOkMLE3ODSjZv8mkGhSBmjjPs5uCW
+ QWSATZcryOjw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="133846896"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="133846896"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 14:28:48 -0700
-IronPort-SDR: /9ug7yZtx9yjKTRvEVMUcwHddlXjmt1KRe3pxIJG6Fv360PzLO5GPZH5Y0rpKYGuf5zW2JN+L0
- CepfiI4BpmqQ==
+ 30 Jun 2020 14:28:49 -0700
+IronPort-SDR: mrKsDlsLZmEjVe3ynCoLzwu3BCV/fZffdz6oCl2oDp5n8HEK9wtIsRXXL7oaxTSSQERJs5I1DH
+ awpxVjL5kB6Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066750"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066755"
 Received: from hdwiyono-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.254.176.225])
  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:48 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH 33/59] drm/kmb: Initialize clocks for clk_msscam, clk_mipi_ecfg,
- & clk_mipi_cfg.
-Date: Tue, 30 Jun 2020 14:27:45 -0700
-Message-Id: <1593552491-23698-34-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH 34/59] drm/kmb: Enable MSS_CAM_CLK_CTRL for LCD and MIPI
+Date: Tue, 30 Jun 2020 14:27:46 -0700
+Message-Id: <1593552491-23698-35-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
@@ -58,206 +57,104 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Edmund Dea <edmund.j.dea@intel.com>
+Enable clocks for LCD, mipi common and mipi tx0
+Renamed MSS_CAM_CLK_CTRL and also fixed bug in the
+call to set this register.
 
-Note that we enable clk_msscam but do not set clk_msscam. However, we do
-enable and set clk_mipi_ecfg and clk_mipi_cfg.
-
-Verify that LCD and MIPI clocks are set successfully.
-
-Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
+Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_drv.c | 112 +++++++++++++++++++++++++++++++++++++-----
- drivers/gpu/drm/kmb/kmb_drv.h |   2 +
- 2 files changed, 102 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/kmb/kmb_drv.c  |  8 ++++----
+ drivers/gpu/drm/kmb/kmb_drv.h  | 14 ++++++++++++++
+ drivers/gpu/drm/kmb/kmb_dsi.c  |  6 ++++--
+ drivers/gpu/drm/kmb/kmb_regs.h |  7 ++++++-
+ 4 files changed, 28 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 0588bd0..48c2b28 100644
+index 48c2b28..4eb472b 100644
 --- a/drivers/gpu/drm/kmb/kmb_drv.c
 +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -56,6 +56,9 @@ static irqreturn_t kmb_isr(int irq, void *arg);
- 
- static struct clk *clk_lcd;
- static struct clk *clk_mipi;
-+static struct clk *clk_msscam;
-+static struct clk *clk_mipi_ecfg;
-+static struct clk *clk_mipi_cfg;
- 
- struct drm_bridge *adv_bridge;
- 
-@@ -74,6 +77,24 @@ static int kmb_display_clk_enable(void)
- 		DRM_ERROR("Failed to enable MIPI clock: %d\n", ret);
- 		return ret;
- 	}
-+
-+	ret = clk_prepare_enable(clk_msscam);
-+	if (ret) {
-+		DRM_ERROR("Failed to enable MSSCAM clock: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(clk_mipi_ecfg);
-+	if (ret) {
-+		DRM_ERROR("Failed to enable MIPI_ECFG clock: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(clk_mipi_cfg);
-+	if (ret) {
-+		DRM_ERROR("Failed to enable MIPI_CFG clock: %d\n", ret);
-+		return ret;
-+	}
- 	DRM_INFO("SUCCESS : enabled LCD MIPI clocks\n");
- 	return 0;
- }
-@@ -84,6 +105,12 @@ static int kmb_display_clk_disable(void)
- 		clk_disable_unprepare(clk_lcd);
- 	if (clk_mipi)
- 		clk_disable_unprepare(clk_mipi);
-+	if (clk_msscam)
-+		clk_disable_unprepare(clk_msscam);
-+	if (clk_mipi_ecfg)
-+		clk_disable_unprepare(clk_mipi_ecfg);
-+	if (clk_mipi_cfg)
-+		clk_disable_unprepare(clk_mipi_cfg);
- 	return 0;
- }
- 
-@@ -118,6 +145,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 	struct platform_device *pdev = to_platform_device(drm->dev);
- 	/*u32 version;*/
- 	int ret = 0;
-+	unsigned long clk;
- 
- 	/* Map LCD MMIO registers */
- 	dev_p->lcd_mmio = kmb_map_mmio(pdev, "lcd_regs");
-@@ -128,7 +156,6 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 
- 	/* Map MIPI MMIO registers */
- 	dev_p->mipi_mmio = kmb_map_mmio(pdev, "mipi_regs");
--
- 	if (IS_ERR(dev_p->mipi_mmio)) {
- 		DRM_ERROR("failed to map MIPI registers\n");
- 		iounmap(dev_p->lcd_mmio);
-@@ -146,33 +173,94 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 		return -ENOMEM;
+@@ -261,6 +261,9 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
+ 		DRM_INFO("Get clk_mipi_cfg after set = %ld\n", clk);
  	}
  
--	/* enable display clocks*/
-+	/* Enable display clocks*/
- 	clk_lcd = clk_get(&pdev->dev, "clk_lcd");
--	if (!clk_lcd) {
-+	if (IS_ERR(clk_lcd)) {
- 		DRM_ERROR("clk_get() failed clk_lcd\n");
- 		goto setup_fail;
- 	}
--	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 
- 	clk_mipi = clk_get(&pdev->dev, "clk_mipi");
--	if (!clk_mipi) {
-+	if (IS_ERR(clk_mipi)) {
- 		DRM_ERROR("clk_get() failed clk_mipi\n");
- 		goto setup_fail;
- 	}
--	DRM_INFO("%s : %d\n", __func__, __LINE__);
-+
-+	clk_msscam = clk_get(&pdev->dev, "clk_msscam");
-+	if (IS_ERR(clk_msscam)) {
-+		DRM_ERROR("clk_get() failed clk_msscam\n");
-+		goto setup_fail;
-+	}
-+
-+	clk_mipi_ecfg = clk_get(&pdev->dev, "clk_mipi_ecfg");
-+	if (IS_ERR(clk_mipi_ecfg)) {
-+		DRM_ERROR("clk_get() failed clk_mipi_ecfg\n");
-+		goto setup_fail;
-+	}
-+
-+	clk_mipi_cfg = clk_get(&pdev->dev, "clk_mipi_cfg");
-+	if (IS_ERR(clk_mipi_cfg)) {
-+		DRM_ERROR("clk_get() failed clk_mipi_cfg\n");
-+		goto setup_fail;
-+	}
-+
- 	ret = kmb_display_clk_enable();
- 
--	/* set LCD clock to 200 Mhz*/
-+	/* Set LCD clock to 200 Mhz*/
- 	DRM_INFO("Get clk_lcd before set = %ld\n", clk_get_rate(clk_lcd));
--	ret = clk_set_rate(clk_lcd, 200000000);
--	DRM_INFO("Setting LCD clock tp 200Mhz ret = %d\n", ret);
-+	ret = clk_set_rate(clk_lcd, KMB_LCD_DEFAULT_CLK);
-+	if (clk_get_rate(clk_lcd) != KMB_LCD_DEFAULT_CLK) {
-+		DRM_ERROR("failed to set to clk_lcd to %d\n",
-+				KMB_LCD_DEFAULT_CLK);
-+		goto setup_fail;
-+	}
-+	DRM_INFO("Setting LCD clock to %d Mhz ret = %d\n",
-+			KMB_LCD_DEFAULT_CLK/1000000, ret);
- 	DRM_INFO("Get clk_lcd after set = %ld\n", clk_get_rate(clk_lcd));
--	/* set MIPI clock to 24 Mhz*/
-+
-+	/* Set MIPI clock to 24 Mhz*/
- 	DRM_INFO("Get clk_mipi before set = %ld\n", clk_get_rate(clk_mipi));
--	ret = clk_set_rate(clk_mipi, 24000000);
--	DRM_INFO("Setting MIPI clock tp 24Mhz ret = %d\n", ret);
-+	ret = clk_set_rate(clk_mipi, KMB_MIPI_DEFAULT_CLK);
-+	if (clk_get_rate(clk_mipi) != KMB_MIPI_DEFAULT_CLK) {
-+		DRM_ERROR("failed to set to clk_mipi to %d\n",
-+				KMB_MIPI_DEFAULT_CLK);
-+		goto setup_fail;
-+	}
-+	DRM_INFO("Setting MIPI clock to %d Mhz ret = %d\n",
-+			KMB_MIPI_DEFAULT_CLK/1000000, ret);
- 	DRM_INFO("Get clk_mipi after set = %ld\n", clk_get_rate(clk_mipi));
- 
-+	clk = clk_get_rate(clk_mipi_ecfg);
-+	if (clk != KMB_MIPI_DEFAULT_CLK) {
-+		/* Set MIPI_ECFG clock to 24 Mhz*/
-+		DRM_INFO("Get clk_mipi_ecfg before set = %ld\n", clk);
-+		ret = clk_set_rate(clk_mipi_ecfg, KMB_MIPI_DEFAULT_CLK);
-+		clk = clk_get_rate(clk_mipi_ecfg);
-+		if (clk != KMB_MIPI_DEFAULT_CLK) {
-+			DRM_ERROR("failed to set to clk_mipi_ecfg to %d\n",
-+					KMB_MIPI_DEFAULT_CLK);
-+			goto setup_fail;
-+		}
-+		DRM_INFO("Setting MIPI_ECFG clock tp %d Mhz ret = %d\n",
-+				KMB_MIPI_DEFAULT_CLK/1000000, ret);
-+		DRM_INFO("Get clk_mipi_ecfg after set = %ld\n", clk);
-+	}
-+
-+	clk = clk_get_rate(clk_mipi_cfg);
-+	if (clk != KMB_MIPI_DEFAULT_CLK) {
-+		/* Set MIPI_CFG clock to 24 Mhz*/
-+		DRM_INFO("Get clk_mipi_cfg before set = %ld\n", clk);
-+		ret = clk_set_rate(clk_mipi_cfg, 24000000);
-+		clk = clk_get_rate(clk_mipi_cfg);
-+		if (clk != KMB_MIPI_DEFAULT_CLK) {
-+			DRM_ERROR("failed to set to clk_mipi_cfg to %d\n",
-+					KMB_MIPI_DEFAULT_CLK);
-+			goto setup_fail;
-+		}
-+		DRM_INFO("Setting MIPI_CFG clock tp 24Mhz ret = %d\n", ret);
-+		DRM_INFO("Get clk_mipi_cfg after set = %ld\n", clk);
-+	}
-+
++	/* enable MSS_CAM_CLK_CTRL for MIPI TX and LCD */
++	kmb_set_bitmask_msscam(dev_p, MSS_CAM_CLK_CTRL, LCD | MIPI_COMMON |
++			MIPI_TX0);
  #ifdef WIP
  	/* Register irqs here - section 17.3 in databook
  	 * lists LCD at 79 and 82 for MIPI under MSS CPU -
+@@ -312,10 +315,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
+ 
+ 	/* Initialize MIPI DSI */
+ 	ret = kmb_dsi_init(drm, adv_bridge);
+-	if (ret == -EPROBE_DEFER) {
+-		DRM_INFO("%s: wait for external bridge driver DT", __func__);
+-		return -EPROBE_DEFER;
+-	} else if (ret) {
++	if (ret) {
+ 		DRM_ERROR("failed to initialize DSI\n");
+ 		goto setup_fail;
+ 	}
 diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
-index 6c1d687..9e3bb83 100644
+index 9e3bb83..596f4fe 100644
 --- a/drivers/gpu/drm/kmb/kmb_drv.h
 +++ b/drivers/gpu/drm/kmb/kmb_drv.h
-@@ -30,6 +30,8 @@
+@@ -108,6 +108,20 @@ static inline void kmb_write_msscam(struct kmb_drm_private *dev_p,
+ 	writel(value, (dev_p->msscam_mmio + reg));
+ }
  
- #define KMB_MAX_WIDTH			16384	/*max width in pixels */
- #define KMB_MAX_HEIGHT			16384	/*max height in pixels */
-+#define KMB_LCD_DEFAULT_CLK		200000000
-+#define KMB_MIPI_DEFAULT_CLK		24000000
++static inline u32 kmb_read_msscam(struct kmb_drm_private *dev_p,
++		unsigned int reg)
++{
++	return readl(dev_p->msscam_mmio + reg);
++}
++
++static inline void kmb_set_bitmask_msscam(struct kmb_drm_private *dev_p,
++		unsigned int reg, u32 mask)
++{
++	u32 reg_val = kmb_read_msscam(dev_p, reg);
++
++	kmb_write_msscam(dev_p, reg, (reg_val | mask));
++}
++
+ static inline u32 kmb_read_lcd(struct kmb_drm_private *dev_p, unsigned int reg)
+ {
+ 	return readl(dev_p->lcd_mmio + reg);
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index af04eb9..8ab4de7 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -814,9 +814,11 @@ static u32 mipi_tx_init_cntrl(struct kmb_drm_private *dev_p,
+ 		active_vchannels++;
  
- struct kmb_drm_private {
- 	struct drm_device		drm;
+ 		/*connect lcd to mipi */
+-		kmb_write_msscam(dev_p, MSS_CAM_BASE_ADDR +
+-				MIPI_TX_MSS_LCD_MIPI_CFG, 1);
++		kmb_write_msscam(dev_p, MSS_LCD_MIPI_CFG, 1);
+ 
++		/*stop iterating as only one virtual channel shall be used for
++		 * LCD connection
++		 */
+ 		break;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/kmb/kmb_regs.h b/drivers/gpu/drm/kmb/kmb_regs.h
+index f8a7abf..20b331d 100644
+--- a/drivers/gpu/drm/kmb/kmb_regs.h
++++ b/drivers/gpu/drm/kmb/kmb_regs.h
+@@ -697,6 +697,11 @@
+ 			& (1 << (dphy - MIPI_DPHY6)))
+ #define DPHY_CFG_CLK_EN				(0x18c)
+ 
+-#define MIPI_TX_MSS_LCD_MIPI_CFG		(0x04)
++#define MSS_LCD_MIPI_CFG		(0x04)
++#define MSS_CAM_CLK_CTRL		(0x10)
++#define   LCD				(1<<1)
++#define   MIPI_COMMON			(1<<2)
++#define   MIPI_TX0			(1<<9)
++
+ #define BIT_MASK_16				(0xffff)
+ #endif /* __KMB_REGS_H__ */
 -- 
 2.7.4
 
