@@ -1,49 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98D420EB81
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 04:36:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1733720EC14
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 05:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDEE89B70;
-	Tue, 30 Jun 2020 02:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F4789C98;
+	Tue, 30 Jun 2020 03:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB0389B70
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 02:36:36 +0000 (UTC)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
- [209.85.210.46])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AC9322078B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 02:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593484596;
- bh=qOIMy7rJIRnjoozGpQRic6cjlBy36w0n3lS34lGblQY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ju6ik0FR3gQljqgChGe1BiQA9jW0ZY62wPZ1LSWSyu6PcMfyiVEzzAF3cUGN+Mfl7
- FtnT5ozWqYeqjLkGes9ayJ6OiBqydCSKV0XET4uE2zjgsqUdyBz6iAJdnJ1Y3MwXY9
- v6aZANv9zQxAPQEyzj5BZHXkkL4ayGsW0B1X8udY=
-Received: by mail-ot1-f46.google.com with SMTP id 76so2835862otu.9
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 19:36:36 -0700 (PDT)
-X-Gm-Message-State: AOAM532v4ZWKAlBPW+Z8WphOp0yHf1ghNWAF6wDJfOcA38VTq1j3xhkW
- Cxwft8UcoRlT6mjswmYXmTe3u2jleOrP9P6c3w==
-X-Google-Smtp-Source: ABdhPJzyrChMvrjS4uoXXTUy/4hkMrTTfU6uXs+s1bFThmfjFsbSO5UGPc0UWUFBgPSBr0FJFnE2a47XBsO0KFuXvis=
-X-Received: by 2002:a05:6830:3104:: with SMTP id
- b4mr16187909ots.192.1593484596042; 
- Mon, 29 Jun 2020 19:36:36 -0700 (PDT)
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6E589C98;
+ Tue, 30 Jun 2020 03:35:50 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id rk21so19008244ejb.2;
+ Mon, 29 Jun 2020 20:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aJmSmwrsaH1bBcOCXi7RMW99NT7rqTSYgM8PKCwsCVQ=;
+ b=qDEvnMum80gV5DvWSU5LwQhbLXk5TfinUIQ/IMpus0k6Rw+VScCW9Yv1HA7db8lJ8E
+ sS0nOnrkDYcOTrQ7N55qSxOB+vBYLLNN5+f7ee8WhBC0DIvpmoujM4v/TXmTo7RCb211
+ b1qW0H1YU2AGgcLuswKtS/A+kAdIrTbKnNhRGaOR7OEuN40xea79yJxzoSEIn4rUmcK1
+ xEt1v/X1I1X0FDC2+42Q7u2bczAIjNLPly7sSY/lwpdQnDpYdUXfh3olM3AQeJaHTqfE
+ SFoebc9xy3rDlLgua88QRc+TiL/NDg1ZZezu+PnwlPtUY6LOIeCDthEY5hSDFQkdcYYh
+ houA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aJmSmwrsaH1bBcOCXi7RMW99NT7rqTSYgM8PKCwsCVQ=;
+ b=onPc57t8Nm1PKG7SPvB76lrDxpVQA9OpMo26WdZO2kR38lEFI22ldCm5cowYk8ET9+
+ hdlfzho5938bd3bT9ck/5NX/TzAAIkYfhJdKJTbiD99rdaejEmH7Sc+fW3Qflp1YrM6H
+ IDYB5ug0G1ICH7kYVQWXsFu/m4JSyU6vgTBFfNGVmE1pSbr2snClV+mCAGWqDsTDPxdt
+ iLlEtm24syABKKRbm7ICirBX+8LWBBQmwI5v1VVf96m97LSP36/Ups6JqoNzLsBzinSW
+ x6oqWtDZQgmfmT5rWc1ekE4RecGOCCjnRVx6ZCcEGEhk7DtTINgI1HaiR6ij+56Es1ev
+ A3Kg==
+X-Gm-Message-State: AOAM530gNpMl37sq0wDpSZH3UG2Msin4/TNXsTtChkQvJEC1afPfEjEt
+ Ar19EueqJkuk54MzVmiCyfcE5s/hk9nIDnHi62o=
+X-Google-Smtp-Source: ABdhPJxIln0jXR4HaSVjKUP56QmC1imF/pnulXgJu7ASsZsBlTWTXsrX/u1Fk9SDVfSNOKBCkCqdGImbFFK86KhXx1Y=
+X-Received: by 2002:a17:906:ca4c:: with SMTP id
+ jx12mr15323864ejb.231.1593488148574; 
+ Mon, 29 Jun 2020 20:35:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-6-tzimmermann@suse.de>
-In-Reply-To: <20200625120011.16168-6-tzimmermann@suse.de>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 29 Jun 2020 20:36:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJoQKt7XXinxu7OMwjTBz=wbbtMMKAeuXWTYpS_fA=acw@mail.gmail.com>
-Message-ID: <CAL_JsqJoQKt7XXinxu7OMwjTBz=wbbtMMKAeuXWTYpS_fA=acw@mail.gmail.com>
-Subject: Re: [PATCH 5/9] drm/simplekms: Initialize framebuffer data from
- device-tree node
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20200629234921.3511-1-jonathan@marek.ca>
+In-Reply-To: <20200629234921.3511-1-jonathan@marek.ca>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 29 Jun 2020 20:36:18 -0700
+Message-ID: <CAF6AEGtEbAKo21YNMrV58FWiXSSKR7odycXYp=cW9Mso=qFATA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/msm/a6xx: add A640/A650 hwcg
+To: Jonathan Marek <jonathan@marek.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,142 +61,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <sean@poorly.run>, Wambui Karuga <wambui.karugax@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 25, 2020 at 6:00 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Mon, Jun 29, 2020 at 4:49 PM Jonathan Marek <jonathan@marek.ca> wrote:
 >
-> A firmware framebuffer might also be specified via device-tree files. If
-> no device platform data is given, try the DT device node.
+> Initialize hardware clock-gating registers on A640 and A650 GPUs.
+>
+> I put the hwcg tables in adreno_device.c, but maybe it makes more
+> sense to keep them in a6xx_gpu.c? (this would allow switching a5xx
+> to use the gpulist too.. it isn't possible to include both a6xx.xml.h
+> and a5xx.xml.h in adreno_device.c)
 
-You are missing a DT match table for driver matching and module
-loading (if a module is supported).
+
+yeah, I've kinda tried to avoid "crossing the streams".. maybe these
+should move to adreno_gpu
+
+BR,
+-R
 
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/tiny/simplekms.c | 84 ++++++++++++++++++++++++++++++++
->  1 file changed, 84 insertions(+)
+> Jonathan Marek (2):
+>   drm/msm/a6xx: hwcg tables in gpulist
+>   drm/msm/a6xx: add A640/A650 hwcg
 >
-> diff --git a/drivers/gpu/drm/tiny/simplekms.c b/drivers/gpu/drm/tiny/simplekms.c
-> index ac2ebfcedd22..87636307aa4f 100644
-> --- a/drivers/gpu/drm/tiny/simplekms.c
-> +++ b/drivers/gpu/drm/tiny/simplekms.c
-> @@ -113,6 +113,76 @@ simplefb_get_format_pd(struct drm_device *dev,
->         return simplefb_get_validated_format(dev, pd->format);
->  }
+>  drivers/gpu/drm/msm/adreno/a6xx.xml.h      |   8 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 140 ++-----------
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 219 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |   7 +
+>  4 files changed, 251 insertions(+), 123 deletions(-)
 >
-> +static int
-> +simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
-> +                    const char* name, u32 *value)
-> +{
-> +       int ret = of_property_read_u32(of_node, name, value);
-> +       if (ret)
-> +               drm_err(dev, "simplefb: can't parse framebuffer %s: error %d\n",
-> +                       name, ret);
-> +       return ret;
-> +}
-> +
-> +static int
-> +simplefb_read_string_of(struct drm_device *dev, struct device_node *of_node,
-> +                       const char* name, const char **value)
-> +{
-> +       int ret = of_property_read_string(of_node, name, value);
-> +       if (ret)
-> +               drm_err(dev, "simplefb: can't parse framebuffer %s: error %d\n",
-> +                       name, ret);
-> +       return ret;
-> +}
-> +
-> +static int
-> +simplefb_get_width_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +       int ret;
-> +       u32 width;
-> +
-> +       ret = simplefb_read_u32_of(dev, of_node, "width", &width);
-> +       if (ret)
-> +               return ret;
-> +       return simplefb_get_validated_int0(dev, "width", width);
-> +}
-> +
-> +static int
-> +simplefb_get_height_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +       int ret;
-> +       u32 height;
-> +
-> +       ret = simplefb_read_u32_of(dev, of_node, "height", &height);
-> +       if (ret)
-> +               return ret;
-> +       return simplefb_get_validated_int0(dev, "height", height);
-> +}
-> +
-> +static int
-> +simplefb_get_stride_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +       int ret;
-> +       u32 stride;
-> +
-> +       ret = simplefb_read_u32_of(dev, of_node, "stride", &stride);
-> +       if (ret)
-> +               return ret;
-> +       return simplefb_get_validated_int(dev, "stride", stride);
-> +}
-> +
-> +static const struct drm_format_info *
-> +simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +       int ret;
-> +       const char *format;
-> +
-> +       ret = simplefb_read_string_of(dev, of_node, "format", &format);
-> +       if (ret)
-> +               return ERR_PTR(ret);
-> +       return simplefb_get_validated_format(dev, format);
-> +}
-> +
->  /*
->   * Simple Framebuffer device
->   */
-> @@ -163,6 +233,7 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
->         struct drm_device *dev = &sdev->dev;
->         struct platform_device *pdev = sdev->pdev;
->         const struct simplefb_platform_data *pd = dev_get_platdata(&pdev->dev);
-> +       struct device_node *of_node = pdev->dev.of_node;
->
->         if (pd) {
->                 width = simplefb_get_width_pd(dev, pd);
-> @@ -177,6 +248,19 @@ static int simplekms_device_init_fb(struct simplekms_device *sdev)
->                 format = simplefb_get_format_pd(dev, pd);
->                 if (IS_ERR(format))
->                         return PTR_ERR(format);
-> +       } else if (of_node) {
-> +               width = simplefb_get_width_of(dev, of_node);
-> +               if (width < 0)
-> +                       return width;
-> +               height = simplefb_get_height_of(dev, of_node);
-> +               if (height < 0)
-> +                       return height;
-> +               stride = simplefb_get_stride_of(dev, of_node);
-> +               if (stride < 0)
-> +                       return stride;
-> +               format = simplefb_get_format_of(dev, of_node);
-> +               if (IS_ERR(format))
-> +                       return PTR_ERR(format);
->         } else {
->                 drm_err(dev, "no simplefb configuration found\n");
->                 return -ENODEV;
 > --
-> 2.27.0
+> 2.26.1
 >
 _______________________________________________
 dri-devel mailing list
