@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A150720EF80
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3259420EF89
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 09:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44C289D73;
-	Tue, 30 Jun 2020 07:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7921289D8A;
+	Tue, 30 Jun 2020 07:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD4D89D2F
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1593474749; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0DynBegu3BQi3AOKQqJAS/lq1/E9JbDIO+f1jYZbVtg=;
- b=JmnOwkQA+/xyJbIditbSFEDzGiojGeimG0Yx09gNMWyCNCASccMLGPP4yeWa02yI+TDqYJ
- pSjONFmnbWDdQiBkpwUc0wfXu6hIfyawRLf0xr5QMjPfLR8DaskZ0Bd0CQDUlUCQ04FE9h
- fqdb2ynWWTq94mpjJTAxvKqxRrLkAE0=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 10/10] drm/ingenic: Support multiple panels/bridges
-Date: Tue, 30 Jun 2020 01:52:10 +0200
-Message-Id: <20200629235210.441709-10-paul@crapouillou.net>
-In-Reply-To: <20200629235210.441709-1-paul@crapouillou.net>
-References: <20200629235210.441709-1-paul@crapouillou.net>
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94466E0AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 00:10:08 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id z2so14339286qts.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 17:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EL5QcpcJbmw3TB9pZuvneDR5mAK+R7Ly75VwSHh2KSs=;
+ b=MHfQDlokDAfBWu6hE7HPlm7StKsXucSQpFFJCOW5unIeMZUMkQy6MY9ABpZY/GDl3m
+ MztaNCMfGBI6cAnTOYsQ39qAbxXBeq5UDFaneMvdu3wcC1++ypMzCRIyQy1vWfYWwZOA
+ fMev2rQiKwEmB9FU6hy0ffYSD7tE+meyfOY4RKSuSz+415tVfJHUzovtPWTH5cA++jRs
+ 0/DWL4ckBqnc1ZKiS25fpNFCgVEq6+FLs6nhwJY2HCFek+qnS+cW3hisQiX+JqrfDoJa
+ yR1JLw6VLonVho2uSuKOz5wDjJuWn0BE9tOlO3WPzR5Cpa0xWfIzP9nvaniQcALFH6rP
+ q4Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EL5QcpcJbmw3TB9pZuvneDR5mAK+R7Ly75VwSHh2KSs=;
+ b=hZ9Ss4OjvaSVgcRRiik7VayFt9iIJBrCfEpCMI2xPT3u5TjVPK+ha6lmB4rRDWSWyS
+ 2yRiKwjslG6jO7ikZRVuJR8TI86/+FLqJD86FcR44sJCsREbKtjKBl5CoQ+ZJ2nIpnmm
+ M7YEcXZIyxldVifEfQXVKHOt/5rvryNVvKguhwdMjBHdEgKj6Lex5rOWbtJ/k9T1sObS
+ MwhZWl9r9NgMH9X1rGX50/uHXbhIo6mNS4jkzNq+aVJxUkhAmBwSYNwE9FRuR5Jd6AzX
+ XaldDgocwYDFpr8wncWvmJFoIAjcq2YgofBr3c+LjE5W6RajqDiJ58lyLBdcom1fQm23
+ VkEg==
+X-Gm-Message-State: AOAM5318BAQdxaXTCoah2jAtNNM/hyw4RlIp1ZQbrr0TnD9Fk7fEhzBr
+ +tt55t02RXLUqX0uXCfpIPEyag==
+X-Google-Smtp-Source: ABdhPJxYmIa9PMHuULtUiO45xVsisNSPUSKOIbwFA+SRw+pnrIojpBt13lfme5BShzec30D+yJXIcA==
+X-Received: by 2002:ac8:3a27:: with SMTP id w36mr18607516qte.196.1593475808002; 
+ Mon, 29 Jun 2020 17:10:08 -0700 (PDT)
+Received: from localhost.localdomain ([147.253.86.153])
+ by smtp.gmail.com with ESMTPSA id e129sm1636495qkf.132.2020.06.29.17.10.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Jun 2020 17:10:07 -0700 (PDT)
+From: Jonathan Marek <jonathan@marek.ca>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/a6xx: fix crashstate capture for A650
+Date: Mon, 29 Jun 2020 20:10:06 -0400
+Message-Id: <20200630001010.15194-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 30 Jun 2020 07:34:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,157 +66,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support multiple panels or bridges connected to the same DPI output of
-the SoC. This setup can be found for instance on the GCW Zero, where the
-same DPI output interfaces the internal 320x240 TFT panel, and the ITE
-IT6610 HDMI chip.
+A650 has a separate RSCC region, so dump RSCC registers separately, reading
+them from the RSCC base. Without this change a GPU hang will cause a system
+reset if CONFIG_DEV_COREDUMP is enabled.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h       |  5 +++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 25 +++++++++++++++------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 12 ++++++----
+ 3 files changed, 31 insertions(+), 11 deletions(-)
 
-Notes:
-    v2: No change
-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 74 +++++++++++++----------
- 1 file changed, 43 insertions(+), 31 deletions(-)
-
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 36440acd23de..18f7a9eccfc0 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -52,7 +52,6 @@ struct ingenic_drm {
- 	struct drm_device drm;
- 	struct drm_plane f0, f1, *ipu_plane;
- 	struct drm_crtc crtc;
--	struct drm_encoder encoder;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index 47df4745db50..c6d2bced8e5d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -127,6 +127,11 @@ static inline u64 gmu_read64(struct a6xx_gmu *gmu, u32 lo, u32 hi)
+ 	readl_poll_timeout((gmu)->mmio + ((addr) << 2), val, cond, \
+ 		interval, timeout)
  
- 	struct device *dev;
- 	struct regmap *map;
-@@ -106,12 +105,6 @@ static inline struct ingenic_drm *drm_crtc_get_priv(struct drm_crtc *crtc)
- 	return container_of(crtc, struct ingenic_drm, crtc);
++static inline u32 gmu_read_rscc(struct a6xx_gmu *gmu, u32 offset)
++{
++	return msm_readl(gmu->rscc + (offset << 2));
++}
++
+ static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
+ {
+ 	return msm_writel(value, gmu->rscc + (offset << 2));
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index d6023ba8033c..959656ad6987 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -736,7 +736,8 @@ static void a6xx_get_ahb_gpu_registers(struct msm_gpu *gpu,
+ static void _a6xx_get_gmu_registers(struct msm_gpu *gpu,
+ 		struct a6xx_gpu_state *a6xx_state,
+ 		const struct a6xx_registers *regs,
+-		struct a6xx_gpu_state_obj *obj)
++		struct a6xx_gpu_state_obj *obj,
++		bool rscc)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+@@ -755,9 +756,17 @@ static void _a6xx_get_gmu_registers(struct msm_gpu *gpu,
+ 		u32 count = RANGE(regs->registers, i);
+ 		int j;
+ 
+-		for (j = 0; j < count; j++)
+-			obj->data[index++] = gmu_read(gmu,
+-				regs->registers[i] + j);
++		for (j = 0; j < count; j++) {
++			u32 offset = regs->registers[i] + j;
++			u32 val;
++
++			if (rscc)
++				val = gmu_read_rscc(gmu, offset);
++			else
++				val = gmu_read(gmu, offset);
++
++			obj->data[index++] = val;
++		}
+ 	}
  }
  
--static inline struct ingenic_drm *
--drm_encoder_get_priv(struct drm_encoder *encoder)
--{
--	return container_of(encoder, struct ingenic_drm, encoder);
--}
--
- static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
- 					   struct drm_crtc_state *state)
- {
-@@ -451,7 +444,7 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 						struct drm_crtc_state *crtc_state,
- 						struct drm_connector_state *conn_state)
- {
--	struct ingenic_drm *priv = drm_encoder_get_priv(encoder);
-+	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	struct drm_connector *conn = conn_state->connector;
- 	struct drm_display_info *info = &conn->display_info;
-@@ -654,9 +647,11 @@ static int ingenic_drm_bind(struct device *dev)
- 	struct clk *parent_clk;
- 	struct drm_bridge *bridge;
- 	struct drm_panel *panel;
-+	struct drm_encoder *encoder;
- 	struct drm_device *drm;
- 	void __iomem *base;
- 	long parent_rate;
-+	unsigned int i, clone_mask = 0;
- 	int ret, irq;
+@@ -777,7 +786,9 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
  
- 	soc_info = of_device_get_match_data(dev);
-@@ -730,17 +725,6 @@ static int ingenic_drm_bind(struct device *dev)
- 		return PTR_ERR(priv->pix_clk);
- 	}
+ 	/* Get the CX GMU registers from AHB */
+ 	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[0],
+-		&a6xx_state->gmu_registers[0]);
++		&a6xx_state->gmu_registers[0], false);
++	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
++		&a6xx_state->gmu_registers[1], true);
  
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, &bridge);
--	if (ret) {
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get panel handle\n");
--		return ret;
--	}
--
--	if (panel)
--		bridge = devm_drm_panel_bridge_add_typed(dev, panel,
--							 DRM_MODE_CONNECTOR_DPI);
--
- 	priv->dma_hwdesc[0] = dma_alloc_coherent(dev, sizeof(*priv->dma_hwdesc[0]),
- 						 &priv->dma_hwdesc_phys[0],
- 						 GFP_KERNEL);
-@@ -804,22 +788,50 @@ static int ingenic_drm_bind(struct device *dev)
- 		}
- 	}
+ 	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+ 		return;
+@@ -785,8 +796,8 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+ 	/* Set the fence to ALLOW mode so we can access the registers */
+ 	gpu_write(gpu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, 0);
  
--	priv->encoder.possible_crtcs = 1;
-+	for (i = 0; ; i++) {
-+		ret = drm_of_find_panel_or_bridge(dev->of_node, 0, i,
-+						  &panel, &bridge);
-+		if (ret) {
-+			if (ret == -ENODEV)
-+				break; /* we're done */
-+			if (ret != -EPROBE_DEFER)
-+				dev_err(dev, "Failed to get bridge handle\n");
-+			return ret;
-+		}
+-	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
+-		&a6xx_state->gmu_registers[1]);
++	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[2],
++		&a6xx_state->gmu_registers[2], false);
+ }
  
--	drm_encoder_helper_add(&priv->encoder,
--			       &ingenic_drm_encoder_helper_funcs);
-+		if (panel)
-+			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
-+								 DRM_MODE_CONNECTOR_DPI);
+ #define A6XX_GBIF_REGLIST_SIZE   1
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+index 24c974c293e5..846fd5b54c23 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+@@ -341,10 +341,6 @@ static const u32 a6xx_gmu_cx_registers[] = {
+ 	0x5157, 0x5158, 0x515d, 0x515d, 0x5162, 0x5162, 0x5164, 0x5165,
+ 	0x5180, 0x5186, 0x5190, 0x519e, 0x51c0, 0x51c0, 0x51c5, 0x51cc,
+ 	0x51e0, 0x51e2, 0x51f0, 0x51f0, 0x5200, 0x5201,
+-	/* GPU RSCC */
+-	0x8c8c, 0x8c8c, 0x8d01, 0x8d02, 0x8f40, 0x8f42, 0x8f44, 0x8f47,
+-	0x8f4c, 0x8f87, 0x8fec, 0x8fef, 0x8ff4, 0x902f, 0x9094, 0x9097,
+-	0x909c, 0x90d7, 0x913c, 0x913f, 0x9144, 0x917f,
+ 	/* GMU AO */
+ 	0x9300, 0x9316, 0x9400, 0x9400,
+ 	/* GPU CC */
+@@ -357,8 +353,16 @@ static const u32 a6xx_gmu_cx_registers[] = {
+ 	0xbc00, 0xbc16, 0xbc20, 0xbc27,
+ };
  
--	ret = drm_simple_encoder_init(drm, &priv->encoder,
--				      DRM_MODE_ENCODER_DPI);
--	if (ret) {
--		dev_err(dev, "Failed to init encoder: %i\n", ret);
--		return ret;
-+		encoder = devm_kzalloc(dev, sizeof(*encoder), GFP_KERNEL);
-+		if (!encoder)
-+			return -ENOMEM;
++static const u32 a6xx_gmu_cx_rscc_registers[] = {
++	/* GPU RSCC */
++	0x008c, 0x008c, 0x0101, 0x0102, 0x0340, 0x0342, 0x0344, 0x0347,
++	0x034c, 0x0387, 0x03ec, 0x03ef, 0x03f4, 0x042f, 0x0494, 0x0497,
++	0x049c, 0x04d7, 0x053c, 0x053f, 0x0544, 0x057f,
++};
 +
-+		encoder->possible_crtcs = 1;
-+
-+		drm_encoder_helper_add(encoder,
-+				       &ingenic_drm_encoder_helper_funcs);
-+
-+		ret = drm_simple_encoder_init(drm, encoder,
-+					      DRM_MODE_ENCODER_DPI);
-+		if (ret) {
-+			dev_err(dev, "Failed to init encoder: %d\n", ret);
-+			return ret;
-+		}
-+
-+		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-+		if (ret) {
-+			dev_err(dev, "Unable to attach bridge\n");
-+			return ret;
-+		}
- 	}
+ static const struct a6xx_registers a6xx_gmu_reglist[] = {
+ 	REGS(a6xx_gmu_cx_registers, 0, 0),
++	REGS(a6xx_gmu_cx_rscc_registers, 0, 0),
+ 	REGS(a6xx_gmu_gx_registers, 0, 0),
+ };
  
--	ret = drm_bridge_attach(&priv->encoder, bridge, NULL, 0);
--	if (ret) {
--		dev_err(dev, "Unable to attach bridge\n");
--		return ret;
-+	drm_for_each_encoder(encoder, drm) {
-+		clone_mask |= BIT(drm_encoder_index(encoder));
-+	}
-+
-+	drm_for_each_encoder(encoder, drm) {
-+		encoder->possible_clones = clone_mask;
- 	}
- 
- 	ret = drm_irq_install(drm, irq);
 -- 
-2.27.0
+2.26.1
 
 _______________________________________________
 dri-devel mailing list
