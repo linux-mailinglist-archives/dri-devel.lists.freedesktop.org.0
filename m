@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8111120FF14
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD2C20FF34
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:31:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902726E47A;
-	Tue, 30 Jun 2020 21:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D75146E51D;
+	Tue, 30 Jun 2020 21:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB0D66E33F;
- Tue, 30 Jun 2020 21:28:53 +0000 (UTC)
-IronPort-SDR: wr3Pj2crJBG8nEXTrBiPqh24nVCOgJHN3gl1DKvdP+dfCQsuIhE6qjFTxtDueO3BUhaYuZ8z5j
- aeuLqeXAcTRw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="133846932"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="133846932"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 708B16E33C;
+ Tue, 30 Jun 2020 21:28:55 +0000 (UTC)
+IronPort-SDR: CGFFhE01bjPWJAKBqJr1Fb1hdhvDrSNYuqddCjuDkFBw25M6Tx60ucqLP8/U6kBsJM8xzbT7BQ
+ a7NJE2vcW5lg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="133846949"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="133846949"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 14:28:53 -0700
-IronPort-SDR: a9lYp27CSx4RfhHGF44xziTadVlGeB3ERO13vjmovCdaeNSXPpQkeN35CU0ld92vgR2aw/muIJ
- 6jWQsVTeelNA==
+ 30 Jun 2020 14:28:55 -0700
+IronPort-SDR: CEc80Y0yvFMiBf14whaWNctn1F+Vtfs2UkTxChujjK4dOM5fCgoDAozJLAc4hbM+YEm3AgsWqS
+ 3d4ewuT5rbcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066813"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066842"
 Received: from hdwiyono-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.254.176.225])
- by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:52 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:54 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH 46/59] drm/kmb: Enable LCD interrupts during modeset
-Date: Tue, 30 Jun 2020 14:27:58 -0700
-Message-Id: <1593552491-23698-47-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH 51/59] drm/kmb: Write to LCD_LAYERn_CFG only once
+Date: Tue, 30 Jun 2020 14:28:03 -0700
+Message-Id: <1593552491-23698-52-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
@@ -57,109 +57,145 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The issue was that spurious interrupts were happening before the LCD
-controller was enabled and system hangs. Fix is to
-clear LCD interrupts and disable them before modeset
-and re enable them after enabling LCD controller.
+From: Edmund Dea <edmund.j.dea@intel.com>
 
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Video artifacts appear during playback as horizontal lines that
+sporadically appear every few frames. Issue was caused by writing to
+LCD_LAYERn_CFG register twice during plane updates. Issue is fixed by
+writing to LCD_LAYERn_CFG only once.
+
+Removed plane_init_status so that there are no initialization
+dependencies during plane updates.
+
+Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
 Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_crtc.c |  6 +++++-
- drivers/gpu/drm/kmb/kmb_drv.c  | 21 +++------------------
- 2 files changed, 8 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/kmb/kmb_plane.c | 81 +++++++++++++++++++----------------------
+ 1 file changed, 38 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
-index b617507..16f6c7f 100644
---- a/drivers/gpu/drm/kmb/kmb_crtc.c
-+++ b/drivers/gpu/drm/kmb/kmb_crtc.c
-@@ -97,6 +97,7 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	struct videomode vm;
- 	int vsync_start_offset;
- 	int vsync_end_offset;
-+	unsigned int val = 0;
+diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
+index 8aa48b5..ebf29b2 100644
+--- a/drivers/gpu/drm/kmb/kmb_plane.c
++++ b/drivers/gpu/drm/kmb/kmb_plane.c
+@@ -118,7 +118,6 @@ static const u32 csc_coef_lcd[] = {
+ };
  
- 	/* initialize mipi */
- 	kmb_dsi_hw_init(dev, m);
-@@ -107,6 +108,9 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 			m->crtc_hsync_start - m->crtc_hdisplay,
- 			m->crtc_htotal - m->crtc_hsync_end,
- 			m->crtc_hsync_end - m->crtc_hsync_start);
-+	val = kmb_read_lcd(dev->dev_private, LCD_INT_ENABLE);
-+	kmb_clr_bitmask_lcd(dev->dev_private, LCD_INT_ENABLE, val);
-+	kmb_set_bitmask_lcd(dev->dev_private, LCD_INT_CLEAR, ~0x0);
- //	vm.vfront_porch = m->crtc_vsync_start - m->crtc_vdisplay;
- 	vm.vfront_porch = 2;
- //	vm.vback_porch = m->crtc_vtotal - m->crtc_vsync_end;
-@@ -155,9 +159,9 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 		kmb_write_lcd(dev->dev_private, LCD_VSYNC_START_EVEN, 10);
- 		kmb_write_lcd(dev->dev_private, LCD_VSYNC_END_EVEN, 10);
- 	}
--	/* enable VL1 layer as default */
- 	kmb_write_lcd(dev->dev_private, LCD_TIMING_GEN_TRIG, ENABLE);
- 	kmb_set_bitmask_lcd(dev->dev_private, LCD_CONTROL, LCD_CTRL_ENABLE);
-+	kmb_set_bitmask_lcd(dev->dev_private, LCD_INT_ENABLE, val);
+ /*plane initialization status */
+-static int plane_init_status[KMB_MAX_PLANES] = { 0, 0, 0, 0 };
+ 
+ static unsigned int check_pixel_format(struct drm_plane *plane, u32 format)
+ {
+@@ -321,7 +320,6 @@ static void config_csc(struct kmb_drm_private *dev_p, int plane_id)
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_CSC_OFF1(plane_id), csc_coef_lcd[9]);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_CSC_OFF2(plane_id), csc_coef_lcd[10]);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_CSC_OFF3(plane_id), csc_coef_lcd[11]);
+-	kmb_set_bitmask_lcd(dev_p, LCD_LAYERn_CFG(plane_id), LCD_LAYER_CSC_EN);
+ }
  #endif
- 	/* TBD */
- 	/* set clocks here */
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index d987529..26d004c 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -57,8 +57,6 @@ static irqreturn_t kmb_isr(int irq, void *arg);
  
- static struct clk *clk_lcd;
- static struct clk *clk_mipi;
--static struct clk *clk_msscam;
--static struct clk *clk_pll0out0;
- static struct clk *clk_mipi_ecfg;
- static struct clk *clk_mipi_cfg;
- 
-@@ -79,12 +77,6 @@ int kmb_display_clk_enable(void)
- 		DRM_ERROR("Failed to enable MIPI clock: %d\n", ret);
- 		return ret;
- 	}
--/*	ret = clk_prepare_enable(clk_msscam);
--	if (ret) {
--		DRM_ERROR("Failed to enable MSSCAM clock: %d\n", ret);
--		return ret;
--	}
--	*/
- 
- 	ret = clk_prepare_enable(clk_mipi_ecfg);
- 	if (ret) {
-@@ -107,8 +99,6 @@ static int kmb_display_clk_disable(void)
- 		clk_disable_unprepare(clk_lcd);
- 	if (clk_mipi)
- 		clk_disable_unprepare(clk_mipi);
--	if (clk_msscam)
--		clk_disable_unprepare(clk_msscam);
- 	if (clk_mipi_ecfg)
- 		clk_disable_unprepare(clk_mipi_ecfg);
- 	if (clk_mipi_cfg)
-@@ -200,14 +190,6 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 		DRM_ERROR("clk_get() failed clk_mipi\n");
- 		goto setup_fail;
- 	}
--	clk_pll0out0 = clk_get(&pdev->dev, "clk_pll0_out0");
--	if (IS_ERR(clk_pll0out0))
--		DRM_ERROR("clk_get() failed clk_pll0_out0\n");
--
--	if (clk_pll0out0)
--		DRM_INFO("Get clk_pll0out0 = %ld\n",
--				clk_get_rate(clk_pll0out0));
--
- 	clk_mipi_ecfg = clk_get(&pdev->dev, "clk_mipi_ecfg");
- 	if (IS_ERR(clk_mipi_ecfg)) {
- 		DRM_ERROR("clk_get() failed clk_mipi_ecfg\n");
-@@ -413,6 +395,9 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 			break;
+@@ -410,19 +408,27 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 				      addr[V_PLANE]);
  		}
  	}
+-	if (plane_init_status[plane_id] != INITIALIZED) {
+-		kmb_write_lcd(dev_p, LCD_LAYERn_WIDTH(plane_id), src_w - 1);
+-		kmb_write_lcd(dev_p, LCD_LAYERn_HEIGHT(plane_id), src_h - 1);
+-		kmb_write_lcd(dev_p, LCD_LAYERn_COL_START(plane_id), crtc_x);
+-		kmb_write_lcd(dev_p, LCD_LAYERn_ROW_START(plane_id), crtc_y);
+-
+-		val = set_pixel_format(fb->format->format);
+-		val |= set_bits_per_pixel(fb->format);
+-		/*CHECKME Leon drvr sets it to 100 try this for now */
+-		val |= LCD_LAYER_FIFO_100;
+-		kmb_write_lcd(dev_p, LCD_LAYERn_CFG(plane_id), val);
+-
+-		switch (plane_id) {
 +
-+	/* clear all interrupts */
-+	kmb_set_bitmask_lcd(dev->dev_private, LCD_INT_CLEAR, ~0x0);
- 	return IRQ_HANDLED;
++	kmb_write_lcd(dev_p, LCD_LAYERn_WIDTH(plane_id), src_w-1);
++	kmb_write_lcd(dev_p, LCD_LAYERn_HEIGHT(plane_id), src_h-1);
++	kmb_write_lcd(dev_p, LCD_LAYERn_COL_START(plane_id), crtc_x);
++	kmb_write_lcd(dev_p, LCD_LAYERn_ROW_START(plane_id), crtc_y);
++
++	val = set_pixel_format(fb->format->format);
++	val |= set_bits_per_pixel(fb->format);
++	/*CHECKME Leon drvr sets it to 100 try this for now */
++	val |= LCD_LAYER_FIFO_100;
++
++	if (val & LCD_LAYER_PLANAR_STORAGE) {
++		val |= LCD_LAYER_CSC_EN;
++
++		/*enable CSC if input is planar and output is RGB */
++		config_csc(dev_p, plane_id);
++	}
++
++	kmb_write_lcd(dev_p, LCD_LAYERn_CFG(plane_id), val);
++
++	switch (plane_id) {
+ 		case LAYER_0:
+ 			ctrl = LCD_CTRL_VL1_ENABLE;
+ 			break;
+@@ -435,36 +441,28 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 		case LAYER_3:
+ 			ctrl = LCD_CTRL_GL2_ENABLE;
+ 			break;
+-		}
++	}
+ 
+-		ctrl |= LCD_CTRL_PROGRESSIVE | LCD_CTRL_TIM_GEN_ENABLE
+-		    | LCD_CTRL_CONTINUOUS | LCD_CTRL_OUTPUT_ENABLED;
++	ctrl |= LCD_CTRL_PROGRESSIVE | LCD_CTRL_TIM_GEN_ENABLE
++	    | LCD_CTRL_CONTINUOUS | LCD_CTRL_OUTPUT_ENABLED;
+ 
+-		/*LCD is connected to MIPI on kmb
+-		 * Therefore this bit is required for DSI Tx
+-		 */
+-		ctrl |= LCD_CTRL_VHSYNC_IDLE_LVL;
++	/*LCD is connected to MIPI on kmb
++	 * Therefore this bit is required for DSI Tx
++	 */
++	ctrl |= LCD_CTRL_VHSYNC_IDLE_LVL;
+ 
+-		kmb_set_bitmask_lcd(dev_p, LCD_CONTROL, ctrl);
++	kmb_set_bitmask_lcd(dev_p, LCD_CONTROL, ctrl);
+ 
+-		/* FIXME no doc on how to set output format,these values are
+-		 * taken from the Myriadx tests
+-		 */
+-		out_format |= LCD_OUTF_FORMAT_RGB888;
++	/* FIXME no doc on how to set output format,these values are
++	 * taken from the Myriadx tests
++	 */
++	out_format |= LCD_OUTF_FORMAT_RGB888;
+ 
+-		if (val & LCD_LAYER_PLANAR_STORAGE) {
+-			/*enable CSC if input is planar and output is RGB */
+-			config_csc(dev_p, plane_id);
+-		}
+-
+-		/*set background color to white */
+-		//      kmb_write_lcd(dev_p, LCD_BG_COLOUR_LS, 0xffffff);
+-		/*leave RGB order,conversion mode and clip mode to default */
+-		/* do not interleave RGB channels for mipi Tx compatibility */
+-		out_format |= LCD_OUTF_MIPI_RGB_MODE;
+-		kmb_write_lcd(dev_p, LCD_OUT_FORMAT_CFG, out_format);
+-		plane_init_status[plane_id] = INITIALIZED;
+-	}
++	/* Leave RGB order,conversion mode and clip mode to default */
++	/* do not interleave RGB channels for mipi Tx compatibility */
++	out_format |= LCD_OUTF_MIPI_RGB_MODE;
++	//	out_format |= LCD_OUTF_SYNC_MODE;
++	kmb_write_lcd(dev_p, LCD_OUT_FORMAT_CFG, out_format);
+ 
+ 	dma_cfg = LCD_DMA_LAYER_ENABLE | LCD_DMA_LAYER_VSTRIDE_EN |
+ 	    LCD_DMA_LAYER_CONT_UPDATE | LCD_DMA_LAYER_AXI_BURST_16;
+@@ -474,9 +472,6 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	DRM_DEBUG("%s : %d dma_cfg=0x%x LCD_DMA_CFG=0x%x\n",
+ 		  __func__, __LINE__, dma_cfg,
+ 		  kmb_read_lcd(dev_p, LCD_LAYERn_DMA_CFG(plane_id)));
+-
+-	return;
+-
+ #endif
  }
  
 -- 
