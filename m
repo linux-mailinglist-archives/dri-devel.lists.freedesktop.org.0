@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F2A20E976
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 01:42:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 486EF20EB11
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 03:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8567689EBD;
-	Mon, 29 Jun 2020 23:42:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3BEF89C51;
+	Tue, 30 Jun 2020 01:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85DA289EBD
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:42:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A502299;
- Tue, 30 Jun 2020 01:42:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593474128;
- bh=T1iden6Vlf5KKvBUkdJt1bpgWZzESjRHafhJ//bGhy4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WBR3E7e3mjuyzfiGf9W3lCZsKyMq7YWX93q+vcxnp3momOqmxnGXCLcq/Cy6Pu7Oc
- hM5FfUTBvD2A0/H2wta/Zs2rSlm0n5rntFVZ6JqMe5+8eKCy+AP6t37iBgcf8WEt5+
- F7Ddp7xT/LvgntbZsYvJmfwcoZfAXo83pjSuBhO0=
-Date: Tue, 30 Jun 2020 02:42:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 6/4] dt-bindings: display: renesas: lvds: RZ/G2E needs
- renesas,companion too
-Message-ID: <20200629234204.GJ21452@pendragon.ideasonboard.com>
-References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200513233908.23629-1-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdWL9xhzbVhZ6N1xbh+YmP_RBMO4H1uMXXexbJXq6amcLA@mail.gmail.com>
- <20200629081140.GG227119@ravnborg.org>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B90A89C28;
+ Tue, 30 Jun 2020 01:52:13 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49wnR86K8Nz9sDX;
+ Tue, 30 Jun 2020 11:52:03 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1593481930;
+ bh=haJsUCTl3HXOuqQW+RwIUPwO3u5ZbxUOYuPPlYz2MkY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Fm8s6BH4ANPG1t7ms3hWULh21qdZu2xbZ5RHbUmbonZe7c+S7kuPYBBpGuqW3E9de
+ R2RvxspH7pqkmVwAFrplgYuAoFaFZKHbWFA7uahGEOtTCi9glUvC6vpGd1Ks5WdtMO
+ 8Z1QiikuaOjAO3sQFailjKePovZSpgOIv5NKM/A1kt0F9mTBOXHwQTKe963wNOPMxR
+ wxY7zLp5W5T3Kx/XCzayaNuwURIvAynjPpOQWfNot42qJqZ+7Di2QwZTmhgqF9f3z8
+ PEXxdEyfWUaNc8MvDlylYM2GAV0psJrFz0KpWLzdJ4cpY7Ast7dvNJKexm58kCIwHm
+ urNbzzKGheFgw==
+Date: Tue, 30 Jun 2020 11:52:02 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-intel tree with the
+ drm-intel-fixes tree
+Message-ID: <20200630115202.04c39f9b@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200629081140.GG227119@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,57 +51,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Colin Xu <colin.xu@intel.com>
+Content-Type: multipart/mixed; boundary="===============1174332799=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+--===============1174332799==
+Content-Type: multipart/signed; boundary="Sig_/4fPofAu7Md8T4NHp79C0oXC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Mon, Jun 29, 2020 at 10:11:40AM +0200, Sam Ravnborg wrote:
-> On Thu, May 14, 2020 at 08:44:19AM +0200, Geert Uytterhoeven wrote:
-> > On Thu, May 14, 2020 at 1:39 AM Laurent Pinchart wrote:
-> > > From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > >
-> > > Document RZ/G2E support for property renesas,companion.
-> > >
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> > > @@ -81,9 +81,9 @@ properties:
-> > >      $ref: /schemas/types.yaml#/definitions/phandle
-> > >      description:
-> > >        phandle to the companion LVDS encoder. This property is mandatory
-> > > -      for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-> > > -      the second encoder to be used as a companion in dual-link mode. It
-> > > -      shall not be set for any other LVDS encoder.
-> > > +      for the first LVDS encoder on D3, R-Car E3 and RZ/G2E SoCs, and shall
-> > 
-> > R-Car D3 and E3, and RZ/G2E SoCs
-> > 
-> > > +      point to the second encoder to be used as a companion in dual-link mode.
-> > > +      It shall not be set for any other LVDS encoder.
-> 
-> Laurent, I assume you will re-spin a ne version wth the changelog
-> corrected.
+--Sig_/4fPofAu7Md8T4NHp79C0oXC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Yes I will. Thanks for checking.
+Hi all,
 
--- 
-Regards,
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-Laurent Pinchart
+  drivers/gpu/drm/i915/gvt/handlers.c
+
+between commit:
+
+  fc1e3aa0337c ("drm/i915/gvt: Fix incorrect check of enabled bits in mask =
+registers")
+
+from the drm-intel-fixes tree and commit:
+
+  5f4ae2704d59 ("drm/i915: Identify Cometlake platform")
+
+from the drm-intel tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/gvt/handlers.c
+index fadd2adb8030,26cae4846c82..000000000000
+--- a/drivers/gpu/drm/i915/gvt/handlers.c
++++ b/drivers/gpu/drm/i915/gvt/handlers.c
+@@@ -1731,8 -1734,9 +1734,9 @@@ static int ring_mode_mmio_write(struct=20
+  		return 0;
+  	}
+ =20
+- 	if (IS_COFFEELAKE(vgpu->gvt->gt->i915) &&
++ 	if ((IS_COFFEELAKE(vgpu->gvt->gt->i915) ||
++ 	     IS_COMETLAKE(vgpu->gvt->gt->i915)) &&
+ -	    data & _MASKED_BIT_ENABLE(2)) {
+ +	    IS_MASKED_BITS_ENABLED(data, 2)) {
+  		enter_failsafe_mode(vgpu, GVT_FAILSAFE_UNSUPPORTED_GUEST);
+  		return 0;
+  	}
+
+--Sig_/4fPofAu7Md8T4NHp79C0oXC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl76msIACgkQAVBC80lX
+0GxjXAf+PDgs9BZ4I0/T1J1Jwnp4cQHq+tdnzow+RsWfWh57G8b6de2+iWwGoOZ5
+AtAIEWvlxl8NLPqpislhRpx9hBk3Aob/SLYAuQL94xD3stAqm5HnpprFxtKNLC6X
+30oiw0K12JvOfTZ7KqzCCh1LrbERmhgx4+DJBqv/hy3L3Okg6MPfoMEX3p0kHn01
+udqw1vlTf9ruOwMVIX69mLAr3E2Q3iMXbbwhXPiQPxby1ZkmGfGtGUfLesYxKp13
+umLi0qe7AQxO27lAtDLxL0yvWEP94iH1VuhQtWG9XhMO1gU7+hvrBmjRmzxJF0Xq
+GxkdgTRtqBENst7A35lvATu1OzdhmA==
+=GyE7
+-----END PGP SIGNATURE-----
+
+--Sig_/4fPofAu7Md8T4NHp79C0oXC--
+
+--===============1174332799==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1174332799==--
