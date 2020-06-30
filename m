@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9BF20F133
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 11:09:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FC220F13B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 11:11:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328D289DC2;
-	Tue, 30 Jun 2020 09:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA19E89CDE;
+	Tue, 30 Jun 2020 09:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71EE189DC2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 09:09:14 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id o2so18842143wmh.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 02:09:14 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA8889CDE
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 09:11:36 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id a6so19335464wrm.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 02:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=v1q4QGXjMWZSBDrrcU4H5+qS7hC0O+sT9hyxnsYCcqE=;
- b=W4Z47FuaGv4onoJ956YWoCbld2K8uLJoAdXFtJUqNigpqzWR5e31o4wolvqY33vTyr
- dlLTVPKJo0VQP26UYJHw/Zwu2XMKywG5HTnXih9WQjpyzBff0POBSrbOTGsSr+zK+mzR
- uB72DqCvjrPkVp/j8yRs/8+hpbhc7bzH/JMKE=
+ :content-disposition:in-reply-to;
+ bh=5JpkahQMsnajRan9UlbzByC1rfeXRwEcphf9rhr96UM=;
+ b=BRUXxPI4b9WNb6T09/oJWqr0eIXD1EQTohJqAPgPuois7zegf02MjZ61hkwHfaUmIv
+ PCnG1j+nFgQlD5Z27qJa786iYfunmO0XVlc5d6gOD/KlWRjulMy8Ge9haLfIa7lTMga/
+ 3mLkgjUtDhFfWDzw1hJCOZdUE9TYHM1cHQ/iU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=v1q4QGXjMWZSBDrrcU4H5+qS7hC0O+sT9hyxnsYCcqE=;
- b=Nw3XiXUkbyTsxWkn8Wy/EuwSxGnSd/11GJ6NDMnaw8fLtv9o9F75B+Be0uRiOcdpGa
- X1Cou9G18TDMDhRk4S5ZjEmlwhd51f9BZrNJ5yRbYHSuLUUlVVLmYALbAl4FrRv6l9JL
- xQPZ0Xnb2E1kyK1zMTBvY6qnnxMW0ZfMYdGWB9c2gcOA6qmQwaPtNfmQfhuMBc8Q23zr
- 3X8UOZy6WcCooQn2Oc7No1JOaG8eRF6dxPslleeWuqzsEc9wVyIBM7FnRH3uEQbP9Cnh
- QNJE2dUgbxrMslbMAsFO1dsI2PkVFtXHleQGxXPRTqcvzHAMrRGc1N0/xp76egCwjRkD
- Vyng==
-X-Gm-Message-State: AOAM532oFjxlvl9/S45gZ36iwm78SY+t28PKtZeQvUXKnkMqmDB2WYph
- yHZAf/To3+6GsCS4GR24/fZJWA==
-X-Google-Smtp-Source: ABdhPJz01ctYAQj52pCdpr7xZk/xPr+GlIMvpe/7+P5dm7xJPg++jrM25CX+IV6hRjPxU/B7ZotATw==
-X-Received: by 2002:a1c:7f87:: with SMTP id a129mr21439003wmd.10.1593508152984; 
- Tue, 30 Jun 2020 02:09:12 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=5JpkahQMsnajRan9UlbzByC1rfeXRwEcphf9rhr96UM=;
+ b=t+93dOmYTXkkIFsl4Xu1vAcAqkByTjaam33tSp346z86JJCkyoNu4C6C+4VBMtwo8s
+ x71+zbOv7ApcNNzYVGJ+FFkqG76zPpVaiHxtGv3sNJIK7etjyJQqYQJLca2flR5Djc9p
+ Wztj+po3qpWfqd/k5PW+/6wXOlJ7XEiflLUOXXuN9rofJrf3PIR8/4byT2UWTtqe7RNb
+ TrdFedJ75iEt+4CuF7+SLAnxysHUbDPoSCT67ahlVxoRCRVNqzJx5Iol+qUv9m5C1AHi
+ AMifGFi7oLAAJGDjmMv1zGCJJAfA7OMY5/fsKwfB9w97cUsLcdQGyizoKCJZmK5EjWF3
+ u02g==
+X-Gm-Message-State: AOAM532QElNZHByW4SlyT4QZ4dcBwpFhkCk/IWo7Tt0LPE7GMkUruNKv
+ 4W6jXjmvZW3qa/tPWc60SkrTfU9hfHY=
+X-Google-Smtp-Source: ABdhPJwQN2wVQJxWj3+qbOO1x6RfJ7sGHlFX6mTozNTQQiovim5Vou6bMlJbKab0eh5e+BSNf24w9Q==
+X-Received: by 2002:a5d:4107:: with SMTP id l7mr21740459wrp.144.1593508294840; 
+ Tue, 30 Jun 2020 02:11:34 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f14sm3298455wro.90.2020.06.30.02.09.11
+ by smtp.gmail.com with ESMTPSA id k126sm2966594wmf.3.2020.06.30.02.11.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 02:09:12 -0700 (PDT)
-Date: Tue, 30 Jun 2020 11:09:10 +0200
+ Tue, 30 Jun 2020 02:11:34 -0700 (PDT)
+Date: Tue, 30 Jun 2020 11:11:31 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [RFC] Host1x/TegraDRM UAPI
-Message-ID: <20200630090910.GS3278063@phenom.ffwll.local>
-References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
- <CACO55ttfwQDwnO8ep=YKBgo+HYBg=zLDLfBKtH67MrqKzMWw_w@mail.gmail.com>
- <20200626114040.GA3143884@ulmo>
- <20200626133837.GE3278063@phenom.ffwll.local>
- <b46516eb-4077-c3ac-83d0-d8c57660dc3e@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
+Message-ID: <20200630091131.GT3278063@phenom.ffwll.local>
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-9-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <b46516eb-4077-c3ac-83d0-d8c57660dc3e@gmail.com>
+In-Reply-To: <20200625120011.16168-9-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,80 +65,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, Karol Herbst <kherbst@redhat.com>,
- David Airlie <airlied@linux.ie>, gustavo@padovan.org,
- dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
- talho@nvidia.com, bhuntsman@nvidia.com,
- Thierry Reding <thierry.reding@gmail.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMjYsIDIwMjAgYXQgMDQ6NTk6NDVQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDI2LjA2LjIwMjAgMTY6MzgsIERhbmllbCBWZXR0ZXIg0L/QuNGI0LXRgjoKPiA+
-IE9uIEZyaSwgSnVuIDI2LCAyMDIwIGF0IDAxOjQwOjQwUE0gKzAyMDAsIFRoaWVycnkgUmVkaW5n
-IHdyb3RlOgo+ID4+IE9uIEZyaSwgSnVuIDI2LCAyMDIwIGF0IDAxOjA2OjU4UE0gKzAyMDAsIEth
-cm9sIEhlcmJzdCB3cm90ZToKPiA+Pj4gT24gVHVlLCBKdW4gMjMsIDIwMjAgYXQgMzowMyBQTSBN
-aWtrbyBQZXJ0dHVuZW4gPGN5bmRpc0BrYXBzaS5maT4gd3JvdGU6Cj4gPj4+Pgo+ID4+Pj4gIyBI
-b3N0MXgvVGVncmFEUk0gVUFQSSBwcm9wb3NhbAo+ID4+Pj4KPiA+Pj4+IFRoaXMgaXMgYSBwcm9w
-b3NhbCBmb3IgYSBzdGFibGUgVUFQSSBmb3IgSG9zdDF4IGFuZCBUZWdyYURSTSwgdG8gcmVwbGFj
-ZQo+ID4+Pj4gdGhlIGN1cnJlbnQgVGVncmFEUk0gVUFQSSB0aGF0IGlzIGJlaGluZCBgU1RBR0lO
-R2AgYW5kIHF1aXRlIG9ic29sZXRlIGluCj4gPj4+PiBtYW55IHdheXMuCj4gPj4+Pgo+ID4+Pj4g
-SSBoYXZlbid0IHdyaXR0ZW4gYW55IGltcGxlbWVudGF0aW9uIHlldCAtLSBJJ2xsIGRvIHRoYXQg
-b25jZSB0aGVyZSBpcwo+ID4+Pj4gc29tZSBhZ3JlZW1lbnQgb24gdGhlIGhpZ2gtbGV2ZWwgZGVz
-aWduLgo+ID4+Pj4KPiA+Pj4+IEN1cnJlbnQgb3BlbiBpdGVtczoKPiA+Pj4+Cj4gPj4+PiAqIFRo
-ZSBzeW5jcG9pbnQgVUFQSSBhbGxvd3MgdXNlcnNwYWNlIHRvIGNyZWF0ZSBzeW5jX2ZpbGUgRkRz
-IHdpdGgKPiA+Pj4+IGFyYml0cmFyeSBzeW5jcG9pbnQgZmVuY2VzLiBkbWFfZmVuY2UgY29kZSBj
-dXJyZW50bHkgc2VlbXMgdG8gYXNzdW1lIGFsbAo+ID4+Pj4gZmVuY2VzIHdpbGwgYmUgc2lnbmFs
-ZWQsIHdoaWNoIHdvdWxkIG5vdCBuZWNlc3NhcmlseSBiZSB0aGUgY2FzZSB3aXRoCj4gPj4+PiB0
-aGlzIGludGVyZmFjZS4KPiA+Pj4+ICogUHJldmlvdXNseSBwcmVzZW50IEdFTSBJT0NUTHMgKEdF
-TV9DUkVBVEUsIEdFTV9NTUFQKSBhcmUgbm90IHByZXNlbnQuCj4gPj4+PiBOb3Qgc3VyZSBpZiB0
-aGV5IGFyZSBzdGlsbCBuZWVkZWQuCj4gPj4+Pgo+ID4+Pgo+ID4+PiBIaSwgYXMgdGhpcyB3YXNu
-J3QgYWRkcmVzc2VkIGhlcmUgKGFuZCBzb3JyeSBpZiBJIG1pc3NlZCBpdCk6IGlzIHRoZXJlCj4g
-Pj4+IGFuIG9wZW4gc291cmNlIHVzZXJzcGFjZSBtYWtpbmcgdXNlIG9mIHRoaXMgVUFQST8gQmVj
-YXVzZSB0aGlzIGlzCj4gPj4+IHNvbWV0aGluZyB3aGljaCBuZWVkcyB0byBiZSBzZWVuIGJlZm9y
-ZSBpdCBjYW4gYmUgaW5jbHVkZWQgYXQgYWxsLgo+ID4+Cj4gPj4gVGhlcmUncyBhIHNldCBvZiBj
-b21taXRzIHRoYXQgaW1wbGVtZW50IGFuIGVhcmxpZXIgZHJhZnQgaGVyZToKPiA+Pgo+ID4+ICAg
-ICBodHRwczovL2dpdGh1Yi5jb20vdGhpZXJyeXJlZGluZy9saW51eC90cmVlL2Zvci01LjYvZHJt
-LXRlZ3JhLWRlc3RhZ2UtYWJpCj4gPj4KPiA+PiBhbmQgY29ycmVzcG9uZGluZyBjaGFuZ2VzIHRv
-IGxpYmRybSB0byBtYWtlIHVzZSBvZiB0aGF0IGFuZCBpbXBsZW1lbnQKPiA+PiB0ZXN0cyB1c2lu
-ZyB0aGUgdmFyaW91cyBnZW5lcmF0aW9ucyBvZiBWSUMgaGVyZToKPiA+Pgo+ID4+ICAgICBodHRw
-czovL2NnaXQuZnJlZWRlc2t0b3Aub3JnL350YWdyL2RybS9sb2cvCj4gPj4KPiA+PiBCZWZvcmUg
-YWN0dWFsbHkganVtcGluZyB0byBhbiBpbXBsZW1lbnRhdGlvbiB3ZSB3YW50ZWQgdG8gZ28gb3Zl
-ciB0aGUKPiA+PiBkZXNpZ24gYSBiaXQgbW9yZSB0byBhdm9pZCB3YXN0aW5nIGEgbG90IG9mIHdv
-cmssIGxpa2Ugd2UndmUgZG9uZSBpbgo+ID4+IHRoZSBwYXN0LiBUdXJucyBvdXQgaXQgaXNuJ3Qg
-ZWFzeSB0byBnZXQgZXZlcnlvbmUgdG8gYWdyZWUgb24gYSBnb29kCj4gPj4gQUJJLiBXaG8gd291
-bGQndmUgdGhvdWdodD8gPSkKPiA+Pgo+ID4+IEkgZXhwZWN0IHRoYXQgb25jZSB0aGUgZGlzY3Vz
-c2lvbiBhcm91bmQgdGhlIEFCSSBzZXR0bGVzIE1pa2tvIHdpbGwKPiA+PiBzdGFydCBvbiBpbXBs
-ZW1lbnRpbmcgdGhpcyBBQkkgaW4gdGhlIGtlcm5lbCBhbmQgd2UnbGwgdXBkYXRlIHRoZQo+ID4+
-IGxpYmRybSBwYXRjaGVzIHRvIG1ha2UgdXNlIG9mIHRoZSBuZXcgQUJJIGFzIHdlbGwuCj4gPiAK
-PiA+IERvIHdlIGhhdmUgbW9yZSB0aGFuIGxpYmRybSBhbmQgdGVzdHMgZm9yIHRoaXMsIGxpa2Ug
-c29tZXRoaW5nIHNvbWV3aGF0Cj4gPiBmdW5jdGlvbmFsPyBTaW5jZSB0ZWdyYWRybSBsYW5kZWQg
-eWVhcnMgYWdvIHdlJ3ZlIHJlZmluZWQgdGhlIGNyaXRlcmlhIGEKPiA+IGJpdCBpbiB0aGlzIHJl
-Z2FyZCwgbGF0ZXN0IHZlcnNpb24gaXMgZXhwbGljaXQgaW4gdGhhdCBpdCBuZWVkcyB0byBiZQo+
-ID4gc29tZXRoaW5nIHRoYXQncyBmdW5jdGlvbmFsIChmb3IgZW5kLXVzZXJzIGluIHNvbWUgZm9y
-bSksIG5vdCBqdXN0Cj4gPiBpbmZyYXN0cnVjdHVyZSBhbmQgdGVzdHMuCj4gCj4gV2UgaGF2ZSBP
-cGVudGVncmEgWzFdIGFuZCBWRFBBVSBbMl0gdXNlcnNwYWNlIGRyaXZlcnMgZm9yIG9sZGVyIFRl
-Z3JhCj4gU29DcyB0aGF0IGhhdmUgYmVlbiB1c2luZyB0aGUgc3RhZ2luZyBVQVBJIGZvciB5ZWFy
-cyBub3cuCj4gCj4gWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIveGY4Ni12aWRl
-by1vcGVudGVncmEKPiBbMl0gaHR0cHM6Ly9naXRodWIuY29tL2dyYXRlLWRyaXZlci9saWJ2ZHBh
-dS10ZWdyYQo+IAo+IFRoZSBVQVBJIGFuZCB0aGUga2VybmVsIGRyaXZlciB1cGRhdGVzIGFyZSB2
-ZXJ5IG5lZWRlZCBmb3IgdGhlc2UgZHJpdmVycwo+IGJlY2F1c2Ugb2YgdGhlIG1pc3NpbmcgVUFQ
-SSBzeW5jaHJvbml6YXRpb24gZmVhdHVyZXMgYW5kIHBlcmZvcm1hbmNlCj4gcHJvYmxlbXMgb2Yg
-dGhlIGtlcm5lbCBkcml2ZXIuCj4gCj4gU28gd2UgYWxyZWFkeSBoYXZlIHNvbWUgcmVhbC13b3Js
-ZCB1c2Vyc3BhY2UgZm9yIHRoZSB0ZXN0aW5nIQoKQXdlc29tZSEgTWF5YmUgZm9yIGZ1dHVyZSBy
-b3VuZHMgaW5jbHVkZSB0aGUgbGlua3MgZm9yIHRoZSB2ZHBhdSBkcml2ZXIuIEkKZGlkbid0IGtu
-b3cgYWJvdXQgdGhhdCBvbmUgYXQgYWxsLiAtb3BlbnRlZ3JhIGlzIHByb2JhYmx5IG5vdCBzbyBy
-ZWxldmFudAphbnltb3JlIChhbmQgSSBmbGF0IG91dCBmb3Jnb3QgaXQgZXhpc3RzKSAuLi4gSW5j
-bHVkaW5nIHRoZSB1c2Vyc3BhY2Ugc2lkZQpsaW5rcyBpcyBnb29kIHNvIHRoYXQgZm9yZ2V0ZnVs
-IHBlb3BsZSBsaWtlIG1lIGRvbid0IG5hZyA6LSkKLURhbmllbAoKCj4gSXQncyBub3QgdGhlIGZp
-cnN0IGFuZCBub3QgdGhlIHNlY29uZCB0aW1lIHdlJ3JlIGRpc2N1c3NpbmcgdGhlIFRlZ3JhCj4g
-RFJNIFVBUEkgY2hhbmdlcywgYnV0IHRoaXMgdGltZSBpdCBmZWVscyBsaWtlIHRoZXJlIGlzIGEg
-Z29vZCBjaGFuY2UKPiB0aGF0IGl0IHdpbGwgZmluYWxseSBtYXRlcmlhbGl6ZSBhbmQgSSdtIHZl
-cnkgaGFwcHkgYWJvdXQgaXQgOikKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVy
-LCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Jun 25, 2020 at 02:00:10PM +0200, Thomas Zimmermann wrote:
+> Platform devices might operate on firmware framebuffers, such as VESA or
+> EFI. Before a native driver for the graphics hardware can take over the
+> device, it has to remove any platform driver that operates on the firmware
+> framebuffer. Platform helpers provide the infrastructure for platform
+> drivers to acquire firmware framebuffers, and for native drivers to remove
+> them lateron.
+> 
+> It works similar to the related fbdev mechanism. During initialization, the
+> platform driver acquires the firmware framebuffer's I/O memory and provides
+> a callback to be removed. The native driver later uses this inforamtion to
+> remove any platform driver for it's framebuffer I/O memory.
+> 
+> The platform helper's removal code is integrated into the existing code for
+> removing conflicting fraembuffers, so native drivers use it automatically.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/Kconfig        |   6 ++
+>  drivers/gpu/drm/Makefile       |   1 +
+>  drivers/gpu/drm/drm_platform.c | 118 +++++++++++++++++++++++++++++++++
+>  include/drm/drm_fb_helper.h    |  18 ++++-
+>  include/drm/drm_platform.h     |  42 ++++++++++++
+>  5 files changed, 184 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/drm_platform.c
+>  create mode 100644 include/drm/drm_platform.h
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index c4fd57d8b717..e9d6892f9d38 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -229,6 +229,12 @@ config DRM_SCHED
+>  	tristate
+>  	depends on DRM
+>  
+> +config DRM_PLATFORM_HELPER
+> +	bool
+> +	depends on DRM
+> +	help
+> +	  Helpers for DRM platform devices
+> +
+>  source "drivers/gpu/drm/i2c/Kconfig"
+>  
+>  source "drivers/gpu/drm/arm/Kconfig"
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 2c0e5a7e5953..8ceb21d0770a 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) += drm_agpsupport.o
+>  drm-$(CONFIG_PCI) += drm_pci.o
+>  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+> +drm-$(CONFIG_DRM_PLATFORM_HELPER) += drm_platform.o
+>  
+>  drm_vram_helper-y := drm_gem_vram_helper.o
+>  obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+> diff --git a/drivers/gpu/drm/drm_platform.c b/drivers/gpu/drm/drm_platform.c
+> new file mode 100644
+> index 000000000000..09a2f2a31aa5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_platform.c
+> @@ -0,0 +1,118 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +
+> +#include <linux/mutex.h>
+> +#include <linux/slab.h>
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/drm_platform.h>
+> +
+> +static LIST_HEAD(drm_apertures);
+> +
+> +static DEFINE_MUTEX(drm_apertures_lock);
+> +
+> +static bool overlap(resource_size_t base1, resource_size_t end1,
+> +		    resource_size_t base2, resource_size_t end2)
+> +{
+> +	return (base1 < end2) && (end1 > base2);
+> +}
+> +
+> +static struct drm_aperture *
+> +drm_aperture_acquire(struct drm_device *dev,
+> +		     resource_size_t base, resource_size_t size,
+> +		     const struct drm_aperture_funcs *funcs)
+> +{
+> +	size_t end = base + size;
+> +	struct list_head *pos;
+> +	struct drm_aperture *ap;
+> +
+> +	mutex_lock(&drm_apertures_lock);
+> +
+> +	list_for_each(pos, &drm_apertures) {
+> +		ap = container_of(pos, struct drm_aperture, lh);
+> +		if (overlap(base, end, ap->base, ap->base + ap->size))
+> +			return ERR_PTR(-EBUSY);
+> +	}
+> +
+> +	ap = drmm_kzalloc(dev, sizeof(*ap), GFP_KERNEL);
+
+One technical thing here, but that'll be even more clear once the next
+patch is using the driver core detach function: This should be devm_ not
+drmm_ (both here and below) because it's tied to the lifetime of the
+physical device and the driver binding.
+
+Once the driver is unbound, even if drm_device keeps surviving because
+userspace is still holding references, there's no point in trying to
+unbind it again. So auto-cleanup using devm_ is the right thing here imo.
+
+And with the change to the driver model unbind you will have a struct
+device * pointer, so this all works out.
+-Daniel
+
+> +	if (!ap)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ap->dev = dev;
+> +	ap->base = base;
+> +	ap->size = size;
+> +	ap->funcs = funcs;
+> +	INIT_LIST_HEAD(&ap->lh);
+> +
+> +	list_add(&ap->lh, &drm_apertures);
+> +
+> +	mutex_unlock(&drm_apertures_lock);
+> +
+> +	return ap;
+> +}
+> +
+> +static void drm_aperture_release(struct drm_aperture *ap)
+> +{
+> +	bool kicked_out = ap->kicked_out;
+> +
+> +	if (!kicked_out)
+> +		mutex_lock(&drm_apertures_lock);
+> +
+> +	list_del(&ap->lh);
+> +	if (ap->funcs->release)
+> +		ap->funcs->release(ap);
+> +
+> +	if (!kicked_out)
+> +		mutex_unlock(&drm_apertures_lock);
+> +}
+> +
+> +static void drm_aperture_acquire_release(struct drm_device *dev, void *ptr)
+> +{
+> +	struct drm_aperture *ap = ptr;
+> +
+> +	drm_aperture_release(ap);
+> +}
+> +
+> +struct drm_aperture *
+> +drmm_aperture_acquire(struct drm_device *dev,
+> +		      resource_size_t base, resource_size_t size,
+> +		      const struct drm_aperture_funcs *funcs)
+> +{
+> +	struct drm_aperture *ap;
+> +	int ret;
+> +
+> +	ap = drm_aperture_acquire(dev, base, size, funcs);
+> +	if (IS_ERR(ap))
+> +		return ap;
+> +	ret = drmm_add_action_or_reset(dev, drm_aperture_acquire_release, ap);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return ap;
+> +}
+> +EXPORT_SYMBOL(drmm_aperture_acquire);
+> +
+> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
+> +{
+> +	resource_size_t end = base + size;
+> +	struct list_head *pos, *n;
+> +
+> +	mutex_lock(&drm_apertures_lock);
+> +
+> +	list_for_each_safe(pos, n, &drm_apertures) {
+> +		struct drm_aperture *ap =
+> +			container_of(pos, struct drm_aperture, lh);
+> +
+> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
+> +			continue;
+> +
+> +		ap->kicked_out = true;
+> +		if (ap->funcs->kickout)
+> +			ap->funcs->kickout(ap);
+> +		else
+> +			drm_dev_put(ap->dev);
+> +	}
+> +
+> +	mutex_unlock(&drm_apertures_lock);
+> +}
+> +EXPORT_SYMBOL(drm_kickout_apertures_at);
+> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+> index 306aa3a60be9..a919b78b1961 100644
+> --- a/include/drm/drm_fb_helper.h
+> +++ b/include/drm/drm_fb_helper.h
+> @@ -35,7 +35,9 @@ struct drm_fb_helper;
+>  #include <drm/drm_client.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_platform.h>
+>  #include <linux/kgdb.h>
+> +#include <linux/pci.h>
+>  #include <linux/vgaarb.h>
+>  
+>  enum mode_set_atomic {
+> @@ -465,6 +467,11 @@ static inline int
+>  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
+>  					      const char *name, bool primary)
+>  {
+> +	int i;
+> +
+> +	for (i = 0; i < a->count; ++i)
+> +		drm_kickout_apertures_at(a->ranges[i].base, a->ranges[i].size);
+> +
+>  #if IS_REACHABLE(CONFIG_FB)
+>  	return remove_conflicting_framebuffers(a, name, primary);
+>  #else
+> @@ -487,7 +494,16 @@ static inline int
+>  drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+>  						  const char *name)
+>  {
+> -	int ret = 0;
+> +	resource_size_t base, size;
+> +	int bar, ret = 0;
+> +
+> +	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+> +			continue;
+> +		base = pci_resource_start(pdev, bar);
+> +		size = pci_resource_len(pdev, bar);
+> +		drm_kickout_apertures_at(base, size);
+> +	}
+>  
+>  	/*
+>  	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+> diff --git a/include/drm/drm_platform.h b/include/drm/drm_platform.h
+> new file mode 100644
+> index 000000000000..475e88ee1fbd
+> --- /dev/null
+> +++ b/include/drm/drm_platform.h
+> @@ -0,0 +1,42 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +
+> +#ifndef _DRM_PLATFORM_H_
+> +#define _DRM_PLATFORM_H_
+> +
+> +#include <linux/list.h>
+> +#include <linux/types.h>
+> +
+> +struct drm_aperture;
+> +struct drm_device;
+> +
+> +struct drm_aperture_funcs {
+> +	void (*kickout)(struct drm_aperture *ap);
+> +	void (*release)(struct drm_aperture *ap);
+> +};
+> +
+> +struct drm_aperture {
+> +	struct drm_device *dev;
+> +	resource_size_t base;
+> +	resource_size_t size;
+> +
+> +	const struct drm_aperture_funcs *funcs;
+> +
+> +	struct list_head lh;
+> +	bool kicked_out;
+> +};
+> +
+> +struct drm_aperture *
+> +drmm_aperture_acquire(struct drm_device *dev,
+> +		      resource_size_t base, resource_size_t size,
+> +		      const struct drm_aperture_funcs *funcs);
+> +
+> +#if defined (CONFIG_DRM_PLATFORM_HELPER)
+> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t size);
+> +#else
+> +static inline void
+> +drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
+> +{
+> +}
+> +#endif
+> +
+> +#endif
+> -- 
+> 2.27.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
