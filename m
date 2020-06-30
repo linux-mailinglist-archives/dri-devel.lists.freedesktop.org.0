@@ -2,103 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481A320F090
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 10:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B33320F0B7
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 10:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477A189AB6;
-	Tue, 30 Jun 2020 08:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7D189BBD;
+	Tue, 30 Jun 2020 08:44:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B66D89AB9
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:32:13 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200630083209euoutp01534b7a7e3e2986ade3a8b7dbb4424eff~dRTMuFvb42089220892euoutp01e
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:32:09 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200630083209euoutp01534b7a7e3e2986ade3a8b7dbb4424eff~dRTMuFvb42089220892euoutp01e
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D37989BBD
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:44:48 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200630084446euoutp029e4b1f3290b6d979b741faf98bfd576a~dReN8bodk0580605806euoutp026
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 08:44:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200630084446euoutp029e4b1f3290b6d979b741faf98bfd576a~dReN8bodk0580605806euoutp026
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593505929;
- bh=OrShDEn2h+7V7n/pSCbJmSQRC9bDfacS5k/0XuTGJqU=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=KmSIO0W5uj3N0E1IwulAs4duzBuKnRX/1UaBO+LZFgtbKlk0zhtg08PldrQWbTZen
- ykz4368BzQDYc1j9cwGxiH3C2bYo2cstk2aCXgYvETESR0chxXCzxe+6cLgiQMFcjR
- B6FhfdbkL4mpHWIfjWICihR7dr9vxr3ErRIAM4fw=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ s=mail20170921; t=1593506686;
+ bh=lXmtVvOi3m7BClTCphUvb9QrD/BPO3J1D0W3H9sRRl8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=RRrOjFfBh4VNzuEdaoyc+Eh9Ohxna44hidUV2nA4gjBEE6cMIO7ARANbq9g0UEJUG
+ 4NeoS245VVYwV6Z8Rost0jDJDYGU7Osv5jxjcgzhHNcrrAv/wrXWTVkFb4wOYxxxRA
+ cgLY6odOKxb3N/CS5UVyAnJ/XKTLUr5M879TO4XA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200630083208eucas1p1558a15c47073cce1b218ca7fe15b5f47~dRTMSXtRJ1712317123eucas1p1t;
- Tue, 30 Jun 2020 08:32:08 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 44.92.06456.888FAFE5; Tue, 30
- Jun 2020 09:32:08 +0100 (BST)
+ 20200630084446eucas1p13b09fade29608137f68bae8f0b60e780~dReNjgNmy1186511865eucas1p1M;
+ Tue, 30 Jun 2020 08:44:46 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id F5.A6.06318.E7BFAFE5; Tue, 30
+ Jun 2020 09:44:46 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200630083208eucas1p1257700c209a1dcb586555e49d50aee28~dRTL-3BDg1712317123eucas1p1s;
- Tue, 30 Jun 2020 08:32:08 +0000 (GMT)
+ 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5~dReNOvCZB1180111801eucas1p1G;
+ Tue, 30 Jun 2020 08:44:45 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200630083208eusmtrp1f2d30f34ef9d152e57d6333239e9ed3f~dRTL_7l1r1295012950eusmtrp1I;
- Tue, 30 Jun 2020 08:32:08 +0000 (GMT)
-X-AuditID: cbfec7f2-7efff70000001938-e6-5efaf888c0d8
+ 20200630084445eusmtrp1c40012032f3073b4340ec8d12cbfa4d4~dReNN-2SD2091120911eusmtrp1D;
+ Tue, 30 Jun 2020 08:44:45 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-ed-5efafb7eab0e
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id A6.71.06314.888FAFE5; Tue, 30
- Jun 2020 09:32:08 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id E3.D3.06314.D7BFAFE5; Tue, 30
+ Jun 2020 09:44:45 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200630083206eusmtip10335b85cc1556d9bd2a674b2e778ef06~dRTKcfrrC2905729057eusmtip1N;
- Tue, 30 Jun 2020 08:32:06 +0000 (GMT)
-Subject: Re: [PATCH v7 2/4] driver core: add deferring probe reason to
- devices_deferred property
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <a48ab93c-0d9c-ed8b-76dd-62007826bf6f@samsung.com>
-Date: Tue, 30 Jun 2020 10:32:06 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <CAHp75VdS_u8h4qfBxsQRUp1-2SL_hq20=dQkpteXH7Xg7epArQ@mail.gmail.com>
-Content-Language: en-GB
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zk7Ow5nx2n4UmE4LCqoJV04UEiFP07+qPwXhstZh7lyJpsz
- 9UdGOpma4jI117xkmhcMa3Olgl2Wl8osM6+RqRnBSlFSU5eO3M4k/z3v8z7P+z0PfCQm/sXf
- QirjE1l1vDxOQgjxJ53LH/bqlxyy/fZyKW3Pf4Xox3ca+XThxHeC7l+YIej0+40EPbBox+g3
- UwM4nWWoEtDmyUE+/anVRNC2wjZEP2wfFdC2vHN06XwhdsyH+TT4EWNmhnUCpsU4KmDu6kv4
- jLk+i2Be5/fxmOelDQJmLKeLx1iq0pi8pnrEvMgtwJk5c+AZ70jh0YtsnDKJVUtDo4Wxg84c
- PKHHJ9lYFXgdjQuzkRcJ1EHo/TpGZCMhKaZqESw2zfK5YR5Bg86Ec8McgtGm2/x1S1lXpmdR
- g6DP2uvxzyAYmqgnXCo/KgacgwZeNhKQ/pQUnie5JBiVzoeV6n73IYLaDauWEbdcRIWCdVG3
- hkkSp3bAnGOni95MRUFedYVH4gtvSr7jLokXFQHtdaSLxqjt8HTahHE4AG7M17kLAFVCQoVp
- VcBlDoPimkmMw37ws6vJw2+D7oKbOIfTYKw2A+PMegTWRy0ewxH48t7hzoatZW5slXL0cWhv
- nnTTQPnA8LQvl8EHbj0pxjhaBPpMMacOgrEeq+dgAFT3LhD5SGLcUMy4oY1xQxvj/3crEF6P
- AlitRqVgNSHx7NV9GrlKo41X7LtwRWVGa1+w29n1uxkt9MXYEEUiibco+v2yTMyXJ2lSVDYE
- JCbxF53o6ZaJRRflKams+sp5tTaO1djQVhKXBIgOVNqjxJRCnsheZtkEVr2+5ZFeW66jrMOj
- h/6etb4MXioOyU3o+BNlC7cUtEhXkkfCQ8U/Tr4bH5p0nuqsMDfcI6c2LT/7wRPqHij8sqIr
- O9Mrb1yK2GUgHDmp15TJ/kGRlraRcsvmz8Flb8Puy7Tf6A7F6ZUim1YdVN2c3qFs0ztDDUU1
- qRNUWsY356yM6I8gw1+nSXBNrDxkD6bWyP8BqGOo0n4DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrHIsWRmVeSWpSXmKPExsVy+t/xu7odP37FGZx+KGHxcsJhRouNM9az
- Wkx9+ITN4srX92wWzYvXs1lc/f6S2eLkm6ssFp0Tl7BbbHp8jdXi8q45bBaHpu5ltFh75C67
- xaG+aIu5X6YyO/B5XL52kdnj/Y1Wdo+ds+6ye8zumMnqsWlVJ5vHiQmXmDz2z13D7nG/+ziT
- x+Yl9R59W1Yxehzonczi8XmTXABPlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayV
- kamSvp1NSmpOZllqkb5dgl7GtX/dLAVn+SpmLZFrYHzA1cXIySEhYCIx73gbSxcjF4eQwFJG
- ia7jX9kgEuISu+e/ZYawhSX+XOtigyh6yyjx+uQmFpCEsECSxL9rE5m6GNk5RAT0JfaXgZQw
- C7SzSrw5sJ4Zor6JSeL3hkPsIPVsApoSfzffBFvAK2AnsfV7K5DNwcEioCrx+ZcaSFhUIFbi
- 270tUCWCEidnPmEBKeEUCJQ4spIDJMwsYCYxb/NDZghbXmL72zlQtrhE05eVrBMYhWYh6Z6F
- pGUWkpZZSFoWMLKsYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECIz7bcd+bt7BeGlj8CFGAQ5G
- JR7ehHM/44RYE8uKK3MPMUpwMCuJ8DqdPR0nxJuSWFmVWpQfX1Sak1p8iNEU6LWJzFKiyfnA
- lJRXEm9oamhuYWlobmxubGahJM7bIXAwRkggPbEkNTs1tSC1CKaPiYNTqoExyOv8/9KD5hdm
- vN3oOsHCefZMxfzaV5ke2kv2q59+1zJtvuuhSwckKpcr+F5cdIbzudAX5tcTVblObNPuYIv/
- EGxbLtk2R9XsOdt5rlDT0O8GtWE3+3j+a224ydOw6Z1c6PkyvRl6n/oynHasu7CB027brNsn
- JasPVJk+Lgl9cDGnT4RF3KFIiaU4I9FQi7moOBEA4N7ROREDAAA=
-X-CMS-MailID: 20200630083208eucas1p1257700c209a1dcb586555e49d50aee28
+ 20200630084445eusmtip16232b756e66744d9f85ca187702d2593~dReMjdeol2968129681eusmtip1f;
+ Tue, 30 Jun 2020 08:44:44 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v8] rapidio: fix common struct sg_table related issues
+Date: Tue, 30 Jun 2020 10:44:31 +0200
+Message-Id: <20200630084431.4935-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200619103636.11974-34-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSe0hTURzHObvb3XU4u03Ng4+EQWFKmlh0U0uTiAsF1R9BBU1XXlRyU3bV
+ VKQ0zWrNd5JK1FJRc75SW6mYabqpoyVqOi3fvVz5CF/4yHJes/++33M+39/38ONgiKCBY4uF
+ SCMomVQcKkR5bLVmWb//xuqK6MDkAEKk6DtYxHipASGe51RyiD/qDIToXZhBiWeqNhahbPIi
+ 5nvHWET1RB+H6Kl/hBLlrUNcIvv9EkI0z37m+PLJssdlgGxcVLLJurwhLqn4mcQhXy6OcsiR
+ +1oWWVN4k/y4PoGQWYZiQDYMxKNkam0pIOeqd581v8TzDqRCQ6IomduxAF7wh6Y1VviLXdHy
+ 1Dw0HjQK5MAMg/hBWDlewpYDHibASwAcvqMEjJkHUJM9zWXMHID91aXov0h+h3qLKgawoN/I
+ 2Y7EFxewTBSKu0P5lHwzYYXfBrA9xdykEXyaBVvnnE3aEj8JB5ebNhk2vgeOzwxvaj7uDZ9M
+ r3GZNkeoqnqDmLQZ7gMzM9YRUxnE9VyYPzS+YbANcwJO1kQzvCU0amu3svZQl6VgM3wigGP6
+ ci5jFAD23MoBDOUFP+lXUNMgBN8HK+vdmOPjMLehhcvMt4CGqZ3M+y1gpvrhVi0f3k3e2uNe
+ mKet2K5t7upGGE3CX20jKLOfTAC7nhah6cAx73+ZEoBSYENF0pIgivaQUtddabGEjpQGuV4N
+ k1SDjS+lW9cuvAKv1660ABwDQnN+gH5ZJOCIo+gYSQuAGCK04vu904kE/EBxTCwlC/OXRYZS
+ dAuww9hCG75H/uRlAR4kjqCuUVQ4Jft3y8LMbOPBhcOn3EYRqiSwL4fuq5NeDB8csOt8G8HL
+ /VqUMKIROR3lTf5O8PRbLbT2UqzGWel2dB9Z+nY6XWWMMyjKYkHSalpIiFPjg0RD6pduewea
+ 31eVpkn2O9de3O7bnj9RpP2RZFSdz6lZ/45X+M/6HOp0cfGxVnuKNEtdDmdUKfdqhGw6WOzu
+ jMho8V+6eyNKTgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsVy+t/xu7q1v3/FGbQd1rDoPXeSyeLRqhvM
+ FhtnrGe1+L9tIrPFla/v2SxWrj7KZLFgv7XFlysPmSw2Pb7GanF51xw2i7VH7rJbTD3/ndni
+ 4IcnrA68HmvmrWH02PttAYvHzll32T163rSwemz/9oDV4373cSaPzUvqPW7/e8zsMfnGckaP
+ 3Tcb2Dz6tqxi9Pi8SS6AJ0rPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/O
+ JiU1J7MstUjfLkEv4+r+P0wFW8UquvpmsTUw7hXqYuTkkBAwkVh0chtjFyMXh5DAUkaJh1tn
+ M0IkZCROTmtghbCFJf5c62KDKPrEKPFu0UWwBJuAoUTXW4iEiEAno8S07o/sIA6zwDcmiUlL
+ b7GBVAkLuEnc+rkfzGYRUJV49P4emM0rYCMx/90fdogV8hKrNxxgBrE5BewlJk38B2YLCdhJ
+ 3JmznmkCI98CRoZVjCKppcW56bnFhnrFibnFpXnpesn5uZsYgXGz7djPzTsYL20MPsQowMGo
+ xMObcO5nnBBrYllxZe4hRgkOZiURXqezp+OEeFMSK6tSi/Lji0pzUosPMZoCHTWRWUo0OR8Y
+ 03kl8YamhuYWlobmxubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhhDDnTNtLxxcdEW
+ ibK2H7sl9vN7h52b1xP+wPkBt8W5A+k3Xi67fWl22J11G9RWxu+ftKT8UJzG3Xtrc96fj73O
+ Lbbik6DwOuGrU5rlPbsKbB12u+q0hqRduFU+Q77z2Y0XXut2ybosfJBTsSfpgOst5usp+/mD
+ w77PX2nw19w6K+kW22bHxSnFSizFGYmGWsxFxYkA1yBJGLECAAA=
+X-CMS-MailID: 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5
 X-Msg-Generator: CA
-X-RootMTR: 20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da
+X-RootMTR: 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da
-References: <CGME20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da@eucas1p1.samsung.com>
- <20200629112242.18380-1-a.hajda@samsung.com>
- <20200629112242.18380-3-a.hajda@samsung.com>
- <CAHp75VdS_u8h4qfBxsQRUp1-2SL_hq20=dQkpteXH7Xg7epArQ@mail.gmail.com>
+X-CMS-RootMailID: 20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5
+References: <20200619103636.11974-34-m.szyprowski@samsung.com>
+ <CGME20200630084445eucas1p1e85857b5d046648578f1447f8ba521a5@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,87 +105,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Alexandre Bounine <alex.bou9@gmail.com>,
+ Matt Porter <mporter@kernel.crashing.org>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
  Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
-On 29.06.2020 18:36, Andy Shevchenko wrote:
-> On Mon, Jun 29, 2020 at 2:22 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
->> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
->> This list does not contain reason why the driver deferred probe, the patch
->> improves it.
->> The natural place to set the reason is dev_err_probe function introduced recently,
->> ie. if dev_err_probe will be called with -EPROBE_DEFER instead of printk the message
->> will be attached to deferred device and printed when user read devices_deferred
-> to a deferred
->
-> reads
-OK, thx.
->
->> property.
-> ...
->
->> @@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
->>          vaf.fmt = fmt;
->>          vaf.va = &args;
->>
->> -       if (err != -EPROBE_DEFER)
->> +       if (err != -EPROBE_DEFER) {
-> Why not positive conditional? (Okay, I'm fine with either in this case)
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
 
-I put more natural branch 1st.
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
 
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+v8: fixed issues pointed by kbuilt test robot (use of uninitialized
+    variable)
+---
+ drivers/rapidio/devices/rio_mport_cdev.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
->
->>                  dev_err(dev, "error %d: %pV", err, &vaf);
->> -       else
->> +       } else {
->> +               device_set_deferred_probe_reson(dev, &vaf);
->>                  dev_dbg(dev, "error %d: %pV", err, &vaf);
->> +       }
-> To reduce churn, you may move {} addition to the first patch.
+diff --git a/drivers/rapidio/devices/rio_mport_cdev.c b/drivers/rapidio/devices/rio_mport_cdev.c
+index 3abbba8c2b5b..351c08b886ec 100644
+--- a/drivers/rapidio/devices/rio_mport_cdev.c
++++ b/drivers/rapidio/devices/rio_mport_cdev.c
+@@ -573,8 +573,7 @@ static void dma_req_free(struct kref *ref)
+ 			refcount);
+ 	struct mport_cdev_priv *priv = req->priv;
+ 
+-	dma_unmap_sg(req->dmach->device->dev,
+-		     req->sgt.sgl, req->sgt.nents, req->dir);
++	dma_unmap_sgtable(req->dmach->device->dev, &req->sgt, req->dir, 0);
+ 	sg_free_table(&req->sgt);
+ 	if (req->page_list) {
+ 		unpin_user_pages(req->page_list, req->nr_pages);
+@@ -814,7 +813,6 @@ rio_dma_transfer(struct file *filp, u32 transfer_mode,
+ 	struct mport_dev *md = priv->md;
+ 	struct dma_chan *chan;
+ 	int ret;
+-	int nents;
+ 
+ 	if (xfer->length == 0)
+ 		return -EINVAL;
+@@ -930,15 +928,14 @@ rio_dma_transfer(struct file *filp, u32 transfer_mode,
+ 				xfer->offset, xfer->length);
+ 	}
+ 
+-	nents = dma_map_sg(chan->device->dev,
+-			   req->sgt.sgl, req->sgt.nents, dir);
+-	if (nents == 0) {
++	ret = dma_map_sgtable(chan->device->dev, &req->sgt, dir, 0);
++	if (ret) {
+ 		rmcd_error("Failed to map SG list");
+ 		ret = -EFAULT;
+ 		goto err_pg;
+ 	}
+ 
+-	ret = do_dma_request(req, xfer, sync, nents);
++	ret = do_dma_request(req, xfer, sync, req->sgt.nents);
+ 
+ 	if (ret >= 0) {
+ 		if (sync == RIO_TRANSFER_ASYNC)
+-- 
+2.17.1
 
-
-But then I need to explain why it is there :)
-
-
->
-> ...
->
->>          list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
->> -               seq_printf(s, "%s\n", dev_name(curr->device));
->> +               seq_printf(s, "%s\t%s", dev_name(curr->device),
->> +                          curr->device->p->deferred_probe_reason ?: "\n");
-> Hmm... "\t" will be dangling in the latter case
-
-
-Hmm, I followed your advice [1] :)
-
-[1]: 
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1787370.html
-
-
-Regards
-
-Andrzej
-
-
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
