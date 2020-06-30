@@ -1,58 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137F520FBB3
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:26:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E87AF20FBD2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C076E0CB;
-	Tue, 30 Jun 2020 18:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5402A89951;
+	Tue, 30 Jun 2020 18:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4624C6E0CB
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:26:48 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id v8so21986390iox.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zHkMrF1WG28iaGTof2SgLVlAgajf1uvvDa148L1A4YA=;
- b=F4bRlhY7JPlFE5MOJNhH06ubJD/AwLxDSHTkK8prEd7WJaNbBFDvroFyM7nSqG00Qh
- zC5d+FeO3qACgBJISvU47GGOic70oP3x22flzistdPNasJi0UKqQxS4c4S1sc7PWUUi4
- xJ1Vr0NWy8FyYXBmzQVtBjQ+nMkcbeOXGvwpb547MFCGBgXdN5rR+2y2OdZGN+iUAOax
- eyGf3xANMO+ot5QApAld1RaJ+fkECK+TohwDhBwwPWS5JKI4p9uLq/W1X0CN884zX3Zo
- rQx7fAnGqeoTgkMm1dwc6vbRGEP8aYycGvJWlI2LbF5LRtP3K6WJKWVy90C2pYHUjGyL
- CApA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zHkMrF1WG28iaGTof2SgLVlAgajf1uvvDa148L1A4YA=;
- b=nX+iRpbVVQBDrtRhGDhdtElET/zxnHNO62FFgKOOG3I7Cd/pVngUfeCaAm2fKf3ift
- 7tIlRYhZvjSe7mVHq87FVf/7lfVOwTv6EzMXK0yxLjpIlB/YWwGeUfP6DM5szRtJy+SO
- T0QzBMzE1ynXI5B2mcuVnNcbr5FKLWsgi1cStdjm8PqVBTlYaUHeCXGh+9SXmKVyJp+a
- /SF1loSXQ+ZH+dOeaCc13a7No09sMFOaLc40V6RP/zt2Q3KakvmCkLCms5NdvLzGYUmZ
- FjFjFBJs9/TuDtr0eAm8/tkBQeYzCsP5dZAFsRVgx9CMfmxIImEB5tuiFEBXWx/QhzmP
- zgqQ==
-X-Gm-Message-State: AOAM532v3jaFm9wtdwnNGBA/obNk/xQb2KNb7cPEogp6+90DCjr4XdJ2
- 7jLnNXO3rtl9AWBivwoj2Zk=
-X-Google-Smtp-Source: ABdhPJyAPNjOe2Euzd0n2GEPfkpD1dt5csCv1TH57jPtERYO/b5rK+8mNMNPSrE+XyMWMLNVkpw8xA==
-X-Received: by 2002:a6b:d809:: with SMTP id y9mr23557963iob.209.1593541607533; 
- Tue, 30 Jun 2020 11:26:47 -0700 (PDT)
-Received: from aford-IdeaCentre-A730.lan (c-73-37-219-234.hsd1.mn.comcast.net.
- [73.37.219.234])
- by smtp.gmail.com with ESMTPSA id u6sm1966164ilg.32.2020.06.30.11.26.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 11:26:46 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: linux-fbdev@vger.kernel.org
-Subject: [PATCH] omapfb: dss: Fix max fclk divider for omap36xx
-Date: Tue, 30 Jun 2020 13:26:36 -0500
-Message-Id: <20200630182636.439015-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B6889951
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:35:20 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id AFCC420724
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593542119;
+ bh=gyfWpjnOJwwzGi1tgl/VLHZLp+8PSWYx42nMxv5kKvo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=VreS75mCNztVC55O5WYtKQ3ty6sypfwjFtEvCpKGJF/P6+aSEBXzu2b1RZvZfzGpB
+ fU3Crxvs7MtpRNg03J0qHtUpL7695T+IUbeYINW2k2LPMvnhMrjK404HPe1gY8RZrK
+ tm1PctHJAhBK3iKVLx00O8lxXyMtdbS71s+sKX4c=
+Received: by mail-ot1-f51.google.com with SMTP id n5so19261000otj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:35:19 -0700 (PDT)
+X-Gm-Message-State: AOAM532pNxK9+IMyLYwcINiVEfFLGTMviSmrjTUjUuZ4X/whQj0g0n8y
+ ERt9CzbRvAlCfE04vsBaoZ4qDt+SN+6DRSqwnA==
+X-Google-Smtp-Source: ABdhPJyxGkRB5nAl2gD00aoXYNA+A7QZAkg3P0qe89BJ5GCB6sKgUEuOFJbEZFHSpYjGUE+sPWFRo4oj5kH9Y3fJIos=
+X-Received: by 2002:a9d:3a36:: with SMTP id j51mr19503925otc.129.1593542118992; 
+ Tue, 30 Jun 2020 11:35:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200520133932.30441-1-erwan.leray@st.com>
+ <20200520133932.30441-2-erwan.leray@st.com>
+ <20200627141801.GA1945477@kroah.com>
+In-Reply-To: <20200627141801.GA1945477@kroah.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 30 Jun 2020 12:35:08 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+PFmeN_bFRD1M_E+1NOTsMowViG3CUWDWgy5=3kpC=xw@mail.gmail.com>
+Message-ID: <CAL_Jsq+PFmeN_bFRD1M_E+1NOTsMowViG3CUWDWgy5=3kpC=xw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: serial: add generic DT binding for
+ announcing RTS/CTS lines
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +56,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Adam Ford <aford173@gmail.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Fabrice Gasnier <fabrice.gasnier@st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linaro-mm-sig@lists.linaro.org,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Erwan Le Ray <erwan.leray@st.com>, Alexandre Torgue <alexandre.torgue@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm/omap driver was fixed to correct an issue where using a
-divider of 32 breaks the DSS despite the TRM stating 32 is a valid
-number.  Through experimentation, it appears that 31 works, and
-it is consistent with the value used by the drm/omap driver.
+On Sat, Jun 27, 2020 at 8:18 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, May 20, 2020 at 03:39:31PM +0200, Erwan Le Ray wrote:
+> > Add support of generic DT binding for annoucing RTS/CTS lines. The initial
+> > binding 'st,hw-flow-control' is not needed anymore since generic binding
+> > is available, but is kept for backward compatibility.
+> >
+> > Signed-off-by: Erwan Le Ray <erwan.leray@st.com>
+> >
+> > diff --git a/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml b/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
+> > index 75b8521eb7cb..06d5f251ec88 100644
+> > --- a/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/st,stm32-uart.yaml
+> > @@ -35,9 +35,11 @@ properties:
+> >      description: label associated with this uart
+> >
+> >    st,hw-flow-ctrl:
+> > -    description: enable hardware flow control
+> > +    description: enable hardware flow control (deprecated)
+> >      $ref: /schemas/types.yaml#/definitions/flag
+> >
+> > +  uart-has-rtscts: true
+> > +
+> >    dmas:
+> >      minItems: 1
+> >      maxItems: 2
+> > --
+> > 2.17.1
+> >
+>
+> Did this get ignored by the DT maintainers?  :(
 
-This patch fixes the divider for fbdev driver instead of the drm.
+When it doesn't go to the DT list, you are playing roulette whether I
+happen to see it. :(
 
-Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
+Anyways,
 
-Cc: <stable@vger.kernel.org> #4.9+
-Signed-off-by: Adam Ford <aford173@gmail.com>
----
-Linux 4.4 will need a similar patch, but it doesn't apply cleanly.
-
-The DRM version of this same fix is:
-e2c4ed148cf3 ("drm/omap: fix max fclk divider for omap36xx")
-
-
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-index 7252d22dd117..bfc5c4c5a26a 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-@@ -833,7 +833,7 @@ static const struct dss_features omap34xx_dss_feats = {
- };
- 
- static const struct dss_features omap3630_dss_feats = {
--	.fck_div_max		=	32,
-+	.fck_div_max		=	31,
- 	.dss_fck_multiplier	=	1,
- 	.parent_clk_name	=	"dpll4_ck",
- 	.dpi_select_source	=	&dss_dpi_select_source_omap2_omap3,
--- 
-2.25.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
