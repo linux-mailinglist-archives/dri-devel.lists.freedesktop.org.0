@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE3820FF00
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 710C020FF06
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1BB6E45E;
-	Tue, 30 Jun 2020 21:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B47156E459;
+	Tue, 30 Jun 2020 21:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CACBF6E33C;
- Tue, 30 Jun 2020 21:28:57 +0000 (UTC)
-IronPort-SDR: 7aBnDfx+QJ0BiwfV43myfRUgNkkmeyRFwmCNlnCVwFj2MpXhmIWrKo3m1Rb1lyeaT373jo7GqH
- tBrllqlGvpbA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="143867603"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="143867603"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 195FB6E329;
+ Tue, 30 Jun 2020 21:28:58 +0000 (UTC)
+IronPort-SDR: pRkM8p28Bq3SHvLLQtUGmPkYX+qrHK1oCow0SWbCVbnrknmFJxZ2ztEmFH6EPAtpiI8Yu0eyas
+ rrPQZQKdNfYA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="143867604"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="143867604"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 14:28:57 -0700
-IronPort-SDR: 7m0mJews8VCZHRE+5F7AvUiZUX3aVdYQr55Em+ftvyI7dgwevoOM156g7CK+FdENe8KkUTAQzq
- UwLNIndP/uRQ==
+ 30 Jun 2020 14:28:58 -0700
+IronPort-SDR: zypgrEA/pbBKjxnvAEGrYSb7jFi+xBrVpkTjs65O9Fe4TtufGA3GNzP450lJklkUTmIJJhGx6K
+ Ga1QzKSRJwcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066875"
+X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066880"
 Received: from hdwiyono-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.254.176.225])
  by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:57 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH 58/59] drm/kmb: Get System Clock from SCMI
-Date: Tue, 30 Jun 2020 14:28:10 -0700
-Message-Id: <1593552491-23698-59-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH 59/59] drm/kmb: work around for planar formats
+Date: Tue, 30 Jun 2020 14:28:11 -0700
+Message-Id: <1593552491-23698-60-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
@@ -57,91 +57,106 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-System clock is different for A0 and B0 silicons, so get it directly
-from clk_PLL0 through SCMI calls.
+Set the DMA Vstride and Line width for U and V planes to the same as the
+Y plane and not the actual pitch.
+Bit18 of layer config does not have any effect when U and V planes are
+swapped, so swap it in the driver.
 
 Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
+Reviewed-by: Edmund Dea <edmund.j.dea@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_drv.c | 11 +++++++++++
- drivers/gpu/drm/kmb/kmb_drv.h |  1 +
- drivers/gpu/drm/kmb/kmb_dsi.c | 12 +-----------
- 3 files changed, 13 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/kmb/kmb_plane.c | 50 ++++++++++++++++++++++++-----------------
+ 1 file changed, 30 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index bafc02a..74f57b3 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -59,6 +59,7 @@ static struct clk *clk_lcd;
- static struct clk *clk_mipi;
- static struct clk *clk_mipi_ecfg;
- static struct clk *clk_mipi_cfg;
-+static struct clk *clk_pll0;
- 
- struct drm_bridge *adv_bridge;
- 
-@@ -144,6 +145,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- #ifdef ICAM_LCD_QOS
- 	int val = 0;
- #endif
-+	struct device_node *vpu_dev;
- 
- 	/* Map MIPI MMIO registers */
- 	dev_p->mipi_mmio = kmb_map_mmio(pdev, "mipi_regs");
-@@ -210,6 +212,15 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 		DRM_ERROR("clk_get() failed clk_mipi_cfg\n");
- 		goto setup_fail;
+diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
+index e278347..eb1652d 100644
+--- a/drivers/gpu/drm/kmb/kmb_plane.c
++++ b/drivers/gpu/drm/kmb/kmb_plane.c
+@@ -190,6 +190,8 @@ unsigned int set_pixel_format(u32 format)
+ 		val = LCD_LAYER_FORMAT_RGBA8888;
+ 		break;
  	}
-+	vpu_dev = of_find_node_by_path("/soc/vpu-ipc");
-+	DRM_INFO("vpu node = %pOF", vpu_dev);
-+	clk_pll0 = of_clk_get_by_name(vpu_dev, "pll_0_out_0");
-+	if (IS_ERR(clk_pll0)) {
-+		DRM_ERROR("clk_get() failed clk_pll0 ");
-+		goto setup_fail;
-+	}
-+	dev_p->sys_clk_mhz = clk_get_rate(clk_pll0)/1000000;
-+	DRM_INFO("system clk = %d Mhz", dev_p->sys_clk_mhz);
- #ifdef LCD_TEST
- 	/* Set LCD clock to 200 Mhz */
- 	DRM_DEBUG("Get clk_lcd before set = %ld\n", clk_get_rate(clk_lcd));
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
-index a066aba..35872a5 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.h
-+++ b/drivers/gpu/drm/kmb/kmb_drv.h
-@@ -58,6 +58,7 @@ struct kmb_drm_private {
- 	spinlock_t			irq_lock;
- 	int				irq_lcd;
- 	int				irq_mipi;
-+	int				sys_clk_mhz;
- 	dma_addr_t			fb_addr;
- };
++	DRM_INFO_ONCE("%s : %d format=0x%x val=0x%x\n",
++			 __func__, __LINE__, format, val);
+ 	return val;
+ }
  
-diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index ec974da..81678a3 100644
---- a/drivers/gpu/drm/kmb/kmb_dsi.c
-+++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -611,20 +611,10 @@ static void mipi_tx_fg_cfg_regs(struct kmb_drm_private *dev_p, u8 frame_gen,
- 	u32 ppl_llp_ratio;
- 	u32 ctrl_no = MIPI_CTRL6, reg_adr, val, offset;
- 
--#ifdef GET_SYS_CLK
--	/* Get system clock for blanking period cnfigurations */
--	sc = get_clock_frequency(CPR_CLK_SYSTEM, &sysclk);
--	if (sc)
--		return sc;
+@@ -300,38 +302,48 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	dev_p->fb_addr = addr[Y_PLANE];
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_START_ADDR(plane_id),
+ 		      addr[Y_PLANE] + fb->offsets[0]);
++	val = set_pixel_format(fb->format->format);
++	val |= set_bits_per_pixel(fb->format);
+ 	/* Program Cb/Cr for planar formats */
+ 	if (num_planes > 1) {
+-		if (fb->format->format == DRM_FORMAT_YUV420 ||
+-		    fb->format->format == DRM_FORMAT_YVU420)
+-			width /= 2;
 -
--	/* Convert to MHZ */
--	sysclk /= 1000;
--#else
- 	/* 500 Mhz system clock minus 50 to account for the difference in
- 	 * MIPI clock speed in RTL tests
- 	 */
--	sysclk = KMB_SYS_CLK_MHZ - 50;
--#endif
-+	sysclk = dev_p->sys_clk_mhz - 50;
+ 		kmb_write_lcd(dev_p, LCD_LAYERn_DMA_CB_LINE_VSTRIDE(plane_id),
+-			      fb->pitches[LAYER_1]);
+-
++				width*fb->format->cpp[0]);
+ 		kmb_write_lcd(dev_p, LCD_LAYERn_DMA_CB_LINE_WIDTH(plane_id),
+ 			      (width * fb->format->cpp[0]));
  
- 	/* PPL-Pixel Packing Layer, LLP-Low Level Protocol
- 	 * Frame genartor timing parameters are clocked on the system clock,
+ 		addr[U_PLANE] = drm_fb_cma_get_gem_addr(fb, plane->state,
+-							U_PLANE);
+-		kmb_write_lcd(dev_p, LCD_LAYERn_DMA_START_CB_ADR(plane_id),
+-			      addr[U_PLANE]);
++				U_PLANE);
++		/* check if Cb/Cr is swapped*/
++		if ((num_planes == 3) && (val & LCD_LAYER_CRCB_ORDER))
++			kmb_write_lcd(dev_p,
++					LCD_LAYERn_DMA_START_CR_ADR(plane_id),
++					addr[U_PLANE]);
++		else
++			kmb_write_lcd(dev_p,
++					LCD_LAYERn_DMA_START_CB_ADR(plane_id),
++					addr[U_PLANE]);
+ 
+ 		if (num_planes == 3) {
+ 			kmb_write_lcd(dev_p,
+-				      LCD_LAYERn_DMA_CR_LINE_VSTRIDE(plane_id),
+-				      fb->pitches[LAYER_2]);
++				LCD_LAYERn_DMA_CR_LINE_VSTRIDE(plane_id),
++				((width)*fb->format->cpp[0]));
+ 
+ 			kmb_write_lcd(dev_p,
+-				      LCD_LAYERn_DMA_CR_LINE_WIDTH(plane_id),
+-				      (width * fb->format->cpp[0]));
++				LCD_LAYERn_DMA_CR_LINE_WIDTH(plane_id),
++				((width)*fb->format->cpp[0]));
+ 
+ 			addr[V_PLANE] = drm_fb_cma_get_gem_addr(fb,
+-								plane->state,
+-								V_PLANE);
+-			kmb_write_lcd(dev_p,
+-				      LCD_LAYERn_DMA_START_CR_ADR(plane_id),
+-				      addr[V_PLANE]);
++					plane->state, V_PLANE);
++
++			/* check if Cb/Cr is swapped*/
++			if (val & LCD_LAYER_CRCB_ORDER)
++				kmb_write_lcd(dev_p,
++					LCD_LAYERn_DMA_START_CB_ADR(plane_id),
++					addr[V_PLANE]);
++			else
++				kmb_write_lcd(dev_p,
++					LCD_LAYERn_DMA_START_CR_ADR(plane_id),
++					addr[V_PLANE]);
+ 		}
+ 	}
+ 
+@@ -340,8 +352,6 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_COL_START(plane_id), crtc_x);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_ROW_START(plane_id), crtc_y);
+ 
+-	val = set_pixel_format(fb->format->format);
+-	val |= set_bits_per_pixel(fb->format);
+ 	/*CHECKME Leon drvr sets it to 100 try this for now */
+ 	val |= LCD_LAYER_FIFO_100;
+ 
 -- 
 2.7.4
 
