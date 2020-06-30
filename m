@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5906220F1D6
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 11:41:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7125120F208
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 12:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72ABF89FED;
-	Tue, 30 Jun 2020 09:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028D189C08;
+	Tue, 30 Jun 2020 10:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482D089B49;
- Tue, 30 Jun 2020 09:41:17 +0000 (UTC)
-IronPort-SDR: sXEHl705UWvrNfx2yk8Cpfk0qVUYxgn07oDMoBL23v6Rr18wv/ToS7OaWTLbLVZZgTp6KzPgMe
- v1JuTtayGZfw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="207705784"
-X-IronPort-AV: E=Sophos;i="5.75,297,1589266800"; d="scan'208";a="207705784"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 02:41:16 -0700
-IronPort-SDR: CAxgFpBBhNPa96ZUWaZgtD2EIjf2Fi+xqonxVo6fWUD8pjD30JRXcsiL/kMwvH6VYofFxvB+Vn
- yrLLABSqLB0A==
-X-IronPort-AV: E=Sophos;i="5.75,297,1589266800"; d="scan'208";a="454543857"
-Received: from rgrotewx-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.38.12])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 02:41:13 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Colin King <colin.king@canonical.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH][next] drm/i915: fix a couple of spelling mistakes in
- kernel parameter help text
-In-Reply-To: <20200616082129.65517-1-colin.king@canonical.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200616082129.65517-1-colin.king@canonical.com>
-Date: Tue, 30 Jun 2020 12:41:11 +0300
-Message-ID: <87ftacnb60.fsf@intel.com>
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 975A489C08
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 10:00:15 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id gc15so1813758pjb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 03:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bS0b9bomKbWXIqGH1Zn1LUVsA5coUEY5p6IxbrWuUK8=;
+ b=hXxJ7jHSRR9RC7jPAR8UazOI0+y6V4kRxr3Yvm4SgETLWpYx9ONMzLlV7qJpbOY/6W
+ HbRjoYS5yrixrD/eNc8NQG2gTvYVyprGeojRsBzDeKUhoo30xVrDvD1u524X4jOv0Efs
+ KjZd5woAIewUlg1ZLitc8ogpLw357Y0Vzt57JHhlidrx/k2XW/hSRDYLDEftzxHsh3Gf
+ YBxloTbDS1Cmxfi2ObHtLSy/2qn1Sz50FOZR4kAmnVxSBJ9RB6LKcOtYFXAVfp5rdkco
+ KcKNemTAxhE1vGcyMgR64hSpgTDd6pCnXQAUo1aYC75E24oob1cMcspCRkY1DWHeBByM
+ 64uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bS0b9bomKbWXIqGH1Zn1LUVsA5coUEY5p6IxbrWuUK8=;
+ b=s+wGNmdx3fPcuKWucopyF13C4kYQvlip9t7qfGLiXBkQ/SdoXnvQpvn9qRKtdBgLBv
+ pnihYbOkT3ymcXE4mz7dzQ2KiZPtrt33TfBKpLZM/5wasp3Fm+nF4VYuErJNn2HdA3kr
+ xRiTz6eYgVsw7DfL2772ffnIPfbRO1rkJQFSPV4EdVKspaoIBcjK1JpA5QclLjrWZGbs
+ KhPbPeBfP59GOghzsyLQsPo/1eZrnv+Jmo7c/AqzPLvU06uKYYhehdxInyFNamhbx9Ib
+ Uka7gQAJzYj7MzJ38nNEYpUuM1k/3C894/MW6VGuFD/ICz2lcsf3rfupnAjPI/Ijff2F
+ TKPA==
+X-Gm-Message-State: AOAM531a45lUZFhmUMHP2nbhM3lBpVcuzS6d5cHRHW+QUHYv0qEbvclJ
+ po5T1zoLoPf1LvCXonv5uhLVkr0pFlc3p3AW3D4=
+X-Google-Smtp-Source: ABdhPJyDAWVlXnklUfmuNIokLXtYElqabkjA8Cr1sJHfddgAENO5LBwoK9RGkW420nWl8wlBjw/H2sVLKtawRm0W9Mg=
+X-Received: by 2002:a17:90a:d712:: with SMTP id
+ y18mr760791pju.228.1593511214814; 
+ Tue, 30 Jun 2020 03:00:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <CGME20200629112249eucas1p160b845444f8fbad96bdec41e9d3938da@eucas1p1.samsung.com>
+ <20200629112242.18380-1-a.hajda@samsung.com>
+ <20200629112242.18380-3-a.hajda@samsung.com>
+ <CAHp75VdS_u8h4qfBxsQRUp1-2SL_hq20=dQkpteXH7Xg7epArQ@mail.gmail.com>
+ <a48ab93c-0d9c-ed8b-76dd-62007826bf6f@samsung.com>
+In-Reply-To: <a48ab93c-0d9c-ed8b-76dd-62007826bf6f@samsung.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 30 Jun 2020 13:00:01 +0300
+Message-ID: <CAHp75VdgCJXEkLuUQ7Z+5J499TNtgvsXG=4cncuQuKqAgHm4hw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/4] driver core: add deferring probe reason to
+ devices_deferred property
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,47 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Jun 2020, Colin King <colin.king@canonical.com> wrote:
-> From: Colin Ian King <colin.king@canonical.com>
->
-> There are a couple of spelling mistakes in kernel parameter help text,
-> namely "helpfull" and "paramters".  Fix them.
->
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+On Tue, Jun 30, 2020 at 11:32 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
+> On 29.06.2020 18:36, Andy Shevchenko wrote:
+> > On Mon, Jun 29, 2020 at 2:22 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+> >> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
+> >> This list does not contain reason why the driver deferred probe, the patch
+> >> improves it.
+> >> The natural place to set the reason is dev_err_probe function introduced recently,
+> >> ie. if dev_err_probe will be called with -EPROBE_DEFER instead of printk the message
+> >> will be attached to deferred device and printed when user read devices_deferred
+> > to a deferred
+> >
+> > reads
+> OK, thx.
+> >
+> >> property.
 
-Pushed, thanks for the patch.
+...
 
-BR,
-Jani.
-
-> ---
->  drivers/gpu/drm/i915/i915_params.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>          list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
+> >> -               seq_printf(s, "%s\n", dev_name(curr->device));
+> >> +               seq_printf(s, "%s\t%s", dev_name(curr->device),
+> >> +                          curr->device->p->deferred_probe_reason ?: "\n");
+> > Hmm... "\t" will be dangling in the latter case
 >
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-> index a7b61e6ec508..8d8db9ff0a48 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -99,8 +99,8 @@ i915_param_named_unsafe(enable_psr, int, 0400,
->  
->  i915_param_named(psr_safest_params, bool, 0400,
->  	"Replace PSR VBT parameters by the safest and not optimal ones. This "
-> -	"is helpfull to detect if PSR issues are related to bad values set in "
-> -	" VBT. (0=use VBT paramters, 1=use safest parameters)");
-> +	"is helpful to detect if PSR issues are related to bad values set in "
-> +	" VBT. (0=use VBT parameters, 1=use safest parameters)");
->  
->  i915_param_named_unsafe(force_probe, charp, 0400,
->  	"Force probe the driver for specified devices. "
+>
+> Hmm, I followed your advice [1] :)
+>
+> [1]:
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1787370.html
+
+Ah, indeed :-)
+Okay, as I  said I'm fine with the code. Since it's debugfs, we are fine.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
