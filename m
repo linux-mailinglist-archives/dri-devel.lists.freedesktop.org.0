@@ -1,63 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5E32104A6
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:13:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F7821049B
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:12:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE48D6E82A;
-	Wed,  1 Jul 2020 07:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95746E7EC;
+	Wed,  1 Jul 2020 07:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4A66E21D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 21:02:19 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id s16so6778951lfp.12
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 14:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=uWt7/06d177SfGjZmfsBPnXSQpNbyy3gFoJVxWVDYA8=;
- b=dWiHaRI9VnBeDGP7DBdo1Kn3R0l0ukl7bAyOh3hYflvX56bsicOIXT5eyoKQWEpgsz
- uN9qZDGUHmCtaXEgbq1ILRdXaP9pcO/LGjNWSRvrnFvBT6kq+ldPBPE1be9HDX/19O7A
- iWGAdSE6l3c12NiLsgAB84yc61rnyoDyWmBzm2/gNBYBPWrnwENbAydJ8FO5PtRPzQAL
- t6uP2/j1ogqW3zWVKRMe5UrDRGSpUwGBsSTzvv2nMcBVhfBSAd9s1m4fk+cQdSzZI3yk
- 7lsBtXifH+ssoUg9bVGV0mg546Es98wXaPD4VkWqNu1WhhVL0mFu4pQabXDR7z3LAr/+
- KGbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uWt7/06d177SfGjZmfsBPnXSQpNbyy3gFoJVxWVDYA8=;
- b=iPMiyUDiInPdvqVIMUc/ZDMubgLpwjFsrk319+wDubfn9gmFxh5mB56RfhnU9w40E7
- UW1FBmA2+Dycx3J/5xcoVh1n1fpssBwHiz/oZXc0YpurNnuH+R6VRKs7cO1Up+LwZIe3
- RmNprcPRo91sqFR1tJLbbBc5wr8A+RVFl9268hC9pGP9zZlE3vSmiZVcqsEzU2NZLDF3
- mXwpOnj67qZAYg8iKaJU4sev3sjr/WSreyodEKUASFluxffOxzY9U0XvYuzq/ha1et/2
- HJQV4yZSFpuSe6ehVcOf9FSKd+smGDaIjnbYNukaQ9smQbo0iWVDDWQlGy8DVZX/r4dI
- X2WA==
-X-Gm-Message-State: AOAM530YMg6xpwXTWXzHRtZl4RibBM3vM6F8KK/UuOk4KsMW3NA/vW8c
- rHCPTVPI85vKA4gD2AgkUlcCbg==
-X-Google-Smtp-Source: ABdhPJwZjvJqCkP+feeQt9eJNqt+pF2IsjHIAxp+Ix8bRXd77wLBq2nhoq0jT6XBaRy6ZcqVrj+ttQ==
-X-Received: by 2002:a19:c744:: with SMTP id x65mr13370113lff.133.1593550935782; 
- Tue, 30 Jun 2020 14:02:15 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
- by smtp.gmail.com with ESMTPSA id u15sm1087979ljh.56.2020.06.30.14.02.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 14:02:14 -0700 (PDT)
-Date: Tue, 30 Jun 2020 23:02:14 +0200
-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 7/8] dt-bindings: media: renesas, vsp1: Convert binding
- to YAML
-Message-ID: <20200630210214.GG2365286@oden.dyn.berto.se>
-References: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200621004734.28602-8-laurent.pinchart+renesas@ideasonboard.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94916E21D
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 21:02:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 70B3F2A3C6B
+Subject: Re: [RESEND PATCH v4 0/7] Convert mtk-dsi to drm_bridge API and get
+ EDID for ps8640 bridge
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20200615203108.786083-1-enric.balletbo@collabora.com>
+ <20200620213302.GC74146@ravnborg.org>
+ <593a4666-d6aa-7d16-f3a0-ba3713047d84@collabora.com>
+ <CAAOTY_9ZHemp0U76_oPjwy-XoTRXW108UMD_9JVnNXndNNsiTw@mail.gmail.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <43e5b273-d156-beea-bcfb-cc61b190a671@collabora.com>
+Date: Tue, 30 Jun 2020 23:02:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200621004734.28602-8-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <CAAOTY_9ZHemp0U76_oPjwy-XoTRXW108UMD_9JVnNXndNNsiTw@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 01 Jul 2020 07:12:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,209 +43,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-Thanks for your patch.
-
-On 2020-06-21 03:47:33 +0300, Laurent Pinchart wrote:
-> Convert the Renesas R-Car VSP1 text binding to YAML.
-> =
-
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> Changes since v1:
-> =
-
-> - Simplify comments on compatible strings
-> - Update MAINTAINERS
-> ---
->  .../bindings/media/renesas,vsp1.txt           | 30 -------
->  .../bindings/media/renesas,vsp1.yaml          | 83 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 84 insertions(+), 31 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vsp1.=
-txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,vsp1.=
-yaml
-> =
-
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.txt b/D=
-ocumentation/devicetree/bindings/media/renesas,vsp1.txt
-> deleted file mode 100644
-> index cd5a955b2ea0..000000000000
-> --- a/Documentation/devicetree/bindings/media/renesas,vsp1.txt
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -* Renesas VSP Video Processing Engine
-> -
-> -The VSP is a video processing engine that supports up-/down-scaling, alp=
-ha
-> -blending, color space conversion and various other image processing feat=
-ures.
-> -It can be found in the Renesas R-Car Gen2, R-Car Gen3, RZ/G1, and RZ/G2 =
-SoCs.
-> -
-> -Required properties:
-> -
-> -  - compatible: Must contain one of the following values
-> -    - "renesas,vsp1" for the R-Car Gen2 and RZ/G1 VSP1
-> -    - "renesas,vsp2" for the R-Car Gen3 and RZ/G2 VSP2
-> -
-> -  - reg: Base address and length of the registers block for the VSP.
-> -  - interrupts: VSP interrupt specifier.
-> -  - clocks: A phandle + clock-specifier pair for the VSP functional cloc=
-k.
-> -
-> -Optional properties:
-> -
-> -  - renesas,fcp: A phandle referencing the FCP that handles memory acces=
-ses
-> -                 for the VSP. Not needed on Gen2, mandatory on Gen3.
-> -
-> -
-> -Example: R8A7790 (R-Car H2) VSP1-S node
-> -
-> -	vsp@fe928000 {
-> -		compatible =3D "renesas,vsp1";
-> -		reg =3D <0 0xfe928000 0 0x8000>;
-> -		interrupts =3D <0 267 IRQ_TYPE_LEVEL_HIGH>;
-> -		clocks =3D <&mstp1_clks R8A7790_CLK_VSP1_S>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/=
-Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> new file mode 100644
-> index 000000000000..65e8ee61ce90
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,vsp1.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas VSP Video Processing Engine
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +description:
-> +  The VSP is a video processing engine that supports up-/down-scaling, a=
-lpha
-> +  blending, color space conversion and various other image processing fe=
-atures.
-> +  It can be found in the Renesas R-Car Gen2, R-Car Gen3, RZ/G1, and RZ/G=
-2 SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,vsp1 # R-Car Gen2 and RZ/G1
-> +      - renesas,vsp2 # R-Car Gen3 and RZ/G2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  renesas,fcp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      A phandle referencing the FCP that handles memory accesses for the=
- VSP.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      items:
-> +        - const: renesas,vsp1
-> +then:
-> +  properties:
-> +    renesas,fcp: false
-> +else:
-> +  required:
-> +    - renesas,fcp
-> +
-> +examples:
-> +  # R8A7790 (R-Car H2) VSP1-S
-> +  - |
-> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    vsp@fe928000 {
-> +        compatible =3D "renesas,vsp1";
-> +        reg =3D <0xfe928000 0x8000>;
-> +        interrupts =3D <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&cpg CPG_MOD 131>;
-> +    };
-> +
-> +  # R8A77951 (R-Car H3) VSP2-BC
-> +  - |
-> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    vsp@fe920000 {
-> +        compatible =3D "renesas,vsp2";
-> +        reg =3D <0xfe920000 0x8000>;
-> +        interrupts =3D <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&cpg CPG_MOD 624>;
-> +
-> +        renesas,fcp =3D <&fcpvb1>;
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7383dfa510a3..22e079cc3e3f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10730,7 +10730,7 @@ L:	linux-media@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Supported
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/renesas,vsp1.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,vsp1.yaml
->  F:	drivers/media/platform/vsp1/
->  =
-
->  MEDIA DRIVERS FOR ST STV0910 DEMODULATOR ICs
-> -- =
-
-> Regards,
-> =
-
-> Laurent Pinchart
-> =
-
-
--- =
-
-Regards,
-Niklas S=F6derlund
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2h1bi1LdWFuZywKCk9uIDMwLzYvMjAgMTg6MjYsIENodW4tS3VhbmcgSHUgd3JvdGU6Cj4g
+SGksIEVucmljOgo+IAo+IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVucmljLmJhbGxldGJvQGNv
+bGxhYm9yYS5jb20+IOaWvCAyMDIw5bm0NuaciDMw5pelIOmAseS6jCDkuIvljYgxMDozNOWvq+mB
+k++8mgo+Pgo+PiBIaSBTYW0sIENodW4tS3VhbiwKPj4KPj4gT24gMjAvNi8yMCAyMzozMywgU2Ft
+IFJhdm5ib3JnIHdyb3RlOgo+Pj4gSGkgRW5yaWMKPj4+Cj4+PiBPbiBNb24sIEp1biAxNSwgMjAy
+MCBhdCAxMDozMTowMVBNICswMjAwLCBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIHdyb3RlOgo+Pj4+
+IChUaGlzIHJlc2VuZCBpcyB0byBmaXggc29tZSB0cml2aWFsIGNvbmZsaWN0cyBkdWUgdGhlIG1l
+cmdlIHdpbmRvdykKPj4+Pgo+Pj4+IFRoZSBQUzg2NDAgZHNpLXRvLWVEUCBicmlkZ2UgZHJpdmVy
+IGlzIHVzaW5nIHRoZSBwYW5lbCBicmlkZ2UgQVBJLAo+Pj4+IGhvd2V2ZXIsIG5vdCBhbGwgdGhl
+IGNvbXBvbmVudHMgaW4gdGhlIGNoYWluIGhhdmUgYmVlbiBwb3J0ZWQgdG8gdGhlCj4+Pj4gZHJt
+X2JyaWRnZSBBUEkuIEFjdHVhbGx5LCB3aGVuIGEgcGFuZWwgaXMgYXR0YWNoZWQgdGhlIGRlZmF1
+bHQgcGFuZWwncyBtb2RlCj4+Pj4gaXMgdXNlZCwgYnV0IGluIHNvbWUgY2FzZXMgd2UgY2FuJ3Qg
+Z2V0IGRpc3BsYXkgdXAgaWYgbW9kZSBnZXR0aW5nIGZyb20KPj4+PiBlRFAgY29udHJvbCBFRElE
+IGlzIG5vdCBjaG9zZW4uCj4+Pj4KPj4+PiBUaGlzIHNlcmllcyBhZGRyZXNzIHRoYXQgcHJvYmxl
+bSwgZmlyc3QgaW1wbGVtZW50cyB0aGUgLmdldF9lZGlkKCkKPj4+PiBjYWxsYmFjayBpbiB0aGUg
+UFM4NjQwIGRyaXZlciAod2hpY2ggaXMgbm90IHVzZWQgdW50aWwgdGhlIGNvbnZlcnNpb24gaXMK
+Pj4+PiBkb25lKSBhbmQgdGhlbiwgY29udmVydHMgdGhlIE1lZGlhdGVrIERTSSBkcml2ZXIgdG8g
+dXNlIHRoZSBkcm1fYnJpZGdlCj4+Pj4gQVBJLgo+Pj4+Cj4+Pj4gQXMgZmFyIGFzIEkga25vdywg
+d2UncmUgdGhlIG9ubHkgdXNlcnMgb2YgdGhlIG1lZGlhdGVrIGRzaSBkcml2ZXIgaW4KPj4+PiBt
+YWlubGluZSwgc28gc2hvdWxkIGJlIHNhZmUgdG8gc3dpdGNoIHRvIHRoZSBuZXcgY2hhaW4gb2Yg
+ZHJtX2JyaWRnZSBBUEkKPj4+PiB1bmNvbmRpdGlvbmFsbHkuCj4+Pj4KPj4+PiBUaGUgcGF0Y2hl
+cyBoYXMgYmVlbiB0ZXN0ZWQgb24gYSBBY2VyIENocm9tZWJvb2sgUjEzIChFbG0pIHJ1bm5pbmcg
+YQo+Pj4+IENocm9tZSBPUyB1c2Vyc3BhY2UgYW5kIGNoZWNraW5nIHRoYXQgdGhlIHZhbGlkIEVE
+SUQgbW9kZSByZXBvcnRlZCBieQo+Pj4+IHRoZSBicmlkZ2UgaXMgc2VsZWN0ZWQuCj4+Pj4KPj4+
+PiBDaGFuZ2VzIGluIHY0Ogo+Pj4+IC0gUmVtb3ZlIGRvdWJsZSBjYWxsIHRvIGRybV9lbmNvZGVy
+X2luaXQoKS4gKENodW4tS3VhbmcgSHUpCj4+Pj4gLSBDbGVhbnVwIHRoZSBlbmNvZGVyIGluIG10
+a19kc2lfdW5iaW5kKCkuIChDaHVuLUt1YW5nIEh1KQo+Pj4+Cj4+Pj4gQ2hhbmdlcyBpbiB2MzoK
+Pj4+PiAtIFJlcGxhY2Ugcy9icmlkZ2UvbmV4dCBicmlkZ2UvIGZvciBjb21tZW50LiAoTGF1cmVu
+dCBQaW5jaGFydCkKPj4+PiAtIEFkZCB0aGUgYnJpZGdlLnR5cGUuIChMYXVyZW50IFBpbmNoYXJ0
+KQo+Pj4+IC0gVXNlIG5leHRfYnJpZGdlIGZpZWxkIHRvIHN0b3JlIHRoZSBwYW5lbCBicmlkZ2Uu
+IChMYXVyZW50IFBpbmNoYXJ0KQo+Pj4+IC0gQWRkIHRoZSBicmlkZ2UudHlwZSBmaWVsZC4gKExh
+dXJlbnQgUGluY2hhcnQpCj4+Pj4gLSBUaGlzIHBhdGNoIHJlcXVpcmVzIGh0dHBzOi8vbGttbC5v
+cmcvbGttbC8yMDIwLzQvMTYvMjA4MCB0byB3b3JrCj4+Pj4gICBwcm9wZXJseS4KPj4+PiAtIE1v
+dmUgdGhlIGJyaWRnZS50eXBlIGxpbmUgdG8gdGhlIHBhdGNoIHRoYXQgYWRkcyBkcm1fYnJpZGdl
+IHN1cHBvcnQuIChMYXVyZW50IFBpbmNoYXJ0KQo+Pj4+Cj4+Pj4gQ2hhbmdlcyBpbiB2MjoKPj4+
+PiAtIERvIG5vdCBzZXQgY29ubmVjdG9yX3R5cGUgZm9yIHBhbmVsIGhlcmUuIChTYW0gUmF2bmJv
+cmcpCj4+Pj4KPj4+PiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhICg3KToKPj4+PiAgIGRybS9icmlk
+Z2U6IHBzODY0MDogR2V0IHRoZSBFRElEIGZyb20gZURQIGNvbnRyb2wKPj4+PiAgIGRybS9icmlk
+Z2VfY29ubmVjdG9yOiBTZXQgZGVmYXVsdCBzdGF0dXMgY29ubmVjdGVkIGZvciBlRFAgY29ubmVj
+dG9ycwo+Pj4+ICAgZHJtL21lZGlhdGVrOiBtdGtfZHNpOiBSZW5hbWUgYnJpZGdlIHRvIG5leHRf
+YnJpZGdlCj4+Pj4gICBkcm0vbWVkaWF0ZWs6IG10a19kc2k6IENvbnZlcnQgdG8gYnJpZGdlIGRy
+aXZlcgo+Pj4+ICAgZHJtL21lZGlhdGVrOiBtdGtfZHNpOiBVc2Ugc2ltcGxlIGVuY29kZXIKPj4+
+PiAgIGRybS9tZWRpYXRlazogbXRrX2RzaTogVXNlIHRoZSBkcm1fcGFuZWxfYnJpZGdlIEFQSQo+
+Pj4+ICAgZHJtL21lZGlhdGVrOiBtdGtfZHNpOiBDcmVhdGUgY29ubmVjdG9yIGZvciBicmlkZ2Vz
+Cj4+Pgo+Pj4gUGF0Y2ggc2VlbXMgcmVhZHkgdG8gYXBwbHkuIFdpbGwgdGhleSBiZSBhcHBsaWVk
+IHRvIGEgbWVkaWF0ZWsgdHJlZQo+Pj4gb3IgdG8gZHJtLW1pc2MtbmV4dD8KPj4+IE9yIHNoYWxs
+IHdlIHRha2UgdGhlIGZpcnN0IHR3byBwYXRjaGVzIHZpYSBkcm0tbWlzYy1uZXh0LCBhbmQgdGhl
+Cj4+PiByZW1hbmluZyB2aWEgYSBtZWRpYXRlayB0cmVlPyAoSSBob3BlIG5vdCkKPj4+Cj4+Cj4+
+IEkgdGhpbmsgdGhlIG9ubHkgY29uY2VybiBpcyBmcm9tIENodW4tS3VhbiByZWdhcmRpbmcgcGF0
+Y2ggNy83ICJkcm0vbWVkaWF0ZWs6Cj4+IG10a19kc2k6IENyZWF0ZSBjb25uZWN0b3IgZm9yIGJy
+aWRnZXMiIHdoZXRoZXIgd2Ugc2hvdWxkIHN1cHBvcnQgdGhlIG9sZCBBUEkgb3IKPj4gbm90LCBi
+dXQgdGhlIGRpc2N1c3Npb24gc3RhbGxlZC4KPj4KPiAKPiBJIGdldCBtb3JlIGNsZWFyIG5vdy4g
+SW4gcGF0Y2ggNy83LAo+IAo+IHJldCA9IGRybV9icmlkZ2VfYXR0YWNoKCZkc2ktPmVuY29kZXIs
+ICZkc2ktPmJyaWRnZSwgTlVMTCwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9SKTsKPiAKPiB0aGlzIHdvdWxkIGNh
+bGwgaW50byBtdGtfZHNpX2JyaWRnZV9hdHRhY2goKSBmaXJzdCwgYW5kIHRoZW4gY2FsbCBpbnRv
+Cj4gcGFuZWxfYnJpZGdlX2F0dGFjaCgpIG5leHQuIFNvIHBhbmVsX2JyaWRnZV9hdHRhY2goKSB3
+b3VsZCByZWNlaXZlCj4gRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9SIGFuZCBpdCByZXR1
+cm4gaW1tZWRpYXRlbHkgc28gaXQgZG9lcwo+IG5vdCBjYWxsIGRybV9wYW5lbF9hdHRhY2goKS4g
+U28gd2hlcmUgZG8geW91IGNhbGwgZHJtX3BhbmVsX2F0dGFjaCgpPwo+IAoKV2h5IEkgbmVlZCB0
+byBjYWxsIGRybV9wYW5lbF9hdHRhY2g/CgpJIGJlbGlldmUgZHJtX3BhbmVsX2F0dGFjaCgpIHdh
+cyB0byBhdHRhY2ggYSBwYW5lbCB0byBhIGNvbm5lY3RvciwgYnV0IHdlIGRvbid0Cm5lZWQgdG8g
+ZG8gdGhpcyB3aXRoIHRoZSBuZXcgQVBJIGFzIHRoZSBjb25uZWN0b3IgaXMgYWxyZWFkeSBjcmVh
+dGVkIGFuZAphdHRhY2hlZCB0byB0aGUgImR1bW15IiBlbmNvZGVyLgoKTWFrZXMgdGhhdCBzZW5z
+ZSB0byB5b3U/IFdoYXQgZG8geW91IHRoaW5rIHdpbGwgbm90IHdvcmsgaWYgSSBkb24ndCBjYWxs
+CmRybV9wYW5lbF9hdHRhY2g/CgpbMV0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgv
+djUuOC1yYzMvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYyNMMTAxCgpSZWdhcmRz
+LAogRW5yaWMKCgo+IFJlZ2FyZHMsCj4gQ2h1bi1LdWFuZy4KPiAKPj4gVGhhbmtzLAo+PiAgRW5y
+aWMKPj4KPj4KPj4KPj4+ICAgICAgIFNhbQo+Pj4KPj4+Cj4+Pj4KPj4+PiAgZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9wYXJhZGUtcHM4NjQwLmMgfCAgMTIgKysKPj4+PiAgZHJpdmVycy9ncHUvZHJt
+L2RybV9icmlkZ2VfY29ubmVjdG9yLmMgfCAgIDEgKwo+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2RzaS5jICAgICB8IDI2OSArKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tCj4+Pj4g
+IDMgZmlsZXMgY2hhbmdlZCwgOTcgaW5zZXJ0aW9ucygrKSwgMTg1IGRlbGV0aW9ucygtKQo+Pj4+
+Cj4+Pj4gLS0KPj4+PiAyLjI3LjAKPj4+Pgo+Pj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+Pj4KPiAKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
