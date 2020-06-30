@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFBB20FB5A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:06:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 412B820FB59
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 20:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4086E0B9;
-	Tue, 30 Jun 2020 18:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A89BF6E0B7;
+	Tue, 30 Jun 2020 18:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 671A86E091
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:06:04 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id d17so8976834ljl.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:06:04 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A166E0B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 18:06:05 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id h19so23650275ljg.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 11:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XEij/FHVrQ+HUl9eTjVepoVKvB3j/avPt20/u3J9TTI=;
- b=ahaKqyYSHfwx+p3Fjo5gbt2x9PbF4vGvv/vEjyjzkfngh5Wsx6QRKOKb1T3868EVPP
- EfuzjwKE918QODp5mcsUmFTn81c7EsBLrJCl9qt0L/cm4qmXln5CDzox/xJ2RZi/gQP8
- KaQ7Lc9zgGoZZHX4LRCAoDnQzOXyFv2bC6TrDRuDP+VBcbTbEcUur0PU8hEvTPhTuLtD
- OyaQzjjhY2JBQCbkfCCx0i8natPlMAtxmoTLZCHOFSMnwKeCHj57U3iUS+Dpiv3T16Th
- GxZeKP2ySdvHRD4GbX9C1Ymqfyw7EE3839dnq3fNa2DthVsFBpsyITBAHTpRMby0VcSZ
- wKSQ==
+ bh=5g6HODAk2DBCjnx5JZW7GXPuVyTGvlIbzdH4kaUb6CI=;
+ b=PxWUebACOzinV/cvM6lW1SF0YUIkfr1a4B58o2PFn8QBmlkmuvV0ZR4YM3StUCt+Ld
+ j6PxZmb640gyby5YgLB8A71e2Xp2LBYDH+3QP+czWDKCF83IJ649I7HMQchipKWWVKky
+ X5t51uz70Ai3JJ0A7CKpb7pTDG2j/0ysvlDbkiToNqCcanMuDYYK6EjdmcTNkNL+ibka
+ +6NCwFMQ8/ysEXwcPvUwZ8U/4cEYTxQ5A9qtA+EuoNfystDhPH67fBonnN0noPyEF981
+ nRLqsSLHIr74+eYDTogIurQICLyBEjM3tN+fsRQgmicF6SzIdP7w/pbomP2nPj+eqgMK
+ nryQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XEij/FHVrQ+HUl9eTjVepoVKvB3j/avPt20/u3J9TTI=;
- b=s+BHYNaIaruVh+brIR4kfdWm0N2A6unPLc/s8dMko2aaq1tP09BN57JN3n63MgKFwL
- Vzcix/RORv7qtuzm36U26ZeJBaIsu/xU9Xtxdmv1DA26Q/dznIKs5R61hg5pPKvVb/tz
- 6cLzAUIBq6k+lqpfU7AXqR6hArWI23jXMoLHYz6szKjZe6jZQfezryeLSah4FoycTbF0
- NKuu72b5USMpmBla8/sX3uYbkRkiKh+ww/TGaUALjTauCa0j40rC19ZpuvpoWwJ+aKhP
- hzW6BPKdD00WL+qe+yoZgwTUZiU5xSOGcq20GT3nvc6zommJLCLn+s2zlbQrxTP9hWIQ
- hb3Q==
-X-Gm-Message-State: AOAM531L7hkdWjbCAa4/1XjOB7Jo0onrpcBG+Oi4xCOkN1avmgvUTLZd
- PysLVUYNmo8zGOc0f3ocYkgSYDuRUxI=
-X-Google-Smtp-Source: ABdhPJzqyQ5J/phwrSSO+vA2lJXRdVrAfRriwF0KBBfnQVxalFi+/gZCUULvQ2X4eLxNHfHnWankUA==
-X-Received: by 2002:a2e:9d1:: with SMTP id 200mr10470133ljj.392.1593540361401; 
- Tue, 30 Jun 2020 11:06:01 -0700 (PDT)
+ bh=5g6HODAk2DBCjnx5JZW7GXPuVyTGvlIbzdH4kaUb6CI=;
+ b=qXIC4yZlZVz+vxy1rJdVb4giCNvRNBP8LJK7LqCDSCee29+z8MAR2E2h6knN+BsZ7r
+ a8eHn4UdeOgz0h6fgmbiLtJH8zxFeQbjCQM0LX4mKlQ5Esw+bZA/sB0+iHHfEvZ8s539
+ LcNnJDGHYYQkhbYIjZPfP4C4u+6yK+BOIuR3MbRf8Pcpy4emKO7ynM2SbTYBdpqkqzQd
+ tmwxv6NEw6O0eqpBVPAKqCb+WJF61qMtNi5HIBheSDMrvH+8BAmgIv2sUAq2kTpC8bEm
+ gvXafs4eIw1hJ5XNKihs8wOim8B6YyJEowiwnit7BN9XTdJirAQApx1QT4DLpk8pG91O
+ r6Ng==
+X-Gm-Message-State: AOAM533QhgpOBUjaWTRO2M2va/oxBnirY7jrml8H/wHMbb8uqVnAee0R
+ /hJmpKL/tsvQDb9SVn5cjpIksfuFNi8=
+X-Google-Smtp-Source: ABdhPJxpnrlLiH0gqoBgTf9HrxAUtr1iVRVxyB+sI+hRFha/hA6MkyjLbUjLAbwSTwRwRW77s+0NwQ==
+X-Received: by 2002:a2e:9e87:: with SMTP id f7mr11640148ljk.44.1593540363238; 
+ Tue, 30 Jun 2020 11:06:03 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:ddb6:1d37:ac40:1f27])
- by smtp.gmail.com with ESMTPSA id c14sm948208ljj.112.2020.06.30.11.06.00
+ by smtp.gmail.com with ESMTPSA id c14sm948208ljj.112.2020.06.30.11.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 11:06:00 -0700 (PDT)
+ Tue, 30 Jun 2020 11:06:02 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 5/7] drm/panel: panel-simple: drop use of legacy
- drm_bus_flags
-Date: Tue, 30 Jun 2020 20:05:43 +0200
-Message-Id: <20200630180545.1132217-6-sam@ravnborg.org>
+Subject: [PATCH v1 6/7] drm/drm_connector: drop legacy drm_bus_flags values
+Date: Tue, 30 Jun 2020 20:05:44 +0200
+Message-Id: <20200630180545.1132217-7-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200630180545.1132217-1-sam@ravnborg.org>
 References: <20200630180545.1132217-1-sam@ravnborg.org>
@@ -79,153 +78,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace all uses of the legacy drm_bus_flags with their relevant
-_SAMPLE_ variant.
-This is a 1:1 replacement, no effort was made to validate the actual
-bus flags for the panels.
-
-Note:
-DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE = DRM_BUS_FLAG_PIXDATA_NEGEDGE
-DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_POSEDGE
+Drop the now unused legacy drm_bus_flags values.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ include/drm/drm_connector.h | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 3a35f74d6cb7..4f0ec5e5b0aa 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -681,7 +681,7 @@ static const struct panel_desc armadeus_st0700_adapt = {
- 		.height = 86,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 6a451b86c454..7dc804488ccd 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -323,8 +323,6 @@ struct drm_monitor_range_info {
+  *
+  * @DRM_BUS_FLAG_DE_LOW:		The Data Enable signal is active low
+  * @DRM_BUS_FLAG_DE_HIGH:		The Data Enable signal is active high
+- * @DRM_BUS_FLAG_PIXDATA_POSEDGE:	Legacy value, do not use
+- * @DRM_BUS_FLAG_PIXDATA_NEGEDGE:	Legacy value, do not use
+  * @DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE:	Data is driven on the rising edge of
+  *					the pixel clock
+  * @DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE:	Data is driven on the falling edge of
+@@ -335,8 +333,6 @@ struct drm_monitor_range_info {
+  *					the pixel clock
+  * @DRM_BUS_FLAG_DATA_MSB_TO_LSB:	Data is transmitted MSB to LSB on the bus
+  * @DRM_BUS_FLAG_DATA_LSB_TO_MSB:	Data is transmitted LSB to MSB on the bus
+- * @DRM_BUS_FLAG_SYNC_POSEDGE:		Legacy value, do not use
+- * @DRM_BUS_FLAG_SYNC_NEGEDGE:		Legacy value, do not use
+  * @DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE:	Sync signals are driven on the rising
+  *					edge of the pixel clock
+  * @DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE:	Sync signals are driven on the falling
+@@ -351,20 +347,16 @@ struct drm_monitor_range_info {
+ enum drm_bus_flags {
+ 	DRM_BUS_FLAG_DE_LOW = BIT(0),
+ 	DRM_BUS_FLAG_DE_HIGH = BIT(1),
+-	DRM_BUS_FLAG_PIXDATA_POSEDGE = BIT(2),
+-	DRM_BUS_FLAG_PIXDATA_NEGEDGE = BIT(3),
+-	DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE = DRM_BUS_FLAG_PIXDATA_POSEDGE,
+-	DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_NEGEDGE,
+-	DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE = DRM_BUS_FLAG_PIXDATA_NEGEDGE,
+-	DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_POSEDGE,
++	DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE = BIT(2),
++	DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE = BIT(3),
++	DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
++	DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+ 	DRM_BUS_FLAG_DATA_MSB_TO_LSB = BIT(4),
+ 	DRM_BUS_FLAG_DATA_LSB_TO_MSB = BIT(5),
+-	DRM_BUS_FLAG_SYNC_POSEDGE = BIT(6),
+-	DRM_BUS_FLAG_SYNC_NEGEDGE = BIT(7),
+-	DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE = DRM_BUS_FLAG_SYNC_POSEDGE,
+-	DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE = DRM_BUS_FLAG_SYNC_NEGEDGE,
+-	DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE = DRM_BUS_FLAG_SYNC_NEGEDGE,
+-	DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE = DRM_BUS_FLAG_SYNC_POSEDGE,
++	DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE = BIT(6),
++	DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE = BIT(7),
++	DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE = DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE,
++	DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE = DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
+ 	DRM_BUS_FLAG_SHARP_SIGNALS = BIT(8),
  };
  
- static const struct drm_display_mode auo_b101aw03_mode = {
-@@ -1339,7 +1339,7 @@ static const struct panel_desc cdtech_s070pws19hp_fc21 = {
- 		.height = 86,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_DPI,
- };
- 
-@@ -1366,7 +1366,7 @@ static const struct panel_desc cdtech_s070swv29hg_dc44 = {
- 		.height = 86,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_DPI,
- };
- 
-@@ -1577,7 +1577,7 @@ static const struct panel_desc edt_et035012dm6 = {
- 		.height = 52,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_NEGEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
- };
- 
- static const struct drm_display_mode edt_etm043080dh6gp_mode = {
-@@ -1720,7 +1720,7 @@ static const struct panel_desc evervision_vgg804821 = {
- 		.height = 64,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_NEGEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
- };
- 
- static const struct drm_display_mode foxlink_fl500wvr00_a0t_mode = {
-@@ -1768,7 +1768,7 @@ static const struct panel_desc frida_frd350h54004 = {
- 		.height = 64,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- 	.connector_type = DRM_MODE_CONNECTOR_DPI,
- };
- 
-@@ -1839,7 +1839,7 @@ static const struct panel_desc giantplus_gpm940b0 = {
- 		.height = 45,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_3X8,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_NEGEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
- };
- 
- static const struct display_timing hannstar_hsd070pww1_timing = {
-@@ -2885,7 +2885,7 @@ static const struct panel_desc ortustech_com37h3m = {
- 		.height = 75,	/* 74.88mm */
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE |
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
- 		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
- };
- 
-@@ -3184,7 +3184,7 @@ static const struct panel_desc sharp_lq070y3dg3b = {
- 		.height = 91,	/* 91.4mm */
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE |
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
- 		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
- };
- 
-@@ -3287,7 +3287,7 @@ static const struct panel_desc sharp_ls020b1dd01d = {
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB565_1X16,
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH
--		   | DRM_BUS_FLAG_PIXDATA_NEGEDGE
-+		   | DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE
- 		   | DRM_BUS_FLAG_SHARP_SIGNALS,
- };
- 
-@@ -3386,7 +3386,7 @@ static const struct panel_desc tfc_s9700rtwv43tr_01b = {
- 		.height = 90,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- };
- 
- static const struct display_timing tianma_tm070jdhg30_timing = {
-@@ -3475,7 +3475,7 @@ static const struct panel_desc ti_nspire_cx_lcd_panel = {
- 		.height = 49,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_PIXDATA_NEGEDGE,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
- };
- 
- static const struct drm_display_mode ti_nspire_classic_lcd_mode[] = {
-@@ -3504,7 +3504,7 @@ static const struct panel_desc ti_nspire_classic_lcd_panel = {
- 	},
- 	/* This is the grayscale bus format */
- 	.bus_format = MEDIA_BUS_FMT_Y8_1X8,
--	.bus_flags = DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- };
- 
- static const struct drm_display_mode toshiba_lt089ac29000_mode = {
-@@ -3633,7 +3633,7 @@ static const struct panel_desc vl050_8048nt_c01 = {
- 		.height = 76,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
--	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_POSEDGE,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- };
- 
- static const struct drm_display_mode winstar_wf35ltiacd_mode = {
 -- 
 2.25.1
 
