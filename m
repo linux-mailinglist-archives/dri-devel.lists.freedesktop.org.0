@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5558020FD81
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 22:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1878920FD83
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 22:15:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF54889C19;
-	Tue, 30 Jun 2020 20:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D2A6E1AA;
+	Tue, 30 Jun 2020 20:15:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1FBC89C19
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 20:15:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BF96E1AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 20:15:46 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 4949380558;
- Tue, 30 Jun 2020 22:15:20 +0200 (CEST)
-Date: Tue, 30 Jun 2020 22:15:18 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 81FEA804E5;
+ Tue, 30 Jun 2020 22:15:44 +0200 (CEST)
+Date: Tue, 30 Jun 2020 22:15:43 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: backlight: Convert common backlight
- bindings to DT schema
-Message-ID: <20200630201518.GA1163583@ravnborg.org>
-References: <20200630200111.1170742-1-robh@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert connectors to DT schema
+Message-ID: <20200630201543.GB1163583@ravnborg.org>
+References: <20200630200216.1172566-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200630200111.1170742-1-robh@kernel.org>
+In-Reply-To: <20200630200216.1172566-1-robh@kernel.org>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8
- a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=LDWgo5KC_Z2-t0Z1-74A:9
- a=D1p0UqrOMBU56ZgX:21 a=v5rLNfrWZjy50SLq:21 a=CjuIK1q_8ugA:10
- a=cvBusfyB2V15izCimMoJ:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=P1BnusSwAAAA:8 a=VwQbUJbxAAAA:8
+ a=gEfo2CItAAAA:8 a=Jsw9BwhnNtzQXFoY5vMA:9 a=KG6Uqk5LaAaENdOh:21
+ a=c4OlsfC6WaQrFsf0:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=D0XLA9XvdZm18NrgonBM:22 a=AjGcO6oz07-iQ99wixmX:22
+ a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,387 +46,459 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 30, 2020 at 02:01:11PM -0600, Rob Herring wrote:
-> Convert the common GPIO, LED, and PWM backlight bindings to DT schema
+On Tue, Jun 30, 2020 at 02:02:16PM -0600, Rob Herring wrote:
+> Convert the analog TV, DVI, HDMI, and VGA connector bindings to DT schema
 > format.
 > 
-> Given there's only 2 common properties and the descriptions are slightly
-> different, I opted to not create a common backlight schema.
-> 
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
 > Signed-off-by: Rob Herring <robh@kernel.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
 > v2:
-> - Reformat descriptions
-> - drop default-brightness-level dependency on brightness-levels for
->   led-backlight
+> - Make Laurent maintainer
+> - Add missing port and compatible required
+> - Drop copy-n-paste 'type' from dvi-connector
+> - Use 4 space indent on examples
 > ---
->  .../leds/backlight/gpio-backlight.txt         |  16 ---
->  .../leds/backlight/gpio-backlight.yaml        |  41 +++++++
->  .../bindings/leds/backlight/led-backlight.txt |  28 -----
->  .../leds/backlight/led-backlight.yaml         |  57 ++++++++++
->  .../bindings/leds/backlight/pwm-backlight.txt |  61 ----------
->  .../leds/backlight/pwm-backlight.yaml         | 104 ++++++++++++++++++
->  6 files changed, 202 insertions(+), 105 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+>  .../display/connector/analog-tv-connector.txt | 31 --------
+>  .../connector/analog-tv-connector.yaml        | 52 ++++++++++++++
+>  .../display/connector/dvi-connector.txt       | 36 ----------
+>  .../display/connector/dvi-connector.yaml      | 70 +++++++++++++++++++
+>  .../display/connector/hdmi-connector.txt      | 31 --------
+>  .../display/connector/hdmi-connector.yaml     | 64 +++++++++++++++++
+>  .../display/connector/vga-connector.txt       | 36 ----------
+>  .../display/connector/vga-connector.yaml      | 46 ++++++++++++
+>  8 files changed, 232 insertions(+), 134 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
+> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
 > deleted file mode 100644
-> index 321be6640533..000000000000
-> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
+> index 883bcb2604c7..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
 > +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -gpio-backlight bindings
+> @@ -1,31 +0,0 @@
+> -Analog TV Connector
+> -===================
 > -
 > -Required properties:
-> -  - compatible: "gpio-backlight"
-> -  - gpios: describes the gpio that is used for enabling/disabling the backlight.
-> -    refer to bindings/gpio/gpio.txt for more details.
+> -- compatible: "composite-video-connector" or "svideo-connector"
 > -
 > -Optional properties:
-> -  - default-on: enable the backlight at boot.
+> -- label: a symbolic name for the connector
+> -- sdtv-standards: limit the supported TV standards on a connector to the given
+> -                  ones. If not specified all TV standards are allowed.
+> -                  Possible TV standards are defined in
+> -                  include/dt-bindings/display/sdtv-standards.h.
 > -
-> -Example:
-> -	backlight {
-> -		compatible = "gpio-backlight";
-> -		gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
-> -		default-on;
+> -Required nodes:
+> -- Video port for TV input
+> -
+> -Example
+> --------
+> -#include <dt-bindings/display/sdtv-standards.h>
+> -
+> -tv: connector {
+> -	compatible = "composite-video-connector";
+> -	label = "tv";
+> -	sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
+> -
+> -	port {
+> -		tv_connector_in: endpoint {
+> -			remote-endpoint = <&venc_out>;
+> -		};
 > -	};
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
 > new file mode 100644
-> index 000000000000..75cc569b9c55
+> index 000000000000..eebe88fed999
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> @@ -0,0 +1,41 @@
+> +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+> @@ -0,0 +1,52 @@
 > +# SPDX-License-Identifier: GPL-2.0-only
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/leds/backlight/gpio-backlight.yaml#
+> +$id: http://devicetree.org/schemas/display/connector/analog-tv-connector.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: gpio-backlight bindings
+> +title: Analog TV Connector
 > +
 > +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > +
 > +properties:
 > +  compatible:
-> +    const: gpio-backlight
+> +    enum:
+> +      - composite-video-connector
+> +      - svideo-connector
 > +
-> +  gpios:
-> +    description: The gpio that is used for enabling/disabling the backlight.
+> +  label: true
+> +
+> +  sdtv-standards:
+> +    description:
+> +      Limit the supported TV standards on a connector to the given ones. If
+> +      not specified all TV standards are allowed. Possible TV standards are
+> +      defined in include/dt-bindings/display/sdtv-standards.h.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +  port:
+> +    description: Connection to controller providing analog TV signals
+> +
+> +required:
+> +  - compatible
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/display/sdtv-standards.h>
+> +
+> +    connector {
+> +        compatible = "composite-video-connector";
+> +        label = "tv";
+> +        sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
+> +
+> +        port {
+> +            tv_connector_in: endpoint {
+> +                remote-endpoint = <&venc_out>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt b/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
+> deleted file mode 100644
+> index 207e42e9eba0..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -DVI Connector
+> -==============
+> -
+> -Required properties:
+> -- compatible: "dvi-connector"
+> -
+> -Optional properties:
+> -- label: a symbolic name for the connector
+> -- ddc-i2c-bus: phandle to the i2c bus that is connected to DVI DDC
+> -- analog: the connector has DVI analog pins
+> -- digital: the connector has DVI digital pins
+> -- dual-link: the connector has pins for DVI dual-link
+> -- hpd-gpios: HPD GPIO number
+> -
+> -Required nodes:
+> -- Video port for DVI input
+> -
+> -Note: One (or both) of 'analog' or 'digital' must be set.
+> -
+> -Example
+> --------
+> -
+> -dvi0: connector@0 {
+> -	compatible = "dvi-connector";
+> -	label = "dvi";
+> -
+> -	digital;
+> -
+> -	ddc-i2c-bus = <&i2c3>;
+> -
+> -	port {
+> -		dvi_connector_in: endpoint {
+> -			remote-endpoint = <&tfp410_out>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+> new file mode 100644
+> index 000000000000..71cb9220fa59
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+> @@ -0,0 +1,70 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/connector/dvi-connector.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: DVI Connector
+> +
+> +maintainers:
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: dvi-connector
+> +
+> +  label: true
+> +
+> +  hpd-gpios:
+> +    description: A GPIO line connected to HPD
 > +    maxItems: 1
 > +
-> +  default-on:
-> +    description: enable the backlight at boot.
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  analog:
 > +    type: boolean
+> +    description: the connector has DVI analog pins
+> +
+> +  digital:
+> +    type: boolean
+> +    description: the connector has DVI digital pins
+> +
+> +  dual-link:
+> +    type: boolean
+> +    description: the connector has pins for DVI dual-link
+> +
+> +  port:
+> +    description: Connection to controller providing DVI signals
 > +
 > +required:
 > +  - compatible
-> +  - gpios
+> +  - port
+> +
+> +anyOf:
+> +  - required:
+> +      - analog
+> +  - required:
+> +      - digital
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    backlight {
-> +        compatible = "gpio-backlight";
-> +        gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
-> +        default-on;
+> +    connector {
+> +        compatible = "dvi-connector";
+> +        label = "dvi";
+> +
+> +        digital;
+> +
+> +        ddc-i2c-bus = <&i2c3>;
+> +
+> +        port {
+> +            dvi_connector_in: endpoint {
+> +                remote-endpoint = <&tfp410_out>;
+> +            };
+> +        };
 > +    };
 > +
 > +...
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt b/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
 > deleted file mode 100644
-> index 4c7dfbe7f67a..000000000000
-> --- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
+> index aeb07c4bd703..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
 > +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -led-backlight bindings
-> -
-> -This binding is used to describe a basic backlight device made of LEDs.
-> -It can also be used to describe a backlight device controlled by the output of
-> -a LED driver.
+> @@ -1,31 +0,0 @@
+> -HDMI Connector
+> -==============
 > -
 > -Required properties:
-> -  - compatible: "led-backlight"
-> -  - leds: a list of LEDs
+> -- compatible: "hdmi-connector"
+> -- type: the HDMI connector type: "a", "b", "c", "d" or "e"
 > -
 > -Optional properties:
-> -  - brightness-levels: Array of distinct brightness levels. The levels must be
-> -                       in the range accepted by the underlying LED devices.
-> -                       This is used to translate a backlight brightness level
-> -                       into a LED brightness level. If it is not provided, the
-> -                       identity mapping is used.
+> -- label: a symbolic name for the connector
+> -- hpd-gpios: HPD GPIO number
+> -- ddc-i2c-bus: phandle link to the I2C controller used for DDC EDID probing
+> -- ddc-en-gpios: signal to enable DDC bus
 > -
-> -  - default-brightness-level: The default brightness level.
+> -Required nodes:
+> -- Video port for HDMI input
 > -
-> -Example:
+> -Example
+> --------
 > -
-> -	backlight {
-> -		compatible = "led-backlight";
+> -hdmi0: connector@1 {
+> -	compatible = "hdmi-connector";
+> -	label = "hdmi";
 > -
-> -		leds = <&led1>, <&led2>;
-> -		brightness-levels = <0 4 8 16 32 64 128 255>;
-> -		default-brightness-level = <6>;
+> -	type = "a";
+> -
+> -	port {
+> -		hdmi_connector_in: endpoint {
+> -			remote-endpoint = <&tpd12s015_out>;
+> -		};
 > -	};
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
 > new file mode 100644
-> index 000000000000..625082bf3892
+> index 000000000000..14d7128af592
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> @@ -0,0 +1,57 @@
+> +++ b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+> @@ -0,0 +1,64 @@
 > +# SPDX-License-Identifier: GPL-2.0-only
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/leds/backlight/led-backlight.yaml#
+> +$id: http://devicetree.org/schemas/display/connector/hdmi-connector.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: led-backlight bindings
+> +title: HDMI Connector
 > +
 > +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +description:
-> +  This binding is used to describe a basic backlight device made of LEDs. It
-> +  can also be used to describe a backlight device controlled by the output of
-> +  a LED driver.
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > +
 > +properties:
 > +  compatible:
-> +    const: led-backlight
+> +    const: hdmi-connector
 > +
-> +  leds:
-> +    description: A list of LED nodes
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +  type:
+> +    description: The HDMI connector type
+> +    enum:
+> +      - a   # Standard full size
+> +      - b   # Never deployed?
+> +      - c   # Mini
+> +      - d   # Micro
+> +      - e   # automotive
 > +
-> +  brightness-levels:
-> +    description:
-> +      Array of distinct brightness levels. The levels must be in the range
-> +      accepted by the underlying LED devices. This is used to translate a
-> +      backlight brightness level into a LED brightness level. If it is not
-> +      provided, the identity mapping is used.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +  label: true
 > +
-> +  default-brightness-level:
-> +    description:
-> +      The default brightness level (index into the array defined by the
-> +      "brightness-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +  hpd-gpios:
+> +    description: A GPIO line connected to HPD
+> +    maxItems: 1
+> +
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  ddc-en-gpios:
+> +    description: GPIO signal to enable DDC bus
+> +    maxItems: 1
+> +
+> +  port:
+> +    description: Connection to controller providing HDMI signals
 > +
 > +required:
 > +  - compatible
-> +  - leds
+> +  - port
+> +  - type
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    backlight {
-> +        compatible = "led-backlight";
+> +    connector {
+> +        compatible = "hdmi-connector";
+> +        label = "hdmi";
 > +
-> +        leds = <&led1>, <&led2>;
-> +        brightness-levels = <0 4 8 16 32 64 128 255>;
-> +        default-brightness-level = <6>;
+> +        type = "a";
+> +
+> +        port {
+> +            hdmi_connector_in: endpoint {
+> +                remote-endpoint = <&tpd12s015_out>;
+> +            };
+> +        };
 > +    };
 > +
 > +...
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
+> diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.txt b/Documentation/devicetree/bindings/display/connector/vga-connector.txt
 > deleted file mode 100644
-> index 64fa2fbd98c9..000000000000
-> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
+> index c727f298e7ad..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/vga-connector.txt
 > +++ /dev/null
-> @@ -1,61 +0,0 @@
-> -pwm-backlight bindings
+> @@ -1,36 +0,0 @@
+> -VGA Connector
+> -=============
 > -
 > -Required properties:
-> -  - compatible: "pwm-backlight"
-> -  - pwms: OF device-tree PWM specification (see PWM binding[0])
-> -  - power-supply: regulator for supply voltage
+> -
+> -- compatible: "vga-connector"
 > -
 > -Optional properties:
-> -  - pwm-names: a list of names for the PWM devices specified in the
-> -               "pwms" property (see PWM binding[0])
-> -  - enable-gpios: contains a single GPIO specifier for the GPIO which enables
-> -                  and disables the backlight (see GPIO binding[1])
-> -  - post-pwm-on-delay-ms: Delay in ms between setting an initial (non-zero) PWM
-> -                          and enabling the backlight using GPIO.
-> -  - pwm-off-delay-ms: Delay in ms between disabling the backlight using GPIO
-> -                      and setting PWM value to 0.
-> -  - brightness-levels: Array of distinct brightness levels. Typically these
-> -                       are in the range from 0 to 255, but any range starting at
-> -                       0 will do. The actual brightness level (PWM duty cycle)
-> -                       will be interpolated from these values. 0 means a 0% duty
-> -                       cycle (darkest/off), while the last value in the array
-> -                       represents a 100% duty cycle (brightest).
-> -  - default-brightness-level: The default brightness level (index into the
-> -                              array defined by the "brightness-levels" property).
-> -  - num-interpolated-steps: Number of interpolated steps between each value
-> -                            of brightness-levels table. This way a high
-> -                            resolution pwm duty cycle can be used without
-> -                            having to list out every possible value in the
-> -                            brightness-level array.
 > -
-> -[0]: Documentation/devicetree/bindings/pwm/pwm.txt
-> -[1]: Documentation/devicetree/bindings/gpio/gpio.txt
+> -- label: a symbolic name for the connector corresponding to a hardware label
+> -- ddc-i2c-bus: phandle to the I2C bus that is connected to VGA DDC
 > -
-> -Example:
+> -Required nodes:
 > -
-> -	backlight {
-> -		compatible = "pwm-backlight";
-> -		pwms = <&pwm 0 5000000>;
+> -The VGA connector internal connections are modeled using the OF graph bindings
+> -specified in Documentation/devicetree/bindings/graph.txt.
 > -
-> -		brightness-levels = <0 4 8 16 32 64 128 255>;
-> -		default-brightness-level = <6>;
+> -The VGA connector has a single port that must be connected to a video source
+> -port.
 > -
-> -		power-supply = <&vdd_bl_reg>;
-> -		enable-gpios = <&gpio 58 0>;
-> -		post-pwm-on-delay-ms = <10>;
-> -		pwm-off-delay-ms = <10>;
+> -
+> -Example
+> --------
+> -
+> -vga0: connector@0 {
+> -	compatible = "vga-connector";
+> -	label = "vga";
+> -
+> -	ddc-i2c-bus = <&i2c3>;
+> -
+> -	port {
+> -		vga_connector_in: endpoint {
+> -			remote-endpoint = <&adv7123_out>;
+> -		};
 > -	};
-> -
-> -Example using num-interpolation-steps:
-> -
-> -	backlight {
-> -		compatible = "pwm-backlight";
-> -		pwms = <&pwm 0 5000000>;
-> -
-> -		brightness-levels = <0 2048 4096 8192 16384 65535>;
-> -		num-interpolated-steps = <2048>;
-> -		default-brightness-level = <4096>;
-> -
-> -		power-supply = <&vdd_bl_reg>;
-> -		enable-gpios = <&gpio 58 0>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
 > new file mode 100644
-> index 000000000000..fcb8429f3088
+> index 000000000000..5782c4bb3252
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> @@ -0,0 +1,104 @@
+> +++ b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
+> @@ -0,0 +1,46 @@
 > +# SPDX-License-Identifier: GPL-2.0-only
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/leds/backlight/pwm-backlight.yaml#
+> +$id: http://devicetree.org/schemas/display/connector/vga-connector.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: pwm-backlight bindings
+> +title: VGA Connector
 > +
 > +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > +
 > +properties:
 > +  compatible:
-> +    const: pwm-backlight
+> +    const: vga-connector
 > +
-> +  pwms:
-> +    maxItems: 1
+> +  label: true
 > +
-> +  pwm-names: true
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
 > +
-> +  power-supply:
-> +    description: regulator for supply voltage
-> +
-> +  enable-gpios:
-> +    description:
-> +      Contains a single GPIO specifier for the GPIO which enables and disables
-> +      the backlight.
-> +    maxItems: 1
-> +
-> +  post-pwm-on-delay-ms:
-> +    description:
-> +      Delay in ms between setting an initial (non-zero) PWM and enabling the
-> +      backlight using GPIO.
-> +
-> +  pwm-off-delay-ms:
-> +    description:
-> +      Delay in ms between disabling the backlight using GPIO and setting PWM
-> +      value to 0.
-> +
-> +  brightness-levels:
-> +    description:
-> +      Array of distinct brightness levels. Typically these are in the range
-> +      from 0 to 255, but any range starting at 0 will do. The actual brightness
-> +      level (PWM duty cycle) will be interpolated from these values. 0 means a
-> +      0% duty cycle (darkest/off), while the last value in the array represents
-> +      a 100% duty cycle (brightest).
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  default-brightness-level:
-> +    description:
-> +      The default brightness level (index into the array defined by the
-> +      "brightness-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  num-interpolated-steps:
-> +    description:
-> +      Number of interpolated steps between each value of brightness-levels
-> +      table. This way a high resolution pwm duty cycle can be used without
-> +      having to list out every possible value in the brightness-level array.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +dependencies:
-> +  default-brightness-level: [brightness-levels]
-> +  num-interpolated-steps: [brightness-levels]
+> +  port:
+> +    description: Connection to controller providing VGA signals
 > +
 > +required:
 > +  - compatible
-> +  - pwms
-> +  - power-supply
+> +  - port
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    backlight {
-> +        compatible = "pwm-backlight";
-> +        pwms = <&pwm 0 5000000>;
+> +    connector {
+> +        compatible = "vga-connector";
+> +        label = "vga";
 > +
-> +        brightness-levels = <0 4 8 16 32 64 128 255>;
-> +        default-brightness-level = <6>;
+> +        ddc-i2c-bus = <&i2c3>;
 > +
-> +        power-supply = <&vdd_bl_reg>;
-> +        enable-gpios = <&gpio 58 0>;
-> +        post-pwm-on-delay-ms = <10>;
-> +        pwm-off-delay-ms = <10>;
-> +    };
-> +
-> +  - |
-> +    // Example using num-interpolation-steps:
-> +    backlight {
-> +        compatible = "pwm-backlight";
-> +        pwms = <&pwm 0 5000000>;
-> +
-> +        brightness-levels = <0 2048 4096 8192 16384 65535>;
-> +        num-interpolated-steps = <2048>;
-> +        default-brightness-level = <4096>;
-> +
-> +        power-supply = <&vdd_bl_reg>;
-> +        enable-gpios = <&gpio 58 0>;
+> +        port {
+> +            vga_connector_in: endpoint {
+> +                remote-endpoint = <&adv7123_out>;
+> +            };
+> +        };
 > +    };
 > +
 > +...
