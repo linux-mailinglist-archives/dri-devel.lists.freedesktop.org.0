@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FFF20FF1A
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 23:30:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 157CE21004F
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 01:02:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 461DF6E491;
-	Tue, 30 Jun 2020 21:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2CCF6E02C;
+	Tue, 30 Jun 2020 23:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D576E32A;
- Tue, 30 Jun 2020 21:28:57 +0000 (UTC)
-IronPort-SDR: CADfOhPXg/QU4cIEHZqqvS0Kf+PBeiQiBfH1//7E6k+e5zGluaiERxNLDiwh9s9nt1CJvlZcaJ
- C0vU83VyetNA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="143867601"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="143867601"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 14:28:57 -0700
-IronPort-SDR: lj/BHdt8qVBr8NPtLqg3W6q+1lnmh/WbR65JCfbivlssV1W3g3l0slsgoXsR5SejjTtMKnb44D
- pgaSNPrULgCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="481066872"
-Received: from hdwiyono-mobl.amr.corp.intel.com (HELO
- achrisan-DESK2.amr.corp.intel.com) ([10.254.176.225])
- by fmsmga006.fm.intel.com with ESMTP; 30 Jun 2020 14:28:56 -0700
-From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
- bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH 57/59] drm/kmb: workaround for dma undeflow issue
-Date: Tue, 30 Jun 2020 14:28:09 -0700
-Message-Id: <1593552491-23698-58-git-send-email-anitha.chrisanthus@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
-References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A8C06E2BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 23:02:40 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9871920826
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 23:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593558159;
+ bh=QkyR9JiwolvElGEGF/cV1+0xBBGtnLf0/3SbL34qgpI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bsZzqAs/CQsUje3SYIxEeJr3nJwN9lvEK2Iun7NjgBPNamVd8XFpfPejuEpSIMq3t
+ vfgKg02hOmdYFmlosepYDy8AGJY4hWVus/w4WzEMGu+Sc2qy2GtyGpQwlr76Hck1tN
+ NnBOtgNtnFVYnjmr0VSn4OsE6HJRVzE+hhaCrlok=
+Received: by mail-ed1-f46.google.com with SMTP id dm19so11577477edb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 16:02:39 -0700 (PDT)
+X-Gm-Message-State: AOAM533S/K2n5Xuut+O3ASVvY+LrxdyksaFW4xRdyIDINPVQlXGCitW0
+ cIVyPkYhQEIbAULE/v/eNl4+eLsLgxrsngCkbQ==
+X-Google-Smtp-Source: ABdhPJyd7wUB7S5V0t31ySZM0YeWDlaeEMvY3ludSAy+MeqYX3ItuaiYsdmmkpUrY0ZQ3WoSwWDazpYXnVgFsZwNSzI=
+X-Received: by 2002:a05:6402:203c:: with SMTP id
+ ay28mr15041128edb.271.1593558158062; 
+ Tue, 30 Jun 2020 16:02:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200615203108.786083-1-enric.balletbo@collabora.com>
+ <20200620213302.GC74146@ravnborg.org>
+ <593a4666-d6aa-7d16-f3a0-ba3713047d84@collabora.com>
+ <CAAOTY_9ZHemp0U76_oPjwy-XoTRXW108UMD_9JVnNXndNNsiTw@mail.gmail.com>
+ <43e5b273-d156-beea-bcfb-cc61b190a671@collabora.com>
+In-Reply-To: <43e5b273-d156-beea-bcfb-cc61b190a671@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 1 Jul 2020 07:02:27 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__633cG2ki088ozN3f_seLBv9MkRSSsGudCWgP2GBKGmg@mail.gmail.com>
+Message-ID: <CAAOTY__633cG2ki088ozN3f_seLBv9MkRSSsGudCWgP2GBKGmg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v4 0/7] Convert mtk-dsi to drm_bridge API and get
+ EDID for ps8640 bridge
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,522 +59,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
- rodrigo.vivi@intel.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initial issue was that display remains shifted after undeflow, this fix is
-to recover the dma after underflow so display is clean. Major changes are
-reduce LCD_CLK to 200Mhz and some changes in the lcd timing params
-run recovery sequence at the EOF after underflow happens
-do nothing in plan_update() during recovery
-reenable dma at the vsync interrupt after recovery is done
-
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
----
- drivers/gpu/drm/kmb/kmb_crtc.c  |  27 +++----
- drivers/gpu/drm/kmb/kmb_drv.c   | 156 +++++++++++++++++++++++++++++++---------
- drivers/gpu/drm/kmb/kmb_drv.h   |  33 +++++----
- drivers/gpu/drm/kmb/kmb_plane.c |  12 +++-
- drivers/gpu/drm/kmb/kmb_plane.h |  29 ++++----
- drivers/gpu/drm/kmb/kmb_regs.h  |   7 +-
- 6 files changed, 188 insertions(+), 76 deletions(-)
-
-diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
-index c01977b..c70928c 100644
---- a/drivers/gpu/drm/kmb/kmb_crtc.c
-+++ b/drivers/gpu/drm/kmb/kmb_crtc.c
-@@ -115,25 +115,25 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	vm.vfront_porch = 2;
- //      vm.vback_porch = m->crtc_vtotal - m->crtc_vsync_end;
- 	vm.vback_porch = 2;
--//      vm.vsync_len = m->crtc_vsync_end - m->crtc_vsync_start;
--	vm.vsync_len = 1;
-+//	vm.vsync_len = m->crtc_vsync_end - m->crtc_vsync_start;
-+	vm.vsync_len = 8;
- 	//vm.hfront_porch = m->crtc_hsync_start - m->crtc_hdisplay;
- 	vm.hfront_porch = 0;
- 	vm.hback_porch = 0;
- 	//vm.hback_porch = m->crtc_htotal - m->crtc_hsync_end;
--	vm.hsync_len = 7;
--//      vm.hsync_len = m->crtc_hsync_end - m->crtc_hsync_start;
-+	vm.hsync_len = 28;
-+//	vm.hsync_len = m->crtc_hsync_end - m->crtc_hsync_start;
- 
--	vsync_start_offset = m->crtc_vsync_start - m->crtc_hsync_start;
--	vsync_end_offset = m->crtc_vsync_end - m->crtc_hsync_end;
-+	vsync_start_offset =  m->crtc_vsync_start -  m->crtc_hsync_start;
-+	vsync_end_offset =  m->crtc_vsync_end - m->crtc_hsync_end;
- 
--	DRM_DEBUG
--	    ("%s : %dactive height= %d vbp=%d vfp=%d vsync-w=%d h-active=%d h-bp=%d h-fp=%d hysnc-l=%d",
--	     __func__, __LINE__, m->crtc_vdisplay, vm.vback_porch,
--	     vm.vfront_porch, vm.vsync_len, m->crtc_hdisplay, vm.hback_porch,
--	     vm.hfront_porch, vm.hsync_len);
-+	DRM_DEBUG("%s : %dactive height= %d vbp=%d vfp=%d vsync-w=%d h-active=%d h-bp=%d h-fp=%d hysnc-l=%d",
-+			__func__, __LINE__,
-+			m->crtc_vdisplay, vm.vback_porch, vm.vfront_porch,
-+			vm.vsync_len, m->crtc_hdisplay, vm.hback_porch,
-+			vm.hfront_porch, vm.hsync_len);
- 	kmb_write_lcd(dev->dev_private, LCD_V_ACTIVEHEIGHT,
--		      m->crtc_vdisplay - 1);
-+			m->crtc_vdisplay - 1);
- 	kmb_write_lcd(dev->dev_private, LCD_V_BACKPORCH, vm.vback_porch);
- 	kmb_write_lcd(dev->dev_private, LCD_V_FRONTPORCH, vm.vfront_porch);
- 	kmb_write_lcd(dev->dev_private, LCD_VSYNC_WIDTH, vm.vsync_len - 1);
-@@ -145,7 +145,8 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	/*this is hardcoded as 0 in the Myriadx code */
- 	kmb_write_lcd(dev->dev_private, LCD_VSYNC_START, 0);
- 	kmb_write_lcd(dev->dev_private, LCD_VSYNC_END, 0);
--
-+	/* back ground color */
-+	kmb_write_lcd(dev->dev_private, LCD_BG_COLOUR_LS, 0x4);
- 	if (m->flags == DRM_MODE_FLAG_INTERLACE) {
- 		kmb_write_lcd(dev->dev_private,
- 			      LCD_VSYNC_WIDTH_EVEN, vm.vsync_len - 1);
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 68e7b5c..bafc02a 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -51,10 +51,10 @@
- #include "kmb_dsi.h"
- 
- //#define DEBUG
--
- /* IRQ handler */
- static irqreturn_t kmb_isr(int irq, void *arg);
- 
-+int under_flow = 0, flush_done = 0, layer_no = 0;
- static struct clk *clk_lcd;
- static struct clk *clk_mipi;
- static struct clk *clk_mipi_ecfg;
-@@ -133,6 +133,7 @@ static void __iomem *kmb_map_mmio(struct platform_device *pdev, char *name)
- 	return mem;
- }
- 
-+//#define ICAM_LCD_QOS
- static int kmb_load(struct drm_device *drm, unsigned long flags)
- {
- 	struct kmb_drm_private *dev_p = drm->dev_private;
-@@ -140,6 +141,9 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 	int irq_lcd;
- 	int ret = 0;
- 	unsigned long clk;
-+#ifdef ICAM_LCD_QOS
-+	int val = 0;
-+#endif
- 
- 	/* Map MIPI MMIO registers */
- 	dev_p->mipi_mmio = kmb_map_mmio(pdev, "mipi_regs");
-@@ -173,6 +177,13 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 		iounmap(dev_p->mipi_mmio);
- 		return -ENOMEM;
- 	}
-+#ifdef ICAM_LCD_QOS
-+	dev_p->icamlcd_mmio = ioremap_nocache(ICAM_MMIO, ICAM_MMIO_SIZE);
-+	if (IS_ERR(dev_p->icamlcd_mmio)) {
-+		DRM_ERROR("failed to map ICAM registers\n");
-+		return -ENOMEM;
-+	}
-+#endif
- #define KMB_CLOCKS
- #ifdef KMB_CLOCKS
- 	/* Enable display clocks */
-@@ -268,7 +279,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 	kmb_set_bitmask_msscam(dev_p, MSS_CAM_CLK_CTRL, 0x1fff);
- 	kmb_set_bitmask_msscam(dev_p, MSS_CAM_RSTN_CTRL, 0xffffffff);
- 
--#endif //KMB_CLOCKS
-+#endif				//KMB_CLOCKS
- 
- 	/* Register irqs here - section 17.3 in databook
- 	 * lists LCD at 79 and 82 for MIPI under MSS CPU -
-@@ -331,11 +342,29 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- 
- 	dev_p->irq_lcd = irq_lcd;
- 
-+	/* icam tests */
-+#ifdef ICAM_LCD_QOS
-+	/*generator mode = 0 fixed mode=1 limiter */
-+	writel(1, (dev_p->icamlcd_mmio + ICAM_LCD_OFFSET + LCD_QOS_MODE));
-+	/* b/w */
-+	writel(0x60, (dev_p->icamlcd_mmio + ICAM_LCD_OFFSET + LCD_QOS_BW));
-+
-+	/* set priority.p1 */
-+	val = readl(dev_p->icamlcd_mmio + ICAM_LCD_OFFSET + LCD_QOS_PRORITY);
-+	val &= ~(0x700);
-+	writel(val | 0x100,
-+	       (dev_p->icamlcd_mmio + ICAM_LCD_OFFSET + LCD_QOS_PRORITY));
-+
-+	DRM_INFO("ICAM mode = 0x%x, priority = 0x%x bandwidth=0x%x",
-+		 readl(dev_p->icamlcd_mmio + 0x1080 + LCD_QOS_MODE),
-+		 readl(dev_p->icamlcd_mmio + 0x1080 + LCD_QOS_PRORITY),
-+		 readl(dev_p->icamlcd_mmio + 0x1080 + LCD_QOS_BW));
-+#endif
- 	return 0;
- 
--irq_fail:
-+ irq_fail:
- 	drm_crtc_cleanup(&dev_p->crtc);
--setup_fail:
-+ setup_fail:
- 	of_reserved_mem_device_release(drm->dev);
- 
- 	return ret;
-@@ -368,13 +397,15 @@ static void kmb_setup_mode_config(struct drm_device *drm)
- 
- static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- {
--	unsigned long status, val;
--	int plane_id;
-+	volatile unsigned long status, val, val1;
-+	int plane_id, dma0_state, dma1_state;
- 	struct kmb_drm_private *dev_p = dev->dev_private;
- 
- 	status = kmb_read_lcd(dev->dev_private, LCD_INT_STATUS);
-+
- 	if (status & LCD_INT_EOF) {
- 		/* TODO - handle EOF interrupt? */
-+
- 		kmb_write_lcd(dev_p, LCD_INT_CLEAR, LCD_INT_EOF);
- 
- 		/* When disabling/enabling LCD layers, the change takes effect
-@@ -396,6 +427,30 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 				plane_status[plane_id].disable = false;
- 			}
- 		}
-+		if (under_flow) {
-+			/*DMA Recovery after underflow */
-+			DRM_INFO("EOF:S");
-+			dma0_state = (layer_no == 0) ?
-+			    LCD_VIDEO0_DMA0_STATE : LCD_VIDEO1_DMA0_STATE;
-+			dma1_state = (layer_no == 0) ?
-+			    LCD_VIDEO0_DMA1_STATE : LCD_VIDEO1_DMA1_STATE;
-+
-+			do {
-+				kmb_write_lcd(dev_p, LCD_FIFO_FLUSH, 1);
-+				val = kmb_read_lcd(dev_p, dma0_state)
-+				    & LCD_DMA_STATE_ACTIVE;
-+				val1 = kmb_read_lcd(dev_p, dma1_state)
-+				    & LCD_DMA_STATE_ACTIVE;
-+			} while ((val || val1));
-+			/*disable dma */
-+			kmb_clr_bitmask_lcd(dev_p, LCD_LAYERn_DMA_CFG(layer_no),
-+					    LCD_DMA_LAYER_ENABLE);
-+			kmb_write_lcd(dev_p, LCD_FIFO_FLUSH, 1);
-+			flush_done = 1;
-+			under_flow = 0;
-+			DRM_INFO("EOF:E ");
-+		}
-+
- 	}
- 
- 	if (status & LCD_INT_LINE_CMP) {
-@@ -409,48 +464,86 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 		val = (val & LCD_VSTATUS_VERTICAL_STATUS_MASK);
- 		switch (val) {
- 		case LCD_VSTATUS_COMPARE_VSYNC:
-+			/* Clear vertical compare interrupt */
-+			kmb_write_lcd(dev_p, LCD_INT_CLEAR, LCD_INT_VERT_COMP);
-+			if (flush_done) {
-+				kmb_set_bitmask_lcd(dev_p,
-+						    LCD_LAYERn_DMA_CFG
-+						    (layer_no),
-+						    LCD_DMA_LAYER_ENABLE);
-+				flush_done = 0;
-+			}
-+			drm_handle_vblank(dev, 0);
-+			break;
- 		case LCD_VSTATUS_COMPARE_BACKPORCH:
- 		case LCD_VSTATUS_COMPARE_ACTIVE:
- 		case LCD_VSTATUS_COMPARE_FRONT_PORCH:
--			/* clear vertical compare interrupt */
--			kmb_write_lcd(dev->dev_private, LCD_INT_CLEAR,
--				      LCD_INT_VERT_COMP);
--			drm_handle_vblank(dev, 0);
-+			kmb_write_lcd(dev_p, LCD_INT_CLEAR, LCD_INT_VERT_COMP);
- 			break;
- 		}
- 	}
--
- 	if (status & LCD_INT_DMA_ERR) {
--		val = (status & LCD_INT_DMA_ERR);
-+		val =
-+		    (status & LCD_INT_DMA_ERR &
-+		     kmb_read_lcd(dev_p, LCD_INT_ENABLE));
- 		/* LAYER0 - VL0 */
--		if (val & LAYER0_DMA_FIFO_UNDEFLOW)
--			DRM_INFO("LAYER0:VL0 DMA UNDERFLOW val = 0x%lx", val);
-+		if (val & (LAYER0_DMA_FIFO_UNDERFLOW |
-+			   LAYER0_DMA_CB_FIFO_UNDERFLOW |
-+			   LAYER0_DMA_CR_FIFO_UNDERFLOW)) {
-+			under_flow++;
-+			DRM_INFO
-+			    ("!LAYER0:VL0 DMA UNDERFLOW val = 0x%lx,under_flow=%d",
-+			     val, under_flow);
-+			/*disable underflow inerrupt */
-+			kmb_clr_bitmask_lcd(dev_p, LCD_INT_ENABLE,
-+					    LAYER0_DMA_FIFO_UNDERFLOW |
-+					    LAYER0_DMA_CB_FIFO_UNDERFLOW |
-+					    LAYER0_DMA_CR_FIFO_UNDERFLOW);
-+			kmb_set_bitmask_lcd(dev_p, LCD_INT_CLEAR,
-+					    LAYER0_DMA_CB_FIFO_UNDERFLOW |
-+					    LAYER0_DMA_FIFO_UNDERFLOW |
-+					    LAYER0_DMA_CR_FIFO_UNDERFLOW);
-+			/*disable auto restart mode */
-+			kmb_clr_bitmask_lcd(dev_p, LCD_LAYERn_DMA_CFG(0),
-+				    LCD_DMA_LAYER_CONT_PING_PONG_UPDATE);
-+			layer_no = 0;
-+		}
-+
- 		if (val & LAYER0_DMA_FIFO_OVERFLOW)
- 			DRM_INFO("LAYER0:VL0 DMA OVERFLOW val = 0x%lx", val);
- 		if (val & LAYER0_DMA_CB_FIFO_OVERFLOW)
- 			DRM_INFO("LAYER0:VL0 DMA CB OVERFLOW val = 0x%lx", val);
--		if (val & LAYER0_DMA_CB_FIFO_UNDERFLOW)
--			DRM_INFO("LAYER0:VL0 DMA CB UNDERFLOW val = 0x%lx",
--				 val);
--		if (val & LAYER0_DMA_CR_FIFO_UNDERFLOW)
--			DRM_INFO("LAYER0:VL0 DMA CR UNDERFLOW val = 0x%lx",
--				 val);
- 		if (val & LAYER0_DMA_CR_FIFO_OVERFLOW)
- 			DRM_INFO("LAYER0:VL0 DMA CR OVERFLOW val = 0x%lx", val);
- 
- 		/* LAYER1 - VL1 */
--		if (val & LAYER1_DMA_FIFO_UNDERFLOW)
--			DRM_INFO("LAYER1:VL1 DMA UNDERFLOW val = 0x%lx", val);
-+		if (val & (LAYER1_DMA_FIFO_UNDERFLOW |
-+			   LAYER1_DMA_CB_FIFO_UNDERFLOW |
-+			   LAYER1_DMA_CR_FIFO_UNDERFLOW)) {
-+			under_flow++;
-+			DRM_INFO
-+			    ("!LAYER1:VL1 DMA UNDERFLOW val = 0x%lx, under_flow=%d",
-+			     val, under_flow);
-+			/*disable underflow inerrupt */
-+			kmb_clr_bitmask_lcd(dev_p, LCD_INT_ENABLE,
-+					    LAYER1_DMA_FIFO_UNDERFLOW |
-+					    LAYER1_DMA_CB_FIFO_UNDERFLOW |
-+					    LAYER1_DMA_CR_FIFO_UNDERFLOW);
-+			kmb_set_bitmask_lcd(dev_p, LCD_INT_CLEAR,
-+					    LAYER1_DMA_CB_FIFO_UNDERFLOW |
-+					    LAYER1_DMA_FIFO_UNDERFLOW |
-+					    LAYER1_DMA_CR_FIFO_UNDERFLOW);
-+			/*disable auto restart mode */
-+			kmb_clr_bitmask_lcd(dev_p, LCD_LAYERn_DMA_CFG(1),
-+				    LCD_DMA_LAYER_CONT_PING_PONG_UPDATE);
-+			layer_no = 1;
-+		}
-+
-+		/* LAYER1 - VL1 */
- 		if (val & LAYER1_DMA_FIFO_OVERFLOW)
- 			DRM_INFO("LAYER1:VL1 DMA OVERFLOW val = 0x%lx", val);
- 		if (val & LAYER1_DMA_CB_FIFO_OVERFLOW)
- 			DRM_INFO("LAYER1:VL1 DMA CB OVERFLOW val = 0x%lx", val);
--		if (val & LAYER1_DMA_CB_FIFO_UNDERFLOW)
--			DRM_INFO("LAYER1:VL1 DMA CB UNDERFLOW val = 0x%lx",
--				 val);
--		if (val & LAYER1_DMA_CR_FIFO_UNDERFLOW)
--			DRM_INFO("LAYER1:VL1 DMA CR UNDERFLOW val = 0x%lx",
--				 val);
- 		if (val & LAYER1_DMA_CR_FIFO_OVERFLOW)
- 			DRM_INFO("LAYER1:VL1 DMA CR OVERFLOW val = 0x%lx", val);
- 
-@@ -465,7 +558,6 @@ static irqreturn_t handle_lcd_irq(struct drm_device *dev)
- 			DRM_INFO("LAYER3:GL1 DMA UNDERFLOW val = 0x%lx", val);
- 		if (val & LAYER3_DMA_FIFO_UNDERFLOW)
- 			DRM_INFO("LAYER3:GL1 DMA OVERFLOW val = 0x%lx", val);
--
- 	}
- 
- 	if (status & LCD_INT_LAYER) {
-@@ -647,11 +739,11 @@ static int kmb_probe(struct platform_device *pdev)
- #endif
- 	return 0;
- 
--err_register:
-+ err_register:
- 	drm_kms_helper_poll_fini(drm);
--err_vblank:
-+ err_vblank:
- 	pm_runtime_disable(drm->dev);
--err_free:
-+ err_free:
- 	drm_mode_config_cleanup(drm);
- 	dev_set_drvdata(dev, NULL);
- 	drm_dev_put(drm);
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
-index eef2d8b..a066aba 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.h
-+++ b/drivers/gpu/drm/kmb/kmb_drv.h
-@@ -34,28 +34,31 @@
- #define KMB_MAX_HEIGHT			1080 /*max height in pixels */
- #define KMB_MIN_WIDTH                   1920 /*max width in pixels */
- #define KMB_MIN_HEIGHT                  1080 /*max height in pixels */
--#define KMB_LCD_DEFAULT_CLK		250000000
-+#define KMB_LCD_DEFAULT_CLK		200000000
- #define KMB_MIPI_DEFAULT_CLK		24000000
- #define KMB_MIPI_DEFAULT_CFG_CLK	24000000
- #define KMB_SYS_CLK_MHZ			500
- 
- #define crtc_to_kmb_priv(x)	container_of(x, struct kmb_drm_private, crtc)
- 
--
-+#define ICAM_MMIO		0x3b100000
-+#define ICAM_LCD_OFFSET		0x1080
-+#define ICAM_MMIO_SIZE		0x2000
- struct kmb_drm_private {
--	struct drm_device drm;
--	void __iomem *lcd_mmio;
--	void __iomem *mipi_mmio;
--	void __iomem *msscam_mmio;
--	unsigned char n_layers;
--	struct clk *clk;
--	struct drm_crtc crtc;
--	struct kmb_plane *plane;
--	struct drm_atomic_state *state;
--	spinlock_t irq_lock;
--	int irq_lcd;
--	int irq_mipi;
--	dma_addr_t fb_addr;
-+	struct drm_device		drm;
-+	void __iomem			*lcd_mmio;
-+	void __iomem			*mipi_mmio;
-+	void __iomem			*msscam_mmio;
-+	void __iomem                    *icamlcd_mmio;
-+	unsigned char			n_layers;
-+	struct clk			*clk;
-+	struct drm_crtc			crtc;
-+	struct kmb_plane		*plane;
-+	struct drm_atomic_state		*state;
-+	spinlock_t			irq_lock;
-+	int				irq_lcd;
-+	int				irq_mipi;
-+	dma_addr_t			fb_addr;
- };
- 
- static inline struct kmb_drm_private *to_kmb(const struct drm_device *dev)
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 5e040f7..e278347 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -42,7 +42,6 @@
- #include "kmb_drv.h"
- 
- struct layer_status plane_status[KMB_MAX_PLANES];
--
- const uint32_t layer_irqs[] = {
- 	LCD_INT_VL0,
- 	LCD_INT_VL1,
-@@ -267,13 +266,17 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	fb = plane->state->fb;
- 	if (!fb)
- 		return;
--
- 	num_planes = fb->format->num_planes;
- 	kmb_plane = to_kmb_plane(plane);
- 	plane_id = kmb_plane->id;
- 
- 	dev_p = plane->dev->dev_private;
- 
-+	if (under_flow || flush_done) {
-+		DRM_DEBUG("plane_update:underflow!!!! returning");
-+		return;
-+	}
-+
- 	src_w = (plane->state->src_w >> 16);
- 	src_h = plane->state->src_h >> 16;
- 	crtc_x = plane->state->crtc_x;
-@@ -393,6 +396,11 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_CFG(plane_id), dma_cfg);
- 	DRM_DEBUG("dma_cfg=0x%x LCD_DMA_CFG=0x%x\n", dma_cfg,
- 		  kmb_read_lcd(dev_p, LCD_LAYERn_DMA_CFG(plane_id)));
-+
-+	kmb_set_bitmask_lcd(dev_p, LCD_INT_CLEAR, LCD_INT_EOF |
-+			LCD_INT_DMA_ERR);
-+	kmb_set_bitmask_lcd(dev_p, LCD_INT_ENABLE, LCD_INT_EOF |
-+			LCD_INT_DMA_ERR);
- #endif
- }
- 
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.h b/drivers/gpu/drm/kmb/kmb_plane.h
-index af0d091..d09dfd6 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.h
-+++ b/drivers/gpu/drm/kmb/kmb_plane.h
-@@ -28,19 +28,22 @@
- 
- #include "kmb_drv.h"
- 
--#define LCD_INT_VL0_ERR (LAYER0_DMA_FIFO_UNDEFLOW | \
--			LAYER0_DMA_FIFO_OVERFLOW | \
--			LAYER0_DMA_CB_FIFO_OVERFLOW | \
--			LAYER0_DMA_CB_FIFO_UNDERFLOW | \
--			LAYER0_DMA_CR_FIFO_OVERFLOW | \
--			LAYER0_DMA_CR_FIFO_UNDERFLOW)
--
--#define LCD_INT_VL1_ERR (LAYER1_DMA_FIFO_UNDERFLOW | \
--			LAYER1_DMA_FIFO_OVERFLOW | \
--			LAYER1_DMA_CB_FIFO_OVERFLOW | \
--			LAYER1_DMA_CB_FIFO_UNDERFLOW | \
--			LAYER1_DMA_CR_FIFO_OVERFLOW | \
--			LAYER1_DMA_CR_FIFO_UNDERFLOW)
-+extern int under_flow;
-+extern int flush_done;
-+
-+#define LCD_INT_VL0_ERR ((LAYER0_DMA_FIFO_UNDERFLOW) | \
-+			(LAYER0_DMA_FIFO_OVERFLOW) | \
-+			(LAYER0_DMA_CB_FIFO_OVERFLOW) | \
-+			(LAYER0_DMA_CB_FIFO_UNDERFLOW) | \
-+			(LAYER0_DMA_CR_FIFO_OVERFLOW) | \
-+			(LAYER0_DMA_CR_FIFO_UNDERFLOW))
-+
-+#define LCD_INT_VL1_ERR ((LAYER1_DMA_FIFO_UNDERFLOW) | \
-+			(LAYER1_DMA_FIFO_OVERFLOW) | \
-+			(LAYER1_DMA_CB_FIFO_OVERFLOW) | \
-+			(LAYER1_DMA_CB_FIFO_UNDERFLOW) | \
-+			(LAYER1_DMA_CR_FIFO_OVERFLOW) | \
-+			(LAYER1_DMA_CR_FIFO_UNDERFLOW))
- 
- #define LCD_INT_GL0_ERR (LAYER2_DMA_FIFO_OVERFLOW | LAYER2_DMA_FIFO_UNDERFLOW)
- #define LCD_INT_GL1_ERR (LAYER3_DMA_FIFO_OVERFLOW | LAYER3_DMA_FIFO_UNDERFLOW)
-diff --git a/drivers/gpu/drm/kmb/kmb_regs.h b/drivers/gpu/drm/kmb/kmb_regs.h
-index f904a5c..2c86d2a 100644
---- a/drivers/gpu/drm/kmb/kmb_regs.h
-+++ b/drivers/gpu/drm/kmb/kmb_regs.h
-@@ -86,7 +86,7 @@
- #define LAYER0_DMA_DONE				  (1<<3)
- #define LAYER0_DMA_IDLE				  (1<<4)
- #define LAYER0_DMA_FIFO_OVERFLOW		  (1<<5)
--#define LAYER0_DMA_FIFO_UNDEFLOW		  (1<<6)
-+#define LAYER0_DMA_FIFO_UNDERFLOW		  (1<<6)
- #define LAYER0_DMA_CB_FIFO_OVERFLOW		  (1<<7)
- #define LAYER0_DMA_CB_FIFO_UNDERFLOW		  (1<<8)
- #define LAYER0_DMA_CR_FIFO_OVERFLOW		  (1<<9)
-@@ -402,6 +402,7 @@
- #define LCD_PWM2_HIGH_LOW			(0x4 * 0x81a)
- #define LCD_VIDEO0_DMA0_BYTES			(0x4 * 0xb00)
- #define LCD_VIDEO0_DMA0_STATE			(0x4 * 0xb01)
-+#define LCD_DMA_STATE_ACTIVE			  (1 << 3)
- #define LCD_VIDEO0_DMA1_BYTES			(0x4 * 0xb02)
- #define LCD_VIDEO0_DMA1_STATE			(0x4 * 0xb03)
- #define LCD_VIDEO0_DMA2_BYTES			(0x4 * 0xb04)
-@@ -750,4 +751,8 @@
- #define MSSCPU_CPR_CLK_EN			(0x0)
- #define MSSCPU_CPR_RST_EN			(0x10)
- #define BIT_MASK_16				(0xffff)
-+/*icam lcd qos */
-+#define LCD_QOS_PRORITY				(0x8)
-+#define LCD_QOS_MODE				(0xC)
-+#define LCD_QOS_BW				(0x10)
- #endif /* __KMB_REGS_H__ */
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEVucmljOgoKRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFi
+b3JhLmNvbT4g5pa8IDIwMjDlubQ35pyIMeaXpSDpgLHkuIkg5LiK5Y2INTowMuWvq+mBk++8mgo+
+Cj4gSGkgQ2h1bi1LdWFuZywKPgo+IE9uIDMwLzYvMjAgMTg6MjYsIENodW4tS3VhbmcgSHUgd3Jv
+dGU6Cj4gPiBIaSwgRW5yaWM6Cj4gPgo+ID4gRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMu
+YmFsbGV0Ym9AY29sbGFib3JhLmNvbT4g5pa8IDIwMjDlubQ25pyIMzDml6Ug6YCx5LqMIOS4i+WN
+iDEwOjM05a+r6YGT77yaCj4gPj4KPiA+PiBIaSBTYW0sIENodW4tS3VhbiwKPiA+Pgo+ID4+IE9u
+IDIwLzYvMjAgMjM6MzMsIFNhbSBSYXZuYm9yZyB3cm90ZToKPiA+Pj4gSGkgRW5yaWMKPiA+Pj4K
+PiA+Pj4gT24gTW9uLCBKdW4gMTUsIDIwMjAgYXQgMTA6MzE6MDFQTSArMDIwMCwgRW5yaWMgQmFs
+bGV0Ym8gaSBTZXJyYSB3cm90ZToKPiA+Pj4+IChUaGlzIHJlc2VuZCBpcyB0byBmaXggc29tZSB0
+cml2aWFsIGNvbmZsaWN0cyBkdWUgdGhlIG1lcmdlIHdpbmRvdykKPiA+Pj4+Cj4gPj4+PiBUaGUg
+UFM4NjQwIGRzaS10by1lRFAgYnJpZGdlIGRyaXZlciBpcyB1c2luZyB0aGUgcGFuZWwgYnJpZGdl
+IEFQSSwKPiA+Pj4+IGhvd2V2ZXIsIG5vdCBhbGwgdGhlIGNvbXBvbmVudHMgaW4gdGhlIGNoYWlu
+IGhhdmUgYmVlbiBwb3J0ZWQgdG8gdGhlCj4gPj4+PiBkcm1fYnJpZGdlIEFQSS4gQWN0dWFsbHks
+IHdoZW4gYSBwYW5lbCBpcyBhdHRhY2hlZCB0aGUgZGVmYXVsdCBwYW5lbCdzIG1vZGUKPiA+Pj4+
+IGlzIHVzZWQsIGJ1dCBpbiBzb21lIGNhc2VzIHdlIGNhbid0IGdldCBkaXNwbGF5IHVwIGlmIG1v
+ZGUgZ2V0dGluZyBmcm9tCj4gPj4+PiBlRFAgY29udHJvbCBFRElEIGlzIG5vdCBjaG9zZW4uCj4g
+Pj4+Pgo+ID4+Pj4gVGhpcyBzZXJpZXMgYWRkcmVzcyB0aGF0IHByb2JsZW0sIGZpcnN0IGltcGxl
+bWVudHMgdGhlIC5nZXRfZWRpZCgpCj4gPj4+PiBjYWxsYmFjayBpbiB0aGUgUFM4NjQwIGRyaXZl
+ciAod2hpY2ggaXMgbm90IHVzZWQgdW50aWwgdGhlIGNvbnZlcnNpb24gaXMKPiA+Pj4+IGRvbmUp
+IGFuZCB0aGVuLCBjb252ZXJ0cyB0aGUgTWVkaWF0ZWsgRFNJIGRyaXZlciB0byB1c2UgdGhlIGRy
+bV9icmlkZ2UKPiA+Pj4+IEFQSS4KPiA+Pj4+Cj4gPj4+PiBBcyBmYXIgYXMgSSBrbm93LCB3ZSdy
+ZSB0aGUgb25seSB1c2VycyBvZiB0aGUgbWVkaWF0ZWsgZHNpIGRyaXZlciBpbgo+ID4+Pj4gbWFp
+bmxpbmUsIHNvIHNob3VsZCBiZSBzYWZlIHRvIHN3aXRjaCB0byB0aGUgbmV3IGNoYWluIG9mIGRy
+bV9icmlkZ2UgQVBJCj4gPj4+PiB1bmNvbmRpdGlvbmFsbHkuCj4gPj4+Pgo+ID4+Pj4gVGhlIHBh
+dGNoZXMgaGFzIGJlZW4gdGVzdGVkIG9uIGEgQWNlciBDaHJvbWVib29rIFIxMyAoRWxtKSBydW5u
+aW5nIGEKPiA+Pj4+IENocm9tZSBPUyB1c2Vyc3BhY2UgYW5kIGNoZWNraW5nIHRoYXQgdGhlIHZh
+bGlkIEVESUQgbW9kZSByZXBvcnRlZCBieQo+ID4+Pj4gdGhlIGJyaWRnZSBpcyBzZWxlY3RlZC4K
+PiA+Pj4+Cj4gPj4+PiBDaGFuZ2VzIGluIHY0Ogo+ID4+Pj4gLSBSZW1vdmUgZG91YmxlIGNhbGwg
+dG8gZHJtX2VuY29kZXJfaW5pdCgpLiAoQ2h1bi1LdWFuZyBIdSkKPiA+Pj4+IC0gQ2xlYW51cCB0
+aGUgZW5jb2RlciBpbiBtdGtfZHNpX3VuYmluZCgpLiAoQ2h1bi1LdWFuZyBIdSkKPiA+Pj4+Cj4g
+Pj4+PiBDaGFuZ2VzIGluIHYzOgo+ID4+Pj4gLSBSZXBsYWNlIHMvYnJpZGdlL25leHQgYnJpZGdl
+LyBmb3IgY29tbWVudC4gKExhdXJlbnQgUGluY2hhcnQpCj4gPj4+PiAtIEFkZCB0aGUgYnJpZGdl
+LnR5cGUuIChMYXVyZW50IFBpbmNoYXJ0KQo+ID4+Pj4gLSBVc2UgbmV4dF9icmlkZ2UgZmllbGQg
+dG8gc3RvcmUgdGhlIHBhbmVsIGJyaWRnZS4gKExhdXJlbnQgUGluY2hhcnQpCj4gPj4+PiAtIEFk
+ZCB0aGUgYnJpZGdlLnR5cGUgZmllbGQuIChMYXVyZW50IFBpbmNoYXJ0KQo+ID4+Pj4gLSBUaGlz
+IHBhdGNoIHJlcXVpcmVzIGh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDIwLzQvMTYvMjA4MCB0byB3
+b3JrCj4gPj4+PiAgIHByb3Blcmx5Lgo+ID4+Pj4gLSBNb3ZlIHRoZSBicmlkZ2UudHlwZSBsaW5l
+IHRvIHRoZSBwYXRjaCB0aGF0IGFkZHMgZHJtX2JyaWRnZSBzdXBwb3J0LiAoTGF1cmVudCBQaW5j
+aGFydCkKPiA+Pj4+Cj4gPj4+PiBDaGFuZ2VzIGluIHYyOgo+ID4+Pj4gLSBEbyBub3Qgc2V0IGNv
+bm5lY3Rvcl90eXBlIGZvciBwYW5lbCBoZXJlLiAoU2FtIFJhdm5ib3JnKQo+ID4+Pj4KPiA+Pj4+
+IEVucmljIEJhbGxldGJvIGkgU2VycmEgKDcpOgo+ID4+Pj4gICBkcm0vYnJpZGdlOiBwczg2NDA6
+IEdldCB0aGUgRURJRCBmcm9tIGVEUCBjb250cm9sCj4gPj4+PiAgIGRybS9icmlkZ2VfY29ubmVj
+dG9yOiBTZXQgZGVmYXVsdCBzdGF0dXMgY29ubmVjdGVkIGZvciBlRFAgY29ubmVjdG9ycwo+ID4+
+Pj4gICBkcm0vbWVkaWF0ZWs6IG10a19kc2k6IFJlbmFtZSBicmlkZ2UgdG8gbmV4dF9icmlkZ2UK
+PiA+Pj4+ICAgZHJtL21lZGlhdGVrOiBtdGtfZHNpOiBDb252ZXJ0IHRvIGJyaWRnZSBkcml2ZXIK
+PiA+Pj4+ICAgZHJtL21lZGlhdGVrOiBtdGtfZHNpOiBVc2Ugc2ltcGxlIGVuY29kZXIKPiA+Pj4+
+ICAgZHJtL21lZGlhdGVrOiBtdGtfZHNpOiBVc2UgdGhlIGRybV9wYW5lbF9icmlkZ2UgQVBJCj4g
+Pj4+PiAgIGRybS9tZWRpYXRlazogbXRrX2RzaTogQ3JlYXRlIGNvbm5lY3RvciBmb3IgYnJpZGdl
+cwo+ID4+Pgo+ID4+PiBQYXRjaCBzZWVtcyByZWFkeSB0byBhcHBseS4gV2lsbCB0aGV5IGJlIGFw
+cGxpZWQgdG8gYSBtZWRpYXRlayB0cmVlCj4gPj4+IG9yIHRvIGRybS1taXNjLW5leHQ/Cj4gPj4+
+IE9yIHNoYWxsIHdlIHRha2UgdGhlIGZpcnN0IHR3byBwYXRjaGVzIHZpYSBkcm0tbWlzYy1uZXh0
+LCBhbmQgdGhlCj4gPj4+IHJlbWFuaW5nIHZpYSBhIG1lZGlhdGVrIHRyZWU/IChJIGhvcGUgbm90
+KQo+ID4+Pgo+ID4+Cj4gPj4gSSB0aGluayB0aGUgb25seSBjb25jZXJuIGlzIGZyb20gQ2h1bi1L
+dWFuIHJlZ2FyZGluZyBwYXRjaCA3LzcgImRybS9tZWRpYXRlazoKPiA+PiBtdGtfZHNpOiBDcmVh
+dGUgY29ubmVjdG9yIGZvciBicmlkZ2VzIiB3aGV0aGVyIHdlIHNob3VsZCBzdXBwb3J0IHRoZSBv
+bGQgQVBJIG9yCj4gPj4gbm90LCBidXQgdGhlIGRpc2N1c3Npb24gc3RhbGxlZC4KPiA+Pgo+ID4K
+PiA+IEkgZ2V0IG1vcmUgY2xlYXIgbm93LiBJbiBwYXRjaCA3LzcsCj4gPgo+ID4gcmV0ID0gZHJt
+X2JyaWRnZV9hdHRhY2goJmRzaS0+ZW5jb2RlciwgJmRzaS0+YnJpZGdlLCBOVUxMLAo+ID4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERSTV9CUklER0VfQVRUQUNIX05P
+X0NPTk5FQ1RPUik7Cj4gPgo+ID4gdGhpcyB3b3VsZCBjYWxsIGludG8gbXRrX2RzaV9icmlkZ2Vf
+YXR0YWNoKCkgZmlyc3QsIGFuZCB0aGVuIGNhbGwgaW50bwo+ID4gcGFuZWxfYnJpZGdlX2F0dGFj
+aCgpIG5leHQuIFNvIHBhbmVsX2JyaWRnZV9hdHRhY2goKSB3b3VsZCByZWNlaXZlCj4gPiBEUk1f
+QlJJREdFX0FUVEFDSF9OT19DT05ORUNUT1IgYW5kIGl0IHJldHVybiBpbW1lZGlhdGVseSBzbyBp
+dCBkb2VzCj4gPiBub3QgY2FsbCBkcm1fcGFuZWxfYXR0YWNoKCkuIFNvIHdoZXJlIGRvIHlvdSBj
+YWxsIGRybV9wYW5lbF9hdHRhY2goKT8KPiA+Cj4KPiBXaHkgSSBuZWVkIHRvIGNhbGwgZHJtX3Bh
+bmVsX2F0dGFjaD8KPgo+IEkgYmVsaWV2ZSBkcm1fcGFuZWxfYXR0YWNoKCkgd2FzIHRvIGF0dGFj
+aCBhIHBhbmVsIHRvIGEgY29ubmVjdG9yLCBidXQgd2UgZG9uJ3QKPiBuZWVkIHRvIGRvIHRoaXMg
+d2l0aCB0aGUgbmV3IEFQSSBhcyB0aGUgY29ubmVjdG9yIGlzIGFscmVhZHkgY3JlYXRlZCBhbmQK
+PiBhdHRhY2hlZCB0byB0aGUgImR1bW15IiBlbmNvZGVyLgo+Cj4gTWFrZXMgdGhhdCBzZW5zZSB0
+byB5b3U/IFdoYXQgZG8geW91IHRoaW5rIHdpbGwgbm90IHdvcmsgaWYgSSBkb24ndCBjYWxsCj4g
+ZHJtX3BhbmVsX2F0dGFjaD8KPgo+IFsxXQo+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xp
+bnV4L3Y1LjgtcmMzL3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsLmMjTDEwMQo+CgpT
+b3JyeSwgSSBkbyBub3Qgbm90aWNlIHRoaXMuIFNvIGZvciBwYXRjaCA3LzcsCgpSZXZpZXdlZC1i
+eTogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+CgphbmQgSSB3b3VsZCB0
+YWtlIHRoaXMgc2VyaWVzIGludG8gbXkgdHJlZSBsYXRlciwgdGhhbmtzLgoKUmVnYXJkcywKQ2h1
+bi1LdWFuZy4KCj4gUmVnYXJkcywKPiAgRW5yaWMKPgo+Cj4gPiBSZWdhcmRzLAo+ID4gQ2h1bi1L
+dWFuZy4KPiA+Cj4gPj4gVGhhbmtzLAo+ID4+ICBFbnJpYwo+ID4+Cj4gPj4KPiA+Pgo+ID4+PiAg
+ICAgICBTYW0KPiA+Pj4KPiA+Pj4KPiA+Pj4+Cj4gPj4+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9wYXJhZGUtcHM4NjQwLmMgfCAgMTIgKysKPiA+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Jy
+aWRnZV9jb25uZWN0b3IuYyB8ICAgMSArCj4gPj4+PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19kc2kuYyAgICAgfCAyNjkgKysrKysrKystLS0tLS0tLS0tLS0tLS0tLQo+ID4+Pj4gIDMg
+ZmlsZXMgY2hhbmdlZCwgOTcgaW5zZXJ0aW9ucygrKSwgMTg1IGRlbGV0aW9ucygtKQo+ID4+Pj4K
+PiA+Pj4+IC0tCj4gPj4+PiAyLjI3LjAKPiA+Pj4+Cj4gPj4+PiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
+dAo+ID4+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+Pj4gaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiA+Pj4KPiA+
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
