@@ -1,35 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89ECC20EDDB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 07:51:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDBB20EE92
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 08:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A619889C80;
-	Tue, 30 Jun 2020 05:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7025D89C1A;
+	Tue, 30 Jun 2020 06:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F89E89C80
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 05:51:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 5D39120021;
- Tue, 30 Jun 2020 07:51:17 +0200 (CEST)
-Date: Tue, 30 Jun 2020 07:51:16 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv1 0/4] panel-dsi-cm: update bindings
-Message-ID: <20200630055116.GB361800@ravnborg.org>
-References: <20200629223315.118256-1-sebastian.reichel@collabora.com>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1085589C1A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 06:33:50 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id dp18so19302205ejc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jun 2020 23:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=LKk+ToMYOSb4aJWV3VDZbncQS34JtMoR633gXdO/qgI=;
+ b=pX1Se9MCK8k/fFIkCKjh+uSzWvSKaznj1e0ZIJzbm4hgsCJKOF8N3IMuOmvu9iHe3V
+ XSKK3F3SNMCwRJhlnRmNKlC0kfwXXDJLxmoTE+/lKtniP+k+pFYVwxLlNyJDR9xV5LsM
+ x2NUytvC5oNT028bAHQYbzjwxuyu7y8Hu0G5+QONwYd2k6jsIwPbls6D0m4eKBdUgmvg
+ AuisDPb0YukVBZ0J298DqH72osWlrf1NJA94nUim6SaB0kzDnz0clQW2mUW267Ez/lP2
+ Q4KfZzsWoYnkP5DN8Sfu9eUGEKid4CMgUrQOVF0Zep0gHkZ03SDwrba3dZCAz47wcigh
+ OngQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=LKk+ToMYOSb4aJWV3VDZbncQS34JtMoR633gXdO/qgI=;
+ b=dTdzHPgK63KcRLBDW9GF/FaMV5w2/KlYGYYkPGDtdpXqbiud2l7Yl/jnIDEF9N6COI
+ 9pkPwRaryVST9dadElF7o/I3TQ5TiA/mbga4it95Ae9rPxEhGXrr24johpBXuEHJmbxU
+ L+Hl2v9pgka6Idr4XjUJDJGNaV3rBaB2TrGdiKgbxndFaIOEZoSP4oK34qJNoq6qSSI/
+ HH8vkhHygbt0Ws8flFRIvguC4ID2J6pF/XbCqwxwQGBkScjouVSWpjQnwgZZo9maR1H7
+ q9q3KqxHKfpBieGL5pn3CgvByRjPwcveK42dT4rQEcG8Fk3eK2u7iPGEi5KcfyUDn+Ix
+ zT4A==
+X-Gm-Message-State: AOAM5336etGpk+BDHesjVqmww8HLMfYtecDJ3pW7/79v+bHZViezfLNR
+ WSFRPlPKBQj9D1iniusXmm5eRVyWztjVwXKb/Mqclyrt/4g=
+X-Google-Smtp-Source: ABdhPJxdHmT0ExbAB75JmBzqcJQx3eCX2i8EvMbJXdrXJG4pkJZZcoL3q5JBprciDPUNimJ/TawmNz+ZtkO4ZQuEJIk=
+X-Received: by 2002:a17:906:70d5:: with SMTP id
+ g21mr506912ejk.340.1593498828450; 
+ Mon, 29 Jun 2020 23:33:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200629223315.118256-1-sebastian.reichel@collabora.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=PtV5s_OSQqKhbhFn9OoA:9 a=CjuIK1q_8ugA:10
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 30 Jun 2020 16:33:37 +1000
+Message-ID: <CAPM=9tz7E5rmRdqWwGQCsS+q+UcPU7XTxsGgkCggQXA8ktn0pw@mail.gmail.com>
+Subject: warning in omap_connector
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,30 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian.
-
-On Tue, Jun 30, 2020 at 12:33:11AM +0200, Sebastian Reichel wrote:
-> Subject: panel-dsi-cm: update bindings
-> 
-> The cleanup series for omapdrm's DSI code got too big. Reviewing
-> this is not fun and the same goes for keeping track of the change
-> requests. Let's do the cleanup in smaller steps instead.
-Appreciated!
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGV5IExhdXJlbnQsCgpJIG1lcmdlZCBkcm0tbWlzYy1uZXh0IGFuZCBub3RpY2VkIHRoaXMsIEkn
+bSBub3Qgc3VyZSBpZiBpdCdzCmNvbGxhdGVyYWwgZGFtYWdlIGZyb20gc29tZXRoaW5nIGVsc2Ug
+Y2hhbmdpbmcgb3IgSSd2ZSBqdXN0IG1pc3NlZCBpdApwcmV2aW91c2x5LiAzMi1iaXQgYXJtIGJ1
+aWxkLgoKCi9ob21lL2FpcmxpZWQvZGV2ZWwva2VybmVsL2RpbS9zcmMvZHJpdmVycy9ncHUvZHJt
+L29tYXBkcm0vb21hcF9jb25uZWN0b3IuYzoKSW4gZnVuY3Rpb24g4oCYb21hcF9jb25uZWN0b3Jf
+bW9kZV92YWxpZOKAmToKL2hvbWUvYWlybGllZC9kZXZlbC9rZXJuZWwvZGltL3NyYy9kcml2ZXJz
+L2dwdS9kcm0vb21hcGRybS9vbWFwX2Nvbm5lY3Rvci5jOjkyOjk6Cndhcm5pbmc6IGJyYWNlcyBh
+cm91bmQgc2NhbGFyIGluaXRpYWxpemVyCiAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgbmV3X21v
+ZGUgPSB7IHsgMCB9IH07CiAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn4KL2hvbWUvYWlybGllZC9k
+ZXZlbC9rZXJuZWwvZGltL3NyYy9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2Nvbm5lY3Rv
+ci5jOjkyOjk6Cm5vdGU6IChuZWFyIGluaXRpYWxpemF0aW9uIGZvciDigJhuZXdfbW9kZS5jbG9j
+a+KAmSkKCkRhdmUuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
