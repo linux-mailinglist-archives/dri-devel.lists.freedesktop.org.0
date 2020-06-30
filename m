@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4718520F251
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 12:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D3920F2AB
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jun 2020 12:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9BB89C33;
-	Tue, 30 Jun 2020 10:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 080B76E054;
+	Tue, 30 Jun 2020 10:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2F8589C33
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 10:10:22 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id BFA4B80522;
- Tue, 30 Jun 2020 12:10:20 +0200 (CEST)
-Date: Tue, 30 Jun 2020 12:10:19 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 04/10] drm/ingenic: Add missing CR in debug strings
-Message-ID: <20200630101019.GC553950@ravnborg.org>
-References: <20200629235210.441709-1-paul@crapouillou.net>
- <20200629235210.441709-4-paul@crapouillou.net>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 226956E054
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 10:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vnJ2yw0F6LPBhKLU0hfWB5KMwdJ/W0I4u/CTb2Acgyw=; b=xFi8cN5tg4yayu/ZbMuA0iJ7Zv
+ 3FIC7oGjhHydO9sH5AdcD6v9wVWEkIBBs9AiG+35wL8wyYSjDyPaKWmqZeWXpCHQr6+26jmuufqhR
+ SvANQQkVPc40rlrVmsrT3lcAOj1zjAW8I4slnOwGxFoowVwplQagXkTJM5owuQM54eEYj2NNJ/ETj
+ zh7131n1I1Hd/1BEgUZ/+IKmiKL9o5kTTDdekytqjDHPj4hY/s7Ehag9KyhrtFF9LqdWDBnm9XNUL
+ TqWHqgmM2EX/5J5OAb8saJoiEUzRQc7QRSX801ahduWmVR91iSUUW2Xgc2lPnQYttYzfwi9bVinjB
+ qTfqj2tQ==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1jqDSz-0006hA-AV; Tue, 30 Jun 2020 13:26:17 +0300
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (sync points)
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
+ <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <5b1edaad-ba36-7b0f-5b02-457ae5b6d91e@gmail.com>
+ <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
+ <623c1eaa-31fb-8dff-f6c0-d8cd0be60070@gmail.com>
+ <827c92a6-7fed-a81c-ba8e-6c69416c4ab9@kapsi.fi>
+ <f1a88006-ab3e-9068-e220-15eee17aeba0@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <3b058989-a93a-6796-8d94-f60ce39e3fba@kapsi.fi>
+Date: Tue, 30 Jun 2020 13:26:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200629235210.441709-4-paul@crapouillou.net>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=O7-e7zmCaJ8UY64ll6EA:9 a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
+In-Reply-To: <f1a88006-ab3e-9068-e220-15eee17aeba0@gmail.com>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,168 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me, David Airlie <airlied@linux.ie>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Erik Faye-Lund <kusmabite@gmail.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 30, 2020 at 01:52:04AM +0200, Paul Cercueil wrote:
-> If you pass a string that is not terminated with a carriage return to
-> dev_err(), it will eventually be printed with a carriage return, but
-> not right away, since the kernel will wait for a pr_cont().
+On 6/29/20 10:42 PM, Dmitry Osipenko wrote:
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Secondly, I suppose neither GPU, nor DLA could wait on a host1x sync
+> point, correct? Or are they integrated with Host1x HW?
+> 
 
-It would have been nice if most was converted to drm_err() and friends
-when touching these.
-That may come later..
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+They can access syncpoints directly. (That's what I alluded to in the 
+"Introduction to the hardware" section :) all those things have hardware 
+access to syncpoints)
 
-> ---
-> 
-> Notes:
->     v2: New patch
-> 
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 30 +++++++++++------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 16f0740df507..a15f9a1940c6 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -623,14 +623,14 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  
->  	base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(base)) {
-> -		dev_err(dev, "Failed to get memory resource");
-> +		dev_err(dev, "Failed to get memory resource\n");
->  		return PTR_ERR(base);
->  	}
->  
->  	priv->map = devm_regmap_init_mmio(dev, base,
->  					  &ingenic_drm_regmap_config);
->  	if (IS_ERR(priv->map)) {
-> -		dev_err(dev, "Failed to create regmap");
-> +		dev_err(dev, "Failed to create regmap\n");
->  		return PTR_ERR(priv->map);
->  	}
->  
-> @@ -641,21 +641,21 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  	if (soc_info->needs_dev_clk) {
->  		priv->lcd_clk = devm_clk_get(dev, "lcd");
->  		if (IS_ERR(priv->lcd_clk)) {
-> -			dev_err(dev, "Failed to get lcd clock");
-> +			dev_err(dev, "Failed to get lcd clock\n");
->  			return PTR_ERR(priv->lcd_clk);
->  		}
->  	}
->  
->  	priv->pix_clk = devm_clk_get(dev, "lcd_pclk");
->  	if (IS_ERR(priv->pix_clk)) {
-> -		dev_err(dev, "Failed to get pixel clock");
-> +		dev_err(dev, "Failed to get pixel clock\n");
->  		return PTR_ERR(priv->pix_clk);
->  	}
->  
->  	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, &bridge);
->  	if (ret) {
->  		if (ret != -EPROBE_DEFER)
-> -			dev_err(dev, "Failed to get panel handle");
-> +			dev_err(dev, "Failed to get panel handle\n");
->  		return ret;
->  	}
->  
-> @@ -684,7 +684,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  				       ARRAY_SIZE(ingenic_drm_primary_formats),
->  				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
->  	if (ret) {
-> -		dev_err(dev, "Failed to register primary plane: %i", ret);
-> +		dev_err(dev, "Failed to register primary plane: %i\n", ret);
->  		return ret;
->  	}
->  
-> @@ -693,7 +693,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  	ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->primary,
->  					NULL, &ingenic_drm_crtc_funcs, NULL);
->  	if (ret) {
-> -		dev_err(dev, "Failed to init CRTC: %i", ret);
-> +		dev_err(dev, "Failed to init CRTC: %i\n", ret);
->  		return ret;
->  	}
->  
-> @@ -705,25 +705,25 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  	ret = drm_simple_encoder_init(drm, &priv->encoder,
->  				      DRM_MODE_ENCODER_DPI);
->  	if (ret) {
-> -		dev_err(dev, "Failed to init encoder: %i", ret);
-> +		dev_err(dev, "Failed to init encoder: %i\n", ret);
->  		return ret;
->  	}
->  
->  	ret = drm_bridge_attach(&priv->encoder, bridge, NULL, 0);
->  	if (ret) {
-> -		dev_err(dev, "Unable to attach bridge");
-> +		dev_err(dev, "Unable to attach bridge\n");
->  		return ret;
->  	}
->  
->  	ret = drm_irq_install(drm, irq);
->  	if (ret) {
-> -		dev_err(dev, "Unable to install IRQ handler");
-> +		dev_err(dev, "Unable to install IRQ handler\n");
->  		return ret;
->  	}
->  
->  	ret = drm_vblank_init(drm, 1);
->  	if (ret) {
-> -		dev_err(dev, "Failed calling drm_vblank_init()");
-> +		dev_err(dev, "Failed calling drm_vblank_init()\n");
->  		return ret;
->  	}
->  
-> @@ -731,7 +731,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  
->  	ret = clk_prepare_enable(priv->pix_clk);
->  	if (ret) {
-> -		dev_err(dev, "Unable to start pixel clock");
-> +		dev_err(dev, "Unable to start pixel clock\n");
->  		return ret;
->  	}
->  
-> @@ -746,20 +746,20 @@ static int ingenic_drm_probe(struct platform_device *pdev)
->  		 */
->  		ret = clk_set_rate(priv->lcd_clk, parent_rate);
->  		if (ret) {
-> -			dev_err(dev, "Unable to set LCD clock rate");
-> +			dev_err(dev, "Unable to set LCD clock rate\n");
->  			goto err_pixclk_disable;
->  		}
->  
->  		ret = clk_prepare_enable(priv->lcd_clk);
->  		if (ret) {
-> -			dev_err(dev, "Unable to start lcd clock");
-> +			dev_err(dev, "Unable to start lcd clock\n");
->  			goto err_pixclk_disable;
->  		}
->  	}
->  
->  	ret = drm_dev_register(drm, 0);
->  	if (ret) {
-> -		dev_err(dev, "Failed to register DRM driver");
-> +		dev_err(dev, "Failed to register DRM driver\n");
->  		goto err_devclk_disable;
->  	}
->  
-> -- 
-> 2.27.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ >
+ > .. rest ..
+ >
+
+Let me try to summarize once more for my own understanding:
+
+* When submitting a job, you would allocate new syncpoints for the job
+* After submitting the job, those syncpoints are not usable anymore
+* Postfences of that job would keep references to those syncpoints so 
+they aren't freed and cleared before the fences have been released
+* Once postfences have been released, syncpoints would be returned to 
+the pool and reset to zero
+
+The advantage of this would be that at any point in time, there would be 
+a 1:1 correspondence between allocated syncpoints and jobs; so you could 
+  shuffle the jobs around channels or reorder them.
+
+Please correct if I got that wrong :)
+
+---
+
+I have two concerns:
+
+* A lot of churn on syncpoints - any time you submit a job you might not 
+get a syncpoint for an indefinite time. If we allocate syncpoints 
+up-front at least you know beforehand, and then you have the syncpoint 
+as long as you need it.
+* Plumbing the dma-fence/sync_file everywhere, and keeping it alive 
+until waits on it have completed, is more work than just having the 
+ID/threshold. This is probably mainly a problem for downstream, where 
+updating code for this would be difficult. I know that's not a proper 
+argument but I hope we can reach something that works for both worlds.
+
+Here's a proposal in between:
+
+* Keep syncpoint allocation and submission in jobs as in my original 
+proposal
+* Don't attempt to recover user channel contexts. What this means:
+   * If we have a hardware channel per context (MLOCKing), just tear 
+down the channel
+   * Otherwise, we can just remove (either by patching or by full 
+teardown/resubmit of the channel) all jobs submitted by the user channel 
+context that submitted the hanging job. Jobs of other contexts would be 
+undisturbed (though potentially delayed, which could be taken into 
+account and timeouts adjusted)
+* If this happens, we can set removed jobs' post-fences to error status 
+and user will have to resubmit them.
+* We should be able to keep the syncpoint refcounting based on fences.
+
+This can be made more fine-grained by not caring about the user channel 
+context, but tearing down all jobs with the same syncpoint. I think the 
+result would be that we can get either what you described (or how I 
+understood it in the summary in the beginning of the message), or a more 
+traditional syncpoint-per-userctx workflow, depending on how the 
+userspace decides to allocate syncpoints.
+
+If needed, the kernel can still do e.g. reordering (you mentioned job 
+priorities) at syncpoint granularity, which, if the userspace followed 
+the model you described, would be the same thing as job granularity.
+
+(Maybe it would be more difficult with current drm_scheduler, sorry, 
+haven't had the time yet to read up on that. Dealing with clearing work 
+stuff up before summer vacation)
+
+Mikko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
