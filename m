@@ -1,71 +1,182 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B40521125F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 20:08:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A903211312
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 20:49:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2966E992;
-	Wed,  1 Jul 2020 18:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB906E9AA;
+	Wed,  1 Jul 2020 18:49:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C19C6E992
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 18:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1593626934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+dKEqbHhlRxeYOhfkUFykiBQJ/HEgkFXQeXPNBD5nYQ=;
- b=ZHIMW9f221Bq7uLDlUaVbkpjUK+SpO0TvRO4Ig0DthjrfiPKw36ToLil2lXGg6pqWEwxF6
- LLLFRxc7EzBC+Nrh/mpeBIA1PI0w7az3i39IxudEdV0W4HjBREAE/mUu+HB9GBUUqvB3BG
- GRvUPcnOTzngN2R9FBHauwPgnGeoMJg=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-lI_eLYCpNAqu4npqXPVx1g-1; Wed, 01 Jul 2020 14:08:43 -0400
-X-MC-Unique: lI_eLYCpNAqu4npqXPVx1g-1
-Received: by mail-qv1-f70.google.com with SMTP id e6so7594404qva.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 11:08:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+dKEqbHhlRxeYOhfkUFykiBQJ/HEgkFXQeXPNBD5nYQ=;
- b=rTU8HGSBm2x7yRc5qKbkzQbaQa4Diyss5UF1RfV2acv+Zoyo4liD0BzipGT4Pon04A
- fPyEncu7BpgraH3W/oW2gaLFxiIWWRU0KAQMC7fW82Fuf7VOn0fjXdJRgFPiU3PiZ8e/
- 6Ryp6zT8tgI6kpaKnQiDPGqlrcMEPw8ynBNVGaGbXt3UpbLNnpy1e1moHW9L4COEua3E
- 1CFKQmVqp3kd2/BKXiGPlUSfhY8BKz++pwhiKzhy6eilqlkd3uNSK4GVlKRb/66V08ol
- Y5a4niI4eC1j0XRNHkdS888lNlAZz9RJtIrCvMlLiSLlQXKaLVzH8JC+uNqXksageu26
- b5Cg==
-X-Gm-Message-State: AOAM530bt6Zb+C2xE83tppSz9yBrYDMvaU1YX9NUgDzeODg7SZqADzs/
- TN63EiKm+9kUDAj7nAhH/IJEYgoEE9mpiM0R2r/hCudHYACK6/Ij/SLdg/bwPDsZGHKnE9vOI5a
- z/GXfSESD7+otdoJuhsTQ72ctvNEMCuLATjf0XNFffHGF
-X-Received: by 2002:ac8:23e6:: with SMTP id r35mr6515646qtr.254.1593626923143; 
- Wed, 01 Jul 2020 11:08:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgNG460Sk2KPjKWLlMlaRlQy86WinN8VCktRUOxKvw9UhZDNM8KB8cmjbPousPk8bSbmEo3GHW0YlABLsCmck=
-X-Received: by 2002:ac8:23e6:: with SMTP id r35mr6515608qtr.254.1593626922762; 
- Wed, 01 Jul 2020 11:08:42 -0700 (PDT)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D286E9AD
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 18:49:50 +0000 (UTC)
+Received: from [192.168.1.167] ([37.4.249.118]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MhlCa-1jCx8f1kem-00dm4M; Wed, 01 Jul 2020 20:49:41 +0200
+Subject: Re: [PATCH] drm/vc4/vc4_hdmi: fill ASoC card owner
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>
+References: <CGME20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba@eucas1p1.samsung.com>
+ <20200701073949.28941-1-m.szyprowski@samsung.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <89bb3b69-2c81-3f83-da68-0e3b9a068cf5@i2se.com>
+Date: Wed, 1 Jul 2020 20:49:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
- <20200630230808.wj2xlt44vrszqfzx@box>
- <ef7816b4-72ee-9e0e-8cac-4d80d8343f9f@nvidia.com>
- <CACO55tvT0fOMai7k7oAP1TL42YAuMwJocxk2seNgjYibs+h5oA@mail.gmail.com>
- <11e5ee1d-8b5e-2721-091e-ffbf9e1271d1@nvidia.com>
- <CAKMK7uEzoFyW6o1gP6xszWH7fKHrVSR32JLs73KeFfYgD=BHPQ@mail.gmail.com>
- <CACO55tu8z_Rt50QXUr+MBKV_vtxZfVgz8Cfoj2xbinbtTYM3WQ@mail.gmail.com>
- <efaf3c55-e2af-09ec-430e-79064fe43668@nvidia.com>
-In-Reply-To: <efaf3c55-e2af-09ec-430e-79064fe43668@nvidia.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 1 Jul 2020 20:08:31 +0200
-Message-ID: <CACO55tvZN=r3MgiF=MMV4L+hw9GXfumEkOBNXt9KwrFoqqKETw@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.8-rc1
-To: James Jones <jajones@nvidia.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200701073949.28941-1-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-Provags-ID: V03:K1:PbeoQm9EkO7ErzbBWBFleNAVy/pgZ6HJ7sufmj/ZPHtMdORREfM
+ eDr0Rw/Sj7L7LMmysMStO2wlVw56yZihuNn0bE4R92XgViktG0hWcInXJp4LIt6gROCY84B
+ lGfF66AS+y+d7rRodvQOZDofuC7t56K63NRbLcrUrDU1m2WzS/aNh/xWJ6AaV6hhd9FSKl5
+ Oam0Ap2Z+5qp2OjCdwbag==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fKnE2hFSzts=:gmwA44RKITzVR7DMEF9RyV
+ Zs8o1qrh2Z4O1qWzbwkknUkkUux92DU0CNRmZ/uQvHb7ZlCOu6VRxpmUsMeV4a/aZMMtjfuUZ
+ R5Ynw2fqZ8qyceSrV7h0XYsdrI7qh2WQ9WfO+HoHZ/6wc0L+Zysyt0kmI1lDHOwosRlTzkICf
+ 6I9XigiMGIL0+xv3SWdlhWlz/X60/H5O46zaFlR4SI8jPm6rgKgfSJkVYKp/zFFNtgG/nAmni
+ VM/+afKaajeYf9qIwTTKApqO/tw3TJhmBbIFdfnFmIuDLnzCuBOSRsVvR0X7gbK+kIBGFL2/2
+ i2iPQs4amBEp6TplEoVtzYFJb9y3A4RYc3IHrvc85TxLaWmMcE0Y9BVeUDtheC7jkIksj6XR/
+ mNxYVg09K0nPuxbhyMJ7wt1mLQChAs+BdR8gzwuiba8TUy0kuGl/E5rUOm5RD+gpqz5DogNX1
+ hbNCivUr+/DcecaLAGDtoG0592fI/Cl9TsOHr6QgMVFtr+GDELtOgtMfi2f3/TgrvW1McYVNC
+ G+XuV67IjqzT999dH9KFmEeAlKnXVCwPnj3pOVMQqupJi5dK3m3o+eFe5Ds3hPvo/rR1koSEf
+ 1A6bIO4KJWeqDaOnySoSNTAzWT0mtH2mOsNh83FhncZHVJZ93oOaXWPqu2CrcdGe0m+NxNWYl
+ WGk13fIWtUarTQS9NQIl0qbXy1bRErSeuHIXJwdOK3aS1kOg3yNupE+vn5w2PT3oG0ipsxaWj
+ TIYLvtButo7ygXbU4iX8WzyQr1rnu75sgNQoRYj+0AipHlCzqfcuzkkv2eSh7B0KJ4lc4bcdf
+ GdKcJxdzRxA9K2ocTUxL8FvBok5o53sYavtLmeTE7F5lR61TmvPSegKGdHbZZynarbQ45Jg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,164 +189,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- "Kirill A. Shutemov" <kirill@shutemov.name>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: David Airlie <airlied@linux.ie>, alsa-devel@alsa-project.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 1, 2020 at 7:37 PM James Jones <jajones@nvidia.com> wrote:
->
-> On 7/1/20 10:04 AM, Karol Herbst wrote:
-> > On Wed, Jul 1, 2020 at 6:01 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >>
-> >> On Wed, Jul 1, 2020 at 5:51 PM James Jones <jajones@nvidia.com> wrote:
-> >>>
-> >>> On 7/1/20 4:24 AM, Karol Herbst wrote:
-> >>>> On Wed, Jul 1, 2020 at 6:45 AM James Jones <jajones@nvidia.com> wrote:
-> >>>>>
-> >>>>> This implies something is trying to use one of the old
-> >>>>> DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK format modifiers with DRM-KMS without
-> >>>>> first checking whether it is supported by the kernel.  I had tried to
-> >>>>> force an Xorg+Mesa stack without my userspace patches to hit this error
-> >>>>> when testing, but must have missed some permutation.  If the stalled
-> >>>>> Mesa patches go in, this would stop happening of course, but those were
-> >>>>> held up for a long time in review, and are now waiting on me to make
-> >>>>> some modifications.
-> >>>>>
-> >>>>
-> >>>> that's completely irrelevant. If a kernel change breaks userspace,
-> >>>> it's a kernel bug.
-> >>>
-> >>> Agreed it is unacceptable to break userspace, but I don't think it's
-> >>> irrelevant.  Perhaps the musings on pending userspace patches are.
-> >>>
-> >>> My intent here was to point out it appears at first glance that
-> >>> something isn't behaving as expected in userspace, so fixing this would
-> >>> likely require some sort of work-around for broken userspace rather than
-> >>> straight-forward fixing of a bug in the kernel logic.  My intent was not
-> >>> to shift blame to something besides my code & testing for the
-> >>> regression, though I certainly see how it could be interpreted that way.
-> >>>
-> >>> Regardless, I'm looking in to it.
-> >>
-> >
-> > I assume the MR you were talking about is
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/3724 ?
->
-> Correct.
->
-> > I am
-> > also aware of the tegra driver being broken on my jetson nano and I am
-> > now curious if this MR could fix this bug as well... and sorry for the
-> > harsh reply, I was just a annoyed by the fact that "everything
-> > modifier related is just breaking things", first tegra and that nobody
-> > is looking into fixing it and then apparently the userspace code being
-> > quite broken as well :/
-> >
-> > Anyway, yeah I trust you guys on figuring out the keeping "broken"
-> > userspace happy from a kernel side and maybe I can help out with
-> > reviewing the mesa bits. I am just wondering if it could help with the
-> > tegra situation giving me more reasons to look into it as this would
-> > solve other issues I should be working on :)
->
-> Not sure if you're claiming this, but if there's Tegra breakage
-> attributable to this patch series, I'd love to hear more details there
-> as well.  The Tegra patches did have backwards-compat code to handle the
-> old modifiers, since Tegra was the only working use case I could find
-> for them within the kernel itself.  However, the Tegra kernel patches
-> are independent (and haven't even been reviewed yet to my knowledge), so
-> Tegra shouldn't be affected at all given it uses TegraDRM rather than
-> Nouveau's modesetting driver.
->
-> If there are just general existing issues with modifier support on
-> Tegra, let's take that to a smaller venue.  I probably won't be as much
-> help there, but I can at least try to help get some eyes on it.
->
+Hi Marek,
 
-I am sure that your patches here have nothing to do with it, just
-inside mesa since
-https://gitlab.freedesktop.org/mesa/mesa/commit/c56fe4118a2dd991ff1b2a532c0f234eddd435e9
-it's broken on the jetson nano and because it's so old I am not able
-to tell if this is because of some kernel changes or because of the
-modifier code inside mesa being slightly broken.
-
-Maybe you have an idea, but Thierry knows about the issue, but I think
-he never was able to reproduce it on any system.
-
-> Thanks,
-> -James
+Am 01.07.20 um 09:39 schrieb Marek Szyprowski:
+> card->owner is a required property and since commit 81033c6b584b ("ALSA:
+> core: Warn on empty module") a warning is issued if it is empty. Fix lack
+> of it. This fixes following warning observed on RaspberryPi 3B board
+> with ARM 32bit kernel and multi_v7_defconfig:
 >
-> >> If we do need to have a kernel workaround I'm happy to help out, I've
-> >> done a bunch of these and occasionally it's good to get rather
-> >> creative :-)
-> >>
-> >> Ideally we'd also push a minimal fix in userspace to all stable
-> >> branches and make sure distros upgrade (might need releases if some
-> >> distro is stuck on old horrors), so that we don't have to keep the
-> >> hack in place for 10+ years or so. Definitely if the hack amounts to
-> >> disabling modifiers on nouveau, that would be kinda sad.
-> >> -Daniel
-> >>
-> >>>
-> >>> Thanks,
-> >>> -James
-> >>>
-> >>>>> Are you using the modesetting driver in X?  If so, with glamor I
-> >>>>> presume?  What version of Mesa?  Any distro patches?  Any non-default
-> >>>>> xorg.conf options that would affect modesetting, your X driver if it
-> >>>>> isn't modesetting, or glamour?
-> >>>>>
-> >>>>> Thanks,
-> >>>>> -James
-> >>>>>
-> >>>>> On 6/30/20 4:08 PM, Kirill A. Shutemov wrote:
-> >>>>>> On Tue, Jun 02, 2020 at 04:06:32PM +1000, Dave Airlie wrote:
-> >>>>>>> James Jones (4):
-> >>>>>> ...
-> >>>>>>>          drm/nouveau/kms: Support NVIDIA format modifiers
-> >>>>>>
-> >>>>>> This commit is the first one that breaks Xorg startup for my setup:
-> >>>>>> GTX 1080 + Dell UP2414Q (4K DP MST monitor).
-> >>>>>>
-> >>>>>> I believe this is the crucial part of dmesg (full dmesg is attached):
-> >>>>>>
-> >>>>>> [   29.997140] [drm:nouveau_framebuffer_new] Unsupported modifier: 0x300000000000014
-> >>>>>> [   29.997143] [drm:drm_internal_framebuffer_create] could not create framebuffer
-> >>>>>> [   29.997145] [drm:drm_ioctl] pid=3393, ret = -22
-> >>>>>>
-> >>>>>> Any suggestions?
-> >>>>>>
-> >>>>> _______________________________________________
-> >>>>> dri-devel mailing list
-> >>>>> dri-devel@lists.freedesktop.org
-> >>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >>>>>
-> >>>>
-> >>>> _______________________________________________
-> >>>> dri-devel mailing list
-> >>>> dri-devel@lists.freedesktop.org
-> >>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >>>>
-> >>
-> >>
-> >>
-> >> --
-> >> Daniel Vetter
-> >> Software Engineer, Intel Corporation
-> >> http://blog.ffwll.ch
-> >>
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
+> ------------[ cut here ]------------
+> WARNING: CPU: 1 PID: 210 at sound/core/init.c:207 snd_card_new+0x378/0x398 [snd]
+> Modules linked in: vc4(+) snd_soc_core ac97_bus snd_pcm_dmaengine bluetooth snd_pcm snd_timer crc32_arm_ce raspberrypi_hwmon snd soundcore ecdh_generic ecc bcm2835_thermal phy_generic
+> CPU: 1 PID: 210 Comm: systemd-udevd Not tainted 5.8.0-rc1-00027-g81033c6b584b #1087
+> Hardware name: BCM2835
+> [<c03113c0>] (unwind_backtrace) from [<c030bcb4>] (show_stack+0x10/0x14)
+> [<c030bcb4>] (show_stack) from [<c071cef8>] (dump_stack+0xd4/0xe8)
+> [<c071cef8>] (dump_stack) from [<c0345bfc>] (__warn+0xdc/0xf4)
+> [<c0345bfc>] (__warn) from [<c0345cc4>] (warn_slowpath_fmt+0xb0/0xb8)
+> [<c0345cc4>] (warn_slowpath_fmt) from [<bf02ff74>] (snd_card_new+0x378/0x398 [snd])
+> [<bf02ff74>] (snd_card_new [snd]) from [<bf11f0b4>] (snd_soc_bind_card+0x280/0x99c [snd_soc_core])
+> [<bf11f0b4>] (snd_soc_bind_card [snd_soc_core]) from [<bf12f000>] (devm_snd_soc_register_card+0x34/0x6c [snd_soc_core])
+> [<bf12f000>] (devm_snd_soc_register_card [snd_soc_core]) from [<bf165654>] (vc4_hdmi_bind+0x43c/0x5f4 [vc4])
+> [<bf165654>] (vc4_hdmi_bind [vc4]) from [<c09d660c>] (component_bind_all+0xec/0x24c)
+> [<c09d660c>] (component_bind_all) from [<bf15c44c>] (vc4_drm_bind+0xd4/0x174 [vc4])
+> [<bf15c44c>] (vc4_drm_bind [vc4]) from [<c09d6ac0>] (try_to_bring_up_master+0x160/0x1b0)
+> [<c09d6ac0>] (try_to_bring_up_master) from [<c09d6f38>] (component_master_add_with_match+0xd0/0x104)
+> [<c09d6f38>] (component_master_add_with_match) from [<bf15c588>] (vc4_platform_drm_probe+0x9c/0xbc [vc4])
+> [<bf15c588>] (vc4_platform_drm_probe [vc4]) from [<c09df740>] (platform_drv_probe+0x6c/0xa4)
+> [<c09df740>] (platform_drv_probe) from [<c09dd6f0>] (really_probe+0x210/0x350)
+> [<c09dd6f0>] (really_probe) from [<c09dd940>] (driver_probe_device+0x5c/0xb4)
+> [<c09dd940>] (driver_probe_device) from [<c09ddb38>] (device_driver_attach+0x58/0x60)
+> [<c09ddb38>] (device_driver_attach) from [<c09ddbc0>] (__driver_attach+0x80/0xbc)
+> [<c09ddbc0>] (__driver_attach) from [<c09db820>] (bus_for_each_dev+0x68/0xb4)
+> [<c09db820>] (bus_for_each_dev) from [<c09dc9f8>] (bus_add_driver+0x130/0x1e8)
+> [<c09dc9f8>] (bus_add_driver) from [<c09de648>] (driver_register+0x78/0x110)
+> [<c09de648>] (driver_register) from [<c0302038>] (do_one_initcall+0x50/0x220)
+> [<c0302038>] (do_one_initcall) from [<c03db544>] (do_init_module+0x60/0x210)
+> [<c03db544>] (do_init_module) from [<c03da4f8>] (load_module+0x1e34/0x2338)
+> [<c03da4f8>] (load_module) from [<c03dac00>] (sys_finit_module+0xac/0xbc)
+> [<c03dac00>] (sys_finit_module) from [<c03000c0>] (ret_fast_syscall+0x0/0x54)
+> Exception stack(0xeded9fa8 to 0xeded9ff0)
+> ...
+> ---[ end trace 6414689569c2bc08 ]---
 >
-
+> Suggested-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+thanks for this patch. Any chance for a fixes tag here?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
