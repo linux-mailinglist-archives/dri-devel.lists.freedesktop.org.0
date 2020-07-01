@@ -1,58 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDAB211091
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 18:27:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFBE2110CC
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 18:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09676E944;
-	Wed,  1 Jul 2020 16:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C67B6E139;
+	Wed,  1 Jul 2020 16:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB9C6E944
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:27:28 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id j12so11210103pfn.10
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 09:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=wQaCz8+UfsafcwRt4VL8N/qWARYzLvQoOyGJgNCrxQI=;
- b=Wy3cweAjK4tvj6mIeOVbVrJjUOaGgRxJ6UPiv9+Se3RA7mLci7cvfmTFwRjxuu983H
- 0KvWKlCLHrBYHAzUPOL184XNbTz+I3z1Md/IlwUIZ3UeXct7U0VRXXyeHyBsIKgMzXtd
- sRfojAeQpY0uadNtq/c9rWNJZbooeqNEAcvr4=
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA41F89B03
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:38:06 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id s16so8612646lfp.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 09:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=b+AvB/0HQsEmT/6dVyBt3aUmExGSI3jLVgR9pfCU6xI=;
+ b=NGc3nSr+n0h4fP2ID26hOQgQ2mGQdX3utJApv6cBWQXcVI3h7Fc+D1QRBIQaXZnr11
+ YgeqOntiAqKrnsCCfaKpVcqsrtPXTzfVbTUkjmkkNrnOIPMZykmbNj/2u4WCkAliAREg
+ srt7gl91XjqmoYUp20v+a/dbguhGPKL1fabJgEWJI6T56t9/1CNQ8lqfXza8DolyiRh6
+ YxcJG9lxOqaRR4KuOUA6S0lwFg3/kr+z1P4eliDfSaqRZvBfkOqJO2GlrsIs8/2UUGY3
+ 8VYcedkvX4qpBycLPBECUs7hYIk9hfSJ36kCPXDg9vPZk30LJD4yXA32EQ3JE1OeBAZY
+ JHcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wQaCz8+UfsafcwRt4VL8N/qWARYzLvQoOyGJgNCrxQI=;
- b=rU1tZvx94D7IRhVzckD9b2DzMLrf+l5F/3/eqWfi1aaJOizPb2KQe2dglHBZuvME7h
- VEUVnFLfDRm7VwtEhC7pGb1w08I/1GgolVzA/IrbpIBdBeSOzXDTglICdO9sCs0NFtK2
- ASmBve+vghTdE0HEhNut/okJXfsnMZ4n9aTV9HnlBYSUi5NRf04BeEs4L7R+c3n1x9ZV
- BMxHsNAaEsfjvL6cObgCbyop74IFEtQc4RWIYHsaahPwMC1nTU8Qj39Utb9rsIFubsCZ
- 4LZhKQU/UfrW6v67SIt3X6u59t/TWfib2fkzMjEGvSSCl2dY9NpN4S4xBN9W3EhRrBxn
- TnXQ==
-X-Gm-Message-State: AOAM532h9zCj4KKyTOYz1SNrdpyExN3Y9L2qhijYLECWCNsskL5hW1ry
- RKjUCK3mrPN7H0tJMoTSRQESsg==
-X-Google-Smtp-Source: ABdhPJy0vP6rFgxJXypkuu0P2L9thUTIA4J7HCFrWcLpeIClul/fDj97U02GLCWP4TkVeCw22Q499g==
-X-Received: by 2002:a05:6a00:1511:: with SMTP id
- q17mr25176779pfu.16.1593620848077; 
- Wed, 01 Jul 2020 09:27:28 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
- by smtp.gmail.com with ESMTPSA id z1sm6186018pgk.89.2020.07.01.09.27.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 09:27:27 -0700 (PDT)
-Date: Wed, 1 Jul 2020 09:27:26 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Rajendra Nayak <rnayak@codeaurora.org>
-Subject: Re: [PATCH 2/4] drm/msm: dsi: Use OPP API to set clk/perf state
-Message-ID: <20200701162726.GO39073@google.com>
-References: <1593518176-24450-1-git-send-email-rnayak@codeaurora.org>
- <1593518176-24450-3-git-send-email-rnayak@codeaurora.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:content-transfer-encoding;
+ bh=b+AvB/0HQsEmT/6dVyBt3aUmExGSI3jLVgR9pfCU6xI=;
+ b=DY5DgZto+6ZwH4CJIVPb78YfXoWMJlrzSKelIpX3xJwy53oudYioacpbXy+0zTOLP7
+ n4bW4lgKr2QV3JdChHN21yC9+W0F0igriy/u52T8yDZLQhDMavNB6QAAR8K1G1B32l0A
+ CqLr4FEEUyn+XWDQkXKQcQMGGg7rJIwzJmhs0LpRlttgqENqbRr2FuZLyXoqAryVau+/
+ FFbeO15/DYCsKAJnk1OrRzrDKKtHGZHYqiksgEflkPT5d+uEf6ZGiEDoqvESxfAqg87X
+ pX1Ec9wEvn42p1pXOnHUGqzsk00AMq3qZX/VwJX+Ks0B+k6uQfvY5hiSfURN5NrBxGfL
+ TFFA==
+X-Gm-Message-State: AOAM531hUTMiJhe/n59zOHv0h8Z4lafalbI24p3UGqT6Yw8Bme0zUzC7
+ OxQB/sZfhbvqhjg3QMtV5xTyWJHhStV1nFbNnyozyg==
+X-Google-Smtp-Source: ABdhPJxK/nguThkBJd2Ux3XYuXE4KGHsrekK6XDG2RPUaVUVOzza6kVDTgWwFrm43mM2dign3+VsxQTsCovpxW3dEZ0=
+X-Received: by 2002:ac2:47ed:: with SMTP id b13mr15611694lfp.21.1593621485126; 
+ Wed, 01 Jul 2020 09:38:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1593518176-24450-3-git-send-email-rnayak@codeaurora.org>
+References: <20200701103126.1512615-1-megous@megous.com>
+ <20200701152532.GA670324@ravnborg.org>
+ <20200701163018.cfweuzp76qx5nsew@core.my.home>
+In-Reply-To: <20200701163018.cfweuzp76qx5nsew@core.my.home>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 1 Jul 2020 18:37:53 +0200
+Message-ID: <CACRpkdYf87RymMwUFL=nXNs3dFVveLt7u0X3haL=SN+N6+V_vQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/13] Add support for PinePhone LCD panel
+To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, linux-sunxi <linux-sunxi@googlegroups.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Linus Walleij <linus.walleij@linaro.org>, 
+ Icenowy Zheng <icenowy@aosc.io>, 
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Samuel Holland <samuel@sholland.org>, 
+ Martijn Braam <martijn@brixit.nl>, Luca Weiss <luca@z3ntu.xyz>,
+ Bhushan Shah <bshah@kde.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,160 +79,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, agross@kernel.org, sean@poorly.run
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 30, 2020 at 05:26:14PM +0530, Rajendra Nayak wrote:
-> On SDM845 DSI needs to express a perforamnce state
-
-nit: performance
-
-> requirement on a power domain depending on the clock rates.
-> Use OPP table from DT to register with OPP framework and use
-> dev_pm_opp_set_rate() to set the clk/perf state.
-> 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi.h      |  2 ++
->  drivers/gpu/drm/msm/dsi/dsi_cfg.c  |  4 +--
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 58 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 62 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index 4de771d..ba7583c 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -180,10 +180,12 @@ int msm_dsi_runtime_suspend(struct device *dev);
->  int msm_dsi_runtime_resume(struct device *dev);
->  int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host);
->  int dsi_link_clk_set_rate_v2(struct msm_dsi_host *msm_host);
-> +int dsi_link_clk_set_rate_6g_v2(struct msm_dsi_host *msm_host);
->  int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host);
->  int dsi_link_clk_enable_v2(struct msm_dsi_host *msm_host);
->  void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host);
->  void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host);
-> +void dsi_link_clk_disable_6g_v2(struct msm_dsi_host *msm_host);
->  int dsi_tx_buf_alloc_6g(struct msm_dsi_host *msm_host, int size);
->  int dsi_tx_buf_alloc_v2(struct msm_dsi_host *msm_host, int size);
->  void *dsi_tx_buf_get_6g(struct msm_dsi_host *msm_host);
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> index 813d69d..773c4fe 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> @@ -210,9 +210,9 @@ static const struct msm_dsi_host_cfg_ops msm_dsi_6g_host_ops = {
->  };
->  
->  static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_host_ops = {
-> -	.link_clk_set_rate = dsi_link_clk_set_rate_6g,
-> +	.link_clk_set_rate = dsi_link_clk_set_rate_6g_v2,
->  	.link_clk_enable = dsi_link_clk_enable_6g,
-> -	.link_clk_disable = dsi_link_clk_disable_6g,
-> +	.link_clk_disable = dsi_link_clk_disable_6g_v2,
->  	.clk_init_ver = dsi_clk_init_6g_v2,
->  	.tx_buf_alloc = dsi_tx_buf_alloc_6g,
->  	.tx_buf_get = dsi_tx_buf_get_6g,
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 11ae5b8..890531c 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -14,6 +14,7 @@
->  #include <linux/of_graph.h>
->  #include <linux/of_irq.h>
->  #include <linux/pinctrl/consumer.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/spinlock.h>
-> @@ -111,6 +112,9 @@ struct msm_dsi_host {
->  	struct clk *pixel_clk_src;
->  	struct clk *byte_intf_clk;
->  
-> +	struct opp_table *opp_table;
-> +	bool has_opp_table;
-> +
->  	u32 byte_clk_rate;
->  	u32 pixel_clk_rate;
->  	u32 esc_clk_rate;
-> @@ -537,6 +541,38 @@ int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
->  	return 0;
->  }
->  
-> +int dsi_link_clk_set_rate_6g_v2(struct msm_dsi_host *msm_host)
-> +{
-> +	int ret;
-> +	struct device *dev = &msm_host->pdev->dev;
-> +
-> +	DBG("Set clk rates: pclk=%d, byteclk=%d",
-> +		msm_host->mode->clock, msm_host->byte_clk_rate);
-> +
-> +	ret = dev_pm_opp_set_rate(dev, msm_host->byte_clk_rate);
-> +	if (ret) {
-> +		pr_err("%s: dev_pm_opp_set_rate failed %d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_set_rate(msm_host->pixel_clk, msm_host->pixel_clk_rate);
-> +	if (ret) {
-> +		pr_err("%s: Failed to set rate pixel clk, %d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	if (msm_host->byte_intf_clk) {
-> +		ret = clk_set_rate(msm_host->byte_intf_clk,
-> +				   msm_host->byte_clk_rate / 2);
-> +		if (ret) {
-> +			pr_err("%s: Failed to set rate byte intf clk, %d\n",
-> +			       __func__, ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-
-xThis function is essentially the same as dsi_link_clk_set_rate_6g(),
-except for the use of dev_pm_opp_set_rate() instead of clk_set_rate().
-
-IIUC dev_pm_opp_set_rate() just calls clk_set_rate() if the device has
-no OPP table. If that's correct you could just call dev_pm_opp_set_rate()
-in dsi_link_clk_set_rate_6g().
-
-	/*
-    	* For IO devices which require an OPP on some platforms/SoCs
-    	* while just needing to scale the clock on some others
-    	* we look for empty OPP tables with just a clock handle and
-    	* scale only the clk. This makes dev_pm_opp_set_rate()
-	* equivalent to a clk_set_rate()
-	*/
-	if (!_get_opp_count(opp_table)) {
-		ret = _generic_set_opp_clk_only(dev, clk, freq);
-		goto put_opp_table;
-	}
-
-https://elixir.bootlin.com/linux/v5.7.6/source/drivers/opp/core.c#L855
-
->  int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host)
->  {
-> @@ -665,6 +701,13 @@ void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host)
->  	clk_disable_unprepare(msm_host->byte_clk);
->  }
->  
-> +void dsi_link_clk_disable_6g_v2(struct msm_dsi_host *msm_host)
-> +{
-> +	/* Drop the performance state vote */
-> +	dev_pm_opp_set_rate(&msm_host->pdev->dev, 0);
-
-Couldn't you just do this in dsi_link_clk_disable_6g() ?
-
-> +	dsi_link_clk_disable_6g(msm_host);
-> +}
-> +
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBKdWwgMSwgMjAyMCBhdCA2OjMwIFBNIE9uZMWZZWogSmlybWFuIDxtZWdvdXNAbWVn
+b3VzLmNvbT4gd3JvdGU6Cj4gT24gV2VkLCBKdWwgMDEsIDIwMjAgYXQgMDU6MjU6MzJQTSArMDIw
+MCwgU2FtIFJhdm5ib3JnIHdyb3RlOgo+ID4gSGkgT25kcmVqLgo+ID4KPiA+IE9uIFdlZCwgSnVs
+IDAxLCAyMDIwIGF0IDEyOjMxOjEzUE0gKzAyMDAsIE9uZHJlaiBKaXJtYW4gd3JvdGU6Cj4gPiA+
+IFRoaXMgcGF0Y2hzZXQgYWRkcyBzdXBwb3J0IGZvciB0aGUgTENEIHBhbmVsIG9mIFBpbmVQaG9u
+ZS4KPiA+ID4KPiA+ID4gSSd2ZSB0ZXN0ZWQgdGhpcyBvbiBQaW5lUGhvbmUgMS4wIGFuZCAxLjIu
+Cj4gPiA+Cj4gPiA+IFBsZWFzZSB0YWtlIGEgbG9vay4KPiA+ID4KPiA+ID4gdGhhbmsgeW91IGFu
+ZCByZWdhcmRzLAo+ID4gPiAgIE9uZHJlaiBKaXJtYW4KPiA+ID4KPiA+ID4gQ2hhbmdlcyBpbiB2
+NjoKPiA+ID4gLSBGaXhlZCBzcGFjaW5nIGluIHlhbWwKPiA+ID4gLSBGaXhlZCB3cm9uZyB2Y2Np
+by0+aW92Y2Mgc3VwcGx5IG5hbWUgaW4gdGhlIGJpbmRpbmdzIGRvYwo+ID4gPiAtIEkgbm90aWNl
+ZCB0aGF0IHRoZSBvcmlnaW5hbCBkcml2ZXIgdXNlcyBhIGRlbGF5IG9mIDIwbXMgaW4gdGhlIGlu
+aXQKPiA+ID4gICBmdW5jdGlvbiB0byBhY2hpZXZlIGEgY29tYmluZWQgdG90YWwgb2YgMTIwbXMg
+cmVxdWlyZWQgZnJvbSBwb3N0LXJlc2V0Cj4gPiA+ICAgdG8gZGlzcGxheV9vbi4gSSd2ZSBhZGRl
+ZCBhIHNpbWlsYXIgZGVsYXkgdG8geGJkNTk5X2luaXQsIHNvIHRoYXQKPiA+ID4gICB4YmQ1OTkg
+cGFuZWwgYWxzbyBoYXMgdGhlIHJpZ2h0IHRpbWluZy4gKHBhdGNoIDkpCj4gPiA+IC0gdjUtPnY2
+IGRpZmY6IGh0dHBzOi8vbWVnb3VzLmNvbS9kbC90bXAvdjUtdjYucGF0Y2gKPiA+ID4gLSBBZGRl
+ZCByZXZpZXcvYWNrIHRhZ3MKPiA+ID4gLSBMZWFybmVkIHRvIHJ1biBkdF9iaW5kaW5nX2NoZWNr
+IGJ5IG15c2VsZiA7KQo+ID4gVGhlIHBhdGNoLXNldCBkb2VzIG5vdCBhcHBseSBjbGVhbiBvbiB0
+b3Agb2YgZHJtLW1pc2MtbmV4dCAtIGR1ZSB0bwo+ID4gdnJlZnJlc2ggcmVtb3ZhbC4KPiA+IFBs
+ZWFzZSByZS1zcGluLgo+Cj4gU29ycnkgZm9yIHRoYXQuIFJlYmFzZWQgYW5kIHJldGVzdGVkLgoK
+U2FtIHdpbGwgeW91IGFwcGx5IGl0PyBJIHdhcyBpbiB0aGUgbWlkZGxlIG9mIGFwcGx5aW5nIGFu
+ZCByYW4gaW50byB0aGUgc2FtZQppc3N1ZSA6RAoKWW91cnMsCkxpbnVzIFdhbGxlaWoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
