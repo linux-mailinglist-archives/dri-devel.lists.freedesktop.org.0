@@ -2,71 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8CC211CD8
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421C0211CEF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B576EA83;
-	Thu,  2 Jul 2020 07:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EAA6EA8A;
+	Thu,  2 Jul 2020 07:24:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3C46E961
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 17:04:57 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id g13so18978593qtv.8
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 10:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=CN+fMZHjRz6cQZ6By1KV3J/CB1Q6jvTnPN3oKiEz6+E=;
- b=ewfXnkAqVEr73ZZ+221DRIwPImdL/mndMfhyS721xbdHnW1G6sWfGUF6mriUkt0j8b
- WSNomjCz0BZF9dJrkASd4vEFnELdLcrDW58mTCvuTlczzQNnr1moiHmv6uxL/eGNKS9l
- J6dxAmh9SUqKqEY7zvajME5nA+2fntrOAKJwTx7MuNZcAYlhGD2mzOxYZ1sm9Tl1sKTN
- yyqhmKTAetfeCecpjZqDaHbvwYalF9oHml8/h9LYK1a3vvjEr+om8x4NEumvHc+j3bEp
- zKSE664voxBy2j4jJRLzf1AVB7zvdclcOxtPBRv2I92u3DlV1T0VpppKA1D6FqQeTe7X
- yIHw==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C476E973
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 17:10:13 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id g75so23182528wme.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 10:10:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:autocrypt:message-id:date
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iAmyBjucUvreoEWUkZI20ibgdJNiBgFXx30xaPRx/xA=;
+ b=XQeaH6yImlrDYYtsz2DYYzhZxlJeHDLUCXIQgmDtV4cDt+Vg9j1u7dzc3i0Ztyu2eK
+ pENtT9q/u4vBspnrp0m79+afEEjVjqFE77KyHErg4GkdaDme6bkBkSogsJLMqqhZZ6I8
+ kZ/iymGAY/Mpas6XlQpSdNn40Q+x13ItoIe8EV/ZURuiBFBSiPucrjg3empJwZlUAS3m
+ nH5QPfqfZqrXJvMriu7434qy9r3qdezjm+c4LqNHZJqXyeMmXmtSctd5NyMznTOAtHCP
+ X1/8AYdfLP4YSw3kPCaqutzuIDdWEIRuMcodEFPJBssvk8PBCHpp0iZJZj1GDXZaOjFF
+ jzlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CN+fMZHjRz6cQZ6By1KV3J/CB1Q6jvTnPN3oKiEz6+E=;
- b=H1CFGU9SudnG5MGJaQiZ/JS1K1O39EYNZVbGJg9FEiV9YiPf67zVfJCtQwN0aK8+N1
- Pl2v2F2STrrXGCm6ycvJuSyiRCUwfXx3en0NFplp7ZPK/8iM7MXjoxrolL2jBav0POrS
- eqNeZpzyvaUCffhnq4YUVnl4CsNtpIiMkurH89bckJDx5dURsv/KQGVgdPmkiYYx7AAm
- /Oefq/YRl2MiNHRSyyJCLFKWY/E0hIxhZawwfaM7PwnZNWKWLXF4OEpAyW8JYHk0irCG
- jAg7KuZWUwnCwSDzI6FkqcLzKGAwblcAnN+59bNrwSbwQVm3MT6eXuWWUUIEUc8ku7WE
- S2Bg==
-X-Gm-Message-State: AOAM53098gck6HssRDwIczsGHWG7tbaeKVAGi1R5zxNi+45bKw+8Fvt3
- TDhN10iDAPSSbakUeOpBcfW3Gg==
-X-Google-Smtp-Source: ABdhPJwXo9kSffKLrPPQIOK7rHILdvBMLIyVKGq9lzhY/udOhfuTBecFsZrL0mUqUoFypHQql+VjjA==
-X-Received: by 2002:ac8:378f:: with SMTP id d15mr26658349qtc.256.1593623096432; 
- Wed, 01 Jul 2020 10:04:56 -0700 (PDT)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id q5sm7041265qtf.12.2020.07.01.10.04.55
+ bh=iAmyBjucUvreoEWUkZI20ibgdJNiBgFXx30xaPRx/xA=;
+ b=n9yejbdbf3wcSTzV9qA876PP4TEhQ91DUfZ7AjYDnXTUJjbJIgpS8RbBDVxrYJtyFW
+ kS4e57Pp13CUwwho6odB0CMxfUr/CBvtHblqft4Knm9YdVyg2wlIy+qweRg4+TvOjeVV
+ oeZXGJ6wtU92ZOOxsJas9Crkg2EJJp+UzwB5n7BpN+4hrFp4Ddtiut7xuEKdnHLv2w/c
+ 3IxF6N+7GuMww4oplrUk3CySZSmpKGlEILzYCAd5NjqwAgJk0jiNrdtQjNEyFg+LSh4S
+ zduJOxiS6e3DawrztSSbBivZXBPHlkMaRXkg3Kiz+KWKOW0Ibw2VFvKybvFoWkXhzJG8
+ 0avA==
+X-Gm-Message-State: AOAM5305uby8DY7geXWBb79A8qkG+ED0GIQ8Nmuh4Vfs6rXzg5jitb54
+ jkJzjvmifAloyLQf5ZNHga2K6Q==
+X-Google-Smtp-Source: ABdhPJxRoAZIiKa74FbFTUsZV5KAVRLjCbHIpX1rcXcl+CjO9DLVFf0U2JKCm6Ho81pYAcVBNxxOpg==
+X-Received: by 2002:a1c:5986:: with SMTP id
+ n128mr15892330wmb.112.1593623412008; 
+ Wed, 01 Jul 2020 10:10:12 -0700 (PDT)
+Received: from [10.44.66.8] ([212.45.67.2])
+ by smtp.googlemail.com with ESMTPSA id a15sm9444906wrh.54.2020.07.01.10.10.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 10:04:55 -0700 (PDT)
-Subject: Re: [RFC PATCH] interconnect: qcom: add functions to query addr/cmds
- for a path
-To: linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Georgi Djakov <georgi.djakov@linaro.org>, kbuild test robot <lkp@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- "open list:INTERCONNECT API" <linux-pm@vger.kernel.org>
-References: <20200701042528.12321-1-jonathan@marek.ca>
- <20200701165628.GA19996@jcrouse1-lnx.qualcomm.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <7c1f9635-f4d5-a977-905d-3d7cc9d74ec2@marek.ca>
-Date: Wed, 1 Jul 2020 13:03:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Wed, 01 Jul 2020 10:10:11 -0700 (PDT)
+Subject: Re: [PATCH v4 27/37] interconnect: Relax requirement in
+ of_icc_get_from_provider()
+To: Dmitry Osipenko <digetx@gmail.com>
+References: <20200609131404.17523-1-digetx@gmail.com>
+ <20200609131404.17523-28-digetx@gmail.com>
+From: Georgi Djakov <georgi.djakov@linaro.org>
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+ KEmKjLDvB0pePJkdTw==
+Message-ID: <3b410ea3-26d3-6f7a-213c-40dbabbde8d1@linaro.org>
+Date: Wed, 1 Jul 2020 20:10:09 +0300
 MIME-Version: 1.0
-In-Reply-To: <20200701165628.GA19996@jcrouse1-lnx.qualcomm.com>
+In-Reply-To: <20200609131404.17523-28-digetx@gmail.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,212 +114,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, linux-tegra@vger.kernel.org,
+ Peter De Schrijver <pdeschrijver@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/1/20 12:56 PM, Jordan Crouse wrote:
-> On Wed, Jul 01, 2020 at 12:25:25AM -0400, Jonathan Marek wrote:
->> The a6xx GMU can vote for ddr and cnoc bandwidth, but it needs to be able
->> to query the interconnect driver for bcm addresses and commands.
->>
->> I'm not sure what is the best way to go about implementing this, this is
->> what I came up with.
->>
->> I included a quick example of how this can be used by the a6xx driver to
->> fill out the GMU bw_table (two ddr bandwidth levels in this example, note
->> this would be using the frequency table in dts and not hardcoded values).
-> 
-> I would like to add my enthusiasm for this idea but I'm not much of an
-> interconnect or RPMh expert so I would defer to them to be sure that the APIs
-> are robust enough to cover all the corner cases.
-> 
->> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 20 ++++-------
->>   drivers/interconnect/qcom/icc-rpmh.c  | 50 +++++++++++++++++++++++++++
->>   include/soc/qcom/icc.h                | 11 ++++++
->>   3 files changed, 68 insertions(+), 13 deletions(-)
->>   create mode 100644 include/soc/qcom/icc.h
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> index ccd44d0418f8..1fb8f0480be3 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> @@ -4,6 +4,7 @@
->>   #include <linux/completion.h>
->>   #include <linux/circ_buf.h>
->>   #include <linux/list.h>
->> +#include <soc/qcom/icc.h>
->>   
->>   #include "a6xx_gmu.h"
->>   #include "a6xx_gmu.xml.h"
->> @@ -320,24 +321,18 @@ static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
->>   	msg->cnoc_cmds_data[1][2] =  0x60000001;
->>   }
->>   
->> -static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
->> +static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg, struct icc_path *path)
->>   {
->>   	/*
->>   	 * Send a single "off" entry just to get things running
->>   	 * TODO: bus scaling
->>   	 */
->> -	msg->bw_level_num = 1;
->> -
->> -	msg->ddr_cmds_num = 3;
->> +	msg->bw_level_num = 2;
->>   	msg->ddr_wait_bitmask = 0x01;
-> 
-> We're going to need a API function for the wait bitmask too.
->   
->> -	msg->ddr_cmds_addrs[0] = 0x50000;
->> -	msg->ddr_cmds_addrs[1] = 0x50004;
->> -	msg->ddr_cmds_addrs[2] = 0x5007c;
->> -
->> -	msg->ddr_cmds_data[0][0] =  0x40000000;
->> -	msg->ddr_cmds_data[0][1] =  0x40000000;
->> -	msg->ddr_cmds_data[0][2] =  0x40000000;
->> +	msg->ddr_cmds_num = qcom_icc_query_addr(path, msg->ddr_cmds_addrs);
->> +	qcom_icc_query_cmd(path, msg->ddr_cmds_data[0], 0, 0);
->> +	qcom_icc_query_cmd(path, msg->ddr_cmds_data[1], 0, 7216000);
->>   
->>   	/*
->>   	 * These are the CX (CNOC) votes - these are used by the GMU but the
->> @@ -388,7 +383,6 @@ static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
->>   	msg->cnoc_cmds_data[1][2] =  0x60000001;
->>   }
->>   
->> -
->>   static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
->>   {
->>   	struct a6xx_hfi_msg_bw_table msg = { 0 };
->> @@ -400,7 +394,7 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
->>   	else if (adreno_is_a640(adreno_gpu))
->>   		a640_build_bw_table(&msg);
->>   	else if (adreno_is_a650(adreno_gpu))
->> -		a650_build_bw_table(&msg);
->> +		a650_build_bw_table(&msg, adreno_gpu->base.icc_path);
->>   	else
->>   		a6xx_build_bw_table(&msg);
->>   
->> diff --git a/drivers/interconnect/qcom/icc-rpmh.c b/drivers/interconnect/qcom/icc-rpmh.c
->> index 3ac5182c9ab2..3ce2920330f9 100644
->> --- a/drivers/interconnect/qcom/icc-rpmh.c
->> +++ b/drivers/interconnect/qcom/icc-rpmh.c
->> @@ -9,6 +9,7 @@
->>   
->>   #include "bcm-voter.h"
->>   #include "icc-rpmh.h"
->> +#include "../internal.h"
->>   
->>   /**
->>    * qcom_icc_pre_aggregate - cleans up stale values from prior icc_set
->> @@ -92,6 +93,55 @@ int qcom_icc_set(struct icc_node *src, struct icc_node *dst)
->>   }
->>   EXPORT_SYMBOL_GPL(qcom_icc_set);
->>   
->> +static u32 bcm_query(struct qcom_icc_bcm *bcm, u64 sum_avg, u64 max_peak)
->> +{
->> +	u64 temp, agg_peak = 0;
->> +	int i;
->> +
->> +	for (i = 0; i < bcm->num_nodes; i++) {
->> +		temp = max_peak * bcm->aux_data.width;
->> +		do_div(temp, bcm->nodes[i]->buswidth);
->> +		agg_peak = max(agg_peak, temp);
->> +	}
->> +
->> +	temp = agg_peak * 1000ULL;
->> +	do_div(temp, bcm->aux_data.unit);
->> +
->> +	// TODO vote_x
->> +
->> +	return BCM_TCS_CMD(true, temp != 0, 0, temp);
->> +}
->> +
->> +int qcom_icc_query_addr(struct icc_path *path, u32 *addr)
-> 
-> The leaf driver won't know the size of the path, so we'll likely need to kmalloc
-> and return the array or allow addr to be NULL and have the leaf driver do the
-> allocation itself once it knows what k is.
-> 
-
-In the a6xx gpu case, the a6xx_hfi_msg_bw_table has a fixed array size 
-(allows up to 8 commands for ddr and 6 for cnoc), so there shouldn't be 
-a need for any allocation.
-
-Allowing addr to be NULL to get the # of addrs/cmds (so the a6xx driver 
-can bail out if it can't fit, although that should never happen) would 
-be OK (or having an array size parameter so the function can return an 
-error), but IMO not needed for the "qcom_icc_query_cmd" function below, 
-since it returns the same number of commands the "qcom_icc_query_addr" 
-returns addresses.
-
->> +{
->> +	struct qcom_icc_node *qn;
->> +	int i, j, k = 0;
->> +
->> +	for (i = 0; i < path->num_nodes; i++) {
->> +		qn = path->reqs[i].node->data;
->> +		for (j = 0; j < qn->num_bcms; j++, k++)
->> +			addr[k] = qn->bcms[j]->addr;
->> +	}
->> +
->> +	return k;
->> +}
->> +EXPORT_SYMBOL_GPL(qcom_icc_query_addr);
->> +
->> +int qcom_icc_query_cmd(struct icc_path *path, u32 *cmd, u64 avg, u64 max)
->> +{
->> +	struct qcom_icc_node *qn;
->> +	int i, j, k = 0;
->> +
->> +	for (i = 0; i < path->num_nodes; i++) {
->> +		qn = path->reqs[i].node->data;
->> +		for (j = 0; j < qn->num_bcms; j++, k++)
->> +			cmd[k] = bcm_query(qn->bcms[j], avg, max);
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> Same as above.  When downstream did this for their old bespoke bus API they had
-> one function returns a struct with addrs / commands / wait bitmask.
-> 
-> I don't mind splitting up the function, but either way something is going to
-> have to query the number of commands in the path and allocate the buffers.
-> 
-> Jordan
-> 
->> +EXPORT_SYMBOL_GPL(qcom_icc_query_cmd);
->> +
->>   /**
->>    * qcom_icc_bcm_init - populates bcm aux data and connect qnodes
->>    * @bcm: bcm to be initialized
->> diff --git a/include/soc/qcom/icc.h b/include/soc/qcom/icc.h
->> new file mode 100644
->> index 000000000000..8d0ddde49739
->> --- /dev/null
->> +++ b/include/soc/qcom/icc.h
->> @@ -0,0 +1,11 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +
->> +#ifndef __SOC_QCOM_ICC_H__
->> +#define __SOC_QCOM_ICC_H__
->> +
->> +#include <linux/interconnect.h>
->> +
->> +int qcom_icc_query_addr(struct icc_path *path, u32 *addr);
->> +int qcom_icc_query_cmd(struct icc_path *path, u32 *cmd, u64 avg, u64 max);
->> +
->> +#endif /* __SOC_QCOM_ICC_H__ */
->> -- 
->> 2.26.1
->>
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRG1pdHJ5LAoKT24gNi85LzIwIDE2OjEzLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gRnJv
+bTogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29tPgo+IAo+IFRoaXMgcGF0Y2gg
+cmVsYXhlcyB0aGUgY29uZGl0aW9uIGluIG9mX2ljY19nZXRfZnJvbV9wcm92aWRlcigpIHNvIHRo
+YXQgaXQKPiBpcyBubyBsb25nZXIgcmVxdWlyZWQgdG8gc2V0ICNpbnRlcmNvbm5lY3QtY2VsbHMg
+PSA8MT4gaW4gdGhlIERULiBJbiBjYXNlCj4gb2YgdGhlIGRldmZyZXEgZHJpdmVyIGZvciBleHlu
+b3MtYnVzLCAjaW50ZXJjb25uZWN0LWNlbGxzIGlzIGFsd2F5cyB6ZXJvLgo+IAo+IFNpZ25lZC1v
+ZmYtYnk6IEFydHVyIMWad2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KPiBbZGlnZXR4QGdt
+YWlsLmNvbTogYWRkZWQgY2VsbHNfbnVtIGNoZWNraW5nIGZvciBvZl9pY2NfeGxhdGVfb25lY2Vs
+bCgpXQo+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4K
+CkkgaGF2ZSBhbHJlYWR5IGFwcGxpZWQgdGhlIG9yaWdpbmFsIHBhdGNoIGJ5IEFydHVyLCBzbyBw
+bGVhc2UgbWFrZSB0aGUgY2VsbHNfbnVtCmNoZWNrIGEgc2VwYXJhdGUgcGF0Y2guCgpUaGFua3Ms
+Ckdlb3JnaQoKPiAtLS0KPiAgZHJpdmVycy9pbnRlcmNvbm5lY3QvY29yZS5jIHwgMTEgKysrKysr
+KysrKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkK
+PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29yZS5jIGIvZHJpdmVycy9p
+bnRlcmNvbm5lY3QvY29yZS5jCj4gaW5kZXggZTVmOTk4NzQ0NTAxLi5jYjE0MzQyMWNhNjcgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29yZS5jCj4gKysrIGIvZHJpdmVycy9p
+bnRlcmNvbm5lY3QvY29yZS5jCj4gQEAgLTMzOSw3ICszMzksNyBAQCBzdGF0aWMgc3RydWN0IGlj
+Y19ub2RlICpvZl9pY2NfZ2V0X2Zyb21fcHJvdmlkZXIoc3RydWN0IG9mX3BoYW5kbGVfYXJncyAq
+c3BlYykKPiAgCXN0cnVjdCBpY2Nfbm9kZSAqbm9kZSA9IEVSUl9QVFIoLUVQUk9CRV9ERUZFUik7
+Cj4gIAlzdHJ1Y3QgaWNjX3Byb3ZpZGVyICpwcm92aWRlcjsKPiAgCj4gLQlpZiAoIXNwZWMgfHwg
+c3BlYy0+YXJnc19jb3VudCAhPSAxKQo+ICsJaWYgKCFzcGVjKQo+ICAJCXJldHVybiBFUlJfUFRS
+KC1FSU5WQUwpOwo+ICAKPiAgCW11dGV4X2xvY2soJmljY19sb2NrKTsKPiBAQCAtOTY3LDYgKzk2
+NywxNSBAQCBFWFBPUlRfU1lNQk9MX0dQTChpY2Nfbm9kZXNfcmVtb3ZlKTsKPiAgICovCj4gIGlu
+dCBpY2NfcHJvdmlkZXJfYWRkKHN0cnVjdCBpY2NfcHJvdmlkZXIgKnByb3ZpZGVyKQo+ICB7Cj4g
+KwlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wID0gcHJvdmlkZXItPmRldi0+b2Zfbm9kZTsKPiArCXUz
+MiBjZWxsc19udW07Cj4gKwlpbnQgZXJyOwo+ICsKPiArCWVyciA9IG9mX3Byb3BlcnR5X3JlYWRf
+dTMyKG5wLCAiI2ludGVyY29ubmVjdC1jZWxscyIsICZjZWxsc19udW0pOwo+ICsJaWYgKFdBUk5f
+T04oZXJyKSkKPiArCQlyZXR1cm4gZXJyOwo+ICsJaWYgKFdBUk5fT04ocHJvdmlkZXItPnhsYXRl
+ID09IG9mX2ljY194bGF0ZV9vbmVjZWxsICYmIGNlbGxzX251bSAhPSAxKSkKPiArCQlyZXR1cm4g
+LUVJTlZBTDsKPiAgCWlmIChXQVJOX09OKCFwcm92aWRlci0+c2V0KSkKPiAgCQlyZXR1cm4gLUVJ
+TlZBTDsKPiAgCWlmIChXQVJOX09OKCFwcm92aWRlci0+eGxhdGUpKQo+IApfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
