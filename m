@@ -2,37 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588B421039A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 08:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4A22103F8
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 08:34:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1F36E5CE;
-	Wed,  1 Jul 2020 06:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F35F6E5CF;
+	Wed,  1 Jul 2020 06:34:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 244826E5CE
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 06:05:34 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E882556;
- Wed,  1 Jul 2020 08:05:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593583532;
- bh=cAPpglN2xOyZwNaJz5vkuiMr1mKvhjtTzuG3AM4dQE8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ECbJxtpn5Bf0lreo5ytw0i58FSqn/Q+DjU3385U5BWmibEHyHFWi4hXQcCUIF71LZ
- +JtAPl0rw6QB2nOVtpnKaBpo7CyG3IthpvU7caJ8QBc2HBOVb3/vsaDff1DFGO4SN0
- +cXViKtg0hJumrZL+tJyVOBmZ7om/DZkQaBxrcyg=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Subject: [PATCH v2.1 1/8] dt-bindings: media: renesas,
- fcp: Convert binding to YAML
-Date: Wed,  1 Jul 2020 09:05:25 +0300
-Message-Id: <20200701060525.9748-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200701060349.GE5963@pendragon.ideasonboard.com>
-References: <20200701060349.GE5963@pendragon.ideasonboard.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645AD6E5CF
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 06:34:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: aratiu) with ESMTPSA id 557662A4F88
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v9 00/11] Genericize DW MIPI DSI bridge and add i.MX 6
+ driver
+In-Reply-To: <c6f10db1-7f56-a156-36a1-125e764c8c1a@baylibre.com>
+References: <20200609174959.955926-1-adrian.ratiu@collabora.com>
+ <c6f10db1-7f56-a156-36a1-125e764c8c1a@baylibre.com>
+Date: Wed, 01 Jul 2020 09:35:27 +0300
+Message-ID: <87lfk3kaj4.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,95 +40,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Philippe CORNU <philippe.cornu@st.com>, Yannick FERTRE <yannick.fertre@st.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, linux-imx@nxp.com, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29udmVydCB0aGUgUmVuZXNhcyBSLUNhciBGQ1AgdGV4dCBiaW5kaW5nIHRvIFlBTUwuCgpTaWdu
-ZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVzYXNAaWRl
-YXNvbmJvYXJkLmNvbT4KUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVu
-ZXNhc0BnbGlkZXIuYmU+ClJldmlld2VkLWJ5OiBOaWtsYXMgU8O2ZGVybHVuZCA8bmlrbGFzLnNv
-ZGVybHVuZCtyZW5lc2FzQHJhZ25hdGVjaC5zZT4KLS0tCkNoYW5nZXMgc2luY2UgdjI6CgotIFJl
-ZmVyIHRvIHRoZSBjb3JyZWN0IGRldmljZSBpbiB0aGUgY29tbWVudCBhYm92ZSB0aGUgZXhhbXBs
-ZQoKQ2hhbmdlcyBzaW5jZSB2MToKCi0gU2ltcGxpZnkgY29tbWVudHMgb24gY29tcGF0aWJsZSBz
-dHJpbmdzCi0gVXBkYXRlIE1BSU5UQUlORVJTCi0tLQogLi4uL2RldmljZXRyZWUvYmluZGluZ3Mv
-bWVkaWEvcmVuZXNhcyxmY3AudHh0IHwgMzQgLS0tLS0tLS0tLS0KIC4uLi9iaW5kaW5ncy9tZWRp
-YS9yZW5lc2FzLGZjcC55YW1sICAgICAgICAgICB8IDU2ICsrKysrKysrKysrKysrKysrKysKIE1B
-SU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstCiAzIGZp
-bGVzIGNoYW5nZWQsIDU3IGluc2VydGlvbnMoKyksIDM1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1v
-ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9yZW5lc2Fz
-LGZjcC50eHQKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvbWVkaWEvcmVuZXNhcyxmY3AueWFtbAoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9yZW5lc2FzLGZjcC50eHQgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyxmY3AudHh0CmRlbGV0ZWQgZmlsZSBt
-b2RlIDEwMDY0NAppbmRleCA3OWMzNzM5NWIzOTYuLjAwMDAwMDAwMDAwMAotLS0gYS9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyxmY3AudHh0CisrKyAvZGV2
-L251bGwKQEAgLTEsMzQgKzAsMCBAQAotUmVuZXNhcyBSLUNhciBGcmFtZSBDb21wcmVzc2lvbiBQ
-cm9jZXNzb3IgKEZDUCkKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tCi0KLVRoZSBGQ1AgaXMgYSBjb21wYW5pb24gbW9kdWxlIG9mIHZpZGVvIHByb2Nlc3Np
-bmcgbW9kdWxlcyBpbiB0aGUgUmVuZXNhcyBSLUNhcgotR2VuMyBhbmQgUlovRzIgU29Dcy4gSXQg
-cHJvdmlkZXMgZGF0YSBjb21wcmVzc2lvbiBhbmQgZGVjb21wcmVzc2lvbiwgZGF0YQotY2FjaGlu
-ZywgYW5kIGNvbnZlcnNpb24gb2YgQVhJIHRyYW5zYWN0aW9ucyBpbiBvcmRlciB0byByZWR1Y2Ug
-dGhlIG1lbW9yeQotYmFuZHdpZHRoLgotCi1UaGVyZSBhcmUgdGhyZWUgdHlwZXMgb2YgRkNQOiBG
-Q1AgZm9yIENvZGVjIChGQ1BDKSwgRkNQIGZvciBWU1AgKEZDUFYpIGFuZCBGQ1AKLWZvciBGRFAg
-KEZDUEYpLiBUaGVpciBjb25maWd1cmF0aW9uIGFuZCBiZWhhdmlvdXIgZGVwZW5kIG9uIHRoZSBt
-b2R1bGUgdGhleQotYXJlIHBhaXJlZCB3aXRoLiBUaGVzZSBEVCBiaW5kaW5ncyBjdXJyZW50bHkg
-c3VwcG9ydCB0aGUgRkNQViBhbmQgRkNQRi4KLQotIC0gY29tcGF0aWJsZTogTXVzdCBiZSBvbmUg
-b3IgbW9yZSBvZiB0aGUgZm9sbG93aW5nCi0KLSAgIC0gInJlbmVzYXMsZmNwdiIgZm9yIGdlbmVy
-aWMgY29tcGF0aWJsZSAnRkNQIGZvciBWU1AnCi0gICAtICJyZW5lc2FzLGZjcGYiIGZvciBnZW5l
-cmljIGNvbXBhdGlibGUgJ0ZDUCBmb3IgRkRQJwotCi0gLSByZWc6IHRoZSByZWdpc3RlciBiYXNl
-IGFuZCBzaXplIGZvciB0aGUgZGV2aWNlIHJlZ2lzdGVycwotIC0gY2xvY2tzOiBSZWZlcmVuY2Ug
-dG8gdGhlIGZ1bmN0aW9uYWwgY2xvY2sKLQotT3B0aW9uYWwgcHJvcGVydGllczoKLSAtIHBvd2Vy
-LWRvbWFpbnMgOiBwb3dlci1kb21haW4gcHJvcGVydHkgZGVmaW5lZCB3aXRoIGEgcG93ZXIgZG9t
-YWluIHNwZWNpZmllcgotCQkgICB0byByZXNwZWN0aXZlIHBvd2VyIGRvbWFpbi4KLQotCi1EZXZp
-Y2Ugbm9kZSBleGFtcGxlCi0tLS0tLS0tLS0tLS0tLS0tLS0tCi0KLQlmY3B2ZDE6IGZjcEBmZWEy
-ZjAwMCB7Ci0JCWNvbXBhdGlibGUgPSAicmVuZXNhcyxmY3B2IjsKLQkJcmVnID0gPDAgMHhmZWEy
-ZjAwMCAwIDB4MjAwPjsKLQkJY2xvY2tzID0gPCZjcGcgQ1BHX01PRCA2MDI+OwotCQlwb3dlci1k
-b21haW5zID0gPCZzeXNjIFI4QTc3OTVfUERfQTNWUD47Ci0JfTsKZGlmZiAtLWdpdCBhL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9yZW5lc2FzLGZjcC55YW1sIGIvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnlhbWwKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi5lYzBjYjQyY2E0NjQKLS0tIC9k
-ZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVu
-ZXNhcyxmY3AueWFtbApAQCAtMCwwICsxLDU2IEBACisjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
-OiAoR1BMLTIuMCBPUiBCU0QtMi1DbGF1c2UpCislWUFNTCAxLjIKKy0tLQorJGlkOiBodHRwOi8v
-ZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9tZWRpYS9yZW5lc2FzLGZjcC55YW1sIworJHNjaGVtYTog
-aHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCisKK3RpdGxlOiBS
-ZW5lc2FzIFItQ2FyIEZyYW1lIENvbXByZXNzaW9uIFByb2Nlc3NvciAoRkNQKQorCittYWludGFp
-bmVyczoKKyAgLSBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2Fy
-ZC5jb20+CisKK2Rlc2NyaXB0aW9uOiB8CisgIFRoZSBGQ1AgaXMgYSBjb21wYW5pb24gbW9kdWxl
-IG9mIHZpZGVvIHByb2Nlc3NpbmcgbW9kdWxlcyBpbiB0aGUgUmVuZXNhcworICBSLUNhciBHZW4z
-IGFuZCBSWi9HMiBTb0NzLiBJdCBwcm92aWRlcyBkYXRhIGNvbXByZXNzaW9uIGFuZCBkZWNvbXBy
-ZXNzaW9uLAorICBkYXRhIGNhY2hpbmcsIGFuZCBjb252ZXJzaW9uIG9mIEFYSSB0cmFuc2FjdGlv
-bnMgaW4gb3JkZXIgdG8gcmVkdWNlIHRoZQorICBtZW1vcnkgYmFuZHdpZHRoLgorCisgIFRoZXJl
-IGFyZSB0aHJlZSB0eXBlcyBvZiBGQ1A6IEZDUCBmb3IgQ29kZWMgKEZDUEMpLCBGQ1AgZm9yIFZT
-UCAoRkNQVikgYW5kCisgIEZDUCBmb3IgRkRQIChGQ1BGKS4gVGhlaXIgY29uZmlndXJhdGlvbiBh
-bmQgYmVoYXZpb3VyIGRlcGVuZCBvbiB0aGUgbW9kdWxlCisgIHRoZXkgYXJlIHBhaXJlZCB3aXRo
-LiBUaGVzZSBEVCBiaW5kaW5ncyBjdXJyZW50bHkgc3VwcG9ydCB0aGUgRkNQViBhbmQgRkNQRi4K
-KworcHJvcGVydGllczoKKyAgY29tcGF0aWJsZToKKyAgICBlbnVtOgorICAgICAgLSByZW5lc2Fz
-LGZjcHYgIyBGQ1AgZm9yIFZTUAorICAgICAgLSByZW5lc2FzLGZjcGYgIyBGQ1AgZm9yIEZEUAor
-CisgIHJlZzoKKyAgICBtYXhJdGVtczogMQorCisgIGNsb2NrczoKKyAgICBtYXhJdGVtczogMQor
-CisgIHBvd2VyLWRvbWFpbnM6CisgICAgbWF4SXRlbXM6IDEKKworcmVxdWlyZWQ6CisgIC0gY29t
-cGF0aWJsZQorICAtIHJlZworICAtIGNsb2NrcworCithZGRpdGlvbmFsUHJvcGVydGllczogZmFs
-c2UKKworZXhhbXBsZXM6CisgICMgUjhBNzc5NSAoUi1DYXIgSDMpIEZDUCBmb3IgVlNQLUQxCisg
-IC0gfAorICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9jbG9jay9yZW5lc2FzLWNwZy1tc3NyLmg+
-CisgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL3Bvd2VyL3I4YTc3OTUtc3lzYy5oPgorCisgICAg
-ZmNwQGZlYTJmMDAwIHsKKyAgICAgICAgY29tcGF0aWJsZSA9ICJyZW5lc2FzLGZjcHYiOworICAg
-ICAgICByZWcgPSA8MHhmZWEyZjAwMCAweDIwMD47CisgICAgICAgIGNsb2NrcyA9IDwmY3BnIENQ
-R19NT0QgNjAyPjsKKyAgICAgICAgcG93ZXItZG9tYWlucyA9IDwmc3lzYyBSOEE3Nzk1X1BEX0FM
-V0FZU19PTj47CisgICAgfTsKKy4uLgpkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJ
-TkVSUwppbmRleCA2MzRkMmMzZDYyMWEuLmQ2OWU0OTA2N2QxYSAxMDA2NDQKLS0tIGEvTUFJTlRB
-SU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTEwNzAwLDcgKzEwNzAwLDcgQEAgTDoJbGludXgt
-bWVkaWFAdmdlci5rZXJuZWwub3JnCiBMOglsaW51eC1yZW5lc2FzLXNvY0B2Z2VyLmtlcm5lbC5v
-cmcKIFM6CVN1cHBvcnRlZAogVDoJZ2l0IGdpdDovL2xpbnV4dHYub3JnL21lZGlhX3RyZWUuZ2l0
-Ci1GOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyxmY3Au
-dHh0CitGOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyxm
-Y3AueWFtbAogRjoJZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yY2FyLWZjcC5jCiBGOglpbmNsdWRl
-L21lZGlhL3JjYXItZmNwLmgKIAotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Neil,
+
+On Mon, 29 Jun 2020, Neil Armstrong <narmstrong@baylibre.com> 
+wrote:
+> Hi Adrian, 
+> 
+> On 09/06/2020 19:49, Adrian Ratiu wrote: 
+>> [Re-submitting to cc dri-devel, sorry about the noise]  Hello 
+>> all,  v9 cleanly applies on top of latest next-20200609 tree. 
+>> v9 does not depend on other patches as the last binding doc has 
+>> been merged.   All feedback up to this point has been 
+>> addressed. Specific details in individual patch changelogs. 
+>> The biggest changes are the deprecation of the Synopsys DW 
+>> bridge bind() API in favor of of_drm_find_bridge() and .attach 
+>> callbacks, the addition of a TODO entry which outlines future 
+>> planned bridge driver refactorings and a reordering of some 
+>> i.MX 6 patches to appease checkpatch.   The idea behind the 
+>> TODO is to get this regmap and i.MX 6 driver merged and then do 
+>> the rest of refactorings in-tree because it's easier and the 
+>> refactorings themselves are out-of-scope of this series which 
+>> is adding i.MX 6 support and is quite big already, so please, 
+>> if there are more refactoring ideas, let's add them to the TODO 
+>> doc. :) I intend to tackle those after this series is merged to 
+>> avoid two complex inter-dependent simultaneous series. 
+> 
+> This has been around here for a long time and you seem to have 
+> addressed all the reviews. 
+> 
+>>  As always more testing is welcome especially on Rockchip and 
+>> STM SoCs. 
+> 
+> It has been tested on STM, but I'd like a feedback on RK 
+> platform before applying the bridge parts. 
+> 
+> Can the imx & stm patches be applied separately ? 
+>
+
+Yes the IMX and STM patches can be applied separately, they just 
+both depend on the common regmap patches.
+
+The binding API removal change which directly touches RK can also 
+be applied separately, but unfortunately I do not have access to a 
+RK board with a DSI display to test it (or the bridge regmap logic 
+on RK btw...), I just "eye-balled" the RK code based on the public 
+docs and it LGTM.
+
+> Neil
+>
+>> 
+>> Big thank you to everyone who has contributed to this up to now,
+>> Adrian
+>> 
+>> Adrian Ratiu (11):
+>>   drm: bridge: dw_mipi_dsi: add initial regmap infrastructure
+>>   drm: bridge: dw_mipi_dsi: abstract register access using reg_fields
+>>   drm: bridge: dw_mipi_dsi: add dsi v1.01 support
+>>   drm: bridge: dw_mipi_dsi: remove bind/unbind API
+>>   dt-bindings: display: add i.MX6 MIPI DSI host controller doc
+>>   ARM: dts: imx6qdl: add missing mipi dsi properties
+>>   drm: imx: Add i.MX 6 MIPI DSI host platform driver
+>>   drm: stm: dw-mipi-dsi: let the bridge handle the HW version check
+>>   drm: bridge: dw-mipi-dsi: split low power cfg register into fields
+>>   drm: bridge: dw-mipi-dsi: fix bad register field offsets
+>>   Documentation: gpu: todo: Add dw-mipi-dsi consolidation plan
+>> 
+>>  .../display/imx/fsl,mipi-dsi-imx6.yaml        | 112 +++
+>>  Documentation/gpu/todo.rst                    |  25 +
+>>  arch/arm/boot/dts/imx6qdl.dtsi                |   8 +
+>>  drivers/gpu/drm/bridge/synopsys/Kconfig       |   1 +
+>>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 713 ++++++++++++------
+>>  drivers/gpu/drm/imx/Kconfig                   |   8 +
+>>  drivers/gpu/drm/imx/Makefile                  |   1 +
+>>  drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c        | 399 ++++++++++
+>>  .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   7 +-
+>>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |  16 +-
+>>  10 files changed, 1059 insertions(+), 231 deletions(-)
+>>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+>>  create mode 100644 drivers/gpu/drm/imx/dw_mipi_dsi-imx6.c
+>> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
