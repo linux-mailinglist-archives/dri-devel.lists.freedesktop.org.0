@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6D211CB6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DC1211CCB
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0446EA4E;
-	Thu,  2 Jul 2020 07:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2F76EA71;
+	Thu,  2 Jul 2020 07:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566B46E1D7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5EE96E1D7
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 10:31:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593599492; bh=d01KMfiwzeoisglB/Cqi2m/MksDraHInx82M1f3A4AM=;
+ t=1593599493; bh=iH/sYnHd3fpAQqX8wW9/Px4Scorntjn+T6naL8p3KtY=;
  h=From:To:Cc:Subject:Date:References:From;
- b=Gifwo9IlizZraP++g7fxaRVhefFdSUYC88bZmUbpa8t/gEnzliNnDv4zJkYcB4l2r
- MK4CTX2OzESfRq7iHZ0ZnsKJaKn7b12At5OgkiPtHqmXrIbCMsXiAzwFPMZN0R+7nO
- +hg17nsGHYfLXNJgs1zZ+8x4C/eip0taAhEu5syE=
+ b=oZDjWhQ4p17TfIpQcJsqr++Y3D0RTsRB4fsFDKGEs9zLEDczVJk6kJvzj0aFBLVa1
+ 1veFSMXG7p0whXjpuRU8Sio/PwuvnCAN+YKvwWOAy9Dkh9dMWhdlvJi8Ws8Z59qWXs
+ WY8ZSZS1wp6Aug753BslWu31a5Nl4UQlj27UGUAs=
 From: Ondrej Jirman <megous@megous.com>
 To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
@@ -26,10 +26,9 @@ To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v6 08/13] drm/panel: st7703: Move generic part of init
- sequence to enable callback
-Date: Wed,  1 Jul 2020 12:31:21 +0200
-Message-Id: <20200701103126.1512615-9-megous@megous.com>
+Subject: [PATCH v6 09/13] drm/panel: st7703: Add support for Xingbangda XBD599
+Date: Wed,  1 Jul 2020 12:31:22 +0200
+Message-Id: <20200701103126.1512615-10-megous@megous.com>
 In-Reply-To: <20200701103126.1512615-1-megous@megous.com>
 References: <20200701103126.1512615-1-megous@megous.com>
 MIME-Version: 1.0
@@ -56,82 +55,251 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calling sleep out and display on is a controller specific part
-of the initialization process. Move it out of the panel specific
-initialization function to the enable callback.
+Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI LCD panel used in
+PinePhone. Add support for it.
 
+Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 Signed-off-by: Ondrej Jirman <megous@megous.com>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 33 ++++++++++---------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 200 +++++++++++++++++-
+ 1 file changed, 198 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index d03aab10cfef..cdbf7dfb4dd4 100644
+index cdbf7dfb4dd4..5cd5503f894f 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -84,8 +84,6 @@ static inline struct st7703 *panel_to_st7703(struct drm_panel *panel)
- static int jh057n_init_sequence(struct st7703 *ctx)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
--	struct device *dev = ctx->dev;
--	int ret;
+@@ -39,10 +39,11 @@
+ #define ST7703_CMD_SETEXTC	 0xB9
+ #define ST7703_CMD_SETMIPI	 0xBA
+ #define ST7703_CMD_SETVDC	 0xBC
+-#define ST7703_CMD_UNKNOWN0	 0xBF
++#define ST7703_CMD_UNKNOWN_BF	 0xBF
+ #define ST7703_CMD_SETSCR	 0xC0
+ #define ST7703_CMD_SETPOWER	 0xC1
+ #define ST7703_CMD_SETPANEL	 0xCC
++#define ST7703_CMD_UNKNOWN_C6	 0xC6
+ #define ST7703_CMD_SETGAMMA	 0xE0
+ #define ST7703_CMD_SETEQ	 0xE3
+ #define ST7703_CMD_SETGIP1	 0xE9
+@@ -109,7 +110,7 @@ static int jh057n_init_sequence(struct st7703 *ctx)
+ 	msleep(20);
  
- 	/*
- 	 * Init sequence was supplied by the panel vendor. Most of the commands
-@@ -136,20 +134,7 @@ static int jh057n_init_sequence(struct st7703 *ctx)
- 			      0x18, 0x00, 0x09, 0x0E, 0x29, 0x2D, 0x3C, 0x41,
- 			      0x37, 0x07, 0x0B, 0x0D, 0x10, 0x11, 0x0F, 0x10,
- 			      0x11, 0x18);
--	msleep(20);
--
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		DRM_DEV_ERROR(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	/* Panel is operational 120 msec after reset */
--	msleep(60);
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret)
--		return ret;
+ 	dsi_generic_write_seq(dsi, ST7703_CMD_SETVCOM, 0x3F, 0x3F);
+-	dsi_generic_write_seq(dsi, ST7703_CMD_UNKNOWN0, 0x02, 0x11, 0x00);
++	dsi_generic_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
+ 	dsi_generic_write_seq(dsi, ST7703_CMD_SETGIP1,
+ 			      0x82, 0x10, 0x06, 0x05, 0x9E, 0x0A, 0xA5, 0x12,
+ 			      0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
+@@ -163,6 +164,200 @@ struct st7703_panel_desc jh057n00900_panel_desc = {
+ 	.init_sequence = jh057n_init_sequence,
+ };
  
--	DRM_DEV_DEBUG_DRIVER(dev, "Panel init sequence done\n");
- 	return 0;
- }
- 
-@@ -181,6 +166,7 @@ struct st7703_panel_desc jh057n00900_panel_desc = {
++#define dsi_dcs_write_seq(dsi, cmd, seq...) do {			\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
++
++
++static int xbd599_init_sequence(struct st7703 *ctx)
++{
++	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++
++	/*
++	 * Init sequence was supplied by the panel vendor.
++	 */
++
++	/* Magic sequence to unlock user commands below. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xF1, 0x12, 0x83);
++
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI,
++			  0x33, /* VC_main = 0, Lane_Number = 3 (4 lanes) */
++			  0x81, /* DSI_LDO_SEL = 1.7V, RTERM = 90 Ohm */
++			  0x05, /* IHSRX = x6 (Low High Speed driving ability) */
++			  0xF9, /* TX_CLK_SEL = fDSICLK/16 */
++			  0x0E, /* HFP_OSC (min. HFP number in DSI mode) */
++			  0x0E, /* HBP_OSC (min. HBP number in DSI mode) */
++			  /* The rest is undocumented in ST7703 datasheet */
++			  0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			  0x44, 0x25, 0x00, 0x91, 0x0a, 0x00, 0x00, 0x02,
++			  0x4F, 0x11, 0x00, 0x00, 0x37);
++
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT,
++			  0x25, /* PCCS = 2, ECP_DC_DIV = 1/4 HSYNC */
++			  0x22, /* DT = 15ms XDK_ECP = x2 */
++			  0x20, /* PFM_DC_DIV = /1 */
++			  0x03  /* ECP_SYNC_EN = 1, VGX_SYNC_EN = 1 */);
++
++	/* RGB I/F porch timing */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF,
++			  0x10, /* VBP_RGB_GEN */
++			  0x10, /* VFP_RGB_GEN */
++			  0x05, /* DE_BP_RGB_GEN */
++			  0x05, /* DE_FP_RGB_GEN */
++			  /* The rest is undocumented in ST7703 datasheet */
++			  0x03, 0xFF,
++			  0x00, 0x00,
++			  0x00, 0x00);
++
++	/* Source driving settings. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR,
++			  0x73, /* N_POPON */
++			  0x73, /* N_NOPON */
++			  0x50, /* I_POPON */
++			  0x50, /* I_NOPON */
++			  0x00, /* SCR[31,24] */
++			  0xC0, /* SCR[23,16] */
++			  0x08, /* SCR[15,8] */
++			  0x70, /* SCR[7,0] */
++			  0x00  /* Undocumented */);
++
++	/* NVDDD_SEL = -1.8V, VDDD_SEL = out of range (possibly 1.9V?) */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
++
++	/*
++	 * SS_PANEL = 1 (reverse scan), GS_PANEL = 0 (normal scan)
++	 * REV_PANEL = 1 (normally black panel), BGR_PANEL = 1 (BGR)
++	 */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
++
++	/* Zig-Zag Type C column inversion. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
++
++	/* Set display resolution. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP,
++			  0xF0, /* NL = 240 */
++			  0x12, /* RES_V_LSB = 0, BLK_CON = VSSD,
++				 * RESO_SEL = 720RGB
++				 */
++			  0xF0  /* WHITE_GND_EN = 1 (GND),
++				 * WHITE_FRAME_SEL = 7 frames,
++				 * ISC = 0 frames
++				 */);
++
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ,
++			  0x00, /* PNOEQ */
++			  0x00, /* NNOEQ */
++			  0x0B, /* PEQGND */
++			  0x0B, /* NEQGND */
++			  0x10, /* PEQVCI */
++			  0x10, /* NEQVCI */
++			  0x00, /* PEQVCI1 */
++			  0x00, /* NEQVCI1 */
++			  0x00, /* reserved */
++			  0x00, /* reserved */
++			  0xFF, /* reserved */
++			  0x00, /* reserved */
++			  0xC0, /* ESD_DET_DATA_WHITE = 1, ESD_WHITE_EN = 1 */
++			  0x10  /* SLPIN_OPTION = 1 (no need vsync after sleep-in)
++				 * VEDIO_NO_CHECK_EN = 0
++				 * ESD_WHITE_GND_EN = 0
++				 * ESD_DET_TIME_SEL = 0 frames
++				 */);
++
++	/* Undocumented command. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_C6, 0x01, 0x00, 0xFF, 0xFF, 0x00);
++
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
++			  0x74, /* VBTHS, VBTLS: VGH = 17V, VBL = -11V */
++			  0x00, /* FBOFF_VGH = 0, FBOFF_VGL = 0 */
++			  0x32, /* VRP  */
++			  0x32, /* VRN */
++			  0x77, /* reserved */
++			  0xF1, /* APS = 1 (small),
++				 * VGL_DET_EN = 1, VGH_DET_EN = 1,
++				 * VGL_TURBO = 1, VGH_TURBO = 1
++				 */
++			  0xFF, /* VGH1_L_DIV, VGL1_L_DIV (1.5MHz) */
++			  0xFF, /* VGH1_R_DIV, VGL1_R_DIV (1.5MHz) */
++			  0xCC, /* VGH2_L_DIV, VGL2_L_DIV (2.6MHz) */
++			  0xCC, /* VGH2_R_DIV, VGL2_R_DIV (2.6MHz) */
++			  0x77, /* VGH3_L_DIV, VGL3_L_DIV (4.5MHz) */
++			  0x77  /* VGH3_R_DIV, VGL3_R_DIV (4.5MHz) */);
++
++	/* Reference voltage. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP,
++			  0x07, /* VREF_SEL = 4.2V */
++			  0x07  /* NVREF_SEL = 4.2V */);
++	msleep(20);
++
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM,
++			  0x2C, /* VCOMDC_F = -0.67V */
++			  0x2C  /* VCOMDC_B = -0.67V */);
++
++	/* Undocumented command. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
++
++	/* This command is to set forward GIP timing. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
++			  0x82, 0x10, 0x06, 0x05, 0xA2, 0x0A, 0xA5, 0x12,
++			  0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
++			  0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
++			  0x03, 0x00, 0x00, 0x00, 0x75, 0x75, 0x31, 0x88,
++			  0x88, 0x88, 0x88, 0x88, 0x88, 0x13, 0x88, 0x64,
++			  0x64, 0x20, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
++			  0x02, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
++
++	/* This command is to set backward GIP timing. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
++			  0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			  0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
++			  0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
++			  0x57, 0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
++			  0x75, 0x88, 0x23, 0x14, 0x00, 0x00, 0x02, 0x00,
++			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x0A,
++			  0xA5, 0x00, 0x00, 0x00, 0x00);
++
++	/* Adjust the gamma characteristics of the panel. */
++	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
++			  0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41, 0x35,
++			  0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12, 0x12,
++			  0x18, 0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41,
++			  0x35, 0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12,
++			  0x12, 0x18);
++
++	return 0;
++}
++
++static const struct drm_display_mode xbd599_mode = {
++	.hdisplay    = 720,
++	.hsync_start = 720 + 40,
++	.hsync_end   = 720 + 40 + 40,
++	.htotal	     = 720 + 40 + 40 + 40,
++	.vdisplay    = 1440,
++	.vsync_start = 1440 + 18,
++	.vsync_end   = 1440 + 18 + 10,
++	.vtotal	     = 1440 + 18 + 10 + 17,
++	.vrefresh    = 60,
++	.clock	     = 69000,
++	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++	.width_mm    = 68,
++	.height_mm   = 136,
++};
++
++static const struct st7703_panel_desc xbd599_desc = {
++	.mode = &xbd599_mode,
++	.lanes = 4,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
++	.format = MIPI_DSI_FMT_RGB888,
++	.init_sequence = xbd599_init_sequence,
++};
++
  static int st7703_enable(struct drm_panel *panel)
  {
  	struct st7703 *ctx = panel_to_st7703(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
- 	int ret;
+@@ -428,6 +623,7 @@ static int st7703_remove(struct mipi_dsi_device *dsi)
  
- 	ret = ctx->desc->init_sequence(ctx);
-@@ -190,6 +176,23 @@ static int st7703_enable(struct drm_panel *panel)
- 		return ret;
- 	}
- 
-+	msleep(20);
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		DRM_DEV_ERROR(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* Panel is operational 120 msec after reset */
-+	msleep(60);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret)
-+		return ret;
-+
-+	DRM_DEV_DEBUG_DRIVER(ctx->dev, "Panel init sequence done\n");
-+
- 	return 0;
- }
- 
+ static const struct of_device_id st7703_of_match[] = {
+ 	{ .compatible = "rocktech,jh057n00900", .data = &jh057n00900_panel_desc },
++	{ .compatible = "xingbangda,xbd599", .data = &xbd599_desc },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, st7703_of_match);
 -- 
 2.27.0
 
