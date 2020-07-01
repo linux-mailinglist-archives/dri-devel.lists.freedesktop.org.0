@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0344C2113C6
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 21:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527472113CA
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 21:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E51D6E326;
-	Wed,  1 Jul 2020 19:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6639F6E453;
+	Wed,  1 Jul 2020 19:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACA236E326;
- Wed,  1 Jul 2020 19:44:24 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id t7so11563907qvl.8;
- Wed, 01 Jul 2020 12:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H68WCJrZrfATgq2+qOSb/oN+5CurPVefjmJCzGslDNU=;
- b=psWK/tl+7p6/j0chpXN8DWN1qNvWmr1gzBpbSVFsgD+0IB/bEiZXxYZUyK4FqFhdq/
- 2YxzwZgZpLfWaUusAcuDgSiNnZoJMI1gz8NNospB7kw6eO3NCFPBxSVRMb0YYaAEJ/Pi
- NiIcX4WMBEtAnMWrbj3AnkWW26ItyDNzQYR/JDreAJT1sb/8z8+i/qPkYNwcoL4CB5Z/
- GFkRFY5tJlODopbEt4JyI4MWu11II3TaEpViPjbpU0Z89Eamxz0/IOq2psg3Tg/JwWTH
- NTtxl62AXMX74yqJEaWCb48bB4bQE+jtbEORp8HbE1/s4Uz7NmRumNnVxLCD9uvl5rEu
- qE+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H68WCJrZrfATgq2+qOSb/oN+5CurPVefjmJCzGslDNU=;
- b=FuZa0Q08m0e6kkNMadWJ+FEpY/ygJ0G6TSeMoXj1+NQQqS7kMs4Zm8vVodEHj1Utjb
- nLrH13f+IfGQ+7U6H+PWvO23X9gLFSiy6BLveiRmuo8OfIfB7xASewGBJFPDQTAGgSIw
- utGDoadYg6IQfzZCEVIgL34oH6IqKC4dZaCP6YLYRjWms/7plsLZHEdizg099XBfZGiI
- H2YmfsJdyY1OaqeUCw4NoRbuj54kcvCd3dWg2m9wUuJDVDeSe7y7ro3CRMbUGAZMKi2D
- 7vesQB1mDyQM2q8BN+3slWUMvPulyeOEnYtmxCfwIgjIUD7CS4bmfpS5sIHTG3rR2W4V
- okYQ==
-X-Gm-Message-State: AOAM532U6Oc0zSv3VVP7GoOZfPU0lPwhRJnbYLUcbkeKWkrbxbbtiX5G
- YVoHzFfl0kX4KTd6/eVQ8fakal/U
-X-Google-Smtp-Source: ABdhPJwVw5vfZtLZIxQYOFnMxAsuguf99mWbMrXlItob7i4tn8GksmxER2L3WjXu9GlMV4vzrS8B2g==
-X-Received: by 2002:a0c:f214:: with SMTP id h20mr26292141qvk.131.1593632663314; 
- Wed, 01 Jul 2020 12:44:23 -0700 (PDT)
-Received: from localhost.localdomain ([71.51.183.177])
- by smtp.gmail.com with ESMTPSA id e25sm6205995qtc.93.2020.07.01.12.44.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 12:44:22 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.8
-Date: Wed,  1 Jul 2020 15:44:15 -0400
-Message-Id: <20200701194415.4065-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 639966E453
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 19:45:46 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5efce7850000>; Wed, 01 Jul 2020 12:44:05 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 01 Jul 2020 12:45:45 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Wed, 01 Jul 2020 12:45:45 -0700
+Received: from [172.20.40.59] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 Jul
+ 2020 19:45:44 +0000
+Subject: Re: [git pull] drm for 5.8-rc1
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+ <20200630230808.wj2xlt44vrszqfzx@box>
+ <ef7816b4-72ee-9e0e-8cac-4d80d8343f9f@nvidia.com>
+ <20200701075719.p7h5zypdtlhqxtgv@box> <20200701075902.hhmaskxtjsm4bcx7@box>
+From: James Jones <jajones@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <77e744b9-b5e2-9e9b-44c1-98584d2ae2f3@nvidia.com>
+Date: Wed, 1 Jul 2020 12:45:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200701075902.hhmaskxtjsm4bcx7@box>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1593632645; bh=ghM4qShwWSbYqJQbyb2hcO/I2/1p5a/toFeW9Xfiywg=;
+ h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=KOrYrvDE+eExwZMFKeEx2yKVJyEp8eUWywvw+jVwmh/J89sJzy4/FBd3p0i8e268p
+ z1zAur/c8IlgOtyAU4+DMU/tT73C/5jEmkyDbMdDpp0Jbe5QlD3bkdMOihu6d2zWJB
+ 99Nts+Ik4mcDdHYuZuGBwCSdKP4RiZ1WJnq6UWabVt8ZhBFM9UgXtK8qYzkDMC2BpI
+ sBVZpRyd/mPhr5moqCHcD5JQ6qUQT8bg4Dg4EepsbiI95qMZP9wVxHA0bGKsFqLJpU
+ 927qNXMaHVqYFsbW96lT0JiHH7vUCxNEEe+nvkkIAtLNrNPqE8S/DOUxu3OzKAtEV+
+ AqFT4M5p4g49g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,53 +66,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+OK, I think I see what's going on.  In the Xorg modesetting driver, the 
+logic is basically:
 
-Fixes for 5.8.
+if (gbm_has_modifiers && DRM_CAP_ADDFB2_MODIFIERS != 0) {
+   drmModeAddFB2WithModifiers(..., gbm_bo_get_modifier(bo->gbm));
+} else {
+   drmModeAddFB(...);
+}
 
-The following changes since commit 5b83c254571b26e6b6110019929dc9729e5c59d1:
+There's no attempt to verify the DRM-KMS device supports the modifier, 
+but then, why would there be?  GBM presumably chose a supported modifier 
+at buffer creation time, and we don't know which plane the FB is going 
+to be used with yet.  GBM doesn't actually ask the kernel which 
+modifiers it supports here either though.  It just goes into Mesa via 
+DRI and reports the modifier (unpatched) Mesa chose on its own.  Mesa 
+just hard-codes the modifiers in its driver backends since its thinking 
+in terms of a device's 3D engine, not display.  In theory, Mesa's DRI 
+drivers could query KMS for supported modifiers if allocating from GBM 
+using the non-modifiers path and the SCANOUT flag is set (perhaps some 
+drivers do this or its equivalent?  Haven't checked.), but that seems 
+pretty gnarly and doesn't fix the modifier-based GBM allocation path 
+AFAIK.  Bit of a mess.
 
-  Merge tag 'amd-drm-fixes-5.8-2020-06-24' of git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-06-25 14:51:14 +1000)
+For a quick userspace fix that could probably be pushed out everywhere 
+(Only affects Xorg server 1.20+ AFAIK), just retrying 
+drmModeAddFB2WithModifiers() without the DRM_MODE_FB_MODIFIERS flag on 
+failure should be sufficient.  Still need to verify as I'm having 
+trouble wrangling my Xorg build at the moment and I'm pressed for time. 
+A more complete fix would be quite involved, as modesetting isn't really 
+properly plumbed to validate GBM's modifiers against KMS planes, and it 
+doesn't seem like GBM/Mesa/DRI should be responsible for this as noted 
+above given the general modifier workflow/design.
 
-are available in the Git repository at:
+Most importantly, options I've considered for fixing from the kernel side:
 
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.8-2020-07-01
+-Accept "legacy" modifiers in nouveau in addition to the new modifiers, 
+though avoid reporting them to userspace as supported to avoid further 
+proliferation.  This is pretty straightforward.  I'll need to modify 
+both the AddFB2 handler (nouveau_validate_decode_mod) and the mode set 
+plane validation logic (nv50_plane_format_mod_supported), but it should 
+end up just being a few lines of code.
 
-for you to fetch changes up to beaf10efca64ac824240838ab1f054dfbefab5e6:
+-Don't validate modifiers in AddFB.  This doesn't really gain anything 
+because it just pushes the failure down to mode set time, so it's not 
+that useful, so I don't plan on pursuing this.
 
-  drm/amdgpu: use %u rather than %d for sclk/mclk (2020-07-01 14:20:23 -0400)
+As noted, need to run just now, but I should have a kernel patch to test 
+out either tonight or tomorrow.
 
-----------------------------------------------------------------
-amd-drm-fixes-5.8-2020-07-01:
+If anyone's curious, the reason my testing missed this was I did most of 
+my verification of "old" code against the Xorg 1.19 build included with 
+my distro.  I did hack up a Xorg 1.20-ish build to test as well that 
+would have included this path, but I must not have properly configured 
+it with GBM modifier support somehow.  I was pretty focused on just 
+testing the forcibly-disabled atomic path in the modesetting driver in 
+this build, so I didn't look too closely at things beyond that.
 
-amdgpu:
-- Fix for vega20 boards without RAS support
-- DC bandwidth revalidation fix
-- Fix Renoir vram info fetching
-- Fix hwmon freq printing
+Thanks,
+-James
 
-----------------------------------------------------------------
-Alex Deucher (2):
-      drm/amdgpu/atomfirmware: fix vram_info fetching for renoir
-      drm/amdgpu: use %u rather than %d for sclk/mclk
-
-Ivan Mironov (1):
-      drm/amd/powerplay: Fix NULL dereference in lock_bus() on Vega20 w/o RAS
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Only revalidate bandwidth on medium and fast updates
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c     |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c               |  4 ++--
- drivers/gpu/drm/amd/display/dc/core/dc.c             | 10 ++++++----
- drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c | 11 +++++++----
- 4 files changed, 16 insertions(+), 10 deletions(-)
+On 7/1/20 12:59 AM, Kirill A. Shutemov wrote:
+> On Wed, Jul 01, 2020 at 10:57:19AM +0300, Kirill A. Shutemov wrote:
+>> On Tue, Jun 30, 2020 at 09:40:19PM -0700, James Jones wrote:
+>>> This implies something is trying to use one of the old
+>>> DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK format modifiers with DRM-KMS without
+>>> first checking whether it is supported by the kernel.  I had tried to force
+>>> an Xorg+Mesa stack without my userspace patches to hit this error when
+>>> testing, but must have missed some permutation.  If the stalled Mesa patches
+>>> go in, this would stop happening of course, but those were held up for a
+>>> long time in review, and are now waiting on me to make some modifications.
+>>>
+>>> Are you using the modesetting driver in X? If so, with glamor I presume?
+>>
+>> Yes and yes. I attached Xorg.log.
+> 
+> Attached now.
+> 
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
