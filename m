@@ -2,106 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF43C211CE0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4E9211CD5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4456EA97;
-	Thu,  2 Jul 2020 07:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 926D66EA5A;
+	Thu,  2 Jul 2020 07:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DBF26E0E7
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 12:50:08 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id g75so22251193wme.5
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 05:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:autocrypt:message-id:date
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=umVXKB3u4eCN/DDIxe4SvglUcm9Aqdv6e9Fe2HRUbqw=;
- b=ntVD9CTnA6wzmjjpVC8fo8e+KbOtimvbEsLk/S8NmMz73X9nxUt09ylULKAWbQNQK8
- YqnbrkdlGxUJ+nbSgFsFv5+uKq5zibXtopLvTYaRDfrrgAxrvbp96w8sQu2AnhgtBytw
- s8Fumt5ZvZxbavN1EhFBTBkiAOYkoyeqvIM/DOfccxaWt8XdFaOL0/pW9tBVMp0FL78w
- eyYmzbHFoJxORYhbBLTa1exl9vVk8YS1rqPp8cQvWLQ0ItmmViWbaL3jHSHULIxdBNFe
- LieJ/04kiy0waOyconKwOXgNxB184qOQvFAhJ3B8Xq1DEcCM5i/WUDTwYbtxhQc2QwJ4
- 7ccA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=umVXKB3u4eCN/DDIxe4SvglUcm9Aqdv6e9Fe2HRUbqw=;
- b=ZlzpguhMxdmGtxqXvbnjLVnz673VkAR1s2JEppjaLqHdlr3C3deCTcdftCVDGgfLdT
- n8xY1klMPZ6MZ0ZekKuh3ZTxopiopd/9HWGHxiDrPEx0yVyHFeg2Ks68yoUaV/gJJOGm
- sGgxL3Wg2ZURGVE8EvyPgGqHU+j/mVtHxkvqeNv10VEN/UHSTUsOtXSGgHpXckOIcKvu
- +47niDO4gGwfMXG1nTvOgQ/5sFM4eMkb1hgdqOT/9MYNA1rZ5jR829MO6czyl51JEDnT
- M5EOrXP3KSIuhpx/9R4FiueFNwk1W83xPNH8MVx2f/HkhO/GAWWCA4xJ82g+ESr1QiWq
- U3aw==
-X-Gm-Message-State: AOAM532SD7QnHM5fWBi+KrIom3bBbMmQzYTVNoMq+PHEpaFHBKAxcbe2
- qL51MocVmejO/75gNyK5pJgPAg==
-X-Google-Smtp-Source: ABdhPJw9vr7DD+ZqgT9Wb/7wovS1zE13rleRvTjwdcSyUJTDPHT0fRAncLVTBws+HvWSOHQBYNOO4g==
-X-Received: by 2002:a1c:f314:: with SMTP id q20mr26604222wmq.18.1593607807032; 
- Wed, 01 Jul 2020 05:50:07 -0700 (PDT)
-Received: from [10.44.66.8] ([212.45.67.2])
- by smtp.googlemail.com with ESMTPSA id w14sm7203282wrt.55.2020.07.01.05.50.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 05:50:05 -0700 (PDT)
-Subject: Re: [RFC PATCH v5 2/6] interconnect: Add generic interconnect driver
- for Exynos SoCs
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, cw00.choi@samsung.com,
- krzk@kernel.org
-References: <20200529163200.18031-1-s.nawrocki@samsung.com>
- <CGME20200529163223eucas1p2f663280abb499b4114b2f2930b43a4e5@eucas1p2.samsung.com>
- <20200529163200.18031-3-s.nawrocki@samsung.com>
-From: Georgi Djakov <georgi.djakov@linaro.org>
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <f7f76798-4ee7-6e4a-fa3e-1acb0af76c2e@linaro.org>
-Date: Wed, 1 Jul 2020 15:50:03 +0300
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2A56E12B
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1593620970; bh=h41kKdP+3vto+kElOo0VDi6vKhbrYTeB/TfpQYG9yUo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=G2zYEl85biLHwyEiOFO/kaMcNraHZvQR4O65XcOkok8hz8sKy8bqo2ex81MDBezkl
+ tvKQoudL7UNeTi76xcQSLQWMQKqBaZTC24Su46akCky37oA1eD9IGVchCFdQkWYl5j
+ oWNpKKnFrX28UVUi9vO+xHVZyoR2Jk6FygSV2P5c=
+From: Ondrej Jirman <megous@megous.com>
+To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH v7 00/13] Add support for PinePhone LCD panel
+Date: Wed,  1 Jul 2020 18:29:15 +0200
+Message-Id: <20200701162928.1638874-1-megous@megous.com>
 MIME-Version: 1.0
-In-Reply-To: <20200529163200.18031-3-s.nawrocki@samsung.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,129 +43,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, b.zolnierkie@samsung.com,
- sw0312.kim@samsung.com, a.swigon@samsung.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, myungjoo.ham@samsung.com,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU3lsd2VzdGVyLAoKVGhhbmtzIGZvciB0aGUgcGF0Y2ggYW5kIGFwb2xvZ2llcyBmb3IgdGhl
-IGRlbGF5ZWQgcmVwbHkuCgpPbiA1LzI5LzIwIDE5OjMxLCBTeWx3ZXN0ZXIgTmF3cm9ja2kgd3Jv
-dGU6Cj4gVGhpcyBwYXRjaCBhZGRzIGEgZ2VuZXJpYyBpbnRlcmNvbm5lY3QgZHJpdmVyIGZvciBF
-eHlub3MgU29DcyBpbiBvcmRlcgo+IHRvIHByb3ZpZGUgaW50ZXJjb25uZWN0IGZ1bmN0aW9uYWxp
-dHkgZm9yIGVhY2ggInNhbXN1bmcsZXh5bm9zLWJ1cyIKPiBjb21wYXRpYmxlIGRldmljZS4KPiAK
-PiBUaGUgU29DIHRvcG9sb2d5IGlzIGEgZ3JhcGggKG9yIG1vcmUgc3BlY2lmaWNhbGx5LCBhIHRy
-ZWUpIGFuZCBpdHMKPiBlZGdlcyBhcmUgc3BlY2lmaWVkIHVzaW5nIHRoZSAnc2Ftc3VuZyxpbnRl
-cmNvbm5lY3QtcGFyZW50JyBpbiB0aGUKPiBEVC4gRHVlIHRvIHVuc3BlY2lmaWVkIHJlbGF0aXZl
-IHByb2Jpbmcgb3JkZXIsIC1FUFJPQkVfREVGRVIgbWF5IGJlCj4gcHJvcGFnYXRlZCB0byBlbnN1
-cmUgdGhhdCB0aGUgcGFyZW50IGlzIHByb2JlZCBiZWZvcmUgaXRzIGNoaWxkcmVuLgo+IAo+IEVh
-Y2ggYnVzIGlzIG5vdyBhbiBpbnRlcmNvbm5lY3QgcHJvdmlkZXIgYW5kIGFuIGludGVyY29ubmVj
-dCBub2RlIGFzCj4gd2VsbCAoY2YuIERvY3VtZW50YXRpb24vaW50ZXJjb25uZWN0L2ludGVyY29u
-bmVjdC5yc3QpLCBpLmUuIGV2ZXJ5IGJ1cwo+IHJlZ2lzdGVycyBpdHNlbGYgYXMgYSBub2RlLiBO
-b2RlIElEcyBhcmUgbm90IGhhcmRjb2RlZCBidXQgcmF0aGVyCj4gYXNzaWduZWQgZHluYW1pY2Fs
-bHkgYXQgcnVudGltZS4gVGhpcyBhcHByb2FjaCBhbGxvd3MgZm9yIHVzaW5nIHRoaXMKPiBkcml2
-ZXIgd2l0aCB2YXJpb3VzIEV4eW5vcyBTb0NzLgo+IAo+IEZyZXF1ZW5jaWVzIHJlcXVlc3RlZCB2
-aWEgdGhlIGludGVyY29ubmVjdCBBUEkgZm9yIGEgZ2l2ZW4gbm9kZSBhcmUKPiBwcm9wYWdhdGVk
-IHRvIGRldmZyZXEgdXNpbmcgZGV2X3BtX3Fvc191cGRhdGVfcmVxdWVzdCgpLiBQbGVhc2Ugbm90
-ZQo+IHRoYXQgaXQgaXMgbm90IGFuIGVycm9yIHdoZW4gQ09ORklHX0lOVEVSQ09OTkVDVCBpcyAn
-bicsIGluIHdoaWNoCj4gY2FzZSBhbGwgaW50ZXJjb25uZWN0IEFQSSBmdW5jdGlvbnMgYXJlIG5v
-LW9wLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFydHVyIMWad2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5n
-LmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBTeWx3ZXN0ZXIgTmF3cm9ja2kgPHMubmF3cm9ja2lAc2Ft
-c3VuZy5jb20+Cj4gCj4gQ2hhbmdlcyBmb3IgdjU6Cj4gIC0gYWRqdXN0IHRvIHJlbmFtZWQgZXh5
-bm9zLGludGVyY29ubmVjdC1wYXJlbnQtbm9kZSBwcm9wZXJ0eSwKPiAgLSB1c2UgYXV0b21hdGlj
-YWxseSBnZW5lcmF0ZWQgcGxhdGZvcm0gZGV2aWNlIGlkIGFzIHRoZSBpbnRlcmNvbmVjdAo+ICAg
-IG5vZGUgaWQgaW5zdGVhZCBvZiBhIG5vdyB1bmF2YWlsYWJsZSBkZXZmcmVxLT5pZCBmaWVsZCwK
-PiAgLSBhZGQgaWNjXyBwcmVmaXggdG8gc29tZSB2YXJpYWJsZXMgdG8gbWFrZSB0aGUgY29kZSBt
-b3JlIHNlbGYtY29tbWVudGluZywKPiAgLSB1c2UgaWNjX25vZGVzX3JlbW92ZSgpIGluc3RlYWQg
-b2YgaWNjX25vZGVfZGVsKCkgKyBpY2Nfbm9kZV9kZXN0cm95KCksCj4gIC0gYWRqdXN0IHRvIGV4
-eW5vcyxpbnRlcmNvbm5lY3QtcGFyZW50LW5vZGUgcHJvcGVydHkgcmVuYW1lIHRvCj4gICAgc2Ft
-c3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50LAo+ICAtIGNvbnZlcnRlZCB0byBhIHNlcGFyYXRlIHBs
-YXRmb3JtIGRyaXZlciBpbiBkcml2ZXJzL2kubnRlcmNvbm5lY3QuCj4gLS0tCj4gIGRyaXZlcnMv
-aW50ZXJjb25uZWN0L0tjb25maWcgICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvaW50ZXJjb25u
-ZWN0L01ha2VmaWxlICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0L2V4eW5v
-cy9LY29uZmlnICB8ICAgNiArKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MvTWFrZWZp
-bGUgfCAgIDQgKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MvZXh5bm9zLmMgfCAxODUg
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgNSBmaWxlcyBjaGFuZ2VkLCAx
-OTcgaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9pbnRlcmNvbm5l
-Y3QvZXh5bm9zL0tjb25maWcKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW50ZXJjb25u
-ZWN0L2V4eW5vcy9NYWtlZmlsZQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9pbnRlcmNv
-bm5lY3QvZXh5bm9zL2V4eW5vcy5jClsuLl0KPiArc3RhdGljIHN0cnVjdCBpY2Nfbm9kZSAqZXh5
-bm9zX2ljY19nZXRfcGFyZW50KHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnApCj4gK3sKPiArCXN0cnVj
-dCBvZl9waGFuZGxlX2FyZ3MgYXJnczsKPiArCWludCBudW0sIHJldDsKPiArCj4gKwludW0gPSBv
-Zl9jb3VudF9waGFuZGxlX3dpdGhfYXJncyhucCwgInNhbXN1bmcsaW50ZXJjb25uZWN0LXBhcmVu
-dCIsCj4gKwkJCQkJIiNpbnRlcmNvbm5lY3QtY2VsbHMiKTsKPiArCWlmIChudW0gIT0gMSkKPiAr
-CQlyZXR1cm4gTlVMTDsgLyogcGFyZW50IG5vZGVzIGFyZSBvcHRpb25hbCAqLwo+ICsKPiArCXJl
-dCA9IG9mX3BhcnNlX3BoYW5kbGVfd2l0aF9hcmdzKG5wLCAic2Ftc3VuZyxpbnRlcmNvbm5lY3Qt
-cGFyZW50IiwKPiArCQkJCQkiI2ludGVyY29ubmVjdC1jZWxscyIsIDAsICZhcmdzKTsKPiArCWlm
-IChyZXQgPCAwKQo+ICsJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4gKwo+ICsJb2Zfbm9kZV9wdXQo
-YXJncy5ucCk7Cj4gKwo+ICsJcmV0dXJuIG9mX2ljY19nZXRfZnJvbV9wcm92aWRlcigmYXJncyk7
-Cj4gK30KPiArCj4gKwoKTml0OiBtdWx0aXBsZSBibGFuayBsaW5lcwoKWy4uXQo+ICtzdGF0aWMg
-c3RydWN0IGljY19ub2RlICpleHlub3NfZ2VuZXJpY19pY2NfeGxhdGUoc3RydWN0IG9mX3BoYW5k
-bGVfYXJncyAqc3BlYywKPiArCQkJCQkJIHZvaWQgKmRhdGEpCj4gK3sKPiArCXN0cnVjdCBleHlu
-b3NfaWNjX3ByaXYgKnByaXYgPSBkYXRhOwo+ICsKPiArCWlmIChzcGVjLT5ucCAhPSBwcml2LT5k
-ZXYtPnBhcmVudC0+b2Zfbm9kZSkKPiArCQlyZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsKPiArCj4g
-KwlyZXR1cm4gcHJpdi0+bm9kZTsKPiArfQo+ICsKPiArc3RhdGljIGludCBleHlub3NfZ2VuZXJp
-Y19pY2NfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gK3sKPiArCXN0cnVj
-dCBleHlub3NfaWNjX3ByaXYgKnByaXYgPSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0YShwZGV2KTsKPiAr
-CXN0cnVjdCBpY2Nfbm9kZSAqcGFyZW50X25vZGUsICpub2RlID0gcHJpdi0+bm9kZTsKPiArCj4g
-KwlwYXJlbnRfbm9kZSA9IGV4eW5vc19pY2NfZ2V0X3BhcmVudChwcml2LT5kZXYtPnBhcmVudC0+
-b2Zfbm9kZSk7Cj4gKwlpZiAocGFyZW50X25vZGUgJiYgIUlTX0VSUihwYXJlbnRfbm9kZSkpCgpO
-aXQ6ICFJU19FUlJfT1JfTlVMTD8KCj4gKwkJaWNjX2xpbmtfZGVzdHJveShub2RlLCBwYXJlbnRf
-bm9kZSk7Cj4gKwo+ICsJaWNjX25vZGVzX3JlbW92ZSgmcHJpdi0+cHJvdmlkZXIpOwo+ICsJaWNj
-X3Byb3ZpZGVyX2RlbCgmcHJpdi0+cHJvdmlkZXIpOwo+ICsKPiArCXJldHVybiAwOwo+ICt9Cj4g
-Kwo+ICtzdGF0aWMgaW50IGV4eW5vc19nZW5lcmljX2ljY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1f
-ZGV2aWNlICpwZGV2KQo+ICt7Cj4gKwlzdHJ1Y3QgZGV2aWNlICpidXNfZGV2ID0gcGRldi0+ZGV2
-LnBhcmVudDsKPiArCXN0cnVjdCBleHlub3NfaWNjX3ByaXYgKnByaXY7Cj4gKwlzdHJ1Y3QgaWNj
-X3Byb3ZpZGVyICpwcm92aWRlcjsKPiArCXN0cnVjdCBpY2Nfbm9kZSAqaWNjX25vZGUsICppY2Nf
-cGFyZW50X25vZGU7Cj4gKwlpbnQgcmV0Owo+ICsKPiArCXByaXYgPSBkZXZtX2t6YWxsb2MoJnBk
-ZXYtPmRldiwgc2l6ZW9mKCpwcml2KSwgR0ZQX0tFUk5FTCk7Cj4gKwlpZiAoIXByaXYpCj4gKwkJ
-cmV0dXJuIC1FTk9NRU07Cj4gKwo+ICsJcHJpdi0+ZGV2ID0gJnBkZXYtPmRldjsKPiArCXBsYXRm
-b3JtX3NldF9kcnZkYXRhKHBkZXYsIHByaXYpOwo+ICsKPiArCXByb3ZpZGVyID0gJnByaXYtPnBy
-b3ZpZGVyOwo+ICsKPiArCXByb3ZpZGVyLT5zZXQgPSBleHlub3NfZ2VuZXJpY19pY2Nfc2V0Owo+
-ICsJcHJvdmlkZXItPmFnZ3JlZ2F0ZSA9IGljY19zdGRfYWdncmVnYXRlOwo+ICsJcHJvdmlkZXIt
-PnhsYXRlID0gZXh5bm9zX2dlbmVyaWNfaWNjX3hsYXRlOwo+ICsJcHJvdmlkZXItPmRldiA9IGJ1
-c19kZXY7Cj4gKwlwcm92aWRlci0+aW50ZXJfc2V0ID0gdHJ1ZTsKPiArCXByb3ZpZGVyLT5kYXRh
-ID0gcHJpdjsKPiArCj4gKwlyZXQgPSBpY2NfcHJvdmlkZXJfYWRkKHByb3ZpZGVyKTsKCk5pdDog
-TWF5YmUgaXQgd291bGQgYmUgYmV0dGVyIHRvIG1vdmUgdGhpcyBhZnRlciB0aGUgbm9kZSBpcyBj
-cmVhdGVkLiBUaGUKaWRlYSBpcyB0byBjcmVhdGUgdGhlIG5vZGVzIGZpcnN0IGFuZCBhZGQgdGhl
-IHByb3ZpZGVyIHdoZW4gdGhlIHRvcG9sb2d5IGlzCnBvcHVsYXRlZC4gSXQncyBmaW5lIGVpdGhl
-ciB3YXkgaGVyZSwgYnV0IGkgYW0gcGxhbm5pbmcgdG8gY2hhbmdlIHRoaXMgaW4Kc29tZSBvZiB0
-aGUgZXhpc3RpbmcgcHJvdmlkZXIgZHJpdmVycy4KCj4gKwlpZiAocmV0IDwgMCkKPiArCQlyZXR1
-cm4gcmV0Owo+ICsKPiArCWljY19ub2RlID0gaWNjX25vZGVfY3JlYXRlKHBkZXYtPmlkKTsKPiAr
-CWlmIChJU19FUlIoaWNjX25vZGUpKSB7Cj4gKwkJcmV0ID0gUFRSX0VSUihpY2Nfbm9kZSk7Cj4g
-KwkJZ290byBlcnJfcHJvdl9kZWw7Cj4gKwl9Cj4gKwo+ICsJcHJpdi0+bm9kZSA9IGljY19ub2Rl
-Owo+ICsJaWNjX25vZGUtPm5hbWUgPSBidXNfZGV2LT5vZl9ub2RlLT5uYW1lOwo+ICsJaWNjX25v
-ZGUtPmRhdGEgPSBwcml2Owo+ICsJaWNjX25vZGVfYWRkKGljY19ub2RlLCBwcm92aWRlcik7Cj4g
-Kwo+ICsJaWNjX3BhcmVudF9ub2RlID0gZXh5bm9zX2ljY19nZXRfcGFyZW50KGJ1c19kZXYtPm9m
-X25vZGUpOwo+ICsJaWYgKElTX0VSUihpY2NfcGFyZW50X25vZGUpKSB7Cj4gKwkJcmV0ID0gUFRS
-X0VSUihpY2NfcGFyZW50X25vZGUpOwo+ICsJCWdvdG8gZXJyX25vZGVfZGVsOwo+ICsJfQo+ICsJ
-aWYgKGljY19wYXJlbnRfbm9kZSkgewo+ICsJCXJldCA9IGljY19saW5rX2NyZWF0ZShpY2Nfbm9k
-ZSwgaWNjX3BhcmVudF9ub2RlLT5pZCk7Cj4gKwkJaWYgKHJldCA8IDApCj4gKwkJCWdvdG8gZXJy
-X25vZGVfZGVsOwo+ICsJfQo+ICsKPiArCS8qCj4gKwkgKiBSZWdpc3RlciBhIFBNIFFvUyByZXF1
-ZXN0IGZvciB0aGUgYnVzIGRldmljZSBmb3Igd2hpY2ggYWxzbyBkZXZmcmVxCj4gKwkgKiBmdW5j
-dGlvbmFsaXR5IGlzIHJlZ2lzdGVyZWQuCj4gKwkgKi8KPiArCXJldCA9IGRldl9wbV9xb3NfYWRk
-X3JlcXVlc3QoYnVzX2RldiwgJnByaXYtPnFvc19yZXEsCj4gKwkJCQkgICAgIERFVl9QTV9RT1Nf
-TUlOX0ZSRVFVRU5DWSwgMCk7Cj4gKwlpZiAocmV0IDwgMCkKPiArCQlnb3RvIGVycl9saW5rX2Rl
-c3Ryb3k7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4gKwo+ICtlcnJfbGlua19kZXN0cm95Ogo+ICsJaWYg
-KGljY19wYXJlbnRfbm9kZSkKPiArCQlpY2NfbGlua19kZXN0cm95KGljY19ub2RlLCBpY2NfcGFy
-ZW50X25vZGUpOwo+ICtlcnJfbm9kZV9kZWw6Cj4gKwlpY2Nfbm9kZXNfcmVtb3ZlKHByb3ZpZGVy
-KTsKPiArZXJyX3Byb3ZfZGVsOgo+ICsJaWNjX3Byb3ZpZGVyX2RlbChwcm92aWRlcik7Cj4gKwo+
-ICsJcmV0dXJuIHJldDsKPiArfQo+ICsKPiArc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIg
-ZXh5bm9zX2dlbmVyaWNfaWNjX2RyaXZlciA9IHsKPiArCS5kcml2ZXIgPSB7Cj4gKwkJLm5hbWUg
-PSAiZXh5bm9zLWdlbmVyaWMtaWNjIiwKPiArCX0sCj4gKwkucHJvYmUgPSBleHlub3NfZ2VuZXJp
-Y19pY2NfcHJvYmUsCj4gKwkucmVtb3ZlID0gZXh5bm9zX2dlbmVyaWNfaWNjX3JlbW92ZSwKPiAr
-fTsKPiArbW9kdWxlX3BsYXRmb3JtX2RyaXZlcihleHlub3NfZ2VuZXJpY19pY2NfZHJpdmVyKTsK
-PiArCj4gK01PRFVMRV9ERVNDUklQVElPTigiRXh5bm9zIGdlbmVyaWMgaW50ZXJjb25uZWN0IGRy
-aXZlciIpOwo+ICtNT0RVTEVfQVVUSE9SKCJBcnR1ciDFmndpZ2/FhCA8YS5zd2lnb25Ac2Ftc3Vu
-Zy5jb20+Iik7Cj4gK01PRFVMRV9BVVRIT1IoIlN5bHdlc3RlciBOYXdyb2NraSA8cy5uYXdyb2Nr
-aUBzYW1zdW5nLmNvbT4iKTsKPiArTU9EVUxFX0xJQ0VOU0UoIkdQTCB2MiIpOwo+ICtNT0RVTEVf
-QUxJQVMoInBsYXRmb3JtOmV4eW5vcy1nZW5lcmljLWljYyIpOwoKQWxsIGxvb2tzIGdvb2QgdG8g
-bWUsIGJ1dCBpdCBzZWVtcyB0aGF0IHRoZSBwYXRjaC1zZXQgaXMgbm90IG9uClJvYidzIHJhZGFy
-IGN1cnJlbnRseSwgc28gcGxlYXNlIHJlLXNlbmQgYW5kIENDIHRoZSBEVCBtYWlsaW5nIGxpc3Qu
-CgpUaGFua3MsCkdlb3JnaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+This patchset adds support for the LCD panel of PinePhone.
+
+I've tested this on PinePhone 1.0 and 1.2.
+
+Please take a look.
+
+thank you and regards,
+  Ondrej Jirman
+
+Changes in v7:
+- Removed mode.vrefresh, rebased onto next-20200701
+- v6->v7 diff: https://megous.com/dl/tmp/v6-v7.patch
+
+Changes in v6:
+- Fixed spacing in yaml
+- Fixed wrong vccio->iovcc supply name in the bindings doc
+- I noticed that the original driver uses a delay of 20ms in the init
+  function to achieve a combined total of 120ms required from post-reset
+  to display_on. I've added a similar delay to xbd599_init, so that
+  xbd599 panel also has the right timing. (patch 9)
+- v5->v6 diff: https://megous.com/dl/tmp/v5-v6.patch
+- Added review/ack tags
+- Learned to run dt_binding_check by myself ;)
+
+Changes in v5:
+- rewritten on top of rocktech-jh057n00900 driver
+- rocktech-jh057n00900 renamed to st7703 (controller name)
+- converted rocktech-jh057n00900 bindings to yaml and extended for xbd599
+
+Changes in v4:
+- use ->type from the mode instead of hardcoding (Samuel)
+- move init_sequence to ->prepare (Samuel)
+- move anti-flicker delay to ->enable, explain it (Samuel)
+- add enter_sleep after display_off (Samuel)
+- drop ->disable (move code to ->unprepare)
+- add ID bytes dumping (Linus)
+  (I can't test it since allwinner DSI driver has a broken
+   dcs_read function, and I didn't manage to fix it.)
+- document magic bytes (Linus)
+- assert reset during powerup
+- cleanup powerup timings according to the datasheet
+
+Changes in v3:
+- Panel driver renamed to the name of the LCD controller
+- Re-organize the driver slightly to more easily support more panels
+  based on the same controller.
+- Add patch to enable the touchscreen to complete the LCD support
+  on PinePhone.
+- Dropped the "DSI fix" patch (the driver seems to work for me without it)
+- Improved brightness levels handling:
+  - PinePhone 1.0 uses default levels generated by the driver
+  - On PinePhone 1.1 duty cycles < 20% lead to black screen, so
+    default levels can't be used. Martijn Braam came up with a
+    list of duty cycle values that lead to perception of linear
+    brigtness level <-> light intensity on PinePhone 1.1
+- There was some feedback on v2 about this being similar to st7701.
+  It's only similar in name. Most of the "user commands" are different,
+  so I opted to keep this in a new driver instead of creating st770x.
+  
+  Anyone who likes to check the differences, here are datasheets:
+
+  - https://megous.com/dl/tmp/ST7703_DS_v01_20160128.pdf
+  - https://megous.com/dl/tmp/ST7701.pdf
+
+Changes in v2:
+- DT Example fix.
+- DT Format fix.
+- Raised copyright info to 2020.
+- Sort panel operation functions.
+- Sort inclusion.
+
+
+-- For phone owners: --
+
+There's an open question on how to set the backlight brightness values
+on post 1.0 revision phone, since lower duty cycles (< 10-20%) lead
+to backlight being black. It would be nice if more people can test
+the various backlight levels on 1.1 and 1.2 revision with this change
+in dts:
+
+       brightness-levels = <0 1000>;
+       num-interpolated-steps = <1000>;
+
+and report at what brightness level the backlight turns on. So far it
+seems this has a wide range. Lowest useable duty cycle for me is ~7%
+on 1.2 and for Martijn ~20% on 1.1.
+
+Icenowy Zheng (2):
+  dt-bindings: vendor-prefixes: Add Xingbangda
+  arm64: dts: sun50i-a64-pinephone: Enable LCD support on PinePhone
+
+Ondrej Jirman (11):
+  dt-bindings: panel: Convert rocktech,jh057n00900 to yaml
+  dt-bindings: panel: Add compatible for Xingbangda XBD599 panel
+  drm/panel: rocktech-jh057n00900: Rename the driver to st7703
+  drm/panel: st7703: Rename functions from jh057n prefix to st7703
+  drm/panel: st7703: Prepare for supporting multiple panels
+  drm/panel: st7703: Move code specific to jh057n closer together
+  drm/panel: st7703: Move generic part of init sequence to enable
+    callback
+  drm/panel: st7703: Add support for Xingbangda XBD599
+  drm/panel: st7703: Enter sleep after display off
+  drm/panel: st7703: Assert reset prior to powering down the regulators
+  arm64: dts: sun50i-a64-pinephone: Add touchscreen support
+
+ .../display/panel/rocktech,jh057n00900.txt    |  23 -
+ .../display/panel/rocktech,jh057n00900.yaml   |  70 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../allwinner/sun50i-a64-pinephone-1.1.dts    |  19 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  54 ++
+ drivers/gpu/drm/panel/Kconfig                 |  26 +-
+ drivers/gpu/drm/panel/Makefile                |   2 +-
+ .../drm/panel/panel-rocktech-jh057n00900.c    | 423 -----------
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 654 ++++++++++++++++++
+ 9 files changed, 813 insertions(+), 460 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+ delete mode 100644 drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
+ create mode 100644 drivers/gpu/drm/panel/panel-sitronix-st7703.c
+
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
