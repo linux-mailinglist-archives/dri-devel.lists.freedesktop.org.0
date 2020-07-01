@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E98210360
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 07:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E500B210368
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 07:47:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0179D6E112;
-	Wed,  1 Jul 2020 05:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 077936E3B0;
+	Wed,  1 Jul 2020 05:47:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A034A6E112
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 05:45:49 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67DA6E3B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 05:47:06 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 686F4556;
- Wed,  1 Jul 2020 07:45:47 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E717556;
+ Wed,  1 Jul 2020 07:47:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593582347;
- bh=mGWu/1XJbM4KGrtlPmkgFMmfJiW0pibp/qTE2B02jfg=;
+ s=mail; t=1593582425;
+ bh=lLlE6wlCwDL/Ydht7HG8e8nS46G/QNmTOhwlH57lMes=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X+IRvj1JQdnrCzqeSPqQAnKWc5n8pBOvwmPEoRCo5kDbAhlzI3O/ybiM5Np6j7AcY
- dgzuPrtz48/lWFwu1e2QbuxWjOqaKlvmXg5/9wFfT6mRXC62oAxi/4sUBPKdgntwbW
- lBNa3k/xfcURd85HCkcaeh3ovjlEG2f4hwBIP6lA=
-Date: Wed, 1 Jul 2020 08:45:43 +0300
+ b=fwX2dXPjZehLGVDk564rmOrDNazijRXTkRA9uDV9TrKDR/87xOhV3ueNRjXkJtmnF
+ e6ZZTuA86+Tsy2d2RPeLoMvNPm4/DpEjNRJwQfEuwI/zMYvFJZRi/cXXMeGDch2Ej8
+ Vs4biJJkxivMOp/nM2tVUr1wK8oiE7VvtJ8K6O8s=
+Date: Wed, 1 Jul 2020 08:47:01 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v9 1/2] of_graph: add of_graph_is_present()
-Message-ID: <20200701054543.GA5963@pendragon.ideasonboard.com>
-References: <20200701021617.12030-1-digetx@gmail.com>
- <20200701021617.12030-2-digetx@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 0/7] drm_connector: drop legacy drm_bus_flags
+Message-ID: <20200701054701.GB5963@pendragon.ideasonboard.com>
+References: <20200630180545.1132217-1-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200701021617.12030-2-digetx@gmail.com>
+In-Reply-To: <20200630180545.1132217-1-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,137 +45,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robert Chiras <robert.chiras@nxp.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Sam,
 
-Thank you for the patch.
+Thank you for the patches.
 
-On Wed, Jul 01, 2020 at 05:16:16AM +0300, Dmitry Osipenko wrote:
-> In some case, like a DRM display code for example, it's useful to silently
-> check whether port node exists at all in a device-tree before proceeding
-> with parsing of the graph.
+On Tue, Jun 30, 2020 at 08:05:38PM +0200, Sam Ravnborg wrote:
+> Drop all uses of legacy drm_bus_flags, and then drop the flags.
+> Follow-up with a patch to inline the documentation of the flags.
 > 
-> This patch adds of_graph_is_present() which returns true if given
-> device-tree node contains OF graph port.
+> The conversion was triggered by Laurent's clean-up of
+> the bus_flags use in panel-simple.
+> https://lore.kernel.org/dri-devel/20200630135802.GA581802@ravnborg.org/T/#t
 > 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/of/property.c    | 52 +++++++++++++++++++++++++++++++++-------
->  include/linux/of_graph.h |  6 +++++
->  2 files changed, 49 insertions(+), 9 deletions(-)
+> Build tested only.
+> Patches on top of latest drm-misc-next.
+
+For the whole series,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> (Procrastination, was supposed to review patches, not producing them).
 > 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 6a5760f0d6cd..e12b8b491837 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -29,6 +29,48 @@
->  
->  #include "of_private.h"
->  
-> +/**
-> + * of_graph_get_first_local_port() - get first local port node
-> + * @node: pointer to a local endpoint device_node
-
-It's not an endpoint.
-
-> + *
-> + * Return: First local port node associated with local endpoint node linked
-> + *	   to @node. Use of_node_put() on it when done.
-> + */
-> +static struct device_node *
-> +of_graph_get_first_local_port(const struct device_node *node)
-> +{
-> +	struct device_node *ports, *port;
-> +
-> +	ports = of_get_child_by_name(node, "ports");
-> +	if (ports)
-> +		node = ports;
-> +
-> +	port = of_get_child_by_name(node, "port");
-> +	of_node_put(ports);
-> +
-> +	return port;
-> +}
-> +
-> +/**
-> + * of_graph_is_present() - check graph's presence
-> + * @node: pointer to a device_node checked for the graph's presence
-> + *
-> + * Return: True if @node has a port or ports sub-node, false otherwise.
-> + */
-> +bool of_graph_is_present(const struct device_node *node)
-> +{
-> +	struct device_node *local;
-> +
-> +	local = of_graph_get_first_local_port(node);
-> +	if (!local)
-> +		return false;
-> +
-> +	of_node_put(local);
-> +
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(of_graph_is_present);
-> +
->  /**
->   * of_property_count_elems_of_size - Count the number of elements in a property
->   *
-> @@ -608,15 +650,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->  	 * parent port node.
->  	 */
->  	if (!prev) {
-> -		struct device_node *node;
-> -
-> -		node = of_get_child_by_name(parent, "ports");
-> -		if (node)
-> -			parent = node;
-> -
-> -		port = of_get_child_by_name(parent, "port");
-> -		of_node_put(node);
-> -
-> +		port = of_graph_get_first_local_port(parent);
-
-I think this introduces a bug below in the function, where parent is
-used and is expected to point to the ports node if available. I'd leave
-this part of the change out, and inline +of_graph_get_first_local_port()
-in of_graph_is_present().
-
->  		if (!port) {
->  			pr_err("graph: no port node found in %pOF\n", parent);
->  			return NULL;
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index 01038a6aade0..4d7756087b6b 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -38,6 +38,7 @@ struct of_endpoint {
->  	     child = of_graph_get_next_endpoint(parent, child))
->  
->  #ifdef CONFIG_OF
-> +bool of_graph_is_present(const struct device_node *node);
->  int of_graph_parse_endpoint(const struct device_node *node,
->  				struct of_endpoint *endpoint);
->  int of_graph_get_endpoint_count(const struct device_node *np);
-> @@ -56,6 +57,11 @@ struct device_node *of_graph_get_remote_node(const struct device_node *node,
->  					     u32 port, u32 endpoint);
->  #else
->  
-> +static inline bool of_graph_is_present(const struct device_node *node)
-> +{
-> +	return false;
-> +}
-> +
->  static inline int of_graph_parse_endpoint(const struct device_node *node,
->  					struct of_endpoint *endpoint)
->  {
+> Sam Ravnborg (7):
+>       drm/tidss: drop use of legacy drm_bus_flags
+>       drm/ingenic-drm: drop use of legacy drm_bus_flags
+>       drm/panel: raydium-rm67191: drop use of legacy drm_bus_flags
+>       drm/panel: novatek-nt39016: drop use of legacy drm_bus_flags
+>       drm/panel: panel-simple: drop use of legacy drm_bus_flags
+>       drm/drm_connector: drop legacy drm_bus_flags values
+>       drm/drm_connector: use inline comments for drm_bus_flags
+> 
+>  drivers/gpu/drm/ingenic/ingenic-drm.c         |   2 +-
+>  drivers/gpu/drm/panel/panel-novatek-nt39016.c |   2 +-
+>  drivers/gpu/drm/panel/panel-raydium-rm67191.c |   2 +-
+>  drivers/gpu/drm/panel/panel-simple.c          |  28 +++---
+>  drivers/gpu/drm/tidss/tidss_dispc.c           |   4 +-
+>  include/drm/drm_connector.h                   | 124 ++++++++++++++++++--------
+>  6 files changed, 104 insertions(+), 58 deletions(-)
 
 -- 
 Regards,
