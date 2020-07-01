@@ -2,59 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49CA2104A9
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:13:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E2721052D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:40:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4222B6E82E;
-	Wed,  1 Jul 2020 07:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF73D6E7EF;
+	Wed,  1 Jul 2020 07:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53FF56E5D4
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:04:29 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id s14so9537284plq.6
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 00:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=huWCB/z24/ziNNBiE6DWZ5xJ9+FXzfBZRnjYXxnQWrE=;
- b=kZ/nTZ4kCfUyAG0gS/z9xcG5z/1JkRnUTH57UTubB1mgZywgQI1u7fiVnsEeAqryxV
- t8KuEoRtnsHj6soHtwYG7Q1ppxCorgoNDzzR8s4hmLhBZ896bmONzA//9W7W4NstL+it
- 0Z4U8zjyuDl89YrskXbU97Wsrt2/nwk26A1eY+80/AcxbCfkeeHF0/KBK47/Vv9UO03t
- JlMis+fNpLAMztlZcV8BMKrhdxB0NYGf2cNGtYUtg0oiDv1gpj97LDpuiB1x9PdLKBgU
- W3aeEcSK/eoGdEdZt0nsQiIASFpMT69qPehjMfLs27XYIlMKBAQ003EZIBXwkhlCynlZ
- k3rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=huWCB/z24/ziNNBiE6DWZ5xJ9+FXzfBZRnjYXxnQWrE=;
- b=ZybXrMno6QiNURFPKYDGfHDbmNDzyC1KzE+Io0TFSoZRfo5nO/by1w8B0K/DAYnXPQ
- KmEj93C8iZbXvOoFPzLEULPUHUsySEgQcBe3QANh2UzGQKEKh0e3x48zBcvAeYeGndXt
- aMqnYuIEoSGrqbwXKGNushtKJlU1LW5PXnkMZSCeSjG6dvknJROH5jlsccrcbqVP4KoH
- xk9zKQtZ8ig9SLndJo4W/O5tXq/UijRQO3BsDOCnsk6tPTY0Val0Sa4aU34xAB3OfV42
- OhTdASu7Z7QqH+Zz3iiH24SOf6svEtPd7SC+uO31bGI4/DNIvFQ0Kf8nHI14DHqkQITQ
- Y6zg==
-X-Gm-Message-State: AOAM530rY8ezLnpVAHYYCBrfogt20miJ09+WZPPP2ng+FL7PwPGa9vfk
- P/CFutAnKaSQ5tzSvS8hNQc=
-X-Google-Smtp-Source: ABdhPJzJafAnvdxZm2q/QfRFYFjAPUb+Ew6YsPdr4MXauVOLeTP7sPf5Q67oPHvsrFY1wtzLdV34+Q==
-X-Received: by 2002:a17:90a:204:: with SMTP id
- c4mr7206603pjc.165.1593587068597; 
- Wed, 01 Jul 2020 00:04:28 -0700 (PDT)
-Received: from in099003062.routereb3c90.com ([106.51.138.45])
- by smtp.gmail.com with ESMTPSA id f2sm3623201pfb.184.2020.07.01.00.04.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jul 2020 00:04:28 -0700 (PDT)
-From: Vinay Simha BN <simhavcs@gmail.com>
-To: narmstrong@baylibre.com, Ken-Sue.Tan@taec.toshiba.com,
- Chris.Cheng@taec.toshiba.com, Bhushan.Patel@taec.toshiba.com
-Subject: [PATCH v5 2/2] display/drm/bridge: TC358775 DSI/LVDS driver
-Date: Wed,  1 Jul 2020 12:33:37 +0530
-Message-Id: <20200701070344.6330-2-simhavcs@gmail.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A5E6E7EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:40:10 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200701074006euoutp015973aad8d9c3001d4e7f01fa34f0a370~dkPCcc4P61778517785euoutp01l
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:40:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200701074006euoutp015973aad8d9c3001d4e7f01fa34f0a370~dkPCcc4P61778517785euoutp01l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1593589206;
+ bh=khJe9VZxWQguO3k8EDSriz4PGxf0dg3rXvVhSt1TV+s=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=ERjV7yJLnd5jkHfIhG6zVF9xrqJ9isRC3jzCJ91Q42rFgDQ+Ba1xoSYkWaCkPWZDN
+ GTVqJmMQEdgqYzuV9dY2Obhb65mW8SHpY0m6DHE4x5+j+tIiZGt5DkCj77xopIXpv8
+ /v6Ck8Q3J7181v8fxFOBq4TYKUNME5MTJH+RZ0SQ=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200701074005eucas1p148c38f80d0a1cfa4cac2ca2e1dc1f807~dkPCCHhQA3079230792eucas1p1G;
+ Wed,  1 Jul 2020 07:40:05 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id BB.06.06318.5DD3CFE5; Wed,  1
+ Jul 2020 08:40:05 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba~dkPBXrBg83072030720eucas1p1D;
+ Wed,  1 Jul 2020 07:40:05 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200701074005eusmtrp250748701f048c08492cd9ac215b9a279~dkPBW8Bdl1308413084eusmtrp24;
+ Wed,  1 Jul 2020 07:40:05 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-a7-5efc3dd571a0
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 53.96.06314.4DD3CFE5; Wed,  1
+ Jul 2020 08:40:05 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200701074004eusmtip26d2a5d8c831ce0b0ecd5219e84646045~dkPA59MVZ1412114121eusmtip2j;
+ Wed,  1 Jul 2020 07:40:04 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-rpi-kernel
+ <linux-rpi-kernel@lists.infradead.org>
+Subject: [PATCH] drm/vc4/vc4_hdmi: fill ASoC card owner
+Date: Wed,  1 Jul 2020 09:39:49 +0200
+Message-Id: <20200701073949.28941-1-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200701070344.6330-1-simhavcs@gmail.com>
-References: <20200701070344.6330-1-simhavcs@gmail.com>
-X-Mailman-Approved-At: Wed, 01 Jul 2020 07:12:04 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgleLIzCtJLcpLzFFi42LZduznOd2rtn/iDPY261r0njvJZHHl4iEm
+ i//bJjJbXPn6ns3iQONlRouJtzewW6w9cpfdYtus5WwWLze/YXLg9NjwuYnNo+n9MTaPvd8W
+ sHhs//aA1eN+93Emj81L6j36tqxi9Nh8ujqAI4rLJiU1J7MstUjfLoEr4+qrbawFG2Qqeq9v
+ ZG9g3CLZxcjJISFgInH87g12EFtIYAWjRMv3yi5GLiD7C6PEohmLWCGcz4wSj9fvYYPpuHuu
+ mx0isZxRYlbnAza4lrazT1hBqtgEDCW63naBdYgIxEmc3tPCCFLELNDEJNF9qJcJJCEsYC6x
+ 5fdVsCIWAVWJ76+7wJp5BWwl3n7czw6xTl5i9YYDzCDNEgK/2SQudMxghki4SFzohbGFJV4d
+ 3wLVICPxf+d8JoiGZkaJh+fWskM4PYwSl5tmMEJUWUvcOfcLaDUH0E2aEut36UOEHSXuLLjG
+ CBKWEOCTuPFWECTMDGRO2jadGSLMK9HRJgRRrSYx6/g6uLUHL1yCOsdDom/mOyZIoMZKdD9s
+ ZZzAKDcLYdcCRsZVjOKppcW56anFxnmp5XrFibnFpXnpesn5uZsYgenj9L/jX3cw7vuTdIhR
+ gINRiYe3Q/Z3nBBrYllxZe4hRgkOZiURXqezp+OEeFMSK6tSi/Lji0pzUosPMUpzsCiJ8xov
+ ehkrJJCeWJKanZpakFoEk2Xi4JRqYOwPeLeEW/GRRaL45vfH8mdJu103UG5/c+GyxoO17yps
+ r9u7L1u2rM68JP5cuYRGj/rnc+G7NxxYEqyfuUvdoygt49W3t7/O9U6xYBZzd6523DdXfWvY
+ uvkmLWJXg99fnnbdInL30RRBk83dG7MMF+3VPxF3xy/imv7i9KoJc8Vv1k1iKvvC8kOJpTgj
+ 0VCLuag4EQAgsUUxGwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDLMWRmVeSWpSXmKPExsVy+t/xe7pXbf/EGbzfymjRe+4kk8WVi4eY
+ LP5vm8hsceXrezaLA42XGS0m3t7AbrH2yF12i22zlrNZvNz8hsmB02PD5yY2j6b3x9g89n5b
+ wOKx/dsDVo/73ceZPDYvqffo27KK0WPz6eoAjig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMT
+ Sz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jKuvtrEWbJCp6L2+kb2BcYtkFyMnh4SAicTdc93s
+ XYxcHEICSxklVlx6wQKRkJE4Oa2BFcIWlvhzrYsNxBYS+MQocXp/CIjNJmAo0fUWJM7BISIQ
+ J9GyOABkDrNAB5PE43/TGUFqhAXMJbb8vgrWyyKgKvH9dRfYTF4BW4m3H/ezQ8yXl1i94QDz
+ BEaeBYwMqxhFUkuLc9Nziw31ihNzi0vz0vWS83M3MQJDdtuxn5t3MF7aGHyIUYCDUYmHt0P2
+ d5wQa2JZcWXuIUYJDmYlEV6ns6fjhHhTEiurUovy44tKc1KLDzGaAi2fyCwlmpwPjKe8knhD
+ U0NzC0tDc2NzYzMLJXHeDoGDMUIC6YklqdmpqQWpRTB9TBycUg2MU396vTt3irFt4/6GNenR
+ h+UVRd7MSHc1kFnyN2Wm7lRR74/Rp0zO5i+NXyYTr8aV+afS5Zn/7/CFShu1BFaGt2lLO0/V
+ UhJ1lWuv79AIuuZ8NXE/vxzzGukdZnnSwiplSixpJ7zXuPBuE4vpmjDP1aeUp8bqf6fO06dt
+ E9d/Xqu9tT0s2laJpTgj0VCLuag4EQDUJ4LzbwIAAA==
+X-CMS-MailID: 20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba
+X-Msg-Generator: CA
+X-RootMTR: 20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba
+References: <CGME20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,840 +101,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Vinay Simha BN <simhavcs@gmail.com>
+Cc: alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
+card->owner is a required property and since commit 81033c6b584b ("ALSA:
+core: Warn on empty module") a warning is issued if it is empty. Fix lack
+of it. This fixes following warning observed on RaspberryPi 3B board
+with ARM 32bit kernel and multi_v7_defconfig:
 
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 210 at sound/core/init.c:207 snd_card_new+0x378/0x398 [snd]
+Modules linked in: vc4(+) snd_soc_core ac97_bus snd_pcm_dmaengine bluetooth snd_pcm snd_timer crc32_arm_ce raspberrypi_hwmon snd soundcore ecdh_generic ecc bcm2835_thermal phy_generic
+CPU: 1 PID: 210 Comm: systemd-udevd Not tainted 5.8.0-rc1-00027-g81033c6b584b #1087
+Hardware name: BCM2835
+[<c03113c0>] (unwind_backtrace) from [<c030bcb4>] (show_stack+0x10/0x14)
+[<c030bcb4>] (show_stack) from [<c071cef8>] (dump_stack+0xd4/0xe8)
+[<c071cef8>] (dump_stack) from [<c0345bfc>] (__warn+0xdc/0xf4)
+[<c0345bfc>] (__warn) from [<c0345cc4>] (warn_slowpath_fmt+0xb0/0xb8)
+[<c0345cc4>] (warn_slowpath_fmt) from [<bf02ff74>] (snd_card_new+0x378/0x398 [snd])
+[<bf02ff74>] (snd_card_new [snd]) from [<bf11f0b4>] (snd_soc_bind_card+0x280/0x99c [snd_soc_core])
+[<bf11f0b4>] (snd_soc_bind_card [snd_soc_core]) from [<bf12f000>] (devm_snd_soc_register_card+0x34/0x6c [snd_soc_core])
+[<bf12f000>] (devm_snd_soc_register_card [snd_soc_core]) from [<bf165654>] (vc4_hdmi_bind+0x43c/0x5f4 [vc4])
+[<bf165654>] (vc4_hdmi_bind [vc4]) from [<c09d660c>] (component_bind_all+0xec/0x24c)
+[<c09d660c>] (component_bind_all) from [<bf15c44c>] (vc4_drm_bind+0xd4/0x174 [vc4])
+[<bf15c44c>] (vc4_drm_bind [vc4]) from [<c09d6ac0>] (try_to_bring_up_master+0x160/0x1b0)
+[<c09d6ac0>] (try_to_bring_up_master) from [<c09d6f38>] (component_master_add_with_match+0xd0/0x104)
+[<c09d6f38>] (component_master_add_with_match) from [<bf15c588>] (vc4_platform_drm_probe+0x9c/0xbc [vc4])
+[<bf15c588>] (vc4_platform_drm_probe [vc4]) from [<c09df740>] (platform_drv_probe+0x6c/0xa4)
+[<c09df740>] (platform_drv_probe) from [<c09dd6f0>] (really_probe+0x210/0x350)
+[<c09dd6f0>] (really_probe) from [<c09dd940>] (driver_probe_device+0x5c/0xb4)
+[<c09dd940>] (driver_probe_device) from [<c09ddb38>] (device_driver_attach+0x58/0x60)
+[<c09ddb38>] (device_driver_attach) from [<c09ddbc0>] (__driver_attach+0x80/0xbc)
+[<c09ddbc0>] (__driver_attach) from [<c09db820>] (bus_for_each_dev+0x68/0xb4)
+[<c09db820>] (bus_for_each_dev) from [<c09dc9f8>] (bus_add_driver+0x130/0x1e8)
+[<c09dc9f8>] (bus_add_driver) from [<c09de648>] (driver_register+0x78/0x110)
+[<c09de648>] (driver_register) from [<c0302038>] (do_one_initcall+0x50/0x220)
+[<c0302038>] (do_one_initcall) from [<c03db544>] (do_init_module+0x60/0x210)
+[<c03db544>] (do_init_module) from [<c03da4f8>] (load_module+0x1e34/0x2338)
+[<c03da4f8>] (load_module) from [<c03dac00>] (sys_finit_module+0xac/0xbc)
+[<c03dac00>] (sys_finit_module) from [<c03000c0>] (ret_fast_syscall+0x0/0x54)
+Exception stack(0xeded9fa8 to 0xeded9ff0)
+...
+---[ end trace 6414689569c2bc08 ]---
+
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
-v1:
- Initial version
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-v2:
-* Andrzej Hajda review comments incorporated
-  SPDX identifier
-  development debug removed
-  alphabetic order headers
-  u32 instead of unit32_t
-  magic numbers to macros for CLRSI and mux registers
-  ignored return value
-
-* Laurent Pinchart review comments incorporated
-  mdelay to usleep_range
-  bus_formats added
-
-v3:
-* Andrzej Hajda review comments incorporated
-  drm_connector_status removed
-  u32 rev removed and local variabl is used
-  regulator enable disable with proper orders and delays
-  as per the spec
-  devm_drm_panel_bridge_add method used instead of panel
-  description modified
-  dual port implemented
-
-v4:
-* Sam Ravnborg review comments incorporated
-  panel->connector_type removed
-
-* Reported-by: kernel test robot <lkp@intel.com>
-  parse_dt to static function
-  removed the if (endpoint), since data-lanes has to be
-  present for dsi dts ports
-
-v5:
-  ~vsdelay dynamic value set based on the
-  calculation of dsi speed, output speed, blanking
----
- drivers/gpu/drm/bridge/Kconfig    |  10 +
- drivers/gpu/drm/bridge/Makefile   |   1 +
- drivers/gpu/drm/bridge/tc358775.c | 735 ++++++++++++++++++++++++++++++
- 3 files changed, 746 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/tc358775.c
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 43271c21d3fc..084e9853944a 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -181,6 +181,16 @@ config DRM_TOSHIBA_TC358768
- 	help
- 	  Toshiba TC358768AXBG/TC358778XBG DSI bridge chip driver.
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 625bfcf52dc4..bdcc54c87d7e 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1117,6 +1117,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *hdmi)
+ 	card->num_links = 1;
+ 	card->name = "vc4-hdmi";
+ 	card->dev = dev;
++	card->owner = THIS_MODULE;
  
-+config DRM_TOSHIBA_TC358775
-+        tristate "Toshiba TC358775 LVDS bridge"
-+        depends on OF
-+        select DRM_KMS_HELPER
-+        select REGMAP_I2C
-+        select DRM_PANEL
-+	select DRM_MIPI_DSI
-+        ---help---
-+          Toshiba TC358775 LVDS bridge chip driver.
-+
- config DRM_TI_TFP410
- 	tristate "TI TFP410 DVI/HDMI bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index d63d4b7e4347..23c770b3bfe4 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -15,6 +15,7 @@ obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
- obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
-+obj-$(CONFIG_DRM_TOSHIBA_TC358775) += tc358775.o
- obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
- obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
- obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-new file mode 100644
-index 000000000000..e580c544190c
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -0,0 +1,735 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * tc358775 DSI to LVDS bridge driver
-+ *
-+ * Copyright (C) 2020 SMART Wireless Computing
-+ * Author: Vinay Simha BN <simhavcs@gmail.com>
-+ *
-+ */
-+/* #define DEBUG */
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/slab.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_dp_helper.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#define FLD_MASK(start, end)    (((1 << ((start) - (end) + 1)) - 1) << (end))
-+#define FLD_VAL(val, start, end) (((val) << (end)) & FLD_MASK(start, end))
-+
-+/* Registers */
-+
-+/* DSI D-PHY Layer Registers */
-+#define D0W_DPHYCONTTX  0x0004  /* Data Lane 0 DPHY Tx Control */
-+#define CLW_DPHYCONTRX  0x0020  /* Clock Lane DPHY Rx Control */
-+#define D0W_DPHYCONTRX  0x0024  /* Data Lane 0 DPHY Rx Control */
-+#define D1W_DPHYCONTRX  0x0028  /* Data Lane 1 DPHY Rx Control */
-+#define D2W_DPHYCONTRX  0x002C  /* Data Lane 2 DPHY Rx Control */
-+#define D3W_DPHYCONTRX  0x0030  /* Data Lane 3 DPHY Rx Control */
-+#define COM_DPHYCONTRX  0x0038  /* DPHY Rx Common Control */
-+#define CLW_CNTRL       0x0040  /* Clock Lane Control */
-+#define D0W_CNTRL       0x0044  /* Data Lane 0 Control */
-+#define D1W_CNTRL       0x0048  /* Data Lane 1 Control */
-+#define D2W_CNTRL       0x004C  /* Data Lane 2 Control */
-+#define D3W_CNTRL       0x0050  /* Data Lane 3 Control */
-+#define DFTMODE_CNTRL   0x0054  /* DFT Mode Control */
-+
-+/* DSI PPI Layer Registers */
-+#define PPI_STARTPPI    0x0104  /* START control bit of PPI-TX function. */
-+#define PPI_START_FUNCTION      1
-+
-+#define PPI_BUSYPPI     0x0108
-+#define PPI_LINEINITCNT 0x0110  /* Line Initialization Wait Counter  */
-+#define PPI_LPTXTIMECNT 0x0114
-+#define PPI_LANEENABLE  0x0134  /* Enables each lane at the PPI layer. */
-+#define PPI_TX_RX_TA    0x013C  /* DSI Bus Turn Around timing parameters */
-+
-+/* Analog timer function enable */
-+#define PPI_CLS_ATMR    0x0140  /* Delay for Clock Lane in LPRX  */
-+#define PPI_D0S_ATMR    0x0144  /* Delay for Data Lane 0 in LPRX */
-+#define PPI_D1S_ATMR    0x0148  /* Delay for Data Lane 1 in LPRX */
-+#define PPI_D2S_ATMR    0x014C  /* Delay for Data Lane 2 in LPRX */
-+#define PPI_D3S_ATMR    0x0150  /* Delay for Data Lane 3 in LPRX */
-+
-+#define PPI_D0S_CLRSIPOCOUNT    0x0164  /* For lane 0 */
-+#define PPI_D1S_CLRSIPOCOUNT    0x0168  /* For lane 1 */
-+#define PPI_D2S_CLRSIPOCOUNT    0x016C  /* For lane 2 */
-+#define PPI_D3S_CLRSIPOCOUNT    0x0170  /* For lane 3 */
-+
-+#define CLS_PRE         0x0180  /* Digital Counter inside of PHY IO */
-+#define D0S_PRE         0x0184  /* Digital Counter inside of PHY IO */
-+#define D1S_PRE         0x0188  /* Digital Counter inside of PHY IO */
-+#define D2S_PRE         0x018C  /* Digital Counter inside of PHY IO */
-+#define D3S_PRE         0x0190  /* Digital Counter inside of PHY IO */
-+#define CLS_PREP        0x01A0  /* Digital Counter inside of PHY IO */
-+#define D0S_PREP        0x01A4  /* Digital Counter inside of PHY IO */
-+#define D1S_PREP        0x01A8  /* Digital Counter inside of PHY IO */
-+#define D2S_PREP        0x01AC  /* Digital Counter inside of PHY IO */
-+#define D3S_PREP        0x01B0  /* Digital Counter inside of PHY IO */
-+#define CLS_ZERO        0x01C0  /* Digital Counter inside of PHY IO */
-+#define D0S_ZERO        0x01C4  /* Digital Counter inside of PHY IO */
-+#define D1S_ZERO        0x01C8  /* Digital Counter inside of PHY IO */
-+#define D2S_ZERO        0x01CC  /* Digital Counter inside of PHY IO */
-+#define D3S_ZERO        0x01D0  /* Digital Counter inside of PHY IO */
-+
-+#define PPI_CLRFLG      0x01E0  /* PRE Counters has reached set values */
-+#define PPI_CLRSIPO     0x01E4  /* Clear SIPO values, Slave mode use only. */
-+#define HSTIMEOUT       0x01F0  /* HS Rx Time Out Counter */
-+#define HSTIMEOUTENABLE 0x01F4  /* Enable HS Rx Time Out Counter */
-+#define DSI_STARTDSI    0x0204  /* START control bit of DSI-TX function */
-+#define DSI_RX_START	1
-+
-+#define DSI_BUSYDSI     0x0208
-+#define DSI_LANEENABLE  0x0210  /* Enables each lane at the Protocol layer. */
-+#define DSI_LANESTATUS0 0x0214  /* Displays lane is in HS RX mode. */
-+#define DSI_LANESTATUS1 0x0218  /* Displays lane is in ULPS or STOP state */
-+
-+#define DSI_INTSTATUS   0x0220  /* Interrupt Status */
-+#define DSI_INTMASK     0x0224  /* Interrupt Mask */
-+#define DSI_INTCLR      0x0228  /* Interrupt Clear */
-+#define DSI_LPTXTO      0x0230  /* Low Power Tx Time Out Counter */
-+
-+#define DSIERRCNT       0x0300  /* DSI Error Count */
-+#define APLCTRL         0x0400  /* Application Layer Control */
-+#define RDPKTLN         0x0404  /* Command Read Packet Length */
-+
-+#define VPCTRL          0x0450  /* Video Path Control */
-+#define HTIM1           0x0454  /* Horizontal Timing Control 1 */
-+#define HTIM2           0x0458  /* Horizontal Timing Control 2 */
-+#define VTIM1           0x045C  /* Vertical Timing Control 1 */
-+#define VTIM2           0x0460  /* Vertical Timing Control 2 */
-+#define VFUEN           0x0464  /* Video Frame Timing Update Enable */
-+#define VFUEN_EN	BIT(0)  /* Upload Enable */
-+
-+/* Mux Input Select for LVDS LINK Input */
-+#define LV_MX0003        0x0480  /* Bit 0 to 3 */
-+#define LV_MX0407        0x0484  /* Bit 4 to 7 */
-+#define LV_MX0811        0x0488  /* Bit 8 to 11 */
-+#define LV_MX1215        0x048C  /* Bit 12 to 15 */
-+#define LV_MX1619        0x0490  /* Bit 16 to 19 */
-+#define LV_MX2023        0x0494  /* Bit 20 to 23 */
-+#define LV_MX2427        0x0498  /* Bit 24 to 27 */
-+#define LV_MX(b0, b1, b2, b3)	(FLD_VAL(b0, 4, 0) | FLD_VAL(b1, 12, 8) | \
-+				FLD_VAL(b2, 20, 16) | FLD_VAL(b3, 28, 24))
-+
-+/* Input bit numbers used in mux registers */
-+enum {
-+	LVI_R0,
-+	LVI_R1,
-+	LVI_R2,
-+	LVI_R3,
-+	LVI_R4,
-+	LVI_R5,
-+	LVI_R6,
-+	LVI_R7,
-+	LVI_G0,
-+	LVI_G1,
-+	LVI_G2,
-+	LVI_G3,
-+	LVI_G4,
-+	LVI_G5,
-+	LVI_G6,
-+	LVI_G7,
-+	LVI_B0,
-+	LVI_B1,
-+	LVI_B2,
-+	LVI_B3,
-+	LVI_B4,
-+	LVI_B5,
-+	LVI_B6,
-+	LVI_B7,
-+	LVI_HS,
-+	LVI_VS,
-+	LVI_DE,
-+	LVI_L0
-+};
-+
-+#define LVCFG           0x049C  /* LVDS Configuration  */
-+#define LVPHY0          0x04A0  /* LVDS PHY 0 */
-+#define LV_PHY0_RST(v)          FLD_VAL(v, 22, 22) /* PHY reset */
-+#define LV_PHY0_IS(v)           FLD_VAL(v, 15, 14)
-+#define LV_PHY0_ND(v)           FLD_VAL(v, 4, 0) /* Frequency range select */
-+#define LV_PHY0_PRBS_ON(v)      FLD_VAL(v, 20, 16) /* Clock/Data Flag pins */
-+
-+#define LVPHY1          0x04A4  /* LVDS PHY 1 */
-+#define SYSSTAT         0x0500  /* System Status  */
-+#define SYSRST          0x0504  /* System Reset  */
-+
-+#define SYS_RST_I2CS	BIT(0) /* Reset I2C-Slave controller */
-+#define SYS_RST_I2CM	BIT(1) /* Reset I2C-Master controller */
-+#define SYS_RST_LCD	BIT(2) /* Reset LCD controller */
-+#define SYS_RST_BM	BIT(3) /* Reset Bus Management controller */
-+#define SYS_RST_DSIRX	BIT(4) /* Reset DSI-RX and App controller */
-+#define SYS_RST_REG	BIT(5) /* Reset Register module */
-+
-+/* GPIO Registers */
-+#define GPIOC           0x0520  /* GPIO Control  */
-+#define GPIOO           0x0524  /* GPIO Output  */
-+#define GPIOI           0x0528  /* GPIO Input  */
-+
-+/* I2C Registers */
-+#define I2CTIMCTRL      0x0540  /* I2C IF Timing and Enable Control */
-+#define I2CMADDR        0x0544  /* I2C Master Addressing */
-+#define WDATAQ          0x0548  /* Write Data Queue */
-+#define RDATAQ          0x054C  /* Read Data Queue */
-+
-+/* Chip ID and Revision ID Register */
-+#define IDREG           0x0580
-+
-+#define LPX_PERIOD		4
-+#define TTA_GET			0x40000
-+#define TTA_SURE		6
-+
-+#define TC358775XBG_ID  0x00007500
-+
-+/* Debug Registers */
-+#define DEBUG00         0x05A0  /* Debug */
-+#define DEBUG01         0x05A4  /* LVDS Data */
-+
-+#define DSI_CLEN_BIT		BIT(0)
-+#define DIVIDE_BY_3		3 /* PCLK=DCLK/3 */
-+#define DIVIDE_BY_6		6 /* PCLK=DCLK/6 */
-+#define LVCFG_LVEN_BIT		BIT(0)
-+
-+#define L0EN BIT(1)
-+
-+#define TC358775_VPCTRL_VSDELAY__MASK	0x3FF00000
-+#define TC358775_VPCTRL_VSDELAY__SHIFT	20
-+static inline u32 TC358775_VPCTRL_VSDELAY(uint32_t val)
-+{
-+	return ((val) << TC358775_VPCTRL_VSDELAY__SHIFT) &
-+			TC358775_VPCTRL_VSDELAY__MASK;
-+}
-+
-+#define TC358775_VPCTRL_OPXLFMT__MASK	0x00000100
-+#define TC358775_VPCTRL_OPXLFMT__SHIFT	8
-+static inline u32 TC358775_VPCTRL_OPXLFMT(uint32_t val)
-+{
-+	return ((val) << TC358775_VPCTRL_OPXLFMT__SHIFT) &
-+			TC358775_VPCTRL_OPXLFMT__MASK;
-+}
-+
-+#define TC358775_VPCTRL_MSF__MASK	0x00000001
-+#define TC358775_VPCTRL_MSF__SHIFT	0
-+static inline u32 TC358775_VPCTRL_MSF(uint32_t val)
-+{
-+	return ((val) << TC358775_VPCTRL_MSF__SHIFT) &
-+			TC358775_VPCTRL_MSF__MASK;
-+}
-+
-+#define TC358775_LVCFG_PCLKDIV__MASK	0x000000f0
-+#define TC358775_LVCFG_PCLKDIV__SHIFT	4
-+static inline u32 TC358775_LVCFG_PCLKDIV(uint32_t val)
-+{
-+	return ((val) << TC358775_LVCFG_PCLKDIV__SHIFT) &
-+			TC358775_LVCFG_PCLKDIV__MASK;
-+}
-+
-+#define TC358775_LVCFG_LVDLINK__MASK                         0x00000002
-+#define TC358775_LVCFG_LVDLINK__SHIFT                        0
-+static inline u32 TC358775_LVCFG_LVDLINK(uint32_t val)
-+{
-+	return ((val) << TC358775_LVCFG_LVDLINK__SHIFT) &
-+			TC358775_LVCFG_LVDLINK__MASK;
-+}
-+
-+enum tc358775_ports {
-+	TC358775_DSI_IN,
-+	TC358775_LVDS_OUT0,
-+	TC358775_LVDS_OUT1,
-+};
-+
-+struct tc_data {
-+	struct i2c_client	*i2c;
-+	struct device		*dev;
-+
-+	struct drm_bridge	bridge;
-+	struct drm_bridge	*panel_bridge;
-+
-+	struct device_node *host_node;
-+	struct mipi_dsi_device *dsi;
-+	u8 num_dsi_lanes;
-+
-+	struct regulator	*vdd;
-+	struct regulator	*vddio;
-+	struct gpio_desc	*reset_gpio;
-+	struct gpio_desc	*stby_gpio;
-+	bool                    dual_link; /* single-link or dual-link */
-+};
-+
-+static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
-+{
-+	return container_of(b, struct tc_data, bridge);
-+}
-+
-+static void tc_bridge_pre_enable(struct drm_bridge *bridge)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	struct device *dev = &tc->dsi->dev;
-+	int ret;
-+
-+	ret = regulator_enable(tc->vddio);
-+	if (ret < 0)
-+		dev_err(dev, "regulator vddio enable failed, %d\n", ret);
-+	usleep_range(10000, 11000);
-+
-+	ret = regulator_enable(tc->vdd);
-+	if (ret < 0)
-+		dev_err(dev, "regulator vdd enable failed, %d\n", ret);
-+	usleep_range(10000, 11000);
-+
-+	gpiod_set_value(tc->stby_gpio, 0);
-+	usleep_range(10000, 11000);
-+
-+	gpiod_set_value(tc->reset_gpio, 0);
-+	usleep_range(10, 20);
-+}
-+
-+static void tc_bridge_post_disable(struct drm_bridge *bridge)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	struct device *dev = &tc->dsi->dev;
-+	int ret;
-+
-+	ret = regulator_disable(tc->vddio);
-+	if (ret < 0)
-+		dev_err(dev, "regulator vddio disable failed, %d\n", ret);
-+	usleep_range(10000, 11000);
-+
-+	ret = regulator_disable(tc->vdd);
-+	if (ret < 0)
-+		dev_err(dev, "regulator vdd disable failed, %d\n", ret);
-+	usleep_range(10000, 11000);
-+
-+	gpiod_set_value(tc->stby_gpio, 1);
-+	usleep_range(10000, 11000);
-+
-+	gpiod_set_value(tc->reset_gpio, 1);
-+	usleep_range(10, 20);
-+}
-+
-+static u32 d2l_read(struct i2c_client *i2c, u16 reg)
-+{
-+	int ret;
-+	u8 val[4];
-+	u8 addr[] = {(reg >> 8) & 0xff, reg & 0xff};
-+	u32 value;
-+
-+	ret = i2c_master_send(i2c, addr, sizeof(reg));
-+	if (ret < 0)
-+		goto fail;
-+
-+	ret = i2c_master_recv(i2c, val, sizeof(value));
-+	if (ret < 0)
-+		goto fail;
-+
-+	value = val[3] << 24 | val[2] << 16 | val[1] << 8 | val[0];
-+
-+	pr_debug("d2l: I2C : reg:%04x value:%08x\n", reg, value);
-+
-+	return value;
-+
-+fail:
-+	dev_err(&i2c->dev, "Error %d reading from subaddress 0x%x\n",
-+		ret, reg);
-+	return 0;
-+}
-+
-+static void d2l_write(struct i2c_client *i2c, u16 reg, u32 val)
-+{
-+	u8 buf[6];
-+	int ret;
-+
-+	buf[0] = reg >> 8;
-+	buf[1] = reg & 0xFF;
-+	buf[2] = (val >> 0) & 0xFF;
-+	buf[3] = (val >> 8) & 0xFF;
-+	buf[4] = (val >> 16) & 0xFF;
-+	buf[5] = (val >> 24) & 0xFF;
-+
-+	ret = i2c_master_send(i2c, buf, ARRAY_SIZE(buf));
-+	if (ret < 0)
-+		dev_err(&i2c->dev, "Error %d writing to subaddress 0x%x\n",
-+			ret, reg);
-+}
-+
-+/* helper function to access bus_formats */
-+static struct drm_connector *get_connector(struct drm_encoder *encoder)
-+{
-+	struct drm_device *dev = encoder->dev;
-+	struct drm_connector *connector;
-+
-+	list_for_each_entry(connector, &dev->mode_config.connector_list, head)
-+		if (connector->encoder == encoder)
-+			return connector;
-+
-+	return NULL;
-+}
-+
-+static void tc_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	u32 hbpr, hpw, htime1, hfpr, hsize, htime2;
-+	u32 vbpr, vpw, vtime1, vfpr, vsize, vtime2;
-+	u32 val = 0, val_lvcfg = 0;
-+	u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
-+	u8 link, bpc;
-+	u16 bus_formats;
-+	struct drm_display_mode *mode;
-+	struct drm_connector *connector = get_connector(bridge->encoder);
-+
-+	mode = &bridge->encoder->crtc->state->adjusted_mode;
-+
-+	hbpr = mode->htotal - mode->hsync_end;
-+	hpw  = mode->hsync_end - mode->hsync_start;
-+	vbpr = mode->vtotal - mode->vsync_end;
-+	vpw  = mode->vsync_end - mode->vsync_start;
-+
-+	htime1 = (hbpr << 16) + hpw;
-+	vtime1 = (vbpr << 16) + vpw;
-+
-+	hfpr = mode->hsync_start - mode->hdisplay;
-+	hsize = mode->hdisplay;
-+	vfpr = mode->vsync_start - mode->vdisplay;
-+	vsize = mode->vdisplay;
-+
-+	htime2 = (hfpr << 16) + hsize;
-+	vtime2 = (vfpr << 16) + vsize;
-+
-+	val = d2l_read(tc->i2c, IDREG);
-+
-+	dev_info(tc->dev, "DSI2LVDS Chip ID.%02x Revision ID. %02x **\n",
-+		 (val >> 8) & 0xFF, val & 0xFF);
-+
-+	d2l_write(tc->i2c, SYSRST, SYS_RST_REG | SYS_RST_DSIRX | SYS_RST_BM |
-+		  SYS_RST_LCD | SYS_RST_I2CM | SYS_RST_I2CS);
-+	usleep_range(30000, 40000);
-+
-+	d2l_write(tc->i2c, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
-+	d2l_write(tc->i2c, PPI_LPTXTIMECNT, LPX_PERIOD);
-+	d2l_write(tc->i2c, PPI_D0S_CLRSIPOCOUNT, 3);
-+	d2l_write(tc->i2c, PPI_D1S_CLRSIPOCOUNT, 3);
-+	d2l_write(tc->i2c, PPI_D2S_CLRSIPOCOUNT, 3);
-+	d2l_write(tc->i2c, PPI_D3S_CLRSIPOCOUNT, 3);
-+
-+	val = ((L0EN << tc->num_dsi_lanes) - L0EN) | DSI_CLEN_BIT;
-+	d2l_write(tc->i2c, PPI_LANEENABLE, val);
-+	d2l_write(tc->i2c, DSI_LANEENABLE, val);
-+
-+	d2l_write(tc->i2c, PPI_STARTPPI, PPI_START_FUNCTION);
-+	d2l_write(tc->i2c, DSI_STARTDSI, DSI_RX_START);
-+
-+	val_lvcfg = LVCFG_LVEN_BIT;
-+	if (tc->dual_link) {
-+		link = 2;
-+		val_lvcfg |= TC358775_LVCFG_LVDLINK(1);
-+		val_lvcfg |= TC358775_LVCFG_PCLKDIV(DIVIDE_BY_6);
-+	} else {
-+		link = 1;
-+		val_lvcfg |= TC358775_LVCFG_PCLKDIV(DIVIDE_BY_3);
-+	}
-+
-+	bus_formats = connector->display_info.bus_formats[0];
-+	dev_dbg(tc->dev, "bus_formats : %04x\n", bus_formats);
-+
-+	if (bus_formats == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ||
-+	    bus_formats == MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA) {
-+		/* RGB888 */
-+		bpc = 8;
-+		val = TC358775_VPCTRL_OPXLFMT(1);
-+	} else {
-+		/* RGB666 */
-+		bpc = 6;
-+		val |= TC358775_VPCTRL_MSF(1);
-+	}
-+
-+	dsiclk = mode->crtc_clock * 3 * bpc / tc->num_dsi_lanes / 1000;
-+	clkdiv = dsiclk / DIVIDE_BY_3 * link;
-+	byteclk = dsiclk / 4;
-+	t1 = hsize * (bpc * 3 / 8) / tc->num_dsi_lanes;
-+	t2 = ((100000 / clkdiv)) * (hsize + hbpr + hpw + hfpr) / 1000;
-+	t3 = ((t2 * byteclk) / 100) - (hsize * (bpc * 3 / 8) /
-+		tc->num_dsi_lanes);
-+
-+	vsdelay = (clkdiv * (t1 + t3) / byteclk) - hbpr - hpw - hsize;
-+
-+	val |= TC358775_VPCTRL_VSDELAY(vsdelay);
-+	d2l_write(tc->i2c, VPCTRL, val);
-+
-+	d2l_write(tc->i2c, HTIM1, htime1);
-+	d2l_write(tc->i2c, VTIM1, vtime1);
-+	d2l_write(tc->i2c, HTIM2, htime2);
-+	d2l_write(tc->i2c, VTIM2, vtime2);
-+
-+	d2l_write(tc->i2c, VFUEN, VFUEN_EN);
-+	d2l_write(tc->i2c, SYSRST, SYS_RST_LCD);
-+	d2l_write(tc->i2c, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
-+
-+	/* default jeida-24 */
-+	if (bus_formats == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
-+		/* vesa-24 */
-+		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
-+		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_R7, LVI_R5, LVI_G0));
-+		d2l_write(tc->i2c, LV_MX0811, LV_MX(LVI_G1, LVI_G2, LVI_G6, LVI_G7));
-+		d2l_write(tc->i2c, LV_MX1215, LV_MX(LVI_G3, LVI_G4, LVI_G5, LVI_B0));
-+		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_B6, LVI_B7, LVI_B1, LVI_B2));
-+		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B3, LVI_B4, LVI_B5, LVI_L0));
-+		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R6));
-+	}
-+
-+	if (bus_formats == MEDIA_BUS_FMT_RGB666_1X7X3_SPWG) {
-+		/* jeida-18 */
-+		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
-+		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_L0, LVI_R5, LVI_G0));
-+		d2l_write(tc->i2c, LV_MX0811, LV_MX(LVI_G1, LVI_G2, LVI_L0, LVI_L0));
-+		d2l_write(tc->i2c, LV_MX1215, LV_MX(LVI_G3, LVI_G4, LVI_G5, LVI_B0));
-+		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_L0, LVI_L0, LVI_B1, LVI_B2));
-+		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B3, LVI_B4, LVI_B5, LVI_L0));
-+		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_L0));
-+	}
-+
-+	d2l_write(tc->i2c, VFUEN, VFUEN_EN);
-+	d2l_write(tc->i2c, LVCFG, val_lvcfg);
-+}
-+
-+static int tc_mode_valid(struct drm_bridge *bridge,
-+			 const struct drm_display_mode *mode)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+
-+	/* Maximum pixel clock speed 135MHz-single-link/270MHz-dual-link */
-+	if ((mode->clock > 135000 && tc->dual_link) ||
-+	    (mode->clock > 270000 && tc->dual_link))
-+		return MODE_CLOCK_HIGH;
-+
-+	return MODE_OK;
-+}
-+
-+static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
-+{
-+	struct device_node *endpoint;
-+	struct device_node *parent;
-+	struct device_node *remote;
-+	struct property *prop;
-+	int len;
-+
-+	endpoint = of_graph_get_endpoint_by_regs(tc->dev->of_node,
-+						 TC358775_DSI_IN, -1);
-+	if (endpoint) {
-+		/* dsi0_out node */
-+		parent = of_graph_get_remote_port_parent(endpoint);
-+		of_node_put(endpoint);
-+		if (parent) {
-+			/* dsi0 port 1 */
-+			endpoint = of_graph_get_endpoint_by_regs(parent, 1, -1);
-+			of_node_put(parent);
-+			prop = of_find_property(endpoint, "data-lanes",
-+						&len);
-+			of_node_put(endpoint);
-+			if (!prop) {
-+				dev_err(tc->dev,
-+					"failed to find data lane\n");
-+				return -EPROBE_DEFER;
-+			}
-+		}
-+	}
-+
-+	tc->num_dsi_lanes = len / sizeof(u32);
-+
-+	if (tc->num_dsi_lanes < 1 || tc->num_dsi_lanes > 4)
-+		return -EINVAL;
-+
-+	tc->host_node = of_graph_get_remote_node(np, 0, 0);
-+	if (!tc->host_node)
-+		return -ENODEV;
-+
-+	of_node_put(tc->host_node);
-+
-+	endpoint = of_graph_get_endpoint_by_regs(tc->dev->of_node,
-+						 TC358775_LVDS_OUT1, -1);
-+	if (endpoint) {
-+		remote = of_graph_get_remote_port_parent(endpoint);
-+		of_node_put(endpoint);
-+
-+		if (remote) {
-+			if (of_device_is_available(remote))
-+				tc->dual_link = true;
-+			of_node_put(remote);
-+		}
-+	}
-+
-+	dev_dbg(tc->dev, "no.of dsi lanes: %d\n", tc->num_dsi_lanes);
-+	dev_dbg(tc->dev, "operating in %s-link mode\n",
-+		tc->dual_link ? "dual" : "single");
-+
-+	return 0;
-+}
-+
-+static int tc_bridge_attach(struct drm_bridge *bridge,
-+			    enum drm_bridge_attach_flags flags)
-+{
-+	struct tc_data *tc = bridge_to_tc(bridge);
-+	struct device *dev = &tc->i2c->dev;
-+	struct mipi_dsi_host *host;
-+	struct mipi_dsi_device *dsi;
-+	int ret;
-+
-+	const struct mipi_dsi_device_info info = { .type = "tc358775",
-+							.channel = 0,
-+							.node = NULL,
-+						};
-+
-+	host = of_find_mipi_dsi_host_by_node(tc->host_node);
-+	if (!host) {
-+		dev_err(dev, "failed to find dsi host\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi)) {
-+		dev_err(dev, "failed to create dsi device\n");
-+		ret = PTR_ERR(dsi);
-+		goto err_dsi_device;
-+	}
-+
-+	tc->dsi = dsi;
-+
-+	dsi->lanes = tc->num_dsi_lanes;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to attach dsi to host\n");
-+		goto err_dsi_attach;
-+	}
-+
-+	/* Attach the panel-bridge to the dsi bridge */
-+	return drm_bridge_attach(bridge->encoder, tc->panel_bridge,
-+				 &tc->bridge, flags);
-+err_dsi_attach:
-+	mipi_dsi_device_unregister(dsi);
-+err_dsi_device:
-+	return ret;
-+}
-+
-+static const struct drm_bridge_funcs tc_bridge_funcs = {
-+	.attach = tc_bridge_attach,
-+	.pre_enable = tc_bridge_pre_enable,
-+	.enable = tc_bridge_enable,
-+	.mode_valid = tc_mode_valid,
-+	.post_disable = tc_bridge_post_disable,
-+};
-+
-+static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
-+{
-+	struct device *dev = &client->dev;
-+	struct drm_panel *panel;
-+	struct tc_data *tc;
-+	int ret;
-+
-+	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
-+	if (!tc)
-+		return -ENOMEM;
-+
-+	tc->dev = dev;
-+	tc->i2c = client;
-+
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, TC358775_LVDS_OUT0,
-+					  0, &panel, NULL);
-+	if (ret < 0)
-+		return ret;
-+	if (!panel)
-+		return -ENODEV;
-+
-+	tc->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(tc->panel_bridge))
-+		return PTR_ERR(tc->panel_bridge);
-+
-+	ret = tc358775_parse_dt(dev->of_node, tc);
-+	if (ret)
-+		return ret;
-+
-+	tc->vddio = devm_regulator_get(dev, "vddio-supply");
-+	if (IS_ERR(tc->vddio)) {
-+		ret = PTR_ERR(tc->vddio);
-+		dev_err(dev, "vddio-supply not found\n");
-+		return ret;
-+	}
-+
-+	tc->vdd = devm_regulator_get(dev, "vdd-supply");
-+	if (IS_ERR(tc->vdd)) {
-+		ret = PTR_ERR(tc->vddio);
-+		dev_err(dev, "vdd-supply not found\n");
-+		return ret;
-+	}
-+
-+	tc->stby_gpio = devm_gpiod_get(dev, "stby", GPIOD_OUT_HIGH);
-+	if (IS_ERR(tc->stby_gpio)) {
-+		ret = PTR_ERR(tc->stby_gpio);
-+		dev_err(dev, "cannot get stby-gpio %d\n", ret);
-+		return ret;
-+	}
-+
-+	tc->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(tc->reset_gpio)) {
-+		ret = PTR_ERR(tc->reset_gpio);
-+		dev_err(dev, "cannot get reset-gpios %d\n", ret);
-+		return ret;
-+	}
-+
-+	tc->bridge.funcs = &tc_bridge_funcs;
-+	tc->bridge.of_node = dev->of_node;
-+	drm_bridge_add(&tc->bridge);
-+
-+	i2c_set_clientdata(client, tc);
-+
-+	return 0;
-+}
-+
-+static int tc_remove(struct i2c_client *client)
-+{
-+	struct tc_data *tc = i2c_get_clientdata(client);
-+
-+	drm_bridge_remove(&tc->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id tc358775_i2c_ids[] = {
-+	{ "tc358775", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, tc358775_i2c_ids);
-+
-+static const struct of_device_id tc358775_of_ids[] = {
-+	{ .compatible = "toshiba,tc358775", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, tc358775_of_ids);
-+
-+static struct i2c_driver tc358775_driver = {
-+	.driver = {
-+		.name = "tc358775",
-+		.of_match_table = tc358775_of_ids,
-+	},
-+	.id_table = tc358775_i2c_ids,
-+	.probe = tc_probe,
-+	.remove	= tc_remove,
-+};
-+module_i2c_driver(tc358775_driver);
-+
-+MODULE_AUTHOR("Vinay Simha BN <simhavcs@gmail.com>");
-+MODULE_DESCRIPTION("TC358775 DSI/LVDS bridge driver");
-+MODULE_LICENSE("GPL v2");
+ 	/*
+ 	 * Be careful, snd_soc_register_card() calls dev_set_drvdata() and
 -- 
 2.17.1
 
