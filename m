@@ -2,56 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7EC211CDB
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606F8211CBA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 867126EA59;
-	Thu,  2 Jul 2020 07:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 144F66E92B;
+	Thu,  2 Jul 2020 07:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701256E88B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 10:11:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1593598283; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=amiqoJGPjX9RNHOLVHTe5Q2mOjhh5iGIl3d/MtXJOIs=;
- b=K5FEw/0y3uLKvgjdq2AkfWk5lniKbewDzaxui6l8XlQ7xH3tJjp6DWLdwYJIm9FGOeWhwF7g
- H3dnOoUIScL2mCLpOb0GQ/Cz/c7MeN/gAd1pf2z1FtH5HkRcfVBAvrzo+Y0PZmRlDlLMYBp8
- Rgrg0GQFzl4LTQ0AgSmhAj67jt8=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n15.prod.us-west-2.postgun.com with SMTP id
- 5efc613a4c9690533a499f7f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 01 Jul 2020 10:11:06
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1CCD9C433C6; Wed,  1 Jul 2020 10:11:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B6F35C433C8;
- Wed,  1 Jul 2020 10:11:03 +0000 (UTC)
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D2E6E4B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 10:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1593599488; bh=DcIwYA7UiV2HZIT74/WIK+hRV/P3BCbOenueqgwjk/o=;
+ h=From:To:Cc:Subject:Date:From;
+ b=H6IDNyTtjqu60WUzYVWz23IzaUHz/Qq14fOs8WY9Jq439fSo8yYsgsSYlJByt0hDa
+ JlzlSPITb/Pwg1J4lrOr7bS1zBpw7PIvkgEIS9dnPlAWz4dLxPYUsC9zpzRTuCDVfs
+ y98wNsXhEPzillpUYTaWK/Af1ECW3nG9xro1dj9Y=
+From: Ondrej Jirman <megous@megous.com>
+To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH v6 00/13] Add support for PinePhone LCD panel
+Date: Wed,  1 Jul 2020 12:31:13 +0200
+Message-Id: <20200701103126.1512615-1-megous@megous.com>
 MIME-Version: 1.0
-Date: Wed, 01 Jul 2020 15:41:03 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Robin Murphy <robin.murphy@arm.com>, Jordan Crouse
- <jcrouse@codeaurora.org>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v9 0/7] iommu/arm-smmu: Enable split pagetable support
-In-Reply-To: <20200626200042.13713-1-jcrouse@codeaurora.org>
-References: <20200626200042.13713-1-jcrouse@codeaurora.org>
-Message-ID: <bdc2a4348230f430138d320e49e188c0@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,103 +43,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm-owner@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Brian Masney <masneyb@onstation.org>
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Will, Robin,
+This patchset adds support for the LCD panel of PinePhone.
 
-On 2020-06-27 01:30, Jordan Crouse wrote:
-> Another iteration of the split-pagetable support for arm-smmu and the 
-> Adreno GPU
-> SMMU. After email discussions [1] we opted to make a arm-smmu 
-> implementation for
-> specifically for the Adreno GPU and use that to enable split pagetable 
-> support
-> and later other implementation specific bits that we need.
-> 
-> On the hardware side this is very close to the same code from before 
-> [2] only
-> the TTBR1 quirk is turned on by the implementation and not a domain 
-> attribute.
-> In drm/msm we use the returned size of the aperture as a clue to let us 
-> know
-> which virtual address space we should use for global memory objects.
-> 
-> There are two open items that you should be aware of. First, in the
-> implementation specific code we have to check the compatible string of 
-> the
-> device so that we only enable TTBR1 for the GPU (SID 0) and not the GMU 
-> (SID 4).
-> I went back and forth trying to decide if I wanted to use the 
-> compatible string
-> or the SID as the filter and settled on the compatible string but I 
-> could be
-> talked out of it.
-> 
-> The other open item is that in drm/msm the hardware only uses 49 bits 
-> of the
-> address space but arm-smmu expects the address to be sign extended all 
-> the way
-> to 64 bits. This isn't a problem normally unless you look at the 
-> hardware
-> registers that contain a IOVA and then the upper bits will be zero. I 
-> opted to
-> restrict the internal drm/msm IOVA range to only 49 bits and then sign 
-> extend
-> right before calling iommu_map / iommu_unmap. This is a bit wonky but I 
-> thought
-> that matching the hardware would be less confusing when debugging a 
-> hang.
-> 
-> v9: Fix bot-detected merge conflict
-> v7: Add attached device to smmu_domain to pass to implementation 
-> specific
-> functions
-> 
-> [1] 
-> https://lists.linuxfoundation.org/pipermail/iommu/2020-May/044537.html
-> [2] https://patchwork.kernel.org/patch/11482591/
-> 
-> 
-> Jordan Crouse (7):
->   iommu/arm-smmu: Pass io-pgtable config to implementation specific
->     function
->   iommu/arm-smmu: Add support for split pagetables
->   dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
->   iommu/arm-smmu: Add a pointer to the attached device to smmu_domain
->   iommu/arm-smmu: Add implementation for the adreno GPU SMMU
->   drm/msm: Set the global virtual address range from the IOMMU domain
->   arm: dts: qcom: sm845: Set the compatible string for the GPU SMMU
-> 
->  .../devicetree/bindings/iommu/arm,smmu.yaml   |  4 ++
->  arch/arm64/boot/dts/qcom/sdm845.dtsi          |  2 +-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c       | 13 +++++-
->  drivers/gpu/drm/msm/msm_iommu.c               |  7 +++
->  drivers/iommu/arm-smmu-impl.c                 |  6 ++-
->  drivers/iommu/arm-smmu-qcom.c                 | 45 ++++++++++++++++++-
->  drivers/iommu/arm-smmu.c                      | 38 +++++++++++-----
->  drivers/iommu/arm-smmu.h                      | 30 ++++++++++---
->  8 files changed, 120 insertions(+), 25 deletions(-)
+I've tested this on PinePhone 1.0 and 1.2.
 
-Any chance reviewing this?
+Please take a look.
 
-Thanks,
-Sai
+thank you and regards,
+  Ondrej Jirman
+
+Changes in v6:
+- Fixed spacing in yaml
+- Fixed wrong vccio->iovcc supply name in the bindings doc
+- I noticed that the original driver uses a delay of 20ms in the init
+  function to achieve a combined total of 120ms required from post-reset
+  to display_on. I've added a similar delay to xbd599_init, so that
+  xbd599 panel also has the right timing. (patch 9)
+- v5->v6 diff: https://megous.com/dl/tmp/v5-v6.patch
+- Added review/ack tags
+- Learned to run dt_binding_check by myself ;)
+
+Changes in v5:
+- rewritten on top of rocktech-jh057n00900 driver
+- rocktech-jh057n00900 renamed to st7703 (controller name)
+- converted rocktech-jh057n00900 bindings to yaml and extended for xbd599
+
+Changes in v4:
+- use ->type from the mode instead of hardcoding (Samuel)
+- move init_sequence to ->prepare (Samuel)
+- move anti-flicker delay to ->enable, explain it (Samuel)
+- add enter_sleep after display_off (Samuel)
+- drop ->disable (move code to ->unprepare)
+- add ID bytes dumping (Linus)
+  (I can't test it since allwinner DSI driver has a broken
+   dcs_read function, and I didn't manage to fix it.)
+- document magic bytes (Linus)
+- assert reset during powerup
+- cleanup powerup timings according to the datasheet
+
+Changes in v3:
+- Panel driver renamed to the name of the LCD controller
+- Re-organize the driver slightly to more easily support more panels
+  based on the same controller.
+- Add patch to enable the touchscreen to complete the LCD support
+  on PinePhone.
+- Dropped the "DSI fix" patch (the driver seems to work for me without it)
+- Improved brightness levels handling:
+  - PinePhone 1.0 uses default levels generated by the driver
+  - On PinePhone 1.1 duty cycles < 20% lead to black screen, so
+    default levels can't be used. Martijn Braam came up with a
+    list of duty cycle values that lead to perception of linear
+    brigtness level <-> light intensity on PinePhone 1.1
+- There was some feedback on v2 about this being similar to st7701.
+  It's only similar in name. Most of the "user commands" are different,
+  so I opted to keep this in a new driver instead of creating st770x.
+  
+  Anyone who likes to check the differences, here are datasheets:
+
+  - https://megous.com/dl/tmp/ST7703_DS_v01_20160128.pdf
+  - https://megous.com/dl/tmp/ST7701.pdf
+
+Changes in v2:
+- DT Example fix.
+- DT Format fix.
+- Raised copyright info to 2020.
+- Sort panel operation functions.
+- Sort inclusion.
+
+
+-- For phone owners: --
+
+There's an open question on how to set the backlight brightness values
+on post 1.0 revision phone, since lower duty cycles (< 10-20%) lead
+to backlight being black. It would be nice if more people can test
+the various backlight levels on 1.1 and 1.2 revision with this change
+in dts:
+
+       brightness-levels = <0 1000>;
+       num-interpolated-steps = <1000>;
+
+and report at what brightness level the backlight turns on. So far it
+seems this has a wide range. Lowest useable duty cycle for me is ~7%
+on 1.2 and for Martijn ~20% on 1.1.
+
+Icenowy Zheng (2):
+  dt-bindings: vendor-prefixes: Add Xingbangda
+  arm64: dts: sun50i-a64-pinephone: Enable LCD support on PinePhone
+
+Ondrej Jirman (11):
+  dt-bindings: panel: Convert rocktech,jh057n00900 to yaml
+  dt-bindings: panel: Add compatible for Xingbangda XBD599 panel
+  drm/panel: rocktech-jh057n00900: Rename the driver to st7703
+  drm/panel: st7703: Rename functions from jh057n prefix to st7703
+  drm/panel: st7703: Prepare for supporting multiple panels
+  drm/panel: st7703: Move code specific to jh057n closer together
+  drm/panel: st7703: Move generic part of init sequence to enable
+    callback
+  drm/panel: st7703: Add support for Xingbangda XBD599
+  drm/panel: st7703: Enter sleep after display off
+  drm/panel: st7703: Assert reset prior to powering down the regulators
+  arm64: dts: sun50i-a64-pinephone: Add touchscreen support
+
+ .../display/panel/rocktech,jh057n00900.txt    |  23 -
+ .../display/panel/rocktech,jh057n00900.yaml   |  70 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../allwinner/sun50i-a64-pinephone-1.1.dts    |  19 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  54 ++
+ drivers/gpu/drm/panel/Kconfig                 |  26 +-
+ drivers/gpu/drm/panel/Makefile                |   2 +-
+ .../drm/panel/panel-rocktech-jh057n00900.c    | 424 -----------
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 656 ++++++++++++++++++
+ 9 files changed, 815 insertions(+), 461 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.txt
+ create mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+ delete mode 100644 drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
+ create mode 100644 drivers/gpu/drm/panel/panel-sitronix-st7703.c
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
