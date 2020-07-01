@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E500B210368
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 07:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D0210379
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 07:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077936E3B0;
-	Wed,  1 Jul 2020 05:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3B186E5CA;
+	Wed,  1 Jul 2020 05:53:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67DA6E3B0
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 05:47:06 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961FA6E5CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 05:53:41 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E717556;
- Wed,  1 Jul 2020 07:47:05 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC31C556;
+ Wed,  1 Jul 2020 07:53:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593582425;
- bh=lLlE6wlCwDL/Ydht7HG8e8nS46G/QNmTOhwlH57lMes=;
+ s=mail; t=1593582820;
+ bh=jNEnbbU+mUUHmnVaN867YZAh01TVrstm4KhGyErE+kI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fwX2dXPjZehLGVDk564rmOrDNazijRXTkRA9uDV9TrKDR/87xOhV3ueNRjXkJtmnF
- e6ZZTuA86+Tsy2d2RPeLoMvNPm4/DpEjNRJwQfEuwI/zMYvFJZRi/cXXMeGDch2Ej8
- Vs4biJJkxivMOp/nM2tVUr1wK8oiE7VvtJ8K6O8s=
-Date: Wed, 1 Jul 2020 08:47:01 +0300
+ b=cw0KgKNmp+avM2ErZ4x8oyqFokj+a/tVeMtCuJQDuLZv/CuGSXVuIoUk4tPy9zsuv
+ IwIR3DmSrvB+FX6vchtaQtSVtZc1RVwc6FUKDnmCbWhrm5SdyXK6syJVRZHg8HSIrJ
+ VIQLqOb8hvIz2FS+rB4TDfezttAltNHCCGmXKw1o=
+Date: Wed, 1 Jul 2020 08:53:36 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 0/7] drm_connector: drop legacy drm_bus_flags
-Message-ID: <20200701054701.GB5963@pendragon.ideasonboard.com>
-References: <20200630180545.1132217-1-sam@ravnborg.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: display: Convert connectors to DT schema
+Message-ID: <20200701055336.GC5963@pendragon.ideasonboard.com>
+References: <20200630200216.1172566-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200630180545.1132217-1-sam@ravnborg.org>
+In-Reply-To: <20200630200216.1172566-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,53 +45,467 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Robert Chiras <robert.chiras@nxp.com>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hi Rob,
 
-Thank you for the patches.
+Thank you for the patch.
 
-On Tue, Jun 30, 2020 at 08:05:38PM +0200, Sam Ravnborg wrote:
-> Drop all uses of legacy drm_bus_flags, and then drop the flags.
-> Follow-up with a patch to inline the documentation of the flags.
+On Tue, Jun 30, 2020 at 02:02:16PM -0600, Rob Herring wrote:
+> Convert the analog TV, DVI, HDMI, and VGA connector bindings to DT schema
+> format.
 > 
-> The conversion was triggered by Laurent's clean-up of
-> the bus_flags use in panel-simple.
-> https://lore.kernel.org/dri-devel/20200630135802.GA581802@ravnborg.org/T/#t
-> 
-> Build tested only.
-> Patches on top of latest drm-misc-next.
-
-For the whole series,
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> (Procrastination, was supposed to review patches, not producing them).
+> ---
+> v2:
+> - Make Laurent maintainer
+> - Add missing port and compatible required
+> - Drop copy-n-paste 'type' from dvi-connector
+> - Use 4 space indent on examples
+> ---
+>  .../display/connector/analog-tv-connector.txt | 31 --------
+>  .../connector/analog-tv-connector.yaml        | 52 ++++++++++++++
+>  .../display/connector/dvi-connector.txt       | 36 ----------
+>  .../display/connector/dvi-connector.yaml      | 70 +++++++++++++++++++
+>  .../display/connector/hdmi-connector.txt      | 31 --------
+>  .../display/connector/hdmi-connector.yaml     | 64 +++++++++++++++++
+>  .../display/connector/vga-connector.txt       | 36 ----------
+>  .../display/connector/vga-connector.yaml      | 46 ++++++++++++
+>  8 files changed, 232 insertions(+), 134 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.yaml
 > 
-> Sam Ravnborg (7):
->       drm/tidss: drop use of legacy drm_bus_flags
->       drm/ingenic-drm: drop use of legacy drm_bus_flags
->       drm/panel: raydium-rm67191: drop use of legacy drm_bus_flags
->       drm/panel: novatek-nt39016: drop use of legacy drm_bus_flags
->       drm/panel: panel-simple: drop use of legacy drm_bus_flags
->       drm/drm_connector: drop legacy drm_bus_flags values
->       drm/drm_connector: use inline comments for drm_bus_flags
-> 
->  drivers/gpu/drm/ingenic/ingenic-drm.c         |   2 +-
->  drivers/gpu/drm/panel/panel-novatek-nt39016.c |   2 +-
->  drivers/gpu/drm/panel/panel-raydium-rm67191.c |   2 +-
->  drivers/gpu/drm/panel/panel-simple.c          |  28 +++---
->  drivers/gpu/drm/tidss/tidss_dispc.c           |   4 +-
->  include/drm/drm_connector.h                   | 124 ++++++++++++++++++--------
->  6 files changed, 104 insertions(+), 58 deletions(-)
+> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+> deleted file mode 100644
+> index 883bcb2604c7..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -Analog TV Connector
+> -===================
+> -
+> -Required properties:
+> -- compatible: "composite-video-connector" or "svideo-connector"
+> -
+> -Optional properties:
+> -- label: a symbolic name for the connector
+> -- sdtv-standards: limit the supported TV standards on a connector to the given
+> -                  ones. If not specified all TV standards are allowed.
+> -                  Possible TV standards are defined in
+> -                  include/dt-bindings/display/sdtv-standards.h.
+> -
+> -Required nodes:
+> -- Video port for TV input
+> -
+> -Example
+> --------
+> -#include <dt-bindings/display/sdtv-standards.h>
+> -
+> -tv: connector {
+> -	compatible = "composite-video-connector";
+> -	label = "tv";
+> -	sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
+> -
+> -	port {
+> -		tv_connector_in: endpoint {
+> -			remote-endpoint = <&venc_out>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+> new file mode 100644
+> index 000000000000..eebe88fed999
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/connector/analog-tv-connector.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog TV Connector
+> +
+> +maintainers:
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - composite-video-connector
+> +      - svideo-connector
+> +
+> +  label: true
+> +
+> +  sdtv-standards:
+> +    description:
+> +      Limit the supported TV standards on a connector to the given ones. If
+> +      not specified all TV standards are allowed. Possible TV standards are
+> +      defined in include/dt-bindings/display/sdtv-standards.h.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +  port:
+> +    description: Connection to controller providing analog TV signals
+> +
+> +required:
+> +  - compatible
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/display/sdtv-standards.h>
+> +
+> +    connector {
+> +        compatible = "composite-video-connector";
+> +        label = "tv";
+> +        sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
+> +
+> +        port {
+> +            tv_connector_in: endpoint {
+> +                remote-endpoint = <&venc_out>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt b/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
+> deleted file mode 100644
+> index 207e42e9eba0..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -DVI Connector
+> -==============
+> -
+> -Required properties:
+> -- compatible: "dvi-connector"
+> -
+> -Optional properties:
+> -- label: a symbolic name for the connector
+> -- ddc-i2c-bus: phandle to the i2c bus that is connected to DVI DDC
+> -- analog: the connector has DVI analog pins
+> -- digital: the connector has DVI digital pins
+> -- dual-link: the connector has pins for DVI dual-link
+> -- hpd-gpios: HPD GPIO number
+> -
+> -Required nodes:
+> -- Video port for DVI input
+> -
+> -Note: One (or both) of 'analog' or 'digital' must be set.
+> -
+> -Example
+> --------
+> -
+> -dvi0: connector@0 {
+> -	compatible = "dvi-connector";
+> -	label = "dvi";
+> -
+> -	digital;
+> -
+> -	ddc-i2c-bus = <&i2c3>;
+> -
+> -	port {
+> -		dvi_connector_in: endpoint {
+> -			remote-endpoint = <&tfp410_out>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+> new file mode 100644
+> index 000000000000..71cb9220fa59
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
+> @@ -0,0 +1,70 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/connector/dvi-connector.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: DVI Connector
+> +
+> +maintainers:
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: dvi-connector
+> +
+> +  label: true
+> +
+> +  hpd-gpios:
+> +    description: A GPIO line connected to HPD
+> +    maxItems: 1
+> +
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  analog:
+> +    type: boolean
+> +    description: the connector has DVI analog pins
+> +
+> +  digital:
+> +    type: boolean
+> +    description: the connector has DVI digital pins
+> +
+> +  dual-link:
+> +    type: boolean
+> +    description: the connector has pins for DVI dual-link
+> +
+> +  port:
+> +    description: Connection to controller providing DVI signals
+> +
+> +required:
+> +  - compatible
+> +  - port
+> +
+> +anyOf:
+> +  - required:
+> +      - analog
+> +  - required:
+> +      - digital
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    connector {
+> +        compatible = "dvi-connector";
+> +        label = "dvi";
+> +
+> +        digital;
+> +
+> +        ddc-i2c-bus = <&i2c3>;
+> +
+> +        port {
+> +            dvi_connector_in: endpoint {
+> +                remote-endpoint = <&tfp410_out>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt b/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
+> deleted file mode 100644
+> index aeb07c4bd703..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -HDMI Connector
+> -==============
+> -
+> -Required properties:
+> -- compatible: "hdmi-connector"
+> -- type: the HDMI connector type: "a", "b", "c", "d" or "e"
+> -
+> -Optional properties:
+> -- label: a symbolic name for the connector
+> -- hpd-gpios: HPD GPIO number
+> -- ddc-i2c-bus: phandle link to the I2C controller used for DDC EDID probing
+> -- ddc-en-gpios: signal to enable DDC bus
+> -
+> -Required nodes:
+> -- Video port for HDMI input
+> -
+> -Example
+> --------
+> -
+> -hdmi0: connector@1 {
+> -	compatible = "hdmi-connector";
+> -	label = "hdmi";
+> -
+> -	type = "a";
+> -
+> -	port {
+> -		hdmi_connector_in: endpoint {
+> -			remote-endpoint = <&tpd12s015_out>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+> new file mode 100644
+> index 000000000000..14d7128af592
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/connector/hdmi-connector.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: HDMI Connector
+> +
+> +maintainers:
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: hdmi-connector
+> +
+> +  type:
+> +    description: The HDMI connector type
+> +    enum:
+> +      - a   # Standard full size
+> +      - b   # Never deployed?
+> +      - c   # Mini
+> +      - d   # Micro
+> +      - e   # automotive
+> +
+> +  label: true
+> +
+> +  hpd-gpios:
+> +    description: A GPIO line connected to HPD
+> +    maxItems: 1
+> +
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  ddc-en-gpios:
+> +    description: GPIO signal to enable DDC bus
+> +    maxItems: 1
+> +
+> +  port:
+> +    description: Connection to controller providing HDMI signals
+> +
+> +required:
+> +  - compatible
+> +  - port
+> +  - type
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    connector {
+> +        compatible = "hdmi-connector";
+> +        label = "hdmi";
+> +
+> +        type = "a";
+> +
+> +        port {
+> +            hdmi_connector_in: endpoint {
+> +                remote-endpoint = <&tpd12s015_out>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.txt b/Documentation/devicetree/bindings/display/connector/vga-connector.txt
+> deleted file mode 100644
+> index c727f298e7ad..000000000000
+> --- a/Documentation/devicetree/bindings/display/connector/vga-connector.txt
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -VGA Connector
+> -=============
+> -
+> -Required properties:
+> -
+> -- compatible: "vga-connector"
+> -
+> -Optional properties:
+> -
+> -- label: a symbolic name for the connector corresponding to a hardware label
+> -- ddc-i2c-bus: phandle to the I2C bus that is connected to VGA DDC
+> -
+> -Required nodes:
+> -
+> -The VGA connector internal connections are modeled using the OF graph bindings
+> -specified in Documentation/devicetree/bindings/graph.txt.
+> -
+> -The VGA connector has a single port that must be connected to a video source
+> -port.
+> -
+> -
+> -Example
+> --------
+> -
+> -vga0: connector@0 {
+> -	compatible = "vga-connector";
+> -	label = "vga";
+> -
+> -	ddc-i2c-bus = <&i2c3>;
+> -
+> -	port {
+> -		vga_connector_in: endpoint {
+> -			remote-endpoint = <&adv7123_out>;
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
+> new file mode 100644
+> index 000000000000..5782c4bb3252
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/connector/vga-connector.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: VGA Connector
+> +
+> +maintainers:
+> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: vga-connector
+> +
+> +  label: true
+> +
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +  port:
+> +    description: Connection to controller providing VGA signals
+> +
+> +required:
+> +  - compatible
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    connector {
+> +        compatible = "vga-connector";
+> +        label = "vga";
+> +
+> +        ddc-i2c-bus = <&i2c3>;
+> +
+> +        port {
+> +            vga_connector_in: endpoint {
+> +                remote-endpoint = <&adv7123_out>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
 -- 
 Regards,
