@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AAB211CB7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4736D211CDC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CEE86EA45;
-	Thu,  2 Jul 2020 07:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3686EA57;
+	Thu,  2 Jul 2020 07:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F8A6E12B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:29:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 238E46E12B
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593620972; bh=Oj0dUcmJMqbWWnEM4fT6FFb2wi7F4yzS6GdUL1tM2bs=;
+ t=1593620972; bh=Uj/PtNKs3+mkjVbPW0e4D6UAtrtq8nzQPPh5UoRwNE8=;
  h=From:To:Cc:Subject:Date:References:From;
- b=Zvf3XjxawvPDIwJHmE0HLoyYa6PArOwnOXK6FGyw6noHShQ8FaPC0ApzZpMoi9g8L
- PJn5dvreXQ4/Dt1qmolJPnxGaJOFd+eJxLq8pzqwbAeKp6Uec5z6GZcq3BBRYSPD7C
- rIzQygxsr4R0wjnE+fL4Jc2NdwOlC3OVccu9l1S8=
+ b=p+1aoLdxYlkQxDtBgUwtpH4clr0A+GJMhc1pDJtj8RF1HvvUe3xqXLij7mFyFHsUI
+ Qwgl0LDdF7sgGVfICOZoguRqLrlIiiDimEJCPp6hN8OZg/YnbPoxDbdAdse5lcJBty
+ D3a+Fjz1/JEk9gjLTGJ9LV/QcqW7a06xSQm0T/xQ=
 From: Ondrej Jirman <megous@megous.com>
 To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
@@ -26,10 +26,10 @@ To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v7 03/13] dt-bindings: panel: Add compatible for Xingbangda
- XBD599 panel
-Date: Wed,  1 Jul 2020 18:29:18 +0200
-Message-Id: <20200701162928.1638874-4-megous@megous.com>
+Subject: [PATCH v7 04/13] drm/panel: rocktech-jh057n00900: Rename the driver
+ to st7703
+Date: Wed,  1 Jul 2020 18:29:19 +0200
+Message-Id: <20200701162928.1638874-5-megous@megous.com>
 In-Reply-To: <20200701162928.1638874-1-megous@megous.com>
 References: <20200701162928.1638874-1-megous@megous.com>
 MIME-Version: 1.0
@@ -56,34 +56,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI LCD panel. It is based on
-Sitronix ST7703 LCD controller just like rocktech,jh057n00900. It is
-used in PinePhone.
+This rename is done so that the driver matches the name of the
+display controller and in preparation for adding support for more
+panels to the driver.
 
-Add a compatible for it.
+This is just a basic file rename, with no code changes.
 
 Signed-off-by: Ondrej Jirman <megous@megous.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- .../bindings/display/panel/rocktech,jh057n00900.yaml        | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/Kconfig                 | 26 +++++++++----------
+ drivers/gpu/drm/panel/Makefile                |  2 +-
+ ...-jh057n00900.c => panel-sitronix-st7703.c} |  0
+ 3 files changed, 14 insertions(+), 14 deletions(-)
+ rename drivers/gpu/drm/panel/{panel-rocktech-jh057n00900.c => panel-sitronix-st7703.c} (100%)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-index 928ba42e7f8d..a6985cd947fb 100644
---- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-@@ -18,7 +18,11 @@ allOf:
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 39055c1f0e2f..de2f2a452be5 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -283,19 +283,6 @@ config DRM_PANEL_RAYDIUM_RM68200
+ 	  Say Y here if you want to enable support for Raydium RM68200
+ 	  720x1280 DSI video mode panel.
  
- properties:
-   compatible:
--    const: rocktech,jh057n00900
-+    enum:
-+        # Rocktech JH057N00900 5.5" 720x1440 TFT LCD panel
-+      - rocktech,jh057n00900
-+        # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
-+      - xingbangda,xbd599
+-config DRM_PANEL_ROCKTECH_JH057N00900
+-	tristate "Rocktech JH057N00900 MIPI touchscreen panel"
+-	depends on OF
+-	depends on DRM_MIPI_DSI
+-	depends on BACKLIGHT_CLASS_DEVICE
+-	help
+-	  Say Y here if you want to enable support for Rocktech JH057N00900
+-	  MIPI DSI panel as e.g. used in the Librem 5 devkit. It has a
+-	  resolution of 720x1440 pixels, a built in backlight and touch
+-	  controller.
+-	  Touch input support is provided by the goodix driver and needs to be
+-	  selected separately.
+-
+ config DRM_PANEL_RONBO_RB070D30
+ 	tristate "Ronbo Electronics RB070D30 panel"
+ 	depends on OF
+@@ -395,6 +382,19 @@ config DRM_PANEL_SITRONIX_ST7701
+ 	  ST7701 controller for 480X864 LCD panels with MIPI/RGB/SPI
+ 	  system interfaces.
  
-   reg:
-     maxItems: 1
++config DRM_PANEL_SITRONIX_ST7703
++	tristate "Sitronix ST7703 based MIPI touchscreen panels"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to enable support for Sitronix ST7703 based
++	  panels, souch as Rocktech JH057N00900 MIPI DSI panel as e.g. used in
++	  the Librem 5 devkit. It has a resolution of 720x1440 pixels, a built
++	  in backlight and touch controller.
++	  Touch input support is provided by the goodix driver and needs to be
++	  selected separately.
++
+ config DRM_PANEL_SITRONIX_ST7789V
+ 	tristate "Sitronix ST7789V panel"
+ 	depends on OF && SPI
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index de74f282c433..e45ceac6286f 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -27,7 +27,6 @@ obj-$(CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00) += panel-panasonic-vvx10f034n00.o
+ obj-$(CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN) += panel-raspberrypi-touchscreen.o
+ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
+ obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
+-obj-$(CONFIG_DRM_PANEL_ROCKTECH_JH057N00900) += panel-rocktech-jh057n00900.o
+ obj-$(CONFIG_DRM_PANEL_RONBO_RB070D30) += panel-ronbo-rb070d30.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_LD9040) += panel-samsung-ld9040.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6D16D0) += panel-samsung-s6d16d0.o
+@@ -41,6 +40,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
+ obj-$(CONFIG_DRM_PANEL_SHARP_LS037V7DW01) += panel-sharp-ls037v7dw01.o
+ obj-$(CONFIG_DRM_PANEL_SHARP_LS043T1LE01) += panel-sharp-ls043t1le01.o
+ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
++obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
+ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
+ obj-$(CONFIG_DRM_PANEL_SONY_ACX424AKP) += panel-sony-acx424akp.o
+ obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
+diff --git a/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+similarity index 100%
+rename from drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
+rename to drivers/gpu/drm/panel/panel-sitronix-st7703.c
 -- 
 2.27.0
 
