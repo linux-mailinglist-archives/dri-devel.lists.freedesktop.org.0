@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17FD211CB0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:24:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77848211CAC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:24:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0C7D6E51B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BA96E50B;
 	Thu,  2 Jul 2020 07:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1086E1D7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36C706E883
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 10:31:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593599491; bh=sjn1GJ8TPYqfk+p/BLJRPhkFXIAShetBEM0cq1PuErA=;
+ t=1593599491; bh=OhZy2sUOGgc84GZVOn8gtKD1xJgSn3thWhMhtz17alE=;
  h=From:To:Cc:Subject:Date:References:From;
- b=q/OuPRdMlT8UqZlB67HN02R2UMRXEbyyHaGIspKePSZpTYypq3RWjqHQU9XcSIV2F
- c1AUVtudKxhRqnbDo8ZJcojjw5QGKfS7YLixhDz74v/h2Y/JdRPvL8QoYy2jnQo2Qr
- nMC8f3ZzFsBwf6EwHRI023/WUs8XdU9pULZBtbt8=
+ b=SS6uwjGRbSF7cZEqVs4Vqmzjt5W2WnLEI3A1besARuuR0p6Ea+sbc+CS5USHLn5l5
+ sTetzsqoWOsi1F60wGrfiSA9X+6o6X1vNiQ3z7ro44djtv4YJMcqCZTs1Z96zs8o8x
+ 6jMZxnQ9Ya8ecd4xoB0jmR3swb+vyE8BaT/LJTfU=
 From: Ondrej Jirman <megous@megous.com>
 To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
@@ -26,10 +26,10 @@ To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v6 05/13] drm/panel: st7703: Rename functions from jh057n
- prefix to st7703
-Date: Wed,  1 Jul 2020 12:31:18 +0200
-Message-Id: <20200701103126.1512615-6-megous@megous.com>
+Subject: [PATCH v6 06/13] drm/panel: st7703: Prepare for supporting multiple
+ panels
+Date: Wed,  1 Jul 2020 12:31:19 +0200
+Message-Id: <20200701103126.1512615-7-megous@megous.com>
 In-Reply-To: <20200701103126.1512615-1-megous@megous.com>
 References: <20200701103126.1512615-1-megous@megous.com>
 MIME-Version: 1.0
@@ -51,149 +51,136 @@ Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
  linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBpcyBkb25lIHNvIHRoYXQgY29kZSB0aGF0J3Mgbm90IHNwZWNpZmljIHRvIGEgcGFydGlj
-dWxhcgpqaDA1N24gcGFuZWwgaXMgbmFtZWQgYWZ0ZXIgdGhlIGNvbnRyb2xsZXIuIEZ1bmN0aW9u
-cyBzcGVjaWZpYwp0byB0aGUgcGFuZWwgYXJlIGtlcHQgbmFtZWQgYWZ0ZXIgdGhlIHBhbmVsLgoK
-U2lnbmVkLW9mZi1ieTogT25kcmVqIEppcm1hbiA8bWVnb3VzQG1lZ291cy5jb20+ClJldmlld2Vk
-LWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVy
-cy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpdHJvbml4LXN0NzcwMy5jIHwgOTAgKysrKysrKysrKy0t
-LS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQ2IGluc2VydGlvbnMoKyksIDQ0IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaXRyb25peC1zdDc3
-MDMuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaXRyb25peC1zdDc3MDMuYwppbmRl
-eCAzOGZmNzQyYmMxMjAuLjUxMWFmNjU5ZjI3MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3BhbmVsL3BhbmVsLXNpdHJvbml4LXN0NzcwMy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5l
-bC9wYW5lbC1zaXRyb25peC1zdDc3MDMuYwpAQCAtMSw2ICsxLDggQEAKIC8vIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wCiAvKgotICogUm9ja3RlY2sgamgwNTduMDA5MDAgNS41IiBN
-SVBJLURTSSBwYW5lbCBkcml2ZXIKKyAqIERyaXZlciBmb3IgcGFuZWxzIGJhc2VkIG9uIFNpdHJv
-bml4IFNUNzcwMyBjb250cm9sbGVyLCBzb3VjaCBhczoKKyAqCisgKiAtIFJvY2t0ZWNoIGpoMDU3
-bjAwOTAwIDUuNSIgTUlQSS1EU0kgcGFuZWwKICAqCiAgKiBDb3B5cmlnaHQgKEMpIFB1cmlzbSBT
-UEMgMjAxOQogICovCkBAIC0yMSw3ICsyMyw3IEBACiAjaW5jbHVkZSA8ZHJtL2RybV9wYW5lbC5o
-PgogI2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KIAotI2RlZmluZSBEUlZfTkFNRSAicGFuZWwt
-cm9ja3RlY2gtamgwNTduMDA5MDAiCisjZGVmaW5lIERSVl9OQU1FICJwYW5lbC1zaXRyb25peC1z
-dDc3MDMiCiAKIC8qIE1hbnVmYWN0dXJlciBzcGVjaWZpYyBDb21tYW5kcyBzZW5kIHZpYSBEU0kg
-Ki8KICNkZWZpbmUgU1Q3NzAzX0NNRF9BTExfUElYRUxfT0ZGIDB4MjIKQEAgLTQ1LDcgKzQ3LDcg
-QEAKICNkZWZpbmUgU1Q3NzAzX0NNRF9TRVRHSVAxCSAweEU5CiAjZGVmaW5lIFNUNzcwM19DTURf
-U0VUR0lQMgkgMHhFQQogCi1zdHJ1Y3QgamgwNTduIHsKK3N0cnVjdCBzdDc3MDMgewogCXN0cnVj
-dCBkZXZpY2UgKmRldjsKIAlzdHJ1Y3QgZHJtX3BhbmVsIHBhbmVsOwogCXN0cnVjdCBncGlvX2Rl
-c2MgKnJlc2V0X2dwaW87CkBAIC01Niw5ICs1OCw5IEBAIHN0cnVjdCBqaDA1N24gewogCXN0cnVj
-dCBkZW50cnkgKmRlYnVnZnM7CiB9OwogCi1zdGF0aWMgaW5saW5lIHN0cnVjdCBqaDA1N24gKnBh
-bmVsX3RvX2poMDU3bihzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKK3N0YXRpYyBpbmxpbmUgc3Ry
-dWN0IHN0NzcwMyAqcGFuZWxfdG9fc3Q3NzAzKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQogewot
-CXJldHVybiBjb250YWluZXJfb2YocGFuZWwsIHN0cnVjdCBqaDA1N24sIHBhbmVsKTsKKwlyZXR1
-cm4gY29udGFpbmVyX29mKHBhbmVsLCBzdHJ1Y3Qgc3Q3NzAzLCBwYW5lbCk7CiB9CiAKICNkZWZp
-bmUgZHNpX2dlbmVyaWNfd3JpdGVfc2VxKGRzaSwgc2VxLi4uKSBkbyB7CQkJCVwKQEAgLTY5LDcg
-KzcxLDcgQEAgc3RhdGljIGlubGluZSBzdHJ1Y3QgamgwNTduICpwYW5lbF90b19qaDA1N24oc3Ry
-dWN0IGRybV9wYW5lbCAqcGFuZWwpCiAJCQlyZXR1cm4gcmV0OwkJCQkJXAogCX0gd2hpbGUgKDAp
-CiAKLXN0YXRpYyBpbnQgamgwNTduX2luaXRfc2VxdWVuY2Uoc3RydWN0IGpoMDU3biAqY3R4KQor
-c3RhdGljIGludCBqaDA1N25faW5pdF9zZXF1ZW5jZShzdHJ1Y3Qgc3Q3NzAzICpjdHgpCiB7CiAJ
-c3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpID0gdG9fbWlwaV9kc2lfZGV2aWNlKGN0eC0+ZGV2
-KTsKIAlzdHJ1Y3QgZGV2aWNlICpkZXYgPSBjdHgtPmRldjsKQEAgLTE0MSw5ICsxNDMsOSBAQCBz
-dGF0aWMgaW50IGpoMDU3bl9pbml0X3NlcXVlbmNlKHN0cnVjdCBqaDA1N24gKmN0eCkKIAlyZXR1
-cm4gMDsKIH0KIAotc3RhdGljIGludCBqaDA1N25fZW5hYmxlKHN0cnVjdCBkcm1fcGFuZWwgKnBh
-bmVsKQorc3RhdGljIGludCBzdDc3MDNfZW5hYmxlKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQog
-ewotCXN0cnVjdCBqaDA1N24gKmN0eCA9IHBhbmVsX3RvX2poMDU3bihwYW5lbCk7CisJc3RydWN0
-IHN0NzcwMyAqY3R4ID0gcGFuZWxfdG9fc3Q3NzAzKHBhbmVsKTsKIAlpbnQgcmV0OwogCiAJcmV0
-ID0gamgwNTduX2luaXRfc2VxdWVuY2UoY3R4KTsKQEAgLTE1NiwxNyArMTU4LDE3IEBAIHN0YXRp
-YyBpbnQgamgwNTduX2VuYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKIAlyZXR1cm4gMDsK
-IH0KIAotc3RhdGljIGludCBqaDA1N25fZGlzYWJsZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkK
-K3N0YXRpYyBpbnQgc3Q3NzAzX2Rpc2FibGUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCiB7Ci0J
-c3RydWN0IGpoMDU3biAqY3R4ID0gcGFuZWxfdG9famgwNTduKHBhbmVsKTsKKwlzdHJ1Y3Qgc3Q3
-NzAzICpjdHggPSBwYW5lbF90b19zdDc3MDMocGFuZWwpOwogCXN0cnVjdCBtaXBpX2RzaV9kZXZp
-Y2UgKmRzaSA9IHRvX21pcGlfZHNpX2RldmljZShjdHgtPmRldik7CiAKIAlyZXR1cm4gbWlwaV9k
-c2lfZGNzX3NldF9kaXNwbGF5X29mZihkc2kpOwogfQogCi1zdGF0aWMgaW50IGpoMDU3bl91bnBy
-ZXBhcmUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCitzdGF0aWMgaW50IHN0NzcwM191bnByZXBh
-cmUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCiB7Ci0Jc3RydWN0IGpoMDU3biAqY3R4ID0gcGFu
-ZWxfdG9famgwNTduKHBhbmVsKTsKKwlzdHJ1Y3Qgc3Q3NzAzICpjdHggPSBwYW5lbF90b19zdDc3
-MDMocGFuZWwpOwogCiAJaWYgKCFjdHgtPnByZXBhcmVkKQogCQlyZXR1cm4gMDsKQEAgLTE3OCw5
-ICsxODAsOSBAQCBzdGF0aWMgaW50IGpoMDU3bl91bnByZXBhcmUoc3RydWN0IGRybV9wYW5lbCAq
-cGFuZWwpCiAJcmV0dXJuIDA7CiB9CiAKLXN0YXRpYyBpbnQgamgwNTduX3ByZXBhcmUoc3RydWN0
-IGRybV9wYW5lbCAqcGFuZWwpCitzdGF0aWMgaW50IHN0NzcwM19wcmVwYXJlKHN0cnVjdCBkcm1f
-cGFuZWwgKnBhbmVsKQogewotCXN0cnVjdCBqaDA1N24gKmN0eCA9IHBhbmVsX3RvX2poMDU3bihw
-YW5lbCk7CisJc3RydWN0IHN0NzcwMyAqY3R4ID0gcGFuZWxfdG9fc3Q3NzAzKHBhbmVsKTsKIAlp
-bnQgcmV0OwogCiAJaWYgKGN0eC0+cHJlcGFyZWQpCkBAIC0yMzAsMTAgKzIzMiwxMCBAQCBzdGF0
-aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgZGVmYXVsdF9tb2RlID0gewogCS5oZWln
-aHRfbW0gICA9IDEzMCwKIH07CiAKLXN0YXRpYyBpbnQgamgwNTduX2dldF9tb2RlcyhzdHJ1Y3Qg
-ZHJtX3BhbmVsICpwYW5lbCwKK3N0YXRpYyBpbnQgc3Q3NzAzX2dldF9tb2RlcyhzdHJ1Y3QgZHJt
-X3BhbmVsICpwYW5lbCwKIAkJCSAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQog
-ewotCXN0cnVjdCBqaDA1N24gKmN0eCA9IHBhbmVsX3RvX2poMDU3bihwYW5lbCk7CisJc3RydWN0
-IHN0NzcwMyAqY3R4ID0gcGFuZWxfdG9fc3Q3NzAzKHBhbmVsKTsKIAlzdHJ1Y3QgZHJtX2Rpc3Bs
-YXlfbW9kZSAqbW9kZTsKIAogCW1vZGUgPSBkcm1fbW9kZV9kdXBsaWNhdGUoY29ubmVjdG9yLT5k
-ZXYsICZkZWZhdWx0X21vZGUpOwpAQCAtMjU0LDE3ICsyNTYsMTcgQEAgc3RhdGljIGludCBqaDA1
-N25fZ2V0X21vZGVzKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsLAogCXJldHVybiAxOwogfQogCi1z
-dGF0aWMgY29uc3Qgc3RydWN0IGRybV9wYW5lbF9mdW5jcyBqaDA1N25fZHJtX2Z1bmNzID0gewot
-CS5kaXNhYmxlICAgPSBqaDA1N25fZGlzYWJsZSwKLQkudW5wcmVwYXJlID0gamgwNTduX3VucHJl
-cGFyZSwKLQkucHJlcGFyZSAgID0gamgwNTduX3ByZXBhcmUsCi0JLmVuYWJsZQkgICA9IGpoMDU3
-bl9lbmFibGUsCi0JLmdldF9tb2RlcyA9IGpoMDU3bl9nZXRfbW9kZXMsCitzdGF0aWMgY29uc3Qg
-c3RydWN0IGRybV9wYW5lbF9mdW5jcyBzdDc3MDNfZHJtX2Z1bmNzID0geworCS5kaXNhYmxlICAg
-PSBzdDc3MDNfZGlzYWJsZSwKKwkudW5wcmVwYXJlID0gc3Q3NzAzX3VucHJlcGFyZSwKKwkucHJl
-cGFyZSAgID0gc3Q3NzAzX3ByZXBhcmUsCisJLmVuYWJsZQkgICA9IHN0NzcwM19lbmFibGUsCisJ
-LmdldF9tb2RlcyA9IHN0NzcwM19nZXRfbW9kZXMsCiB9OwogCiBzdGF0aWMgaW50IGFsbHBpeGVs
-c29uX3NldCh2b2lkICpkYXRhLCB1NjQgdmFsKQogewotCXN0cnVjdCBqaDA1N24gKmN0eCA9IGRh
-dGE7CisJc3RydWN0IHN0NzcwMyAqY3R4ID0gZGF0YTsKIAlzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNl
-ICpkc2kgPSB0b19taXBpX2RzaV9kZXZpY2UoY3R4LT5kZXYpOwogCiAJRFJNX0RFVl9ERUJVR19E
-UklWRVIoY3R4LT5kZXYsICJTZXR0aW5nIGFsbCBwaXhlbHMgb25cbiIpOwpAQCAtMjgyLDcgKzI4
-NCw3IEBAIHN0YXRpYyBpbnQgYWxscGl4ZWxzb25fc2V0KHZvaWQgKmRhdGEsIHU2NCB2YWwpCiBE
-RUZJTkVfU0lNUExFX0FUVFJJQlVURShhbGxwaXhlbHNvbl9mb3BzLCBOVUxMLAogCQkJYWxscGl4
-ZWxzb25fc2V0LCAiJWxsdVxuIik7CiAKLXN0YXRpYyB2b2lkIGpoMDU3bl9kZWJ1Z2ZzX2luaXQo
-c3RydWN0IGpoMDU3biAqY3R4KQorc3RhdGljIHZvaWQgc3Q3NzAzX2RlYnVnZnNfaW5pdChzdHJ1
-Y3Qgc3Q3NzAzICpjdHgpCiB7CiAJY3R4LT5kZWJ1Z2ZzID0gZGVidWdmc19jcmVhdGVfZGlyKERS
-Vl9OQU1FLCBOVUxMKTsKIApAQCAtMjkwLDE2ICsyOTIsMTYgQEAgc3RhdGljIHZvaWQgamgwNTdu
-X2RlYnVnZnNfaW5pdChzdHJ1Y3QgamgwNTduICpjdHgpCiAJCQkgICAgJmFsbHBpeGVsc29uX2Zv
-cHMpOwogfQogCi1zdGF0aWMgdm9pZCBqaDA1N25fZGVidWdmc19yZW1vdmUoc3RydWN0IGpoMDU3
-biAqY3R4KQorc3RhdGljIHZvaWQgc3Q3NzAzX2RlYnVnZnNfcmVtb3ZlKHN0cnVjdCBzdDc3MDMg
-KmN0eCkKIHsKIAlkZWJ1Z2ZzX3JlbW92ZV9yZWN1cnNpdmUoY3R4LT5kZWJ1Z2ZzKTsKIAljdHgt
-PmRlYnVnZnMgPSBOVUxMOwogfQogCi1zdGF0aWMgaW50IGpoMDU3bl9wcm9iZShzdHJ1Y3QgbWlw
-aV9kc2lfZGV2aWNlICpkc2kpCitzdGF0aWMgaW50IHN0NzcwM19wcm9iZShzdHJ1Y3QgbWlwaV9k
-c2lfZGV2aWNlICpkc2kpCiB7CiAJc3RydWN0IGRldmljZSAqZGV2ID0gJmRzaS0+ZGV2OwotCXN0
-cnVjdCBqaDA1N24gKmN0eDsKKwlzdHJ1Y3Qgc3Q3NzAzICpjdHg7CiAJaW50IHJldDsKIAogCWN0
-eCA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqY3R4KSwgR0ZQX0tFUk5FTCk7CkBAIC0zNDAs
-NyArMzQyLDcgQEAgc3RhdGljIGludCBqaDA1N25fcHJvYmUoc3RydWN0IG1pcGlfZHNpX2Rldmlj
-ZSAqZHNpKQogCQlyZXR1cm4gcmV0OwogCX0KIAotCWRybV9wYW5lbF9pbml0KCZjdHgtPnBhbmVs
-LCBkZXYsICZqaDA1N25fZHJtX2Z1bmNzLAorCWRybV9wYW5lbF9pbml0KCZjdHgtPnBhbmVsLCBk
-ZXYsICZzdDc3MDNfZHJtX2Z1bmNzLAogCQkgICAgICAgRFJNX01PREVfQ09OTkVDVE9SX0RTSSk7
-CiAKIAlyZXQgPSBkcm1fcGFuZWxfb2ZfYmFja2xpZ2h0KCZjdHgtPnBhbmVsKTsKQEAgLTM2Mywx
-MyArMzY1LDEzIEBAIHN0YXRpYyBpbnQgamgwNTduX3Byb2JlKHN0cnVjdCBtaXBpX2RzaV9kZXZp
-Y2UgKmRzaSkKIAkJICAgICBkZWZhdWx0X21vZGUudnJlZnJlc2gsCiAJCSAgICAgbWlwaV9kc2lf
-cGl4ZWxfZm9ybWF0X3RvX2JwcChkc2ktPmZvcm1hdCksIGRzaS0+bGFuZXMpOwogCi0JamgwNTdu
-X2RlYnVnZnNfaW5pdChjdHgpOworCXN0NzcwM19kZWJ1Z2ZzX2luaXQoY3R4KTsKIAlyZXR1cm4g
-MDsKIH0KIAotc3RhdGljIHZvaWQgamgwNTduX3NodXRkb3duKHN0cnVjdCBtaXBpX2RzaV9kZXZp
-Y2UgKmRzaSkKK3N0YXRpYyB2b2lkIHN0NzcwM19zaHV0ZG93bihzdHJ1Y3QgbWlwaV9kc2lfZGV2
-aWNlICpkc2kpCiB7Ci0Jc3RydWN0IGpoMDU3biAqY3R4ID0gbWlwaV9kc2lfZ2V0X2RydmRhdGEo
-ZHNpKTsKKwlzdHJ1Y3Qgc3Q3NzAzICpjdHggPSBtaXBpX2RzaV9nZXRfZHJ2ZGF0YShkc2kpOwog
-CWludCByZXQ7CiAKIAlyZXQgPSBkcm1fcGFuZWxfdW5wcmVwYXJlKCZjdHgtPnBhbmVsKTsKQEAg
-LTM4MywxMiArMzg1LDEyIEBAIHN0YXRpYyB2b2lkIGpoMDU3bl9zaHV0ZG93bihzdHJ1Y3QgbWlw
-aV9kc2lfZGV2aWNlICpkc2kpCiAJCQkgICAgICByZXQpOwogfQogCi1zdGF0aWMgaW50IGpoMDU3
-bl9yZW1vdmUoc3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpKQorc3RhdGljIGludCBzdDc3MDNf
-cmVtb3ZlKHN0cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRzaSkKIHsKLQlzdHJ1Y3QgamgwNTduICpj
-dHggPSBtaXBpX2RzaV9nZXRfZHJ2ZGF0YShkc2kpOworCXN0cnVjdCBzdDc3MDMgKmN0eCA9IG1p
-cGlfZHNpX2dldF9kcnZkYXRhKGRzaSk7CiAJaW50IHJldDsKIAotCWpoMDU3bl9zaHV0ZG93bihk
-c2kpOworCXN0NzcwM19zaHV0ZG93bihkc2kpOwogCiAJcmV0ID0gbWlwaV9kc2lfZGV0YWNoKGRz
-aSk7CiAJaWYgKHJldCA8IDApCkBAIC0zOTcsMjggKzM5OSwyOCBAQCBzdGF0aWMgaW50IGpoMDU3
-bl9yZW1vdmUoc3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpKQogCiAJZHJtX3BhbmVsX3JlbW92
-ZSgmY3R4LT5wYW5lbCk7CiAKLQlqaDA1N25fZGVidWdmc19yZW1vdmUoY3R4KTsKKwlzdDc3MDNf
-ZGVidWdmc19yZW1vdmUoY3R4KTsKIAogCXJldHVybiAwOwogfQogCi1zdGF0aWMgY29uc3Qgc3Ry
-dWN0IG9mX2RldmljZV9pZCBqaDA1N25fb2ZfbWF0Y2hbXSA9IHsKK3N0YXRpYyBjb25zdCBzdHJ1
-Y3Qgb2ZfZGV2aWNlX2lkIHN0NzcwM19vZl9tYXRjaFtdID0gewogCXsgLmNvbXBhdGlibGUgPSAi
-cm9ja3RlY2gsamgwNTduMDA5MDAiIH0sCiAJeyAvKiBzZW50aW5lbCAqLyB9CiB9OwotTU9EVUxF
-X0RFVklDRV9UQUJMRShvZiwgamgwNTduX29mX21hdGNoKTsKK01PRFVMRV9ERVZJQ0VfVEFCTEUo
-b2YsIHN0NzcwM19vZl9tYXRjaCk7CiAKLXN0YXRpYyBzdHJ1Y3QgbWlwaV9kc2lfZHJpdmVyIGpo
-MDU3bl9kcml2ZXIgPSB7Ci0JLnByb2JlCT0gamgwNTduX3Byb2JlLAotCS5yZW1vdmUgPSBqaDA1
-N25fcmVtb3ZlLAotCS5zaHV0ZG93biA9IGpoMDU3bl9zaHV0ZG93biwKK3N0YXRpYyBzdHJ1Y3Qg
-bWlwaV9kc2lfZHJpdmVyIHN0NzcwM19kcml2ZXIgPSB7CisJLnByb2JlCT0gc3Q3NzAzX3Byb2Jl
-LAorCS5yZW1vdmUgPSBzdDc3MDNfcmVtb3ZlLAorCS5zaHV0ZG93biA9IHN0NzcwM19zaHV0ZG93
-biwKIAkuZHJpdmVyID0gewogCQkubmFtZSA9IERSVl9OQU1FLAotCQkub2ZfbWF0Y2hfdGFibGUg
-PSBqaDA1N25fb2ZfbWF0Y2gsCisJCS5vZl9tYXRjaF90YWJsZSA9IHN0NzcwM19vZl9tYXRjaCwK
-IAl9LAogfTsKLW1vZHVsZV9taXBpX2RzaV9kcml2ZXIoamgwNTduX2RyaXZlcik7Cittb2R1bGVf
-bWlwaV9kc2lfZHJpdmVyKHN0NzcwM19kcml2ZXIpOwogCiBNT0RVTEVfQVVUSE9SKCJHdWlkbyBH
-w7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPiIpOwotTU9EVUxFX0RFU0NSSVBUSU9OKCJEUk0gZHJp
-dmVyIGZvciBSb2NrdGVjaCBKSDA1N04wMDkwMCBNSVBJIERTSSBwYW5lbCIpOworTU9EVUxFX0RF
-U0NSSVBUSU9OKCJEUk0gZHJpdmVyIGZvciBTaXRyb25peCBTVDc3MDMgYmFzZWQgTUlQSSBEU0kg
-cGFuZWxzIik7CiBNT0RVTEVfTElDRU5TRSgiR1BMIHYyIik7Ci0tIAoyLjI3LjAKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Parametrize the driver so that it can support more panels based
+on st7703 controller.
+
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 43 +++++++++++++------
+ 1 file changed, 31 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+index 511af659f273..08cbc316266c 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+@@ -13,6 +13,7 @@
+ #include <linux/media-bus-format.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
++#include <linux/of_device.h>
+ #include <linux/regulator/consumer.h>
+ 
+ #include <video/display_timing.h>
+@@ -56,6 +57,15 @@ struct st7703 {
+ 	bool prepared;
+ 
+ 	struct dentry *debugfs;
++	const struct st7703_panel_desc *desc;
++};
++
++struct st7703_panel_desc {
++	const struct drm_display_mode *mode;
++	unsigned int lanes;
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	int (*init_sequence)(struct st7703 *ctx);
+ };
+ 
+ static inline struct st7703 *panel_to_st7703(struct drm_panel *panel)
+@@ -148,7 +158,7 @@ static int st7703_enable(struct drm_panel *panel)
+ 	struct st7703 *ctx = panel_to_st7703(panel);
+ 	int ret;
+ 
+-	ret = jh057n_init_sequence(ctx);
++	ret = ctx->desc->init_sequence(ctx);
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(ctx->dev, "Panel init sequence failed: %d\n",
+ 			      ret);
+@@ -216,7 +226,7 @@ static int st7703_prepare(struct drm_panel *panel)
+ 	return ret;
+ }
+ 
+-static const struct drm_display_mode default_mode = {
++static const struct drm_display_mode jh057n00900_mode = {
+ 	.hdisplay    = 720,
+ 	.hsync_start = 720 + 90,
+ 	.hsync_end   = 720 + 90 + 20,
+@@ -232,17 +242,26 @@ static const struct drm_display_mode default_mode = {
+ 	.height_mm   = 130,
+ };
+ 
++struct st7703_panel_desc jh057n00900_panel_desc = {
++	.mode = &jh057n00900_mode,
++	.lanes = 4,
++	.mode_flags = MIPI_DSI_MODE_VIDEO |
++		MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
++	.format = MIPI_DSI_FMT_RGB888,
++	.init_sequence = jh057n_init_sequence,
++};
++
+ static int st7703_get_modes(struct drm_panel *panel,
+ 			    struct drm_connector *connector)
+ {
+ 	struct st7703 *ctx = panel_to_st7703(panel);
+ 	struct drm_display_mode *mode;
+ 
+-	mode = drm_mode_duplicate(connector->dev, &default_mode);
++	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
+ 	if (!mode) {
+ 		DRM_DEV_ERROR(ctx->dev, "Failed to add mode %ux%u@%u\n",
+-			      default_mode.hdisplay, default_mode.vdisplay,
+-			      default_mode.vrefresh);
++			      ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
++			      ctx->desc->mode->vrefresh);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -317,11 +336,11 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
+ 	mipi_dsi_set_drvdata(dsi, ctx);
+ 
+ 	ctx->dev = dev;
++	ctx->desc = of_device_get_match_data(dev);
+ 
+-	dsi->lanes = 4;
+-	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+-		MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
++	dsi->mode_flags = ctx->desc->mode_flags;
++	dsi->format = ctx->desc->format;
++	dsi->lanes = ctx->desc->lanes;
+ 
+ 	ctx->vcc = devm_regulator_get(dev, "vcc");
+ 	if (IS_ERR(ctx->vcc)) {
+@@ -361,8 +380,8 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
+ 	}
+ 
+ 	DRM_DEV_INFO(dev, "%ux%u@%u %ubpp dsi %udl - ready\n",
+-		     default_mode.hdisplay, default_mode.vdisplay,
+-		     default_mode.vrefresh,
++		     ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
++		     ctx->desc->mode->vrefresh,
+ 		     mipi_dsi_pixel_format_to_bpp(dsi->format), dsi->lanes);
+ 
+ 	st7703_debugfs_init(ctx);
+@@ -405,7 +424,7 @@ static int st7703_remove(struct mipi_dsi_device *dsi)
+ }
+ 
+ static const struct of_device_id st7703_of_match[] = {
+-	{ .compatible = "rocktech,jh057n00900" },
++	{ .compatible = "rocktech,jh057n00900", .data = &jh057n00900_panel_desc },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, st7703_of_match);
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
