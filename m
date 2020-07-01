@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F7211CE4
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54577211CA2
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1CD26EA69;
-	Thu,  2 Jul 2020 07:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB4DF6E20E;
+	Thu,  2 Jul 2020 07:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97E66E1F9
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 09:29:47 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0619TV9b129642;
- Wed, 1 Jul 2020 04:29:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1593595771;
- bh=qUyJUjQt0uUssUspq0PshC38HCjt/avZKbIchaC4fbM=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=PyFbXnSvyZdtPXu9KU6It8SJcyptdUVZ72FhqiMeB4nqP+/VGkbUYzuMN9XEoPbUs
- 3d6YWFLNzzJjEX4cBu/Oby4emzoke/Fg8UlOydJbLmcXZx5a9ZpU+mS8C+9efc7+VC
- pGjWSxZoXffTId+Cuv2AOAfeeZlgI+rNqAfuItug=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0619TVxf089571
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 1 Jul 2020 04:29:31 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 1 Jul
- 2020 04:29:31 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 1 Jul 2020 04:29:31 -0500
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0619TLbF100084;
- Wed, 1 Jul 2020 04:29:22 -0500
-Subject: Re: [PATCH v6 1/4] driver core: add device probe log helper
-To: Andrzej Hajda <a.hajda@samsung.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-References: <20200626100103.18879-1-a.hajda@samsung.com>
- <CGME20200626100109eucas1p25331652d017cd17d21c0ae60541d1f73@eucas1p2.samsung.com>
- <20200626100103.18879-2-a.hajda@samsung.com>
-From: Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <5a19df1f-4712-0083-34f0-3cb1be7923e6@ti.com>
-Date: Wed, 1 Jul 2020 12:29:21 +0300
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FDC6E1F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 09:31:59 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id g139so13176534lfd.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 02:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+d2SRZpUuZWr1PMsXvidGGiJQELrujV0Qtt40StTl9g=;
+ b=LPMgxzjfikH+ekjnDGlTo5HiuTopob0mrOhZ1T/TKzKtXLxS0g4zBNmRe4QQhLRWCL
+ 1okLKn+Jds1VZfA9DHmyLb+y/xGtwpQBIO1ZdlkPvO9N8WeoZMnfxvq3clumZ9GHv0Q0
+ aFO8jZ+cnyzkNl2SohOvL8XiWK5dCOphinB6XKDqGxlAIn1M7x7e6vHghvsHVFjsPAQL
+ b8SqBPJiyUBnXFq4723+bDoYT32KRtFpH3swa+46WMWAEGUMygpGz0oJc09WUQJzfhKr
+ QnIXNL234ZMfeU4c+si47EQIseg4quCNPhwJ/zonjU15pu7rYi1rD+0yIPDR+3rxechB
+ 6/AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+d2SRZpUuZWr1PMsXvidGGiJQELrujV0Qtt40StTl9g=;
+ b=tqBjyL9wnA/fUHwQ5wyfb3RjZ+fcr97bV4qLbkGIYwqyvQc+j5XIDBzlWPL9dngZ/n
+ WC1D0BADSXb/JERSZuLsQdRplaUy1YVj0T69qcQJ9k3qQSag1Ks87xjGsuvb5+BZnci8
+ T2nuMGQH0xvw1iagLaYOIpZP3jUUy7ZyD4pGIyujuxszrZKbrFIEPfL3cPEMmZuIj9Fq
+ RPHX1kWP6dr2GUWAh7PtwkL01c7LohFwUGtVpJnX+kCYhPwOO1kjDpxUn8fL3hm2UmyY
+ nqgGJOBV9n6zmIP8N4CBW96yHQh2OJKJLpNdO0jM4l5ky9jBUzQ1EesOm5PgYFSAuDkX
+ fiBg==
+X-Gm-Message-State: AOAM533kw5djP7PjRY9/sWmtoPmEZoCs3nHqIY+EA7AmVIkcHR1AhnnN
+ 9Mwmngaadw/JwYVA/jmaRAE=
+X-Google-Smtp-Source: ABdhPJwN/668XQNGZmBOPiKhnbVfqe8RSFARvz44SINyM2X+GeJXU84pm9ni1lENZx3wdjXS8lutaw==
+X-Received: by 2002:a05:6512:49d:: with SMTP id
+ v29mr14700624lfq.134.1593595918072; 
+ Wed, 01 Jul 2020 02:31:58 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id m11sm1621386ljj.122.2020.07.01.02.31.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jul 2020 02:31:57 -0700 (PDT)
+Subject: Re: [PATCH v10 0/2] Silence missing-graph error for DRM bridges
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200701074232.13632-1-digetx@gmail.com>
+ <20200701090240.GA22218@ravnborg.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f4d50b9f-06e8-b6f7-ea5c-7a71f27ae953@gmail.com>
+Date: Wed, 1 Jul 2020 12:31:56 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200626100103.18879-2-a.hajda@samsung.com>
+In-Reply-To: <20200701090240.GA22218@ravnborg.org>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,120 +73,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, andy.shevchenko@gmail.com,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 26/06/2020 13:01, Andrzej Hajda wrote:
-> During probe every time driver gets resource it should usually check for
-> error printk some message if it is not -EPROBE_DEFER and return the error.
-> This pattern is simple but requires adding few lines after any resource
-> acquisition code, as a result it is often omitted or implemented only
-> partially.
-> dev_err_probe helps to replace such code sequences with simple call,
-> so code:
-> 	if (err != -EPROBE_DEFER)
-> 		dev_err(dev, ...);
-> 	return err;
-> becomes:
-> 	return probe_err(dev, err, ...);
-> 
-> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-> ---
->   drivers/base/core.c    | 42 ++++++++++++++++++++++++++++++++++++++++++
->   include/linux/device.h |  3 +++
->   2 files changed, 45 insertions(+)
-> 
-
-Basic version of the helper looks very good to me, thank you.
-Reviewed-by: Grygorii Strashko <grygorii.strashko@ti.com>
-
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 67d39a90b45c..3a827c82933f 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3953,6 +3953,48 @@ define_dev_printk_level(_dev_info, KERN_INFO);
->   
->   #endif
->   
-> +/**
-> + * dev_err_probe - probe error check and log helper
-> + * @dev: the pointer to the struct device
-> + * @err: error value to test
-> + * @fmt: printf-style format string
-> + * @...: arguments as specified in the format string
-> + *
-> + * This helper implements common pattern present in probe functions for error
-> + * checking: print debug or error message depending if the error value is
-> + * -EPROBE_DEFER and propagate error upwards.
-> + * It replaces code sequence:
-> + * 	if (err != -EPROBE_DEFER)
-> + * 		dev_err(dev, ...);
-> + * 	else
-> + * 		dev_dbg(dev, ...);
-> + * 	return err;
-> + * with
-> + * 	return dev_err_probe(dev, err, ...);
-> + *
-> + * Returns @err.
-> + *
-> + */
-> +int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
-> +{
-> +	struct va_format vaf;
-> +	va_list args;
-> +
-> +	va_start(args, fmt);
-> +	vaf.fmt = fmt;
-> +	vaf.va = &args;
-> +
-> +	if (err != -EPROBE_DEFER)
-> +		dev_err(dev, "error %d: %pV", err, &vaf);
-> +	else
-> +		dev_dbg(dev, "error %d: %pV", err, &vaf);
-> +
-> +	va_end(args);
-> +
-> +	return err;
-> +}
-> +EXPORT_SYMBOL_GPL(dev_err_probe);
-> +
->   static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
->   {
->   	return fwnode && !IS_ERR(fwnode->secondary);
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 15460a5ac024..6b2272ae9af8 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -964,6 +964,9 @@ void device_link_remove(void *consumer, struct device *supplier);
->   void device_links_supplier_sync_state_pause(void);
->   void device_links_supplier_sync_state_resume(void);
->   
-> +extern __printf(3, 4)
-> +int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-> +
->   /* Create alias, so I can be autoloaded. */
->   #define MODULE_ALIAS_CHARDEV(major,minor) \
->   	MODULE_ALIAS("char-major-" __stringify(major) "-" __stringify(minor))
-> 
-
--- 
-Best regards,
-grygorii
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDEuMDcuMjAyMCAxMjowMiwgU2FtIFJhdm5ib3JnINC/0LjRiNC10YI6Cj4gSGkgRG1pdHJ5Cj4g
+T24gV2VkLCBKdWwgMDEsIDIwMjAgYXQgMTA6NDI6MzBBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+PiBIaSEKPj4KPj4gVGhpcyBzbWFsbCBzZXJpZXMgaW1wcm92ZXMgRFJNIGJyaWRn
+ZXMgY29kZSBieSBzaWxlbmNpbmcgYSBub2lzeSBlcnJvcgo+PiBjb21pbmcgZnJvbSBvZi1ncmFw
+aCBjb2RlIGZvciB0aGUgZGV2aWNlLXRyZWVzIHRoYXQgYXJlIG1pc3NpbmcgYQo+PiBkaXNwbGF5
+IGJyaWRnZSBncmFwaC4KPj4KPj4gICBncmFwaDogbm8gcG9ydCBub2RlIGZvdW5kIGluIC4uLgo+
+Pgo+PiBPbmUgZXhhbXBsZSB3aGVyZSB0aGlzIGVycm9yIGhhcHBlbnMgaXMgYW4gb2xkZXIgYnJp
+ZGdlLWxlc3MgRFRCIHVzZWQKPj4gaW4gY29uanVuY3Rpb24gd2l0aCBhIG5ld2VyIGtlcm5lbCB3
+aGljaCBoYXMgYSBkaXNwbGF5IGNvbnRyb2xsZXIgZHJpdmVyCj4+IHRoYXQgc3VwcG9ydHMgRFJN
+IGJyaWRnZXMuCj4+Cj4+IENoYW5nZWxvZzoKPj4KPj4gdjEwOi0gQ29ycmVjdGVkIGRvYy1jb21t
+ZW50LCB1bmJyb2tlIHRoZSBvZl9ncmFwaF9nZXRfbmV4dF9lbmRwb2ludCgpIGFuZAo+PiAgICAg
+ICBpbXByb3ZlZCBjb21taXQncyBtZXNzYWdlIGluIHRoZSAiYWRkIG9mX2dyYXBoX2lzX3ByZXNl
+bnQoKSIgcGF0Y2guCj4+ICAgICAgIFRoYW5rcyB0byBMYXVyZW50IFBpbmNoYXJ0IGZvciBzcG90
+dGluZyB0aGUgcHJvYmxlbXMhCj4+Cj4+IHY5OiAtIFRoZXNlIHR3byBwYXRjaGVzIGFyZSBmYWN0
+b3JlZCBvdXQgZnJvbSBbMV0gaW4gb3JkZXIgdG8gZWFzZSBhcHBseWluZwo+PiAgICAgICBvZiB0
+aGUgcGF0Y2hlcy4KPj4KPj4gICAgIC0gVGhlIG9mX2dyYXBoX3ByZXNlbnRzKCkgaXMgcmVuYW1l
+ZCB0byBvZl9ncmFwaF9pc19wcmVzZW50KCkgbGlrZSBpdAo+PiAgICAgICB3YXMgcmVxdWVzdGVk
+IGJ5IFJvYiBIZXJyaW5nIGluIHRoZSByZXZpZXcgY29tbWVudCB0byBbMV0uCj4+Cj4+ICAgICAt
+IEFkZGVkIFJvYidzIHItYi4KPj4KPj4gICAgIFsxXSBodHRwczovL3BhdGNod29yay5vemxhYnMu
+b3JnL3Byb2plY3QvbGludXgtdGVncmEvbGlzdC8/c2VyaWVzPTE4NDEwMgo+Pgo+PiBEbWl0cnkg
+T3NpcGVua28gKDIpOgo+PiAgIG9mX2dyYXBoOiBhZGQgb2ZfZ3JhcGhfaXNfcHJlc2VudCgpCj4+
+ICAgZHJtL29mOiBNYWtlIGRybV9vZl9maW5kX3BhbmVsX29yX2JyaWRnZSgpIHRvIGNoZWNrIGdy
+YXBoJ3MgcHJlc2VuY2UKPiAKPiBUaGFua3MgZm9yIHlvdXIgcGF0aWVuY2Ugd2l0aCB0aGVzZSAt
+IGFwcGxpZWQgdG8gZHJtLW1pc2MtbmV4dCBub3cuCgpUaGFua3MgdG8geW91IGFuZCBMYXVyZW50
+IQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
