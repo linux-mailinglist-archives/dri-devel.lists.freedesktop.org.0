@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73285210573
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:52:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EADA210575
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A26D56E82D;
-	Wed,  1 Jul 2020 07:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4401F89870;
+	Wed,  1 Jul 2020 07:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 798C76E82D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:52:34 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id t25so21214306lji.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 00:52:34 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A28892C6
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:53:06 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id q7so12555935ljm.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 00:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sp8OFRFf6RX3lWs07Kr7AL+Vpp0ArpSvDuDKv5ockV4=;
- b=ZWv+idF9f6C09tDpuANbtiZts4oy6Jp5G1wSc4cfgblqEH6E+eM6fWzw78g8Jym25H
- ESLvx77xZlyF23QX2tk/bGVSZNIB3cK6WP7tuOsSmSUSUfQKFljAkgjkGFTg5MVl2SHc
- I45UL6AyclZyHXiaOMg5f2gg14p0pj9SskoqwosD9HZoQEAmhfiFU6SFqpnSIdpxjDYK
- gb4O0POOdeIrAJGg2v5Pp1AmYKsvfYwczug197KEa/QuFl43CZRsgMDP7tJL54aSqTky
- SmG+X0j/S7GVnqpwYBphXgIDO0nunTa5tPSy6BcjTknPtA8noK/g2cyVwldEPqFh9+Xu
- zjfw==
+ :cc; bh=enPGC0OPftzCJlUnTQARq7JEwIW+q43cB8Io8/Pof2M=;
+ b=xTCIkOiBtlJ6KiXHJnag1uUXr7+sABVaySKZwGWLW5bPgNh2BpVrCKqCjglU/TuFGH
+ m9QtKUXanPF0gEBmpQNGPZx85JSQb83YZbgLpLTKkIv1UXKqBUZJTMA+lDPcpg6NmnA8
+ yEJfoyS1/zewE72ZeCP16ZGXR9t4xXVWMNqfm8H8UJfeX03FrzhX/Ue7EnpKQHR0Ul1N
+ bbl0jRMKuKHGYDE9ofhB5OiIbUeQJIdWXfo1NerQIiNu+MdLppPXX5PEm4N2CmlC6zkk
+ HlGZOPJdteytMiASWqZt67U+AMjsKUhgRsKVnC709MG+tkDQD2kyIYXYGPsOxYUQY1A5
+ xMww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Sp8OFRFf6RX3lWs07Kr7AL+Vpp0ArpSvDuDKv5ockV4=;
- b=CGC/yHAiRsXsMWTE4yo6SZCR6zur7rZmFTb4CD4RIXjZ/1e4xFMPXHOa5cXkfRF3Nw
- LwN7ofH2crpi0B0AvL6l0mk7gwdsSv3j1uIzDIZ8guChydBlWYblfJ1wr9DfYeqnT9Hh
- XddISi1j/kKjP3KqGm/wYHFc4eWk/5e+lXVkjAlOD+EIybNa8LCGRfhOw/zjQFEKfNNF
- 8n1TCnZvdX33Y5xheCna0GHSvC+y6gVx1FfmkOzfvpBynCVkMjAliCS8WVcxgHENnox7
- rNm+ZSTUFl4nruo8c1byyeZMQOB1m7okISZ/XmDNGVGy6Vl/+yWdBdQTw6ti/9bBfvUj
- +v3Q==
-X-Gm-Message-State: AOAM530Wmkte4GeIVo1qbjOnV4b6MEy1qo8Qiezh/zVX+xs87HdSUzYJ
- kzvg2GkvDyC5sAm/oiWufRAIVDPvHG4DChEV1vQXhw==
-X-Google-Smtp-Source: ABdhPJwpRScXAGVUMqgSm84FX6WJ0SzvlgWp8UNzvNb5Aa6vqYqzZkRC8x+/6pQpFExpVAZVeTV2K/cWOS/1LOUiSjs=
-X-Received: by 2002:a05:651c:112e:: with SMTP id
- e14mr11806438ljo.338.1593589952845; 
- Wed, 01 Jul 2020 00:52:32 -0700 (PDT)
+ bh=enPGC0OPftzCJlUnTQARq7JEwIW+q43cB8Io8/Pof2M=;
+ b=EOpruBuxG34KfQQrNYRTRyuofV1/bqykShHV4wLB6Fziz2KdfKHnn9iNi5y9gcijtq
+ CTT0pgBySvscKW1YtEWqmRc8h150a3qioFPdxBb4cQ6QCHdqBkodqDwUjBhD02aWGvl7
+ GJpLfthmvfr+mKPhssxswJSos0p93zJkeXh2IKNfAALvaeraU/cqptv0x3jOTfMxUuL2
+ v+JZNs9JdJ8gFULQIVjWqc3+r808dYfYmmP8seOCtVAC0Jw3GnpkqNmMbK1Acf8g91ox
+ 2As1KNtmXhntNc5Tx5j92+KEq/bOIOQ4JdmDIG8HMgmRSNJwr+3Kb9OxI8UY1gt7BBru
+ QOAw==
+X-Gm-Message-State: AOAM533AFTc2wY/EUYwNVi0Vi+3JPSnu2DALqS+qKt60RB8anjPJ0nlJ
+ sgP8oEmxuBpSSvXRmkqKRGvudlyP7dAVaz5r9wjkOA==
+X-Google-Smtp-Source: ABdhPJw3tzZ9D9p6jgEm59VOvtaJaUTyrZtudaxwwHOStc/fwYBz/YcU4X11SqbNhvI9hCjXocTGYoYCbCv2Fh3PwSk=
+X-Received: by 2002:a05:651c:284:: with SMTP id
+ b4mr1772479ljo.283.1593589984484; 
+ Wed, 01 Jul 2020 00:53:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200626005601.241022-1-megous@megous.com>
- <20200626005601.241022-13-megous@megous.com>
-In-Reply-To: <20200626005601.241022-13-megous@megous.com>
+ <20200626005601.241022-14-megous@megous.com>
+In-Reply-To: <20200626005601.241022-14-megous@megous.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 1 Jul 2020 09:52:21 +0200
-Message-ID: <CACRpkdaca=1gvYv5e2v3BzZSTE_1gab6nOt6DCrFm3QX64xy9Q@mail.gmail.com>
-Subject: Re: [PATCH v5 12/13] arm64: dts: sun50i-a64-pinephone: Enable LCD
- support on PinePhone
+Date: Wed, 1 Jul 2020 09:52:53 +0200
+Message-ID: <CACRpkda2LnZ7UQkp_ZDEVCfxHVQ-VUE7NH0dEGNHYrUd1LcC0Q@mail.gmail.com>
+Subject: Re: [PATCH v5 13/13] arm64: dts: sun50i-a64-pinephone: Add
+ touchscreen support
 To: Ondrej Jirman <megous@megous.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,18 +81,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Jun 26, 2020 at 2:56 AM Ondrej Jirman <megous@megous.com> wrote:
 
-> From: Icenowy Zheng <icenowy@aosc.io>
+> Pinephone has a Goodix GT917S capacitive touchscreen controller on
+> I2C0 bus. Add support for it.
 >
-> PinePhone uses PWM backlight and a XBD599 LCD panel over DSI for
-> display.
->
-> Backlight levels curve was optimized by Martijn Braam using a
-> lux meter.
->
-> Add its device nodes.
->
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Martijn Braam <martijn@brixit.nl>
 > Signed-off-by: Ondrej Jirman <megous@megous.com>
 
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
