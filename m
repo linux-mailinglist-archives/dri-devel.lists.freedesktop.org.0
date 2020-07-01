@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DE1211CEC
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D20C211CB4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69EAB6EA79;
-	Thu,  2 Jul 2020 07:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2716E519;
+	Thu,  2 Jul 2020 07:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54FF6E096
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 17:14:42 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id j10so18993356qtq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 10:14:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uyDrreb5/43nRuyXAG5DxhddbAStHj2IykaaREeLOAs=;
- b=lrfta52O1r0UsfmM79fscXfWiTmQ4Zl4t2olGT+gIZQ+ikYdcVVjEEd7tfkDk3mVJo
- 2yeVQsPbar4qpD3ErrFTsEMkmKrRg76t0/D5OdajQasvPoDo2HEYmv2xcnO+9Cr06g/5
- Jhgc14xFsLMXwm3zxMkcSzoq/Te/N+53cBoyeqOmOdNzg12m6a2/JCR96jBDDynnF+0p
- XdFp+xxEdg2W/Hqx+zlpYGrcRGmEMvYDfAktg0VnTxy3DKaeHF29ak7MAJVmOg3kobx6
- o+dyGtunNjmaa4MAMH2gTlnr4U/10Ur7ZqaShJOB0OaBuTd35v18MCOnI/NBMC8jQ/bp
- xv7g==
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0E26E07F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 17:15:26 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id a6so4987022ilq.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 10:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XxnIxtjRpDkvkw51GDJVMxPTPGtFOykolSOKsxdLZrI=;
+ b=iMvRepgl7G2zNXZ76Hr/JM0kvklKj2OppBxjxki23srGIrq6ioLxbixoQwwF7o1gQ3
+ mc8DiDRPkO9ZyXHbNZ0Jh4v2uQwXQA2gROyeb/mgI4mJFKsKttQ9NEbiEMzptwBUStYL
+ 2W8vWBjzv+7LD4ciLeUZbm8WPBdaSb/yTwUFHpFfhvlOPA8eFvPChumv6qX/xUZWJaS7
+ WExrJXqm1XpHR8IWSlASm6a0MgLkfL0lsNNB5/u0oF0nfUb5jMsYAMMqMDqNPbWIUoUy
+ CDrBg1oCeaG5p8JYa2fTsFbABglV5FY6TMeSOyvHrYsOn6LQ9x16PZAKJJggXGpO9L2h
+ Bmyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uyDrreb5/43nRuyXAG5DxhddbAStHj2IykaaREeLOAs=;
- b=qZkACEHfrmd8FUvAoK6LMl4AVLcBGYxqzJHaR5LxjuzMsQ6o7+ulNtoOUs7CSAguAd
- 0Jz2CKKQ7cqtdYPM3J7NbFfHphfdRHrBi+6ZcIPFaXJeWnrIsSE5LGJ6K2EIAOngxzVV
- HI971IwYxnZ7W/3KpkqsX+3BVaw4Rh2qxpDD3ILuwjC+LpeL9qjr9INJNOXYU3asOEyv
- nOwHhM9Z0RWh0ZBguWLrTg0qORSn4mxKdV9KcQAKcLMt/XuPomsQclhqBRecXWqlSM4/
- T8SJkDpv52zihbvwAGQuTVgdjgrT9fvmavbbXlIJd82KyZQ+k3k3+i4q4cZtI2VZzIVZ
- LEGA==
-X-Gm-Message-State: AOAM533asAABoiO1mhkt74MeqF/20wDiijCLW8H7qc5PpxMOUU+OLxDa
- 2u929h35ipagzZ501XzaSP8G3AuZqCkJyw==
-X-Google-Smtp-Source: ABdhPJwsdDTczZS+vX8/Nxdl4H4faN26QV/tRRi0cKAX20gxeG3JVW5sYGRaK3dP0UeDm5JOzT1QbQ==
-X-Received: by 2002:ac8:728b:: with SMTP id v11mr28496958qto.297.1593623681674; 
- Wed, 01 Jul 2020 10:14:41 -0700 (PDT)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id u27sm6069257qkm.121.2020.07.01.10.14.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 10:14:41 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm: handle for EPROBE_DEFER for of_icc_get
-To: Matthias Kaehlcke <mka@chromium.org>
-References: <20200701030842.24395-1-jonathan@marek.ca>
- <20200701171228.GC3191083@google.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <49af8f44-51d4-aded-a34e-55c7c5780008@marek.ca>
-Date: Wed, 1 Jul 2020 13:13:34 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XxnIxtjRpDkvkw51GDJVMxPTPGtFOykolSOKsxdLZrI=;
+ b=PnqNs/OUNorGQobGwCVDYr3KjAhQccBrSeN8/NYbBT+DJYosSb3NgcpM7nI1ghykV2
+ JcRwCb0YoQl/m30Dog3RDwm2Q38iqHbFIQEvIjFRYZQl/4jFiPGxAZGz330pK+8rN6j6
+ JOFbqF/KtfATqXkmKjdPKy/VzOmn0GpbqVuR7cW4lt+klxk2wLDK9NVDZOsg4qmK6Tyh
+ px0hwpPS1mOCe/L3bZh8Q4THYJOV2ys4ZcRUsZqY2j4pjiuKaLOji/EiNurOeDrp1IC5
+ wgx5rfYuH1koLbHLDLQaZy8RUeiJaR4gcjMqARxpUwdkOL57b8YK0OOB2Z6EnhddIzl8
+ CtUw==
+X-Gm-Message-State: AOAM53394mwNLIz7SDtnSjkD0QQcYkstMNv27nrbY03GnS6hnR3Mdbss
+ Gj5jZZdz0DuGyUOynf601nBnUw==
+X-Google-Smtp-Source: ABdhPJxhHTHmbob6OQdYcormvVS6B2LDFca749np99vHRxmGD/Dd5URAcW/wKfoHCWMGpgIuDlfENA==
+X-Received: by 2002:a92:844b:: with SMTP id l72mr9137016ild.19.1593623725989; 
+ Wed, 01 Jul 2020 10:15:25 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id t6sm3162260ioi.20.2020.07.01.10.15.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 10:15:25 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93) (envelope-from <jgg@ziepe.ca>)
+ id 1jqgKS-002ans-8p; Wed, 01 Jul 2020 14:15:24 -0300
+Date: Wed, 1 Jul 2020 14:15:24 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+Message-ID: <20200701171524.GN25301@ziepe.ca>
+References: <1593451903-30959-1-git-send-email-jianxin.xiong@intel.com>
+ <20200629185152.GD25301@ziepe.ca>
+ <MW3PR11MB4555A99038FA0CFC3ED80D3DE56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20200630173435.GK25301@ziepe.ca>
+ <MW3PR11MB45553FA6D144BF1053571D98E56F0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <9b4fa0c2-1661-6011-c552-e37b05f35938@amd.com>
+ <20200701123904.GM25301@ziepe.ca>
+ <34077a9f-7924-fbb3-04d9-cd20243f815c@amd.com>
+ <CAKMK7uFf3_a+BN8CM7G8mNQPNtVBorouB+R5kxbbmFSB9XbeSg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200701171228.GC3191083@google.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFf3_a+BN8CM7G8mNQPNtVBorouB+R5kxbbmFSB9XbeSg@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,43 +77,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>,
- Brian Masney <masneyb@onstation.org>
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Xiong,
+ Jianxin" <jianxin.xiong@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/1/20 1:12 PM, Matthias Kaehlcke wrote:
-> Hi Jonathan,
+On Wed, Jul 01, 2020 at 05:42:21PM +0200, Daniel Vetter wrote:
+> > >> All you need is the ability to stop wait for ongoing accesses to end and
+> > >> make sure that new ones grab a new mapping.
+> > > Swap and flush isn't a general HW ability either..
+> > >
+> > > I'm unclear how this could be useful, it is guarenteed to corrupt
+> > > in-progress writes?
+> > >
+> > > Did you mean pause, swap and resume? That's ODP.
+> >
+> > Yes, something like this. And good to know, never heard of ODP.
 > 
-> On Tue, Jun 30, 2020 at 11:08:41PM -0400, Jonathan Marek wrote:
->> Check for EPROBE_DEFER instead of silently not using icc if the msm driver
->> probes before the interconnect driver.
-> 
-> Agreed with supporting deferred ICC probing.
-> 
->> Only check for EPROBE_DEFER because of_icc_get can return other errors that
->> we want to ignore (ENODATA).
-> 
-> What would be the -ENODATA case?
-> 
+> Hm I thought ODP was full hw page faults at an individual page
+> level,
 
-The of_icc_get for the ocmem_icc_path can return -ENODATA when the ocmem 
-path is not specified (it is optional and only relevant for a3xx/a4xx).
+Yes
 
-> If the 'interconnects' property is not specified of_icc_get() returns NULL,
-> shouldn't all (or most) errors be propagated rather than staying silent?
-> 
-> Thanks
-> 
-> Matthias
-> 
+> and this stop&resume is for the entire nic. Under the hood both apply
+> back-pressure on the network if a transmission can't be received,
+> but
+
+NIC's don't do stop and resume, blocking the Rx pipe is very
+problematic and performance destroying.
+
+The strategy for something like ODP is more complex, and so far no NIC
+has deployed it at any granularity larger than per-page.
+
+> So since Jason really doesn't like dma_fence much I think for rdma
+> synchronous it is. And it shouldn't really matter, since waiting for a
+> small transaction to complete at rdma wire speed isn't really that
+> long an operation. 
+
+Even if DMA fence were to somehow be involved, how would it look?
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
