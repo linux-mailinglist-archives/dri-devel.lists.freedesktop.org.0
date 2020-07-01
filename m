@@ -1,38 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D0210379
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 07:53:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6974C210394
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 08:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B186E5CA;
-	Wed,  1 Jul 2020 05:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A59806E265;
+	Wed,  1 Jul 2020 06:03:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 961FA6E5CA
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 05:53:41 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 250276E5CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 06:03:54 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC31C556;
- Wed,  1 Jul 2020 07:53:39 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B120556;
+ Wed,  1 Jul 2020 08:03:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1593582820;
- bh=jNEnbbU+mUUHmnVaN867YZAh01TVrstm4KhGyErE+kI=;
+ s=mail; t=1593583432;
+ bh=naXE3zIg5k6kDhcCHdIpnplNruV+dU9WPA06Q/zqCr8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cw0KgKNmp+avM2ErZ4x8oyqFokj+a/tVeMtCuJQDuLZv/CuGSXVuIoUk4tPy9zsuv
- IwIR3DmSrvB+FX6vchtaQtSVtZc1RVwc6FUKDnmCbWhrm5SdyXK6syJVRZHg8HSIrJ
- VIQLqOb8hvIz2FS+rB4TDfezttAltNHCCGmXKw1o=
-Date: Wed, 1 Jul 2020 08:53:36 +0300
+ b=IppIhBkjuQQKoYOHNSl47fqCkVvM/QNktmdaKvAWwxQynYZpgo4YKhTEsa/pO6gRG
+ lASyzidgcC9BTOI6QtBdr/ZoDA6H6zmk+pT+6ljqZRTGgKPXklKT8AFc6p9AQp/BHX
+ oy4X8EQcGYBMU+gnHdC1PwZ5d6cm+Dc78u/iiIQk=
+Date: Wed, 1 Jul 2020 09:03:49 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: display: Convert connectors to DT schema
-Message-ID: <20200701055336.GC5963@pendragon.ideasonboard.com>
-References: <20200630200216.1172566-1-robh@kernel.org>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH v2 1/8] dt-bindings: media: renesas,fcp: Convert binding
+ to YAML
+Message-ID: <20200701060349.GE5963@pendragon.ideasonboard.com>
+References: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621004734.28602-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20200630204918.GA2365286@oden.dyn.berto.se>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200630200216.1172566-1-robh@kernel.org>
+In-Reply-To: <20200630204918.GA2365286@oden.dyn.berto.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,473 +48,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-
-Thank you for the patch.
-
-On Tue, Jun 30, 2020 at 02:02:16PM -0600, Rob Herring wrote:
-> Convert the analog TV, DVI, HDMI, and VGA connector bindings to DT schema
-> format.
-> 
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> v2:
-> - Make Laurent maintainer
-> - Add missing port and compatible required
-> - Drop copy-n-paste 'type' from dvi-connector
-> - Use 4 space indent on examples
-> ---
->  .../display/connector/analog-tv-connector.txt | 31 --------
->  .../connector/analog-tv-connector.yaml        | 52 ++++++++++++++
->  .../display/connector/dvi-connector.txt       | 36 ----------
->  .../display/connector/dvi-connector.yaml      | 70 +++++++++++++++++++
->  .../display/connector/hdmi-connector.txt      | 31 --------
->  .../display/connector/hdmi-connector.yaml     | 64 +++++++++++++++++
->  .../display/connector/vga-connector.txt       | 36 ----------
->  .../display/connector/vga-connector.yaml      | 46 ++++++++++++
->  8 files changed, 232 insertions(+), 134 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
->  create mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.txt
->  create mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
->  create mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.txt
->  create mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> deleted file mode 100644
-> index 883bcb2604c7..000000000000
-> --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -Analog TV Connector
-> -===================
-> -
-> -Required properties:
-> -- compatible: "composite-video-connector" or "svideo-connector"
-> -
-> -Optional properties:
-> -- label: a symbolic name for the connector
-> -- sdtv-standards: limit the supported TV standards on a connector to the given
-> -                  ones. If not specified all TV standards are allowed.
-> -                  Possible TV standards are defined in
-> -                  include/dt-bindings/display/sdtv-standards.h.
-> -
-> -Required nodes:
-> -- Video port for TV input
-> -
-> -Example
-> --------
-> -#include <dt-bindings/display/sdtv-standards.h>
-> -
-> -tv: connector {
-> -	compatible = "composite-video-connector";
-> -	label = "tv";
-> -	sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> -
-> -	port {
-> -		tv_connector_in: endpoint {
-> -			remote-endpoint = <&venc_out>;
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-> new file mode 100644
-> index 000000000000..eebe88fed999
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/connector/analog-tv-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog TV Connector
-> +
-> +maintainers:
-> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - composite-video-connector
-> +      - svideo-connector
-> +
-> +  label: true
-> +
-> +  sdtv-standards:
-> +    description:
-> +      Limit the supported TV standards on a connector to the given ones. If
-> +      not specified all TV standards are allowed. Possible TV standards are
-> +      defined in include/dt-bindings/display/sdtv-standards.h.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  port:
-> +    description: Connection to controller providing analog TV signals
-> +
-> +required:
-> +  - compatible
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/display/sdtv-standards.h>
-> +
-> +    connector {
-> +        compatible = "composite-video-connector";
-> +        label = "tv";
-> +        sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> +
-> +        port {
-> +            tv_connector_in: endpoint {
-> +                remote-endpoint = <&venc_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt b/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-> deleted file mode 100644
-> index 207e42e9eba0..000000000000
-> --- a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -DVI Connector
-> -==============
-> -
-> -Required properties:
-> -- compatible: "dvi-connector"
-> -
-> -Optional properties:
-> -- label: a symbolic name for the connector
-> -- ddc-i2c-bus: phandle to the i2c bus that is connected to DVI DDC
-> -- analog: the connector has DVI analog pins
-> -- digital: the connector has DVI digital pins
-> -- dual-link: the connector has pins for DVI dual-link
-> -- hpd-gpios: HPD GPIO number
-> -
-> -Required nodes:
-> -- Video port for DVI input
-> -
-> -Note: One (or both) of 'analog' or 'digital' must be set.
-> -
-> -Example
-> --------
-> -
-> -dvi0: connector@0 {
-> -	compatible = "dvi-connector";
-> -	label = "dvi";
-> -
-> -	digital;
-> -
-> -	ddc-i2c-bus = <&i2c3>;
-> -
-> -	port {
-> -		dvi_connector_in: endpoint {
-> -			remote-endpoint = <&tfp410_out>;
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-> new file mode 100644
-> index 000000000000..71cb9220fa59
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/connector/dvi-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: DVI Connector
-> +
-> +maintainers:
-> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: dvi-connector
-> +
-> +  label: true
-> +
-> +  hpd-gpios:
-> +    description: A GPIO line connected to HPD
-> +    maxItems: 1
-> +
-> +  ddc-i2c-bus:
-> +    description: phandle link to the I2C controller used for DDC EDID probing
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +  analog:
-> +    type: boolean
-> +    description: the connector has DVI analog pins
-> +
-> +  digital:
-> +    type: boolean
-> +    description: the connector has DVI digital pins
-> +
-> +  dual-link:
-> +    type: boolean
-> +    description: the connector has pins for DVI dual-link
-> +
-> +  port:
-> +    description: Connection to controller providing DVI signals
-> +
-> +required:
-> +  - compatible
-> +  - port
-> +
-> +anyOf:
-> +  - required:
-> +      - analog
-> +  - required:
-> +      - digital
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    connector {
-> +        compatible = "dvi-connector";
-> +        label = "dvi";
-> +
-> +        digital;
-> +
-> +        ddc-i2c-bus = <&i2c3>;
-> +
-> +        port {
-> +            dvi_connector_in: endpoint {
-> +                remote-endpoint = <&tfp410_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt b/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
-> deleted file mode 100644
-> index aeb07c4bd703..000000000000
-> --- a/Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -HDMI Connector
-> -==============
-> -
-> -Required properties:
-> -- compatible: "hdmi-connector"
-> -- type: the HDMI connector type: "a", "b", "c", "d" or "e"
-> -
-> -Optional properties:
-> -- label: a symbolic name for the connector
-> -- hpd-gpios: HPD GPIO number
-> -- ddc-i2c-bus: phandle link to the I2C controller used for DDC EDID probing
-> -- ddc-en-gpios: signal to enable DDC bus
-> -
-> -Required nodes:
-> -- Video port for HDMI input
-> -
-> -Example
-> --------
-> -
-> -hdmi0: connector@1 {
-> -	compatible = "hdmi-connector";
-> -	label = "hdmi";
-> -
-> -	type = "a";
-> -
-> -	port {
-> -		hdmi_connector_in: endpoint {
-> -			remote-endpoint = <&tpd12s015_out>;
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
-> new file mode 100644
-> index 000000000000..14d7128af592
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/connector/hdmi-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: HDMI Connector
-> +
-> +maintainers:
-> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: hdmi-connector
-> +
-> +  type:
-> +    description: The HDMI connector type
-> +    enum:
-> +      - a   # Standard full size
-> +      - b   # Never deployed?
-> +      - c   # Mini
-> +      - d   # Micro
-> +      - e   # automotive
-> +
-> +  label: true
-> +
-> +  hpd-gpios:
-> +    description: A GPIO line connected to HPD
-> +    maxItems: 1
-> +
-> +  ddc-i2c-bus:
-> +    description: phandle link to the I2C controller used for DDC EDID probing
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +  ddc-en-gpios:
-> +    description: GPIO signal to enable DDC bus
-> +    maxItems: 1
-> +
-> +  port:
-> +    description: Connection to controller providing HDMI signals
-> +
-> +required:
-> +  - compatible
-> +  - port
-> +  - type
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    connector {
-> +        compatible = "hdmi-connector";
-> +        label = "hdmi";
-> +
-> +        type = "a";
-> +
-> +        port {
-> +            hdmi_connector_in: endpoint {
-> +                remote-endpoint = <&tpd12s015_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.txt b/Documentation/devicetree/bindings/display/connector/vga-connector.txt
-> deleted file mode 100644
-> index c727f298e7ad..000000000000
-> --- a/Documentation/devicetree/bindings/display/connector/vga-connector.txt
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -VGA Connector
-> -=============
-> -
-> -Required properties:
-> -
-> -- compatible: "vga-connector"
-> -
-> -Optional properties:
-> -
-> -- label: a symbolic name for the connector corresponding to a hardware label
-> -- ddc-i2c-bus: phandle to the I2C bus that is connected to VGA DDC
-> -
-> -Required nodes:
-> -
-> -The VGA connector internal connections are modeled using the OF graph bindings
-> -specified in Documentation/devicetree/bindings/graph.txt.
-> -
-> -The VGA connector has a single port that must be connected to a video source
-> -port.
-> -
-> -
-> -Example
-> --------
-> -
-> -vga0: connector@0 {
-> -	compatible = "vga-connector";
-> -	label = "vga";
-> -
-> -	ddc-i2c-bus = <&i2c3>;
-> -
-> -	port {
-> -		vga_connector_in: endpoint {
-> -			remote-endpoint = <&adv7123_out>;
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/connector/vga-connector.yaml b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-> new file mode 100644
-> index 000000000000..5782c4bb3252
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/connector/vga-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: VGA Connector
-> +
-> +maintainers:
-> +  - Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: vga-connector
-> +
-> +  label: true
-> +
-> +  ddc-i2c-bus:
-> +    description: phandle link to the I2C controller used for DDC EDID probing
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +  port:
-> +    description: Connection to controller providing VGA signals
-> +
-> +required:
-> +  - compatible
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    connector {
-> +        compatible = "vga-connector";
-> +        label = "vga";
-> +
-> +        ddc-i2c-bus = <&i2c3>;
-> +
-> +        port {
-> +            vga_connector_in: endpoint {
-> +                remote-endpoint = <&adv7123_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTmlrbGFzLAoKT24gVHVlLCBKdW4gMzAsIDIwMjAgYXQgMTA6NDk6MThQTSArMDIwMCwgTmlr
+bGFzIFPDtmRlcmx1bmQgd3JvdGU6Cj4gT24gMjAyMC0wNi0yMSAwMzo0NzoyNyArMDMwMCwgTGF1
+cmVudCBQaW5jaGFydCB3cm90ZToKPiA+IENvbnZlcnQgdGhlIFJlbmVzYXMgUi1DYXIgRkNQIHRl
+eHQgYmluZGluZyB0byBZQU1MLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNo
+YXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KPiA+IFJldmll
+d2VkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPgo+ID4g
+LS0tCj4gPiBDaGFuZ2VzIHNpbmNlIHYxOgo+ID4gCj4gPiAtIFNpbXBsaWZ5IGNvbW1lbnRzIG9u
+IGNvbXBhdGlibGUgc3RyaW5ncwo+ID4gLSBVcGRhdGUgTUFJTlRBSU5FUlMKPiA+IC0tLQo+ID4g
+IC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnR4dCB8IDM0IC0tLS0t
+LS0tLS0tCj4gPiAgLi4uL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnlhbWwgICAgICAgICAg
+IHwgNTYgKysrKysrKysrKysrKysrKysrKwo+ID4gIE1BSU5UQUlORVJTICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB8ICAyICstCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA1NyBpbnNl
+cnRpb25zKCspLCAzNSBkZWxldGlvbnMoLSkKPiA+ICBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnR4dAo+ID4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEv
+cmVuZXNhcyxmY3AueWFtbAo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9yZW5lc2FzLGZjcC50eHQKPiA+IGRlbGV0ZWQgZmlsZSBt
+b2RlIDEwMDY0NAo+ID4gaW5kZXggNzljMzczOTViMzk2Li4wMDAwMDAwMDAwMDAKPiA+IC0tLSBh
+L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9yZW5lc2FzLGZjcC50eHQK
+PiA+ICsrKyAvZGV2L251bGwKPiA+IEBAIC0xLDM0ICswLDAgQEAKPiA+IC1SZW5lc2FzIFItQ2Fy
+IEZyYW1lIENvbXByZXNzaW9uIFByb2Nlc3NvciAoRkNQKQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAtCj4gPiAtVGhlIEZDUCBpcyBhIGNv
+bXBhbmlvbiBtb2R1bGUgb2YgdmlkZW8gcHJvY2Vzc2luZyBtb2R1bGVzIGluIHRoZSBSZW5lc2Fz
+IFItQ2FyCj4gPiAtR2VuMyBhbmQgUlovRzIgU29Dcy4gSXQgcHJvdmlkZXMgZGF0YSBjb21wcmVz
+c2lvbiBhbmQgZGVjb21wcmVzc2lvbiwgZGF0YQo+ID4gLWNhY2hpbmcsIGFuZCBjb252ZXJzaW9u
+IG9mIEFYSSB0cmFuc2FjdGlvbnMgaW4gb3JkZXIgdG8gcmVkdWNlIHRoZSBtZW1vcnkKPiA+IC1i
+YW5kd2lkdGguCj4gPiAtCj4gPiAtVGhlcmUgYXJlIHRocmVlIHR5cGVzIG9mIEZDUDogRkNQIGZv
+ciBDb2RlYyAoRkNQQyksIEZDUCBmb3IgVlNQIChGQ1BWKSBhbmQgRkNQCj4gPiAtZm9yIEZEUCAo
+RkNQRikuIFRoZWlyIGNvbmZpZ3VyYXRpb24gYW5kIGJlaGF2aW91ciBkZXBlbmQgb24gdGhlIG1v
+ZHVsZSB0aGV5Cj4gPiAtYXJlIHBhaXJlZCB3aXRoLiBUaGVzZSBEVCBiaW5kaW5ncyBjdXJyZW50
+bHkgc3VwcG9ydCB0aGUgRkNQViBhbmQgRkNQRi4KPiA+IC0KPiA+IC0gLSBjb21wYXRpYmxlOiBN
+dXN0IGJlIG9uZSBvciBtb3JlIG9mIHRoZSBmb2xsb3dpbmcKPiA+IC0KPiA+IC0gICAtICJyZW5l
+c2FzLGZjcHYiIGZvciBnZW5lcmljIGNvbXBhdGlibGUgJ0ZDUCBmb3IgVlNQJwo+ID4gLSAgIC0g
+InJlbmVzYXMsZmNwZiIgZm9yIGdlbmVyaWMgY29tcGF0aWJsZSAnRkNQIGZvciBGRFAnCj4gPiAt
+Cj4gPiAtIC0gcmVnOiB0aGUgcmVnaXN0ZXIgYmFzZSBhbmQgc2l6ZSBmb3IgdGhlIGRldmljZSBy
+ZWdpc3RlcnMKPiA+IC0gLSBjbG9ja3M6IFJlZmVyZW5jZSB0byB0aGUgZnVuY3Rpb25hbCBjbG9j
+awo+ID4gLQo+ID4gLU9wdGlvbmFsIHByb3BlcnRpZXM6Cj4gPiAtIC0gcG93ZXItZG9tYWlucyA6
+IHBvd2VyLWRvbWFpbiBwcm9wZXJ0eSBkZWZpbmVkIHdpdGggYSBwb3dlciBkb21haW4gc3BlY2lm
+aWVyCj4gPiAtCQkgICB0byByZXNwZWN0aXZlIHBvd2VyIGRvbWFpbi4KPiA+IC0KPiA+IC0KPiA+
+IC1EZXZpY2Ugbm9kZSBleGFtcGxlCj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gLQo+ID4g
+LQlmY3B2ZDE6IGZjcEBmZWEyZjAwMCB7Cj4gPiAtCQljb21wYXRpYmxlID0gInJlbmVzYXMsZmNw
+diI7Cj4gPiAtCQlyZWcgPSA8MCAweGZlYTJmMDAwIDAgMHgyMDA+Owo+ID4gLQkJY2xvY2tzID0g
+PCZjcGcgQ1BHX01PRCA2MDI+Owo+ID4gLQkJcG93ZXItZG9tYWlucyA9IDwmc3lzYyBSOEE3Nzk1
+X1BEX0EzVlA+Owo+ID4gLQl9Owo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9tZWRpYS9yZW5lc2FzLGZjcC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnlhbWwKPiA+IG5ldyBmaWxlIG1vZGUg
+MTAwNjQ0Cj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjkyNDFiZjNjNWVmYwo+ID4gLS0tIC9kZXYv
+bnVsbAo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3Jl
+bmVzYXMsZmNwLnlhbWwKPiA+IEBAIC0wLDAgKzEsNTYgQEAKPiA+ICsjIFNQRFgtTGljZW5zZS1J
+ZGVudGlmaWVyOiAoR1BMLTIuMCBPUiBCU0QtMi1DbGF1c2UpCj4gPiArJVlBTUwgMS4yCj4gPiAr
+LS0tCj4gPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9tZWRpYS9yZW5lc2Fz
+LGZjcC55YW1sIwo+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVt
+YXMvY29yZS55YW1sIwo+ID4gKwo+ID4gK3RpdGxlOiBSZW5lc2FzIFItQ2FyIEZyYW1lIENvbXBy
+ZXNzaW9uIFByb2Nlc3NvciAoRkNQKQo+ID4gKwo+ID4gK21haW50YWluZXJzOgo+ID4gKyAgLSBM
+YXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4gPiAr
+Cj4gPiArZGVzY3JpcHRpb246IHwKPiA+ICsgIFRoZSBGQ1AgaXMgYSBjb21wYW5pb24gbW9kdWxl
+IG9mIHZpZGVvIHByb2Nlc3NpbmcgbW9kdWxlcyBpbiB0aGUgUmVuZXNhcwo+ID4gKyAgUi1DYXIg
+R2VuMyBhbmQgUlovRzIgU29Dcy4gSXQgcHJvdmlkZXMgZGF0YSBjb21wcmVzc2lvbiBhbmQgZGVj
+b21wcmVzc2lvbiwKPiA+ICsgIGRhdGEgY2FjaGluZywgYW5kIGNvbnZlcnNpb24gb2YgQVhJIHRy
+YW5zYWN0aW9ucyBpbiBvcmRlciB0byByZWR1Y2UgdGhlCj4gPiArICBtZW1vcnkgYmFuZHdpZHRo
+Lgo+ID4gKwo+ID4gKyAgVGhlcmUgYXJlIHRocmVlIHR5cGVzIG9mIEZDUDogRkNQIGZvciBDb2Rl
+YyAoRkNQQyksIEZDUCBmb3IgVlNQIChGQ1BWKSBhbmQKPiA+ICsgIEZDUCBmb3IgRkRQIChGQ1BG
+KS4gVGhlaXIgY29uZmlndXJhdGlvbiBhbmQgYmVoYXZpb3VyIGRlcGVuZCBvbiB0aGUgbW9kdWxl
+Cj4gPiArICB0aGV5IGFyZSBwYWlyZWQgd2l0aC4gVGhlc2UgRFQgYmluZGluZ3MgY3VycmVudGx5
+IHN1cHBvcnQgdGhlIEZDUFYgYW5kIEZDUEYuCj4gPiArCj4gPiArcHJvcGVydGllczoKPiA+ICsg
+IGNvbXBhdGlibGU6Cj4gPiArICAgIGVudW06Cj4gPiArICAgICAgLSByZW5lc2FzLGZjcHYgIyBG
+Q1AgZm9yIFZTUAo+ID4gKyAgICAgIC0gcmVuZXNhcyxmY3BmICMgRkNQIGZvciBGRFAKPiA+ICsK
+PiA+ICsgIHJlZzoKPiA+ICsgICAgbWF4SXRlbXM6IDEKPiA+ICsKPiA+ICsgIGNsb2NrczoKPiA+
+ICsgICAgbWF4SXRlbXM6IDEKPiA+ICsKPiA+ICsgIHBvd2VyLWRvbWFpbnM6Cj4gPiArICAgIG1h
+eEl0ZW1zOiAxCj4gPiArCj4gPiArcmVxdWlyZWQ6Cj4gPiArICAtIGNvbXBhdGlibGUKPiA+ICsg
+IC0gcmVnCj4gPiArICAtIGNsb2Nrcwo+ID4gKwo+ID4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBm
+YWxzZQo+ID4gKwo+ID4gK2V4YW1wbGVzOgo+ID4gKyAgIyBSOEE3NzkwIChSLUNhciBIMikgVlNQ
+MS1TCj4gCj4gSHVtLCBSOEE3NzkwIGlzIEgyIGJ1dCB0aGUgZXhhbXBsZSBiZWxvdyBpcyBmcm9t
+IEgzIFI4QTc3OTVbMDFdIGlzIGl0IAo+IG5vdD8gV2l0aCB0aGlzIGZpeGVkLAoKQWJzb2x1dGVs
+eS4gSSBkb24ndCBrbm93IGhvdyBpdCBlbmRlZCB0aGVyZS4gSSdsbCBmaXggdGhpcy4KCj4gUmV2
+aWV3ZWQtYnk6IE5pa2xhcyBTw7ZkZXJsdW5kIDxuaWtsYXMuc29kZXJsdW5kK3JlbmVzYXNAcmFn
+bmF0ZWNoLnNlPgo+IAo+ID4gKyAgLSB8Cj4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9j
+bG9jay9yZW5lc2FzLWNwZy1tc3NyLmg+Cj4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9w
+b3dlci9yOGE3Nzk1LXN5c2MuaD4KPiA+ICsKPiA+ICsgICAgZmNwQGZlYTJmMDAwIHsKPiA+ICsg
+ICAgICAgIGNvbXBhdGlibGUgPSAicmVuZXNhcyxmY3B2IjsKPiA+ICsgICAgICAgIHJlZyA9IDww
+eGZlYTJmMDAwIDB4MjAwPjsKPiA+ICsgICAgICAgIGNsb2NrcyA9IDwmY3BnIENQR19NT0QgNjAy
+PjsKPiA+ICsgICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JnN5c2MgUjhBNzc5NV9QRF9BTFdBWVNf
+T04+Owo+ID4gKyAgICB9Owo+ID4gKy4uLgo+ID4gZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIv
+TUFJTlRBSU5FUlMKPiA+IGluZGV4IDY4ZjIxZDQ2NjE0Yy4uNjYwZWQ2NjA2ZGUyIDEwMDY0NAo+
+ID4gLS0tIGEvTUFJTlRBSU5FUlMKPiA+ICsrKyBiL01BSU5UQUlORVJTCj4gPiBAQCAtMTA3MDAs
+NyArMTA3MDAsNyBAQCBMOglsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiA+ICBMOglsaW51
+eC1yZW5lc2FzLXNvY0B2Z2VyLmtlcm5lbC5vcmcKPiA+ICBTOglTdXBwb3J0ZWQKPiA+ICBUOgln
+aXQgZ2l0Oi8vbGludXh0di5vcmcvbWVkaWFfdHJlZS5naXQKPiA+IC1GOglEb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyxmY3AudHh0Cj4gPiArRjoJRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZmNwLnlhbWwKPiA+ICBG
+Oglkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JjYXItZmNwLmMKPiA+ICBGOglpbmNsdWRlL21lZGlh
+L3JjYXItZmNwLmgKPiA+ICAKCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
