@@ -2,68 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2252104A2
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96ED6210465
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:01:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE376E829;
-	Wed,  1 Jul 2020 07:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAE1D6E5D5;
+	Wed,  1 Jul 2020 07:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9406E44A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 06:51:15 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id DC494AA7;
- Wed,  1 Jul 2020 02:51:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 01 Jul 2020 02:51:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=DMlwC4LDZdJp/AElsdSkN7QDFdA
- xaBzbT1BNfb3j+c0=; b=cxLxSk93t8J6dOd9wq+KFmXn34ZCBDSQqIKdR4Wb0yL
- AIKvHg2d9TLY1njfPXqdbyId8+oRdwWGKfYlvRU8Dw0zdDSBSFlEPRbpDAzvG+qk
- VcW+WwrBnCEfKDRG6Ne8GyvqEoUgV2SLIcNRN4xz5BgXqiDd4BxzbBZ1JMwIyRIJ
- DvjUrIW0pkXRlsMoU48b8x+gdMhxa74miehgDWW6He23mwJpdgtpSGcg+Wf97Jic
- I+4I2ifemhF/DdTiNw1mPrfqjlldNa2MpRBkhUS2ogAF16GbE5P5RKoMm0wTEB2P
- TMJa70yPIhhtd6WhKr7ImA8hISsQ9f8AK9WicAd24hw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=DMlwC4
- LDZdJp/AElsdSkN7QDFdAxaBzbT1BNfb3j+c0=; b=Thb2uVjhGDFYSOBdjBXJiP
- 3u+y5J53+9pRuUxU/eNw+cZVANLrLEyXbpP1gi8c61D+J6U0U6742MUlUwl1a8Yz
- pi7i0OcwrDbjDuwyOrCRKOebG335obRy12b6DmZV0EDDpUAdYET1ml9y+23EAPLQ
- tHMmAA+1gIum1iRzIyuibLTJnpIbi4n+Dle/2ozZkrIKTRntq5DIIqMjkeuHcByr
- ZNH4kYqvUREJjZsm9Ddpbo556E6pwddXGBg1YcztLNbA5TCgVYlmzOLaPJ1K7ukW
- eTQI1ec7dQ/KUIEPFJn3mcRSnjHVR6LDrzNlCsQBOvm4SJCq6FhYcPrBCulynbQQ
- ==
-X-ME-Sender: <xms:XDL8Xmq0aaZWCwKkaWJfKNzsiK-nqXWWAxS5A5o1psW4xi9xgacQow>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtddugdduudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XDL8Xkopx1jOmA49yAwBC3rc-9VW7Yr8xqo03MtoZug9NgM462_4Og>
- <xmx:XDL8XrNofe-BCmqXUMGf01Hm3tgRMX_R-sUyFNUNQtzsRF5e7jEY2g>
- <xmx:XDL8Xl7SXahVf5qVwJPf1hroEw3NXNxK709Aw9haqlEyaFyCXqdOEA>
- <xmx:XzL8XlGFyaNxBpbCImJWUPj1CEyjT3kkOA4udqttLvAMOhQaU1a0ag>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1ABE7328005A;
- Wed,  1 Jul 2020 02:51:08 -0400 (EDT)
-Date: Wed, 1 Jul 2020 08:51:05 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: display: Convert connectors to DT schema
-Message-ID: <20200701065105.skz3ln54h3qo4div@gilmour.lan>
-References: <20200630200216.1172566-1-robh@kernel.org>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880DC6E3D0;
+ Wed,  1 Jul 2020 07:01:06 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 0328480549;
+ Wed,  1 Jul 2020 09:01:03 +0200 (CEST)
+Date: Wed, 1 Jul 2020 09:01:02 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Subject: Re: [PATCH 00/59] Add support for Keem Bay DRM driver
+Message-ID: <20200701070102.GA1494555@ravnborg.org>
+References: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200630200216.1172566-1-robh@kernel.org>
-X-Mailman-Approved-At: Wed, 01 Jul 2020 07:12:04 +0000
+Content-Disposition: inline
+In-Reply-To: <1593552491-23698-1-git-send-email-anitha.chrisanthus@intel.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=jI2zVFFQ7FhuZ9nkOqYA:9 a=FLVDQ4wIpBK0nb2X:21
+ a=aD_O1mNEXz4SOdM6:21 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,61 +43,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============0983961832=="
+Cc: intel-gfx@lists.freedesktop.org, edmund.j.dea@intel.com,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ daniel.vetter@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Anitha.
 
---===============0983961832==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="g3kj2uw52dmun5h6"
-Content-Disposition: inline
+On Tue, Jun 30, 2020 at 02:27:12PM -0700, Anitha Chrisanthus wrote:
+> This is a new DRM driver for Intel's KeemBay SOC.
+> The SoC couples an ARM Cortex A53 CPU with an Intel
+> Movidius VPU.
+...
+Nice and informative intro - thanks.
+
+The patchset looks more like a dump of current state and less like a
+logical set of changes - as the few I looked at changed code introduced
+in earlier patches.
+So I ended up applying all patches to a local branch.
+Very good to post an WIP version so you can capture some early
+feedback.
+It is never fun to think something is finished and then address a lot of
+feedback.
 
 
---g3kj2uw52dmun5h6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some general remarks after reading/browsing some of the code:
+- Embeds drm_device - good
+- Uses SPDX, good. But includes also a license text. Can we
+  get rid of the redundandt license text?
+- Some of the inline functions in kmb_drv.h is too large
+  (kmb_write_bits_mipi())
+- There is stray code commented out using "//" here and there - shall be
+  dropped.
+- Please arrange include files in blocks:
+#include <linux/...>
 
-On Tue, Jun 30, 2020 at 02:02:16PM -0600, Rob Herring wrote:
-> Convert the analog TV, DVI, HDMI, and VGA connector bindings to DT schema
-> format.
->=20
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+#include <video/...>
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+#include <drm/...>
 
-Thanks!
-Maxime
+#include "kmb_*"
 
---g3kj2uw52dmun5h6
-Content-Type: application/pgp-signature; name="signature.asc"
+Within each block sort alphabetially.
 
------BEGIN PGP SIGNATURE-----
+- Use a kmb_ prefix or similar for global variables - like under_flow
+- no extern in .c files - plane_status
+- Consider using an array for the clk's
+- In general use drm_info(), drm_err() for logging.
+  Yes, you will need to pass kmb_drm_private around to do so
+- Do not use drm_device->dev_private, it is deprecated. Use upclassing
+- kmb_driver can be slimmed a lot. See what recent drivers uses. There is
+  some nice defines so it is obvious what is not standard.
+  DRIVER_HAVE_IRQ is not relevant btw.
+- Start using drmm_* support. The way kmb_drm_private is allocated
+  is sub-optimal
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXvwyWQAKCRDj7w1vZxhR
-xasDAP9r4tg1fgeE0OZMBPlT1tZ6mI4krecIcchC8sEDC0LnWwD/d6jfFt9QEnRZ
-Ekag5CaO0kUl1bT5fgnQxuhWYFlaRg0=
-=2psa
------END PGP SIGNATURE-----
+The above was my fist drive-by comments - but do not be discouraged.
+For the most part they should be easy to address.
+Looking forward for other feedback and for v2.
 
---g3kj2uw52dmun5h6--
+Let me know if the above triggers any questions.
 
---===============0983961832==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> +--------------+    +---------+    +-----------------------+
+> |LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
+> +--------------+    +---------+    +-----------------------+
 
+Question to dri-devel people:
+Would the Mipi DSI be better represented outside the display driver?
+If yes, how?
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0983961832==--
