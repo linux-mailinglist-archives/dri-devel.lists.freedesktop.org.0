@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E101211CC1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FE9211CC5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5459B6EA58;
-	Thu,  2 Jul 2020 07:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFD126EA7F;
+	Thu,  2 Jul 2020 07:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8BE56E139
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:29:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565F66E955
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:29:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593620975; bh=xHG5qJNwJythr0yZAk0g86hoDZe3XW6J8JdaM3wh/Nw=;
+ t=1593620975; bh=Art3SEaLL0gg4sGC1zffX8nkr5h5wiQEQOPPZACSoO0=;
  h=From:To:Cc:Subject:Date:References:From;
- b=tggq4IapBHxpnVXBDxWfiqOZwMos+DoXidEnSOW9FAAfQ2gfDy0hsC0MadCscT58R
- xXLBhRy/l60FNCcFW33qflNZOnM3XH4AcGO/tNGHUFzcgINoNSzoNHwmuQ6fg1nA0B
- 5X/Tn7BuGdydU8bb68mBB+MPR9JrpP5q9yLMzQ6Q=
+ b=eHVGK91AoSx3LoUdiU6ONarlJb+dz4F4+O+GDK8noP+yrleUmiARst0aEwqTr+uY0
+ zkRg5e/LfKlYjMSaLRSFUu8zLrgkx/zPEon8+0ulPi+aQbtegEJ4AVqn6fXsqGqi8t
+ QEeFNpXO+BeN+CpTWg6wKLLme3X4JydQo6t/DYMY=
 From: Ondrej Jirman <megous@megous.com>
 To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
@@ -26,9 +26,10 @@ To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v7 10/13] drm/panel: st7703: Enter sleep after display off
-Date: Wed,  1 Jul 2020 18:29:25 +0200
-Message-Id: <20200701162928.1638874-11-megous@megous.com>
+Subject: [PATCH v7 11/13] drm/panel: st7703: Assert reset prior to powering
+ down the regulators
+Date: Wed,  1 Jul 2020 18:29:26 +0200
+Message-Id: <20200701162928.1638874-12-megous@megous.com>
 In-Reply-To: <20200701162928.1638874-1-megous@megous.com>
 References: <20200701162928.1638874-1-megous@megous.com>
 MIME-Version: 1.0
@@ -55,40 +56,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The datasheet suggests to issue sleep in after display off
-as a part of the panel's shutdown sequence.
+The reset pin is inverted, so if we don't assert reset, the actual gpio
+will be high and may keep driving the IO port of the panel.
 
 Signed-off-by: Ondrej Jirman <megous@megous.com>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index dadb482b244d..7750179bca60 100644
+index 7750179bca60..8996ced2b721 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -393,8 +393,19 @@ static int st7703_disable(struct drm_panel *panel)
- {
- 	struct st7703 *ctx = panel_to_st7703(panel);
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
-+	int ret;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(ctx->dev,
-+			      "Failed to turn off the display: %d\n", ret);
+@@ -415,6 +415,7 @@ static int st7703_unprepare(struct drm_panel *panel)
+ 	if (!ctx->prepared)
+ 		return 0;
  
--	return mipi_dsi_dcs_set_display_off(dsi);
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(ctx->dev,
-+			      "Failed to enter sleep mode: %d\n", ret);
-+
-+	return 0;
- }
- 
- static int st7703_unprepare(struct drm_panel *panel)
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 	regulator_disable(ctx->iovcc);
+ 	regulator_disable(ctx->vcc);
+ 	ctx->prepared = false;
 -- 
 2.27.0
 
