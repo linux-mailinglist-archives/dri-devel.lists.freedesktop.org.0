@@ -2,55 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EADA210575
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBF221058A
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:56:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4401F89870;
-	Wed,  1 Jul 2020 07:53:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBBFD893AB;
+	Wed,  1 Jul 2020 07:55:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A28892C6
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:53:06 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id q7so12555935ljm.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 00:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=enPGC0OPftzCJlUnTQARq7JEwIW+q43cB8Io8/Pof2M=;
- b=xTCIkOiBtlJ6KiXHJnag1uUXr7+sABVaySKZwGWLW5bPgNh2BpVrCKqCjglU/TuFGH
- m9QtKUXanPF0gEBmpQNGPZx85JSQb83YZbgLpLTKkIv1UXKqBUZJTMA+lDPcpg6NmnA8
- yEJfoyS1/zewE72ZeCP16ZGXR9t4xXVWMNqfm8H8UJfeX03FrzhX/Ue7EnpKQHR0Ul1N
- bbl0jRMKuKHGYDE9ofhB5OiIbUeQJIdWXfo1NerQIiNu+MdLppPXX5PEm4N2CmlC6zkk
- HlGZOPJdteytMiASWqZt67U+AMjsKUhgRsKVnC709MG+tkDQD2kyIYXYGPsOxYUQY1A5
- xMww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=enPGC0OPftzCJlUnTQARq7JEwIW+q43cB8Io8/Pof2M=;
- b=EOpruBuxG34KfQQrNYRTRyuofV1/bqykShHV4wLB6Fziz2KdfKHnn9iNi5y9gcijtq
- CTT0pgBySvscKW1YtEWqmRc8h150a3qioFPdxBb4cQ6QCHdqBkodqDwUjBhD02aWGvl7
- GJpLfthmvfr+mKPhssxswJSos0p93zJkeXh2IKNfAALvaeraU/cqptv0x3jOTfMxUuL2
- v+JZNs9JdJ8gFULQIVjWqc3+r808dYfYmmP8seOCtVAC0Jw3GnpkqNmMbK1Acf8g91ox
- 2As1KNtmXhntNc5Tx5j92+KEq/bOIOQ4JdmDIG8HMgmRSNJwr+3Kb9OxI8UY1gt7BBru
- QOAw==
-X-Gm-Message-State: AOAM533AFTc2wY/EUYwNVi0Vi+3JPSnu2DALqS+qKt60RB8anjPJ0nlJ
- sgP8oEmxuBpSSvXRmkqKRGvudlyP7dAVaz5r9wjkOA==
-X-Google-Smtp-Source: ABdhPJw3tzZ9D9p6jgEm59VOvtaJaUTyrZtudaxwwHOStc/fwYBz/YcU4X11SqbNhvI9hCjXocTGYoYCbCv2Fh3PwSk=
-X-Received: by 2002:a05:651c:284:: with SMTP id
- b4mr1772479ljo.283.1593589984484; 
- Wed, 01 Jul 2020 00:53:04 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 422ED893AB
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:55:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48544556;
+ Wed,  1 Jul 2020 09:55:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1593590156;
+ bh=SBS3cYIeUtLrgvHJfEpKTIWd7IrgonFBNo28g+dS7hg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=l7jruMLb0PL0NIdRMEPeknmr8nmPonICdPvRXE1BVOJ8LkdpsZ10TInTtRLkUPcD4
+ cHt0Z6PkyOb4+3MIT4odXNkITMHPXguWRi1aWX3YWodACAeFflwNIOyFNnxwVqRDL3
+ +GSb8tQVMUG5XsCnVqFznh48pbno9RA2oYfeIutg=
+Date: Wed, 1 Jul 2020 10:55:52 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v10 1/2] of_graph: add of_graph_is_present()
+Message-ID: <20200701075552.GJ5963@pendragon.ideasonboard.com>
+References: <20200701074232.13632-1-digetx@gmail.com>
+ <20200701074232.13632-2-digetx@gmail.com>
 MIME-Version: 1.0
-References: <20200626005601.241022-1-megous@megous.com>
- <20200626005601.241022-14-megous@megous.com>
-In-Reply-To: <20200626005601.241022-14-megous@megous.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 1 Jul 2020 09:52:53 +0200
-Message-ID: <CACRpkda2LnZ7UQkp_ZDEVCfxHVQ-VUE7NH0dEGNHYrUd1LcC0Q@mail.gmail.com>
-Subject: Re: [PATCH v5 13/13] arm64: dts: sun50i-a64-pinephone: Add
- touchscreen support
-To: Ondrej Jirman <megous@megous.com>
+Content-Disposition: inline
+In-Reply-To: <20200701074232.13632-2-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +46,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Purism Kernel Team <kernel@puri.sm>,
- Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, Bhushan Shah <bshah@kde.org>,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Martijn Braam <martijn@brixit.nl>, linux-sunxi <linux-sunxi@googlegroups.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Luca Weiss <luca@z3ntu.xyz>, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 26, 2020 at 2:56 AM Ondrej Jirman <megous@megous.com> wrote:
+Hi Dmitry,
 
-> Pinephone has a Goodix GT917S capacitive touchscreen controller on
-> I2C0 bus. Add support for it.
->
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+Thank you for the patch.
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+On Wed, Jul 01, 2020 at 10:42:31AM +0300, Dmitry Osipenko wrote:
+> In some cases it's very useful to silently check whether port node exists
+> at all in a device-tree before proceeding with parsing the graph. The DRM
+> bridges code is one example of such case where absence of a graph in a
+> device-tree is a legit condition.
+> 
+> This patch adds of_graph_is_present() which returns true if given
+> device-tree node contains OF graph port.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Yours,
-Linus Walleij
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/of/property.c    | 23 +++++++++++++++++++++++
+>  include/linux/of_graph.h |  6 ++++++
+>  2 files changed, 29 insertions(+)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 6a5760f0d6cd..fed7229d9d9f 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -29,6 +29,29 @@
+>  
+>  #include "of_private.h"
+>  
+> +/**
+> + * of_graph_is_present() - check graph's presence
+> + * @node: pointer to device_node containing graph port
+> + *
+> + * Return: True if @node has a port or ports (with a port) sub-node,
+> + * false otherwise.
+> + */
+> +bool of_graph_is_present(const struct device_node *node)
+> +{
+> +	struct device_node *ports, *port;
+> +
+> +	ports = of_get_child_by_name(node, "ports");
+> +	if (ports)
+> +		node = ports;
+> +
+> +	port = of_get_child_by_name(node, "port");
+> +	of_node_put(ports);
+> +	of_node_put(port);
+> +
+> +	return !!port;
+> +}
+> +EXPORT_SYMBOL(of_graph_is_present);
+> +
+>  /**
+>   * of_property_count_elems_of_size - Count the number of elements in a property
+>   *
+> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> index 01038a6aade0..4d7756087b6b 100644
+> --- a/include/linux/of_graph.h
+> +++ b/include/linux/of_graph.h
+> @@ -38,6 +38,7 @@ struct of_endpoint {
+>  	     child = of_graph_get_next_endpoint(parent, child))
+>  
+>  #ifdef CONFIG_OF
+> +bool of_graph_is_present(const struct device_node *node);
+>  int of_graph_parse_endpoint(const struct device_node *node,
+>  				struct of_endpoint *endpoint);
+>  int of_graph_get_endpoint_count(const struct device_node *np);
+> @@ -56,6 +57,11 @@ struct device_node *of_graph_get_remote_node(const struct device_node *node,
+>  					     u32 port, u32 endpoint);
+>  #else
+>  
+> +static inline bool of_graph_is_present(const struct device_node *node)
+> +{
+> +	return false;
+> +}
+> +
+>  static inline int of_graph_parse_endpoint(const struct device_node *node,
+>  					struct of_endpoint *endpoint)
+>  {
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
