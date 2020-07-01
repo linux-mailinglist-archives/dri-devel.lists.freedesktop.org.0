@@ -1,55 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448E3210FFD
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 18:01:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7D3211003
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 18:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804486E943;
-	Wed,  1 Jul 2020 16:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0ABD6E945;
+	Wed,  1 Jul 2020 16:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5136E943
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:01:23 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id c25so4194453otf.7
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 09:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=opIAV5Btwy4qujYY2tne4EOq5x9GaN0PdpZUvrVNkEg=;
- b=QT+y11q+fYPFoAgRaAVqtnp2UhXVmkS8TQepM4N+CnM8Eqh4tOB/OZ3EwtiKn9g+lK
- 28OMY5L1KPgIyYVgEhHV7Xm6n/rKzq/macN2yL9YjySCTQf9efk+j1ElSFbeYbCr4Yzi
- DQgMyLDBENz/wlx86OjeD+Lg+Hp1/gwyGynr4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=opIAV5Btwy4qujYY2tne4EOq5x9GaN0PdpZUvrVNkEg=;
- b=BcwXpVOkztU+kDVYiUuAF7yr1coI+YyqGbLP7Dt1Rr7RlJRHQT5YGYfc62PHVax+6O
- +58VIS233UYJY/3bMtKqJI2eXm7jxT8dLkBoiSQC/CVJ7ml380DXfwUmLIftdocfuqLT
- k+d+Zh7zBWDVxQP3BJv6sQc859T22AVMj8BeaJRRXQOkgUyMXhuDYUBu/1HV+i1/h4TZ
- ujhDFSWJm1cSCuiHiMdOfJbrCoX3iG4o1kkGczXu0LBAPiOGe+48KztP7AIFvXIcr3Id
- HyoSLPNs7ZH3+NtCHJyPLU3xGlJlhplLiZm4DWJSrF7bxGfFTVH9UE/SUnsdE177mLvq
- BzSg==
-X-Gm-Message-State: AOAM530/e9HQUATcuZ11QNGmrAvHOM0segxmOi+mDfpBv47v76UmpZ+1
- 3rPI1FcaWHaIL8ydBZRIEFMWA5pT7T6uFkUkP7TjQA==
-X-Google-Smtp-Source: ABdhPJzdd+BhqVEmNutlYxCfKiqBwqfoMHuSEqyxghVO1Q29gOqOuPefP5pTioX762sMqposCOg2Vs3EH3LhN0G8A9k=
-X-Received: by 2002:a05:6830:1613:: with SMTP id
- g19mr10443362otr.303.1593619282388; 
- Wed, 01 Jul 2020 09:01:22 -0700 (PDT)
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957E26E945
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:02:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 3F2D4FB03;
+ Wed,  1 Jul 2020 18:02:04 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id alMl0xMdXBGg; Wed,  1 Jul 2020 18:02:01 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 61F8940972; Wed,  1 Jul 2020 18:02:01 +0200 (CEST)
+Date: Wed, 1 Jul 2020 18:02:01 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
+To: Ondrej Jirman <megous@megous.com>
+Subject: Re: [PATCH v6 06/13] drm/panel: st7703: Prepare for supporting
+ multiple panels
+Message-ID: <20200701160201.GE174356@bogon.m.sigxcpu.org>
+References: <20200701103126.1512615-1-megous@megous.com>
+ <20200701103126.1512615-7-megous@megous.com>
 MIME-Version: 1.0
-References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
- <20200630230808.wj2xlt44vrszqfzx@box>
- <ef7816b4-72ee-9e0e-8cac-4d80d8343f9f@nvidia.com>
- <CACO55tvT0fOMai7k7oAP1TL42YAuMwJocxk2seNgjYibs+h5oA@mail.gmail.com>
- <11e5ee1d-8b5e-2721-091e-ffbf9e1271d1@nvidia.com>
-In-Reply-To: <11e5ee1d-8b5e-2721-091e-ffbf9e1271d1@nvidia.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 1 Jul 2020 18:01:10 +0200
-Message-ID: <CAKMK7uEzoFyW6o1gP6xszWH7fKHrVSR32JLs73KeFfYgD=BHPQ@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.8-rc1
-To: James Jones <jajones@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <20200701103126.1512615-7-megous@megous.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,103 +44,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- "Kirill A. Shutemov" <kirill@shutemov.name>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Purism Kernel Team <kernel@puri.sm>, Samuel Holland <samuel@sholland.org>,
+ David Airlie <airlied@linux.ie>, Bhushan Shah <bshah@kde.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, Martijn Braam <martijn@brixit.nl>,
+ linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Luca Weiss <luca@z3ntu.xyz>,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 1, 2020 at 5:51 PM James Jones <jajones@nvidia.com> wrote:
->
-> On 7/1/20 4:24 AM, Karol Herbst wrote:
-> > On Wed, Jul 1, 2020 at 6:45 AM James Jones <jajones@nvidia.com> wrote:
-> >>
-> >> This implies something is trying to use one of the old
-> >> DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK format modifiers with DRM-KMS without
-> >> first checking whether it is supported by the kernel.  I had tried to
-> >> force an Xorg+Mesa stack without my userspace patches to hit this error
-> >> when testing, but must have missed some permutation.  If the stalled
-> >> Mesa patches go in, this would stop happening of course, but those were
-> >> held up for a long time in review, and are now waiting on me to make
-> >> some modifications.
-> >>
-> >
-> > that's completely irrelevant. If a kernel change breaks userspace,
-> > it's a kernel bug.
->
-> Agreed it is unacceptable to break userspace, but I don't think it's
-> irrelevant.  Perhaps the musings on pending userspace patches are.
->
-> My intent here was to point out it appears at first glance that
-> something isn't behaving as expected in userspace, so fixing this would
-> likely require some sort of work-around for broken userspace rather than
-> straight-forward fixing of a bug in the kernel logic.  My intent was not
-> to shift blame to something besides my code & testing for the
-> regression, though I certainly see how it could be interpreted that way.
->
-> Regardless, I'm looking in to it.
+Hi,
+On Wed, Jul 01, 2020 at 12:31:19PM +0200, Ondrej Jirman wrote:
+> Parametrize the driver so that it can support more panels based
+> on st7703 controller.
 
-If we do need to have a kernel workaround I'm happy to help out, I've
-done a bunch of these and occasionally it's good to get rather
-creative :-)
+Reviewed-by: Guido G=FCnther <agx@sigxcpu.org> =
 
-Ideally we'd also push a minimal fix in userspace to all stable
-branches and make sure distros upgrade (might need releases if some
-distro is stuck on old horrors), so that we don't have to keep the
-hack in place for 10+ years or so. Definitely if the hack amounts to
-disabling modifiers on nouveau, that would be kinda sad.
--Daniel
+> =
 
->
-> Thanks,
-> -James
->
-> >> Are you using the modesetting driver in X?  If so, with glamor I
-> >> presume?  What version of Mesa?  Any distro patches?  Any non-default
-> >> xorg.conf options that would affect modesetting, your X driver if it
-> >> isn't modesetting, or glamour?
-> >>
-> >> Thanks,
-> >> -James
-> >>
-> >> On 6/30/20 4:08 PM, Kirill A. Shutemov wrote:
-> >>> On Tue, Jun 02, 2020 at 04:06:32PM +1000, Dave Airlie wrote:
-> >>>> James Jones (4):
-> >>> ...
-> >>>>         drm/nouveau/kms: Support NVIDIA format modifiers
-> >>>
-> >>> This commit is the first one that breaks Xorg startup for my setup:
-> >>> GTX 1080 + Dell UP2414Q (4K DP MST monitor).
-> >>>
-> >>> I believe this is the crucial part of dmesg (full dmesg is attached):
-> >>>
-> >>> [   29.997140] [drm:nouveau_framebuffer_new] Unsupported modifier: 0x300000000000014
-> >>> [   29.997143] [drm:drm_internal_framebuffer_create] could not create framebuffer
-> >>> [   29.997145] [drm:drm_ioctl] pid=3393, ret = -22
-> >>>
-> >>> Any suggestions?
-> >>>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >>
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 43 +++++++++++++------
+>  1 file changed, 31 insertions(+), 12 deletions(-)
+> =
 
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/=
+drm/panel/panel-sitronix-st7703.c
+> index 511af659f273..08cbc316266c 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/media-bus-format.h>
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> +#include <linux/of_device.h>
+>  #include <linux/regulator/consumer.h>
+>  =
 
+>  #include <video/display_timing.h>
+> @@ -56,6 +57,15 @@ struct st7703 {
+>  	bool prepared;
+>  =
 
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>  	struct dentry *debugfs;
+> +	const struct st7703_panel_desc *desc;
+> +};
+> +
+> +struct st7703_panel_desc {
+> +	const struct drm_display_mode *mode;
+> +	unsigned int lanes;
+> +	unsigned long mode_flags;
+> +	enum mipi_dsi_pixel_format format;
+> +	int (*init_sequence)(struct st7703 *ctx);
+>  };
+>  =
+
+>  static inline struct st7703 *panel_to_st7703(struct drm_panel *panel)
+> @@ -148,7 +158,7 @@ static int st7703_enable(struct drm_panel *panel)
+>  	struct st7703 *ctx =3D panel_to_st7703(panel);
+>  	int ret;
+>  =
+
+> -	ret =3D jh057n_init_sequence(ctx);
+> +	ret =3D ctx->desc->init_sequence(ctx);
+>  	if (ret < 0) {
+>  		DRM_DEV_ERROR(ctx->dev, "Panel init sequence failed: %d\n",
+>  			      ret);
+> @@ -216,7 +226,7 @@ static int st7703_prepare(struct drm_panel *panel)
+>  	return ret;
+>  }
+>  =
+
+> -static const struct drm_display_mode default_mode =3D {
+> +static const struct drm_display_mode jh057n00900_mode =3D {
+>  	.hdisplay    =3D 720,
+>  	.hsync_start =3D 720 + 90,
+>  	.hsync_end   =3D 720 + 90 + 20,
+> @@ -232,17 +242,26 @@ static const struct drm_display_mode default_mode =
+=3D {
+>  	.height_mm   =3D 130,
+>  };
+>  =
+
+> +struct st7703_panel_desc jh057n00900_panel_desc =3D {
+> +	.mode =3D &jh057n00900_mode,
+> +	.lanes =3D 4,
+> +	.mode_flags =3D MIPI_DSI_MODE_VIDEO |
+> +		MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
+> +	.format =3D MIPI_DSI_FMT_RGB888,
+> +	.init_sequence =3D jh057n_init_sequence,
+> +};
+> +
+>  static int st7703_get_modes(struct drm_panel *panel,
+>  			    struct drm_connector *connector)
+>  {
+>  	struct st7703 *ctx =3D panel_to_st7703(panel);
+>  	struct drm_display_mode *mode;
+>  =
+
+> -	mode =3D drm_mode_duplicate(connector->dev, &default_mode);
+> +	mode =3D drm_mode_duplicate(connector->dev, ctx->desc->mode);
+>  	if (!mode) {
+>  		DRM_DEV_ERROR(ctx->dev, "Failed to add mode %ux%u@%u\n",
+> -			      default_mode.hdisplay, default_mode.vdisplay,
+> -			      default_mode.vrefresh);
+> +			      ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
+> +			      ctx->desc->mode->vrefresh);
+>  		return -ENOMEM;
+>  	}
+>  =
+
+> @@ -317,11 +336,11 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
+>  	mipi_dsi_set_drvdata(dsi, ctx);
+>  =
+
+>  	ctx->dev =3D dev;
+> +	ctx->desc =3D of_device_get_match_data(dev);
+>  =
+
+> -	dsi->lanes =3D 4;
+> -	dsi->format =3D MIPI_DSI_FMT_RGB888;
+> -	dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO |
+> -		MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> +	dsi->mode_flags =3D ctx->desc->mode_flags;
+> +	dsi->format =3D ctx->desc->format;
+> +	dsi->lanes =3D ctx->desc->lanes;
+>  =
+
+>  	ctx->vcc =3D devm_regulator_get(dev, "vcc");
+>  	if (IS_ERR(ctx->vcc)) {
+> @@ -361,8 +380,8 @@ static int st7703_probe(struct mipi_dsi_device *dsi)
+>  	}
+>  =
+
+>  	DRM_DEV_INFO(dev, "%ux%u@%u %ubpp dsi %udl - ready\n",
+> -		     default_mode.hdisplay, default_mode.vdisplay,
+> -		     default_mode.vrefresh,
+> +		     ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
+> +		     ctx->desc->mode->vrefresh,
+>  		     mipi_dsi_pixel_format_to_bpp(dsi->format), dsi->lanes);
+>  =
+
+>  	st7703_debugfs_init(ctx);
+> @@ -405,7 +424,7 @@ static int st7703_remove(struct mipi_dsi_device *dsi)
+>  }
+>  =
+
+>  static const struct of_device_id st7703_of_match[] =3D {
+> -	{ .compatible =3D "rocktech,jh057n00900" },
+> +	{ .compatible =3D "rocktech,jh057n00900", .data =3D &jh057n00900_panel_=
+desc },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, st7703_of_match);
+> -- =
+
+> 2.27.0
+> =
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
