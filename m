@@ -1,38 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6517E211CE9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:26:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B1D211CCD
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A367A6EA6E;
-	Thu,  2 Jul 2020 07:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C08D6EA7D;
+	Thu,  2 Jul 2020 07:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA796E139
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:29:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 438DE6E139
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 16:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593620976; bh=mqI4DMxpU5nv3gGp6GplYAwWUJ0ad4+0Fg/Z0K5Wudc=;
- h=From:To:Cc:Subject:Date:References:From;
- b=QvDlBRP18N7OvyhJ3tFjUriKE91W/bb31wIr6DkLfa3e8fSP2hYFrjYOpZImyOJRa
- g607ewclGlWxH1UWjO73GJ90e2eMQS5b22OjcRf4sxMcicHgcimizB9NN7Xr1kmIzN
- HVqoOjvnhQmPGO1MVoPp1aHlqd5U3Jakay1oKwnA=
-From: Ondrej Jirman <megous@megous.com>
-To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>,
+ t=1593621018; bh=S9sJvCFzXl3kRUEWnli4aokEH2QvfST8BIb1PIlWyhE=;
+ h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+ b=CqKMPGfG+ZJjZFaUD1dUbV5kVUWVCS7R5aZdNFpb5wdgXELQscUaejOgiiEwCNQ1d
+ 8LU+q3KpyDQGV6ex0l/Vyg7KIZOxF4t0oeexWKdOWtia6k35AJ0KnYOk2jj/aBAo6F
+ LSNVSGFpCFfeGDtEg+xZ8fwR2kPMshbOjQ4UZjZA=
+Date: Wed, 1 Jul 2020 18:30:18 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v6 00/13] Add support for PinePhone LCD panel
+Message-ID: <20200701163018.cfweuzp76qx5nsew@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-sunxi@googlegroups.com,
+ Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v7 13/13] arm64: dts: sun50i-a64-pinephone: Add touchscreen
- support
-Date: Wed,  1 Jul 2020 18:29:28 +0200
-Message-Id: <20200701162928.1638874-14-megous@megous.com>
-In-Reply-To: <20200701162928.1638874-1-megous@megous.com>
-References: <20200701162928.1638874-1-megous@megous.com>
+ Linus Walleij <linus.walleij@linaro.org>,
+ Icenowy Zheng <icenowy@aosc.io>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Samuel Holland <samuel@sholland.org>,
+ Martijn Braam <martijn@brixit.nl>, Luca Weiss <luca@z3ntu.xyz>,
+ Bhushan Shah <bshah@kde.org>
+References: <20200701103126.1512615-1-megous@megous.com>
+ <20200701152532.GA670324@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200701152532.GA670324@ravnborg.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,58 +58,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
- Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Purism Kernel Team <kernel@puri.sm>, Samuel Holland <samuel@sholland.org>,
+ David Airlie <airlied@linux.ie>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Bhushan Shah <bshah@kde.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, Martijn Braam <martijn@brixit.nl>,
+ linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ Luca Weiss <luca@z3ntu.xyz>, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pinephone has a Goodix GT917S capacitive touchscreen controller on
-I2C0 bus. Add support for it.
+Hello Sam,
 
-Signed-off-by: Ondrej Jirman <megous@megous.com>
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
----
- .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+On Wed, Jul 01, 2020 at 05:25:32PM +0200, Sam Ravnborg wrote:
+> Hi Ondrej.
+> 
+> On Wed, Jul 01, 2020 at 12:31:13PM +0200, Ondrej Jirman wrote:
+> > This patchset adds support for the LCD panel of PinePhone.
+> > 
+> > I've tested this on PinePhone 1.0 and 1.2.
+> > 
+> > Please take a look.
+> > 
+> > thank you and regards,
+> >   Ondrej Jirman
+> > 
+> > Changes in v6:
+> > - Fixed spacing in yaml
+> > - Fixed wrong vccio->iovcc supply name in the bindings doc
+> > - I noticed that the original driver uses a delay of 20ms in the init
+> >   function to achieve a combined total of 120ms required from post-reset
+> >   to display_on. I've added a similar delay to xbd599_init, so that
+> >   xbd599 panel also has the right timing. (patch 9)
+> > - v5->v6 diff: https://megous.com/dl/tmp/v5-v6.patch
+> > - Added review/ack tags
+> > - Learned to run dt_binding_check by myself ;)
+> The patch-set does not apply clean on top of drm-misc-next - due to
+> vrefresh removal.
+> Please re-spin.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 85a7aa5efd32..2d5694446d17 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -123,6 +123,25 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&i2c0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c0_pins>;
-+	status = "okay";
-+
-+	touchscreen@5d {
-+		compatible = "goodix,gt917s", "goodix,gt911";
-+		reg = <0x5d>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
-+		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-+		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
-+		AVDD28-supply = <&reg_ldo_io0>;
-+		VDDIO-supply = <&reg_ldo_io0>;
-+		touchscreen-size-x = <720>;
-+		touchscreen-size-y = <1440>;
-+	};
-+};
-+
- &i2c1 {
- 	status = "okay";
- 
--- 
-2.27.0
+Sorry for that. Rebased and retested.
 
+thank you,
+	o.
+
+> 	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
