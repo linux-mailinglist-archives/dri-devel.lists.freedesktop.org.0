@@ -1,58 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F19D210E8B
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 17:08:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB41210E8E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 17:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57BAB6E91A;
-	Wed,  1 Jul 2020 15:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9CE06E925;
+	Wed,  1 Jul 2020 15:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B846E91A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 15:08:55 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id e18so11856466pgn.7
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 08:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=r//RURoO3TnB3wTz8mwe3gfHxqmQYWwVK9iwzBO1A80=;
- b=UO8tTv46sKsUUVWPDwHcDgy4ubT579oFxF+ACPnaKkPTqHrHqlrIIsdao1sYMGriZ2
- IyR0/1tFThmpImSrIF0wLRAHLfL0ADbk5GXoyYXl5tml6omd9DrB6qbEBmOvltPHmqlV
- OrcuwgBj3IcMBg2pIX/SCjhXT7cklFQpHIV2c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=r//RURoO3TnB3wTz8mwe3gfHxqmQYWwVK9iwzBO1A80=;
- b=Foe/BCyQoAdrCVIxSZqUHnR+UQV5Zeba2wXvv7+hIVwzyUtejgY/AfA+9YTMwAfizS
- fZLliocK0pGDk1t1tbrTMDzU4t/n80B/1dYs8nWcQq++6S9gWUI5ZPMmmc+EpZfKPcXA
- QR39TIqoKCE6WIfWArF5eayFQVUEPuRY3zXQP8dVtru8IVkTSayskLi5rOEVi5vLZVN3
- SWDpU+CZmVjpn6Lv7qdtgCMIKuPA5nuI1ZPAgcTW6o6QPRRrzXky1jbXXdsCfzjU/pXK
- Abi5w11wjx/Hv4X7IBczFHDE8L0jAW2ZWEVS/yFHzc5KF4a3rTH+UO4GRvgJOGXvcs3H
- dM1w==
-X-Gm-Message-State: AOAM533Ibpdt4zBxdrxtwMAJJJlQkOAwEVzHp57VAWBBvly6vaPR42cc
- NAdYIjh9lluVsNHm/9r0iJVttQ==
-X-Google-Smtp-Source: ABdhPJyUHWfSn4p4nAusnO2St4+eWaSv2zhKgithl7JoGjHXORjuhCmtCWuk9nCPfc66aRvEn++/ww==
-X-Received: by 2002:a63:7c51:: with SMTP id l17mr20058757pgn.303.1593616135540; 
- Wed, 01 Jul 2020 08:08:55 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
- by smtp.gmail.com with ESMTPSA id g12sm5965952pfb.190.2020.07.01.08.08.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jul 2020 08:08:55 -0700 (PDT)
-Date: Wed, 1 Jul 2020 08:08:54 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Rajendra Nayak <rnayak@codeaurora.org>
-Subject: Re: [PATCH 4/4] arm64: dts: sc7180: Add DSI and MDP OPP tables and
- power-domains
-Message-ID: <20200701150854.GN39073@google.com>
-References: <1593518176-24450-1-git-send-email-rnayak@codeaurora.org>
- <1593518176-24450-5-git-send-email-rnayak@codeaurora.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D68E6E925
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 15:09:51 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 989F420025;
+ Wed,  1 Jul 2020 17:09:46 +0200 (CEST)
+Date: Wed, 1 Jul 2020 17:09:45 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Yannick Fertre <yannick.fertre@st.com>
+Subject: Re: [PATCH] drm/bridge/synopsys: dsi: allows LP commands in video mode
+Message-ID: <20200701150945.GA669248@ravnborg.org>
+References: <20200701145258.2782-1-yannick.fertre@st.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1593518176-24450-5-git-send-email-rnayak@codeaurora.org>
+In-Reply-To: <20200701145258.2782-1-yannick.fertre@st.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=8b9GpE9nAAAA:8 a=e5mUnYsNAAAA:8
+ a=YTZQKkLrOCVqNVj5krQA:9 a=eq0Tk01GMUV6gyqT:21 a=rLxRNCjj-UiVEZYG:21
+ a=CjuIK1q_8ugA:10 a=T3LWEMljR5ZiDmsYVIUa:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,22 +44,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, agross@kernel.org, sean@poorly.run
+Cc: Alexandre Torgue <alexandre.torgue@st.com>, David Airlie <airlied@linux.ie>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 30, 2020 at 05:26:16PM +0530, Rajendra Nayak wrote:
-> Add the OPP tables for DSI and MDP based on the perf state/clk
-> requirements, and add the power-domains property to specify the
-> scalable power domain.
-> 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+Hi Yannick.
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+On Wed, Jul 01, 2020 at 04:52:58PM +0200, Yannick Fertre wrote:
+> From: Antonio Borneo <antonio.borneo@st.com>
+> 
+> Current code only sends LP commands in command mode.
+> 
+> Allows sending LP commands also in video mode by setting the
+> proper flag in DSI_VID_MODE_CFG.
+> 
+> Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
+
+> Change-Id: Ib78fa37bcc7559ce63017acd6ee0bbf00c61a397
+Change-Id is not used in kernel patches to my best knowledge.
+
+> Reviewed-on: https://gerrit.st.com/c/mpu/oe/st/linux-stm32/+/153242
+> Reviewed-by: CITOOLS <smet-aci-reviews@lists.codex.cro.st.com>
+> Reviewed-by: CIBUILD <smet-aci-builds@lists.codex.cro.st.com>
+Reviews by humans, not machines..
+
+> Reviewed-by: Yannick FERTRE <yannick.fertre@st.com>
+> Reviewed-by: Philippe CORNU <philippe.cornu@st.com>
+> Tested-by: Yannick FERTRE <yannick.fertre@st.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> index d580b2aa4ce9..0cd43e7a69bb 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -367,6 +367,13 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
+>  
+>  	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
+>  	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
+> +
+> +	val = dsi_read(dsi, DSI_VID_MODE_CFG);
+> +	if (lpm)
+> +		val |= ENABLE_LOW_POWER_CMD;
+> +	else
+> +		val &= ~ENABLE_LOW_POWER_CMD;
+> +	dsi_write(dsi, DSI_VID_MODE_CFG, val);
+>  }
+
+We have following code:
+
+static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
+                                 unsigned long mode_flags)
+{
+        dsi_write(dsi, DSI_PWR_UP, RESET);
+
+        if (mode_flags & MIPI_DSI_MODE_VIDEO) {
+                dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
+                dw_mipi_dsi_video_mode_config(dsi);
+                dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
+        } else {
+                dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
+        }
+
+        dsi_write(dsi, DSI_PWR_UP, POWERUP);
+}
+
+Here DSI_MODE_CFG is used to set vidoe mode or not.
+
+But the code snip above checks DSI_VID_MODE_CFG.
+It looks inconsistent.
+
+I do not know the HW - and just stumbled over this.
+
+	Sam
+
+
+>  
+>  static int dw_mipi_dsi_gen_pkt_hdr_write(struct dw_mipi_dsi *dsi, u32 hdr_val)
+> -- 
+> 2.17.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
