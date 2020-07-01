@@ -2,50 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFAC210A88
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 13:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00290210A8C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 13:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 935C189AEA;
-	Wed,  1 Jul 2020 11:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE8676E89E;
+	Wed,  1 Jul 2020 11:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD8789AEA
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 11:50:53 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id 76so6735456otu.9
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 04:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NVob0ht+U8pNgfjDQrHBX34FcQW437wfU3ZeV7D0RuA=;
- b=bhcwQHJMxAGtFPyBQ5eY/2DzNvMQZ0gxJz25nmeWyZhHFQeXbzw7I1tU9yMrBSwbhq
- GpXzmc2d77jan86WU3lnLC/f37XAhq7I3nj/Ud5MxR2NsU+8qqrrenSJ8QT3PS3Yd2HO
- WZDJOl5abIE63DpXZWrwLlb1GWcV+wM/Xxc7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NVob0ht+U8pNgfjDQrHBX34FcQW437wfU3ZeV7D0RuA=;
- b=MhJK0/Dawf5pgrFsLo7JPG5q3jrXdJJ4HLO4BS/XsEfjBqqxoY7/KL0RGd5Og2GSDS
- uncrCeAYcuZc5bvFL5SDYsIwSiwwgz7PEDBTVNsXd4CZTl40XjsLsJNb6MBU31zfDTVJ
- ecxn61QL7Wud6pNKpQ7jay9dLwUHB+q4r8a9+GCZerCg67HPoPATRDQTqrXdos8aw9rS
- /xgIdsvyXjw2vtPo7EIcpU1sCAnaCrHRJg78VVVA2hxp3JkPWKlTSszBt3fzutHjLT0f
- /+YN5UHRe04rtQdzXouv+vR7ChWy16u6p50N2BrX34z2BIssztPMZc3hM9PdomyHiLtf
- nREg==
-X-Gm-Message-State: AOAM533f+HlhdbnSW2CSRG4CqFvPsf4vnbLo8VcT2DWczgTpLRpC46Mj
- GhdswNHBdMI6Nwx1HwiMqmvKQxFYooQ/4t7yJ7x0rA==
-X-Google-Smtp-Source: ABdhPJzuhUYDGzoVqw7VfT6QA2g0y9nFhCw6PsVYMQvjENJx18Q3x1ONVY7LMMFKkczWIhYx3VaIrBiizht+fmKEFm8=
-X-Received: by 2002:a9d:d55:: with SMTP id 79mr22087629oti.281.1593604252854; 
- Wed, 01 Jul 2020 04:50:52 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9856E8A3
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 11:51:59 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EEDA22A55E8;
+ Wed,  1 Jul 2020 12:51:56 +0100 (BST)
+Date: Wed, 1 Jul 2020 13:51:53 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [RESEND PATCH 2/3] drm/mediatek: mtk_dpi: Convert to bridge driver
+Message-ID: <20200701135153.475db3a5@collabora.com>
+In-Reply-To: <20200518173909.2259259-3-enric.balletbo@collabora.com>
+References: <20200518173909.2259259-1-enric.balletbo@collabora.com>
+ <20200518173909.2259259-3-enric.balletbo@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200701112559.22669-1-christian.koenig@amd.com>
-In-Reply-To: <20200701112559.22669-1-christian.koenig@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 1 Jul 2020 13:50:41 +0200
-Message-ID: <CAKMK7uHqNaQPwATQf=Jfs6oQ=YEemHSHTEtC2=VqvNf+bMh_sQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add myself as DMA-buf maintainer
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +42,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
+ narmstrong@baylibre.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com, linux-mediatek@lists.infradead.org,
+ laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdWwgMSwgMjAyMCBhdCAxOjI2IFBNIENocmlzdGlhbiBLw7ZuaWcKPGNrb2VuaWcu
-bGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPgo+IEFzIGRpc2N1c3NlZCBvbiB0aGUg
-bGlzdC4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4KCkFja2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xs
-LmNoPgo+IC0tLQo+ICBNQUlOVEFJTkVSUyB8IDEgKwo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKykKPgo+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCj4gaW5k
-ZXggNDA0NzQ5ODJhMjFkLi41ZDcxMzBmOGQzNDIgMTAwNjQ0Cj4gLS0tIGEvTUFJTlRBSU5FUlMK
-PiArKysgYi9NQUlOVEFJTkVSUwo+IEBAIC01MDg5LDYgKzUwODksNyBAQCBGOiAgICAgICAgZnMv
-ZGxtLwo+Cj4gIERNQSBCVUZGRVIgU0hBUklORyBGUkFNRVdPUksKPiAgTTogICAgIFN1bWl0IFNl
-bXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gK006ICAgICBDaHJpc3RpYW4gS8O2bmln
-IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gIEw6ICAgICBsaW51eC1tZWRpYUB2Z2VyLmtl
-cm5lbC5vcmcKPiAgTDogICAgIGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiAgTDog
-ICAgIGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZyAobW9kZXJhdGVkIGZvciBub24tc3Vi
-c2NyaWJlcnMpCj4gLS0KPiAyLjIwLjEKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdp
-bmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, 18 May 2020 19:39:08 +0200
+Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
+
+> Convert mtk_dpi to a bridge driver with built-in encoder support for
+> compatibility with existing component drivers.
+> 
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> ---
+> 
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 66 +++++++++++++++---------------
+>  1 file changed, 34 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 7112125dc3d1..baad198c69eb 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -61,6 +61,7 @@ enum mtk_dpi_out_color_format {
+>  struct mtk_dpi {
+>  	struct mtk_ddp_comp ddp_comp;
+>  	struct drm_encoder encoder;
+> +	struct drm_bridge bridge;
+>  	struct drm_bridge *next_bridge;
+>  	void __iomem *regs;
+>  	struct device *dev;
+> @@ -77,9 +78,9 @@ struct mtk_dpi {
+>  	int refcount;
+>  };
+>  
+> -static inline struct mtk_dpi *mtk_dpi_from_encoder(struct drm_encoder *e)
+> +static inline struct mtk_dpi *bridge_to_dpi(struct drm_bridge *b)
+>  {
+> -	return container_of(e, struct mtk_dpi, encoder);
+> +	return container_of(b, struct mtk_dpi, bridge);
+>  }
+>  
+>  enum mtk_dpi_polarity {
+> @@ -518,50 +519,44 @@ static const struct drm_encoder_funcs mtk_dpi_encoder_funcs = {
+>  	.destroy = mtk_dpi_encoder_destroy,
+>  };
+>  
+> -static bool mtk_dpi_encoder_mode_fixup(struct drm_encoder *encoder,
+> -				       const struct drm_display_mode *mode,
+> -				       struct drm_display_mode *adjusted_mode)
+> +static int mtk_dpi_bridge_attach(struct drm_bridge *bridge,
+> +				 enum drm_bridge_attach_flags flags)
+>  {
+> -	return true;
+> +	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+> +
+> +	return drm_bridge_attach(bridge->encoder, dpi->next_bridge,
+> +				 &dpi->bridge, flags);
+>  }
+>  
+> -static void mtk_dpi_encoder_mode_set(struct drm_encoder *encoder,
+> -				     struct drm_display_mode *mode,
+> -				     struct drm_display_mode *adjusted_mode)
+> +static void mtk_dpi_bridge_mode_set(struct drm_bridge *bridge,
+> +				const struct drm_display_mode *mode,
+> +				const struct drm_display_mode *adjusted_mode)
+>  {
+> -	struct mtk_dpi *dpi = mtk_dpi_from_encoder(encoder);
+> +	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+>  
+>  	drm_mode_copy(&dpi->mode, adjusted_mode);
+>  }
+>  
+> -static void mtk_dpi_encoder_disable(struct drm_encoder *encoder)
+> +static void mtk_dpi_bridge_disable(struct drm_bridge *bridge)
+>  {
+> -	struct mtk_dpi *dpi = mtk_dpi_from_encoder(encoder);
+> +	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+>  
+>  	mtk_dpi_power_off(dpi);
+>  }
+>  
+> -static void mtk_dpi_encoder_enable(struct drm_encoder *encoder)
+> +static void mtk_dpi_bridge_enable(struct drm_bridge *bridge)
+>  {
+> -	struct mtk_dpi *dpi = mtk_dpi_from_encoder(encoder);
+> +	struct mtk_dpi *dpi = bridge_to_dpi(bridge);
+>  
+>  	mtk_dpi_power_on(dpi);
+>  	mtk_dpi_set_display_mode(dpi, &dpi->mode);
+>  }
+>  
+> -static int mtk_dpi_atomic_check(struct drm_encoder *encoder,
+> -				struct drm_crtc_state *crtc_state,
+> -				struct drm_connector_state *conn_state)
+> -{
+> -	return 0;
+> -}
+> -
+> -static const struct drm_encoder_helper_funcs mtk_dpi_encoder_helper_funcs = {
+> -	.mode_fixup = mtk_dpi_encoder_mode_fixup,
+> -	.mode_set = mtk_dpi_encoder_mode_set,
+> -	.disable = mtk_dpi_encoder_disable,
+> -	.enable = mtk_dpi_encoder_enable,
+> -	.atomic_check = mtk_dpi_atomic_check,
+> +static const struct drm_bridge_funcs mtk_dpi_bridge_funcs = {
+> +	.attach = mtk_dpi_bridge_attach,
+> +	.mode_set = mtk_dpi_bridge_mode_set,
+> +	.disable = mtk_dpi_bridge_disable,
+> +	.enable = mtk_dpi_bridge_enable,
+>  };
+>  
+>  static void mtk_dpi_start(struct mtk_ddp_comp *comp)
+> @@ -602,16 +597,13 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+>  		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
+>  		goto err_unregister;
+>  	}
+> -	drm_encoder_helper_add(&dpi->encoder, &mtk_dpi_encoder_helper_funcs);
+>  
+>  	/* Currently DPI0 is fixed to be driven by OVL1 */
+>  	dpi->encoder.possible_crtcs = BIT(1);
+>  
+> -	ret = drm_bridge_attach(&dpi->encoder, dpi->next_bridge, NULL, 0);
+> -	if (ret) {
+> -		dev_err(dev, "Failed to attach bridge: %d\n", ret);
+
+Any reason your decided to drop this error message? If there's one,
+this should probably happen in a separate patch.
+
+> +	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL, 0);
+> +	if (ret)
+>  		goto err_cleanup;
+> -	}
+>  
+>  	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
+>  	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
+> @@ -768,8 +760,15 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, dpi);
+>  
+> +	dpi->bridge.funcs = &mtk_dpi_bridge_funcs;
+> +	dpi->bridge.of_node = dev->of_node;
+> +	dpi->bridge.type = DRM_MODE_CONNECTOR_DPI;
+> +
+> +	drm_bridge_add(&dpi->bridge);
+
+I wonder if it's really useful to add the bridge when it's private (you
+don't want this bridge to be added to external bridge chains).
+
+> +
+>  	ret = component_add(dev, &mtk_dpi_component_ops);
+>  	if (ret) {
+> +		drm_bridge_remove(&dpi->bridge);
+>  		dev_err(dev, "Failed to add component: %d\n", ret);
+>  		return ret;
+>  	}
+> @@ -779,7 +778,10 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+>  
+>  static int mtk_dpi_remove(struct platform_device *pdev)
+>  {
+> +	struct mtk_dpi *dpi = platform_get_drvdata(pdev);
+> +
+>  	component_del(&pdev->dev, &mtk_dpi_component_ops);
+> +	drm_bridge_remove(&dpi->bridge);
+>  
+>  	return 0;
+>  }
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
