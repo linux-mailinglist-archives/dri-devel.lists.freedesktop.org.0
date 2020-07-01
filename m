@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F84210491
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF0221049A
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:12:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D71BC6E7DC;
-	Wed,  1 Jul 2020 07:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 653586E81B;
+	Wed,  1 Jul 2020 07:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62CE46E5C3
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 04:27:07 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id z2so17484774qts.5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 21:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0wIgs3VKhIuaXHVPWmnow5qLXIDMbpb3CKsGv/tv2Rk=;
- b=fvMTkwlF68FklyfTloViaxEICph/kC2zKCH6JBOpKRAJfLRbgiI9qaQ18FIKeKVtiz
- ff95WfXrYG/YuNqsgmNCwmXASHNY0fdZ9CyOvShO3Wa1sIPTsRv+hBq4sLDia52UUk4N
- V4/3hyKf2UWqBGesZq5Anle8Nwic/sftQD3Pt46sFTW9V87syXv/AwHhjXhbesDR2neJ
- q/W9tHv/qIlcmxQtWUcgEzSrgcZxxopLyK4uncNWGQ/zwIjBAFTdylUWCDA+rbQE+0c9
- LOu3lyF8B4cPY7KiKbGTqSQ2HED35AGoYdlJh0VMWpgzD5GkREYoNfZswzOIEmBDzG7H
- Kwjw==
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E550C6E1BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 06:42:56 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id z24so712587ljn.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jun 2020 23:42:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NyiY6LCbJOGlJn7q4DsF++6lUZNdDAhhofQm6gmCEgE=;
+ b=gfZa8LOiRAlSm62lj9RtYmP3Tdvbt7VXnH8W1mmOJsHLME2QjEj0tNe6P6xB+RwGOJ
+ C5/Db+Dx4Hfc7jZxX29rqo+oSYwRwh6b2dGTJ7NSDStqI9RJ3vpRnjhH+A3SDD/XaDub
+ BRSuO9kWCq7XzO55zK+haH4wKH9hnETCrF94Nw1/3/iaBGklEPVTKyUEiFnXYwAEnxnN
+ lynyoFsfBGIe97HaqJ+8LhZXWo39KoKPSwWgn1/phkpmJ05ufRo0BDY+eOsWQ+652myh
+ Iul0Ney+yIjU+WQaxGnTROK8UXmiMuOLHnI33mKX4Ib5NC8e5H3kdr7pj+NDRruQfM9Y
+ Rsxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0wIgs3VKhIuaXHVPWmnow5qLXIDMbpb3CKsGv/tv2Rk=;
- b=GFxZLekwGFRFfO3n2jR2h7pnyM4dQ6nmE7FZ1qd1u7ykI5mKHDpt8wKqPwzs9NNuoZ
- 2K12f8b+Ggd2c3tm5XTUHm0T4tohwXL1JfTvJYqfcqSSDBHt0BvMcV7xIce84R5k47dF
- uWT8kJFKzZ8/KPNBrkwkdigMYu2Z8AfwwIX9YBxZ2bB8FjV+P0RD3hZoy/OeHRHAShYY
- cBfV1OWdmU9pxqc/x1By9yN90Zm6PJFWut1qifwPue0Z6JKANSnWsPhHEsrApB7NpLTZ
- nHcfStQcehh1Tgc+uatg/VP1ahOYfRHsvvVeoYkWrawoGpCx1oo/pMyw46rGCRkVE4Nx
- iWfg==
-X-Gm-Message-State: AOAM531h3uqPBXKZlO0jR82Jfmm03XKRDi73BrBOZffvOJfHWkTkGIOa
- K/fncyXuN+X79JgWplx8VSXbsQ==
-X-Google-Smtp-Source: ABdhPJzgIuK/4NY14D4tI2IOCwMzUL2HpMoesgwdny5dP+EQJUm13F7z14AXMpnBiliTjyAcrD+F0Q==
-X-Received: by 2002:aed:3904:: with SMTP id l4mr20927805qte.370.1593577626394; 
- Tue, 30 Jun 2020 21:27:06 -0700 (PDT)
-Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id 195sm4816483qkl.37.2020.06.30.21.27.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 21:27:05 -0700 (PDT)
-From: Jonathan Marek <jonathan@marek.ca>
-To: linux-arm-msm@vger.kernel.org
-Subject: [RFC PATCH] interconnect: qcom: add functions to query addr/cmds for
- a path
-Date: Wed,  1 Jul 2020 00:25:25 -0400
-Message-Id: <20200701042528.12321-1-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
+ bh=NyiY6LCbJOGlJn7q4DsF++6lUZNdDAhhofQm6gmCEgE=;
+ b=FPxkSEnOliE7L6WGo+k5fae8cb6t0EA6rEDqLhmy94vybmBb/GPWNmC3z9veKiWm3B
+ Gn1F9TlPQ3kvGqtTMu9PQzKd7s542tGsGDEfXwt+cgDouW8WfDykqo3+psAJPCXDHyUQ
+ csOHowaes7+3B8YeGNFSZN9fcjmjvTouFQeSx6aPVjP6iiojEuCngrkpkRWqGiaWsjdf
+ rYAqJhuRJf5QhSxwE8MkxVqHh2gJTPjvPn1BDvBERLU/I/PTCwyHCpOp7GNBtzx8ARY6
+ oSUf7yid+K20XZGNX2BHjAAyWNvuT5/D58jkunvHN/Pds+Su0u2HaghLC9AZopoOkdrV
+ LjOg==
+X-Gm-Message-State: AOAM532Wf1QAkDdx5dzLXX84mX4pf/5q5YyiBV3bWCZDqoLr5GP6Iy/H
+ Jr8d2r1HBsOJLcA1IR8TOUs=
+X-Google-Smtp-Source: ABdhPJwnfvPM9Z0IHOBuk3PCfnWLRD3JRcFcWBcZcFIo3AdmsHbEgbmJo49UPIN0jd10KhzPKCpqcQ==
+X-Received: by 2002:a2e:b04c:: with SMTP id d12mr11424580ljl.256.1593585774925; 
+ Tue, 30 Jun 2020 23:42:54 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id u7sm1874014lfi.45.2020.06.30.23.42.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Jun 2020 23:42:53 -0700 (PDT)
+Subject: Re: [PATCH v9 1/2] of_graph: add of_graph_is_present()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200701021617.12030-1-digetx@gmail.com>
+ <20200701021617.12030-2-digetx@gmail.com>
+ <20200701054543.GA5963@pendragon.ideasonboard.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c39beae6-34d4-84c3-07c0-e6639ab0b367@gmail.com>
+Date: Wed, 1 Jul 2020 09:42:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200701054543.GA5963@pendragon.ideasonboard.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 01 Jul 2020 07:12:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,184 +73,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, kbuild test robot <lkp@intel.com>,
- "open list:INTERCONNECT API" <linux-pm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Sean Paul <sean@poorly.run>, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The a6xx GMU can vote for ddr and cnoc bandwidth, but it needs to be able
-to query the interconnect driver for bcm addresses and commands.
-
-I'm not sure what is the best way to go about implementing this, this is
-what I came up with.
-
-I included a quick example of how this can be used by the a6xx driver to
-fill out the GMU bw_table (two ddr bandwidth levels in this example, note
-this would be using the frequency table in dts and not hardcoded values).
-
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 20 ++++-------
- drivers/interconnect/qcom/icc-rpmh.c  | 50 +++++++++++++++++++++++++++
- include/soc/qcom/icc.h                | 11 ++++++
- 3 files changed, 68 insertions(+), 13 deletions(-)
- create mode 100644 include/soc/qcom/icc.h
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-index ccd44d0418f8..1fb8f0480be3 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-@@ -4,6 +4,7 @@
- #include <linux/completion.h>
- #include <linux/circ_buf.h>
- #include <linux/list.h>
-+#include <soc/qcom/icc.h>
- 
- #include "a6xx_gmu.h"
- #include "a6xx_gmu.xml.h"
-@@ -320,24 +321,18 @@ static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- 	msg->cnoc_cmds_data[1][2] =  0x60000001;
- }
- 
--static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-+static void a650_build_bw_table(struct a6xx_hfi_msg_bw_table *msg, struct icc_path *path)
- {
- 	/*
- 	 * Send a single "off" entry just to get things running
- 	 * TODO: bus scaling
- 	 */
--	msg->bw_level_num = 1;
--
--	msg->ddr_cmds_num = 3;
-+	msg->bw_level_num = 2;
- 	msg->ddr_wait_bitmask = 0x01;
- 
--	msg->ddr_cmds_addrs[0] = 0x50000;
--	msg->ddr_cmds_addrs[1] = 0x50004;
--	msg->ddr_cmds_addrs[2] = 0x5007c;
--
--	msg->ddr_cmds_data[0][0] =  0x40000000;
--	msg->ddr_cmds_data[0][1] =  0x40000000;
--	msg->ddr_cmds_data[0][2] =  0x40000000;
-+	msg->ddr_cmds_num = qcom_icc_query_addr(path, msg->ddr_cmds_addrs);
-+	qcom_icc_query_cmd(path, msg->ddr_cmds_data[0], 0, 0);
-+	qcom_icc_query_cmd(path, msg->ddr_cmds_data[1], 0, 7216000);
- 
- 	/*
- 	 * These are the CX (CNOC) votes - these are used by the GMU but the
-@@ -388,7 +383,6 @@ static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- 	msg->cnoc_cmds_data[1][2] =  0x60000001;
- }
- 
--
- static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
- {
- 	struct a6xx_hfi_msg_bw_table msg = { 0 };
-@@ -400,7 +394,7 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
- 	else if (adreno_is_a640(adreno_gpu))
- 		a640_build_bw_table(&msg);
- 	else if (adreno_is_a650(adreno_gpu))
--		a650_build_bw_table(&msg);
-+		a650_build_bw_table(&msg, adreno_gpu->base.icc_path);
- 	else
- 		a6xx_build_bw_table(&msg);
- 
-diff --git a/drivers/interconnect/qcom/icc-rpmh.c b/drivers/interconnect/qcom/icc-rpmh.c
-index 3ac5182c9ab2..3ce2920330f9 100644
---- a/drivers/interconnect/qcom/icc-rpmh.c
-+++ b/drivers/interconnect/qcom/icc-rpmh.c
-@@ -9,6 +9,7 @@
- 
- #include "bcm-voter.h"
- #include "icc-rpmh.h"
-+#include "../internal.h"
- 
- /**
-  * qcom_icc_pre_aggregate - cleans up stale values from prior icc_set
-@@ -92,6 +93,55 @@ int qcom_icc_set(struct icc_node *src, struct icc_node *dst)
- }
- EXPORT_SYMBOL_GPL(qcom_icc_set);
- 
-+static u32 bcm_query(struct qcom_icc_bcm *bcm, u64 sum_avg, u64 max_peak)
-+{
-+	u64 temp, agg_peak = 0;
-+	int i;
-+
-+	for (i = 0; i < bcm->num_nodes; i++) {
-+		temp = max_peak * bcm->aux_data.width;
-+		do_div(temp, bcm->nodes[i]->buswidth);
-+		agg_peak = max(agg_peak, temp);
-+	}
-+
-+	temp = agg_peak * 1000ULL;
-+	do_div(temp, bcm->aux_data.unit);
-+
-+	// TODO vote_x
-+
-+	return BCM_TCS_CMD(true, temp != 0, 0, temp);
-+}
-+
-+int qcom_icc_query_addr(struct icc_path *path, u32 *addr)
-+{
-+	struct qcom_icc_node *qn;
-+	int i, j, k = 0;
-+
-+	for (i = 0; i < path->num_nodes; i++) {
-+		qn = path->reqs[i].node->data;
-+		for (j = 0; j < qn->num_bcms; j++, k++)
-+			addr[k] = qn->bcms[j]->addr;
-+	}
-+
-+	return k;
-+}
-+EXPORT_SYMBOL_GPL(qcom_icc_query_addr);
-+
-+int qcom_icc_query_cmd(struct icc_path *path, u32 *cmd, u64 avg, u64 max)
-+{
-+	struct qcom_icc_node *qn;
-+	int i, j, k = 0;
-+
-+	for (i = 0; i < path->num_nodes; i++) {
-+		qn = path->reqs[i].node->data;
-+		for (j = 0; j < qn->num_bcms; j++, k++)
-+			cmd[k] = bcm_query(qn->bcms[j], avg, max);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qcom_icc_query_cmd);
-+
- /**
-  * qcom_icc_bcm_init - populates bcm aux data and connect qnodes
-  * @bcm: bcm to be initialized
-diff --git a/include/soc/qcom/icc.h b/include/soc/qcom/icc.h
-new file mode 100644
-index 000000000000..8d0ddde49739
---- /dev/null
-+++ b/include/soc/qcom/icc.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __SOC_QCOM_ICC_H__
-+#define __SOC_QCOM_ICC_H__
-+
-+#include <linux/interconnect.h>
-+
-+int qcom_icc_query_addr(struct icc_path *path, u32 *addr);
-+int qcom_icc_query_cmd(struct icc_path *path, u32 *cmd, u64 avg, u64 max);
-+
-+#endif /* __SOC_QCOM_ICC_H__ */
--- 
-2.26.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDEuMDcuMjAyMCAwODo0NSwgTGF1cmVudCBQaW5jaGFydCDQv9C40YjQtdGCOgo+IEhpIERtaXRy
+eSwKPiAKPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KPiAKPiBPbiBXZWQsIEp1bCAwMSwgMjAy
+MCBhdCAwNToxNjoxNkFNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IEluIHNvbWUg
+Y2FzZSwgbGlrZSBhIERSTSBkaXNwbGF5IGNvZGUgZm9yIGV4YW1wbGUsIGl0J3MgdXNlZnVsIHRv
+IHNpbGVudGx5Cj4+IGNoZWNrIHdoZXRoZXIgcG9ydCBub2RlIGV4aXN0cyBhdCBhbGwgaW4gYSBk
+ZXZpY2UtdHJlZSBiZWZvcmUgcHJvY2VlZGluZwo+PiB3aXRoIHBhcnNpbmcgb2YgdGhlIGdyYXBo
+Lgo+Pgo+PiBUaGlzIHBhdGNoIGFkZHMgb2ZfZ3JhcGhfaXNfcHJlc2VudCgpIHdoaWNoIHJldHVy
+bnMgdHJ1ZSBpZiBnaXZlbgo+PiBkZXZpY2UtdHJlZSBub2RlIGNvbnRhaW5zIE9GIGdyYXBoIHBv
+cnQuCj4+Cj4+IFJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+PiBT
+aWduZWQtb2ZmLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFpbC5jb20+Cj4+IC0tLQo+
+PiAgZHJpdmVycy9vZi9wcm9wZXJ0eS5jICAgIHwgNTIgKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrLS0tLS0tLQo+PiAgaW5jbHVkZS9saW51eC9vZl9ncmFwaC5oIHwgIDYgKysrKysK
+Pj4gIDIgZmlsZXMgY2hhbmdlZCwgNDkgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKPj4K
+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvb2YvcHJvcGVydHkuYyBiL2RyaXZlcnMvb2YvcHJvcGVy
+dHkuYwo+PiBpbmRleCA2YTU3NjBmMGQ2Y2QuLmUxMmI4YjQ5MTgzNyAxMDA2NDQKPj4gLS0tIGEv
+ZHJpdmVycy9vZi9wcm9wZXJ0eS5jCj4+ICsrKyBiL2RyaXZlcnMvb2YvcHJvcGVydHkuYwo+PiBA
+QCAtMjksNiArMjksNDggQEAKPj4gIAo+PiAgI2luY2x1ZGUgIm9mX3ByaXZhdGUuaCIKPj4gIAo+
+PiArLyoqCj4+ICsgKiBvZl9ncmFwaF9nZXRfZmlyc3RfbG9jYWxfcG9ydCgpIC0gZ2V0IGZpcnN0
+IGxvY2FsIHBvcnQgbm9kZQo+PiArICogQG5vZGU6IHBvaW50ZXIgdG8gYSBsb2NhbCBlbmRwb2lu
+dCBkZXZpY2Vfbm9kZQo+IAo+IEl0J3Mgbm90IGFuIGVuZHBvaW50LgoKQWxyaWdodCwgc29tZWhv
+dyBJIHdhcyByZWFkaW5nIHRoaXMgYXMgYSAiZGV2aWNlX25vZGUgdGhhdCBjb250YWlucwplbmRw
+b2ludCAob2YgdGhlIGdyYXBoKSIuIEJ1dCBhZnRlciByZS1yZWFkaW5nIHR3aWNlIEkgY2FuIHNl
+ZSB0aGF0IGl0J3MKbm90IHRoZSBjYXNlLgoKSXQgc2hvdWxkIGJlIGEgInBvaW50ZXIgdG8gZGV2
+aWNlX25vZGUgY29udGFpbmluZyBncmFwaCBwb3J0IiwganVzdCBsaWtlCnRoZSBvZl9ncmFwaF9n
+ZXRfcmVtb3RlX25vZGUoKSBzYXlzIGl0LiBUaGFuayB5b3UgOikKCj4+ICsgKgo+PiArICogUmV0
+dXJuOiBGaXJzdCBsb2NhbCBwb3J0IG5vZGUgYXNzb2NpYXRlZCB3aXRoIGxvY2FsIGVuZHBvaW50
+IG5vZGUgbGlua2VkCj4+ICsgKgkgICB0byBAbm9kZS4gVXNlIG9mX25vZGVfcHV0KCkgb24gaXQg
+d2hlbiBkb25lLgo+PiArICovCj4+ICtzdGF0aWMgc3RydWN0IGRldmljZV9ub2RlICoKPj4gK29m
+X2dyYXBoX2dldF9maXJzdF9sb2NhbF9wb3J0KGNvbnN0IHN0cnVjdCBkZXZpY2Vfbm9kZSAqbm9k
+ZSkKPj4gK3sKPj4gKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKnBvcnRzLCAqcG9ydDsKPj4gKwo+PiAr
+CXBvcnRzID0gb2ZfZ2V0X2NoaWxkX2J5X25hbWUobm9kZSwgInBvcnRzIik7Cj4+ICsJaWYgKHBv
+cnRzKQo+PiArCQlub2RlID0gcG9ydHM7Cj4+ICsKPj4gKwlwb3J0ID0gb2ZfZ2V0X2NoaWxkX2J5
+X25hbWUobm9kZSwgInBvcnQiKTsKPj4gKwlvZl9ub2RlX3B1dChwb3J0cyk7Cj4+ICsKPj4gKwly
+ZXR1cm4gcG9ydDsKPj4gK30KPj4gKwo+PiArLyoqCj4+ICsgKiBvZl9ncmFwaF9pc19wcmVzZW50
+KCkgLSBjaGVjayBncmFwaCdzIHByZXNlbmNlCj4+ICsgKiBAbm9kZTogcG9pbnRlciB0byBhIGRl
+dmljZV9ub2RlIGNoZWNrZWQgZm9yIHRoZSBncmFwaCdzIHByZXNlbmNlCj4+ICsgKgo+PiArICog
+UmV0dXJuOiBUcnVlIGlmIEBub2RlIGhhcyBhIHBvcnQgb3IgcG9ydHMgc3ViLW5vZGUsIGZhbHNl
+IG90aGVyd2lzZS4KPj4gKyAqLwo+PiArYm9vbCBvZl9ncmFwaF9pc19wcmVzZW50KGNvbnN0IHN0
+cnVjdCBkZXZpY2Vfbm9kZSAqbm9kZSkKPj4gK3sKPj4gKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKmxv
+Y2FsOwo+PiArCj4+ICsJbG9jYWwgPSBvZl9ncmFwaF9nZXRfZmlyc3RfbG9jYWxfcG9ydChub2Rl
+KTsKPj4gKwlpZiAoIWxvY2FsKQo+PiArCQlyZXR1cm4gZmFsc2U7Cj4+ICsKPj4gKwlvZl9ub2Rl
+X3B1dChsb2NhbCk7Cj4+ICsKPj4gKwlyZXR1cm4gdHJ1ZTsKPj4gK30KPj4gK0VYUE9SVF9TWU1C
+T0wob2ZfZ3JhcGhfaXNfcHJlc2VudCk7Cj4+ICsKPj4gIC8qKgo+PiAgICogb2ZfcHJvcGVydHlf
+Y291bnRfZWxlbXNfb2Zfc2l6ZSAtIENvdW50IHRoZSBudW1iZXIgb2YgZWxlbWVudHMgaW4gYSBw
+cm9wZXJ0eQo+PiAgICoKPj4gQEAgLTYwOCwxNSArNjUwLDcgQEAgc3RydWN0IGRldmljZV9ub2Rl
+ICpvZl9ncmFwaF9nZXRfbmV4dF9lbmRwb2ludChjb25zdCBzdHJ1Y3QgZGV2aWNlX25vZGUgKnBh
+cmVudCwKPj4gIAkgKiBwYXJlbnQgcG9ydCBub2RlLgo+PiAgCSAqLwo+PiAgCWlmICghcHJldikg
+ewo+PiAtCQlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5vZGU7Cj4+IC0KPj4gLQkJbm9kZSA9IG9mX2dl
+dF9jaGlsZF9ieV9uYW1lKHBhcmVudCwgInBvcnRzIik7Cj4+IC0JCWlmIChub2RlKQo+PiAtCQkJ
+cGFyZW50ID0gbm9kZTsKPj4gLQo+PiAtCQlwb3J0ID0gb2ZfZ2V0X2NoaWxkX2J5X25hbWUocGFy
+ZW50LCAicG9ydCIpOwo+PiAtCQlvZl9ub2RlX3B1dChub2RlKTsKPj4gLQo+PiArCQlwb3J0ID0g
+b2ZfZ3JhcGhfZ2V0X2ZpcnN0X2xvY2FsX3BvcnQocGFyZW50KTsKPiAKPiBJIHRoaW5rIHRoaXMg
+aW50cm9kdWNlcyBhIGJ1ZyBiZWxvdyBpbiB0aGUgZnVuY3Rpb24sIHdoZXJlIHBhcmVudCBpcwo+
+IHVzZWQgYW5kIGlzIGV4cGVjdGVkIHRvIHBvaW50IHRvIHRoZSBwb3J0cyBub2RlIGlmIGF2YWls
+YWJsZS4gSSdkIGxlYXZlCj4gdGhpcyBwYXJ0IG9mIHRoZSBjaGFuZ2Ugb3V0LCBhbmQgaW5saW5l
+ICtvZl9ncmFwaF9nZXRfZmlyc3RfbG9jYWxfcG9ydCgpCj4gaW4gb2ZfZ3JhcGhfaXNfcHJlc2Vu
+dCgpLgoKR29vZCBjYXRjaCEgSSdsbCBjb3JyZWN0IHRoaXMuCgpUaGFuayB5b3UgZm9yIHRoZSBy
+ZXZpZXcgOikKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
