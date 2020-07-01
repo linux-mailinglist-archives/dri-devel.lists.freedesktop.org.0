@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC76210A59
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 13:36:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8BA210A71
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 13:41:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35FF6E896;
-	Wed,  1 Jul 2020 11:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B006E899;
+	Wed,  1 Jul 2020 11:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCD96E896
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 11:36:50 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1E56E899
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 11:41:34 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 188AE2A5340;
- Wed,  1 Jul 2020 12:36:48 +0100 (BST)
-Date: Wed, 1 Jul 2020 13:36:45 +0200
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 79CCD2A5505;
+ Wed,  1 Jul 2020 12:41:32 +0100 (BST)
+Date: Wed, 1 Jul 2020 13:41:28 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [RESEND PATCH 1/3] drm/mediatek: mtk_dpi: Rename bridge to
- next_bridge
-Message-ID: <20200701133645.329a1305@collabora.com>
-In-Reply-To: <20200701132303.047ea605@collabora.com>
+Subject: Re: [RESEND PATCH 3/3] drm/mediatek: mtk_dpi: Use simple encoder
+Message-ID: <20200701134128.6a967a89@collabora.com>
+In-Reply-To: <20200518173909.2259259-4-enric.balletbo@collabora.com>
 References: <20200518173909.2259259-1-enric.balletbo@collabora.com>
- <20200518173909.2259259-2-enric.balletbo@collabora.com>
- <20200701132303.047ea605@collabora.com>
+ <20200518173909.2259259-4-enric.balletbo@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -55,73 +54,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Jul 2020 13:23:03 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Mon, 18 May 2020 19:39:09 +0200
+Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
 
-> On Mon, 18 May 2020 19:39:07 +0200
-> Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
+> The mtk_dpi driver uses an empty implementation for its encoder. Replace
+> the code with the generic simple encoder.
 > 
-> > This is really a cosmetic change just to make a bit more readable the
-> > code after convert the driver to drm_bridge. The bridge variable name
-> > will be used by the encoder drm_bridge, and the chained bridge will be
-> > named next_bridge.
-> > 
-> > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > ---
-> > 
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 7fbfa95bab09..7112125dc3d1 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -61,7 +61,7 @@ enum mtk_dpi_out_color_format {
-> >  struct mtk_dpi {
-> >  	struct mtk_ddp_comp ddp_comp;
-> >  	struct drm_encoder encoder;
-> > -	struct drm_bridge *bridge;
-> > +	struct drm_bridge *next_bridge;  
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> ---
 > 
-> Did you consider moving the drm_of_find_panel_or_bridge() call to
-> mtk_dpi_bind() so you can get rid of this field?
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index baad198c69eb..80778b2aac2a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -20,6 +20,7 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_of.h>
+> +#include <drm/drm_simple_kms_helper.h>
+>  
+>  #include "mtk_dpi_regs.h"
+>  #include "mtk_drm_ddp_comp.h"
+> @@ -510,15 +511,6 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>  	return 0;
+>  }
+>  
+> -static void mtk_dpi_encoder_destroy(struct drm_encoder *encoder)
+> -{
+> -	drm_encoder_cleanup(encoder);
+> -}
+> -
+> -static const struct drm_encoder_funcs mtk_dpi_encoder_funcs = {
+> -	.destroy = mtk_dpi_encoder_destroy,
+> -};
+> -
+>  static int mtk_dpi_bridge_attach(struct drm_bridge *bridge,
+>  				 enum drm_bridge_attach_flags flags)
+>  {
+> @@ -591,8 +583,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+>  		return ret;
+>  	}
+>  
+> -	ret = drm_encoder_init(drm_dev, &dpi->encoder, &mtk_dpi_encoder_funcs,
+> -			       DRM_MODE_ENCODER_TMDS, NULL);
+> +	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
+> +				      DRM_MODE_ENCODER_TMDS);
 
-Nevermind, you need it in patch 2 for the recursive call to
-drm_bridge_attach().
+Not related to this change, but shouldn't we have DRM_MODE_ENCODER_DPI
+here?
 
-> 
-> This makes we realize there's no refcounting on bridges, which means
-> the bridge can vanish between the drm_of_find_panel_or_bridge() and
-> drm_bridge_attach() calls :-/.
-> 
-> >  	void __iomem *regs;
-> >  	struct device *dev;
-> >  	struct clk *engine_clk;
-> > @@ -607,7 +607,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
-> >  	/* Currently DPI0 is fixed to be driven by OVL1 */
-> >  	dpi->encoder.possible_crtcs = BIT(1);
-> >  
-> > -	ret = drm_bridge_attach(&dpi->encoder, dpi->bridge, NULL, 0);
-> > +	ret = drm_bridge_attach(&dpi->encoder, dpi->next_bridge, NULL, 0);
-> >  	if (ret) {
-> >  		dev_err(dev, "Failed to attach bridge: %d\n", ret);
-> >  		goto err_cleanup;
-> > @@ -747,11 +747,11 @@ static int mtk_dpi_probe(struct platform_device *pdev)
-> >  	}
-> >  
-> >  	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
-> > -					  NULL, &dpi->bridge);
-> > +					  NULL, &dpi->next_bridge);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	dev_info(dev, "Found bridge node: %pOF\n", dpi->bridge->of_node);
-> > +	dev_info(dev, "Found bridge node: %pOF\n", dpi->next_bridge->of_node);
-> >  
-> >  	comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DPI);
-> >  	if (comp_id < 0) {  
-> 
+>  	if (ret) {
+>  		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
+>  		goto err_unregister;
 
 _______________________________________________
 dri-devel mailing list
