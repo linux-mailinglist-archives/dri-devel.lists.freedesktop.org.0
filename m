@@ -1,36 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434A1210A3B
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 13:23:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1989210A3D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 13:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 715156E890;
-	Wed,  1 Jul 2020 11:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2176E88F;
+	Wed,  1 Jul 2020 11:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F02D6E890
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 11:23:08 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3BBDA27DAFB;
- Wed,  1 Jul 2020 12:23:06 +0100 (BST)
-Date: Wed, 1 Jul 2020 13:23:03 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: Re: [RESEND PATCH 1/3] drm/mediatek: mtk_dpi: Rename bridge to
- next_bridge
-Message-ID: <20200701132303.047ea605@collabora.com>
-In-Reply-To: <20200518173909.2259259-2-enric.balletbo@collabora.com>
-References: <20200518173909.2259259-1-enric.balletbo@collabora.com>
- <20200518173909.2259259-2-enric.balletbo@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7D36E88F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 11:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1593602658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a0yfRNSZH7jw3LwxF/5C1mFfotPxZcAA3DmkNVF3agc=;
+ b=iHkY2YMUGWFd7ZNtKJ7Id2PJLB2moD8F8n4g+aam2oVKkVoRSxyt9B3NzsMTgE59kOiZp4
+ bt0vtzJ8Xm6ene7xaolTNotM4BxFS1zZrmoAWfWt5rW1w6wNjS4Y+7QPvWVYLL1oMQ2vSd
+ kaXAwqpsWaKXjE0axAVciPUFCeUInmg=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-QCdt6RPGMquCSz22MSrAVw-1; Wed, 01 Jul 2020 07:24:11 -0400
+X-MC-Unique: QCdt6RPGMquCSz22MSrAVw-1
+Received: by mail-qk1-f198.google.com with SMTP id f79so10762357qke.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 04:24:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a0yfRNSZH7jw3LwxF/5C1mFfotPxZcAA3DmkNVF3agc=;
+ b=lKLZKoXDpxqlVNpZ0TBa+RN1/r9y0ked5Y81YKmt9/zbdyaWBjx7CMz5UX6ToYzhJZ
+ MR03HweW4hShz9X7VsMsb9GarIhEo6aEGKvgnZDyWKtpDXpsYrYeISzX1dVLJfryw6RI
+ ZC6AZB0swt7kiznYP1uvLi3aUTnWGzv/NWxf2NxsyK0deEP9OvHdSn0b22qWdRQbk1Jm
+ iJSMf6N3jpzCHybGTukTOStfBv3e/cQwltS0jHhErawI0a/FYwUGk75HPqyQ5tGgeuqA
+ 02IaVuUnWX4Xgs3t0xkEfARODrccS4WavnYKz6kD09XZScZHySUEzzcLIqKOcBQVvN1X
+ TDxA==
+X-Gm-Message-State: AOAM530hDHgEp4XDecQDBJpon5SbLs1lWfj4kWAbTB1zbG1eN5yoQzyn
+ XIThUKXJD0ia6MwGVPc0N6knXBeP9S5blxZwcBOY0NP2o16No5H2JkFsB5y9d3UDCs+FvOsnTud
+ Iz67OfiOKRDY1C6oFyeYUkbGWc/fTN0n1E92dcQoS+Rbz
+X-Received: by 2002:aed:208c:: with SMTP id 12mr25653165qtb.286.1593602651312; 
+ Wed, 01 Jul 2020 04:24:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbe3/mk0yAROfKDdFroQfk3ZID3DtTYPB35Q69fjTtOuyoXNweu61AJE29nOxb7iqVnZIUltP//HI7XwvB/DM=
+X-Received: by 2002:aed:208c:: with SMTP id 12mr25653150qtb.286.1593602650968; 
+ Wed, 01 Jul 2020 04:24:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+ <20200630230808.wj2xlt44vrszqfzx@box>
+ <ef7816b4-72ee-9e0e-8cac-4d80d8343f9f@nvidia.com>
+In-Reply-To: <ef7816b4-72ee-9e0e-8cac-4d80d8343f9f@nvidia.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 1 Jul 2020 13:24:00 +0200
+Message-ID: <CACO55tvT0fOMai7k7oAP1TL42YAuMwJocxk2seNgjYibs+h5oA@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.8-rc1
+To: James Jones <jajones@nvidia.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,77 +73,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
- narmstrong@baylibre.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, linux-mediatek@lists.infradead.org,
- laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, matthias.bgg@gmail.com,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 18 May 2020 19:39:07 +0200
-Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
+On Wed, Jul 1, 2020 at 6:45 AM James Jones <jajones@nvidia.com> wrote:
+>
+> This implies something is trying to use one of the old
+> DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK format modifiers with DRM-KMS without
+> first checking whether it is supported by the kernel.  I had tried to
+> force an Xorg+Mesa stack without my userspace patches to hit this error
+> when testing, but must have missed some permutation.  If the stalled
+> Mesa patches go in, this would stop happening of course, but those were
+> held up for a long time in review, and are now waiting on me to make
+> some modifications.
+>
 
-> This is really a cosmetic change just to make a bit more readable the
-> code after convert the driver to drm_bridge. The bridge variable name
-> will be used by the encoder drm_bridge, and the chained bridge will be
-> named next_bridge.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> ---
-> 
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 7fbfa95bab09..7112125dc3d1 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -61,7 +61,7 @@ enum mtk_dpi_out_color_format {
->  struct mtk_dpi {
->  	struct mtk_ddp_comp ddp_comp;
->  	struct drm_encoder encoder;
-> -	struct drm_bridge *bridge;
-> +	struct drm_bridge *next_bridge;
+that's completely irrelevant. If a kernel change breaks userspace,
+it's a kernel bug.
 
-Did you consider moving the drm_of_find_panel_or_bridge() call to
-mtk_dpi_bind() so you can get rid of this field?
-
-This makes we realize there's no refcounting on bridges, which means
-the bridge can vanish between the drm_of_find_panel_or_bridge() and
-drm_bridge_attach() calls :-/.
-
->  	void __iomem *regs;
->  	struct device *dev;
->  	struct clk *engine_clk;
-> @@ -607,7 +607,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
->  	/* Currently DPI0 is fixed to be driven by OVL1 */
->  	dpi->encoder.possible_crtcs = BIT(1);
->  
-> -	ret = drm_bridge_attach(&dpi->encoder, dpi->bridge, NULL, 0);
-> +	ret = drm_bridge_attach(&dpi->encoder, dpi->next_bridge, NULL, 0);
->  	if (ret) {
->  		dev_err(dev, "Failed to attach bridge: %d\n", ret);
->  		goto err_cleanup;
-> @@ -747,11 +747,11 @@ static int mtk_dpi_probe(struct platform_device *pdev)
->  	}
->  
->  	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
-> -					  NULL, &dpi->bridge);
-> +					  NULL, &dpi->next_bridge);
->  	if (ret)
->  		return ret;
->  
-> -	dev_info(dev, "Found bridge node: %pOF\n", dpi->bridge->of_node);
-> +	dev_info(dev, "Found bridge node: %pOF\n", dpi->next_bridge->of_node);
->  
->  	comp_id = mtk_ddp_comp_get_id(dev->of_node, MTK_DPI);
->  	if (comp_id < 0) {
+> Are you using the modesetting driver in X?  If so, with glamor I
+> presume?  What version of Mesa?  Any distro patches?  Any non-default
+> xorg.conf options that would affect modesetting, your X driver if it
+> isn't modesetting, or glamour?
+>
+> Thanks,
+> -James
+>
+> On 6/30/20 4:08 PM, Kirill A. Shutemov wrote:
+> > On Tue, Jun 02, 2020 at 04:06:32PM +1000, Dave Airlie wrote:
+> >> James Jones (4):
+> > ...
+> >>        drm/nouveau/kms: Support NVIDIA format modifiers
+> >
+> > This commit is the first one that breaks Xorg startup for my setup:
+> > GTX 1080 + Dell UP2414Q (4K DP MST monitor).
+> >
+> > I believe this is the crucial part of dmesg (full dmesg is attached):
+> >
+> > [   29.997140] [drm:nouveau_framebuffer_new] Unsupported modifier: 0x300000000000014
+> > [   29.997143] [drm:drm_internal_framebuffer_create] could not create framebuffer
+> > [   29.997145] [drm:drm_ioctl] pid=3393, ret = -22
+> >
+> > Any suggestions?
+> >
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
 
 _______________________________________________
 dri-devel mailing list
