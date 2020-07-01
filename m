@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1845F210564
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:50:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9AE210568
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 09:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A156E40A;
-	Wed,  1 Jul 2020 07:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C9A6E7FE;
+	Wed,  1 Jul 2020 07:51:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F446E40A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:50:52 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id n23so25827593ljh.7
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 00:50:52 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC126E7FE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 07:51:22 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id y18so13016631lfh.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jul 2020 00:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Uz2HVrjjWvM9xtc3pLsQOyiOISHzNTG2GYwMVCw6J4o=;
- b=tvs2DSdH9VtwLW7TdYV8ZAqaUg/zZ8haHmG8YpMOlppKeOLLQbv5ErlxCiEgo2/eXK
- 77As9LEMtO5Mk/n8z5uLzjqYSo5Mhn8o4iSVjroURbmuoqH6xpj0dvP6gPfFOJT1rvwV
- T2pZTjcKOppqeOjFBTHlhjsr5ALmNO3j9hUdL1PUtLuvgZ4PFaHTyYG2fVCwkaBuYKwo
- xussbvQg1VFQaVTB9vB8oSf+Qx7zJtAb8ihs1wIwWwwHktc9Sf3sDhxwGFZTMY1sBJB4
- iaEN1xgQeU6zhego2PxrwsM12K2MdRSrNT/wEmTm9whZ6UZ247TkW8wtJ14MkpaKfZ7t
- mIQg==
+ :cc; bh=qA5bM+WCP+6+xrqHaHAfQZE4418oC7dBfKlNpFampf8=;
+ b=ZZ7miNZVWKO46LJ8/TJl+yA0Ss4HFjwCQ1PS4s0VXxhfJW8E2Jda12hCRQW811RZAB
+ rJ0G6F9L7j+s72JYwWteMsMWXhGguGPC6uKnDggH6FlBlnVMzjs4R+zzeBUCCH881MDm
+ wSDDeUfbKti0XT7PZAM1hGGuTatJwiR+0N2CfoGeDTc/cWfiKbvR6xqwTihHm0PPBc1K
+ 32ca+MBKN3hCPSOozfWTmjbty1CRTMNtoGHNVGiiM55RomC+hUSpX2e1/qdf0809XS7b
+ hcZLzAQpP7wZKj5F2vpZmvnbAlSdfyRrpeVLeC6RBZ00tG1Hviiw8oXq6WUv9vvARvzJ
+ GMOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Uz2HVrjjWvM9xtc3pLsQOyiOISHzNTG2GYwMVCw6J4o=;
- b=iRXcfe0tySzm2WnDw3eV9aCYwZL2znD51/XgYXrtVpL+QrRHU8C/K5D+u/QAHsVdeX
- 8LhTn4sNOoQ1wOwppnn6jUqwnfxf1DLNmWdRFdMWGkrhG75N03wju1waknR0xcIZOR0F
- gosPNcUtigVRWVOeLb6wRFm4TTRHmFH8xqKUIzXw1L6e47g5+vro2ckij1hFH3oWMT1d
- 0iXGCspek9TUjcrg+QJBKoihZdH0iREaRP+vAmAtWZu9WWtAiAUf4QfNbuYNKMREdxaQ
- qlXghI10owVehxNuw8uc+MmQMOWXb9Mes3hO4+3HGPBL+aKY8tUJY7MasUAbElAPsNUT
- gSbQ==
-X-Gm-Message-State: AOAM530Laf1lkAFaRZTkh7Cdg6jVFB2cGa+CXG/sdwGiv/v9vtctrVuW
- U8xNF273rMFTjSzSqVjaKWi7zXBXXaAGk+OiAIDpgzRX55M=
-X-Google-Smtp-Source: ABdhPJwgrorp6PW7xMBimsg+9NrZkVcYegomjAzeg6KTUWqMNqo6scmxWP7ixbhDL9EU3lg5KTkr+7Ecj790mtBVXkk=
-X-Received: by 2002:a2e:810a:: with SMTP id d10mr7003529ljg.144.1593589851375; 
- Wed, 01 Jul 2020 00:50:51 -0700 (PDT)
+ bh=qA5bM+WCP+6+xrqHaHAfQZE4418oC7dBfKlNpFampf8=;
+ b=HZI43Q8dKC0CNCpNg/a3ChFw5iTUTIOiUP5i5hWLttTPNXt2PuiNXY/jjZpXFxeDxX
+ Qv1nga6p4sfVW5EU+xBJmM6MpW+mYrgfQ+2ODpfrEvHbXzsmqvwYFM2p4T6ckPq6kZnn
+ SSCzd/ivL2uaoScNhiBj7QstC/uthwhV3zSAGey42oh9aNfimhF+DetvtPqm4Pjn8bsB
+ m5izR1VRLL12F/1rbUstZVLiVSbZPsEq/sLRuOJXlSBGRQg7MNhP3RPzG6gLa1mIKeGJ
+ rRQ5F/2OGaCW8jaFHyHkKcH9EDcEqJzaV5I15r5NNSykuxePAgqXP+u95k4mq1x7exKV
+ XX1w==
+X-Gm-Message-State: AOAM5326pdwrQhv2FHy0I5rAU0TOPhPj/tE8xydabIdo/nEEQGSQw5B7
+ kV0oj59GbhR5bP+RrEGu0oKHO3oZzW5b+63mZfXu5Q==
+X-Google-Smtp-Source: ABdhPJyrJFAzSG4TfNUteKjvVvXNEtpwXJyb/bxaFmIvpSRTkSG+0rgLXE3upuXl29SouGIj3HRAshWvgCk19SJwY8Q=
+X-Received: by 2002:a05:6512:3150:: with SMTP id
+ s16mr3355246lfi.47.1593589880512; 
+ Wed, 01 Jul 2020 00:51:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200626005601.241022-1-megous@megous.com>
- <20200626005601.241022-10-megous@megous.com>
-In-Reply-To: <20200626005601.241022-10-megous@megous.com>
+ <20200626005601.241022-11-megous@megous.com>
+In-Reply-To: <20200626005601.241022-11-megous@megous.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 1 Jul 2020 09:50:40 +0200
-Message-ID: <CACRpkdZcMA_Y_eH8_TL09Z0_DADDcUy5s_S45UfrnoSKmNgtXw@mail.gmail.com>
-Subject: Re: [PATCH v5 09/13] drm/panel: st7703: Add support for Xingbangda
- XBD599
+Date: Wed, 1 Jul 2020 09:51:09 +0200
+Message-ID: <CACRpkdYHmZi+BCRs8xzCUqiCEK7RHynHWeptTtEzJ1WHToMRFg@mail.gmail.com>
+Subject: Re: [PATCH v5 10/13] drm/panel: st7703: Enter sleep after display off
 To: Ondrej Jirman <megous@megous.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,10 +80,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, Jun 26, 2020 at 2:56 AM Ondrej Jirman <megous@megous.com> wrote:
 
-> Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI LCD panel used in
-> PinePhone. Add support for it.
+> The datasheet suggests to issue sleep in after display off
+> as a part of the panel's shutdown sequence.
 >
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > Signed-off-by: Ondrej Jirman <megous@megous.com>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
