@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE89D2113BC
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 21:42:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0344C2113C6
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jul 2020 21:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D03AD6E2EF;
-	Wed,  1 Jul 2020 19:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E51D6E326;
+	Wed,  1 Jul 2020 19:44:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109FE6E2EF
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jul 2020 19:42:56 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 061JWpd4019840; Wed, 1 Jul 2020 21:42:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : subject :
- date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=ONV0ecabbBlO6gJXNs/226URnc+ag+nvRZNReE3Ogcc=;
- b=LcA1o1uNTuYK6AJNKeorEZsug4z7ozOzOJHA6qEJWx9MHkmjLA73AETFI809FiJWOKaq
- nQMp2DoWo1Fl6I6MOZbC8fsH/tujwh5izRC0jjvZOGiP999k9e1t3b/djK4JogqJu1JY
- 7qKAg1YVYeW9hFq4JXWSrP0Dsok4HenjvIZ6ozKV2dwMFltwkss7V6A734yJlQI0dNNG
- cs6WOGQcM3xGTIhxAkYiQZJ3IZiKfgW1FREU4OxDVxVjLoTt2yFQxWKrSgQnc/facPFf
- jpn88IUb39gPHfFposVNCzF6aE63QSHkzXFcOYbPT6Hj/z76DEWmAhTkiGcZzc8eUiMP pg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 31ww0gbym1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Jul 2020 21:42:51 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 83B3D100034;
- Wed,  1 Jul 2020 21:42:50 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 765252BF9A6;
- Wed,  1 Jul 2020 21:42:50 +0200 (CEST)
-Received: from localhost (10.75.127.50) by SFHDAG6NODE1.st.com (10.75.127.16)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Wed, 1 Jul 2020 21:42:49 +0200
-From: Yannick Fertre <yannick.fertre@st.com>
-To: Yannick Fertre <yannick.fertre@st.com>, Philippe Cornu
- <philippe.cornu@st.com>, Benjamin Gaignard <benjamin.gaignard@st.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/bridge/synopsys: dsi: allow LP commands in video mode
-Date: Wed, 1 Jul 2020 21:42:48 +0200
-Message-ID: <20200701194248.20368-1-yannick.fertre@st.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
+ [IPv6:2607:f8b0:4864:20::f33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA236E326;
+ Wed,  1 Jul 2020 19:44:24 +0000 (UTC)
+Received: by mail-qv1-xf33.google.com with SMTP id t7so11563907qvl.8;
+ Wed, 01 Jul 2020 12:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H68WCJrZrfATgq2+qOSb/oN+5CurPVefjmJCzGslDNU=;
+ b=psWK/tl+7p6/j0chpXN8DWN1qNvWmr1gzBpbSVFsgD+0IB/bEiZXxYZUyK4FqFhdq/
+ 2YxzwZgZpLfWaUusAcuDgSiNnZoJMI1gz8NNospB7kw6eO3NCFPBxSVRMb0YYaAEJ/Pi
+ NiIcX4WMBEtAnMWrbj3AnkWW26ItyDNzQYR/JDreAJT1sb/8z8+i/qPkYNwcoL4CB5Z/
+ GFkRFY5tJlODopbEt4JyI4MWu11II3TaEpViPjbpU0Z89Eamxz0/IOq2psg3Tg/JwWTH
+ NTtxl62AXMX74yqJEaWCb48bB4bQE+jtbEORp8HbE1/s4Uz7NmRumNnVxLCD9uvl5rEu
+ qE+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H68WCJrZrfATgq2+qOSb/oN+5CurPVefjmJCzGslDNU=;
+ b=FuZa0Q08m0e6kkNMadWJ+FEpY/ygJ0G6TSeMoXj1+NQQqS7kMs4Zm8vVodEHj1Utjb
+ nLrH13f+IfGQ+7U6H+PWvO23X9gLFSiy6BLveiRmuo8OfIfB7xASewGBJFPDQTAGgSIw
+ utGDoadYg6IQfzZCEVIgL34oH6IqKC4dZaCP6YLYRjWms/7plsLZHEdizg099XBfZGiI
+ H2YmfsJdyY1OaqeUCw4NoRbuj54kcvCd3dWg2m9wUuJDVDeSe7y7ro3CRMbUGAZMKi2D
+ 7vesQB1mDyQM2q8BN+3slWUMvPulyeOEnYtmxCfwIgjIUD7CS4bmfpS5sIHTG3rR2W4V
+ okYQ==
+X-Gm-Message-State: AOAM532U6Oc0zSv3VVP7GoOZfPU0lPwhRJnbYLUcbkeKWkrbxbbtiX5G
+ YVoHzFfl0kX4KTd6/eVQ8fakal/U
+X-Google-Smtp-Source: ABdhPJwVw5vfZtLZIxQYOFnMxAsuguf99mWbMrXlItob7i4tn8GksmxER2L3WjXu9GlMV4vzrS8B2g==
+X-Received: by 2002:a0c:f214:: with SMTP id h20mr26292141qvk.131.1593632663314; 
+ Wed, 01 Jul 2020 12:44:23 -0700 (PDT)
+Received: from localhost.localdomain ([71.51.183.177])
+ by smtp.gmail.com with ESMTPSA id e25sm6205995qtc.93.2020.07.01.12.44.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jul 2020 12:44:22 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu drm-fixes-5.8
+Date: Wed,  1 Jul 2020 15:44:15 -0400
+Message-Id: <20200701194415.4065-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG6NODE1.st.com
- (10.75.127.16)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-01_10:2020-07-01,
- 2020-07-01 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,44 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonio Borneo <antonio.borneo@st.com>
+Hi Dave, Daniel,
 
-Current code only sends LP commands in command mode.
+Fixes for 5.8.
 
-Allows sending LP commands also in video mode by setting the
-proper flag in DSI_VID_MODE_CFG.
+The following changes since commit 5b83c254571b26e6b6110019929dc9729e5c59d1:
 
-Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+  Merge tag 'amd-drm-fixes-5.8-2020-06-24' of git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-06-25 14:51:14 +1000)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index d580b2aa4ce9..0cd43e7a69bb 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -367,6 +367,13 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
- 
- 	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
- 	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
-+
-+	val = dsi_read(dsi, DSI_VID_MODE_CFG);
-+	if (lpm)
-+		val |= ENABLE_LOW_POWER_CMD;
-+	else
-+		val &= ~ENABLE_LOW_POWER_CMD;
-+	dsi_write(dsi, DSI_VID_MODE_CFG, val);
- }
- 
- static int dw_mipi_dsi_gen_pkt_hdr_write(struct dw_mipi_dsi *dsi, u32 hdr_val)
--- 
-2.17.1
+are available in the Git repository at:
 
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.8-2020-07-01
+
+for you to fetch changes up to beaf10efca64ac824240838ab1f054dfbefab5e6:
+
+  drm/amdgpu: use %u rather than %d for sclk/mclk (2020-07-01 14:20:23 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.8-2020-07-01:
+
+amdgpu:
+- Fix for vega20 boards without RAS support
+- DC bandwidth revalidation fix
+- Fix Renoir vram info fetching
+- Fix hwmon freq printing
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu/atomfirmware: fix vram_info fetching for renoir
+      drm/amdgpu: use %u rather than %d for sclk/mclk
+
+Ivan Mironov (1):
+      drm/amd/powerplay: Fix NULL dereference in lock_bus() on Vega20 w/o RAS
+
+Nicholas Kazlauskas (1):
+      drm/amd/display: Only revalidate bandwidth on medium and fast updates
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c     |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c               |  4 ++--
+ drivers/gpu/drm/amd/display/dc/core/dc.c             | 10 ++++++----
+ drivers/gpu/drm/amd/powerplay/smumgr/vega20_smumgr.c | 11 +++++++----
+ 4 files changed, 16 insertions(+), 10 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
