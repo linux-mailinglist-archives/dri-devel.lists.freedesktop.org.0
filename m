@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3491B211CD7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F7C211CB8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069C56EA55;
-	Thu,  2 Jul 2020 07:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A186E516;
+	Thu,  2 Jul 2020 07:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1CE36E0E2
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:59:24 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C60486E1F6
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 04:07:08 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
  by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20200702015922epoutp03e54f8e9db76d23c2ad6c9a91cd93c992~dzO1Lz8qK1989119891epoutp03Z
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:59:22 +0000 (GMT)
+ 20200702040706epoutp03a0ab157ecc99fd4edbbc4e24d9dbda08~d0_W09RPd0290102901epoutp031
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 04:07:06 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20200702015922epoutp03e54f8e9db76d23c2ad6c9a91cd93c992~dzO1Lz8qK1989119891epoutp03Z
+ 20200702040706epoutp03a0ab157ecc99fd4edbbc4e24d9dbda08~d0_W09RPd0290102901epoutp031
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593655162;
- bh=lOHAZFZPS9+a73hijdym/L6Q0O9mYbyCPmsKNSs7qgg=;
+ s=mail20170921; t=1593662826;
+ bh=nSBloLjBMkhEq6dBnL0Yut7t5IwUXxI09+5uuRC+GYI=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=LUegyff6IMYLE8WbGfPQDbJXWXv7YZEafhLnuGgONcvDDrv+pOL3vskjY6o4LRmUK
- 9ifxlsc/copNmdkj56iCQKffbd1WAcE7heUOyLGQ5khFjwOIQ+xRunFhAgoQ3a0Svq
- bcLA7W0Q+VjqqtAurhOyvIXJeEZLyir3Ij7wzzbI=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200702015921epcas1p2c5bb12503dd757cf487768767648b8e3~dzOzykN_i0470704707epcas1p2O;
- Thu,  2 Jul 2020 01:59:21 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.154]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 49y1Vb0fsMzMqYkw; Thu,  2 Jul
- 2020 01:59:19 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- 35.4E.28578.27F3DFE5; Thu,  2 Jul 2020 10:59:14 +0900 (KST)
+ b=AnwkEP3HZjzGy38t1rKrQ5Sq4bEi/VXmO+tZcn0w5+L4qn2Y3qoONPfDE5gM5Z1iS
+ 6chLBFWVaLxAX0X6AJcz7dZ6+Yp1MKNpUGkRKriyyhG5pebPa4sBBiLn9KGRg42JVw
+ 7FtrZtEJ9PV5nFBOAe/DQHd/Y2aBJxQ2fQy3+vRk=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20200702040706epcas1p4ded8bc0a4377b2e65a53400e4c98d717~d0_WUindx2564425644epcas1p4A;
+ Thu,  2 Jul 2020 04:07:06 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.40.158]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 49y4Kz693gzMqYm7; Thu,  2 Jul
+ 2020 04:07:03 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 59.D0.29173.76D5DFE5; Thu,  2 Jul 2020 13:07:03 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
  epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200702015913epcas1p3b00b299a3d73041a2d160e8b27288335~dzOsxxd1t2702827028epcas1p3w;
- Thu,  2 Jul 2020 01:59:13 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ 20200702040703epcas1p3f8b2c6f5a3a9c49ce121659d0de215bd~d0_TY4jwO2343023430epcas1p3c;
+ Thu,  2 Jul 2020 04:07:03 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
  epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200702015913epsmtrp1c32923219f33a07f6da520a92f68fa0d~dzOsw0LvC3265932659epsmtrp1k;
- Thu,  2 Jul 2020 01:59:13 +0000 (GMT)
-X-AuditID: b6c32a39-e6f5da8000006fa2-bc-5efd3f724813
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 09.7C.08382.17F3DFE5; Thu,  2 Jul 2020 10:59:13 +0900 (KST)
+ 20200702040702epsmtrp1b8419846011fd7e80cd260570f732743~d0_TX5xR50526105261epsmtrp1-;
+ Thu,  2 Jul 2020 04:07:02 +0000 (GMT)
+X-AuditID: b6c32a37-9b7ff700000071f5-9a-5efd5d6783da
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 68.C8.08303.66D5DFE5; Thu,  2 Jul 2020 13:07:02 +0900 (KST)
 Received: from [10.113.221.102] (unknown [10.113.221.102]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200702015913epsmtip16246678cb1645396ad107b39799832fa~dzOsh0BLI0949609496epsmtip13;
- Thu,  2 Jul 2020 01:59:13 +0000 (GMT)
-Subject: Re: [PATCH v4 17/37] PM / devfreq: tegra20: Relax Kconfig dependency
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200702040702epsmtip24222edcb032c7d2c57cc9c880c4e3847~d0_TGzNf71793117931epsmtip2x;
+ Thu,  2 Jul 2020 04:07:02 +0000 (GMT)
+Subject: Re: [PATCH v4 12/37] PM / devfreq: tegra20: Use MC timings for
+ building OPP table
 To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
  Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>, Michael
@@ -61,59 +62,59 @@ To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  Perttunen <cyndis@kapsi.fi>
 From: Chanwoo Choi <cw00.choi@samsung.com>
 Organization: Samsung Electronics
-Message-ID: <876019c4-2dfa-b966-a6e7-573b5189d374@samsung.com>
-Date: Thu, 2 Jul 2020 11:10:29 +0900
+Message-ID: <4ea7fe00-7676-3186-8222-6e0d0eb8ed1f@samsung.com>
+Date: Thu, 2 Jul 2020 13:18:18 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
  Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20200609131404.17523-18-digetx@gmail.com>
+In-Reply-To: <20200609131404.17523-13-digetx@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLJsWRmVeSWpSXmKPExsWy7bCmnm6R/d84g+51xhb357UyWrz79JTV
- Yv6Rc6wWqz8+ZrS48vU9m8X0vZvYLFpmLWKxONv0ht3i8q45bBafe48wWnR+mcVmcfGUq8Xt
- xhVsFpPWTmW0aN17hN3i37WNLBY/d81jcRD0eH+jld1j56y77B6Xzv1h9ti0qpPN4861PWwe
- 97uPM3n0Nr9j8+jbsorR4/MmuQDOqGybjNTElNQihdS85PyUzLx0WyXv4HjneFMzA0NdQ0sL
- cyWFvMTcVFslF58AXbfMHKBflBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkFlgV6
- xYm5xaV56XrJ+blWhgYGRqZAhQnZGbuXTWAsWMdV8el/H0sD4w6OLkYODgkBE4kj2027GLk4
- hAR2MEr87ZvCCuF8YpT4cvoKE4TzjVFi56+bQBlOsI4bu9+zQyT2Mkr8nnaEEcJ5zyjx9eJV
- RpAqYQF/iQ8fT4C1iwgcYZZY3XkcrIpZ4DKjxNm2L2wgVWwCWhL7X9wAs/kFFCWu/ngM1s0r
- YCdx9Ps5FpALWQRUJH58rgQJiwqESZzc1gJVIihxcuYTsBJOAXOJ76dVQMLMAuISt57MZ4Kw
- 5SW2v53DDLJWQqCZU2LflZXMEC+4SOza0s4IYQtLvDq+hR3ClpJ42d8GZVdLrDx5hA2iuYNR
- Ysv+C1D/G0vsXzqZCWQxs4CmxPpd+hBhRYmdv+cyQizmk3j3tYcVEsC8Eh1tQhAlyhKXH9xl
- grAlJRa3d7JNYFSaheSbWUhemIXkhVkIyxYwsqxiFEstKM5NTy02LDBFju1NjOB0rmW5g3H6
- 2w96hxiZOBgPMUpwMCuJ8J42+BUnxJuSWFmVWpQfX1Sak1p8iNEUGLwTmaVEk/OBGSWvJN7Q
- 1MjY2NjCxNDM1NBQSZzXyfpCnJBAemJJanZqakFqEUwfEwenVANTFaPhA4HPoX2vDv1Wefb3
- 7PJ9H0XXhb9g3zvvjl6ibcLXG8f9e7eX7uZ6ElD3nPmAgo6rilzXkv3853KexUw0z+P7LePx
- UuuU5sXuyZ+7DHddKDx461kFM9+6oI2CG+78r5lissLS5NWjI/fKZ6jcu1F82eHi2hcvJr52
- em24yifP6onA2+dOC0U+/tttL5VtrRJ68qAx56TLb1TSZ6ycXDnvxcymgz81fLT//zh8WvnW
- xpo10vN2qJ0/WSwS+eBLsNzpE2t5yk0+RKzb7PX4/HTNqTJpy033VeXJmH1ZsTyoKcJph/JL
- /vo7PPcUZNm6OJmFO6N3rNTfFrxEvu+3/MxsuWIdtmsaBQqfHrEtjlJiKc5INNRiLipOBADJ
- 3JN2cAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Ra0hTYRzGfc85np0txo5z5eul1ZaQrZoKke+HsiiikyF2By2skYdpbbo2
- tSyoLP0wu0liqxXOmWnMVJyXOe0CXsoaGcuKeUNj2gXKlStSKa05Ar/93ud5frwf/hQu7CHC
- qIzMbFabqVBJSR7R0ikVrz2x6U9qTG1DJBopKwRoYnI8EJm6egNRzXc3QG9+ekhkeGQlUYGx
- gkAvL3zhoL62OyTyXukCSP/DSCLni21oMP8+ia7XlgJU+KiLg2bfNRBouq2M2BzEeFyFHMZu
- HOYwr3t/44zVoieZoXcPSWbk0jOMuXJxgmSuNlkA47WKd3FTeBvSWFVGLquNjj/CS2+vKgaa
- Ot6pybmrxHnQShUBLgXpddDV7uEUAR4lpNsBLDEXB/qLUHjD2Y0XAeofB8POTp1/8xVA93Ar
- 5tsE04nw/Wcz6StE9FMcWh0OzPfA6T4AW/U/Sb/SAuCQcwL4FJKWwSefXKSPBbQEvp1yz+d8
- Oh52/+olfN8RdCSc8ub54sX0AWivdGP+SRB8fmtsfsKl4+AvR6QvxumV8HfZa9zPIXBgzIT5
- eRm0fb2DF4Ng4wLbuEAxLlCMC5RyQFhAKKvRqZVqXawmNpM9Kdcp1LqcTKX8aJbaCuaPLVvV
- CmyWb/IOgFGgA0AKl4r4jpiZVCE/TZF3mtVmHdbmqFhdBwinCGkI33XCnCqklYps9jjLaljt
- /xajuGHnsbyCyNtJH7c0SmT3Lg9F719Sl5AdkJRrNqzp2cNWyTv7aiKer073hI8eapTYCjZ4
- JBrJbUZk608cVQ0mr+43nN2ZKAp34s66seVxR2TfKY1dcJDnnZzePicr2bep1IzlVpW2RSQv
- AjtsMUMlPfbuS7tHlKbyLSmLalI+VCrN13num03ILTYmxCsyVIJ8A0mIlYJx9ZlhyzVxwMYm
- pmLWYNe6qrYKwrk7o6IV67NMoWLw6il4MDlomT0mCtq7FBWaHAGfhTn1owEh/Hj5sRXeM3Np
- 2c1xYY/N5+5GFzfne+emUoMTHJdnyCh9jb6lOkI2ztVjWQN19dWD3VJCl66IleFaneIvbgKk
- 5FsDAAA=
-X-CMS-MailID: 20200702015913epcas1p3b00b299a3d73041a2d160e8b27288335
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPJsWRmVeSWpSXmKPExsWy7bCmrm567N84g0X/DSzuz2tltHj36Smr
+ xfwj51gtVn98zGhx5et7NovpezexWbTMWsRicbbpDbvF5V1z2Cw+9x5htOj8MovN4uIpV4vb
+ jSvYLCatncpo0br3CLvFv2sbWSx+7prH4iDo8f5GK7vHzll32T0unfvD7LFpVSebx51re9g8
+ 7ncfZ/LobX7H5tG3ZRWjx+dNcgGcUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6hpYW
+ 5koKeYm5qbZKLj4Bum6ZOUC/KCmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIKLAv0
+ ihNzi0vz0vWS83OtDA0MjEyBChOyM2Y072EqeCBYMXf2OqYGxql8XYycHBICJhJHzjxi6mLk
+ 4hAS2MEo0by/lRHC+cQo0b7vEZTzmVFi9totjDAtly+8YIZI7GKUmPZuCjtIQkjgPaPEh/MF
+ ILawQIzEpO4ZLCBFIgJHmCVWdx4HG8UscJlR4mzbFzaQKjYBLYn9L26A2fwCihJXfzwGW8Er
+ YCexunULK4jNIqAi0fD8EtgGUYEwiZPbWqBqBCVOznzCAmJzCphLrN+yGMxmFhCXuPVkPhOE
+ LS+x/e0csFMlBNo5JU6vP8MK8YOLxNxpV5khbGGJV8e3sEPYUhIv+9ug7GqJlSePsEE0dzBK
+ bNl/AarZWGL/0slAGziANmhKrN+lDxFWlNj5ey4jxGI+iXdfe1hBSiQEeCU62oQgSpQlLj+4
+ ywRhS0osbu9km8CoNAvJO7OQvDALyQuzEJYtYGRZxSiWWlCcm55abFhgjBzfmxjBKV3LfAfj
+ tLcf9A4xMnEwHmKU4GBWEuE9bfArTog3JbGyKrUoP76oNCe1+BCjKTCAJzJLiSbnA7NKXkm8
+ oamRsbGxhYmhmamhoZI4r6/VhTghgfTEktTs1NSC1CKYPiYOTqkGJk8T1qV9QYZ+fMpX4lPz
+ 1kTXzjSbs+bv3ynn87l5N/Qu1jVUv2TXO/N3wMR9W1wKXcw/ejw+0Hw+uvulrc2/tAoR57zN
+ 7z+FV7xVNQ/wV6qK/CLlL+zXq279ZoJ5q5Th1VMFLPse1fw6s8aL/Wx9ZuK5A6unPt3ZzP6x
+ dNexH4znpSNEl/ic/sG96qn9gvwNj/l+P+9wyhZZZ+x8JYCL8Tjb9oONbWcvxOrHOW2fHeY4
+ IXTHVO4/O7ibSqfrPltZ5/iS/+uaBOaTzWo+Hw693jJt9zaTzZu/uUQZMy85v7f24Gqn55/+
+ uFcaXZz2ZN3Tc5+Z8+8F8/1JTdo0f4/hwbsFnUnO67w59t1Z7LXhKp8SS3FGoqEWc1FxIgBk
+ GHfccgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsWy7bCSvG5a7N84gyMzzS3uz2tltHj36Smr
+ xfwj51gtVn98zGhx5et7NovpezexWbTMWsRicbbpDbvF5V1z2Cw+9x5htOj8MovN4uIpV4vb
+ jSvYLCatncpo0br3CLvFv2sbWSx+7prH4iDo8f5GK7vHzll32T0unfvD7LFpVSebx51re9g8
+ 7ncfZ/LobX7H5tG3ZRWjx+dNcgGcUVw2Kak5mWWpRfp2CVwZM5r3MBU8EKyYO3sdUwPjVL4u
+ Rk4OCQETicsXXjB3MXJxCAnsYJS4MbeZDSIhKTHt4lGgBAeQLSxx+HAxSFhI4C2jxI7DoiC2
+ sECMxKTuGSwgvSICx5glNp0+zQTiMAtcBirq/MoGMXUbo8S1X29ZQVrYBLQk9r+4AbaBX0BR
+ 4uqPx4wgNq+AncTq1i1gNSwCKhINzy+xg9iiAmESO5c8ZoKoEZQ4OfMJC4jNKWAusX7LYjCb
+ WUBd4s+8S8wQtrjErSfzmSBseYntb+cwT2AUnoWkfRaSlllIWmYhaVnAyLKKUTK1oDg3PbfY
+ sMAoL7Vcrzgxt7g0L10vOT93EyM4trW0djDuWfVB7xAjEwfjIUYJDmYlEd7TBr/ihHhTEiur
+ Uovy44tKc1KLDzFKc7AoifN+nbUwTkggPbEkNTs1tSC1CCbLxMEp1cCkxNAkkT6zc9XpY5I3
+ LAU0WFhFnlvEVesIsn76c3xj5VqVKZu2FUxy+LHOLTeOL0ZOI+3C1kTxinKX3p0/ZmUsCzjK
+ E73/xe6dV6N7XjE9yez9u+N7n+zf1pXrpZufbOoQO7bVTmW9oddH3TWpjSnPl0XZFhZvnhK2
+ /fvUKcHH2+a/aiuQfORX7VhXevj58psla/Vq2J9ckJKbF1ewep3qAt9DMgstOOdJMDK7ng9f
+ 25gZZ+lQo8jYNdXOaePFQm4PhZ4dTWl7zzCl5xRs6E76sTg1cXbMhj6Dg1GxG1sP7rUojJX2
+ +60aopcaeP/o1KdGXx/mzw+eH3Iz8rXU0Rd56n7LosR07za8jeYpZVBiKc5INNRiLipOBACK
+ Lp0uXAMAAA==
+X-CMS-MailID: 20200702040703epcas1p3f8b2c6f5a3a9c49ce121659d0de215bd
 X-Msg-Generator: CA
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200609131659epcas1p25e50d1a206229fefa3425740a476c989
+X-CMS-RootMailID: 20200609131458epcas1p2c774a0302bcef2c02790c2cb8cad57a0
 References: <20200609131404.17523-1-digetx@gmail.com>
- <CGME20200609131659epcas1p25e50d1a206229fefa3425740a476c989@epcas1p2.samsung.com>
- <20200609131404.17523-18-digetx@gmail.com>
+ <CGME20200609131458epcas1p2c774a0302bcef2c02790c2cb8cad57a0@epcas1p2.samsung.com>
+ <20200609131404.17523-13-digetx@gmail.com>
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -136,37 +137,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry,
+
 On 6/9/20 10:13 PM, Dmitry Osipenko wrote:
-> The Tegra EMC driver now could be compiled as a loadable kernel module.
-> Currently devfreq driver depends on the EMC/MC drivers in Kconfig, and
-> thus, devfreq is forced to be a kernel module if EMC is compiled as a
-> module. This build dependency could be relaxed since devfreq driver
-> checks MC/EMC presence on probe, allowing kernel configuration where
-> devfreq is a built-in driver and EMC driver is a loadable module.
-> This change puts Tegra20 devfreq Kconfig entry on a par with the Tegra30
-> devfreq entry.
+> The clk_round_rate() won't be usable for building OPP table once
+> interconnect support will be added to the EMC driver because that CLK API
+> function limits the rounded rate based on the clk rate that is imposed by
+> active clk-users, and thus, the rounding won't work as expected if
+> interconnect will set the minimum EMC clock rate before devfreq driver is
+> loaded. The struct tegra_mc contains memory timings which could be used by
+> the devfreq driver for building up OPP table instead of rounding clock
+> rate, this patch implements this idea.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/devfreq/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/devfreq/tegra20-devfreq.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
-> index 37dc40d1fcfb..0ee36ae2fa79 100644
-> --- a/drivers/devfreq/Kconfig
-> +++ b/drivers/devfreq/Kconfig
-> @@ -123,7 +123,7 @@ config ARM_TEGRA_DEVFREQ
+> diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
+> index 6469dc69c5e0..bf504ca4dea2 100644
+> --- a/drivers/devfreq/tegra20-devfreq.c
+> +++ b/drivers/devfreq/tegra20-devfreq.c
+> @@ -123,8 +123,7 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  {
+>  	struct tegra_devfreq *tegra;
+>  	struct tegra_mc *mc;
+> -	unsigned long max_rate;
+> -	unsigned long rate;
+> +	unsigned int i;
+>  	int err;
 >  
->  config ARM_TEGRA20_DEVFREQ
->  	tristate "NVIDIA Tegra20 DEVFREQ Driver"
-> -	depends on (TEGRA_MC && TEGRA20_EMC) || COMPILE_TEST
-> +	depends on ARCH_TEGRA_2x_SOC || COMPILE_TEST
->  	depends on COMMON_CLK
->  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
->  	help
+>  	mc = tegra_get_memory_controller();
+> @@ -151,12 +150,17 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  
+>  	tegra->regs = mc->regs;
+>  
+> -	max_rate = clk_round_rate(tegra->emc_clock, ULONG_MAX);
+> -
+> -	for (rate = 0; rate <= max_rate; rate++) {
+> -		rate = clk_round_rate(tegra->emc_clock, rate);
+> +	if (!mc->num_timings) {
+
+Could you explain what is meaning of 'num_timing?
+Also, why add the opp entry in case of mc->num_timings is zero?
+
+> +		err = dev_pm_opp_add(&pdev->dev,
+> +				     clk_get_rate(tegra->emc_clock), 0);
+> +		if (err) {
+> +			dev_err(&pdev->dev, "failed to add OPP: %d\n", err);
+> +			return err;
+> +		}
+> +	}
+>  
+> -		err = dev_pm_opp_add(&pdev->dev, rate, 0);
+> +	for (i = 0; i < mc->num_timings; i++) {
+> +		err = dev_pm_opp_add(&pdev->dev, mc->timings[i].rate, 0);
+>  		if (err) {
+>  			dev_err(&pdev->dev, "failed to add opp: %d\n", err);
+>  			goto remove_opps;
 > 
 
-Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
 
 -- 
 Best Regards,
