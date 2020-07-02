@@ -1,36 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A335212592
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 16:07:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A32F2125ED
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 16:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 863826E037;
-	Thu,  2 Jul 2020 14:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CDA6E0AD;
+	Thu,  2 Jul 2020 14:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F19DD6E037
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:07:30 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B7A64ADAA;
- Thu,  2 Jul 2020 14:07:29 +0000 (UTC)
-Subject: Re: [PATCH] drm/hisilicon: Use drmm_kzalloc() instead of
- devm_kzalloc()
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, kraxel@redhat.com, alexander.deucher@amd.com,
- tglx@linutronix.de, dri-devel@lists.freedesktop.org,
- xinliang.liu@linaro.org, linux-kernel@vger.kernel.org, inuxarm@huawei.com
-References: <1593652914-19639-1-git-send-email-tiantao6@hisilicon.com>
- <20200702131617.GY3278063@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ae16cab6-1cb9-b7c2-81b6-eb81bf77bfb7@suse.de>
-Date: Thu, 2 Jul 2020 16:07:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B35036E0AD
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:15:55 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id d4so24259336otk.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jul 2020 07:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9A7iY5vgoWTo7GNwa7G63eYFYvMacp50tlztFrDTtic=;
+ b=MTS+DY37g24tK3D8pt2+U8KwQfmhQUXnYI74XgJj3V7kT/uYoUcT9IrsWGpHBoagcY
+ qP2mCi82Yr4+2GBLslXn0mA3qDebBbuA63m8UPq5VJHYK3Q8yc9JNsMerUbq8w2R5vHy
+ O0M9Xm4Ek/saTssTVrfAmwSbCKdT4MYzVS3Uo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9A7iY5vgoWTo7GNwa7G63eYFYvMacp50tlztFrDTtic=;
+ b=d65x5xwQMM8MwrH8IqHTo8nJxiZu6lDh6T7jcyhY8CD4IosIJr1TqsNMRsOAYIQKOn
+ Ry2gnQVL1RzS4omtjYlOwDtJWF899AizVaET6MjrOTxy7mWmj6v5EaSuu85Kwg4xwxa0
+ uEU/L+WhIHqEEgfNYs1l6QRWu9TOOSpMCd876EwxsMaNgVtQQXHaTY9v1iGSBvrVtuUt
+ tPGR8tPeUmQ4LTxzT19eTPOhrLpZ8LLXrSqEvll0XU8iBaAsOtuH2H6kNNzW25p+no0I
+ xgK3oTiy0b85s7+h9Y/IUb82oqOwb7TFD2cGCuHclxvb9ST7MfJ5sLTaiAcMpyilAwbq
+ 49lg==
+X-Gm-Message-State: AOAM530scDk8Aj1qXVYDDXCShlwA88jZ6eauy/IG/UdWemHmGx9B3Oty
+ 1zDdXsCwkDH4SqFtpoODREHqBGnSsQzehCRJ6jNmlw==
+X-Google-Smtp-Source: ABdhPJwaoRuELQ86SMBX24OJmZreO2Szy92aZ3dQsxrJRTUi1P616DpufT08jo7MpSCeSJZoPYNU7WeJQ7wwc5qWVOE=
+X-Received: by 2002:a05:6830:1d0:: with SMTP id
+ r16mr15024239ota.188.1593699355009; 
+ Thu, 02 Jul 2020 07:15:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200702131617.GY3278063@phenom.ffwll.local>
+References: <20200702074759.32356-1-narmstrong@baylibre.com>
+ <20200702074759.32356-2-narmstrong@baylibre.com>
+ <8cBfZpkc4pHBLhihlvJMD_Hq1DEsNRcSY4Y8JaGwklMWcxiYzUMVEx7wH9f_DuCBMVUhXvOR0PcHVslILtKI2wdw79Nfih0N3VnrxfMQd08=@emersion.fr>
+ <20200702131834.GZ3278063@phenom.ffwll.local>
+ <044964ad-b927-57d7-9361-beda5c8d99a8@baylibre.com>
+In-Reply-To: <044964ad-b927-57d7-9361-beda5c8d99a8@baylibre.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 2 Jul 2020 16:15:44 +0200
+Message-ID: <CAKMK7uHa4ajC5_SA_fFUhB-Amxcbt7T9UZ+pvRhqDeUeX9Ez6A@mail.gmail.com>
+Subject: Re: [PATCH v8 1/6] drm/fourcc: Add modifier definitions for
+ describing Amlogic Video Framebuffer Compression
+To: Neil Armstrong <narmstrong@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,134 +63,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0242938297=="
+Cc: "jianxin.pan@amlogic.com" <jianxin.pan@amlogic.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0242938297==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="IQNS5Lgj5hD7NbGynnevIaPaxKrc2MxkO"
+On Thu, Jul 2, 2020 at 3:34 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> On 02/07/2020 15:18, Daniel Vetter wrote:
+> > On Thu, Jul 02, 2020 at 09:23:11AM +0000, Simon Ser wrote:
+> >> On Thursday, July 2, 2020 9:47 AM, Neil Armstrong <narmstrong@baylibre.com> wrote:
+> >>
+> >>> Finally is also adds the Scatter Memory layout, meaning the header contains IOMMU
+> >>> references to the compressed frames content to optimize memory access
+> >>> and layout.
+> >>>
+> >>> In this mode, only the header memory address is needed, thus the content
+> >>> memory organization is tied to the current producer execution and cannot
+> >>> be saved/dumped neither transferrable between Amlogic SoCs supporting this
+> >>> modifier.
+> >>
+> >> Still not sure how to handle this one, since this breaks fundamental
+> >> assumptions about modifiers.
+> >
+> > I wonder whether we should require special allocations for these, and then
+> > just outright reject mmap on these buffers. mmap on dma-buf isn't a
+> > required feature.
+>
+> Yes, it's the plan to reject mmap on these buffers, but it can't be explained
+> in the modifiers description and it's a requirement of the producer, not the
+> consumer.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IQNS5Lgj5hD7NbGynnevIaPaxKrc2MxkO
-Content-Type: multipart/mixed; boundary="c4VxCKalZJooM6U7Zw6IO46gjXHN6CXHI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, kraxel@redhat.com, alexander.deucher@amd.com,
- tglx@linutronix.de, dri-devel@lists.freedesktop.org,
- xinliang.liu@linaro.org, linux-kernel@vger.kernel.org, inuxarm@huawei.com
-Message-ID: <ae16cab6-1cb9-b7c2-81b6-eb81bf77bfb7@suse.de>
-Subject: Re: [PATCH] drm/hisilicon: Use drmm_kzalloc() instead of
- devm_kzalloc()
-References: <1593652914-19639-1-git-send-email-tiantao6@hisilicon.com>
- <20200702131617.GY3278063@phenom.ffwll.local>
-In-Reply-To: <20200702131617.GY3278063@phenom.ffwll.local>
+Hm I think worth to add that as a note to the modifier. Just to make
+sure. And avoids questions like the one from Simon.
+-Daniel
 
---c4VxCKalZJooM6U7Zw6IO46gjXHN6CXHI
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Daniel
-
-Am 02.07.20 um 15:16 schrieb Daniel Vetter:
-> On Thu, Jul 02, 2020 at 09:21:54AM +0800, Tian Tao wrote:
->> using the new API drmm_kzalloc() instead of devm_kzalloc()
->>
->> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
->> ---
->>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers=
-/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->> index a6fd0c2..2f20704 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->> @@ -23,6 +23,7 @@
->>  #include <drm/drm_print.h>
->>  #include <drm/drm_probe_helper.h>
->>  #include <drm/drm_vblank.h>
->> +#include <drm/drm_managed.h>
->> =20
->>  #include "hibmc_drm_drv.h"
->>  #include "hibmc_drm_regs.h"
->> @@ -267,7 +268,7 @@ static int hibmc_load(struct drm_device *dev)
->>  	struct hibmc_drm_private *priv;
->>  	int ret;
->> =20
->> -	priv =3D devm_kzalloc(dev->dev, sizeof(*priv), GFP_KERNEL);
->> +	priv =3D drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->=20
-> Hm would be nice if hisilicon could entirely switch over to embedding, =
-and
-> stop using the driver private pointer. Quite a bit more work though. As=
--is
-> this change here isn't really brining you closer to that, pretty much a=
-ll
-> the lifetime bugs around hotunload are still there.
-
-Well, it's a first step. The follow-up patch for embedding connector and
-encoder removes more instances of devm_kzalloc().
-
-Although I have to say, I'd rather review a longer patch series that
-fully addresses the problem, instead the current one-by-one approach.
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>  	if (!priv) {
->>  		DRM_ERROR("no memory to allocate for hibmc_drm_private\n");
->>  		return -ENOMEM;
->> --=20
->> 2.7.4
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
+> >
+> > That would make sure that userspace cannot look at them.
+> >
+> > Also I'm kinda suspecting that there's not unlimited amounts of this magic
+> > invisible storage available anyway.
+> > -Daniel
+> >
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 
---c4VxCKalZJooM6U7Zw6IO46gjXHN6CXHI--
 
---IQNS5Lgj5hD7NbGynnevIaPaxKrc2MxkO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl796h0UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMxgAf/Y6N6+WPdzEC1+R9KNYFQVb9OQUxO
-26E4t+xaXRsT3YHdjP3N6T2J+NA94IWoJqqCemYpIXc3j7gamS/D0YEcfeNRQqkw
-hzZjcqENDitaOrbJhn4SQBQc774xfu5TrfZpiz3HP4yIapJNS9HL6bmbUtnGbQqK
-cuC+eYoftScnvsXJr6y6H/EIVwIW3tpcQTlOtzn3oHiYZUrid2tnN66bL/5ud3+T
-fhHkwKJjLzsssPdooToPOg7zJmcYYOOAg9eJHzdalZqzMOcKzW9TK/kZYsvUJHky
-XG1tgQtBL4ytdAPC3Bqo49MA/08b/ztACv5PJj/syQDjJlwCpmxnefrQtw==
-=NxIC
------END PGP SIGNATURE-----
-
---IQNS5Lgj5hD7NbGynnevIaPaxKrc2MxkO--
-
---===============0242938297==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0242938297==--
