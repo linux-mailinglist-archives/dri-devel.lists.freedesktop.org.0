@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240542135FD
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 10:12:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C802135ED
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 10:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1485A6EB4C;
-	Fri,  3 Jul 2020 08:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F6B26EB1A;
+	Fri,  3 Jul 2020 08:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
- [IPv6:2607:f8b0:4864:20::941])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9114B6E213
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 10:19:41 +0000 (UTC)
-Received: by mail-ua1-x941.google.com with SMTP id l12so4004632uak.7
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jul 2020 03:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4U7pwdobnpXo2+wodK7ksalwXz6Csu9FNbhdoHm2mYM=;
- b=XMx/fc3xmJqXwVmTNjgMsBz83N0C2Kq3cIcO/pJWjkhn7tOUwBn61bA4t7caSbjr5I
- dAoMZyZV68ybxMK5Dx8DFoKV3BaQ7/Ot699//UXl4XINrvz9z6/cXIcdLw+KRcorqTWK
- /APWX4fp1ugr4nQN1i3vMDdfjC4Hz+SFcGfzSNjARGAqMHNjEKTZTHGWnt3yphz2P1Js
- OeXra52huDYRiUEiIq8vbwl1W4nu9WvZ9dmApJe8I76Dl9I3sQXfCJsfh5DoJBMWchqh
- v5XwC4e1U66nUFk0IY1mNlZ870ZSYK42CMJsatPe9nEwETUpb8hcTVFFI2TdXIopVPzA
- NF8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4U7pwdobnpXo2+wodK7ksalwXz6Csu9FNbhdoHm2mYM=;
- b=JPcK7EjDycKDtaHbCLC3Xd8o5pnmykC9Znl5TO3R6OdcoySxM8P+hGEATEBpnfk7Zd
- ZlwBaCsp/eItGnc8hjGqZXIL2sp7NEApdM7lcMcR80yTQIULyA5ZHAdL2zglQXzcLXJu
- c+6RKsJzqgNZvxLlMfdiJFw8xIWwk6Rr5gzqZR1YQtBZ4frb1+8MrTx3biBEwlB5YvUt
- 4RwdH04m7BRw6ytYk6wgTkSFi+S6AqxxjWTQQ4zdfyS8JRdZuMG9yTUAfjqJxolC5tht
- usJvnBzEUulqa0i29b1bnx9bZvJI7J4o2k/gqNcjK95i3mCSpy9NM0AB3NmbQhZ4dZtT
- 4F8A==
-X-Gm-Message-State: AOAM533DZcxyOva6HD+fdJMowpPHNmy8muIbdrpikg3+O6gCmADEqK0o
- 2w3DBcxKQd3KMSbf2A/zvHGo+mN1azjrd6SPIPE=
-X-Google-Smtp-Source: ABdhPJwMf/Kv5n2Q9kIIKesJRBtlUU5WcGzuyUHA2ORibg+smZ2ST2LjLE1roKk1U7HOvOfOfzx5ebAkOEZSoX7OhRQ=
-X-Received: by 2002:ab0:2a46:: with SMTP id p6mr4105124uar.88.1593685180856;
- Thu, 02 Jul 2020 03:19:40 -0700 (PDT)
+X-Greylist: delayed 577 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Jul 2020 11:03:03 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 721656E038
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 11:03:03 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 49yFLr39hkz1rVw0;
+ Thu,  2 Jul 2020 12:53:24 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 49yFLr2C48z1qw71;
+ Thu,  2 Jul 2020 12:53:24 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id XE8f4teyIOH6; Thu,  2 Jul 2020 12:53:22 +0200 (CEST)
+X-Auth-Info: BxUsMb4hTCTIOASkHZPedF6xg2xeCtGU7rA2aRGZqFc=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Thu,  2 Jul 2020 12:53:22 +0200 (CEST)
+Subject: Re: [PATCH] drm/stm: repair runtime power management
+To: Philippe CORNU <philippe.cornu@st.com>,
+ Yannick FERTRE <yannick.fertre@st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20200229221649.90813-1-marex@denx.de>
+ <a30ad5a774004221903292871797607a@SFHDAG6NODE1.st.com>
+ <64ea7f77-0a0b-ae3a-2911-5fdc8633255e@denx.de>
+ <68f47008-f0ed-384c-7e21-f29b444da3ee@st.com>
+ <3121f339-c513-f75d-569e-81c5c0f3cd1a@st.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <a35217e6-21ce-6d36-c1bb-9e057ae35be1@denx.de>
+Date: Thu, 2 Jul 2020 12:53:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200702091810.4999-1-weiyongjun1@huawei.com>
-In-Reply-To: <20200702091810.4999-1-weiyongjun1@huawei.com>
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Date: Thu, 2 Jul 2020 15:48:01 +0530
-Message-ID: <CAP+cEOM1tExZzxnkdtX9w2ZyPoFTJ+JxQw+q=ErWM1JJJc8w7Q@mail.gmail.com>
-Subject: Re: [PATCH net-next] ksz884x: mark pcidev_suspend() as __maybe_unused
-To: Wei Yongjun <weiyongjun1@huawei.com>
+In-Reply-To: <3121f339-c513-f75d-569e-81c5c0f3cd1a@st.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 03 Jul 2020 08:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,52 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Nikolay Aleksandrov <nikolay@cumulusnetworks.com>, netdev@vger.kernel.org,
- Julian Wiedmann <jwi@linux.ibm.com>, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Hulk Robot <hulkci@huawei.com>,
- Jakub Kicinski <kuba@kernel.org>, Shannon Nelson <snelson@pensando.io>,
- zhong jiang <zhongjiang@huawei.com>, linux-media@vger.kernel.org
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Vincent ABRIOU <vincent.abriou@st.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Alexandre TORGUE <alexandre.torgue@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 2, 2020 at 2:38 PM Wei Yongjun <weiyongjun1@huawei.com> wrote:
->
-> In certain configurations without power management support, gcc report
-> the following warning:
->
-> drivers/net/ethernet/micrel/ksz884x.c:7182:12: warning:
->  'pcidev_suspend' defined but not used [-Wunused-function]
->  7182 | static int pcidev_suspend(struct device *dev_d)
->       |            ^~~~~~~~~~~~~~
->
-> Mark pcidev_suspend() as __maybe_unused to make it clear.
->
-> Fixes: 64120615d140 ("ksz884x: use generic power management")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
-> ---
->  drivers/net/ethernet/micrel/ksz884x.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/net/ethernet/micrel/ksz884x.c b/drivers/net/ethernet/micrel/ksz884x.c
-> index 24901342ecc0..2ce7304d3753 100644
-> --- a/drivers/net/ethernet/micrel/ksz884x.c
-> +++ b/drivers/net/ethernet/micrel/ksz884x.c
-> @@ -7179,7 +7179,7 @@ static int __maybe_unused pcidev_resume(struct device *dev_d)
->         return 0;
->  }
->
-> -static int pcidev_suspend(struct device *dev_d)
-> +static int __maybe_unused pcidev_suspend(struct device *dev_d)
->  {
->         int i;
->         struct platform_info *info = dev_get_drvdata(dev_d);
->
-This is a necessary fix. Thanks !
---Vaibhav Gupta
+On 7/2/20 12:07 PM, Philippe CORNU wrote:
+
+Hi,
+
+[...]
+
+>>>> Thank for your patch. Pm_runtime_put_sync is also done into function ltdc_crtc_mode_fixup.
+>>>> To avoid several call of Pm_runtime_put_sync, it could be better to check pm_runtime activity:
+>>>>
+>>>> +	int ret;
+>>>>    
+>>>>    	DRM_DEBUG_DRIVER("\n");
+>>>>    
+>>>> +	if (!pm_runtime_active(ddev->dev)) {
+>>>> +		ret = pm_runtime_get_sync(ddev->dev);
+>>>> +		if (ret) {
+>>>> +			DRM_ERROR("Failed to enable crtc, cannot get sync\n");
+>>>> +			return;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>
+>>> Where should this go ? And wouldn't that only hide nastier PM imbalance
+>>> issues ?
+>> Hi Marek,
+>> I tested the patch &  it generate an error when I try wake up / sleep
+>> the board STM32MP1 DK2 with weston application.
+>> It need an additional patch
+>> drm-stm-ltdc-remove-call-of-pm-runtime-functions.
+>>
+>> Thanks for the patch.
+>>
+>> Tested-by: Yannick Fertre <yannick.fertre@st.com>
+>>
+> 
+> Hi Marek,
+> before merging the 2 patches, I would like to be sure that Yannick's 
+> patch does not "break" your use case (Qt I think)?
+> May I ask you please to give it a try?
+> Note: If you think there is no need to do extra checks, simply tell me 
+> of course
+It's fine, thanks !
+
+-- 
+Best regards,
+Marek Vasut
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
