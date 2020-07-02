@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744082117BA
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:23:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD2A2117BC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 610B66EA39;
-	Thu,  2 Jul 2020 01:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7BD6EA3E;
+	Thu,  2 Jul 2020 01:23:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95D116EA39
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:23:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC946EA3B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:23:37 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CA05920885;
- Thu,  2 Jul 2020 01:23:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DE7212088E;
+ Thu,  2 Jul 2020 01:23:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593653016;
- bh=aLKc2SmUfn8SIjJJkUSZ8J7RkjL7/t9i+FwVY1Z71rM=;
+ s=default; t=1593653017;
+ bh=YTaFIXKUgmcdP1e9IE1EuXcT+y6FsRB2iZKzwevw40I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QimUm+gRXX0PT1bE9/5JKenWEs4ZB/uZmFrdhA8QgmsW+T+3SryKeLJOieJubU8Q6
- /IlR5a8ie44j/xAYxFcJO4IrU4hp51HL9AnZKpV/7qRP+MMBo7o9PgRLMsmmLsyR/m
- iSuNCOOcTgc2ulVG0j8WYWqlSCC8hLKH/oVfKyN0=
+ b=SFE+0cW5RBNlPt8/ttmNZhznXFnqv/ynMlpUqZTnr1AglOFUZaDkKpdVSiBjjV0CU
+ JhHtnSUuYOl2B31rWtemc9tBoCcbQ6nUo98GLFZJHXShbidS0tlaCeh6GzSsQtsF5y
+ D3gWAVZDG72s8kLjUSamgGYBT5ZhQ+FX0KH6m8Tw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 33/53] drm: panel-orientation-quirks: Add quirk
- for Asus T101HA panel
-Date: Wed,  1 Jul 2020 21:21:42 -0400
-Message-Id: <20200702012202.2700645-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 34/53] drm: panel-orientation-quirks: Use generic
+ orientation-data for Acer S1003
+Date: Wed,  1 Jul 2020 21:21:43 -0400
+Message-Id: <20200702012202.2700645-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702012202.2700645-1-sashal@kernel.org>
 References: <20200702012202.2700645-1-sashal@kernel.org>
@@ -59,37 +59,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 6c22bc18a3b93a38018844636557ad02e588e055 ]
+[ Upstream commit a05caf9e62a85d12da27e814ac13195f4683f21c ]
 
-Like the Asus T100HA the Asus T101HA also uses a panel which has been
-mounted 90 degrees rotated, albeit in the opposite direction.
-Add a quirk for this.
+The Acer S1003 has proper DMI strings for sys-vendor and product-name,
+so we do not need to match by BIOS-date.
+
+This means that the Acer S1003 can use the generic lcd800x1280_rightside_up
+drm_dmi_panel_orientation_data struct which is also used by other quirks.
 
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200531093025.28050-1-hdegoede@redhat.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20200531093025.28050-2-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index ffd95bfeaa94c..d11d83703931e 100644
+index d11d83703931e..d00ea384dcbfe 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -121,6 +121,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100HAN"),
+@@ -30,12 +30,6 @@ struct drm_dmi_panel_orientation_data {
+ 	int orientation;
+ };
+ 
+-static const struct drm_dmi_panel_orientation_data acer_s1003 = {
+-	.width = 800,
+-	.height = 1280,
+-	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+-};
+-
+ static const struct drm_dmi_panel_orientation_data asus_t100ha = {
+ 	.width = 800,
+ 	.height = 1280,
+@@ -114,7 +108,7 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
  		},
- 		.driver_data = (void *)&asus_t100ha,
-+	}, {	/* Asus T101HA */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T101HA"),
-+		},
+-		.driver_data = (void *)&acer_s1003,
 +		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* GPD MicroPC (generic strings, also match on bios date) */
+ 	}, {	/* Asus T100HA */
  		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
 -- 
 2.25.1
 
