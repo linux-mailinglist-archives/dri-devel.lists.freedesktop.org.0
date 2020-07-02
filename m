@@ -1,63 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFE221245F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 15:16:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 386C8212468
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 15:18:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1116E073;
-	Thu,  2 Jul 2020 13:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D9A76E98D;
+	Thu,  2 Jul 2020 13:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4486E073
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 13:16:22 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s10so28267597wrw.12
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jul 2020 06:16:22 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7726E98D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 13:18:39 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a6so20494778wmm.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jul 2020 06:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=nC8Lz2S3EJ6vZ8/1nqOq5YPWNqhdwapmW7150qhoX70=;
- b=aZmuATkxN/T6ldpfVP9oIFv/9MPvKQJaWmFWtXeCizxERJyB0kmerR8d9J/2QG92gR
- wFf/e3ARMhNbdik7W71HDtbl9Tokf8XkywH1oQWJVsk0yHWffMp0jWt4PLuE9YJXoiGV
- NMb+oJ3sXAXjczCrTHPemuNtyUbfJCqlQSN4U=
+ bh=Cuvm4PH9ymZejClh9/IRJruxX3XybrluMfPe5pcP0ik=;
+ b=eGu8Bzdjv2Xqb78qCTzwgtJgVA38HsDO3DGT9ZmJH3Q+H8c4RcNNutL98+WSuTQbu9
+ KEsOqEyXvy5AJTLhH7zsr6WVXJ/2xkTTcxjU/AKDadOCUJ+MfKid0+RVbgqG9/2wBZ0l
+ 4Cy9lOPEBPLmQ33W40GnOmEgKAZ8Mt8Y5cXII=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=nC8Lz2S3EJ6vZ8/1nqOq5YPWNqhdwapmW7150qhoX70=;
- b=XPgFvR/VCtdU1GLMbZUyxs83K9Gu/GrbbDRGdxyMdDYu1483CDZwwJHeW2mm8aNnIx
- ZhnFevFhxWWUZVPYKRfuqogihewC96sRlQD7f1tfqRGW3703/Bsh1oNH+g+pME2YTOum
- 2Zgd/Nz2t2d4a/lmwRpvv4cQM3lwFdJxDhjd1PR99LhctQb0X7nSchjT2ousKzjjZ9l7
- AP7B+Ks/hbVp7zkXercMEazfa5EHWsYR4hsjg+NERszdRpKNk4Lp4UnXSbSJAbTeLrW0
- dnTr5IxXtgC+xjm0v0fVbeAxgYSP+SpCDtyCSCFhuPkN6vmZYZ7zvWrWdw81kKnTixnW
- GhPw==
-X-Gm-Message-State: AOAM533YN6V70tlxBFE6uXEGxfofvl+M+hwswr+USAIAPRDZm5VMft5P
- ZujVfbwrn/+/BtOqelna3A4mrQ==
-X-Google-Smtp-Source: ABdhPJzOcOeKpBUEH4Z3UMS97wgUix2XhD4klj7oKwRt/2qndlfGdZO7UwA9Ri3x6xavOubdbiZTbw==
-X-Received: by 2002:adf:fd46:: with SMTP id h6mr9845741wrs.105.1593695780741; 
- Thu, 02 Jul 2020 06:16:20 -0700 (PDT)
+ bh=Cuvm4PH9ymZejClh9/IRJruxX3XybrluMfPe5pcP0ik=;
+ b=qy+3EjlnvblEnKjRhoT2fzZFT8kiEODQLcL/xVJFfalvM0dY4bZrXdFL1uj/81rZRU
+ R/fsAb7+FEPsQQ9wCx6OKS3KTDTgMYDiTgx9kng+Jmb1bBpILTdA8h7F64kHT8zE3n29
+ pJaHXNkkH1XODp90NFU0WNdNZrEIPgSko654sr4nd/h+1vr8kf+KonfHQv6LyNcGbGMg
+ WNSP4dv8OuAbh+sVc2myOMFu7eVivDKwcxtl0vlw+QyDFTeQ3pIfWTJAHWt421Dw0sm3
+ uBGKPeeOBkXcikbjwcMujyLx33XBLiORMwqqF6+cGJC6wZZ1u58pEDbRzvpmcvAPqqNe
+ I5Ng==
+X-Gm-Message-State: AOAM5300PHgk89y4HjHANgmRsx6NU8sg4gqGekAEM15Nn1w54DxJGmIh
+ 8STfoaIn6vnHL41VkQ1eWy0zpA==
+X-Google-Smtp-Source: ABdhPJws7m0llQgCQ3WJpZXwOAgYwXtJKDNub/jxlHaBemJ1pVcESAzqOIr1Y2qhVoHzQpn8e5986g==
+X-Received: by 2002:a1c:2183:: with SMTP id h125mr33648435wmh.83.1593695917752; 
+ Thu, 02 Jul 2020 06:18:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e23sm10144322wme.35.2020.07.02.06.16.19
+ by smtp.gmail.com with ESMTPSA id v5sm10646766wre.87.2020.07.02.06.18.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jul 2020 06:16:19 -0700 (PDT)
-Date: Thu, 2 Jul 2020 15:16:17 +0200
+ Thu, 02 Jul 2020 06:18:36 -0700 (PDT)
+Date: Thu, 2 Jul 2020 15:18:34 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] drm/hisilicon: Use drmm_kzalloc() instead of
- devm_kzalloc()
-Message-ID: <20200702131617.GY3278063@phenom.ffwll.local>
-Mail-Followup-To: Tian Tao <tiantao6@hisilicon.com>,
- puck.chen@hisilicon.com, airlied@linux.ie, tzimmermann@suse.de,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org, inuxarm@huawei.com
-References: <1593652914-19639-1-git-send-email-tiantao6@hisilicon.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v8 1/6] drm/fourcc: Add modifier definitions for
+ describing Amlogic Video Framebuffer Compression
+Message-ID: <20200702131834.GZ3278063@phenom.ffwll.local>
+Mail-Followup-To: Simon Ser <contact@emersion.fr>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "jianxin.pan@amlogic.com" <jianxin.pan@amlogic.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20200702074759.32356-1-narmstrong@baylibre.com>
+ <20200702074759.32356-2-narmstrong@baylibre.com>
+ <8cBfZpkc4pHBLhihlvJMD_Hq1DEsNRcSY4Y8JaGwklMWcxiYzUMVEx7wH9f_DuCBMVUhXvOR0PcHVslILtKI2wdw79Nfih0N3VnrxfMQd08=@emersion.fr>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1593652914-19639-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <8cBfZpkc4pHBLhihlvJMD_Hq1DEsNRcSY4Y8JaGwklMWcxiYzUMVEx7wH9f_DuCBMVUhXvOR0PcHVslILtKI2wdw79Nfih0N3VnrxfMQd08=@emersion.fr>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,55 +76,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, puck.chen@hisilicon.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org, kraxel@redhat.com,
- tzimmermann@suse.de, alexander.deucher@amd.com, tglx@linutronix.de,
- inuxarm@huawei.com
+Cc: "jianxin.pan@amlogic.com" <jianxin.pan@amlogic.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 02, 2020 at 09:21:54AM +0800, Tian Tao wrote:
-> using the new API drmm_kzalloc() instead of devm_kzalloc()
+On Thu, Jul 02, 2020 at 09:23:11AM +0000, Simon Ser wrote:
+> On Thursday, July 2, 2020 9:47 AM, Neil Armstrong <narmstrong@baylibre.com> wrote:
 > 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> > Finally is also adds the Scatter Memory layout, meaning the header contains IOMMU
+> > references to the compressed frames content to optimize memory access
+> > and layout.
+> >
+> > In this mode, only the header memory address is needed, thus the content
+> > memory organization is tied to the current producer execution and cannot
+> > be saved/dumped neither transferrable between Amlogic SoCs supporting this
+> > modifier.
 > 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index a6fd0c2..2f20704 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -23,6 +23,7 @@
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_vblank.h>
-> +#include <drm/drm_managed.h>
->  
->  #include "hibmc_drm_drv.h"
->  #include "hibmc_drm_regs.h"
-> @@ -267,7 +268,7 @@ static int hibmc_load(struct drm_device *dev)
->  	struct hibmc_drm_private *priv;
->  	int ret;
->  
-> -	priv = devm_kzalloc(dev->dev, sizeof(*priv), GFP_KERNEL);
-> +	priv = drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> Still not sure how to handle this one, since this breaks fundamental
+> assumptions about modifiers.
 
-Hm would be nice if hisilicon could entirely switch over to embedding, and
-stop using the driver private pointer. Quite a bit more work though. As-is
-this change here isn't really brining you closer to that, pretty much all
-the lifetime bugs around hotunload are still there.
+I wonder whether we should require special allocations for these, and then
+just outright reject mmap on these buffers. mmap on dma-buf isn't a
+required feature.
+
+That would make sure that userspace cannot look at them.
+
+Also I'm kinda suspecting that there's not unlimited amounts of this magic
+invisible storage available anyway.
 -Daniel
-
->  	if (!priv) {
->  		DRM_ERROR("no memory to allocate for hibmc_drm_private\n");
->  		return -ENOMEM;
-> -- 
-> 2.7.4
-> 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
