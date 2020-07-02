@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EC92117B6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:23:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 744082117BA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:23:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE1796EA37;
-	Thu,  2 Jul 2020 01:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 610B66EA39;
+	Thu,  2 Jul 2020 01:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54A26EA37
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:23:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D116EA39
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:23:36 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 24F272085B;
- Thu,  2 Jul 2020 01:23:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CA05920885;
+ Thu,  2 Jul 2020 01:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593652990;
- bh=RE38XazNYCwzs9eu9smfOGnUknFmGMxPfCedVsBQs2U=;
+ s=default; t=1593653016;
+ bh=aLKc2SmUfn8SIjJJkUSZ8J7RkjL7/t9i+FwVY1Z71rM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sOyXRqU6oVghyN/Yq3Pef1bJsItqTZRNe79SJ6M+SUs9pILRnyn9KTwYXaEAEr+5p
- H54yetBa/gOwzSJcFUY8n8Jvtb0EQ9eHNHsDuESu3boZOrrXmw2o32sJVlsc0AVE85
- aKPwhikx28eVPysWNY2XZ7lIcxqhkXcAhVWlKYDY=
+ b=QimUm+gRXX0PT1bE9/5JKenWEs4ZB/uZmFrdhA8QgmsW+T+3SryKeLJOieJubU8Q6
+ /IlR5a8ie44j/xAYxFcJO4IrU4hp51HL9AnZKpV/7qRP+MMBo7o9PgRLMsmmLsyR/m
+ iSuNCOOcTgc2ulVG0j8WYWqlSCC8hLKH/oVfKyN0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 13/53] drm: mcde: Fix display initialization
- problem
-Date: Wed,  1 Jul 2020 21:21:22 -0400
-Message-Id: <20200702012202.2700645-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 33/53] drm: panel-orientation-quirks: Add quirk
+ for Asus T101HA panel
+Date: Wed,  1 Jul 2020 21:21:42 -0400
+Message-Id: <20200702012202.2700645-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200702012202.2700645-1-sashal@kernel.org>
 References: <20200702012202.2700645-1-sashal@kernel.org>
@@ -50,67 +50,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Linus Walleij <linus.walleij@linaro.org>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit b984b6d8b52372b98cce0a6ff6c2787f50665b87 ]
+[ Upstream commit 6c22bc18a3b93a38018844636557ad02e588e055 ]
 
-The following bug appeared in the MCDE driver/display
-initialization during the recent merge window.
+Like the Asus T100HA the Asus T101HA also uses a panel which has been
+mounted 90 degrees rotated, albeit in the opposite direction.
+Add a quirk for this.
 
-First the place we call drm_fbdev_generic_setup() in the
-wrong place: this needs to be called AFTER calling
-drm_dev_register() else we get this splat:
-
- ------------[ cut here ]------------
-WARNING: CPU: 0 PID: 1 at ../drivers/gpu/drm/drm_fb_helper.c:2198 drm_fbdev_generic_setup+0x164/0x1a8
-mcde a0350000.mcde: Device has not been registered.
-Modules linked in:
-Hardware name: ST-Ericsson Ux5x0 platform (Device Tree Support)
-[<c010e704>] (unwind_backtrace) from [<c010a86c>] (show_stack+0x10/0x14)
-[<c010a86c>] (show_stack) from [<c0414f38>] (dump_stack+0x9c/0xb0)
-[<c0414f38>] (dump_stack) from [<c0121c8c>] (__warn+0xb8/0xd0)
-[<c0121c8c>] (__warn) from [<c0121d18>] (warn_slowpath_fmt+0x74/0xb8)
-[<c0121d18>] (warn_slowpath_fmt) from [<c04b154c>] (drm_fbdev_generic_setup+0x164/0x1a8)
-[<c04b154c>] (drm_fbdev_generic_setup) from [<c04ed278>] (mcde_drm_bind+0xc4/0x160)
-[<c04ed278>] (mcde_drm_bind) from [<c04f06b8>] (try_to_bring_up_master+0x15c/0x1a4)
-(...)
-
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200613223027.4189309-1-linus.walleij@linaro.org
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200531093025.28050-1-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mcde/mcde_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index f28cb7a576ba4..1e7c5aa4d5e62 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -208,7 +208,6 @@ static int mcde_modeset_init(struct drm_device *drm)
- 
- 	drm_mode_config_reset(drm);
- 	drm_kms_helper_poll_init(drm);
--	drm_fbdev_generic_setup(drm, 32);
- 
- 	return 0;
- 
-@@ -275,6 +274,8 @@ static int mcde_drm_bind(struct device *dev)
- 	if (ret < 0)
- 		goto unbind;
- 
-+	drm_fbdev_generic_setup(drm, 32);
-+
- 	return 0;
- 
- unbind:
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index ffd95bfeaa94c..d11d83703931e 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -121,6 +121,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100HAN"),
+ 		},
+ 		.driver_data = (void *)&asus_t100ha,
++	}, {	/* Asus T101HA */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T101HA"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* GPD MicroPC (generic strings, also match on bios date) */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Default string"),
 -- 
 2.25.1
 
