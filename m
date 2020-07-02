@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB232117D7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5082117DA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC14C6EA44;
-	Thu,  2 Jul 2020 01:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B60FC6EA48;
+	Thu,  2 Jul 2020 01:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA2A6EA44
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:26:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 290C76EA45
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:27:14 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3887D20C56;
- Thu,  2 Jul 2020 01:26:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 42CBF2083E;
+ Thu,  2 Jul 2020 01:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593653213;
- bh=rnB7oV8v4NfwAOxGZ3yJ0hQ68m7fINDU3JLiiRZH5vs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s6a30b7Ika6Zqgcyr0ZeGdRbb3I7dUka/GKxD9tED4UzXUigumFmiyJB/XwDRaVPW
- nmBt69lI+/65FeDZkJsHyNh6gOsn8kZEyDxNXKd3rgAe9XiOPD4SqFow+Jf3tzCt1u
- 1bmeToBNrZNeDxuOONe741lAOxFREe0PymVx46BI=
+ s=default; t=1593653234;
+ bh=s8s69X5ToTezidDLsSd20nuocrEgaag3s6dd4Dr//SM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fyAZWfBr4VxMi9OCFwzFNhCrqwt6hyp53PIOCd+4EY5vkB6nsEpN0aBpmqajlufkv
+ BwSsCaBH72TLQG9T3lxOhpF7WPnK/reIF/k87d44Dz9ONTQuqLhfcACW6G1lRTTtbt
+ GYZpPrCV8boH36h7UkFINTJZWYCRfbik0XlGmhTY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 02/17] gpu: host1x: Detach driver on unregister
-Date: Wed,  1 Jul 2020 21:26:34 -0400
-Message-Id: <20200702012649.2701799-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 01/13] gpu: host1x: Detach driver on unregister
+Date: Wed,  1 Jul 2020 21:27:00 -0400
+Message-Id: <20200702012712.2701986-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702012649.2701799-1-sashal@kernel.org>
-References: <20200702012649.2701799-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -83,11 +81,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index f9cde03030fd9..c2a9dcf6f4907 100644
+index c27858ae05529..6ef89e8a515a9 100644
 --- a/drivers/gpu/host1x/bus.c
 +++ b/drivers/gpu/host1x/bus.c
-@@ -615,8 +615,17 @@ EXPORT_SYMBOL(host1x_driver_register_full);
-  */
+@@ -542,8 +542,17 @@ EXPORT_SYMBOL(host1x_driver_register_full);
+ 
  void host1x_driver_unregister(struct host1x_driver *driver)
  {
 +	struct host1x *host1x;
