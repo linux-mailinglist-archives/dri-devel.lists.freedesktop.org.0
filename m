@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891B62117D5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB232117D7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 03:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE266EA49;
-	Thu,  2 Jul 2020 01:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC14C6EA44;
+	Thu,  2 Jul 2020 01:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 599AC6EA48
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:26:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA2A6EA44
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:26:53 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 749A6206BE;
- Thu,  2 Jul 2020 01:26:38 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3887D20C56;
+ Thu,  2 Jul 2020 01:26:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593653199;
- bh=pieAcDd6bFTdpg6107qY4pEzKvJ8WHGm9bg/hlipDIk=;
+ s=default; t=1593653213;
+ bh=rnB7oV8v4NfwAOxGZ3yJ0hQ68m7fINDU3JLiiRZH5vs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vb0rvzjkqHReTRN1tzUb9l0nfN27TtW9SdWVMNpmukqApFkH8x9rh73hHcVVa99Np
- a/VfaeIlT4AjMv2sN7zctxNuHFjQPGPe5kP0q8eWP3CiAt7kkks/XR9xQ9VSqEINZl
- t+ja/N9gNn4lSMKBVZn/entD8SVrWwJx0eU+Up6s=
+ b=s6a30b7Ika6Zqgcyr0ZeGdRbb3I7dUka/GKxD9tED4UzXUigumFmiyJB/XwDRaVPW
+ nmBt69lI+/65FeDZkJsHyNh6gOsn8kZEyDxNXKd3rgAe9XiOPD4SqFow+Jf3tzCt1u
+ 1bmeToBNrZNeDxuOONe741lAOxFREe0PymVx46BI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 19/27] drm/sun4i: mixer: Call of_dma_configure if
- there's an IOMMU
-Date: Wed,  1 Jul 2020 21:26:07 -0400
-Message-Id: <20200702012615.2701532-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 02/17] gpu: host1x: Detach driver on unregister
+Date: Wed,  1 Jul 2020 21:26:34 -0400
+Message-Id: <20200702012649.2701799-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200702012615.2701532-1-sashal@kernel.org>
-References: <20200702012615.2701532-1-sashal@kernel.org>
+In-Reply-To: <20200702012649.2701799-1-sashal@kernel.org>
+References: <20200702012649.2701799-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,61 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Sasha Levin <sashal@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <treding@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <maxime@cerno.tech>
+From: Thierry Reding <treding@nvidia.com>
 
-[ Upstream commit 842ec61f4006a6477a9deaedd69131e9f46e4cb5 ]
+[ Upstream commit d9a0a05bf8c76e6dc79230669a8b5d685b168c30 ]
 
-The main DRM device is actually a virtual device so it doesn't have the
-iommus property, which is instead on the DMA masters, in this case the
-mixers.
+Currently when a host1x device driver is unregistered, it is not
+detached from the host1x controller, which means that the device
+will stay around and when the driver is registered again, it may
+bind to the old, stale device rather than the new one that was
+created from scratch upon driver registration. This in turn can
+cause various weird crashes within the driver core because it is
+confronted with a device that was already deleted.
 
-Add a call to of_dma_configure with the mixers DT node but on the DRM
-virtual device to configure it in the same way than the mixers.
+Fix this by detaching the driver from the host1x controller when
+it is unregistered. This ensures that the deleted device also is
+no longer present in the device list that drivers will bind to.
 
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/9a4daf438dd3f2fe07afb23688bfb793a0613d7d.1589378833.git-series.maxime@cerno.tech
-(cherry picked from commit b718102dbdfd0285ad559687a30e27cc9124e592)
-[Maxime: Applied to -fixes since it missed the merge window and display is
-         broken without it]
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Reported-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Tested-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/host1x/bus.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 71a798e5d5591..ddab3fab36a1a 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -435,6 +435,19 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
- 
-+	if (of_find_property(dev->of_node, "iommus", NULL)) {
-+		/*
-+		 * This assume we have the same DMA constraints for
-+		 * all our the mixers in our pipeline. This sounds
-+		 * bad, but it has always been the case for us, and
-+		 * DRM doesn't do per-device allocation either, so we
-+		 * would need to fix DRM first...
-+		 */
-+		ret = of_dma_configure(drm->dev, dev->of_node, true);
-+		if (ret)
-+			return ret;
-+	}
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index f9cde03030fd9..c2a9dcf6f4907 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -615,8 +615,17 @@ EXPORT_SYMBOL(host1x_driver_register_full);
+  */
+ void host1x_driver_unregister(struct host1x_driver *driver)
+ {
++	struct host1x *host1x;
 +
- 	/*
- 	 * While this function can fail, we shouldn't do anything
- 	 * if this happens. Some early DE2 DT entries don't provide
+ 	driver_unregister(&driver->driver);
+ 
++	mutex_lock(&devices_lock);
++
++	list_for_each_entry(host1x, &devices, list)
++		host1x_detach_driver(host1x, driver);
++
++	mutex_unlock(&devices_lock);
++
+ 	mutex_lock(&drivers_lock);
+ 	list_del_init(&driver->list);
+ 	mutex_unlock(&drivers_lock);
 -- 
 2.25.1
 
