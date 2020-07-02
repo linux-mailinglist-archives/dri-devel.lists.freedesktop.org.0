@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046DF211CC0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DAD211CC7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 09:25:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31CF26EA89;
-	Thu,  2 Jul 2020 07:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 331396EA68;
+	Thu,  2 Jul 2020 07:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64C686E1CE
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:01:21 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20200702010119epoutp028df2443ee0b0833f38195f63521b42c0~dycI4PMcD2468824688epoutp024
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:01:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20200702010119epoutp028df2443ee0b0833f38195f63521b42c0~dycI4PMcD2468824688epoutp024
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F786E1CE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:01:22 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20200702010120epoutp04427d891ca81b406c6a55fcb7b48303cd~dycJwpW9a1823418234epoutp04a
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 01:01:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20200702010120epoutp04427d891ca81b406c6a55fcb7b48303cd~dycJwpW9a1823418234epoutp04a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593651679;
- bh=V8Gva5iDzFc4G0IttFrfiVO2V6kQ+Z8Y94e+lUkePSw=;
+ s=mail20170921; t=1593651680;
+ bh=RsDj3CoPR1c7on0/7kkXlT3fnQEAu+pB1kuzaD759NE=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=XNtckBHi0xquu1bNQAUqCXboZZYSgPkecYSvG/GuhPzj0K4LBnU8Ba7ASxodkaA1f
- ELeYTTRSXvcvyU2dgSgOuwX+Xr3gZjXSGezYXClXCKtjI4d08Bk/kIB70UdLPj8hro
- CKPjNTovvuWboQz7CPrJ6nK7fITRbbNDSU1JvAfM=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200702010118epcas1p294ce9e022e324f8093b3d88131e0fe78~dycIC3xKH2182521825epcas1p2R;
- Thu,  2 Jul 2020 01:01:18 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.155]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 49y0CY6FVTzMqYm7; Thu,  2 Jul
- 2020 01:01:13 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 1E.00.29173.5D13DFE5; Thu,  2 Jul 2020 10:01:09 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ b=sPZuY5Gr2LXvyOGauwcUcac938YcV204WwXoVlVKbdP+2Cjc9dapQoPaY9lhpa4vM
+ qODIMLAB1uJePTlfKieSXnlYnbYeLs4ES6PckLquMgucZCecx8Fy386keiicWYtyu5
+ WxdSeqFvhPZUzYCUycQ5vyT1eBIEqUSti2zEMTD8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20200702010119epcas1p4473b8c2187f17e0a003511635d125d6a~dycJCKZMZ2585225852epcas1p4_;
+ Thu,  2 Jul 2020 01:01:19 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.40.158]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 49y0Cc3WppzMqYkZ; Thu,  2 Jul
+ 2020 01:01:16 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 4B.BF.18978.CD13DFE5; Thu,  2 Jul 2020 10:01:16 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
  epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200702010108epcas1p10f6a1661eb148c937b1d1c791ffc54f3~dyb-Nd0Lq3155831558epcas1p1I;
- Thu,  2 Jul 2020 01:01:08 +0000 (GMT)
+ 20200702010116epcas1p1e610a393c91c8ceff1bb7ed3c0ce0a42~dycGBJOBJ3155831558epcas1p17;
+ Thu,  2 Jul 2020 01:01:16 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200702010108epsmtrp26c5ec83135bdc8ad5894ee49890ddc45~dyb-MFY9F0515005150epsmtrp2s;
- Thu,  2 Jul 2020 01:01:08 +0000 (GMT)
-X-AuditID: b6c32a37-9cdff700000071f5-15-5efd31d52409
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200702010116epsmtrp1944739d7de34b50d28a2b175ea2d2f01~dycGAMQT40320003200epsmtrp1O;
+ Thu,  2 Jul 2020 01:01:16 +0000 (GMT)
+X-AuditID: b6c32a35-603ff70000004a22-33-5efd31dc51a9
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
  epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 28.F3.08382.4D13DFE5; Thu,  2 Jul 2020 10:01:08 +0900 (KST)
+ 6E.F3.08382.BD13DFE5; Thu,  2 Jul 2020 10:01:15 +0900 (KST)
 Received: from [10.113.221.102] (unknown [10.113.221.102]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200702010108epsmtip10874fbddbdd158a43fec5c2fa3d56992~dyb_3GekE1145611456epsmtip1w;
- Thu,  2 Jul 2020 01:01:08 +0000 (GMT)
-Subject: Re: [PATCH v4 14/37] PM / devfreq: tegra20: Add error messages to
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200702010115epsmtip21e1e4d6e06ba114440f6dab9770a9626~dycFrcvq-0995009950epsmtip2j;
+ Thu,  2 Jul 2020 01:01:15 +0000 (GMT)
+Subject: Re: [PATCH v4 15/37] PM / devfreq: tegra30: Add error messages to
  tegra_devfreq_target()
 To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
@@ -62,59 +62,59 @@ To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  Perttunen <cyndis@kapsi.fi>
 From: Chanwoo Choi <cw00.choi@samsung.com>
 Organization: Samsung Electronics
-Message-ID: <5d83261b-12e5-9734-f793-0600212bcee1@samsung.com>
-Date: Thu, 2 Jul 2020 10:12:24 +0900
+Message-ID: <1d11b08f-eed5-ece1-462d-b18151e65777@samsung.com>
+Date: Thu, 2 Jul 2020 10:12:31 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
  Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20200609131404.17523-15-digetx@gmail.com>
+In-Reply-To: <20200609131404.17523-16-digetx@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHJsWRmVeSWpSXmKPExsWy7bCmge5Vw79xBlM2Gljcn9fKaPHu01NW
- i/lHzrFarP74mNHiytf3bBbT925is2iZtYjF4mzTG3aLy7vmsFl87j3CaNH5ZRabxcVTrha3
- G1ewWUxaO5XRonXvEXaLf9c2slj83DWPxUHQ4/2NVnaPnbPusntcOveH2WPTqk42jzvX9rB5
- 3O8+zuTR2/yOzaNvyypGj8+b5AI4o7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0t
- zJUU8hJzU22VXHwCdN0yc4B+UVIoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUWBbo
- FSfmFpfmpesl5+daGRoYGJkCFSZkZ7z8sJq94BB3xeo5W5kaGCdxdjFyckgImEhM/PSApYuR
- i0NIYAejxNJj/UwQzidGibUnt0E53xgljrc3M8O0TJl3gxHEFhLYyyjRPYkNoug9o0TX39Ps
- IAlhgWSJXwt3MoMkRASOMEus7jzOCOIwC1xmlDjb9oUNpIpNQEti/4sbYDa/gKLE1R+Pwcby
- CthJfNj2EMxmEVCRWHjqLxOILSoQJnFyWwtUjaDEyZlPgC7n4OAUMJd48L8IJMwsIC5x68l8
- JghbXmL72zlgR0gItHNKTD3ZxwLxgovE1MadjBC2sMSr41vYIWwpic/v9rJB2NUSK08eYYNo
- 7mCU2LL/AitEwlhi/9LJTCCLmQU0Jdbv0ocIK0rs/D2XEWIxn8S7rz2sICUSArwSHW1CECXK
- Epcf3GWCsCUlFrd3sk1gVJqF5JtZSF6YheSFWQjLFjCyrGIUSy0ozk1PLTYsMEaO7k2M4ISu
- Zb6DcdrbD3qHGJk4GA8xSnAwK4nwnjb4FSfEm5JYWZValB9fVJqTWnyI0RQYvhOZpUST84E5
- Ja8k3tDUyNjY2MLE0MzU0FBJnNfX6kKckEB6YklqdmpqQWoRTB8TB6dUA9NeI9s3Gf670qRW
- m64p4qs5dtVQXfzAmn678+GvfjZqfVzwq1R1fWt2wJ2k8r3VqiHTW9PjOJ3ii2RuPJN++dL2
- 8prPRqE2AVV/7qhkv+Sa9myXIBf/7EPZv0O9vbTtLf/+K9+dvuHJZB82nRcHXRJuXOWqC/r2
- 9XHzlKj0lO7pR/dHVOhd89uf+951TQZL0qwtxzb6mlqXh87b//nN0VkTry9w748quJiVNTmp
- d3PN1ql94s/EUl6ncgp/qH+msGnH1rDmEw9f5xrGKyvaZ6qW7X6l+/72oudzlxfdqH/ZY5W9
- Neucv93UpNDCHz9Vz5S8vv/BXPye0fa7IWYrBDbGyPMzTX7HsL9vo8r5dmYlluKMREMt5qLi
- RAAA370XcQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsWy7bCSnO4Vw79xBpc+aVjcn9fKaPHu01NW
- i/lHzrFarP74mNHiytf3bBbT925is2iZtYjF4mzTG3aLy7vmsFl87j3CaNH5ZRabxcVTrha3
- G1ewWUxaO5XRonXvEXaLf9c2slj83DWPxUHQ4/2NVnaPnbPusntcOveH2WPTqk42jzvX9rB5
- 3O8+zuTR2/yOzaNvyypGj8+b5AI4o7hsUlJzMstSi/TtErgyXn5YzV5wiLti9ZytTA2Mkzi7
- GDk5JARMJKbMu8HYxcjFISSwm1Hi36OLTBAJSYlpF48ydzFyANnCEocPF0PUvGWUuPPyDViN
- sECyxK+FO5lBEiICx5glNp0+zQTiMAtcZpTY0fmVDaJlG6PE1/0/2UBa2AS0JPa/uAFm8wso
- Slz98ZgRxOYVsJP4sO0hmM0ioCKx8NRfsBWiAmESO5c8ZoKoEZQ4OfMJC8hJnALmEg/+F4GE
- mQXUJf7Mu8QMYYtL3HoynwnClpfY/nYO8wRG4VlIumchaZmFpGUWkpYFjCyrGCVTC4pz03OL
- DQsM81LL9YoTc4tL89L1kvNzNzGCY1tLcwfj9lUf9A4xMnEwHmKU4GBWEuE9bfArTog3JbGy
- KrUoP76oNCe1+BCjNAeLkjjvjcKFcUIC6YklqdmpqQWpRTBZJg5OqQYm67uOt5lEF+6v7zDg
- eq0vdIwvme1sa3WY/oGbn/u330yt5PCYnJ0wSazrquH/4klCpcsf194KY5l8zefXm2a1T089
- doYcPffop/nHSNEF6td9v8tYeTc2H43ezXVx/syeYzvPHWdoSam3n2Ul0yvXZH8zRlxyyUyN
- 9EkmX2UcJ5hO9vnC8u9F271zmT3MlZOSahyO9G4sLjVdmhDyo0FMzO3OY2vNbYLt73PO5KaZ
- 85kr392fddr/rKuW1PpJKUlzb9V/vrEw6ORp5WB1/RNfDbiXfLLZaX/35/+3Z+Y28D3Wv3nr
- mKf2683NO5KO7ah9/PpIQs7lRbvumQsdEwnZcm9F90yHC+Y9q1SfP02XUmIpzkg01GIuKk4E
- AA3mMGFcAwAA
-X-CMS-MailID: 20200702010108epcas1p10f6a1661eb148c937b1d1c791ffc54f3
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAJsWRmVeSWpSXmKPExsWy7bCmru4dw79xBl2bpCzuz2tltHj36Smr
+ xfwj51gtVn98zGhx5et7NovpezexWbTMWsRicbbpDbvF5V1z2Cw+9x5htOj8MovN4uIpV4vb
+ jSvYLCatncpo0br3CLvFv2sbWSx+7prH4iDo8f5GK7vHzll32T0unfvD7LFpVSebx51re9g8
+ 7ncfZ/LobX7H5tG3ZRWjx+dNcgGcUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6hpYW
+ 5koKeYm5qbZKLj4Bum6ZOUC/KCmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIKLAv0
+ ihNzi0vz0vWS83OtDA0MjEyBChOyM9Y8+MVecJiz4tH102wNjJfYuxg5OSQETCR6dkxi62Lk
+ 4hAS2MEo8W/yTFYI5xOjxKlZD5kgnG+MEjN3f2SBadk0/TkjRGIvo0Tb651QLe8ZJZa9+MYI
+ UiUskCzx5NgbsHYRgSPMEqs7j4O1MAtcZpQ42/aFDaSKTUBLYv+LG2A2v4CixNUfj8G6eQXs
+ JCZ9fQV2IouAikTXxeVMILaoQJjEyW0tUDWCEidnPgG7iVPAXOLo9T6wemYBcYlbT+YzQdjy
+ EtvfzmEGWSwh0M4pcXDJJ2aIJ1wkpp2/CA0DYYlXx7dA2VISL/vboOxqiZUnj7BBNHcwSmzZ
+ f4EVImEssX/pZKANHEAbNCXW79KHCCtK7Pw9lxFiMZ/Eu689rCAlEgK8Eh1tQhAlyhKXH9xl
+ grAlJRa3d7JNYFSaheSdWUhemIXkhVkIyxYwsqxiFEstKM5NTy02LDBEjvBNjOCkrmW6g3Hi
+ 2w96hxiZOBgPMUpwMCuJ8J42+BUnxJuSWFmVWpQfX1Sak1p8iNEUGMATmaVEk/OBeSWvJN7Q
+ 1MjY2NjCxNDM1NBQSZxXXOZCnJBAemJJanZqakFqEUwfEwenVAOTT9sJtSOy7u1nDhS0JEqc
+ KLmut+HYzU/l8pGiZo//TnZ4JXv/fmvMsz+JSyr/CNxakd+5Yp9Gao5jYZDvPPMS0VnxFVG9
+ sTzXTt5amW7WWMabNeP+UfU98f/ThBynblQIskrIWHr1aPaK7b+vST58ctzYnmVpVVeEQ/D9
+ S3oS7ikq9d9VP7oH/P6wo8tIkfn/7ibVv5KPGk8euMUkxpL2suPBVznDXYuiH8/3O2Q0U0ok
+ gK/d10POwdTF8DZTodHDw5bWCwPPStvICYs0u0b0LYw9qcETNFti2S4dX75JDz4r9XYbcgse
+ qDE1nKy7NFO4Jlmk5F+dtNIWO7YlZrv82X+fUZ+SX+4gVrPjhhJLcUaioRZzUXEiAIxS6HNz
+ BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRmVeSWpSXmKPExsWy7bCSvO5tw79xBnPabSzuz2tltHj36Smr
+ xfwj51gtVn98zGhx5et7NovpezexWbTMWsRicbbpDbvF5V1z2Cw+9x5htOj8MovN4uIpV4vb
+ jSvYLCatncpo0br3CLvFv2sbWSx+7prH4iDo8f5GK7vHzll32T0unfvD7LFpVSebx51re9g8
+ 7ncfZ/LobX7H5tG3ZRWjx+dNcgGcUVw2Kak5mWWpRfp2CVwZax78Yi84zFnx6PpptgbGS+xd
+ jJwcEgImEpumP2fsYuTiEBLYzSjx8VwjC0RCUmLaxaPMXYwcQLawxOHDxRA1bxkl5h/ayQpS
+ IyyQLPHk2BsmkISIwDFmiU2nT4M5zAKXGSV2dH5lg2jZxihxZ/c1NpAWNgEtif0vboDZ/AKK
+ Eld/PGYEsXkF7CQmfX0FdhOLgIpE18XlTCC2qECYxM4lj5kgagQlTs58AnYep4C5xNHrfWD1
+ zALqEn/mXWKGsMUlbj2ZzwRhy0tsfzuHeQKj8Cwk7bOQtMxC0jILScsCRpZVjJKpBcW56bnF
+ hgWGeanlesWJucWleel6yfm5mxjB0a2luYNx+6oPeocYmTgYDzFKcDArifCeNvgVJ8SbklhZ
+ lVqUH19UmpNafIhRmoNFSZz3RuHCOCGB9MSS1OzU1ILUIpgsEwenVAOT/HPnzltqCx4ElKSX
+ PWKf/5ifye+k8MX+Uw+sZbfFWUlJqv8RvHL9sXZXt4ZBgML9Z3a/ix5F384ts320NEMk+Kr6
+ 5Lt7Pp7vVp97XTtxbbPmNxXj1Ts/81x0S/CfoDn9QNtu56Z/V68cnpu5c6qY7vvNPzN+eE/Y
+ 1D+lWpMjJ+ZC1EOz1vd/Zy2IPdhvs0t44myJlUnsHXXHTUtvdc+ZccrFynWW7HP3hj35iybJ
+ ci67JaP6+kf3t+aV0RY/tRxdeavuptS/bZ1iwNr+bJPZJCWFJPfuX5kTrK1W60z1Tb1dz7ml
+ 7F9VOtfH4slTX2hkxDk0F+QoLznk0RrLavl2hbgwp/vahLp5sh/75p1TYinOSDTUYi4qTgQA
+ 9enaEV0DAAA=
+X-CMS-MailID: 20200702010116epcas1p1e610a393c91c8ceff1bb7ed3c0ce0a42
 X-Msg-Generator: CA
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200609131736epcas1p1ba2a7c962cc370785327e82c973594b6
+X-CMS-RootMailID: 20200609131710epcas1p218e720c23ae62ecf4a6f6727854d93f0
 References: <20200609131404.17523-1-digetx@gmail.com>
- <CGME20200609131736epcas1p1ba2a7c962cc370785327e82c973594b6@epcas1p1.samsung.com>
- <20200609131404.17523-15-digetx@gmail.com>
+ <CGME20200609131710epcas1p218e720c23ae62ecf4a6f6727854d93f0@epcas1p2.samsung.com>
+ <20200609131404.17523-16-digetx@gmail.com>
 X-Mailman-Approved-At: Thu, 02 Jul 2020 07:24:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -144,37 +144,27 @@ On 6/9/20 10:13 PM, Dmitry Osipenko wrote:
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/devfreq/tegra20-devfreq.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+>  drivers/devfreq/tegra30-devfreq.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
-> index bf504ca4dea2..249d0dc44f6c 100644
-> --- a/drivers/devfreq/tegra20-devfreq.c
-> +++ b/drivers/devfreq/tegra20-devfreq.c
-> @@ -44,19 +44,25 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
->  	int err;
->  
->  	opp = devfreq_recommended_opp(dev, freq, flags);
-> -	if (IS_ERR(opp))
-> +	if (IS_ERR(opp)) {
-> +		dev_err(dev, "failed to find opp for %lu Hz\n", *freq);
->  		return PTR_ERR(opp);
-> +	}
->  
->  	rate = dev_pm_opp_get_freq(opp);
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index 13f93c6038ab..a03fb16c5c4c 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -641,12 +641,16 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
 >  	dev_pm_opp_put(opp);
 >  
->  	err = clk_set_min_rate(tegra->emc_clock, rate);
+>  	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
 > -	if (err)
 > +	if (err) {
-> +		dev_err(dev, "failed to set min rate: %d\n", err);
+> +		dev_err(dev, "Failed to set min rate: %d\n", err);
 >  		return err;
 > +	}
 >  
 >  	err = clk_set_rate(tegra->emc_clock, 0);
 > -	if (err)
 > +	if (err) {
-> +		dev_err(dev, "failed to set rate: %d\n", err);
+> +		dev_err(dev, "Failed to set rate: %d\n", err);
 >  		goto restore_min_rate;
 > +	}
 >  
