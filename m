@@ -2,100 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70B1212617
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 16:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B1421261B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 16:24:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2C96E931;
-	Thu,  2 Jul 2020 14:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730D26E94C;
+	Thu,  2 Jul 2020 14:24:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A303E6E931
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:22:39 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614556E94C
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:24:06 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200702142237euoutp0190df57de5bcb8be6f7ce9aedb2576975~d9Xxtxg9h0656706567euoutp01Z
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:22:37 +0000 (GMT)
+ 20200702142405euoutp01406d57d5b27022127d69303c159712c6~d9ZC71cRg0656606566euoutp01I
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:24:05 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200702142237euoutp0190df57de5bcb8be6f7ce9aedb2576975~d9Xxtxg9h0656706567euoutp01Z
+ 20200702142405euoutp01406d57d5b27022127d69303c159712c6~d9ZC71cRg0656606566euoutp01I
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1593699757;
- bh=0TC9lzz00Pgh6EaeVlIkNMDKfhIwvGXbfBxceN9EuQg=;
+ s=mail20170921; t=1593699845;
+ bh=//LXM4/HTvL6WYgoxxkZWqAQvhLUGYM0Ek5/xXeKpMo=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=nuTws75Mv2MsFBRqaMh4AZan+ZL8nIgpDwbmGZPmp1PHKQ87fSrYiIvCjutZpaDzj
- GGnudedtQsyEswryhqRtgaSYCCvmsG0AMgk0aTW4fJ57cxTytnTp1bvCjsnB2Mf3pM
- r6oL6ikcvB7ZjrFEr++JgBxStIz+KP1eAPTB5Dfc=
+ b=b3sxOBpjDvjPa42ZZy3qlEKHj60BMAduJIBnu4dOjDEgvGz7GQSHP8HHh5Vt2ZGUn
+ nda93IUni2XkOmBhv2jGWok7BW9+N8xDoUC7dBBqGlXZblKKeGO+Uoxg0Y/YuiUA/I
+ qxnLk3urTGx3XSMg8tZ/4R0avLubp0bk+7sGORf0=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200702142237eucas1p210080ddae3369ba308dd5433289470af~d9XxVizwR1429114291eucas1p2J;
- Thu,  2 Jul 2020 14:22:37 +0000 (GMT)
+ 20200702142404eucas1p2c09b4e5243d0565547e6ed3773ab92b8~d9ZCrBVRR1436014360eucas1p29;
+ Thu,  2 Jul 2020 14:24:04 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 89.49.05997.DADEDFE5; Thu,  2
- Jul 2020 15:22:37 +0100 (BST)
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id EF.79.05997.40EEDFE5; Thu,  2
+ Jul 2020 15:24:04 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200702142237eucas1p16bf2766ac688002ed987f8f1cab44839~d9Xw7fMv92922729227eucas1p1Q;
- Thu,  2 Jul 2020 14:22:37 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200702142404eucas1p29aad1027cfe7f37f7978bcdde2bff421~d9ZCR_LfI1430314303eucas1p2r;
+ Thu,  2 Jul 2020 14:24:04 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200702142237eusmtrp122603335e68892ea1e60cfc453da8b92~d9Xw6SRH92116621166eusmtrp1U;
- Thu,  2 Jul 2020 14:22:37 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-2c-5efdedade9de
+ 20200702142404eusmtrp106891f7824aab08f5fa46ca96bab1f79~d9ZCRNbh62233522335eusmtrp1N;
+ Thu,  2 Jul 2020 14:24:04 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-54-5efdee04a6c2
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id E0.6C.06314.CADEDFE5; Thu,  2
- Jul 2020 15:22:37 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id FC.9C.06314.40EEDFE5; Thu,  2
+ Jul 2020 15:24:04 +0100 (BST)
+Received: from [106.210.123.115] (unknown [106.210.123.115]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200702142235eusmtip1d31189be107d0d70f6d9469db97a285c~d9Xvrsl4H0976009760eusmtip1Y;
- Thu,  2 Jul 2020 14:22:35 +0000 (GMT)
-Subject: Re: [PATCH v3] drm/bridge: adv7511: Fix cec clock EPROBE_DEFER
- handling
-To: Vincent Whitchurch <vincent.whitchurch@axis.com>,
- narmstrong@baylibre.com, Laurent.pinchart@ideasonboard.com
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <3d908cbc-f892-9c3f-06a7-93f03c7c177b@samsung.com>
-Date: Thu, 2 Jul 2020 16:22:34 +0200
+ 20200702142403eusmtip1efda640323c7e185c7a51b53422d6bf3~d9ZBOK-NU0493804938eusmtip1X;
+ Thu,  2 Jul 2020 14:24:02 +0000 (GMT)
+Subject: Re: [RFC PATCH v5 2/6] interconnect: Add generic interconnect
+ driver for Exynos SoCs
+To: Georgi Djakov <georgi.djakov@linaro.org>
+From: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <0320bbbe-6e51-e5ef-1a2a-a2a2fd815514@samsung.com>
+Date: Thu, 2 Jul 2020 16:24:00 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200514113051.3567-1-vincent.whitchurch@axis.com>
-Content-Language: pl
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEKsWRmVeSWpSXmKPExsWy7djPc7pr3/6NM/h/Ttbiytf3bBanJj9j
- srj6/SWzxck3V1ksPrWoWnROXMJucagv2uL8Nn8HDo/r6wI83t9oZfeY3TGT1ePEhEtMHve7
- jzN5HOidzOJx6utn9gD2KC6blNSczLLUIn27BK6M3b8OMBf021R8fXOIrYFxt2EXIweHhICJ
- xPu+qC5GLg4hgRWMElff3WaBcL4wSqy6uI8JwvnMKPFk2jpWmI5zL7kg4ssZJQ5/msIK4bxn
- lFiweQ9QByeHsECQxJRrDWwgtohAkcSxnp1gNrNAicTvyX9ZQGw2AU2Jv5tvsoEM5RWwk3i8
- VBskzCKgIrHn0E1GEFtUIE5i/cvtYCN5BQQlTs58wgJSzingIPGw2xJiorzE9rdzmCFsEYkb
- j1rAWiUEjrFLLFnrD2G7SEyaf4MFwhaWeHV8CzuELSNxenIPVLxe4v6KFmaQVyQEOhgltm7Y
- yQyRsJa4c+4X2JnMQCev36UPEXaUWNT7nB0SJHwSN94KQpzAJzFp23RmiDCvREebEES1osT9
- s1uhBopLLL3wlW0Co9IsJH/NQvLMLCTPzELYu4CRZRWjeGppcW56arFRXmq5XnFibnFpXrpe
- cn7uJkZgSjr97/iXHYy7/iQdYhTgYFTi4Z1w/G+cEGtiWXFl7iFGCQ5mJRFep7On44R4UxIr
- q1KL8uOLSnNSiw8xSnOwKInzGi96GSskkJ5YkpqdmlqQWgSTZeLglGpgFJpzmf/TjJ3TJznx
- 9/B+f8S7xlbx7bIZRnrCIso8/+Ki+XrtQqTmcZbevvxTSSjWIshMyJE96dn9bb6bTcVuXolf
- VrHCt3lfmUfstE+fZ3JvUnj4M0jO5tMa8bbiuKrq8y4qd3fF3zp87W5OtPr9KXEPV34QEdhr
- 6KjIe+S4SsaOHQHBAuEXlViKMxINtZiLihMBhdvQDEUDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRmVeSWpSXmKPExsVy+t/xu7pr3/6NM/i7kMniytf3bBanJj9j
- srj6/SWzxck3V1ksPrWoWnROXMJucagv2uL8Nn8HDo/r6wI83t9oZfeY3TGT1ePEhEtMHve7
- jzN5HOidzOJx6utn9gD2KD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTub
- lNSczLLUIn27BL2M3b8OMBf021R8fXOIrYFxt2EXIweHhICJxLmXXF2MXBxCAksZJeZ//sHa
- xcgJFBeX2D3/LTOELSzx51oXG0TRW0aJ9UuWgRUJCwRJTLnWwAZiiwgUSex7cpwdxGYWKJG4
- OOMnE0TDZEaJ/s/XwCaxCWhK/N18kw1kM6+AncTjpdogYRYBFYk9h24ygtiiAnESy7fMB5vD
- KyAocXLmExaQck4BB4mH3ZYQ480k5m1+yAxhy0tsfzsHyhaRuPGohXECo9AsJN2zkLTMQtIy
- C0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIGRuO3Yz807GC9tDD7EKMDBqMTDO+H4
- 3zgh1sSy4srcQ4wSHMxKIrxOZ0/HCfGmJFZWpRblxxeV5qQWH2I0BfptIrOUaHI+MEnklcQb
- mhqaW1gamhubG5tZKInzdggcjBESSE8sSc1OTS1ILYLpY+LglGpg5DO/X8F/tabL++uMuHYG
- 3k3uVs3ikwMFXad7Ol9Xf7RVae71GY+NwgTScyV2XL/cIG+v3GBTXSv6V0abIfLV//eB53rE
- JnhKXdHtK698prH0hcHz52KmHAcaVH8fdzjydtL3RzGz1Vym7019lsbtzliRJrLtVM+G6368
- umyhMhtt3x7hDpRQYinOSDTUYi4qTgQAKpmG2doCAAA=
-X-CMS-MailID: 20200702142237eucas1p16bf2766ac688002ed987f8f1cab44839
+In-Reply-To: <d3a45a91-d223-d3a2-a9fb-adadca98c80d@linaro.org>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0hTYRzlu7u7u4rT67T8YVY0JDBKsyJu+SilPwb+I0FE4aMtb2q6Kbtq
+ KUQT38+GUtpS85FlA1OXqGn2WOaQLS1Ny3ysUAsDs3BBpWbbrpL/nXN+5/CdAx/JEw3yPcl4
+ RQqjVEgTxYQj3tH/e3Af/m01an/DiC9trslBdFtlC59+Z/nCp9/+XCToil4dQZeZ1Tg9NNQq
+ oHUzY3x6pLuKoCuHnmB0c9+UgJ7IbLLS8nniuFCi0xYQksmxx4TEXGTAJA/vXJWUtmuRZEm3
+ I5w46xgYwyTGpzFKv+BzjnH17d/x5BXxZZVxAlehJq9C5EACdQh6G+qwQuRIiqgmBIaSPB5H
+ LAgKJrIEHFlCMNzTw9+IaE1Tdiyi7iFYrHDnTD8QPNfoke3gRkXD9fuPBDbsTu2FxlvLuM3E
+ o0wYXBtvwWwHgvKHkpel9oCQCobsG6O4DeOUN6iq2wgb3kJFQmljLcF5XGHg5qzd42D15/YP
+ 27M8ygM+zN7GOLwTOheq7BuAmheAsbBawNU+AXmZFozDbvDV0L6ue4GxvBjnAlkIinsmBBxR
+ IzAbahHnCoDJwT/WGqT1CR9o6fbj5BB49rkZs8lAOcP7BVeuhDOUdVTwOFkI+bkizu0Ny9qK
+ 9QqeUDS7hquRWLNpmmbTHM2mOZr/79YiXIs8mFRWHsuwBxTMJV9WKmdTFbG+55PkOmT9Zca/
+ BksX6l6R6RFFIrGTUG1YjRLxpWlsulyPgOSJ3YWhr4xRImGMND2DUSZFK1MTGVaPtpG42EN4
+ sH4+UkTFSlOYBIZJZpQbV4x08FShIJ+jmBvh+/FFwmicfDBi+kysOcx9awxjOmYyzfGqy+ZE
+ a+FBng4XSmXLu7bPkxcPv6lSufxiI06VLL9WDAWra5ZkvSf5JrlTWH5fjDGsrvnu2HhbeHYA
+ +2kmNW13SXzviPeca4glsDOIcAFZ6JHW02kDD5grjTmR00+7/MMyxDgbJ/Xfw1Oy0n8K02rf
+ YQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAIsWRmVeSWpSXmKPExsVy+t/xu7os7/7GGbxaLWpxf14ro8XGGetZ
+ La5/ec5qceXrezaL6Xs3sVlMuj+BxeL8+Q3sFpseX2O1uLxrDpvFjPP7mCzWHrnLbnG7cQWQ
+ O/klmwOvx6ZVnWwed67tYfO4332cyWPzknqPvi2rGD0+b5ILYIvSsynKLy1JVcjILy6xVYo2
+ tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy1i05QNLwR+liobTt1kaGFfIdDFy
+ ckgImEisOnOXtYuRi0NIYCmjxN5tb9i7GDmAElIS81uUIGqEJf5c62KDqHnPKLFn8j8mkISw
+ QLzE0SkHmEFsEQEdiaWzf7OAFDELnGGSOLrsKSNExz0mic5tPSwgVWwChhK9R/sYQWxeATuJ
+ lmlXweIsAioSDXM3soHYogKxEt/ubWGDqBGUODnzCVgNJ1B927FLYL3MAuoSf+ZdYoawxSVu
+ PZnPBGHLS2x/O4d5AqPQLCTts5C0zELSMgtJywJGllWMIqmlxbnpucWGesWJucWleel6yfm5
+ mxiBsbvt2M/NOxgvbQw+xCjAwajEwzvh+N84IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW
+ 5ccXleakFh9iNAV6biKzlGhyPjCt5JXEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnNTk0t
+ SC2C6WPi4JRqYExoP2Z56N9P6Q/JT7c+lrBMYdmeF7Fz3qTmJWlZq2UOff11Pc6TT084K2TJ
+ 7J6bmbXX2sWDL+YbP9pvwdii+cPIu0C5sJ35rsKxDA7j5cnHTP7+2negrP1GdvVxnRne3CLB
+ xvcuB+qse/5oZ/bLVSuDz3A5uv8zcAqXcz7N9i/y2//WawbCPEosxRmJhlrMRcWJAHiDkMDz
+ AgAA
+X-CMS-MailID: 20200702142404eucas1p29aad1027cfe7f37f7978bcdde2bff421
 X-Msg-Generator: CA
-X-RootMTR: 20200515065426eucas1p259c666b8e182a12c87e4e0b575b397d0
+X-RootMTR: 20200529163223eucas1p2f663280abb499b4114b2f2930b43a4e5
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200515065426eucas1p259c666b8e182a12c87e4e0b575b397d0
-References: <CGME20200515065426eucas1p259c666b8e182a12c87e4e0b575b397d0@eucas1p2.samsung.com>
- <20200514113051.3567-1-vincent.whitchurch@axis.com>
+X-CMS-RootMailID: 20200529163223eucas1p2f663280abb499b4114b2f2930b43a4e5
+References: <20200529163200.18031-1-s.nawrocki@samsung.com>
+ <CGME20200529163223eucas1p2f663280abb499b4114b2f2930b43a4e5@eucas1p2.samsung.com>
+ <20200529163200.18031-3-s.nawrocki@samsung.com>
+ <f7f76798-4ee7-6e4a-fa3e-1acb0af76c2e@linaro.org>
+ <1c277836-efdf-f7b8-aa62-7369349fe21f@samsung.com>
+ <d3a45a91-d223-d3a2-a9fb-adadca98c80d@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,201 +113,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hverkuil@xs4all.nl, jernej.skrabec@siol.net, kernel@axis.com,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se
+Cc: linux-samsung-soc@vger.kernel.org, b.zolnierkie@samsung.com,
+ sw0312.kim@samsung.com, a.swigon@samsung.com, krzk@kernel.org,
+ linux-kernel@vger.kernel.org, cw00.choi@samsung.com, myungjoo.ham@samsung.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ m.szyprowski@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 02.07.2020 14:33, Georgi Djakov wrote:
+> On 7/2/20 15:01, Sylwester Nawrocki wrote:
+>> On 01.07.2020 14:50, Georgi Djakov wrote:
+>>> On 5/29/20 19:31, Sylwester Nawrocki wrote:
 
-On 14.05.2020 13:30, Vincent Whitchurch wrote:
-> If adv7511's devm_clk_get() for the cec clock returns -EPROBE_DEFER, we
-> end up in an infinite probe loop.  This happens:
->
->   (1) adv7511's probe is called.
->
->   (2) adv7511's probe adds some secondary i2c devices which bind to the
->   dummy driver and thus call driver_deferred_probe_trigger() and
->   increment deferred_trigger_count (see driver_bound()).
->
->   (3) adv7511's probe returns -EPROBE_DEFER, and since the
->   deferred_trigger_count has changed during the probe call,
->   driver_deferred_probe_trigger() is called immediately (see
->   really_probe()) and adv7511's probe is scheduled.
->
->   (4) Goto step 1.
->
-> [   61.972915] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
-> [   61.992734] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003f
-> [   61.993343] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003f'
-> [   61.993626] really_probe: bus: 'i2c': really_probe: bound device 0-003f to driver dummy
-> [   61.995604] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-0038
-> [   61.996381] driver_bound: driver: 'dummy': driver_bound: bound to device '0-0038'
-> [   61.996663] really_probe: bus: 'i2c': really_probe: bound device 0-0038 to driver dummy
-> [   61.998651] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003c
-> [   61.999222] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003c'
-> [   61.999496] really_probe: bus: 'i2c': really_probe: bound device 0-003c to driver dummy
-> [   62.010050] really_probe: i2c 0-0039: Driver adv7511 requests probe deferral
-> [   62.011380] really_probe: bus: 'platform': really_probe: probing driver pwm-clock with device clock-cec
-> [   62.012812] really_probe: platform clock-cec: Driver pwm-clock requests probe deferral
-> [   62.024679] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
->
-> Fix this by calling devm_clk_get() before registering the secondary
-> devices.
->
-> Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
-> ---
-> v3: Make adv7511_cec_init() return void.
-> v2: Add devm_clk_put() in error path.
->
->   drivers/gpu/drm/bridge/adv7511/adv7511.h     |  5 ++-
->   drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 34 ++++++++------------
->   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 15 ++++++---
->   3 files changed, 25 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> index a9bb734366ae..05a66149b186 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -380,17 +380,16 @@ struct adv7511 {
->   };
->   
->   #ifdef CONFIG_DRM_I2C_ADV7511_CEC
-> -int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
-> +void adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
->   void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
->   #else
-> -static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
-> +static inline void adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->   {
->   	unsigned int offset = adv7511->type == ADV7533 ?
->   						ADV7533_REG_CEC_OFFSET : 0;
->   
->   	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
->   		     ADV7511_CEC_CTRL_POWER_DOWN);
-> -	return 0;
->   }
->   #endif
->   
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> index a20a45c0b353..ee0ed4fb67c1 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> @@ -286,28 +286,17 @@ static const struct cec_adap_ops adv7511_cec_adap_ops = {
->   	.adap_transmit = adv7511_cec_adap_transmit,
->   };
->   
-> -static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
-> -{
-> -	adv7511->cec_clk = devm_clk_get(dev, "cec");
-> -	if (IS_ERR(adv7511->cec_clk)) {
-> -		int ret = PTR_ERR(adv7511->cec_clk);
-> -
-> -		adv7511->cec_clk = NULL;
-> -		return ret;
-> -	}
-> -	clk_prepare_enable(adv7511->cec_clk);
-> -	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
-> -	return 0;
-> -}
-> -
-> -int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
-> +void adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->   {
->   	unsigned int offset = adv7511->type == ADV7533 ?
->   						ADV7533_REG_CEC_OFFSET : 0;
-> -	int ret = adv7511_cec_parse_dt(dev, adv7511);
-> +	int ret;
->   
-> -	if (ret)
-> -		goto err_cec_parse_dt;
-> +	if (!adv7511->cec_clk)
-> +		goto err_cec_no_clock;
-> +
-> +	clk_prepare_enable(adv7511->cec_clk);
-> +	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
->   
->   	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
->   		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
-> @@ -334,7 +323,7 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->   	ret = cec_register_adapter(adv7511->cec_adap, dev);
->   	if (ret)
->   		goto err_cec_register;
-> -	return 0;
-> +	return;
->   
->   err_cec_register:
->   	cec_delete_adapter(adv7511->cec_adap);
-> @@ -342,8 +331,11 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->   err_cec_alloc:
->   	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
->   		 ret);
-> -err_cec_parse_dt:
-> +	clk_disable_unprepare(adv7511->cec_clk);
-> +	devm_clk_put(dev, adv7511->cec_clk);
-> +	/* Ensure that adv7511_remove() doesn't attempt to disable it again. */
-> +	adv7511->cec_clk = NULL;
+>>>> +static int exynos_generic_icc_remove(struct platform_device *pdev)
+>>>> +{
+>>>> +	struct exynos_icc_priv *priv = platform_get_drvdata(pdev);
+>>>> +	struct icc_node *parent_node, *node = priv->node;
+>>>> +
+>>>> +	parent_node = exynos_icc_get_parent(priv->dev->parent->of_node);
+>>>> +	if (parent_node && !IS_ERR(parent_node))
+>>>
+>>> Nit: !IS_ERR_OR_NULL?
+>>
+>> It was left on purpose that way but I changed it now to IS_ERR_OR_NULL.
+> 
+> Well, i have no strong opinion on that, it's up to you.
 
-Are you sure these three lines above are necessary? devm mechanism 
-should free the clock and with failed probe remove should not be called.
+I will leave it as you suggested, otherwise we are likely to see
+"clean up" patches sooner or later.
+ 
+>>>> +		icc_link_destroy(node, parent_node);
+>>>> +
+>>>> +	icc_nodes_remove(&priv->provider);
+>>>> +	icc_provider_del(&priv->provider);
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static int exynos_generic_icc_probe(struct platform_device *pdev)
+>>>> +{
+>>>> +	struct device *bus_dev = pdev->dev.parent;
+>>>> +	struct exynos_icc_priv *priv;
+>>>> +	struct icc_provider *provider;
+>>>> +	struct icc_node *icc_node, *icc_parent_node;
+>>>> +	int ret;
+>>>> +
+>>>> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+>>>> +	if (!priv)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	priv->dev = &pdev->dev;
+>>>> +	platform_set_drvdata(pdev, priv);
+>>>> +
+>>>> +	provider = &priv->provider;
+>>>> +
+>>>> +	provider->set = exynos_generic_icc_set;
+>>>> +	provider->aggregate = icc_std_aggregate;
+>>>> +	provider->xlate = exynos_generic_icc_xlate;
+>>>> +	provider->dev = bus_dev;
+>>>> +	provider->inter_set = true;
+>>>> +	provider->data = priv;
+>>>> +
+>>>> +	ret = icc_provider_add(provider);
+>>>
+>>> Nit: Maybe it would be better to move this after the node is created. The
+>>> idea is to create the nodes first and add the provider when the topology is
+>>> populated. It's fine either way here, but i am planning to change this in
+>>> some of the existing provider drivers.
+>>
+>> OK, it makes the clean up path a bit less straightforward. And still we need 
+>> to register the provider before calling icc_node_add().
+>> I made a change as below.
+>>
+>> --------------8<------------------
+>> @@ -124,14 +123,14 @@ static int exynos_generic_icc_probe(struct platform_device *pdev)
+>>  	provider->inter_set = true;
+>>  	provider->data = priv;
+>>  
+>> +	icc_node = icc_node_create(pdev->id);
+>> +	if (IS_ERR(icc_node))
+>> +		return PTR_ERR(icc_node);
+>> +
+>>  	ret = icc_provider_add(provider);
+>> -	if (ret < 0)
+>> +	if (ret < 0) {
+>> +		icc_node_destroy(icc_node->id);
+>>  		return ret;
+>> -
+>> -	icc_node = icc_node_create(pdev->id);
+>> -	if (IS_ERR(icc_node)) {
+>> -		ret = PTR_ERR(icc_node);
+>> -		goto err_prov_del;
+>>  	}
+>>  
+>>  	priv->node = icc_node;
+>> @@ -171,9 +170,7 @@ static int exynos_generic_icc_probe(struct platform_device *pdev)
+>>  		icc_link_destroy(icc_node, icc_parent_node);
+>>  err_node_del:
+>>  	icc_nodes_remove(provider);
+>> -err_prov_del:
+>>  	icc_provider_del(provider);
+>> -
+>>  	return ret;
+>>  }
+>> --------------8<------------------
+> 
+> Actually i need to post some patches first, so maybe keep it as is for now and
+> we will update it afterwards. Sorry for the confusion.
 
-Beside this:
+OK, anyway this helped me to remove a memory leak, which was there since
+icc_nodes_remove() was used before a call to icc_node_add() in order 
+to free the node allocated with icc_node_create(), instead of 
+icc_node_destroy().
 
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+>>> All looks good to me, but it seems that the patch-set is not on
+>>> Rob's radar currently, so please re-send and CC the DT mailing list.
+>>
+>> Thanks, indeed I missed some mailing list when posting. I will make sure
+>> Rob and DT ML list is on Cc, especially that I have added new "bus-width" 
+>> property in v6.
+> 
+> Ok, good. I have been thinking about bus-width and we might want to make it
+> even a generic DT property if there are multiple platforms which want to
+> use it - maybe if the bus-width is the same across the whole interconnect
+> provider. But as most of the existing drivers have different bus-widths, i
+> haven't done it yet, but let's see and start a discussion.
 
+I see, it sounds good to me. Having an array property to allow specifying
+bus width for each node is probably not so good idea.
 
-Regards
-
-Andrzej
-
-
-
-> +err_cec_no_clock:
->   	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
->   		     ADV7511_CEC_CTRL_POWER_DOWN);
-> -	return ret == -EPROBE_DEFER ? ret : 0;
->   }
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 87b58c1acff4..8d8df6116082 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -1128,6 +1128,15 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->   	if (ret)
->   		return ret;
->   
-> +	adv7511->cec_clk = devm_clk_get(dev, "cec");
-> +	if (IS_ERR(adv7511->cec_clk)) {
-> +		ret = PTR_ERR(adv7511->cec_clk);
-> +		if (ret == -EPROBE_DEFER)
-> +			return ret;
-> +
-> +		adv7511->cec_clk = NULL;
-> +	}
-> +
->   	ret = adv7511_init_regulators(adv7511);
->   	if (ret) {
->   		dev_err(dev, "failed to init regulators\n");
-> @@ -1218,9 +1227,7 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->   	if (adv7511->type == ADV7511)
->   		adv7511_set_link_config(adv7511, &link_config);
->   
-> -	ret = adv7511_cec_init(dev, adv7511);
-> -	if (ret)
-> -		goto err_unregister_cec;
-> +	adv7511_cec_init(dev, adv7511);
->   
->   	adv7511->bridge.funcs = &adv7511_bridge_funcs;
->   	adv7511->bridge.of_node = dev->of_node;
-> @@ -1232,8 +1239,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->   
->   err_unregister_cec:
->   	i2c_unregister_device(adv7511->i2c_cec);
-> -	if (adv7511->cec_clk)
-> -		clk_disable_unprepare(adv7511->cec_clk);
->   err_i2c_unregister_packet:
->   	i2c_unregister_device(adv7511->i2c_packet);
->   err_i2c_unregister_edid:
+-- 
+Regards,
+Sylwester
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
