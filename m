@@ -1,125 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CE92124C9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 15:34:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED73F21250C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 15:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A38886E245;
-	Thu,  2 Jul 2020 13:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF306E942;
+	Thu,  2 Jul 2020 13:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0CB06E245
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 13:34:43 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id k6so28431867wrn.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jul 2020 06:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:autocrypt:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QtUSfQwMQwE8C4rYKs7db9IZkQbmcpLVtNvyBZDb6eU=;
- b=RDkdQXx4oF+yh9YK3sRMwAcyaTsdq8rJbD7nDeqymvDHlao2P/wnBDdWgOOobLBSQm
- FPwurO6UeGiGfIWhi5nvTOEcGC6fbgTjdZvoZu5kFbg1eae12t142DeAS9lSfjkCZBvj
- uuRU6/oo00Lnalgx9a4jgXEc0pXujhybHdpHTfa8ONAIqPARWkbZPTn26koP06OGnDpB
- LNe0tXe5mYK7hahi9lYKqUSqmaGkM4aBp3AnXSFts+e0RXjbUtSaWhUfseSwQB0CTc4P
- c2R8P1qsSuL60DD3wgs+Z9dW/r9Jlo4XodKkLwhfHeDQmO9xLxrnBkVbKs6QWPHr2iVY
- qdyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=QtUSfQwMQwE8C4rYKs7db9IZkQbmcpLVtNvyBZDb6eU=;
- b=ZYkh3BbwxmDcY/wl/edsOuP3P2c/wBXLRT9WFzfrbVIQzF1crV70eWrktjM+ghaCER
- wn5cQVDsHtjS0nzE0VijTpUgcKZEcG0BcOmJmcJ36Ju2HFvJjD2oBCp5dMGWuSkSQOcT
- e/c5Rk4buwvnqkN/BHxu83KFIiIEBAhqk9ybl8LIdn2c+0jC05vP55v58oyeBBlpL1DB
- TdqSHYL23+YBu0/lApeHdIvDvrIQmYX0ZtJP4IdroDC7AdSkYirQMScZOuVNuKJcTBAj
- FkDHyXnY3OQyI1WGw8fwN4f/cR5RGsuqUFsyITyqvcLtnfE9C/aqSy+X/koD+FOzBNL6
- GB7w==
-X-Gm-Message-State: AOAM531wLUhaOml0+nuk5AOnfu5bCRkUNZtYmA44sQDpxlnCurVgehMl
- dvI5Avdifzk5pw8AYVnZBim8FA==
-X-Google-Smtp-Source: ABdhPJy6WbFia0yn9UID8Gm2tkkyz9fh0xvXlY5IEXYfhSB2AcUfT/i8yr5YgPrdynqAArrEq5xU+w==
-X-Received: by 2002:a5d:69cf:: with SMTP id s15mr20388776wrw.10.1593696882242; 
- Thu, 02 Jul 2020 06:34:42 -0700 (PDT)
-Received: from [10.1.2.12] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id o29sm11738592wra.5.2020.07.02.06.34.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jul 2020 06:34:41 -0700 (PDT)
-Subject: Re: [PATCH v8 1/6] drm/fourcc: Add modifier definitions for
- describing Amlogic Video Framebuffer Compression
-To: Simon Ser <contact@emersion.fr>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "jianxin.pan@amlogic.com" <jianxin.pan@amlogic.com>,
- Kevin Hilman <khilman@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20200702074759.32356-1-narmstrong@baylibre.com>
- <20200702074759.32356-2-narmstrong@baylibre.com>
- <8cBfZpkc4pHBLhihlvJMD_Hq1DEsNRcSY4Y8JaGwklMWcxiYzUMVEx7wH9f_DuCBMVUhXvOR0PcHVslILtKI2wdw79Nfih0N3VnrxfMQd08=@emersion.fr>
- <20200702131834.GZ3278063@phenom.ffwll.local>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <044964ad-b927-57d7-9361-beda5c8d99a8@baylibre.com>
-Date: Thu, 2 Jul 2020 15:34:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200702131834.GZ3278063@phenom.ffwll.local>
-Content-Language: en-US
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D516E942
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 13:44:37 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200702134435euoutp02fb4c954cb1eacbdf1898f828ccb23f72~d82kIuReQ3220232202euoutp02h
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 13:44:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200702134435euoutp02fb4c954cb1eacbdf1898f828ccb23f72~d82kIuReQ3220232202euoutp02h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1593697475;
+ bh=Wcn/fZwn0l0I3UrXznsXGlfRgX1zzz/eHT6cU1JUJ98=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=coTUImIXandF5sPwA8906cKi/QS9cqx/iqXawoGD7LBBvkCASPVFfheEvILlvt4J8
+ Y0IHpte5+lkdtPjPpDN9luu9X5+Fq4h9flkYlViCWI1JYmezY1ZHYmowZqLBlLmp+r
+ aUimFdb7LptZhIDZQFTsESvS/hzZgIQxD6/78Pto=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200702134435eucas1p277a21a6696e124b42c102540c6665951~d82j2tuHL1813018130eucas1p2-;
+ Thu,  2 Jul 2020 13:44:35 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 92.F2.05997.3C4EDFE5; Thu,  2
+ Jul 2020 14:44:35 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297~d82je7wnZ3023830238eucas1p2_;
+ Thu,  2 Jul 2020 13:44:34 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200702134434eusmtrp21c06ae96bce6fb9cbe4c5cc8fdfb920f~d82jeDPk60528405284eusmtrp2c;
+ Thu,  2 Jul 2020 13:44:34 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-fd-5efde4c3265d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id D4.94.06017.2C4EDFE5; Thu,  2
+ Jul 2020 14:44:34 +0100 (BST)
+Received: from AMDC3748.digital.local (unknown [106.120.51.74]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200702134434eusmtip2c307019c112809392842a9a51d543146~d82ivfvFs2865128651eusmtip2L;
+ Thu,  2 Jul 2020 13:44:34 +0000 (GMT)
+From: Andrzej Hajda <a.hajda@samsung.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v8 2/5] driver core: add deferring probe reason to
+ devices_deferred property
+Date: Thu,  2 Jul 2020 15:44:21 +0200
+Message-Id: <20200702134421.6412-1-a.hajda@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAHp75VegHLG5tgVFjwmpmDfSqELqNXcb9dFSM4jLRx+anW7Lsw@mail.gmail.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSbUhTYRTHeXbv7r2OFtcZ+KCRtNKySCsDHyrMIuRSBPUhisLVahe13KZb
+ mvpFw/Kl1GYh1lZmZSqmzpeypq1kmktkmi+TaS4xjdJcEmqaNW3z9vLt9/zP/5z/4fBQmKiL
+ 70PFKC6wKoU0VkwI8Ia2H51bWsackq2D91egwepOPhrXtABUe0vPRwUjYwRaasjHUN/sFIHS
+ H+oJZJ0bx1D7pBVH2fklJKob7eej3sY7BDIVGAGqarWTyJR3Et2dKcDCaaa3vxtjpmxXSMb4
+ vRhnDFo7yeiybvOZuopsgnmj6eExr+5WkszwNTOPqS9JZfKeVACmOfcmzkzXrTksPCHYLWNj
+ YxJZVXDYaUF01UImFte6PslosYI00LbmKvCgIL0DlnbN864CASWiywEsLW4huccMgFNN9Ty3
+ S0RPA5hz89zfjsXPOpwzlQH4JX+J96+j0vyJdLsIOhA66wcIN6+iQ+B1i3Z5LEYv4NCamcF3
+ F7xoCay1DWBuxml/eHnOCtwspEPhe20WwcX5wcc1zcseD/oINOpLlqMhPU7C3rIPfM60H76e
+ t+Mce8EJ8xOS49VwyXCPx3EqHC6/jHHNWQA+rTFgXGEXHOpccKVRrvUCob4xmJP3wvqefuCW
+ Ib0S2hyebhlz4Y2GQoyThTArQ8S518Jhy9M/A73ho7ezf9ZnYPqHeYI7UAmAn+wfgQb4af+H
+ FQNQAbzZBLU8ilVvV7AXg9RSuTpBERV0VimvA65v1rFonnkOGn+dMQGaAuIVQo3ZKRHxpYnq
+ ZLkJQAoTrxLus3RIREKZNDmFVSlPqRJiWbUJ+FK42FsY8mA8UkRHSS+w51k2jlX9rfIoD580
+ gHd/fZaY0e5/dE+zb2RFn+fEYuD3dYORP/2KqDPHj5myz94PDy0P6ylrCvCZCwLKwnidjd5s
+ SBMLlIcc12wHhswB8Q++rXck1eSllvV4R6CNBZdephdGMEXGiykHlbJjylz7u/wcz5AXI+0E
+ vqFaEf8MrZtw+O8UOI+P6mSTHmJcHS3dtglTqaW/Ad2DKRRiAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRmVeSWpSXmKPExsVy+t/xe7qHnvyNM7h5WN/i1rpzrBYvJxxm
+ tNg4Yz2rxdSHT9gs/m+byGxx5et7NovmxevZLK5+f8lscfLNVRaLzolL2C02Pb7GanF51xw2
+ i0NT9zJarD1yl93iUF+0xdwvU5kdBDwuX7vI7PH+Riu7x95vC1g8ds66y+4xu2Mmq8emVZ1s
+ HicmXGLy2D93DbvH/e7jTB6bl9R79G1ZxehxoHcyi8fnTXIBvFF6NkX5pSWpChn5xSW2StGG
+ FkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GWt/tTMXHFGp2Hv2KmMD4zG5LkZO
+ DgkBE4l/L2azgNhCAksZJZ7sNoGIi0vsnv+WGcIWlvhzrYsNouYTo8TEpWBxNgFNib+bb4LF
+ RQSMJfrPzmLvYuTiYBZoY5WYe/4JO0hCWCBG4u+Nd4wgNouAqkTL96tgNq+AucS9WR1sEAvk
+ JVZvOAA2lFMgUGLv+iVQBwVInLjZxzaBkW8BI8MqRpHU0uLc9NxiI73ixNzi0rx0veT83E2M
+ wMjaduznlh2MXe+CDzEKcDAq8fBOOP43Tog1say4MvcQowQHs5IIr9PZ03FCvCmJlVWpRfnx
+ RaU5qcWHGE2BjprILCWanA+M+rySeENTQ3MLS0NzY3NjMwslcd4OgYMxQgLpiSWp2ampBalF
+ MH1MHJxSDYyTjA/6fM878yhdRnDj1unBz/knyIXxLsoMf9wm+alsW2Hbv+hL56JtncV9A5MN
+ Jzfqdi9zXNyj+aqoZdd2N67giQGu2Svfp/7KYNl7amWmbbFd8qedM5QzVVRsVG3VQp+t5nTa
+ ftDZrfvXvugrYhb8H07nT7krcb17r8v6gvWhKrtsrKp/r1FiKc5INNRiLipOBABK6oWQwgIA
+ AA==
+X-CMS-MailID: 20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297
+X-Msg-Generator: CA
+X-RootMTR: 20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297
+References: <CAHp75VegHLG5tgVFjwmpmDfSqELqNXcb9dFSM4jLRx+anW7Lsw@mail.gmail.com>
+ <CGME20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,42 +106,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ andy.shevchenko@gmail.com, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/07/2020 15:18, Daniel Vetter wrote:
-> On Thu, Jul 02, 2020 at 09:23:11AM +0000, Simon Ser wrote:
->> On Thursday, July 2, 2020 9:47 AM, Neil Armstrong <narmstrong@baylibre.com> wrote:
->>
->>> Finally is also adds the Scatter Memory layout, meaning the header contains IOMMU
->>> references to the compressed frames content to optimize memory access
->>> and layout.
->>>
->>> In this mode, only the header memory address is needed, thus the content
->>> memory organization is tied to the current producer execution and cannot
->>> be saved/dumped neither transferrable between Amlogic SoCs supporting this
->>> modifier.
->>
->> Still not sure how to handle this one, since this breaks fundamental
->> assumptions about modifiers.
-> 
-> I wonder whether we should require special allocations for these, and then
-> just outright reject mmap on these buffers. mmap on dma-buf isn't a
-> required feature.
+/sys/kernel/debug/devices_deferred property contains list of deferred devices.
+This list does not contain reason why the driver deferred probe, the patch
+improves it.
+The natural place to set the reason is dev_err_probe function introduced
+recently, ie. if dev_err_probe will be called with -EPROBE_DEFER instead of
+printk the message will be attached to a deferred device and printed when user
+reads devices_deferred property.
 
-Yes, it's the plan to reject mmap on these buffers, but it can't be explained
-in the modifiers description and it's a requirement of the producer, not the
-consumer.
+Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
+---
+v8:
+- improved commit message
+---
+ drivers/base/base.h |  3 +++
+ drivers/base/core.c |  8 ++++++--
+ drivers/base/dd.c   | 23 ++++++++++++++++++++++-
+ 3 files changed, 31 insertions(+), 3 deletions(-)
 
-> 
-> That would make sure that userspace cannot look at them.
-> 
-> Also I'm kinda suspecting that there's not unlimited amounts of this magic
-> invisible storage available anyway.
-> -Daniel
-> 
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 95c22c0f9036..6954fccab3d7 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -93,6 +93,7 @@ struct device_private {
+ 	struct klist_node knode_class;
+ 	struct list_head deferred_probe;
+ 	struct device_driver *async_driver;
++	char *deferred_probe_reason;
+ 	struct device *device;
+ 	u8 dead:1;
+ };
+@@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct device *dev,
+ extern void driver_detach(struct device_driver *drv);
+ extern int driver_probe_device(struct device_driver *drv, struct device *dev);
+ extern void driver_deferred_probe_del(struct device *dev);
++extern void device_set_deferred_probe_reson(const struct device *dev,
++					    struct va_format *vaf);
+ static inline int driver_match_device(struct device_driver *drv,
+ 				      struct device *dev)
+ {
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 3a827c82933f..fee047f03681 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3963,6 +3963,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
+  * This helper implements common pattern present in probe functions for error
+  * checking: print debug or error message depending if the error value is
+  * -EPROBE_DEFER and propagate error upwards.
++ * In case of -EPROBE_DEFER it sets also defer probe reason, which can be
++ * checked later by reading devices_deferred debugfs attribute.
+  * It replaces code sequence:
+  * 	if (err != -EPROBE_DEFER)
+  * 		dev_err(dev, ...);
+@@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
+ 	vaf.fmt = fmt;
+ 	vaf.va = &args;
+ 
+-	if (err != -EPROBE_DEFER)
++	if (err != -EPROBE_DEFER) {
+ 		dev_err(dev, "error %d: %pV", err, &vaf);
+-	else
++	} else {
++		device_set_deferred_probe_reson(dev, &vaf);
+ 		dev_dbg(dev, "error %d: %pV", err, &vaf);
++	}
+ 
+ 	va_end(args);
+ 
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 9a1d940342ac..dd5683b61f74 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -27,6 +27,7 @@
+ #include <linux/async.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/pinctrl/devinfo.h>
++#include <linux/slab.h>
+ 
+ #include "base.h"
+ #include "power/power.h"
+@@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
+ 	if (!list_empty(&dev->p->deferred_probe)) {
+ 		dev_dbg(dev, "Removed from deferred list\n");
+ 		list_del_init(&dev->p->deferred_probe);
++		kfree(dev->p->deferred_probe_reason);
++		dev->p->deferred_probe_reason = NULL;
+ 	}
+ 	mutex_unlock(&deferred_probe_mutex);
+ }
+@@ -211,6 +214,23 @@ void device_unblock_probing(void)
+ 	driver_deferred_probe_trigger();
+ }
+ 
++/**
++ * device_set_deferred_probe_reson() - Set defer probe reason message for device
++ * @dev: the pointer to the struct device
++ * @vaf: the pointer to va_format structure with message
++ */
++void device_set_deferred_probe_reson(const struct device *dev, struct va_format *vaf)
++{
++	const char *drv = dev_driver_string(dev);
++
++	mutex_lock(&deferred_probe_mutex);
++
++	kfree(dev->p->deferred_probe_reason);
++	dev->p->deferred_probe_reason = kasprintf(GFP_KERNEL, "%s: %pV", drv, vaf);
++
++	mutex_unlock(&deferred_probe_mutex);
++}
++
+ /*
+  * deferred_devs_show() - Show the devices in the deferred probe pending list.
+  */
+@@ -221,7 +241,8 @@ static int deferred_devs_show(struct seq_file *s, void *data)
+ 	mutex_lock(&deferred_probe_mutex);
+ 
+ 	list_for_each_entry(curr, &deferred_probe_pending_list, deferred_probe)
+-		seq_printf(s, "%s\n", dev_name(curr->device));
++		seq_printf(s, "%s\t%s", dev_name(curr->device),
++			   curr->device->p->deferred_probe_reason ?: "\n");
+ 
+ 	mutex_unlock(&deferred_probe_mutex);
+ 
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
