@@ -2,70 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8037621235B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 14:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0FD2123CB
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 14:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CEB6E248;
-	Thu,  2 Jul 2020 12:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46BF96E200;
+	Thu,  2 Jul 2020 12:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38866E248
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 12:31:58 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 062CNAEs017346; Thu, 2 Jul 2020 14:31:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=3Xo4brCUW4HQGixENdTxHK/JZMaC1IhUbS/nmdelnsU=;
- b=WtiQhr4gTdMERVl13cb4ePX+egaYhnVhxDdH4WwrcWvT+GvWXeueFegIHuEuPODWUYMJ
- 88DDKR3AFM6hmowwa8kGAMG77z2NkeI7wh2zfH7RPzy1jBEORJ59ngz+9Tp4WER4KlGV
- 6Y65uRa/j3fSto5wC+358N+7UJP50yLJFjeFKK1pUcBcj/1HO1utSTW1w+5wjtzGi+uc
- MROGmcMz1bHJeWKD4g7YuTk174XSKLSu2JbvDhRCHWTCRCW06NQmLMzOWB+lKrSRr/tu
- hbu0lMS5MSsxRIzot1GL1iWYelmg+g0RgvAVBhUYeerHOuaysfM8vOlUvki8q1GxCpA4 XA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 31ww0gg2fd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jul 2020 14:31:55 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AB4A610002A;
- Thu,  2 Jul 2020 14:31:54 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 94C0A2AD2B3;
- Thu,  2 Jul 2020 14:31:54 +0200 (CEST)
-Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE3.st.com
- (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 2 Jul
- 2020 14:31:54 +0200
-Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
- SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
- 15.00.1473.003; Thu, 2 Jul 2020 14:31:53 +0200
-From: Philippe CORNU <philippe.cornu@st.com>
-To: Marek Vasut <marex@denx.de>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/stm: repair runtime power management
-Thread-Topic: [PATCH] drm/stm: repair runtime power management
-Thread-Index: AQHV70304+mKtyVsAU2WSR7LYHvRkqj02WWA
-Date: Thu, 2 Jul 2020 12:31:53 +0000
-Message-ID: <965f6edb-c6f8-880c-8f4a-0b6b47dbd3c1@st.com>
-References: <20200229221649.90813-1-marex@denx.de>
-In-Reply-To: <20200229221649.90813-1-marex@denx.de>
-Accept-Language: fr-FR, en-US
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2085.outbound.protection.outlook.com [40.107.236.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6116E1F7;
+ Thu,  2 Jul 2020 12:57:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gKFjtQq3KYYVgoaoKAw8kcUvt5Yl17FsD0gcr8xF934cIjyk7uA314y5vDAk9TeMaOHUUA3bDEBM5+GaWpZHzlhX1VgW4ERq/TWgpUg9CBCHo7lY39YV50OKcMT5HWFqDhIMu8SZrVFhUhTgX+8zQfoTPai8MXhHGHV3OFAG2K+ZrgaK+mJ4JRrS/ZJsdv1CksrTejcJDZeZAqZFSW2brbVzlH/VAkilY4Rfcb1DUqRXrHRuftj21yoiVwC4Ys49A/gEO3XmP/Ki5Eia/nyXNXRokOe/epKqDMgy39ircW7mwt3e6orJa1ZM6EKAKo4Hyc/C1LqemEkk5eFTBJwvhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7vHwGM1j3h3zMrfkrgCdJ3BVqlGq3GbBYqZb0upz87k=;
+ b=V8Ae1/iz+oAbPOz0z5088IGLzdNNEiFMehcIQtZHQRIIoAuVcjTmXwJEQYBn+NuWKonJ5dH+vgi+W3yl2KMaH8uwNQzGv+oSVqZQ8KiylCawJVe8f9e4Z00r+yURbi/9LZm+I2Pu4f0AbQcaxADN3dJVX2IqpCzHkmHiESJYdgfsa34hmYdDqHz8LAz1ObFqwhgTiK8S4YZMrOH8n6qjm1KLlKXlxZRojiQlOGu9BBtIWGlxunPU1KOcDSGd1bnc2TM8+EE7fKZ80WfIOKpHQRWxXrO6b5ROJzu3bnt2jhh7jWgHsgt1uBHRGlgvlSp13uWGXkhikc1t9sUPNfEtKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7vHwGM1j3h3zMrfkrgCdJ3BVqlGq3GbBYqZb0upz87k=;
+ b=xWioqp5kize9DazdLv5N2gYj3jaiFn1W7vN/TveDjDcTH/E0CdBYg71sf2ayugGYdy9ZTQoI77cFiVLTo5+QqEN5y6YxQMTDAAXeYt/Uhxc5XDXkXMPDytcekL4a5S/0cedPWDShdfQJ/LQRqmWiNgTeyzv8FEqqdgNNhLzHT0s=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4112.namprd12.prod.outlook.com (2603:10b6:208:19a::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Thu, 2 Jul
+ 2020 12:57:29 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3153.021; Thu, 2 Jul 2020
+ 12:57:29 +0000
+Subject: Re: [Intel-gfx] [PATCH 2/2] dma-buf: fix dma-fence-chain out of order
+ test
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+References: <20200625123443.19680-1-lionel.g.landwerlin@intel.com>
+ <20200625123443.19680-2-lionel.g.landwerlin@intel.com>
+ <159309113252.4527.2883585204850736358@build.alporthouse.com>
+ <c6f72d4d-c8a0-c484-7c31-761e9c37b85e@intel.com>
+ <CAKMK7uHgwUQYLDPJnmTqcX1=UPuinifm+Y7+z-krSzqXpKXnow@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <73e53177-d8a7-80eb-8cf5-a99388977368@amd.com>
+Date: Thu, 2 Jul 2020 14:57:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <CAKMK7uHgwUQYLDPJnmTqcX1=UPuinifm+Y7+z-krSzqXpKXnow@mail.gmail.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.45]
-Content-ID: <53BBE7716BE44E48A3710521D3843349@st.com>
+X-ClientProxiedBy: AM0PR06CA0109.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::14) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-02_08:2020-07-02,
- 2020-07-02 signatures=0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR06CA0109.eurprd06.prod.outlook.com (2603:10a6:208:ab::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.21 via Frontend Transport; Thu, 2 Jul 2020 12:57:27 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: d1039e89-7f93-4b0d-4e58-08d81e8779d2
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4112:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4112C2CB21F2C4ECCEAE092D836D0@MN2PR12MB4112.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 0452022BE1
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 77GjWJZlBETza3ac+eXSe/ts0REhYoMWCRzXXz6lOsGR+QQivbs5Fx4vs37dRA8y1qZUQoCkDHuJL90nvPq0WhvbN5B1FA716zBvvffrxMQuPDtYEUvYNuiPPhmrWPSdE1AIH+Lky5OecvHugDE8xFFAGz2RRzGw2P04J9z8cCjkNQUlEk/3eqwoKSXf3+pwuEOOGkqkdO7Fx1yWzag/rALBEB8Hyomvg2hR3m4fGI2oFRqKprZ+/pwZH/65EpiD2/mIkt0PkQPuw7VJJCSkQIb+2chdzf7nZsW6aNLr1Eb97SM03qTgowv2oNUigLIycsuMLljH6MJmDmqFfaAlgeExQkpXbtbPcgo6fF0UMOrB8Uy9iqEBrHUr0Uyd52wY+y7jveIfmd6j8XGVeEzGzTcsWI4fzVQteLZEg3j0vao=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(346002)(376002)(396003)(136003)(39860400002)(31696002)(66476007)(31686004)(86362001)(5660300002)(66946007)(36756003)(4326008)(52116002)(53546011)(16526019)(186003)(6666004)(2906002)(8936002)(8676002)(66556008)(83380400001)(2616005)(45080400002)(110136005)(54906003)(966005)(316002)(6486002)(478600001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: ycDexrLEVsI1V1fOuPaJdZD6lawOoBuWIyX+hDopkK593g6aursXAx1vJDFaIXBv2oHWSn6BTA26UHV6TGzXxHnUpKPS8Fr2g8aCtnSsM9sca/nXLqcLq9VvZdLZWwlCdGIi+GDEyoW6ExdnMiTR/EIkEsDxEt//DI08AOLvps788ym0p7hNoTwNBWM34A2qabx+BLqFRRkNqpkQ83SxUmZbqnjqRo00OKgOAik3h9P0C93em1Y3d6PMm80QJdgR6czSazB6q5Uvq08aYomieuxJVVEuNEspxndfSo0UysXex2Cooi8UWj/voEHlCIkmKKiqRuJpoGMtKjrO/8E+ozrcXfB1CQoZ9sjbXajXiQj5q2W63Y2MoDnDmxl134/YpA9oVR8qn+hVTIp5dNT7R/iAI3wu8jMr716/uKLQfdvjVUsnVB4VacWpAVbDA5C1C1LkzBQRtIke41Whpuoq5mIo4AM3l5fXf08eDw3Rw0g9xrcFllEGWGkKQUGuxv1p6I2jOaesDEhltiw2ZQsD3fKzxKMauC5kFSb+oAjNpBb6gUHci2qESxQhA6NSgK9A
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1039e89-7f93-4b0d-4e58-08d81e8779d2
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2020 12:57:28.9897 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QJgMFE2PjbibLiQXrRVy8UmpOsbooqdXw6YT9xL5l2ZvIO7rXye8ZD5kwqqzMu/s
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4112
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,89 +105,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick FERTRE <yannick.fertre@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Vincent ABRIOU <vincent.abriou@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Alexandre TORGUE <alexandre.torgue@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCk9uIDIvMjkvMjAgMTE6MTYgUE0sIE1hcmVrIFZhc3V0IHdyb3RlOg0KPiBBZGQgbWlzc2lu
-ZyBwbV9ydW50aW1lX2dldF9zeW5jKCkgaW50byBsdGRjX2NydGNfYXRvbWljX2VuYWJsZSgpIHRv
-DQo+IG1hdGNoIHBtX3J1bnRpbWVfcHV0X3N5bmMoKSBpbiBsdGRjX2NydGNfYXRvbWljX2Rpc2Fi
-bGUoKSwgb3RoZXJ3aXNlDQo+IHRoZSBMVERDIG1pZ2h0IHN1c3BlbmQgdmlhIHJ1bnRpbWUgUE0s
-IGRpc2FibGUgY2xvY2ssIGFuZCB0aGVuIGZhaWwNCj4gdG8gcmVzdW1lIGxhdGVyIG9uLg0KPiAN
-Cj4gVGhlIHRlc3Qgd2hpY2ggdHJpZ2dlcnMgaXQgaXMgcm91Z2hseSAtLSBydW4gcXQ1IGFwcGxp
-Y2F0aW9uIHdoaWNoDQo+IHVzZXMgZWdsZnMgcGxhdGZvcm0gYW5kIGV0bmF2aXYsIHN0b3AgdGhl
-IGFwcGxpY2F0aW9uLCBzbGVlcCBmb3IgMTUNCj4gbWludXRlcywgcnVuIHRoZSBhcHBsaWNhdGlv
-biBhZ2Fpbi4gVGhpcyBsZWFkcyB0byBhIHRpbWVvdXQgd2FpdGluZw0KPiBmb3IgdnN5bmMsIGJl
-Y2F1c2UgdGhlIExUREMgaGFzIHN1c3BlbmRlZCwgYnV0IGRpZCBub3QgcmVzdW1lLg0KPiANCj4g
-Rml4ZXM6IDM1YWI2Y2ZiZjIxMSAoImRybS9zdG06IHN1cHBvcnQgcnVudGltZSBwb3dlciBtYW5h
-Z2VtZW50IikNCj4gU2lnbmVkLW9mZi1ieTogTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+DQo+
-IENjOiBZYW5uaWNrIEZlcnRyw6kgPHlhbm5pY2suZmVydHJlQHN0LmNvbT4NCj4gQ2M6IFBoaWxp
-cHBlIENvcm51IDxwaGlsaXBwZS5jb3JudUBzdC5jb20+DQo+IENjOiBCZW5qYW1pbiBHYWlnbmFy
-ZCA8YmVuamFtaW4uZ2FpZ25hcmRAbGluYXJvLm9yZz4NCj4gQ2M6IFZpbmNlbnQgQWJyaW91IDx2
-aW5jZW50LmFicmlvdUBzdC5jb20+DQo+IENjOiBNYXhpbWUgQ29xdWVsaW4gPG1jb3F1ZWxpbi5z
-dG0zMkBnbWFpbC5jb20+DQo+IENjOiBBbGV4YW5kcmUgVG9yZ3VlIDxhbGV4YW5kcmUudG9yZ3Vl
-QHN0LmNvbT4NCj4gVG86IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6IGxp
-bnV4LXN0bTMyQHN0LW1kLW1haWxtYW4uc3Rvcm1yZXBseS5jb20NCj4gQ2M6IGxpbnV4LWFybS1r
-ZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZw0KPiAtLS0NCj4gLS0tLS0tLS0tLS0tWyBjdXQgaGVy
-ZSBdLS0tLS0tLS0tLS0tDQo+IFdBUk5JTkc6IENQVTogMCBQSUQ6IDI5NyBhdCBkcml2ZXJzL2dw
-dS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYzoxNDk0IGRybV9hdG9taWNfaGVscGVyX3dhaXRfZm9y
-X3ZibGFua3MrMHgxZGMvMHgyMDANCj4gW0NSVEM6MzU6Y3J0Yy0wXSB2Ymxhbmsgd2FpdCB0aW1l
-ZCBvdXQNCj4gTW9kdWxlcyBsaW5rZWQgaW46DQo+IENQVTogMCBQSUQ6IDI5NyBDb21tOiBRU0dS
-ZW5kZXJUaHJlYWQgTm90IHRhaW50ZWQgNS42LjAtcmMzLW5leHQtMjAyMDAyMjgtMDAwMTAtZzMx
-OGJmMGZjMDhlZiAjMg0KPiBIYXJkd2FyZSBuYW1lOiBTVE0zMiAoRGV2aWNlIFRyZWUgU3VwcG9y
-dCkNCj4gWzxjMDEwZjE4Yz5dICh1bndpbmRfYmFja3RyYWNlKSBmcm9tIFs8YzAxMGFmYjg+XSAo
-c2hvd19zdGFjaysweDEwLzB4MTQpDQo+IFs8YzAxMGFmYjg+XSAoc2hvd19zdGFjaykgZnJvbSBb
-PGMwN2IxZDNjPl0gKGR1bXBfc3RhY2srMHhiNC8weGQwKQ0KPiBbPGMwN2IxZDNjPl0gKGR1bXBf
-c3RhY2spIGZyb20gWzxjMDExZDhiOD5dIChfX3dhcm4rMHhkNC8weGYwKQ0KPiBbPGMwMTFkOGI4
-Pl0gKF9fd2FybikgZnJvbSBbPGMwMTFkYzRjPl0gKHdhcm5fc2xvd3BhdGhfZm10KzB4NzgvMHhh
-OCkNCj4gWzxjMDExZGM0Yz5dICh3YXJuX3Nsb3dwYXRoX2ZtdCkgZnJvbSBbPGMwNGEyNjZjPl0g
-KGRybV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MrMHgxZGMvMHgyMDApDQo+IFs8YzA0
-YTI2NmM+XSAoZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5rcykgZnJvbSBbPGMwNGE1
-MTBjPl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWlsKzANCj4geDUwLzB4NjApDQo+IFs8
-YzA0YTUxMGM+XSAoZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X3RhaWwpIGZyb20gWzxjMDRhNTJh
-OD5dIChjb21taXRfdGFpbCsweDEyYy8weDEzYykNCj4gWzxjMDRhNTJhOD5dIChjb21taXRfdGFp
-bCkgZnJvbSBbPGMwNGE1M2I0Pl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCsweGY0LzB4MTAw
-KQ0KPiBbPGMwNGE1M2I0Pl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCkgZnJvbSBbPGMwNGEy
-ZDM4Pl0gKGRybV9hdG9taWNfaGVscGVyX3NldF9jb25maWcrMHg1OC8weDZjKQ0KPiBbPGMwNGEy
-ZDM4Pl0gKGRybV9hdG9taWNfaGVscGVyX3NldF9jb25maWcpIGZyb20gWzxjMDRiMTk5ND5dIChk
-cm1fbW9kZV9zZXRjcnRjKzB4NDUwLzB4NTUwKQ0KPiBbPGMwNGIxOTk0Pl0gKGRybV9tb2RlX3Nl
-dGNydGMpIGZyb20gWzxjMDRhZDU3MD5dIChkcm1faW9jdGxfa2VybmVsKzB4OTAvMHhlOCkNCj4g
-WzxjMDRhZDU3MD5dIChkcm1faW9jdGxfa2VybmVsKSBmcm9tIFs8YzA0YWQ4YWM+XSAoZHJtX2lv
-Y3RsKzB4MmU0LzB4MzJjKQ0KPiBbPGMwNGFkOGFjPl0gKGRybV9pb2N0bCkgZnJvbSBbPGMwMjQ2
-Nzg0Pl0gKHZmc19pb2N0bCsweDIwLzB4MzgpDQo+IFs8YzAyNDY3ODQ+XSAodmZzX2lvY3RsKSBm
-cm9tIFs8YzAyNDcwZjA+XSAoa3N5c19pb2N0bCsweGJjLzB4N2IwKQ0KPiBbPGMwMjQ3MGYwPl0g
-KGtzeXNfaW9jdGwpIGZyb20gWzxjMDEwMTAwMD5dIChyZXRfZmFzdF9zeXNjYWxsKzB4MC8weDU0
-KQ0KPiBFeGNlcHRpb24gc3RhY2soMHhlZThmM2ZhOCB0byAweGVlOGYzZmYwKQ0KPiAzZmEwOiAg
-ICAgICAgICAgICAgICAgICAwMDAwMDAwNSBhZGNiZWIxOCAwMDAwMDAwNSBjMDY4NjRhMiBhZGNi
-ZWIxOCAwMDAwMDAwMQ0KPiAzZmMwOiAwMDAwMDAwNSBhZGNiZWIxOCBjMDY4NjRhMiAwMDAwMDAz
-NiAwMDAwMDAyOSAwMDAwMDAyMyAwMDAwMDAyMyAwMDAwMDAwNw0KPiAzZmUwOiBiMTEzYjA5OCBh
-ZGNiZWFmYyBiMTEyNTQxMyBiNjE1NWNmOA0KPiAtLS1bIGVuZCB0cmFjZSAyYWQ1YmE5NTRjZWI3
-NjdhIF0tLS0NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRjLmMgfCAzICsrKw0K
-PiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jDQo+
-IGluZGV4IDk5YmY5M2U4YjM2Zi4uMzAxZGUwNDk4MDc4IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vc3RtL2x0ZGMuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYw0K
-PiBAQCAtNDI1LDkgKzQyNSwxMiBAQCBzdGF0aWMgdm9pZCBsdGRjX2NydGNfYXRvbWljX2VuYWJs
-ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsDQo+ICAgCQkJCSAgICBzdHJ1Y3QgZHJtX2NydGNfc3Rh
-dGUgKm9sZF9zdGF0ZSkNCj4gICB7DQo+ICAgCXN0cnVjdCBsdGRjX2RldmljZSAqbGRldiA9IGNy
-dGNfdG9fbHRkYyhjcnRjKTsNCj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZGRldiA9IGNydGMtPmRl
-djsNCj4gICANCj4gICAJRFJNX0RFQlVHX0RSSVZFUigiXG4iKTsNCj4gICANCj4gKwlwbV9ydW50
-aW1lX2dldF9zeW5jKGRkZXYtPmRldik7DQo+ICsNCj4gICAJLyogU2V0cyB0aGUgYmFja2dyb3Vu
-ZCBjb2xvciB2YWx1ZSAqLw0KPiAgIAlyZWdfd3JpdGUobGRldi0+cmVncywgTFREQ19CQ0NSLCBC
-Q0NSX0JDQkxBQ0spOw0KPiAgIA0KPiANCkhpIE1hcmVrLA0KTWFueSB0aGFua3MgZm9yIHlvdXIg
-cGF0Y2gsDQpBY2tlZC1ieTogUGhpbGlwcGUgQ29ybnUgPHBoaWxpcHBlLmNvcm51QHN0LmNvbT4N
-ClRlc3RlZC1ieTogWWFubmljayBGZXJ0cmUgPHlhbm5pY2suZmVydHJlQHN0LmNvbT4NCg0KDQpI
-aSBCZW5qYW1pbiwNCkNvdWxkIHlvdSBwbGVhc2UgYXBwbHkgImRybS9zdG06IGx0ZGM6IHJlbW92
-ZSBjYWxsIG9mIHBtLXJ1bnRpbWUgDQpmdW5jdGlvbnMiICoqYmVmb3JlKiogdGhpcyBvbmUuIFRo
-YW5rIHlvdS4NCg0KUGhpbGlwcGUgOi0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Am 25.06.20 um 15:59 schrieb Daniel Vetter:
+> On Thu, Jun 25, 2020 at 3:23 PM Lionel Landwerlin
+> <lionel.g.landwerlin@intel.com> wrote:
+>> On 25/06/2020 16:18, Chris Wilson wrote:
+>>> Quoting Lionel Landwerlin (2020-06-25 13:34:43)
+>>>> There was probably a misunderstand on how the dma-fence-chain is
+>>>> supposed to work or what dma_fence_chain_find_seqno() is supposed to
+>>>> return.
+>>>>
+>>>> dma_fence_chain_find_seqno() is here to give us the fence to wait upon
+>>>> for a particular point in the timeline. The timeline progresses only
+>>>> when all the points prior to a given number have completed.
+>>> Hmm, the question was what point is it supposed to wait for.
+>>>
+>>> For the simple chain of [1, 3], does 1 being signaled imply that all
+>>> points up to 3 are signaled, or does 3 not being signaled imply that all
+>>> points after 1 are not. If that's mentioned already somewhere, my bad.
+>>> If not, could you put the answer somewhere.
+>>> -Chris
+>> In [1, 3], if 1 is signaled, the timeline value is 1. And find_seqno(2)
+>> should return NULL.
+>>
+>>
+>> In the out_of_order selftest the chain was [1, 2, 3], 2 was signaled and
+>> the test was expecting no fence to be returned by find_seqno(2).
+>>
+>> But we still have to wait on 1 to complete before find_seqno(2) can
+>> return NULL (as in you don't have to wait on anything).
+>>
+>>
+>> Hope that answer the question.
+> I asked Christian to document why timeline works like this, but I
+> can't find it in the kerneldoc right now. If it's missing I think we
+> should fix that and add the explanation, iirc it was around gpu reset
+> creating too much havoc otherwise.
+
+I do remember that I wrote a patch to improve the kerneldoc for timeline 
+semaphores, but then somebody else came along with an even better 
+description.
+
+Unfortunately it looks like neither was ever merged.
+
+Need to dig through my mails,
+Christian.
+
+> -Daniel
+>
+>>
+>> -Lionel
+>>
+>> _______________________________________________
+>> Intel-gfx mailing list
+>> Intel-gfx@lists.freedesktop.org
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fintel-gfx&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7Cfd87640cd9bd422971bf08d8191004d2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637286903879074805&amp;sdata=M3WGWbuyQKZeGC0J3wEKtgQ1oKYo6GOAMvKU2mU3r%2FM%3D&amp;reserved=0
+>
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
