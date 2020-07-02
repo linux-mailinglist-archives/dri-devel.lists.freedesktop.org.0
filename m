@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79472135F5
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 10:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89442135E9
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 10:12:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE216EB3E;
-	Fri,  3 Jul 2020 08:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEB036EABC;
+	Fri,  3 Jul 2020 08:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D706E044
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:04:40 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1556E037
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 14:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
  s=dbaedf251592; t=1593698649;
  bh=DCK/WFqgBdaHR38QF2ta4hvKwO2tQSln1KlsJxiIhkM=;
@@ -20,8 +20,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
  +hknJzmw/9n0Jq14TaO/+JWA/OT50eO3cra+u0YYBGgEsI4uUqdB7ycfxfuvJjz1UQ
  j4GBPNiXWmqiFLxHUv6ecVm3lp5tO7hCeOI8+APk=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.132.138.52]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MBSB9-1jf8OU1otT-00Cw9R; Thu, 02
+Received: from [192.168.1.2] ([93.132.138.52]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MB06e-1jh4Cj1p1Y-009vV6; Thu, 02
  Jul 2020 16:04:09 +0200
 To: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
@@ -71,36 +71,36 @@ Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
  x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
  pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
-Message-ID: <0681b179-6bdd-6014-b363-adaff3d831ca@web.de>
+Message-ID: <1c338c4c-c185-0b37-eabb-1072a6502ec0@web.de>
 Date: Thu, 2 Jul 2020 16:04:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
 Content-Language: en-GB
-X-Provags-ID: V03:K1:8TU6yp4N67OXeWdbbjjufaIGXayy6Bhv26ZUZkg37c2VfTLTMqs
- B8lUPD2Hw8SiZrOkHQSRctGfUmVGUszdOaTPElWQWZ4pCHa7p4gP8v94iNwigrZ0BRF/5Si
- vTh+hJsdQTdb1LQ66p4f4kSdPchGyS2DLa5fICt9yjj+cTMS/dy8vG/KEQPr/19XDlyHCDr
- vKc8p26Uidj39pR5dw0jQ==
+X-Provags-ID: V03:K1:zKBOW2W3vG0rFaq44rAhwc2i9qkzNX4TObOfBu6CAgIJ5qITTc0
+ aKZkXK7c8EVplKQR0qcEMP43n0dEdkNyATjogxppBVgMVMkt7qSaeIuapze8jFWiEz/tyTn
+ Y4APgs6Y7tdhZZSb62D+zKNWa6O+bJB7X3FFOcH6w7YGlUmMCyhkNQlDGaL8kk0N6nWHlTI
+ Bh3bfkcFlmeK0sekM1Pyg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1qIV3s4rnak=:mjWjkZ/cLz+3YsaTpn5vXm
- u6P23PF3xyyOg9NAOImG4bFsuRMR313b5jLUX9AXcTUGyhfhXAmr36AyWHicbt1kO0eLBfhhR
- ffXakw6n71kXpvaRMw84fKsPw+qSIntgOqm1q8w4AEwqcL/mOrQRrHcVaBfBpJ45xYkbJB3Y6
- RrEvuIdrZ7ybAHrcESjvTRnX1/Mik9yEOwRZNdGSAqhxT07mkwKOuVxvQi61terd4V63AGPTr
- LbLi5S0BZpIHoWMgujMAovif7rDEOAvhiWw5BIRnKKK8/FbNg0u21kTKEybD+LQJh8FfBwfaV
- LFQBB96455xLHG/4XpMpRrtKeEBXBKGBF/5P7q2JOlSMeRyDHZ5k9DbTtIvJjM6x0VLQUKp4S
- a4IdFLqUeJgNnn/FwCIlW7YVOnvS1XcBcDQ/Ln1iQ/rRTZCHbw89sr7t6VK4my+FMJq3QjkY2
- 6tXV/+2+kziKWLeEmB7W7Xv/FciMU8Zmp/6B5Hm9gRkzneV7xdzWkZgm3XErLX+nv40zIXLnC
- oCZvDXekqyDBGkkwhex6RbAfdyp/y9ONE+N3C7qKfivxyfN2w39P1PxToX4AdjMQ3ZFXUbxcv
- /+LvgGwVfwALENcTJAzVseOgMpz171JPwk2EUS5qR815rCRxTZFsU8adIaMqSGCa021pS2tvt
- Cq5rXLnn8DMX422d9IrGN9EFhMefMWpGgq3CSF/C9j4BnzErO6/85AZUtiLhgazf8NDel52dg
- Ai7kqXKpvItYSZ7BaWdayu4ZFpECD6RyZdY4qlxmePCBz63/fjYnQyowNKavurOUJgrtXhU7T
- lspIKL646IycxwoNsDfNe3qoBFVwjrUyuqbxXAWzWJXM1HQRqqH2KJL3TgBXlm6c+JujueYQq
- OYxWf7JIfz3wATvI7dIY7YMo5383Y1EZLXxBbjSafEVZWPv+16W7nfrDpffo9pDcg+w16dxzJ
- 3ClTnuLJjtkj0OSLYn/O6+YDqVPZfar+ED34gMqm89KQkZ11v5RVumAWmaUGeDfq18+XcuVXS
- +XY3tfX4FRM2299ArpnOuloVLoWD6yAnEgJtC57SfjU3jYojxoIpj+WombOBUjRsVUjAVSHyC
- eLaH2KXpmu6AWzZ8GzkiLKsRnW7kICOP7xy4jU88Xia2xTCPQqyiJanZHFmqscqjNJm9qyApV
- fK0C1Cf4qb8MBeehnoPIlAmugJrRM88WEOQjYsKQqTr5SwDRNQLu4WDxas0e04j95m4Onm4q7
- XYRDBv9FdG86AXlYG
+X-UI-Out-Filterresults: notjunk:1;V03:K0:J9+4GruiX8c=:QlwklHr6cTfjX5bYLE+JgK
+ Iz6e+EfRYSec6k8MyhmGARc0COOn/sPrTJcBLILxmWUJ7gLADX5HMyYW+giWGrks4SpYpiZAZ
+ 2EMn5zixBug0UReTJYy7N8QBoJXQ8X8N8n0q4Z17lGEKFCMcMhb4btx16qC62HJYBgI96sQgF
+ qzL2qyQ5/2W2xn8BboeKI4laFxVtknLjTSq86vKxYDCRs9OIo1R3NRtDYx2UouQ9wXIFt76Oq
+ joe/oI4hwMFzvGQdAWjQEseIyWQ2YyRsiDoq/hdZ3bsS20OQ7P0YUdLe8/fF/NHIRoH2i0k0W
+ ezrRkKaBQoTKBYgSxtvxrDnKeQxX3hgJEQD/ARXM5HcWa3I9Ed9j3jeD92i2XxkRwWvFn6R6m
+ KC3z5+bYJyWGa6qlSh/kIOMma+ViCZQJG/fE3C7mvf9gYWmE5xkshX50qKEqs6vN3iNZh8JUm
+ asnMx1PmgIRAOxShGpqt/bh27E19PiOpn7XP/6WGWarLUEo91iNZziCth7d1Wktof7anHm9gp
+ hAkwJu0aGVaA2oKUbf/iQQF+gwKl0WiJIQClo08eZf2ziAxdiFDbLtvl6e6sWaRY/tITUg3Df
+ TkXWwpfG2a+H1K7VK6WvmPIyFknj/mnK2hF6G1VYXA5E6JSgQz3D1ZuFfzQ8dAIee0UNlpxKd
+ MmcuV7e9i55WGmEYn+4It7tqKklD6MdMCixAgMGU5Fr0ge4W62FxZN7rfmyF2C0JXcNheJfZQ
+ ACO28wAVvW07JdUHBbGE/YMn6yag81aoyueIVvgNgoiXD6YeR0yXkx0GFgNYniTStYrkep6X/
+ Ii6jVhm++4h5eeo+l2ENiqkPqh62QAfk7yHGrWkvcFdIJ0LQ7THoGLCnGpJSL2liTt12lpDNj
+ Lgw9FdddpbLmQx/1xxhIKRYyhm7si22MGJdXnKLL80pr1PbOmRpaSnINPHlrCHqarQBs7KBk1
+ NvJNaV+Dw/ffsnLVzsrGwBkD0ctog/Ndl6K1STzSpX312SsgbjOVRaIGX5AacWqvjn8nf2+Yj
+ MPG1vKI1IoOwvWGWos5mY8IaPIBHpJWYHH8eakHMSG1hkBxjwvlZJiwGMTYnN5hOU2Vn6fMLn
+ x1Vi4LEu97KPDp5yjJW0wWkLK6UC0bSvl+yU6Qa1Xz4GiUCjw1fpX6hPAkdrvRuGx87x0fbYH
+ aXb03is05ARmOszbKEbmwrm6FcOZEh/TprOtS8dgiQWdXjdVcqhhXLAYLPF174lS8VjYAOwmP
+ Ioxx8WgBgbx6TDhzq
 X-Mailman-Approved-At: Fri, 03 Jul 2020 08:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
