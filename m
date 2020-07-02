@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF6D2135EB
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 10:12:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890852135F8
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 10:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA3D6EB38;
-	Fri,  3 Jul 2020 08:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D776EB47;
+	Fri,  3 Jul 2020 08:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109FA6E22B
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 08:56:32 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id DC9D7E2B65F69A5A6435;
- Thu,  2 Jul 2020 16:56:27 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 2 Jul 2020 16:56:17 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <puck.chen@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <tzimmermann@suse.de>, <kraxel@redhat.com>, <alexander.deucher@amd.com>,
- <tglx@linutronix.de>, <dri-devel@lists.freedesktop.org>,
- <xinliang.liu@linaro.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] drm/hisilicon: Code refactoring for hibmc_drv_vdac
-Date: Thu, 2 Jul 2020 16:54:41 +0800
-Message-ID: <1593680081-60313-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1896E07B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 09:08:05 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 0DE9EB761AB513D54E7F;
+ Thu,  2 Jul 2020 17:08:04 +0800 (CST)
+Received: from kernelci-master.huawei.com (10.175.101.6) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 2 Jul 2020 17:07:57 +0800
+From: Wei Yongjun <weiyongjun1@huawei.com>
+To: Hulk Robot <hulkci@huawei.com>, Jakub Kicinski <kuba@kernel.org>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, zhong jiang <zhongjiang@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Nikolay Aleksandrov
+ <nikolay@cumulusnetworks.com>, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julian Wiedmann <jwi@linux.ibm.com>
+Subject: [PATCH net-next] ksz884x: mark pcidev_suspend() as __maybe_unused
+Date: Thu, 2 Jul 2020 17:18:10 +0800
+Message-ID: <20200702091810.4999-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
+X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 03 Jul 2020 08:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,120 +44,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
+Cc: linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
+ Wei Yongjun <weiyongjun1@huawei.com>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-code refactoring for hibmc_drv_vdac.c, no actual function changes.
+In certain configurations without power management support, gcc report
+the following warning:
 
-v2:
-remove the debug message.
+drivers/net/ethernet/micrel/ksz884x.c:7182:12: warning:
+ 'pcidev_suspend' defined but not used [-Wunused-function]
+ 7182 | static int pcidev_suspend(struct device *dev_d)
+      |            ^~~~~~~~~~~~~~
 
-v3:
-embedding connector and encoder in struct hibmc_drm_private.
+Mark pcidev_suspend() as __maybe_unused to make it clear.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Fixes: 64120615d140 ("ksz884x: use generic power management")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  2 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 52 +++++-------------------
- 2 files changed, 13 insertions(+), 41 deletions(-)
+ drivers/net/ethernet/micrel/ksz884x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 50a0c1f..6097687 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -29,6 +29,8 @@ struct hibmc_drm_private {
- 
- 	/* drm */
- 	struct drm_device  *dev;
-+	struct drm_encoder encoder;
-+	struct drm_connector connector;
- 	bool mode_config_initialized;
- };
- 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 678ac2e..2ca69c3 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -52,32 +52,6 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static struct drm_connector *
--hibmc_connector_init(struct hibmc_drm_private *priv)
--{
--	struct drm_device *dev = priv->dev;
--	struct drm_connector *connector;
--	int ret;
--
--	connector = devm_kzalloc(dev->dev, sizeof(*connector), GFP_KERNEL);
--	if (!connector) {
--		DRM_ERROR("failed to alloc memory when init connector\n");
--		return ERR_PTR(-ENOMEM);
--	}
--
--	ret = drm_connector_init(dev, connector,
--				 &hibmc_connector_funcs,
--				 DRM_MODE_CONNECTOR_VGA);
--	if (ret) {
--		DRM_ERROR("failed to init connector: %d\n", ret);
--		return ERR_PTR(ret);
--	}
--	drm_connector_helper_add(connector,
--				 &hibmc_connector_helper_funcs);
--
--	return connector;
--}
--
- static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
- 				   struct drm_display_mode *mode,
- 				   struct drm_display_mode *adj_mode)
-@@ -105,23 +79,10 @@ static const struct drm_encoder_funcs hibmc_encoder_funcs = {
- int hibmc_vdac_init(struct hibmc_drm_private *priv)
- {
- 	struct drm_device *dev = priv->dev;
--	struct drm_encoder *encoder;
--	struct drm_connector *connector;
-+	struct drm_encoder *encoder = &priv->encoder;
-+	struct drm_connector *connector = &priv->connector;
- 	int ret;
- 
--	connector = hibmc_connector_init(priv);
--	if (IS_ERR(connector)) {
--		DRM_ERROR("failed to create connector: %ld\n",
--			  PTR_ERR(connector));
--		return PTR_ERR(connector);
--	}
--
--	encoder = devm_kzalloc(dev->dev, sizeof(*encoder), GFP_KERNEL);
--	if (!encoder) {
--		DRM_ERROR("failed to alloc memory when init encoder\n");
--		return -ENOMEM;
--	}
--
- 	encoder->possible_crtcs = 0x1;
- 	ret = drm_encoder_init(dev, encoder, &hibmc_encoder_funcs,
- 			       DRM_MODE_ENCODER_DAC, NULL);
-@@ -131,6 +92,15 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	}
- 
- 	drm_encoder_helper_add(encoder, &hibmc_encoder_helper_funcs);
-+
-+	ret = drm_connector_init(dev, connector, &hibmc_connector_funcs,
-+				 DRM_MODE_CONNECTOR_VGA);
-+	if (ret) {
-+		DRM_ERROR("failed to init connector: %d\n", ret);
-+		return ret;
-+	}
-+	drm_connector_helper_add(connector, &hibmc_connector_helper_funcs);
-+
- 	drm_connector_attach_encoder(connector, encoder);
- 
+diff --git a/drivers/net/ethernet/micrel/ksz884x.c b/drivers/net/ethernet/micrel/ksz884x.c
+index 24901342ecc0..2ce7304d3753 100644
+--- a/drivers/net/ethernet/micrel/ksz884x.c
++++ b/drivers/net/ethernet/micrel/ksz884x.c
+@@ -7179,7 +7179,7 @@ static int __maybe_unused pcidev_resume(struct device *dev_d)
  	return 0;
--- 
-2.7.4
+ }
+ 
+-static int pcidev_suspend(struct device *dev_d)
++static int __maybe_unused pcidev_suspend(struct device *dev_d)
+ {
+ 	int i;
+ 	struct platform_info *info = dev_get_drvdata(dev_d);
 
 _______________________________________________
 dri-devel mailing list
