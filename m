@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6260212E09
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 22:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EDA212E3B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jul 2020 22:51:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E10586E17B;
-	Thu,  2 Jul 2020 20:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3863F6E156;
+	Thu,  2 Jul 2020 20:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6E76E17B;
- Thu,  2 Jul 2020 20:46:18 +0000 (UTC)
-IronPort-SDR: xGJJtX3IXZ2fmH8984WPz8sT3GKaipNUc0fnXMok6ojgSTcuf3CouBHO8FgRxk5Vak+AhqVINX
- hgna7nksJgrw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="212055903"
-X-IronPort-AV: E=Sophos;i="5.75,305,1589266800"; d="scan'208";a="212055903"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2020 13:46:17 -0700
-IronPort-SDR: IQWRWSv0BkwtdsDEaN2t1H4LmDprW0YWbUssMXgNPfbr+Q5O4HgDAje8j6mAViyalV0W+370NP
- xaJsSpYz+Tmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,305,1589266800"; d="scan'208";a="322214001"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by orsmga007.jf.intel.com with ESMTP; 02 Jul 2020 13:46:16 -0700
-Received: from fmsmsx116.amr.corp.intel.com ([169.254.2.40]) by
- fmsmsx107.amr.corp.intel.com ([169.254.6.74]) with mapi id 14.03.0439.000;
- Thu, 2 Jul 2020 13:45:59 -0700
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/edid: Allow looking for ext blocks
- starting from a specified index
-Thread-Topic: [Intel-gfx] [PATCH 1/3] drm/edid: Allow looking for ext blocks
- starting from a specified index
-Thread-Index: AQHWNCc3IN3v06eUAkirs4qIFB7AY6jyfcIAgAKMxYCAAGaOAA==
-Date: Thu, 2 Jul 2020 20:45:58 +0000
-Message-ID: <4a06f47f58c20ca13c65beae296faec80a421bde.camel@intel.com>
-References: <20200527130310.27099-1-ville.syrjala@linux.intel.com>
- <8f1e0c7ad218ddf20167ae90d623fb7eec9422c9.camel@intel.com>
- <20200702144035.GD6112@intel.com>
-In-Reply-To: <20200702144035.GD6112@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.14.51]
-Content-ID: <07B0C53DC27D874890EED18D5D9E390C@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FDC6E156
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jul 2020 20:51:48 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id i25so30454663iog.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jul 2020 13:51:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rcmf522YzRsjQGuzsW0MDCpwiVqvv14uH+p7wGyNLDs=;
+ b=l34RawewK4pTGnFh7vJoB/ZVeFRZkwEaINcDfdIjp+s4HlMX8bMAibGtx9hSvD5zvI
+ 5BlwMhWlIHRg/+11fk9yJ1K1rST5TCsKb2e9/OIVlpPu2OLNmxqMh0RSshFqshVcv51P
+ HH+NoMq9+Dhh8+ypb3PRsMMI/N5XmnyT8KKQWhr4HTmwbutQR9ckaXKTF34lksxjZYZ/
+ f3ubMCu/L/26gP0pzEAy3FDqrrjSGSgTJkFc4WjtdTaPCWvPi/c0h2hEjPD/6DDsXhZT
+ fpNgI/m7Ch/JJjnsCzVnVnuyLVaF8pfmoSrZ7kqcQR3ciVVFJ1LhXOfmMifVJ43/JrQx
+ wZow==
+X-Gm-Message-State: AOAM532xP9gbQ2Z+ipecJyEhKD1+WAdQmOsacjoBLFw6mKP15fMBG1tV
+ y9ZJi3LKBJzXcOxVC2AvMQ==
+X-Google-Smtp-Source: ABdhPJySM9jU/gTpvtpT3zaOet81vYx3jYRYc+7n0XVexCFz3T+hidfEsgv5ZE431Xid0foaBnN57Q==
+X-Received: by 2002:a6b:ee02:: with SMTP id i2mr9168719ioh.110.1593723107239; 
+ Thu, 02 Jul 2020 13:51:47 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id w10sm5427766ilo.10.2020.07.02.13.51.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jul 2020 13:51:46 -0700 (PDT)
+Received: (nullmailer pid 1671716 invoked by uid 1000);
+ Thu, 02 Jul 2020 20:51:43 -0000
+Date: Thu, 2 Jul 2020 14:51:43 -0600
+From: Rob Herring <robh@kernel.org>
+To: Ondrej Jirman <megous@megous.com>
+Subject: Re: [PATCH v7 02/13] dt-bindings: panel: Convert rocktech,
+ jh057n00900 to yaml
+Message-ID: <20200702205143.GA1670522@bogus>
+References: <20200701162928.1638874-1-megous@megous.com>
+ <20200701162928.1638874-3-megous@megous.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200701162928.1638874-3-megous@megous.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,109 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-sunxi@googlegroups.com, Purism Kernel Team <kernel@puri.sm>,
+ Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Bhushan Shah <bshah@kde.org>, linux-kernel@vger.kernel.org,
+ Martijn Braam <martijn@brixit.nl>, Luca Weiss <luca@z3ntu.xyz>,
+ Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDIwLTA3LTAyIGF0IDE3OjQwICswMzAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
-DQo+IE9uIFR1ZSwgSnVuIDMwLCAyMDIwIGF0IDExOjQyOjM2UE0gKzAwMDAsIFNvdXphLCBKb3Nl
-IHdyb3RlOg0KPiA+IE9uIFdlZCwgMjAyMC0wNS0yNyBhdCAxNjowMyArMDMwMCwgVmlsbGUgU3ly
-amFsYSB3cm90ZToNCj4gPiA+IEZyb206IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBs
-aW51eC5pbnRlbC5jb20+DQo+ID4gPiANCj4gPiA+IEFwcGFyZW50bHkgRURJRHMgd2l0aCBtdWx0
-aXBsZSBEaXNwSUQgZXh0IGJsb2NrcyBpcyBhIHRoaW5nLCBzbyBwcmVwYXJlDQo+ID4gPiBmb3Ig
-aXRlcmF0aW5nIHRocm91Z2ggbXVsdGlwbGUgZXh0IGJsb2NrcyBvZiB0aGUgc2FtZSB0eXBlIGJ5
-DQo+ID4gPiBwYXNzaW5nIHRoZSBzdGFydGluZyBleHQgYmxvY2sgaW5kZXggdG8gZHJtX2ZpbmRf
-ZWRpZF9leHRlbnNpb24oKS4gV2VsbA0KPiA+ID4gYWxzbyBoYXZlIGRybV9maW5kX2VkaWRfZXh0
-ZW5zaW9uKCkgdXBkYXRlIHRoZSBpbmRleCB0byBwb2ludCB0byB0aGUNCj4gPiA+IG5leHQgZXh0
-IGJsb2NrIG9uIHN1Y2Nlc3MuIFRodXMgd2Ugc2hvdWxkIGJlIGFibGUgdG8gY2FsbA0KPiA+ID4g
-ZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oKSBpbiBsb29wLg0KPiA+ID4gDQo+ID4gPiBTaWduZWQt
-b2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
-PiA+ID4gLS0tDQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgfCAzMCArKysrKysr
-KysrKysrKysrKysrKystLS0tLS0tLS0NCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0
-aW9ucygrKSwgOSBkZWxldGlvbnMoLSkNCj4gPiA+IA0KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMNCj4gPiA+
-IGluZGV4IGQ4MzcyZDYzODUxYi4uZjI1MzFkNTFkZmEyIDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9lZGlkLmMNCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-ZWRpZC5jDQo+ID4gPiBAQCAtMzE4OCw3ICszMTg4LDggQEAgYWRkX2RldGFpbGVkX21vZGVzKHN0
-cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIHN0cnVjdCBlZGlkICplZGlkLA0KPiA+ID4g
-IC8qDQo+ID4gPiAgICogU2VhcmNoIEVESUQgZm9yIENFQSBleHRlbnNpb24gYmxvY2suDQo+ID4g
-PiAgICovDQo+ID4gPiAtc3RhdGljIHU4ICpkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBz
-dHJ1Y3QgZWRpZCAqZWRpZCwgaW50IGV4dF9pZCkNCj4gPiA+ICtzdGF0aWMgdTggKmRybV9maW5k
-X2VkaWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkLA0KPiA+ID4gKwkJCQkgICBp
-bnQgZXh0X2lkLCBpbnQgKmV4dF9pbmRleCkNCj4gPiA+ICB7DQo+ID4gPiAgCXU4ICplZGlkX2V4
-dCA9IE5VTEw7DQo+ID4gPiAgCWludCBpOw0KPiA+ID4gQEAgLTMxOTgsMjMgKzMxOTksMjYgQEAg
-c3RhdGljIHU4ICpkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRp
-ZCwgaW50IGV4dF9pZCkNCj4gPiA+ICAJCXJldHVybiBOVUxMOw0KPiA+ID4gIA0KPiA+ID4gIAkv
-KiBGaW5kIENFQSBleHRlbnNpb24gKi8NCj4gPiA+IC0JZm9yIChpID0gMDsgaSA8IGVkaWQtPmV4
-dGVuc2lvbnM7IGkrKykgew0KPiA+ID4gKwlmb3IgKGkgPSAqZXh0X2luZGV4OyBpIDwgZWRpZC0+
-ZXh0ZW5zaW9uczsgaSsrKSB7DQo+ID4gPiAgCQllZGlkX2V4dCA9ICh1OCAqKWVkaWQgKyBFRElE
-X0xFTkdUSCAqIChpICsgMSk7DQo+ID4gPiAgCQlpZiAoZWRpZF9leHRbMF0gPT0gZXh0X2lkKQ0K
-PiA+ID4gIAkJCWJyZWFrOw0KPiA+ID4gIAl9DQo+ID4gPiAgDQo+ID4gPiAtCWlmIChpID09IGVk
-aWQtPmV4dGVuc2lvbnMpDQo+ID4gPiArCWlmIChpID49IGVkaWQtPmV4dGVuc2lvbnMpDQo+ID4g
-PiAgCQlyZXR1cm4gTlVMTDsNCj4gPiA+ICANCj4gPiA+ICsJKmV4dF9pbmRleCA9IGkgKyAxOw0K
-PiA+ID4gKw0KPiA+ID4gIAlyZXR1cm4gZWRpZF9leHQ7DQo+ID4gPiAgfQ0KPiA+ID4gIA0KPiA+
-IA0KPiA+IEkgd291bGQgYWRkIHNvbWV0aGluZyBsaWtlIGRybV9maW5kX2VkaWRfbl9leHRlbnNp
-b24oKSB3aXRoIHRoZSBpbXBsZW1lbnRhdGlvbiBhYm92ZSBhbmQgdGhlbiBpbXBsZW1lbnQgZHJt
-X2ZpbmRfZWRpZF9leHRlbnNpb24oKSBjYWxsaW5nDQo+ID4gZHJtX2ZpbmRfZWRpZF9uX2V4dGVu
-c2lvbigpIGJ1dCBpdCBpcyBqdXN0IG9uZSBjYWxsZXIgdGhhdCBpcyBub3QgdXNpbmcgZXh0X2lu
-ZGV4IHNvIExHVE0uDQo+ID4gDQo+ID4gPiAgDQo+ID4gPiAgc3RhdGljIHU4ICpkcm1fZmluZF9k
-aXNwbGF5aWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkLA0KPiA+ID4gLQkJCQkJ
-aW50ICpsZW5ndGgsIGludCAqaWR4KQ0KPiA+ID4gKwkJCQkJaW50ICpsZW5ndGgsIGludCAqaWR4
-LA0KPiA+ID4gKwkJCQkJaW50ICpleHRfaW5kZXgpDQo+ID4gPiAgew0KPiA+ID4gLQl1OCAqZGlz
-cGxheWlkID0gZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oZWRpZCwgRElTUExBWUlEX0VYVCk7DQo+
-ID4gPiArCXU4ICpkaXNwbGF5aWQgPSBkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihlZGlkLCBESVNQ
-TEFZSURfRVhULCBleHRfaW5kZXgpOw0KPiA+ID4gIAlzdHJ1Y3QgZGlzcGxheWlkX2hkciAqYmFz
-ZTsNCj4gPiA+ICAJaW50IHJldDsNCj4gPiA+ICANCj4gPiA+IEBAIC0zMjQxLDE0ICszMjQ1LDE4
-IEBAIHN0YXRpYyB1OCAqZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAq
-ZWRpZCkNCj4gPiA+ICAJc3RydWN0IGRpc3BsYXlpZF9ibG9jayAqYmxvY2s7DQo+ID4gPiAgCXU4
-ICpjZWE7DQo+ID4gPiAgCXU4ICpkaXNwbGF5aWQ7DQo+ID4gPiArCWludCBleHRfaW5kZXg7DQo+
-ID4gPiAgDQo+ID4gPiAgCS8qIExvb2sgZm9yIGEgdG9wIGxldmVsIENFQSBleHRlbnNpb24gYmxv
-Y2sgKi8NCj4gPiA+IC0JY2VhID0gZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oZWRpZCwgQ0VBX0VY
-VCk7DQo+ID4gPiArCWV4dF9pbmRleCA9IDA7DQo+ID4gDQo+ID4gSW4gMiBwbGFjZXMgZXh0X2lu
-ZGV4IGlzIGluaXRpYWxpemVkIGluIHRoZSB2YXJpYWJsZSBkZWNsYXJhdGlvbiBhbmQgaW4gMiBv
-dGhlciBwbGFjZXMgaXMgbm90LCBhbGwgb2YgaXQgY291bGQgYmUgZG9uZSBpbiB0aGUgZGVjbGFy
-YXRpb24NCj4gDQo+IE5vLCBpbiB0aGlzIGNhc2Ugd2UgbmVlZCB0byByZXNldCBpdCBiYWNrIHRv
-IDAgd2hlbiB0aGUgc3RhcnQgbG9va2luZw0KPiBmb3IgdGhlIERpc3BJRCBleHQgYmxvY2sgKGFz
-IG9wcG9zZWQgdG8gdGhlIENFQSBleHQgYmxvY2spLiBTbyBJIGZpZ3VyZWQNCj4gaXQncyBjbGVh
-bmVyIGlmIGJvdGggaW5pdGlhbGl6ZSBpdCB0byAwIHRoZSBzYW1lIHdheS4gQWxsIHRoZSBvdGhl
-cg0KPiBwbGFjZXMgbmVlZCBqdXN0IHRoZSBvbmUgaW5pdGlhbGl6YXRpb24uDQo+IA0KPiBFdmVu
-dHVhbGx5IEkgdGhpbmsgSSdkIGxpa2Ugc29tZSBraW5kIG9mIGZvcl9lYWNoX2V4dF9ibG9jaygp
-IHRvIG1ha2UNCj4gdGhpcyBzdHVmZiBsZXNzIGNyYXAuLi4NCg0KT2theSBtYWtlcyBzZW5zZS4N
-Cg0KUmV2aWV3ZWQtYnk6IEpvc8OpIFJvYmVydG8gZGUgU291emEgPGpvc2Uuc291emFAaW50ZWwu
-Y29tPg0KDQo+IA0KPiA+IG9yIGlmIHlvdQ0KPiA+IHJlYWxseSB3YW50IHRvIGxlYXZlIHRoZSBj
-b250ZXh0IGNsb3NlIHRvIHRoZSB1c2VycywgaW5pdGlhbGl6ZSBpdCBpbiB0aGUgImZvciAoOzsp
-IiBpbiB0aGUgbmV4dCBwYXRjaC4NCj4gPiANCj4gPiBXaXRoIHRoZSBjaGFuZ2UgYWJvdmU6DQo+
-ID4gDQo+ID4gUmV2aWV3ZWQtYnk6IEpvc8OpIFJvYmVydG8gZGUgU291emEgPGpvc2Uuc291emFA
-aW50ZWwuY29tPg0KPiA+IA0KPiA+ID4gKwljZWEgPSBkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihl
-ZGlkLCBDRUFfRVhULCAmZXh0X2luZGV4KTsNCj4gPiA+ICAJaWYgKGNlYSkNCj4gPiA+ICAJCXJl
-dHVybiBjZWE7DQo+ID4gPiAgDQo+ID4gPiAgCS8qIENFQSBibG9ja3MgY2FuIGFsc28gYmUgZm91
-bmQgZW1iZWRkZWQgaW4gYSBEaXNwbGF5SUQgYmxvY2sgKi8NCj4gPiA+IC0JZGlzcGxheWlkID0g
-ZHJtX2ZpbmRfZGlzcGxheWlkX2V4dGVuc2lvbihlZGlkLCAmbGVuZ3RoLCAmaWR4KTsNCj4gPiA+
-ICsJZXh0X2luZGV4ID0gMDsNCj4gPiA+ICsJZGlzcGxheWlkID0gZHJtX2ZpbmRfZGlzcGxheWlk
-X2V4dGVuc2lvbihlZGlkLCAmbGVuZ3RoLCAmaWR4LA0KPiA+ID4gKwkJCQkJCSAmZXh0X2luZGV4
-KTsNCj4gPiA+ICAJaWYgKCFkaXNwbGF5aWQpDQo+ID4gPiAgCQlyZXR1cm4gTlVMTDsNCj4gPiA+
-ICANCj4gPiA+IEBAIC01MTk1LDggKzUyMDMsMTAgQEAgc3RhdGljIGludCBhZGRfZGlzcGxheWlk
-X2RldGFpbGVkX21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsDQo+ID4gPiAg
-CWludCBsZW5ndGgsIGlkeDsNCj4gPiA+ICAJc3RydWN0IGRpc3BsYXlpZF9ibG9jayAqYmxvY2s7
-DQo+ID4gPiAgCWludCBudW1fbW9kZXMgPSAwOw0KPiA+ID4gKwlpbnQgZXh0X2luZGV4ID0gMDsN
-Cj4gPiA+ICANCj4gPiA+IC0JZGlzcGxheWlkID0gZHJtX2ZpbmRfZGlzcGxheWlkX2V4dGVuc2lv
-bihlZGlkLCAmbGVuZ3RoLCAmaWR4KTsNCj4gPiA+ICsJZGlzcGxheWlkID0gZHJtX2ZpbmRfZGlz
-cGxheWlkX2V4dGVuc2lvbihlZGlkLCAmbGVuZ3RoLCAmaWR4LA0KPiA+ID4gKwkJCQkJCSAmZXh0
-X2luZGV4KTsNCj4gPiA+ICAJaWYgKCFkaXNwbGF5aWQpDQo+ID4gPiAgCQlyZXR1cm4gMDsNCj4g
-PiA+ICANCj4gPiA+IEBAIC01ODcwLDExICs1ODgwLDEzIEBAIHZvaWQgZHJtX3VwZGF0ZV90aWxl
-X2luZm8oc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwNCj4gPiA+ICAJCQkgIGNvbnN0
-IHN0cnVjdCBlZGlkICplZGlkKQ0KPiA+ID4gIHsNCj4gPiA+ICAJY29uc3Qgdm9pZCAqZGlzcGxh
-eWlkID0gTlVMTDsNCj4gPiA+ICsJaW50IGV4dF9pbmRleCA9IDA7DQo+ID4gPiAgCWludCBsZW5n
-dGgsIGlkeDsNCj4gPiA+ICAJaW50IHJldDsNCj4gPiA+ICANCj4gPiA+ICAJY29ubmVjdG9yLT5o
-YXNfdGlsZSA9IGZhbHNlOw0KPiA+ID4gLQlkaXNwbGF5aWQgPSBkcm1fZmluZF9kaXNwbGF5aWRf
-ZXh0ZW5zaW9uKGVkaWQsICZsZW5ndGgsICZpZHgpOw0KPiA+ID4gKwlkaXNwbGF5aWQgPSBkcm1f
-ZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGVkaWQsICZsZW5ndGgsICZpZHgsDQo+ID4gPiArCQkJ
-CQkJICZleHRfaW5kZXgpOw0KPiA+ID4gIAlpZiAoIWRpc3BsYXlpZCkgew0KPiA+ID4gIAkJLyog
-ZHJvcCByZWZlcmVuY2UgdG8gYW55IHRpbGUgZ3JvdXAgd2UgaGFkICovDQo+ID4gPiAgCQlnb3Rv
-IG91dF9kcm9wX3JlZjsNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Wed, 01 Jul 2020 18:29:17 +0200, Ondrej Jirman wrote:
+> Convert Rocktech MIPI DSI panel driver from txt to yaml bindings.
+> 
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> ---
+>  .../display/panel/rocktech,jh057n00900.txt    | 23 -------
+>  .../display/panel/rocktech,jh057n00900.yaml   | 66 +++++++++++++++++++
+>  2 files changed, 66 insertions(+), 23 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> 
+
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: 'vcc-supply' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: 'iovcc-supply' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: 'reset-gpios' is a required property
+
+
+See https://patchwork.ozlabs.org/patch/1320690
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
