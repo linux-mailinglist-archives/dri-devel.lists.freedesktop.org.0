@@ -2,33 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E90121347F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 08:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B0C213482
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 08:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 714676E8CA;
-	Fri,  3 Jul 2020 06:51:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BDD6E8CF;
+	Fri,  3 Jul 2020 06:53:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F166C6E8CA
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 06:51:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97FCD6E8CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 06:53:25 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CAD83AD26;
- Fri,  3 Jul 2020 06:51:34 +0000 (UTC)
-Subject: Re: [PATCH v2 12/14] drm/ast: Replace struct ast_crtc with struct
- drm_crtc
+ by mx2.suse.de (Postfix) with ESMTP id 707B9AD26;
+ Fri,  3 Jul 2020 06:53:24 +0000 (UTC)
+Subject: Re: [PATCH v2 00/14] drm/ast: Managed modesetting
 To: Sam Ravnborg <sam@ravnborg.org>
 References: <20200702115029.5281-1-tzimmermann@suse.de>
- <20200702115029.5281-13-tzimmermann@suse.de>
- <20200703063848.GA1690637@ravnborg.org>
+ <20200703064444.GB1690637@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <59bd0ea8-ab95-5e37-287c-021c33e6556d@suse.de>
-Date: Fri, 3 Jul 2020 08:51:31 +0200
+Message-ID: <723622a5-be1d-93a5-b854-2c678ec59d10@suse.de>
+Date: Fri, 3 Jul 2020 08:53:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200703063848.GA1690637@ravnborg.org>
+In-Reply-To: <20200703064444.GB1690637@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,67 +41,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: airlied@redhat.com, emil.l.velikov@gmail.com, kraxel@redhat.com,
  dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0955156559=="
+Content-Type: multipart/mixed; boundary="===============1495380030=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0955156559==
+--===============1495380030==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="GhRKmF1RyrxjogXDXUgPXENHQXtB7eJa2"
+ boundary="rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GhRKmF1RyrxjogXDXUgPXENHQXtB7eJa2
-Content-Type: multipart/mixed; boundary="VlzPJ4DTTsE09TU00mjKiGl6u6QF8q0bF";
+--rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac
+Content-Type: multipart/mixed; boundary="PXpYxbMCYMFkVLCrTwkWmjVkWHsLRWl4w";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>
 Cc: emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
  kraxel@redhat.com, airlied@redhat.com
-Message-ID: <59bd0ea8-ab95-5e37-287c-021c33e6556d@suse.de>
-Subject: Re: [PATCH v2 12/14] drm/ast: Replace struct ast_crtc with struct
- drm_crtc
+Message-ID: <723622a5-be1d-93a5-b854-2c678ec59d10@suse.de>
+Subject: Re: [PATCH v2 00/14] drm/ast: Managed modesetting
 References: <20200702115029.5281-1-tzimmermann@suse.de>
- <20200702115029.5281-13-tzimmermann@suse.de>
- <20200703063848.GA1690637@ravnborg.org>
-In-Reply-To: <20200703063848.GA1690637@ravnborg.org>
+ <20200703064444.GB1690637@ravnborg.org>
+In-Reply-To: <20200703064444.GB1690637@ravnborg.org>
 
---VlzPJ4DTTsE09TU00mjKiGl6u6QF8q0bF
+--PXpYxbMCYMFkVLCrTwkWmjVkWHsLRWl4w
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sam
+Hi
 
-Am 03.07.20 um 08:38 schrieb Sam Ravnborg:
+Am 03.07.20 um 08:44 schrieb Sam Ravnborg:
 > Hi Thomas.
 >=20
-> Just browsing code..
->=20
-> On Thu, Jul 02, 2020 at 01:50:27PM +0200, Thomas Zimmermann wrote:
->> Struct ast_crtc has been cleaned up and it's now a wrapper around the
->> DRM CRTC structure struct drm_crtc. This patch converts the driver to
->> struct drm_crtc and removes struct ast_crtc.
+> On Thu, Jul 02, 2020 at 01:50:15PM +0200, Thomas Zimmermann wrote:
+>> This is the first patchset to convert ast to use managed interfaces. T=
+hese
+>> patches address modesetting. I expect that there will be at least one =
+more
+>> set of patches for memory management and one for device structures.
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Patches 1 to 11 tackle HW cursor handling. The overall point is to get=
+
+>> cursor support out of the plane functions and put the code into helper=
+s.
+>> There are quite a few improvements that make cursors easier and faster=
+ to
+>> use. Patch 10 converts cursors to managed release.
+>>
+>> With cursors out of the way, modesetting initialization is much more
+>> simple. Patches 12 to 14 put all related code next to each other and
+>> switch to managed initialization.
+>>
+>> The patchset was tested on AST2100 hardware.
+>>
+>> v2:
+>> 	* use to_ast_private() instead of
+>> 	  struct drm_device.dev_private (Sam)
+>>
+>> Thomas Zimmermann (14):
+>>   drm/ast: Move cursor functions to ast_cursor.c
+>>   drm/ast: Pass struct ast_private instance to cursor init/fini
+>>     functions
+>>   drm/ast: Move cursor fb pinning and mapping into helper
+>>   drm/ast: Update cursor image and checksum from same function
+>>   drm/ast: Move cursor pageflip into helper
+>>   drm/ast: Replace ast_cursor_move() with ast_cursor_show()
+>>   drm/ast: Don't enable HW cursors twice during atomic update
+>>   drm/ast: Add helper to hide cursor
+>>   drm/ast: Keep cursor HW BOs mapped
+>>   drm/ast: Managed cursor release
+>>   drm/ast: Init cursors before creating modesetting structures
+>>   drm/ast: Replace struct ast_crtc with struct drm_crtc
+>>   drm/ast: Use managed mode-config init
+>>   drm/ast: Initialize mode setting in ast_mode_config_init()
+> I have browsed the patch-set. Nothing jumped at me but then
+> most of the bo handling I do not understand.
 >=20
-> Why is it we cannot embed struct drm_crtc?
+> Feel free to add:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> to all patches.
+>=20
+> But I hope someone else that knows this better could jump in and
+> take a look too.
 
-I want to do that in a later patchset. The conversion to managed code is
-fairly large, so thought it might be better to do it in several rounds.
-
-This patchset is only for modesetting. I have another patchset that
-converts the memory management to managed interfaces. After that the
-final patchset will address device structures. Embedding everything CRTC
-and other structures in struct ast_private would be part of this.
-
-If you prefer a longer patchset that does everything, let me know.
-
-> And I also failed to see where is is de-allocated - but surely I miss
-> something obvious here.
-
-It's freed in ast_crtc_destroy().
+Thank you so much. Finding reviewers for such obscure drivers is not
+easy. I appreciate your feedback.
 
 Best regards
 Thomas
@@ -111,65 +135,17 @@ Thomas
 >=20
 > 	Sam
 >=20
->> ---
->>  drivers/gpu/drm/ast/ast_drv.h  |  5 -----
->>  drivers/gpu/drm/ast/ast_mode.c | 11 ++++++-----
->>  2 files changed, 6 insertions(+), 10 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_d=
-rv.h
->> index ea4de3dce2c4..77226e2fd7c0 100644
->> --- a/drivers/gpu/drm/ast/ast_drv.h
->> +++ b/drivers/gpu/drm/ast/ast_drv.h
->> @@ -238,11 +238,6 @@ struct ast_connector {
->>  	struct ast_i2c_chan *i2c;
->>  };
->> =20
->> -struct ast_crtc {
->> -	struct drm_crtc base;
->> -};
->> -
->> -#define to_ast_crtc(x) container_of(x, struct ast_crtc, base)
->>  #define to_ast_connector(x) container_of(x, struct ast_connector, bas=
-e)
->> =20
->>  struct ast_vbios_stdtable {
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
-mode.c
->> index 89d9ee0a9e81..43c9686ba0f7 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -881,21 +881,22 @@ static const struct drm_crtc_funcs ast_crtc_func=
-s =3D {
->>  static int ast_crtc_init(struct drm_device *dev)
->>  {
->>  	struct ast_private *ast =3D to_ast_private(dev);
->> -	struct ast_crtc *crtc;
->> +	struct drm_crtc *crtc;
->>  	int ret;
->> =20
->> -	crtc =3D kzalloc(sizeof(struct ast_crtc), GFP_KERNEL);
->> +	crtc =3D kzalloc(sizeof(*crtc), GFP_KERNEL);
->>  	if (!crtc)
->>  		return -ENOMEM;
->> =20
->> -	ret =3D drm_crtc_init_with_planes(dev, &crtc->base, &ast->primary_pl=
-ane,
->> +	ret =3D drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane,
->>  					&ast->cursor_plane, &ast_crtc_funcs,
->>  					NULL);
->>  	if (ret)
->>  		goto err_kfree;
->> =20
->> -	drm_mode_crtc_set_gamma_size(&crtc->base, 256);
->> -	drm_crtc_helper_add(&crtc->base, &ast_crtc_helper_funcs);
->> +	drm_mode_crtc_set_gamma_size(crtc, 256);
->> +	drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
->> +
->>  	return 0;
->> =20
->>  err_kfree:
->> --=20
+>>  drivers/gpu/drm/ast/Makefile     |   3 +-
+>>  drivers/gpu/drm/ast/ast_cursor.c | 289 +++++++++++++++++++++++++++
+>>  drivers/gpu/drm/ast/ast_drv.h    |  19 +-
+>>  drivers/gpu/drm/ast/ast_main.c   |  35 +---
+>>  drivers/gpu/drm/ast/ast_mode.c   | 322 ++++++------------------------=
+-
+>>  5 files changed, 359 insertions(+), 309 deletions(-)
+>>  create mode 100644 drivers/gpu/drm/ast/ast_cursor.c
+>>
+>> --
 >> 2.27.0
 >>
 >> _______________________________________________
@@ -191,28 +167,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---VlzPJ4DTTsE09TU00mjKiGl6u6QF8q0bF--
+--PXpYxbMCYMFkVLCrTwkWmjVkWHsLRWl4w--
 
---GhRKmF1RyrxjogXDXUgPXENHQXtB7eJa2
+--rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7+1XMUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPI2Af5AWQoDyfox0qU9J7j2s2xnollOFGj
-8c8+r/ejEYMeeS6w5AUl7vhS2dOmUwBbTEKv3lVvFt4577eRaHOHZDJ9MLkltfxT
-a/xUMSIM/b/zAfFC8p8aZR932IzR/RPHX1+PTkAziOw1na/eGS//e2DId+cNdZrZ
-mzYPOC4oIiJZ3h1d8EpanGZoBgFuOuyqNv9NPrjCzd3kCQps6BWxTF3fmbnHKoow
-d4PwEZrF+0noLMWuRs2e+17Bf7OHwgmN+S6qvwMLQthNSvrrsma5+PHHDFo40bPU
-CVb0zvqqnLVs/mybA6Z654zRVVXDABQD5CYPxzCv17a63Mxl2w2Ex77xyQ==
-=49Tg
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7+1eMUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPqUQgAw1ojvyAjfs0AR9EcKRJR0THIkBuK
+qkUaK1rC7/aHxkGsTyGQOi9liBq92m6L8RodCZLJuPV8tbpqknpp38KBT9kyLcLh
+5m799XRoubk2cVr4LC/c2Yi9w5Cm0FK6nAiA3jSLu2oRs+Urb2/mJ7VMYJLpcMvi
+SUrBmYfWg7LCrm0Q8U5XGrpBygBt63PTBKdEARqa+R0O++FjH4KReTdmKVFnhYef
+W2cYhR98cLdH1L6Li74RLb7yQmkk51ED3hgTgoYUD3Ql9658D82almtDCwLqF/ZQ
+uDJBX6YAnL3geCZY9aUuvsYePhYiVkO3pjnqDOqXdLxmeuDbk4w+WQacmg==
+=e6+9
 -----END PGP SIGNATURE-----
 
---GhRKmF1RyrxjogXDXUgPXENHQXtB7eJa2--
+--rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac--
 
---===============0955156559==
+--===============1495380030==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -223,4 +199,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0955156559==--
+--===============1495380030==--
