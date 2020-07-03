@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66B0213F66
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F049213F6D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C3F6EB92;
-	Fri,  3 Jul 2020 18:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194746EB94;
+	Fri,  3 Jul 2020 18:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F326EB92
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:06 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id k17so6251274lfg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:06 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48616EB95
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:08 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id b25so34487001ljp.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=slEyhjL47i6I9Wxhc3waVaJdqdZuvpWrNlMHpCPdtlI=;
- b=hWudvJIMNNbUW3X9DzjPBCCvb5ZIR6oSWPu4iLaJwfPDbd00Hi7Rk3R0vWiNrR60Nz
- rfBpoPiWKAovJ5AsHV5Aqgndv5gBqK6RoDgSnXgHGD2qRdJVyj7zPsWzxaj7cbNmFfEq
- H5kumOr2XGwekyw6aLMHigST7LM22Lp0yI6e9eoi8HarqcgDrOfXPPJHx4mjRkOq7gz0
- Jh7E4jvR0dyqawG4vQQWT/sH8HW/wDSYcuxSzwpkA12OtxNuRY8bNbSzZMDom+dyIwN6
- Qfw2eHWwx7Ldc2PtO4PkIyCif+BE8Ln593yOTLX1fue8dyO5Kbnz7hrBCS2vuS2Wv9oJ
- dKvA==
+ bh=eK/aZ3+ghdIFopzJxrnMF+M6xcoKuP5T0HDHhE7PCRE=;
+ b=Kh0cYIP7f7GRh0jsMz67pBF5ogXJKQ7HBpCm8kOupB7NNCNTYuS2nhr5cYKlAV+XZk
+ +t40EIa7T2OjEBA2E+1hU9CV+xVscjQY0tBenF6ouGcNayV9g8TqXWkIkH2b5DIoDRR+
+ XvE1O8abD1mm/wxeD2v/SUMBPRUzX6C3k2mDiil6gHNrfozZtmf71iXfvGav2UEZaLH4
+ BusJhlRNqdQmxRObtWc2I6ed/YOAA3XU9yWcdfbiJG5PIwEKUJBXc8MeIoiJJxsNxMo4
+ rXkO/YJ0N3+JDrdboHmgth5Pct86Gvn9qT7he86M5Xyt24uu0PtildaZKF224trgwTUU
+ 3ObQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=slEyhjL47i6I9Wxhc3waVaJdqdZuvpWrNlMHpCPdtlI=;
- b=aj7xcHgbBia7QOiK3EQql/k/SIR6uCQ77qtHsHaVwxcCa9JkKieic9AEeecBB0rpGI
- 6yHFvDuCfL6xPDCvaQTbMFCpfXX8cxdElhxuqTDepl2jxYRVBfVFVNiPwuMirvNek/wT
- jZ70z09kB9P4uXq5r0CIBDG/Unml3S1tapHZJRl83qV7v7O3Up56pAnyl+01km3agkui
- U3sX2lA6oUzbVJ8pss3h5r+Br1XiU9GqzBA1+bTIHaItpWLXIoTSdnZnISP6TFAPHSBP
- dv4EabTUFANtjMlVllQsB9IeTMHt4ihRR+q08fWK4S27ZvfWWvahvREYnCKyQmvPB4Sd
- B7nQ==
-X-Gm-Message-State: AOAM530cHdbV1iuXPdKOuEg5qOwoRYOEms5wFFSXlGn/9E93/ik3lfkX
- l27h3/lrCEt08QUg9SezzU2TPYsHudU=
-X-Google-Smtp-Source: ABdhPJxZVEriVlg0DtABp602eurzMwv/ufWQs5sh/lb4hdctxwi/NmZJQsLASiwNE69v1pDGutzH7Q==
-X-Received: by 2002:a19:4a4e:: with SMTP id x75mr22707227lfa.70.1593801964841; 
- Fri, 03 Jul 2020 11:46:04 -0700 (PDT)
+ bh=eK/aZ3+ghdIFopzJxrnMF+M6xcoKuP5T0HDHhE7PCRE=;
+ b=UUax9Ga9O+aWfc5FQtJyJqj1YTUWXBq36mbj1BqM+GuQVMNwEZwv5NbJyOwPDMnefW
+ Ws63fR6wM3zw0ITLKwYYam58QlbywkN5UXDWNs7FA6sdmk7y+FRdJLfdTZJYoKkTSTP0
+ OWJpo7pgHCstvDw+7t1gVjGgXk98XcJ0vxhL/vVBzaTz14OVh38MiZ0XOdbapj6qX22H
+ 91szHtj60nuClAyp4WJ0ni8WNWcsBAfHGBETMTDwz0WbCdHwXmX1mIQurnekU+vOW/u4
+ ghC9IrKVn9sEqC2Rdlauoz1TSGrAGvchiUowl2hT3sSbQJlL4hUfbyzqzbYWRRfPs/Fr
+ YKMg==
+X-Gm-Message-State: AOAM530hHyCeSvKtQb0Sd5ojohR7dt5+HGf97uQssTmeJTlWt5H3eEqN
+ U8L2GKb7vCrtfTxB2xeprwN4MCutP/0=
+X-Google-Smtp-Source: ABdhPJx6f8dy7nC47enwxaN0YU2FjLuW8bB0B5VwVDqrwe5zJLqWBOoRu8fveYQH8mG3ZLmypskStw==
+X-Received: by 2002:a2e:99c6:: with SMTP id l6mr14274238ljj.220.1593801966954; 
+ Fri, 03 Jul 2020 11:46:06 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.02
+ by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 11:46:04 -0700 (PDT)
+ Fri, 03 Jul 2020 11:46:06 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v4 01/20] backlight: refactor fb_notifier_callback()
-Date: Fri,  3 Jul 2020 20:45:27 +0200
-Message-Id: <20200703184546.144664-2-sam@ravnborg.org>
+Subject: [PATCH v4 02/20] backlight: add backlight_is_blank()
+Date: Fri,  3 Jul 2020 20:45:28 +0200
+Message-Id: <20200703184546.144664-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703184546.144664-1-sam@ravnborg.org>
 References: <20200703184546.144664-1-sam@ravnborg.org>
@@ -86,75 +86,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Increase readability of fb_notifier_callback() by removing
-a few indent levels.
-No functional change.
+The backlight support has two properties that express the state:
+- power
+- state
+
+It is un-documented and easy to get wrong.
+Add backlight_is_blank() helper to make it simpler
+for drivers to get the check of the state correct.
+
+A lot of drivers also includes checks for fb_blank.
+This check is redundant when the state is checked
+and thus not needed in this helper function.
+But added anyway to avoid introducing subtle bugs
+due to the creative use of fb_blank in some drivers.
+Introducing this helper will for some drivers results in
+added support for fb_blank. This will be a change in
+functionality, which will improve the backlight driver.
+
+Rolling out this helper to all relevant backlight drivers
+will eliminate almost all accesses to fb_blank.
+
+v4:
+  - struct backlight_device * is now const
+
+v3:
+  - Clarified that the fb_blank support in
+    backlight_is_blank() may result in functionality
+    changes for the users (Emil)
+
+v2:
+  - Added fb_blank condition (Daniel)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- drivers/video/backlight/backlight.c | 43 +++++++++++++++--------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ include/linux/backlight.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 92d80aa0c0ef..7e249aa90b0e 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -58,28 +58,29 @@ static int fb_notifier_callback(struct notifier_block *self,
- 
- 	bd = container_of(self, struct backlight_device, fb_notif);
- 	mutex_lock(&bd->ops_lock);
--	if (bd->ops)
--		if (!bd->ops->check_fb ||
--		    bd->ops->check_fb(bd, evdata->info)) {
--			fb_blank = *(int *)evdata->data;
--			if (fb_blank == FB_BLANK_UNBLANK &&
--			    !bd->fb_bl_on[node]) {
--				bd->fb_bl_on[node] = true;
--				if (!bd->use_count++) {
--					bd->props.state &= ~BL_CORE_FBBLANK;
--					bd->props.fb_blank = FB_BLANK_UNBLANK;
--					backlight_update_status(bd);
--				}
--			} else if (fb_blank != FB_BLANK_UNBLANK &&
--				   bd->fb_bl_on[node]) {
--				bd->fb_bl_on[node] = false;
--				if (!(--bd->use_count)) {
--					bd->props.state |= BL_CORE_FBBLANK;
--					bd->props.fb_blank = fb_blank;
--					backlight_update_status(bd);
--				}
--			}
-+
-+	if (!bd->ops)
-+		goto out;
-+	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
-+		goto out;
-+
-+	fb_blank = *(int *)evdata->data;
-+	if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
-+		bd->fb_bl_on[node] = true;
-+		if (!bd->use_count++) {
-+			bd->props.state &= ~BL_CORE_FBBLANK;
-+			bd->props.fb_blank = FB_BLANK_UNBLANK;
-+			backlight_update_status(bd);
-+		}
-+	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
-+		bd->fb_bl_on[node] = false;
-+		if (!(--bd->use_count)) {
-+			bd->props.state |= BL_CORE_FBBLANK;
-+			bd->props.fb_blank = fb_blank;
-+			backlight_update_status(bd);
- 		}
-+	}
-+out:
- 	mutex_unlock(&bd->ops_lock);
- 	return 0;
+diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+index 56e4580d4f55..56e51ebab740 100644
+--- a/include/linux/backlight.h
++++ b/include/linux/backlight.h
+@@ -175,6 +175,25 @@ static inline void backlight_put(struct backlight_device *bd)
+ 		put_device(&bd->dev);
  }
+ 
++/**
++ * backlight_is_blank - Return true if display is expected to be blank
++ * @bd: the backlight device
++ *
++ * Display is expected to be blank if any of these is true::
++ *
++ *   1) if power in not UNBLANK
++ *   2) if fb_blank is not UNBLANK
++ *   3) if state indicate BLANK or SUSPENDED
++ *
++ * Returns true if display is expected to be blank, false otherwise.
++ */
++static inline bool backlight_is_blank(const struct backlight_device *bd)
++{
++	return bd->props.power != FB_BLANK_UNBLANK ||
++	       bd->props.fb_blank != FB_BLANK_UNBLANK ||
++	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
++}
++
+ extern struct backlight_device *backlight_device_register(const char *name,
+ 	struct device *dev, void *devdata, const struct backlight_ops *ops,
+ 	const struct backlight_properties *props);
 -- 
 2.25.1
 
