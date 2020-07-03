@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE8A213FA0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A679213FE2
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 21:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C1D6EBAD;
-	Fri,  3 Jul 2020 18:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0946EBAA;
+	Fri,  3 Jul 2020 19:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 225C96EBAD
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:46 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id f5so22207369ljj.10
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:46 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ACE76EBAA
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 19:24:25 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id y13so19082662lfe.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 12:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hT0shvcR5E7UTkS/zrKMtVL3+oENb6Mn/8BtotMdc8Y=;
- b=IJ2pvZZu0XFyrYCZR2R+QxMO9PRsdBwoi67YSGTnXEoC6Xq35Un0PVtT9vh44xnDXP
- TEGeRIMsZGiYY6Awzwdq+jUzsSGLB4ADGwQ5ok8jjv4wOuWndRvZyE5OMfDznoZo90Th
- pQcuWXf8XYXOT5JioZmngSaaYWiRgjJLjdtvcWBOXqXAbHLIakqb1FUs9Jj7IOY1MgLt
- ONhxzqoJfYbWq2QSd6qoKs6tCTsLdmwEw77REvuGMEl0iwJS2rQFwTCmd9xNtGeisMjM
- gjOHzaRw4srWPfNxRglgv6ILapKfzB1ETl+0v76GQhbHDgft/Z8QaE1QiJoHBEmHxr1+
- y7vA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XBGvCIN3GXKX58JUUV1FDuYM+hwa1/Qtwp0f2OemBCY=;
+ b=K9IICVRGPnM/vLm7qIYS+091XhHzwuwEv2iM0HZFTpEZ5edvw3H2hfdis5S37xqq9C
+ 4jFUiLCK38G9Mq5XRtFtsVp5LzwT+1L9X0ImJuZzF4ICWk7IQFpg5rQHGQTEQVJlNOe9
+ jVkjbP+kt3TO9xAtYBm0bMh7AvsmOast771SOLCsUxMBYuoMmeI1db6nHkctLqxdgDUz
+ xb1XLVyiS5sAivXeDbzemgF88pyRUQ1EU6vJWLNtUdI+iLViycD7lYxOC428VZeYmdp/
+ YFArPBIaH0qtd8AdUleKS1HrHnhO5MWs1NWlE7xgo6460MqSBpwjLlz9iMYzLZt1ChFa
+ qmhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hT0shvcR5E7UTkS/zrKMtVL3+oENb6Mn/8BtotMdc8Y=;
- b=oUI2wnJXUR/fGei/4LOwkrrpgB6cKKiGhBQmyOOuIs0x8gqZrkRBqxhsBopoblDBOR
- ZEi958hdDTsDrW+t2JLKuYhkVIYRR+0WCRlBaT7nsK7cCnaGIKHf0V1iNyUE4oXRjOhu
- lVpibP+GaYPuykvJDgSbhkxcaeUME1lxbZXBQvkFU2zrSgr+wE2Jti1KGxdeq5HxXwJ+
- GIJjm3GAHJSVMsgTQUjgUOt8aLi+JwrAUuXUFVToajpfPqh+M5gNSMJIfxr3l+NYz3P5
- n+Uf84yM6aVkNxpitBgf8GBmulHY0Af8guy9qPlX2s9D7jdMDI9AygVQPT06UtpyAZCU
- qjTw==
-X-Gm-Message-State: AOAM530L9B9cS1VEoVy4lpEqLnxTMSXusqA3MpR/aQzeCMXUHpmltnah
- LRq/hrDqBDV2arTLbWuzBhqdGkLXoY4=
-X-Google-Smtp-Source: ABdhPJxYcPNmrmNBGSR3OEKzHcluG3e3qxVbhV/zKtVskDiIRKCh+SQkMLB/z9B+fykgAg9N0oyykQ==
-X-Received: by 2002:a2e:3311:: with SMTP id d17mr19563882ljc.13.1593802004416; 
- Fri, 03 Jul 2020 11:46:44 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=XBGvCIN3GXKX58JUUV1FDuYM+hwa1/Qtwp0f2OemBCY=;
+ b=W7F0tK+aucv35Bqb3gAL6bYISRTRsi+WxQ7NNe7mbfDf726SfRc0KnD69khEkZyCw1
+ U6iyvpP8OYZPvH74bWvViyh1/2xMeeHK8yYpsoDL2Lqc9YrYUxzsTdk3BjQPJ4/EI0M7
+ JcZlpczukovkFfZ+rP7dD4ZwjjdXhXsEOtSxws4TOw9dVb4HepgQvElnwvyOOgdAcuAo
+ HQnnuD1Pit7jQhslUU2i3WPFLeJfwdeOZaG15cjf9dFIJDJOJJ0KYidIVbE0JFaVaFlQ
+ TDATrlTLOtZqyx8JaBZKP/eNTxjRRSdTO5lDI3mVOSazJGTseuAw8RJ0doPGagEOOZwu
+ J+tg==
+X-Gm-Message-State: AOAM530eiJb6yJSEKhTjkkbY+4K0BHvydmqQRotI8rCf3r+iHzeJ+UUj
+ KsgPDpCZM+dw2Ea+dTcGF/ptUv57aV8=
+X-Google-Smtp-Source: ABdhPJy0QRQHJPNx1pt7rfPNjCQjSmhDJS9i22TpLRSDYddVVrW2nBMseuFzWWPxGqOizeCJBFPnug==
+X-Received: by 2002:ac2:5c49:: with SMTP id s9mr23301230lfp.90.1593804263252; 
+ Fri, 03 Jul 2020 12:24:23 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.42
+ by smtp.gmail.com with ESMTPSA id y26sm4411791ljm.46.2020.07.03.12.24.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 11:46:44 -0700 (PDT)
+ Fri, 03 Jul 2020 12:24:22 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
- Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v4 20/20] backlight: make of_find_backlight_by_node() static
-Date: Fri,  3 Jul 2020 20:45:46 +0200
-Message-Id: <20200703184546.144664-21-sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH v3 0/21] drm/bridge: support chained bridges + panel updates
+Date: Fri,  3 Jul 2020 21:23:56 +0200
+Message-Id: <20200703192417.372164-1-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200703184546.144664-1-sam@ravnborg.org>
-References: <20200703184546.144664-1-sam@ravnborg.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,104 +66,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org,
- Support Opensource <support.opensource@diasemi.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jonathan Corbet <corbet@lwn.net>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Andy Gross <agross@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, patches@opensource.cirrus.com
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, kbuild test robot <lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no external users of of_find_backlight_by_node().
-Make it static so we keep it that way.
+This patch-set aims to make connector creation optional
+and prepare the bridge drivers for use in a chained setup.
 
+The objective is that all bridge drivers shall support a chained setup
+connector creation is moved to the display drivers.
+This is just one step on this path.
+
+Third iteration of this patchset covers several drivers,
+and a few panel adjustments.
+
+The general approach for the bridge drivers:
+- Introduce drm_panel_brigde
+- Introduce bridge operations
+- Make connector creation optional
+
+v3:
+  - Rebase on top of drm-misc-next
+  - Address kbuild test robot feedback
+ 
 v2:
-  - drop EXPORT of of_find_backlight_by_node
+  - Updated bus_flags for boe,hv070wsa-100
+  - Collected r-b, but did not apply patches yet
+  - On the panel side the panel-simple driver gained a default
+    connector type for all the dumb panels that do not
+    include so in their description.
+    With this change panels always provide a connector type,
+    and we have the potential to drop most uses of
+    devm_drm_panel_bridge_add_typed().
+  - Added conversion of a few more bridge drivers
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
----
- drivers/video/backlight/backlight.c | 23 +++++++++--------------
- include/linux/backlight.h           | 10 ----------
- 2 files changed, 9 insertions(+), 24 deletions(-)
+Patches can build but no run-time testing.
+So both test and review feedback appreciated!
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 06f4da3c58e1..ff84e6607486 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -649,19 +649,9 @@ static int of_parent_match(struct device *dev, const void *data)
- 	return dev->parent && dev->parent->of_node == data;
- }
- 
--/**
-- * of_find_backlight_by_node() - find backlight device by device-tree node
-- * @node: device-tree node of the backlight device
-- *
-- * Returns a pointer to the backlight device corresponding to the given DT
-- * node or NULL if no such backlight device exists or if the device hasn't
-- * been probed yet.
-- *
-- * This function obtains a reference on the backlight device and it is the
-- * caller's responsibility to drop the reference by calling put_device() on
-- * the backlight device's .dev field.
-- */
--struct backlight_device *of_find_backlight_by_node(struct device_node *node)
-+/* Find backlight device by device-tree node */
-+static struct backlight_device *
-+of_find_backlight_by_node(struct device_node *node)
- {
- 	struct device *dev;
- 
-@@ -669,7 +659,12 @@ struct backlight_device *of_find_backlight_by_node(struct device_node *node)
- 
- 	return dev ? to_backlight_device(dev) : NULL;
- }
--EXPORT_SYMBOL(of_find_backlight_by_node);
-+#else
-+static struct backlight_device *
-+of_find_backlight_by_node(struct device_node *node)
-+{
-+	return NULL;
-+}
- #endif
- 
- static struct backlight_device *of_find_backlight(struct device *dev)
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 8b43fd90d84a..fa443899b4ee 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -466,16 +466,6 @@ static inline void * bl_get_data(struct backlight_device *bl_dev)
- 	return dev_get_drvdata(&bl_dev->dev);
- }
- 
--#ifdef CONFIG_OF
--struct backlight_device *of_find_backlight_by_node(struct device_node *node);
--#else
--static inline struct backlight_device *
--of_find_backlight_by_node(struct device_node *node)
--{
--	return NULL;
--}
--#endif
--
- #if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
- struct backlight_device *devm_of_find_backlight(struct device *dev);
- #else
--- 
-2.25.1
+	Sam
+
+Sam Ravnborg (21):
+      drm/panel: add connector type to boe,hv070wsa-100 panel
+      drm/panel: panel-simple: add default connector_type
+      drm/bridge: tc358764: drop drm_connector_(un)register
+      drm/bridge: tc358764: add drm_panel_bridge support
+      drm/bridge: tc358764: make connector creation optional
+      drm/bridge: tc358767: add drm_panel_bridge support
+      drm/bridge: tc358767: add detect bridge operation
+      drm/bridge: tc358767: add get_edid bride operation
+      drm/bridge: tc358767: make connector creation optional
+      drm/bridge: ti-tpd12s015: make connector creation optional
+      drm/bridge: parade-ps8622: add drm_panel_bridge support
+      drm/bridge: parade-ps8622: make connector creation optional
+      drm/bridge: megachips: add helper to create connector
+      drm/bridge: megachips: get drm_device from bridge
+      drm/bridge: megachips: enable detect bridge operation
+      drm/bridge: megachips: add get_edid bridge operation
+      drm/bridge: megachips: make connector creation optional
+      drm/bridge: nxp-ptn3460: add drm_panel_bridge support
+      drm/bridge: nxp-ptn3460: add get_modes bridge operation
+      drm/bridge: nxp-ptn3460: make connector creation optional
+      drm/bridge: ti-sn65dsi86: add drm_panel_bridge support
+
+ .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |  92 +++++++++++-------
+ drivers/gpu/drm/bridge/nxp-ptn3460.c               | 107 +++++++++------------
+ drivers/gpu/drm/bridge/parade-ps8622.c             |  54 +++--------
+ drivers/gpu/drm/bridge/tc358764.c                  |  66 +++----------
+ drivers/gpu/drm/bridge/tc358767.c                  |  98 +++++++++++--------
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  27 +++---
+ drivers/gpu/drm/bridge/ti-tpd12s015.c              |   3 -
+ drivers/gpu/drm/panel/panel-simple.c               |  13 ++-
+ 8 files changed, 216 insertions(+), 244 deletions(-)
+
 
 _______________________________________________
 dri-devel mailing list
