@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AF9215326
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D440215332
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18DC96E34B;
-	Mon,  6 Jul 2020 07:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 644A96E365;
+	Mon,  6 Jul 2020 07:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E916E29E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 14:53:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1593788012; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=qnO8dgt8kPgCd7OkCwm5OGmXgYl4ROSS5lJBIbWqa6I=;
- b=anMm/srOUM2wyODUxhdAVWEuthd30a7lofoF5CSnfesfsuHvlNXgcwQxWGYDey4+Mqr/UBKv
- JZhbyfnmwstgwfLpRQbwHuRI5DE+XZ/oYgql89vjXH0u6wPwWbaMroRA/KBdTJokeUSiQMb5
- /y50RlMgK/sDqgmyrBBPxRGnzsw=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5eff4655567385e8e7db81e6 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 03 Jul 2020 14:53:09
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 596F6C43395; Fri,  3 Jul 2020 14:53:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 99A3BC433C8;
- Fri,  3 Jul 2020 14:53:07 +0000 (UTC)
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0544E6E179
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 15:19:53 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id t27so22624397ill.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 08:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HZtgXI8eyf6R/eM3zMmGABuHuEawznAfaEEyn6Pbn8o=;
+ b=omuPETJZ+kexr5sG7kkBZD3iuBoGL8jBfT+ti+8F6xuKzc4LqyNwrpLWg8WxsMP3jO
+ eGAEW0f7f4npsFrUBxGYTyN/hH+Hub7jpGUA0ZHBezV3t/Lm0GU8lLFzHDdvc/DVJyWX
+ Fqzp46IvQgxGUN0nvqjuE8Keq4ssxXhg7OYy8soLf3Q5YJTR+fApvofwx0bMTMF2nbSJ
+ Dy9g4bF+9vNhSL/5tHNLAmUKm9z6mgl1dRqSrlEHmOi/Itld6VdS9aZqEpc9Wm4rbd45
+ bk48fpsKoU6JwGxmHbXk5oXswvBszF4veif97zRIhktYklCxZj+MKH+RfKdmZfNJsYdA
+ z3CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HZtgXI8eyf6R/eM3zMmGABuHuEawznAfaEEyn6Pbn8o=;
+ b=X21G7FiI+UccfMUzRGLlPzIUsqz+a+UDbuUBlTY8+8i/PuEumGtoKJhiMcSelK8lkS
+ puk4xNP149KYkoauiVcyGPZeprZDM/xa9sT6/h01x+59ODTsdMJnkUmgCF9sf3GwTlec
+ pVwsWg/FZVMKks0e2Q3RYf1B95atE3AnBJM6ezqFx/Uy2LzeL8MLwgB6UCN/lCQpHg4y
+ 1rfNvA9Jo6g+JK1esP5D7z4EFEMYIHM9RU2l51c5C+7LZbDrbdPqMuqNSA0YqoEPqyDI
+ 0BE4xEMqiqj/GV96yYta8IKvf//ghsnd2If1LO7Nlc0+47qZDRlannMfAqnfbrJ9UYLM
+ EbLg==
+X-Gm-Message-State: AOAM530GIB4S53vw3LssHZ+sl3cUNiLD0tWWFCURIW4SplExh+Ha5S50
+ AM00fmybtNEIGvcGttsAUvCKQNuVp5f/H9+yrwg=
+X-Google-Smtp-Source: ABdhPJwLMD4vK7kaR7C86dVW8A4N+UWBrCGUYGctwFNksN6VFayQZy2lRn18PnatW0b8AHya94OnWfx+uB1g9xdN0y0=
+X-Received: by 2002:a92:ba0a:: with SMTP id o10mr17799773ili.217.1593789593236; 
+ Fri, 03 Jul 2020 08:19:53 -0700 (PDT)
 MIME-Version: 1.0
-Date: Fri, 03 Jul 2020 20:23:07 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCHv3 7/7] drm/msm/a6xx: Add support for using system
- cache(LLC)
-In-Reply-To: <20200703133732.GD18953@willie-the-truck>
-References: <cover.1593344119.git.saiprakash.ranjan@codeaurora.org>
- <449a6544b10f0035d191ac52283198343187c153.1593344120.git.saiprakash.ranjan@codeaurora.org>
- <20200703133732.GD18953@willie-the-truck>
-Message-ID: <ecfda7ca80f6d7b4ff3d89b8758f4dc9@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20200702123651.12177-1-simhavcs@gmail.com>
+ <20200703150637.GD25632@ravnborg.org>
+In-Reply-To: <20200703150637.GD25632@ravnborg.org>
+From: Vinay Simha B N <simhavcs@gmail.com>
+Date: Fri, 3 Jul 2020 20:49:42 +0530
+Message-ID: <CAGWqDJ7Uby1jVrCCQr2o7OzHHKYGL=fPh0-PaE5oZU4+BNBmPg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] dt-binding: Add DSI/LVDS TC358775 bridge bindings
+To: Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,60 +62,293 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Stephen Boyd <swboyd@chromium.org>, Robin Murphy <robin.murphy@arm.com>,
- Sharat Masetty <smasetty@codeaurora.org>, linux-arm-kernel@lists.infradead.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Will,
+sam,
 
-On 2020-07-03 19:07, Will Deacon wrote:
-> On Mon, Jun 29, 2020 at 09:22:50PM +0530, Sai Prakash Ranjan wrote:
->> diff --git a/drivers/gpu/drm/msm/msm_iommu.c 
->> b/drivers/gpu/drm/msm/msm_iommu.c
->> index f455c597f76d..bd1d58229cc2 100644
->> --- a/drivers/gpu/drm/msm/msm_iommu.c
->> +++ b/drivers/gpu/drm/msm/msm_iommu.c
->> @@ -218,6 +218,9 @@ static int msm_iommu_map(struct msm_mmu *mmu, 
->> uint64_t iova,
->>  		iova |= GENMASK_ULL(63, 49);
->> 
->> 
->> +	if (mmu->features & MMU_FEATURE_USE_SYSTEM_CACHE)
->> +		prot |= IOMMU_SYS_CACHE_ONLY;
-> 
-> Given that I think this is the only user of IOMMU_SYS_CACHE_ONLY, then 
-> it
-> looks like it should actually be a property on the domain because we 
-> never
-> need to configure it on a per-mapping basis within a domain, and 
-> therefore
-> it shouldn't be exposed by the IOMMU API as a prot flag.
-> 
-> Do you agree?
-> 
+I will change to "GPL-2.0-only OR BSD-2-Clause", i thought running
+dt_binding_check is enough for .yaml.
 
-GPU being the only user is for now, but there are other clients which 
-can use this.
-Plus how do we set the memory attributes if we do not expose this as 
-prot flag?
+On Fri, Jul 3, 2020 at 8:36 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Vinay.
+>
+> On Thu, Jul 02, 2020 at 06:06:33PM +0530, Vinay Simha BN wrote:
+> > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
+> >
+> > ---
+> > v1:
+> >  Initial version wast .txt file
+> >
+> > v2:
+> >  From txt to yaml file format
+> >
+> > v3:
+> > * Andrzej Hajda review comments incorporated
+> >   dual port lvds implemented
+> >
+> > * Laurent Pinchart review comments incorporated
+> >   dsi lanes property removed and it is dynamically
+> >   picked from the dsi ports
+> >   VESA/JEIDA format picked from panel-lvds dts
+> >
+> > v4:
+> > * Sam Ravnborg review comments incorporated
+> >   }' is indented properly in examples data-lanes
+> >   description for single-link and dual-link lvds
+> > ---
+> >  .../display/bridge/toshiba,tc358775.yaml      | 215 ++++++++++++++++++
+> >  1 file changed, 215 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> > new file mode 100644
+> > index 000000000000..9ddd63bee403
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> > @@ -0,0 +1,215 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> One detail that I missed - any specific reason this is not (GPL-2.0-only OR BSD-2-Clause)
+> This is the preferred license for new bindings - as checkpatch also
+> tells you.
+>
+>         Sam
+>
+> > +---
+> > +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358775.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Toshiba TC358775 DSI to LVDS bridge bindings
+> > +
+> > +maintainers:
+> > + - Vinay Simha BN <simhavcs@gmail.com>
+> > +
+> > +description: |
+> > + This binding supports DSI to LVDS bridge TC358775
+> > +
+> > + MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
+> > + Video frame size:
+> > + Up to 1600x1200 24-bit/pixel resolution for single-link LVDS display panel
+> > + limited by 135 MHz LVDS speed
+> > + Up to WUXGA (1920x1200 24-bit pixels) resolution for dual-link LVDS display
+> > + panel, limited by 270 MHz LVDS speed.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: toshiba,tc358775
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +    description: i2c address of the bridge, 0x0f
+> > +
+> > +  vdd-supply:
+> > +    maxItems: 1
+> > +    description:  1.2V LVDS Power Supply
+> > +
+> > +  vddio-supply:
+> > +    maxItems: 1
+> > +    description: 1.8V IO Power Supply
+> > +
+> > +  stby-gpios:
+> > +    maxItems: 1
+> > +    description: Standby pin, Low active
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +    description: Hardware reset, Low active
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description:
+> > +      A node containing input and output port nodes with endpoint definitions
+> > +      as documented in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description: |
+> > +          DSI Input. The remote endpoint phandle should be a
+> > +          reference to a valid mipi_dsi_host device node.
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description: |
+> > +          Video port for LVDS output (panel or connector).
+> > +
+> > +      port@2:
+> > +        type: object
+> > +        description: |
+> > +          Video port for Dual link LVDS output (panel or connector).
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > + - compatible
+> > + - reg
+> > + - vdd-supply
+> > + - vddio-supply
+> > + - stby-gpios
+> > + - reset-gpios
+> > + - ports
+> > +
+> > +examples:
+> > + - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    /* For single-link LVDS display panel */
+> > +
+> > +    i2c@78b8000 {
+> > +        /* On High speed expansion */
+> > +        label = "HS-I2C2";
+> > +        reg = <0x078b8000 0x500>;
+> > +        clock-frequency = <400000>; /* fastmode operation */
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        tc_bridge: bridge@f {
+> > +            compatible = "toshiba,tc358775";
+> > +            reg = <0x0f>;
+> > +
+> > +            vdd-supply = <&pm8916_l2>;
+> > +            vddio-supply = <&pm8916_l6>;
+> > +
+> > +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+> > +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+> > +
+> > +            ports {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +
+> > +                port@0 {
+> > +                    reg = <0>;
+> > +                    d2l_in_test: endpoint {
+> > +                        remote-endpoint = <&dsi0_out>;
+> > +                    };
+> > +                };
+> > +
+> > +                port@1 {
+> > +                    reg = <1>;
+> > +                    lvds_out: endpoint {
+> > +                        remote-endpoint = <&panel_in>;
+> > +                    };
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +    dsi@1a98000 {
+> > +        reg = <0x1a98000 0x25c>;
+> > +        reg-names = "dsi_ctrl";
+> > +
+> > +        ports {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            port@1 {
+> > +                reg = <1>;
+> > +                dsi0_out: endpoint {
+> > +                    remote-endpoint = <&d2l_in_test>;
+> > +                    data-lanes = <0 1 2 3>;
+> > +                };
+> > +             };
+> > +         };
+> > +     };
+> > +
+> > + - |
+> > +    /* For dual-link LVDS display panel */
+> > +
+> > +    i2c@78b8000 {
+> > +        /* On High speed expansion */
+> > +        label = "HS-I2C2";
+> > +        reg = <0x078b8000 0x500>;
+> > +        clock-frequency = <400000>; /* fastmode operation */
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        tc_bridge_dual: bridge@f {
+> > +            compatible = "toshiba,tc358775";
+> > +            reg = <0x0f>;
+> > +
+> > +            vdd-supply = <&pm8916_l2>;
+> > +            vddio-supply = <&pm8916_l6>;
+> > +
+> > +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+> > +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+> > +
+> > +            ports {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +
+> > +                port@0 {
+> > +                    reg = <0>;
+> > +                    d2l_in_dual: endpoint {
+> > +                        remote-endpoint = <&dsi0_out_dual>;
+> > +                    };
+> > +                };
+> > +
+> > +                port@1 {
+> > +                    reg = <1>;
+> > +                    lvds0_out: endpoint {
+> > +                        remote-endpoint = <&panel_in0>;
+> > +                    };
+> > +                };
+> > +
+> > +                port@2 {
+> > +                    reg = <2>;
+> > +                    lvds1_out: endpoint {
+> > +                        remote-endpoint = <&panel_in1>;
+> > +                    };
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +    dsi@1a98000 {
+> > +        reg = <0x1a98000 0x25c>;
+> > +        reg-names = "dsi_ctrl";
+> > +
+> > +        ports {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            port@1 {
+> > +                reg = <1>;
+> > +                dsi0_out_dual: endpoint {
+> > +                    remote-endpoint = <&d2l_in_dual>;
+> > +                    data-lanes = <0 1 2 3>;
+> > +                };
+> > +             };
+> > +         };
+> > +     };
+> > +...
+> > --
+> > 2.17.1
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Thanks,
-Sai
+
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+regards,
+vinaysimha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
