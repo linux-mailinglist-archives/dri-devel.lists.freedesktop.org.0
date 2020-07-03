@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD13213F8D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C26D213F90
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCB26EBA4;
-	Fri,  3 Jul 2020 18:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE836EBA5;
+	Fri,  3 Jul 2020 18:46:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66CCA6EBA5
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:31 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id e4so38110946ljn.4
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:31 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2156EBA6
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:33 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id s9so38027421ljm.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cuNmp2Y8twclxYeBZp9lqPlgdVdohaDn7/kP95qzQpY=;
- b=kK9IT2VP55hji7w3/BPDLgv5S1BIM2VNWRPFZIgGj+pAQViasT2BzK72Q2m6YUvVH8
- t/I6KFLwVacqpCFWKF+aCBrTNuHmcgP0/vAbplT6/Ggvkuf91DEHeaH64Pw1pV13ZeK1
- ZLPwGz4UG31u9GgK5ghjIGp8j3pBywRL9FKk1Xqu4zsvpIUf819HT3xjV/667+MQ752t
- JhaleG7ou2hlANhNQmSJmNrAHwNNkBhuREnz1Oc9OdKIqMffLZjCG3sA00bmd6JRQtyq
- z/wJG9+GIV3Zt7hWIui9V6yowJKpARl7old5SfFOeUZ3or/5MBU/6Imc2W6DIvvxwvxE
- fdWg==
+ bh=yVpNCLVbYK3myT9m7EMLcaTGTbPNg14V6/aAMmsTZXg=;
+ b=i+dGOr4EWUC5qQNHs62J7il3yC06m2A2KuvuM3yYcl8cBQLVGR/s0evNAyTgE2gcL6
+ dWM2JmoB1nEH4m+EYd1sCOmt3eIF/qSD7cZpMCla1tgSHcPn3R1KzFxnVTBbu9kTJT2y
+ aafHd4s88I8gQloKgllw6AvfV24E3rSHtJlq8RijQRAL1lodcrvg1nnftOj8st6usR+0
+ PsXVhep4vXi2W4d/pWgkuUwF0/Te/s3OVe3iGYVC8UcWYURMgEPbhgdk9J1LKcar7g3d
+ 0o/cx9EmYbM7MdzAHLxShbbqr/ReRkLyGSIA8Vpz2tb6VpphFmQ9P43mLiEKCAk0krZz
+ qfNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cuNmp2Y8twclxYeBZp9lqPlgdVdohaDn7/kP95qzQpY=;
- b=nT7uSK2bUxWXUT3rva3zdtnk+Yu5IRnrHmD7pPbpXGr6wau4nfkcg2J4cFLBRqIdZW
- 21iskXC3enmrxiLJ9c8w7mVa5u2hgpdJG36P40PS6ZCl/kECDyOmMdvTF8vNgKigKPHN
- mVWDcKJZfOJ9Lob3ZMiC52HVqUAhxBD2Q8c7FK/GQ32kZvTEUKcuJer9L24qt9JIlYkp
- g9ZJ5aAHh8SNEhqFk/FP0WIWgtB56qZodZxfsdUayiAS5sO+qp9AxyLer+orz0Vrsjkx
- xFxcuEt8turHWJ+KOUQaXtr9dD3pKVnxejjdAsSEcMxcmdIFNNhs+MNDiwEAlBjWvQaD
- oM2A==
-X-Gm-Message-State: AOAM533Wtt8IXEAF3JSt03RtgQe84vDa54hqgLSQg0dMlUngU2IXxwrN
- wyyqXzZeveW4guh7o7xkCoTo841OaoA=
-X-Google-Smtp-Source: ABdhPJyBGH29SvxYyw0NjjWdvgwbdFGb97e14xVHDWd3nm3sy4Dj+wDXJFZR2VJ9zNEY+qr7qlaf+g==
-X-Received: by 2002:a2e:8092:: with SMTP id i18mr13181844ljg.265.1593801989670; 
- Fri, 03 Jul 2020 11:46:29 -0700 (PDT)
+ bh=yVpNCLVbYK3myT9m7EMLcaTGTbPNg14V6/aAMmsTZXg=;
+ b=Qlau41cgaJy59PjTDftE0xiVqAcm9LfyzSoEq4XsXlDa6JkcMis6YIn5wLhdmicgSj
+ FxB098aTw6aRnyCK43ZWSOKXKxD81X4uwT6nB60+eeTvTS4fGgLSp7leP8mhk10ITDW5
+ MQTIL5XnOnqHIyNoWOz8Gh0EwlzGeElG+bOgEUz4GVJt08/5kGKZ3XF7VgXqQVaUf84n
+ X4+uTHqbImrU3fz/KWLLljnBssSy5dY+SbWBAaQ4kWzAn3+FfkBwwh47T8TrWvuZ9V/V
+ pnWMmANo3Uxo307JorXEe0bYFu2iCRXZY935wnFjnzu4fV4ShTLpKktS1HjzGQsIUz6A
+ +cOg==
+X-Gm-Message-State: AOAM53174tUEHR4ZbZSBlCWEd3UiHfc3IdmTF5kbsjRDP++j+ofGYbr6
+ KrB9vNwlhaqm+pER8LNsfnVE/52aNhU=
+X-Google-Smtp-Source: ABdhPJz6ywgEAki17QCT6lxB5XBqQ6/MR1UrT5bX2iXgmUlYUHpArI48qZ8zUwJ276Dr8lVs/vVFZA==
+X-Received: by 2002:a05:651c:1a7:: with SMTP id
+ c7mr20688976ljn.345.1593801991763; 
+ Fri, 03 Jul 2020 11:46:31 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.27
+ by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 11:46:29 -0700 (PDT)
+ Fri, 03 Jul 2020 11:46:31 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v4 13/20] backlight: as3711_bl: simplify update_status
-Date: Fri,  3 Jul 2020 20:45:39 +0200
-Message-Id: <20200703184546.144664-14-sam@ravnborg.org>
+Subject: [PATCH v4 14/20] backlight: cr_bllcd: introduce backlight_is_blank()
+Date: Fri,  3 Jul 2020 20:45:40 +0200
+Message-Id: <20200703184546.144664-15-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703184546.144664-1-sam@ravnborg.org>
 References: <20200703184546.144664-1-sam@ravnborg.org>
@@ -86,50 +87,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replaces the open-coded checks of the state, with the
-backlight_get_brightness() helper. This increases readability
-of the code and align the functionality across the drivers.
-
-Futhermore drop the debug prints in update_status().
-If we need debug printing then we can add it to the backlight core.
-
-v2:
-  - Use backlight_get_brightness()
+The cr_bllcd uses the FB_BLANK states as brightness.
+This results in brightness value equals 0 that turn on
+the display and 4 that turn off the display.
+Simplify the logic but keep current behaviour
+as userspace may expect brightness set to 0 to turn on the display.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/video/backlight/as3711_bl.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ drivers/video/backlight/cr_bllcd.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/video/backlight/as3711_bl.c b/drivers/video/backlight/as3711_bl.c
-index 33f0f0f2e8b3..3b60019cdc2b 100644
---- a/drivers/video/backlight/as3711_bl.c
-+++ b/drivers/video/backlight/as3711_bl.c
-@@ -104,17 +104,10 @@ static int as3711_bl_update_status(struct backlight_device *bl)
- 	struct as3711_bl_data *data = bl_get_data(bl);
- 	struct as3711_bl_supply *supply = to_supply(data);
- 	struct as3711 *as3711 = supply->as3711;
--	int brightness = bl->props.brightness;
-+	int brightness;
- 	int ret = 0;
+diff --git a/drivers/video/backlight/cr_bllcd.c b/drivers/video/backlight/cr_bllcd.c
+index 4624b7b7c6a6..edca5fee9689 100644
+--- a/drivers/video/backlight/cr_bllcd.c
++++ b/drivers/video/backlight/cr_bllcd.c
+@@ -63,22 +63,16 @@ static int cr_backlight_set_intensity(struct backlight_device *bd)
+ 	u32 addr = gpio_bar + CRVML_PANEL_PORT;
+ 	u32 cur = inl(addr);
  
--	dev_dbg(&bl->dev, "%s(): brightness %u, pwr %x, blank %x, state %x\n",
--		__func__, bl->props.brightness, bl->props.power,
--		bl->props.fb_blank, bl->props.state);
--
--	if (bl->props.power != FB_BLANK_UNBLANK ||
--	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
--	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
--		brightness = 0;
-+	brightness = backlight_get_brightness(bl);
+-	if (bd->props.power == FB_BLANK_UNBLANK)
+-		intensity = FB_BLANK_UNBLANK;
+-	if (bd->props.fb_blank == FB_BLANK_UNBLANK)
+-		intensity = FB_BLANK_UNBLANK;
+-	if (bd->props.power == FB_BLANK_POWERDOWN)
+-		intensity = FB_BLANK_POWERDOWN;
+-	if (bd->props.fb_blank == FB_BLANK_POWERDOWN)
++	if (backlight_is_blank(bd))
+ 		intensity = FB_BLANK_POWERDOWN;
  
- 	if (data->type == AS3711_BL_SU1) {
- 		ret = as3711_set_brightness_v(as3711, brightness,
+-	if (intensity == FB_BLANK_UNBLANK) { /* FULL ON */
++	if (intensity != FB_BLANK_POWERDOWN) { /* FULL ON */
+ 		cur &= ~CRVML_BACKLIGHT_OFF;
+ 		outl(cur, addr);
+-	} else if (intensity == FB_BLANK_POWERDOWN) { /* OFF */
++	} else { /* OFF */
+ 		cur |= CRVML_BACKLIGHT_OFF;
+ 		outl(cur, addr);
+-	} /* anything else, don't bother */
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.25.1
 
