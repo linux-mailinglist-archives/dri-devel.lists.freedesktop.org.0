@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA78221530F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:19:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E296C215334
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF086E2B1;
-	Mon,  6 Jul 2020 07:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 245C56E32B;
+	Mon,  6 Jul 2020 07:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83B16E373
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D456EB5C
  for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 11:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593776842; bh=qqqmBER67TiL8jtm7bhHtg++KZK59EXYjjn1FFY2Hhw=;
- h=From:To:Cc:Subject:Date:From;
- b=DbJowuWfMruGil3/tF0lPmG3d0y4hFQRLw+XYenolmZ/mzEj51epdT99Ct62ZSdde
- Zn/toun/nuoisgRPpQPNppJZ4Zq1FtJUSEBIYfe8AeVmbCvM7nCicxuKAoQ6sCYPt6
- ecnmG4VeSr+xvqt5hOH2L9eA71MRPZeQchnhipWc=
+ t=1593776842; bh=Mror7EhaRxvkBeJPmtCPvGSBofo331RIQIKcoOFqy6Y=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=MuA9Noi6uYlKU2CAFK1WTynrh42ZGRL7Tg8K7H1vyG8kWNPzuGLCruUbNWGfmOCU9
+ OWZBGyUs4yf6qYpa19lLPTYLtYrfT0OfyF8lrONoflImJXKxOSmYDyUGBQyJ1Y/Ck1
+ zUWj9XpA84Ujd+c37JTA/Q8748X7xbfwo9DPjvc8=
 From: Ondrej Jirman <megous@megous.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -25,9 +25,11 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Ondrej Jirman <megous@megous.com>, Fabio Estevam <festevam@gmail.com>,
  =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
  Robert Chiras <robert.chiras@nxp.com>
-Subject: [PATCH 0/2] Fix warnings in display/bridge/nwl-dsi.yaml DT example
-Date: Fri,  3 Jul 2020 13:47:15 +0200
-Message-Id: <20200703114717.2140832-1-megous@megous.com>
+Subject: [PATCH 1/2] dt-bindings: display: Fix example in nwl-dsi.yaml
+Date: Fri,  3 Jul 2020 13:47:16 +0200
+Message-Id: <20200703114717.2140832-2-megous@megous.com>
+In-Reply-To: <20200703114717.2140832-1-megous@megous.com>
+References: <20200703114717.2140832-1-megous@megous.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,23 +51,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset fixes warnings in the example in display/bridge/nwl-dsi.yaml
-revealed during port of display/panel/rocktech,jh057n00900.yaml to
-yaml.
+The example is now validated against rocktech,jh057n00900 schema
+that was ported to yaml, and didn't validate with:
 
-Please take a look.
+- '#address-cells', '#size-cells', 'port@0' do not match any of
+  the regexes: 'pinctrl-[0-9]+'
+- 'vcc-supply' is a required property
+- 'iovcc-supply' is a required property
+- 'reset-gpios' is a required property
 
-thank you and regards,
-  Ondrej Jirman
+Fix it.
 
-Ondrej Jirman (2):
-  dt-bindings: display: Fix example in nwl-dsi.yaml
-  dt-binding: display: Allow a single port node on rocktech,jh057n00900
-
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+---
  .../devicetree/bindings/display/bridge/nwl-dsi.yaml      | 9 +++++----
- .../bindings/display/panel/rocktech,jh057n00900.yaml     | 1 +
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+index 8aff2d68fc33..2c4c34e3bc29 100644
+--- a/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/nwl-dsi.yaml
+@@ -165,6 +165,7 @@ examples:
+  - |
+ 
+    #include <dt-bindings/clock/imx8mq-clock.h>
++   #include <dt-bindings/gpio/gpio.h>
+    #include <dt-bindings/interrupt-controller/arm-gic.h>
+    #include <dt-bindings/reset/imx8mq-reset.h>
+ 
+@@ -191,12 +192,12 @@ examples:
+               phy-names = "dphy";
+ 
+               panel@0 {
+-                      #address-cells = <1>;
+-                      #size-cells = <0>;
+                       compatible = "rocktech,jh057n00900";
+                       reg = <0>;
+-                      port@0 {
+-                           reg = <0>;
++                      vcc-supply = <&reg_2v8_p>;
++                      iovcc-supply = <&reg_1v8_p>;
++                      reset-gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
++                      port {
+                            panel_in: endpoint {
+                                      remote-endpoint = <&mipi_dsi_out>;
+                            };
 -- 
 2.27.0
 
