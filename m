@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED923213F76
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5036213F79
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B53A16EB9A;
-	Fri,  3 Jul 2020 18:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA826EB9B;
+	Fri,  3 Jul 2020 18:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D56156EB9A
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:14 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id n23so38125815ljh.7
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:14 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D24A56EB9C
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:16 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id k17so6251535lfg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3+EMFfJ/GWN/oYTzmUu/mo7ItELrHC8VJ43RJqgEoQE=;
- b=HpaxBh5GXclKWorfDS8eeubjSbUnPeSdneyP8++kij8FIY+Qnp3c4K9T9afDl2eT/F
- kMzutjwUbVj9XeRzxdqtcKjTi7hRy3ksWM9rplbsHITFwGsyIg4BbGj1v9cqPy0RFeBd
- xKJxbxzSwMIvTLRgIIxRTFO0bEKMwQs9C1+fOrxXrD/jItC4h0rVXry/gsFbVk3zf/n+
- 19TMl2UhhsocFn2yJIrmfW9qkxZpfWFIhY1p9XVPa05x1UYnLcT8dxCA3UCy/LA9HOc+
- mcMRtRYnOQxVeSDp7S1ktRoNFyozsHAbvaSIgkO3mrQlNtUGCtLX1MZlzHxOGDCYZk5Z
- 7irQ==
+ bh=76GYwHJgmpg1D+ufO0JSzMv0fcAJAUH2Ai/nlDiORJQ=;
+ b=XCwWqqKaoJ9GY8XfUndqUq6Vjy5mVIvp/JQIsd3c2s3e/DFaT4x1RYdECZ7hADeg7A
+ XD8laph6i7Omw2sMJacDaEjBVaFGHcr/slybT0ZO0RnOSo9URXZvOUVPaV1taIp3wbZK
+ 5wZX2gjTq2EzzilQDlzx4HPYwgU9eeuXla+wjfnbjR2+O6ftUdKY8FLGMAy5xcMJfdZH
+ K/jqmptdwiGN8U5ZCBkrBiu/38Wu0RD5rAaO385T2OezFvo0ZPFMk6lnVSgeabIKkxqG
+ BKEPdzsLnJTfZ5h8shP7CucATIIXQOm3BLcJFMYZIYK8EUn1jPHlJBnegoWDh/3Hzr3p
+ vtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3+EMFfJ/GWN/oYTzmUu/mo7ItELrHC8VJ43RJqgEoQE=;
- b=NDsREPCH0VWN4f43MGOblNOWz+oIEn6XgmUMc2iW906N3TYNjPX0V567cqPeUcJ7Hk
- PBrp4imgGCVr4dmy3RFx5jYLPyzl9HKOfGskVfYdSLNRO178F+TqVdUYd+vUXq9cuOeh
- nIHRWmVWx8pQB6dWaUotKHF2z9kajsrDts4VRed0CgFLn/6wckt87xgzs4OpySD1fcTy
- brpJtf+F2q09U/r+yA1UITPI1mQiyM3ylABHslbnW9mDsgDMD1NnLFM1BDq8leI7SkOj
- fgmG83B7g2jY688De9gUxCKM/z5bMw146Ny+y3dBeFwxjpiFqdND3XgD5uMYf4ZX+kxB
- dn4w==
-X-Gm-Message-State: AOAM530bQHb5CNgqXpyvxxEzT96NqD0/SkfPHIG1XwQhxQ/ZwSFh1uNn
- U4q0hgL28DbiwZHYyBfxbqwbhIKLeC0=
-X-Google-Smtp-Source: ABdhPJxDMmMZURhZTC0zGczgDx+Llxqhg3gaeOXHUSat2Cl1VgrK5usCllaKBX0X8BU0F3tdoUNFCQ==
-X-Received: by 2002:a2e:9c95:: with SMTP id x21mr13648532lji.234.1593801973131; 
- Fri, 03 Jul 2020 11:46:13 -0700 (PDT)
+ bh=76GYwHJgmpg1D+ufO0JSzMv0fcAJAUH2Ai/nlDiORJQ=;
+ b=OzTmOrJu8rMfpbLYTKyg6q87BPlWDVTeG2SI9+WbJx0Q3n6GpdakjTQ8/npN/I+6D9
+ lyn85daH/k0yz7+UY/e0WYYjSosfzsx57HftZcu4Y0IBUN28hS+sJd7M1j2ZQehf03k5
+ nMzcDdFRCfm19znnHUjvJpWCO7T084lleS8xJi1cGB3Uu83QXenWMJT0DMtQfSSP2SdN
+ aoU0iKa+zfjA4UDiH+3XM/iyHHMrbL01LCZo9yIpmndz8fkL2vm+JzgUPbQowjOos0n1
+ Ds/rjdpG6xtyYdnA7ZuVCQS06aHeinbawkMyC28maoP8BpzpqAcwelT+sWLIlFJMZzbb
+ ccfg==
+X-Gm-Message-State: AOAM53192ex1d2OOY98iT+7M13R7MNnlVXn8UxvTQt9dFu9NGu+7B3MZ
+ Q2xjqOwgLRAjQx/lyGVp9o/uz3jhceo=
+X-Google-Smtp-Source: ABdhPJz8bmVRIrBKTzOJ3rIl6mEq0ud3DW6wn671IW0G6f34jg/y3QlzvCxFFE92mpTId7a05bIO+Q==
+X-Received: by 2002:a19:ad41:: with SMTP id s1mr6607452lfd.191.1593801975119; 
+ Fri, 03 Jul 2020 11:46:15 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.11
+ by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 11:46:12 -0700 (PDT)
+ Fri, 03 Jul 2020 11:46:14 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v4 05/20] backlight: improve backlight_device documentation
-Date: Fri,  3 Jul 2020 20:45:31 +0200
-Message-Id: <20200703184546.144664-6-sam@ravnborg.org>
+Subject: [PATCH v4 06/20] backlight: document inline functions in backlight.h
+Date: Fri,  3 Jul 2020 20:45:32 +0200
+Message-Id: <20200703184546.144664-7-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703184546.144664-1-sam@ravnborg.org>
 References: <20200703184546.144664-1-sam@ravnborg.org>
@@ -86,141 +86,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Improve the documentation for backlight_device and
-adapt it to kernel-doc style.
-
-The updated documentation is more strict on how locking is used.
-With the update neither update_lock nor ops_lock may be used
-outside the backlight core.
-This restriction was introduced to keep the locking simple
-by keeping it in the core.
-It was verified that this documents the current state by renaming
-update_lock => bl_update_lock and ops_lock => bl_ops_lock.
-The rename did not reveal any uses outside the backlight core.
-The rename is NOT part of this patch.
-
-v3:
-  - Update changelog to explain locking details (Daniel)
+Add documentation for the inline functions in backlight.h
 
 v2:
-  - Add short intro to all fields (Daniel)
-  - Updated description of update_lock (Daniel)
+ - Fix spelling (Daniel)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- include/linux/backlight.h | 72 ++++++++++++++++++++++++++-------------
- 1 file changed, 49 insertions(+), 23 deletions(-)
+ include/linux/backlight.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 10518b00b059..7654fe5f1589 100644
+index 7654fe5f1589..7d6cb61e10f5 100644
 --- a/include/linux/backlight.h
 +++ b/include/linux/backlight.h
-@@ -14,21 +14,6 @@
- #include <linux/mutex.h>
- #include <linux/notifier.h>
- 
--/* Notes on locking:
-- *
-- * backlight_device->ops_lock is an internal backlight lock protecting the
-- * ops pointer and no code outside the core should need to touch it.
-- *
-- * Access to update_status() is serialised by the update_lock mutex since
-- * most drivers seem to need this and historically get it wrong.
-- *
-- * Most drivers don't need locking on their get_brightness() method.
-- * If yours does, you need to implement it in the driver. You can use the
-- * update_lock mutex if appropriate.
-- *
-- * Any other use of the locks below is probably wrong.
-- */
--
- enum backlight_update_reason {
- 	BACKLIGHT_UPDATE_HOTKEY,
- 	BACKLIGHT_UPDATE_SYSFS,
-@@ -215,30 +200,71 @@ struct backlight_properties {
- 	enum backlight_scale scale;
- };
- 
-+/**
-+ * struct backlight_device - backlight device data
-+ *
-+ * This structure holds all data required by a backlight device.
-+ */
- struct backlight_device {
--	/* Backlight properties */
-+	/**
-+	 * @props: Backlight properties
-+	 */
- 	struct backlight_properties props;
- 
--	/* Serialise access to update_status method */
-+	/**
-+	 * @update_lock: The lock used when calling the update_status() operation.
-+	 *
-+	 * update_lock is an internal backlight lock that serialise access
-+	 * to the update_status() operation. The backlight core holds the update_lock
-+	 * when calling the update_status() operation. The update_lock shall not
-+	 * be used by backlight drivers.
-+	 */
- 	struct mutex update_lock;
- 
--	/* This protects the 'ops' field. If 'ops' is NULL, the driver that
--	   registered this device has been unloaded, and if class_get_devdata()
--	   points to something in the body of that driver, it is also invalid. */
-+	/**
-+	 * @ops_lock: The lock used around everything related to backlight_ops.
-+	 *
-+	 * ops_lock is an internal backlight lock that protects the ops pointer
-+	 * and is used around all accesses to ops and when the operations are
-+	 * invoked. The ops_lock shall not be used by backlight drivers.
-+	 */
- 	struct mutex ops_lock;
-+
-+	/**
-+	 * @ops: Pointer to the backlight operations.
-+	 *
-+	 * If ops is NULL, the driver that registered this device has been unloaded,
-+	 * and if class_get_devdata() points to something in the body of that driver,
-+	 * it is also invalid.
-+	 */
- 	const struct backlight_ops *ops;
- 
--	/* The framebuffer notifier block */
-+	/**
-+	 * @fb_notif: The framebuffer notifier block
-+	 */
- 	struct notifier_block fb_notif;
- 
--	/* list entry of all registered backlight devices */
-+	/**
-+	 * @entry: List entry of all registered backlight devices
-+	 */
- 	struct list_head entry;
- 
-+	/**
-+	 * @dev: Parent device.
-+	 */
- 	struct device dev;
- 
--	/* Multiple framebuffers may share one backlight device */
-+	/**
-+	 * @fb_bl_on: The state of individual fbdev's.
-+	 *
-+	 * Multiple fbdev's may share one backlight device. The fb_bl_on
-+	 * records the state of the individual fbdev.
-+	 */
- 	bool fb_bl_on[FB_MAX];
- 
-+	/**
-+	 * @use_count: The number of uses of fb_bl_on.
-+	 */
+@@ -268,6 +268,10 @@ struct backlight_device {
  	int use_count;
  };
  
++/**
++ * backlight_update_status - force an update of the backlight device status
++ * @bd: the backlight device
++ */
+ static inline int backlight_update_status(struct backlight_device *bd)
+ {
+ 	int ret = -ENOENT;
+@@ -361,6 +365,18 @@ extern int backlight_device_set_brightness(struct backlight_device *bd, unsigned
+ 
+ #define to_backlight_device(obj) container_of(obj, struct backlight_device, dev)
+ 
++/**
++ * bl_get_data - access devdata
++ * @bl_dev: pointer to backlight device
++ *
++ * When a backlight device is registered the driver has the possibility
++ * to supply a void * devdata. bl_get_data() return a pointer to the
++ * devdata.
++ *
++ * RETURNS:
++ *
++ * pointer to devdata stored while registering the backlight device.
++ */
+ static inline void * bl_get_data(struct backlight_device *bl_dev)
+ {
+ 	return dev_get_drvdata(&bl_dev->dev);
 -- 
 2.25.1
 
