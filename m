@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740BF213C45
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 17:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB203213C56
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 17:06:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C426E29E;
-	Fri,  3 Jul 2020 15:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5C66E52E;
+	Fri,  3 Jul 2020 15:06:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA3B6E29E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 15:03:33 +0000 (UTC)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 761156E52E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 15:06:42 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id BE4BC804EB;
- Fri,  3 Jul 2020 17:03:31 +0200 (CEST)
-Date: Fri, 3 Jul 2020 17:03:30 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 051642002D;
+ Fri,  3 Jul 2020 17:06:38 +0200 (CEST)
+Date: Fri, 3 Jul 2020 17:06:37 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Vinay Simha BN <simhavcs@gmail.com>
 Subject: Re: [PATCH v6 1/2] dt-binding: Add DSI/LVDS TC358775 bridge bindings
-Message-ID: <20200703150330.GC25632@ravnborg.org>
+Message-ID: <20200703150637.GD25632@ravnborg.org>
 References: <20200702123651.12177-1-simhavcs@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20200702123651.12177-1-simhavcs@gmail.com>
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8
- a=e5mUnYsNAAAA:8 a=0rtKju-ii_ScJ6bGwYQA:9 a=Hzqs4R5-i81yDW6c:21
- a=rITfdrKO3DDOFrQW:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8
+ a=0rtKju-ii_ScJ6bGwYQA:9 a=j2Z7r55SUaVgpyYN:21 a=LqFKNBjxuT_MqUgU:21
+ a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,11 +79,6 @@ On Thu, Jul 02, 2020 at 06:06:33PM +0530, Vinay Simha BN wrote:
 > * Sam Ravnborg review comments incorporated
 >   }' is indented properly in examples data-lanes
 >   description for single-link and dual-link lvds
-
-If you add a proper changelog then this patch is:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
 > ---
 >  .../display/bridge/toshiba,tc358775.yaml      | 215 ++++++++++++++++++
 >  1 file changed, 215 insertions(+)
@@ -98,6 +92,12 @@ Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > @@ -0,0 +1,215 @@
 > +# SPDX-License-Identifier: GPL-2.0
 > +%YAML 1.2
+One detail that I missed - any specific reason this is not (GPL-2.0-only OR BSD-2-Clause)
+This is the preferred license for new bindings - as checkpatch also
+tells you.
+
+	Sam
+
 > +---
 > +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358775.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
