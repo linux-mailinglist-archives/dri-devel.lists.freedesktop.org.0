@@ -1,45 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D96D213C54
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 17:06:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740BF213C45
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 17:03:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7626E530;
-	Fri,  3 Jul 2020 15:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C426E29E;
+	Fri,  3 Jul 2020 15:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECF066E4AA;
- Fri,  3 Jul 2020 15:06:34 +0000 (UTC)
-IronPort-SDR: i8dg59C5yioQLnhYqh8X561O9lqyoXQtCIdzrkGoBrx3/NeRtcHIHl0B0pr1i2cVtOO61W4WWi
- ouNhvdo9xYzQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="127249262"
-X-IronPort-AV: E=Sophos;i="5.75,308,1589266800"; d="scan'208";a="127249262"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2020 08:06:34 -0700
-IronPort-SDR: 6S9o1+buy10z/ctmcSENR3DZRYuJudfhCeagPXeQA2lZo9VNq4Y5hB4Ozz/1nTPGEEXduUX6a+
- qTnijHNLhazg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,308,1589266800"; d="scan'208";a="387631956"
-Received: from unknown (HELO intel.com) ([10.223.74.178])
- by fmsmga001.fm.intel.com with ESMTP; 03 Jul 2020 08:06:32 -0700
-Date: Fri, 3 Jul 2020 20:25:01 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [Intel-gfx] [PATCH v7 17/17] drm/i915: Add HDCP 1.4 support for
- MST connectors
-Message-ID: <20200703145500.GK15183@intel.com>
-References: <20200623155907.22961-1-sean@poorly.run>
- <20200623155907.22961-18-sean@poorly.run>
- <20200703111827.GI15183@intel.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDA3B6E29E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 15:03:33 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id BE4BC804EB;
+ Fri,  3 Jul 2020 17:03:31 +0200 (CEST)
+Date: Fri, 3 Jul 2020 17:03:30 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Vinay Simha BN <simhavcs@gmail.com>
+Subject: Re: [PATCH v6 1/2] dt-binding: Add DSI/LVDS TC358775 bridge bindings
+Message-ID: <20200703150330.GC25632@ravnborg.org>
+References: <20200702123651.12177-1-simhavcs@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200703111827.GI15183@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200702123651.12177-1-simhavcs@gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8
+ a=e5mUnYsNAAAA:8 a=0rtKju-ii_ScJ6bGwYQA:9 a=Hzqs4R5-i81yDW6c:21
+ a=rITfdrKO3DDOFrQW:21 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,244 +45,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-03 at 16:48:27 +0530, Anshuman Gupta wrote:
-> On 2020-06-23 at 21:29:07 +0530, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > Now that all the groundwork has been laid, we can turn on HDCP 1.4 over
-> > MST. Everything except for toggling the HDCP signalling and HDCP 2.2
-> > support is the same as the DP case, so we'll re-use those callbacks
-> > 
-> > Cc: Juston Li <juston.li@intel.com>
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-12-sean@poorly.run #v1
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-13-sean@poorly.run #v2
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-13-sean@poorly.run #v3
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-15-sean@poorly.run #v4
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-17-sean@poorly.run #v5
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-17-sean@poorly.run #v6
-> > 
-> > Changes in v2:
-> > -Toggle HDCP from encoder disable/enable
-> > -Don't disable HDCP on MST connector destroy, leave that for encoder
-> >  disable, just ensure the check_work routine isn't running any longer
-> > Changes in v3:
-> > -Place the shim in the new intel_dp_hdcp.c file (Ville)
-> > Changes in v4:
-> > -Actually use the mst shim for mst connections (Juston)
-> > -Use QUERY_STREAM_ENC_STATUS MST message to verify channel is encrypted
-> > Changes in v5:
-> > -Add sleep on disable signalling to match hdmi delay
-> > Changes in v6:
-> > -Disable HDCP over MST on GEN12+ since I'm unsure how it should work and I
-> >  don't have hardware to test it
-> > Changes in v7:
-> > -Remove hdcp2 shims for MST in favor of skipping hdcp2 init (Ramalingam)
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 66 +++++++++++++++++++-
-> >  drivers/gpu/drm/i915/display/intel_dp_mst.c  | 18 ++++++
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c    |  2 +-
-> >  3 files changed, 84 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > index 43446a6cae8d..3f67bd27fc3c 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > @@ -7,10 +7,12 @@
-> >   */
-> >  
-> >  #include <drm/drm_dp_helper.h>
-> > +#include <drm/drm_dp_mst_helper.h>
-> >  #include <drm/drm_hdcp.h>
-> >  #include <drm/drm_print.h>
-> >  
-> >  #include "intel_display_types.h"
-> > +#include "intel_ddi.h"
-> >  #include "intel_dp.h"
-> >  #include "intel_hdcp.h"
-> >  
-> > @@ -618,6 +620,65 @@ static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
-> >  	.protocol = HDCP_PROTOCOL_DP,
-> >  };
-> >  
-> > +static int
-> > +intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *intel_dig_port,
-> > +				    enum transcoder cpu_transcoder,
-> > +				    bool enable)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
-> > +	int ret;
-> > +
-> > +	if (!enable)
-> > +		usleep_range(6, 60); /* Bspec says >= 6us */
-> > +
-> > +	ret = intel_ddi_toggle_hdcp_signalling(&intel_dig_port->base,
-> > +					       cpu_transcoder, enable);
-> > +	if (ret)
-> > +		drm_dbg_kms(&i915->drm, "%s HDCP signalling failed (%d)\n",
-> > +			      enable ? "Enable" : "Disable", ret);
-> > +	return ret;
-> > +}
-> > +
-> > +static
-> > +bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *intel_dig_port,
-> > +				  struct intel_connector *connector)
-> > +{
-> > +	struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
-> > +	struct intel_dp *intel_dp = &intel_dig_port->dp;
-> > +	struct drm_dp_query_stream_enc_status_ack_reply reply;
-> > +	int ret;
-> > +
-> > +	if (!intel_dp_hdcp_check_link(intel_dig_port, connector))
-> > +		return false;
-> > +
-> > +	ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
-> > +						  connector->port, &reply);
-> > +	if (ret) {
-> > +		drm_dbg_kms(&i915->drm,
-> > +			    "[CONNECTOR:%d:%s] failed QSES ret=%d\n",
-> > +			    connector->base.base.id, connector->base.name, ret);
-> > +		return false;
-> > +	}
-> > +
-> > +	return reply.auth_completed && reply.encryption_enabled;
-> > +}
-> > +
-> > +static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> > +	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
-> > +	.read_bksv = intel_dp_hdcp_read_bksv,
-> > +	.read_bstatus = intel_dp_hdcp_read_bstatus,
-> > +	.repeater_present = intel_dp_hdcp_repeater_present,
-> > +	.read_ri_prime = intel_dp_hdcp_read_ri_prime,
-> > +	.read_ksv_ready = intel_dp_hdcp_read_ksv_ready,
-> > +	.read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
-> > +	.read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
-> > +	.toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
-> > +	.check_link = intel_dp_mst_hdcp_check_link,
-> > +	.hdcp_capable = intel_dp_hdcp_capable,
-> > +
-> > +	.protocol = HDCP_PROTOCOL_DP,
-> > +};
-> > +
-> >  int intel_dp_init_hdcp(struct intel_digital_port *intel_dig_port,
-> >  		       struct intel_connector *intel_connector)
-> >  {
-> > @@ -630,7 +691,10 @@ int intel_dp_init_hdcp(struct intel_digital_port *intel_dig_port,
-> >  	if (!is_hdcp_supported(dev_priv, port))
-> >  		return 0;
-> >  
-> > -	if (!intel_dp_is_edp(intel_dp))
-> > +	if (intel_connector->mst_port)
-> > +		return intel_hdcp_init(intel_connector, port,
-> > +				       &intel_dp_mst_hdcp_shim);
-> > +	else if (!intel_dp_is_edp(intel_dp))
-> >  		return intel_hdcp_init(intel_connector, port,
-> >  				       &intel_dp_hdcp_shim);
-> >  
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > index 0675825dcc20..abaaeeb963d2 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > @@ -37,6 +37,7 @@
-> >  #include "intel_dp.h"
-> >  #include "intel_dp_mst.h"
-> >  #include "intel_dpio_phy.h"
-> > +#include "intel_hdcp.h"
-> >  
-> >  static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
-> >  					    struct intel_crtc_state *crtc_state,
-> > @@ -352,6 +353,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
-> >  	drm_dbg_kms(&i915->drm, "active links %d\n",
-> >  		    intel_dp->active_mst_links);
-> >  
-> > +	intel_hdcp_disable(intel_mst->connector);
-> > +
-> >  	drm_dp_mst_reset_vcpi_slots(&intel_dp->mst_mgr, connector->port);
-> >  
-> >  	ret = drm_dp_update_payload_part1(&intel_dp->mst_mgr);
-> > @@ -548,6 +551,13 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
-> >  
-> >  	if (pipe_config->has_audio)
-> >  		intel_audio_codec_enable(encoder, pipe_config, conn_state);
-> > +
-> > +	/* Enable hdcp if it's desired */
-> > +	if (conn_state->content_protection ==
-> > +	    DRM_MODE_CONTENT_PROTECTION_DESIRED)
-> > +		intel_hdcp_enable(to_intel_connector(conn_state->connector),
-> > +				  pipe_config->cpu_transcoder,
-> > +				  (u8)conn_state->hdcp_content_type);
-> I am not sure about that, do we need to enable HDCP for every
-> DP-MST connector here, it should be only immediate downstream connector
-> we should authenticate as repeater, after that it should be repeater
-> responsibility to authenticate further downstream connectors.
+Hi Vinay.
+
+On Thu, Jul 02, 2020 at 06:06:33PM +0530, Vinay Simha BN wrote:
+> Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
 > 
-> Tested this entire series on Gen12 H/W after removing the Gen12 restriction
-> condition with daisy-chain of two DP MST display.
-> Master DP MST connector has failed the repeater downstream authentication
-> due to error "KSV list failed to become ready" ETIMEDOUT.
-> Slave DP MST connector passes the authentication stage but failed to
-> enable the encryption.
-For Gen12 we should pass pipe_config->mst_master_transcoder as Gen12 has
-HDCP instance per transcoder, after passing mst_master_transcoder, 
-HDCP encryption is enabled on slave DP MST connector. 
-(it authenticated as repeater with three downstream deivce) but master 
-DP MST connector continue to fails the repeater downstream authentication due to
-KSV list were not ready error.
-Thanks,
-Anshuman Gupta.
-> Thanks,
-> Anshuman Gupta.
-> >  }
-> >  
-> >  static bool intel_dp_mst_enc_get_hw_state(struct intel_encoder *encoder,
-> > @@ -770,6 +780,14 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
-> >  	intel_attach_force_audio_property(connector);
-> >  	intel_attach_broadcast_rgb_property(connector);
-> >  
-> > +
-> > +	/* TODO: Figure out how to make HDCP work on GEN12+ */
-> > +	if (INTEL_GEN(dev_priv) < 12) {
-> > +		ret = intel_dp_init_hdcp(intel_dig_port, intel_connector);
-> > +		if (ret)
-> > +			DRM_DEBUG_KMS("HDCP init failed, skipping.\n");
-> > +	}
-> > +
-> >  	/*
-> >  	 * Reuse the prop from the SST connector because we're
-> >  	 * not allowed to create new props after device registration.
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index 6bd0e4616ee1..ddc9db8de2bc 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -2060,7 +2060,7 @@ int intel_hdcp_init(struct intel_connector *connector,
-> >  	if (!shim)
-> >  		return -EINVAL;
-> >  
-> > -	if (is_hdcp2_supported(dev_priv))
-> > +	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
-> >  		intel_hdcp2_init(connector, port, shim);
-> >  
-> >  	ret =
-> > -- 
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> > 
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> ---
+> v1:
+>  Initial version wast .txt file
+> 
+> v2:
+>  From txt to yaml file format
+> 
+> v3:
+> * Andrzej Hajda review comments incorporated
+>   dual port lvds implemented
+> 
+> * Laurent Pinchart review comments incorporated
+>   dsi lanes property removed and it is dynamically
+>   picked from the dsi ports
+>   VESA/JEIDA format picked from panel-lvds dts
+> 
+> v4:
+> * Sam Ravnborg review comments incorporated
+>   }' is indented properly in examples data-lanes
+>   description for single-link and dual-link lvds
+
+If you add a proper changelog then this patch is:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+	Sam
+> ---
+>  .../display/bridge/toshiba,tc358775.yaml      | 215 ++++++++++++++++++
+>  1 file changed, 215 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> new file mode 100644
+> index 000000000000..9ddd63bee403
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> @@ -0,0 +1,215 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358775.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toshiba TC358775 DSI to LVDS bridge bindings
+> +
+> +maintainers:
+> + - Vinay Simha BN <simhavcs@gmail.com>
+> +
+> +description: |
+> + This binding supports DSI to LVDS bridge TC358775
+> +
+> + MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
+> + Video frame size:
+> + Up to 1600x1200 24-bit/pixel resolution for single-link LVDS display panel
+> + limited by 135 MHz LVDS speed
+> + Up to WUXGA (1920x1200 24-bit pixels) resolution for dual-link LVDS display
+> + panel, limited by 270 MHz LVDS speed.
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,tc358775
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: i2c address of the bridge, 0x0f
+> +
+> +  vdd-supply:
+> +    maxItems: 1
+> +    description:  1.2V LVDS Power Supply
+> +
+> +  vddio-supply:
+> +    maxItems: 1
+> +    description: 1.8V IO Power Supply
+> +
+> +  stby-gpios:
+> +    maxItems: 1
+> +    description: Standby pin, Low active
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Hardware reset, Low active
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      A node containing input and output port nodes with endpoint definitions
+> +      as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description: |
+> +          DSI Input. The remote endpoint phandle should be a
+> +          reference to a valid mipi_dsi_host device node.
+> +
+> +      port@1:
+> +        type: object
+> +        description: |
+> +          Video port for LVDS output (panel or connector).
+> +
+> +      port@2:
+> +        type: object
+> +        description: |
+> +          Video port for Dual link LVDS output (panel or connector).
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> + - compatible
+> + - reg
+> + - vdd-supply
+> + - vddio-supply
+> + - stby-gpios
+> + - reset-gpios
+> + - ports
+> +
+> +examples:
+> + - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    /* For single-link LVDS display panel */
+> +
+> +    i2c@78b8000 {
+> +        /* On High speed expansion */
+> +        label = "HS-I2C2";
+> +        reg = <0x078b8000 0x500>;
+> +        clock-frequency = <400000>; /* fastmode operation */
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        tc_bridge: bridge@f {
+> +            compatible = "toshiba,tc358775";
+> +            reg = <0x0f>;
+> +
+> +            vdd-supply = <&pm8916_l2>;
+> +            vddio-supply = <&pm8916_l6>;
+> +
+> +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    d2l_in_test: endpoint {
+> +                        remote-endpoint = <&dsi0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    lvds_out: endpoint {
+> +                        remote-endpoint = <&panel_in>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    dsi@1a98000 {
+> +        reg = <0x1a98000 0x25c>;
+> +        reg-names = "dsi_ctrl";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@1 {
+> +                reg = <1>;
+> +                dsi0_out: endpoint {
+> +                    remote-endpoint = <&d2l_in_test>;
+> +                    data-lanes = <0 1 2 3>;
+> +                };
+> +             };
+> +         };
+> +     };
+> +
+> + - |
+> +    /* For dual-link LVDS display panel */
+> +
+> +    i2c@78b8000 {
+> +        /* On High speed expansion */
+> +        label = "HS-I2C2";
+> +        reg = <0x078b8000 0x500>;
+> +        clock-frequency = <400000>; /* fastmode operation */
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        tc_bridge_dual: bridge@f {
+> +            compatible = "toshiba,tc358775";
+> +            reg = <0x0f>;
+> +
+> +            vdd-supply = <&pm8916_l2>;
+> +            vddio-supply = <&pm8916_l6>;
+> +
+> +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    d2l_in_dual: endpoint {
+> +                        remote-endpoint = <&dsi0_out_dual>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    lvds0_out: endpoint {
+> +                        remote-endpoint = <&panel_in0>;
+> +                    };
+> +                };
+> +
+> +                port@2 {
+> +                    reg = <2>;
+> +                    lvds1_out: endpoint {
+> +                        remote-endpoint = <&panel_in1>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    dsi@1a98000 {
+> +        reg = <0x1a98000 0x25c>;
+> +        reg-names = "dsi_ctrl";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@1 {
+> +                reg = <1>;
+> +                dsi0_out_dual: endpoint {
+> +                    remote-endpoint = <&d2l_in_dual>;
+> +                    data-lanes = <0 1 2 3>;
+> +                };
+> +             };
+> +         };
+> +     };
+> +...
+> -- 
+> 2.17.1
+> 
 > _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
