@@ -2,35 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC54213E89
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 19:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6ED213F62
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF20E6EB88;
-	Fri,  3 Jul 2020 17:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934F46EB91;
+	Fri,  3 Jul 2020 18:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6526EB88
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 17:26:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id CD5C32002D;
- Fri,  3 Jul 2020 19:26:07 +0200 (CEST)
-Date: Fri, 3 Jul 2020 19:26:06 +0200
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 512916EB91
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:00 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id y18so19014960lfh.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Qa4ij5M0Cagq/pu8aOEga/t9GH74UxC7znr9RmoByx0=;
+ b=Pr4TeVWNg8oSguk7KoqCU73pTUSWHrIrplIP/Pqe3Jw+/BEqQfJJI2MoFOjC/CHimV
+ 3BWQ48cGdSpBYMa5a+KAsQfJYvs1AmgHBU+ht4Iq8H1GjPpnZXNhBobsa/b93kfwfcib
+ DLfgLhJYlzbIu4i1mjenBTgWvrG36qZTTzGnfLWTVPLovhzc/sH/2qIPuVIPgwtu6gdy
+ r2BD0+XneOSzDkKr0tRhQGH+Fyo8mKXOJFfGckzBeZuV86crBo87VbHZPIIeYaGrKBfM
+ wrQ7KqgpcKaWiE1RmqEZIV93ixfIaySoRCZ2BbsX7QgyZ+n+f5tMMeVYMGm2cm1j6s9B
+ pkUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Qa4ij5M0Cagq/pu8aOEga/t9GH74UxC7znr9RmoByx0=;
+ b=owOHIsilUbTLgcPoBsOwCivG0S00lIo8PzAjMO1DMldDB1qiK8cQJRs5Vzq27ER+v0
+ kOsniLxnD3vs3aNSyIj6lW/neL8zKgZQ6N25QsdLU6P1pxggy/9est8+Woj/BdWfwfIo
+ +aZbuoKolbgVg5dF0bhKh0XLd1HWYSzqqBI4ytLtT3RWHUgNhnFuqdMV8QGp8wfIVzTF
+ xh6LQVTzkaRlndtXCtsLnorK5QwPb+NRuEQHn+5W/9lTPqa+cqHUFYUrDPC7BSISMr4W
+ /7tMQpLXImGoVj+2zlLcCed6Spoi9qpGmqu0fxdOI+etzxV5oIgcOX3zjj+tkeJnNfJy
+ nGsA==
+X-Gm-Message-State: AOAM531Z8gmh6OtIfaJxDVVXerqLa4YZ74rKvYlYFlos7CE3QMKd0ZuY
+ KiZkf4O59jF1KlLiofyiCIoLPfczZ8M=
+X-Google-Smtp-Source: ABdhPJxLb9Stn+3Vn1mkJrN3zeGv7Ihe43iUEUKQlmZvet59I/NrBkw7xZ4ir/vi90deO56BpHqPHw==
+X-Received: by 2002:ac2:5093:: with SMTP id f19mr23104888lfm.10.1593801958276; 
+ Fri, 03 Jul 2020 11:45:58 -0700 (PDT)
+Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
+ by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.45.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jul 2020 11:45:57 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
-Message-ID: <20200703172606.GA161457@ravnborg.org>
-References: <20200607133832.1730288-1-paul@crapouillou.net>
- <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
+To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>
+Subject: [PATCH v4 0/20] backlight: backlight updates
+Date: Fri,  3 Jul 2020 20:45:26 +0200
+Message-Id: <20200703184546.144664-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=tNABQns5bdWSQWw5byUA:9 a=wPNLvfGTeEIA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,154 +66,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
+Cc: linux-pwm@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Jonathan Corbet <corbet@lwn.net>,
  Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Andy Gross <agross@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+ patches@opensource.cirrus.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Noralf/Paul.
+Long overdue follow-up. v3 submission here:
+https://lore.kernel.org/dri-devel/20200601065207.492614-1-sam@ravnborg.org/
 
-Trying to stir up this discussion again.
+v4:
+  - Introduced backlight_get_brightness based on feedback from Emil.
+  - Properly described the rationale behind more restrictive locking use
+    I checked that locking was not used outside backlight core
+    by renaming the lock fields.
+    As it is not used seems OK to restrict use to the core.
+  - Introducing backlight_get_brightness invalidated
+    some patches and I did a bit finer split to ease review.
+  - Added acks
+  - A few small adjustments documented in the individual patches
 
-On Sun, Jun 14, 2020 at 06:36:22PM +0200, Noralf Tr=F8nnes wrote:
-> =
+v3:
+  - Dropped video patch that was reviewd and thus applied
+  - Updated kernel-doc so all fields now have a short intro
+  - Improved readability in a lot of places, thanks to review
+    feedback from Daniel - thanks!
+  - Added better intro to backlight
+  - Added acks
 
-> =
+    Several other smaller changes documented in the
+    patches.
+    I left out patches to make functions static as
+    there are dependencies to drm-misc-next for these.
 
-> Den 07.06.2020 15.38, skrev Paul Cercueil:
-> > Hi,
-> > =
+v2:
+  - Dropped drm patches that was reviewed and thus applied (Thanks Tomi)
+  - Updated backligth_is_blank() based on Daniel's feedback
+  - Dropped EXPORT_SYMBOL that was no longer relevant
+  - Reordered patches, so patches with no external
+    dependencies comes first
+  - Updated the description that follows.
 
-> > Here's a follow-up on the previous discussion about the current state of
-> > DSI/DBI panel drivers, TinyDRM, and the need of a cleanup.
-> > =
 
-> > This patchset introduces the following:
-> > * It slightly tweaks the MIPI DSI code so that it supports MIPI DBI over
-> >   various buses. This patch has been tested with a non-upstream DRM
-> >   panel driver for a ILI9331 DBI/8080 panel, written with the DSI
-> >   framework (and doesn't include <drm/drm_mipi_dbi.h>), and non-upstream
-> >   DSI/DBI host driver for the Ingenic SoCs.
-> > =
+This following series touches a lot of backlight things.
 
-> > * A SPI DBI host driver, using the current MIPI DSI framework. It allows
-> >   MIPI DSI/DBI drivers to be written with the DSI framework, even if
-> >   they are connected over SPI, instead of registering as SPI device
-> >   drivers. Since most of these panels can be connected over various
-> >   buses, it permits to reuse the same driver independently of the bus
-> >   used.
-> > =
+Starts with a small refactoring in backligth.c to remove some indents.
+This increases the readability and no functional changes.
 
-> > * A TinyDRM driver for DSI/DBI panels, once again independent of the bus
-> >   used; the only dependency (currently) being that the panel must
-> >   understand DCS commands.
-> > =
+Then a new helper backlight_is_blank() is added.
+This helper will simplify the implementation of update_status()
+in almost all backlight drivers.
 
-> > * A DRM panel driver to test the stack. This driver controls Ilitek
-> >   ILI9341 based DBI panels, like the Adafruit YX240QV29-T 320x240 2.4"
-> >   TFT LCD panel. This panel was converted from
-> >   drivers/gpu/drm/tiny/ili9341.c.
-> > =
+Then while surfing the code I missed some documentation.
+So I got a bit carried away and updated the documentation
+for the backlight core and added it to kernel-doc.
+The documentation express my current understanding.
+Everything from spelling errors to outright wrong content
+shall be anticipated - so please review!
+We are all best helped if the documentation is correct
+and up-to-date and it is readable.
 
-> > I would like to emphasize that while it has been compile-tested, I did
-> > not test it with real hardware since I do not have any DBI panel
-> > connected over SPI. I did runtime-test the code, just without any panel
-> > connected.
-> > =
+In this process I identified that the backlight_bl driver
+was no longer in use - so drop it.
 
-> > Another thing to note, is that it does not break Device Tree ABI. The
-> > display node stays the same:
-> > =
+Everything builds, but so far no run-time testing.
 
-> > display@0 {
-> > 	compatible =3D "adafruit,yx240qv29", "ilitek,ili9341";
-> > 	reg =3D <0>;
-> > 	spi-max-frequency =3D <32000000>;
-> > 	dc-gpios =3D <&gpio0 9 GPIO_ACTIVE_HIGH>;
-> > 	reset-gpios =3D <&gpio0 8 GPIO_ACTIVE_HIGH>;
-> > 	rotation =3D <270>;
-> > 	backlight =3D <&backlight>;
-> > };
-> > =
+        Sam
 
-> > The reason it works, is that the "adafruit,yx240qv29" device is probed
-> > on the SPI bus, so it will match with the SPI/DBI host driver. This will
-> > in turn register the very same node with the DSI bus, and the ILI9341
-> > DRM panel driver will probe. The driver will detect that no controller
-> > is linked to the panel, and eventually register the DBI/DSI TinyDRM
-> > driver.
-> > =
+Sam Ravnborg (20):
+      backlight: refactor fb_notifier_callback()
+      backlight: add backlight_is_blank()
+      backlight: improve backlight_ops documentation
+      backlight: improve backlight_properties documentation
+      backlight: improve backlight_device documentation
+      backlight: document inline functions in backlight.h
+      backlight: document enums in backlight.h
+      backlight: remove the unused backlight_bl driver
+      backlight: drop extern from prototypes
+      backlight: add overview and update existing doc
+      backlight: wire up kernel-doc documentation
+      backlight: introduce backlight_get_brightness()
+      backlight: as3711_bl: simplify update_status
+      backlight: cr_bllcd: introduce backlight_is_blank()
+      backlight: gpio_backlight: simplify update_status()
+      backlight: jornada720_bl: introduce backlight_is_blank()
+      backlight: use backligt_get_brightness()
+      backlight: drop backlight_put()
+      backlight: make of_find_backlight static
+      backlight: make of_find_backlight_by_node() static
 
-> > I can't stress it enough that this is a RFC, so it still has very rough
-> > edges.
-> > =
+ Documentation/gpu/backlight.rst          |  12 +
+ Documentation/gpu/index.rst              |   1 +
+ drivers/video/backlight/88pm860x_bl.c    |  13 +-
+ drivers/video/backlight/Kconfig          |   8 -
+ drivers/video/backlight/Makefile         |   1 -
+ drivers/video/backlight/adp5520_bl.c     |  10 +-
+ drivers/video/backlight/adp8860_bl.c     |  10 +-
+ drivers/video/backlight/adp8870_bl.c     |  10 +-
+ drivers/video/backlight/as3711_bl.c      |  11 +-
+ drivers/video/backlight/backlight.c      | 234 ++++++++++--------
+ drivers/video/backlight/bd6107.c         |   7 +-
+ drivers/video/backlight/corgi_lcd.c      |   8 +-
+ drivers/video/backlight/cr_bllcd.c       |  14 +-
+ drivers/video/backlight/da903x_bl.c      |  13 +-
+ drivers/video/backlight/ep93xx_bl.c      |   8 +-
+ drivers/video/backlight/generic_bl.c     | 110 ---------
+ drivers/video/backlight/gpio_backlight.c |  17 +-
+ drivers/video/backlight/hp680_bl.c       |   6 +-
+ drivers/video/backlight/jornada720_bl.c  |   2 +-
+ drivers/video/backlight/kb3886_bl.c      |   6 +-
+ drivers/video/backlight/led_bl.c         |   7 +-
+ drivers/video/backlight/lm3533_bl.c      |   8 +-
+ drivers/video/backlight/locomolcd.c      |   6 +-
+ drivers/video/backlight/lv5207lp.c       |   7 +-
+ drivers/video/backlight/max8925_bl.c     |  13 +-
+ drivers/video/backlight/pwm_bl.c         |   7 +-
+ drivers/video/backlight/qcom-wled.c      |   7 +-
+ drivers/video/backlight/tps65217_bl.c    |  10 +-
+ drivers/video/backlight/wm831x_bl.c      |  13 +-
+ include/linux/backlight.h                | 409 ++++++++++++++++++++++++-------
+ 30 files changed, 503 insertions(+), 485 deletions(-)
 
-> =
 
-> I don't know bridge and dsi drivers so I can't comment on that, but one
-> thing I didn't like is that the DT compatible string has to be added to
-> 2 different modules.
-> =
-
-> As an example, a MI0283QT panel (ILI9341) supports these interface option=
-s:
-> =
-
-> 1. SPI
->    Panel setup/control and framebuffer upload over SPI
-> =
-
-> 2. SPI + DPI
->    Panel setup/control over SPI, framebuffer scanout over DPI
-> =
-
-> 3. Parallel bus
->    Panel setup/control and framebuffer upload over parallel bus
-
-To continue the configurations we should support:
-- Panels where the chip can be configured to SPI, SPI+DPI, Parallel bus
-  (as detailed by Noralf above)
-- Panels that supports only 6800 or 8080 - connected via GPIO pins or
-  memory mapped (maybe behind some special IP to support this)
-  Command set is often special.
-
-We will see a number of chips with many different types of displays.
-So the drivers should be chip specific with configuration depending on
-the connected display.
-
-What I hope we can find a solution for is a single file/driver that can
-support all the relevant interface types for a chip.
-So we would end up with a single file that included the necessary
-support for ili9341 in all interface configurations with the necessary
-support for the relevant displays.
-
-I do not know how far we are from this as I have not dived into the
-details of any of the proposals.
-> =
-
-> My suggestion is to have one panel driver module that can support all of
-> these like this:
-So I think we agree here.
-
-> =
-
-> For 1. and 2. a SPI driver is registered and if I understand your
-> example correctly of_graph_get_port_by_id() can be used during probe to
-> distinguish between the 2 options and register a full DRM driver for 1.
-> and add a DRM panel for 2.
-> =
-
-> For 3. a DSI driver is registered (adapted for DBI use like you're
-> suggesting).
-> =
-
-> Note that the interface part of the controller initialization will
-> differ between these, the panel side init will be the same I assume.
-
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
