@@ -1,32 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B0C213482
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 08:53:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F597213498
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 09:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72BDD6E8CF;
-	Fri,  3 Jul 2020 06:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E86226E8D1;
+	Fri,  3 Jul 2020 07:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97FCD6E8CF
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 06:53:25 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 707B9AD26;
- Fri,  3 Jul 2020 06:53:24 +0000 (UTC)
-Subject: Re: [PATCH v2 00/14] drm/ast: Managed modesetting
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200702115029.5281-1-tzimmermann@suse.de>
- <20200703064444.GB1690637@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <723622a5-be1d-93a5-b854-2c678ec59d10@suse.de>
-Date: Fri, 3 Jul 2020 08:53:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 457C16E8D1
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 07:03:59 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 57B4A206DF;
+ Fri,  3 Jul 2020 07:03:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593759838;
+ bh=OnqYeeLDkLVTTdrfYGx84bxSdL6vSKVYH4IYcErCpHU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VOXctAaE2VR2kSEm2Y3wmxasnbWAWwm1kcY5sdtt+tfJr76ii7o3hWr7PHQF/erQE
+ rD7+fZOLbqa4fIqVXviPRrY8BQ9gD5iWu2qXhAG5OYQGWrMQUAfXF2Kox8luHMbxTT
+ C8IKmIOWz2ym35LjMWpuaBz41jUU6+Mk2vV/2XVg=
+Date: Fri, 3 Jul 2020 09:04:03 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200703070403.GB2221524@kroah.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+ <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
+ <20200416102508.GA820251@kroah.com>
+ <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
+ <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
+ <20200421080544.GA611314@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20200703064444.GB1690637@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <20200421080544.GA611314@kroah.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,164 +53,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, emil.l.velikov@gmail.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1495380030=="
+Cc: driverdevel <devel@driverdev.osuosl.org>, nd <nd@arm.com>,
+ Todd Kjos <tkjos@android.com>, Lecopzer Chen <lecopzer.chen@mediatek.com>,
+ Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Christian Brauner <christian@brauner.io>,
+ Anders Pedersen <anders.pedersen@arm.com>, Laura Abbott <laura@labbott.name>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ "Darren Hart \(VMware\)" <dvhart@infradead.org>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ Laura Abbott <labbott@redhat.com>, Martijn Coenen <maco@android.com>,
+ Christian Brauner <christian.brauner@ubuntu.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1495380030==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac"
+On Tue, Apr 21, 2020 at 10:05:44AM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
+> > On Mon, Apr 20, 2020 at 1:22 AM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > > On Thu, Apr 16, 2020 at 12:25:08PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
+> > > > > But I do think we can mark it as deprecated and let folks know that
+> > > > > around the end of the year it will be deleted.
+> > > >
+> > > > No one ever notices "depreciated" things, they only notice if the code
+> > > > is no longer there :)
+> > > >
+> > > > So I'm all for just deleting it and seeing who even notices...
+> > >
+> > > Agreed.
+> > 
+> > I mean, I get there's not much love for ION in staging, and I too am
+> > eager to see it go, but I also feel like in the discussions around
+> > submitting the dmabuf heaps at talks, etc, that there was clear value
+> > in removing ION after a short time so that folks could transition
+> > being able to test both implementations against the same kernel so
+> > performance regressions, etc could be worked out.
+> > 
+> > I am actively getting many requests for help for vendors who are
+> > looking at dmabuf heaps and are starting the transition process, and
+> > I'm trying my best to motivate them to directly work within the
+> > community so their needed heap functionality can go upstream. But it's
+> > going to be a process, and their first attempts aren't going to
+> > magically land upstream.  I think being able to really compare their
+> > implementations as they iterate and push things upstream will help in
+> > order to be able to have upstream solutions that are also properly
+> > functional for production usage.
+> 
+> But we are not accepting any new ion allocators or changes at the
+> moment, so I don't see how the ion code in the kernel is helping/hurting
+> anything here.
+> 
+> There has been a bunch of changes to the ion code recently, in the
+> Android kernel trees, in order to get a lot of the different
+> manufacturer "forks" of ion back together into one place.  But again,
+> those patches are not going to be sent upstream for merging so how is
+> ion affecting the dmabuf code at all here?
+> 
+> > The dmabuf heaps have been in an official kernel now for all of three
+> > weeks. So yea, we can "delete [ION] and see who even notices", but I
+> > worry that may seem a bit like contempt for the folks doing the work
+> > on transitioning over, which doesn't help getting them to participate
+> > within the community.
+> 
+> But they aren't participating in the community today as no one is
+> touching the ion code.  So I fail to see how keeping a dead-end-version
+> of ion in the kernel tree really affects anyone these days.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac
-Content-Type: multipart/mixed; boundary="PXpYxbMCYMFkVLCrTwkWmjVkWHsLRWl4w";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- kraxel@redhat.com, airlied@redhat.com
-Message-ID: <723622a5-be1d-93a5-b854-2c678ec59d10@suse.de>
-Subject: Re: [PATCH v2 00/14] drm/ast: Managed modesetting
-References: <20200702115029.5281-1-tzimmermann@suse.de>
- <20200703064444.GB1690637@ravnborg.org>
-In-Reply-To: <20200703064444.GB1690637@ravnborg.org>
+So, any thoughts here?  What's the timeline for ion being able to be
+removed that you are comfortable with?
 
---PXpYxbMCYMFkVLCrTwkWmjVkWHsLRWl4w
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-Hi
-
-Am 03.07.20 um 08:44 schrieb Sam Ravnborg:
-> Hi Thomas.
->=20
-> On Thu, Jul 02, 2020 at 01:50:15PM +0200, Thomas Zimmermann wrote:
->> This is the first patchset to convert ast to use managed interfaces. T=
-hese
->> patches address modesetting. I expect that there will be at least one =
-more
->> set of patches for memory management and one for device structures.
->>
->> Patches 1 to 11 tackle HW cursor handling. The overall point is to get=
-
->> cursor support out of the plane functions and put the code into helper=
-s.
->> There are quite a few improvements that make cursors easier and faster=
- to
->> use. Patch 10 converts cursors to managed release.
->>
->> With cursors out of the way, modesetting initialization is much more
->> simple. Patches 12 to 14 put all related code next to each other and
->> switch to managed initialization.
->>
->> The patchset was tested on AST2100 hardware.
->>
->> v2:
->> 	* use to_ast_private() instead of
->> 	  struct drm_device.dev_private (Sam)
->>
->> Thomas Zimmermann (14):
->>   drm/ast: Move cursor functions to ast_cursor.c
->>   drm/ast: Pass struct ast_private instance to cursor init/fini
->>     functions
->>   drm/ast: Move cursor fb pinning and mapping into helper
->>   drm/ast: Update cursor image and checksum from same function
->>   drm/ast: Move cursor pageflip into helper
->>   drm/ast: Replace ast_cursor_move() with ast_cursor_show()
->>   drm/ast: Don't enable HW cursors twice during atomic update
->>   drm/ast: Add helper to hide cursor
->>   drm/ast: Keep cursor HW BOs mapped
->>   drm/ast: Managed cursor release
->>   drm/ast: Init cursors before creating modesetting structures
->>   drm/ast: Replace struct ast_crtc with struct drm_crtc
->>   drm/ast: Use managed mode-config init
->>   drm/ast: Initialize mode setting in ast_mode_config_init()
-> I have browsed the patch-set. Nothing jumped at me but then
-> most of the bo handling I do not understand.
->=20
-> Feel free to add:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> to all patches.
->=20
-> But I hope someone else that knows this better could jump in and
-> take a look too.
-
-Thank you so much. Finding reviewers for such obscure drivers is not
-easy. I appreciate your feedback.
-
-Best regards
-Thomas
-
->=20
-> 	Sam
->=20
->>
->>  drivers/gpu/drm/ast/Makefile     |   3 +-
->>  drivers/gpu/drm/ast/ast_cursor.c | 289 +++++++++++++++++++++++++++
->>  drivers/gpu/drm/ast/ast_drv.h    |  19 +-
->>  drivers/gpu/drm/ast/ast_main.c   |  35 +---
->>  drivers/gpu/drm/ast/ast_mode.c   | 322 ++++++------------------------=
--
->>  5 files changed, 359 insertions(+), 309 deletions(-)
->>  create mode 100644 drivers/gpu/drm/ast/ast_cursor.c
->>
->> --
->> 2.27.0
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---PXpYxbMCYMFkVLCrTwkWmjVkWHsLRWl4w--
-
---rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7+1eMUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPqUQgAw1ojvyAjfs0AR9EcKRJR0THIkBuK
-qkUaK1rC7/aHxkGsTyGQOi9liBq92m6L8RodCZLJuPV8tbpqknpp38KBT9kyLcLh
-5m799XRoubk2cVr4LC/c2Yi9w5Cm0FK6nAiA3jSLu2oRs+Urb2/mJ7VMYJLpcMvi
-SUrBmYfWg7LCrm0Q8U5XGrpBygBt63PTBKdEARqa+R0O++FjH4KReTdmKVFnhYef
-W2cYhR98cLdH1L6Li74RLb7yQmkk51ED3hgTgoYUD3Ql9658D82almtDCwLqF/ZQ
-uDJBX6YAnL3geCZY9aUuvsYePhYiVkO3pjnqDOqXdLxmeuDbk4w+WQacmg==
-=e6+9
------END PGP SIGNATURE-----
-
---rSKqq5EYOOMvBR4ceCZSYoKS5mjkp1bac--
-
---===============1495380030==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1495380030==--
