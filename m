@@ -2,66 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6A5215313
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA78221530F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5896E2BD;
-	Mon,  6 Jul 2020 07:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEF086E2B1;
+	Mon,  6 Jul 2020 07:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354B66EB5A
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 11:13:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83B16E373
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 11:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1593774803; bh=PK9XQwVLZikvPIqIQvVj+rgD6Y+uR8PxJm+ULrZzNEY=;
- h=Date:From:To:Subject:References:X-My-GPG-KeyId:From;
- b=S7oWV+ePVh3bfJXlbi+307IscRv04ljcgUCHfqikI/1D//XWGqaz4mN46BGZAazVj
- 5bdCe0vCNFUu1n/lHJ7onleN+X9HghCqqMprndSR8s+JCw/aKbIpo8LQ8SKVK0q3vR
- b1gDz1xB4J3mN4HoEExzY3QakP/cqkk5MQuGnFsE=
-Date: Fri, 3 Jul 2020 13:13:23 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- linux-kernel@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, Bhushan Shah <bshah@kde.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-sunxi@googlegroups.com, Luca Weiss <luca@z3ntu.xyz>,
- Martijn Braam <martijn@brixit.nl>, Icenowy Zheng <icenowy@aosc.io>,
- Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Linus Walleij <linus.walleij@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v7 02/13] dt-bindings: panel: Convert rocktech,
- jh057n00900 to yaml
-Message-ID: <20200703111323.zcmv3cuo7toa4d3g@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
- Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- linux-kernel@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
- Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, Bhushan Shah <bshah@kde.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-sunxi@googlegroups.com, Luca Weiss <luca@z3ntu.xyz>,
- Martijn Braam <martijn@brixit.nl>, Icenowy Zheng <icenowy@aosc.io>,
- Maxime Ripard <mripard@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org,
- Linus Walleij <linus.walleij@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-References: <20200701162928.1638874-1-megous@megous.com>
- <20200701162928.1638874-3-megous@megous.com>
- <20200702205143.GA1670522@bogus>
- <20200702210354.562wkzpdmyrlwojx@core.my.home>
- <20200703051155.GA1685118@ravnborg.org>
- <20200703104448.iwhxk77d2hyrr3x5@core.my.home>
+ t=1593776842; bh=qqqmBER67TiL8jtm7bhHtg++KZK59EXYjjn1FFY2Hhw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DbJowuWfMruGil3/tF0lPmG3d0y4hFQRLw+XYenolmZ/mzEj51epdT99Ct62ZSdde
+ Zn/toun/nuoisgRPpQPNppJZ4Zq1FtJUSEBIYfe8AeVmbCvM7nCicxuKAoQ6sCYPt6
+ ecnmG4VeSr+xvqt5hOH2L9eA71MRPZeQchnhipWc=
+From: Ondrej Jirman <megous@megous.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ondrej Jirman <megous@megous.com>, Fabio Estevam <festevam@gmail.com>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Robert Chiras <robert.chiras@nxp.com>
+Subject: [PATCH 0/2] Fix warnings in display/bridge/nwl-dsi.yaml DT example
+Date: Fri,  3 Jul 2020 13:47:15 +0200
+Message-Id: <20200703114717.2140832-1-megous@megous.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200703104448.iwhxk77d2hyrr3x5@core.my.home>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:18 +0000
+X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,75 +42,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 03, 2020 at 12:44:48PM +0200, megous hlavni wrote:
-> Hello Sam,
-> 
-> On Fri, Jul 03, 2020 at 07:11:55AM +0200, Sam Ravnborg wrote:
-> > Hi Ondrej.
-> > 
-> > > > My bot found errors running 'make dt_binding_check' on your patch:
-> > > > 
-> > > > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-> > > > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: 'vcc-supply' is a required property
-> > > > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: 'iovcc-supply' is a required property
-> > > > /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/nwl-dsi.example.dt.yaml: panel@0: 'reset-gpios' is a required property
-> > > 
-> > > Paths look bogus ^^^^
-> > > 
-> > > It should be .../rocktech,jh057n00900.yaml: ...
-> > 
-> > The example in nwl-dsi.yaml contains:
-> > 	compatible = "rocktech,jh057n00900";
-> > 
-> > So the example is checked against your updated binding.
-> > And the binding check fails because the example is no longer valid.
-> 
-> Ah, now I understand.
-> 
-> > This needs to be fixed as we do not wat to introduce new errors.
-> > Either the example or the binding needs the fix.
-> 
-> I think we can unrequire the supplies, but reset is needed really.
+This patchset fixes warnings in the example in display/bridge/nwl-dsi.yaml
+revealed during port of display/panel/rocktech,jh057n00900.yaml to
+yaml.
 
-Hmm, that's probably wrong kind of thinking. Panel has the supplies, and
-obviously requires them, so the dts must describe them somehow, even if
-they are the fixed supplies. So I'll not unrequire them.
+Please take a look.
 
-> The panel only has one port, so there should be no address/size-cells
-> in the example, and port@0 should be just port to match existing binding.
-> If it had  multiple ports, port@0 would have to be inside ports { } node
-> anyway, according to the existing binding. Then add reset-gpios to
-> the example...
-> 
-> And that should fix it.
-> 
-> I'll prepare the patch shortly.
-> 
-> regards,
-> 	o.
-> 
-> > 	Sam
-> > 
-> > 
-> > > 
-> > > regards,
-> > > 	o.
-> > > 
-> > > > 
-> > > > See https://patchwork.ozlabs.org/patch/1320690
-> > > > 
-> > > > If you already ran 'make dt_binding_check' and didn't see the above
-> > > > error(s), then make sure dt-schema is up to date:
-> > > > 
-> > > > pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-> > > > 
-> > > > Please check and re-submit.
-> > > > 
+thank you and regards,
+  Ondrej Jirman
+
+Ondrej Jirman (2):
+  dt-bindings: display: Fix example in nwl-dsi.yaml
+  dt-binding: display: Allow a single port node on rocktech,jh057n00900
+
+ .../devicetree/bindings/display/bridge/nwl-dsi.yaml      | 9 +++++----
+ .../bindings/display/panel/rocktech,jh057n00900.yaml     | 1 +
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
