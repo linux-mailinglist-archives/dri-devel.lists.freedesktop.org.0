@@ -1,57 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98F421524E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 08:02:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A508721530E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:19:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FF16E196;
-	Mon,  6 Jul 2020 06:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41C26E291;
+	Mon,  6 Jul 2020 07:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6CF16E196
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 06:02:50 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06662lNM055242;
- Mon, 6 Jul 2020 01:02:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1594015367;
- bh=KjZlw1a/nmq4Ty3eASb8JP7sn5EXruzwzsBkpSaPwlA=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=lzkYPfA2BlXCMLdKkajDaZaQOHaW1L4TEMzcjeFuh5jLE+LVVJAKtfRRzx5JBobFJ
- hQDznclQillFZwhtKJQt8F6UW1/890lKHLRCgPjc//GVKs5UX0vvu7MUzG+plS8HAK
- g363haOP5I08lS4FEaxB7Yxx1WWaqI8pLmSjmpXw=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06662lV9094314
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 6 Jul 2020 01:02:47 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 6 Jul
- 2020 01:02:47 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 6 Jul 2020 01:02:47 -0500
-Received: from [10.250.217.39] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06662i1W034768;
- Mon, 6 Jul 2020 01:02:45 -0500
-Subject: Re: [PATCH] omapfb: dss: Fix max fclk divider for omap36xx
-To: Sam Ravnborg <sam@ravnborg.org>, Bartlomiej Zolnierkiewicz
- <b.zolnierkie@samsung.com>
-References: <20200630182636.439015-1-aford173@gmail.com>
- <b9052a12-af5a-c1b9-5b86-907eac470cf8@ti.com>
- <20200703193648.GA373653@ravnborg.org>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <bda1606f-b12c-3356-15ce-489fc2441737@ti.com>
-Date: Mon, 6 Jul 2020 09:02:44 +0300
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D88F76E192
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 08:41:18 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id h22so28853205lji.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 01:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=94u4fadNGtidN2vaiyXlzWw+DxqIFzoI6bECvXw6Onc=;
+ b=Rwjky4+fTcHJpBjZGyOurGK+bbTLYpMa1+miIEapCV2QYmnTJlRx+lbXF4XppXR4KP
+ ehdKLNZRYaj5hPmxptVbfninuCrD1nDGglstkBWCsDZ/x+45XJt9jQNLoE5wg6sKcs5e
+ r1u8drtFNmPJmN0ikR6asgq0lU1Z9PerEoyOcj+h8q8y/WmGU44iB7e3F+6PPriu4CKc
+ wdgzD2y9QqrJstXhFQlETSGtPbCze3O4SeJ2IiqWpqH+m07PurDkSqPKu9cCD5vwayPL
+ X49MryiptFeK3PzPBTXX+1ZPyS0w5pY25GOjNkZ2Fqq2wBEJ58ZB+8pN0ksGfMzSSkWS
+ k0hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=94u4fadNGtidN2vaiyXlzWw+DxqIFzoI6bECvXw6Onc=;
+ b=VlaQ6k8E4XTqoLje2iPGW439LkuDyJBWq/O9ChV7x44rCzyz+LT/4c1tbsHGqCWuMq
+ r4Hg4/RIbc8ozmzamQec7ZHgY/rKexs9NLQ/JrVbYQBGqQvEB5t9/ftV6VroCQbssh1i
+ BjtXTF09UkzDWjqv2fxuAen8CrdzNHidZojXu1M0GQmx0ewcDxOOzph8nQEvWdjnQNey
+ iPcip1RekG6C29ZFi4Jpq+2+d/pVlS03vLn7qAEnnMEB8dBoG5KYK5lD/6e6pA1avJt+
+ cHvwV6yF7yXJ6rMB+Nb83aM+PIC8NAsc2kUjgTXtawXqROnNBCWb0P6gohJyNpSsSd4a
+ dyQA==
+X-Gm-Message-State: AOAM531o4N9yR6Cqh61TxlE8WiZCWBCPzst2nF7EQVZCvm4a1IPg9DPv
+ dEzi5OJJbg6WeC9HhrcWr0w=
+X-Google-Smtp-Source: ABdhPJzHywnF/v01Hll4ows4GlWRPjjUQx4ETYaAZkhy1uLq32oivsjtx3GFvxO1wnG+bHMUCD+SfQ==
+X-Received: by 2002:a05:651c:50d:: with SMTP id
+ o13mr20078873ljp.181.1593765677281; 
+ Fri, 03 Jul 2020 01:41:17 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id y13sm3871513ljd.20.2020.07.03.01.41.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jul 2020 01:41:16 -0700 (PDT)
+Subject: Re: [PATCH v4 28/37] memory: tegra: Register as interconnect provider
+To: Georgi Djakov <georgi.djakov@linaro.org>
+References: <20200609131404.17523-1-digetx@gmail.com>
+ <20200609131404.17523-29-digetx@gmail.com>
+ <aec831a6-a7ad-6bcc-4e15-c44582f7568e@linaro.org>
+ <82d27a47-f189-6609-a584-c9ca1b35a76c@gmail.com>
+ <05cb459d-fc10-1537-eaea-df06f7566b6a@linaro.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <31565962-a25c-324f-8319-b3e3ea66b4f1@gmail.com>
+Date: Fri, 3 Jul 2020 11:41:14 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200703193648.GA373653@ravnborg.org>
+In-Reply-To: <05cb459d-fc10-1537-eaea-df06f7566b6a@linaro.org>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,85 +76,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, linux-tegra@vger.kernel.org,
+ Peter De Schrijver <pdeschrijver@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 03/07/2020 22:36, Sam Ravnborg wrote:
-> Hi Tomi.
-> 
-> On Fri, Jul 03, 2020 at 10:17:29AM +0300, Tomi Valkeinen wrote:
->> On 30/06/2020 21:26, Adam Ford wrote:
->>> The drm/omap driver was fixed to correct an issue where using a
->>> divider of 32 breaks the DSS despite the TRM stating 32 is a valid
->>> number.  Through experimentation, it appears that 31 works, and
->>> it is consistent with the value used by the drm/omap driver.
->>>
->>> This patch fixes the divider for fbdev driver instead of the drm.
->>>
->>> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
->>>
->>> Cc: <stable@vger.kernel.org> #4.9+
->>> Signed-off-by: Adam Ford <aford173@gmail.com>
->>> ---
->>> Linux 4.4 will need a similar patch, but it doesn't apply cleanly.
->>>
->>> The DRM version of this same fix is:
->>> e2c4ed148cf3 ("drm/omap: fix max fclk divider for omap36xx")
->>>
->>>
->>> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
->>> index 7252d22dd117..bfc5c4c5a26a 100644
->>> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
->>> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
->>> @@ -833,7 +833,7 @@ static const struct dss_features omap34xx_dss_feats = {
->>>    };
->>>    static const struct dss_features omap3630_dss_feats = {
->>> -	.fck_div_max		=	32,
->>> +	.fck_div_max		=	31,
->>>    	.dss_fck_multiplier	=	1,
->>>    	.parent_clk_name	=	"dpll4_ck",
->>>    	.dpi_select_source	=	&dss_dpi_select_source_omap2_omap3,
->>>
->>
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Will you apply to drm-misc?
-
-This is for fbdev, so I presume Bartlomiej will pick this one.
-
-> Note  following output from "dim fixes":
-> $ dim fixes f76ee892a99e
-> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: Jason Yan <yanaijie@huawei.com>
-> Cc: "Andrew F. Davis" <afd@ti.com>
-> Cc: YueHaibing <yuehaibing@huawei.com>
-> Cc: <stable@vger.kernel.org> # v4.5+
-> 
-> Here it says the fix is valid from v4.5 onwards.
-
-Hmm... Adam, you marked the fix to apply to v4.9+, and then you said 
-v4.4 needs a new patch (that's before the big copy/rename). Did you 
-check the versions between 4.4 and 4.9? I would guess this one applies 
-to v4.5+.
-
-  Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDIuMDcuMjAyMCAxNTozNiwgR2VvcmdpIERqYWtvdiDQv9C40YjQtdGCOgouLi4KPj4+PiArCW1j
+LT5wcm92aWRlci5kYXRhID0gZGF0YTsKPj4+PiArCW1jLT5wcm92aWRlci54bGF0ZSA9IG9mX2lj
+Y194bGF0ZV9vbmVjZWxsOwo+Pj4+ICsJbWMtPnByb3ZpZGVyLmFnZ3JlZ2F0ZSA9IHRlZ3JhX21j
+X2ljY19hZ2dyZWdhdGU7Cj4+Pj4gKwo+Pj4+ICsJZXJyID0gaWNjX3Byb3ZpZGVyX2FkZCgmbWMt
+PnByb3ZpZGVyKTsKPj4+PiArCWlmIChlcnIpCj4+Pj4gKwkJZ290byBlcnJfbXNnOwo+Pj4KPj4+
+IE5pdDogSSBhbSBwbGFubmluZyB0byByZS1vcmdhbml6ZSBzb21lIG9mIHRoZSBleGlzdGluZyBk
+cml2ZXJzIHRvIGNhbGwKPj4+IGljY19wcm92aWRlcl9hZGQoKSBhZnRlciB0aGUgdG9wb2xvZ3kg
+aXMgcG9wdWxhdGVkLiBDb3VsZCB5b3UgcGxlYXNlIG1vdmUKPj4+IHRoaXMgYWZ0ZXIgdGhlIG5v
+ZGVzIGFyZSBjcmVhdGVkIGFuZCBsaW5rZWQuCj4+Cj4+IEFyZSB5b3UgcGxhbm5pbmcgdG8gcmVt
+b3ZlIHRoZSBwcm92aWRlcidzIGxpc3QtaGVhZCBpbml0aWFsaXphdGlvbiBmcm9tCj4+IHRoZSBp
+Y2NfcHJvdmlkZXJfYWRkKCkgWzFdIGFuZCBtb3ZlIGl0IHRvIHRoZSBpbmRpdmlkdWFsIHByb3Zp
+ZGVyCj4+IGRyaXZlcnMsIGNvcnJlY3Q/Cj4gCj4gWWVzLCB0aGF0IHdvdWxkIGJlIHRoZSBmaXJz
+dCBzdGVwLCBidXQgaSBuZWVkIHRvIHBvc3Qgc29tZSBwYXRjaGVzIGZpcnN0LAo+IHNvIGxldCdz
+IGtlZXAgaXQgYXMtaXMgZm9yIG5vdy4gU29ycnkgZm9yIHRoZSBjb25mdXNpb24uCgpObyBwcm9i
+bGVtcywgSSdsbCBrZWVwIGFuIGV5ZSBvbiB0aGUgSUNDIGNvcmUgY2hhbmdlcyEKUGxlYXNlIGZl
+ZWwgZnJlZSB0byB0aGUgQ0MgbWUgb24gdGhlIHBhdGNoZXMsIEkgbWF5IGdpdmUgdGhlbSBhIHdo
+aXJsLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
