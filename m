@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D440215332
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D54215314
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644A96E365;
-	Mon,  6 Jul 2020 07:19:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90456E30C;
+	Mon,  6 Jul 2020 07:19:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0544E6E179
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 15:19:53 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id t27so22624397ill.9
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 08:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HZtgXI8eyf6R/eM3zMmGABuHuEawznAfaEEyn6Pbn8o=;
- b=omuPETJZ+kexr5sG7kkBZD3iuBoGL8jBfT+ti+8F6xuKzc4LqyNwrpLWg8WxsMP3jO
- eGAEW0f7f4npsFrUBxGYTyN/hH+Hub7jpGUA0ZHBezV3t/Lm0GU8lLFzHDdvc/DVJyWX
- Fqzp46IvQgxGUN0nvqjuE8Keq4ssxXhg7OYy8soLf3Q5YJTR+fApvofwx0bMTMF2nbSJ
- Dy9g4bF+9vNhSL/5tHNLAmUKm9z6mgl1dRqSrlEHmOi/Itld6VdS9aZqEpc9Wm4rbd45
- bk48fpsKoU6JwGxmHbXk5oXswvBszF4veif97zRIhktYklCxZj+MKH+RfKdmZfNJsYdA
- z3CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HZtgXI8eyf6R/eM3zMmGABuHuEawznAfaEEyn6Pbn8o=;
- b=X21G7FiI+UccfMUzRGLlPzIUsqz+a+UDbuUBlTY8+8i/PuEumGtoKJhiMcSelK8lkS
- puk4xNP149KYkoauiVcyGPZeprZDM/xa9sT6/h01x+59ODTsdMJnkUmgCF9sf3GwTlec
- pVwsWg/FZVMKks0e2Q3RYf1B95atE3AnBJM6ezqFx/Uy2LzeL8MLwgB6UCN/lCQpHg4y
- 1rfNvA9Jo6g+JK1esP5D7z4EFEMYIHM9RU2l51c5C+7LZbDrbdPqMuqNSA0YqoEPqyDI
- 0BE4xEMqiqj/GV96yYta8IKvf//ghsnd2If1LO7Nlc0+47qZDRlannMfAqnfbrJ9UYLM
- EbLg==
-X-Gm-Message-State: AOAM530GIB4S53vw3LssHZ+sl3cUNiLD0tWWFCURIW4SplExh+Ha5S50
- AM00fmybtNEIGvcGttsAUvCKQNuVp5f/H9+yrwg=
-X-Google-Smtp-Source: ABdhPJwLMD4vK7kaR7C86dVW8A4N+UWBrCGUYGctwFNksN6VFayQZy2lRn18PnatW0b8AHya94OnWfx+uB1g9xdN0y0=
-X-Received: by 2002:a92:ba0a:: with SMTP id o10mr17799773ili.217.1593789593236; 
- Fri, 03 Jul 2020 08:19:53 -0700 (PDT)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8FB6E58B
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 16:38:15 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id DD0FA5C00B7;
+ Fri,  3 Jul 2020 12:38:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 03 Jul 2020 12:38:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=XJkTvo56r2N6jmwScQNHOxenygn
+ ZIfaYALQkD+578Uw=; b=oxLLV5JyO9vFKhIl2rHalY1P4sKS8uAk8uhYIw57HVa
+ SkSk+0Qyq4i92QvAhTreh5VsEdtGpWWs/6pK2lvBGd12j6ZiDqk55NUXEEA+1i5o
+ enEGHnMA8ciYxWVU6D2RaMkE1pJEe5UXewkCrBuBQJXUfTUgSp0CkcGR14qB+e/F
+ Eh1d6dJD7vX9/HJdtlkwyqID8x5TlXPknGY6iPfEcBGorlnWcgtTwgyCkXnAIBm4
+ fWueJ44fZwIpZFn9zKUsdCyCUG7tKUHrESQNRfk9nQbUSrfbuWqQfqyo9sXwovuP
+ MhH14G7iKuaF4Fb10o561XmXlsnF12a3vZmBhdq189A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=XJkTvo
+ 56r2N6jmwScQNHOxenygnZIfaYALQkD+578Uw=; b=b9tNi7dtpiGXXwEeiVXSk8
+ sZvx9YycR1fOk1DbaDguLOGHHMhuST1QOUM/co6hwtOUPQ3utxO53CfYXMgkmIqC
+ 1RNgrqrLYAskROpSeMA7fbNaYjeLFWnt8/6/K/DGi65TRz4BdR2znaatM1wIKnEZ
+ Nll3nlSdHDecsI4IAl3dI6KSfvVj39YWHCDDs02JS5YEOWkAmcs9Doz731iH7cXM
+ DKQGFe/tyOlx6K/8LQ6SAO4Cvs0HUreimiQpMJauX8YZFiJix7f9FtYxLWroK66P
+ OeDjyVsFYUbsHFButg4QJ12jD+v1mrB2AhxaEJ9hUdOF8dbm2qq3LWEAwI4XnOUA
+ ==
+X-ME-Sender: <xms:8F7_XpseovPSbkmNsz-0lY6ccepk4huDxuaikBIf_7Z5sD2BhU-lNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdeigddutdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:8F7_XidmYEyTReqPBWH_2AvI9jgK5JwcgadiXpJRJpcJ6zdTlvllQg>
+ <xmx:8F7_XszgJhaUM3MFDc6or6iQde1m7G6mlTPzwP8A2bRXmHIsQccJCw>
+ <xmx:8F7_XgNreMVy53BU58qH5OvTSVpfKGFFCxzuZc5brLPV3xphmQk-Qg>
+ <xmx:8l7_XpxgEMoCiCzNT15FyqiJjLRdNW-dvpkFG7d9VS0q9Q07YlCTxA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8B290328006B;
+ Fri,  3 Jul 2020 12:38:08 -0400 (EDT)
+Date: Fri, 3 Jul 2020 18:38:06 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: DSI probe/bind ordering in vc4
+Message-ID: <20200703163806.ppi6ckmkk4jvlu72@gilmour.lan>
+References: <CGME20200701071310eucas1p1881528cda359db40be582d71c02c3d81@eucas1p1.samsung.com>
+ <20200630132711.ezywhvoiuv3swo57@gilmour.lan>
+ <e20d7884-7a3c-4707-dc7a-742ccb753515@samsung.com>
 MIME-Version: 1.0
-References: <20200702123651.12177-1-simhavcs@gmail.com>
- <20200703150637.GD25632@ravnborg.org>
-In-Reply-To: <20200703150637.GD25632@ravnborg.org>
-From: Vinay Simha B N <simhavcs@gmail.com>
-Date: Fri, 3 Jul 2020 20:49:42 +0530
-Message-ID: <CAGWqDJ7Uby1jVrCCQr2o7OzHHKYGL=fPh0-PaE5oZU4+BNBmPg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] dt-binding: Add DSI/LVDS TC358775 bridge bindings
-To: Sam Ravnborg <sam@ravnborg.org>
+In-Reply-To: <e20d7884-7a3c-4707-dc7a-742ccb753515@samsung.com>
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,294 +78,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Russell King <rmk+kernel@armlinux.org.uk>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0513131538=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sam,
 
-I will change to "GPL-2.0-only OR BSD-2-Clause", i thought running
-dt_binding_check is enough for .yaml.
-
-On Fri, Jul 3, 2020 at 8:36 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Vinay.
->
-> On Thu, Jul 02, 2020 at 06:06:33PM +0530, Vinay Simha BN wrote:
-> > Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
-> >
-> > ---
-> > v1:
-> >  Initial version wast .txt file
-> >
-> > v2:
-> >  From txt to yaml file format
-> >
-> > v3:
-> > * Andrzej Hajda review comments incorporated
-> >   dual port lvds implemented
-> >
-> > * Laurent Pinchart review comments incorporated
-> >   dsi lanes property removed and it is dynamically
-> >   picked from the dsi ports
-> >   VESA/JEIDA format picked from panel-lvds dts
-> >
-> > v4:
-> > * Sam Ravnborg review comments incorporated
-> >   }' is indented properly in examples data-lanes
-> >   description for single-link and dual-link lvds
-> > ---
-> >  .../display/bridge/toshiba,tc358775.yaml      | 215 ++++++++++++++++++
-> >  1 file changed, 215 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> > new file mode 100644
-> > index 000000000000..9ddd63bee403
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> > @@ -0,0 +1,215 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> One detail that I missed - any specific reason this is not (GPL-2.0-only OR BSD-2-Clause)
-> This is the preferred license for new bindings - as checkpatch also
-> tells you.
->
->         Sam
->
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358775.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Toshiba TC358775 DSI to LVDS bridge bindings
-> > +
-> > +maintainers:
-> > + - Vinay Simha BN <simhavcs@gmail.com>
-> > +
-> > +description: |
-> > + This binding supports DSI to LVDS bridge TC358775
-> > +
-> > + MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
-> > + Video frame size:
-> > + Up to 1600x1200 24-bit/pixel resolution for single-link LVDS display panel
-> > + limited by 135 MHz LVDS speed
-> > + Up to WUXGA (1920x1200 24-bit pixels) resolution for dual-link LVDS display
-> > + panel, limited by 270 MHz LVDS speed.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: toshiba,tc358775
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: i2c address of the bridge, 0x0f
-> > +
-> > +  vdd-supply:
-> > +    maxItems: 1
-> > +    description:  1.2V LVDS Power Supply
-> > +
-> > +  vddio-supply:
-> > +    maxItems: 1
-> > +    description: 1.8V IO Power Supply
-> > +
-> > +  stby-gpios:
-> > +    maxItems: 1
-> > +    description: Standby pin, Low active
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +    description: Hardware reset, Low active
-> > +
-> > +  ports:
-> > +    type: object
-> > +    description:
-> > +      A node containing input and output port nodes with endpoint definitions
-> > +      as documented in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +    properties:
-> > +      "#address-cells":
-> > +        const: 1
-> > +
-> > +      "#size-cells":
-> > +        const: 0
-> > +
-> > +      port@0:
-> > +        type: object
-> > +        description: |
-> > +          DSI Input. The remote endpoint phandle should be a
-> > +          reference to a valid mipi_dsi_host device node.
-> > +
-> > +      port@1:
-> > +        type: object
-> > +        description: |
-> > +          Video port for LVDS output (panel or connector).
-> > +
-> > +      port@2:
-> > +        type: object
-> > +        description: |
-> > +          Video port for Dual link LVDS output (panel or connector).
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > + - compatible
-> > + - reg
-> > + - vdd-supply
-> > + - vddio-supply
-> > + - stby-gpios
-> > + - reset-gpios
-> > + - ports
-> > +
-> > +examples:
-> > + - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    /* For single-link LVDS display panel */
-> > +
-> > +    i2c@78b8000 {
-> > +        /* On High speed expansion */
-> > +        label = "HS-I2C2";
-> > +        reg = <0x078b8000 0x500>;
-> > +        clock-frequency = <400000>; /* fastmode operation */
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        tc_bridge: bridge@f {
-> > +            compatible = "toshiba,tc358775";
-> > +            reg = <0x0f>;
-> > +
-> > +            vdd-supply = <&pm8916_l2>;
-> > +            vddio-supply = <&pm8916_l6>;
-> > +
-> > +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
-> > +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
-> > +
-> > +            ports {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                port@0 {
-> > +                    reg = <0>;
-> > +                    d2l_in_test: endpoint {
-> > +                        remote-endpoint = <&dsi0_out>;
-> > +                    };
-> > +                };
-> > +
-> > +                port@1 {
-> > +                    reg = <1>;
-> > +                    lvds_out: endpoint {
-> > +                        remote-endpoint = <&panel_in>;
-> > +                    };
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +    dsi@1a98000 {
-> > +        reg = <0x1a98000 0x25c>;
-> > +        reg-names = "dsi_ctrl";
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +            port@1 {
-> > +                reg = <1>;
-> > +                dsi0_out: endpoint {
-> > +                    remote-endpoint = <&d2l_in_test>;
-> > +                    data-lanes = <0 1 2 3>;
-> > +                };
-> > +             };
-> > +         };
-> > +     };
-> > +
-> > + - |
-> > +    /* For dual-link LVDS display panel */
-> > +
-> > +    i2c@78b8000 {
-> > +        /* On High speed expansion */
-> > +        label = "HS-I2C2";
-> > +        reg = <0x078b8000 0x500>;
-> > +        clock-frequency = <400000>; /* fastmode operation */
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        tc_bridge_dual: bridge@f {
-> > +            compatible = "toshiba,tc358775";
-> > +            reg = <0x0f>;
-> > +
-> > +            vdd-supply = <&pm8916_l2>;
-> > +            vddio-supply = <&pm8916_l6>;
-> > +
-> > +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
-> > +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
-> > +
-> > +            ports {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                port@0 {
-> > +                    reg = <0>;
-> > +                    d2l_in_dual: endpoint {
-> > +                        remote-endpoint = <&dsi0_out_dual>;
-> > +                    };
-> > +                };
-> > +
-> > +                port@1 {
-> > +                    reg = <1>;
-> > +                    lvds0_out: endpoint {
-> > +                        remote-endpoint = <&panel_in0>;
-> > +                    };
-> > +                };
-> > +
-> > +                port@2 {
-> > +                    reg = <2>;
-> > +                    lvds1_out: endpoint {
-> > +                        remote-endpoint = <&panel_in1>;
-> > +                    };
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +    dsi@1a98000 {
-> > +        reg = <0x1a98000 0x25c>;
-> > +        reg-names = "dsi_ctrl";
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +            port@1 {
-> > +                reg = <1>;
-> > +                dsi0_out_dual: endpoint {
-> > +                    remote-endpoint = <&d2l_in_dual>;
-> > +                    data-lanes = <0 1 2 3>;
-> > +                };
-> > +             };
-> > +         };
-> > +     };
-> > +...
-> > --
-> > 2.17.1
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+--===============0513131538==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="uch5g2w5qu4qo6yk"
+Content-Disposition: inline
 
 
+--uch5g2w5qu4qo6yk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-regards,
-vinaysimha
+Hi
+
+On Fri, Jul 03, 2020 at 05:47:08PM +0200, Andrzej Hajda wrote:
+> On 30.06.2020 15:27, Maxime Ripard wrote:
+> > I've tried to bring-up the DSI controller on the RaspberryPi4, and I've
+> > just encountered something that could make it troublesome to support.
+> >=20
+> > For context, the RaspberryPi has an official panel that uses a DSI->DPI
+> > bridge, a DPI panel, a touchscreen and a small micro-controller. That
+> > microcontroller controls the power management on the screen, so
+> > communicating with it is very much needed, and it's done through an i2c
+> > bus.
+> >=20
+> > To reflect that, the entire panel has been described in the Device Tree
+> > as an I2C device (since that's how you would control it), together with
+> > an OF-Graph endpoint linking that i2c device to the DSI controller[1].
+> >=20
+> > That deviates a bit from the generic DSI binding though[2], since it
+> > requires that the panel should be a subnode of the DSI controller (which
+> > also makes sense since DCS commands is usually how you would control
+> > that device).
+> >=20
+> > This is where the trouble begins. Since the two devices are on entirely
+> > different buses, there's basically no guarantee on the probe order. The
+> > driver has tried to address this by using the OF-Graph and the component
+> > framework. Indeed, the DSI driver (component-based) will register a
+> > MIPI-DSI host in its probe, and call component_add[3]. If component_add
+> > fails, it will remove the DSI host and return the error code. It makes
+> > sense.
+> >=20
+> > The panel on the other hand will probe, and look for a DSI host through
+> > the OF-Graph [4]. If it isn't there, it will return EPROBE_DEFER, hoping
+> > that it will be available at some point. It also makes complete sense.
+> >=20
+> > Where the issue lies is that component_add has two very different
+> > behaviours here that will create the bug that we see on the RPi4:
+> >=20
+> >    - If there's still components to probe, component_add will simply
+> >      return 0 [5][6]
+> >=20
+> >    - And if we're the last component to probe, component_add will then
+> >      run all the bind callbacks and return the result on error of the
+> >      master bind callback[7]. That master bind will usually have
+> >      component_bind_all that will return the result of the bind callback
+> >      of each component.
+> >=20
+> > Now, on the RPi4, the last component to probe is the DSI controller
+> > since it relies on a power-domain exposed by the firmware driver, so the
+> > driver core will defer its probe function until the power-domain is
+> > there [8]. We're thus pretty much guaranteed to fall in the second case
+> > above and run through all the bind callbacks. The DSI bind callback
+> > however will try to find and attach its panel, and return EPROBE_DEFER
+> > if it doesn't find it[9]. That error will then be propagated to the
+> > return code of component_bind_all, then to the master bind callback, and
+> > finally will be the return code of component_add.
+> >=20
+> > And since component_add is failing, we remove the DSI host. Since the
+> > DSI host isn't there, on the next occasion the i2c panel driver will not
+> > probe either, and we enter a loop that cannot really be broken, since
+> > one depends on the other.
+> >=20
+> > This was working on the RPi3 because the DSI is not the last driver to
+> > probe: indeed the v3d is depending on the same power domain[10][11] and
+> > is further down the list of components to add in the driver [12], so
+> > we're always in the first component_add case for DSI above, the DSI host
+> > sticks around, and the i2c driver can probe.
+> >=20
+> > I'm not entirely sure how we can fix that though. I guess the real flaw
+> > here is the assumption that component_add will not fail if one of the
+> > bind fails, which isn't true, but we can't really ignore those errors
+> > either since it might be something else than DSI that returns that
+> > error.
+> >=20
+> > One way to work around it is to make the mailbox, firmware and power
+> > domain drivers probe earlier by tweaking the initcalls at which they
+> > register, but it's not really fixing anything and compiling them as
+> > module would make it broken again.
+>=20
+>=20
+> Forgive me - I have not read whole post, but I hope you have a problem
+> already solved.
+>=20
+> As I understand you have:
+>=20
+> 1. Componentized DSI-host.
+>=20
+> 2. Some sink laying on DSI bus.
+>=20
+>=20
+> General rule I promote: "do not expose functionality, until you have all
+> dependencies", in this case it would be "do not call component_add until =
+you
+> know sink(your dependency) is ready".
+>=20
+>=20
+> Already tested solution (to be checked in drivers):
+>=20
+> 1. In DSI-host you register dsi bus in probe, but do not call component_a=
+dd.
+>=20
+> 2. In DSI-host callback informing about DSI device registration you get t=
+he
+> sink and since you have all resources then you call component_add.
+
+That's a great idea :)
+
+I just tested and it works, so it ended up to much easier to fix than I ant=
+icipated :)
+
+Thanks!
+Maxime
+
+--uch5g2w5qu4qo6yk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXv9e7gAKCRDj7w1vZxhR
+xUlOAQDtVwd0OfTy7P0sv3FWdpaJL9miporcaFA8nUOk1EEUtQD9HddmsdqTW9QG
+3PAsQR+t9sR1tMVKruWHJFcfBEToYgI=
+=l2aX
+-----END PGP SIGNATURE-----
+
+--uch5g2w5qu4qo6yk--
+
+--===============0513131538==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0513131538==--
