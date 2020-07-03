@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60B5213A6E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 14:59:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3D8213A76
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 15:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0572A6EB81;
-	Fri,  3 Jul 2020 12:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1584F6EB85;
+	Fri,  3 Jul 2020 13:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 719F66EB81
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 12:59:10 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id k22so15097973oib.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 05:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zr1lF3450DSxuFqXhjRn34T0R5zTcmtCY4N4o1JWXe0=;
- b=hCwpsHTSRdGek84FN/70FItJnOHiPFVrTltk3/JD+zXrShqk8qdBntWNs9nEBRW3Ep
- ZjypFftHjZMgtaMZtgVgast+B0mw7HLqDz0NmAdxntvWapwGiKyFLlr1S3xX+wcrQx1l
- mQq4Ju24G2h8VFHfgqZdTcdJlIw4DA3/1EAGc=
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEEB56EB85
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 13:01:09 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id m26so18413260lfo.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 06:01:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7VO6d6wRYq+mQyztnVGBhlJ6RTV8OO7D3TWYRLireVw=;
+ b=fTQQ6cCxVa5y9mzQ+dG9kzRI+/Ak7OXMjhYAcAGQ+gXs0K81ViwwglaOOcx7C51YKw
+ Aa5/YweB32Dbxe60UDKrd5Kcs7QB1WETBLRHlTVvuHqp98OtiyZCUwmPipiG7Y0+jlHn
+ IAKb8pze+PVdq1OeYEpHGBJzVmy9ZbBM+8iJmn19hFaTo9YWOWxB+b+EeSpuDWrHKsHZ
+ KWxyH/t9XLvmjsq0Zne4gwQljrnqfi/hxfnpSGJoI0ns4Ie3AIK3GvBTdYrCxPrOPdLP
+ Gaf7oLC85gPvwEJhwgT/0ZIXKYBwUDrNdMJPVaxxILv9w5i8lmuNfKnsQpS55VJlu7X2
+ 4W9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zr1lF3450DSxuFqXhjRn34T0R5zTcmtCY4N4o1JWXe0=;
- b=ZUEVOh426SSWp160PEgEY11Gd0IV0ztYiFuM0JvqS9ZJE/OPepbX/UhTdlhCVe5qIZ
- 1hTih01T2IoIEpE9F0GqxtwhFGLydEv+yKG0WWNS/BWoE9ohGVJ+HT+7GFou0wlibblZ
- OwHKKmLj4MNOWy9/ZuAw40uTrSKe8tFdepxrMqtZr3i1bAasOVQEfCrIrFgZLkeTeYVQ
- uTydbqg4WusjYfWyAu8rxWI74nZ8fZSWIVSV5F6bIWPbCCrAu9Y6qxs7Kc7bAng2CnRa
- yD/L7Ya2+zyrWrcgQau1fII5TX/WW0sk6ZwAL3oCPKgwCM1yb0dGUB4eaBS5yvVaU0dY
- 2hzQ==
-X-Gm-Message-State: AOAM531mpHtPJMQSIOz7ZbneV2j+TJAVQE+ucv7K0HKLu+uGDjOEqk7b
- U/CtSA6/Fx4POqh5ho1rmcjMK31+tKV6ALKrZ6cpsA==
-X-Google-Smtp-Source: ABdhPJzTJ7G40tK0RMXnLTRAJOxoZ5/KIeK3LP9kSrnk9HeXtWaLwaDcPKuknF7EJ3NZVSodUgAWpG+HkmB79sas8HA=
-X-Received: by 2002:aca:cc8e:: with SMTP id
- c136mr27827190oig.128.1593781149594; 
- Fri, 03 Jul 2020 05:59:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7VO6d6wRYq+mQyztnVGBhlJ6RTV8OO7D3TWYRLireVw=;
+ b=YhlvKivPKc3jGnEvgcwQ1Y7FIyj4LQYy6ejf6cE6QFaTfdi67pPeFtgvzSXPD7q6J2
+ fm61vZrgxZvs4b9IebJI+LNKb18myoU67zTIfy4bFjqpRsBdi/d/dcigzD+n++VDrIA8
+ +lekW2GCjpe8aaa/UBm8SwDxqRADZYS/qeNbIOVZxYpHjnptiR87ssIS3gelK7a4kYcN
+ ZcrEsAX2tIzyNeELboyBj4tiOCoZTB5Dzh6VbFkAdc0MFizH5B6V3iJEeMVLd2m4nPD4
+ ofBTFU3SkSaKxbPeAo3+cPwDU1OycQ1Uz0Tnjtt/Sjk3c1chpF0AycVjMsnA0SAWwIRU
+ 2bLA==
+X-Gm-Message-State: AOAM531o2aeaUF5zAwXCiUn16ojfCO4UfMggtaKIWXOeHodnJwSxOevx
+ 5Oaci78cRqqkQPNQOmLjlk1ut4kd4EIn8w==
+X-Google-Smtp-Source: ABdhPJxCgsO4rgdve84jMCcPkX6Fd7is8uNVBaR2UNxS3HF+9tfQoFFzbS/IgUyjSVKlv6dvsVEHwA==
+X-Received: by 2002:a19:ca48:: with SMTP id h8mr21829508lfj.161.1593781266021; 
+ Fri, 03 Jul 2020 06:01:06 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id a22sm4618221lfg.96.2020.07.03.06.01.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jul 2020 06:01:05 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3] drm: gma500: Convert to GPIO descriptors
+Date: Fri,  3 Jul 2020 14:59:01 +0200
+Message-Id: <20200703125901.513476-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <f23dcf97-52c7-682f-f713-a74839696fe3@redhat.com>
- <CAKMK7uHd7_uR9U9B2x=9cxJ_eowNZ67RoxcJ-0vt8QvCSK=h5w@mail.gmail.com>
- <cc6021b0-d874-240e-9fda-1cec3dfe6648@suse.de>
- <4bd25272-cab4-1044-2cab-296ee2abb9d6@redhat.com>
-In-Reply-To: <4bd25272-cab4-1044-2cab-296ee2abb9d6@redhat.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 3 Jul 2020 14:58:58 +0200
-Message-ID: <CAKMK7uFOYHRnOnxfWg9mwY-=2e47M2TDJJRCO-U44sfL5eEFwA@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/9] drm: Support simple-framebuffer devices and
- firmware fbs
-To: Hans de Goede <hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,192 +67,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 3, 2020 at 12:55 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 7/1/20 4:10 PM, Thomas Zimmermann wrote:
-> > Hi Daniel,
-> >
-> > thanks for reviewing most of the patchset.
-> >
-> > Am 30.06.20 um 11:06 schrieb Daniel Vetter:
-> >> On Mon, Jun 29, 2020 at 11:39 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>>
-> >>> Hi,
-> >>>
-> >>> On 6/25/20 2:00 PM, Thomas Zimmermann wrote:
-> >>>> This patchset adds support for simple-framebuffer platform devices and
-> >>>> a handover mechanism for native drivers to take-over control of the
-> >>>> hardware.
-> >>>>
-> >>>> The new driver, called simplekms, binds to a simple-frambuffer platform
-> >>>> device. The kernel's boot code creates such devices for firmware-provided
-> >>>> framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or boot
-> >>>> loader sets up the framebuffers. Description via device tree is also an
-> >>>> option.
-> >>>>
-> >>>> Simplekms is small enough to be linked into the kernel. The driver's main
-> >>>> purpose is to provide graphical output during the early phases of the boot
-> >>>> process, before the native DRM drivers are available. Native drivers are
-> >>>> typically loaded from an initrd ram disk. Occationally simplekms can also
-> >>>> serve as interim solution on graphics hardware without native DRM driver.
-> >>>
-> >>> Cool, thank you for doing this, this is a very welcome change,
-> >>> but ... (see below).
-> >>>
-> >>>> So far distributions rely on fbdev drivers, such as efifb, vesafb or
-> >>>> simplefb, for early-boot graphical output. However fbdev is deprecated and
-> >>>> the drivers do not provide DRM interfaces for modern userspace.
-> >>>>
-> >>>> Patches 1 and 2 prepare the DRM format helpers for simplekms.
-> >>>>
-> >>>> Patches 3 to 7 add the simplekms driver. It's build on simple DRM helpers
-> >>>> and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. During
-> >>>> pageflips, SHMEM buffers are copied into the framebuffer memory, similar
-> >>>> to cirrus or mgag200. The code in patches 6 and 7 handles clocks and
-> >>>> regulators. It's based on the simplefb drivers, but has been modified for
-> >>>> DRM.
-> >>>>
-> >>>> Patches 8 and 9 add a hand-over mechanism. Simplekms acquires it's
-> >>>> framebuffer's I/O-memory range and provides a callback function to be
-> >>>> removed by a native driver. The native driver will remove simplekms before
-> >>>> taking over the hardware. The removal is integrated into existing helpers,
-> >>>> so drivers use it automatically.
-> >>>>
-> >>>> I tested simplekms with x86 EFI and VESA framebuffers, which both work
-> >>>> reliably. The fbdev console and Weston work automatically. Xorg requires
-> >>>> manual configuration of the device. Xorgs current modesetting driver does
-> >>>> not work with both, platform and PCI device, for the same physical
-> >>>> hardware. Once configured, X11 works.
-> >>>
-> >>> Ugh, Xorg not working OOTB is a bit of a showstopper, we cannot just go
-> >>> around and break userspace. OTOH this does seem like an userspace issue
-> >>> and not something which we can (or should try to) fix in the kernel.
-> >>>
-> >>> I guess the solution will have to be to have this default to N for now
-> >>> in Kconfig and clearly mention in the Kconfig help text that this needs
-> >>> a fixed Xorg modesetting driver before it can be enabled.
-> >>>
-> >>> Any chance you have time to work on fixing the Xorg modesetting driver
-> >>> so that this will just work with the standard Xorg autoconfiguration
-> >>> stuff?
-> >>
-> >> Hm, why do we even have both platform and pci drivers visible at the
-> >> same time? I thought the point of this is that simplekms is built-in,
-> >> then initrd loads the real drm driver, and by the time Xorg is
-> >> running, simplekms should be long gone.
-> >>
-> >> Maybe a few more details of what's going wrong and why to help unconfuse me?
-> >
-> > I tested simplekms with PCI graphics cards.
-> >
-> > Xorg does it's own scanning of the busses. It supports a platform bus,
-> > where it finds the simple-framebuffer device that is driven by
-> > simplekms. Xorg also scans the PCI bus, where is finds the native PCI
-> > device; usually driven by the native driver. It's the same hardware, but
-> > on different busses.
-> >
-> > For each device, Xorg tries to configure a screen, the Xorg modeset
-> > driver tried to open the DRM device file and acquire DRM master status
-> > on it. This works for the first screen, but DRM master status can only
-> > be acquired once, so it fails for the second screen. Xorg then aborts
-> > and asks for manual configuration of the display device.
-> >
-> > This can be solved by setting the platform device's bus id in the
-> > xorg.conf device section. It just doesn't happen automatically.
-> >
-> > I found it hard to find a solution to this. Weston just opens a DRM
-> > device file and uses whatever it gets. Ideally, Xorg would do the same.
-> > That whole bus-scanning exercise gives it a wrong idea on which graphics
-> > devices are available.
-> >
-> > One idea for a fix is to compare the device I/O-memory ranges and filter
-> > out duplicates on the Xorg modeset driver. I don't know how reliable
-> > this works in practice or if their are false positives.
->
-> I think that this should work nicely, although I wonder how Xorg will
-> get the memory-range for the simplefb platform device, it looks like
-> it will need to parse /dev/iomem for this, or we need to add a
-> new sysfs attr to the simplefb device for this. Adding the new sysfs
-> attr has the added bonus that we only enable the duplicate based
-> resource check for simplefb devices.
+Finalize he conversion of GMA500 to use only GPIO descriptors.
+The GPIO look-up-table is associated with the device directly
+in the GMA500 Medfield chip driver since no explicit platform
+type device (such as in x86/platform/intel-mid) exists: the
+GMA500 probes directly from the PCI device. Apparently GPIOs
+128 and 34 are used on all of these so just go ahead and
+register those for resetting the DSI pipes.
 
-Uh why exactly does Xorg even need to do all this parsing? We're not
-in a ums world anymore ...
+Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v2->v3:
+- Actually commit the last comment fix.
+---
+ drivers/gpu/drm/gma500/mdfld_device.c     | 20 +++++++++
+ drivers/gpu/drm/gma500/mdfld_dsi_dpi.c    |  2 +-
+ drivers/gpu/drm/gma500/mdfld_dsi_output.c | 51 ++++++++++++-----------
+ drivers/gpu/drm/gma500/mdfld_dsi_output.h |  2 +-
+ drivers/gpu/drm/gma500/mdfld_output.h     |  2 +-
+ drivers/gpu/drm/gma500/psb_intel_drv.h    |  1 -
+ 6 files changed, 49 insertions(+), 29 deletions(-)
 
-Also, you'll never have a simplekms driver _and_ the real drm driver
-bound at the same time, that's a kernel bug.
+diff --git a/drivers/gpu/drm/gma500/mdfld_device.c b/drivers/gpu/drm/gma500/mdfld_device.c
+index b718efccdcf2..be9cf6b1e3b3 100644
+--- a/drivers/gpu/drm/gma500/mdfld_device.c
++++ b/drivers/gpu/drm/gma500/mdfld_device.c
+@@ -6,6 +6,7 @@
+  **************************************************************************/
+ 
+ #include <linux/delay.h>
++#include <linux/gpio/machine.h>
+ 
+ #include <asm/intel_scu_ipc.h>
+ 
+@@ -505,12 +506,31 @@ static const struct psb_offset mdfld_regmap[3] = {
+ 	},
+ };
+ 
++/*
++ * The GPIO lines for resetting DSI pipe 0 and 2 are available in the
++ * PCI device 0000:00:0c.0 on the Medfield.
++ */
++static struct gpiod_lookup_table mdfld_dsi_pipe_gpio_table = {
++	.table  = {
++		GPIO_LOOKUP("0000:00:0c.0", 128, "dsi-pipe0-reset",
++			    GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("0000:00:0c.0", 34, "dsi-pipe2-reset",
++			    GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
++
+ static int mdfld_chip_setup(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	if (pci_enable_msi(dev->pdev))
+ 		dev_warn(dev->dev, "Enabling MSI failed!\n");
+ 	dev_priv->regmap = mdfld_regmap;
++
++	/* Associate the GPIO lines with the DRM device */
++	mdfld_dsi_pipe_gpio_table.dev_id = dev_name(dev->dev);
++	gpiod_add_lookup_table(&mdfld_dsi_pipe_gpio_table);
++
+ 	return mid_chip_setup(dev);
+ }
+ 
+diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c b/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
+index c976a9dd9240..ae1223f631a7 100644
+--- a/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
++++ b/drivers/gpu/drm/gma500/mdfld_dsi_dpi.c
+@@ -955,7 +955,7 @@ struct mdfld_dsi_encoder *mdfld_dsi_dpi_init(struct drm_device *dev,
+ 
+ 		/* panel hard-reset */
+ 		if (p_funcs->reset) {
+-			ret = p_funcs->reset(pipe);
++			ret = p_funcs->reset(dev, pipe);
+ 			if (ret) {
+ 				DRM_ERROR("Panel %d hard-reset failed\n", pipe);
+ 				return NULL;
+diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_output.c b/drivers/gpu/drm/gma500/mdfld_dsi_output.c
+index f350ac1ead18..6473290126f2 100644
+--- a/drivers/gpu/drm/gma500/mdfld_dsi_output.c
++++ b/drivers/gpu/drm/gma500/mdfld_dsi_output.c
+@@ -28,6 +28,7 @@
+ #include <linux/delay.h>
+ #include <linux/moduleparam.h>
+ #include <linux/pm_runtime.h>
++#include <linux/gpio/consumer.h>
+ 
+ #include <asm/intel_scu_ipc.h>
+ 
+@@ -432,42 +433,42 @@ static int mdfld_dsi_get_default_config(struct drm_device *dev,
+ 	return 0;
+ }
+ 
+-int mdfld_dsi_panel_reset(int pipe)
++int mdfld_dsi_panel_reset(struct drm_device *ddev, int pipe)
+ {
+-	unsigned gpio;
+-	int ret = 0;
+-
++	struct device *dev = ddev->dev;
++	struct gpio_desc *gpiod;
++
++	/*
++	 * Raise the GPIO reset line for the corresponding pipe to HIGH,
++	 * this is probably because it is active low so this takes the
++	 * respective pipe out of reset. (We have no code to put it back
++	 * into reset in this driver.)
++	 */
+ 	switch (pipe) {
+ 	case 0:
+-		gpio = 128;
++		gpiod = gpiod_get(dev, "dsi-pipe0-reset", GPIOD_OUT_HIGH);
++		if (IS_ERR(gpiod))
++			return PTR_ERR(gpiod);
+ 		break;
+ 	case 2:
+-		gpio = 34;
++		gpiod = gpiod_get(dev, "dsi-pipe2-reset", GPIOD_OUT_HIGH);
++		if (IS_ERR(gpiod))
++			return PTR_ERR(gpiod);
+ 		break;
+ 	default:
+-		DRM_ERROR("Invalid output\n");
++		DRM_DEV_ERROR(dev, "Invalid output pipe\n");
+ 		return -EINVAL;
+ 	}
++	gpiod_put(gpiod);
+ 
+-	ret = gpio_request(gpio, "gfx");
+-	if (ret) {
+-		DRM_ERROR("gpio_rqueset failed\n");
+-		return ret;
+-	}
+-
+-	ret = gpio_direction_output(gpio, 1);
+-	if (ret) {
+-		DRM_ERROR("gpio_direction_output failed\n");
+-		goto gpio_error;
+-	}
++	/* Flush posted writes on the device */
++	gpiod = gpiod_get(dev, "dsi-pipe0-reset", GPIOD_ASIS);
++	if (IS_ERR(gpiod))
++		return PTR_ERR(gpiod);
++	gpiod_get_value(gpiod);
++	gpiod_put(gpiod);
+ 
+-	gpio_get_value(128);
+-
+-gpio_error:
+-	if (gpio_is_valid(gpio))
+-		gpio_free(gpio);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ /*
+diff --git a/drivers/gpu/drm/gma500/mdfld_dsi_output.h b/drivers/gpu/drm/gma500/mdfld_dsi_output.h
+index 0cccfe400a98..5c0db3c2903f 100644
+--- a/drivers/gpu/drm/gma500/mdfld_dsi_output.h
++++ b/drivers/gpu/drm/gma500/mdfld_dsi_output.h
+@@ -372,6 +372,6 @@ extern void mdfld_dsi_controller_init(struct mdfld_dsi_config *dsi_config,
+ 
+ extern int mdfld_dsi_get_power_mode(struct mdfld_dsi_config *dsi_config,
+ 					u32 *mode, bool hs);
+-extern int mdfld_dsi_panel_reset(int pipe);
++extern int mdfld_dsi_panel_reset(struct drm_device *dev, int pipe);
+ 
+ #endif /*__MDFLD_DSI_OUTPUT_H__*/
+diff --git a/drivers/gpu/drm/gma500/mdfld_output.h b/drivers/gpu/drm/gma500/mdfld_output.h
+index 17a944d70add..37a516cc56be 100644
+--- a/drivers/gpu/drm/gma500/mdfld_output.h
++++ b/drivers/gpu/drm/gma500/mdfld_output.h
+@@ -54,7 +54,7 @@ struct panel_funcs {
+ 	const struct drm_encoder_helper_funcs *encoder_helper_funcs;
+ 	struct drm_display_mode * (*get_config_mode)(struct drm_device *);
+ 	int (*get_panel_info)(struct drm_device *, int, struct panel_info *);
+-	int (*reset)(int pipe);
++	int (*reset)(struct drm_device *, int);
+ 	void (*drv_ic_init)(struct mdfld_dsi_config *dsi_config, int pipe);
+ };
+ 
+diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
+index fb601983cef0..9221d1f545b0 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_drv.h
++++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
+@@ -13,7 +13,6 @@
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+-#include <linux/gpio.h>
+ #include "gma_display.h"
+ 
+ /*
+-- 
+2.25.4
 
-Really all this bus scanning is vestiges in Xorg from the old pre-kms
-days, and there's no point. Scan all drm device nodes (not physical
-devices) like anything remotely modern, and it's all good. Maybe that
-means Xorg needs a drm bus to fit into this world, and only if that
-gives you nothing, fall back to the historical real bus scanning.
-
-> Hmm, I think we can actually fix this quite simply, for the platform
-> device, check the basename of where the
-> /sys/bus/platform/devices/XXXX/driver symlink points to and if it
-> is simplekms ignore it, assuming that there will be another PCI
-> or platform device which is the actual GPU.
-
-Again, you're not going to have simplekms and the real driver bound at
-the same time. Kernel guarantees that. Userspace isn't in the business
-of second-guessing the kernel's device model, that only leads to pain
-like the one we have here, were Xorg can't both use platform and pci
-devices for some oddball reason :-/
-
-> I guess that might cause a problem where the output-device driven
-> through simplekms is not visible to Xorg in any other way, but
-> I don't think that that ever happens?  And even if it does, then it
-> is probably better to teach Xorg about it, since we likely want to
-> replace simplekms with a more full-featured driver at some point
-> anyways.
->
-> Can you try commenting out the platform bus scanning code in Xorg's
-> autoconfigure code and see if that fixes the no Xorg.conf case ?
->
-> If it does the driver symlink trick will probably fix 99.9 %
-> of all cases here, and we can worry about the others if we
-> ever encounter them.
->
-> > A more fundamental solution is to introduce a DRM bus in Xorg that
-> > enumerates all available DRM device files. If there are any, no other
-> > busses would be scanned.
->
-> That would break the case where there are 2 cards and 1 has a kms
-> driver and the other only supports fbdev. Admittedly this is a
-> corner case, but I do believe that we cannot just go and break this.
-
-Yeah but even for this case can't Xorg simply first scan drm drivers,
-and then fbdev drivers (excluding the drm ones, that's pretty easy to
-do since they're both bound to the same physical device in sysfs). Not
-magic guesses at how the platform model works.
-
-Also, we don't have to make this work with current Xorg code, since
-it's a new driver that distros need to enable explicitly. So fixing
-Xorg should be on the table.
-
-Or we just forget about Xorg, and tell distros that this only works if
-they have a reasonable wayland compositor that doesn't have an entire
-hand-rolled device model.
-
--Daniel
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
