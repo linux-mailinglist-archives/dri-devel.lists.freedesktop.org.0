@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BF9213F8A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD13213F8D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 20:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5071A6EBA3;
-	Fri,  3 Jul 2020 18:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCB26EBA4;
+	Fri,  3 Jul 2020 18:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD866EBA3
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:29 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id z24so13181062ljn.8
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:29 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CCA6EBA5
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 18:46:31 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id e4so38110946ljn.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 11:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=41qjmVVsRfujBfZE1W4YGhZi8CncNw8be02IRMyut3M=;
- b=VfpVPRzwwuFqCZ7fUPqVLOJvQKni550zzdLt2nGP8ambnSmBuqZNmOwpBEqZSOYgiD
- Q8wotiZqUwhzppC46a/R6RJQVIy7x8V/SdEntazBT6CNGvhWmpE2akVXz/zMHxEbC9yA
- a9gkAs2F+BBPUJGjxNT5WQUtL3nBRueVyIms0y1cIvPnm33wMSk7Vhv+HBLL5NmNQ+u5
- HZ/F7cbQJxWn3UWnV1oGF5R3idD8JquldlJz/TRhX89eih5/9rBJi7pvMpQ6m5hOG3/x
- NYiGpf8TElwWyQiw22MQIo2/FfKkB9TGrqeqLiOUUVwBT8z5aeRJEKNHK8SH/acHRmBX
- P2bw==
+ bh=cuNmp2Y8twclxYeBZp9lqPlgdVdohaDn7/kP95qzQpY=;
+ b=kK9IT2VP55hji7w3/BPDLgv5S1BIM2VNWRPFZIgGj+pAQViasT2BzK72Q2m6YUvVH8
+ t/I6KFLwVacqpCFWKF+aCBrTNuHmcgP0/vAbplT6/Ggvkuf91DEHeaH64Pw1pV13ZeK1
+ ZLPwGz4UG31u9GgK5ghjIGp8j3pBywRL9FKk1Xqu4zsvpIUf819HT3xjV/667+MQ752t
+ JhaleG7ou2hlANhNQmSJmNrAHwNNkBhuREnz1Oc9OdKIqMffLZjCG3sA00bmd6JRQtyq
+ z/wJG9+GIV3Zt7hWIui9V6yowJKpARl7old5SfFOeUZ3or/5MBU/6Imc2W6DIvvxwvxE
+ fdWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=41qjmVVsRfujBfZE1W4YGhZi8CncNw8be02IRMyut3M=;
- b=Fw0M2aa8x/V0/lda4dOFBAhVmJvkpCMPnFYxCN0Mlv9rCmFbio3yeLihGljSP0uVLX
- YGWCPfbg9F+16rqS0wxmMoSuALwlbtC2AsQhENoCtzLAJSVJCSDCSDJ4KJK9N6EcFLYn
- T4d6YYGRGj8sR1jjEzJf64T/adtf80WSnSB4mvf7ed+5M66+XnCsk1NT44WIofAA6Dzw
- W4b59UIhHfkq2vRhRB8goA6VCHCPut4zxCDXmBfE/Lax/j9gD8p0yAy3PCuzfSiNmVL8
- 2FfXM9UpLy5tSy9oT1+jwQq7aYA/xW9j24wOE6SS0Q85GIXN+DmFJzXWmS1qHgQoJ4Zy
- Uu5g==
-X-Gm-Message-State: AOAM532JXJBAsIMWgZ55otURZ04pMTSZjiI52jdV0hW3tN/tv+qQHm7a
- aFLfWIdKPct4B/5fGh4JqmfEGp7B2/s=
-X-Google-Smtp-Source: ABdhPJzQM5YseU4FLRbGqPO9auj0rWYRuQJ6L3t2SBa1OIW6Mb98AjbEZouXoOeElwNDHjdcB1Td5w==
-X-Received: by 2002:a2e:9b04:: with SMTP id u4mr21861645lji.364.1593801987598; 
- Fri, 03 Jul 2020 11:46:27 -0700 (PDT)
+ bh=cuNmp2Y8twclxYeBZp9lqPlgdVdohaDn7/kP95qzQpY=;
+ b=nT7uSK2bUxWXUT3rva3zdtnk+Yu5IRnrHmD7pPbpXGr6wau4nfkcg2J4cFLBRqIdZW
+ 21iskXC3enmrxiLJ9c8w7mVa5u2hgpdJG36P40PS6ZCl/kECDyOmMdvTF8vNgKigKPHN
+ mVWDcKJZfOJ9Lob3ZMiC52HVqUAhxBD2Q8c7FK/GQ32kZvTEUKcuJer9L24qt9JIlYkp
+ g9ZJ5aAHh8SNEhqFk/FP0WIWgtB56qZodZxfsdUayiAS5sO+qp9AxyLer+orz0Vrsjkx
+ xFxcuEt8turHWJ+KOUQaXtr9dD3pKVnxejjdAsSEcMxcmdIFNNhs+MNDiwEAlBjWvQaD
+ oM2A==
+X-Gm-Message-State: AOAM533Wtt8IXEAF3JSt03RtgQe84vDa54hqgLSQg0dMlUngU2IXxwrN
+ wyyqXzZeveW4guh7o7xkCoTo841OaoA=
+X-Google-Smtp-Source: ABdhPJyBGH29SvxYyw0NjjWdvgwbdFGb97e14xVHDWd3nm3sy4Dj+wDXJFZR2VJ9zNEY+qr7qlaf+g==
+X-Received: by 2002:a2e:8092:: with SMTP id i18mr13181844ljg.265.1593801989670; 
+ Fri, 03 Jul 2020 11:46:29 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.25
+ by smtp.gmail.com with ESMTPSA id h22sm4404224ljg.1.2020.07.03.11.46.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 11:46:27 -0700 (PDT)
+ Fri, 03 Jul 2020 11:46:29 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v4 12/20] backlight: introduce backlight_get_brightness()
-Date: Fri,  3 Jul 2020 20:45:38 +0200
-Message-Id: <20200703184546.144664-13-sam@ravnborg.org>
+Subject: [PATCH v4 13/20] backlight: as3711_bl: simplify update_status
+Date: Fri,  3 Jul 2020 20:45:39 +0200
+Message-Id: <20200703184546.144664-14-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703184546.144664-1-sam@ravnborg.org>
 References: <20200703184546.144664-1-sam@ravnborg.org>
@@ -86,52 +86,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on an idea from Emil Velikov <emil.l.velikov@gmail.com>
-add a helper that checks backlight_is_blank() and return 0 as brightness
-if display is blank or the property value if not.
+Replaces the open-coded checks of the state, with the
+backlight_get_brightness() helper. This increases readability
+of the code and align the functionality across the drivers.
 
-This allows us to simplify the update_status() implementation
-in most of the backlight drivers.
+Futhermore drop the debug prints in update_status().
+If we need debug printing then we can add it to the backlight core.
+
+v2:
+  - Use backlight_get_brightness()
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- include/linux/backlight.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/video/backlight/as3711_bl.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index c6ac4cbb9ddb..38db67588b16 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -417,6 +417,25 @@ static inline bool backlight_is_blank(const struct backlight_device *bd)
- 	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
- }
+diff --git a/drivers/video/backlight/as3711_bl.c b/drivers/video/backlight/as3711_bl.c
+index 33f0f0f2e8b3..3b60019cdc2b 100644
+--- a/drivers/video/backlight/as3711_bl.c
++++ b/drivers/video/backlight/as3711_bl.c
+@@ -104,17 +104,10 @@ static int as3711_bl_update_status(struct backlight_device *bl)
+ 	struct as3711_bl_data *data = bl_get_data(bl);
+ 	struct as3711_bl_supply *supply = to_supply(data);
+ 	struct as3711 *as3711 = supply->as3711;
+-	int brightness = bl->props.brightness;
++	int brightness;
+ 	int ret = 0;
  
-+/**
-+ * backlight_get_brightness - Returns the current brightness value
-+ * @bd: the backlight device
-+ *
-+ * Returns the current brightness value, taking in consideration the current
-+ * state. If backlight_is_blank() returns true then return 0 as brightness
-+ * otherwise return the current brightness property value.
-+ *
-+ * Backlight drivers are expected to use this function in their update_status()
-+ * operation to get the brightness value.
-+ */
-+static inline int backlight_get_brightness(const struct backlight_device *bd)
-+{
-+	if (backlight_is_blank(bd))
-+		return 0;
-+	else
-+		return bd->props.brightness;
-+}
-+
- struct backlight_device *
- backlight_device_register(const char *name, struct device *dev, void *devdata,
- 			  const struct backlight_ops *ops,
+-	dev_dbg(&bl->dev, "%s(): brightness %u, pwr %x, blank %x, state %x\n",
+-		__func__, bl->props.brightness, bl->props.power,
+-		bl->props.fb_blank, bl->props.state);
+-
+-	if (bl->props.power != FB_BLANK_UNBLANK ||
+-	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
+-	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+-		brightness = 0;
++	brightness = backlight_get_brightness(bl);
+ 
+ 	if (data->type == AS3711_BL_SU1) {
+ 		ret = as3711_set_brightness_v(as3711, brightness,
 -- 
 2.25.1
 
