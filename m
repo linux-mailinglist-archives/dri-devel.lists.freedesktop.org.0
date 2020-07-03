@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2231213FE3
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 21:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FE4213FE4
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jul 2020 21:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E806B6EBAB;
-	Fri,  3 Jul 2020 19:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9559E6EBAE;
+	Fri,  3 Jul 2020 19:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AF3A6EBAB
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 19:24:28 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id t9so19074716lfl.5
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 12:24:28 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373786EBAB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 19:24:29 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id e4so38223836ljn.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jul 2020 12:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WOEfCwKuizYX3a4QPepXPk/wA2p4A47g4u9D3PirCBM=;
- b=sW8d7aVOiHC8/6Ecj6+0gXYCIUBai9yFj2nEqQB5KCdjSumshoLkewJ51yGLmmFVTp
- VAUKKPRp4h+HJiZ2dfd3Vl30DLhUfZ1tIxfJq+bnwEjlQ+EIr1ZPUpyGwvkFiPdi0sAM
- jsFD6LACOyUVY/AG0rdGkHQOMSQiSozQkOivjHYdLzXaT//tgy9xBARFcS8+tIZ9OOyq
- TozECv1JXtOLIdVjFhmrYJCTVAdNp+8S6ugQB37OnSMbj4MRJIdtpj7EZLhDas2z0ulA
- jB3q2Ia7VdukzKwD6ugpyF+gO7KTDtJgRteK8GeV7VdsGlqn0c5Ww9zeC3J3xlUrE77y
- hB0w==
+ bh=TTecFeWhnkJS04/6vJx6YjKZESPPJ5FYJVs0LA7y+wc=;
+ b=k21Kn1mqEpNm0J4N9eAzvMcKPUp80/EqId9x76AOzNJl9hLAaOIE9t4CmymenpSL+3
+ udl/AkE4Fgu6mhnswUT9gmgT/JGi7invjCJl2IGplYYS7+YYpMQVIJspoqVNmnJ6gLfi
+ SAdNFFWx5H5Z481ufKHtqJU8BXOaCGSUb9L55LKr5ahfW/BwkMpe73t5Pdj8JGcb+HHC
+ jcr4RVapLrdXp7vsmpBvSUmo/khcZE9/pnPcq57O+obBet4iHF9Y8E6jkc7FDLwYCvft
+ gVmEdHiBeab9MRW5xh2gf5vYcItyauCk/UE+tix1wfBIDEifn5N7zehnqI32rreI937k
+ oXNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WOEfCwKuizYX3a4QPepXPk/wA2p4A47g4u9D3PirCBM=;
- b=BF2Vkpaj2UNdduj5kn3OYisAsp2lX4FH/CFBMub6wG8vAsXIVIVXaXBNrkfmLK9Rb3
- qrd7Rr3HxKm9vZdOgq3pIZe0AA+lsojbzxmEfafrAi+ooP/qkhVxwnNia+2HKEbGZACG
- +KtmEZDrKZ3Re6hUIbUC+6EASAPwRxpZjemPapVyBzaRQ+zL81fLr1Ub8gb5KvK+o4VZ
- NSaJW4Z7PG7rC/nZBtwCOHcBrPuU0wOJJDutvdc8j2lN0ywIaEZHITKmtTWVSOmcHRxv
- xqCXnIyio3wdBQrK1zNI4ray0he6HeeP0ba3YHLQqtFSzEtkpDfqowo81NmuueJRvHyH
- vhoA==
-X-Gm-Message-State: AOAM530eG/smfLjgbt+K2BB32Rakbq+ifQCLQNgwba362QFeD3yjgigQ
- kKFBxnv8XVYhFWcEza13rhY94lhQLww=
-X-Google-Smtp-Source: ABdhPJyvSUxT+dFL1Ae9Jw0GKs0HUhr/kbNzCuf7jLhAXTKtFqDp4L8YT+ViayThA46H+j42sVVjhw==
-X-Received: by 2002:ac2:46f0:: with SMTP id q16mr23100613lfo.51.1593804266502; 
- Fri, 03 Jul 2020 12:24:26 -0700 (PDT)
+ bh=TTecFeWhnkJS04/6vJx6YjKZESPPJ5FYJVs0LA7y+wc=;
+ b=lASESnGxdXxIeXMUfajkI/d9b/RHCsVEheWhAZbfyK/8z/jLfnrm6asto2Zf0Jjwus
+ dkeP7iOBNtB+5orumdIbsazv0K8YeD14B0zzY5/EjkM72qlz46oQYVgQ0211u8kOwdAR
+ SRt9mmvOU7GSM87fnHdXswGUkTW4jhehABpBsoPmCvvWYH7rysbTMyU97CEyOGizNI+8
+ WohGpoD7P5uMlLjO4ZQsTB+MxSIb9c0NvIAY1aNHAak3fEW/kjzWtjhSuskOhPS7kdbi
+ IlbGDEQtB4o++n6cnBJPZ1KsjQDMMWPsDelQc+zXozbQ/E+6HBZiUDnGwv7FyGQU/Hg/
+ +ulA==
+X-Gm-Message-State: AOAM5300ZZvaeVS0sImb0J2gmQqDuhOIPfK9yRz2U5gzOG+PGGXdkN00
+ +rcgzbVBoMGzyuoFE29IzF0OuNWJk7w=
+X-Google-Smtp-Source: ABdhPJxIL1rwJl7DS1D9whh/28L0b2F3QaArb6NnM64C9SsmbJNcTTjC0M8fdDAeDUtWTXRlCyVYTg==
+X-Received: by 2002:a2e:700e:: with SMTP id l14mr12971371ljc.131.1593804267477; 
+ Fri, 03 Jul 2020 12:24:27 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id y26sm4411791ljm.46.2020.07.03.12.24.25
+ by smtp.gmail.com with ESMTPSA id y26sm4411791ljm.46.2020.07.03.12.24.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jul 2020 12:24:26 -0700 (PDT)
+ Fri, 03 Jul 2020 12:24:27 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v3 01/21] drm/panel: add connector type to boe,
- hv070wsa-100 panel
-Date: Fri,  3 Jul 2020 21:23:57 +0200
-Message-Id: <20200703192417.372164-2-sam@ravnborg.org>
+Subject: [PATCH v3 02/21] drm/panel: panel-simple: add default connector_type
+Date: Fri,  3 Jul 2020 21:23:58 +0200
+Message-Id: <20200703192417.372164-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200703192417.372164-1-sam@ravnborg.org>
 References: <20200703192417.372164-1-sam@ravnborg.org>
@@ -73,48 +72,51 @@ Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
  Martyn Welch <martyn.welch@collabora.co.uk>, Jonas Karlman <jonas@kwiboo.se>,
  Peter Senna Tschudin <peter.senna@gmail.com>,
  Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sam Ravnborg <sam@ravnborg.org>, kbuild test robot <lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The boe,hv070wsa-100 panel is a LVDS panel.
-Fix connector type to reflect this.
-
-With this change users of this panel do not have to specify the
-connector type.
-
-v3:
-  - Drop PIXDATA bus_flag, not relevant
-
-v2:
-  - Add .bus_format (Laurent)
-  - Add .bus_flags
+All panels shall report a connector type.
+panel-simple has a lot of panels with no connector_type,
+and for these fall back to DPI as the default.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 4f0ec5e5b0aa..7b5d212215e0 100644
+index 7b5d212215e0..b3ec965721b0 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1188,6 +1188,9 @@ static const struct panel_desc boe_hv070wsa = {
- 		.width = 154,
- 		.height = 90,
- 	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
+@@ -500,6 +500,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 	struct panel_simple *panel;
+ 	struct display_timing dt;
+ 	struct device_node *ddc;
++	int connector_type;
+ 	int err;
  
- static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+ 	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+@@ -566,8 +567,13 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 			desc->bpc != 8);
+ 	}
+ 
+-	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+-		       desc->connector_type);
++	/* Default DRM_MODE_CONNECTOR_DPI if no connector_type is set */
++	if (desc->connector_type != 0)
++		connector_type = desc->connector_type;
++	else
++		connector_type = DRM_MODE_CONNECTOR_DPI;
++
++	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
+ 
+ 	err = drm_panel_of_backlight(&panel->base);
+ 	if (err)
 -- 
 2.25.1
 
