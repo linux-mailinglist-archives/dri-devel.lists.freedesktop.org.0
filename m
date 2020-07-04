@@ -2,59 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C684A214677
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jul 2020 16:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D923214691
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jul 2020 16:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7078A6E0C1;
-	Sat,  4 Jul 2020 14:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680976E0C5;
+	Sat,  4 Jul 2020 14:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 123C16E0C1
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 14:35:55 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id q7so26965870ljm.1
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Jul 2020 07:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RSyrJuSDknNeqRlmj8bIK5Vdtz9ftR4YhPWSIC5vrws=;
- b=RLpBGuINGz2ZbLXoy4Vf+xPYxukzPyyNkyZPUXphO/NcTiHZr6EZiIzVfUz0eJB9S2
- /EwTLsnPTdfEh9SrjKe8mufzhLkxu4gtDthSydKXdh84OV3U2P27lNzGuM+jpyboqZO5
- 7zYQUYdzu4FPoiT2YxMWm+5i5YEaKIdGkqAANYE+1ft0joETvBwJsXZbqiKnpVAGJlna
- tNgakSH74CfB21LNALNjr2OIg8J+pUt2gBPAG3WGpRIRej0ylq/HRLwF0BkSF+IdG82B
- rITznNiV11h706fwv4GhllZfTeR5AqW5NRdZ6LobmE9B4csHObfYMf6EMjnnZRCo3ZiN
- Q/2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RSyrJuSDknNeqRlmj8bIK5Vdtz9ftR4YhPWSIC5vrws=;
- b=PP5UHIwtm+gDqeXDMj7mwMyKrCnMfEVvolfvu4tVwNAKJ0Q7eKJOJ/hMnth9LnWqhp
- 6UZArgqXjtQenbNP8MPLRtJjAX5R7UXz2FMoXuQrZB1So7mc5msTVACWsc33cmkdDjX/
- bycjCHeNC6dNkWGvdClxdK/kjRP9jSvMR5k7/THfsuwAIpAELHOAgrZlLAEoi1fiZddL
- db6igBz3RYLde/LfXCFHq73rUgXHUfbuTda/U20UVCciKh4IY5vDHuxo6RZdfhNNzzeM
- 4ViIkIanD9Hj0RiDgoAOdGNDUmcwn+LqACwKN8hxNNNsyuEZqlXOrn9FF/UhXFk/DE7A
- RCVg==
-X-Gm-Message-State: AOAM532Th09hf1lDvzC5vQ/OqB972p9FMcLCCIvJHzGIlAM0fMUaKJg6
- Akf5yf0O9nrh2EdSTFG4EoYbxoPslCs=
-X-Google-Smtp-Source: ABdhPJzbguWBoqpi25Z8FzFDM9eW6IcGJ+/Tpa4yANpYepPYeCKwCoc+EFIJ4dSuk161JDTB5tcogw==
-X-Received: by 2002:a2e:920e:: with SMTP id k14mr23393141ljg.430.1593873353261; 
- Sat, 04 Jul 2020 07:35:53 -0700 (PDT)
-Received: from saturn.lan ([2a00:fd00:805f:db00:4025:a614:1d5c:b7bc])
- by smtp.gmail.com with ESMTPSA id 144sm6407556lfm.87.2020.07.04.07.35.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 07:35:52 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A52076E0C5
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 14:52:16 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 0FB1380512;
+ Sat,  4 Jul 2020 16:52:14 +0200 (CEST)
+Date: Sat, 4 Jul 2020 16:52:12 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Rob Herring <robh@kernel.org>
-Subject: [PATCH v1 1/1] dt-bindings: fix simple-framebuffer example
-Date: Sat,  4 Jul 2020 16:35:44 +0200
-Message-Id: <20200704143544.789345-2-sam@ravnborg.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200704143544.789345-1-sam@ravnborg.org>
-References: <20200704143544.789345-1-sam@ravnborg.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
+Message-ID: <20200704145212.GA791554@ravnborg.org>
+References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
+ <20200704072305.GA689588@ravnborg.org>
+ <02fbd875-f6fd-da20-6835-778bdd6426c3@ilande.co.uk>
+ <485ded46-c1a3-1eab-eb95-1a771543fbaf@ilande.co.uk>
+ <20200704134115.GA755192@ravnborg.org>
+ <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=3GLR1-XzZKwA:10 a=e5mUnYsNAAAA:8
+ a=Nss-hjO5630hpDDf15kA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,95 +48,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Hans de Goede <hdegoede@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that dt-extract-example gained support for using root nodes
-in examples, update the example for the simple-frambuffer binding to use it.
+Hi Mark.
 
-This gives us a better example and kill a long standing warning:
+On Sat, Jul 04, 2020 at 03:16:47PM +0100, Mark Cave-Ayland wrote:
+> On 04/07/2020 14:41, Sam Ravnborg wrote:
+> 
+> > I think what is happening is that the bochs driver request a shadow copy
+> > for the frambuffer. And with the change to fbops we now use the cfb_
+> > functions to write to the shadow framebuffer - which is not in any IO
+> > space. So this does not work.
+> > 
+> > So maybe all we need is the fix in drm_fb_helper_dirty_blit_real().
+> > If you try to undo the change so fbops is set to &drm_fbdev_fb_ops,
+> > but keep the fix in drm_fb_helper_dirty_blit_real() how does it then
+> > behave?
+> 
+> Bingo! I just tried that and the framebuffer is now working under qemu-system-sparc64
+> again - thank you so much for the help! From what you said I guess
+> drm_fb_helper_dirty_blit_real() is responsible syncing the shadow copy?
+> 
+> Below is the current working diff based upon your previous one: it certainly feels
+> like the difference in memcpy() behaviour should be hidden away in fb_memcpy_tofb()
+> or similar.
 
-simple-framebuffer.example.dts:23.16-39.11:
-Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+From your feedback so far I thnk the minimal fix would be like this:
 
-Note: To get the update dt-extract-example execute:
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> .. static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+>         size_t len = (clip->x2 - clip->x1) * cpp;
+>         unsigned int y;
+> 
+>         for (y = clip->y1; y < clip->y2; y++) {
+> -               memcpy(dst, src, len);
+> +               fb_memcpy_tofb(dst, src, len);
+>                 src += fb->pitches[0];
+>                 dst += fb->pitches[0];
+>         }
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: linux-fbdev@vger.kernel.org
----
- .../bindings/display/simple-framebuffer.yaml  | 45 ++++++++++---------
- 1 file changed, 23 insertions(+), 22 deletions(-)
+(Hand edited, patch s not a valid syntax)
 
-diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-index 1db608c9eef5..6f23ea14132b 100644
---- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-+++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -152,28 +152,29 @@ additionalProperties: false
- 
- examples:
-   - |
--    aliases {
--      display0 = &lcdc0;
-+    / {
-+        compatible = "foo";
-+        model = "foo";
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+
-+        chosen {
-+            #address-cells = <1>;
-+            #size-cells = <1>;
-+            stdout-path = "display0";
-+            framebuffer0: framebuffer@1d385000 {
-+                compatible = "allwinner,simple-framebuffer", "simple-framebuffer";
-+                allwinner,pipeline = "de_be0-lcd0";
-+                reg = <0x1d385000 3840000>;
-+                width = <1600>;
-+                height = <1200>;
-+                stride = <3200>;
-+                format = "r5g6b5";
-+                clocks = <&ahb_gates 36>, <&ahb_gates 43>, <&ahb_gates 44>;
-+                lcd-supply = <&reg_dc1sw>;
-+                display = <&lcdc0>;
-+            };
-+        };
-     };
- 
--    chosen {
--      #address-cells = <1>;
--      #size-cells = <1>;
--      stdout-path = "display0";
--      framebuffer0: framebuffer@1d385000 {
--        compatible = "allwinner,simple-framebuffer", "simple-framebuffer";
--        allwinner,pipeline = "de_be0-lcd0";
--        reg = <0x1d385000 3840000>;
--        width = <1600>;
--        height = <1200>;
--        stride = <3200>;
--        format = "r5g6b5";
--        clocks = <&ahb_gates 36>, <&ahb_gates 43>, <&ahb_gates 44>;
--        lcd-supply = <&reg_dc1sw>;
--        display = <&lcdc0>;
--      };
--    };
--
--    lcdc0: lcdc { };
--
- ...
--- 
-2.25.1
+But I need feedback from someone that know all this a bit better
+to judge if this is an OK change.
+For once - this will only work with shadow buffers.
 
+	Sam
+
+
+
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 6c3ef49b46b3..dce9adf7d189 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -865,6 +865,15 @@ struct drm_mode_config {
+>          */
+>         bool prefer_shadow_fbdev;
+> 
+> +       /**
+> +        * @use_cfb_for_fbdev:
+> +        *
+> +        * Use cfb variants of drm_fb_helper_cfb_{fillrect,copyarea,imageblit}
+> +        * The cfb variants are required when the CPU do not allow direct
+> +        * access to the framebuffer (for example sparc64)
+> +        */
+> +       bool use_cfb_for_fbdev;
+> +
+>         /**
+>          * @quirk_addfb_prefer_xbgr_30bpp:
+>          *
+> 
+> > I did not find time to follow your instructions to test this myself with
+> > qemu - sorry.
+> 
+> No worries, I do appreciate that as a maintainer it can be hard to fit these things
+> around life, family, job etc.
+> 
+> 
+> ATB,
+> 
+> Mark.
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
