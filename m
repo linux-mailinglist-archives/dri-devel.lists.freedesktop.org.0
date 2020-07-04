@@ -1,72 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F3D215335
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A193921532F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F716E3A6;
-	Mon,  6 Jul 2020 07:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9F36E353;
+	Mon,  6 Jul 2020 07:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4258F6E02D
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 12:13:06 +0000 (UTC)
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDEE6E02A
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 13:38:12 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id A9596580104;
- Sat,  4 Jul 2020 08:13:04 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 75DB05C00BF;
+ Sat,  4 Jul 2020 09:38:09 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Sat, 04 Jul 2020 08:13:04 -0400
+ by compute4.internal (MEProxy); Sat, 04 Jul 2020 09:38:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=5
- jhvqkvkWhZxXjs3LP2HbP7ewUguP0t5n9H4pdg7EEA=; b=PpetsJeHoadsGu6Jj
- BmST2pSe4zZS/Nj/P8dF0gKTugy+G5TQ5MSPNYh7F2fsvy7cbSV2/+Iwobqk2J34
- ksd2bfIwO+3mkpnVwgivxXM9nwGoUnSue4ftrQwJwXPpmpXtPfakcXnl/Wx9Lr16
- xmfOLiunn1zktpFrlrrja+xCUi4nJDLKzhQLeMMier2oXarnb8kOmtSqbN3SnQeE
- XXqTFlp+oak/LAaf+aCJWru2GMYwPTl3mbcCtLwFvBe4Yu+mv0OdC37pk7MdmaI0
- i+n9uAm/G8ASKmikG0w853huvbHASV+uJb9mff9+yuByPKEH+E1ZintiNFL6JUbY
- 68VdQ==
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=awwlzHSud02pzpUia/C+VkZ8dj
+ FnBAxJFReM6NFKbSY=; b=hj8UUCwpWlqb4Z0Pmt3wd0TpS4QVMgKFJ0S3VzAP++
+ BFEfaScj+DzYOMgAM1gCh1SaeD5BwHpxFoYJ4YaOICTYGYuOfJHrW286PhMO0rZ1
+ rt+ZMeBMm/Zo+jqnqJLu3NOh9HT60WVvbwyLsbfa3XAN+OYibQ6C0b4Jpvxjt237
+ PWhZEv8X4EgAD4wOaUHMsYc/SqycunJCVXeB6KpZSFJePel+YvMrb/Z8LTXgA5Z+
+ XBTrfIC9yq9lM/TVC5/IjRzLSHnjemHrxQ1hTWwCjbvQbGhNQXTp5Ln5wvhFjKko
+ lJMCJvTgv+3yZUtTTdcGQNULgWOwlHnVBJK3Z0c4ia2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=5jhvqkvkWhZxXjs3LP2HbP7ewUguP0t5n9H4pdg7E
- EA=; b=K86n12m4TIAime46SbpINUp1l6NwhRZ+mYkwgohG6pgLg8XcwbvW7WQlQ
- XLYm0ni6lnqzwhvB+k5YUDiXAGfKvRYsET27C57TJcOhBOji74jSuDgDgorQpibM
- DM+XDcgP9hKwWX7WcdaofMk6UZW9/w4ZHUsSWB+4QIzOzdswL1f2Oj1K0rVlsKNL
- 9c9O9SXb2JBL2Ym+CCZmltFTAt07qtnxs0EEsnyx8E3kpcMaAOC7G7UnK8P0ZI91
- MVGkyFFaZlwNmVlzUdAHvDruQtQhwq97f4ddSqPG6b1dtTkQJ+apoAbgPzAcUeWj
- 4At4BhLSFuh5nXK2g7tbLV4Vimpbg==
-X-ME-Sender: <xms:T3IAX4hYNof4x65X1niLLXF0VHSMcNupI5NkaKvMUJZ4rL2oqCTUnw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdekgdehtdcutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=awwlzHSud02pzpUia
+ /C+VkZ8djFnBAxJFReM6NFKbSY=; b=PtRC86pLPUimBOcnypAwOvQcALrPIZf6x
+ jH+xOnMtkcbxwgeP5rGQws8NtLBkdk4uhYudbXsC99D6NBAYDi8zu/bLKjqi7T4t
+ upVo5zI7q2zglxC8dpmgXMZ6ngqD7+E31v+6/3BxUJYVME3cPRlvxxAwNPk3TM/8
+ zX4DxpkG7PlOWszOkFXCz7JdGI0vxwFSOwRBTJbTlqRj7blSVfMTNgNFTmsApTSv
+ nb7zkAOolUwQpZVtUbG29MbMoClE4ORDSEnsgH/DAR9jQziMRD2e0fpQ4R5+KSAb
+ NoNQIDmiqf9giWG5IUlLpJxAFKR6zyaGXGO0uBHEstOclsU1J1pOg==
+X-ME-Sender: <xms:PoYAXyTd7HBurx8JXnxcxcO42J_DSBV8iLpOAmu50LlQxMxTkq2xTg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdekgdeijecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepheelvdfhkeelgfevleekleduvefftefhudekvdffhffhgeefuefgheegfeej
- vedtnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:T3IAXxD-AzvifBdTZe2qr3y4R3wo_4PdgB5foYqx4sL4VCpE0LkQRg>
- <xmx:T3IAXwHlFcWKE_QLLHBNqFqiiduLJOF74uZsRlKBbI4ES1Z3cBhygg>
- <xmx:T3IAX5TT4NUZtJfvTgmyj3hv-j3rOQoTZeYcQVw5E_fOXEspgoFfKw>
- <xmx:UHIAX0wsqRW7BjnpCZVFvK7KmxeVyOA5_Kadml5wIfmUtW6m0L5tTA>
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhho
+ rdhtvggthheqnecuggftrfgrthhtvghrnhepjeffheduvddvvdelhfegleelfffgieejvd
+ ehgfeijedtieeuteejteefueekjeegnecukfhppeeltddrkeelrdeikedrjeeinecuvehl
+ uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvse
+ gtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:PoYAX3ycrkA_DORdgwfqJ1DzO3uSr9u2U72N-cWqnwkm5IR0PBqx9A>
+ <xmx:PoYAX_1goCwrXH2VjRUSsUBRMpxW6jBkg69ZDfktjnQUxeyxH__gng>
+ <xmx:PoYAX-AFjCu6BK3qgIZjX9_N4eX7ZBQmebJyOOmW8A4xw2EqA1IX5Q>
+ <xmx:QYYAXzbtaal898n8dPTYT10mg0-Apirotg8ieoDPAnpBpZ6oexFmkQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9FDDB328005E;
- Sat,  4 Jul 2020 08:13:03 -0400 (EDT)
-Date: Sat, 4 Jul 2020 14:13:01 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 005F43280064;
+ Sat,  4 Jul 2020 09:38:05 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Subject: Re: [PATCH v2 13/14] [DO NOT MERGE] arm64: dts: allwinner: h6: Add
- GPU OPP table
-Message-ID: <20200704121301.jfd3m3jnlghmddg4@gilmour.lan>
-References: <20200704102535.189647-1-peron.clem@gmail.com>
- <20200704102535.189647-14-peron.clem@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH] drm/sun4i: lvds: Invert the LVDS polarity
+Date: Sat,  4 Jul 2020 15:38:03 +0200
+Message-Id: <20200704133803.37330-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200704102535.189647-14-peron.clem@gmail.com>
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,66 +75,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Ondrej Jirman <megous@megous.com>, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The LVDS controller can invert the polarity / lanes of the LVDS output.
+The default polarity causes some issues on some panels.
 
-On Sat, Jul 04, 2020 at 12:25:34PM +0200, Cl=E9ment P=E9ron wrote:
-> Add an Operating Performance Points table for the GPU to
-> enable Dynamic Voltage & Frequency Scaling on the H6.
-> =
+However, U-Boot has always used the opposite polarity without any reported
+issue, and the only currently supported LVDS panel in-tree (the TBS A711)
+seems to be able to work with both settings.
 
-> The voltage range is set with minival voltage set to the target
-> and the maximal voltage set to 1.2V. This allow DVFS framework to
-> work properly on board with fixed regulator.
-> =
+Let's just use the same polarity than U-Boot to be more consistent and
+hopefully support all the panels.
 
-> Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
+Cc: Ondrej Jirman <megous@megous.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-That patch seems reasonable, why shouldn't we merge it?
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 359b56e43b83..e44635ebd510 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -474,9 +474,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
+ 		     SUN4I_TCON0_BASIC2_V_TOTAL(mode->crtc_vtotal * 2) |
+ 		     SUN4I_TCON0_BASIC2_V_BACKPORCH(bp));
+ 
+-	reg = SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0 |
+-		SUN4I_TCON0_LVDS_IF_DATA_POL_NORMAL |
+-		SUN4I_TCON0_LVDS_IF_CLK_POL_NORMAL;
++	reg = SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0;
+ 	if (sun4i_tcon_get_pixel_depth(encoder) == 24)
+ 		reg |= SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS;
+ 	else
+-- 
+2.26.2
 
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 80 ++++++++++++++++++++
->  1 file changed, 80 insertions(+)
-> =
-
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/bo=
-ot/dts/allwinner/sun50i-h6.dtsi
-> index 8f514a2169aa..a69f9e09a829 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> @@ -174,6 +174,7 @@ gpu: gpu@1800000 {
->  			clocks =3D <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
->  			clock-names =3D "core", "bus";
->  			resets =3D <&ccu RST_BUS_GPU>;
-> +			operating-points-v2 =3D <&gpu_opp_table>;
->  			#cooling-cells =3D <2>;
->  			status =3D "disabled";
->  		};
-> @@ -1036,4 +1037,83 @@ map0 {
->  			};
->  		};
->  	};
-> +
-> +	gpu_opp_table: gpu-opp-table {
-> +		compatible =3D "operating-points-v2";
-> +
-> +		opp@216000000 {
-> +			opp-hz =3D /bits/ 64 <216000000>;
-> +			opp-microvolt =3D <810000 810000 1200000>;
-> +		};
-
-All those nodes will create DTC warnings though.
-
-Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
