@@ -1,69 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D20C2141D8
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jul 2020 00:55:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9AF214475
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jul 2020 09:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D880E6E388;
-	Fri,  3 Jul 2020 22:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C5A6E08A;
+	Sat,  4 Jul 2020 07:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.default.ilande.uk0.bigv.io (mail.ilande.co.uk
- [IPv6:2001:41c9:1:41f::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A8C6E388
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jul 2020 22:55:07 +0000 (UTC)
-Received: from host86-182-221-233.range86-182.btcentralplus.com
- ([86.182.221.233] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jrUaG-0006jL-Vg; Fri, 03 Jul 2020 23:55:11 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: dri-devel@lists.freedesktop.org
-References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <5989d360-619b-6b96-8ce0-e6bd01579c30@ilande.co.uk>
-Date: Fri, 3 Jul 2020 23:54:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 86.182.221.233
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
- mail.default.ilande.uk0.bigv.io
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- SURBL_BLOCKED,URIBL_BLOCKED autolearn=ham autolearn_force=no
- version=3.4.2
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4426E08A
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 07:23:10 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 5DA6D804FD;
+ Sat,  4 Jul 2020 09:23:07 +0200 (CEST)
+Date: Sat, 4 Jul 2020 09:23:05 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Message-ID: <20200704072305.GA689588@ravnborg.org>
+References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=3GLR1-XzZKwA:10 a=e5mUnYsNAAAA:8 a=20KFwNOVAAAA:8
+ a=xbrbO8u3Vp6-dm8ajjMA:9 a=BW1GMov4voK_oxE-:21 a=QBtezZU2M8HmcPbf:21
+ a=CjuIK1q_8ugA:10 a=HhJU-AJEKy8A:10 a=61TX3X68ulsA:10
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,14 +45,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/07/2020 22:57, Mark Cave-Ayland wrote:
+Hi Mark.
 
+Thanks for the report and the informative pointers.
+
+On Fri, Jul 03, 2020 at 10:57:46PM +0100, Mark Cave-Ayland wrote:
 > Hi all,
 > 
 > I've been receiving reports that newer sparc64 kernels have started to panic on boot
@@ -171,56 +143,118 @@ On 03/07/2020 22:57, Mark Cave-Ayland wrote:
 > 
 > Can anyone point me in the right direction?
 
-Just following up from the original thread on debian-sparc, Sam asked about providing
-some instructions to allow others to reproduce the error which are included below:
+I tried to take a look at this - came up with the following untested
+hack.
+The idea is that we in mode_config can specify if we need the cfb
+variants. (I do not know what cfb is acronym for?)
+Then when we setup the framebuffer we select the relevant fbops.
+
+The oops refers to drm_fb_helper_dirty_work, so I think it is the memcpy
+in drm_fb_helper_dirty_blit_real() that hits us.
+
+For now I used fb_memcpy_tofb() - but that is a macro that is
+expanded depending on the architecture. I think we can do btter if this
+works.
+
+	Sam
 
 
-1) Building QEMU
+diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
+index 853081d186d5..1609ac6efbcb 100644
+--- a/drivers/gpu/drm/bochs/bochs_kms.c
++++ b/drivers/gpu/drm/bochs/bochs_kms.c
+@@ -151,6 +151,7 @@ int bochs_kms_init(struct bochs_device *bochs)
+ 	bochs->dev->mode_config.preferred_depth = 24;
+ 	bochs->dev->mode_config.prefer_shadow = 0;
+ 	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
++	bochs->dev->mode_config.use_cfb_for_fbdev = true;
+ 	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
+ 
+ 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 170aa7689110..44e833b2f015 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -382,8 +382,13 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+ 	size_t len = (clip->x2 - clip->x1) * cpp;
+ 	unsigned int y;
+ 
++	// TODO
+ 	for (y = clip->y1; y < clip->y2; y++) {
+-		memcpy(dst, src, len);
++		if (fb_helper->dev->mode_config.use_cfb_for_fbdev)
++			fb_memcpy_tofb(dst, src, len);
++		else
++			memcpy(dst, src, len);
++
+ 		src += fb->pitches[0];
+ 		dst += fb->pitches[0];
+ 	}
+@@ -2017,6 +2022,21 @@ static const struct fb_ops drm_fbdev_fb_ops = {
+ 	.fb_imageblit	= drm_fb_helper_sys_imageblit,
+ };
+ 
++static const struct fb_ops drm_fbdev_cfb_fb_ops = {
++	.owner		= THIS_MODULE,
++	DRM_FB_HELPER_DEFAULT_OPS,
++	.fb_open	= drm_fbdev_fb_open,
++	.fb_release	= drm_fbdev_fb_release,
++	.fb_destroy	= drm_fbdev_fb_destroy,
++	.fb_mmap	= drm_fbdev_fb_mmap,
++	.fb_read	= drm_fb_helper_sys_read,
++	.fb_write	= drm_fb_helper_sys_write,
++	.fb_fillrect	= drm_fb_helper_cfb_fillrect,
++	.fb_copyarea	= drm_fb_helper_cfb_copyarea,
++	.fb_imageblit	= drm_fb_helper_cfb_imageblit,
++};
++
++
+ static struct fb_deferred_io drm_fbdev_defio = {
+ 	.delay		= HZ / 20,
+ 	.deferred_io	= drm_fb_helper_deferred_io,
+@@ -2057,7 +2077,11 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+ 	if (IS_ERR(fbi))
+ 		return PTR_ERR(fbi);
+ 
+-	fbi->fbops = &drm_fbdev_fb_ops;
++	if (fb_helper->dev->mode_config.use_cfb_for_fbdev)
++		fbi->fbops = &drm_fbdev_cfb_fb_ops;
++	else
++		fbi->fbops = &drm_fbdev_fb_ops;
++
+ 	fbi->screen_size = fb->height * fb->pitches[0];
+ 	fbi->fix.smem_len = fbi->screen_size;
+ 
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 6c3ef49b46b3..dce9adf7d189 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -865,6 +865,15 @@ struct drm_mode_config {
+ 	 */
+ 	bool prefer_shadow_fbdev;
+ 
++	/**
++	 * @use_cfb_for_fbdev:
++	 *
++	 * Use cfb variants of drm_fb_helper_cfb_{fillrect,copyarea,imageblit}
++	 * The cfb variants are required when the CPU do not allow direct
++	 * access to the framebuffer (for example sparc64)
++	 */
++	bool use_cfb_for_fbdev;
++
+ 	/**
+ 	 * @quirk_addfb_prefer_xbgr_30bpp:
+ 	 *
 
-I'm currently using QEMU git master configured just to build qemu-system-sparc64 as
-follows:
-
-./configure --target-list=sparc64-softmmu
-make && make install
-
-(Note: the latest release QEMU 5.0 has a regression in OpenBIOS which prevents
--kernel from working correctly. If you install QEMU 5.0 from a package then you can
-grab the updated openbios-sparc64 directly from git at
-https://git.qemu.org/?p=qemu.git;a=tree;f=pc-bios;h=a835f94751ef7d2e2648ce7c79eac1d6fea9b83c;hb=5f42c3375d45108cf14f50ac8ba57c2865e75e9c
-to replace the installed one)
-
-
-2) Build the kernel
-
-This was done using Debian Buster on amd64 and its pre-packaged sparc64
-cross-compilers. With those installed via "aptitude install gcc-sparc64-linux-gnu" I
-did the following on a clone of Linux git master:
-
-make ARCH=sparc64 CROSS_COMPILE=sparc64-linux-gnu- O=../rel-sparc64/ sparc64_defconfig
-make ARCH=sparc64 CROSS_COMPILE=sparc64-linux-gnu- O=../rel-sparc64/ menuconfig
-
-(Here go to Device Drivers -> Graphics support and enable both "Direct Rendering
-Manager" and "DRM Support for bochs dispi vga interface (qemu stdvga)")
-
-Then build the kernel itself:
-
-make ARCH=sparc64 CROSS_COMPILE=sparc64-linux-gnu- O=../rel-sparc64/
-
-
-3) Boot the kernel in qemu-system-sparc64
-
-This can be done with the following command line:
-
-qemu-system-sparc64 -kernel /path/to/rel-sparc64/vmlinuz
-
-The problem is visible as the screen going black after the bootconsole has finished.
-If you want to see the actual panic from my original email then add -nographic onto
-the command line above which redirects the console onto a serial port on stdio.
-
-
-ATB,
-
-Mark.
+> 
+> 
+> Many thanks,
+> 
+> Mark.
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
