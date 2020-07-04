@@ -2,60 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65926215333
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F3D215335
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840BA6E33F;
-	Mon,  6 Jul 2020 07:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F716E3A6;
+	Mon,  6 Jul 2020 07:19:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA92D6E405
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 10:30:19 +0000 (UTC)
-Received: by mail-il1-x144.google.com with SMTP id r12so21939524ilh.4
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Jul 2020 03:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JDeRcZVfoGltA90a8QgS/WtwNssRIDNDM42hl2S6T40=;
- b=WQWAZEqY2SEvvUEpbpybpsA1iqcSo4g7dAPos+7kEhULe/quJpQy+GmGrPKCNXOE4m
- 2RZFf352j2ywRHbPAVM4jljwAExie/6fAsCm409gFn75HKif0LoBlH9UZd57wzH3lafc
- uQ/G2PBalUel/DmLEXARMZVb7hMaYMtJAwcxZx4z62K0/qPw0ntlv6EUWRoxy+AwjprN
- j9AWmMj77qOfsrA0VMhsRx4rZUYbxA1LlSD9Z2oeNPMquOqqvQhp8A6/cRcLNZrTc2Ai
- tO/KRjPjwzqK7u01SF9JYQNAcvuPscmZuAXUoYnEA/Hupox36paHKtg8foQkUbyEnQ76
- FkXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JDeRcZVfoGltA90a8QgS/WtwNssRIDNDM42hl2S6T40=;
- b=Ot0igG2+kAXjINg93toeFLwU2PTFYapMj9sUOTzNbnPw+ZAqfXRJwPByBUi2YKvTtR
- VNFUvQ/jb+fc2XbcSSsiESV/qxYo1ov9419E6iX/W/2UkP+nqipmfaBfc386FJVlcxi5
- jyqcz/12FLPQwSyuWyzTjkhz8Ips1C96vHFdCwgjsQZdzPtB+389hV9sljpkokrULCku
- JTxZNluBL/3XmvdLlLftcBjUPOkDDhEcco7wj92y4+/ROr9jHc0wIZqmNFhSCuXzTPiZ
- hiLQYcstCQE6dJRi5dfey9xBd6oOj+KpjwloqJOomBoZxH10YFtWYN9T4KsfTnxQ6XP6
- i0zw==
-X-Gm-Message-State: AOAM531FeCv2dF1K7tqkeHRA4A4Plfrzt/z0NboH+EizHHcFEfXY9sHQ
- bNwv3Su0oVdD82IOb5ewrFT8cXpb0+//SOKUGxGTfy2Gdvc=
-X-Google-Smtp-Source: ABdhPJztSdHZBJE7E1SqDWxQkz41nlFR4XcRudO7iI1w/ncHQvv1MpqmX5X9N0kyjGV6PNYEiETKIS3CH4KD2W90xYA=
-X-Received: by 2002:a92:d811:: with SMTP id y17mr19822262ilm.35.1593858619275; 
- Sat, 04 Jul 2020 03:30:19 -0700 (PDT)
-MIME-Version: 1.0
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4258F6E02D
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jul 2020 12:13:06 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A9596580104;
+ Sat,  4 Jul 2020 08:13:04 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Sat, 04 Jul 2020 08:13:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=5
+ jhvqkvkWhZxXjs3LP2HbP7ewUguP0t5n9H4pdg7EEA=; b=PpetsJeHoadsGu6Jj
+ BmST2pSe4zZS/Nj/P8dF0gKTugy+G5TQ5MSPNYh7F2fsvy7cbSV2/+Iwobqk2J34
+ ksd2bfIwO+3mkpnVwgivxXM9nwGoUnSue4ftrQwJwXPpmpXtPfakcXnl/Wx9Lr16
+ xmfOLiunn1zktpFrlrrja+xCUi4nJDLKzhQLeMMier2oXarnb8kOmtSqbN3SnQeE
+ XXqTFlp+oak/LAaf+aCJWru2GMYwPTl3mbcCtLwFvBe4Yu+mv0OdC37pk7MdmaI0
+ i+n9uAm/G8ASKmikG0w853huvbHASV+uJb9mff9+yuByPKEH+E1ZintiNFL6JUbY
+ 68VdQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=5jhvqkvkWhZxXjs3LP2HbP7ewUguP0t5n9H4pdg7E
+ EA=; b=K86n12m4TIAime46SbpINUp1l6NwhRZ+mYkwgohG6pgLg8XcwbvW7WQlQ
+ XLYm0ni6lnqzwhvB+k5YUDiXAGfKvRYsET27C57TJcOhBOji74jSuDgDgorQpibM
+ DM+XDcgP9hKwWX7WcdaofMk6UZW9/w4ZHUsSWB+4QIzOzdswL1f2Oj1K0rVlsKNL
+ 9c9O9SXb2JBL2Ym+CCZmltFTAt07qtnxs0EEsnyx8E3kpcMaAOC7G7UnK8P0ZI91
+ MVGkyFFaZlwNmVlzUdAHvDruQtQhwq97f4ddSqPG6b1dtTkQJ+apoAbgPzAcUeWj
+ 4At4BhLSFuh5nXK2g7tbLV4Vimpbg==
+X-ME-Sender: <xms:T3IAX4hYNof4x65X1niLLXF0VHSMcNupI5NkaKvMUJZ4rL2oqCTUnw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdekgdehtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepheelvdfhkeelgfevleekleduvefftefhudekvdffhffhgeefuefgheegfeej
+ vedtnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:T3IAXxD-AzvifBdTZe2qr3y4R3wo_4PdgB5foYqx4sL4VCpE0LkQRg>
+ <xmx:T3IAXwHlFcWKE_QLLHBNqFqiiduLJOF74uZsRlKBbI4ES1Z3cBhygg>
+ <xmx:T3IAX5TT4NUZtJfvTgmyj3hv-j3rOQoTZeYcQVw5E_fOXEspgoFfKw>
+ <xmx:UHIAX0wsqRW7BjnpCZVFvK7KmxeVyOA5_Kadml5wIfmUtW6m0L5tTA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9FDDB328005E;
+ Sat,  4 Jul 2020 08:13:03 -0400 (EDT)
+Date: Sat, 4 Jul 2020 14:13:01 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Subject: Re: [PATCH v2 13/14] [DO NOT MERGE] arm64: dts: allwinner: h6: Add
+ GPU OPP table
+Message-ID: <20200704121301.jfd3m3jnlghmddg4@gilmour.lan>
 References: <20200704102535.189647-1-peron.clem@gmail.com>
- <20200704102535.189647-15-peron.clem@gmail.com>
-In-Reply-To: <20200704102535.189647-15-peron.clem@gmail.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Sat, 4 Jul 2020 12:30:08 +0200
-Message-ID: <CAJiuCcf8fi_w0-Xo=MMMv=5jBqcS68jEbjbo4NvVR24b4BuZHg@mail.gmail.com>
-Subject: Re: [PATCH v2 14/14] [DO NOT MERGE] arm64: dts: allwinner: force GPU
- regulator to be always
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>
+ <20200704102535.189647-14-peron.clem@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200704102535.189647-14-peron.clem@gmail.com>
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,32 +80,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Nishanth Menon <nm@ti.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiBTYXQsIDQgSnVsIDIwMjAgYXQgMTI6MjUsIENsw6ltZW50IFDDqXJvbiA8cGVyb24u
-Y2xlbUBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gU2lnbmVkLW9mZi1ieTogQ2zDqW1lbnQgUMOpcm9u
-IDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KPiAtLS0KPiAgYXJjaC9hcm02NC9ib290L2R0cy9hbGx3
-aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0cyB8IDEgKwo+ICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKykKPgo+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdp
-bm5lci9zdW41MGktaDYtYmVlbGluay1nczEuZHRzIGIvYXJjaC9hcm02NC9ib290L2R0cy9hbGx3
-aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0cwo+IGluZGV4IDNmN2NlZWIxYTc2Ny4uMTQy
-NTdmNzQ3NmI4IDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1
-bjUwaS1oNi1iZWVsaW5rLWdzMS5kdHMKPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdp
-bm5lci9zdW41MGktaDYtYmVlbGluay1nczEuZHRzCj4gQEAgLTI0NSw2ICsyNDUsNyBAQCByZWdf
-ZGNkY2E6IGRjZGNhIHsKPiAgICAgICAgICAgICAgICAgICAgICAgICB9Owo+Cj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgcmVnX2RjZGNjOiBkY2RjYyB7Cj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICByZWd1bGF0b3ItYWx3YXlzLW9uOwoKVGhpcyBwYXRjaCBpcyBub3JtYWxseSBu
-byBtb3JlIHJlcXVpcmVkIHNpbmNlIHRoaXMgc2VyaWU6Cmh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
-L2xpbnV4LXBtL2NvdmVyLjE1ODk1Mjg0OTEuZ2l0LnZpcmVzaC5rdW1hckBsaW5hcm8ub3JnLwoK
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlZ3VsYXRvci1lbmFibGUtcmFtcC1k
-ZWxheSA9IDwzMjAwMD47Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWd1bGF0
-b3ItbWluLW1pY3Jvdm9sdCA9IDw4MTAwMDA+Owo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgcmVndWxhdG9yLW1heC1taWNyb3ZvbHQgPSA8MTA4MDAwMD47Cj4gLS0KPiAyLjI1LjEK
-PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+
+On Sat, Jul 04, 2020 at 12:25:34PM +0200, Cl=E9ment P=E9ron wrote:
+> Add an Operating Performance Points table for the GPU to
+> enable Dynamic Voltage & Frequency Scaling on the H6.
+> =
+
+> The voltage range is set with minival voltage set to the target
+> and the maximal voltage set to 1.2V. This allow DVFS framework to
+> work properly on board with fixed regulator.
+> =
+
+> Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
+
+That patch seems reasonable, why shouldn't we merge it?
+
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 80 ++++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+> =
+
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/bo=
+ot/dts/allwinner/sun50i-h6.dtsi
+> index 8f514a2169aa..a69f9e09a829 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> @@ -174,6 +174,7 @@ gpu: gpu@1800000 {
+>  			clocks =3D <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
+>  			clock-names =3D "core", "bus";
+>  			resets =3D <&ccu RST_BUS_GPU>;
+> +			operating-points-v2 =3D <&gpu_opp_table>;
+>  			#cooling-cells =3D <2>;
+>  			status =3D "disabled";
+>  		};
+> @@ -1036,4 +1037,83 @@ map0 {
+>  			};
+>  		};
+>  	};
+> +
+> +	gpu_opp_table: gpu-opp-table {
+> +		compatible =3D "operating-points-v2";
+> +
+> +		opp@216000000 {
+> +			opp-hz =3D /bits/ 64 <216000000>;
+> +			opp-microvolt =3D <810000 810000 1200000>;
+> +		};
+
+All those nodes will create DTC warnings though.
+
+Maxime
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
