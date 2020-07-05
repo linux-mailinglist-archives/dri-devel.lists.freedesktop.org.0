@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F36214E10
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jul 2020 18:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45204214E36
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jul 2020 19:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6819D6E426;
-	Sun,  5 Jul 2020 16:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A73A6EC2E;
+	Sun,  5 Jul 2020 17:37:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B423C6EC06
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 16:58:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE9C6EC2E
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 17:37:25 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Sun, 05 Jul 2020 16:58:49 +0000
+Subject: [Bug 208443] New: [amdpgu] NAVI10 shutting second display off causes
+ video corruption/crash on kernels >=5.7.6
+Date: Sun, 05 Jul 2020 17:37:25 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: 1i5t5.duncan@cox.net
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ironmikkl@gmx.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-207383-2300-gKioesMKd9@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-208443-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,48 +57,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+https://bugzilla.kernel.org/show_bug.cgi?id=208443
 
-Duncan (1i5t5.duncan@cox.net) changed:
+            Bug ID: 208443
+           Summary: [amdpgu] NAVI10 shutting second display off causes
+                    video corruption/crash on kernels >=5.7.6
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: >=5.7.6
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: ironmikkl@gmx.net
+        Regression: No
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #290093|0                           |1
-        is obsolete|                            |
+Created attachment 290103
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290103&action=edit
+Kernel log when error occurs
 
---- Comment #38 from Duncan (1i5t5.duncan@cox.net) ---
-Created attachment 290101
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290101&action=edit
-Another partial git bisect log update
+I have a RX 5700 XT NAVI10 with (well almost) no problems but since kernel
+5.7.6 came out there is a serious problem which makes the card practically
+unusable. Kernel 5.7.7 brought no relief. With kernels <=5.7.5 all is OK.
 
-Just as I was thinking that step was going to be bisect good... it wasn't. 
-Confirmed with the usual tail-commit log trace.
+The problem only occurs if I have both of my displays connected. One is a
+monitor via DP, the other is a TV via HDMI. When I disable the TV so that I
+only have my monitor active its screen shows some weird freezing behaviour and
+sometimes goes completely grey for some seconds, then black and afterwards is
+not really useable any more. If both displays stay active or only the TV is
+active or I do not connect the TV in the first place there is no problem. I
+have attached the kernel log for when the error triggers.
 
-(In reply to Duncan from comment #36)
-> 6cad420cc akpm (the majority).  Very likely in this tree.
-
-Definitely this tree/pull.  No merge but 113 commits remaining *at* this step
-(not _after_), all with signed-off-by both Andrew and Linus so it's all the
-akpm tree.  We know the tree, now.
-
-FWIW for anyone relatively new to the bug who skipped some of the first
-comments, my bad first bisect attempt ended up in akpm as well.  I haven't
-checked if it was the same pull altho I'd guess so.  However, at that time I
-was only testing commits with drm in the path (including several that went in
-via the akpm tree not the drm tree, one of which that bisect ultimately pointed
-me at), and I suspect that's what did me in.
-
-So I strongly suspect that while it's the akpm tree, it's *NOT* the one
-remaining candidate with the drm-path in it (4064b9827), thus explaining why
-the first bisect ended up pointing at a drm-path commit that I tested by
-reverting, only to still have the bug.  I tried a shortcut and it ended up a
-rabbit trail. =:^(
-
-Other than that, 113 candidate commits left (well, 112 if we subtract that one)
-is still too many (for me) to guess at or really to even just list here.  Two
-more steps should bring it down to 28ish, three to 14ish, and maybe I can start
-guessing then.  With luck I'll get a couple more bad ones right away and narrow
-it down quickly.
+Some other info that may be of importance:
+- kernel: gentoo-sources
+- xfce4-4.14
+- xorg-server-1.20.8
 
 -- 
 You are receiving this mail because:
