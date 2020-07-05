@@ -2,65 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA4021532A
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D5D21533A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B7B6E34A;
-	Mon,  6 Jul 2020 07:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631A66E30F;
+	Mon,  6 Jul 2020 07:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A3C6E059
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 18:41:44 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id k23so37082246iom.10
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jul 2020 11:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :content-transfer-encoding;
- bh=WMam9KMN4N8PeAEM40GNpNo2zYpfT1xm+vr06Ee2x14=;
- b=AxEabW/lzyZ2qlTf+PHt+KOYjnTp/SIT47axfbz/xNCoCqaeVUM3xzTmWeAcfiLKOW
- jJjegqyiMnpF8BtbFW7UCZm5RajW69M91jc+AUkZfmbju0UwEiLNrwvzGzGn7MkUiORs
- EVUnHKWbUMYyl0brpJVmufSrpUNtsg5n3E69x7mykxozCy/okobAZ7FObIAt05D2CxB/
- FROsqXlr7TddUDivxEFn3CDR6NVi78hVhVM/sYQI6xoT2VVTmliYTXrsCYlRIxOx681N
- HPnMVdz8wcjOw4cehpOuzxOjWNicCwQxlWLOqJtYFFPtup93zarw2kE9POpsdJXATGNn
- oE3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:content-transfer-encoding;
- bh=WMam9KMN4N8PeAEM40GNpNo2zYpfT1xm+vr06Ee2x14=;
- b=SiIn4EgqJ9IQGFk5McZL17K0P+htWRWPH4rMRkwS0AZAZbCyJmdU9xurwsLGDV0udv
- rizhZ99xAsE9/OAP43uG6H1q6QAhXJoHP/G9m1jtvYg4jTTh201dGEoarDAM7P6Vc7Bv
- 7UlBnsmVB4bpv26Yoj34EmSvWxMyJzg/Czlt44N/wDxBu6SCUzpg7+HkX0YSIXUAn4i1
- EWJAcbuXnd5c9vS5RZBxeJEcOub6t3PjEKtgWFFogFo3sLTy5mKUf7HY9Tfgp2/c9AHz
- VsbrA9scDWAZ4al4xhvLIczTbBmKk7RfKdNv0iSfbQ4hxqs4EUwEzojJaVLYAYJ0HqSs
- 6nUg==
-X-Gm-Message-State: AOAM5323hhZp/etkeVbpU7bOZTt3bLAMSz9vVC4uCnV5NljZnA5q0cUr
- 5YKUUOLfTNB1un/pSekAstUnZ5S3sCnfC0gpMXw=
-X-Google-Smtp-Source: ABdhPJxK/S7BemaC7I1AoTKGocPOpRoy6dfNruNY70JrVKJMhu9vEH11u0LMDqGDvyIyydjnFOGfcx6Z3KHCmPW0okY=
-X-Received: by 2002:a05:6638:252:: with SMTP id
- w18mr37241264jaq.42.1593974504022; 
- Sun, 05 Jul 2020 11:41:44 -0700 (PDT)
+X-Greylist: delayed 327 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Jul 2020 00:03:14 UTC
+Received: from mailrelay3.webfaction.com (mailrelay3.webfaction.com
+ [207.38.93.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E6989FF7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 00:03:14 +0000 (UTC)
+Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
+ by mailrelay3.webfaction.com (Postfix) with ESMTPS id 39D942A50EF
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 23:57:43 +0000 (UTC)
+Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
+ by smtp.webfaction.com (Postfix) with ESMTPSA id 304026005B36D;
+ Sun,  5 Jul 2020 23:57:37 +0000 (UTC)
+From: Paul Boddie <paul@boddie.org.uk>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
+ (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
+ JZ4780)
+Date: Mon, 06 Jul 2020 01:57:32 +0200
+Message-ID: <7086465.UhkgK7rEtT@jason>
+In-Reply-To: <1689d947-b2e1-c023-b2ed-1e9d23c075f3@baylibre.com>
+References: <1940005.XIBaf5lNV5@jeremy> <1660901.RzKB6nuZHq@jeremy>
+ <1689d947-b2e1-c023-b2ed-1e9d23c075f3@baylibre.com>
 MIME-Version: 1.0
-References: <20200705065917.22285-1-lukas.bulwahn@gmail.com>
- <20200705113017.mostxjvatkqkhqf6@core.my.home>
-In-Reply-To: <20200705113017.mostxjvatkqkhqf6@core.my.home>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sun, 5 Jul 2020 20:41:33 +0200
-Message-ID: <CAKXUXMz_usPZw5-UPLxSqBRVP4-RFZTLO-tt5pEfiTPrxifFWg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: adjust entry to renaming and conversion
-To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh+dt@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-sunxi@googlegroups.com, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, 
- Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
- Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:18 +0000
+X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,23 +45,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBKdWwgNSwgMjAyMCBhdCAxOjMwIFBNIE9uZMWZZWogSmlybWFuIDxtZWdvdXNAbWVn
-b3VzLmNvbT4gd3JvdGU6Cj4KPiBIZWxsbyBMdWthcywKPgo+IE9uIFN1biwgSnVsIDA1LCAyMDIw
-IGF0IDA4OjU5OjE3QU0gKzAyMDAsIEx1a2FzIEJ1bHdhaG4gd3JvdGU6Cj4gPiBDb21taXQgYTc0
-ZTgxYTU2NDA1ICgiZHJtL3BhbmVsOiByb2NrdGVjaC1qaDA1N24wMDkwMDogUmVuYW1lIHRoZSBk
-cml2ZXIgdG8KPiA+IHN0NzcwMyIpIGFuZCBjb21taXQgNzMxN2Y0NTc0NDkyICgiZHQtYmluZGlu
-Z3M6IHBhbmVsOiBDb252ZXJ0Cj4gPiByb2NrdGVjaCxqaDA1N24wMDkwMCB0byB5YW1sIikgcmVu
-YW1lZCBhbmQgY29udmVydGVkIHRoZSBmaWxlcyBtZW50aW9uZWQgaW4KPiA+IERSTSBEUklWRVIg
-Rk9SIFJPQ0tURUNIIEpIMDU3TjAwOTAwIFBBTkVMUywgYnV0IGRpZCBub3QgYWRqdXN0IHRoZSBl
-bnRyaWVzCj4gPiBpbiBNQUlOVEFJTkVSUy4KPgo+IEEgc2ltaWxhciBwYXRjaCB3YXMgYWxyZWFk
-eSBwb3N0ZWQ6Cj4KPiBodHRwczovL2xrbWwua2VybmVsLm9yZy9sa21sLzIwMjAwNzAxMTg0NjQw
-LjE2NzQ5NjktMS1tZWdvdXNAbWVnb3VzLmNvbS8KPgoKVGhhbmtzLCBPbmRyZWouIFRoaXMgcGF0
-Y2ggcG9zdGVkIGhlcmUgc2hhbGwgYmUgSUdOT1JFRC4KCkx1a2FzCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hello,
+
+On Friday, 15 May 2020 09:43:54 CEST Neil Armstrong wrote:
+> 
+> On 15/05/2020 00:04, Paul Boddie wrote:
+> > 
+> > Well, I've done this but I probably need to know what to look for. One
+> > thing that appears regardless of this debugging output being enabled is a
+> > problem with the vertical blanking functionality:
+> > 
+> > WARNING: CPU: 1 PID: 396 at drivers/gpu/drm/drm_atomic_helper.c:1457
+> > drm_atomic_helper_wait_for_vblanks+0x1ec/0x25c
+> > [CRTC:32:crtc-0] vblank wait timed out
+> 
+> This means the CRTC didn't start, usually because the Pixel clock didn't go
+> through the pipeline to the pixel generator, thus not generating
+> vblank/vsync interrupts.
+> 
+> You may check if there is not muxes to select the clock source/pixel
+> destination.
+
+It has obviously been a while since I asked about the DW-HDMI functionality. 
+Since then, I have verified the initialisation of the Ingenic JZ4780 LCD 
+controller and the Synopsys HDMI peripheral in the L4 Runtime Environment 
+(running on the Fiasco.OC microkernel), producing a picture and handling 
+display interrupts.
+
+Having brought the necessary changes back to the Ingenic DRM driver, I can 
+make the driver activate the LCD controller and produce vertical blank 
+interrupts, and these are handled and counted in /proc/interrupts. The 
+previous errors about timeouts are now gone.
+
+However, the DRM driver can only be made to start if I set the bus format in 
+dw_hdmi_bridge_attach:
+
+  u32 bus_format[] = { MEDIA_BUS_FMT_RGB888_1X24 };
+  ...
+  drm_display_info_set_bus_formats(&connector->display_info,
+                                   bus_format, ARRAY_SIZE(bus_format));
+
+Without this, the DRM driver will test for a bus format on the connector's 
+display_info structure in ingenic_drm_encoder_atomic_check and return EINVAL. 
+There have previously been indications that this should not need to be done, 
+but I see that other drivers do similar things (for example, ti-tfp410.c).
+
+It also seems to be appropriate to set the input_bus_format on the platform-
+specific HDMI driver; otherwise, I doubt that appropriate bus encodings will 
+be chosen in the Synopsys driver.
+
+[...]
+
+> > Attempting to set a mode using...
+> > 
+> > modetest -D /dev/dri/card0 -M ingenic-drm -s 34@32:1280x1024-60.02
+> > 
+> > ...yields the following:
+> > 
+> > failed to set mode: Permission denied
+> > setting mode 1280x1024-60.02Hz@XR24 on connectors 34, crtc 32
+> 
+> This is weird, the command line is ok, is it the same for all modes ?
+
+Testing against 5.8-rc3 with the above changes seems to have moved the needle 
+slightly. Although I still get "Input not supported" from my monitor, running 
+modetest now gives a different error:
+
+modetest -D /dev/dri/card0 -M ingenic-drm -s 34@32:1280x1024-60.02
+
+...now yields this:
+
+setting mode 1280x1024-60.02Hz@XR24 on connectors 34, crtc 32
+failed to set gamma: Invalid argument
+
+There also seems to be a card1, but I get the same result with that, and they 
+both seem to produce similar output with modetest without the -s option.
+
+Anyway, progress is rather slow trying to figure out the obstruction here, so 
+any advice would still be appreciated.
+
+Thanks in advance,
+
+Paul
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
