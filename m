@@ -2,47 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A104215322
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433B321530C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82C9E6E2F8;
-	Mon,  6 Jul 2020 07:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B7E16E2A3;
+	Mon,  6 Jul 2020 07:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id A0D246EBF7
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 06:48:44 +0000 (UTC)
-X-UUID: b1bf24e76e8d4c85afe932a46ed5b401-20200705
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=yje6qdwddpG06glHUYCMWx17eIl4zAuuOfG8FykA1os=; 
- b=AaaUjdaJOMeOEyt+GmbzBu9gAlT4I0kc6/u8PHA9CKSb62ctjIrYLDqaETvYOoqGrP3dsSIDFEhGzOgZrXZtJrT0ov5E1vCs7BAdfQTPK17hkEs0CjH5MK2tQiIsGKlq7x+oSqNTZ2EkwtLO7Dazw0Jz/4fA/MSSsCYgbNAr74I=;
-X-UUID: b1bf24e76e8d4c85afe932a46ed5b401-20200705
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <dennis-yc.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 267403064; Sun, 05 Jul 2020 14:48:39 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sun, 5 Jul 2020 14:48:36 +0800
-Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sun, 5 Jul 2020 14:48:37 +0800
-From: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>, Bibby Hsieh
- <bibby.hsieh@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>
-Subject: [PATCH v2 8/8] soc: mediatek: cmdq: add clear option in cmdq_pkt_wfe
- api
-Date: Sun, 5 Jul 2020 14:48:35 +0800
-Message-ID: <1593931715-32761-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
-References: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03A56EBF5
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 06:59:37 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id z17so31839238edr.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Jul 2020 23:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uj7PGXQjA9Qjyx6Apu7BwCYoAwQ6mjWMYaZTjh1xboA=;
+ b=X1tK2P5x1N5NIvZTW+VcJWoJ5K7YshwD/RGTnoclfrQc9rWXzaq6x5lbh3W1VEPG3H
+ GIBj3aYdZwSkmbX30wI0ltTXdk9CnsRitseiZtukzUKEk3FNTlkZwPOXIzWjeP499J/h
+ xCTffMRhoUn1p7NWV3QhPZ1KwiRWnwxwdcgOzZ7IN9IH/TZ7dDyEEoJLo0yjD+zY/jSq
+ U/Mez575j6Gk8PqJLH1jwIIrEPtUwfcKywMt7nrVfB+WPVnPIRMguFf5Uy51Wimot3VA
+ 03Tow+PpzzxaVQn7RJASKTh8RPzBXnCFS8m6FGqLmHu/X1hY90wgL2yNY9oyCjHPCC6U
+ vedg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uj7PGXQjA9Qjyx6Apu7BwCYoAwQ6mjWMYaZTjh1xboA=;
+ b=ar1ua5Dz/BS3kaw8L9FAciSb2AQtbHM7bWUzECj/Htz6UFos+JNS3dkrkYZgKw1Rsp
+ sv5l3NDtQdafUGWhIuk2Zz1Pr/KKjngY6HlwldEWSh47tYleY0J3MLxVDq8uuH8MiqDC
+ ddGNWR5jVQoU4u5cIvil1UZ8rBH/0iupzLSLUMPYhAi/UbvAxtHL9PCTOasVn6jcQ5Wm
+ 7oPK+edrR2VB5Zz0o42bfr47tMTB9pcH6A8VQb1Aguq+AE5lxonBylK4BjpQ9p9nnCNX
+ Pu45FX2L1Ov3nWFQkNZzZ2HNsAAQ0L/UdbkXCgzxEPuV3rWgO7wjffKSR6e87brr1wuL
+ 9suw==
+X-Gm-Message-State: AOAM532t6ZJCtn6sraaJZAHdLm9W+NSOcLSwIobW5ST3GDTJIAoc/u1m
+ jvqr0tIDg7OsopYWq6BBEF0=
+X-Google-Smtp-Source: ABdhPJxf8p7neXQpdYnh+iVo38AaVRoy6UlE6QLvO/bQFZ8OMYCoPcBv6DsoAxTNbMTymew/PEyO+w==
+X-Received: by 2002:aa7:d989:: with SMTP id u9mr31469159eds.85.1593932375906; 
+ Sat, 04 Jul 2020 23:59:35 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2db3:e200:60e7:4b3:523f:884c])
+ by smtp.gmail.com with ESMTPSA id q3sm15042052eds.41.2020.07.04.23.59.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 Jul 2020 23:59:35 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Ondrej Jirman <megous@megous.com>,
+	Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] MAINTAINERS: adjust entry to renaming and conversion
+Date: Sun,  5 Jul 2020 08:59:17 +0200
+Message-Id: <20200705065917.22285-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MTK: N
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,100 +66,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ kernel-janitors@vger.kernel.org,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+ Joe Perches <joe@perches.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add clear parameter to let client decide if
-event should be clear to 0 after GCE receive it.
-
-Fixes: 2f965be7f9008 ("drm/mediatek: apply CMDQ control flow")
-Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |    2 +-
- drivers/soc/mediatek/mtk-cmdq-helper.c   |    5 +++--
- include/linux/mailbox/mtk-cmdq-mailbox.h |    3 +--
- include/linux/soc/mediatek/mtk-cmdq.h    |    5 +++--
- 4 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index ec6c9ffbf35e..ba6cf956b239 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -490,7 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
- 		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
--		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
-+		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
- 		cmdq_pkt_finalize(cmdq_handle);
- 		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
-diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index d55dc3296105..505651b0d715 100644
---- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-+++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -316,15 +316,16 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
- }
- EXPORT_SYMBOL(cmdq_pkt_write_s_mask_value);
- 
--int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
-+int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear)
- {
- 	struct cmdq_instruction inst = { {0} };
-+	u32 clear_option = clear ? CMDQ_WFE_UPDATE : 0;
- 
- 	if (event >= CMDQ_MAX_EVENT)
- 		return -EINVAL;
- 
- 	inst.op = CMDQ_CODE_WFE;
--	inst.value = CMDQ_WFE_OPTION;
-+	inst.value = CMDQ_WFE_OPTION | clear_option;
- 	inst.event = event;
- 
- 	return cmdq_pkt_append_command(pkt, inst);
-diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-index efbd8a9eb2d1..d5a983d65f05 100644
---- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-+++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-@@ -28,8 +28,7 @@
-  * bit 16-27: update value
-  * bit 31: 1 - update, 0 - no update
-  */
--#define CMDQ_WFE_OPTION			(CMDQ_WFE_UPDATE | CMDQ_WFE_WAIT | \
--					CMDQ_WFE_WAIT_VALUE)
-+#define CMDQ_WFE_OPTION			(CMDQ_WFE_WAIT | CMDQ_WFE_WAIT_VALUE)
- 
- /** cmdq event maximum */
- #define CMDQ_MAX_EVENT			0x3ff
-diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 34354e952f60..960704d75994 100644
---- a/include/linux/soc/mediatek/mtk-cmdq.h
-+++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -182,11 +182,12 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
- /**
-  * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
-  * @pkt:	the CMDQ packet
-- * @event:	the desired event type to "wait and CLEAR"
-+ * @event:	the desired event type to wait
-+ * @clear:	clear event or not after event arrive
-  *
-  * Return: 0 for success; else the error code is returned
-  */
--int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event);
-+int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear);
- 
- /**
-  * cmdq_pkt_clear_event() - append clear event command to the CMDQ packet
--- 
-1.7.9.5
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q29tbWl0IGE3NGU4MWE1NjQwNSAoImRybS9wYW5lbDogcm9ja3RlY2gtamgwNTduMDA5MDA6IFJl
+bmFtZSB0aGUgZHJpdmVyIHRvCnN0NzcwMyIpIGFuZCBjb21taXQgNzMxN2Y0NTc0NDkyICgiZHQt
+YmluZGluZ3M6IHBhbmVsOiBDb252ZXJ0CnJvY2t0ZWNoLGpoMDU3bjAwOTAwIHRvIHlhbWwiKSBy
+ZW5hbWVkIGFuZCBjb252ZXJ0ZWQgdGhlIGZpbGVzIG1lbnRpb25lZCBpbgpEUk0gRFJJVkVSIEZP
+UiBST0NLVEVDSCBKSDA1N04wMDkwMCBQQU5FTFMsIGJ1dCBkaWQgbm90IGFkanVzdCB0aGUgZW50
+cmllcwppbiBNQUlOVEFJTkVSUy4KCkhlbmNlLCAuL3NjcmlwdHMvZ2V0X21haW50YWluZXIucGwg
+LS1zZWxmLXRlc3Q9cGF0dGVybnMgY29tcGxhaW5zOgoKICB3YXJuaW5nOiBubyBmaWxlIG1hdGNo
+ZXMgIEY6IFwKICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5l
+bC9yb2NrdGVjaCxqaDA1N24wMDkwMC50eHQKICB3YXJuaW5nOiBubyBmaWxlIG1hdGNoZXMgIEY6
+IFwKICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtcm9ja3RlY2gtamgwNTduMDA5MDAuYwoK
+QWRqdXN0IGVudHJpZXMgYWZ0ZXIgdGhpcyBmaWxlIHJlbmFtaW5nIGFuZCBkZXZpY2V0cmVlIGNv
+bnZlcnNpb24uCgpTaWduZWQtb2ZmLWJ5OiBMdWthcyBCdWx3YWhuIDxsdWthcy5idWx3YWhuQGdt
+YWlsLmNvbT4KLS0tCmFwcGxpZXMgY2xlYW5seSBvbiBuZXh0LTIwMjAwNzAzCgpPbmRyZWosIHBs
+ZWFzZSBhY2sgdGhpcyBwYXRjaC4KU2FtLCBwbGVhc2UgcGljayB0aGlzIG1pbm9yIG5vbi11cmdl
+bnQgcGF0Y2ggaW50byB5b3VyIC1uZXh0IHRyZWUuCgpUaGlzIGlzIHRoZSBtaW5pbWFsIGNoYW5n
+ZSB0byBhZGRyZXNzIHRoZSB3YXJuaW5nLiBZb3UgbWlnaHQgY29uc2lkZXIKY2hhbmdpbmcgdGhl
+IG5hbWUgb2YgdGhlIHNlY3Rpb24gZnJvbSBST0NLVEVDSCB0byBTVDc3MDMsIGNoYW5nZQptYWlu
+dGFpbmVycyBldGMuCgogTUFJTlRBSU5FUlMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
+c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9N
+QUlOVEFJTkVSUwppbmRleCA5Mzc1ZWRhZWYxMWYuLjhhN2I5MmZhZmY5OSAxMDA2NDQKLS0tIGEv
+TUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTU0OTMsOCArNTQ5Myw4IEBAIERSTSBE
+UklWRVIgRk9SIFJPQ0tURUNIIEpIMDU3TjAwOTAwIFBBTkVMUwogTToJR3VpZG8gR8O8bnRoZXIg
+PGFneEBzaWd4Y3B1Lm9yZz4KIFI6CVB1cmlzbSBLZXJuZWwgVGVhbSA8a2VybmVsQHB1cmkuc20+
+CiBTOglNYWludGFpbmVkCi1GOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9wYW5lbC9yb2NrdGVjaCxqaDA1N24wMDkwMC50eHQKLUY6CWRyaXZlcnMvZ3B1L2RybS9w
+YW5lbC9wYW5lbC1yb2NrdGVjaC1qaDA1N24wMDkwMC5jCitGOglEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9yb2NrdGVjaCxqaDA1N24wMDkwMC55YW1sCitG
+Oglkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2l0cm9uaXgtc3Q3NzAzLmMKIAogRFJNIERS
+SVZFUiBGT1IgU0FWQUdFIFZJREVPIENBUkRTCiBTOglPcnBoYW4gLyBPYnNvbGV0ZQotLSAKMi4x
+Ny4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
