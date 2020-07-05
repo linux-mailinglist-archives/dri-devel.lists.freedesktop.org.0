@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF39215303
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5709215327
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 09:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14DD96E1D5;
-	Mon,  6 Jul 2020 07:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE1D6E362;
+	Mon,  6 Jul 2020 07:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 608C66EBF6
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 06:48:45 +0000 (UTC)
-X-UUID: 89933ffd6fe04cdbbe94ad35ac6b9622-20200705
+ by gabe.freedesktop.org (Postfix) with ESMTP id 81D836EBF5
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 06:48:46 +0000 (UTC)
+X-UUID: 1a8fe2b2d7a848b9b9cce1fe86b71ecc-20200705
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=6iMO0gk0hP4QF47/XhMn9JchKU1Qvxhv+Lh5xkKouP0=; 
- b=LGcveeIFCW/T1pJjYFrBAFvLaCRC+ExcAoJXrGrEyO0u6rsQPt7Zg5OmjWCTENmBGKmrD7Mv8CNGCOCNoY16htddT0eja7S36Z2nMhkYWDplgcFDR0HXyuo8PwUn6sNhmvGtpMujLxYjvnBbFSbw5IrHyxbWdFiuvPHH2we3ZeA=;
-X-UUID: 89933ffd6fe04cdbbe94ad35ac6b9622-20200705
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=LGi4+xEP6DG20iCsDrqvUw5PUEePljQk1caVimQ5Kps=; 
+ b=Y+uiPU2h2i9j2gnrQgZKQk+MVTdCuAJ0yY1LKAQhLUrLsvH17rbAReh1rqOsYhMPbmSrwp2evoYsA96Ut6C6sL0jV1EUbX87fkfQQUpw9JNBa+lYv1DrAJtm2oC0UgC/DQqhSeDDhynu7/z/0rzgO2rwu+EVG4hyl+PnLdyijCU=;
+X-UUID: 1a8fe2b2d7a848b9b9cce1fe86b71ecc-20200705
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
  (envelope-from <dennis-yc.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 500851885; Sun, 05 Jul 2020 14:48:38 +0800
+ with ESMTP id 436682722; Sun, 05 Jul 2020 14:48:38 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Sun, 5 Jul 2020 14:48:35 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -34,11 +34,12 @@ To: Matthias Brugger <matthias.bgg@gmail.com>, Philipp Zabel
  <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
  <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>, Bibby Hsieh
  <bibby.hsieh@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>
-Subject: Subject: [PATCH v1 0/8] support cmdq helper function on mt6779
- platform
-Date: Sun, 5 Jul 2020 14:48:27 +0800
-Message-ID: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+Subject: [PATCH v2 1/8] soc: mediatek: cmdq: add address shift in jump
+Date: Sun, 5 Jul 2020 14:48:28 +0800
+Message-ID: <1593931715-32761-2-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+References: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 MIME-Version: 1.0
 X-MTK: N
 X-Mailman-Approved-At: Mon, 06 Jul 2020 07:19:17 +0000
@@ -56,43 +57,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch support more gce helper function on mt6779 platform.
+Add address shift when compose jump instruction
+to compatible with 35bit format.
 
-depends on patch: support gce on mt6779 platform
+Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+---
+ drivers/soc/mediatek/mtk-cmdq-helper.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-and depends on following applied patches
-soc: mediatek: cmdq: add set event function
-soc: mediatek: cmdq: export finalize function
-soc: mediatek: cmdq: add assign function
-
-Change since v1:
-- Rename cmdq_mbox_shift() to cmdq_get_shift_pa().
-
-
-Dennis YC Hsieh (8):
-  soc: mediatek: cmdq: add address shift in jump
-  soc: mediatek: cmdq: add write_s function
-  soc: mediatek: cmdq: add write_s_mask function
-  soc: mediatek: cmdq: add read_s function
-  soc: mediatek: cmdq: add write_s value function
-  soc: mediatek: cmdq: add write_s_mask value function
-  soc: mediatek: cmdq: add jump function
-  soc: mediatek: cmdq: add clear option in cmdq_pkt_wfe api
-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |   2 +-
- drivers/soc/mediatek/mtk-cmdq-helper.c   | 113 ++++++++++++++++++++++-
- include/linux/mailbox/mtk-cmdq-mailbox.h |   6 +-
- include/linux/soc/mediatek/mtk-cmdq.h    |  93 ++++++++++++++++++-
- 4 files changed, 206 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+index dc644cfb6419..9faf78fbed3a 100644
+--- a/drivers/soc/mediatek/mtk-cmdq-helper.c
++++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+@@ -329,7 +329,8 @@ int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+ 
+ 	/* JUMP to end */
+ 	inst.op = CMDQ_CODE_JUMP;
+-	inst.value = CMDQ_JUMP_PASS;
++	inst.value = CMDQ_JUMP_PASS >>
++		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
+ 	err = cmdq_pkt_append_command(pkt, inst);
+ 
+ 	return err;
 -- 
-2.18.0
+1.7.9.5
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
