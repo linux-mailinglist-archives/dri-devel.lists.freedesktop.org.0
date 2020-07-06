@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848F72151E4
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 06:50:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B51A2151E9
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 06:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 220796E2E5;
-	Mon,  6 Jul 2020 04:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5219C6E2E6;
+	Mon,  6 Jul 2020 04:52:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFB36E2E5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 04:50:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583646E2E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 04:52:07 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208333] Black screen with Kernel 5.8 rc1/2/3/4 with Nvidia Gtx
  760 driver nouveau
-Date: Mon, 06 Jul 2020 04:50:09 +0000
+Date: Mon, 06 Jul 2020 04:52:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-208333-2300-lnvyGgqXeN@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208333-2300-gEdD1vmZFc@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208333-2300@https.bugzilla.kernel.org/>
 References: <bug-208333-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,13 +59,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208333
 
-Roberto Guerrini (robyguerrini@yahoo.it) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|No desktop on 5.8 rc1 rc2   |Black screen with Kernel
-                   |with Gtx 760 driver nouveau |5.8 rc1/2/3/4 with Nvidia
-                   |                            |Gtx 760 driver nouveau
+--- Comment #2 from Roberto Guerrini (robyguerrini@yahoo.it) ---
+Tested with 5.8 rc4 also and the result is the same.... Black screen with all
+monitor with Gtz 760 and nouveau driver!!!
 
 -- 
 You are receiving this mail because:
