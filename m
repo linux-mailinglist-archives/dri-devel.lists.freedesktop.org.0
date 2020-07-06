@@ -1,33 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E107421675D
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4582B216768
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC766E5BB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ADA76E5C1;
 	Tue,  7 Jul 2020 07:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D456B89F85
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 14:54:00 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 57FE0F2D4B30F8383611;
- Mon,  6 Jul 2020 22:47:30 +0800 (CST)
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.226) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 6 Jul 2020 22:47:23 +0800
-From: Zenghui Yu <yuzenghui@huawei.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/hisilicon/hibmc: Move drm_fbdev_generic_setup() down to
- avoid the splat
-Date: Mon, 6 Jul 2020 22:47:13 +0800
-Message-ID: <20200706144713.1123-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
-MIME-Version: 1.0
-X-Originating-IP: [10.174.185.226]
-X-CFilter-Loop: Reflected
+Received: from smtp.ispras.ru (winnie.ispras.ru [83.149.199.91])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CDDC489FEA
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 15:53:39 +0000 (UTC)
+Received: from home.intra.ispras.ru (unknown [10.10.165.12])
+ by smtp.ispras.ru (Postfix) with ESMTP id 90086203BF;
+ Mon,  6 Jul 2020 18:53:36 +0300 (MSK)
+From: Evgeny Novikov <novikov@ispras.ru>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH] fbdev: sm712fb: set error code in probe
+Date: Mon,  6 Jul 2020 18:53:28 +0300
+Message-Id: <20200706155328.8396-1-novikov@ispras.ru>
+X-Mailer: git-send-email 2.16.4
 X-Mailman-Approved-At: Tue, 07 Jul 2020 07:26:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,68 +34,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, xinliang.liu@linaro.org, puck.chen@hisilicon.com,
- Zenghui Yu <yuzenghui@huawei.com>, airlied@linux.ie,
- kong.kongxinwei@hisilicon.com, zourongrong@gmail.com,
- wanghaibin.wang@huawei.com, sam@ravnborg.org
+Cc: ldv-project@linuxtesting.org, linux-fbdev@vger.kernel.org,
+ Teddy Wang <teddy.wang@siliconmotion.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Evgeny Novikov <novikov@ispras.ru>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HiSilicon hibmc driver triggers a splat at boot time as below
+If smtcfb_pci_probe() does not detect a valid chip it cleans up
+everything and returns 0. This can result in various bad things later.
+The patch sets the error code on the corresponding path.
 
-[   14.137806] ------------[ cut here ]------------
-[   14.142405] hibmc-drm 0000:0a:00.0: Device has not been registered.
-[   14.148661] WARNING: CPU: 0 PID: 496 at drivers/gpu/drm/drm_fb_helper.c:2233 drm_fbdev_generic_setup+0x15c/0x1b8
-[   14.158787] [...]
-[   14.278307] Call trace:
-[   14.280742]  drm_fbdev_generic_setup+0x15c/0x1b8
-[   14.285337]  hibmc_pci_probe+0x354/0x418
-[   14.289242]  local_pci_probe+0x44/0x98
-[   14.292974]  work_for_cpu_fn+0x20/0x30
-[   14.296708]  process_one_work+0x1c4/0x4e0
-[   14.300698]  worker_thread+0x2c8/0x528
-[   14.304431]  kthread+0x138/0x140
-[   14.307646]  ret_from_fork+0x10/0x18
-[   14.311205] ---[ end trace a2000ec2d838af4d ]---
+Found by Linux Driver Verification project (linuxtesting.org).
 
-This turned out to be due to the fbdev device hasn't been registered when
-drm_fbdev_generic_setup() is invoked. Let's fix the splat by moving it down
-after drm_dev_register() which will follow the "Display driver example"
-documented by commit de99f0600a79 ("drm/drv: DOC: Add driver example
-code").
-
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/sm712fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index a6fd0c29e5b8..544b9993c99e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -307,8 +307,6 @@ static int hibmc_load(struct drm_device *dev)
- 	/* reset all the states of crtc/plane/encoder/connector */
- 	drm_mode_config_reset(dev);
- 
--	drm_fbdev_generic_setup(dev, dev->mode_config.preferred_depth);
+diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
+index 6a1b4a853d9e..fbe97340b8e0 100644
+--- a/drivers/video/fbdev/sm712fb.c
++++ b/drivers/video/fbdev/sm712fb.c
+@@ -1614,7 +1614,7 @@ static int smtcfb_pci_probe(struct pci_dev *pdev,
+ 	default:
+ 		dev_err(&pdev->dev,
+ 			"No valid Silicon Motion display chip was detected!\n");
 -
- 	return 0;
- 
- err:
-@@ -355,6 +353,9 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 			  ret);
- 		goto err_unload;
++		err = -ENODEV;
+ 		goto failed_fb;
  	}
-+
-+	drm_fbdev_generic_setup(dev, dev->mode_config.preferred_depth);
-+
- 	return 0;
  
- err_unload:
 -- 
-2.19.1
+2.16.4
 
 _______________________________________________
 dri-devel mailing list
