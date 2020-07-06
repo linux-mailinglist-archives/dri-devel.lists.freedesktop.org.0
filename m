@@ -2,117 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D6F215431
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 10:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1198F2154AA
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 11:24:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 491856E372;
-	Mon,  6 Jul 2020 08:52:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA62899D4;
+	Mon,  6 Jul 2020 09:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC026E334
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 08:52:02 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id o11so39935423wrv.9
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jul 2020 01:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BJf3+InzF6nnLMjgHWo9h5OOBIPL2qudFLidIFScLQk=;
- b=f1jzwojWdaeB13oLsvaCgv5lDME/Z3Eh0yjhYo2raxhjnI+9vnmSGNUE0Nbx4Y09sf
- GvVTXHMNzDIUs9roDyuFsntggh/8PO86wyYEqdtCZIE6F7x+BR/gNber2uJLiuZTfv80
- 2PVarTj8znBrbNhdOzP9omn1g6g0INuLGLmawWsPAbR+YPK2ZYECzcNl5EfBGfMUqOCg
- 2gmWy4EwsiOM9vZHwQ7aHIXGc7/ZzfXEZojq4n9ynZ4jGcbOcRezZjGPhf93UEqWKveP
- RfSBv20z4AKsSWJ9boX0wDveG4xMYLysY1urgn3I3r/XF4tIOE3Ib+IYw3t3RLYQQBbv
- hK/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=BJf3+InzF6nnLMjgHWo9h5OOBIPL2qudFLidIFScLQk=;
- b=tRRH1XTeFSisraDDvawuTTHP3ii7vf5UqWwetyya4oLIeU2N6yKjw4xXL895MeLMSG
- QQtJje6gL3c5rTlWDZ3zCN+t545WPg9Wey/jb1H3+v9Pq2wUZ3paIwapHWQBJ7uSaC2K
- GFK/v1sBnrVpf+Gce6BO8aUMekEtr4Yq0K9mUtjAH9eUdyoAha5vlppWTapie0B0y/a3
- Oj6wI13db+bFM9ISwoV5hG5KcEEh+7lu6zMYxWFIXLhqT8vC/ueLmNBZb+NIoFp0DoNR
- TxaC6iFH/QTFm6lB3MfP/5K0EuPjf9jDIfda3bQ+NJeFn9u6Bz/W3FHTDIsCV6B/zIZa
- bKMw==
-X-Gm-Message-State: AOAM5319K4k1M4vxQyPXZvkm0no2SEykzdKhlqD8kxEtdftOZ03pCYQI
- IZTNm1ZpLX3xFW3/GsQHVjaqsA==
-X-Google-Smtp-Source: ABdhPJyaKcqjaWVlGlA6f6J39Pg0bs5QVQeZHRADvFVD/NzaNpyGC2QVYVoNN45UF0dp+LnRvIMGow==
-X-Received: by 2002:adf:bc41:: with SMTP id a1mr45444993wrh.186.1594025520980; 
- Mon, 06 Jul 2020 01:52:00 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:6959:e617:6562:cabf?
- ([2a01:e35:2ec0:82b0:6959:e617:6562:cabf])
- by smtp.gmail.com with ESMTPSA id l8sm23024129wrq.15.2020.07.06.01.51.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jul 2020 01:52:00 -0700 (PDT)
-Subject: Re: [PATCH v9 1/6] drm/fourcc: Add modifier definitions for
- describing Amlogic Video Framebuffer Compression
-To: Simon Ser <contact@emersion.fr>
-References: <20200703080728.25207-1-narmstrong@baylibre.com>
- <20200703080728.25207-2-narmstrong@baylibre.com>
- <RRm1buCbVQy5uesUHZhz8cPiCZfllmj0r1HzM7OoBmJBNMo9tuRfs3ju0iFnlPfDqECFq0tVj10h7bboBat7i619uNUN06HbwswBvYaPWMM=@emersion.fr>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <2f948215-3a90-d0fa-061f-20690b20c441@baylibre.com>
-Date: Mon, 6 Jul 2020 10:51:59 +0200
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17C2A899D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 09:24:01 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D39F8AAF1;
+ Mon,  6 Jul 2020 09:23:59 +0000 (UTC)
+Subject: Re: [PATCH v3] drm/hisilicon: Code refactoring for hibmc_drv_vdac
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1593680081-60313-1-git-send-email-tiantao6@hisilicon.com>
+ <8aac2194-e122-e4bb-dbd1-e6530fc77427@suse.de>
+Message-ID: <d8a0ca1d-0941-a640-2060-433073897eca@suse.de>
+Date: Mon, 6 Jul 2020 11:23:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <RRm1buCbVQy5uesUHZhz8cPiCZfllmj0r1HzM7OoBmJBNMo9tuRfs3ju0iFnlPfDqECFq0tVj10h7bboBat7i619uNUN06HbwswBvYaPWMM=@emersion.fr>
-Content-Language: en-US
+In-Reply-To: <8aac2194-e122-e4bb-dbd1-e6530fc77427@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,39 +43,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jianxin.pan@amlogic.com" <jianxin.pan@amlogic.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Kevin Hilman <khilman@baylibre.com>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============0377795112=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0377795112==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="izG3D42C2jxKggzm9TaHG21QjGx4GJk7g"
 
-On 03/07/2020 11:08, Simon Ser wrote:
-> Thanks for the update!
-> 
-> The driver should also disallow importing a AMLOGIC_FBC_LAYOUT_SCATTER
-> DMA-BUF from another device, but I guess this is clear enough ("not
-> transferrable between Amlogic SoCs").
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--izG3D42C2jxKggzm9TaHG21QjGx4GJk7g
+Content-Type: multipart/mixed; boundary="AtTw58yqFNxjIu71QxwyahvrsJAE6H1aL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <d8a0ca1d-0941-a640-2060-433073897eca@suse.de>
+Subject: Re: [PATCH v3] drm/hisilicon: Code refactoring for hibmc_drv_vdac
+References: <1593680081-60313-1-git-send-email-tiantao6@hisilicon.com>
+ <8aac2194-e122-e4bb-dbd1-e6530fc77427@suse.de>
+In-Reply-To: <8aac2194-e122-e4bb-dbd1-e6530fc77427@suse.de>
 
-Good idea, I'll experiment disabling import of DRM allocated DUMB buffers,
-but not sure I can disable import of other allocaters like ION.
+--AtTw58yqFNxjIu71QxwyahvrsJAE6H1aL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Neil
+Hi
 
-> 
-> From a user-space PoV:
-> 
-> Acked-by: Simon Ser <contact@emersion.fr>
-> 
+Am 02.07.20 um 12:12 schrieb Thomas Zimmermann:
+> Thanks!
+>=20
+> Am 02.07.20 um 10:54 schrieb Tian Tao:
+>> code refactoring for hibmc_drv_vdac.c, no actual function changes.
+>>
+>> v2:
+>> remove the debug message.
+>>
+>> v3:
+>> embedding connector and encoder in struct hibmc_drm_private.
+>>
+>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+>=20
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> Maybe others want to comment on the patch, so I'll give it a few more
+> days before I add it to drm-misc-next. Don't hesitate to ping me if I
+> forget about it.
+
+I've added the patch to drm-misc-next
+
+>=20
+> Best regards
+> Thomas
+>=20
+>> ---
+>>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  2 +
+>>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 52 +++++----------=
+---------
+>>  2 files changed, 13 insertions(+), 41 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers=
+/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>> index 50a0c1f..6097687 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>> @@ -29,6 +29,8 @@ struct hibmc_drm_private {
+>> =20
+>>  	/* drm */
+>>  	struct drm_device  *dev;
+>> +	struct drm_encoder encoder;
+>> +	struct drm_connector connector;
+>>  	bool mode_config_initialized;
+>>  };
+>> =20
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/driver=
+s/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> index 678ac2e..2ca69c3 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>> @@ -52,32 +52,6 @@ static const struct drm_connector_funcs hibmc_conne=
+ctor_funcs =3D {
+>>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,=
+
+>>  };
+>> =20
+>> -static struct drm_connector *
+>> -hibmc_connector_init(struct hibmc_drm_private *priv)
+>> -{
+>> -	struct drm_device *dev =3D priv->dev;
+>> -	struct drm_connector *connector;
+>> -	int ret;
+>> -
+>> -	connector =3D devm_kzalloc(dev->dev, sizeof(*connector), GFP_KERNEL)=
+;
+>> -	if (!connector) {
+>> -		DRM_ERROR("failed to alloc memory when init connector\n");
+>> -		return ERR_PTR(-ENOMEM);
+>> -	}
+>> -
+>> -	ret =3D drm_connector_init(dev, connector,
+>> -				 &hibmc_connector_funcs,
+>> -				 DRM_MODE_CONNECTOR_VGA);
+>> -	if (ret) {
+>> -		DRM_ERROR("failed to init connector: %d\n", ret);
+>> -		return ERR_PTR(ret);
+>> -	}
+>> -	drm_connector_helper_add(connector,
+>> -				 &hibmc_connector_helper_funcs);
+>> -
+>> -	return connector;
+>> -}
+>> -
+>>  static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
+>>  				   struct drm_display_mode *mode,
+>>  				   struct drm_display_mode *adj_mode)
+>> @@ -105,23 +79,10 @@ static const struct drm_encoder_funcs hibmc_encod=
+er_funcs =3D {
+>>  int hibmc_vdac_init(struct hibmc_drm_private *priv)
+>>  {
+>>  	struct drm_device *dev =3D priv->dev;
+>> -	struct drm_encoder *encoder;
+>> -	struct drm_connector *connector;
+>> +	struct drm_encoder *encoder =3D &priv->encoder;
+>> +	struct drm_connector *connector =3D &priv->connector;
+>>  	int ret;
+>> =20
+>> -	connector =3D hibmc_connector_init(priv);
+>> -	if (IS_ERR(connector)) {
+>> -		DRM_ERROR("failed to create connector: %ld\n",
+>> -			  PTR_ERR(connector));
+>> -		return PTR_ERR(connector);
+>> -	}
+>> -
+>> -	encoder =3D devm_kzalloc(dev->dev, sizeof(*encoder), GFP_KERNEL);
+>> -	if (!encoder) {
+>> -		DRM_ERROR("failed to alloc memory when init encoder\n");
+>> -		return -ENOMEM;
+>> -	}
+>> -
+>>  	encoder->possible_crtcs =3D 0x1;
+>>  	ret =3D drm_encoder_init(dev, encoder, &hibmc_encoder_funcs,
+>>  			       DRM_MODE_ENCODER_DAC, NULL);
+>> @@ -131,6 +92,15 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv=
+)
+>>  	}
+>> =20
+>>  	drm_encoder_helper_add(encoder, &hibmc_encoder_helper_funcs);
+>> +
+>> +	ret =3D drm_connector_init(dev, connector, &hibmc_connector_funcs,
+>> +				 DRM_MODE_CONNECTOR_VGA);
+>> +	if (ret) {
+>> +		DRM_ERROR("failed to init connector: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +	drm_connector_helper_add(connector, &hibmc_connector_helper_funcs);
+>> +
+>>  	drm_connector_attach_encoder(connector, encoder);
+>> =20
+>>  	return 0;
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--AtTw58yqFNxjIu71QxwyahvrsJAE6H1aL--
+
+--izG3D42C2jxKggzm9TaHG21QjGx4GJk7g
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8C7a4UHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiM0vQf+OlfARWLP0IaR9nwRnDefB4Q32Gu4
+qlGrTq+sXsrKcUPPO488EfmKNGVxHz6AC4itqdJUNWFgupabeZF557SA5AkstBXj
+khqzsLxIN5gqczxQPvIV8JTFj5B8r5QiNZpKcFclynMvh0FaDwWAjpMp2gkMuWgQ
+XrR6lioiwBd/ag5Eza1v5X0wFFqG5HPPkLUOJGr4n/30oJEebYwaAsX2TDJK4XvW
+7Ir6/s4mOTXn4JSCCBjYhkuKw0eMGVA/07wGuCce+Ah2o8V2seoqn1ZlmTIMvCG+
+dkxy7J5DDS3IePRNLKdvgzr0T9DW94VOXSPoNFoiUxHuU+U2EjDxPbc6ew==
+=155B
+-----END PGP SIGNATURE-----
+
+--izG3D42C2jxKggzm9TaHG21QjGx4GJk7g--
+
+--===============0377795112==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0377795112==--
