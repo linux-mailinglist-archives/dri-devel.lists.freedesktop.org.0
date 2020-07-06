@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60105216279
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 01:46:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 113692162A3
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 01:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D75EC6E497;
-	Mon,  6 Jul 2020 23:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003FC6E4D2;
+	Mon,  6 Jul 2020 23:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35FFC6E497
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 23:46:25 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 924C62075B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 23:46:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594079184;
- bh=lYWewh87S6iH9k7zGUREHZUS5ol9uho3JTnBeQHhE58=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NARFzwOm3YVKZH09KaLqpfEeS2eC8rMGgFftP3bgk+g3SBS8iHhqEHgHLVxVUyuMJ
- wfI50V4h8I1RJzuggmkSLZjm5n26cZ3XfQoy8KFkCqaZVNinHHaspgFXigDN86xrKP
- TOom6C9OqO6tSK2hdgUtTFhfiBf4kkbTOgGTn19c=
-Received: by mail-ej1-f45.google.com with SMTP id w16so44678876ejj.5
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jul 2020 16:46:24 -0700 (PDT)
-X-Gm-Message-State: AOAM532HnVz7KVWUjNC1pIj43j9AJR7Kl5ojI4vp2Tco8WnpAo8ZaBkP
- XY1xh9HAgFgSV4O5Ysi+gpujwO3seh7syyFzEQ==
-X-Google-Smtp-Source: ABdhPJyY/xIkGPmPXd57FlHxva/9PVuURne2hf7iyK2dKHds7uxq2Q26oYLqSaBaS7NAKp66WlYlOteC/nvWbHayRsg=
-X-Received: by 2002:a17:906:404e:: with SMTP id
- y14mr44259469ejj.260.1594079183128; 
- Mon, 06 Jul 2020 16:46:23 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C96536E4E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 23:57:14 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Mon, 06 Jul 2020 23:57:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: 1i5t5.duncan@cox.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-dsjtMMdfzZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1593931715-32761-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-In-Reply-To: <1593931715-32761-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 7 Jul 2020 07:46:12 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-5um+X=cS3rkuN7YHycK2AyJsovumCQ4t+dbwXw62uAQ@mail.gmail.com>
-Message-ID: <CAAOTY_-5um+X=cS3rkuN7YHycK2AyJsovumCQ4t+dbwXw62uAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] soc: mediatek: cmdq: add clear option in
- cmdq_pkt_wfe api
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,99 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream <wsd_upstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Houlong Wei <houlong.wei@mediatek.com>, HS Liao <hs.liao@mediatek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERlbm5pczoKCkRlbm5pcyBZQyBIc2llaCA8ZGVubmlzLXljLmhzaWVoQG1lZGlhdGVrLmNv
-bT4g5pa8IDIwMjDlubQ35pyINuaXpSDpgLHkuIAg5LiL5Y2IMzoyMOWvq+mBk++8mgo+Cj4gQWRk
-IGNsZWFyIHBhcmFtZXRlciB0byBsZXQgY2xpZW50IGRlY2lkZSBpZgo+IGV2ZW50IHNob3VsZCBi
-ZSBjbGVhciB0byAwIGFmdGVyIEdDRSByZWNlaXZlIGl0Lgo+Cj4gRml4ZXM6IDJmOTY1YmU3Zjkw
-MDggKCJkcm0vbWVkaWF0ZWs6IGFwcGx5IENNRFEgY29udHJvbCBmbG93IikKCkkgdGhpbmsgdGhp
-cyBwYXRjaCBpbmNsdWRlIHR3byB0aGluZ3MsIG9uZSBpcyBidWcgZml4LCBhbm90aGVyIGlzCmNo
-YW5naW5nIGludGVyZmFjZS4KYmVsb3cgaXMgdGhlIGJ1ZyBmaXggcGFydC4KCi0jZGVmaW5lIENN
-RFFfV0ZFX09QVElPTiAgICAgICAgICAgICAgICAgICAgICAgIChDTURRX1dGRV9VUERBVEUgfApD
-TURRX1dGRV9XQUlUIHwgXAotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Q01EUV9XRkVfV0FJVF9WQUxVRSkKKyNkZWZpbmUgQ01EUV9XRkVfT1BUSU9OICAgICAgICAgICAg
-ICAgICAgICAgICAgKENNRFFfV0ZFX1dBSVQgfApDTURRX1dGRV9XQUlUX1ZBTFVFKQoKdGhlIG90
-aGVyIGlzIGNoYW5naW5nIGludGVyZmFjZSBwYXJ0LiBTbyB0aGlzIHBhdGNoIHNob3VsZCBiZSBi
-cm9rZW4KaW50byB0d28gcGF0Y2hlcy4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+IFNpZ25lZC1v
-ZmYtYnk6IERlbm5pcyBZQyBIc2llaCA8ZGVubmlzLXljLmhzaWVoQG1lZGlhdGVrLmNvbT4KPiBS
-ZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9n
-cHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jICB8ICAgIDIgKy0KPiAgZHJpdmVycy9zb2Mv
-bWVkaWF0ZWsvbXRrLWNtZHEtaGVscGVyLmMgICB8ICAgIDUgKysrLS0KPiAgaW5jbHVkZS9saW51
-eC9tYWlsYm94L210ay1jbWRxLW1haWxib3guaCB8ICAgIDMgKy0tCj4gIGluY2x1ZGUvbGludXgv
-c29jL21lZGlhdGVrL210ay1jbWRxLmggICAgfCAgICA1ICsrKy0tCj4gIDQgZmlsZXMgY2hhbmdl
-ZCwgOCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHJtX2NydGMuYwo+IGluZGV4IGVjNmM5ZmZiZjM1ZS4uYmE2Y2Y5NTZiMjM5IDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+IEBAIC00OTAsNyAr
-NDkwLDcgQEAgc3RhdGljIHZvaWQgbXRrX2RybV9jcnRjX2h3X2NvbmZpZyhzdHJ1Y3QgbXRrX2Ry
-bV9jcnRjICptdGtfY3J0YykKPiAgICAgICAgICAgICAgICAgbWJveF9mbHVzaChtdGtfY3J0Yy0+
-Y21kcV9jbGllbnQtPmNoYW4sIDIwMDApOwo+ICAgICAgICAgICAgICAgICBjbWRxX2hhbmRsZSA9
-IGNtZHFfcGt0X2NyZWF0ZShtdGtfY3J0Yy0+Y21kcV9jbGllbnQsIFBBR0VfU0laRSk7Cj4gICAg
-ICAgICAgICAgICAgIGNtZHFfcGt0X2NsZWFyX2V2ZW50KGNtZHFfaGFuZGxlLCBtdGtfY3J0Yy0+
-Y21kcV9ldmVudCk7Cj4gLSAgICAgICAgICAgICAgIGNtZHFfcGt0X3dmZShjbWRxX2hhbmRsZSwg
-bXRrX2NydGMtPmNtZHFfZXZlbnQpOwo+ICsgICAgICAgICAgICAgICBjbWRxX3BrdF93ZmUoY21k
-cV9oYW5kbGUsIG10a19jcnRjLT5jbWRxX2V2ZW50LCBmYWxzZSk7Cj4gICAgICAgICAgICAgICAg
-IG10a19jcnRjX2RkcF9jb25maWcoY3J0YywgY21kcV9oYW5kbGUpOwo+ICAgICAgICAgICAgICAg
-ICBjbWRxX3BrdF9maW5hbGl6ZShjbWRxX2hhbmRsZSk7Cj4gICAgICAgICAgICAgICAgIGNtZHFf
-cGt0X2ZsdXNoX2FzeW5jKGNtZHFfaGFuZGxlLCBkZHBfY21kcV9jYiwgY21kcV9oYW5kbGUpOwo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYyBiL2Ry
-aXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5jCj4gaW5kZXggZDU1ZGMzMjk2MTA1
-Li41MDU2NTFiMGQ3MTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLWNt
-ZHEtaGVscGVyLmMKPiArKysgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIu
-Ywo+IEBAIC0zMTYsMTUgKzMxNiwxNiBAQCBpbnQgY21kcV9wa3Rfd3JpdGVfc19tYXNrX3ZhbHVl
-KHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1OCBoaWdoX2FkZHJfcmVnX2lkeCwKPiAgfQo+ICBFWFBP
-UlRfU1lNQk9MKGNtZHFfcGt0X3dyaXRlX3NfbWFza192YWx1ZSk7Cj4KPiAtaW50IGNtZHFfcGt0
-X3dmZShzdHJ1Y3QgY21kcV9wa3QgKnBrdCwgdTE2IGV2ZW50KQo+ICtpbnQgY21kcV9wa3Rfd2Zl
-KHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1MTYgZXZlbnQsIGJvb2wgY2xlYXIpCj4gIHsKPiAgICAg
-ICAgIHN0cnVjdCBjbWRxX2luc3RydWN0aW9uIGluc3QgPSB7IHswfSB9Owo+ICsgICAgICAgdTMy
-IGNsZWFyX29wdGlvbiA9IGNsZWFyID8gQ01EUV9XRkVfVVBEQVRFIDogMDsKPgo+ICAgICAgICAg
-aWYgKGV2ZW50ID49IENNRFFfTUFYX0VWRU5UKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVJ
-TlZBTDsKPgo+ICAgICAgICAgaW5zdC5vcCA9IENNRFFfQ09ERV9XRkU7Cj4gLSAgICAgICBpbnN0
-LnZhbHVlID0gQ01EUV9XRkVfT1BUSU9OOwo+ICsgICAgICAgaW5zdC52YWx1ZSA9IENNRFFfV0ZF
-X09QVElPTiB8IGNsZWFyX29wdGlvbjsKPiAgICAgICAgIGluc3QuZXZlbnQgPSBldmVudDsKPgo+
-ICAgICAgICAgcmV0dXJuIGNtZHFfcGt0X2FwcGVuZF9jb21tYW5kKHBrdCwgaW5zdCk7Cj4gZGlm
-ZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbWFpbGJveC9tdGstY21kcS1tYWlsYm94LmggYi9pbmNs
-dWRlL2xpbnV4L21haWxib3gvbXRrLWNtZHEtbWFpbGJveC5oCj4gaW5kZXggZWZiZDhhOWViMmQx
-Li5kNWE5ODNkNjVmMDUgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9tYWlsYm94L210ay1j
-bWRxLW1haWxib3guaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvbWFpbGJveC9tdGstY21kcS1tYWls
-Ym94LmgKPiBAQCAtMjgsOCArMjgsNyBAQAo+ICAgKiBiaXQgMTYtMjc6IHVwZGF0ZSB2YWx1ZQo+
-ICAgKiBiaXQgMzE6IDEgLSB1cGRhdGUsIDAgLSBubyB1cGRhdGUKPiAgICovCj4gLSNkZWZpbmUg
-Q01EUV9XRkVfT1BUSU9OICAgICAgICAgICAgICAgICAgICAgICAgKENNRFFfV0ZFX1VQREFURSB8
-IENNRFFfV0ZFX1dBSVQgfCBcCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIENNRFFfV0ZFX1dBSVRfVkFMVUUpCj4gKyNkZWZpbmUgQ01EUV9XRkVfT1BUSU9OICAgICAg
-ICAgICAgICAgICAgICAgICAgKENNRFFfV0ZFX1dBSVQgfCBDTURRX1dGRV9XQUlUX1ZBTFVFKQo+
-Cj4gIC8qKiBjbWRxIGV2ZW50IG1heGltdW0gKi8KPiAgI2RlZmluZSBDTURRX01BWF9FVkVOVCAg
-ICAgICAgICAgICAgICAgMHgzZmYKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9zb2MvbWVk
-aWF0ZWsvbXRrLWNtZHEuaCBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgK
-PiBpbmRleCAzNDM1NGU5NTJmNjAuLjk2MDcwNGQ3NTk5NCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRl
-L2xpbnV4L3NvYy9tZWRpYXRlay9tdGstY21kcS5oCj4gKysrIGIvaW5jbHVkZS9saW51eC9zb2Mv
-bWVkaWF0ZWsvbXRrLWNtZHEuaAo+IEBAIC0xODIsMTEgKzE4MiwxMiBAQCBpbnQgY21kcV9wa3Rf
-d3JpdGVfc19tYXNrX3ZhbHVlKHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1OCBoaWdoX2FkZHJfcmVn
-X2lkeCwKPiAgLyoqCj4gICAqIGNtZHFfcGt0X3dmZSgpIC0gYXBwZW5kIHdhaXQgZm9yIGV2ZW50
-IGNvbW1hbmQgdG8gdGhlIENNRFEgcGFja2V0Cj4gICAqIEBwa3Q6ICAgICAgIHRoZSBDTURRIHBh
-Y2tldAo+IC0gKiBAZXZlbnQ6ICAgICB0aGUgZGVzaXJlZCBldmVudCB0eXBlIHRvICJ3YWl0IGFu
-ZCBDTEVBUiIKPiArICogQGV2ZW50OiAgICAgdGhlIGRlc2lyZWQgZXZlbnQgdHlwZSB0byB3YWl0
-Cj4gKyAqIEBjbGVhcjogICAgIGNsZWFyIGV2ZW50IG9yIG5vdCBhZnRlciBldmVudCBhcnJpdmUK
-PiAgICoKPiAgICogUmV0dXJuOiAwIGZvciBzdWNjZXNzOyBlbHNlIHRoZSBlcnJvciBjb2RlIGlz
-IHJldHVybmVkCj4gICAqLwo+IC1pbnQgY21kcV9wa3Rfd2ZlKHN0cnVjdCBjbWRxX3BrdCAqcGt0
-LCB1MTYgZXZlbnQpOwo+ICtpbnQgY21kcV9wa3Rfd2ZlKHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1
-MTYgZXZlbnQsIGJvb2wgY2xlYXIpOwo+Cj4gIC8qKgo+ICAgKiBjbWRxX3BrdF9jbGVhcl9ldmVu
-dCgpIC0gYXBwZW5kIGNsZWFyIGV2ZW50IGNvbW1hbmQgdG8gdGhlIENNRFEgcGFja2V0Cj4gLS0K
-PiAxLjcuOS41Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
+
+--- Comment #41 from Duncan (1i5t5.duncan@cox.net) ---
+(In reply to Alex Deucher from comment #40)
+> Does this patch help?
+
+Booted to v5.7 with it applied now.  We'll see.  Since the bug can take awhile
+to trigger on my hardware, if the patch fixes it I won't know for days, and
+won't be /sure/ for say  a week, the reason bisecting was taking so long.
+
+(It wouldn't apply to current 5.8-rc4-plus-an-s390-pull.  Too tired to figure
+out why ATM but if it's because it was there already, hopefully it was pulled
+in after v5.8-rc3 as I tested that and got the same graphics freeze with the
+characteristic trace, so if the patch was already in v5.8-rc3, it does /not/
+fix the bug.)
+
+As for bisecting, I've hard-crashed twice on the current step, apparently with
+a different bug, so while _this_ bug hasn't seemed to trigger yet, I haven't
+gotten the necessary confidence that it's a bisect-good.  So hopefully this
+patch /does/ fix it, and I can put this entirely too frustrating bug-bisect
+behind me!
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
