@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B51A2151E9
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 06:52:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9D221520A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 07:10:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5219C6E2E6;
-	Mon,  6 Jul 2020 04:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B946E094;
+	Mon,  6 Jul 2020 05:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 583646E2E6
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 04:52:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39D186E094
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 05:10:10 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208333] Black screen with Kernel 5.8 rc1/2/3/4 with Nvidia Gtx
  760 driver nouveau
-Date: Mon, 06 Jul 2020 04:52:07 +0000
+Date: Mon, 06 Jul 2020 05:10:09 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: robyguerrini@yahoo.it
+X-Bugzilla-Who: imirkin@alum.mit.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208333-2300-gEdD1vmZFc@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-208333-2300-ogKalcqJX4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208333-2300@https.bugzilla.kernel.org/>
 References: <bug-208333-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,9 +59,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208333
 
---- Comment #2 from Roberto Guerrini (robyguerrini@yahoo.it) ---
-Tested with 5.8 rc4 also and the result is the same.... Black screen with all
-monitor with Gtz 760 and nouveau driver!!!
+Ilia Mirkin (imirkin@alum.mit.edu) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |imirkin@alum.mit.edu
+
+--- Comment #3 from Ilia Mirkin (imirkin@alum.mit.edu) ---
+Has nouveau ever worked with this board? Can you get dmesg from a failing boot?
+
+Unfortunately without logs, it's a bit hard to tell what's going on. Chances
+are the machine is fine, so you should be able to ssh in and get them. Or
+perhaps you can acquire logs from a previous boot, depending on your logging
+system.
 
 -- 
 You are receiving this mail because:
