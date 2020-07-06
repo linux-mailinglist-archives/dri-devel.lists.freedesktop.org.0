@@ -1,31 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCF821676F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937B1216769
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B96896E5D1;
-	Tue,  7 Jul 2020 07:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3BC86E5C6;
+	Tue,  7 Jul 2020 07:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA9346E064
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 13:26:30 +0000 (UTC)
-Received: from kevin (unknown [IPv6:2600:1700:4540:6a60::34])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9691B2A3C95;
- Mon,  6 Jul 2020 14:26:27 +0100 (BST)
-Date: Mon, 6 Jul 2020 09:26:22 -0400
-From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Subject: Re: [PATCH v2 00/14] Add regulator devfreq support to Panfrost
-Message-ID: <20200706132622.GA1881@kevin>
-References: <20200704102535.189647-1-peron.clem@gmail.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B33436E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 13:40:53 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id f139so42177367wmf.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jul 2020 06:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eYvPzaHZaaIgS61ZLjNpzen4uwKKezR2/OOrkoRIMZ0=;
+ b=N7LoSn2vo9f3rQ4C2sGL7jY5i3u8il6SSYurszDcNXG4RDiQXye4oDe1w49wUKWGYU
+ 6YR9e3/7mWBT1uSXTqg4XPCPLbecgJ9K1U+X0Y65YB3vsKNWZaer91W4nyZCnw9XANrU
+ W4Go14plLioc6jwPxUMtBUxX76ky2Nqwf5ejw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eYvPzaHZaaIgS61ZLjNpzen4uwKKezR2/OOrkoRIMZ0=;
+ b=h/wL36R7aRtlEiEAksW6+TteNbCr9zigQzZxp37XhR+EepxqbWMMf5UMAJ/YTjTe9X
+ btNML2kTanqYiOpyzoNi71vVuMlA/xUHphZ8xL+ck8DJDSkJzpi7SALAaOmvR1eiZs5T
+ l4lb77O7rCgRCpWqDTjM2E9A0tiAW7BVw9rK9hAN0K+LBzx1qGmUVd5AOOwqtwDYcDCF
+ OvyoALK8W/Zgrz8NhmWD869PfhfK3ifCgXDgJle7eQEPtffvALTBazXZNXzIPJBsk5Z6
+ Si8FHTMe4yn/whsuDS8xLqvEpKzvbRDANYz/Vvc1brAf9qzidNc3AwhYFahe4+UR9yik
+ kcfQ==
+X-Gm-Message-State: AOAM531RqqxACCxpplbP1b9sHlJbJe0cqGAtHMAkhnsJNgKkRsHvGH02
+ KXNZPAsluZxap/NACVx+atwakMzQtNcRwvF3jA9X0w==
+X-Google-Smtp-Source: ABdhPJzJbQzeNPTuNOMHMff7aCJzGErvjO7pRBT5QzydRbyBwpY7TNg0ejysnilGn10ahFrXSo1oMtnUeWRwgRrZDag=
+X-Received: by 2002:a7b:c185:: with SMTP id y5mr51495722wmi.85.1594042852077; 
+ Mon, 06 Jul 2020 06:40:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200704102535.189647-1-peron.clem@gmail.com>
+References: <20200701212155.37830-1-james.quinlan@broadcom.com>
+ <20200701212155.37830-9-james.quinlan@broadcom.com>
+ <20200702084251.GF3703480@smile.fi.intel.com>
+In-Reply-To: <20200702084251.GF3703480@smile.fi.intel.com>
+From: Jim Quinlan <james.quinlan@broadcom.com>
+Date: Mon, 6 Jul 2020 09:40:40 -0400
+Message-ID: <CA+-6iNwu-jHTb7VFpmkYoyipWK9rtTEOq2dW7K=nYXpUrOTwCQ@mail.gmail.com>
+Subject: Re: [PATCH v6 08/12] device core: Introduce DMA range map,
+ supplanting dma_pfn_offset
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 X-Mailman-Approved-At: Tue, 07 Jul 2020 07:26:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,110 +61,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- linux-kernel@vger.kernel.org, Steven Price <steven.price@arm.com>,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1972428343=="
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Yong Deng <yong.deng@magewell.com>,
+ Santosh Shilimkar <ssantosh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy,
 
---===============1972428343==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
-Content-Disposition: inline
+Sorry for the delay in response.  I will do what you suggest in your
+email.  I do have one response to one of your comments below.
 
+On Thu, Jul 2, 2020 at 4:43 AM Andy Shevchenko
+<andriy.shevchenko@linux.intePHYSl.com> wrote:
+>
+> On Wed, Jul 01, 2020 at 05:21:38PM -0400, Jim Quinlan wrote:
+> > The new field 'dma_range_map' in struct device is used to facilitate the
+> > use of single or multiple offsets between mapping regions of cpu addrs and
+> > dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
+> > capable of holding a single uniform offset and had no region bounds
+> > checking.
+> >
+> > The function of_dma_get_range() has been modified so that it takes a single
+> > argument -- the device node -- and returns a map, NULL, or an error code.
+> > The map is an array that holds the information regarding the DMA regions.
+> > Each range entry contains the address offset, the cpu_start address, the
+> > dma_start address, and the size of the region.
+> >
+> > of_dma_configure() is the typical manner to set range offsets but there are
+> > a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
+> > driver code.  These cases now invoke the function
+> > dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
+>
+> ...
+>
+> > +     if (dev && dev->dma_range_map)
+> > +             pfn -= (unsigned long)PFN_DOWN(dma_offset_from_phys_addr(dev, PFN_PHYS(pfn)));
+>
+> Instead of casting use PHYS_PFN() and it will be consistent with latter in the same line.
+>
+> > +     if (dev && dev->dma_range_map)
+> > +             pfn += (unsigned long)PFN_DOWN(dma_offset_from_dma_addr(dev, addr));
+>
+> Ditto.
+>
+> ...
+>
+> > +             dev_err(dev, "set dma_offset%08llx%s\n", KEYSTONE_HIGH_PHYS_START
+> > +                     - KEYSTONE_LOW_PHYS_START, ret ? " failed" : "");
+>
+> Please, avoid such indentation.
+> Better split it to the three lines, argument per line (expect dev which will go
+> on the first one).
+>
+> This applies to all similar places.
+>
+> ...
+>
+> >       unsigned long pfn = (dma_handle >> PAGE_SHIFT);
+>
+> PHYS_PFN() / PFN_DOWN() ?
+>
+> > +     if (!WARN_ON(!dev) && dev->dma_range_map)
+> > +             pfn += (unsigned long)PFN_DOWN(dma_offset_from_dma_addr(dev, dma_handle));
+>
+> PHYS_PFN() ?
+>
+> ...
+>
+> > +     r = kcalloc(num_ranges + 1, sizeof(struct bus_dma_region), GFP_KERNEL);
+>
+> sizeof(*r) ?
+>
+> > +     if (!r)
+> > +             return ERR_PTR(-ENOMEM);
+>
+> ...
+>
+> > +     ret = IS_ERR(map) ? PTR_ERR(map) : 0;
+>
+> PTR_ERR_OR_ZERO()
+>
+> ...
+>
+> > +             /* We want the offset map to be device-managed, so alloc & copy */
+> > +             dev->dma_range_map = devm_kcalloc(dev, num_ranges + 1, sizeof(*r),
+> > +                                               GFP_KERNEL);
+>
+> The question is how many times per device lifetime this can be called?
+Someone else questioned this.  There are two cases that come to mind:
+our overnight test which load/unloads the RC driver over and over, and
+a customer that does an unbind/bind  of the RC driver when their EP is
+hung and wants to restart.  Both cases are atypical and are weak
+arguments to justify the second copy.  I will drop the copy.
 
---UugvWAfsgieZRqgk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Patches 1-12 are=20
-
-	Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-
-Thank you!
-
-On Sat, Jul 04, 2020 at 12:25:21PM +0200, Cl=E9ment P=E9ron wrote:
-> Hi,
->=20
-> This serie cleans and adds regulator support to Panfrost devfreq.
-> This is mostly based on comment for the freshly introduced lima
-> devfreq.
->=20
-> We need to add regulator support because on Allwinner the GPU OPP
-> table defines both frequencies and voltages.
->=20
-> First patches [01-07] should not change the actual behavior
-> and introduce a proper panfrost_devfreq struct.
->=20
-> Regards,
-> Cl=E9ment
->=20
-> Cl=E9ment P=E9ron (14):
->   drm/panfrost: avoid static declaration
->   drm/panfrost: clean headers in devfreq
->   drm/panfrost: don't use pfdevfreq.busy_count to know if hw is idle
->   drm/panfrost: introduce panfrost_devfreq struct
->   drm/panfrost: use spinlock instead of atomic
->   drm/panfrost: properly handle error in probe
->   drm/panfrost: rename error labels in device_init
->   drm/panfrost: move devfreq_init()/fini() in device
->   drm/panfrost: dynamically alloc regulators
->   drm/panfrost: add regulators to devfreq
->   arm64: defconfig: Enable devfreq cooling device
->   arm64: dts: allwinner: h6: Add cooling map for GPU
->   [DO NOT MERGE] arm64: dts: allwinner: h6: Add GPU OPP table
->   [DO NOT MERGE] arm64: dts: allwinner: force GPU regulator to be always
->=20
->  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |   1 +
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 102 +++++++++++
->  arch/arm64/configs/defconfig                  |   1 +
->  drivers/gpu/drm/panfrost/panfrost_devfreq.c   | 165 ++++++++++++------
->  drivers/gpu/drm/panfrost/panfrost_devfreq.h   |  30 +++-
->  drivers/gpu/drm/panfrost/panfrost_device.c    |  61 ++++---
->  drivers/gpu/drm/panfrost/panfrost_device.h    |  14 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       |  15 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  10 +-
->  9 files changed, 290 insertions(+), 109 deletions(-)
->=20
-> --=20
-> 2.25.1
->=20
-
---UugvWAfsgieZRqgk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl8DJnkACgkQ/v5QWgr1
-WA2plw/+MP2+7xJ51qGsZtJWvdP8wW6JbZZWAgkV/W5Hrbx+U79L41RtyI3++Wyk
-V1wKRexTb/ZaAhEod+7tkMTJgIzGEh4r6sQTE46ua66iltg/LOLoCrS90Q+n1ZKz
-voATFXc8pFG89hJRbeXeawLHRitmEM//cyskejG7okH3IOPd0P1wg/h21VaZIGOD
-0t+Pl1l57KCHyM1LruPefCDvQPLi8L2BTF5XbfeEt8TwFxKvzLboKLMNj/PxWfJo
-U08k9ZhVkxG7Xao/m+sEAMHrqd+chmj7z9rGnRQiCxyyTPLCT8FYk0OGb0TGolS/
-lsyp1WR0upCKFKVAYqnzkSSU30Ovd4j72wYiQ4kkuJORXdi89UDGv0U5s4S2a1bI
-VzG5gykUnmR8rzzyrIipjsqiEvTNQRgtCvRYkNYVUbHcawWoX4YeuI3k2mouUDDN
-zU4hN1seZLGFKy3g9nPDI+7yilFWoSo3pExqo8vwVdHOrAB8nEhbAt88+GihkT4+
-LwRN51PeKlcxruN2uCvsvnkdbuBK0N/3ilXhyLunE4RJ1yHih1SkBA0YNJVe3UWU
-yAuVWjALGidP61oJ7RyGisj3z9pfua72DtBt3yr80ApiLQDYg04QIFVZ41fr3Qrk
-WWYbwHzYnqHLhzwGl4hxIHY6Okcs2d2XdZ2cXlW3/d26ucM4vZs=
-=xFiH
------END PGP SIGNATURE-----
-
---UugvWAfsgieZRqgk--
-
---===============1972428343==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks,
+Jim Quinlan
+Broadcom STB
+>
+> ...
+>
+>
+> > +             if (!dev->dma_range_map)
+> > +                     return -ENOMEM;
+> > +             memcpy((void *)dev->dma_range_map, map, sizeof(*r) * num_ranges + 1);
+>
+> If it's continuous, perhaps kmemdup() ?
+>
+> ...
+>
+> > +     rc = IS_ERR(map) ? PTR_ERR(map) : 0;
+>
+> PTR_ERR_OR_ZERO()
+>
+> ...
+>
+> > +                     = dma_offset_from_phys_addr(dev, PFN_PHYS(mem->pfn_base));
+> > +
+> > +             return (dma_addr_t)PFN_PHYS(mem->pfn_base) - dma_offset;
+>
+> Looking at this more, I think you need to introduce in the same header (pfn.h)
+> something like:
+>
+>         #define PFN_DMA_ADDR()
+>         #define DMA_ADDR_PFN()
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1972428343==--
