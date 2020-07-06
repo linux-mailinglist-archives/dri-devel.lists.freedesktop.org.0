@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9D221520A
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 07:10:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98F421524E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 08:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B946E094;
-	Mon,  6 Jul 2020 05:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FF16E196;
+	Mon,  6 Jul 2020 06:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39D186E094
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 05:10:10 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208333] Black screen with Kernel 5.8 rc1/2/3/4 with Nvidia Gtx
- 760 driver nouveau
-Date: Mon, 06 Jul 2020 05:10:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: imirkin@alum.mit.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208333-2300-ogKalcqJX4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208333-2300@https.bugzilla.kernel.org/>
-References: <bug-208333-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6CF16E196
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 06:02:50 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 06662lNM055242;
+ Mon, 6 Jul 2020 01:02:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1594015367;
+ bh=KjZlw1a/nmq4Ty3eASb8JP7sn5EXruzwzsBkpSaPwlA=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=lzkYPfA2BlXCMLdKkajDaZaQOHaW1L4TEMzcjeFuh5jLE+LVVJAKtfRRzx5JBobFJ
+ hQDznclQillFZwhtKJQt8F6UW1/890lKHLRCgPjc//GVKs5UX0vvu7MUzG+plS8HAK
+ g363haOP5I08lS4FEaxB7Yxx1WWaqI8pLmSjmpXw=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 06662lV9094314
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 6 Jul 2020 01:02:47 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 6 Jul
+ 2020 01:02:47 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 6 Jul 2020 01:02:47 -0500
+Received: from [10.250.217.39] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 06662i1W034768;
+ Mon, 6 Jul 2020 01:02:45 -0500
+Subject: Re: [PATCH] omapfb: dss: Fix max fclk divider for omap36xx
+To: Sam Ravnborg <sam@ravnborg.org>, Bartlomiej Zolnierkiewicz
+ <b.zolnierkie@samsung.com>
+References: <20200630182636.439015-1-aford173@gmail.com>
+ <b9052a12-af5a-c1b9-5b86-907eac470cf8@ti.com>
+ <20200703193648.GA373653@ravnborg.org>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <bda1606f-b12c-3356-15ce-489fc2441737@ti.com>
+Date: Mon, 6 Jul 2020 09:02:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200703193648.GA373653@ravnborg.org>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,30 +64,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208333
+Hi,
 
-Ilia Mirkin (imirkin@alum.mit.edu) changed:
+On 03/07/2020 22:36, Sam Ravnborg wrote:
+> Hi Tomi.
+> 
+> On Fri, Jul 03, 2020 at 10:17:29AM +0300, Tomi Valkeinen wrote:
+>> On 30/06/2020 21:26, Adam Ford wrote:
+>>> The drm/omap driver was fixed to correct an issue where using a
+>>> divider of 32 breaks the DSS despite the TRM stating 32 is a valid
+>>> number.  Through experimentation, it appears that 31 works, and
+>>> it is consistent with the value used by the drm/omap driver.
+>>>
+>>> This patch fixes the divider for fbdev driver instead of the drm.
+>>>
+>>> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
+>>>
+>>> Cc: <stable@vger.kernel.org> #4.9+
+>>> Signed-off-by: Adam Ford <aford173@gmail.com>
+>>> ---
+>>> Linux 4.4 will need a similar patch, but it doesn't apply cleanly.
+>>>
+>>> The DRM version of this same fix is:
+>>> e2c4ed148cf3 ("drm/omap: fix max fclk divider for omap36xx")
+>>>
+>>>
+>>> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+>>> index 7252d22dd117..bfc5c4c5a26a 100644
+>>> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+>>> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+>>> @@ -833,7 +833,7 @@ static const struct dss_features omap34xx_dss_feats = {
+>>>    };
+>>>    static const struct dss_features omap3630_dss_feats = {
+>>> -	.fck_div_max		=	32,
+>>> +	.fck_div_max		=	31,
+>>>    	.dss_fck_multiplier	=	1,
+>>>    	.parent_clk_name	=	"dpll4_ck",
+>>>    	.dpi_select_source	=	&dss_dpi_select_source_omap2_omap3,
+>>>
+>>
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Will you apply to drm-misc?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |imirkin@alum.mit.edu
+This is for fbdev, so I presume Bartlomiej will pick this one.
 
---- Comment #3 from Ilia Mirkin (imirkin@alum.mit.edu) ---
-Has nouveau ever worked with this board? Can you get dmesg from a failing boot?
+> Note  following output from "dim fixes":
+> $ dim fixes f76ee892a99e
+> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Dave Airlie <airlied@gmail.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Jason Yan <yanaijie@huawei.com>
+> Cc: "Andrew F. Davis" <afd@ti.com>
+> Cc: YueHaibing <yuehaibing@huawei.com>
+> Cc: <stable@vger.kernel.org> # v4.5+
+> 
+> Here it says the fix is valid from v4.5 onwards.
 
-Unfortunately without logs, it's a bit hard to tell what's going on. Chances
-are the machine is fine, so you should be able to ssh in and get them. Or
-perhaps you can acquire logs from a previous boot, depending on your logging
-system.
+Hmm... Adam, you marked the fix to apply to v4.9+, and then you said 
+v4.4 needs a new patch (that's before the big copy/rename). Did you 
+check the versions between 4.4 and 4.9? I would guess this one applies 
+to v4.5+.
+
+  Tomi
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
