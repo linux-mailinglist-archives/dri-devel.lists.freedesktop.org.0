@@ -2,61 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B102D215D72
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 19:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF4C215F76
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 21:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E78989E35;
-	Mon,  6 Jul 2020 17:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B22689F4A;
+	Mon,  6 Jul 2020 19:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B09A689E2B;
- Mon,  6 Jul 2020 17:48:15 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 17so42961721wmo.1;
- Mon, 06 Jul 2020 10:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=PjS/5UQddfW80cW4QXtUq6fmJtQuV/Y2zF5dRQZJVl4=;
- b=I3WVZn739HtRJZ9Odw/maQYEh0xiEAACWI0TsP9q75nSvWaHdTTKUvhtBAYA7ZXHwh
- /g6xQf+Pa29w4cXSfZPZJ7aYvvRA5C16o8PDktG4FYve0vTmlGo9sDp3ZxFK8FcCs1nJ
- BUmTFmaGwKuiXX30dOLokxVDC+kL78xi/KrMbf5TvNS/KiJu4oT1FB77bTkQccdrwd9m
- faPi5BFOTAuyKdyfWRriKsu9zCpSNjPrkUBXf+I+dwHjY4N3dcQ2S4mCuRpLiPhJ76JH
- l9mttpxq8KtwCbBkfW1bdh9JZc8CCxeF4aM+AAmgmoz8A2a6bNlfb1guAs1TYHXU4AHy
- iEpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PjS/5UQddfW80cW4QXtUq6fmJtQuV/Y2zF5dRQZJVl4=;
- b=OTo3QplIYrpaCEnaQIoZMAHvrxKF6/u37VSutiQaPmqLbEbldQXh2mhCV/66pVzVA/
- TGbtxIcN8/xahw19T/d4aqnGT+zu7+sSItVQLrcFOcMYT0qP0oS287N2S96j1o7whujl
- 0VpgkenL8X1AJ7UnRgTo3lh6mB0KklFNxfZInqcqKbmXfyTMJ/kW5mrDItVAugYA8I8a
- 9Q312KkcSJA/JF5DkVpq8Y2zOLReRhgHl+xteDovcXNjwd9aLCvgR2dqD/whm0e1JElw
- ozkRKYQZyAJxLpfa7zCOakK+FFwUjbprN9/wCXlxfQ68U77WxfyoURGw4lxYQn5CcDKc
- u88A==
-X-Gm-Message-State: AOAM5326qcaSTzYex1c228qGMNdp21fuHoGqU85u6i82lt1P6xNjyijL
- DJVk/DdYZMreofw9yoasTydDdsZB
-X-Google-Smtp-Source: ABdhPJzPcKBr3BPeQo4Nis8pz8RXM9oL0Mz/d4y+o4WO8uotRbt8Ddimis0mlMl/nN4HDgT7NgD1bw==
-X-Received: by 2002:a1c:4143:: with SMTP id o64mr324349wma.11.1594057694087;
- Mon, 06 Jul 2020 10:48:14 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:dcf9:55b2:63a1:3c55])
- by smtp.gmail.com with ESMTPSA id 92sm26937858wrr.96.2020.07.06.10.48.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jul 2020 10:48:13 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/amdgpu: stop allocating dummy GTT nodes
-Date: Mon,  6 Jul 2020 19:48:11 +0200
-Message-Id: <20200706174811.14755-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200706174811.14755-1-christian.koenig@amd.com>
-References: <20200706174811.14755-1-christian.koenig@amd.com>
+Received: from mail.default.ilande.uk0.bigv.io (mail.ilande.co.uk
+ [IPv6:2001:41c9:1:41f::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB9289DA5
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 19:36:51 +0000 (UTC)
+Received: from host86-182-221-233.range86-182.btcentralplus.com
+ ([86.182.221.233] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jsWvB-0001fc-PH; Mon, 06 Jul 2020 20:36:58 +0100
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
+ <20200704072305.GA689588@ravnborg.org>
+ <02fbd875-f6fd-da20-6835-778bdd6426c3@ilande.co.uk>
+ <485ded46-c1a3-1eab-eb95-1a771543fbaf@ilande.co.uk>
+ <20200704134115.GA755192@ravnborg.org>
+ <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
+ <20200704145212.GA791554@ravnborg.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
+Date: Mon, 6 Jul 2020 20:36:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200704145212.GA791554@ravnborg.org>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 86.182.221.233
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+ mail.default.ilande.uk0.bigv.io
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,97 +81,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tm93IHRoYXQgVFRNIGlzIGZpeGVkIHVwIHdlIGNhbiBmaW5hbGx5IHN0b3AgdGhhdCBub25zZW5z
-ZS4KClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jIHwg
-MTA0ICsrKysrKy0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfdHRtLmMgICAgIHwgIDE4ICsrKy0KIDIgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygr
-KSwgODAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2d0dF9tZ3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9n
-dHRfbWdyLmMKaW5kZXggMmMyMGQyM2Q2MmQxLi42MmNmNGZiZDgwM2EgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ndHRfbWdyLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2d0dF9tZ3IuYwpAQCAtMTUwLDYwICsxNTAsNyBAQCBz
-dGF0aWMgaW50IGFtZGdwdV9ndHRfbWdyX2Zpbmkoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-ICptYW4pCiAgKi8KIGJvb2wgYW1kZ3B1X2d0dF9tZ3JfaGFzX2dhcnRfYWRkcihzdHJ1Y3QgdHRt
-X21lbV9yZWcgKm1lbSkKIHsKLQlzdHJ1Y3QgYW1kZ3B1X2d0dF9ub2RlICpub2RlID0gbWVtLT5t
-bV9ub2RlOwotCi0JcmV0dXJuIChub2RlLT5ub2RlLnN0YXJ0ICE9IEFNREdQVV9CT19JTlZBTElE
-X09GRlNFVCk7Ci19Ci0KLS8qKgotICogYW1kZ3B1X2d0dF9tZ3JfYWxsb2MgLSBhbGxvY2F0ZSBu
-ZXcgcmFuZ2VzCi0gKgotICogQG1hbjogVFRNIG1lbW9yeSB0eXBlIG1hbmFnZXIKLSAqIEB0Ym86
-IFRUTSBCTyB3ZSBuZWVkIHRoaXMgcmFuZ2UgZm9yCi0gKiBAcGxhY2U6IHBsYWNlbWVudCBmbGFn
-cyBhbmQgcmVzdHJpY3Rpb25zCi0gKiBAbWVtOiB0aGUgcmVzdWx0aW5nIG1lbSBvYmplY3QKLSAq
-Ci0gKiBBbGxvY2F0ZSB0aGUgYWRkcmVzcyBzcGFjZSBmb3IgYSBub2RlLgotICovCi1zdGF0aWMg
-aW50IGFtZGdwdV9ndHRfbWdyX2FsbG9jKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFu
-LAotCQkJCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqdGJvLAotCQkJCWNvbnN0IHN0cnVjdCB0
-dG1fcGxhY2UgKnBsYWNlLAotCQkJCXN0cnVjdCB0dG1fbWVtX3JlZyAqbWVtKQotewotCXN0cnVj
-dCBhbWRncHVfZGV2aWNlICphZGV2ID0gYW1kZ3B1X3R0bV9hZGV2KG1hbi0+YmRldik7Ci0Jc3Ry
-dWN0IGFtZGdwdV9ndHRfbWdyICptZ3IgPSBtYW4tPnByaXY7Ci0Jc3RydWN0IGFtZGdwdV9ndHRf
-bm9kZSAqbm9kZSA9IG1lbS0+bW1fbm9kZTsKLQllbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2Rl
-OwotCXVuc2lnbmVkIGxvbmcgZnBmbiwgbHBmbjsKLQlpbnQgcjsKLQotCWlmIChhbWRncHVfZ3R0
-X21ncl9oYXNfZ2FydF9hZGRyKG1lbSkpCi0JCXJldHVybiAwOwotCi0JaWYgKHBsYWNlKQotCQlm
-cGZuID0gcGxhY2UtPmZwZm47Ci0JZWxzZQotCQlmcGZuID0gMDsKLQotCWlmIChwbGFjZSAmJiBw
-bGFjZS0+bHBmbikKLQkJbHBmbiA9IHBsYWNlLT5scGZuOwotCWVsc2UKLQkJbHBmbiA9IGFkZXYt
-PmdhcnQubnVtX2NwdV9wYWdlczsKLQotCW1vZGUgPSBEUk1fTU1fSU5TRVJUX0JFU1Q7Ci0JaWYg
-KHBsYWNlICYmIHBsYWNlLT5mbGFncyAmIFRUTV9QTF9GTEFHX1RPUERPV04pCi0JCW1vZGUgPSBE
-Uk1fTU1fSU5TRVJUX0hJR0g7Ci0KLQlzcGluX2xvY2soJm1nci0+bG9jayk7Ci0JciA9IGRybV9t
-bV9pbnNlcnRfbm9kZV9pbl9yYW5nZSgmbWdyLT5tbSwgJm5vZGUtPm5vZGUsIG1lbS0+bnVtX3Bh
-Z2VzLAotCQkJCQltZW0tPnBhZ2VfYWxpZ25tZW50LCAwLCBmcGZuLCBscGZuLAotCQkJCQltb2Rl
-KTsKLQlzcGluX3VubG9jaygmbWdyLT5sb2NrKTsKLQotCWlmICghcikKLQkJbWVtLT5zdGFydCA9
-IG5vZGUtPm5vZGUuc3RhcnQ7Ci0KLQlyZXR1cm4gcjsKKwlyZXR1cm4gbWVtLT5tbV9ub2RlICE9
-IE5VTEw7CiB9CiAKIC8qKgpAQCAtMjM0LDI5ICsxODEsMzcgQEAgc3RhdGljIGludCBhbWRncHVf
-Z3R0X21ncl9uZXcoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sCiAJYXRvbWljNjRf
-c3ViKG1lbS0+bnVtX3BhZ2VzLCAmbWdyLT5hdmFpbGFibGUpOwogCXNwaW5fdW5sb2NrKCZtZ3It
-PmxvY2spOwogCisJaWYgKCFwbGFjZS0+bHBmbikgeworCQltZW0tPm1tX25vZGUgPSBOVUxMOwor
-CQltZW0tPnN0YXJ0ID0gQU1ER1BVX0JPX0lOVkFMSURfT0ZGU0VUOworCQlyZXR1cm4gMDsKKwl9
-CisKIAlub2RlID0ga3phbGxvYyhzaXplb2YoKm5vZGUpLCBHRlBfS0VSTkVMKTsKIAlpZiAoIW5v
-ZGUpIHsKIAkJciA9IC1FTk9NRU07CiAJCWdvdG8gZXJyX291dDsKIAl9CiAKLQlub2RlLT5ub2Rl
-LnN0YXJ0ID0gQU1ER1BVX0JPX0lOVkFMSURfT0ZGU0VUOwotCW5vZGUtPm5vZGUuc2l6ZSA9IG1l
-bS0+bnVtX3BhZ2VzOwogCW5vZGUtPnRibyA9IHRibzsKLQltZW0tPm1tX25vZGUgPSBub2RlOwog
-Ci0JaWYgKHBsYWNlLT5mcGZuIHx8IHBsYWNlLT5scGZuIHx8IHBsYWNlLT5mbGFncyAmIFRUTV9Q
-TF9GTEFHX1RPUERPV04pIHsKLQkJciA9IGFtZGdwdV9ndHRfbWdyX2FsbG9jKG1hbiwgdGJvLCBw
-bGFjZSwgbWVtKTsKLQkJaWYgKHVubGlrZWx5KHIpKSB7Ci0JCQlrZnJlZShub2RlKTsKLQkJCW1l
-bS0+bW1fbm9kZSA9IE5VTEw7Ci0JCQlnb3RvIGVycl9vdXQ7Ci0JCX0KLQl9IGVsc2UgewotCQlt
-ZW0tPnN0YXJ0ID0gbm9kZS0+bm9kZS5zdGFydDsKLQl9CisJc3Bpbl9sb2NrKCZtZ3ItPmxvY2sp
-OworCXIgPSBkcm1fbW1faW5zZXJ0X25vZGVfaW5fcmFuZ2UoJm1nci0+bW0sICZub2RlLT5ub2Rl
-LCBtZW0tPm51bV9wYWdlcywKKwkJCQkJbWVtLT5wYWdlX2FsaWdubWVudCwgMCwgcGxhY2UtPmZw
-Zm4sCisJCQkJCXBsYWNlLT5scGZuLCBEUk1fTU1fSU5TRVJUX0JFU1QpOworCXNwaW5fdW5sb2Nr
-KCZtZ3ItPmxvY2spOworCisJaWYgKHVubGlrZWx5KHIpKQorCQlnb3RvIGVycl9mcmVlOworCisJ
-bWVtLT5tbV9ub2RlID0gbm9kZTsKKwltZW0tPnN0YXJ0ID0gbm9kZS0+bm9kZS5zdGFydDsKIAog
-CXJldHVybiAwOworCitlcnJfZnJlZToKKwlrZnJlZShub2RlKTsKKwogZXJyX291dDoKIAlhdG9t
-aWM2NF9hZGQobWVtLT5udW1fcGFnZXMsICZtZ3ItPmF2YWlsYWJsZSk7CiAKQEAgLTI3OSwxNyAr
-MjM0LDE0IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV9ndHRfbWdyX2RlbChzdHJ1Y3QgdHRtX21lbV90
-eXBlX21hbmFnZXIgKm1hbiwKIAlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IG1hbi0+cHJp
-djsKIAlzdHJ1Y3QgYW1kZ3B1X2d0dF9ub2RlICpub2RlID0gbWVtLT5tbV9ub2RlOwogCi0JaWYg
-KCFub2RlKQotCQlyZXR1cm47Ci0KLQlzcGluX2xvY2soJm1nci0+bG9jayk7Ci0JaWYgKG5vZGUt
-Pm5vZGUuc3RhcnQgIT0gQU1ER1BVX0JPX0lOVkFMSURfT0ZGU0VUKQorCWlmIChub2RlKSB7CisJ
-CXNwaW5fbG9jaygmbWdyLT5sb2NrKTsKIAkJZHJtX21tX3JlbW92ZV9ub2RlKCZub2RlLT5ub2Rl
-KTsKLQlzcGluX3VubG9jaygmbWdyLT5sb2NrKTsKLQlhdG9taWM2NF9hZGQobWVtLT5udW1fcGFn
-ZXMsICZtZ3ItPmF2YWlsYWJsZSk7CisJCXNwaW5fdW5sb2NrKCZtZ3ItPmxvY2spOworCQlrZnJl
-ZShub2RlKTsKKwl9CiAKLQlrZnJlZShub2RlKTsKLQltZW0tPm1tX25vZGUgPSBOVUxMOworCWF0
-b21pYzY0X2FkZChtZW0tPm51bV9wYWdlcywgJm1nci0+YXZhaWxhYmxlKTsKIH0KIAogLyoqCmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKaW5kZXggMzhkMmE3ZmI1Njk4Li41
-MDUwM2Y4NjBmY2UgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV90dG0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKQEAg
-LTQyOSwxMiArNDI5LDIyIEBAIGludCBhbWRncHVfdHRtX2NvcHlfbWVtX3RvX21lbShzdHJ1Y3Qg
-YW1kZ3B1X2RldmljZSAqYWRldiwKIAl9CiAKIAlzcmNfb2Zmc2V0ID0gc3JjLT5vZmZzZXQ7Ci0J
-c3JjX21tID0gYW1kZ3B1X2ZpbmRfbW1fbm9kZShzcmMtPm1lbSwgJnNyY19vZmZzZXQpOwotCXNy
-Y19ub2RlX3NpemUgPSAoc3JjX21tLT5zaXplIDw8IFBBR0VfU0hJRlQpIC0gc3JjX29mZnNldDsK
-KwlpZiAoc3JjLT5tZW0tPm1tX25vZGUpIHsKKwkJc3JjX21tID0gYW1kZ3B1X2ZpbmRfbW1fbm9k
-ZShzcmMtPm1lbSwgJnNyY19vZmZzZXQpOworCQlzcmNfbm9kZV9zaXplID0gKHNyY19tbS0+c2l6
-ZSA8PCBQQUdFX1NISUZUKSAtIHNyY19vZmZzZXQ7CisJfSBlbHNlIHsKKwkJc3JjX21tID0gTlVM
-TDsKKwkJc3JjX25vZGVfc2l6ZSA9IFVMTE9OR19NQVg7CisJfQogCiAJZHN0X29mZnNldCA9IGRz
-dC0+b2Zmc2V0OwotCWRzdF9tbSA9IGFtZGdwdV9maW5kX21tX25vZGUoZHN0LT5tZW0sICZkc3Rf
-b2Zmc2V0KTsKLQlkc3Rfbm9kZV9zaXplID0gKGRzdF9tbS0+c2l6ZSA8PCBQQUdFX1NISUZUKSAt
-IGRzdF9vZmZzZXQ7CisJaWYgKGRzdC0+bWVtLT5tbV9ub2RlKSB7CisJCWRzdF9tbSA9IGFtZGdw
-dV9maW5kX21tX25vZGUoZHN0LT5tZW0sICZkc3Rfb2Zmc2V0KTsKKwkJZHN0X25vZGVfc2l6ZSA9
-IChkc3RfbW0tPnNpemUgPDwgUEFHRV9TSElGVCkgLSBkc3Rfb2Zmc2V0OworCX0gZWxzZSB7CisJ
-CWRzdF9tbSA9IE5VTEw7CisJCWRzdF9ub2RlX3NpemUgPSBVTExPTkdfTUFYOworCX0KIAogCW11
-dGV4X2xvY2soJmFkZXYtPm1tYW4uZ3R0X3dpbmRvd19sb2NrKTsKIAotLSAKMi4xNy4xCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 04/07/2020 15:52, Sam Ravnborg wrote:
+
+> Hi Mark.
+> 
+> On Sat, Jul 04, 2020 at 03:16:47PM +0100, Mark Cave-Ayland wrote:
+>> On 04/07/2020 14:41, Sam Ravnborg wrote:
+>>
+>>> I think what is happening is that the bochs driver request a shadow copy
+>>> for the frambuffer. And with the change to fbops we now use the cfb_
+>>> functions to write to the shadow framebuffer - which is not in any IO
+>>> space. So this does not work.
+>>>
+>>> So maybe all we need is the fix in drm_fb_helper_dirty_blit_real().
+>>> If you try to undo the change so fbops is set to &drm_fbdev_fb_ops,
+>>> but keep the fix in drm_fb_helper_dirty_blit_real() how does it then
+>>> behave?
+>>
+>> Bingo! I just tried that and the framebuffer is now working under qemu-system-sparc64
+>> again - thank you so much for the help! From what you said I guess
+>> drm_fb_helper_dirty_blit_real() is responsible syncing the shadow copy?
+>>
+>> Below is the current working diff based upon your previous one: it certainly feels
+>> like the difference in memcpy() behaviour should be hidden away in fb_memcpy_tofb()
+>> or similar.
+> 
+>>From your feedback so far I thnk the minimal fix would be like this:
+> 
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> .. static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+>>         size_t len = (clip->x2 - clip->x1) * cpp;
+>>         unsigned int y;
+>>
+>>         for (y = clip->y1; y < clip->y2; y++) {
+>> -               memcpy(dst, src, len);
+>> +               fb_memcpy_tofb(dst, src, len);
+>>                 src += fb->pitches[0];
+>>                 dst += fb->pitches[0];
+>>         }
+> 
+> (Hand edited, patch s not a valid syntax)
+> 
+> But I need feedback from someone that know all this a bit better
+> to judge if this is an OK change.
+> For once - this will only work with shadow buffers.
+
+Hi Sam,
+
+Yes, that's correct - I can confirm that the simplified diff below works:
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 5609e164805f..83af05fac604 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
+*fb_helper,
+        unsigned int y;
+
+        for (y = clip->y1; y < clip->y2; y++) {
+-               memcpy(dst, src, len);
++               fb_memcpy_tofb(dst, src, len);
+                src += fb->pitches[0];
+                dst += fb->pitches[0];
+        }
+
+I guess that the next step is to wait for advice from Gerd as to whether this is
+sufficient, or if other changes are required to allow non-shadow buffers to work on
+architectures similar to SPARC64 too.
+
+
+ATB,
+
+Mark.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
