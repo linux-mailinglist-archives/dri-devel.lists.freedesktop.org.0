@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937B1216769
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE89D216763
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3BC86E5C6;
-	Tue,  7 Jul 2020 07:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4976E5BD;
+	Tue,  7 Jul 2020 07:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B33436E3B7
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 13:40:53 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id f139so42177367wmf.5
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jul 2020 06:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eYvPzaHZaaIgS61ZLjNpzen4uwKKezR2/OOrkoRIMZ0=;
- b=N7LoSn2vo9f3rQ4C2sGL7jY5i3u8il6SSYurszDcNXG4RDiQXye4oDe1w49wUKWGYU
- 6YR9e3/7mWBT1uSXTqg4XPCPLbecgJ9K1U+X0Y65YB3vsKNWZaer91W4nyZCnw9XANrU
- W4Go14plLioc6jwPxUMtBUxX76ky2Nqwf5ejw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eYvPzaHZaaIgS61ZLjNpzen4uwKKezR2/OOrkoRIMZ0=;
- b=h/wL36R7aRtlEiEAksW6+TteNbCr9zigQzZxp37XhR+EepxqbWMMf5UMAJ/YTjTe9X
- btNML2kTanqYiOpyzoNi71vVuMlA/xUHphZ8xL+ck8DJDSkJzpi7SALAaOmvR1eiZs5T
- l4lb77O7rCgRCpWqDTjM2E9A0tiAW7BVw9rK9hAN0K+LBzx1qGmUVd5AOOwqtwDYcDCF
- OvyoALK8W/Zgrz8NhmWD869PfhfK3ifCgXDgJle7eQEPtffvALTBazXZNXzIPJBsk5Z6
- Si8FHTMe4yn/whsuDS8xLqvEpKzvbRDANYz/Vvc1brAf9qzidNc3AwhYFahe4+UR9yik
- kcfQ==
-X-Gm-Message-State: AOAM531RqqxACCxpplbP1b9sHlJbJe0cqGAtHMAkhnsJNgKkRsHvGH02
- KXNZPAsluZxap/NACVx+atwakMzQtNcRwvF3jA9X0w==
-X-Google-Smtp-Source: ABdhPJzJbQzeNPTuNOMHMff7aCJzGErvjO7pRBT5QzydRbyBwpY7TNg0ejysnilGn10ahFrXSo1oMtnUeWRwgRrZDag=
-X-Received: by 2002:a7b:c185:: with SMTP id y5mr51495722wmi.85.1594042852077; 
- Mon, 06 Jul 2020 06:40:52 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3D8CB6E428
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 14:21:18 +0000 (UTC)
+X-UUID: ef53f8de7e3146d1b4dba97de3107d3a-20200706
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=OXs1SySUuohRlkO/f7ZMQ1WQrymho9U6t0SKN8dmd0A=; 
+ b=iDvNp8x5hX0ZvvrjeLDjd0lBU/8azwNDYfNE+Dpei8W/G+GY/nWS1Dqxho2/2Zf7k3lmB4ZPURCOLNkvhVZAVdUk2iP825BmmTZyJpZ/mfRIMasNvCN6EGtNsDhCuZngUJPmxYlXYw6fL0c2mvhp8XXYu0t2W04JB5NYQkTPAgM=;
+X-UUID: ef53f8de7e3146d1b4dba97de3107d3a-20200706
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <dennis-yc.hsieh@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 763318562; Mon, 06 Jul 2020 22:21:13 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 6 Jul 2020 22:21:06 +0800
+Received: from [172.21.77.33] (172.21.77.33) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 6 Jul 2020 22:21:07 +0800
+Message-ID: <1594045270.19205.4.camel@mtkswgap22>
+Subject: Re: [PATCH v2 1/8] soc: mediatek: cmdq: add address shift in jump
+From: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Date: Mon, 6 Jul 2020 22:21:10 +0800
+In-Reply-To: <31a41c40-10f5-260d-cebd-7cc2a432095d@gmail.com>
+References: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1593931715-32761-2-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <31a41c40-10f5-260d-cebd-7cc2a432095d@gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-References: <20200701212155.37830-1-james.quinlan@broadcom.com>
- <20200701212155.37830-9-james.quinlan@broadcom.com>
- <20200702084251.GF3703480@smile.fi.intel.com>
-In-Reply-To: <20200702084251.GF3703480@smile.fi.intel.com>
-From: Jim Quinlan <james.quinlan@broadcom.com>
-Date: Mon, 6 Jul 2020 09:40:40 -0400
-Message-ID: <CA+-6iNwu-jHTb7VFpmkYoyipWK9rtTEOq2dW7K=nYXpUrOTwCQ@mail.gmail.com>
-Subject: Re: [PATCH v6 08/12] device core: Introduce DMA range map,
- supplanting dma_pfn_offset
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+X-TM-SNTS-SMTP: D9D74A0864D11FB68CC9C721CD27F57DA020E8AE1AAB324BDCC36D49191540CF2000:8
+X-MTK: N
 X-Mailman-Approved-At: Tue, 07 Jul 2020 07:26:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,179 +55,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Yong Deng <yong.deng@magewell.com>,
- Santosh Shilimkar <ssantosh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>,
+ HS Liao <hs.liao@mediatek.com>, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Hi Matthias,
 
-Sorry for the delay in response.  I will do what you suggest in your
-email.  I do have one response to one of your comments below.
+thanks for your comment
 
-On Thu, Jul 2, 2020 at 4:43 AM Andy Shevchenko
-<andriy.shevchenko@linux.intePHYSl.com> wrote:
->
-> On Wed, Jul 01, 2020 at 05:21:38PM -0400, Jim Quinlan wrote:
-> > The new field 'dma_range_map' in struct device is used to facilitate the
-> > use of single or multiple offsets between mapping regions of cpu addrs and
-> > dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
-> > capable of holding a single uniform offset and had no region bounds
-> > checking.
-> >
-> > The function of_dma_get_range() has been modified so that it takes a single
-> > argument -- the device node -- and returns a map, NULL, or an error code.
-> > The map is an array that holds the information regarding the DMA regions.
-> > Each range entry contains the address offset, the cpu_start address, the
-> > dma_start address, and the size of the region.
-> >
-> > of_dma_configure() is the typical manner to set range offsets but there are
-> > a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
-> > driver code.  These cases now invoke the function
-> > dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
->
-> ...
->
-> > +     if (dev && dev->dma_range_map)
-> > +             pfn -= (unsigned long)PFN_DOWN(dma_offset_from_phys_addr(dev, PFN_PHYS(pfn)));
->
-> Instead of casting use PHYS_PFN() and it will be consistent with latter in the same line.
->
-> > +     if (dev && dev->dma_range_map)
-> > +             pfn += (unsigned long)PFN_DOWN(dma_offset_from_dma_addr(dev, addr));
->
-> Ditto.
->
-> ...
->
-> > +             dev_err(dev, "set dma_offset%08llx%s\n", KEYSTONE_HIGH_PHYS_START
-> > +                     - KEYSTONE_LOW_PHYS_START, ret ? " failed" : "");
->
-> Please, avoid such indentation.
-> Better split it to the three lines, argument per line (expect dev which will go
-> on the first one).
->
-> This applies to all similar places.
->
-> ...
->
-> >       unsigned long pfn = (dma_handle >> PAGE_SHIFT);
->
-> PHYS_PFN() / PFN_DOWN() ?
->
-> > +     if (!WARN_ON(!dev) && dev->dma_range_map)
-> > +             pfn += (unsigned long)PFN_DOWN(dma_offset_from_dma_addr(dev, dma_handle));
->
-> PHYS_PFN() ?
->
-> ...
->
-> > +     r = kcalloc(num_ranges + 1, sizeof(struct bus_dma_region), GFP_KERNEL);
->
-> sizeof(*r) ?
->
-> > +     if (!r)
-> > +             return ERR_PTR(-ENOMEM);
->
-> ...
->
-> > +     ret = IS_ERR(map) ? PTR_ERR(map) : 0;
->
-> PTR_ERR_OR_ZERO()
->
-> ...
->
-> > +             /* We want the offset map to be device-managed, so alloc & copy */
-> > +             dev->dma_range_map = devm_kcalloc(dev, num_ranges + 1, sizeof(*r),
-> > +                                               GFP_KERNEL);
->
-> The question is how many times per device lifetime this can be called?
-Someone else questioned this.  There are two cases that come to mind:
-our overnight test which load/unloads the RC driver over and over, and
-a customer that does an unbind/bind  of the RC driver when their EP is
-hung and wants to restart.  Both cases are atypical and are weak
-arguments to justify the second copy.  I will drop the copy.
+On Mon, 2020-07-06 at 16:03 +0200, Matthias Brugger wrote:
+> 
+> On 05/07/2020 08:48, Dennis YC Hsieh wrote:
+> > Add address shift when compose jump instruction
+> > to compatible with 35bit format.
+> > 
+> > Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+> 
+> You are missing Bibby's Reviewed-by. Please honour the effort reviewers do by
+> adding the appropriate tags.
+> 
+> Please double check the series and resend with all tags added.
+> 
+> Also, it would be good if you could provide a change log. That makes it easier
+> for the maintainer to see which statements you addressed.
 
-Thanks,
-Jim Quinlan
-Broadcom STB
->
-> ...
->
->
-> > +             if (!dev->dma_range_map)
-> > +                     return -ENOMEM;
-> > +             memcpy((void *)dev->dma_range_map, map, sizeof(*r) * num_ranges + 1);
->
-> If it's continuous, perhaps kmemdup() ?
->
-> ...
->
-> > +     rc = IS_ERR(map) ? PTR_ERR(map) : 0;
->
-> PTR_ERR_OR_ZERO()
->
-> ...
->
-> > +                     = dma_offset_from_phys_addr(dev, PFN_PHYS(mem->pfn_base));
-> > +
-> > +             return (dma_addr_t)PFN_PHYS(mem->pfn_base) - dma_offset;
->
-> Looking at this more, I think you need to introduce in the same header (pfn.h)
-> something like:
->
->         #define PFN_DMA_ADDR()
->         #define DMA_ADDR_PFN()
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+this patch changed since cmdq_mbox_shift() rename to cmdq_get_shift_pa()
+by Bibby's comment [1], so I removed reviewed tags from this patch.
+
+I'll provide change log to this patch and resend later, thanks.
+
+[1]
+http://lists.infradead.org/pipermail/linux-mediatek/2020-June/013387.html
+
+
+Regards,
+Dennis
+
+> 
+> Thanks,
+> Matthias
+> 
+> > ---
+> >  drivers/soc/mediatek/mtk-cmdq-helper.c |    3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> > index dc644cfb6419..9faf78fbed3a 100644
+> > --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> > +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> > @@ -329,7 +329,8 @@ int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+> >  
+> >  	/* JUMP to end */
+> >  	inst.op = CMDQ_CODE_JUMP;
+> > -	inst.value = CMDQ_JUMP_PASS;
+> > +	inst.value = CMDQ_JUMP_PASS >>
+> > +		cmdq_get_shift_pa(((struct cmdq_client *)pkt->cl)->chan);
+> >  	err = cmdq_pkt_append_command(pkt, inst);
+> >  
+> >  	return err;
+> > 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
