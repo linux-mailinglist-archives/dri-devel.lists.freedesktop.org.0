@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88165216106
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 23:40:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDBD216197
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 00:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C14416E471;
-	Mon,  6 Jul 2020 21:40:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D14B6E486;
+	Mon,  6 Jul 2020 22:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99376E471
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 21:40:28 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208443] [amdpgu] NAVI10 shutting second display off causes
- video corruption/crash on kernels >=5.7.6
-Date: Mon, 06 Jul 2020 21:40:28 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ironmikkl@gmx.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-208443-2300-z48TlAt9no@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208443-2300@https.bugzilla.kernel.org/>
-References: <bug-208443-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 310C06E47E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 22:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=from:subject:in-reply-to:references:to:cc:content-type:
+ content-transfer-encoding;
+ s=001; bh=63/HKH6wNc/07OqiA1yctULaLMPjNtHCXH6IBFgPuW0=;
+ b=QxTdQHzDUhU1mmOdoXN3SZ6tjhuIK0j3xUl4JQQyHx3wTuwO6jUmEM3bYmWpB2o7qXTk
+ p6VOMLRKVq9QfdM5i2XCy+xVHPRqgph7VVQi4R6psUIvOOvhPoMmAV3HjmXZfiAJNFMENP
+ oBHEssnNPJe0/36h115eYkAdXYGKjcqV8=
+Received: by filterdrecv-p3las1-7754f7d4cc-fqrzr with SMTP id
+ filterdrecv-p3las1-7754f7d4cc-fqrzr-19-5F03A5F4-36
+ 2020-07-06 22:30:12.61868238 +0000 UTC m=+965799.783674456
+Received: from bionic.localdomain (unknown)
+ by ismtpd0004p1lon1.sendgrid.net (SG) with ESMTP
+ id LcDdvt6lT9C7M20Z4UoZJQ Mon, 06 Jul 2020 22:30:12.191 +0000 (UTC)
+From: Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v2 0/2] drm: rockchip: add NV15, NV20 and NV30 support
+Date: Mon, 06 Jul 2020 22:30:12 +0000 (UTC)
+Message-Id: <20200706223009.1200-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200607202521.18438-1-jonas@kwiboo.se>
+References: <20200607202521.18438-1-jonas@kwiboo.se>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h2jx6rNUbibDfvcQb?=
+ =?us-ascii?Q?HBJWIsxybDLeUWaOeuvzlwhpdnYWD4ydpio0RQT?=
+ =?us-ascii?Q?RXe3+j4AsBZnn6ATSe4+TwWf+C0hx0KlOdVMd4p?=
+ =?us-ascii?Q?n2nGqH6Kw4NyITuljClgAL5kcg8yfasLHMUNsZS?=
+ =?us-ascii?Q?M4xXzP6xbbl8TJyNFij1x49LU6mg9mireaIMBqf?=
+ =?us-ascii?Q?76IaIb6LIHob4UAzVAHeg=3D=3D?=
+To: Sandy Huang <hjc@rock-chips.com>, Heiko =?iso-8859-1?q?St=FCbner?=
+ <heiko@sntech.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,31 +53,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ben Davis <ben.davis@arm.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208443
+Hi,
 
-mikkl (ironmikkl@gmx.net) changed:
+This series adds support for displaying 10-bit 4:2:0 and 4:2:2 formats produced
+by the Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK3399.
+Also include 10-bit 4:4:4 support since VOP can support that also.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |PATCH_ALREADY_AVAILABLE
+First patch adds new fourcc 10-bit YUV formats with 4:2:2/4:4:4 sub-sampling.
+Second patch adds support for displaying the the new fourcc formats.
 
---- Comment #3 from mikkl (ironmikkl@gmx.net) ---
-(In reply to Alex Deucher from comment #2)
-> Likely fixed by:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
-> ?id=6eb3cf2e06d22b2b08e6b0ab48cb9c05a8e1a107
+Changes in v2:
+- Add NV30 format
+- R-B tags was not collected due to NV30 changes
 
-Applied on 5.7.7. For now, this seems to work for me, thanks!
+This series has been tested on RK3399 using a Rockchip Video Decoder series
+at [1] together with ffmpeg at [2] and kodi-gbm or mpv. [3] contains all
+patches needed on top of linux-media master for easy testing.
+
+[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=2859
+[2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.3-rkvdec-high-10
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v2
+
+Regards,
+Jonas
+
+Jonas Karlman (2):
+  drm: drm_fourcc: add NV20 and NV30 YUV formats
+  drm: rockchip: add NV15, NV20 and NV30 support
+
+ drivers/gpu/drm/drm_fourcc.c                |  8 ++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 29 +++++++++++++++++--
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 32 +++++++++++++++++----
+ include/uapi/drm/drm_fourcc.h               |  2 ++
+ 5 files changed, 64 insertions(+), 8 deletions(-)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
