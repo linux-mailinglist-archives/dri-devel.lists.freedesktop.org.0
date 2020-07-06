@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05A1215000
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 00:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E633215108
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jul 2020 03:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 206D689ED6;
-	Sun,  5 Jul 2020 22:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC2D6E2DA;
+	Mon,  6 Jul 2020 01:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 221D389ED6
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jul 2020 22:08:38 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Sun, 05 Jul 2020 22:08:37 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: 1i5t5.duncan@cox.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-207383-2300-Hc3DFLUqYA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E912D6E2D5;
+ Mon,  6 Jul 2020 01:51:48 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4B0T7y4Zldz9s1x;
+ Mon,  6 Jul 2020 11:51:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1594000306;
+ bh=vGrjLo9bIyDDJMbpF8o71tEP2DJi9pD1/ClDLsf/MSU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ZMS798XsaFeahBWz/K8Co8PC2+dFxM7f64Vgjzz56aw3rEJniWGYk12xSN+WrGRW1
+ LyIqF1Ax509BCow9VLByoB4Q7s8aEaP3sO1Zzo0VIfXGd5AaGO04A9+bGHBJmJ150E
+ SXn5Phih/8qJdxeIjA9tcrFxwLZvdelArVWeP9TmKBvsAB4cCDwPGo3TorLkG2NneU
+ 2ipe86ow4/x85iCxtj8HBIBVMvOnvXbdVmCBS5esJT/ZsTIeDoqv4QIWceqT2gW+oX
+ +RNMDfvh89L7RyTmOodUWopkMn+EFJzTOoUgYJ7GQYWAfj4lYFg3ahXPyGKX4X+T3p
+ Q5NxB3biLC/0g==
+Date: Mon, 6 Jul 2020 11:51:41 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>
+Subject: Re: linux-next: manual merge of the drm-intel tree with the
+ drm-intel-fixes tree
+Message-ID: <20200706115141.63f7677a@canb.auug.org.au>
+In-Reply-To: <20200630115202.04c39f9b@canb.auug.org.au>
+References: <20200630115202.04c39f9b@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,67 +49,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Colin Xu <colin.xu@intel.com>
+Content-Type: multipart/mixed; boundary="===============0259067469=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+--===============0259067469==
+Content-Type: multipart/signed; boundary="Sig_/VN2RFb1d.9dhsZAzcrTk/Nw";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Duncan (1i5t5.duncan@cox.net) changed:
+--Sig_/VN2RFb1d.9dhsZAzcrTk/Nw
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #290101|0                           |1
-        is obsolete|                            |
+Hi all,
 
---- Comment #39 from Duncan (1i5t5.duncan@cox.net) ---
-Created attachment 290105
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290105&action=edit
-Partial git bisect log update #3
+On Tue, 30 Jun 2020 11:52:02 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> Today's linux-next merge of the drm-intel tree got a conflict in:
+>=20
+>   drivers/gpu/drm/i915/gvt/handlers.c
+>=20
+> between commit:
+>=20
+>   fc1e3aa0337c ("drm/i915/gvt: Fix incorrect check of enabled bits in mas=
+k registers")
+>=20
+> from the drm-intel-fixes tree and commit:
+>=20
+>   5f4ae2704d59 ("drm/i915: Identify Cometlake platform")
+>=20
+> from the drm-intel tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> diff --cc drivers/gpu/drm/i915/gvt/handlers.c
+> index fadd2adb8030,26cae4846c82..000000000000
+> --- a/drivers/gpu/drm/i915/gvt/handlers.c
+> +++ b/drivers/gpu/drm/i915/gvt/handlers.c
+> @@@ -1731,8 -1734,9 +1734,9 @@@ static int ring_mode_mmio_write(struct=20
+>   		return 0;
+>   	}
+>  =20
+> - 	if (IS_COFFEELAKE(vgpu->gvt->gt->i915) &&
+> + 	if ((IS_COFFEELAKE(vgpu->gvt->gt->i915) ||
+> + 	     IS_COMETLAKE(vgpu->gvt->gt->i915)) &&
+>  -	    data & _MASKED_BIT_ENABLE(2)) {
+>  +	    IS_MASKED_BITS_ENABLED(data, 2)) {
+>   		enter_failsafe_mode(vgpu, GVT_FAILSAFE_UNSUPPORTED_GUEST);
+>   		return 0;
+>   	}
 
-(In reply to Duncan from comment #38)
-> With luck I'll get a couple more bad ones
-> right away and narrow it down quickly.
+This is now a conflict between the drm tree and Linus' tree.
 
-And so it is.  28 candidates ATM, several of which are OCFS2 or spelling fixes
-neither of which should affect this bug.  Excluding those there are eleven
-left; the penultimate (next to last) one looks to be a good candidate:
+--=20
+Cheers,
+Stephen Rothwell
 
-5f2d5026b mm/Makefile: disable KCSAN for kmemleak
-b0d14fc43 mm/kmemleak.c: use address-of operator on section symbols
-667c79016 revert "topology: add support for node_to_mem_node() to determine the
-fallback node"
-3202fa62f slub: relocate freelist pointer to middle of object
-1ad53d9fa slub: improve bit diffusion for freelist ptr obfuscation
-bbd4e305e mm/slub.c: replace kmem_cache->cpu_partial with wrapped APIs
-4c7ba22e4 mm/slub.c: replace cpu_slab->partial with wrapped APIs
-c537338c0 fs_parse: remove pr_notice() about each validation
-630f289b7 asm-generic: make more kernel-space headers mandatory
-98c985d7d kthread: mark timer used by delayed kthread works as IRQ safe
-4054ab64e tools/accounting/getdelays.c: fix netlink attribute length
+--Sig_/VN2RFb1d.9dhsZAzcrTk/Nw
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-My gut says it's 98c "kthread: mark ... delayed kthread... IRQ safe".  Not a
-coder but the comment talks about delayed kthreads, we always see the workqueue
-in the traces, and mnrzk observes in comment #30 that forcing
-drm_atomic_helper_commit to run directly instead of using the workqueue seems
-to eliminate the freeze.  If it's called from the amdgpu code and that commit
-changes the IRQ-safety assumptions the amdgpu code was depending on in the
-workqueue, where the unqueued context is automatically IRQ-safe...
+-----BEGIN PGP SIGNATURE-----
 
-Still could be wrong, but at 11 real candidates it's a 9% chance even simply
-statistically, and it sure seems to fit.  Anyway, if it /is/ correct, the next
-few bisect steps should be bisect bad and thus go faster, narrowing it down
-even further.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl8Cg60ACgkQAVBC80lX
+0GwibAf+PXJXCM3LIm8R48ENxegIUgfk+plaPQakoIIZX68CAuRZ5y9hLYhlSGD9
+H0A6LxpOlr7vGgYaLttX58jsZ6jgHzgb+bSRXBiBVMFhr3d1aEnKdbuC6VqFJHOU
+tQNZuGWBxCOWan547rv8FObwY5IYbT4RjhiuUbxOznqsRQPbw2bONYqi6u+Guxui
+BkTSGs9U0wwddnzQx6qqLselmTdyTOCM2JqIOykmsaVcOTpWUdhYS/+vBduPHD+0
+DxC1VSg6cBpDNh3MUR/CohdEBj1aIUclBr+/CT6ELUTvdN4kIyf9YUVFGHb7iVqk
+2q7spaFICRvvAiTXpufnqqpODfhSCw==
+=AxTN
+-----END PGP SIGNATURE-----
 
-Regardless, we're down far enough that someone that can actually read code
-might be able to take a look at that and the others now, so my bisect shouldn't
-be the /entire/ bottleneck any longer.
+--Sig_/VN2RFb1d.9dhsZAzcrTk/Nw--
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--===============0259067469==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0259067469==--
