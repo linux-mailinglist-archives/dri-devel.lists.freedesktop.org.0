@@ -2,31 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED31A216764
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06F3216772
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2DBF6E5BF;
-	Tue,  7 Jul 2020 07:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 125B66E5D2;
+	Tue,  7 Jul 2020 07:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 75505 seconds by postgrey-1.36 at gabe;
- Mon, 06 Jul 2020 20:56:07 UTC
-Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C429B89DBF
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 20:56:07 +0000 (UTC)
-Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp.webfaction.com (Postfix) with ESMTPSA id 62E6C600166B0;
- Mon,  6 Jul 2020 20:56:03 +0000 (UTC)
-From: Paul Boddie <paul@boddie.org.uk>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
- JZ4780)
-Date: Mon, 06 Jul 2020 22:55:58 +0200
-Message-ID: <3158508.CFMi0AOM4G@jason>
-In-Reply-To: <32cb6f50-1fe1-1484-0512-04590882d35a@baylibre.com>
-References: <1940005.XIBaf5lNV5@jeremy> <7086465.UhkgK7rEtT@jason>
- <32cb6f50-1fe1-1484-0512-04590882d35a@baylibre.com>
+Received: from crapouillou.net (crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23AC6E48F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 23:50:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1594079410; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NboD0HuCCOCTz3ZvzoSX9hS0Fzn/G2ArNDsjnk2M+qY=;
+ b=gEAErzWQGyz4moVpKPHo4splZgegEadql6JwC2qaisrd0+qP+TPB2uI3F+nrFS7tqOgfAR
+ MtIT8xWuXZn+f7qSfOMDFerYQy0QG8yZv9gR8Pf+u1KyyrmsfVEQS6PQh+vQvoioabP88Q
+ RNGME1GfxlfaYnyFzs/iaQfnFYjzESg=
+Date: Tue, 07 Jul 2020 01:49:59 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm/dbi: Fix SPI Type 1 (9-bit) transfer
+To: Noralf =?iso-8859-1?q?Tr=F8nnes?= <noralf@tronnes.org>
+Message-Id: <BJN2DQ.10EODF78DAWA@crapouillou.net>
+In-Reply-To: <0dda6b3f-ea8c-6a7e-5c7c-f26874b825c8@tronnes.org>
+References: <20200703141341.1266263-1-paul@crapouillou.net>
+ <0dda6b3f-ea8c-6a7e-5c7c-f26874b825c8@tronnes.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 07 Jul 2020 07:26:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,64 +44,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, 6 July 2020 14:12:24 CEST Neil Armstrong wrote:
-> 
-> On 06/07/2020 01:57, Paul Boddie wrote:
-> > 
-> > It also seems to be appropriate to set the input_bus_format on the
-> > platform- specific HDMI driver; otherwise, I doubt that appropriate bus
-> > encodings will be chosen in the Synopsys driver.
-> 
-> It does but when not provided, it doesn't use it.
-> 
-> It's handled in drm_atomic_bridge_chain_select_bus_fmts() :
-> 	if (conn->display_info.num_bus_formats &&
-> 		    conn->display_info.bus_formats)
-> 		out_bus_fmts[0] = conn->display_info.bus_formats[0];
-> 	else
-> 		out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+Hi Noralf,
 
-OK. I thought I'd seen this somewhere, but I had started to think that 
-input_bus_format would remain initialised (presumably to zero) and this would 
-then cause the Synopsys driver to not change the bus format to the actual 
-default.
+Le dim. 5 juil. 2020 =E0 17:58, Noralf Tr=F8nnes <noralf@tronnes.org> a =
 
-[...]
+=E9crit :
+> =
 
-> > Testing against 5.8-rc3 with the above changes seems to have moved the
-> > needle slightly. Although I still get "Input not supported" from my
-> > monitor, running modetest now gives a different error:
-> > 
-> > modetest -D /dev/dri/card0 -M ingenic-drm -s 34@32:1280x1024-60.02
-> > 
-> > ...now yields this:
-> > 
-> > setting mode 1280x1024-60.02Hz@XR24 on connectors 34, crtc 32
-> > failed to set gamma: Invalid argument
-> 
-> This is because you don't provide the gamma setup ioctl, it's not a fatal
-> error at all. It should be warning since it's optional.
-> 
-> Did you check all modes ?
+> =
 
-I have checked a few more. Currently, testing them is awkward because it 
-involves switching my monitor to DVI input, getting "Input Not Supported", 
-unplugging the cable, and then the hotplug event has most likely caused a bad 
-pointer dereference in ingenic_drm_crtc_atomic_flush and thus a kernel panic.
+> Den 03.07.2020 16.13, skrev Paul Cercueil:
+>>  The function mipi_dbi_spi1_transfer() will transfer its payload as =
 
-So, I'll try and fix this panic, which appears to be due to the DRM driver 
-accessing a null framebuffer pointer (presumably having been invalidated 
-elsewhere upon unplugging), and see if I can't get some more information about 
-the state of the peripherals.
+>> 9-bit
+>>  data, the 9th (MSB) bit being the data/command bit. In order to do =
 
-Paul
+>> that,
+>>  it unpacks the 8-bit values into 16-bit values, then sets the 9th =
+
+>> bit if
+>>  the byte corresponds to data, clears it otherwise. The 7 MSB are
+>>  padding. The array of now 16-bit values is then passed to the SPI =
+
+>> core
+>>  for transfer.
+>> =
+
+>>  This function was broken since its introduction, as the length of =
+
+>> the
+>>  SPI transfer was set to the payload size before its conversion, but =
+
+>> the
+>>  payload doubled in size due to the 8-bit -> 16-bit conversion.
+>> =
+
+>>  Fixes: 02dd95fe3169 ("drm/tinydrm: Add MIPI DBI support")
+>>  Cc: <stable@vger.kernel.org> # 4.10
+> =
+
+> The code was moved to drm_mipi_dbi.c in 5.4 so this patch won't apply
+> before that.
+
+I believe I can submit a patch for pre-5.4 too.
+
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  ---
+> =
+
+> Thanks for fixing this, clearly I didn't test this. Probably because =
+
+> the
+> aux spi ip block on the Raspberry Pi that can do 9 bit didn't have a
+> driver at the time. Did you actually test this or was it spotted =
+
+> reading
+> the code?
+
+I did test it on hardware, yes - that's how I spotted the bug.
+
+-Paul
+
+> Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+> =
+
+>>   drivers/gpu/drm/drm_mipi_dbi.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> =
+
+>>  diff --git a/drivers/gpu/drm/drm_mipi_dbi.c =
+
+>> b/drivers/gpu/drm/drm_mipi_dbi.c
+>>  index bb27c82757f1..bf7888ad9ad4 100644
+>>  --- a/drivers/gpu/drm/drm_mipi_dbi.c
+>>  +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+>>  @@ -923,7 +923,7 @@ static int mipi_dbi_spi1_transfer(struct =
+
+>> mipi_dbi *dbi, int dc,
+>>   			}
+>>   		}
+>> =
+
+>>  -		tr.len =3D chunk;
+>>  +		tr.len =3D chunk * 2;
+>>   		len -=3D chunk;
+>> =
+
+>>   		ret =3D spi_sync(spi, &m);
+>> =
+
 
 
 _______________________________________________
