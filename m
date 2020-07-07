@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C432166F1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:01:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9152166FD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0D96E20F;
-	Tue,  7 Jul 2020 07:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA706E218;
+	Tue,  7 Jul 2020 07:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 318156E20F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 07:01:37 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id q15so11210533vso.9
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 00:01:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qbsHVyeK2Vstzqb6QmhJv9+M3wOOHcWN7GhZMwhEauo=;
- b=EEyqfv3lnLwactKiE8HZ/CTLLA9oHPzdCHG+biD5AwMuhpZB+6M4SlswZoR/xFBP/T
- 7BVPdd4f+5VxTBjYxixYeitZbYSKWgJJKhSWFL5MxXSr7PKGu3zp/5IMUVhFpv3V/Wdt
- CjZU+UXTjLwhhLIQOa+VmBjJNqT/DdPK3ndHY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qbsHVyeK2Vstzqb6QmhJv9+M3wOOHcWN7GhZMwhEauo=;
- b=hKVHlfYlR6P7JczC4km3ChVaIHvVcTIfct5J2w0PSRaUT4K4UGX6JyonKWnF9ZfmUj
- NVYLy6iPfsxu1/zwVc4AVHZtTvyumITiKDfOJNH47GmR3Tl5Kq013udHe4jS1p5wBFkH
- Mm5xb+itwgX/IWOm7v+Ze+bXn8vVHUJt2jBS021rP4iDDY+W1eEPSjHumhyN8pWXA2eU
- KYen1HYXG/yAK5lpYvbusl0ZY+n+4lDQjUK8PTvpneoIC6X5K/pPYcpUl2LNqOnHWGxm
- 4iAOfo9tafKovsghdtlDNvQQD33q7JmzBGJMQPREXDp5USfn7aNIFKL3GTJ8uvkGkNZ7
- pu5g==
-X-Gm-Message-State: AOAM530Tq95SxMikzuw6z8IvH2YtEc6+/TJCiznG2rQemmw2zZElX0aB
- r2bB4Lx2ya/gbr8yV2eVvCvXH5agtYWmU0dxFsdl+w==
-X-Google-Smtp-Source: ABdhPJwA2s7xYWSfCkrCts/eUUgdQUXG/H9gqkpnvbcbSGwQe1S7omc1CbDKZxVIZgleI9cmUmc7kJ36DVKAqlSmoE0=
-X-Received: by 2002:a67:8e49:: with SMTP id q70mr3322116vsd.14.1594105296201; 
- Tue, 07 Jul 2020 00:01:36 -0700 (PDT)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C61DF6E218
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 07:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594105427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pBct573chDUVycC2r47Dhb1fPGGMGariRGswer8qzzg=;
+ b=bqJWozIny2Anx5Yh2ssZ0BoweH5KNM6gtbcCnp9tERk3/LvMQf4IW1EdOD3fs41TDU6wid
+ 20VCS+Blbm4WaJmMr2OyC5pJLg1RZGcz3I+fReRgZCEG5/Jsg+tBc9Ci6EPskLVVI6vfzI
+ 1tqZsKSxqJf4aPgYohsyozIo0K7gkRc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-gJCiovz9NomAeJ9Wl9EF8A-1; Tue, 07 Jul 2020 03:03:45 -0400
+X-MC-Unique: gJCiovz9NomAeJ9Wl9EF8A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3CD107B7C6;
+ Tue,  7 Jul 2020 07:03:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
+ [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A6F7560CC0;
+ Tue,  7 Jul 2020 07:03:42 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A21059D71; Tue,  7 Jul 2020 09:03:41 +0200 (CEST)
+Date: Tue, 7 Jul 2020 09:03:41 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
+Message-ID: <20200707070341.wpxyrlkrtbhghtro@sirius.home.kraxel.org>
+References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
+ <20200704072305.GA689588@ravnborg.org>
+ <02fbd875-f6fd-da20-6835-778bdd6426c3@ilande.co.uk>
+ <485ded46-c1a3-1eab-eb95-1a771543fbaf@ilande.co.uk>
+ <20200704134115.GA755192@ravnborg.org>
+ <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
+ <20200704145212.GA791554@ravnborg.org>
+ <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
 MIME-Version: 1.0
-References: <cover.1591345160.git.xji@analogixsemi.com>
- <a18316c118c7b8ac201911b0b96d41c84653a00f.1591345160.git.xji@analogixsemi.com>
-In-Reply-To: <a18316c118c7b8ac201911b0b96d41c84653a00f.1591345160.git.xji@analogixsemi.com>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Tue, 7 Jul 2020 15:01:25 +0800
-Message-ID: <CANMq1KDnoLSUxxYr82o=1eGBR7E3PxoYUr8h1sEVTyqYyHCC-Q@mail.gmail.com>
-Subject: Re: [PATCH v13 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
- DP
-To: Xin Ji <xji@analogixsemi.com>
+In-Reply-To: <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,135 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Pi-Hsun Shih <pihsun@chromium.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Shawn Ku <shawnku@google.com>, Jonas Karlman <jonas@kwiboo.se>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 9, 2020 at 3:20 PM Xin Ji <xji@analogixsemi.com> wrote:
->
-> The ANX7625 is an ultra-low power 4K Mobile HD Transmitter designed
-> for portable device. It converts MIPI DSI/DPI to DisplayPort 1.3 4K.
->
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/Kconfig   |    9 +
->  drivers/gpu/drm/bridge/analogix/Makefile  |    1 +
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 1999 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/bridge/analogix/anx7625.h |  397 ++++++
->  4 files changed, 2406 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
->  create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
->
-> [snip]
-> +static int anx7625_parse_dt(struct device *dev,
-> +                           struct anx7625_platform_data *pdata)
-> +{
-> +       struct device_node *np = dev->of_node;
-> +       struct device_node *panel_node, *out_ep;
-> +
-> +       pdata->node.mipi_dsi_host_node = of_graph_get_remote_node(np, 0, 0);
-> +       if (!pdata->node.mipi_dsi_host_node) {
-> +               DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
-> +               return -EPROBE_DEFER;
+> Yes, that's correct - I can confirm that the simplified diff below works:
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 5609e164805f..83af05fac604 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
+> *fb_helper,
+>         unsigned int y;
+> 
+>         for (y = clip->y1; y < clip->y2; y++) {
+> -               memcpy(dst, src, len);
+> +               fb_memcpy_tofb(dst, src, len);
 
-This does not look correct. I don't think of_graph_get_remote_node
-will ever return NULL if the device tree is configured properly, and
-it's useless to retry later (EPROBE_DEFER). You should just fail (e.g.
-return EINVAL).
+fb_memcpy_tofb is #defined to sbus_memcpy_toio @ sparc which looks
+wrong to me given that this is a pci not a sbus device.  sparc also has
+memcpy_toio which looks better to me.
 
-> +       }
-> +
-> +       of_node_put(pdata->node.mipi_dsi_host_node);
+There are blit helpers in drm_format_helper.c which already use
+memcpy_toio(), I guess we should do the same here.  Not fully sure we
+can use memcpy_toio() unconditionally here.  Given that a shadow
+framebuffer makes sense only in case the real framebuffer is not in
+normal ram we probably can.
 
-You are using pdata->node.mipi_dsi_host_node in other places in the
-code, so I don't think it's ok to call of_node_put?
+take care,
+  Gerd
 
-> +       DRM_DEV_DEBUG_DRIVER(dev, "found dsi host node.\n");
-> +
-> +       pdata->node.panel_node = of_graph_get_port_by_id(np, 1);
-> +       if (!pdata->node.panel_node) {
-> +               DRM_DEV_ERROR(dev, "fail to get panel node.\n");
-> +               return -EPROBE_DEFER;
-
--EINVAL.
-
-> +       }
-> +
-> +       of_node_put(pdata->node.panel_node);
-> +       out_ep = of_get_child_by_name(pdata->node.panel_node,
-> +                                     "endpoint");
-> +       if (!out_ep) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "cannot get endpoint.\n");
-
-DRM_DEV_ERROR seems more appropriate
-
-> +               return -EPROBE_DEFER;
-
--EINVAL
-
-> +       }
-> +
-> +       panel_node = of_graph_get_remote_port_parent(out_ep);
-> +       of_node_put(out_ep);
-> +       pdata->panel = of_drm_find_panel(panel_node);
-> +       DRM_DEV_DEBUG_DRIVER(dev, "get panel node.\n");
-> +
-> +       of_node_put(panel_node);
-> +       if (IS_ERR_OR_NULL(pdata->panel))
-> +               return -EPROBE_DEFER;
-
-of_drm_find_panel cannot return NULL, so, do this instead:
-
-if (IS_ERR(pdata->panel))
-   return PTR_ERR(pdata->panel);
-
-(which actually _may_ return EPROBE_DEFER)
-
-> +
-> +       return 0;
-> +}
-> [snip]
-> +static int anx7625_i2c_probe(struct i2c_client *client,
-> +                            const struct i2c_device_id *id)
-> +{
-> +       struct anx7625_data *platform;
-> +       struct anx7625_platform_data *pdata;
-> +       int ret = 0;
-> +       struct device *dev = &client->dev;
-> +
-> +       if (!i2c_check_functionality(client->adapter,
-> +                                    I2C_FUNC_SMBUS_I2C_BLOCK)) {
-> +               DRM_DEV_ERROR(dev, "anx7625's i2c bus doesn't support\n");
-> +               return -ENODEV;
-> +       }
-> +
-> +       platform = kzalloc(sizeof(*platform), GFP_KERNEL);
-> +       if (!platform) {
-> +               DRM_DEV_ERROR(dev, "fail to allocate driver data\n");
-> +               return -ENOMEM;
-> +       }
-> +
-> +       pdata = &platform->pdata;
-> +
-> +       ret = anx7625_parse_dt(dev, pdata);
-> +       if (ret) {
-> +               DRM_DEV_ERROR(dev, "fail to parse devicetree.\n");
-
-Please do not print this error (or at least not if err == -EPROBE_DEFER).
-
-> +               goto free_platform;
-> +       }
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
