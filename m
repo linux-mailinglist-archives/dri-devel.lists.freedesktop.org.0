@@ -1,110 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8542C2177B3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 21:16:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B13CF2177D2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 21:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E44B18999C;
-	Tue,  7 Jul 2020 19:16:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE8089ACD;
+	Tue,  7 Jul 2020 19:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 123B48999C;
- Tue,  7 Jul 2020 19:16:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SAei7IDEx6N8J6XdyY4M7701VlWwuzfPUvPbzsva+M602P1Lq/Vgzq7tt5/UdPlzGxO2UFBK3TYlIDmERYl7p+OBW1O/iiiJZJ8xM0XS8GtJI2vCHFK9yKd6+5k3lMzNHU/Gi3cuaKXR4TtLHLI9PSJ2DVjwNRMRxlISlU1aQVFbQQBOY9Ll4XSgQ2o26CFgZEaSTsC9o5Iq2O7ykJcXXNKzjAbA9ByPQl5azJJgiqsd3aDibljdTSLN8OMXJB6z2U2VQ8u8QsoclgY13/h2KlkAqBpAeGbyasNrSWYVl5EMot4wtgD+XCvh5YmrCW+lBZFXVilvYMp5do04SZPXNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fqt0c8t5W5ewUPTYvNovt0ggCz8S6JhAvWDrZRt7bZk=;
- b=Y8j+gMIoBzkpEoAQGD/+ane4gJfx7yCEC7O+dG57Nhk3mU9q61jr+EOoD6kDTdXvj9zbIrsZd27TBwuHWAT6NJqQPFwCWy3KoxFWjjD+mSIZR/UrTMq1pkVhSzRUuqQwc5ujKd+9eNXlACc54Eh623ZG+1GYkDAMRO33wRRNLDuSHCIGoGCX+R56QiTv8nTit9ZGam2WnHEthTQgXZB2yzy6LHPlxnMguRKuP2kniZX8BQGjf8Jl0xFYUWcvaakh1jGtJG1QYVxbwxjcbaRchvt34bh7r7hQLebsRkgOdSDQlq2Vkm4/dMz02JxccJzQWKiBbLtelV4qXCxOgXnJ7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fqt0c8t5W5ewUPTYvNovt0ggCz8S6JhAvWDrZRt7bZk=;
- b=ZIYtql/cXI7YjPGufGgf49nQGyCsbRxBcc3SwGRja0NAKXkqzGVYydV/34TaR6H96R4mvVkHN/Cu3guA55BWBV8M8ZhcRHD5AvAbnZaKXt2epKdRuR3OMJ+uLGg7dNSScwi4BVq9WdehSKadia6pfEgT2p4pGWVvnz2r0dzLEO4=
-Received: from BL0PR12MB2433.namprd12.prod.outlook.com (2603:10b6:207:4a::25)
- by BL0PR12MB2433.namprd12.prod.outlook.com (2603:10b6:207:4a::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Tue, 7 Jul
- 2020 19:16:26 +0000
-Received: from BL0PR12MB2433.namprd12.prod.outlook.com
- ([fe80::8884:f5cd:cc08:b29a]) by BL0PR12MB2433.namprd12.prod.outlook.com
- ([fe80::8884:f5cd:cc08:b29a%7]) with mapi id 15.20.3153.029; Tue, 7 Jul 2020
- 19:16:26 +0000
-From: "Chauhan, Madhav" <Madhav.Chauhan@amd.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 1/2] drm/ttm: further cleanup ttm_mem_reg handling
-Thread-Topic: [PATCH 1/2] drm/ttm: further cleanup ttm_mem_reg handling
-Thread-Index: AQHWU72jgAAgezDTa0+naW8RBiyZV6j8fYwQ
-Date: Tue, 7 Jul 2020 19:16:25 +0000
-Message-ID: <BL0PR12MB2433182BDAF36FEC1A0551AF9C660@BL0PR12MB2433.namprd12.prod.outlook.com>
-References: <20200706174811.14755-1-christian.koenig@amd.com>
-In-Reply-To: <20200706174811.14755-1-christian.koenig@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-07-07T19:16:16Z; 
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=d8c16529-1e95-4acc-95a0-00007643f018;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_enabled: true
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_setdate: 2020-07-07T19:16:01Z
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_method: Standard
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_name: Internal Use Only -
- Unrestricted
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_actionid: 0256838c-4a15-4910-91ec-0000534d2016
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_contentbits: 0
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_enabled: true
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_setdate: 2020-07-07T19:16:21Z
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_method: Privileged
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_name: Public_0
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_actionid: 52ad8440-a50d-4fc0-b88e-00003351b802
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_contentbits: 0
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [122.172.189.183]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7795991f-1b1d-4399-b0e7-08d822aa3e72
-x-ms-traffictypediagnostic: BL0PR12MB2433:
-x-microsoft-antispam-prvs: <BL0PR12MB24336C5A355DEBE6E374DD0F9C660@BL0PR12MB2433.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-forefront-prvs: 0457F11EAF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EivX2mcjZkugudr6ccK8lB9nIenqJvEwnSVIsNRysCx1Pw9Fvs8Y5WscBsb4aaSplCCYsSsu7lkAI9uqcEyU73b5u+C9GXAOFFpGXPbF7LThrl7LAVi+PuowtL+tXZJPaZBaC+1p8FzHI+rfxr/9GSjq3fb64ttxotzU43PwRqB7VAgMwarcY6E9U3DOwauOW1kc5EZVwujRUEiESVsNJeCoVO/R2vgxX1VTHF+Wq30ihfESWLdStTPXzrMl7yn/Fe7gUY9pHSFubAnAlvMVE6Sw1aO6bsLHIVire8xQz/Jh8qsKMOA+04CNv8h9lwcCGqEvzhrq37eaw3rmLAw9FOb+3IsnEO722qjreAE1Ks4=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2433.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(8676002)(55236004)(2906002)(8936002)(33656002)(110136005)(66946007)(64756008)(66476007)(66446008)(66556008)(86362001)(76116006)(498600001)(5660300002)(71200400001)(7696005)(9686003)(966005)(55016002)(26005)(186003)(53546011)(66574015)(83380400001)(45080400002)(6506007)(52536014);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: UZ2CQtvE9fMjlvyg6Pq1E+UNI/sR8o5bScortyMXI+9mLEeSmtotTBKEJrdiEvds0+/7jvRo6D0XqSWKFgyr/VhnBGyFZ7VVvWL1pdQhOJG7rDZyPBP+jF9V6j2q6FORxo+dwdnjPlWTjNX3kW+YBEpZIVpizI6aMiM7VmasMXxdd8KRxNEouZQmSLMJA7/xEEJmn7F6XiGDbArzezEb2nge2HDZPqBLyIBQHyO1rjGZvKILfTuNOiXDWP2LqbyuqpEfdZk890MqsO8Xd2P0VcPXqaB1uVshIdfPbcqrvDhUKicP1m8OtdgONrodUflEODZkECLFGD6TbVqJrrSuVF+Cs0hI9WGuThm18ChJDjwkrggo7HGBGLzHQ1vN89V8I/5csqnQCYm2b08ru1T1NXYMvhiVJA/GoF4jDgz28L2sOrNyRRZ1ujj+/XepxXqznL9WqCZZ7MSmQA0PFXqm/E718L8jBdiOMNQ3BkA5PBsE7Es8Ncdbt6IwuAf101q3
-x-ms-exchange-transport-forked: True
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B960A89ACD
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 19:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594149702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9w3kU1ld8eq4UGdlc4rCUPPOEg3Qbv2+NlpNX6KHJAY=;
+ b=dkYkzwO9MOossoj7KGwaLIenczZAgvSmbSNEZnt1mpqIXbL7F5stgjaUZ5X4nbj4anArf2
+ LP3frfXmSJ4wnxgTfq1LePDQzB4n8p57FxXGtH+W1lCOvmhEZpyMirVjS6JW3IGZMYqYVt
+ M8KplPBpwGckpS8FFtRnhM3g481THeA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-8T2R0gAEP8SV9dX3u2h0_A-1; Tue, 07 Jul 2020 15:21:38 -0400
+X-MC-Unique: 8T2R0gAEP8SV9dX3u2h0_A-1
+Received: by mail-ej1-f72.google.com with SMTP id d16so34154177eje.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 12:21:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F7C3OOhak1R0HOERqt5hRDg2mN9tt9iBSGOpLDrOsRs=;
+ b=HFOagUbAfIneRKLKsz07ZKdGbotfvfpURQYIp0Z6ECvgrzBB8bwU/W8SK8pSyvJWQR
+ j4WfMKS+RPaZ/HeZy8xpgJ0ODRj8XACxdsHw8P3kcKcHtTMgek4AUI1dyi4ECl/bMV53
+ TmBTQSHF9zPef597DsGpKxMwHCjESd81H6Zf+A08WOeyxaIZzmhXMUh7GZ1anj4y1Wt+
+ I+Q0oxldyxjvIawMt3GKqfI5LNHAAwlflPIATLv7rV1CC46akmzS9IexDnx9qTM84s85
+ Xt8/QHCzoc7V1542TWQ2Tc7DUPfL8wf/g3kb8vakWxyieiPdNtG2PgTIYK9HIHvpufBv
+ 8/8Q==
+X-Gm-Message-State: AOAM531CUkimX+jM4iFoqvHjIuCCpHnsdJsrMpts95/YXHy6VKtP9QZX
+ dquk9WNYnZ8OMJ/irxVlo48OjIp2iTtpgTQ7e1IvMVywEI2A85STG4X2vEpfYHd/2v9G7coLCxP
+ VDJtwCyBOY4mSU9c8A8OzCbNKAyYn
+X-Received: by 2002:a05:6402:1ca8:: with SMTP id
+ cz8mr45504844edb.55.1594149696801; 
+ Tue, 07 Jul 2020 12:21:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweMem1HnkyFWuja5VXmzqhwTLcmAIHYAGXGFap1GO1a7kswmdFcs5m7fWuZ6BPJUAW7y3bPg==
+X-Received: by 2002:a05:6402:1ca8:: with SMTP id
+ cz8mr45504820edb.55.1594149696516; 
+ Tue, 07 Jul 2020 12:21:36 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id sd15sm753309ejb.66.2020.07.07.12.21.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 12:21:35 -0700 (PDT)
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 15/15] drm/i915: panel: Use atomic PWM API for devs
+ with an external PWM controller
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20200620121758.14836-1-hdegoede@redhat.com>
+ <20200620121758.14836-16-hdegoede@redhat.com>
+ <20200707075056.22w5kzi7qwhkctsn@pengutronix.de>
+Message-ID: <6d84d2ba-5e3f-d504-b662-edd98222d941@redhat.com>
+Date: Tue, 7 Jul 2020 21:21:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2433.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7795991f-1b1d-4399-b0e7-08d822aa3e72
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2020 19:16:25.8814 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GfisuRIm8a9hUC7sOhxtnYkY5bo/Mx333A1fBhxT/fjtuVacq3vli7lqmRFQClQA/MwAwWi/GGoYu/E2XqbTmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2433
+In-Reply-To: <20200707075056.22w5kzi7qwhkctsn@pengutronix.de>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,109 +87,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="windows-1252"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W0FNRCBQdWJsaWMgVXNlXQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogYW1k
-LWdmeCA8YW1kLWdmeC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVoYWxmIE9m
-IENocmlzdGlhbiBLw7ZuaWcNClNlbnQ6IE1vbmRheSwgSnVseSA2LCAyMDIwIDExOjE4IFBNDQpU
-bzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcNClN1YmplY3Q6IFtQQVRDSCAxLzJdIGRybS90dG06IGZ1cnRoZXIgY2xlYW51cCB0
-dG1fbWVtX3JlZyBoYW5kbGluZw0KDQpTdG9wIHRvdWNoaW5nIHRoZSBiYWNrZW5kIHByaXZhdGUg
-cG9pbnRlciBhbGx0b2dldGhlciBhbmQgbWFrZSBzdXJlIHdlIG5ldmVyIHB1dCB0aGUgc2FtZSBt
-ZW0gdHdpY2UgYnkuDQoNClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4NCi0tLQ0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAg
-fCA0NiArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0NCiBpbmNsdWRlL2RybS90dG0v
-dHRtX2JvX2RyaXZlci5oIHwgIDIgLS0NCiAyIGZpbGVzIGNoYW5nZWQsIDI2IGluc2VydGlvbnMo
-KyksIDIyIGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgaW5kZXggMGMxM2ZlOTZjN2Uz
-Li43YmUzNmI5OTk2ZWQgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
-DQorKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jDQpAQCAtMzEyLDcgKzMxMiw2IEBA
-IHN0YXRpYyBpbnQgdHRtX2JvX2hhbmRsZV9tb3ZlX21lbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
-Y3QgKmJvLA0KIAkJCWlmIChiZGV2LT5kcml2ZXItPm1vdmVfbm90aWZ5KQ0KIAkJCQliZGV2LT5k
-cml2ZXItPm1vdmVfbm90aWZ5KGJvLCBldmljdCwgbWVtKTsNCiAJCQliby0+bWVtID0gKm1lbTsN
-Ci0JCQltZW0tPm1tX25vZGUgPSBOVUxMOw0KIAkJCWdvdG8gbW92ZWQ7DQogCQl9DQogCX0NCkBA
-IC02MTYsNyArNjE1LDYgQEAgc3RhdGljIHZvaWQgdHRtX2JvX3JlbGVhc2Uoc3RydWN0IGtyZWYg
-KmtyZWYpDQogCXR0bV9ib19jbGVhbnVwX21lbXR5cGVfdXNlKGJvKTsNCiAJZG1hX3Jlc3ZfdW5s
-b2NrKGJvLT5iYXNlLnJlc3YpOw0KIA0KLQlCVUdfT04oYm8tPm1lbS5tbV9ub2RlICE9IE5VTEwp
-Ow0KIAlhdG9taWNfZGVjKCZ0dG1fYm9fZ2xvYi5ib19jb3VudCk7DQogCWRtYV9mZW5jZV9wdXQo
-Ym8tPm1vdmluZyk7DQogCWlmICghdHRtX2JvX3VzZXNfZW1iZWRkZWRfZ2VtX29iamVjdChibykp
-DQpAQCAtODQzLDEyICs4NDEsMjkgQEAgc3RhdGljIGludCB0dG1fbWVtX2V2aWN0X2ZpcnN0KHN0
-cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LA0KIAlyZXR1cm4gcmV0Ow0KIH0NCiANCitzdGF0aWMg
-aW50IHR0bV9ib19tZW1fZ2V0KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQorCQkJICBj
-b25zdCBzdHJ1Y3QgdHRtX3BsYWNlICpwbGFjZSwNCisJCQkgIHN0cnVjdCB0dG1fbWVtX3JlZyAq
-bWVtKQ0KK3sNCisJc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4gPSAmYm8tPmJkZXYt
-Pm1hblttZW0tPm1lbV90eXBlXTsNCisNCisJbWVtLT5tbV9ub2RlID0gTlVMTDsNCisJaWYgKCFt
-YW4tPmZ1bmMgfHwgIW1hbi0+ZnVuYy0+Z2V0X25vZGUpDQorCQlyZXR1cm4gMDsNCisNCisJcmV0
-dXJuIG1hbi0+ZnVuYy0+Z2V0X25vZGUobWFuLCBibywgcGxhY2UsIG1lbSk7IH0NCisNCg0KU2hv
-dWxkIG5vdCB3ZSBleHBvcnQgdGhpcyBhcyBhIHN5bWJvbCwgc28gdGhhdCBpdCBjYW4gYmUgdXNl
-ZCBzaW1pbGFyIHRvIHR0bV9ib19tZW1fcHV0IGluIGRybSBkcml2ZXJzPz8NCg0KUmVnYXJkcywN
-Ck1hZGhhdg0KDQogdm9pZCB0dG1fYm9fbWVtX3B1dChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
-KmJvLCBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1lbSkgIHsNCiAJc3RydWN0IHR0bV9tZW1fdHlwZV9t
-YW5hZ2VyICptYW4gPSAmYm8tPmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsNCiANCi0JaWYgKG1l
-bS0+bW1fbm9kZSkNCi0JCSgqbWFuLT5mdW5jLT5wdXRfbm9kZSkobWFuLCBtZW0pOw0KKwlpZiAo
-IW1hbi0+ZnVuYyB8fCAhbWFuLT5mdW5jLT5wdXRfbm9kZSkNCisJCXJldHVybjsNCisNCisJbWFu
-LT5mdW5jLT5wdXRfbm9kZShtYW4sIG1lbSk7DQorCW1lbS0+bW1fbm9kZSA9IE5VTEw7DQorCW1l
-bS0+bWVtX3R5cGUgPSBUVE1fUExfU1lTVEVNOw0KIH0NCiBFWFBPUlRfU1lNQk9MKHR0bV9ib19t
-ZW1fcHV0KTsNCiANCkBAIC05MDIsNyArOTE3LDcgQEAgc3RhdGljIGludCB0dG1fYm9fbWVtX2Zv
-cmNlX3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQogDQogCXRpY2tldCA9IGRt
-YV9yZXN2X2xvY2tpbmdfY3R4KGJvLT5iYXNlLnJlc3YpOw0KIAlkbyB7DQotCQlyZXQgPSAoKm1h
-bi0+ZnVuYy0+Z2V0X25vZGUpKG1hbiwgYm8sIHBsYWNlLCBtZW0pOw0KKwkJcmV0ID0gdHRtX2Jv
-X21lbV9nZXQoYm8sIHBsYWNlLCBtZW0pOw0KIAkJaWYgKGxpa2VseSghcmV0KSkNCiAJCQlicmVh
-azsNCiAJCWlmICh1bmxpa2VseShyZXQgIT0gLUVOT1NQQykpDQpAQCAtMTAzMiw3ICsxMDQ3LDYg
-QEAgaW50IHR0bV9ib19tZW1fc3BhY2Uoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywNCiAJ
-aWYgKHVubGlrZWx5KHJldCkpDQogCQlyZXR1cm4gcmV0Ow0KIA0KLQltZW0tPm1tX25vZGUgPSBO
-VUxMOw0KIAlmb3IgKGkgPSAwOyBpIDwgcGxhY2VtZW50LT5udW1fcGxhY2VtZW50OyArK2kpIHsN
-CiAJCWNvbnN0IHN0cnVjdCB0dG1fcGxhY2UgKnBsYWNlID0gJnBsYWNlbWVudC0+cGxhY2VtZW50
-W2ldOw0KIAkJc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW47DQpAQCAtMTA0NCwyMCAr
-MTA1OCwxNiBAQCBpbnQgdHRtX2JvX21lbV9zcGFjZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
-KmJvLA0KIAkJCWdvdG8gZXJyb3I7DQogDQogCQl0eXBlX2ZvdW5kID0gdHJ1ZTsNCi0JCW1lbS0+
-bW1fbm9kZSA9IE5VTEw7DQotCQlpZiAobWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNKQ0K
-LQkJCXJldHVybiAwOw0KLQ0KLQkJbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsNCi0J
-CXJldCA9ICgqbWFuLT5mdW5jLT5nZXRfbm9kZSkobWFuLCBibywgcGxhY2UsIG1lbSk7DQorCQly
-ZXQgPSB0dG1fYm9fbWVtX2dldChibywgcGxhY2UsIG1lbSk7DQogCQlpZiAocmV0ID09IC1FTk9T
-UEMpDQogCQkJY29udGludWU7DQogCQlpZiAodW5saWtlbHkocmV0KSkNCiAJCQlnb3RvIGVycm9y
-Ow0KIA0KKwkJbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsNCiAJCXJldCA9IHR0bV9i
-b19hZGRfbW92ZV9mZW5jZShibywgbWFuLCBtZW0sIGN0eC0+bm9fd2FpdF9ncHUpOw0KIAkJaWYg
-KHVubGlrZWx5KHJldCkpIHsNCi0JCQkoKm1hbi0+ZnVuYy0+cHV0X25vZGUpKG1hbiwgbWVtKTsN
-CisJCQl0dG1fYm9fbWVtX3B1dChibywgbWVtKTsNCiAJCQlpZiAocmV0ID09IC1FQlVTWSkNCiAJ
-CQkJY29udGludWU7DQogDQpAQCAtMTA3NiwxMiArMTA4Niw4IEBAIGludCB0dG1fYm9fbWVtX3Nw
-YWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQogCQkJZ290byBlcnJvcjsNCiANCiAJ
-CXR5cGVfZm91bmQgPSB0cnVlOw0KLQkJbWVtLT5tbV9ub2RlID0gTlVMTDsNCi0JCWlmIChtZW0t
-Pm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0pDQotCQkJcmV0dXJuIDA7DQotDQogCQlyZXQgPSB0
-dG1fYm9fbWVtX2ZvcmNlX3NwYWNlKGJvLCBwbGFjZSwgbWVtLCBjdHgpOw0KLQkJaWYgKHJldCA9
-PSAwICYmIG1lbS0+bW1fbm9kZSkNCisJCWlmIChsaWtlbHkoIXJldCkpDQogCQkJcmV0dXJuIDA7
-DQogDQogCQlpZiAocmV0ICYmIHJldCAhPSAtRUJVU1kpDQpAQCAtMTEyOSw3ICsxMTM1LDcgQEAg
-c3RhdGljIGludCB0dG1fYm9fbW92ZV9idWZmZXIoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
-bywNCiAJCWdvdG8gb3V0X3VubG9jazsNCiAJcmV0ID0gdHRtX2JvX2hhbmRsZV9tb3ZlX21lbShi
-bywgJm1lbSwgZmFsc2UsIGN0eCk7DQogb3V0X3VubG9jazoNCi0JaWYgKHJldCAmJiBtZW0ubW1f
-bm9kZSkNCisJaWYgKHJldCkNCiAJCXR0bV9ib19tZW1fcHV0KGJvLCAmbWVtKTsNCiAJcmV0dXJu
-IHJldDsNCiB9DQpAQCAtMTE0NCw3ICsxMTUwLDcgQEAgc3RhdGljIGJvb2wgdHRtX2JvX3BsYWNl
-c19jb21wYXQoY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2VzLA0KIAlmb3IgKGkgPSAwOyBp
-IDwgbnVtX3BsYWNlbWVudDsgaSsrKSB7DQogCQljb25zdCBzdHJ1Y3QgdHRtX3BsYWNlICpoZWFw
-ID0gJnBsYWNlc1tpXTsNCiANCi0JCWlmIChtZW0tPm1tX25vZGUgJiYgKG1lbS0+c3RhcnQgPCBo
-ZWFwLT5mcGZuIHx8DQorCQlpZiAoKG1lbS0+c3RhcnQgPCBoZWFwLT5mcGZuIHx8DQogCQkgICAg
-IChoZWFwLT5scGZuICE9IDAgJiYgKG1lbS0+c3RhcnQgKyBtZW0tPm51bV9wYWdlcykgPiBoZWFw
-LT5scGZuKSkpDQogCQkJY29udGludWU7DQogDQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRt
-L3R0bV9ib19kcml2ZXIuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggaW5kZXgg
-YWExZjM5OGMyZWE3Li43MzIxNjdjYWQxMzAgMTAwNjQ0DQotLS0gYS9pbmNsdWRlL2RybS90dG0v
-dHRtX2JvX2RyaXZlci5oDQorKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oDQpA
-QCAtNTY0LDggKzU2NCw2IEBAIGludCB0dG1fYm9fbWVtX3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVy
-X29iamVjdCAqYm8sDQogCQkgICAgIHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4KTsNCiAN
-CiB2b2lkIHR0bV9ib19tZW1fcHV0KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIHN0cnVj
-dCB0dG1fbWVtX3JlZyAqbWVtKTsgLXZvaWQgdHRtX2JvX21lbV9wdXRfbG9ja2VkKHN0cnVjdCB0
-dG1fYnVmZmVyX29iamVjdCAqYm8sDQotCQkJICAgc3RydWN0IHR0bV9tZW1fcmVnICptZW0pOw0K
-IA0KIGludCB0dG1fYm9fZGV2aWNlX3JlbGVhc2Uoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYp
-Ow0KIA0KLS0NCjIuMTcuMQ0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXw0KYW1kLWdmeCBtYWlsaW5nIGxpc3QNCmFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnDQpodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91
-cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGlu
-Zm8lMkZhbWQtZ2Z4JmFtcDtkYXRhPTAyJTdDMDElN0NtYWRoYXYuY2hhdWhhbiU0MGFtZC5jb20l
-N0M4ODYxMTNkYTcxNGY0MzMyNjdkMzA4ZDgyMWQ0YzRmZSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTEx
-YTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2MzcyOTY1NDUwMTQ4MzUzMjUmYW1wO3NkYXRhPWJlbURQ
-NGdwNyUyQmNXZUNxeHk5OXI3MWVVbmRheDJydU83RmVDdjMwZzJQQSUzRCZhbXA7cmVzZXJ2ZWQ9
-MA0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Uwe,
+
+On 7/7/20 9:50 AM, Uwe Kleine-K=C3=B6nig wrote:
+> Hello Hans,
+> =
+
+> On Sat, Jun 20, 2020 at 02:17:58PM +0200, Hans de Goede wrote:
+>> Now that the PWM drivers which we use have been converted to the atomic
+>> PWM API, we can move the i915 panel code over to using the atomic PWM AP=
+I.
+> =
+
+> Note that there is no hard dependency, the atomic API should work just
+> fine even with a non-converted driver. (Of course a converted driver
+> behaves better, but the i915 using the atomic API with a non-converted
+> driver is just as good as the legacy API with the same driver.)
+> =
+
+> So regarding your plan to get this series in soon: There is no hard need
+> to halt the efforts for the drm part if the pwm patches take a bit
+> longer (or vice versa).
+
+I understand, but the main reason to do the conversion to the atomic
+API, is to be able to skip the step where we force the backlight
+to 100% brightness (which can look quite ugly during boot).
+
+After this patch the intel-panel code initializes its internal
+backlight state and the brightness reported under /sys/class/backlight
+with the "brightness" returned from the PWM-drivers' get_state callback.
+
+Without getting the PWM patches in first I think that things will
+mostly work, but we will always report an initial brightness value
+of 0. Lets say it is actually 50% and the user then presses the
+increase-brightness hotkey, causing userspace to change it from 0% to 5%
+so instead of increasing it by 1/20th, it just decreased it a lot.
+
+So I do believe it is better to get the whole series in as a whole,
+since we are at rc4 already (time flies) I guess it might not make it
+in this cycle, but that is fine.
+
+Talking about merging this, is it ok for me to push the entire
+series upstream through the intel-drm-next-queued branch,
+once all the PWM patches have your Ack?
+
+>> The removes a long standing FIXME and this removes a flicker where
+>> the backlight brightness would jump to 100% when i915 loads even if
+>> using the fastset path.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   .../drm/i915/display/intel_display_types.h    |  3 +-
+>>   drivers/gpu/drm/i915/display/intel_panel.c    | 73 +++++++++----------
+>>   2 files changed, 37 insertions(+), 39 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/driver=
+s/gpu/drm/i915/display/intel_display_types.h
+>> index de32f9efb120..4bd9981e70a1 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+>> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+>> @@ -28,6 +28,7 @@
+>>   =
+
+>>   #include <linux/async.h>
+>>   #include <linux/i2c.h>
+>> +#include <linux/pwm.h>
+>>   #include <linux/sched/clock.h>
+>>   =
+
+>>   #include <drm/drm_atomic.h>
+>> @@ -223,7 +224,7 @@ struct intel_panel {
+>>   		bool util_pin_active_low;	/* bxt+ */
+>>   		u8 controller;		/* bxt+ only */
+>>   		struct pwm_device *pwm;
+>> -		int pwm_period_ns;
+>> +		struct pwm_state pwm_state;
+>>   =
+
+>>   		/* DPCD backlight */
+>>   		u8 pwmgen_bit_count;
+>> diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/dr=
+m/i915/display/intel_panel.c
+>> index cb28b9908ca4..a0f76343f381 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_panel.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_panel.c
+>> @@ -592,10 +592,11 @@ static u32 bxt_get_backlight(struct intel_connecto=
+r *connector)
+>>   static u32 pwm_get_backlight(struct intel_connector *connector)
+>>   {
+>>   	struct intel_panel *panel =3D &connector->panel;
+>> -	int duty_ns;
+>> +	int duty_ns, period_ns;
+>>   =
+
+>>   	duty_ns =3D pwm_get_duty_cycle(panel->backlight.pwm);
+>> -	return DIV_ROUND_UP(duty_ns * 100, panel->backlight.pwm_period_ns);
+>> +	period_ns =3D pwm_get_period(panel->backlight.pwm);
+> =
+
+> The transformation is correct, but using
+> =
+
+> 	pwm_get_state(pwm, &state);
+> 	duty_ns =3D state.duty_cycle;
+> 	period_ns =3D state.period;
+> =
+
+> is a bit more effective as it calls pwm_get_state() only once.
+> =
+
+> There is a function pwm_get_relative_duty_cycle which is similar (with
+> scale =3D 100) just used different rounding.
+
+Ah nice, that is better then doing our own stuff.
+I will switch to that for v4 of this patch-set.
+
+>> +	return DIV_ROUND_UP(duty_ns * 100, period_ns);
+>>   }
+>>   =
+
+>>   static void lpt_set_backlight(const struct drm_connector_state *conn_s=
+tate, u32 level)
+>> @@ -669,10 +670,10 @@ static void bxt_set_backlight(const struct drm_con=
+nector_state *conn_state, u32
+>>   static void pwm_set_backlight(const struct drm_connector_state *conn_s=
+tate, u32 level)
+>>   {
+>>   	struct intel_panel *panel =3D &to_intel_connector(conn_state->connect=
+or)->panel;
+>> -	int duty_ns =3D DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 1=
+00);
+>>   =
+
+>> -	pwm_config(panel->backlight.pwm, duty_ns,
+>> -		   panel->backlight.pwm_period_ns);
+>> +	panel->backlight.pwm_state.duty_cycle =3D
+>> +		DIV_ROUND_UP(level * panel->backlight.pwm_state.period, 100);
+>> +	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+>>   }
+>>   =
+
+>>   static void
+>> @@ -841,10 +842,8 @@ static void pwm_disable_backlight(const struct drm_=
+connector_state *old_conn_sta
+>>   	struct intel_connector *connector =3D to_intel_connector(old_conn_sta=
+te->connector);
+>>   	struct intel_panel *panel =3D &connector->panel;
+>>   =
+
+>> -	/* Disable the backlight */
+>> -	intel_panel_actually_set_backlight(old_conn_state, 0);
+>> -	usleep_range(2000, 3000);
+>> -	pwm_disable(panel->backlight.pwm);
+>> +	panel->backlight.pwm_state.enabled =3D false;
+>> +	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> =
+
+> Did you drop intel_panel_actually_set_backlight and the sleep on purpose?
+
+Yes, that was on purpose. But I should probably have
+added a note about this to the commit message.
+
+For v4 of the patchset I will add the following note about this to the
+commit message for this patch:
+
+"Note that this commit also simplifies pwm_disable_backlight(), by dropping
+the intel_panel_actually_set_backlight(..., 0) call. This call sets the
+PWM to 0% duty-cycle. I believe that this call was only present as a
+workaround for a bug in the pwm-crc.c driver where it failed to clear the
+PWM_OUTPUT_ENABLE bit. This is fixed by an earlier patch in this series.
+
+After the dropping of this workaround, the usleep call, which seems
+unnecessary to begin with, has no useful effect anymore, so drop that too."
+
+>>   }
+>>   =
+
+>>   void intel_panel_disable_backlight(const struct drm_connector_state *o=
+ld_conn_state)
+>> [...]
+>> @@ -1916,36 +1919,30 @@ static int pwm_setup_backlight(struct intel_conn=
+ector *connector,
+>>   		return -ENODEV;
+>>   	}
+>>   =
+
+>> -	panel->backlight.pwm_period_ns =3D NSEC_PER_SEC /
+>> -					 get_vbt_pwm_freq(dev_priv);
+>> -
+>> -	/*
+>> -	 * FIXME: pwm_apply_args() should be removed when switching to
+>> -	 * the atomic PWM API.
+>> -	 */
+>> -	pwm_apply_args(panel->backlight.pwm);
+>> -
+>>   	panel->backlight.max =3D 100; /* 100% */
+>>   	panel->backlight.min =3D get_backlight_min_vbt(connector);
+>> -	level =3D intel_panel_compute_brightness(connector, 100);
+>> -	ns =3D DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 100);
+>>   =
+
+>> -	retval =3D pwm_config(panel->backlight.pwm, ns,
+>> -			    panel->backlight.pwm_period_ns);
+>> -	if (retval < 0) {
+>> -		drm_err(&dev_priv->drm, "Failed to configure the pwm chip\n");
+>> -		pwm_put(panel->backlight.pwm);
+>> -		panel->backlight.pwm =3D NULL;
+>> -		return retval;
+>> +	if (pwm_is_enabled(panel->backlight.pwm) &&
+>> +	    pwm_get_period(panel->backlight.pwm)) {
+>> +		/* PWM is already enabled, use existing settings */
+>> +		pwm_get_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+>> +
+>> +		level =3D DIV_ROUND_UP(panel->backlight.pwm_state.duty_cycle *
+>> +					100, panel->backlight.pwm_state.period);
+>> +		level =3D intel_panel_compute_brightness(connector, level);
+> =
+
+> In pwm_enable_backlight() the order of these two steps is reversed
+> compared to here. Maybe this calculation can be moved into
+> intel_panel_compute_brightness()?
+
+The intel_panel.c code deals with 7 different types of PWM controllers
+which are built into the GPU + support for external PWM controllers
+through the kernel's PWM subsystem.
+
+The code this patch changes is for the external PWM controller case,
+intel_panel_compute_brightness() is used for all supported PWM
+controllers.
+
+intel_panel_compute_brightness()'s function is to deal with panels
+where 100% duty-cycle is backlight fully off instead of fully-on.
+Normally it is called just before setting the duty-cycle, inverting
+the value/range before sending it to the hardware, since here we
+are reading back the current value we call it after reading back
+the value from the controller as the internally cached value is
+always in 0=3D=3Dmin/off 100=3D=3Dmax range, so if the panel inverts the
+range, we need to invert the read-back value to be in our
+"normalized" internal range.
+
+What we can do here is use pwm_get_relative_duty_cycle as you
+suggested above. I will change that for v4.
+
+> =
+
+>> +		panel->backlight.level =3D clamp(level, panel->backlight.min,
+>> +					       panel->backlight.max);
+>> +		panel->backlight.enabled =3D true;
+>> +
+> =
+
+> Best regards
+> Uwe
+> =
+
+
+Regards,
+
+Hans
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
