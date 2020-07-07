@@ -2,40 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8832167CA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5935B2167FB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 10:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E0A6E0C8;
-	Tue,  7 Jul 2020 07:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0046E20E;
+	Tue,  7 Jul 2020 08:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8497F6E0C8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 07:51:01 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1jsiNV-0001Qv-5P; Tue, 07 Jul 2020 09:50:57 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1jsiNU-0008Q4-I7; Tue, 07 Jul 2020 09:50:56 +0200
-Date: Tue, 7 Jul 2020 09:50:56 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 15/15] drm/i915: panel: Use atomic PWM API for devs
- with an external PWM controller
-Message-ID: <20200707075056.22w5kzi7qwhkctsn@pengutronix.de>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C56089F99
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 08:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594109115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6ZFxjlI5sMZp++zSPQ2tEXXGIe/Pl7tWFMFOmpG1I0c=;
+ b=HaVOqFYdkB3lcLoVht3h8rMKg9xi6JYbgz9Unkl3ewYGBofb71yh1TVmQp6j6iAOJln7gD
+ xwC828DlAr8cjnx7ClPOIMd8Tbki54/lHfD/TtiUG06axS/pxlraL/zLr/Ssj708a+ZQy3
+ jhNHJyXfcR8CpZidzcRmH1/x/GS43xs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-b4LrdAC_NjCU6WTMw6iU-w-1; Tue, 07 Jul 2020 04:05:01 -0400
+X-MC-Unique: b4LrdAC_NjCU6WTMw6iU-w-1
+Received: by mail-ej1-f71.google.com with SMTP id y10so32970515ejd.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 01:05:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GB1QNbctl/Mx/SFUPpl4ypLqVQ62zsSb8czTF+T7RVk=;
+ b=LXz7sS+d9SQDwR5VEinJgQnfWApQGWOENQa5r+OBDO31XE3Hs2n/8tbMrPafSpoQsl
+ qvZQp99d78xi+Dy3G/7M1YupFd4IxlHWrt4v0lbK12x2hj6fXHR9GCGcZLn6tsKd1O/U
+ c7kMMl0SC0Cqic71uZPa56Vz0zjL75sB2cMtti8nScJBNsHlm2wpIiLEVDG6Axn3LrBr
+ R5qrfKNDQDKQ4t0Uwh9KlPowX3G8LuKtjOG/TESi9aS3NsW9ohLNmjpMFT1l8P53HiRF
+ ZDrod4p+kpv+BN02DRkhrcBh7gJDQzMp8NV8XT5xLGK/yNm/LYOd5GQFLComzJP3Kf6p
+ lEAw==
+X-Gm-Message-State: AOAM531eR8v4g2vjiuyBhfu4Y9mjMUY6N32Wd0F1x2bSzR9zO7N4eqWc
+ hWsb2r8fCIw/e20FjaEA893h68BHWwJFTcRR3XlCNu4XZhGgxO/q19JCvNnbUV95YsiL6nd6PKV
+ RYfkWm9y0qDKgdipY2UBdINSTjTFN
+X-Received: by 2002:a17:906:eb93:: with SMTP id
+ mh19mr45243078ejb.552.1594109100149; 
+ Tue, 07 Jul 2020 01:05:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/cLO+WZhKB2j89clcfZyc+ByS2W7nYLObC2VeM2LUr6Hq2CXhfOpetmvPhCaQwzvlD2NYng==
+X-Received: by 2002:a17:906:eb93:: with SMTP id
+ mh19mr45243060ejb.552.1594109099889; 
+ Tue, 07 Jul 2020 01:04:59 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id s18sm18303668ejm.16.2020.07.07.01.04.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jul 2020 01:04:59 -0700 (PDT)
+Subject: Re: [PATCH v3 04/15] pwm: lpss: Add range limit check for the
+ base_unit register value
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
 References: <20200620121758.14836-1-hdegoede@redhat.com>
- <20200620121758.14836-16-hdegoede@redhat.com>
+ <20200620121758.14836-5-hdegoede@redhat.com>
+ <20200622073554.wf3smq3tvnr6t2xy@taurus.defre.kleine-koenig.org>
+ <e07a7dd6-c361-32b8-c4e7-91e022f9c21d@redhat.com>
+ <20200707073424.w6vd6e4bhl56kosd@pengutronix.de>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <c2143daa-cdc0-0a72-196f-f27d1677278f@redhat.com>
+Date: Tue, 7 Jul 2020 10:04:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200620121758.14836-16-hdegoede@redhat.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20200707073424.w6vd6e4bhl56kosd@pengutronix.de>
+Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,217 +94,93 @@ Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
  Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============2096871241=="
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="windows-1252"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============2096871241==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3nm7jggltwdbequ7"
-Content-Disposition: inline
+On 7/7/20 9:34 AM, Uwe Kleine-K=C3=B6nig wrote:
+> On Mon, Jul 06, 2020 at 10:53:08PM +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> Thank you for your review and sorry for the slow reply.
+> =
+
+> No problem for me, I didn't hold my breath :-)
+>   =
+
+>>>> diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
+>>>> index 43b1fc634af1..80d0f9c64f9d 100644
+>>>> --- a/drivers/pwm/pwm-lpss.c
+>>>> +++ b/drivers/pwm/pwm-lpss.c
+>>>> @@ -97,6 +97,9 @@ static void pwm_lpss_prepare(struct pwm_lpss_chip *l=
+pwm, struct pwm_device *pwm,
+>>>>    	freq *=3D base_unit_range;
+>>>>    	base_unit =3D DIV_ROUND_CLOSEST_ULL(freq, c);
+>>>
+>>> DIV_ROUND_CLOSEST_ULL is most probably wrong, too. But I didn't spend
+>>> the time to actually confirm that.
+>>
+>> Yes I saw your comment elsewhere that the PWM API defines rounding
+>> in a certain direction, but fixing that falls outside of this patch.
+> =
+
+> Yeah, sure.
+> =
+
+>> [...]
+>> I hope this helps to explain what is going on a bit.
+> =
+
+> I will try to make sense of that and reply to the patch directly when I
+> succeeded.
+
+In case it helps here is the datasheet for the LPSS PWM controller
+(somewhat hard to find if you don't know what you are looking for):
+
+https://cdrdv2.intel.com/v1/dl/getcontent/332065
+https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/ato=
+m-z8000-datasheet-vol-2.pdf
+
+The first link contains a description about how the PWM controller works in
+section 17.5  "SIO - Pulse Width Modulation (PWM)", the second link contains
+all register definitions for the SoC and is not all that interesting other
+then for verifying the existing register bits defines.
+
+Regards,
+
+Hans
 
 
---3nm7jggltwdbequ7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello Hans,
+> =
 
-On Sat, Jun 20, 2020 at 02:17:58PM +0200, Hans de Goede wrote:
-> Now that the PWM drivers which we use have been converted to the atomic
-> PWM API, we can move the i915 panel code over to using the atomic PWM API.
+>> ###
+>>
+>> As for the behavior on base_unit=3D=3D0 in the get_state method,
+>> as mentioned above I wrote that when I did not fully understood
+>> how the controller works.
+>>
+>> We really should never encounter this.
+>>
+>> But if we do then I think closest to the truth would be:
+>>
+>> state->period     =3D UINT_MAX;
+>> state->duty_cycle =3D 0;
+> =
 
-Note that there is no hard dependency, the atomic API should work just
-fine even with a non-converted driver. (Of course a converted driver
-behaves better, but the i915 using the atomic API with a non-converted
-driver is just as good as the legacy API with the same driver.)
+> I'd say state->period =3D 1 & state->duty_cycle =3D 0 is a better
+> representation.
+> =
 
-So regarding your plan to get this series in soon: There is no hard need
-to halt the efforts for the drm part if the pwm patches take a bit
-longer (or vice versa).
-=20
-> The removes a long standing FIXME and this removes a flicker where
-> the backlight brightness would jump to 100% when i915 loads even if
-> using the fastset path.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  .../drm/i915/display/intel_display_types.h    |  3 +-
->  drivers/gpu/drm/i915/display/intel_panel.c    | 73 +++++++++----------
->  2 files changed, 37 insertions(+), 39 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
-/gpu/drm/i915/display/intel_display_types.h
-> index de32f9efb120..4bd9981e70a1 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -28,6 +28,7 @@
-> =20
->  #include <linux/async.h>
->  #include <linux/i2c.h>
-> +#include <linux/pwm.h>
->  #include <linux/sched/clock.h>
-> =20
->  #include <drm/drm_atomic.h>
-> @@ -223,7 +224,7 @@ struct intel_panel {
->  		bool util_pin_active_low;	/* bxt+ */
->  		u8 controller;		/* bxt+ only */
->  		struct pwm_device *pwm;
-> -		int pwm_period_ns;
-> +		struct pwm_state pwm_state;
-> =20
->  		/* DPCD backlight */
->  		u8 pwmgen_bit_count;
-> diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm=
-/i915/display/intel_panel.c
-> index cb28b9908ca4..a0f76343f381 100644
-> --- a/drivers/gpu/drm/i915/display/intel_panel.c
-> +++ b/drivers/gpu/drm/i915/display/intel_panel.c
-> @@ -592,10 +592,11 @@ static u32 bxt_get_backlight(struct intel_connector=
- *connector)
->  static u32 pwm_get_backlight(struct intel_connector *connector)
->  {
->  	struct intel_panel *panel =3D &connector->panel;
-> -	int duty_ns;
-> +	int duty_ns, period_ns;
-> =20
->  	duty_ns =3D pwm_get_duty_cycle(panel->backlight.pwm);
-> -	return DIV_ROUND_UP(duty_ns * 100, panel->backlight.pwm_period_ns);
-> +	period_ns =3D pwm_get_period(panel->backlight.pwm);
+> Best regards
+> Uwe
+> =
 
-The transformation is correct, but using
-
-	pwm_get_state(pwm, &state);
-	duty_ns =3D state.duty_cycle;
-	period_ns =3D state.period;
-
-is a bit more effective as it calls pwm_get_state() only once.
-
-There is a function pwm_get_relative_duty_cycle which is similar (with
-scale =3D 100) just used different rounding.
-
-> +	return DIV_ROUND_UP(duty_ns * 100, period_ns);
->  }
-> =20
->  static void lpt_set_backlight(const struct drm_connector_state *conn_sta=
-te, u32 level)
-> @@ -669,10 +670,10 @@ static void bxt_set_backlight(const struct drm_conn=
-ector_state *conn_state, u32
->  static void pwm_set_backlight(const struct drm_connector_state *conn_sta=
-te, u32 level)
->  {
->  	struct intel_panel *panel =3D &to_intel_connector(conn_state->connector=
-)->panel;
-> -	int duty_ns =3D DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 10=
-0);
-> =20
-> -	pwm_config(panel->backlight.pwm, duty_ns,
-> -		   panel->backlight.pwm_period_ns);
-> +	panel->backlight.pwm_state.duty_cycle =3D
-> +		DIV_ROUND_UP(level * panel->backlight.pwm_state.period, 100);
-> +	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
->  }
-> =20
->  static void
-> @@ -841,10 +842,8 @@ static void pwm_disable_backlight(const struct drm_c=
-onnector_state *old_conn_sta
->  	struct intel_connector *connector =3D to_intel_connector(old_conn_state=
-->connector);
->  	struct intel_panel *panel =3D &connector->panel;
-> =20
-> -	/* Disable the backlight */
-> -	intel_panel_actually_set_backlight(old_conn_state, 0);
-> -	usleep_range(2000, 3000);
-> -	pwm_disable(panel->backlight.pwm);
-> +	panel->backlight.pwm_state.enabled =3D false;
-> +	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
-
-Did you drop intel_panel_actually_set_backlight and the sleep on purpose?
-
->  }
-> =20
->  void intel_panel_disable_backlight(const struct drm_connector_state *old=
-_conn_state)
-> [...]
-> @@ -1916,36 +1919,30 @@ static int pwm_setup_backlight(struct intel_conne=
-ctor *connector,
->  		return -ENODEV;
->  	}
-> =20
-> -	panel->backlight.pwm_period_ns =3D NSEC_PER_SEC /
-> -					 get_vbt_pwm_freq(dev_priv);
-> -
-> -	/*
-> -	 * FIXME: pwm_apply_args() should be removed when switching to
-> -	 * the atomic PWM API.
-> -	 */
-> -	pwm_apply_args(panel->backlight.pwm);
-> -
->  	panel->backlight.max =3D 100; /* 100% */
->  	panel->backlight.min =3D get_backlight_min_vbt(connector);
-> -	level =3D intel_panel_compute_brightness(connector, 100);
-> -	ns =3D DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 100);
-> =20
-> -	retval =3D pwm_config(panel->backlight.pwm, ns,
-> -			    panel->backlight.pwm_period_ns);
-> -	if (retval < 0) {
-> -		drm_err(&dev_priv->drm, "Failed to configure the pwm chip\n");
-> -		pwm_put(panel->backlight.pwm);
-> -		panel->backlight.pwm =3D NULL;
-> -		return retval;
-> +	if (pwm_is_enabled(panel->backlight.pwm) &&
-> +	    pwm_get_period(panel->backlight.pwm)) {
-> +		/* PWM is already enabled, use existing settings */
-> +		pwm_get_state(panel->backlight.pwm, &panel->backlight.pwm_state);
-> +
-> +		level =3D DIV_ROUND_UP(panel->backlight.pwm_state.duty_cycle *
-> +					100, panel->backlight.pwm_state.period);
-> +		level =3D intel_panel_compute_brightness(connector, level);
-
-In pwm_enable_backlight() the order of these two steps is reversed
-compared to here. Maybe this calculation can be moved into
-intel_panel_compute_brightness()?
-
-> +		panel->backlight.level =3D clamp(level, panel->backlight.min,
-> +					       panel->backlight.max);
-> +		panel->backlight.enabled =3D true;
-> +
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---3nm7jggltwdbequ7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8EKV0ACgkQwfwUeK3K
-7AkhIAf/bQSYXCRy/ubZ8YgFo1OABj1iStigerYaBipn5+Aq76CcYfbXHCEzEJ0L
-hHdOogbiKAyWpKtgaATLM3JA99zVgq2w8BkpnFnE7Y4wWzlGrOMZjwLafjK3nfS9
-kMGPuYZkH1t66X3oGN6mMQOFHpTSSY6treiRS5m5q6MNbF6WyXVKRmsO3i7TPp2v
-+a9V4HfUg6k4y/ZMPTr4bxfz6U6ZTJUWk0+YMyLrxE0Zc7/nncF9/Yw0yluqQ6QH
-28sV8m9OTA2sN/2OGIrPsQJObhhFpMar7idJK3wdKnjO5hHhZSQLLKI6O0Mbu1YB
-zqtRqwdTgRG21N/wvuR7cWW59zKGOw==
-=xGNU
------END PGP SIGNATURE-----
-
---3nm7jggltwdbequ7--
-
---===============2096871241==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2096871241==--
