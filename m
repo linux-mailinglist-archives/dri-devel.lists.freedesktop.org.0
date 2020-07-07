@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5C3217A32
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 23:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E96217A7D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 23:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C2B6E156;
-	Tue,  7 Jul 2020 21:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E48356E182;
+	Tue,  7 Jul 2020 21:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5534E6E156
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 21:24:02 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208489] New: amdgpu: kernel oops when overclocking Vega M GPU
- (i7-8809G)
-Date: Tue, 07 Jul 2020 21:24:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: crab2313@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-208489-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 429A16E15D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 21:31:45 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id o2so718040wmh.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 14:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5OKgh3mvsF5ue+TTYOgE5XvqURkZAByfyiWBp7hUSak=;
+ b=TWKOYBrzNWVhAsByi4gCqtr9Mir2CzDLbaogIsSa2DhjaJYFaeCwEghzJQaQmqmxWf
+ WByZMOhk3fhW1ibvgBBQqIU24g/gvcliJf+Oxqs7DW4VNu0ptEXUxM68pROXQrx9SBTB
+ eGi5fJKKS/o8OVN5Ks399+NdtDdvguSQw5sNk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5OKgh3mvsF5ue+TTYOgE5XvqURkZAByfyiWBp7hUSak=;
+ b=M3VstsMYRuK3RT6eWUksFSNA9CwKQU7AZW/ziaVGg0bSWM2cQpkNG3mASZJk0D7iD0
+ VexhULitgCEhevq7hRCjt7SsrLZW9w21r5M/ggkpJ/Qm7ioLpVwZR9wiaTNIrE9G5ZAa
+ qtbvu2cE9NT7hQmh/x0XtiLZmsJqQoU68K2EUjxMTjPhMCrVBpOaKiQIjNE9N82R3JyX
+ dgcGKYgV1sOqMS8Sb8r5ToWeReTDdG1ozfBZtISm4RoOyuBx7Z+wTlmDS4IkiPLcql8u
+ FzvmwBDDqMD1iofZHi/5jM6gUIez1puCAy54ddMt7jISiZPFExBRAsdBxBFJEVbKo/zM
+ DkBw==
+X-Gm-Message-State: AOAM5309l1+rpbBuIvbILxTb5XmqPmmyMXMSC/uffD/J8FktrHFzta3n
+ pEuDAiDrLhIueZy7y33BGYfDZT5vPfM=
+X-Google-Smtp-Source: ABdhPJy7yguPwGUWDg4Vv129pYTLOPESlkqmddmztp6ah9fLKrB1z/82msn2A+EyRr4qaI3AbiVpCw==
+X-Received: by 2002:a1c:7413:: with SMTP id p19mr5919274wmc.60.1594157503528; 
+ Tue, 07 Jul 2020 14:31:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s8sm2466311wru.38.2020.07.07.14.31.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jul 2020 14:31:42 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/atmel: Use drm_atomic_helper_commit
+Date: Tue,  7 Jul 2020 23:31:37 +0200
+Message-Id: <20200707213137.482778-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200707201229.472834-10-daniel.vetter@ffwll.ch>
+References: <20200707201229.472834-10-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,150 +63,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, linux-rdma@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDg0ODkKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA4NDg5CiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1OiBrZXJuZWwg
-b29wcyB3aGVuIG92ZXJjbG9ja2luZyBWZWdhIE0gR1BVCiAgICAgICAgICAgICAgICAgICAgKGk3
-LTg4MDlHKQogICAgICAgICAgIFByb2R1Y3Q6IERyaXZlcnMKICAgICAgICAgICBWZXJzaW9uOiAy
-LjUKICAgIEtlcm5lbCBWZXJzaW9uOiA1LjcuNwogICAgICAgICAgSGFyZHdhcmU6IHg4Ni02NAog
-ICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTogTWFpbmxpbmUKICAg
-ICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3JtYWwKICAgICAgICAg
-IFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAtIG5vbiBJbnRlbCkK
-ICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwtYnVncy5vc2RsLm9y
-ZwogICAgICAgICAgUmVwb3J0ZXI6IGNyYWIyMzEzQGdtYWlsLmNvbQogICAgICAgIFJlZ3Jlc3Np
-b246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjkwMTY1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEu
-a2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yOTAxNjUmYWN0aW9uPWVkaXQKZnVsbCBrZXJu
-ZWwgZG1lc2cKCkNQVTogSW50ZWwoUikgQ29yZShUTSkgaTctODgwOUcgQ1BVIEAgMy4xMEdIegpJ
-bnRlbCBIYWRlcyBDYW55b24gTlVDIEtpdAoKCuKdryBjYXQgL3N5cy9idXMvcGNpL2RyaXZlcnMv
-YW1kZ3B1LzAwMDA6MDE6MDAuMC9wcF9vZF9jbGtfdm9sdGFnZQpPRF9TQ0xLOgowOiAgICAgICAg
-MjI1TUh6ICAgICAgICA3NTBtVgoxOiAgICAgICAgNDAwTUh6ICAgICAgICA3NTBtVgoyOiAgICAg
-ICAgNTM1TUh6ICAgICAgICA3NTBtVgozOiAgICAgICAgNzE1TUh6ICAgICAgICA3NTBtVgo0OiAg
-ICAgICAgOTYwTUh6ICAgICAgICA3NTBtVgo1OiAgICAgICAxMDgwTUh6ICAgICAgICA3NTBtVgo2
-OiAgICAgICAxMTQwTUh6ICAgICAgICA3NTBtVgo3OiAgICAgICAxMjUwTUh6ICAgICAgICA3NTBt
-VgpPRF9NQ0xLOgowOiAgICAgICAgMzAwTUh6ICAgICAgICA3NTBtVgoxOiAgICAgICAgNTAwTUh6
-ICAgICAgICA3NTBtVgoyOiAgICAgICAgODAwTUh6ICAgICAgICA4MDBtVgpPRF9SQU5HRToKU0NM
-SzogICAgIDIyNU1IeiAgICAgICAxNjAwTUh6Ck1DTEs6ICAgICAzMDBNSHogICAgICAgMTAwME1I
-egpWRERDOiAgICAgNzUwbVYgICAgICAgICA3NTBtVgoKQWZ0ZXIgZG9pbmcgdGhpczoKCiMhL2Jp
-bi9zaApzdWRvIHNoIC1jICJlY2hvICdzIDcgMTI1MCA3NTAnID4KL3N5cy9kZXZpY2VzL3BjaTAw
-MDA6MDAvMDAwMDowMDowMS4wLzAwMDA6MDE6MDAuMC9wcF9vZF9jbGtfdm9sdGFnZSIKc3VkbyBz
-aCAtYyAiZWNobyAnYycgPgovc3lzL2RldmljZXMvcGNpMDAwMDowMC8wMDAwOjAwOjAxLjAvMDAw
-MDowMTowMC4wL3BwX29kX2Nsa192b2x0YWdlIgoKa2VybmVsIG9vcHMgd2l0aCB0aGUgZG1lc2cu
-CgoKWyAgICA0LjkzMjcxNF0gQmx1ZXRvb3RoOiBSRkNPTU0gVFRZIGxheWVyIGluaXRpYWxpemVk
-ClsgICAgNC45MzI3MjJdIEJsdWV0b290aDogUkZDT01NIHNvY2tldCBsYXllciBpbml0aWFsaXpl
-ZApbICAgIDQuOTMyNzI1XSBCbHVldG9vdGg6IFJGQ09NTSB2ZXIgMS4xMQpbICAgIDkuMTIwMjk4
-XSByZmtpbGw6IGlucHV0IGhhbmRsZXIgZW5hYmxlZApbICAgIDkuOTIyMDE4XSBmdXNlOiBpbml0
-IChBUEkgdmVyc2lvbiA3LjMxKQpbICAgMTAuNDkyMDc4XSByZmtpbGw6IGlucHV0IGhhbmRsZXIg
-ZGlzYWJsZWQKWyAgIDEyLjY4MDUxMl0gd2xwNnMwOiBhdXRoZW50aWNhdGUgd2l0aCA1MDpkMjpm
-NTpmMToxMjplZApbICAgMTIuNjkwODAzXSB3bHA2czA6IHNlbmQgYXV0aCB0byA1MDpkMjpmNTpm
-MToxMjplZCAodHJ5IDEvMykKWyAgIDEyLjcyODQ3MF0gd2xwNnMwOiBhdXRoZW50aWNhdGVkClsg
-ICAxMi43Mjg4NjRdIHdscDZzMDogYXNzb2NpYXRlIHdpdGggNTA6ZDI6ZjU6ZjE6MTI6ZWQgKHRy
-eSAxLzMpClsgICAxMi43NTk2OTZdIHdscDZzMDogUlggQXNzb2NSZXNwIGZyb20gNTA6ZDI6ZjU6
-ZjE6MTI6ZWQgKGNhcGFiPTB4MzEgc3RhdHVzPTAKYWlkPTIpClsgICAxMi43NjI5NjZdIHdscDZz
-MDogYXNzb2NpYXRlZApbICAgMTMuMTAwNjI0XSBJUHY2OiBBRERSQ09ORihORVRERVZfQ0hBTkdF
-KTogd2xwNnMwOiBsaW5rIGJlY29tZXMgcmVhZHkKWyAgNjA2Ljk1ODQ1M10gQlVHOiB1bmFibGUg
-dG8gaGFuZGxlIHBhZ2UgZmF1bHQgZm9yIGFkZHJlc3M6IGZmZmY5MDMyYTRjODQ5YTQKWyAgNjA2
-Ljk1ODQ1NV0gI1BGOiBzdXBlcnZpc29yIHJlYWQgYWNjZXNzIGluIGtlcm5lbCBtb2RlClsgIDYw
-Ni45NTg0NTZdICNQRjogZXJyb3JfY29kZSgweDAwMDApIC0gbm90LXByZXNlbnQgcGFnZQpbICA2
-MDYuOTU4NDU3XSBQR0QgMTczYzAxMDY3IFA0RCAxNzNjMDEwNjcgUFVEIDAgClsgIDYwNi45NTg0
-NTldIE9vcHM6IDAwMDAgWyMxXSBQUkVFTVBUIFNNUCBQVEkKWyAgNjA2Ljk1ODQ2MF0gQ1BVOiA3
-IFBJRDogMjMzNyBDb21tOiBiYXNoIE5vdCB0YWludGVkIDUuNy43LXplbjEtMS16ZW4gIzEKWyAg
-NjA2Ljk1ODQ2MV0gSGFyZHdhcmUgbmFtZTogSW50ZWwgQ29ycG9yYXRpb24gTlVDOGk3SFZLL05V
-QzhpN0hWQiwgQklPUwpITktCTGk3MC44NkEuMDA1NC4yMDE5LjAyMTQuMTM1MCAwMi8xNC8yMDE5
-ClsgIDYwNi45NTg1MjhdIFJJUDogMDAxMDpwaG1fZmluZF9jbG9zZXN0X3ZkZGNpKzB4M2IvMHg2
-MCBbYW1kZ3B1XQpbICA2MDYuOTU4NTI5XSBDb2RlOiBjMCBlYiAwOSA0OCA4MyBjMCAwMSA0OCAz
-OSBkMCA3NCAxOSA0NCAwZiBiNyA0NCBjMyAwYyA4OQpjNSA2NiA0MSAzOSBmMCA3MiBlOSA0NCA4
-OSBjMCA1YiA1ZCBjMyBiZCBmZiBmZiBmZiBmZiAwZiAxZiA0NCAwMCAwMCA8NDQ+IDBmIGI3CjQ0
-IGViIDBjIDViIDVkIDQ0IDg5IGMwIGMzIDQ4IGM3IGM2IGYwIGMxIDk2IGMwIDQ4IGM3IGM3Clsg
-IDYwNi45NTg1MzBdIFJTUDogMDAxODpmZmZmYTNlY2MxOGZmOTQ4IEVGTEFHUzogMDAwMTAyNDYK
-WyAgNjA2Ljk1ODUzMV0gUkFYOiAwMDAwMDAwMDAwMDAwMmVlIFJCWDogZmZmZjkwMmFhNGM4NDlh
-MCBSQ1g6CjAwMDAwMDAwMDAwMDAwMDgKWyAgNjA2Ljk1ODUzMl0gUkRYOiAwMDAwMDAwMDAwMDAw
-MDAwIFJTSTogMDAwMDAwMDAwMDAwMDIyNiBSREk6CmZmZmY5MDJhYTRjODQ5YTAKWyAgNjA2Ljk1
-ODUzMl0gUkJQOiAwMDAwMDAwMGZmZmZmZmZmIFIwODogZmZmZmEzZWNjMThmZjlkNCBSMDk6CjAw
-MDAwMDAwMDAwMDAwMjkKWyAgNjA2Ljk1ODUzM10gUjEwOiAwMDAwMDAwMDAwMDBlNDAxIFIxMTog
-MDAwMDAwMDAwMDAwMDAwMCBSMTI6CmZmZmY5MDJhYTY4NjE2MDAKWyAgNjA2Ljk1ODUzNF0gUjEz
-OiBmZmZmOTAyYWE0Yzg0MDAwIFIxNDogZmZmZjkwMmFhNGM4NTMwMSBSMTU6CmZmZmZhM2VjYzE4
-ZmY5ZDQKWyAgNjA2Ljk1ODUzNF0gRlM6ICAwMDAwN2ZlODIzM2MwYjgwKDAwMDApIEdTOmZmZmY5
-MDJhYWVkYzAwMDAoMDAwMCkKa25sR1M6MDAwMDAwMDAwMDAwMDAwMApbICA2MDYuOTU4NTM1XSBD
-UzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzClsgIDYwNi45
-NTg1MzZdIENSMjogZmZmZjkwMzJhNGM4NDlhNCBDUjM6IDAwMDAwMDA0Njc0NjgwMDUgQ1I0Ogow
-MDAwMDAwMDAwMzYwNmUwClsgIDYwNi45NTg1MzZdIENhbGwgVHJhY2U6ClsgIDYwNi45NTg1ODdd
-ICB2ZWdhbV9nZXRfZGVwZW5kZW5jeV92b2x0X2J5X2Nsay5pc3JhLjArMHg4ZS8weDIyMCBbYW1k
-Z3B1XQpbICA2MDYuOTU4NjM3XSAgdmVnYW1fcG9wdWxhdGVfYWxsX2dyYXBoaWNfbGV2ZWxzKzB4
-MjZhLzB4OTYwIFthbWRncHVdClsgIDYwNi45NTg2ODZdICBzbXU3X3NldF9wb3dlcl9zdGF0ZV90
-YXNrcysweDc3Yy8weDEyYjAgW2FtZGdwdV0KWyAgNjA2Ljk1ODczNF0gIHBobV9zZXRfcG93ZXJf
-c3RhdGUrMHg1YS8weDgwIFthbWRncHVdClsgIDYwNi45NTg3ODRdICBwc21fYWRqdXN0X3Bvd2Vy
-X3N0YXRlX2R5bmFtaWMrMHhjYS8weDFkMCBbYW1kZ3B1XQpbICA2MDYuOTU4ODMxXSAgaHdtZ3Jf
-aGFuZGxlX3Rhc2srMHg0OS8weGYwIFthbWRncHVdClsgIDYwNi45NTg4ODJdICBwcF9kcG1fZGlz
-cGF0Y2hfdGFza3MrMHgzYS8weDYwIFthbWRncHVdClsgIDYwNi45NTg5MTVdICBhbWRncHVfc2V0
-X3BwX29kX2Nsa192b2x0YWdlKzB4M2NiLzB4NDkwIFthbWRncHVdClsgIDYwNi45NTg5MjFdICBr
-ZXJuZnNfZm9wX3dyaXRlKzB4Y2UvMHgxYjAKWyAgNjA2Ljk1ODkyM10gIHZmc193cml0ZSsweDEw
-YS8weDQyMApbICA2MDYuOTU4OTI1XSAgX194NjRfc3lzX3dyaXRlKzB4NmQvMHhmMApbICA2MDYu
-OTU4OTI2XSAgZG9fc3lzY2FsbF82NCsweDRlLzB4MTYwClsgIDYwNi45NTg5MjhdICBlbnRyeV9T
-WVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0NC8weGE5ClsgIDYwNi45NTg5MzBdIFJJUDogMDAz
-MzoweDdmZTgyMzUyM2I1NwpbICA2MDYuOTU4OTMxXSBDb2RlOiAwYyAwMCBmNyBkOCA2NCA4OSAw
-MiA0OCBjNyBjMCBmZiBmZiBmZiBmZiBlYiBiNyAwZiAxZiAwMApmMyAwZiAxZSBmYSA2NCA4YiAw
-NCAyNSAxOCAwMCAwMCAwMCA4NSBjMCA3NSAxMCBiOCAwMSAwMCAwMCAwMCAwZiAwNSA8NDg+IDNk
-IDAwCmYwIGZmIGZmIDc3IDUxIGMzIDQ4IDgzIGVjIDI4IDQ4IDg5IDU0IDI0IDE4IDQ4IDg5IDc0
-IDI0ClsgIDYwNi45NTg5MzFdIFJTUDogMDAyYjowMDAwN2ZmZWEzYmE1ZTg4IEVGTEFHUzogMDAw
-MDAyNDYgT1JJR19SQVg6CjAwMDAwMDAwMDAwMDAwMDEKWyAgNjA2Ljk1ODkzMl0gUkFYOiBmZmZm
-ZmZmZmZmZmZmZmRhIFJCWDogMDAwMDAwMDAwMDAwMDAwMiBSQ1g6CjAwMDA3ZmU4MjM1MjNiNTcK
-WyAgNjA2Ljk1ODkzM10gUkRYOiAwMDAwMDAwMDAwMDAwMDAyIFJTSTogMDAwMDU2NDhlNWRkYTYy
-MCBSREk6CjAwMDAwMDAwMDAwMDAwMDEKWyAgNjA2Ljk1ODkzNF0gUkJQOiAwMDAwNTY0OGU1ZGRh
-NjIwIFIwODogMDAwMDAwMDAwMDAwMDAwYSBSMDk6CjAwMDAwMDAwMDAwMDAwMDEKWyAgNjA2Ljk1
-ODkzNF0gUjEwOiAwMDAwNTY0OGU1ZDIwODcwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6CjAw
-MDAwMDAwMDAwMDAwMDIKWyAgNjA2Ljk1ODkzNV0gUjEzOiAwMDAwN2ZlODIzNWY0NTAwIFIxNDog
-MDAwMDAwMDAwMDAwMDAwMiBSMTU6CjAwMDA3ZmU4MjM1ZjQ3MDAKWyAgNjA2Ljk1ODkzNl0gTW9k
-dWxlcyBsaW5rZWQgaW46IGNjbSBmdXNlIHJmY29tbSB4dF9DSEVDS1NVTSB4dF9NQVNRVUVSQURF
-Cnh0X2Nvbm50cmFjayBjbWFjIGFsZ2lmX2hhc2ggaXB0X1JFSkVDVCBuZl9yZWplY3RfaXB2NCBh
-bGdpZl9za2NpcGhlciBhZl9hbGcKeHRfdGNwdWRwIGlwNnRhYmxlX21hbmdsZSBpcDZ0YWJsZV9u
-YXQgaXB0YWJsZV9tYW5nbGUgaXB0YWJsZV9uYXQgbmZfbmF0Cm5mX2Nvbm50cmFjayBuZl9kZWZy
-YWdfaXB2NiBuZl9kZWZyYWdfaXB2NCBsaWJjcmMzMmMgZWJ0YWJsZV9maWx0ZXIgZWJ0YWJsZXMK
-aXA2dGFibGVfZmlsdGVyIGlwNl90YWJsZXMgaXB0YWJsZV9maWx0ZXIgdHVuIG1vdXNlZGV2IGlu
-cHV0X2xlZHMgaGlkX2dlbmVyaWMKam95ZGV2IHVzYmhpZCBoaWQgeHBhZCBmZl9tZW1sZXNzIGJy
-aWRnZSBzdHAgbGxjIGJuZXAgbXNyIGludGVsX3JhcGxfbXNyCmludGVsX3JhcGxfY29tbW9uIHg4
-Nl9wa2dfdGVtcF90aGVybWFsIGludGVsX3Bvd2VyY2xhbXAgY29yZXRlbXAgaXdsbXZtCmt2bV9p
-bnRlbCBzbmRfaGRhX2NvZGVjX3JlYWx0ZWsga3ZtIHNuZF9oZGFfY29kZWNfZ2VuZXJpYyBpVENP
-X3dkdCBtYWM4MDIxMQppVENPX3ZlbmRvcl9zdXBwb3J0IGlycWJ5cGFzcyA4MjUwX2R3IGxlZHRy
-aWdfYXVkaW8gc25kX2hkYV9jb2RlY19oZG1pIG1laV9oZGNwCm5sc19pc284ODU5XzEgdHBzNjU5
-OHggY3JjdDEwZGlmX3BjbG11bCB0eXBlYyBsaWJhcmM0IHdtaV9ibW9mIGNyYzMyX3BjbG11bApu
-bHNfY3A0MzcgZ2hhc2hfY2xtdWxuaV9pbnRlbCBpbnRlbF93bWlfdGh1bmRlcmJvbHQgdmZhdCBh
-ZXNuaV9pbnRlbApzbmRfaGRhX2ludGVsIGJ0dXNiIGZhdCBidHJ0bCBzbmRfaW50ZWxfZHNwY2Zn
-IGl3bHdpZmkgYnRiY20gY3J5cHRvX3NpbWQgY3J5cHRkCmdsdWVfaGVscGVyIHNuZF9oZGFfY29k
-ZWMgaW50ZWxfY3N0YXRlIGJ0aW50ZWwgaW50ZWxfdW5jb3JlIHNuZF9oZGFfY29yZQppbnRlbF9y
-YXBsX3BlcmYgcGNzcGtyClsgIDYwNi45NTg5NTVdICBlMTAwMGUgaTJjX2k4MDEgY2ZnODAyMTEg
-c25kX2h3ZGVwIGJsdWV0b290aCBpZ2Igc25kX3BjbSBtZWlfbWUKZWNkaF9nZW5lcmljIGludGVs
-X2xwc3NfcGNpIHJma2lsbCBkY2Egc25kX3RpbWVyIGVjYyBpbnRlbF9scHNzIG1laSBpZG1hNjQK
-aW50ZWxfcGNoX3RoZXJtYWwgc25kIHRwbV9jcmIgc291bmRjb3JlIHdtaSB0cG1fdGlzIGkyY19t
-dWx0aV9pbnN0YW50aWF0ZQp0cG1fdGlzX2NvcmUgZXZkZXYgdHBtIHJuZ19jb3JlIG1hY19oaWQg
-dGNwX2JiciBzY2hfY2FrZSBzZyBjcnlwdG9fdXNlcgppcF90YWJsZXMgeF90YWJsZXMgZXh0NCBj
-cmMzMmNfZ2VuZXJpYyBjcmMxNiBtYmNhY2hlIGpiZDIgc2RoY2lfcGNpIGNxaGNpCnhoY2lfcGNp
-IHNkaGNpIGNyYzMyY19pbnRlbCB4aGNpX2hjZCBtbWNfY29yZSBhbWRncHUgZ3B1X3NjaGVkIGky
-Y19hbGdvX2JpdCB0dG0KZHJtX2ttc19oZWxwZXIgc3lzY29weWFyZWEgc3lzZmlsbHJlY3Qgc3lz
-aW1nYmx0IGZiX3N5c19mb3BzIGNlYyByY19jb3JlIGRybQphZ3BnYXJ0ClsgIDYwNi45NTg5Njhd
-IENSMjogZmZmZjkwMzJhNGM4NDlhNApbICA2MDYuOTU4OTcwXSAtLS1bIGVuZCB0cmFjZSBkMjhh
-YzlmMGExNzZiNzczIF0tLS0KWyAgNjA2Ljk1OTAyMF0gUklQOiAwMDEwOnBobV9maW5kX2Nsb3Nl
-c3RfdmRkY2krMHgzYi8weDYwIFthbWRncHVdClsgIDYwNi45NTkwMjFdIENvZGU6IGMwIGViIDA5
-IDQ4IDgzIGMwIDAxIDQ4IDM5IGQwIDc0IDE5IDQ0IDBmIGI3IDQ0IGMzIDBjIDg5CmM1IDY2IDQx
-IDM5IGYwIDcyIGU5IDQ0IDg5IGMwIDViIDVkIGMzIGJkIGZmIGZmIGZmIGZmIDBmIDFmIDQ0IDAw
-IDAwIDw0ND4gMGYgYjcKNDQgZWIgMGMgNWIgNWQgNDQgODkgYzAgYzMgNDggYzcgYzYgZjAgYzEg
-OTYgYzAgNDggYzcgYzcKWyAgNjA2Ljk1OTAyMl0gUlNQOiAwMDE4OmZmZmZhM2VjYzE4ZmY5NDgg
-RUZMQUdTOiAwMDAxMDI0NgpbICA2MDYuOTU5MDIzXSBSQVg6IDAwMDAwMDAwMDAwMDAyZWUgUkJY
-OiBmZmZmOTAyYWE0Yzg0OWEwIFJDWDoKMDAwMDAwMDAwMDAwMDAwOApbICA2MDYuOTU5MDIzXSBS
-RFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwMDAwMDAwMDAwMjI2IFJESToKZmZmZjkwMmFh
-NGM4NDlhMApbICA2MDYuOTU5MDI0XSBSQlA6IDAwMDAwMDAwZmZmZmZmZmYgUjA4OiBmZmZmYTNl
-Y2MxOGZmOWQ0IFIwOToKMDAwMDAwMDAwMDAwMDAyOQpbICA2MDYuOTU5MDI0XSBSMTA6IDAwMDAw
-MDAwMDAwMGU0MDEgUjExOiAwMDAwMDAwMDAwMDAwMDAwIFIxMjoKZmZmZjkwMmFhNjg2MTYwMApb
-ICA2MDYuOTU5MDI1XSBSMTM6IGZmZmY5MDJhYTRjODQwMDAgUjE0OiBmZmZmOTAyYWE0Yzg1MzAx
-IFIxNToKZmZmZmEzZWNjMThmZjlkNApbICA2MDYuOTU5MDI2XSBGUzogIDAwMDA3ZmU4MjMzYzBi
-ODAoMDAwMCkgR1M6ZmZmZjkwMmFhZWRjMDAwMCgwMDAwKQprbmxHUzowMDAwMDAwMDAwMDAwMDAw
-ClsgIDYwNi45NTkwMjddIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAw
-ODAwNTAwMzMKWyAgNjA2Ljk1OTAyN10gQ1IyOiBmZmZmOTAzMmE0Yzg0OWE0IENSMzogMDAwMDAw
-MDQ2NzQ2ODAwNSBDUjQ6CjAwMDAwMDAwMDAzNjA2ZTAKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0
-aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1
-Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+One of these drivers that predates the nonblocking support in helpers,
+and hand-rolled its own thing. Entirely not anything specific here, we
+can just delete it all and replace it with the helper version.
+
+Could also perhaps use the drm_mode_config_helper_suspend/resume
+stuff, for another few lines deleted. But I'm not looking at that
+stuff, I'm just going through all the atomic commit functions and make
+sure they have properly annotated dma-fence critical sections
+everywhere.
+
+v2:
+- Also delete the workqueue (Sam)
+- drop the @commit kerneldoc, I missed that one.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Boris Brezillon <bbrezillon@kernel.org>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: linux-arm-kernel@lists.infradead.org
+---
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 107 +------------------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h |   7 --
+ 2 files changed, 2 insertions(+), 112 deletions(-)
+
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index 871293d1aeeb..03984932d174 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -557,103 +557,10 @@ static irqreturn_t atmel_hlcdc_dc_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-struct atmel_hlcdc_dc_commit {
+-	struct work_struct work;
+-	struct drm_device *dev;
+-	struct drm_atomic_state *state;
+-};
+-
+-static void
+-atmel_hlcdc_dc_atomic_complete(struct atmel_hlcdc_dc_commit *commit)
+-{
+-	struct drm_device *dev = commit->dev;
+-	struct atmel_hlcdc_dc *dc = dev->dev_private;
+-	struct drm_atomic_state *old_state = commit->state;
+-
+-	/* Apply the atomic update. */
+-	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+-	drm_atomic_helper_commit_planes(dev, old_state, 0);
+-	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+-
+-	drm_atomic_helper_wait_for_vblanks(dev, old_state);
+-
+-	drm_atomic_helper_cleanup_planes(dev, old_state);
+-
+-	drm_atomic_state_put(old_state);
+-
+-	/* Complete the commit, wake up any waiter. */
+-	spin_lock(&dc->commit.wait.lock);
+-	dc->commit.pending = false;
+-	wake_up_all_locked(&dc->commit.wait);
+-	spin_unlock(&dc->commit.wait.lock);
+-
+-	kfree(commit);
+-}
+-
+-static void atmel_hlcdc_dc_atomic_work(struct work_struct *work)
+-{
+-	struct atmel_hlcdc_dc_commit *commit =
+-		container_of(work, struct atmel_hlcdc_dc_commit, work);
+-
+-	atmel_hlcdc_dc_atomic_complete(commit);
+-}
+-
+-static int atmel_hlcdc_dc_atomic_commit(struct drm_device *dev,
+-					struct drm_atomic_state *state,
+-					bool async)
+-{
+-	struct atmel_hlcdc_dc *dc = dev->dev_private;
+-	struct atmel_hlcdc_dc_commit *commit;
+-	int ret;
+-
+-	ret = drm_atomic_helper_prepare_planes(dev, state);
+-	if (ret)
+-		return ret;
+-
+-	/* Allocate the commit object. */
+-	commit = kzalloc(sizeof(*commit), GFP_KERNEL);
+-	if (!commit) {
+-		ret = -ENOMEM;
+-		goto error;
+-	}
+-
+-	INIT_WORK(&commit->work, atmel_hlcdc_dc_atomic_work);
+-	commit->dev = dev;
+-	commit->state = state;
+-
+-	spin_lock(&dc->commit.wait.lock);
+-	ret = wait_event_interruptible_locked(dc->commit.wait,
+-					      !dc->commit.pending);
+-	if (ret == 0)
+-		dc->commit.pending = true;
+-	spin_unlock(&dc->commit.wait.lock);
+-
+-	if (ret)
+-		goto err_free;
+-
+-	/* We have our own synchronization through the commit lock. */
+-	BUG_ON(drm_atomic_helper_swap_state(state, false) < 0);
+-
+-	/* Swap state succeeded, this is the point of no return. */
+-	drm_atomic_state_get(state);
+-	if (async)
+-		queue_work(dc->wq, &commit->work);
+-	else
+-		atmel_hlcdc_dc_atomic_complete(commit);
+-
+-	return 0;
+-
+-err_free:
+-	kfree(commit);
+-error:
+-	drm_atomic_helper_cleanup_planes(dev, state);
+-	return ret;
+-}
+-
+ static const struct drm_mode_config_funcs mode_config_funcs = {
+ 	.fb_create = drm_gem_fb_create,
+ 	.atomic_check = drm_atomic_helper_check,
+-	.atomic_commit = atmel_hlcdc_dc_atomic_commit,
++	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+ static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
+@@ -712,11 +619,6 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 	if (!dc)
+ 		return -ENOMEM;
+ 
+-	dc->wq = alloc_ordered_workqueue("atmel-hlcdc-dc", 0);
+-	if (!dc->wq)
+-		return -ENOMEM;
+-
+-	init_waitqueue_head(&dc->commit.wait);
+ 	dc->desc = match->data;
+ 	dc->hlcdc = dev_get_drvdata(dev->dev->parent);
+ 	dev->dev_private = dc;
+@@ -724,7 +626,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 	ret = clk_prepare_enable(dc->hlcdc->periph_clk);
+ 	if (ret) {
+ 		dev_err(dev->dev, "failed to enable periph_clk\n");
+-		goto err_destroy_wq;
++		return ret;
+ 	}
+ 
+ 	pm_runtime_enable(dev->dev);
+@@ -761,9 +663,6 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 	pm_runtime_disable(dev->dev);
+ 	clk_disable_unprepare(dc->hlcdc->periph_clk);
+ 
+-err_destroy_wq:
+-	destroy_workqueue(dc->wq);
+-
+ 	return ret;
+ }
+ 
+@@ -771,7 +670,6 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
+ {
+ 	struct atmel_hlcdc_dc *dc = dev->dev_private;
+ 
+-	flush_workqueue(dc->wq);
+ 	drm_kms_helper_poll_fini(dev);
+ 	drm_atomic_helper_shutdown(dev);
+ 	drm_mode_config_cleanup(dev);
+@@ -784,7 +682,6 @@ static void atmel_hlcdc_dc_unload(struct drm_device *dev)
+ 
+ 	pm_runtime_disable(dev->dev);
+ 	clk_disable_unprepare(dc->hlcdc->periph_clk);
+-	destroy_workqueue(dc->wq);
+ }
+ 
+ static int atmel_hlcdc_dc_irq_postinstall(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+index 469d4507e576..5b5c774e0edf 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+@@ -331,9 +331,7 @@ struct atmel_hlcdc_dc_desc {
+  * @crtc: CRTC provided by the display controller
+  * @planes: instantiated planes
+  * @layers: active HLCDC layers
+- * @wq: display controller workqueue
+  * @suspend: used to store the HLCDC state when entering suspend
+- * @commit: used for async commit handling
+  */
+ struct atmel_hlcdc_dc {
+ 	const struct atmel_hlcdc_dc_desc *desc;
+@@ -341,15 +339,10 @@ struct atmel_hlcdc_dc {
+ 	struct atmel_hlcdc *hlcdc;
+ 	struct drm_crtc *crtc;
+ 	struct atmel_hlcdc_layer *layers[ATMEL_HLCDC_MAX_LAYERS];
+-	struct workqueue_struct *wq;
+ 	struct {
+ 		u32 imr;
+ 		struct drm_atomic_state *state;
+ 	} suspend;
+-	struct {
+-		wait_queue_head_t wait;
+-		bool pending;
+-	} commit;
+ };
+ 
+ extern struct atmel_hlcdc_formats atmel_hlcdc_plane_rgb_formats;
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
