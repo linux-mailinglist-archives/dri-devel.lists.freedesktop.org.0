@@ -1,57 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD297218064
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3309B218073
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 866E26E894;
-	Wed,  8 Jul 2020 07:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165D56E8A1;
+	Wed,  8 Jul 2020 07:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD3989C8F;
- Tue,  7 Jul 2020 18:18:04 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id k15so25298066lfc.4;
- Tue, 07 Jul 2020 11:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BS5oJnyO5K6NCAB/a52k+DpKF9O4k6VgS2Nzs3Rg6YI=;
- b=ey0CiRFAVZbnWmWODi8Xx4vhHFmJgql/gTkk6J7K1SKAyufCkI5s9HfnX8dQtnx7Ss
- uz813mi+4nomybriOWWXmy8bLN0RzFivymy2YY4R8mzM8IVwfY83UYEtJdvtHRnIrS8k
- 3eUprbqbJNWX3wIIo+4/Yh8EDHdqm0NshTptsqEidKNb5JZifJyOYMUPYW4oSkXQWleH
- PkhXyZmhn3DCGC2xjIrSo/qS4okjg+aEyhHWtq25j4ajy90Fb0ejYwzcnHAmYwP+n2qP
- rTSVVpPPOC01AhL1yTYbsCKjvQmdIJOUxzNy+cnl4TWx/+9eg838aRsHuxVV7qp1h6IY
- nrQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BS5oJnyO5K6NCAB/a52k+DpKF9O4k6VgS2Nzs3Rg6YI=;
- b=G+tA8SiCsh/Jas5yplrYT445noPlT8Nt97qXBNM+5gBqs1Wqo19jO72XJ4R9Z3tCAF
- pDESaGA3iTpm4KHFnxrukuKl9q2gt15t4JZBzHz7YOxTxXWGf0V3z7Tx3usYRf/+yru1
- 0priGOhRRWmrtjnLQBENU/b0ThRdwzVxqdUq7vntnLWpbEuirmkbgB5HzvApK0Jlh8Ir
- GJ6rkaZEZsLH7kZnuphohqlj3KkVoFx10WPSR8f7Jm593tZzV8nOB/v8NC+2ykm/REzK
- EzFw/81N/x9ZK9ioKg6D6r0pQMKWq4RLAvXiaaKUxiAU0oaK5jIud7SPSyat59ieRkgy
- nnsQ==
-X-Gm-Message-State: AOAM532z1vvy5gmuq1XWEjPFI+mVBZsoEs4PprIgsz3nZ8NAETdnOLrA
- mVZOz76FpGuUYIlHtuMzBxYAR25uNY5FGmDEM0D8nJQRBqE=
-X-Google-Smtp-Source: ABdhPJy93bC3ASladwqXdXhPKCrPOP5AsPWvyqZe8J8HwWOnhjwya9nI/LymqqZJpEniYeng3NvHsQpNlhFSRPLS4Vg=
-X-Received: by 2002:a05:6512:4c6:: with SMTP id
- w6mr31399501lfq.76.1594145882259; 
- Tue, 07 Jul 2020 11:18:02 -0700 (PDT)
+Received: from crapouillou.net (crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F74A6E248
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1594146390; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EQRrwbfO2C4Em9LcWxXzackWTr0tQ5tvZFSRH8pCMe0=;
+ b=XzeBLZZpNrTe4Ra4qa9YkMqrcWIB6zuFg4aTH2C2kEQMTtyYB4q4KtKp/VYw3wfurq1Kn0
+ L6vYSsxjiaskMjz36Jsy2DP+Y8oQPXQCS6J5S08kAw61Tz2Iuu7CBHExV7HzjcpUKs4626
+ 7D3ppRB7tG00QbsRFF8yeJYYsJftnrw=
+Date: Tue, 07 Jul 2020 20:26:10 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 13/20] Documentation: mips/ingenic-tcu: eliminate
+ duplicated word
+To: Randy Dunlap <rdunlap@infradead.org>
+Message-Id: <M734DQ.WGKQZ628NBB1@crapouillou.net>
+In-Reply-To: <20200707180414.10467-14-rdunlap@infradead.org>
+References: <20200707180414.10467-1-rdunlap@infradead.org>
+ <20200707180414.10467-14-rdunlap@infradead.org>
 MIME-Version: 1.0
-References: <20200707160012.1299338-1-chris@chris-wilson.co.uk>
- <CALqoU4y61Yc5ndaLSO3WoGSPxGm1nJJufk3U=uxhZe3sT1Xyzg@mail.gmail.com>
- <159414243217.17526.6453360763938648186@build.alporthouse.com>
-In-Reply-To: <159414243217.17526.6453360763938648186@build.alporthouse.com>
-From: lepton <ytht.net@gmail.com>
-Date: Tue, 7 Jul 2020 11:17:51 -0700
-Message-ID: <CALqoU4ypBqcAo+xH2usVRffKzR6AkgGdJBmQ0vWe9MZ1kTHCqw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/vgem: Do not allocate backing shmemfs file for an
- import dmabuf object
-To: Chris Wilson <chris@chris-wilson.co.uk>
 X-Mailman-Approved-At: Wed, 08 Jul 2020 07:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,43 +45,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
- "# v4 . 10+" <stable@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
+ linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ keyrings@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
+ linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
+ Dan Murphy <dmurphy@ti.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 7, 2020 at 10:20 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
->
-> Quoting lepton (2020-07-07 18:05:21)
-> > On Tue, Jul 7, 2020 at 9:00 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > >
-> > > If we assign obj->filp, we believe that the create vgem bo is native and
-> > > allow direct operations like mmap() assuming it behaves as backed by a
-> > > shmemfs inode. When imported from a dmabuf, the obj->pages are
-> > > not always meaningful and the shmemfs backing store misleading.
-> > >
-> > > Note, that regular mmap access to a vgem bo is via the dumb buffer API,
-> > > and that rejects attempts to mmap an imported dmabuf,
-> > What do you mean by "regular mmap access" here?  It looks like vgem is
-> > using vgem_gem_dumb_map as .dumb_map_offset callback then it doesn't call
-> > drm_gem_dumb_map_offset
->
-> As I too found out, and so had to correct my story telling.
->
-> By regular mmap() access I mean mmap on the vgem bo [via the dumb buffer
-> API] as opposed to mmap() via an exported dma-buf fd. I had to look at
-> igt to see how it was being used.
-Now it seems your fix is to disable "regular mmap" on imported dma buf
-for vgem. I am not really a graphic guy, but then the api looks like:
-for a gem handle, user space has to guess to find out the way to mmap
-it. If user space guess wrong, then it will fail to mmap. Is this the
-expected way
-for people to handle gpu buffer?
-> -Chris
+Hi,
+
+Le mar. 7 juil. 2020 =E0 11:04, Randy Dunlap <rdunlap@infradead.org> a =
+
+=E9crit :
+> Drop the doubled word "to".
+> =
+
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Paul Cercueil <paul@crapouillou.net>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: linux-mips@vger.kernel.org
+
+Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+
+Cheers,
+-Paul
+
+> ---
+>  Documentation/mips/ingenic-tcu.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> =
+
+> --- linux-next-20200701.orig/Documentation/mips/ingenic-tcu.rst
+> +++ linux-next-20200701/Documentation/mips/ingenic-tcu.rst
+> @@ -5,7 +5,7 @@ Ingenic JZ47xx SoCs Timer/Counter Unit h
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =
+
+>  The Timer/Counter Unit (TCU) in Ingenic JZ47xx SoCs is a =
+
+> multi-function
+> -hardware block. It features up to to eight channels, that can be =
+
+> used as
+> +hardware block. It features up to eight channels, that can be used as
+>  counters, timers, or PWM.
+> =
+
+>  - JZ4725B, JZ4750, JZ4755 only have six TCU channels. The other SoCs =
+
+> all
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
