@@ -1,51 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778E62168B4
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 11:00:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A031A21692A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 11:36:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3E56E11D;
-	Tue,  7 Jul 2020 09:00:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04AEF89CF7;
+	Tue,  7 Jul 2020 09:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351106E13F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 09:00:08 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id w17so25926115otl.4
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 02:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NNUZn332rCgkjganzrHKkiFv7KudV7k1M6LsdZjErP4=;
- b=aDMd2DVTrcN5Uw7TCrz237YqapP6BvvU/KVyvMJPAtK7LeVXRmT3cnX4xBVT4UFIPl
- Rq8LFYQ2MXpGjRfQI9Bbnx5EkB4+y/A7bZfk4E9ZJNb4keyTW5NG5uCfpr2cqFmisNSW
- b2lC/BSOdUWRiV8yQVhqtYxO2toU7i5g0Fsq0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NNUZn332rCgkjganzrHKkiFv7KudV7k1M6LsdZjErP4=;
- b=HW4qYKLXRz7YqL/tnUPZGhYlxWm8qTlekD6DeHPcl676pu+X/4Clb37eb3NWV5vGBX
- gz5GfPLPGLMWl1pIUwhn1gO38yZCuFWPT4pKDqjcnstkRyZBLM+7pyuqjAtnUwsC8nVN
- X/N2d/iYQqpd99+IjBlNnHP7SNJ8IgrHXHLOiTGchLiozBuLTSC6H1DE6txn+xJoEvO2
- m9WY6PvprHv0Z+3ZeuIBuOeicGT01zV19W3ivsgjK/pLWs/BrUXtiD3QGlCILj8l6kn4
- XsDc/aLF95NwShQ01mi25aNX+72kQOVnYcJeZdAp2B6SG9IPAB3aKTYgzeVTNKrFaVZw
- L5QA==
-X-Gm-Message-State: AOAM532dRv/OwmhvS5V6TGK7fS/RwtcpPlVyPAudZogc/d2moYFRIVr3
- EvMQUm0R70yze/wJo1T+uVP9kQ2mgN+ymCq9nOnVrQ==
-X-Google-Smtp-Source: ABdhPJzQ05hH6K07diTtotWREKsl1zADVqYbhKoQdQeVJcFL4rB21rsn0gL7ImDbbd3Wj3wLdcy7Yvi2EMaS2MHkoaI=
-X-Received: by 2002:a05:6830:1613:: with SMTP id
- g19mr31465766otr.303.1594112408104; 
- Tue, 07 Jul 2020 02:00:08 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 409FE89CF7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 09:35:58 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200707093556euoutp02df2560124c90478cbb8b3e54fdcaf741~fbr5BjiNP1196411964euoutp02J
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 09:35:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200707093556euoutp02df2560124c90478cbb8b3e54fdcaf741~fbr5BjiNP1196411964euoutp02J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1594114556;
+ bh=UaS1/ITQJEn5fzjhXvRGacaHKocR55iPkkA8Q61E4zg=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=vRfz3EUo9Tjq7ny2909hVlYWNBll5vpWfDvav/VRG1+2rUDe8FSttTR9JUq4+wpXz
+ rkD2t1Vmk5K/pPI2SGIYisji5p/jt03xQSY1CvGsyR0TlmfVnyLoULXhSmUAT6HQKQ
+ MVMR6jJzW9JAQeWwo6DHDRqPPPkLqW2/ci6/Rddg=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200707093556eucas1p1d5b7ff583698c44c3bfcf3ee1b574c9b~fbr4xHpRb1102211022eucas1p1k;
+ Tue,  7 Jul 2020 09:35:56 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id A1.C6.05997.CF1440F5; Tue,  7
+ Jul 2020 10:35:56 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200707093555eucas1p1edecb0332b868d481c2ebc9fbb263c16~fbr4dVOuR0885708857eucas1p1P;
+ Tue,  7 Jul 2020 09:35:55 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200707093555eusmtrp208bfcf2442c01c25f64aa2d741da976e~fbr4cnV7u0591605916eusmtrp2O;
+ Tue,  7 Jul 2020 09:35:55 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-aa-5f0441fcfade
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 0E.B8.06314.BF1440F5; Tue,  7
+ Jul 2020 10:35:55 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200707093553eusmtip1363a8004048520f85cd2bf8b03612ded~fbr2RJ7o02299222992eusmtip1v;
+ Tue,  7 Jul 2020 09:35:53 +0000 (GMT)
+Subject: Re: [PATCH v7 07/36] drm: exynos: use common helper for a
+ scatterlist contiguity check
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <8e25b060-2901-6d8d-f5ee-9f7cc0f02b77@samsung.com>
+Date: Tue, 7 Jul 2020 11:35:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200707042100.2550260-1-ytht.net@gmail.com>
-In-Reply-To: <20200707042100.2550260-1-ytht.net@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 7 Jul 2020 10:59:56 +0200
-Message-ID: <CAKMK7uHCPZwzh7_3KTm=JhjtYsUd3o7gKALTfSkBLiVt8Y=5bw@mail.gmail.com>
-Subject: Re: [RFC] drm/vgem: Don't use get_page in fault handler.
-To: Lepton Wu <ytht.net@gmail.com>
+In-Reply-To: <20200619103636.11974-8-m.szyprowski@samsung.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfSxVcRjH+51zz7nHzeW42P1NTdy1rLZI+uMszVJWZyut/uiPbOjgzEtc
+ usdLknnJxBWrjBCFeU+j6yJqlNfJUFIhLwkttRvN1eZ6KcfR8t/n+T7P832e57cfgcqGMCsi
+ UBnOqpRMsAKXiBq6lgcOrrqKvA+1ruyk0vt7EOppTg1GDS3N41Tl406EKmx1pvRDUwilmf6A
+ Ue+a83EqZ6AFoZ50jIupVwszGJWTOYcfN6arH1YDuvH3Z4yeTOtG6LqSOPrT+jRKZw6XA/r5
+ SDxOZ2irAL2osT5v5CE55scGB0ayKgeXy5KA+dwhPCxBei1ek43Gg2aJGhgRkDwCOzQZiBpI
+ CBlZAWCDYXwr0AO4oO7BhWARwFL1240MsdmyVEQKejmADwYTMN5KRs4DuNQWxLM5ycD0ngmc
+ ZwtSC+DNrFN8A0pmIXC6oQXlEzi5H67VjeC8qZR0gerKo7wsIvfChamiTU9L0gvWzDUiPEtJ
+ M9iTOyPi2WijfHGsXcwzSu6Bjbp8VGA5TNRXYvwsSC6L4WxZHybc6QbLClKBwObwe7dWLPBu
+ +KfpESJwHJysSEKF5hQA62ubUCHhDMf6DZuLohtL1zQ7CLIrHF4fBcKjmMBhnZmwgwm813Af
+ FWQpTEmWCdW2cLKvfstQDkvfLOF3gCJv22V5267J23ZN3v+5hUBUBeRsBBfiz3KHlWyUPceE
+ cBFKf3vf0BAN2Phrvevd+megedWnDZAEUBhLU3DUW4YxkVx0SBuABKqwkJ7o6/WSSf2Y6Ous
+ KtRbFRHMcm1gFyFSyKVOxXOeMtKfCWevsGwYq/qXRQgjq3jgH3ZBnOih9XX/eLrJUnXR9/WL
+ NNPz9V+CgF4+avdNtHyOauem1DbFZsG6wTnvrxPKpBs69G72DuTWSmnyDz/TLmBiLS9pcRrx
+ vGRj2Gd1lbkdc+akT21nQW6/bZz7r59JMWcdZ+dzozvdXiqq7RLX3sfGaHVRsTOalWKDn3ty
+ qkLEBTCOB1AVx/wFBrgTCmcDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsVy+t/xu7q/HVniDZ79MbXoPXeSyWLjjPWs
+ Fle+vmezWLn6KJPFgv3WFl+uPGSy2PT4GqvF5V1z2CxmnN/HZLH2yF12i4MfnrBazJj8ks2B
+ x2PNvDWMHtu/PWD1uN99nMlj85J6j9v/HjN7TL6xnNFj980GNo++LasYPT5vkgvgjNKzKcov
+ LUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DLeD/zCltBI29F
+ w6ZpzA2Mu7i6GDk4JARMJL4uFOhi5OIQEljKKHHj8huWLkZOoLi4xO75b5khbGGJP9e62CCK
+ 3jJKbF6wC6xIWCBRYvbN80wgCRGBLYwSz1YcZgRxmAWmM0nc7PrBCtFylFHizpMZYLPYBDQl
+ /m6+yQaym1fATqJrpRVImEVAReLDw4WsILaoQJzE8i3z2UFsXgFBiZMzn4Bt4wQq/3znMFic
+ WcBMYt7mh8wQtrzE9rdzoGxxiaYvK1knMArNQtI+C0nLLCQts5C0LGBkWcUoklpanJueW2yo
+ V5yYW1yal66XnJ+7iREYzduO/dy8g/HSxuBDjAIcjEo8vAlHmOOFWBPLiitzDzFKcDArifA6
+ nT0dJ8SbklhZlVqUH19UmpNafIjRFOi5icxSosn5wESTVxJvaGpobmFpaG5sbmxmoSTO2yFw
+ MEZIID2xJDU7NbUgtQimj4mDU6qBcYL380dtzu/uVHQwcsjNvbbNa7nkjTzxZIV9z1Z0C0XI
+ HvV2T2O+stpmjqfTCy89lmuLnpTKL7vjK/u5L0/+r2lUZMIamYg94ht28qWwtn3W+Czp9tPA
+ o4yh2fP4y/VuM0uuHD+QUsC+43dvlr9rdhlnUczVNXbzTgnIdBs6atncZ2fZ+aZdiaU4I9FQ
+ i7moOBEAyQoJx/wCAAA=
+X-CMS-MailID: 20200707093555eucas1p1edecb0332b868d481c2ebc9fbb263c16
+X-Msg-Generator: CA
+X-RootMTR: 20200619103657eucas1p24bff92408adbd4715130fb47595a6187
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200619103657eucas1p24bff92408adbd4715130fb47595a6187
+References: <20200619103636.11974-1-m.szyprowski@samsung.com>
+ <CGME20200619103657eucas1p24bff92408adbd4715130fb47595a6187@eucas1p2.samsung.com>
+ <20200619103636.11974-8-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,134 +112,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-samsung-soc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 7, 2020 at 9:27 AM Lepton Wu <ytht.net@gmail.com> wrote:
->
-> For pages which are allocated in ttm with transparent huge pages,
-> tail pages have zero as reference count. The current vgem code use
-> get_page on them and it will trigger BUG when release_pages get called
-> on those pages later.
->
-> Here I attach the minimal code to trigger this bug on a qemu VM which
-> enables virtio gpu (card1) and vgem (card0). BTW, since the upstream
-> virtio gpu has changed to use drm gem and moved away from ttm. So we
-> have to use an old kernel like 5.4 to reproduce it. But I guess
-> same thing could happen for a real GPU if the real GPU use similar code
-> path to allocate pages from ttm. I am not sure about two things: first, do we
-> need to fix this? will a real GPU hit this code path? Second, suppose this
-> need to be fixed, should this be fixed in ttm side or vgem side?  If we remove
-> "huge_flags &= ~__GFP_COMP" from ttm_get_pages, then get_page in vgem works
-> fine. But it's there for fix another bug:
-> https://bugs.freedesktop.org/show_bug.cgi?id=103138
-> It could also be "fixed" with this patch. But I am really not sure if this is
-> the way to go.
+Hi,
 
-For imported dma-buf objects, vgem should not handle this itself, but
-forward to the exporter through the dma_buf_mmap stuff. We have
-helpers for this all now, probably just not wired up correctly. Trying
-to ensure that all combinations of mmap code across all drivers work
-the same doesn't work.
-
-Caveat: I might not be understanding exactly what's going on here :-)
--Daniel
-
+On 19.06.2020 12:36, Marek Szyprowski wrote:
+> Use common helper for checking the contiguity of the imported dma-buf.
 >
-> Here is the code to reproduce this bug:
->
-> unsigned int WIDTH = 1024;
-> unsigned int HEIGHT = 513;
-> unsigned int size = WIDTH * HEIGHT * 4;
->
-> int work(int vfd, int dfd, int handle) {
->         int ret;
->         struct drm_prime_handle hf = {.handle =  handle };
->         ret = ioctl(dfd, DRM_IOCTL_PRIME_HANDLE_TO_FD, &hf);
->         fprintf(stderr, "fd is %d\n", hf.fd);
->         hf.flags = DRM_CLOEXEC | DRM_RDWR;
->         ret = ioctl(vfd, DRM_IOCTL_PRIME_FD_TO_HANDLE, &hf);
->         fprintf(stderr, "new handle is %d\n", hf.handle);
->         struct drm_mode_map_dumb map = {.handle = hf.handle };
->         ret = ioctl(vfd, DRM_IOCTL_MODE_MAP_DUMB, &map);
->         fprintf(stderr, "need map at offset %lld\n", map.offset);
->         unsigned char * ptr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, vfd,
->                           map.offset);
->         memset(ptr, 2, size);
->         munmap(ptr, size);
-> }
->
-> int main()
-> {
->         int vfd = open("/dev/dri/card0", O_RDWR); // vgem
->         int dfd = open("/dev/dri/card1", O_RDWR); // virtio gpu
->
->         int ret;
->         struct drm_mode_create_dumb ct = {};
->
->         ct.height = HEIGHT;
->         ct.width = WIDTH;
->         ct.bpp = 32;
->         ret = ioctl(dfd, DRM_IOCTL_MODE_CREATE_DUMB, &ct);
->         work(vfd, dfd, ct.handle);
->         fprintf(stderr, "done\n");
-> }
->
-> Signed-off-by: Lepton Wu <ytht.net@gmail.com>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > ---
->  drivers/gpu/drm/vgem/vgem_drv.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/exynos/exynos_drm_gem.c | 23 +++--------------------
+>   1 file changed, 3 insertions(+), 20 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index ec1a8ebb6f1b..be3d97e29804 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -87,9 +87,8 @@ static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
->
->         mutex_lock(&obj->pages_lock);
->         if (obj->pages) {
-> -               get_page(obj->pages[page_offset]);
-> -               vmf->page = obj->pages[page_offset];
-> -               ret = 0;
-> +               ret = vmf_insert_pfn(vmf->vma, vmf->address,
-> +                                    page_to_pfn(obj->pages[page_offset]));
->         }
->         mutex_unlock(&obj->pages_lock);
->         if (ret) {
-> @@ -263,7 +262,6 @@ static struct drm_ioctl_desc vgem_ioctls[] = {
->
->  static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
->  {
-> -       unsigned long flags = vma->vm_flags;
->         int ret;
->
->         ret = drm_gem_mmap(filp, vma);
-> @@ -273,7 +271,6 @@ static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
->         /* Keep the WC mmaping set by drm_gem_mmap() but our pages
->          * are ordinary and not special.
->          */
-> -       vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
->         return 0;
->  }
->
-> --
-> 2.27.0.212.ge8ba1cc988-goog
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+> index efa476858db5..1716a023bca0 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
+> @@ -431,27 +431,10 @@ exynos_drm_gem_prime_import_sg_table(struct drm_device *dev,
+>   {
+>   	struct exynos_drm_gem *exynos_gem;
+>   
+> -	if (sgt->nents < 1)
+> +	/* check if the entries in the sg_table are contiguous */
+> +	if (drm_prime_get_contiguous_size(sgt) < attach->dmabuf->size) {
+> +		DRM_ERROR("buffer chunks must be mapped contiguously");
+>   		return ERR_PTR(-EINVAL);
+> -
+> -	/*
+> -	 * Check if the provided buffer has been mapped as contiguous
+> -	 * into DMA address space.
+> -	 */
+> -	if (sgt->nents > 1) {
+> -		dma_addr_t next_addr = sg_dma_address(sgt->sgl);
+> -		struct scatterlist *s;
+> -		unsigned int i;
+> -
+> -		for_each_sg(sgt->sgl, s, sgt->nents, i) {
+> -			if (!sg_dma_len(s))
+> -				break;
+> -			if (sg_dma_address(s) != next_addr) {
+> -				DRM_ERROR("buffer chunks must be mapped contiguously");
+> -				return ERR_PTR(-EINVAL);
+> -			}
+> -			next_addr = sg_dma_address(s) + sg_dma_len(s);
+> -		}
+>   	}
 
 
+Reviewed-by <a.hajda@samsung.com>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Regards
+Andrzej
+>   
+>   	exynos_gem = exynos_drm_gem_init(dev, attach->dmabuf->size);
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
