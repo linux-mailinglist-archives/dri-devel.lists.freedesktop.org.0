@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3485D218076
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE3C21805F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDCC06E89C;
-	Wed,  8 Jul 2020 07:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 903AE6E88E;
+	Wed,  8 Jul 2020 07:06:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452466E248
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:07:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6A656E0F8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:07:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=mPS72WgNYkKywllLGpTOm1li0E5rJutzPsTWs0NA3MU=; b=irAVrD/fzbik6cd0AMxD/aALiP
- BnVWmuEH0TDL7mcrAZT9ozsymcEnjv6430h369oAEGC1S55lQxuH58cQCCVhxuC9QNc28hYGGmMFz
- h7/ZY5whyhiatpbN6vpz9TRUfmhRYrzgnes7yY6SGqS0XQgk84ic4jfYJgRzwpKCTIcx6PayaQqic
- kDH1a7oS/i+vpknni2Fs43lWnDBGUTz8KIU8fYjmUExyXFBuj6Iukq0c5sYSLCgzGnlMFMu5NaohS
- GMORhffy08BY2VsbPREx+iBLWl3V/w3hMa4PBmGDkW8wE6ObTNCactvdX6It9H4VAtfcdoB5mkSMC
- 1pLgQqoA==;
+ bh=NhnjZY5aHnB09fvA8u8Semk18ol/DXhb2U3kmzg57F0=; b=EjAA5UZfaDPzZqAQXMWx3KOWFk
+ 4PSdxFn2HK4IilD2Y0qdarnW7N3/fI3OYSkAPDGEC3SAn7ZtsdSjMngg4Yova8dXgJdNTFlzM16R2
+ FRbKTihySD2OO8rYcOLuv1YGxmfFdkNrHKtIZbY7UMQV6x2BdioJ71hmblPIrmU+9xRUwc7PGAfYv
+ CZRQobq0JUjaBGRvvBPdFCbH+LA/5Q1hxXBztZb9SxptHMLnupzaQVS2qPz7CZn87BGUOYznGeUxj
+ HkfEv0tMkvfF0q/dRDxwGqvCT24bagz/ir72XInRBuj0P11LxE4EwXdLoKFzfRL/FnST3lpu299NN
+ Bunqqoqg==;
 Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
  (helo=smtpauth.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsrzp-0004JY-Si; Tue, 07 Jul 2020 18:07:10 +0000
+ id 1jss01-0004JY-1q; Tue, 07 Jul 2020 18:07:21 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 15/20] Documentation: powerpc/vas-api: eliminate duplicated
- word
-Date: Tue,  7 Jul 2020 11:04:09 -0700
-Message-Id: <20200707180414.10467-16-rdunlap@infradead.org>
+Subject: [PATCH 16/20] Documentation: s390/vfio-ap: eliminate duplicated word
+Date: Tue,  7 Jul 2020 11:04:10 -0700
+Message-Id: <20200707180414.10467-17-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
 References: <20200707180414.10467-1-rdunlap@infradead.org>
@@ -92,25 +91,25 @@ Drop the doubled word "the".
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Tony Krowiak <akrowiak@linux.ibm.com>
+Cc: Pierre Morel <pmorel@linux.ibm.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: linux-s390@vger.kernel.org
 ---
- Documentation/powerpc/vas-api.rst |    2 +-
+ Documentation/s390/vfio-ap.rst |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/powerpc/vas-api.rst
-+++ linux-next-20200701/Documentation/powerpc/vas-api.rst
-@@ -43,7 +43,7 @@ engine for this process. Once a connecti
- should use the mmap() system call to map the hardware address of engine's
- request queue into the application's virtual address space.
- 
--The application can then submit one or more requests to the the engine by
-+The application can then submit one or more requests to the engine by
- using copy/paste instructions and pasting the CRBs to the virtual address
- (aka paste_address) returned by mmap(). User space can close the
- established connection or send window by closing the file descriptior
+--- linux-next-20200701.orig/Documentation/s390/vfio-ap.rst
++++ linux-next-20200701/Documentation/s390/vfio-ap.rst
+@@ -361,7 +361,7 @@ matrix device.
+     assign_domain / unassign_domain:
+       Write-only attributes for assigning/unassigning an AP usage domain to/from
+       the mediated matrix device. To assign/unassign a domain, the domain
+-      number of the the usage domain is echoed to the respective attribute
++      number of the usage domain is echoed to the respective attribute
+       file.
+     matrix:
+       A read-only file for displaying the APQNs derived from the cross product
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
