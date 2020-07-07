@@ -1,124 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C758217ACD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 23:58:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B05A7217B17
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 00:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF4089C09;
-	Tue,  7 Jul 2020 21:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F9B6E277;
+	Tue,  7 Jul 2020 22:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBAA889C09
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 21:58:28 +0000 (UTC)
-IronPort-SDR: wgEH5Qu4q02qQRzuj8l5Ip/QvrlzuUq1+hXbe+mCA4J6YeHW2/NUBn0y2X/9Pxpt3FuCIlaHxT
- gzx3DgXvRS5Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="212647448"
-X-IronPort-AV: E=Sophos;i="5.75,325,1589266800"; d="scan'208";a="212647448"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA49D6E277
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 22:40:42 +0000 (UTC)
+IronPort-SDR: S7R6QYsGUS4OroLDhCOw2RDiVdJ5CPSxiqrZX33pZEDq+OdSZZ1bWLfWzVPjLEI9KxZHI47QcE
+ FmY0ZH+vuJuw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="146772939"
+X-IronPort-AV: E=Sophos;i="5.75,325,1589266800"; d="scan'208";a="146772939"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2020 14:58:27 -0700
-IronPort-SDR: yfS+lO0VC29WYs1+0Zi06PZSSJFf6DjZPi+IdmOcSFbATt6DJ5U3TYzOcrh7m0DkX40uALRjl/
- YWxuEXDjAjYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,325,1589266800"; d="scan'208";a="357914426"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by orsmga001.jf.intel.com with ESMTP; 07 Jul 2020 14:58:27 -0700
-Received: from fmsmsx161.amr.corp.intel.com (10.18.125.9) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 7 Jul 2020 14:58:26 -0700
-Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
- FMSMSX161.amr.corp.intel.com (10.18.125.9) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 7 Jul 2020 14:58:26 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
- by edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Tue, 7 Jul 2020 14:58:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e3WRfzBFvaM3n7MQuVA87vYl9pra6Cf9hhQnFlnYv6unDUdyMC95I41aISRvaQjitHnU2QQnlPz2hd9ipvsePPJLmzachupdhHQCyaQwzupwCaqTgq+aHKOh9Iy1HKvLyCdlA/2KazkyMcNczmzQkKxKl/PAR1Fr035PwSalvuYElOA9+iDcF4O2qbUCcyB6ptAXWBrFcu1u1X9/3KakTLep6atWQ1yVjyeet+uPjEuVMj1b6pxtPIPKzaLeInjT4AfG7LpPS4BSXzcIwGl1wUzd55IrIwV6HqHCtv2gUV8AQuYKvasVowZbFJuZiNpMUCxxspc17Eh4oEot4++7ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fKWWp5clsX3XPPnfRSK0b9pFEt4AdDitxnCB0dAtd1c=;
- b=PCAam9fHfjVr0F0v3/UjLPupVs+sb/m0KNTWcihSYogBYGtBlww9NT8c+mUt5ZvHiKEQMxv9PrfzW2q9d94912a7/BTHk+aAQZW8BKkv2bh72wKEwh4DHZh7UoYJL7Tc1RnSzT34n5tLGNAlkajGuXZA5Jo0gq1Vm3GL58ZDZeX1H2uz5goTdm1MfY4Xt9ulWF8RiN++0nUz/+BNNIex0U04v2461yjWWRZQGhXNu3yHxWqaYvX9g+IcN3lpuugj3P6XDtMw7F1blOeO1yWd0BNSJ0k2PbYxRfyxsHwYMj7U5p7rHVCLM4qe3sU7PGeNfn6tCz7dMhGW0A37+5W9uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fKWWp5clsX3XPPnfRSK0b9pFEt4AdDitxnCB0dAtd1c=;
- b=Ihrf1G6WiGAirLAVI7GkDaORVHX0KV1+bgI3+j1a2afnH4bPrq5qG8kP7cEhn16HTxxuHG3JQfkCFgkHJcUZfhe6SgdBbwIU2ypqNTUgeKvA+Dc+gdOCmINSIbQgCzRQkMu4rai7zS6s70PYMzQdDpJzmQORpPbjzAopdcXfG8k=
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
- by MWHPR11MB1280.namprd11.prod.outlook.com (2603:10b6:300:2b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.27; Tue, 7 Jul
- 2020 21:58:24 +0000
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::ed68:a00b:2bb0:21cf]) by MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::ed68:a00b:2bb0:21cf%8]) with mapi id 15.20.3174.021; Tue, 7 Jul 2020
- 21:58:24 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, "Jason
- Gunthorpe" <jgg@ziepe.ca>, Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [RFC PATCH v2 0/3] RDMA: add dma-buf support
-Thread-Topic: [RFC PATCH v2 0/3] RDMA: add dma-buf support
-Thread-Index: AQHWTjmKZPnzyjUH+EiOzVuDukOX/Kjv8EEAgAFgqNCAABwVgIAACtwwgAD4kACAADxYAIAABK8AgAAuhoCAABn/AIABTcUAgAAFjoCAABaJAIAAOVAAgAEqX4CAAA2LgIAABleAgAAByQCABtRI4A==
-Date: Tue, 7 Jul 2020 21:58:24 +0000
-Message-ID: <MW3PR11MB45553DB31AD67C8B870A345FE5660@MW3PR11MB4555.namprd11.prod.outlook.com>
-References: <20200701123904.GM25301@ziepe.ca>
- <34077a9f-7924-fbb3-04d9-cd20243f815c@amd.com>
- <CAKMK7uFf3_a+BN8CM7G8mNQPNtVBorouB+R5kxbbmFSB9XbeSg@mail.gmail.com>
- <20200701171524.GN25301@ziepe.ca>
- <20200702131000.GW3278063@phenom.ffwll.local>
- <20200702132953.GS25301@ziepe.ca>
- <11e93282-25da-841d-9be6-38b0c9703d42@amd.com>
- <20200702181540.GC3278063@phenom.ffwll.local>
- <20200703120335.GT25301@ziepe.ca>
- <CAKMK7uGqABchpPLTm=vmabkwK3JJSzWTFWhfU+ywbwjw-HgSzw@mail.gmail.com>
- <20200703131445.GU25301@ziepe.ca>
- <f2ec5c61-a553-39b5-29e1-568dae9ca2cd@amd.com>
-In-Reply-To: <f2ec5c61-a553-39b5-29e1-568dae9ca2cd@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [134.134.136.218]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 513e0610-76b6-423c-f5dc-08d822c0df1f
-x-ms-traffictypediagnostic: MWHPR11MB1280:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR11MB1280D3BBD05182CE631FEB0EE5660@MWHPR11MB1280.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0457F11EAF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EJHXKrHvBMnrK6tLQu77sNgTiHrc3peWlclfm9myC87CElg56HnO1QqZnExs78Ec3N814AjUEO8P2t8symH45BC4UtOEbpDKNronLg9dEvzQWTrTuInxO+fUumd+NvXrU8cKuR0iNeRsh2SaEz9+dit7NGNHuOCLgu25d6fO0BvUh/ZjwE0E33OOa/TSFEYPXMO0ExxZPXHJC8J8vWTB97V0ix46bex9HjTgtxWSEjNtvX/yPAHBx1eS2dI58Mj8Tlmj9cFRWOtRCDFSD+h8D+K0S0i2UHnRfOYSkDcdFFg4/WXDsN64wkz2wqacLJM7
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(396003)(346002)(39860400002)(366004)(376002)(66476007)(6506007)(66556008)(83380400001)(2906002)(8936002)(26005)(33656002)(71200400001)(8676002)(186003)(316002)(110136005)(7696005)(54906003)(86362001)(66446008)(66946007)(55016002)(64756008)(76116006)(4326008)(5660300002)(107886003)(66574015)(52536014)(9686003)(478600001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: hvMJG5itT6GwZRmxeo7rR3QeMRvdKFnZgu9VJc279FKndhSugLgtXjVip43n6NBbJvk5vn45iF38F/kbIpnPGHZw5csrRPg6Z/9D62ax9JwylSzsAbiSGDxdhcHFobTErtJLSTWuD4DJl4Efhaxy5iAbjA1pVwFMQE3pyewcTLUBu0CxxDENusE2IeLa4rtALRG6VjaBhymmrUrDnY/CJfdBVglSqYtPlILmdh7a+8JevxmTKd2Y8VF3Jx9qp08MMPqbjKinrqvGwJqfAFAMo80vdfp1kalgLPcE4Cdicjg6dPYw/zWULr0nHUcVKOG/B4NXs9g7Ki2cQOIDMepppW67sqteFSTCTHbgE/jpwCgDIuVLpcOQZqAIYobIStA2kfiPFM7X1JR7fTyP0DZMWbrJh9nrYi7N1DrQFMniXQtvld3ifj8oJUoNuMUiUgaOQQJv+qftywMLI+nihsk8aPVZnSHB3CSgt6Dy6YJUe3WLm/XSZpFcP0h88WCn+O7s
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2020 15:40:42 -0700
+IronPort-SDR: I0bH2pXwvn8WJCYfhPyyMFQqvk4chhDK7gQIoYQAgrM+/pf7EG4xvSsK0CPQCypMk3G0A2n/68
+ f+TXuxmrYuSA==
+X-IronPort-AV: E=Sophos;i="5.75,325,1589266800"; d="scan'208";a="457275235"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2020 15:40:40 -0700
+Date: Wed, 8 Jul 2020 01:40:36 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH 1/2] drm/probe_helper: Add
+ drm_connector_helper_funcs.mode_valid_ctx
+Message-ID: <20200707224036.GA22747@ideak-desk.fi.intel.com>
+References: <20200526182313.4005-1-lyude@redhat.com>
+ <20200526182313.4005-2-lyude@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 513e0610-76b6-423c-f5dc-08d822c0df1f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2020 21:58:24.4179 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X988LxJmpcFsiR1hhGNrHIw/tFRgDiKb/qIo/OHq4Fbc2RFK/pg9KD+wf3DGyGueI1tLbp6ZZXftO4d4lcifaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1280
-X-OriginatorOrg: intel.com
+Content-Disposition: inline
+In-Reply-To: <20200526182313.4005-2-lyude@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,44 +51,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, Doug Ledford <dledford@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Leon Romanovsky <leon@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: imre.deak@intel.com
+Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lee Shawn C <shawn.c.lee@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IENocmlzdGlhbiBLw7ZuaWcg
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gQW0gMDMuMDcuMjAgdW0gMTU6MTQgc2Nocmll
-YiBKYXNvbiBHdW50aG9ycGU6DQo+ID4gT24gRnJpLCBKdWwgMDMsIDIwMjAgYXQgMDI6NTI6MDNQ
-TSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToNCj4gPg0KPiA+PiBTbyBtYXliZSBJJ20ganVz
-dCB0b3RhbGx5IGNvbmZ1c2VkIGFib3V0IHRoZSByZG1hIG1vZGVsLiBJIHRob3VnaHQ6DQo+ID4+
-IC0geW91IGJpbmQgYSBwaWxlIG9mIG1lbW9yeSBmb3IgdmFyaW91cyB0cmFuc2FjdGlvbnMsIHRo
-YXQgbWlnaHQNCj4gPj4gaGFwcGVuIHdoZW5ldmVyLiBLZXJuZWwgZHJpdmVyIGRvZXNuJ3QgaGF2
-ZSBtdWNoIGlmIGFueSBpbnNpZ2h0IGludG8NCj4gPj4gd2hlbiBtZW1vcnkgaXNuJ3QgbmVlZGVk
-IGFueW1vcmUuIEkgdGhpbmsgaW4gdGhlIHJkbWEgd29ybGQgdGhhdCdzDQo+ID4+IGNhbGxlZCBy
-ZWdpc3RlcmluZyBtZW1vcnksIGJ1dCBub3Qgc3VyZS4NCj4gPiBTdXJlLCBidXQgb25jZSByZWdp
-c3RlcmVkIHRoZSBtZW1vcnkgaXMgYWJsZSB0byBiZSB1c2VkIGF0IGFueSBtb21lbnQNCj4gPiB3
-aXRoIG5vIHZpc2liaWx0eSBmcm9tIHRoZSBrZXJuZWwuDQo+ID4NCj4gPiBVbmxpa2UgR1BVIHRo
-ZSB0cmFuc2FjdGlvbnMgdGhhdCB0cmlnZ2VyIG1lbW9yeSBhY2Nlc3MgZG8gbm90IGdvDQo+ID4g
-dGhyb3VnaCB0aGUga2VybmVsIC0gc28gdGhlcmUgaXMgbm8gYWJpbGl0eSB0byBpbnRlcnJ1cHQg
-YSBjb21tYW5kDQo+ID4gZmxvdyBhbmQgZmlkZGxlIHdpdGggbWFwcGluZ3MuDQo+IA0KPiBUaGlz
-IGlzIHRoZSBzYW1lIGZvciBHUFVzIHdpdGggdXNlciBzcGFjZSBxdWV1ZXMgYXMgd2VsbC4NCj4g
-DQo+IEJ1dCB3ZSBjYW4gc3RpbGwgc2F5IGZvciBhIHByb2Nlc3MgaWYgdGhhdCB0aGlzIHByb2Nl
-c3MgaXMgdXNpbmcgYSBETUEtYnVmIHdoaWNoIGlzIG1vdmVkIG91dCBhbmQgc28gY2FuJ3QgcnVu
-IGFueSBtb3JlIHVubGVzcyB0aGUgRE1BLWJ1ZiBpcw0KPiBhY2Nlc3NpYmxlIGFnYWluLg0KPiAN
-Cj4gSW4gb3RoZXIgd29yZHMgeW91IHNvbWVob3cgbmVlZCB0byBtYWtlIHN1cmUgdGhhdCB0aGUg
-aGFyZHdhcmUgaXMgbm90IGFjY2Vzc2luZyBhIHBpZWNlIG9mIG1lbW9yeSBhbnkgbW9yZSB3aGVu
-IHlvdSB3YW50IHRvIG1vdmUgaXQuDQo+IA0KDQpXaGlsZSBhIHByb2Nlc3MgY2FuIGJlIGVhc2ls
-eSBzdXNwZW5kZWQsIHRoZXJlIGlzIG5vIHdheSB0byB0ZWxsIHRoZSBSRE1BIE5JQyBub3QgdG8g
-cHJvY2VzcyBwb3N0ZWQgd29yayByZXF1ZXN0cyB0aGF0IHVzZSBzcGVjaWZpYyBtZW1vcnkgcmVn
-aW9ucyAob3Igd2l0aCBhbnkgb3RoZXIgY29uZGl0aW9ucykuIA0KDQpTbyBmYXIgaXQgYXBwZWFy
-cyB0byBtZSB0aGF0IERNQS1idWYgZHluYW1pYyBtYXBwaW5nIGZvciBSRE1BIGlzIG9ubHkgdmlh
-YmxlIHdpdGggT0RQIHN1cHBvcnQuIEZvciBOSUNzIHdpdGhvdXQgT0RQLCBhIHdheSB0byBhbGxv
-dyBwaW5uaW5nIHRoZSBkZXZpY2UgbWVtb3J5IGlzIHN0aWxsIG5lZWRlZC4NCg0KSmlhbnhpbg0K
-DQo+IENocmlzdGlhbi4NCj4gDQo+ID4NCj4gPiBKYXNvbg0KDQpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Sorry for the delay, the review as I promised:
+
+On Tue, May 26, 2020 at 02:23:09PM -0400, Lyude Paul wrote:
+> This is just an atomic version of mode_valid, which is intended to be
+> used for situations where a driver might need to check the atomic state
+> of objects other than the connector itself. One such example is with
+> MST, where the maximum possible bandwidth on a connector can change
+> dynamically irregardless of the display configuration.
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Cc: Lee Shawn C <shawn.c.lee@intel.com>
+> Tested-by: Lee Shawn C <shawn.c.lee@intel.com>
+> ---
+>  drivers/gpu/drm/drm_crtc_helper_internal.h |  6 +-
+>  drivers/gpu/drm/drm_probe_helper.c         | 65 ++++++++++++++--------
+>  include/drm/drm_modeset_helper_vtables.h   | 41 ++++++++++++++
+>  3 files changed, 88 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> index f0a66ef47e5ad..ca767cba6094d 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -73,8 +73,10 @@ enum drm_mode_status drm_crtc_mode_valid(struct drm_crtc *crtc,
+>  					 const struct drm_display_mode *mode);
+>  enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
+>  					    const struct drm_display_mode *mode);
+> -enum drm_mode_status drm_connector_mode_valid(struct drm_connector *connector,
+> -					      struct drm_display_mode *mode);
+> +enum drm_mode_status
+> +drm_connector_mode_valid(struct drm_connector *connector,
+> +			 struct drm_display_mode *mode,
+> +			 struct drm_modeset_acquire_ctx *ctx);
+>  
+>  struct drm_encoder *
+>  drm_connector_get_single_encoder(struct drm_connector *connector);
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 466dfbba82564..3132784736841 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -86,16 +86,17 @@ drm_mode_validate_flag(const struct drm_display_mode *mode,
+>  	return MODE_OK;
+>  }
+>  
+> -static enum drm_mode_status
+> +static int
+>  drm_mode_validate_pipeline(struct drm_display_mode *mode,
+> -			    struct drm_connector *connector)
+> +			   struct drm_connector *connector,
+> +			   struct drm_modeset_acquire_ctx *ctx)
+>  {
+>  	struct drm_device *dev = connector->dev;
+> -	enum drm_mode_status ret = MODE_OK;
+>  	struct drm_encoder *encoder;
+> +	int ret = MODE_OK;
+>  
+>  	/* Step 1: Validate against connector */
+> -	ret = drm_connector_mode_valid(connector, mode);
+> +	ret = drm_connector_mode_valid(connector, mode, ctx);
+>  	if (ret != MODE_OK)
+>  		return ret;
+>  
+> @@ -196,16 +197,23 @@ enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
+>  	return encoder_funcs->mode_valid(encoder, mode);
+>  }
+>  
+> -enum drm_mode_status drm_connector_mode_valid(struct drm_connector *connector,
+> -					      struct drm_display_mode *mode)
+> +int
+> +drm_connector_mode_valid(struct drm_connector *connector,
+> +			 struct drm_display_mode *mode,
+> +			 struct drm_modeset_acquire_ctx *ctx)
+>  {
+>  	const struct drm_connector_helper_funcs *connector_funcs =
+>  		connector->helper_private;
+>  
+> -	if (!connector_funcs || !connector_funcs->mode_valid)
+> +	if (!connector_funcs)
+>  		return MODE_OK;
+>  
+> -	return connector_funcs->mode_valid(connector, mode);
+> +	if (connector_funcs->mode_valid_ctx)
+> +		return connector_funcs->mode_valid_ctx(connector, mode, ctx);
+> +	else if (connector_funcs->mode_valid)
+> +		return connector_funcs->mode_valid(connector, mode);
+> +	else
+> +		return MODE_OK;
+>  }
+>  
+>  #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
+> @@ -375,8 +383,9 @@ EXPORT_SYMBOL(drm_helper_probe_detect);
+>   *      (if specified)
+>   *    - drm_mode_validate_flag() checks the modes against basic connector
+>   *      capabilities (interlace_allowed,doublescan_allowed,stereo_allowed)
+> - *    - the optional &drm_connector_helper_funcs.mode_valid helper can perform
+> - *      driver and/or sink specific checks
+> + *    - the optional &drm_connector_helper_funcs.mode_valid or
+> + *      &drm_connector_helper_funcs.mode_valid_ctx helpers can perform driver
+> + *      and/or sink specific checks
+>   *    - the optional &drm_crtc_helper_funcs.mode_valid,
+>   *      &drm_bridge_funcs.mode_valid and &drm_encoder_helper_funcs.mode_valid
+>   *      helpers can perform driver and/or source specific checks which are also
+> @@ -507,22 +516,34 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+>  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
+>  
+>  	list_for_each_entry(mode, &connector->modes, head) {
+> -		if (mode->status == MODE_OK)
+> -			mode->status = drm_mode_validate_driver(dev, mode);
+> +		if (mode->status != MODE_OK)
+> +			continue;
+> +
+> +		mode->status = drm_mode_validate_driver(dev, mode);
+> +		if (mode->status != MODE_OK)
+> +			continue;
+>  
+> -		if (mode->status == MODE_OK)
+> -			mode->status = drm_mode_validate_size(mode, maxX, maxY);
+> +		mode->status = drm_mode_validate_size(mode, maxX, maxY);
+> +		if (mode->status != MODE_OK)
+> +			continue;
+>  
+> -		if (mode->status == MODE_OK)
+> -			mode->status = drm_mode_validate_flag(mode, mode_flags);
+> +		mode->status = drm_mode_validate_flag(mode, mode_flags);
+> +		if (mode->status != MODE_OK)
+> +			continue;
+>  
+> -		if (mode->status == MODE_OK)
+> -			mode->status = drm_mode_validate_pipeline(mode,
+> -								  connector);
+> +		ret = drm_mode_validate_pipeline(mode, connector, &ctx);
+> +		if (ret == -EDEADLK) {
+> +			drm_modeset_backoff(&ctx);
+> +			goto retry;
+> +		} else if (WARN_ON_ONCE(ret < 0)) {
+> +			mode->status = MODE_BAD;
+> +		} else {
+> +			mode->status = ret;
+> +		}
+>  
+> -		if (mode->status == MODE_OK)
+> -			mode->status = drm_mode_validate_ycbcr420(mode,
+> -								  connector);
+> +		if (mode->status != MODE_OK)
+> +			continue;
+> +		mode->status = drm_mode_validate_ycbcr420(mode, connector);
+>  	}
+>  
+>  prune:
+> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> index 421a30f084631..8f020c3424b2b 100644
+> --- a/include/drm/drm_modeset_helper_vtables.h
+> +++ b/include/drm/drm_modeset_helper_vtables.h
+> @@ -968,6 +968,47 @@ struct drm_connector_helper_funcs {
+>  	 */
+>  	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
+>  					   struct drm_display_mode *mode);
+> +
+> +	/**
+> +	 * @mode_valid_ctx:
+> +	 *
+> +	 * Callback to validate a mode for a connector, irrespective of the
+> +	 * specific display configuration.
+> +	 *
+> +	 * This callback is used by the probe helpers to filter the mode list
+> +	 * (which is usually derived from the EDID data block from the sink).
+> +	 * See e.g. drm_helper_probe_single_connector_modes().
+> +	 *
+> +	 * This function is optional, and is the atomic version of
+> +	 * &drm_connector_funcs.mode_valid.
+> +	 *
+> +	 * To allow for accessing the atomic state of modesetting objects, the
+> +	 * helper libraries always call this with ctx set to a valid context,
+> +	 * and &drm_mode_config.connection_mutex will always be locked with
+> +	 * the ctx parameter set to @ctx. This allows for taking additional
+> +	 * locks as required.
+> +	 *
+> +	 * Even though additional locks may be acquired, this callback is
+> +	 * still expected not to take any constraints into account which would
+> +	 * be influenced by the currently set display state - such constraints
+> +	 * should be handled in the driver's atomic check. For example, if a
+> +	 * connector shares display bandwidth with other connectors then it
+> +	 * would be ok to validate a mode uses against the maximum possible
+                                     ^mode against?
+
+Reviewed-by: Imre Deak <imre.deak@intel.com>
+
+> +	 * bandwidth of the connector. But it wouldn't be ok to take the
+> +	 * current bandwidth usage of other connectors into account, as this
+> +	 * would change depending on the display state.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * Either &drm_mode_status.MODE_OK, one of the failure reasons in
+> +	 * &enum drm_mode_status, or -EDEADLK if a deadlock would have
+> +	 * occurred and we need to backoff.
+> +	 *
+> +	 */
+> +	int (*mode_valid_ctx)(struct drm_connector *connector,
+> +			      struct drm_display_mode *mode,
+> +			      struct drm_modeset_acquire_ctx *ctx);
+> +
+>  	/**
+>  	 * @best_encoder:
+>  	 *
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
