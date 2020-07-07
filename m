@@ -1,40 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D51217822
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 21:42:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00145217855
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 21:52:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 933B76E106;
-	Tue,  7 Jul 2020 19:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40176E111;
+	Tue,  7 Jul 2020 19:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D203C6E106
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 19:42:51 +0000 (UTC)
-Received: from kernel.org (unknown [87.71.40.38])
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62A66E111
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 19:52:49 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5A4B4206BE;
- Tue,  7 Jul 2020 19:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594150971;
- bh=WRRYLCgZnd2780qdBRvybDvPfbNLjAwXVVAukZ8p9u8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IujifQ0eNnJgt/NFDognNxZrmL7sVVro1UrnqBQ7Loix4T9tXb7873VFsUoxhcErN
- ULoVewuWhpw0vppskiw/m40H6FAbxUjRFR5zMFQSufX3+lAg8FV84zXYaPZjfJ427k
- ITSWxIjEpVsqcu5ebcLqR7kEix3K6Nf4+Gwoa6L8=
-Date: Tue, 7 Jul 2020 22:42:28 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 20/20] Documentation: vm/memory-model: eliminate
- duplicated word
-Message-ID: <20200707194228.GB128651@kernel.org>
-References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-20-rdunlap@infradead.org>
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 73B37804D8;
+ Tue,  7 Jul 2020 21:52:45 +0200 (CEST)
+Date: Tue, 7 Jul 2020 21:52:43 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
+Message-ID: <20200707195243.GA17970@ravnborg.org>
+References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
+ <20200704072305.GA689588@ravnborg.org>
+ <02fbd875-f6fd-da20-6835-778bdd6426c3@ilande.co.uk>
+ <485ded46-c1a3-1eab-eb95-1a771543fbaf@ilande.co.uk>
+ <20200704134115.GA755192@ravnborg.org>
+ <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
+ <20200704145212.GA791554@ravnborg.org>
+ <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
+ <20200707070341.wpxyrlkrtbhghtro@sirius.home.kraxel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200707180414.10467-20-rdunlap@infradead.org>
+In-Reply-To: <20200707070341.wpxyrlkrtbhghtro@sirius.home.kraxel.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=3GLR1-XzZKwA:10 a=_1BWrxInPcDn1gIt2YYA:9
+ a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,72 +51,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Paul Cercueil <paul@crapouillou.net>, linux-mm@kvack.org,
- keyrings@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
- linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
- linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Dan Murphy <dmurphy@ti.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 07, 2020 at 11:04:13AM -0700, Randy Dunlap wrote:
-> Drop the doubled word "the".
+Hi Gerd.
+
+On Tue, Jul 07, 2020 at 09:03:41AM +0200, Gerd Hoffmann wrote:
+> > Yes, that's correct - I can confirm that the simplified diff below works:
+> > 
+> > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > index 5609e164805f..83af05fac604 100644
+> > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
+> > *fb_helper,
+> >         unsigned int y;
+> > 
+> >         for (y = clip->y1; y < clip->y2; y++) {
+> > -               memcpy(dst, src, len);
+> > +               fb_memcpy_tofb(dst, src, len);
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: linux-mm@kvack.org
+> fb_memcpy_tofb is #defined to sbus_memcpy_toio @ sparc which looks
+> wrong to me given that this is a pci not a sbus device.  sparc also has
+> memcpy_toio which looks better to me.
+Looked at sbus_memcpy_toio and memcpy_toio for sparc64.
+They are essential the same. Only read bytes in little-endian format,
+the other read bytes in big-endian format. So thats the same.
 
-Reviewed-by: Mike Rapoport <rppt@kernel.org>
+I will prepare a proper patch with focus on fixin sparc64 only.
 
-> ---
->  Documentation/vm/memory-model.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> --- linux-next-20200701.orig/Documentation/vm/memory-model.rst
-> +++ linux-next-20200701/Documentation/vm/memory-model.rst
-> @@ -159,7 +159,7 @@ frame. Inside a section, the PFN is the
->  The sparse vmemmap uses a virtually mapped memory map to optimize
->  pfn_to_page and page_to_pfn operations. There is a global `struct
->  page *vmemmap` pointer that points to a virtually contiguous array of
-> -`struct page` objects. A PFN is an index to that array and the the
-> +`struct page` objects. A PFN is an index to that array and the
->  offset of the `struct page` from `vmemmap` is the PFN of that
->  page.
->  
+> There are blit helpers in drm_format_helper.c which already use
+> memcpy_toio(), I guess we should do the same here.  Not fully sure we
+> can use memcpy_toio() unconditionally here.  Given that a shadow
+> framebuffer makes sense only in case the real framebuffer is not in
+> normal ram we probably can.
+Not so sure about this part.
+We unconditionally enable the use of a shadow framebuffer.
+But on some archs the framebuffer is not in io space - but then
+on these architectures memcpy_toio boils down to a simple memcpy.
+So maybe in the end everything is fine.
 
--- 
-Sincerely yours,
-Mike.
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
