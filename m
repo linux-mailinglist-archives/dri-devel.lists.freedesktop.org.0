@@ -2,83 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F75D21781A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 21:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D51217822
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 21:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B3E6E0FC;
-	Tue,  7 Jul 2020 19:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 933B76E106;
+	Tue,  7 Jul 2020 19:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FB8F6E0FC
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 19:41:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594150900;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E/fUzOvC+NbUGXp81JEXBngmtuUuiFL6Cj49pFYlubY=;
- b=SvqV5nEXElvgEu/44/sX6GzHT36DxelmKk/zxP3qarBTU4qt9oIGGerivM/HAn6utO3KQb
- IybmHsYCqysUAsKkF9JLqSgDFEkNZy4b8GLNE6Uy7aqgLTwhVYqn4qHcmxvtBHCkMs8M8v
- ospVZZFu7zP+6YItE9ki9BB6wu9undg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-bUjXnc-bOu20Pfsf9Rxjcw-1; Tue, 07 Jul 2020 15:41:38 -0400
-X-MC-Unique: bUjXnc-bOu20Pfsf9Rxjcw-1
-Received: by mail-ed1-f70.google.com with SMTP id w19so55618420edx.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 12:41:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u6LSVtn4v8gZHllzz2UNn3EgKUqKY14zb/jR9VXFi0I=;
- b=X9hN7swkzoqSG5dz5ytX7gytMwXGNy07gaHhRfsjn2P9DV0fKY6Aa6+Ql3KftdY/GN
- BkoKZFaBU0l3659T0dRa8BEunMHohSxWjfdY5A1cUeF74KbWdOJDXdZmSsYfIlokvLAV
- 7Z0+XAlJb3e6GR5R+vRefnCFU9+R1Rzo1Yy1Weoz5wirmY5IzdH4gy9XLEn4l7OjWbnX
- pG8EwUoD21+sATTdzuWwHSM7TdtWNpr1hQjf5dEiIMseE2YZoatUpAIDofP7ypKfiMgW
- b5shWu/uAeahasIyI0cCziYtRbmAUorRg66oiDXN/oNSkySwCivAK3/n/79+fmgaK21V
- NAtg==
-X-Gm-Message-State: AOAM531NZJNdl4RLlcUutGLRS2HWoRvURTxubMOmb5LmRaTub2zDFye8
- F7Q74Q9gKlom9iF2IGQbVYA5XZ25fbEsc2o+Koj+Iq2KYo8bhcTB/8FiAiRUC89nK/btwOigTit
- vtDdT7SkCVyunEbVQldAe2xYHvXu4
-X-Received: by 2002:a17:906:410a:: with SMTP id
- j10mr37321730ejk.201.1594150897366; 
- Tue, 07 Jul 2020 12:41:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXnVXEx7nXmWizq3WBrz1vcGCOHcpBwHufxNZFJvl6CfoS1RtIACGSwq90uZ4QNzldiNsZ3g==
-X-Received: by 2002:a17:906:410a:: with SMTP id
- j10mr37321708ejk.201.1594150897067; 
- Tue, 07 Jul 2020 12:41:37 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id d16sm787486ejo.31.2020.07.07.12.41.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jul 2020 12:41:36 -0700 (PDT)
-Subject: Re: [PATCH v3 04/15] pwm: lpss: Add range limit check for the
- base_unit register value
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20200620121758.14836-1-hdegoede@redhat.com>
- <20200620121758.14836-5-hdegoede@redhat.com>
- <20200622073554.wf3smq3tvnr6t2xy@taurus.defre.kleine-koenig.org>
- <e07a7dd6-c361-32b8-c4e7-91e022f9c21d@redhat.com>
- <20200707073424.w6vd6e4bhl56kosd@pengutronix.de>
- <1496178b-ce39-9285-ff75-cd39bc0e9aa7@redhat.com>
- <20200707190955.e7wzmphdgi5reeyg@pengutronix.de>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <0e79b176-7e58-7ecb-0f82-ebfd0c777af3@redhat.com>
-Date: Tue, 7 Jul 2020 21:41:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D203C6E106
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 19:42:51 +0000 (UTC)
+Received: from kernel.org (unknown [87.71.40.38])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5A4B4206BE;
+ Tue,  7 Jul 2020 19:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594150971;
+ bh=WRRYLCgZnd2780qdBRvybDvPfbNLjAwXVVAukZ8p9u8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IujifQ0eNnJgt/NFDognNxZrmL7sVVro1UrnqBQ7Loix4T9tXb7873VFsUoxhcErN
+ ULoVewuWhpw0vppskiw/m40H6FAbxUjRFR5zMFQSufX3+lAg8FV84zXYaPZjfJ427k
+ ITSWxIjEpVsqcu5ebcLqR7kEix3K6Nf4+Gwoa6L8=
+Date: Tue, 7 Jul 2020 22:42:28 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 20/20] Documentation: vm/memory-model: eliminate
+ duplicated word
+Message-ID: <20200707194228.GB128651@kernel.org>
+References: <20200707180414.10467-1-rdunlap@infradead.org>
+ <20200707180414.10467-20-rdunlap@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20200707190955.e7wzmphdgi5reeyg@pengutronix.de>
-Content-Language: en-US
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200707180414.10467-20-rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,55 +47,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="windows-1252"; Format="flowed"
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
+ linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Paul Cercueil <paul@crapouillou.net>, linux-mm@kvack.org,
+ keyrings@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ linux-i2c@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
+ linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Dan Murphy <dmurphy@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Jul 07, 2020 at 11:04:13AM -0700, Randy Dunlap wrote:
+> Drop the doubled word "the".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-mm@kvack.org
 
-On 7/7/20 9:09 PM, Uwe Kleine-K=C3=B6nig wrote:
-> Hello Hans,
-> =
+Reviewed-by: Mike Rapoport <rppt@kernel.org>
 
-> On Tue, Jul 07, 2020 at 07:31:29PM +0200, Hans de Goede wrote:
->> On 7/7/20 9:34 AM, Uwe Kleine-K=C3=B6nig wrote:
->>> On Mon, Jul 06, 2020 at 10:53:08PM +0200, Hans de Goede wrote:
->>>> But if we do then I think closest to the truth would be:
->>>>
->>>> state->period     =3D UINT_MAX;
->>>> state->duty_cycle =3D 0;
->>>
->>> I'd say state->period =3D 1 & state->duty_cycle =3D 0 is a better
->>> representation.
->>
->> But that would suggest the output is configured for an
->> infinitely high output frequency, but the frequency is
->> actually 0, the reason why get_state needs to treat a
->> base_unit val of 0 special at all is to avoid a division
->> by 0, and in math dividing by 0 gives infinite, isn't
->> UINT_MAX a better way to represent infinity ?
-> =
+> ---
+>  Documentation/vm/memory-model.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- linux-next-20200701.orig/Documentation/vm/memory-model.rst
+> +++ linux-next-20200701/Documentation/vm/memory-model.rst
+> @@ -159,7 +159,7 @@ frame. Inside a section, the PFN is the
+>  The sparse vmemmap uses a virtually mapped memory map to optimize
+>  pfn_to_page and page_to_pfn operations. There is a global `struct
+>  page *vmemmap` pointer that points to a virtually contiguous array of
+> -`struct page` objects. A PFN is an index to that array and the the
+> +`struct page` objects. A PFN is an index to that array and the
+>  offset of the `struct page` from `vmemmap` is the PFN of that
+>  page.
+>  
 
-> Given that duty_cycle is 0, how can to tell anything about the period
-> when only seeing the signal (=3D a constant low)?
-> =
-
-> Given that (ideally) a period is completed when pwm_apply_state() is
-> called, a short period is much more sensible.
-
-Ok, I will add a patch to v4 of the patch-set to adjust the pwm-lpss
-driver's get_state method accordingly.
-
-Regards,
-
-Hans
-
+-- 
+Sincerely yours,
+Mike.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
