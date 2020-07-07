@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE3C21805F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E29218079
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 903AE6E88E;
-	Wed,  8 Jul 2020 07:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A409F6E8A7;
+	Wed,  8 Jul 2020 07:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6A656E0F8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:07:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8386E248
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:07:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=NhnjZY5aHnB09fvA8u8Semk18ol/DXhb2U3kmzg57F0=; b=EjAA5UZfaDPzZqAQXMWx3KOWFk
- 4PSdxFn2HK4IilD2Y0qdarnW7N3/fI3OYSkAPDGEC3SAn7ZtsdSjMngg4Yova8dXgJdNTFlzM16R2
- FRbKTihySD2OO8rYcOLuv1YGxmfFdkNrHKtIZbY7UMQV6x2BdioJ71hmblPIrmU+9xRUwc7PGAfYv
- CZRQobq0JUjaBGRvvBPdFCbH+LA/5Q1hxXBztZb9SxptHMLnupzaQVS2qPz7CZn87BGUOYznGeUxj
- HkfEv0tMkvfF0q/dRDxwGqvCT24bagz/ir72XInRBuj0P11LxE4EwXdLoKFzfRL/FnST3lpu299NN
- Bunqqoqg==;
+ bh=ftWJYb+ebG3hkH4rn/C4w1aCN9XfHN7hckzpJGArE4k=; b=ba1U5pKklMQwDBRmxBWVpCbQly
+ 5SNKMlilGuz2wSU3g5V2tk67V3XL104GbnHUYQOh9N0qVIFX2Z/6dzRhLypafHSpI0Yse6/ctKOes
+ +cXh/trodpowugxP5JYG0GmgSkLXrlByutTLXGUl4sihv9IRg34bh56uCR7B1jHW8upWIz5XCjd85
+ OQJjcByclJluRM0vGODErLG3a/2zNTgqcfHmwyrIp1IMMPSScHHgJEq0jkKgHjjvu1Qwe15Dvkzjx
+ q5Nkpu0m9MjccsxH/b2MHCcwY28n4eEUcMvRNg1AkbfJLBJ/lq2IceTZiftZNC4Cc63wYjahcni3T
+ 2bvsLpzQ==;
 Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
  (helo=smtpauth.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jss01-0004JY-1q; Tue, 07 Jul 2020 18:07:21 +0000
+ id 1jss0B-0004JY-QI; Tue, 07 Jul 2020 18:07:32 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 16/20] Documentation: s390/vfio-ap: eliminate duplicated word
-Date: Tue,  7 Jul 2020 11:04:10 -0700
-Message-Id: <20200707180414.10467-17-rdunlap@infradead.org>
+Subject: [PATCH 17/20] Documentation: scsi/advansys: eliminate duplicated word
+Date: Tue,  7 Jul 2020 11:04:11 -0700
+Message-Id: <20200707180414.10467-18-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
 References: <20200707180414.10467-1-rdunlap@infradead.org>
@@ -86,30 +86,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the doubled word "the".
+Drop the doubled word "be".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>
-Cc: Pierre Morel <pmorel@linux.ibm.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: linux-s390@vger.kernel.org
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Hannes Reinecke <hare@suse.com>
+Cc: linux-scsi@vger.kernel.org
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 ---
- Documentation/s390/vfio-ap.rst |    2 +-
+ Documentation/scsi/advansys.rst |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/s390/vfio-ap.rst
-+++ linux-next-20200701/Documentation/s390/vfio-ap.rst
-@@ -361,7 +361,7 @@ matrix device.
-     assign_domain / unassign_domain:
-       Write-only attributes for assigning/unassigning an AP usage domain to/from
-       the mediated matrix device. To assign/unassign a domain, the domain
--      number of the the usage domain is echoed to the respective attribute
-+      number of the usage domain is echoed to the respective attribute
-       file.
-     matrix:
-       A read-only file for displaying the APQNs derived from the cross product
+--- linux-next-20200701.orig/Documentation/scsi/advansys.rst
++++ linux-next-20200701/Documentation/scsi/advansys.rst
+@@ -125,7 +125,7 @@ The following constants can be defined i
+    c. klogd is started with the appropriate -c parameter
+       (e.g. klogd -c 8)
+ 
+-   This will cause printk() messages to be be displayed on the
++   This will cause printk() messages to be displayed on the
+    current console. Refer to the klogd(8) and syslogd(8) man pages
+    for details.
+ 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
