@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4889F218069
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D24721804F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612D86E87F;
-	Wed,  8 Jul 2020 07:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982B36E86D;
+	Wed,  8 Jul 2020 07:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385466E448
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:05:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB1B6E248
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:05:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=S0rI9BPk98gmUpIetVbAsCn3BOBRdoilS5Tyn5oPSmg=; b=SW63xAOOPIV0Xh3xxUIeNap+kY
- ALmry2FpzQZ0jI9iUzAqI49urTy1wKD5asS4EwWqeqG/T2KFett/U/PmACPaIL0o3PbyJ9LdTxfZL
- 3ggersKwwbImUnid0cCR44+oihlm2SC/JZCb39fV3Az/D1jNUdg6njOXs5B9dOzl263Kf/dkDl+SL
- 00sA5VWB7lVyXuGMKBncOCmi7D9xp0Urg0guoUHMF8TQueFkBtlUowlvVJTgAS4fyXOwmCQ3/7wnS
- UWJtpe+DbKkhmoXJarNKMFVmb+5PztEyxOUv4S5VzZFDFSJ+Fe05iG+SvVl16eLygiI5uFUMlA7vE
- NJaSwpkQ==;
+ bh=j37n6ua73QzolTqHDVXK3ji/x5ynN2aQbXjX8l+i7HM=; b=pCq9qSPC51QMPdOaPC5R+Qke2m
+ Bfy7HZMSLQpI+AqQeJ6RTeLRQpjAauXQQ3FLIHQh6NdnMG4euXUy5T1myb35mutGzBed7/K/8gyxv
+ tZgtB2vjbe3b5g3KTr0XtzEcKnt4UksteGhBpRaxkAcnyZS+8qZ4aCuEdEB08mwoHkVGB1aO2MlD6
+ fr1btWMIPNJ8WxKOeF8UPFW/A1Z3pwxPBPaAFkYyiTa8bsL+uPysMd2ZGzB5Dw4/i+LhT9y7AtK2V
+ 72W/fDQ62iMkYDGnK5RW50dMIeUfKWry9ZExrLWPc0sT0BhikpZy2OKEhull6ugckZ76R8UCzUi0f
+ Ofl08UTA==;
 Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
  (helo=smtpauth.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsrxj-0004JY-Qd; Tue, 07 Jul 2020 18:05:00 +0000
+ id 1jsrxu-0004JY-Jy; Tue, 07 Jul 2020 18:05:11 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 03/20] Documentation: printk-basics: eliminate duplicated word
-Date: Tue,  7 Jul 2020 11:03:57 -0700
-Message-Id: <20200707180414.10467-4-rdunlap@infradead.org>
+Subject: [PATCH 04/20] Documentation: kgdb: eliminate duplicated word
+Date: Tue,  7 Jul 2020 11:03:58 -0700
+Message-Id: <20200707180414.10467-5-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
 References: <20200707180414.10467-1-rdunlap@infradead.org>
@@ -86,26 +86,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the doubled word "the".
+Drop the doubled word "driver".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Cc: Jason Wessel <jason.wessel@windriver.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: kgdb-bugreport@lists.sourceforge.net
 ---
- Documentation/core-api/printk-basics.rst |    2 +-
+ Documentation/dev-tools/kgdb.rst |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/core-api/printk-basics.rst
-+++ linux-next-20200701/Documentation/core-api/printk-basics.rst
-@@ -69,7 +69,7 @@ You can check the current *console_logle
- The result shows the *current*, *default*, *minimum* and *boot-time-default* log
- levels.
+--- linux-next-20200701.orig/Documentation/dev-tools/kgdb.rst
++++ linux-next-20200701/Documentation/dev-tools/kgdb.rst
+@@ -872,7 +872,7 @@ The kgdboc driver contains logic to conf
+ attached keyboard. The keyboard infrastructure is only compiled into the
+ kernel when ``CONFIG_KDB_KEYBOARD=y`` is set in the kernel configuration.
  
--To change the current console_loglevel simply write the the desired level to
-+To change the current console_loglevel simply write the desired level to
- ``/proc/sys/kernel/printk``. For example, to print all messages to the console::
- 
-   # echo 8 > /proc/sys/kernel/printk
+-The core polled keyboard driver driver for PS/2 type keyboards is in
++The core polled keyboard driver for PS/2 type keyboards is in
+ ``drivers/char/kdb_keyboard.c``. This driver is hooked into the debug core
+ when kgdboc populates the callback in the array called
+ :c:type:`kdb_poll_funcs[]`. The :c:func:`kdb_get_kbd_char` is the top-level
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
