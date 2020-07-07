@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D24721804F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:07:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7CB21803D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982B36E86D;
-	Wed,  8 Jul 2020 07:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA2E6E867;
+	Wed,  8 Jul 2020 07:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB1B6E248
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:05:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0548D6E0F8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=j37n6ua73QzolTqHDVXK3ji/x5ynN2aQbXjX8l+i7HM=; b=pCq9qSPC51QMPdOaPC5R+Qke2m
- Bfy7HZMSLQpI+AqQeJ6RTeLRQpjAauXQQ3FLIHQh6NdnMG4euXUy5T1myb35mutGzBed7/K/8gyxv
- tZgtB2vjbe3b5g3KTr0XtzEcKnt4UksteGhBpRaxkAcnyZS+8qZ4aCuEdEB08mwoHkVGB1aO2MlD6
- fr1btWMIPNJ8WxKOeF8UPFW/A1Z3pwxPBPaAFkYyiTa8bsL+uPysMd2ZGzB5Dw4/i+LhT9y7AtK2V
- 72W/fDQ62iMkYDGnK5RW50dMIeUfKWry9ZExrLWPc0sT0BhikpZy2OKEhull6ugckZ76R8UCzUi0f
- Ofl08UTA==;
+ bh=eaqfaebmOSOj0mbjpn+DosDS2INVUNao8Fb7NVppBZM=; b=kcpmxaf84w5Oxc9kFP/sAP+GmO
+ 6lV4TU5zNTj3L1bN6Zwx+HdFoqLf70UyzHzCSZpmcBQX/dy+7sLG+9Yoa+ZfUNwuVDcsB4457DDJl
+ iplwMOaNhaunyzNJEcxkhTi9JeC+SOvWZw8iIyQT9cHOXCrdM2XJY9yBgd+jyccEKzU78VUX7X1p8
+ pU7YkIL5aRW5Kwja+rB4Naf4Xlx4O8teEDyiWxzRiZX/nR6JkGjKIuPUtNU/wWjCP3Mgv2MCIwYrF
+ byZA29CM+hm5P6E0M+pWNzKBL1Q6Dz8F4gXil4SH8FggjkUBWmXcpB7MQ28asjiGyWHaqJ/FmbRYw
+ 81z6v4ng==;
 Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
  (helo=smtpauth.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsrxu-0004JY-Jy; Tue, 07 Jul 2020 18:05:11 +0000
+ id 1jsry5-0004JY-Av; Tue, 07 Jul 2020 18:05:21 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 04/20] Documentation: kgdb: eliminate duplicated word
-Date: Tue,  7 Jul 2020 11:03:58 -0700
-Message-Id: <20200707180414.10467-5-rdunlap@infradead.org>
+Subject: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
+Date: Tue,  7 Jul 2020 11:03:59 -0700
+Message-Id: <20200707180414.10467-6-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
 References: <20200707180414.10467-1-rdunlap@infradead.org>
@@ -86,30 +86,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the doubled word "driver".
+Drop the doubled word "this".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Jason Wessel <jason.wessel@windriver.com>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: kgdb-bugreport@lists.sourceforge.net
+Cc: Wu Hao <hao.wu@intel.com>
+Cc: linux-fpga@vger.kernel.org
 ---
- Documentation/dev-tools/kgdb.rst |    2 +-
+ Documentation/fpga/dfl.rst |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/dev-tools/kgdb.rst
-+++ linux-next-20200701/Documentation/dev-tools/kgdb.rst
-@@ -872,7 +872,7 @@ The kgdboc driver contains logic to conf
- attached keyboard. The keyboard infrastructure is only compiled into the
- kernel when ``CONFIG_KDB_KEYBOARD=y`` is set in the kernel configuration.
+--- linux-next-20200701.orig/Documentation/fpga/dfl.rst
++++ linux-next-20200701/Documentation/fpga/dfl.rst
+@@ -8,7 +8,7 @@ Authors:
+ - Xiao Guangrong <guangrong.xiao@linux.intel.com>
+ - Wu Hao <hao.wu@intel.com>
  
--The core polled keyboard driver driver for PS/2 type keyboards is in
-+The core polled keyboard driver for PS/2 type keyboards is in
- ``drivers/char/kdb_keyboard.c``. This driver is hooked into the debug core
- when kgdboc populates the callback in the array called
- :c:type:`kdb_poll_funcs[]`. The :c:func:`kdb_get_kbd_char` is the top-level
+-The Device Feature List (DFL) FPGA framework (and drivers according to this
++The Device Feature List (DFL) FPGA framework (and drivers according to
+ this framework) hides the very details of low layer hardwares and provides
+ unified interfaces to userspace. Applications could use these interfaces to
+ configure, enumerate, open and access FPGA accelerators on platforms which
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
