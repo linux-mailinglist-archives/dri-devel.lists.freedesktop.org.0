@@ -2,63 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9152166FD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6BE216765
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA706E218;
-	Tue,  7 Jul 2020 07:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4172F6E5C5;
+	Tue,  7 Jul 2020 07:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C61DF6E218
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 07:03:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594105427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pBct573chDUVycC2r47Dhb1fPGGMGariRGswer8qzzg=;
- b=bqJWozIny2Anx5Yh2ssZ0BoweH5KNM6gtbcCnp9tERk3/LvMQf4IW1EdOD3fs41TDU6wid
- 20VCS+Blbm4WaJmMr2OyC5pJLg1RZGcz3I+fReRgZCEG5/Jsg+tBc9Ci6EPskLVVI6vfzI
- 1tqZsKSxqJf4aPgYohsyozIo0K7gkRc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-gJCiovz9NomAeJ9Wl9EF8A-1; Tue, 07 Jul 2020 03:03:45 -0400
-X-MC-Unique: gJCiovz9NomAeJ9Wl9EF8A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3CD107B7C6;
- Tue,  7 Jul 2020 07:03:44 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-200.ams2.redhat.com
- [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6F7560CC0;
- Tue,  7 Jul 2020 07:03:42 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A21059D71; Tue,  7 Jul 2020 09:03:41 +0200 (CEST)
-Date: Tue, 7 Jul 2020 09:03:41 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
-Message-ID: <20200707070341.wpxyrlkrtbhghtro@sirius.home.kraxel.org>
-References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
- <20200704072305.GA689588@ravnborg.org>
- <02fbd875-f6fd-da20-6835-778bdd6426c3@ilande.co.uk>
- <485ded46-c1a3-1eab-eb95-1a771543fbaf@ilande.co.uk>
- <20200704134115.GA755192@ravnborg.org>
- <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
- <20200704145212.GA791554@ravnborg.org>
- <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
+Received: from smtp.asem.it (smtp.asem.it [151.1.184.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE0A6E506
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 07:18:00 +0000 (UTC)
+Received: from webmail.asem.it by asem.it (smtp.asem.it)
+ (SecurityGateway 6.5.2) with ESMTP id SG000363852.MSG 
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 09:17:57 +0200S
+Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 7 Jul
+ 2020 09:17:54 +0200
+Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
+ Transport; Tue, 7 Jul 2020 09:17:54 +0200
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v1] drm/i915: Fix spelling mistake in i915_reg.h
+Date: Tue, 7 Jul 2020 09:17:53 +0200
+Message-ID: <20200707071753.27772-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
+X-SGSPF-Result: none (smtp.asem.it)
+X-SGOP-RefID: str=0001.0A090201.5F0421A3.002E, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0 (_st=1 _vt=0 _iwf=0)
+X-Mailman-Approved-At: Tue, 07 Jul 2020 07:26:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +48,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Flavio Suligoi <f.suligoi@asem.it>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Yes, that's correct - I can confirm that the simplified diff below works:
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 5609e164805f..83af05fac604 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
-> *fb_helper,
->         unsigned int y;
-> 
->         for (y = clip->y1; y < clip->y2; y++) {
-> -               memcpy(dst, src, len);
-> +               fb_memcpy_tofb(dst, src, len);
+Fix typo: "TRIGER" --> "TRIGGER"
 
-fb_memcpy_tofb is #defined to sbus_memcpy_toio @ sparc which looks
-wrong to me given that this is a pci not a sbus device.  sparc also has
-memcpy_toio which looks better to me.
+The two misplelled macros:
 
-There are blit helpers in drm_format_helper.c which already use
-memcpy_toio(), I guess we should do the same here.  Not fully sure we
-can use memcpy_toio() unconditionally here.  Given that a shadow
-framebuffer makes sense only in case the real framebuffer is not in
-normal ram we probably can.
+1) OAREPORTTRIG1_EDGE_LEVEL_TRIGER_SELECT_MASK
+2) OAREPORTTRIG5_EDGE_LEVEL_TRIGER_SELECT_MASK
 
-take care,
-  Gerd
+are not used in any other sources of the kernel,
+so this change can be consider only a local change
+for the i915_reg.h file.
+
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+---
+v1: add "Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>"
+
+ drivers/gpu/drm/i915/i915_reg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 9d6536afc94b..c2153364724a 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -868,7 +868,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ 
+ #define OAREPORTTRIG1 _MMIO(0x2740)
+ #define OAREPORTTRIG1_THRESHOLD_MASK 0xffff
+-#define OAREPORTTRIG1_EDGE_LEVEL_TRIGER_SELECT_MASK 0xffff0000 /* 0=level */
++#define OAREPORTTRIG1_EDGE_LEVEL_TRIGGER_SELECT_MASK 0xffff0000 /* 0=level */
+ 
+ #define OAREPORTTRIG2 _MMIO(0x2744)
+ #define OAREPORTTRIG2_INVERT_A_0  (1 << 0)
+@@ -921,7 +921,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ 
+ #define OAREPORTTRIG5 _MMIO(0x2750)
+ #define OAREPORTTRIG5_THRESHOLD_MASK 0xffff
+-#define OAREPORTTRIG5_EDGE_LEVEL_TRIGER_SELECT_MASK 0xffff0000 /* 0=level */
++#define OAREPORTTRIG5_EDGE_LEVEL_TRIGGER_SELECT_MASK 0xffff0000 /* 0=level */
+ 
+ #define OAREPORTTRIG6 _MMIO(0x2754)
+ #define OAREPORTTRIG6_INVERT_A_0  (1 << 0)
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
