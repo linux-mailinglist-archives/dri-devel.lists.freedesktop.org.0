@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE8E217B75
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 01:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396A8217B9A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 01:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92FF46E3A8;
-	Tue,  7 Jul 2020 23:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F420D6E181;
+	Tue,  7 Jul 2020 23:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3A16E3A8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 23:04:15 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8A3222082E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 23:04:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594163055;
- bh=EhWbqaZmzsXrJaeaaTa9oa/wuFRN2GqSFupG2BL65vs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=2j+WigMMCy0EWqbFXaQS29d/sonlcCSlyGxpLyno0CWRcGuMipY0rCR1Kixv7oH2t
- bSDyDvtpPtPVj5EN4VFaMODBJWpLVaGePDfo2A77wxILRxwsNOGZGkWvAxLdl1avBg
- KtywLJOY3k3TBpwNgjqCcYtYWoo/VLYSRIHTAFCo=
-Received: by mail-ej1-f43.google.com with SMTP id w16so48446627ejj.5
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 16:04:15 -0700 (PDT)
-X-Gm-Message-State: AOAM532s4ercx3g1UHqpsyg5q3W7m3g7FHo0feb9o16264WGwNbNWej1
- SpgmCSPPbmbDfeYIZgz83yvtN2BSfbgZ76h2qg==
-X-Google-Smtp-Source: ABdhPJxprTd+dID67KymjoMlkTb45ievUJV+INwGOVc0ao2/LY+zUwpER680dwt517Xc1x3bJeVEYifxQKbqdDNuaaU=
-X-Received: by 2002:a17:906:b888:: with SMTP id
- hb8mr48868098ejb.124.1594163054098; 
- Tue, 07 Jul 2020 16:04:14 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28D5A6E181;
+ Tue,  7 Jul 2020 23:12:37 +0000 (UTC)
+IronPort-SDR: 6nvFpUnpy3DOmUFXzoGIfNR1y/hcFiUdnvKWncPrM2dQmwKKkvEcodPhs4sTkzqVUVjcYj6PaP
+ 4E7cTWZrvd0Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="147714265"
+X-IronPort-AV: E=Sophos;i="5.75,325,1589266800"; d="scan'208";a="147714265"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2020 16:12:36 -0700
+IronPort-SDR: BTtvrTuI7Rq/6kKI1tRiK0WsR/JhgkaBU0FlPiow27t0jKe11+R3Qyo1VIiwfgZxJLP4zTQsFV
+ FnYJJDW1+gdg==
+X-IronPort-AV: E=Sophos;i="5.75,325,1589266800"; d="scan'208";a="427637462"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2020 16:12:34 -0700
+Date: Wed, 8 Jul 2020 02:12:29 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/mst: filter out the display
+ mode exceed sink's capability
+Message-ID: <20200707231229.GB22747@ideak-desk.fi.intel.com>
+References: <20200526182313.4005-1-lyude@redhat.com>
+ <20200526182313.4005-3-lyude@redhat.com>
 MIME-Version: 1.0
-References: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1594136714-11650-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-In-Reply-To: <1594136714-11650-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 8 Jul 2020 07:04:03 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9Dj3WjYsLYhP8FfdTfCv0ddv73HmUcT=8x6bT1qP=ADA@mail.gmail.com>
-Message-ID: <CAAOTY_9Dj3WjYsLYhP8FfdTfCv0ddv73HmUcT=8x6bT1qP=ADA@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] soc: mediatek: cmdq: add clear option in
- cmdq_pkt_wfe api
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+Content-Disposition: inline
+In-Reply-To: <20200526182313.4005-3-lyude@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,93 +51,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream <wsd_upstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Houlong Wei <houlong.wei@mediatek.com>, HS Liao <hs.liao@mediatek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: imre.deak@intel.com
+Cc: Cooper Chiou <cooper.chiou@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERlbm5pczoKCkRlbm5pcyBZQyBIc2llaCA8ZGVubmlzLXljLmhzaWVoQG1lZGlhdGVrLmNv
-bT4g5pa8IDIwMjDlubQ35pyIN+aXpSDpgLHkuowg5LiL5Y2IMTE6NDflr6vpgZPvvJoKPgo+IEFk
-ZCBjbGVhciBwYXJhbWV0ZXIgdG8gbGV0IGNsaWVudCBkZWNpZGUgaWYKPiBldmVudCBzaG91bGQg
-YmUgY2xlYXIgdG8gMCBhZnRlciBHQ0UgcmVjZWl2ZSBpdC4KCkZvciBEUk0gcGFydCwKCkFja2Vk
-LWJ5OiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4KCj4KPiBDaGFuZ2Ug
-c2luY2UgdjI6Cj4gLSBLZWVwIGJlaGF2aW9yIGluIGRybSBjcnRjIGRyaXZlciBhbmQKPiAgIHNl
-cGFyYXRlIGJ1ZyBmaXggY29kZSBpbnRvIGFub3RoZXIgcGF0Y2guCj4KPiBTaWduZWQtb2ZmLWJ5
-OiBEZW5uaXMgWUMgSHNpZWggPGRlbm5pcy15Yy5oc2llaEBtZWRpYXRlay5jb20+Cj4gLS0tCj4g
-IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyAgfCAgICAyICstCj4gIGRy
-aXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5jICAgfCAgICA1ICsrKy0tCj4gIGlu
-Y2x1ZGUvbGludXgvbWFpbGJveC9tdGstY21kcS1tYWlsYm94LmggfCAgICAzICstLQo+ICBpbmNs
-dWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstY21kcS5oICAgIHwgICAgNSArKystLQo+ICA0IGZp
-bGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMKPiBpbmRleCBlYzZjOWZmYmYzNWUuLmM4NGU3
-YTE0ZDRhOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9j
-cnRjLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMKPiBA
-QCAtNDkwLDcgKzQ5MCw3IEBAIHN0YXRpYyB2b2lkIG10a19kcm1fY3J0Y19od19jb25maWcoc3Ry
-dWN0IG10a19kcm1fY3J0YyAqbXRrX2NydGMpCj4gICAgICAgICAgICAgICAgIG1ib3hfZmx1c2go
-bXRrX2NydGMtPmNtZHFfY2xpZW50LT5jaGFuLCAyMDAwKTsKPiAgICAgICAgICAgICAgICAgY21k
-cV9oYW5kbGUgPSBjbWRxX3BrdF9jcmVhdGUobXRrX2NydGMtPmNtZHFfY2xpZW50LCBQQUdFX1NJ
-WkUpOwo+ICAgICAgICAgICAgICAgICBjbWRxX3BrdF9jbGVhcl9ldmVudChjbWRxX2hhbmRsZSwg
-bXRrX2NydGMtPmNtZHFfZXZlbnQpOwo+IC0gICAgICAgICAgICAgICBjbWRxX3BrdF93ZmUoY21k
-cV9oYW5kbGUsIG10a19jcnRjLT5jbWRxX2V2ZW50KTsKPiArICAgICAgICAgICAgICAgY21kcV9w
-a3Rfd2ZlKGNtZHFfaGFuZGxlLCBtdGtfY3J0Yy0+Y21kcV9ldmVudCwgdHJ1ZSk7Cj4gICAgICAg
-ICAgICAgICAgIG10a19jcnRjX2RkcF9jb25maWcoY3J0YywgY21kcV9oYW5kbGUpOwo+ICAgICAg
-ICAgICAgICAgICBjbWRxX3BrdF9maW5hbGl6ZShjbWRxX2hhbmRsZSk7Cj4gICAgICAgICAgICAg
-ICAgIGNtZHFfcGt0X2ZsdXNoX2FzeW5jKGNtZHFfaGFuZGxlLCBkZHBfY21kcV9jYiwgY21kcV9o
-YW5kbGUpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxw
-ZXIuYyBiL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5jCj4gaW5kZXggZDU1
-ZGMzMjk2MTA1Li41MDU2NTFiMGQ3MTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9zb2MvbWVkaWF0
-ZWsvbXRrLWNtZHEtaGVscGVyLmMKPiArKysgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21k
-cS1oZWxwZXIuYwo+IEBAIC0zMTYsMTUgKzMxNiwxNiBAQCBpbnQgY21kcV9wa3Rfd3JpdGVfc19t
-YXNrX3ZhbHVlKHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1OCBoaWdoX2FkZHJfcmVnX2lkeCwKPiAg
-fQo+ICBFWFBPUlRfU1lNQk9MKGNtZHFfcGt0X3dyaXRlX3NfbWFza192YWx1ZSk7Cj4KPiAtaW50
-IGNtZHFfcGt0X3dmZShzdHJ1Y3QgY21kcV9wa3QgKnBrdCwgdTE2IGV2ZW50KQo+ICtpbnQgY21k
-cV9wa3Rfd2ZlKHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1MTYgZXZlbnQsIGJvb2wgY2xlYXIpCj4g
-IHsKPiAgICAgICAgIHN0cnVjdCBjbWRxX2luc3RydWN0aW9uIGluc3QgPSB7IHswfSB9Owo+ICsg
-ICAgICAgdTMyIGNsZWFyX29wdGlvbiA9IGNsZWFyID8gQ01EUV9XRkVfVVBEQVRFIDogMDsKPgo+
-ICAgICAgICAgaWYgKGV2ZW50ID49IENNRFFfTUFYX0VWRU5UKQo+ICAgICAgICAgICAgICAgICBy
-ZXR1cm4gLUVJTlZBTDsKPgo+ICAgICAgICAgaW5zdC5vcCA9IENNRFFfQ09ERV9XRkU7Cj4gLSAg
-ICAgICBpbnN0LnZhbHVlID0gQ01EUV9XRkVfT1BUSU9OOwo+ICsgICAgICAgaW5zdC52YWx1ZSA9
-IENNRFFfV0ZFX09QVElPTiB8IGNsZWFyX29wdGlvbjsKPiAgICAgICAgIGluc3QuZXZlbnQgPSBl
-dmVudDsKPgo+ICAgICAgICAgcmV0dXJuIGNtZHFfcGt0X2FwcGVuZF9jb21tYW5kKHBrdCwgaW5z
-dCk7Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbWFpbGJveC9tdGstY21kcS1tYWlsYm94
-LmggYi9pbmNsdWRlL2xpbnV4L21haWxib3gvbXRrLWNtZHEtbWFpbGJveC5oCj4gaW5kZXggZWZi
-ZDhhOWViMmQxLi5kNWE5ODNkNjVmMDUgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9tYWls
-Ym94L210ay1jbWRxLW1haWxib3guaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvbWFpbGJveC9tdGst
-Y21kcS1tYWlsYm94LmgKPiBAQCAtMjgsOCArMjgsNyBAQAo+ICAgKiBiaXQgMTYtMjc6IHVwZGF0
-ZSB2YWx1ZQo+ICAgKiBiaXQgMzE6IDEgLSB1cGRhdGUsIDAgLSBubyB1cGRhdGUKPiAgICovCj4g
-LSNkZWZpbmUgQ01EUV9XRkVfT1BUSU9OICAgICAgICAgICAgICAgICAgICAgICAgKENNRFFfV0ZF
-X1VQREFURSB8IENNRFFfV0ZFX1dBSVQgfCBcCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIENNRFFfV0ZFX1dBSVRfVkFMVUUpCj4gKyNkZWZpbmUgQ01EUV9XRkVfT1BU
-SU9OICAgICAgICAgICAgICAgICAgICAgICAgKENNRFFfV0ZFX1dBSVQgfCBDTURRX1dGRV9XQUlU
-X1ZBTFVFKQo+Cj4gIC8qKiBjbWRxIGV2ZW50IG1heGltdW0gKi8KPiAgI2RlZmluZSBDTURRX01B
-WF9FVkVOVCAgICAgICAgICAgICAgICAgMHgzZmYKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51
-eC9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEuaCBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210
-ay1jbWRxLmgKPiBpbmRleCAzNDM1NGU5NTJmNjAuLjk2MDcwNGQ3NTk5NCAxMDA2NDQKPiAtLS0g
-YS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstY21kcS5oCj4gKysrIGIvaW5jbHVkZS9s
-aW51eC9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEuaAo+IEBAIC0xODIsMTEgKzE4MiwxMiBAQCBpbnQg
-Y21kcV9wa3Rfd3JpdGVfc19tYXNrX3ZhbHVlKHN0cnVjdCBjbWRxX3BrdCAqcGt0LCB1OCBoaWdo
-X2FkZHJfcmVnX2lkeCwKPiAgLyoqCj4gICAqIGNtZHFfcGt0X3dmZSgpIC0gYXBwZW5kIHdhaXQg
-Zm9yIGV2ZW50IGNvbW1hbmQgdG8gdGhlIENNRFEgcGFja2V0Cj4gICAqIEBwa3Q6ICAgICAgIHRo
-ZSBDTURRIHBhY2tldAo+IC0gKiBAZXZlbnQ6ICAgICB0aGUgZGVzaXJlZCBldmVudCB0eXBlIHRv
-ICJ3YWl0IGFuZCBDTEVBUiIKPiArICogQGV2ZW50OiAgICAgdGhlIGRlc2lyZWQgZXZlbnQgdHlw
-ZSB0byB3YWl0Cj4gKyAqIEBjbGVhcjogICAgIGNsZWFyIGV2ZW50IG9yIG5vdCBhZnRlciBldmVu
-dCBhcnJpdmUKPiAgICoKPiAgICogUmV0dXJuOiAwIGZvciBzdWNjZXNzOyBlbHNlIHRoZSBlcnJv
-ciBjb2RlIGlzIHJldHVybmVkCj4gICAqLwo+IC1pbnQgY21kcV9wa3Rfd2ZlKHN0cnVjdCBjbWRx
-X3BrdCAqcGt0LCB1MTYgZXZlbnQpOwo+ICtpbnQgY21kcV9wa3Rfd2ZlKHN0cnVjdCBjbWRxX3Br
-dCAqcGt0LCB1MTYgZXZlbnQsIGJvb2wgY2xlYXIpOwo+Cj4gIC8qKgo+ICAgKiBjbWRxX3BrdF9j
-bGVhcl9ldmVudCgpIC0gYXBwZW5kIGNsZWFyIGV2ZW50IGNvbW1hbmQgdG8gdGhlIENNRFEgcGFj
-a2V0Cj4gLS0KPiAxLjcuOS41Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1tZWRpYXRl
-a0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Tue, May 26, 2020 at 02:23:10PM -0400, Lyude Paul wrote:
+> From: Lee Shawn C <shawn.c.lee@intel.com>
+> 
+> So far, max dot clock rate for MST mode rely on physcial
+> bandwidth limitation. It would caused compatibility issue
+> if source display resolution exceed MST hub output ability.
+> 
+> For example, source DUT had DP 1.2 output capability.
+> And MST docking just support HDMI 1.4 spec. When a HDMI 2.0
+> monitor connected. Source would retrieve EDID from external
+> and get max resolution 4k@60fps. DP 1.2 can support 4K@60fps
+> because it did not surpass DP physical bandwidth limitation.
+> Do modeset to 4k@60fps, source output display data but MST
+> docking can't output HDMI properly due to this resolution
+> already over HDMI 1.4 spec.
+> 
+> Refer to commit <fcf463807596> ("drm/dp_mst: Use full_pbn
+> instead of available_pbn for bandwidth checks").
+> Source driver should refer to full_pbn to evaluate sink
+> output capability. And filter out the resolution surpass
+> sink output limitation.
+> 
+> v2: Using mgr->base.lock to protect full_pbn.
+> v3: Add ctx lock.
+> v4:
+> * s/intel_dp_mst_mode_clock_exceed_pbn_bandwidth/
+>   intel_dp_mst_mode_clock_exceeds_pbn_bw/
+> * Use the new drm_connector_helper_funcs.mode_valid_ctx to properly pipe
+>   down the drm_modeset_acquire_ctx that the probe helpers are using, so
+>   we can safely grab &mgr->base.lock without deadlocking
+> 
+> Cc: Manasi Navare <manasi.d.navare@intel.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Cooper Chiou <cooper.chiou@intel.com>
+> Co-developed-by: Lyude Paul <lyude@redhat.com>
+> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+> Tested-by: Lee Shawn C <shawn.c.lee@intel.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c | 39 ++++++++++++++++++---
+>  1 file changed, 35 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index d18b406f2a7d2..cf052095ad785 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -610,15 +610,42 @@ static int intel_dp_mst_get_modes(struct drm_connector *connector)
+>  	return intel_dp_mst_get_ddc_modes(connector);
+>  }
+>  
+> +static int
+> +intel_dp_mst_mode_clock_exceeds_pbn_bw(struct drm_connector *connector,
+> +				       struct drm_modeset_acquire_ctx *ctx,
+> +				       int clock, int bpp)
+> +{
+> +	struct intel_connector *intel_connector = to_intel_connector(connector);
+> +	struct intel_dp *intel_dp = intel_connector->mst_port;
+> +	struct drm_dp_mst_topology_mgr *mgr = &intel_dp->mst_mgr;
+> +	struct drm_dp_mst_port *port = (to_intel_connector(connector))->port;
+
+					intel_connector
+
+> +	int ret = MODE_OK;
+> +
+> +	if (!mgr)
+
+As a NULL check this would be bogus, but also connector->mst_port and so
+mst_mgr too should be always non-NULL?
+
+> +		return ret;
+> +
+> +	ret = drm_modeset_lock(&mgr->base.lock, ctx);
+> +	if (ret == -EDEADLK)
+> +		return ret;
+> +
+> +	if (port->full_pbn &&
+
+How could full_pbn be unset?
+
+> +	    drm_dp_calc_pbn_mode(clock, bpp, false) > port->full_pbn)
+> +		ret = MODE_CLOCK_HIGH;
+> +
+> +	return ret;
+> +}
+> +
+>  static enum drm_mode_status
+> -intel_dp_mst_mode_valid(struct drm_connector *connector,
+> -			struct drm_display_mode *mode)
+> +intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
+> +			    struct drm_display_mode *mode,
+> +			    struct drm_modeset_acquire_ctx *ctx)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(connector->dev);
+>  	struct intel_connector *intel_connector = to_intel_connector(connector);
+>  	struct intel_dp *intel_dp = intel_connector->mst_port;
+>  	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
+>  	int max_rate, mode_rate, max_lanes, max_link_clock;
+> +	int ret;
+>  
+>  	if (drm_connector_is_unregistered(connector))
+>  		return MODE_ERROR;
+> @@ -632,7 +659,11 @@ intel_dp_mst_mode_valid(struct drm_connector *connector,
+>  	max_rate = intel_dp_max_data_rate(max_link_clock, max_lanes);
+>  	mode_rate = intel_dp_link_required(mode->clock, 18);
+>  
+> -	/* TODO - validate mode against available PBN for link */
+> +	ret = intel_dp_mst_mode_clock_exceeds_pbn_bw(connector, ctx,
+> +						     mode->clock, 24);
+
+Why 24 bpp and not 18?
+
+Nit: could be checked after max_rate/max_dotclk for consistency.
+
+> +	if (ret != MODE_OK)
+> +		return ret;
+> +
+>  	if (mode->clock < 10000)
+>  		return MODE_CLOCK_LOW;
+>  
+> @@ -671,7 +702,7 @@ intel_dp_mst_detect(struct drm_connector *connector,
+>  
+>  static const struct drm_connector_helper_funcs intel_dp_mst_connector_helper_funcs = {
+>  	.get_modes = intel_dp_mst_get_modes,
+> -	.mode_valid = intel_dp_mst_mode_valid,
+> +	.mode_valid_ctx = intel_dp_mst_mode_valid_ctx,
+>  	.atomic_best_encoder = intel_mst_atomic_best_encoder,
+>  	.atomic_check = intel_dp_mst_atomic_check,
+>  	.detect_ctx = intel_dp_mst_detect,
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
