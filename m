@@ -2,34 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E93216BB5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 13:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889E5216BBF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 13:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42A6C6E0FA;
-	Tue,  7 Jul 2020 11:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0C1D6E0DA;
+	Tue,  7 Jul 2020 11:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A2FA6E0F5;
- Tue,  7 Jul 2020 11:36:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 353A41FB;
- Tue,  7 Jul 2020 04:36:46 -0700 (PDT)
-Received: from [10.57.21.32] (unknown [10.57.21.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 889143F71E;
- Tue,  7 Jul 2020 04:36:44 -0700 (PDT)
-Subject: Re: [PATCH v2 4/6] drm/msm: Add support to create a local pagetable
-To: Jordan Crouse <jcrouse@codeaurora.org>, linux-arm-msm@vger.kernel.org
-References: <20200626200414.14382-1-jcrouse@codeaurora.org>
- <20200626200414.14382-5-jcrouse@codeaurora.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3feed674-5eb9-ca2f-76a7-f888f431c409@arm.com>
-Date: Tue, 7 Jul 2020 12:36:42 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C90A6E0DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 11:38:40 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id d21so24505110lfb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 04:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=D1OyiaE95dyV0o4mjO0SdUwkLVJYq1WG9YftOcQgcWs=;
+ b=t8cBCrb+uN2ImOWxHCAPwzvmkFskECqJ85+P0YAHfllt7TbFa2dfrVXHUKUdUy/UFg
+ bUYminjXwLw9/UlCO0RYGsfmGhL/c/aklvxmy9YRxz6/c+SyjaGe+1RTWhVfKAIhmUve
+ mYOMJeH9JQ6CgGxabIwwLjPeWLuPtOVo6LEAls2SuMNyZ/4nKH+YPl21Xb0+wZeMsk30
+ 7fd4IPAO16fo5wmg4xDH1PjZaYFe+DNX44AzWbUMmTeBhXdaH36fLyt31bPaTdErG6Vn
+ xet5qVDjV45PQjpvYVTMxaS8wnxTH/DVC3343vCNckzR9Ai/1fN3LUJKq9zK78AK+IEU
+ r7XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=D1OyiaE95dyV0o4mjO0SdUwkLVJYq1WG9YftOcQgcWs=;
+ b=qdTiOcp0jO8sjTL41oejPeWNxkR7lD+VB7q0Bieh4zJfTj2/XkM/hd2trWR2walSIH
+ SF0VBUOcqZoXDkbLpJVATmV/hzbIhI2Q3iixQ08yNl79Pd+d9Vm0ETUlmsyONkpfT5zI
+ 2XRhulplp/SChasoXYcNIu/gfSTvOBZd7wDWgRHBcyODifNw1oh40JhNFj52m1iAhwcL
+ SaibyEuqastoPb2w0UZGSH3dq4MQVNKCebdp0TIQ1JdujNllFrbTwXSijmIKRvKd8nTU
+ l9S3VURR3r45SZnU8fqkD/tuV0UjrWQkLOCwOXq9ZiafefFe7p1J0ZjzjeggCW3NDmMU
+ PpvA==
+X-Gm-Message-State: AOAM532jgbXKoGrCnDftSu+k8oqUqHGsh9G4couDT+lHH9IpJqOQwUGn
+ eirltBAimsbchymJwla6vPn9/4wD
+X-Google-Smtp-Source: ABdhPJwWCYz1gOrp9tOQHxFi5lsYlHmJpznB95Lv3ToOI1SXvjZ8rUmiaArGhPUUrRWNPGniNQ65bA==
+X-Received: by 2002:a05:6512:742:: with SMTP id
+ c2mr22013206lfs.108.1594121918109; 
+ Tue, 07 Jul 2020 04:38:38 -0700 (PDT)
+Received: from localhost.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id e29sm9538398lfc.51.2020.07.07.04.38.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jul 2020 04:38:37 -0700 (PDT)
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5] drm/doc: device hot-unplug for userspace
+Date: Tue,  7 Jul 2020 14:38:05 +0300
+Message-Id: <20200707113805.30936-1-ppaalanen@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200519100649.12053-1-ppaalanen@gmail.com>
+References: <20200519100649.12053-1-ppaalanen@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200626200414.14382-5-jcrouse@codeaurora.org>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,311 +67,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, Sean Paul <sean@poorly.run>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Karol Herbst <kherbst@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ Ben Skeggs <skeggsb@gmail.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-06-26 21:04, Jordan Crouse wrote:
-> Add support to create a io-pgtable for use by targets that support
-> per-instance pagetables.  In order to support per-instance pagetables the
-> GPU SMMU device needs to have the qcom,adreno-smmu compatible string and
-> split pagetables and auxiliary domains need to be supported and enabled.
-> 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
-> 
->   drivers/gpu/drm/msm/msm_gpummu.c |   2 +-
->   drivers/gpu/drm/msm/msm_iommu.c  | 180 ++++++++++++++++++++++++++++++-
->   drivers/gpu/drm/msm/msm_mmu.h    |  16 ++-
->   3 files changed, 195 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
-> index 310a31b05faa..aab121f4beb7 100644
-> --- a/drivers/gpu/drm/msm/msm_gpummu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpummu.c
-> @@ -102,7 +102,7 @@ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
->   	}
->   
->   	gpummu->gpu = gpu;
-> -	msm_mmu_init(&gpummu->base, dev, &funcs);
-> +	msm_mmu_init(&gpummu->base, dev, &funcs, MSM_MMU_GPUMMU);
->   
->   	return &gpummu->base;
->   }
-> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> index 1b6635504069..f455c597f76d 100644
-> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> @@ -4,15 +4,192 @@
->    * Author: Rob Clark <robdclark@gmail.com>
->    */
->   
-> +#include <linux/io-pgtable.h>
->   #include "msm_drv.h"
->   #include "msm_mmu.h"
->   
->   struct msm_iommu {
->   	struct msm_mmu base;
->   	struct iommu_domain *domain;
-> +	struct iommu_domain *aux_domain;
->   };
-> +
->   #define to_msm_iommu(x) container_of(x, struct msm_iommu, base)
->   
-> +struct msm_iommu_pagetable {
-> +	struct msm_mmu base;
-> +	struct msm_mmu *parent;
-> +	struct io_pgtable_ops *pgtbl_ops;
-> +	phys_addr_t ttbr;
-> +	u32 asid;
-> +};
-> +
-> +static struct msm_iommu_pagetable *to_pagetable(struct msm_mmu *mmu)
-> +{
-> +	return container_of(mmu, struct msm_iommu_pagetable, base);
-> +}
-> +
-> +static int msm_iommu_pagetable_unmap(struct msm_mmu *mmu, u64 iova,
-> +		size_t size)
-> +{
-> +	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> +	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-> +	size_t unmapped = 0;
-> +
-> +	/* Unmap the block one page at a time */
-> +	while (size) {
-> +		unmapped += ops->unmap(ops, iova, 4096, NULL);
-> +		iova += 4096;
-> +		size -= 4096;
-> +	}
-> +
-> +	iommu_flush_tlb_all(to_msm_iommu(pagetable->parent)->domain);
-> +
-> +	return (unmapped == size) ? 0 : -EINVAL;
-> +}
-
-Remember in patch #1 when you said "Then 'domain' can be used like any 
-other iommu domain to map and unmap iova addresses in the pagetable."?
-
-This appears to be very much not that :/
-
-Robin.
-
-> +
-> +static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
-> +		struct sg_table *sgt, size_t len, int prot)
-> +{
-> +	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> +	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-> +	struct scatterlist *sg;
-> +	size_t mapped = 0;
-> +	u64 addr = iova;
-> +	unsigned int i;
-> +
-> +	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> +		size_t size = sg->length;
-> +		phys_addr_t phys = sg_phys(sg);
-> +
-> +		/* Map the block one page at a time */
-> +		while (size) {
-> +			if (ops->map(ops, addr, phys, 4096, prot)) {
-> +				msm_iommu_pagetable_unmap(mmu, iova, mapped);
-> +				return -EINVAL;
-> +			}
-> +
-> +			phys += 4096;
-> +			addr += 4096;
-> +			size -= 4096;
-> +			mapped += 4096;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void msm_iommu_pagetable_destroy(struct msm_mmu *mmu)
-> +{
-> +	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> +
-> +	free_io_pgtable_ops(pagetable->pgtbl_ops);
-> +	kfree(pagetable);
-> +}
-> +
-> +/*
-> + * Given a parent device, create and return an aux domain. This will enable the
-> + * TTBR0 region
-> + */
-> +static struct iommu_domain *msm_iommu_get_aux_domain(struct msm_mmu *parent)
-> +{
-> +	struct msm_iommu *iommu = to_msm_iommu(parent);
-> +	struct iommu_domain *domain;
-> +	int ret;
-> +
-> +	if (iommu->aux_domain)
-> +		return iommu->aux_domain;
-> +
-> +	if (!iommu_dev_has_feature(parent->dev, IOMMU_DEV_FEAT_AUX))
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	domain = iommu_domain_alloc(&platform_bus_type);
-> +	if (!domain)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	ret = iommu_aux_attach_device(domain, parent->dev);
-> +	if (ret) {
-> +		iommu_domain_free(domain);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	iommu->aux_domain = domain;
-> +	return domain;
-> +}
-> +
-> +int msm_iommu_pagetable_params(struct msm_mmu *mmu,
-> +		phys_addr_t *ttbr, int *asid)
-> +{
-> +	struct msm_iommu_pagetable *pagetable;
-> +
-> +	if (mmu->type != MSM_MMU_IOMMU_PAGETABLE)
-> +		return -EINVAL;
-> +
-> +	pagetable = to_pagetable(mmu);
-> +
-> +	if (ttbr)
-> +		*ttbr = pagetable->ttbr;
-> +
-> +	if (asid)
-> +		*asid = pagetable->asid;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct msm_mmu_funcs pagetable_funcs = {
-> +		.map = msm_iommu_pagetable_map,
-> +		.unmap = msm_iommu_pagetable_unmap,
-> +		.destroy = msm_iommu_pagetable_destroy,
-> +};
-> +
-> +struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
-> +{
-> +	static int next_asid = 16;
-> +	struct msm_iommu_pagetable *pagetable;
-> +	struct iommu_domain *aux_domain;
-> +	struct io_pgtable_cfg cfg;
-> +	int ret;
-> +
-> +	/* Make sure that the parent has a aux domain attached */
-> +	aux_domain = msm_iommu_get_aux_domain(parent);
-> +	if (IS_ERR(aux_domain))
-> +		return ERR_CAST(aux_domain);
-> +
-> +	/* Get the pagetable configuration from the aux domain */
-> +	ret = iommu_domain_get_attr(aux_domain, DOMAIN_ATTR_PGTABLE_CFG, &cfg);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	pagetable = kzalloc(sizeof(*pagetable), GFP_KERNEL);
-> +	if (!pagetable)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	msm_mmu_init(&pagetable->base, parent->dev, &pagetable_funcs,
-> +		MSM_MMU_IOMMU_PAGETABLE);
-> +
-> +	cfg.tlb = NULL;
-> +
-> +	pagetable->pgtbl_ops = alloc_io_pgtable_ops(ARM_64_LPAE_S1,
-> +		&cfg, aux_domain);
-> +
-> +	if (!pagetable->pgtbl_ops) {
-> +		kfree(pagetable);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +
-> +	/* Needed later for TLB flush */
-> +	pagetable->parent = parent;
-> +	pagetable->ttbr = cfg.arm_lpae_s1_cfg.ttbr;
-> +
-> +	pagetable->asid = next_asid;
-> +	next_asid = (next_asid + 1)  % 255;
-> +	if (next_asid < 16)
-> +		next_asid = 16;
-> +
-> +	return &pagetable->base;
-> +}
-> +
->   static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
->   		unsigned long iova, int flags, void *arg)
->   {
-> @@ -40,6 +217,7 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
->   	if (iova & BIT_ULL(48))
->   		iova |= GENMASK_ULL(63, 49);
->   
-> +
->   	ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
->   	WARN_ON(!ret);
->   
-> @@ -85,7 +263,7 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
->   		return ERR_PTR(-ENOMEM);
->   
->   	iommu->domain = domain;
-> -	msm_mmu_init(&iommu->base, dev, &funcs);
-> +	msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
->   	iommu_set_fault_handler(domain, msm_fault_handler, iommu);
->   
->   	ret = iommu_attach_device(iommu->domain, dev);
-> diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-> index 3a534ee59bf6..61ade89d9e48 100644
-> --- a/drivers/gpu/drm/msm/msm_mmu.h
-> +++ b/drivers/gpu/drm/msm/msm_mmu.h
-> @@ -17,18 +17,26 @@ struct msm_mmu_funcs {
->   	void (*destroy)(struct msm_mmu *mmu);
->   };
->   
-> +enum msm_mmu_type {
-> +	MSM_MMU_GPUMMU,
-> +	MSM_MMU_IOMMU,
-> +	MSM_MMU_IOMMU_PAGETABLE,
-> +};
-> +
->   struct msm_mmu {
->   	const struct msm_mmu_funcs *funcs;
->   	struct device *dev;
->   	int (*handler)(void *arg, unsigned long iova, int flags);
->   	void *arg;
-> +	enum msm_mmu_type type;
->   };
->   
->   static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
-> -		const struct msm_mmu_funcs *funcs)
-> +		const struct msm_mmu_funcs *funcs, enum msm_mmu_type type)
->   {
->   	mmu->dev = dev;
->   	mmu->funcs = funcs;
-> +	mmu->type = type;
->   }
->   
->   struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
-> @@ -41,7 +49,13 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
->   	mmu->handler = handler;
->   }
->   
-> +struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
-> +
->   void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
->   		dma_addr_t *tran_error);
->   
-> +
-> +int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
-> +		int *asid);
-> +
->   #endif /* __MSM_MMU_H__ */
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogUGVra2EgUGFhbGFuZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+CgpTZXQg
+dXAgdGhlIGV4cGVjdGF0aW9ucyBvbiBob3cgaG90LXVucGx1Z2dpbmcgYSBEUk0gZGV2aWNlIHNo
+b3VsZCBsb29rIGxpa2UgdG8KdXNlcnNwYWNlLgoKV3JpdHRlbiBieSBEYW5pZWwgVmV0dGVyJ3Mg
+cmVxdWVzdCBhbmQgbGFyZ2VseSBiYXNlZCBvbiBoaXMgY29tbWVudHMgaW4gSVJDIGFuZApmcm9t
+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDIwLU1h
+eS8yNjU0ODQuaHRtbCAuCgpBIHJlbGF0ZWQgV2F5bGFuZCBwcm90b2NvbCBjaGFuZ2UgcHJvcG9z
+YWwgaXMgYXQKaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2F5bGFuZC1w
+cm90b2NvbHMvLS9tZXJnZV9yZXF1ZXN0cy8zNQoKU2lnbmVkLW9mZi1ieTogUGVra2EgUGFhbGFu
+ZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+ClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0
+dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpSZXZpZXdlZC1ieTogQWxleCBEZXVjaGVyIDxh
+bGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpBY2tlZC1ieTogTm9yYWxmIFRyw7hubmVzIDxub3Jh
+bGZAdHJvbm5lcy5vcmc+CkNjOiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lA
+YW1kLmNvbT4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CkNjOiBTZWFuIFBh
+dWwgPHNlYW5AcG9vcmx5LnJ1bj4KQ2M6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4K
+Q2M6IEJlbiBTa2VnZ3MgPHNrZWdnc2JAZ21haWwuY29tPgpDYzogS2Fyb2wgSGVyYnN0IDxraGVy
+YnN0QHJlZGhhdC5jb20+CgotLS0KClRoaXMgaXMgb25seSBhYm91dCBsYXlpbmcgb3V0IHBsYW5z
+IGZvciB0aGUgZnV0dXJlLCBub3QgYWJvdXQgd2hhdApkcml2ZXJzIGRvIHRvZGF5LiBXZSdkIGp1
+c3QgbGlrZSB0byBiZSBzdXJlIHRoZSBnb2FscyBhcmUgcmVhc29uYWJsZSBhbmQKZXZlcnlvbmUg
+aXMgYXdhcmUgb2YgdGhlIGlkZWEuCgpUaGFua3MsCnBxCgp2NToKLSB0d28gZ3JhbW1hciBmaXhl
+cyAoQWxleCkKLSBhZGRlZCBSLWIvQS1iLCBkcm9wcGVkIGV4dHJhIENjCgp2NDoKLSB0d28gdHlw
+byBmaXhlcyAoRGFuaWVsKQoKdjM6Ci0gdXBkYXRlIEVOT0RFViBkb2MgKERhbmllbCkKLSBjbGFy
+aWZ5IGV4aXN0aW5nIHZzLiBuZXcgbW1hcHMgKEFuZHJleSkKLSBzcGxpdCBpbnRvIEtNUyBhbmQg
+cmVuZGVyL2Nyb3NzIHNlY3Rpb25zIChBbmRyZXksIERhbmllbCkKLSBvcGVuKCkgcmV0dXJucyBF
+TlhJTyAob3BlbigyKSBtYW4gcGFnZSkKLSBpb2N0bHMgbWF5IHJldHVybiBFTk9ERVYgKEFuZHJl
+eSwgRGFuaWVsKQotIG5ldyB3YXlsYW5kLXByb3RvY29scyBNUgoKdjI6Ci0gbW1hcCByZWFkcy93
+cml0ZXMgdW5kZWZpbmVkIChEYW5pZWwpCi0gbWFrZSByZW5kZXIgaW9jdGwgYmVoYXZpb3VyIGRy
+aXZlci1zcGVjaWZpYyAoRGFuaWVsKQotIHJlc3RydWN0dXJlIHRoZSBtbWFwIHBhcmFncmFwaHMg
+KERhbmllbCkKLSBjaGFyZGV2IG1pbm9yIG5vdGVzIChTaW1vbikKLSBvcGVuIGJlaGF2aW91ciAo
+RGFuaWVsKQotIERSTSBsZWFzaW5nIGJlaGF2aW91ciAoRGFuaWVsKQotIGFkZGVkIGxpbmtzCgpE
+aXNjbGFpbWVyOiBJIGFtIGEgdXNlcnNwYWNlIGRldmVsb3BlciB3cml0aW5nIGZvciBvdGhlciB1
+c2Vyc3BhY2UgZGV2ZWxvcGVycy4KSSB0b29rIHNvbWUgbGliZXJ0aWVzIGluIGRlZmluaW5nIHdo
+YXQgc2hvdWxkIGhhcHBlbiB3aXRob3V0IGtub3dpbmcgd2hhdCBpcwphY3R1YWxseSBwb3NzaWJs
+ZSBvciB3aGF0IGV4aXN0aW5nIGRyaXZlcnMgYWxyZWFkeSBpbXBsZW1lbnQuCi0tLQogRG9jdW1l
+bnRhdGlvbi9ncHUvZHJtLXVhcGkucnN0IHwgMTE0ICsrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrLQogMSBmaWxlIGNoYW5nZWQsIDExMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+CgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLXVhcGkucnN0IGIvRG9jdW1lbnRh
+dGlvbi9ncHUvZHJtLXVhcGkucnN0CmluZGV4IDU2ZmVjNmVkMWFkOC4uOWNlNTFlNGY5OGY0IDEw
+MDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2dwdS9kcm0tdWFwaS5yc3QKKysrIGIvRG9jdW1lbnRh
+dGlvbi9ncHUvZHJtLXVhcGkucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gQ29weXJpZ2h0IDIwMjAg
+RGlzcGxheUxpbmsgKFVLKSBMdGQuCisKID09PT09PT09PT09PT09PT09PT0KIFVzZXJsYW5kIGlu
+dGVyZmFjZXMKID09PT09PT09PT09PT09PT09PT0KQEAgLTE2Miw2ICsxNjQsMTE2IEBAIG90aGVy
+IGhhbmQsIGEgZHJpdmVyIHJlcXVpcmVzIHNoYXJlZCBzdGF0ZSBiZXR3ZWVuIGNsaWVudHMgd2hp
+Y2ggaXMKIHZpc2libGUgdG8gdXNlci1zcGFjZSBhbmQgYWNjZXNzaWJsZSBiZXlvbmQgb3Blbi1m
+aWxlIGJvdW5kYXJpZXMsIHRoZXkKIGNhbm5vdCBzdXBwb3J0IHJlbmRlciBub2Rlcy4KIAorRGV2
+aWNlIEhvdC1VbnBsdWcKKz09PT09PT09PT09PT09PT09CisKKy4uIG5vdGU6OgorICAgVGhlIGZv
+bGxvd2luZyBpcyB0aGUgcGxhbi4gSW1wbGVtZW50YXRpb24gaXMgbm90IHRoZXJlIHlldAorICAg
+KDIwMjAgTWF5KS4KKworR3JhcGhpY3MgZGV2aWNlcyAoZGlzcGxheSBhbmQvb3IgcmVuZGVyKSBt
+YXkgYmUgY29ubmVjdGVkIHZpYSBVU0IgKGUuZy4KK2Rpc3BsYXkgYWRhcHRlcnMgb3IgZG9ja2lu
+ZyBzdGF0aW9ucykgb3IgVGh1bmRlcmJvbHQgKGUuZy4gZUdQVSkuIEFuIGVuZAordXNlciBpcyBh
+YmxlIHRvIGhvdC11bnBsdWcgdGhpcyBraW5kIG9mIGRldmljZXMgd2hpbGUgdGhleSBhcmUgYmVp
+bmcKK3VzZWQsIGFuZCBleHBlY3RzIHRoYXQgdGhlIHZlcnkgbGVhc3QgdGhlIG1hY2hpbmUgZG9l
+cyBub3QgY3Jhc2guIEFueQorZGFtYWdlIGZyb20gaG90LXVucGx1Z2dpbmcgYSBEUk0gZGV2aWNl
+IG5lZWRzIHRvIGJlIGxpbWl0ZWQgYXMgbXVjaCBhcworcG9zc2libGUgYW5kIHVzZXJzcGFjZSBt
+dXN0IGJlIGdpdmVuIHRoZSBjaGFuY2UgdG8gaGFuZGxlIGl0IGlmIGl0IHdhbnRzCit0by4gSWRl
+YWxseSwgdW5wbHVnZ2luZyBhIERSTSBkZXZpY2Ugc3RpbGwgbGV0cyBhIGRlc2t0b3AgY29udGlu
+dWUgdG8KK3J1biwgYnV0IHRoYXQgaXMgZ29pbmcgdG8gbmVlZCBleHBsaWNpdCBzdXBwb3J0IHRo
+cm91Z2hvdXQgdGhlIHdob2xlCitncmFwaGljcyBzdGFjazogZnJvbSBrZXJuZWwgYW5kIHVzZXJz
+cGFjZSBkcml2ZXJzLCB0aHJvdWdoIGRpc3BsYXkKK3NlcnZlcnMsIHZpYSB3aW5kb3cgc3lzdGVt
+IHByb3RvY29scywgYW5kIGluIGFwcGxpY2F0aW9ucyBhbmQgbGlicmFyaWVzLgorCitPdGhlciBz
+Y2VuYXJpb3MgdGhhdCBzaG91bGQgbGVhZCB0byB0aGUgc2FtZSBhcmU6IHVucmVjb3ZlcmFibGUg
+R1BVCitjcmFzaCwgUENJIGRldmljZSBkaXNhcHBlYXJpbmcgb2ZmIHRoZSBidXMsIG9yIGZvcmNl
+ZCB1bmJpbmQgb2YgYSBkcml2ZXIKK2Zyb20gdGhlIHBoeXNpY2FsIGRldmljZS4KKworSW4gb3Ro
+ZXIgd29yZHMsIGZyb20gdXNlcnNwYWNlIHBlcnNwZWN0aXZlIGV2ZXJ5dGhpbmcgbmVlZHMgdG8g
+a2VlcCBvbgord29ya2luZyBtb3JlIG9yIGxlc3MsIHVudGlsIHVzZXJzcGFjZSBzdG9wcyB1c2lu
+ZyB0aGUgZGlzYXBwZWFyZWQgRFJNCitkZXZpY2UgYW5kIGNsb3NlcyBpdCBjb21wbGV0ZWx5LiBV
+c2Vyc3BhY2Ugd2lsbCBsZWFybiBvZiB0aGUgZGV2aWNlCitkaXNhcHBlYXJhbmNlIGZyb20gdGhl
+IGRldmljZSByZW1vdmVkIHVldmVudCwgaW9jdGxzIHJldHVybmluZyBFTk9ERVYKKyhvciBkcml2
+ZXItc3BlY2lmaWMgaW9jdGxzIHJldHVybmluZyBkcml2ZXItc3BlY2lmaWMgdGhpbmdzKSwgb3Ig
+b3BlbigpCityZXR1cm5pbmcgRU5YSU8uCisKK09ubHkgYWZ0ZXIgdXNlcnNwYWNlIGhhcyBjbG9z
+ZWQgYWxsIHJlbGV2YW50IERSTSBkZXZpY2UgYW5kIGRtYWJ1ZiBmaWxlCitkZXNjcmlwdG9ycyBh
+bmQgcmVtb3ZlZCBhbGwgbW1hcHMsIHRoZSBEUk0gZHJpdmVyIGNhbiB0ZWFyIGRvd24gaXRzCitp
+bnN0YW5jZSBmb3IgdGhlIGRldmljZSB0aGF0IG5vIGxvbmdlciBleGlzdHMuIElmIHRoZSBzYW1l
+IHBoeXNpY2FsCitkZXZpY2Ugc29tZWhvdyBjb21lcyBiYWNrIGluIHRoZSBtZWFuIHRpbWUsIGl0
+IHNoYWxsIGJlIGEgbmV3IERSTQorZGV2aWNlLgorCitTaW1pbGFyIHRvIFBJRHMsIGNoYXJkZXYg
+bWlub3IgbnVtYmVycyBhcmUgbm90IHJlY3ljbGVkIGltbWVkaWF0ZWx5LiBBCituZXcgRFJNIGRl
+dmljZSBhbHdheXMgcGlja3MgdGhlIG5leHQgZnJlZSBtaW5vciBudW1iZXIgY29tcGFyZWQgdG8g
+dGhlCitwcmV2aW91cyBvbmUgYWxsb2NhdGVkLCBhbmQgd3JhcHMgYXJvdW5kIHdoZW4gbWlub3Ig
+bnVtYmVycyBhcmUKK2V4aGF1c3RlZC4KKworVGhlIGdvYWwgcmFpc2VzIGF0IGxlYXN0IHRoZSBm
+b2xsb3dpbmcgcmVxdWlyZW1lbnRzIGZvciB0aGUga2VybmVsIGFuZAorZHJpdmVycy4KKworUmVx
+dWlyZW1lbnRzIGZvciBLTVMgVUFQSQorLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorCistIEtN
+UyBjb25uZWN0b3JzIG11c3QgY2hhbmdlIHRoZWlyIHN0YXR1cyB0byBkaXNjb25uZWN0ZWQuCisK
+Ky0gTGVnYWN5IG1vZGVzZXRzIGFuZCBwYWdlZmxpcHMsIGFuZCBhdG9taWMgY29tbWl0cywgYm90
+aCByZWFsIGFuZAorICBURVNUX09OTFksIGFuZCBhbnkgb3RoZXIgaW9jdGxzIGVpdGhlciBmYWls
+IHdpdGggRU5PREVWIG9yIGZha2UKKyAgc3VjY2Vzcy4KKworLSBQZW5kaW5nIG5vbi1ibG9ja2lu
+ZyBLTVMgb3BlcmF0aW9ucyBkZWxpdmVyIHRoZSBEUk0gZXZlbnRzIHVzZXJzcGFjZQorICBpcyBl
+eHBlY3RpbmcuIFRoaXMgYXBwbGllcyBhbHNvIHRvIGlvY3RscyB0aGF0IGZha2VkIHN1Y2Nlc3Mu
+CisKKy0gb3BlbigpIG9uIGEgZGV2aWNlIG5vZGUgd2hvc2UgdW5kZXJseWluZyBkZXZpY2UgaGFz
+IGRpc2FwcGVhcmVkIHdpbGwKKyAgZmFpbCB3aXRoIEVOWElPLgorCistIEF0dGVtcHRpbmcgdG8g
+Y3JlYXRlIGEgRFJNIGxlYXNlIG9uIGEgZGlzYXBwZWFyZWQgRFJNIGRldmljZSB3aWxsCisgIGZh
+aWwgd2l0aCBFTk9ERVYuIEV4aXN0aW5nIERSTSBsZWFzZXMgcmVtYWluIGFuZCB3b3JrIGFzIGxp
+c3RlZAorICBhYm92ZS4KKworUmVxdWlyZW1lbnRzIGZvciBSZW5kZXIgYW5kIENyb3NzLURldmlj
+ZSBVQVBJCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKwor
+LSBBbGwgR1BVIGpvYnMgdGhhdCBjYW4gbm8gbG9uZ2VyIHJ1biBtdXN0IGhhdmUgdGhlaXIgZmVu
+Y2VzCisgIGZvcmNlLXNpZ25hbGxlZCB0byBhdm9pZCBpbmZsaWN0aW5nIGhhbmdzIG9uIHVzZXJz
+cGFjZS4KKyAgVGhlIGFzc29jaWF0ZWQgZXJyb3IgY29kZSBpcyBFTk9ERVYuCisKKy0gU29tZSB1
+c2Vyc3BhY2UgQVBJcyBhbHJlYWR5IGRlZmluZSB3aGF0IHNob3VsZCBoYXBwZW4gd2hlbiB0aGUg
+ZGV2aWNlCisgIGRpc2FwcGVhcnMgKE9wZW5HTCwgR0wgRVM6IGBHTF9LSFJfcm9idXN0bmVzc2Bf
+OyBgVnVsa2FuYF86CisgIFZLX0VSUk9SX0RFVklDRV9MT1NUOyBldGMuKS4gRFJNIGRyaXZlcnMg
+YXJlIGZyZWUgdG8gaW1wbGVtZW50IHRoaXMKKyAgYmVoYXZpb3VyIHRoZSB3YXkgdGhleSBzZWUg
+YmVzdCwgZS5nLiByZXR1cm5pbmcgZmFpbHVyZXMgaW4KKyAgZHJpdmVyLXNwZWNpZmljIGlvY3Rs
+cyBhbmQgaGFuZGxpbmcgdGhvc2UgaW4gdXNlcnNwYWNlIGRyaXZlcnMsIG9yCisgIHJlbHkgb24g
+dWV2ZW50cywgYW5kIHNvIG9uLgorCistIGRtYWJ1ZiB3aGljaCBwb2ludCB0byBtZW1vcnkgdGhh
+dCBoYXMgZGlzYXBwZWFyZWQgd2lsbCBlaXRoZXIgZmFpbCB0bworICBpbXBvcnQgd2l0aCBFTk9E
+RVYgb3IgY29udGludWUgdG8gYmUgc3VjY2Vzc2Z1bGx5IGltcG9ydGVkIGlmIGl0IHdvdWxkCisg
+IGhhdmUgc3VjY2VlZGVkIGJlZm9yZSB0aGUgZGlzYXBwZWFyYW5jZS4gU2VlIGFsc28gYWJvdXQg
+bWVtb3J5IG1hcHMKKyAgYmVsb3cgZm9yIGFscmVhZHkgaW1wb3J0ZWQgZG1hYnVmcy4KKworLSBB
+dHRlbXB0aW5nIHRvIGltcG9ydCBhIGRtYWJ1ZiB0byBhIGRpc2FwcGVhcmVkIGRldmljZSB3aWxs
+IGVpdGhlciBmYWlsCisgIHdpdGggRU5PREVWIG9yIHN1Y2NlZWQgaWYgaXQgd291bGQgaGF2ZSBz
+dWNjZWVkZWQgd2l0aG91dCB0aGUKKyAgZGlzYXBwZWFyYW5jZS4KKworLSBvcGVuKCkgb24gYSBk
+ZXZpY2Ugbm9kZSB3aG9zZSB1bmRlcmx5aW5nIGRldmljZSBoYXMgZGlzYXBwZWFyZWQgd2lsbAor
+ICBmYWlsIHdpdGggRU5YSU8uCisKKy4uIF9HTF9LSFJfcm9idXN0bmVzczogaHR0cHM6Ly93d3cu
+a2hyb25vcy5vcmcvcmVnaXN0cnkvT3BlbkdML2V4dGVuc2lvbnMvS0hSL0tIUl9yb2J1c3RuZXNz
+LnR4dAorLi4gX1Z1bGthbjogaHR0cHM6Ly93d3cua2hyb25vcy5vcmcvdnVsa2FuLworCitSZXF1
+aXJlbWVudHMgZm9yIE1lbW9yeSBNYXBzCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisK
+K01lbW9yeSBtYXBzIGhhdmUgZnVydGhlciByZXF1aXJlbWVudHMgdGhhdCBhcHBseSB0byBib3Ro
+IGV4aXN0aW5nIG1hcHMKK2FuZCBtYXBzIGNyZWF0ZWQgYWZ0ZXIgdGhlIGRldmljZSBoYXMgZGlz
+YXBwZWFyZWQuIElmIHRoZSB1bmRlcmx5aW5nCittZW1vcnkgZGlzYXBwZWFycywgdGhlIG1hcCBp
+cyBjcmVhdGVkIG9yIG1vZGlmaWVkIHN1Y2ggdGhhdCByZWFkcyBhbmQKK3dyaXRlcyB3aWxsIHN0
+aWxsIGNvbXBsZXRlIHN1Y2Nlc3NmdWxseSBidXQgdGhlIHJlc3VsdCBpcyB1bmRlZmluZWQuCitU
+aGlzIGFwcGxpZXMgdG8gYm90aCB1c2Vyc3BhY2UgbW1hcCgpJ2QgbWVtb3J5IGFuZCBtZW1vcnkg
+cG9pbnRlZCB0byBieQorZG1hYnVmIHdoaWNoIG1pZ2h0IGJlIG1hcHBlZCB0byBvdGhlciBkZXZp
+Y2VzIChjcm9zcy1kZXZpY2UgZG1hYnVmCitpbXBvcnRzKS4KKworUmFpc2luZyBTSUdCVVMgaXMg
+bm90IGFuIG9wdGlvbiwgYmVjYXVzZSB1c2Vyc3BhY2UgY2Fubm90IHJlYWxpc3RpY2FsbHkKK2hh
+bmRsZSBpdC4gU2lnbmFsIGhhbmRsZXJzIGFyZSBnbG9iYWwsIHdoaWNoIG1ha2VzIHRoZW0gZXh0
+cmVtZWx5CitkaWZmaWN1bHQgdG8gdXNlIGNvcnJlY3RseSBmcm9tIGxpYnJhcmllcyBsaWtlIHRo
+b3NlIHRoYXQgTWVzYSBwcm9kdWNlcy4KK1NpZ25hbCBoYW5kbGVycyBhcmUgbm90IGNvbXBvc2Fi
+bGUsIHlvdSBjYW4ndCBoYXZlIGRpZmZlcmVudCBoYW5kbGVycworZm9yIEdQVTEgYW5kIEdQVTIg
+ZnJvbSBkaWZmZXJlbnQgdmVuZG9ycywgYW5kIGEgdGhpcmQgaGFuZGxlciBmb3IKK21tYXBwZWQg
+cmVndWxhciBmaWxlcy4gVGhyZWFkcyBjYXVzZSBhZGRpdGlvbmFsIHBhaW4gd2l0aCBzaWduYWwK
+K2hhbmRsaW5nIGFzIHdlbGwuCisKIC4uIF9kcm1fZHJpdmVyX2lvY3RsOgogCiBJT0NUTCBTdXBw
+b3J0IG9uIERldmljZSBOb2RlcwpAQCAtMTk5LDcgKzMxMSw3IEBAIEVQRVJNL0VBQ0NFUzoKICAg
+ICAgICAgZGlmZmVyZW5jZSBiZXR3ZWVuIEVBQ0NFUyBhbmQgRVBFUk0uCiAKIEVOT0RFVjoKLSAg
+ICAgICAgVGhlIGRldmljZSBpcyBub3QgKHlldCkgcHJlc2VudCBvciBmdWxseSBpbml0aWFsaXpl
+ZC4KKyAgICAgICAgVGhlIGRldmljZSBpcyBub3QgcHJlc2VudCBhbnltb3JlIG9yIGlzIG5vdCB5
+ZXQgZnVsbHkgaW5pdGlhbGl6ZWQuCiAKIEVPUE5PVFNVUFA6CiAgICAgICAgIEZlYXR1cmUgKGxp
+a2UgUFJJTUUsIG1vZGVzZXR0aW5nLCBHRU0pIGlzIG5vdCBzdXBwb3J0ZWQgYnkgdGhlIGRyaXZl
+ci4KLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
