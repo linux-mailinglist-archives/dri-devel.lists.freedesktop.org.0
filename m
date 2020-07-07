@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367C8218070
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4889F218069
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D89646E88D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 612D86E87F;
 	Wed,  8 Jul 2020 07:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8216E348
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:05:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385466E448
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 18:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=Uy8yJX+vppiMsr/LbFCCYFmBCFPFPsjcjKfD38DWB7A=; b=sxkrQiQdnrmXTHTrkBRYk3GyhK
- 3MoKQhb+VfxX97H4vExjQgOEnyoL1sepIe7MXNHtQG2tERYABfleZ69U31o9ImVgu60K3fIqLAIW6
- ZeDojpK29hd5agAoqQDfiJnK3d6GUED5cwgc+KqUiL5I1+s9/hQCwifXsOzC762dw39q7YyZ2+cGh
- 1vVFdfUD1M5yzAdj/r5cYonsIqgMyL1DyCq+CYPlpT0axL3Ozj+O9LQa+9b6lQq2q3J3Em28VHhlZ
- g6v4Snc4M3hPk/gQB1VHQhx1uCTpN3rM8cxq2bHB3+Ty+Yf7e1ywWOO/booRcPiuYmsyfxSxUi+0O
- NJslNOhA==;
+ bh=S0rI9BPk98gmUpIetVbAsCn3BOBRdoilS5Tyn5oPSmg=; b=SW63xAOOPIV0Xh3xxUIeNap+kY
+ ALmry2FpzQZ0jI9iUzAqI49urTy1wKD5asS4EwWqeqG/T2KFett/U/PmACPaIL0o3PbyJ9LdTxfZL
+ 3ggersKwwbImUnid0cCR44+oihlm2SC/JZCb39fV3Az/D1jNUdg6njOXs5B9dOzl263Kf/dkDl+SL
+ 00sA5VWB7lVyXuGMKBncOCmi7D9xp0Urg0guoUHMF8TQueFkBtlUowlvVJTgAS4fyXOwmCQ3/7wnS
+ UWJtpe+DbKkhmoXJarNKMFVmb+5PztEyxOUv4S5VzZFDFSJ+Fe05iG+SvVl16eLygiI5uFUMlA7vE
+ NJaSwpkQ==;
 Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
  (helo=smtpauth.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jsrxZ-0004JY-4V; Tue, 07 Jul 2020 18:04:49 +0000
+ id 1jsrxj-0004JY-Qd; Tue, 07 Jul 2020 18:05:00 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 02/20] Documentation: block: eliminate duplicated word
-Date: Tue,  7 Jul 2020 11:03:56 -0700
-Message-Id: <20200707180414.10467-3-rdunlap@infradead.org>
+Subject: [PATCH 03/20] Documentation: printk-basics: eliminate duplicated word
+Date: Tue,  7 Jul 2020 11:03:57 -0700
+Message-Id: <20200707180414.10467-4-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
 References: <20200707180414.10467-1-rdunlap@infradead.org>
@@ -86,28 +86,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the doubled word "the" to "to the".
+Drop the doubled word "the".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org
 ---
- Documentation/block/pr.rst |    2 +-
+ Documentation/core-api/printk-basics.rst |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20200701.orig/Documentation/block/pr.rst
-+++ linux-next-20200701/Documentation/block/pr.rst
-@@ -9,7 +9,7 @@ access to block devices to specific init
- setup.
+--- linux-next-20200701.orig/Documentation/core-api/printk-basics.rst
++++ linux-next-20200701/Documentation/core-api/printk-basics.rst
+@@ -69,7 +69,7 @@ You can check the current *console_logle
+ The result shows the *current*, *default*, *minimum* and *boot-time-default* log
+ levels.
  
- This document gives a general overview of the support ioctl commands.
--For a more detailed reference please refer the the SCSI Primary
-+For a more detailed reference please refer to the SCSI Primary
- Commands standard, specifically the section on Reservations and the
- "PERSISTENT RESERVE IN" and "PERSISTENT RESERVE OUT" commands.
+-To change the current console_loglevel simply write the the desired level to
++To change the current console_loglevel simply write the desired level to
+ ``/proc/sys/kernel/printk``. For example, to print all messages to the console::
  
+   # echo 8 > /proc/sys/kernel/printk
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
