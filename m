@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF152217914
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 22:14:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0838217921
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 22:16:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C08BE6E7DC;
-	Tue,  7 Jul 2020 20:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B99706E127;
+	Tue,  7 Jul 2020 20:16:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02A489A86
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 20:13:13 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id l17so484343wmj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 13:13:13 -0700 (PDT)
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F17F66E127
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 20:16:07 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id g37so11549872otb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 13:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DeIRR+4Yv9M7JzWWxZocQHSHEBCrCTlDKNrWvHw6yF4=;
- b=jIDMowCUyzG8CkLAn2NLL7I6q/9s9/dhA2gw4OfXUGjEPfGkK+xOcNqyzEw3R61YUU
- Vlgtt1aWmXhEWo2cMbhKBEi9iOv785ls1Pqu94tN/HzeaTKTWj+nlsDSK2/X7U4WSFL5
- zEYYab9TaErxLChxQ5eUXQ/vANPVIgqpQrGqs=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a+22N0fOpcCS5SHpYTI8THu7MMRhiQaejeBMyTlaahU=;
+ b=EquUuifwfhsn/ix0vmpEHhAWfsmW4GalHdONr5DM1bS3GG8s73FmBJVOi7ONS0teOA
+ fWn/i0UEBW86n3c9iK2FRAydkU4ZbFvDt0vOmKTAeMp8ijQSXZ7vFDbFNohMsiEWsbNF
+ w31u2sc9MX8Urpfldbhli3ecRj1Y0U98myQEo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DeIRR+4Yv9M7JzWWxZocQHSHEBCrCTlDKNrWvHw6yF4=;
- b=nszYGxdIuZE4O1xYyQOnNlcPkhdA7IHoNOF48sOvy3myIVYgOz9gBLmacHpNluXB1B
- N0yCukcVrbRVztGkOo/tO1UrwhjmgOfCufwSP3ak2xs3t1qwjIWE1j4UcqfLhYsNAqHX
- dGV0XwcEFk86I9o8zZ4y+3AZS0Z2v1voJ+G+o8n91SorfVeMfIctChDc7rhmMeEvD9tx
- 5wcyaLFp9JND4lQ1IZoQcQjJBLPZaYizC2yieQM2VzXajDc3Js0KSSyt6o2lV90NO7Rq
- NygVxXq9/lpaVlwhAHPF1bV2hoVZs2ic6EGWVJuPpJr0peUKWnH2dVQgtLXsKrvC7NNw
- nRgA==
-X-Gm-Message-State: AOAM533AkzHBzlrnn8zo9hHz80hIg8PD866M2TEoOnRiMEaGBlEyRhVW
- kzFOLGLk0AjdIQ2PTluYaAUNEhJBbRU=
-X-Google-Smtp-Source: ABdhPJxx55VjJwo1COMRMkZAsK7uwSj0FqCY2zR7u0gfnFixjoWQWU05A+QICXDp4ExbPly8zypLkA==
-X-Received: by 2002:a05:600c:4143:: with SMTP id
- h3mr6102164wmm.131.1594152791799; 
- Tue, 07 Jul 2020 13:13:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q7sm2515262wra.56.2020.07.07.13.13.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jul 2020 13:13:11 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 25/25] drm/amdgpu: gpu recovery does full modesets
-Date: Tue,  7 Jul 2020 22:12:29 +0200
-Message-Id: <20200707201229.472834-26-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a+22N0fOpcCS5SHpYTI8THu7MMRhiQaejeBMyTlaahU=;
+ b=bQD8b3SK8XZW67YoX83QAC3athyBX1BlOYAtgidaKXbfU5hoTdaMlqsONpHdiUlEYx
+ Z44Q/17dp+eS5CV1Nm2oBhZUNAGOeG0r1J4RfuIfzs5lZ+FoU1o/bkdcNjxUpZjkprYV
+ yxjQWD1kAUGN1afjYGBy7t45cJiH+gfIJJcfbuXuXl5T4ZfHM5Ok01lXG63fMYd7x4Mw
+ kapfO0i+BD5ntfT1/18ZIq3x5aNwgs8GJkOauaCYHn1VwUJ66BqRCyo7rLZfpRniHt3E
+ JOhd6iI9GQzDdLeA7XnLjjBfXLof5DAGLcE07D6A2mfhfJ+Z1T/1kNRsSgheXTMAABHg
+ CeNw==
+X-Gm-Message-State: AOAM530AB92S7CIftYCdZDGczjJc5sUmNHkD30wZqjyZenShXOzfGtgh
+ gPmEGSJ0eTvuFoZi52ZTVhYrlR6REeQ8Iyh9FvPZag==
+X-Google-Smtp-Source: ABdhPJxZo5c6iIUJ30q5a3nuvLIprlOH0NzgEJW0dD3q2qDU+xjWouYsQQ7QkXbQ3RBiEnN104Wzdb7SFXvvZUGZHaI=
+X-Received: by 2002:a05:6830:1d0:: with SMTP id
+ r16mr36474224ota.188.1594152967004; 
+ Tue, 07 Jul 2020 13:16:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200703184546.144664-1-sam@ravnborg.org>
+ <20200703184546.144664-18-sam@ravnborg.org>
+ <20200707054820.GF3278063@phenom.ffwll.local>
+ <20200707195928.GA18394@ravnborg.org>
+In-Reply-To: <20200707195928.GA18394@ravnborg.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 7 Jul 2020 22:15:55 +0200
+Message-ID: <CAKMK7uGAgYNZKRx6h0h1dL=Q8CUbxBkomAb2V=vMenx6VnHzzw@mail.gmail.com>
+Subject: Re: [PATCH v4 17/20] backlight: use backligt_get_brightness()
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,176 +61,503 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm <linux-pwm@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, Andy Gross <agross@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ patches@opensource.cirrus.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Li4uCgpJIHRoaW5rIGl0J3MgdGltZSB0byBzdG9wIHRoaXMgbGl0dGxlIGV4ZXJjaXNlLgoKVGhl
-IGxvY2tkZXAgc3BsYXQsIGZvciB0aGUgcmVjb3JkOgoKWyAgMTMyLjU4MzM4MV0gPT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ClsgIDEzMi41ODQw
-OTFdIFdBUk5JTkc6IHBvc3NpYmxlIGNpcmN1bGFyIGxvY2tpbmcgZGVwZW5kZW5jeSBkZXRlY3Rl
-ZApbICAxMzIuNTg0Nzc1XSA1LjcuMC1yYzMrICMzNDYgVGFpbnRlZDogRyAgICAgICAgVwpbICAx
-MzIuNTg1NDYxXSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0KWyAgMTMyLjU4NjE4NF0ga3dvcmtlci8yOjMvODY1IGlzIHRyeWluZyB0byBhY3F1
-aXJlIGxvY2s6ClsgIDEzMi41ODY4NTddIGZmZmZjOTAwMDA2NzdjNzAgKGNydGNfd3dfY2xhc3Nf
-YWNxdWlyZSl7Ky4rLn0tezA6MH0sIGF0OiBkcm1fYXRvbWljX2hlbHBlcl9zdXNwZW5kKzB4Mzgv
-MHgxMjAgW2RybV9rbXNfaGVscGVyXQpbICAxMzIuNTg3NTY5XQogICAgICAgICAgICAgICBidXQg
-dGFzayBpcyBhbHJlYWR5IGhvbGRpbmcgbG9jazoKWyAgMTMyLjU4OTA0NF0gZmZmZmZmZmY4MjMx
-OGM4MCAoZG1hX2ZlbmNlX21hcCl7KysrK30tezA6MH0sIGF0OiBkcm1fc2NoZWRfam9iX3RpbWVk
-b3V0KzB4MjUvMHhmMCBbZ3B1X3NjaGVkXQpbICAxMzIuNTg5ODAzXQogICAgICAgICAgICAgICB3
-aGljaCBsb2NrIGFscmVhZHkgZGVwZW5kcyBvbiB0aGUgbmV3IGxvY2suCgpbICAxMzIuNTkyMDA5
-XQogICAgICAgICAgICAgICB0aGUgZXhpc3RpbmcgZGVwZW5kZW5jeSBjaGFpbiAoaW4gcmV2ZXJz
-ZSBvcmRlcikgaXM6ClsgIDEzMi41OTM1MDddCiAgICAgICAgICAgICAgIC0+ICMyIChkbWFfZmVu
-Y2VfbWFwKXsrKysrfS17MDowfToKWyAgMTMyLjU5NTAxOV0gICAgICAgIGRtYV9mZW5jZV9iZWdp
-bl9zaWduYWxsaW5nKzB4NTAvMHg2MApbICAxMzIuNTk1NzY3XSAgICAgICAgZHJtX2F0b21pY19o
-ZWxwZXJfY29tbWl0KzB4YTEvMHgxODAgW2RybV9rbXNfaGVscGVyXQpbICAxMzIuNTk2NTY3XSAg
-ICAgICAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9hdG9taWMrMHgxZWEvMHgyNTAgW2RybV0K
-WyAgMTMyLjU5NzQyMF0gICAgICAgIGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfbG9ja2VkKzB4
-NTUvMHgxOTAgW2RybV0KWyAgMTMyLjU5ODE3OF0gICAgICAgIGRybV9jbGllbnRfbW9kZXNldF9j
-b21taXQrMHgyNC8weDQwIFtkcm1dClsgIDEzMi41OTg5NDhdICAgICAgICBkcm1fZmJfaGVscGVy
-X3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxvY2tlZCsweDRiLzB4YTAgW2RybV9rbXNfaGVscGVyXQpb
-ICAxMzIuNTk5NzM4XSAgICAgICAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFyKzB4MzAvMHg0MCBbZHJt
-X2ttc19oZWxwZXJdClsgIDEzMi42MDA1MzldICAgICAgICBmYmNvbl9pbml0KzB4MmU4LzB4NjYw
-ClsgIDEzMi42MDEzNDRdICAgICAgICB2aXN1YWxfaW5pdCsweGNlLzB4MTMwClsgIDEzMi42MDIx
-NTZdICAgICAgICBkb19iaW5kX2Nvbl9kcml2ZXIrMHgxYmMvMHgyYjAKWyAgMTMyLjYwMjk3MF0g
-ICAgICAgIGRvX3Rha2Vfb3Zlcl9jb25zb2xlKzB4MTE1LzB4MTgwClsgIDEzMi42MDM3NjNdICAg
-ICAgICBkb19mYmNvbl90YWtlb3ZlcisweDU4LzB4YjAKWyAgMTMyLjYwNDU2NF0gICAgICAgIHJl
-Z2lzdGVyX2ZyYW1lYnVmZmVyKzB4MWVlLzB4MzAwClsgIDEzMi42MDUzNjldICAgICAgICBfX2Ry
-bV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5kX3VubG9jaysweDM2ZS8weDUyMCBbZHJtX2tt
-c19oZWxwZXJdClsgIDEzMi42MDYxODddICAgICAgICBhbWRncHVfZmJkZXZfaW5pdCsweGIzLzB4
-ZjAgW2FtZGdwdV0KWyAgMTMyLjYwNzAzMl0gICAgICAgIGFtZGdwdV9kZXZpY2VfaW5pdC5jb2xk
-KzB4ZTkwLzB4MTY3NyBbYW1kZ3B1XQpbICAxMzIuNjA3ODYyXSAgICAgICAgYW1kZ3B1X2RyaXZl
-cl9sb2FkX2ttcysweDVhLzB4MjAwIFthbWRncHVdClsgIDEzMi42MDg2OTddICAgICAgICBhbWRn
-cHVfcGNpX3Byb2JlKzB4ZjcvMHgxODAgW2FtZGdwdV0KWyAgMTMyLjYwOTUxMV0gICAgICAgIGxv
-Y2FsX3BjaV9wcm9iZSsweDQyLzB4ODAKWyAgMTMyLjYxMDMyNF0gICAgICAgIHBjaV9kZXZpY2Vf
-cHJvYmUrMHgxMDQvMHgxYTAKWyAgMTMyLjYxMTEzMF0gICAgICAgIHJlYWxseV9wcm9iZSsweDE0
-Ny8weDNjMApbICAxMzIuNjExOTM5XSAgICAgICAgZHJpdmVyX3Byb2JlX2RldmljZSsweGI2LzB4
-MTAwClsgIDEzMi42MTI3NjZdICAgICAgICBkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDUzLzB4NjAK
-WyAgMTMyLjYxMzU5M10gICAgICAgIF9fZHJpdmVyX2F0dGFjaCsweDhjLzB4MTUwClsgIDEzMi42
-MTQ0MTldICAgICAgICBidXNfZm9yX2VhY2hfZGV2KzB4N2IvMHhjMApbICAxMzIuNjE1MjQ5XSAg
-ICAgICAgYnVzX2FkZF9kcml2ZXIrMHgxNGMvMHgxZjAKWyAgMTMyLjYxNjA3MV0gICAgICAgIGRy
-aXZlcl9yZWdpc3RlcisweDZjLzB4YzAKWyAgMTMyLjYxNjkwMl0gICAgICAgIGRvX29uZV9pbml0
-Y2FsbCsweDVkLzB4MmYwClsgIDEzMi42MTc3MzFdICAgICAgICBkb19pbml0X21vZHVsZSsweDVj
-LzB4MjMwClsgIDEzMi42MTg1NjBdICAgICAgICBsb2FkX21vZHVsZSsweDI5ODEvMHgyYmMwClsg
-IDEzMi42MTkzOTFdICAgICAgICBfX2RvX3N5c19maW5pdF9tb2R1bGUrMHhhYS8weDExMApbICAx
-MzIuNjIwMjI4XSAgICAgICAgZG9fc3lzY2FsbF82NCsweDVhLzB4MjUwClsgIDEzMi42MjEwNjRd
-ICAgICAgICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0OS8weGIzClsgIDEzMi42
-MjE5MDNdCiAgICAgICAgICAgICAgIC0+ICMxIChjcnRjX3d3X2NsYXNzX211dGV4KXsrLisufS17
-MzozfToKWyAgMTMyLjYyMzU4N10gICAgICAgIF9fd3dfbXV0ZXhfbG9jay5jb25zdHByb3AuMCsw
-eGNjLzB4MTBjMApbICAxMzIuNjI0NDQ4XSAgICAgICAgd3dfbXV0ZXhfbG9jaysweDQzLzB4YjAK
-WyAgMTMyLjYyNTMxNV0gICAgICAgIGRybV9tb2Rlc2V0X2xvY2srMHg0NC8weDEyMCBbZHJtXQpb
-ICAxMzIuNjI2MTg0XSAgICAgICAgZHJtbV9tb2RlX2NvbmZpZ19pbml0KzB4MmRiLzB4OGIwIFtk
-cm1dClsgIDEzMi42MjcwOThdICAgICAgICBhbWRncHVfZGV2aWNlX2luaXQuY29sZCsweGJkMS8w
-eDE2NzcgW2FtZGdwdV0KWyAgMTMyLjYyODAwN10gICAgICAgIGFtZGdwdV9kcml2ZXJfbG9hZF9r
-bXMrMHg1YS8weDIwMCBbYW1kZ3B1XQpbICAxMzIuNjI4OTIwXSAgICAgICAgYW1kZ3B1X3BjaV9w
-cm9iZSsweGY3LzB4MTgwIFthbWRncHVdClsgIDEzMi42Mjk4MDRdICAgICAgICBsb2NhbF9wY2lf
-cHJvYmUrMHg0Mi8weDgwClsgIDEzMi42MzA2OTBdICAgICAgICBwY2lfZGV2aWNlX3Byb2JlKzB4
-MTA0LzB4MWEwClsgIDEzMi42MzE1ODNdICAgICAgICByZWFsbHlfcHJvYmUrMHgxNDcvMHgzYzAK
-WyAgMTMyLjYzMjQ3OV0gICAgICAgIGRyaXZlcl9wcm9iZV9kZXZpY2UrMHhiNi8weDEwMApbICAx
-MzIuNjMzMzc5XSAgICAgICAgZGV2aWNlX2RyaXZlcl9hdHRhY2grMHg1My8weDYwClsgIDEzMi42
-MzQyNzVdICAgICAgICBfX2RyaXZlcl9hdHRhY2grMHg4Yy8weDE1MApbICAxMzIuNjM1MTcwXSAg
-ICAgICAgYnVzX2Zvcl9lYWNoX2RldisweDdiLzB4YzAKWyAgMTMyLjYzNjA2OV0gICAgICAgIGJ1
-c19hZGRfZHJpdmVyKzB4MTRjLzB4MWYwClsgIDEzMi42MzY5NzRdICAgICAgICBkcml2ZXJfcmVn
-aXN0ZXIrMHg2Yy8weGMwClsgIDEzMi42Mzc4NzBdICAgICAgICBkb19vbmVfaW5pdGNhbGwrMHg1
-ZC8weDJmMApbICAxMzIuNjM4NzY1XSAgICAgICAgZG9faW5pdF9tb2R1bGUrMHg1Yy8weDIzMApb
-ICAxMzIuNjM5NjU0XSAgICAgICAgbG9hZF9tb2R1bGUrMHgyOTgxLzB4MmJjMApbICAxMzIuNjQw
-NTIyXSAgICAgICAgX19kb19zeXNfZmluaXRfbW9kdWxlKzB4YWEvMHgxMTAKWyAgMTMyLjY0MTM3
-Ml0gICAgICAgIGRvX3N5c2NhbGxfNjQrMHg1YS8weDI1MApbICAxMzIuNjQyMjAzXSAgICAgICAg
-ZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NDkvMHhiMwpbICAxMzIuNjQzMDIyXQog
-ICAgICAgICAgICAgICAtPiAjMCAoY3J0Y193d19jbGFzc19hY3F1aXJlKXsrLisufS17MDowfToK
-WyAgMTMyLjY0NDY0M10gICAgICAgIF9fbG9ja19hY3F1aXJlKzB4MTI0MS8weDIzZjAKWyAgMTMy
-LjY0NTQ2OV0gICAgICAgIGxvY2tfYWNxdWlyZSsweGFkLzB4MzcwClsgIDEzMi42NDYyNzRdICAg
-ICAgICBkcm1fbW9kZXNldF9hY3F1aXJlX2luaXQrMHhkMi8weDEwMCBbZHJtXQpbICAxMzIuNjQ3
-MDcxXSAgICAgICAgZHJtX2F0b21pY19oZWxwZXJfc3VzcGVuZCsweDM4LzB4MTIwIFtkcm1fa21z
-X2hlbHBlcl0KWyAgMTMyLjY0NzkwMl0gICAgICAgIGRtX3N1c3BlbmQrMHgxYy8weDYwIFthbWRn
-cHVdClsgIDEzMi42NDg2OThdICAgICAgICBhbWRncHVfZGV2aWNlX2lwX3N1c3BlbmRfcGhhc2Ux
-KzB4ODMvMHhlMCBbYW1kZ3B1XQpbICAxMzIuNjQ5NDk4XSAgICAgICAgYW1kZ3B1X2RldmljZV9p
-cF9zdXNwZW5kKzB4MWMvMHg2MCBbYW1kZ3B1XQpbICAxMzIuNjUwMzAwXSAgICAgICAgYW1kZ3B1
-X2RldmljZV9ncHVfcmVjb3Zlci5jb2xkKzB4NGU2LzB4ZTY0IFthbWRncHVdClsgIDEzMi42NTEw
-ODRdICAgICAgICBhbWRncHVfam9iX3RpbWVkb3V0KzB4ZmIvMHgxNTAgW2FtZGdwdV0KWyAgMTMy
-LjY1MTgyNV0gICAgICAgIGRybV9zY2hlZF9qb2JfdGltZWRvdXQrMHg4YS8weGYwIFtncHVfc2No
-ZWRdClsgIDEzMi42NTI1OTRdICAgICAgICBwcm9jZXNzX29uZV93b3JrKzB4MjNjLzB4NTgwClsg
-IDEzMi42NTM0MDJdICAgICAgICB3b3JrZXJfdGhyZWFkKzB4NTAvMHgzYjAKWyAgMTMyLjY1NDEz
-OV0gICAgICAgIGt0aHJlYWQrMHgxMmUvMHgxNTAKWyAgMTMyLjY1NDg2OF0gICAgICAgIHJldF9m
-cm9tX2ZvcmsrMHgyNy8weDUwClsgIDEzMi42NTU1OThdCiAgICAgICAgICAgICAgIG90aGVyIGlu
-Zm8gdGhhdCBtaWdodCBoZWxwIHVzIGRlYnVnIHRoaXM6CgpbICAxMzIuNjU3NzM5XSBDaGFpbiBl
-eGlzdHMgb2Y6CiAgICAgICAgICAgICAgICAgY3J0Y193d19jbGFzc19hY3F1aXJlIC0tPiBjcnRj
-X3d3X2NsYXNzX211dGV4IC0tPiBkbWFfZmVuY2VfbWFwCgpbICAxMzIuNjU5ODc3XSAgUG9zc2li
-bGUgdW5zYWZlIGxvY2tpbmcgc2NlbmFyaW86CgpbICAxMzIuNjYxNDE2XSAgICAgICAgQ1BVMCAg
-ICAgICAgICAgICAgICAgICAgQ1BVMQpbICAxMzIuNjYyMTI2XSAgICAgICAgLS0tLSAgICAgICAg
-ICAgICAgICAgICAgLS0tLQpbICAxMzIuNjYyODQ3XSAgIGxvY2soZG1hX2ZlbmNlX21hcCk7Clsg
-IDEzMi42NjM1NzRdICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NrKGNydGNfd3df
-Y2xhc3NfbXV0ZXgpOwpbICAxMzIuNjY0MzE5XSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgbG9jayhkbWFfZmVuY2VfbWFwKTsKWyAgMTMyLjY2NTA2M10gICBsb2NrKGNydGNfd3dfY2xh
-c3NfYWNxdWlyZSk7ClsgIDEzMi42NjU3OTldCiAgICAgICAgICAgICAgICAqKiogREVBRExPQ0sg
-KioqCgpbICAxMzIuNjY3OTY1XSA0IGxvY2tzIGhlbGQgYnkga3dvcmtlci8yOjMvODY1OgpbICAx
-MzIuNjY4NzAxXSAgIzA6IGZmZmY4ODg3ZmI4MWM5MzggKCh3cV9jb21wbGV0aW9uKWV2ZW50cyl7
-Ky4rLn0tezA6MH0sIGF0OiBwcm9jZXNzX29uZV93b3JrKzB4MWJjLzB4NTgwClsgIDEzMi42Njk0
-NjJdICAjMTogZmZmZmM5MDAwMDY3N2U1OCAoKHdvcmtfY29tcGxldGlvbikoJigmc2NoZWQtPndv
-cmtfdGRyKS0+d29yaykpeysuKy59LXswOjB9LCBhdDogcHJvY2Vzc19vbmVfd29yaysweDFiYy8w
-eDU4MApbICAxMzIuNjcwMjQyXSAgIzI6IGZmZmZmZmZmODIzMThjODAgKGRtYV9mZW5jZV9tYXAp
-eysrKyt9LXswOjB9LCBhdDogZHJtX3NjaGVkX2pvYl90aW1lZG91dCsweDI1LzB4ZjAgW2dwdV9z
-Y2hlZF0KWyAgMTMyLjY3MTAzOV0gICMzOiBmZmZmODg4N2I4NGExNzQ4ICgmYWRldi0+bG9ja19y
-ZXNldCl7Ky4rLn0tezM6M30sIGF0OiBhbWRncHVfZGV2aWNlX2dwdV9yZWNvdmVyLmNvbGQrMHg1
-OWUvMHhlNjQgW2FtZGdwdV0KWyAgMTMyLjY3MTkwMl0KICAgICAgICAgICAgICAgc3RhY2sgYmFj
-a3RyYWNlOgpbICAxMzIuNjczNTE1XSBDUFU6IDIgUElEOiA4NjUgQ29tbToga3dvcmtlci8yOjMg
-VGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgIDUuNy4wLXJjMysgIzM0NgpbICAxMzIuNjc0MzQ3
-XSBIYXJkd2FyZSBuYW1lOiBTeXN0ZW0gbWFudWZhY3R1cmVyIFN5c3RlbSBQcm9kdWN0IE5hbWUv
-UFJJTUUgWDM3MC1QUk8sIEJJT1MgNDAxMSAwNC8xOS8yMDE4ClsgIDEzMi42NzUxOTRdIFdvcmtx
-dWV1ZTogZXZlbnRzIGRybV9zY2hlZF9qb2JfdGltZWRvdXQgW2dwdV9zY2hlZF0KWyAgMTMyLjY3
-NjA0Nl0gQ2FsbCBUcmFjZToKWyAgMTMyLjY3Njg5N10gIGR1bXBfc3RhY2srMHg4Zi8weGQwClsg
-IDEzMi42Nzc3NDhdICBjaGVja19ub25jaXJjdWxhcisweDE2Mi8weDE4MApbICAxMzIuNjc4NjA0
-XSAgPyBzdGFja190cmFjZV9zYXZlKzB4NGIvMHg3MApbICAxMzIuNjc5NDU5XSAgX19sb2NrX2Fj
-cXVpcmUrMHgxMjQxLzB4MjNmMApbICAxMzIuNjgwMzExXSAgbG9ja19hY3F1aXJlKzB4YWQvMHgz
-NzAKWyAgMTMyLjY4MTE2M10gID8gZHJtX2F0b21pY19oZWxwZXJfc3VzcGVuZCsweDM4LzB4MTIw
-IFtkcm1fa21zX2hlbHBlcl0KWyAgMTMyLjY4MjAyMV0gID8gY3B1bWFza19uZXh0KzB4MTYvMHgy
-MApbICAxMzIuNjgyODgwXSAgPyBtb2R1bGVfYXNzZXJ0X211dGV4X29yX3ByZWVtcHQrMHgxNC8w
-eDQwClsgIDEzMi42ODM3MzddICA/IF9fbW9kdWxlX2FkZHJlc3MrMHgyOC8weGYwClsgIDEzMi42
-ODQ2MDFdICBkcm1fbW9kZXNldF9hY3F1aXJlX2luaXQrMHhkMi8weDEwMCBbZHJtXQpbICAxMzIu
-Njg1NDY2XSAgPyBkcm1fYXRvbWljX2hlbHBlcl9zdXNwZW5kKzB4MzgvMHgxMjAgW2RybV9rbXNf
-aGVscGVyXQpbICAxMzIuNjg2MzM1XSAgZHJtX2F0b21pY19oZWxwZXJfc3VzcGVuZCsweDM4LzB4
-MTIwIFtkcm1fa21zX2hlbHBlcl0KWyAgMTMyLjY4NzI1NV0gIGRtX3N1c3BlbmQrMHgxYy8weDYw
-IFthbWRncHVdClsgIDEzMi42ODgxNTJdICBhbWRncHVfZGV2aWNlX2lwX3N1c3BlbmRfcGhhc2Ux
-KzB4ODMvMHhlMCBbYW1kZ3B1XQpbICAxMzIuNjg5MDU3XSAgPyBhbWRncHVfZmVuY2VfcHJvY2Vz
-cysweDRjLzB4MTUwIFthbWRncHVdClsgIDEzMi42ODk5NjNdICBhbWRncHVfZGV2aWNlX2lwX3N1
-c3BlbmQrMHgxYy8weDYwIFthbWRncHVdClsgIDEzMi42OTA4OTNdICBhbWRncHVfZGV2aWNlX2dw
-dV9yZWNvdmVyLmNvbGQrMHg0ZTYvMHhlNjQgW2FtZGdwdV0KWyAgMTMyLjY5MTgxOF0gIGFtZGdw
-dV9qb2JfdGltZWRvdXQrMHhmYi8weDE1MCBbYW1kZ3B1XQpbICAxMzIuNjkyNzA3XSAgZHJtX3Nj
-aGVkX2pvYl90aW1lZG91dCsweDhhLzB4ZjAgW2dwdV9zY2hlZF0KWyAgMTMyLjY5MzU5N10gIHBy
-b2Nlc3Nfb25lX3dvcmsrMHgyM2MvMHg1ODAKWyAgMTMyLjY5NDQ4N10gIHdvcmtlcl90aHJlYWQr
-MHg1MC8weDNiMApbICAxMzIuNjk1MzczXSAgPyBwcm9jZXNzX29uZV93b3JrKzB4NTgwLzB4NTgw
-ClsgIDEzMi42OTYyNjRdICBrdGhyZWFkKzB4MTJlLzB4MTUwClsgIDEzMi42OTcxNTRdICA/IGt0
-aHJlYWRfY3JlYXRlX3dvcmtlcl9vbl9jcHUrMHg3MC8weDcwClsgIDEzMi42OTgwNTddICByZXRf
-ZnJvbV9mb3JrKzB4MjcvMHg1MAoKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzog
-bGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnCkNjOiBsaW51eC1yZG1hQHZnZXIua2VybmVs
-Lm9yZwpDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGludGVsLWdmeEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNv
-LnVrPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVs
-LmNvbT4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KU2ln
-bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jIHwgOCArKysrKysrKwog
-MSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9kZXZpY2UuYwppbmRleCA0NGIzMjFlZWNjM2QuLjkxMGM4NmY1NzdiMiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYwpAQCAtMjQ3Nyw2ICsy
-NDc3LDE0IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2RldmljZV9pcF9zdXNwZW5kX3BoYXNlMShzdHJ1
-Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIAkJLyogZGlzcGxheXMgYXJlIGhhbmRsZWQgc2VwYXJh
-dGVseSAqLwogCQlpZiAoYWRldi0+aXBfYmxvY2tzW2ldLnZlcnNpb24tPnR5cGUgPT0gQU1EX0lQ
-X0JMT0NLX1RZUEVfRENFKSB7CiAJCQkvKiBYWFggaGFuZGxlIGVycm9ycyAqLworCisJCQkvKgor
-CQkJICogVGhpcyBpcyBkbV9zdXNwZW5kLCB3aGljaCBjYWxscyBtb2Rlc2V0IGxvY2tzLCBhbmQK
-KwkJCSAqIHRoYXQgYSBwcmV0dHkgZ29vZCBpbnZlcnNpb24gYWdhaW5zdCBkbWFfZmVuY2Vfc2ln
-bmFsCisJCQkgKiB3aGljaCBncHUgcmVjb3ZlcnkgaXMgc3VwcG9zZWQgdG8gZ3VhcmFudGVlLgor
-CQkJICoKKwkJCSAqIERvbnQgYXNrIG1lIGhvdyB0byBmaXggdGhpcy4KKwkJCSAqLwogCQkJciA9
-IGFkZXYtPmlwX2Jsb2Nrc1tpXS52ZXJzaW9uLT5mdW5jcy0+c3VzcGVuZChhZGV2KTsKIAkJCS8q
-IFhYWCBoYW5kbGUgZXJyb3JzICovCiAJCQlpZiAocikgewotLSAKMi4yNy4wCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Jul 7, 2020 at 9:59 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> On Tue, Jul 07, 2020 at 07:48:20AM +0200, Daniel Vetter wrote:
+> > On Fri, Jul 03, 2020 at 08:45:43PM +0200, Sam Ravnborg wrote:
+> > > Introduce the backlight_get_brightness() helper in all
+> > > video/backlight/* drivers.
+> > > This simplifies the code and align the implementation of the
+> > > update_status() operation across the different backlight drivers.
+> > >
+> > > Some of the drivers gains a little extra functionality by the change
+> > > as they now respect the fb_blank() ioctl.
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> >
+> > This looks really nice!
+> >
+> > Since there's a pile more backlight drivers all over the tree, care to
+> > update the gpu/todo.rst entry with a note that conversions should use
+> > backlight_get_brightness?
+>
+> When I stop doing backlight stuff I will compose a proper
+> todo entry. Right now I hope to get first batch included in upstream.
+
+Sounds all good to me.
+
+> I hope this set can hit upstream.
+> Next it to convert backlight stuff in gpu/drm/ - let me see how that
+> all turns out. One idea is to support embedding struct backlight_device,
+> but I am not sure if this really will fly.
+
+Embedding means you tie the lifetime of the backlight device to the
+lifetime of whatever structure it's embedded in. This might be a
+complete pain, but it might also work out since backlight
+register/unregistering is fairly simple. But I'd be vary, maybe before
+we do that we'll need stuff like device_link between backlight and
+drm_device (to make sure the drm_device never outlives the backlight
+at a device level), and maybe a few other tricks.
+
+Does sound like a lot of head-scratcher fun though to work through all this :-)
+
+Cheers, Daniel
+
+>
+>         Sam
+>
+> > -Daniel
+> >
+> > > ---
+> > >  drivers/video/backlight/88pm860x_bl.c | 13 +------------
+> > >  drivers/video/backlight/adp5520_bl.c  | 10 +---------
+> > >  drivers/video/backlight/adp8860_bl.c  | 10 +---------
+> > >  drivers/video/backlight/adp8870_bl.c  | 10 +---------
+> > >  drivers/video/backlight/bd6107.c      |  7 +------
+> > >  drivers/video/backlight/corgi_lcd.c   |  8 +-------
+> > >  drivers/video/backlight/da903x_bl.c   | 13 +------------
+> > >  drivers/video/backlight/ep93xx_bl.c   |  8 +-------
+> > >  drivers/video/backlight/hp680_bl.c    |  6 +-----
+> > >  drivers/video/backlight/kb3886_bl.c   |  6 +-----
+> > >  drivers/video/backlight/led_bl.c      |  7 +------
+> > >  drivers/video/backlight/lm3533_bl.c   |  8 +-------
+> > >  drivers/video/backlight/locomolcd.c   |  6 +-----
+> > >  drivers/video/backlight/lv5207lp.c    |  7 +------
+> > >  drivers/video/backlight/max8925_bl.c  | 13 +------------
+> > >  drivers/video/backlight/pwm_bl.c      |  7 +------
+> > >  drivers/video/backlight/qcom-wled.c   |  7 +------
+> > >  drivers/video/backlight/tps65217_bl.c | 10 +---------
+> > >  drivers/video/backlight/wm831x_bl.c   | 13 +------------
+> > >  19 files changed, 19 insertions(+), 150 deletions(-)
+> > >
+> > > diff --git a/drivers/video/backlight/88pm860x_bl.c b/drivers/video/backlight/88pm860x_bl.c
+> > > index 20d96a5ac384..25e409bbb1a2 100644
+> > > --- a/drivers/video/backlight/88pm860x_bl.c
+> > > +++ b/drivers/video/backlight/88pm860x_bl.c
+> > > @@ -121,18 +121,7 @@ static int pm860x_backlight_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int pm860x_backlight_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.state & BL_CORE_SUSPENDED)
+> > > -           brightness = 0;
+> > > -
+> > > -   return pm860x_backlight_set(bl, brightness);
+> > > +   return pm860x_backlight_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int pm860x_backlight_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/adp5520_bl.c b/drivers/video/backlight/adp5520_bl.c
+> > > index 0f63f76723a5..686988c3df3a 100644
+> > > --- a/drivers/video/backlight/adp5520_bl.c
+> > > +++ b/drivers/video/backlight/adp5520_bl.c
+> > > @@ -65,15 +65,7 @@ static int adp5520_bl_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int adp5520_bl_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   return adp5520_bl_set(bl, brightness);
+> > > +   return adp5520_bl_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int adp5520_bl_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/adp8860_bl.c b/drivers/video/backlight/adp8860_bl.c
+> > > index 19968104fc47..ddc7f5f0401f 100644
+> > > --- a/drivers/video/backlight/adp8860_bl.c
+> > > +++ b/drivers/video/backlight/adp8860_bl.c
+> > > @@ -361,15 +361,7 @@ static int adp8860_bl_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int adp8860_bl_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   return adp8860_bl_set(bl, brightness);
+> > > +   return adp8860_bl_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int adp8860_bl_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/adp8870_bl.c b/drivers/video/backlight/adp8870_bl.c
+> > > index 4c0032010cfe..8b5213a39527 100644
+> > > --- a/drivers/video/backlight/adp8870_bl.c
+> > > +++ b/drivers/video/backlight/adp8870_bl.c
+> > > @@ -399,15 +399,7 @@ static int adp8870_bl_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int adp8870_bl_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   return adp8870_bl_set(bl, brightness);
+> > > +   return adp8870_bl_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int adp8870_bl_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
+> > > index d5d5fb457e78..515184fbe33a 100644
+> > > --- a/drivers/video/backlight/bd6107.c
+> > > +++ b/drivers/video/backlight/bd6107.c
+> > > @@ -82,12 +82,7 @@ static int bd6107_write(struct bd6107 *bd, u8 reg, u8 data)
+> > >  static int bd6107_backlight_update_status(struct backlight_device *backlight)
+> > >  {
+> > >     struct bd6107 *bd = bl_get_data(backlight);
+> > > -   int brightness = backlight->props.brightness;
+> > > -
+> > > -   if (backlight->props.power != FB_BLANK_UNBLANK ||
+> > > -       backlight->props.fb_blank != FB_BLANK_UNBLANK ||
+> > > -       backlight->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+> > > -           brightness = 0;
+> > > +   int brightness = backlight_get_brightness(backlight);
+> > >
+> > >     if (brightness) {
+> > >             bd6107_write(bd, BD6107_PORTSEL, BD6107_PORTSEL_LEDM(2) |
+> > > diff --git a/drivers/video/backlight/corgi_lcd.c b/drivers/video/backlight/corgi_lcd.c
+> > > index 25ef0cbd7583..33f5d80495e6 100644
+> > > --- a/drivers/video/backlight/corgi_lcd.c
+> > > +++ b/drivers/video/backlight/corgi_lcd.c
+> > > @@ -420,13 +420,7 @@ static int corgi_bl_set_intensity(struct corgi_lcd *lcd, int intensity)
+> > >  static int corgi_bl_update_status(struct backlight_device *bd)
+> > >  {
+> > >     struct corgi_lcd *lcd = bl_get_data(bd);
+> > > -   int intensity = bd->props.brightness;
+> > > -
+> > > -   if (bd->props.power != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > > -
+> > > -   if (bd->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > > +   int intensity = backlight_get_brightness(bd);
+> > >
+> > >     if (corgibl_flags & CORGIBL_SUSPENDED)
+> > >             intensity = 0;
+> > > diff --git a/drivers/video/backlight/da903x_bl.c b/drivers/video/backlight/da903x_bl.c
+> > > index 62540e4bdedb..71f21bbc7a9f 100644
+> > > --- a/drivers/video/backlight/da903x_bl.c
+> > > +++ b/drivers/video/backlight/da903x_bl.c
+> > > @@ -77,18 +77,7 @@ static int da903x_backlight_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int da903x_backlight_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.state & BL_CORE_SUSPENDED)
+> > > -           brightness = 0;
+> > > -
+> > > -   return da903x_backlight_set(bl, brightness);
+> > > +   return da903x_backlight_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int da903x_backlight_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/ep93xx_bl.c b/drivers/video/backlight/ep93xx_bl.c
+> > > index 4149e0b2f83c..2387009d452d 100644
+> > > --- a/drivers/video/backlight/ep93xx_bl.c
+> > > +++ b/drivers/video/backlight/ep93xx_bl.c
+> > > @@ -36,13 +36,7 @@ static int ep93xxbl_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int ep93xxbl_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK ||
+> > > -       bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   return ep93xxbl_set(bl, brightness);
+> > > +   return ep93xxbl_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int ep93xxbl_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/hp680_bl.c b/drivers/video/backlight/hp680_bl.c
+> > > index 8ea42b8d9bc8..9123c33def05 100644
+> > > --- a/drivers/video/backlight/hp680_bl.c
+> > > +++ b/drivers/video/backlight/hp680_bl.c
+> > > @@ -33,12 +33,8 @@ static void hp680bl_send_intensity(struct backlight_device *bd)
+> > >  {
+> > >     unsigned long flags;
+> > >     u16 v;
+> > > -   int intensity = bd->props.brightness;
+> > > +   int intensity = backlight_get_brightness(bd);
+> > >
+> > > -   if (bd->props.power != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > > -   if (bd->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > >     if (hp680bl_suspended)
+> > >             intensity = 0;
+> > >
+> > > diff --git a/drivers/video/backlight/kb3886_bl.c b/drivers/video/backlight/kb3886_bl.c
+> > > index 1dfe13c18925..55794b239cff 100644
+> > > --- a/drivers/video/backlight/kb3886_bl.c
+> > > +++ b/drivers/video/backlight/kb3886_bl.c
+> > > @@ -87,12 +87,8 @@ static const struct dmi_system_id kb3886bl_device_table[] __initconst = {
+> > >
+> > >  static int kb3886bl_send_intensity(struct backlight_device *bd)
+> > >  {
+> > > -   int intensity = bd->props.brightness;
+> > > +   int intensity = backlight_get_brightness(bd);
+> > >
+> > > -   if (bd->props.power != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > > -   if (bd->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > >     if (kb3886bl_flags & KB3886BL_SUSPENDED)
+> > >             intensity = 0;
+> > >
+> > > diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
+> > > index 3f66549997c8..f54d256e2d54 100644
+> > > --- a/drivers/video/backlight/led_bl.c
+> > > +++ b/drivers/video/backlight/led_bl.c
+> > > @@ -54,12 +54,7 @@ static void led_bl_power_off(struct led_bl_data *priv)
+> > >  static int led_bl_update_status(struct backlight_device *bl)
+> > >  {
+> > >     struct led_bl_data *priv = bl_get_data(bl);
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK ||
+> > > -       bl->props.fb_blank != FB_BLANK_UNBLANK ||
+> > > -       bl->props.state & BL_CORE_FBBLANK)
+> > > -           brightness = 0;
+> > > +   int brightness = backlight_get_brightness(bl);
+> > >
+> > >     if (brightness > 0)
+> > >             led_bl_set_brightness(priv, brightness);
+> > > diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
+> > > index ee09d1bd02b9..d07a2bd805fc 100644
+> > > --- a/drivers/video/backlight/lm3533_bl.c
+> > > +++ b/drivers/video/backlight/lm3533_bl.c
+> > > @@ -39,14 +39,8 @@ static inline int lm3533_bl_get_ctrlbank_id(struct lm3533_bl *bl)
+> > >  static int lm3533_bl_update_status(struct backlight_device *bd)
+> > >  {
+> > >     struct lm3533_bl *bl = bl_get_data(bd);
+> > > -   int brightness = bd->props.brightness;
+> > >
+> > > -   if (bd->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -   if (bd->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   return lm3533_ctrlbank_set_brightness(&bl->cb, (u8)brightness);
+> > > +   return lm3533_ctrlbank_set_brightness(&bl->cb, backlight_get_brightness(bd));
+> > >  }
+> > >
+> > >  static int lm3533_bl_get_brightness(struct backlight_device *bd)
+> > > diff --git a/drivers/video/backlight/locomolcd.c b/drivers/video/backlight/locomolcd.c
+> > > index cdc02e04f89d..297ee2e1ab0b 100644
+> > > --- a/drivers/video/backlight/locomolcd.c
+> > > +++ b/drivers/video/backlight/locomolcd.c
+> > > @@ -111,12 +111,8 @@ static int current_intensity;
+> > >
+> > >  static int locomolcd_set_intensity(struct backlight_device *bd)
+> > >  {
+> > > -   int intensity = bd->props.brightness;
+> > > +   int intensity = backlight_get_brightness(bd);
+> > >
+> > > -   if (bd->props.power != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > > -   if (bd->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           intensity = 0;
+> > >     if (locomolcd_flags & LOCOMOLCD_SUSPENDED)
+> > >             intensity = 0;
+> > >
+> > > diff --git a/drivers/video/backlight/lv5207lp.c b/drivers/video/backlight/lv5207lp.c
+> > > index c6ad73a784e2..1842ae9a55f8 100644
+> > > --- a/drivers/video/backlight/lv5207lp.c
+> > > +++ b/drivers/video/backlight/lv5207lp.c
+> > > @@ -46,12 +46,7 @@ static int lv5207lp_write(struct lv5207lp *lv, u8 reg, u8 data)
+> > >  static int lv5207lp_backlight_update_status(struct backlight_device *backlight)
+> > >  {
+> > >     struct lv5207lp *lv = bl_get_data(backlight);
+> > > -   int brightness = backlight->props.brightness;
+> > > -
+> > > -   if (backlight->props.power != FB_BLANK_UNBLANK ||
+> > > -       backlight->props.fb_blank != FB_BLANK_UNBLANK ||
+> > > -       backlight->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+> > > -           brightness = 0;
+> > > +   int brightness = backlight_get_brightness(backlight);
+> > >
+> > >     if (brightness) {
+> > >             lv5207lp_write(lv, LV5207LP_CTRL1,
+> > > diff --git a/drivers/video/backlight/max8925_bl.c b/drivers/video/backlight/max8925_bl.c
+> > > index 97cc260ff9d1..e607ec6fd4bf 100644
+> > > --- a/drivers/video/backlight/max8925_bl.c
+> > > +++ b/drivers/video/backlight/max8925_bl.c
+> > > @@ -64,18 +64,7 @@ static int max8925_backlight_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int max8925_backlight_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.state & BL_CORE_SUSPENDED)
+> > > -           brightness = 0;
+> > > -
+> > > -   return max8925_backlight_set(bl, brightness);
+> > > +   return max8925_backlight_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int max8925_backlight_get_brightness(struct backlight_device *bl)
+> > > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> > > index 82b8d7594701..eff64db2e02e 100644
+> > > --- a/drivers/video/backlight/pwm_bl.c
+> > > +++ b/drivers/video/backlight/pwm_bl.c
+> > > @@ -108,14 +108,9 @@ static int compute_duty_cycle(struct pwm_bl_data *pb, int brightness)
+> > >  static int pwm_backlight_update_status(struct backlight_device *bl)
+> > >  {
+> > >     struct pwm_bl_data *pb = bl_get_data(bl);
+> > > -   int brightness = bl->props.brightness;
+> > > +   int brightness = backlight_get_brightness(bl);
+> > >     struct pwm_state state;
+> > >
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK ||
+> > > -       bl->props.fb_blank != FB_BLANK_UNBLANK ||
+> > > -       bl->props.state & BL_CORE_FBBLANK)
+> > > -           brightness = 0;
+> > > -
+> > >     if (pb->notify)
+> > >             brightness = pb->notify(pb->dev, brightness);
+> > >
+> > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> > > index 4c8c34b99441..94d3b96244f0 100644
+> > > --- a/drivers/video/backlight/qcom-wled.c
+> > > +++ b/drivers/video/backlight/qcom-wled.c
+> > > @@ -433,14 +433,9 @@ static int wled5_ovp_delay(struct wled *wled)
+> > >  static int wled_update_status(struct backlight_device *bl)
+> > >  {
+> > >     struct wled *wled = bl_get_data(bl);
+> > > -   u16 brightness = bl->props.brightness;
+> > > +   u16 brightness = backlight_get_brightness(bl);
+> > >     int rc = 0;
+> > >
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK ||
+> > > -       bl->props.fb_blank != FB_BLANK_UNBLANK ||
+> > > -       bl->props.state & BL_CORE_FBBLANK)
+> > > -           brightness = 0;
+> > > -
+> > >     mutex_lock(&wled->lock);
+> > >     if (brightness) {
+> > >             rc = wled->wled_set_brightness(wled, brightness);
+> > > diff --git a/drivers/video/backlight/tps65217_bl.c b/drivers/video/backlight/tps65217_bl.c
+> > > index 762e3feed097..8457166f357f 100644
+> > > --- a/drivers/video/backlight/tps65217_bl.c
+> > > +++ b/drivers/video/backlight/tps65217_bl.c
+> > > @@ -77,15 +77,7 @@ static int tps65217_bl_update_status(struct backlight_device *bl)
+> > >  {
+> > >     struct tps65217_bl *tps65217_bl = bl_get_data(bl);
+> > >     int rc;
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.state & BL_CORE_SUSPENDED)
+> > > -           brightness = 0;
+> > > -
+> > > -   if ((bl->props.power != FB_BLANK_UNBLANK) ||
+> > > -           (bl->props.fb_blank != FB_BLANK_UNBLANK))
+> > > -           /* framebuffer in low power mode or blanking active */
+> > > -           brightness = 0;
+> > > +   int brightness = backlight_get_brightness(bl);
+> > >
+> > >     if (brightness > 0) {
+> > >             rc = tps65217_reg_write(tps65217_bl->tps,
+> > > diff --git a/drivers/video/backlight/wm831x_bl.c b/drivers/video/backlight/wm831x_bl.c
+> > > index e55977d54c15..c5aaee205bdf 100644
+> > > --- a/drivers/video/backlight/wm831x_bl.c
+> > > +++ b/drivers/video/backlight/wm831x_bl.c
+> > > @@ -91,18 +91,7 @@ static int wm831x_backlight_set(struct backlight_device *bl, int brightness)
+> > >
+> > >  static int wm831x_backlight_update_status(struct backlight_device *bl)
+> > >  {
+> > > -   int brightness = bl->props.brightness;
+> > > -
+> > > -   if (bl->props.power != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.fb_blank != FB_BLANK_UNBLANK)
+> > > -           brightness = 0;
+> > > -
+> > > -   if (bl->props.state & BL_CORE_SUSPENDED)
+> > > -           brightness = 0;
+> > > -
+> > > -   return wm831x_backlight_set(bl, brightness);
+> > > +   return wm831x_backlight_set(bl, backlight_get_brightness(bl));
+> > >  }
+> > >
+> > >  static int wm831x_backlight_get_brightness(struct backlight_device *bl)
+> > > --
+> > > 2.25.1
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
