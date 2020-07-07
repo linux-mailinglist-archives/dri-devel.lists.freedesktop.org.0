@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7314E218040
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3A4218059
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D1E76E866;
-	Wed,  8 Jul 2020 07:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46ECE6E885;
+	Wed,  8 Jul 2020 07:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8250F6E037
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 16:29:01 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id o13so17278223pgf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 09:29:01 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C5B89A0F
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 16:34:31 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id d10so16957362pls.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 09:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=cLpFT30Q2wrhHA54qttjA8gJomi+1hYn+159UrQoFZg=;
- b=DEpuudm/4MZv5D+pBETCrXPAcc5pEq0Tn39PHv9h9s9yiek57l85H6pNwvnRrWvFIo
- 9ETSoqtWaU/K2OdoBf/cI0ocSqzRNPjdM02muLHprNvlvZnEwsCfzkM5X73rdsGBUO7M
- cM8cM/FYdZRpKjdEZ29mQv+2wRZ9z5V0wjUt4dLbU4+CGeyem9Ywjp41F8pJSLxhpAdi
- foh8zI+7+6gJOjtVf5PUOIzDQDynN6GX5wgUzIwu2qFpLQIqGPrIoLZuKBZts1XorBx5
- gIF/1D5di/wOJTKghjE4Ftdf1HVm7rxJV5zuvOKEA1uF1kP5HyxtGzKV1QF8FD/nC+xt
- d2vQ==
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=+s8uTpzOInwRzG7yF6uQj5b7go+jZCn77sviuWuu/rs=;
+ b=uLGUD5CW7JVOfR39yhs5ov3P2Dlb5A/9QeyNgi1JIHHI0guuxzhv8ObBEp2ARtpRxM
+ RotZk550MT4nE9vY0teDlr0KEHKY50A/q/fyADFvykvsdf0R+B7bl43jCvvAZIknstSA
+ HUZPzL70RfeWHxoNNsqYmlrQnVdk8nSwdlUuXxUBF4xT/N18PSXwVcrn4qQ2PEkqXo/X
+ tSKurmtfDJ7FuJHYd10SM/X1g1U7/MuY+Ak8x1BWrRIXzpWk7B9K8nEbZlsBRCSv8vcr
+ +h59kTyJLJHVVTrk8YXHo9v4gXwhNe26ozAYbfoOV4XTjUu6qsRTHn+8qmND1DDGw6YM
+ ihug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=cLpFT30Q2wrhHA54qttjA8gJomi+1hYn+159UrQoFZg=;
- b=Razdfhh/s9NIdv6GNZkycF00GokMmPXlnoU84RCiro4ZuryrXNPyJSA/Lw9oQOmBm2
- v25/PDgdutUWYUOkOYdzTWjYy9jhVblFDIb7aSKI1fF3BdepJHOq8MGoMzRSjyKr/J0W
- 3rjuMxPH+gO2JaUEtdcVv6HGotT2T6GyIC8AzmzXCtPee/Sj1XI+5HYQ30oWO1phJcgY
- gJwcck038jJyRKVEGb8kU47lxM//wVvoYjXA5bHg5cTvgUiWVm+AZ9ycSwbU2qkWrNzw
- nWPREV7QHpsb+MCnmH4hQS7UBSEjLj/5hHtCQcutLM2RLoS7S4KJQS9xvt+cvMVON7Il
- AG/g==
-X-Gm-Message-State: AOAM533JugD+hRKrn7FcLrnYJP8ntMQuCr5yGih+S0s2xrNux95W5EhH
- ZtZ0WX5Na/A2nmXhto2Wi1JnqpgynZE=
-X-Google-Smtp-Source: ABdhPJx3mJownrF7Uccn5h8F/aE8m3prj8aLp/p7HCftX8fEe/IpDWUoMZCFHCqPz8CQluKsVZQRDA==
-X-Received: by 2002:a63:ea02:: with SMTP id c2mr45591701pgi.66.1594139341076; 
- Tue, 07 Jul 2020 09:29:01 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=+s8uTpzOInwRzG7yF6uQj5b7go+jZCn77sviuWuu/rs=;
+ b=bxHR86Rpbp/pSYNs+74RehSEtyA5Ed9AV7xBQUYh7IpJiqiTCgvPIUMZJ/3DYVGQQD
+ tuFZeXccyYTXjqocrSqSP5iifcssshrVO7l3KWNcBenRCSSCd5FZLqzbUj6080WVMB+c
+ 5X3h8EJX0sUGnrY1kNsWz6eIRaLTKFYIYbrqor6wDEK6ScKZsxbphQXs3q3ZPnjUS76c
+ OuN29kGiCzK881YI4wA87vo5cDbUMvpfxItAJ5X4vpaSzLQxXlRoMuYMbU4BjuJmoNUl
+ RBmvXB3iB0X3OmLMBe/kwbjyGll9HB1ql6PRPqeyqYROgQjuyLGMqiWKFAg534frIWmC
+ vEXQ==
+X-Gm-Message-State: AOAM532yviWqfTR2uJXsdKklD9orxnuh7pDtX+Nep/vIPZ3xg+b2k9je
+ djsI2brk3XZT9eFy8jhHZgs=
+X-Google-Smtp-Source: ABdhPJz9+XZnqCl8VLL87L5hv+VKWsXBu2Z9nSSYEd5x5VE66ZUS9/DknkO4i0g4hw3MORg0llSTnA==
+X-Received: by 2002:a17:90a:206a:: with SMTP id
+ n97mr5173541pjc.94.1594139670759; 
+ Tue, 07 Jul 2020 09:34:30 -0700 (PDT)
 Received: from blackclown ([103.88.82.137])
- by smtp.gmail.com with ESMTPSA id q7sm23610785pfn.23.2020.07.07.09.28.59
+ by smtp.gmail.com with ESMTPSA id s68sm3054324pjb.38.2020.07.07.09.34.27
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 07 Jul 2020 09:29:00 -0700 (PDT)
-Date: Tue, 7 Jul 2020 21:58:48 +0530
+ Tue, 07 Jul 2020 09:34:29 -0700 (PDT)
+Date: Tue, 7 Jul 2020 22:04:14 +0530
 From: Suraj Upadhyay <usuraj35@gmail.com>
-To: srrj.967@gmail.com
-Subject: [PATCH 1/4] drm: mipi-dsi: Convert logging to drm_* functions.
-Message-ID: <feeec2816debcf4105ac22af1661fd2d491d02b9.1594136880.git.usuraj35@gmail.com>
-References: <cover.1594136880.git.usuraj35@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH 0/4] drm: core: Convert logging to drm_* functions.
+Message-ID: <cover.1594136880.git.usuraj35@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1594136880.git.usuraj35@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Wed, 08 Jul 2020 07:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,91 +67,80 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1383318580=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert logging errors from dev_err() to drm_err().
 
-Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
----
- drivers/gpu/drm/drm_mipi_dsi.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+--===============1383318580==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 07102d8da58f..5dd475e82995 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -34,6 +34,7 @@
- #include <linux/slab.h>
- 
- #include <drm/drm_dsc.h>
-+#include <drm/drm_print.h>
- #include <video/mipi_display.h>
- 
- /**
-@@ -155,19 +156,18 @@ static int mipi_dsi_device_add(struct mipi_dsi_device *dsi)
- static struct mipi_dsi_device *
- of_mipi_dsi_device_add(struct mipi_dsi_host *host, struct device_node *node)
- {
--	struct device *dev = host->dev;
- 	struct mipi_dsi_device_info info = { };
- 	int ret;
- 	u32 reg;
- 
- 	if (of_modalias_node(node, info.type, sizeof(info.type)) < 0) {
--		dev_err(dev, "modalias failure on %pOF\n", node);
-+		drm_err(host, "modalias failure on %pOF\n", node);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
- 	ret = of_property_read_u32(node, "reg", &reg);
- 	if (ret) {
--		dev_err(dev, "device node %pOF has no valid reg property: %d\n",
-+		drm_err(host, "device node %pOF has no valid reg property: %d\n",
- 			node, ret);
- 		return ERR_PTR(-EINVAL);
- 	}
-@@ -202,22 +202,21 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
- 			      const struct mipi_dsi_device_info *info)
- {
- 	struct mipi_dsi_device *dsi;
--	struct device *dev = host->dev;
- 	int ret;
- 
- 	if (!info) {
--		dev_err(dev, "invalid mipi_dsi_device_info pointer\n");
-+		drm_err(host, "invalid mipi_dsi_device_info pointer\n");
- 		return ERR_PTR(-EINVAL);
- 	}
- 
- 	if (info->channel > 3) {
--		dev_err(dev, "invalid virtual channel: %u\n", info->channel);
-+		drm_err(host, "invalid virtual channel: %u\n", info->channel);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
- 	dsi = mipi_dsi_device_alloc(host);
- 	if (IS_ERR(dsi)) {
--		dev_err(dev, "failed to allocate DSI device %ld\n",
-+		drm_err(host, "failed to allocate DSI device %ld\n",
- 			PTR_ERR(dsi));
- 		return dsi;
- 	}
-@@ -228,7 +227,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
- 
- 	ret = mipi_dsi_device_add(dsi);
- 	if (ret) {
--		dev_err(dev, "failed to add DSI device %d\n", ret);
-+		drm_err(host, "failed to add DSI device %d\n", ret);
- 		kfree(dsi);
- 		return ERR_PTR(ret);
- 	}
--- 
+
+--cWoXeonUoKmBZSoM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+This patchset converts logging to drm_* functions in drm core.
+
+The following functions have been converted to their respective
+DRM alternatives :
+dev_info()      --> drm_info()
+dev_err()       --> drm_err()
+dev_warn()      --> drm_warn()
+dev_err_once()  --> drm_err_once().
+
+Suraj Upadhyay (4):
+  drm: mipi-dsi: Convert logging to drm_* functions.
+  drm: mipi-dbi: Convert logging to drm_* functions.
+  drm: edid: Convert logging to drm_* functions.
+  drm: fb-helper: Convert logging to drm_* functions.
+
+ drivers/gpu/drm/drm_edid.c      |  7 +++----
+ drivers/gpu/drm/drm_fb_helper.c |  2 +-
+ drivers/gpu/drm/drm_mipi_dbi.c  |  4 ++--
+ drivers/gpu/drm/drm_mipi_dsi.c  | 15 +++++++--------
+ 4 files changed, 13 insertions(+), 15 deletions(-)
+
+--=20
 2.17.1
+
+
+
+--cWoXeonUoKmBZSoM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE7AbCa0kOsMJ4cx0j+gRsbIfe744FAl8Eo/wACgkQ+gRsbIfe
+7451IRAApvuLP/V+UbhAWsY53dMQkKWHKyETrPZ/5yooQM5VN1yjjb47MC6DeRoQ
+VT61BXY5D53zAtqVuTerPs/ySce80Hjnvr4rsdoRe405bqu5DIqbbyq/K9VoR9Yy
+ueiWMZY8cO21LT+cPqq/9aRrCDzhpppmOCcgwar+3WR8Qi13PF2PZM9OrobdWZ+N
+aJWun4uaZS3qE3ZZibwsvX5b2U4vG5iEtuAiDq8wDsY0OBX1WEH3cpzYI0QW841H
+F0i9xdOIf+zofDGGzngAzp5UQut1GTttQsFE5B9AkWKx4s4WMhq/309YgXUK70nB
+/uap/6xzhYEuVRLwJwWzIrl+aLwNIgsN3iiqY/7NKe6rSH6PklPfErJn3AAT+N++
+xFFHYPLkRk7/XMw8XlW/WW7otISYBPxJ4T9UPKbSX4c8HewF97vcTkVkwCmSHc+5
+WWpoBDbNEnEECzMLjV7TAKTbkWM+24urBnGrT6f1fOeF2qSjeQE7DzIzxMW98cPk
+3HEp7jBHvsjzMl148dX4MTPjStGYZPoHKe99S2maoe0jBmSBkufrBNhETFjBWQOn
+xPjJWYghuuwNy+mXjAKbPhkBpKCpb3mnCXnFzbOIfxB7XfNoF4JGIwZL2Q2a50yL
+cXE6GGc/JyzeHM82yOhq8eypCYY7nrKqyED/r+IVARj4X/p7rsg=
+=Kzoh
+-----END PGP SIGNATURE-----
+
+--cWoXeonUoKmBZSoM--
+
+--===============1383318580==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1383318580==--
