@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A16216770
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F1B216774
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 09:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764C06E5CF;
-	Tue,  7 Jul 2020 07:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657E66E7D1;
+	Tue,  7 Jul 2020 07:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id DEF1F89E43
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 00:46:43 +0000 (UTC)
-X-UUID: e40676f9293240e6a31db48b3fdd0b16-20200707
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=9+BgWtK/CBgwcVCXkyOr08QW0zYWgf+PY9UfH+ilC/c=; 
- b=pkgM4AwgulucaxKgow4xvjadIqp24Lynb/33XkSbzV8yEmSqxxSRSSttDwK2otU0YGxNWGJrvQgowRL23aNBjwzo2UczvnLhXBEvx+93xXsqvqSH5eyss72owU4KTBkrzX521pzBWGEp4QwGeK+4TyDuvWtFj9rG8MuuEBRKa7Q=;
-X-UUID: e40676f9293240e6a31db48b3fdd0b16-20200707
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
- (envelope-from <dennis-yc.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 455299607; Tue, 07 Jul 2020 08:46:41 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 7 Jul 2020 08:46:39 +0800
-Received: from [172.21.77.33] (172.21.77.33) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 7 Jul 2020 08:46:39 +0800
-Message-ID: <1594082800.24876.0.camel@mtkswgap22>
-Subject: Re: [PATCH v2 8/8] soc: mediatek: cmdq: add clear option in
- cmdq_pkt_wfe api
-From: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 7 Jul 2020 08:46:40 +0800
-In-Reply-To: <CAAOTY_-5um+X=cS3rkuN7YHycK2AyJsovumCQ4t+dbwXw62uAQ@mail.gmail.com>
-References: <1593931715-32761-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1593931715-32761-9-git-send-email-dennis-yc.hsieh@mediatek.com>
- <CAAOTY_-5um+X=cS3rkuN7YHycK2AyJsovumCQ4t+dbwXw62uAQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B5889E1B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 00:51:24 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id q4so12153215lji.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jul 2020 17:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6uG2rJVdt+pTUmgw/PAAj9HwYQV5+/KXvM1JeMgzrio=;
+ b=Cf0C6xOOznCEjJX8u/YQv9iqieSZaGPDFpYDrgILONHLWZ189XF02aZDAF/mTTAtts
+ I709EitTR3Nuu41PsWGATRYywyeI+JnnrloLWi1cwDrRqekAkO30dAAV9xkPpBGB5CqS
+ bQteAwLhk0bKCfEKAHl2Qfsieuen9iAvLT8YX8EfcxFrTBNBwlNmnp19V4PhLgCEublA
+ KibtTiISj6mVgBQZZKkVr3Oa5etsyHsVqOLuX6nOl65T3+r05rUuZ9F7apoVh9M6mGgg
+ SjpUyJXzRuyY6qQd3hjwXvtNGu4q11P3sXsEkYTTtDhZ0++uyzadKVj6vFeJrg6n2a/r
+ wNaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6uG2rJVdt+pTUmgw/PAAj9HwYQV5+/KXvM1JeMgzrio=;
+ b=Xe6rJa7Tt2k2hAsSCD7F6qyk6n14Ej/HQQMyxLQsxv69V+Q+NbOsRWyGQKDLNO0BV0
+ s3GUcKzT1BHVySFu+jm8oqB82A4wY67L7iCxnwc89G4XxDAK6cLKmO/W1rG1K9T/48qS
+ cVaxHy25qHdJ/O8KEbVQUusqfYGfJ9LURMh3kgTmH0yFGCjn4Ss4+PwJp2W1N+owXj+k
+ ipFqxXAFC7exwKSPjpHnIbsgP2lr0j7I++11+gw0rprJpUi2EDtLbdK725BrNuns7aSj
+ UOKELi8zhdR/zioawiRHSzP2OWA/3SYzItLrAkWPmHtqH1Hr4GW8wNt918Dg7moKJ2Z5
+ nU7w==
+X-Gm-Message-State: AOAM530EHHSF6m/asmvE3NXbQgvkqAY4rGTTk79vKaOmFF/l1wLzZPyp
+ 1dyoE2+Z7Q3Q9dPbxcAPN5+H8ANXQaV11kLY1lD46g==
+X-Google-Smtp-Source: ABdhPJzEUaUJ6KVc0xdSKTqvuoINWY+y0q6obo7OoOGmfwNOy18nJEOc+j4Ii5jmpqagjhd+cYZXlObJgFTE5t7tRNU=
+X-Received: by 2002:a2e:161a:: with SMTP id w26mr28828472ljd.216.1594083082311; 
+ Mon, 06 Jul 2020 17:51:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
+References: <20200312185629.141280-1-rajatja@google.com>
+ <20200312185629.141280-6-rajatja@google.com>
+ <76d1a721-5f7b-1e86-b8ee-183bffb78ff1@redhat.com>
+In-Reply-To: <76d1a721-5f7b-1e86-b8ee-183bffb78ff1@redhat.com>
+From: Rajat Jain <rajatja@google.com>
+Date: Mon, 6 Jul 2020 17:50:45 -0700
+Message-ID: <CACK8Z6Hd8WqEKi9MQdyoW0bMpjGiOsUrzYTm0HRaXscRWYS4aA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v9 5/5] drm/i915: Enable support for
+ integrated privacy screen
+To: Hans de Goede <hdegoede@redhat.com>
 X-Mailman-Approved-At: Tue, 07 Jul 2020 07:26:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,111 +64,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream <wsd_upstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Houlong Wei <houlong.wei@mediatek.com>, HS Liao <hs.liao@mediatek.com>,
- "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
+ Sugumaran Lacshiminarayanan <slacshiminar@lenovo.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Mark Pearson <mpearson@lenovo.com>, Tomoki Maruichi <maruichit@lenovo.com>,
+ Jesse Barnes <jsbarnes@google.com>, Rajat Jain <rajatxjain@gmail.com>,
+ intel-gfx@lists.freedesktop.org, Mat King <mathewk@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Sean Paul <sean@poorly.run>, Duncan Laurie <dlaurie@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Pavel Machek <pavel@denx.de>, Nitin Joshi1 <njoshi1@lenovo.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ0ssDQoNClRoYW5rcyBmb3IgeW91ciBjb21tZW50Lg0KDQpPbiBUdWUsIDIwMjAtMDctMDcg
-YXQgMDc6NDYgKzA4MDAsIENodW4tS3VhbmcgSHUgd3JvdGU6DQo+IEhpLCBEZW5uaXM6DQo+IA0K
-PiBEZW5uaXMgWUMgSHNpZWggPGRlbm5pcy15Yy5oc2llaEBtZWRpYXRlay5jb20+IOaWvCAyMDIw
-5bm0N+aciDbml6Ug6YCx5LiAIOS4i+WNiDM6MjDlr6vpgZPvvJoNCj4gPg0KPiA+IEFkZCBjbGVh
-ciBwYXJhbWV0ZXIgdG8gbGV0IGNsaWVudCBkZWNpZGUgaWYNCj4gPiBldmVudCBzaG91bGQgYmUg
-Y2xlYXIgdG8gMCBhZnRlciBHQ0UgcmVjZWl2ZSBpdC4NCj4gPg0KPiA+IEZpeGVzOiAyZjk2NWJl
-N2Y5MDA4ICgiZHJtL21lZGlhdGVrOiBhcHBseSBDTURRIGNvbnRyb2wgZmxvdyIpDQo+IA0KPiBJ
-IHRoaW5rIHRoaXMgcGF0Y2ggaW5jbHVkZSB0d28gdGhpbmdzLCBvbmUgaXMgYnVnIGZpeCwgYW5v
-dGhlciBpcw0KPiBjaGFuZ2luZyBpbnRlcmZhY2UuDQo+IGJlbG93IGlzIHRoZSBidWcgZml4IHBh
-cnQuDQo+IA0KPiAtI2RlZmluZSBDTURRX1dGRV9PUFRJT04gICAgICAgICAgICAgICAgICAgICAg
-ICAoQ01EUV9XRkVfVVBEQVRFIHwNCj4gQ01EUV9XRkVfV0FJVCB8IFwNCj4gLSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIENNRFFfV0ZFX1dBSVRfVkFMVUUpDQo+ICsjZGVm
-aW5lIENNRFFfV0ZFX09QVElPTiAgICAgICAgICAgICAgICAgICAgICAgIChDTURRX1dGRV9XQUlU
-IHwNCj4gQ01EUV9XRkVfV0FJVF9WQUxVRSkNCj4gDQo+IHRoZSBvdGhlciBpcyBjaGFuZ2luZyBp
-bnRlcmZhY2UgcGFydC4gU28gdGhpcyBwYXRjaCBzaG91bGQgYmUgYnJva2VuDQo+IGludG8gdHdv
-IHBhdGNoZXMuDQoNCm9rIEknbGwgYnJlYWsgaW50byB0d28gcGF0Y2hlcw0KDQoNClJlZ2FyZHMs
-DQpEZW5uaXMNCg0KPiANCj4gUmVnYXJkcywNCj4gQ2h1bi1LdWFuZy4NCj4gDQo+ID4gU2lnbmVk
-LW9mZi1ieTogRGVubmlzIFlDIEhzaWVoIDxkZW5uaXMteWMuaHNpZWhAbWVkaWF0ZWsuY29tPg0K
-PiA+IFJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+
-ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgIHwgICAgMiArLQ0KPiA+
-ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYyAgIHwgICAgNSArKystLQ0K
-PiA+ICBpbmNsdWRlL2xpbnV4L21haWxib3gvbXRrLWNtZHEtbWFpbGJveC5oIHwgICAgMyArLS0N
-Cj4gPiAgaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEuaCAgICB8ICAgIDUgKysr
-LS0NCj4gPiAgNCBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0p
-DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
-Y3J0Yy5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jDQo+ID4gaW5k
-ZXggZWM2YzlmZmJmMzVlLi5iYTZjZjk1NmIyMzkgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fY3J0Yy5jDQo+ID4gQEAgLTQ5MCw3ICs0OTAsNyBAQCBzdGF0aWMg
-dm9pZCBtdGtfZHJtX2NydGNfaHdfY29uZmlnKHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRj
-KQ0KPiA+ICAgICAgICAgICAgICAgICBtYm94X2ZsdXNoKG10a19jcnRjLT5jbWRxX2NsaWVudC0+
-Y2hhbiwgMjAwMCk7DQo+ID4gICAgICAgICAgICAgICAgIGNtZHFfaGFuZGxlID0gY21kcV9wa3Rf
-Y3JlYXRlKG10a19jcnRjLT5jbWRxX2NsaWVudCwgUEFHRV9TSVpFKTsNCj4gPiAgICAgICAgICAg
-ICAgICAgY21kcV9wa3RfY2xlYXJfZXZlbnQoY21kcV9oYW5kbGUsIG10a19jcnRjLT5jbWRxX2V2
-ZW50KTsNCj4gPiAtICAgICAgICAgICAgICAgY21kcV9wa3Rfd2ZlKGNtZHFfaGFuZGxlLCBtdGtf
-Y3J0Yy0+Y21kcV9ldmVudCk7DQo+ID4gKyAgICAgICAgICAgICAgIGNtZHFfcGt0X3dmZShjbWRx
-X2hhbmRsZSwgbXRrX2NydGMtPmNtZHFfZXZlbnQsIGZhbHNlKTsNCj4gPiAgICAgICAgICAgICAg
-ICAgbXRrX2NydGNfZGRwX2NvbmZpZyhjcnRjLCBjbWRxX2hhbmRsZSk7DQo+ID4gICAgICAgICAg
-ICAgICAgIGNtZHFfcGt0X2ZpbmFsaXplKGNtZHFfaGFuZGxlKTsNCj4gPiAgICAgICAgICAgICAg
-ICAgY21kcV9wa3RfZmx1c2hfYXN5bmMoY21kcV9oYW5kbGUsIGRkcF9jbWRxX2NiLCBjbWRxX2hh
-bmRsZSk7DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhl
-bHBlci5jIGIvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLWNtZHEtaGVscGVyLmMNCj4gPiBpbmRl
-eCBkNTVkYzMyOTYxMDUuLjUwNTY1MWIwZDcxNSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL3Nv
-Yy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvc29jL21lZGlh
-dGVrL210ay1jbWRxLWhlbHBlci5jDQo+ID4gQEAgLTMxNiwxNSArMzE2LDE2IEBAIGludCBjbWRx
-X3BrdF93cml0ZV9zX21hc2tfdmFsdWUoc3RydWN0IGNtZHFfcGt0ICpwa3QsIHU4IGhpZ2hfYWRk
-cl9yZWdfaWR4LA0KPiA+ICB9DQo+ID4gIEVYUE9SVF9TWU1CT0woY21kcV9wa3Rfd3JpdGVfc19t
-YXNrX3ZhbHVlKTsNCj4gPg0KPiA+IC1pbnQgY21kcV9wa3Rfd2ZlKHN0cnVjdCBjbWRxX3BrdCAq
-cGt0LCB1MTYgZXZlbnQpDQo+ID4gK2ludCBjbWRxX3BrdF93ZmUoc3RydWN0IGNtZHFfcGt0ICpw
-a3QsIHUxNiBldmVudCwgYm9vbCBjbGVhcikNCj4gPiAgew0KPiA+ICAgICAgICAgc3RydWN0IGNt
-ZHFfaW5zdHJ1Y3Rpb24gaW5zdCA9IHsgezB9IH07DQo+ID4gKyAgICAgICB1MzIgY2xlYXJfb3B0
-aW9uID0gY2xlYXIgPyBDTURRX1dGRV9VUERBVEUgOiAwOw0KPiA+DQo+ID4gICAgICAgICBpZiAo
-ZXZlbnQgPj0gQ01EUV9NQVhfRVZFTlQpDQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiAtRUlO
-VkFMOw0KPiA+DQo+ID4gICAgICAgICBpbnN0Lm9wID0gQ01EUV9DT0RFX1dGRTsNCj4gPiAtICAg
-ICAgIGluc3QudmFsdWUgPSBDTURRX1dGRV9PUFRJT047DQo+ID4gKyAgICAgICBpbnN0LnZhbHVl
-ID0gQ01EUV9XRkVfT1BUSU9OIHwgY2xlYXJfb3B0aW9uOw0KPiA+ICAgICAgICAgaW5zdC5ldmVu
-dCA9IGV2ZW50Ow0KPiA+DQo+ID4gICAgICAgICByZXR1cm4gY21kcV9wa3RfYXBwZW5kX2NvbW1h
-bmQocGt0LCBpbnN0KTsNCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9tYWlsYm94L210
-ay1jbWRxLW1haWxib3guaCBiL2luY2x1ZGUvbGludXgvbWFpbGJveC9tdGstY21kcS1tYWlsYm94
-LmgNCj4gPiBpbmRleCBlZmJkOGE5ZWIyZDEuLmQ1YTk4M2Q2NWYwNSAxMDA2NDQNCj4gPiAtLS0g
-YS9pbmNsdWRlL2xpbnV4L21haWxib3gvbXRrLWNtZHEtbWFpbGJveC5oDQo+ID4gKysrIGIvaW5j
-bHVkZS9saW51eC9tYWlsYm94L210ay1jbWRxLW1haWxib3guaA0KPiA+IEBAIC0yOCw4ICsyOCw3
-IEBADQo+ID4gICAqIGJpdCAxNi0yNzogdXBkYXRlIHZhbHVlDQo+ID4gICAqIGJpdCAzMTogMSAt
-IHVwZGF0ZSwgMCAtIG5vIHVwZGF0ZQ0KPiA+ICAgKi8NCj4gPiAtI2RlZmluZSBDTURRX1dGRV9P
-UFRJT04gICAgICAgICAgICAgICAgICAgICAgICAoQ01EUV9XRkVfVVBEQVRFIHwgQ01EUV9XRkVf
-V0FJVCB8IFwNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ01E
-UV9XRkVfV0FJVF9WQUxVRSkNCj4gPiArI2RlZmluZSBDTURRX1dGRV9PUFRJT04gICAgICAgICAg
-ICAgICAgICAgICAgICAoQ01EUV9XRkVfV0FJVCB8IENNRFFfV0ZFX1dBSVRfVkFMVUUpDQo+ID4N
-Cj4gPiAgLyoqIGNtZHEgZXZlbnQgbWF4aW11bSAqLw0KPiA+ICAjZGVmaW5lIENNRFFfTUFYX0VW
-RU5UICAgICAgICAgICAgICAgICAweDNmZg0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4
-L3NvYy9tZWRpYXRlay9tdGstY21kcS5oIGIvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRr
-LWNtZHEuaA0KPiA+IGluZGV4IDM0MzU0ZTk1MmY2MC4uOTYwNzA0ZDc1OTk0IDEwMDY0NA0KPiA+
-IC0tLSBhL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgNCj4gPiArKysgYi9p
-bmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstY21kcS5oDQo+ID4gQEAgLTE4MiwxMSArMTgy
-LDEyIEBAIGludCBjbWRxX3BrdF93cml0ZV9zX21hc2tfdmFsdWUoc3RydWN0IGNtZHFfcGt0ICpw
-a3QsIHU4IGhpZ2hfYWRkcl9yZWdfaWR4LA0KPiA+ICAvKioNCj4gPiAgICogY21kcV9wa3Rfd2Zl
-KCkgLSBhcHBlbmQgd2FpdCBmb3IgZXZlbnQgY29tbWFuZCB0byB0aGUgQ01EUSBwYWNrZXQNCj4g
-PiAgICogQHBrdDogICAgICAgdGhlIENNRFEgcGFja2V0DQo+ID4gLSAqIEBldmVudDogICAgIHRo
-ZSBkZXNpcmVkIGV2ZW50IHR5cGUgdG8gIndhaXQgYW5kIENMRUFSIg0KPiA+ICsgKiBAZXZlbnQ6
-ICAgICB0aGUgZGVzaXJlZCBldmVudCB0eXBlIHRvIHdhaXQNCj4gPiArICogQGNsZWFyOiAgICAg
-Y2xlYXIgZXZlbnQgb3Igbm90IGFmdGVyIGV2ZW50IGFycml2ZQ0KPiA+ICAgKg0KPiA+ICAgKiBS
-ZXR1cm46IDAgZm9yIHN1Y2Nlc3M7IGVsc2UgdGhlIGVycm9yIGNvZGUgaXMgcmV0dXJuZWQNCj4g
-PiAgICovDQo+ID4gLWludCBjbWRxX3BrdF93ZmUoc3RydWN0IGNtZHFfcGt0ICpwa3QsIHUxNiBl
-dmVudCk7DQo+ID4gK2ludCBjbWRxX3BrdF93ZmUoc3RydWN0IGNtZHFfcGt0ICpwa3QsIHUxNiBl
-dmVudCwgYm9vbCBjbGVhcik7DQo+ID4NCj4gPiAgLyoqDQo+ID4gICAqIGNtZHFfcGt0X2NsZWFy
-X2V2ZW50KCkgLSBhcHBlbmQgY2xlYXIgZXZlbnQgY29tbWFuZCB0byB0aGUgQ01EUSBwYWNrZXQN
-Cj4gPiAtLQ0KPiA+IDEuNy45LjUNCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXw0KPiA+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QNCj4gPiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+ID4gaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9f
-X2h0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-X187ISFDVFJOS0E5d01nMEFSYnchd24wS1BpWWFHSnhmWjNPczJMZWF2dXZCWHRoM0hVZWpuMXNO
-aGk4X1duVmdSX2pUeWZtTGdvX2tCYkdIcFRGMFVxb0RRUSQgDQoNCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hello Hans,
+
+On Mon, Jul 6, 2020 at 5:51 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 3/12/20 7:56 PM, Rajat Jain wrote:
+> > Add support for an ACPI based integrated privacy screen that is
+> > available on some systems.
+> >
+> > Signed-off-by: Rajat Jain <rajatja@google.com>
+>
+> So as discussed a while ago I'm working on adding support for the
+> privacy-screen on Lenovo Thinkpads, introducing a small new
+> subsystem / helper-class as intermediary for when the privacy-screen
+> is controlled by e.g. some random drivers/platform/x86 driver rather
+> then directly by the GPU driver.
+>
+> I'm almost ready to send out v1. I was working on hooking things
+> up in the i915 code and I was wondering what you were doing when
+> the property is actually changed and we need to commit the new
+> privacy-screen state to the hardware.
+>
+> This made me look at this patch, some comments inline:
+>
+> > ---
+> > v9: same as v8
+> > v8: - separate the APCI privacy screen into a separate patch.
+> >      - Don't destroy the property if there is no privacy screen (because
+> >        drm core doesn't like destroying property in late_register()).
+> >      - The setting change needs to be committed in ->update_pipe() for
+> >        ddi.c as well as dp.c and both of them call intel_dp_add_properties()
+> > v7: Look for ACPI node in ->late_register() hook.
+> >      Do the scan only once per drm_device (instead of 1 per drm_connector)
+> > v6: Addressed minor comments from Jani at
+> >      https://lkml.org/lkml/2020/1/24/1143
+> >       - local variable renamed.
+> >       - used drm_dbg_kms()
+> >       - used acpi_device_handle()
+> >       - Used opaque type acpi_handle instead of void*
+> > v5: same as v4
+> > v4: Same as v3
+> > v3: fold the code into existing acpi_device_id_update() function
+> > v2: formed by splitting the original patch into ACPI lookup, and privacy
+> >      screen property. Also move it into i915 now that I found existing code
+> >      in i915 that can be re-used.
+> >
+> >   drivers/gpu/drm/i915/display/intel_atomic.c |  2 ++
+> >   drivers/gpu/drm/i915/display/intel_ddi.c    |  1 +
+> >   drivers/gpu/drm/i915/display/intel_dp.c     | 34 ++++++++++++++++++++-
+> >   drivers/gpu/drm/i915/display/intel_dp.h     |  5 +++
+> >   4 files changed, 41 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
+> > index d043057d2fa03..9898d8980e7ce 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_atomic.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+> > @@ -150,6 +150,8 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
+> >           new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
+> >           new_conn_state->base.content_type != old_conn_state->base.content_type ||
+> >           new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
+> > +         new_conn_state->base.privacy_screen_status !=
+> > +             old_conn_state->base.privacy_screen_status ||
+> >           !blob_equal(new_conn_state->base.hdr_output_metadata,
+> >                       old_conn_state->base.hdr_output_metadata))
+> >               crtc_state->mode_changed = true;
+>
+> Right I was planning on doing this to.
+>
+> > diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> > index 73d0f4648c06a..69a5423216dc5 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> > @@ -3708,6 +3708,7 @@ static void intel_ddi_update_pipe(struct intel_encoder *encoder,
+> >       if (!intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI))
+> >               intel_ddi_update_pipe_dp(encoder, crtc_state, conn_state);
+> >
+> > +     intel_dp_update_privacy_screen(encoder, crtc_state, conn_state);
+> >       intel_hdcp_update_pipe(encoder, crtc_state, conn_state);
+> >   }
+> >
+>
+> And this too.
+>
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> > index 3ddc424b028c1..5f33ebb466135 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > @@ -62,6 +62,7 @@
+> >   #include "intel_lspcon.h"
+> >   #include "intel_lvds.h"
+> >   #include "intel_panel.h"
+> > +#include "intel_privacy_screen.h"
+> >   #include "intel_psr.h"
+> >   #include "intel_sideband.h"
+> >   #include "intel_tc.h"
+> > @@ -5886,6 +5887,10 @@ intel_dp_connector_register(struct drm_connector *connector)
+> >               dev_priv->acpi_scan_done = true;
+> >       }
+> >
+> > +     /* Check for integrated Privacy screen support */
+> > +     if (intel_privacy_screen_present(to_intel_connector(connector)))
+> > +             drm_connector_attach_privacy_screen_property(connector);
+> > +
+> >       DRM_DEBUG_KMS("registering %s bus for %s\n",
+> >                     intel_dp->aux.name, connector->kdev->kobj.name);
+> >
+> > @@ -6883,6 +6888,33 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
+> >               connector->state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+> >
+> >       }
+> > +
+> > +     /*
+> > +      * Created here, but depending on result of probing for privacy-screen
+> > +      * in intel_dp_connector_register(), gets attached in that function.
+> > +      * Need to create here because the drm core doesn't like creating
+> > +      * properties during ->late_register().
+> > +      */
+> > +     drm_connector_create_privacy_screen_property(connector);
+> > +}
+> > +
+> > +void
+> > +intel_dp_update_privacy_screen(struct intel_encoder *encoder,
+> > +                            const struct intel_crtc_state *crtc_state,
+> > +                            const struct drm_connector_state *conn_state)
+> > +{
+> > +     struct drm_connector *connector = conn_state->connector;
+> > +
+> > +     intel_privacy_screen_set_val(to_intel_connector(connector),
+> > +                                  conn_state->privacy_screen_status);
+> > +}
+> > +
+> > +static void intel_dp_update_pipe(struct intel_encoder *encoder,
+> > +                              const struct intel_crtc_state *crtc_state,
+> > +                              const struct drm_connector_state *conn_state)
+> > +{
+> > +     intel_dp_update_privacy_screen(encoder, crtc_state, conn_state);
+> > +     intel_panel_update_backlight(encoder, crtc_state, conn_state);
+> >   }
+> >
+> >   static void intel_dp_init_panel_power_timestamps(struct intel_dp *intel_dp)
+> > @@ -7826,7 +7858,7 @@ bool intel_dp_init(struct drm_i915_private *dev_priv,
+> >       intel_encoder->compute_config = intel_dp_compute_config;
+> >       intel_encoder->get_hw_state = intel_dp_get_hw_state;
+> >       intel_encoder->get_config = intel_dp_get_config;
+> > -     intel_encoder->update_pipe = intel_panel_update_backlight;
+> > +     intel_encoder->update_pipe = intel_dp_update_pipe;
+> >       intel_encoder->suspend = intel_dp_encoder_suspend;
+> >       if (IS_CHERRYVIEW(dev_priv)) {
+> >               intel_encoder->pre_pll_enable = chv_dp_pre_pll_enable;
+>
+> And this too.
+>
+> One problem here is that AFAICT the update_pipe callback is only called on
+> fast modesets. So if the privacy_screen state is changed as part of a
+> full modeset, then the change will be ignored.
+
+I'm actually new to the drm / i915, so I did what I thought was right
+at the time and was working on my setup. But, yeah, that might be a
+possible issue it seems.
+
+>
+> Even if we ignore that for now, this means that we end up calling
+> intel_privacy_screen_set_val(), or my equivalent of that for
+> each fast modeset.
+>
+> In patch 4/5 intel_privacy_screen_set_val() is defined like this:
+>
+> +void intel_privacy_screen_set_val(struct intel_connector *connector,
+> +                                 enum drm_privacy_screen_status val)
+> +{
+> +       struct drm_device *drm = connector->base.dev;
+> +
+> +       if (val == PRIVACY_SCREEN_DISABLED) {
+> +               drm_dbg_kms(drm, "%s: disabling privacy-screen\n",
+> +                           CONN_NAME(connector));
+> +               acpi_privacy_screen_call_dsm(connector,
+> +                                            CONNECTOR_DSM_FN_PRIVACY_DISABLE);
+> +       } else {
+> +               drm_dbg_kms(drm, "%s: enabling privacy-screen\n",
+> +                           CONN_NAME(connector));
+> +               acpi_privacy_screen_call_dsm(connector,
+> +                                            CONNECTOR_DSM_FN_PRIVACY_ENABLE);
+> +       }
+> +}
+> +
+>
+> There are 2 problems with this:
+>
+> 1. It makes the call even if there is no privacy-screen, and then
+> acpi_privacy_screen_call_dsm() will log an error (if the connector has an
+> associated handle but not the DSM).
+>
+> 2. It makes this call on any modeset, even if the property did non change
+> (and even if there is no privacy-screen) and AFAIK these ACPI calls are somewhat
+> expensive to make.
+
+Ack to both these problems.
+
+>
+> 1. Should be easy to fix, fixing 2. is trickier. We really need access
+> to the new and old connector_state here to only make the ACPI calls when
+> necessary. But ATM all callbacks only ever get passed the new-state and
+> these callbacks are all called after drm_atomic_helper_swap_state() at
+> which point there is no way to get the old_state from the new_state.
+>
+> I've chosen to instead do this to update the privacy-screen change:
+>
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -15501,6 +15503,9 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
+>                         intel_color_load_luts(new_crtc_state);
+>         }
+>
+> +       for_each_new_connector_in_state(&state->base, connector, new_connector_state, i)
+> +               drm_connector_update_privacy_screen(connector, &state->base);
+> +
+>         /*
+>          * Now that the vblank has passed, we can go ahead and program the
+>          * optimal watermarks on platforms that need two-step watermark
+>
+> With drm_connector_update_privacy_screen() looking like this:
+>
+> +void drm_connector_update_privacy_screen(struct drm_connector *connector,
+> +                                        struct drm_atomic_state *state)
+> +{
+> +       struct drm_connector_state *new_connector_state, *old_connector_state;
+> +       int ret;
+> +
+> +       if (!connector->privacy_screen)
+> +               return;
+> +
+> +       new_connector_state = drm_atomic_get_new_connector_state(state, connector);
+> +       old_connector_state = drm_atomic_get_old_connector_state(state, connector);
+> +
+> +       if (new_connector_state->privacy_screen_sw_state ==
+> +           old_connector_state->privacy_screen_sw_state)
+> +               return;
+> +
+> +       ret = drm_privacy_screen_set_sw_state(connector->privacy_screen,
+> +                               new_connector_state->privacy_screen_sw_state);
+> +       if (ret)
+> +               drm_err(connector->dev, "Error updating privacy-screen sw_state\n");
+> +}
+>
+> Which avoids all the problems described above.
+
+Ack. This looks like a better way since it takes care of these
+problems. Please feel free to use my patches as you see fit (I didn't
+see much activity on them since last many months so I have moved on to
+something else now).
+
+Thanks & Best Regards,
+
+Rajat
+
+>
+> REgards,
+>
+> Hans
+>
+>
+>
+>
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+> > index 0c7be8ed1423a..e4594e27ce5a8 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> > @@ -123,4 +123,9 @@ static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
+> >
+> >   u32 intel_dp_mode_to_fec_clock(u32 mode_clock);
+> >
+> > +void
+> > +intel_dp_update_privacy_screen(struct intel_encoder *encoder,
+> > +                            const struct intel_crtc_state *crtc_state,
+> > +                            const struct drm_connector_state *conn_state);
+> > +
+> >   #endif /* __INTEL_DP_H__ */
+> >
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
