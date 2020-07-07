@@ -1,33 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF548217509
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 19:20:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37141217523
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 19:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A95089C94;
-	Tue,  7 Jul 2020 17:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E99B86E0D9;
+	Tue,  7 Jul 2020 17:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86EB489C94;
- Tue,  7 Jul 2020 17:20:48 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21744017-1500050 for multiple; Tue, 07 Jul 2020 18:20:33 +0100
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1BA6E0D9
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 17:29:54 +0000 (UTC)
+Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Tue, 7 Jul 2020 10:29:49 -0700
+Received: from [0.0.0.0] (oddjob.vmware.com [10.253.4.32])
+ by sc9-mailhost2.vmware.com (Postfix) with ESMTP id 7F233B2B61;
+ Tue,  7 Jul 2020 13:29:50 -0400 (EDT)
+Subject: Re: PROBLEM: kernel oops caused by vmwgfx_cmdbuf.c:399
+To: "Carle, Peter" <Peter.Carle@trojans.dsu.edu>,
+ "linux-graphics-maintainer@vmware.com" <linux-graphics-maintainer@vmware.com>
+References: <80fabd1334a54787b490db8ef5f0550f@BR3EXC01A.k12.sd.local>
+From: Roland Scheidegger <sroland@vmware.com>
+Message-ID: <4e398d32-9d5f-fc2e-542a-d92c6e2330b4@vmware.com>
+Date: Tue, 7 Jul 2020 19:29:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <CALqoU4y61Yc5ndaLSO3WoGSPxGm1nJJufk3U=uxhZe3sT1Xyzg@mail.gmail.com>
-References: <20200707160012.1299338-1-chris@chris-wilson.co.uk>
- <CALqoU4y61Yc5ndaLSO3WoGSPxGm1nJJufk3U=uxhZe3sT1Xyzg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/vgem: Do not allocate backing shmemfs file for an
- import dmabuf object
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: lepton <ytht.net@gmail.com>
-Date: Tue, 07 Jul 2020 18:20:32 +0100
-Message-ID: <159414243217.17526.6453360763938648186@build.alporthouse.com>
-User-Agent: alot/0.9
+In-Reply-To: <80fabd1334a54787b490db8ef5f0550f@BR3EXC01A.k12.sd.local>
+Content-Language: de-DE
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: sroland@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,32 +45,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellström <thomas_os@shipmail.org>, "# v4 . 10+" <stable@vger.kernel.org>, Christian König <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting lepton (2020-07-07 18:05:21)
-> On Tue, Jul 7, 2020 at 9:00 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> >
-> > If we assign obj->filp, we believe that the create vgem bo is native and
-> > allow direct operations like mmap() assuming it behaves as backed by a
-> > shmemfs inode. When imported from a dmabuf, the obj->pages are
-> > not always meaningful and the shmemfs backing store misleading.
-> >
-> > Note, that regular mmap access to a vgem bo is via the dumb buffer API,
-> > and that rejects attempts to mmap an imported dmabuf,
-> What do you mean by "regular mmap access" here?  It looks like vgem is
-> using vgem_gem_dumb_map as .dumb_map_offset callback then it doesn't call
-> drm_gem_dumb_map_offset
+Hi,
 
-As I too found out, and so had to correct my story telling.
+we are aware of an issue in our driver with kernel 5.7 resulting in
+black screen and working on fixing it.
 
-By regular mmap() access I mean mmap on the vgem bo [via the dumb buffer
-API] as opposed to mmap() via an exported dma-buf fd. I had to look at
-igt to see how it was being used.
--Chris
+Roland
+
+Am 07.07.20 um 17:43 schrieb Carle, Peter:
+> Good morning! Line 399 of vmwgfx_cmdbuf.c apparently causes a kernel oops that freezes the OS during boot-time. 
+> 
+> Here is the full line of the summary as reported by the Fedora notification system:
+> 
+> ---
+> 
+> WARNING: CPU: 2 PID: 414 at drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c:399 vmw_cmdbuf_ctx_process+0x262/0x270 [vmwgfx]
+> 
+> ---
+> 
+> This problem started with Fedora 32's recent upgrade to kernel version 5.7 on July 2nd. It does not exist in kernel version 5.6. 
+> 
+> The problem occurs with Fedora running within VMware Workstation Pro on a Windows 10 host. It does not occur with VirtualBox. 
+> 
+> When I attempt to boot the VM, it freezes with a black screen after getting past the initial boot screen. 
+> 
+> I have included screenshots of the full error report from the notification system, since it was having trouble exporting it to text format. Probably the most pertinent screenshots are vmwgfx_crash.PNG and coredump_dmesg.PNG.
+> 
+> Thank you!
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
