@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF7E217385
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 18:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585D2217435
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 18:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579086E061;
-	Tue,  7 Jul 2020 16:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE0206E247;
+	Tue,  7 Jul 2020 16:40:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.default.ilande.uk0.bigv.io (mail.ilande.co.uk
- [IPv6:2001:41c9:1:41f::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6CE6E061
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 16:17:25 +0000 (UTC)
-Received: from host86-182-221-233.range86-182.btcentralplus.com
- ([86.182.221.233] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jsqHk-0000hL-EH; Tue, 07 Jul 2020 17:17:32 +0100
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <671ea432-7e2b-ab37-225e-fd32aef9a3e3@ilande.co.uk>
- <20200704072305.GA689588@ravnborg.org>
- <02fbd875-f6fd-da20-6835-778bdd6426c3@ilande.co.uk>
- <485ded46-c1a3-1eab-eb95-1a771543fbaf@ilande.co.uk>
- <20200704134115.GA755192@ravnborg.org>
- <1d19833f-2977-a12f-f3a9-ef0d509ef366@ilande.co.uk>
- <20200704145212.GA791554@ravnborg.org>
- <98897d2e-38bd-6fcf-ab81-3f5f56906fb8@ilande.co.uk>
- <20200707070341.wpxyrlkrtbhghtro@sirius.home.kraxel.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <bd01d325-6580-c96f-5a05-fd296b49cf2b@ilande.co.uk>
-Date: Tue, 7 Jul 2020 17:17:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57D66E247
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 16:40:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594140037;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vwaVw6ScF/asAaXXiwkvG8Que7bF6ccJVwuXrq86c9E=;
+ b=Bol5e8/S7OQKELxvVow6414cL7Yq5yQjXr7l1rHhXMO7Mmlr7Kyna29nYx85D3PeM7NKCk
+ LbmC526mltSSxjhXJrqs2OZWbdY5TpgfqdUeK+1yDK/sx8JzOjiX2eU59NLpilAvX4JZxG
+ GPV6qL3a5j3wV3sG7r/cPEGzJ2j4iPY=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-mEF18-TIODCJ6pgAgrtaqQ-1; Tue, 07 Jul 2020 12:40:33 -0400
+X-MC-Unique: mEF18-TIODCJ6pgAgrtaqQ-1
+Received: by mail-qt1-f197.google.com with SMTP id t36so13118634qtc.16
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jul 2020 09:40:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=vwaVw6ScF/asAaXXiwkvG8Que7bF6ccJVwuXrq86c9E=;
+ b=S9s/BE/YB+fA43gu0FFywljWGEFWE0XO9pDG5GRZxxbdCmAJDkccePwJWAghy9mn4j
+ /hdGDBKfiCfkvQl9Bm3BG7qS8nMhVikXWKoJztbz116UamDP5sSCEyfKSgRsUH+RfFaF
+ q10fuHicWOlMLaFbrjWcmrXLTFoBNqgmqa1AFEhE/chzzjVsPr8qTIfxcK4sSV0uc9Kd
+ pfK17+c0DGR3Pu+dcK0tcneMj8DtzlB3vb9amR/u+cA2cfjpXnJ5GXH9/9C1NAvhsuEE
+ 29jxpzyzvGML80BKFj+8YFJN2AqyBVisKmBelzHjvUJptEkyVhJ7kVaVchtEilx0+Lwf
+ jodQ==
+X-Gm-Message-State: AOAM530oQ4vk8YO/+/KlWGLbYZk9YgUlM07dDNULKntfJ4+jAO3HJgnZ
+ VLhqAqBnbNTVdb5vQPNNhJgWXPadoICgMZL29iTdrqlDOul/z4NdbRzk0g8fbGyUvx6f5xibUc0
+ UnsyU+nzQXwsiwKKko13H1viw7Vvy
+X-Received: by 2002:a0c:f105:: with SMTP id i5mr55147972qvl.120.1594140033116; 
+ Tue, 07 Jul 2020 09:40:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8JvWON54NKB3Cot47xHyIwT7X/HsXWp/ySaloxs8fIGkGTI2F4c0LwjA5fiCJPM6cHJoFVw==
+X-Received: by 2002:a0c:f105:: with SMTP id i5mr55147952qvl.120.1594140032855; 
+ Tue, 07 Jul 2020 09:40:32 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id d135sm23093864qkg.117.2020.07.07.09.40.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jul 2020 09:40:32 -0700 (PDT)
+Message-ID: <db709fc4e8b038871b93897bfaa715dd4acea388.camel@redhat.com>
+Subject: Re: [PATCH 0/7] drm/mgag200: Inline prepare/commit helpers
+From: Lyude Paul <lyude@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com, 
+ daniel@ffwll.ch, sam@ravnborg.org, emil.velikov@collabora.com,
+ kraxel@redhat.com,  john.p.donnelly@oracle.com
+Date: Tue, 07 Jul 2020 12:40:31 -0400
+In-Reply-To: <20200707082411.6583-1-tzimmermann@suse.de>
+References: <20200707082411.6583-1-tzimmermann@suse.de>
+Organization: Red Hat
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
-In-Reply-To: <20200707070341.wpxyrlkrtbhghtro@sirius.home.kraxel.org>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 86.182.221.233
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
- mail.default.ilande.uk0.bigv.io
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: Panic booting qemu-system-sparc64 with bochs_drm
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,62 +83,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Reply-To: lyude@redhat.com
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/07/2020 08:03, Gerd Hoffmann wrote:
+For context - I already reviewed this once, it just missed the dri-devel list by
+accident
 
->> Yes, that's correct - I can confirm that the simplified diff below works:
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index 5609e164805f..83af05fac604 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
->> *fb_helper,
->>         unsigned int y;
->>
->>         for (y = clip->y1; y < clip->y2; y++) {
->> -               memcpy(dst, src, len);
->> +               fb_memcpy_tofb(dst, src, len);
+For the whole series:
+
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+On Tue, 2020-07-07 at 10:24 +0200, Thomas Zimmermann wrote:
+> Mgag200's modesetting still utilizes the prepare and commit functions
+> that were part of the non-atomic interface. This patchset integrates
+> them into the simple-display's enable function.
 > 
-> fb_memcpy_tofb is #defined to sbus_memcpy_toio @ sparc which looks
-> wrong to me given that this is a pci not a sbus device.  sparc also has
-> memcpy_toio which looks better to me.
+> Patch 1 disables CRTC write protection once when initializing the
+> registers. Before, CRTC registers were temporarily write-protected for
+> no apparent reason.
 > 
-> There are blit helpers in drm_format_helper.c which already use
-> memcpy_toio(), I guess we should do the same here.  Not fully sure we
-> can use memcpy_toio() unconditionally here.  Given that a shadow
-> framebuffer makes sense only in case the real framebuffer is not in
-> normal ram we probably can.
+> The screen is toggled on and off multiple times while setting a mode.
+> Patch 3 removes any intermediate screen on/off changes.
+> 
+> In patch 4, DPMS functionality is reduced to on an off. The DPMS helper
+> function implemements on, off, suspend and standby. In atomic modesetting,
+> only on and off is required.
+> 
+> Tested on G200SE HW with Xorg, Weston and fbdev.
+> 
+> Thomas Zimmermann (7):
+>   drm/mgag200: Don't write-protect CRTC 0-7 while in mga_crtc_prepare()
+>   drm/mgag200: Move PLL setup out of mode-setting function
+>   drm/mgag200: Don't set or clear <scroff> field during modeset
+>   drm/mgag200: Split DPMS function into helpers
+>   drm/mgag200: Set/clear <syncrst> field in display enable/disable
+>     helpers
+>   drm/mgag200: Rename G200WB prepare/commit function
+>   drm/mgag200: Inline mga_crtc_{prepare,commit}() into enable function
+> 
+>  drivers/gpu/drm/mgag200/mgag200_drv.h  |   6 +
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 168 +++++++++----------------
+>  drivers/gpu/drm/mgag200/mgag200_reg.h  |  11 ++
+>  3 files changed, 76 insertions(+), 109 deletions(-)
+> 
+> --
+> 2.27.0
+> 
 
-Thanks Gerd - I've just tested the diff below with memcpy_toio() and that works too:
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 5609e164805f..4d05b0ab1592 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
-*fb_helper,
-        unsigned int y;
-
-        for (y = clip->y1; y < clip->y2; y++) {
--               memcpy(dst, src, len);
-+               memcpy_toio(dst, src, len);
-                src += fb->pitches[0];
-                dst += fb->pitches[0];
-        }
-
-Presumably there is some existing mechanism that ensures SPARC will always choose a
-shadow framebuffer?
-
-
-ATB,
-
-Mark.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
