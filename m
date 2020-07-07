@@ -1,57 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51D2216EFF
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 16:40:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7B3216F08
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 16:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2758D6E0DB;
-	Tue,  7 Jul 2020 14:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCBF89468;
+	Tue,  7 Jul 2020 14:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B7DB89468;
- Tue,  7 Jul 2020 14:40:38 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id o18so42358857eje.7;
- Tue, 07 Jul 2020 07:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=imLJnUQOJLoud+X7JV4k0nFtK3qoTW9M9kMrdG4xwTI=;
- b=aHH0P+bkfOnOzmnmods4GdjdWlAjXL7NcHWSCIqPEJ6IWdWVXm1RZ5DAu5od43MBuv
- lNEyRXTr/weOku3SuK8GWB9ayOF6WaJC5XgfdIIx/NtPLcPxnnHIm34UcoVKoJ4JOHSZ
- +wjMmO5QbULEYZ6Of6wfTJ/SWJcNLzbJZtXuzBVUpfN7k9/oRHxHkbmmRKz28aFq1Xbk
- pCQlUyJ/DJLHGMmOEhtJKPHzMX/WXHpOX+8aIUcw7lt21mHYXLazoPlZmnA8jSUPVTFB
- v7djJwHETW0fksU8Rk3rVZT5ZKco2icXkSYSM2sjR4Uu/3eyenhg2RKXKao2ZgzUWMjO
- 0seg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=imLJnUQOJLoud+X7JV4k0nFtK3qoTW9M9kMrdG4xwTI=;
- b=nrB5kDnfWx59O20WLxu9F6gQPlJ1rCvBG6K5T1NBn3FmCnclMWorpGGIjGNholTRuy
- J2eFNuc25tqpGND0P9dPEQMUMLqnlz1mzeXrvB0IylSGky8wixcnfNDGw47nzmJtevwF
- 7Fscc0hStJzt1Bhu7ILA/Rh0SL0oBFs9x7Js8CamWbXM53lXgBm8645/ytkZALnc/jNz
- xJ0cLgdSLYqCEwsad7zPl7n17O+i2Y1WD+WSe1aOyA+fY1y/QzDZKne777YCG9mH1pow
- qUS4p4cHcgLnoRuiOTH/bsoa6aj6Bd/3frihcN+8m2n+bZm/0HJVgBXdloze4PXWVbUs
- LX3Q==
-X-Gm-Message-State: AOAM5325uWPlmMKgc+udlSDThH9+W3ES8+ieQDcWDXu65lawN0u9T4dF
- 02s2zvFZx+RW1yCuKBQkxtwRXK3UT3rmadrsenA=
-X-Google-Smtp-Source: ABdhPJzD51acCpJc3O7M5S0uOgbu1Fmh7nqzUxLrTPB/+ZiC2H6qvnvDbadVTKPnPXeuu7l5PQGEaVebbvPOsMW3ja8=
-X-Received: by 2002:a17:906:1187:: with SMTP id
- n7mr42036538eja.161.1594132836884; 
- Tue, 07 Jul 2020 07:40:36 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F60989468
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 14:41:41 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200707144139euoutp0223519c18c216067a7a8109083df4e4e8~ff20lv6IJ1891418914euoutp02T
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 14:41:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200707144139euoutp0223519c18c216067a7a8109083df4e4e8~ff20lv6IJ1891418914euoutp02T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1594132899;
+ bh=cBvC5AP1d5/o5ONU52SMIFkT7SU7vajmYhikOgSKNBA=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=D8KQ5Gaz6BDPkb1GjZbDsgDjwlTFNJ+UP5fFPx6k+tA8kOHMlt4lJzVFZJAdrIptN
+ v8JbcelAVa4chQjd/BxWYzm5fyw2eqeEShG3rlS2/UMfPs7nBITt2js2k6PkD5ijeu
+ z+0mFy6CyjCBsM7sFMiHZoaa+Am0U5t4b/ScGGnE=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200707144139eucas1p24f316cf9a8426b7a2b98b6c3d46b8f72~ff20YMNj-0464204642eucas1p28;
+ Tue,  7 Jul 2020 14:41:39 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 7C.B1.06456.3A9840F5; Tue,  7
+ Jul 2020 15:41:39 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200707144139eucas1p2c9121671808d695570092f9b64aae1dc~ff20EAmw_1234412344eucas1p2p;
+ Tue,  7 Jul 2020 14:41:39 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200707144139eusmtrp29b599051fdc57c201434d7a89432feb8~ff20DOkSO0093400934eusmtrp2F;
+ Tue,  7 Jul 2020 14:41:39 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-e0-5f0489a3068b
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 23.46.06017.3A9840F5; Tue,  7
+ Jul 2020 15:41:39 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200707144137eusmtip2bf3dc48ec38f0a4d231906613a0d1005~ff2ywayy_3094530945eusmtip2w;
+ Tue,  7 Jul 2020 14:41:37 +0000 (GMT)
+Subject: Re: [PATCH v7 02/36] drm: prime: use sgtable iterators in
+ drm_prime_sg_to_page_addr_arrays()
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <3297292e-51ac-faf7-ae51-4e7fe3882de1@samsung.com>
+Date: Tue, 7 Jul 2020 16:41:37 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200626200414.14382-1-jcrouse@codeaurora.org>
- <20200626200414.14382-5-jcrouse@codeaurora.org>
- <3feed674-5eb9-ca2f-76a7-f888f431c409@arm.com>
-In-Reply-To: <3feed674-5eb9-ca2f-76a7-f888f431c409@arm.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 7 Jul 2020 07:41:08 -0700
-Message-ID: <CAF6AEGsB7KN-y9QiX1DtNYBeBv3UgUXu6ReSpMY8hMx_8LXwaw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v2 4/6] drm/msm: Add support to create a local
- pagetable
-To: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20200619103636.11974-3-m.szyprowski@samsung.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGKsWRmVeSWpSXmKPExsWy7djPc7qLO1niDbZPU7LoPXeSyWLjjPWs
+ Fle+vmezWLn6KJPFgv3WFl+uPGSy2PT4GqvF5V1z2CzWHrnLbnHwwxNWiy1vJrI6cHusmbeG
+ 0WP7twesHve7jzN5bF5S73H732Nmj8k3ljN67L7ZwObRt2UVo8fm09UenzfJBXBFcdmkpOZk
+ lqUW6dslcGW0n/7JUvBfrGLZ9HusDYz/BLsYOTkkBEwkVnS/Zuxi5OIQEljBKPH37xco5wuj
+ xNR/i9ggnM+MEu8mTmWGaZlw8R5U1XJGiStfjrNAOO8ZJe6vmcIIUiUskC6x4to7JhBbRGAL
+ o0TzVDeQImaQUa3X9oIl2AQ0Jf5uvskGYvMK2Enc3bySHcRmEVCRmL1uGVhcVCBOYv3L7UwQ
+ NYISJ2c+YQGxOYHq/2+5C1bPLCAvsf3tHGYIW1yi6ctKVpBlEgIf2SWWfLvCBHG3i8TFHV9Y
+ IWxhiVfHt7BD2DIS/3fOh6qpl7i/ooUZormDUWLrhp1QT1tL3Dn3C+giDqANmhLrd+lDhB0l
+ enY+BgtLCPBJ3HgrCHEDn8SkbdOZIcK8Eh1tQhDVihL3z26FGigusfTCV7YJjEqzkHw2C8k3
+ s5B8Mwth7wJGllWM4qmlxbnpqcWGeanlesWJucWleel6yfm5mxiBqe30v+OfdjB+vZR0iFGA
+ g1GJhzcjkSVeiDWxrLgy9xCjBAezkgiv09nTcUK8KYmVValF+fFFpTmpxYcYpTlYlMR5jRe9
+ jBUSSE8sSc1OTS1ILYLJMnFwSjUwNlnx7Cms4GM5MsfszEPlg+U5pxg7S6zm7C7Lf3P7yb5X
+ zD1OR8JuHTaYwymeNWFVQYWSYZK7ia7j7EvJxs2zl9lvfNzV+0p4lvEipqfcP49Nv+wptvB2
+ y2/XN9fPGc3tsfyo1Bmtfvh5nlNU3a40kZJrFVN6NH+07Lm4Mlpa4st7p7s+EVK6SizFGYmG
+ WsxFxYkAgUxnL2kDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFIsWRmVeSWpSXmKPExsVy+t/xe7qLO1niDY7e5bXoPXeSyWLjjPWs
+ Fle+vmezWLn6KJPFgv3WFl+uPGSy2PT4GqvF5V1z2CzWHrnLbnHwwxNWiy1vJrI6cHusmbeG
+ 0WP7twesHve7jzN5bF5S73H732Nmj8k3ljN67L7ZwObRt2UVo8fm09UenzfJBXBF6dkU5ZeW
+ pCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GW0n/7JUvBfrGLZ
+ 9HusDYz/BLsYOTkkBEwkJly8x9jFyMUhJLCUUaLt2ktWiIS4xO75b5khbGGJP9e62CCK3jJK
+ HH92ih0kISyQLrHi2jsmkISIwBZGiWcrDoONYhb4zCjx9/pHqJajjBLrPl5mA2lhE9CU+Lv5
+ JpjNK2AncXfzSrBRLAIqErPXLQOLiwrESSzfMp8dokZQ4uTMJywgNidQ/f8td8HizAJmEvM2
+ P2SGsOUltr+dA2WLSzR9Wck6gVFoFpL2WUhaZiFpmYWkZQEjyypGkdTS4tz03GIjveLE3OLS
+ vHS95PzcTYzAeN527OeWHYxd74IPMQpwMCrx8GYkssQLsSaWFVfmHmKU4GBWEuF1Ons6Tog3
+ JbGyKrUoP76oNCe1+BCjKdBzE5mlRJPzgakmryTe0NTQ3MLS0NzY3NjMQkmct0PgYIyQQHpi
+ SWp2ampBahFMHxMHp1QD49l5r7vXLZr2j+F8lbcw0741euyX+ZeLF5nudXdQ+qf/dvv25GhN
+ hiR11hy1O5NcxfecKN5y4vHyVf2ZSeY3mlZuKHW/fYd5ncKcVcbyBqt3P7vye/UWliOPPGX3
+ dgbqbv9dZf97iZ77rODJ2/kEk7Yz+nxU4exKe6nFIRBW3P8i9d/jppsdv5VYijMSDbWYi4oT
+ AYofCv39AgAA
+X-CMS-MailID: 20200707144139eucas1p2c9121671808d695570092f9b64aae1dc
+X-Msg-Generator: CA
+X-RootMTR: 20200619103654eucas1p227a1d6926d008ef21ba4e0b68a8de210
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200619103654eucas1p227a1d6926d008ef21ba4e0b68a8de210
+References: <20200619103636.11974-1-m.szyprowski@samsung.com>
+ <CGME20200619103654eucas1p227a1d6926d008ef21ba4e0b68a8de210@eucas1p2.samsung.com>
+ <20200619103636.11974-3-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,329 +112,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 7, 2020 at 4:36 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-06-26 21:04, Jordan Crouse wrote:
-> > Add support to create a io-pgtable for use by targets that support
-> > per-instance pagetables.  In order to support per-instance pagetables the
-> > GPU SMMU device needs to have the qcom,adreno-smmu compatible string and
-> > split pagetables and auxiliary domains need to be supported and enabled.
-> >
-> > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> > ---
-> >
-> >   drivers/gpu/drm/msm/msm_gpummu.c |   2 +-
-> >   drivers/gpu/drm/msm/msm_iommu.c  | 180 ++++++++++++++++++++++++++++++-
-> >   drivers/gpu/drm/msm/msm_mmu.h    |  16 ++-
-> >   3 files changed, 195 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
-> > index 310a31b05faa..aab121f4beb7 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpummu.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpummu.c
-> > @@ -102,7 +102,7 @@ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
-> >       }
-> >
-> >       gpummu->gpu = gpu;
-> > -     msm_mmu_init(&gpummu->base, dev, &funcs);
-> > +     msm_mmu_init(&gpummu->base, dev, &funcs, MSM_MMU_GPUMMU);
-> >
-> >       return &gpummu->base;
-> >   }
-> > diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> > index 1b6635504069..f455c597f76d 100644
-> > --- a/drivers/gpu/drm/msm/msm_iommu.c
-> > +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> > @@ -4,15 +4,192 @@
-> >    * Author: Rob Clark <robdclark@gmail.com>
-> >    */
-> >
-> > +#include <linux/io-pgtable.h>
-> >   #include "msm_drv.h"
-> >   #include "msm_mmu.h"
-> >
-> >   struct msm_iommu {
-> >       struct msm_mmu base;
-> >       struct iommu_domain *domain;
-> > +     struct iommu_domain *aux_domain;
-> >   };
-> > +
-> >   #define to_msm_iommu(x) container_of(x, struct msm_iommu, base)
-> >
-> > +struct msm_iommu_pagetable {
-> > +     struct msm_mmu base;
-> > +     struct msm_mmu *parent;
-> > +     struct io_pgtable_ops *pgtbl_ops;
-> > +     phys_addr_t ttbr;
-> > +     u32 asid;
-> > +};
-> > +
-> > +static struct msm_iommu_pagetable *to_pagetable(struct msm_mmu *mmu)
-> > +{
-> > +     return container_of(mmu, struct msm_iommu_pagetable, base);
-> > +}
-> > +
-> > +static int msm_iommu_pagetable_unmap(struct msm_mmu *mmu, u64 iova,
-> > +             size_t size)
-> > +{
-> > +     struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> > +     struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-> > +     size_t unmapped = 0;
-> > +
-> > +     /* Unmap the block one page at a time */
-> > +     while (size) {
-> > +             unmapped += ops->unmap(ops, iova, 4096, NULL);
-> > +             iova += 4096;
-> > +             size -= 4096;
-> > +     }
-> > +
-> > +     iommu_flush_tlb_all(to_msm_iommu(pagetable->parent)->domain);
-> > +
-> > +     return (unmapped == size) ? 0 : -EINVAL;
-> > +}
->
-> Remember in patch #1 when you said "Then 'domain' can be used like any
-> other iommu domain to map and unmap iova addresses in the pagetable."?
->
-> This appears to be very much not that :/
->
 
-I guess that comment is a bit stale.. the original plan was to create
-an iommu_domain per set of pgtables, but at some point we realized
-that by using the io-pgtable helpers directly, we would inflict a lot
-less GPU-crazy on the iommu drivers
-
-BR,
--R
-
-> Robin.
+On 19.06.2020 12:36, Marek Szyprowski wrote:
+> Replace the current hand-crafted code for extracting pages and DMA
+> addresses from the given scatterlist by the much more robust
+> code based on the generic scatterlist iterators and recently
+> introduced sg_table-based wrappers. The resulting code is simple and
+> easy to understand, so the comment describing the old code is no
+> longer needed.
 >
-> > +
-> > +static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
-> > +             struct sg_table *sgt, size_t len, int prot)
-> > +{
-> > +     struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> > +     struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-> > +     struct scatterlist *sg;
-> > +     size_t mapped = 0;
-> > +     u64 addr = iova;
-> > +     unsigned int i;
-> > +
-> > +     for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> > +             size_t size = sg->length;
-> > +             phys_addr_t phys = sg_phys(sg);
-> > +
-> > +             /* Map the block one page at a time */
-> > +             while (size) {
-> > +                     if (ops->map(ops, addr, phys, 4096, prot)) {
-> > +                             msm_iommu_pagetable_unmap(mmu, iova, mapped);
-> > +                             return -EINVAL;
-> > +                     }
-> > +
-> > +                     phys += 4096;
-> > +                     addr += 4096;
-> > +                     size -= 4096;
-> > +                     mapped += 4096;
-> > +             }
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void msm_iommu_pagetable_destroy(struct msm_mmu *mmu)
-> > +{
-> > +     struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> > +
-> > +     free_io_pgtable_ops(pagetable->pgtbl_ops);
-> > +     kfree(pagetable);
-> > +}
-> > +
-> > +/*
-> > + * Given a parent device, create and return an aux domain. This will enable the
-> > + * TTBR0 region
-> > + */
-> > +static struct iommu_domain *msm_iommu_get_aux_domain(struct msm_mmu *parent)
-> > +{
-> > +     struct msm_iommu *iommu = to_msm_iommu(parent);
-> > +     struct iommu_domain *domain;
-> > +     int ret;
-> > +
-> > +     if (iommu->aux_domain)
-> > +             return iommu->aux_domain;
-> > +
-> > +     if (!iommu_dev_has_feature(parent->dev, IOMMU_DEV_FEAT_AUX))
-> > +             return ERR_PTR(-ENODEV);
-> > +
-> > +     domain = iommu_domain_alloc(&platform_bus_type);
-> > +     if (!domain)
-> > +             return ERR_PTR(-ENODEV);
-> > +
-> > +     ret = iommu_aux_attach_device(domain, parent->dev);
-> > +     if (ret) {
-> > +             iommu_domain_free(domain);
-> > +             return ERR_PTR(ret);
-> > +     }
-> > +
-> > +     iommu->aux_domain = domain;
-> > +     return domain;
-> > +}
-> > +
-> > +int msm_iommu_pagetable_params(struct msm_mmu *mmu,
-> > +             phys_addr_t *ttbr, int *asid)
-> > +{
-> > +     struct msm_iommu_pagetable *pagetable;
-> > +
-> > +     if (mmu->type != MSM_MMU_IOMMU_PAGETABLE)
-> > +             return -EINVAL;
-> > +
-> > +     pagetable = to_pagetable(mmu);
-> > +
-> > +     if (ttbr)
-> > +             *ttbr = pagetable->ttbr;
-> > +
-> > +     if (asid)
-> > +             *asid = pagetable->asid;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct msm_mmu_funcs pagetable_funcs = {
-> > +             .map = msm_iommu_pagetable_map,
-> > +             .unmap = msm_iommu_pagetable_unmap,
-> > +             .destroy = msm_iommu_pagetable_destroy,
-> > +};
-> > +
-> > +struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
-> > +{
-> > +     static int next_asid = 16;
-> > +     struct msm_iommu_pagetable *pagetable;
-> > +     struct iommu_domain *aux_domain;
-> > +     struct io_pgtable_cfg cfg;
-> > +     int ret;
-> > +
-> > +     /* Make sure that the parent has a aux domain attached */
-> > +     aux_domain = msm_iommu_get_aux_domain(parent);
-> > +     if (IS_ERR(aux_domain))
-> > +             return ERR_CAST(aux_domain);
-> > +
-> > +     /* Get the pagetable configuration from the aux domain */
-> > +     ret = iommu_domain_get_attr(aux_domain, DOMAIN_ATTR_PGTABLE_CFG, &cfg);
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +
-> > +     pagetable = kzalloc(sizeof(*pagetable), GFP_KERNEL);
-> > +     if (!pagetable)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     msm_mmu_init(&pagetable->base, parent->dev, &pagetable_funcs,
-> > +             MSM_MMU_IOMMU_PAGETABLE);
-> > +
-> > +     cfg.tlb = NULL;
-> > +
-> > +     pagetable->pgtbl_ops = alloc_io_pgtable_ops(ARM_64_LPAE_S1,
-> > +             &cfg, aux_domain);
-> > +
-> > +     if (!pagetable->pgtbl_ops) {
-> > +             kfree(pagetable);
-> > +             return ERR_PTR(-ENOMEM);
-> > +     }
-> > +
-> > +
-> > +     /* Needed later for TLB flush */
-> > +     pagetable->parent = parent;
-> > +     pagetable->ttbr = cfg.arm_lpae_s1_cfg.ttbr;
-> > +
-> > +     pagetable->asid = next_asid;
-> > +     next_asid = (next_asid + 1)  % 255;
-> > +     if (next_asid < 16)
-> > +             next_asid = 16;
-> > +
-> > +     return &pagetable->base;
-> > +}
-> > +
-> >   static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
-> >               unsigned long iova, int flags, void *arg)
-> >   {
-> > @@ -40,6 +217,7 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
-> >       if (iova & BIT_ULL(48))
-> >               iova |= GENMASK_ULL(63, 49);
-> >
-> > +
-> >       ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
-> >       WARN_ON(!ret);
-> >
-> > @@ -85,7 +263,7 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
-> >               return ERR_PTR(-ENOMEM);
-> >
-> >       iommu->domain = domain;
-> > -     msm_mmu_init(&iommu->base, dev, &funcs);
-> > +     msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
-> >       iommu_set_fault_handler(domain, msm_fault_handler, iommu);
-> >
-> >       ret = iommu_attach_device(iommu->domain, dev);
-> > diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-> > index 3a534ee59bf6..61ade89d9e48 100644
-> > --- a/drivers/gpu/drm/msm/msm_mmu.h
-> > +++ b/drivers/gpu/drm/msm/msm_mmu.h
-> > @@ -17,18 +17,26 @@ struct msm_mmu_funcs {
-> >       void (*destroy)(struct msm_mmu *mmu);
-> >   };
-> >
-> > +enum msm_mmu_type {
-> > +     MSM_MMU_GPUMMU,
-> > +     MSM_MMU_IOMMU,
-> > +     MSM_MMU_IOMMU_PAGETABLE,
-> > +};
-> > +
-> >   struct msm_mmu {
-> >       const struct msm_mmu_funcs *funcs;
-> >       struct device *dev;
-> >       int (*handler)(void *arg, unsigned long iova, int flags);
-> >       void *arg;
-> > +     enum msm_mmu_type type;
-> >   };
-> >
-> >   static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
-> > -             const struct msm_mmu_funcs *funcs)
-> > +             const struct msm_mmu_funcs *funcs, enum msm_mmu_type type)
-> >   {
-> >       mmu->dev = dev;
-> >       mmu->funcs = funcs;
-> > +     mmu->type = type;
-> >   }
-> >
-> >   struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
-> > @@ -41,7 +49,13 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
-> >       mmu->handler = handler;
-> >   }
-> >
-> > +struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
-> > +
-> >   void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
-> >               dma_addr_t *tran_error);
-> >
-> > +
-> > +int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
-> > +             int *asid);
-> > +
-> >   #endif /* __MSM_MMU_H__ */
-> >
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+
+Nice simplification.
+
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+
+Btw, I've wrongly re-configured my e-mail client, so my R-Bs for other 
+patches are little bit broken, I will resend them :)
+
+
+Regards
+Andrzej
+
+
+> ---
+>   drivers/gpu/drm/drm_prime.c | 49 ++++++++++++-------------------------
+>   1 file changed, 15 insertions(+), 34 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 226cd6ad3985..b717e52e909e 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -990,45 +990,26 @@ EXPORT_SYMBOL(drm_gem_prime_import);
+>   int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page **pages,
+>   				     dma_addr_t *addrs, int max_entries)
+>   {
+> -	unsigned count;
+> -	struct scatterlist *sg;
+> -	struct page *page;
+> -	u32 page_len, page_index;
+> -	dma_addr_t addr;
+> -	u32 dma_len, dma_index;
+> -
+> -	/*
+> -	 * Scatterlist elements contains both pages and DMA addresses, but
+> -	 * one shoud not assume 1:1 relation between them. The sg->length is
+> -	 * the size of the physical memory chunk described by the sg->page,
+> -	 * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
+> -	 * described by the sg_dma_address(sg).
+> -	 */
+> -	page_index = 0;
+> -	dma_index = 0;
+> -	for_each_sg(sgt->sgl, sg, sgt->nents, count) {
+> -		page_len = sg->length;
+> -		page = sg_page(sg);
+> -		dma_len = sg_dma_len(sg);
+> -		addr = sg_dma_address(sg);
+> -
+> -		while (pages && page_len > 0) {
+> -			if (WARN_ON(page_index >= max_entries))
+> +	struct sg_dma_page_iter dma_iter;
+> +	struct sg_page_iter page_iter;
+> +	struct page **p = pages;
+> +	dma_addr_t *a = addrs;
+> +
+> +	if (pages) {
+> +		for_each_sgtable_page(sgt, &page_iter, 0) {
+> +			if (p - pages >= max_entries)
+>   				return -1;
+> -			pages[page_index] = page;
+> -			page++;
+> -			page_len -= PAGE_SIZE;
+> -			page_index++;
+> +			*p++ = sg_page_iter_page(&page_iter);
+>   		}
+> -		while (addrs && dma_len > 0) {
+> -			if (WARN_ON(dma_index >= max_entries))
+> +	}
+> +	if (addrs) {
+> +		for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
+> +			if (a - addrs >= max_entries)
+>   				return -1;
+> -			addrs[dma_index] = addr;
+> -			addr += PAGE_SIZE;
+> -			dma_len -= PAGE_SIZE;
+> -			dma_index++;
+> +			*a++ = sg_page_iter_dma_address(&dma_iter);
+>   		}
+>   	}
+> +
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_prime_sg_to_page_addr_arrays);
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
