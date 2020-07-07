@@ -1,40 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E88021801D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:00:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9941F21805C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:07:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7FC6E85E;
-	Wed,  8 Jul 2020 07:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C196E877;
+	Wed,  8 Jul 2020 07:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7DE6E85E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 07:00:12 +0000 (UTC)
-Received: from localhost.localdomain (unknown [122.182.251.219])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5DEA920771;
- Wed,  8 Jul 2020 07:00:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594191612;
- bh=rIwQJ9XgMhIS4v7G1h7P96EkZRD4YP9JPOfTgw+cIoM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UuF6eIm83gFRGSPVdGCn1wDPNxbsmuI9l0gqDSBrKa6ohCKOxFMCc1sGCi2/1wrwS
- RadZz5K3T7vb3jZJ4mSwf7jvzJOXLveNTDC9dTBvb08lVUhax18ZzA5Rw694Rsmu9q
- KZ8p3DbvAz6U3A/ABXp1Z6cW6NXcukSqn+9UIhv0=
-From: Vinod Koul <vkoul@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v4 4/4] drm/msm/dsi: attach external bridge with
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Wed,  8 Jul 2020 12:29:24 +0530
-Message-Id: <20200708065924.59257-5-vkoul@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200708065924.59257-1-vkoul@kernel.org>
-References: <20200708065924.59257-1-vkoul@kernel.org>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482816E107
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 07:57:43 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 6CD2D8EF;
+ Tue,  7 Jul 2020 03:57:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 07 Jul 2020 03:57:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=j7sSx1cBu9YuUeC7JdCp9Jeeary
+ 0gtIrnpNwyxVy2dU=; b=Jj0Ne0KoCPd6PlV/IjzQ/IURNgTcep3j/Z5F5hXbDKB
+ 4qcOQCX7Q6I6OyQfSOIYLEcpcJU5K5ew9S7WteiQ0ca+QH/tAO9tyQiQhoGsdxC5
+ +n7gHCO4fXitxBZlRUWlkGv30E6yfnOa+w9mZo5nc5RNmMpT3Y54bo0fbMF2HHm0
+ rLxmCzaRwOuvacIsjzIVt62CCxE6pgivOS0pYEopoxbucj6x5RtVr5ATLhcorRI0
+ pYaZd5AV02AN9+S2b5d+rvD/O2G+4HLAOZsqURUT1mhtaO0BwyLozwZQN6Nbd6jL
+ Ow4Mqc3IDdoGUPcyc5+BsntbPXgqwF8z9Az16VUxAUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=j7sSx1
+ cBu9YuUeC7JdCp9Jeeary0gtIrnpNwyxVy2dU=; b=rHs+EZH5RhddgHc6AvXcum
+ Js2lpq707FZv2zxjPpJuLBFz1s7HGVK1DegE9NEspA0NqhstYweujnBInmFgA/gn
+ XB0QeI8dUTnZBLeEzlpsFJqm6rm75HqN3KQ8jsVIBaFxjgAtBY+XeNIkEsu81W+o
+ PVPCGS+aFtOi80bSJxetA0mDpRtvWeYAK9I61a873nJ88E52dC//O3rvg3rxryr5
+ NILE5LYAI7EiM/kDPCsMkV9U3Tuyzuvi9CBLQHtwGZXhxRoPafv3fXoit/Nb4fVM
+ V/PaR1xOOqS60NhV6YGbBYZHiw6gApSIpzzJD/VwkA4QTzCXUWoj3PCMKjKoztxA
+ ==
+X-ME-Sender: <xms:8SoEX0743jfyTevsS0YhsVIzGM-z_-6lpD0d5l-M34e-nQ4wf_J9ug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudeggdduvdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:8SoEX17p4_DCQK8BHJVraIIaclOLu_lkxfwFu2pzy1-z9enHVvaGag>
+ <xmx:8SoEXzcpvfJ96ZKxtiOVKJSvndxnJpjeJV3ecm8yG9pzDJP797qW0Q>
+ <xmx:8SoEX5JiKUPIeAxdsEN3xM0Q2FO0xHSalQMComyxrJD70PRxSfWi-A>
+ <xmx:8ioEXyhu_2S5l-yYihPxHDrizYolqzmmWHCxl_yaaR6yScUEV6St_w>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5D337328005A;
+ Tue,  7 Jul 2020 03:57:37 -0400 (EDT)
+Date: Tue, 7 Jul 2020 09:57:35 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Eric Anholt <eric@anholt.net>
+Subject: Re: [PATCH] drm/vc4: Convert register accessors to FIELD_*
+Message-ID: <20200707075735.dzegt7d3d52rhmyv@gilmour.lan>
+References: <20200703135713.985810-1-maxime@cerno.tech>
+ <CADaigPUo=Y6Z6N3jMF9r+xgxQ2Ec_dYUp3vchXyfVqnApMtJkQ@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CADaigPUo=Y6Z6N3jMF9r+xgxQ2Ec_dYUp3vchXyfVqnApMtJkQ@mail.gmail.com>
+X-Mailman-Approved-At: Wed, 08 Jul 2020 07:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,116 +77,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, Emil Velikov <emil.l.velikov@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: multipart/mixed; boundary="===============1706213128=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modern bridges do not create the connector and expect the display driver
-to do so. Hence, create the drm connector in msm display driver and add
-use flag DRM_BRIDGE_ATTACH_NO_CONNECTOR to attach bridges
 
-Tested-by: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/msm/dsi/dsi.c         |  7 +------
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 27 +++++++++++++--------------
- 2 files changed, 14 insertions(+), 20 deletions(-)
+--===============1706213128==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="323s6f5udl3nvubx"
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index 55ea4bc2ee9c..617075e3e3f0 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -219,12 +219,7 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
- 		goto fail;
- 	}
- 
--	/*
--	 * check if the dsi encoder output is connected to a panel or an
--	 * external bridge. We create a connector only if we're connected to a
--	 * drm_panel device. When we're connected to an external bridge, we
--	 * assume that the drm_bridge driver will create the connector itself.
--	 */
-+	/* Initialize the internal panel or external bridge */
- 	ext_bridge = msm_dsi_host_get_bridge(msm_dsi->host);
- 
- 	if (ext_bridge)
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 4b363bd7ddff..72cfd0a8187b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2015, The Linux Foundation. All rights reserved.
-  */
- 
-+#include <drm/drm_bridge_connector.h>
- #include "msm_kms.h"
- #include "dsi.h"
- 
-@@ -689,7 +690,7 @@ struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
- 	bridge = &dsi_bridge->base;
- 	bridge->funcs = &dsi_mgr_bridge_funcs;
- 
--	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		goto fail;
- 
-@@ -709,7 +710,6 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
- 	struct drm_encoder *encoder;
- 	struct drm_bridge *int_bridge, *ext_bridge;
- 	struct drm_connector *connector;
--	struct list_head *connector_list;
- 
- 	int_bridge = msm_dsi->bridge;
- 	ext_bridge = msm_dsi->external_bridge =
-@@ -717,22 +717,21 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
- 
- 	encoder = msm_dsi->encoder;
- 
--	/* link the internal dsi bridge to the external bridge */
--	drm_bridge_attach(encoder, ext_bridge, int_bridge, 0);
--
--	/*
--	 * we need the drm_connector created by the external bridge
--	 * driver (or someone else) to feed it to our driver's
--	 * priv->connector[] list, mainly for msm_fbdev_init()
-+	/* link the internal dsi bridge to the external bridge and attach
-+	 * the connector, we are supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR
-+	 * so always create connector
- 	 */
--	connector_list = &dev->mode_config.connector_list;
-+	drm_bridge_attach(encoder, ext_bridge, int_bridge, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 
--	list_for_each_entry(connector, connector_list, head) {
--		if (drm_connector_has_possible_encoder(connector, encoder))
--			return connector;
-+	connector = drm_bridge_connector_init(dev, encoder);
-+	if (IS_ERR(connector)) {
-+		DRM_DEV_ERROR(dev->dev, "drm_bridge_connector_init failed: %ld\n",
-+			      PTR_ERR(connector));
-+		return ERR_PTR(-ENODEV);
- 	}
- 
--	return ERR_PTR(-ENODEV);
-+	drm_connector_attach_encoder(connector, msm_dsi->encoder);
-+	return connector;
- }
- 
- void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge)
--- 
-2.26.2
+
+--323s6f5udl3nvubx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jul 03, 2020 at 09:57:04AM -0700, Eric Anholt wrote:
+> On Fri, Jul 3, 2020 at 6:57 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The VC4_SET_FIELD and VC4_GET_FIELD are reimplementing most of the logic
+> > already defined in FIELD_SET and FIELD_GET. Let's convert the vc4 macro=
+s to
+> > use the FIELD_* macros.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+>=20
+> Reviewed-by: Eric Anholt <eric@anholt.net>
+
+Applied, thanks!
+Maxime
+
+--323s6f5udl3nvubx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXwQq7wAKCRDj7w1vZxhR
+xSr7AQDTeTQQEb/LZeEesElW10abLqxa6jCFEAnXr939qJiYDQEA2fPJ03gh4yHj
+BxB0ARShVO9hlxBL4dotZ36x4Z93TwE=
+=n7JR
+-----END PGP SIGNATURE-----
+
+--323s6f5udl3nvubx--
+
+--===============1706213128==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1706213128==--
