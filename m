@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE9A218071
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E305521803C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:06:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE166E895;
-	Wed,  8 Jul 2020 07:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11DA16E864;
+	Wed,  8 Jul 2020 07:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id CAF1F6E21C
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E65289DEC
  for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 15:46:32 +0000 (UTC)
-X-UUID: 7ffd73a357424c99b2f34f6a501b8cbd-20200707
+X-UUID: 9d0395b7559a49c9850fa668598a20c4-20200707
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=NywHPAueQWZsL8tcuK4bPq8/aZhOZfaPkZYtAImJHB4=; 
- b=Azm1GG6LUFopjjOeYppSs0QGwbsqjbR7gT+dRleFxCUkQxvmSqs8sRcrvjh/dHSsZUno65NQRKcZKxU2op0OhwVJftCvpFvr5w5jiSj9MlRnDH4YOsew/wGHaASBtk/f783JzOWjqd+AgXePCcF4SmLI9HUbzRmZ34HUOpIfzfo=;
-X-UUID: 7ffd73a357424c99b2f34f6a501b8cbd-20200707
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ bh=OmsSpiiuPqYWe3/jnsNKfZxQpwmDSERR0tJEHUiCPZ4=; 
+ b=HJo8tlEbq1bcLPo7yzX6PrL8QP/1kMRa0AJUpUTMWXLBeZv0GNR4nqfpaLsFUUX9otG6Wv+7t/kNxlFAH3dFGgfTup740ecBaTc5TE86QqHzB9XGsbPL0HE2h6o++t8VCYmbOOIbHwkBh5FGBxPAxszmM0J8qUY7Mb6yIpMT6nw=;
+X-UUID: 9d0395b7559a49c9850fa668598a20c4-20200707
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
  (envelope-from <dennis-yc.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 354557324; Tue, 07 Jul 2020 23:46:28 +0800
+ with ESMTP id 263027000; Tue, 07 Jul 2020 23:46:29 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Tue, 7 Jul 2020 23:46:23 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -34,9 +34,9 @@ To: Matthias Brugger <matthias.bgg@gmail.com>, Philipp Zabel
  <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
  <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>, Bibby Hsieh
  <bibby.hsieh@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>
-Subject: [PATCH v3 2/9] soc: mediatek: cmdq: add write_s function
-Date: Tue, 7 Jul 2020 23:45:07 +0800
-Message-ID: <1594136714-11650-3-git-send-email-dennis-yc.hsieh@mediatek.com>
+Subject: [PATCH v3 3/9] soc: mediatek: cmdq: add write_s_mask function
+Date: Tue, 7 Jul 2020 23:45:08 +0800
+Message-ID: <1594136714-11650-4-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
@@ -64,42 +64,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add write_s function in cmdq helper functions which
+add write_s_mask function in cmdq helper functions which
 writes value contains in internal register to address
-with large dma access support.
+with mask and large dma access support.
 
 Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
 ---
- drivers/soc/mediatek/mtk-cmdq-helper.c   |   19 +++++++++++++++++++
+ drivers/soc/mediatek/mtk-cmdq-helper.c   |   23 +++++++++++++++++++++++
  include/linux/mailbox/mtk-cmdq-mailbox.h |    1 +
- include/linux/soc/mediatek/mtk-cmdq.h    |   19 +++++++++++++++++++
- 3 files changed, 39 insertions(+)
+ include/linux/soc/mediatek/mtk-cmdq.h    |   18 ++++++++++++++++++
+ 3 files changed, 42 insertions(+)
 
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 9faf78fbed3a..880349b3f16c 100644
+index 880349b3f16c..550e9e7e3ff2 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -18,6 +18,10 @@ struct cmdq_instruction {
- 	union {
- 		u32 value;
- 		u32 mask;
-+		struct {
-+			u16 arg_c;
-+			u16 src_reg;
-+		};
- 	};
- 	union {
- 		u16 offset;
-@@ -223,6 +227,21 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+@@ -242,6 +242,29 @@ int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
  }
- EXPORT_SYMBOL(cmdq_pkt_write_mask);
+ EXPORT_SYMBOL(cmdq_pkt_write_s);
  
-+int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-+		     u16 addr_low, u16 src_reg_idx)
++int cmdq_pkt_write_s_mask(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
++			  u16 addr_low, u16 src_reg_idx, u32 mask)
 +{
 +	struct cmdq_instruction inst = {};
++	int err;
 +
-+	inst.op = CMDQ_CODE_WRITE_S;
++	inst.op = CMDQ_CODE_MASK;
++	inst.mask = ~mask;
++	err = cmdq_pkt_append_command(pkt, inst);
++	if (err < 0)
++		return err;
++
++	inst.mask = 0;
++	inst.op = CMDQ_CODE_WRITE_S_MASK;
 +	inst.src_t = CMDQ_REG_TYPE;
 +	inst.sop = high_addr_reg_idx;
 +	inst.offset = addr_low;
@@ -107,45 +104,37 @@ index 9faf78fbed3a..880349b3f16c 100644
 +
 +	return cmdq_pkt_append_command(pkt, inst);
 +}
-+EXPORT_SYMBOL(cmdq_pkt_write_s);
++EXPORT_SYMBOL(cmdq_pkt_write_s_mask);
 +
  int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
  {
  	struct cmdq_instruction inst = { {0} };
 diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-index 05eea1aef5aa..1f76cfedb16d 100644
+index 1f76cfedb16d..90d1d8e64412 100644
 --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
 +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-@@ -60,6 +60,7 @@ enum cmdq_code {
- 	CMDQ_CODE_JUMP = 0x10,
+@@ -61,6 +61,7 @@ enum cmdq_code {
  	CMDQ_CODE_WFE = 0x20,
  	CMDQ_CODE_EOC = 0x40,
-+	CMDQ_CODE_WRITE_S = 0x90,
+ 	CMDQ_CODE_WRITE_S = 0x90,
++	CMDQ_CODE_WRITE_S_MASK = 0x91,
  	CMDQ_CODE_LOGIC = 0xa0,
  };
  
 diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 2249ecaf77e4..9b0c57a0063d 100644
+index 9b0c57a0063d..53230341bf94 100644
 --- a/include/linux/soc/mediatek/mtk-cmdq.h
 +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -12,6 +12,8 @@
- #include <linux/timer.h>
- 
- #define CMDQ_NO_TIMEOUT		0xffffffffu
-+#define CMDQ_ADDR_HIGH(addr)	((u32)(((addr) >> 16) & GENMASK(31, 0)))
-+#define CMDQ_ADDR_LOW(addr)	((u16)(addr) | BIT(1))
- 
- struct cmdq_pkt;
- 
-@@ -103,6 +105,23 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
- 			u16 offset, u32 value, u32 mask);
+@@ -122,6 +122,24 @@ int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+ 		     u16 addr_low, u16 src_reg_idx);
  
  /**
-+ * cmdq_pkt_write_s() - append write_s command to the CMDQ packet
++ * cmdq_pkt_write_s_mask() - append write_s with mask command to the CMDQ packet
 + * @pkt:	the CMDQ packet
 + * @high_addr_reg_idx:	internal register ID which contains high address of pa
 + * @addr_low:	low address of pa
 + * @src_reg_idx:	the CMDQ internal register ID which cache source value
++ * @mask:	the specified target address mask, use U32_MAX if no need
 + *
 + * Return: 0 for success; else the error code is returned
 + *
@@ -154,8 +143,8 @@ index 2249ecaf77e4..9b0c57a0063d 100644
 + * reg. Also use CMDQ_ADDR_LOW() to get low address for addr_low parameter when
 + * call to this function.
 + */
-+int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-+		     u16 addr_low, u16 src_reg_idx);
++int cmdq_pkt_write_s_mask(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
++			  u16 addr_low, u16 src_reg_idx, u32 mask);
 +
 +/**
   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
