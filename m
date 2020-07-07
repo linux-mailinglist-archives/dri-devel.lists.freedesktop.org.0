@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113692162A3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 01:57:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFAE7216309
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jul 2020 02:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003FC6E4D2;
-	Mon,  6 Jul 2020 23:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D442A89C5E;
+	Tue,  7 Jul 2020 00:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C96536E4E6
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jul 2020 23:57:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3760A89C5E
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jul 2020 00:37:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
  amdgpu_atomic_commit_tail
-Date: Mon, 06 Jul 2020 23:57:14 +0000
+Date: Tue, 07 Jul 2020 00:37:46 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-dsjtMMdfzZ@https.bugzilla.kernel.org/>
+Message-ID: <bug-207383-2300-9LkAmU62o8@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
 References: <bug-207383-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,25 +59,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
---- Comment #41 from Duncan (1i5t5.duncan@cox.net) ---
+--- Comment #42 from Duncan (1i5t5.duncan@cox.net) ---
 (In reply to Alex Deucher from comment #40)
 > Does this patch help?
 
-Booted to v5.7 with it applied now.  We'll see.  Since the bug can take awhile
-to trigger on my hardware, if the patch fixes it I won't know for days, and
-won't be /sure/ for say  a week, the reason bisecting was taking so long.
+No.  v5.7 with the patch applied gave me the same graphics freeze, with the
+usual log trace confirming it's _this_ bug.
 
-(It wouldn't apply to current 5.8-rc4-plus-an-s390-pull.  Too tired to figure
-out why ATM but if it's because it was there already, hopefully it was pulled
-in after v5.8-rc3 as I tested that and got the same graphics freeze with the
-characteristic trace, so if the patch was already in v5.8-rc3, it does /not/
-fix the bug.)
-
-As for bisecting, I've hard-crashed twice on the current step, apparently with
-a different bug, so while _this_ bug hasn't seemed to trigger yet, I haven't
-gotten the necessary confidence that it's a bisect-good.  So hopefully this
-patch /does/ fix it, and I can put this entirely too frustrating bug-bisect
-behind me!
+Sigh, back to the bisect. =:^(
 
 -- 
 You are receiving this mail because:
