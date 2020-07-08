@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8224521991A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE916219942
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 158326E9D9;
-	Thu,  9 Jul 2020 07:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8D46EA00;
+	Thu,  9 Jul 2020 07:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 732396E907
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:44:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F866E907
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:44:17 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 7CEE1102D;
- Wed,  8 Jul 2020 13:44:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:44:16 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id E1057102C;
+ Wed,  8 Jul 2020 13:44:16 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:44:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=1mEX+3++0BewV
- JPrut0JzEcRQwhjaEVpe1Cyf0r7/ro=; b=cNb0scoyYyNACCyd9DH6nq4YpK1td
- AaLkYyXpdgNbV1f5WteZy/buxOsf7Zfxnqa+5q8msRKhbvUrr1YFA6fGPavJ918O
- k2J6r5b80VmJNax9fRmjKW6S0Js3U96INLwL9BgnGmOEGmHf3x+RrWimfrkv6QTg
- wn1fnUfcJpiQi4YGR0MBsBppHh3iFMy6vj3BZWqLBLorVuK1KJDUh+/qSdZfZ9Jp
- rqKEBpw8GHKKCq64F1LdsqnuyK4rBkG2jN672QVc4FidrZTdGS3nrxruETYJuU1I
- WR6olJ3F9E58/gdLXgnEJ6cqeEuMSp3N3092fdoEYTkhEcIcSmkvFP4nQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=CCM3FR9MommKf
+ kWPXC3zWsbEckUn2ox+/fsqWabGT3A=; b=aI20NJSmlPS4cflG+uQwQnmyreMaK
+ uk6sBjuRYpQI0N11oKd7qtnUmu3xM5Xc5RmfW80AqQ1aSxDcXfHVLwpakf23eQx5
+ hP1OnKvdiWm78508JT7Qj1r6BsELd9YoyOg+iPiT2r6HDU2cJd22nSQ9H7qhp0Sm
+ 0NsRQIJxLctoBathyMzR5es4g95uPGqlYkxymRd7xg1NFWIv+58FbiOFrxEWS90Q
+ 4FUyTxK95WeDaGnsixesSemIjFjTEpsmSFI9IVb/O1kepASSKJyNYDGpmrLYCeF/
+ +d7q5IwnrTC8WHmi7ckBDadA/VlJl+Aob1e0qkzbTn0vCrDb9Tg36RihQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=1mEX+3++0BewVJPrut0JzEcRQwhjaEVpe1Cyf0r7/ro=; b=fGlsB1WP
- B0TKVh0GpmRgREEj7HFfH00RpKvJt97hmeqxTlC4M5u/mkMGe1OSKTPWWiDoor5v
- tLyDoF7OfAn3s+OmuhetjxRqvDnD5uvEwgoviAEQImV59p/oOsKzKeh71kX4FsTe
- 4xjI87dvy5YouBTAae20tIONy/2d11vGIa4cZHgZIChfYVbhenntw+u5u2Y5p5ta
- H9a/EjDEhF2iKyM8BK78zFyti44pBPE0N4vabUA1DBwcTQfOsxdJnCMRnfooyluY
- DiUjHxmXFPlqKvsWGzuJ5Cwhe3Bg+kHDSW8mqtlPqg3Zs2DdsfrPJdoSVrNSeD1u
- iB+hgRaLyhWYmA==
-X-ME-Sender: <xms:7gUGX-yq5tC_6HORJVgu3QHMd8J0AjJ1ZJlxM8typDLLmlw6Nmq2kQ>
+ fm3; bh=CCM3FR9MommKfkWPXC3zWsbEckUn2ox+/fsqWabGT3A=; b=fiV4BgGM
+ Dt8UZMM2K7v3YC4AokbUY+nWaU54y8J4yQ///pTOoGpmqcdBtOa3bzBSQ/rurECc
+ EruABXrimIjuk/XPfuflUGqh4QdW9n+Cpjk+faFsNt3SKha5fGqEv1HiF2oJst7+
+ a6KQspanDwqfqnyumDzlGcCyK7r9msR24A1MBY4aEL/vmrXLdXKOXahdbBZJ40D6
+ 6DovcrPpH5axM7jV+5k5fIrzntRPQLT/euu1YUEeoNMIp/2gkDtY/uRhaWe+9oUO
+ SokV05Q2nCuHJfLtX2F08rT72a39lfbjhExyTiy4QNlELW1sm19i0zvSr5m6vhyi
+ IeIOwXVEphctXQ==
+X-ME-Sender: <xms:8AUGX22GieYP_W7lQSQ44wrNWR-FebucqRMmQuQDapIwDhC9ZQl49A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,20 +47,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepieeine
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:7gUGX6TqTLEoMRhuzu2hdWNAMoyH9nXLi5TUkMmL1ehvPzsxYBiv7Q>
- <xmx:7gUGXwWYHxfkq2OkQWIzgxYGQ1CIPdFV006h52c16rqe7Vr8QkNV6g>
- <xmx:7gUGX0ikh_rT4IoHsU00EHqETkEN5u2o0QrUrLBiHWK7ktjW1mpn7A>
- <xmx:7wUGX-BlFmN4NW8Href5Hca4NiMftQOKIRh1E70-i2rtA-HxoPvif8gfB50>
+X-ME-Proxy: <xmx:8AUGX5FGxnGJC2H6v6vn5PnfUAeOKLU8Naw_W-KLoY6F21v4RrSJVw>
+ <xmx:8AUGX-6p3lf_KXoZxAAItcPrQ326QRhk_2WEX72_loKOlsiTYqbizw>
+ <xmx:8AUGX32axcYWf9KZn2Ui_g85xjmPkiEQ-Yv8yAI_29CHKg5KTez1IQ>
+ <xmx:8AUGXw2XArzO6opDqs9iEd85ADA7uSq3las3NPTaWkgMazw5koKlATBoZns>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id AE6B0328005D;
- Wed,  8 Jul 2020 13:44:14 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2A8F1306005F;
+ Wed,  8 Jul 2020 13:44:16 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 72/78] drm/vc4: hdmi: Do the VID_CTL configuration at once
-Date: Wed,  8 Jul 2020 19:42:20 +0200
-Message-Id: <06921938439fdf7da952fb8d148932fc9403f82a.1594230107.git-series.maxime@cerno.tech>
+Subject: [PATCH v4 73/78] drm/vc4: hdmi: Switch to blank pixels when disabled
+Date: Wed,  8 Jul 2020 19:42:21 +0200
+Message-Id: <c76f3fe7ded07234e711007330ea40d32c461119.1594230107.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
@@ -88,61 +88,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VID_CTL setup is done in several places in the driver even though it's
-not really required. Let's simplify it a bit to do the configuration in one
-go.
+In order to avoid pixels getting stuck in an unflushable FIFO, we need when
+we disable the HDMI controller to switch away from getting our pixels from
+the pixelvalve and instead use blank pixels, and switch back to the
+pixelvalve when we enable the HDMI controller.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c |  9 +++++++++
+ drivers/gpu/drm/vc4/vc4_regs.h |  3 +++
+ 2 files changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index bbe521ab000b..f56a718a3643 100644
+index f56a718a3643..37463b016b47 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -428,10 +428,6 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+@@ -325,6 +325,12 @@ static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder)
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
  
- 	HDMI_WRITE(HDMI_VERTB0, vertb_even);
- 	HDMI_WRITE(HDMI_VERTB1, vertb);
--
--	HDMI_WRITE(HDMI_VID_CTL,
--		   (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
--		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
+ 	HDMI_WRITE(HDMI_RAM_PACKET_CONFIG, 0);
++
++	HDMI_WRITE(HDMI_VID_CTL, HDMI_READ(HDMI_VID_CTL) |
++		   VC4_HD_VID_CTL_CLRRGB | VC4_HD_VID_CTL_CLRSYNC);
++
++	HDMI_WRITE(HDMI_VID_CTL,
++		   HDMI_READ(HDMI_VID_CTL) | VC4_HD_VID_CTL_BLANKPIX);
  }
  
- static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
-@@ -520,8 +516,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
- 	if (vc4_hdmi->variant->phy_init)
- 		vc4_hdmi->variant->phy_init(vc4_hdmi, mode);
+ static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder)
+@@ -563,6 +569,9 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder)
+ 		   (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
+ 		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
  
--	HDMI_WRITE(HDMI_VID_CTL, 0);
--
- 	HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
- 		   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
- 		   VC4_HDMI_SCHEDULER_CONTROL_MANUAL_FORMAT |
-@@ -555,15 +549,19 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder)
- 
- static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder)
- {
-+	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-+	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-+	bool vsync_pos = mode->flags & DRM_MODE_FLAG_PVSYNC;
- 	int ret;
- 
- 	HDMI_WRITE(HDMI_VID_CTL,
--		   HDMI_READ(HDMI_VID_CTL) |
- 		   VC4_HD_VID_CTL_ENABLE |
- 		   VC4_HD_VID_CTL_UNDERFLOW_ENABLE |
--		   VC4_HD_VID_CTL_FRAME_COUNTER_RESET);
-+		   VC4_HD_VID_CTL_FRAME_COUNTER_RESET |
-+		   (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
-+		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
- 
++	HDMI_WRITE(HDMI_VID_CTL,
++		   HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_BLANKPIX);
++
  	if (vc4_encoder->hdmi_monitor) {
  		HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
+ 			   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index d1e8961edaa0..30af52b406f1 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -723,6 +723,9 @@
+ # define VC4_HD_VID_CTL_FRAME_COUNTER_RESET	BIT(29)
+ # define VC4_HD_VID_CTL_VSYNC_LOW		BIT(28)
+ # define VC4_HD_VID_CTL_HSYNC_LOW		BIT(27)
++# define VC4_HD_VID_CTL_CLRSYNC			BIT(24)
++# define VC4_HD_VID_CTL_CLRRGB			BIT(23)
++# define VC4_HD_VID_CTL_BLANKPIX		BIT(18)
+ 
+ # define VC4_HD_CSC_CTL_ORDER_MASK		VC4_MASK(7, 5)
+ # define VC4_HD_CSC_CTL_ORDER_SHIFT		5
 -- 
 git-series 0.9.1
 _______________________________________________
