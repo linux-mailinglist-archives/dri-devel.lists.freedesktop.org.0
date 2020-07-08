@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613C6219916
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF4321993B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C9F6E9CA;
-	Thu,  9 Jul 2020 07:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 423BF6E9F6;
+	Thu,  9 Jul 2020 07:05:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D36B86E90B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:42:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6DF6E905
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:42:57 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D8724102C;
- Wed,  8 Jul 2020 13:42:54 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:42:55 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 562742F9;
+ Wed,  8 Jul 2020 13:42:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:42:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=EXexJCwQMTUDy
- YQ7lLg4Vs8yTtnTcQ1aoSB9BKA2a5Y=; b=d22tZ4TcV12IAbU8ptoQGF+giDSVd
- 9UcJwE8wLsZrPnk3IjZX5NNSD2K+bA7eC8l3E0wtFdYKpLZ0xSanS1rRpH7faQ4X
- GJzPIjNT0Y6VOtzwIJRW5F0HP4FbGRq5riihBozik4EhgdLa/bs9BKHhGMGXexsk
- MtvmN/5wpE6UyVUqt/rlHovAfacoqTGcUeKWD8rCMbJPibC1yWzv6X4L3zdyOHXQ
- viKABKZdj42MCSXdYrxc53V0NujARVc4zUAJ+6J0ThNOE4hsNbfCEAcfP4FeiHyg
- A8Qri9Jw63LEk+a+bEAG5mcF1SyY7y/rLvcusC0jzfc979A2IFMcGGs4Q==
+ :mime-version:content-transfer-encoding; s=fm3; bh=HkiTRHDRcKQFe
+ ogJN9Y5aUs89Zq2q/ZZ3owtDz8nOYE=; b=goMJXvn8uQS85EcIfUZ1z6gG15hAB
+ 4sVRLbJnMhAlpMAkUZ5vv+nVDCYh9/a4flaqp1lHS4i6qVECxyhpc0B/sfR2NtDx
+ DXV7AgAJOdTZKYWeSMonvde94jVHovtdOPXicg05hwXXGOtRehkMqZyoBnUn0wD0
+ sBRjhQGgip8Cm7lV3DvW6EqlJpJ6SLmCagrATnCBd+yXrUrd55EMhxx53V+sb16Z
+ TVcb3J/VqZkRBFtcijC4tT3TMg37TsLgBVov/2FXv2eOwp24PiDvKTY8d+5aG26v
+ owUQCJF2dDdbFN8s3bGuHK0NVBhpbTD3yS0XRYPKQPXv9ezS3hKMQ/B1Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=EXexJCwQMTUDyYQ7lLg4Vs8yTtnTcQ1aoSB9BKA2a5Y=; b=k6iWiKim
- zvzxCAJiUk+EdO+qboyYqSbZoa/hI/1qq93sQFn9fsXoZtw3MU1tPwzQhTzoy6Jc
- xDzAP/5sgciOQLXEZGvWLsOvrZu3Rl37GdYSh+PUbFzx7w/Us6v1PLEzOWOxapm+
- FAkgNDIbqvcmuc2s6/v1k9wj3XJEBSYZfcrJyUIPiYNOFgB+f8QDjCDYEDAUU1rI
- aaudDtyPtEiXs7FQrax2kVnY2joJyAm/ZK5zEXLJbC2Tir3srWcqrrCUxjNeKvdT
- 6l/kHfr6N9IHt+ybiANC0p5pid4BmgwMolI9YPMrpjCyW9gPJLrV+nYg3cC/kvMk
- VRU9dhfw7AUn6g==
-X-ME-Sender: <xms:ngUGX9z_8NmsQI-zhxPuWCB1zm8Zs4Mw7ZcowVw27SK5TLsWBRR4mQ>
+ fm3; bh=HkiTRHDRcKQFeogJN9Y5aUs89Zq2q/ZZ3owtDz8nOYE=; b=K02FgOrP
+ IxIKjeMr4h5WiQlY04906hM2nlPdMqXQgi7iFeQimS/GQvSf6J2DgmUPDgou0WIv
+ XjwWmElqoHpXLTrlSE6AFAgvTIiQMNCKuOf5Ersz8jcQqrB+iwuLYDvZyu1rn8TW
+ Kg13hlUzTTqke96kF17IPJUk2mR2dRvJVInLyUHcVgOyuiRxa53Xy0DgkQInp7Ml
+ EjcgdmCb3ZbM2VTLHFbCaAWC5xDAei82hxnHWVzQpEVLmx1ziGRXIixMOcj+ijS3
+ fl8Mc2zANX+Hat4T3BejaCMWsbFeiKnS39YiVeODjqKBQfBdedNZha93u77sJjns
+ AYoGakW65IKbzw==
+X-ME-Sender: <xms:nwUGX0JwdKGpQzNNrDANqSTGfiegxbcK8ySLOCvSqZziri8go3s8Yw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,21 +47,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudehne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ngUGX9S0QkCmrMkz74HdHtsxUdctnwmqdXhC2sj3-x4599BAUxcsHg>
- <xmx:ngUGX3XOrc0-BiNSTQIakG8R_XUPGZvCKFAy3_9aRbY3gxWec0_LUQ>
- <xmx:ngUGX_hxPckxUQh2-XVSEWyfe73n23RDSjUQYLEXQhIH2hQlS6P7MA>
- <xmx:ngUGXxAc0zib7e5kV4oRRgKM5OYLMregDqZRBpKcm4XZ9DZcTG04_8rp1bg>
+X-ME-Proxy: <xmx:nwUGX0I0PVyxXXykbF8p49y_sXGyc7VZgTNh63CyO6cKrcDIXiBE0w>
+ <xmx:nwUGX0vkOqPNjQx6Ug8Rw28dc1-tjTLZl4D_SBEJ_506RzwVH-Pcxw>
+ <xmx:nwUGXxYCNi0ULr9lhlIWCY9kPTGikExpFruWQeCrdwJPoQuWzSJfxw>
+ <xmx:nwUGX_5SREZJGpiWgAyP7f1pRpcb7TgzakTztixuYMr5KEgWQYpJhAalUTg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 21B78328005A;
- Wed,  8 Jul 2020 13:42:54 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9020430600B1;
+ Wed,  8 Jul 2020 13:42:55 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 16/78] drm/vc4: crtc: Add function to compute FIFO level
- bits
-Date: Wed,  8 Jul 2020 19:41:24 +0200
-Message-Id: <bf7861126e8223cf9d04adfa2ca1c7b728943f13.1594230107.git-series.maxime@cerno.tech>
+Subject: [PATCH v4 17/78] drm/vc4: crtc: Rename HDMI encoder type to HDMI0
+Date: Wed,  8 Jul 2020 19:41:25 +0200
+Message-Id: <a2ebc10abdb686649c0562836d782488a90a8949.1594230107.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
@@ -89,48 +88,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The longer FIFOs in vc5 pixelvalves means that the FIFO full level
-doesn't fit in the original register field and that we also have a
-secondary field. In order to prepare for this, let's move the registers
-fill part to a helper function.
+The previous generations were only supporting a single HDMI controller, but
+that's about to change, so put an index as well to differentiate between
+the two controllers.
 
 Reviewed-by: Eric Anholt <eric@anholt.net>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 2 +-
+ drivers/gpu/drm/vc4/vc4_drv.h  | 2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 2c64efd2d3d9..1d9e3658ae59 100644
+index 1d9e3658ae59..04744223460a 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -234,6 +234,15 @@ static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
- 	}
- }
+@@ -835,7 +835,7 @@ static const struct vc4_pv_data bcm2835_pv2_data = {
+ 	.fifo_depth = 64,
+ 	.pixels_per_clock = 1,
+ 	.encoder_types = {
+-		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_HDMI,
++		[PV_CONTROL_CLK_SELECT_DPI_SMI_HDMI] = VC4_ENCODER_TYPE_HDMI0,
+ 		[PV_CONTROL_CLK_SELECT_VEC] = VC4_ENCODER_TYPE_VEC,
+ 	},
+ };
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 179010b9a010..5781773aec4b 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -426,7 +426,7 @@ to_vc4_plane_state(struct drm_plane_state *state)
  
-+static u32 vc4_crtc_get_fifo_full_level_bits(struct vc4_crtc *vc4_crtc,
-+					     u32 format)
-+{
-+	u32 level = vc4_get_fifo_full_level(vc4_crtc, format);
-+
-+	return VC4_SET_FIELD(level & 0x3f,
-+			     PV_CONTROL_FIFO_LEVEL);
-+}
-+
- /*
-  * Returns the encoder attached to the CRTC.
-  *
-@@ -336,9 +345,8 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
- 		CRTC_WRITE(PV_HACT_ACT, mode->hdisplay * pixel_rep);
+ enum vc4_encoder_type {
+ 	VC4_ENCODER_TYPE_NONE,
+-	VC4_ENCODER_TYPE_HDMI,
++	VC4_ENCODER_TYPE_HDMI0,
+ 	VC4_ENCODER_TYPE_VEC,
+ 	VC4_ENCODER_TYPE_DSI0,
+ 	VC4_ENCODER_TYPE_DSI1,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index a057db0d9baa..d9e48fbd7519 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1310,7 +1310,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 					GFP_KERNEL);
+ 	if (!vc4_hdmi_encoder)
+ 		return -ENOMEM;
+-	vc4_hdmi_encoder->base.type = VC4_ENCODER_TYPE_HDMI;
++	vc4_hdmi_encoder->base.type = VC4_ENCODER_TYPE_HDMI0;
+ 	hdmi->encoder = &vc4_hdmi_encoder->base.base;
  
- 	CRTC_WRITE(PV_CONTROL,
-+		   vc4_crtc_get_fifo_full_level_bits(vc4_crtc, format) |
- 		   VC4_SET_FIELD(format, PV_CONTROL_FORMAT) |
--		   VC4_SET_FIELD(vc4_get_fifo_full_level(vc4_crtc, format),
--				 PV_CONTROL_FIFO_LEVEL) |
- 		   VC4_SET_FIELD(pixel_rep - 1, PV_CONTROL_PIXEL_REP) |
- 		   PV_CONTROL_CLR_AT_START |
- 		   PV_CONTROL_TRIGGER_UNDERFLOW |
+ 	hdmi->pdev = pdev;
 -- 
 git-series 0.9.1
 _______________________________________________
