@@ -2,58 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE5A218477
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 11:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754AF21991D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C928F6E1ED;
-	Wed,  8 Jul 2020 09:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44406E9C4;
+	Thu,  9 Jul 2020 07:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 395DA6E1E0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 09:56:23 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id j18so2237536wmi.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 02:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=n4YfHIOoOroqGIzUYGzZdyO6gwl8FVlGpkSOTWMCgSc=;
- b=lZI50KmoLRDiK5JhrsRxAgSRRcMGHUdVG3OqkpO1VwIAqUGdWImM7Z0yUuUh2OXdms
- mPZGfZtctcE3z9BMOv+zQBxho7WkxzAbXtHXAGL9OBYKZTKnmdZ2FyPgrVBw0rHQQk0L
- tlyrIQEQQ495MA+g7RX8uB7X692R0iKB1qND0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=n4YfHIOoOroqGIzUYGzZdyO6gwl8FVlGpkSOTWMCgSc=;
- b=B5My8BfRiFGD2ZeIWoDEYzfyHZu7KmjGKUHe9r0FRv43GsnEJcW7LwfMs78uIXlfkG
- ykgnpkVUdq/MTAi3h4Jo+LV9Bqj+DhJZTLBO/EOSw5CsDprKNsagf2/b/5T2gtxMi14x
- OZafDH5HABiDF1W7Np/Re5o09EPKJWhP72Ku8cbCoY+y48ckgeXzZwvZR7ufW3Ln5JxH
- sEefbBTxzZkN5DFPzU4BPu82rCCkuTf5QNnUyFAEFAxcWnhOSkwkqocwBcuS7ODBTyJ3
- TRc3CqzU/37RjYPp0AUuwmNa0hcZdLXyvWw/SuffvDeEN967aGGUC9owzwJuVbHJkm/G
- fEMw==
-X-Gm-Message-State: AOAM532fT95La7dmFpAyA/2w8PiKqm3+LxSvOFDx/tGcxh7b3+dTTfFd
- H29dtPEeo4tayJxQ+5CK1dHHNg==
-X-Google-Smtp-Source: ABdhPJzXi/hmGs7VuUORa0NBbCIx2VM0FJuhJ6CTIY1Ya26x20VGytPqgqe87NwgYtbwsF0vhRqI2g==
-X-Received: by 2002:a7b:cd18:: with SMTP id f24mr8896424wmj.40.1594202181864; 
- Wed, 08 Jul 2020 02:56:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x185sm5537614wmg.41.2020.07.08.02.56.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 02:56:21 -0700 (PDT)
-Date: Wed, 8 Jul 2020 11:56:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH 2/2] drm/vgem: Replace opencoded version of
- drm_gem_dumb_map_offset()
-Message-ID: <20200708095619.GK3278063@phenom.ffwll.local>
-References: <20200707160012.1299338-1-chris@chris-wilson.co.uk>
- <20200707160012.1299338-2-chris@chris-wilson.co.uk>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Jul 2020 10:11:02 UTC
+Received: from script.cs.helsinki.fi (script.cs.helsinki.fi [128.214.11.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0840F6E1F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 10:11:01 +0000 (UTC)
+X-DKIM: Courier DKIM Filter v0.50+pk-2017-10-25 mail.cs.helsinki.fi Wed,
+ 08 Jul 2020 13:05:53 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.helsinki.fi;
+ h=date:from:to:subject:message-id:mime-version:content-type; s=
+ dkim20130528; bh=Qg6Xao2pwzjAULI/EFVcxSTEWpjokbB2z9SMl2dYU5o=; b=
+ OQwaVvyntSp9UJKFpCu3y3tntti8nlpnejJ4hm3ts+DG6cAxNmhiuxas3XM9SCn/
+ z5VbauPwliA3fUx57uiwPYG5nX67havwWdMBZsLkLcCL1/0aaO79eEQneiReOsF+
+ kHPbJvfl87Nw839FJAXDyFrqJED1+cXH7aePv6mFwyQ=
+Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
+ (TLS: TLSv1/SSLv3,256bits,AES256-GCM-SHA384)
+ by mail.cs.helsinki.fi with ESMTPS; Wed, 08 Jul 2020 13:05:53 +0300
+ id 00000000005A2856.000000005F059A81.00005328
+Date: Wed, 8 Jul 2020 13:05:53 +0300 (EEST)
+From: "=?ISO-8859-15?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@cs.helsinki.fi>
+X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: drm/ast something ate high-res modes (5.3->5.6 regression)
+Message-ID: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200707160012.1299338-2-chris@chris-wilson.co.uk>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,88 +47,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 07, 2020 at 05:00:12PM +0100, Chris Wilson wrote:
-> drm_gem_dumb_map_offset() now exists and does everything
-> vgem_gem_dump_map does and *ought* to do.
-> 
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> ---
->  drivers/gpu/drm/vgem/vgem_drv.c | 28 +---------------------------
->  1 file changed, 1 insertion(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index eb3b7cdac941..866cff537f28 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -236,32 +236,6 @@ static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
->  	return 0;
->  }
->  
-> -static int vgem_gem_dumb_map(struct drm_file *file, struct drm_device *dev,
-> -			     uint32_t handle, uint64_t *offset)
-> -{
-> -	struct drm_gem_object *obj;
-> -	int ret;
-> -
-> -	obj = drm_gem_object_lookup(file, handle);
-> -	if (!obj)
-> -		return -ENOENT;
-> -
-> -	if (!obj->filp) {
-> -		ret = -EINVAL;
-> -		goto unref;
-> -	}
-> -
-> -	ret = drm_gem_create_mmap_offset(obj);
-> -	if (ret)
-> -		goto unref;
-> -
-> -	*offset = drm_vma_node_offset_addr(&obj->vma_node);
-> -unref:
-> -	drm_gem_object_put_unlocked(obj);
-> -
-> -	return ret;
-> -}
-> -
->  static struct drm_ioctl_desc vgem_ioctls[] = {
->  	DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl, DRM_RENDER_ALLOW),
->  	DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
-> @@ -455,7 +429,7 @@ static struct drm_driver vgem_driver = {
->  	.fops				= &vgem_driver_fops,
->  
->  	.dumb_create			= vgem_gem_dumb_create,
-> -	.dumb_map_offset		= vgem_gem_dumb_map,
-> +	.dumb_map_offset		= drm_gem_dumb_map_offset,
+Hi,
 
-Even better: Just delete it, it's the default. With that:
+After upgrading kernel from 5.3 series to 5.6.16 something seems to 
+prevent me from achieving high resolutions with the ast driver.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+With 5.6.16:
 
-Also maybe cc: stable, since this should stop the mmap attempts on
-imported dma-buf? Or will this break stuff ...
--Daniel
+$ xrandr
+Screen 0: minimum 320 x 200, current 1600 x 1200, maximum 1920 x 2048
+VGA-1 connected primary 1600x1200+0+0 (normal left inverted right x axis y axis) 519mm x 324mm
+   1600x1200     60.00* 
+   1680x1050     59.95  
+   1280x1024     75.02    60.02  
+   1440x900      59.89  
+   1280x800      59.81  
+   1024x768      75.03    60.00  
+   800x600       75.00    60.32  
+   640x480       75.00    59.94  
+   1920x1200_60.0  59.95  
 
->  
->  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -- 
-> 2.27.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+If I try to change to that manually added high-res mode, I get:
+xrandr: Configure crtc 0 failed
+
+With 5.3 series I've this:
+
+Screen 0: minimum 320 x 200, current 1920 x 1200, maximum 1920 x 2048
+VGA-1 connected primary 1920x1200+0+0 (normal left inverted right x axis y axis) 519mm x 324mm
+   1920x1200     59.95*+
+   1600x1200     60.00  
+   1680x1050     59.95  
+   1280x1024     75.02    60.02  
+   1440x900      59.89  
+   1280x800      59.81  
+   1024x768      75.03    60.00  
+   800x600       75.00    60.32  
+   640x480       75.00    59.94  
+   1920x1200_60.0  59.95  
+
+As I've had issues in getting EDID reliably from the monitor, I provide it 
+on kernel command-line (the one dumped from the monitor I use). In 
+addition, I've another workaround for past issues related to EDID which 
+always adds that 1920x1200_60.0 mode but now I cannot use even it to
+enter a high-res mode.
+
+If you need some additional info or want me to test a patch, just let me 
+know (but some delay is expected in testing patches). Thanks.
+
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+ i.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
