@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C281C218BA1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 17:42:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31046218BA2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 17:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC5D86E52F;
-	Wed,  8 Jul 2020 15:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231466E52E;
+	Wed,  8 Jul 2020 15:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0546E528
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 15:42:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74BF36E52E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 15:42:10 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 668E4206DF;
- Wed,  8 Jul 2020 15:41:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7B6DA206DF;
+ Wed,  8 Jul 2020 15:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594222920;
- bh=e6MJ1jDkNLcWDBG1X6jjVt05hEmPTtGNPap9XM5tuuc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FO3sQ50kPt51+hCGPWyPEH4dADSAa6Akjl+tyGhYL6X79uRbrsCP1hujklXTCZ/Vk
- sTGL6Sd8D3OLovWfEgOBPjQGvHqbybw+kKAq9z4fiJyp/AeK+kg4ne/QE6xve2w5PD
- pZBioUijgl2iV7TRx9BdmrzbSo6GEUb4AMM5P22Y=
+ s=default; t=1594222930;
+ bh=C7+GofNjhe+jY5AW/vb6dlbgYoHYz4aFI8DtT5Jram4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BylySD7m3MvBf+poLlkpRVqv5mEvRX2ElL1U2lllVMcm2QOOyUj5aJwTlUyFVFB0s
+ RyMgIt3ebV6d5olXV7UM/BF6b6yU0F5Lynsv2Gjdp4//M1hxi+SV4bKhLDShqGRzEI
+ B3KWzGluvhhhlw+87rLVIMgW5q8n2EZgksi4MME0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 2/8] drm/exynos: fix ref count leak in
+Subject: [PATCH AUTOSEL 4.14 1/5] drm/exynos: fix ref count leak in
  mic_pre_enable
-Date: Wed,  8 Jul 2020 11:41:50 -0400
-Message-Id: <20200708154157.3200116-2-sashal@kernel.org>
+Date: Wed,  8 Jul 2020 11:42:04 -0400
+Message-Id: <20200708154208.3200232-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200708154157.3200116-1-sashal@kernel.org>
-References: <20200708154157.3200116-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,7 +72,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-index 2fd299a58297e..cd5530bbfe2e6 100644
+index ba4a32b132baa..59ce068b152f5 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
 @@ -267,8 +267,10 @@ static void mic_pre_enable(struct drm_bridge *bridge)
