@@ -2,66 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB7C218429
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 11:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4C421842F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 11:50:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 857BD89BF6;
-	Wed,  8 Jul 2020 09:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2D4A6E192;
+	Wed,  8 Jul 2020 09:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2955D89BF6
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 09:49:38 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j4so45756139wrp.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 02:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=GZShcKPFpqES2sTlaXu0+aLjhVaehBiP66MG6kX93c0=;
- b=GdCkVmFATenowtvtlQVSpSzElju4m414mKArdqAjU+5ulZjcLloKVWm5qk9JhB+Kja
- k+QoiAzYHZD+MAfkW6WxL1KJwx00iAi9DpiUR4fKJ86ybZ4hUe6Quu320Gg+F6oDtkY8
- SehTHojS0t5G8pCRlTYrmLi2s2cHnCCKtzyvU=
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2E26E192
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 09:50:11 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id ed14so9658543qvb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 02:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iieBKdbIkdmEuMGEGprBPwP4csgir63UCa7hLiCZa6M=;
+ b=V0OXdErRBTLupYqEipOINuiPtJHpcBsQM7/vHKaEFnLr1pkYpzxqJ1o5kwevmUf51v
+ ymvzDBTQSIilevzrrRUM4+4ipAZ9ih4hVe6ZrAzFnVeVEgMQ/k2aThSZ2/nQya1S7EDH
+ Qd2TD6ya6A/5iK9oYR34gwpj0ux70WO/xXd5/m1+qP2Qi8PJapFMg38N6nIeKQA6F44a
+ GguvxOE49pmpAi27JrlclXO/t4Bsy9Bg8cXEh7oBOU+iCPn7jMB2DEooEv/rQcEXDzPs
+ oAO68G4VpK+E6o+siOv3ErW+s7llta1udcMF/FyfjlLVvSsUxmrp9eFPuQcV5fdzmHkU
+ olmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GZShcKPFpqES2sTlaXu0+aLjhVaehBiP66MG6kX93c0=;
- b=gtytA60guPRhrlL9kYs/Sop9LTXKa95adr8PBLgRKT1A1/B8V4MBMoSdQkJ2aktf73
- XTS57XdzPIAB3FWni+LtQlkrQLZzMJZ4TewRU24PNykO/BKfV4Pza7Ki2aHzFit0atLD
- 3ok9Z8w3W3hJF+rNf+F49nfeLhU8VCzJ2SHwYHofEWyPX3nIkthTfecCRTBHDYSyOx9K
- x2zbonBYL5kZMzLkQ/MdjLZs19Vf5uG26q0Uj8Khp4nuzfQQ4wuAxDrgDwZG0KrK6jwT
- nDFaeQTcB1TuK31gFLtl3iUiEBC70ZLrjm7vSPEq9Lrs73UVxsUt/UmGhrMP8Qz4qRbg
- t07w==
-X-Gm-Message-State: AOAM533huS9fE8QB9HdE39BvFww+GB6ZtyVnfv/5nzsEXlCH+A5qnAiM
- yxJJBQCpB2U07S9igP3ZE041+A==
-X-Google-Smtp-Source: ABdhPJx/hCEDu3TifTBNO01a+XGP1RMbCshXrEjvlv8gStmFtSO/TgMoCQgSIRGd+mK7JKGoUvckPg==
-X-Received: by 2002:adf:afc3:: with SMTP id y3mr60962970wrd.277.1594201776849; 
- Wed, 08 Jul 2020 02:49:36 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h23sm5082314wmb.3.2020.07.08.02.49.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 02:49:36 -0700 (PDT)
-Date: Wed, 8 Jul 2020 11:49:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [RFC PATCH v2 0/3] RDMA: add dma-buf support
-Message-ID: <20200708094934.GI3278063@phenom.ffwll.local>
-References: <20200702131000.GW3278063@phenom.ffwll.local>
- <20200702132953.GS25301@ziepe.ca>
- <11e93282-25da-841d-9be6-38b0c9703d42@amd.com>
- <20200702181540.GC3278063@phenom.ffwll.local>
- <20200703120335.GT25301@ziepe.ca>
- <CAKMK7uGqABchpPLTm=vmabkwK3JJSzWTFWhfU+ywbwjw-HgSzw@mail.gmail.com>
- <20200703131445.GU25301@ziepe.ca>
- <f2ec5c61-a553-39b5-29e1-568dae9ca2cd@amd.com>
- <MW3PR11MB45553DB31AD67C8B870A345FE5660@MW3PR11MB4555.namprd11.prod.outlook.com>
- <d28286c7-b1c1-a4a8-1d38-264ed1761cdd@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iieBKdbIkdmEuMGEGprBPwP4csgir63UCa7hLiCZa6M=;
+ b=orVjCRt3z9iITh2K+XX9tGrk3sTyT/Y0ZlEyfQByyMb0/suXG+0IF3xOJOUo37X2LR
+ FKZSlykQCM00GhVn2cDP4laBnEoDcUuJ9vFT0Ykq41cMpDT+F7Z4MmfgKijpIBbIh2al
+ oPv3IPTm0GfKJQQAvCC7cCdw3C7WExWEX+acfHHUHC/7LPP9Ffdj17e9IOggYqbrVP98
+ bThURQ6OwkT3DQdt7MDMTh7zRj09xYuK76D7nOg4YsAeUv4ckO29ognvXU1DElG9k6Hf
+ fPZDoeyS12Divk+LuEjQIY0QSrkYfqNnOZoGuuppUhs5UnPPwM2Qyfv96gLF1/uYMJl+
+ a9iA==
+X-Gm-Message-State: AOAM531T7QUVsklmyGHXPID3aDXvLtfzzdKIPlegMcEHHF6PY3JvNvH7
+ Q0ELCNTQnINSF0o7PkHhRgNl+Gmb6YG33LMcom3Ctg==
+X-Google-Smtp-Source: ABdhPJynDfM3uILfAaTGVj9hpsAurHgU0H8GJVeZIADk8ItE2celzPpaFYs9GExbIpvouqqha+/tw2oz4EiSUlwgghg=
+X-Received: by 2002:a0c:ec04:: with SMTP id y4mr52177980qvo.148.1594201810456; 
+ Wed, 08 Jul 2020 02:50:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d28286c7-b1c1-a4a8-1d38-264ed1761cdd@amd.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+References: <20200701120402.6444-1-yannick.fertre@st.com>
+ <3b6e02b8-0f54-4eb0-9728-b304a1aa85d5@st.com>
+In-Reply-To: <3b6e02b8-0f54-4eb0-9728-b304a1aa85d5@st.com>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Wed, 8 Jul 2020 11:49:59 +0200
+Message-ID: <CA+M3ks4Bb8ZHzYSZ0v86PvE3x=C30Gmi+mDVJ=PQ7uzPZ8x-+w@mail.gmail.com>
+Subject: Re: [PATCH] drm/stm: ltdc: remove call of pm-runtime functions
+To: Philippe CORNU <philippe.cornu@st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,110 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Yannick FERTRE <yannick.fertre@st.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Benjamin GAIGNARD <benjamin.gaignard@st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 08, 2020 at 11:38:31AM +0200, Christian K=F6nig wrote:
-> Am 07.07.20 um 23:58 schrieb Xiong, Jianxin:
-> > > -----Original Message-----
-> > > From: Christian K=F6nig <christian.koenig@amd.com>
-> > > Am 03.07.20 um 15:14 schrieb Jason Gunthorpe:
-> > > > On Fri, Jul 03, 2020 at 02:52:03PM +0200, Daniel Vetter wrote:
-> > > > =
-
-> > > > > So maybe I'm just totally confused about the rdma model. I though=
-t:
-> > > > > - you bind a pile of memory for various transactions, that might
-> > > > > happen whenever. Kernel driver doesn't have much if any insight i=
-nto
-> > > > > when memory isn't needed anymore. I think in the rdma world that's
-> > > > > called registering memory, but not sure.
-> > > > Sure, but once registered the memory is able to be used at any mome=
-nt
-> > > > with no visibilty from the kernel.
-> > > > =
-
-> > > > Unlike GPU the transactions that trigger memory access do not go
-> > > > through the kernel - so there is no ability to interrupt a command
-> > > > flow and fiddle with mappings.
-> > > This is the same for GPUs with user space queues as well.
-> > > =
-
-> > > But we can still say for a process if that this process is using a DM=
-A-buf which is moved out and so can't run any more unless the DMA-buf is
-> > > accessible again.
-> > > =
-
-> > > In other words you somehow need to make sure that the hardware is not=
- accessing a piece of memory any more when you want to move it.
-> > > =
-
-> > While a process can be easily suspended, there is no way to tell the RD=
-MA NIC not to process posted work requests that use specific memory regions=
- (or with any other conditions).
-> > =
-
-> > So far it appears to me that DMA-buf dynamic mapping for RDMA is only v=
-iable with ODP support. For NICs without ODP, a way to allow pinning the de=
-vice memory is still needed.
-> =
-
-> And that's exactly the reason why I introduced explicit pin()/unpin()
-> functions into the DMA-buf API:
-> https://elixir.bootlin.com/linux/latest/source/drivers/dma-buf/dma-buf.c#=
-L811
-> =
-
-> It's just that at least our devices drivers currently prevent P2P with
-> pinned DMA-buf's for two main reasons:
-> =
-
-> a) To prevent deny of service attacks because P2P BARs are a rather rare
-> resource.
-> =
-
-> b) To prevent failures in configuration where P2P is not always possible
-> between all devices which want to access a buffer.
-
-So the above is more or less the question in the cover letter (which
-didn't make it to dri-devel). Can we somehow throw that limitation out, or
-is that simply not a good idea?
-
-Simply moving buffers to system memory when they're pinned does simplify a
-lot of headaches. For a specific custom built system we can avoid that
-maybe, but I think upstream is kinda a different thing.
-
-Cheers, Daniel
-
-> Regards,
-> Christian.
-> =
-
-> > =
-
-> > Jianxin
-> > =
-
-> > > Christian.
-> > > =
-
-> > > > Jason
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TGUgamV1LiAyIGp1aWwuIDIwMjAgw6AgMTQ6MTgsIFBoaWxpcHBlIENPUk5VIDxwaGlsaXBwZS5j
+b3JudUBzdC5jb20+IGEgw6ljcml0IDoKPgo+Cj4KPiBPbiA3LzEvMjAgMjowNCBQTSwgWWFubmlj
+ayBGZXJ0cmUgd3JvdGU6Cj4gPiBJdCBpcyBub3QgbmVjZXNzYXJ5IHRvIHN1c3BlbmQgb3Igc3Rv
+cCB0aGUgbHRkYyBjbG9ja3MKPiA+IHRvIG1vZGlmeSB0aGUgcGl4ZWwgY2xvY2suCj4gPgo+ID4g
+U2lnbmVkLW9mZi1ieTogWWFubmljayBGZXJ0cmUgPHlhbm5pY2suZmVydHJlQHN0LmNvbT4KPiA+
+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYyB8IDE2IC0tLS0tLS0tLS0tLS0t
+LS0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDE2IGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRk
+Yy5jCj4gPiBpbmRleCAzZjU5MGQ5MTZlOTEuLjZlMjhmNzA3MDkyZiAxMDA2NDQKPiA+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc3Rt
+L2x0ZGMuYwo+ID4gQEAgLTUwNiwxNSArNTA2LDcgQEAgc3RhdGljIGJvb2wgbHRkY19jcnRjX21v
+ZGVfZml4dXAoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ID4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlKQo+ID4gICB7
+Cj4gPiAgICAgICBzdHJ1Y3QgbHRkY19kZXZpY2UgKmxkZXYgPSBjcnRjX3RvX2x0ZGMoY3J0Yyk7
+Cj4gPiAtICAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZGRldiA9IGNydGMtPmRldjsKPiA+ICAgICAg
+IGludCByYXRlID0gbW9kZS0+Y2xvY2sgKiAxMDAwOwo+ID4gLSAgICAgYm9vbCBydW50aW1lX2Fj
+dGl2ZTsKPiA+IC0gICAgIGludCByZXQ7Cj4gPiAtCj4gPiAtICAgICBydW50aW1lX2FjdGl2ZSA9
+IHBtX3J1bnRpbWVfYWN0aXZlKGRkZXYtPmRldik7Cj4gPiAtCj4gPiAtICAgICBpZiAocnVudGlt
+ZV9hY3RpdmUpCj4gPiAtICAgICAgICAgICAgIHBtX3J1bnRpbWVfcHV0X3N5bmMoZGRldi0+ZGV2
+KTsKPiA+Cj4gPiAgICAgICBpZiAoY2xrX3NldF9yYXRlKGxkZXYtPnBpeGVsX2NsaywgcmF0ZSkg
+PCAwKSB7Cj4gPiAgICAgICAgICAgICAgIERSTV9FUlJPUigiQ2Fubm90IHNldCByYXRlICglZEh6
+KSBmb3IgcGl4ZWwgY2xrXG4iLCByYXRlKTsKPiA+IEBAIC01MjMsMTQgKzUxNSw2IEBAIHN0YXRp
+YyBib29sIGx0ZGNfY3J0Y19tb2RlX2ZpeHVwKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiA+Cj4g
+PiAgICAgICBhZGp1c3RlZF9tb2RlLT5jbG9jayA9IGNsa19nZXRfcmF0ZShsZGV2LT5waXhlbF9j
+bGspIC8gMTAwMDsKPiA+Cj4gPiAtICAgICBpZiAocnVudGltZV9hY3RpdmUpIHsKPiA+IC0gICAg
+ICAgICAgICAgcmV0ID0gcG1fcnVudGltZV9nZXRfc3luYyhkZGV2LT5kZXYpOwo+ID4gLSAgICAg
+ICAgICAgICBpZiAocmV0KSB7Cj4gPiAtICAgICAgICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJG
+YWlsZWQgdG8gZml4dXAgbW9kZSwgY2Fubm90IGdldCBzeW5jXG4iKTsKPiA+IC0gICAgICAgICAg
+ICAgICAgICAgICByZXR1cm4gZmFsc2U7Cj4gPiAtICAgICAgICAgICAgIH0KPiA+IC0gICAgIH0K
+PiA+IC0KPiA+ICAgICAgIERSTV9ERUJVR19EUklWRVIoInJlcXVlc3RlZCBjbG9jayAlZGtIeiwg
+YWRqdXN0ZWQgY2xvY2sgJWRrSHpcbiIsCj4gPiAgICAgICAgICAgICAgICAgICAgICAgIG1vZGUt
+PmNsb2NrLCBhZGp1c3RlZF9tb2RlLT5jbG9jayk7Cj4gPgo+ID4KPiBIaSBZYW5uaWNrLAo+IE1h
+bnkgdGhhbmtzIGZvciB5b3VyIHBhdGNoLAo+IEFja2VkLWJ5OiBQaGlsaXBwZSBDb3JudSA8cGhp
+bGlwcGUuY29ybnVAc3QuY29tPgo+IFBoaWxpcHBlIDotKQoKQXBwbGllZCBvbiBkcm0tbWlzYy1u
+ZXh0LgoKVGhhbmtzLApCZW5qYW1pbgoKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
