@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F239218B9E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 17:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 130A2218BA0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 17:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A096E525;
-	Wed,  8 Jul 2020 15:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 027C86E1E6;
+	Wed,  8 Jul 2020 15:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B550C6E124
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 15:41:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1119F6E1E6;
+ Wed,  8 Jul 2020 15:41:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BFEFC206DF;
- Wed,  8 Jul 2020 15:41:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1802F208B6;
+ Wed,  8 Jul 2020 15:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594222902;
- bh=0CkNs1w4+hp7Zb/ftz2DB5LZ5V5bhaCc01Eh0fyBlCg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=czLJ2s44EdaMxPJHsNv4yEEGPbUfl9TRhlTkBbWUZeMba0kpXRXMTyrh/Xj7MeBO0
- 3F1hVbEHB7YeL9ETDPfnQox+RR2Z5LPKIaVDE9U2a2FkPgj0+KQ2QU8+I48D7q3ODV
- 8S3oAa6O3w65QmV9eJ1jDrkx8CRIeHvk5EnIp/eY=
+ s=default; t=1594222918;
+ bh=IGi0Xef7jbHhMsYfOprqPDNw4VFPWt/swz7U6H8LxOg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=azY+tD3Lw19sM10hAtYzHfv0jwN8m83cZjemnKnBkuvvujKX39w2Mxc9FLI/F03Sr
+ php+yLZ64zrX+/B3Dy4HM1KauAMqmYTI6kn02jjUgFYYj0cmp8e5g6oGwhQRaJLPAC
+ K0xGj2BV/dtK0xhjKNu8FsF3Ro0lO5e1W4RS8a/4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 05/16] drm/exynos: fix ref count leak in
- mic_pre_enable
-Date: Wed,  8 Jul 2020 11:41:24 -0400
-Message-Id: <20200708154135.3199907-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 1/8] drm/msm: fix potential memleak in error
+ branch
+Date: Wed,  8 Jul 2020 11:41:49 -0400
+Message-Id: <20200708154157.3200116-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200708154135.3199907-1-sashal@kernel.org>
-References: <20200708154135.3199907-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,45 +48,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ Bernard Zhao <bernard@vivo.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+From: Bernard Zhao <bernard@vivo.com>
 
-[ Upstream commit d4f5a095daf0d25f0b385e1ef26338608433a4c5 ]
+[ Upstream commit 177d3819633cd520e3f95df541a04644aab4c657 ]
 
-in mic_pre_enable, pm_runtime_get_sync is called which
-increments the counter even in case of failure, leading to incorrect
-ref count. In case of failure, decrement the ref count before returning.
+In function msm_submitqueue_create, the queue is a local
+variable, in return -EINVAL branch, queue didn`t add to ctx`s
+list yet, and also didn`t kfree, this maybe bring in potential
+memleak.
 
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+[trivial commit msg fixup]
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_mic.c | 4 +++-
+ drivers/gpu/drm/msm/msm_submitqueue.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-index b78e8c5ba553b..2aff986add899 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-@@ -268,8 +268,10 @@ static void mic_pre_enable(struct drm_bridge *bridge)
- 		goto unlock;
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 5115f75b5b7f3..325da440264a3 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -78,8 +78,10 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 	queue->flags = flags;
  
- 	ret = pm_runtime_get_sync(mic->dev);
--	if (ret < 0)
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(mic->dev);
- 		goto unlock;
-+	}
+ 	if (priv->gpu) {
+-		if (prio >= priv->gpu->nr_rings)
++		if (prio >= priv->gpu->nr_rings) {
++			kfree(queue);
+ 			return -EINVAL;
++		}
  
- 	mic_set_path(mic, 1);
- 
+ 		queue->prio = prio;
+ 	}
 -- 
 2.25.1
 
