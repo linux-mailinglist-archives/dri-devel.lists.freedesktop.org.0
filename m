@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C482188A9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 15:14:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AADF218916
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 15:32:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3600789CBA;
-	Wed,  8 Jul 2020 13:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A344C6E359;
+	Wed,  8 Jul 2020 13:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96CC89CBA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 13:14:29 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id j18so3050884wmi.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 06:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=l8TXsMU8pcx7Tss0R/XmiW2rwe2Hix1sm/QIevQOb2M=;
- b=A1ZIjk7YGe2YSEoQCSRgqjmHR7oxja8buIPLjIhRTjdJVpAt9lG0gE7SFtVGHQLadT
- xVpcPloGsK2WSxEeeICvTCCQ1YYB1VSfUPjrX131Kkrf1ua0TB8eUFoz6BcB/ltMdxle
- g0CUQEDldKrVRBTAatDkSdjEu36OQGD68toOzC25aprt3rfyUr9rqTVrTmbAXsTUgf77
- 9cR8rDocIEreQ2XYDW7IWJeD90ce47cu6PI8ZsNUWN9GnPzAGJerkmwY1TNG1BH5v+ah
- Y+0oSh28JHhB1q0lkYDfWGe+5f8BNO5h4B8RbndZgEm96Q69dP3WLG/nFIdlxkVQzXH+
- HYhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=l8TXsMU8pcx7Tss0R/XmiW2rwe2Hix1sm/QIevQOb2M=;
- b=XgP+pv/jxWIqhZzmjqrtqZV2orfNyWLYyDU9xiw7ULKGON/RmwJvYqciENa8uWyfh2
- Obs0b5StNy4lUEvuIoBECTVFxH2cV7XiGa/h5R/NTYt10iLqE9uymCaMWCoOBKf3Kx4Y
- ZA6aDj3tQPCIfarbyVIdIP5BGrlN3I3NS22UHdBARCS2bbtMAFZCtZTBSXhokZ6BmhvR
- ytEZ7OzMsX5I/wXUQ6kQFLIJjYgV0e0ZTqukAkjXMMjZ5SvfR9o2kw52kkwQW3uZB832
- BcDFGd8X9CIWqMXvbBLWz7ffSEC56N2TcK7g7Wv6dG++LmFTJMAExQnfmxl/xNI7s1Pa
- GShA==
-X-Gm-Message-State: AOAM5331EOmRYfncr8dO3EaYmzjxJ2ul5OhsJpkkYZLCKU3iHWUtH6ZG
- Vcs2D7ZUDKacaAWAmDy26hl7Rg==
-X-Google-Smtp-Source: ABdhPJwq0Oc6xY1jGe2yyxLQ3zEuUYKf/Jmuh4JKlNT9KiWq8rLJ6802Y6Ay8mTXZNr5ogQ7BAfKOg==
-X-Received: by 2002:a7b:ce87:: with SMTP id q7mr9822665wmj.39.1594214068610;
- Wed, 08 Jul 2020 06:14:28 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id n16sm5779824wra.19.2020.07.08.06.14.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 06:14:27 -0700 (PDT)
-Date: Wed, 8 Jul 2020 14:14:25 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40A7F6E359
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 13:32:40 +0000 (UTC)
+IronPort-SDR: jerxw4BkL4W3bWb0yf531yjrvySMcOH4zKeLytKUGuNeLX4qXr7uzjCe27AcWRsKUYxss+HEWz
+ RW8kyYOiTtXA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="209323242"
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; d="scan'208";a="209323242"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 06:32:39 -0700
+IronPort-SDR: Ub9fu+6Xf4HY1Xskzn1UewBrao4m/ze+rGFCPpmIc1hvjrtFPM67zRCW49nHUAxNvFZo3IIVf8
+ PGMhqTjGv7Bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; d="scan'208";a="427840263"
+Received: from alachman-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.42.138])
+ by orsmga004.jf.intel.com with ESMTP; 08 Jul 2020 06:32:16 -0700
+Date: Wed, 8 Jul 2020 16:32:14 +0300
+From: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 04/20] Documentation: kgdb: eliminate duplicated word
-Message-ID: <20200708131425.iesuqtfklrsn3kam@holly.lan>
+Subject: Re: [PATCH 18/20] Documentation: security/keys: eliminate duplicated
+ word
+Message-ID: <20200708133159.GA538949@linux.intel.com>
 References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-5-rdunlap@infradead.org>
+ <20200707180414.10467-19-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200707180414.10467-5-rdunlap@infradead.org>
+In-Reply-To: <20200707180414.10467-19-rdunlap@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,18 +61,18 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  Pavel Machek <pavel@ucw.cz>,
  Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
  Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
- linux-s390@vger.kernel.org, Hannes Reinecke <hare@suse.com>,
+ linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
  linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
  Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
  Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
  James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
  Mali DP Maintainers <malidp@foss.arm.com>,
  Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
  Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
  Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
  "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- linux-block@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
  Dan Williams <dan.j.williams@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
@@ -104,21 +88,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 07, 2020 at 11:03:58AM -0700, Randy Dunlap wrote:
-> Drop the doubled word "driver".
+On Tue, Jul 07, 2020 at 11:04:12AM -0700, Randy Dunlap wrote:
+> Drop the doubled word "in".
 > 
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: linux-doc@vger.kernel.org
-> Cc: Jason Wessel <jason.wessel@windriver.com>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: kgdb-bugreport@lists.sourceforge.net
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+> Cc: Mimi Zohar <zohar@linux.ibm.com>
+> Cc: linux-integrity@vger.kernel.org
+> Cc: keyrings@vger.kernel.org
 
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
-
-Daniel.
+/Jarkko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
