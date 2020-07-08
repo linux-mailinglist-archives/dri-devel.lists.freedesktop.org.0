@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5893E218878
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 15:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C482188A9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 15:14:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 954A16E8C9;
-	Wed,  8 Jul 2020 13:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3600789CBA;
+	Wed,  8 Jul 2020 13:14:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A35366E8C9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 13:07:43 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id a12so46905172ion.13
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 06:07:43 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96CC89CBA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 13:14:29 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id j18so3050884wmi.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 06:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NunACNxRHR15rVDMsaLQbwFvMgFw6IcdwKhU+Rr2RX0=;
- b=jNcX3ZBx7WUQ3PgD/c5VZ6fjcOZHVzlJgSc96x0fvYPOCjknGgU7BQukCJfaRtf+/V
- hAEzJOp4m4tASe7HpZnIGZmmCTNGsIjPriZd+NT4I1TVnUUYgYwZeylBc0ZUEjFonaQ+
- DUoVY5tGB3dP2KOwfp9FVfqMGEFYxXl+T1LnsdrKzGkGsP0nHZpH2sNUgsnsBe2Rc9+6
- qJlmhh3Tdq/ocwbdsCn2i3N8gjMRpLd8FpVKJHQHc4itXLUj8V2Q+Dmivh9n/agLS0X6
- i/fzuVvauENJKrtfH2l9TuNRCYN9KS/CU0SORIwfEtrpEXVrUkVgn6yXwnQVlH0xE4QL
- Xl2w==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=l8TXsMU8pcx7Tss0R/XmiW2rwe2Hix1sm/QIevQOb2M=;
+ b=A1ZIjk7YGe2YSEoQCSRgqjmHR7oxja8buIPLjIhRTjdJVpAt9lG0gE7SFtVGHQLadT
+ xVpcPloGsK2WSxEeeICvTCCQ1YYB1VSfUPjrX131Kkrf1ua0TB8eUFoz6BcB/ltMdxle
+ g0CUQEDldKrVRBTAatDkSdjEu36OQGD68toOzC25aprt3rfyUr9rqTVrTmbAXsTUgf77
+ 9cR8rDocIEreQ2XYDW7IWJeD90ce47cu6PI8ZsNUWN9GnPzAGJerkmwY1TNG1BH5v+ah
+ Y+0oSh28JHhB1q0lkYDfWGe+5f8BNO5h4B8RbndZgEm96Q69dP3WLG/nFIdlxkVQzXH+
+ HYhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NunACNxRHR15rVDMsaLQbwFvMgFw6IcdwKhU+Rr2RX0=;
- b=tHrRxSOVTd+Mtc6KAkcxvmYbvA04/LJljt/OtingYWjAgE9HTtFQK2OZw1jS05mHY3
- 0lE61+v8l65mrJ3ICuSxXAlU95yiK2iFEfUSdSN/zedd9+EggSsaP7DFi66Wad1hjMdT
- MdcWlO8FoTmBnN89nXj1rb/cGBw5p3cdXkqnW3qS6WXrBbZ9399mNLBLwNpjucBhKZoC
- QBhIwp2KLZvUCyBmNXozerpG8z/PfMxH8WmzsL5It52GVeiGLJD/DW5HmV4uQlfZH7cs
- IoqKUUb8CX16oAAIuMSPI723oONT+GC1TSy5f+u3fmbLZKIIg97wsOgYHEGmwiP3tXW5
- uYhg==
-X-Gm-Message-State: AOAM531ufvVEMlemyT1oC/ARdm54k/Hb1XLvLRP4i9nXZozlYXk4bdsG
- E1ioKML1oXbugAJ2fRLXhatl0+YiY4+m0mvIxhsdXg==
-X-Google-Smtp-Source: ABdhPJxiAugYfxBFKepZz/V2knXjdzLRjJOsR8htbF91q0nZ7QqxxYj1WxfPzSDsMcAe5WaUgT5PBuGZEF0zRoCO5jc=
-X-Received: by 2002:a6b:6e11:: with SMTP id d17mr37886599ioh.102.1594213662964; 
- Wed, 08 Jul 2020 06:07:42 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=l8TXsMU8pcx7Tss0R/XmiW2rwe2Hix1sm/QIevQOb2M=;
+ b=XgP+pv/jxWIqhZzmjqrtqZV2orfNyWLYyDU9xiw7ULKGON/RmwJvYqciENa8uWyfh2
+ Obs0b5StNy4lUEvuIoBECTVFxH2cV7XiGa/h5R/NTYt10iLqE9uymCaMWCoOBKf3Kx4Y
+ ZA6aDj3tQPCIfarbyVIdIP5BGrlN3I3NS22UHdBARCS2bbtMAFZCtZTBSXhokZ6BmhvR
+ ytEZ7OzMsX5I/wXUQ6kQFLIJjYgV0e0ZTqukAkjXMMjZ5SvfR9o2kw52kkwQW3uZB832
+ BcDFGd8X9CIWqMXvbBLWz7ffSEC56N2TcK7g7Wv6dG++LmFTJMAExQnfmxl/xNI7s1Pa
+ GShA==
+X-Gm-Message-State: AOAM5331EOmRYfncr8dO3EaYmzjxJ2ul5OhsJpkkYZLCKU3iHWUtH6ZG
+ Vcs2D7ZUDKacaAWAmDy26hl7Rg==
+X-Google-Smtp-Source: ABdhPJwq0Oc6xY1jGe2yyxLQ3zEuUYKf/Jmuh4JKlNT9KiWq8rLJ6802Y6Ay8mTXZNr5ogQ7BAfKOg==
+X-Received: by 2002:a7b:ce87:: with SMTP id q7mr9822665wmj.39.1594214068610;
+ Wed, 08 Jul 2020 06:14:28 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id n16sm5779824wra.19.2020.07.08.06.14.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 06:14:27 -0700 (PDT)
+Date: Wed, 8 Jul 2020 14:14:25 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 04/20] Documentation: kgdb: eliminate duplicated word
+Message-ID: <20200708131425.iesuqtfklrsn3kam@holly.lan>
+References: <20200707180414.10467-1-rdunlap@infradead.org>
+ <20200707180414.10467-5-rdunlap@infradead.org>
 MIME-Version: 1.0
-References: <20200708130419.3445042-1-lee.jones@linaro.org>
- <20200708130634.5tttrzlq2zfx7uho@holly.lan>
-In-Reply-To: <20200708130634.5tttrzlq2zfx7uho@holly.lan>
-From: Lee Jones <lee.jones@linaro.org>
-Date: Wed, 8 Jul 2020 14:07:32 +0100
-Message-ID: <CAF2Aj3g6e1RQ0T9pSQMAQEega8n1YaW6BzwctBdyWhg=w=g5rw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] video: backlight: sky81452-backlight: Fix some
- kerneldoc issues
-To: Daniel Thompson <daniel.thompson@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20200707180414.10467-5-rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,126 +68,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: FBDEV list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Gyungoh Yoo <jack.yoo@skyworksinc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0902927511=="
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
+ linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
+ Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
+ linux-s390@vger.kernel.org, Hannes Reinecke <hare@suse.com>,
+ linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ linux-block@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
+ Dan Murphy <dmurphy@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0902927511==
-Content-Type: multipart/alternative; boundary="00000000000013d5e205a9edcb4c"
+On Tue, Jul 07, 2020 at 11:03:58AM -0700, Randy Dunlap wrote:
+> Drop the doubled word "driver".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jason Wessel <jason.wessel@windriver.com>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: kgdb-bugreport@lists.sourceforge.net
 
---00000000000013d5e205a9edcb4c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-On Wed, 8 Jul 2020 at 14:06, Daniel Thompson <daniel.thompson@linaro.org>
-wrote:
 
-> On Wed, Jul 08, 2020 at 02:04:19PM +0100, Lee Jones wrote:
-> > Firstly, all lines must begin with a '*'.  Secondly, arg descriptions
-> > must be spelt correctly, so fix misspelling of 'gpioD_enable' and
-> > 'short_detecTion_threshold'
-> >
-> > Fixes the following W=3D1 kernel build warning(s):
-> >
-> >  drivers/video/backlight/sky81452-backlight.c:46: warning: bad line:
->              If it is not defined, default name is lcd-backlight.
-> >  drivers/video/backlight/sky81452-backlight.c:64: warning: Function
-> parameter or member 'gpiod_enable' not described in
-> 'sky81452_bl_platform_data'
-> >  drivers/video/backlight/sky81452-backlight.c:64: warning: Function
-> parameter or member 'short_detection_threshold' not described in
-> 'sky81452_bl_platform_data'
-> >
-> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > Cc: Gyungoh Yoo <jack.yoo@skyworksinc.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-fbdev@vger.kernel.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
->
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->
-
-Applied, thanks.
-
---=20
-Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-Linaro Services Technical Lead
-Linaro.org =E2=94=82 Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
-
---00000000000013d5e205a9edcb4c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 8 Jul 2020 at 14:06, Daniel Thomp=
-son &lt;<a href=3D"mailto:daniel.thompson@linaro.org">daniel.thompson@linar=
-o.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On Wed, Jul 08, 2020 at 02:04:19PM +0100, =
-Lee Jones wrote:<br>
-&gt; Firstly, all lines must begin with a &#39;*&#39;.=C2=A0 Secondly, arg =
-descriptions<br>
-&gt; must be spelt correctly, so fix misspelling of &#39;gpioD_enable&#39; =
-and<br>
-&gt; &#39;short_detecTion_threshold&#39;<br>
-&gt; <br>
-&gt; Fixes the following W=3D1 kernel build warning(s):<br>
-&gt; <br>
-&gt;=C2=A0 drivers/video/backlight/sky81452-backlight.c:46: warning: bad li=
-ne:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0If it is n=
-ot defined, default name is lcd-backlight.<br>
-&gt;=C2=A0 drivers/video/backlight/sky81452-backlight.c:64: warning: Functi=
-on parameter or member &#39;gpiod_enable&#39; not described in &#39;sky8145=
-2_bl_platform_data&#39;<br>
-&gt;=C2=A0 drivers/video/backlight/sky81452-backlight.c:64: warning: Functi=
-on parameter or member &#39;short_detection_threshold&#39; not described in=
- &#39;sky81452_bl_platform_data&#39;<br>
-&gt; <br>
-&gt; Cc: Daniel Thompson &lt;<a href=3D"mailto:daniel.thompson@linaro.org" =
-target=3D"_blank">daniel.thompson@linaro.org</a>&gt;<br>
-&gt; Cc: Jingoo Han &lt;<a href=3D"mailto:jingoohan1@gmail.com" target=3D"_=
-blank">jingoohan1@gmail.com</a>&gt;<br>
-&gt; Cc: Bartlomiej Zolnierkiewicz &lt;<a href=3D"mailto:b.zolnierkie@samsu=
-ng.com" target=3D"_blank">b.zolnierkie@samsung.com</a>&gt;<br>
-&gt; Cc: Gyungoh Yoo &lt;<a href=3D"mailto:jack.yoo@skyworksinc.com" target=
-=3D"_blank">jack.yoo@skyworksinc.com</a>&gt;<br>
-&gt; Cc: <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blan=
-k">dri-devel@lists.freedesktop.org</a><br>
-&gt; Cc: <a href=3D"mailto:linux-fbdev@vger.kernel.org" target=3D"_blank">l=
-inux-fbdev@vger.kernel.org</a><br>
-&gt; Signed-off-by: Lee Jones &lt;<a href=3D"mailto:lee.jones@linaro.org" t=
-arget=3D"_blank">lee.jones@linaro.org</a>&gt;<br>
-<br>
-Reviewed-by: Daniel Thompson &lt;<a href=3D"mailto:daniel.thompson@linaro.o=
-rg" target=3D"_blank">daniel.thompson@linaro.org</a>&gt;<br></blockquote></=
-div><div><br></div><div>Applied, thanks.</div><div><br></div>-- <br><div di=
-r=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">=
-<div><div><span style=3D"font-size:12.8px">Lee Jones [=E6=9D=8E=E7=90=BC=E6=
-=96=AF]</span></div><div><span style=3D"font-size:12.8px">Linaro Services T=
-echnical Lead</span></div><div><span style=3D"font-size:12.8px">Linaro.org =
-=E2=94=82 Open source software for ARM SoCs</span></div><div><span style=3D=
-"font-size:12.8px">Follow Linaro: Facebook | Twitter | Blog</span></div></d=
-iv></div></div></div></div></div>
-
---00000000000013d5e205a9edcb4c--
-
---===============0902927511==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0902927511==--
