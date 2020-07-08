@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB655218067
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05560218077
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:08:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F34A6E893;
-	Wed,  8 Jul 2020 07:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 160A86E8A4;
+	Wed,  8 Jul 2020 07:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4956E0F2;
- Wed,  8 Jul 2020 05:44:37 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id s9so52652665ljm.11;
- Tue, 07 Jul 2020 22:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Qq/LVwU/N4W4lzPSMDMiPTvy9LVBc34wJPoHGag6tLc=;
- b=kv9AnCfQWFMHtQLqLSODLvbf5K6d/kQg0ki/rNlHKapH83Ze+SUbwUzm3mJh5ZEMx9
- djP0a3vF6i9mXoKmQIXhaGFPmJfaF3tKDbVKc2A2KWwkgLW/ij/Yi8/VT914A8WDEBdf
- JF3sejEisujgxRFcy6M+EupWWOKeKX3vnTxeWEOiOxGWBn0igKNWnoD8mM/eTtpW5+SZ
- 9PyzTOe5p4R3WIliKUuOYN1UYy0HCyVw5amRgNuEYZvLcG8svOCeRxC4nkwQAJNZc+mK
- IR2NtTXTeBVv6bFRdFOcU7okwgFgOA/WufeRcIBM4Tvv2mU4iJ3wuy7D1u3+l+//hSww
- puGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qq/LVwU/N4W4lzPSMDMiPTvy9LVBc34wJPoHGag6tLc=;
- b=YVj6Vq9awrWDhZ/9Rbc6ThaLVCkYPFtTIFJMm9gzi6gcdZ9f+BsAqSlVNlFQJtZ1wu
- KhbM4Kw6UIubbnpG73wo7do8KSxzvGvUGthskmPq0VtkYiS/3s3XLhZAPLhXCu5+4fSd
- qbK6TJ6lEyn3rdNaF85kPus1J0zccgYZ4PiEgrpRJaB+nI+jmwzMUfab0kQ/SbVUMmp6
- XSwJSB3BlaAIzEqWGCCGdoHfT9LxZklJVvcDapJikrzDO1DI1oSX1kfKSRB+n+tBznEh
- b5O/L7qXOL8SQdC/VOjI31mpFNyuiCMSrtEv5MGgReFeiHwAzytD5rUThC72IxXFWZgB
- dEGw==
-X-Gm-Message-State: AOAM530NYMugIKzk9SL9rhoUzPQjWE2/+pqCk+rwSyzGa3s0xue7MKlp
- vNb/p55/jS4vbn8HAUH5c5pM2cwFvj2U6WLXKNc=
-X-Google-Smtp-Source: ABdhPJyhpQr82E7ylH41uvaeqXfPiHzUfkHmR2AncBiUenm2TYVaLiC2J8ZOTNclh1yKo1ruN2pn+s7VenJy19cUemc=
-X-Received: by 2002:a2e:9dc6:: with SMTP id x6mr24848001ljj.94.1594187075357; 
- Tue, 07 Jul 2020 22:44:35 -0700 (PDT)
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2050D6E0F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 06:08:49 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06866bmk045564;
+ Wed, 8 Jul 2020 06:07:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=piow/X2V0DxzzUbhR3B4ii0WftZsXIJZmFbtpKJlF28=;
+ b=uuyg3Ad0ytlY7guhLpsqo+miIIv5vJXtp2kHsdLuUBxnPi9C8YR5lyVbA8KALELZaHk6
+ LNH9Utu6ECl5DRFJcJBF83Y8Ty+2XxiffGmVOBxQwQtt/b4nilJGJFS9SKkoL+6COMr5
+ Xp9bstEnmLV7HCieDcnb2lJcpIHWShQS2fblI3ddT3+/QPpca0QogkUfm3xucH/UfkSU
+ H06yTMntAD6unkJSA6f82nRjcLa2DY1wvothEeBQaR4IRzwt3xKr9W5JJ0t5LcQCBxc7
+ al3QPPFrdSkOk3p2zfUy2Chm0A8goDMhK2pWAb0SJSyT+5xaHU3iVZ56M2FdfHRSxxPN Eg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 322kv6g9km-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 08 Jul 2020 06:07:44 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0685wF5Z051224;
+ Wed, 8 Jul 2020 06:07:43 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 3233pycwfx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Jul 2020 06:07:43 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06867Dfq011639;
+ Wed, 8 Jul 2020 06:07:13 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 07 Jul 2020 23:07:13 -0700
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 00/20] Documentation: eliminate duplicated words
+Date: Wed,  8 Jul 2020 02:06:54 -0400
+Message-Id: <159418828151.5152.8301362897928007471.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
+References: <20200707180414.10467-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-References: <20200707160012.1299338-1-chris@chris-wilson.co.uk>
-In-Reply-To: <20200707160012.1299338-1-chris@chris-wilson.co.uk>
-From: lepton <ytht.net@gmail.com>
-Date: Tue, 7 Jul 2020 22:44:24 -0700
-Message-ID: <CALqoU4znLvWvweMndRt0A33=XwHZ0+1cyow553mSSAM7SkY6Lg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/vgem: Do not allocate backing shmemfs file for an
- import dmabuf object
-To: Chris Wilson <chris@chris-wilson.co.uk>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9675
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=874 bulkscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2007080041
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9675
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=845 phishscore=0 spamscore=0
+ priorityscore=1501 clxscore=1011 impostorscore=0 mlxscore=0 adultscore=0
+ cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2007080042
 X-Mailman-Approved-At: Wed, 08 Jul 2020 07:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,88 +79,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
- "# v4 . 10+" <stable@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
+ linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
+ Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
+ linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Masahiro Yamada <masahiroy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Halil Pasic <pasic@linux.ibm.com>, James Wang <james.qian.wang@arm.com>,
+ linux-input@vger.kernel.org, Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
+ Jens Axboe <axboe@kernel.dk>, linux-kbuild@vger.kernel.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Michal Marek <michal.lkml@markovi.net>,
+ Pierre Morel <pmorel@linux.ibm.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
+ Dan Murphy <dmurphy@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgNywgMjAyMCBhdCA5OjAwIEFNIENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMt
-d2lsc29uLmNvLnVrPiB3cm90ZToKPgo+IElmIHdlIGFzc2lnbiBvYmotPmZpbHAsIHdlIGJlbGll
-dmUgdGhhdCB0aGUgY3JlYXRlIHZnZW0gYm8gaXMgbmF0aXZlIGFuZAo+IGFsbG93IGRpcmVjdCBv
-cGVyYXRpb25zIGxpa2UgbW1hcCgpIGFzc3VtaW5nIGl0IGJlaGF2ZXMgYXMgYmFja2VkIGJ5IGEK
-PiBzaG1lbWZzIGlub2RlLiBXaGVuIGltcG9ydGVkIGZyb20gYSBkbWFidWYsIHRoZSBvYmotPnBh
-Z2VzIGFyZQo+IG5vdCBhbHdheXMgbWVhbmluZ2Z1bCBhbmQgdGhlIHNobWVtZnMgYmFja2luZyBz
-dG9yZSBtaXNsZWFkaW5nLgo+Cj4gTm90ZSwgdGhhdCByZWd1bGFyIG1tYXAgYWNjZXNzIHRvIGEg
-dmdlbSBibyBpcyB2aWEgdGhlIGR1bWIgYnVmZmVyIEFQSSwKPiBhbmQgdGhhdCByZWplY3RzIGF0
-dGVtcHRzIHRvIG1tYXAgYW4gaW1wb3J0ZWQgZG1hYnVmLAo+Cj4gZHJtX2dlbV9kdW1iX21hcF9v
-ZmZzZXQoKToKPiAgICAgICAgIGlmIChvYmotPmltcG9ydF9hdHRhY2gpIHJldHVybiAtRUlOVkFM
-Owo+Cj4gU28gdGhlIG9ubHkgcm91dGUgYnkgd2hpY2ggd2UgbWlnaHQgYWNjaWRlbnRhbGx5IGFs
-bG93IG1tYXBwaW5nIG9mIGFuCj4gaW1wb3J0ZWQgYnVmZmVyIGlzIHZpYSB2Z2VtX3ByaW1lX21t
-YXAoKSwgd2hpY2ggY2hlY2tlZCBmb3IKPiBvYmotPmZpbHAgYXNzdW1pbmcgdGhhdCBpdCB3b3Vs
-ZCBiZSBOVUxMLgo+Cj4gV2VsbCBpdCB3b3VsZCBoYWQgaXQgYmVlbiB1cGRhdGVkIHRvIHVzZSB0
-aGUgY29tbW9uCj4gZHJtX2dlbV9kdW1fbWFwX29mZnNldCgpIGhlbHBlciwgaW5zdGVhZCBpdCBo
-YXMKPgo+IHZnZW1fZ2VtX2R1bWJfbWFwKCk6Cj4gICAgICAgICBpZiAoIW9iai0+ZmlscCkgcmV0
-dXJuIC1FSU5WQUw7Cj4KPiBmYWxsaW5nIGZvdWwgb2YgdGhlIHNhbWUgdHJhcCBhcyBhYm92ZS4K
-Pgo+IFJlcG9ydGVkLWJ5OiBMZXB0b24gV3UgPHl0aHQubmV0QGdtYWlsLmNvbT4KPiBGaXhlczog
-YWYzM2E5MTkwZDAyICgiZHJtL3ZnZW06IEVuYWJsZSBkbWFidWYgaW1wb3J0IGludGVyZmFjZXMi
-KQo+IFNpZ25lZC1vZmYtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVr
-Pgo+IENjOiBMZXB0b24gV3UgPHl0aHQubmV0QGdtYWlsLmNvbT4KPiBDYzogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
-bmlnQGFtZC5jb20+Cj4gQ2M6IFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgPHRob21hc19vc0Bz
-aGlwbWFpbC5vcmc+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY0LjEzKwo+IC0t
-LQo+ICBkcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jIHwgMjcgKysrKysrKysrKysrKysr
-KystLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAxMCBkZWxl
-dGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5j
-IGIvZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdlbV9kcnYuYwo+IGluZGV4IDkwOWViYTQzNjY0YS4u
-ZWIzYjdjZGFjOTQxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1fZHJ2
-LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jCj4gQEAgLTkxLDcgKzkx
-LDcgQEAgc3RhdGljIHZtX2ZhdWx0X3QgdmdlbV9nZW1fZmF1bHQoc3RydWN0IHZtX2ZhdWx0ICp2
-bWYpCj4gICAgICAgICAgICAgICAgIHJldCA9IDA7Cj4gICAgICAgICB9Cj4gICAgICAgICBtdXRl
-eF91bmxvY2soJm9iai0+cGFnZXNfbG9jayk7Cj4gLSAgICAgICBpZiAocmV0KSB7Cj4gKyAgICAg
-ICBpZiAocmV0ICYmIG9iai0+YmFzZS5maWxwKSB7Cj4gICAgICAgICAgICAgICAgIHN0cnVjdCBw
-YWdlICpwYWdlOwo+Cj4gICAgICAgICAgICAgICAgIHBhZ2UgPSBzaG1lbV9yZWFkX21hcHBpbmdf
-cGFnZSgKPiBAQCAtMTU3LDcgKzE1Nyw4IEBAIHN0YXRpYyB2b2lkIHZnZW1fcG9zdGNsb3NlKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSkKPiAgfQo+Cj4gIHN0
-YXRpYyBzdHJ1Y3QgZHJtX3ZnZW1fZ2VtX29iamVjdCAqX192Z2VtX2dlbV9jcmVhdGUoc3RydWN0
-IGRybV9kZXZpY2UgKmRldiwKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB1bnNpZ25lZCBsb25nIHNpemUpCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZmlsZSAqc2htZW0sCj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBs
-b25nIHNpemUpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBkcm1fdmdlbV9nZW1fb2JqZWN0ICpvYmo7
-Cj4gICAgICAgICBpbnQgcmV0OwpSZW1vdmUgdGhpcywgaXQncyBub3QgdXNlZCBhbnkgbW9yZS4K
-PiBAQCAtMTY2LDExICsxNjcsOCBAQCBzdGF0aWMgc3RydWN0IGRybV92Z2VtX2dlbV9vYmplY3Qg
-Kl9fdmdlbV9nZW1fY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gICAgICAgICBpZiAo
-IW9iaikKPiAgICAgICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7Cj4KPiAtICAg
-ICAgIHJldCA9IGRybV9nZW1fb2JqZWN0X2luaXQoZGV2LCAmb2JqLT5iYXNlLCByb3VuZHVwKHNp
-emUsIFBBR0VfU0laRSkpOwo+IC0gICAgICAgaWYgKHJldCkgewo+IC0gICAgICAgICAgICAgICBr
-ZnJlZShvYmopOwo+IC0gICAgICAgICAgICAgICByZXR1cm4gRVJSX1BUUihyZXQpOwo+IC0gICAg
-ICAgfQo+ICsgICAgICAgZHJtX2dlbV9wcml2YXRlX29iamVjdF9pbml0KGRldiwgJm9iai0+YmFz
-ZSwgc2l6ZSk7Cj4gKyAgICAgICBvYmotPmJhc2UuZmlscCA9IHNobWVtOwo+Cj4gICAgICAgICBt
-dXRleF9pbml0KCZvYmotPnBhZ2VzX2xvY2spOwo+Cj4gQEAgLTE4OSwxMSArMTg3LDIwIEBAIHN0
-YXRpYyBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnZnZW1fZ2VtX2NyZWF0ZShzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB1bnNpZ25lZCBsb25nIHNpemUpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBkcm1fdmdlbV9nZW1f
-b2JqZWN0ICpvYmo7Cj4gKyAgICAgICBzdHJ1Y3QgZmlsZSAqc2htZW07Cj4gICAgICAgICBpbnQg
-cmV0Owo+Cj4gLSAgICAgICBvYmogPSBfX3ZnZW1fZ2VtX2NyZWF0ZShkZXYsIHNpemUpOwo+IC0g
-ICAgICAgaWYgKElTX0VSUihvYmopKQo+ICsgICAgICAgc2l6ZSA9IHJvdW5kdXAoc2l6ZSwgUEFH
-RV9TSVpFKTsKPiArCj4gKyAgICAgICBzaG1lbSA9IHNobWVtX2ZpbGVfc2V0dXAoRFJJVkVSX05B
-TUUsIHNpemUsIFZNX05PUkVTRVJWRSk7Cj4gKyAgICAgICBpZiAoSVNfRVJSKHNobWVtKSkKPiAr
-ICAgICAgICAgICAgICAgcmV0dXJuIEVSUl9DQVNUKHNobWVtKTsKPiArCj4gKyAgICAgICBvYmog
-PSBfX3ZnZW1fZ2VtX2NyZWF0ZShkZXYsIHNobWVtLCBzaXplKTsKPiArICAgICAgIGlmIChJU19F
-UlIob2JqKSkgewo+ICsgICAgICAgICAgICAgICBmcHV0KHNobWVtKTsKPiAgICAgICAgICAgICAg
-ICAgcmV0dXJuIEVSUl9DQVNUKG9iaik7Cj4gKyAgICAgICB9Cj4KPiAgICAgICAgIHJldCA9IGRy
-bV9nZW1faGFuZGxlX2NyZWF0ZShmaWxlLCAmb2JqLT5iYXNlLCBoYW5kbGUpOwo+ICAgICAgICAg
-aWYgKHJldCkgewo+IEBAIC0zNjMsNyArMzcwLDcgQEAgc3RhdGljIHN0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqdmdlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
-PiAgICAgICAgIHN0cnVjdCBkcm1fdmdlbV9nZW1fb2JqZWN0ICpvYmo7Cj4gICAgICAgICBpbnQg
-bnBhZ2VzOwo+Cj4gLSAgICAgICBvYmogPSBfX3ZnZW1fZ2VtX2NyZWF0ZShkZXYsIGF0dGFjaC0+
-ZG1hYnVmLT5zaXplKTsKPiArICAgICAgIG9iaiA9IF9fdmdlbV9nZW1fY3JlYXRlKGRldiwgTlVM
-TCwgYXR0YWNoLT5kbWFidWYtPnNpemUpOwo+ICAgICAgICAgaWYgKElTX0VSUihvYmopKQo+ICAg
-ICAgICAgICAgICAgICByZXR1cm4gRVJSX0NBU1Qob2JqKTsKPgo+IC0tCj4gMi4yNy4wCj4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, 7 Jul 2020 11:03:54 -0700, Randy Dunlap wrote:
+
+> Drop doubled words in various parts of Documentation/.
+> 
+> [...]
+
+Applied to 5.9/scsi-queue, thanks!
+
+[17/20] scsi: advansys: docs: Eliminate duplicated word
+        https://git.kernel.org/mkp/scsi/c/3010dfb0b77c
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
