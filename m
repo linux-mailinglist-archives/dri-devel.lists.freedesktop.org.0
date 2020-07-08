@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6496F218A6E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 16:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD49218A71
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 16:53:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 210B96E282;
-	Wed,  8 Jul 2020 14:51:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D08AB6E29D;
+	Wed,  8 Jul 2020 14:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8C26E282
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 14:51:40 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3070AAE48;
- Wed,  8 Jul 2020 14:51:39 +0000 (UTC)
-Subject: Re: drm/ast something ate high-res modes (5.3->5.6 regression)
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
- <f2b36a2e-baf7-ea23-fdb5-bfb7c54c0f4f@suse.de>
- <alpine.DEB.2.20.2007081638020.12041@whs-18.cs.helsinki.fi>
- <930a059f-ce19-f479-3345-0bc8c3d27518@suse.de>
- <CAKMK7uEuEaJmzooodx-wZgOK3rPT_r74dZic+UWGwT-GrE-Uww@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a70e10d9-6574-a4a1-28c6-fd1c3f367afb@suse.de>
-Date: Wed, 8 Jul 2020 16:51:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3301B6E21C;
+ Wed,  8 Jul 2020 14:53:49 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21753873-1500050 for multiple; Wed, 08 Jul 2020 15:53:45 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEuEaJmzooodx-wZgOK3rPT_r74dZic+UWGwT-GrE-Uww@mail.gmail.com>
+In-Reply-To: <20200708095619.GK3278063@phenom.ffwll.local>
+References: <20200707160012.1299338-1-chris@chris-wilson.co.uk>
+ <20200707160012.1299338-2-chris@chris-wilson.co.uk>
+ <20200708095619.GK3278063@phenom.ffwll.local>
+Subject: Re: [PATCH 2/2] drm/vgem: Replace opencoded version of
+ drm_gem_dumb_map_offset()
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 08 Jul 2020 15:53:43 +0100
+Message-ID: <159422002371.17526.18285440750269024388@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,204 +41,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@cs.helsinki.fi>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0567486968=="
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0567486968==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7MXBYa2jMKh2M4WbLMOHQx3UQKcaFyNlL"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7MXBYa2jMKh2M4WbLMOHQx3UQKcaFyNlL
-Content-Type: multipart/mixed; boundary="NrfvJluOAPlVrNH405NIFhv12jWVvt0Rl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@cs.helsinki.fi>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <a70e10d9-6574-a4a1-28c6-fd1c3f367afb@suse.de>
-Subject: Re: drm/ast something ate high-res modes (5.3->5.6 regression)
-References: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
- <f2b36a2e-baf7-ea23-fdb5-bfb7c54c0f4f@suse.de>
- <alpine.DEB.2.20.2007081638020.12041@whs-18.cs.helsinki.fi>
- <930a059f-ce19-f479-3345-0bc8c3d27518@suse.de>
- <CAKMK7uEuEaJmzooodx-wZgOK3rPT_r74dZic+UWGwT-GrE-Uww@mail.gmail.com>
-In-Reply-To: <CAKMK7uEuEaJmzooodx-wZgOK3rPT_r74dZic+UWGwT-GrE-Uww@mail.gmail.com>
-
---NrfvJluOAPlVrNH405NIFhv12jWVvt0Rl
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 08.07.20 um 16:26 schrieb Daniel Vetter:
-> On Wed, Jul 8, 2020 at 4:22 PM Thomas Zimmermann <tzimmermann@suse.de> =
-wrote:
->>
->> Hi
->>
->> Am 08.07.20 um 15:46 schrieb Ilpo J=C3=A4rvinen:
->>> On Wed, 8 Jul 2020, Thomas Zimmermann wrote:
->>>
->>>> Hi
->>>>
->>>> Am 08.07.20 um 12:05 schrieb Ilpo J=C3=A4rvinen:
->>>>> Hi,
->>>>>
->>>>> After upgrading kernel from 5.3 series to 5.6.16 something seems to=
-
->>>>> prevent me from achieving high resolutions with the ast driver.
->>>>
->>>> Thanks for reporting. It's not a bug, but a side effect of atomic
->>>> modesetting.
->>>>
->>>> During pageflips, the old code used to kick out the currently displa=
-yed
->>>> framebuffer and then load in the new one. If that failed, the displa=
-y
->>>> went garbage.
->>>>
->>>> In v5.6-rc1, we merged atomic modesetting for ast. This means that
->>>> screen updates are more reliable, but we have to over-commit resourc=
-es.
->>>> Specifically, we have to reserve space for two buffers in video memo=
-ry
->>>> while a pageflip happens. 1920x1200@32 are ~9MiB of framebuffer memo=
-ry.
->>>> If your device has 16 MiB of VRAM, there's no space left for the sec=
-ond
->>>> framebuffer. Hence, the resolution is no longer supported.
->>>>
->>>> On the positive side, you can now use Wayland compositors with ast.
->>>> Atomic modesetting adds the necessary interfaces.
->>>
->>> Ok, thanks for the info although it's quite disappointing (not the fi=
-rst
->>> time to lose features with kms, migrating to it made me to lose dpms)=
- ;-).
->=20
-> kms still has dpms, not sure what you mean here? Maybe some driver
-> doesn't implement it.
->=20
->>> As it's quite annoying to lose a high resolution mode (or be stuck in=
-
->>> some old kernel), would it be technically feasible to make the frameb=
-uffer
->>> allocation asymmetrical? That is, the switch to high-res mode would g=
-et
->>> rejected when it would be into the smaller of the two buffers but not=
- when
->>> the arrangement is the other way around?
->>
->> I'm not sure what you mean here, but generally, there's no way of fixi=
-ng
->> this without performance penalty.
->>
->> The screen resolution is only programmed once. Later updates only
->> require pageflips. For each pageflip, atomic modesetting requires the
->> new and the old framebuffer in video memory at the same time. These tw=
-o
->> framebuffers are typically allocated once by Gnome/KDE/etc compositors=
-,
->> and compositors go back and forth between them. It's basically double
->> buffering.
->=20
-> You can do high-res mode I think, maybe needs a driver option to allow
-> it to avoid upsetting existing compositors. Roughly:
-> 1. dpms off
-> 2. allocate big buffer
-> 3. dpms on in high res mode with that single buffer
->=20
-> Pageflip will fail ofc with ENOSPC, but kms itself doesn't disallow
-> this. We could even implement this fairly generic, with a setcap flag,
-> which makes the probe helpers _not_ filter out modes which wouldn't
-> fit at least 2 framebuffers at the same time.
-
-Technically you can hack up something, but what's the benefit for the
-overall ecosystem?
-
-In my other reply, I was rather talking about replacing VRAM helpers
-with SHMEM helpers. That would imply a memcpy from system into video
-memory on each pageflip.
-
-OTOH, ast currently recommends using a shadow framebuffer, so userspace
-probably already does the memcpy somewhere. And now that SHMEM helpers
-can easily do cached page mappings, the performance difference might not
-be significant. Maybe I should give it a try.
-
-Best regards
-Thomas
-
-
-> -Daniel
->=20
->> Best regards
->> Thomas
->>
->>>
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---NrfvJluOAPlVrNH405NIFhv12jWVvt0Rl--
-
---7MXBYa2jMKh2M4WbLMOHQx3UQKcaFyNlL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8F3XYUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPmFAf/W8OHT2ex/0075sGye2uv6TUEfSS9
-RznB1F5fKqvoNvoD3X0FyY419rvsQytr9ueEWgLwIkylXfSZ92q7kxz4AaVos+ou
-+a+SsxOuYdjYUGiOwH+G1XP/8XnjUtgd1zUgVyjT9AgpKfRJXcKsDtHW7p603Oam
-H8JHcPPgsxJeL1gqKzFZZiIcxRTMVznLSqzI3qxraI3gQurIf3uoKT3+hlkHp/pe
-9zUdHNK644/J4b9Qur142GA74hRsqYMYnQFxx5iKPpAXRDozRAlL1tQxfOB36sR5
-P7YUg0AyfEqdvpHEoDPRf6OP6l/qcWEJ4xTz2FO9QlMxTokBhFzI+Bp0gw==
-=EUfT
------END PGP SIGNATURE-----
-
---7MXBYa2jMKh2M4WbLMOHQx3UQKcaFyNlL--
-
---===============0567486968==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0567486968==--
+UXVvdGluZyBEYW5pZWwgVmV0dGVyICgyMDIwLTA3LTA4IDEwOjU2OjE5KQo+IE9uIFR1ZSwgSnVs
+IDA3LCAyMDIwIGF0IDA1OjAwOjEyUE0gKzAxMDAsIENocmlzIFdpbHNvbiB3cm90ZToKPiA+IGRy
+bV9nZW1fZHVtYl9tYXBfb2Zmc2V0KCkgbm93IGV4aXN0cyBhbmQgZG9lcyBldmVyeXRoaW5nCj4g
+PiB2Z2VtX2dlbV9kdW1wX21hcCBkb2VzIGFuZCAqb3VnaHQqIHRvIGRvLgo+ID4gCj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiA+IC0t
+LQo+ID4gIGRyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1fZHJ2LmMgfCAyOCArLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyNyBk
+ZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3Zn
+ZW1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jCj4gPiBpbmRleCBlYjNi
+N2NkYWM5NDEuLjg2NmNmZjUzN2YyOCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92
+Z2VtL3ZnZW1fZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1fZHJ2LmMK
+PiA+IEBAIC0yMzYsMzIgKzIzNiw2IEBAIHN0YXRpYyBpbnQgdmdlbV9nZW1fZHVtYl9jcmVhdGUo
+c3RydWN0IGRybV9maWxlICpmaWxlLCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gICAgICAg
+cmV0dXJuIDA7Cj4gPiAgfQo+ID4gIAo+ID4gLXN0YXRpYyBpbnQgdmdlbV9nZW1fZHVtYl9tYXAo
+c3RydWN0IGRybV9maWxlICpmaWxlLCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gLSAgICAg
+ICAgICAgICAgICAgICAgICAgICAgdWludDMyX3QgaGFuZGxlLCB1aW50NjRfdCAqb2Zmc2V0KQo+
+ID4gLXsKPiA+IC0gICAgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqOwo+ID4gLSAgICAgaW50
+IHJldDsKPiA+IC0KPiA+IC0gICAgIG9iaiA9IGRybV9nZW1fb2JqZWN0X2xvb2t1cChmaWxlLCBo
+YW5kbGUpOwo+ID4gLSAgICAgaWYgKCFvYmopCj4gPiAtICAgICAgICAgICAgIHJldHVybiAtRU5P
+RU5UOwo+ID4gLQo+ID4gLSAgICAgaWYgKCFvYmotPmZpbHApIHsKPiA+IC0gICAgICAgICAgICAg
+cmV0ID0gLUVJTlZBTDsKPiA+IC0gICAgICAgICAgICAgZ290byB1bnJlZjsKPiA+IC0gICAgIH0K
+PiA+IC0KPiA+IC0gICAgIHJldCA9IGRybV9nZW1fY3JlYXRlX21tYXBfb2Zmc2V0KG9iaik7Cj4g
+PiAtICAgICBpZiAocmV0KQo+ID4gLSAgICAgICAgICAgICBnb3RvIHVucmVmOwo+ID4gLQo+ID4g
+LSAgICAgKm9mZnNldCA9IGRybV92bWFfbm9kZV9vZmZzZXRfYWRkcigmb2JqLT52bWFfbm9kZSk7
+Cj4gPiAtdW5yZWY6Cj4gPiAtICAgICBkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQob2JqKTsK
+PiA+IC0KPiA+IC0gICAgIHJldHVybiByZXQ7Cj4gPiAtfQo+ID4gLQo+ID4gIHN0YXRpYyBzdHJ1
+Y3QgZHJtX2lvY3RsX2Rlc2MgdmdlbV9pb2N0bHNbXSA9IHsKPiA+ICAgICAgIERSTV9JT0NUTF9E
+RUZfRFJWKFZHRU1fRkVOQ0VfQVRUQUNILCB2Z2VtX2ZlbmNlX2F0dGFjaF9pb2N0bCwgRFJNX1JF
+TkRFUl9BTExPVyksCj4gPiAgICAgICBEUk1fSU9DVExfREVGX0RSVihWR0VNX0ZFTkNFX1NJR05B
+TCwgdmdlbV9mZW5jZV9zaWduYWxfaW9jdGwsIERSTV9SRU5ERVJfQUxMT1cpLAo+ID4gQEAgLTQ1
+NSw3ICs0MjksNyBAQCBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgdmdlbV9kcml2ZXIgPSB7Cj4g
+PiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAgICAgICAgICAgID0gJnZnZW1fZHJpdmVyX2Zv
+cHMsCj4gPiAgCj4gPiAgICAgICAuZHVtYl9jcmVhdGUgICAgICAgICAgICAgICAgICAgID0gdmdl
+bV9nZW1fZHVtYl9jcmVhdGUsCj4gPiAtICAgICAuZHVtYl9tYXBfb2Zmc2V0ICAgICAgICAgICAg
+ICAgID0gdmdlbV9nZW1fZHVtYl9tYXAsCj4gPiArICAgICAuZHVtYl9tYXBfb2Zmc2V0ICAgICAg
+ICAgICAgICAgID0gZHJtX2dlbV9kdW1iX21hcF9vZmZzZXQsCj4gCj4gRXZlbiBiZXR0ZXI6IEp1
+c3QgZGVsZXRlIGl0LCBpdCdzIHRoZSBkZWZhdWx0LiBXaXRoIHRoYXQ6Cj4gCj4gUmV2aWV3ZWQt
+Ynk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gCj4gQWxzbyBtYXli
+ZSBjYzogc3RhYmxlLCBzaW5jZSB0aGlzIHNob3VsZCBzdG9wIHRoZSBtbWFwIGF0dGVtcHRzIG9u
+Cj4gaW1wb3J0ZWQgZG1hLWJ1Zj8gT3Igd2lsbCB0aGlzIGJyZWFrIHN0dWZmIC4uLgoKY29tbWl0
+IDkwMzc4ZTU4OTE5Mjg1NjM3YWEwZjA2M2MwNGJhMGM2NDQ5ZDk4YjEgW3Y0LjE1XQpBdXRob3I6
+IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgpEYXRlOiAgIFRodSBBdWcgMTcg
+MTg6MjE6MzAgMjAxNyArMDIwMAoKICAgIGRybS9nZW06IGRybV9nZW1fZHVtYl9tYXBfb2Zmc2V0
+KCk6IHJlamVjdCBkbWEtYnVmCgphbmQKCmNvbW1pdCBkYjYxMTUyNzAzYzY0MTMzZTQyYjhjNzIw
+YTgzZmYzNmUxODI0YmIxIFt2NC4xNF0KQXV0aG9yOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0
+cm9ubmVzLm9yZz4KRGF0ZTogICBTdW4gSnVsIDIzIDIxOjE2OjE3IDIwMTcgKzAyMDAKCiAgICBk
+cm0vZ2VtOiBBZGQgZHJtX2dlbV9kdW1iX21hcF9vZmZzZXQoKQoKSXQgYmVjYW1lIGRlZmF1bHQg
+YXQgdGhlIHNhbWUgdGltZToKCmNvbW1pdCAwYmU4ZDYzYTg0MGFiN2NhY2IwOGYxYWYxZjIzOTVi
+ZTBmZTNiNjk4IFt2NC4xNF0KQXV0aG9yOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVz
+Lm9yZz4KRGF0ZTogICBTdW4gSnVsIDIzIDIxOjE2OjE4IDIwMTcgKzAyMDAKCiAgICBkcm0vZHVt
+Yi1idWZmZXJzOiBBZGQgZGVmYXVsdHMgZm9yIC5kdW1iX21hcF9vZmZzZXQgYW5kIC5kdW1iX2Rl
+c3Ryb3kKClRoZSBidWcgd2FzIGluCgpjb21taXQgYWYzM2E5MTkwZDAyMjYyNTFlOWNiYzEzN2M4
+OGE3MDdiMGJiZTM1NiBbdjQuMTNdCkF1dGhvcjogTGF1cmEgQWJib3R0IDxsYWJib3R0QHJlZGhh
+dC5jb20+CkRhdGU6ICAgVGh1IE1heSA0IDExOjQ1OjQ4IDIwMTcgLTA3MDAKCiAgICBkcm0vdmdl
+bTogRW5hYmxlIGRtYWJ1ZiBpbXBvcnQgaW50ZXJmYWNlcwoKVGhlIGRybV9nZW1fZHVtYl9tYXBf
+b2Zmc2V0IGlzIG11Y2ggb2xkZXIgdGhhbiBJIHRob3VnaHQgaXQgd2FzLCBhbmQKd2hpbGUgSSBz
+dXNwZWN0ZWQgeW91IG1pZ2h0IGhhdmUgc3VnZ2VzdGVkIG1ha2luZyBpdCBhbiBhdXRvbWF0aWMg
+ZGVmYXVsdCwKSSBsb29rZWQgaW4gdGhlIHdyb25nIHBsYWNlIGZvciB0aGUgY2FsbGVyLgoKSXQn
+cyB0aGUgY2xlYW5lciBmaXgsIHNvIHRoaXMgZGVzZXJ2ZXMgdGhlIGNjOnN0YWJsZSBtb3JlIHRo
+YW4gdGhlCmZpcnN0IGFuZCBjb3ZlcnMgdGhlIHNhbWUgbHRzLgotQ2hyaXMKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
