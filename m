@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC0321842B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 11:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB7C218429
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 11:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDAAE6E1A3;
-	Wed,  8 Jul 2020 09:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 857BD89BF6;
+	Wed,  8 Jul 2020 09:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE9726E192
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 09:49:45 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id r22so40840893qke.13
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 02:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=s9seOl6uP9A7lVOMqPZI6wE78z22wG/tNg7Vm0jJ9OM=;
- b=rtvPdRRVAeJClRWIXO4u8914bNKqLB0NPwJhH4LgmwdbTtjTVT5LzX1F9akQj13ZIu
- OaRGbgfaLKltPvQceZg1wfzf5hgNwSa+feUkdPjx+vX0u5IBn6eWdfjqppM/Bnn2siDC
- xofEH3Ya0OZLK514KHe8laBJlRHRVhbHS3qDf3+2+gqWU1YML2a+b0zEaqWbPTsoTAdD
- dLF8o3qZUei6UCRzkhHmqANivrWfzcwu976wpH7Y9lUsP1BgwEBTLDuvietx2/6U0FnG
- P4gCqoU1pptNhTvfPpTTsEId0t/WH3iBb/PxiXjMSxK1OJQgMrepC16yBC2QrXuyCMXx
- bWtA==
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2955D89BF6
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 09:49:38 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id j4so45756139wrp.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 02:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=GZShcKPFpqES2sTlaXu0+aLjhVaehBiP66MG6kX93c0=;
+ b=GdCkVmFATenowtvtlQVSpSzElju4m414mKArdqAjU+5ulZjcLloKVWm5qk9JhB+Kja
+ k+QoiAzYHZD+MAfkW6WxL1KJwx00iAi9DpiUR4fKJ86ybZ4hUe6Quu320Gg+F6oDtkY8
+ SehTHojS0t5G8pCRlTYrmLi2s2cHnCCKtzyvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=s9seOl6uP9A7lVOMqPZI6wE78z22wG/tNg7Vm0jJ9OM=;
- b=iZMPMK2oPOd26wlMia6Mpfv7+eaQQugxwCfFK/cjQ5N8VWj4Qg3zqVGvSg45KhI0dW
- /+emrB/U7luI95PT8/SMl0wlMnDnlXpDR3fLHI6sGDh513T7NP3DUEtJqm4P9coxWugj
- Nun/6YPw3iA9fbGh4pLUuurjXURRhnXAJFSbUQTm1vo+elu1bmljLb3LQ9q5GuuNPYYl
- 3huSiE58i4NgxlT3auA1dRnw28u3VssepXQ+/Ih7Ur8bHZ8hY2yoo1U4Msz6D8iSjjlV
- xFO0+b3X1hjMywt2Vg5yRTDfLm48aPYyDVbu55gAT+RxtTlmMQrZqknEwDrt2hSFPYhk
- ir0A==
-X-Gm-Message-State: AOAM533d7x2a4FPmIQum4VrxdvPcqX1rZpy97CqpuE8IbK9oAxck+HCQ
- IY7tOXinsepw4HDeo0gQiR1IxBdZicrL2x5nZQpXDw==
-X-Google-Smtp-Source: ABdhPJxtsqRWzW6GCAKBrzV+ZHZCHJEvcHfZ3MSn9jURMUxoaQD4b2Qrm4cTJG/JNqPUpQAFOx3wV7hL57yRgZM7I7U=
-X-Received: by 2002:ae9:ed54:: with SMTP id c81mr22600532qkg.219.1594201784904; 
- Wed, 08 Jul 2020 02:49:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200229221649.90813-1-marex@denx.de>
- <965f6edb-c6f8-880c-8f4a-0b6b47dbd3c1@st.com>
-In-Reply-To: <965f6edb-c6f8-880c-8f4a-0b6b47dbd3c1@st.com>
-From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GZShcKPFpqES2sTlaXu0+aLjhVaehBiP66MG6kX93c0=;
+ b=gtytA60guPRhrlL9kYs/Sop9LTXKa95adr8PBLgRKT1A1/B8V4MBMoSdQkJ2aktf73
+ XTS57XdzPIAB3FWni+LtQlkrQLZzMJZ4TewRU24PNykO/BKfV4Pza7Ki2aHzFit0atLD
+ 3ok9Z8w3W3hJF+rNf+F49nfeLhU8VCzJ2SHwYHofEWyPX3nIkthTfecCRTBHDYSyOx9K
+ x2zbonBYL5kZMzLkQ/MdjLZs19Vf5uG26q0Uj8Khp4nuzfQQ4wuAxDrgDwZG0KrK6jwT
+ nDFaeQTcB1TuK31gFLtl3iUiEBC70ZLrjm7vSPEq9Lrs73UVxsUt/UmGhrMP8Qz4qRbg
+ t07w==
+X-Gm-Message-State: AOAM533huS9fE8QB9HdE39BvFww+GB6ZtyVnfv/5nzsEXlCH+A5qnAiM
+ yxJJBQCpB2U07S9igP3ZE041+A==
+X-Google-Smtp-Source: ABdhPJx/hCEDu3TifTBNO01a+XGP1RMbCshXrEjvlv8gStmFtSO/TgMoCQgSIRGd+mK7JKGoUvckPg==
+X-Received: by 2002:adf:afc3:: with SMTP id y3mr60962970wrd.277.1594201776849; 
+ Wed, 08 Jul 2020 02:49:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h23sm5082314wmb.3.2020.07.08.02.49.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 02:49:36 -0700 (PDT)
 Date: Wed, 8 Jul 2020 11:49:34 +0200
-Message-ID: <CA+M3ks4-MEaz=yPSVFRTRnwusuB6Qy4C_1ewruJeGO8+DoX1eA@mail.gmail.com>
-Subject: Re: [PATCH] drm/stm: repair runtime power management
-To: Philippe CORNU <philippe.cornu@st.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [RFC PATCH v2 0/3] RDMA: add dma-buf support
+Message-ID: <20200708094934.GI3278063@phenom.ffwll.local>
+References: <20200702131000.GW3278063@phenom.ffwll.local>
+ <20200702132953.GS25301@ziepe.ca>
+ <11e93282-25da-841d-9be6-38b0c9703d42@amd.com>
+ <20200702181540.GC3278063@phenom.ffwll.local>
+ <20200703120335.GT25301@ziepe.ca>
+ <CAKMK7uGqABchpPLTm=vmabkwK3JJSzWTFWhfU+ywbwjw-HgSzw@mail.gmail.com>
+ <20200703131445.GU25301@ziepe.ca>
+ <f2ec5c61-a553-39b5-29e1-568dae9ca2cd@amd.com>
+ <MW3PR11MB45553DB31AD67C8B870A345FE5660@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <d28286c7-b1c1-a4a8-1d38-264ed1761cdd@amd.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d28286c7-b1c1-a4a8-1d38-264ed1761cdd@amd.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,94 +74,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Alexandre TORGUE <alexandre.torgue@st.com>,
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Vincent ABRIOU <vincent.abriou@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>, "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgamV1LiAyIGp1aWwuIDIwMjAgw6AgMTQ6MzEsIFBoaWxpcHBlIENPUk5VIDxwaGlsaXBwZS5j
-b3JudUBzdC5jb20+IGEgw6ljcml0IDoKPgo+Cj4KPiBPbiAyLzI5LzIwIDExOjE2IFBNLCBNYXJl
-ayBWYXN1dCB3cm90ZToKPiA+IEFkZCBtaXNzaW5nIHBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBpbnRv
-IGx0ZGNfY3J0Y19hdG9taWNfZW5hYmxlKCkgdG8KPiA+IG1hdGNoIHBtX3J1bnRpbWVfcHV0X3N5
-bmMoKSBpbiBsdGRjX2NydGNfYXRvbWljX2Rpc2FibGUoKSwgb3RoZXJ3aXNlCj4gPiB0aGUgTFRE
-QyBtaWdodCBzdXNwZW5kIHZpYSBydW50aW1lIFBNLCBkaXNhYmxlIGNsb2NrLCBhbmQgdGhlbiBm
-YWlsCj4gPiB0byByZXN1bWUgbGF0ZXIgb24uCj4gPgo+ID4gVGhlIHRlc3Qgd2hpY2ggdHJpZ2dl
-cnMgaXQgaXMgcm91Z2hseSAtLSBydW4gcXQ1IGFwcGxpY2F0aW9uIHdoaWNoCj4gPiB1c2VzIGVn
-bGZzIHBsYXRmb3JtIGFuZCBldG5hdml2LCBzdG9wIHRoZSBhcHBsaWNhdGlvbiwgc2xlZXAgZm9y
-IDE1Cj4gPiBtaW51dGVzLCBydW4gdGhlIGFwcGxpY2F0aW9uIGFnYWluLiBUaGlzIGxlYWRzIHRv
-IGEgdGltZW91dCB3YWl0aW5nCj4gPiBmb3IgdnN5bmMsIGJlY2F1c2UgdGhlIExUREMgaGFzIHN1
-c3BlbmRlZCwgYnV0IGRpZCBub3QgcmVzdW1lLgo+ID4KPiA+IEZpeGVzOiAzNWFiNmNmYmYyMTEg
-KCJkcm0vc3RtOiBzdXBwb3J0IHJ1bnRpbWUgcG93ZXIgbWFuYWdlbWVudCIpCj4gPiBTaWduZWQt
-b2ZmLWJ5OiBNYXJlayBWYXN1dCA8bWFyZXhAZGVueC5kZT4KPiA+IENjOiBZYW5uaWNrIEZlcnRy
-w6kgPHlhbm5pY2suZmVydHJlQHN0LmNvbT4KPiA+IENjOiBQaGlsaXBwZSBDb3JudSA8cGhpbGlw
-cGUuY29ybnVAc3QuY29tPgo+ID4gQ2M6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWln
-bmFyZEBsaW5hcm8ub3JnPgo+ID4gQ2M6IFZpbmNlbnQgQWJyaW91IDx2aW5jZW50LmFicmlvdUBz
-dC5jb20+Cj4gPiBDYzogTWF4aW1lIENvcXVlbGluIDxtY29xdWVsaW4uc3RtMzJAZ21haWwuY29t
-Pgo+ID4gQ2M6IEFsZXhhbmRyZSBUb3JndWUgPGFsZXhhbmRyZS50b3JndWVAc3QuY29tPgo+ID4g
-VG86IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IENjOiBsaW51eC1zdG0zMkBz
-dC1tZC1tYWlsbWFuLnN0b3JtcmVwbHkuY29tCj4gPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0
-cy5pbmZyYWRlYWQub3JnCj4gPiAtLS0KPiA+IC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0t
-LS0tLS0tLQo+ID4gV0FSTklORzogQ1BVOiAwIFBJRDogMjk3IGF0IGRyaXZlcnMvZ3B1L2RybS9k
-cm1fYXRvbWljX2hlbHBlci5jOjE0OTQgZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5r
-cysweDFkYy8weDIwMAo+ID4gW0NSVEM6MzU6Y3J0Yy0wXSB2Ymxhbmsgd2FpdCB0aW1lZCBvdXQK
-PiA+IE1vZHVsZXMgbGlua2VkIGluOgo+ID4gQ1BVOiAwIFBJRDogMjk3IENvbW06IFFTR1JlbmRl
-clRocmVhZCBOb3QgdGFpbnRlZCA1LjYuMC1yYzMtbmV4dC0yMDIwMDIyOC0wMDAxMC1nMzE4YmYw
-ZmMwOGVmICMyCj4gPiBIYXJkd2FyZSBuYW1lOiBTVE0zMiAoRGV2aWNlIFRyZWUgU3VwcG9ydCkK
-PiA+IFs8YzAxMGYxOGM+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBhZmI4Pl0gKHNo
-b3dfc3RhY2srMHgxMC8weDE0KQo+ID4gWzxjMDEwYWZiOD5dIChzaG93X3N0YWNrKSBmcm9tIFs8
-YzA3YjFkM2M+XSAoZHVtcF9zdGFjaysweGI0LzB4ZDApCj4gPiBbPGMwN2IxZDNjPl0gKGR1bXBf
-c3RhY2spIGZyb20gWzxjMDExZDhiOD5dIChfX3dhcm4rMHhkNC8weGYwKQo+ID4gWzxjMDExZDhi
-OD5dIChfX3dhcm4pIGZyb20gWzxjMDExZGM0Yz5dICh3YXJuX3Nsb3dwYXRoX2ZtdCsweDc4LzB4
-YTgpCj4gPiBbPGMwMTFkYzRjPl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzA0YTI2NmM+
-XSAoZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5rcysweDFkYy8weDIwMCkKPiA+IFs8
-YzA0YTI2NmM+XSAoZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5rcykgZnJvbSBbPGMw
-NGE1MTBjPl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWlsKzAKPiA+IHg1MC8weDYwKQo+
-ID4gWzxjMDRhNTEwYz5dIChkcm1fYXRvbWljX2hlbHBlcl9jb21taXRfdGFpbCkgZnJvbSBbPGMw
-NGE1MmE4Pl0gKGNvbW1pdF90YWlsKzB4MTJjLzB4MTNjKQo+ID4gWzxjMDRhNTJhOD5dIChjb21t
-aXRfdGFpbCkgZnJvbSBbPGMwNGE1M2I0Pl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCsweGY0
-LzB4MTAwKQo+ID4gWzxjMDRhNTNiND5dIChkcm1fYXRvbWljX2hlbHBlcl9jb21taXQpIGZyb20g
-WzxjMDRhMmQzOD5dIChkcm1fYXRvbWljX2hlbHBlcl9zZXRfY29uZmlnKzB4NTgvMHg2YykKPiA+
-IFs8YzA0YTJkMzg+XSAoZHJtX2F0b21pY19oZWxwZXJfc2V0X2NvbmZpZykgZnJvbSBbPGMwNGIx
-OTk0Pl0gKGRybV9tb2RlX3NldGNydGMrMHg0NTAvMHg1NTApCj4gPiBbPGMwNGIxOTk0Pl0gKGRy
-bV9tb2RlX3NldGNydGMpIGZyb20gWzxjMDRhZDU3MD5dIChkcm1faW9jdGxfa2VybmVsKzB4OTAv
-MHhlOCkKPiA+IFs8YzA0YWQ1NzA+XSAoZHJtX2lvY3RsX2tlcm5lbCkgZnJvbSBbPGMwNGFkOGFj
-Pl0gKGRybV9pb2N0bCsweDJlNC8weDMyYykKPiA+IFs8YzA0YWQ4YWM+XSAoZHJtX2lvY3RsKSBm
-cm9tIFs8YzAyNDY3ODQ+XSAodmZzX2lvY3RsKzB4MjAvMHgzOCkKPiA+IFs8YzAyNDY3ODQ+XSAo
-dmZzX2lvY3RsKSBmcm9tIFs8YzAyNDcwZjA+XSAoa3N5c19pb2N0bCsweGJjLzB4N2IwKQo+ID4g
-WzxjMDI0NzBmMD5dIChrc3lzX2lvY3RsKSBmcm9tIFs8YzAxMDEwMDA+XSAocmV0X2Zhc3Rfc3lz
-Y2FsbCsweDAvMHg1NCkKPiA+IEV4Y2VwdGlvbiBzdGFjaygweGVlOGYzZmE4IHRvIDB4ZWU4ZjNm
-ZjApCj4gPiAzZmEwOiAgICAgICAgICAgICAgICAgICAwMDAwMDAwNSBhZGNiZWIxOCAwMDAwMDAw
-NSBjMDY4NjRhMiBhZGNiZWIxOCAwMDAwMDAwMQo+ID4gM2ZjMDogMDAwMDAwMDUgYWRjYmViMTgg
-YzA2ODY0YTIgMDAwMDAwMzYgMDAwMDAwMjkgMDAwMDAwMjMgMDAwMDAwMjMgMDAwMDAwMDcKPiA+
-IDNmZTA6IGIxMTNiMDk4IGFkY2JlYWZjIGIxMTI1NDEzIGI2MTU1Y2Y4Cj4gPiAtLS1bIGVuZCB0
-cmFjZSAyYWQ1YmE5NTRjZWI3NjdhIF0tLS0KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0v
-c3RtL2x0ZGMuYyB8IDMgKysrCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykK
-PiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRjLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vc3RtL2x0ZGMuYwo+ID4gaW5kZXggOTliZjkzZThiMzZmLi4zMDFkZTA0OTgwNzgg
-MTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYwo+ID4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3N0bS9sdGRjLmMKPiA+IEBAIC00MjUsOSArNDI1LDEyIEBAIHN0YXRpYyB2
-b2lkIGx0ZGNfY3J0Y19hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiA+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9s
-ZF9zdGF0ZSkKPiA+ICAgewo+ID4gICAgICAgc3RydWN0IGx0ZGNfZGV2aWNlICpsZGV2ID0gY3J0
-Y190b19sdGRjKGNydGMpOwo+ID4gKyAgICAgc3RydWN0IGRybV9kZXZpY2UgKmRkZXYgPSBjcnRj
-LT5kZXY7Cj4gPgo+ID4gICAgICAgRFJNX0RFQlVHX0RSSVZFUigiXG4iKTsKPiA+Cj4gPiArICAg
-ICBwbV9ydW50aW1lX2dldF9zeW5jKGRkZXYtPmRldik7Cj4gPiArCj4gPiAgICAgICAvKiBTZXRz
-IHRoZSBiYWNrZ3JvdW5kIGNvbG9yIHZhbHVlICovCj4gPiAgICAgICByZWdfd3JpdGUobGRldi0+
-cmVncywgTFREQ19CQ0NSLCBCQ0NSX0JDQkxBQ0spOwo+ID4KPiA+Cj4gSGkgTWFyZWssCj4gTWFu
-eSB0aGFua3MgZm9yIHlvdXIgcGF0Y2gsCj4gQWNrZWQtYnk6IFBoaWxpcHBlIENvcm51IDxwaGls
-aXBwZS5jb3JudUBzdC5jb20+Cj4gVGVzdGVkLWJ5OiBZYW5uaWNrIEZlcnRyZSA8eWFubmljay5m
-ZXJ0cmVAc3QuY29tPgo+Cj4KPiBIaSBCZW5qYW1pbiwKPiBDb3VsZCB5b3UgcGxlYXNlIGFwcGx5
-ICJkcm0vc3RtOiBsdGRjOiByZW1vdmUgY2FsbCBvZiBwbS1ydW50aW1lCj4gZnVuY3Rpb25zIiAq
-KmJlZm9yZSoqIHRoaXMgb25lLiBUaGFuayB5b3UuCgpBcHBsaWVkIG9uIGRybS1taXNjLW5leHQu
-CgpUaGFua3MsCkJlbmphbWluCgo+Cj4gUGhpbGlwcGUgOi0pCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Jul 08, 2020 at 11:38:31AM +0200, Christian K=F6nig wrote:
+> Am 07.07.20 um 23:58 schrieb Xiong, Jianxin:
+> > > -----Original Message-----
+> > > From: Christian K=F6nig <christian.koenig@amd.com>
+> > > Am 03.07.20 um 15:14 schrieb Jason Gunthorpe:
+> > > > On Fri, Jul 03, 2020 at 02:52:03PM +0200, Daniel Vetter wrote:
+> > > > =
+
+> > > > > So maybe I'm just totally confused about the rdma model. I though=
+t:
+> > > > > - you bind a pile of memory for various transactions, that might
+> > > > > happen whenever. Kernel driver doesn't have much if any insight i=
+nto
+> > > > > when memory isn't needed anymore. I think in the rdma world that's
+> > > > > called registering memory, but not sure.
+> > > > Sure, but once registered the memory is able to be used at any mome=
+nt
+> > > > with no visibilty from the kernel.
+> > > > =
+
+> > > > Unlike GPU the transactions that trigger memory access do not go
+> > > > through the kernel - so there is no ability to interrupt a command
+> > > > flow and fiddle with mappings.
+> > > This is the same for GPUs with user space queues as well.
+> > > =
+
+> > > But we can still say for a process if that this process is using a DM=
+A-buf which is moved out and so can't run any more unless the DMA-buf is
+> > > accessible again.
+> > > =
+
+> > > In other words you somehow need to make sure that the hardware is not=
+ accessing a piece of memory any more when you want to move it.
+> > > =
+
+> > While a process can be easily suspended, there is no way to tell the RD=
+MA NIC not to process posted work requests that use specific memory regions=
+ (or with any other conditions).
+> > =
+
+> > So far it appears to me that DMA-buf dynamic mapping for RDMA is only v=
+iable with ODP support. For NICs without ODP, a way to allow pinning the de=
+vice memory is still needed.
+> =
+
+> And that's exactly the reason why I introduced explicit pin()/unpin()
+> functions into the DMA-buf API:
+> https://elixir.bootlin.com/linux/latest/source/drivers/dma-buf/dma-buf.c#=
+L811
+> =
+
+> It's just that at least our devices drivers currently prevent P2P with
+> pinned DMA-buf's for two main reasons:
+> =
+
+> a) To prevent deny of service attacks because P2P BARs are a rather rare
+> resource.
+> =
+
+> b) To prevent failures in configuration where P2P is not always possible
+> between all devices which want to access a buffer.
+
+So the above is more or less the question in the cover letter (which
+didn't make it to dri-devel). Can we somehow throw that limitation out, or
+is that simply not a good idea?
+
+Simply moving buffers to system memory when they're pinned does simplify a
+lot of headaches. For a specific custom built system we can avoid that
+maybe, but I think upstream is kinda a different thing.
+
+Cheers, Daniel
+
+> Regards,
+> Christian.
+> =
+
+> > =
+
+> > Jianxin
+> > =
+
+> > > Christian.
+> > > =
+
+> > > > Jason
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
