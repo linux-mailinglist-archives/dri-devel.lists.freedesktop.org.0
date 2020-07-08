@@ -1,33 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484CB217F75
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 08:10:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBB8218012
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 08:59:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65B506E857;
-	Wed,  8 Jul 2020 06:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A05AD6E85A;
+	Wed,  8 Jul 2020 06:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54156E857
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 06:10:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E45BDAC85;
- Wed,  8 Jul 2020 06:10:48 +0000 (UTC)
-Subject: Re: [PATCH 4/4] drm: fb-helper: Convert logging to drm_* functions.
-To: Suraj Upadhyay <usuraj35@gmail.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
-References: <cover.1594136880.git.usuraj35@gmail.com>
- <0d37c7a614eb0885f0f0bed18e48a4d26b345a8e.1594136880.git.usuraj35@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <801c7af4-3991-6422-e95f-6a867d27f697@suse.de>
-Date: Wed, 8 Jul 2020 08:10:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D6D6E85A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 06:59:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [122.182.251.219])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 36DCA2075B;
+ Wed,  8 Jul 2020 06:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594191583;
+ bh=XJuInuxOHD6Yk8crXfvZ8un1d/Cyt8V78YS8TieLKLc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=g3Xwsem7Pst2P3nEtC/CFj0f40mHZwdIY6kqx26B9FwEev7lyTd28eQJ7W1sXsMnA
+ 16ocXKNteZYT3HtEFA2T6PvrhDFXHixTY6TBBodUDfxcobgxryq4o5Uo+E0KD+lvJU
+ lLrmnNzTg7S0Y9Vu44EOdbsOXP0JuW8Ja0dlaYWg=
+From: Vinod Koul <vkoul@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v4 0/4] Add LT9611 DSI to HDMI bridge
+Date: Wed,  8 Jul 2020 12:29:20 +0530
+Message-Id: <20200708065924.59257-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <0d37c7a614eb0885f0f0bed18e48a4d26b345a8e.1594136880.git.usuraj35@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,105 +44,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0621755125=="
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0621755125==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="N6Vsy2mqhXxmQ3gZtTbQfTGcJfn3UBoh9"
+Hi,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---N6Vsy2mqhXxmQ3gZtTbQfTGcJfn3UBoh9
-Content-Type: multipart/mixed; boundary="ayhMn1v1MzKH6si9D5WT2KLCxgXlyGr6I";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Suraj Upadhyay <usuraj35@gmail.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <801c7af4-3991-6422-e95f-6a867d27f697@suse.de>
-Subject: Re: [PATCH 4/4] drm: fb-helper: Convert logging to drm_* functions.
-References: <cover.1594136880.git.usuraj35@gmail.com>
- <0d37c7a614eb0885f0f0bed18e48a4d26b345a8e.1594136880.git.usuraj35@gmail.com>
-In-Reply-To: <0d37c7a614eb0885f0f0bed18e48a4d26b345a8e.1594136880.git.usuraj35@gmail.com>
+This series adds driver and bindings for Lontium LT9611 bridge chip which
+takes MIPI DSI as input and HDMI as output.
 
---ayhMn1v1MzKH6si9D5WT2KLCxgXlyGr6I
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
 
+[1]: https://www.96boards.org/product/rb3-platform/
 
+Changes in v4:
+ - Add msm/dsi patch to create connector and support DRM_BRIDGE_ATTACH_NO_CONNECTOR
+ - Fix comments provided by Sam
 
-Am 07.07.20 um 18:37 schrieb Suraj Upadhyay:
-> Change logging information from dev_info() to drm_info().
->=20
-> Signed-off-by: Suraj Upadhyay <usuraj35@gmail.com>
+Changes in v3:
+ - fix kbuild reported error
+ - rebase on v5.8-rc1
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Changes in v2:
+ - Add acks by Rob
+ - Fix comments reported by Emil and rename the file to lontium-lt9611.c
+ - Fix comments reported by Laurent on binding and driver
+ - Add HDMI audio support
 
-> ---
->  drivers/gpu/drm/drm_fb_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
-elper.c
-> index 5609e164805f..88146f7245c5 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -1819,7 +1819,7 @@ __drm_fb_helper_initial_config_and_unlock(struct =
-drm_fb_helper *fb_helper,
->  	if (ret < 0)
->  		return ret;
-> =20
-> -	dev_info(dev->dev, "fb%d: %s frame buffer device\n",
-> +	drm_info(dev, "fb%d: %s frame buffer device\n",
->  		 info->node, info->fix.id);
-> =20
->  	mutex_lock(&kernel_fb_helper_lock);
->=20
+Vinod Koul (4):
+  dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+  dt-bindings: display: bridge: Add documentation for LT9611
+  drm/bridge: Introduce LT9611 DSI to HDMI bridge
+  drm/msm/dsi: attach external bridge with DRM_BRIDGE_ATTACH_NO_CONNECTOR
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+ .../display/bridge/lontium,lt9611.yaml        |  176 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ drivers/gpu/drm/bridge/Kconfig                |   13 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/lontium-lt9611.c       | 1174 +++++++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi.c                 |    7 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c         |   27 +-
+ 7 files changed, 1380 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
 
-
---ayhMn1v1MzKH6si9D5WT2KLCxgXlyGr6I--
-
---N6Vsy2mqhXxmQ3gZtTbQfTGcJfn3UBoh9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8FY2cUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPiVAf9Go8IAySbthZgUIcmxpZlWhrOOPhl
-gSAQV4lLCHGrEZWPvyANtC5/o0+NmZk37NNYVGNB1XDh7gJmgDA4+3gbhiHitqy7
-K61vXp5PyXYW7EIj5OZT0V+o8AH6+/AP9G/c9p0YC1LWcoH5EeawEDsfEergbePJ
-4bshONnVpQYxUVsiR7QcMCrNtcvpbgF+x0BHCE61cmWbvm8DpO3HNQ1T3QfC9iYb
-66ltWYsxY0W0gOuAVEky7Llnml5S7xSj9buYHgfyinowUJsY6qgLYXOX2oC1U6sI
-XwZvSGKp91FZaB1WefUo7+EZq+Yam4pHiZUpEasOuS778D/6svYWXXFMqA==
-=EGVC
------END PGP SIGNATURE-----
-
---N6Vsy2mqhXxmQ3gZtTbQfTGcJfn3UBoh9--
-
---===============0621755125==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0621755125==--
