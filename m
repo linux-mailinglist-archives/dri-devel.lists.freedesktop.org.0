@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F0B219921
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F9A219958
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:07:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5137B6E9D3;
-	Thu,  9 Jul 2020 07:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783E06EA29;
+	Thu,  9 Jul 2020 07:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B29686E905
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:42:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDC66E905
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:42:40 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id B0315102D;
- Wed,  8 Jul 2020 13:42:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:42:38 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 29ADE2F9;
+ Wed,  8 Jul 2020 13:42:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:42:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=1gB4ajIYx2zSo
- kwd0xMtjgpaC1At6DM1TzEccvP1aW8=; b=AyZIbfuca5VNRNlAwrtAgwg5Gcfdp
- kDJNhcdxXyv4+UWdWA6qwofsickKePL3C8DejIqesFqrloU2f63dLbWqEJ1B1hjM
- rZvgOuuJc8TOhhyRwXouPFtD19P1cUyBIVWrWoK+gb4fM3zcHqQl0kuh2NMIoqpO
- WgeGV33/3E4XlNZFy9vKNRqfty3Fb424TbmugasYpCS7P8hcZXhDmpfAqCQAraVG
- g6w+n3l8OWqP4MHmJu9a7SMJjSogYs/8j+mc36pYlavXJlD1pwmjq33U5z4V/qfn
- rjBtxt/RxYpDAR5Slzu6Ks3w2tNFYSLB8vuDm4OKhVXmp6YDZbZvJIzcQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=w13OGPPr5xLPF
+ fNdGgAvwXGU0LzBOM3S5NR8R2EchZ0=; b=VWW54A6cXbJAGiR7gCKlePNvuBYvS
+ 3ajlFKyNBvKC4nRpMw8tN8q2667aYl6ZOOoZQeQ2AjnRZjKijqbOAUMCVTH9sMBo
+ 9/HSoq4IfmQMxtAtvYMSn9QzrRgfWNVlM/VaEPZoESTWZms4rcKdLQZ59y06Iz5f
+ QaT4s4ASNR1F+izYKQoyPsTiGapeMEtIGSYlEMeiXby892lG478HN9CafXug6ckZ
+ EEUjDBaZyAnmKUz6Smi7nyjdqWejnTkjY/Ux8/zyoBM12iKYEjmbs1PixWKp0j4G
+ O1Jds/4wOaCGpSh9EluOGAfh4u6e8yqiYpYh5CcobwjofifYGSDPqxU2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=1gB4ajIYx2zSokwd0xMtjgpaC1At6DM1TzEccvP1aW8=; b=JNbj9NEq
- PFiEPA6H9zp6sDf7E6MuRpxgyxhmp5J5MGGhU3YihcDfKvd7qRSK1Y0mX5JXT1jv
- 3Tw14QrNQcvHWmCpNkIcGmxUk9qdolRFZuGjrleFZmSmThdsLxz2z0ZD7aULLuSQ
- QX+q0eQ3RHAfNWbaOcd86rEza3s73a+FoJy3wfK7z7vdVkOXb2BgrKTxJJ3Y6knz
- obKEu6NToR0ocpVEq4e5+SdZMZJiA5PJIq1bbJeE2Wm+TxrlF7fu8Eed1Urovk/V
- TFaD8t1iw4gkLryNbyZUcTbc/dqGQvkAD+tQvO8OEndcbUViJG0cyfqmZhNz8Mz+
- S5ULgv4s1JdAdg==
-X-ME-Sender: <xms:jQUGX7amSmGsv-FM3opsgWoGe7Gltr1jTw8NyBaDT33OtDUHHx146g>
+ fm3; bh=w13OGPPr5xLPFfNdGgAvwXGU0LzBOM3S5NR8R2EchZ0=; b=YFEq3mun
+ ukcivyxLZ23yXOuHIrIRnFI2zGXW/mTKTujjRaE5dqHib8TI/O3DMFzFVicq/Eht
+ bKbnw8rg9WoaeOc8rUiAlyouG6ZVi/1anxSu9+VH+ewpmx7G8bR/q/SrCTZHSf+G
+ fHPhsgbEuF7DsUGk7kIljA4Rettv+EoRJ0vh0jMD3jSY6RK9kOs1w7uyQRUZmW07
+ ae7UGZDMagsrb4rDN6S01RpzDBHENMfW1MxZIUXwKDh5YKo/impzzfIbXtRmcgvu
+ h66OiXKK+OmAv876dxphq48TH4QS1rnuuNc0UJOg7hp0UX2puqFeXn0F4RFXa/0y
+ +P3C0y5IR5YQSA==
+X-ME-Sender: <xms:jgUGX8tkpKmnLa53hRMdvgST2G5VfbtJTHc7Q-bnkRiLNujSSW7AOw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,21 +47,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jQUGX6abTkp8czSBNqtv10mQ6SBLbndlyGD0ExCmVtpzNzOabUg8xQ>
- <xmx:jQUGX9_Bt6vwh170bDr3tCUvp-CVm3JM4LiaP466UI8HG9l5BKON1A>
- <xmx:jQUGXxpS45UF3W4Cc3Vdrf43Aq5AtBdXAJoWC8-apAOEWKLnQNT9nQ>
- <xmx:jQUGX2JbzjRh0vdM_lBXFP--TZ-Ztk3j1gQjU4VRyqO_X5UI_IKZ60wkn38>
+X-ME-Proxy: <xmx:jgUGX5dopyp4ywQlVRsn4TNXhi_YX6FqfpRfymSZcMA-9QsCMC7Y7Q>
+ <xmx:jgUGX3yK0-VCaTNrKATiWpD2PHNfnxEGDSHQZSTMZaLgNUeCdPhhxA>
+ <xmx:jgUGX_PKsGBtBHqXbXNHZ4ZNZORwp5oEDQ4b6c972g2ypktL3hVuWQ>
+ <xmx:jgUGX5NGKBqLrD3HKeRfxqGxRFri2xoqbZ7otX3r5A4imCIP1QsyOrCfmzk>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id EC4103280059;
- Wed,  8 Jul 2020 13:42:36 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6810D30600A3;
+ Wed,  8 Jul 2020 13:42:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 04/78] drm/vc4: plane: Change LBM alignment constraint on
- LBM
-Date: Wed,  8 Jul 2020 19:41:12 +0200
-Message-Id: <c6e54f61c09bc417cc37f8df7f97070a8a8e4634.1594230107.git-series.maxime@cerno.tech>
+Subject: [PATCH v4 05/78] drm/vc4: plane: Optimize the LBM allocation size
+Date: Wed,  8 Jul 2020 19:41:13 +0200
+Message-Id: <3496764856363a45b80c0505da486fdeb8a48feb.1594230107.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
@@ -91,30 +90,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The HVS5 needs an alignment of 64bytes for its LBM memory, so let's reflect
-it.
+The current code is using the maximum of the source line size and the
+destination line size to compute the size of the LBM to allocate.
+
+While this is simpler, it starts to be an issue with modes such as 4k with
+a quite long that will consume all the available memory, so we no longer
+have that luxury.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 20c949b57827..d0771ebd5f75 100644
+index d0771ebd5f75..23916814b4e3 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -578,7 +578,9 @@ static int vc4_plane_allocate_lbm(struct drm_plane_state *state)
- 		spin_lock_irqsave(&vc4->hvs->mm_lock, irqflags);
- 		ret = drm_mm_insert_node_generic(&vc4->hvs->lbm_mm,
- 						 &vc4_state->lbm,
--						 lbm_size, 32, 0, 0);
-+						 lbm_size,
-+						 vc4->hvs->hvs5 ? 64 : 32,
-+						 0, 0);
- 		spin_unlock_irqrestore(&vc4->hvs->mm_lock, irqflags);
+@@ -437,10 +437,7 @@ static void vc4_write_ppf(struct vc4_plane_state *vc4_state, u32 src, u32 dst)
+ static u32 vc4_lbm_size(struct drm_plane_state *state)
+ {
+ 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(state);
+-	/* This is the worst case number.  One of the two sizes will
+-	 * be used depending on the scaling configuration.
+-	 */
+-	u32 pix_per_line = max(vc4_state->src_w[0], (u32)vc4_state->crtc_w);
++	u32 pix_per_line;
+ 	u32 lbm;
  
- 		if (ret)
+ 	/* LBM is not needed when there's no vertical scaling. */
+@@ -448,6 +445,18 @@ static u32 vc4_lbm_size(struct drm_plane_state *state)
+ 	    vc4_state->y_scaling[1] == VC4_SCALING_NONE)
+ 		return 0;
+ 
++	/*
++	 * This can be further optimized in the RGB/YUV444 case if the PPF
++	 * decimation factor is between 0.5 and 1.0 by using crtc_w.
++	 *
++	 * It's not an issue though, since in that case since src_w[0] is going
++	 * to be greater than or equal to crtc_w.
++	 */
++	if (vc4_state->x_scaling[0] == VC4_SCALING_TPZ)
++		pix_per_line = vc4_state->crtc_w;
++	else
++		pix_per_line = vc4_state->src_w[0];
++
+ 	if (!vc4_state->is_yuv) {
+ 		if (vc4_state->y_scaling[0] == VC4_SCALING_TPZ)
+ 			lbm = pix_per_line * 8;
 -- 
 git-series 0.9.1
 _______________________________________________
