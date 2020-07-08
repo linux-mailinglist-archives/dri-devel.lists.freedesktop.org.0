@@ -1,79 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC780218E2E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 19:25:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0201F219935
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FAC96E8FE;
-	Wed,  8 Jul 2020 17:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77A806E9F5;
+	Thu,  9 Jul 2020 07:05:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506896E8FE
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594229127;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8PCbbzVisIhr1KPzrpNlYgZylablGP1kms5umra293M=;
- b=CsOsllkGwo+OrLhtZri5ggsJ+677D8n59UnmeIaSMwLtP0O9qwCZybvKJkPFdkHzbLc4Fi
- gs2oqMrYcLHrbd9UMVO3dZWgc7eEiPEIU48DHW4ollaEiWlNpRAa2f5Xb7mU5Sw6ho6fsB
- sxuds6xy+gyvsn39zee17lkirsfCd2E=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-dqdlCd33NHqPY_dgGTrJ0Q-1; Wed, 08 Jul 2020 13:25:17 -0400
-X-MC-Unique: dqdlCd33NHqPY_dgGTrJ0Q-1
-Received: by mail-qk1-f197.google.com with SMTP id i6so31384561qkn.22
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 10:25:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=8PCbbzVisIhr1KPzrpNlYgZylablGP1kms5umra293M=;
- b=JrFFt0YEyGVxx2P4IXyAjEs3DUuNKASy5Q+XqTQLF+61gzz3TH64JENN7HeBInCQBM
- sPX3lytHf2m9LmWAfiXSCzzj4far0Z+Lv8xqZmbMy+LOAoYGy9Aoiswm4mi5ik6Ek8F1
- J3hQ4U1QFFeoCiaN1i/bzEMlSD6TXfwn+Q+B+A8tnQPM7tlDsLIl0NKn6/P5wlKUqa+i
- nxGog2Zdv5/QOq1YtaS87nvBFwYQlhy7vkYQMcns2Z/0ONj/mDxymVHsSZnlQBafRZqe
- N/oivMGKvZP1DifVcuylp+u60NIR+dCXDPLN1edoZDtTFLxFL2K9ShmgBawF5jR0Q4VW
- S5SQ==
-X-Gm-Message-State: AOAM530WrvLO8BhqyUAzqCW94yLbJ4ck0KVfr/uq7N5JxgeFDZIcnLbb
- eJI2FXarGiCPOctRlHveYl6MP+OJk+ZgREsxRv5k6cL9q3Oa0vBsvKc6H2E+Ug+tLGK3cXK6qR2
- 8uLbQ+sehOHCjzpZCrAy7TGGMlsTQ
-X-Received: by 2002:a37:9ed6:: with SMTP id
- h205mr56839327qke.384.1594229116327; 
- Wed, 08 Jul 2020 10:25:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwl/XksMb0RSfvYaf4zucZwc2ys1sjnbTDpimEgAnoPLgdZ+PPqNjSFY/L+rjmqiFP0gjQoJw==
-X-Received: by 2002:a37:9ed6:: with SMTP id
- h205mr56839308qke.384.1594229115992; 
- Wed, 08 Jul 2020 10:25:15 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id u27sm449611qkm.121.2020.07.08.10.25.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 10:25:15 -0700 (PDT)
-Message-ID: <b8d176ed8838ea0d63b794f5fd5d54b71afc0d69.camel@redhat.com>
-Subject: Re: [PATCH 1/2] drm/probe_helper: Add
- drm_connector_helper_funcs.mode_valid_ctx
-From: Lyude Paul <lyude@redhat.com>
-To: imre.deak@intel.com
-Date: Wed, 08 Jul 2020 13:25:14 -0400
-In-Reply-To: <20200707224036.GA22747@ideak-desk.fi.intel.com>
-References: <20200526182313.4005-1-lyude@redhat.com>
- <20200526182313.4005-2-lyude@redhat.com>
- <20200707224036.GA22747@ideak-desk.fi.intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48E6D6E907
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:42:36 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 801B0102C;
+ Wed,  8 Jul 2020 13:42:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:42:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=aco/xjpXcfoPImRdxU9Pd23iJz
+ lhhHe3iGOSi8JwdVY=; b=T+ZdJ8RQ0B+V0qc1rD9XuGDk6HRJap8rKh1lya8jVt
+ 4rX+zHNzI9R/VpY27ZdA/WQMao3qai27IN6EuwsKXSS/ZyysTrGzUupcgKL7fGZY
+ VvKlj4J8H55rGE/MEHkJwSd9jdrlI+cBxtmTadmOpw6Tm4T0PrcNb9VgB8SRmdgQ
+ SxYsl+Lbo5v2pM2Fid0I7QZX+T8+/BYtuE6F2xdRiWRXnFnCjzg/oNWQSiZmgiJ9
+ Ptn6ujLbbKSsuYJWu0Yql7cF8Ie0aMbBZG95lk78TLCkBT9Xwtz5fP9T6sJdpG34
+ daDHGLBRBd2UJAwTcg043H4dYTy8WlvGtYH/IEa/IIxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aco/xjpXcfoPImRdx
+ U9Pd23iJzlhhHe3iGOSi8JwdVY=; b=JzhSB6Gp48JU/uPkHlSk0gj+jn3unKVUF
+ NxxadWMiSbxVqJUzia3X9BfhnmMuyDzsEm9Foq+ba/tFKM0hf5BOsRX99ZyVcc3o
+ eNDQjYPd1UwGjcWML1jDr41maWWgUutSFPR1SxbX5u9TRUbIZPxliuRlvYCpp+v9
+ TGe0bg/2RDbbLL03GCkJEc7vyOc7+7H9SJUbrha7kHVSWkVsdfBeVOL5symOpC7i
+ wQbdQKdGdVwi5gCTR2AjE9jmp7uC3FrBTL0uhaw7Bs95iK1T/v+I2atTfEzPUuB9
+ MhCSey0I6Bim/Dl8Deb4xNRNzA+YWwGWTJxEHMG4478JYO8LMIp8Q==
+X-ME-Sender: <xms:hwUGX3Tf6dHyiUm0NzFHx2v95wUCvu8wjSf0gs1NY_Jf0UvHDs1kbw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteevhfdtjeeludffieffgeefgeeugefhgfegkeeuteeigfejfeejkedujeehlefg
+ necuffhomhgrihhnpehrrghsphgsvghrrhihphhirdgtohhmnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:hwUGX4x4PF5JFpZusCarV86Em7XelB_AeS34C27DjKJlHtu27q7sJA>
+ <xmx:hwUGX81zffS8t7AvML3lFRL0SNMljpEtWb1_BGfd2lh_mny3BZGe0g>
+ <xmx:hwUGX3DoU5vP9dlhTKElN0JxDw-JDOy5S3J4QSmEDrnTNjW4NNmW5w>
+ <xmx:iQUGXw6TArjj2AxCajkpRaH4ncYv-Q3Va7f0lGLUqK6TZdZXZYGu5Gc0Pic>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 311CB328005E;
+ Wed,  8 Jul 2020 13:42:31 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Eric Anholt <eric@anholt.net>
+Subject: [PATCH v4 00/78] drm/vc4: Support BCM2711 Display Pipeline
+Date: Wed,  8 Jul 2020 19:41:08 +0200
+Message-Id: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,259 +76,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lee Shawn C <shawn.c.lee@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi everyone,
 
-JFYI - found an issue with this patch that wouldn't have shown up on i915, info
-down below: 
+Here's a (pretty long) series to introduce support in the VC4 DRM driver
+for the display pipeline found in the BCM2711 (and thus the RaspberryPi 4).
 
-On Wed, 2020-07-08 at 01:40 +0300, Imre Deak wrote:
-> Sorry for the delay, the review as I promised:
-> 
-> On Tue, May 26, 2020 at 02:23:09PM -0400, Lyude Paul wrote:
-> > This is just an atomic version of mode_valid, which is intended to be
-> > used for situations where a driver might need to check the atomic state
-> > of objects other than the connector itself. One such example is with
-> > MST, where the maximum possible bandwidth on a connector can change
-> > dynamically irregardless of the display configuration.
-> > 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > Cc: Lee Shawn C <shawn.c.lee@intel.com>
-> > Tested-by: Lee Shawn C <shawn.c.lee@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_crtc_helper_internal.h |  6 +-
-> >  drivers/gpu/drm/drm_probe_helper.c         | 65 ++++++++++++++--------
-> >  include/drm/drm_modeset_helper_vtables.h   | 41 ++++++++++++++
-> >  3 files changed, 88 insertions(+), 24 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h
-> > b/drivers/gpu/drm/drm_crtc_helper_internal.h
-> > index f0a66ef47e5ad..ca767cba6094d 100644
-> > --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
-> > +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
-> > @@ -73,8 +73,10 @@ enum drm_mode_status drm_crtc_mode_valid(struct drm_crtc
-> > *crtc,
-> >  					 const struct drm_display_mode *mode);
-> >  enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
-> >  					    const struct drm_display_mode
-> > *mode);
-> > -enum drm_mode_status drm_connector_mode_valid(struct drm_connector
-> > *connector,
-> > -					      struct drm_display_mode *mode);
-> > +enum drm_mode_status
-> > +drm_connector_mode_valid(struct drm_connector *connector,
-> > +			 struct drm_display_mode *mode,
-> > +			 struct drm_modeset_acquire_ctx *ctx);
-> >  
-> >  struct drm_encoder *
-> >  drm_connector_get_single_encoder(struct drm_connector *connector);
-> > diff --git a/drivers/gpu/drm/drm_probe_helper.c
-> > b/drivers/gpu/drm/drm_probe_helper.c
-> > index 466dfbba82564..3132784736841 100644
-> > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > @@ -86,16 +86,17 @@ drm_mode_validate_flag(const struct drm_display_mode
-> > *mode,
-> >  	return MODE_OK;
-> >  }
-> >  
-> > -static enum drm_mode_status
-> > +static int
-> >  drm_mode_validate_pipeline(struct drm_display_mode *mode,
-> > -			    struct drm_connector *connector)
-> > +			   struct drm_connector *connector,
-> > +			   struct drm_modeset_acquire_ctx *ctx)
-> >  {
-> >  	struct drm_device *dev = connector->dev;
-> > -	enum drm_mode_status ret = MODE_OK;
-> >  	struct drm_encoder *encoder;
-> > +	int ret = MODE_OK;
-> >  
-> >  	/* Step 1: Validate against connector */
-> > -	ret = drm_connector_mode_valid(connector, mode);
-> > +	ret = drm_connector_mode_valid(connector, mode, ctx);
-> >  	if (ret != MODE_OK)
-> >  		return ret;
-> >  
-> > @@ -196,16 +197,23 @@ enum drm_mode_status drm_encoder_mode_valid(struct
-> > drm_encoder *encoder,
-> >  	return encoder_funcs->mode_valid(encoder, mode);
-> >  }
-> >  
-> > -enum drm_mode_status drm_connector_mode_valid(struct drm_connector
-> > *connector,
-> > -					      struct drm_display_mode *mode)
-> > +int
-> > +drm_connector_mode_valid(struct drm_connector *connector,
-> > +			 struct drm_display_mode *mode,
-> > +			 struct drm_modeset_acquire_ctx *ctx)
-> >  {
-> >  	const struct drm_connector_helper_funcs *connector_funcs =
-> >  		connector->helper_private;
-> >  
-> > -	if (!connector_funcs || !connector_funcs->mode_valid)
-> > +	if (!connector_funcs)
-> >  		return MODE_OK;
-> >  
-> > -	return connector_funcs->mode_valid(connector, mode);
-> > +	if (connector_funcs->mode_valid_ctx)
-> > +		return connector_funcs->mode_valid_ctx(connector, mode, ctx);
-> > +	else if (connector_funcs->mode_valid)
-> > +		return connector_funcs->mode_valid(connector, mode);
-> > +	else
-> > +		return MODE_OK;
-> >  }
-> >  
-> >  #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
-> > @@ -375,8 +383,9 @@ EXPORT_SYMBOL(drm_helper_probe_detect);
-> >   *      (if specified)
-> >   *    - drm_mode_validate_flag() checks the modes against basic connector
-> >   *      capabilities (interlace_allowed,doublescan_allowed,stereo_allowed)
-> > - *    - the optional &drm_connector_helper_funcs.mode_valid helper can
-> > perform
-> > - *      driver and/or sink specific checks
-> > + *    - the optional &drm_connector_helper_funcs.mode_valid or
-> > + *      &drm_connector_helper_funcs.mode_valid_ctx helpers can perform
-> > driver
-> > + *      and/or sink specific checks
-> >   *    - the optional &drm_crtc_helper_funcs.mode_valid,
-> >   *      &drm_bridge_funcs.mode_valid and
-> > &drm_encoder_helper_funcs.mode_valid
-> >   *      helpers can perform driver and/or source specific checks which are
-> > also
-> > @@ -507,22 +516,34 @@ int drm_helper_probe_single_connector_modes(struct
-> > drm_connector *connector,
-> >  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
-> >  
-> >  	list_for_each_entry(mode, &connector->modes, head) {
-> > -		if (mode->status == MODE_OK)
-> > -			mode->status = drm_mode_validate_driver(dev, mode);
-> > +		if (mode->status != MODE_OK)
-> > +			continue;
-> > +
-> > +		mode->status = drm_mode_validate_driver(dev, mode);
-> > +		if (mode->status != MODE_OK)
-> > +			continue;
-> >  
-> > -		if (mode->status == MODE_OK)
-> > -			mode->status = drm_mode_validate_size(mode, maxX, maxY);
-> > +		mode->status = drm_mode_validate_size(mode, maxX, maxY);
-> > +		if (mode->status != MODE_OK)
-> > +			continue;
-> >  
-> > -		if (mode->status == MODE_OK)
-> > -			mode->status = drm_mode_validate_flag(mode, mode_flags);
-> > +		mode->status = drm_mode_validate_flag(mode, mode_flags);
-> > +		if (mode->status != MODE_OK)
-> > +			continue;
-> >  
-> > -		if (mode->status == MODE_OK)
-> > -			mode->status = drm_mode_validate_pipeline(mode,
-> > -								  connector);
-> > +		ret = drm_mode_validate_pipeline(mode, connector, &ctx);
-> > +		if (ret == -EDEADLK) {
-> > +			drm_modeset_backoff(&ctx);
-> > +			goto retry;
-> > +		} else if (WARN_ON_ONCE(ret < 0)) {
-> > +			mode->status = MODE_BAD;
+The main differences are that there's two HDMI controllers and that there's
+more pixelvalve now. Those pixelvalve come with a mux in the HVS that still
+have only 3 FIFOs. Both of those differences are breaking a bunch of
+expectations in the driver, so we first need a good bunch of cleanup and
+reworks to introduce support for the new controllers.
 
-This check is wrong actually. We define negative values for drm_mode_status
-(MODE_BAD, MODE_ERROR, MODE_STALE) which, at least with how drivers currently
-seem to use them, are something we want to treat as not-unexpected errors and
-not WARN_ON.
+Similarly, the HDMI controller has all its registers shuffled and split in
+multiple controllers now, so we need a bunch of changes to support this as
+well.
 
-This is a bit annoying because it does mean there's some overlap between
-drm_mode_status and some legitimate errno values (EPERM, ENOENT, ESRCH). Luckily
-I can't see any reason why drivers would want to return those, but I think we
-should probably print a debugging message when we get any errno values just so
-developers don't get confused (also going to add a IS_ERR() equivalent for
-drm_mode_status, but with a different name)
+Only the HDMI support is enabled for now (even though the DPI and DSI
+outputs have been tested too).
 
-> > +		} else {
-> > +			mode->status = ret;
-> > +		}
-> >  
-> > -		if (mode->status == MODE_OK)
-> > -			mode->status = drm_mode_validate_ycbcr420(mode,
-> > -								  connector);
-> > +		if (mode->status != MODE_OK)
-> > +			continue;
-> > +		mode->status = drm_mode_validate_ycbcr420(mode, connector);
-> >  	}
-> >  
-> >  prune:
-> > diff --git a/include/drm/drm_modeset_helper_vtables.h
-> > b/include/drm/drm_modeset_helper_vtables.h
-> > index 421a30f084631..8f020c3424b2b 100644
-> > --- a/include/drm/drm_modeset_helper_vtables.h
-> > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > @@ -968,6 +968,47 @@ struct drm_connector_helper_funcs {
-> >  	 */
-> >  	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
-> >  					   struct drm_display_mode *mode);
-> > +
-> > +	/**
-> > +	 * @mode_valid_ctx:
-> > +	 *
-> > +	 * Callback to validate a mode for a connector, irrespective of the
-> > +	 * specific display configuration.
-> > +	 *
-> > +	 * This callback is used by the probe helpers to filter the mode list
-> > +	 * (which is usually derived from the EDID data block from the sink).
-> > +	 * See e.g. drm_helper_probe_single_connector_modes().
-> > +	 *
-> > +	 * This function is optional, and is the atomic version of
-> > +	 * &drm_connector_funcs.mode_valid.
-> > +	 *
-> > +	 * To allow for accessing the atomic state of modesetting objects, the
-> > +	 * helper libraries always call this with ctx set to a valid context,
-> > +	 * and &drm_mode_config.connection_mutex will always be locked with
-> > +	 * the ctx parameter set to @ctx. This allows for taking additional
-> > +	 * locks as required.
-> > +	 *
-> > +	 * Even though additional locks may be acquired, this callback is
-> > +	 * still expected not to take any constraints into account which would
-> > +	 * be influenced by the currently set display state - such constraints
-> > +	 * should be handled in the driver's atomic check. For example, if a
-> > +	 * connector shares display bandwidth with other connectors then it
-> > +	 * would be ok to validate a mode uses against the maximum possible
->                                      ^mode against?
-> 
-> Reviewed-by: Imre Deak <imre.deak@intel.com>
-> 
-> > +	 * bandwidth of the connector. But it wouldn't be ok to take the
-> > +	 * current bandwidth usage of other connectors into account, as this
-> > +	 * would change depending on the display state.
-> > +	 *
-> > +	 * Returns:
-> > +	 *
-> > +	 * Either &drm_mode_status.MODE_OK, one of the failure reasons in
-> > +	 * &enum drm_mode_status, or -EDEADLK if a deadlock would have
-> > +	 * occurred and we need to backoff.
-> > +	 *
-> > +	 */
-> > +	int (*mode_valid_ctx)(struct drm_connector *connector,
-> > +			      struct drm_display_mode *mode,
-> > +			      struct drm_modeset_acquire_ctx *ctx);
-> > +
-> >  	/**
-> >  	 * @best_encoder:
-> >  	 *
-> > -- 
-> > 2.26.2
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Let me know if you have any comments
+Maxime
 
+Cc: bcm-kernel-feedback-list@broadcom.com
+Cc: devicetree@vger.kernel.org
+Cc: Kamal Dasu <kdasu.kdev@gmail.com>
+Cc: linux-clk@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>
+
+Changes from v3:
+  - Rebased on top of next-20200708
+  - Added a name to the HDMI audio codec component
+  - Only disable the BCM2711 HDMI pixelvalves at boot
+  - Fixed an error in the HVS binding
+  - Fix a framebuffer size condition that was inverted
+  - Changed the channel allocation algorithm using Eric's suggestion
+  - Always write the muxing values instead of updating if needed
+  - Improved a bit the hvs_available_channels comment in the structure
+  - Change atomic_complete_commit code to use for_each_new_crtc_in_state
+  - Change the muxing code to take into account disparities between the
+    BCM2711 and previous SoCs.
+  - Only change the clock rate on BCM2711 during a modeset
+  - Fix a crash at atomic_disable
+  - Use clk_set_min_rate for the core clock too
+  - Add a few defines, and simplify the FIFO level stuff
+  - Reordered the patches according to Eric's reviews
+  - Fixed a regression with VID_CTL setting on RPI3
+
+Changes from v2:
+  - Rebased on top of next-20200526
+  - Split the firmware clock series away
+  - Removed the stuck pixel (with all the subsequent pixels being shifted
+    by one
+  - Fixed the writeback issue too.
+  - Fix the dual output
+  - Fixed the return value of phy_get_cp_current
+  - Enhanced the comment on the reset delay
+  - Increase the max width and height
+  - Made a proper Kconfig option for the DVP clock driver
+  - Fixed the alsa card name collision
+
+Changes from v1:
+  - Rebased on top of 5.7-rc1
+  - Run checkpatch
+  - Added audio support
+  - Fixed some HDMI timeouts
+  - Swiched to clk_hw_register_gate_parent_data
+  - Reorder Kconfig symbols in drivers/i2c/busses
+  - Make the firmware clocks a child of the firmware node
+  - Switch DVP clock driver to clk_hw interface
+  - constify raspberrypi_clk_data in raspberrypi_clock_property
+  - Don't mark firmware clocks as IGNORE_UNUSED
+  - Change from reset_ms to reset_us in reset-simple, and add a bit more
+    comments
+  - Remove generic clk patch to test if a NULL pointer is returned
+  - Removed misleading message in the is_prepared renaming patch commit
+    message
+  - Constify HDMI controller variants
+  - Fix a bug in the allocation size of the clk data array
+  - Added a mention in the DT binding conversion patches about the breakage
+  - Merged a few fixes from kbuild
+  - Fixed a few bisection and CEC build issues
+  - Collected Acked-by and Reviewed-by
+  - Change Dave email address to raspberrypi.com
+
+Dave Stevenson (7):
+  drm/vc4: Add support for the BCM2711 HVS5
+  drm/vc4: plane: Change LBM alignment constraint on LBM
+  drm/vc4: plane: Optimize the LBM allocation size
+  drm/vc4: hdmi: Use reg-names to retrieve the HDMI audio registers
+  drm/vc4: hdmi: Reset audio infoframe on encoder_enable if previously streaming
+  drm/vc4: hdmi: Set the b-frame marker to the match ALSA's default.
+  drm/vc4: hdmi: Add audio-related callbacks
+
+Maxime Ripard (71):
+  dt-bindings: display: Add support for the BCM2711 HVS
+  drm/vc4: hvs: Boost the core clock during modeset
+  drm/vc4: plane: Create more planes
+  drm/vc4: crtc: Deal with different number of pixel per clock
+  drm/vc4: crtc: Use a shared interrupt
+  drm/vc4: crtc: Move the cob allocation outside of bind
+  drm/vc4: crtc: Rename HVS channel to output
+  drm/vc4: crtc: Use local chan variable
+  drm/vc4: crtc: Enable and disable the PV in atomic_enable / disable
+  drm/vc4: kms: Convert to for_each_new_crtc_state
+  drm/vc4: crtc: Assign output to channel automatically
+  drm/vc4: crtc: Add FIFO depth to vc4_crtc_data
+  drm/vc4: crtc: Add function to compute FIFO level bits
+  drm/vc4: crtc: Rename HDMI encoder type to HDMI0
+  drm/vc4: crtc: Add HDMI1 encoder type
+  drm/vc4: crtc: Disable color management for HVS5
+  drm/vc4: crtc: Turn pixelvalve reset into a function
+  drm/vc4: crtc: Move PV dump to config_pv
+  drm/vc4: crtc: Move HVS init and close to a function
+  drm/vc4: crtc: Move the HVS gamma LUT setup to our init function
+  drm/vc4: hvs: Make sure our channel is reset
+  drm/vc4: crtc: Remove mode_set_nofb
+  drm/vc4: crtc: Remove redundant pixelvalve reset
+  drm/vc4: crtc: Move HVS channel init before the PV initialisation
+  drm/vc4: encoder: Add finer-grained encoder callbacks
+  drm/vc4: crtc: Add a delay after disabling the PixelValve output
+  drm/vc4: crtc: Clear the PixelValve FIFO on disable
+  drm/vc4: crtc: Clear the PixelValve FIFO during configuration
+  drm/vc4: hvs: Make the stop_channel function public
+  drm/vc4: hvs: Introduce a function to get the assigned FIFO
+  drm/vc4: crtc: Move the CRTC disable out
+  drm/vc4: drv: Disable the CRTC at boot time
+  dt-bindings: display: vc4: pv: Add BCM2711 pixel valves
+  drm/vc4: crtc: Add BCM2711 pixelvalves
+  drm/vc4: hdmi: Use debugfs private field
+  drm/vc4: hdmi: Move structure to header
+  drm/vc4: hdmi: rework connectors and encoders
+  drm/vc4: hdmi: Remove DDC argument to connector_init
+  drm/vc4: hdmi: Rename hdmi to vc4_hdmi
+  drm/vc4: hdmi: Move accessors to vc4_hdmi
+  drm/vc4: hdmi: Use local vc4_hdmi directly
+  drm/vc4: hdmi: Add container_of macros for encoders and connectors
+  drm/vc4: hdmi: Pass vc4_hdmi to CEC code
+  drm/vc4: hdmi: Retrieve the vc4_hdmi at unbind using our device
+  drm/vc4: hdmi: Remove vc4_dev hdmi pointer
+  drm/vc4: hdmi: Remove vc4_hdmi_connector
+  drm/vc4: hdmi: Introduce resource init and variant
+  drm/vc4: hdmi: Implement a register layout abstraction
+  drm/vc4: hdmi: Add reset callback
+  drm/vc4: hdmi: Add PHY init and disable function
+  drm/vc4: hdmi: Add PHY RNG enable / disable function
+  drm/vc4: hdmi: Add a CSC setup callback
+  drm/vc4: hdmi: Store the encoder type in the variant structure
+  drm/vc4: hdmi: Deal with multiple debugfs files
+  drm/vc4: hdmi: Move CEC init to its own function
+  drm/vc4: hdmi: Add CEC support flag
+  drm/vc4: hdmi: Remove unused CEC_CLOCK_DIV define
+  drm/vc4: hdmi: Rename drm_encoder pointer in mode_valid
+  drm/vc4: hdmi: Adjust HSM clock rate depending on pixel rate
+  drm/vc4: hdmi: Use clk_set_min_rate instead
+  drm/vc4: hdmi: Deal with multiple ALSA cards
+  drm/vc4: hdmi: Remove register dumps in enable
+  drm/vc4: hdmi: Always recenter the HDMI FIFO
+  drm/vc4: hdmi: Implement finer-grained hooks
+  drm/vc4: hdmi: Do the VID_CTL configuration at once
+  drm/vc4: hdmi: Switch to blank pixels when disabled
+  drm/vc4: hdmi: Support the BCM2711 HDMI controllers
+  dt-bindings: display: vc4: hdmi: Add BCM2711 HDMI controllers bindings
+  dt-bindings: display: vc4: Document BCM2711 VC5
+  drm/vc4: drv: Support BCM2711
+  ARM: dts: bcm2711: Enable the display pipeline
+
+ Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml        |  109 +++++-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml         |   18 +-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-pixelvalve0.yaml |    5 +-
+ Documentation/devicetree/bindings/display/brcm,bcm2835-vc4.yaml         |    1 +-
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts                                   |   46 ++-
+ arch/arm/boot/dts/bcm2711.dtsi                                          |  115 ++++-
+ drivers/gpu/drm/vc4/Makefile                                            |    1 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c                                          |  338 +++++++++++----
+ drivers/gpu/drm/vc4/vc4_drv.c                                           |    5 +-
+ drivers/gpu/drm/vc4/vc4_drv.h                                           |   43 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                                          | 1625 +++++++++++++++++++++++++++++++++++++++++++-----------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                                          |  183 ++++++++-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                                      |  520 +++++++++++++++++++++++-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h                                     |  442 ++++++++++++++++++++-
+ drivers/gpu/drm/vc4/vc4_hvs.c                                           |  260 +++++++-----
+ drivers/gpu/drm/vc4/vc4_kms.c                                           |  225 +++++++++-
+ drivers/gpu/drm/vc4/vc4_plane.c                                         |  222 +++++++---
+ drivers/gpu/drm/vc4/vc4_regs.h                                          |  177 +++-----
+ drivers/gpu/drm/vc4/vc4_txp.c                                           |    4 +-
+ 19 files changed, 3331 insertions(+), 1008 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi.h
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi_phy.c
+ create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+
+base-commit: 5bdd2824d705fb8d339d6f96e464b907c9a1553d
+-- 
+git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
