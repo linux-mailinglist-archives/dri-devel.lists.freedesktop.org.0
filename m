@@ -2,29 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6F3218AC7
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 17:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BB6219959
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59DBE6E8E5;
-	Wed,  8 Jul 2020 15:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5F36EA26;
+	Thu,  9 Jul 2020 07:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E336E8E5;
- Wed,  8 Jul 2020 15:05:43 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 21753971-1500050 
- for multiple; Wed, 08 Jul 2020 16:05:30 +0100
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/vgem: Replace opencoded version of
- drm_gem_dumb_map_offset()
-Date: Wed,  8 Jul 2020 16:05:27 +0100
-Message-Id: <20200708150527.1302305-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.27.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDBBB6E2A9
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 15:12:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 609322A02F4
+Subject: Re: [RESEND PATCH 3/3] drm/mediatek: mtk_dpi: Use simple encoder
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20200518173909.2259259-1-enric.balletbo@collabora.com>
+ <20200518173909.2259259-4-enric.balletbo@collabora.com>
+ <20200701134128.6a967a89@collabora.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <3f7338ad-b83d-da1d-2b07-f5225c56d7f9@collabora.com>
+Date: Wed, 8 Jul 2020 17:12:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200701134128.6a967a89@collabora.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,85 +41,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, drinkcat@chromium.org,
+ narmstrong@baylibre.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ a.hajda@samsung.com, linux-mediatek@lists.infradead.org,
+ laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_dumb_map_offset() now exists and does everything
-vgem_gem_dump_map does and *ought* to do.
+Hi Boris,
 
-In particular, vgem_gem_dumb_map() was trying to reject mmapping an
-imported dmabuf by checking the existence of obj->filp. Unfortunately,
-we always allocated an obj->filp, even if unused for an imported dmabuf.
-Instead, the drm_gem_dumb_map_offset(), since 90378e589192 ("drm/gem:
-drm_gem_dumb_map_offset(): reject dma-buf"), uses the obj->import_attach
-to reject such invalid mmaps.
+Thank you to spend some time to review the patches.
 
-This prevents vgem from allowing userspace mmapping the dumb handle and
-attempting to incorrectly fault in remote pages belonging to another
-device, where there may not even be a struct page.
+On 1/7/20 13:41, Boris Brezillon wrote:
+> On Mon, 18 May 2020 19:39:09 +0200
+> Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
+> 
+>> The mtk_dpi driver uses an empty implementation for its encoder. Replace
+>> the code with the generic simple encoder.
+>>
+>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+>> ---
+>>
+>>  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++-----------
+>>  1 file changed, 3 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> index baad198c69eb..80778b2aac2a 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>> @@ -20,6 +20,7 @@
+>>  #include <drm/drm_bridge.h>
+>>  #include <drm/drm_crtc.h>
+>>  #include <drm/drm_of.h>
+>> +#include <drm/drm_simple_kms_helper.h>
+>>  
+>>  #include "mtk_dpi_regs.h"
+>>  #include "mtk_drm_ddp_comp.h"
+>> @@ -510,15 +511,6 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+>>  	return 0;
+>>  }
+>>  
+>> -static void mtk_dpi_encoder_destroy(struct drm_encoder *encoder)
+>> -{
+>> -	drm_encoder_cleanup(encoder);
+>> -}
+>> -
+>> -static const struct drm_encoder_funcs mtk_dpi_encoder_funcs = {
+>> -	.destroy = mtk_dpi_encoder_destroy,
+>> -};
+>> -
+>>  static int mtk_dpi_bridge_attach(struct drm_bridge *bridge,
+>>  				 enum drm_bridge_attach_flags flags)
+>>  {
+>> @@ -591,8 +583,8 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
+>>  		return ret;
+>>  	}
+>>  
+>> -	ret = drm_encoder_init(drm_dev, &dpi->encoder, &mtk_dpi_encoder_funcs,
+>> -			       DRM_MODE_ENCODER_TMDS, NULL);
+>> +	ret = drm_simple_encoder_init(drm_dev, &dpi->encoder,
+>> +				      DRM_MODE_ENCODER_TMDS);
+> 
+> Not related to this change, but shouldn't we have DRM_MODE_ENCODER_DPI
+> here?
+> 
 
-v2: Use the default drm_gem_dumb_map_offset() callback
+Right, I'll add a patch to fix this.
 
-Fixes: af33a9190d02 ("drm/vgem: Enable dmabuf import interfaces")
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: <stable@vger.kernel.org> # v4.13+
----
- drivers/gpu/drm/vgem/vgem_drv.c | 27 ---------------------------
- 1 file changed, 27 deletions(-)
-
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index 909eba43664a..204d1df5a21d 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -229,32 +229,6 @@ static int vgem_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
- 	return 0;
- }
- 
--static int vgem_gem_dumb_map(struct drm_file *file, struct drm_device *dev,
--			     uint32_t handle, uint64_t *offset)
--{
--	struct drm_gem_object *obj;
--	int ret;
--
--	obj = drm_gem_object_lookup(file, handle);
--	if (!obj)
--		return -ENOENT;
--
--	if (!obj->filp) {
--		ret = -EINVAL;
--		goto unref;
--	}
--
--	ret = drm_gem_create_mmap_offset(obj);
--	if (ret)
--		goto unref;
--
--	*offset = drm_vma_node_offset_addr(&obj->vma_node);
--unref:
--	drm_gem_object_put_unlocked(obj);
--
--	return ret;
--}
--
- static struct drm_ioctl_desc vgem_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_ATTACH, vgem_fence_attach_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
-@@ -448,7 +422,6 @@ static struct drm_driver vgem_driver = {
- 	.fops				= &vgem_driver_fops,
- 
- 	.dumb_create			= vgem_gem_dumb_create,
--	.dumb_map_offset		= vgem_gem_dumb_map,
- 
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--- 
-2.27.0
-
+>>  	if (ret) {
+>>  		dev_err(dev, "Failed to initialize decoder: %d\n", ret);
+>>  		goto err_unregister;
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
