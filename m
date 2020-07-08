@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B111219928
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DFF219923
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 746276E9DC;
-	Thu,  9 Jul 2020 07:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 493D96E9E9;
+	Thu,  9 Jul 2020 07:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C885189267
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:43:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA6489C19
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:43:27 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D2A77109A;
- Wed,  8 Jul 2020 13:43:24 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:43:25 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 5171C102B;
+ Wed,  8 Jul 2020 13:43:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:43:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=FRK1ghnZ/A34m
- +fO1TWrTG3gwS4qPkDUufypdd78rhw=; b=L2gYQS6wFkzeKlyqWPFdqlaGI9e36
- YGXhTN9taVRNyJrlU4LJlVDiUzgOxOwffUzuRAIfIoG57GB9o92rY9DyFg4+B5ea
- n3uGdsx6xkF6lhkKJGJ1r7poC0nniBB13mY+a9wdTHw4XwWi0QnTwLollryNcUuP
- JD+35o4UG6+Cf5YEQ6aPuljyp+38w1QUSj//UPmREQB3+7D8FPCPh0J+q5HRXHiA
- 1MbwPruP0QIsipTfqSfBlj8ibXRXp/ugBhLpfYMh8jeSdil/6Mh3gpVc8GDGcF1B
- XugKfDDZe4Tgj4nk0LImc7kxxRMsfF4wSXNOeeWiBk3Pp4JLsFECXJuLg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=2CTtQl9zYZdP4
+ 8ecrZFGcu5o0wTAWbI+Td/UJrPcJVs=; b=oNA/4oSL5m55fwQ9t7MSB+Rxk8Yaf
+ AlguCjWE7tRu5au2ZIEXSZpaDx2CYJmmbEyvWdSq0h5JHT31V/BxP6XWLj5bWkJU
+ fmyMO2zzrpx/SWBaVJF7Swo0OGd4PPGhbJqFjKPXo6JilD13OkP+e1BEupp3UhS5
+ BYqeoZ5papnaKAYEPG5fFMsCt8zmLePPMFJjihCK7C55GcQdizzZf4JWAornVs6E
+ EE4mcYIKQ4ITTWDZ7kdFCe+83zrvlsCPKJELCVxMtiAp9KpITZKEMFEwulTSPeJ7
+ Tf/DqgvWFX+HTG6f31xVw4WnDtNNZjvZXzjIaS+8iOs8om1MkV72Etweg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=FRK1ghnZ/A34m+fO1TWrTG3gwS4qPkDUufypdd78rhw=; b=ECISMku+
- phk22sBhqHhnTTgAzGxQ4lApyjy5uWXgzltMm/AdhcrqtJZgp3eGHCQ8aMvam+/8
- xuOXF0Ga2lbfi5U5OiOCMResMxuhEBMXBmnx4Sify+S3Lae3IWol6V3Kkk91H7hE
- 8J6QGN5YwCJaIi+2dde7CLqdv0fwS2gUNjmKzF/blwwIrbSbOqk1SeP6p6BemBz7
- JYEU+qq/+6157KCXZmP7O3/xNUh/V48crP/qxF5BvBxmLzq3RG4m3gowY2iz3k62
- vuAx0ypJp5E0wkBJJokqMzHVUWt27gyeIQi6LW0BNEPXhmlUQvFsRgoO9g2AnuL2
- 2/0ufoUPfq+W9g==
-X-ME-Sender: <xms:vAUGXxBkAn_TWA1Nnd_4xgBKvmTUUF288KM9um4KqlfXXYu9Awr_9w>
+ fm3; bh=2CTtQl9zYZdP48ecrZFGcu5o0wTAWbI+Td/UJrPcJVs=; b=UTugaYck
+ n0DJa7IIL91QbQuGsdoVvruZbz/q/6Chs/X1p6fNL2FBk9l6houzsJ6pzRx5xOkb
+ WV1H6me3+vd0M5AiITiD0L6xCzLb87W4+xNr42/4lcIFzKI+ZrkRr+BBqCy1KWBt
+ qS4OihuI1D691qmgaxBvJ+17hHWuBq+rjc8NABE1UnDzvB3ZvQDQHVQXgv/O0u/b
+ Lv9ETWoP/qFpqaEP9Ca6Mz3AovE5s6xpaBgm03VCUGZWJw8Rul2f1WnDJ5dIbPDc
+ zVe0A5pJU1lK5YP768aUXD9nxS6EKfbrNOcMNL05vCKzRY8iGYTl/bgkJjIk7uGc
+ NMgBtS31ub2L3Q==
+X-ME-Sender: <xms:vQUGX_VtYmyF6ashk11_Jk_0qNy-ET_--Nn2zwaOGOhzOF_duUwKWg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,20 +47,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeeine
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:vAUGX_gWoaBeG6Cw9OiCFqBiAPMLHiTCoOuYjdxA2YwGd31_L7RClw>
- <xmx:vAUGX8nvOVPW89_v6LmIMX-awxcMoRgBlP24gQeLAH3R8Hgf9Z1QmQ>
- <xmx:vAUGX7waSR00OY442nymTEz8QGTkq1uFo7r5lfjvwtW3Fl0jgx55cQ>
- <xmx:vAUGXzRP3mWeH-_FaL3cJFE7DDCVZ5l3_5O9Zii4ZO_eUnS2sT1SNfQf7Kc>
+X-ME-Proxy: <xmx:vQUGX3kLhbAAKz1t0pilEkZJs1feK7s_lPyGTLZBmZ-hgFgKpC1n4w>
+ <xmx:vQUGX7bw4ClAFtPz0EuG8oGxSK9BMGF6P1W-Zs-RPsorg-leyB71_Q>
+ <xmx:vQUGX6Vtte1JDiST4WSEgHYy0VxmWy6ZEUi7n7Ltw9Hw8Lr4VAiJcQ>
+ <xmx:vQUGX_VlHGFpUXHMTHjdByS6DHqghr-nnX2AZTV-ZnkJEEZytdTDNZptGoo>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2A0E630600B1;
- Wed,  8 Jul 2020 13:43:24 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8BD07328005D;
+ Wed,  8 Jul 2020 13:43:25 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 37/78] drm/vc4: crtc: Add BCM2711 pixelvalves
-Date: Wed,  8 Jul 2020 19:41:45 +0200
-Message-Id: <f45d5249575d28a5ace6fd7cef1f856fa8d703ac.1594230107.git-series.maxime@cerno.tech>
+Subject: [PATCH v4 38/78] drm/vc4: hdmi: Use debugfs private field
+Date: Wed,  8 Jul 2020 19:41:46 +0200
+Message-Id: <e525fbbaf61454712c1ae8d281c68392b83ec541.1594230107.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
@@ -88,187 +88,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BCM2711 has 5 pixelvalves, so now that our driver is ready, let's add
-support for them.
+We're calling vc4_debugfs_add_file with our struct vc4_hdmi pointer set
+in the private field, but we don't use that field and go through the
+main struct vc4_dev to get it.
+
+Let's use the private field directly, that will save us some trouble
+later on.
 
 Reviewed-by: Eric Anholt <eric@anholt.net>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 95 ++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/vc4/vc4_regs.h |  7 +++-
- 2 files changed, 100 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index a8bc3b26a0fb..c19687eabaf6 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -208,6 +208,7 @@ void vc4_crtc_destroy(struct drm_crtc *crtc)
- 
- static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index d9e48fbd7519..f6b4a05a7d96 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -183,9 +183,7 @@ static const struct debugfs_reg32 hd_regs[] = {
+ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
  {
-+	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
- 	const struct vc4_pv_data *pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
- 	u32 fifo_len_bytes = pv_data->fifo_depth;
+ 	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	struct drm_device *dev = node->minor->dev;
+-	struct vc4_dev *vc4 = to_vc4_dev(dev);
+-	struct vc4_hdmi *hdmi = vc4->hdmi;
++	struct vc4_hdmi *hdmi = node->info_ent->data;
+ 	struct drm_printer p = drm_seq_file_printer(m);
  
-@@ -230,6 +231,13 @@ static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
- 	case PV_CONTROL_FORMAT_24:
- 	case PV_CONTROL_FORMAT_DSIV_24:
- 	default:
-+		/*
-+		 * For some reason, the pixelvalve4 doesn't work with
-+		 * the usual formula and will only work with 32.
-+		 */
-+		if (crtc_data->hvs_output == 5)
-+			return 32;
-+
- 		return fifo_len_bytes - 3 * HVS_FIFO_LATENCY_PIX;
- 	}
- }
-@@ -238,9 +246,13 @@ static u32 vc4_crtc_get_fifo_full_level_bits(struct vc4_crtc *vc4_crtc,
- 					     u32 format)
- {
- 	u32 level = vc4_get_fifo_full_level(vc4_crtc, format);
-+	u32 ret = 0;
-+
-+	ret |= VC4_SET_FIELD((level >> 6),
-+			     PV5_CONTROL_FIFO_LEVEL_HIGH);
- 
--	return VC4_SET_FIELD(level & 0x3f,
--			     PV_CONTROL_FIFO_LEVEL);
-+	return ret | VC4_SET_FIELD(level & 0x3f,
-+				   PV_CONTROL_FIFO_LEVEL);
- }
- 
- /*
-@@ -278,6 +290,8 @@ static void vc4_crtc_pixelvalve_reset(struct drm_crtc *crtc)
- 
- static void vc4_crtc_config_pv(struct drm_crtc *crtc)
- {
-+	struct drm_device *dev = crtc->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc);
- 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-@@ -358,6 +372,11 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
- 	if (is_dsi)
- 		CRTC_WRITE(PV_HACT_ACT, mode->hdisplay * pixel_rep);
- 
-+	if (vc4->hvs->hvs5)
-+		CRTC_WRITE(PV_MUX_CFG,
-+			   VC4_SET_FIELD(PV_MUX_CFG_RGB_PIXEL_MUX_MODE_NO_SWAP,
-+					 PV_MUX_CFG_RGB_PIXEL_MUX_MODE));
-+
- 	CRTC_WRITE(PV_CONTROL, PV_CONTROL_FIFO_CLR |
- 		   vc4_crtc_get_fifo_full_level_bits(vc4_crtc, format) |
- 		   VC4_SET_FIELD(format, PV_CONTROL_FORMAT) |
-@@ -891,10 +910,82 @@ static const struct vc4_pv_data bcm2835_pv2_data = {
- 	},
- };
- 
-+static const struct vc4_pv_data bcm2711_pv0_data = {
-+	.base = {
-+		.hvs_available_channels = BIT(0),
-+		.hvs_output = 0,
-+	},
-+	.debugfs_name = "crtc0_regs",
-+	.fifo_depth = 64,
-+	.pixels_per_clock = 1,
-+	.encoder_types = {
-+		[0] = VC4_ENCODER_TYPE_DSI0,
-+		[1] = VC4_ENCODER_TYPE_DPI,
-+	},
-+};
-+
-+static const struct vc4_pv_data bcm2711_pv1_data = {
-+	.base = {
-+		.hvs_available_channels = BIT(0) | BIT(1) | BIT(2),
-+		.hvs_output = 3,
-+	},
-+	.debugfs_name = "crtc1_regs",
-+	.fifo_depth = 64,
-+	.pixels_per_clock = 1,
-+	.encoder_types = {
-+		[0] = VC4_ENCODER_TYPE_DSI1,
-+		[1] = VC4_ENCODER_TYPE_SMI,
-+	},
-+};
-+
-+static const struct vc4_pv_data bcm2711_pv2_data = {
-+	.base = {
-+		.hvs_available_channels = BIT(0) | BIT(1) | BIT(2),
-+		.hvs_output = 4,
-+	},
-+	.debugfs_name = "crtc2_regs",
-+	.fifo_depth = 256,
-+	.pixels_per_clock = 2,
-+	.encoder_types = {
-+		[0] = VC4_ENCODER_TYPE_HDMI0,
-+	},
-+};
-+
-+static const struct vc4_pv_data bcm2711_pv3_data = {
-+	.base = {
-+		.hvs_available_channels = BIT(1),
-+		.hvs_output = 1,
-+	},
-+	.debugfs_name = "crtc3_regs",
-+	.fifo_depth = 64,
-+	.pixels_per_clock = 1,
-+	.encoder_types = {
-+		[0] = VC4_ENCODER_TYPE_VEC,
-+	},
-+};
-+
-+static const struct vc4_pv_data bcm2711_pv4_data = {
-+	.base = {
-+		.hvs_available_channels = BIT(0) | BIT(1) | BIT(2),
-+		.hvs_output = 5,
-+	},
-+	.debugfs_name = "crtc4_regs",
-+	.fifo_depth = 64,
-+	.pixels_per_clock = 2,
-+	.encoder_types = {
-+		[0] = VC4_ENCODER_TYPE_HDMI1,
-+	},
-+};
-+
- static const struct of_device_id vc4_crtc_dt_match[] = {
- 	{ .compatible = "brcm,bcm2835-pixelvalve0", .data = &bcm2835_pv0_data },
- 	{ .compatible = "brcm,bcm2835-pixelvalve1", .data = &bcm2835_pv1_data },
- 	{ .compatible = "brcm,bcm2835-pixelvalve2", .data = &bcm2835_pv2_data },
-+	{ .compatible = "brcm,bcm2711-pixelvalve0", .data = &bcm2711_pv0_data },
-+	{ .compatible = "brcm,bcm2711-pixelvalve1", .data = &bcm2711_pv1_data },
-+	{ .compatible = "brcm,bcm2711-pixelvalve2", .data = &bcm2711_pv2_data },
-+	{ .compatible = "brcm,bcm2711-pixelvalve3", .data = &bcm2711_pv3_data },
-+	{ .compatible = "brcm,bcm2711-pixelvalve4", .data = &bcm2711_pv4_data },
- 	{}
- };
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index 7fbac68b6fe1..c0031ab19689 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -129,6 +129,8 @@
- #define V3D_ERRSTAT  0x00f20
- 
- #define PV_CONTROL				0x00
-+# define PV5_CONTROL_FIFO_LEVEL_HIGH_MASK	VC4_MASK(26, 25)
-+# define PV5_CONTROL_FIFO_LEVEL_HIGH_SHIFT	25
- # define PV_CONTROL_FORMAT_MASK			VC4_MASK(23, 21)
- # define PV_CONTROL_FORMAT_SHIFT		21
- # define PV_CONTROL_FORMAT_24			0
-@@ -208,6 +210,11 @@
- 
- #define PV_HACT_ACT				0x30
- 
-+#define PV_MUX_CFG				0x34
-+# define PV_MUX_CFG_RGB_PIXEL_MUX_MODE_MASK	VC4_MASK(5, 2)
-+# define PV_MUX_CFG_RGB_PIXEL_MUX_MODE_SHIFT	2
-+# define PV_MUX_CFG_RGB_PIXEL_MUX_MODE_NO_SWAP	8
-+
- #define SCALER_CHANNELS_COUNT			3
- 
- #define SCALER_DISPCTRL                         0x00000000
+ 	drm_print_regset32(&p, &hdmi->hdmi_regset);
 -- 
 git-series 0.9.1
 _______________________________________________
