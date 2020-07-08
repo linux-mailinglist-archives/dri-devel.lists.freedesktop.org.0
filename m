@@ -1,53 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3B1219278
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 23:25:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B42219945
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 123316E3AC;
-	Wed,  8 Jul 2020 21:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0846EA0D;
+	Thu,  9 Jul 2020 07:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 398796E3AC;
- Wed,  8 Jul 2020 21:25:49 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 17so4635664wmo.1;
- Wed, 08 Jul 2020 14:25:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XER3e3sK04N17rYlFHptOIrrOHxscvdHxWebaxCUi+8=;
- b=dIElQNw9gNCE2p6Dr2IxzCC2qWCJy2ZuU8l0mtsVK2PvPyciU+kQXvjYRqvL6tmdbO
- 27Urc1gu5Ilm6/LXwQWzWp+Tusey2kRmi1qGE2B+EfIlf6BhRX4QYe3fu7BZxivJ26IA
- AVwrjfJCuQeEIQVggwg7sajh5sjXTS1LjpLgqNejt88puqHkjkUI1ifAiKkBARoy893y
- vXkuBYRMRLRKCzR+g9uX82e766vCOIZ5WIjIIok02SETMI8qm4Ws6PGvirDfdPXc6mRt
- rnP7wVDna1nRKsvmiimyZnLE0bq83C8c7NMgXZ+D3Zcj766+RrAD3Jm8gDQhVtAKvOOi
- ssPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XER3e3sK04N17rYlFHptOIrrOHxscvdHxWebaxCUi+8=;
- b=AYF5Ley7+jhZE3TZyRAm3Qt5sWNFk6OfsdZHocrQtiAqNI7bG68uzBsfs0DpSmfTga
- IxEU/yzywjaUaCVfM427gRxkPVqfUnzpHNWDR12ZjvzWnGSzbu2WiNf9ePF1ulsmDXKe
- +gZX4ZDoV5Pqs98fdMk19/tYqlbr+rwxZR+umVVrlUa04kgXkFVUo5vRMF6XNX2FAYc8
- slgWigvF+oJ6wCrupUTPTquOQTQATVG2VPiOnE+LzQBCFJq1PPV80Ua3ERzHzpRN2HQR
- gOS1keDXij752H8W0CNzl78K7GEjw2pXFwE7SW1WwdZOIIf9G9tqzpcefrRxzel0s9S+
- w3gg==
-X-Gm-Message-State: AOAM533H/h45LXWBdU11uw66MX+9GGWynZfmAvkF5YHuDA/xrXCXa8SZ
- b2gfJN6z9vJhr8GvoiT3UpY6fquauwiXdD7ud9A=
-X-Google-Smtp-Source: ABdhPJwJJw0HsUAZBEYzIMxK+SdmPhzX93Jtu7FFVB1avT/2pnzCoe+oqDeLhnM5KLbZHFZSjZaZpesTK8j73dJfa54=
-X-Received: by 2002:a1c:3954:: with SMTP id g81mr11034773wma.73.1594243547343; 
- Wed, 08 Jul 2020 14:25:47 -0700 (PDT)
+Received: from script.cs.helsinki.fi (script.cs.helsinki.fi [128.214.11.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2AE6E934
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 21:25:50 +0000 (UTC)
+X-DKIM: Courier DKIM Filter v0.50+pk-2017-10-25 mail.cs.helsinki.fi Thu,
+ 09 Jul 2020 00:25:46 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.helsinki.fi;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :mime-version:content-type:content-id; s=dkim20130528; bh=Ldcq8Y
+ jQQzjUryryJ00FcZqtPpDK4MAQRjec8Smv/wQ=; b=ViS2Hdeu3Of64gZdS8EtF2
+ IRw7lHC7sBBa5tnG2WPfD8zv/Pb59KBOM91FI2hSKli4uw+Z29+5k+y6NwCrzi3H
+ tvnCl6w3dIlu4LN6JGMVbuFir5khRj5LB4WKNTZt+0x4tUKpFb73LR8cIJSXqJio
+ JonVfY64Izz+hQPYvYo2o=
+Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
+ (TLS: TLSv1/SSLv3,256bits,AES256-GCM-SHA384)
+ by mail.cs.helsinki.fi with ESMTPS; Thu, 09 Jul 2020 00:25:46 +0300
+ id 00000000005A014E.000000005F0639DA.00005CC1
+Date: Thu, 9 Jul 2020 00:25:41 +0300 (EEST)
+From: "=?ISO-8859-15?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@cs.helsinki.fi>
+X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: drm/ast something ate high-res modes (5.3->5.6 regression)
+In-Reply-To: <a70e10d9-6574-a4a1-28c6-fd1c3f367afb@suse.de>
+Message-ID: <alpine.DEB.2.20.2007081753160.12041@whs-18.cs.helsinki.fi>
+References: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
+ <f2b36a2e-baf7-ea23-fdb5-bfb7c54c0f4f@suse.de>
+ <alpine.DEB.2.20.2007081638020.12041@whs-18.cs.helsinki.fi>
+ <930a059f-ce19-f479-3345-0bc8c3d27518@suse.de>
+ <CAKMK7uEuEaJmzooodx-wZgOK3rPT_r74dZic+UWGwT-GrE-Uww@mail.gmail.com>
+ <a70e10d9-6574-a4a1-28c6-fd1c3f367afb@suse.de>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-References: <20200708164335.25097-1-hdegoede@redhat.com>
-In-Reply-To: <20200708164335.25097-1-hdegoede@redhat.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Jul 2020 17:25:36 -0400
-Message-ID: <CADnq5_NeJBbCFKR96DWbCQteaRPCmThwD7_2biy7vSb-MifD9A@mail.gmail.com>
-Subject: Re: [PATCH 0/9] drm: Add privacy-screen class and connector properties
-To: Hans de Goede <hdegoede@redhat.com>
+Content-Type: multipart/mixed; boundary="=_script-23769-1594243546-0001-2"
+Content-ID: <alpine.DEB.2.20.2007090022130.12041@whs-18.cs.helsinki.fi>
+X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,71 +55,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Marco Trevisan <marco.trevisan@canonical.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sebastien Bacher <seb128@ubuntu.com>,
- David Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 8, 2020 at 12:43 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi All,
->
-> Here is the privacy-screen related code which we discussed a while ago.
-> This series consists of a number of different parts:
->
-> 1. A new version of Rajat's privacy-screen connector properties patch,
-> this adds new userspace API in the form of new properties
->
-> 2. Since on most devices the privacy screen is actually controlled by
-> some vendor specific ACPI/WMI interface which has a driver under
-> drivers/platform/x86, we need some "glue" code to make this functionality
-> available to KMS drivers. Patches 3-5 add a new privacy-screen class for
-> this, which allows non KMS drivers (and possibly KMS drivers too) to
-> register a privacy-screen device and also adds an interface for KMS drivers
-> to get access to the privacy-screen associated with a specific connector.
-> This is modelled similar to how we deal with e.g. PWMs and GPIOs in the
-> kernel, including separate includes for consumers and providers(drivers).
->
-> 3. Some drm_connector helper functions to keep the actual changes needed
-> for this in individual KMS drivers as small as possible (patch 6).
->
-> 4. Make the thinkpad_acpi code register a privacy-screen device on
-> ThinkPads with a privacy-screen (patches 7-8)
->
-> 5. Make the i915 driver export the privacy-screen functionality through
-> the connector properties on the eDP connector.
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
-Care to create a patch 10 for amdgpu?  Lenovo sells AMD thinkpads with
-a privacy screen as well, presumably it works
-the same way.
+--=_script-23769-1594243546-0001-2
+Content-Type: text/plain; charset="iso-8859-15"
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <alpine.DEB.2.20.2007090022131.12041@whs-18.cs.helsinki.fi>
 
-Alex
+On Wed, 8 Jul 2020, Thomas Zimmermann wrote:
 
->
-> I was a bit in doubt if I should calls this series a RFC, or just call
-> it v1, since there is no real userspace code using this yet. It was
-> tested using xrandr property access and udevadm event monitoring.
-> I do expect / hope we will have patches for a userspace consumer of the
-> new properties (mutter) ready soon.
->
-> But since the code is completely ready, including API documentation,
-> I've decided to just call this v1. Hopefully we can get patches for the
-> first userspace consumer of this ready during the review of this.
->
-> Regards,
->
-> Hans
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Am 08.07.20 um 16:26 schrieb Daniel Vetter:
+> > On Wed, Jul 8, 2020 at 4:22 PM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+> >>
+> >> Am 08.07.20 um 15:46 schrieb Ilpo J=E4rvinen:
+> >>> On Wed, 8 Jul 2020, Thomas Zimmermann wrote:
+> >>>
+> >>>> Am 08.07.20 um 12:05 schrieb Ilpo J=E4rvinen:
+> >>>>>
+> >>>>> After upgrading kernel from 5.3 series to 5.6.16 something seems =
+to
+> >>>>> prevent me from achieving high resolutions with the ast driver.
+> >>>>
+> >>>> Thanks for reporting. It's not a bug, but a side effect of atomic
+> >>>> modesetting.
+> >>>>
+> >>>> During pageflips, the old code used to kick out the currently disp=
+layed
+> >>>> framebuffer and then load in the new one. If that failed, the disp=
+lay
+> >>>> went garbage.
+> >>>>
+> >>>> In v5.6-rc1, we merged atomic modesetting for ast. This means that
+> >>>> screen updates are more reliable, but we have to over-commit resou=
+rces.
+> >>>> Specifically, we have to reserve space for two buffers in video me=
+mory
+> >>>> while a pageflip happens. 1920x1200@32 are ~9MiB of framebuffer me=
+mory.
+> >>>> If your device has 16 MiB of VRAM, there's no space left for the s=
+econd
+> >>>> framebuffer. Hence, the resolution is no longer supported.
+> >>>>
+> >>>> On the positive side, you can now use Wayland compositors with ast=
+.
+> >>>> Atomic modesetting adds the necessary interfaces.
+> >>>
+> >>> Ok, thanks for the info although it's quite disappointing (not the =
+first
+> >>> time to lose features with kms, migrating to it made me to lose dpm=
+s) ;-).
+> >=20
+> > kms still has dpms, not sure what you mean here? Maybe some driver
+> > doesn't implement it.
+
+Yes I know (it related only to in-kernel ast driver lacking it).
+
+> >>> As it's quite annoying to lose a high resolution mode (or be stuck =
+in
+> >>> some old kernel), would it be technically feasible to make the fram=
+ebuffer
+> >>> allocation asymmetrical? That is, the switch to high-res mode would =
+get
+> >>> rejected when it would be into the smaller of the two buffers but n=
+ot when
+> >>> the arrangement is the other way around?
+> >>
+> >> I'm not sure what you mean here, but generally, there's no way of fi=
+xing
+> >> this without performance penalty.
+> >>
+> >> The screen resolution is only programmed once. Later updates only
+> >> require pageflips. For each pageflip, atomic modesetting requires th=
+e
+> >> new and the old framebuffer in video memory at the same time. These =
+two
+> >> framebuffers are typically allocated once by Gnome/KDE/etc composito=
+rs,
+> >> and compositors go back and forth between them. It's basically doubl=
+e
+> >> buffering.
+
+Ah, so there is a technical obstacle. I thought that those 2nd copies of=20
+buffers are only necessary during a switch from one resolution to another=20
+one.
+
+> > You can do high-res mode I think, maybe needs a driver option to allo=
+w
+> > it to avoid upsetting existing compositors. Roughly:
+> > 1. dpms off
+> > 2. allocate big buffer
+> > 3. dpms on in high res mode with that single buffer
+> >=20
+> > Pageflip will fail ofc with ENOSPC, but kms itself doesn't disallow
+> > this. We could even implement this fairly generic, with a setcap flag=
+,
+> > which makes the probe helpers _not_ filter out modes which wouldn't
+> > fit at least 2 framebuffers at the same time.
+
+I cannot really understand full impact of this (what would not work).
+
+> Technically you can hack up something, but what's the benefit for the
+> overall ecosystem?
+>=20
+> In my other reply, I was rather talking about replacing VRAM helpers
+> with SHMEM helpers. That would imply a memcpy from system into video
+> memory on each pageflip.
+>=20
+> OTOH, ast currently recommends using a shadow framebuffer, so userspace
+> probably already does the memcpy somewhere. And now that SHMEM helpers
+> can easily do cached page mappings, the performance difference might no=
+t
+> be significant. Maybe I should give it a try.
+
+I'd highly appreciate that (but I guess I might quite small minority
+when it comes to "ecosystems" :-)). And I wouldn't be too worried about=20
+performance penalty.
+
+
+--=20
+ i.
+--=_script-23769-1594243546-0001-2
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=_script-23769-1594243546-0001-2--
