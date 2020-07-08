@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC863218513
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 12:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BB6218587
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 13:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0EDD6E8AC;
-	Wed,  8 Jul 2020 10:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 798816E05A;
+	Wed,  8 Jul 2020 11:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A94896E8AB
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 10:36:40 +0000 (UTC)
-Received: from localhost.localdomain (unknown [122.182.251.219])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 82B3F20739;
- Wed,  8 Jul 2020 10:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594204600;
- bh=rIwQJ9XgMhIS4v7G1h7P96EkZRD4YP9JPOfTgw+cIoM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZDKZQEcUJJSbA9ts791OUADunpuwx3rXhwxrMP47sJ7oVKHJWsZyWT1vX/l5Z0nzU
- P7uewMloYuQdCXniGQYU4bMvTIEZ+e5Hl3ScB9hxKYDURm9C21Tb6ofTaXk8eUgY9u
- 5z82uE0M2hgBeHJ4MeOOkIOh+FzPBpjtZhDJdAtg=
-From: Vinod Koul <vkoul@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v5 4/4] drm/msm/dsi: attach external bridge with
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Wed,  8 Jul 2020 16:05:59 +0530
-Message-Id: <20200708103559.132300-5-vkoul@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200708103559.132300-1-vkoul@kernel.org>
-References: <20200708103559.132300-1-vkoul@kernel.org>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B446E05A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 11:06:31 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id o11so48502534wrv.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 04:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ImpRCPSvgLqMxrUg0iAeiMjdkq4+obVp/Tu68Rhv9qc=;
+ b=dzg63SjeULrmJhDxL8oKzRPZhWxj3EwrGLCJkdfVGWK3+eDZAcBkKKcNi7FhyOsJmR
+ R0bT/qSyr/oLnAnTpD7VGWPScsbm6+Tvu71v7v+YL3pHIZnJEH3A1gD7B9DPbkjQ9wPR
+ ZzcMGiVya0YZHlGZ40/3T/tYDZLcEWW24sHvnyFrbnuxX379TdFv3OYzLjnU2h2OUCnx
+ 0l0Y3bkv27deB8KlLWt6wUsz/Nd9Ts5UL+ztgChIt2H7ws+el4VzasVuk0iibQnmX8aZ
+ gcYagZ/ED1P+e07pyBdGwMf34U6BPCJvlmQknI7bsFa08ARh+Jtyxbm8EtYa4x9+npH2
+ EPfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ImpRCPSvgLqMxrUg0iAeiMjdkq4+obVp/Tu68Rhv9qc=;
+ b=EizbyNOfAWI5iKhMRGba9hGcIrVThUKQcRf3oFNKzNtwfOexQIb+StBr/m1gUvlAxm
+ fQAa1D3b7Lq7DeFjtt5teY8dzOkI9V19RP1RiSbH15CEmED9IZux0bFv9cfk/R3iib0L
+ 1O2hOHGLPEZmhEtTNgxXMrAwhXyQBl0xCSqeutGyQo72obHUPCBJ2SLystnMoJocUlUh
+ JSd2iq8ZzCbIWOVI9AWtHc7A+0Af5o5JPUI8yaTxJJlpFos4hCLIUFdi3OGQIn2BozsJ
+ HXUc5dFoP+8TlVhmt4VFy+G2/fi4ZuRURHa3Jh/Ks5gCoZ2e5s4OaHxzCYw7AccaQK9d
+ /6Mg==
+X-Gm-Message-State: AOAM531/vZEISJZFlovfS5hrNoxgjolbkGQOD7W9H0Sy7o7ABMVf5iFf
+ oTKj0W1t/qnUqCCqfluQUBgVrxeu4HY=
+X-Google-Smtp-Source: ABdhPJxi7daTZkwF42cpVndoj6tcyAW+kTFLSAwZxlk89Uel0hIhqGsVN4LZGU6LdRiIBXikdzafbw==
+X-Received: by 2002:adf:c542:: with SMTP id s2mr31759067wrf.132.1594206390255; 
+ Wed, 08 Jul 2020 04:06:30 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id c25sm5221919wml.46.2020.07.08.04.06.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 04:06:29 -0700 (PDT)
+Date: Wed, 8 Jul 2020 12:06:27 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v4 14/20] backlight: cr_bllcd: introduce
+ backlight_is_blank()
+Message-ID: <20200708110627.z5ofexh4llk66jey@holly.lan>
+References: <20200703184546.144664-1-sam@ravnborg.org>
+ <20200703184546.144664-15-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200703184546.144664-15-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,115 +69,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, Emil Velikov <emil.l.velikov@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-arm-msm@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Andy Gross <agross@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ patches@opensource.cirrus.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modern bridges do not create the connector and expect the display driver
-to do so. Hence, create the drm connector in msm display driver and add
-use flag DRM_BRIDGE_ATTACH_NO_CONNECTOR to attach bridges
+On Fri, Jul 03, 2020 at 08:45:40PM +0200, Sam Ravnborg wrote:
+> The cr_bllcd uses the FB_BLANK states as brightness.
+> This results in brightness value equals 0 that turn on
+> the display and 4 that turn off the display.
 
-Tested-by: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/msm/dsi/dsi.c         |  7 +------
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 27 +++++++++++++--------------
- 2 files changed, 14 insertions(+), 20 deletions(-)
+max_brightness is 0 which makes it impossible to set the brightness to
+4.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index 55ea4bc2ee9c..617075e3e3f0 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -219,12 +219,7 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
- 		goto fail;
- 	}
- 
--	/*
--	 * check if the dsi encoder output is connected to a panel or an
--	 * external bridge. We create a connector only if we're connected to a
--	 * drm_panel device. When we're connected to an external bridge, we
--	 * assume that the drm_bridge driver will create the connector itself.
--	 */
-+	/* Initialize the internal panel or external bridge */
- 	ext_bridge = msm_dsi_host_get_bridge(msm_dsi->host);
- 
- 	if (ext_bridge)
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 4b363bd7ddff..72cfd0a8187b 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2015, The Linux Foundation. All rights reserved.
-  */
- 
-+#include <drm/drm_bridge_connector.h>
- #include "msm_kms.h"
- #include "dsi.h"
- 
-@@ -689,7 +690,7 @@ struct drm_bridge *msm_dsi_manager_bridge_init(u8 id)
- 	bridge = &dsi_bridge->base;
- 	bridge->funcs = &dsi_mgr_bridge_funcs;
- 
--	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-+	ret = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		goto fail;
- 
-@@ -709,7 +710,6 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
- 	struct drm_encoder *encoder;
- 	struct drm_bridge *int_bridge, *ext_bridge;
- 	struct drm_connector *connector;
--	struct list_head *connector_list;
- 
- 	int_bridge = msm_dsi->bridge;
- 	ext_bridge = msm_dsi->external_bridge =
-@@ -717,22 +717,21 @@ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
- 
- 	encoder = msm_dsi->encoder;
- 
--	/* link the internal dsi bridge to the external bridge */
--	drm_bridge_attach(encoder, ext_bridge, int_bridge, 0);
--
--	/*
--	 * we need the drm_connector created by the external bridge
--	 * driver (or someone else) to feed it to our driver's
--	 * priv->connector[] list, mainly for msm_fbdev_init()
-+	/* link the internal dsi bridge to the external bridge and attach
-+	 * the connector, we are supporting DRM_BRIDGE_ATTACH_NO_CONNECTOR
-+	 * so always create connector
- 	 */
--	connector_list = &dev->mode_config.connector_list;
-+	drm_bridge_attach(encoder, ext_bridge, int_bridge, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 
--	list_for_each_entry(connector, connector_list, head) {
--		if (drm_connector_has_possible_encoder(connector, encoder))
--			return connector;
-+	connector = drm_bridge_connector_init(dev, encoder);
-+	if (IS_ERR(connector)) {
-+		DRM_DEV_ERROR(dev->dev, "drm_bridge_connector_init failed: %ld\n",
-+			      PTR_ERR(connector));
-+		return ERR_PTR(-ENODEV);
- 	}
- 
--	return ERR_PTR(-ENODEV);
-+	drm_connector_attach_encoder(connector, msm_dsi->encoder);
-+	return connector;
- }
- 
- void msm_dsi_manager_bridge_destroy(struct drm_bridge *bridge)
--- 
-2.26.2
 
+> Simplify the logic but keep current behaviour
+> as userspace may expect brightness set to 0 to turn on the display.
+
+I don't deny the possibility but we'd be talking about a userspace
+custom enough to explicitly configure the module loader (otherwise
+the module wouldn't load and the backlight would be inherited from
+the BIOS) and that also contains an explicit write to the brightness
+property that sets it to what is already the default (and only
+possible) value.
+
+In other words I'm very sceptical such a userspace exists and would be
+happy to see this driver modified to use the new helpers and behave
+like gpio-backlight (which can be regarded as our reference 1-bit
+backlight driver).
+
+
+Daniel.
+
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> ---
+>  drivers/video/backlight/cr_bllcd.c | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/video/backlight/cr_bllcd.c b/drivers/video/backlight/cr_bllcd.c
+> index 4624b7b7c6a6..edca5fee9689 100644
+> --- a/drivers/video/backlight/cr_bllcd.c
+> +++ b/drivers/video/backlight/cr_bllcd.c
+> @@ -63,22 +63,16 @@ static int cr_backlight_set_intensity(struct backlight_device *bd)
+>  	u32 addr = gpio_bar + CRVML_PANEL_PORT;
+>  	u32 cur = inl(addr);
+>  
+> -	if (bd->props.power == FB_BLANK_UNBLANK)
+> -		intensity = FB_BLANK_UNBLANK;
+> -	if (bd->props.fb_blank == FB_BLANK_UNBLANK)
+> -		intensity = FB_BLANK_UNBLANK;
+> -	if (bd->props.power == FB_BLANK_POWERDOWN)
+> -		intensity = FB_BLANK_POWERDOWN;
+> -	if (bd->props.fb_blank == FB_BLANK_POWERDOWN)
+> +	if (backlight_is_blank(bd))
+>  		intensity = FB_BLANK_POWERDOWN;
+>  
+> -	if (intensity == FB_BLANK_UNBLANK) { /* FULL ON */
+> +	if (intensity != FB_BLANK_POWERDOWN) { /* FULL ON */
+>  		cur &= ~CRVML_BACKLIGHT_OFF;
+>  		outl(cur, addr);
+> -	} else if (intensity == FB_BLANK_POWERDOWN) { /* OFF */
+> +	} else { /* OFF */
+>  		cur |= CRVML_BACKLIGHT_OFF;
+>  		outl(cur, addr);
+> -	} /* anything else, don't bother */
+> +	}
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.25.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
