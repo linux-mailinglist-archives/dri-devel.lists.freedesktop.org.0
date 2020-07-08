@@ -2,39 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754AF21991D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DB52184A9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 12:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E44406E9C4;
-	Thu,  9 Jul 2020 07:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3B426E1F5;
+	Wed,  8 Jul 2020 10:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Wed, 08 Jul 2020 10:11:02 UTC
-Received: from script.cs.helsinki.fi (script.cs.helsinki.fi [128.214.11.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0840F6E1F4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 10:11:01 +0000 (UTC)
-X-DKIM: Courier DKIM Filter v0.50+pk-2017-10-25 mail.cs.helsinki.fi Wed,
- 08 Jul 2020 13:05:53 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.helsinki.fi;
- h=date:from:to:subject:message-id:mime-version:content-type; s=
- dkim20130528; bh=Qg6Xao2pwzjAULI/EFVcxSTEWpjokbB2z9SMl2dYU5o=; b=
- OQwaVvyntSp9UJKFpCu3y3tntti8nlpnejJ4hm3ts+DG6cAxNmhiuxas3XM9SCn/
- z5VbauPwliA3fUx57uiwPYG5nX67havwWdMBZsLkLcCL1/0aaO79eEQneiReOsF+
- kHPbJvfl87Nw839FJAXDyFrqJED1+cXH7aePv6mFwyQ=
-Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
- (TLS: TLSv1/SSLv3,256bits,AES256-GCM-SHA384)
- by mail.cs.helsinki.fi with ESMTPS; Wed, 08 Jul 2020 13:05:53 +0300
- id 00000000005A2856.000000005F059A81.00005328
-Date: Wed, 8 Jul 2020 13:05:53 +0300 (EEST)
-From: "=?ISO-8859-15?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@cs.helsinki.fi>
-X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: drm/ast something ate high-res modes (5.3->5.6 regression)
-Message-ID: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5366E1F5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 10:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=3Fr5HNymIk6+iZwXqVaaeBUzeKbMB56/urmCSy8zZrI=; b=CCqjbJWLNS6atY08u/CgFCy36W
+ 3/MVQoEHmeLTZUnXJT81zaAxV27+sxC4G5Eps/Zj2+etA+I8fgPXIT7gnTIwDsEeL5QSzDRiDGNLj
+ t6FOrnmr57nYXddIdrnXRirou7RT/iYhBAlJBDGptRKVsCBlyYuLMHg/zqf+T3IwQEPMXsFonPR+q
+ 3yRMneNnrXAgH87ZrhMOBq2LbEg4UOBzl+QcsZHYhYF2f+tBFxCi1vunWQVR9euxs32SwmhovSuLR
+ ccx8mVK0Q8RmdPrIB2gxNs+eslQ1kcNC8tx7KuRiGrcfXaHnzckRjuFpyFrE10pN5hlQkVTIYZKez
+ zmOPL8nA==;
+Received: from dsl-hkibng22-54faab-65.dhcp.inet.fi ([84.250.171.65]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1jt6xs-0004Dv-Iy; Wed, 08 Jul 2020 13:06:08 +0300
+Subject: Re: [RFC] Host1x/TegraDRM UAPI (sync points)
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Jon Hunter
+ <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, sumit.semwal@linaro.org, gustavo@padovan.org
+References: <9b06b7ec-f952-2561-7afb-5653514cd5d3@kapsi.fi>
+ <5b1edaad-ba36-7b0f-5b02-457ae5b6d91e@gmail.com>
+ <62859775-514c-2941-75ed-6905e9282a6f@kapsi.fi>
+ <623c1eaa-31fb-8dff-f6c0-d8cd0be60070@gmail.com>
+ <827c92a6-7fed-a81c-ba8e-6c69416c4ab9@kapsi.fi>
+ <f1a88006-ab3e-9068-e220-15eee17aeba0@gmail.com>
+ <3b058989-a93a-6796-8d94-f60ce39e3fba@kapsi.fi>
+ <2190fe9d-6381-0b5e-39d8-a04daca9a1bf@gmail.com>
+ <a1d6c789-4935-110f-f4fd-db86ae0e4fef@kapsi.fi>
+ <a2b1f9cf-cc0b-1a0f-d0ac-addcb1f28502@gmail.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <d3a6c005-0d85-e7b9-41a2-3d86595efbc1@kapsi.fi>
+Date: Wed, 8 Jul 2020 13:06:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:03 +0000
+In-Reply-To: <a2b1f9cf-cc0b-1a0f-d0ac-addcb1f28502@gmail.com>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 84.250.171.65
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,62 +67,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Erik Faye-Lund <kusmabite@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-After upgrading kernel from 5.3 series to 5.6.16 something seems to 
-prevent me from achieving high resolutions with the ast driver.
-
-With 5.6.16:
-
-$ xrandr
-Screen 0: minimum 320 x 200, current 1600 x 1200, maximum 1920 x 2048
-VGA-1 connected primary 1600x1200+0+0 (normal left inverted right x axis y axis) 519mm x 324mm
-   1600x1200     60.00* 
-   1680x1050     59.95  
-   1280x1024     75.02    60.02  
-   1440x900      59.89  
-   1280x800      59.81  
-   1024x768      75.03    60.00  
-   800x600       75.00    60.32  
-   640x480       75.00    59.94  
-   1920x1200_60.0  59.95  
-
-If I try to change to that manually added high-res mode, I get:
-xrandr: Configure crtc 0 failed
-
-With 5.3 series I've this:
-
-Screen 0: minimum 320 x 200, current 1920 x 1200, maximum 1920 x 2048
-VGA-1 connected primary 1920x1200+0+0 (normal left inverted right x axis y axis) 519mm x 324mm
-   1920x1200     59.95*+
-   1600x1200     60.00  
-   1680x1050     59.95  
-   1280x1024     75.02    60.02  
-   1440x900      59.89  
-   1280x800      59.81  
-   1024x768      75.03    60.00  
-   800x600       75.00    60.32  
-   640x480       75.00    59.94  
-   1920x1200_60.0  59.95  
-
-As I've had issues in getting EDID reliably from the monitor, I provide it 
-on kernel command-line (the one dumped from the monitor I use). In 
-addition, I've another workaround for past issues related to EDID which 
-always adds that 1920x1200_60.0 mode but now I cannot use even it to
-enter a high-res mode.
-
-If you need some additional info or want me to test a patch, just let me 
-know (but some delay is expected in testing patches). Thanks.
-
-
--- 
- i.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gNy83LzIwIDI6MDYgUE0sIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPiAwMi4wNy4yMDIwIDE1
+OjEwLCBNaWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4gT2ssIHNvIHdlIHdvdWxkIGhhdmUg
+dHdvIGtpbmRzIG9mIHN5bmNwb2ludHMgZm9yIHRoZSBqb2I7IG9uZQo+PiBmb3Iga2VybmVsIGpv
+YiB0cmFja2luZzsgYW5kIG9uZSB0aGF0IHVzZXJzcGFjZSBjYW4KPj4gbWFuaXB1bGF0ZSBhcyBp
+dCB3YW50cyB0by4KPj4KPj4gQ291bGQgd2UgaGFuZGxlIHRoZSBqb2IgdHJhY2tpbmcgc3luY3Bv
+aW50IGNvbXBsZXRlbHkgaW5zaWRlIHRoZSBrZXJuZWwsCj4+IGkuZS4gYWxsb2NhdGUgaXQgaW4g
+a2VybmVsIGR1cmluZyBqb2Igc3VibWlzc2lvbiwgYW5kIGFkZCBhbiBpbmNyZW1lbnQKPj4gZm9y
+IGl0IGF0IHRoZSBlbmQgb2YgdGhlIGpvYiAod2l0aCBjb25kaXRpb24gT1BfRE9ORSk/IEZvciBN
+TE9DS2luZywgdGhlCj4+IGtlcm5lbCBhbHJlYWR5IG5lZWRzIHRvIGluc2VydCBhIFNZTkNQVF9J
+TkNSKE9QX0RPTkUpICsgV0FJVCArCj4+IE1MT0NLX1JFTEVBU0Ugc2VxdWVuY2UgYXQgdGhlIGVu
+ZCBvZiBlYWNoIGpvYi4KPiAKPiBJZiBzeW5jIHBvaW50IGlzIGFsbG9jYXRlZCB3aXRoaW4ga2Vy
+bmVsLCB0aGVuIHdlJ2xsIG5lZWQgdG8gYWx3YXlzCj4gcGF0Y2ggYWxsIGpvYidzIHN5bmMgcG9p
+bnQgaW5jcmVtZW50cyB3aXRoIHRoZSBJRCBvZiB0aGUgYWxsb2NhdGVkIHN5bmMKPiBwb2ludCwg
+cmVnYXJkbGVzcyBvZiB3aGV0aGVyIGZpcmV3YWxsIGVuYWJsZWQgb3Igbm90LgoKVGhlIGlkZWEg
+d2FzIHRoYXQgdGhlIGpvYiB0cmFja2luZyBpbmNyZW1lbnQgd291bGQgYWxzbyBiZSBhZGRlZCB0
+byB0aGUgCnB1c2hidWZmZXIgaW4gdGhlIGtlcm5lbCwgc28gZ2F0aGVycyB3b3VsZCBvbmx5IGhh
+dmUgaW5jcmVtZW50cyBmb3IgdGhlIAoidXNlciBzeW5jcG9pbnRzIiwgaWYgYW55LiBJIHRoaW5r
+IHRoaXMgc2hvdWxkIHdvcmsgZm9yIFRISS1iYXNlZCAKZW5naW5lcyAoZS5nLiBWSUMpLCB5b3Ug
+cHJvYmFibHkgaGF2ZSBiZXR0ZXIgaW5mb3JtYXRpb24gYWJvdXQgCkdSMkQvR1IzRC4gT24gbmV3
+ZXIgVGVncmFzIHdlIGNvdWxkIHVzZSBDSEFOTkVML0FQUElEIHByb3RlY3Rpb24gdG8gCnByZXZl
+bnQgdGhlIGdhdGhlcnMgZnJvbSBpbmNyZW1lbnRpbmcgdGhlc2Ugam9iIHRyYWNraW5nIHN5bmNw
+b2ludHMuCgo+IAo+IFNlY29uZGx5LCBJJ20gbm93IHJlY2FsbGluZyB0aGF0IG9ubHkgb25lIHN5
+bmMgcG9pbnQgY291bGQgYmUgYXNzaWduZWQKPiB0byBhIGNoYW5uZWwgYXQgYSB0aW1lIG9uIG5l
+d2VyIFRlZ3JhcyB3aGljaCBzdXBwb3J0IHN5bmMgcG9pbnQKPiBwcm90ZWN0aW9uLiBTbyBpdCBz
+b3VuZHMgbGlrZSB3ZSBkb24ndCByZWFsbHkgaGF2ZSB2YXJpYW50cyBvdGhlciB0aGFuCj4gdG8g
+YWxsb2NhdGUgb25lIHN5bmMgcG9pbnQgcGVyIGNoYW5uZWwgZm9yIHRoZSBqb2JzIHVzYWdlIGlm
+IHdlIHdhbnQgdG8KPiBiZSBhYmxlIHRvIHB1c2ggbXVsdGlwbGUgam9icyBpbnRvIGNoYW5uZWwn
+cyBwdXNoYnVmZmVyLCBjb3JyZWN0Pwo+IAoKVGhlIG90aGVyIHdheSBhcm91bmQ7IGVhY2ggc3lu
+Y3BvaW50IGNhbiBiZSBhc3NpZ25lZCB0byBvbmUgY2hhbm5lbC4gT25lIApjaGFubmVsIG1heSBo
+YXZlIG11bHRpcGxlIHN5bmNwb2ludHMuCgo+IC4uLgo+Pj4gSG1tLCB3ZSBhY3R1YWxseSBzaG91
+bGQgYmUgYWJsZSB0byBoYXZlIGEgb25lIHN5bmMgcG9pbnQgcGVyLWNoYW5uZWwgZm9yCj4+PiB0
+aGUgam9iIHN1Ym1pc3Npb24sIHNpbWlsYXJseSB0byB3aGF0IHRoZSBjdXJyZW50IGRyaXZlciBk
+b2VzIQo+Pj4KPj4+IEknbSBrZWVwIGZvcmdldHRpbmcgYWJvdXQgdGhlIHdhaXRiYXNlIGV4aXN0
+ZW5jZSEKPj4KPj4gVGVncmExOTQgZG9lc24ndCBoYXZlIHdhaXRiYXNlcywgYnV0IGlmIHdlIGFy
+ZSByZXN1Ym1pdHRpbmcgYWxsIHRoZSBqb2JzCj4+IGFueXdheSwgY2FuJ3Qgd2UganVzdCByZWNh
+bGN1bGF0ZSB3YWl0IHRocmVzaG9sZHMgYXQgdGhhdCB0aW1lPwo+IAo+IFllcywgdGhyZXNob2xk
+cyBjb3VsZCBiZSByZWNhbGN1bGF0ZWQgKyBqb2Igc2hvdWxkIGJlIHJlLWZvcm1lZCBhdCB0aGUK
+PiBwdXNoLXRpbWUgdGhlbi4KPiAKPiBJdCBhbHNvIG1lYW5zIHRoYXQgam9icyBhbHdheXMgc2hv
+dWxkIGJlIGZvcm1lZCBvbmx5IGF0IHRoZSBwdXNoLXRpbWUgaWYKPiB3YWl0LWNvbW1hbmQgaXMg
+dXRpbGl6ZWQgYnkgY21kc3RyZWFtIHNpbmNlIHRoZSB3YWl0cyBhbHdheXMgbmVlZCB0byBiZQo+
+IHBhdGNoZWQgYmVjYXVzZSB3ZSB3b24ndCBrbm93IHRoZSB0aHJlc2hvbGRzIHVudGlsIHNjaGVk
+dWxlciBhY3R1YWxseQo+IHJ1bnMgdGhlIGpvYi4KCkNvdWxkIHdlIGtlZXAgdGhlIGpvYiB0cmFj
+a2luZyBzeW5jcG9pbnRzIGVudGlyZWx5IHdpdGhpbiB0aGUga2VybmVsLCAKYW5kIGhhdmUgYWxs
+IHdhaXQgY29tbWFuZHMgYW5kIG90aGVyIHN0dWZmIHRoYXQgdXNlcnNwYWNlIGRvZXMgdXNlIHRo
+ZSAKdXNlciBzeW5jcG9pbnRzPyBUaGVuIGtlcm5lbCBqb2IgdHJhY2tpbmcgYW5kIHVzZXJzcGFj
+ZSBhY3Rpdml0eSB3b3VsZCAKYmUgc2VwYXJhdGUgZnJvbSBlYWNoIG90aGVyLgoKQWx0ZXJuYXRp
+dmVseSwgaWYgd2Uga25vdyB0aGF0IGpvYnMgY2FuIG9ubHkgYmUgcmVtb3ZlZCBmcm9tIHRoZSBt
+aWRkbGUgCm9mIHB1c2hidWZmZXJzLCBhbmQgbm90IGFkZGVkLCB3ZSBjb3VsZCByZXBsYWNlIGFu
+eSByZW1vdmVkIGpvYnMgd2l0aCAKc3luY3BvaW50IGluY3JlbWVudHMgaW4gdGhlIHB1c2hidWZm
+ZXIgYW5kIGFueSB0aHJlc2hvbGRzIHdvdWxkIHN0YXkgaW50YWN0LgoKPiAKPj4gTWF5YmUgYSBt
+b3JlIGRldGFpbGVkIHNlcXVlbmNlIGxpc3Qgb3IgZGlhZ3JhbSBvZiB3aGF0IGhhcHBlbnMgZHVy
+aW5nCj4+IHN1Ym1pc3Npb24gYW5kIHJlY292ZXJ5IHdvdWxkIGJlIHVzZWZ1bC4KPiAKPiBUaGUg
+dGV4dHVhbCBmb3JtICsgY29kZSBpcyBhbHJlYWR5IGdvb2QgZW5vdWdoIHRvIG1lLiBBIGRpYWdy
+YW0gY291bGQgYmUKPiBuaWNlIHRvIGhhdmUsIGFsdGhvdWdoIGl0IG1heSB0YWtlIGEgYml0IHRv
+byBtdWNoIGVmZm9ydCB0byBjcmVhdGUgKwo+IG1haW50YWluIGl0LiBCdXQgSSBkb24ndCBtaW5k
+IGF0IGFsbCBpZiB5b3UnZCB3YW50IHRvIG1ha2Ugb25lIDopCj4gCj4gLi4uCj4+Pj4gKiBXZSBz
+aG91bGQgYmUgYWJsZSB0byBrZWVwIHRoZSBzeW5jcG9pbnQgcmVmY291bnRpbmcgYmFzZWQgb24g
+ZmVuY2VzLgo+Pj4KPj4+IFRoZSBmZW5jZSBkb2Vzbid0IG5lZWQgdGhlIHN5bmMgcG9pbnQgaXRz
+ZWxmLCBpdCBvbmx5IG5lZWRzIHRvIGdldCBhCj4+PiBzaWduYWwgd2hlbiB0aGUgdGhyZXNob2xk
+IGlzIHJlYWNoZWQgb3Igd2hlbiBzeW5jIHBvaW50IGlzIGNlYXNlZC4KPj4+Cj4+PiBJbWFnaW5l
+Ogo+Pj4KPj4+ICDCoMKgIC0gUHJvY2VzcyBBIGNyZWF0ZXMgc3luYyBwb2ludAo+Pj4gIMKgwqAg
+LSBQcm9jZXNzIEEgY3JlYXRlcyBkbWEtZmVuY2UgZnJvbSB0aGlzIHN5bmMgcG9pbnQKPj4+ICDC
+oMKgIC0gUHJvY2VzcyBBIGV4cG9ydHMgZG1hLWZlbmNlIHRvIHByb2Nlc3MgQgo+Pj4gIMKgwqAg
+LSBQcm9jZXNzIEEgZGllcwo+Pj4KPj4+IFdoYXQgc2hvdWxkIGhhcHBlbiB0byBwcm9jZXNzIEI/
+Cj4+Pgo+Pj4gIMKgwqAgLSBTaG91bGQgZG1hLWZlbmNlIG9mIHRoZSBwcm9jZXNzIEIgZ2V0IGEg
+ZXJyb3Igc2lnbmFsIHdoZW4gcHJvY2VzcyBBCj4+PiBkaWVzPwo+Pj4gIMKgwqAgLSBTaG91bGQg
+cHJvY2VzcyBCIGdldCBzdHVjayB3YWl0aW5nIGVuZGxlc3NseSBmb3IgdGhlIGRtYS1mZW5jZT8K
+Pj4+Cj4+PiBUaGlzIGlzIG9uZSBleGFtcGxlIG9mIHdoeSBJJ20gcHJvcG9zaW5nIHRoYXQgZmVu
+Y2Ugc2hvdWxkbid0IGJlIGNvdXBsZWQKPj4+IHRpZ2h0bHkgdG8gYSBzeW5jIHBvaW50Lgo+Pgo+
+PiBBcyBhIGJhc2VsaW5lLCB3ZSBzaG91bGQgY29uc2lkZXIgcHJvY2VzcyBCIHRvIGdldCBzdHVj
+ayBlbmRsZXNzbHkKPj4gKHVudGlsIGEgdGltZW91dCBvZiBpdHMgY2hvb3NpbmcpIGZvciB0aGUg
+ZmVuY2UuIEluIHRoaXMgY2FzZSBpdCBpcwo+PiBhdm9pZGFibGUsIGJ1dCBpZiB0aGUgSUQvdGhy
+ZXNob2xkIHBhaXIgaXMgZXhwb3J0ZWQgb3V0IG9mIHRoZSBmZW5jZSBhbmQKPj4gaXMgd2FpdGVk
+IGZvciBvdGhlcndpc2UsIGl0IGlzIHVuYXZvaWRhYmxlLiBJLmUuIG9uY2UgdGhlIElEL3RocmVz
+aG9sZAo+PiBhcmUgZXhwb3J0ZWQgb3V0IG9mIGEgZmVuY2UsIHRoZSB3YWl0ZXIgY2FuIG9ubHkg
+c2VlIHRoZSBmZW5jZSBiZWluZwo+PiBzaWduYWxlZCBieSB0aGUgdGhyZXNob2xkIGJlaW5nIHJl
+YWNoZWQsIG5vdCBieSB0aGUgc3luY3BvaW50IGdldHRpbmcKPj4gZnJlZWQuCj4gCj4gVGhpcyBp
+cyBjb3JyZWN0LiBJZiBzeW5jIHBvaW50J3MgRkQgaXMgZXhwb3J0ZWQgb3Igb25jZSBzeW5jIHBv
+aW50IGlzCj4gcmVzb2x2ZWQgZnJvbSBhIGRtYS1mZW5jZSwgdGhlbiBzeW5jIHBvaW50IHdpbGwg
+c3RheSBhbGl2ZSB1bnRpbCB0aGUKPiBsYXN0IHJlZmVyZW5jZSB0byB0aGUgc3luYyBwb2ludCBp
+cyBkcm9wcGVkLiBJLmUuIGlmIFByb2Nlc3MgQSBkaWVzCj4gKmFmdGVyKiBwcm9jZXNzIEIgc3Rh
+cnRlZCB0byB3YWl0IG9uIHRoZSBzeW5jIHBvaW50LCB0aGVuIGl0IHdpbGwgZ2V0IHN0dWNrLgo+
+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
