@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713CE21994D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC50219919
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:06:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0634A6EA1F;
-	Thu,  9 Jul 2020 07:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4ED6E9F7;
+	Thu,  9 Jul 2020 07:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E0F89CF1
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:43:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279E089D52
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 17:43:20 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id BA6D9333;
- Wed,  8 Jul 2020 13:43:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:43:18 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 33A22D42;
+ Wed,  8 Jul 2020 13:43:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 08 Jul 2020 13:43:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=eamnrKRXGSO+A
- sypAxyQ7f407VS54U62sC8+fEe9GOU=; b=gFQDY2qSacjGF9g/KsWEN27exkiii
- p8WJfcONQxB9cPIqHCy4GVSqdUMdY16WyOeIc14IGDeMWGo7nS+9XCMxzMgPe2q8
- we1FBkH8to1jRvHlatWijNTcrdq4hn6QlYEFxs+BlUvstfHmGq2INlAcPEgfdCSI
- 98fNZLSkrLgGCk58cwnsR0YbK2vVnWDXKD+XjiHB+vqHRpCayrxW8zh8M3i0vbSk
- kD9ttV/wcUBp94+Kazq5gLvTIGpaHsHlHzul0CRdDuT3/XCk7IAGgSxBJuOZQfTP
- NaRlcTQ2LJ8xZOt7OYdFkUYwMoFumFpA+iD3G8yuHd98Ii1f4vGGTAZYQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=PwDr0LiHNE8XD
+ DeUfENsNqVIfWzvRdNLh73lKjp7vqQ=; b=OfPlHpFAJYt0liVxxr6hDnVZn2Sst
+ O/XdibL8KzKT+0CcrjU4123FK3MchzI0Wl2Uk1qNz3I6kKQ6pYhhL3lsu3B2kW8l
+ gZr7KM6LolI8xJPFJkkNoM0m3bupHNeM6cAMqGcMOu88AdeTBbhP2qHSAUK0ZP3a
+ G/TUoS62LyB18n74PZepvc/A5yjWxi3wsegHw7mjH2nFFbNr5FiXaV/5GY5fD1Nj
+ p52XU9lWdgIXk3DdxafP1jICTqKdsEIogkCYC8krv2MtERDQSyY6+MoZ6cAiD2NJ
+ xZBjw2yus3GYDgAXDgyzD+cd1bJdJpOE/IMrYnC7yFbo+LgH+lVgToBSw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=eamnrKRXGSO+AsypAxyQ7f407VS54U62sC8+fEe9GOU=; b=RNOfrw7s
- kRkdZAXFVC7piWnQgslH2xIgbJFcxXe6qNJzjdN25OgQhBqKatrgBjfCCBacMC6k
- 86AahbeviAso9aVLoTgB0osRs85Z4BMe9L7/gdEbxwqmTHEm6VyDIP9lgw2DbMPM
- SbjqkciWULqP3kw8IWesFrGBNcGjjKmefhSEIyEH2VTMyrJoxGSGXN0IkysYFE9Q
- 54X2q9ZY41pfTVJCCLN3BIs1efDm2EJBG5k5YC70XoyylxEmu5RZ4GlDIC/4z/wN
- aamu6YAQ9/rLcy+ry5IUFwOpO60gnW6k2bP8PPfb69I0kxEGWPL3zi4PlZY/JbdH
- k2v394S+TVSXHw==
-X-ME-Sender: <xms:tQUGXzgIS6jrqGXgcvv63IwMrvvR-vUoUc_xIBwwpHQ3sCU989ROAw>
+ fm3; bh=PwDr0LiHNE8XDDeUfENsNqVIfWzvRdNLh73lKjp7vqQ=; b=sMfqi+0k
+ J87OHGvr6MsSmKCq7Gh7VzkRsP2rUD8490kjC6pFGY03V+cZqZ6CPTLMETSgZwo1
+ l+q81Ikc2zw4WFl5uXPuXy09sH3zqtjqAy5DeiJH4uHxVe+vHDTe1cma72rUHT8B
+ JE6JdmSMd+ijVIaHC4fO5CDsObgA2+pnpXZI5Q/TTgYEDRt1MOyHIkHMJYbnnDzG
+ +Zz4ZACJ9DzBq0B6gGDLwTAordKWd2j22mLNx7PEjkXyqf0UlQaA6U59OWCH1Z3L
+ T+OC+40r3LvWlDjxZlMNYZb1S6M0YAHJDV6rN+LlCluaScSf5WKFBLhMXsxED6Kh
+ wYLjOD+nEfr1sg==
+X-ME-Sender: <xms:tgUGX5FdWduqV9tiIgMd_QVUpJeIbwHypZ2b3FB9XsWmmgWcjE2vSw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudejgdduudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepvdekne
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfedvne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:tQUGXwDs6nwSEg5hfdeH1fjoD40Z9LCqIN2Wn8-GRMC-sshDeM9OeQ>
- <xmx:tQUGXzHUbseXNh01RcEWga3I9oTbNqdGSTGw3tW0tmm9dZVMkeBH4g>
- <xmx:tQUGXwTL49zOX9cqhFcvtHLnNoxyABl5n4OcI4kGJOlq2EQqHDlwhA>
- <xmx:tQUGXzx252_13H3lmyz6JTMAKGjWyiUy1zo0rK4DDXgDjn-TtMccgU5_5Wk>
+X-ME-Proxy: <xmx:tgUGX-U4v_ZYMvjZ5jHt3Tzb5EfVzfODTjqZ32qwdmk-gJdvzkRlOQ>
+ <xmx:tgUGX7JPBd049mkDyh6PRl-9qkKEcpJmpz6Z69afTJECFMqR6enGkg>
+ <xmx:tgUGX_FG2Pmxy6UqRao_ieUgFyvnLH-RCs4pKI4ZISA9YtkVf3A7hw>
+ <xmx:tgUGX2HGLL_VnsmjOUh-NSUufYSlRfbrfgOoNYdeurbzx9G44cV-WvyPM7U>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id F293A328005A;
- Wed,  8 Jul 2020 13:43:16 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6DB3930600B1;
+ Wed,  8 Jul 2020 13:43:18 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 32/78] drm/vc4: hvs: Make the stop_channel function public
-Date: Wed,  8 Jul 2020 19:41:40 +0200
-Message-Id: <ba2dcc46fca6711fd8e5ba1c8afc29e83801b619.1594230107.git-series.maxime@cerno.tech>
+Subject: [PATCH v4 33/78] drm/vc4: hvs: Introduce a function to get the
+ assigned FIFO
+Date: Wed,  8 Jul 2020 19:41:41 +0200
+Message-Id: <b1bf2728eb012cf15142dce1079d40b13cf58a85.1594230107.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
@@ -88,43 +89,102 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the transition from the firmware to the KMS driver, we need to pay
-particular attention to how we deal with the pixelvalves that have already
-been enabled, otherwise either timeouts or stuck pixels can occur. We'll
-thus need to call the function to stop an HVS channel at boot.
+At boot time, if we detect that a pixelvalve has been enabled, we need to
+be able to retrieve the HVS channel it has been assigned to so that we can
+disable that channel too. Let's create that function that returns the FIFO
+or an error from a given output.
 
 Reviewed-by: Eric Anholt <eric@anholt.net>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h | 1 +
- drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_drv.h |  1 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c | 54 ++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 55 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 251fcc35530c..554c2e29b23d 100644
+index 554c2e29b23d..860be019d8e3 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -907,6 +907,7 @@ void vc4_irq_reset(struct drm_device *dev);
- 
+@@ -908,6 +908,7 @@ void vc4_irq_reset(struct drm_device *dev);
  /* vc4_hvs.c */
  extern struct platform_driver vc4_hvs_driver;
-+void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
+ void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
++int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output);
  int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state);
  void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
  void vc4_hvs_atomic_disable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 64b9d72471ef..2966dc05c7bb 100644
+index 2966dc05c7bb..4ef88c0b51ab 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -248,7 +248,7 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
- 	return 0;
+@@ -19,6 +19,7 @@
+  * each CRTC.
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/component.h>
+ #include <linux/platform_device.h>
+@@ -196,6 +197,59 @@ static void vc4_hvs_update_gamma_lut(struct drm_crtc *crtc)
+ 	vc4_hvs_lut_load(crtc);
  }
  
--static void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
-+void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
++int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output)
++{
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
++	u32 reg;
++	int ret;
++
++	if (!vc4->hvs->hvs5)
++		return output;
++
++	switch (output) {
++	case 0:
++		return 0;
++
++	case 1:
++		return 1;
++
++	case 2:
++		reg = HVS_READ(SCALER_DISPECTRL);
++		ret = FIELD_GET(SCALER_DISPECTRL_DSP2_MUX_MASK, reg);
++		if (ret == 0)
++			return 2;
++
++		return 0;
++
++	case 3:
++		reg = HVS_READ(SCALER_DISPCTRL);
++		ret = FIELD_GET(SCALER_DISPCTRL_DSP3_MUX_MASK, reg);
++		if (ret == 3)
++			return -EPIPE;
++
++		return ret;
++
++	case 4:
++		reg = HVS_READ(SCALER_DISPEOLN);
++		ret = FIELD_GET(SCALER_DISPEOLN_DSP4_MUX_MASK, reg);
++		if (ret == 3)
++			return -EPIPE;
++
++		return ret;
++
++	case 5:
++		reg = HVS_READ(SCALER_DISPDITHER);
++		ret = FIELD_GET(SCALER_DISPDITHER_DSP5_MUX_MASK, reg);
++		if (ret == 3)
++			return -EPIPE;
++
++		return ret;
++
++	default:
++		return -EPIPE;
++	}
++}
++
+ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
+ 				struct drm_display_mode *mode, bool oneshot)
  {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
 -- 
 git-series 0.9.1
 _______________________________________________
