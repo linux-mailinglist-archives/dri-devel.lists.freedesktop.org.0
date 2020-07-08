@@ -2,147 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335832180B1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FAC218115
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 09:23:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBCC26E876;
-	Wed,  8 Jul 2020 07:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6920E89B18;
+	Wed,  8 Jul 2020 07:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr10060.outbound.protection.outlook.com [40.107.1.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A61C46E876
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 07:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aPkX3o0i0vVP+ei74KFkCVT0hft2CiStdUF8qUTnRpc=;
- b=Z7NBqvep5KuQYSyH/wF3oHrHsHWaGhtoxTqVWcgqbmGVKlYftZxS+XAXeC+uHJyf/GjIMC8YdPd8VKTP/EzNmsV3qZzE9od25fFWW5t3xf6jRZBhikORdvNAsixWI/oqWI7xRWRgSrBcw+WLArC40UdFIMS3XFuQMchUVWmD2NQ=
-Received: from DB7PR05CA0067.eurprd05.prod.outlook.com (2603:10a6:10:2e::44)
- by AM5PR0801MB1699.eurprd08.prod.outlook.com (2603:10a6:203:3b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Wed, 8 Jul
- 2020 07:19:41 +0000
-Received: from DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:2e:cafe::2a) by DB7PR05CA0067.outlook.office365.com
- (2603:10a6:10:2e::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21 via Frontend
- Transport; Wed, 8 Jul 2020 07:19:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT033.mail.protection.outlook.com (10.152.20.76) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3153.24 via Frontend Transport; Wed, 8 Jul 2020 07:19:41 +0000
-Received: ("Tessian outbound 4e683f4039d5:v62");
- Wed, 08 Jul 2020 07:19:39 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 84719459c5a0d449
-X-CR-MTA-TID: 64aa7808
-Received: from 0c7ca0ba8389.1
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 16C0E0C3-FCEE-4BFB-A29B-575CDE561425.1; 
- Wed, 08 Jul 2020 07:19:33 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0c7ca0ba8389.1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Wed, 08 Jul 2020 07:19:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JXAJnuftCYN4eLG7y5MpPp7K77lHN5T9Fw6SesFCbuQeHzG6lPzgLMMTJA1Uer1cNKd8stOHFjRaMQzurDgVJwBB6uz/iUVJHoIeZTlcWuIgE27PmZtqJ53iy1KWZZHUbRF8PeF0ntkHOIw0ol1TgwenNheXxc0FQNM2n7BbJanjvbDJCoxqheIqDMg8BPVcK00TskgbeVESEgmZVn3kIQ/1sdzxZaDy4HpPiwBpENOGdlUC5q070kSBvJ4qGsQE/taMe9MThyGV+r6Tx6GB3QvbRUNsXxGkZuoKUnr0EsGsUwdzMev+UpP5Edn4nNfzsDO01XVdyQ9U3whG8pgD9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aPkX3o0i0vVP+ei74KFkCVT0hft2CiStdUF8qUTnRpc=;
- b=bs8ObSbhVbu7ggwdmxh99Y4u/sMnXIGUjDjCgKcymNH+HAciicG7OE8oRQ65d3n4dZ4oYPXvqSaEEwsMdg/vpGKYlbl+802VIQDw8Sjym4Fq3cGS2JFb8MyDU9zjmzJBopxMnqajf0HDVCoGkRBreOOUpCZKBp/hTZsrAA4TGKQr3o9OE+sOEMK1pwkO/YjGNaPwl3WymSUpT88PqaCo90jCJgiYwWtAVY6nu2nVEQWpMfG39p54l/6Fl4NP9MlYvy7A49NiKwvoahSs1QcszhnJmt8zh34BEo1NB+7qLf0htnTdhPcFDY885OfCjERjvbRYdz7ncxg68qM9cyeemA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aPkX3o0i0vVP+ei74KFkCVT0hft2CiStdUF8qUTnRpc=;
- b=Z7NBqvep5KuQYSyH/wF3oHrHsHWaGhtoxTqVWcgqbmGVKlYftZxS+XAXeC+uHJyf/GjIMC8YdPd8VKTP/EzNmsV3qZzE9od25fFWW5t3xf6jRZBhikORdvNAsixWI/oqWI7xRWRgSrBcw+WLArC40UdFIMS3XFuQMchUVWmD2NQ=
-Authentication-Results-Original: infradead.org; dkim=none (message not signed)
- header.d=none; infradead.org;
- dmarc=none action=none header.from=arm.com; 
-Received: from DB6PR0801MB1719.eurprd08.prod.outlook.com (2603:10a6:4:3a::18)
- by DB7PR08MB3866.eurprd08.prod.outlook.com (2603:10a6:10:7b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Wed, 8 Jul
- 2020 07:19:30 +0000
-Received: from DB6PR0801MB1719.eurprd08.prod.outlook.com
- ([fe80::7d48:27e3:a154:17ef]) by DB6PR0801MB1719.eurprd08.prod.outlook.com
- ([fe80::7d48:27e3:a154:17ef%12]) with mapi id 15.20.3153.030; Wed, 8 Jul 2020
- 07:19:30 +0000
-Date: Wed, 8 Jul 2020 15:19:23 +0800
-From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 06/20] Documentation: gpu/komeda-kms: eliminate
- duplicated word
-Message-ID: <20200708071923.GA1127463@jamwan02-TSP300>
-References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-7-rdunlap@infradead.org>
-Content-Disposition: inline
-In-Reply-To: <20200707180414.10467-7-rdunlap@infradead.org>
-X-ClientProxiedBy: SG2PR06CA0193.apcprd06.prod.outlook.com (2603:1096:4:1::25)
- To DB6PR0801MB1719.eurprd08.prod.outlook.com
- (2603:10a6:4:3a::18)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC16989B18
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 07:23:15 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id f18so1820140wml.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 00:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Llds+mPOUza3dTSrFFU5ex60UXtBcz9dAWm8qF93OdE=;
+ b=FydZjkB+CTczXTz5wKz7lSK08Ab9LGok1llzE7Qxc2C2PgchBOSxQfg8IGrUjoXOuX
+ 7XdEZHsZmecGuEkJX51jU8a4r5gtGYMxBlc2jtpb878xrPjCR3TKh5doM1P8CBGcOQ/5
+ HnmWuJM2IW6hH+pz4psOZfJGfUoaNefcjDgow=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Llds+mPOUza3dTSrFFU5ex60UXtBcz9dAWm8qF93OdE=;
+ b=bnUFeCUKLVP2QHvUgC1L9DwsVy/FX/2VwByJUDcjV77Vg3AzUl4oefKTQSmZbIpKZU
+ oFtVHlHTkWue8qkKxV++DNVZfu4+SE8hsVacOcW0XEs+F03oZZIZdGO49b8Mo6K0WI0q
+ p7gXAA5Qx5nf4pRuacKOqahDnbg0IhMZ/YHmJXXZ9NCXolg3Zpm1WBHrju4RmeXz8Hn7
+ ERlTMjsZ0hNvz0zFChdDvwuSljojiGcsXE36QDawHyQluY7vbx3lfPZrUG9q8mrpIZV2
+ ZF6gBIuN/xlaTQiZig8GdDKYvaQ15NzJd53OhRd1C8Ouqd2I7UwjqL1ykrmv3k1lK5f4
+ 9VSw==
+X-Gm-Message-State: AOAM533JAMoxpvfeWIxARBV3knFg+OBpdGVYjd20cKcLJBA61Rvh+Drp
+ yQUUv9knCJKR4VgZezOmtBqTFw==
+X-Google-Smtp-Source: ABdhPJx53GpKF8tjXBaV+mV2rIjMctui2MiyfkMSv8SxEPLqQV0+ehPbKCMFU+1BE8ykcZJYcrOfew==
+X-Received: by 2002:a05:600c:2483:: with SMTP id
+ 3mr7796443wms.120.1594192994417; 
+ Wed, 08 Jul 2020 00:23:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 30sm4638600wrm.74.2020.07.08.00.23.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jul 2020 00:23:13 -0700 (PDT)
+Date: Wed, 8 Jul 2020 09:23:11 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
+Message-ID: <20200708072311.GH3278063@phenom.ffwll.local>
+References: <20200607133832.1730288-1-paul@crapouillou.net>
+ <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
+ <20200703172606.GA161457@ravnborg.org>
+ <6de49852-bf93-e480-1a1e-6485391bf56c@tronnes.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (203.126.0.111) by
- SG2PR06CA0193.apcprd06.prod.outlook.com (2603:1096:4:1::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.21 via Frontend Transport; Wed, 8 Jul 2020 07:19:28 +0000
-X-Originating-IP: [203.126.0.111]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 823e4dce-6dd0-4118-a9bf-08d8230f47f1
-X-MS-TrafficTypeDiagnostic: DB7PR08MB3866:|AM5PR0801MB1699:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB16997AA0A2B853E393017D20B3670@AM5PR0801MB1699.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;OLM:5797;
-X-Forefront-PRVS: 04583CED1A
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: JMs8wCULxbtOsZOmUQzPrITahAzA4Io1/sdAjlgr8dJE3tHGP4GIeV1X4Vu2A7mx3XJFaxhGWIAT5hTG1FIKW3Ym1sxFbUxGh/7QSkykaRbClm+o7OVpeLyz4aYhx4XrqZx4wyUwOHXo1ewT5xq90DhW7ct8taT+VYtTEALZwnewyH/xUXEkZ54b7tx2dTbgmb3ihzt5xLhaa5Q3NACOdz+Nv0dTpfE3/fpA6xlFigyk5kmoRFefn5yPa7Qx2ssEHwDHqMaf4yNnDsLZu5g/qY8pi/c2exhw/X2uf0UqNx2y0qzMBjuc67vFvDR6qld6Efymt7VhzVK+9K17nyxvgw==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB6PR0801MB1719.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFTY:;
- SFS:(7916004)(4636009)(376002)(346002)(366004)(39850400004)(396003)(136003)(8936002)(478600001)(956004)(54906003)(7366002)(86362001)(7406005)(9686003)(8676002)(316002)(7416002)(6486002)(2906002)(33716001)(6666004)(6916009)(1076003)(66476007)(66556008)(4326008)(66946007)(33656002)(83380400001)(186003)(16526019)(26005)(52116002)(6496006)(5660300002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: s28MBsKsTNwLsb9W726e+etxqE/6znWCOOivA0sQnLqpMN6EqMSmrM6eEwj1qUVHukQiovpM6XzazVXZiSwSO9vVVgp1ps+hDhPnHxKC4Kb6paqlRLn5HNV0StemiVHmy4Ze5RLtH1yUVS5S0CPqXUnn0BQE2rrAjC0IOnPB9b/BteSh/zzB07567K+zDHCOXeSNv6L1XsQIznCLeLdxarRLq2GZ0W9dyGB4X6XZNrp26pn0U8Z5rM8uU1PhfmpcjwEaLFqiUzxwmdKOUDEqsIMuqY0H4db3enXR4Dhc38e6nJINBTEZlyTTZ0BcqpJKu0343xm65IQyoqlnecLBU7djtFNMW4L8EqqAA43UZZVM0mbg+S+zXUS2I/rxeXEqaS3jIga2A3pbxP4oXHelCX0cgHrAxNhSIJMTpH4thNLJx1P47VYKAZDftLdV1VUYP/XzobqEsn4ahCCW8xGiiixtnG5s3m48t/KIOe7xtDI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3866
-Original-Authentication-Results: infradead.org; dkim=none (message not signed)
- header.d=none; infradead.org;
- dmarc=none action=none header.from=arm.com; 
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
- SFS:(7916004)(4636009)(346002)(136003)(376002)(396003)(39850400004)(46966005)(16526019)(1076003)(82740400003)(33656002)(6496006)(956004)(33716001)(4326008)(5660300002)(336012)(83380400001)(26005)(9686003)(2906002)(6862004)(70586007)(70206006)(478600001)(54906003)(47076004)(186003)(82310400002)(316002)(86362001)(356005)(8676002)(6666004)(81166007)(8936002)(6486002);
- DIR:OUT; SFP:1101; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: c801bed8-98ca-4271-cf60-08d8230f40e3
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jBA85Lc382ouxXoQ0cHgve7QZoRZvq2g/yCpOUEJTgUQgeQs2xMqcgTT0fT/Xv4wgLxHHIJ4Rr3zUFiRKtNvovmUnwdx4FouQT96fDMSQhx3I84PEavzIzw3Kk4Ly5wht9U1F+M1giNPba360CL7PkOVglkgcancBcFjgBH2NzjznQtt0jbrZA3cSAR94NjyQOjHtXZvN9hb6cIT6tKISyxbmj4N0mSXB0bwPgTrHULo59KNjSLz3BCZxPclgFrkFGfX1Mv7WgSYGfMogburEiLa/Qdky2IajICMbRDONUiOFcHENZVXbz3gEPqMH9ZqhFbP/6n8MOgxqnkVvBPMRzk4QFAXavmL1WqE1yjKcjWLheRJygv6QIM2ihQfFIqfJdVjUXFN5gOH3rw8v2eKGA==
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2020 07:19:41.1226 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 823e4dce-6dd0-4118-a9bf-08d8230f47f1
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT033.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1699
+Content-Disposition: inline
+In-Reply-To: <6de49852-bf93-e480-1a1e-6485391bf56c@tronnes.org>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,72 +70,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
- linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- Mali DP Maintainers <malidp@foss.arm.com>, linux-input@vger.kernel.org,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, nd@arm.com,
- Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
- Dan Murphy <dmurphy@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dillon min <dillon.minfei@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 07, 2020 at 11:04:00AM -0700, Randy Dunlap wrote:
-> Drop the doubled word "and".
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: James (Qian) Wang <james.qian.wang@arm.com>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-> Cc: Mali DP Maintainers <malidp@foss.arm.com>
-> ---
->  Documentation/gpu/komeda-kms.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> --- linux-next-20200701.orig/Documentation/gpu/komeda-kms.rst
-> +++ linux-next-20200701/Documentation/gpu/komeda-kms.rst
-> @@ -41,7 +41,7 @@ Compositor blends multiple layers or pix
->  frame. its output frame can be fed into post image processor for showing it on
->  the monitor or fed into wb_layer and written to memory at the same time.
->  user can also insert a scaler between compositor and wb_layer to down scale
-> -the display frame first and and then write to memory.
-> +the display frame first and then write to memory.
->
+On Tue, Jul 07, 2020 at 04:32:25PM +0200, Noralf Tr=F8nnes wrote:
+> (cc Dillon)
+> =
 
-Thank you Randy
+> Den 03.07.2020 19.26, skrev Sam Ravnborg:
+> > Hi Noralf/Paul.
+> > =
 
-Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
+> > Trying to stir up this discussion again.
+> > =
 
->  Writeback Layer (wb_layer)
->  --------------------------
+> > On Sun, Jun 14, 2020 at 06:36:22PM +0200, Noralf Tr=F8nnes wrote:
+> >>
+> >>
+> >> Den 07.06.2020 15.38, skrev Paul Cercueil:
+> >>> Hi,
+> >>>
+> >>> Here's a follow-up on the previous discussion about the current state=
+ of
+> >>> DSI/DBI panel drivers, TinyDRM, and the need of a cleanup.
+> >>>
+> >>> This patchset introduces the following:
+> >>> * It slightly tweaks the MIPI DSI code so that it supports MIPI DBI o=
+ver
+> >>>   various buses. This patch has been tested with a non-upstream DRM
+> >>>   panel driver for a ILI9331 DBI/8080 panel, written with the DSI
+> >>>   framework (and doesn't include <drm/drm_mipi_dbi.h>), and non-upstr=
+eam
+> >>>   DSI/DBI host driver for the Ingenic SoCs.
+> >>>
+> >>> * A SPI DBI host driver, using the current MIPI DSI framework. It all=
+ows
+> >>>   MIPI DSI/DBI drivers to be written with the DSI framework, even if
+> >>>   they are connected over SPI, instead of registering as SPI device
+> >>>   drivers. Since most of these panels can be connected over various
+> >>>   buses, it permits to reuse the same driver independently of the bus
+> >>>   used.
+> >>>
+> >>> * A TinyDRM driver for DSI/DBI panels, once again independent of the =
+bus
+> >>>   used; the only dependency (currently) being that the panel must
+> >>>   understand DCS commands.
+> >>>
+> >>> * A DRM panel driver to test the stack. This driver controls Ilitek
+> >>>   ILI9341 based DBI panels, like the Adafruit YX240QV29-T 320x240 2.4"
+> >>>   TFT LCD panel. This panel was converted from
+> >>>   drivers/gpu/drm/tiny/ili9341.c.
+> >>>
+> >>> I would like to emphasize that while it has been compile-tested, I did
+> >>> not test it with real hardware since I do not have any DBI panel
+> >>> connected over SPI. I did runtime-test the code, just without any pan=
+el
+> >>> connected.
+> >>>
+> >>> Another thing to note, is that it does not break Device Tree ABI. The
+> >>> display node stays the same:
+> >>>
+> >>> display@0 {
+> >>> 	compatible =3D "adafruit,yx240qv29", "ilitek,ili9341";
+> >>> 	reg =3D <0>;
+> >>> 	spi-max-frequency =3D <32000000>;
+> >>> 	dc-gpios =3D <&gpio0 9 GPIO_ACTIVE_HIGH>;
+> >>> 	reset-gpios =3D <&gpio0 8 GPIO_ACTIVE_HIGH>;
+> >>> 	rotation =3D <270>;
+> >>> 	backlight =3D <&backlight>;
+> >>> };
+> >>>
+> >>> The reason it works, is that the "adafruit,yx240qv29" device is probed
+> >>> on the SPI bus, so it will match with the SPI/DBI host driver. This w=
+ill
+> >>> in turn register the very same node with the DSI bus, and the ILI9341
+> >>> DRM panel driver will probe. The driver will detect that no controller
+> >>> is linked to the panel, and eventually register the DBI/DSI TinyDRM
+> >>> driver.
+> >>>
+> >>> I can't stress it enough that this is a RFC, so it still has very rou=
+gh
+> >>> edges.
+> >>>
+> >>
+> >> I don't know bridge and dsi drivers so I can't comment on that, but one
+> >> thing I didn't like is that the DT compatible string has to be added to
+> >> 2 different modules.
+> >>
+> >> As an example, a MI0283QT panel (ILI9341) supports these interface opt=
+ions:
+> >>
+> >> 1. SPI
+> >>    Panel setup/control and framebuffer upload over SPI
+> >>
+> >> 2. SPI + DPI
+> >>    Panel setup/control over SPI, framebuffer scanout over DPI
+> >>
+> >> 3. Parallel bus
+> >>    Panel setup/control and framebuffer upload over parallel bus
+> > =
+
+> > To continue the configurations we should support:
+> > - Panels where the chip can be configured to SPI, SPI+DPI, Parallel bus
+> >   (as detailed by Noralf above)
+> > - Panels that supports only 6800 or 8080 - connected via GPIO pins or
+> >   memory mapped (maybe behind some special IP to support this)
+> >   Command set is often special.
+> > =
+
+> > We will see a number of chips with many different types of displays.
+> > So the drivers should be chip specific with configuration depending on
+> > the connected display.
+> > =
+
+> > What I hope we can find a solution for is a single file/driver that can
+> > support all the relevant interface types for a chip.
+> > So we would end up with a single file that included the necessary
+> > support for ili9341 in all interface configurations with the necessary
+> > support for the relevant displays.
+> > =
+
+> > I do not know how far we are from this as I have not dived into the
+> > details of any of the proposals.
+> =
+
+> In an ideal world I would have liked to see the MIPI DBI parallel
+> interface implemented using a new Linux parallel bus type. It could have
+> drivers for gpio bitbanging and mmio in addition to other hw specific
+> drivers. Now we could have a drm_mipi_dbi DRM driver that registers as a
+> SPI client driver and a Parallel bus client driver. Or it can be a
+> component driver for the existing DRM driver on the SoC.
+> =
+
+> I had plans to do this and made a prototype, but dropped it since it
+> would probably require a lot of work getting in a new Linux bus type.
+
+Channelling my inner Greg KH:
+
+Please just create a new bus, it should be quite easy and boilerplate is
+manageable.
+
+Greg, did I get this right? Maybe any recommendations for a simple
+parallel bus with perhaps different register access paths depending upon
+how it's all wired up exactly?
+-Daniel
+
+> However if we're going to treat this parallel bus only as a MIPI DBI
+> display interface but support gpio bitbanging and mmio as well, then we
+> could add DRM drivers for each MIPI DBI bus (that don't have special
+> parallel bus hw):
+> - mipi-dbi-spi
+> - mipi-dbi-gpio
+> - mipi-dbi-mmio
+> =
+
+> These drivers will register as a mipi_dsi_host adapted like Paul suggeste=
+d.
+> =
+
+> The panel drivers will be mipi_dsi_drivers. Now the panels should work
+> regardless of bus type. They probably need to know about the bus type,
+> at least whether the parallell bus is 8-bit or 16-bit wide.
+> =
+
+> The current MIPI DBI SPI drivers (drm/tiny) will need to be treated
+> specially to keep working with old Device Trees when moved over to
+> drm/panel.
+> =
+
+> Noralf.
+> =
+
+> =
+
+> >>
+> >> My suggestion is to have one panel driver module that can support all =
+of
+> >> these like this:
+> > So I think we agree here.
+> > =
+
+> >>
+> >> For 1. and 2. a SPI driver is registered and if I understand your
+> >> example correctly of_graph_get_port_by_id() can be used during probe to
+> >> distinguish between the 2 options and register a full DRM driver for 1.
+> >> and add a DRM panel for 2.
+> >>
+> >> For 3. a DSI driver is registered (adapted for DBI use like you're
+> >> suggesting).
+> >>
+> >> Note that the interface part of the controller initialization will
+> >> differ between these, the panel side init will be the same I assume.
+> > =
+
+> > 	Sam
+> > =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
