@@ -1,35 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687EE219901
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:05:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA48A218D49
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 18:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60496E9B6;
-	Thu,  9 Jul 2020 07:05:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C328C6E179;
+	Wed,  8 Jul 2020 16:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.al2klimov.de (smtp.al2klimov.de
- [IPv6:2a01:4f8:c0c:1465::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 383C46E179
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 16:38:59 +0000 (UTC)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by smtp.al2klimov.de (Postfix) with ESMTPA id DBE05BC06E;
- Wed,  8 Jul 2020 16:38:53 +0000 (UTC)
-From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Replace HTTP links with HTTPS ones: BACKLIGHT CLASS/SUBSYSTEM
-Date: Wed,  8 Jul 2020 18:38:47 +0200
-Message-Id: <20200708163847.15250-1-grandmaster@al2klimov.de>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEF96E560
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 16:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594226624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0BHHvMU3Cp8lzzI95VEIg9wkjEjV2TgJ/DE7ee2ilTk=;
+ b=esfXwmuZeEBFdaGBNTEKfB9K+jx7TErwDyfPOnV6/Q3ZZfPKBa1hmIPZ0MBw3CtP/9qeFN
+ yfNTklJUrV9yIDCfeDrIs/5bIqQdFFp0xXaU+rLHxeoW9Z1OwjXb5NpgdaVWhCtHRlHG3D
+ o/tjzdwNA1u/mJUBZNpcLs8thfEdv3Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-37oAdJkNNJeSDn_WsU2SwA-1; Wed, 08 Jul 2020 12:43:42 -0400
+X-MC-Unique: 37oAdJkNNJeSDn_WsU2SwA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 438FC1083;
+ Wed,  8 Jul 2020 16:43:40 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-5.ams2.redhat.com [10.36.112.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C754D79229;
+ Wed,  8 Jul 2020 16:43:36 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [PATCH 0/9] drm: Add privacy-screen class and connector properties
+Date: Wed,  8 Jul 2020 18:43:26 +0200
+Message-Id: <20200708164335.25097-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-Spamd-Bar: +++++
-X-Spam-Level: *****
-Authentication-Results: smtp.al2klimov.de;
- auth=pass smtp.auth=aklimov@al2klimov.de
- smtp.mailfrom=grandmaster@al2klimov.de
-X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:03 +0000
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,60 +63,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
+ Sebastien Bacher <seb128@ubuntu.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+Hi All,
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+Here is the privacy-screen related code which we discussed a while ago.
+This series consists of a number of different parts:
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+1. A new version of Rajat's privacy-screen connector properties patch,
+this adds new userspace API in the form of new properties
 
- If there are any URLs to be removed completely or at least not HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+2. Since on most devices the privacy screen is actually controlled by
+some vendor specific ACPI/WMI interface which has a driver under
+drivers/platform/x86, we need some "glue" code to make this functionality
+available to KMS drivers. Patches 3-5 add a new privacy-screen class for
+this, which allows non KMS drivers (and possibly KMS drivers too) to
+register a privacy-screen device and also adds an interface for KMS drivers
+to get access to the privacy-screen associated with a specific connector.
+This is modelled similar to how we deal with e.g. PWMs and GPIOs in the
+kernel, including separate includes for consumers and providers(drivers).
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+3. Some drm_connector helper functions to keep the actual changes needed
+for this in individual KMS drivers as small as possible (patch 6).
 
- If you apply the patch, please let me know.
+4. Make the thinkpad_acpi code register a privacy-screen device on
+ThinkPads with a privacy-screen (patches 7-8)
 
+5. Make the i915 driver export the privacy-screen functionality through
+the connector properties on the eDP connector.
 
- drivers/video/backlight/led_bl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I was a bit in doubt if I should calls this series a RFC, or just call
+it v1, since there is no real userspace code using this yet. It was
+tested using xrandr property access and udevadm event monitoring.
+I do expect / hope we will have patches for a userspace consumer of the
+new properties (mutter) ready soon.
 
-diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-index 3f66549997c8..2c48957e9b60 100644
---- a/drivers/video/backlight/led_bl.c
-+++ b/drivers/video/backlight/led_bl.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2015-2019 Texas Instruments Incorporated -  http://www.ti.com/
-+ * Copyright (C) 2015-2019 Texas Instruments Incorporated -  https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  *
-  * Based on pwm_bl.c
--- 
-2.27.0
+But since the code is completely ready, including API documentation,
+I've decided to just call this v1. Hopefully we can get patches for the
+first userspace consumer of this ready during the review of this.
+
+Regards,
+
+Hans
 
 _______________________________________________
 dri-devel mailing list
