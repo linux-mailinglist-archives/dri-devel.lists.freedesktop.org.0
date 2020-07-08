@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB06218F89
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 20:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADB7218FDA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jul 2020 20:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4066E909;
-	Wed,  8 Jul 2020 18:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9256E911;
+	Wed,  8 Jul 2020 18:45:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87A76E909;
- Wed,  8 Jul 2020 18:14:06 +0000 (UTC)
-Received: from embeddedor (unknown [201.162.240.161])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E4BD520760;
- Wed,  8 Jul 2020 18:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594232046;
- bh=7dXnrSdNo3mR2eRfQtUcUioXGNY6rLTR4PxhcaEmK5M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aCsfligRbF9gZkPNMIuA7cziVFU6a8zmaBDG+cTssZHTjd1Pxy8nVavtCMeiwfuw/
- AJUcIKVfudJMSOxkElKxRa+rGzYbozvUmmaNbGMPbopLfWOintVMFG2rhld0ra8ZGz
- UlIm3dF/CLOq6FsOeI7F0Nt4KKbGxRn8QjNLj7xw=
-Date: Wed, 8 Jul 2020 13:19:35 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Ben Skeggs <skeggsb@gmail.com>
-Subject: Re: [PATCH][next] drm/nouveau: Use fallthrough pseudo-keyword
-Message-ID: <20200708181935.GE11533@embeddedor>
-References: <20200707173628.GA29695@embeddedor>
- <CACAvsv4ahps=4gWwGXwvHFZOTBg1ubW86t3++dN4fAJ6JsBhDw@mail.gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3F176E911
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 18:45:27 +0000 (UTC)
+IronPort-SDR: sGZG5sA0Z2ub12LtI9+HZBfqYfPeEJ4I/iPsnRVQR/eAi4TGrGU/KVSRPZgJI+plrS4XuJIg2U
+ KpOutsmnHwHw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="136121182"
+X-IronPort-AV: E=Sophos;i="5.75,328,1589266800"; d="scan'208";a="136121182"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 11:45:26 -0700
+IronPort-SDR: 6I9X6m+Z61OZ8Atkmrna7xxMRQP1yGd6+RImi/UozIiV1cdsHkepI0iXwZLJKTsebq1bn4HcWs
+ kkG1UOH0M/fg==
+X-IronPort-AV: E=Sophos;i="5.75,328,1589266800"; d="scan'208";a="457610227"
+Received: from ideak-desk.fi.intel.com ([10.237.68.147])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 11:45:25 -0700
+Date: Wed, 8 Jul 2020 21:45:21 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH 1/2] drm/probe_helper: Add
+ drm_connector_helper_funcs.mode_valid_ctx
+Message-ID: <20200708184521.GC21536@ideak-desk.fi.intel.com>
+References: <20200526182313.4005-1-lyude@redhat.com>
+ <20200526182313.4005-2-lyude@redhat.com>
+ <20200707224036.GA22747@ideak-desk.fi.intel.com>
+ <b8d176ed8838ea0d63b794f5fd5d54b71afc0d69.camel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CACAvsv4ahps=4gWwGXwvHFZOTBg1ubW86t3++dN4fAJ6JsBhDw@mail.gmail.com>
+In-Reply-To: <b8d176ed8838ea0d63b794f5fd5d54b71afc0d69.camel@redhat.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,31 +53,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>
+Reply-To: imre.deak@intel.com
+Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lee Shawn C <shawn.c.lee@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 08, 2020 at 01:22:35PM +1000, Ben Skeggs wrote:
-> On Wed, 8 Jul 2020 at 03:31, Gustavo A. R. Silva <gustavoars@kernel.org> wrote:
-> >
-> > Replace the existing /* fall through */ comments and its variants with
-> > the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
-> > fall-through markings when it is the case.
-> I really like this!  I was not a fan of explicitly marking those with comments.
+On Wed, Jul 08, 2020 at 01:25:14PM -0400, Lyude Paul wrote:
 > 
+> JFYI - found an issue with this patch that wouldn't have shown up on i915, info
+> down below: 
+> 
+> On Wed, 2020-07-08 at 01:40 +0300, Imre Deak wrote:
+> > Sorry for the delay, the review as I promised:
+> > 
+> > On Tue, May 26, 2020 at 02:23:09PM -0400, Lyude Paul wrote:
+> > > This is just an atomic version of mode_valid, which is intended to be
+> > > used for situations where a driver might need to check the atomic state
+> > > of objects other than the connector itself. One such example is with
+> > > MST, where the maximum possible bandwidth on a connector can change
+> > > dynamically irregardless of the display configuration.
+> > > 
+> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > > Cc: Lee Shawn C <shawn.c.lee@intel.com>
+> > > Tested-by: Lee Shawn C <shawn.c.lee@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_crtc_helper_internal.h |  6 +-
+> > >  drivers/gpu/drm/drm_probe_helper.c         | 65 ++++++++++++++--------
+> > >  include/drm/drm_modeset_helper_vtables.h   | 41 ++++++++++++++
+> > >  3 files changed, 88 insertions(+), 24 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> > > b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> > > index f0a66ef47e5ad..ca767cba6094d 100644
+> > > --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> > > +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> > > @@ -73,8 +73,10 @@ enum drm_mode_status drm_crtc_mode_valid(struct drm_crtc
+> > > *crtc,
+> > >  					 const struct drm_display_mode *mode);
+> > >  enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
+> > >  					    const struct drm_display_mode
+> > > *mode);
+> > > -enum drm_mode_status drm_connector_mode_valid(struct drm_connector
+> > > *connector,
+> > > -					      struct drm_display_mode *mode);
+> > > +enum drm_mode_status
+> > > +drm_connector_mode_valid(struct drm_connector *connector,
+> > > +			 struct drm_display_mode *mode,
+> > > +			 struct drm_modeset_acquire_ctx *ctx);
+> > >  
+> > >  struct drm_encoder *
+> > >  drm_connector_get_single_encoder(struct drm_connector *connector);
+> > > diff --git a/drivers/gpu/drm/drm_probe_helper.c
+> > > b/drivers/gpu/drm/drm_probe_helper.c
+> > > index 466dfbba82564..3132784736841 100644
+> > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > @@ -86,16 +86,17 @@ drm_mode_validate_flag(const struct drm_display_mode
+> > > *mode,
+> > >  	return MODE_OK;
+> > >  }
+> > >  
+> > > -static enum drm_mode_status
+> > > +static int
+> > >  drm_mode_validate_pipeline(struct drm_display_mode *mode,
+> > > -			    struct drm_connector *connector)
+> > > +			   struct drm_connector *connector,
+> > > +			   struct drm_modeset_acquire_ctx *ctx)
+> > >  {
+> > >  	struct drm_device *dev = connector->dev;
+> > > -	enum drm_mode_status ret = MODE_OK;
+> > >  	struct drm_encoder *encoder;
+> > > +	int ret = MODE_OK;
+> > >  
+> > >  	/* Step 1: Validate against connector */
+> > > -	ret = drm_connector_mode_valid(connector, mode);
+> > > +	ret = drm_connector_mode_valid(connector, mode, ctx);
+> > >  	if (ret != MODE_OK)
+> > >  		return ret;
+> > >  
+> > > @@ -196,16 +197,23 @@ enum drm_mode_status drm_encoder_mode_valid(struct
+> > > drm_encoder *encoder,
+> > >  	return encoder_funcs->mode_valid(encoder, mode);
+> > >  }
+> > >  
+> > > -enum drm_mode_status drm_connector_mode_valid(struct drm_connector
+> > > *connector,
+> > > -					      struct drm_display_mode *mode)
+> > > +int
+> > > +drm_connector_mode_valid(struct drm_connector *connector,
+> > > +			 struct drm_display_mode *mode,
+> > > +			 struct drm_modeset_acquire_ctx *ctx)
+> > >  {
+> > >  	const struct drm_connector_helper_funcs *connector_funcs =
+> > >  		connector->helper_private;
+> > >  
+> > > -	if (!connector_funcs || !connector_funcs->mode_valid)
+> > > +	if (!connector_funcs)
+> > >  		return MODE_OK;
+> > >  
+> > > -	return connector_funcs->mode_valid(connector, mode);
+> > > +	if (connector_funcs->mode_valid_ctx)
+> > > +		return connector_funcs->mode_valid_ctx(connector, mode, ctx);
+> > > +	else if (connector_funcs->mode_valid)
+> > > +		return connector_funcs->mode_valid(connector, mode);
+> > > +	else
+> > > +		return MODE_OK;
+> > >  }
+> > >  
+> > >  #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
+> > > @@ -375,8 +383,9 @@ EXPORT_SYMBOL(drm_helper_probe_detect);
+> > >   *      (if specified)
+> > >   *    - drm_mode_validate_flag() checks the modes against basic connector
+> > >   *      capabilities (interlace_allowed,doublescan_allowed,stereo_allowed)
+> > > - *    - the optional &drm_connector_helper_funcs.mode_valid helper can
+> > > perform
+> > > - *      driver and/or sink specific checks
+> > > + *    - the optional &drm_connector_helper_funcs.mode_valid or
+> > > + *      &drm_connector_helper_funcs.mode_valid_ctx helpers can perform
+> > > driver
+> > > + *      and/or sink specific checks
+> > >   *    - the optional &drm_crtc_helper_funcs.mode_valid,
+> > >   *      &drm_bridge_funcs.mode_valid and
+> > > &drm_encoder_helper_funcs.mode_valid
+> > >   *      helpers can perform driver and/or source specific checks which are
+> > > also
+> > > @@ -507,22 +516,34 @@ int drm_helper_probe_single_connector_modes(struct
+> > > drm_connector *connector,
+> > >  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
+> > >  
+> > >  	list_for_each_entry(mode, &connector->modes, head) {
+> > > -		if (mode->status == MODE_OK)
+> > > -			mode->status = drm_mode_validate_driver(dev, mode);
+> > > +		if (mode->status != MODE_OK)
+> > > +			continue;
+> > > +
+> > > +		mode->status = drm_mode_validate_driver(dev, mode);
+> > > +		if (mode->status != MODE_OK)
+> > > +			continue;
+> > >  
+> > > -		if (mode->status == MODE_OK)
+> > > -			mode->status = drm_mode_validate_size(mode, maxX, maxY);
+> > > +		mode->status = drm_mode_validate_size(mode, maxX, maxY);
+> > > +		if (mode->status != MODE_OK)
+> > > +			continue;
+> > >  
+> > > -		if (mode->status == MODE_OK)
+> > > -			mode->status = drm_mode_validate_flag(mode, mode_flags);
+> > > +		mode->status = drm_mode_validate_flag(mode, mode_flags);
+> > > +		if (mode->status != MODE_OK)
+> > > +			continue;
+> > >  
+> > > -		if (mode->status == MODE_OK)
+> > > -			mode->status = drm_mode_validate_pipeline(mode,
+> > > -								  connector);
+> > > +		ret = drm_mode_validate_pipeline(mode, connector, &ctx);
+> > > +		if (ret == -EDEADLK) {
+> > > +			drm_modeset_backoff(&ctx);
+> > > +			goto retry;
+> > > +		} else if (WARN_ON_ONCE(ret < 0)) {
+> > > +			mode->status = MODE_BAD;
+> 
+> This check is wrong actually. We define negative values for drm_mode_status
+> (MODE_BAD, MODE_ERROR, MODE_STALE) which, at least with how drivers currently
+> seem to use them, are something we want to treat as not-unexpected errors and
+> not WARN_ON.
 
-:)
+Ah, yes, missed that.
 
-> Thank you, taken in my tree.
+> This is a bit annoying because it does mean there's some overlap between
+> drm_mode_status and some legitimate errno values (EPERM, ENOENT, ESRCH). Luckily
+> I can't see any reason why drivers would want to return those, but I think we
+> should probably print a debugging message when we get any errno values just so
+> developers don't get confused (also going to add a IS_ERR() equivalent for
+> drm_mode_status, but with a different name)
 
-Thanks, Ben.
---
-Gustavo
+Maybe I'm missing something, but having negative values in
+drm_mode_status doesn't make sense to me, as all the non-zero values
+there just mean the mode is incorrect for some reason and should be
+pruned.
+
+Would it make sense to better separate the mode-status value and any
+error return value from mode_valid_ctx(), by adding a drm_mode_status *
+parameter to the hook and drm_mode_validate_pipeline()?
+
+> 
+> > > +		} else {
+> > > +			mode->status = ret;
+> > > +		}
+> > >  
+> > > -		if (mode->status == MODE_OK)
+> > > -			mode->status = drm_mode_validate_ycbcr420(mode,
+> > > -								  connector);
+> > > +		if (mode->status != MODE_OK)
+> > > +			continue;
+> > > +		mode->status = drm_mode_validate_ycbcr420(mode, connector);
+> > >  	}
+> > >  
+> > >  prune:
+> > > diff --git a/include/drm/drm_modeset_helper_vtables.h
+> > > b/include/drm/drm_modeset_helper_vtables.h
+> > > index 421a30f084631..8f020c3424b2b 100644
+> > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > @@ -968,6 +968,47 @@ struct drm_connector_helper_funcs {
+> > >  	 */
+> > >  	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
+> > >  					   struct drm_display_mode *mode);
+> > > +
+> > > +	/**
+> > > +	 * @mode_valid_ctx:
+> > > +	 *
+> > > +	 * Callback to validate a mode for a connector, irrespective of the
+> > > +	 * specific display configuration.
+> > > +	 *
+> > > +	 * This callback is used by the probe helpers to filter the mode list
+> > > +	 * (which is usually derived from the EDID data block from the sink).
+> > > +	 * See e.g. drm_helper_probe_single_connector_modes().
+> > > +	 *
+> > > +	 * This function is optional, and is the atomic version of
+> > > +	 * &drm_connector_funcs.mode_valid.
+> > > +	 *
+> > > +	 * To allow for accessing the atomic state of modesetting objects, the
+> > > +	 * helper libraries always call this with ctx set to a valid context,
+> > > +	 * and &drm_mode_config.connection_mutex will always be locked with
+> > > +	 * the ctx parameter set to @ctx. This allows for taking additional
+> > > +	 * locks as required.
+> > > +	 *
+> > > +	 * Even though additional locks may be acquired, this callback is
+> > > +	 * still expected not to take any constraints into account which would
+> > > +	 * be influenced by the currently set display state - such constraints
+> > > +	 * should be handled in the driver's atomic check. For example, if a
+> > > +	 * connector shares display bandwidth with other connectors then it
+> > > +	 * would be ok to validate a mode uses against the maximum possible
+> >                                      ^mode against?
+> > 
+> > Reviewed-by: Imre Deak <imre.deak@intel.com>
+> > 
+> > > +	 * bandwidth of the connector. But it wouldn't be ok to take the
+> > > +	 * current bandwidth usage of other connectors into account, as this
+> > > +	 * would change depending on the display state.
+> > > +	 *
+> > > +	 * Returns:
+> > > +	 *
+> > > +	 * Either &drm_mode_status.MODE_OK, one of the failure reasons in
+> > > +	 * &enum drm_mode_status, or -EDEADLK if a deadlock would have
+> > > +	 * occurred and we need to backoff.
+> > > +	 *
+> > > +	 */
+> > > +	int (*mode_valid_ctx)(struct drm_connector *connector,
+> > > +			      struct drm_display_mode *mode,
+> > > +			      struct drm_modeset_acquire_ctx *ctx);
+> > > +
+> > >  	/**
+> > >  	 * @best_encoder:
+> > >  	 *
+> > > -- 
+> > > 2.26.2
+> > > 
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
