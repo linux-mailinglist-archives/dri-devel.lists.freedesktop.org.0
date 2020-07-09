@@ -1,57 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FE4219464
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 01:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B02F21995B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891856E971;
-	Wed,  8 Jul 2020 23:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4286EA24;
+	Thu,  9 Jul 2020 07:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D216E971
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jul 2020 23:38:03 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id d18so453778ion.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 16:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f47scpZOxXSsY6W8L1L6Au8DwYsSbegHA1p5rzFY5es=;
- b=IC9IIO6b9s4jTGz6cJvwph0OOL71V+85KCI4BlHzOmA0GHrC/bzIQAc3lUl9myLgH0
- t59XZeW20Fsm9OR/sD5Pu1fo0yXoqxYOyF6FevUwwJjxYW9p8oxZDu4UJuEusgcgEufv
- sAqvsvs37LtebjkQm3YNCA1gulO2SvDOARUJpc9EHu85jP1VwMZuxBN/IHj+6K90lNZf
- png/ccGLJ0IYEJMeCXL9pBgj2Ssgrf1ehPFa3FvROy38XPMEttMIycaD6yOjNbYuUNby
- ZiLHHXeehCwF2Sflaj8LG+kfYlcj8o/2C8Fw9xwIYCs9LHxPT0ut+ClzzP/Uf7Rr+JWE
- ERmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f47scpZOxXSsY6W8L1L6Au8DwYsSbegHA1p5rzFY5es=;
- b=TknM7xy+rtHgbBYG6CBTIJCcrbNSNoJC8mrfKKWiSVCuhpgRSIYol3eSayV8VM0PdL
- Euqt8mKChcS4YLng8gIZiHW6CONGlHCa/oEuOTa8IbScZd7qGYwWvTENoHXN7bmLl+Ku
- AZQRMVFGj9eAty+nORJVqUhkzMPTu2oWFLfD+9g5xX3qDdLoWzJ3Ih6aw1aCy23Ac9U/
- Ue33SroLWw8T88k5zOFdNfTtQ/V2rrWIq4cTwMwL89Vk/Krmm8p8SGhsCBgpPr2rAuyE
- BHRySLCMZ5aur2hKTvrZG0wbZ+N9ItkBXvnyYw+SKN8pkaiRP+ogeopKX/5vIRL8s2gn
- Sqzg==
-X-Gm-Message-State: AOAM532CSHz44Ujo25H4OtPrSRQ72kqkC3v3Y9E0ZP17Ft3Z4V7lhLPw
- 3sA0h1hTl3A5H1QVZd4UmmThv12+E9hvyDngfcQ=
-X-Google-Smtp-Source: ABdhPJw1145gDWa1GO1furMPD1GHeDogxFjouwIcAVYJAllovviWaduyt1BA8w7sLVgNcF+nTP7j6IvLTJe0gKa2Rqc=
-X-Received: by 2002:a6b:f618:: with SMTP id n24mr14872406ioh.35.1594251483074; 
- Wed, 08 Jul 2020 16:38:03 -0700 (PDT)
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr140047.outbound.protection.outlook.com [40.107.14.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D61C6E3D3
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 02:06:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hfHeG6QftJAg+L3v23orvKz6wZfZtON7/OOS0TIZJnyPSmds0XQpboxUILhjxzUwnpGUKMfeCJuLnSns2TBwdL/loN240lg1G8KaUbrtoJHk5etkR3QJnw6v/eWZ1ZMaorFDUtLm3PTY0U8Fn1Zmsrjr5zu+EXtIlacb7XH+F23LLpr9Qyy8hS2xapbV7ywG7CVNOm3vlx9WDt8bNop5NHrP0JfsLTdoG3NO+j0auVF95Reu2T2/FkUdc03TRuqN+iGM9XEIIhEDBVthC+sYG0njei9wbPyHcFgpniTWblpg4xjPWPWXYrZMKM7QMJ0gUNFDmwbmYHwDiRlWSceJrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u9c2RJmBl8LhkaJfo8whmOflg5VIA7MdftzLYg97IU8=;
+ b=Af0OdP3rz6XGnfQ7a2AG5KvwyK2p8cMTDGmD0pLq8HV7sHms2p4Dz14uI2n5VjjBex8vJkal3xgWMIn4t7H1WrhVAYv60sarm0pXcQ2661stMxcqycTND3IGVJg6GsKCKcBuA3K+/OEML4PQwiIGtkwsTk2Q0HP89oRoMdRe4bv5UO2cFjQgQ5dcE/wud/qEOa0IVxG2eLTkE79QCavFkKPkU0X7MY237Tl8PDg7x+iNc5m0dZN3yARz33Lby8gTeo+oURmTlEP7qBgAn8XsluN3S+UDEImoSFZXHo3MVzYM8JVbhJAz5e+u0XvyAStNH6Ls+W20VV0aL7suqED5wg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u9c2RJmBl8LhkaJfo8whmOflg5VIA7MdftzLYg97IU8=;
+ b=RzdrY6XJYWUovILL9TFGZUUALzfiSj3x3lPgO9Uq+tK2aAV8l8nYU+7ClEbyKXJblNiNcNMLwt/cRyzFZGHkSQbQlFJB6eTx8kq8VYpfUByH4LcJgUg3leqt1DTQCQxd6Tsmd7XfiKkvHs5jz1jgPfTkrjBzimfJYl6OcIwJRQE=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB7183.eurprd04.prod.outlook.com (2603:10a6:800:128::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20; Thu, 9 Jul
+ 2020 02:06:25 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3153.031; Thu, 9 Jul 2020
+ 02:06:25 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH RESEND v2 1/2] drm/bridge: dw-hdmi: Don't cleanup i2c adapter
+ and ddc ptr in __dw_hdmi_probe() bailout path
+Date: Thu,  9 Jul 2020 10:02:35 +0800
+Message-Id: <1594260156-8316-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-ClientProxiedBy: SG2PR01CA0110.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::14) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-References: <20200630182636.439015-1-aford173@gmail.com>
- <b9052a12-af5a-c1b9-5b86-907eac470cf8@ti.com>
- <20200703193648.GA373653@ravnborg.org>
- <bda1606f-b12c-3356-15ce-489fc2441737@ti.com>
- <CAHCN7xJdg8uUDaghFftze2K6t2pnyZg_JYpdmA=UU-shmk0Xgw@mail.gmail.com>
-In-Reply-To: <CAHCN7xJdg8uUDaghFftze2K6t2pnyZg_JYpdmA=UU-shmk0Xgw@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 8 Jul 2020 18:37:51 -0500
-Message-ID: <CAHCN7xLGAWEO5CPDOsHoy4B0FjD+1GHhHYgihmVg=mhjUFjSTQ@mail.gmail.com>
-Subject: Re: [PATCH] omapfb: dss: Fix max fclk divider for omap36xx
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.67) by
+ SG2PR01CA0110.apcprd01.prod.exchangelabs.com (2603:1096:4:40::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3174.20 via Frontend
+ Transport; Thu, 9 Jul 2020 02:06:20 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.67]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 24b5af1d-a92f-40ef-f1bb-08d823acaf04
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7183:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB71834F52977FF37CF45C7AF498640@VI1PR04MB7183.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7+vbMnJAzSUE+l4RXXjmVk0VKYBIKTam0YN+99094aybdPlLZJAcAjnetsarPQ/mh/QUIRtFjfT60PCtvYqRYuzIgWmSC5YCN+OKyyccjPCnxmFKIlde6dV9+UBnItl2qc9dlFoOjWdyfRHKaU9KuRfM33keUGkvtNqUN6BbWkdX1b6GITG0edEeilfiRs0TanNEwpRlOfAXmD2xU6VQ9yVsAtyeCe3T3sWMbkJ4J86UZaOR5J1ZMWEX5K5Hp2F7kZr8gF3mYgM+qASo2xlgHdOH/wLTffbH0g/89yZ+iQ3bG0JZOvRsqsNJCIXi7SbVTtj+FTRHqdx0u8gIygA2LCCkT7ngfkj3u/+tjSJosgjm3XKsiOJ81tYDq39+o4ru
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(6916009)(66556008)(69590400007)(66946007)(66476007)(478600001)(54906003)(5660300002)(316002)(2906002)(52116002)(6666004)(8676002)(6506007)(86362001)(7416002)(8936002)(6512007)(6486002)(4326008)(956004)(2616005)(186003)(16526019)(83380400001)(26005)(36756003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: jL8eAvxpj2mHd/wzKheVvzipk2mWd88KY5dUoKfbfdOiDtdVzOPzJgJQqoifUyZbpifwUpg2aXJuV9DcX/NW0GW8yOoPmIGWfUOTy2hV5wCa3rJ2hmfPzM4S30NbYFZVUGkuTw0GkNLMbrfGKPxv80VYu+Sr7aCdmAnmofYMlhB0vPLoL3HJK+whU1euLBzuenEglGem67A1heBRSyEVrmN3eFMlPFNpRdGt6EfH/oQsS2FIj4LuDpVBLSs8/g5IeyyqOkX4fToKbiL64M46rIpGMJhB8AD0YhVwJ4j6eE2aT9EncDbkCfVVUgzRGQbYcd1y9/dXStfH6nXzvW7ALPWaf1p//hfCmiiznfYBcbUuGbj5H0GcwpsJhk7wckYCVD+QXR1fYBNI/Ca6Kff/0R47AAHvV8ewfXSgvA3fOXSBMpFEZvDSwezSsfD83aeT3JH3QubZHDZGxkIszYqrBL+u2L37ib+WVAVKzi//hSA=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24b5af1d-a92f-40ef-f1bb-08d823acaf04
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 02:06:25.3137 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3lNH3lrpxxdCVLsbHm/9GEVP4f9kuutiKGGQ7woT8+94MhPFcAmVqXCxaICt5vuc4G4h6nge/4i1XpUTjkqTTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7183
+X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,103 +97,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- stable <stable@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Jose Abreu <joabreu@synopsys.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Dariusz Marcinkiewicz <darekm@google.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ Archit Taneja <architt@codeaurora.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Cheng-Yi Chiang <cychiang@chromium.org>,
+ Jerome Brunet <jbrunet@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 6, 2020 at 6:18 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Mon, Jul 6, 2020 at 1:02 AM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
-> >
-> > Hi,
-> >
-> > On 03/07/2020 22:36, Sam Ravnborg wrote:
-> > > Hi Tomi.
-> > >
-> > > On Fri, Jul 03, 2020 at 10:17:29AM +0300, Tomi Valkeinen wrote:
-> > >> On 30/06/2020 21:26, Adam Ford wrote:
-> > >>> The drm/omap driver was fixed to correct an issue where using a
-> > >>> divider of 32 breaks the DSS despite the TRM stating 32 is a valid
-> > >>> number.  Through experimentation, it appears that 31 works, and
-> > >>> it is consistent with the value used by the drm/omap driver.
-> > >>>
-> > >>> This patch fixes the divider for fbdev driver instead of the drm.
-> > >>>
-> > >>> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> > >>>
-> > >>> Cc: <stable@vger.kernel.org> #4.9+
-> > >>> Signed-off-by: Adam Ford <aford173@gmail.com>
-> > >>> ---
-> > >>> Linux 4.4 will need a similar patch, but it doesn't apply cleanly.
-> > >>>
-> > >>> The DRM version of this same fix is:
-> > >>> e2c4ed148cf3 ("drm/omap: fix max fclk divider for omap36xx")
-> > >>>
-> > >>>
-> > >>> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> > >>> index 7252d22dd117..bfc5c4c5a26a 100644
-> > >>> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> > >>> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> > >>> @@ -833,7 +833,7 @@ static const struct dss_features omap34xx_dss_feats = {
-> > >>>    };
-> > >>>    static const struct dss_features omap3630_dss_feats = {
-> > >>> -   .fck_div_max            =       32,
-> > >>> +   .fck_div_max            =       31,
-> > >>>     .dss_fck_multiplier     =       1,
-> > >>>     .parent_clk_name        =       "dpll4_ck",
-> > >>>     .dpi_select_source      =       &dss_dpi_select_source_omap2_omap3,
-> > >>>
-> > >>
-> > >> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > Will you apply to drm-misc?
-> >
-> > This is for fbdev, so I presume Bartlomiej will pick this one.
-> >
-> > > Note  following output from "dim fixes":
-> > > $ dim fixes f76ee892a99e
-> > > Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> > > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > Cc: Dave Airlie <airlied@gmail.com>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > > Cc: Jason Yan <yanaijie@huawei.com>
-> > > Cc: "Andrew F. Davis" <afd@ti.com>
-> > > Cc: YueHaibing <yuehaibing@huawei.com>
-> > > Cc: <stable@vger.kernel.org> # v4.5+
-> > >
-> > > Here it says the fix is valid from v4.5 onwards.
-> >
-> > Hmm... Adam, you marked the fix to apply to v4.9+, and then you said
-> > v4.4 needs a new patch (that's before the big copy/rename). Did you
-> > check the versions between 4.4 and 4.9? I would guess this one applies
-> > to v4.5+.
->
-> I only tried 4.9 because it's listed as an LTS kernel.  The stuff
-> between 4.4 and 4.9 were EOL, so I didn't go back further.    The 4.5+
-> is probably more accurate.  I would like to do the same thing for the
-> 4.4 kernel, but I am not sure the proper way to do that.
+It's unnecessary to cleanup the i2c adapter and the ddc pointer in
+the bailout path of  __dw_hdmi_probe(), since the adapter is not
+added and the ddc pointer is not set.
 
-What is the correct protocol for patching 4.4?  I'd like to do that,
-but the patch would be unique to the 4.4.  Should I just submit the
-patch directly to stable and cc Tomi?
+Fixes: a23d6265f033 (drm: bridge: dw-hdmi: Extract PHY interrupt setup to a function)
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Cheng-Yi Chiang <cychiang@chromium.org>
+Cc: Dariusz Marcinkiewicz <darekm@google.com>
+Cc: Archit Taneja <architt@codeaurora.org>
+Cc: Jose Abreu <joabreu@synopsys.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+v1->v2:
+* Add Laurent's R-b tag.
 
-adam
->
-> adam
-> >
-> >   Tomi
-> >
-> > --
-> > Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> > Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 6148a02..137b6eb 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -3441,11 +3441,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
+ 	return hdmi;
+ 
+ err_iahb:
+-	if (hdmi->i2c) {
+-		i2c_del_adapter(&hdmi->i2c->adap);
+-		hdmi->ddc = NULL;
+-	}
+-
+ 	clk_disable_unprepare(hdmi->iahb_clk);
+ 	if (hdmi->cec_clk)
+ 		clk_disable_unprepare(hdmi->cec_clk);
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
