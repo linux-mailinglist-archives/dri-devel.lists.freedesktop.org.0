@@ -2,19 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419A321B099
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5334221B0B6
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D35A86EB87;
-	Fri, 10 Jul 2020 07:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E915F6EBB0;
+	Fri, 10 Jul 2020 07:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Jul 2020 00:07:46 UTC
 Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9F76EABF
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 16:33:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE3D6EB55
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 00:07:46 +0000 (UTC)
 Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id C349E60D19;
- Thu,  9 Jul 2020 16:32:59 +0000 (UTC)
+ by v6.sk (Postfix) with ESMTP id 031FB60D19;
+ Fri, 10 Jul 2020 00:01:26 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 Subject: Re: [PATCH v3 0/6] Generic USB Display driver
@@ -24,6 +26,7 @@ X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200529175643.46094-1-noralf@tronnes.org>
 References: <20200529175643.46094-1-noralf@tronnes.org>
 MIME-Version: 1.0
+X-TUID: fTJ4QzHEkCkU
 X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
