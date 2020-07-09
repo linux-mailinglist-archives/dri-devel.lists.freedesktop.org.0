@@ -2,73 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5920321A401
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 17:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6364621B09C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67E826EAB2;
-	Thu,  9 Jul 2020 15:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71B6B6EBA0;
+	Fri, 10 Jul 2020 07:53:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B076EAB2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 15:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594309683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kOxnlG8KI3xPEqow6g4YLIn7sm4skGyEPtPky2pJiSs=;
- b=DH5ZsaSqpDMUiQEcGpIPd4F3g3JnyTG8eVCOEjqAFG9xOx2AWnYbhTb0wzb5h7OoMQZByH
- BuDScMzlMltocUGQq3910G3wtOEzwxJY8zfdBL3dyDREErEa2YIncCMrafh/8m/PMZcLGH
- QV7LPYpzT4axDIlVMafQiEMZ/EsW2bA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-8hq4Fn_TN2GcVivWRcc6GA-1; Thu, 09 Jul 2020 11:48:02 -0400
-X-MC-Unique: 8hq4Fn_TN2GcVivWRcc6GA-1
-Received: by mail-wr1-f72.google.com with SMTP id y16so2267134wrr.20
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 08:48:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kOxnlG8KI3xPEqow6g4YLIn7sm4skGyEPtPky2pJiSs=;
- b=JcSC38cu1Ll8GatLNNG0H1V7ftWdV4L3q227EG3vTuPXDLwRbI5UZV0m/8bNa/LH9c
- prlhj0pLjZxoGmdNcMZzlCG19AEx/mYwOwdRaxvADwXTirYWKCEU+a48iQsLgbJYW+it
- dF2+3hFj10tnr72syOn1KiSC2mQri8WyouH+ircoJTHKAkefVUKXGBqrENdlvS5ly8P8
- Q1UPTaL/M9OpQnSJlj5t7aS26tjAesipPG6sQSNQbJZLikxQjYg3HOHKn19+o3cxWRMP
- 9QZ3FIwXuYTx6TgTDZ+HkouXiji3CLjq5JDIejNCnIURlO7Fg+4GzU1q5Xl2Jub/LYF8
- YzTw==
-X-Gm-Message-State: AOAM531Y4N8Is9b0jcUrTkcxZJX9ccORyTdTk5mtCR7ohD2oBGD96pcg
- e5I1E9pRRiTTeLPPHb5sOlzUxidyVW8leZB7uoDUbJJcllWNvWS9VcU/PX4BV2jKEApftkB6F9Z
- 9rDJZlMGTk7hF612dW2zYtbI5CIcl
-X-Received: by 2002:a1c:3954:: with SMTP id g81mr628326wma.73.1594309681192;
- Thu, 09 Jul 2020 08:48:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4y2IzEii9YOA5nS+ZHsnfXytiSmWTStGmkEq37GvHGpqpwSSNWVeWnQtjd9K2u/5bw2gGAQ==
-X-Received: by 2002:a1c:3954:: with SMTP id g81mr628315wma.73.1594309680971;
- Thu, 09 Jul 2020 08:48:00 -0700 (PDT)
-Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
- by smtp.gmail.com with ESMTPSA id z8sm5484573wmg.39.2020.07.09.08.47.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 08:48:00 -0700 (PDT)
-Subject: Re: [PATCH v4 06/16] pwm: lpss: Correct get_state result for
- base_unit == 0
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20200708211432.28612-1-hdegoede@redhat.com>
- <20200708211432.28612-7-hdegoede@redhat.com>
- <20200709145013.GA3703480@smile.fi.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <af7158c5-02bb-38ce-4b22-e469079dcccf@redhat.com>
-Date: Thu, 9 Jul 2020 17:47:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200709145013.GA3703480@smile.fi.intel.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3560A6E0C5;
+ Thu,  9 Jul 2020 15:49:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1FD331B;
+ Thu,  9 Jul 2020 08:49:34 -0700 (PDT)
+Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5691F3F792;
+ Thu,  9 Jul 2020 08:49:33 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/selftests: Fix compare functions provided for sorting
+Date: Thu,  9 Jul 2020 16:49:31 +0100
+Message-Id: <20200709154931.23310-1-sudeep.holla@arm.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,65 +38,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Andi Shyti <andi@etezian.org>,
+ David Airlie <airlied@linux.ie>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Both cmp_u32 and cmp_u64 are comparing the pointers instead of the value
+at those pointers. This will result in incorrect/unsorted list. Fix it
+by deferencing the pointers before comparison.
+
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_rps.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
 Hi,
 
-On 7/9/20 4:50 PM, Andy Shevchenko wrote:
-> On Wed, Jul 08, 2020 at 11:14:22PM +0200, Hans de Goede wrote:
->> The datasheet specifies that programming the base_unit part of the
->> ctrl register to 0 results in a contineous low signal.
->>
->> Adjust the get_state method to reflect this by setting pwm_state.period
->> to 1 and duty_cycle to 0.
-> 
-> ...
-> 
->> +	if (freq == 0) {
->> +		/* In this case the PWM outputs a continous low signal */
-> 
->> +		state->period = 1;
-> 
-> I guess this should be something like half of the range (so base unit calc
-> will give 128). Because with period = 1 (too small) it will give too small
-> base unit (if apply) and as a result we get high frequency pulses.
+I am not sure if I can put 2 fixes tags, but these are the ones affected.
 
-You are right, that if after this the user only changes the duty-cycle
-things will work very poorly, we will end up with a base_unit value of
-e.g 65535 and then have almost no duty-cycle resolution at all.
+Fixes: 4ba74e53ada3 ("drm/i915/selftests: Verify frequency scaling with RPS")
+Fixes: 8757797ff9c9 ("drm/i915/selftests: Repeat the rps clock frequency measurement")
 
-How about using a value here which results in a base_unit value of
-256 (for 16 bit base-unit registers), that is the highest frequency we
-can do while still having full duty-cycle resolution and it also
-is the power-on-reset value, so using a higher period which translates
-to a base_unit value of 256 (the por calue) seems like a sensible thing to do.
-
-Uwe what do you think about this?
+I made similar mistake and after I fixed it, just looked if there are any
+similar bugs and found this.
 
 Regards,
+Sudeep
 
-Hans
-
-
-
-> 
->> +		state->duty_cycle = 0;
->> +	} else {
->>   		state->period = NSEC_PER_SEC / (unsigned long)freq;
->> +		on_time_div *= state->period;
->> +		do_div(on_time_div, 255);
->> +		state->duty_cycle = on_time_div;
->> +	}
-> 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_rps.c b/drivers/gpu/drm/i915/gt/selftest_rps.c
+index 5049c3dd08a6..c91981e75ebf 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_rps.c
++++ b/drivers/gpu/drm/i915/gt/selftest_rps.c
+@@ -44,9 +44,9 @@ static int cmp_u64(const void *A, const void *B)
+ {
+ 	const u64 *a = A, *b = B;
+ 
+-	if (a < b)
++	if (*a < *b)
+ 		return -1;
+-	else if (a > b)
++	else if (*a > *b)
+ 		return 1;
+ 	else
+ 		return 0;
+@@ -56,9 +56,9 @@ static int cmp_u32(const void *A, const void *B)
+ {
+ 	const u32 *a = A, *b = B;
+ 
+-	if (a < b)
++	if (*a < *b)
+ 		return -1;
+-	else if (a > b)
++	else if (*a > *b)
+ 		return 1;
+ 	else
+ 		return 0;
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
