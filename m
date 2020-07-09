@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF9621A51C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 18:48:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C8D21A51E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 18:48:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AADE6EAC2;
-	Thu,  9 Jul 2020 16:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E08356EAC1;
+	Thu,  9 Jul 2020 16:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2073.outbound.protection.outlook.com [40.107.21.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 052FB6EABF
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 16:48:00 +0000 (UTC)
+ (mail-vi1eur05on2070.outbound.protection.outlook.com [40.107.21.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3236EAC6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 16:48:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UDHcoBu/xCfqis3r+YUN4eVcyIY43LmAkxCMCePgj9GyqK+U1N56THztbrRwTu5HItFsi0hCqvS37mvuuFcoOad/p1wsX3jbVsVVkz7phbdGFStYr/M6zlygjM7eCPZ+GjllSTBe/nCtlKOCxW8IlVEzis+Ye6vghk/vVTe2NNT5AdWXYTVezx47SzwJtaK7FfQcUENo8nMgT98Gpe2leedNa1vjKZq0yC5PlHrPzL85IIwvXQ6WwzMGrz4xDUHK5jsUSuVliFY3CskStrw8wA3NPxfH5q7jU7sIDb+qYLzEANUFP/UJjYzR6LjBac9ei9RsLb7CKkKhKk6ted5HJQ==
+ b=QYo7+QhZgQ1ygs2UQZE9uPksorVV6KiolfRIS/shmwe7fXqY6GUTsfynWuUO5G+7h/ACqs2DkUxYVxCw+eUH8iEesGAmkkflzgxbQ4SA0pRduUgXgf3BONuC+KldiZaUplnpEPFsqwltcXeCRDLdwkyehA3J9ToT8g2HRvA6xB19CmyJr5Jp3aqBzi/HJgIAOo9oZaOn+NghdGnVTAq4gq7mFLqJ+Hx0wzB8JSAhHu4M/14uBenI010aBql6Xm8RhiDEEhNUHyefWqAEZO2r1TPfU/seasip/uRDgh36KXBoG5S6YA/e6zTrhPg3i9SZrjeX9A4+Z+jBMz7QEmPDjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eG6FYh7YuS+YDdLREzOvyyyP6i7dkNm/urnap0D5514=;
- b=da7AKdO1vWih25WDc8Ycz9eLdXBSuri7RPC0zWOosewCYTrGknivNXAWG8qqi/tZM9++EIbPs80bETOSwcZIabarFRwqqhlZCIblvNXZF3Ea2r18V4EYGdRRAH5VQ7igLYLM4fM6CxmExuKpq6vzRnO8zsL2lb/Ehm3Xa9ooJxrpxichk26mpaxodB89DJ38s+zsDwCXks3CvFJPLt0OhuhRnvDv1Jv91pLg7GSeofva0fie2KyOpIr+RcZQHbKKYIpv+0vD0ITiROXMprNkuWKPhSF0XOdIKjeOTvp7eJNoBNdcKeHRhoPzCilrTL4bmCmks6WMEVS8L4aTiEg+AA==
+ bh=+T36PisOq0j8rKIYiCn8vy4JAzon6KegVFoJ4p5bdGQ=;
+ b=kDc6u/BUBcz/KdkBQNx6UCYwJB0bWIioXHzGRJsW3v7UdWJSkUMu0SWU8ckZNiI9SvT4vPEC5XZ7VdCJN6QUAWmz5bGUquJRkHKAoQLG9pbPd0EELo+ADT6tOoI95C3r6Vaao8//GA0VkjeGLxsDAC2fXdO5s38goODmgPsLcIrqYmHXXakvmjTXEZTJtsQ5Osvn3jN+x2/D3xLHeucmquSEjM0Btu3/CXrJtaqylvYNBd5j8e1WCa0YOzonf7jlVcUxgT4mxand6qv2+BkDjaJSwa0CnprZmgoVQyu0G5ewrnQ3dwCW0s5ubFoqox2aif2utqiGXowpE2JcpJd4eA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eG6FYh7YuS+YDdLREzOvyyyP6i7dkNm/urnap0D5514=;
- b=Pm+EeGXhqsGMJiTZpmSIAy86iHFtx+7gLifYgIWZ9MZx9Gbgzrc8DQ1615fMK0w2Uv+jpO9gp9ngxVzZeEQuDBLikSidP4IkB0Umk45oBYQfWgxa2TI8TIFHJOv993DP0hgFm7B9l/QdJGHqZGMHZt0csmc1ACWX2mGte6cNaUM=
-Authentication-Results: pengutronix.de; dkim=none (message not signed)
- header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
+ bh=+T36PisOq0j8rKIYiCn8vy4JAzon6KegVFoJ4p5bdGQ=;
+ b=jc+tHc/F82AF1A3x2yDSBNMezjvhrbm8FgPPUIbuRKK9rStVYvNZjLcZRkTzGhe95fOakv8/rmV2EspdTklKBIg6AqAqufuHrqYyTm4OzQR/dkSr7gy55zuNbD9dhFxGf8MKnvAO+ybbMWLN8XadNonsf6ew72Yupm4gjViRc0c=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=oss.nxp.com;
 Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
  (2603:10a6:803:22::27) by VI1PR04MB6239.eurprd04.prod.outlook.com
  (2603:10a6:803:fd::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Thu, 9 Jul
- 2020 16:47:58 +0000
+ 2020 16:47:59 +0000
 Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
  ([fe80::4c0:79dd:b734:9ea7]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
  ([fe80::4c0:79dd:b734:9ea7%5]) with mapi id 15.20.3153.029; Thu, 9 Jul 2020
- 16:47:58 +0000
+ 16:47:59 +0000
 From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
+To: Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>
-Subject: [PATCH v5 4/5] dt-bindings: display: imx: add bindings for DCSS
-Date: Thu,  9 Jul 2020 19:47:32 +0300
-Message-Id: <20200709164736.18291-5-laurentiu.palcu@oss.nxp.com>
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCH v5 5/5] arm64: dts: imx8mq: add DCSS node
+Date: Thu,  9 Jul 2020 19:47:33 +0300
+Message-Id: <20200709164736.18291-6-laurentiu.palcu@oss.nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200709164736.18291-1-laurentiu.palcu@oss.nxp.com>
 References: <20200709164736.18291-1-laurentiu.palcu@oss.nxp.com>
@@ -59,36 +57,36 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from fsr-ub1864-141.ea.freescale.net (83.217.231.2) by
  AM0PR03CA0041.eurprd03.prod.outlook.com (2603:10a6:208::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 16:47:56 +0000
+ 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 16:47:58 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [83.217.231.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fe3bf959-40fb-4804-a53f-08d82427d589
+X-MS-Office365-Filtering-Correlation-Id: 7b46d3b7-e09c-4ea1-70bc-08d82427d683
 X-MS-TrafficTypeDiagnostic: VI1PR04MB6239:
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB6239C1D559069AA42F41370DBE640@VI1PR04MB6239.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB62398D468F04D022A1247C04BE640@VI1PR04MB6239.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rQxeoSSVW31NWcDYda7Wh3ySeu/CkOB6+9QFr3ZR8gF1PjxTO2HQCnt/Hm+jRqHuK2U2HAXq+AM03ziHKOLDxHbEQrcdDS39yGcHU88pGvClMLR4rkBQTsnExH8f7oTRtKJQUZgzYuWZWJTStZZrhiNLtWJo7zjavOlcdipVJtETrtBRFwoCE/c9Dskl9Zf20z9uWjvbUnHNBNnbx27v9nyjV2ko0b2DgT1p5CZKLfdUSQhXmy1vcPeq0PI+uEUsHmPZPpsqvLUbZUGSU7KmannCVbJgEwFNK4n29Ljo4pBB2IoPTSFfKhNYeZquHYMu3nObUkVJbY/60vmn6a8hXZ7L0Gk7PxT+tz800CDUeL26/w9/fj0o7DDdoBbMKed02u/bTdAM4dyGzeIeK6k+sg==
+X-Microsoft-Antispam-Message-Info: p2MmOmgNRzA04lrPQzjmulkCm+94pQpiNu2bcwpwXcSbStuFiXSPbKr+WYAchzCjhbAGZSLvg0xaz5Al8lvAcHHGVQY8J9DhqZ/2F8jRTe6+XQQDgmqNCZkMJa9NkDp2oK31Rly2AhoVkuRkqzYqLJYKSz4eMGdRdKWNn3fE/P0GkSye88hUTE0/8SkTwMOGsaj02EyMevOKGvJFNTswbjhcODCMcPkXAfgJqmwoakxC/lIJafp0vN4ZzJNHOJI6BkNvj/TWV1tTuwPpKcFmiNkVonJd7doxqchnMfmEIWqWQiFRZJvST2BHIIZdgqvslSCixkAw1Lh63psraCMHZLsGrqc3K65RKI1qOw4fTaYWxtTyiso3UiVA19zDPp2D
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(8936002)(66556008)(66476007)(186003)(16526019)(6666004)(52116002)(1076003)(86362001)(6486002)(6506007)(66946007)(4326008)(5660300002)(2616005)(26005)(956004)(7416002)(2906002)(83380400001)(110136005)(478600001)(316002)(44832011)(8676002)(6512007);
+ SFS:(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(8936002)(66556008)(66476007)(186003)(16526019)(6666004)(52116002)(1076003)(86362001)(6486002)(6506007)(66946007)(4326008)(5660300002)(2616005)(26005)(956004)(7416002)(2906002)(83380400001)(110136005)(478600001)(316002)(44832011)(8676002)(6512007)(32563001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: Us7VRVm6JtHLpvJYyx8z9HvMx0Ag677VunqGRJXXLjgfBtKOzyDyOD1ihjDkPo1z2di6sy7cmQ+VYWjC7qNkcTXnJTvo8HIMDZIubpCs0bjy+jR2XoZVJWzFjjQwk9wofPrVFcjTf2KtIZjPupKAV/1ZD7XKbXjB8DGfHfDZwoDLVhfqt3cgki+TxWaX69AHr5HrJpCBkqo0fPjKW7b0//ZVWgutkLVRaXygoPjUFFtKEKGpZe7am5gC2q97VLyad0cZ5d6/9EwrXI07eZI21XSLmLLhlpPr97cslZz5qSi1vGmIFb5zPsIS+GDX495YfYNdFHD6X4BPzQG+o6Bh59Rhlu2uoWRSKz1y4ffYW/8/XWQWySCCv39i7pWcAyETwgBgXC3l8KsaQrF5lwalSr3PQq8MB4XovbPdGcaTNNc08EExHLEfKRR6TcNeq2ZSre6yyHu06aYuY8gqfJhittu58QPbB8I/32rxBTNQGn8=
+X-MS-Exchange-AntiSpam-MessageData: Y49MmX8S0dY+CjQIh6s76lu137XTX8ivkZVgHUW2LS2PxjdF1JOn02BmYTQemn4cKnKukIkFg0NapyvsuzLSAl2tCWLWbKyv32VR/SBEx69uUQ7mhv1PXCopTkfTovdurMkDgT9JTxtVzMNYTRbcFGagbP+0/O85YzgZutvYpuv7Ot3iuixV7awqz0Z4BJtLojQZw3B++4fUN7DaKqiZ0gTJD3mXv4QJdgZSdDCk+ZlJXa9RuDPUgEOLtPXXb7qSWpEq5HsGtn6XuyxK3v52nCOqwxSdGXsIUzxiLG4jLm6BMOJSHUS5zZTrBeuWLpr4hsRGo/4x+AkvsaVBojqrLTKB71xAA2eFouNpyq0YO6eEhTXDyIY+aVvTO3FQbzI1kaYGYxFv9ZVoHmV8O05k4plJGk56TTJ0gy7zmbhhf9TIp5piplRJOyVbt1BRopQAnG07eoskSRaY6kMA5bKZ/WISvHdg6vnLKMCTFrtGVX8=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe3bf959-40fb-4804-a53f-08d82427d589
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b46d3b7-e09c-4ea1-70bc-08d82427d683
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 16:47:57.9436 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 16:47:59.5597 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oDU0OkFniVH1NkaUKKDf/8YUbzFJZGZWyel3iYNrpa++RBfWFHVlDm6gCTbfFuI0ZEjwfR7D06rwnYAzJ0xbFA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: LW0zp8z1pGlzaGFJqsYwrFmdqAiQMxj9JRWxuJdxeIRWDlRMZBVg/SxT/tf1dU9j1bd1y2wcXEUHQKZ4TTKtiw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6239
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -112,104 +110,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
 
-Add bindings for iMX8MQ Display Controller Subsystem.
+This patch adds the node for iMX8MQ Display Controller Subsystem.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
 ---
- .../bindings/display/imx/nxp,imx8mq-dcss.yaml | 84 +++++++++++++++++++
- 1 file changed, 84 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
-new file mode 100644
-index 000000000000..a951409cf76d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
-@@ -0,0 +1,84 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+# Copyright 2019 NXP
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/display/imx/nxp,imx8mq-dcss.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+index 978f8122c0d2..022720cdf6ed 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+@@ -1040,6 +1040,29 @@
+ 			#size-cells = <1>;
+ 			ranges = <0x32c00000 0x32c00000 0x400000>;
+ 
++			dcss: display-controller@32e00000 {
++				compatible = "nxp,imx8mq-dcss";
++				reg = <0x32e00000 0x2d000>, <0x32e2f000 0x1000>;
++				interrupts = <6>, <8>, <9>;
++				interrupt-names = "ctxld", "ctxld_kick", "vblank";
++				interrupt-parent = <&irqsteer>;
++				clocks = <&clk IMX8MQ_CLK_DISP_APB_ROOT>,
++					 <&clk IMX8MQ_CLK_DISP_AXI_ROOT>,
++					 <&clk IMX8MQ_CLK_DISP_RTRM_ROOT>,
++					 <&clk IMX8MQ_VIDEO2_PLL_OUT>,
++					 <&clk IMX8MQ_CLK_DISP_DTRC>;
++				clock-names = "apb", "axi", "rtrm", "pix", "dtrc";
++				assigned-clocks = <&clk IMX8MQ_CLK_DISP_AXI>,
++						  <&clk IMX8MQ_CLK_DISP_RTRM>,
++						  <&clk IMX8MQ_VIDEO2_PLL1_REF_SEL>;
++				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_800M>,
++							 <&clk IMX8MQ_SYS1_PLL_800M>,
++							 <&clk IMX8MQ_CLK_27M>;
++				assigned-clock-rates = <800000000>,
++						       <400000000>;
++				status = "disabled";
++			};
 +
-+title: iMX8MQ Display Controller Subsystem (DCSS)
-+
-+maintainers:
-+  - Laurentiu Palcu <laurentiu.palcu@nxp.com>
-+
-+description:
-+
-+  The DCSS (display controller sub system) is used to source up to three
-+  display buffers, compose them, and drive a display using HDMI 2.0a(with HDCP
-+  2.2) or MIPI-DSI. The DCSS is intended to support up to 4kp60 displays. HDR10
-+  image processing capabilities are included to provide a solution capable of
-+  driving next generation high dynamic range displays.
-+
-+properties:
-+  compatible:
-+    const: nxp,imx8mq-dcss
-+
-+  reg:
-+    items:
-+      - description: DCSS base address and size, up to IRQ steer start
-+      - description: DCSS BLKCTL base address and size
-+
-+  interrupts:
-+    items:
-+      - description: Context loader completion and error interrupt
-+      - description: DTG interrupt used to signal context loader trigger time
-+      - description: DTG interrupt for Vblank
-+
-+  interrupt-names:
-+    items:
-+      - const: ctxld
-+      - const: ctxld_kick
-+      - const: vblank
-+
-+  clocks:
-+    items:
-+      - description: Display APB clock for all peripheral PIO access interfaces
-+      - description: Display AXI clock needed by DPR, Scaler, RTRAM_CTRL
-+      - description: RTRAM clock
-+      - description: Pixel clock, can be driver either by HDMI phy clock or MIPI
-+      - description: DTRC clock, needed by video decompressor
-+
-+  clock-names:
-+    items:
-+      - const: apb
-+      - const: axi
-+      - const: rtrm
-+      - const: pix
-+      - const: dtrc
-+
-+  port:
-+    type: object
-+    description:
-+      A port node pointing to the input port of a HDMI/DP or MIPI display bridge.
-+
-+examples:
-+  - |
-+    dcss: display-controller@32e00000 {
-+        compatible = "nxp,imx8mq-dcss";
-+        reg = <0x32e00000 0x2d000>, <0x32e2f000 0x1000>;
-+        interrupts = <6>, <8>, <9>;
-+        interrupt-names = "ctxld", "ctxld_kick", "vblank";
-+        interrupt-parent = <&irqsteer>;
-+        clocks = <&clk 248>, <&clk 247>, <&clk 249>,
-+                 <&clk 254>,<&clk 122>;
-+        clock-names = "apb", "axi", "rtrm", "pix", "dtrc";
-+        assigned-clocks = <&clk 107>, <&clk 109>, <&clk 266>;
-+        assigned-clock-parents = <&clk 78>, <&clk 78>, <&clk 3>;
-+        assigned-clock-rates = <800000000>,
-+                               <400000000>;
-+        port {
-+            dcss_out: endpoint {
-+                remote-endpoint = <&hdmi_in>;
-+            };
-+        };
-+    };
-+
+ 			irqsteer: interrupt-controller@32e2d000 {
+ 				compatible = "fsl,imx8m-irqsteer", "fsl,imx-irqsteer";
+ 				reg = <0x32e2d000 0x1000>;
 -- 
 2.23.0
 
