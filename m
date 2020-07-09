@@ -2,75 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD2121A22F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 16:34:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F3521B0BD
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 786266E142;
-	Thu,  9 Jul 2020 14:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48FEF6EB89;
+	Fri, 10 Jul 2020 07:53:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B50416E072
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 14:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594305237;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BhGLIk7C2NMc6JM40F6DvWPFT3QT/gthp+F60/ml+CQ=;
- b=eb3O2JaIMqRQO2gMTJmhszZ9EIiuaSevH0BL7NSsyoO3+60ZHj26lA4EiolGryeRmHj2m+
- 73PsuRyi5jhm39tFEbGV7K39+yXuNeLCZMQue+B8Ur71oTQ54Y2p+bxH/WCxLKdLGFOoIt
- 4gM/hw8e9Z88zoYHX/Hqe5sVhMnCLb4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-ei-VyvJAPNeZdYs7YRL-ew-1; Thu, 09 Jul 2020 10:33:53 -0400
-X-MC-Unique: ei-VyvJAPNeZdYs7YRL-ew-1
-Received: by mail-wm1-f72.google.com with SMTP id y204so2336665wmd.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 07:33:53 -0700 (PDT)
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94C806E072
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 14:35:27 +0000 (UTC)
+Received: by mail-qt1-x843.google.com with SMTP id a32so1807576qtb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 07:35:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cpCnVG3Ny+sMfK7hbXlrQci+VvCzOJqiP+fTESc3hcY=;
+ b=nBovAMxXOtOlB21HIcXob+wOcVhz/HQ6NeA4GArDhNdMytNKoLxSFBJZybMgitiHf2
+ agWC1mHylcc/k/qdBAfm/aYT3q0fKOQ98FogTVKA86ka60eiW63deQuJXK4FInJaTE0p
+ j7UmZZG3Vr/I3D6aAYOqj+U+irjAY7zB/zn2VgdK19iiD2bduF3/AOEScqHZZ7lAlKA2
+ KtQbsMAs1uAPa4kXjTuUZDJKNL7kItc8WLg8sKG7KGC5o5vPuMMDK2uJzZLvmo7E2MOH
+ Zs3eLaWwYGfboMiOsMr+gbvxBVWpetXz23iPH5ugqnrub7yIql2rZ9JHWV+UlWypx6Em
+ 49Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=BhGLIk7C2NMc6JM40F6DvWPFT3QT/gthp+F60/ml+CQ=;
- b=fvB8bYZZqh5ivpVjq9rmxjk4jSA8ZivGe5UePePVTuPMDujwhf6XJuY8G2dxGNVCm+
- 0vJinh299gAs+mTZzT7O7gCiAkW0Yaq60WxOjFl9liThWTdvOxX/wZskMO0e/B/b6+mQ
- JF/kxJBKUk5ZrOunxAzl4jI33YKq6hOa2UeuyQJsnNEKb9nnqDRGSd+kbHVgvfkFTqbI
- 3BX4ubnw+oky/5PTCMbT8krDAumP4rIFp/9+TLrwFeHjibRgFBeHLucWKP/D70p9lpuf
- +5veeo7FMrqkwNDSCyV6y1dQLmRPmCIeeCVqGdvDUqN03wdZwlw3U2+g9Xvoa9gpP/+n
- oZ6g==
-X-Gm-Message-State: AOAM532c/xgH4r0G2DVbcYJdt4V4HpJz/2wbufjR2xd3DnlJaDuA3ODn
- JY/LUBymta5d45TNVVSTNHRT5RBob5nA7WI2pWv4mkpfK1fXkc8tbCPceLBBmj/cc05ymlhXXdo
- KBkfKiedMg7X3LUhVZcDz9cnkQv5L
-X-Received: by 2002:adf:f18c:: with SMTP id h12mr61184454wro.375.1594305232733; 
- Thu, 09 Jul 2020 07:33:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGEsPZnHHhwmfS2MVpRo8wpZaIsfNr3HWz/ZZ8+t7FND0PUlyny7kubq5HJplNXnekokhZRw==
-X-Received: by 2002:adf:f18c:: with SMTP id h12mr61184441wro.375.1594305232476; 
- Thu, 09 Jul 2020 07:33:52 -0700 (PDT)
-Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
- by smtp.gmail.com with ESMTPSA id o205sm5393490wme.24.2020.07.09.07.33.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 07:33:51 -0700 (PDT)
-Subject: Re: [PATCH v4 04/16] pwm: lpss: Add range limit check for the
- base_unit register value
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20200708211432.28612-1-hdegoede@redhat.com>
- <20200708211432.28612-5-hdegoede@redhat.com>
- <20200709125342.GX3703480@smile.fi.intel.com>
- <4ff9dc18-fa59-d9a3-c7bf-9f95c62fc356@redhat.com>
- <20200709142136.GZ3703480@smile.fi.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c7925c63-9187-f89f-3a01-2ff252012615@redhat.com>
-Date: Thu, 9 Jul 2020 16:33:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ bh=cpCnVG3Ny+sMfK7hbXlrQci+VvCzOJqiP+fTESc3hcY=;
+ b=LTY/QG/Ru69BJctBU168bXpnCo4yYUQmagaTogA8XO25Djq/BmJ6hCbjs2LeJFRzpd
+ wpSPQ1FubvWBzMZYvjjwDCGQxq28xvcf+8MDw0y4oGv/WtWKp/GF7nYiPQ85ZGr+Uv2h
+ Q2mqlMYy4irZIDFe9UGk+VL9ymGzmWT6HyGGxskruIwm0JEhj8s8uMBO99Yt8sSPLNkz
+ RxYjU/OGOoquKBPF3awmTW1AMayWgb0kQAhoQ89MQKAD4uAO5F6vmPONJOrqlCOM7bbI
+ XapkNuTG4waa8qparzUmaMS/uOJjJkDv8aBh36WbFzO1z1jSm4W76tx+Vv/jlUP1DEc4
+ rIwg==
+X-Gm-Message-State: AOAM532fb2mkEGTgG43YD/C9sdok54S1QmEiqVp8aO3taN6flDhxyvY3
+ 3SWAwdFLV28f+tmLY0Rozj7bSA==
+X-Google-Smtp-Source: ABdhPJyKclkU0SHcqsPhYVrCQfK/o21m329RQOU3cmnglRUoG96k7rSJLAr8n5q3GQFPyk+Vcr14nw==
+X-Received: by 2002:ac8:36bb:: with SMTP id a56mr65925740qtc.201.1594305326678; 
+ Thu, 09 Jul 2020 07:35:26 -0700 (PDT)
+Received: from localhost.localdomain ([147.253.86.153])
+ by smtp.gmail.com with ESMTPSA id p7sm3937315qki.61.2020.07.09.07.35.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jul 2020 07:35:25 -0700 (PDT)
+From: Jonathan Marek <jonathan@marek.ca>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH v2] drm/msm: handle for EPROBE_DEFER for of_icc_get
+Date: Thu,  9 Jul 2020 10:34:03 -0400
+Message-Id: <20200709143404.11876-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-In-Reply-To: <20200709142136.GZ3703480@smile.fi.intel.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,119 +66,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>,
+ Brian Masney <masneyb@onstation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiA3LzkvMjAgNDoyMSBQTSwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOgo+IE9uIFRodSwg
-SnVsIDA5LCAyMDIwIGF0IDAzOjIzOjEzUE0gKzAyMDAsIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4+
-IE9uIDcvOS8yMCAyOjUzIFBNLCBBbmR5IFNoZXZjaGVua28gd3JvdGU6Cj4+PiBPbiBXZWQsIEp1
-bCAwOCwgMjAyMCBhdCAxMToxNDoyMFBNICswMjAwLCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+Pj4+
-IFdoZW4gdGhlIHVzZXIgcmVxdWVzdHMgYSBoaWdoIGVub3VnaCBwZXJpb2QgbnMgdmFsdWUsIHRo
-ZW4gdGhlCj4+Pj4gY2FsY3VsYXRpb25zIGluIHB3bV9scHNzX3ByZXBhcmUoKSBtaWdodCByZXN1
-bHQgaW4gYSBiYXNlX3VuaXQgdmFsdWUgb2YgMC4KPj4+Pgo+Pj4+IEJ1dCBhY2NvcmRpbmcgdG8g
-dGhlIGRhdGEtc2hlZXQgdGhlIHdheSB0aGUgUFdNIGNvbnRyb2xsZXIgd29ya3MgaXMgdGhhdAo+
-Pj4+IGVhY2ggaW5wdXQgY2xvY2stY3ljbGUgdGhlIGJhc2VfdW5pdCBnZXRzIGFkZGVkIHRvIGEg
-TiBiaXQgY291bnRlciBhbmQKPj4+PiB0aGF0IGNvdW50ZXIgb3ZlcmZsb3dpbmcgZGV0ZXJtaW5l
-cyB0aGUgUFdNIG91dHB1dCBmcmVxdWVuY3kuIEFkZGluZyAwCj4+Pj4gdG8gdGhlIGNvdW50ZXIg
-aXMgYSBuby1vcC4gVGhlIGRhdGEtc2hlZXQgZXZlbiBleHBsaWNpdGx5IHN0YXRlcyB0aGF0Cj4+
-Pj4gd3JpdGluZyAwIHRvIHRoZSBiYXNlX3VuaXQgYml0cyB3aWxsIHJlc3VsdCBpbiB0aGUgUFdN
-IG91dHB1dHRpbmcgYQo+Pj4+IGNvbnRpbnVvdXMgMCBzaWduYWwuCj4+Pgo+Pj4gQW5kIEkgZG9u
-J3Qgc2VlIGhvdyB5b3UgY2FuIGdldCBkdXR5IDEwMCUgLyAwJSAoSSBkb24ndCByZW1lbWJlciB3
-aGljaCBvbmUgaXMKPj4+IGVxdWl2YWxlbnQgdG8gMCBpbiBiYXNlIHVuaXQpIGFmdGVyIHRoaXMg
-Y2hhbmdlLiBJSVJDIHRoZSBwcm9ibGVtIGhlcmUgdGhhdAo+Pj4gYmFzZSB1bml0IHdoZW4gbm9u
-LXplcm8gaXMgYWx3YXlzIGJlaW5nIGFkZGVkIHRvIHRoZSBjb3VudGVyIGFuZCBpdCB3aWxsCj4+
-PiB0cmlnZ2VyIHRoZSBjaGFuZ2Ugb2Ygb3V0cHV0IGF0IHNvbWUgcG9pbnQgd2hpY2ggaXMgbm90
-IHdoYXQgd2Ugd2FudCBmb3IgMTAwJSAvCj4+PiAwJSBjYXNlcy4KPj4KPj4gVGhlIGJhc2VfdW5p
-dCBjb250cm9scyB0aGUgb3V0cHV0IGZyZXF1ZW5jeSwgbm90IHRoZSBkdXR5LWN5Y2xlLiBTbyBj
-bGFtcGluZwo+PiB0aGUgYmFzZV91bml0LCBhcyBjYWxjdWxhdGVkIGZyb20gdGhlIHBlcmlvZCBo
-ZXJlLCB3aGljaCBhbHNvIG9ubHkgY29uZmlndXJlcwo+PiBvdXRwdXQtZnJlcXVlbmN5IGRvZXMg
-bm90IGltcGFjdCB0aGUgZHV0eS1jeWNsZSBhdCBhbGwuCj4+Cj4+IG5vdGUgdGhhdCBBRkFJQ1Qg
-Y3VycmVudGx5IG5vIChpbiBrZXJuZWwpIHVzZXJzIGFjdHVhbGx5IHRyeSB0byBzZXQgYSBwZXJp
-b2QgdmFsdWUKPj4gd2hpY2ggd291bGQgaGl0IHRoZSBjbGFtcCwgc28gZm9yIGV4aXN0aW5nIHVz
-ZXJzIHRoZSBjbGFtcCBpcyBhIG5vLW9wLiBJIGp1c3QKPj4gYWRkZWQgaXQgdG8gdGhpcyBwYXRj
-aC1zZXQgZm9yIGNvcnJlY3RuZXNzIHNha2UgYW5kIGJlY2F1c2UgdXNlcnNwYWNlCj4+IChzeXNm
-cyBpbnRlcmZhY2UpIHVzZXJzIGNvdWxkIGluIHRoZW9yeSBzZXQgb3V0IG9mIHJhbmdlIHZhbHVl
-cy4KPj4KPj4gQXMgZm9yIHRoZSBkdXR5LWN5Y2xlIHRoaW5nLCBmaXJzdCBvZiBhbGwgbGV0IG1l
-IHNheSB0aGF0IHRoYXQgaXMgYQo+PiBxdWVzdGlvbiAvIGlzc3VlIHdoaWNoIGlzIGNvbXBsZXRl
-bHkgb3J0aG9nb25hbCB0byB0aGlzIHBhdGNoLCB0aGlzCj4+IHBhdGNoIG9ubHkgaW1wYWN0cyB0
-aGUgcGVyaW9kL291dHB1dCBmcmVxdWVuY3kgTk9UIHRoZSBkdXR5LWN5Y2xlLAo+IAo+IFVuZm9y
-dHVuYXRlbHkgdGhlIGJhc2UgdW5pdCBzZXR0aW5ncyBhZmZlY3RzIGR1dHkgY3ljbGUuCj4gCj4g
-RG9jdW1lbnRhdGlvbiBzYXlzIGFib3V0IGludGVnZXIgcGFydCBhbmQgZnJhY3Rpb25hbCwgd2hl
-cmUgaW50ZWdlciBpcwo+IDggYml0IGFuZCB0aGlzIHdoYXQncyBiZWluZyBjb21wYXJlZCB0byBv
-biB0aW1lIGRpdmlzb3IuIFRodXMsIGlmIG9uIHRpbWUKPiBkaXZpc29yIGlzIDI1NSBhbmQgYmFz
-ZSB1bml0IGlzIDEgKGluIGludGVnZXIgcGFydCkgb3IgMC4yNSwgd2UgY2FuJ3QgZ2V0IDAlLgo+
-IChJdCBsb29rcyBsaWtlIGlmICdvbiB0aW1lIGRpdmlzb3IgTU9EIGJhc2UgdW5pdCA9PSAwJyB3
-ZSB3b24ndCBnZXQgMCUpCj4gCj4+IFdpdGggdGhhdCBzYWlkLCB0aGUgZG9jdW1lbnRhdGlvbiBp
-cyBub3QgcmVhbGx5IGhlbHBmdWwgaGVyZSwKPj4gd2UgbmVlZCB0byBzZXQgdGhlIG9uX3RpbWVf
-ZGl2IHRvIDI1NSB0byBnZXQgYSBkdXR5LWN5Y2xlIGNsb3NlIHRvIDAKPj4gKGFuZCB0byAwIHRv
-IGdldCBhIGR1dHkgY3ljbGUgb2YgMTAwJSkgYnV0IGlmIHNldHRpbmcgdGhpcyB0byAyNTUgZ2l2
-ZXMKPj4gdXMgYSBkdXR5LWN5Y2xlIG9mIHJlYWxseSByZWFsbHkgMCUsIG9yIGp1c3QgY2xvc2Ug
-dG8gMCUgaXMgdW5jbGVhZXIuCj4gCj4gSXQgZGVwZW5kcyBvbiBiYXNlIHVuaXQgdmFsdWUuCj4g
-Cj4+IFdlIGNvdWxkIGRvIGEgc2VwYXJhdGUgcGF0Y2ggYWRkIGluZyBhIGhhY2sgd2hlcmUgaWYg
-dGhlIHVzZXIgYXNrcyBmb3IKPj4gMCUgZHV0eS1jeWNsZSB3ZSBwcm9ncmFtIHRoZSBiYXNlX3Vu
-aXQgdG8gMCwgYnV0IHRoYXQgc2VlbXMgbGlrZSBhIGJhZAo+PiBpZGVhIGZvciAyIHJlYXNvbnM6
-Cj4gCj4+IDEuIElmIHRoZSB1c2VyIHJlYWxseSB3YW50cyB0aGUgb3V0cHV0IHRvIGJlIGNvbnN0
-YW50bHkgMCB0aGUgdXNlciBzaG91bGQKPj4ganVzdCBkaXNhYmxlIHRoZSBwd20KPiAKPiBJIGNh
-bid0IHRha2UgdGhpcyBhcyBhbiBhcmd1bWVudC4gRGlzYWJsaW5nIFBXTSBpcyBvcnRob2dvbmFs
-IHRvIHdoYXQgZHV0eSBjeWNsZSBpcy4KPiAKPj4gMi4gTmV3IGJhc2VfdW5pdCB2YWx1ZXMgYXJl
-IGxhdGNoZWQgYW5kIG5vdCBhcHBsaWVkIHVudGlsIHRoZSBjb3VudGVyCj4+IG92ZXJmbG93cywg
-d2l0aCBhIGJhc2VfdW5pdCBvZiAwIHRoZSBjb3VudGVyIG5ldmVyIG92ZXJmbG93cy4gSSBoYXZl
-Cj4+IG5vdCB0ZXN0ZWQgdGhpcyBidXQgSSB3b3VsZCBub3QgYmUgc3VycHJpc2VkIGlmIGFmdGVy
-IHByb2dyYW1taW5nIGEKPj4gYmFzZV91bml0IHZhbHVlIG9mIDAsIHdlIGFyZSB1bmFibGUgdG8g
-ZXZlciBjaGFuZ2UgdGhlIHZhbHVlIGFnYWluCj4+IHRocm91Z2ggYW55IG90aGVyIG1lYW5zIHRo
-ZW4gcG93ZXItY3ljbGluZyB0aGUgUFdNIGNvbnRyb2xsZXIuCj4+IEV2ZW4gaWYgSSBjb3VsZCB0
-ZXN0IHRoaXMgb24gc29tZSByZXZpc2lvbnMsIHdlIGFscmVhZHkga25vdyB0aGF0Cj4+IG5vdCBh
-bGwgcmV2aXNpb25zIHdvcmsgdGhlIHNhbWUgd3J0IHRoZSBsYXRjaGluZy4gU28gaXQgaXMgYmVz
-dCB0bwo+PiBqdXN0IG5ldmVyIHNldCBiYXNlX3VuaXQgdG8gMCwgdGhhdCBpcyBqdXN0IGEgcmVj
-aXBlIGFza2luZyBmb3IgdHJvdWJsZS4KPiAKPiBUaGlzIHdoYXQgZG9jIHNheXMgYWJvdXQgemVy
-b3M6Cj4g4oCiIFByb2dyYW1taW5nIGVpdGhlciB0aGUgUFdNX2Jhc2VfdW5pdCB2YWx1ZSBvciB0
-aGUgUFdNX29uX3RpbWVfZGl2aXNvciB0byDigJgw4oCZCj4gd2lsbCBnZW5lcmF0ZSBhbiBhbHdh
-eXMgemVybyBvdXRwdXQuCj4gCj4gU28sIHdoYXQgSSdtIHRhbGtpbmcgc2VlbXMgYWJvdXQgY29y
-cmVsYXRpb24gYmV0d2VlbiBiYXNlIHVuaXQgYW5kIG9uIHRpbWUKPiBkaXZpc29yIHJhdGhlciB0
-aGFuIHplcm9zLgo+IAo+IEkgYWdyZWUgd2l0aCB0aGlzIHBhdGNoLgo+IFJldmlld2VkLWJ5OiBB
-bmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4KClRoYW5r
-IHlvdS4KCj4+Pj4gV2hlbiB0aGUgdXNlciByZXF1ZXN0ZXMgYSBsb3cgZW5vdWdoIHBlcmlvZCBu
-cyB2YWx1ZSwgdGhlbiB0aGUKPj4+PiBjYWxjdWxhdGlvbnMgaW4gcHdtX2xwc3NfcHJlcGFyZSgp
-IG1pZ2h0IHJlc3VsdCBpbiBhIGJhc2VfdW5pdCB2YWx1ZQo+Pj4+IHdoaWNoIGlzIGJpZ2dlciB0
-aGVuIGJhc2VfdW5pdF9yYW5nZSAtIDEuIEN1cnJlbnRseSB0aGUgY29kZXMgZm9yIHRoaXMKPj4+
-PiBkZWFscyB3aXRoIHRoaXMgYnkgYXBwbHlpbmcgYSBtYXNrOgo+Pj4+Cj4+Pj4gCWJhc2VfdW5p
-dCAmPSAoYmFzZV91bml0X3JhbmdlIC0gMSk7Cj4+Pj4KPj4+PiBCdXQgdGhpcyBtZWFucyB0aGF0
-IHdlIGxldCB0aGUgdmFsdWUgb3ZlcmZsb3cgdGhlIHJhbmdlLCB3ZSB0aHJvdyBhd2F5IHRoZQo+
-Pj4+IGhpZ2hlciBiaXRzIGFuZCBzdG9yZSB3aGF0ZXZlciB2YWx1ZSBpcyBsZWZ0IGluIHRoZSBs
-b3dlciBiaXRzIGludG8gdGhlCj4+Pj4gcmVnaXN0ZXIgbGVhZGluZyB0byBhIHJhbmRvbSBvdXRw
-dXQgZnJlcXVlbmN5LCByYXRoZXIgdGhlbiBjbGFtcGluZyB0aGUKPj4+PiBvdXRwdXQgZnJlcXVl
-bmN5IHRvIHRoZSBoaWdoZXN0IGZyZXF1ZW5jeSB3aGljaCB0aGUgaGFyZHdhcmUgY2FuIGRvLgo+
-Pj4KPj4+IEl0IHdvdWxkIGJlIG5pY2UgdG8gaGF2ZSBhbiBleGFtcGxlIG9mIGNhbGN1bHVzIGhl
-cmUuCj4+Pgo+Pj4+IFRoaXMgY29tbWl0IGZpeGVzIGJvdGggaXNzdWVzIGJ5IGNsYW1waW5nIHRo
-ZSBiYXNlX3VuaXQgdmFsdWUgdG8gYmUKPj4+PiBiZXR3ZWVuIDEgYW5kIChiYXNlX3VuaXRfcmFu
-Z2UgLSAxKS4KPj4+Cj4+PiBFdmVudHVhbGx5IEkgc2F0IGFuZCB3cm90ZSBhbGwgdGhpcyBvbiBw
-YXBlci4gSSBzZWUgbm93IHRoYXQgdGhlIHByb2JsZW0KPj4+IGlzIGluIG91dCBvZiByYW5nZSBv
-ZiB0aGUgcGVyaW9kLiBBbmQgc3Ryb25nbHkgd2Ugc2hvdWxkIGNsYW1wIHJhdGhlciBwZXJpb2QK
-Pj4+IHRvIHRoZSBzdXBwb3J0ZWQgcmFuZ2UsIGJ1dCB5b3VyIHNvbHV0aW9uIGlzIGFuIGVxdWl2
-YWxlbnQuCj4+Cj4+IFJpZ2h0LCB0aGUgYWR2YW50YWdlIG9mIGRvaW5nIHRoZSBjbGFtcGluZyBv
-biB0aGUgcmVnaXN0ZXIgdmFsdWUgaXMgdGhhdCB3ZQo+PiBhdm9pZCBzb21lIHRyaWNreSBtYXRo
-IHdpdGggcG9zc2libGUgcm91bmRpbmcgZXJyb3JzIGFuZCB3aGljaCBpcyBkaWZmZXJlbnQKPj4g
-cGVyIGNvbnRyb2xsZXIgcmV2aXNpb24gYmVjYXVzZSB0aGUgbnVtYmVyIG9mIGJpdHMgaW4gdGhl
-IGJhc2UgdW5pdCBiZWluZwo+PiBkaWZmZXJlbnQgcGVyIGNvbnRyb2xsZXIgcmV2aXNpb24uCj4g
-Cj4gLi4uCj4gCj4+Pj4gKwliYXNlX3VuaXQgPSBjbGFtcF90KHVuc2lnbmVkIGxvbmcgbG9uZywg
-YmFzZV91bml0LCAxLAo+Pj4+ICsJCQkgICAgYmFzZV91bml0X3JhbmdlIC0gMSk7Cj4+Pgo+Pj4g
-QSBuaXQ6IG9uZSBsaW5lLgo+Pgo+PiBEb2Vzbid0IGZpdCBpbiA4MCBjaGFycywgSSBndWVzcyB3
-ZSBjb3VsZCBtYWtlIHRoaXMgb25lIGxpbmUgbm93IHdpdGggdGhlIG5ldyAxMDAgY2hhcnMKPj4g
-bGltaXQsIGJ1dCB0aGF0IGRvZXMgbWFrZSBpdCBoYXJkZXIgdG8gcmVhZCBmb3IgcGVvcGxlIHVz
-aW5nIHN0YW5kYXJkIHRlcm1pbmFsIHdpZHRocwo+PiBhbmQgYSB0ZXJtaW5hbCBiYXNlZCBlZGl0
-b3JzLiBTbyBJIHdvdWxkIHByZWZlciB0byBrZWVwIHRoaXMgYXMgaXMuCj4gCj4gWW91IGNhbiB1
-c2UgY2xhbXBfdmFsKCkuCgpJIGRpZCBub3Qga25vdyBhYm91dCB0aGF0LCB0aGF0IHdpbGwgd29y
-ayBuaWNlbHkgSSB3aWxsIHN3aXRjaCB0byBjbGFtcF92YWwKZm9yIHRoZSBuZXh0IHZlcnNpb24u
-IEkgYXNzdW1lIGl0IGlzIG9rIHRvIGtlZXAgeW91ciBSZXZpZXdlZC1ieSB3aXRoIHRoaXMKdmVy
-eSBtaW5vciBjaGFuZ2U/CgpSZWdhcmRzLAoKSGFucwoKPiAKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Check for errors instead of silently not using icc if the msm driver
+probes before the interconnect driver.
+
+Allow ENODATA for ocmem path, as it is optional and this error
+is returned when "gfx-mem" path is provided but not "ocmem".
+
+Remove the WARN_ON in msm_gpu_cleanup because INIT_LIST_HEAD won't have
+been called on the list yet when going through the defer error path.
+
+Changes in v2:
+* Changed to not only check for EPROBE_DEFER
+
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 ++++++++++++++---
+ drivers/gpu/drm/msm/msm_gpu.c           |  2 --
+ 2 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 89673c7ed473..0f5217202eb5 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -940,12 +940,20 @@ static int adreno_get_pwrlevels(struct device *dev,
+ 		 */
+ 		gpu->icc_path = of_icc_get(dev, NULL);
+ 	}
+-	if (IS_ERR(gpu->icc_path))
++	if (IS_ERR(gpu->icc_path)) {
++		ret = PTR_ERR(gpu->icc_path);
+ 		gpu->icc_path = NULL;
++		return ret;
++	}
+ 
+ 	gpu->ocmem_icc_path = of_icc_get(dev, "ocmem");
+-	if (IS_ERR(gpu->ocmem_icc_path))
++	if (IS_ERR(gpu->ocmem_icc_path)) {
++		ret = PTR_ERR(gpu->ocmem_icc_path);
+ 		gpu->ocmem_icc_path = NULL;
++		/* allow -ENODATA, ocmem icc is optional */
++		if (ret != -ENODATA)
++			return ret;
++	}
+ 
+ 	return 0;
+ }
+@@ -996,6 +1004,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 	struct adreno_platform_config *config = pdev->dev.platform_data;
+ 	struct msm_gpu_config adreno_gpu_config  = { 0 };
+ 	struct msm_gpu *gpu = &adreno_gpu->base;
++	int ret;
+ 
+ 	adreno_gpu->funcs = funcs;
+ 	adreno_gpu->info = adreno_info(config->rev);
+@@ -1007,7 +1016,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 
+ 	adreno_gpu_config.nr_rings = nr_rings;
+ 
+-	adreno_get_pwrlevels(&pdev->dev, gpu);
++	ret = adreno_get_pwrlevels(&pdev->dev, gpu);
++	if (ret)
++		return ret;
+ 
+ 	pm_runtime_set_autosuspend_delay(&pdev->dev,
+ 		adreno_gpu->info->inactive_period);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index a22d30622306..ccf9a0dd9706 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -959,8 +959,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+ 
+ 	DBG("%s", gpu->name);
+ 
+-	WARN_ON(!list_empty(&gpu->active_list));
+-
+ 	for (i = 0; i < ARRAY_SIZE(gpu->rb); i++) {
+ 		msm_ringbuffer_destroy(gpu->rb[i]);
+ 		gpu->rb[i] = NULL;
+-- 
+2.26.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
