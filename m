@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95962219EAB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 13:05:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E709219EB9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 13:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6062B6E418;
-	Thu,  9 Jul 2020 11:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6454C6EA44;
+	Thu,  9 Jul 2020 11:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64B366E418
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 11:05:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 541466EA43
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 11:05:52 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1594292709; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1594292754; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=ggRFkfl9YyLD7mY4oeLkJ+x3v/aJ3gbpkHLIEFZvpb4=;
- b=JfcSeetIGkeQxn0rMdi69ouytBOe8+Jj3r1HcponHmSBuPgd8JXGEXc/JFrPgonEXC/QnMBL
- 9Su+NDnq7FZuN0bdugLFB32hF2yR7ZpXM6c9NMG1BzJAtypG/eybVTuULSMb/4GIBu5+9Y/q
- /1GSWEsXKU1ZXS631YAuKeH1YFo=
+ bh=yxKB+f0iO9CExiHd4llgeNv4VdmTVWRtzF0m4fF95jk=;
+ b=fW3VAQtQmMdVv3SWlaeLissdq3M11em5H8h4A9JDARytug6wkJ1FuSFPQGP1k/Wm9Qjq6gZe
+ R0zmQgtfFuM8CEID3kclZIKOpgBSh0KZ1ZnSk6/xE1m6orOcMpx00nd0v6qpcDkUDxyglp90
+ C+H11R9tf5I8Hb7qhVscJEhT2AY=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n15.prod.us-west-2.postgun.com with SMTP id
- 5f06f9e50082b27848494cea (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Jul 2020 11:05:09
+ smtp-out-n14.prod.us-west-2.postgun.com with SMTP id
+ 5f06f9e8c431f7323b171330 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Jul 2020 11:05:12
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 230AFC43395; Thu,  9 Jul 2020 11:05:09 +0000 (UTC)
+ id 5EBEEC43395; Thu,  9 Jul 2020 11:05:12 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,9 +39,9 @@ Received: from blr-ubuntu-173.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: rnayak)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 8164CC433CB;
- Thu,  9 Jul 2020 11:05:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8164CC433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D95EAC433CA;
+ Thu,  9 Jul 2020 11:05:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D95EAC433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -49,10 +49,10 @@ Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 From: Rajendra Nayak <rnayak@codeaurora.org>
 To: robdclark@gmail.com, sean@poorly.run, agross@kernel.org,
  bjorn.andersson@linaro.org
-Subject: [PATCH v3 3/4] arm64: dts: sdm845: Add DSI and MDP OPP tables and
+Subject: [PATCH v3 4/4] arm64: dts: sc7180: Add DSI and MDP OPP tables and
  power-domains
-Date: Thu,  9 Jul 2020 16:34:33 +0530
-Message-Id: <1594292674-15632-4-git-send-email-rnayak@codeaurora.org>
+Date: Thu,  9 Jul 2020 16:34:34 +0530
+Message-Id: <1594292674-15632-5-git-send-email-rnayak@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1594292674-15632-1-git-send-email-rnayak@codeaurora.org>
 References: <1594292674-15632-1-git-send-email-rnayak@codeaurora.org>
@@ -84,59 +84,23 @@ scalable power domain.
 Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
 Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 ---
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 59 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 49 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index fee50d9..3efdd70 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -3296,6 +3296,35 @@
- 			#power-domain-cells = <1>;
- 		};
- 
-+		dsi_opp_table: dsi-opp-table {
-+			compatible = "operating-points-v2";
-+
-+			opp-19200000 {
-+				opp-hz = /bits/ 64 <19200000>;
-+				required-opps = <&rpmhpd_opp_min_svs>;
-+			};
-+
-+			opp-180000000 {
-+				opp-hz = /bits/ 64 <180000000>;
-+				required-opps = <&rpmhpd_opp_low_svs>;
-+			};
-+
-+			opp-275000000 {
-+				opp-hz = /bits/ 64 <275000000>;
-+				required-opps = <&rpmhpd_opp_svs>;
-+			};
-+
-+			opp-328580000 {
-+				opp-hz = /bits/ 64 <328580000>;
-+				required-opps = <&rpmhpd_opp_svs_l1>;
-+			};
-+
-+			opp-358000000 {
-+				opp-hz = /bits/ 64 <358000000>;
-+				required-opps = <&rpmhpd_opp_nom>;
-+			};
-+		};
-+
- 		mdss: mdss@ae00000 {
- 			compatible = "qcom,sdm845-mdss";
- 			reg = <0 0x0ae00000 0 0x1000>;
-@@ -3340,6 +3369,8 @@
- 						  <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
- 				assigned-clock-rates = <300000000>,
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index 2be81a2..1ce895f 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -2642,6 +2642,8 @@
+ 						       <19200000>,
+ 						       <19200000>,
  						       <19200000>;
 +				operating-points-v2 = <&mdp_opp_table>;
-+				power-domains = <&rpmhpd SDM845_CX>;
++				power-domains = <&rpmhpd SC7180_CX>;
  
  				interrupt-parent = <&mdss>;
  				interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-@@ -3364,6 +3395,30 @@
+@@ -2659,6 +2661,31 @@
  						};
  					};
  				};
@@ -144,47 +108,66 @@ index fee50d9..3efdd70 100644
 +				mdp_opp_table: mdp-opp-table {
 +					compatible = "operating-points-v2";
 +
-+					opp-19200000 {
-+						opp-hz = /bits/ 64 <19200000>;
-+						required-opps = <&rpmhpd_opp_min_svs>;
-+					};
-+
-+					opp-171428571 {
-+						opp-hz = /bits/ 64 <171428571>;
++					opp-200000000 {
++						opp-hz = /bits/ 64 <200000000>;
 +						required-opps = <&rpmhpd_opp_low_svs>;
 +					};
 +
-+					opp-344000000 {
-+						opp-hz = /bits/ 64 <344000000>;
++					opp-300000000 {
++						opp-hz = /bits/ 64 <300000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-345000000 {
++						opp-hz = /bits/ 64 <345000000>;
 +						required-opps = <&rpmhpd_opp_svs_l1>;
 +					};
 +
-+					opp-430000000 {
-+						opp-hz = /bits/ 64 <430000000>;
++					opp-460000000 {
++						opp-hz = /bits/ 64 <460000000>;
 +						required-opps = <&rpmhpd_opp_nom>;
++					};
++				};
++
+ 			};
+ 
+ 			dsi0: dsi@ae94000 {
+@@ -2682,6 +2709,9 @@
+ 					      "iface",
+ 					      "bus";
+ 
++				operating-points-v2 = <&dsi_opp_table>;
++				power-domains = <&rpmhpd SC7180_CX>;
++
+ 				phys = <&dsi_phy>;
+ 				phy-names = "dsi";
+ 
+@@ -2707,6 +2737,25 @@
+ 						};
+ 					};
+ 				};
++
++				dsi_opp_table: dsi-opp-table {
++					compatible = "operating-points-v2";
++
++					opp-187500000 {
++						opp-hz = /bits/ 64 <187500000>;
++						required-opps = <&rpmhpd_opp_low_svs>;
++					};
++
++					opp-300000000 {
++						opp-hz = /bits/ 64 <300000000>;
++						required-opps = <&rpmhpd_opp_svs>;
++					};
++
++					opp-358000000 {
++						opp-hz = /bits/ 64 <358000000>;
++						required-opps = <&rpmhpd_opp_svs_l1>;
 +					};
 +				};
  			};
  
- 			dsi0: dsi@ae94000 {
-@@ -3386,6 +3441,8 @@
- 					      "core",
- 					      "iface",
- 					      "bus";
-+				operating-points-v2 = <&dsi_opp_table>;
-+				power-domains = <&rpmhpd SDM845_CX>;
- 
- 				phys = <&dsi0_phy>;
- 				phy-names = "dsi";
-@@ -3450,6 +3507,8 @@
- 					      "core",
- 					      "iface",
- 					      "bus";
-+				operating-points-v2 = <&dsi_opp_table>;
-+				power-domains = <&rpmhpd SDM845_CX>;
- 
- 				phys = <&dsi1_phy>;
- 				phy-names = "dsi";
+ 			dsi_phy: dsi-phy@ae94400 {
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
