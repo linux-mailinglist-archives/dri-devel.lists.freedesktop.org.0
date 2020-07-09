@@ -1,40 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7D321996C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:08:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7255F21982A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 08:01:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B3D6EA3A;
-	Thu,  9 Jul 2020 07:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9AD76E9A5;
+	Thu,  9 Jul 2020 06:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 533 seconds by postgrey-1.36 at gabe;
- Thu, 09 Jul 2020 05:50:43 UTC
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D57576E9A5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 05:50:43 +0000 (UTC)
-Received: from [192.168.0.6] (ip5f5af27e.dynamic.kabel-deutschland.de
- [95.90.242.126])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5D15920646095;
- Thu,  9 Jul 2020 07:41:47 +0200 (CEST)
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Subject: drm: BUG: unable to handle page fault for address: 17ec6000
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- LKML <linux-kernel@vger.kernel.org>
-Message-ID: <10b8419e-9e98-56c4-f4ab-9463cccd8f60@molgen.mpg.de>
-Date: Thu, 9 Jul 2020 07:41:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC366E9A5;
+ Thu,  9 Jul 2020 06:01:10 +0000 (UTC)
+IronPort-SDR: wBz6suYqZdfgvynU5zkNtC4i0bmy6WdKkdPU1AHVXCWK7eSysaPM3JVstK2MU0NEnLMtOnBcEM
+ WT9VaZL4K2mg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="147017495"
+X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="147017495"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 23:01:09 -0700
+IronPort-SDR: qZbdFIyev7gInFNdNvZlM1CTTn1siqW7/DuCZboWIrRfxAeugtRdHqwKCsZafrcjB+33zxvAYT
+ WLGyN6jbaPEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="314851554"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga008.jf.intel.com with ESMTP; 08 Jul 2020 23:01:00 -0700
+Date: Thu, 9 Jul 2020 11:27:21 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v7 09/17] drm/i915: Don't fully disable HDCP on a port if
+ multiple pipes are using it
+Message-ID: <20200709055721.GB13481@intel.com>
+References: <20200623155907.22961-1-sean@poorly.run>
+ <20200623155907.22961-10-sean@poorly.run>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:06 +0000
+Content-Disposition: inline
+In-Reply-To: <20200623155907.22961-10-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,112 +51,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Chancellor <natechancellor@gmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ juston.li@intel.com, rodrigo.vivi@intel.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Linux folks,
-
-
-Building Linux v5.8-rc4-25-gbfe91da29bfad with Clang/LLD 
-1:11~++20200701093119+ffee8040534-1~exp1 from Debian experimental for 
-32-bit (`ARCH=i386`), starting Weston (Wayland) or X.Org Server results 
-in non-working screen, and Linux shows the trace below [1].
-
-> [  502.044997] BUG: unable to handle page fault for address: 17ec6000
-> [  502.045650] #PF: supervisor write access in kernel mode
-> [  502.046301] #PF: error_code(0x0002) - not-present page
-> [  502.046956] *pde = 00000000 
-> [  502.047612] Oops: 0002 [#1] SMP
-> [  502.048269] CPU: 0 PID: 2125 Comm: Xorg.wrap Not tainted 5.8.0-rc4-00105-g4da71f1ee6263 #141
-> [  502.048967] Hardware name: System manufacturer System Product Name/F2A85-M PRO, BIOS 6601 11/25/2014
-> [  502.049686] EIP: __srcu_read_lock+0x11/0x20
-> [  502.050413] Code: 83 e0 03 50 56 68 72 c6 99 dd 68 46 c6 99 dd e8 3a c8 fe ff 83 c4 10 eb ce 0f 1f 44 00 00 55 89 e5 8b 48 68 8b 40 7c 83 e1 01 <64> ff 04 88 f0 83 44 24 fc 00 89 c8 5d c3 90 0f 1f 44 00 00 55 89
-> [  502.052027] EAX: 00000000 EBX: f36671b8 ECX: 00000000 EDX: 00000286
-> [  502.052856] ESI: f3f94eb8 EDI: f3e51c00 EBP: f303dd9c ESP: f303dd9c
-> [  502.053695] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS: 00010246
-> [  502.054543] CR0: 80050033 CR2: 17ec6000 CR3: 2eea2000 CR4: 000406d0
-> [  502.055402] Call Trace:
-> [  502.056275]  drm_minor_acquire+0x6f/0x140 [drm]
-> [  502.057162]  drm_stub_open+0x2e/0x110 [drm]
-> [  502.058049]  chrdev_open+0xdd/0x1e0
-> [  502.058937]  do_dentry_open+0x21d/0x330
-> [  502.059828]  vfs_open+0x23/0x30
-> [  502.060718]  path_openat+0x947/0xd60
-> [  502.061610]  ? unlink_anon_vmas+0x53/0x120
-> [  502.062504]  do_filp_open+0x6d/0x100
-> [  502.063404]  ? __alloc_fd+0x73/0x140
-> [  502.064305]  do_sys_openat2+0x1b3/0x2a0
-> [  502.065217]  __ia32_sys_openat+0x90/0xb0
-> [  502.066128]  ? prepare_exit_to_usermode+0xa/0x20
-> [  502.067046]  do_fast_syscall_32+0x68/0xd0
-> [  502.067970]  do_SYSENTER_32+0x12/0x20
-> [  502.068902]  entry_SYSENTER_32+0x9f/0xf2
-> [  502.069839] EIP: 0xb7ef14f9
-> [  502.070764] Code: Bad RIP value.
-> [  502.071689] EAX: ffffffda EBX: ffffff9c ECX: bfa6a2ac EDX: 00008002
-> [  502.072654] ESI: 00000000 EDI: b7ed1000 EBP: bfa6b2c8 ESP: bfa6a1c0
-> [  502.073630] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00000246
-> [  502.074615] Modules linked in: af_packet k10temp r8169 realtek i2c_piix4 snd_hda_codec_realtek snd_hda_codec_generic ohci_pci ohci_hcd ehci_pci snd_hda_codec_hdmi ehci_hcd radeon i2c_algo_bit snd_hda_intel ttm snd_intel_dspcfg snd_hda_codec drm_kms_helper snd_hda_core snd_pcm cfbimgblt cfbcopyarea cfbfillrect snd_timer sysimgblt syscopyarea sysfillrect snd fb_sys_fops xhci_pci xhci_hcd soundcore acpi_cpufreq drm drm_panel_orientation_quirks agpgart ipv6 nf_defrag_ipv6
-> [  502.077895] CR2: 0000000017ec6000
-> [  502.079050] ---[ end trace ced4517b63a6db26 ]---
-> [  502.080214] EIP: __srcu_read_lock+0x11/0x20
-> [  502.081392] Code: 83 e0 03 50 56 68 72 c6 99 dd 68 46 c6 99 dd e8 3a c8 fe ff 83 c4 10 eb ce 0f 1f 44 00 00 55 89 e5 8b 48 68 8b 40 7c 83 e1 01 <64> ff 04 88 f0 83 44 24 fc 00 89 c8 5d c3 90 0f 1f 44 00 00 55 89
-> [  502.083891] EAX: 00000000 EBX: f36671b8 ECX: 00000000 EDX: 00000286
-> [  502.085148] ESI: f3f94eb8 EDI: f3e51c00 EBP: f303dd9c ESP: f303dd9c
-> [  502.086406] DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068 EFLAGS: 00010246
-> [  502.087675] CR0: 80050033 CR2: 17ec6000 CR3: 2eea2000 CR4: 000406d0
-
-> $ dmesg | ./scripts/decodecode
-> [ 55.784870] Code: 83 e0 03 50 56 68 ca c6 99 cf 68 9e c6 99 cf e8 3a c8 fe ff 83 c4 10 eb ce 0f 1f 44 00 00 55 89 e5 8b 48 68 8b 40 7c 83 e1 01 <64> ff 04 88 f0 83 44 24 fc 00 89 c8 5d c3 90 0f 1f 44 00 00 55 89
-> All code
-> ========
->    0:	83 e0 03             	and    $0x3,%eax
->    3:	50                   	push   %eax
->    4:	56                   	push   %esi
->    5:	68 ca c6 99 cf       	push   $0xcf99c6ca
->    a:	68 9e c6 99 cf       	push   $0xcf99c69e
->    f:	e8 3a c8 fe ff       	call   0xfffec84e
->   14:	83 c4 10             	add    $0x10,%esp
->   17:	eb ce                	jmp    0xffffffe7
->   19:	0f 1f 44 00 00       	nopl   0x0(%eax,%eax,1)
->   1e:	55                   	push   %ebp
->   1f:	89 e5                	mov    %esp,%ebp
->   21:	8b 48 68             	mov    0x68(%eax),%ecx
->   24:	8b 40 7c             	mov    0x7c(%eax),%eax
->   27:	83 e1 01             	and    $0x1,%ecx
->   2a:*	64 ff 04 88          	incl   %fs:(%eax,%ecx,4)		<-- trapping instruction
->   2e:	f0 83 44 24 fc 00    	lock addl $0x0,-0x4(%esp)
->   34:	89 c8                	mov    %ecx,%eax
->   36:	5d                   	pop    %ebp
->   37:	c3                   	ret    
->   38:	90                   	nop
->   39:	0f 1f 44 00 00       	nopl   0x0(%eax,%eax,1)
->   3e:	55                   	push   %ebp
->   3f:	89                   	.byte 0x89
+On 2020-06-23 at 11:58:59 -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Code starting with the faulting instruction
-> ===========================================
->    0:	64 ff 04 88          	incl   %fs:(%eax,%ecx,4)
->    4:	f0 83 44 24 fc 00    	lock addl $0x0,-0x4(%esp)
->    a:	89 c8                	mov    %ecx,%eax
->    c:	5d                   	pop    %ebp
->    d:	c3                   	ret    
->    e:	90                   	nop
->    f:	0f 1f 44 00 00       	nopl   0x0(%eax,%eax,1)
->   14:	55                   	push   %ebp
->   15:	89                   	.byte 0x89
+> This patch is required for HDCP over MST. If a port is being used for
+> multiple HDCP streams, we don't want to fully disable HDCP on a port if
+> one of them is disabled. Instead, we just disable the HDCP signalling on
+> that particular pipe and exit early. The last pipe to disable HDCP will
+> also bring down HDCP on the port.
+> 
+> In order to achieve this, we need to keep a refcount in intel_digital_port
+> and protect it using a new hdcp_mutex.
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-8-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-9-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-9-sean@poorly.run #v3
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-9-sean@poorly.run #v4
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-9-sean@poorly.run #v5
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-9-sean@poorly.run #v6
+> 
+> Changes in v2:
+> -Move the toggle_signalling call into _intel_hdcp_disable so it's called from check_work
+> Changes in v3:
+> -None
+> Changes in v4:
+> -None
+> Changes in v5:
+> -Change WARN_ON to drm_WARN_ON
+> Changes in v6:
+> -None
+> Changes in v7:
+> -Split minor intel_hdcp_disable refactor into separate patch (Ramalingam)
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |  3 ++
+>  .../drm/i915/display/intel_display_types.h    |  5 +++
+>  drivers/gpu/drm/i915/display/intel_dp.c       |  2 ++
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     | 33 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     |  2 ++
+>  5 files changed, 45 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 4153a0d1e07d..536299f902b9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4884,6 +4884,9 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+>  	drm_encoder_init(&dev_priv->drm, &encoder->base, &intel_ddi_funcs,
+>  			 DRM_MODE_ENCODER_TMDS, "DDI %c", port_name(port));
+>  
+> +	mutex_init(&intel_dig_port->hdcp_mutex);
+> +	intel_dig_port->num_hdcp_streams = 0;
+> +
+>  	encoder->hotplug = intel_ddi_hotplug;
+>  	encoder->compute_output_type = intel_ddi_compute_output_type;
+>  	encoder->compute_config = intel_ddi_compute_config;
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index fc0befd55420..1503403a808b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1410,6 +1410,11 @@ struct intel_digital_port {
+>  	enum phy_fia tc_phy_fia;
+>  	u8 tc_phy_fia_idx;
+>  
+> +	/* protects num_hdcp_streams reference count */
+> +	struct mutex hdcp_mutex;
+> +	/* the number of pipes using HDCP signalling out of this port */
+> +	unsigned int num_hdcp_streams;
+> +
+>  	void (*write_infoframe)(struct intel_encoder *encoder,
+>  				const struct intel_crtc_state *crtc_state,
+>  				unsigned int type,
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index d0fea51f5dec..d98e45a09c28 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -8276,6 +8276,8 @@ bool intel_dp_init(struct drm_i915_private *dev_priv,
+>  	intel_encoder = &intel_dig_port->base;
+>  	encoder = &intel_encoder->base;
+>  
+> +	mutex_init(&intel_dig_port->hdcp_mutex);
+> +
+>  	if (drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
+>  			     &intel_dp_enc_funcs, DRM_MODE_ENCODER_TMDS,
+>  			     "DP %c", port_name(port)))
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 16bf0fbe5f17..5679877c6b4c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -801,6 +801,19 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
+>  	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being disabled...\n",
+>  		    connector->base.name, connector->base.base.id);
+>  
+> +	/*
+> +	 * If there are other connectors on this port using HDCP, don't disable
+> +	 * it. Instead, toggle the HDCP signalling off on that particular
+> +	 * connector/pipe and exit.
+> +	 */
+> +	if (intel_dig_port->num_hdcp_streams > 0) {
+> +		ret = hdcp->shim->toggle_signalling(intel_dig_port,
+> +						    cpu_transcoder, false);
+Sean,
 
+Toggling for DP SST was empty. For MST also HW spec doesn't say the bit
+is applicable (This bit is ignored when not in HDMI or DVI modes.)
 
-Kind regards,
+Is there anywhere you saw this is needed for MST?
 
-Paul
+Leaving this discussion for mst shim implementation patch 17/17, and considering
+this function is dummy as it was for DP SST,
 
-
-[1]: https://github.com/ClangBuiltLinux/linux/issues/1081
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> +		if (ret)
+> +			DRM_ERROR("Failed to disable HDCP signalling\n");
+> +		return ret;
+> +	}
+> +
+>  	hdcp->hdcp_encrypted = false;
+>  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
+>  	if (intel_de_wait_for_clear(dev_priv,
+> @@ -880,6 +893,8 @@ static struct intel_connector *intel_hdcp_to_connector(struct intel_hdcp *hdcp)
+>  static void intel_hdcp_update_value(struct intel_connector *connector,
+>  				    u64 value, bool update_property)
+>  {
+> +	struct drm_device *dev = connector->base.dev;
+> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  
+>  	drm_WARN_ON(connector->base.dev, !mutex_is_locked(&hdcp->mutex));
+> @@ -887,6 +902,15 @@ static void intel_hdcp_update_value(struct intel_connector *connector,
+>  	if (hdcp->value == value)
+>  		return;
+>  
+> +	drm_WARN_ON(dev, !mutex_is_locked(&intel_dig_port->hdcp_mutex));
+> +
+> +	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> +		if (!drm_WARN_ON(dev, intel_dig_port->num_hdcp_streams == 0))
+> +			intel_dig_port->num_hdcp_streams--;
+> +	} else if (value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> +		intel_dig_port->num_hdcp_streams++;
+> +	}
+> +
+>  	hdcp->value = value;
+>  	if (update_property) {
+>  		drm_connector_get(&connector->base);
+> @@ -905,6 +929,8 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+>  	int ret = 0;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&intel_dig_port->hdcp_mutex);
+> +
+>  	cpu_transcoder = hdcp->cpu_transcoder;
+>  
+>  	/* Check_link valid only when HDCP1.4 is enabled */
+> @@ -958,6 +984,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+>  	}
+>  
+>  out:
+> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	return ret;
+>  }
+> @@ -2057,6 +2084,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  		      enum transcoder cpu_transcoder, u8 content_type)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	unsigned long check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
+>  	int ret = -EINVAL;
+> @@ -2065,6 +2093,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  		return -ENOENT;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&intel_dig_port->hdcp_mutex);
+>  	drm_WARN_ON(&dev_priv->drm,
+>  		    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
+>  	hdcp->content_type = content_type;
+> @@ -2099,12 +2128,14 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  					true);
+>  	}
+>  
+> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	return ret;
+>  }
+>  
+>  int intel_hdcp_disable(struct intel_connector *connector)
+>  {
+> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	int ret = 0;
+>  
+> @@ -2112,6 +2143,7 @@ int intel_hdcp_disable(struct intel_connector *connector)
+>  		return -ENOENT;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&intel_dig_port->hdcp_mutex);
+>  
+>  	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
+>  		goto out;
+> @@ -2124,6 +2156,7 @@ int intel_hdcp_disable(struct intel_connector *connector)
+>  		ret = _intel_hdcp_disable(connector);
+>  
+>  out:
+> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	cancel_delayed_work_sync(&hdcp->check_work);
+>  	return ret;
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index ab7bddf0dfdc..a59acfff456e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -3331,6 +3331,8 @@ void intel_hdmi_init(struct drm_i915_private *dev_priv,
+>  
+>  	intel_encoder = &intel_dig_port->base;
+>  
+> +	mutex_init(&intel_dig_port->hdcp_mutex);
+> +
+>  	drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
+>  			 &intel_hdmi_enc_funcs, DRM_MODE_ENCODER_TMDS,
+>  			 "HDMI %c", port_name(port));
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
