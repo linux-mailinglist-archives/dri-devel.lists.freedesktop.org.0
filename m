@@ -2,32 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5334221B0B6
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495C621A505
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 18:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E915F6EBB0;
-	Fri, 10 Jul 2020 07:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202C96E42D;
+	Thu,  9 Jul 2020 16:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 378 seconds by postgrey-1.36 at gabe;
- Fri, 10 Jul 2020 00:07:46 UTC
-Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE3D6EB55
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 00:07:46 +0000 (UTC)
-Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id 031FB60D19;
- Fri, 10 Jul 2020 00:01:26 +0000 (UTC)
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v3 0/6] Generic USB Display driver
-Date: Thu,  9 Jul 2020 18:32:35 +0200
-Message-Id: <20200709163235.360054-1-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200529175643.46094-1-noralf@tronnes.org>
-References: <20200529175643.46094-1-noralf@tronnes.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 525456E42D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 16:44:05 +0000 (UTC)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1F8172077D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 16:44:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594313045;
+ bh=L7QAL8lLLumFtYMjQECXrFQsCftj7J1a3RLe7kGg4jE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Sr9bqUrUJxcwi5HS1CgSWWGaqFMTqqcOY8byhe06CPkksoKQvMLzFgC0iVZoWUGuC
+ 12SSqbhZNMN7Edmkf4m/TDZaS+lNdJ9L1nca37gu9xoki6klAu+9wmNMFD2hgTEFTR
+ H5I1clHpa4/DGUI+mNJmjebu7pVIGSaiopXDA0Go=
+Received: by mail-oi1-f169.google.com with SMTP id t198so2394748oie.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 09:44:05 -0700 (PDT)
+X-Gm-Message-State: AOAM533F4Df4EhIyxAtWy35jZvC2p+DO8zFsTrhxRP+iaefXdCjjnUt9
+ ojTmi5a0yoz8FSWD8zprcf2ajXbulDEXrOqifA==
+X-Google-Smtp-Source: ABdhPJwuJLOgE4dZrJb/0wVo3GpaQESIDFZRLbjdN78LiqQVgkh5D4In9QEr2TPSL5gQzegA25PHztiQWy7EmbrkWy4=
+X-Received: by 2002:aca:30d2:: with SMTP id w201mr810251oiw.147.1594313044489; 
+ Thu, 09 Jul 2020 09:44:04 -0700 (PDT)
 MIME-Version: 1.0
-X-TUID: fTJ4QzHEkCkU
-X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
+References: <20200704143544.789345-1-sam@ravnborg.org>
+ <20200704143544.789345-2-sam@ravnborg.org>
+ <CAMuHMdXWXk=QUbpFeX6bjwp+JWKgHqiQALTdQJgSgwBRkyvkRA@mail.gmail.com>
+ <20200704212615.GA1693435@ravnborg.org>
+In-Reply-To: <20200704212615.GA1693435@ravnborg.org>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 9 Jul 2020 10:43:53 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+T8QZmH3RSx-mj_HPE0qW0pemRE6rYV9-QEbooa-oiVg@mail.gmail.com>
+Message-ID: <CAL_Jsq+T8QZmH3RSx-mj_HPE0qW0pemRE6rYV9-QEbooa-oiVg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] dt-bindings: fix simple-framebuffer example
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,53 +56,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpPbiAyOSBNYXkgMjAyMCBOb3JhbGYgVHLDuG5uZXMgd3JvdGU6Ci4uLgo+IFRoaXMg
-c2VyaWVzIGFkZHMgYSBVU0IgaG9zdCBkcml2ZXIgYW5kIGEgZGV2aWNlL2dhZGdldCBkcml2ZXIg
-dG8gYWNoaWV2ZQo+IHRoYXQuCj4gCj4gVGhlIHJlYXNvbiBmb3IgY2FsbGluZyBpdCAnR2VuZXJp
-YycgaXMgc28gYW55b25lIGNhbiBtYWtlIGEgVVNCCj4gZGlzcGxheS9hZGFwdGVyIGFnYWluc3Qg
-dGhpcyBkcml2ZXIsIGFsbCB0aGF0J3MgbmVlZGVkIGlzIHRvIGFkZCBhIFVTQgo+IHZpZDpwaWQu
-IEkgaGF2ZSBkb25lIGEgbWljcm9jb250cm9sbGVyIGltcGxlbWVudGF0aW9uIGhhY2sganVzdCB0
-byBzZWUKPiBob3cgdGhhdCB3b3VsZCB3b3JrIG91dFsxXSAod2hpY2ggdW5jb252ZXJlZCBhIGNv
-dXBsZSBvZiBidWdzIGluIHRoZQo+IGhvc3QgZHJpdmVyKS4KLi4uCgpUaGlzIGlzIGFjdHVhbGx5
-IHZlcnkgY29vbDsgZmluYWxseSBhIGdvb2Qgd2F5IHRvIGRyaXZlIHRoZSBjaGVhcG8KU1BJL0ky
-QyBkaXNwbGF5cyBmcm9tIGNvbXB1dGVycyB3aG9zZSBvbmx5IG1lYW5zIG9mIGV4cGFuc2lvbiBp
-cyBVU0IKd2l0aCBhIGxpdHRsZSBoZWxwIGZyb20gYSBtaWNyb2NvbnRyb2xsZXIuIEkndmUgYWN0
-dWFsbHkgaGFkIHNvbWUKc3VjY2VzcyBkb2luZyBqdXN0IHRoYXQgWzFdLgoKWzFdIGh0dHBzOi8v
-YXNzZXRzLm9jdG9kb24uc29jaWFsL21lZGlhX2F0dGFjaG1lbnRzL2ZpbGVzLzAwOS85ODMvOTYw
-L29yaWdpbmFsLzY0YWQ4ZWE0NmMxYjA2YzUuanBnCgpJIHN1cHBvc2UgeW91IGNhbiBhZGQ6CgpU
-ZXN0ZWQtYnk6IEx1Ym9taXIgUmludGVsIDxsa3VuZHJha0B2My5zaz4KCkkndmUgaGFkIHRvIGp1
-bXAgdGhyb3VnaCBzb21lIGhvb3BzIHRob3VnaC4KCk15IE9MRUQgZGlzcGxheSBpcyBhIDEyOHg2
-NCBTU0QxMzA2IFsxXSBkcml2ZW4gZnJvbSB0aGUgU1BJIGJ1cy4gVGhlIGZyYW1lCmJ1ZmZlciBT
-UkFNIGlzIG5vcm1hbGx5IHNjYW5uZWQgb3V0IGluIHN0cmlwZXMgb2YgOCB2ZXJ0aWNhbCBwaXhl
-bHMgY2FsbGVkCiJwYWdlcyIuIFdoZW4gdGhlIGRpc3BsYXkgaXMgdHVybmVkIG9uIGl0cyBzaWRl
-LCB3aXRoICJ2ZXJ0aWNhbAphZGRyZXNzaW5nIG1vZGUiIGFuZCAic2VnbWVudCByZW1hcHBpbmci
-IGVuYWJsZWQgYW5kIGJ5dGVzIGJlaW5nIHNlbnQgTFNCCmZpcnN0LCBpdCBhcHBlYXJzIGxpbmVh
-ciAtLSBpdCdzIGVhc3kgdG8gcmVwYWludCB0aGUgd2hvbGUgZGlzcGxheSBmcm9tCndoYXQgaXMg
-bm93IHRoZSB0b3AgbGVmdCBjb3JuZXIgdG8gdGhlIGJvdHRvbSByaWdodC4gVGhpcyBpcyB2ZXJ5
-CmNvbnZlbmllbnQgZm9yIHBhaW50aW5nIHBpeGVscyBhcyB0aGV5IGNvbWUsIHdpdGhvdXQgYnVm
-ZmVycmluZyB0aGVtIG9yCmRvaW5nIGFueSBjb252ZXJzaW9ucyAoYXNzdW1pbmcgdGhhdCBtZW1v
-cnkgYW5kIGNwdSBjeWNsZXMgYXJlIGF0CnByZW1pdW0gb24gTUNVcykuCgpbMV0gaHR0cHM6Ly9j
-ZG4tc2hvcC5hZGFmcnVpdC5jb20vZGF0YXNoZWV0cy9TU0QxMzA2LnBkZgoKVGhlcmUgZG9lc24n
-dCBzZWVtIGEgY29tZm9ydGFibGUgd2F5IHRvIGRvIHBhcnRpYWwgcmVkcmF3cyB0aG91Z2guIFdv
-dWxkCnlvdSBmaW5kIGl0IG9iamVjdGlvbmFibGUgaWYgdGhlIGRldmljZSBjb3VsZCBpbmRpY2F0
-ZSB0aGF0IG5lZWRzIGZ1bGwKZnJhbWVzIGluc3RlYWQgb2YganVzdCB0aGUgZGFtYWdlZCBhcmVh
-cz8gUGVyaGFwcyB0aGVuIHRoZSBkcml2ZXIKd291bGRuJ3QgZXZlbiBuZWVkIHRvIGJvdGhlciBp
-c3N1aW5nIEdVRF9EUk1fVVNCX1JFUV9TRVRfQlVGRkVSIHRvCmRpc3BsYXlzIGR1bWIgZW5vdWdo
-IHRvIGJlIGluY2FwYWJsZSBvZiBwYXJ0aWFsIHJlZHJhd3MgYW5kIGRlY29tcHJlc3Npb24uCgpN
-eSB3b3JrLWluLXByb2dyZXNzIGNvZGUgdGhhdCB3b3JrcyBvbiBTVE0zMkYxMDMgKGUuZy4gIkJs
-dWUgUGlsbCIKYm9hcmRzKSwgb3IgR0QzMlZGMTAzIChSSVNDLVYgIlBvbG9zIEFsZWYiKSBpcyBh
-dCBbMl0uIFRoZSBwYXJ0aWFsIHJlZHJhd3MKdGhhdCBkb24ndCBzdGFydCBmcm9tIGNvbHVtbiB6
-ZXJvIG9yIGFyZSBub3QgInBhZ2UgYWxpZ25lZCIgZG9uJ3Qgd29yawpjb3JyZWN0bHkgZm9yIHRo
-ZSB0aW1lIGJlaW5nOyBYMTEgZG9lc24ndCBzZWVtIHRvIGNhcmUuCgpbMl0gaHR0cHM6Ly9naXRo
-dWIuY29tL2hhY2tlcnNwYWNlL2xpYm9wZW5jbTMtZ2YzMnYtZXhhbXBsZXMvdHJlZS9sci9nZDMy
-di9leGFtcGxlcy9nZDMydi9mMTAzL3BvbG9zLWFsZWYvdXNiLWRpc3BsYXkKClRoYW5rIHlvdSEK
-THVibwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Sat, Jul 4, 2020 at 3:26 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> On Sat, Jul 04, 2020 at 11:03:21PM +0200, Geert Uytterhoeven wrote:
+> > Hi Sam,
+> >
+> > Thanks for your patch!
+> >
+> > On Sat, Jul 4, 2020 at 4:37 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > > Now that dt-extract-example gained support for using root nodes
+> > > in examples, update the example for the simple-frambuffer binding to use it.
+> >
+> > simple-framebuffer
+> Thanks, will fix.
+>
+> >
+> > > This gives us a better example and kill a long standing warning:
+> > >
+> > > simple-framebuffer.example.dts:23.16-39.11:
+> > > Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+> > >
+> > > Note: To get the update dt-extract-example execute:
+> > > pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> >
+> > > --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+> > > @@ -152,28 +152,29 @@ additionalProperties: false
+> > >
+> > >  examples:
+> > >    - |
+> > > -    aliases {
+> > > -      display0 = &lcdc0;
+> >
+> > Why drop the aliases example?
+> I did not see it had any value for the binding that the example shall
+> demonstrate. But it was not somthing I have given much thought of.
+
+I don't think anything actually supports 'display' aliases and it is
+beyond the scope of this binding, so I'd drop.
+
+stdout-path should be dropped too as it points to this.
+
+Rob
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
