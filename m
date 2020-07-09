@@ -1,40 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D72221A389
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 17:23:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1AE21A3BF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 17:29:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE9B6EA9F;
-	Thu,  9 Jul 2020 15:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADFE56EAA4;
+	Thu,  9 Jul 2020 15:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8C16E0BA;
- Thu,  9 Jul 2020 15:23:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 65A69804C8;
- Thu,  9 Jul 2020 17:23:16 +0200 (CEST)
-Date: Thu, 9 Jul 2020 17:23:14 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v4 00/15] acpi/pwm/i915: Convert pwm-crc and i915
- driver's PWM code to use the atomic PWM API
-Message-ID: <20200709152314.GA233132@ravnborg.org>
-References: <20200708211432.28612-1-hdegoede@redhat.com>
- <20200709141407.GA226971@ravnborg.org>
- <fb370663-9efe-a820-2e57-d43d3af7828c@redhat.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2089.outbound.protection.outlook.com [40.107.94.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6C5F6EAA4;
+ Thu,  9 Jul 2020 15:29:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jOakvMtC0JX6cIGokuQ3AM7eeWNHl+QJ4QM7Dc9jKKmN+vLNEWZDZg8ukkyxX0wXkh6CDaSR8DuLBB+sdMVYRL49NUWP6/PRYRc8AUgJ/kyjDpcVpnIZ+gEle7jKUpluFgBFsrnDPGBd3mWVN0aUgTIg7YAw/QMMUgUzBe8Axk+bF4ubI/SM1u0tpUu88i6uAol+JFHGZPIlSUaTDtZVjBc5FEaercis3MivGPUKxuCEA6oTWdozHNuVQ07UeWn2gExdsVrno4rJ4rsX7oU/yJoMMqqyRdX0ZdTPE1OlVsGaJ8WGi7NfbfAfgvtoYDeWmSs0h6ABvrZZdTQ3XrKiwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=suTzSnZsE1KQaA/wBnVpZddD+AvwRAF9fo/vs/xhDFI=;
+ b=AXjFFEBUr6Ni+f3H2wrnQcSz0OvgzwBcaJIkWqp3j0oxZug0AZljChdJkXjcahlMpU5PpPOHbESl6rrDwfWPAo534QZENRZK30Gq4e/GLc98pdXJ7xUT+mS6KNWnKMGxZWNpA1QCwm1BLndpfpvyvaCoUFMBHiJwFzNFk/fAezNWcjuykYGovyRz6Gmwn5fcexr/x/STA5BzveebKbCeZeUlusjxf2VovG07xgGh6peaN7DYeuXWhl9If1Gtdo+7FFtZuox3VfAHOTuH0KXNo9E/nSXChS6h/TLUZ6W/YfLzSSJfZQ9cGBA7lDmtlUTWYXmmXd2iwemJbGetOESw6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=suTzSnZsE1KQaA/wBnVpZddD+AvwRAF9fo/vs/xhDFI=;
+ b=E8asmluCZckA3s7lJlQxVEBJDMZeYRFxUu+xWwH4hLEHqjZho+8DME4jVv6/0BOPxLMFGwQQ99b0gbG7vrCR2xANjN3OwxvY7ANjkD0DKGqvgliOa3eTxn6LOZzZ9wxKtEQ16jUp33UUnzM/EOHHUzLbOotB5w9nZM4eFv/SmRk=
+Received: from BL0PR12MB2433.namprd12.prod.outlook.com (2603:10b6:207:4a::25)
+ by BL0PR12MB2820.namprd12.prod.outlook.com (2603:10b6:208:80::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.23; Thu, 9 Jul
+ 2020 15:29:31 +0000
+Received: from BL0PR12MB2433.namprd12.prod.outlook.com
+ ([fe80::8884:f5cd:cc08:b29a]) by BL0PR12MB2433.namprd12.prod.outlook.com
+ ([fe80::8884:f5cd:cc08:b29a%7]) with mapi id 15.20.3174.021; Thu, 9 Jul 2020
+ 15:29:31 +0000
+From: "Chauhan, Madhav" <Madhav.Chauhan@amd.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 1/2] drm/ttm: further cleanup ttm_mem_reg handling
+Thread-Topic: [PATCH 1/2] drm/ttm: further cleanup ttm_mem_reg handling
+Thread-Index: AQHWVgMDn7XSE6PB9EKzW8eh1QEN+qj/XpuQ
+Date: Thu, 9 Jul 2020 15:29:31 +0000
+Message-ID: <BL0PR12MB24332E804B87B282F3F112FD9C640@BL0PR12MB2433.namprd12.prod.outlook.com>
+References: <20200709150956.2218-1-christian.koenig@amd.com>
+In-Reply-To: <20200709150956.2218-1-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-07-09T15:26:35Z; 
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=863f5da1-a6fc-4cd4-9a89-00003cf9dd1b;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_enabled: true
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_setdate: 2020-07-09T15:29:28Z
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_method: Privileged
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_name: Public_0
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_actionid: daa79fd8-01a9-4653-8421-000016f7b32d
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_contentbits: 0
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [122.172.189.183]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 5d7af85d-86e4-419a-2177-08d8241ce056
+x-ms-traffictypediagnostic: BL0PR12MB2820:
+x-microsoft-antispam-prvs: <BL0PR12MB2820B17C1C49ADC0FAE4AB979C640@BL0PR12MB2820.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-forefront-prvs: 04599F3534
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nVM38tbMyDnUaT3v8uZ1BlXDsB7cPVNPBfIose6gn53SJo3/4tYehltmaVFDh5Nmrm9aAZIhD3L0L8HvdMPYibU2cbhrO4/5P0oJaD6BCK3mQUgdSz3v3iuiVgeNRkSnOynPkRGsRLFY9P4NCEqG3yNk/BY2EfgS3lVU3JobZr1ZyuhYVzG898JDE5d0IXR9mAwLLN6K0/KnQgaXt+DmgJJxsTHKCK6e1RYFjbHXU3Pn0iMdt60BCbSHya+MG5OC8fbyC8Qu1TWjMr7mBIG1fItgiiy6D252YXKTZpaMCkdi1t4fmRf38welzOOs4JRg5My9HfmjXH20XWGE+1SuDg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB2433.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39860400002)(366004)(396003)(376002)(346002)(5660300002)(8676002)(55016002)(86362001)(33656002)(316002)(110136005)(8936002)(9686003)(26005)(83380400001)(52536014)(7696005)(478600001)(76116006)(64756008)(66556008)(66446008)(66476007)(66574015)(66946007)(186003)(71200400001)(55236004)(53546011)(6506007)(2906002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: JnuQP3Y5RWmjxtmH2NQeXf2P1bxL9vGGaAt8l4ySuxGAsstBXLqRZIKZUj5/dE3M9hn8WrwYBFS1ys1smGZUV3vWg+7tEduPt075Dwc5Db4H3CoIXRubl/Vd/tb+VARoE65tEAPof1iDZzcwm7Ad52e7UNqM/5u1V3tDDawjIHPawcMJLyMRNyf/bHFyBnUwWJ2EFPa97dGMyhvVvMJy9fPqQU8lBg0Ssh7K8vJ4iI/bxE+Jx7nl+xefgmegRd39LK9Dja2yeUK/Pf32hFAfGZGeeiDturObTPeUpZIMLWhmaDold9v72uNDy5eAa5HcF4MKx/s0BYUnJu4dia7Go6H6rmZqszsqhk6FnnQjV2uBsaFJkD+lvK0JvqAW9Wj2bCcYi3J1WMNO/zHU1N/2NvSDsKn2GXuIk4IZgJ8alhNXyhfgFmzkH6Hi2+qSlqMnTwFBlXMYHc1QYwMQZYaJlw41OtSYd5XYWcffkkuGJJ5ROZxvVoewVgW8/Bmi54qB
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <fb370663-9efe-a820-2e57-d43d3af7828c@redhat.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=ISncdtaFCDb5yrYJnEIA:9
- a=U5XkNeA9I98Y5_jT:21 a=nvJk_VNiUKGhWGwL:21 a=CjuIK1q_8ugA:10
- a=Vxmtnl_E_bksehYqCbjh:22
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2433.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d7af85d-86e4-419a-2177-08d8241ce056
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2020 15:29:31.3580 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: d9Wg3KT+BvEvhUd+ivaVPrlPqnhmZ6aGFjB5QblzfRHb2rzn5iMSZ/2JsafM+bis6aY0LhGLZ3USr1He9SD+CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2820
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,137 +109,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Thu, Jul 09, 2020 at 04:40:56PM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 7/9/20 4:14 PM, Sam Ravnborg wrote:
-> > Hi Hans.
-> > 
-> > On Wed, Jul 08, 2020 at 11:14:16PM +0200, Hans de Goede wrote:
-> > > Hi All,
-> > > 
-> > > Here is v4 of my patch series converting the i915 driver's code for
-> > > controlling the panel's backlight with an external PWM controller to
-> > > use the atomic PWM API. See below for the changelog.
-> > 
-> > Why is it that i915 cannot use the pwm_bl driver for backlight?
-> > I have not studied the code - just wondering.
-> 
-> The intel_panel.c code deals with 7 different types of PWM controllers
-> which are built into the GPU + support for external PWM controllers
-> through the kernel's PWM subsystem.
-> 
-> pwm_bl will work for the external PWM controller case, but not for
-> the others. On top of that the intel_panel code integrates which
-> the video BIOS, getting things like frequency, minimum value
-> and if the range is inverted (0% duty == backlight brightness max).
-> I'm not even sure if pwm_bl supports all of this, but even if it
-> does the intel_panel code handles this in a unified manner for
-> all supported PWM controllers, including the ones which are
-> an integral part of the GPU.
-
-Thanks for the explanation.
-This is a more complicated world than the usual embedded case with a
-single pwm, no BIOS etc. So it makes sense.
-
-	Sam
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> > > Initially the plan was for this series to consist of 2 parts:
-> > > 1. convert the pwm-crc driver to support the atomic PWM API and
-> > > 2. convert the i915 driver's PWM code to use the atomic PWM API.
-> > > 
-> > > But during testing I've found a number of bugs in the pwm-lpss and I
-> > > found that the acpi_lpss code needs some special handling because of
-> > > some ugliness found in most Cherry Trail DSDTs.
-> > > 
-> > > So now this series has grown somewhat large and consists of 4 parts:
-> > > 
-> > > 1. acpi_lpss fixes workarounds for Cherry Trail DSTD nastiness
-> > > 2. various fixes to the pwm-lpss driver
-> > > 3. convert the pwm-crc driver to support the atomic PWM API and
-> > > 4. convert the i915 driver's PWM code to use the atomic PWM API
-> > > 
-> > > The involved acpi_lpss and pwm drivers do not see a whole lot of churn,
-> > > so the plan is to merge this all through drm-intel-next-queued (dinq)
-> > > once all the patches are reviewed / have acks.
-> > > 
-> > > In v4 the ACPI patches have been Acked by Rafael and the i915 patches
-> > > have been acked by Jani. So that just leaves the PWM patches.
-> > > 
-> > > Uwe can I get your ok / ack for merging this through the dinq branch
-> > > once you have acked al the PWM patches ?
-> > > 
-> > > This series has been tested (and re-tested after adding various bug-fixes)
-> > > extensively. It has been tested on the following devices:
-> > > 
-> > > -Asus T100TA  BYT + CRC-PMIC PWM
-> > > -Toshiba WT8-A  BYT + CRC-PMIC PWM
-> > > -Thundersoft TS178 BYT + CRC-PMIC PWM, inverse PWM
-> > > -Asus T100HA  CHT + CRC-PMIC PWM
-> > > -Terra Pad 1061  BYT + LPSS PWM
-> > > -Trekstor Twin 10.1 BYT + LPSS PWM
-> > > -Asus T101HA  CHT + CRC-PMIC PWM
-> > > -GPD Pocket  CHT + CRC-PMIC PWM
-> > > 
-> > > Changelog:
-> > > 
-> > > Changes in v2:
-> > > - Fix coverletter subject
-> > > - Drop accidentally included debugging patch
-> > > - "[PATCH v3 02/15] ACPI / LPSS: Save Cherry Trail PWM ctx registers only once (
-> > >    - Move #define LPSS_SAVE_CTX_ONCE define to group it with LPSS_SAVE_CTX
-> > > 
-> > > Changes in v3:
-> > > - "[PATCH v3 04/15] pwm: lpss: Add range limit check for the base_unit register value"
-> > >    - Use base_unit_range - 1 as maximum value for the clamp()
-> > > - "[PATCH v3 05/15] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume"
-> > >    - This replaces the "pwm: lpss: Set SW_UPDATE bit when enabling the PWM"
-> > >      patch from previous versions of this patch-set, which really was a hack
-> > >      working around the resume issue which this patch fixes properly.
-> > > - PATCH v3 6 - 11 pwm-crc changes:
-> > >    - Various small changes resulting from the reviews by Andy and Uwe,
-> > >      including some refactoring of the patches to reduce the amount of churn
-> > >      in the patch-set
-> > > 
-> > > Changes in v4:
-> > > - "[PATCH v4 06/16] pwm: lpss: Correct get_state result for base_unit == 0"
-> > >    - This is a new patch in v4 of this patchset
-> > > - "[PATCH v4 12/16] pwm: crc: Implement get_state() method"
-> > >    - Use DIV_ROUND_UP when calculating the period and duty_cycle values
-> > > - "[PATCH v4 16/16] drm/i915: panel: Use atomic PWM API for devs with an external PWM controller"
-> > >    - Add a note to the commit message about the changes in pwm_disable_backlight()
-> > >    - Use the pwm_set/get_relative_duty_cycle() helpers
-> > > 
-> > > Regards,
-> > > 
-> > > Hans
-> > > 
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+W0FNRCBQdWJsaWMgVXNlXQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQ2hy
+aXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IA0KU2VudDog
+VGh1cnNkYXksIEp1bHkgOSwgMjAyMCA4OjQwIFBNDQpUbzogYW1kLWdmeEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCkNjOiBDaGF1aGFuLCBN
+YWRoYXYgPE1hZGhhdi5DaGF1aGFuQGFtZC5jb20+DQpTdWJqZWN0OiBbUEFUQ0ggMS8yXSBkcm0v
+dHRtOiBmdXJ0aGVyIGNsZWFudXAgdHRtX21lbV9yZWcgaGFuZGxpbmcNCg0KU3RvcCB0b3VjaGlu
+ZyB0aGUgYmFja2VuZCBwcml2YXRlIHBvaW50ZXIgYWxsdG9nZXRoZXIgYW5kIG1ha2Ugc3VyZSB3
+ZSBuZXZlciBwdXQgdGhlIHNhbWUgbWVtIHR3aWNlIGJ5Lg0KDQpTaWduZWQtb2ZmLWJ5OiBDaHJp
+c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQoNClRoYW5rcyBmb3IgY2xh
+cmlmaWNhdGlvbiBlYXJsaWVyLCBMb29rcyBmaW5lIHRvIG1lLg0KUmV2aWV3ZWQtYnk6IE1hZGhh
+diBDaGF1aGFuIDxtYWRoYXYuY2hhdWhhbkBhbWQuY29tPg0KDQotLS0NCiBkcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9iby5jICAgIHwgNDYgKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0t
+DQogaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCB8ICAyIC0tDQogMiBmaWxlcyBjaGFu
+Z2VkLCAyNiBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
+IGluZGV4IDBjMTNmZTk2YzdlMy4uN2JlMzZiOTk5NmVkIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3R0bS90dG1fYm8uYw0KKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYw0K
+QEAgLTMxMiw3ICszMTIsNiBAQCBzdGF0aWMgaW50IHR0bV9ib19oYW5kbGVfbW92ZV9tZW0oc3Ry
+dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywNCiAJCQlpZiAoYmRldi0+ZHJpdmVyLT5tb3ZlX25v
+dGlmeSkNCiAJCQkJYmRldi0+ZHJpdmVyLT5tb3ZlX25vdGlmeShibywgZXZpY3QsIG1lbSk7DQog
+CQkJYm8tPm1lbSA9ICptZW07DQotCQkJbWVtLT5tbV9ub2RlID0gTlVMTDsNCiAJCQlnb3RvIG1v
+dmVkOw0KIAkJfQ0KIAl9DQpAQCAtNjE2LDcgKzYxNSw2IEBAIHN0YXRpYyB2b2lkIHR0bV9ib19y
+ZWxlYXNlKHN0cnVjdCBrcmVmICprcmVmKQ0KIAl0dG1fYm9fY2xlYW51cF9tZW10eXBlX3VzZShi
+byk7DQogCWRtYV9yZXN2X3VubG9jayhiby0+YmFzZS5yZXN2KTsNCiANCi0JQlVHX09OKGJvLT5t
+ZW0ubW1fbm9kZSAhPSBOVUxMKTsNCiAJYXRvbWljX2RlYygmdHRtX2JvX2dsb2IuYm9fY291bnQp
+Ow0KIAlkbWFfZmVuY2VfcHV0KGJvLT5tb3ZpbmcpOw0KIAlpZiAoIXR0bV9ib191c2VzX2VtYmVk
+ZGVkX2dlbV9vYmplY3QoYm8pKQ0KQEAgLTg0MywxMiArODQxLDI5IEBAIHN0YXRpYyBpbnQgdHRt
+X21lbV9ldmljdF9maXJzdChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwNCiAJcmV0dXJuIHJl
+dDsNCiB9DQogDQorc3RhdGljIGludCB0dG1fYm9fbWVtX2dldChzdHJ1Y3QgdHRtX2J1ZmZlcl9v
+YmplY3QgKmJvLA0KKwkJCSAgY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2UsDQorCQkJICBz
+dHJ1Y3QgdHRtX21lbV9yZWcgKm1lbSkNCit7DQorCXN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdl
+ciAqbWFuID0gJmJvLT5iZGV2LT5tYW5bbWVtLT5tZW1fdHlwZV07DQorDQorCW1lbS0+bW1fbm9k
+ZSA9IE5VTEw7DQorCWlmICghbWFuLT5mdW5jIHx8ICFtYW4tPmZ1bmMtPmdldF9ub2RlKQ0KKwkJ
+cmV0dXJuIDA7DQorDQorCXJldHVybiBtYW4tPmZ1bmMtPmdldF9ub2RlKG1hbiwgYm8sIHBsYWNl
+LCBtZW0pOyB9DQorDQogdm9pZCB0dG1fYm9fbWVtX3B1dChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
+Y3QgKmJvLCBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1lbSkgIHsNCiAJc3RydWN0IHR0bV9tZW1fdHlw
+ZV9tYW5hZ2VyICptYW4gPSAmYm8tPmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsNCiANCi0JaWYg
+KG1lbS0+bW1fbm9kZSkNCi0JCSgqbWFuLT5mdW5jLT5wdXRfbm9kZSkobWFuLCBtZW0pOw0KKwlp
+ZiAoIW1hbi0+ZnVuYyB8fCAhbWFuLT5mdW5jLT5wdXRfbm9kZSkNCisJCXJldHVybjsNCisNCisJ
+bWFuLT5mdW5jLT5wdXRfbm9kZShtYW4sIG1lbSk7DQorCW1lbS0+bW1fbm9kZSA9IE5VTEw7DQor
+CW1lbS0+bWVtX3R5cGUgPSBUVE1fUExfU1lTVEVNOw0KIH0NCiBFWFBPUlRfU1lNQk9MKHR0bV9i
+b19tZW1fcHV0KTsNCiANCkBAIC05MDIsNyArOTE3LDcgQEAgc3RhdGljIGludCB0dG1fYm9fbWVt
+X2ZvcmNlX3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQogDQogCXRpY2tldCA9
+IGRtYV9yZXN2X2xvY2tpbmdfY3R4KGJvLT5iYXNlLnJlc3YpOw0KIAlkbyB7DQotCQlyZXQgPSAo
+Km1hbi0+ZnVuYy0+Z2V0X25vZGUpKG1hbiwgYm8sIHBsYWNlLCBtZW0pOw0KKwkJcmV0ID0gdHRt
+X2JvX21lbV9nZXQoYm8sIHBsYWNlLCBtZW0pOw0KIAkJaWYgKGxpa2VseSghcmV0KSkNCiAJCQli
+cmVhazsNCiAJCWlmICh1bmxpa2VseShyZXQgIT0gLUVOT1NQQykpDQpAQCAtMTAzMiw3ICsxMDQ3
+LDYgQEAgaW50IHR0bV9ib19tZW1fc3BhY2Uoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywN
+CiAJaWYgKHVubGlrZWx5KHJldCkpDQogCQlyZXR1cm4gcmV0Ow0KIA0KLQltZW0tPm1tX25vZGUg
+PSBOVUxMOw0KIAlmb3IgKGkgPSAwOyBpIDwgcGxhY2VtZW50LT5udW1fcGxhY2VtZW50OyArK2kp
+IHsNCiAJCWNvbnN0IHN0cnVjdCB0dG1fcGxhY2UgKnBsYWNlID0gJnBsYWNlbWVudC0+cGxhY2Vt
+ZW50W2ldOw0KIAkJc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW47DQpAQCAtMTA0NCwy
+MCArMTA1OCwxNiBAQCBpbnQgdHRtX2JvX21lbV9zcGFjZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
+Y3QgKmJvLA0KIAkJCWdvdG8gZXJyb3I7DQogDQogCQl0eXBlX2ZvdW5kID0gdHJ1ZTsNCi0JCW1l
+bS0+bW1fbm9kZSA9IE5VTEw7DQotCQlpZiAobWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVN
+KQ0KLQkJCXJldHVybiAwOw0KLQ0KLQkJbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsN
+Ci0JCXJldCA9ICgqbWFuLT5mdW5jLT5nZXRfbm9kZSkobWFuLCBibywgcGxhY2UsIG1lbSk7DQor
+CQlyZXQgPSB0dG1fYm9fbWVtX2dldChibywgcGxhY2UsIG1lbSk7DQogCQlpZiAocmV0ID09IC1F
+Tk9TUEMpDQogCQkJY29udGludWU7DQogCQlpZiAodW5saWtlbHkocmV0KSkNCiAJCQlnb3RvIGVy
+cm9yOw0KIA0KKwkJbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsNCiAJCXJldCA9IHR0
+bV9ib19hZGRfbW92ZV9mZW5jZShibywgbWFuLCBtZW0sIGN0eC0+bm9fd2FpdF9ncHUpOw0KIAkJ
+aWYgKHVubGlrZWx5KHJldCkpIHsNCi0JCQkoKm1hbi0+ZnVuYy0+cHV0X25vZGUpKG1hbiwgbWVt
+KTsNCisJCQl0dG1fYm9fbWVtX3B1dChibywgbWVtKTsNCiAJCQlpZiAocmV0ID09IC1FQlVTWSkN
+CiAJCQkJY29udGludWU7DQogDQpAQCAtMTA3NiwxMiArMTA4Niw4IEBAIGludCB0dG1fYm9fbWVt
+X3NwYWNlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQogCQkJZ290byBlcnJvcjsNCiAN
+CiAJCXR5cGVfZm91bmQgPSB0cnVlOw0KLQkJbWVtLT5tbV9ub2RlID0gTlVMTDsNCi0JCWlmICht
+ZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0pDQotCQkJcmV0dXJuIDA7DQotDQogCQlyZXQg
+PSB0dG1fYm9fbWVtX2ZvcmNlX3NwYWNlKGJvLCBwbGFjZSwgbWVtLCBjdHgpOw0KLQkJaWYgKHJl
+dCA9PSAwICYmIG1lbS0+bW1fbm9kZSkNCisJCWlmIChsaWtlbHkoIXJldCkpDQogCQkJcmV0dXJu
+IDA7DQogDQogCQlpZiAocmV0ICYmIHJldCAhPSAtRUJVU1kpDQpAQCAtMTEyOSw3ICsxMTM1LDcg
+QEAgc3RhdGljIGludCB0dG1fYm9fbW92ZV9idWZmZXIoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0
+ICpibywNCiAJCWdvdG8gb3V0X3VubG9jazsNCiAJcmV0ID0gdHRtX2JvX2hhbmRsZV9tb3ZlX21l
+bShibywgJm1lbSwgZmFsc2UsIGN0eCk7DQogb3V0X3VubG9jazoNCi0JaWYgKHJldCAmJiBtZW0u
+bW1fbm9kZSkNCisJaWYgKHJldCkNCiAJCXR0bV9ib19tZW1fcHV0KGJvLCAmbWVtKTsNCiAJcmV0
+dXJuIHJldDsNCiB9DQpAQCAtMTE0NCw3ICsxMTUwLDcgQEAgc3RhdGljIGJvb2wgdHRtX2JvX3Bs
+YWNlc19jb21wYXQoY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2VzLA0KIAlmb3IgKGkgPSAw
+OyBpIDwgbnVtX3BsYWNlbWVudDsgaSsrKSB7DQogCQljb25zdCBzdHJ1Y3QgdHRtX3BsYWNlICpo
+ZWFwID0gJnBsYWNlc1tpXTsNCiANCi0JCWlmIChtZW0tPm1tX25vZGUgJiYgKG1lbS0+c3RhcnQg
+PCBoZWFwLT5mcGZuIHx8DQorCQlpZiAoKG1lbS0+c3RhcnQgPCBoZWFwLT5mcGZuIHx8DQogCQkg
+ICAgIChoZWFwLT5scGZuICE9IDAgJiYgKG1lbS0+c3RhcnQgKyBtZW0tPm51bV9wYWdlcykgPiBo
+ZWFwLT5scGZuKSkpDQogCQkJY29udGludWU7DQogDQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
+dHRtL3R0bV9ib19kcml2ZXIuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggaW5k
+ZXggYWExZjM5OGMyZWE3Li43MzIxNjdjYWQxMzAgMTAwNjQ0DQotLS0gYS9pbmNsdWRlL2RybS90
+dG0vdHRtX2JvX2RyaXZlci5oDQorKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5o
+DQpAQCAtNTY0LDggKzU2NCw2IEBAIGludCB0dG1fYm9fbWVtX3NwYWNlKHN0cnVjdCB0dG1fYnVm
+ZmVyX29iamVjdCAqYm8sDQogCQkgICAgIHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4KTsN
+CiANCiB2b2lkIHR0bV9ib19tZW1fcHV0KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIHN0
+cnVjdCB0dG1fbWVtX3JlZyAqbWVtKTsgLXZvaWQgdHRtX2JvX21lbV9wdXRfbG9ja2VkKHN0cnVj
+dCB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQotCQkJICAgc3RydWN0IHR0bV9tZW1fcmVnICptZW0p
+Ow0KIA0KIGludCB0dG1fYm9fZGV2aWNlX3JlbGVhc2Uoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
+ZXYpOw0KIA0KLS0NCjIuMTcuMQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
