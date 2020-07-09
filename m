@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E7F219E6E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 12:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7621F219EA9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 13:05:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F36BB6EA36;
-	Thu,  9 Jul 2020 10:56:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8BC26E08A;
+	Thu,  9 Jul 2020 11:05:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEE26EA36;
- Thu,  9 Jul 2020 10:56:27 +0000 (UTC)
-IronPort-SDR: 64SDDuTuMhUI8YUzEGtO/PPvV9GE17mi/L1Id6f76Ne56grxrM3iS2y8YSMSP3tp/kg/geKUvS
- As4PubjqUOxg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="136199613"
-X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; d="scan'208";a="136199613"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2020 03:56:26 -0700
-IronPort-SDR: MpD/Nj0uJFiPkA+qpdMwLrYCO4jOnnVtprA67Dzt/QQNXHgu8Q/UN/oaD8hFLYUjG1795+c4en
- 4Cilpvzk9cuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; d="scan'208";a="298031977"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga002.jf.intel.com with ESMTP; 09 Jul 2020 03:56:26 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 9 Jul 2020 03:56:25 -0700
-Received: from bgsmsx101.gar.corp.intel.com (10.223.4.170) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 9 Jul 2020 03:56:25 -0700
-Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.234]) by
- BGSMSX101.gar.corp.intel.com ([169.254.1.200]) with mapi id 14.03.0439.000;
- Thu, 9 Jul 2020 16:26:21 +0530
-From: "C, Ramalingam" <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v7 14/17] drm/i915: Add connector to
- hdcp_shim->check_link()
-Thread-Topic: [PATCH v7 14/17] drm/i915: Add connector to
- hdcp_shim->check_link()
-Thread-Index: AQHWSXdTQA9cTX7xl0GHio3wWonrh6j/LAEQ
-Date: Thu, 9 Jul 2020 10:56:19 +0000
-Message-ID: <3E576CE581B70742841A8994F80CE2EE4E5B0F81@BGSMSX104.gar.corp.intel.com>
-References: <20200623155907.22961-1-sean@poorly.run>
- <20200623155907.22961-15-sean@poorly.run>
-In-Reply-To: <20200623155907.22961-15-sean@poorly.run>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
-MIME-Version: 1.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90FD46E08A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 11:05:02 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1594292702; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=jsDFDs4zDabaEWDbeRx/lyIO/1u6Uzt/XQpS5ikRQHw=;
+ b=vMXUuSrBtSyPn0c6y1/CY/HzvZYgo+Apr5rIWSrfdZbK7rxAYMtnjpcxN7XKhagczPmJvuLT
+ sJVhFc/+CeBGlAIJ4y12MZZ2jNWY1TKQKgEjBFVhnITJp8Bs6Z19VlKDO1QNZmbBqoKnDDuJ
+ IP2n80bqIvmEYjWXghUM6YEBtfE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5f06f9dc0082b278484937f2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Jul 2020 11:05:00
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id EEE1AC433CA; Thu,  9 Jul 2020 11:04:59 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-173.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: rnayak)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 83C1DC433C6;
+ Thu,  9 Jul 2020 11:04:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 83C1DC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=rnayak@codeaurora.org
+From: Rajendra Nayak <rnayak@codeaurora.org>
+To: robdclark@gmail.com, sean@poorly.run, agross@kernel.org,
+ bjorn.andersson@linaro.org
+Subject: [PATCH v3 0/4] DVFS support for dpu and dsi
+Date: Thu,  9 Jul 2020 16:34:30 +0530
+Message-Id: <1594292674-15632-1-git-send-email-rnayak@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,129 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- Sean Paul <seanpaul@chromium.org>, "Li, Juston" <juston.li@intel.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
+Cc: devicetree@vger.kernel.org, Rajendra Nayak <rnayak@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mka@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Sean Paul <sean@poorly.run>
-> Sent: Tuesday, June 23, 2020 9:29 PM
-> To: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> Cc: Li, Juston <juston.li@intel.com>; C, Ramalingam
-> <ramalingam.c@intel.com>; ville.syrjala@linux.intel.com;
-> jani.nikula@linux.intel.com; joonas.lahtinen@linux.intel.com; Vivi, Rodrigo
-> <rodrigo.vivi@intel.com>; daniel.vetter@ffwll.ch; Sean Paul
-> <seanpaul@chromium.org>
-> Subject: [PATCH v7 14/17] drm/i915: Add connector to hdcp_shim->check_link()
-> 
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Currently we derive the connector from digital port in check_link(). For MST, this
-> isn't sufficient since the digital port passed into the function can have multiple
-> connectors downstream. This patch adds connector to the check_link()
-> arguments so we have it when we need it.
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+Changes in v3
+- Added dev_pm_opp_put_clkname() in the error path
 
-> Link:
-> https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-13-
-> sean@poorly.run #v4
-> Link:
-> https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-14-
-> sean@poorly.run #v5
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-
-> 14-sean@poorly.run #v6
-> 
-> Changes in v4:
-> -Added to the set
-> Changes in v5:
-> -None
-> Changes in v6:
-> -None
-> Changes in v7:
-> -None
-> ---
->  drivers/gpu/drm/i915/display/intel_display_types.h | 3 ++-
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c       | 3 ++-
->  drivers/gpu/drm/i915/display/intel_hdcp.c          | 2 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c          | 5 ++---
->  4 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 811085ef3fba..94211b8fc159 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -318,7 +318,8 @@ struct intel_hdcp_shim {
->  				 bool enable);
-> 
->  	/* Ensures the link is still protected */
-> -	bool (*check_link)(struct intel_digital_port *intel_dig_port);
-> +	bool (*check_link)(struct intel_digital_port *intel_dig_port,
-> +			   struct intel_connector *connector);
-> 
->  	/* Detects panel's hdcp capability. This is optional for HDMI. */
->  	int (*hdcp_capable)(struct intel_digital_port *intel_dig_port, diff --git
-> a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> index e26a45f880cb..43446a6cae8d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> @@ -223,7 +223,8 @@ int intel_dp_hdcp_toggle_signalling(struct
-> intel_digital_port *intel_dig_port,  }
-> 
->  static
-> -bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port)
-> +bool intel_dp_hdcp_check_link(struct intel_digital_port *intel_dig_port,
-> +			      struct intel_connector *connector)
->  {
->  	struct drm_i915_private *i915 = to_i915(intel_dig_port-
-> >base.base.dev);
->  	ssize_t ret;
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index d79d4142aea7..6bd0e4616ee1 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -953,7 +953,7 @@ static int intel_hdcp_check_link(struct intel_connector
-> *connector)
->  		goto out;
->  	}
-> 
-> -	if (hdcp->shim->check_link(intel_dig_port)) {
-> +	if (hdcp->shim->check_link(intel_dig_port, connector)) {
->  		if (hdcp->value !=
-> DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
->  			intel_hdcp_update_value(connector,
-> 
-> 	DRM_MODE_CONTENT_PROTECTION_ENABLED, true); diff --git
-> a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index ca71ee3dd1c7..b12f1af0611d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -1546,11 +1546,10 @@ int intel_hdmi_hdcp_toggle_signalling(struct
-> intel_digital_port *intel_dig_port,  }
-> 
->  static
-> -bool intel_hdmi_hdcp_check_link(struct intel_digital_port *intel_dig_port)
-> +bool intel_hdmi_hdcp_check_link(struct intel_digital_port *intel_dig_port,
-> +				struct intel_connector *connector)
->  {
->  	struct drm_i915_private *i915 = to_i915(intel_dig_port-
-> >base.base.dev);
-> -	struct intel_connector *connector =
-> -		intel_dig_port->hdmi.attached_connector;
->  	enum port port = intel_dig_port->base.port;
->  	enum transcoder cpu_transcoder = connector->hdcp.cpu_transcoder;
->  	int ret;
-> --
-> Sean Paul, Software Engineer, Google / Chromium OS
+Changes in v2
+- Patch 2: Dropped dsi_link_clk_set_rate_6g_v2 and dsi_link_clk_disable_6g_v2 as suggested by Matthias
+
+These patches add DVFS support for DPU and DSI.
+
+These patches have no other dependency. Patch 1 and 2 will need to be merged in
+via the MSM DRM tree.
+
+DT patches will need to land via the msm tree.
+
+Rajendra Nayak (4):
+  drm/msm/dpu: Use OPP API to set clk/perf state
+  drm/msm: dsi: Use OPP API to set clk/perf state
+  arm64: dts: sdm845: Add DSI and MDP OPP tables and power-domains
+  arm64: dts: sc7180: Add DSI and MDP OPP tables and power-domains
+
+ arch/arm64/boot/dts/qcom/sc7180.dtsi          | 49 ++++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          | 59 +++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 27 +++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 ++
+ drivers/gpu/drm/msm/dsi/dsi_host.c            | 27 +++++++++++-
+ 6 files changed, 165 insertions(+), 4 deletions(-)
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
 _______________________________________________
 dri-devel mailing list
