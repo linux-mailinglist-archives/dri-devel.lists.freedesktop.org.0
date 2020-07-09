@@ -2,66 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD5C21B0AD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBCB21A1C1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 16:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3C46EB9E;
-	Fri, 10 Jul 2020 07:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA0C6EA75;
+	Thu,  9 Jul 2020 14:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54A36E02A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 14:03:44 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id q5so2508427wru.6
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 07:03:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DFfhRB3CIFp7+b9HYaYFBTlz+H/vZeZ2FswijDgFipc=;
- b=G6q0CF1kORRNof0tQD5r5NoQptbBhuWv1c/fs/r9CwDbcexcB/5B+EpnFZAyC0xynB
- TLPEFz27dI9N6mnQizXEdM5Fx85hbntmmpaI+2qoJOrcf8faPX3GUOfc8IjsUwiW1+3b
- e7HPabKQZTToNaRmwvKoYF+kLUf8NXXQINYMJsMY3+UQspFvPotKsRqu+FG8QM3B0rVy
- k4BsagiLGMLuB2NrQwbIOJWhU0B3mQW+5c0kHq9934E0h1meOOVPiGsRPo2IoyKOke+y
- RtfRN6JZF6a/JdlP/S1xtQkycBz+oVpsx5KYQX5HNSW3NOXCjBlpLyejw1FpK2Wlq1Lg
- qAAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DFfhRB3CIFp7+b9HYaYFBTlz+H/vZeZ2FswijDgFipc=;
- b=pttZ6+A6DK+BH/H7qU6PXpaxhr8p+FJ/jhVrdH2Zb7S+BDizlpP0Bdj9N70MWRSGsc
- h0DnkHr293CjzsI9eT2/EsBxmBrFWkmZl3opRbjo/SjxGixtSwZPChAxyDnrgqyQx0HB
- SXYbGQtenwL4bO1hKq8r/u6okAArQGaER2tMVsWmjzQDPu5YPnqGUXvnjsQLRNZq8UzK
- YawTccG8rUXWyD4ml6vWYBt9TCU/pv4H0wz4vkZ3YqCd/jKMg9uJNDJKoX1d/uuybAZl
- d15XkwRdENlzHcyKnLuukYsD7w5l9ZZAKsc47ZFOLbXqS+aqTcvtcFAJGSQdGzVs6ce/
- ApTg==
-X-Gm-Message-State: AOAM531V5DjvU2KPZwkFI4WMyeXEgUYginXFlSr3J2Oc7vt0700XYUfs
- j0uKWBbq0OOzZPYYPi9yFXM=
-X-Google-Smtp-Source: ABdhPJxKsJGmE1cXYIqvgGVcbqQhYNjKkdXWYq3nTtCEanj2piNLMs6tz3AQM8Wn4LqysoxPncAyVA==
-X-Received: by 2002:adf:e884:: with SMTP id d4mr61159232wrm.176.1594303423483; 
- Thu, 09 Jul 2020 07:03:43 -0700 (PDT)
-Received: from clement-Latitude-7490.numericable.fr
- (213-245-241-245.rev.numericable.fr. [213.245.241.245])
- by smtp.gmail.com with ESMTPSA id s8sm5545256wru.38.2020.07.09.07.03.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 07:03:42 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>
-Subject: [PATCH v3 14/14] [DO NOT MERGE] arm64: dts: allwinner: force GPU
- regulator to be always
-Date: Thu,  9 Jul 2020 16:03:22 +0200
-Message-Id: <20200709140322.131320-15-peron.clem@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200709140322.131320-1-peron.clem@gmail.com>
-References: <20200709140322.131320-1-peron.clem@gmail.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A476EA70;
+ Thu,  9 Jul 2020 14:05:38 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id E9788804B9;
+ Thu,  9 Jul 2020 16:05:32 +0200 (CEST)
+Date: Thu, 9 Jul 2020 16:05:31 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/2] drm/virtio: Remove open-coded commit-tail function
+Message-ID: <20200709140531.GA220817@ravnborg.org>
+References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-1-daniel.vetter@ffwll.ch>
+ <20200709123339.547390-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
+Content-Disposition: inline
+In-Reply-To: <20200709123339.547390-2-daniel.vetter@ffwll.ch>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=20KFwNOVAAAA:8 a=Z4Rwk6OoAAAA:8
+ a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=7qquH0MEfeve11GKqesA:9
+ a=CjuIK1q_8ugA:10 a=HkZW87K1Qel5hWWM3VKY:22 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,25 +47,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-rdma@vger.kernel.org,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2lnbmVkLW9mZi1ieTogQ2zDqW1lbnQgUMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KLS0t
-CiBhcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktaDYtYmVlbGluay1nczEuZHRz
-IHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9hcmNo
-L2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktaDYtYmVlbGluay1nczEuZHRzIGIvYXJj
-aC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0cwppbmRl
-eCAzZjdjZWViMWE3NjcuLjE0MjU3Zjc0NzZiOCAxMDA2NDQKLS0tIGEvYXJjaC9hcm02NC9ib290
-L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0cworKysgYi9hcmNoL2FybTY0
-L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktaDYtYmVlbGluay1nczEuZHRzCkBAIC0yNDUsNiAr
-MjQ1LDcgQEAgcmVnX2RjZGNhOiBkY2RjYSB7CiAJCQl9OwogCiAJCQlyZWdfZGNkY2M6IGRjZGNj
-IHsKKwkJCQlyZWd1bGF0b3ItYWx3YXlzLW9uOwogCQkJCXJlZ3VsYXRvci1lbmFibGUtcmFtcC1k
-ZWxheSA9IDwzMjAwMD47CiAJCQkJcmVndWxhdG9yLW1pbi1taWNyb3ZvbHQgPSA8ODEwMDAwPjsK
-IAkJCQlyZWd1bGF0b3ItbWF4LW1pY3Jvdm9sdCA9IDwxMDgwMDAwPjsKLS0gCjIuMjUuMQoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Jul 09, 2020 at 02:33:39PM +0200, Daniel Vetter wrote:
+> Exactly matches the one in the helpers.
+> 
+> This avoids me having to roll out dma-fence critical section
+> annotations to this copy.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: virtualization@lists.linux-foundation.org
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_display.c | 20 --------------------
+>  1 file changed, 20 deletions(-)
+Very nice catch:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+> index f3ce49c5a34c..af55b334be2f 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_display.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+> @@ -314,25 +314,6 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+>  	return &virtio_gpu_fb->base;
+>  }
+>  
+> -static void vgdev_atomic_commit_tail(struct drm_atomic_state *state)
+> -{
+> -	struct drm_device *dev = state->dev;
+> -
+> -	drm_atomic_helper_commit_modeset_disables(dev, state);
+> -	drm_atomic_helper_commit_modeset_enables(dev, state);
+> -	drm_atomic_helper_commit_planes(dev, state, 0);
+> -
+> -	drm_atomic_helper_fake_vblank(state);
+> -	drm_atomic_helper_commit_hw_done(state);
+> -
+> -	drm_atomic_helper_wait_for_vblanks(dev, state);
+> -	drm_atomic_helper_cleanup_planes(dev, state);
+> -}
+> -
+> -static const struct drm_mode_config_helper_funcs virtio_mode_config_helpers = {
+> -	.atomic_commit_tail = vgdev_atomic_commit_tail,
+> -};
+> -
+>  static const struct drm_mode_config_funcs virtio_gpu_mode_funcs = {
+>  	.fb_create = virtio_gpu_user_framebuffer_create,
+>  	.atomic_check = drm_atomic_helper_check,
+> @@ -346,7 +327,6 @@ void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
+>  	drm_mode_config_init(vgdev->ddev);
+>  	vgdev->ddev->mode_config.quirk_addfb_prefer_host_byte_order = true;
+>  	vgdev->ddev->mode_config.funcs = &virtio_gpu_mode_funcs;
+> -	vgdev->ddev->mode_config.helper_private = &virtio_mode_config_helpers;
+>  
+>  	/* modes will be validated against the framebuffer size */
+>  	vgdev->ddev->mode_config.min_width = XRES_MIN;
+> -- 
+> 2.27.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
