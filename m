@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C5421A7CE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 21:30:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5554821A86D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 22:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D626EB0C;
-	Thu,  9 Jul 2020 19:30:41 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FF76EB0C
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 19:30:39 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id e8so3751611ljb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 12:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jq4E/3rvV7KMO7dnkDeaICQG0J18bgcJJkGEr8cliCQ=;
- b=nUPBsopJi4SQMI1HOnfAi03AqeWpHc982j5ijzne1TK6J9vIRsfZN6uXs5pUoI6KKs
- H4p2jFGTksvLw6PH/l3Lsux03jz+rykq8ktkFTZAL6UAVx8xSvgErpImqcamD1wu4XGz
- qGWIFYbKRxw9HBbuHjZVgyMWV6DYufSwtOStjHerqoIzId+Xo8SK5IGps4JCBZPvO0VC
- S6W92i+IdBxnX8R5vFj8LzA5X0EkQWPl3rVOsKEbtNxFiTDjW96i4DEjehrkXtb7SpAI
- hHJaem0VmRjhhdGMLtcTKIn59MEo6VsCja2kPwsLoEgxCWmb9WDf9OkKA0heaQS2CFmk
- pRyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Jq4E/3rvV7KMO7dnkDeaICQG0J18bgcJJkGEr8cliCQ=;
- b=lRCTCQbHkPDo4+XTbzqUR6fPUINU6qLHRw0VVMZXfiJeCHFx0mCwf7zhKhABmVLyv1
- +oybSrTKg7CqzBeOa5QeR6COKJy3cxaE2+S0QXPO6XP8ZpSutwnfjkD8FBMOxF29uihm
- /PbzOeJoLdOkVwJy8o+zjJ7PjoGKYFAWEKGZoFal/8mO1u5bUu9H/J9f72giLxrTZH7a
- HoqFJloOlnOsCQmSO+3m+Sl56vC7qTILeyh2vCVSFZNskSR0pLZsg0fUwzqZjLNj+quq
- GJd81Nia4C7YCkzG1oBzTfFGvTF4ewC5zFzf0vscptjH522cpu/ZFPfbHNcATh3oFsUW
- HAzA==
-X-Gm-Message-State: AOAM530D03TUTVua0yDJK2Q9JyQ5HiV16ru9/X+NaWFlQ72joy7HY0gK
- zV9+uUR6ztzYKjov14/+ImhH6P1U6Ug=
-X-Google-Smtp-Source: ABdhPJwu68v/orHpVsAMsxR03Yip4FCqvb0vHr1in/xp8Df72HTrHOY0JidOMSr+sJoY8WZ291/kiw==
-X-Received: by 2002:a2e:730c:: with SMTP id o12mr31664193ljc.165.1594323037518; 
- Thu, 09 Jul 2020 12:30:37 -0700 (PDT)
-Received: from saturn.lan ([2a00:fd00:805f:db00:69d0:5d3c:ff19:c08c])
- by smtp.gmail.com with ESMTPSA id q3sm791771ljm.22.2020.07.09.12.30.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 12:30:36 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
-Date: Thu,  9 Jul 2020 21:30:16 +0200
-Message-Id: <20200709193016.291267-1-sam@ravnborg.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC2C6EB20;
+	Thu,  9 Jul 2020 20:01:52 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 817D46EB2A
+ for <dri-devel@freedesktop.org>; Thu,  9 Jul 2020 20:01:50 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1594324911; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=PNOP+bZPHesDULINFSwcTHhksYZyEMphqAZ0RdLbWck=;
+ b=Kpd0zzIS4pE8i2kHE606CBiHizl4CWmHeZnKTSsTMT9nV8eP3uy+fy/1mcXVcNA0YN3kTtPW
+ mmv8yMNLmogPvauxUwVXl6IP/LQH2e2RKQWejTD//xmujBIiYVuMwoZINVxq5SkESwTefBn4
+ D544UX1n2Aj24SnGqWSP28CFbik=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n16.prod.us-west-2.postgun.com with SMTP id
+ 5f07777355886724ff430623 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Jul 2020 20:00:51
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 34475C43395; Thu,  9 Jul 2020 20:00:51 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from akhilpo-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 068C8C433C8;
+ Thu,  9 Jul 2020 20:00:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 068C8C433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH v4 0/7] Add support for GPU DDR BW scaling
+Date: Fri, 10 Jul 2020 01:30:20 +0530
+Message-Id: <1594324828-9571-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, jonathan@marek.ca, saravanak@google.com,
+ linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
+ linux-kernel@vger.kernel.org, mka@chromium.org, dri-devel@freedesktop.org,
+ viresh.kumar@linaro.org, sibis@codeaurora.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark reported that sparc64 would panic while booting using qemu.
-Mark bisected this to a patch that introduced generic fbdev emulation to
-the bochs DRM driver.
-Mark pointed out that a similar bug was fixed before where
-the sys helpers was replaced by cfb helpers.
+This is mostly a rebase of Sharat's patches [1] on the tip of msm-next branch.
+Changes compared to v3:
+	1. Rebased on top of Jonathan's patch which adds support for changing
+	gpu freq through hfi on newer targets. Created patch 1 to make
+	this the generic approach of setting gpu freq on newer targets.
+	2. As suggested by Rob, left the icc_path intact for pre-a6xx
+	GPUs.
 
-The culprint here is that the framebuffer reside in IO memory which
-requires SPARC ASI_PHYS (physical) loads and stores.
+As mentioned in [1], these patches have dependency on Georgi's series from
+opp/linux-next [2] and also Sibi's patch which adds a helper function to
+set and clear ddr bandwidth vote [2].
 
-The current bohcs DRM driver uses a shadow buffer.
-So all copying to the framebuffer happens in
-drm_fb_helper_dirty_blit_real().
+[1] https://patchwork.freedesktop.org/series/75291/
+[2] https://kernel.googlesource.com/pub/scm/linux/kernel/git/vireshk/pm/+log/opp/linux-next/
 
-The fix is to replace the memcpy with memcpy_toio() from io.h.
+Akhil P Oommen (1):
+  drm: msm: a6xx: set gpu freq through hfi
 
-memcpy_toio() uses writeb() where the original fbdev code
-used sbus_memcpy_toio(). The latter uses sbus_writeb().
+Sharat Masetty (6):
+  dt-bindings: drm/msm/gpu: Document gpu opp table
+  drm: msm: a6xx: send opp instead of a frequency
+  drm: msm: a6xx: use dev_pm_opp_set_bw to scale DDR
+  arm64: dts: qcom: SDM845: Enable GPU DDR bw scaling
+  arm64: dts: qcom: sc7180: Add interconnects property for GPU
+  arm64: dts: qcom: sc7180: Add opp-peak-kBps to GPU opp
 
-The difference between writeb() and sbus_memcpy_toio() is
-that writeb() writes bytes in little-endian, where sbus_writeb() writes
-bytes in big-endian. As endian does not matter for byte writes they are
-the same. So we can safely use memcpy_toio() here.
+ .../devicetree/bindings/display/msm/gpu.txt        |  28 ++++++
+ arch/arm64/boot/dts/qcom/sc7180.dtsi               |   9 ++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi               |   9 ++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 105 +++++++++++----------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   2 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |   3 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |   3 +-
+ 7 files changed, 106 insertions(+), 53 deletions(-)
 
-For many architectures memcpy_toio() is a simple memcpy().
-One sideeffect that is unknow is if this has any impact on other
-architectures.
-So far the analysis tells that this change is OK for other arch's.
-but testing would be good.
-
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: sparclinux@vger.kernel.org
----
- drivers/gpu/drm/drm_fb_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 5609e164805f..4d05b0ab1592 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
- 	unsigned int y;
- 
- 	for (y = clip->y1; y < clip->y2; y++) {
--		memcpy(dst, src, len);
-+		memcpy_toio(dst, src, len);
- 		src += fb->pitches[0];
- 		dst += fb->pitches[0];
- 	}
 -- 
-2.25.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
