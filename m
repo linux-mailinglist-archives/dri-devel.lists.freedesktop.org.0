@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF53521964F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 04:39:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB093219814
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 07:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9DDD6E981;
-	Thu,  9 Jul 2020 02:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 662276E999;
+	Thu,  9 Jul 2020 05:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8C5016E981
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 02:39:43 +0000 (UTC)
-X-UUID: 8b6858da3d20484fbd2bac7dfb5c6755-20200709
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=GVIo4VsOj/fRhOA3I3T2Kp/4alllZZbEdvQH5u8PYno=; 
- b=LZ9n0rZUoa2AjpgtOBhqK4Ptc+JqGmAcUUON7qfM19xQAJ7OBCYUEYn1IksCF7C+qjq9HLGGRqKIJ43s2ADt2doZuPnz9n3cxJndS+17DzCQBp6exyAuFMiKyaUfxdedaECTH0evpyd3yMwqJ5m8G0CqLlBXlT3z99WaJJTLG0U=;
-X-UUID: 8b6858da3d20484fbd2bac7dfb5c6755-20200709
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw02.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1375418577; Thu, 09 Jul 2020 10:39:39 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 9 Jul 2020 10:39:36 +0800
-Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 9 Jul 2020 10:39:34 +0800
-Message-ID: <1594262378.21095.3.camel@mtksdaap41>
-Subject: Re: [PATCH v3 9/9] drm/mediatek: reduce clear event
-From: Bibby Hsieh <bibby.hsieh@mediatek.com>
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-Date: Thu, 9 Jul 2020 10:39:38 +0800
-In-Reply-To: <1594136714-11650-10-git-send-email-dennis-yc.hsieh@mediatek.com>
-References: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1594136714-11650-10-git-send-email-dennis-yc.hsieh@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 782D96E3D2;
+ Thu,  9 Jul 2020 05:44:34 +0000 (UTC)
+IronPort-SDR: KfSyM1Puq55ywNwrbHYioOcuJNkK37phFOeEClJ7mDqxhnX/7gsqLsdKvuI9HHQt0Auifxu1oS
+ AYxouZwzfYKw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="212857001"
+X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="212857001"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 22:44:33 -0700
+IronPort-SDR: SRmx2DrZC4r1LyrVeXQJDPw3jNAiE6AMzSOZC6BYnP7SPQxULYIvVtLfwN7OhIXVOtVqepbg+U
+ SVE8PpBqqIGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="314844988"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga008.jf.intel.com with ESMTP; 08 Jul 2020 22:44:30 -0700
+Date: Thu, 9 Jul 2020 11:10:51 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v7 08/17] drm/i915: Clean up intel_hdcp_disable
+Message-ID: <20200709054051.GA13481@intel.com>
+References: <20200623155907.22961-1-sean@poorly.run>
+ <20200623155907.22961-9-sean@poorly.run>
 MIME-Version: 1.0
-X-MTK: N
+Content-Disposition: inline
+In-Reply-To: <20200623155907.22961-9-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,55 +50,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>,
- HS Liao <hs.liao@mediatek.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ juston.li@intel.com, rodrigo.vivi@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dennis,
-
-Thanks for this patch.
-
-It's better to send another tree for this patch.
-Because this tree is only for soc/mediatek.
-
-Please do not forget to add the dependency information.
-
-Bibby
-
-On Tue, 2020-07-07 at 23:45 +0800, Dennis YC Hsieh wrote:
-> No need to clear event again since event always clear before wait.
-> This fix depend on patch:
->   "soc: mediatek: cmdq: add clear option in cmdq_pkt_wfe api"
+On 2020-06-23 at 11:58:58 -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Fixes: 2f965be7f9008 ("drm/mediatek: apply CMDQ control flow")
-> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+> Add an out label and un-indent hdcp disable in preparation for
+> hdcp_mutex. No functional changes
+> 
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 
-Reviewed-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
-
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200429195502.39919-9-sean@poorly.run #v6
+> 
+> Changes in v7:
+> -Split into separate patch (Ramalingam)
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> index c84e7a14d4a8..ba6cf956b239 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -490,7 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
->  		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
->  		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
->  		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
-> -		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, true);
-> +		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
->  		mtk_crtc_ddp_config(crtc, cmdq_handle);
->  		cmdq_pkt_finalize(cmdq_handle);
->  		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
-
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 62cab3aea745..16bf0fbe5f17 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2113,16 +2113,17 @@ int intel_hdcp_disable(struct intel_connector *connector)
+>  
+>  	mutex_lock(&hdcp->mutex);
+>  
+> -	if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+> -		intel_hdcp_update_value(connector,
+> -					DRM_MODE_CONTENT_PROTECTION_UNDESIRED,
+> -					false);
+> -		if (hdcp->hdcp2_encrypted)
+> -			ret = _intel_hdcp2_disable(connector);
+> -		else if (hdcp->hdcp_encrypted)
+> -			ret = _intel_hdcp_disable(connector);
+> -	}
+> +	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
+> +		goto out;
+>  
+> +	intel_hdcp_update_value(connector,
+> +				DRM_MODE_CONTENT_PROTECTION_UNDESIRED, false);
+> +	if (hdcp->hdcp2_encrypted)
+> +		ret = _intel_hdcp2_disable(connector);
+> +	else if (hdcp->hdcp_encrypted)
+> +		ret = _intel_hdcp_disable(connector);
+> +
+> +out:
+>  	mutex_unlock(&hdcp->mutex);
+>  	cancel_delayed_work_sync(&hdcp->check_work);
+>  	return ret;
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
