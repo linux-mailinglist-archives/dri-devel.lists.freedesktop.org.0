@@ -1,89 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEC4219969
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 09:08:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF53521964F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 04:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C8F6EA1C;
-	Thu,  9 Jul 2020 07:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9DDD6E981;
+	Thu,  9 Jul 2020 02:39:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr10053.outbound.protection.outlook.com [40.107.1.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0936E97D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 02:32:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gQb641/GSd64W/VU7gdhmzpb/B9epufio5FUGd0cf1Swa29Hr4RM/xXChMhR/Ew6GbJRnDN41zxcxWrl7knl7tRaBA2IxYgmZd22gy23i6U0q+VlWDZsKSPyw4dDXgPk+OqsLNJrV41re98RKFIfwi3SmIYXAy62+wMW+crZay19hOl9qnGZJKhg4lTnK+1raJqpcej9w60os9tegUSBfntGTTf/oFtXvtOeTKvOPC5V1KfKU7uQk3GKFy6zD0z7FCamhXoMZys3qrdp8EpkR1KlSqpPxd9ZoXtq2Fb9QhpGp2S/EerBeV+qFROfyySKQbSKtniwtKCR43oL/NSaMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bdh38duKL00rPRAJZq68HviiLbFScmTqXEKTooXC4MU=;
- b=ZawwfzPHpQDKddqMdDTCnSjXAxjRDH9YrOoo7EGq0NHmeuMD+Gmg/YrbZzpuqn3LRPSIqZmzmehsktQ8FxPv3lPO0WEq8QWt0PBJ2lVuyYqqiRsbKEIwHCb2ghhXnYXyR1H3AoJgkNqBF58ly3242jZ4wbd+v5el91G2ynw6llWt3lBUGaHeKxbWsEDdrCz4UHA6pJOfVGwkxs06NI6Yat9qPhU8r3Q1wewyCNcrHsherliESOmOuWuX1EoQ9MNRdGFpfZJOeXF3jTXY+W6F2yrXtStmumY18Q6icbSD/Vtb+BTh/+KVuqunBP/oZA7901YQadoFJpcI4pGAGnwlBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bdh38duKL00rPRAJZq68HviiLbFScmTqXEKTooXC4MU=;
- b=n6seP8Cdr/LTzGvXojy1obsIfA0iaopHPA5IZ5RBY2obuUPckIMK+2CmGTpO3iTZZfyr3wxPMav6707MJrsZt7sQexIrQgAk8txvI3oLi6O0vvokf+NoHLNDGE2XzJLSD60TQZkWmOUBrxWOQKmnb3a/rUNNK17AbI9aL11CE0o=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB5871.eurprd04.prod.outlook.com (2603:10a6:803:ea::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Thu, 9 Jul
- 2020 02:32:52 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3153.031; Thu, 9 Jul 2020
- 02:32:52 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND] drm/imx: imx-ldb: Disable both channels for split mode
- in enc->disable()
-Date: Thu,  9 Jul 2020 10:28:52 +0800
-Message-Id: <1594261732-16388-1-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-ClientProxiedBy: SG2PR06CA0146.apcprd06.prod.outlook.com
- (2603:1096:1:1f::24) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8C5016E981
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 02:39:43 +0000 (UTC)
+X-UUID: 8b6858da3d20484fbd2bac7dfb5c6755-20200709
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=GVIo4VsOj/fRhOA3I3T2Kp/4alllZZbEdvQH5u8PYno=; 
+ b=LZ9n0rZUoa2AjpgtOBhqK4Ptc+JqGmAcUUON7qfM19xQAJ7OBCYUEYn1IksCF7C+qjq9HLGGRqKIJ43s2ADt2doZuPnz9n3cxJndS+17DzCQBp6exyAuFMiKyaUfxdedaECTH0evpyd3yMwqJ5m8G0CqLlBXlT3z99WaJJTLG0U=;
+X-UUID: 8b6858da3d20484fbd2bac7dfb5c6755-20200709
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw02.mediatek.com (envelope-from <bibby.hsieh@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1375418577; Thu, 09 Jul 2020 10:39:39 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 9 Jul 2020 10:39:36 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 9 Jul 2020 10:39:34 +0800
+Message-ID: <1594262378.21095.3.camel@mtksdaap41>
+Subject: Re: [PATCH v3 9/9] drm/mediatek: reduce clear event
+From: Bibby Hsieh <bibby.hsieh@mediatek.com>
+To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+Date: Thu, 9 Jul 2020 10:39:38 +0800
+In-Reply-To: <1594136714-11650-10-git-send-email-dennis-yc.hsieh@mediatek.com>
+References: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1594136714-11650-10-git-send-email-dennis-yc.hsieh@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.67) by
- SG2PR06CA0146.apcprd06.prod.outlook.com (2603:1096:1:1f::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 02:32:49 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.67]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ac276883-a114-4e77-c601-08d823b060c4
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5871:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB5871A6CC5DD053A6E8EB34B198640@VI1PR04MB5871.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YDTwIpqlvCkQWIMXrd/1Id6ftokDkdtAixUGyzxEed5xmWVpqRPMjq6C0nv6JbWRd5+/uuGI6FRA1zBD4GDOBX5ZoUEQuAx5liRLMtYl6HwOH0h6pNrVgTt1S4dO9R/QOAsr34cDAdRb2nXkVQS/XggTf9jjBvD2WSUoYfQUHnStzuzN9nvPK3m9Mjwm9TUUsY2hfTElamrN/9HYSSadjIDrgxqu0E2JTmIjUsS4yHkMQAv+bn9oagj3DEcnJkLMF1Lc0EZapZZoGDKp3Ayz5uf4r13KVWE/reXZn4FD0wT8HqJ7iX30fFmBVrunnix0rlJ2Yc49spNqCa95Ux2rL+DwTfHYgfiyMano8O64pcD0f0oK/ipcgFHuGuEw/T8W
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39860400002)(66946007)(956004)(2616005)(186003)(52116002)(2906002)(26005)(16526019)(6506007)(54906003)(4326008)(86362001)(316002)(478600001)(6486002)(6666004)(6512007)(8936002)(8676002)(6916009)(83380400001)(69590400007)(66556008)(5660300002)(66476007)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 4WEhTw9EL40bhzOipaJVOevRyNYzLdiuxlB0Z49+PrhJkJMqS8hwyi2tBeDdsmpg3dufWBLSwx4Tgm4qFZSMLar4UT+Sz073US79ExRw7YlZgjlEPAN7lcVPjeSaCX5ErIweFfWYlmkRVd4PoBWmbCOCl71q3CtQZpgt2MA6GkVXa1wRhKrfyMOqEp/TbFOdKUGPQTKgzUNNSaCxTYxNzZwe3e6EDCGdaHThq0eMxlvb8rbCmvWvptN79OPsHUHHZ60c9++3kdEPRYtFmntaYcXOWG9ycpg2oCOYqX4bUm/Gun5TjzmT01SdC7GttHbraMBR+wmcEx2lnbwf8na5U+xUySh0mE3Y+qU4uaRHxgbKd55vGqVyxjk6mgn0K4uyJWiLW9O3u408M3RqKnRsFKlBmbiN10Gcx4+iEXTr5aF1QnFBplRs8hcTBayyxQPUFAUQef76PNYZtUvU6PdNq3d0+rLHpRUu54c/DHAH6oCkH4snXjIzvEgkMSgzjk+3
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac276883-a114-4e77-c601-08d823b060c4
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 02:32:51.9778 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dz0aGamajT5B8q1LyM32LHsi9/K0Jg9P8kHAIkkSRig79etT/UfLb6NxbowjATMCw8jihpEBmHqsaESWJfoIJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5871
-X-Mailman-Approved-At: Thu, 09 Jul 2020 07:05:06 +0000
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,58 +52,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>,
+ HS Liao <hs.liao@mediatek.com>, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both of the two LVDS channels should be disabled for split mode
-in the encoder's ->disable() callback, because they are enabled
-in the encoder's ->enable() callback.
+Hi, Dennis,
 
-Fixes: 6556f7f82b9c ("drm: imx: Move imx-drm driver out of staging")
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/imx/imx-ldb.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Thanks for this patch.
 
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 4da22a9..af4d0d8 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -303,18 +303,19 @@ static void imx_ldb_encoder_disable(struct drm_encoder *encoder)
- {
- 	struct imx_ldb_channel *imx_ldb_ch = enc_to_imx_ldb_ch(encoder);
- 	struct imx_ldb *ldb = imx_ldb_ch->ldb;
-+	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
- 	int mux, ret;
- 
- 	drm_panel_disable(imx_ldb_ch->panel);
- 
--	if (imx_ldb_ch == &ldb->channel[0])
-+	if (imx_ldb_ch == &ldb->channel[0] || dual)
- 		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
--	else if (imx_ldb_ch == &ldb->channel[1])
-+	if (imx_ldb_ch == &ldb->channel[1] || dual)
- 		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
- 
- 	regmap_write(ldb->regmap, IOMUXC_GPR2, ldb->ldb_ctrl);
- 
--	if (ldb->ldb_ctrl & LDB_SPLIT_MODE_EN) {
-+	if (dual) {
- 		clk_disable_unprepare(ldb->clk[0]);
- 		clk_disable_unprepare(ldb->clk[1]);
- 	}
--- 
-2.7.4
+It's better to send another tree for this patch.
+Because this tree is only for soc/mediatek.
+
+Please do not forget to add the dependency information.
+
+Bibby
+
+On Tue, 2020-07-07 at 23:45 +0800, Dennis YC Hsieh wrote:
+> No need to clear event again since event always clear before wait.
+> This fix depend on patch:
+>   "soc: mediatek: cmdq: add clear option in cmdq_pkt_wfe api"
+> 
+> Fixes: 2f965be7f9008 ("drm/mediatek: apply CMDQ control flow")
+> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+
+Reviewed-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
+
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index c84e7a14d4a8..ba6cf956b239 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -490,7 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
+>  		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
+>  		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
+>  		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+> -		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, true);
+> +		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
+>  		mtk_crtc_ddp_config(crtc, cmdq_handle);
+>  		cmdq_pkt_finalize(cmdq_handle);
+>  		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
 
 _______________________________________________
 dri-devel mailing list
