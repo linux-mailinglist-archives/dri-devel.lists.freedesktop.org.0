@@ -1,55 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B75121A97F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 23:04:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDE221AB0A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 00:58:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCF26EB39;
-	Thu,  9 Jul 2020 21:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A90556EB4A;
+	Thu,  9 Jul 2020 22:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50F5A6EB39
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 21:04:51 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id a12so3793151ion.13
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 14:04:51 -0700 (PDT)
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34FC16EB4A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 22:58:02 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id t27so3455234ill.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 15:58:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ep2BUalGoUDMYiRgPfHR0K5E7uXRpZtzmzl5wMZRFHs=;
- b=IRGAn9nvAm6xdK2uNmgohJQlmmX+mrxn30eyw3OjFO1J55UMEfeV1+AlNFWdrzMeyZ
- SkHXJ2yKdM1M53EfeusApn2xOETMFt4hU8AqzKeW/zSc2ugOtMF5rbvKAc43Vwtdi3GY
- 0hUVaOaBMtK/G448+m1NZ/fzYDcM56zd2FKIQaBhXIT0N1PW2BTCjpEY3IpksPctND8Y
- NQLEkaiLvspmAI3LimHVI1K/cfQmMNcB0w4TWoOZUsH8Ye2EkpKQT5t5UeR2TB6LfRgs
- 0gUOy/FZYx+EjhGYr0/kf1KLrQ5n6wUcFQlIrSrOZbeOWg+it/lB+17MK16oh14lr8Pp
- fIxA==
-X-Gm-Message-State: AOAM530dq8+ORmoCxTj9FK6fgELHeXCZXutOryE9pLctUPr+/4DM8s24
- r6f8iIpeTzEra3wY2Vq1GA==
-X-Google-Smtp-Source: ABdhPJzzckh793p74m62K2t6bgxJyhqTwep2hglKcjMTiXCsSoxr/OlqW/k8gyAtxdeWk6fveOx07A==
-X-Received: by 2002:a02:cd06:: with SMTP id g6mr43286633jaq.37.1594328690447; 
- Thu, 09 Jul 2020 14:04:50 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=EUysYX5gx8v+ALLFOwqd441nucMw0JC5sr5in7urozA=;
+ b=mpF4KDcxAKAhf9X/E84n668l6wztTYJ0Mh5tcGuYp+WV3zDQd5LBEZJIsV0rq7gf+o
+ jh557eNLTLkWjEsuNMVXY0L3hNprfilf6e/FXAMJILnPT/QOPuqQ9bPSxOZsMW5OIl8w
+ aBPizP9XyGi+U7R5uxhCys35Mgq4wyjfrVph9mQ5VRgPnCCR6QxfV7nIM7laPVP+grM7
+ 75XG8kSNKGsAXIWOS63ScDhDh8DZh18WoFHb+cwUO1Q16fCgWcARI35S/Rsty82ntldt
+ 4YADPvv6XDrlXPndTe2nGCef47euQBPtVKwzyD2+7FttHhEo8OXmjtt0puCzWdbD727K
+ 2V1Q==
+X-Gm-Message-State: AOAM532m49d3fBjc3YZ6ndWJ89B2XHulJmsBgvAn6SRI92ZnRQLjsbkq
+ evs0mlB7l4NsPzZWPjN5Gg==
+X-Google-Smtp-Source: ABdhPJwK7B+LuXVaPNciMiac694dleIoNATkdJfhjt6w+WeI4pE+/FDfEN/0wJ7P19KC1zRRRaGygw==
+X-Received: by 2002:a92:4101:: with SMTP id o1mr38094648ila.53.1594335481573; 
+ Thu, 09 Jul 2020 15:58:01 -0700 (PDT)
 Received: from xps15 ([64.188.179.254])
- by smtp.gmail.com with ESMTPSA id g8sm2399655ilq.49.2020.07.09.14.04.49
+ by smtp.gmail.com with ESMTPSA id v5sm2837555ios.54.2020.07.09.15.58.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 14:04:49 -0700 (PDT)
-Received: (nullmailer pid 883283 invoked by uid 1000);
- Thu, 09 Jul 2020 21:04:48 -0000
-Date: Thu, 9 Jul 2020 15:04:48 -0600
+ Thu, 09 Jul 2020 15:58:00 -0700 (PDT)
+Received: (nullmailer pid 1047705 invoked by uid 1000);
+ Thu, 09 Jul 2020 22:57:59 -0000
+Date: Thu, 9 Jul 2020 16:57:59 -0600
 From: Rob Herring <robh@kernel.org>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [PATCH RFC v6 1/6] dt-bindings: exynos-bus: Add documentation
- for interconnect properties
-Message-ID: <20200709210448.GA876103@bogus>
-References: <20200702163724.2218-1-s.nawrocki@samsung.com>
- <CGME20200702163748eucas1p2cf7eab70bc072dea9a95183018b38ad3@eucas1p2.samsung.com>
- <20200702163724.2218-2-s.nawrocki@samsung.com>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Subject: Re: [PATCH v5 4/5] dt-bindings: display: imx: add bindings for DCSS
+Message-ID: <20200709225759.GA1040142@bogus>
+References: <20200709164736.18291-1-laurentiu.palcu@oss.nxp.com>
+ <20200709164736.18291-5-laurentiu.palcu@oss.nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200702163724.2218-2-s.nawrocki@samsung.com>
+In-Reply-To: <20200709164736.18291-5-laurentiu.palcu@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,95 +59,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
- a.swigon@samsung.com, krzk@kernel.org, linux-kernel@vger.kernel.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com,
- dri-devel@lists.freedesktop.org, georgi.djakov@linaro.org,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, lukas@mntmn.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, agx@sigxcpu.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMDIsIDIwMjAgYXQgMDY6Mzc6MTlQTSArMDIwMCwgU3lsd2VzdGVyIE5hd3Jv
-Y2tpIHdyb3RlOgo+IEFkZCBkb2N1bWVudGF0aW9uIGZvciBuZXcgb3B0aW9uYWwgcHJvcGVydGll
-cyBpbiB0aGUgZXh5bm9zIGJ1cyBub2RlczoKPiBzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQs
-ICNpbnRlcmNvbm5lY3QtY2VsbHMsIGJ1cy13aWR0aC4KPiBUaGVzZSBwcm9wZXJ0aWVzIGFsbG93
-IHRvIHNwZWNpZnkgdGhlIFNvQyBpbnRlcmNvbm5lY3Qgc3RydWN0dXJlIHdoaWNoCj4gdGhlbiBh
-bGxvd3MgdGhlIGludGVyY29ubmVjdCBjb25zdW1lciBkZXZpY2VzIHRvIHJlcXVlc3Qgc3BlY2lm
-aWMKPiBiYW5kd2lkdGggcmVxdWlyZW1lbnRzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFydHVyIMWa
-d2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBTeWx3ZXN0ZXIg
-TmF3cm9ja2kgPHMubmF3cm9ja2lAc2Ftc3VuZy5jb20+Cj4gLS0tCj4gQ2hhbmdlcyBmb3IgdjY6
-Cj4gIC0gYWRkZWQgZHRzIGV4YW1wbGUgb2YgYnVzIGhpZXJhcmNoeSBkZWZpbml0aW9uIGFuZCB0
-aGUgaW50ZXJjb25uZWN0Cj4gICAgY29uc3VtZXIsCj4gIC0gYWRkZWQgbmV3IGJ1cy13aWR0aCBw
-cm9wZXJ0eS4KPiAKPiBDaGFuZ2VzIGZvciB2NToKPiAgLSBleHlub3MsaW50ZXJjb25uZWN0LXBh
-cmVudC1ub2RlIHJlbmFtZWQgdG8gc2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50Cj4gLS0tCj4g
-IC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RldmZyZXEvZXh5bm9zLWJ1cy50eHQgICAgIHwgNjgg
-KysrKysrKysrKysrKysrKysrKysrLQo+ICAxIGZpbGUgY2hhbmdlZCwgNjYgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2RldmZyZXEvZXh5bm9zLWJ1cy50eHQgYi9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvZGV2ZnJlcS9leHlub3MtYnVzLnR4dAo+IGluZGV4IGU3MWY3NTIuLjQw
-MzVlM2UgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rl
-dmZyZXEvZXh5bm9zLWJ1cy50eHQKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvZGV2ZnJlcS9leHlub3MtYnVzLnR4dAo+IEBAIC01MSw2ICs1MSwxMyBAQCBPcHRpb25h
-bCBwcm9wZXJ0aWVzIG9ubHkgZm9yIHBhcmVudCBidXMgZGV2aWNlOgo+ICAtIGV4eW5vcyxzYXR1
-cmF0aW9uLXJhdGlvOiB0aGUgcGVyY2VudGFnZSB2YWx1ZSB3aGljaCBpcyB1c2VkIHRvIGNhbGli
-cmF0ZQo+ICAJCQl0aGUgcGVyZm9ybWFuY2UgY291bnQgYWdhaW5zdCB0b3RhbCBjeWNsZSBjb3Vu
-dC4KPiAgCj4gK09wdGlvbmFsIHByb3BlcnRpZXMgZm9yIGludGVyY29ubmVjdCBmdW5jdGlvbmFs
-aXR5IChRb1MgZnJlcXVlbmN5IGNvbnN0cmFpbnRzKToKPiArLSBzYW1zdW5nLGludGVyY29ubmVj
-dC1wYXJlbnQ6IHBoYW5kbGUgdG8gdGhlIHBhcmVudCBpbnRlcmNvbm5lY3Qgbm9kZTsgZm9yCj4g
-KyAgcGFzc2l2ZSBkZXZpY2VzIHNob3VsZCBwb2ludCB0byBzYW1lIG5vZGUgYXMgdGhlIGV4eW5v
-cyxwYXJlbnQtYnVzIHByb3BlcnR5LgoKQWRkaW5nIHZlbmRvciBzcGVjaWZpYyBwcm9wZXJ0aWVz
-IGZvciBhIGNvbW1vbiBiaW5kaW5nIGRlZmVhdHMgdGhlIApwb2ludC4KCj4gKy0gI2ludGVyY29u
-bmVjdC1jZWxsczogc2hvdWxkIGJlIDAuCj4gKy0gYnVzLXdpZHRoOiB0aGUgaW50ZXJjb25uZWN0
-IGJ1cyB3aWR0aCBpbiBiaXRzLCBkZWZhdWx0IHZhbHVlIGlzIDggd2hlbiB0aGlzCj4gKyAgcHJv
-cGVydHkgaXMgbWlzc2luZy4KCllvdXIgYnVzIGlzIDgtYml0cyBvciA0LWJpdHMgYXMgdGhlIGV4
-YW1wbGU/Cgo+ICsKPiAgRGV0YWlsZWQgY29ycmVsYXRpb24gYmV0d2VlbiBzdWItYmxvY2tzIGFu
-ZCBwb3dlciBsaW5lIGFjY29yZGluZyB0byBFeHlub3MgU29DOgo+ICAtIEluIGNhc2Ugb2YgRXh5
-bm9zMzI1MCwgdGhlcmUgYXJlIHR3byBwb3dlciBsaW5lIGFzIGZvbGxvd2luZzoKPiAgCVZERF9N
-SUYgfC0tLSBETUMKPiBAQCAtMTM1LDcgKzE0Miw3IEBAIERldGFpbGVkIGNvcnJlbGF0aW9uIGJl
-dHdlZW4gc3ViLWJsb2NrcyBhbmQgcG93ZXIgbGluZSBhY2NvcmRpbmcgdG8gRXh5bm9zIFNvQzoK
-PiAgCQl8LS0tIFBFUklDIChGaXhlZCBjbG9jayByYXRlKQo+ICAJCXwtLS0gRlNZUyAgKEZpeGVk
-IGNsb2NrIHJhdGUpCj4gIAo+IC1FeGFtcGxlMToKPiArRXhhbXBsZSAxOgo+ICAJU2hvdyB0aGUg
-QVhJIGJ1c2VzIG9mIEV4eW5vczMyNTAgU29DLiBFeHlub3MzMjUwIGRpdmlkZXMgdGhlIGJ1c2Vz
-IHRvCj4gIAlwb3dlciBsaW5lIChyZWd1bGF0b3IpLiBUaGUgTUlGIChNZW1vcnkgSW50ZXJmYWNl
-KSBBWEkgYnVzIGlzIHVzZWQgdG8KPiAgCXRyYW5zZmVyIGRhdGEgYmV0d2VlbiBEUkFNIGFuZCBD
-UFUgYW5kIHVzZXMgdGhlIFZERF9NSUYgcmVndWxhdG9yLgo+IEBAIC0xODQsNyArMTkxLDcgQEAg
-RXhhbXBsZTE6Cj4gIAl8TDUgICB8MjAwMDAwIHwyMDAwMDAgIHw0MDAwMDAgfDMwMDAwMCB8ICAg
-ICAgIHx8MTAwMDAwMCB8Cj4gIAktLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIAo+IC1FeGFtcGxlMiA6Cj4gK0V4YW1wbGUgMjoKPiAg
-CVRoZSBidXMgb2YgRE1DIChEeW5hbWljIE1lbW9yeSBDb250cm9sbGVyKSBibG9jayBpbiBleHlu
-b3MzMjUwLmR0c2kKPiAgCWlzIGxpc3RlZCBiZWxvdzoKPiAgCj4gQEAgLTQxOSwzICs0MjYsNjAg
-QEAgRXhhbXBsZTIgOgo+ICAJCWRldmZyZXEgPSA8JmJ1c19sZWZ0YnVzPjsKPiAgCQlzdGF0dXMg
-PSAib2theSI7Cj4gIAl9Owo+ICsKPiArRXhhbXBsZSAzOgo+ICsJQW4gaW50ZXJjb25uZWN0IHBh
-dGggImJ1c19kaXNwbGF5IC0tIGJ1c19sZWZ0YnVzIC0tIGJ1c19kbWMiIG9uCj4gKwlFeHlub3M0
-NDEyIFNvQyB3aXRoIHZpZGVvIG1peGVyIGFzIGFuIGludGVyY29ubmVjdCBjb25zdW1lciBkZXZp
-Y2UuCj4gKwo+ICsJc29jIHsKPiArCQlidXNfZG1jOiBidXNfZG1jIHsKPiArCQkJY29tcGF0aWJs
-ZSA9ICJzYW1zdW5nLGV4eW5vcy1idXMiOwo+ICsJCQljbG9ja3MgPSA8JmNsb2NrIENMS19ESVZf
-RE1DPjsKPiArCQkJY2xvY2stbmFtZXMgPSAiYnVzIjsKPiArCQkJb3BlcmF0aW5nLXBvaW50cy12
-MiA9IDwmYnVzX2RtY19vcHBfdGFibGU+Owo+ICsJCQlidXMtd2lkdGggPSA8ND47Cj4gKwkJCSNp
-bnRlcmNvbm5lY3QtY2VsbHMgPSA8MD47Cj4gKwkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4gKwkJ
-fTsKPiArCj4gKwkJYnVzX2xlZnRidXM6IGJ1c19sZWZ0YnVzIHsKPiArCQkJY29tcGF0aWJsZSA9
-ICJzYW1zdW5nLGV4eW5vcy1idXMiOwo+ICsJCQljbG9ja3MgPSA8JmNsb2NrIENMS19ESVZfR0RM
-PjsKPiArCQkJY2xvY2stbmFtZXMgPSAiYnVzIjsKPiArCQkJb3BlcmF0aW5nLXBvaW50cy12MiA9
-IDwmYnVzX2xlZnRidXNfb3BwX3RhYmxlPjsKPiArCQkJc2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFy
-ZW50ID0gPCZidXNfZG1jPjsKPiArCQkJI2ludGVyY29ubmVjdC1jZWxscyA9IDwwPjsKPiArCQkJ
-c3RhdHVzID0gImRpc2FibGVkIjsKPiArCQl9Owo+ICsKPiArCQlidXNfZGlzcGxheTogYnVzX2Rp
-c3BsYXkgewo+ICsJCQljb21wYXRpYmxlID0gInNhbXN1bmcsZXh5bm9zLWJ1cyI7Cj4gKwkJCWNs
-b2NrcyA9IDwmY2xvY2sgQ0xLX0FDTEsxNjA+Owo+ICsJCQljbG9jay1uYW1lcyA9ICJidXMiOwo+
-ICsJCQlvcGVyYXRpbmctcG9pbnRzLXYyID0gPCZidXNfZGlzcGxheV9vcHBfdGFibGU+Owo+ICsJ
-CQlzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQgPSA8JmJ1c19sZWZ0YnVzPjsKPiArCQkJI2lu
-dGVyY29ubmVjdC1jZWxscyA9IDwwPjsKPiArCQkJc3RhdHVzID0gImRpc2FibGVkIjsKPiArCQl9
-Owo+ICsKPiArCQlidXNfZG1jX29wcF90YWJsZTogb3BwX3RhYmxlMSB7Cj4gKwkJCWNvbXBhdGli
-bGUgPSAib3BlcmF0aW5nLXBvaW50cy12MiI7Cj4gKwkJCS8qIC4uLiAqLwo+ICsJCX0KPiArCj4g
-KwkJYnVzX2xlZnRidXNfb3BwX3RhYmxlOiBvcHBfdGFibGUzIHsKPiArCQkJY29tcGF0aWJsZSA9
-ICJvcGVyYXRpbmctcG9pbnRzLXYyIjsKPiArCQkJLyogLi4uICovCj4gKwkJfTsKPiArCj4gKwkJ
-YnVzX2Rpc3BsYXlfb3BwX3RhYmxlOiBvcHBfdGFibGU0IHsKPiArCQkJY29tcGF0aWJsZSA9ICJv
-cGVyYXRpbmctcG9pbnRzLXYyIjsKPiArCQkJLyogLi4gKi8KPiArCQl9Owo+ICsKPiArCQkmbWl4
-ZXIgewo+ICsJCQljb21wYXRpYmxlID0gInNhbXN1bmcsZXh5bm9zNDIxMi1taXhlciI7Cj4gKwkJ
-CWludGVyY29ubmVjdHMgPSA8JmJ1c19kaXNwbGF5ICZidXNfZG1jPjsKPiArCQkJLyogLi4uICov
-Cj4gKwkJfTsKPiArCX07Cj4gLS0gCj4gMi43LjQKPiAKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Jul 09, 2020 at 07:47:32PM +0300, Laurentiu Palcu wrote:
+> From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> 
+> Add bindings for iMX8MQ Display Controller Subsystem.
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> ---
+>  .../bindings/display/imx/nxp,imx8mq-dcss.yaml | 84 +++++++++++++++++++
+>  1 file changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+> new file mode 100644
+> index 000000000000..a951409cf76d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright 2019 NXP
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/display/imx/nxp,imx8mq-dcss.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: iMX8MQ Display Controller Subsystem (DCSS)
+> +
+> +maintainers:
+> +  - Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> +
+> +description:
+> +
+> +  The DCSS (display controller sub system) is used to source up to three
+> +  display buffers, compose them, and drive a display using HDMI 2.0a(with HDCP
+> +  2.2) or MIPI-DSI. The DCSS is intended to support up to 4kp60 displays. HDR10
+> +  image processing capabilities are included to provide a solution capable of
+> +  driving next generation high dynamic range displays.
+> +
+> +properties:
+> +  compatible:
+> +    const: nxp,imx8mq-dcss
+> +
+> +  reg:
+> +    items:
+> +      - description: DCSS base address and size, up to IRQ steer start
+> +      - description: DCSS BLKCTL base address and size
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Context loader completion and error interrupt
+> +      - description: DTG interrupt used to signal context loader trigger time
+> +      - description: DTG interrupt for Vblank
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: ctxld
+> +      - const: ctxld_kick
+> +      - const: vblank
+> +
+> +  clocks:
+> +    items:
+> +      - description: Display APB clock for all peripheral PIO access interfaces
+> +      - description: Display AXI clock needed by DPR, Scaler, RTRAM_CTRL
+> +      - description: RTRAM clock
+> +      - description: Pixel clock, can be driver either by HDMI phy clock or MIPI
+> +      - description: DTRC clock, needed by video decompressor
+> +
+> +  clock-names:
+> +    items:
+> +      - const: apb
+> +      - const: axi
+> +      - const: rtrm
+> +      - const: pix
+> +      - const: dtrc
+> +
+> +  port:
+> +    type: object
+> +    description:
+> +      A port node pointing to the input port of a HDMI/DP or MIPI display bridge.
+
+additionalProperties: false
+
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
