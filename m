@@ -1,53 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E1A21A324
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 17:14:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D72221A389
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 17:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E104A6EA93;
-	Thu,  9 Jul 2020 15:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE9B6EA9F;
+	Thu,  9 Jul 2020 15:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69236EA89;
- Thu,  9 Jul 2020 15:14:50 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id by13so2108497edb.11;
- Thu, 09 Jul 2020 08:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=svTZUqZItL6wcjbTVTXwVReRDuRMeNVOVpDj5H4MV7Y=;
- b=ZFHxOi3lm0AtcfsrIam2+k4ngQ9/thvcljjmnt0n50sld27J7B8bPYQZwpBWkih2FG
- odPYLanjqAmp8O4OzU+3LE90JM3eAP0H+yVT6gP4/A5DrK7Jbi9EZhNMW5yaD0AZTzFA
- cxXGGzN62IbR0BFD8CzXZ8ad96AHZ6kaaQUJgJM1YDK/QY35Bqpd7LiIinsnoxwefUJW
- XcPd3C0nZ6xuYuxBd774GOZ56Ztk8al4LO60Wcy2OZ8JeuXYpvyo2BzPaNF/MbCwOHX2
- xtCfrbbtJiQCsnGYZFt9mfvWkAIAV+rHbJIRHUpIOg5IEfWCA+d13IrooGfI2Avp4MeF
- Z/Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=svTZUqZItL6wcjbTVTXwVReRDuRMeNVOVpDj5H4MV7Y=;
- b=lHBnZ0/bN3hSH1w7LNSYkqQEkY66tYQLVeFBPNARyECeiCmBdciuuPmHIekqcFGBLq
- VpwPxg7Wy0xrLKeHb1IlqsnOniOaHYXeUKz+0y9nEd0L/y8sbCZGxyNTH8H9XPWwKhNI
- ykM8w1qRaOZejwj3uK7N2YvQZwqhE9irEbNUIUH4rfGM8ZK57eO5j0peh8E4H8tVek4j
- LnS9pExuzrvmV86vpXy77vwumJNRQRqQLkT7+hQUnBjU7J0FA+RR0/V7NqVTbYJ66Qgs
- zLiWe9/L6NN2/zBlFKCbeeTZKAyocf5zpCo9wrXb6zLKMUNWGJuvmiThm8C9TEO8epEc
- HMtQ==
-X-Gm-Message-State: AOAM532xD+Fw2BdSIb6H6aThdochUIU2qhlH4V93p2Uhi7m91C36pNrH
- NQzw/ZPWWHc7xwcOzeW3qQJyvgUVpC0uMYU4FYM=
-X-Google-Smtp-Source: ABdhPJySmDpPfzbv4ZnX8rhIes/uKRUMK9JalUqgPpaeget9ts7gAq8xEXBKMenHWFBsDTvDFRh/UfbJcU80Ud0l9fc=
-X-Received: by 2002:a50:cd1a:: with SMTP id z26mr75079361edi.120.1594307689397; 
- Thu, 09 Jul 2020 08:14:49 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F8C16E0BA;
+ Thu,  9 Jul 2020 15:23:19 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 65A69804C8;
+ Thu,  9 Jul 2020 17:23:16 +0200 (CEST)
+Date: Thu, 9 Jul 2020 17:23:14 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v4 00/15] acpi/pwm/i915: Convert pwm-crc and i915
+ driver's PWM code to use the atomic PWM API
+Message-ID: <20200709152314.GA233132@ravnborg.org>
+References: <20200708211432.28612-1-hdegoede@redhat.com>
+ <20200709141407.GA226971@ravnborg.org>
+ <fb370663-9efe-a820-2e57-d43d3af7828c@redhat.com>
 MIME-Version: 1.0
-References: <20200709143404.11876-1-jonathan@marek.ca>
-In-Reply-To: <20200709143404.11876-1-jonathan@marek.ca>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 9 Jul 2020 08:15:20 -0700
-Message-ID: <CAF6AEGsQFVptXi2wgx_JipyK0AOSUBHOHaDmRF_gG+hSH8mF5A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: handle for EPROBE_DEFER for of_icc_get
-To: Jonathan Marek <jonathan@marek.ca>
+Content-Disposition: inline
+In-Reply-To: <fb370663-9efe-a820-2e57-d43d3af7828c@redhat.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=ISncdtaFCDb5yrYJnEIA:9
+ a=U5XkNeA9I98Y5_jT:21 a=nvJk_VNiUKGhWGwL:21 a=CjuIK1q_8ugA:10
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,107 +47,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- freedreno <freedreno@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, Brian Masney <masneyb@onstation.org>
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 9, 2020 at 7:35 AM Jonathan Marek <jonathan@marek.ca> wrote:
->
-> Check for errors instead of silently not using icc if the msm driver
-> probes before the interconnect driver.
->
-> Allow ENODATA for ocmem path, as it is optional and this error
-> is returned when "gfx-mem" path is provided but not "ocmem".
->
-> Remove the WARN_ON in msm_gpu_cleanup because INIT_LIST_HEAD won't have
-> been called on the list yet when going through the defer error path.
->
-> Changes in v2:
-> * Changed to not only check for EPROBE_DEFER
->
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 ++++++++++++++---
->  drivers/gpu/drm/msm/msm_gpu.c           |  2 --
->  2 files changed, 14 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 89673c7ed473..0f5217202eb5 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -940,12 +940,20 @@ static int adreno_get_pwrlevels(struct device *dev,
->                  */
->                 gpu->icc_path = of_icc_get(dev, NULL);
->         }
-> -       if (IS_ERR(gpu->icc_path))
-> +       if (IS_ERR(gpu->icc_path)) {
-> +               ret = PTR_ERR(gpu->icc_path);
->                 gpu->icc_path = NULL;
-> +               return ret;
-> +       }
->
->         gpu->ocmem_icc_path = of_icc_get(dev, "ocmem");
-> -       if (IS_ERR(gpu->ocmem_icc_path))
-> +       if (IS_ERR(gpu->ocmem_icc_path)) {
-> +               ret = PTR_ERR(gpu->ocmem_icc_path);
->                 gpu->ocmem_icc_path = NULL;
-> +               /* allow -ENODATA, ocmem icc is optional */
-> +               if (ret != -ENODATA)
-> +                       return ret;
-> +       }
->
->         return 0;
->  }
-> @@ -996,6 +1004,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->         struct adreno_platform_config *config = pdev->dev.platform_data;
->         struct msm_gpu_config adreno_gpu_config  = { 0 };
->         struct msm_gpu *gpu = &adreno_gpu->base;
-> +       int ret;
->
->         adreno_gpu->funcs = funcs;
->         adreno_gpu->info = adreno_info(config->rev);
-> @@ -1007,7 +1016,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->
->         adreno_gpu_config.nr_rings = nr_rings;
->
-> -       adreno_get_pwrlevels(&pdev->dev, gpu);
-> +       ret = adreno_get_pwrlevels(&pdev->dev, gpu);
-> +       if (ret)
-> +               return ret;
->
->         pm_runtime_set_autosuspend_delay(&pdev->dev,
->                 adreno_gpu->info->inactive_period);
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index a22d30622306..ccf9a0dd9706 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -959,8 +959,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
->
->         DBG("%s", gpu->name);
->
-> -       WARN_ON(!list_empty(&gpu->active_list));
-> -
+Hi,
+On Thu, Jul 09, 2020 at 04:40:56PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 7/9/20 4:14 PM, Sam Ravnborg wrote:
+> > Hi Hans.
+> > 
+> > On Wed, Jul 08, 2020 at 11:14:16PM +0200, Hans de Goede wrote:
+> > > Hi All,
+> > > 
+> > > Here is v4 of my patch series converting the i915 driver's code for
+> > > controlling the panel's backlight with an external PWM controller to
+> > > use the atomic PWM API. See below for the changelog.
+> > 
+> > Why is it that i915 cannot use the pwm_bl driver for backlight?
+> > I have not studied the code - just wondering.
+> 
+> The intel_panel.c code deals with 7 different types of PWM controllers
+> which are built into the GPU + support for external PWM controllers
+> through the kernel's PWM subsystem.
+> 
+> pwm_bl will work for the external PWM controller case, but not for
+> the others. On top of that the intel_panel code integrates which
+> the video BIOS, getting things like frequency, minimum value
+> and if the range is inverted (0% duty == backlight brightness max).
+> I'm not even sure if pwm_bl supports all of this, but even if it
+> does the intel_panel code handles this in a unified manner for
+> all supported PWM controllers, including the ones which are
+> an integral part of the GPU.
 
-hmm, not a huge fan of removing the WARN_ON().. can we just init the
-list head earlier?
+Thanks for the explanation.
+This is a more complicated world than the usual embedded case with a
+single pwm, no BIOS etc. So it makes sense.
 
-BR,
--R
+	Sam
 
->         for (i = 0; i < ARRAY_SIZE(gpu->rb); i++) {
->                 msm_ringbuffer_destroy(gpu->rb[i]);
->                 gpu->rb[i] = NULL;
-> --
-> 2.26.1
->
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> > > Initially the plan was for this series to consist of 2 parts:
+> > > 1. convert the pwm-crc driver to support the atomic PWM API and
+> > > 2. convert the i915 driver's PWM code to use the atomic PWM API.
+> > > 
+> > > But during testing I've found a number of bugs in the pwm-lpss and I
+> > > found that the acpi_lpss code needs some special handling because of
+> > > some ugliness found in most Cherry Trail DSDTs.
+> > > 
+> > > So now this series has grown somewhat large and consists of 4 parts:
+> > > 
+> > > 1. acpi_lpss fixes workarounds for Cherry Trail DSTD nastiness
+> > > 2. various fixes to the pwm-lpss driver
+> > > 3. convert the pwm-crc driver to support the atomic PWM API and
+> > > 4. convert the i915 driver's PWM code to use the atomic PWM API
+> > > 
+> > > The involved acpi_lpss and pwm drivers do not see a whole lot of churn,
+> > > so the plan is to merge this all through drm-intel-next-queued (dinq)
+> > > once all the patches are reviewed / have acks.
+> > > 
+> > > In v4 the ACPI patches have been Acked by Rafael and the i915 patches
+> > > have been acked by Jani. So that just leaves the PWM patches.
+> > > 
+> > > Uwe can I get your ok / ack for merging this through the dinq branch
+> > > once you have acked al the PWM patches ?
+> > > 
+> > > This series has been tested (and re-tested after adding various bug-fixes)
+> > > extensively. It has been tested on the following devices:
+> > > 
+> > > -Asus T100TA  BYT + CRC-PMIC PWM
+> > > -Toshiba WT8-A  BYT + CRC-PMIC PWM
+> > > -Thundersoft TS178 BYT + CRC-PMIC PWM, inverse PWM
+> > > -Asus T100HA  CHT + CRC-PMIC PWM
+> > > -Terra Pad 1061  BYT + LPSS PWM
+> > > -Trekstor Twin 10.1 BYT + LPSS PWM
+> > > -Asus T101HA  CHT + CRC-PMIC PWM
+> > > -GPD Pocket  CHT + CRC-PMIC PWM
+> > > 
+> > > Changelog:
+> > > 
+> > > Changes in v2:
+> > > - Fix coverletter subject
+> > > - Drop accidentally included debugging patch
+> > > - "[PATCH v3 02/15] ACPI / LPSS: Save Cherry Trail PWM ctx registers only once (
+> > >    - Move #define LPSS_SAVE_CTX_ONCE define to group it with LPSS_SAVE_CTX
+> > > 
+> > > Changes in v3:
+> > > - "[PATCH v3 04/15] pwm: lpss: Add range limit check for the base_unit register value"
+> > >    - Use base_unit_range - 1 as maximum value for the clamp()
+> > > - "[PATCH v3 05/15] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume"
+> > >    - This replaces the "pwm: lpss: Set SW_UPDATE bit when enabling the PWM"
+> > >      patch from previous versions of this patch-set, which really was a hack
+> > >      working around the resume issue which this patch fixes properly.
+> > > - PATCH v3 6 - 11 pwm-crc changes:
+> > >    - Various small changes resulting from the reviews by Andy and Uwe,
+> > >      including some refactoring of the patches to reduce the amount of churn
+> > >      in the patch-set
+> > > 
+> > > Changes in v4:
+> > > - "[PATCH v4 06/16] pwm: lpss: Correct get_state result for base_unit == 0"
+> > >    - This is a new patch in v4 of this patchset
+> > > - "[PATCH v4 12/16] pwm: crc: Implement get_state() method"
+> > >    - Use DIV_ROUND_UP when calculating the period and duty_cycle values
+> > > - "[PATCH v4 16/16] drm/i915: panel: Use atomic PWM API for devs with an external PWM controller"
+> > >    - Add a note to the commit message about the changes in pwm_disable_backlight()
+> > >    - Use the pwm_set/get_relative_duty_cycle() helpers
+> > > 
+> > > Regards,
+> > > 
+> > > Hans
+> > > 
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
