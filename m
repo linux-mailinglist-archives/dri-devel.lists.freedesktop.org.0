@@ -1,44 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA9C21983B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 08:10:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0122198B0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 08:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7FF6E03D;
-	Thu,  9 Jul 2020 06:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC326E9AA;
+	Thu,  9 Jul 2020 06:30:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 500606E03D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 06:10:51 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7CE31206A5;
- Thu,  9 Jul 2020 06:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594275051;
- bh=HkO5Yg136PYC2vLtfeUtNDLTItu1WXaILkpHkgJ+kI4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sLttGrpufPQVt+u3fxp4mi2R6RDJR5DtBMws794b2hTptjRsjf3gvPM6cHsHLyer/
- 4aCxkZcuxRYvYRNWvwW4jK2ffF9PGak4YXAha7EpFiRHa9YYxN05Y1expxSNzhowwP
- nbMdXzYy7IGI8I2JB2brCvvvvLZoeDrRxClxYyt4=
-Date: Thu, 9 Jul 2020 08:10:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: [PATCH] omapfb: dss: Fix max fclk divider for omap36xx
-Message-ID: <20200709061048.GA129902@kroah.com>
-References: <20200630182636.439015-1-aford173@gmail.com>
- <b9052a12-af5a-c1b9-5b86-907eac470cf8@ti.com>
- <20200703193648.GA373653@ravnborg.org>
- <bda1606f-b12c-3356-15ce-489fc2441737@ti.com>
- <CAHCN7xJdg8uUDaghFftze2K6t2pnyZg_JYpdmA=UU-shmk0Xgw@mail.gmail.com>
- <CAHCN7xLGAWEO5CPDOsHoy4B0FjD+1GHhHYgihmVg=mhjUFjSTQ@mail.gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76ACA6E9A9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 06:30:37 +0000 (UTC)
+IronPort-SDR: Fa8GdqCnpWu6BhSTUiFULBmTeVhB4s4eeZUwiIjqekkDeI1V0y7tpTFnO3Flep9txDlvAPLVUL
+ bqIgbKiyjysg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="146036095"
+X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="146036095"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 23:30:36 -0700
+IronPort-SDR: fd+xd7pNKpQFW51UL1k7PO+0KbxsMPtAVVY6SG8YdnWYDUMt/yehfz276pXVdKHwBiVOoWocHY
+ ro+hVNgKuwZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="323148287"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2020 23:30:36 -0700
+Received: from fmsmsx102.amr.corp.intel.com (10.18.124.200) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 8 Jul 2020 23:30:36 -0700
+Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
+ FMSMSX102.amr.corp.intel.com (10.18.124.200) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 8 Jul 2020 23:30:35 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Wed, 8 Jul 2020 23:30:36 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SN3VibjvDDGQ0140HefRhJAlzrQ9dYAQv39DTb6Q3preXyBUp9qqbFuQ7Jb/aJ1+OWb2qd668cxoZoNV8yYbRszq6Z+HuSGXC+r9f5UT12s31wIlccOPdGR7pcexQpH1kMegGeJ29XSCwhRLb19e0YLKIXwHZ9xe0EStmjogt4129m1axXMiCJKZ8yPYhIpxgw434B1xEt4jxAjM4L8Nm1fdO3QPo0l/T+vUGwWtiLSfSGlxPeczuyR59buvCQFQ5GoLVW9siX06ruFg4dhuY70kkDKDUGiXgl+/rNX/Wxkh7ilwIAmIDLikhyPu2lHbDwa10Jcs6C0T8PxUobT2Wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t/H8Sgc4MMobIlv4RQ3icoUi+h/rlKK4LSDg79C9pE0=;
+ b=DV46YXwtfn7Sk6iUQUGZDTIBQ42/sTzE2IeRczywn778weSGqKuNgoeKXfs/vKMHq0QNm5WyloGFQ9jBNf5jW5VzDGwm/uHy0rtEz6pRfixU1RucRR7+ennaSx4+OSN1MfR4L8SCa7Jg0MhtfNu/C2cz7bivEsaQcT/lNPvx6TH1Fpn5gXXRaZAAXqPKb4g9kM4rmy3T35RUBIjxjXedfWb19I1fCS9Qapy5Csqa6HE0OkJ3rwZeiZdariHzKA2ABw67lG96rkcPWbIaLBGIMQmInthoGwx2E5ZZymOnoNdXFwFCaBMdcpY5kZZc1Jicw49ghcQyVvo4r6if030gKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t/H8Sgc4MMobIlv4RQ3icoUi+h/rlKK4LSDg79C9pE0=;
+ b=r44G/c0teybHmOaJV4L1yTv30Gq0NRMfmyPRJTUX65pqRedz3zMGnEDzgvnl+g8zYAG1GeKV8gQMpStm+BIJbvjbhE0jQl7uw4j9qJ2uYjBmBy71hcXY+709voPmphjuiZKSAamcIHuLyALqaBVM+97WTj8ecO4JNHIzWg+Yc3Q=
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com (20.178.231.223) by
+ DM6PR11MB3913.namprd11.prod.outlook.com (20.176.125.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3174.20; Thu, 9 Jul 2020 06:30:34 +0000
+Received: from DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::c1c1:6930:f17d:a80a]) by DM6PR11MB3819.namprd11.prod.outlook.com
+ ([fe80::c1c1:6930:f17d:a80a%4]) with mapi id 15.20.3153.031; Thu, 9 Jul 2020
+ 06:30:34 +0000
+From: "Wu, Hao" <hao.wu@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
+Thread-Topic: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
+Thread-Index: AQHWVIk/Y5bHJrxi50qxAV1FkuxBtKj+yfCA
+Date: Thu, 9 Jul 2020 06:30:33 +0000
+Message-ID: <DM6PR11MB3819644AEB6E18E466B06FD785640@DM6PR11MB3819.namprd11.prod.outlook.com>
+References: <20200707180414.10467-1-rdunlap@infradead.org>
+ <20200707180414.10467-6-rdunlap@infradead.org>
+In-Reply-To: <20200707180414.10467-6-rdunlap@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.147.192]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d472f182-d741-43ed-5e61-08d823d195be
+x-ms-traffictypediagnostic: DM6PR11MB3913:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB39136E0DF4CB3618FA57E1F485640@DM6PR11MB3913.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1360;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SF7WdkEBnMlEIjKRKa7/JeoUarsmTo0ifWfwdYZnwNiIqC8ERMS0Bevrxha6mxIhuHM98vRQFWJr77z92wHA7P0TGlgmHHhrZZwu6agv0s4kLnctWmYoq11vk3t7CsuZ8vth7HspgFP03GQ0BB5PgqXRZk9b8nDzRZKbBE3ULGB6Q0PBzROwJvNStiY6+pZbWQw0KT6QfPPEc4Qav3YvLA/YlhPaeFztNZG8ucTFizMc15vyX2KqaxMHEeDFJNoIPog0yKo5rGkov5DxX5cv/kfz/ybnE08Y9ltGwIpdVmxhhDaf0WzbPjfxrB3rWVLJbTQFdYfw+2BI8ItJ1YDTnA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3819.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(366004)(396003)(376002)(346002)(39860400002)(66446008)(66476007)(64756008)(66556008)(26005)(2906002)(186003)(86362001)(8676002)(558084003)(478600001)(55016002)(9686003)(33656002)(8936002)(7406005)(7416002)(6506007)(71200400001)(7696005)(52536014)(66946007)(76116006)(54906003)(4326008)(7366002)(110136005)(5660300002)(316002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: InmuQg4JNVwe7fxm/sb5gHuqzfy3VyOS6So92RDyrC/Vndot1NMAtvVt0IuPfL+hVyji85rnoIT328ih2uIXsY0MZW5K0WYoMTmc1Fiiv1tHoE4ilsG/GZcH31HTEiwcuiAsjqS5dARVdK3/9UTKWaEZ3kDXmUfA1uiik6ahK8PU18JoJYQw2AKIKWDlsKRh52aeSboYfTTFV7L3k/1yptlKx06QdtpuzLQyfsSuSjilmu+WqJRJBunjzHL+I/PNFAfgWxHj8UQstmjNg4aryffDxlFO5sD1WP7kXt8a/18oUhPLz9OQAL3cPVtiOJl8rFq45kimaqT9Zaw9xq9eq3D8gYTr2LPhVrto6IXQG5xPTB/W296G/qheSqKbe7c8alGUUKvS+QzBgKwkGk9u9gyVghQkVwV33rNpIg2v2Vbpkl4M+RrSLCalXX5u17T+84HrL9nN/bxy/xwpFSvbn0QFS5tgx96IWKasKVGLZ01oWMSEc/TyKPkonkmTzHcb
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xLGAWEO5CPDOsHoy4B0FjD+1GHhHYgihmVg=mhjUFjSTQ@mail.gmail.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d472f182-d741-43ed-5e61-08d823d195be
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2020 06:30:33.9294 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xEHZds5rLvF+AAF1b0psG0b62s4Hv2Sp28ndkLtmZlJVbyUdrDmYHnh7elldVafAYLTuUS/3D28eMrHKqXiDjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3913
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,102 +119,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, stable <stable@vger.kernel.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
+ "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>, Liviu
+ Dudau <liviu.dudau@arm.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+ Paul Mackerras <paulus@samba.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ Masahiro Yamada <masahiroy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Wang <james.qian.wang@arm.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ Hannes Reinecke <hare@suse.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ "linux-mm@vger.kernel.org" <linux-mm@vger.kernel.org>, "Williams,
+ Dan J" <dan.j.williams@intel.com>, Andrew
+ Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Douglas Anderson <dianders@chromium.org>,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ Mike Rapoport <rppt@kernel.org>, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 08, 2020 at 06:37:51PM -0500, Adam Ford wrote:
-> On Mon, Jul 6, 2020 at 6:18 AM Adam Ford <aford173@gmail.com> wrote:
-> >
-> > On Mon, Jul 6, 2020 at 1:02 AM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On 03/07/2020 22:36, Sam Ravnborg wrote:
-> > > > Hi Tomi.
-> > > >
-> > > > On Fri, Jul 03, 2020 at 10:17:29AM +0300, Tomi Valkeinen wrote:
-> > > >> On 30/06/2020 21:26, Adam Ford wrote:
-> > > >>> The drm/omap driver was fixed to correct an issue where using a
-> > > >>> divider of 32 breaks the DSS despite the TRM stating 32 is a valid
-> > > >>> number.  Through experimentation, it appears that 31 works, and
-> > > >>> it is consistent with the value used by the drm/omap driver.
-> > > >>>
-> > > >>> This patch fixes the divider for fbdev driver instead of the drm.
-> > > >>>
-> > > >>> Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> > > >>>
-> > > >>> Cc: <stable@vger.kernel.org> #4.9+
-> > > >>> Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > >>> ---
-> > > >>> Linux 4.4 will need a similar patch, but it doesn't apply cleanly.
-> > > >>>
-> > > >>> The DRM version of this same fix is:
-> > > >>> e2c4ed148cf3 ("drm/omap: fix max fclk divider for omap36xx")
-> > > >>>
-> > > >>>
-> > > >>> diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> > > >>> index 7252d22dd117..bfc5c4c5a26a 100644
-> > > >>> --- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> > > >>> +++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-> > > >>> @@ -833,7 +833,7 @@ static const struct dss_features omap34xx_dss_feats = {
-> > > >>>    };
-> > > >>>    static const struct dss_features omap3630_dss_feats = {
-> > > >>> -   .fck_div_max            =       32,
-> > > >>> +   .fck_div_max            =       31,
-> > > >>>     .dss_fck_multiplier     =       1,
-> > > >>>     .parent_clk_name        =       "dpll4_ck",
-> > > >>>     .dpi_select_source      =       &dss_dpi_select_source_omap2_omap3,
-> > > >>>
-> > > >>
-> > > >> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > > Will you apply to drm-misc?
-> > >
-> > > This is for fbdev, so I presume Bartlomiej will pick this one.
-> > >
-> > > > Note  following output from "dim fixes":
-> > > > $ dim fixes f76ee892a99e
-> > > > Fixes: f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> > > > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > > Cc: Dave Airlie <airlied@gmail.com>
-> > > > Cc: Rob Clark <robdclark@gmail.com>
-> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > > Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > > > Cc: Jason Yan <yanaijie@huawei.com>
-> > > > Cc: "Andrew F. Davis" <afd@ti.com>
-> > > > Cc: YueHaibing <yuehaibing@huawei.com>
-> > > > Cc: <stable@vger.kernel.org> # v4.5+
-> > > >
-> > > > Here it says the fix is valid from v4.5 onwards.
-> > >
-> > > Hmm... Adam, you marked the fix to apply to v4.9+, and then you said
-> > > v4.4 needs a new patch (that's before the big copy/rename). Did you
-> > > check the versions between 4.4 and 4.9? I would guess this one applies
-> > > to v4.5+.
-> >
-> > I only tried 4.9 because it's listed as an LTS kernel.  The stuff
-> > between 4.4 and 4.9 were EOL, so I didn't go back further.    The 4.5+
-> > is probably more accurate.  I would like to do the same thing for the
-> > 4.4 kernel, but I am not sure the proper way to do that.
+> Subject: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
 > 
-> What is the correct protocol for patching 4.4?  I'd like to do that,
-> but the patch would be unique to the 4.4.  Should I just submit the
-> patch directly to stable and cc Tomi?
+> Drop the doubled word "this".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Wu Hao <hao.wu@intel.com>
+> Cc: linux-fpga@vger.kernel.org
 
-Yes, and document the heck out of why this is a 4.4-only patch, and why
-we can't take whatever happened in newer kernels instead.
+Acked-by: Wu Hao <hao.wu@intel.com>
 
-thanks,
+Thanks Randy.
 
-greg k-h
+Hao
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
