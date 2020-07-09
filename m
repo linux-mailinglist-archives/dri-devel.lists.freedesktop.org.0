@@ -2,45 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF7B21B0B7
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C675521B0C2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C6A6EBAF;
-	Fri, 10 Jul 2020 07:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19B636EB8C;
+	Fri, 10 Jul 2020 07:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC996E8E8;
- Thu,  9 Jul 2020 14:50:16 +0000 (UTC)
-IronPort-SDR: k3lQLpFhIIusNct/Tv50e6z8rntkwGwYvuocRIfQcVp7JOcg2oxx5xv/s4TvXvdADlV31U+4h0
- 2O9fTa3ZJRKw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9677"; a="232881522"
-X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; d="scan'208";a="232881522"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3935B6EA55;
+ Thu,  9 Jul 2020 14:51:16 +0000 (UTC)
+IronPort-SDR: zc9qWgM7UKGnu2iEugEyDOQL4zZlqDK3EUEIUnkcdrZoAzwjNCFOVnfeQesNaOTXSQk+bxCYAF
+ TTKwLAXQIZtw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9677"; a="209539616"
+X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; d="scan'208";a="209539616"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2020 07:50:16 -0700
-IronPort-SDR: D/XUYMSp7pV3RqXOFUNrDLm8myVFN+vUXCjDbk4u4enIZwh5VeaP3rkTuAjMvg45USqZ04zgtD
- IrKqRKUSO7lA==
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2020 07:51:15 -0700
+IronPort-SDR: MbW0g/eZ77vvMA01QZmji7O3kRQ4moRTN4XvRHiluqP6HmWTpfg9hdrlBASAp+HqLAomFwTUAz
+ jppCmBY6GwTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; d="scan'208";a="389163251"
+X-IronPort-AV: E=Sophos;i="5.75,331,1589266800"; d="scan'208";a="323257228"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2020 07:50:13 -0700
+ by FMSMGA003.fm.intel.com with ESMTP; 09 Jul 2020 07:51:12 -0700
 Received: from andy by smile with local (Exim 4.94)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1jtXsL-000sMF-Dd; Thu, 09 Jul 2020 17:50:13 +0300
-Date: Thu, 9 Jul 2020 17:50:13 +0300
+ id 1jtXtI-000sMr-Pe; Thu, 09 Jul 2020 17:51:12 +0300
+Date: Thu, 9 Jul 2020 17:51:12 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v4 06/16] pwm: lpss: Correct get_state result for
- base_unit == 0
-Message-ID: <20200709145013.GA3703480@smile.fi.intel.com>
+Subject: Re: [PATCH v4 04/16] pwm: lpss: Add range limit check for the
+ base_unit register value
+Message-ID: <20200709145112.GB3703480@smile.fi.intel.com>
 References: <20200708211432.28612-1-hdegoede@redhat.com>
- <20200708211432.28612-7-hdegoede@redhat.com>
+ <20200708211432.28612-5-hdegoede@redhat.com>
+ <20200709125342.GX3703480@smile.fi.intel.com>
+ <4ff9dc18-fa59-d9a3-c7bf-9f95c62fc356@redhat.com>
+ <20200709142136.GZ3703480@smile.fi.intel.com>
+ <c7925c63-9187-f89f-3a01-2ff252012615@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200708211432.28612-7-hdegoede@redhat.com>
+In-Reply-To: <c7925c63-9187-f89f-3a01-2ff252012615@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,31 +70,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 08, 2020 at 11:14:22PM +0200, Hans de Goede wrote:
-> The datasheet specifies that programming the base_unit part of the
-> ctrl register to 0 results in a contineous low signal.
-> 
-> Adjust the get_state method to reflect this by setting pwm_state.period
-> to 1 and duty_cycle to 0.
+On Thu, Jul 09, 2020 at 04:33:50PM +0200, Hans de Goede wrote:
+> On 7/9/20 4:21 PM, Andy Shevchenko wrote:
+> > On Thu, Jul 09, 2020 at 03:23:13PM +0200, Hans de Goede wrote:
 
 ...
 
-> +	if (freq == 0) {
-> +		/* In this case the PWM outputs a continous low signal */
+> > You can use clamp_val().
+> 
+> I did not know about that, that will work nicely I will switch to clamp_val
+> for the next version. I assume it is ok to keep your Reviewed-by with this
+> very minor change?
 
-> +		state->period = 1;
-
-I guess this should be something like half of the range (so base unit calc
-will give 128). Because with period = 1 (too small) it will give too small
-base unit (if apply) and as a result we get high frequency pulses.
-
-> +		state->duty_cycle = 0;
-> +	} else {
->  		state->period = NSEC_PER_SEC / (unsigned long)freq;
-> +		on_time_div *= state->period;
-> +		do_div(on_time_div, 255);
-> +		state->duty_cycle = on_time_div;
-> +	}
+Sure.
 
 -- 
 With Best Regards,
