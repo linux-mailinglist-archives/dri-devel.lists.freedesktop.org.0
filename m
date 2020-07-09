@@ -1,112 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0122198B0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 08:30:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E772198E1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 08:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC326E9AA;
-	Thu,  9 Jul 2020 06:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C249E6E9AF;
+	Thu,  9 Jul 2020 06:52:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76ACA6E9A9
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 06:30:37 +0000 (UTC)
-IronPort-SDR: Fa8GdqCnpWu6BhSTUiFULBmTeVhB4s4eeZUwiIjqekkDeI1V0y7tpTFnO3Flep9txDlvAPLVUL
- bqIgbKiyjysg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9676"; a="146036095"
-X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="146036095"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2020 23:30:36 -0700
-IronPort-SDR: fd+xd7pNKpQFW51UL1k7PO+0KbxsMPtAVVY6SG8YdnWYDUMt/yehfz276pXVdKHwBiVOoWocHY
- ro+hVNgKuwZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,330,1589266800"; d="scan'208";a="323148287"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2020 23:30:36 -0700
-Received: from fmsmsx102.amr.corp.intel.com (10.18.124.200) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 8 Jul 2020 23:30:36 -0700
-Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
- FMSMSX102.amr.corp.intel.com (10.18.124.200) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 8 Jul 2020 23:30:35 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Wed, 8 Jul 2020 23:30:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SN3VibjvDDGQ0140HefRhJAlzrQ9dYAQv39DTb6Q3preXyBUp9qqbFuQ7Jb/aJ1+OWb2qd668cxoZoNV8yYbRszq6Z+HuSGXC+r9f5UT12s31wIlccOPdGR7pcexQpH1kMegGeJ29XSCwhRLb19e0YLKIXwHZ9xe0EStmjogt4129m1axXMiCJKZ8yPYhIpxgw434B1xEt4jxAjM4L8Nm1fdO3QPo0l/T+vUGwWtiLSfSGlxPeczuyR59buvCQFQ5GoLVW9siX06ruFg4dhuY70kkDKDUGiXgl+/rNX/Wxkh7ilwIAmIDLikhyPu2lHbDwa10Jcs6C0T8PxUobT2Wg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/H8Sgc4MMobIlv4RQ3icoUi+h/rlKK4LSDg79C9pE0=;
- b=DV46YXwtfn7Sk6iUQUGZDTIBQ42/sTzE2IeRczywn778weSGqKuNgoeKXfs/vKMHq0QNm5WyloGFQ9jBNf5jW5VzDGwm/uHy0rtEz6pRfixU1RucRR7+ennaSx4+OSN1MfR4L8SCa7Jg0MhtfNu/C2cz7bivEsaQcT/lNPvx6TH1Fpn5gXXRaZAAXqPKb4g9kM4rmy3T35RUBIjxjXedfWb19I1fCS9Qapy5Csqa6HE0OkJ3rwZeiZdariHzKA2ABw67lG96rkcPWbIaLBGIMQmInthoGwx2E5ZZymOnoNdXFwFCaBMdcpY5kZZc1Jicw49ghcQyVvo4r6if030gKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/H8Sgc4MMobIlv4RQ3icoUi+h/rlKK4LSDg79C9pE0=;
- b=r44G/c0teybHmOaJV4L1yTv30Gq0NRMfmyPRJTUX65pqRedz3zMGnEDzgvnl+g8zYAG1GeKV8gQMpStm+BIJbvjbhE0jQl7uw4j9qJ2uYjBmBy71hcXY+709voPmphjuiZKSAamcIHuLyALqaBVM+97WTj8ecO4JNHIzWg+Yc3Q=
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com (20.178.231.223) by
- DM6PR11MB3913.namprd11.prod.outlook.com (20.176.125.33) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.20; Thu, 9 Jul 2020 06:30:34 +0000
-Received: from DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::c1c1:6930:f17d:a80a]) by DM6PR11MB3819.namprd11.prod.outlook.com
- ([fe80::c1c1:6930:f17d:a80a%4]) with mapi id 15.20.3153.031; Thu, 9 Jul 2020
- 06:30:34 +0000
-From: "Wu, Hao" <hao.wu@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
-Thread-Topic: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
-Thread-Index: AQHWVIk/Y5bHJrxi50qxAV1FkuxBtKj+yfCA
-Date: Thu, 9 Jul 2020 06:30:33 +0000
-Message-ID: <DM6PR11MB3819644AEB6E18E466B06FD785640@DM6PR11MB3819.namprd11.prod.outlook.com>
-References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-6-rdunlap@infradead.org>
-In-Reply-To: <20200707180414.10467-6-rdunlap@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.2.0.6
-authentication-results: infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.192]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d472f182-d741-43ed-5e61-08d823d195be
-x-ms-traffictypediagnostic: DM6PR11MB3913:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR11MB39136E0DF4CB3618FA57E1F485640@DM6PR11MB3913.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1360;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SF7WdkEBnMlEIjKRKa7/JeoUarsmTo0ifWfwdYZnwNiIqC8ERMS0Bevrxha6mxIhuHM98vRQFWJr77z92wHA7P0TGlgmHHhrZZwu6agv0s4kLnctWmYoq11vk3t7CsuZ8vth7HspgFP03GQ0BB5PgqXRZk9b8nDzRZKbBE3ULGB6Q0PBzROwJvNStiY6+pZbWQw0KT6QfPPEc4Qav3YvLA/YlhPaeFztNZG8ucTFizMc15vyX2KqaxMHEeDFJNoIPog0yKo5rGkov5DxX5cv/kfz/ybnE08Y9ltGwIpdVmxhhDaf0WzbPjfxrB3rWVLJbTQFdYfw+2BI8ItJ1YDTnA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3819.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(366004)(396003)(376002)(346002)(39860400002)(66446008)(66476007)(64756008)(66556008)(26005)(2906002)(186003)(86362001)(8676002)(558084003)(478600001)(55016002)(9686003)(33656002)(8936002)(7406005)(7416002)(6506007)(71200400001)(7696005)(52536014)(66946007)(76116006)(54906003)(4326008)(7366002)(110136005)(5660300002)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: InmuQg4JNVwe7fxm/sb5gHuqzfy3VyOS6So92RDyrC/Vndot1NMAtvVt0IuPfL+hVyji85rnoIT328ih2uIXsY0MZW5K0WYoMTmc1Fiiv1tHoE4ilsG/GZcH31HTEiwcuiAsjqS5dARVdK3/9UTKWaEZ3kDXmUfA1uiik6ahK8PU18JoJYQw2AKIKWDlsKRh52aeSboYfTTFV7L3k/1yptlKx06QdtpuzLQyfsSuSjilmu+WqJRJBunjzHL+I/PNFAfgWxHj8UQstmjNg4aryffDxlFO5sD1WP7kXt8a/18oUhPLz9OQAL3cPVtiOJl8rFq45kimaqT9Zaw9xq9eq3D8gYTr2LPhVrto6IXQG5xPTB/W296G/qheSqKbe7c8alGUUKvS+QzBgKwkGk9u9gyVghQkVwV33rNpIg2v2Vbpkl4M+RrSLCalXX5u17T+84HrL9nN/bxy/xwpFSvbn0QFS5tgx96IWKasKVGLZ01oWMSEc/TyKPkonkmTzHcb
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D376E9AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 06:51:59 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id lx13so1127419ejb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jul 2020 23:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qC6ikPyAkkZDEb9ir5eEV2kSBTjyBB0hcPesB8iDBzU=;
+ b=HMkT8gZtcPJUF8GcOk4mhQA0XzCuo24QFbpsy/EQ++/a9dyIEzXHW5pWoHG+rdOYsm
+ xoxASy9VtzcGgvTPgxN+Wxa8/m7Axkq2Hi3BJ94g6Vl5qwmM3gKpwebpczBWGvJBlIRK
+ rzMZrOsMRep1fyOEpevHPW43USm2kdy7jah/E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qC6ikPyAkkZDEb9ir5eEV2kSBTjyBB0hcPesB8iDBzU=;
+ b=n7zYpB6GNdVbgI3lcKX7jH0WE0Ft4lvlKjWUijTOdku/prl+gKX3UqU15gqvS3bYGC
+ ITuKheZjxmykk28bKqnXzF+UbIGVwpP3TAVkOs87Ht6gSGCE3T1E8rj/qdOeWQjB3YoN
+ 8CbpQwfOEvbA/Nzm19rANqARvrDgTlKEKP6RTPYbCijiCtGxdxTItW2NKDuHmAdsSK9O
+ 5WSEjinQgM8Xyh4Y7tyRCFKwzOWZBHutUkC6bEhM77bSuVD2r7GymgROZqnDSWUuzpZE
+ ijpsSV7jwJk+gnRsnromH6X2poB2H0rKw7YNqLC4kUnfqR6nmTn0rXZNHgDssA7BDwIY
+ 85Dw==
+X-Gm-Message-State: AOAM5325paexczEb/Aq5cRgXCCSAlc8TpBC1Ewf5+K54bpM74mBmf8Pw
+ pfktwDfUTk5vSjXsI3RMFmdsS7KQOxqLsVJ379o=
+X-Google-Smtp-Source: ABdhPJyk8qb4D04v5BrhicG+Xy3FGlw4wqFYNSQErh6C94HtP/sa7EmHdq4CIsCgiOB3EWMM+rqGoeThfN/1ns6BMRk=
+X-Received: by 2002:a17:906:1455:: with SMTP id
+ q21mr38382187ejc.139.1594277518385; 
+ Wed, 08 Jul 2020 23:51:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3819.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d472f182-d741-43ed-5e61-08d823d195be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2020 06:30:33.9294 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xEHZds5rLvF+AAF1b0psG0b62s4Hv2Sp28ndkLtmZlJVbyUdrDmYHnh7elldVafAYLTuUS/3D28eMrHKqXiDjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3913
-X-OriginatorOrg: intel.com
+References: <20200701001002.74997-1-linux@roeck-us.net>
+ <20200701091021.GA266726@ravnborg.org>
+In-Reply-To: <20200701091021.GA266726@ravnborg.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 9 Jul 2020 06:51:46 +0000
+Message-ID: <CACPK8Xcb2jskKRsPEQ98Ty-yetkUZbZ8KzTGZ-ncc43nSXsRug@mail.gmail.com>
+Subject: Re: [PATCH] drm/aspeed: Call drm_fbdev_generic_setup after
+ drm_dev_register
+To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,72 +60,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>, Liviu
- Dudau <liviu.dudau@arm.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- Paul Cercueil <paul@crapouillou.net>,
- "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
- Paul Mackerras <paulus@samba.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Masahiro Yamada <masahiroy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Wang <james.qian.wang@arm.com>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- Hannes Reinecke <hare@suse.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- "linux-mm@vger.kernel.org" <linux-mm@vger.kernel.org>, "Williams,
- Dan J" <dan.j.williams@intel.com>, Andrew
- Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Douglas Anderson <dianders@chromium.org>,
- Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- Mike Rapoport <rppt@kernel.org>, Dan Murphy <dmurphy@ti.com>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, g@ravnborg.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: [PATCH 05/20] Documentation: fpga: eliminate duplicated word
-> 
-> Drop the doubled word "this".
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Wu Hao <hao.wu@intel.com>
-> Cc: linux-fpga@vger.kernel.org
+On Wed, 1 Jul 2020 at 09:10, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Guenter.
+>
+> On Tue, Jun 30, 2020 at 05:10:02PM -0700, Guenter Roeck wrote:
+> > The following backtrace is seen when running aspeed G5 kernels.
+> >
+> > WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_fb_helper.c:2233 drm_fbdev_generic_setup+0x138/0x198
+> > aspeed_gfx 1e6e6000.display: Device has not been registered.
+> > CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc3 #1
+> > Hardware name: Generic DT based system
+> > Backtrace:
+> > [<8010d6d0>] (dump_backtrace) from [<8010d9b8>] (show_stack+0x20/0x24)
+> > r7:00000009 r6:60000153 r5:00000000 r4:8119fa94
+> > [<8010d998>] (show_stack) from [<80b8cb98>] (dump_stack+0xcc/0xec)
+> > [<80b8cacc>] (dump_stack) from [<80123ef0>] (__warn+0xd8/0xfc)
+> > r7:00000009 r6:80e62ed0 r5:00000000 r4:974c3ccc
+> > [<80123e18>] (__warn) from [<80123f98>] (warn_slowpath_fmt+0x84/0xc4)
+> > r9:00000009 r8:806a0140 r7:000008b9 r6:80e62ed0 r5:80e631f8 r4:974c2000
+> > [<80123f18>] (warn_slowpath_fmt) from [<806a0140>] (drm_fbdev_generic_setup+0x138/0x198)
+> > r9:00000001 r8:9758fc10 r7:9758fc00 r6:00000000 r5:00000020 r4:9768a000
+> > [<806a0008>] (drm_fbdev_generic_setup) from [<806d4558>] (aspeed_gfx_probe+0x204/0x32c)
+> > r7:9758fc00 r6:00000000 r5:00000000 r4:9768a000
+> > [<806d4354>] (aspeed_gfx_probe) from [<806dfca0>] (platform_drv_probe+0x58/0xa8)
+> >
+> > Since commit 1aed9509b29a6 ("drm/fb-helper: Remove return value from
+> > drm_fbdev_generic_setup()"), drm_fbdev_generic_setup() must be called
+> > after drm_dev_register() to avoid the warning. Do that.
+> >
+> > Fixes: 1aed9509b29a6 ("drm/fb-helper: Remove return value from drm_fbdev_generic_setup()")
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>
+> I thought we had this fixed already - but could not find the patch.
+> Must have been another driver then.
+>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>
+> I assume Joel Stanley will pick up this patch.
 
-Acked-by: Wu Hao <hao.wu@intel.com>
+I do not have the drm maintainer tools set up at the moment. Could one
+of the other maintainers put this in the drm-misc tree?
 
-Thanks Randy.
+Acked-by: Joel Stanley <joel@jms.id.au>
 
-Hao
+Cheers,
+
+Joel
+
+>
+>         Sam
+>
+> > ---
+> >  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > index 6b27242b9ee3..bca3fcff16ec 100644
+> > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > @@ -173,8 +173,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
+> >
+> >       drm_mode_config_reset(drm);
+> >
+> > -     drm_fbdev_generic_setup(drm, 32);
+> > -
+> >       return 0;
+> >  }
+> >
+> > @@ -225,6 +223,7 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
+> >       if (ret)
+> >               goto err_unload;
+> >
+> > +     drm_fbdev_generic_setup(&priv->drm, 32);
+> >       return 0;
+> >
+> >  err_unload:
+> > --
+> > 2.17.1
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
