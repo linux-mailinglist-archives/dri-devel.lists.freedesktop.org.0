@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D8F21A754
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 20:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C5421A7CE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 21:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6CC6EAD7;
-	Thu,  9 Jul 2020 18:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D626EB0C;
+	Thu,  9 Jul 2020 19:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B05B6EAD3;
- Thu,  9 Jul 2020 18:52:32 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id e11so2863627qkm.3;
- Thu, 09 Jul 2020 11:52:32 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84FF76EB0C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 19:30:39 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id e8so3751611ljb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 12:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=VsRubMwkm5N8B9pGE1CMG+iqiqWg8gI0YSv0AW7qGVk=;
- b=CfkjGTp+/FvKKjjyGr+QjsI3PNkLNPral3Yq7WjZ0Qpb4KRW4CtNoRQ2e1Uv3R2YI7
- T7WBmXxiGBBnZobDZVcpcGU4ZxL1GFMY7mm3QDxoGAVdUp3em1/rmMru3pKDVtTiMydD
- 5GvZ2su8f6zOM2E1pRFOOAtMckHLN2TfbkMwwmEd+S3X4+G73FPPVqhyjTkcrrlFexSl
- SCLsZeJOFudBuzafxypKJU1jQQvR3iC0ZEIQFjWP8QOf4h3gMr/Jm6d1OpCYf6nY/Xx2
- XIGTftc+UHHPX+WmrM12s6RoZUCkSHBs/PT4NORG9Q7LeIa7MTrlVHsRINYKh2+7vNHH
- oVZQ==
+ bh=Jq4E/3rvV7KMO7dnkDeaICQG0J18bgcJJkGEr8cliCQ=;
+ b=nUPBsopJi4SQMI1HOnfAi03AqeWpHc982j5ijzne1TK6J9vIRsfZN6uXs5pUoI6KKs
+ H4p2jFGTksvLw6PH/l3Lsux03jz+rykq8ktkFTZAL6UAVx8xSvgErpImqcamD1wu4XGz
+ qGWIFYbKRxw9HBbuHjZVgyMWV6DYufSwtOStjHerqoIzId+Xo8SK5IGps4JCBZPvO0VC
+ S6W92i+IdBxnX8R5vFj8LzA5X0EkQWPl3rVOsKEbtNxFiTDjW96i4DEjehrkXtb7SpAI
+ hHJaem0VmRjhhdGMLtcTKIn59MEo6VsCja2kPwsLoEgxCWmb9WDf9OkKA0heaQS2CFmk
+ pRyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VsRubMwkm5N8B9pGE1CMG+iqiqWg8gI0YSv0AW7qGVk=;
- b=KNC6n+mJM0kJc6ciWMSY5/aAszZRceFICzmSaFee9wYOIDR0Vf4W0QXb6ZFJOKNDpE
- 54nmM3wW/U86zIhI8+3IP+NuHEL4Gox/FLx2OS4jnuP3ZqHAPB8zv9fpAqq/F42bezUz
- GZLoYoY9Gad0h5cpPG3sndXXeQY/qPKrcNewc0DcgCsSdFQPzRj9o8csl793n9JW1KO6
- UiGAsrGrNLhHDothU2wWxy67xqzYCGxhcenjDE0M6SmwbmVMoKV/i5TDN/hwQ6IsbmxT
- 04QqOm/yor258p8gC3IIQtyqgDDJi0LBkqPvRv+3/W4/7lrZnRNmnuoCnTJwrhnsBai0
- PUWg==
-X-Gm-Message-State: AOAM532Ji1Hs8xpxAsNUcwG6vfFhdd87NrwMahjh581KixkFp+6B7mI5
- 1aYtNQtyCmwEWefQZGFYnFkdAROp
-X-Google-Smtp-Source: ABdhPJzA4kVMlidJPnTOF0BtF/0wCuvBYEuF+udGXm35197Z5eENJGZoxn7SuNVM6CW4Q7skWnwVfQ==
-X-Received: by 2002:a37:6449:: with SMTP id y70mr65218847qkb.435.1594320751509; 
- Thu, 09 Jul 2020 11:52:31 -0700 (PDT)
-Received: from localhost.localdomain ([71.219.66.138])
- by smtp.gmail.com with ESMTPSA id g145sm4750036qke.17.2020.07.09.11.52.30
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Jq4E/3rvV7KMO7dnkDeaICQG0J18bgcJJkGEr8cliCQ=;
+ b=lRCTCQbHkPDo4+XTbzqUR6fPUINU6qLHRw0VVMZXfiJeCHFx0mCwf7zhKhABmVLyv1
+ +oybSrTKg7CqzBeOa5QeR6COKJy3cxaE2+S0QXPO6XP8ZpSutwnfjkD8FBMOxF29uihm
+ /PbzOeJoLdOkVwJy8o+zjJ7PjoGKYFAWEKGZoFal/8mO1u5bUu9H/J9f72giLxrTZH7a
+ HoqFJloOlnOsCQmSO+3m+Sl56vC7qTILeyh2vCVSFZNskSR0pLZsg0fUwzqZjLNj+quq
+ GJd81Nia4C7YCkzG1oBzTfFGvTF4ewC5zFzf0vscptjH522cpu/ZFPfbHNcATh3oFsUW
+ HAzA==
+X-Gm-Message-State: AOAM530D03TUTVua0yDJK2Q9JyQ5HiV16ru9/X+NaWFlQ72joy7HY0gK
+ zV9+uUR6ztzYKjov14/+ImhH6P1U6Ug=
+X-Google-Smtp-Source: ABdhPJwu68v/orHpVsAMsxR03Yip4FCqvb0vHr1in/xp8Df72HTrHOY0JidOMSr+sJoY8WZ291/kiw==
+X-Received: by 2002:a2e:730c:: with SMTP id o12mr31664193ljc.165.1594323037518; 
+ Thu, 09 Jul 2020 12:30:37 -0700 (PDT)
+Received: from saturn.lan ([2a00:fd00:805f:db00:69d0:5d3c:ff19:c08c])
+ by smtp.gmail.com with ESMTPSA id q3sm791771ljm.22.2020.07.09.12.30.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 11:52:30 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu and radeon drm-fixes-5.8
-Date: Thu,  9 Jul 2020 14:52:21 -0400
-Message-Id: <20200709185221.44895-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+ Thu, 09 Jul 2020 12:30:36 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+Date: Thu,  9 Jul 2020 21:30:16 +0200
+Message-Id: <20200709193016.291267-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,37 +64,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2ZSwgRGFuaWVsLAoKRml4ZXMgZm9yIDUuOC4KClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQgZGNiN2ZkODJjNzVlZTJkNmU2ZjlkOGNjNzFjNTI1MTllZDUyZTI1ODoKCiAg
-TGludXggNS44LXJjNCAoMjAyMC0wNy0wNSAxNjoyMDoyMiAtMDcwMCkKCmFyZSBhdmFpbGFibGUg
-aW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9wZW9wbGUuZnJlZWRlc2t0b3Aub3Jn
-L35hZ2Q1Zi9saW51eCB0YWdzL2FtZC1kcm0tZml4ZXMtNS44LTIwMjAtMDctMDkKCmZvciB5b3Ug
-dG8gZmV0Y2ggY2hhbmdlcyB1cCB0byBmNDg5MmMzMjdhOGU1ZGY3Y2UxNmNhYjQwODk3ZGFmOTBi
-YWY2YmVjOgoKICBkcm0vYW1kZ3B1OiBkb24ndCBkbyBzb2Z0IHJlY292ZXJ5IGlmIGdwdV9yZWNv
-dmVyeT0wICgyMDIwLTA3LTA5IDE0OjQyOjQ5IC0wNDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQphbWQtZHJtLWZpeGVz
-LTUuOC0yMDIwLTA3LTA5OgoKYW1kZ3B1OgotIEZpeCBhIHN1c3BlbmQvcmVzdW1lIGlzc3VlIHdp
-dGggUFNQCi0gQmFja2xpZ2h0IGZpeCBmb3IgUmVub2lyCi0gRml4IGZvciBncHUgcmVjb3Zlcnkg
-ZGVidWdnaW5nCgpyYWRlb246Ci0gRml4IGEgZG91YmxlIGZyZWUgaW4gZXJyb3IgcGF0aAoKLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQpBYXJvbiBNYSAoMSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTogYWRkIGRtY3ViIGNoZWNr
-IG9uIFJFTk9JUgoKSHVhbmcgUnVpICgyKToKICAgICAgZHJtL2FtZGdwdTogYXNkIGZ1bmN0aW9u
-IG5lZWRzIHRvIGJlIHVubG9hZGVkIGluIHN1c3BlbmQgcGhhc2UKICAgICAgZHJtL2FtZGdwdTog
-YWRkIFRNUiBkZXN0b3J5IGZ1bmN0aW9uIGZvciBwc3AKCk1hcmVrIE9sxaHDoWsgKDEpOgogICAg
-ICBkcm0vYW1kZ3B1OiBkb24ndCBkbyBzb2Z0IHJlY292ZXJ5IGlmIGdwdV9yZWNvdmVyeT0wCgpU
-b20gUml4ICgxKToKICAgICAgZHJtL3JhZGVvbjogZml4IGRvdWJsZSBmcmVlCgogZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2pvYi5jICAgICAgICAgICB8ICAzICstCiBkcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcHNwLmMgICAgICAgICAgIHwgNjMgKysrKysrKysr
-KysrKysrKysrKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1k
-Z3B1X2RtLmMgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jaV9kcG0uYyAgICAgICAg
-ICAgICAgICAgICB8ICA3ICsrLQogNCBmaWxlcyBjaGFuZ2VkLCA2NSBpbnNlcnRpb25zKCspLCAx
-MCBkZWxldGlvbnMoLSkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+Mark reported that sparc64 would panic while booting using qemu.
+Mark bisected this to a patch that introduced generic fbdev emulation to
+the bochs DRM driver.
+Mark pointed out that a similar bug was fixed before where
+the sys helpers was replaced by cfb helpers.
+
+The culprint here is that the framebuffer reside in IO memory which
+requires SPARC ASI_PHYS (physical) loads and stores.
+
+The current bohcs DRM driver uses a shadow buffer.
+So all copying to the framebuffer happens in
+drm_fb_helper_dirty_blit_real().
+
+The fix is to replace the memcpy with memcpy_toio() from io.h.
+
+memcpy_toio() uses writeb() where the original fbdev code
+used sbus_memcpy_toio(). The latter uses sbus_writeb().
+
+The difference between writeb() and sbus_memcpy_toio() is
+that writeb() writes bytes in little-endian, where sbus_writeb() writes
+bytes in big-endian. As endian does not matter for byte writes they are
+the same. So we can safely use memcpy_toio() here.
+
+For many architectures memcpy_toio() is a simple memcpy().
+One sideeffect that is unknow is if this has any impact on other
+architectures.
+So far the analysis tells that this change is OK for other arch's.
+but testing would be good.
+
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: sparclinux@vger.kernel.org
+---
+ drivers/gpu/drm/drm_fb_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 5609e164805f..4d05b0ab1592 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+ 	unsigned int y;
+ 
+ 	for (y = clip->y1; y < clip->y2; y++) {
+-		memcpy(dst, src, len);
++		memcpy_toio(dst, src, len);
+ 		src += fb->pitches[0];
+ 		dst += fb->pitches[0];
+ 	}
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
