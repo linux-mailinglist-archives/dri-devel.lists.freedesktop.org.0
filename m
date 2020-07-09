@@ -2,32 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA7421A564
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 19:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE26021A610
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 19:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F606EAC8;
-	Thu,  9 Jul 2020 17:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A95B6E92D;
+	Thu,  9 Jul 2020 17:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BEFA6EAC8;
- Thu,  9 Jul 2020 17:02:59 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21768342-1500050 for multiple; Thu, 09 Jul 2020 18:02:59 +0100
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E55F6E92D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 17:46:08 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z15so3288759wrl.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 10:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=t/zzBO2Jyh9x8BHnEJvhlwlew5qspE/Jnd9v9TqHGYM=;
+ b=H1Gd2QcePmOch/qjxRoMvW6JpS/d1uxfjssBsju4ijWuNBYeYhSLPGusubNnj64R5d
+ lBPC0Qh+tijB0657/8ocUTQZ6VlX4DDoXTQNRPhiWMmbtic0pnF8hwgMWiOEy3krR6EG
+ MM9qZbNhjzJosugv5Xct60LzcQ6H/ERwD1FmetEC+68lox6HzXQQqchkvRA86EEmgID1
+ u+CtA6elQsQtcnQ0i//PmrJwD9zmThbvWktCDt4ictyJiPhxsvrXz2JYtkVT0KLaaPAB
+ 70Up4s7t49cja8tJgfdrv/f/xjbyjE6WcN1PZ9nN2M1ioLlvyDRNj9Mo4nYJDzXMOdEN
+ Up0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t/zzBO2Jyh9x8BHnEJvhlwlew5qspE/Jnd9v9TqHGYM=;
+ b=hkjT7UpgtZwVDmcGffHPh7lf0v/M9urq6sNsGoBj225IPPRPne6iWf1Hbhi37eISk1
+ YU3nLG8TxYCGzSOlBPLmG/wTAhfgClSf1v9XllsC9BfNAnO2hefmUe6ntr/jxdJHpHfK
+ HyIWyPnAzS+7dYrY/oUIOD4k4zz3f8aWKRQSApJjnBo9UjEaHkMBrCytxe9gR80syM23
+ 8RgQmLxBg57rdSei7jIYmtmeKRNpOQG7GvcGKwo5r3nZ6ljcLvH8gFWl1uh2VbOu+DL5
+ PWD69nptCMhERHCxqOSdh7dAsg4vBsWy+8bAlp8zXSsWg6J8BiFJLrRNQ1eo69SGpKsj
+ Kafg==
+X-Gm-Message-State: AOAM530jYWV8vgEn6VKod+JaRZCD/bWzWRyVqPiHfjm8Fo2r8T/+8FWX
+ OIvN+9ZMirYEKJbGb9UaDOzjFA==
+X-Google-Smtp-Source: ABdhPJw/z+CbiouBYdlTZxBgt9fyrvU1bnWHwSoZXHlYLQw4mSjV7jsGybDb0S7HlMNgxmDi9+MCLQ==
+X-Received: by 2002:a5d:5341:: with SMTP id t1mr68373388wrv.207.1594316766614; 
+ Thu, 09 Jul 2020 10:46:06 -0700 (PDT)
+Received: from localhost.localdomain ([2.27.35.206])
+ by smtp.gmail.com with ESMTPSA id f15sm6063854wrx.91.2020.07.09.10.46.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jul 2020 10:46:05 -0700 (PDT)
+From: Lee Jones <lee.jones@linaro.org>
+To: jejb@linux.ibm.com, martin.petersen@oracle.com, linux-scsi@vger.kernel.org
+Subject: [PATCH 07/24] scsi: aacraid: commsup: Fix a bunch of function header
+ issues
+Date: Thu,  9 Jul 2020 18:45:39 +0100
+Message-Id: <20200709174556.7651-8-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200709174556.7651-1-lee.jones@linaro.org>
+References: <20200709174556.7651-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200709154931.23310-1-sudeep.holla@arm.com>
-References: <20200709154931.23310-1-sudeep.holla@arm.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/selftests: Fix compare functions
- provided for sorting
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Sudeep Holla <sudeep.holla@arm.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Date: Thu, 09 Jul 2020 18:02:55 +0100
-Message-ID: <159431417599.22162.9414981047786168785@build.alporthouse.com>
-User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,62 +67,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sudeep Holla <sudeep.holla@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, "PMC-Sierra, Inc" <aacraid@pmc-sierra.com>,
+ Adaptec OEM Raid Solutions <aacraid@microsemi.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sudeep Holla (2020-07-09 16:49:31)
-> Both cmp_u32 and cmp_u64 are comparing the pointers instead of the value
-> at those pointers. This will result in incorrect/unsorted list. Fix it
-> by deferencing the pointers before comparison.
-> 
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
-> ---
->  drivers/gpu/drm/i915/gt/selftest_rps.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> Hi,
-> 
-> I am not sure if I can put 2 fixes tags, but these are the ones affected.
-> 
-> Fixes: 4ba74e53ada3 ("drm/i915/selftests: Verify frequency scaling with RPS")
-> Fixes: 8757797ff9c9 ("drm/i915/selftests: Repeat the rps clock frequency measurement")
-
-Might as well tag the fixes, just in case anyone wants to use the tests.
- 
-> I made similar mistake and after I fixed it, just looked if there are any
-> similar bugs and found this.
-> 
-> Regards,
-> Sudeep
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_rps.c b/drivers/gpu/drm/i915/gt/selftest_rps.c
-> index 5049c3dd08a6..c91981e75ebf 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_rps.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_rps.c
-> @@ -44,9 +44,9 @@ static int cmp_u64(const void *A, const void *B)
->  {
->         const u64 *a = A, *b = B;
->  
-> -       if (a < b)
-> +       if (*a < *b)
->                 return -1;
-> -       else if (a > b)
-> +       else if (*a > *b)
->                 return 1;
-
-Oh my golly gosh.
-
-Thanks, thanks and thrice thanks.
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
-
-I better double check all my qsort-compare funcs for similar brianfarts.
--Chris
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+U29tZSBwYXJhbWV0ZXJzIG5vdCBkb2N1bWVudGVkLiAgT3RoZXJzIG1pc3NwZWxsZWQuCgpBbHNv
+LCBmdW5jdGlvbnMgbXVzdCBmb2xsb3cgZGlyZWN0bHkgYWZ0ZXIgdGhlIGhlYWRlciB0aGF0IGRv
+Y3VtZW50cyB0aGVtLgoKRml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5p
+bmcocyk6CgogZHJpdmVycy9zY3NpL2FhY3JhaWQvY29tbXN1cC5jOjIyMzogd2FybmluZzogRnVu
+Y3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnc2NtZCcgbm90IGRlc2NyaWJlZCBpbiAnYWFjX2Zp
+Yl9hbGxvY190YWcnCiBkcml2ZXJzL3Njc2kvYWFjcmFpZC9jb21tc3VwLmM6NDIxOiB3YXJuaW5n
+OiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdxaWQnIG5vdCBkZXNjcmliZWQgaW4gJ2Fh
+Y19xdWV1ZV9nZXQnCiBkcml2ZXJzL3Njc2kvYWFjcmFpZC9jb21tc3VwLmM6NDIxOiB3YXJuaW5n
+OiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdod19maWInIG5vdCBkZXNjcmliZWQgaW4g
+J2FhY19xdWV1ZV9nZXQnCiBkcml2ZXJzL3Njc2kvYWFjcmFpZC9jb21tc3VwLmM6NDIxOiB3YXJu
+aW5nOiBFeGNlc3MgZnVuY3Rpb24gcGFyYW1ldGVyICdwcmlvcml0eScgZGVzY3JpcHRpb24gaW4g
+J2FhY19xdWV1ZV9nZXQnCiBkcml2ZXJzL3Njc2kvYWFjcmFpZC9jb21tc3VwLmM6NDIxOiB3YXJu
+aW5nOiBFeGNlc3MgZnVuY3Rpb24gcGFyYW1ldGVyICdmaWInIGRlc2NyaXB0aW9uIGluICdhYWNf
+cXVldWVfZ2V0JwogZHJpdmVycy9zY3NpL2FhY3JhaWQvY29tbXN1cC5jOjk0Mzogd2FybmluZzog
+RnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnZmlicHRyJyBub3QgZGVzY3JpYmVkIGluICdh
+YWNfZmliX2NvbXBsZXRlJwogZHJpdmVycy9zY3NpL2FhY3JhaWQvY29tbXN1cC5jOjk0Mzogd2Fy
+bmluZzogRXhjZXNzIGZ1bmN0aW9uIHBhcmFtZXRlciAnZmliJyBkZXNjcmlwdGlvbiBpbiAnYWFj
+X2ZpYl9jb21wbGV0ZScKIGRyaXZlcnMvc2NzaS9hYWNyYWlkL2NvbW1zdXAuYzoxMDYxOiB3YXJu
+aW5nOiBFeGNlc3MgZnVuY3Rpb24gcGFyYW1ldGVyICdkZXYnIGRlc2NyaXB0aW9uIGluICdBSUZf
+U05JRkZfVElNRU9VVCcKIGRyaXZlcnMvc2NzaS9hYWNyYWlkL2NvbW1zdXAuYzoxMDYxOiB3YXJu
+aW5nOiBFeGNlc3MgZnVuY3Rpb24gcGFyYW1ldGVyICdmaWJwdHInIGRlc2NyaXB0aW9uIGluICdB
+SUZfU05JRkZfVElNRU9VVCcKIGRyaXZlcnMvc2NzaS9hYWNyYWlkL2NvbW1zdXAuYzoyNDI4OiB3
+YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdkYXRhJyBub3QgZGVzY3JpYmVk
+IGluICdhYWNfY29tbWFuZF90aHJlYWQnCiBkcml2ZXJzL3Njc2kvYWFjcmFpZC9jb21tc3VwLmM6
+MjQyODogd2FybmluZzogRXhjZXNzIGZ1bmN0aW9uIHBhcmFtZXRlciAnZGV2JyBkZXNjcmlwdGlv
+biBpbiAnYWFjX2NvbW1hbmRfdGhyZWFkJwoKQ2M6IEFkYXB0ZWMgT0VNIFJhaWQgU29sdXRpb25z
+IDxhYWNyYWlkQG1pY3Jvc2VtaS5jb20+CkNjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBs
+aW5hcm8ub3JnPgpDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5j
+b20+CkNjOiAiUE1DLVNpZXJyYSwgSW5jIiA8YWFjcmFpZEBwbWMtc2llcnJhLmNvbT4KQ2M6IGxp
+bnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnClNpZ25lZC1vZmYtYnk6IExl
+ZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9zY3NpL2FhY3JhaWQv
+Y29tbXN1cC5jIHwgMTIgKysrKysrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25z
+KCspLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9hYWNyYWlkL2Nv
+bW1zdXAuYyBiL2RyaXZlcnMvc2NzaS9hYWNyYWlkL2NvbW1zdXAuYwppbmRleCA4ZWU0ZTFhYmU1
+NjhkLi5hZGJkYzNiN2M3YTcwIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Njc2kvYWFjcmFpZC9jb21t
+c3VwLmMKKysrIGIvZHJpdmVycy9zY3NpL2FhY3JhaWQvY29tbXN1cC5jCkBAIC0yMTQsNiArMjE0
+LDcgQEAgaW50IGFhY19maWJfc2V0dXAoc3RydWN0IGFhY19kZXYgKiBkZXYpCiAvKioKICAqCWFh
+Y19maWJfYWxsb2NfdGFnLWFsbG9jYXRlIGEgZmliIHVzaW5nIHRhZ3MKICAqCUBkZXY6IEFkYXB0
+ZXIgdG8gYWxsb2NhdGUgdGhlIGZpYiBmb3IKKyAqCUBzY21kOiBTQ1NJIGNvbW1hbmQKICAqCiAg
+KglBbGxvY2F0ZSBhIGZpYiBmcm9tIHRoZSBhZGFwdGVyIGZpYiBwb29sIHVzaW5nIHRhZ3MKICAq
+CWZyb20gdGhlIGJsayBsYXllci4KQEAgLTQwNSw4ICs0MDYsOCBAQCBzdGF0aWMgaW50IGFhY19n
+ZXRfZW50cnkgKHN0cnVjdCBhYWNfZGV2ICogZGV2LCB1MzIgcWlkLCBzdHJ1Y3QgYWFjX2VudHJ5
+ICoqZW50cgogICoJYWFjX3F1ZXVlX2dldAkJLQlnZXQgdGhlIG5leHQgZnJlZSBRRQogICoJQGRl
+djogQWRhcHRlcgogICoJQGluZGV4OiBSZXR1cm5lZCBpbmRleAotICoJQHByaW9yaXR5OiBQcmlv
+cml0eSBvZiBmaWIKLSAqCUBmaWI6IEZpYiB0byBhc3NvY2lhdGUgd2l0aCB0aGUgcXVldWUgZW50
+cnkKKyAqCUBxaWQ6IFF1ZXVlIG51bWJlcgorICoJQGh3X2ZpYjogRmliIHRvIGFzc29jaWF0ZSB3
+aXRoIHRoZSBxdWV1ZSBlbnRyeQogICoJQHdhaXQ6IFdhaXQgaWYgcXVldWUgZnVsbAogICoJQGZp
+YnB0cjogRHJpdmVyIGZpYiBvYmplY3QgdG8gZ28gd2l0aCBmaWIKICAqCUBub25vdGlmeTogRG9u
+J3Qgbm90aWZ5IHRoZSBhZGFwdGVyCkBAIC05MzQsNyArOTM1LDcgQEAgaW50IGFhY19maWJfYWRh
+cHRlcl9jb21wbGV0ZShzdHJ1Y3QgZmliICpmaWJwdHIsIHVuc2lnbmVkIHNob3J0IHNpemUpCiAK
+IC8qKgogICoJYWFjX2ZpYl9jb21wbGV0ZQktCWZpYiBjb21wbGV0aW9uIGhhbmRsZXIKLSAqCUBm
+aWI6IEZJQiB0byBjb21wbGV0ZQorICoJQGZpYnB0cjogRklCIHRvIGNvbXBsZXRlCiAgKgogICoJ
+V2lsbCBkbyBhbGwgbmVjZXNzYXJ5IHdvcmsgdG8gY29tcGxldGUgYSBGSUIuCiAgKi8KQEAgLTEw
+NDksNiArMTA1MCw3IEBAIHN0YXRpYyB2b2lkIGFhY19oYW5kbGVfYWlmX2J1KHN0cnVjdCBhYWNf
+ZGV2ICpkZXYsIHN0cnVjdCBhYWNfYWlmY21kICphaWZjbWQpCiAJfQogfQogCisjZGVmaW5lIEFJ
+Rl9TTklGRl9USU1FT1VUCSg1MDAqSFopCiAvKioKICAqCWFhY19oYW5kbGVfYWlmCQktCUhhbmRs
+ZSBhIG1lc3NhZ2UgZnJvbSB0aGUgZmlybXdhcmUKICAqCUBkZXY6IFdoaWNoIGFkYXB0ZXIgdGhp
+cyBmaWIgaXMgZnJvbQpAQCAtMTA1Nyw4ICsxMDU5LDYgQEAgc3RhdGljIHZvaWQgYWFjX2hhbmRs
+ZV9haWZfYnUoc3RydWN0IGFhY19kZXYgKmRldiwgc3RydWN0IGFhY19haWZjbWQgKmFpZmNtZCkK
+ICAqCVRoaXMgcm91dGluZSBoYW5kbGVzIGEgZHJpdmVyIG5vdGlmeSBmaWIgZnJvbSB0aGUgYWRh
+cHRlciBhbmQKICAqCWRpc3BhdGNoZXMgaXQgdG8gdGhlIGFwcHJvcHJpYXRlIHJvdXRpbmUgZm9y
+IGhhbmRsaW5nLgogICovCi0KLSNkZWZpbmUgQUlGX1NOSUZGX1RJTUVPVVQJKDUwMCpIWikKIHN0
+YXRpYyB2b2lkIGFhY19oYW5kbGVfYWlmKHN0cnVjdCBhYWNfZGV2ICogZGV2LCBzdHJ1Y3QgZmli
+ICogZmlicHRyKQogewogCXN0cnVjdCBod19maWIgKiBod19maWIgPSBmaWJwdHItPmh3X2ZpYl92
+YTsKQEAgLTI0MTYsNyArMjQxNiw3IEBAIHN0YXRpYyBpbnQgYWFjX3NlbmRfaG9zdHRpbWUoc3Ry
+dWN0IGFhY19kZXYgKmRldiwgc3RydWN0IHRpbWVzcGVjNjQgKm5vdykKIAogLyoqCiAgKglhYWNf
+Y29tbWFuZF90aHJlYWQJLQljb21tYW5kIHByb2Nlc3NpbmcgdGhyZWFkCi0gKglAZGV2OiBBZGFw
+dGVyIHRvIG1vbml0b3IKKyAqCUBkYXRhOiBBZGFwdGVyIHRvIG1vbml0b3IKICAqCiAgKglXYWl0
+cyBvbiB0aGUgY29tbWFuZHJlYWR5IGV2ZW50IGluIGl0J3MgcXVldWUuIFdoZW4gdGhlIGV2ZW50
+IGdldHMgc2V0CiAgKglpdCB3aWxsIHB1bGwgRklCcyBvZmYgaXQncyBxdWV1ZS4gSXQgd2lsbCBj
+b250aW51ZSB0byBwdWxsIEZJQnMgb2ZmCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
