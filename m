@@ -1,59 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A8F219A90
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 10:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1424E21B0AB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B0E6EA05;
-	Thu,  9 Jul 2020 08:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE7D6EB9A;
+	Fri, 10 Jul 2020 07:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE33C6EA0A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 08:09:15 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id k6so1344673wrn.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 01:09:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=xILi+P7oxRN9bsl9W4i3+0ke3SSO/cGJKcOayGROABg=;
- b=Z8SGMwegjGqLUQQfKqZmW8OnZt4atfyK+euHQ66oyCKzXXabJQBna2CgnG6gYEwSxx
- JTBXk5cMDf6pHwZTG/X54Jme6aPmwyba+D85KHNMCZiewSxIUuN5gy8I1HAZsFiE5L39
- Zasqwt5fVM3jrkrCUHQ9O5XKDxbXPWsMXZZ4Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xILi+P7oxRN9bsl9W4i3+0ke3SSO/cGJKcOayGROABg=;
- b=qCMNU59stB2iGlct3GmZstUPUpsiwS/jJqIVqFUkNHqPA4HmchE5kGXa6Js5wcldqV
- yaHXnMBEpH+YPThL3nJPH4HQT/NcjptLTirBvd3UALvm9mRDMWDSNDQgJ8N9zqANPQUL
- YFbhRGQO+ioO7Vi1YrWHFKemhozfidXeLNFHTBMQx+ERFikYP2sUnZGf580j7RCk8t8N
- Iaf4Ebmjk1PX5ZNNGJcxvK9yoV1kWNiGIpWEdkQl38quPSAlTeS3NbMbmgQ+Rn3dOve7
- 3I3RucJd8RXd7IwTEP7POvGXJuwb2GYu+Ye6Ki38aalGIL09VfKRx8ugVLER6oh9szww
- FIaA==
-X-Gm-Message-State: AOAM530mzzUmyxhl77nWtsJ0XKZtb3efjl0MunN374uXjiNRRCI/zsyS
- NWfcaAe0+OgDecNvSWSXtEhj8sB64cs=
-X-Google-Smtp-Source: ABdhPJyXjosHa1e1FEUu0z2TQteu7t+nU4sUeh2Velm8Y72+jQHU242c3Oro8DJvZSDfcbp2iGZgaA==
-X-Received: by 2002:adf:828b:: with SMTP id 11mr66734825wrc.58.1594282154016; 
- Thu, 09 Jul 2020 01:09:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d132sm3541640wmd.35.2020.07.09.01.09.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 01:09:13 -0700 (PDT)
-Date: Thu, 9 Jul 2020 10:09:11 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 02/25] dma-fence: prime lockdep annotations
-Message-ID: <20200709080911.GP3278063@phenom.ffwll.local>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-3-daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2123.outbound.protection.outlook.com [40.107.236.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD3F6E3F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 08:31:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KCDOatpyytzK1Lgbp1JKaIh+GEbq8Lx2T7sG6YljMQCTISSYtjev2rD8koqjw8aAZrD67pdEiGZ4Sg2xR3xmS+k6vB2rYbrMPbvq/XH0BDtz04mIo+5xnJICQ9HXmpCgEaJM9Yj5tutEQba9nSPGEsnSgUnsuZ+pXUT4T7CLscM1HL4yAMu30chxfIG8TCs+rAwlZzo2RudgcfU4MOX6QZGkyZi6w8Ujoka4QpdHvPOaOw63Rq6V6ioTtUzCrs/W/fkA+IRrw2Xv7eVmhLj8ZOltTHQEUdjn72Ry2ZHAkTi0pZ9d/Sfmv3nHJqcAmuOGYEgaRmNDSAozacuq9tYlKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cp+tfucsku7aI364laS9+4ItpkcVKBrKXR1VKWA+MBE=;
+ b=U8RvFRwgCQQANC+ZxvE2KkpAUnXgej6UQ/9HwH1+PIjBOkyGBUHu7/7BqY0JxEQXEARkNUS3vQFcXzTs1OB+rlPEE/tPIt1Cd6VfOg2jORK3CjjNOqmwgl5FIAqlSDOEOPowbCnUPIhhaO59vybo8I46ks5V4j/PyEDmNfgLzAaETlvU41+NvI8pjeaKf0JYDQwhpLajF3X6Sv3iKBgpXfqsGbHNzx+N8I61kXYSeD/0eaI4dXyjYdxnB158PfPWwrWPmaf2UhKP4a26oySMm/S5/ktBs+GklcK+LzjsLNthrkmbTACU5pQBbrBC+/LDaiUfVGrUwBGxfArX4874EA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cp+tfucsku7aI364laS9+4ItpkcVKBrKXR1VKWA+MBE=;
+ b=r5kd3Cc7CTeFurMn3SNRIwqVDVRKL7Usc+637CteuqfhtdksV5vnATzYiz3qinfYNaONTXOMMLtMLZj5m72uzLVYX6ZdvWU/jB0EGSj/x04K2gzpFCcn6uMsu/wVdBt0rI/yhXwIMnXhzLY8MVeW6jgeB0uJSGgsMMPZT4wiusM=
+Authentication-Results: analogixsemi.com; dkim=none (message not signed)
+ header.d=none;analogixsemi.com; dmarc=none action=none
+ header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BYAPR04MB5462.namprd04.prod.outlook.com (2603:10b6:a03:c4::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.28; Thu, 9 Jul
+ 2020 08:31:22 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::844e:398b:2165:631b]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::844e:398b:2165:631b%5]) with mapi id 15.20.3153.031; Thu, 9 Jul 2020
+ 08:31:22 +0000
+Date: Thu, 9 Jul 2020 16:31:09 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: devel@driverdev.osuosl.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Nicolas Boichat <drinkcat@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v14 0/2] Add initial support for slimport anx7625
+Message-ID: <cover.1594283160.git.xji@analogixsemi.com>
 Content-Disposition: inline
-In-Reply-To: <20200707201229.472834-3-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: HK2P15301CA0023.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:202:1::33) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from xin-VirtualBox (114.247.245.254) by
+ HK2P15301CA0023.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::33) with Microsoft
+ SMTP Server (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id
+ 15.20.3195.5 via Frontend Transport; Thu, 9 Jul 2020 08:31:21 +0000
+X-Originating-IP: [114.247.245.254]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d3c6d926-ba77-4e5e-77eb-08d823e275ca
+X-MS-TrafficTypeDiagnostic: BYAPR04MB5462:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR04MB5462760621AD3F99A9DB00ABC7640@BYAPR04MB5462.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 04599F3534
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yuT3fblASby832hMdDTdzfoviDxTV0wzw2d3ygSfBxl9TLP+PIL0AF/PjvUPYkrGvmE1LIowIfRMIvw7wk/pOKLw7kRzKMCEsWt4RTjhqf5XjTxBRk2+/MXQtIZmhsqIz+ius8lHhi7baLs5utNAM7dPaGQC521Cd6dmiQmMkG+/3NV5adq3o16f5Y0NOvAjdLIH3fPJVRFpOG7e6p5TIFN5MsPBXQHaBevP6Xks/imYTcf1Xt4mj3Ok6x0189jSF3Nevtu/J0g/dzejCvD69QoO+CZX1GWiOc0TrxhotPG2YvxuBkh41vIIA3FpJsbu
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(346002)(396003)(366004)(136003)(39840400004)(54906003)(110136005)(316002)(6666004)(8676002)(6486002)(2906002)(36756003)(5660300002)(83380400001)(66476007)(52116002)(16526019)(66556008)(186003)(66946007)(26005)(4326008)(6496006)(8936002)(107886003)(478600001)(956004)(86362001)(7416002)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: CS7orSMtzWmcYv3sTQn98yhJ4oLDd5yjjQAXO/qdh5SQfFQziy6YHf3bIQXifhstBGEq+JB+JDrXa25PnpsPDFpzzFe5W0Jgv7p5wvFI4byON4zon7qJJEPx2YKyc7auG5MAYnCEdLRFCXUI86cY6uuBq6wx4aT/kzYXRlo13drRyWVUvDYllx/2hnK2aBjW5KtTihqeIso7jNkYXGEpjLEOUsaXrERky0notnnHclmksVZZWNIbYmsIPaWkC2OwFbNar1u0UdBPUdQChjRIeGMniU5t5lvQJfTbGEYqSASIXe4pN1CBeW9SDsx1i0xoaRZ3qnbFkejtyRExpGi/vgCYO6aZoEL7NLBvW2TAd+/P7EowYQ7+zuWeU3df8jPk2gyyO2LbrYhaWFzn8IyH0LAzR3CSNiKViNnfV8AahnMd2Kv1NEpe4tehhmuUrLLtrSToMvKu38egI83GOLYMKHBHVj1SpZrKDtmjYAtTz6lf4LMEsSaSbgtqkS+vuKen
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3c6d926-ba77-4e5e-77eb-08d823e275ca
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 08:31:22.1965 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5jVu5zHguaAKOQNpODBt4kesRsRuKuq3TJWnMfX8DjIi/N8vnkhV85U9NQoGwDlZk9RsbJMO9c/PK3Ds3uq1QQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5462
+X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,277 +99,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@mellanox.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
- linux-media@vger.kernel.org, Felix Kuehling <Felix.Kuehling@amd.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sheng Pan <span@analogixsemi.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+Hi all,
 
-Below the paragraph I've added after our discussions around dma-fences
-outside of drivers/gpu. Good enough for an ack on this, or want something
-changed?
-
-Thanks, Daniel
-
-> + * Note that only GPU drivers have a reasonable excuse for both requiring
-> + * &mmu_interval_notifier and &shrinker callbacks at the same time as ha=
-ving to
-> + * track asynchronous compute work using &dma_fence. No driver outside of
-> + * drivers/gpu should ever call dma_fence_wait() in such contexts.
+The following series add support for the Slimport ANX7625 transmitter, a
+ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
 
 
-On Tue, Jul 07, 2020 at 10:12:06PM +0200, Daniel Vetter wrote:
-> Two in one go:
-> - it is allowed to call dma_fence_wait() while holding a
->   dma_resv_lock(). This is fundamental to how eviction works with ttm,
->   so required.
-> =
+This is the v14 version, any mistakes, please let me know, I will fix it in
+the next series.
 
-> - it is allowed to call dma_fence_wait() from memory reclaim contexts,
->   specifically from shrinker callbacks (which i915 does), and from mmu
->   notifier callbacks (which amdgpu does, and which i915 sometimes also
->   does, and probably always should, but that's kinda a debate). Also
->   for stuff like HMM we really need to be able to do this, or things
->   get real dicey.
-> =
+Change history:
+v14: Fix comments from Sam and Nicolas
+ - Check flags at drm_bridge_attach
+ - Use panel_bridge instead of drm_panel
+ - Fix not correct return value
 
-> Consequence is that any critical path necessary to get to a
-> dma_fence_signal for a fence must never a) call dma_resv_lock nor b)
-> allocate memory with GFP_KERNEL. Also by implication of
-> dma_resv_lock(), no userspace faulting allowed. That's some supremely
-> obnoxious limitations, which is why we need to sprinkle the right
-> annotations to all relevant paths.
-> =
+v13: Fix comments from Launrent Pinchart and Rob Herring
+ - Picked up Rob's Reviewed-By
+ - Add .detect and .get_edid interface in bridge funcs.
 
-> The one big locking context we're leaving out here is mmu notifiers,
-> added in
-> =
+v12: Fix comments from Hsin-Yi Wang
+ - Rebase the code on kernel 5.7, fix DRM interface not match issue.
 
-> commit 23b68395c7c78a764e8963fc15a7cfd318bf187f
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Mon Aug 26 22:14:21 2019 +0200
-> =
+v11: Fix comments from Rob Herring
+ - Update commit message.
+ - Remove unused label.
 
->     mm/mmu_notifiers: add a lockdep map for invalidate_range_start/end
-> =
+v10: Fix comments from Rob Herring, Daniel.
+ - Fix dt_binding_check warning.
+ - Update description.
 
-> that one covers a lot of other callsites, and it's also allowed to
-> wait on dma-fences from mmu notifiers. But there's no ready-made
-> functions exposed to prime this, so I've left it out for now.
-> =
+v9: Fix comments from Sam, Nicolas, Daniel
+ - Remove extcon interface.
+ - Remove DPI support.
+ - Fix dt_binding_check complains.
+ - Code clean up and update description.
 
-> v2: Also track against mmu notifier context.
-> =
+v8: Fix comments from Nicolas.
+ - Fix several coding format.
+ - Update description.
 
-> v3: kerneldoc to spec the cross-driver contract. Note that currently
-> i915 throws in a hard-coded 10s timeout on foreign fences (not sure
-> why that was done, but it's there), which is why that rule is worded
-> with SHOULD instead of MUST.
-> =
-
-> Also some of the mmu_notifier/shrinker rules might surprise SoC
-> drivers, I haven't fully audited them all. Which is infeasible anyway,
-> we'll need to run them with lockdep and dma-fence annotations and see
-> what goes boom.
-> =
-
-> v4: A spelling fix from Mika
-> =
-
-> v5: #ifdef for CONFIG_MMU_NOTIFIER. Reported by 0day. Unfortunately
-> this means lockdep enforcement is slightly inconsistent, it won't spot
-> GFP_NOIO and GFP_NOFS allocations in the wrong spot if
-> CONFIG_MMU_NOTIFIER is disabled in the kernel config. Oh well.
-> =
-
-> v5: Note that only drivers/gpu has a reasonable (or at least
-> historical) excuse to use dma_fence_wait() from shrinker and mmu
-> notifier callbacks. Everyone else should either have a better memory
-> manager model, or better hardware. This reflects discussions with
-> Jason Gunthorpe.
-> =
-
-> Cc: Jason Gunthorpe <jgg@mellanox.com>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: kernel test robot <lkp@intel.com>
-> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@intel.com> (v4)
-> Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian K=F6nig <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  Documentation/driver-api/dma-buf.rst |  6 ++++
->  drivers/dma-buf/dma-fence.c          | 46 ++++++++++++++++++++++++++++
->  drivers/dma-buf/dma-resv.c           |  8 +++++
->  include/linux/dma-fence.h            |  1 +
->  4 files changed, 61 insertions(+)
-> =
-
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-=
-api/dma-buf.rst
-> index 05d856131140..f8f6decde359 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -133,6 +133,12 @@ DMA Fences
->  .. kernel-doc:: drivers/dma-buf/dma-fence.c
->     :doc: DMA fences overview
->  =
-
-> +DMA Fence Cross-Driver Contract
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> +   :doc: fence cross-driver contract
-> +
->  DMA Fence Signalling Annotations
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  =
-
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 0005bc002529..af1d8ea926b3 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -64,6 +64,52 @@ static atomic64_t dma_fence_context_counter =3D ATOMIC=
-64_INIT(1);
->   *   &dma_buf.resv pointer.
->   */
->  =
-
-> +/**
-> + * DOC: fence cross-driver contract
-> + *
-> + * Since &dma_fence provide a cross driver contract, all drivers must fo=
-llow the
-> + * same rules:
-> + *
-> + * * Fences must complete in a reasonable time. Fences which represent k=
-ernels
-> + *   and shaders submitted by userspace, which could run forever, must b=
-e backed
-> + *   up by timeout and gpu hang recovery code. Minimally that code must =
-prevent
-> + *   further command submission and force complete all in-flight fences,=
- e.g.
-> + *   when the driver or hardware do not support gpu reset, or if the gpu=
- reset
-> + *   failed for some reason. Ideally the driver supports gpu recovery wh=
-ich only
-> + *   affects the offending userspace context, and no other userspace
-> + *   submissions.
-> + *
-> + * * Drivers may have different ideas of what completion within a reason=
-able
-> + *   time means. Some hang recovery code uses a fixed timeout, others a =
-mix
-> + *   between observing forward progress and increasingly strict timeouts.
-> + *   Drivers should not try to second guess timeout handling of fences f=
-rom
-> + *   other drivers.
-> + *
-> + * * To ensure there's no deadlocks of dma_fence_wait() against other lo=
-cks
-> + *   drivers should annotate all code required to reach dma_fence_signal=
-(),
-> + *   which completes the fences, with dma_fence_begin_signalling() and
-> + *   dma_fence_end_signalling().
-> + *
-> + * * Drivers are allowed to call dma_fence_wait() while holding dma_resv=
-_lock().
-> + *   This means any code required for fence completion cannot acquire a
-> + *   &dma_resv lock. Note that this also pulls in the entire established
-> + *   locking hierarchy around dma_resv_lock() and dma_resv_unlock().
-> + *
-> + * * Drivers are allowed to call dma_fence_wait() from their &shrinker
-> + *   callbacks. This means any code required for fence completion cannot
-> + *   allocate memory with GFP_KERNEL.
-> + *
-> + * * Drivers are allowed to call dma_fence_wait() from their &mmu_notifi=
-er
-> + *   respectively &mmu_interval_notifier callbacks. This means any code =
-required
-> + *   for fence completeion cannot allocate memory with GFP_NOFS or GFP_N=
-OIO.
-> + *   Only GFP_ATOMIC is permissible, which might fail.
-> + *
-> + * Note that only GPU drivers have a reasonable excuse for both requiring
-> + * &mmu_interval_notifier and &shrinker callbacks at the same time as ha=
-ving to
-> + * track asynchronous compute work using &dma_fence. No driver outside of
-> + * drivers/gpu should ever call dma_fence_wait() in such contexts.
-> + */
-> +
->  static const char *dma_fence_stub_get_name(struct dma_fence *fence)
->  {
->          return "stub";
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index e7d7197d48ce..0e6675ec1d11 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -36,6 +36,7 @@
->  #include <linux/export.h>
->  #include <linux/mm.h>
->  #include <linux/sched/mm.h>
-> +#include <linux/mmu_notifier.h>
->  =
-
->  /**
->   * DOC: Reservation Object Overview
-> @@ -116,6 +117,13 @@ static int __init dma_resv_lockdep(void)
->  	if (ret =3D=3D -EDEADLK)
->  		dma_resv_lock_slow(&obj, &ctx);
->  	fs_reclaim_acquire(GFP_KERNEL);
-> +#ifdef CONFIG_MMU_NOTIFIER
-> +	lock_map_acquire(&__mmu_notifier_invalidate_range_start_map);
-> +	__dma_fence_might_wait();
-> +	lock_map_release(&__mmu_notifier_invalidate_range_start_map);
-> +#else
-> +	__dma_fence_might_wait();
-> +#endif
->  	fs_reclaim_release(GFP_KERNEL);
->  	ww_mutex_unlock(&obj.lock);
->  	ww_acquire_fini(&ctx);
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 3f288f7db2ef..09e23adb351d 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -360,6 +360,7 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fence=
-p)
->  #ifdef CONFIG_LOCKDEP
->  bool dma_fence_begin_signalling(void);
->  void dma_fence_end_signalling(bool cookie);
-> +void __dma_fence_might_wait(void);
->  #else
->  static inline bool dma_fence_begin_signalling(void)
->  {
-> -- =
-
-> 2.27.0
-> =
+v7:
+ - Fix critical timing(eg:odd hfp/hbp) in "mode_fixup" interface,
+   enhance MIPI RX tolerance by setting register MIPI_DIGITAL_ADJ_1 to 0x3D.
 
 
--- =
+Xin Ji (2):
+  dt-bindings: drm/bridge: anx7625: MIPI to DP transmitter DT schema
+  drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+ .../bindings/display/bridge/analogix,anx7625.yaml  |   95 +
+ drivers/gpu/drm/bridge/analogix/Kconfig            |    9 +
+ drivers/gpu/drm/bridge/analogix/Makefile           |    1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c          | 1939 ++++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h          |  391 ++++
+ 5 files changed, 2435 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+ create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.c
+ create mode 100644 drivers/gpu/drm/bridge/analogix/anx7625.h
+
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
