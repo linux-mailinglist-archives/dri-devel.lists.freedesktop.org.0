@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5A821A87D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jul 2020 22:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C593D21B0AE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:54:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4929D6EB28;
-	Thu,  9 Jul 2020 20:02:12 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2D96EB2C
- for <dri-devel@freedesktop.org>; Thu,  9 Jul 2020 20:02:07 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1594324930; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=YLjZebXB525vE+wY7ILTYsnkukVESCi+HQU325VZ01E=;
- b=lAhQdIIslcK5rnpVsttg0wSXl9S3IwQCM3mwgAfTJf9XRqCayAczMwXQKgyBGlpFxpGWRBhx
- SeWD8rPcSxFZrcoYLhJsEY3X8L5xSiOicy0NFu5gnscqkZTwJJnqLbFqWub+qBM86vbbFxSF
- GftkQvnJEdi1iwTskVGVAG0joa4=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5f07779119b27ae9ce254a9f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Jul 2020 20:01:21
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 4A668C43387; Thu,  9 Jul 2020 20:01:20 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from akhilpo-linux.qualcomm.com
- (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DA52C433A1;
- Thu,  9 Jul 2020 20:01:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9DA52C433A1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v4 7/7] arm64: dts: qcom: sc7180: Add opp-peak-kBps to GPU opp
-Date: Fri, 10 Jul 2020 01:30:27 +0530
-Message-Id: <1594324828-9571-8-git-send-email-akhilpo@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594324828-9571-1-git-send-email-akhilpo@codeaurora.org>
-References: <1594324828-9571-1-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6610D6EBC0;
+	Fri, 10 Jul 2020 07:53:07 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95EDB6EB26
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jul 2020 20:01:24 +0000 (UTC)
+Received: by mail-ej1-x642.google.com with SMTP id l12so3574320ejn.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 13:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=d0gYY+wvsRxBQmwzqJnWeCjIuXvxeaWsWRCnx0ubZOg=;
+ b=GkZHcqMUxKmjdVenudvdvqrkXbo+JquPTX2QSgtNobUDUV+vraMZmE9cpIcAdHZJUq
+ BsNZoufFprGyxI+wF74biz7ZS11pt7kce+6MsuFWiTDxGPiFDCBKH/FQV0TSZY+pJnKZ
+ aQgYU21P8pRSAHEIpMjQaSk+/2UWcXpEmWTHqU2pnGGc+WJE2vTWQaeOqT9pS6Wvbnc+
+ FHkBOL1YGb2IRejD/iE8bAHlYDJJb7i6xs3ZqMC0TUpFxaYPBos1PzAaPH3oFvaWN425
+ C2K8MZOf+/7LZ1SzGQPQTHQjCyQFHQkVSe9p2Uwwgk+FPt9rtQwguKi6C2OAdfptqC2j
+ oImw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d0gYY+wvsRxBQmwzqJnWeCjIuXvxeaWsWRCnx0ubZOg=;
+ b=MVU+4jqC6g7Ri0KYrWfCTfeFxfGpvEqQ3YSlfnC07ptagONsnbnYh2CFRUc2DE4Lhd
+ dJgy6DyztTBxFFwaZupD7xAp8G9AtIYWsNkzB5SDsOZrlQb6Hk/EdaLa7dCEwNmPG0On
+ 2o02UeAcot76U2kS/AYsqxAnBSEs89uaTw5gQ+AV6o/Wty7xvbiOSC6Al1Sj4Hsahvit
+ Jvb8SUORWhZawmVBVUDvIA+vxG+AKSBXxBScuY5UxtqIMg86Ce5cqIVJpd1MuSZ3KSLO
+ 2jQfGgS40mm47l3dNsXzVnWfUIrQ1P8MA6wCyuKsoKrp7AaYVpsHjO0vAROpV0Ivxl2b
+ 1b1g==
+X-Gm-Message-State: AOAM533Z474EIWD5aRJCuc7famHcTZMadqK4Ls3GdxnqRTletnXXMY/r
+ y2MTRNGN140SLSrI0/lMaZI=
+X-Google-Smtp-Source: ABdhPJxPlnTPprrTFBMP+KVIniKNlWppnSrNKOcRmi8sX8QVrNf9GjrPlFc+WTiAQakw0xXsLbAzEQ==
+X-Received: by 2002:a17:906:3a04:: with SMTP id
+ z4mr51246240eje.441.1594324883183; 
+ Thu, 09 Jul 2020 13:01:23 -0700 (PDT)
+Received: from ?IPv6:2a01:110f:b59:fd00:2066:8db:696f:8073?
+ ([2a01:110f:b59:fd00:2066:8db:696f:8073])
+ by smtp.gmail.com with ESMTPSA id t2sm2728139eds.60.2020.07.09.13.01.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jul 2020 13:01:22 -0700 (PDT)
+Subject: Re: [PATCH 11/20] Documentation: leds/ledtrig-transient: eliminate
+ duplicated word
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+References: <20200707180414.10467-1-rdunlap@infradead.org>
+ <20200707180414.10467-12-rdunlap@infradead.org>
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <16035116-2154-d0fe-6655-a829a9d36ceb@gmail.com>
+Date: Thu, 9 Jul 2020 22:01:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200707180414.10467-12-rdunlap@infradead.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,80 +74,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jonathan@marek.ca, saravanak@google.com,
- linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
- linux-kernel@vger.kernel.org, mka@chromium.org, dri-devel@freedesktop.org,
- viresh.kumar@linaro.org, sibis@codeaurora.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
+ linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
+ Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
+ linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Dan Murphy <dmurphy@ti.com>,
+ linux-mm@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Douglas Anderson <dianders@chromium.org>,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sharat Masetty <smasetty@codeaurora.org>
+On 7/7/20 8:04 PM, Randy Dunlap wrote:
+> Drop the doubled word "for".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Dan Murphy <dmurphy@ti.com>
+> Cc: linux-leds@vger.kernel.org
+> ---
+>   Documentation/leds/ledtrig-transient.rst |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- linux-next-20200701.orig/Documentation/leds/ledtrig-transient.rst
+> +++ linux-next-20200701/Documentation/leds/ledtrig-transient.rst
+> @@ -157,7 +157,7 @@ repeat the following step as needed::
+>   	echo 1 > activate - start timer = duration to run once
+>   	echo none > trigger
+>   
+> -This trigger is intended to be used for for the following example use cases:
+> +This trigger is intended to be used for the following example use cases:
+>   
+>    - Control of vibrate (phones, tablets etc.) hardware by user space app.
+>    - Use of LED by user space app as activity indicator.
+> 
 
-Add opp-peak-kBps bindings to the GPU opp table, listing the peak
-GPU -> DDR bandwidth requirement for each opp level. This will be
-used to scale the DDR bandwidth along with the GPU frequency dynamically.
+Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
 
-Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index a567297..8567e9e 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1478,36 +1478,43 @@
- 				opp-800000000 {
- 					opp-hz = /bits/ 64 <800000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-+					opp-peak-kBps = <8532000>;
- 				};
- 
- 				opp-650000000 {
- 					opp-hz = /bits/ 64 <650000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-+					opp-peak-kBps = <7216000>;
- 				};
- 
- 				opp-565000000 {
- 					opp-hz = /bits/ 64 <565000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-+					opp-peak-kBps = <5412000>;
- 				};
- 
- 				opp-430000000 {
- 					opp-hz = /bits/ 64 <430000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+					opp-peak-kBps = <5412000>;
- 				};
- 
- 				opp-355000000 {
- 					opp-hz = /bits/ 64 <355000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+					opp-peak-kBps = <3072000>;
- 				};
- 
- 				opp-267000000 {
- 					opp-hz = /bits/ 64 <267000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+					opp-peak-kBps = <3072000>;
- 				};
- 
- 				opp-180000000 {
- 					opp-hz = /bits/ 64 <180000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-+					opp-peak-kBps = <1804000>;
- 				};
- 			};
- 		};
 -- 
-2.7.4
-
+Best regards,
+Jacek Anaszewski
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
