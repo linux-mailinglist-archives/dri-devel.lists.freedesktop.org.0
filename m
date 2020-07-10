@@ -1,42 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FE621B672
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 15:31:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D4821B6A3
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 15:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E2FD6EC4A;
-	Fri, 10 Jul 2020 13:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 421D36E095;
+	Fri, 10 Jul 2020 13:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA7D6EC4A
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 13:31:38 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4EE8620578;
- Fri, 10 Jul 2020 13:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594387898;
- bh=roVKF9WachsmsskcJZjXabT8G0JYpFRwtH55QGG8Ys8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0ovFL5uznNZwgSUCQqQuc49b3L2yB3zwOqRg1TS2fda5WJPfTXSySKVdluS6kFtKN
- 07MFLtqfnOmOQ5Uawwt/84sGSEpq6JEHsJ+njKN+vIMFwxKzYUMtBJKb38CwLzT4hj
- ZpK+Zy7lAui02JYNYC8edVnp2a50pKcidY4K1t6M=
-Date: Fri, 10 Jul 2020 15:31:43 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH v8 2/5] driver core: add deferring probe reason to
- devices_deferred property
-Message-ID: <20200710133143.GA2085030@kroah.com>
-References: <CAHp75VegHLG5tgVFjwmpmDfSqELqNXcb9dFSM4jLRx+anW7Lsw@mail.gmail.com>
- <CGME20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297@eucas1p2.samsung.com>
- <20200702134421.6412-1-a.hajda@samsung.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1160C6E095
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 13:38:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EAE72AC9F;
+ Fri, 10 Jul 2020 13:38:51 +0000 (UTC)
+Subject: Re: [PATCH] efi: avoid error message when booting under Xen
+To: Ard Biesheuvel <ardb@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <20200610141052.13258-1-jgross@suse.com>
+ <094be567-2c82-7d5b-e432-288286c6c3fb@suse.com>
+ <CGME20200709091750eucas1p18003b0c8127600369485c62c1e587c22@eucas1p1.samsung.com>
+ <ec21b883-dc5c-f3fe-e989-7fa13875a4c4@suse.com>
+ <170e01b1-220d-5cb7-03b2-c70ed3ae58e4@samsung.com>
+ <CAMj1kXGE52Y6QQhGLU6r_9x6TVftZqfS7zyLCiDusZhV4tbhjg@mail.gmail.com>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <b4e60a2f-e761-d9ad-88ad-fe041109c063@suse.com>
+Date: Fri, 10 Jul 2020 15:38:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200702134421.6412-1-a.hajda@samsung.com>
+In-Reply-To: <CAMj1kXGE52Y6QQhGLU6r_9x6TVftZqfS7zyLCiDusZhV4tbhjg@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,49 +45,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- andy.shevchenko@gmail.com, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, linux-efi <linux-efi@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Peter Jones <pjones@redhat.com>,
+ xen-devel@lists.xenproject.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 02, 2020 at 03:44:21PM +0200, Andrzej Hajda wrote:
-> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
-> This list does not contain reason why the driver deferred probe, the patch
-> improves it.
-> The natural place to set the reason is dev_err_probe function introduced
-> recently, ie. if dev_err_probe will be called with -EPROBE_DEFER instead of
-> printk the message will be attached to a deferred device and printed when user
-> reads devices_deferred property.
-> 
-> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
-> ---
-> v8:
-> - improved commit message
-
-I'm totally confused by this series.  Can you resend the whole thing,
-as a full series, not just random individual patches in the series
-incremented?  It's a pain to try to fish them all out as to which is the
-"latest" with all of the needed reviewed by lines :(
-
-thanks,
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTAuMDcuMjAgMTU6MjcsIEFyZCBCaWVzaGV1dmVsIHdyb3RlOgo+IE9uIEZyaSwgMTAgSnVs
+IDIwMjAgYXQgMTM6MTcsIEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3oKPiA8Yi56b2xuaWVya2ll
+QHNhbXN1bmcuY29tPiB3cm90ZToKPj4KPj4KPj4gWyBhZGRlZCBFRkkgTWFpbnRhaW5lciAmIE1M
+IHRvIENjOiBdCj4+Cj4+IEhpLAo+Pgo+PiBPbiA3LzkvMjAgMTE6MTcgQU0sIErDvHJnZW4gR3Jv
+w58gd3JvdGU6Cj4+PiBPbiAyOC4wNi4yMCAxMDo1MCwgSsO8cmdlbiBHcm/DnyB3cm90ZToKPj4+
+PiBQaW5nPwo+Pj4+Cj4+Pj4gT24gMTAuMDYuMjAgMTY6MTAsIEp1ZXJnZW4gR3Jvc3Mgd3JvdGU6
+Cj4+Pj4+IGVmaWZiX3Byb2JlKCkgd2lsbCBpc3N1ZSBhbiBlcnJvciBtZXNzYWdlIGluIGNhc2Ug
+dGhlIGtlcm5lbCBpcyBib290ZWQKPj4+Pj4gYXMgWGVuIGRvbTAgZnJvbSBVRUZJIGFzIEVGSV9N
+RU1NQVAgd29uJ3QgYmUgc2V0IGluIHRoaXMgY2FzZS4gQXZvaWQKPj4+Pj4gdGhhdCBtZXNzYWdl
+IGJ5IGNhbGxpbmcgZWZpX21lbV9kZXNjX2xvb2t1cCgpIG9ubHkgaWYgRUZJX1BBUkFWSVJUCj4+
+Pj4+IGlzbid0IHNldC4KPj4+Pj4KPiAKPiBXaHkgbm90IHRlc3QgZm9yIEVGSV9NRU1NQVAgaW5z
+dGVhZCBvZiBFRklfQk9PVD8KCkhvbmVzdGx5IEknbSBub3Qgc3VyZSBFRklfQk9PVCBpcyBhbHdh
+eXMgc2V0IGluIHRoYXQgY2FzZS4gSWYgeW91IHRlbGwKbWUgaXQgaXMgZmluZSB0byBqdXN0IHJl
+cGxhY2UgdGhlIHRlc3QgdG8gY2hlY2sgZm9yIEVGSV9NRU1NQVAgSSdtIGZpbmUKdG8gbW9kaWZ5
+IG15IHBhdGNoLgoKCkp1ZXJnZW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
