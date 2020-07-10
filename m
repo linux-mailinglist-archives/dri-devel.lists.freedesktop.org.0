@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31BA21BC02
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 19:15:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A72A021BC31
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 19:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076E36ECA5;
-	Fri, 10 Jul 2020 17:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E820A6E293;
+	Fri, 10 Jul 2020 17:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727306ECA5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:15:36 +0000 (UTC)
-IronPort-SDR: uh/YoWKpx8qLV9c3d+4LJ1kpNDm9msz4PWn63/2Nyegy9ovXTi+eogH7EAB7AyNlh2/YeiY5qz
- jEhE1wKg/6nQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="146319171"
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="146319171"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2020 10:15:36 -0700
-IronPort-SDR: OMEX8yzz71moOOb125GbUCoRqR/01b3pvHJLnHLJKYt/dHNIsU+KjDvQ1Trl9Ke/JKO/uSf00L
- Ai4znPyEEMhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="284570094"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by orsmga006.jf.intel.com with ESMTP; 10 Jul 2020 10:15:35 -0700
-Received: from FMSMSX109.amr.corp.intel.com (10.18.116.9) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 10 Jul 2020 10:15:34 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.193]) by
- FMSMSX109.amr.corp.intel.com ([169.254.15.60]) with mapi id 14.03.0439.000;
- Fri, 10 Jul 2020 10:15:34 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Andrzej Hajda <a.hajda@samsung.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Subject: RE: [PATCH v8 2/5] driver core: add deferring probe reason to
- devices_deferred property
-Thread-Topic: [PATCH v8 2/5] driver core: add deferring probe reason to
- devices_deferred property
-Thread-Index: AQHWVs8brT2CjFa9skuBYqTTYNxLbqkBDYkA
-Date: Fri, 10 Jul 2020 17:15:34 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E866301245BC852@FMSMSX108.amr.corp.intel.com>
-References: <20200710153018.12226-1-a.hajda@samsung.com>
- <CGME20200710153024eucas1p1b0686b4acce78838db93fddb3c23939c@eucas1p1.samsung.com>
- <20200710153018.12226-3-a.hajda@samsung.com>
-In-Reply-To: <20200710153018.12226-3-a.hajda@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.107]
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B98F6E293
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:29:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1594402141; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=z7xyehWwvZAwmwo9L22CYZ3U7u55HWB00cITqfpNM9o=;
+ b=uJgIgJEsxORF8Mv2mcDHgtaydu1kEvN4NYHcR6nKXpvVBiOVKmaRWuidEOCwe3xYqQSG8mhk
+ cGf4iirmotT1xhrcbK9IEVwRGILelR/TX7c0K8xJ5M+HvPvVMJaYEidZg5DOHjThQD0thWU9
+ Fk9+1ft8Kn0pgl0OUDWI61koFsM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n20.prod.us-west-2.postgun.com with SMTP id
+ 5f08a55c75eeb235f6373afc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 10 Jul 2020 17:29:00
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 950A1C43391; Fri, 10 Jul 2020 17:28:59 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9FE1AC433C6;
+ Fri, 10 Jul 2020 17:28:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9FE1AC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Fri, 10 Jul 2020 11:28:54 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH] drm/msm/a6xx: fix crashstate capture for A650
+Message-ID: <20200710172854.GD21059@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Jonathan Marek <jonathan@marek.ca>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20200630001010.15194-1-jonathan@marek.ca>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200630001010.15194-1-jonathan@marek.ca>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,193 +77,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Bartlomiej
- Zolnierkiewicz <b.zolnierkie@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>,
- "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Andrzej Hajda
->Sent: Friday, July 10, 2020 11:30 AM
->To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->Cc: Jernej Skrabec <jernej.skrabec@siol.net>; Rafael J. Wysocki
-><rafael@kernel.org>; Jonas Karlman <jonas@kwiboo.se>; Bartlomiej
->Zolnierkiewicz <b.zolnierkie@samsung.com>; linux-kernel@vger.kernel.org;
->open list:DRM DRIVERS <dri-devel@lists.freedesktop.org>; Russell King - ARM
->Linux <linux@armlinux.org.uk>; Neil Armstrong <narmstrong@baylibre.com>;
->Andrzej Hajda <a.hajda@samsung.com>; andy.shevchenko@gmail.com; Mark
->Brown <broonie@kernel.org>; Laurent Pinchart
-><Laurent.pinchart@ideasonboard.com>; linux-arm-
->kernel@lists.infradead.org; Marek Szyprowski
-><m.szyprowski@samsung.com>
->Subject: [PATCH v8 2/5] driver core: add deferring probe reason to
->devices_deferred property
->
->/sys/kernel/debug/devices_deferred property contains list of deferred
->devices.
->This list does not contain reason why the driver deferred probe, the patch
->improves it.
->The natural place to set the reason is dev_err_probe function introduced
->recently, ie. if dev_err_probe will be called with -EPROBE_DEFER instead of
->printk the message will be attached to a deferred device and printed when
->user
->reads devices_deferred property.
->
->Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
->Reviewed-by: Mark Brown <broonie@kernel.org>
->Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
->---
->v8:
->- improved commit message
->---
-> drivers/base/base.h |  3 +++
-> drivers/base/core.c |  8 ++++++--
-> drivers/base/dd.c   | 23 ++++++++++++++++++++++-
-> 3 files changed, 31 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/base/base.h b/drivers/base/base.h
->index 95c22c0f9036..6954fccab3d7 100644
->--- a/drivers/base/base.h
->+++ b/drivers/base/base.h
->@@ -93,6 +93,7 @@ struct device_private {
-> 	struct klist_node knode_class;
-> 	struct list_head deferred_probe;
-> 	struct device_driver *async_driver;
->+	char *deferred_probe_reason;
-> 	struct device *device;
-> 	u8 dead:1;
-> };
->@@ -134,6 +135,8 @@ extern void device_release_driver_internal(struct
->device *dev,
-> extern void driver_detach(struct device_driver *drv);
-> extern int driver_probe_device(struct device_driver *drv, struct device
->*dev);
-> extern void driver_deferred_probe_del(struct device *dev);
->+extern void device_set_deferred_probe_reson(const struct device *dev,
->+					    struct va_format *vaf);
-> static inline int driver_match_device(struct device_driver *drv,
-> 				      struct device *dev)
-> {
->diff --git a/drivers/base/core.c b/drivers/base/core.c
->index 3a827c82933f..fee047f03681 100644
->--- a/drivers/base/core.c
->+++ b/drivers/base/core.c
->@@ -3963,6 +3963,8 @@ define_dev_printk_level(_dev_info, KERN_INFO);
->  * This helper implements common pattern present in probe functions for
->error
->  * checking: print debug or error message depending if the error value is
->  * -EPROBE_DEFER and propagate error upwards.
->+ * In case of -EPROBE_DEFER it sets also defer probe reason, which can be
->+ * checked later by reading devices_deferred debugfs attribute.
->  * It replaces code sequence:
->  * 	if (err != -EPROBE_DEFER)
->  * 		dev_err(dev, ...);
->@@ -3984,10 +3986,12 @@ int dev_err_probe(const struct device *dev, int
->err, const char *fmt, ...)
-> 	vaf.fmt = fmt;
-> 	vaf.va = &args;
->
->-	if (err != -EPROBE_DEFER)
->+	if (err != -EPROBE_DEFER) {
-> 		dev_err(dev, "error %d: %pV", err, &vaf);
->-	else
->+	} else {
->+		device_set_deferred_probe_reson(dev, &vaf);
-> 		dev_dbg(dev, "error %d: %pV", err, &vaf);
->+	}
->
-> 	va_end(args);
->
->diff --git a/drivers/base/dd.c b/drivers/base/dd.c
->index 9a1d940342ac..dd5683b61f74 100644
->--- a/drivers/base/dd.c
->+++ b/drivers/base/dd.c
->@@ -27,6 +27,7 @@
-> #include <linux/async.h>
-> #include <linux/pm_runtime.h>
-> #include <linux/pinctrl/devinfo.h>
->+#include <linux/slab.h>
->
-> #include "base.h"
-> #include "power/power.h"
->@@ -136,6 +137,8 @@ void driver_deferred_probe_del(struct device *dev)
-> 	if (!list_empty(&dev->p->deferred_probe)) {
-> 		dev_dbg(dev, "Removed from deferred list\n");
-> 		list_del_init(&dev->p->deferred_probe);
->+		kfree(dev->p->deferred_probe_reason);
->+		dev->p->deferred_probe_reason = NULL;
-> 	}
-> 	mutex_unlock(&deferred_probe_mutex);
-> }
->@@ -211,6 +214,23 @@ void device_unblock_probing(void)
-> 	driver_deferred_probe_trigger();
-> }
->
->+/**
->+ * device_set_deferred_probe_reson() - Set defer probe reason message
->for device
->+ * @dev: the pointer to the struct device
->+ * @vaf: the pointer to va_format structure with message
->+ */
->+void device_set_deferred_probe_reson(const struct device *dev, struct
+On Mon, Jun 29, 2020 at 08:10:06PM -0400, Jonathan Marek wrote:
+> A650 has a separate RSCC region, so dump RSCC registers separately, reading
+> them from the RSCC base. Without this change a GPU hang will cause a system
+> reset if CONFIG_DEV_COREDUMP is enabled.
 
-Is 'reson'  supposed to be 'reason'?
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 
-Same spelling on the above kernel-doc, but the comment says "reason".
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h       |  5 +++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 25 +++++++++++++++------
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 12 ++++++----
+>  3 files changed, 31 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> index 47df4745db50..c6d2bced8e5d 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> @@ -127,6 +127,11 @@ static inline u64 gmu_read64(struct a6xx_gmu *gmu, u32 lo, u32 hi)
+>  	readl_poll_timeout((gmu)->mmio + ((addr) << 2), val, cond, \
+>  		interval, timeout)
+>  
+> +static inline u32 gmu_read_rscc(struct a6xx_gmu *gmu, u32 offset)
+> +{
+> +	return msm_readl(gmu->rscc + (offset << 2));
+> +}
+> +
+>  static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
+>  {
+>  	return msm_writel(value, gmu->rscc + (offset << 2));
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> index d6023ba8033c..959656ad6987 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> @@ -736,7 +736,8 @@ static void a6xx_get_ahb_gpu_registers(struct msm_gpu *gpu,
+>  static void _a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>  		struct a6xx_gpu_state *a6xx_state,
+>  		const struct a6xx_registers *regs,
+> -		struct a6xx_gpu_state_obj *obj)
+> +		struct a6xx_gpu_state_obj *obj,
+> +		bool rscc)
+>  {
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> @@ -755,9 +756,17 @@ static void _a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>  		u32 count = RANGE(regs->registers, i);
+>  		int j;
+>  
+> -		for (j = 0; j < count; j++)
+> -			obj->data[index++] = gmu_read(gmu,
+> -				regs->registers[i] + j);
+> +		for (j = 0; j < count; j++) {
+> +			u32 offset = regs->registers[i] + j;
+> +			u32 val;
+> +
+> +			if (rscc)
+> +				val = gmu_read_rscc(gmu, offset);
+> +			else
+> +				val = gmu_read(gmu, offset);
+> +
+> +			obj->data[index++] = val;
+> +		}
+>  	}
+>  }
+>  
+> @@ -777,7 +786,9 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>  
+>  	/* Get the CX GMU registers from AHB */
+>  	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[0],
+> -		&a6xx_state->gmu_registers[0]);
+> +		&a6xx_state->gmu_registers[0], false);
+> +	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
+> +		&a6xx_state->gmu_registers[1], true);
+>  
+>  	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>  		return;
+> @@ -785,8 +796,8 @@ static void a6xx_get_gmu_registers(struct msm_gpu *gpu,
+>  	/* Set the fence to ALLOW mode so we can access the registers */
+>  	gpu_write(gpu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, 0);
+>  
+> -	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[1],
+> -		&a6xx_state->gmu_registers[1]);
+> +	_a6xx_get_gmu_registers(gpu, a6xx_state, &a6xx_gmu_reglist[2],
+> +		&a6xx_state->gmu_registers[2], false);
+>  }
+>  
+>  #define A6XX_GBIF_REGLIST_SIZE   1
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+> index 24c974c293e5..846fd5b54c23 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+> @@ -341,10 +341,6 @@ static const u32 a6xx_gmu_cx_registers[] = {
+>  	0x5157, 0x5158, 0x515d, 0x515d, 0x5162, 0x5162, 0x5164, 0x5165,
+>  	0x5180, 0x5186, 0x5190, 0x519e, 0x51c0, 0x51c0, 0x51c5, 0x51cc,
+>  	0x51e0, 0x51e2, 0x51f0, 0x51f0, 0x5200, 0x5201,
+> -	/* GPU RSCC */
+> -	0x8c8c, 0x8c8c, 0x8d01, 0x8d02, 0x8f40, 0x8f42, 0x8f44, 0x8f47,
+> -	0x8f4c, 0x8f87, 0x8fec, 0x8fef, 0x8ff4, 0x902f, 0x9094, 0x9097,
+> -	0x909c, 0x90d7, 0x913c, 0x913f, 0x9144, 0x917f,
+>  	/* GMU AO */
+>  	0x9300, 0x9316, 0x9400, 0x9400,
+>  	/* GPU CC */
+> @@ -357,8 +353,16 @@ static const u32 a6xx_gmu_cx_registers[] = {
+>  	0xbc00, 0xbc16, 0xbc20, 0xbc27,
+>  };
+>  
+> +static const u32 a6xx_gmu_cx_rscc_registers[] = {
+> +	/* GPU RSCC */
+> +	0x008c, 0x008c, 0x0101, 0x0102, 0x0340, 0x0342, 0x0344, 0x0347,
+> +	0x034c, 0x0387, 0x03ec, 0x03ef, 0x03f4, 0x042f, 0x0494, 0x0497,
+> +	0x049c, 0x04d7, 0x053c, 0x053f, 0x0544, 0x057f,
+> +};
+> +
+>  static const struct a6xx_registers a6xx_gmu_reglist[] = {
+>  	REGS(a6xx_gmu_cx_registers, 0, 0),
+> +	REGS(a6xx_gmu_cx_rscc_registers, 0, 0),
+>  	REGS(a6xx_gmu_gx_registers, 0, 0),
+>  };
+>  
+> -- 
+> 2.26.1
+> 
 
-mike
-
->va_format *vaf)
->+{
->+	const char *drv = dev_driver_string(dev);
->+
->+	mutex_lock(&deferred_probe_mutex);
->+
->+	kfree(dev->p->deferred_probe_reason);
->+	dev->p->deferred_probe_reason = kasprintf(GFP_KERNEL, "%s:
->%pV", drv, vaf);
->+
->+	mutex_unlock(&deferred_probe_mutex);
->+}
->+
-> /*
->  * deferred_devs_show() - Show the devices in the deferred probe pending
->list.
->  */
->@@ -221,7 +241,8 @@ static int deferred_devs_show(struct seq_file *s, void
->*data)
-> 	mutex_lock(&deferred_probe_mutex);
->
-> 	list_for_each_entry(curr, &deferred_probe_pending_list,
->deferred_probe)
->-		seq_printf(s, "%s\n", dev_name(curr->device));
->+		seq_printf(s, "%s\t%s", dev_name(curr->device),
->+			   curr->device->p->deferred_probe_reason ?: "\n");
->
-> 	mutex_unlock(&deferred_probe_mutex);
->
->--
->2.17.1
->
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
