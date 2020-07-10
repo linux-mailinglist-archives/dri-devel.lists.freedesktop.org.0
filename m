@@ -1,33 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA55321B5E9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 15:09:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16ED121B652
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 15:27:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76AD66EC3A;
-	Fri, 10 Jul 2020 13:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFFF6EC43;
+	Fri, 10 Jul 2020 13:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 230496EC3A;
- Fri, 10 Jul 2020 13:09:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 05864AD45;
- Fri, 10 Jul 2020 13:09:48 +0000 (UTC)
-Subject: Re: [PATCH] drm/fb-helper: Fix vt restore
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20200623155456.3092836-1-daniel.vetter@ffwll.ch>
- <ac847c3c-e93c-4a4b-c6ca-2362af7e3aa3@suse.de>
- <CAKMK7uFi0nkf1fSUZaqff-oskoTKMS0Rh_69_Sd9JQ69NMhOMA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f2b05939-43c4-1b9c-f462-09ed630c3d63@suse.de>
-Date: Fri, 10 Jul 2020 15:09:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB1F6EC43
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 13:27:35 +0000 (UTC)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0BB192082E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 13:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594387655;
+ bh=mNW++VsEqP3S7PL2ngGMIOCMSfxmahBdnZ67NyJxUvU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Y29NVJdkXAxsgk2xI3t1jiVzttBFvTNx8HCPIKiN8ZM7ftE9wB6zTnP1BMb0MkiHU
+ QendZh5SWBTBNOnp2LBOwt7y9i89bCxloiL/H5BpHgUTMz/HsVGIVwSr+QGFlWIjcr
+ y7jk4l2N4ARxgyR+SRTlUkcRkdfqRggSEE0L6X1I=
+Received: by mail-oi1-f182.google.com with SMTP id 12so4783877oir.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 06:27:35 -0700 (PDT)
+X-Gm-Message-State: AOAM531d7j2W8lsqnZ2rsd52vFg//sfh78aMLn/W1du41NoVt9N64/Ro
+ IfjwF6+YVdjuCZZUPMtZJq8PdXgIB1U6xGW97OU=
+X-Google-Smtp-Source: ABdhPJx27k85cRD5Br4iASr1hfkX2ZBE1Hh91r9eyyCurmoSEz5t5x80h7mauiVvJR80iRujQZjgdIQ5i6DKyNJJWKM=
+X-Received: by 2002:aca:d643:: with SMTP id n64mr4195802oig.33.1594387654399; 
+ Fri, 10 Jul 2020 06:27:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFi0nkf1fSUZaqff-oskoTKMS0Rh_69_Sd9JQ69NMhOMA@mail.gmail.com>
+References: <20200610141052.13258-1-jgross@suse.com>
+ <094be567-2c82-7d5b-e432-288286c6c3fb@suse.com>
+ <CGME20200709091750eucas1p18003b0c8127600369485c62c1e587c22@eucas1p1.samsung.com>
+ <ec21b883-dc5c-f3fe-e989-7fa13875a4c4@suse.com>
+ <170e01b1-220d-5cb7-03b2-c70ed3ae58e4@samsung.com>
+In-Reply-To: <170e01b1-220d-5cb7-03b2-c70ed3ae58e4@samsung.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 10 Jul 2020 16:27:23 +0300
+X-Gmail-Original-Message-ID: <CAMj1kXGE52Y6QQhGLU6r_9x6TVftZqfS7zyLCiDusZhV4tbhjg@mail.gmail.com>
+Message-ID: <CAMj1kXGE52Y6QQhGLU6r_9x6TVftZqfS7zyLCiDusZhV4tbhjg@mail.gmail.com>
+Subject: Re: [PATCH] efi: avoid error message when booting under Xen
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,344 +57,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, shlomo@fastmail.com,
- stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Content-Type: multipart/mixed; boundary="===============1948114450=="
+Cc: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>,
+ linux-fbdev@vger.kernel.org, linux-efi <linux-efi@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Peter Jones <pjones@redhat.com>,
+ xen-devel@lists.xenproject.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1948114450==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="K2Ex8wthZpBzdKi5zn9UCF5jPp7SWvTrd"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---K2Ex8wthZpBzdKi5zn9UCF5jPp7SWvTrd
-Content-Type: multipart/mixed; boundary="PaXZsG6FtCFcQWV50REzZJbMsCFeoxEm6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, shlomo@fastmail.com,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
- <michel@daenzer.net>
-Message-ID: <f2b05939-43c4-1b9c-f462-09ed630c3d63@suse.de>
-Subject: Re: [PATCH] drm/fb-helper: Fix vt restore
-References: <20200623155456.3092836-1-daniel.vetter@ffwll.ch>
- <ac847c3c-e93c-4a4b-c6ca-2362af7e3aa3@suse.de>
- <CAKMK7uFi0nkf1fSUZaqff-oskoTKMS0Rh_69_Sd9JQ69NMhOMA@mail.gmail.com>
-In-Reply-To: <CAKMK7uFi0nkf1fSUZaqff-oskoTKMS0Rh_69_Sd9JQ69NMhOMA@mail.gmail.com>
-
---PaXZsG6FtCFcQWV50REzZJbMsCFeoxEm6
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 10.07.20 um 14:38 schrieb Daniel Vetter:
-> On Fri, Jul 10, 2020 at 1:31 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi Daniel,
->>
->> this patch might not be enougth. I started Xorg and then did 'kill -9'=
-
->> on the Xorg process. Xorg went away, but the console did not come back=
-=2E
->=20
-> Hm don't you need to reset your terminal to text mode in that case
-> first? Iirc there's a sysrq. All again assuming not terribly modern
-> system where that stuff is all done by logind.
-
-I don't know. I just noticed that kill -9 did not restore the terminal
-and apparently it was related to these patches. Maybe it did not even
-work before?
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->> Am 23.06.20 um 17:54 schrieb Daniel Vetter:
->>> In the past we had a pile of hacks to orchestrate access between fbde=
-v
->>> emulation and native kms clients. We've tried to streamline this, by
->>> always preferring the kms side above fbdev calls when a drm master
->>> exists, because drm master controls access to the display resources.
->>>
->>> Unfortunately this breaks existing userspace, specifically Xorg. When=
-
->>> exiting Xorg first restores the console to text mode using the KDSET
->>> ioctl on the vt. This does nothing, because a drm master is still
->>> around. Then it drops the drm master status, which again does nothing=
-,
->>> because logind is keeping additional drm fd open to be able to
->>> orchestrate vt switches. In the past this is the point where fbdev wa=
-s
->>> restored, as part of the ->lastclose hook on the drm side.
->>>
->>> Now to fix this regression we don't want to go back to letting fbdev
->>> restore things whenever it feels like, or to the pile of hacks we've
->>> had before. Instead try and go with a minimal exception to make the
->>> KDSET case work again, and nothing else.
->>>
->>> This means that if userspace does a KDSET call when switching between=
-
->>> graphical compositors, there will be some flickering with fbcon
->>> showing up for a bit. But a) that's not a regression and b) userspace=
-
->>> can fix it by improving the vt switching dance - logind should have
->>> all the information it needs.
->>>
->>> While pondering all this I'm also wondering wheter we should have a
->>> SWITCH_MASTER ioctl to allow race-free master status handover. But
->>> that's for another day.
->>>
->>> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D208179
->>> Cc: shlomo@fastmail.com
->>> Reported-and-Tested-by: shlomo@fastmail.com
->>> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
->>> Fixes: 64914da24ea9 ("drm/fbdev-helper: don't force restores")
->>> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: Daniel Vetter <daniel.vetter@intel.com>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: David Airlie <airlied@linux.ie>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: <stable@vger.kernel.org> # v5.7+
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> ---
->>>  drivers/gpu/drm/drm_fb_helper.c  | 63 +++++++++++++++++++++++++-----=
---
->>>  drivers/video/fbdev/core/fbcon.c |  3 +-
->>>  include/uapi/linux/fb.h          |  1 +
->>>  3 files changed, 52 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb=
-_helper.c
->>> index 170aa7689110..ae69bf8e9bcc 100644
->>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>> @@ -227,18 +227,9 @@ int drm_fb_helper_debug_leave(struct fb_info *in=
-fo)
->>>  }
->>>  EXPORT_SYMBOL(drm_fb_helper_debug_leave);
->>>
->>> -/**
->>> - * drm_fb_helper_restore_fbdev_mode_unlocked - restore fbdev configu=
-ration
->>> - * @fb_helper: driver-allocated fbdev helper, can be NULL
->>> - *
->>> - * This should be called from driver's drm &drm_driver.lastclose cal=
-lback
->>> - * when implementing an fbcon on top of kms using this helper. This =
-ensures that
->>> - * the user isn't greeted with a black screen when e.g. X dies.
->>> - *
->>> - * RETURNS:
->>> - * Zero if everything went ok, negative error code otherwise.
->>> - */
->>> -int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *=
-fb_helper)
->>> +static int
->>> +__drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb=
-_helper,
->>> +                                         bool force)
->>>  {
->>>       bool do_delayed;
->>>       int ret;
->>> @@ -250,7 +241,16 @@ int drm_fb_helper_restore_fbdev_mode_unlocked(st=
-ruct drm_fb_helper *fb_helper)
->>>               return 0;
->>>
->>>       mutex_lock(&fb_helper->lock);
->>> -     ret =3D drm_client_modeset_commit(&fb_helper->client);
->>> +     if (force) {
->>> +             /*
->>> +              * Yes this is the _locked version which expects the ma=
-ster lock
->>> +              * to be held. But for forced restores we're intentiona=
-lly
->>> +              * racing here, see drm_fb_helper_set_par().
->>> +              */
->>> +             ret =3D drm_client_modeset_commit_locked(&fb_helper->cl=
-ient);
->>> +     } else {
->>> +             ret =3D drm_client_modeset_commit(&fb_helper->client);
->>> +     }
->>>
->>>       do_delayed =3D fb_helper->delayed_hotplug;
->>>       if (do_delayed)
->>> @@ -262,6 +262,22 @@ int drm_fb_helper_restore_fbdev_mode_unlocked(st=
-ruct drm_fb_helper *fb_helper)
->>>
->>>       return ret;
->>>  }
->>> +
->>> +/**
->>> + * drm_fb_helper_restore_fbdev_mode_unlocked - restore fbdev configu=
-ration
->>> + * @fb_helper: driver-allocated fbdev helper, can be NULL
->>> + *
->>> + * This should be called from driver's drm &drm_driver.lastclose cal=
-lback
->>> + * when implementing an fbcon on top of kms using this helper. This =
-ensures that
->>> + * the user isn't greeted with a black screen when e.g. X dies.
->>> + *
->>> + * RETURNS:
->>> + * Zero if everything went ok, negative error code otherwise.
->>> + */
->>> +int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *=
-fb_helper)
->>> +{
->>> +     return __drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper, f=
-alse);
->>> +}
->>>  EXPORT_SYMBOL(drm_fb_helper_restore_fbdev_mode_unlocked);
->>>
->>>  #ifdef CONFIG_MAGIC_SYSRQ
->>> @@ -1318,6 +1334,7 @@ int drm_fb_helper_set_par(struct fb_info *info)=
-
->>>  {
->>>       struct drm_fb_helper *fb_helper =3D info->par;
->>>       struct fb_var_screeninfo *var =3D &info->var;
->>> +     bool force;
->>>
->>>       if (oops_in_progress)
->>>               return -EBUSY;
->>> @@ -1327,7 +1344,25 @@ int drm_fb_helper_set_par(struct fb_info *info=
-)
->>>               return -EINVAL;
->>>       }
->>>
->>> -     drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper);
->>> +     /*
->>> +      * Normally we want to make sure that a kms master takes
->>> +      * precedence over fbdev, to avoid fbdev flickering and
->>> +      * occasionally stealing the display status. But Xorg first set=
-s
->>> +      * the vt back to text mode using the KDSET IOCTL with KD_TEXT,=
-
->>> +      * and only after that drops the master status when exiting.
->>> +      *
->>> +      * In the past this was caught by drm_fb_helper_lastclose(), bu=
-t
->>> +      * on modern systems where logind always keeps a drm fd open to=
-
->>> +      * orchestrate the vt switching, this doesn't work.
->>> +      *
->>> +      * To no break the userspace ABI we have this special case here=
-,
->>> +      * which is only used for the above case. Everything else uses
->>> +      * the normal commit function, which ensures that we never stea=
-l
->>> +      * the display from an active drm master.
->>> +      */
->>> +     force =3D var->activate & FB_ACTIVATE_KD_TEXT;
->>> +
->>> +     __drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper, force);
->>>
->>>       return 0;
->>>  }
->>> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/c=
-ore/fbcon.c
->>> index 9d28a8e3328f..e2a490c5ae08 100644
->>> --- a/drivers/video/fbdev/core/fbcon.c
->>> +++ b/drivers/video/fbdev/core/fbcon.c
->>> @@ -2402,7 +2402,8 @@ static int fbcon_blank(struct vc_data *vc, int =
-blank, int mode_switch)
->>>               ops->graphics =3D 1;
->>>
->>>               if (!blank) {
->>> -                     var.activate =3D FB_ACTIVATE_NOW | FB_ACTIVATE_=
-FORCE;
->>> +                     var.activate =3D FB_ACTIVATE_NOW | FB_ACTIVATE_=
-FORCE |
->>> +                             FB_ACTIVATE_KD_TEXT;
->>>                       fb_set_var(info, &var);
->>>                       ops->graphics =3D 0;
->>>                       ops->var =3D info->var;
->>> diff --git a/include/uapi/linux/fb.h b/include/uapi/linux/fb.h
->>> index b6aac7ee1f67..4c14e8be7267 100644
->>> --- a/include/uapi/linux/fb.h
->>> +++ b/include/uapi/linux/fb.h
->>> @@ -205,6 +205,7 @@ struct fb_bitfield {
->>>  #define FB_ACTIVATE_ALL             64       /* change all VCs on th=
-is fb    */
->>>  #define FB_ACTIVATE_FORCE     128    /* force apply even when no cha=
-nge*/
->>>  #define FB_ACTIVATE_INV_MODE  256       /* invalidate videomode */
->>> +#define FB_ACTIVATE_KD_TEXT   512       /* for KDSET vt ioctl */
->>>
->>>  #define FB_ACCELF_TEXT               1       /* (OBSOLETE) see fb_in=
-fo.flags and vc_mode */
->>>
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---PaXZsG6FtCFcQWV50REzZJbMsCFeoxEm6--
-
---K2Ex8wthZpBzdKi5zn9UCF5jPp7SWvTrd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8IaJcUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNP3ggAlfUykStVcYQ1d7597l1hoQGVdQ8M
-a0GkpOzkIxUWFyBQeUg2HyZ8wy+/xl6K66vG/hYUKpuC3IjjWYkohrDd8hP9QJII
-RpUFyUvHE1NjziI7+l1tNB1nhrnk0Bx1V/B9TIobeWVqKStV63OypyUwm2ElOGMZ
-K8FLpNkvkq4s+osioi/P9KsENjFvaFQfz3vRayfDxgxVa3wQEiUGWQ1h3MRExY++
-nHOqRfowL6/Ls/GCLbNsMr86pDQFYmv5TPiQ22UaE0EUGWO1/IF7jsWfpASuQSer
-dcNWEp2fVYSdXr1YLK2SHxQd2+RfwaMTmIV8KOqGqLzjyu3scBC+3JyC2w==
-=7Xdo
------END PGP SIGNATURE-----
-
---K2Ex8wthZpBzdKi5zn9UCF5jPp7SWvTrd--
-
---===============1948114450==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1948114450==--
+T24gRnJpLCAxMCBKdWwgMjAyMCBhdCAxMzoxNywgQmFydGxvbWllaiBab2xuaWVya2lld2ljego8
+Yi56b2xuaWVya2llQHNhbXN1bmcuY29tPiB3cm90ZToKPgo+Cj4gWyBhZGRlZCBFRkkgTWFpbnRh
+aW5lciAmIE1MIHRvIENjOiBdCj4KPiBIaSwKPgo+IE9uIDcvOS8yMCAxMToxNyBBTSwgSsO8cmdl
+biBHcm/DnyB3cm90ZToKPiA+IE9uIDI4LjA2LjIwIDEwOjUwLCBKw7xyZ2VuIEdyb8OfIHdyb3Rl
+Ogo+ID4+IFBpbmc/Cj4gPj4KPiA+PiBPbiAxMC4wNi4yMCAxNjoxMCwgSnVlcmdlbiBHcm9zcyB3
+cm90ZToKPiA+Pj4gZWZpZmJfcHJvYmUoKSB3aWxsIGlzc3VlIGFuIGVycm9yIG1lc3NhZ2UgaW4g
+Y2FzZSB0aGUga2VybmVsIGlzIGJvb3RlZAo+ID4+PiBhcyBYZW4gZG9tMCBmcm9tIFVFRkkgYXMg
+RUZJX01FTU1BUCB3b24ndCBiZSBzZXQgaW4gdGhpcyBjYXNlLiBBdm9pZAo+ID4+PiB0aGF0IG1l
+c3NhZ2UgYnkgY2FsbGluZyBlZmlfbWVtX2Rlc2NfbG9va3VwKCkgb25seSBpZiBFRklfUEFSQVZJ
+UlQKPiA+Pj4gaXNuJ3Qgc2V0Lgo+ID4+PgoKV2h5IG5vdCB0ZXN0IGZvciBFRklfTUVNTUFQIGlu
+c3RlYWQgb2YgRUZJX0JPT1Q/CgoKPiA+Pj4gRml4ZXM6IDM4YWMwMjg3YjdmNCAoImZiZGV2L2Vm
+aWZiOiBIb25vdXIgVUVGSSBtZW1vcnkgbWFwIGF0dHJpYnV0ZXMgd2hlbiBtYXBwaW5nIHRoZSBG
+QiIpCj4gPj4+IFNpZ25lZC1vZmYtYnk6IEp1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT4K
+PiA+Pj4gLS0tCj4gPj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9lZmlmYi5jIHwgMiArLQo+ID4+
+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+ID4+Pgo+
+ID4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9lZmlmYi5jIGIvZHJpdmVycy92
+aWRlby9mYmRldi9lZmlmYi5jCj4gPj4+IGluZGV4IDY1NDkxYWU3NDgwOC4uZjVlY2NkMTM3M2U5
+IDEwMDY0NAo+ID4+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZiLmMKPiA+Pj4gKysr
+IGIvZHJpdmVycy92aWRlby9mYmRldi9lZmlmYi5jCj4gPj4+IEBAIC00NTMsNyArNDUzLDcgQEAg
+c3RhdGljIGludCBlZmlmYl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpkZXYpCj4gPj4+
+ICAgICAgIGluZm8tPmFwZXJ0dXJlcy0+cmFuZ2VzWzBdLmJhc2UgPSBlZmlmYl9maXguc21lbV9z
+dGFydDsKPiA+Pj4gICAgICAgaW5mby0+YXBlcnR1cmVzLT5yYW5nZXNbMF0uc2l6ZSA9IHNpemVf
+cmVtYXA7Cj4gPj4+IC0gICAgaWYgKGVmaV9lbmFibGVkKEVGSV9CT09UKSAmJgo+ID4+PiArICAg
+IGlmIChlZmlfZW5hYmxlZChFRklfQk9PVCkgJiYgIWVmaV9lbmFibGVkKEVGSV9QQVJBVklSVCkg
+JiYKPiA+Pj4gICAgICAgICAgICFlZmlfbWVtX2Rlc2NfbG9va3VwKGVmaWZiX2ZpeC5zbWVtX3N0
+YXJ0LCAmbWQpKSB7Cj4gPj4+ICAgICAgICAgICBpZiAoKGVmaWZiX2ZpeC5zbWVtX3N0YXJ0ICsg
+ZWZpZmJfZml4LnNtZW1fbGVuKSA+Cj4gPj4+ICAgICAgICAgICAgICAgKG1kLnBoeXNfYWRkciAr
+IChtZC5udW1fcGFnZXMgPDwgRUZJX1BBR0VfU0hJRlQpKSkgewo+ID4+Pgo+ID4+Cj4gPgo+ID4g
+SW4gY2FzZSBJIHNlZSBubyByZWFjdGlvbiBmcm9tIHRoZSBtYWludGFpbmVyIGZvciBhbm90aGVy
+IHdlZWsgSSdsbCB0YWtlCj4gPiB0aGlzIHBhdGNoIHRocm91Z2ggdGhlIFhlbiB0cmVlLgo+Cj4g
+RnJvbSBmYmRldiBQT1YgdGhpcyBjaGFuZ2UgbG9va3MgZmluZSB0byBtZSBhbmQgSSdtIE9LIHdp
+dGggbWVyZ2luZyBpdAo+IHRocm91Z2ggWGVuIG9yIEVGSSB0cmVlOgo+Cj4gQWNrZWQtYnk6IEJh
+cnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KPgo+IEJl
+c3QgcmVnYXJkcywKPiAtLQo+IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3oKPiBTYW1zdW5nIFIm
+RCBJbnN0aXR1dGUgUG9sYW5kCj4gU2Ftc3VuZyBFbGVjdHJvbmljcwpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
