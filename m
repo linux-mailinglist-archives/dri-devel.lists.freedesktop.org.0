@@ -2,44 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51C121BB9A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 18:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455EB21BBBF
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 19:05:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 557836E3CE;
-	Fri, 10 Jul 2020 16:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF366E209;
+	Fri, 10 Jul 2020 17:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26C836E3CE
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 16:54:23 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205815] amdgpu: When playing a wine game, got black screen then
- screen flickers, game crashes and back to normal
-Date: Fri, 10 Jul 2020 16:54:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ramaspaceship@free.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205815-2300-Py6Eauseim@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205815-2300@https.bugzilla.kernel.org/>
-References: <bug-205815-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44DBF6E209
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:05:41 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id o11so6699269wrv.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 10:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=93AVI2QoBAEmAqBGfFTWCA/a6MgEBTx5yqqj7c1xOd0=;
+ b=SGZ+JtJlaFBv11yuKiq6semZUeibR6h4e8fA7pdOBGjb3+J8yqRTJFURAMksjcK6+n
+ urnCtDBpZiZynCbSW1OcKUoM6jK13muadzTTFvzTbPdsQ6B8K2HdnHEj6hrSHXQ0HpjG
+ mQt1ZepaXEMarLUXc2AHGSobIMLA8g1rWJPFwJ+P2Ewfz4T4nOne8l0ELVg1d/dYDxJt
+ jyA/2a7q/rDSyiMayTWHMnxli1uUqXdmhiU69K9D1o3+pxkRRw0DJYhfF2XU7UrEqfhu
+ naiLeqa8fkDsXD4Of9roNMA7a7i/wj5h71jyDCLK+s8uEXafKl4ZrdgF3jpykmyXQtlu
+ PiFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=93AVI2QoBAEmAqBGfFTWCA/a6MgEBTx5yqqj7c1xOd0=;
+ b=M1rd1HX2dcXrcg6kMkIgo9uHX6LKU53OMO8LfV+YUp85pm2qgwRsBQVYgXslvtIMid
+ D6LQq3P+aKWXml9I4afvFakE33dRZYZxw2zjIy40t/dJOogBq61VfHJ8hCy7z2wm+cNQ
+ v+WUD8vdTrpwWrS3LP77E8YkqXdI8dWMO1oxc33K3qfR8BPZ+3BXQIuRpxlBRMKJTKwl
+ d38xphMB28LBQaL3saS1KR/EOgezdgcboXc3pY/qPVEW2xfGfxw/dOJ3ux+yJaWmdKOJ
+ ypjrqK9k8LfB/Ri++/kmaxTHJdNTxQXJdngFxHzLuGt7yNUJ4Yibs4L2SfFWR/yDHZdZ
+ 8nYw==
+X-Gm-Message-State: AOAM532xV1xgR6PMpDiOzh8ZgRanug9DKX8bDfovxSUfWqg3KS7pZJRg
+ b+VOrd1fvJFRhrmGaNJiEmU=
+X-Google-Smtp-Source: ABdhPJx1UxxkLEdprdW3mDWVo+KqPIchfniOsIMY3EYh0jN3bRqGm0+KSSjajUGLHSDx1ePvHdanQQ==
+X-Received: by 2002:adf:f608:: with SMTP id t8mr70444597wrp.308.1594400739927; 
+ Fri, 10 Jul 2020 10:05:39 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id o29sm11825132wra.5.2020.07.10.10.05.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 10:05:39 -0700 (PDT)
+Date: Fri, 10 Jul 2020 14:05:33 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/vkms: add wait_for_vblanks in atomic_commit_tail
+Message-ID: <20200710170533.xn2ar2cpekom6i2n@smtp.gmail.com>
+References: <20200701153134.4187-1-realwakka@gmail.com>
+ <20200702131355.GX3278063@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200702131355.GX3278063@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,103 +67,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sidong Yang <realwakka@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDU4MTUKCi0tLSBD
-b21tZW50ICMzIGZyb20gQmVybmFyZCBNQVVEUlkgKHJhbWFzcGFjZXNoaXBAZnJlZS5mcikgLS0t
-ClVzaW5nIGxhdGVzdCBrZXJuZWw6Cmp1aWwuIDEwIDEyOjM5OjQ3IFJhbWEga2VybmVsOiBMaW51
-eCB2ZXJzaW9uIDUuNy4wLTEtYW1kNjQKKGRlYmlhbi1rZXJuZWxAbGlzdHMuZGViaWFuLm9yZykg
-KGdjYyB2ZXJzaW9uIDkuMy4wIChEZWJpYW4gOS4zLjAtMTQpLCBHTlUgbGQKKEdOVSBCaW51dGls
-cyBmb3IgRGViaWFuKSAyLjM0KSAjMSBTTVAgRGViaWFuIDUuNy42LTEgKDIwMjAtMDYtMjQpCgp1
-c2luZyBsYXRlc3QgZmlybXdhcmUgZnJvbQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
-bGludXgva2VybmVsL2dpdC9maXJtd2FyZS9saW51eC1maXJtd2FyZS5naXQ6Ci1ydy1yLS1yLS0g
-MSBiZXJuYXJkIGJlcm5hcmQgMTYwMjU2IGp1aW4gIDMwIDAwOjM3IGFtZGdwdS9waWNhc3NvX2Fz
-ZC5iaW4KLXJ3LXItLXItLSAxIGJlcm5hcmQgYmVybmFyZCAgIDkzNDQganVpbiAgMzAgMDA6Mzcg
-YW1kZ3B1L3BpY2Fzc29fY2UuYmluCi1ydy1yLS1yLS0gMSBiZXJuYXJkIGJlcm5hcmQgICAgMzE2
-IGTDqWMuICAxNCAgMjAxOSBhbWRncHUvcGljYXNzb19ncHVfaW5mby5iaW4KLXJ3LXItLXItLSAx
-IGJlcm5hcmQgYmVybmFyZCAgMTc1MzYganVpbiAgMzAgMDA6MzcgYW1kZ3B1L3BpY2Fzc29fbWUu
-YmluCi1ydy1yLS1yLS0gMSBiZXJuYXJkIGJlcm5hcmQgMjY4MDQ4IGp1aW4gIDMwIDAwOjM3IGFt
-ZGdwdS9waWNhc3NvX21lYzIuYmluCi1ydy1yLS1yLS0gMSBiZXJuYXJkIGJlcm5hcmQgMjY4MDQ4
-IGp1aW4gIDMwIDAwOjM3IGFtZGdwdS9waWNhc3NvX21lYy5iaW4KLXJ3LXItLXItLSAxIGJlcm5h
-cmQgYmVybmFyZCAgMjE2MzIganVpbiAgMzAgMDA6MzcgYW1kZ3B1L3BpY2Fzc29fcGZwLmJpbgot
-cnctci0tci0tIDEgYmVybmFyZCBiZXJuYXJkICAzOTE0MCBkw6ljLiAgMTQgIDIwMTkgYW1kZ3B1
-L3BpY2Fzc29fcmxjX2FtNC5iaW4KLXJ3LXItLXItLSAxIGJlcm5hcmQgYmVybmFyZCAgMzkxNDAg
-anVpbiAgMzAgMDA6MzcgYW1kZ3B1L3BpY2Fzc29fcmxjLmJpbgotcnctci0tci0tIDEgYmVybmFy
-ZCBiZXJuYXJkICAxNzQwOCBkw6ljLiAgMTQgIDIwMTkgYW1kZ3B1L3BpY2Fzc29fc2RtYS5iaW4K
-LXJ3LXItLXItLSAxIGJlcm5hcmQgYmVybmFyZCAgMjk0NDAganVpbiAgMzAgMDA6MzcgYW1kZ3B1
-L3BpY2Fzc29fdGEuYmluCi1ydy1yLS1yLS0gMSBiZXJuYXJkIGJlcm5hcmQgMzU1MjY0IGphbnYu
-IDIwIDE3OjU1IGFtZGdwdS9waWNhc3NvX3Zjbi5iaW4KCnVzaW5nIGxhdGVzdCBCSU9TIGZyb20g
-TVNJOgo3Qjg2dkFEMihCZXRhIHZlcnNpb24pIDIwMjAtMDYtMTIgLSBVcGRhdGVkIEFNRCBBR0VT
-QSBDb21ib0FtNFBJIDEuMC4wLjYKCkxvZyBvZiB0aGUgY3Jhc2g6Cmp1aWwuIDEwIDE2OjU2OjE3
-IFJhbWEga2VybmVsOiBbZHJtOmFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwgW2FtZGdwdV1d
-CipFUlJPUiogV2FpdGluZyBmb3IgZmVuY2VzIHRpbWVkIG91dCEKanVpbC4gMTAgMTY6NTY6MjIg
-UmFtYSBrZXJuZWw6IFtkcm06YW1kZ3B1X2RtX2F0b21pY19jb21taXRfdGFpbCBbYW1kZ3B1XV0K
-KkVSUk9SKiBXYWl0aW5nIGZvciBmZW5jZXMgdGltZWQgb3V0IQpqdWlsLiAxMCAxNjo1NjoyMiBS
-YW1hIGtlcm5lbDogW2RybTphbWRncHVfZG1fYXRvbWljX2NvbW1pdF90YWlsIFthbWRncHVdXQoq
-RVJST1IqIFdhaXRpbmcgZm9yIGZlbmNlcyB0aW1lZCBvdXQhCmp1aWwuIDEwIDE2OjU2OjIyIFJh
-bWEga2VybmVsOiBbZHJtOmFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwgW2FtZGdwdV1dCipF
-UlJPUiogV2FpdGluZyBmb3IgZmVuY2VzIHRpbWVkIG91dCEKanVpbC4gMTAgMTY6NTY6MjIgUmFt
-YSBrZXJuZWw6IFtkcm06YW1kZ3B1X2pvYl90aW1lZG91dCBbYW1kZ3B1XV0gKkVSUk9SKiByaW5n
-CmdmeCB0aW1lb3V0LCBzaWduYWxlZCBzZXE9NzY4NDk4LCBlbWl0dGVkIHNlcT03Njg1MDAKanVp
-bC4gMTAgMTY6NTY6MjIgUmFtYSBrZXJuZWw6IFtkcm06YW1kZ3B1X2pvYl90aW1lZG91dCBbYW1k
-Z3B1XV0gKkVSUk9SKgpQcm9jZXNzIGluZm9ybWF0aW9uOiBwcm9jZXNzIEhvbWV3b3JsZDIuZXhl
-IHBpZCAyMDk5NCB0aHJlYWQgSG9tZXdvcmxkMjpjczAgcGlkCjIxMDM0Cmp1aWwuIDEwIDE2OjU2
-OjIyIFJhbWEga2VybmVsOiBhbWRncHUgMDAwMDoyNzowMC4wOiBHUFUgcmVzZXQgYmVnaW4hCmp1
-aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBhbWRncHUgMDAwMDoyNzowMC4wOiBHUFUgcmVz
-ZXQgc3VjY2VlZGVkLCB0cnlpbmcKdG8gcmVzdW1lCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2Vy
-bmVsOiBbZHJtXSBQQ0lFIEdBUlQgb2YgMTAyNE0gZW5hYmxlZCAodGFibGUgYXQKMHgwMDAwMDBG
-NDAwOTAwMDAwKS4KanVpbC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IFtkcm1dIFBTUCBpcyBy
-ZXN1bWluZy4uLgpqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5lbDogW2RybV0gcmVzZXJ2ZSAw
-eDQwMDAwMCBmcm9tIDB4ZjQwZjgwMDAwMCBmb3IgUFNQClRNUgpqdWlsLiAxMCAxNjo1NjoyMyBS
-YW1hIGtlcm5lbDogW2RybV0gcHNwIGNvbW1hbmQgKDB4NSkgZmFpbGVkIGFuZCByZXNwb25zZQpz
-dGF0dXMgaXMgKDB4RkZGRjAwMDcpCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBhbWRn
-cHUgMDAwMDoyNzowMC4wOiBSQVM6IG9wdGlvbmFsIHJhcyB0YSB1Y29kZQppcyBub3QgYXZhaWxh
-YmxlCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBbZHJtXSBraXEgcmluZyBtZWMgMiBw
-aXBlIDEgcSAwCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBbZHJtXSBWQ04gZGVjb2Rl
-IGFuZCBlbmNvZGUgaW5pdGlhbGl6ZWQKc3VjY2Vzc2Z1bGx5KHVuZGVyIERQRyBNb2RlKS4KanVp
-bC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IGFtZGdwdSAwMDAwOjI3OjAwLjA6IHJpbmcgZ2Z4
-IHVzZXMgVk0gaW52IGVuZyAwCm9uIGh1YiAwCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVs
-OiBhbWRncHUgMDAwMDoyNzowMC4wOiByaW5nIGNvbXBfMS4wLjAgdXNlcyBWTSBpbnYKZW5nIDEg
-b24gaHViIDAKanVpbC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IGFtZGdwdSAwMDAwOjI3OjAw
-LjA6IHJpbmcgY29tcF8xLjEuMCB1c2VzIFZNIGludgplbmcgNCBvbiBodWIgMApqdWlsLiAxMCAx
-Njo1NjoyMyBSYW1hIGtlcm5lbDogYW1kZ3B1IDAwMDA6Mjc6MDAuMDogcmluZyBjb21wXzEuMi4w
-IHVzZXMgVk0gaW52CmVuZyA1IG9uIGh1YiAwCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVs
-OiBhbWRncHUgMDAwMDoyNzowMC4wOiByaW5nIGNvbXBfMS4zLjAgdXNlcyBWTSBpbnYKZW5nIDYg
-b24gaHViIDAKanVpbC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IGFtZGdwdSAwMDAwOjI3OjAw
-LjA6IHJpbmcgY29tcF8xLjAuMSB1c2VzIFZNIGludgplbmcgNyBvbiBodWIgMApqdWlsLiAxMCAx
-Njo1NjoyMyBSYW1hIGtlcm5lbDogYW1kZ3B1IDAwMDA6Mjc6MDAuMDogcmluZyBjb21wXzEuMS4x
-IHVzZXMgVk0gaW52CmVuZyA4IG9uIGh1YiAwCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVs
-OiBhbWRncHUgMDAwMDoyNzowMC4wOiByaW5nIGNvbXBfMS4yLjEgdXNlcyBWTSBpbnYKZW5nIDkg
-b24gaHViIDAKanVpbC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IGFtZGdwdSAwMDAwOjI3OjAw
-LjA6IHJpbmcgY29tcF8xLjMuMSB1c2VzIFZNIGludgplbmcgMTAgb24gaHViIDAKanVpbC4gMTAg
-MTY6NTY6MjMgUmFtYSBrZXJuZWw6IGFtZGdwdSAwMDAwOjI3OjAwLjA6IHJpbmcga2lxXzIuMS4w
-IHVzZXMgVk0gaW52CmVuZyAxMSBvbiBodWIgMApqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5l
-bDogYW1kZ3B1IDAwMDA6Mjc6MDAuMDogcmluZyBzZG1hMCB1c2VzIFZNIGludiBlbmcKMCBvbiBo
-dWIgMQpqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5lbDogYW1kZ3B1IDAwMDA6Mjc6MDAuMDog
-cmluZyB2Y25fZGVjIHVzZXMgVk0gaW52CmVuZyAxIG9uIGh1YiAxCmp1aWwuIDEwIDE2OjU2OjIz
-IFJhbWEga2VybmVsOiBhbWRncHUgMDAwMDoyNzowMC4wOiByaW5nIHZjbl9lbmMwIHVzZXMgVk0g
-aW52CmVuZyA0IG9uIGh1YiAxCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBhbWRncHUg
-MDAwMDoyNzowMC4wOiByaW5nIHZjbl9lbmMxIHVzZXMgVk0gaW52CmVuZyA1IG9uIGh1YiAxCmp1
-aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBhbWRncHUgMDAwMDoyNzowMC4wOiByaW5nIGpw
-ZWdfZGVjIHVzZXMgVk0gaW52CmVuZyA2IG9uIGh1YiAxCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEg
-a2VybmVsOiBbZHJtXSByZWNvdmVyIHZyYW0gYm8gZnJvbSBzaGFkb3cgc3RhcnQKanVpbC4gMTAg
-MTY6NTY6MjMgUmFtYSBrZXJuZWw6IFtkcm1dIHJlY292ZXIgdnJhbSBibyBmcm9tIHNoYWRvdyBk
-b25lCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBbZHJtXSBTa2lwIHNjaGVkdWxpbmcg
-SUJzIQpqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5lbDogW2RybV0gU2tpcCBzY2hlZHVsaW5n
-IElCcyEKanVpbC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IGFtZGdwdSAwMDAwOjI3OjAwLjA6
-IEdQVSByZXNldCgyKSBzdWNjZWVkZWQhCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBb
-ZHJtXSBTa2lwIHNjaGVkdWxpbmcgSUJzIQpqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5lbDog
-W2RybTphbWRncHVfY3NfaW9jdGwgW2FtZGdwdV1dICpFUlJPUiogRmFpbGVkIHRvCmluaXRpYWxp
-emUgcGFyc2VyIC0xMjUhCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBbZHJtXSBTa2lw
-IHNjaGVkdWxpbmcgSUJzIQpqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5lbDogW2RybV0gU2tp
-cCBzY2hlZHVsaW5nIElCcyEKanVpbC4gMTAgMTY6NTY6MjMgUmFtYSBrZXJuZWw6IFtkcm1dIFNr
-aXAgc2NoZWR1bGluZyBJQnMhCmp1aWwuIDEwIDE2OjU2OjIzIFJhbWEga2VybmVsOiBbZHJtXSBT
-a2lwIHNjaGVkdWxpbmcgSUJzIQpqdWlsLiAxMCAxNjo1NjoyMyBSYW1hIGtlcm5lbDogW2RybV0g
-U2tpcCBzY2hlZHVsaW5nIElCcyEKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVj
-YXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 07/02, Daniel Vetter wrote:
+> On Wed, Jul 01, 2020 at 03:31:34PM +0000, Sidong Yang wrote:
+> > there is an error when igt test is run continuously. vkms_atomic_commit_tail()
+> > need to call drm_atomic_helper_wait_for_vblanks() for give up ownership of
+> > vblank events. without this code, next atomic commit will not enable vblank
+> > and raise timeout error.
+> > 
+> > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > index 1e8b2169d834..10b9be67a068 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > @@ -93,6 +93,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+> >  		flush_work(&vkms_state->composer_work);
+> >  	}
+> >  
+> > +	drm_atomic_helper_wait_for_vblanks(dev, old_state);
+> 
+> Uh, we have a wait_for_flip_done right above, which should be doing
+> exactly the same, but more precisely: Instead of just waiting for any
+> vblank to happen, we wait for exactly the vblank corresponding to this
+> atomic commit. So no races possible. If this is papering over some issue,
+> then I think more debugging is needed.
+> 
+> What exactly is going wrong here for you?
+
+Hi Daniel and Sidong,
+
+I noticed a similar issue when running the IGT test kms_cursor_crc. For
+example, a subtest that passes on the first run (alpha-opaque) fails on
+the second due to a kind of busy waiting in subtest preparation (the
+subtest fails before actually running).
+
+In addition, in the same test, the dpms subtest started to fail since
+the commit that change from wait_for_vblanks to wait_for_flip_done. By
+reverting this commit, the dpms subtest passes again and the sequential
+subtests return to normal.
+
+I am trying to figure out what's missing from using flip_done op on
+vkms, since I am also interested in solving this problem and I
+understand that the change for flip_done has been discussed in the past.
+
+Do you have any idea?
+
+Melissa
+
+> -Daniel
+> 
+> > +
+> >  	drm_atomic_helper_cleanup_planes(dev, old_state);
+> >  }
+> >  
+> > -- 
+> > 2.17.1
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
