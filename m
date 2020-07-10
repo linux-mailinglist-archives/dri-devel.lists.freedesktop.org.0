@@ -2,29 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C685F21B2B5
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 11:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C282121B2EB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 12:04:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D236E082;
-	Fri, 10 Jul 2020 09:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB3476EBCC;
+	Fri, 10 Jul 2020 10:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 316 seconds by postgrey-1.36 at gabe;
- Fri, 10 Jul 2020 09:53:24 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 350F76E082
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 09:53:23 +0000 (UTC)
+X-Greylist: delayed 329 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Jul 2020 10:04:12 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E329E6EBCC
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 10:04:12 +0000 (UTC)
 Received: from [192.168.1.169] ([37.4.249.118]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MbjBo-1kScDb1f82-00dGB0; Fri, 10 Jul 2020 11:47:57 +0200
-Subject: Re: [PATCH] drm/vc4/vc4_hdmi: fill ASoC card owner
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org,
- linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>
-References: <CGME20200701074005eucas1p1f5a363d894929ec10a73bd2da54e85ba@eucas1p1.samsung.com>
- <20200701073949.28941-1-m.szyprowski@samsung.com>
- <89bb3b69-2c81-3f83-da68-0e3b9a068cf5@i2se.com>
- <b31f4a5e-98ec-cf57-5aaa-38df273d56d9@samsung.com>
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MYeV3-1kPTI72ZCF-00Vigi; Fri, 10 Jul 2020 11:58:20 +0200
+Subject: Re: [PATCH v4 00/78] drm/vc4: Support BCM2711 Display Pipeline
+To: Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Eric Anholt <eric@anholt.net>
+References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -156,31 +153,31 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <ed8cf631-bdd4-9ad0-4339-a4cf2f42e77d@i2se.com>
-Date: Fri, 10 Jul 2020 11:47:54 +0200
+Message-ID: <89fb9c01-84fb-0ea0-233d-d77eaf81412b@i2se.com>
+Date: Fri, 10 Jul 2020 11:58:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b31f4a5e-98ec-cf57-5aaa-38df273d56d9@samsung.com>
+In-Reply-To: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
 Content-Language: en-US
-X-Provags-ID: V03:K1:kPowiEw//XjC0oE2lNOmX+90jaqsavcIaeq8lRFjRi1Jp9YhWuM
- xmjR3sZm+i7KnJ0jdBqVvMzpYcLqtJwJay8OMoY2DK4h8pv7SXdQM1h0MNw9i0ayFHjpHpu
- 9026yILbRkVYxNh2UksMdn5iiDm5kc7B0KlEp85/3uoMGIEP5kXMXB7gecGPVZxo6Nhpqnu
- Apjre5B4R1nIJ5YzkvsUw==
+X-Provags-ID: V03:K1:d8V8LXc4DjNchVUVBAe/cY/cUXKVKV9S8l4bxOUE17i79Q6TBKw
+ 8crkWnQnIIYkDndo5al4po4ydTGZsE2mSGrSbUbsU+4CNxSWtkuflcXwyrZTk3BoUZ84TjV
+ 636RGaYWO94ti85xSYfCHphj7s/EiXhYQCYKI9sKMXACXr9BfB4vdewN/vJpBCyJvaLEXHY
+ Xpvp4himvle7lzKut1Cjw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ph7huErJTl0=:MI/Sy1lPLBSf+rmSP5J9ho
- 8VS/+eJ5b7Jhv6ngwvFaMd6wW9vFXSR40FEvg0UUwWO+xs8BPIM+VFzjDeY+1YMpdcva8IJ09
- TmTsa1wviOTzV9rLf3UdKxU8z2mMccB5hOJez+dS487Ez/9m6wZTvLinhxxYOxhWNRAtXUmhc
- cIeEz8uOHv2ykdcjSunRNmv9AWHEpsavWB71CKil+2dtws4ze0fVt/TJZSI/Tl3Lc+yJtlGkc
- +rY8LpzagRcvnHYh5aojqHPLszKxFRWYFE2MQd+TpkAp1NkUg3SH/ZZJPPe6d8A+dCXScby0j
- EY5iZvLF02kT0BmuOz5ZyNbk5OEs198AuddF4O9BHUIDrlxy9RDNormfZt3g3fLK5seX34njN
- /pIYRLNHQ9PwJ0/3SgARS+Vo4ipZBtqJSz7tSefobrph4NqrvUX5jnux9huVu2+XQ397MG9ZN
- bCvepLqHIA6QNvJcisSRKEODggnOasRbFynHfpWkr18Ax4Fq1+Mfv6GEiaeJAht82wpgLvM4Z
- EJ/uvrOA6G9vY29caEXJvA0KGE/mXbLGQJtaBrLWPJrDwWQLJyWieaYtgQilQ3TLXP8kvl1B6
- pPMro/Rux08WGIAtGCmJf23wF6Ua9PI8V0QaSotUpnFn3XtYxrbHGbtjFPdFml9m5+vzlj1kq
- DFiEc9S12pDUPjHOhnGf0SdlXHdJb7Md5oCx/p6Kk33X/jY+sqz3n9sYsgF+HSAfvi6iumFas
- Dk1a6IkOtACsAe9cE39pMGt1O2ZnzHcWBe7+Z77lUjsMeWl2ZhMx3L/AseXQ4gwyPYyGVDPOe
- EvwJS40AWlZJEI5srOAJSprVOJu/xf6TGQ3H2Bwne96xxcOvICea+JfC5xVuFKgSahlpMZ5
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7Bf2LZfORhw=:Z0Ou2WZNUbqOaDB/XbECSN
+ JU71XbO4Dc98lyjLMx9581k8p/mObq4qKH5K6HOYfKiiO6yKYPHyqBd5KnR5dCh9qlwEigQpT
+ ZoYOlHR9TsYDj3ZvB2BLeiQ2mzjDAOo5S/uvHDbvke9Qj/W4MMxf6oggCKzfo+dh69sGV379f
+ IeygqyRcSaU+qkhdpGS4l0qYjw/EW/Ttp+dtXJkAZTIjMVcH8TDk8Gr3YOGU0CBpOJNOH6MTy
+ nUFzHYCq/ZoD0GM5vdd8gQJH8GULwrRiMztWGtk+nfCI1O+XadDwRtQY8abvNULLFWxztjtX8
+ qmqIxpMfwYNCd8Vfua3nAX7vDphmTOYVFpHeRn0Tw+Tkn3+Z5hU61nEdn7UVyippTiYHIZ6yC
+ 0H6uetRbFPHEDusS29+SDuqkMILtr88HwBfzmXKxmAAmClR5FRC0MWDuxpJv2rOHawu8UnZ3V
+ uo7wylvwSTr52RQwDmeb9tMcKstiokOkEHpHoOZqSjzPAx2BeaOqKvU/RwiNuMJ5Q/1rkEZ3q
+ Kr9DnJDqUWnN5WgFgYlNlDL3TlQb4x2kbb/V4sBvGFCvaLy3ZMBoIbnamNhvxWfQEhRKawNX5
+ P8p5V6cT/w53Bdj9HusEDymF+mMUN1TW9L2cY7HNPykT9HS45AtEdN6ijY6tkAmWCRSxHQ/B2
+ PVvrfXUZLEHscWn/L+OzFG3NsACuGRLzUQ//It8FB648+YuztFeyVKy0xOUaj2Ymzih5S6SRc
+ zPuuVw+zjdgLGSamc1+5IxfprtsKHo89rgPA7eziaFueU1K2dXLef6sdUgBgjfJwmP1yu5zh+
+ b97sQ0kBdAv0GRNk69BguLsT7E7683wpwlptNWEYMMKUPfBUXAuBtIUh3sS/RVyqAAlXHHz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,66 +190,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, alsa-devel@alsa-project.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi Maxime,
 
-Am 02.07.20 um 08:58 schrieb Marek Szyprowski:
-> On 01.07.2020 20:49, Stefan Wahren wrote:
->> Am 01.07.20 um 09:39 schrieb Marek Szyprowski:
->>> card->owner is a required property and since commit 81033c6b584b ("ALSA:
->>> core: Warn on empty module") a warning is issued if it is empty. Fix lack
->>> of it. This fixes following warning observed on RaspberryPi 3B board
->>> with ARM 32bit kernel and multi_v7_defconfig:
->>>
->>> ------------[ cut here ]------------
->>> WARNING: CPU: 1 PID: 210 at sound/core/init.c:207 snd_card_new+0x378/0x398 [snd]
->>> Modules linked in: vc4(+) snd_soc_core ac97_bus snd_pcm_dmaengine bluetooth snd_pcm snd_timer crc32_arm_ce raspberrypi_hwmon snd soundcore ecdh_generic ecc bcm2835_thermal phy_generic
->>> CPU: 1 PID: 210 Comm: systemd-udevd Not tainted 5.8.0-rc1-00027-g81033c6b584b #1087
->>> Hardware name: BCM2835
->>> [<c03113c0>] (unwind_backtrace) from [<c030bcb4>] (show_stack+0x10/0x14)
->>> [<c030bcb4>] (show_stack) from [<c071cef8>] (dump_stack+0xd4/0xe8)
->>> [<c071cef8>] (dump_stack) from [<c0345bfc>] (__warn+0xdc/0xf4)
->>> [<c0345bfc>] (__warn) from [<c0345cc4>] (warn_slowpath_fmt+0xb0/0xb8)
->>> [<c0345cc4>] (warn_slowpath_fmt) from [<bf02ff74>] (snd_card_new+0x378/0x398 [snd])
->>> [<bf02ff74>] (snd_card_new [snd]) from [<bf11f0b4>] (snd_soc_bind_card+0x280/0x99c [snd_soc_core])
->>> [<bf11f0b4>] (snd_soc_bind_card [snd_soc_core]) from [<bf12f000>] (devm_snd_soc_register_card+0x34/0x6c [snd_soc_core])
->>> [<bf12f000>] (devm_snd_soc_register_card [snd_soc_core]) from [<bf165654>] (vc4_hdmi_bind+0x43c/0x5f4 [vc4])
->>> [<bf165654>] (vc4_hdmi_bind [vc4]) from [<c09d660c>] (component_bind_all+0xec/0x24c)
->>> [<c09d660c>] (component_bind_all) from [<bf15c44c>] (vc4_drm_bind+0xd4/0x174 [vc4])
->>> [<bf15c44c>] (vc4_drm_bind [vc4]) from [<c09d6ac0>] (try_to_bring_up_master+0x160/0x1b0)
->>> [<c09d6ac0>] (try_to_bring_up_master) from [<c09d6f38>] (component_master_add_with_match+0xd0/0x104)
->>> [<c09d6f38>] (component_master_add_with_match) from [<bf15c588>] (vc4_platform_drm_probe+0x9c/0xbc [vc4])
->>> [<bf15c588>] (vc4_platform_drm_probe [vc4]) from [<c09df740>] (platform_drv_probe+0x6c/0xa4)
->>> [<c09df740>] (platform_drv_probe) from [<c09dd6f0>] (really_probe+0x210/0x350)
->>> [<c09dd6f0>] (really_probe) from [<c09dd940>] (driver_probe_device+0x5c/0xb4)
->>> [<c09dd940>] (driver_probe_device) from [<c09ddb38>] (device_driver_attach+0x58/0x60)
->>> [<c09ddb38>] (device_driver_attach) from [<c09ddbc0>] (__driver_attach+0x80/0xbc)
->>> [<c09ddbc0>] (__driver_attach) from [<c09db820>] (bus_for_each_dev+0x68/0xb4)
->>> [<c09db820>] (bus_for_each_dev) from [<c09dc9f8>] (bus_add_driver+0x130/0x1e8)
->>> [<c09dc9f8>] (bus_add_driver) from [<c09de648>] (driver_register+0x78/0x110)
->>> [<c09de648>] (driver_register) from [<c0302038>] (do_one_initcall+0x50/0x220)
->>> [<c0302038>] (do_one_initcall) from [<c03db544>] (do_init_module+0x60/0x210)
->>> [<c03db544>] (do_init_module) from [<c03da4f8>] (load_module+0x1e34/0x2338)
->>> [<c03da4f8>] (load_module) from [<c03dac00>] (sys_finit_module+0xac/0xbc)
->>> [<c03dac00>] (sys_finit_module) from [<c03000c0>] (ret_fast_syscall+0x0/0x54)
->>> Exception stack(0xeded9fa8 to 0xeded9ff0)
->>> ...
->>> ---[ end trace 6414689569c2bc08 ]---
->>>
->>> Suggested-by: Takashi Iwai <tiwai@suse.de>
->>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
->> thanks for this patch. Any chance for a fixes tag here?
-> Fixes: bb7d78568814 ("drm/vc4: Add HDMI audio support")
-Thanks
+Am 08.07.20 um 19:41 schrieb Maxime Ripard:
+> Hi everyone,
 >
-> Best regards
+> Here's a (pretty long) series to introduce support in the VC4 DRM driver
+> for the display pipeline found in the BCM2711 (and thus the RaspberryPi 4).
+>
+> The main differences are that there's two HDMI controllers and that there's
+> more pixelvalve now. Those pixelvalve come with a mux in the HVS that still
+> have only 3 FIFOs. Both of those differences are breaking a bunch of
+> expectations in the driver, so we first need a good bunch of cleanup and
+> reworks to introduce support for the new controllers.
+>
+> Similarly, the HDMI controller has all its registers shuffled and split in
+> multiple controllers now, so we need a bunch of changes to support this as
+> well.
+>
+> Only the HDMI support is enabled for now (even though the DPI and DSI
+> outputs have been tested too).
+>
+> Let me know if you have any comments
+> Maxime
+>
+> Cc: bcm-kernel-feedback-list@broadcom.com
+> Cc: devicetree@vger.kernel.org
+> Cc: Kamal Dasu <kdasu.kdev@gmail.com>
+> Cc: linux-clk@vger.kernel.org
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+>
+> Changes from v3:
+>   - Rebased on top of next-20200708
+>   - Added a name to the HDMI audio codec component
+>   - Only disable the BCM2711 HDMI pixelvalves at boot
+>   - Fixed an error in the HVS binding
+>   - Fix a framebuffer size condition that was inverted
+>   - Changed the channel allocation algorithm using Eric's suggestion
+>   - Always write the muxing values instead of updating if needed
+>   - Improved a bit the hvs_available_channels comment in the structure
+>   - Change atomic_complete_commit code to use for_each_new_crtc_in_state
+>   - Change the muxing code to take into account disparities between the
+>     BCM2711 and previous SoCs.
+>   - Only change the clock rate on BCM2711 during a modeset
+>   - Fix a crash at atomic_disable
+>   - Use clk_set_min_rate for the core clock too
+>   - Add a few defines, and simplify the FIFO level stuff
+>   - Reordered the patches according to Eric's reviews
+>   - Fixed a regression with VID_CTL setting on RPI3
+>
+i additionally applied "drm/vc4/vc4_hdmi: fill ASoC card owner" on top
+of your series (potential merge conflict).
+
+I didn't see any issues with a RPI 3B or RPI 4B.
+
+So this whole series is
+
+Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+
+Regards
+Stefan
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
