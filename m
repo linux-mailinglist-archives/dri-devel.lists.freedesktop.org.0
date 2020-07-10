@@ -2,49 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC1921E8D7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1865F21E8D9
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBA356E8EB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC1356E8ED;
 	Tue, 14 Jul 2020 07:02:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 197626EB94
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 08:24:41 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id y13so2727301lfe.9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 01:24:40 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA3A96E082
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 09:25:53 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id l2so5175287wmf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 02:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=/zlPwj7L7Ce+zffsmTIyPLSSztPq7z1z/8n6y5GLBiI=;
- b=OQPyv+81yIhNGom8eprVss9EVJ3KxzNiEWKPFA19f0laD7kwfEQJgb5rjF1N6GK4Yc
- qI3BSatubHk1aMGTajQfSjkJBlCa1uE/NWlnwtsBhbpcJE8yn7vLcUxLR67Vfbggt2qa
- Ekq1bCpssBz5Tu920z3Bymooun8Mp/Dm8LRaAKvpBCgFkDALibbTTq+Y9Rtka/2IB0jn
- F+ChWn3lsojmPMs5Cwh0ZOa+l4r8cDy0UUYYVPRT6H8EWpxpbIKdbstowELIvF00vINf
- AbKdbz+iuIxg+QiGVmBHWkM3caUwPHWsi/d+3cdrGHzbugjU8QgnssCZJbA5v90BYY4o
- 87+A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SkCUMnau7wnh370CWTBdQrZya4Pn73aX8uOog7kVa2E=;
+ b=UYk1cfsifyvuGjnTw8dAHN4r78tIvcbD3PqzKIc+DeXtTlhlCvLN5VRA8MRoYzGoHR
+ IK4lmrCyR3uRX/nbRMvBM7/uMwKF8qtAjOov7YcLERv8zHxk6ng+1NxInm92+SJ6Akqa
+ ojkE2EFETlJl+LwwP3FefzD/qTWHp7MxtBmG2TQeIPzfSy/FyygYlSdGYJgnkuYPYad/
+ yIYysbpCmV3rG3OHifCECL4mG6YWxczbVNA00WW8NZIiHlBXSxmyuwxh4ac9ZKfTzXTb
+ bkZjHGkP27D9ywFcOR/pcp7dr+5NOm9QgJ5qN/alyfRvjN8mB0aY2UqbrY8dQ2sOGld1
+ IONw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=/zlPwj7L7Ce+zffsmTIyPLSSztPq7z1z/8n6y5GLBiI=;
- b=oJN+7axDcCkxu5ILvwM3SU0pSTVoTzO1SIz4AZ7XuXV32JU5e9nTp1wNpHWLP0nQtz
- o0a2Fl7RZKwRuY/6iY1bCjjXARY+3+DoU6MnhYtAzfcpFvT1QVi81aTiM0FlY/5SFLj0
- 0QaxxLCj9ERSxOJRwBgO03KMAJAmqzUTTH0m6uXV4HYZeN0oE4bBmQHKT4XVvn2bMcf1
- S++DAd3IsPYCbPaChoYyvh35rEhRwC2TKnS67EgRr6hbo0CZXvINME6A8riiO2Z2AGvU
- j8A4rh2Sgd1tfe5spz7RUqnHhhtnbJKf/1PSM2utMd7smiGZm7t+v1hfdtpnkQExYGXD
- P+fw==
-X-Gm-Message-State: AOAM530rigyvCC8y5K593rP5UxBxu097nKHtxeW0+pKsvIrTwqkNETYL
- If+4OMeBFSX1WeC3lVwN5sDVXKsozcIULL8Nzc0=
-X-Google-Smtp-Source: ABdhPJzIn4Vepu91hUeOdZPWH/qQp/ZUH2JgYP6sHMOSblV9Qd6jjhFu1LGRn1HFZD55STXAlOvosPxkijtQgY5ZPS4=
-X-Received: by 2002:ac2:43aa:: with SMTP id t10mr42624462lfl.114.1594369479439; 
- Fri, 10 Jul 2020 01:24:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SkCUMnau7wnh370CWTBdQrZya4Pn73aX8uOog7kVa2E=;
+ b=j5veh4sYzW3vaJA907niNcJnYDEpoNNgTviwoAIczav2r/JDBKqVGgfJSqAVEipt88
+ k6/PWo0BCMBxAiRZl2qZpHaVu2eRbFwhZoZaWqJkeN+WEShEnujZFIRLZCIm2I+DGbPn
+ w65tMcWMPFeENeEoQAhWoNcWw/HXBLxtaxcXyZoS0Wz4SvG3Vg/sWL4YJRBJTKlFCWCn
+ Ocmfuj3D1M79fBXRyEtZiOhWAJPNVgGvSQfzPt3Qi3sYKf64T4KqXOr60Lf/qZx7YD/C
+ /kHdtCja5WAyqjOe5Q4O0rA8oDRJ8vx7CGgoTuovIdnbLSq9Ir9/o4C+HQYOt+jgrGSP
+ xnig==
+X-Gm-Message-State: AOAM530GRFltuo7RBkEDJ+kz9k8bMWieJPvYQ7U4JyWBgIUZgONu9aa8
+ tHyPfKe6lUfRxmyA/Q425Ss=
+X-Google-Smtp-Source: ABdhPJykwFKqd3Ulm4muDnruAlm7cK5WE0WlSGnkadjFhkFQp/pGh88FXxmcyBKPb7h52m9nMhehww==
+X-Received: by 2002:a1c:23d0:: with SMTP id j199mr4520599wmj.12.1594373152253; 
+ Fri, 10 Jul 2020 02:25:52 -0700 (PDT)
+Received: from clement-Latitude-7490.numericable.fr
+ (213-245-241-245.rev.numericable.fr. [213.245.241.245])
+ by smtp.gmail.com with ESMTPSA id h23sm8179559wmb.3.2020.07.10.02.25.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jul 2020 02:25:51 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>
+Subject: [PATCH v4 00/14] Add regulator devfreq support to Panfrost
+Date: Fri, 10 Jul 2020 11:25:34 +0200
+Message-Id: <20200710092548.316054-1-peron.clem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: butt3rflyh4ck <butterflyhuangxx@gmail.com>
-Date: Fri, 10 Jul 2020 16:24:03 +0800
-Message-ID: <CAFcO6XO58pV+j9gu5Hha3JUW555EPQo6ELTvxRyQ5PWu_1gsUA@mail.gmail.com>
-Subject: KASAN: use-after-free Read in drm_gem_object_release
-To: security@kernel.org
 X-Mailman-Approved-At: Tue, 14 Jul 2020 07:02:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,145 +71,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, airlied@linux.ie, syzkaller-bugs@googlegroups.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- seanpaul@chromium.org, sam@ravnborg.org, emil.velikov@collabora.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I report a bug (in linux-5.8.0-rc4) found by syzkaller.
-
-kernel config: https://github.com/butterflyhack/syzkaller-fuzz/blob/master/v5.8.0-rc4.config
-
-I test the reproducer and crash too.
-
-In the drm_em_vram_t() function,  ttm_bo_init() function call
-ttm_bo_init_reserved(),
-the ttm_bo_init_reserved() function  call ttm_bo_put(), it will free
-gbo->bo that is struct ttm_buffer_object.
-
-then, goto the err_drm_gem_object_release lable,
-drm_gem_object_release() function will free gbo->bo.base, so cause use
-after free.
-
-crash log:
-==================================================================
-BUG: KASAN: use-after-free in drm_gem_object_release+0xf7/0x120
-drivers/gpu/drm/drm_gem.c:953
-Read of size 8 at addr ffff888064dfd928 by task syz-executor.2/1320
-
-CPU: 1 PID: 1320 Comm: syz-executor.2 Not tainted 5.8.0-rc4+ #1
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-1.10.2-1ubuntu1 04/01/2014
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x18f/0x20d lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0xae/0x436 mm/kasan/report.c:383
- __kasan_report mm/kasan/report.c:513 [inline]
- kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
- drm_gem_object_release+0xf7/0x120 drivers/gpu/drm/drm_gem.c:953
- drm_gem_vram_init drivers/gpu/drm/drm_gem_vram_helper.c:211 [inline]
- drm_gem_vram_create+0x3e6/0x5e0 drivers/gpu/drm/drm_gem_vram_helper.c:244
- drm_gem_vram_fill_create_dumb+0x17a/0x310
-drivers/gpu/drm/drm_gem_vram_helper.c:615
- drm_gem_vram_driver_dumb_create+0x51/0xb0
-drivers/gpu/drm/drm_gem_vram_helper.c:710
- drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:94
- drm_ioctl_kernel+0x220/0x2e0 drivers/gpu/drm/drm_ioctl.c:787
- drm_ioctl+0x4d2/0x96f drivers/gpu/drm/drm_ioctl.c:887
- vfs_ioctl fs/ioctl.c:48 [inline]
- ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
- __do_sys_ioctl fs/ioctl.c:762 [inline]
- __se_sys_ioctl fs/ioctl.c:760 [inline]
- __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
- do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x467a29
-Code: Bad RIP value.
-RSP: 002b:00007f98f2d40c48 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 000000000076bf00 RCX: 0000000000467a29
-RDX: 0000000020000040 RSI: 00000000c02064b2 RDI: 0000000000000003
-RBP: 000000000070c600 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f98f2d416bc
-R13: 0000000000000297 R14: 0000000000702040 R15: 00000000004d2418
-
-Allocated by task 1320:
- save_stack+0x1b/0x40 mm/kasan/common.c:48
- set_track mm/kasan/common.c:56 [inline]
- __kasan_kmalloc.constprop.0+0xc2/0xd0 mm/kasan/common.c:494
- kmem_cache_alloc_trace+0x14f/0x2d0 mm/slab.c:3551
- kmalloc include/linux/slab.h:555 [inline]
- kzalloc include/linux/slab.h:669 [inline]
- drm_gem_vram_create+0x425/0x5e0 drivers/gpu/drm/drm_gem_vram_helper.c:239
- drm_gem_vram_fill_create_dumb+0x17a/0x310
-drivers/gpu/drm/drm_gem_vram_helper.c:615
- drm_gem_vram_driver_dumb_create+0x51/0xb0
-drivers/gpu/drm/drm_gem_vram_helper.c:710
- drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:94
- drm_ioctl_kernel+0x220/0x2e0 drivers/gpu/drm/drm_ioctl.c:787
- drm_ioctl+0x4d2/0x96f drivers/gpu/drm/drm_ioctl.c:887
- vfs_ioctl fs/ioctl.c:48 [inline]
- ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
- __do_sys_ioctl fs/ioctl.c:762 [inline]
- __se_sys_ioctl fs/ioctl.c:760 [inline]
- __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
- do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-Freed by task 1320:
- save_stack+0x1b/0x40 mm/kasan/common.c:48
- set_track mm/kasan/common.c:56 [inline]
- kasan_set_free_info mm/kasan/common.c:316 [inline]
- __kasan_slab_free+0xf5/0x140 mm/kasan/common.c:455
- __cache_free mm/slab.c:3426 [inline]
- kfree+0x103/0x2c0 mm/slab.c:3757
- ttm_bo_release+0xae1/0x1350 drivers/gpu/drm/ttm/ttm_bo.c:632
- kref_put include/linux/kref.h:65 [inline]
- ttm_bo_put drivers/gpu/drm/ttm/ttm_bo.c:638 [inline]
- ttm_bo_init_reserved+0xb04/0xd00 drivers/gpu/drm/ttm/ttm_bo.c:1339
- ttm_bo_init+0x10e/0x330 drivers/gpu/drm/ttm/ttm_bo.c:1366
- drm_gem_vram_init drivers/gpu/drm/drm_gem_vram_helper.c:202 [inline]
- drm_gem_vram_create+0x3c1/0x5e0 drivers/gpu/drm/drm_gem_vram_helper.c:244
- drm_gem_vram_fill_create_dumb+0x17a/0x310
-drivers/gpu/drm/drm_gem_vram_helper.c:615
- drm_gem_vram_driver_dumb_create+0x51/0xb0
-drivers/gpu/drm/drm_gem_vram_helper.c:710
- drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:94
- drm_ioctl_kernel+0x220/0x2e0 drivers/gpu/drm/drm_ioctl.c:787
- drm_ioctl+0x4d2/0x96f drivers/gpu/drm/drm_ioctl.c:887
- vfs_ioctl fs/ioctl.c:48 [inline]
- ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
- __do_sys_ioctl fs/ioctl.c:762 [inline]
- __se_sys_ioctl fs/ioctl.c:760 [inline]
- __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
- do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-The buggy address belongs to the object at ffff888064dfd800
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 296 bytes inside of
- 1024-byte region [ffff888064dfd800, ffff888064dfdc00)
-The buggy address belongs to the page:
-page:ffffea0001937f40 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0
-flags: 0xfffe0000000200(slab)
-raw: 00fffe0000000200 ffffea0000f3c248 ffffea0001ad7388 ffff88806bc00c40
-raw: 0000000000000000 ffff888064dfd000 0000000100000002 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff888064dfd800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888064dfd880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888064dfd900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                  ^
- ffff888064dfd980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888064dfda00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-Regards,
- butt3rflyh4ck.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpUaGlzIHNlcmllIGNsZWFucyBhbmQgYWRkcyByZWd1bGF0b3Igc3VwcG9ydCB0byBQYW5m
+cm9zdCBkZXZmcmVxLgpUaGlzIGlzIG1vc3RseSBiYXNlZCBvbiBjb21tZW50IGZvciB0aGUgZnJl
+c2hseSBpbnRyb2R1Y2VkIGxpbWEKZGV2ZnJlcS4KCldlIG5lZWQgdG8gYWRkIHJlZ3VsYXRvciBz
+dXBwb3J0IGJlY2F1c2Ugb24gQWxsd2lubmVyIHRoZSBHUFUgT1BQCnRhYmxlIGRlZmluZXMgYm90
+aCBmcmVxdWVuY2llcyBhbmQgdm9sdGFnZXMuCgpGaXJzdCBwYXRjaGVzIFswMS0wN10gc2hvdWxk
+IG5vdCBjaGFuZ2UgdGhlIGFjdHVhbCBiZWhhdmlvcgphbmQgaW50cm9kdWNlIGEgcHJvcGVyIHBh
+bmZyb3N0X2RldmZyZXEgc3RydWN0LgoKUmVnYXJkcywKQ2zDqW1lbnQKCkNoYW5nZXMgc2luY2Ug
+djM6CiAtIENvbGxlY3QgU3RldmVuIFByaWNlIHJldmlld2VkLWJ5IHRhZ3MKIC0gUmViYXNlIG9u
+IG5leHQvbWFzdGVyIChuZXh0LTIwMjAwNzA5KQoKQ2hhbmdlcyBzaW5jZSB2MjoKIC0gQ29sbGVj
+dCBBbHlzc2EgUm9zZW56d2VpZyByZXZpZXdlZC1ieSB0YWdzCiAtIEZpeCBvcHBfc2V0X3JlZ3Vs
+YXRvciBiZWZvcmUgYWRkaW5nIG9wcF90YWJsZSAoaW50cm9kdWNlIGluIHYyKQogLSBDYWxsIGVy
+cl9maW5pIGluIGNhc2Ugb3BwX2FkZF90YWJsZSBmYWlsZWQKCkNoYW5nZXMgc2luY2UgdjE6CiAt
+IENvbGxlY3QgU3RldmVuIFByaWNlIHJldmlld2VkLWJ5IHRhZ3MKIC0gRml4IHNwaW5sb2NrIGNv
+bW1lbnQKIC0gRHJvcCBPUFAgY2xvY2stbmFtZSBwYXRjaAogLSBEcm9wIGRldmljZV9wcm9wZXJ0
+eV90ZXN0IHBhdGNoCiAtIEFkZCByZW5hbWUgZXJyb3IgbGFiZWxzIHBhdGNoCgpDbMOpbWVudCBQ
+w6lyb24gKDE0KToKICBkcm0vcGFuZnJvc3Q6IGF2b2lkIHN0YXRpYyBkZWNsYXJhdGlvbgogIGRy
+bS9wYW5mcm9zdDogY2xlYW4gaGVhZGVycyBpbiBkZXZmcmVxCiAgZHJtL3BhbmZyb3N0OiBkb24n
+dCB1c2UgcGZkZXZmcmVxLmJ1c3lfY291bnQgdG8ga25vdyBpZiBodyBpcyBpZGxlCiAgZHJtL3Bh
+bmZyb3N0OiBpbnRyb2R1Y2UgcGFuZnJvc3RfZGV2ZnJlcSBzdHJ1Y3QKICBkcm0vcGFuZnJvc3Q6
+IHVzZSBzcGlubG9jayBpbnN0ZWFkIG9mIGF0b21pYwogIGRybS9wYW5mcm9zdDogcHJvcGVybHkg
+aGFuZGxlIGVycm9yIGluIHByb2JlCiAgZHJtL3BhbmZyb3N0OiByZW5hbWUgZXJyb3IgbGFiZWxz
+IGluIGRldmljZV9pbml0CiAgZHJtL3BhbmZyb3N0OiBtb3ZlIGRldmZyZXFfaW5pdCgpL2Zpbmko
+KSBpbiBkZXZpY2UKICBkcm0vcGFuZnJvc3Q6IGR5bmFtaWNhbGx5IGFsbG9jIHJlZ3VsYXRvcnMK
+ICBkcm0vcGFuZnJvc3Q6IGFkZCByZWd1bGF0b3JzIHRvIGRldmZyZXEKICBhcm02NDogZGVmY29u
+ZmlnOiBFbmFibGUgZGV2ZnJlcSBjb29saW5nIGRldmljZQogIGFybTY0OiBkdHM6IGFsbHdpbm5l
+cjogaDY6IEFkZCBjb29saW5nIG1hcCBmb3IgR1BVCiAgW0RPIE5PVCBNRVJHRV0gYXJtNjQ6IGR0
+czogYWxsd2lubmVyOiBoNjogQWRkIEdQVSBPUFAgdGFibGUKICBbRE8gTk9UIE1FUkdFXSBhcm02
+NDogZHRzOiBhbGx3aW5uZXI6IGZvcmNlIEdQVSByZWd1bGF0b3IgdG8gYmUgYWx3YXlzCgogLi4u
+L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0cyAgIHwgICAxICsKIGFyY2gv
+YXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi5kdHNpICB8IDEwMiArKysrKysrKysr
+CiBhcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnICAgICAgICAgICAgICAgICAgfCAgIDEgKwog
+ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYyAgIHwgMTc1ICsrKysr
+KysrKysrKy0tLS0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEu
+aCAgIHwgIDMwICsrLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5j
+ICAgIHwgIDYxICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rldmlj
+ZS5oICAgIHwgIDE0ICstCiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMg
+ICAgICAgfCAgMTUgKy0KIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYyAg
+ICAgICB8ICAgOCArLQogOSBmaWxlcyBjaGFuZ2VkLCAyOTUgaW5zZXJ0aW9ucygrKSwgMTEyIGRl
+bGV0aW9ucygtKQoKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
