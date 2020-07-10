@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65BD21BDB0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 21:32:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE88C21BDD7
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 21:41:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 650C86ECFC;
-	Fri, 10 Jul 2020 19:32:06 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647256ECFA
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 19:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594409523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QaE/bgVY27cEeWKGYQCTywLFI4G1w38fi5rvZfEqvys=;
- b=apfnI4dmCVJIs9/LsK7is/MXrJfd6y8hNtiKVeXJ+qU+ul5jGRB9HyDH/4awwAxlny1uWu
- BqpTdnAFnZa63LUpai/HoDHNCWwIokBe0DVvdvLpRML6TWgzWkVjHb6uT5a9cHLA7Z20fZ
- tZDZimY+9w+hN3DMKuDxXOIMY1C5SnM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-g5xA3eeyPG-fRK4HF6MUTg-1; Fri, 10 Jul 2020 15:32:01 -0400
-X-MC-Unique: g5xA3eeyPG-fRK4HF6MUTg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1E228015F7;
- Fri, 10 Jul 2020 19:31:58 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-112-154.rdu2.redhat.com
- [10.10.112.154])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDB3810016E8;
- Fri, 10 Jul 2020 19:31:56 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/i915/mst: filter out the display mode exceed
- sink's capability
-Date: Fri, 10 Jul 2020 15:31:44 -0400
-Message-Id: <20200710193144.94751-3-lyude@redhat.com>
-In-Reply-To: <20200710193144.94751-1-lyude@redhat.com>
-References: <20200710193144.94751-1-lyude@redhat.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F47E6ECFF;
+	Fri, 10 Jul 2020 19:41:01 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E77E56ED00
+ for <dri-devel@freedesktop.org>; Fri, 10 Jul 2020 19:41:00 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id l12so7276527ejn.10
+ for <dri-devel@freedesktop.org>; Fri, 10 Jul 2020 12:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6Mfk46Wt0EkqUcbzqXWWdXTqCsqh4r5j+eF9fbxeot0=;
+ b=Y7xXCS1nOyST5iaTPkncvqxbKVgFj+Nfn88bRSj5S4OQHG4kl1muiQw/AvZYLNudnY
+ 9mPoOtL6Pt896dSy83Z2dzSkM7nl4FiBi/v8tuWypIw2LqrCLpodTF9fmoLXMu+Ej30S
+ k2DwUlGDQfXjBxJL+d+Lgumj2g42UGKwXpN8Knytkji13XJi+RusTz1bmPzggaxcbAiT
+ 1dZLUkbOKTp1siTDY+nEzLfpzQWWkVJKY9wNRhV5+9AKOciOZjEA8hxs2RJ0Ai4bvFLf
+ q9+wsgdRL0qTHOnRDRpPH0qiHuUR/P7l9kgLy9FTHiAG9994JxxqpCBS7khSp1dMSBS+
+ vvlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6Mfk46Wt0EkqUcbzqXWWdXTqCsqh4r5j+eF9fbxeot0=;
+ b=lz14PdENWPRyg2+is3V6WNSolA6xMD6yKGgAvGyOMgJ6EqMdi2i1PHbkE7PJQOw6E0
+ d6na1+JwO7M3PIoIf25o+CJs6ovDDCeqsJlYG+6TCIgdz7SZPcSQQtJ9etkwk29bivtD
+ P68dgg4aRUVY4UN0icjUQJ7x4zRvmHzB5tYoBwNd8njY9mPJi+Mne4goyGL82oMFPt9+
+ EP9nK3QLXN9ePhE78p2N/jnDgLkOD7sql3vggSW9YzUZeN3prD/MXOo3UKuPvKG7Hb5u
+ G/R3jELiMyf2Px0x2npmPRNZ9kgBo0hw6oeA3AwZCGvthO092UuVEyEcsy+197lgDy+J
+ sw5Q==
+X-Gm-Message-State: AOAM533cyeUEf/hxBMIAKS1QRA/S2QUYAnn5yYaey6lmlPt0LaVmk6XF
+ 78jzwSkiuJxJNAuI4vap4HOMI+gjoevy8SacYok=
+X-Google-Smtp-Source: ABdhPJwwtakCaQKxyz/Xgq/TraHmqTx5+wz3uRxu6aBHqI7ZcwPjE6kUBX1Sx322eMeOiNMBX1MH0LMW8jw21ilN+fs=
+X-Received: by 2002:a17:906:328d:: with SMTP id
+ 13mr63567977ejw.71.1594410059289; 
+ Fri, 10 Jul 2020 12:40:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <1594324828-9571-1-git-send-email-akhilpo@codeaurora.org>
+ <1594324828-9571-5-git-send-email-akhilpo@codeaurora.org>
+In-Reply-To: <1594324828-9571-5-git-send-email-akhilpo@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 10 Jul 2020 12:41:31 -0700
+Message-ID: <CAF6AEGv4Nc6ZAxGoCC1s5KT=rxLR6uZDHfDnWZRnnLhqnegOpA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v4 4/7] drm: msm: a6xx: use dev_pm_opp_set_bw
+ to scale DDR
+To: Akhil P Oommen <akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,166 +63,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cooper Chiou <cooper.chiou@intel.com>, David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Manasi Navare <manasi.d.navare@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
+ saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sibi Sankar <sibis@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lee Shawn C <shawn.c.lee@intel.com>
+On Thu, Jul 9, 2020 at 1:01 PM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+>
+> From: Sharat Masetty <smasetty@codeaurora.org>
+>
+> This patches replaces the previously used static DDR vote and uses
+> dev_pm_opp_set_bw() to scale GPU->DDR bandwidth along with scaling
+> GPU frequency. Also since the icc path voting is handled completely
+> in the opp driver, remove the icc_path handle and its usage in the
+> drm driver.
+>
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index b547339..6fbfd7d 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -123,7 +123,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+>
+>         if (!gmu->legacy) {
+>                 a6xx_hfi_set_freq(gmu, gmu->current_perf_index);
+> -               icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
+> +               dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
 
-So far, max dot clock rate for MST mode rely on physcial
-bandwidth limitation. It would caused compatibility issue
-if source display resolution exceed MST hub output ability.
+What is the status of the patch to add dev_pm_opp_set_bw()?  If it is
+ready to go, and I get an ack-by from the OPP maintainer, I suppose I
+could merge it via drm/msm.
 
-For example, source DUT had DP 1.2 output capability.
-And MST docking just support HDMI 1.4 spec. When a HDMI 2.0
-monitor connected. Source would retrieve EDID from external
-and get max resolution 4k@60fps. DP 1.2 can support 4K@60fps
-because it did not surpass DP physical bandwidth limitation.
-Do modeset to 4k@60fps, source output display data but MST
-docking can't output HDMI properly due to this resolution
-already over HDMI 1.4 spec.
+Otherwise should we consider pulling in a private copy of it into
+drm/msm (and then drop it to use the helper in, hopefully, the next
+cycle)?
 
-Refer to commit <fcf463807596> ("drm/dp_mst: Use full_pbn
-instead of available_pbn for bandwidth checks").
-Source driver should refer to full_pbn to evaluate sink
-output capability. And filter out the resolution surpass
-sink output limitation.
+I'm pulling the patches preceding this one into msm-next-staging to do
+some testing.  And the dt patches following this one would normally
+get merged via Bjorn.  At the moment, I'm not sure what to do with
+this one.
 
-Changes since v1:
-* Using mgr->base.lock to protect full_pbn.
-Changes since v2:
-* Add ctx lock.
-Changes since v3:
-* s/intel_dp_mst_mode_clock_exceed_pbn_bandwidth/
-  intel_dp_mst_mode_clock_exceeds_pbn_bw/
-* Use the new drm_connector_helper_funcs.mode_valid_ctx to properly pipe
-  down the drm_modeset_acquire_ctx that the probe helpers are using, so
-  we can safely grab &mgr->base.lock without deadlocking
-Changes since v4:
-* Move drm_dp_calc_pbn_mode(mode->clock, bpp, false) > port->full_pbn
-  check
-* Fix the bpp we use in drm_dp_calc_pbn_mode()
-* Drop leftover (!mgr) check
-* Don't check for if full_pbn is unset. To be clear - it _can_ be unset,
-  but if it is then it's certainly a bug in DRM or a non-compliant sink
-  as full_pbn should always be populated by the time we call
-  ->mode_valid_ctx.
-  We should workaround non-compliant sinks with full_pbn=0, but that
-  should happen in the DP MST helpers so we can estimate the full_pbn
-  value as best we can.
+BR,
+-R
 
-Cc: Manasi Navare <manasi.d.navare@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: Cooper Chiou <cooper.chiou@intel.com>
-Co-developed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 55 ++++++++++++++-------
- 1 file changed, 38 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index bdc19b04b2c10..a2d91a4997001 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -639,39 +639,60 @@ static int intel_dp_mst_get_modes(struct drm_connector *connector)
- 	return intel_dp_mst_get_ddc_modes(connector);
- }
- 
--static enum drm_mode_status
--intel_dp_mst_mode_valid(struct drm_connector *connector,
--			struct drm_display_mode *mode)
-+static int
-+intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
-+			    struct drm_display_mode *mode,
-+			    struct drm_modeset_acquire_ctx *ctx,
-+			    enum drm_mode_status *status)
- {
- 	struct drm_i915_private *dev_priv = to_i915(connector->dev);
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
- 	struct intel_dp *intel_dp = intel_connector->mst_port;
-+	struct drm_dp_mst_topology_mgr *mgr = &intel_dp->mst_mgr;
-+	struct drm_dp_mst_port *port = intel_connector->port;
-+	const int min_bpp = 18;
- 	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
-+	int ret;
- 
--	if (drm_connector_is_unregistered(connector))
--		return MODE_ERROR;
-+	if (drm_connector_is_unregistered(connector)) {
-+		*status = MODE_ERROR;
-+		return 0;
-+	}
- 
--	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
--		return MODE_NO_DBLESCAN;
-+	if (mode->flags & DRM_MODE_FLAG_DBLSCAN) {
-+		*status = MODE_NO_DBLESCAN;
-+		return 0;
-+	}
- 
- 	max_link_clock = intel_dp_max_link_rate(intel_dp);
- 	max_lanes = intel_dp_max_lane_count(intel_dp);
- 
- 	max_rate = intel_dp_max_data_rate(max_link_clock, max_lanes);
--	mode_rate = intel_dp_link_required(mode->clock, 18);
-+	mode_rate = intel_dp_link_required(mode->clock, min_bpp);
- 
--	/* TODO - validate mode against available PBN for link */
--	if (mode->clock < 10000)
--		return MODE_CLOCK_LOW;
-+	ret = drm_modeset_lock(&mgr->base.lock, ctx);
-+	if (ret)
-+		return ret;
- 
--	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
--		return MODE_H_ILLEGAL;
-+	if (mode_rate > max_rate || mode->clock > max_dotclk ||
-+	    drm_dp_calc_pbn_mode(mode->clock, min_bpp, false) > port->full_pbn) {
-+		*status = MODE_CLOCK_HIGH;
-+		return 0;
-+	}
-+
-+	if (mode->clock < 10000) {
-+		*status = MODE_CLOCK_LOW;
-+		return 0;
-+	}
- 
--	if (mode_rate > max_rate || mode->clock > max_dotclk)
--		return MODE_CLOCK_HIGH;
-+	if (mode->flags & DRM_MODE_FLAG_DBLCLK) {
-+		*status = MODE_H_ILLEGAL;
-+		return 0;
-+	}
- 
--	return intel_mode_valid_max_plane_size(dev_priv, mode);
-+	*status = intel_mode_valid_max_plane_size(dev_priv, mode);
-+	return 0;
- }
- 
- static struct drm_encoder *intel_mst_atomic_best_encoder(struct drm_connector *connector,
-@@ -700,7 +721,7 @@ intel_dp_mst_detect(struct drm_connector *connector,
- 
- static const struct drm_connector_helper_funcs intel_dp_mst_connector_helper_funcs = {
- 	.get_modes = intel_dp_mst_get_modes,
--	.mode_valid = intel_dp_mst_mode_valid,
-+	.mode_valid_ctx = intel_dp_mst_mode_valid_ctx,
- 	.atomic_best_encoder = intel_mst_atomic_best_encoder,
- 	.atomic_check = intel_dp_mst_atomic_check,
- 	.detect_ctx = intel_dp_mst_detect,
--- 
-2.26.2
-
+>                 return;
+>         }
+>
+> @@ -149,11 +149,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+>         if (ret)
+>                 dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
+>
+> -       /*
+> -        * Eventually we will want to scale the path vote with the frequency but
+> -        * for now leave it at max so that the performance is nominal.
+> -        */
+> -       icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
+> +       dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
+>  }
+>
+>  unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
+> @@ -840,6 +836,19 @@ static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
+>         dev_pm_opp_put(gpu_opp);
+>  }
+>
+> +static void a6xx_gmu_set_initial_bw(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
+> +{
+> +       struct dev_pm_opp *gpu_opp;
+> +       unsigned long gpu_freq = gmu->gpu_freqs[gmu->current_perf_index];
+> +
+> +       gpu_opp = dev_pm_opp_find_freq_exact(&gpu->pdev->dev, gpu_freq, true);
+> +       if (IS_ERR_OR_NULL(gpu_opp))
+> +               return;
+> +
+> +       dev_pm_opp_set_bw(&gpu->pdev->dev, gpu_opp);
+> +       dev_pm_opp_put(gpu_opp);
+> +}
+> +
+>  int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+>  {
+>         struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> @@ -864,7 +873,7 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+>         }
+>
+>         /* Set the bus quota to a reasonable value for boot */
+> -       icc_set_bw(gpu->icc_path, 0, MBps_to_icc(3072));
+> +       a6xx_gmu_set_initial_bw(gpu, gmu);
+>
+>         /* Enable the GMU interrupt */
+>         gmu_write(gmu, REG_A6XX_GMU_AO_HOST_INTERRUPT_CLR, ~0);
+> @@ -1040,7 +1049,7 @@ int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
+>                 a6xx_gmu_shutdown(gmu);
+>
+>         /* Remove the bus vote */
+> -       icc_set_bw(gpu->icc_path, 0, 0);
+> +       dev_pm_opp_set_bw(&gpu->pdev->dev, NULL);
+>
+>         /*
+>          * Make sure the GX domain is off before turning off the GMU (CX)
+> --
+> 2.7.4
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
