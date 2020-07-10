@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73EE821BCFD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 20:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430B021BD2F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 20:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 931146ECC9;
-	Fri, 10 Jul 2020 18:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DC46EC2E;
+	Fri, 10 Jul 2020 18:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612B26ECC9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 18:30:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9916EC2E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 18:47:34 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id C08DE8051B;
- Fri, 10 Jul 2020 20:30:38 +0200 (CEST)
-Date: Fri, 10 Jul 2020 20:30:37 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 593238051B;
+ Fri, 10 Jul 2020 20:47:31 +0200 (CEST)
+Date: Fri, 10 Jul 2020 20:47:30 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH] drm/exynos: gem: Fix sparse warning
-Message-ID: <20200710183037.GI17565@ravnborg.org>
-References: <CGME20200707110911eucas1p1e21621f402b2aac89457647c3b2ad46f@eucas1p1.samsung.com>
- <20200707110859.3822-1-m.szyprowski@samsung.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 0/3] dt-bindings: display: convert panel bindings to
+ DT Schema
+Message-ID: <20200710184730.GA628995@ravnborg.org>
+References: <20200704102806.735713-1-sam@ravnborg.org>
+ <20200704103408.GA735964@ravnborg.org>
+ <20200709233502.GA1103707@bogus>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200707110859.3822-1-m.szyprowski@samsung.com>
+In-Reply-To: <20200709233502.GA1103707@bogus>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=hD80L64hAAAA:8 a=e5mUnYsNAAAA:8
- a=qO0_DFEm4Q4emWBWjJgA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
+ a=SIG6TxBT1hdypITfUdwA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,55 +47,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: devicetree@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Chris Zhong <zyw@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek.
+Hi Rob.
 
-On Tue, Jul 07, 2020 at 01:08:59PM +0200, Marek Szyprowski wrote:
-> Add a proper cast on the exynos_gem->kvaddr assignment to avoid a sparse warning.
+> > On Sat, Jul 04, 2020 at 12:28:03PM +0200, Sam Ravnborg wrote:
+> > > This patch-set convert 3 of the remaining panel bindings to yaml.
+> > > 
+> > > This is a follow-up on v2 that converted a lot of panel bindings:
+> > > https://lore.kernel.org/dri-devel/20200408195109.32692-1-sam@ravnborg.org/
+> > > All was applied except for the reaming three patches included here.
+> > > 
+> > > One binding is a DSI binding so just added to panel-simple-dsi.
+> > > The other two bindings addressed review feedback from Rob.
+> > > 
+> > > Sebastian Reichel has a pending patch to address the remaining
+> > > panel binding in display/panel/
+> > > 
+> > > All bindings pass dt-binding-check.
+> > > Based on top of drm-misc-next.
+> > > 
+> > > 	Sam
+> > > 
+> > > 
+> > > Sam Ravnborg (3):
+> > >       dt-bindings: display: convert innolux,p079zca to DT Schema
+> > >       dt-bindings: display: convert samsung,s6e8aa0 to DT Schema
+> > >       dt-bindings: display: convert sharp,lq101r1sx01 to DT Schema
+> > 
+> > git format-patch adds a space after the ',' - in the subject.
+> > This is often a good idea, but not for binding files.
+> > Will fix when I apply - if I do not forget that is..
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Fixes: 9940d9d93406 ("drm/exynos: gem: Get rid of the internal 'pages' array")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_gem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> index efa476858db5..65d11784f29f 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
-> @@ -59,7 +59,7 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool kvmap)
->  	}
->  
->  	if (kvmap)
-> -		exynos_gem->kvaddr = exynos_gem->cookie;
-> +		exynos_gem->kvaddr = (void __iomem *)exynos_gem->cookie;
+> Sure about that? I'm pretty sure it's dri-devel doing it. Look at 
+> lore.kernel.org copies for different lists. I've been fighting with that 
+> first in patchwork (which had this bug) and then in b4 (which is where 
+> it got nailed down to dri-devel).
+You are right.
 
-From a brif look at the code the correct fix looks to me to drop the
-__iomem annotation of kvaddr.
-And then no cast is needed.
-
-Care to take a look at this?
+The patches that I copied myself on had the correct subject.
+Only the dri-devel mails had the mangled subject.
 
 	Sam
 
->  
->  	DRM_DEV_DEBUG_KMS(to_dma_dev(dev), "dma_addr(0x%lx), size(0x%lx)\n",
->  			(unsigned long)exynos_gem->dma_addr, exynos_gem->size);
-> -- 
-> 2.17.1
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
