@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0230921B058
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0AA21B05D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C838D6EB72;
-	Fri, 10 Jul 2020 07:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE906EB74;
+	Fri, 10 Jul 2020 07:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E3E6EB71;
- Fri, 10 Jul 2020 07:41:48 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id 17so4780383wmo.1;
- Fri, 10 Jul 2020 00:41:48 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFA16EB73;
+ Fri, 10 Jul 2020 07:42:07 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id 22so4957993wmg.1;
+ Fri, 10 Jul 2020 00:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yRzp0fkgzEo5tA9tK65ADA4d9spnntHWN3TuXkgZmws=;
- b=hnIxyl30UtrFXLZ6C2gE3jejOPSzk9VK2aMARHzcMFEZg7PxhTfGSvsUkq38Jmb3FF
- aL8YYBIb0MucB5wIMw9j7LnIxVIrZc1Nu+AEDxD/nYZaGcHZeVzLaUbqtjr+LUW0Uor0
- fG8uwhLNVZGW9T+v+d7kRCQSRP0tSwjELvSuV6bOHOrwuQ1f/VQs3tZ1im5omyHPK/Sk
- 0yu+kQt9yJu6/BmfmqFOM8DW/ccPh8khhnvRtGxOkL4hGZLDGSJ0mp4YAzQ8J/59E6a7
- xh2rMZbBe96Iazd9dCQjjsH+M1/M3pKbuiN2GIPPz4qO5QS8bd/B9OKym0BcH/3vt4OZ
- OAvg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=w+AOncTOyKiyuTn+z9vgFWVxiOOP/Vbkgsqc1OQWgTo=;
+ b=DZvMaIi/1zqx4BTT1p4cA36/s8skYa2Q1fA9hpzlupCetFiGTB94N05SaGHW33NXv2
+ EnthAbu/pUrvTxNuomR4EOezB60PjEHIY0bznzG6uddmDmobUVAW4IP4sF9YGNezQ3m/
+ VkIuVF6yQb33usZ9WCz+rNZiSta9K5MBr69Awsi3AOSo4wTXhSiwx3v1ZakZ09px8hLC
+ axqVR8dlEzSaz5KAqswUZesWNTujgN7PErjjeyqmP4Oy3XYCQpK4ikp2LdR6b9RY8DPQ
+ JYIo/WWRUGlZzdafTpu+26JKDU4TrVc1Fh9niUzUqpEXU4u700TTwysRtwGWW9NZ8TCc
+ xcCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yRzp0fkgzEo5tA9tK65ADA4d9spnntHWN3TuXkgZmws=;
- b=NWlZER3lfdoRNszjE6sO6xgaUISyEDHCDRnjIctssnMWf8gJmD1of75PBAdkN6k6gK
- PKbGptZtTUcwIenmpyO2NwvSBNlLDEqoUIy3jiys59Fa74P8bCl16Tkbgv4UkQJSVSux
- 28wUTQKKlQTz1P6shd4U9WUQMJMs3Y5HtI++yunIadlbu26f72G8cawQ5tBeQkm4TSbE
- N6Wzhz57fTdbUjtsggjQX7e11I8RJqCvSE94GcfvOr0a4qvR9rn3MlwcqPpKJ6MTCVkR
- C02dmQxv7xSkW/qoLfnT8g6yb6ieuUwu7eTWXl9yjqQOhJbPHueA89KKVPCJ8Ms4Dzyr
- vUJw==
-X-Gm-Message-State: AOAM532bmriy+nQSAaZurY5eT9TmPG3SVWyAI5zP98kJUJrDEz0KUXjt
- IrcgEYR3xf6Fhe0/nsE+d2E=
-X-Google-Smtp-Source: ABdhPJxjmu1t81pwJYQvJu6PXnZ1rTlbee7s/kcWW+nojDUMarVkTZhwOJtURe+jV8IEXIJSndJrqA==
-X-Received: by 2002:a1c:48d7:: with SMTP id v206mr2150751wma.145.1594366907543; 
- Fri, 10 Jul 2020 00:41:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=w+AOncTOyKiyuTn+z9vgFWVxiOOP/Vbkgsqc1OQWgTo=;
+ b=XRyxuYH54cMmb+8TzoVi7rPZMRGfGZ/SNdh2TD+j/WkZYBf28zkdjRHXqigxTtn9DJ
+ eIXVWL/iINFvBEIV9s5rCkD6vm6U4N6CHt1Qbpf70tjYm+GlKfyDBvgxaBz23ux0n1tV
+ exDZDuCPo8YKNKglye/BKPcXl0NRqnfm9ZJ4t8SINcCgxWSY7QsXnLIEErtgFVIE6kjD
+ kp2PHlwnBaQstot9GejIzV+ymwSD/yfzG0BLFD6niJEU5F/mh/aDwhNPdGCLaFdrKMWl
+ /WwS7QXc65aHY7CNSYQHDTfKsxwo6WC63gSVrh1v3PkZG9mdtQ5ST8unoBts1hYu9pmh
+ nMdg==
+X-Gm-Message-State: AOAM530USUk0OT0S8dQIDnhTRZ1rsc9/BDprU4sT+tfEFXXvemA2swd1
+ N7oENpC5hYso8QWcQynWv8U=
+X-Google-Smtp-Source: ABdhPJzges5pbexyT7tU6s1WoJWZQszHJ53HKcnVVAWTRDzbSkuC0R6MlLDQP9pBymxFWVhqYXuMaQ==
+X-Received: by 2002:a1c:4d05:: with SMTP id o5mr3800834wmh.130.1594366925820; 
+ Fri, 10 Jul 2020 00:42:05 -0700 (PDT)
 Received: from localhost.localdomain ([62.178.82.229])
- by smtp.gmail.com with ESMTPSA id p17sm7951375wma.47.2020.07.10.00.41.46
+ by smtp.gmail.com with ESMTPSA id p17sm7951375wma.47.2020.07.10.00.42.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 00:41:46 -0700 (PDT)
+ Fri, 10 Jul 2020 00:42:05 -0700 (PDT)
 From: Christian Gmeiner <christian.gmeiner@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] Add support for GPU load values
-Date: Fri, 10 Jul 2020 09:41:23 +0200
-Message-Id: <20200710074143.306787-1-christian.gmeiner@gmail.com>
+Subject: [PATCH 1/4] drm/etnaviv: add simple moving average (SMA)
+Date: Fri, 10 Jul 2020 09:41:24 +0200
+Message-Id: <20200710074143.306787-2-christian.gmeiner@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200710074143.306787-1-christian.gmeiner@gmail.com>
+References: <20200710074143.306787-1-christian.gmeiner@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,24 +74,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series add support for loadavg values for GPU
-sub-components. I am adding a SMA algorithm as I was not
-really sure if EWMA would be a good fit for this use case.
+This adds a SMA algorithm inspired by Exponentially weighted moving
+average (EWMA) algorithm found in the kernel.
 
-Christian Gmeiner (4):
-  drm/etnaviv: add simple moving average (SMA)
-  drm/etnaviv: add loadavg accounting
-  drm/etnaviv: show loadavg in debugfs
-  drm/etnaviv: export loadavg via perfmon
-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c     | 14 ++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c     | 44 ++++++++++++-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h     | 29 +++++++++
- drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 79 +++++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_sma.h     | 53 +++++++++++++++
- 5 files changed, 218 insertions(+), 1 deletion(-)
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_sma.h | 53 +++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sma.h b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
+new file mode 100644
+index 000000000000..81564d5cbdc3
+--- /dev/null
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
+@@ -0,0 +1,53 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020 Etnaviv Project
++ */
++
++#ifndef __ETNAVIV_SMA_H__
++#define __ETNAVIV_SMA_H__
++
++#include <linux/bug.h>
++#include <linux/compiler.h>
++
++/*
++ * Simple moving average (SMA)
++ *
++ * This implements a fixed-size SMA algorithm.
++ *
++ * The first argument to the macro is the name that will be used
++ * for the struct and helper functions.
++ *
++ * The second argument, the samples, expresses how many samples are
++ * used for the SMA algorithm.
++ */
++
++#define DECLARE_SMA(name, _samples) \
++    struct sma_##name { \
++        unsigned long pos; \
++        unsigned long sum; \
++        unsigned long samples[_samples]; \
++    }; \
++    static inline void sma_##name##_init(struct sma_##name *s) \
++    { \
++        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
++        memset(s, 0, sizeof(struct sma_##name)); \
++    } \
++    static inline unsigned long sma_##name##_read(struct sma_##name *s) \
++    { \
++        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
++        return s->sum / _samples; \
++    } \
++    static inline void sma_##name##_add(struct sma_##name *s, unsigned long val) \
++    { \
++        unsigned long pos = READ_ONCE(s->pos); \
++        unsigned long sum = READ_ONCE(s->sum); \
++        unsigned long sample = READ_ONCE(s->samples[pos]); \
++      \
++        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
++      \
++       WRITE_ONCE(s->sum, sum - sample + val); \
++       WRITE_ONCE(s->samples[pos], val); \
++       WRITE_ONCE(s->pos, pos + 1 == _samples ? 0 : pos + 1); \
++    }
++
++#endif /* __ETNAVIV_SMA_H__ */
 -- 
 2.26.2
 
