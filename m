@@ -1,40 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430B021BD2F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 20:47:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE3221BD61
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 21:10:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48DC46EC2E;
-	Fri, 10 Jul 2020 18:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9576E083;
+	Fri, 10 Jul 2020 19:10:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9916EC2E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 18:47:34 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 593238051B;
- Fri, 10 Jul 2020 20:47:31 +0200 (CEST)
-Date: Fri, 10 Jul 2020 20:47:30 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 0/3] dt-bindings: display: convert panel bindings to
- DT Schema
-Message-ID: <20200710184730.GA628995@ravnborg.org>
-References: <20200704102806.735713-1-sam@ravnborg.org>
- <20200704103408.GA735964@ravnborg.org>
- <20200709233502.GA1103707@bogus>
+Received: from mail.default.ilande.uk0.bigv.io (mail.ilande.co.uk
+ [IPv6:2001:41c9:1:41f::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1AD56E083
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 19:10:24 +0000 (UTC)
+Received: from host86-182-221-233.range86-182.btcentralplus.com
+ ([86.182.221.233] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jtyPX-0002IZ-M5; Fri, 10 Jul 2020 20:10:19 +0100
+To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>, 
+ dri-devel@lists.freedesktop.org
+References: <20200709193016.291267-1-sam@ravnborg.org>
+ <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <18725e54-517d-75dc-282d-96d27e34d8b8@ilande.co.uk>
+Date: Fri, 10 Jul 2020 20:10:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200709233502.GA1103707@bogus>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
- a=SIG6TxBT1hdypITfUdwA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 86.182.221.233
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+ mail.default.ilande.uk0.bigv.io
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ SURBL_BLOCKED,URIBL_BLOCKED autolearn=ham autolearn_force=no
+ version=3.4.2
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,58 +78,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>, Chris Zhong <zyw@rock-chips.com>
+Cc: sparclinux@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob.
+On 10/07/2020 07:28, Thomas Zimmermann wrote:
 
-> > On Sat, Jul 04, 2020 at 12:28:03PM +0200, Sam Ravnborg wrote:
-> > > This patch-set convert 3 of the remaining panel bindings to yaml.
-> > > 
-> > > This is a follow-up on v2 that converted a lot of panel bindings:
-> > > https://lore.kernel.org/dri-devel/20200408195109.32692-1-sam@ravnborg.org/
-> > > All was applied except for the reaming three patches included here.
-> > > 
-> > > One binding is a DSI binding so just added to panel-simple-dsi.
-> > > The other two bindings addressed review feedback from Rob.
-> > > 
-> > > Sebastian Reichel has a pending patch to address the remaining
-> > > panel binding in display/panel/
-> > > 
-> > > All bindings pass dt-binding-check.
-> > > Based on top of drm-misc-next.
-> > > 
-> > > 	Sam
-> > > 
-> > > 
-> > > Sam Ravnborg (3):
-> > >       dt-bindings: display: convert innolux,p079zca to DT Schema
-> > >       dt-bindings: display: convert samsung,s6e8aa0 to DT Schema
-> > >       dt-bindings: display: convert sharp,lq101r1sx01 to DT Schema
-> > 
-> > git format-patch adds a space after the ',' - in the subject.
-> > This is often a good idea, but not for binding files.
-> > Will fix when I apply - if I do not forget that is..
+Hi Sam,
+
+Thanks again for the patch. I've spotted some small typos that you may like to fix if
+you repost the patch:
+
+> Hi
 > 
-> Sure about that? I'm pretty sure it's dri-devel doing it. Look at 
-> lore.kernel.org copies for different lists. I've been fighting with that 
-> first in patchwork (which had this bug) and then in b4 (which is where 
-> it got nailed down to dri-devel).
-You are right.
+> Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
+>> Mark reported that sparc64 would panic while booting using qemu.
+>> Mark bisected this to a patch that introduced generic fbdev emulation to
+>> the bochs DRM driver.
+>> Mark pointed out that a similar bug was fixed before where
+>> the sys helpers was replaced by cfb helpers.
+>> The culprint here is that the framebuffer reside in IO memory which
 
-The patches that I copied myself on had the correct subject.
-Only the dri-devel mails had the mangled subject.
+Typo here: culprit
 
-	Sam
+>> requires SPARC ASI_PHYS (physical) loads and stores.
+>>
+>> The current bohcs DRM driver uses a shadow buffer.
 
+And another here: bochs
+
+>> So all copying to the framebuffer happens in
+>> drm_fb_helper_dirty_blit_real().
+
+How about this as an alternative to the above paragraphs which might be a bit easier
+to read:
+
+Recent kernels have been reported to panic using the bochs_drm framebuffer under
+qemu-system-sparc64 which was bisected to commit 7a0483ac4ffc "drm/bochs: switch to
+generic drm fbdev emulation". The backtrace indicates that the shadow framebuffer
+copy in drm_fb_helper_dirty_blit_real() is trying to access the real framebuffer
+using a virtual address rather than use an IO access typically implemented using a
+physical (ASI_PHYS) access on SPARC.
+
+>> The fix is to replace the memcpy with memcpy_toio() from io.h.
+>>
+>> memcpy_toio() uses writeb() where the original fbdev code
+>> used sbus_memcpy_toio(). The latter uses sbus_writeb().
+>>
+>> The difference between writeb() and sbus_memcpy_toio() is
+>> that writeb() writes bytes in little-endian, where sbus_writeb() writes
+>> bytes in big-endian. As endian does not matter for byte writes they are
+>> the same. So we can safely use memcpy_toio() here.
+>>
+>> For many architectures memcpy_toio() is a simple memcpy().
+>> One sideeffect that is unknow is if this has any impact on other
+
+side-effect
+
+>> architectures.
+>> So far the analysis tells that this change is OK for other arch's.
+>> but testing would be good.
+>>
+>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>> Cc: "David S. Miller" <davem@davemloft.net>
+>> Cc: sparclinux@vger.kernel.org
 > 
-> Rob
+> So this actually is a problem in practice. Do you know how userspace
+> handles this?
+> 
+> For this patch
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> but I'd like to have someone with more architecture expertise ack this
+> as well.
+
+Agreed. All my testing is using the bochs_drm framebuffer under qemu-system-sparc64
+(a sun4u machine) so it would be nice to get an ACK from Dave or someone else who can
+vouch for this on real hardware.
+
+
+ATB,
+
+Mark.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
