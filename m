@@ -2,98 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C07021B85F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 16:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C1121B860
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 16:23:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C716EC61;
-	Fri, 10 Jul 2020 14:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 197696EC66;
+	Fri, 10 Jul 2020 14:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22CC86E0AB
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:23:38 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84456EC5C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:23:41 +0000 (UTC)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200710142336euoutp0222ec96cbdd62227bf4e38fbe3642205a~gai6zHipJ0738007380euoutp02P
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:23:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200710142336euoutp0222ec96cbdd62227bf4e38fbe3642205a~gai6zHipJ0738007380euoutp02P
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200710142340euoutp01eab75e555c470d2fd9f8b667f2b29e10~gai_DnC9r3218432184euoutp01Q
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:23:40 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200710142340euoutp01eab75e555c470d2fd9f8b667f2b29e10~gai_DnC9r3218432184euoutp01Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1594391016;
- bh=k3JSFO5eGGDgdqwjQhLkYWYwXYgt1cqYio32K0vqcxE=;
+ s=mail20170921; t=1594391020;
+ bh=FMuMDYCukbGI4sf+7MFNtZT2CWVV/3ND7OHigsB7fSo=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=bbBaBWco7EoqwPsd1m2kuX6tt3D7TImh6YnAGKbXmrFUdpbUJmwvtSMLAqJtjuzyg
- TtBLb2JQDWUO42SVwpzwqXlfmu2yx8iCiH2LMw774uy85d9zjG6xzyu1DsgNE4bXST
- NUkFVQPi7MwTqLLZZdevOS4BghmRVIwoGbPtz0qY=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200710142336eucas1p2667d56def20b47773580a2a449e890f9~gai6fNZ9K2122921229eucas1p2E;
- Fri, 10 Jul 2020 14:23:36 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 7F.CE.06318.8E9780F5; Fri, 10
- Jul 2020 15:23:36 +0100 (BST)
+ b=rzsyYWdqNkMDsdE2dTcFg7hvuvvjLEBNYKpHu+nz6ptIU2UyGhw+5rg6OZOnoLBtK
+ vIRUCfTnhkSj1qNmzpAvtMrliSuGVnnF+Z2v+cjalVVWuK39c3zZYo8BQROPJNQsyI
+ /2hDBMLRiXYoMwZ2FS8t8gDVIVOJDEJiCNZDX9SA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200710142340eucas1p1fbe95d0218461a563a23803f71927118~gai91d6hc2928929289eucas1p1I;
+ Fri, 10 Jul 2020 14:23:40 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 04.66.05997.BE9780F5; Fri, 10
+ Jul 2020 15:23:40 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200710142336eucas1p1b50636467635991d95f8de79465e163e~gai6H-TJZ2928929289eucas1p1B;
- Fri, 10 Jul 2020 14:23:36 +0000 (GMT)
+ 20200710142339eucas1p1e78d6b319cac935828114fb77864a9d9~gai9U1mqF0593805938eucas1p1I;
+ Fri, 10 Jul 2020 14:23:39 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200710142336eusmtrp1aaa89345fa2898f0f444067b2107b7c2~gai6HYqSK1070610706eusmtrp1g;
- Fri, 10 Jul 2020 14:23:36 +0000 (GMT)
-X-AuditID: cbfec7f5-371ff700000018ae-0e-5f0879e84f5a
+ 20200710142339eusmtrp15d30f05e49b3f83883feb2ef6676282b~gai9USsA11135411354eusmtrp1D;
+ Fri, 10 Jul 2020 14:23:39 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-4e-5f0879eb8b1f
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 11.D1.06314.8E9780F5; Fri, 10
- Jul 2020 15:23:36 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 75.D1.06314.BE9780F5; Fri, 10
+ Jul 2020 15:23:39 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200710142335eusmtip22885cfcc5d2ece2d12cf6f3bc6baee61~gai5xRJZx1450814508eusmtip2V;
- Fri, 10 Jul 2020 14:23:35 +0000 (GMT)
+ 20200710142339eusmtip2219f6aa3c1f05a7ecc36f76031c0d2c6~gai8-oT0q1081610816eusmtip2B;
+ Fri, 10 Jul 2020 14:23:39 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH][next] fbdev/fb.h: Use struct_size() helper in kzalloc()
+Subject: Re: [PATCH][next] fbcon: Use array3_size() helper in scr_memcpyw()
 To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Message-ID: <0a245efa-fa37-539c-4e2a-81d6bcf17670@samsung.com>
-Date: Fri, 10 Jul 2020 16:23:35 +0200
+Message-ID: <01ccc599-28a3-d6f0-40ca-7f1983211ce2@samsung.com>
+Date: Fri, 10 Jul 2020 16:23:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200617175647.GA26370@embeddedor>
+In-Reply-To: <20200615231542.GA20470@embeddedor>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOKsWRmVeSWpSXmKPExsWy7djPc7ovKjniDRoWKFpc+fqezWLrHlWL
- XxensVqc6PvAanF51xw2B1aPdQdVPTat6mTzuN99nMnj8ya5AJYoLpuU1JzMstQifbsEroye
- rcsZCxo5K8589G1gXMjexcjJISFgIjHh/GpGEFtIYAWjxJVbIhD2F0aJ7ddzuxi5gOzPjBIH
- O3cxwjQc+beaCSKxnFGi9/FZJoiOt4wSp6+Jg9hsAlYSE9tXgTUIC/hIXDr/gLWLkYNDRMBQ
- YueqBJBeZoEJjBLPeueB1fAK2Em0tL1kBrFZBFQlXl76BDZTVCBC4tODw6wQNYISJ2c+YQGx
- OQUMJKZ0bgWrYRYQl7j1ZD6ULS+x/e0cZpAFEgLz2CWerJrEAnG1i8Sy4zOZIWxhiVfHt0C9
- LyNxenIPC0TDOkaJvx0voLq3M0osn/yPDaLKWuLOuV9sIC8wC2hKrN+lDxF2lPi54iBYWEKA
- T+LGW0GII/gkJm2bzgwR5pXoaBOCqFaT2LBsAxvM2q6dK5knMCrNQvLaLCTvzELyziyEvQsY
- WVYxiqeWFuempxYb56WW6xUn5haX5qXrJefnbmIEJpfT/45/3cG470/SIUYBDkYlHt4FiRzx
- QqyJZcWVuYcYJTiYlUR4nc6ejhPiTUmsrEotyo8vKs1JLT7EKM3BoiTOa7zoZayQQHpiSWp2
- ampBahFMlomDU6qB0eH3W7VMh6311r97l/278zXZv1hMVXFhnVbVwYrS/rCNV6blOAXcl5uV
- /vCVz5aC3E2C7/Kad1hdXXVgT5OMYG639d2T15h7ex9xnv5R3OL+02jd7e8+E1LUX4sniRxY
- d/+oltcudbFHf1P2T1jCX7FpS9uMhSluP2Sz+qSmCQSznHfkbCixUmIpzkg01GIuKk4EAMCJ
- aE4qAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRmVeSWpSXmKPExsVy+t/xe7ovKjniDaZPY7G48vU9m8XWPaoW
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7djP87pvKjniDabuYbK48vU9m8XWPaoW
+ vy5OY7U40feB1eLyrjlsDqwe6w6qemxa1cnmcb/7OJPH501yASxRXDYpqTmZZalF+nYJXBm7
+ mm6yF7zirZh1YipzA2M7dxcjJ4eEgInE1Nt3WbsYuTiEBFYwSmw7uB7K+cIo8erCfzYI5zOj
+ xK3db1m6GDnAWubeUISIL2eU6F85nxVklJDAW0aJNUuUQWw2ASuJie2rGEFsYQFviaYHL9hA
+ ekUEDCV2rkoA6WUWmMAo8ax3HlgNr4CdxONft5lBalgEVCUWXY0FCYsKREh8enCYFaJEUOLk
+ zCcsIDangIFE7+m1YK3MAuISt57MZ4Kw5SW2v53DDDJfQmAeu8TjCRPZId50kfi59C0LhC0s
+ 8er4Fqi4jMTpyT0sEA3rGCX+dryA6t7OKLF88j82iCpriTvnfoF9wCygKbF+lz5E2FHiQd8e
+ Zkig8EnceCsIcQSfxKRt06HCvBIdbUIQ1WoSG5ZtYINZ27VzJfMERqVZSF6bheSdWUjemYWw
+ dwEjyypG8dTS4tz01GKjvNRyveLE3OLSvHS95PzcTYzA9HL63/EvOxh3/Uk6xCjAwajEw7sg
+ kSNeiDWxrLgy9xCjBAezkgiv09nTcUK8KYmVValF+fFFpTmpxYcYpTlYlMR5jRe9jBUSSE8s
+ Sc1OTS1ILYLJMnFwSjUwVqyunad6cOqmq67+t6d9Ul69gTl/t8qSjkk35/dve9jTsPGjtjT3
+ R35Rifn7dmw7Mv1Vl3TwEb87nxnWLIi5t3H+vqxXkces+SRfpT2U+PDO57J6j0jI6VcXEtbF
+ 7vRWUd9YGnV7xvUTB3b6y5lIrV63epP8hRsPVspYPtk+q1boxy1Jdo7XnfpKLMUZiYZazEXF
+ iQBAYFDgKwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFIsWRmVeSWpSXmKPExsVy+t/xe7qvKzniDdbtlLO48vU9m8XWPaoW
  vy5OY7U40feB1eLyrjlsDqwe6w6qemxa1cnmcb/7OJPH501yASxRejZF+aUlqQoZ+cUltkrR
- hhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehk9W5czFjRyVpz56NvAuJC9i5GT
- Q0LAROLIv9VMXYxcHEICSxkl7hw5xtLFyAGUkJE4vr4MokZY4s+1LjaImteMEn0z3jOCJNgE
- rCQmtq8Cs4UFfCQunX/ACtIrImAosXNVAkg9s8AERokll86zQzQ3M0p0flnMBtLAK2An0dL2
- khnEZhFQlXh56RMTiC0qECFxeMcsRogaQYmTM5+wgNicAgYSUzq3gtUwC6hL/Jl3iRnCFpe4
- 9WQ+VFxeYvvbOcwTGIVmIWmfhaRlFpKWWUhaFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/d
- xAiMqG3Hfm7ewXhpY/AhRgEORiUe3gWJHPFCrIllxZW5hxglOJiVRHidzp6OE+JNSaysSi3K
- jy8qzUktPsRoCvTcRGYp0eR8YLTnlcQbmhqaW1gamhubG5tZKInzdggcjBESSE8sSc1OTS1I
- LYLpY+LglGpgnG7HzaGy0LGJc7rOzhaVtV8jNR9VPzMqnRIQxZEm6r/lpHLCxq/bX9e9ONX0
- rcN9Z/vuG/6Sk6PaOiNMgmQO+/NZ/Z20cPMHuQbftNiNiYIftjG+rVtkutllycJloj7XSzx7
- lgdofLngIcrTeGTqvQk3p19yND/74qH1garUKTwONTbPYyfVKbEUZyQaajEXFScCAKirriq+
+ hhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehm7mm6yF7zirZh1YipzA2M7dxcj
+ B4eEgInE3BuKXYxcHEICSxklNt2ezgwRl5E4vr6si5ETyBSW+HOtiw2i5jWjxMrFzWwgCTYB
+ K4mJ7asYQWxhAW+Jpgcv2EB6RQQMJXauSgCpZxaYwCix5NJ5dojmZkaJg7M/soI08ArYSTz+
+ dRtsGYuAqsSiq7EgYVGBCInDO2YxQpQISpyc+YQFxOYUMJDoPb0WLM4soC7xZ94lZghbXOLW
+ k/lMELa8xPa3c5gnMArNQtI+C0nLLCQts5C0LGBkWcUoklpanJueW2yoV5yYW1yal66XnJ+7
+ iREYT9uO/dy8g/HSxuBDjAIcjEo8vAsSOeKFWBPLiitzDzFKcDArifA6nT0dJ8SbklhZlVqU
+ H19UmpNafIjRFOi3icxSosn5wFjPK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQ
+ WgTTx8TBKdXAOJ1zX1/y48N1W/bu3eThcU/kQvvy5CerEzU82zz+57jf81armL77eHmZyIuz
+ h3rvGb54ZLTNRaZqYe78W/Vp71cvcJqon+vbZ1LNutCw7NxOnp6r2+Zcvu9UtlzuJGtYwP7P
+ u7iZC4ykqu4vcpJ50/b4tNPOZhueTf3Fubt+Pju+hO0S6zXmLUosxRmJhlrMRcWJAJBb/Ra9
  AgAA
-X-CMS-MailID: 20200710142336eucas1p1b50636467635991d95f8de79465e163e
+X-CMS-MailID: 20200710142339eucas1p1e78d6b319cac935828114fb77864a9d9
 X-Msg-Generator: CA
-X-RootMTR: 20200617175132eucas1p2f1ea5f3b2f0d5cdb3277577ac8564c3f
+X-RootMTR: 20200615231029eucas1p1875c2cab0363a12afd0c5dea7ab0cb8b
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200617175132eucas1p2f1ea5f3b2f0d5cdb3277577ac8564c3f
-References: <CGME20200617175132eucas1p2f1ea5f3b2f0d5cdb3277577ac8564c3f@eucas1p2.samsung.com>
- <20200617175647.GA26370@embeddedor>
+X-CMS-RootMailID: 20200615231029eucas1p1875c2cab0363a12afd0c5dea7ab0cb8b
+References: <CGME20200615231029eucas1p1875c2cab0363a12afd0c5dea7ab0cb8b@eucas1p1.samsung.com>
+ <20200615231542.GA20470@embeddedor>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,13 +115,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 6/17/20 7:56 PM, Gustavo A. R. Silva wrote:
-> Make use of the struct_size() helper instead of an open-coded version
-> in order to avoid any potential type mistakes.
+On 6/16/20 1:15 AM, Gustavo A. R. Silva wrote:
+> Use array3_size() helper instead of the open-coded version in scr_memcpyw()
+> and scr_memsetw(). These sorts of multiplication factors need to be wrapped
+> in array3_size().
 > 
-> This code was detected with the help of Coccinelle and, audited and
-> fixed manually.
+> This issue was found with the help of Coccinelle and, audited and fixed
+> manually.
 > 
+> Addresses-KSPP-ID: https://github.com/KSPP/linux/issues/83
 > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
 Applied to drm-misc-next tree, thanks.
@@ -133,25 +135,31 @@ Samsung R&D Institute Poland
 Samsung Electronics
 
 > ---
->  include/linux/fb.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/video/fbdev/core/fbcon.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 3b4b2f0c6994..2b530e6d86e4 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -506,8 +506,9 @@ struct fb_info {
->  };
->  
->  static inline struct apertures_struct *alloc_apertures(unsigned int max_num) {
-> -	struct apertures_struct *a = kzalloc(sizeof(struct apertures_struct)
-> -			+ max_num * sizeof(struct aperture), GFP_KERNEL);
-> +	struct apertures_struct *a;
-> +
-> +	a = kzalloc(struct_size(a, ranges, max_num), GFP_KERNEL);
->  	if (!a)
->  		return NULL;
->  	a->count = max_num;
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 9d28a8e3328f..6af2734f2a7b 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -639,7 +639,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+>  			       GFP_KERNEL);
+>  		if (save) {
+>  			int i = cols < new_cols ? cols : new_cols;
+> -			scr_memsetw(save, erase, logo_lines * new_cols * 2);
+> +			scr_memsetw(save, erase, array3_size(logo_lines, new_cols, 2));
+>  			r = q - step;
+>  			for (cnt = 0; cnt < logo_lines; cnt++, r += i)
+>  				scr_memcpyw(save + cnt * new_cols, r, 2 * i);
+> @@ -676,7 +676,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+>  		q = (unsigned short *) (vc->vc_origin +
+>  					vc->vc_size_row *
+>  					rows);
+> -		scr_memcpyw(q, save, logo_lines * new_cols * 2);
+> +		scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2));
+>  		vc->vc_y += logo_lines;
+>  		vc->vc_pos += logo_lines * vc->vc_size_row;
+>  		kfree(save);
 > 
 _______________________________________________
 dri-devel mailing list
