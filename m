@@ -1,64 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3AF21BFFA
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 00:37:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 502D121BFFE
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 00:37:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1C66ED32;
-	Fri, 10 Jul 2020 22:37:02 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42BA26ED32
- for <dri-devel@freedesktop.org>; Fri, 10 Jul 2020 22:37:01 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1594420622; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: References: Cc: To: From:
- Subject: Sender; bh=zibTUJTH6MFdxW//DfqanSRTw7aZklvYX/+cHS6yCOw=;
- b=l8G1RO/YRSg5dSDhONxn6l8qaBrRiKBYMHBwf0qzyoF0UknXM5JCuArwAUPp1xzvvVgUXByV
- FhToiIfohYzW7/LIk4m4OJ5Bq1Ga+OafjBnxzzUZWT6BNVOwgre+ZEWIuhK0RBasjpjbkeSp
- YV3PK79h1dnEmF1sKDriDk4Hlhw=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n11.prod.us-east-1.postgun.com with SMTP id
- 5f08ed80e3bee125108e9dba (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 10 Jul 2020 22:36:48
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 684B0C433CB; Fri, 10 Jul 2020 22:36:47 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.9] (unknown [117.210.185.108])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B02ABC433C8;
- Fri, 10 Jul 2020 22:36:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B02ABC433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v4 3/7] drm: msm: a6xx: set gpu freq through hfi
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: Jonathan Marek <jonathan@marek.ca>, freedreno@lists.freedesktop.org
-References: <1594324828-9571-1-git-send-email-akhilpo@codeaurora.org>
- <1594324828-9571-4-git-send-email-akhilpo@codeaurora.org>
- <322c921f-7c8f-7052-b191-44f0dade742e@marek.ca>
- <40f6df1d-f524-c612-9215-591fd7f16e3b@codeaurora.org>
-Message-ID: <d9875eae-d7e5-e091-4f3d-b279157ac1c1@codeaurora.org>
-Date: Sat, 11 Jul 2020 04:06:41 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522366ED33;
+	Fri, 10 Jul 2020 22:37:42 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE346ED33
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 22:37:41 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D484E2C0;
+ Sat, 11 Jul 2020 00:37:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1594420660;
+ bh=+jXeyMYRY1+GHDByMsTxMjYKLQuf+EEU0IKAhKkUG/I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rpLhnmTOtvA4NBRYwuunGQU/Qt7EKhjW1rtpyXqBZI6zwi7MCuZuytpVDpoTv93lD
+ EEg4skB/zuRr7VWurGTDgFuWt8dfJRCX0zrHUqSfRakwVm+Jfda6j4g52eTst6vpBN
+ 6UKtGd9cYwxHde/wo7RipVw+RvjIOUesCbi/Wfiw=
+Date: Sat, 11 Jul 2020 01:37:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 16/21] drm/bridge: megachips: add get_edid bridge
+ operation
+Message-ID: <20200710223733.GT5964@pendragon.ideasonboard.com>
+References: <20200703192417.372164-1-sam@ravnborg.org>
+ <20200703192417.372164-17-sam@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <40f6df1d-f524-c612-9215-591fd7f16e3b@codeaurora.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200703192417.372164-17-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,57 +47,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, saravanak@google.com,
- linux-arm-msm@vger.kernel.org, smasetty@codeaurora.org,
- linux-kernel@vger.kernel.org, mka@chromium.org, dri-devel@freedesktop.org,
- viresh.kumar@linaro.org, sibis@codeaurora.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ kbuild test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Martin Donnelly <martin.donnelly@ge.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDcvMTEvMjAyMCAyOjQzIEFNLCBBa2hpbCBQIE9vbW1lbiB3cm90ZToKPgo+IE9uIDcvMTAv
-MjAyMCAxOjM0IEFNLCBKb25hdGhhbiBNYXJlayB3cm90ZToKPj4gT24gNy85LzIwIDQ6MDAgUE0s
-IEFraGlsIFAgT29tbWVuIHdyb3RlOgo+Pj4gTmV3ZXIgdGFyZ2V0cyBzdXBwb3J0IGNoYW5naW5n
-IGdwdSBmcmVxdWVuY3kgdGhyb3VnaCBIRkkuIFNvCj4+PiB1c2UgdGhhdCB3aGVyZXZlciBzdXBw
-b3J0ZWQgaW5zdGVhZCBvZiB0aGUgbGVnYWN5IG1ldGhvZC4KPj4+Cj4+Cj4+IEl0IHdhcyBhbHJl
-YWR5IHVzaW5nIEhGSSBvbiBuZXdlciB0YXJnZXRzLiBEb24ndCBicmVhayBpdCBpbiBvbmUgCj4+
-IGNvbW1pdCB0aGVuIGZpeCBpdCBpbiB0aGUgbmV4dC4KPgo+IE9vcHMuIEkgc29tZWhvdyBnb3Qg
-Y29uZnVzZWQuIFdpbGwgZml4IGFuZCByZXNlbmQuCj4KPiAtQWtoaWwKCkkgYnJva2UgdGhlIHBt
-X3J1bnRpbWVfZ2V0X2lmX2luX3VzZSgpIGNoZWNrIHRvby4gT3RoZXIgdGhhbiB0aGF0LCBqdXN0
-IApzcXVhc2hpbmcgdGhpcyBwYXRjaCB3aXRoIHRoZSBwcmV2aW91cyBvbmUgc2hvdWxkIGJlIGVu
-b3VnaC4KCi1Ba2hpbC4KCj4KPj4KPj4+IFNpZ25lZC1vZmYtYnk6IEFraGlsIFAgT29tbWVuIDxh
-a2hpbHBvQGNvZGVhdXJvcmEub3JnPgo+Pj4gLS0tCj4+PiDCoCBkcml2ZXJzL2dwdS9kcm0vbXNt
-L2FkcmVuby9hNnh4X2dtdS5jIHwgMTEgKysrKysrKy0tLS0KPj4+IMKgIDEgZmlsZSBjaGFuZ2Vk
-LCA3IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ211LmMgCj4+PiBiL2RyaXZlcnMvZ3B1L2Ry
-bS9tc20vYWRyZW5vL2E2eHhfZ211LmMKPj4+IGluZGV4IDIzM2FmZWEuLmI1NDczMzkgMTAwNjQ0
-Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5jCj4+PiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5jCj4+PiBAQCAtMTIxLDYgKzEy
-MSwxMiBAQCB2b2lkIGE2eHhfZ211X3NldF9mcmVxKHN0cnVjdCBtc21fZ3B1ICpncHUsIAo+Pj4g
-c3RydWN0IGRldl9wbV9vcHAgKm9wcCkKPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoZ3B1X2Zy
-ZXEgPT0gZ211LT5ncHVfZnJlcXNbcGVyZl9pbmRleF0pCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBicmVhazsKPj4+IMKgICvCoMKgwqAgaWYgKCFnbXUtPmxlZ2FjeSkgewo+Pj4gK8Kg
-wqDCoMKgwqDCoMKgIGE2eHhfaGZpX3NldF9mcmVxKGdtdSwgZ211LT5jdXJyZW50X3BlcmZfaW5k
-ZXgpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgIGljY19zZXRfYncoZ3B1LT5pY2NfcGF0aCwgMCwgTUJw
-c190b19pY2MoNzIxNikpOwo+Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybjsKPj4+ICvCoMKgwqAg
-fQo+Pj4gKwo+Pj4gwqDCoMKgwqDCoCBnbXUtPmN1cnJlbnRfcGVyZl9pbmRleCA9IHBlcmZfaW5k
-ZXg7Cj4+PiDCoMKgwqDCoMKgIGdtdS0+ZnJlcSA9IGdtdS0+Z3B1X2ZyZXFzW3BlcmZfaW5kZXhd
-Owo+Pj4gwqAgQEAgLTg5MywxMCArODk5LDcgQEAgaW50IGE2eHhfZ211X3Jlc3VtZShzdHJ1Y3Qg
-YTZ4eF9ncHUgKmE2eHhfZ3B1KQo+Pj4gwqDCoMKgwqDCoCBlbmFibGVfaXJxKGdtdS0+aGZpX2ly
-cSk7Cj4+PiDCoCDCoMKgwqDCoMKgIC8qIFNldCB0aGUgR1BVIHRvIHRoZSBjdXJyZW50IGZyZXEg
-Ki8KPj4+IC3CoMKgwqAgaWYgKGdtdS0+bGVnYWN5KQo+Pj4gLcKgwqDCoMKgwqDCoMKgIGE2eHhf
-Z211X3NldF9pbml0aWFsX2ZyZXEoZ3B1LCBnbXUpOwo+Pj4gLcKgwqDCoCBlbHNlCj4+PiAtwqDC
-oMKgwqDCoMKgwqAgYTZ4eF9oZmlfc2V0X2ZyZXEoZ211LCBnbXUtPmN1cnJlbnRfcGVyZl9pbmRl
-eCk7Cj4+PiArwqDCoMKgIGE2eHhfZ211X3NldF9pbml0aWFsX2ZyZXEoZ3B1LCBnbXUpOwo+Pj4g
-wqAgwqDCoMKgwqDCoCAvKgo+Pj4gwqDCoMKgwqDCoMKgICogImVuYWJsZSIgdGhlIEdYIHBvd2Vy
-IGRvbWFpbiB3aGljaCB3b24ndCBhY3R1YWxseSBkbyAKPj4+IGFueXRoaW5nIGJ1dCBpdAo+Pj4K
-Pj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gZHJp
-LWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+
-IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Sam,
+
+Thank you for the patch.
+
+On Fri, Jul 03, 2020 at 09:24:12PM +0200, Sam Ravnborg wrote:
+> To prepare for a chained bridge setup add support for the
+> get_edid bridge operation.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Peter Senna Tschudin <peter.senna@gmail.com>
+> Cc: Martin Donnelly <martin.donnelly@ge.com>
+> Cc: Martyn Welch <martyn.welch@collabora.co.uk>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+>  .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 26 +++++++++++++------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> index 78a9afe8f063..5f06e18f0a61 100644
+> --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
+> @@ -131,21 +131,29 @@ static u8 *stdp2690_get_edid(struct i2c_client *client)
+>  	return NULL;
+>  }
+>  
+> -static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
+> +static struct edid *ge_b850v3_lvds_get_edid(
+> +		struct drm_bridge *bridge, struct drm_connector *connector)
+>  {
+>  	struct i2c_client *client;
+> -	int num_modes = 0;
+>  
+>  	client = ge_b850v3_lvds_ptr->stdp2690_i2c;
+>  
+>  	kfree(ge_b850v3_lvds_ptr->edid);
+>  	ge_b850v3_lvds_ptr->edid = (struct edid *)stdp2690_get_edid(client);
+>  
+> -	if (ge_b850v3_lvds_ptr->edid) {
+> -		drm_connector_update_edid_property(connector,
+> -						      ge_b850v3_lvds_ptr->edid);
+> -		num_modes = drm_add_edid_modes(connector,
+> -					       ge_b850v3_lvds_ptr->edid);
+> +	return ge_b850v3_lvds_ptr->edid;
+
+As pointed out earlier in this series, you can't store a pointer to the
+edid, if will get freed by the caller. Fortunately it doesn't seem to be
+needed here either.
+
+> +}
+> +
+> +static int ge_b850v3_lvds_get_modes(struct drm_connector *connector)
+> +{
+> +	struct edid *edid;
+> +	int num_modes = 0;
+> +
+> +	edid = ge_b850v3_lvds_get_edid(&ge_b850v3_lvds_ptr->bridge, connector);
+> +
+> +	if (edid) {
+> +		drm_connector_update_edid_property(connector, edid);
+> +		num_modes = drm_add_edid_modes(connector, edid);
+>  	}
+>  
+>  	return num_modes;
+> @@ -270,6 +278,7 @@ static int ge_b850v3_lvds_attach(struct drm_bridge *bridge,
+>  static const struct drm_bridge_funcs ge_b850v3_lvds_funcs = {
+>  	.attach = ge_b850v3_lvds_attach,
+>  	.detect = ge_b850v3_lvds_bridge_detect,
+> +	.get_edid = ge_b850v3_lvds_get_edid,
+>  };
+>  
+>  static int ge_b850v3_lvds_init(struct device *dev)
+> @@ -324,7 +333,8 @@ static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
+>  
+>  	/* drm bridge initialization */
+>  	ge_b850v3_lvds_ptr->bridge.funcs = &ge_b850v3_lvds_funcs;
+> -	ge_b850v3_lvds_ptr->bridge.ops = DRM_BRIDGE_OP_DETECT;
+> +	ge_b850v3_lvds_ptr->bridge.ops = DRM_BRIDGE_OP_DETECT |
+> +					 DRM_BRIDGE_OP_EDID;
+>  	ge_b850v3_lvds_ptr->bridge.of_node = dev->of_node;
+>  	drm_bridge_add(&ge_b850v3_lvds_ptr->bridge);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
