@@ -1,71 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B6D21B0A9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 09:53:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D86921AF6A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 08:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 774426EB97;
-	Fri, 10 Jul 2020 07:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059366EB6E;
+	Fri, 10 Jul 2020 06:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E1D6EB6A
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 06:15:32 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id y22so3917862oie.8
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 23:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=firXECNMLXniKyCvwGOQp5z1TDCqfIAA522lZa0cjs8=;
- b=H9xNKfMb1oeJa3rxcpAig9irEvNPG756hwbJvn5FslLD3+ycXhV6tX69JPMY7g8TOM
- UuZv4JkqAYq2KOFmuZ9LSxIS0HFXwH/0/JVF9fbkt0LJQOm8tQTqcAGy39pYTngg8WB9
- xlzhzaFUpmzh+0TfTm1MSD8sUoQi7I7tNk7HXLTPpTpAQHbfXfyJx9qd421vybSSoRKj
- WLi9j58oaeYUa4AAraqE7c8bvVabf7BoNMm6fAAG4BKyDdk0tzuu/GzrkxNmDTvtOU2J
- I5pQbmCgCPRJal3CLcWC1SybOzcVDSige9M0R5odTOVY/m3/ycP/RjBGPZFnuruP8YMJ
- Su4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=firXECNMLXniKyCvwGOQp5z1TDCqfIAA522lZa0cjs8=;
- b=bAvzY5rICq3BX45SJ/3seQq6GqJHjmSeDFJDYGT7GMyZu8lO2pQcuD3w6YxBVpIOFE
- ni4oYVUi936fmeaEj/O97O0IAV1cGyCApbSOFLRCb0O6nP08jMHFAwqqRz3NjlhHqDvb
- wcX10KMZ8bmF7cGfacsAbw10+wO9cb8trHD4xFhk51u3aaXtL0d5pCZ1spplCHNG+tmo
- 8F61ywOIhe8QcSbGaM8CfVa5n80XbvhGk4Z85aMVQDTgdm/NZT8DUeveyZ0eFw2PSNZX
- PDWfmh5tYF+oN1BL5XRr1FhmearMZjM0T7Ki/9VgW5aEvXD+Wy4TWZ9SfpEjjZTSAyZV
- 3Dew==
-X-Gm-Message-State: AOAM532kp0ARCX3AKBWXjCzcK0SG+LHvwgFK98RcE7GwTYfeH4EvdsiY
- 7I1aG4biLpXt8wh5POhd9as1eA==
-X-Google-Smtp-Source: ABdhPJzKYv1MQNBiX9pdiNawAOtCiBG3Cr1nwQSq8I7M2RjOSjTLvlyd/GsbATT1yLThRSl+gVcp3Q==
-X-Received: by 2002:aca:3017:: with SMTP id w23mr3106122oiw.18.1594361731934; 
- Thu, 09 Jul 2020 23:15:31 -0700 (PDT)
-Received: from [192.168.11.10] (cpe-173-175-113-3.satx.res.rr.com.
- [173.175.113.3])
- by smtp.gmail.com with ESMTPSA id r14sm937732otp.54.2020.07.09.23.15.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 23:15:31 -0700 (PDT)
-Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
-To: Doug Anderson <dianders@chromium.org>
-References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
- <20200710011935.GA7056@gentoo.org>
- <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
- <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
- <dc786abb-4bc2-2416-7ee5-de408aceb8f1@kali.org>
- <e0702671-3bed-9e3d-c7f4-d050c617eb65@kali.org>
- <bc795659-7dd6-c667-1c93-4331510ecfbc@kali.org>
- <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
-From: Steev Klimaszewski <steev@kali.org>
-Message-ID: <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
-Date: Fri, 10 Jul 2020 01:15:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2BA6EB6E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 06:28:27 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DF4C0AC5E;
+ Fri, 10 Jul 2020 06:28:24 +0000 (UTC)
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+References: <20200709193016.291267-1-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+Date: Fri, 10 Jul 2020 08:28:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 10 Jul 2020 07:52:58 +0000
+In-Reply-To: <20200709193016.291267-1-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,114 +38,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Steev Klimaszewski <steev@gentoo.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: sparclinux@vger.kernel.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, "David S. Miller" <davem@davemloft.net>
+Content-Type: multipart/mixed; boundary="===============1313423341=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiA3LzkvMjAgMTE6MTIgUE0sIERvdWcgQW5kZXJzb24gd3JvdGU6Cj4+IHJvb3RAYzYz
-MDp+IyBidXM9JChpMmNkZXRlY3QgLWwgfCBncmVwIHNuNjUgfCBzZWQgJ3MvaTJjLVwoWzAtOV0q
-XCkuKiQvXDEvJykKPj4gcm9vdEBjNjMwOn4jIGkyY2R1bXAgJHtidXN9IDB4NTAgaSA+IGVkaWQK
-Pj4gV0FSTklORyEgVGhpcyBwcm9ncmFtIGNhbiBjb25mdXNlIHlvdXIgSTJDIGJ1cywgY2F1c2Ug
-ZGF0YSBsb3NzIGFuZCB3b3JzZSEKPj4gSSB3aWxsIHByb2JlIGZpbGUgL2Rldi9pMmMtMTYsIGFk
-ZHJlc3MgMHg1MCwgbW9kZSBpMmMgYmxvY2sKPj4gQ29udGludWU/IFtZL25dCj4+IHJvb3RAYzYz
-MDp+IyBlZGlkLWRlY29kZSBlZGlkCj4+IGVkaWQtZGVjb2RlIChoZXgpOgo+Pgo+PiAwMCBmZiBm
-ZiBmZiBmZiBmZiBmZiAwMCAwOSBlNSBkMSAwNyAwMCAwMCAwMCAwMAo+PiAwMSAxYyAwMSAwNCBh
-NSAxZCAxMSA3OCAwYSAxZCBiMCBhNiA1OCA1NCA5ZSAyNgo+PiAwZiA1MCA1NCAwMCAwMCAwMCAw
-MSAwMSAwMSAwMSAwMSAwMSAwMSAwMSAwMSAwMQo+PiAwMSAwMSAwMSAwMSAwMSAwMSBjMCAzOSA4
-MCAxOCA3MSAzOCAyOCA0MCAzMCAyMAo+PiAzNiAwMCAyNiBhNSAxMCAwMCAwMCAxYSAwMCAwMCAw
-MCAwMCAwMCAwMCAwMCAwMAo+PiAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAxYSAwMCAwMCAw
-MCBmZSAwMCA0Mgo+PiA0ZiA0NSAyMCA0MyA1MSAwYSAyMCAyMCAyMCAyMCAyMCAyMCAwMCAwMCAw
-MCBmZQo+PiAwMCA0ZSA1NiAzMSAzMyAzMyA0NiA0OCA0ZCAyZCA0ZSAzNiAzMSAwYSAwMCA5YQo+
-Pgo+PiAwMyAyNiAwYSA3NyBhYiAxYyAwNSA3MSA2ZiAxZCA4YyBmMSA0MyBjZSA2YSBiYgo+PiBm
-YiBkMyAxMSAyMCAzOSAwNyAyMiA2ZSA2NSA2OCA3NyA3MCBkMyAwNSAzNCA3Mwo+PiA0NCAyMSA4
-YiBmZCBmNSA2ZCAxMSA2MiA5NCAyYSA3YyBmYSA5MyBiYSA2YSA2MQo+PiA5MiBkYSAxNSA1MyA0
-YyAzOSBlYiBmNyA4NiAyMyA5NyA0OCBlOSAzOSAwOSBkMgo+PiA2NiAwMiA3MCBiYiBlMiA3NyAw
-ZiA0YSBhMyBhMCA0YyA3MiA2ZSA1ZCA0NyA3MAo+PiA0MyBjMiAxMyBmMyBiMiBkOSBiOSA3OCAw
-MiBiZSA0MSA4MiAxNSA2YSAyOCBkYwo+PiA0NSAwZiA5ZCBlYiAwZiAyYSBjYyBlOCAzNSA4ZCAz
-NCA3ZiAzZSA4NCA1ZSBhMwo+PiAzMCA1ZSAxZSAyOSAwYSA0OCAwYyBkMSAwYSBjNCAwOCAzMSAw
-MyBhOSAzYiAyOQo+Pgo+PiAtLS0tLS0tLS0tLS0tLS0tCj4+Cj4+IEVESUQgdmVyc2lvbjogMS40
-Cj4+IE1hbnVmYWN0dXJlcjogQk9FIE1vZGVsIDIwMDEgU2VyaWFsIE51bWJlciAwCj4+IE1hZGUg
-aW4gd2VlayAxIG9mIDIwMTgKPj4gRGlnaXRhbCBkaXNwbGF5Cj4+IDggYml0cyBwZXIgcHJpbWFy
-eSBjb2xvciBjaGFubmVsCj4+IERpc3BsYXlQb3J0IGludGVyZmFjZQo+PiBNYXhpbXVtIGltYWdl
-IHNpemU6IDI5IGNtIHggMTcgY20KPj4gR2FtbWE6IDIuMjAKPj4gU3VwcG9ydGVkIGNvbG9yIGZv
-cm1hdHM6IFJHQiA0OjQ6NCwgWUNyQ2IgNDo0OjQKPj4gRmlyc3QgZGV0YWlsZWQgdGltaW5nIGlu
-Y2x1ZGVzIHRoZSBuYXRpdmUgcGl4ZWwgZm9ybWF0IGFuZCBwcmVmZXJyZWQKPj4gcmVmcmVzaCBy
-YXRlCj4+IENvbG9yIENoYXJhY3RlcmlzdGljcwo+PiAgICAgUmVkOiAgIDAuNjQ4NCwgMC4zNDQ3
-Cj4+ICAgICBHcmVlbjogMC4zMzEwLCAwLjYxODEKPj4gICAgIEJsdWU6ICAwLjE1MDMsIDAuMDYx
-NQo+PiAgICAgV2hpdGU6IDAuMzEyNSwgMC4zMjgxCj4+IEVzdGFibGlzaGVkIFRpbWluZ3MgSSAm
-IElJOiBub25lCj4+IFN0YW5kYXJkIFRpbWluZ3M6IG5vbmUKPj4gRGV0YWlsZWQgbW9kZTogQ2xv
-Y2sgMTQ3Ljg0MCBNSHosIDI5NCBtbSB4IDE2NSBtbQo+PiAgICAgICAgICAgICAgICAgIDE5MjAg
-MTk2OCAyMDAwIDIyMDAgKCA0OCAgMzIgMjAwKQo+PiAgICAgICAgICAgICAgICAgIDEwODAgMTA4
-MyAxMDg5IDExMjAgKCAgMyAgIDYgIDMxKQo+PiAgICAgICAgICAgICAgICAgICtoc3luYyAtdnN5
-bmMKPj4gICAgICAgICAgICAgICAgICBWZXJ0RnJlcTogNjAuMDAwIEh6LCBIb3JGcmVxOiA2Ny4y
-MDAga0h6Cj4+IE1hbnVmYWN0dXJlci1TcGVjaWZpZWQgRGlzcGxheSBEZXNjcmlwdG9yICgweDAw
-KTogMDAgMDAgMDAgMDAgMDAgMDAgMDAKPj4gMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMWEgIC4u
-Li4uLi4uLi4uLi4uLi4KPj4gQWxwaGFudW1lcmljIERhdGEgU3RyaW5nOiBCT0UgQ1EKPj4gQWxw
-aGFudW1lcmljIERhdGEgU3RyaW5nOiBOVjEzM0ZITS1ONjEKPj4gQ2hlY2tzdW06IDB4OWEKPj4K
-Pj4gLS0tLS0tLS0tLS0tLS0tLQo+Pgo+PiBVbmtub3duIEVESUQgRXh0ZW5zaW9uIEJsb2NrIDB4
-MDMKPj4gICAgIDAzIDI2IDBhIDc3IGFiIDFjIDA1IDcxIDZmIDFkIDhjIGYxIDQzIGNlIDZhIGJi
-IC4mLncuLi5xby4uLkMuai4KPj4gICAgIGZiIGQzIDExIDIwIDM5IDA3IDIyIDZlIDY1IDY4IDc3
-IDcwIGQzIDA1IDM0IDczICAuLi4gOS4ibmVod3AuLjRzCj4+ICAgICA0NCAyMSA4YiBmZCBmNSA2
-ZCAxMSA2MiA5NCAyYSA3YyBmYSA5MyBiYSA2YSA2MSBEIS4uLm0uYi4qfC4uLmphCj4+ICAgICA5
-MiBkYSAxNSA1MyA0YyAzOSBlYiBmNyA4NiAyMyA5NyA0OCBlOSAzOSAwOSBkMiAuLi5TTDkuLi4j
-LkguOS4uCj4+ICAgICA2NiAwMiA3MCBiYiBlMiA3NyAwZiA0YSBhMyBhMCA0YyA3MiA2ZSA1ZCA0
-NyA3MCBmLnAuLncuSi4uTHJuXUdwCj4+ICAgICA0MyBjMiAxMyBmMyBiMiBkOSBiOSA3OCAwMiBi
-ZSA0MSA4MiAxNSA2YSAyOCBkYyBDLi4uLi4ueC4uQS4uaiguCj4+ICAgICA0NSAwZiA5ZCBlYiAw
-ZiAyYSBjYyBlOCAzNSA4ZCAzNCA3ZiAzZSA4NCA1ZSBhMyBFLi4uLiouLjUuNC4+Ll4uCj4+ICAg
-ICAzMCA1ZSAxZSAyOSAwYSA0OCAwYyBkMSAwYSBjNCAwOCAzMSAwMyBhOSAzYiAyOSAwXi4pLkgu
-Li4uLjEuLjspCj4+IENoZWNrc3VtOiAweDI5IChzaG91bGQgYmUgMHg4MikKPj4KPj4KPj4gLSBN
-eSBlZGlkIGRvZXMgaW4gZmFjdCBzYXkgaXQncyA4Yml0Cj4gQ3JhenkhICBNaW5lOgo+Cj4gRXh0
-cmFjdGVkIGNvbnRlbnRzOgo+IGhlYWRlcjogICAgICAgICAgMDAgZmYgZmYgZmYgZmYgZmYgZmYg
-MDAKPiBzZXJpYWwgbnVtYmVyOiAgIDA5IGU1IDJkIDA4IDAwIDAwIDAwIDAwIDIzIDFjCj4gdmVy
-c2lvbjogICAgICAgICAwMSAwNAo+IGJhc2ljIHBhcmFtczogICAgOTUgMWQgMTEgNzggMDIKPiBj
-aHJvbWEgaW5mbzogICAgIGQ1IDAwIGE2IDU4IDU0IDlmIDI3IDBmIDRmIDU3Cj4gZXN0YWJsaXNo
-ZWQ6ICAgICAwMCAwMCAwMAo+IHN0YW5kYXJkOiAgICAgICAgMDEgMDEgMDEgMDEgMDEgMDEgMDEg
-MDEgMDEgMDEgMDEgMDEgMDEgMDEgMDEgMDEKPiBkZXNjcmlwdG9yIDE6ICAgIGMwIDM5IDgwIDE4
-IDcxIDM4IDI4IDQwIDMwIDIwIDM2IDAwIDI2IGE1IDEwIDAwIDAwIDFhCj4gZGVzY3JpcHRvciAy
-OiAgICAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MAo+IGRlc2NyaXB0b3IgMzogICAgMDAgMDAgMDAgZmUgMDAgNDIgNGYgNDUgMjAgNDMgNTEgMGEg
-MjAgMjAgMjAgMjAgMjAgMjAKPiBkZXNjcmlwdG9yIDQ6ICAgIDAwIDAwIDAwIGZlIDAwIDRlIDU2
-IDMxIDMzIDMzIDQ2IDQ4IDRkIDJkIDRlIDM2IDMyIDBhCj4gZXh0ZW5zaW9uczogICAgICAwMAo+
-IGNoZWNrc3VtOiAgICAgICAgNDAKPgo+IE1hbnVmYWN0dXJlcjogQk9FIE1vZGVsIDgyZCBTZXJp
-YWwgTnVtYmVyIDAKPiBNYWRlIHdlZWsgMzUgb2YgMjAxOAo+IEVESUQgdmVyc2lvbjogMS40Cj4g
-RGlnaXRhbCBkaXNwbGF5Cj4gNiBiaXRzIHBlciBwcmltYXJ5IGNvbG9yIGNoYW5uZWwKPiBEaXNw
-bGF5UG9ydCBpbnRlcmZhY2UKPiBNYXhpbXVtIGltYWdlIHNpemU6IDI5IGNtIHggMTcgY20KPiBH
-YW1tYTogMi4yMAo+IFN1cHBvcnRlZCBjb2xvciBmb3JtYXRzOiBSR0IgNDo0OjQKPiBGaXJzdCBk
-ZXRhaWxlZCB0aW1pbmcgaXMgcHJlZmVycmVkIHRpbWluZwo+IEVzdGFibGlzaGVkIHRpbWluZ3Mg
-c3VwcG9ydGVkOgo+IFN0YW5kYXJkIHRpbWluZ3Mgc3VwcG9ydGVkOgo+IERldGFpbGVkIG1vZGU6
-IENsb2NrIDE0Ny44NDAgTUh6LCAyOTQgbW0geCAxNjUgbW0KPiAgICAgICAgICAgICAgICAgMTky
-MCAxOTY4IDIwMDAgMjIwMCBoYm9yZGVyIDAKPiAgICAgICAgICAgICAgICAgMTA4MCAxMDgzIDEw
-ODkgMTEyMCB2Ym9yZGVyIDAKPiAgICAgICAgICAgICAgICAgK2hzeW5jIC12c3luYwo+IE1hbnVm
-YWN0dXJlci1zcGVjaWZpZWQgZGF0YSwgdGFnIDAKPiBBU0NJSSBzdHJpbmc6IEJPRQo+IEFTQ0lJ
-IHN0cmluZzogTlYxMzNGSE0tTjYyCj4gQ2hlY2tzdW06IDB4NDAgKHZhbGlkKQo+Cj4gVW5rbm93
-biBleHRlbnNpb24gYmxvY2sKPgo+IEVESUQgYmxvY2sgZG9lcyBOT1QgY29uZm9ybSB0byBFRElE
-IDEuMyEKPiAgICAgICAgICBNaXNzaW5nIG5hbWUgZGVzY3JpcHRvcgo+ICAgICAgICAgIE1pc3Np
-bmcgbW9uaXRvciByYW5nZXMKPiAgICAgICAgICBEZXRhaWxlZCBibG9jayBzdHJpbmcgbm90IHBy
-b3Blcmx5IHRlcm1pbmF0ZWQKPiBFRElEIGJsb2NrIGRvZXMgbm90IGNvbmZvcm0gYXQgYWxsIQo+
-ICAgICAgICAgIEhhcyAxMjggbm9uY29uZm9ybWFudCBleHRlbnNpb24gYmxvY2socykKCkkgZGlk
-IGF0dGVtcHQgdG8gbW9kaWZ5IHRoZSBwYXRjaCwgYW5kIEkgZG9uJ3QgdGhpbmsgSSBkaWQgaXQg
-Y29ycmVjdGx5CgpBcm91bmQgbGluZSAyMzIsIEkgY2hhbmdlZAoKSVNfU0M3MTgwX1RBUkdFVChj
-LT5ody5od3ZlcnNpb24pKQoKdG8KCklTX1NDNzE4MF9UQVJHRVQoYy0+aHcuaHd2ZXJzaW9uKSB8
-fAoKSVNfU0RNODQ1X1RBUkdFVChjLT5ody5od3ZlcnNpb24pKQoKCkJ1dCBpdCB3b3VsZCBzZWVt
-IHRoYXQgb25seSBnZXRzIHVzIDEvMiB3YXkgdGhlcmUuLi4KCmh0dHBzOi8vZGV2LmdlbnRvby5v
-cmcvfnN0ZWV2L2ZpbGVzL2ltYWdlMi5qcGcKCgpCdXQgc2hvdWxkIEkgY29udGludWUgb24gdGhp
-cyBwYXRoLCBvciBzaG91bGQgd2UgYmUgZmluZGluZyBvdGhlcnMgd2hvIApoYXZlIGFuIE42MSBh
-bmQgc2VlIHdoYXQgdGhlaXIgRURJRCByZXBvcnRzPwoKSSBoYXZlIGFub3RoZXIgYzYzMCwgYnV0
-IHVuZm9ydHVuYXRlbHksIGl0IGFwcGVhcnMgdG8gaGF2ZSB0aGUgSVZPIApzY3JlZW4gaW4gaXQs
-IGluc3RlYWQgb2YgYW5vdGhlciBONjEuwqAgSSBhc2tlZCBhbm90aGVyIHVzZXIgYW5kIGhlIGFs
-c28gCmhhZCB0aGUgSVZPLgoKLS0gc3RlZXYKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1313423341==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="PH8cRnOCkTaFLVPbHBLV0oa1JCyvUrVDc"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--PH8cRnOCkTaFLVPbHBLV0oa1JCyvUrVDc
+Content-Type: multipart/mixed; boundary="RsJANgEUq0jelz8BFBgDCcTyPyCYJh2Sf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ sparclinux@vger.kernel.org
+Message-ID: <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+References: <20200709193016.291267-1-sam@ravnborg.org>
+In-Reply-To: <20200709193016.291267-1-sam@ravnborg.org>
+
+--RsJANgEUq0jelz8BFBgDCcTyPyCYJh2Sf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
+> Mark reported that sparc64 would panic while booting using qemu.
+> Mark bisected this to a patch that introduced generic fbdev emulation t=
+o
+> the bochs DRM driver.
+> Mark pointed out that a similar bug was fixed before where
+> the sys helpers was replaced by cfb helpers.
+>=20
+> The culprint here is that the framebuffer reside in IO memory which
+> requires SPARC ASI_PHYS (physical) loads and stores.
+>=20
+> The current bohcs DRM driver uses a shadow buffer.
+> So all copying to the framebuffer happens in
+> drm_fb_helper_dirty_blit_real().
+>=20
+> The fix is to replace the memcpy with memcpy_toio() from io.h.
+>=20
+> memcpy_toio() uses writeb() where the original fbdev code
+> used sbus_memcpy_toio(). The latter uses sbus_writeb().
+>=20
+> The difference between writeb() and sbus_memcpy_toio() is
+> that writeb() writes bytes in little-endian, where sbus_writeb() writes=
+
+> bytes in big-endian. As endian does not matter for byte writes they are=
+
+> the same. So we can safely use memcpy_toio() here.
+>=20
+> For many architectures memcpy_toio() is a simple memcpy().
+> One sideeffect that is unknow is if this has any impact on other
+> architectures.
+> So far the analysis tells that this change is OK for other arch's.
+> but testing would be good.
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: sparclinux@vger.kernel.org
+
+So this actually is a problem in practice. Do you know how userspace
+handles this?
+
+For this patch
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+but I'd like to have someone with more architecture expertise ack this
+as well.
+
+Best regards
+Thomas
+
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
+elper.c
+> index 5609e164805f..4d05b0ab1592 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct dr=
+m_fb_helper *fb_helper,
+>  	unsigned int y;
+> =20
+>  	for (y =3D clip->y1; y < clip->y2; y++) {
+> -		memcpy(dst, src, len);
+> +		memcpy_toio(dst, src, len);
+>  		src +=3D fb->pitches[0];
+>  		dst +=3D fb->pitches[0];
+>  	}
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--RsJANgEUq0jelz8BFBgDCcTyPyCYJh2Sf--
+
+--PH8cRnOCkTaFLVPbHBLV0oa1JCyvUrVDc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8ICocUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOWQQf9G3fcmhGdnaUUOgIOz0YLGOwKo8LO
+bsUzak9Uee+FXwO7fgVZBOXf827nRUpnEAMeB2YpSD/qy1lpEYZ/zrJS+tV0wc1A
+RUUVvBFAOtOC32PCzUPzEoRlpjGk2FBlr6UQMqPfXaQFwRIeWeo+ICcMB+WoKbm/
+GH2X82kTqwEg775iFxBfA0kSWF7wcI7PZswaFRUEBoVx0zhVBEmUWs6/kfW5Orsk
+2z2NqKP65BuJoAJ+EfFpEuAFDYPop30ip/ukHAJtradlljJjtQwFjg9cbkkrUG6O
+zr7H6lT/1iCbCtWRADed/bjrCAoLe/YSqACG1xc05splErGT6ASQAbe41w==
+=iAQZ
+-----END PGP SIGNATURE-----
+
+--PH8cRnOCkTaFLVPbHBLV0oa1JCyvUrVDc--
+
+--===============1313423341==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1313423341==--
