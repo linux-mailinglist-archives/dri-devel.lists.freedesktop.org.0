@@ -2,62 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28ECF21ACF1
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 04:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA9F21AD0C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 04:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434A86EB59;
-	Fri, 10 Jul 2020 02:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 474536EB5C;
+	Fri, 10 Jul 2020 02:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 056646EB59
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 02:14:55 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id e15so2181601vsc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 19:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4Hywc1x9A6pr0CRt+2NvKzTMAzPWDqqcQzWTAgr3WdA=;
- b=FqMpvwwCb9dpe7UBryM/EcOozRX1lwFdrdBzi6xzDnEKZh2OoMEtN2fjbqcDCUrTRA
- G/uqyZ8phkRmpHCnbtDwt4L9W1fAWzn3ef/hbpBNScSTumoNlfxcimfhrs002pQgYYMO
- C5wNeccogggNi/MBtl9XYVeMhj+5M8PkPDZAA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4Hywc1x9A6pr0CRt+2NvKzTMAzPWDqqcQzWTAgr3WdA=;
- b=bwQkTEEFT/IWG1jDScUeBRTDR0D0cnxXAyhBJSVc+tVv6ABDlX0lHOw7zLQEAQ0DK6
- gBllvo3p7rpA9Y9WM+/L/7UzLPLHs4ren0r9TZn5ThrqdNYOY2/EJ6Niji1UAJOtxHmo
- Iao96FimbiF7Bxfy+GjDV5qvpNGfmHHPR7kdehJzMrkXwyV3Wjjmf3IUf2DhKwg7votJ
- CGyj9E99uelpo6e+xhXrnT75m1KJG/Tc/B6PJVXQmxZWsyj4xwAZA4nrjHzYtP7yImnC
- ONcpgfpAxzjNo6xfgL3lJA/EKQkMCvKk8WFOiQG30uaVbHyjnyCfMRtftGsDbKCKKhEc
- 5MOA==
-X-Gm-Message-State: AOAM530ZUOml+ZDNRD2g8XA3mztloDUJG8+S9+xO9IlNlAYWT76zfnQX
- 9Tvyk8PkLA1rsyXLDg92qEoHILJeR0M=
-X-Google-Smtp-Source: ABdhPJxMxHNylnfBxzPFiTjF+0OAqijdEsJV0lcVBHuun6fW0PhVe1thHjaKxRsSJF2kBVQEWPIrZw==
-X-Received: by 2002:a67:f8da:: with SMTP id c26mr39178571vsp.204.1594347293702; 
- Thu, 09 Jul 2020 19:14:53 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com.
- [209.85.222.49])
- by smtp.gmail.com with ESMTPSA id g10sm691234vkm.35.2020.07.09.19.14.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jul 2020 19:14:52 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id o25so1358066uar.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jul 2020 19:14:51 -0700 (PDT)
-X-Received: by 2002:ab0:6e8e:: with SMTP id b14mr54133636uav.0.1594347291225; 
- Thu, 09 Jul 2020 19:14:51 -0700 (PDT)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 055096EB5C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 02:28:30 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4B2xmV71xPz9sT6;
+ Fri, 10 Jul 2020 12:28:26 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1594348108;
+ bh=3UhviLMUqD9vkJnzTQoViNLx2PeG7wMUIHUZ6W92kz4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=fNBpOMlqVvVei7QiZfgZbCobi7jQNQp0YVejBN+Qo/7shqN1tkIHok6AoobT160w3
+ UldU1/qC88VzKixAXIoca0pOpQ0Q4a1x1PHXucDMH12kd7PhP18gtooi0ZuOy1T9l3
+ coP15P5zrGjxgb2eiOwHLzr+6Q6hwKS3swEHVB46lRwczxxGU9N4PmI0gkkcPEBA2p
+ YKOqcqLbVmNhdQiE+YIlOaM9Ne9EpE6hopk3DJv+JNUxn93lRF2K7v5oR1wm/yJNFS
+ XVd/Fm4k0NmCPUj8GXU4C042h247KQhfb7kr70Gu9VPVjMWL9GrZVqatKMVndRgWbu
+ ZoME1IzD92xbg==
+Date: Fri, 10 Jul 2020 12:28:24 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
+Message-ID: <20200710122824.3fe55d0c@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
- <20200710011935.GA7056@gentoo.org>
- <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
-In-Reply-To: <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 9 Jul 2020 19:14:40 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
-Message-ID: <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
-To: steev@kali.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +46,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Steev Klimaszewski <steev@gentoo.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, Emily Deng <Emily.Deng@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Huang Rui <ray.huang@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0153383476=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--===============0153383476==
+Content-Type: multipart/signed; boundary="Sig_/C0Nb2/ZIyty39cOe0lCugE.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Thu, Jul 9, 2020 at 6:38 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Thu, Jul 9, 2020 at 6:19 PM Steev Klimaszewski <steev@gentoo.org> wrote:
-> >
-> > Hi Doug,
-> >
-> > I've been testing 5.8 and linux-next on the Lenovo Yoga C630, and with this patch applied, there is really bad banding on the display.
-> >
-> > I'm really bad at explaining it, but you can see the differences in the following:
-> >
-> > 24bit (pre-5.8) - https://dev.gentoo.org/~steev/files/image0.jpg
-> >
-> > 18bit (5.8/linux-next) - https://dev.gentoo.org/~steev/files/image1.jpg
->
-> Presumably this means that your panel is defined improperly?  If the
-> panel reports that it's a 6 bits per pixel panel but it's actually an
-> 8 bits per pixel panel then you'll run into this problem.
->
-> I would have to assume you have a bunch of out of tree patches to
-> support your hardware since I don't see any device trees in linuxnext
-> (other than cheza) that use this bridge chip.  Otherwise I could try
-> to check and confirm that was the problem.
+--Sig_/C0Nb2/ZIyty39cOe0lCugE.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Ah, interesting.  Maybe you have the panel:
+Hi all,
 
-boe,nv133fhm-n61
+Today's linux-next merge of the drm tree got a conflict in:
 
-As far as I can tell from the datasheet (I have the similar
-boe,nv133fhm-n62) this is a 6bpp panel.  ...but if you feed it 8bpp
-the banding goes away!  Maybe the panel itself knows how to dither???
-...or maybe the datasheet / edid are wrong and this is actually an
-8bpp panel.  Seems unlikely...
+  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
 
-In any case, one fix is to pick
-<https://lore.kernel.org/dri-devel/1593087419-903-1-git-send-email-kalyan_t@codeaurora.org/>,
-though right now that patch is only enabled for sc7180.  Maybe you
-could figure out how to apply it to your hardware?
+between commit:
 
-...another fix would be to pretend that your panel is 8bpp even though
-it's actually 6bpp.  Ironically if anyone ever tried to configure BPP
-from the EDID they'd go back to 6bpp.  You can read the EDID of your
-panel with this:
+  c564b8601ae9 ("drm/amdgpu: add TMR destory function for psp")
 
-bus=$(i2cdetect -l | grep sn65 | sed 's/i2c-\([0-9]*\).*$/\1/')
-i2cdump ${bus} 0x50 i
+from the drm-fixes tree and commit:
 
-When I do that and then decode it on the "boe,nv133fhm-n62" panel, I find:
+  3bda8acd974e ("drm/amdgpu/sriov: Add clear vf fw support")
 
-6 bits per primary color channel
+from the drm tree.
 
--Doug
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index ef3269c43d4f,9342a9e8cadf..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@@ -1825,6 -1866,9 +1912,7 @@@ static int psp_hw_fini(void *handle
+  {
+  	struct amdgpu_device *adev =3D (struct amdgpu_device *)handle;
+  	struct psp_context *psp =3D &adev->psp;
+ -	void *tmr_buf;
+ -	void **pptr;
++ 	int ret;
+ =20
+  	if (psp->adev->psp.ta_fw) {
+  		psp_ras_terminate(psp);
+@@@ -1833,10 -1877,16 +1921,15 @@@
+  	}
+ =20
+  	psp_asd_unload(psp);
++ 	ret =3D psp_clear_vf_fw(psp);
++ 	if (ret) {
++ 		DRM_ERROR("PSP clear vf fw!\n");
++ 		return ret;
++ 	}
+ =20
+ +	psp_tmr_terminate(psp);
+  	psp_ring_destroy(psp, PSP_RING_TYPE__KM);
+ =20
+ -	pptr =3D amdgpu_sriov_vf(psp->adev) ? &tmr_buf : NULL;
+ -	amdgpu_bo_free_kernel(&psp->tmr_bo, &psp->tmr_mc_addr, pptr);
+  	amdgpu_bo_free_kernel(&psp->fw_pri_bo,
+  			      &psp->fw_pri_mc_addr, &psp->fw_pri_buf);
+  	amdgpu_bo_free_kernel(&psp->fence_buf_bo,
+
+--Sig_/C0Nb2/ZIyty39cOe0lCugE.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl8H0kgACgkQAVBC80lX
+0GziFgf/cZ3jHfAxtm69nBK92mdd+xv+aTRVOenQo+j4VyZw3RWEemvVG5FQBl/b
+FyJ5ZC0zlBZ9lknvf2PGB0ibK7r1RDGHrPf6hu/zzNu+Lu4pGsQw9GKQ9Y7yA1Md
+qmG11mKoI6fC82UqvvlEELbTNcJWV2YdlOyqRhCQsKf+JOkjjjSumQ6oOai6laUG
+CCrdgab3hZCCi8aBe9SPIISUHA+TZqt9Y4i7+ZOPqmM1SbEEGI7/DsEHQDnSQ6xt
+7AYWe6n0bALfwUaV11luAl9Qsb5aItB7EcsOHadzgNUbTupkecmfyNhHF6UUZFio
+ZyC2oKv2Iq/gIUfv47L+cxoPCX9STQ==
+=jkn0
+-----END PGP SIGNATURE-----
+
+--Sig_/C0Nb2/ZIyty39cOe0lCugE.--
+
+--===============0153383476==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0153383476==--
