@@ -1,36 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298FC21E8E8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5628021E94E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CA106E904;
-	Tue, 14 Jul 2020 07:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF7B6E924;
+	Tue, 14 Jul 2020 07:02:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.al2klimov.de (smtp.al2klimov.de
- [IPv6:2a01:4f8:c0c:1465::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D579B6ECCA
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 18:15:42 +0000 (UTC)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by smtp.al2klimov.de (Postfix) with ESMTPA id E2427BC0CB;
- Fri, 10 Jul 2020 18:15:38 +0000 (UTC)
-Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: BACKLIGHT
- CLASS/SUBSYSTEM
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200708163847.15250-1-grandmaster@al2klimov.de>
- <20200710173533.GD17565@ravnborg.org>
-From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Message-ID: <71396370-b68d-1409-fa08-0020c6417f34@al2klimov.de>
-Date: Fri, 10 Jul 2020 20:15:38 +0200
-MIME-Version: 1.0
-In-Reply-To: <20200710173533.GD17565@ravnborg.org>
-Content-Language: en-US
-Authentication-Results: smtp.al2klimov.de;
- auth=pass smtp.auth=aklimov@al2klimov.de
- smtp.mailfrom=grandmaster@al2klimov.de
-X-Spamd-Bar: /
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689156ED37
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 22:41:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1594420864; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=vtmcg9y3utHjV10IFgZiIry9hswQAoCk/nvV3VJg7Cw=;
+ b=OZcHjBzbN3OJRDd8deC2/nEisX1pxznYzFHnve7rLJxAb9w2Rxxldl/dgfk9rhP/HgYwlW31
+ hfucZWv6Q+yW5xY6Flo5E1cm7MSmODpb17fhk0yKbcfhW7Br9NlsipyBVQW9VZRfDcAF/35Q
+ mZS5N/5LORXXZNpUAAASMRhs8F4=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n11.prod.us-east-1.postgun.com with SMTP id
+ 5f08ee68d3d6508422fb42cd (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 10 Jul 2020 22:40:40
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id B0C81C433C6; Fri, 10 Jul 2020 22:40:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from cohens-linux.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com
+ [129.46.232.65])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: cohens)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A39CDC433C8;
+ Fri, 10 Jul 2020 22:40:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A39CDC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=cohens@codeaurora.org
+From: Steve Cohen <cohens@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Subject: [PATCH] drm: hold gem reference until object is no longer accessed
+Date: Fri, 10 Jul 2020 18:40:26 -0400
+Message-Id: <1594420826-4897-1-git-send-email-cohens@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Tue, 14 Jul 2020 07:02:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,93 +66,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lee.jones@linaro.org
+Cc: adelva@google.com, seanpaul@chromium.org, pdhaval@codeaurora.org,
+ Steve Cohen <cohens@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+BUG: KASAN: use-after-free in drm_gem_open_ioctl
 
+There is potential for use-after-free here if the GEM object
+handle is closed between the idr lookup and retrieving the size
+from the object since a local reference is not being held at that
+point. Hold the local reference while the object can still be
+accessed to resolve this.
 
-Am 10.07.20 um 19:35 schrieb Sam Ravnborg:
-> Hi Alexander.
-Hi,
+Signed-off-by: Steve Cohen <cohens@codeaurora.org>
+---
+ drivers/gpu/drm/drm_gem.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> 
-> On Wed, Jul 08, 2020 at 06:38:47PM +0200, Alexander A. Klimov wrote:
->> Rationale:
->> Reduces attack surface on kernel devs opening the links for MITM
->> as HTTPS traffic is much harder to manipulate.
->>
->> Deterministic algorithm:
->> For each file:
->>    If not .svg:
->>      For each line:
->>        If doesn't contain `\bxmlns\b`:
->>          For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->>              If both the HTTP and HTTPS versions
->>              return 200 OK and serve the same content:
->>                Replace HTTP with HTTPS.
->>
->> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
->> ---
->>   Continuing my work started at 93431e0607e5.
->>   See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->>   (Actually letting a shell for loop submit all this stuff for me.)
->>
->>   If there are any URLs to be removed completely or at least not HTTPSified:
->>   Just clearly say so and I'll *undo my change*.
->>   See also: https://lkml.org/lkml/2020/6/27/64
->>
->>   If there are any valid, but yet not changed URLs:
->>   See: https://lkml.org/lkml/2020/6/26/837
->>
->>   If you apply the patch, please let me know.
->>
->>
->>   drivers/video/backlight/led_bl.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
->> index 3f66549997c8..2c48957e9b60 100644
->> --- a/drivers/video/backlight/led_bl.c
->> +++ b/drivers/video/backlight/led_bl.c
->> @@ -1,6 +1,6 @@
->>   // SPDX-License-Identifier: GPL-2.0
->>   /*
->> - * Copyright (C) 2015-2019 Texas Instruments Incorporated -  http://www.ti.com/
->> + * Copyright (C) 2015-2019 Texas Instruments Incorporated -  https://www.ti.com/
->>    * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
->>    *
->>    * Based on pwm_bl.c
-> 
-> $grep http drivers/video/backlight/*
-> drivers/video/backlight/cr_bllcd.c: * Intel funded Tungsten Graphics (http://www.tungstengraphics.com) to
-> drivers/video/backlight/ili9320.c: *	http://armlinux.simtec.co.uk/
-> drivers/video/backlight/ili9320.h: * http://armlinux.simtec.co.uk/
-> drivers/video/backlight/led_bl.c: * Copyright (C) 2015-2019 Texas Instruments Incorporated -  http://www.ti.com/
-> drivers/video/backlight/vgg2432a4.c: *	http://armlinux.simtec.co.uk/
-> 
-> Why are they not covered?
-Didn't check them, but likely because they're new.
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 7bf628e..4b2891c 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -898,14 +898,15 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+ 
+ 	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
+ 	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
+-	drm_gem_object_put_unlocked(obj);
+ 	if (ret)
+-		return ret;
++		goto out;
+ 
+ 	args->handle = handle;
+ 	args->size = obj->size;
+ 
+-	return 0;
++out:
++	drm_gem_object_put_unlocked(obj);
++	return ret;
+ }
+ 
+ /**
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Don't worry, I'll do a second scan once the results of this one get into 
-master.
-
-> 
-> 	Sam
-> 
-> 
->> -- 
->> 2.27.0
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
