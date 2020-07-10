@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455EB21BBBF
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 19:05:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD4721BBDA
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 19:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBF366E209;
-	Fri, 10 Jul 2020 17:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFF96EC95;
+	Fri, 10 Jul 2020 17:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44DBF6E209
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:05:41 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id o11so6699269wrv.9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 10:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=93AVI2QoBAEmAqBGfFTWCA/a6MgEBTx5yqqj7c1xOd0=;
- b=SGZ+JtJlaFBv11yuKiq6semZUeibR6h4e8fA7pdOBGjb3+J8yqRTJFURAMksjcK6+n
- urnCtDBpZiZynCbSW1OcKUoM6jK13muadzTTFvzTbPdsQ6B8K2HdnHEj6hrSHXQ0HpjG
- mQt1ZepaXEMarLUXc2AHGSobIMLA8g1rWJPFwJ+P2Ewfz4T4nOne8l0ELVg1d/dYDxJt
- jyA/2a7q/rDSyiMayTWHMnxli1uUqXdmhiU69K9D1o3+pxkRRw0DJYhfF2XU7UrEqfhu
- naiLeqa8fkDsXD4Of9roNMA7a7i/wj5h71jyDCLK+s8uEXafKl4ZrdgF3jpykmyXQtlu
- PiFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=93AVI2QoBAEmAqBGfFTWCA/a6MgEBTx5yqqj7c1xOd0=;
- b=M1rd1HX2dcXrcg6kMkIgo9uHX6LKU53OMO8LfV+YUp85pm2qgwRsBQVYgXslvtIMid
- D6LQq3P+aKWXml9I4afvFakE33dRZYZxw2zjIy40t/dJOogBq61VfHJ8hCy7z2wm+cNQ
- v+WUD8vdTrpwWrS3LP77E8YkqXdI8dWMO1oxc33K3qfR8BPZ+3BXQIuRpxlBRMKJTKwl
- d38xphMB28LBQaL3saS1KR/EOgezdgcboXc3pY/qPVEW2xfGfxw/dOJ3ux+yJaWmdKOJ
- ypjrqK9k8LfB/Ri++/kmaxTHJdNTxQXJdngFxHzLuGt7yNUJ4Yibs4L2SfFWR/yDHZdZ
- 8nYw==
-X-Gm-Message-State: AOAM532xV1xgR6PMpDiOzh8ZgRanug9DKX8bDfovxSUfWqg3KS7pZJRg
- b+VOrd1fvJFRhrmGaNJiEmU=
-X-Google-Smtp-Source: ABdhPJx1UxxkLEdprdW3mDWVo+KqPIchfniOsIMY3EYh0jN3bRqGm0+KSSjajUGLHSDx1ePvHdanQQ==
-X-Received: by 2002:adf:f608:: with SMTP id t8mr70444597wrp.308.1594400739927; 
- Fri, 10 Jul 2020 10:05:39 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id o29sm11825132wra.5.2020.07.10.10.05.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 10:05:39 -0700 (PDT)
-Date: Fri, 10 Jul 2020 14:05:33 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/vkms: add wait_for_vblanks in atomic_commit_tail
-Message-ID: <20200710170533.xn2ar2cpekom6i2n@smtp.gmail.com>
-References: <20200701153134.4187-1-realwakka@gmail.com>
- <20200702131355.GX3278063@phenom.ffwll.local>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27D86EC95
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:08:12 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1594400897; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=FwNg3e/t161QXeNlfj8RjjHMHRPeaUVntsu2CE4ozZ0=;
+ b=vxMRdOXiD9/Tf0cNbtGX/sdaj2Sb40FGFI09YLMjbfIx1zulzkT4PmjBdEva4xo2CoLFD8r/
+ GcYWcEzlRf/kv5oNs9cxw8bD6Xkl/JUPXFX/u1Dh/JgErc8DgVeK/S69VqAnN55qjEE7YG3u
+ vYswq5jAir28t7NP+XYqTnRxI80=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 5f08a06ec7a053446a6125e8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 10 Jul 2020 17:07:58
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id ADA30C433CA; Fri, 10 Jul 2020 17:07:57 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 68BE5C433C6;
+ Fri, 10 Jul 2020 17:07:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200702131355.GX3278063@phenom.ffwll.local>
+Date: Fri, 10 Jul 2020 10:07:56 -0700
+From: tanmay@codeaurora.org
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v8 0/6] Add support for DisplayPort driver on SnapDragon
+In-Reply-To: <20200709202110.GA814782@bogus>
+References: <20200630184507.15589-1-tanmay@codeaurora.org>
+ <20200709202110.GA814782@bogus>
+Message-ID: <2e867e903db9be91a988a37b7508abd0@codeaurora.org>
+X-Sender: tanmay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +63,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sidong Yang <realwakka@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, aravindh@codeaurora.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ abhinavk@codeaurora.org, varar@codeaurora.org, freedreno@lists.freedesktop.org,
+ sam@ravnborg.org, chandanu@codeaurora.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02, Daniel Vetter wrote:
-> On Wed, Jul 01, 2020 at 03:31:34PM +0000, Sidong Yang wrote:
-> > there is an error when igt test is run continuously. vkms_atomic_commit_tail()
-> > need to call drm_atomic_helper_wait_for_vblanks() for give up ownership of
-> > vblank events. without this code, next atomic commit will not enable vblank
-> > and raise timeout error.
-> > 
-> > Signed-off-by: Sidong Yang <realwakka@gmail.com>
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> > index 1e8b2169d834..10b9be67a068 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > @@ -93,6 +93,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
-> >  		flush_work(&vkms_state->composer_work);
-> >  	}
-> >  
-> > +	drm_atomic_helper_wait_for_vblanks(dev, old_state);
+Thanks for reviews Rob.
+
+On 2020-07-09 13:21, Rob Herring wrote:
+> On Tue, Jun 30, 2020 at 11:45:01AM -0700, Tanmay Shah wrote:
+>> These patches add Display-Port driver on SnapDragon/msm hardware.
+>> This series also contains device-tree bindings for msm DP driver.
+>> It also contains Makefile and Kconfig changes to compile msm DP 
+>> driver.
+>> 
+>> The block diagram of DP driver is shown below:
+>> 
+>> 
+>>                  +-------------+
+>>                  |DRM FRAMEWORK|
+>>                  +------+------+
+>>                         |
+>>                    +----v----+
+>>                    | DP DRM  |
+>>                    +----+----+
+>>                         |
+>>                    +----v----+
+>>      +------------+|   DP    +----------++------+
+>>      +        +---+| DISPLAY |+---+      |      |
+>>      |        +    +-+-----+-+    |      |      |
+>>      |        |      |     |      |      |      |
+>>      |        |      |     |      |      |      |
+>>      |        |      |     |      |      |      |
+>>      v        v      v     v      v      v      v
+>>  +------+ +------+ +---+ +----+ +----+ +---+ +-----+
+>>  |  DP  | |  DP  | |DP | | DP | | DP | |DP | | DP  |
+>>  |PARSER| | HPD  | |AUX| |LINK| |CTRL| |PHY| |POWER|
+>>  +--+---+ +---+--+ +---+ +----+ +--+-+ +-+-+ +-----+
+>>     |                              |     |
+>>  +--v---+                         +v-----v+
+>>  |DEVICE|                         |  DP   |
+>>  | TREE |                         |CATALOG|
+>>  +------+                         +---+---+
+>>                                       |
+>>                                   +---v----+
+>>                                   |CTRL/PHY|
+>>                                   |   HW   |
+>>                                   +--------+
+>> 
+>> Changes in v7:
+>> 
+>> - Modify cover letter description and fix title.
+>> - Introduce dp-controller.yaml for common bindings across SOC
+>> - Rename dp-sc7180.yaml to dp-controller-sc7180.yaml for SC7180 
+>> bindings
+>> - Rename compatible string to qcom,sc7180-dp
+>> - Add assigned-clocks and assigned-clock-parents properties in 
+>> bindings
+>> - Remove redundant code from driver
+>> - Extend series to include HPD detection logic
+>> 
+>> Changes in v8:
+>> 
+>> - Add MDSS AHB clock in bindings
+>> - Replace mode->vrefresh use with drm_mode_vrefresh API
+>> - Remove redundant aux config code from parser and aux module
+>> - Assign default max lanes if data-lanes property is not available
+>> - Fix use-after-free during DP driver remove
+>> - Unregister hardware clocks during driver cleanup
+>> 
+>> This series depends-on:
+>> 	https://patchwork.freedesktop.org/patch/366159/
 > 
-> Uh, we have a wait_for_flip_done right above, which should be doing
-> exactly the same, but more precisely: Instead of just waiting for any
-> vblank to happen, we wait for exactly the vblank corresponding to this
-> atomic commit. So no races possible. If this is papering over some issue,
-> then I think more debugging is needed.
+> If a single patch is a dependency, please coordinate your work and send
+> as 1 series.
 > 
-> What exactly is going wrong here for you?
-
-Hi Daniel and Sidong,
-
-I noticed a similar issue when running the IGT test kms_cursor_crc. For
-example, a subtest that passes on the first run (alpha-opaque) fails on
-the second due to a kind of busy waiting in subtest preparation (the
-subtest fails before actually running).
-
-In addition, in the same test, the dpms subtest started to fail since
-the commit that change from wait_for_vblanks to wait_for_flip_done. By
-reverting this commit, the dpms subtest passes again and the sequential
-subtests return to normal.
-
-I am trying to figure out what's missing from using flip_done op on
-vkms, since I am also interested in solving this problem and I
-understand that the change for flip_done has been discussed in the past.
-
-Do you have any idea?
-
-Melissa
-
-> -Daniel
+> To put it another way, I'm just going to ignore this series until the
+> dependency is sorted out.
+Sure I will wait till previous patch is resolved.
 > 
-> > +
-> >  	drm_atomic_helper_cleanup_planes(dev, old_state);
-> >  }
-> >  
-> > -- 
-> > 2.17.1
-> > 
+>> 	https://patchwork.freedesktop.org/patch/369859/
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Probably the same goes for this too, but I care less as it's not the
+> binding...
+Above patch is not compile time dependency, but without it we see issues 
+during runtime.
+So will be removed from dependency list.
+Thanks.
+> 
+>> 
+>> Chandan Uddaraju (4):
+>>   dt-bindings: msm/dp: add bindings of DP/DP-PLL driver for Snapdragon
+>>   drm: add constant N value in helper file
+>>   drm/msm/dp: add displayPort driver support
+>>   drm/msm/dp: add support for DP PLL driver
+>> 
+>> Jeykumar Sankaran (1):
+>>   drm/msm/dpu: add display port support in DPU
+>> 
+>> Tanmay Shah (1):
+>>   drm/msm/dp: Add Display Port HPD feature
+>> 
+>>  .../display/msm/dp-controller-sc7180.yaml     |  144 ++
+>>  .../bindings/display/msm/dp-controller.yaml   |   61 +
+>>  .../bindings/display/msm/dpu-sc7180.yaml      |   11 +
+>>  drivers/gpu/drm/i915/display/intel_display.c  |    2 +-
+>>  drivers/gpu/drm/msm/Kconfig                   |   16 +
+>>  drivers/gpu/drm/msm/Makefile                  |   14 +
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   29 +-
+>>  .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |    8 +
+>>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   83 +-
+>>  drivers/gpu/drm/msm/dp/dp_aux.c               |  510 +++++
+>>  drivers/gpu/drm/msm/dp/dp_aux.h               |   29 +
+>>  drivers/gpu/drm/msm/dp/dp_catalog.c           | 1060 ++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_catalog.h           |  104 +
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.c              | 1707 
+>> +++++++++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.h              |   35 +
+>>  drivers/gpu/drm/msm/dp/dp_display.c           | 1017 ++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_display.h           |   31 +
+>>  drivers/gpu/drm/msm/dp/dp_drm.c               |  168 ++
+>>  drivers/gpu/drm/msm/dp/dp_drm.h               |   18 +
+>>  drivers/gpu/drm/msm/dp/dp_hpd.c               |   69 +
+>>  drivers/gpu/drm/msm/dp/dp_hpd.h               |   79 +
+>>  drivers/gpu/drm/msm/dp/dp_link.c              | 1216 ++++++++++++
+>>  drivers/gpu/drm/msm/dp/dp_link.h              |  132 ++
+>>  drivers/gpu/drm/msm/dp/dp_panel.c             |  490 +++++
+>>  drivers/gpu/drm/msm/dp/dp_panel.h             |   95 +
+>>  drivers/gpu/drm/msm/dp/dp_parser.c            |  267 +++
+>>  drivers/gpu/drm/msm/dp/dp_parser.h            |  138 ++
+>>  drivers/gpu/drm/msm/dp/dp_pll.c               |   99 +
+>>  drivers/gpu/drm/msm/dp/dp_pll.h               |   61 +
+>>  drivers/gpu/drm/msm/dp/dp_pll_10nm.c          |  917 +++++++++
+>>  drivers/gpu/drm/msm/dp/dp_pll_private.h       |  111 ++
+>>  drivers/gpu/drm/msm/dp/dp_power.c             |  392 ++++
+>>  drivers/gpu/drm/msm/dp/dp_power.h             |  103 +
+>>  drivers/gpu/drm/msm/dp/dp_reg.h               |  517 +++++
+>>  drivers/gpu/drm/msm/msm_drv.c                 |    2 +
+>>  drivers/gpu/drm/msm/msm_drv.h                 |   59 +-
+>>  include/drm/drm_dp_helper.h                   |    1 +
+>>  37 files changed, 9776 insertions(+), 19 deletions(-)
+>>  create mode 100644
+> Documentation/devicetree/bindings/display/msm/dp-controller-sc7180.yaml
+>>  create mode 100644
+> Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_display.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_display.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_link.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_link.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_10nm.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_private.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_power.c
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_power.h
+>>  create mode 100644 drivers/gpu/drm/msm/dp/dp_reg.h
+>> 
+>> 
+>> base-commit: 0a19b068acc47d05212f03e494381926dc0381e2
+>> prerequisite-patch-id: 8058026a54241aa728a91dd1685419afb249959e
+>> prerequisite-patch-id: ed730eb83f84501579332a0f0ab98f7ef649e868
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+> Forum,
+>> a Linux Foundation Collaborative Project
+>> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
