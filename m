@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D776821E8F6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5F321E925
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF4CA6E90C;
-	Tue, 14 Jul 2020 07:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 209DF6E93D;
+	Tue, 14 Jul 2020 07:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0CB6EC50
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:01:22 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id g139so3247041lfd.10
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 07:01:22 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 439266EC57
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:03:25 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id c11so3254946lfh.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 07:03:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=snyfqld+bjhE3uPJO+HgwFRMyymzbVk1WTmpn1abSoU=;
- b=ufxZ9dT2DAL11Ilk2elSRIKL1RENTvp7JiYVi3nvgzYKtdM55GNUDvwgN0HAvsc1NX
- OXnAtedXzBKHD5KQGDzAkX/jEOBf7aRuWzRehUEoCLkn9DZMznTNNIKjMas42RcJom9g
- NKUC+7LtiVrGMD6HvajmhsACZzC3vHM0UD+Y05NlT5yiSE5abB546iIXPpCimHDrnu9n
- ZJAUAYN6qyl5Jz3wHuWvCNk5w6a6z5MsRBQ+EBKw4FCL1WiAV3y0o+tTbbA1/NMk5ldO
- cKFGwWpDBZofxL6DorYzYVEC7AdOL8XeeYknX3pcwhfcUpsPePqXRUSE2eibFvvV+xmy
- aofA==
+ :cc; bh=sOhPoif+OQ8XtXLBb98uiz1/TyLFyqSIVzsM2DGfnf8=;
+ b=oxtYPfWIN+FRNvwggCG82l6/IT6S4qgkDpOaEfz9C5kEXbagMdxbcuR1+nIjE1JL4B
+ EcePjtuwDn6vJPX8z3J5YMvQX2hnQw4bkeLxIZuMjqenqd+NPXPIOHHse7DuzND0LzaK
+ wQ8dwAwQ/+TW8yaQro2rSc9nLGTVSAVGimxw0XLawMGe+QqILwCn34rVtlxliu8OwbM6
+ VGYiVGq2ia0JCJYJh4UWq3WBt48NQqPvKCeR6+pCmdkd4REiQ72+/VVWbF1pp7VrZ4sg
+ GKN20wqEdIPRPxck5e0scBZH/j2NNnfM2fcN3kfcS5plXLU4muPBVT6HXUwthiMbgae3
+ rn6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=snyfqld+bjhE3uPJO+HgwFRMyymzbVk1WTmpn1abSoU=;
- b=lHTgHmsTiw0JZwqy4hDRvbbs+ag4kcOSO/EdpeU5x3Lmne26SYn5ITe98ty4BvIgbI
- t+khJyo6PWOjLm+xnSHn/8yQb64FSVEUkoeWOOmCi2WD7gLa4cMiCqdtc7iUszYVOotl
- tTSc7iu+myn5c1GMn3rioxU9uw0NDA/zvl5Pak6iZ6ZnV6LkNfWWEYa94EjTAeY1W1my
- rxl7Fah4RjpD5MrYc7BL0aBS9QtVvxmMGi2KgDjI7Y1sepRGQS/SGb+ln3LauPz/WEsG
- b8g2YStHOjrMGYj+hXNiwnArwokQP+7mDC87vuaiSO/PIlKbx1oPFYauuIxkQT5IZSqU
- uWeA==
-X-Gm-Message-State: AOAM532OuXvDf5AIepRFAvBy6zuKgrBj4NRU8/u3UsKigag4XdnqCphF
- bcOtrHMtsefOmbt8IE8KKNFn3KRiVgjy1uxWR7U=
-X-Google-Smtp-Source: ABdhPJxlTP4s12KadqEyDucq97UTwzByniBCmkYGRbAlvoak0mKFWP4QeQ6H1l2sBqspO5oZYaW4lqjUS6r+0bxp5lg=
-X-Received: by 2002:a19:c797:: with SMTP id
- x145mr43719522lff.143.1594389680695; 
- Fri, 10 Jul 2020 07:01:20 -0700 (PDT)
+ bh=sOhPoif+OQ8XtXLBb98uiz1/TyLFyqSIVzsM2DGfnf8=;
+ b=qCWKD7epm1SZtjolh1v8u4ilKGO8uuRYawg/28JN7USIuq/ntDE7oVCeV5dyis4o2T
+ 1sGQmDlWUqd2HXVdcko1/oS36vuQ/8Z41hhkQHTl1l3nxkF+XfehMhxftMJ8qKV/9kIx
+ uuYCl/gnUPFCsrFUAjGdLHF8h/bKcSspgAVPXT7AJDOKF00O3Xj+hRZnsxYQZQ0VnFqE
+ 6HBBhlY8sqLSbCZsE8qfzy1qf50k9LyMFCyFEQkyh5mPdpLBgkVwIG6OqvnZD3HVaCWF
+ riVKONsQ2RuRszxFRWc10PEQvtwSlSok0w1h0l9NdMpUlBHet9Cg+MKrmamLu6dCs8Hu
+ U/Sw==
+X-Gm-Message-State: AOAM532K1rxj3fUq79BPcvX6Y/A+UJTXRzd9/wMkxIKu0i01Oc4049LC
+ vLj/74marBhg564bpFO11Xuk0c+IMoBNHG66OSQ=
+X-Google-Smtp-Source: ABdhPJwYaqDwhZdH6XsLbvBqqgYI08qHoOv1+5H658TETREFmF+rMX3365pyBrUgLGg9t6hLaTkUQmcVbdS2FKQ4xAY=
+X-Received: by 2002:a19:e05d:: with SMTP id g29mr42966507lfj.217.1594389803487; 
+ Fri, 10 Jul 2020 07:03:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAFcO6XO58pV+j9gu5Hha3JUW555EPQo6ELTvxRyQ5PWu_1gsUA@mail.gmail.com>
  <20200710115240.GI2571@kadam>
 In-Reply-To: <20200710115240.GI2571@kadam>
 From: butt3rflyh4ck <butterflyhuangxx@gmail.com>
-Date: Fri, 10 Jul 2020 22:01:09 +0800
-Message-ID: <CAFcO6XONBdzy3PgCTQs-HxRXR3rAKHERASwshB8AeS4QPS4vrg@mail.gmail.com>
+Date: Fri, 10 Jul 2020 22:03:12 +0800
+Message-ID: <CAFcO6XO2wP5duoEiKWR1cgurKygp_--+Lw=df-_tHBy63QU1CA@mail.gmail.com>
 Subject: Re: KASAN: use-after-free Read in drm_gem_object_release
 To: Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: multipart/mixed; boundary="0000000000008deff605aa16c6ba"
+Content-Type: multipart/mixed; boundary="000000000000df25a805aa16cd9e"
 X-Mailman-Approved-At: Tue, 14 Jul 2020 07:02:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,13 +64,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: robdclark@chromium.org, security@kernel.org, airlied@linux.ie,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  syzkaller-bugs@googlegroups.com, dri-devel@lists.freedesktop.org,
  chris@chris-wilson.co.uk, Sean Paul <seanpaul@chromium.org>, sam@ravnborg.org,
  emil.velikov@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000008deff605aa16c6ba
+--000000000000df25a805aa16cd9e
 Content-Type: text/plain; charset="UTF-8"
 
 Thank you for pointing out my spelling error. ok, I upload a PoC and
@@ -113,12 +113,12 @@ On Fri, Jul 10, 2020 at 7:53 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 > dan carpenter
 >
 
---0000000000008deff605aa16c6ba
+--000000000000df25a805aa16cd9e
 Content-Type: application/octet-stream; name="uaf-drm_gem_object_release.c"
 Content-Disposition: attachment; filename="uaf-drm_gem_object_release.c"
 Content-Transfer-Encoding: base64
-Content-ID: <f_kcgaeh0n0>
-X-Attachment-Id: f_kcgaeh0n0
+Content-ID: <f_kcgahqao0>
+X-Attachment-Id: f_kcgahqao0
 
 Ly8gYXV0b2dlbmVyYXRlZCBieSBzeXprYWxsZXIgKGh0dHBzOi8vZ2l0aHViLmNvbS9nb29nbGUv
 c3l6a2FsbGVyKQoKI2RlZmluZSBfR05VX1NPVVJDRSAKCiNpbmNsdWRlIDxkaXJlbnQuaD4KI2lu
@@ -202,12 +202,12 @@ MHVsKTsKCWluamVjdF9mYXVsdCg4KTsKCXN5c2NhbGwoX19OUl9tbWFwLCAweDIwMDAwMDAwdWws
 IDB4MTAwMDAwMHVsLCA3dWwsIDB4MzJ1bCwgLTEsIDB1bCk7CglzeXNjYWxsKF9fTlJfbW1hcCwg
 MHgyMTAwMDAwMHVsLCAweDEwMDB1bCwgMHVsLCAweDMydWwsIC0xLCAwdWwpOwoJc2V0dXBfZmF1
 bHQoKTsKCQkJbG9vcCgpOwoJcmV0dXJuIDA7Cn0K
---0000000000008deff605aa16c6ba
+--000000000000df25a805aa16cd9e
 Content-Type: application/octet-stream; name=uaf-drm_gem_object_release
 Content-Disposition: attachment; filename=uaf-drm_gem_object_release
 Content-Transfer-Encoding: base64
-Content-ID: <f_kcgaeokw1>
-X-Attachment-Id: f_kcgaeokw1
+Content-ID: <f_kcgahw5c1>
+X-Attachment-Id: f_kcgahw5c1
 
 f0VMRgIBAQMAAAAAAAAAAAIAPgABAAAAYApAAAAAAABAAAAAAAAAANhEDQAAAAAAAAAAAEAAOAAG
 AEAAIQAgAAEAAAAFAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAARrELAAAAAABGsQsAAAAAAAAA
@@ -15503,7 +15503,7 @@ AAAAAAAAECkMAAAAAAAIrwAAAAAAAB8AAAC5AgAACAAAAAAAAAAYAAAAAAAAAAkAAAADAAAAAAAA
 AAAAAAAAAAAAAAAAABjYDAAAAAAASmsAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAARAAAA
 AwAAAAAAAAAAAAAAAAAAAAAAAABiQw0AAAAAAHYBAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA
 AAAA
---0000000000008deff605aa16c6ba
+--000000000000df25a805aa16cd9e
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -15514,4 +15514,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---0000000000008deff605aa16c6ba--
+--000000000000df25a805aa16cd9e--
