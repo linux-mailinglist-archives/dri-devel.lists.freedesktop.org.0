@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA8A21B435
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 13:43:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D3B21B439
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 13:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAF086EBD8;
-	Fri, 10 Jul 2020 11:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A346EBDA;
+	Fri, 10 Jul 2020 11:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A7B6EBD8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 11:43:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06AE76EBDA
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 11:44:55 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208513] Radeon RX480 graphics freeze with RIP:
  0010:amdgpu_dm_atomic_commit_tail+0x273/0x1100 [amdgpu]
-Date: Fri, 10 Jul 2020 11:43:23 +0000
+Date: Fri, 10 Jul 2020 11:44:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208513-2300-lsVejTyeTC@https.bugzilla.kernel.org/>
+Message-ID: <bug-208513-2300-2YZR2t49zy@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208513-2300@https.bugzilla.kernel.org/>
 References: <bug-208513-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208513
 
---- Comment #1 from Jure Repinc (jlp.bugs@gmail.com) ---
-Created attachment 290205
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290205&action=edit
-dmesg
+--- Comment #2 from Jure Repinc (jlp.bugs@gmail.com) ---
+Created attachment 290207
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290207&action=edit
+Xorg.0.log
 
 -- 
 You are receiving this mail because:
