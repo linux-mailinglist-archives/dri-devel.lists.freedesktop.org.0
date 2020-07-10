@@ -2,31 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA77721B3FE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 13:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B6721B431
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 13:42:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0E16EBD9;
-	Fri, 10 Jul 2020 11:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A896EBE0;
+	Fri, 10 Jul 2020 11:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3588A6EBD7;
- Fri, 10 Jul 2020 11:31:32 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F2F02AE56;
- Fri, 10 Jul 2020 11:31:30 +0000 (UTC)
-Subject: Re: [PATCH] drm/fb-helper: Fix vt restore
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200623155456.3092836-1-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ac847c3c-e93c-4a4b-c6ca-2362af7e3aa3@suse.de>
-Date: Fri, 10 Jul 2020 13:31:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66766EBD8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 11:42:27 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208513] New: Radeon RX480 graphics freeze with RIP:
+ 0010:amdgpu_dm_atomic_commit_tail+0x273/0x1100 [amdgpu]
+Date: Fri, 10 Jul 2020 11:42:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jlp.bugs@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-208513-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200623155456.3092836-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,289 +52,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, shlomo@fastmail.com,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Content-Type: multipart/mixed; boundary="===============1020139534=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1020139534==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="UEVDRlW74y98w2X6O5TFy9Ob2jguaRVEB"
+https://bugzilla.kernel.org/show_bug.cgi?id=208513
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UEVDRlW74y98w2X6O5TFy9Ob2jguaRVEB
-Content-Type: multipart/mixed; boundary="e8biO4xY56enENhSiRL7VWkiA5tZdMGbm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- shlomo@fastmail.com, stable@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
- <michel@daenzer.net>
-Message-ID: <ac847c3c-e93c-4a4b-c6ca-2362af7e3aa3@suse.de>
-Subject: Re: [PATCH] drm/fb-helper: Fix vt restore
-References: <20200623155456.3092836-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200623155456.3092836-1-daniel.vetter@ffwll.ch>
+            Bug ID: 208513
+           Summary: Radeon RX480 graphics freeze with RIP:
+                    0010:amdgpu_dm_atomic_commit_tail+0x273/0x1100
+                    [amdgpu]
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.7.7
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: blocking
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: jlp.bugs@gmail.com
+        Regression: No
 
---e8biO4xY56enENhSiRL7VWkiA5tZdMGbm
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I get frequent freezes with kernel 5.7, especially when having Firefox 77 open
+and watching videos. It looks like only graphics freezes as I can still hear
+stuff going on in the background. This is what I can see using "journalctl
+--boot=-1 -k" after reboot
 
-Hi Daniel,
+general protection fault, probably for non-canonical address
+0x9ca86a805968f7f1: 0000 [#1] SMP NOPTI
+CPU: 1 PID: 117 Comm: kworker/u8:3 Not tainted 5.7.7-1-debug #1 openSUSE
+Tumbleweed (unreleased)
+Hardware name: System manufacturer System Product Name/H170 PRO GAMING, BIOS
+3805 05/16/2018
+Workqueue: events_unbound commit_work [drm_kms_helper]
+RIP: 0010:amdgpu_dm_atomic_commit_tail+0x273/0x1100 [amdgpu]
+Code: 43 08 8b 90 80 04 00 00 41 83 c6 01 44 39 f2 0f 87 3a ff ff ff 48 83 bd
+a0 fd ff ff 00 0f 84 03 01 00 00 48 8b bd a0 fd ff ff <80> bf b0 01 00 00 01 0f
+86 ac 00 00 00 48 b9 00 00 00>
+RSP: 0018:ffffb8c40026bbe0 EFLAGS: 00010282
+RAX: ffff99c28f74b000 RBX: ffff99c059f6c880 RCX: ffff99c1c32f7c00
+RDX: 0000000000000006 RSI: ffffffffc0b6d540 RDI: 9ca86a805968f7f1
+RBP: ffffb8c40026be68 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000000003fb R11: 00000000000898df R12: ffff99c037db8400
+R13: 0000000000000000 R14: 0000000000000006 R15: ffff99c037db8000
+FS:  0000000000000000(0000) GS:ffff99c296c80000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb44bc04300 CR3: 000000066a2e4006 CR4: 00000000003606e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ ? ieee80211_sta_rx_queued_mgmt+0x89/0x2f0 [mac80211]
+ ? update_load_avg+0x7e/0x630
+ ? set_next_entity+0xab/0x200
+ ? _raw_spin_unlock_irq+0xa/0x20
+ ? finish_task_switch+0x77/0x280
+ ? __schedule+0x205/0x560
+ ? _raw_spin_unlock_irq+0xa/0x20
+ ? wait_for_completion_timeout+0xcc/0x100
+ commit_tail+0x94/0x130 [drm_kms_helper]
+ process_one_work+0x1da/0x3a0
+ worker_thread+0x46/0x320
+ ? rescuer_thread+0x400/0x400
+ kthread+0x115/0x140
+ ? __kthread_bind_mask+0x60/0x60
+ ret_from_fork+0x1f/0x40
+Modules linked in: fuse ccm af_packet dmi_sysfs msr hid_logitech_hidpp joydev
+intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal hid_logitech_dj
+intel_powerclamp coretemp crct10dif_pcl>
+ dm_mod scsi_dh_rdac scsi_dh_emc scsi_dh_alua efivarfs
+---[ end trace de4993090519763f ]---
+RIP: 0010:amdgpu_dm_atomic_commit_tail+0x273/0x1100 [amdgpu]
+Code: 43 08 8b 90 80 04 00 00 41 83 c6 01 44 39 f2 0f 87 3a ff ff ff 48 83 bd
+a0 fd ff ff 00 0f 84 03 01 00 00 48 8b bd a0 fd ff ff <80> bf b0 01 00 00 01 0f
+86 ac 00 00 00 48 b9 00 00 00>
+RSP: 0018:ffffb8c40026bbe0 EFLAGS: 00010282
+RAX: ffff99c28f74b000 RBX: ffff99c059f6c880 RCX: ffff99c1c32f7c00
+RDX: 0000000000000006 RSI: ffffffffc0b6d540 RDI: 9ca86a805968f7f1
+RBP: ffffb8c40026be68 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000000003fb R11: 00000000000898df R12: ffff99c037db8400
+R13: 0000000000000000 R14: 0000000000000006 R15: ffff99c037db8000
+FS:  0000000000000000(0000) GS:ffff99c296c80000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb44bc04300 CR3: 000000066a2e4006 CR4: 00000000003606e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-this patch might not be enougth. I started Xorg and then did 'kill -9'
-on the Xorg process. Xorg went away, but the console did not come back.
+Mesa is 20.1.2
+name of display: :0
+display: :0  screen: 0
+direct rendering: Yes
+Extended renderer info (GLX_MESA_query_renderer):
+    Vendor: X.Org (0x1002)
+    Device: AMD Radeon (TM) RX 480 Graphics (POLARIS10, DRM 3.37.0,
+5.7.7-1-debug, LLVM 10.0.0) (0x67df)
+    Version: 20.1.2
+    Accelerated: yes
+    Video memory: 8192MB
+    Unified memory: no
+    Preferred profile: core (0x1)
+    Max core profile version: 4.6
+    Max compat profile version: 4.6
+    Max GLES1 profile version: 1.1
+    Max GLES[23] profile version: 3.2
+Memory info (GL_ATI_meminfo):
+    VBO free memory - total: 7001 MB, largest block: 7001 MB
+    VBO free aux. memory - total: 7976 MB, largest block: 7976 MB
+    Texture free memory - total: 7001 MB, largest block: 7001 MB
+    Texture free aux. memory - total: 7976 MB, largest block: 7976 MB
+    Renderbuffer free memory - total: 7001 MB, largest block: 7001 MB
+    Renderbuffer free aux. memory - total: 7976 MB, largest block: 7976 MB
+Memory info (GL_NVX_gpu_memory_info):
+    Dedicated video memory: 8192 MB
+    Total available memory: 16384 MB
+    Currently available dedicated video memory: 7001 MB
+OpenGL vendor string: X.Org
+OpenGL renderer string: AMD Radeon (TM) RX 480 Graphics (POLARIS10, DRM 3.37.0,
+5.7.7-1-debug, LLVM 10.0.0)
+OpenGL core profile version string: 4.6 (Core Profile) Mesa 20.1.2
+OpenGL core profile shading language version string: 4.60
+OpenGL core profile context flags: (none)
+OpenGL core profile profile mask: core profile
 
-Best regards
-Thomas
+OpenGL version string: 4.6 (Compatibility Profile) Mesa 20.1.2
+OpenGL shading language version string: 4.60
+OpenGL context flags: (none)
+OpenGL profile mask: compatibility profile
 
-Am 23.06.20 um 17:54 schrieb Daniel Vetter:
-> In the past we had a pile of hacks to orchestrate access between fbdev
-> emulation and native kms clients. We've tried to streamline this, by
-> always preferring the kms side above fbdev calls when a drm master
-> exists, because drm master controls access to the display resources.
->=20
-> Unfortunately this breaks existing userspace, specifically Xorg. When
-> exiting Xorg first restores the console to text mode using the KDSET
-> ioctl on the vt. This does nothing, because a drm master is still
-> around. Then it drops the drm master status, which again does nothing,
-> because logind is keeping additional drm fd open to be able to
-> orchestrate vt switches. In the past this is the point where fbdev was
-> restored, as part of the ->lastclose hook on the drm side.
->=20
-> Now to fix this regression we don't want to go back to letting fbdev
-> restore things whenever it feels like, or to the pile of hacks we've
-> had before. Instead try and go with a minimal exception to make the
-> KDSET case work again, and nothing else.
->=20
-> This means that if userspace does a KDSET call when switching between
-> graphical compositors, there will be some flickering with fbcon
-> showing up for a bit. But a) that's not a regression and b) userspace
-> can fix it by improving the vt switching dance - logind should have
-> all the information it needs.
->=20
-> While pondering all this I'm also wondering wheter we should have a
-> SWITCH_MASTER ioctl to allow race-free master status handover. But
-> that's for another day.
->=20
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D208179
-> Cc: shlomo@fastmail.com
-> Reported-and-Tested-by: shlomo@fastmail.com
-> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
-> Fixes: 64914da24ea9 ("drm/fbdev-helper: don't force restores")
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.7+
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_fb_helper.c  | 63 +++++++++++++++++++++++++-------=
+OpenGL ES profile version string: OpenGL ES 3.2 Mesa 20.1.2
+OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
 
->  drivers/video/fbdev/core/fbcon.c |  3 +-
->  include/uapi/linux/fb.h          |  1 +
->  3 files changed, 52 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
-elper.c
-> index 170aa7689110..ae69bf8e9bcc 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -227,18 +227,9 @@ int drm_fb_helper_debug_leave(struct fb_info *info=
-)
->  }
->  EXPORT_SYMBOL(drm_fb_helper_debug_leave);
-> =20
-> -/**
-> - * drm_fb_helper_restore_fbdev_mode_unlocked - restore fbdev configura=
-tion
-> - * @fb_helper: driver-allocated fbdev helper, can be NULL
-> - *
-> - * This should be called from driver's drm &drm_driver.lastclose callb=
-ack
-> - * when implementing an fbcon on top of kms using this helper. This en=
-sures that
-> - * the user isn't greeted with a black screen when e.g. X dies.
-> - *
-> - * RETURNS:
-> - * Zero if everything went ok, negative error code otherwise.
-> - */
-> -int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb=
-_helper)
-> +static int
-> +__drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_h=
-elper,
-> +					    bool force)
->  {
->  	bool do_delayed;
->  	int ret;
-> @@ -250,7 +241,16 @@ int drm_fb_helper_restore_fbdev_mode_unlocked(stru=
-ct drm_fb_helper *fb_helper)
->  		return 0;
-> =20
->  	mutex_lock(&fb_helper->lock);
-> -	ret =3D drm_client_modeset_commit(&fb_helper->client);
-> +	if (force) {
-> +		/*
-> +		 * Yes this is the _locked version which expects the master lock
-> +		 * to be held. But for forced restores we're intentionally
-> +		 * racing here, see drm_fb_helper_set_par().
-> +		 */
-> +		ret =3D drm_client_modeset_commit_locked(&fb_helper->client);
-> +	} else {
-> +		ret =3D drm_client_modeset_commit(&fb_helper->client);
-> +	}
-> =20
->  	do_delayed =3D fb_helper->delayed_hotplug;
->  	if (do_delayed)
-> @@ -262,6 +262,22 @@ int drm_fb_helper_restore_fbdev_mode_unlocked(stru=
-ct drm_fb_helper *fb_helper)
-> =20
->  	return ret;
->  }
-> +
-> +/**
-> + * drm_fb_helper_restore_fbdev_mode_unlocked - restore fbdev configura=
-tion
-> + * @fb_helper: driver-allocated fbdev helper, can be NULL
-> + *
-> + * This should be called from driver's drm &drm_driver.lastclose callb=
-ack
-> + * when implementing an fbcon on top of kms using this helper. This en=
-sures that
-> + * the user isn't greeted with a black screen when e.g. X dies.
-> + *
-> + * RETURNS:
-> + * Zero if everything went ok, negative error code otherwise.
-> + */
-> +int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb=
-_helper)
-> +{
-> +	return __drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper, false);=
+libdrm 2.4.102, xf86-video-amdgpu 19.1.0
 
-> +}
->  EXPORT_SYMBOL(drm_fb_helper_restore_fbdev_mode_unlocked);
-> =20
->  #ifdef CONFIG_MAGIC_SYSRQ
-> @@ -1318,6 +1334,7 @@ int drm_fb_helper_set_par(struct fb_info *info)
->  {
->  	struct drm_fb_helper *fb_helper =3D info->par;
->  	struct fb_var_screeninfo *var =3D &info->var;
-> +	bool force;
-> =20
->  	if (oops_in_progress)
->  		return -EBUSY;
-> @@ -1327,7 +1344,25 @@ int drm_fb_helper_set_par(struct fb_info *info)
->  		return -EINVAL;
->  	}
-> =20
-> -	drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper);
-> +	/*
-> +	 * Normally we want to make sure that a kms master takes
-> +	 * precedence over fbdev, to avoid fbdev flickering and
-> +	 * occasionally stealing the display status. But Xorg first sets
-> +	 * the vt back to text mode using the KDSET IOCTL with KD_TEXT,
-> +	 * and only after that drops the master status when exiting.
-> +	 *
-> +	 * In the past this was caught by drm_fb_helper_lastclose(), but
-> +	 * on modern systems where logind always keeps a drm fd open to
-> +	 * orchestrate the vt switching, this doesn't work.
-> +	 *
-> +	 * To no break the userspace ABI we have this special case here,
-> +	 * which is only used for the above case. Everything else uses
-> +	 * the normal commit function, which ensures that we never steal
-> +	 * the display from an active drm master.
-> +	 */
-> +	force =3D var->activate & FB_ACTIVATE_KD_TEXT;
-> +
-> +	__drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper, force);
-> =20
->  	return 0;
->  }
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/cor=
-e/fbcon.c
-> index 9d28a8e3328f..e2a490c5ae08 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2402,7 +2402,8 @@ static int fbcon_blank(struct vc_data *vc, int bl=
-ank, int mode_switch)
->  		ops->graphics =3D 1;
-> =20
->  		if (!blank) {
-> -			var.activate =3D FB_ACTIVATE_NOW | FB_ACTIVATE_FORCE;
-> +			var.activate =3D FB_ACTIVATE_NOW | FB_ACTIVATE_FORCE |
-> +				FB_ACTIVATE_KD_TEXT;
->  			fb_set_var(info, &var);
->  			ops->graphics =3D 0;
->  			ops->var =3D info->var;
-> diff --git a/include/uapi/linux/fb.h b/include/uapi/linux/fb.h
-> index b6aac7ee1f67..4c14e8be7267 100644
-> --- a/include/uapi/linux/fb.h
-> +++ b/include/uapi/linux/fb.h
-> @@ -205,6 +205,7 @@ struct fb_bitfield {
->  #define FB_ACTIVATE_ALL	       64	/* change all VCs on this fb	*/
->  #define FB_ACTIVATE_FORCE     128	/* force apply even when no change*/=
-
->  #define FB_ACTIVATE_INV_MODE  256       /* invalidate videomode */
-> +#define FB_ACTIVATE_KD_TEXT   512       /* for KDSET vt ioctl */
-> =20
->  #define FB_ACCELF_TEXT		1	/* (OBSOLETE) see fb_info.flags and vc_mode =
-*/
-> =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---e8biO4xY56enENhSiRL7VWkiA5tZdMGbm--
-
---UEVDRlW74y98w2X6O5TFy9Ob2jguaRVEB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8IUY8UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOCpwf+OgEbboFX6WaH3GPX5r2S+oQ70qr3
-JpgddEnE8IEZYarjfthHUcqjHtURRG2ULkrSOMNMGB7+fOZz9EMB9L255JhnToWp
-7mpRAnOYYc4pHCNFvdRgeqB0Hy58V2pmW2xKscJ58/nP2p9999o8u+odyYlLVyjX
-ci9JbL0OVO3VyHe+2Z/hgIXJjmeyG+AdBPp8BeX4MfGzwXtxVgvxO6KhK/4Kc7XB
-h7hSzkc3pBGVYKi9Ik8z5JSDFw60RNXsX3HDDz28uuGpiNHazC/hd8U6Ytfhcq5M
-KxTWSfmupqpIiG63POuPFp2SkWkX4AdajzbERXvpnZM4YyPwch9q7lwF0g==
-=TtTE
------END PGP SIGNATURE-----
-
---UEVDRlW74y98w2X6O5TFy9Ob2jguaRVEB--
-
---===============1020139534==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1020139534==--
