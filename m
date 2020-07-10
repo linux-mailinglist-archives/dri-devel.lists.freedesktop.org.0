@@ -1,44 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F3B21BF98
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 00:16:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E172421BF9B
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 00:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E7E6ED21;
-	Fri, 10 Jul 2020 22:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFAEB6ED1F;
+	Fri, 10 Jul 2020 22:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 378E56ED1E;
- Fri, 10 Jul 2020 22:16:08 +0000 (UTC)
-IronPort-SDR: 1flKZ2U5OP1lgtBAtMf+OQfe1rCJVow/LgdwKt0sSaSBTq/OYEiouimqpDdQjBoZmUR1Hj5K6i
- KRHFspYT9KYg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="233172296"
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="233172296"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2020 15:16:07 -0700
-IronPort-SDR: CNiGw0gzbW7XLrZrHiJ1PekrhFmU4J/Hh0fVA2bB2zM3fgTaefJ/6J7biahGDnvm6epH6ivPse
- v5T/0cGAra1w==
-X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="458416144"
-Received: from ideak-desk.fi.intel.com ([10.237.68.147])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2020 15:16:05 -0700
-Date: Sat, 11 Jul 2020 01:16:00 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [Intel-gfx] [PATCH v3 1/2] drm/probe_helper: Add
- drm_connector_helper_funcs.mode_valid_ctx
-Message-ID: <20200710221600.GA29318@ideak-desk.fi.intel.com>
-References: <20200710193144.94751-1-lyude@redhat.com>
- <20200710193144.94751-2-lyude@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6636ED1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 22:19:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E03F2C0;
+ Sat, 11 Jul 2020 00:19:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1594419582;
+ bh=loUGNufe2CWcXY44AHy6VnFeTlIlEi0FVVHNLLwJ2gc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DL8PSFb78SttHvQK3zTKxi9Y7EwBIhlgkZetJwe7+yqvsXG1naFf4fjdbdzxQX5LN
+ wL7yA9tw71UM8H+h/sW947yZKhb2g9lKaGDSAxYTNs/zjfuD5rDXao5pGsfcb1TJhh
+ rJi1ng1KzWXgJ3IP2+eIfbVngp3Uhv4JfxZX1caE=
+Date: Sat, 11 Jul 2020 01:19:35 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v3 06/21] drm/bridge: tc358767: add drm_panel_bridge
+ support
+Message-ID: <20200710221935.GJ5964@pendragon.ideasonboard.com>
+References: <20200703192417.372164-1-sam@ravnborg.org>
+ <20200703192417.372164-7-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200710193144.94751-2-lyude@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200703192417.372164-7-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,302 +47,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ kbuild test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 10, 2020 at 03:31:43PM -0400, Lyude Paul wrote:
-> This is just an atomic version of mode_valid, which is intended to be
-> used for situations where a driver might need to check the atomic state
-> of objects other than the connector itself. One such example is with
-> MST, where the maximum possible bandwidth on a connector can change
-> dynamically irregardless of the display configuration.
+Hi Sam,
+
+Thank you for the patch.
+
+On Fri, Jul 03, 2020 at 09:24:02PM +0200, Sam Ravnborg wrote:
+> Prepare the bridge driver for use in a chained setup by
+> replacing direct use of drm_panel with drm_panel_bridge support.
 > 
-> Changes since v1:
-> * Use new drm logging functions
-> * Make some corrections in the mode_valid_ctx kdoc
-> * Return error codes or 0 from ->mode_valid_ctx() on fail, and store the
->   drm_mode_status in an additional function parameter
-> Changes since v2:
-> * Don't accidentally assign ret to mode->status on success, or we'll
->   squash legitimate mode validation results
-> * Don't forget to assign MODE_OK to status in drm_connector_mode_valid()
->   if we have no callbacks
-> * Drop leftover hunk in drm_modes.h around enum drm_mode_status
+> The bridge driver assume the panel is optional.
+> The relevant tests are migrated over to check for the
+> pnale bridge to keep the same functionality.
+
+s/pnale/panel/
+
+> Note: the bridge panel will use the connector type from the panel.
 > 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Cc: Lee Shawn C <shawn.c.lee@intel.com>
-
-Some nits below, but looks good in either way:
-
-Reviewed-and-tested-by: Imre Deak <imre.deak@intel.com>
-
-
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 > ---
->  drivers/gpu/drm/drm_crtc_helper_internal.h |  7 +-
->  drivers/gpu/drm/drm_probe_helper.c         | 94 ++++++++++++++--------
->  include/drm/drm_modeset_helper_vtables.h   | 42 ++++++++++
->  3 files changed, 109 insertions(+), 34 deletions(-)
+>  drivers/gpu/drm/bridge/tc358767.c | 57 +++++++++++++++----------------
+>  1 file changed, 27 insertions(+), 30 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
-> index f0a66ef47e5ad..25ce42e799952 100644
-> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
-> @@ -73,8 +73,11 @@ enum drm_mode_status drm_crtc_mode_valid(struct drm_crtc *crtc,
->  					 const struct drm_display_mode *mode);
->  enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
->  					    const struct drm_display_mode *mode);
-> -enum drm_mode_status drm_connector_mode_valid(struct drm_connector *connector,
-> -					      struct drm_display_mode *mode);
-> +int
-> +drm_connector_mode_valid(struct drm_connector *connector,
-> +			 struct drm_display_mode *mode,
-> +			 struct drm_modeset_acquire_ctx *ctx,
-> +			 enum drm_mode_status *status);
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index c2777b226c75..08d483664258 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -244,8 +244,8 @@ struct tc_data {
+>  	struct drm_dp_aux	aux;
 >  
->  struct drm_encoder *
->  drm_connector_get_single_encoder(struct drm_connector *connector);
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index e0ed58d291ed9..f7bd1d35aa805 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -86,17 +86,19 @@ drm_mode_validate_flag(const struct drm_display_mode *mode,
->  	return MODE_OK;
+>  	struct drm_bridge	bridge;
+> +	struct drm_bridge	*panel_bridge;
+>  	struct drm_connector	connector;
+> -	struct drm_panel	*panel;
+>  
+>  	/* link settings */
+>  	struct tc_edp_link	link;
+> @@ -1236,13 +1236,6 @@ static int tc_stream_disable(struct tc_data *tc)
+>  	return 0;
 >  }
 >  
-> -static enum drm_mode_status
-> +static int
->  drm_mode_validate_pipeline(struct drm_display_mode *mode,
-> -			    struct drm_connector *connector)
-> +			   struct drm_connector *connector,
-> +			   struct drm_modeset_acquire_ctx *ctx,
-> +			   enum drm_mode_status *status)
+> -static void tc_bridge_pre_enable(struct drm_bridge *bridge)
+> -{
+> -	struct tc_data *tc = bridge_to_tc(bridge);
+> -
+> -	drm_panel_prepare(tc->panel);
+> -}
+> -
+>  static void tc_bridge_enable(struct drm_bridge *bridge)
 >  {
->  	struct drm_device *dev = connector->dev;
-> -	enum drm_mode_status ret = MODE_OK;
->  	struct drm_encoder *encoder;
-> +	int ret;
->  
->  	/* Step 1: Validate against connector */
-> -	ret = drm_connector_mode_valid(connector, mode);
-> -	if (ret != MODE_OK)
-> +	ret = drm_connector_mode_valid(connector, mode, ctx, status);
-> +	if (ret || *status != MODE_OK)
->  		return ret;
-
-After this point ret is guaranteed to stay 0, so would be clearer to
-just s/return ret/return 0/ later in this func.
-
->  
->  	/* Step 2: Validate against encoders and crtcs */
-> @@ -104,8 +106,8 @@ drm_mode_validate_pipeline(struct drm_display_mode *mode,
->  		struct drm_bridge *bridge;
->  		struct drm_crtc *crtc;
->  
-> -		ret = drm_encoder_mode_valid(encoder, mode);
-> -		if (ret != MODE_OK) {
-> +		*status = drm_encoder_mode_valid(encoder, mode);
-> +		if (*status != MODE_OK) {
->  			/* No point in continuing for crtc check as this encoder
->  			 * will not accept the mode anyway. If all encoders
->  			 * reject the mode then, at exit, ret will not be
-> @@ -114,10 +116,10 @@ drm_mode_validate_pipeline(struct drm_display_mode *mode,
->  		}
->  
->  		bridge = drm_bridge_chain_get_first_bridge(encoder);
-> -		ret = drm_bridge_chain_mode_valid(bridge,
-> -						  &connector->display_info,
-> -						  mode);
-> -		if (ret != MODE_OK) {
-> +		*status = drm_bridge_chain_mode_valid(bridge,
-> +						      &connector->display_info,
-> +						      mode);
-> +		if (*status != MODE_OK) {
->  			/* There is also no point in continuing for crtc check
->  			 * here. */
->  			continue;
-> @@ -127,8 +129,8 @@ drm_mode_validate_pipeline(struct drm_display_mode *mode,
->  			if (!drm_encoder_crtc_ok(encoder, crtc))
->  				continue;
->  
-> -			ret = drm_crtc_mode_valid(crtc, mode);
-> -			if (ret == MODE_OK) {
-> +			*status = drm_crtc_mode_valid(crtc, mode);
-> +			if (*status == MODE_OK) {
->  				/* If we get to this point there is at least
->  				 * one combination of encoder+crtc that works
->  				 * for this mode. Lets return now. */
-> @@ -198,16 +200,26 @@ enum drm_mode_status drm_encoder_mode_valid(struct drm_encoder *encoder,
->  	return encoder_funcs->mode_valid(encoder, mode);
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+> @@ -1266,8 +1259,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  		tc_main_link_disable(tc);
+>  		return;
+>  	}
+> -
+> -	drm_panel_enable(tc->panel);
 >  }
 >  
-> -enum drm_mode_status drm_connector_mode_valid(struct drm_connector *connector,
-> -					      struct drm_display_mode *mode)
-> +int
-> +drm_connector_mode_valid(struct drm_connector *connector,
-> +			 struct drm_display_mode *mode,
-> +			 struct drm_modeset_acquire_ctx *ctx,
-> +			 enum drm_mode_status *status)
->  {
->  	const struct drm_connector_helper_funcs *connector_funcs =
->  		connector->helper_private;
-
-would look a bit neater by
-	int ret = 0;
-and
-
+>  static void tc_bridge_disable(struct drm_bridge *bridge)
+> @@ -1275,8 +1266,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+>  	int ret;
 >  
-> -	if (!connector_funcs || !connector_funcs->mode_valid)
-> -		return MODE_OK;
-> +	if (!connector_funcs)
-> +		*status = MODE_OK;
-> +	else if (connector_funcs->mode_valid_ctx)
-> +		return connector_funcs->mode_valid_ctx(connector, mode, ctx,
-> +						       status);
-
-		ret = ...
-> +	else if (connector_funcs->mode_valid)
-> +		*status = connector_funcs->mode_valid(connector, mode);
-> +	else
-> +		*status = MODE_OK;
->  
-> -	return connector_funcs->mode_valid(connector, mode);
-> +	return 0;
-
-	return ret;
-
+> -	drm_panel_disable(tc->panel);
+> -
+>  	ret = tc_stream_disable(tc);
+>  	if (ret < 0)
+>  		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
+> @@ -1286,13 +1275,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+>  		dev_err(tc->dev, "main link disable error: %d\n", ret);
 >  }
 >  
->  #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
-> @@ -385,8 +397,9 @@ EXPORT_SYMBOL(drm_helper_probe_detect);
->   *      (if specified)
->   *    - drm_mode_validate_flag() checks the modes against basic connector
->   *      capabilities (interlace_allowed,doublescan_allowed,stereo_allowed)
-> - *    - the optional &drm_connector_helper_funcs.mode_valid helper can perform
-> - *      driver and/or sink specific checks
-> + *    - the optional &drm_connector_helper_funcs.mode_valid or
-> + *      &drm_connector_helper_funcs.mode_valid_ctx helpers can perform driver
-> + *      and/or sink specific checks
->   *    - the optional &drm_crtc_helper_funcs.mode_valid,
->   *      &drm_bridge_funcs.mode_valid and &drm_encoder_helper_funcs.mode_valid
->   *      helpers can perform driver and/or source specific checks which are also
-> @@ -517,22 +530,39 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
->  
->  	list_for_each_entry(mode, &connector->modes, head) {
-> -		if (mode->status == MODE_OK)
-> -			mode->status = drm_mode_validate_driver(dev, mode);
-> +		if (mode->status != MODE_OK)
-> +			continue;
->  
-> -		if (mode->status == MODE_OK)
-> -			mode->status = drm_mode_validate_size(mode, maxX, maxY);
-> +		mode->status = drm_mode_validate_driver(dev, mode);
-> +		if (mode->status != MODE_OK)
-> +			continue;
->  
-> -		if (mode->status == MODE_OK)
-> -			mode->status = drm_mode_validate_flag(mode, mode_flags);
-> +		mode->status = drm_mode_validate_size(mode, maxX, maxY);
-> +		if (mode->status != MODE_OK)
-> +			continue;
-> +
-> +		mode->status = drm_mode_validate_flag(mode, mode_flags);
-> +		if (mode->status != MODE_OK)
-> +			continue;
->  
-> -		if (mode->status == MODE_OK)
-> -			mode->status = drm_mode_validate_pipeline(mode,
-> -								  connector);
-> +		ret = drm_mode_validate_pipeline(mode, connector, &ctx,
-> +						 &mode->status);
-> +		if (ret) {
-> +			drm_dbg_kms(dev,
-> +				    "drm_mode_validate_pipeline failed: %d\n",
-> +				    ret);
-> +
-> +			if (drm_WARN_ON_ONCE(dev, ret != -EDEADLK)) {
-> +				mode->status = MODE_ERROR;
-> +			} else {
-> +				drm_modeset_backoff(&ctx);
-> +				goto retry;
-> +			}
-> +		}
->  
-> -		if (mode->status == MODE_OK)
-> -			mode->status = drm_mode_validate_ycbcr420(mode,
-> -								  connector);
-> +		if (mode->status != MODE_OK)
-> +			continue;
-> +		mode->status = drm_mode_validate_ycbcr420(mode, connector);
+> -static void tc_bridge_post_disable(struct drm_bridge *bridge)
+> -{
+> -	struct tc_data *tc = bridge_to_tc(bridge);
+> -
+> -	drm_panel_unprepare(tc->panel);
+> -}
+> -
+>  static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+>  				 const struct drm_display_mode *mode,
+>  				 struct drm_display_mode *adj)
+> @@ -1348,9 +1330,11 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+>  		return 0;
 >  	}
 >  
->  prune:
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> index 421a30f084631..4efec30f8badc 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -968,6 +968,48 @@ struct drm_connector_helper_funcs {
->  	 */
->  	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
->  					   struct drm_display_mode *mode);
+> -	count = drm_panel_get_modes(tc->panel, connector);
+> -	if (count > 0)
+> -		return count;
+> +	if (tc->panel_bridge) {
+> +		count = drm_bridge_get_modes(tc->panel_bridge, connector);
+> +		if (count > 0)
+> +			return count;
+> +	}
+>  
+>  	edid = drm_get_edid(connector, &tc->aux.ddc);
+>  
+> @@ -1378,7 +1362,7 @@ static enum drm_connector_status tc_connector_detect(struct drm_connector *conne
+>  	int ret;
+>  
+>  	if (tc->hpd_pin < 0) {
+> -		if (tc->panel)
+> +		if (tc->panel_bridge)
+>  			return connector_status_connected;
+>  		else
+>  			return connector_status_unknown;
+> @@ -1413,6 +1397,13 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  	struct drm_device *drm = bridge->dev;
+>  	int ret;
+>  
+> +	if (tc->panel_bridge) {
+> +		ret = drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
+> +					&tc->bridge, flags);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+
+With this both this driver and the panel bridge driver will create a
+connector. The simplest way to handle that is probably to pass
+flags & ~DRM_BRIDGE_ATTACH_NO_CONNECTOR to drm_bridge_attach(). It's a
+bit of a hack, but should go away once all users are converted to
+!DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > +
-> +	/**
-> +	 * @mode_valid_ctx:
-> +	 *
-> +	 * Callback to validate a mode for a connector, irrespective of the
-> +	 * specific display configuration.
-> +	 *
-> +	 * This callback is used by the probe helpers to filter the mode list
-> +	 * (which is usually derived from the EDID data block from the sink).
-> +	 * See e.g. drm_helper_probe_single_connector_modes().
-> +	 *
-> +	 * This function is optional, and is the atomic version of
-> +	 * &drm_connector_helper_funcs.mode_valid.
-> +	 *
-> +	 * To allow for accessing the atomic state of modesetting objects, the
-> +	 * helper libraries always call this with ctx set to a valid context,
-> +	 * and &drm_mode_config.connection_mutex will always be locked with
-> +	 * the ctx parameter set to @ctx. This allows for taking additional
-> +	 * locks as required.
-> +	 *
-> +	 * Even though additional locks may be acquired, this callback is
-> +	 * still expected not to take any constraints into account which would
-> +	 * be influenced by the currently set display state - such constraints
-> +	 * should be handled in the driver's atomic check. For example, if a
-> +	 * connector shares display bandwidth with other connectors then it
-> +	 * would be ok to validate the minimum bandwidth requirement of a mode
-> +	 * against the maximum possible bandwidth of the connector. But it
-> +	 * wouldn't be ok to take the current bandwidth usage of other
-> +	 * connectors into account, as this would change depending on the
-> +	 * display state.
-> +	 *
-> +	 * Returns:
-> +	 * 0 if &drm_connector_helper_funcs.mode_valid_ctx succeeded and wrote
-> +	 * the &enum drm_mode_status value to @status, or a negative error
-> +	 * code otherwise.
-> +	 *
-> +	 */
-> +	int (*mode_valid_ctx)(struct drm_connector *connector,
-> +			      struct drm_display_mode *mode,
-> +			      struct drm_modeset_acquire_ctx *ctx,
-> +			      enum drm_mode_status *status);
+>  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+>  		DRM_ERROR("Fix bridge driver to make connector optional!");
+>  		return -EINVAL;
+> @@ -1421,7 +1412,7 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  	/* Create DP/eDP connector */
+>  	drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
+>  	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs,
+> -				 tc->panel ? DRM_MODE_CONNECTOR_eDP :
+> +				 tc->panel_bridge ? DRM_MODE_CONNECTOR_eDP :
+>  				 DRM_MODE_CONNECTOR_DisplayPort);
+>  	if (ret)
+>  		return ret;
+> @@ -1435,9 +1426,6 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  					       DRM_CONNECTOR_POLL_DISCONNECT;
+>  	}
+>  
+> -	if (tc->panel)
+> -		drm_panel_attach(tc->panel, &tc->connector);
+> -
+>  	drm_display_info_set_bus_formats(&tc->connector.display_info,
+>  					 &bus_format, 1);
+>  	tc->connector.display_info.bus_flags =
+> @@ -1453,10 +1441,8 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
+>  	.attach = tc_bridge_attach,
+>  	.mode_valid = tc_mode_valid,
+>  	.mode_set = tc_bridge_mode_set,
+> -	.pre_enable = tc_bridge_pre_enable,
+>  	.enable = tc_bridge_enable,
+>  	.disable = tc_bridge_disable,
+> -	.post_disable = tc_bridge_post_disable,
+>  	.mode_fixup = tc_bridge_mode_fixup,
+>  };
+>  
+> @@ -1547,6 +1533,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+>  static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  {
+>  	struct device *dev = &client->dev;
+> +	struct drm_panel *panel;
+>  	struct tc_data *tc;
+>  	int ret;
+>  
+> @@ -1557,10 +1544,20 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	tc->dev = dev;
+>  
+>  	/* port@2 is the output port */
+> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &tc->panel, NULL);
+> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+>  	if (ret && ret != -ENODEV)
+>  		return ret;
+>  
+> +	if (panel) {
+> +		struct drm_bridge *pbridge;
 > +
->  	/**
->  	 * @best_encoder:
->  	 *
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> +		pbridge = devm_drm_panel_bridge_add(dev, panel);
+> +		if (IS_ERR(pbridge))
+> +			return PTR_ERR(pbridge);
+> +
+> +		tc->panel_bridge = pbridge;
+> +	}
+> +
+>  	/* Shut down GPIO is optional */
+>  	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(tc->sd_gpio))
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
