@@ -1,69 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4393D21B8E9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 16:47:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8741E21B965
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 17:25:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520F26EC70;
-	Fri, 10 Jul 2020 14:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2175B6E088;
+	Fri, 10 Jul 2020 15:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38CEF6EC70
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:47:24 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id k7so1884890uan.13
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 07:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UyfmEgnK03C7cizITTOpz/4HO/6zRcq54RlmYM5flmE=;
- b=kZfTD8JALsNqh94Wtk3POrPVslDKNheo1VDKfgGgseFs0nVF+Q1Vlx0otipZVzyFfb
- jLLy0jAHNQjOuEVDGAG8RQsEU3YtH4JPxoc4L0Fv/e75BgzCZOK+MExD03kgytbHs47f
- Y7IOMLVl/xo0EyWFoiLbjF4IYFSYYjCDiKqro=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UyfmEgnK03C7cizITTOpz/4HO/6zRcq54RlmYM5flmE=;
- b=RgA0nsWdWOI8K7n4vfurFdFuX7OR1VOPsUzAZFgMwlXDZv1ad2XulsuTysDA3i1W0M
- MZKTkGjMiEN3lO4bNcGKfXHEbHTipLWY4vWiA3AiPAjNoqKrUkPUyjH02YfujzWWn9gw
- dohiQ6jcrY+DIdaN2B6Q6Jkk2cvzFEoqgEWZfRN2WEyuNfk2q2q4DE9Q5w6leVvk5hsb
- U0duQz177Od+IlQLv13eF6uH/DQjJCcdDcw6TKfFwT1HUORCLRm7OuT2dJvpE4Y+DVOt
- Aj8pCFFKaN9BUNQsXpTiI300qINa0YHLwMRygvxEblpSRkJRe0drQtTz6wLMJme5MbwH
- 7VEw==
-X-Gm-Message-State: AOAM533YjS4yGA+0LLG8CHHi85LnD+vZVPuR77aOFVuHJrsADWV1Upd9
- 1DOu5ur+DXDAZwcjg3TSzEoPb5CBA8M=
-X-Google-Smtp-Source: ABdhPJwKkRGIHSwLDG52LL5nzxtHlNdFcvr6iCKnYXgWMP5Cp/9zs7YVACIsPLUYrC0zPgCoduxWqA==
-X-Received: by 2002:ab0:4821:: with SMTP id b30mr49479016uad.83.1594392442748; 
- Fri, 10 Jul 2020 07:47:22 -0700 (PDT)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com.
- [209.85.222.54])
- by smtp.gmail.com with ESMTPSA id i7sm694084vsi.10.2020.07.10.07.47.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jul 2020 07:47:21 -0700 (PDT)
-Received: by mail-ua1-f54.google.com with SMTP id j21so1893835ual.11
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 07:47:21 -0700 (PDT)
-X-Received: by 2002:ab0:486d:: with SMTP id c42mr45976153uad.64.1594392440942; 
- Fri, 10 Jul 2020 07:47:20 -0700 (PDT)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DF86E088
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 15:25:51 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200710152549euoutp0151c1cea570d10e4b1da363feb9ce06d8~gbZPLJKhG1372613726euoutp01O
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 15:25:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200710152549euoutp0151c1cea570d10e4b1da363feb9ce06d8~gbZPLJKhG1372613726euoutp01O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1594394749;
+ bh=Fb5i/uEYICrQeDrDUdo/YiKSlYt/GhBcG7hnIOec6Cw=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=YeAyM9S7SLX0FVJQjzqKeMYDPHNslHXhLdfbvJvw0BwAwtu2v/1e5fhL4B/6Fs5gE
+ acNZCDZ0hLMv72snapAzXwnHhQSysQmtBB9m8vvLb98xShs3m/tQoydBm6BBSokMEK
+ WHqY7G72oa6qHYeOclrbn4Zx5qMz6vUhh4AUGLAY=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200710152549eucas1p21e7270b75ab42af952ed2b54425468b8~gbZOvNNOE1359713597eucas1p2A;
+ Fri, 10 Jul 2020 15:25:49 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 84.A5.06318.D78880F5; Fri, 10
+ Jul 2020 16:25:49 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200710152548eucas1p23ed7203d6f74470a95f0eb704ed7536c~gbZOZr84T2840528405eucas1p2d;
+ Fri, 10 Jul 2020 15:25:48 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200710152548eusmtrp17d6a60179098edaeda95b657eb95e50a~gbZOY8mRN1963519635eusmtrp13;
+ Fri, 10 Jul 2020 15:25:48 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-52-5f08887d12aa
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 89.68.06314.C78880F5; Fri, 10
+ Jul 2020 16:25:48 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200710152547eusmtip1c927cdd0ea431ba1339e05a7c577869c~gbZMu_kGX0688606886eusmtip1e;
+ Fri, 10 Jul 2020 15:25:46 +0000 (GMT)
+Subject: Re: [PATCH v8 2/5] driver core: add deferring probe reason to
+ devices_deferred property
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <dd5133d5-56a3-0308-ea7b-bfeee7c47f7d@samsung.com>
+Date: Fri, 10 Jul 2020 17:25:46 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
- <20200710011935.GA7056@gentoo.org>
- <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
- <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
- <dc786abb-4bc2-2416-7ee5-de408aceb8f1@kali.org>
- <e0702671-3bed-9e3d-c7f4-d050c617eb65@kali.org>
- <bc795659-7dd6-c667-1c93-4331510ecfbc@kali.org>
- <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
- <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
-In-Reply-To: <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 10 Jul 2020 07:47:09 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WB_4xLe9UZX3eVemybQ1neXJVZgzrDCW-xUxbAM6hCTA@mail.gmail.com>
-Message-ID: <CAD=FV=WB_4xLe9UZX3eVemybQ1neXJVZgzrDCW-xUxbAM6hCTA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
-To: Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <20200710133143.GA2085030@kroah.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0hTcRjlt/vYdXrtOpN9mmSO+iOpLJS4YdiDoEsURBRB5WPlRc1HtpuV
+ hVhpNs1MDatNBSurKdZ05jR72UotRPGRQ8Oyh5HLxwwVK8xyu4v87/zOOd/3nQM/CpOPET5U
+ bOIxXp2oileSMtzU/LN9ZaqGilidqZey1rwXiK2+biDYwo+DJPtmykay6bcMJNszbcXY1yM9
+ OJuVXyZljZ8tBNvdUEyy5sIniL338p2UNefuZ0smC7GN7ly3pRPjbL3npdxD3TspV6TREpyx
+ IovkXuV1SbhnJZVSbuBii4SrKUvjch9UIK7x0hWcmzAu3um2T7Y+io+PPc6rA0MjZTHjP4aJ
+ pCL6pMZy4AzKcc1GLhQwwfC2vITMRjJKzugRNDYWEeJjEsHLC2YkPiYQaHMb8H8j4/enJaJw
+ F8Hsn0zniA1Bc2ehw+XJHIRPRTZkxwuZILjcppPaTRhjwsEwkoHZBZJZDr9r+kg7pplQ6Luj
+ dwzgzDLIabY4Fnkx4WCw1klEjwe81g46eBdmDTxueuTYgzF+UDda7MQKODdZTohRtRQMTcSI
+ eAtkXG928p7wreWBVMS+0Holx1ktDQb09myyOaxBUFv1EBOFEOhv/zUXlJo7sBwMDYEivQlq
+ uizITgPjDr2jHmIEdygwXcNEmgZNplx0+8NAW61zoQJud0yReUipm1dMN6+Mbl4Z3f+7pQiv
+ QAo+WUiI5oWgRP7EKkGVICQnRq86dCTBiOZ+Yetsy1Q9ejpz0IwYCind6FIVFSEnVMeFlAQz
+ AgpTLqQ3t7WGy+koVcopXn0kQp0czwtmtIjClQo66KY1TM5Eq47xcTyfxKv/qRLKxecMCqFi
+ X5UWmG6FL32ef1Ry37vqcPq4iTb37eG9ztqGXLZ/NQbcUeMjJza4+W8d2hu68WrTgvFd1d5r
+ v0f2p3v3u/kOd6SNZVmWpeJC/XTYkrS4kuCmnnb9e/8bDR9mZvfs8Ai0ojLD4OkVAv1FM+qn
+ 5BUZhGRbsWumT7l23Wjl7gElLsSo1gRgakH1Fzh87tGBAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42I5/e/4Xd2aDo54g3f3NS1eTjjMaLFxxnpW
+ i6kPn7BZXPn6ns2iefF6Nour318yW5x8c5XFonPiEnaLTY+vsVpc3jWHzeLQ1L2MFmuP3GW3
+ ONQXbTH3y1RmBz6Py9cuMnu8v9HK7rFz1l12j9kdM1k9Nq3qZPM4MeESk8f+uWvYPe53H2fy
+ 2Lyk3qNvyypGjwO9k1k8Pm+SC+CJ0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7Uy
+ MlXSt7NJSc3JLEst0rdL0Mv48OM1a8Fs3oqOazENjD3cXYycHBICJhIf1n1n6mLk4hASWMoo
+ 0XF/KytEQlxi9/y3zBC2sMSfa11sEEVvGSVetb9nA0kICyRJPJr9nhHEFhEwlug/O4sdpIhZ
+ YBeLxLp//9ghOn4ySnzYu5QFpIpNQFPi7+abYN28AnYSN5etAOtmEVCV6Dl2DaxGVCBOYvmW
+ +ewQNYISJ2c+AYtzChhK7Dm6G+wkZgEziXmbH0LZ8hLb386BssUlmr6sZJ3AKDQLSfssJC2z
+ kLTMQtKygJFlFaNIamlxbnpusaFecWJucWleul5yfu4mRmD8bzv2c/MOxksbgw8xCnAwKvHw
+ LkjkiBdiTSwrrsw9xCjBwawkwut09nScEG9KYmVValF+fFFpTmrxIUZToOcmMkuJJucDU1Ne
+ SbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU1ILUIpg+Jg5OqQbGlstf7stfqy/l+L6V
+ 0Y7poe6yCp/ZuRefB+qfeX5V+dAmv6PL33X+iX/j4uJYdf+S11SR2z8vPdfYu8/ZLua3ncB3
+ 19c9G5dfyg1YubtKNHruhgnXD8rLrdF2//Npf1CdweO3W5fuMJRruWqXZlCwJODOuQeb34T8
+ 0dlW/mve8rASZhGeCRy77ymxFGckGmoxFxUnAgAvmfteFQMAAA==
+X-CMS-MailID: 20200710152548eucas1p23ed7203d6f74470a95f0eb704ed7536c
+X-Msg-Generator: CA
+X-RootMTR: 20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297
+References: <CAHp75VegHLG5tgVFjwmpmDfSqELqNXcb9dFSM4jLRx+anW7Lsw@mail.gmail.com>
+ <CGME20200702134434eucas1p233a3f66f5bdb4b97f4f49d2d43d45297@eucas1p2.samsung.com>
+ <20200702134421.6412-1-a.hajda@samsung.com>
+ <20200710133143.GA2085030@kroah.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,198 +111,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
+Cc: andy.shevchenko@gmail.com, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-kernel@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Mark Brown <broonie@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Steev Klimaszewski <steev@gentoo.org>
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, Jul 9, 2020 at 11:15 PM Steev Klimaszewski <steev@kali.org> wrote:
->
-> Hi,
->
-> On 7/9/20 11:12 PM, Doug Anderson wrote:
-> >> root@c630:~# bus=$(i2cdetect -l | grep sn65 | sed 's/i2c-\([0-9]*\).*$/\1/')
-> >> root@c630:~# i2cdump ${bus} 0x50 i > edid
-> >> WARNING! This program can confuse your I2C bus, cause data loss and worse!
-> >> I will probe file /dev/i2c-16, address 0x50, mode i2c block
-> >> Continue? [Y/n]
-> >> root@c630:~# edid-decode edid
-> >> edid-decode (hex):
-> >>
-> >> 00 ff ff ff ff ff ff 00 09 e5 d1 07 00 00 00 00
-> >> 01 1c 01 04 a5 1d 11 78 0a 1d b0 a6 58 54 9e 26
-> >> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> >> 01 01 01 01 01 01 c0 39 80 18 71 38 28 40 30 20
-> >> 36 00 26 a5 10 00 00 1a 00 00 00 00 00 00 00 00
-> >> 00 00 00 00 00 00 00 00 00 1a 00 00 00 fe 00 42
-> >> 4f 45 20 43 51 0a 20 20 20 20 20 20 00 00 00 fe
-> >> 00 4e 56 31 33 33 46 48 4d 2d 4e 36 31 0a 00 9a
-> >>
-> >> 03 26 0a 77 ab 1c 05 71 6f 1d 8c f1 43 ce 6a bb
-> >> fb d3 11 20 39 07 22 6e 65 68 77 70 d3 05 34 73
-> >> 44 21 8b fd f5 6d 11 62 94 2a 7c fa 93 ba 6a 61
-> >> 92 da 15 53 4c 39 eb f7 86 23 97 48 e9 39 09 d2
-> >> 66 02 70 bb e2 77 0f 4a a3 a0 4c 72 6e 5d 47 70
-> >> 43 c2 13 f3 b2 d9 b9 78 02 be 41 82 15 6a 28 dc
-> >> 45 0f 9d eb 0f 2a cc e8 35 8d 34 7f 3e 84 5e a3
-> >> 30 5e 1e 29 0a 48 0c d1 0a c4 08 31 03 a9 3b 29
-> >>
-> >> ----------------
-> >>
-> >> EDID version: 1.4
-> >> Manufacturer: BOE Model 2001 Serial Number 0
-> >> Made in week 1 of 2018
-> >> Digital display
-> >> 8 bits per primary color channel
-> >> DisplayPort interface
-> >> Maximum image size: 29 cm x 17 cm
-> >> Gamma: 2.20
-> >> Supported color formats: RGB 4:4:4, YCrCb 4:4:4
-> >> First detailed timing includes the native pixel format and preferred
-> >> refresh rate
-> >> Color Characteristics
-> >>     Red:   0.6484, 0.3447
-> >>     Green: 0.3310, 0.6181
-> >>     Blue:  0.1503, 0.0615
-> >>     White: 0.3125, 0.3281
-> >> Established Timings I & II: none
-> >> Standard Timings: none
-> >> Detailed mode: Clock 147.840 MHz, 294 mm x 165 mm
-> >>                  1920 1968 2000 2200 ( 48  32 200)
-> >>                  1080 1083 1089 1120 (  3   6  31)
-> >>                  +hsync -vsync
-> >>                  VertFreq: 60.000 Hz, HorFreq: 67.200 kHz
-> >> Manufacturer-Specified Display Descriptor (0x00): 00 00 00 00 00 00 00
-> >> 00 00 00 00 00 00 00 00 1a  ................
-> >> Alphanumeric Data String: BOE CQ
-> >> Alphanumeric Data String: NV133FHM-N61
-> >> Checksum: 0x9a
-> >>
-> >> ----------------
-> >>
-> >> Unknown EDID Extension Block 0x03
-> >>     03 26 0a 77 ab 1c 05 71 6f 1d 8c f1 43 ce 6a bb .&.w...qo...C.j.
-> >>     fb d3 11 20 39 07 22 6e 65 68 77 70 d3 05 34 73  ... 9."nehwp..4s
-> >>     44 21 8b fd f5 6d 11 62 94 2a 7c fa 93 ba 6a 61 D!...m.b.*|...ja
-> >>     92 da 15 53 4c 39 eb f7 86 23 97 48 e9 39 09 d2 ...SL9...#.H.9..
-> >>     66 02 70 bb e2 77 0f 4a a3 a0 4c 72 6e 5d 47 70 f.p..w.J..Lrn]Gp
-> >>     43 c2 13 f3 b2 d9 b9 78 02 be 41 82 15 6a 28 dc C......x..A..j(.
-> >>     45 0f 9d eb 0f 2a cc e8 35 8d 34 7f 3e 84 5e a3 E....*..5.4.>.^.
-> >>     30 5e 1e 29 0a 48 0c d1 0a c4 08 31 03 a9 3b 29 0^.).H.....1..;)
-> >> Checksum: 0x29 (should be 0x82)
-> >>
-> >>
-> >> - My edid does in fact say it's 8bit
-> > Crazy!  Mine:
-> >
-> > Extracted contents:
-> > header:          00 ff ff ff ff ff ff 00
-> > serial number:   09 e5 2d 08 00 00 00 00 23 1c
-> > version:         01 04
-> > basic params:    95 1d 11 78 02
-> > chroma info:     d5 00 a6 58 54 9f 27 0f 4f 57
-> > established:     00 00 00
-> > standard:        01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
-> > descriptor 1:    c0 39 80 18 71 38 28 40 30 20 36 00 26 a5 10 00 00 1a
-> > descriptor 2:    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> > descriptor 3:    00 00 00 fe 00 42 4f 45 20 43 51 0a 20 20 20 20 20 20
-> > descriptor 4:    00 00 00 fe 00 4e 56 31 33 33 46 48 4d 2d 4e 36 32 0a
-> > extensions:      00
-> > checksum:        40
-> >
-> > Manufacturer: BOE Model 82d Serial Number 0
-> > Made week 35 of 2018
-> > EDID version: 1.4
-> > Digital display
-> > 6 bits per primary color channel
-> > DisplayPort interface
-> > Maximum image size: 29 cm x 17 cm
-> > Gamma: 2.20
-> > Supported color formats: RGB 4:4:4
-> > First detailed timing is preferred timing
-> > Established timings supported:
-> > Standard timings supported:
-> > Detailed mode: Clock 147.840 MHz, 294 mm x 165 mm
-> >                 1920 1968 2000 2200 hborder 0
-> >                 1080 1083 1089 1120 vborder 0
-> >                 +hsync -vsync
-> > Manufacturer-specified data, tag 0
-> > ASCII string: BOE
-> > ASCII string: NV133FHM-N62
-> > Checksum: 0x40 (valid)
-> >
-> > Unknown extension block
-> >
-> > EDID block does NOT conform to EDID 1.3!
-> >          Missing name descriptor
-> >          Missing monitor ranges
-> >          Detailed block string not properly terminated
-> > EDID block does not conform at all!
-> >          Has 128 nonconformant extension block(s)
->
-> I did attempt to modify the patch, and I don't think I did it correctly
->
-> Around line 232, I changed
->
-> IS_SC7180_TARGET(c->hw.hwversion))
->
-> to
->
-> IS_SC7180_TARGET(c->hw.hwversion) ||
->
-> IS_SDM845_TARGET(c->hw.hwversion))
->
->
-> But it would seem that only gets us 1/2 way there...
->
-> https://dev.gentoo.org/~steev/files/image2.jpg
->
->
-> But should I continue on this path,
-
-It's probably worth getting dithering working on your sdm845 anyway in
-case anyone actually does put a 6bpp panel on this SoC.
+On 10.07.2020 15:31, Greg Kroah-Hartman wrote:
+> On Thu, Jul 02, 2020 at 03:44:21PM +0200, Andrzej Hajda wrote:
+>> /sys/kernel/debug/devices_deferred property contains list of deferred devices.
+>> This list does not contain reason why the driver deferred probe, the patch
+>> improves it.
+>> The natural place to set the reason is dev_err_probe function introduced
+>> recently, ie. if dev_err_probe will be called with -EPROBE_DEFER instead of
+>> printk the message will be attached to a deferred device and printed when user
+>> reads devices_deferred property.
+>>
+>> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+>> Reviewed-by: Mark Brown <broonie@kernel.org>
+>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>> Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
+>> ---
+>> v8:
+>> - improved commit message
+> I'm totally confused by this series.  Can you resend the whole thing,
+> as a full series, not just random individual patches in the series
+> incremented?  It's a pain to try to fish them all out as to which is the
+> "latest" with all of the needed reviewed by lines :(
 
 
-> or should we be finding others who
-> have an N61 and see what their EDID reports?
+v7 is the latest except this one,which contains only commit message change.
 
-I have an email out to BOE, but it might take a little while to get a
-response.  I'll see what they say.  If they say that the panel
-actually supports 8bpp then it's a no-brainer and we should just
-switch to 8bpp and be done.
-
-...but if they say it's a 6bpp panel that has its own dither logic
-then it gets more complicated.  Initially one would think there should
-be very little downside in defining the panel as an 8bpp panel and
-calling it done.  ...except that it conflicts with some other work
-that I have in progress.  :-P  Specifically if you treat the panel as
-6bpp and then reduce the blanking a tiny bit you can actually save 75
-mW of total system power on my board (probably similar on your board
-since you have the same bridge chip).  You can see a patch to do that
-here:
-
-https://crrev.com/c/2276384
-
-...so I'm hoping to get some clarity from BOE both on the true bits
-per pixel and whether my proposed timings are valid before moving
-forward.  Is that OK?
+Anyway I will send v8 to make things simple.
 
 
--Doug
+Regards
+
+Andrzej
+
+
+>
+> thanks,
+>
+> greg k-h
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://protect2.fireeye.com/v1/url?k=563dadd0-0bf16175-563c269f-0cc47a30d446-7237066d193b28b5&q=1&e=54779b9e-347e-4d0c-9845-da31d4cce7e4&u=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
