@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB2B21B792
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 16:02:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6702821B80F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 16:16:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8386EC50;
-	Fri, 10 Jul 2020 14:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A79E76EC57;
+	Fri, 10 Jul 2020 14:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51366EC55
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:02:47 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id k22so4896105oib.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 07:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D556EC57
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 14:15:59 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id dr13so6241185ejc.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 07:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xTQ5MsJnerH24IzbOibKIVgALQbQ6fBLEFDFGaudNHc=;
- b=WU2W6d+TZkpC2bQ5QGHyZU588I4aYRy0pgR/0jf5dsrsdUKzG7CHHQbdXmPQGYQqUL
- nasfBbJ4/UbxjUPNH17KzLPCu8/hid/VouoHAy2Rs5LX3JMX0PseWupYbCGix+YrbFIN
- 0G929NaZD66foWbG+h37GXj5alNoKzzHEG+Eg=
+ :cc; bh=VwYB5ADm1mz6ytwc+yvSOCOhw7iU6BRbwNalytDne7Q=;
+ b=PzFS6nZPlbcQcD/+5VhLYbW3rCJiR8zJNqYKo4s+XJ6oFmP2AP/EoIT6cd3FZYKd34
+ UyBttIPl51cNTQDOYjIDwI4Q69r+jZv0btLnCn5S6NdFilUuLU4saHMbOS/Qb+ixZj7r
+ YK6PD1Vv+YIF6j4lKY52AemDBJsXtqwYLJm9QN/E9Rc8HNLj2CWJUOjOepnt2ijK7ads
+ 44Yor6SlfqxCG2LSuFgUa52EAIJJNmBw9WXvjZnnRaQDI3sWy84fQz1Sd+1PeZvpGlps
+ MmiN/9zoJT0dwv03UboPO36Psp5ydxBGtEIhp8REBvImVsFHVL/aiqOLiHF7BYdPGVuW
+ x27g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xTQ5MsJnerH24IzbOibKIVgALQbQ6fBLEFDFGaudNHc=;
- b=Fmc0zC/jVbdCiyNw/mUhWuFhGFs3zAlPySk4b6ktK4HFMBQa3CvEaIZsOXqMiBzyd5
- ftwKkEu7uHChB7yUGT1SbwUpXgFSeVUBQGYumG0JeHAIkZEYtpg4uBMDPv6uNE2b4j1g
- /yC0zO3csLh1I926EhwvyJ7uaUMFJXkNUSkdxo/Ld0mSwWFP3XJDQWPke5FpTAn79c2e
- YsuQysWBqjwmW4O2YB56G9IOA3240yPXUkSfqYvAsN3VbkuOMuC9QX0GNHkevdLk2FvQ
- ksjvMB6cJsTx1L8lPUyR6cr978ybXpRYx8/Krp151N8+dLywPHdTOdfrRaqztlTyCa5R
- vVFw==
-X-Gm-Message-State: AOAM532Iz3jVr9W4dMYeZhhksKvwqOt2h2K2K2R1jbnOU977ce6Bj1+R
- Mgilcv/Hf7uGWN/TDjc5JRVcAXdz9zQXMfO9rQHNWw==
-X-Google-Smtp-Source: ABdhPJz9ueO/NwCXWq4u05bld/A1Jzmv30JDZLkssowFodTQImkU08xp+BW6yONjBlhlRH0STky3grfq96MK+YXxz58=
-X-Received: by 2002:aca:cc8e:: with SMTP id c136mr4296478oig.128.1594389767031; 
- Fri, 10 Jul 2020 07:02:47 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=VwYB5ADm1mz6ytwc+yvSOCOhw7iU6BRbwNalytDne7Q=;
+ b=Zc6QjFDCD1lqfhHO270k3hfEor6JDPeKvuA4QZu+r/UDU+mwDFjNg8QO4LDG7RXXV3
+ 8iFDRP2xl4vwyCpbNLhP9gABh5jlgpQHG1Jd7D6TvsdEBf6g/8CTlENE6yKDfwA21nuo
+ o/oY75+f2hyWreE6FNvJxs7yvXVkkzwx6pAVqk1qpXxAEy/OXAFvJZjY6WyxC1bhUqIq
+ fhgf5SvM3eK4c1dO1WQmhQHs8PB4mU4mGExwViACl0Ezzi4PdmLBzWRA/M6tjfpreT/L
+ hZqsq2pmp2tQoq4DZj/wN5+U828KNNt8G7GHn2nuWTtdG+B893pI1NTxthm/E0ec5KLC
+ 2vcQ==
+X-Gm-Message-State: AOAM533QDtpmlT/O1CFthJIU0TnGrepqJ1CMQfmTUs7H3dBSmJixxvla
+ EYTYlsfOe7AmM2WP7BicN0C7bMnHuJ/boDA2MKE=
+X-Google-Smtp-Source: ABdhPJzjs+zsETyv/wthfn2t4mysUPgW5iKQmK2JUA4in9NjKZ6b86++Gz172z5DNjd1SmLYAdlK03tY2jJqyqV77ZQ=
+X-Received: by 2002:a17:906:856:: with SMTP id
+ f22mr58682642ejd.245.1594390558045; 
+ Fri, 10 Jul 2020 07:15:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-3-daniel.vetter@ffwll.ch>
- <20200709080911.GP3278063@phenom.ffwll.local>
- <20200710124357.GB23821@mellanox.com>
- <5c163d74-4a28-1d74-be86-099b4729a2e0@amd.com>
- <20200710125453.GC23821@mellanox.com>
- <4f4a2cf7-f505-8494-1461-bd467870481e@amd.com>
- <20200710134826.GD23821@mellanox.com>
-In-Reply-To: <20200710134826.GD23821@mellanox.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 10 Jul 2020 16:02:35 +0200
-Message-ID: <CAKMK7uGSUULTmL=bDXty6U4e37dzLHzu7wgUyOxo2CvR9KvXGg@mail.gmail.com>
-Subject: Re: [PATCH 02/25] dma-fence: prime lockdep annotations
-To: Jason Gunthorpe <jgg@mellanox.com>
+References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
+ <20200710011935.GA7056@gentoo.org>
+ <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
+ <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
+ <dc786abb-4bc2-2416-7ee5-de408aceb8f1@kali.org>
+ <e0702671-3bed-9e3d-c7f4-d050c617eb65@kali.org>
+ <bc795659-7dd6-c667-1c93-4331510ecfbc@kali.org>
+ <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
+ <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
+In-Reply-To: <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 10 Jul 2020 07:16:29 -0700
+Message-ID: <CAF6AEGvrhqXr=a=SLLHp1K+1kBb--62B85SB3S1K+KkYUtBqKg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
+To: Steev Klimaszewski <steev@kali.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,86 +69,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>, kernel test robot <lkp@intel.com>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Doug Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Steev Klimaszewski <steev@gentoo.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMTAsIDIwMjAgYXQgMzo0OCBQTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0BtZWxs
-YW5veC5jb20+IHdyb3RlOgo+Cj4gT24gRnJpLCBKdWwgMTAsIDIwMjAgYXQgMDM6MDE6MTBQTSAr
-MDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+IEFtIDEwLjA3LjIwIHVtIDE0OjU0IHNj
-aHJpZWIgSmFzb24gR3VudGhvcnBlOgo+ID4gPiBPbiBGcmksIEp1bCAxMCwgMjAyMCBhdCAwMjo0
-ODoxNlBNICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gPiA+IEFtIDEwLjA3LjIw
-IHVtIDE0OjQzIHNjaHJpZWIgSmFzb24gR3VudGhvcnBlOgo+ID4gPiA+ID4gT24gVGh1LCBKdWwg
-MDksIDIwMjAgYXQgMTA6MDk6MTFBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4g
-PiA+ID4gSGkgSmFzb24sCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEJlbG93IHRoZSBwYXJhZ3Jh
-cGggSSd2ZSBhZGRlZCBhZnRlciBvdXIgZGlzY3Vzc2lvbnMgYXJvdW5kIGRtYS1mZW5jZXMKPiA+
-ID4gPiA+ID4gb3V0c2lkZSBvZiBkcml2ZXJzL2dwdS4gR29vZCBlbm91Z2ggZm9yIGFuIGFjayBv
-biB0aGlzLCBvciB3YW50IHNvbWV0aGluZwo+ID4gPiA+ID4gPiBjaGFuZ2VkPwo+ID4gPiA+ID4g
-Pgo+ID4gPiA+ID4gPiBUaGFua3MsIERhbmllbAo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+ICsg
-KiBOb3RlIHRoYXQgb25seSBHUFUgZHJpdmVycyBoYXZlIGEgcmVhc29uYWJsZSBleGN1c2UgZm9y
-IGJvdGggcmVxdWlyaW5nCj4gPiA+ID4gPiA+ID4gKyAqICZtbXVfaW50ZXJ2YWxfbm90aWZpZXIg
-YW5kICZzaHJpbmtlciBjYWxsYmFja3MgYXQgdGhlIHNhbWUgdGltZSBhcyBoYXZpbmcgdG8KPiA+
-ID4gPiA+ID4gPiArICogdHJhY2sgYXN5bmNocm9ub3VzIGNvbXB1dGUgd29yayB1c2luZyAmZG1h
-X2ZlbmNlLiBObyBkcml2ZXIgb3V0c2lkZSBvZgo+ID4gPiA+ID4gPiA+ICsgKiBkcml2ZXJzL2dw
-dSBzaG91bGQgZXZlciBjYWxsIGRtYV9mZW5jZV93YWl0KCkgaW4gc3VjaCBjb250ZXh0cy4KPiA+
-ID4gPiA+IEkgd2FzIGhvcGluZyB3ZSdkIGdldCB0byAnbm8gZHJpdmVyIG91dHNpZGUgR1BVIHNo
-b3VsZCBldmVuIHVzZQo+ID4gPiA+ID4gZG1hX2ZlbmNlKCknCj4gPiA+ID4gTXkgbGFzdCBzdGF0
-dXMgd2FzIHRoYXQgVjRMIGNvdWxkIGNvbWUgdXNlIGRtYV9mZW5jZXMgYXMgd2VsbC4KPiA+ID4g
-SSdtIHN1cmUgbG90cyBvZiBwbGFjZXMgKmNvdWxkKiB1c2UgaXQsIGJ1dCBJIHRoaW5rIEkgdW5k
-ZXJzdG9vZCB0aGF0Cj4gPiA+IGl0IGlzIGEgYmFkIGlkZWEgdW5sZXNzIHlvdSBoYXZlIHRvIGZp
-dCBpbnRvIHRoZSBEUk0gdUFQST8KPiA+Cj4gPiBJdCB3b3VsZCBiZSBhIGJpdCBxdWVzdGlvbmFi
-bGUgaWYgeW91IHVzZSB0aGUgY29udGFpbmVyIG9iamVjdHMgd2UgY2FtZSB1cAo+ID4gd2l0aCBp
-biB0aGUgRFJNIHN1YnN5c3RlbSBvdXRzaWRlIG9mIGl0Lgo+ID4KPiA+IEJ1dCB1c2luZyB0aGUg
-ZG1hX2ZlbmNlIGl0c2VsZiBtYWtlcyBzZW5zZSBmb3IgZXZlcnl0aGluZyB3aGljaCBjb3VsZCBk
-bwo+ID4gYXN5bmMgRE1BIGluIGdlbmVyYWwuCj4KPiBkbWFfZmVuY2Ugb25seSBwb3NzaWJseSBt
-YWtlcyBzb21lIHNlbnNlIGlmIHlvdSBpbnRlbmQgdG8gZXhwb3NlIHRoZQo+IGNvbXBsZXRpb24g
-b3V0c2lkZSBhIHNpbmdsZSBkcml2ZXIuCj4KPiBUaGUgcHJlZmVyZWQga2VybmVsIGRlc2lnbiBw
-YXR0ZXJuIGZvciB0aGlzIGlzIHRvIGNvbm5lY3QgdGhpbmdzIHdpdGgKPiBhIGZ1bmN0aW9uIGNh
-bGxiYWNrLgo+Cj4gU28gdGhlIGFjdHVhbCB1c2UgY2FzZSBvZiBkbWFfZmVuY2UgaXMgcXVpdGUg
-bmFycm93IGFuZCB0aWdodGx5IGxpbmtlZAo+IHRvIERSTS4KPgo+IEkgZG9uJ3QgdGhpbmsgd2Ug
-c2hvdWxkIHNwcmVhZCB0aGlzIGJleW9uZCBEUk0sIEkgY2FuJ3Qgc2VlIGEgcmVhc29uLgoKWWVh
-aCB2NGwgaGFzIGEgbGVnaXQgcmVhc29uIHRvIHVzZSBkbWFfZmVuY2UsIGFuZHJvaWQgd2FudHMg
-dGhhdAp0aGVyZS4gVGhlcmUncyBldmVuIGJlZW4gcGF0Y2hlcyBwcm9wb3NlZCB5ZWFycyBhZ28s
-IGJ1dCBuZXZlciBsYW5kZWQKYmVjYXVzZSBhbmRyb2lkIGlzIHVzaW5nIHNvbWUgdmVuZG9yIGhh
-Y2sgaG9ycm9yIHNob3cgZm9yIGNhbWVyYQpkcml2ZXJzIHJpZ2h0IG5vdy4KCkJ1dCB0aGVyZSBp
-cyBhbiBlZmZvcnQgZ29pbmcgb24gdG8gZml4IHRoYXQgKHVuZGVyIHRoZSBsaWJjYW1lcmEKaGVh
-ZGluZyksIGFuZCBJIGV4cGVjdCB0aGF0IG9uY2Ugd2UgaGF2ZSB0aGF0LCBpdCdsbCB3YW50IGRt
-YV9mZW5jZQpzdXBwb3J0LiBTbyBvdXRyaWdodCBleGNsdWRpbmcgZXZlcnlvbmUgZnJvbSBkbWFf
-ZmVuY2UgaXMgYSBiaXQgdG9vCm11Y2guIFRoZXkgZGVmaW5pdGVseSBzaG91bGRuJ3QgYmUgdXNl
-ZCB0aG91Z2ggZm9yIGVudGlyZWx5CmluZGVwZW5kZW50IHN0dWZmLgoKPiA+ID4gWW91IGFyZSBi
-ZXR0ZXIgdG8gZG8gc29tZXRoaW5nIGNvbnRhaW5lZCBpbiB0aGUgc2luZ2xlIGRyaXZlciB3aGVy
-ZQo+ID4gPiBsb2NraW5nIGNhbiBiZSBhbmFseXplZC4KPiA+ID4KPiA+ID4gPiBJJ20gbm90IDEw
-MCUgc3VyZSwgYnV0IHdvdWxkbid0IE1NVSBub3RpZmllciArIGRtYV9mZW5jZSBiZSBhIHZhbGlk
-IHVzZSBjYXNlCj4gPiA+ID4gZm9yIHRoaW5ncyBsaWtlIGN1c3RvbSBGUEdBIGludGVyZmFjZXMg
-YXMgd2VsbD8KPiA+ID4gSSBkb24ndCB0aGluayB3ZSBzaG91bGQgZXhwYW5kIHRoZSBsaXN0IG9m
-IGRyaXZlcnMgdGhhdCB1c2UgdGhpcwo+ID4gPiB0ZWNobmlxdWUuCj4gPiA+IERyaXZlcnMgdGhh
-dCBjYW4ndCBzdXNwZW5kIHNob3VsZCBwaW4gbWVtb3J5LCBub3QgdXNlIGJsb2NrZWQKPiA+ID4g
-bm90aWZpZXJzIHRvIGNyZWF0ZWQgcGlubmVkIG1lbW9yeS4KPiA+Cj4gPiBBZ3JlZWQgdG90YWxs
-eSwgaXQncyBhIGNvbXBsZXRlIHBhaW4gdG8gbWFpbnRhaW4gZXZlbiBmb3IgdGhlIEdQVSBkcml2
-ZXJzLgo+ID4KPiA+IFVuZm9ydHVuYXRlbHkgdGhhdCBkb2Vzbid0IGNoYW5nZSB1c2VycyBmcm9t
-IHJlcXVlc3RpbmcgaXQuIFNvIEknbSBwcmV0dHkKPiA+IHN1cmUgd2UgYXJlIGdvaW5nIHRvIHNl
-ZSBtb3JlIG9mIHRoaXMuCj4KPiBLZXJuZWwgbWFpbnRhaW5lcnMgbmVlZCB0byBzYXkgbm8uCj4K
-PiBUaGUgcHJvcGVyIHdheSB0byBkbyBETUEgb24gbm8tZmF1bHRpbmcgaGFyZHdhcmUgaXMgcGFn
-ZSBwaW5uaW5nLgo+Cj4gVHJ5aW5nIHRvIGltcHJvdmUgcGVyZm9ybWFuY2Ugb2YgbGltaXRlZCBI
-VyBieSB1c2luZyBza2V0Y2h5Cj4gdGVjaG5pcXVlcyBhdCB0aGUgY29zdCBvZiBnZW5lcmFsIHN5
-c3RlbSBzdGFiaWxpdHkgc2hvdWxkIGJlIGEgTkFLLgoKV2VsbCB0aGF0J3MgcHJldHR5IG11Y2gg
-Z3B1IGRyaXZlcnMsIGFsbCB0aGUgaG9ycm9ycyBmb3IgYSBiaXQgbW9yZSBzcGVlZCA6LSkKCk9u
-IHRoZSB0ZXh0IGl0c2VsZiwgc2hvdWxkIEkgdXBncmFkZSB0byAibXVzdCBub3QiIGluc3RlYWQg
-b2YgInNob3VsZApub3QiPyBPciBtb3JlIG5lZWRlZD8KLURhbmllbAotLSAKRGFuaWVsIFZldHRl
-cgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwu
-Y2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Jul 9, 2020 at 11:15 PM Steev Klimaszewski <steev@kali.org> wrote:
+>
+> Hi,
+>
+> On 7/9/20 11:12 PM, Doug Anderson wrote:
+> >> root@c630:~# bus=$(i2cdetect -l | grep sn65 | sed 's/i2c-\([0-9]*\).*$/\1/')
+> >> root@c630:~# i2cdump ${bus} 0x50 i > edid
+> >> WARNING! This program can confuse your I2C bus, cause data loss and worse!
+> >> I will probe file /dev/i2c-16, address 0x50, mode i2c block
+> >> Continue? [Y/n]
+> >> root@c630:~# edid-decode edid
+> >> edid-decode (hex):
+> >>
+> >> 00 ff ff ff ff ff ff 00 09 e5 d1 07 00 00 00 00
+> >> 01 1c 01 04 a5 1d 11 78 0a 1d b0 a6 58 54 9e 26
+> >> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> >> 01 01 01 01 01 01 c0 39 80 18 71 38 28 40 30 20
+> >> 36 00 26 a5 10 00 00 1a 00 00 00 00 00 00 00 00
+> >> 00 00 00 00 00 00 00 00 00 1a 00 00 00 fe 00 42
+> >> 4f 45 20 43 51 0a 20 20 20 20 20 20 00 00 00 fe
+> >> 00 4e 56 31 33 33 46 48 4d 2d 4e 36 31 0a 00 9a
+> >>
+> >> 03 26 0a 77 ab 1c 05 71 6f 1d 8c f1 43 ce 6a bb
+> >> fb d3 11 20 39 07 22 6e 65 68 77 70 d3 05 34 73
+> >> 44 21 8b fd f5 6d 11 62 94 2a 7c fa 93 ba 6a 61
+> >> 92 da 15 53 4c 39 eb f7 86 23 97 48 e9 39 09 d2
+> >> 66 02 70 bb e2 77 0f 4a a3 a0 4c 72 6e 5d 47 70
+> >> 43 c2 13 f3 b2 d9 b9 78 02 be 41 82 15 6a 28 dc
+> >> 45 0f 9d eb 0f 2a cc e8 35 8d 34 7f 3e 84 5e a3
+> >> 30 5e 1e 29 0a 48 0c d1 0a c4 08 31 03 a9 3b 29
+> >>
+> >> ----------------
+> >>
+> >> EDID version: 1.4
+> >> Manufacturer: BOE Model 2001 Serial Number 0
+> >> Made in week 1 of 2018
+> >> Digital display
+> >> 8 bits per primary color channel
+> >> DisplayPort interface
+> >> Maximum image size: 29 cm x 17 cm
+> >> Gamma: 2.20
+> >> Supported color formats: RGB 4:4:4, YCrCb 4:4:4
+> >> First detailed timing includes the native pixel format and preferred
+> >> refresh rate
+> >> Color Characteristics
+> >>     Red:   0.6484, 0.3447
+> >>     Green: 0.3310, 0.6181
+> >>     Blue:  0.1503, 0.0615
+> >>     White: 0.3125, 0.3281
+> >> Established Timings I & II: none
+> >> Standard Timings: none
+> >> Detailed mode: Clock 147.840 MHz, 294 mm x 165 mm
+> >>                  1920 1968 2000 2200 ( 48  32 200)
+> >>                  1080 1083 1089 1120 (  3   6  31)
+> >>                  +hsync -vsync
+> >>                  VertFreq: 60.000 Hz, HorFreq: 67.200 kHz
+> >> Manufacturer-Specified Display Descriptor (0x00): 00 00 00 00 00 00 00
+> >> 00 00 00 00 00 00 00 00 1a  ................
+> >> Alphanumeric Data String: BOE CQ
+> >> Alphanumeric Data String: NV133FHM-N61
+> >> Checksum: 0x9a
+> >>
+> >> ----------------
+> >>
+> >> Unknown EDID Extension Block 0x03
+> >>     03 26 0a 77 ab 1c 05 71 6f 1d 8c f1 43 ce 6a bb .&.w...qo...C.j.
+> >>     fb d3 11 20 39 07 22 6e 65 68 77 70 d3 05 34 73  ... 9."nehwp..4s
+> >>     44 21 8b fd f5 6d 11 62 94 2a 7c fa 93 ba 6a 61 D!...m.b.*|...ja
+> >>     92 da 15 53 4c 39 eb f7 86 23 97 48 e9 39 09 d2 ...SL9...#.H.9..
+> >>     66 02 70 bb e2 77 0f 4a a3 a0 4c 72 6e 5d 47 70 f.p..w.J..Lrn]Gp
+> >>     43 c2 13 f3 b2 d9 b9 78 02 be 41 82 15 6a 28 dc C......x..A..j(.
+> >>     45 0f 9d eb 0f 2a cc e8 35 8d 34 7f 3e 84 5e a3 E....*..5.4.>.^.
+> >>     30 5e 1e 29 0a 48 0c d1 0a c4 08 31 03 a9 3b 29 0^.).H.....1..;)
+> >> Checksum: 0x29 (should be 0x82)
+> >>
+> >>
+> >> - My edid does in fact say it's 8bit
+> > Crazy!  Mine:
+> >
+> > Extracted contents:
+> > header:          00 ff ff ff ff ff ff 00
+> > serial number:   09 e5 2d 08 00 00 00 00 23 1c
+> > version:         01 04
+> > basic params:    95 1d 11 78 02
+> > chroma info:     d5 00 a6 58 54 9f 27 0f 4f 57
+> > established:     00 00 00
+> > standard:        01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+> > descriptor 1:    c0 39 80 18 71 38 28 40 30 20 36 00 26 a5 10 00 00 1a
+> > descriptor 2:    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > descriptor 3:    00 00 00 fe 00 42 4f 45 20 43 51 0a 20 20 20 20 20 20
+> > descriptor 4:    00 00 00 fe 00 4e 56 31 33 33 46 48 4d 2d 4e 36 32 0a
+> > extensions:      00
+> > checksum:        40
+> >
+> > Manufacturer: BOE Model 82d Serial Number 0
+> > Made week 35 of 2018
+> > EDID version: 1.4
+> > Digital display
+> > 6 bits per primary color channel
+> > DisplayPort interface
+> > Maximum image size: 29 cm x 17 cm
+> > Gamma: 2.20
+> > Supported color formats: RGB 4:4:4
+> > First detailed timing is preferred timing
+> > Established timings supported:
+> > Standard timings supported:
+> > Detailed mode: Clock 147.840 MHz, 294 mm x 165 mm
+> >                 1920 1968 2000 2200 hborder 0
+> >                 1080 1083 1089 1120 vborder 0
+> >                 +hsync -vsync
+> > Manufacturer-specified data, tag 0
+> > ASCII string: BOE
+> > ASCII string: NV133FHM-N62
+> > Checksum: 0x40 (valid)
+> >
+> > Unknown extension block
+> >
+> > EDID block does NOT conform to EDID 1.3!
+> >          Missing name descriptor
+> >          Missing monitor ranges
+> >          Detailed block string not properly terminated
+> > EDID block does not conform at all!
+> >          Has 128 nonconformant extension block(s)
+>
+> I did attempt to modify the patch, and I don't think I did it correctly
+>
+> Around line 232, I changed
+>
+> IS_SC7180_TARGET(c->hw.hwversion))
+>
+> to
+>
+> IS_SC7180_TARGET(c->hw.hwversion) ||
+>
+> IS_SDM845_TARGET(c->hw.hwversion))
+>
+>
+> But it would seem that only gets us 1/2 way there...
+>
+> https://dev.gentoo.org/~steev/files/image2.jpg
+>
+
+neat.. I guess this is because 845/850 supports split-lm (layer
+mixer), and uses it for horiz resolution above 1080
+(MAX_HDISPLAY_SPLIT)
+
+I *think* you could probably increase MAX_HDISPLAY_SPLIT to 1920 and
+it will "work".  (Or at least I think our reasons for using a lower
+value are power, on older gens we only used split mode above 2k
+width.)
+
+BR,
+-R
+
+>
+> But should I continue on this path, or should we be finding others who
+> have an N61 and see what their EDID reports?
+>
+> I have another c630, but unfortunately, it appears to have the IVO
+> screen in it, instead of another N61.  I asked another user and he also
+> had the IVO.
+>
+> -- steev
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
