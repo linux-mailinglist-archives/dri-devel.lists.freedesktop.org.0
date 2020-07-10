@@ -2,82 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCB421B205
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 11:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A76921B1A1
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jul 2020 10:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D17BB6EBA8;
-	Fri, 10 Jul 2020 09:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 333D86EB9B;
+	Fri, 10 Jul 2020 08:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1515 seconds by postgrey-1.36 at gabe;
- Fri, 10 Jul 2020 09:09:15 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAA56EBA8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 09:09:14 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06A8gvMY019342; Fri, 10 Jul 2020 10:47:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : subject :
- date : message-id : references : in-reply-to : content-type : content-id :
- content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=hW99NkJO01Cohy8Gf4OtWTFT16GdgjphlWc9M91Ndb0=;
- b=ALie7Y91hIP0v34yBtcNOs7wvwnOIT/72QqC4tHooxspJoBoVHqjFYstbZlmAYuQST+H
- v0iur6QqLKBBOluT/GlS1SIu8Qp2+BNLAtE3tFptVf6/oNP9YI+okSrm2hcZna5vftud
- uoqLyCQNKdkQD6eDSBu90RrnEbcvIARBaBAJZjs8C62sMOSvPBZdyRIsTwb4eCYgsfZ6
- 7oTBtyJ6Qclp/6e3mq3T5N6I3kU7Mj2KcohgKvHm9MulOwvby3Sy2fcoFaBh9zVldmLW
- iiiDJQCEXA+2SBJAMNJ9c6zUVcF0XxEKohucHxQCp8EoMHuhhdrbqtOUTvOR7Zmrc0// BQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 325k4d241m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Jul 2020 10:47:24 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E4B7B10002A;
- Fri, 10 Jul 2020 10:47:23 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D9CF72A5AD2;
- Fri, 10 Jul 2020 10:47:23 +0200 (CEST)
-Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 10 Jul
- 2020 10:47:23 +0200
-Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
- SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
- 15.00.1473.003; Fri, 10 Jul 2020 10:47:23 +0200
-From: Philippe CORNU <philippe.cornu@st.com>
-To: Yannick FERTRE <yannick.fertre@st.com>, Benjamin GAIGNARD
- <benjamin.gaignard@st.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Alexandre
- TORGUE" <alexandre.torgue@st.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Antonio BORNEO <antonio.borneo@st.com>
-Subject: Re: [PATCH] drm/bridge/synopsys: dsi: add support for non-continuous
- HS clock
-Thread-Topic: [PATCH] drm/bridge/synopsys: dsi: add support for non-continuous
- HS clock
-Thread-Index: AQHWT9/Fw6NgLa8gK02Mjd/7Q+XhP6kAbC6A
-Date: Fri, 10 Jul 2020 08:47:23 +0000
-Message-ID: <8036e047-15c6-d259-66c2-c7f625faf759@st.com>
-References: <20200701194234.18123-1-yannick.fertre@st.com>
-In-Reply-To: <20200701194234.18123-1-yannick.fertre@st.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.49]
-Content-ID: <EC00A6D55CBAED45991E6F0B1D92078E@st.com>
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4816EB9B;
+ Fri, 10 Jul 2020 08:51:11 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id e15so2575909vsc.7;
+ Fri, 10 Jul 2020 01:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IqIVvQ2zr6ElD+RZxcXvNwfajcIvHD5hM0pq+5dyaCU=;
+ b=FLn2L3Yu3a71IwsJbkyQMnv/2osNAG/OpLYe8aVWnpHC68jeftI7JiS5xkEur8kxr8
+ 5NHTmxbaEsLcIUnxVR6rii4rGIYH6RKZ59lfFL8So3UnrtKvIw6lxdU7uLFYBeJUNnIm
+ tfEpSMgM2TOUjQEI4tpG8lTUAfHJ/RH85mI05YDwSzSztlH5AYXDWGNrnei6VmYZahKC
+ AI5y3oT6Ch+wl6ujyswxkMQJKfF2kRbnx51NAIofofKcmxWWI9uyI9welkfj6IDQ34rg
+ vKIlPJiXCdkk9Dk/riLmjG7zTZxG8comE2fgeJsZ7tDyRlfXSW3bnr82QgFyZWPwBDFC
+ ugfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IqIVvQ2zr6ElD+RZxcXvNwfajcIvHD5hM0pq+5dyaCU=;
+ b=UW95Lm3/+qG7Zvop+rVvqmZowvD5LceSOOl1Pu5jM3ODVljmVFyCMufUgj42Ammp62
+ PHfigSCqtoGpHvo8US9FXHcGmyjPD93g3ti6jrrUy1dHM0S8UP05cstCb7V8b8LIpi9C
+ RmIuCVu+f0rzCEgoqaXne9PqHZkPpU7TRX8E11rIAVOGjNsqRJHnZ3BuBlJj3Y/ikIze
+ BJxBq+ml4fFsxEKGKwI3mkbnLGNfMlDVAjkxcXAswRkZ4NansOX7GNk9fLUoavdwveXZ
+ f3t3h3frgQDcRiLRpXBxwlcRlyrG30WvQDdRA59hLJsEUzlsWF0irQAC2wWUvD4HOpZQ
+ 1clg==
+X-Gm-Message-State: AOAM532SLT3f4YyL0ZgE38sQegBToxrCG3fS2lOwit9G4tzcA1e1mecB
+ XULoZUg1T+IaIKIKPFZgKXcG8mxsla6htj+gW1c=
+X-Google-Smtp-Source: ABdhPJxOxsAazACc1kbzqT6xDB5kyDVlMOltsczaiTYVbWwwDKSYWKhNV616GOdXFWDb1WiHKNt7EMLwcaMLICyoP3s=
+X-Received: by 2002:a67:c90c:: with SMTP id w12mr41263992vsk.86.1594371070342; 
+ Fri, 10 Jul 2020 01:51:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-10_02:2020-07-10,
- 2020-07-10 signatures=0
+References: <20200710074143.306787-1-christian.gmeiner@gmail.com>
+ <20200710074143.306787-3-christian.gmeiner@gmail.com>
+ <6098f2549eb96348af0ba062d87a716f20d1af1c.camel@pengutronix.de>
+In-Reply-To: <6098f2549eb96348af0ba062d87a716f20d1af1c.camel@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 10 Jul 2020 10:50:59 +0200
+Message-ID: <CAH9NwWex+9LvaBhzPkYDaYOHnvxFeK4sAMgFZi2i5b+TOSVPmA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm/etnaviv: add loadavg accounting
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,82 +62,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Chris Healy <cphealy@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hoi Lucas,
 
+Am Fr., 10. Juli 2020 um 10:19 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
+>
+> Hi Christian,
+>
+> Am Freitag, den 10.07.2020, 09:41 +0200 schrieb Christian Gmeiner:
+> > The GPU has an idle state register where each bit represents the idle
+> > state of a sub-GPU component like FE or TX. Sample this register
+> > every 10ms and calculate a simple moving average over the sub-GPU
+> > component idle states with a total observation time frame of 1s.
+> >
+> > This provides us with a percentage based load of each sub-GPU
+> > component.
+> >
+> > Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 14 ++++++++++++
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 32 +++++++++++++++++++++++++++
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 29 ++++++++++++++++++++++++
+> >  3 files changed, 75 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > index f9afe11c50f0..b31920241c86 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > @@ -46,6 +46,19 @@ static void load_gpu(struct drm_device *dev)
+> >       }
+> >  }
+> >
+> > +static void unload_gpu(struct drm_device *dev)
+> > +{
+> > +     struct etnaviv_drm_private *priv = dev->dev_private;
+> > +     unsigned int i;
+> > +
+> > +     for (i = 0; i < ETNA_MAX_PIPES; i++) {
+> > +             struct etnaviv_gpu *g = priv->gpu[i];
+> > +
+> > +             if (g)
+> > +                     etnaviv_gpu_shutdown(g);
+> > +     }
+> > +}
+> > +
+> >  static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
+> >  {
+> >       struct etnaviv_drm_private *priv = dev->dev_private;
+> > @@ -581,6 +594,7 @@ static void etnaviv_unbind(struct device *dev)
+> >       struct drm_device *drm = dev_get_drvdata(dev);
+> >       struct etnaviv_drm_private *priv = drm->dev_private;
+> >
+> > +     unload_gpu(drm);
+> >       drm_dev_unregister(drm);
+> >
+> >       component_unbind_all(dev, drm);
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > index a31eeff2b297..1f0eb7e00657 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -714,6 +714,28 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+> >       gpu_write(gpu, VIVS_HI_INTR_ENBL, ~0U);
+> >  }
+> >
+> > +static void etnaviv_loadavg_function(struct timer_list *t)
+> > +{
+> > +     struct etnaviv_gpu *gpu = from_timer(gpu, t, loadavg_timer);
+> > +     const u32 idle = gpu_read(gpu, VIVS_HI_IDLE_STATE);
+>
+> This isn't guaranteed to work on a clock/power gated GPU. Also we
+> surely don't want to wake a idle system every 10ms just to sample a "no
+> load" value, so this needs some integration with runtime PM, to disable
+> the sampling when the GPU is powered down and enable when powered up.
+> The loadavg must be able to adapt to jumps in the sampling interval
+> while idle.
+>
 
-On 7/1/20 9:42 PM, Yannick Fertre wrote:
-> From: Antonio Borneo <antonio.borneo@st.com>
-> 
-> Current code enables the HS clock when video mode is started or to
-> send out a HS command, and disables the HS clock to send out a LP
-> command. This is not what DSI spec specify.
-> 
-> Enable HS clock either in command and in video mode.
-> Set automatic HS clock management for panels and devices that
-> support non-continuous HS clock.
-> 
-> Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index d580b2aa4ce9..979acaa90d00 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -365,7 +365,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
->   	if (lpm)
->   		val |= CMD_MODE_ALL_LP;
->   
-> -	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
->   	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
->   }
->   
-> @@ -541,16 +540,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
->   static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
->   				 unsigned long mode_flags)
->   {
-> +	u32 val;
-> +
->   	dsi_write(dsi, DSI_PWR_UP, RESET);
->   
->   	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
->   		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
->   		dw_mipi_dsi_video_mode_config(dsi);
-> -		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
->   	} else {
->   		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
->   	}
->   
-> +	val = PHY_TXREQUESTCLKHS;
-> +	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-> +		val |= AUTO_CLKLANE_CTRL;
-> +	dsi_write(dsi, DSI_LPCLK_CTRL, val);
-> +
->   	dsi_write(dsi, DSI_PWR_UP, POWERUP);
->   }
->   
-> 
+Oh yea.. runtime PM.. I thought I was missing something. Will tackle this in the
+next version.
 
-(+ Antonio)
+>
+> > +     int i;
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(etna_idle_module_names); i++)
+> > +             if ((idle & etna_idle_module_names[i].bit))
+> > +                     sma_loadavg_add(&gpu->loadavg_value[i], 0);
+> > +             else
+> > +                     sma_loadavg_add(&gpu->loadavg_value[i], 100);
+> > +
+> > +     spin_lock_bh(&gpu->loadavg_spinlock);
+> > +
+> > +     for (i = 0; i < ARRAY_SIZE(etna_idle_module_names); i++)
+> > +             gpu->loadavg_percentage[i] = sma_loadavg_read(&gpu->loadavg_value[i]);
+> > +
+> > +     spin_unlock_bh(&gpu->loadavg_spinlock);
+> > +
+> > +     mod_timer(t, jiffies + msecs_to_jiffies(10));
+>
+> A jiffies based timer is much too coarse for a regular 10ms sampling.
+> On a typical 100Hz system 10ms is a single jiffy, so your timer will
+> fire anywhere in the range of ~0ms...~20ms. This won't get us a usable
+> measurement.
+>
 
-Hi Yannick & Antonio,
+Makes sense.. will switch to hrtimers.
 
-Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
-Tested-by: Philippe Cornu <philippe.cornu@st.com>
+-- 
+greets
+--
+Christian Gmeiner, MSc
 
-(Tested with the 3 patches named
-drm/bridge/synopsys: dsi: allow LP commands in video mode
-drm/bridge/synopsys: dsi: allow sending longer LP commands
-drm/bridge/synopsys: dsi: add support for non-continuous HS clock
-on various dsi bridges + stm32mp157 disco board)
-
-Many thanks
-Philippe :-)
+https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
