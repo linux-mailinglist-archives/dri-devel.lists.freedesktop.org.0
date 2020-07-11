@@ -2,90 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4660921E8E2
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C75421E8F4
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C35926E8FA;
-	Tue, 14 Jul 2020 07:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D77A6E90B;
+	Tue, 14 Jul 2020 07:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2046.outbound.protection.outlook.com [40.107.22.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 879846ED80
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 01:00:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCkKVjiNBuLTgmSHh/jAkKnZVAaXHk2SYdEuBemOHCEGVq4TnBTEYU+F8jz1x7XbOb8OoWAi1MVjSpvrk+kJW58MEHtISyyez8qjeCR3QwuWOKNyCmoqTW8B7RtgfNWydXzqx2h0zV4mQ79EBWD+mImgOPFNZ/Y5yuu9WLgfempfP86lhiQfNt45siMUIiSU8chESkceqEu+cPtExJTX9up4pAXtEEwK/bFbF1EHodeFS9Dnq4Z56GT2bDfxh05pfpN5EaWOY7xc3rlXfrwoatdYrJdfxGu8V6jOY/nLpb3bn+w9Wq4rubGHrafKSboZDMsuuS3Ktykj7MUafU1pNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IaezhLMj4py93tWDbKqkPpV84Pjyk9MLXFamApu6RlQ=;
- b=ZThId4awGZn4EIv0Tsa+b53qjIivJ6pFUgsAVQ8SzQE0O/dKAd67BzkPGM0RB1HWBapcBzreuwqWyCM+XDA/4n9kU2hufh7N7roekM+zW3N2knpEDeEdxqJfjRGcbQ9tDC4rf5GbikaHSXuwngEoxRaOgehnzE73CTs6bhHw7O3fJlezhbLy+c1RNz7xL22VbDxJ3ymPbuLbTiQUlRSXLkPvOq2WcWF3VtmkZagZyBrd9FdtvyRLQ3u3DvOSzh3pmVO9CvtYujNhp3t7jrA3YbyQOyOgf/gcUBkIyvLfsH0dVvTDJ6yrDQBBF3GogHnw94yBB7M8+ZkX+YpZT9+ykQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IaezhLMj4py93tWDbKqkPpV84Pjyk9MLXFamApu6RlQ=;
- b=FrKOyrMAJMn46dL+R6jI02971kO/EFGCqkNEb5YirSEy/P+cRhBbljFV/H2WYDby5y8rGKbG+5uy2eey3JIAifR9splPS5TGU7nZouPoZvfLiCpdOCow9R/6X/aiO02uyYjkZoti2S56Bi/Aayh9xGsxcMs0vJ0+WTRTMFFVo/8=
-Authentication-Results: ravnborg.org; dkim=none (message not signed)
- header.d=none;ravnborg.org; dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB5584.eurprd04.prod.outlook.com (2603:10a6:803:d5::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Sat, 11 Jul
- 2020 01:00:05 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3174.024; Sat, 11 Jul 2020
- 01:00:05 +0000
-Message-ID: <1b5b0422f65cce52f74d20c44954c4737ef03d32.camel@nxp.com>
-Subject: Re: [PATCH RESEND v2 2/2] drm/bridge: dw-hdmi: Always add the
- bridge in the global bridge list
-From: Liu Ying <victor.liu@nxp.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Date: Sat, 11 Jul 2020 08:59:53 +0800
-In-Reply-To: <20200710173206.GC17565@ravnborg.org>
-References: <1594260156-8316-1-git-send-email-victor.liu@nxp.com>
- <1594260156-8316-2-git-send-email-victor.liu@nxp.com>
- <20200710173206.GC17565@ravnborg.org>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-X-ClientProxiedBy: HK2P15301CA0006.APCP153.PROD.OUTLOOK.COM
- (2603:1096:202:1::16) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A934A6E29A
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 06:16:32 +0000 (UTC)
+Received: from fsav402.sakura.ne.jp (fsav402.sakura.ne.jp [133.242.250.101])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06B6GHGH021973;
+ Sat, 11 Jul 2020 15:16:17 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav402.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav402.sakura.ne.jp);
+ Sat, 11 Jul 2020 15:16:16 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav402.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06B6GBRs021817
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Sat, 11 Jul 2020 15:16:16 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: fbconsole needs more parameter validations.
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20200710055329.3759-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <b1e7dd6a-fc22-bba8-0abb-d3e779329bce@i-love.sakura.ne.jp>
+ <20200710105637.GB1232395@kroah.com>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <f80527f4-ffb2-69ef-ebd4-3de92cacfa17@i-love.sakura.ne.jp>
+Date: Sat, 11 Jul 2020 15:16:10 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from vbox (183.232.44.32) by
- HK2P15301CA0006.APCP153.PROD.OUTLOOK.COM (2603:1096:202:1::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.5 via Frontend Transport; Sat, 11 Jul 2020 01:00:00 +0000
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-X-Originating-IP: [183.232.44.32]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 76141c14-a567-4dc4-625c-08d82535bf65
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5584:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB5584C8C81FA8C7AEBDCD021098620@VI1PR04MB5584.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ucw61FoIbNmtfB16nW+ovPBcXPBPU/l7mxY6faiT3ZnXVJebiVX9Hkoec2lTJnNOrLk7M39i6ahTL3PNoqWHkUKWkvkHCgPZ8z3ZjpO9+PDgV4k8qG8uWitzq4yb4VZWqoBRWnzZIMiC8pp56ijfbw38chEotwXlvBf8ytZXIpt8DfnMmnIvlKCLyNlUsLpx210FwIhk8hbzsKUXv1PVwcpKinXFPElhvI29CgCq3XYHIl+INalac+Aa3YOG5opclsO57F33nXkxySpZZoCkQ2b+wxgjEArTm2cZj7TY9cX/+e8/9FSA7dTLzBzZ+Q6g4y6vY9eZCWikfKQ43dvmOpcpM6k4V7hsaICc1lspTAe6WOMF8EIhXmYPPC+l44SPLCAfKmY+ep0HCjMUZpL4CLeupjbHP06od0Epbx701vU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(966005)(36756003)(66556008)(6496006)(2906002)(5660300002)(52116002)(66476007)(54906003)(7416002)(316002)(6916009)(478600001)(45080400002)(26005)(4326008)(83380400001)(186003)(66946007)(16526019)(6486002)(6666004)(86362001)(8936002)(2616005)(956004)(8676002)(99106002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: s9Sx+8ZEtuBLtKIE2Pp0zH9EEJ63ne/bcI5OUBYpW1jvhis9jOgsPq+XqG7ubmJMDGf58hv+7TzXOAgXDkDAtc+RPnX4RskcwX7zO+p/BB9TX5KfUA6T+yeAyRn6EkRSIK5rA/zu8NcoB3TGig+0nS+yZJm/hb8OByFEsvVaTxF6lHxoWV0tQ+Vdulz+3oF30NiSVZAjRAYtsMadLnyFku+/X7Y8Ebz6Mhmmh0+zmZ+M6VyCVq6RN36eli8tqMOlpJDmRou+mpdHLtKI8e4H13TcFtlXH/l3Ta6qOIMqC6TCOyOz0WNv7G8ZZ+lTKv6WqlPK6pu0uJ5acivrWRhCbV48kHk09Jln5P3dh36RS4H8udb9Trf360o7iCuAsjB6B9IbWrrst6MSKzh7O+ZOc47bk9kKu0+hEFA9MVCvkmVK3MH+xn6qXA36dBNM1nm1QRSCUb7s4wicPtELCi7x9Jm6tmtTNUUIPWsBXioUx6k=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76141c14-a567-4dc4-625c-08d82535bf65
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2020 01:00:04.9600 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r86CKEUqbTSYoGI0ctWe6vVdjq45XB1SyDSfq+227FvZmCVffGq17ejghADkeihMgKaUKwgyMrPJha7qFLNpnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5584
+In-Reply-To: <20200710105637.GB1232395@kroah.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 14 Jul 2020 07:02:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,205 +52,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- Archit Taneja <architt@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Jose Abreu <joabreu@synopsys.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>,
- Dariusz Marcinkiewicz <darekm@google.com>,
- Jerome Brunet <jbrunet@baylibre.com>, NXP Linux Team <linux-imx@nxp.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, DRI <dri-devel@lists.freedesktop.org>,
+ Jiri Slaby <jslaby@suse.com>,
+ syzbot <syzbot+017265e8553724e514e8@syzkaller.appspotmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-07-10 at 19:32 +0200, Sam Ravnborg wrote:
-> On Thu, Jul 09, 2020 at 10:02:36AM +0800, Liu Ying wrote:
-> > It doesn't hurt to add the bridge in the global bridge list also
-> > for
-> > platform specific dw-hdmi drivers which are based on the component
-> > framework.  This can be achieved by moving the drm_bridge_add()
-> > function
-> > call from dw_hdmi_probe() to __dw_hdmi_probe().  A counterpart
-> > movement
-> > for drm_bridge_remove() is also needed then.  Moreover, since
-> > drm_bridge_add()
-> > initializes &bridge->hpd_mutex, this may help those platform
-> > specific
-> > dw-hdmi drivers(based on the component framework) avoid accessing
-> > the
-> > uninitialized mutex in drm_bridge_hpd_notify() which is called in
-> > dw_hdmi_irq().  Putting drm_bridge_add() in __dw_hdmi_probe() just
-> > before
-> > it returns successfully should bring no logic change for platforms
-> > based
-> > on the DRM bridge API, which is a good choice from safety point of
-> > view.
-> > Also, __dw_hdmi_probe() is renamed to dw_hdmi_probe() since
-> > dw_hdmi_probe()
-> > does nothing else but calling __dw_hdmi_probe().  Similar renaming
-> > applies
-> > to the __dw_hdmi_remove()/dw_hdmi_remove() pair.
-> 
-> Hmm, it took me some attempts to read this.
-> Anyway, applied as-is to drm-misc-next.
+On 2020/07/10 19:56, Greg Kroah-Hartman wrote:
+> Where is the over/underflow happening here when we set a size to be so
+> small?  We should bound the size somewhere, and as you show, that's not
+> really working properly, right?
 
-Thank you, Sam.
+It is bit_clear_margins() where integer underflow is happening (4294966497 == 1 - 100 * 8),
+but the cause of this problem seems to be fbcon_startup() or vc_do_resize().
 
-Liu Ying
+Since fbcon_modechanged() is doing
 
-> 
-> 	Sam
-> 
-> > 
-> > Fixes: ec971aaa6775 ("drm: bridge: dw-hdmi: Make connector creation
-> > optional")
-> > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > Cc: Jerome Brunet <jbrunet@baylibre.com>
-> > Cc: Cheng-Yi Chiang <cychiang@chromium.org>
-> > Cc: Dariusz Marcinkiewicz <darekm@google.com>
-> > Cc: Archit Taneja <architt@codeaurora.org>
-> > Cc: Jose Abreu <joabreu@synopsys.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v1->v2:
-> > * Put drm_bridge_add() in __dw_hdmi_probe() just before it returns
-> >   successfully so that the bridge shows up in the global bridge
-> > list
-> >   late enough to avoid potential race condition with other display
-> >   drivers. (Laurent)
-> > * Rename __dw_hdmi_probe/remove() to dw_hdmi_probe/remove()
-> >   respectively. (Laurent)
-> > * Cc'ed Sam.
-> > 
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 44 +++++++++--------
-> > --------------
-> >  1 file changed, 13 insertions(+), 31 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > index 137b6eb..748df1c 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > @@ -3179,9 +3179,11 @@ static void dw_hdmi_init_hw(struct dw_hdmi
-> > *hdmi)
-> >  		hdmi->phy.ops->setup_hpd(hdmi, hdmi->phy.data);
-> >  }
-> >  
-> > -static struct dw_hdmi *
-> > -__dw_hdmi_probe(struct platform_device *pdev,
-> > -		const struct dw_hdmi_plat_data *plat_data)
-> > +/* -------------------------------------------------------------
-> > ----------------
-> > + * Probe/remove API, used from platforms based on the DRM bridge
-> > API.
-> > + */
-> > +struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
-> > +			      const struct dw_hdmi_plat_data
-> > *plat_data)
-> >  {
-> >  	struct device *dev = &pdev->dev;
-> >  	struct device_node *np = dev->of_node;
-> > @@ -3438,6 +3440,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
-> >  		hdmi->cec = platform_device_register_full(&pdevinfo);
-> >  	}
-> >  
-> > +	drm_bridge_add(&hdmi->bridge);
-> > +
-> >  	return hdmi;
-> >  
-> >  err_iahb:
-> > @@ -3451,9 +3455,12 @@ __dw_hdmi_probe(struct platform_device
-> > *pdev,
-> >  
-> >  	return ERR_PTR(ret);
-> >  }
-> > +EXPORT_SYMBOL_GPL(dw_hdmi_probe);
-> >  
-> > -static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
-> > +void dw_hdmi_remove(struct dw_hdmi *hdmi)
-> >  {
-> > +	drm_bridge_remove(&hdmi->bridge);
-> > +
-> >  	if (hdmi->audio && !IS_ERR(hdmi->audio))
-> >  		platform_device_unregister(hdmi->audio);
-> >  	if (!IS_ERR(hdmi->cec))
-> > @@ -3472,31 +3479,6 @@ static void __dw_hdmi_remove(struct dw_hdmi
-> > *hdmi)
-> >  	else
-> >  		i2c_put_adapter(hdmi->ddc);
-> >  }
-> > -
-> > -/* -------------------------------------------------------------
-> > ----------------
-> > - * Probe/remove API, used from platforms based on the DRM bridge
-> > API.
-> > - */
-> > -struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
-> > -			      const struct dw_hdmi_plat_data
-> > *plat_data)
-> > -{
-> > -	struct dw_hdmi *hdmi;
-> > -
-> > -	hdmi = __dw_hdmi_probe(pdev, plat_data);
-> > -	if (IS_ERR(hdmi))
-> > -		return hdmi;
-> > -
-> > -	drm_bridge_add(&hdmi->bridge);
-> > -
-> > -	return hdmi;
-> > -}
-> > -EXPORT_SYMBOL_GPL(dw_hdmi_probe);
-> > -
-> > -void dw_hdmi_remove(struct dw_hdmi *hdmi)
-> > -{
-> > -	drm_bridge_remove(&hdmi->bridge);
-> > -
-> > -	__dw_hdmi_remove(hdmi);
-> > -}
-> >  EXPORT_SYMBOL_GPL(dw_hdmi_remove);
-> >  
-> >  /* -------------------------------------------------------------
-> > ----------------
-> > @@ -3509,7 +3491,7 @@ struct dw_hdmi *dw_hdmi_bind(struct
-> > platform_device *pdev,
-> >  	struct dw_hdmi *hdmi;
-> >  	int ret;
-> >  
-> > -	hdmi = __dw_hdmi_probe(pdev, plat_data);
-> > +	hdmi = dw_hdmi_probe(pdev, plat_data);
-> >  	if (IS_ERR(hdmi))
-> >  		return hdmi;
-> >  
-> > @@ -3526,7 +3508,7 @@ EXPORT_SYMBOL_GPL(dw_hdmi_bind);
-> >  
-> >  void dw_hdmi_unbind(struct dw_hdmi *hdmi)
-> >  {
-> > -	__dw_hdmi_remove(hdmi);
-> > +	dw_hdmi_remove(hdmi);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dw_hdmi_unbind);
-> >  
-> > -- 
-> > 2.7.4
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > 
-https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7C0f923c54af014f54175608d824f72c5d%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637299991302447959&amp;sdata=kgoboL8o%2Ft0qvvlQw4nyrHlcusib5Ynuc%2BY%2Fn70fu14%3D&amp;reserved=0
+  cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+  rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+  cols /= vc->vc_font.width;
+  rows /= vc->vc_font.height;
+  vc_resize(vc, cols, rows);
+  (...snipped...)
+  update_screen(vc);
+
+, info->var.xres < vc->vc_font.width makes cols == 0 and info->var.yres < vc->vc_font.height
+makes rows == 0. But vc_resize(vc, 0, 0) has a special meaning because vc_do_resize() is doing
+
+  new_cols = (cols ? cols : vc->vc_cols);
+  new_rows = (lines ? lines : vc->vc_rows);
+
+which results in new_cols == 100 and new_rows == 37 despite var.xres == var.yres == 1,
+and vc_do_resize() returns without actually resizing. Then, fbcon_modechanged() calls
+fbcon_switch(vc) via vc->vc_sw->con_switch(vc) via redraw_screen(vc, 0) via update_screen(vc),
+and fbcon_switch() calls bit_clear_margins() via fbcon_clear_margins(vc, 0), and integer
+underflow happens due to info->var.xres=1 && vc->vc_cols=100 && vc->vc_font.width=8.
+
+And fbcon_modechanged() is too late to return -EINVAL if
+info->var.xres < vc->vc_font.width || info->var.yres < vc->vc_font.height at fb_set_var().
+
+----------
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index 42d8c67a481f..4af82cabb6c4 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -1214,6 +1214,8 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+ 	new_rows = (lines ? lines : vc->vc_rows);
+ 	new_row_size = new_cols << 1;
+ 	new_screen_size = new_row_size * new_rows;
++	printk(KERN_DEBUG "%s: new_cols=%u cols=%u vc->vc_cols=%u new_rows=%u lines=%u vc->vc_rows=%u\n",
++	       __func__, new_cols, cols, vc->vc_cols, new_rows, lines, vc->vc_rows);
+ 
+ 	if (new_cols == vc->vc_cols && new_rows == vc->vc_rows)
+ 		return 0;
+diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+index ca935c09a261..8d949679bfba 100644
+--- a/drivers/video/fbdev/core/bitblit.c
++++ b/drivers/video/fbdev/core/bitblit.c
+@@ -221,6 +221,8 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 		region.dy = 0;
+ 		region.width = rw;
+ 		region.height = info->var.yres_virtual;
++		printk(KERN_DEBUG "%s: rw=%u info->var.xres=%u vc->vc_cols=%u vc->vc_font.width=%u\n",
++		       __func__, rw, info->var.xres, vc->vc_cols, vc->vc_font.width);
+ 		info->fbops->fb_fillrect(info, &region);
+ 	}
+ 
+@@ -229,6 +231,8 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 		region.dy = info->var.yoffset + bs;
+ 		region.width = rs;
+ 		region.height = bh;
++		printk(KERN_DEBUG "%s: bh=%u info->var.yres=%u vc->vc_rows=%u vc->vc_font.height=%u\n",
++		       __func__, bh, info->var.yres, vc->vc_rows, vc->vc_font.height);
+ 		info->fbops->fb_fillrect(info, &region);
+ 	}
+ }
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index e2a490c5ae08..f83525a58137 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2983,6 +2983,8 @@ static void fbcon_modechanged(struct fb_info *info)
+ 
+ 	if (con_is_visible(vc)) {
+ 		var_to_display(p, &info->var, info);
++		printk(KERN_DEBUG "%s: ops->rotate=%d info->var.xres=%u, info->var.yres=%u vc->vc_font.width=%u vc->vc_font.height=%u\n",
++		       __func__, ops->rotate, info->var.xres, info->var.yres, vc->vc_font.width, vc->vc_font.height);
+ 		cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+ 		rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+ 		cols /= vc->vc_font.width;
+----------
+
+----------
+[   21.854895][ T2790] fbcon_modechanged: ops->rotate=0 info->var.xres=1, info->var.yres=1 vc->vc_font.width=8 vc->vc_font.height=16
+[   21.854900][ T2790] vc_do_resize: new_cols=100 cols=0 vc->vc_cols=100 new_rows=37 lines=0 vc->vc_rows=37
+[   21.854909][ T2790] bit_clear_margins: rw=4294966497 info->var.xres=1 vc->vc_cols=100 vc->vc_font.width=8
+[   21.855743][ T2790] BUG: unable to handle page fault for address: ffffb54440d3b000
+[   21.855745][ T2790] #PF: supervisor write access in kernel mode
+[   21.855746][ T2790] #PF: error_code(0x0002) - not-present page
+[   21.855747][ T2790] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 13251c067 PTE 0
+[   21.855751][ T2790] Oops: 0002 [#1] SMP
+[   21.855753][ T2790] CPU: 0 PID: 2790 Comm: a.out Not tainted 5.8.0-rc4+ #753
+[   21.855754][ T2790] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
+[   21.855758][ T2790] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
+[   21.855759][ T2790] Code: c3 45 85 db 0f 85 85 00 00 00 44 89 c0 31 d2 41 f7 f1 89 c2 83 f8 07 76 41 8d 48 f8 c1 e9 03 48 83 c1 01 48 c1 e1 06 48 01 f1 <48> 89 3e 48 89 7e 08 48 89 7e 10 48 89 7e 18 48 89 7e 20 48 89 7e
+[   21.855760][ T2790] RSP: 0018:ffffb5444124b9a0 EFLAGS: 00010206
+[   21.855761][ T2790] RAX: 0000000003fffe70 RBX: 00000000ffff9c20 RCX: ffffb54460942000
+[   21.855762][ T2790] RDX: 0000000003fffe70 RSI: ffffb54440d3b000 RDI: 0000000000000000
+[   21.855763][ T2790] RBP: ffffb5444124b9b0 R08: 00000000ffff9c20 R09: ffffb54440d3aff8
+[   21.855763][ T2790] R10: 00000000ffffffff R11: 0000000000000000 R12: ffffffffffffffff
+[   21.855764][ T2790] R13: ffffa0d534c32800 R14: 0000000000000000 R15: ffffb54440942c80
+[   21.855765][ T2790] FS:  00007f9cef82a740(0000) GS:ffffa0d53ae00000(0000) knlGS:0000000000000000
+[   21.855785][ T2790] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   21.855786][ T2790] CR2: ffffb54440d3b000 CR3: 000000013766d006 CR4: 00000000001606f0
+[   21.855797][ T2790] Call Trace:
+[   21.855801][ T2790]  cfb_fillrect+0x159/0x340 [cfbfillrect]
+[   21.855806][ T2790]  ? vprintk_func+0x5a/0x10d
+[   21.855808][ T2790]  ? cfb_fillrect+0x340/0x340 [cfbfillrect]
+[   21.855821][ T2790]  vmw_fb_fillrect+0x12/0x30 [vmwgfx]
+[   21.855828][ T2790]  bit_clear_margins+0xe0/0xf0 [fb]
+[   21.855832][ T2790]  fbcon_clear_margins+0x4c/0x50 [fb]
+[   21.855835][ T2790]  fbcon_switch+0x321/0x570 [fb]
+[   21.855843][ T2790]  redraw_screen+0xe0/0x250
+[   21.855847][ T2790]  fbcon_modechanged+0x1a3/0x1f0 [fb]
+[   21.855851][ T2790]  fbcon_update_vcs+0x15/0x20 [fb]
+[   21.855853][ T2790]  fb_set_var+0x364/0x3c0 [fb]
+[   21.855863][ T2790]  do_fb_ioctl+0x2ff/0x3f0 [fb]
+[   21.855866][ T2790]  ? find_held_lock+0x35/0xa0
+[   21.855870][ T2790]  ? __audit_syscall_entry+0xd8/0x120
+[   21.855888][ T2790]  ? kfree+0x25a/0x2b0
+[   21.855944][ T2790]  fb_ioctl+0x2e/0x40 [fb]
+[   21.855947][ T2790]  ksys_ioctl+0x86/0xc0
+[   21.855950][ T2790]  ? do_syscall_64+0x20/0xa0
+[   21.855952][ T2790]  __x64_sys_ioctl+0x15/0x20
+[   21.855954][ T2790]  do_syscall_64+0x54/0xa0
+[   21.855957][ T2790]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   21.855959][ T2790] RIP: 0033:0x7f9cef344307
+[   21.855959][ T2790] Code: Bad RIP value.
+[   21.855960][ T2790] RSP: 002b:00007ffddb6f2e48 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   21.855962][ T2790] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f9cef344307
+[   21.855962][ T2790] RDX: 00007ffddb6f2e50 RSI: 0000000000004601 RDI: 0000000000000003
+[   21.855963][ T2790] RBP: 0000000000000000 R08: 00007f9cef617e80 R09: 0000000000000000
+[   21.855964][ T2790] R10: 00007ffddb6f28a0 R11: 0000000000000246 R12: 00000000004004f2
+[   21.855964][ T2790] R13: 00007ffddb6f2fd0 R14: 0000000000000000 R15: 0000000000000000
+[   21.855969][ T2790] Modules linked in: mousedev rapl evdev input_leds led_class mac_hid psmouse pcspkr xt_tcpudp af_packet ip6t_rpfilter ip6t_REJECT nf_reject_ipv6 ipt_REJECT nf_reject_ipv4 xt_conntrack ebtable_nat ip6table_nat ip6table_mangle ip6table_raw iptable_nat nf_nat iptable_mangle iptable_raw nf_conntrack rtc_cmos nf_defrag_ipv4 ip_set vmw_vmci nfnetlink ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter bpfilter sg ac button i2c_piix4 intel_agp intel_gtt ip_tables x_tables ata_generic pata_acpi serio_raw atkbd libps2 vmwgfx drm_kms_helper cfbfillrect syscopyarea cfbimgblt sysfillrect sysimgblt fb_sys_fops cfbcopyarea fb fbdev ttm drm ahci libahci i2c_core drm_panel_orientation_quirks backlight ata_piix e1000 agpgart libata i8042 serio unix ipv6 nf_defrag_ipv6
+[   21.856040][ T2790] CR2: ffffb54440d3b000
+[   21.856042][ T2790] ---[ end trace 083bab4cc8751a86 ]---
+[   21.856044][ T2790] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
+----------
 
 _______________________________________________
 dri-devel mailing list
