@@ -2,39 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9039921C366
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 11:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CFE21C411
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 13:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFAB6E144;
-	Sat, 11 Jul 2020 09:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3D56E1F9;
+	Sat, 11 Jul 2020 11:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79DA06E144
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 09:47:30 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 9102E20023;
- Sat, 11 Jul 2020 11:47:27 +0200 (CEST)
-Date: Sat, 11 Jul 2020 11:47:26 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] drm/panel: panel-simple: validate panel description
-Message-ID: <20200711094726.GA940164@ravnborg.org>
-References: <20200703192417.372164-1-sam@ravnborg.org>
- <20200703192417.372164-3-sam@ravnborg.org>
- <20200710221124.GI5964@pendragon.ideasonboard.com>
- <20200711074807.GA779438@ravnborg.org>
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B8C6E1F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 11:49:07 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id e8so9364382ljb.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 04:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XtfKot8ZssXyPkPO+I+4ExwhCSPuFUl0sOsDrmkzlC8=;
+ b=YtE/Av3bVbWUb1Iwokjhs3fiSvRQhLlfVYgp/g+LQvy4d1OYBXcE63gXGMOzz574Ot
+ PUMdmLBd6z6GvBfYr91kbor5HYfdQsENqFiK7APq0QwO8lSHcsrcnfA7BDE/2UqLY2CT
+ 3BfyOUSumHxubjzqcC9uuxxttUexSVN67Cc+VTcuelCjZKcRdUgdv3oaQxFx3joG/XyI
+ 9avcLEjRIpQ9AKIMaqp1cG8s0mnFkZvG3XBtJ29FsoJzpV3R8y1861DGlRrZRwiXcGtb
+ cYEvRsBhVJHaZG2+v4Wh5Ur9pbx5Nzal8KCiODnZYinrki/jYJIp1HLWRC0LXlvysmI4
+ tATA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XtfKot8ZssXyPkPO+I+4ExwhCSPuFUl0sOsDrmkzlC8=;
+ b=lMdj+QGcOckThg4KFshYrf6ogW5Vi0XmOTP0F+guWfoglVvtTS2VZq5uD9t3wXstv5
+ fBBntOT7AA824K+7fBmzimKv2mBEwFQ6E/z8KBfgDkxbgVsFgttv6HlJuzj/VNRYoyQN
+ RWe5jTBkLo4J+SRvfozmt4X2sa9z/9LWRgZsw/uFmrJoQlEYBKgxaMwzg7JUpgztTFd4
+ 65kCKlM3L/0KUUBocx1o0z2dmGdFLgquWhx/pDJz4fp6aIwncYzXLluzo/HHLsvVkOqP
+ JPN/Nc1OduSHwOgCOyzU5zDYgLN90e9vCtUb0+xRtLYg5ZqnpbvtKkXavVCgwyfR0e2j
+ IDkQ==
+X-Gm-Message-State: AOAM5319SIhMGkgRj92qbqsolsyLDAWpl34/EZpcCqNRGcHBQthfGayo
+ ZKRw2DxZExCetBOeYB3eJlWuQaXWNSERZOBWel1UCA==
+X-Google-Smtp-Source: ABdhPJxxFmrJz7/vRwpDkqiIuwv2rWq4N6yDKkszqYRfmcjiTZlBxgzh+2T4uIrxNxpy8O4zOPyOVBKyMRyXLYBeKnw=
+X-Received: by 2002:a2e:7a1a:: with SMTP id v26mr26485425ljc.104.1594468145646; 
+ Sat, 11 Jul 2020 04:49:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200711074807.GA779438@ravnborg.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8
- a=uxUQ345eqn56x_wrn9sA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=D0XLA9XvdZm18NrgonBM:22
+References: <20200707203529.2098979-1-robdclark@gmail.com>
+ <20200707203529.2098979-2-robdclark@gmail.com>
+In-Reply-To: <20200707203529.2098979-2-robdclark@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 11 Jul 2020 13:48:54 +0200
+Message-ID: <CACRpkdb0+V7AmvG0JXXETzayr4Q785OLhBWjU414tUJo1toJOQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm: sync generated headers
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,96 +61,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, kbuild test robot <lkp@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Peter Senna Tschudin <peter.senna@gmail.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thierry Reding <thierry.reding@gmail.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>, Sharat Masetty <smasetty@codeaurora.org>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, zhengbin <zhengbin13@huawei.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Warn is we detect a panel with missing descriptions.
-This is inpsired by a similar patch by Laurent that introduced checks
-for LVDS panels - this extends the checks to the reminaing type of
-connectors.
+On Tue, Jul 7, 2020 at 10:36 PM Rob Clark <robdclark@gmail.com> wrote:
 
-This is known to fail for some of the existing panels but added
-despite this as we need help from people using the panels to
-add the missing info.
-The checks are not complete but will catch the most common mistakes.
-The checks at the same time serves as documentation for the minimum
-required description for a panel.
+> From: Rob Clark <robdclark@chromium.org>
+>
+> We haven't sync'd for a while.. pull in updates to get definitions for
+> some fields in pkt7 payloads.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
+Out of curiosity : where are the syncs coming from? Mesa?
 
-This is my attempt on the validation described in the previous mail.
-The assignment of default connector_type will then be a follow-up patch
-to this.
-
-	Sam
-
- drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 2aff93accad5..025a7ccdfcb3 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -549,8 +549,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
- 	}
- 
--	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
--		/* Catch common mistakes for LVDS panels. */
-+	/* Catch common mistakes for panels. */
-+	switch (desc->connector_type) {
-+	case 0:
-+		WARN(desc->connector_type == 0, "specify missing connector_type\n");
-+		break;
-+	case DRM_MODE_CONNECTOR_LVDS:
- 		WARN_ON(desc->bus_flags &
- 			~(DRM_BUS_FLAG_DE_LOW |
- 			  DRM_BUS_FLAG_DE_HIGH |
-@@ -564,6 +568,30 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		WARN_ON((desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ||
- 			 desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA) &&
- 			desc->bpc != 8);
-+		break;
-+	case DRM_MODE_CONNECTOR_eDP:
-+		WARN_ON(desc->bus_format == 0);
-+		WARN_ON(desc->bpc != 6 && desc->bpc != 8);
-+		break;
-+	case DRM_MODE_CONNECTOR_DSI:
-+		WARN_ON(desc->bpc != 6 && desc->bpc != 8);
-+		break;
-+	case DRM_MODE_CONNECTOR_DPI:
-+		WARN_ON(desc->bus_flags &
-+			~(DRM_BUS_FLAG_DE_LOW |
-+			  DRM_BUS_FLAG_DE_HIGH |
-+			  DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
-+			  DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-+			  DRM_BUS_FLAG_DATA_MSB_TO_LSB |
-+			  DRM_BUS_FLAG_DATA_LSB_TO_MSB |
-+			  DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE |
-+			  DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE));
-+		WARN_ON(desc->bus_format == 0);
-+		WARN_ON(desc->bpc != 6 && desc->bpc != 8);
-+		break;
-+	default:
-+		WARN(true, "panel has unknown connector_type: %d\n", desc->connector_type);
-+		break;
- 	}
- 
- 	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
--- 
-2.25.1
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
