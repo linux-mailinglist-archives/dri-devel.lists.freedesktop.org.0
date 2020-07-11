@@ -2,29 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234EA21C35E
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 11:35:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9039921C366
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jul 2020 11:47:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247856E115;
-	Sat, 11 Jul 2020 09:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFAB6E144;
+	Sat, 11 Jul 2020 09:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9178D6E115
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 09:35:38 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id E78131C0BD2; Sat, 11 Jul 2020 11:35:33 +0200 (CEST)
-Date: Sat, 11 Jul 2020 11:35:33 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 11/20] Documentation: leds/ledtrig-transient: eliminate
- duplicated word
-Message-ID: <20200711093533.GA16221@amd>
-References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-12-rdunlap@infradead.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79DA06E144
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 09:47:30 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 9102E20023;
+ Sat, 11 Jul 2020 11:47:27 +0200 (CEST)
+Date: Sat, 11 Jul 2020 11:47:26 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] drm/panel: panel-simple: validate panel description
+Message-ID: <20200711094726.GA940164@ravnborg.org>
+References: <20200703192417.372164-1-sam@ravnborg.org>
+ <20200703192417.372164-3-sam@ravnborg.org>
+ <20200710221124.GI5964@pendragon.ideasonboard.com>
+ <20200711074807.GA779438@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200707180414.10467-12-rdunlap@infradead.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Disposition: inline
+In-Reply-To: <20200711074807.GA779438@ravnborg.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8
+ a=uxUQ345eqn56x_wrn9sA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=D0XLA9XvdZm18NrgonBM:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,93 +47,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
- linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
- Dan Murphy <dmurphy@ti.com>
-Content-Type: multipart/mixed; boundary="===============0932213809=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, kbuild test robot <lkp@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Warn is we detect a panel with missing descriptions.
+This is inpsired by a similar patch by Laurent that introduced checks
+for LVDS panels - this extends the checks to the reminaing type of
+connectors.
 
---===============0932213809==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
-Content-Disposition: inline
+This is known to fail for some of the existing panels but added
+despite this as we need help from people using the panels to
+add the missing info.
+The checks are not complete but will catch the most common mistakes.
+The checks at the same time serves as documentation for the minimum
+required description for a panel.
 
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
 
---AqsLC8rIMeq19msA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is my attempt on the validation described in the previous mail.
+The assignment of default connector_type will then be a follow-up patch
+to this.
 
-On Tue 2020-07-07 11:04:05, Randy Dunlap wrote:
-> Drop the doubled word "for".
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+	Sam
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
+ drivers/gpu/drm/panel/panel-simple.c | 32 ++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-(I expect documentation people take this, not me).
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---AqsLC8rIMeq19msA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl8Jh+UACgkQMOfwapXb+vJi5QCfV+X2sIx7tNekwXoW+LwM5Yat
-/zUAn1DV/ge+vI2WsfN3c5/HFiUA7pOV
-=q1Ep
------END PGP SIGNATURE-----
-
---AqsLC8rIMeq19msA--
-
---===============0932213809==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 2aff93accad5..025a7ccdfcb3 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -549,8 +549,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+ 	}
+ 
+-	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
+-		/* Catch common mistakes for LVDS panels. */
++	/* Catch common mistakes for panels. */
++	switch (desc->connector_type) {
++	case 0:
++		WARN(desc->connector_type == 0, "specify missing connector_type\n");
++		break;
++	case DRM_MODE_CONNECTOR_LVDS:
+ 		WARN_ON(desc->bus_flags &
+ 			~(DRM_BUS_FLAG_DE_LOW |
+ 			  DRM_BUS_FLAG_DE_HIGH |
+@@ -564,6 +568,30 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		WARN_ON((desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ||
+ 			 desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA) &&
+ 			desc->bpc != 8);
++		break;
++	case DRM_MODE_CONNECTOR_eDP:
++		WARN_ON(desc->bus_format == 0);
++		WARN_ON(desc->bpc != 6 && desc->bpc != 8);
++		break;
++	case DRM_MODE_CONNECTOR_DSI:
++		WARN_ON(desc->bpc != 6 && desc->bpc != 8);
++		break;
++	case DRM_MODE_CONNECTOR_DPI:
++		WARN_ON(desc->bus_flags &
++			~(DRM_BUS_FLAG_DE_LOW |
++			  DRM_BUS_FLAG_DE_HIGH |
++			  DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
++			  DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
++			  DRM_BUS_FLAG_DATA_MSB_TO_LSB |
++			  DRM_BUS_FLAG_DATA_LSB_TO_MSB |
++			  DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE |
++			  DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE));
++		WARN_ON(desc->bus_format == 0);
++		WARN_ON(desc->bpc != 6 && desc->bpc != 8);
++		break;
++	default:
++		WARN(true, "panel has unknown connector_type: %d\n", desc->connector_type);
++		break;
+ 	}
+ 
+ 	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+-- 
+2.25.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0932213809==--
