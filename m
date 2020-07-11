@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BC021E8F3
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA40A21E8EA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD3D6E8F4;
-	Tue, 14 Jul 2020 07:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A6B6E902;
+	Tue, 14 Jul 2020 07:02:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A746ED8F
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 00:50:14 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id k18so5895197qtm.10
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:50:14 -0700 (PDT)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C95F26ED92
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 00:50:18 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id b185so7109338qkg.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:50:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cxzPCaTd6ix2rNUDdEp4trb+bBoo9P5kKc/CqAcw0Qw=;
- b=BFUWBFXIonsbenr3aucFiuxVOKp5xvf0go4Pag3A+XEn/vT1Vpd0ACBxUqeYikeaA8
- MdQeI9PsPbsLuBNELQdF6S7L8OCzWgsdMVIlr6zP9Eydu/u1t4YjFohH0TWKYWjXMWGl
- JQL7bzdljJsUVZxUL2tUWbNWcCxe3AKIJvM6MuHbtKvq8/9aan8OTvXkBw8/KOXVlxkf
- j2s+3VtgY9mBPf9ZrwY9J1vEX2UwzLttXyEkCKl7E0FThmAvlaPInrKf9dZB0zRTUH/F
- 0dA81seykCsLU/15e+qb1aHxBswreoZh8u6yBR5L8a6Qsf3EMMaOJ9ub4gBvGMZvjnef
- uQDw==
+ bh=aJYrvoM5HMTFnGdsK+fgfLYRAY3PPQKqt2v9Vxo+zlM=;
+ b=p3/ImdCypAmerI1Sdkyy22/7mTL8xG6yCYPGnhTSvEKe8WCERzEXKn85xe+sVkpHB1
+ ndL610lzJ+sAj58VoeXwd5pz+5akTQw12frhgD2a0KmyAdrgaN7GksGtj0jRizT1RDvB
+ cErBNtyEL8dQ52bn0q3Drv+XkEl5TIXE9xsj+Yh3Cd8mEIvZsM0l4SGNqtjmdKLPV0px
+ 0QtYHsACq4Q20dtRvYpW1REK9MkxHgGj5yN9ptuxWuUUmlV5XkTTcNQsQzB0CSBXai8a
+ SszwOneUrGtGBlf/y0nF/bxdN1me7bM5TsP8zNUX10HQo/f++C8X2/XJCG6urW51HcFW
+ juBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cxzPCaTd6ix2rNUDdEp4trb+bBoo9P5kKc/CqAcw0Qw=;
- b=Z6Sill/VI3baTynR/FptpcbzO7/vvzmXAowr1NvWFr1PnJrobKzyzGLBfplkd3R94N
- CjrChqVReqkaFX5C0hlMREuA/dQMq+hXaRVjuzzB52kjgG5x4cKDy0GspjTcp+pWit+S
- QdtGyWgtJpAoJrd/pDeEbAm7i97Zrh/LOHzhEQQ2o/fkfFZVvsFnLIvJ5aaefVPvQZBF
- wBrU/jOKeq3NcSvszUDu1FDsSDxcLrs1qif/IWlRmxdReVd0x6ooNhYYXo449S4t0NGo
- HO+BZAtUmWDYvL39UJ5sosLgmb49p4pSFOE6LcqrIHTXMTW2rYZpWhBhRSfUgsrv9ZQ3
- NtOg==
-X-Gm-Message-State: AOAM533RJP2lG27SwmG+hMtrp2i3zKM7awWbof8gC8wmIvSWaNrczJ5j
- xsj8UDQFtEy56EJ6xrY5IvcC0Q==
-X-Google-Smtp-Source: ABdhPJxW5aneESiExYJHajcYr7sOZLQuk19AS7HjwmKJTS5Gd0wNLOFPBFtz8s89gCBXId2O8eUsdQ==
-X-Received: by 2002:ac8:46c9:: with SMTP id h9mr63977805qto.130.1594428613738; 
- Fri, 10 Jul 2020 17:50:13 -0700 (PDT)
+ bh=aJYrvoM5HMTFnGdsK+fgfLYRAY3PPQKqt2v9Vxo+zlM=;
+ b=Askn7gHoBPjhfrfK5U0MaacMlMU+pJHDVFHEMIAl4gx7oP4bHDO8URLnX95qjRBLnv
+ ZPx4iVHr+94BOHkPrYmh3aANPb5MjD9VyDSZ0w+n/5JrcKEoSs1YkXVH4RNtKtYl/Zzy
+ KXKpGVX+YPfjw1qi8QDOLbOhIcLHcM5LmKwUi81kFElbt37v6NbzkGlNWDj1GRFPqVen
+ /4aoJQbICcHQNzjYqScwiPJcK61mpddrRuvo5eMWaaBgvlDIa4v30hostPyZGd094I7q
+ oTQ1fBBztKkcZGUSwznThkoP/Hwvx77WET5QmQEflB7Q8/SDoMEeOPutTeSKXSLgaIgK
+ +dyA==
+X-Gm-Message-State: AOAM530yeuWnKn1sPZeKczjQ2OvS1GzxCyDDlYz73UfJkRtACN0B6oDt
+ D2wfNhLWi5T3pZHZN8hoOslqnA==
+X-Google-Smtp-Source: ABdhPJzdGoB0jL3WYWcgn0TBa9NTF1nk9eL1+bBsVZ26R9vwUn59YJMg6IWEHkFo3wSZ46cCWIZcnA==
+X-Received: by 2002:a37:65d2:: with SMTP id
+ z201mr46671243qkb.351.1594428617985; 
+ Fri, 10 Jul 2020 17:50:17 -0700 (PDT)
 Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id g20sm10427510qtc.46.2020.07.10.17.50.12
+ by smtp.gmail.com with ESMTPSA id g20sm10427510qtc.46.2020.07.10.17.50.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 17:50:13 -0700 (PDT)
+ Fri, 10 Jul 2020 17:50:17 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 3/8] drm/msm/dpu: move some sspp caps to dpu_caps
-Date: Fri, 10 Jul 2020 20:47:26 -0400
-Message-Id: <20200711004752.30760-4-jonathan@marek.ca>
+Subject: [PATCH v2 4/8] drm/msm/dpu: don't use INTF_INPUT_CTRL feature on
+ sdm845
+Date: Fri, 10 Jul 2020 20:47:27 -0400
+Message-Id: <20200711004752.30760-5-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200711004752.30760-1-jonathan@marek.ca>
 References: <20200711004752.30760-1-jonathan@marek.ca>
@@ -70,7 +72,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Shubhashree Dhar <dhar@codeaurora.org>,
  Raviteja Tamatam <travitej@codeaurora.org>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  open list <linux-kernel@vger.kernel.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
@@ -81,151 +82,123 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This isn't something that ever changes between planes, so move it to
-dpu_caps struct. Making this change will allow more re-use in the
-"SSPP sub blocks config" part of the catalog, in particular when adding
-support for SM8150 and SM8250 which have different max_linewidth.
+The INTF_INPUT_CTRL feature is not available on sdm845, so don't set it.
 
-This also sets max_hdeci_exp/max_vdeci_exp to 0 for sc7180, as decimation
-is not supported on the newest DPU versions. (note that decimation is not
-implemented, so this changes nothing)
+This also adds separate feature bits for INTF (based on downstream) instead
+of using CTL feature bit for it, and removes the unnecessary NULL check in
+the added bind_pingpong_blk function.
+
+Fixes: 73bfb790ac786ca55fa2786a06f59 ("msm:disp:dpu1: setup display datapath for SC7180 target")
 
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 14 +++++------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 24 +++++++------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  6 ++---
- 3 files changed, 17 insertions(+), 27 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 20 +++++++++++--------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 13 ++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  9 ++-------
+ 3 files changed, 27 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 29d4fde3172b..f4ccbe56a09e 100644
+index f4ccbe56a09e..1d19c377b096 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -70,6 +70,10 @@ static const struct dpu_caps sdm845_dpu_caps = {
- 	.has_dim_layer = true,
- 	.has_idle_pc = true,
- 	.has_3d_merge = true,
-+	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-+	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+	.max_hdeci_exp = MAX_HORZ_DECIMATION,
-+	.max_vdeci_exp = MAX_VERT_DECIMATION,
- };
+@@ -43,6 +43,10 @@
  
- static const struct dpu_caps sc7180_dpu_caps = {
-@@ -80,6 +84,8 @@ static const struct dpu_caps sc7180_dpu_caps = {
- 	.ubwc_version = DPU_HW_UBWC_VER_20,
- 	.has_dim_layer = true,
- 	.has_idle_pc = true,
-+	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-+	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
- };
+ #define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
  
- static const struct dpu_mdp_cfg sdm845_mdp[] = {
-@@ -178,16 +184,9 @@ static const struct dpu_ctl_cfg sc7180_ctl[] = {
++#define INTF_SDM845_MASK (0)
++
++#define INTF_SC7180_MASK BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE)
++
+ #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
+ #define DEFAULT_DPU_LINE_WIDTH		2048
+ #define DEFAULT_DPU_OUTPUT_LINE_WIDTH	2560
+@@ -398,26 +402,26 @@ static struct dpu_pingpong_cfg sc7180_pp[] = {
+ /*************************************************************
+  * INTF sub blocks config
   *************************************************************/
+-#define INTF_BLK(_name, _id, _base, _type, _ctrl_id) \
++#define INTF_BLK(_name, _id, _base, _type, _ctrl_id, _features) \
+ 	{\
+ 	.name = _name, .id = _id, \
+ 	.base = _base, .len = 0x280, \
+-	.features = BIT(DPU_CTL_ACTIVE_CFG), \
++	.features = _features, \
+ 	.type = _type, \
+ 	.controller_id = _ctrl_id, \
+ 	.prog_fetch_lines_worst_case = 24 \
+ 	}
  
- /* SSPP common configuration */
--static const struct dpu_sspp_blks_common sdm845_sspp_common = {
--	.maxlinewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
--	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
--	.maxhdeciexp = MAX_HORZ_DECIMATION,
--	.maxvdeciexp = MAX_VERT_DECIMATION,
--};
+ static const struct dpu_intf_cfg sdm845_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0),
+-	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0),
+-	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1),
+-	INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 1),
++	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, INTF_SDM845_MASK),
++	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, INTF_SDM845_MASK),
++	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, INTF_SDM845_MASK),
++	INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 1, INTF_SDM845_MASK),
+ };
  
- #define _VIG_SBLK(num, sdma_pri, qseed_ver) \
- 	{ \
--	.common = &sdm845_sspp_common, \
- 	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
- 	.maxupscale = MAX_UPSCALE_RATIO, \
- 	.smart_dma_priority = sdma_pri, \
-@@ -207,7 +206,6 @@ static const struct dpu_sspp_blks_common sdm845_sspp_common = {
+ static const struct dpu_intf_cfg sc7180_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0),
+-	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0),
++	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, INTF_SC7180_MASK),
++	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, INTF_SC7180_MASK),
+ };
  
- #define _DMA_SBLK(num, sdma_pri) \
- 	{ \
--	.common = &sdm845_sspp_common, \
- 	.maxdwnscale = SSPP_UNITY_SCALE, \
- 	.maxupscale = SSPP_UNITY_SCALE, \
- 	.smart_dma_priority = sdma_pri, \
+ /*************************************************************
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 63512753b369..a6221fdc02d2 100644
+index a6221fdc02d2..e9458c85e20c 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -301,6 +301,10 @@ struct dpu_qos_lut_tbl {
-  * @has_dim_layer      dim layer feature status
-  * @has_idle_pc        indicate if idle power collapse feature is supported
-  * @has_3d_merge       indicate if 3D merge is supported
-+ * @max_linewidth      max linewidth for sspp
-+ * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
-+ * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
-+ * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
-  */
- struct dpu_caps {
- 	u32 max_mixer_width;
-@@ -312,22 +316,11 @@ struct dpu_caps {
- 	bool has_dim_layer;
- 	bool has_idle_pc;
- 	bool has_3d_merge;
--};
--
--/**
-- * struct dpu_sspp_blks_common : SSPP sub-blocks common configuration
-- * @maxwidth: max pixelwidth supported by this pipe
-- * @pixel_ram_size: size of latency hiding and de-tiling buffer in bytes
-- * @maxhdeciexp: max horizontal decimation supported by this pipe
-- *				(max is 2^value)
-- * @maxvdeciexp: max vertical decimation supported by this pipe
-- *				(max is 2^value)
-- */
--struct dpu_sspp_blks_common {
--	u32 maxlinewidth;
-+	/* SSPP limits */
-+	u32 max_linewidth;
- 	u32 pixel_ram_size;
--	u32 maxhdeciexp;
--	u32 maxvdeciexp;
-+	u32 max_hdeci_exp;
-+	u32 max_vdeci_exp;
+@@ -186,6 +186,19 @@ enum {
+ 	DPU_CTL_MAX
  };
  
++/**
++ * INTF sub-blocks
++ * @DPU_INTF_INPUT_CTRL         Supports the setting of pp block from which
++ *                              pixel data arrives to this INTF
++ * @DPU_INTF_TE                 INTF block has TE configuration support
++ * @DPU_INTF_MAX
++ */
++enum {
++	DPU_INTF_INPUT_CTRL = 0x1,
++	DPU_INTF_TE,
++	DPU_INTF_MAX
++};
++
  /**
-@@ -353,7 +346,6 @@ struct dpu_sspp_blks_common {
-  * @virt_num_formats: Number of supported formats for virtual planes
-  */
- struct dpu_sspp_sub_blks {
--	const struct dpu_sspp_blks_common *common;
- 	u32 creq_vblank;
- 	u32 danger_vblank;
- 	u32 maxdwnscale;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 3b9c33e694bf..33f6c56f01ed 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -153,7 +153,7 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
+  * VBIF sub-blocks and features
+  * @DPU_VBIF_QOS_OTLIM        VBIF supports OT Limit
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index efe9a5719c6b..64f556d693dd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -225,14 +225,9 @@ static void dpu_hw_intf_bind_pingpong_blk(
+ 		bool enable,
+ 		const enum dpu_pingpong pp)
+ {
+-	struct dpu_hw_blk_reg_map *c;
++	struct dpu_hw_blk_reg_map *c = &intf->hw;
+ 	u32 mux_cfg;
  
- 	pdpu = to_dpu_plane(plane);
- 	pstate = to_dpu_plane_state(plane->state);
--	fixed_buff_size = pdpu->pipe_sblk->common->pixel_ram_size;
-+	fixed_buff_size = pdpu->catalog->caps->pixel_ram_size;
+-	if (!intf)
+-		return;
+-
+-	c = &intf->hw;
+-
+ 	mux_cfg = DPU_REG_READ(c, INTF_MUX);
+ 	mux_cfg &= ~0xf;
  
- 	list_for_each_entry(tmp, &pdpu->mplane_list, mplane_list) {
- 		if (!tmp->base.state->visible)
-@@ -709,7 +709,7 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
- 		 * So we cannot support more than half of the supported SSPP
- 		 * width for tiled formats.
- 		 */
--		width_threshold = dpu_plane[i]->pipe_sblk->common->maxlinewidth;
-+		width_threshold = dpu_plane[i]->catalog->caps->max_linewidth;
- 		if (has_tiled_rect)
- 			width_threshold /= 2;
- 
-@@ -887,7 +887,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	fb_rect.x2 = state->fb->width;
- 	fb_rect.y2 = state->fb->height;
- 
--	max_linewidth = pdpu->pipe_sblk->common->maxlinewidth;
-+	max_linewidth = pdpu->catalog->caps->max_linewidth;
- 
- 	fmt = to_dpu_format(msm_framebuffer_format(state->fb));
+@@ -280,7 +275,7 @@ static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
+ 	ops->get_status = dpu_hw_intf_get_status;
+ 	ops->enable_timing = dpu_hw_intf_enable_timing_engine;
+ 	ops->get_line_count = dpu_hw_intf_get_line_count;
+-	if (cap & BIT(DPU_CTL_ACTIVE_CFG))
++	if (cap & BIT(DPU_INTF_INPUT_CTRL))
+ 		ops->bind_pingpong_blk = dpu_hw_intf_bind_pingpong_blk;
+ }
  
 -- 
 2.26.1
