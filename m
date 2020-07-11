@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F08F21E8DD
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413B021E953
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:05:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CAAA6E8F0;
-	Tue, 14 Jul 2020 07:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8996E939;
+	Tue, 14 Jul 2020 07:02:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57896E1BC
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 11:08:18 +0000 (UTC)
-Received: from fsav305.sakura.ne.jp (fsav305.sakura.ne.jp [153.120.85.136])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06BB87EO027033;
- Sat, 11 Jul 2020 20:08:07 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav305.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav305.sakura.ne.jp);
- Sat, 11 Jul 2020 20:08:06 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav305.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06BB80rN027005
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Sat, 11 Jul 2020 20:08:06 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: fbconsole needs more parameter validations.
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20200710055329.3759-1-penguin-kernel@I-love.SAKURA.ne.jp>
- <b1e7dd6a-fc22-bba8-0abb-d3e779329bce@i-love.sakura.ne.jp>
- <20200710105637.GB1232395@kroah.com>
- <f80527f4-ffb2-69ef-ebd4-3de92cacfa17@i-love.sakura.ne.jp>
-Message-ID: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
-Date: Sat, 11 Jul 2020 20:08:00 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A996E2E2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 15:11:42 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id cm21so3841815pjb.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 08:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=lbJbJXyaa2RJSRZCkASSTZMtfB5x5A2cZspWwqiACVA=;
+ b=VrpLtn8BFfqScK+tfsGIQIM0I62BHK7OEuBdoY9pcFhvzT5ES86WFeUflbJhIgxglL
+ WshaO2OUM0C2mTqYrXp2sqW0kqFZvb4CS3RkJ3Sig4YEDRprWE6SOV4U4BvjZ3DdPD7R
+ I6dISToOqhIcGSxDjRRZ8gzPnrVk1mNWLDmKaXOM4INSdN6j82JACqZA1/g5ywnnHVTJ
+ F5OJsx7Xf9u1Gidm0bvqOhmkh09hHlIFxSuxrt0yL7Vcm2uwdEI6/hMZK/vdiDscCkf3
+ hzORaculqZoLGkYPfURxYpGwEczH9j7DAKkClcgf/bKUukWVUgovy8GYCLpghG3BJBd4
+ Z23g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=lbJbJXyaa2RJSRZCkASSTZMtfB5x5A2cZspWwqiACVA=;
+ b=QZmN+vV4Ypy1JlNdrBvBn3DrxBIcYDOi8ddjivCFky4sythNX+OBQoeB/pcSAtZst/
+ FeUk/sQdcrQxjBG9BVLTk7o5LiZxLcpcp6ZLvcRefcbh0enEQQMws2c59RHgdrOvr5N/
+ ACmmzHwFMcUhGNISRY+lGIovesRRVrUEIw3V6xTSxOqpM05oPir2wTV65nr5zLDhjbLs
+ 8uUF6xh2gQdMKdCk+fiEWLLh0hRja417m1xu7NvUdzkJdTyq0L19KcFuf54lsVYhsELv
+ 6oaVd0ztSjTKrUJPb6av8w2h3UCe3K+TqpwuYZ2xdRaDLNDI8zdDUlw8ICEHDpW6vhuk
+ Bf1Q==
+X-Gm-Message-State: AOAM533ViDTiMJFreF6D5WJ28UpxMEl4f4dJtoRfp+ot04/XYTn88eSt
+ il5ys9nCAKDEFidi2dpR7fo=
+X-Google-Smtp-Source: ABdhPJzB/u0gPEdFobOYA9ljn5l2yp9NGc+p6o9q5exxeNn3ErV37CKcmUyYZSxZd55mv0+Teun/kQ==
+X-Received: by 2002:a17:90a:1d06:: with SMTP id
+ c6mr11678465pjd.194.1594480302299; 
+ Sat, 11 Jul 2020 08:11:42 -0700 (PDT)
+Received: from blackclown ([103.88.82.158])
+ by smtp.gmail.com with ESMTPSA id u66sm9156189pfb.191.2020.07.11.08.11.39
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sat, 11 Jul 2020 08:11:41 -0700 (PDT)
+Date: Sat, 11 Jul 2020 20:41:26 +0530
+From: Suraj Upadhyay <usuraj35@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
+Subject: Re: [PATCH 0/4] drm: core: Convert logging to drm_* functions.
+Message-ID: <20200711151126.GA12262@blackclown>
+References: <cover.1594136880.git.usuraj35@gmail.com>
+ <20200710175643.GF17565@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <f80527f4-ffb2-69ef-ebd4-3de92cacfa17@i-love.sakura.ne.jp>
-Content-Language: en-US
+In-Reply-To: <20200710175643.GF17565@ravnborg.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 14 Jul 2020 07:02:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,148 +70,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- linux-kernel@vger.kernel.org, DRI <dri-devel@lists.freedesktop.org>,
- Jiri Slaby <jslaby@suse.com>,
- syzbot <syzbot+017265e8553724e514e8@syzkaller.appspotmail.com>,
- Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1745593240=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020/07/11 15:16, Tetsuo Handa wrote:
-> On 2020/07/10 19:56, Greg Kroah-Hartman wrote:
->> Where is the over/underflow happening here when we set a size to be so
->> small?  We should bound the size somewhere, and as you show, that's not
->> really working properly, right?
-> 
-> It is bit_clear_margins() where integer underflow is happening (4294966497 == 1 - 100 * 8),
-> but the cause of this problem seems to be fbcon_startup() or vc_do_resize().
-> 
 
-A possible cause is that vc_resize(vc, 0, 0) fails to set vc->vc_cols == vc->vc_rows == 0
-because of
+--===============1745593240==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OgqxwSJOaUobr8KG"
+Content-Disposition: inline
 
-  new_cols = (cols ? cols : vc->vc_cols);
-  new_rows = (lines ? lines : vc->vc_rows);
 
-exception. I don't know how user program referenced as
+--OgqxwSJOaUobr8KG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  /*
-   * Change # of rows and columns (0 means unchanged/the size of fg_console)
-   * [this is to be used together with some user program
-   * like resize that changes the hardware videomode]
-   */
-  #define VC_RESIZE_MAXCOL (32767)
-  #define VC_RESIZE_MAXROW (32767)
+On Fri, Jul 10, 2020 at 07:56:43PM +0200, Sam Ravnborg wrote:
+> Hi Suraj.
+>=20
+> On Tue, Jul 07, 2020 at 10:04:14PM +0530, Suraj Upadhyay wrote:
+> >=20
+> > This patchset converts logging to drm_* functions in drm core.
+> >=20
+> > The following functions have been converted to their respective
+> > DRM alternatives :
+> > dev_info()      --> drm_info()
+> > dev_err()       --> drm_err()
+> > dev_warn()      --> drm_warn()
+> > dev_err_once()  --> drm_err_once().
+>=20
+> I would prefer that DRM_* logging in the same files are converted in the
+> same patch. So we have one logging conversion patch for each file you
+> touches and that we do not need to re-vist the files later to change
+> another set of logging functions.
 
-is utilizing this exception (this code predates the git repository). But since I
-don't think that a console with 0 column and/or 0 row makes sense, the real root
-cause might be that fb_set_var() fails to reject too small var.xres value for
-keeping cols > 0 and too small var.yres value for keeping lines > 0.
+Agreed.
 
-Regardless, making "struct fbcon_ops"->clear_margins no-op when integer underflow
-is detected (like below diff) helps avoiding crash. Can we apply this handy
-protection assuming that vc->vc_cols * vc->vc_font.width and
-vc->vc_rows * vc->vc_font.heigh do not cause integer overflow?
+> If possible WARN_* should also be converted to drm_WARN_*
+> If patch is too large, then split them up but again lets have all
+> logging updated when we touch a file.
+>=20
+> Care to take a look at this approach?
+>
 
- drivers/video/fbdev/core/bitblit.c   |    4 ++--
- drivers/video/fbdev/core/fbcon_ccw.c |    4 ++--
- drivers/video/fbdev/core/fbcon_cw.c  |    4 ++--
- drivers/video/fbdev/core/fbcon_ud.c  |    4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+Hii,
+	The problem with WARN_* macros is that they are used without any
+drm device context. For example [this use here](https://cgit.freedesktop.or=
+g/drm/drm-misc/tree/drivers/gpu/drm/drm_edid.c#n1667) in drm_edid.c,
+doesn't have a drm device context and only has one argument (namely !raw_ed=
+id).
+There are many more such use cases.
 
-diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-index ca935c09a261..35ebeeccde4d 100644
---- a/drivers/video/fbdev/core/bitblit.c
-+++ b/drivers/video/fbdev/core/bitblit.c
-@@ -216,7 +216,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	region.color = color;
- 	region.rop = ROP_COPY;
- 
--	if (rw && !bottom_only) {
-+	if ((int) rw > 0 && !bottom_only) {
- 		region.dx = info->var.xoffset + rs;
- 		region.dy = 0;
- 		region.width = rw;
-@@ -224,7 +224,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
- 		info->fbops->fb_fillrect(info, &region);
- 	}
- 
--	if (bh) {
-+	if ((int) bh > 0) {
- 		region.dx = info->var.xoffset;
- 		region.dy = info->var.yoffset + bs;
- 		region.width = rs;
-diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
-index dfa9a8aa4509..78f3a5621478 100644
---- a/drivers/video/fbdev/core/fbcon_ccw.c
-+++ b/drivers/video/fbdev/core/fbcon_ccw.c
-@@ -201,7 +201,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	region.color = color;
- 	region.rop = ROP_COPY;
- 
--	if (rw && !bottom_only) {
-+	if ((int) rw > 0 && !bottom_only) {
- 		region.dx = 0;
- 		region.dy = info->var.yoffset;
- 		region.height = rw;
-@@ -209,7 +209,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
- 		info->fbops->fb_fillrect(info, &region);
- 	}
- 
--	if (bh) {
-+	if ((int) bh > 0) {
- 		region.dx = info->var.xoffset + bs;
- 		region.dy = 0;
-                 region.height = info->var.yres_virtual;
-diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
-index ce08251bfd38..fd098ff17574 100644
---- a/drivers/video/fbdev/core/fbcon_cw.c
-+++ b/drivers/video/fbdev/core/fbcon_cw.c
-@@ -184,7 +184,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	region.color = color;
- 	region.rop = ROP_COPY;
- 
--	if (rw && !bottom_only) {
-+	if ((int) rw > 0 && !bottom_only) {
- 		region.dx = 0;
- 		region.dy = info->var.yoffset + rs;
- 		region.height = rw;
-@@ -192,7 +192,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
- 		info->fbops->fb_fillrect(info, &region);
- 	}
- 
--	if (bh) {
-+	if ((int) bh > 0) {
- 		region.dx = info->var.xoffset;
- 		region.dy = info->var.yoffset;
-                 region.height = info->var.yres;
-diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
-index 1936afc78fec..e165a3fad29a 100644
---- a/drivers/video/fbdev/core/fbcon_ud.c
-+++ b/drivers/video/fbdev/core/fbcon_ud.c
-@@ -231,7 +231,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
- 	region.color = color;
- 	region.rop = ROP_COPY;
- 
--	if (rw && !bottom_only) {
-+	if ((int) rw > 0 && !bottom_only) {
- 		region.dy = 0;
- 		region.dx = info->var.xoffset;
- 		region.width  = rw;
-@@ -239,7 +239,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
- 		info->fbops->fb_fillrect(info, &region);
- 	}
- 
--	if (bh) {
-+	if ((int) bh > 0) {
- 		region.dy = info->var.yoffset;
- 		region.dx = info->var.xoffset;
-                 region.height  = bh;
+And also there were cases where dev_* logging functions didn't have any
+drm_device context.
+
+I would be very glad, if we came up with a possible solution to this
+problem. I think we should develop drm_* logging APIs which could print
+contextless logs (which would possibly be midlyering) or give every situati=
+on a context.
+
+> Also please consider if coccinelle can make this job easier.
+> There is a lot of files...
+
+I totally agree with you. I will remember this next time.
+
+But here, in this patchset I have tried to convert all possible
+cases of conversion, i.e. I have changed logging wherever there was a
+drm_device context.
+
+Thanks.
+
+> 	Sam
+>=20
+> >=20
+> > Suraj Upadhyay (4):
+> >   drm: mipi-dsi: Convert logging to drm_* functions.
+> >   drm: mipi-dbi: Convert logging to drm_* functions.
+> >   drm: edid: Convert logging to drm_* functions.
+> >   drm: fb-helper: Convert logging to drm_* functions.
+> >=20
+> >  drivers/gpu/drm/drm_edid.c      |  7 +++----
+> >  drivers/gpu/drm/drm_fb_helper.c |  2 +-
+> >  drivers/gpu/drm/drm_mipi_dbi.c  |  4 ++--
+> >  drivers/gpu/drm/drm_mipi_dsi.c  | 15 +++++++--------
+> >  4 files changed, 13 insertions(+), 15 deletions(-)
+> >=20
+> > --=20
+> > 2.17.1
+> >=20
+> >=20
+>=20
+>=20
+>=20
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--OgqxwSJOaUobr8KG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE7AbCa0kOsMJ4cx0j+gRsbIfe744FAl8J1pYACgkQ+gRsbIfe
+746Vlw/8CtZ9XbPZ/Iyno9amywRwx9keWlGzO8cypYgKaz46i/ez9jMqhkgsOvm8
+EFv/TYk5rNnxe46XDSMM1NL+HhrXjZMBtu9eMLQNV/MlA8U/bgxLZVDo7BOizIk9
+eBVDF9U8rvw3Y5HjUP6v0pDoHpKiR0r6/Zxa7AvGh6uFugIfCUU/qelBkFoAnlkA
+3KHTnqgHZTlpdmMgmIwpasya1bPvm4TV60m5WaN+Gz1pWbqyAOqlroKOaHqoFRcs
+yWCqUw109yOQqHVFJ1SHFTAsBtUcrx3ndbSj4GiWsprQBI1OFBngxfFjprxgTD6a
+lyp2c8tWDm1kwJv8HHfFGyUG8uYaUfjxQw9bstkPdhp9z0YaAUOlpXj9uf/bQRIV
+71M6febZ1+zEyEm+sVgbgxGwLz7GBc9Efp0tNryDXGfkZBXilxzi7MDEKm/M6SW7
+OEXqls0XJS9kwLd8APdIokiWvM/3KJ9o65MPn6kvztcoXkoc8sxyUhKC8QmCMX7T
+ijdanU91MirbNlgF/mAnLXSHSDfm2lh3xUWHgAPkvOe/tIb9j16P+71yM9bZdmj1
+fS3dpzlRrHGEFQTRvBRMwr5X4HyrF9YNCe6gn46TzW6GQmdFnG6F0rngd7p8vN/9
+g/hAC8NcFwnS5eVhVecAUp33OkxIy4x26F0CuONdbP7GXHvhdew=
+=XNjR
+-----END PGP SIGNATURE-----
+
+--OgqxwSJOaUobr8KG--
+
+--===============1745593240==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1745593240==--
