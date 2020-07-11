@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE2321E97E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:06:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BC021E8F3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 841486E8E5;
-	Tue, 14 Jul 2020 07:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD3D6E8F4;
+	Tue, 14 Jul 2020 07:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EB96ED90
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 00:50:10 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id g13so5901852qtv.8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:50:10 -0700 (PDT)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87A746ED8F
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 00:50:14 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id k18so5895197qtm.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ivKzlL2lysL+/nFY/9zMo+E34c2rHGc9yFK/qBGN/50=;
- b=nWfSBWIH4GhcUABLsj+J8jxl2FI7MtAMN0XjlXPT/e6EmWP4TcHqH4v9AyRHXFL3Tp
- Deo9S7Xl0Kj7phBD1ltQp7sZ6kdt0aUnNWksqxCKbrxA/Fbgh51y/Gp+LtStx/ynalds
- BoZ4fFtTBOP7jwc4z1MrMAl6DTAPU4mjhmRIhdl/nyMjbpA97CTY3H8E11VWnT8RkjAv
- JvMP5SInvM4TAtqQfuSWlgJlooXsAJJWtjwANxGcZpv573YNE/sxwohw8Sgc7kodTnsp
- CoYl92YHioIa1aCtiEN9dcbdr4TZFKRozWTRNjSCU4JqXEIp3SQEYEDYphk3Gr2E0AI8
- oVgA==
+ bh=cxzPCaTd6ix2rNUDdEp4trb+bBoo9P5kKc/CqAcw0Qw=;
+ b=BFUWBFXIonsbenr3aucFiuxVOKp5xvf0go4Pag3A+XEn/vT1Vpd0ACBxUqeYikeaA8
+ MdQeI9PsPbsLuBNELQdF6S7L8OCzWgsdMVIlr6zP9Eydu/u1t4YjFohH0TWKYWjXMWGl
+ JQL7bzdljJsUVZxUL2tUWbNWcCxe3AKIJvM6MuHbtKvq8/9aan8OTvXkBw8/KOXVlxkf
+ j2s+3VtgY9mBPf9ZrwY9J1vEX2UwzLttXyEkCKl7E0FThmAvlaPInrKf9dZB0zRTUH/F
+ 0dA81seykCsLU/15e+qb1aHxBswreoZh8u6yBR5L8a6Qsf3EMMaOJ9ub4gBvGMZvjnef
+ uQDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ivKzlL2lysL+/nFY/9zMo+E34c2rHGc9yFK/qBGN/50=;
- b=bAWGSTgYVccm/83jcgNdK3t0IcrrtsjCMaTbVmb031+eGHcZP5kH9v+yk7cte7P2G+
- r+Jj4GSzixyzfaMZpGMriNHacEsGqG4AgdGS+SqJHyZl3zrTGRiNwxrRRVPqP20EcetO
- 43akt5ol+sq6mt+lPLIipo670zY41ZVupDwC+5YXJczp6dvVUndLxOoLmmgcVoyYuFej
- ELzucyRXEWtVevK1tWSwxAOAxFHAPZjA1dHOOTN16DWn7VOo6ohvACs9AYw+D0ouJSEC
- tHKaUrHGE89xFT8NffhQLZlOHs7BlB0THrDLRNPlAZAC8bIiEkQZf0XEczLvZVTl/eit
- gOhQ==
-X-Gm-Message-State: AOAM5303qdwWh0SXusPp9EVpNTIEHP/fo5rifXsADlsuicB9cdHJEjkZ
- YzIqBp3W80iQnzBMp2Bc+peBYw==
-X-Google-Smtp-Source: ABdhPJzCSp7gZTVqXOYGgHOR0btc5OfEHLAsXIY7q3eE/wtTa9Hl+/kOte4+xM4I1pfzluBYIaWB8g==
-X-Received: by 2002:ac8:7761:: with SMTP id h1mr75439413qtu.133.1594428609353; 
- Fri, 10 Jul 2020 17:50:09 -0700 (PDT)
+ bh=cxzPCaTd6ix2rNUDdEp4trb+bBoo9P5kKc/CqAcw0Qw=;
+ b=Z6Sill/VI3baTynR/FptpcbzO7/vvzmXAowr1NvWFr1PnJrobKzyzGLBfplkd3R94N
+ CjrChqVReqkaFX5C0hlMREuA/dQMq+hXaRVjuzzB52kjgG5x4cKDy0GspjTcp+pWit+S
+ QdtGyWgtJpAoJrd/pDeEbAm7i97Zrh/LOHzhEQQ2o/fkfFZVvsFnLIvJ5aaefVPvQZBF
+ wBrU/jOKeq3NcSvszUDu1FDsSDxcLrs1qif/IWlRmxdReVd0x6ooNhYYXo449S4t0NGo
+ HO+BZAtUmWDYvL39UJ5sosLgmb49p4pSFOE6LcqrIHTXMTW2rYZpWhBhRSfUgsrv9ZQ3
+ NtOg==
+X-Gm-Message-State: AOAM533RJP2lG27SwmG+hMtrp2i3zKM7awWbof8gC8wmIvSWaNrczJ5j
+ xsj8UDQFtEy56EJ6xrY5IvcC0Q==
+X-Google-Smtp-Source: ABdhPJxW5aneESiExYJHajcYr7sOZLQuk19AS7HjwmKJTS5Gd0wNLOFPBFtz8s89gCBXId2O8eUsdQ==
+X-Received: by 2002:ac8:46c9:: with SMTP id h9mr63977805qto.130.1594428613738; 
+ Fri, 10 Jul 2020 17:50:13 -0700 (PDT)
 Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id g20sm10427510qtc.46.2020.07.10.17.50.08
+ by smtp.gmail.com with ESMTPSA id g20sm10427510qtc.46.2020.07.10.17.50.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 17:50:08 -0700 (PDT)
+ Fri, 10 Jul 2020 17:50:13 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 2/8] drm/msm/dpu: update UBWC config for sm8150 and sm8250
-Date: Fri, 10 Jul 2020 20:47:25 -0400
-Message-Id: <20200711004752.30760-3-jonathan@marek.ca>
+Subject: [PATCH v2 3/8] drm/msm/dpu: move some sspp caps to dpu_caps
+Date: Fri, 10 Jul 2020 20:47:26 -0400
+Message-Id: <20200711004752.30760-4-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200711004752.30760-1-jonathan@marek.ca>
 References: <20200711004752.30760-1-jonathan@marek.ca>
@@ -69,313 +69,164 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Shubhashree Dhar <dhar@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>,
  Raviteja Tamatam <travitej@codeaurora.org>, David Airlie <airlied@linux.ie>,
  Sam Ravnborg <sam@ravnborg.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Zheng Bin <zhengbin13@huawei.com>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>, Sean Paul <sean@poorly.run>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>
+ Stephen Boyd <swboyd@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the UBWC registers to the right values for sm8150 and sm8250.
+This isn't something that ever changes between planes, so move it to
+dpu_caps struct. Making this change will allow more re-use in the
+"SSPP sub blocks config" part of the catalog, in particular when adding
+support for SM8150 and SM8250 which have different max_linewidth.
 
-This removes broken dpu_hw_reset_ubwc, which doesn't work because the
-"force blk offset to zero to access beginning of register region" hack is
-copied from downstream, where mapped region starts 0x1000 below what is
-used in the upstream driver.
-
-Also simplifies the overly complicated change that was introduced in
-e4f9bbe9f8beab9a1ce4 to work around dpu_hw_reset_ubwc being broken.
+This also sets max_hdeci_exp/max_vdeci_exp to 0 for sc7180, as decimation
+is not supported on the newest DPU versions. (note that decimation is not
+implemented, so this changes nothing)
 
 Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  8 --
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 16 +++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 18 -----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  7 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      | 75 ++++++-------------
- 6 files changed, 42 insertions(+), 90 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 14 +++++------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 24 +++++++------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  6 ++---
+ 3 files changed, 17 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 148c6d71e6c1..46df0ff75b85 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1115,7 +1115,6 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
- {
- 	struct dpu_encoder_virt *dpu_enc = NULL;
- 	struct msm_drm_private *priv;
--	struct dpu_kms *dpu_kms;
- 	int i;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 29d4fde3172b..f4ccbe56a09e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -70,6 +70,10 @@ static const struct dpu_caps sdm845_dpu_caps = {
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+ 	.has_3d_merge = true,
++	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++	.max_hdeci_exp = MAX_HORZ_DECIMATION,
++	.max_vdeci_exp = MAX_VERT_DECIMATION,
+ };
  
- 	if (!drm_enc || !drm_enc->dev) {
-@@ -1124,7 +1123,6 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
- 	}
+ static const struct dpu_caps sc7180_dpu_caps = {
+@@ -80,6 +84,8 @@ static const struct dpu_caps sc7180_dpu_caps = {
+ 	.ubwc_version = DPU_HW_UBWC_VER_20,
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
++	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+ };
  
- 	priv = drm_enc->dev->dev_private;
--	dpu_kms = to_dpu_kms(priv->kms);
+ static const struct dpu_mdp_cfg sdm845_mdp[] = {
+@@ -178,16 +184,9 @@ static const struct dpu_ctl_cfg sc7180_ctl[] = {
+  *************************************************************/
  
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 	if (!dpu_enc || !dpu_enc->cur_master) {
-@@ -1132,12 +1130,6 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
- 		return;
- 	}
+ /* SSPP common configuration */
+-static const struct dpu_sspp_blks_common sdm845_sspp_common = {
+-	.maxlinewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+-	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+-	.maxhdeciexp = MAX_HORZ_DECIMATION,
+-	.maxvdeciexp = MAX_VERT_DECIMATION,
+-};
  
--	if (dpu_enc->cur_master->hw_mdptop &&
--			dpu_enc->cur_master->hw_mdptop->ops.reset_ubwc)
--		dpu_enc->cur_master->hw_mdptop->ops.reset_ubwc(
--				dpu_enc->cur_master->hw_mdptop,
--				dpu_kms->catalog);
--
- 	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
+ #define _VIG_SBLK(num, sdma_pri, qseed_ver) \
+ 	{ \
+-	.common = &sdm845_sspp_common, \
+ 	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
+ 	.maxupscale = MAX_UPSCALE_RATIO, \
+ 	.smart_dma_priority = sdma_pri, \
+@@ -207,7 +206,6 @@ static const struct dpu_sspp_blks_common sdm845_sspp_common = {
  
- 	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+ #define _DMA_SBLK(num, sdma_pri) \
+ 	{ \
+-	.common = &sdm845_sspp_common, \
+ 	.maxdwnscale = SSPP_UNITY_SCALE, \
+ 	.maxupscale = SSPP_UNITY_SCALE, \
+ 	.smart_dma_priority = sdma_pri, \
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index f7de43838c69..63512753b369 100644
+index 63512753b369..a6221fdc02d2 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -37,7 +37,9 @@
- #define DPU_HW_VER_400	DPU_HW_VER(4, 0, 0) /* sdm845 v1.0 */
- #define DPU_HW_VER_401	DPU_HW_VER(4, 0, 1) /* sdm845 v2.0 */
- #define DPU_HW_VER_410	DPU_HW_VER(4, 1, 0) /* sdm670 v1.0 */
--#define DPU_HW_VER_500	DPU_HW_VER(5, 0, 0) /* sdm855 v1.0 */
-+#define DPU_HW_VER_500	DPU_HW_VER(5, 0, 0) /* sm8150 v1.0 */
-+#define DPU_HW_VER_501	DPU_HW_VER(5, 0, 1) /* sm8150 v2.0 */
-+#define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250 */
- #define DPU_HW_VER_620	DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
- 
- 
-@@ -65,10 +67,9 @@ enum {
- 	DPU_HW_UBWC_VER_10 = 0x100,
- 	DPU_HW_UBWC_VER_20 = 0x200,
- 	DPU_HW_UBWC_VER_30 = 0x300,
-+	DPU_HW_UBWC_VER_40 = 0x400,
+@@ -301,6 +301,10 @@ struct dpu_qos_lut_tbl {
+  * @has_dim_layer      dim layer feature status
+  * @has_idle_pc        indicate if idle power collapse feature is supported
+  * @has_3d_merge       indicate if 3D merge is supported
++ * @max_linewidth      max linewidth for sspp
++ * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
++ * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
++ * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
+  */
+ struct dpu_caps {
+ 	u32 max_mixer_width;
+@@ -312,22 +316,11 @@ struct dpu_caps {
+ 	bool has_dim_layer;
+ 	bool has_idle_pc;
+ 	bool has_3d_merge;
+-};
+-
+-/**
+- * struct dpu_sspp_blks_common : SSPP sub-blocks common configuration
+- * @maxwidth: max pixelwidth supported by this pipe
+- * @pixel_ram_size: size of latency hiding and de-tiling buffer in bytes
+- * @maxhdeciexp: max horizontal decimation supported by this pipe
+- *				(max is 2^value)
+- * @maxvdeciexp: max vertical decimation supported by this pipe
+- *				(max is 2^value)
+- */
+-struct dpu_sspp_blks_common {
+-	u32 maxlinewidth;
++	/* SSPP limits */
++	u32 max_linewidth;
+ 	u32 pixel_ram_size;
+-	u32 maxhdeciexp;
+-	u32 maxvdeciexp;
++	u32 max_hdeci_exp;
++	u32 max_vdeci_exp;
  };
  
--#define IS_UBWC_20_SUPPORTED(rev)       ((rev) >= DPU_HW_UBWC_VER_20)
--
  /**
-  * MDP TOP BLOCK features
-  * @DPU_MDP_PANIC_PER_PIPE Panic configuration needs to be be done per pipe
-@@ -447,7 +448,6 @@ struct dpu_clk_ctrl_reg {
- struct dpu_mdp_cfg {
- 	DPU_HW_BLK_INFO;
- 	u32 highest_bank_bit;
--	u32 ubwc_static;
- 	u32 ubwc_swizzle;
- 	struct dpu_clk_ctrl_reg clk_ctrls[DPU_CLK_CTRL_MAX];
- };
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 82c5dbfdabc7..c940b69435e1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -303,11 +303,25 @@ static void dpu_hw_sspp_setup_format(struct dpu_hw_pipe *ctx,
- 		DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
- 			DPU_FETCH_CONFIG_RESET_VALUE |
- 			ctx->mdp->highest_bank_bit << 18);
--		if (IS_UBWC_20_SUPPORTED(ctx->catalog->caps->ubwc_version)) {
-+		switch (ctx->catalog->caps->ubwc_version) {
-+		case DPU_HW_UBWC_VER_10:
-+			/* TODO: UBWC v1 case */
-+			break;
-+		case DPU_HW_UBWC_VER_20:
- 			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
- 			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
- 					fast_clear | (ctx->mdp->ubwc_swizzle) |
- 					(ctx->mdp->highest_bank_bit << 4));
-+			break;
-+		case DPU_HW_UBWC_VER_30:
-+			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
-+					BIT(30) | (ctx->mdp->ubwc_swizzle) |
-+					(ctx->mdp->highest_bank_bit << 4));
-+			break;
-+		case DPU_HW_UBWC_VER_40:
-+			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
-+					DPU_FORMAT_IS_YUV(fmt) ? 0 : BIT(30));
-+			break;
- 		}
- 	}
+@@ -353,7 +346,6 @@ struct dpu_sspp_blks_common {
+  * @virt_num_formats: Number of supported formats for virtual planes
+  */
+ struct dpu_sspp_sub_blks {
+-	const struct dpu_sspp_blks_common *common;
+ 	u32 creq_vblank;
+ 	u32 danger_vblank;
+ 	u32 maxdwnscale;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 3b9c33e694bf..33f6c56f01ed 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -153,7 +153,7 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-index f9af52ae9f3e..01b76766a9a8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-@@ -8,7 +8,6 @@
- #include "dpu_kms.h"
+ 	pdpu = to_dpu_plane(plane);
+ 	pstate = to_dpu_plane_state(plane->state);
+-	fixed_buff_size = pdpu->pipe_sblk->common->pixel_ram_size;
++	fixed_buff_size = pdpu->catalog->caps->pixel_ram_size;
  
- #define SSPP_SPARE                        0x28
--#define UBWC_STATIC                       0x144
+ 	list_for_each_entry(tmp, &pdpu->mplane_list, mplane_list) {
+ 		if (!tmp->base.state->visible)
+@@ -709,7 +709,7 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
+ 		 * So we cannot support more than half of the supported SSPP
+ 		 * width for tiled formats.
+ 		 */
+-		width_threshold = dpu_plane[i]->pipe_sblk->common->maxlinewidth;
++		width_threshold = dpu_plane[i]->catalog->caps->max_linewidth;
+ 		if (has_tiled_rect)
+ 			width_threshold /= 2;
  
- #define FLD_SPLIT_DISPLAY_CMD             BIT(1)
- #define FLD_SMART_PANEL_FREE_RUN          BIT(2)
-@@ -249,22 +248,6 @@ static void dpu_hw_get_safe_status(struct dpu_hw_mdp *mdp,
- 	status->sspp[SSPP_CURSOR1] = (value >> 26) & 0x1;
- }
+@@ -887,7 +887,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	fb_rect.x2 = state->fb->width;
+ 	fb_rect.y2 = state->fb->height;
  
--static void dpu_hw_reset_ubwc(struct dpu_hw_mdp *mdp, struct dpu_mdss_cfg *m)
--{
--	struct dpu_hw_blk_reg_map c;
--
--	if (!mdp || !m)
--		return;
--
--	if (!IS_UBWC_20_SUPPORTED(m->caps->ubwc_version))
--		return;
--
--	/* force blk offset to zero to access beginning of register region */
--	c = mdp->hw;
--	c.blk_off = 0x0;
--	DPU_REG_WRITE(&c, UBWC_STATIC, m->mdp[0].ubwc_static);
--}
--
- static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
- {
- 	struct dpu_hw_blk_reg_map *c;
-@@ -285,7 +268,6 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
- 	ops->get_danger_status = dpu_hw_get_danger_status;
- 	ops->setup_vsync_source = dpu_hw_setup_vsync_source;
- 	ops->get_safe_status = dpu_hw_get_safe_status;
--	ops->reset_ubwc = dpu_hw_reset_ubwc;
- 	ops->intf_audio_select = dpu_hw_intf_audio_select;
- }
+-	max_linewidth = pdpu->pipe_sblk->common->maxlinewidth;
++	max_linewidth = pdpu->catalog->caps->max_linewidth;
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-index 1d9d32edf619..8018fff5667a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-@@ -126,13 +126,6 @@ struct dpu_hw_mdp_ops {
- 	void (*get_safe_status)(struct dpu_hw_mdp *mdp,
- 			struct dpu_danger_safe_status *status);
+ 	fmt = to_dpu_format(msm_framebuffer_format(state->fb));
  
--	/**
--	 * reset_ubwc - reset top level UBWC configuration
--	 * @mdp: mdp top context driver
--	 * @m: pointer to mdss catalog data
--	 */
--	void (*reset_ubwc)(struct dpu_hw_mdp *mdp, struct dpu_mdss_cfg *m);
--
- 	/**
- 	 * intf_audio_select - select the external interface for audio
- 	 * @mdp: mdp top context driver
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-index 9f20b84d5c0a..7d3fdbb00e7e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-@@ -15,6 +15,10 @@
- #define HW_REV				0x0
- #define HW_INTR_STATUS			0x0010
- 
-+#define UBWC_STATIC			0x144
-+#define UBWC_CTRL_2			0x150
-+#define UBWC_PREDICTION_MODE		0x154
-+
- /* Max BW defined in KBps */
- #define MAX_BW				6800000
- 
-@@ -23,17 +27,6 @@ struct dpu_irq_controller {
- 	struct irq_domain *domain;
- };
- 
--struct dpu_hw_cfg {
--	u32 val;
--	u32 offset;
--};
--
--struct dpu_mdss_hw_init_handler {
--	u32 hw_rev;
--	u32 hw_reg_count;
--	struct dpu_hw_cfg* hw_cfg;
--};
--
- struct dpu_mdss {
- 	struct msm_mdss base;
- 	void __iomem *mmio;
-@@ -43,44 +36,6 @@ struct dpu_mdss {
- 	u32 num_paths;
- };
- 
--static struct dpu_hw_cfg hw_cfg[] = {
--    {
--	/* UBWC global settings */
--	.val = 0x1E,
--	.offset = 0x144,
--    }
--};
--
--static struct dpu_mdss_hw_init_handler cfg_handler[] = {
--    { .hw_rev = DPU_HW_VER_620,
--      .hw_reg_count = ARRAY_SIZE(hw_cfg),
--      .hw_cfg = hw_cfg
--    },
--};
--
--static void dpu_mdss_hw_init(struct dpu_mdss *dpu_mdss, u32 hw_rev)
--{
--	int i;
--	u32 count = 0;
--	struct dpu_hw_cfg *hw_cfg = NULL;
--
--	for (i = 0; i < ARRAY_SIZE(cfg_handler); i++) {
--		if (cfg_handler[i].hw_rev == hw_rev) {
--			hw_cfg = cfg_handler[i].hw_cfg;
--			count = cfg_handler[i].hw_reg_count;
--			break;
--	    }
--	}
--
--	for (i = 0; i < count; i++ ) {
--		writel_relaxed(hw_cfg->val,
--			dpu_mdss->mmio + hw_cfg->offset);
--		hw_cfg++;
--	}
--
--    return;
--}
--
- static int dpu_mdss_parse_data_bus_icc_path(struct drm_device *dev,
- 						struct dpu_mdss *dpu_mdss)
- {
-@@ -223,7 +178,6 @@ static int dpu_mdss_enable(struct msm_mdss *mdss)
- 	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
- 	struct dss_module_power *mp = &dpu_mdss->mp;
- 	int ret;
--	u32 mdss_rev;
- 
- 	dpu_mdss_icc_request_bw(mdss);
- 
-@@ -233,8 +187,25 @@ static int dpu_mdss_enable(struct msm_mdss *mdss)
- 		return ret;
- 	}
- 
--	mdss_rev = readl_relaxed(dpu_mdss->mmio + HW_REV);
--	dpu_mdss_hw_init(dpu_mdss, mdss_rev);
-+	/*
-+	 * ubwc config is part of the "mdss" region which is not accessible
-+	 * from the rest of the driver. hardcode known configurations here
-+	 */
-+	switch (readl_relaxed(dpu_mdss->mmio + HW_REV)) {
-+	case DPU_HW_VER_500:
-+	case DPU_HW_VER_501:
-+		writel_relaxed(0x420, dpu_mdss->mmio + UBWC_STATIC);
-+		break;
-+	case DPU_HW_VER_600:
-+		/* TODO: 0x102e for LP_DDR4 */
-+		writel_relaxed(0x103e, dpu_mdss->mmio + UBWC_STATIC);
-+		writel_relaxed(2, dpu_mdss->mmio + UBWC_CTRL_2);
-+		writel_relaxed(1, dpu_mdss->mmio + UBWC_PREDICTION_MODE);
-+		break;
-+	case DPU_HW_VER_620:
-+		writel_relaxed(0x1e, dpu_mdss->mmio + UBWC_STATIC);
-+		break;
-+	}
- 
- 	return ret;
- }
 -- 
 2.26.1
 
