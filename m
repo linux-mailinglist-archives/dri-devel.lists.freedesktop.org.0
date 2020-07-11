@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57F321E976
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:06:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABDA21E8F9
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FB46E94A;
-	Tue, 14 Jul 2020 07:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D32896E907;
+	Tue, 14 Jul 2020 07:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A263D6E1CF
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 23:48:41 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id e12so5828284qtr.9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 16:48:41 -0700 (PDT)
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA636ED80
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jul 2020 00:50:00 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id q198so7103968qka.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jul 2020 17:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=t/YUPoYzKITfDRzsXGJatP7SfG3rVssKgCHkA7GTohk=;
- b=eYAwhWaJ6WDKsAeNjbE1T4jAoNeQvKsUZeTvCp8ns6BMvwS0hwrwZKV+6XOf+nNJti
- Lpe59v5ImqrCcINafcGaQ0bo218sU+ErcZZsRv1fCcRt2yLs3hZUdWeNO9mElRUU+Qrl
- O6y4dSr2BiS+GV89YTk3BhqWA7F53R3Br+wJQuEBGgm5DVGK1/01KEHYZP4UbAJmcPsN
- ud39xyg834rrFWidgseEH9yraqph8NO70ANmP/5V4KtoU479tFahKBRV8YOLStsVHSbm
- fuE9Mq6wECwz7f/Y/YwweIeSxFt0qs3JQw0uyj0FR8pFOouoEH98ZSliZkVtPOqkx3ai
- 6ncw==
+ bh=20pV1CIodg74lrZACp1xknXljGhFXMhtlkIxrWqAh18=;
+ b=sV02vE9byfWPbEVCcYwB3QUisTSlxWw7Wi25mI64f6uBLTgJ7C1UIFPI7plN8Ppa55
+ RWkKcGXCGGzzeWcIZ2l4BWa68ebOnIhN8nFMRxCLZ4XD/edYZOD33+jcNEZHpAP8qiNm
+ 8DULOUGv9/JVrSLGD8/BR5jWVlTfxOIn8+njnKmX7sJ140zwLZumfWH/NYQcxH+n8A+q
+ whRojYp1oHJd04TAtKeFIw3xRpBQrfTtSejwrYPASsxt2zONNy0Obb9DCZhTlVPEA2D3
+ Icrj4b/v5bO/Cf98AOWQLuMiAwuCFSPhFFhtISOOWNDT40E7OiNKjET7Cqmg+E4eKQni
+ WtvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=t/YUPoYzKITfDRzsXGJatP7SfG3rVssKgCHkA7GTohk=;
- b=hCSUduUbF331vnk7WJC45nME08pyFe2YiKquOUDW+Ohn5Of2A1FSICR9WlOP7kShai
- X1zi2OGxJpbWfj/EK96txh726GnJDRfLoNXSZhP2LIkCU67gy4PPNE2j33pXH1qE52Ba
- Ui5ZO4Wl5FZ2yi2tH3QRpHUNuAvb+Gc3d0eS3HtUPLN1Ff50Nf1qq0SLBcL0D/RW79qQ
- 2QY1CL2dH+hKjUIYtHF3dGSs3LhoOMCBOvj5RJxrFZw4SPbb7IV7WL+lqy+2hQLnu/V+
- gpcfaKP2MtGIHlEsQz0GAupvvFJRdUTS62VFMs29jUzrcCoJkIK9HqG/ycZJXcvWcR2P
- 7LzQ==
-X-Gm-Message-State: AOAM532PQaoDffGyXLdmXBGKZrVxswsX/9WzJ6vxdkyijM6NN7sHK3ko
- v3GOvCyTo9yl/Y8DMV2NX592Mw==
-X-Google-Smtp-Source: ABdhPJxhZjKQWe+OqU9wPzwkTAH61T7D/arAMYpcR4qQS1FLyaMhKAFet8ytZDC2n7ZqGkQxMFsXKg==
-X-Received: by 2002:ac8:734b:: with SMTP id q11mr28185535qtp.176.1594424920735; 
- Fri, 10 Jul 2020 16:48:40 -0700 (PDT)
+ bh=20pV1CIodg74lrZACp1xknXljGhFXMhtlkIxrWqAh18=;
+ b=ibJqx67qWYOcTc1qtsSj37mzwdoNyFosGU0ZqKWWQABTKV0dK8Nz23Sn0pQ53VI8to
+ xNzadIoBdcAAgPKrmXvWypTIhFPIpqobHhPdDRB6FDttAffmC8QEI/8ySLn4FwgC2bd5
+ YW0xIHglsUIjGF4bIS5y3awO7idHKBqiUgTn8hDNWhk7LJTlXbaVGw92Zdy78FwKD3l3
+ Abw/nlnawZz3hbM4JFJ5zrrn9UcCRqh63uEEqETsDUX+hVAdxpHpOT4IfoH00ULjLg9L
+ ZGTN+8YWGqLAbFV33OgOlDrmUth7QPWKoh/ED4qOfY6dbyJEruvHLrJL+yATvbjJX2ax
+ wGBQ==
+X-Gm-Message-State: AOAM533WP/nxeJHFGn8uh1CCtdSW5JBrmm+Cgag7PVi7OHo8FZfu4IoK
+ M8t+GwfQP/z0zeQVRIdivvsiAQ==
+X-Google-Smtp-Source: ABdhPJyVyrsZVLhaxkXm9h29nJJCU9M+eXdlkKV3LKb55qN6JAcw8Ss1bKD7yrrXGUmy/Q5IkV8e7A==
+X-Received: by 2002:a37:6642:: with SMTP id a63mr72203468qkc.5.1594428599315; 
+ Fri, 10 Jul 2020 17:49:59 -0700 (PDT)
 Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id a185sm8937187qkg.3.2020.07.10.16.48.39
+ by smtp.gmail.com with ESMTPSA id g20sm10427510qtc.46.2020.07.10.17.49.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jul 2020 16:48:40 -0700 (PDT)
+ Fri, 10 Jul 2020 17:49:58 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v3] drm/msm: handle for EPROBE_DEFER for of_icc_get
-Date: Fri, 10 Jul 2020 19:46:55 -0400
-Message-Id: <20200710234657.30944-1-jonathan@marek.ca>
+Subject: [PATCH v2 0/8] Initial SM8150 and SM8250 DPU bringup
+Date: Fri, 10 Jul 2020 20:47:23 -0400
+Message-Id: <20200711004752.30760-1-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 14 Jul 2020 07:02:08 +0000
@@ -66,143 +66,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
+Cc: Sean Paul <sean@poorly.run>, Krishna Manikandan <mkrishn@codeaurora.org>,
+ Shubhashree Dhar <dhar@codeaurora.org>,
+ Raviteja Tamatam <travitej@codeaurora.org>, David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>
+ Stephen Boyd <swboyd@chromium.org>, zhengbin <zhengbin13@huawei.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Drew Davenport <ddavenport@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check for errors instead of silently not using icc if the msm driver
-probes before the interconnect driver.
+These patches bring up SM8150 and SM8250 with basic functionality.
 
-Allow ENODATA for ocmem path, as it is optional and this error
-is returned when "gfx-mem" path is provided but not "ocmem".
+Tested with displayport output (single mixer, video mode case).
 
-Because msm_gpu_cleanup assumes msm_gpu_init has been called, the icc path
-init needs to be after msm_gpu_init for the error path to work.
+v2: rebased
 
-v2: changed to not only check for EPROBE_DEFER
-v3: move icc path init after msm_gpu_init to avoid deleting a WARN_ON
+Jonathan Marek (8):
+  drm/msm/dpu: use right setup_blend_config for sm8150 and sm8250
+  drm/msm/dpu: update UBWC config for sm8150 and sm8250
+  drm/msm/dpu: move some sspp caps to dpu_caps
+  drm/msm/dpu: don't use INTF_INPUT_CTRL feature on sdm845
+  drm/msm/dpu: set missing flush bits for INTF_2 and INTF_3
+  drm/msm/dpu: intf timing path for displayport
+  drm/msm/dpu: add SM8150 to hw catalog
+  drm/msm/dpu: add SM8250 to hw catalog
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 65 +++++++++++++++----------
- 1 file changed, 38 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   8 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 288 +++++++++++++++++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  48 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  20 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  29 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  18 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |   7 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      |  75 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   6 +-
+ 12 files changed, 364 insertions(+), 158 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 89673c7ed473..8ab75d7691bd 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -895,7 +895,7 @@ static int adreno_get_legacy_pwrlevels(struct device *dev)
- 	return 0;
- }
- 
--static int adreno_get_pwrlevels(struct device *dev,
-+static void adreno_get_pwrlevels(struct device *dev,
- 		struct msm_gpu *gpu)
- {
- 	unsigned long freq = ULONG_MAX;
-@@ -930,24 +930,6 @@ static int adreno_get_pwrlevels(struct device *dev,
- 	}
- 
- 	DBG("fast_rate=%u, slow_rate=27000000", gpu->fast_rate);
--
--	/* Check for an interconnect path for the bus */
--	gpu->icc_path = of_icc_get(dev, "gfx-mem");
--	if (!gpu->icc_path) {
--		/*
--		 * Keep compatbility with device trees that don't have an
--		 * interconnect-names property.
--		 */
--		gpu->icc_path = of_icc_get(dev, NULL);
--	}
--	if (IS_ERR(gpu->icc_path))
--		gpu->icc_path = NULL;
--
--	gpu->ocmem_icc_path = of_icc_get(dev, "ocmem");
--	if (IS_ERR(gpu->ocmem_icc_path))
--		gpu->ocmem_icc_path = NULL;
--
--	return 0;
- }
- 
- int adreno_gpu_ocmem_init(struct device *dev, struct adreno_gpu *adreno_gpu,
-@@ -993,9 +975,11 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 		struct adreno_gpu *adreno_gpu,
- 		const struct adreno_gpu_funcs *funcs, int nr_rings)
- {
--	struct adreno_platform_config *config = pdev->dev.platform_data;
-+	struct device *dev = &pdev->dev;
-+	struct adreno_platform_config *config = dev->platform_data;
- 	struct msm_gpu_config adreno_gpu_config  = { 0 };
- 	struct msm_gpu *gpu = &adreno_gpu->base;
-+	int ret;
- 
- 	adreno_gpu->funcs = funcs;
- 	adreno_gpu->info = adreno_info(config->rev);
-@@ -1007,15 +991,42 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 
- 	adreno_gpu_config.nr_rings = nr_rings;
- 
--	adreno_get_pwrlevels(&pdev->dev, gpu);
-+	adreno_get_pwrlevels(dev, gpu);
- 
--	pm_runtime_set_autosuspend_delay(&pdev->dev,
-+	pm_runtime_set_autosuspend_delay(dev,
- 		adreno_gpu->info->inactive_period);
--	pm_runtime_use_autosuspend(&pdev->dev);
--	pm_runtime_enable(&pdev->dev);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_enable(dev);
- 
--	return msm_gpu_init(drm, pdev, &adreno_gpu->base, &funcs->base,
-+	ret = msm_gpu_init(drm, pdev, &adreno_gpu->base, &funcs->base,
- 			adreno_gpu->info->name, &adreno_gpu_config);
-+	if (ret)
-+		return ret;
-+
-+	/* Check for an interconnect path for the bus */
-+	gpu->icc_path = of_icc_get(dev, "gfx-mem");
-+	if (!gpu->icc_path) {
-+		/*
-+		 * Keep compatbility with device trees that don't have an
-+		 * interconnect-names property.
-+		 */
-+		gpu->icc_path = of_icc_get(dev, NULL);
-+	}
-+	if (IS_ERR(gpu->icc_path)) {
-+		ret = PTR_ERR(gpu->icc_path);
-+		gpu->icc_path = NULL;
-+		return ret;
-+	}
-+
-+	gpu->ocmem_icc_path = of_icc_get(dev, "ocmem");
-+	if (IS_ERR(gpu->ocmem_icc_path)) {
-+		ret = PTR_ERR(gpu->ocmem_icc_path);
-+		gpu->ocmem_icc_path = NULL;
-+		/* allow -ENODATA, ocmem icc is optional */
-+		if (ret != -ENODATA)
-+			return ret;
-+	}
-+	return 0;
- }
- 
- void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
-@@ -1026,8 +1037,8 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
- 	for (i = 0; i < ARRAY_SIZE(adreno_gpu->info->fw); i++)
- 		release_firmware(adreno_gpu->fw[i]);
- 
-+	msm_gpu_cleanup(&adreno_gpu->base);
-+
- 	icc_put(gpu->icc_path);
- 	icc_put(gpu->ocmem_icc_path);
--
--	msm_gpu_cleanup(&adreno_gpu->base);
- }
 -- 
 2.26.1
 
