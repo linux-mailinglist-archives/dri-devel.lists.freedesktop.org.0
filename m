@@ -1,48 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755FB21CB0F
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jul 2020 21:07:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D577221CBB3
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 00:05:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362D46E0EB;
-	Sun, 12 Jul 2020 19:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 228C06E084;
+	Sun, 12 Jul 2020 22:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0183.hostedemail.com
- [216.40.44.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE7FA6E0EB
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jul 2020 19:07:51 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay08.hostedemail.com (Postfix) with ESMTP id 55523182CED34;
- Sun, 12 Jul 2020 19:07:48 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3743:3865:3866:3867:3868:3871:3873:3874:4250:4321:5007:6119:7903:10004:10400:10848:11026:11232:11658:11914:12043:12048:12296:12297:12679:12740:12760:12895:13069:13311:13357:13439:14096:14097:14180:14659:14721:21060:21080:21324:21433:21451:21627:21740:21990:30012:30054:30070:30075:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: smile07_53128a526ee2
-X-Filterd-Recvd-Size: 2996
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf13.hostedemail.com (Postfix) with ESMTPA;
- Sun, 12 Jul 2020 19:07:46 +0000 (UTC)
-Message-ID: <bc58f9b3f11c5da224187fac0eba33f769d0fb45.camel@perches.com>
-Subject: Re: [PATCH 0/4] drm: core: Convert logging to drm_* functions.
-From: Joe Perches <joe@perches.com>
-To: Suraj Upadhyay <usuraj35@gmail.com>, sam@ravnborg.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Date: Sun, 12 Jul 2020 12:07:45 -0700
-In-Reply-To: <20200712185416.GC12262@blackclown>
-References: <cover.1594136880.git.usuraj35@gmail.com>
- <20200710175643.GF17565@ravnborg.org> <20200711151126.GA12262@blackclown>
- <04ce5199522b4136909fa4926282b7da8abddc4a.camel@perches.com>
- <20200712185416.GC12262@blackclown>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E26996E084
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jul 2020 22:05:48 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id m8so4980282qvk.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jul 2020 15:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=jcB+huYj0l0LbQtJUOWS2otYcMgoEC0yYEjN+YAq8sY=;
+ b=tAHHLtnqQX5ndIdJi7+GtljunjEdgt3lSN+jOb4LDTJWEffOrfv4M76QeHh0P1Jb3F
+ d5kBAPlMe2TPtGcM99r3aXbQPIpTc6Kl6HThztFh2AiEdln92CTaG8eu07nQgSztszwl
+ ylbQtCzzlo8S2n2uDj9Q4Z4wokRWWNO6XmUKE7CAKwS/28cVHjoKfJ1manUoBP9NJT9d
+ L6/o/ZzXAb/aRcsdfoW9IC5Ma2SYSzLMba7Fmp93cNQXtp8K01Q1aFQ0h5EfsXhLGB/5
+ bOm4ru1V8boWXvgHiKuAJ9CnGzZ46MiLRVYwaXg+RXXXn5k/YIXnpZeUQWFdJYljhOPR
+ BsPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jcB+huYj0l0LbQtJUOWS2otYcMgoEC0yYEjN+YAq8sY=;
+ b=fOui6ioWaZVwHdXz5AwETCDGgW17dPN+7gh5WFQXEG4z/rI3CxqUCL8rNHOpY4B1GC
+ z5+6SnvGIicivxYK/McwlvyxkZjXNe2OjiSPaTOqKSvdZuyQog7FCwJWqPTClUKOIDUB
+ TLeq+1e7kOI92HtB8jNJ+VNUix+VRmxmlmiGaUSI1Vo9E8hXEe4ZJLdePjep5gXRs2Zv
+ K+4xRQcG89G4LG8Gc8Aw+LdJPy5q4zwrej8tyF+IFyQb+xqIbUNmdkhPFqcmbcyX6Pl5
+ lT/lDNp+vn8SApOof4oiYZTTVkOXxGA4ziRe0c759M5pMRWo+ercEOFuCCo9ic9hdwWf
+ FfhA==
+X-Gm-Message-State: AOAM533SNfN7NT3+9yYz8li9BSxfNN6pQyWFm3TCrVCyUp1VOvKTmi3C
+ Pby2PKVU9ptDtbLMUm25GnE=
+X-Google-Smtp-Source: ABdhPJxZboeLYvPQHsIcuJNgOvm11GuHFXfkASS3WF2CvtMIVKQDiD+gcdLk2sbid06pIK9ieYcbqQ==
+X-Received: by 2002:a05:6214:969:: with SMTP id
+ do9mr77959625qvb.85.1594591547909; 
+ Sun, 12 Jul 2020 15:05:47 -0700 (PDT)
+Received: from smtp.gmail.com ([2607:fea8:56a0:8440::b10e])
+ by smtp.gmail.com with ESMTPSA id b53sm17136505qtc.65.2020.07.12.15.05.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Jul 2020 15:05:46 -0700 (PDT)
+Date: Sun, 12 Jul 2020 18:05:44 -0400
+From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+Subject: Re: [PATCH] drm/vkms: change the max cursor width/height
+Message-ID: <20200712220544.3zmyohuf7cj4y27y@smtp.gmail.com>
+References: <20200710160313.xjoz6ereyma5vkc3@smtp.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20200710160313.xjoz6ereyma5vkc3@smtp.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +66,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel-usp@googlegroups.com
+Content-Type: multipart/mixed; boundary="===============0850301598=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-07-13 at 00:24 +0530, Suraj Upadhyay wrote:
-> On Sat, Jul 11, 2020 at 11:16:33AM -0700, Joe Perches wrote:
-[]
-> > Perhaps change the __drm_printk macro to not
-> > dereference the drm argument when NULL.
-> > 
-> > A trivial but perhaps inefficient way might be
-> > used like:
-> > 
-> > 	drm_<level>(NULL, fmt, ...)
-[]
-> > diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-[]
-> > @@ -395,8 +395,8 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >  
-> >  /* Helper for struct drm_device based logging. */
-> >  #define __drm_printk(drm, level, type, fmt, ...)			\
-> > -	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-> > -
-> > +	dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt,	\
-> > +			  ##__VA_ARGS__)
-> >  
-> >  #define drm_info(drm, fmt, ...)					\
-> >  	__drm_printk((drm), info,, fmt, ##__VA_ARGS__)
-> > 
-> 
-> Hi Joe,
-> 	Thanks for your input.
-> But I don't think that this change would be a good idea as we are
-> supposed to find or make a substitute of WARN_* macros which
-> take a `condition` as an argument and check for its truth.
-> And I guess passing a NULL to dev_<level> would cause a format warning.
-> 
-> Also, the WARN_* macros are doing their job fine, and passing a NULL
-> value everytime you want to warn about a certain condition at a
-> particular line, doesn't seem good to me.
-> 
-> Thus, I think that WARN_* macros should be untouched.
 
-So do I but the suggestion was not about WARN macros
-only about drm_<level> macros and possibly unnecessary
-conversions to dev_<level> when a drm_device context
-is unavailable.
+--===============0850301598==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4i736vmv6djksaji"
+Content-Disposition: inline
 
-Also, you don't have to guess, the code is there for
-you to inspect.
 
-dev_<level> when a NULL is used as the first argument
-emits "(NULL device *)" instead of dev_driver_string(dev)
-and dev_name(dev).
+--4i736vmv6djksaji
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-See: drivers/base/core.c::__dev_printk()
+Hi Melissa,
 
+First of all, thanks a lot for your patch! This is a nice change since
+it increases the code coverage.
+
+Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+
+On 07/10, Melissa Wen wrote:
+> This change expands the coverage for the IGT kms_cursor_crc test, where
+> the size varies between 64 and 512 for a square cursor. With this, in
+> addition to the cursor 64x64, this patch enables the test of cursors with
+> sizes: 128x128, 256x256, and 512x512.
+>=20
+> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
+drv.c
+> index 1e8b2169d834..57a8a397d5e8 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -133,6 +133,8 @@ static int vkms_modeset_init(struct vkms_device *vkms=
+dev)
+>  	dev->mode_config.min_height =3D YRES_MIN;
+>  	dev->mode_config.max_width =3D XRES_MAX;
+>  	dev->mode_config.max_height =3D YRES_MAX;
+> +	dev->mode_config.cursor_width =3D 512;
+> +	dev->mode_config.cursor_height =3D 512;
+>  	dev->mode_config.preferred_depth =3D 24;
+>  	dev->mode_config.helper_private =3D &vkms_mode_config_helpers;
+> =20
+> --=20
+> 2.27.0
+>=20
+
+--=20
+Rodrigo Siqueira
+https://siqueira.tech
+
+--4i736vmv6djksaji
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl8LiTMACgkQWJzP/com
+vP+a4hAAhzqDRriWgEIVgNEePc5SENkHgaesIXCA/hVw4/JfnPSvX4HJZimZwh+g
+pGc+V5kX4iQBN9sryivDJvAc5nMoSgUENo+Ql4DYzUb078spWnZJOG3A5fQ73SAc
+tYbkxnxJawOub4Cx9gbJBrkRoby3o2xoi+v6KQNC2nR5DWUB0esnIiWKpyA+en5g
+IcokeXwVzwoDzfIdmYYtNA+Se4V1rbMfs/1z3GzQGZvP3NjKgt37y3r5uJanaZHH
+UZ11weGaODBAnMvYkUc1Si/Z2uMJPCDfCEWds0JAVxIWu0g5HEt/YugttjCOWQfr
+4nybiERjJb90aDaCc3Qd2OwV3AJcx1+B5lgnwyRNKddVdEt4ddnesr2Y8U9WoSX6
+3eh8xmGG1tPw7AmC/8hlT3OpydH+rqXgM1x7SCLLywUL1khw3g8T3FoAb3O3MQcr
+O/ajRY1ruba7qXHrSXXdoZBWaOJkdH//LKSpjU/OYza9viYh1VB5ZtB/5+3oytzT
+P0mbC92HJ7mD61qZ0Z50hsIf6CfYi0NKX9ufDZ/0aR8ERTgUb+J36mHzwqrrSPB9
+qp1rEIicbV3B6gz8B5ePwThtdSeLY5tdnF/8zMMPoqf8v0HU2693GtOoGc2KiyAj
+UO6flDn3BEmYBMP0uFG9YE6S4GhukiIzZBLuAAb4AqzPYFKnti8=
+=RSwA
+-----END PGP SIGNATURE-----
+
+--4i736vmv6djksaji--
+
+--===============0850301598==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0850301598==--
