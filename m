@@ -2,46 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB4821D7F0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 16:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BB821D80F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 16:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27AC6E524;
-	Mon, 13 Jul 2020 14:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D28836E505;
+	Mon, 13 Jul 2020 14:14:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5E7F6E503;
- Mon, 13 Jul 2020 14:11:19 +0000 (UTC)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com
- [209.85.161.54])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8547620771;
- Mon, 13 Jul 2020 14:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594649479;
- bh=T7QvK7R+StJM4r1IQ7c0n9HcB+fbfozHwcxG3TVZxo4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=X7FqkZipmIBmyCZGB2I50FJei86C7jKNyhfscfKTgxvANpKpPjPQ+2Oe2TEv+EiB7
- affUXOkPREJoFFD6k8g7b7Z4mpB0bFJ/1T92vUM55PbW8XX5Tt0XNsw4Sk0jdKO3ZR
- L3jlsUUKQorGXQalVIGSFuIaVfRfeIfGk032djzI=
-Received: by mail-oo1-f54.google.com with SMTP id s190so2357815ooa.13;
- Mon, 13 Jul 2020 07:11:19 -0700 (PDT)
-X-Gm-Message-State: AOAM5318Q39X16kqB9hjneQcer28T6FQrgGhiC0fY5MWB1Ba3iWG4pC6
- ttw+HxCAqEOAyo1tAl0EJBVXFk7zLV51IBTpBw==
-X-Google-Smtp-Source: ABdhPJzP1wWznjdcOYYxW7COHis2JavRSCgLMLU2wKLa+wmcB7a1M0yROJgH50RXyQmrjZLEyjG4GfeETI7dveqtQXI=
-X-Received: by 2002:a4a:7459:: with SMTP id t25mr64494ooe.25.1594649478792;
- Mon, 13 Jul 2020 07:11:18 -0700 (PDT)
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 114906E505;
+ Mon, 13 Jul 2020 14:14:11 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id rk21so17392201ejb.2;
+ Mon, 13 Jul 2020 07:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MIZxje+MAG8HbWvvUc6uH3FVOHItPs+CHk8GbtDOk8s=;
+ b=h+yIc+JccePabEpzp8I+pesSbr0m/WLujDxYsdjf+9DXMasZsalm91neD19Ivz6u5G
+ cdJOx/+AN0f1eZmadGkvokecJppcr3fIl9jirgr4LS66G/c1gM5eahuei+G2+foVs49c
+ wLFvLLiEofL9DNPUS9ezarBzYtL9yX8/WwbvmyKseNxcURxm8eVAMo5jfqqWf+dcWELZ
+ tC2sbb1nLzOGKadrmUFv2291VTpzkcLwJYQdm5gGbhsqH2rrpikjrZXgCWmI7OgR11gL
+ HlAabodB/rBX0KVZKOtpMzIhvXVq/MHCUZcb52SRnXVacSLDA1SSLG7FV8pGh7hYpe9U
+ cEfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MIZxje+MAG8HbWvvUc6uH3FVOHItPs+CHk8GbtDOk8s=;
+ b=cLRJ2tzBZ3DxITKLSBXS/qnDJFBZM+Np3leBOOyV59L4ZrRrlZflySW38ilS9wPruU
+ xG9hHi+gygeLnO6PzVlTOv/D9P/0/KpZbG8QsH5TFFLI+DeFIeChg60lT9+gO2GzI19w
+ 3yGC3ryOQLk1UoBpprHejG/s80zZRVF0jQEA2/tvEweVT7jX+EIQbMBsEjHPjTcFlgbj
+ joe28+mZsPz/e1H7phGGIfGMThC/fPP2U2aO2coe4GHZDdUtuUYYtiVQ4evZ8IugKafd
+ bfUK5020B4OGOKcmWJ3/CYAAc706LGRSkeFPksMwyUeN6x7Ltnm9dijei89UfquKOkn0
+ RWmQ==
+X-Gm-Message-State: AOAM533aKpTvi/HbvEMA7eRFULhRJYr98dOeKYXCe8Fxz53lCsomBgZG
+ +UYBEojrmbK747AYIn2s0qcRZPm2FRx1IPzg7+4=
+X-Google-Smtp-Source: ABdhPJzRe9teOUkzh2Dfta6zb49ZDUsatOfn8+cgv5TYh6kQrSWbSloCSg2Xc8sRSHFDK4FawOk5qifcPpSE3vTVWrA=
+X-Received: by 2002:a17:906:1187:: with SMTP id
+ n7mr67254807eja.161.1594649650550; 
+ Mon, 13 Jul 2020 07:14:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200710230224.2265647-1-dianders@chromium.org>
-In-Reply-To: <20200710230224.2265647-1-dianders@chromium.org>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 13 Jul 2020 08:11:07 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
-Message-ID: <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
-Subject: Re: [PATCH 0/9] drm/msm: Avoid possible infinite probe deferral and
- speed booting
-To: Douglas Anderson <dianders@chromium.org>
+References: <1593089153-17811-1-git-send-email-kalyan_t@codeaurora.org>
+ <CAF6AEGtPDh7q6Hjophdyz+Pvi93-bK5WULGeSw9P4BWRw5SWxQ@mail.gmail.com>
+ <c10c0f70988d42037ccaccc6b5474942@codeaurora.org>
+In-Reply-To: <c10c0f70988d42037ccaccc6b5474942@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 13 Jul 2020 07:14:42 -0700
+Message-ID: <CAF6AEGvhVLY=2d7Qbp2qXmLX-ywtN1jkydhHkVesREF3ffRjYA@mail.gmail.com>
+Subject: Re: [Freedreno] [v1] drm/msm/dpu: enumerate second cursor pipe for
+ external interface
+To: Kalyan Thota <kalyan_t@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,64 +64,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
+ Raviteja Tamatam <travitej@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Sean Paul <sean@poorly.run>
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
+On Mon, Jul 13, 2020 at 3:18 AM <kalyan_t@codeaurora.org> wrote:
 >
-> I found that if I ever had a little mistake in my kernel config,
-> or device tree, or graphics driver that my system would sit in a loop
-> at bootup trying again and again and again.  An example log was:
+> On 2020-07-10 22:19, Rob Clark wrote:
+> > On Thu, Jun 25, 2020 at 5:46 AM Kalyan Thota <kalyan_t@codeaurora.org>
+> > wrote:
+> >>
+> >> Setup an RGB HW pipe as cursor which can be used on
+> >> secondary interface.
+> >>
+> >> For SC7180 2 HW pipes are enumerated as cursors
+> >> 1 - primary interface
+> >> 2 - secondary interface
+> >>
+> >> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+> >> ---
+> >>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 12 ++++++------
+> >>  1 file changed, 6 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> index 8f2357d..23061fd 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> @@ -117,10 +117,10 @@
+> >>                 .reg_off = 0x2AC, .bit_off = 0},
+> >>         .clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+> >>                 .reg_off = 0x2AC, .bit_off = 8},
+> >> -       .clk_ctrls[DPU_CLK_CTRL_DMA1] = {
+> >> -               .reg_off = 0x2B4, .bit_off = 8},
+> >>         .clk_ctrls[DPU_CLK_CTRL_CURSOR0] = {
+> >> -               .reg_off = 0x2BC, .bit_off = 8},
+> >> +               .reg_off = 0x2B4, .bit_off = 8},
+> >> +       .clk_ctrls[DPU_CLK_CTRL_CURSOR1] = {
+> >> +               .reg_off = 0x2C4, .bit_off = 8},
+> >
+> > It looks like you shifted the register offset here from 0x2bc to
+> > 0x2c4, was that intentional?
+> >
+> > BR,
+> > -R
+> Yes Rob, the offset was wrong which i corrected in this patch.
 
-Why do we care about optimizing the error case?
 
->   msm ae00000.mdss: bound ae01000.mdp (ops 0xffffffe596e951f8)
->   msm_dsi ae94000.dsi: ae94000.dsi supply gdsc not found, using dummy regulator
->   msm_dsi_manager_register: failed to register mipi dsi host for DSI 0
->   [drm:ti_sn_bridge_probe] *ERROR* could not find any panel node
->   ...
->
-> I finally tracked it down where this was happening:
->   - msm_pdev_probe() is called.
->   - msm_pdev_probe() registers drivers.  Registering drivers kicks
->     off processing of probe deferrals.
->   - component_master_add_with_match() could return -EPROBE_DEFER.
->     making msm_pdev_probe() return -EPROBE_DEFER.
->   - When msm_pdev_probe() returned the processing of probe deferrals
->     happens.
->   - Loop back to the start.
->
-> It looks like we can fix this by marking "mdss" as a "simple-bus".
-> I have no idea if people consider this the right thing to do or a
-> hack.  Hopefully it's the right thing to do.  :-)
+Thanks for confirming.  In the future, it would have been useful to
+mention that in the commit msg.
 
-It's a simple test. Do the child devices have any dependency on the
-parent to probe and/or function? If so, not a simple-bus.
-
-> Once I do this I notice that my boot gets marginally faster (you
-> don't need to probe the sub devices over and over) and also if I
-
-Can you quantify that?
-
-Have you run with devlinks enabled. You need a command line option to
-enable. That too should reduce deferred probes.
-
-> have a problem it doesn't loop forever (on my system it still
-> gets upset about some stuck clocks in that case, but at least I
-> can boot up).
-
-Deferred probe only runs when a device is added, so it's not like it
-is continually running.
-
-Rob
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
