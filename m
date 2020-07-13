@@ -1,54 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA3921E0CF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 21:33:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D6B21E15D
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 22:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6358890B8;
-	Mon, 13 Jul 2020 19:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF1D76E824;
+	Mon, 13 Jul 2020 20:25:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93470890B8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 19:33:09 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id 5so10427097oty.11
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 12:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DPDVjnZ956PL0g0HLPxcP/9JNQmgQLjxjx/mkWFneA8=;
- b=I3FIyk+ze8k+GcThCPyoJrhjToTGsRuTeklCTOVrV47hGvLmhUeTRTQnMjBmOMegaO
- ckNfoQdWAadrpJOzGWMNHpOfnsxGFI1DE7cbtwIF/CASZ97Bhrn9qYrEPGWz/Lv17QaZ
- 1qtrylS0VsYeu/p4E8mFSUd8lrxH+SGjnZdYs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DPDVjnZ956PL0g0HLPxcP/9JNQmgQLjxjx/mkWFneA8=;
- b=R66/Qa10crrMWFJQGCBtVKiO3rfUJiS4TUL+5YzL8Qa5nEzcOUSCNBGrkxcqQ3lrVM
- yI8Qs9F5jyDrc2CCft/wAirtAUOzUzULIG0CrX7DNmLiwWY50nzGMH0x7NSaP1q9HjDn
- vhj0yezlWWz4jdvJiq7TauczmEi+8eDHTb67EiEJ7qZAcon3Ap5B9HeGC4UVIvHuNO6n
- xXf2VzfIUTNDVzcO76nouXWtW+O5i9q6r9Knb3yUrBsGQRy5VA3EeFcRVYcydf6gm7ML
- /RRYdE96AvB/vDTFju2t70u2wKabFwri7vz5Hu3+0S00Ig6GRSOWJDurHbkzuPwsM5eG
- m02w==
-X-Gm-Message-State: AOAM532x/G7RYyK/SXCrspq4M7SO0kRTP32TaK8kLf0Wt3hfscj1TcuQ
- ZMn4ewAIAxO8ibbO/7t92+5q+poAAs+IxuAsyFV5xEjb
-X-Google-Smtp-Source: ABdhPJzcGPwa+ufeT84/AVAQRz3sAPtSlprKgJIkNlG4ycRV5sUjkkpGy2DpZgn+Er3JGTY4Zxh2g4t8QI0gOT2g9cU=
-X-Received: by 2002:a05:6830:1613:: with SMTP id
- g19mr999709otr.303.1594668788887; 
- Mon, 13 Jul 2020 12:33:08 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A49EB6E823;
+ Mon, 13 Jul 2020 20:25:44 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2EA892075D;
+ Mon, 13 Jul 2020 20:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594671944;
+ bh=+jPAZ3C7SWxUuRUQs+Sr6Y2DGrQqPWecmS58fVnwjRg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DOQurS/Ibt581N9zjmP/Pqa8hl78moJnuITh6tQCapRRRq3lmxAkJao/TRTea4zip
+ M3IgIl+ogsfoJJPTcHZUxX93MDkAakZHpcmyPOpXRWk2Tc9UVg/06l2MQwzMxTTpA7
+ cZj7SPprMA2NR6Y6IEGnVzak4K3X+xXevHfSU7AU=
+Received: by mail-oi1-f180.google.com with SMTP id k6so12057733oij.11;
+ Mon, 13 Jul 2020 13:25:44 -0700 (PDT)
+X-Gm-Message-State: AOAM532oMw+tYuf6ifUWamiAskxSF+Po5ZtTl9LXKyR7pz2VQhq+H4zs
+ bt9FhO4ea2Qgi9cFpP/WwyfN53dRMzY5A/ngYQ==
+X-Google-Smtp-Source: ABdhPJz4yVpioDr20qd9s5LSTk+AV4nU2x5TPIq7IEfqTgA5EioBNPLPC36euXlnKruM3zNGoxsQBu0ZdZFRaXmekfM=
+X-Received: by 2002:aca:4844:: with SMTP id v65mr1078680oia.152.1594671943516; 
+ Mon, 13 Jul 2020 13:25:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200709193016.291267-1-sam@ravnborg.org>
- <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
- <20200713162159.GR3278063@phenom.ffwll.local>
- <20200713183909.GA1331493@ravnborg.org>
-In-Reply-To: <20200713183909.GA1331493@ravnborg.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 13 Jul 2020 21:32:57 +0200
-Message-ID: <CAKMK7uF-5pWCk8pSObikd41PZJk+qZmM0znFqxFk9nhzeqZoyg@mail.gmail.com>
-Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
-To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200710230224.2265647-1-dianders@chromium.org>
+ <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
+ <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
+In-Reply-To: <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Mon, 13 Jul 2020 14:25:31 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLJM5nwNSdugMBLDVtjP97dikCm_AiHjnDs1jqBOFoaaQ@mail.gmail.com>
+Message-ID: <CAL_JsqLJM5nwNSdugMBLDVtjP97dikCm_AiHjnDs1jqBOFoaaQ@mail.gmail.com>
+Subject: Re: [PATCH 0/9] drm/msm: Avoid possible infinite probe deferral and
+ speed booting
+To: Doug Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,168 +56,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, sparclinux@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 13, 2020 at 8:39 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+On Mon, Jul 13, 2020 at 9:08 AM Doug Anderson <dianders@chromium.org> wrote:
 >
-> On Mon, Jul 13, 2020 at 06:21:59PM +0200, Daniel Vetter wrote:
-> > On Fri, Jul 10, 2020 at 08:28:16AM +0200, Thomas Zimmermann wrote:
-> > > Hi
-> > >
-> > > Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
-> > > > Mark reported that sparc64 would panic while booting using qemu.
-> > > > Mark bisected this to a patch that introduced generic fbdev emulation to
-> > > > the bochs DRM driver.
-> > > > Mark pointed out that a similar bug was fixed before where
-> > > > the sys helpers was replaced by cfb helpers.
-> > > >
-> > > > The culprint here is that the framebuffer reside in IO memory which
-> > > > requires SPARC ASI_PHYS (physical) loads and stores.
-> > > >
-> > > > The current bohcs DRM driver uses a shadow buffer.
-> > > > So all copying to the framebuffer happens in
-> > > > drm_fb_helper_dirty_blit_real().
-> > > >
-> > > > The fix is to replace the memcpy with memcpy_toio() from io.h.
-> > > >
-> > > > memcpy_toio() uses writeb() where the original fbdev code
-> > > > used sbus_memcpy_toio(). The latter uses sbus_writeb().
-> > > >
-> > > > The difference between writeb() and sbus_memcpy_toio() is
-> > > > that writeb() writes bytes in little-endian, where sbus_writeb() writes
-> > > > bytes in big-endian. As endian does not matter for byte writes they are
-> > > > the same. So we can safely use memcpy_toio() here.
-> > > >
-> > > > For many architectures memcpy_toio() is a simple memcpy().
-> > > > One sideeffect that is unknow is if this has any impact on other
-> > > > architectures.
-> > > > So far the analysis tells that this change is OK for other arch's.
-> > > > but testing would be good.
-> > > >
-> > > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > > > Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > > > Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > > > Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > > Cc: "David S. Miller" <davem@davemloft.net>
-> > > > Cc: sparclinux@vger.kernel.org
-> > >
-> > > So this actually is a problem in practice. Do you know how userspace
-> > > handles this?
-> > >
-> > > For this patch
-> > >
-> > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > >
-> > > but I'd like to have someone with more architecture expertise ack this
-> > > as well.
-> > >
-> > > Best regards
-> > > Thomas
-> > >
-> > > > ---
-> > > >  drivers/gpu/drm/drm_fb_helper.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> > > > index 5609e164805f..4d05b0ab1592 100644
-> > > > --- a/drivers/gpu/drm/drm_fb_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> > > > @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
-> > > >   unsigned int y;
-> > > >
-> > > >   for (y = clip->y1; y < clip->y2; y++) {
-> > > > -         memcpy(dst, src, len);
-> > > > +         memcpy_toio(dst, src, len);
+> Hi,
+>
+> On Mon, Jul 13, 2020 at 7:11 AM Rob Herring <robh+dt@kernel.org> wrote:
 > >
-> > I don't think we can do this unconditionally, there's fbdev-helper drivers
-> > using shmem helpers, and for shmem memcpy_toio is wrong. We need a switch
-> > to fix this properly I think.
+> > On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
+> > >
+> > > I found that if I ever had a little mistake in my kernel config,
+> > > or device tree, or graphics driver that my system would sit in a loop
+> > > at bootup trying again and again and again.  An example log was:
 > >
-> > What Dave Airlie mentioned is just about memcpy_toio vs the sparc bus
-> > version, for which we don't have any drivers really. But I do think we
-> > need to differentiate between memcpy and memcpy_tio. That's what this
-> > entire annoying _cfb_ vs _sys_ business is all about, and also what gem
-> > vram helpers have to deal with.
+> > Why do we care about optimizing the error case?
 >
-> I did some more digging - taking notes see where this gets us.
->
-> fbdev have a fb_memcpy_tofb macro used in fb_write() that is architecture dependent:
-> __aarch64__             memcpy_toio
-> __alpha__               memcpy_toio
-> __arm__                 memcpy_toio
-> __hppa__                memcpy_toio
-> __i386__                memcpy_toio
-> __powerpc__             memcpy_toio
-> __sh__                  memcpy_toio
-> __sparc__               sbus_memcpy_toio
-> __x86_64__              memcpy_toio
->
-> Others                  memcpy
->
-> If we then take a closer look at memcpy_toio it is defined like this:
-> alpha                   __raw (optimized based on size / alignment)
-> arm                     optimised memcpy - same as memcpy
-> arm64                   __raw (optimized based on size / alignment)
-> hexagon                 memcpy
-> ia64                    writeb which is little endian so the same as memcpy
-> m68k                    memcpy
-> mips                    memcpy
-> parisc                  __raw (optimized based on size/alignment)
-> s390                    s390 copy operations
-> sh                      direct copies (looks like __raw copies)
-> sparc                   writeb
-> sparc64                 sparc64 copies
-> x86_64                  x86_64 optimies copies (movs assembler)
->
-> Others                  memcpy
+> It actually results in a _fully_ infinite loop.  That is: if anything
+> small causes a component of DRM to fail to probe then the whole system
+> doesn't boot because it just loops trying to probe over and over
+> again.  The messages I put in the commit message are printed over and
+> over and over again.
 
-Aside from the sbus_memcpy_toio I don't think any of this matters.
-fbdev is simply older than memcpy_toio I think, on modern
-architectures you should always use memcpy_toio if it's an __mmio
-pointer, and normal memcpy for normal kernel pointers. Same holds for
-simple stores vs write* and friends.
+Sounds like a bug as that's not what should happen.
 
-> As already analyzed sbus_memcpy_toio and memcpy_toio for sparc64 is the
-> same. So from the above we can see that fbdev code always uses
-> memcpy_toio or something equivalent when copying to framebuffer.
+If you defer during boot (initcalls), then you'll be on the deferred
+list until late_initcall and everything is retried. After
+late_initcall, only devices getting added should trigger probing. But
+maybe the adding and then removing a device is causing a re-trigger.
+
+> > >   msm ae00000.mdss: bound ae01000.mdp (ops 0xffffffe596e951f8)
+> > >   msm_dsi ae94000.dsi: ae94000.dsi supply gdsc not found, using dummy regulator
+> > >   msm_dsi_manager_register: failed to register mipi dsi host for DSI 0
+> > >   [drm:ti_sn_bridge_probe] *ERROR* could not find any panel node
+> > >   ...
+> > >
+> > > I finally tracked it down where this was happening:
+> > >   - msm_pdev_probe() is called.
+> > >   - msm_pdev_probe() registers drivers.  Registering drivers kicks
+> > >     off processing of probe deferrals.
+> > >   - component_master_add_with_match() could return -EPROBE_DEFER.
+> > >     making msm_pdev_probe() return -EPROBE_DEFER.
+> > >   - When msm_pdev_probe() returned the processing of probe deferrals
+> > >     happens.
+> > >   - Loop back to the start.
+> > >
+> > > It looks like we can fix this by marking "mdss" as a "simple-bus".
+> > > I have no idea if people consider this the right thing to do or a
+> > > hack.  Hopefully it's the right thing to do.  :-)
+> >
+> > It's a simple test. Do the child devices have any dependency on the
+> > parent to probe and/or function? If so, not a simple-bus.
 >
-> The conclusions so far:
-> - Copying to a framebuffer is correct to use memcpy_toio
-> - fbdev could have the macro fb_memcpy_tofb replaced by a direct call to
->   memcpy_toio - I think the fb_memcpy_tofb macro predates the common
->   memcpy_toio macro which explains why this was not used
+> Great!  You can see in the earlier patch in the series that the very
+> first thing that happens when the parent device probes is that it
+> calls devm_of_platform_populate().  That means no dependencies, right?
+
+It should. But then I reviewed the MDSS binding today and it looks
+like the MDSS is the interrupt parent for at least some child devices?
+
+>  So that means it's fine/correct to add "simple-bus" here?
 >
-> This does not touch the whole _cfb_ vs _sys_ business.
+>
+> > > Once I do this I notice that my boot gets marginally faster (you
+> > > don't need to probe the sub devices over and over) and also if I
+> >
+> > Can you quantify that?
+>
+> I'd say < 100 us.  I can try to quantify more if needed, but it wasn't
+> the point of this patch.
+>
+>
+> > Have you run with devlinks enabled. You need a command line option to
+> > enable. That too should reduce deferred probes.
+>
+> Ah, good idea!  I will try it.  However, even with devlinks, if there
+> is any chance of deferred probes then we need a fix like this.  The
+> point of the patch isn't about speeding things up but about avoiding
+> an infinite loop at bootup due to a small bug.
 
-It's all about the _cfb_ vs _sys_ business, since this is driver
-specific. Either you need the __mmio functions, or the normal system
-memory functions.
+I think a deferred probe would only happen if there's a dependency we
+don't track (but we're tracking about everything that's common). But
+if there's some error, I'm not sure what would happen. Seems like a
+good test case. :)
 
-> In video/fbdev/ this is driver specific.
-> So we could add a fbdev_use_iomem as you suggested on irc som days ago.
-> This is not strictly necessary for the sparc64 fix but let me try to
-> come up with a patch anyway.
+> > > have a problem it doesn't loop forever (on my system it still
+> > > gets upset about some stuck clocks in that case, but at least I
+> > > can boot up).
+> >
+> > Deferred probe only runs when a device is added, so it's not like it
+> > is continually running.
+>
+> If you don't mind looking at the code patch, see:
+>
+> https://lore.kernel.org/r/20200710160131.4.I358ea82de218ea5f4406572ade23f5e121297555@changeid/
+>
+> Specifically you can see that each time we try to probe we were
+> calling of_platform_populate().  That appeared to be enough to trigger
+> things.
 
-We need it, to avoid upsetting all the other drivers. I guess once we
-have this flag we could make special versions for fb-helpers which
-call the _cfb_ vs _sys_ functions correctly, as an added bonus. But
-for the sparc regression fix we need it already, so that we can call
-memcpy on drm_framebuffer residing in system memory, and memcpy_toio
-for those in vram or what looks like vram at least.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Like I said, sounds like a bug. Even if 'simple-bus' is the
+appropriate thing to do here, it should be fixed or at least
+understood.
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
