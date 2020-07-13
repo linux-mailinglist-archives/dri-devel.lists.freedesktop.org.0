@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4475A21E170
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 22:31:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC3721E23D
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 23:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE606E827;
-	Mon, 13 Jul 2020 20:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3F66E129;
+	Mon, 13 Jul 2020 21:32:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEBF6E826;
- Mon, 13 Jul 2020 20:31:28 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id g20so14941020edm.4;
- Mon, 13 Jul 2020 13:31:28 -0700 (PDT)
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F84B6E105;
+ Mon, 13 Jul 2020 21:32:28 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id lx13so19103113ejb.4;
+ Mon, 13 Jul 2020 14:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HnzQkPBt2OC+k9du8OZiIZUdaNF8CWZvobQFWZtz7PY=;
- b=nL2QSyRF4VdhkxgtyvoDIeRb4RfXopS6tkMpm+IFtrPuzigJardjBCFktXQ//PRpIJ
- bqFBi+hg+kUy5bDekzDKXUyylgLe3CHHJG2ppWdO/NS+ljwhP3heCpJdh4lk2NnMEUfU
- ddiMB88lFu0EW/lhkvLbxvu1bX74yl9SAZxy9VD+XJIZZm5g3+WyjM+H36R+72nSUcMz
- hc2JzL2X+Qo8w0sxB69fJLfnqx/NUH8RQtLqZrOAgD/3Ui26wZjCVvHKl4TO8elowm48
- XFQilIER6Vwww/OgWOMYlYRXQ6cLge8urHT9+cBR2T8i9MGj0F5ZMoR7SyOYMpB3H1Yz
- A2Sg==
+ :cc; bh=9xk5002gZ5H7JGOgsHs7h731etRLB6WtyENiHxGGu7I=;
+ b=bLpTnFR30/+CWwAe8tAwcO+WU+hkSYANQdbkuElT0SAIi6ujeM1TQRDW+tCw7AICBj
+ 5kCIWw6YVvqgCI3mI7R3rV4p4D/H1krl4pX5fIqkagHlyiEFyV329SLTFtsSHwii5Pvs
+ NeEcqyvNhCmv006c7RAJd1CQDhlH02TJpBBVtkzWG3QMAyS8lhgPxRzgN6IKJvk8TKPT
+ iOYrzrUHpGNz96WU9SoDtgqNIGpwQAbG5CIzoGQbtjCl4cby+ZNa9qJtkEVVg7PL+93M
+ vusMQSDo7Z272nWxnOj7FItu1oUHIplSVGK/K9ov0C0pGx+tmdVKK6E4IM28vEMhl+Ku
+ EEsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HnzQkPBt2OC+k9du8OZiIZUdaNF8CWZvobQFWZtz7PY=;
- b=e/mHFoAta7kiuy4Qwx2AP9ex/qkH+XTdBP+c9BDa2mTW5kz1+aBNb0gtFI+yvhOl+Q
- WeiENtLSNRg1HMziYatr3CcKSh93C+Ik3eOsBRtSdMDoGX3YfA/B+LehZsq4oGjpG1PV
- 6Wi/CWz1HgAedYxdy4XUAQTaN4T3U7f4Fock5lMKy+fN17dv7pKU4bwKx/GYF+QIR392
- kpzya8tBVgq1Yhe+HGLCy2zcBCBae5VBX8SjMgPe99+GnWTpqPB5JUkZOYJaJnp8ppUE
- ueG1nBl/XPPIGHwy6QPTnLC0XTSc+fPcP7ceAekBuOLuC8lFPu4FkosaOp7EPVEzulSp
- WNYA==
-X-Gm-Message-State: AOAM533cUpTb7jSWy2Q95+Pbhx+jivYvMyfzp++fQNZbsu68POmiy8Ed
- QBuw6PZCOfpXOIRIEp8G3DqeWnVTD+tVLHH3B1g=
-X-Google-Smtp-Source: ABdhPJxPAYikRaQY/XMVDWezfOW6Iwk/c5G8BcDCGjjzvlG6bojjnVvJlH11+w5rhFd3jK7dVcdAJfhqlzC5TvPI8KA=
-X-Received: by 2002:a50:ee8a:: with SMTP id f10mr1094484edr.383.1594672287315; 
- Mon, 13 Jul 2020 13:31:27 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=9xk5002gZ5H7JGOgsHs7h731etRLB6WtyENiHxGGu7I=;
+ b=CBQVDz2NU59d/P70WdIXTdfwX1Wla2XCuAfTlfnLNMaIKGUVuIPnug7tOaj3O8lwf5
+ A8w2rKXzmXn+sQUBius9gm93pnkLqQHOw3FcmTdITlKjZmZOfP3mSPOvM7DTIbo2tkAM
+ 8c1vWjkQVS3E449hcfwLLuYCLr7r1ZAExcXN3MxZo59GnvJSI/sOFWKEpMm5bAKVWit4
+ x3Rrn6f87zZ9IPtrx3dOAZYd4Jse8HHjrUpSoCzHbJIV3TFKCyTvWGpjW1o1wBwL3Djd
+ otUG811K+kqKITMou7Y/otvgtQTj1Ykd1mn8nR2IgyMxNGcehSKMiZqoRxB8g2WdXAoG
+ UHyg==
+X-Gm-Message-State: AOAM533D8qRxpROi2Zllht4SlLMuOkF6o1ZCsDDq/15RUgOGyUlY5kv1
+ 1yhoNhVvg1m6WyIOYopGMe5G/Xmvf7zoShRGNdI=
+X-Google-Smtp-Source: ABdhPJwMoWogKyu+hB7N/OXDUjzYJXatIjRK36LwG1lOC44kvht0iMkOGCJlZyw4lHZLCW+pL24HAecjyLLmYhlZNWg=
+X-Received: by 2002:a17:906:ca4c:: with SMTP id
+ jx12mr1508481ejb.231.1594675946837; 
+ Mon, 13 Jul 2020 14:32:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-2-daniel.vetter@ffwll.ch>
- <20c0a95b-8367-4f26-d058-1cb265255283@amd.com>
- <20200713162610.GS3278063@phenom.ffwll.local>
- <e9e838fb-ec83-f7e0-e978-b57d8892b3f0@amd.com>
-In-Reply-To: <e9e838fb-ec83-f7e0-e978-b57d8892b3f0@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 14 Jul 2020 06:31:15 +1000
-Message-ID: <CAPM=9tyTd0OqtdX+pGhGm3K1odNkG5EEL+0DZwL=NiVkogOujQ@mail.gmail.com>
-Subject: Re: [PATCH 01/25] dma-fence: basic lockdep annotations
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20200710230224.2265647-1-dianders@chromium.org>
+ <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
+ <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
+ <CAL_JsqLJM5nwNSdugMBLDVtjP97dikCm_AiHjnDs1jqBOFoaaQ@mail.gmail.com>
+In-Reply-To: <CAL_JsqLJM5nwNSdugMBLDVtjP97dikCm_AiHjnDs1jqBOFoaaQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 13 Jul 2020 14:32:59 -0700
+Message-ID: <CAF6AEGufuFW3ba3u3A+mY+Gw0ouH2x9xY-9A+OtVff+iXdix9A@mail.gmail.com>
+Subject: Re: [PATCH 0/9] drm/msm: Avoid possible infinite probe deferral and
+ speed booting
+To: Rob Herring <robh+dt@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +65,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Doug Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Sean Paul <sean@poorly.run>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxNCBKdWwgMjAyMCBhdCAwMjozOSwgQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
-LmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDEzLjA3LjIwIHVtIDE4OjI2IHNjaHJpZWIg
-RGFuaWVsIFZldHRlcjoKPiA+IEhpIENocmlzdGlhbiwKPiA+Cj4gPiBPbiBXZWQsIEp1bCAwOCwg
-MjAyMCBhdCAwNDo1NzoyMVBNICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4+IENv
-dWxkIHdlIG1lcmdlIHRoaXMgY29udHJvbGxlZCBieSBhIHNlcGFyYXRlIGNvbmZpZyBvcHRpb24/
-Cj4gPj4KPiA+PiBUaGlzIHdheSB3ZSBjb3VsZCBoYXZlIHRoZSBjaGVja3MgdXBzdHJlYW0gd2l0
-aG91dCBoYXZpbmcgdG8gZml4IGFsbCB0aGUKPiA+PiBzdHVmZiBiZWZvcmUgd2UgZG8gdGhpcz8K
-PiA+IERpc2N1c3Npb25zIGRpZWQgb3V0IGEgYml0LCBkbyB5b3UgY29uc2lkZXIgdGhpcyBhIGJs
-b2NrZXIgZm9yIHRoZSBmaXJzdAo+ID4gdHdvIHBhdGNoZXMsIG9yIGdvb2QgZm9yIGFuIGFjayBv
-biB0aGVzZT8KPgo+IFllcywgSSB0aGluayB0aGUgZmlyc3QgdHdvIGNhbiBiZSBtZXJnZWQgd2l0
-aG91dCBjYXVzaW5nIGFueSBwYWluLiBGZWVsCj4gZnJlZSB0byBhZGQgbXkgYWIgb24gdGhlbS4K
-Pgo+IEFuZCB0aGUgdGhpcmQgb25lIGNhbiBnbyBpbiBpbW1lZGlhdGVseSBhcyB3ZWxsLgoKQWNr
-ZWQtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+IGZvciB0aGUgZmlyc3QgMiAr
-CmluZGVmaW5pdGUgZXhwbGFpbnMuCgpEYXZlLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Jul 13, 2020 at 1:25 PM Rob Herring <robh+dt@kernel.org> wrote:
+>
+> On Mon, Jul 13, 2020 at 9:08 AM Doug Anderson <dianders@chromium.org> wrote:
+> >
+> > Hi,
+> >
+> > On Mon, Jul 13, 2020 at 7:11 AM Rob Herring <robh+dt@kernel.org> wrote:
+> > >
+> > > On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
+> > > >
+> > > > I found that if I ever had a little mistake in my kernel config,
+> > > > or device tree, or graphics driver that my system would sit in a loop
+> > > > at bootup trying again and again and again.  An example log was:
+> > >
+> > > Why do we care about optimizing the error case?
+> >
+> > It actually results in a _fully_ infinite loop.  That is: if anything
+> > small causes a component of DRM to fail to probe then the whole system
+> > doesn't boot because it just loops trying to probe over and over
+> > again.  The messages I put in the commit message are printed over and
+> > over and over again.
+>
+> Sounds like a bug as that's not what should happen.
+>
+> If you defer during boot (initcalls), then you'll be on the deferred
+> list until late_initcall and everything is retried. After
+> late_initcall, only devices getting added should trigger probing. But
+> maybe the adding and then removing a device is causing a re-trigger.
+>
+> > > >   msm ae00000.mdss: bound ae01000.mdp (ops 0xffffffe596e951f8)
+> > > >   msm_dsi ae94000.dsi: ae94000.dsi supply gdsc not found, using dummy regulator
+> > > >   msm_dsi_manager_register: failed to register mipi dsi host for DSI 0
+> > > >   [drm:ti_sn_bridge_probe] *ERROR* could not find any panel node
+> > > >   ...
+> > > >
+> > > > I finally tracked it down where this was happening:
+> > > >   - msm_pdev_probe() is called.
+> > > >   - msm_pdev_probe() registers drivers.  Registering drivers kicks
+> > > >     off processing of probe deferrals.
+> > > >   - component_master_add_with_match() could return -EPROBE_DEFER.
+> > > >     making msm_pdev_probe() return -EPROBE_DEFER.
+> > > >   - When msm_pdev_probe() returned the processing of probe deferrals
+> > > >     happens.
+> > > >   - Loop back to the start.
+> > > >
+> > > > It looks like we can fix this by marking "mdss" as a "simple-bus".
+> > > > I have no idea if people consider this the right thing to do or a
+> > > > hack.  Hopefully it's the right thing to do.  :-)
+> > >
+> > > It's a simple test. Do the child devices have any dependency on the
+> > > parent to probe and/or function? If so, not a simple-bus.
+> >
+> > Great!  You can see in the earlier patch in the series that the very
+> > first thing that happens when the parent device probes is that it
+> > calls devm_of_platform_populate().  That means no dependencies, right?
+>
+> It should. But then I reviewed the MDSS binding today and it looks
+> like the MDSS is the interrupt parent for at least some child devices?
+>
+
+yes, that is correct
+
+BR,
+-R
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
