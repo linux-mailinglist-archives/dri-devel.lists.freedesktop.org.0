@@ -2,103 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3111421DA0F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 17:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD2B21DA7B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 17:45:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6466E288;
-	Mon, 13 Jul 2020 15:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F1B6E063;
+	Mon, 13 Jul 2020 15:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CA26E288
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:29:40 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200713152939euoutp02dc6c5db279225fbe27fe8f9d69b8764b~hWYbrdhSZ2386223862euoutp02-
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:29:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200713152939euoutp02dc6c5db279225fbe27fe8f9d69b8764b~hWYbrdhSZ2386223862euoutp02-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1594654179;
- bh=vO5pnPgqndY7d3Zj0BCVf+Evpl+fDIPB8p1F0ud8Gcc=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=aGyPAsz8cAGojcbhcEqCV6V9zFKr9gIHuVuSDpW6JCdFyrYuR4CespiF+AyrZlH+Q
- iTpomQDPUYjPeDDuMLnr7z05E0m2YFtUaiY0BJqhNMqQPhftAMPc+NhOJ3Q+F9y7/i
- PNHXZq2q/b5Oa4rYvwchoEyUwCOd1V4q1d+jHO6A=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200713152938eucas1p10be5680c4b788a011358e3d3a6c4e130~hWYbfVFj23160031600eucas1p1i;
- Mon, 13 Jul 2020 15:29:38 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id A1.88.05997.2ED7C0F5; Mon, 13
- Jul 2020 16:29:38 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200713152938eucas1p2c0e5026e5e8583add0fb589bffdb60d3~hWYbF7Jfz2797427974eucas1p2n;
- Mon, 13 Jul 2020 15:29:38 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200713152938eusmtrp2b19bbf9d1824b895d771f8306ad68ee3~hWYbDYYgZ0741707417eusmtrp2K;
- Mon, 13 Jul 2020 15:29:38 +0000 (GMT)
-X-AuditID: cbfec7f4-65dff7000000176d-6c-5f0c7de2e36c
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 48.00.06314.2ED7C0F5; Mon, 13
- Jul 2020 16:29:38 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200713152937eusmtip12910505a87ba790d2a0174c3f7e37316~hWYaS01Fz1297512975eusmtip1X;
- Mon, 13 Jul 2020 15:29:37 +0000 (GMT)
-Subject: Re: [PATCH] drm/bridge: sil_sii8620: initialize return of
- sii8620_readb
-To: trix@redhat.com, narmstrong@baylibre.com,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@siol.net,
- airlied@linux.ie, daniel@ffwll.ch, architt@codeaurora.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <c79fd5b6-e999-5bec-e373-7709d07f4446@samsung.com>
-Date: Mon, 13 Jul 2020 17:29:37 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E71DB6E063
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:45:43 +0000 (UTC)
+Received: from lwn.net (localhost [127.0.0.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id C5A1F823;
+ Mon, 13 Jul 2020 15:45:39 +0000 (UTC)
+Date: Mon, 13 Jul 2020 09:45:38 -0600
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 00/20] Documentation: eliminate duplicated words
+Message-ID: <20200713094538.68e0c810@lwn.net>
+In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
+References: <20200707180414.10467-1-rdunlap@infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20200712152453.27510-1-trix@redhat.com>
-Content-Language: en-GB
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHeXbv7q5zi+tMdrIyGvXBwJcy60JhGSWX+lD0oSArnXVxopuy
- 60v2amW1DGW1NLaiRljaCrXSTaWyRvmCuCTfM1AsyJlisqkparndSX77nXOe//+cPzwkJusW
- BpMpmkxWq1GmKQgxbm2ccYQNXZAkRH6aiaQLHS0C+opuTEj/td7G6M7JcYLumnZidMtoF07f
- vF0qojvqHxC0vSieNr8cQnS3uxXf7c+M914TMR1FhQLm7ZQZZ+7rjEKmWf9FwNimBoXMwK0m
- ATP+rotg3hcacMb1KuSQ+Jh452k2LSWb1UbEJIpV7idOPKNOfGaib0MeekkWID8SqK0w4rKi
- AiQmZVQ5gtHpQSFfuBEMzX/E+MKFoPpOg2hJYjAWi/hBGQKn3uUrxhHY2ksxz6tA6jCUVXR6
- vVZStYvyh3NeOUbFw/M3OuRhggqF+dd9hIelVAwUlkx6+zi1ERoGSnEPB1EnodJpE/BvAqDF
- +MPb96Oiodtg9XmuA9vYA4xnOVxxP/MuBmpCBDO/LRh/914wuQsIngNhpKnal2cN/K17JOD5
- EgyU52O8WIegpqrOJ94B3xyzi2JycUMoVNZHeBCoWOiqPMLjCugdC+BPWAF3rPcwvi0F3XUZ
- 77EeBtpqfH5yeNI+SeiRwrQsmGlZGNOyMKb/a80ItyA5m8Wpk1lui4bNCeeUai5Lkxx+Kl39
- Ci3+ttaFJnctqp9LsiOKRAqJFA5KEmRCZTaXq7YjIDHFSumettaTMulpZe5ZVpueoM1KYzk7
- Wk3iCrk06rHzhIxKVmayqSybwWqXpgLSLzgPRUuj4ob1D2ciDEHnPpzYYHkfyd4I8a9qZsLy
- c9SfbY2lSb0LxmL2TFV2nEUlP/CiuCHqqNm+3XI1V25dt2rPwtOvjmFbEdlTErsW629sV4T1
- iy7urcjpTP1zfu47MPu42TLJtsubisQ9+wXhrrvG7btUP48n/hrd/zYz7kWAtkSBcyrl5k2Y
- llP+A148blJpAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsVy+t/xu7qPanniDU7eEbHoPXeSyaKp4y2r
- xf9tE5ktrnx9z2Zx9ftLZouTb66yWHROXMJucXnXHDaLQ33RFgs2PmK0uPblNIsDt8f7G63s
- Hpf7epk89n5bwOIxu2Mmq8eJCZeYPLZ/e8Dqcb/7OJPH+31X2TwO9E5m8fi8SS6AK0rPpii/
- tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEv48vSlywFO7kq
- Pt5UaWDcyNHFyMkhIWAiMXnmVPYuRi4OIYGljBI3nzxhhUiIS+ye/5YZwhaW+HOtiw3EFhJ4
- yyjxfIUyiC0sECSxfN0VVpBmEYEdjBKTv00HK2IWiJaY9e8R1NQORolF12aygCTYBDQl/m6+
- CVbEK2An0TvtKyOIzSKgKrH//hKwGlGBOInlW+azQ9QISpyc+QQszilgKnFt8jZ2iAVmEvM2
- P2SGsOUltr+dA2WLSzR9Wck6gVFoFpL2WUhaZiFpmYWkZQEjyypGkdTS4tz03GJDveLE3OLS
- vHS95PzcTYzAaN527OfmHYyXNgYfYhTgYFTi4ZXw54kXYk0sK67MPcQowcGsJMLrdPZ0nBBv
- SmJlVWpRfnxRaU5q8SFGU6DnJjJLiSbnAxNNXkm8oamhuYWlobmxubGZhZI4b4fAwRghgfTE
- ktTs1NSC1CKYPiYOTqkGxlkhRuqut5qizk3uOWwcVPlppaXyvhkmq8I2Wpe/LN/wvr7AWmO2
- vjlH3fm04+cOXnoe9GviihzDhLxS99mbJxsqmS8uP8lxe5VOUKPW9ISLYrpLfaZsvLRiZmHI
- FCF58QCJq5KXaxbfUDbr4fdrW6wS/OVZJFPK7GjV7G8ZH+qenFzsPC87QomlOCPRUIu5qDgR
- AOypkZ/8AgAA
-X-CMS-MailID: 20200713152938eucas1p2c0e5026e5e8583add0fb589bffdb60d3
-X-Msg-Generator: CA
-X-RootMTR: 20200712152516eucas1p2cd883f7ccfcbfa78d452ba7a5641c363
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200712152516eucas1p2cd883f7ccfcbfa78d452ba7a5641c363
-References: <CGME20200712152516eucas1p2cd883f7ccfcbfa78d452ba7a5641c363@eucas1p2.samsung.com>
- <20200712152453.27510-1-trix@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,61 +38,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
+ linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
+ Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
+ linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ linux-scsi@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Masahiro Yamada <masahiroy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
+ Mali DP Maintainers <malidp@foss.arm.com>,
+ Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
+ Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
+ Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue,  7 Jul 2020 11:03:54 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-On 12.07.2020 17:24, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
->
-> clang static analysis flags this error
->
-> sil-sii8620.c:184:2: warning: Undefined or garbage value
->    returned to caller [core.uninitialized.UndefReturn]
->          return ret;
->          ^~~~~~~~~~
->
-> sii8620_readb calls sii8620_read_buf.
-> sii8620_read_buf can return without setting its output
-> pararmeter 'ret'.
->
-> So initialize ret.
->
-> Fixes: ce6e153f414a ("drm/bridge: add Silicon Image SiI8620 driver")
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->   drivers/gpu/drm/bridge/sil-sii8620.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-> index 3540e4931383..da933d477e5f 100644
-> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
-> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-> @@ -178,7 +178,7 @@ static void sii8620_read_buf(struct sii8620 *ctx, u16 addr, u8 *buf, int len)
->   
->   static u8 sii8620_readb(struct sii8620 *ctx, u16 addr)
->   {
-> -	u8 ret;
-> +	u8 ret = 0;
+>  Documentation/admin-guide/mm/numaperf.rst             |    2 +-
+>  Documentation/block/pr.rst                            |    2 +-
+>  Documentation/core-api/printk-basics.rst              |    2 +-
+>  Documentation/dev-tools/kgdb.rst                      |    2 +-
+>  Documentation/fpga/dfl.rst                            |    2 +-
+>  Documentation/gpu/drm-uapi.rst                        |    2 +-
+>  Documentation/gpu/komeda-kms.rst                      |    2 +-
+>  Documentation/hid/intel-ish-hid.rst                   |    2 +-
+>  Documentation/i2c/upgrading-clients.rst               |    2 +-
+>  Documentation/kbuild/kconfig-language.rst             |    2 +-
+>  Documentation/leds/ledtrig-transient.rst              |    2 +-
+>  Documentation/maintainer/maintainer-entry-profile.rst |    2 +-
+>  Documentation/mips/ingenic-tcu.rst                    |    2 +-
+>  Documentation/misc-devices/xilinx_sdfec.rst           |    2 +-
+>  Documentation/powerpc/vas-api.rst                     |    2 +-
+>  Documentation/s390/vfio-ap.rst                        |    2 +-
+>  Documentation/scsi/advansys.rst                       |    2 +-
+>  Documentation/security/keys/trusted-encrypted.rst     |    2 +-
+>  Documentation/virt/kvm/api.rst                        |    2 +-
+>  Documentation/vm/memory-model.rst                     |    2 +-
+>  20 files changed, 20 insertions(+), 20 deletions(-)
 
+I've applied this set, minus #17 that was already picked up by Martin.
 
-In theory it shouldn't cause any harm, but this protections makes things 
-simpler.
+Thanks,
 
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-
-Regards
-Andrzej
-
-
->   
->   	sii8620_read_buf(ctx, addr, &ret, 1);
->   	return ret;
+jon
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
