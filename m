@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94C321DB09
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1EA21DB22
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D896E124;
-	Mon, 13 Jul 2020 16:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDE96E1E6;
+	Mon, 13 Jul 2020 16:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0BBB6E124
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:00:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5E96E1E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:03:45 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 9E7538048A;
- Mon, 13 Jul 2020 18:00:11 +0200 (CEST)
-Date: Mon, 13 Jul 2020 18:00:10 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B8047804F2;
+ Mon, 13 Jul 2020 18:03:43 +0200 (CEST)
+Date: Mon, 13 Jul 2020 18:03:42 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: trix@redhat.com
-Subject: Re: [PATCH] drm/bridge: sil_sii8620: initialize return of
- sii8620_readb
-Message-ID: <20200713160010.GA1223330@ravnborg.org>
-References: <20200712152453.27510-1-trix@redhat.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Inki Dae <inki.dae@samsung.com>
+Subject: Re: [PATCH v2] drm/exynos: gem: Fix sparse warning
+Message-ID: <20200713160342.GB1223330@ravnborg.org>
+References: <CGME20200713070718eucas1p2e717879ea21a6cc8a8945d1b0b766b6c@eucas1p2.samsung.com>
+ <20200713070708.30828-1-m.szyprowski@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200712152453.27510-1-trix@redhat.com>
+In-Reply-To: <20200713070708.30828-1-m.szyprowski@samsung.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8 a=e5mUnYsNAAAA:8
- a=O_S-2KurR925GvWnQ7MA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=hD80L64hAAAA:8
+ a=e5mUnYsNAAAA:8 a=ZMP1pjZxzPjGEdM3V3EA:9 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,60 +46,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
- architt@codeaurora.org, stable@vger.kernel.org, linux-kernel@vger.kernel.org,
- a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com
+Cc: Andrzej Hajda <a.hajda@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tom.
+On Mon, Jul 13, 2020 at 09:07:08AM +0200, Marek Szyprowski wrote:
+> kvaddr element of the exynos_gem object points to a memory buffer, thus
+> it should not have a __iomem annotation. Then, to avoid a warning or
+> casting on assignment to fbi structure, the screen_buffer element of the
+> union should be used instead of the screen_base.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-On Sun, Jul 12, 2020 at 08:24:53AM -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
-> 
-> clang static analysis flags this error
-> 
-> sil-sii8620.c:184:2: warning: Undefined or garbage value
->   returned to caller [core.uninitialized.UndefReturn]
->         return ret;
->         ^~~~~~~~~~
-> 
-> sii8620_readb calls sii8620_read_buf.
-> sii8620_read_buf can return without setting its output
-> pararmeter 'ret'.
-> 
-> So initialize ret.
-> 
-> Fixes: ce6e153f414a ("drm/bridge: add Silicon Image SiI8620 driver")
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-
-Thnaks, applied to drm-misc-next as the fix is not urgent.
+I expect one of the exynos maintianers (Inki?) to pick it up.
 
 	Sam
 
 > ---
->  drivers/gpu/drm/bridge/sil-sii8620.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gem.h   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-> index 3540e4931383..da933d477e5f 100644
-> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
-> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-> @@ -178,7 +178,7 @@ static void sii8620_read_buf(struct sii8620 *ctx, u16 addr, u8 *buf, int len)
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+> index 56a2b47e1af7..5147f5929be7 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+> @@ -92,7 +92,7 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper *helper,
+>  	offset = fbi->var.xoffset * fb->format->cpp[0];
+>  	offset += fbi->var.yoffset * fb->pitches[0];
 >  
->  static u8 sii8620_readb(struct sii8620 *ctx, u16 addr)
->  {
-> -	u8 ret;
-> +	u8 ret = 0;
+> -	fbi->screen_base = exynos_gem->kvaddr + offset;
+> +	fbi->screen_buffer = exynos_gem->kvaddr + offset;
+>  	fbi->screen_size = size;
+>  	fbi->fix.smem_len = size;
 >  
->  	sii8620_read_buf(ctx, addr, &ret, 1);
->  	return ret;
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/exynos/exynos_drm_gem.h
+> index 7445748288da..74e926abeff0 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
+> @@ -40,7 +40,7 @@ struct exynos_drm_gem {
+>  	unsigned int		flags;
+>  	unsigned long		size;
+>  	void			*cookie;
+> -	void __iomem		*kvaddr;
+> +	void			*kvaddr;
+>  	dma_addr_t		dma_addr;
+>  	unsigned long		dma_attrs;
+>  	struct sg_table		*sgt;
 > -- 
-> 2.18.1
+> 2.17.1
 > 
 > _______________________________________________
 > dri-devel mailing list
