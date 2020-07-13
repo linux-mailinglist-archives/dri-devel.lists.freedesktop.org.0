@@ -2,30 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD2B21DA7B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 17:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94C321DB09
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F1B6E063;
-	Mon, 13 Jul 2020 15:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D896E124;
+	Mon, 13 Jul 2020 16:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E71DB6E063
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:45:43 +0000 (UTC)
-Received: from lwn.net (localhost [127.0.0.1])
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0BBB6E124
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:00:16 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id C5A1F823;
- Mon, 13 Jul 2020 15:45:39 +0000 (UTC)
-Date: Mon, 13 Jul 2020 09:45:38 -0600
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 00/20] Documentation: eliminate duplicated words
-Message-ID: <20200713094538.68e0c810@lwn.net>
-In-Reply-To: <20200707180414.10467-1-rdunlap@infradead.org>
-References: <20200707180414.10467-1-rdunlap@infradead.org>
-Organization: LWN.net
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 9E7538048A;
+ Mon, 13 Jul 2020 18:00:11 +0200 (CEST)
+Date: Mon, 13 Jul 2020 18:00:10 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: trix@redhat.com
+Subject: Re: [PATCH] drm/bridge: sil_sii8620: initialize return of
+ sii8620_readb
+Message-ID: <20200713160010.GA1223330@ravnborg.org>
+References: <20200712152453.27510-1-trix@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200712152453.27510-1-trix@redhat.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8 a=e5mUnYsNAAAA:8
+ a=O_S-2KurR925GvWnQ7MA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,73 +44,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
- linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-scsi@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Masahiro Yamada <masahiroy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, Jason Wessel <jason.wessel@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@kernel.org>,
- Dan Murphy <dmurphy@ti.com>
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ architt@codeaurora.org, stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  7 Jul 2020 11:03:54 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi Tom.
 
->  Documentation/admin-guide/mm/numaperf.rst             |    2 +-
->  Documentation/block/pr.rst                            |    2 +-
->  Documentation/core-api/printk-basics.rst              |    2 +-
->  Documentation/dev-tools/kgdb.rst                      |    2 +-
->  Documentation/fpga/dfl.rst                            |    2 +-
->  Documentation/gpu/drm-uapi.rst                        |    2 +-
->  Documentation/gpu/komeda-kms.rst                      |    2 +-
->  Documentation/hid/intel-ish-hid.rst                   |    2 +-
->  Documentation/i2c/upgrading-clients.rst               |    2 +-
->  Documentation/kbuild/kconfig-language.rst             |    2 +-
->  Documentation/leds/ledtrig-transient.rst              |    2 +-
->  Documentation/maintainer/maintainer-entry-profile.rst |    2 +-
->  Documentation/mips/ingenic-tcu.rst                    |    2 +-
->  Documentation/misc-devices/xilinx_sdfec.rst           |    2 +-
->  Documentation/powerpc/vas-api.rst                     |    2 +-
->  Documentation/s390/vfio-ap.rst                        |    2 +-
->  Documentation/scsi/advansys.rst                       |    2 +-
->  Documentation/security/keys/trusted-encrypted.rst     |    2 +-
->  Documentation/virt/kvm/api.rst                        |    2 +-
->  Documentation/vm/memory-model.rst                     |    2 +-
->  20 files changed, 20 insertions(+), 20 deletions(-)
+On Sun, Jul 12, 2020 at 08:24:53AM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
+> 
+> clang static analysis flags this error
+> 
+> sil-sii8620.c:184:2: warning: Undefined or garbage value
+>   returned to caller [core.uninitialized.UndefReturn]
+>         return ret;
+>         ^~~~~~~~~~
+> 
+> sii8620_readb calls sii8620_read_buf.
+> sii8620_read_buf can return without setting its output
+> pararmeter 'ret'.
+> 
+> So initialize ret.
+> 
+> Fixes: ce6e153f414a ("drm/bridge: add Silicon Image SiI8620 driver")
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
 
-I've applied this set, minus #17 that was already picked up by Martin.
+Thnaks, applied to drm-misc-next as the fix is not urgent.
 
-Thanks,
+	Sam
 
-jon
+> ---
+>  drivers/gpu/drm/bridge/sil-sii8620.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+> index 3540e4931383..da933d477e5f 100644
+> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
+> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+> @@ -178,7 +178,7 @@ static void sii8620_read_buf(struct sii8620 *ctx, u16 addr, u8 *buf, int len)
+>  
+>  static u8 sii8620_readb(struct sii8620 *ctx, u16 addr)
+>  {
+> -	u8 ret;
+> +	u8 ret = 0;
+>  
+>  	sii8620_read_buf(ctx, addr, &ret, 1);
+>  	return ret;
+> -- 
+> 2.18.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
