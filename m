@@ -1,53 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C392D21DB53
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:12:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCFE21DB98
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7ED6E29E;
-	Mon, 13 Jul 2020 16:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7439C6E2C4;
+	Mon, 13 Jul 2020 16:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2186E29E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:12:23 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id 18so9918047otv.6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 09:12:22 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE0F6E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:22:03 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id g10so339562wmc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 09:22:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iHretuVBgWEZCPDhdk1RcvMcqHYBpQqZI0aEcmBy1ek=;
- b=NDvo8spd4V+73UX7OwyRvb25Tq8QpIhB3HqCIKaKNr1bPoJEIG+XUGIcjbvRZaIagC
- 37n8bWe7KRZYaPlMGKuFKrIq3dXYGrRK+XOgjKqwTqYmszR/jVWYxOLBMPsaK/4VLJcu
- OzR8O7oNIPLtP77OgZGWGu4Q+oKW0xAdRX24M=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=078asBrUdAzX6V4HRPDBswsi0+2eriabHhVz3ArnjDc=;
+ b=aTKEK4S4PUIHVkAv6JErkNzh79Z888tYpNCRggfGNw1cGGVXzogegCneDgnPlBG92U
+ /N7YfWn1mzKs/he6l8dclI1/IBckZPQ23xCWTgMDT0uYnAbgm15utkRoHL2Al5aa86Cy
+ DPSlkDzEIEh/pyhVNKrn61LCgjEE+1+qvpkj8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iHretuVBgWEZCPDhdk1RcvMcqHYBpQqZI0aEcmBy1ek=;
- b=jiqz8BbkiSUXza4k8C7R9ePokqXFUdwKR1yc4nOmk3Vn+Uu3KQmnbfw1eF8GEwwRIc
- RwEtLOec9BI4RN5LRlYrNpQ1o6vyP5j+jQ/ZAvKFrXM1rVM5x0B9/pauVyOArPWbIyKC
- MOMxV4BJgXokaEue4DqcktT3qi+UZrmfmhHbCSk3LCCF54V72Uvbar4vABpmCh4D6Szy
- cUDUFHnvJ442h0ISMAlWhCPzrNjWnS0EKG73j2itbz8K03mIo7s11fCLrXNUbPNEHICd
- 82/DZyzTb5xQmq+3MychnOXFaZDW6Hjhiyoy9KNVlLa8ASTswAXHqVbrwsRsdOAYRA8m
- xpkg==
-X-Gm-Message-State: AOAM532uGcu0zWZOcgU5Tfev04SJNeJBy+vSZShrUMH4hGSIsmORNHhx
- jb26/3OKzp2GpX6Ycrpx9HgCB06RDnZZKThxXvMydw==
-X-Google-Smtp-Source: ABdhPJxKeHaBnJlGswsRj8LZ7F+Pgu+isrM3HKnAXqRE993M3cPj7rC+nTko97kH9caMpxBvUP4aJnpKQY4ONOcyyEg=
-X-Received: by 2002:a05:6830:1613:: with SMTP id
- g19mr247637otr.303.1594656742300; 
- Mon, 13 Jul 2020 09:12:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFcO6XO58pV+j9gu5Hha3JUW555EPQo6ELTvxRyQ5PWu_1gsUA@mail.gmail.com>
- <20200710115240.GI2571@kadam>
-In-Reply-To: <20200710115240.GI2571@kadam>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=078asBrUdAzX6V4HRPDBswsi0+2eriabHhVz3ArnjDc=;
+ b=rIj/GMPI87gvBeLrzRb54Cjfii/ErHzKpsbA94NQZoCifZfSTXkvoyf6w7sR2AvEIM
+ lP+Z4joLWQM1yBVQMgMC+ogQs0swKYvLLURxGSaLbfFdxIJzJZDbADZD2sRfXfuXl/Op
+ 7G0/pwbpXCKzHbaiuyga1nt2YXe/Pm2QchTcoEbJwcTnuGfdX54PjcHHPwme05eQ00yD
+ UIM5sXKMhydQgiUJilYHse8fcx2VUEQHO0/dPsCErqI3U5rCQTSQPmJxomXRfuWi9Z6N
+ cAcHPXLyD6+DDe8Y4CTEE/rGhnx9v5w8o21gBX6f6jj2lz3//qDIIK8wApU83DbLt54c
+ BH2Q==
+X-Gm-Message-State: AOAM533AKQJmRy+qGZoOFmBpMAcPLSJRnU3npXZN784lPuYzYmwiGZqF
+ BZJUNp7GIk3by3a8kf8qwK4RzQ==
+X-Google-Smtp-Source: ABdhPJwKF+xm8MFfAd0R5CoC3HwdOVssXV+RtQHlZXNvp4a2iUOVusv5GEmhSnWhuWC0Zddy4pgeFQ==
+X-Received: by 2002:a05:600c:2dc1:: with SMTP id
+ e1mr159705wmh.108.1594657322307; 
+ Mon, 13 Jul 2020 09:22:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u8sm24532517wrt.28.2020.07.13.09.22.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 09:22:01 -0700 (PDT)
+Date: Mon, 13 Jul 2020 18:21:59 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 13 Jul 2020 18:12:11 +0200
-Message-ID: <CAKMK7uE1idHW4msihsBSbo8aWf602gqT-Z_BCR-gSJCRfugu=w@mail.gmail.com>
-Subject: Re: KASAN: use-after-free Read in drm_gem_object_release
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+Message-ID: <20200713162159.GR3278063@phenom.ffwll.local>
+References: <20200709193016.291267-1-sam@ravnborg.org>
+ <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,55 +67,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, security@kernel.org,
- Dave Airlie <airlied@linux.ie>, butt3rflyh4ck <butterflyhuangxx@gmail.com>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
- Chris" <chris@chris-wilson.co.uk>, Sean Paul <seanpaul@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
+ sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding Thomas, who's the main author for vram helpers.
+On Fri, Jul 10, 2020 at 08:28:16AM +0200, Thomas Zimmermann wrote:
+> Hi
+> =
+
+> Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
+> > Mark reported that sparc64 would panic while booting using qemu.
+> > Mark bisected this to a patch that introduced generic fbdev emulation to
+> > the bochs DRM driver.
+> > Mark pointed out that a similar bug was fixed before where
+> > the sys helpers was replaced by cfb helpers.
+> > =
+
+> > The culprint here is that the framebuffer reside in IO memory which
+> > requires SPARC ASI_PHYS (physical) loads and stores.
+> > =
+
+> > The current bohcs DRM driver uses a shadow buffer.
+> > So all copying to the framebuffer happens in
+> > drm_fb_helper_dirty_blit_real().
+> > =
+
+> > The fix is to replace the memcpy with memcpy_toio() from io.h.
+> > =
+
+> > memcpy_toio() uses writeb() where the original fbdev code
+> > used sbus_memcpy_toio(). The latter uses sbus_writeb().
+> > =
+
+> > The difference between writeb() and sbus_memcpy_toio() is
+> > that writeb() writes bytes in little-endian, where sbus_writeb() writes
+> > bytes in big-endian. As endian does not matter for byte writes they are
+> > the same. So we can safely use memcpy_toio() here.
+> > =
+
+> > For many architectures memcpy_toio() is a simple memcpy().
+> > One sideeffect that is unknow is if this has any impact on other
+> > architectures.
+> > So far the analysis tells that this change is OK for other arch's.
+> > but testing would be good.
+> > =
+
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: sparclinux@vger.kernel.org
+> =
+
+> So this actually is a problem in practice. Do you know how userspace
+> handles this?
+> =
+
+> For this patch
+> =
+
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> =
+
+> but I'd like to have someone with more architecture expertise ack this
+> as well.
+> =
+
+> Best regards
+> Thomas
+> =
+
+> > ---
+> >  drivers/gpu/drm/drm_fb_helper.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
+elper.c
+> > index 5609e164805f..4d05b0ab1592 100644
+> > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct dr=
+m_fb_helper *fb_helper,
+> >  	unsigned int y;
+> >  =
+
+> >  	for (y =3D clip->y1; y < clip->y2; y++) {
+> > -		memcpy(dst, src, len);
+> > +		memcpy_toio(dst, src, len);
+
+I don't think we can do this unconditionally, there's fbdev-helper drivers
+using shmem helpers, and for shmem memcpy_toio is wrong. We need a switch
+to fix this properly I think.
+
+What Dave Airlie mentioned is just about memcpy_toio vs the sparc bus
+version, for which we don't have any drivers really. But I do think we
+need to differentiate between memcpy and memcpy_tio. That's what this
+entire annoying _cfb_ vs _sys_ business is all about, and also what gem
+vram helpers have to deal with.
 -Daniel
 
-On Fri, Jul 10, 2020 at 1:53 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Fri, Jul 10, 2020 at 04:24:03PM +0800, butt3rflyh4ck wrote:
-> > I report a bug (in linux-5.8.0-rc4) found by syzkaller.
-> >
-> > kernel config: https://github.com/butterflyhack/syzkaller-fuzz/blob/master/v5.8.0-rc4.config
-> >
-> > I test the reproducer and crash too.
-> >
-> > In the drm_em_vram_t() function,  ttm_bo_init() function call
->          ^^^^^^^^^^^^^
-> This a typo.  The function name is drm_gem_vram_init().
->
-> > ttm_bo_init_reserved(),
-> > the ttm_bo_init_reserved() function  call ttm_bo_put(), it will free
-> > gbo->bo that is struct ttm_buffer_object.
-> >
-> > then, goto the err_drm_gem_object_release lable,
-> > drm_gem_object_release() function will free gbo->bo.base, so cause use
-> > after free.
-> >
->
-> There is a third free in drm_gem_vram_create().  This is a triple free
-> bug.  The correct place to free this is in drm_gem_vram_create() because
-> that's where it was allocated.
->
-> This code is quite subtle so I'm not going to attempt to fix it because
-> I can't test it.
->
-> regards,
-> dan carpenter
->
+> >  		src +=3D fb->pitches[0];
+> >  		dst +=3D fb->pitches[0];
+> >  	}
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
 
 
--- 
+
+
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
