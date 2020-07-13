@@ -1,64 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7F21D9C6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 17:08:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3111421DA0F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 17:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD076E27F;
-	Mon, 13 Jul 2020 15:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6466E288;
+	Mon, 13 Jul 2020 15:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDCB6E266
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:08:33 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id q15so6759168vso.9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 08:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jL0qg9txtW+UzBOFpRiVbZ1cvNjK+k+Z2zD2+dWd5xU=;
- b=Rrznap+7c3ejPjjRxwh934nQUUwJZgqI+M3shHiuekSOP8O2XMiQptg6HCTZ3/GqCq
- PtvZbvQ+9M7G4UEaYbk2Zkurr6mOU2qKAsB6gunmVxW0xlHUEsKN65rqdz5KBVIGQVuf
- s4ezGY5pV1pLxDDQrvlXGCCUyp85khIBh+8xk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jL0qg9txtW+UzBOFpRiVbZ1cvNjK+k+Z2zD2+dWd5xU=;
- b=tGGiniNm46rwlJOGREI+BXstnK57I0cxXT+B9v4Ma/vQKytyaPuJRVXd02nuXncNbR
- I5i86NIRqosk3S4VTB69J30LgGjyQ//3dIFlDePDox5uIHtbjXmrmB/Ey609MkgdfCHQ
- Y1r1DqTaH/q0bJjvZDur6/Rh60971BRPaZRNFcGVNM2SLEZmnStcIEOjX9K2mTWTq7Az
- fcfKE2Hix28LIHjoOjA4sFvL8VxRgPiyg4PQT/nc7cU7obpjTh/jPyJe3g+lLtsFjUpD
- xgso2n4xAVBmyMf3eVnKp18NT9F8wP3CLa4fcwFNFBxRmxRaSGNnsITdQZ+NCzYe23e7
- FIKg==
-X-Gm-Message-State: AOAM533ZUBU32bzTGKU/yzlOkC2gdyICoTwoojPavQ3oJpBjuyzuQl88
- OpyzSUmhkQ0Wv4he0Xh6jREH4ybIVl4=
-X-Google-Smtp-Source: ABdhPJyqQzs9fCNuw/HtzPhU6Ve12jKTh4pRaDxDRmem+2SUJFC37lN0yIt6VS9/2bo0hhkFAW3U7g==
-X-Received: by 2002:a67:d184:: with SMTP id w4mr43168545vsi.17.1594652911842; 
- Mon, 13 Jul 2020 08:08:31 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
- [209.85.217.49])
- by smtp.gmail.com with ESMTPSA id t74sm1953752vkc.12.2020.07.13.08.08.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 08:08:31 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id j186so6756459vsd.10
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 08:08:31 -0700 (PDT)
-X-Received: by 2002:a05:6102:20a:: with SMTP id
- z10mr50329603vsp.213.1594652906281; 
- Mon, 13 Jul 2020 08:08:26 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5CA26E288
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:29:40 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200713152939euoutp02dc6c5db279225fbe27fe8f9d69b8764b~hWYbrdhSZ2386223862euoutp02-
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:29:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200713152939euoutp02dc6c5db279225fbe27fe8f9d69b8764b~hWYbrdhSZ2386223862euoutp02-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1594654179;
+ bh=vO5pnPgqndY7d3Zj0BCVf+Evpl+fDIPB8p1F0ud8Gcc=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=aGyPAsz8cAGojcbhcEqCV6V9zFKr9gIHuVuSDpW6JCdFyrYuR4CespiF+AyrZlH+Q
+ iTpomQDPUYjPeDDuMLnr7z05E0m2YFtUaiY0BJqhNMqQPhftAMPc+NhOJ3Q+F9y7/i
+ PNHXZq2q/b5Oa4rYvwchoEyUwCOd1V4q1d+jHO6A=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200713152938eucas1p10be5680c4b788a011358e3d3a6c4e130~hWYbfVFj23160031600eucas1p1i;
+ Mon, 13 Jul 2020 15:29:38 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id A1.88.05997.2ED7C0F5; Mon, 13
+ Jul 2020 16:29:38 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200713152938eucas1p2c0e5026e5e8583add0fb589bffdb60d3~hWYbF7Jfz2797427974eucas1p2n;
+ Mon, 13 Jul 2020 15:29:38 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200713152938eusmtrp2b19bbf9d1824b895d771f8306ad68ee3~hWYbDYYgZ0741707417eusmtrp2K;
+ Mon, 13 Jul 2020 15:29:38 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-6c-5f0c7de2e36c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 48.00.06314.2ED7C0F5; Mon, 13
+ Jul 2020 16:29:38 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200713152937eusmtip12910505a87ba790d2a0174c3f7e37316~hWYaS01Fz1297512975eusmtip1X;
+ Mon, 13 Jul 2020 15:29:37 +0000 (GMT)
+Subject: Re: [PATCH] drm/bridge: sil_sii8620: initialize return of
+ sii8620_readb
+To: trix@redhat.com, narmstrong@baylibre.com,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@siol.net,
+ airlied@linux.ie, daniel@ffwll.ch, architt@codeaurora.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <c79fd5b6-e999-5bec-e373-7709d07f4446@samsung.com>
+Date: Mon, 13 Jul 2020 17:29:37 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200710230224.2265647-1-dianders@chromium.org>
- <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
-In-Reply-To: <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 13 Jul 2020 08:08:14 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
-Message-ID: <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] drm/msm: Avoid possible infinite probe deferral and
- speed booting
-To: Rob Herring <robh+dt@kernel.org>
+In-Reply-To: <20200712152453.27510-1-trix@redhat.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHeXbv7q5zi+tMdrIyGvXBwJcy60JhGSWX+lD0oSArnXVxopuy
+ 60v2amW1DGW1NLaiRljaCrXSTaWyRvmCuCTfM1AsyJlisqkparndSX77nXOe//+cPzwkJusW
+ BpMpmkxWq1GmKQgxbm2ccYQNXZAkRH6aiaQLHS0C+opuTEj/td7G6M7JcYLumnZidMtoF07f
+ vF0qojvqHxC0vSieNr8cQnS3uxXf7c+M914TMR1FhQLm7ZQZZ+7rjEKmWf9FwNimBoXMwK0m
+ ATP+rotg3hcacMb1KuSQ+Jh452k2LSWb1UbEJIpV7idOPKNOfGaib0MeekkWID8SqK0w4rKi
+ AiQmZVQ5gtHpQSFfuBEMzX/E+MKFoPpOg2hJYjAWi/hBGQKn3uUrxhHY2ksxz6tA6jCUVXR6
+ vVZStYvyh3NeOUbFw/M3OuRhggqF+dd9hIelVAwUlkx6+zi1ERoGSnEPB1EnodJpE/BvAqDF
+ +MPb96Oiodtg9XmuA9vYA4xnOVxxP/MuBmpCBDO/LRh/914wuQsIngNhpKnal2cN/K17JOD5
+ EgyU52O8WIegpqrOJ94B3xyzi2JycUMoVNZHeBCoWOiqPMLjCugdC+BPWAF3rPcwvi0F3XUZ
+ 77EeBtpqfH5yeNI+SeiRwrQsmGlZGNOyMKb/a80ItyA5m8Wpk1lui4bNCeeUai5Lkxx+Kl39
+ Ci3+ttaFJnctqp9LsiOKRAqJFA5KEmRCZTaXq7YjIDHFSumettaTMulpZe5ZVpueoM1KYzk7
+ Wk3iCrk06rHzhIxKVmayqSybwWqXpgLSLzgPRUuj4ob1D2ciDEHnPpzYYHkfyd4I8a9qZsLy
+ c9SfbY2lSb0LxmL2TFV2nEUlP/CiuCHqqNm+3XI1V25dt2rPwtOvjmFbEdlTErsW629sV4T1
+ iy7urcjpTP1zfu47MPu42TLJtsubisQ9+wXhrrvG7btUP48n/hrd/zYz7kWAtkSBcyrl5k2Y
+ llP+A148blJpAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsVy+t/xu7qPanniDU7eEbHoPXeSyaKp4y2r
+ xf9tE5ktrnx9z2Zx9ftLZouTb66yWHROXMJucXnXHDaLQ33RFgs2PmK0uPblNIsDt8f7G63s
+ Hpf7epk89n5bwOIxu2Mmq8eJCZeYPLZ/e8Dqcb/7OJPH+31X2TwO9E5m8fi8SS6AK0rPpii/
+ tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEv48vSlywFO7kq
+ Pt5UaWDcyNHFyMkhIWAiMXnmVPYuRi4OIYGljBI3nzxhhUiIS+ye/5YZwhaW+HOtiw3EFhJ4
+ yyjxfIUyiC0sECSxfN0VVpBmEYEdjBKTv00HK2IWiJaY9e8R1NQORolF12aygCTYBDQl/m6+
+ CVbEK2An0TvtKyOIzSKgKrH//hKwGlGBOInlW+azQ9QISpyc+QQszilgKnFt8jZ2iAVmEvM2
+ P2SGsOUltr+dA2WLSzR9Wck6gVFoFpL2WUhaZiFpmYWkZQEjyypGkdTS4tz03GJDveLE3OLS
+ vHS95PzcTYzAaN527OfmHYyXNgYfYhTgYFTi4ZXw54kXYk0sK67MPcQowcGsJMLrdPZ0nBBv
+ SmJlVWpRfnxRaU5q8SFGU6DnJjJLiSbnAxNNXkm8oamhuYWlobmxubGZhZI4b4fAwRghgfTE
+ ktTs1NSC1CKYPiYOTqkGxlkhRuqut5qizk3uOWwcVPlppaXyvhkmq8I2Wpe/LN/wvr7AWmO2
+ vjlH3fm04+cOXnoe9GviihzDhLxS99mbJxsqmS8uP8lxe5VOUKPW9ISLYrpLfaZsvLRiZmHI
+ FCF58QCJq5KXaxbfUDbr4fdrW6wS/OVZJFPK7GjV7G8ZH+qenFzsPC87QomlOCPRUIu5qDgR
+ AOypkZ/8AgAA
+X-CMS-MailID: 20200713152938eucas1p2c0e5026e5e8583add0fb589bffdb60d3
+X-Msg-Generator: CA
+X-RootMTR: 20200712152516eucas1p2cd883f7ccfcbfa78d452ba7a5641c363
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200712152516eucas1p2cd883f7ccfcbfa78d452ba7a5641c363
+References: <CGME20200712152516eucas1p2cd883f7ccfcbfa78d452ba7a5641c363@eucas1p2.samsung.com>
+ <20200712152453.27510-1-trix@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,102 +111,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Jul 13, 2020 at 7:11 AM Rob Herring <robh+dt@kernel.org> wrote:
+On 12.07.2020 17:24, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 >
-> On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
-> >
-> > I found that if I ever had a little mistake in my kernel config,
-> > or device tree, or graphics driver that my system would sit in a loop
-> > at bootup trying again and again and again.  An example log was:
+> clang static analysis flags this error
 >
-> Why do we care about optimizing the error case?
-
-It actually results in a _fully_ infinite loop.  That is: if anything
-small causes a component of DRM to fail to probe then the whole system
-doesn't boot because it just loops trying to probe over and over
-again.  The messages I put in the commit message are printed over and
-over and over again.
-
-
-> >   msm ae00000.mdss: bound ae01000.mdp (ops 0xffffffe596e951f8)
-> >   msm_dsi ae94000.dsi: ae94000.dsi supply gdsc not found, using dummy regulator
-> >   msm_dsi_manager_register: failed to register mipi dsi host for DSI 0
-> >   [drm:ti_sn_bridge_probe] *ERROR* could not find any panel node
-> >   ...
-> >
-> > I finally tracked it down where this was happening:
-> >   - msm_pdev_probe() is called.
-> >   - msm_pdev_probe() registers drivers.  Registering drivers kicks
-> >     off processing of probe deferrals.
-> >   - component_master_add_with_match() could return -EPROBE_DEFER.
-> >     making msm_pdev_probe() return -EPROBE_DEFER.
-> >   - When msm_pdev_probe() returned the processing of probe deferrals
-> >     happens.
-> >   - Loop back to the start.
-> >
-> > It looks like we can fix this by marking "mdss" as a "simple-bus".
-> > I have no idea if people consider this the right thing to do or a
-> > hack.  Hopefully it's the right thing to do.  :-)
+> sil-sii8620.c:184:2: warning: Undefined or garbage value
+>    returned to caller [core.uninitialized.UndefReturn]
+>          return ret;
+>          ^~~~~~~~~~
 >
-> It's a simple test. Do the child devices have any dependency on the
-> parent to probe and/or function? If so, not a simple-bus.
-
-Great!  You can see in the earlier patch in the series that the very
-first thing that happens when the parent device probes is that it
-calls devm_of_platform_populate().  That means no dependencies, right?
- So that means it's fine/correct to add "simple-bus" here?
-
-
-> > Once I do this I notice that my boot gets marginally faster (you
-> > don't need to probe the sub devices over and over) and also if I
+> sii8620_readb calls sii8620_read_buf.
+> sii8620_read_buf can return without setting its output
+> pararmeter 'ret'.
 >
-> Can you quantify that?
-
-I'd say < 100 us.  I can try to quantify more if needed, but it wasn't
-the point of this patch.
-
-
-> Have you run with devlinks enabled. You need a command line option to
-> enable. That too should reduce deferred probes.
-
-Ah, good idea!  I will try it.  However, even with devlinks, if there
-is any chance of deferred probes then we need a fix like this.  The
-point of the patch isn't about speeding things up but about avoiding
-an infinite loop at bootup due to a small bug.
-
-
-> > have a problem it doesn't loop forever (on my system it still
-> > gets upset about some stuck clocks in that case, but at least I
-> > can boot up).
+> So initialize ret.
 >
-> Deferred probe only runs when a device is added, so it's not like it
-> is continually running.
+> Fixes: ce6e153f414a ("drm/bridge: add Silicon Image SiI8620 driver")
+>
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>   drivers/gpu/drm/bridge/sil-sii8620.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+> index 3540e4931383..da933d477e5f 100644
+> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
+> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+> @@ -178,7 +178,7 @@ static void sii8620_read_buf(struct sii8620 *ctx, u16 addr, u8 *buf, int len)
+>   
+>   static u8 sii8620_readb(struct sii8620 *ctx, u16 addr)
+>   {
+> -	u8 ret;
+> +	u8 ret = 0;
 
-If you don't mind looking at the code patch, see:
 
-https://lore.kernel.org/r/20200710160131.4.I358ea82de218ea5f4406572ade23f5e121297555@changeid/
+In theory it shouldn't cause any harm, but this protections makes things 
+simpler.
 
-Specifically you can see that each time we try to probe we were
-calling of_platform_populate().  That appeared to be enough to trigger
-things.
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+
+Regards
+Andrzej
 
 
--Doug
+>   
+>   	sii8620_read_buf(ctx, addr, &ret, 1);
+>   	return ret;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
