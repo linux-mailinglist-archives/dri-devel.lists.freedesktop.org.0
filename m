@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EEC21D94B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 16:58:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7F21D9C6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 17:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7FD16E509;
-	Mon, 13 Jul 2020 14:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD076E27F;
+	Mon, 13 Jul 2020 15:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDFB16E509
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 14:58:52 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id 1so6103493pfn.9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 07:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDCB6E266
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 15:08:33 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id q15so6759168vso.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 08:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=idB200zkk4M6w9/S7/x4u9pjVtl7D3vW0TITJbchsNw=;
- b=MGhljGuEzLpygi69eidMBOHf8JA7D5si19uxVWcDC6Wy1Ds3uBLnXz+J8pmK1Apf4C
- rMmUlG6BbNE4/eHlD2XU9eX/SsqTtl43LhMyugFG9ueLoLh8na9gJF9gzHZi2RsHIAp4
- 6pesbK3XrTP9JIQRWJEoKp6puC2JSUW19qeZrksHqiwiKMbntIEIK16tGnrB5kP4T66g
- ZT/J+hRlu+6DCemfhm1vsgZdBrFLrrpBJeVu4nhLxLLp0MHoQvvA3dHs9EOzuPYjNbUS
- By46/6ScZW9bi40KVfwRLM0C/czPMJALxG9Lxbl337r5C17bgkkNmVWQvXxZ81iY9y5u
- W+eg==
+ :cc; bh=jL0qg9txtW+UzBOFpRiVbZ1cvNjK+k+Z2zD2+dWd5xU=;
+ b=Rrznap+7c3ejPjjRxwh934nQUUwJZgqI+M3shHiuekSOP8O2XMiQptg6HCTZ3/GqCq
+ PtvZbvQ+9M7G4UEaYbk2Zkurr6mOU2qKAsB6gunmVxW0xlHUEsKN65rqdz5KBVIGQVuf
+ s4ezGY5pV1pLxDDQrvlXGCCUyp85khIBh+8xk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=idB200zkk4M6w9/S7/x4u9pjVtl7D3vW0TITJbchsNw=;
- b=o+FRtAC+Ev7KNN6BzZG8xtq1QSvqELYgK5+yUJBRwmwXRrNJk9CsU0N8DK9W9/zNgU
- zlxvI5LH/a4eomf2E9f7/EkIKOOdXxECPyHrYmHBwQPuR9LVF3vNezDosC4FhowtqwvN
- r0EtmtElqZT2aya7N2FgYHRaZNGPrCakKCrIbvXPanvTz5jv4R690nc8eKjir/7mxNdz
- 23EY1W/6wLRKrAyqCCRq9fVXfy6Sl39/Y8Zo67d8NDvBDZ5kf38RezvrjLPI4N3cIvVg
- GVodAcTAHxyOmzF2lxYtRLfmwrc7I2ljS/4OMkwYS7yw5BZB6mff7OkTpDfufUuvzi6r
- 6rcg==
-X-Gm-Message-State: AOAM533i97teZgGZLkt/yp8/7ffEFYXN6xFrSHywEnSYQjgOctBuWkba
- OGTHNawuT4eW+Gsx1nYUXYQbaqHzKH5BYt6EGVg=
-X-Google-Smtp-Source: ABdhPJzSyfGH2iI/Q+3QHtm6sw7B/R49Wh2d9hhEuP9TMUliSNgAwNMZgJjgLyFsLds0c5NgdCISMsDDBLwbg/1t0bM=
-X-Received: by 2002:a63:a05f:: with SMTP id u31mr61913148pgn.4.1594652332426; 
- Mon, 13 Jul 2020 07:58:52 -0700 (PDT)
+ bh=jL0qg9txtW+UzBOFpRiVbZ1cvNjK+k+Z2zD2+dWd5xU=;
+ b=tGGiniNm46rwlJOGREI+BXstnK57I0cxXT+B9v4Ma/vQKytyaPuJRVXd02nuXncNbR
+ I5i86NIRqosk3S4VTB69J30LgGjyQ//3dIFlDePDox5uIHtbjXmrmB/Ey609MkgdfCHQ
+ Y1r1DqTaH/q0bJjvZDur6/Rh60971BRPaZRNFcGVNM2SLEZmnStcIEOjX9K2mTWTq7Az
+ fcfKE2Hix28LIHjoOjA4sFvL8VxRgPiyg4PQT/nc7cU7obpjTh/jPyJe3g+lLtsFjUpD
+ xgso2n4xAVBmyMf3eVnKp18NT9F8wP3CLa4fcwFNFBxRmxRaSGNnsITdQZ+NCzYe23e7
+ FIKg==
+X-Gm-Message-State: AOAM533ZUBU32bzTGKU/yzlOkC2gdyICoTwoojPavQ3oJpBjuyzuQl88
+ OpyzSUmhkQ0Wv4he0Xh6jREH4ybIVl4=
+X-Google-Smtp-Source: ABdhPJyqQzs9fCNuw/HtzPhU6Ve12jKTh4pRaDxDRmem+2SUJFC37lN0yIt6VS9/2bo0hhkFAW3U7g==
+X-Received: by 2002:a67:d184:: with SMTP id w4mr43168545vsi.17.1594652911842; 
+ Mon, 13 Jul 2020 08:08:31 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
+ [209.85.217.49])
+ by smtp.gmail.com with ESMTPSA id t74sm1953752vkc.12.2020.07.13.08.08.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jul 2020 08:08:31 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id j186so6756459vsd.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 08:08:31 -0700 (PDT)
+X-Received: by 2002:a05:6102:20a:: with SMTP id
+ z10mr50329603vsp.213.1594652906281; 
+ Mon, 13 Jul 2020 08:08:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20200713144331eucas1p24107a30783dacc92887b80cf082be9fb@eucas1p2.samsung.com>
- <20200713144324.23654-1-a.hajda@samsung.com>
- <20200713144324.23654-2-a.hajda@samsung.com>
-In-Reply-To: <20200713144324.23654-2-a.hajda@samsung.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 13 Jul 2020 17:58:35 +0300
-Message-ID: <CAHp75VdgMgBy2no77YZrAm6p_BCSo9oxpvSrOJMKeBD13SDW=Q@mail.gmail.com>
-Subject: Re: [PATCH v9 1/4] driver core: add device probe log helper
-To: Andrzej Hajda <a.hajda@samsung.com>
+References: <20200710230224.2265647-1-dianders@chromium.org>
+ <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
+In-Reply-To: <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 13 Jul 2020 08:08:14 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
+Message-ID: <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
+Subject: Re: [PATCH 0/9] drm/msm: Avoid possible infinite probe deferral and
+ speed booting
+To: Rob Herring <robh+dt@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,129 +71,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 13, 2020 at 5:43 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+Hi,
+
+On Mon, Jul 13, 2020 at 7:11 AM Rob Herring <robh+dt@kernel.org> wrote:
 >
-> During probe every time driver gets resource it should usually check for
-> error printk some message if it is not -EPROBE_DEFER and return the error.
-> This pattern is simple but requires adding few lines after any resource
-> acquisition code, as a result it is often omitted or implemented only
-> partially.
-> dev_err_probe helps to replace such code sequences with simple call,
-> so code:
->         if (err != -EPROBE_DEFER)
->                 dev_err(dev, ...);
->         return err;
-> becomes:
->         return dev_err_probe(dev, err, ...);
+> On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
+> >
+> > I found that if I ever had a little mistake in my kernel config,
+> > or device tree, or graphics driver that my system would sit in a loop
+> > at bootup trying again and again and again.  An example log was:
 >
+> Why do we care about optimizing the error case?
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+It actually results in a _fully_ infinite loop.  That is: if anything
+small causes a component of DRM to fail to probe then the whole system
+doesn't boot because it just loops trying to probe over and over
+again.  The messages I put in the commit message are printed over and
+over and over again.
 
-> Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-> Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> ---
->  drivers/base/core.c    | 42 ++++++++++++++++++++++++++++++++++++++++++
->  include/linux/device.h |  3 +++
->  2 files changed, 45 insertions(+)
+
+> >   msm ae00000.mdss: bound ae01000.mdp (ops 0xffffffe596e951f8)
+> >   msm_dsi ae94000.dsi: ae94000.dsi supply gdsc not found, using dummy regulator
+> >   msm_dsi_manager_register: failed to register mipi dsi host for DSI 0
+> >   [drm:ti_sn_bridge_probe] *ERROR* could not find any panel node
+> >   ...
+> >
+> > I finally tracked it down where this was happening:
+> >   - msm_pdev_probe() is called.
+> >   - msm_pdev_probe() registers drivers.  Registering drivers kicks
+> >     off processing of probe deferrals.
+> >   - component_master_add_with_match() could return -EPROBE_DEFER.
+> >     making msm_pdev_probe() return -EPROBE_DEFER.
+> >   - When msm_pdev_probe() returned the processing of probe deferrals
+> >     happens.
+> >   - Loop back to the start.
+> >
+> > It looks like we can fix this by marking "mdss" as a "simple-bus".
+> > I have no idea if people consider this the right thing to do or a
+> > hack.  Hopefully it's the right thing to do.  :-)
 >
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 67d39a90b45c..3a827c82933f 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3953,6 +3953,48 @@ define_dev_printk_level(_dev_info, KERN_INFO);
+> It's a simple test. Do the child devices have any dependency on the
+> parent to probe and/or function? If so, not a simple-bus.
+
+Great!  You can see in the earlier patch in the series that the very
+first thing that happens when the parent device probes is that it
+calls devm_of_platform_populate().  That means no dependencies, right?
+ So that means it's fine/correct to add "simple-bus" here?
+
+
+> > Once I do this I notice that my boot gets marginally faster (you
+> > don't need to probe the sub devices over and over) and also if I
 >
->  #endif
+> Can you quantify that?
+
+I'd say < 100 us.  I can try to quantify more if needed, but it wasn't
+the point of this patch.
+
+
+> Have you run with devlinks enabled. You need a command line option to
+> enable. That too should reduce deferred probes.
+
+Ah, good idea!  I will try it.  However, even with devlinks, if there
+is any chance of deferred probes then we need a fix like this.  The
+point of the patch isn't about speeding things up but about avoiding
+an infinite loop at bootup due to a small bug.
+
+
+> > have a problem it doesn't loop forever (on my system it still
+> > gets upset about some stuck clocks in that case, but at least I
+> > can boot up).
 >
-> +/**
-> + * dev_err_probe - probe error check and log helper
-> + * @dev: the pointer to the struct device
-> + * @err: error value to test
-> + * @fmt: printf-style format string
-> + * @...: arguments as specified in the format string
-> + *
-> + * This helper implements common pattern present in probe functions for error
-> + * checking: print debug or error message depending if the error value is
-> + * -EPROBE_DEFER and propagate error upwards.
-> + * It replaces code sequence:
-> + *     if (err != -EPROBE_DEFER)
-> + *             dev_err(dev, ...);
-> + *     else
-> + *             dev_dbg(dev, ...);
-> + *     return err;
-> + * with
-> + *     return dev_err_probe(dev, err, ...);
-> + *
-> + * Returns @err.
-> + *
-> + */
-> +int dev_err_probe(const struct device *dev, int err, const char *fmt, ...)
-> +{
-> +       struct va_format vaf;
-> +       va_list args;
-> +
-> +       va_start(args, fmt);
-> +       vaf.fmt = fmt;
-> +       vaf.va = &args;
+> Deferred probe only runs when a device is added, so it's not like it
+> is continually running.
 
-> +       if (err != -EPROBE_DEFER)
+If you don't mind looking at the code patch, see:
 
-I would rather see positive conditional (slightly better to parse when
-read), but here I think it's more or less equal.
+https://lore.kernel.org/r/20200710160131.4.I358ea82de218ea5f4406572ade23f5e121297555@changeid/
 
-> +               dev_err(dev, "error %d: %pV", err, &vaf);
-> +       else
-> +               dev_dbg(dev, "error %d: %pV", err, &vaf);
-
-> +       va_end(args);
-> +
-> +       return err;
-> +}
-> +EXPORT_SYMBOL_GPL(dev_err_probe);
-> +
->  static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
->  {
->         return fwnode && !IS_ERR(fwnode->secondary);
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 15460a5ac024..6b2272ae9af8 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -964,6 +964,9 @@ void device_link_remove(void *consumer, struct device *supplier);
->  void device_links_supplier_sync_state_pause(void);
->  void device_links_supplier_sync_state_resume(void);
->
-> +extern __printf(3, 4)
-> +int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-> +
->  /* Create alias, so I can be autoloaded. */
->  #define MODULE_ALIAS_CHARDEV(major,minor) \
->         MODULE_ALIAS("char-major-" __stringify(major) "-" __stringify(minor))
-> --
-> 2.17.1
->
+Specifically you can see that each time we try to probe we were
+calling of_platform_populate().  That appeared to be enough to trigger
+things.
 
 
--- 
-With Best Regards,
-Andy Shevchenko
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
