@@ -1,28 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E362321E8FB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:03:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A8521E97A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4DE66E910;
-	Tue, 14 Jul 2020 07:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F6F6E94C;
+	Tue, 14 Jul 2020 07:02:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 612 seconds by postgrey-1.36 at gabe;
- Mon, 13 Jul 2020 12:39:24 UTC
 Received: from smtp.al2klimov.de (smtp.al2klimov.de [78.46.175.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F50489BF4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 12:39:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8987C6E237
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 12:49:34 +0000 (UTC)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by smtp.al2klimov.de (Postfix) with ESMTPA id 36565BC0CA;
- Mon, 13 Jul 2020 12:39:21 +0000 (UTC)
+ by smtp.al2klimov.de (Postfix) with ESMTPA id BD155BC069;
+ Mon, 13 Jul 2020 12:49:31 +0000 (UTC)
 From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To: jsarha@ti.com, tomi.valkeinen@ti.com, airlied@linux.ie, daniel@ffwll.ch,
+To: hdegoede@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tidss: Replace HTTP links with HTTPS ones
-Date: Mon, 13 Jul 2020 14:39:13 +0200
-Message-Id: <20200713123913.34205-1-grandmaster@al2klimov.de>
+Subject: [PATCH] drm/vboxvideo: Replace HTTP links with HTTPS ones
+Date: Mon, 13 Jul 2020 14:49:23 +0200
+Message-Id: <20200713124923.34282-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 X-Spamd-Bar: +++++
 X-Spam-Level: *****
@@ -86,229 +84,36 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- drivers/gpu/drm/tidss/tidss_crtc.c        | 2 +-
- drivers/gpu/drm/tidss/tidss_crtc.h        | 2 +-
- drivers/gpu/drm/tidss/tidss_dispc.c       | 2 +-
- drivers/gpu/drm/tidss/tidss_dispc.h       | 2 +-
- drivers/gpu/drm/tidss/tidss_dispc_regs.h  | 2 +-
- drivers/gpu/drm/tidss/tidss_drv.c         | 2 +-
- drivers/gpu/drm/tidss/tidss_drv.h         | 2 +-
- drivers/gpu/drm/tidss/tidss_encoder.c     | 2 +-
- drivers/gpu/drm/tidss/tidss_encoder.h     | 2 +-
- drivers/gpu/drm/tidss/tidss_irq.c         | 2 +-
- drivers/gpu/drm/tidss/tidss_irq.h         | 2 +-
- drivers/gpu/drm/tidss/tidss_kms.c         | 2 +-
- drivers/gpu/drm/tidss/tidss_kms.h         | 2 +-
- drivers/gpu/drm/tidss/tidss_plane.c       | 2 +-
- drivers/gpu/drm/tidss/tidss_plane.h       | 2 +-
- drivers/gpu/drm/tidss/tidss_scale_coefs.c | 2 +-
- drivers/gpu/drm/tidss/tidss_scale_coefs.h | 2 +-
- 17 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/vboxvideo/hgsmi_defs.h | 2 +-
+ drivers/gpu/drm/vboxvideo/vbox_hgsmi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index 89a226912de8..a591c70b8386 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
+diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_defs.h b/drivers/gpu/drm/vboxvideo/hgsmi_defs.h
+index 6c8df1cdb087..3cb52f2b2274 100644
+--- a/drivers/gpu/drm/vboxvideo/hgsmi_defs.h
++++ b/drivers/gpu/drm/vboxvideo/hgsmi_defs.h
+@@ -58,7 +58,7 @@ struct hgsmi_buffer_tail {
+ 	/* Reserved, must be initialized to 0. */
+ 	u32 reserved;
+ 	/*
+-	 * One-at-a-Time Hash: http://www.burtleburtle.net/bob/hash/doobs.html
++	 * One-at-a-Time Hash: https://www.burtleburtle.net/bob/hash/doobs.html
+ 	 * Over the header, offset and for first 4 bytes of the tail.
+ 	 */
+ 	u32 checksum;
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c b/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c
+index 94b60654a012..a9ca4d0c3eca 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c
+@@ -8,7 +8,7 @@
+ #include "vboxvideo_vbe.h"
+ #include "hgsmi_defs.h"
  
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.h b/drivers/gpu/drm/tidss/tidss_crtc.h
-index 09e773666228..040d1205496b 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.h
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 629dd06393f6..e7d28ec8f7f3 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2016-2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2016-2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Jyri Sarha <jsarha@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index 902e612ff7ac..5984e0de2cd9 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-index 88a83a41b6e3..13feedfe5d6d 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2016-2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2016-2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Jyri Sarha <jsarha@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 99edc66ebdef..f00fadbead3e 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-index 3b0a3d87b7c4..7de4bba52e6f 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.h
-+++ b/drivers/gpu/drm/tidss/tidss_drv.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
-index 30bf2a65949c..e278a9c89476 100644
---- a/drivers/gpu/drm/tidss/tidss_encoder.c
-+++ b/drivers/gpu/drm/tidss/tidss_encoder.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_encoder.h b/drivers/gpu/drm/tidss/tidss_encoder.h
-index 06854d66e7e6..ace877c0e0fd 100644
---- a/drivers/gpu/drm/tidss/tidss_encoder.h
-+++ b/drivers/gpu/drm/tidss/tidss_encoder.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-index 1b80f2d62e0a..a5ec7931ef6b 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.c
-+++ b/drivers/gpu/drm/tidss/tidss_irq.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.h b/drivers/gpu/drm/tidss/tidss_irq.h
-index aa92db403cca..4aaad5dfd7c2 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.h
-+++ b/drivers/gpu/drm/tidss/tidss_irq.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index 4b99e9fa84a5..71dbd331640f 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.h b/drivers/gpu/drm/tidss/tidss_kms.h
-index 99aaff099f22..632d79f5983f 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.h
-+++ b/drivers/gpu/drm/tidss/tidss_kms.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 0a563eabcbb9..43e72d0b2d84 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.h b/drivers/gpu/drm/tidss/tidss_plane.h
-index 80ff1c5a2535..e933e158b617 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.h
-+++ b/drivers/gpu/drm/tidss/tidss_plane.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.c b/drivers/gpu/drm/tidss/tidss_scale_coefs.c
-index 5ec68389cc68..c2b84fea89a5 100644
---- a/drivers/gpu/drm/tidss/tidss_scale_coefs.c
-+++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Jyri Sarha <jsarha@ti.com>
-  */
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.h b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
-index 64b5af5b5361..9c560d0fdac0 100644
---- a/drivers/gpu/drm/tidss/tidss_scale_coefs.h
-+++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ * Copyright (C) 2018 Texas Instruments Incorporated - https://www.ti.com/
-  * Author: Jyri Sarha <jsarha@ti.com>
-  */
- 
+-/* One-at-a-Time Hash from http://www.burtleburtle.net/bob/hash/doobs.html */
++/* One-at-a-Time Hash from https://www.burtleburtle.net/bob/hash/doobs.html */
+ static u32 hgsmi_hash_process(u32 hash, const u8 *data, int size)
+ {
+ 	while (size--) {
 -- 
 2.27.0
 
