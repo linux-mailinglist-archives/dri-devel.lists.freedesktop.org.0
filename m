@@ -1,100 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0A121CF8C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 08:19:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D2821CFB9
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 08:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F368C6E22E;
-	Mon, 13 Jul 2020 06:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475D96E176;
+	Mon, 13 Jul 2020 06:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 043EB6E22E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 06:19:30 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200713061928euoutp014d54e78ce3b6abead97ba125dd3e0818~hO4EgAnbr2473824738euoutp01R
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 06:19:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200713061928euoutp014d54e78ce3b6abead97ba125dd3e0818~hO4EgAnbr2473824738euoutp01R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1594621168;
- bh=qEEhINtpDfVNfGXiKaqgjGXL6Xp2WAPnJ235t6FDqYc=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=mZqKYM3JVWG6JY1hcUqAK2ceHIuSu+bhOnoxL3KWkUdpANIqxcIRuAchdqrvs/ihQ
- 9Ug+jWn1VjwIpViECxHTIBx9D8Ug3vobXuVHNFTc7ZrOfKpZ2TnZHj7g7CUnHKRk8u
- mfTrYOdUHYb7TiFDjPE58yf4FwHU0o2Z0cld/c+w=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200713061928eucas1p12f54b2c5085cd6abc172e2f472940b8a~hO4EDdj5w2327023270eucas1p1a;
- Mon, 13 Jul 2020 06:19:28 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 71.38.06456.0FCFB0F5; Mon, 13
- Jul 2020 07:19:28 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200713061927eucas1p14082a27fb134e887a8c52c4460062dae~hO4DYB8Dz2552825528eucas1p1X;
- Mon, 13 Jul 2020 06:19:27 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200713061927eusmtrp1334875425fbe85eadb188f1af31f5950~hO4DXcjD00094200942eusmtrp18;
- Mon, 13 Jul 2020 06:19:27 +0000 (GMT)
-X-AuditID: cbfec7f2-7efff70000001938-9b-5f0bfcf00482
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id D0.4F.06017.FECFB0F5; Mon, 13
- Jul 2020 07:19:27 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200713061927eusmtip1f4294bf91853ba26f92175f8bed9704d~hO4C59FnY2175821758eusmtip1W;
- Mon, 13 Jul 2020 06:19:27 +0000 (GMT)
-Subject: Re: [PATCH] drm/exynos: gem: Fix sparse warning
-To: Sam Ravnborg <sam@ravnborg.org>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <94a95357-51b9-c3b5-4d3d-fdde7bcd395d@samsung.com>
-Date: Mon, 13 Jul 2020 08:19:26 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70916E0F2;
+ Mon, 13 Jul 2020 06:32:35 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id l17so12154185wmj.0;
+ Sun, 12 Jul 2020 23:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QPb+Ou4Nfbq4PIi1UZykCwKUnQ4n6w1QsHNkKepASo0=;
+ b=Tc6qMqUSO9yd+No46p+3VZaiCkQz7TQoaa22nRESfECs3FcRYRYWx5jNliEHlP+zNF
+ IMvTogJaSYmij/+yfydYGi+rNp9UTz64flg38oVBRgVFRKC1kSUNqQ0Ko4WjTwTimMsI
+ dtgjceO895GYTE8QT3BEKwUj8jY/e996chWgQ46DVMsdXU7oJNAATnKyp4E7Bap2V8h9
+ J18/cGH/b7LhMkB2rFeYqMEkDdgBX59fzkMltQLmVaiGrUTEy67lOban27BiG7iSwHT3
+ vk8xP9TK4z+jdbr7OVW/awV8Xcxuq7bNnO2oh51ql4howEUmOPsNi/w6NrFkyZ5ZvmS8
+ 2JDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QPb+Ou4Nfbq4PIi1UZykCwKUnQ4n6w1QsHNkKepASo0=;
+ b=V7PV3fPDfHQkxiOh5ALUBSq8mAzDkMpWrATJ0mDB3amBezBfBXWbMARd5AhYXtWbma
+ lPAGVPq/DNujTWTu07EWA3gtxsVuU+s/YaOdXVeqp9giO6byWrKfRWCfqEgTstzy1I7q
+ tWNOb3n28IKTmRhbyy1PFHD8GBme3D+WHRtTzZw5NPOYPNJjuwhgZfAC8U+hjWjzQnr5
+ 037iE47P79DCOQVrIAL11dqX1OibjpyjJqT4HM7iM1a0sPh9YDRJuF3DlroXSBlWbe0l
+ ogAtVia34/FG2vK/flZ2DguRpLIkTt4+Zu7XVxx1Hz6nM04taXqjhMYSm7HTAAg6ECAj
+ 06uA==
+X-Gm-Message-State: AOAM530FRCTB2ab0Q9bWP+yPksm8GquzIP2YC2F/JkFqYI9psVxiH4YA
+ uqKfvmAfQbdlLkrilwehixElwFFfK4Ep6KANP6Y=
+X-Google-Smtp-Source: ABdhPJwtmLkoBDFIQzDYJKb3x7imJR9/4fT8sbqz0NflsoC92ZNtel0WsaIODvDBCqb6eUTNh09dKdSGkvFcLp4fFb0=
+X-Received: by 2002:a1c:2602:: with SMTP id m2mr18229896wmm.50.1594621954326; 
+ Sun, 12 Jul 2020 23:32:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200710183037.GI17565@ravnborg.org>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsWy7djPc7of/nDHG0xfIGRxa905VouNM9az
- Wlz5+p7NYsb5fUwWK35uZbSYMfklmwObx/3u40weS6ZdZfPo27KK0ePzJrkAligum5TUnMyy
- 1CJ9uwSujAn7OtgL1nFXXPxyjK2BcT1nFyMnh4SAicT+hXtYuhi5OIQEVjBK3Dj/nBnC+cIo
- 0dXwkhHC+cwoMXfjeSaYlvbmU1Atyxkllh2dAlX1nlHizJeVjCBVwgIWEgef32EGsUUElCWO
- n7/GCmIzC5xllPj4zBHEZhMwlOh628UGYvMK2Ek0r38LZrMIqEocWfAarF5UIE5i/cvtTBA1
- ghInZz5hAbE5BYwkzrx7xQgxU15i+9s5zBC2uMStJ/OZQA6SEFjGLrH40FZ2iLNdJLr/L2GB
- sIUlXh3fAhWXkTg9uYcFoqGZUeLhubXsEE4Po8TlphmMEFXWEnfO/QI6jwNohabE+l36EGFH
- iV3bdjGChCUE+CRuvBWEOIJPYtK26cwQYV6JjjYhiGo1iVnH18GtPXjhEvMERqVZSF6bheSd
- WUjemYWwdwEjyypG8dTS4tz01GLDvNRyveLE3OLSvHS95PzcTYzAlHP63/FPOxi/Xko6xCjA
- wajEw6thyB0vxJpYVlyZe4hRgoNZSYTX6ezpOCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8xote
- xgoJpCeWpGanphakFsFkmTg4pRoYZQWeybyfE520y4rROeJY05F3CjusVp+8eP7rRfEVCfek
- +x6vztp143zm6ZwJk60NzDc03jFjUIp3yW5tqZ2972vmXVNH3vXWPlslj71dfmrV16fyHMnS
- JUVyJlG/P+d01HzZnFYvc9dqygMxqx03lr7jOcx0mEd4wQfzDN4bp/4LrM6dpaewWYmlOCPR
- UIu5qDgRAGfYBxk1AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xu7rv/3DHG8yarmxxa905VouNM9az
- Wlz5+p7NYsb5fUwWK35uZbSYMfklmwObx/3u40weS6ZdZfPo27KK0ePzJrkAlig9m6L80pJU
- hYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jAn7OtgL1nFXXPxy
- jK2BcT1nFyMnh4SAiUR78ykWEFtIYCmjxI1XshBxGYmT0xpYIWxhiT/Xuti6GLmAat4ySsz8
- cgCsQVjAQuLg8zvMILaIgLLE8fPXWEGKmAXOM0p8vXMEqmMHo8T3+S/YQKrYBAwlut52gdm8
- AnYSzevfgtksAqoSRxa8BlsnKhAnsXzLfHaIGkGJkzOfgG3jFDCSOPPuFSOIzSxgJjFv80Nm
- CFteYvvbOVC2uMStJ/OZJjAKzULSPgtJyywkLbOQtCxgZFnFKJJaWpybnltspFecmFtcmpeu
- l5yfu4kRGGPbjv3csoOx613wIUYBDkYlHt4LetzxQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUms
- rEotyo8vKs1JLT7EaAr03ERmKdHkfGD855XEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnN
- Tk0tSC2C6WPi4JRqYJzPJ7t5vvEhziUrK1cvfq7BWrrGwtngbEzSj0V+PO8WbXC/tC7uzLbG
- VD/Bpa1bkrpPbXO12L8y7lL3dP8fbaLrzjZuVEo3nBESm7vE3u/Fr286c7Y+qJ+crPW5fp7A
- 9Rlb+E2m9dy73741kXfVJZG86gUymve5e9v2M9XJtM30nrrojXHaQhMlluKMREMt5qLiRAAO
- OChUxwIAAA==
-X-CMS-MailID: 20200713061927eucas1p14082a27fb134e887a8c52c4460062dae
-X-Msg-Generator: CA
-X-RootMTR: 20200707110911eucas1p1e21621f402b2aac89457647c3b2ad46f
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200707110911eucas1p1e21621f402b2aac89457647c3b2ad46f
-References: <CGME20200707110911eucas1p1e21621f402b2aac89457647c3b2ad46f@eucas1p1.samsung.com>
- <20200707110859.3822-1-m.szyprowski@samsung.com>
- <20200710183037.GI17565@ravnborg.org>
+References: <CAKGbVbtYusvURFcUyQtgUycNJPAQyDGDaLXW8qw-x49DqfKmQA@mail.gmail.com>
+ <20200619075900.3030696-1-andrey.lebedev@gmail.com>
+ <bd4370f5-6fb4-d32f-5ca4-02e56526f47d@gmail.com>
+In-Reply-To: <bd4370f5-6fb4-d32f-5ca4-02e56526f47d@gmail.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Mon, 13 Jul 2020 14:32:23 +0800
+Message-ID: <CAKGbVbt3ahDqYNC3jCYe19A2PmEk6iS9bT44XPfr0gfWoWjHjA@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: Expose job_hang_limit module parameter
+To: Andrey Lebedev <andrey.lebedev@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,54 +62,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrey Lebedev <andrey@lebedev.lt>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Applied to drm-misc-next:
+https://cgit.freedesktop.org/drm/drm-misc/
 
-On 10.07.2020 20:30, Sam Ravnborg wrote:
-> Hi Marek.
+Sorry for the late response.
+
+Regards,
+Qiang
+
+On Tue, Jul 7, 2020 at 12:17 AM Andrey Lebedev <andrey.lebedev@gmail.com> wrote:
 >
-> On Tue, Jul 07, 2020 at 01:08:59PM +0200, Marek Szyprowski wrote:
->> Add a proper cast on the exynos_gem->kvaddr assignment to avoid a sparse warning.
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Fixes: 9940d9d93406 ("drm/exynos: gem: Get rid of the internal 'pages' array")
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> ---
->>   drivers/gpu/drm/exynos/exynos_drm_gem.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/exynos/exynos_drm_gem.c
->> index efa476858db5..65d11784f29f 100644
->> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
->> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
->> @@ -59,7 +59,7 @@ static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool kvmap)
->>   	}
->>   
->>   	if (kvmap)
->> -		exynos_gem->kvaddr = exynos_gem->cookie;
->> +		exynos_gem->kvaddr = (void __iomem *)exynos_gem->cookie;
-> >From a brif look at the code the correct fix looks to me to drop the
-> __iomem annotation of kvaddr.
-> And then no cast is needed.
+> Hello guys,
 >
-> Care to take a look at this?
-
-Right, besides dropping iomem annotation, I will change fbi->screen_base 
-assignment to fbi->screen_buffer. This was probably the main reason of 
-this iomem annotation.
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+> What is the status of this patch? Was this committed to any branch? Is
+> it pending for merge to the mainline? Do I have to do anything in order
+> to make it mergeable?
+>
+> On 6/19/20 10:58 AM, Andrey Lebedev wrote:
+> > From: Andrey Lebedev <andrey@lebedev.lt>
+> >
+> > Some pp or gp jobs can be successfully repeated even after they time outs.
+> > Introduce lima module parameter to specify number of times a job can hang
+> > before being dropped.
+> >
+> > Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
+> > ---
+> >
+> > Now all types are correct (uint).
+> >
+> >   drivers/gpu/drm/lima/lima_drv.c   | 4 ++++
+> >   drivers/gpu/drm/lima/lima_drv.h   | 1 +
+> >   drivers/gpu/drm/lima/lima_sched.c | 5 +++--
+> >   3 files changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+> > index a831565af813..ab460121fd52 100644
+> > --- a/drivers/gpu/drm/lima/lima_drv.c
+> > +++ b/drivers/gpu/drm/lima/lima_drv.c
+> > @@ -19,6 +19,7 @@
+> >   int lima_sched_timeout_ms;
+> >   uint lima_heap_init_nr_pages = 8;
+> >   uint lima_max_error_tasks;
+> > +uint lima_job_hang_limit;
+> >
+> >   MODULE_PARM_DESC(sched_timeout_ms, "task run timeout in ms");
+> >   module_param_named(sched_timeout_ms, lima_sched_timeout_ms, int, 0444);
+> > @@ -29,6 +30,9 @@ module_param_named(heap_init_nr_pages, lima_heap_init_nr_pages, uint, 0444);
+> >   MODULE_PARM_DESC(max_error_tasks, "max number of error tasks to save");
+> >   module_param_named(max_error_tasks, lima_max_error_tasks, uint, 0644);
+> >
+> > +MODULE_PARM_DESC(job_hang_limit, "number of times to allow a job to hang before dropping it (default 0)");
+> > +module_param_named(job_hang_limit, lima_job_hang_limit, uint, 0444);
+> > +
+> >   static int lima_ioctl_get_param(struct drm_device *dev, void *data, struct drm_file *file)
+> >   {
+> >       struct drm_lima_get_param *args = data;
+> > diff --git a/drivers/gpu/drm/lima/lima_drv.h b/drivers/gpu/drm/lima/lima_drv.h
+> > index fdbd4077c768..c738d288547b 100644
+> > --- a/drivers/gpu/drm/lima/lima_drv.h
+> > +++ b/drivers/gpu/drm/lima/lima_drv.h
+> > @@ -11,6 +11,7 @@
+> >   extern int lima_sched_timeout_ms;
+> >   extern uint lima_heap_init_nr_pages;
+> >   extern uint lima_max_error_tasks;
+> > +extern uint lima_job_hang_limit;
+> >
+> >   struct lima_vm;
+> >   struct lima_bo;
+> > diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+> > index e6cefda00279..1602985dfa04 100644
+> > --- a/drivers/gpu/drm/lima/lima_sched.c
+> > +++ b/drivers/gpu/drm/lima/lima_sched.c
+> > @@ -503,8 +503,9 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
+> >
+> >       INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
+> >
+> > -     return drm_sched_init(&pipe->base, &lima_sched_ops, 1, 0,
+> > -                           msecs_to_jiffies(timeout), name);
+> > +     return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
+> > +                           lima_job_hang_limit, msecs_to_jiffies(timeout),
+> > +                           name);
+> >   }
+> >
+> >   void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
+> >
+>
+> --
+> Andrey Lebedev aka -.- . -.. -.. . .-.
+> Software engineer
+> Homepage: http://lebedev.lt/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
