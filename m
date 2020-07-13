@@ -1,39 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1EA21DB22
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:03:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC0A21DB35
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jul 2020 18:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDE96E1E6;
-	Mon, 13 Jul 2020 16:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5FC86E235;
+	Mon, 13 Jul 2020 16:06:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5E96E1E6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:03:45 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id B8047804F2;
- Mon, 13 Jul 2020 18:03:43 +0200 (CEST)
-Date: Mon, 13 Jul 2020 18:03:42 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- Inki Dae <inki.dae@samsung.com>
-Subject: Re: [PATCH v2] drm/exynos: gem: Fix sparse warning
-Message-ID: <20200713160342.GB1223330@ravnborg.org>
-References: <CGME20200713070718eucas1p2e717879ea21a6cc8a8945d1b0b766b6c@eucas1p2.samsung.com>
- <20200713070708.30828-1-m.szyprowski@samsung.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9FE6E235
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 16:06:25 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id b6so17122645wrs.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 09:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5Rz3k8xfkL0FMNwHmJJTUxCZdJf58RRiYrG6rM5Yiek=;
+ b=KKAGfH6p/LWgpuJCAIOkZHA1vspGCZMrnWxjJJTuab88ZnDyZ7m/uIL23A+/Nt00Gx
+ +hb5xlS1YNrLtW+xyjepv+tuG7AWfEWDgCXbnfwFxtEicywKoJZVO5m5gT3niJMoRLmC
+ p01iK/cfScpMyBckAqE8UovUlvP+6hTLXVrNk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=5Rz3k8xfkL0FMNwHmJJTUxCZdJf58RRiYrG6rM5Yiek=;
+ b=NoDQLNXOOanVZCFDZGAwue9zWB5kEMPTq1VQSVa1e/46tt1nAB11zIhNLoIjaVd1iz
+ m+yraQwdVrQe/vuksiR2A2YMIoLz/p2XDe3kIQULYSKn4iLAEqpIshiAjfO3BYLuivwJ
+ 0GmUBRTDi/8nwTFXRZ/gX5RQTk5ntROacm234nUQJsBSJ3pBm497BIdy0t1uicDRNOvt
+ IbYjEO9lVzo6syX0F4KL4Qj1dW586lTWNeggn1+uqvKX1cQnMdE9EC9n9tps+CuINx0P
+ 9FOPndDMumhebsvKNwJWg/Hrp7SE3YWzf66Aq9jJ/EEu4yu4BwmJuA17cVVi38VQpT7g
+ xIuA==
+X-Gm-Message-State: AOAM532hBF1akxqG1SJKrpX4ZmZF57bh+CJMyzAa4wF6gfyida3J/ei6
+ svWcuae2uF80+rB5KNCXN6Kc8w==
+X-Google-Smtp-Source: ABdhPJzUPIXjT4HRFL9Ye+YC11COAKOTD5o0UW7SkSLGgcRUoA8itDDxp9cysn17q2KFM2dgvtZ2lQ==
+X-Received: by 2002:adf:ed4f:: with SMTP id u15mr55226wro.318.1594656384637;
+ Mon, 13 Jul 2020 09:06:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x1sm23724641wrp.10.2020.07.13.09.06.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 09:06:23 -0700 (PDT)
+Date: Mon, 13 Jul 2020 18:06:21 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Melissa Wen <melissa.srw@gmail.com>
+Subject: Re: [PATCH] drm/vkms: add wait_for_vblanks in atomic_commit_tail
+Message-ID: <20200713160621.GQ3278063@phenom.ffwll.local>
+Mail-Followup-To: Melissa Wen <melissa.srw@gmail.com>,
+ Sidong Yang <realwakka@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20200701153134.4187-1-realwakka@gmail.com>
+ <20200702131355.GX3278063@phenom.ffwll.local>
+ <20200710170533.xn2ar2cpekom6i2n@smtp.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200713070708.30828-1-m.szyprowski@samsung.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=hD80L64hAAAA:8
- a=e5mUnYsNAAAA:8 a=ZMP1pjZxzPjGEdM3V3EA:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200710170533.xn2ar2cpekom6i2n@smtp.gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,67 +74,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sidong Yang <realwakka@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 13, 2020 at 09:07:08AM +0200, Marek Szyprowski wrote:
-> kvaddr element of the exynos_gem object points to a memory buffer, thus
-> it should not have a __iomem annotation. Then, to avoid a warning or
-> casting on assignment to fbi structure, the screen_buffer element of the
-> union should be used instead of the screen_base.
+On Fri, Jul 10, 2020 at 02:05:33PM -0300, Melissa Wen wrote:
+> On 07/02, Daniel Vetter wrote:
+> > On Wed, Jul 01, 2020 at 03:31:34PM +0000, Sidong Yang wrote:
+> > > there is an error when igt test is run continuously. vkms_atomic_commit_tail()
+> > > need to call drm_atomic_helper_wait_for_vblanks() for give up ownership of
+> > > vblank events. without this code, next atomic commit will not enable vblank
+> > > and raise timeout error.
+> > > 
+> > > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > index 1e8b2169d834..10b9be67a068 100644
+> > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > @@ -93,6 +93,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+> > >  		flush_work(&vkms_state->composer_work);
+> > >  	}
+> > >  
+> > > +	drm_atomic_helper_wait_for_vblanks(dev, old_state);
+> > 
+> > Uh, we have a wait_for_flip_done right above, which should be doing
+> > exactly the same, but more precisely: Instead of just waiting for any
+> > vblank to happen, we wait for exactly the vblank corresponding to this
+> > atomic commit. So no races possible. If this is papering over some issue,
+> > then I think more debugging is needed.
+> > 
+> > What exactly is going wrong here for you?
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-I expect one of the exynos maintianers (Inki?) to pick it up.
-
-	Sam
-
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 2 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.h   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> Hi Daniel and Sidong,
 > 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> index 56a2b47e1af7..5147f5929be7 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -92,7 +92,7 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper *helper,
->  	offset = fbi->var.xoffset * fb->format->cpp[0];
->  	offset += fbi->var.yoffset * fb->pitches[0];
->  
-> -	fbi->screen_base = exynos_gem->kvaddr + offset;
-> +	fbi->screen_buffer = exynos_gem->kvaddr + offset;
->  	fbi->screen_size = size;
->  	fbi->fix.smem_len = size;
->  
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.h b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> index 7445748288da..74e926abeff0 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.h
-> @@ -40,7 +40,7 @@ struct exynos_drm_gem {
->  	unsigned int		flags;
->  	unsigned long		size;
->  	void			*cookie;
-> -	void __iomem		*kvaddr;
-> +	void			*kvaddr;
->  	dma_addr_t		dma_addr;
->  	unsigned long		dma_attrs;
->  	struct sg_table		*sgt;
-> -- 
-> 2.17.1
+> I noticed a similar issue when running the IGT test kms_cursor_crc. For
+> example, a subtest that passes on the first run (alpha-opaque) fails on
+> the second due to a kind of busy waiting in subtest preparation (the
+> subtest fails before actually running).
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> In addition, in the same test, the dpms subtest started to fail since
+> the commit that change from wait_for_vblanks to wait_for_flip_done. By
+> reverting this commit, the dpms subtest passes again and the sequential
+> subtests return to normal.
+> 
+> I am trying to figure out what's missing from using flip_done op on
+> vkms, since I am also interested in solving this problem and I
+> understand that the change for flip_done has been discussed in the past.
+> 
+> Do you have any idea?
+
+Uh, not at all. This is indeed rather surprising ...
+
+What exactly is the failure mode when running a test the 2nd time? Full
+igt logs might give me an idea. But yeah this is kinda surprising.
+
+Also happy to chat on irc for debugging ideas, that might be faster (I'm
+danvet on #dri-devel on freenode).
+-Daniel
+
+> 
+> Melissa
+> 
+> > -Daniel
+> > 
+> > > +
+> > >  	drm_atomic_helper_cleanup_planes(dev, old_state);
+> > >  }
+> > >  
+> > > -- 
+> > > 2.17.1
+> > > 
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
