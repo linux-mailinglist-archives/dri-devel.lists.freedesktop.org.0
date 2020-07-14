@@ -1,42 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE3A21E560
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:51:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B2821E53F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959BE6E878;
-	Tue, 14 Jul 2020 01:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5F06E869;
+	Tue, 14 Jul 2020 01:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A7D6E878;
- Tue, 14 Jul 2020 01:51:01 +0000 (UTC)
-IronPort-SDR: ODJT/sgzUunBfYk4LU/JiqUf5krjZnRV0WnJ/PnkCkJ3bzKpeBTZnNgsYuZikt2VAjaO9UBFAn
- hj+6hatiNlNw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="136245095"
-X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="136245095"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2020 18:51:00 -0700
-IronPort-SDR: I7G9wDHubCxKUN0A3kJ6sM9XNQGdcn/Uj0BHXgjV8wkdDrmvArUgS1CO4dj9Qrq7m6B8HS+LmU
- GdDeGdPy3xVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="307680310"
-Received: from unknown (HELO karthik-2012-Client-Platform.iind.intel.com)
- ([10.223.74.217])
- by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2020 18:50:58 -0700
-From: Karthik B S <karthik.b.s@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 5/5] drm/i915: Enable async flips in i915
-Date: Tue, 14 Jul 2020 06:57:25 +0530
-Message-Id: <20200714012725.18383-6-karthik.b.s@intel.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200714012725.18383-1-karthik.b.s@intel.com>
-References: <20200714012725.18383-1-karthik.b.s@intel.com>
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033356E869
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 01:39:15 +0000 (UTC)
+Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Mon, 13 Jul 2020 18:39:13 -0700
+Received: from [0.0.0.0] (oddjob.vmware.com [10.253.4.32])
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 0CAC540978;
+ Mon, 13 Jul 2020 18:39:13 -0700 (PDT)
+Subject: Re: [PATCH] drm/vmwgfx: Fix two list_for_each loop exit tests
+To: Dan Carpenter <dan.carpenter@oracle.com>, VMware Graphics
+ <linux-graphics-maintainer@vmware.com>
+References: <20200626103959.GC314359@mwanda>
+From: Roland Scheidegger <sroland@vmware.com>
+Message-ID: <77f0761a-11e6-e321-2245-700258d54924@vmware.com>
+Date: Tue, 14 Jul 2020 03:39:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200626103959.GC314359@mwanda>
+Content-Language: de-DE
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: sroland@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,44 +45,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, Karthik B S <karthik.b.s@intel.com>,
- dri-devel@lists.freedesktop.org, vandita.kulkarni@intel.com,
- uma.shankar@intel.com, daniel.vetter@intel.com, nicholas.kazlauskas@amd.com
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable asynchronous flips in i915 for gen9+ platforms.
+Am 26.06.20 um 12:39 schrieb Dan Carpenter:
+> These if statements are supposed to be true if we ended the
+> list_for_each_entry() loops without hitting a break statement but they
+> don't work.
+> 
+> In the first loop, we increment "i" after the "if (i == unit)" condition
+> so we don't necessarily know that "i" is not equal to unit at the end of
+> the loop.
+So, if I understand this right, this would only really be a problem if
+there's no list entries at all, right? That is i == unit == 0.
+Not sure if that can actually happen, but in any case the fix looks correct.
 
-v2: -Async flip enablement should be a stand alone patch (Paulo)
 
-v3: -Move the patch to the end of the serires (Paulo)
+> 
+> In the second loop we exit when mode is not pointing to a valid
+> drm_display_mode struct so it doesn't make sense to check "mode->type".
+Looks good to me too, condition order seems fine to me as well, though I
+wouldn't particularly care.
 
-v4: -Rebased.
+Applied to vmwgfx-next as well, thanks.
 
-Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 3 +++
- 1 file changed, 3 insertions(+)
+Roland
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index fe06db9cf38e..c9abba98ad22 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -17886,6 +17886,9 @@ static void intel_mode_config_init(struct drm_i915_private *i915)
- 
- 	mode_config->funcs = &intel_mode_funcs;
- 
-+	if (INTEL_GEN(i915) >= 9)
-+		mode_config->async_page_flip = true;
-+
- 	/*
- 	 * Maximum framebuffer dimensions, chosen to match
- 	 * the maximum render engine surface size on gen4+.
--- 
-2.22.0
+
+> 
+> Fixes: a278724aa23c ("drm/vmwgfx: Implement fbdev on kms v2")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> I reversed the second condition as well, just because I was copy and
+> pasting the exit condition.  Plus I always feel like error handling is
+> better than success handling.  If anyone feel strongly, then I can send
+> a v2.
+> 
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> index 3c97654b5a43..44168a7d7b44 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -2576,7 +2576,7 @@ int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
+>  		++i;
+>  	}
+>  
+> -	if (i != unit) {
+> +	if (&con->head == &dev_priv->dev->mode_config.connector_list) {
+>  		DRM_ERROR("Could not find initial display unit.\n");
+>  		ret = -EINVAL;
+>  		goto out_unlock;
+> @@ -2600,13 +2600,13 @@ int vmw_kms_fbdev_init_data(struct vmw_private *dev_priv,
+>  			break;
+>  	}
+>  
+> -	if (mode->type & DRM_MODE_TYPE_PREFERRED)
+> -		*p_mode = mode;
+> -	else {
+> +	if (&mode->head == &con->modes) {
+>  		WARN_ONCE(true, "Could not find initial preferred mode.\n");
+>  		*p_mode = list_first_entry(&con->modes,
+>  					   struct drm_display_mode,
+>  					   head);
+> +	} else {
+> +		*p_mode = mode;
+>  	}
+>  
+>   out_unlock:
+> 
 
 _______________________________________________
 dri-devel mailing list
