@@ -2,34 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BBF21EBF3
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 10:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B09B21EBF8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 10:58:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE7C6E0FD;
-	Tue, 14 Jul 2020 08:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C656E81F;
+	Tue, 14 Jul 2020 08:58:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B84526E0FD
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:56:27 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D864DB11F;
- Tue, 14 Jul 2020 08:56:28 +0000 (UTC)
-Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200709193016.291267-1-sam@ravnborg.org>
- <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
- <20200713162159.GR3278063@phenom.ffwll.local>
- <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
- <20200714084141.GW3278063@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
-Date: Tue, 14 Jul 2020 10:56:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E267E6E81F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:58:53 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id s10so20301008wrw.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 01:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Xq+neimvk6HZT/Q39GtRWstkNYMMYBAY0Yje4sEgb/o=;
+ b=VEo69UZb6oB/l6X5WEkHrMRDt7+pCnG1kOU0RDFn4tjSacottUkDf5TysuGbg6A5da
+ niVAWRNrytgcuBI/EToRyOePBau6silQceyMecr8YxTZYrJ8VNw/QQq2b8aLWFlN89LT
+ fARN0hBwTe7ugGPUrswWUx5MC3VHKNhMMIz3k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Xq+neimvk6HZT/Q39GtRWstkNYMMYBAY0Yje4sEgb/o=;
+ b=eDX/x6gp6In91zO74I0h0oR3aZ+RUNUOnaUgdrWlLGkftdxHqTuJeCVDqBERCANbY6
+ kum8s8oTslOa8p5ZXmtOXh3LzlC1i0+X1g2Q1cMtvsqoJar8jIVpi9zrj87b3AjCUmLJ
+ mU5VgN/trSUYCA2FoAavLj8rUsL3JwjiNb4jBLPebTavbx8njshQ68QKEKKxcxcuM4U+
+ slMc/NySc/sWXXKA/QN5AB7FHQU7GiPFbtLml+Jt9OxvIFY3PfK56nxJUaCJzzm3CKfO
+ hVFwtWPGc0rd/lk2KFMIrRQNAXSeL5BtWe0xASqkK4ARylNVxdLpUnRRR/XljY/bLviK
+ STuw==
+X-Gm-Message-State: AOAM531FsZOgFPJcuMQBysf95fkJckc3AtF4uMoxpPyHf93NbWqHQUyk
+ 1UE3AT6KpQRgzBaPUTfF8Kix7Q==
+X-Google-Smtp-Source: ABdhPJw8lYMC2gHSLTj5xV/HaZdpcbhLSpLKp16iVNCddAtDak+dkjo983BIbrAowVMQvqI9LS8/RA==
+X-Received: by 2002:a05:6000:1cf:: with SMTP id
+ t15mr4223119wrx.180.1594717132475; 
+ Tue, 14 Jul 2020 01:58:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s15sm3282618wmj.41.2020.07.14.01.58.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 01:58:51 -0700 (PDT)
+Date: Tue, 14 Jul 2020 10:58:50 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 1/1] drm/amdkfd: Add IPC API
+Message-ID: <20200714085850.GX3278063@phenom.ffwll.local>
+References: <20200714031435.13362-1-Felix.Kuehling@amd.com>
+ <20200714031435.13362-2-Felix.Kuehling@amd.com>
+ <CAPM=9tzjQGg2OMrptD6qJv0yEvY+S7mS6oXNxe21UoWk+6-Ung@mail.gmail.com>
+ <4245d340-f4f6-eeb5-40a6-3afd7754852c@amd.com>
+ <CAPM=9tz3UC8VuP=n_OAF5LnAmXSVR32LztqeEWtssnodMj70dQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200714084141.GW3278063@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tz3UC8VuP=n_OAF5LnAmXSVR32LztqeEWtssnodMj70dQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,270 +69,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: multipart/mixed; boundary="===============1995164082=="
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1995164082==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="BfWLemcF3LCGfD3X9opczAf63cnT4EjP6"
+On Tue, Jul 14, 2020 at 02:26:36PM +1000, Dave Airlie wrote:
+> On Tue, 14 Jul 2020 at 14:09, Felix Kuehling <felix.kuehling@amd.com> wrote:
+> >
+> > Am 2020-07-13 um 11:28 p.m. schrieb Dave Airlie:
+> > > On Tue, 14 Jul 2020 at 13:14, Felix Kuehling <Felix.Kuehling@amd.com> wrote:
+> > >> This allows exporting and importing buffers. The API generates handles
+> > >> that can be used with the HIP IPC API, i.e. big numbers rather than
+> > >> file descriptors.
+> > > First up why? I get the how.
+> >
+> > The "why" is compatibility with HIP code ported from CUDA. The
+> > equivalent CUDA IPC API works with handles that can be communicated
+> > through e.g. a pipe or shared memory. You can't do that with file
+> > descriptors.
+> 
+> Okay that sort of useful information should definitely be in the patch
+> description.
+> 
+> >
+> > https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g8a37f7dfafaca652391d0758b3667539
+> >
+> > https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g01050a29fefde385b1042081ada4cde9
+> >
+> > >
+> > >> + * @share_handle is a 128 bit random number generated with
+> > >> + * @get_random_bytes. This number should be very hard to guess.
+> > >> + * Knowledge of the @share_handle implies authorization to access
+> > >> + * the shared memory. User mode should treat it like a secret key.
+> > >> + * It can be used to import this BO in a different process context
+> > >> + * for IPC buffer sharing. The handle will be valid as long as the
+> > >> + * underlying BO exists. If the same BO is exported multiple times,
+> > > Do we have any examples of any APIs in the kernel that operate like
+> > > this? That don't at least layer some sort of file permissions  and
+> > > access control on top?
+> >
+> > SystemV shared memory APIs (shmget, shmat) work similarly. There are
+> > some permissions that can be specified by the exporter in shmget.
+> > However, the handles are just numbers and much easier to guess (they are
+> > 32-bit integers). The most restrictive permissions would allow only the
+> > exporting UID to attach to the shared memory segment.
+> >
+> > I think DRM flink works similarly as well, with a global name IDR used
+> > for looking up GEM objects using global object names.
+> 
+> flink is why I asked, because flink was a mistake and not one I'd care
+> to make again.
+> shm is horrible also, but at least has some permissions on what users
+> can attack it.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---BfWLemcF3LCGfD3X9opczAf63cnT4EjP6
-Content-Type: multipart/mixed; boundary="Av61Xe9YVgK7F9axO7fShRrriOoR4kzoe";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- "David S. Miller" <davem@davemloft.net>
-Message-ID: <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
-Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
-References: <20200709193016.291267-1-sam@ravnborg.org>
- <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
- <20200713162159.GR3278063@phenom.ffwll.local>
- <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
- <20200714084141.GW3278063@phenom.ffwll.local>
-In-Reply-To: <20200714084141.GW3278063@phenom.ffwll.local>
+Yeah this smells way too much like flink. I had the same reaction, and
+kinda sad that we have to do this because nvidia defines how this works
+with 0 input from anyone else. Oh well, the world sucks.
 
---Av61Xe9YVgK7F9axO7fShRrriOoR4kzoe
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> > > The reason fd's are good is that combined with unix sockets, you can't
+> > > sniff it, you can't ptrace a process and find it, you can't write it
+> > > out in a coredump and have someone access it later.
+> >
+> > Arguably ptrace and core dumps give you access to all the memory
+> > contents already. So you don't need the shared memory handle to access
+> > memory in that case.
+> 
+> core dumps might not dump this memory though, but yeah ptrace would
+> likely already mean you have access.
+> 
+> > > Maybe someone who knows security can ack merging this sort of uAPI
+> > > design, I'm not confident in what it's doing is in any ways a good
+> > > idea. I might have to ask some people to take a closer look.
+> >
+> > Please do. We have tried to make this API as secure as possible within
+> > the constraints of the user mode API we needed to implement.
+> 
+> I'll see if I hear back, but also if danvet has any input like I
+> suppose it's UUID based buffer access, so maybe 128-bit is enough and
+> you have enough entropy not to create anything insanely predictable.
 
-Hi
+So one idea that crossed my mind is if we don't want to do this as a
+generic dma-buf handle converter.
 
-Am 14.07.20 um 10:41 schrieb Daniel Vetter:
-> On Tue, Jul 14, 2020 at 08:41:58AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 13.07.20 um 18:21 schrieb Daniel Vetter:
->>> On Fri, Jul 10, 2020 at 08:28:16AM +0200, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
->>>>> Mark reported that sparc64 would panic while booting using qemu.
->>>>> Mark bisected this to a patch that introduced generic fbdev emulati=
-on to
->>>>> the bochs DRM driver.
->>>>> Mark pointed out that a similar bug was fixed before where
->>>>> the sys helpers was replaced by cfb helpers.
->>>>>
->>>>> The culprint here is that the framebuffer reside in IO memory which=
+Something like /dev/dri/cuda_is_nasty (maybe slightly nicer name) which
+provides a generic dma-buf <-> cuda uuid converter. With separate access
+restrictions, so admins can decide whether they want to allow this
+silliness, or not. Anyone else who wants to reimplement cuda will need
+this too, so that's another reason for splitting this out.
 
->>>>> requires SPARC ASI_PHYS (physical) loads and stores.
->>>>>
->>>>> The current bohcs DRM driver uses a shadow buffer.
->>>>> So all copying to the framebuffer happens in
->>>>> drm_fb_helper_dirty_blit_real().
->>>>>
->>>>> The fix is to replace the memcpy with memcpy_toio() from io.h.
->>>>>
->>>>> memcpy_toio() uses writeb() where the original fbdev code
->>>>> used sbus_memcpy_toio(). The latter uses sbus_writeb().
->>>>>
->>>>> The difference between writeb() and sbus_memcpy_toio() is
->>>>> that writeb() writes bytes in little-endian, where sbus_writeb() wr=
-ites
->>>>> bytes in big-endian. As endian does not matter for byte writes they=
- are
->>>>> the same. So we can safely use memcpy_toio() here.
->>>>>
->>>>> For many architectures memcpy_toio() is a simple memcpy().
->>>>> One sideeffect that is unknow is if this has any impact on other
->>>>> architectures.
->>>>> So far the analysis tells that this change is OK for other arch's.
->>>>> but testing would be good.
->>>>>
->>>>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
->>>>> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
->>>>> Cc: "David S. Miller" <davem@davemloft.net>
->>>>> Cc: sparclinux@vger.kernel.org
->>>>
->>>> So this actually is a problem in practice. Do you know how userspace=
+Wrt security: I think assuming that there's none and the lookup has a
+side-channel you can use to efficiently scan the entire range is probably
+the safe approach here. This is way out of my league, but I think people
+who know how to do this won't have a much harder time scanning this than
+the flink space.
 
->>>> handles this?
->>>>
->>>> For this patch
->>>>
->>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>
->>>> but I'd like to have someone with more architecture expertise ack th=
-is
->>>> as well.
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> ---
->>>>>  drivers/gpu/drm/drm_fb_helper.c | 2 +-
->>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_=
-fb_helper.c
->>>>> index 5609e164805f..4d05b0ab1592 100644
->>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>>> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struc=
-t drm_fb_helper *fb_helper,
->>>>>  	unsigned int y;
->>>>> =20
->>>>>  	for (y =3D clip->y1; y < clip->y2; y++) {
->>>>> -		memcpy(dst, src, len);
->>>>> +		memcpy_toio(dst, src, len);
->>>
->>> I don't think we can do this unconditionally, there's fbdev-helper dr=
-ivers
->>> using shmem helpers, and for shmem memcpy_toio is wrong. We need a sw=
-itch
->>> to fix this properly I think.
->>
->> I once has a patch set for this problem, but it didn't make it. [1]
->>
->> Buffers can move between I/O and system memory, so a simple flag would=
+Also, if we have one common uuid->dma-buf converter, we might actually
+have a chance to proof the "it's not secure" assumption wrong. Also, we
+might be able to tie this into cgroups or namespaces or similar that way.
 
->> not work. I'd propose this
->>
->> bool drm_gem_is_iomem(struct drm_gem_object *obj)
->> {
->> 	if (obj->funcs && obj->funcs->is_iomem)
->> 		return obj->funcs->is_iomem(obj);
->> 	return false;
->> }
->>
->> Most GEM implmentations wouldn't bother, but VRAM helpers could set th=
-e
->> is_iomem function and return the current state. Fbdev helpers can then=
+Just some thoughts to give my initial "eek, why this" reaction a bit more
+substance :-) No idea whether this would work or make more sense.
 
->> pick the correct memcpy_*() function.
->=20
-> Hm wasn't the (long term at least) idea to add the is_iomem flag to the=
-
-> vmap functions? is_iomem is kinda only well-defined if there's a vmap o=
-f
-> the buffer around (which also pins it), or in general when the buffer i=
-s
-> pinned. Outside of that an ->is_iomem function doesn't make much sense.=
-
-
-Oh. From how I understood the original discussion, you shoot down the
-idea because sparse would not support it well?
-
-The other idea was to add an additional vmap_iomem() helper that returns
-an__iomem pointer. Can we try that?
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->> [1]
->> https://lore.kernel.org/dri-devel/20191106093121.21762-1-tzimmermann@s=
-use.de/
->>
->>>
->>> What Dave Airlie mentioned is just about memcpy_toio vs the sparc bus=
-
->>> version, for which we don't have any drivers really. But I do think w=
-e
->>> need to differentiate between memcpy and memcpy_tio. That's what this=
-
->>> entire annoying _cfb_ vs _sys_ business is all about, and also what g=
-em
->>> vram helpers have to deal with.
->>> -Daniel
->>>
->>>>>  		src +=3D fb->pitches[0];
->>>>>  		dst +=3D fb->pitches[0];
->>>>>  	}
->>>>>
->>>>
->>>> --=20
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>> (HRB 36809, AG N=C3=BCrnberg)
->>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>
->>>
->>>
->>>
->>>
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Av61Xe9YVgK7F9axO7fShRrriOoR4kzoe--
-
---BfWLemcF3LCGfD3X9opczAf63cnT4EjP6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8NczUUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPnFQgAie4MjlLAelXMUbdneQZnHdLpBAVP
-7tEV+NqjNeF8o2NwOO+Fj0szZz2YoihtmUXlJxxKp3oSb9Ffz7jUPTGJO0eoGrs8
-KWEqaXVCGYRBR4Jq1pHufJ3QpVZ//POw1ZBOdv8N3q5/u2BwYng8hxbInv18onn6
-0ASkPsttsbwPgw+bgr0DM97mlnKCM8qUzTJ/9KWUe6iEJFLZ1LJM2NN1JF/ukLGG
-mzQgtrJhr8cKnTIrvq+JpDyOkn0qb3fkGNasg2V4glcGo+EZTsn9HHZC20wlki4G
-7RUSo2btZtQhQMpumQHNTBvSyFaFfYsiqWdazmsc82DWebrCvd0bGFZNvA==
-=+2fY
------END PGP SIGNATURE-----
-
---BfWLemcF3LCGfD3X9opczAf63cnT4EjP6--
-
---===============1995164082==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1995164082==--
