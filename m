@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C9521EBB4
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 10:46:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BBF21EBF3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 10:56:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0FC6E3D8;
-	Tue, 14 Jul 2020 08:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE7C6E0FD;
+	Tue, 14 Jul 2020 08:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BE26E3D8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:46:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84526E0FD
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:56:27 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 48E2FABF4;
- Tue, 14 Jul 2020 08:46:22 +0000 (UTC)
-Subject: Re: KASAN: use-after-free Read in drm_gem_object_release
+ by mx2.suse.de (Postfix) with ESMTP id D864DB11F;
+ Tue, 14 Jul 2020 08:56:28 +0000 (UTC)
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200709193016.291267-1-sam@ravnborg.org>
+ <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+ <20200713162159.GR3278063@phenom.ffwll.local>
+ <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
+ <20200714084141.GW3278063@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: butt3rflyh4ck <butterflyhuangxx@gmail.com>, security@kernel.org
-References: <CAFcO6XO58pV+j9gu5Hha3JUW555EPQo6ELTvxRyQ5PWu_1gsUA@mail.gmail.com>
- <4f26b648-1595-3f9a-4236-3d1b3e7134a8@suse.de>
-Message-ID: <59a8ed6f-6052-baa3-55a8-9856a2effce9@suse.de>
-Date: Tue, 14 Jul 2020 10:46:16 +0200
+Message-ID: <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
+Date: Tue, 14 Jul 2020 10:56:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <4f26b648-1595-3f9a-4236-3d1b3e7134a8@suse.de>
+In-Reply-To: <20200714084141.GW3278063@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,220 +42,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, airlied@linux.ie, syzkaller-bugs@googlegroups.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- seanpaul@chromium.org, sam@ravnborg.org, emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============0178118085=="
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
+ sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: multipart/mixed; boundary="===============1995164082=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0178118085==
+--===============1995164082==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="RswaFX4eq05LEL3kebtkCrkKMPV1Q2KkW"
+ boundary="BfWLemcF3LCGfD3X9opczAf63cnT4EjP6"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---RswaFX4eq05LEL3kebtkCrkKMPV1Q2KkW
-Content-Type: multipart/mixed; boundary="LZW5mQhZVVY91SEh3Kk51YKuV8ajDbkRd";
+--BfWLemcF3LCGfD3X9opczAf63cnT4EjP6
+Content-Type: multipart/mixed; boundary="Av61Xe9YVgK7F9axO7fShRrriOoR4kzoe";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: butt3rflyh4ck <butterflyhuangxx@gmail.com>, security@kernel.org
-Cc: robdclark@chromium.org, airlied@linux.ie,
- syzkaller-bugs@googlegroups.com, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, seanpaul@chromium.org, sam@ravnborg.org,
- emil.velikov@collabora.com
-Message-ID: <59a8ed6f-6052-baa3-55a8-9856a2effce9@suse.de>
-Subject: Re: KASAN: use-after-free Read in drm_gem_object_release
-References: <CAFcO6XO58pV+j9gu5Hha3JUW555EPQo6ELTvxRyQ5PWu_1gsUA@mail.gmail.com>
- <4f26b648-1595-3f9a-4236-3d1b3e7134a8@suse.de>
-In-Reply-To: <4f26b648-1595-3f9a-4236-3d1b3e7134a8@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
+ sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ "David S. Miller" <davem@davemloft.net>
+Message-ID: <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+References: <20200709193016.291267-1-sam@ravnborg.org>
+ <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+ <20200713162159.GR3278063@phenom.ffwll.local>
+ <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
+ <20200714084141.GW3278063@phenom.ffwll.local>
+In-Reply-To: <20200714084141.GW3278063@phenom.ffwll.local>
 
---LZW5mQhZVVY91SEh3Kk51YKuV8ajDbkRd
+--Av61Xe9YVgK7F9axO7fShRrriOoR4kzoe
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
+Hi
 
-
-Am 14.07.20 um 09:41 schrieb Thomas Zimmermann:
-> Hi
->=20
-> Am 10.07.20 um 10:24 schrieb butt3rflyh4ck:
->> I report a bug (in linux-5.8.0-rc4) found by syzkaller.
+Am 14.07.20 um 10:41 schrieb Daniel Vetter:
+> On Tue, Jul 14, 2020 at 08:41:58AM +0200, Thomas Zimmermann wrote:
+>> Hi
 >>
->> kernel config: https://github.com/butterflyhack/syzkaller-fuzz/blob/ma=
-ster/v5.8.0-rc4.config
+>> Am 13.07.20 um 18:21 schrieb Daniel Vetter:
+>>> On Fri, Jul 10, 2020 at 08:28:16AM +0200, Thomas Zimmermann wrote:
+>>>> Hi
+>>>>
+>>>> Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
+>>>>> Mark reported that sparc64 would panic while booting using qemu.
+>>>>> Mark bisected this to a patch that introduced generic fbdev emulati=
+on to
+>>>>> the bochs DRM driver.
+>>>>> Mark pointed out that a similar bug was fixed before where
+>>>>> the sys helpers was replaced by cfb helpers.
+>>>>>
+>>>>> The culprint here is that the framebuffer reside in IO memory which=
+
+>>>>> requires SPARC ASI_PHYS (physical) loads and stores.
+>>>>>
+>>>>> The current bohcs DRM driver uses a shadow buffer.
+>>>>> So all copying to the framebuffer happens in
+>>>>> drm_fb_helper_dirty_blit_real().
+>>>>>
+>>>>> The fix is to replace the memcpy with memcpy_toio() from io.h.
+>>>>>
+>>>>> memcpy_toio() uses writeb() where the original fbdev code
+>>>>> used sbus_memcpy_toio(). The latter uses sbus_writeb().
+>>>>>
+>>>>> The difference between writeb() and sbus_memcpy_toio() is
+>>>>> that writeb() writes bytes in little-endian, where sbus_writeb() wr=
+ites
+>>>>> bytes in big-endian. As endian does not matter for byte writes they=
+ are
+>>>>> the same. So we can safely use memcpy_toio() here.
+>>>>>
+>>>>> For many architectures memcpy_toio() is a simple memcpy().
+>>>>> One sideeffect that is unknow is if this has any impact on other
+>>>>> architectures.
+>>>>> So far the analysis tells that this change is OK for other arch's.
+>>>>> but testing would be good.
+>>>>>
+>>>>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>>>>> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>>>> Cc: "David S. Miller" <davem@davemloft.net>
+>>>>> Cc: sparclinux@vger.kernel.org
+>>>>
+>>>> So this actually is a problem in practice. Do you know how userspace=
+
+>>>> handles this?
+>>>>
+>>>> For this patch
+>>>>
+>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>
+>>>> but I'd like to have someone with more architecture expertise ack th=
+is
+>>>> as well.
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>> ---
+>>>>>  drivers/gpu/drm/drm_fb_helper.c | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_=
+fb_helper.c
+>>>>> index 5609e164805f..4d05b0ab1592 100644
+>>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>>>>> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struc=
+t drm_fb_helper *fb_helper,
+>>>>>  	unsigned int y;
+>>>>> =20
+>>>>>  	for (y =3D clip->y1; y < clip->y2; y++) {
+>>>>> -		memcpy(dst, src, len);
+>>>>> +		memcpy_toio(dst, src, len);
+>>>
+>>> I don't think we can do this unconditionally, there's fbdev-helper dr=
+ivers
+>>> using shmem helpers, and for shmem memcpy_toio is wrong. We need a sw=
+itch
+>>> to fix this properly I think.
 >>
->> I test the reproducer and crash too.
+>> I once has a patch set for this problem, but it didn't make it. [1]
 >>
->> In the drm_em_vram_t() function,  ttm_bo_init() function call
->> ttm_bo_init_reserved(),
->> the ttm_bo_init_reserved() function  call ttm_bo_put(), it will free
->> gbo->bo that is struct ttm_buffer_object.
+>> Buffers can move between I/O and system memory, so a simple flag would=
+
+>> not work. I'd propose this
 >>
->> then, goto the err_drm_gem_object_release lable,
->> drm_gem_object_release() function will free gbo->bo.base, so cause use=
+>> bool drm_gem_is_iomem(struct drm_gem_object *obj)
+>> {
+>> 	if (obj->funcs && obj->funcs->is_iomem)
+>> 		return obj->funcs->is_iomem(obj);
+>> 	return false;
+>> }
+>>
+>> Most GEM implmentations wouldn't bother, but VRAM helpers could set th=
+e
+>> is_iomem function and return the current state. Fbdev helpers can then=
 
->> after free.
+>> pick the correct memcpy_*() function.
 >=20
-> Thanks for reporting. I think we recently had a patch for this problem,=
+> Hm wasn't the (long term at least) idea to add the is_iomem flag to the=
 
-> [1] but I asked for some changes. Are you in a position to test a fix?
->=20
-> Best regards
-> Thomas
->=20
->=20
-> [1]
-> https://lore.kernel.org/dri-devel/20200620062134.82961-1-jiayang5@huawe=
-i.com/
+> vmap functions? is_iomem is kinda only well-defined if there's a vmap o=
+f
+> the buffer around (which also pins it), or in general when the buffer i=
+s
+> pinned. Outside of that an ->is_iomem function doesn't make much sense.=
 
-I sent out a patchset with this patch and a few additional changes.
 
-https://lore.kernel.org/dri-devel/20200714083238.28479-1-tzimmermann@suse=
-=2Ede/T/#t
+Oh. From how I understood the original discussion, you shoot down the
+idea because sparse would not support it well?
+
+The other idea was to add an additional vmap_iomem() helper that returns
+an__iomem pointer. Can we try that?
 
 Best regards
 Thomas
 
+> -Daniel
 >=20
 >>
->> crash log:
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> BUG: KASAN: use-after-free in drm_gem_object_release+0xf7/0x120
->> drivers/gpu/drm/drm_gem.c:953
->> Read of size 8 at addr ffff888064dfd928 by task syz-executor.2/1320
+>> Best regards
+>> Thomas
 >>
->> CPU: 1 PID: 1320 Comm: syz-executor.2 Not tainted 5.8.0-rc4+ #1
->> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
->> 1.10.2-1ubuntu1 04/01/2014
->> Call Trace:
->>  __dump_stack lib/dump_stack.c:77 [inline]
->>  dump_stack+0x18f/0x20d lib/dump_stack.c:118
->>  print_address_description.constprop.0.cold+0xae/0x436 mm/kasan/report=
-=2Ec:383
->>  __kasan_report mm/kasan/report.c:513 [inline]
->>  kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
->>  drm_gem_object_release+0xf7/0x120 drivers/gpu/drm/drm_gem.c:953
->>  drm_gem_vram_init drivers/gpu/drm/drm_gem_vram_helper.c:211 [inline]
->>  drm_gem_vram_create+0x3e6/0x5e0 drivers/gpu/drm/drm_gem_vram_helper.c=
-:244
->>  drm_gem_vram_fill_create_dumb+0x17a/0x310
->> drivers/gpu/drm/drm_gem_vram_helper.c:615
->>  drm_gem_vram_driver_dumb_create+0x51/0xb0
->> drivers/gpu/drm/drm_gem_vram_helper.c:710
->>  drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:9=
-4
->>  drm_ioctl_kernel+0x220/0x2e0 drivers/gpu/drm/drm_ioctl.c:787
->>  drm_ioctl+0x4d2/0x96f drivers/gpu/drm/drm_ioctl.c:887
->>  vfs_ioctl fs/ioctl.c:48 [inline]
->>  ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
->>  __do_sys_ioctl fs/ioctl.c:762 [inline]
->>  __se_sys_ioctl fs/ioctl.c:760 [inline]
->>  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
->>  do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
->>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
->> RIP: 0033:0x467a29
->> Code: Bad RIP value.
->> RSP: 002b:00007f98f2d40c48 EFLAGS: 00000246 ORIG_RAX: 0000000000000010=
+>> [1]
+>> https://lore.kernel.org/dri-devel/20191106093121.21762-1-tzimmermann@s=
+use.de/
+>>
+>>>
+>>> What Dave Airlie mentioned is just about memcpy_toio vs the sparc bus=
 
->> RAX: ffffffffffffffda RBX: 000000000076bf00 RCX: 0000000000467a29
->> RDX: 0000000020000040 RSI: 00000000c02064b2 RDI: 0000000000000003
->> RBP: 000000000070c600 R08: 0000000000000000 R09: 0000000000000000
->> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f98f2d416bc
->> R13: 0000000000000297 R14: 0000000000702040 R15: 00000000004d2418
+>>> version, for which we don't have any drivers really. But I do think w=
+e
+>>> need to differentiate between memcpy and memcpy_tio. That's what this=
+
+>>> entire annoying _cfb_ vs _sys_ business is all about, and also what g=
+em
+>>> vram helpers have to deal with.
+>>> -Daniel
+>>>
+>>>>>  		src +=3D fb->pitches[0];
+>>>>>  		dst +=3D fb->pitches[0];
+>>>>>  	}
+>>>>>
+>>>>
+>>>> --=20
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>
+>>>
+>>>
+>>>
+>>>
+>>>> _______________________________________________
+>>>> dri-devel mailing list
+>>>> dri-devel@lists.freedesktop.org
+>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>
+>>>
 >>
->> Allocated by task 1320:
->>  save_stack+0x1b/0x40 mm/kasan/common.c:48
->>  set_track mm/kasan/common.c:56 [inline]
->>  __kasan_kmalloc.constprop.0+0xc2/0xd0 mm/kasan/common.c:494
->>  kmem_cache_alloc_trace+0x14f/0x2d0 mm/slab.c:3551
->>  kmalloc include/linux/slab.h:555 [inline]
->>  kzalloc include/linux/slab.h:669 [inline]
->>  drm_gem_vram_create+0x425/0x5e0 drivers/gpu/drm/drm_gem_vram_helper.c=
-:239
->>  drm_gem_vram_fill_create_dumb+0x17a/0x310
->> drivers/gpu/drm/drm_gem_vram_helper.c:615
->>  drm_gem_vram_driver_dumb_create+0x51/0xb0
->> drivers/gpu/drm/drm_gem_vram_helper.c:710
->>  drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:9=
-4
->>  drm_ioctl_kernel+0x220/0x2e0 drivers/gpu/drm/drm_ioctl.c:787
->>  drm_ioctl+0x4d2/0x96f drivers/gpu/drm/drm_ioctl.c:887
->>  vfs_ioctl fs/ioctl.c:48 [inline]
->>  ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
->>  __do_sys_ioctl fs/ioctl.c:762 [inline]
->>  __se_sys_ioctl fs/ioctl.c:760 [inline]
->>  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
->>  do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
->>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 >>
->> Freed by task 1320:
->>  save_stack+0x1b/0x40 mm/kasan/common.c:48
->>  set_track mm/kasan/common.c:56 [inline]
->>  kasan_set_free_info mm/kasan/common.c:316 [inline]
->>  __kasan_slab_free+0xf5/0x140 mm/kasan/common.c:455
->>  __cache_free mm/slab.c:3426 [inline]
->>  kfree+0x103/0x2c0 mm/slab.c:3757
->>  ttm_bo_release+0xae1/0x1350 drivers/gpu/drm/ttm/ttm_bo.c:632
->>  kref_put include/linux/kref.h:65 [inline]
->>  ttm_bo_put drivers/gpu/drm/ttm/ttm_bo.c:638 [inline]
->>  ttm_bo_init_reserved+0xb04/0xd00 drivers/gpu/drm/ttm/ttm_bo.c:1339
->>  ttm_bo_init+0x10e/0x330 drivers/gpu/drm/ttm/ttm_bo.c:1366
->>  drm_gem_vram_init drivers/gpu/drm/drm_gem_vram_helper.c:202 [inline]
->>  drm_gem_vram_create+0x3c1/0x5e0 drivers/gpu/drm/drm_gem_vram_helper.c=
-:244
->>  drm_gem_vram_fill_create_dumb+0x17a/0x310
->> drivers/gpu/drm/drm_gem_vram_helper.c:615
->>  drm_gem_vram_driver_dumb_create+0x51/0xb0
->> drivers/gpu/drm/drm_gem_vram_helper.c:710
->>  drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:9=
-4
->>  drm_ioctl_kernel+0x220/0x2e0 drivers/gpu/drm/drm_ioctl.c:787
->>  drm_ioctl+0x4d2/0x96f drivers/gpu/drm/drm_ioctl.c:887
->>  vfs_ioctl fs/ioctl.c:48 [inline]
->>  ksys_ioctl+0x11a/0x180 fs/ioctl.c:753
->>  __do_sys_ioctl fs/ioctl.c:762 [inline]
->>  __se_sys_ioctl fs/ioctl.c:760 [inline]
->>  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:760
->>  do_syscall_64+0x60/0xe0 arch/x86/entry/common.c:384
->>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
->>
->> The buggy address belongs to the object at ffff888064dfd800
->>  which belongs to the cache kmalloc-1k of size 1024
->> The buggy address is located 296 bytes inside of
->>  1024-byte region [ffff888064dfd800, ffff888064dfdc00)
->> The buggy address belongs to the page:
->> page:ffffea0001937f40 refcount:1 mapcount:0 mapping:0000000000000000 i=
-ndex:0x0
->> flags: 0xfffe0000000200(slab)
->> raw: 00fffe0000000200 ffffea0000f3c248 ffffea0001ad7388 ffff88806bc00c=
-40
->> raw: 0000000000000000 ffff888064dfd000 0000000100000002 00000000000000=
-00
->> page dumped because: kasan: bad access detected
->>
->> Memory state around the buggy address:
->>  ffff888064dfd800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>  ffff888064dfd880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>> ffff888064dfd900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                   ^
->>  ffff888064dfd980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>  ffff888064dfda00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>
->> Regards,
->>  butt3rflyh4ck.
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
+>=20
+>=20
+>=20
 >=20
 
 --=20
@@ -264,28 +276,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---LZW5mQhZVVY91SEh3Kk51YKuV8ajDbkRd--
+--Av61Xe9YVgK7F9axO7fShRrriOoR4kzoe--
 
---RswaFX4eq05LEL3kebtkCrkKMPV1Q2KkW
+--BfWLemcF3LCGfD3X9opczAf63cnT4EjP6
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8NcNgUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPV5wgAl1K7s0MUIrDaxPFo36icEhUgW0Pc
-uKuFA3Ouh8CPBzvChZgRhNd74qo7BuEuO847aD/oAHkFz/lPKvtGffmokuIODU7K
-SLvt17UVvjOrtTNNmwV4bVwZnfjRK4hBMhLs26zRokS185DthaJpWpfZehNWiVMO
-sJekyo4kz0+LgFQU05foqJ3EjE00BZD3aHV4fgzvuNezTXZvKmFuQ90tWDw7GppN
-zaYM2gPEigtcTADTpCnrZD2TfuGUkRkkFKL0T3UBSXPGnUpmvufVYGoKUqn2ZZAu
-+Jh4LheBCrPnTffWZQbriujUuVlLcyxPHHpLNzOmZyMakctqHs7jVYkfxQ==
-=HAiv
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8NczUUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPnFQgAie4MjlLAelXMUbdneQZnHdLpBAVP
+7tEV+NqjNeF8o2NwOO+Fj0szZz2YoihtmUXlJxxKp3oSb9Ffz7jUPTGJO0eoGrs8
+KWEqaXVCGYRBR4Jq1pHufJ3QpVZ//POw1ZBOdv8N3q5/u2BwYng8hxbInv18onn6
+0ASkPsttsbwPgw+bgr0DM97mlnKCM8qUzTJ/9KWUe6iEJFLZ1LJM2NN1JF/ukLGG
+mzQgtrJhr8cKnTIrvq+JpDyOkn0qb3fkGNasg2V4glcGo+EZTsn9HHZC20wlki4G
+7RUSo2btZtQhQMpumQHNTBvSyFaFfYsiqWdazmsc82DWebrCvd0bGFZNvA==
+=+2fY
 -----END PGP SIGNATURE-----
 
---RswaFX4eq05LEL3kebtkCrkKMPV1Q2KkW--
+--BfWLemcF3LCGfD3X9opczAf63cnT4EjP6--
 
---===============0178118085==
+--===============1995164082==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -296,4 +308,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0178118085==--
+--===============1995164082==--
