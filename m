@@ -2,56 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A0E21E4FC
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C29021E501
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11D666E85E;
-	Tue, 14 Jul 2020 01:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7410F6E198;
+	Tue, 14 Jul 2020 01:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E71646E85E
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 01:12:21 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id j19so6823214pgm.11
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 18:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5yjaTy96iRFPTsi26P18yq64D5S2151Zztu56aP2UQk=;
- b=DKREwuM1AdDK/M5PRjMceNQQ5PSr4Xfy3P/tz5j9KLqG7xpQvwFBtF6iqOKNiHJeHz
- 0LtGhspN0cAeU/1/I6hlmRFzPP+PakMNDDWkk+6neyLAw6VjOq3PKxLlGjVYFwnl71jY
- CvuZix9jHtiIZKtZpVPiMHxs6yo596oGk6UAo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5yjaTy96iRFPTsi26P18yq64D5S2151Zztu56aP2UQk=;
- b=nzmLbe4Surj1nXni82fTEdXt9KB1VMADaXx3HNjdbBYagRvwvW+Y4BT8aPAymS0AYF
- n9TzQWvGpbyYaFL+TQuv8ReBGJfUy3FbuAEmQdZ/I3+YbgF2nFQS3+TEqD9GafS/jtPC
- b8jKKBnZQB+gz596xD+rYxkgJ/XkHZLNjmUTSeyW61Q722Mici/ksR9V/5si6Y/h/3c5
- aqCpdjvWWNXaVHVPD1FqJtI8bFJ8spcFgUamwV8HS/k93g9RefWSJncy+WVR9S4ZCbjF
- YcOBOxfWaWhcNQB+rjVpOrXCXWf4EMFbF9gBP4NDkNKegAAxy3NS9Kt6Q2uyWUvUFidC
- qMSQ==
-X-Gm-Message-State: AOAM530KUJxfwes/Y2r7xd3Xrl/8C+vA67IqLuMh8RYAI3oiZ65U+01E
- ZQiJzy35IKBuqTpnjTshjTpGiQ==
-X-Google-Smtp-Source: ABdhPJzURU5w7Tj+O39sbKidAAXjNVHx+XXYlAgKEyC4g8eI7DWw01L8nI4SKvyRTPsf2//G04xEaQ==
-X-Received: by 2002:a05:6a00:14ce:: with SMTP id
- w14mr2275557pfu.121.1594689141507; 
- Mon, 13 Jul 2020 18:12:21 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
- by smtp.gmail.com with ESMTPSA id e8sm15972489pfl.125.2020.07.13.18.12.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jul 2020 18:12:20 -0700 (PDT)
-Date: Mon, 13 Jul 2020 18:12:19 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Kalyan Thota <kalyan_t@codeaurora.org>
-Subject: Re: [v1] drm/msm/dpu: add support for clk and bw scaling for display
-Message-ID: <20200714011219.GQ3191083@google.com>
-References: <1592489321-29213-1-git-send-email-kalyan_t@codeaurora.org>
+Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
+ [208.91.0.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A446E198
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 01:16:15 +0000 (UTC)
+Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Mon, 13 Jul 2020 18:16:11 -0700
+Received: from [0.0.0.0] (oddjob.vmware.com [10.253.4.32])
+ by sc9-mailhost2.vmware.com (Postfix) with ESMTP id 71081B25ED;
+ Mon, 13 Jul 2020 21:16:11 -0400 (EDT)
+Subject: Re: [PATCH] drm/vmwgfx: Use correct vmw_legacy_display_unit pointer
+To: Dan Carpenter <dan.carpenter@oracle.com>, VMware Graphics
+ <linux-graphics-maintainer@vmware.com>
+References: <20200626103437.GB314359@mwanda>
+From: Roland Scheidegger <sroland@vmware.com>
+Message-ID: <359c2028-7768-5a7b-b319-48da111d4f77@vmware.com>
+Date: Tue, 14 Jul 2020 03:16:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1592489321-29213-1-git-send-email-kalyan_t@codeaurora.org>
+In-Reply-To: <20200626103437.GB314359@mwanda>
+Content-Language: de-DE
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: sroland@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +45,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mkrishn@codeaurora.org,
- linux-arm-msm@vger.kernel.org, travitej@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, seanpaul@chromium.org, hoegsberg@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Dave Airlie <airlied@redhat.com>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 18, 2020 at 07:38:41PM +0530, Kalyan Thota wrote:
-> This change adds support to scale src clk and bandwidth as
-> per composition requirements.
-> 
-> Interconnect registration for bw has been moved to mdp
-> device node from mdss to facilitate the scaling.
-> 
-> Changes in v1:
->  - Address armv7 compilation issues with the patch (Rob)
-> 
-> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+Sorry for the delay, finally got time to look at this, seems all correct
+to me, thanks. Applied to our vmvgfx-next tree. (I do wonder how this
+somehow was supposed to work for all this time...)
 
-It seems this is an evolution of this series: https://patchwork.kernel.org/project/linux-arm-msm/list/?series=265351
+Roland
 
-Are the DT bits of the series still valid? If so please include them in the
-series, otherwise please add DT patches to allow folks to test and review,
-and get them landed in Bjorn's tree after the driver changes have landed.
+Am 26.06.20 um 12:34 schrieb Dan Carpenter:
+> The "entry" pointer is an offset from the list head and it doesn't
+> point to a valid vmw_legacy_display_unit struct.  Presumably the
+> intent was to point to the last entry.
+> 
+> Also the "i++" wasn't used so I have removed that as well.
+> 
+> Fixes: d7e1958dbe4a ("drm/vmwgfx: Support older hardware.")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> From static analysis.  Not tested.  This bug celebrated its tenth
+> birthday last month.  :)
+> 
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+> index 16dafff5cab1..009f1742bed5 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+> @@ -81,7 +81,7 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
+>  	struct vmw_legacy_display_unit *entry;
+>  	struct drm_framebuffer *fb = NULL;
+>  	struct drm_crtc *crtc = NULL;
+> -	int i = 0;
+> +	int i;
+>  
+>  	/* If there is no display topology the host just assumes
+>  	 * that the guest will set the same layout as the host.
+> @@ -92,12 +92,11 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
+>  			crtc = &entry->base.crtc;
+>  			w = max(w, crtc->x + crtc->mode.hdisplay);
+>  			h = max(h, crtc->y + crtc->mode.vdisplay);
+> -			i++;
+>  		}
+>  
+>  		if (crtc == NULL)
+>  			return 0;
+> -		fb = entry->base.crtc.primary->state->fb;
+> +		fb = crtc->primary->state->fb;
+>  
+>  		return vmw_kms_write_svga(dev_priv, w, h, fb->pitches[0],
+>  					  fb->format->cpp[0] * 8,
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
