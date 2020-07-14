@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FD621E435
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 02:02:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F9C21E43D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 02:02:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0786E846;
-	Tue, 14 Jul 2020 00:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73FE46E84F;
+	Tue, 14 Jul 2020 00:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
  [209.85.166.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B846E846
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 00:02:13 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id r12so12787130ilh.4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 17:02:13 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1BDE6E84F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 00:02:33 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id h16so12739689ilj.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jul 2020 17:02:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=CM3/1+/CCodDq+1tX+3x8EScRX+Tc9vLMTGUeIZrkys=;
- b=DKVsxOgxHZ++KUSuvqt65Kd+GRHO45p3/cLkDxm1t9VYYuJLN5tS0V+8Po4C3ykpLY
- DTvsbnzqMLjHdEMMx45Jw8y3w17D42Dh8FRoi5+BhsVlOhqexQCkF9dSsdEeE3hOLJ1Q
- BF/A7W8/FKO0YkDseYfZY/fC6nX77DoSXvgWc1ThrlKaA7B9C+O6bwAELT6nN/um/nz0
- lZAOdI+n1k+Ppwbi97s5fhDfn32agL6Hzw0c8luxJUGvJploS/VUTIAqaxtIUjZ9G0Oc
- wdxrPV2yDVMnsAjxYERcIP0rLyX5HtQAihUFV9BC5WgBdDDwUk2dPugjmeRuDyMCEfk9
- fTzA==
-X-Gm-Message-State: AOAM533ALlJRsCcvV2a6aLSdw3SRU8jX10HEPCgSz3iWHmTBwI0k7Aka
- D2/OoryrBU+6BlzBcg+f+A==
-X-Google-Smtp-Source: ABdhPJx7VwEcRKUFqmIipqOIJPBzGL+8GOgvRO8yzAQgo/fzqmEGvzVaBzIQRa8Oym9l1fkhbdErIw==
-X-Received: by 2002:a92:794f:: with SMTP id u76mr2098129ilc.215.1594684932797; 
- Mon, 13 Jul 2020 17:02:12 -0700 (PDT)
+ bh=HdkxFP6RySWIBJNgeXU3DOswKHXBO1oVzLiJk/Yo1J0=;
+ b=l8h1FK8+bBks3mnQqYgMjzHLkJRAAFEoDdP+iiPZnMMoCjdpYtKUDNjn1ltZTPwdC9
+ Ad1CT3oga7bF/87Luia9HANo2QD5X8GUexYDYXdBdUHRhr6YBx3wjGepxhT0+XYZDQE8
+ j2uUvA4gJ4tu6CNFJgPXlIMO7PeqG0Kf7r2Aq7uANO0LXRUJ8HvGF5x9ZtMVSqF3o94i
+ k8etZMEifqGHNo2LwjlZS3R3u2cN3FVHYwsv8i1n0FmuWTvewYwRcvzt7cgFHMpmWmYQ
+ BrlsmXvHPwdXaIb1q7ayEp5uRvE2ex12P0RYrg490sj9/Vkd3mseqt8VNJ+trkbkEvQh
+ sMCQ==
+X-Gm-Message-State: AOAM5302ID+g8b0XxqDIwPS0jc2GvKBfoM1iYrr27moCL/Rdl+q1Ixdm
+ J4jzsSzrEl40e5UEki1XfA==
+X-Google-Smtp-Source: ABdhPJzkMFBVjplcCCONjH2uvM40l21gPZTa/5pBmaoQH0Y0NKi5HsLtcSW8OLDgOWsaAs0rVbPE3A==
+X-Received: by 2002:a05:6e02:48b:: with SMTP id
+ b11mr2345337ils.87.1594684953219; 
+ Mon, 13 Jul 2020 17:02:33 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id k3sm8963111ils.8.2020.07.13.17.02.11
+ by smtp.gmail.com with ESMTPSA id q5sm9071188ilm.73.2020.07.13.17.02.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jul 2020 17:02:12 -0700 (PDT)
-Received: (nullmailer pid 965853 invoked by uid 1000);
- Tue, 14 Jul 2020 00:02:11 -0000
-Date: Mon, 13 Jul 2020 18:02:11 -0600
+ Mon, 13 Jul 2020 17:02:32 -0700 (PDT)
+Received: (nullmailer pid 966436 invoked by uid 1000);
+ Tue, 14 Jul 2020 00:02:31 -0000
+Date: Mon, 13 Jul 2020 18:02:31 -0600
 From: Rob Herring <robh@kernel.org>
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 7/8] dt-bindings: media: renesas, vsp1: Convert
- binding to YAML
-Message-ID: <20200714000211.GA965823@bogus>
+Subject: Re: [PATCH v2 8/8] dt-bindings: media: renesas, vsp1: Add
+ power-domains and resets
+Message-ID: <20200714000231.GA966388@bogus>
 References: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200621004734.28602-8-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621004734.28602-9-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200621004734.28602-8-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200621004734.28602-9-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,26 +69,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 21 Jun 2020 03:47:33 +0300, Laurent Pinchart wrote:
-> Convert the Renesas R-Car VSP1 text binding to YAML.
+On Sun, 21 Jun 2020 03:47:34 +0300, Laurent Pinchart wrote:
+> The power-domains and resets properties are used in all DT sources in
+> the kernel but are absent from the bindings. Document them and make them
+> mandatory.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> Changes since v1:
-> 
-> - Simplify comments on compatible strings
-> - Update MAINTAINERS
-> ---
->  .../bindings/media/renesas,vsp1.txt           | 30 -------
->  .../bindings/media/renesas,vsp1.yaml          | 83 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 84 insertions(+), 31 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vsp1.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+>  .../devicetree/bindings/media/renesas,vsp1.yaml    | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
