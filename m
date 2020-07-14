@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDCF21F44D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 16:40:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C46121F451
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 16:40:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 322BD6E989;
-	Tue, 14 Jul 2020 14:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 480A46E98D;
+	Tue, 14 Jul 2020 14:40:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16076E988;
- Tue, 14 Jul 2020 14:40:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 676B36E98B;
+ Tue, 14 Jul 2020 14:40:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2B68422519;
- Tue, 14 Jul 2020 14:40:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 930BC206F5;
+ Tue, 14 Jul 2020 14:40:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594737609;
- bh=Nq5QR3iG8Cr3ox2BQ3/zYb67ZQcxz9425Pv2U2LcgGI=;
+ s=default; t=1594737623;
+ bh=w4AlBxMKEaOC2MohMrQHWmkC3cIbr3PwOl7vPZnUk8M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SuKHWvckfy9lpjPgDd1mtyqs+XKoidp5O77wkJTEDRyQTsKeJmIuUFdCpO+WHm0m0
- Guu2U/Vf0ikN1kCb8Rc3p1cAllXBNN6XMs+HKqWecVQnAeDb28mCgBfnJjGSoF6JGh
- 2KxSZbUBi9KIs2JMOOJ/9OEixuDjfD5v7qotilp0=
+ b=auaAQY9AGDs2Vqr6mbsa++3gU2DeCfvZnvRbFfU0UYA2lWVmlzDZ2/Y8g9NCzkRtU
+ naIKzc3hFfDOsjxyJVGUYBkDcEKzD/gt9kTO8HPa83d0eM42xDv8sqSdj03os/RX+o
+ wwsg/J0LblAYh1HU8iC0CU9ui0ziFnwTc0f2ytug=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 12/12] drm/nouveau/i2c/g94-: increase
+Subject: [PATCH AUTOSEL 4.9 10/10] drm/nouveau/i2c/g94-: increase
  NV_PMGR_DP_AUXCTL_TRANSACTREQ timeout
-Date: Tue, 14 Jul 2020 10:39:54 -0400
-Message-Id: <20200714143954.4035840-12-sashal@kernel.org>
+Date: Tue, 14 Jul 2020 10:40:10 -0400
+Message-Id: <20200714144010.4035987-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200714143954.4035840-1-sashal@kernel.org>
-References: <20200714143954.4035840-1-sashal@kernel.org>
+In-Reply-To: <20200714144010.4035987-1-sashal@kernel.org>
+References: <20200714144010.4035987-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,7 +72,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c
-index c8ab1b5741a3e..db7769cb33eba 100644
+index 954f5b76bfcf7..d44965f805fe9 100644
 --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c
 +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxg94.c
 @@ -118,10 +118,10 @@ g94_i2c_aux_xfer(struct nvkm_i2c_aux *obj, bool retry,
@@ -89,7 +89,7 @@ index c8ab1b5741a3e..db7769cb33eba 100644
  			ctrl = nvkm_rd32(device, 0x00e4e4 + base);
  			udelay(1);
 diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c
-index 7ef60895f43a7..edb6148cbca04 100644
+index 61d729b82c69b..a5783f4d972e3 100644
 --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c
 +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/auxgm200.c
 @@ -118,10 +118,10 @@ gm200_i2c_aux_xfer(struct nvkm_i2c_aux *obj, bool retry,
