@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C29021E501
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED91721E557
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:50:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7410F6E198;
-	Tue, 14 Jul 2020 01:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBABC6E86D;
+	Tue, 14 Jul 2020 01:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
- [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A446E198
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 01:16:15 +0000 (UTC)
-Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
- EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
- 15.0.1156.6; Mon, 13 Jul 2020 18:16:11 -0700
-Received: from [0.0.0.0] (oddjob.vmware.com [10.253.4.32])
- by sc9-mailhost2.vmware.com (Postfix) with ESMTP id 71081B25ED;
- Mon, 13 Jul 2020 21:16:11 -0400 (EDT)
-Subject: Re: [PATCH] drm/vmwgfx: Use correct vmw_legacy_display_unit pointer
-To: Dan Carpenter <dan.carpenter@oracle.com>, VMware Graphics
- <linux-graphics-maintainer@vmware.com>
-References: <20200626103437.GB314359@mwanda>
-From: Roland Scheidegger <sroland@vmware.com>
-Message-ID: <359c2028-7768-5a7b-b319-48da111d4f77@vmware.com>
-Date: Tue, 14 Jul 2020 03:16:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.8.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317EF6E86C;
+ Tue, 14 Jul 2020 01:50:46 +0000 (UTC)
+IronPort-SDR: sRIrhL8qu+m6KkQMzmJuzStgVbQIdwTnQW0AsmuzpDecKHIkVWEI64N9BneIjaYDDA8YZ2Rox9
+ ydnPJEpa9uKQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="136245048"
+X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="136245048"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2020 18:50:45 -0700
+IronPort-SDR: fPTbQ8FvNhOJHg3Tg1KiPp7PIvLsXPQWMCVx5kSh4RhaWLXcRabZKyIj01HUrmJWCUzS7mL99l
+ t84KH8vw57Tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="307680177"
+Received: from unknown (HELO karthik-2012-Client-Platform.iind.intel.com)
+ ([10.223.74.217])
+ by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2020 18:50:42 -0700
+From: Karthik B S <karthik.b.s@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/5] Asynchronous flip implementation for i915
+Date: Tue, 14 Jul 2020 06:57:20 +0530
+Message-Id: <20200714012725.18383-1-karthik.b.s@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20200626103437.GB314359@mwanda>
-Content-Language: de-DE
-Received-SPF: None (EX13-EDG-OU-001.vmware.com: sroland@vmware.com does not
- designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,63 +47,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Dave Airlie <airlied@redhat.com>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: paulo.r.zanoni@intel.com, Karthik B S <karthik.b.s@intel.com>,
+ dri-devel@lists.freedesktop.org, vandita.kulkarni@intel.com,
+ uma.shankar@intel.com, daniel.vetter@intel.com, nicholas.kazlauskas@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for the delay, finally got time to look at this, seems all correct
-to me, thanks. Applied to our vmvgfx-next tree. (I do wonder how this
-somehow was supposed to work for all this time...)
+Without async flip support in the kernel, fullscreen apps where game
+resolution is equal to the screen resolution, must perform an extra blit
+per frame prior to flipping.
 
-Roland
+Asynchronous page flips will also boost the FPS of Mesa benchmarks.
 
-Am 26.06.20 um 12:34 schrieb Dan Carpenter:
-> The "entry" pointer is an offset from the list head and it doesn't
-> point to a valid vmw_legacy_display_unit struct.  Presumably the
-> intent was to point to the last entry.
-> 
-> Also the "i++" wasn't used so I have removed that as well.
-> 
-> Fixes: d7e1958dbe4a ("drm/vmwgfx: Support older hardware.")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> From static analysis.  Not tested.  This bug celebrated its tenth
-> birthday last month.  :)
-> 
->  drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-> index 16dafff5cab1..009f1742bed5 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-> @@ -81,7 +81,7 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
->  	struct vmw_legacy_display_unit *entry;
->  	struct drm_framebuffer *fb = NULL;
->  	struct drm_crtc *crtc = NULL;
-> -	int i = 0;
-> +	int i;
->  
->  	/* If there is no display topology the host just assumes
->  	 * that the guest will set the same layout as the host.
-> @@ -92,12 +92,11 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
->  			crtc = &entry->base.crtc;
->  			w = max(w, crtc->x + crtc->mode.hdisplay);
->  			h = max(h, crtc->y + crtc->mode.vdisplay);
-> -			i++;
->  		}
->  
->  		if (crtc == NULL)
->  			return 0;
-> -		fb = entry->base.crtc.primary->state->fb;
-> +		fb = crtc->primary->state->fb;
->  
->  		return vmw_kms_write_svga(dev_priv, w, h, fb->pitches[0],
->  					  fb->format->cpp[0] * 8,
-> 
+v2: -Few patches have been squashed and patches have been shuffled as
+     per the reviews on the previous version.
+
+v3: -Few patches have been squashed and patches have been shuffled as
+     per the reviews on the previous version.
+
+v4: -Made changes to fix the sequence and time stamp issue as per the
+     comments received on the previous version.
+    -Timestamps are calculated using the flip done time stamp and current
+     timestamp. Here I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP flag is used
+     for timestamp calculations.
+    -Event is sent from the interrupt handler immediately using this
+     updated timestamps and sequence.
+    -Added more state checks as async flip should only allow change in plane
+     surface address and nothing else should be allowed to change.
+    -Added a separate plane hook for async flip.
+    -Need to find a way to reject fbc enabling if it comes as part of this
+     flip as bspec states that changes to FBC are not allowed.
+
+Karthik B S (5):
+  drm/i915: Add enable/disable flip done and flip done handler
+  drm/i915: Add support for async flips in I915
+  drm/i915: Add checks specific to async flips
+  drm/i915: Do not call drm_crtc_arm_vblank_event in async flips
+  drm/i915: Enable async flips in i915
+
+ drivers/gpu/drm/i915/display/intel_display.c | 122 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_sprite.c  |  33 ++++-
+ drivers/gpu/drm/i915/i915_irq.c              |  83 +++++++++++--
+ drivers/gpu/drm/i915/i915_irq.h              |   2 +
+ drivers/gpu/drm/i915/i915_reg.h              |   5 +-
+ 5 files changed, 236 insertions(+), 9 deletions(-)
+
+-- 
+2.22.0
 
 _______________________________________________
 dri-devel mailing list
