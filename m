@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A477421FF15
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 22:59:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F5521FF0F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 22:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7039D6E9B0;
-	Tue, 14 Jul 2020 20:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8B06E9A7;
+	Tue, 14 Jul 2020 20:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0806E92D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A798A6E88A;
  Tue, 14 Jul 2020 20:58:21 +0000 (UTC)
-IronPort-SDR: EBc4ezrEhYQ4pbOoO7U143CiySYGMmVEPEgWCys1afU+s1PxMZQ4caZeSKvG48SObzs1ZLvDSC
- x+QXNbDDknzw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="233883724"
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="233883724"
+IronPort-SDR: RGC4se/sP2aT0+cE0e50D3h9r+L5vXjyChJRe+zs1ArfPksM8vlEaQFW300tPncLmaNH1coqfj
+ Px8Bed0BxRXQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="233883726"
+X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="233883726"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2020 13:58:20 -0700
-IronPort-SDR: zwQggsTypELvXYWE5xYCdWaAon4PO4kJ3i9fG+wt82beUdNhzp9Nv49+AyjiCvXbsDy/4igJ4P
- 9VS0nKhfOtSQ==
+ 14 Jul 2020 13:58:21 -0700
+IronPort-SDR: Q7Hix19Lc4FSCjzxE3XoSFWLrg40QXYDbD8XN1KK4+ickGhbfBCymHT8/cFXWy3ieKfK0yg8Ab
+ Waq8fWL3x++A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="316504075"
+X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="316504078"
 Received: from ahanamuk-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.251.155.61])
  by orsmga008.jf.intel.com with ESMTP; 14 Jul 2020 13:58:20 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH v2 05/59] drm/kmb: Updated kmb_plane_atomic_check
-Date: Tue, 14 Jul 2020 13:56:51 -0700
-Message-Id: <1594760265-11618-6-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH v2 06/59] drm/kmb: Initial check-in for Mipi DSI
+Date: Tue, 14 Jul 2020 13:56:52 -0700
+Message-Id: <1594760265-11618-7-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,204 +52,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
  rodrigo.vivi@intel.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check if format is supported and size is within limits.
-
-v2: simplified the code as per code review
-
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
----
- drivers/gpu/drm/kmb/kmb_plane.c | 111 +++++++++++++++++++++++-----------------
- 1 file changed, 65 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 877314a..74a3573 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -21,15 +21,66 @@
- #include "kmb_plane.h"
- #include "kmb_regs.h"
- 
-+/* graphics layer ( layers 2 & 3) formats, only packed formats  are supported*/
-+static const u32 kmb_formats_g[] = {
-+	DRM_FORMAT_RGB332,
-+	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
-+	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
-+	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
-+	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
-+	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
-+};
-+
-+#define MAX_FORMAT_G	(ARRAY_SIZE(kmb_formats_g))
-+#define MAX_FORMAT_V	(ARRAY_SIZE(kmb_formats_v))
-+
-+/* video layer ( 0 & 1) formats, packed and planar formats are supported */
-+static const u32 kmb_formats_v[] = {
-+	/* packed formats */
-+	DRM_FORMAT_RGB332,
-+	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
-+	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
-+	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
-+	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
-+	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
-+	/*planar formats */
-+	DRM_FORMAT_YUV420, DRM_FORMAT_YVU420,
-+	DRM_FORMAT_YUV422, DRM_FORMAT_YVU422,
-+	DRM_FORMAT_YUV444, DRM_FORMAT_YVU444,
-+	DRM_FORMAT_NV12, DRM_FORMAT_NV21,
-+};
-+
-+static unsigned int check_pixel_format(struct drm_plane *plane, u32 format)
-+{
-+	int i;
-+
-+	for (i = 0; i < plane->format_count; i++) {
-+		if (plane->format_types[i] == format)
-+			return 0;
-+	}
-+	return -EINVAL;
-+}
-+
- static int kmb_plane_atomic_check(struct drm_plane *plane,
- 				  struct drm_plane_state *state)
- {
--/* TBD below structure will be used for implementation later
-- *	struct drm_crtc_state *crtc_state;
-- */
--	/* TBD */
--	/* Plane based checking */
-+	struct drm_framebuffer *fb;
-+	int ret;
-+
-+	fb = state->fb;
- 
-+	ret = check_pixel_format(plane, fb->format->format);
-+	if (ret)
-+		return ret;
-+
-+	if (state->crtc_w > KMB_MAX_WIDTH || state->crtc_h > KMB_MAX_HEIGHT)
-+		return -EINVAL;
- 	return 0;
- }
- 
-@@ -38,36 +89,36 @@ unsigned int set_pixel_format(u32 format)
- 	unsigned int val = 0;
- 
- 	switch (format) {
--	/*planar formats */
-+		/*planar formats */
- 	case DRM_FORMAT_YUV444:
- 		val = LCD_LAYER_FORMAT_YCBCR444PLAN | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_YVU444:
- 		val = LCD_LAYER_FORMAT_YCBCR444PLAN | LCD_LAYER_PLANAR_STORAGE
--			| LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
- 	case DRM_FORMAT_YUV422:
- 		val = LCD_LAYER_FORMAT_YCBCR422PLAN | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_YVU422:
- 		val = LCD_LAYER_FORMAT_YCBCR422PLAN | LCD_LAYER_PLANAR_STORAGE
--		       | LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
- 	case DRM_FORMAT_YUV420:
- 		val = LCD_LAYER_FORMAT_YCBCR420PLAN | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_YVU420:
- 		val = LCD_LAYER_FORMAT_YCBCR420PLAN | LCD_LAYER_PLANAR_STORAGE
--		       | LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
- 	case DRM_FORMAT_NV12:
- 		val = LCD_LAYER_FORMAT_NV12 | LCD_LAYER_PLANAR_STORAGE;
- 		break;
- 	case DRM_FORMAT_NV21:
- 		val = LCD_LAYER_FORMAT_NV12 | LCD_LAYER_PLANAR_STORAGE
--		       | LCD_LAYER_CRCB_ORDER;
-+		    | LCD_LAYER_CRCB_ORDER;
- 		break;
--	/* packed formats */
-+		/* packed formats */
- 	case DRM_FORMAT_RGB332:
- 		val = LCD_LAYER_FORMAT_RGB332;
- 		break;
-@@ -127,7 +178,7 @@ unsigned int set_bits_per_pixel(const struct drm_format_info *format)
- 	unsigned int val = 0;
- 
- 	for (i = 0; i < format->num_planes; i++)
--		bpp += 8*format->cpp[i];
-+		bpp += 8 * format->cpp[i];
- 
- 	switch (bpp) {
- 	case 8:
-@@ -171,8 +222,8 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	crtc_x = plane->state->crtc_x;
- 	crtc_y = plane->state->crtc_y;
- 
--	kmb_write(lcd, LCD_LAYERn_WIDTH(plane_id), src_w-1);
--	kmb_write(lcd, LCD_LAYERn_HEIGHT(plane_id), src_h-1);
-+	kmb_write(lcd, LCD_LAYERn_WIDTH(plane_id), src_w - 1);
-+	kmb_write(lcd, LCD_LAYERn_HEIGHT(plane_id), src_h - 1);
- 	kmb_write(lcd, LCD_LAYERn_COL_START(plane_id), crtc_x);
- 	kmb_write(lcd, LCD_LAYERn_ROW_START(plane_id), crtc_y);
- 
-@@ -295,38 +346,6 @@ static const struct drm_plane_funcs kmb_plane_funcs = {
- 	.atomic_destroy_state = kmb_destroy_plane_state,
- };
- 
--/* graphics layer ( layers 2 & 3) formats, only packed formats  are supported*/
--static const u32 kmb_formats_g[] = {
--	DRM_FORMAT_RGB332,
--	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
--	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
--	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
--	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
--	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
--	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
--	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
--	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
--};
--
--/* video layer (0 & 1) formats, packed and planar formats are supported */
--static const u32 kmb_formats_v[] = {
--	/* packed formats */
--	DRM_FORMAT_RGB332,
--	DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
--	DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
--	DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
--	DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
--	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
--	DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
--	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
--	DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
--	/*planar formats */
--	DRM_FORMAT_YUV420, DRM_FORMAT_YVU420,
--	DRM_FORMAT_YUV422, DRM_FORMAT_YVU422,
--	DRM_FORMAT_YUV444, DRM_FORMAT_YVU444,
--	DRM_FORMAT_NV12, DRM_FORMAT_NV21,
--};
--
- struct kmb_plane *kmb_plane_init(struct drm_device *drm)
- {
- 	struct kmb_drm_private *lcd = to_kmb(drm);
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QmFzaWMgZnJhbWUgd29yayBmb3IgbWlwaSBlbmNvZGVyIGFuZCBjb25uZWN0b3IuCk1vcmUgaGFy
+ZHdhcmUgc3BlY2lmaWMgZGV0YWlscyB3aWxsIGJlIGFkZGVkIGluIHRoZSBmdXR1cmUgY29tbWl0
+cy4KClNpZ25lZC1vZmYtYnk6IEFuaXRoYSBDaHJpc2FudGh1cyA8YW5pdGhhLmNocmlzYW50aHVz
+QGludGVsLmNvbT4KUmV2aWV3ZWQtYnk6IEJvYiBQYWF1d2UgPGJvYi5qLnBhYXV3ZUBpbnRlbC5j
+b20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2ttYi9NYWtlZmlsZSAgfCAgMiArLQogZHJpdmVycy9n
+cHUvZHJtL2ttYi9rbWJfZHJ2LmMgfCAgMiArCiBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2ku
+YyB8IDk0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIGRyaXZl
+cnMvZ3B1L2RybS9rbWIva21iX2RzaS5oIHwgMzggKysrKysrKysrKysrKysrKysKIDQgZmlsZXMg
+Y2hhbmdlZCwgMTM1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvZ3B1L2RybS9rbWIva21iX2RzaS5oCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2ttYi9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9rbWIvTWFrZWZpbGUKaW5kZXggYmU5ZjE5
+Yy4uODEwMmJjOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2ttYi9NYWtlZmlsZQorKysg
+Yi9kcml2ZXJzL2dwdS9kcm0va21iL01ha2VmaWxlCkBAIC0xLDIgKzEsMiBAQAota21iLWRpc3Bs
+YXkteSA6PSBrbWJfY3J0Yy5vIGttYl9kcnYubyBrbWJfcGxhbmUubwora21iLWRpc3BsYXkteSA6
+PSBrbWJfY3J0Yy5vIGttYl9kcnYubyBrbWJfcGxhbmUubyBrbWJfZHNpLm8KIG9iai0kKENPTkZJ
+R19EUk1fS01CX0RJU1BMQVkpCSs9IGttYi1kaXNwbGF5Lm8KZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9rbWIva21iX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHJ2LmMKaW5k
+ZXggMTFmOGQxZi4uYWVjOGE1YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJf
+ZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHJ2LmMKQEAgLTI1LDYgKzI1LDcg
+QEAKICNpbmNsdWRlIDxkcm0vZHJtX3Byb2JlX2hlbHBlci5oPgogI2luY2x1ZGUgImttYl9jcnRj
+LmgiCiAjaW5jbHVkZSAia21iX2Rydi5oIgorI2luY2x1ZGUgImttYl9kc2kuaCIKICNpbmNsdWRl
+ICJrbWJfcGxhbmUuaCIKICNpbmNsdWRlICJrbWJfcmVncy5oIgogCkBAIC02Myw2ICs2NCw3IEBA
+IHN0YXRpYyBpbnQga21iX2xvYWQoc3RydWN0IGRybV9kZXZpY2UgKmRybSwgdW5zaWduZWQgbG9u
+ZyBmbGFncykKIAkJZ290byBzZXR1cF9mYWlsOwogCX0KIAorCWttYl9kc2lfaW5pdChkcm0pOwog
+CXJldCA9IGRybV9pcnFfaW5zdGFsbChkcm0sIHBsYXRmb3JtX2dldF9pcnEocGRldiwgMCkpOwog
+CWlmIChyZXQgPCAwKSB7CiAJCURSTV9FUlJPUigiZmFpbGVkIHRvIGluc3RhbGwgSVJRIGhhbmRs
+ZXJcbiIpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmMgYi9kcml2
+ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuYwpuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAw
+MDAwLi42NTRmYWU4Ci0tLSAvZGV2L251bGwKKysrIGIvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJf
+ZHNpLmMKQEAgLTAsMCArMSw5NCBAQAorLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0y
+LjAtb25seQorLyoKKyAqIENvcHlyaWdodCDCqSAyMDE5LTIwMjAgSW50ZWwgQ29ycG9yYXRpb24K
+KyAqLworCisjaW5jbHVkZSA8bGludXgvZ3Bpby9jb25zdW1lci5oPgorI2luY2x1ZGUgPGxpbnV4
+L3NsYWIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4KKyNpbmNsdWRlIDxk
+cm0vZHJtX2Nvbm5lY3Rvci5oPgorI2luY2x1ZGUgPGRybS9kcm1fY3J0Yy5oPgorI2luY2x1ZGUg
+PGRybS9kcm1fY3J0Y19oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2VkaWQuaD4KKyNpbmNs
+dWRlIDxkcm0vZHJtX21pcGlfZHNpLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9wcm9iZV9oZWxwZXIu
+aD4KKyNpbmNsdWRlICJrbWJfZHJ2LmgiCisjaW5jbHVkZSAia21iX2RzaS5oIgorCitzdGF0aWMg
+ZW51bSBkcm1fbW9kZV9zdGF0dXMKK2ttYl9kc2lfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5l
+Y3RvciAqY29ubmVjdG9yLAorCQkgICBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkKK3sK
+KwlyZXR1cm4gTU9ERV9PSzsKK30KKworc3RhdGljIGludCBrbWJfZHNpX2dldF9tb2RlcyhzdHJ1
+Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQoreworCXN0cnVjdCBkcm1fZGlzcGxheV9tb2Rl
+ICptb2RlOworCXN0cnVjdCBrbWJfY29ubmVjdG9yICprbWJfY29ubmVjdG9yID0gdG9fa21iX2Nv
+bm5lY3Rvcihjb25uZWN0b3IpOworCisJbW9kZSA9IGRybV9tb2RlX2R1cGxpY2F0ZShjb25uZWN0
+b3ItPmRldiwga21iX2Nvbm5lY3Rvci0+Zml4ZWRfbW9kZSk7CisJZHJtX21vZGVfcHJvYmVkX2Fk
+ZChjb25uZWN0b3IsIG1vZGUpOworCXJldHVybiAxOworfQorCitzdGF0aWMgdm9pZCBrbWJfZHNp
+X2Nvbm5lY3Rvcl9kZXN0cm95KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCit7CisJ
+c3RydWN0IGttYl9jb25uZWN0b3IgKmttYl9jb25uZWN0b3IgPSB0b19rbWJfY29ubmVjdG9yKGNv
+bm5lY3Rvcik7CisKKwlkcm1fY29ubmVjdG9yX2NsZWFudXAoY29ubmVjdG9yKTsKKwlrZnJlZShr
+bWJfY29ubmVjdG9yKTsKK30KKworc3RhdGljIHZvaWQga21iX2RzaV9lbmNvZGVyX2Rlc3Ryb3ko
+c3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKQoreworCXN0cnVjdCBrbWJfZHNpICprbWJfZHNp
+ID0gdG9fa21iX2RzaShlbmNvZGVyKTsKKworCWRybV9lbmNvZGVyX2NsZWFudXAoZW5jb2Rlcik7
+CisJa2ZyZWUoa21iX2RzaSk7Cit9CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXJf
+ZnVuY3Mga21iX2RzaV9mdW5jcyA9IHsKKwkuZGVzdHJveSA9IGttYl9kc2lfZW5jb2Rlcl9kZXN0
+cm95LAorfTsKKworc3RhdGljIGNvbnN0IHN0cnVjdAorZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVu
+Y3Mga21iX2RzaV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzID0geworCS5nZXRfbW9kZXMgPSBrbWJf
+ZHNpX2dldF9tb2RlcywKKwkubW9kZV92YWxpZCA9IGttYl9kc2lfbW9kZV92YWxpZCwKK307CisK
+K3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9mdW5jcyBrbWJfZHNpX2Nvbm5lY3Rv
+cl9mdW5jcyA9IHsKKwkuZGVzdHJveSA9IGttYl9kc2lfY29ubmVjdG9yX2Rlc3Ryb3ksCisJLmZp
+bGxfbW9kZXMgPSBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMsCisJLmF0
+b21pY19kZXN0cm95X3N0YXRlID0gZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX2Rlc3Ryb3lf
+c3RhdGUsCisJLmF0b21pY19kdXBsaWNhdGVfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25u
+ZWN0b3JfZHVwbGljYXRlX3N0YXRlLAorfTsKKwordm9pZCBrbWJfZHNpX2luaXQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldikKK3sKKwlzdHJ1Y3Qga21iX2RzaSAqa21iX2RzaTsKKwlzdHJ1Y3QgZHJt
+X2VuY29kZXIgKmVuY29kZXI7CisJc3RydWN0IGttYl9jb25uZWN0b3IgKmttYl9jb25uZWN0b3I7
+CisJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcjsKKworCWttYl9kc2kgPSBremFsbG9j
+KHNpemVvZigqa21iX2RzaSksIEdGUF9LRVJORUwpOworCWlmICgha21iX2RzaSkKKwkJcmV0dXJu
+OworCisJa21iX2Nvbm5lY3RvciA9IGt6YWxsb2Moc2l6ZW9mKCprbWJfY29ubmVjdG9yKSwgR0ZQ
+X0tFUk5FTCk7CisJaWYgKCFrbWJfY29ubmVjdG9yKSB7CisJCWtmcmVlKGttYl9kc2kpOworCQly
+ZXR1cm47CisJfQorCisJa21iX2RzaS0+YXR0YWNoZWRfY29ubmVjdG9yID0ga21iX2Nvbm5lY3Rv
+cjsKKworCWNvbm5lY3RvciA9ICZrbWJfY29ubmVjdG9yLT5iYXNlOworCWVuY29kZXIgPSAma21i
+X2RzaS0+YmFzZTsKKwlkcm1fZW5jb2Rlcl9pbml0KGRldiwgZW5jb2RlciwgJmttYl9kc2lfZnVu
+Y3MsIERSTV9NT0RFX0VOQ09ERVJfRFNJLAorCQkJICJNSVBJLURTSSIpOworCWRybV9jb25uZWN0
+b3JfaW5pdChkZXYsIGNvbm5lY3RvciwgJmttYl9kc2lfY29ubmVjdG9yX2Z1bmNzLAorCQkJICAg
+RFJNX01PREVfQ09OTkVDVE9SX0RTSSk7CisJZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRkKGNvbm5l
+Y3RvciwgJmttYl9kc2lfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyk7Cit9CmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuaCBiL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rz
+aS5oCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAuLjlhNmIwYjcKLS0tIC9kZXYv
+bnVsbAorKysgYi9kcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuaApAQCAtMCwwICsxLDM4IEBA
+CisvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vbmx5CisgKgorICogQ29weXJp
+Z2h0IMKpIDIwMTktMjAyMCBJbnRlbCBDb3Jwb3JhdGlvbgorICovCisKKyNpZm5kZWYgX19LTUJf
+RFNJX0hfXworI2RlZmluZSBfX0tNQl9EU0lfSF9fCisKKyNpbmNsdWRlIDxkcm0vZHJtX2NydGMu
+aD4KKyNpbmNsdWRlIDxkcm0vZHJtX21pcGlfZHNpLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9tb2Rl
+cy5oPgorI2luY2x1ZGUgImttYl9kcnYuaCIKKworc3RydWN0IGttYl9jb25uZWN0b3I7CisKK3N0
+cnVjdCBrbWJfZHNpIHsKKwlzdHJ1Y3QgZHJtX2VuY29kZXIgYmFzZTsKKwlzdHJ1Y3Qga21iX2Nv
+bm5lY3RvciAqYXR0YWNoZWRfY29ubmVjdG9yOworfTsKKworc3RydWN0IGttYl9kc2lfaG9zdCB7
+CisJc3RydWN0IG1pcGlfZHNpX2hvc3QgYmFzZTsKKwlzdHJ1Y3Qga21iX2RzaSAqa21iX2RzaTsK
+K307CisKK3N0cnVjdCBrbWJfY29ubmVjdG9yIHsKKwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciBiYXNl
+OworCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpmaXhlZF9tb2RlOworfTsKKwordm9pZCBrbWJf
+ZHNpX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldik7Cit2b2lkIGttYl9wbGFuZV9kZXN0cm95
+KHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lKTsKKworI2RlZmluZSB0b19rbWJfY29ubmVjdG9yKHgp
+IGNvbnRhaW5lcl9vZih4LCBzdHJ1Y3Qga21iX2Nvbm5lY3RvciwgYmFzZSkKKyNkZWZpbmUgdG9f
+a21iX2hvc3QoeCkgY29udGFpbmVyX29mKHgsIHN0cnVjdCBrbWJfZHNpX2hvc3QsIGJhc2UpCisj
+ZGVmaW5lIHRvX2ttYl9kc2koeCkgY29udGFpbmVyX29mKHgsIHN0cnVjdCBrbWJfZHNpLCBiYXNl
+KQorCisjZW5kaWYgLyogX19LTUJfRFNJX0hfXyAqLwotLSAKMi43LjQKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
