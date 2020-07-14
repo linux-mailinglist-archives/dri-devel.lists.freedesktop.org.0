@@ -2,58 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E940921F72A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 18:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B52821F746
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 18:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF77789FA0;
-	Tue, 14 Jul 2020 16:23:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A306E8D6;
+	Tue, 14 Jul 2020 16:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C286B89FA0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 16:23:16 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id k71so1846796pje.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 09:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=X/RLsS5yfX7EXYlA8IeOjMJ1W+RyrTvf2oXuin3OWbM=;
- b=BrO4TI/cpnQPTSfx2dZA/ku0JexfDh+Ymk9Y4Gfkn9nEFd8S5ZkoULVC8X08fd4HHu
- 0T9CAfxkSarAjc+wsUE4nUvmeYSn4o6qM/3AgPVfzHKA/qTrERRtdhiyuYN+qqJG46jo
- WVVS8Wsn8uH2mlyTG3XclUgKrCe2JYcgpxh9M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=X/RLsS5yfX7EXYlA8IeOjMJ1W+RyrTvf2oXuin3OWbM=;
- b=t5/yP8NCeSwrBNW/bMuTzjGtf+bYJ/vFkEUb4IxdD8OduIhXafwRq03kL8kXCF+ejy
- YC9Vc0T3SmMIIpxWWu6paXJGGNvNkt9FtpLW34YUecixRf/O2yNgRTtBR9aawcRmJ+J6
- F42DycinEuWZr3daH6QRKReUyrMf3pg0ulltqn25pidVwHYrvjAyrYWmHv32p1Nji3GW
- 0EjZ9PPxZcGqskVoNdKFI+Qv9WGfLNFPq75C2LxX1yNrbOpuTVWUdy/5A1bL/EliYbgW
- RVy/1VORnb7WWyyx+iakYyXb4ANKTVy8Ub6wi8CCiPKB8QvBE0HVun2PVAHkxgZ1VV0w
- peaA==
-X-Gm-Message-State: AOAM533EwSnL45bJ5RnkHada3UrjRd4HZ3k12VXMtga6jBs5Ij/t3ONg
- kjzNjIzEdLjp7MzOzV1VCYzJnw==
-X-Google-Smtp-Source: ABdhPJyBUwa8eGYp1ji5QbzsXhJoqUprSybfXZ7nPR6Ps/1B7VD1ETC0gv9wRoJi5Jcx5QcoNKKylg==
-X-Received: by 2002:a17:90a:e687:: with SMTP id
- s7mr5202873pjy.21.1594743796339; 
- Tue, 14 Jul 2020 09:23:16 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
- by smtp.gmail.com with ESMTPSA id c1sm3262699pje.9.2020.07.14.09.23.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 09:23:15 -0700 (PDT)
-Date: Tue, 14 Jul 2020 09:23:14 -0700
-From: Matthias Kaehlcke <mka@chromium.org>
-To: kalyan_t@codeaurora.org
-Subject: Re: [v1] drm/msm/dpu: add support for clk and bw scaling for display
-Message-ID: <20200714162314.GR3191083@google.com>
-References: <1592489321-29213-1-git-send-email-kalyan_t@codeaurora.org>
- <20200714011219.GQ3191083@google.com>
- <38dc4bbfd754175e476252c4bc259d55@codeaurora.org>
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1606E8E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 16:26:05 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21817793-1500050 for multiple; Tue, 14 Jul 2020 17:26:01 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <38dc4bbfd754175e476252c4bc259d55@codeaurora.org>
+In-Reply-To: <20200714154102.450826-1-bas@basnieuwenhuizen.nl>
+References: <20200714154102.450826-1-bas@basnieuwenhuizen.nl>
+Subject: Re: [PATCH] dma-buf/sw_sync: Avoid recursive lock during fence signal.
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ dri-devel@lists.freedesktop.org
+Date: Tue, 14 Jul 2020 17:25:59 +0100
+Message-ID: <159474395996.28702.17306720345476579062@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,52 +39,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mkrishn@codeaurora.org,
- linux-arm-msm@vger.kernel.org, travitej@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, seanpaul@chromium.org, hoegsberg@chromium.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Gustavo Padovan <gustavo@padovan.org>, Christian König <christian.koenig@amd.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 14, 2020 at 04:39:47PM +0530, kalyan_t@codeaurora.org wrote:
-> On 2020-07-14 06:42, Matthias Kaehlcke wrote:
-> > On Thu, Jun 18, 2020 at 07:38:41PM +0530, Kalyan Thota wrote:
-> > > This change adds support to scale src clk and bandwidth as
-> > > per composition requirements.
-> > > 
-> > > Interconnect registration for bw has been moved to mdp
-> > > device node from mdss to facilitate the scaling.
-> > > 
-> > > Changes in v1:
-> > >  - Address armv7 compilation issues with the patch (Rob)
-> > > 
-> > > Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-> > 
-> > It seems this is an evolution of this series:
-> > https://patchwork.kernel.org/project/linux-arm-msm/list/?series=265351
-> > 
-> > Are the DT bits of the series still valid? If so please include them in
-> > the
-> > series, otherwise please add DT patches to allow folks to test and
-> > review,
-> > and get them landed in Bjorn's tree after the driver changes have
-> > landed.
-> 
-> Hi,
-> 
-> Yes the patch is dependent on the DT changes, should i add them with depends
-> tag in the commit text ?
-> https://patchwork.kernel.org/patch/11470785/
-> https://patchwork.kernel.org/patch/11470789/
-
-This patch doesn't really depend on the DT changes. I would suggest to
-make this a series of 3 patches, just like the original series linked
-above.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UXVvdGluZyBCYXMgTmlldXdlbmh1aXplbiAoMjAyMC0wNy0xNCAxNjo0MTowMikKPiBDYWxsdHJl
+ZToKPiAgIHRpbWVsaW5lX2ZlbmNlX3JlbGVhc2UKPiAgIGRybV9zY2hlZF9lbnRpdHlfd2FrZXVw
+Cj4gICBkbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZAo+ICAgc3luY190aW1lbGluZV9zaWduYWwKPiAg
+IHN3X3N5bmNfaW9jdGwKPiAKPiBSZWxlYXNpbmcgdGhlIHJlZmVyZW5jZSB0byB0aGUgZmVuY2Ug
+aW4gdGhlIGZlbmNlIHNpZ25hbCBjYWxsYmFjawo+IHNlZW1zIHJlYXNvbmFibGUgdG8gbWUsIHNv
+IHRoaXMgcGF0Y2ggYXZvaWRzIHRoZSBsb2NraW5nIGlzc3VlIGluCj4gc3dfc3luYy4KPiAKPiBk
+Mzg2MmU0NGRhYTcgKCJkbWEtYnVmL3N3LXN5bmM6IEZpeCBsb2NraW5nIGFyb3VuZCBzeW5jX3Rp
+bWVsaW5lIGxpc3RzIikKPiBmaXhlZCB0aGUgcmVjdXJzaXZlIGxvY2tpbmcgaXNzdWUgYnV0IGNh
+dXNlZCBhbiB1c2UtYWZ0ZXItZnJlZS4gTGF0ZXIKPiBkM2M2ZGQxZmIzMGQgKCJkbWEtYnVmL3N3
+X3N5bmM6IFN5bmNocm9uaXplIHNpZ25hbCB2cyBzeW5jcHQgZnJlZSIpCj4gZml4ZWQgdGhlIHVz
+ZS1hZnRlci1mcmVlIGJ1dCByZWludHJvZHVjZWQgdGhlIHJlY3Vyc2l2ZSBsb2NraW5nIGlzc3Vl
+Lgo+IAo+IEluIHRoaXMgYXR0ZW1wdCB3ZSBhdm9pZCB0aGUgdXNlLWFmdGVyLWZyZWUgc3RpbGwg
+YmVjYXVzZSB0aGUgcmVsZWFzZQo+IGZ1bmN0aW9uIHN0aWxsIGFsd2F5cyBsb2NrcywgYW5kIG91
+dHNpZGUgb2YgdGhlIGxvY2tpbmcgcmVnaW9uIGluIHRoZQo+IHNpZ25hbCBmdW5jdGlvbiB3ZSBo
+YXZlIHByb3Blcmx5IHJlZmNvdW50ZWQgcmVmZXJlbmNlcy4KPiAKPiBXZSBmdXJ0aGVybW9yZSBh
+bHNvIGF2b2lkIHRoZSByZWN1cml2ZSBsb2NrIGJ5IG1ha2luZyBzdXJlIHRoYXQgZWl0aGVyOgo+
+IAo+IDEpIFdlIGhhdmUgYSBwcm9wZXJseSByZWZjb3VudGVkIHJlZmVyZW5jZSwgcHJldmVudGlu
+ZyB0aGUgc2lnbmFsIGZyb20KPiAgICB0cmlnZ2VyaW5nIHRoZSByZWxlYXNlIGZ1bmN0aW9uIGlu
+c2lkZSB0aGUgbG9ja2VkIHJlZ2lvbi4KPiAyKSBUaGUgcmVmY291bnQgd2FzIGFscmVhZHkgemVy
+bywgYW5kIGhlbmNlIG5vYm9keSB3aWxsIGJlIGFibGUgdG8gdHJpZ2dlcgo+ICAgIHRoZSByZWxl
+YXNlIGZ1bmN0aW9uIGZyb20gdGhlIHNpZ25hbCBmdW5jdGlvbi4KPiAKPiBGaXhlczogZDNjNmRk
+MWZiMzBkICgiZG1hLWJ1Zi9zd19zeW5jOiBTeW5jaHJvbml6ZSBzaWduYWwgdnMgc3luY3B0IGZy
+ZWUiKQo+IENjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgo+IENjOiBD
+aHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiBDYzogR3VzdGF2byBQYWRv
+dmFuIDxndXN0YXZvQHBhZG92YW4ub3JnPgo+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgo+IFNpZ25l
+ZC1vZmYtYnk6IEJhcyBOaWV1d2VuaHVpemVuIDxiYXNAYmFzbmlldXdlbmh1aXplbi5ubD4KPiAt
+LS0KPiAgZHJpdmVycy9kbWEtYnVmL3N3X3N5bmMuYyB8IDI4ICsrKysrKysrKysrKysrKysrKysr
+LS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25z
+KC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9zd19zeW5jLmMgYi9kcml2ZXJz
+L2RtYS1idWYvc3dfc3luYy5jCj4gaW5kZXggMzQ4YjNhOTE3MGZhLi4zMGE0ODJmNzVkNTYgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL3N3X3N5bmMuYwo+ICsrKyBiL2RyaXZlcnMvZG1h
+LWJ1Zi9zd19zeW5jLmMKPiBAQCAtMTkyLDkgKzE5MiwxMiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRtYV9mZW5jZV9vcHMgdGltZWxpbmVfZmVuY2Vfb3BzID0gewo+ICBzdGF0aWMgdm9pZCBzeW5j
+X3RpbWVsaW5lX3NpZ25hbChzdHJ1Y3Qgc3luY190aW1lbGluZSAqb2JqLCB1bnNpZ25lZCBpbnQg
+aW5jKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3Qgc3luY19wdCAqcHQsICpuZXh0Owo+ICsgICAgICAg
+c3RydWN0IGxpc3RfaGVhZCByZWZfbGlzdDsKPiAgCj4gICAgICAgICB0cmFjZV9zeW5jX3RpbWVs
+aW5lKG9iaik7Cj4gIAo+ICsgICAgICAgSU5JVF9MSVNUX0hFQUQoJnJlZl9saXN0KTsKPiArCj4g
+ICAgICAgICBzcGluX2xvY2tfaXJxKCZvYmotPmxvY2spOwo+ICAKPiAgICAgICAgIG9iai0+dmFs
+dWUgKz0gaW5jOwo+IEBAIC0yMDYsMTggKzIwOSwyNyBAQCBzdGF0aWMgdm9pZCBzeW5jX3RpbWVs
+aW5lX3NpZ25hbChzdHJ1Y3Qgc3luY190aW1lbGluZSAqb2JqLCB1bnNpZ25lZCBpbnQgaW5jKQo+
+ICAgICAgICAgICAgICAgICBsaXN0X2RlbF9pbml0KCZwdC0+bGluayk7Cj4gICAgICAgICAgICAg
+ICAgIHJiX2VyYXNlKCZwdC0+bm9kZSwgJm9iai0+cHRfdHJlZSk7Cj4gIAo+IC0gICAgICAgICAg
+ICAgICAvKgo+IC0gICAgICAgICAgICAgICAgKiBBIHNpZ25hbCBjYWxsYmFjayBtYXkgcmVsZWFz
+ZSB0aGUgbGFzdCByZWZlcmVuY2UgdG8gdGhpcwo+IC0gICAgICAgICAgICAgICAgKiBmZW5jZSwg
+Y2F1c2luZyBpdCB0byBiZSBmcmVlZC4gVGhhdCBvcGVyYXRpb24gaGFzIHRvIGJlCj4gLSAgICAg
+ICAgICAgICAgICAqIGxhc3QgdG8gYXZvaWQgYSB1c2UgYWZ0ZXIgZnJlZSBpbnNpZGUgdGhpcyBs
+b29wLCBhbmQgbXVzdAo+IC0gICAgICAgICAgICAgICAgKiBiZSBhZnRlciB3ZSByZW1vdmUgdGhl
+IGZlbmNlIGZyb20gdGhlIHRpbWVsaW5lIGluIG9yZGVyIHRvCj4gLSAgICAgICAgICAgICAgICAq
+IHByZXZlbnQgZGVhZGxvY2tpbmcgb24gdGltZWxpbmUtPmxvY2sgaW5zaWRlCj4gLSAgICAgICAg
+ICAgICAgICAqIHRpbWVsaW5lX2ZlbmNlX3JlbGVhc2UoKS4KPiAtICAgICAgICAgICAgICAgICov
+Cj4gKyAgICAgICAgICAgICAgIC8qIFdlIG5lZWQgdG8gdGFrZSBhIHJlZmVyZW5jZSB0byBhdm9p
+ZCBhIHJlbGVhc2UgZHVyaW5nCj4gKyAgICAgICAgICAgICAgICAqIHNpZ25hbGxpbmcgKHdoaWNo
+IGNhbiBjYXVzZSBhIHJlY3Vyc2l2ZSBsb2NrIG9mIG9iai0+bG9jaykuCj4gKyAgICAgICAgICAg
+ICAgICAqIElmIHJlZmNvdW50IHdhcyBhbHJlYWR5IHplcm8sIGFub3RoZXIgdGhyZWFkIGlzIGFs
+cmVhZHkgdGFraW5nCj4gKyAgICAgICAgICAgICAgICAqIGNhcmUgb2YgZGVzdHJ1Y3RpbmcgdGhl
+IGZlbmNlLCBzbyB0aGUgc2lnbmFsIGNhbm5vdCByZWxlYXNlCj4gKyAgICAgICAgICAgICAgICAq
+IGl0IGFnYWluIGFuZCB3ZSBoZW5jZSB3aWxsIG5vdCBoYXZlIHRoZSByZWN1cnNpdmUgbG9jay4g
+Ki8KCi8qCiAqIEJsb2NrIGNvbW1lbnRhcnkgc3R5bGU6CiAqIGh0dHBzOi8vd3d3Lmtlcm5lbC5v
+cmcvZG9jL2h0bWwvbGF0ZXN0L3Byb2Nlc3MvY29kaW5nLXN0eWxlLmh0bWwjY29tbWVudGluZwog
+Ki8KCj4gKyAgICAgICAgICAgICAgIGlmIChkbWFfZmVuY2VfZ2V0X3JjdSgmcHQtPmJhc2UpKQo+
+ICsgICAgICAgICAgICAgICAgICAgICAgIGxpc3RfYWRkX3RhaWwoJnB0LT5saW5rLCAmcmVmX2xp
+c3QpOwoKT2suCgo+ICsKPiAgICAgICAgICAgICAgICAgZG1hX2ZlbmNlX3NpZ25hbF9sb2NrZWQo
+JnB0LT5iYXNlKTsKPiAgICAgICAgIH0KPiAgCj4gICAgICAgICBzcGluX3VubG9ja19pcnEoJm9i
+ai0+bG9jayk7Cj4gKwo+ICsgICAgICAgbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKHB0LCBuZXh0
+LCAmcmVmX2xpc3QsIGxpbmspIHsKPiArICAgICAgICAgICAgICAgLyogVGhpcyBuZWVkcyB0byBi
+ZSBjbGVhcmVkIGJlZm9yZSByZWxlYXNlLCBvdGhlcndpc2UgdGhlCj4gKyAgICAgICAgICAgICAg
+ICAqIHRpbWVsaW5lX2ZlbmNlX3JlbGVhc2UgZnVuY3Rpb24gZ2V0cyBjb25mdXNlZCBhYm91dCBh
+bHNvCj4gKyAgICAgICAgICAgICAgICAqIHJlbW92aW5nIHRoZSBmZW5jZSBmcm9tIHRoZSBwdF90
+cmVlLiAqLwo+ICsgICAgICAgICAgICAgICBsaXN0X2RlbF9pbml0KCZwdC0+bGluayk7Cj4gKwo+
+ICsgICAgICAgICAgICAgICBkbWFfZmVuY2VfcHV0KCZwdC0+YmFzZSk7Cj4gKyAgICAgICB9CgpI
+b3cgc2VyaW91cyBpcyB0aGUgcHJvYmxlbSBvZiBvbmUgZmVuY2UgY2FsbGJhY2sgZnJlZWluZyBh
+bm90aGVyIHB0PwoKRm9sbG93aW5nIHRoZSBwYXR0ZXJuIGhlcmUKCglzcGluX2xvY2soJm9iai0+
+bG9jayk7CiAgICAgICAgbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKHB0LCBuZXh0LCAmb2JqLT5w
+dF9saXN0LCBsaW5rKSB7CiAgICAgICAgICAgICAgICBpZiAoIXRpbWVsaW5lX2ZlbmNlX3NpZ25h
+bGVkKCZwdC0+YmFzZSkpCiAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwoKCQlpZiAoIWRt
+YV9mZW5jZV9nZXRfcmN1KCZwdC0+YmFzZSkpCgkJCWNvbnRpbnVlOyAvKiB0b28gbGF0ZSEgKi8K
+CiAgICAgICAgICAgICAgICByYl9lcmFzZSgmcHQtPm5vZGUsICZvYmotPnB0X3RyZWUpOwogICAg
+ICAgICAgICAgICAgbGlzdF9tb3ZlX3RhaWwoJnB0LT5saW5rLCAmcmVmX2xpc3QpOwoJfQoJc3Bp
+bl91bmxvY2soJm9iai0+bG9jayk7CgogICAgICAgIGxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShw
+dCwgbmV4dCwgJnJlZl9saXN0LCBsaW5rKSB7CgkJbGlzdF9kZWxfaW5pdCgmcHQtPmxpbmspOwoJ
+CWRtYV9mZW5jZV9zaWduYWwoJnB0LT5iYXNlKTsKCQlkbWFfZmVuY2VfcHV0KCZwdC0+YmFzZSk7
+Cgl9CgpNYXJnaW5hbCBleHRyYSBjb3N0IGZvciBzaWduYWxpbmcgYWxvbmcgdGhlIGRlYnVnIHN3
+X3RpbWVsaW5lIGZvciB0b3RhbApwZWFjZSBvZiBtaW5kLgotQ2hyaXMKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
