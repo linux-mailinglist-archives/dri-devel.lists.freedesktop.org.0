@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5A921E55F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE3A21E560
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 03:51:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE3E6E877;
-	Tue, 14 Jul 2020 01:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 959BE6E878;
+	Tue, 14 Jul 2020 01:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4B56E876;
- Tue, 14 Jul 2020 01:50:58 +0000 (UTC)
-IronPort-SDR: 02gHXYgNc0zlhclh0cnwb3tkxT4iWycWUlbxwzjzJNJtXDUq2dN9g5Bziw/Zkc2JhFWV0HMRuz
- lBN12BZTaGpw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="136245085"
-X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="136245085"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A7D6E878;
+ Tue, 14 Jul 2020 01:51:01 +0000 (UTC)
+IronPort-SDR: ODJT/sgzUunBfYk4LU/JiqUf5krjZnRV0WnJ/PnkCkJ3bzKpeBTZnNgsYuZikt2VAjaO9UBFAn
+ hj+6hatiNlNw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="136245095"
+X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="136245095"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2020 18:50:57 -0700
-IronPort-SDR: 1iaNDK/A8E6w8S1IL3+eUblbhoVrA8WyaaNQYA0ZdcyEfWe5mL22lNdmBt+WOSjAP2NLxOkDVh
- 2IhePOwUFTXg==
+ 13 Jul 2020 18:51:00 -0700
+IronPort-SDR: I7G9wDHubCxKUN0A3kJ6sM9XNQGdcn/Uj0BHXgjV8wkdDrmvArUgS1CO4dj9Qrq7m6B8HS+LmU
+ GdDeGdPy3xVg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="307680298"
+X-IronPort-AV: E=Sophos;i="5.75,349,1589266800"; d="scan'208";a="307680310"
 Received: from unknown (HELO karthik-2012-Client-Platform.iind.intel.com)
  ([10.223.74.217])
- by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2020 18:50:55 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 13 Jul 2020 18:50:58 -0700
 From: Karthik B S <karthik.b.s@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 4/5] drm/i915: Do not call drm_crtc_arm_vblank_event in
- async flips
-Date: Tue, 14 Jul 2020 06:57:24 +0530
-Message-Id: <20200714012725.18383-5-karthik.b.s@intel.com>
+Subject: [PATCH v4 5/5] drm/i915: Enable async flips in i915
+Date: Tue, 14 Jul 2020 06:57:25 +0530
+Message-Id: <20200714012725.18383-6-karthik.b.s@intel.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200714012725.18383-1-karthik.b.s@intel.com>
 References: <20200714012725.18383-1-karthik.b.s@intel.com>
@@ -58,56 +57,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the flip done event will be sent in the flip_done_handler,
-no need to add the event to the list and delay it for later.
+Enable asynchronous flips in i915 for gen9+ platforms.
 
-v2: -Moved the async check above vblank_get as it
-     was causing issues for PSR.
+v2: -Async flip enablement should be a stand alone patch (Paulo)
 
-v3: -No need to wait for vblank to pass, as this wait was causing a
-     16ms delay once every few flips.
+v3: -Move the patch to the end of the serires (Paulo)
 
 v4: -Rebased.
 
 Signed-off-by: Karthik B S <karthik.b.s@intel.com>
 Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_sprite.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_sprite.c b/drivers/gpu/drm/i915/display/intel_sprite.c
-index 7cffdb48e6df..2f1bc8bde516 100644
---- a/drivers/gpu/drm/i915/display/intel_sprite.c
-+++ b/drivers/gpu/drm/i915/display/intel_sprite.c
-@@ -93,6 +93,9 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
- 	DEFINE_WAIT(wait);
- 	u32 psr_status;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index fe06db9cf38e..c9abba98ad22 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -17886,6 +17886,9 @@ static void intel_mode_config_init(struct drm_i915_private *i915)
  
-+	if (new_crtc_state->uapi.async_flip)
-+		goto irq_disable;
+ 	mode_config->funcs = &intel_mode_funcs;
+ 
++	if (INTEL_GEN(i915) >= 9)
++		mode_config->async_page_flip = true;
 +
- 	vblank_start = adjusted_mode->crtc_vblank_start;
- 	if (adjusted_mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		vblank_start = DIV_ROUND_UP(vblank_start, 2);
-@@ -206,7 +209,7 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
- 	 * Would be slightly nice to just grab the vblank count and arm the
- 	 * event outside of the critical section - the spinlock might spin for a
- 	 * while ... */
--	if (new_crtc_state->uapi.event) {
-+	if (new_crtc_state->uapi.event && !new_crtc_state->uapi.async_flip) {
- 		drm_WARN_ON(&dev_priv->drm,
- 			    drm_crtc_vblank_get(&crtc->base) != 0);
- 
-@@ -220,6 +223,9 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
- 
- 	local_irq_enable();
- 
-+	if (new_crtc_state->uapi.async_flip)
-+		return;
-+
- 	if (intel_vgpu_active(dev_priv))
- 		return;
- 
+ 	/*
+ 	 * Maximum framebuffer dimensions, chosen to match
+ 	 * the maximum render engine surface size on gen4+.
 -- 
 2.22.0
 
