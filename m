@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB932205A9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1642205AB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080956E43C;
-	Wed, 15 Jul 2020 06:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 747256E440;
+	Wed, 15 Jul 2020 06:59:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 590 seconds by postgrey-1.36 at gabe;
- Tue, 14 Jul 2020 09:23:01 UTC
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
- by gabe.freedesktop.org (Postfix) with ESMTP id A52BE6E0A8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 09:23:01 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.75,350,1589212800"; d="scan'208";a="96309227"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 14 Jul 2020 17:13:09 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
- by cn.fujitsu.com (Postfix) with ESMTP id D7E984CE4BD9;
- Tue, 14 Jul 2020 17:13:05 +0800 (CST)
-Received: from G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 14 Jul 2020 17:13:05 +0800
-Received: from localhost.localdomain (10.167.226.132) by
- G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.2 via Frontend Transport; Tue, 14 Jul 2020 17:13:06 +0800
-From: Gu Jinxiang <gujx@cn.fujitsu.com>
-To: <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: [drm/ttm] Memory corruption problem when ttm_tt_init() fails.
-Date: Tue, 14 Jul 2020 17:13:05 +0800
-Message-ID: <20200714091305.11255-1-gujx@cn.fujitsu.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <201501212056.ACF39099.FLVMFOHOSQtFOJ@I-love.SAKURA.ne.jp>
-References: <201501212056.ACF39099.FLVMFOHOSQtFOJ@I-love.SAKURA.ne.jp>
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4DBF6E82D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 10:27:53 +0000 (UTC)
+Received: from fsav403.sakura.ne.jp (fsav403.sakura.ne.jp [133.242.250.102])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06EARkFL000526;
+ Tue, 14 Jul 2020 19:27:46 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav403.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp);
+ Tue, 14 Jul 2020 19:27:46 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06EARkMn000520
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Tue, 14 Jul 2020 19:27:46 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH] fbdev: Detect integer underflow at "struct
+ fbcon_ops"->clear_margins.
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
+ <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
+ <CGME20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346@eucas1p1.samsung.com>
+ <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
+Date: Tue, 14 Jul 2020 19:27:46 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: D7E984CE4BD9.A81ED
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: gujx@cn.fujitsu.com
-X-Spam-Status: No
+In-Reply-To: <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,27 +55,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, George Kennedy <george.kennedy@oracle.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Jiri Slaby <jslaby@suse.com>,
+ Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2020/07/14 16:22, Bartlomiej Zolnierkiewicz wrote:
+> How does this patch relate to:
+> 
+> 	https://marc.info/?l=linux-fbdev&m=159415024816722&w=2
+> 
+> ?
+> 
+> It seems to address the same issue, I've added George and Dan to Cc:.
 
-hi
+George Kennedy's patch does not help for my case.
 
-I've encountered [BUG: unable to handle kernel NULL pointer dereference at] which has call stack like your pattern2.
-And before this happended, I got a lot of memory allocation failure warnings.
-And my kernel is 3.10.0-327.62.1.el7.x86_64.
+You can try a.out built from
 
-Since, you mentioned it may be a bug of drm/tmm. So, I checked drm/ttm for possible patch to fix this problem, but found nothing.
-Could you please tell me is there any progress of this problem that you detected.
+----------
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/fb.h>
 
-Best wished!
+int main(int argc, char *argv[])
+{
+        const int fd = open("/dev/fb0", O_ACCMODE);
+        struct fb_var_screeninfo var = { };
+        ioctl(fd, FBIOGET_VSCREENINFO, &var);
+        var.xres = var.yres = 16;
+        ioctl(fd, FBIOPUT_VSCREENINFO, &var);
+        return 0;
+}
+----------
 
-Jinxiang, Gu
+with a fault injection patch
 
+----------
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -1214,6 +1214,10 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+ 
+ 	if (new_screen_size > KMALLOC_MAX_SIZE)
+ 		return -EINVAL;
++	if (!strcmp(current->comm, "a.out")) {
++		printk(KERN_INFO "Forcing memory allocation failure.\n");
++		return -ENOMEM;
++	}
+ 	newscreen = kzalloc(new_screen_size, GFP_USER);
+ 	if (!newscreen)
+ 		return -ENOMEM;
+----------
 
+. What my patch workarounds is cases when vc_do_resize() did not update vc->vc_{cols,rows} .
+Unless vc->vc_{cols,rows} are updated by vc_do_resize() in a way that avoids integer underflow at
+
+	unsigned int rw = info->var.xres - (vc->vc_cols*cw);
+	unsigned int bh = info->var.yres - (vc->vc_rows*ch);
+
+, this crash won't go away.
+
+[   39.995757][ T2788] Forcing memory allocation failure.
+[   39.996527][ T2788] BUG: unable to handle page fault for address: ffffa9d180d7b000
+[   39.996529][ T2788] #PF: supervisor write access in kernel mode
+[   39.996530][ T2788] #PF: error_code(0x0002) - not-present page
+[   39.996531][ T2788] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 1324e4067 PTE 0
+[   39.996547][ T2788] Oops: 0002 [#1] SMP
+[   39.996550][ T2788] CPU: 2 PID: 2788 Comm: a.out Not tainted 5.8.0-rc5+ #757
+[   39.996551][ T2788] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
+[   39.996555][ T2788] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
