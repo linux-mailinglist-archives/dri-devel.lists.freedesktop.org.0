@@ -2,38 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141FB21E9C1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E227821E9C0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:13:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F43A6E914;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2689F6E8FF;
 	Tue, 14 Jul 2020 07:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1939C6E914
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 189926E8FF
  for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 07:13:19 +0000 (UTC)
 Received: from wens.tw (mirror2.csie.ntu.edu.tw [140.112.194.72])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C813C2076D;
+ by mail.kernel.org (Postfix) with ESMTPSA id C97342220F;
  Tue, 14 Jul 2020 07:13:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1594710798;
- bh=cQTMltfyROz1QWjB6Hka3WMC53cNIRPxQ4Bp5e5b6nI=;
- h=From:To:Cc:Subject:Date:From;
- b=vGQmagC7b/lFgb0wwvi+r2YvgSRdt+4SJ7PJFA6noICZoRXCtih+Cj/DIhXtvezY1
- ik/qZl2A/LJwrslTf0S2y2QJoeyrxOpCnCVCs1hASshhAfddK3GUPZz3N66XnWVNyx
- 7aOD440ik0nJHX8nKAOBTYsGIk9ZVPK0myVwy9KA=
+ bh=rDhbGvCqBc5qk7qu3M/g+nT1J2rIXk8oam06CO8RgGQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=PmNE01MnT5VBTE01AE6Q8G5DNRXf0MO1AirTJDxdPVe6c2tx7RjNv1cBhsDqYnB6I
+ y3RjjOdpaIeCu/tSL735RmrgpgggPhx72lysBMK8gG0qciY8P9XLTlgiEDVyYhp5gV
+ RNoBxHB024ZUdJELanZ212tIlW4oVmo115ncM4XE=
 Received: by wens.tw (Postfix, from userid 1000)
- id DE0825FAF3; Tue, 14 Jul 2020 15:13:13 +0800 (CST)
+ id E239A5FA8D; Tue, 14 Jul 2020 15:13:13 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 0/5] ARM: sunxi: Add support for MSI Primo73 tablet
-Date: Tue, 14 Jul 2020 15:13:00 +0800
-Message-Id: <20200714071305.18492-1-wens@kernel.org>
+Subject: [PATCH 1/5] dt-bindings: display: panel-dpi: Add bits-per-color
+ property
+Date: Tue, 14 Jul 2020 15:13:01 +0800
+Message-Id: <20200714071305.18492-2-wens@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200714071305.18492-1-wens@kernel.org>
+References: <20200714071305.18492-1-wens@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,59 +60,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-Hi everyone,
+Some LCD panels do not support 24-bit true color, or 8bits per channel
+RGB. Many low end ones only support up to 6 bits per channel natively.
 
-This series add support for MSI's Primo73 tablet. This is a 7" tablet
-based on Allwinner's A20 SoC.
+Add a device tree property to describe the native bit depth of the
+panel. This is separate from the bus width or format of the connection
+to the display output.
 
-The tablet uses some unknown LCD panel, with only serial number
-markings, and what appears to be a part number. Searching the Internet
-for said part number yielded no usable results. Hence this panel is
-described solely using the panel-dpi binding. The display timing values
-were retrieved from the hardware description file from the original
-Android system.
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+ .../devicetree/bindings/display/panel/panel-dpi.yaml          | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-A new property for the panel-dpi binding is added to describe the color
-depth of the panel, which is normally included the panel description in
-panel-simple. Otherwise this would be undefined in the panel-dpi case
-and left to encoder drivers to make up. I believe this would be separate
-from the bus format, which was added earlier and then retracted.
-
-Patches 1 and 2 add the new color depth property to the device tree
-binding and the panel-simple driver.
-
-Patch 3 adds the board compatible string to the list of boards.
-
-Patch 4 adds a pinmux option for LCD0 full 24-bit output, with
-control signals, for the A20.
-
-Patch 5 adds the device tree file for the Primo73.
-
-
-Please have a look.
-
-
-Regards
-ChenYu
-
-
-Chen-Yu Tsai (5):
-  dt-bindings: display: panel-dpi: Add bits-per-color property
-  drm/panel: simple: Set bpc from bits-per-color DT property for
-    panel-dpi
-  dt-bindings: arm: sunxi: Add compatible for MSI Primo73 tablet
-  ARM: dts: sun7i: Add LCD0 RGB888 pins
-  ARM: dts: sun7i: Add MSI Primo73 tablet
-
- .../devicetree/bindings/arm/sunxi.yaml        |   5 +
- .../bindings/display/panel/panel-dpi.yaml     |   4 +
- arch/arm/boot/dts/Makefile                    |   1 +
- arch/arm/boot/dts/sun7i-a20-primo73.dts       | 279 ++++++++++++++++++
- arch/arm/boot/dts/sun7i-a20.dtsi              |  12 +
- drivers/gpu/drm/panel/panel-simple.c          |   1 +
- 6 files changed, 302 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun7i-a20-primo73.dts
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+index 0cd74c8dab42..8eb013fb1969 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+@@ -26,6 +26,9 @@ properties:
+   height-mm: true
+   label: true
+   panel-timing: true
++  bits-per-color:
++    description:
++      Shall contain an integer describing the number of bits per color.
+   port: true
+   power-supply: true
+   reset-gpios: true
+@@ -42,6 +45,7 @@ examples:
+     panel {
+         compatible = "osddisplays,osd057T0559-34ts", "panel-dpi";
+         label = "osddisplay";
++        bits-per-color = <8>;
+         power-supply = <&vcc_supply>;
+         backlight = <&backlight>;
+ 
 -- 
 2.27.0
 
