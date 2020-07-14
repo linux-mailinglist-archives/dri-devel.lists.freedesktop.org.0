@@ -1,141 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B3D21EDAC
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 12:11:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F4D21EDC5
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 12:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A976E0D7;
-	Tue, 14 Jul 2020 10:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A556E81E;
+	Tue, 14 Jul 2020 10:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741186E0D7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 10:11:34 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id j4so20572639wrp.10
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 03:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=OqMAzxBrcdwm6YGTWbUrnUhO2V+3iZLXbZ6mNMhNbgU=;
- b=YrcDDo2hP5M68Ak8M7jsKPUTs7yD6/ADyMMgpPJg442GJRgPGP+jCxljWP3trEqyTE
- QOK/gRwpRbKojsplhpXoZipPym/tq9vaDlYDnM8AoXUuGx1MmGgAD38eAYYxbNAHn1aX
- z8h9SSiDlHidMaX1MKCyAlI/GZvt0IAKvagEo=
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73FF26E87D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 10:20:23 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id 22so4294288wmg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 03:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=y0CNQ3bqIuBxaoxawaLZ1YMRPo5nby/OJxVr7m0q4bI=;
+ b=M/TjwCPgMdKeqqRBt1Xu6V80CnP/cnPyreP8vxfWusRrg6eYWRRam1VotYANOkL1ze
+ UhScpEkP2SZtgKwUYg1v7hb9nEHEnwuUJ/oMNU+4Wp2jwQ1Jbe59UvIIwKtoONtRKh4z
+ GFCk6dmC3fChNr5MofMoSb9zuDvrM79QdANTW0gLLBC6/dmwKkaHZVQ9JfIy9Jo2awzK
+ jOHnEnG2m6+yYzmITZfw5qQo1wSHXZS92hhQY1I3rSuF7CneQAJx9y9bZH9BNICZCsWH
+ vuyJJlsvPaEZphvg2s5j6XNzy8g9ekck2q+FS8Qh5ByfgFeU4cpV7s5sLAcCA4uVhsK7
+ a/1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to;
- bh=OqMAzxBrcdwm6YGTWbUrnUhO2V+3iZLXbZ6mNMhNbgU=;
- b=Ba2tyat4u8Wvq0NQd0MmZAPRHpOz24fBhqmWb1lhs8oE+hZRTdttrX/LzFzCj2xcd1
- qbW4I+B1vTZjzbuK8ELO5rcocqhrHJp/ISc+TQVq66Hx6zyrikVS+8CkgRK+VN76uAIe
- s3ATDR3J9YqiWrN5y7Yjo9BxRBjU/RBQN8FMcM4tNtT+gjZbVkXa8oeIXKcYotso5itP
- f8RRVZgqKt1lvkrYZ6773akr2HfnCi/erixsifqnvJjNh2P5tSG/61TOd1uhGtPpcFFG
- dF/w5NqKQkPM7gp06YjdzocvxnPqqREYoizQJLYXVdKMi/2ilPgbu/QXyhR4Qy1LHVEY
- h1vw==
-X-Gm-Message-State: AOAM5338AscxfKBABFjVLXFmRkNJl1NVQ7whi9n5y2QI9ESjrcRAt9dD
- qO432KUlAsdf73W1rpdDywWhyg==
-X-Google-Smtp-Source: ABdhPJwmiWZVvfzELvtSnftev0XNz5kRmchhtWQAJnH3b79CIxD1ms2dJU5USjC+U/HesEOe1K7f7A==
-X-Received: by 2002:adf:8444:: with SMTP id 62mr4044229wrf.278.1594721493115; 
- Tue, 14 Jul 2020 03:11:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d201sm3498227wmd.34.2020.07.14.03.11.30
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=y0CNQ3bqIuBxaoxawaLZ1YMRPo5nby/OJxVr7m0q4bI=;
+ b=Z4Jkyj87gBdOsrmJIoFBPO3fySCjnaJQipcrG2h/NzXhLSQhVKdZThlkJ5WVSjeaPs
+ TttIFXAs1q4ybkF923ltbJGfHNogkeof/Y/00fioAK6CAZaOqmNhYFqnNNuhNx58LUwo
+ SKrodHJ5YbgkmW+6sUfde0EOxkwdMdaD+WOm/N/9En4pltpviITzeqRRMovpcIwch4qY
+ tQau0esD0uHgMyCOAWwwbXr8Af+s02bDLmi/rPz5no9/zXs6M0o9GhC5aas2UfBWaTlH
+ tKLHjyRRIkJWVwb2ngOjeQSINmOR0ZGp0YbczOu9swz2ucJ2JHEdErvZuiLljTcqkMsD
+ VByg==
+X-Gm-Message-State: AOAM531FoqOoZ/xn+CLjrWIcjb2XYCiQkFyc/2813ZSiQJQTUilz7zPo
+ i9SJ0hbTtmo9FU8zejSyOY4=
+X-Google-Smtp-Source: ABdhPJwmKlHdj7gf8L+/6LzXH4k/pmDkL+V5h/uK0wx2J/tSKATiyhHRA+jlUv3OIgF794UocHwNzw==
+X-Received: by 2002:a1c:9a02:: with SMTP id c2mr3860722wme.16.1594722022136;
+ Tue, 14 Jul 2020 03:20:22 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id 14sm3539549wmk.19.2020.07.14.03.20.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 03:11:32 -0700 (PDT)
-Date: Tue, 14 Jul 2020 12:11:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-mm@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- Jason Wessel <jason.wessel@windriver.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Douglas Anderson <dianders@chromium.org>,
- kgdb-bugreport@lists.sourceforge.net, Wu Hao <hao.wu@intel.com>,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Michal Marek <michal.lkml@markovi.net>, linux-kbuild@vger.kernel.org,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
- linux-leds@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org, Derek Kiernan <derek.kiernan@xilinx.com>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org,
- Tony Krowiak <akrowiak@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, linux-s390@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>,
- Hannes Reinecke <hare@suse.com>, linux-scsi@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org,
- keyrings@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- kvm@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, nd@arm.com
-Subject: Re: [PATCH 06/20] Documentation: gpu/komeda-kms: eliminate
- duplicated word
-Message-ID: <20200714101129.GB3278063@phenom.ffwll.local>
-Mail-Followup-To: "james qian wang (Arm Technology China)"
- <james.qian.wang@arm.com>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-mm@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- Jason Wessel <jason.wessel@windriver.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Douglas Anderson <dianders@chromium.org>,
- kgdb-bugreport@lists.sourceforge.net, Wu Hao <hao.wu@intel.com>,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Michal Marek <michal.lkml@markovi.net>,
- linux-kbuild@vger.kernel.org,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
- linux-leds@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org,
- Derek Kiernan <derek.kiernan@xilinx.com>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, linux-s390@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>,
- Hannes Reinecke <hare@suse.com>, linux-scsi@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org,
- keyrings@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- kvm@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- nd@arm.com
-References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-7-rdunlap@infradead.org>
- <20200708050821.GA1121718@jamwan02-TSP300>
- <20200714101005.GA3278063@phenom.ffwll.local>
+ Tue, 14 Jul 2020 03:20:21 -0700 (PDT)
+Date: Tue, 14 Jul 2020 07:20:09 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Sidong Yang <realwakka@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/vkms: add wait_for_vblanks in atomic_commit_tail
+Message-ID: <20200714102009.4qxgdq5bkpwhhhio@smtp.gmail.com>
+References: <20200701153134.4187-1-realwakka@gmail.com>
+ <20200702131355.GX3278063@phenom.ffwll.local>
+ <20200710170533.xn2ar2cpekom6i2n@smtp.gmail.com>
+ <20200713160621.GQ3278063@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200714101005.GA3278063@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200713160621.GQ3278063@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,68 +78,145 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 14, 2020 at 12:10:05PM +0200, Daniel Vetter wrote:
-> This and next patch merged to drm-misc-next, thanks.
-
-Oops strike this, I just noticed that Jon said he's picked it all up.
-
-Oh well, the confusion, I managed to stop the script before it published
-anything at least :-)
--Daniel
-
-> 
-> On Wed, Jul 08, 2020 at 01:08:21PM +0800, james qian wang (Arm Technology China) wrote:
-> > Hi Randy
-> > 
-> > On Tue, Jul 07, 2020 at 11:04:00AM -0700, Randy Dunlap wrote:
-> > > Drop the doubled word "and".
+On 07/13, Daniel Vetter wrote:
+> On Fri, Jul 10, 2020 at 02:05:33PM -0300, Melissa Wen wrote:
+> > On 07/02, Daniel Vetter wrote:
+> > > On Wed, Jul 01, 2020 at 03:31:34PM +0000, Sidong Yang wrote:
+> > > > there is an error when igt test is run continuously. vkms_atomic_commit_tail()
+> > > > need to call drm_atomic_helper_wait_for_vblanks() for give up ownership of
+> > > > vblank events. without this code, next atomic commit will not enable vblank
+> > > > and raise timeout error.
+> > > > 
+> > > > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > index 1e8b2169d834..10b9be67a068 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > @@ -93,6 +93,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+> > > >  		flush_work(&vkms_state->composer_work);
+> > > >  	}
+> > > >  
+> > > > +	drm_atomic_helper_wait_for_vblanks(dev, old_state);
 > > > 
-> > > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > Cc: linux-doc@vger.kernel.org
-> > > Cc: James (Qian) Wang <james.qian.wang@arm.com>
-> > > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-> > > Cc: Mali DP Maintainers <malidp@foss.arm.com>
-> > > ---
-> > >  Documentation/gpu/komeda-kms.rst |    2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > Uh, we have a wait_for_flip_done right above, which should be doing
+> > > exactly the same, but more precisely: Instead of just waiting for any
+> > > vblank to happen, we wait for exactly the vblank corresponding to this
+> > > atomic commit. So no races possible. If this is papering over some issue,
+> > > then I think more debugging is needed.
 > > > 
-> > > --- linux-next-20200701.orig/Documentation/gpu/komeda-kms.rst
-> > > +++ linux-next-20200701/Documentation/gpu/komeda-kms.rst
-> > > @@ -41,7 +41,7 @@ Compositor blends multiple layers or pix
-> > >  frame. its output frame can be fed into post image processor for showing it on
-> > >  the monitor or fed into wb_layer and written to memory at the same time.
-> > >  user can also insert a scaler between compositor and wb_layer to down scale
-> > > -the display frame first and and then write to memory.
-> > > +the display frame first and then write to memory.
+> > > What exactly is going wrong here for you?
 > > 
-> > Thank you for the patch.
+> > Hi Daniel and Sidong,
 > > 
-> > Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
-> 
-> James, for simple patches like this just go ahead and merge them. You're
-> the maintainer for this, just slapping an r-b onto a patch and no
-> indiciation whether you will pick it up only confuses people and increases
-> the risk that patches get lost.
-> 
-> So either pick up right away, or state clearly that you will pick it up
-> later, or that you expect someone else to merge this.
-> 
-> Thanks, Daniel
+> > I noticed a similar issue when running the IGT test kms_cursor_crc. For
+> > example, a subtest that passes on the first run (alpha-opaque) fails on
+> > the second due to a kind of busy waiting in subtest preparation (the
+> > subtest fails before actually running).
 > > 
-> > >  Writeback Layer (wb_layer)
-> > >  --------------------------
+> > In addition, in the same test, the dpms subtest started to fail since
+> > the commit that change from wait_for_vblanks to wait_for_flip_done. By
+> > reverting this commit, the dpms subtest passes again and the sequential
+> > subtests return to normal.
+> > 
+> > I am trying to figure out what's missing from using flip_done op on
+> > vkms, since I am also interested in solving this problem and I
+> > understand that the change for flip_done has been discussed in the past.
+> > 
+> > Do you have any idea?
+> 
+> Uh, not at all. This is indeed rather surprising ...
+> 
+> What exactly is the failure mode when running a test the 2nd time? Full
+> igt logs might give me an idea. But yeah this is kinda surprising.
+
+Hi Daniel,
+
+This is the IGT log of the 2nd run of kms_cursor_crc/alpha-opaque:
+
+IGT-Version: 1.25-NO-GIT (x86_64) (Linux: 5.8.0-rc2-DRM+ x86_64)
+Force option used: Using driver vkms
+Starting subtest: pipe-A-cursor-alpha-opaque
+Timed out: Opening crc fd, and poll for first CRC.
+Subtest pipe-A-cursor-alpha-opaque failed.
+**** DEBUG ****
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: Virtual-1: set_pipe(A)
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: Virtual-1: Selecting pipe A
+(kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1024, height=768, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=1, pitch=4096)
+(kms_cursor_crc:2317) igt_fb-DEBUG: Test requirement passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1024, height=768, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=2, pitch=4096)
+(kms_cursor_crc:2317) igt_fb-DEBUG: Test requirement passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_cursor_crc:2317) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_cursor_crc:2317) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: plane_set_fb(37)
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: plane_set_size (1024x768)
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: fb_set_size(1024x768)
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: commit {
+(kms_cursor_crc:2317) igt_kms-DEBUG: display:     Virtual-1: SetCrtc pipe A, fb 37, src (0, 0), mode 1024x768
+(kms_cursor_crc:2317) igt_kms-DEBUG: display:     SetCursor pipe A, disabling
+(kms_cursor_crc:2317) igt_kms-DEBUG: display:     MoveCursor pipe A, (0, 0)
+(kms_cursor_crc:2317) igt_kms-DEBUG: display: }
+(kms_cursor_crc:2317) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(kms_cursor_crc:2317) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(kms_cursor_crc:2317) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+(kms_cursor_crc:2317) igt_core-INFO: Timed out: Opening crc fd, and poll for first CRC.
+****  END  ****
+Subtest pipe-A-cursor-alpha-opaque: FAIL (10.017s)
+
+---
+
+What I found was a timeout in the poll of
+igt_debugfs/igt_pipe_crc_start() that in turn is called in the
+prepare_crc() of kms_cursor_crc.
+
+Initially, I thought it was just a matter of timing for vblank and sent
+a patch to IGT that solved the problem by calling igt_wait_for_vblank()
+before the "start" op. But then I saw that the timeout also happens in a
+similar way in the dpms subtest, which before the change to flip_done
+was succeded.
+
+I still have doubts if it is or not a matter of timing...
+
+Thanks,
+
+Melissa
+> 
+> Also happy to chat on irc for debugging ideas, that might be faster (I'm
+> danvet on #dri-devel on freenode).
+> -Daniel
+> 
+> > 
+> > Melissa
+> > 
+> > > -Daniel
+> > > 
+> > > > +
+> > > >  	drm_atomic_helper_cleanup_planes(dev, old_state);
+> > > >  }
+> > > >  
+> > > > -- 
+> > > > 2.17.1
+> > > > 
+> > > 
+> > > -- 
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 > 
 > -- 
 > Daniel Vetter
 > Software Engineer, Intel Corporation
 > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
