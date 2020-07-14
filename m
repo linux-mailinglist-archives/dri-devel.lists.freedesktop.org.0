@@ -1,47 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFBF21F2A2
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 15:33:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9668D21F37F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 16:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99BD26E12F;
-	Tue, 14 Jul 2020 13:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C106E149;
+	Tue, 14 Jul 2020 14:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25CE6E12F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 13:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BfyzzkoolzGQOxyc6LjSkDanzQgp6Lev6ywvNOMJaqc=; b=glV4Hy0xeq+PmeIemp9nhA34MJ
- 7m7lOUXYcsA9ZzHN/EC4LSZpSHOtbNsxA5sZ0lEf6zKkiRlpL2m261D6aUSaVRN97CL16FZJutQkz
- ETqZaKA0pJdkQi6li7Vp2WwLsXfcbUWjGF87y2PPQT7KU20V/8lnfyXPXXAoIrtxDHcaM7M/X6hXs
- kXKU85dIiAojtyYBI9Yw4m5SiIPVAkwmvuc3TBcUhpS1c6S9/Vecoe/nkKeHWA3iXx6XdM3sI6wkp
- ulkZtLsoV7q3uf/tZIF3JEnlapT+g0HiR8zlOyZjXWHwJoUx3sEQNU9awGPsCaYhQZA+IgFGAKrGh
- 9Ifgdzew==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:58790
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jvL3O-0005dK-Ow; Tue, 14 Jul 2020 15:33:02 +0200
-Subject: Re: [PATCH v3 0/6] Generic USB Display driver
-To: Lubomir Rintel <lkundrak@v3.sk>
-References: <20200529175643.46094-1-noralf@tronnes.org>
- <20200709163235.360054-1-lkundrak@v3.sk>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <1280ec51-7528-b993-3110-f6c28e98832c@tronnes.org>
-Date: Tue, 14 Jul 2020 15:33:00 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 740966E149
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 14:09:09 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id z15so21861990wrl.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 07:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=y9rGgqdm6Oatxfd/0jGAlEMuG5eUaf8RBwlTo5mrHR0=;
+ b=WuLthqJjHJU27T9F+7bB+4Nu084U/76ZXGtXpSjyEWEAH4DEUTdw94h6UucZqg7qBy
+ v2zfcpRJcwS9gTuF3EByekOi23mPvpANsHnxbi6La5OxrU938GWezcCZiQl/miYqkM7Z
+ Brt9bFUQHzIwmHvwDNoLQYhyO1e8Dv2mgVPkY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=y9rGgqdm6Oatxfd/0jGAlEMuG5eUaf8RBwlTo5mrHR0=;
+ b=HoUYWmNc+PoiE1LwWg8ENwfiZlSjKXFRVPvwh9hvSbXgXdcTZiH1BT/BX/tCrbUxGP
+ wQpZa5G3B01LYoyOWm6i4MGMZGnt2Mi8pTRK69SNeyY4iZ/e6d0imBU8OVn0OMJ497+i
+ NgKWDnoU3/Os3xvlAl7z+0KAA02aXSeBR64f2uauCzQoLOgl2ZBmS5R+8IBhtDNQdO6a
+ IkFI3DLjADtnOSbbgPan9tQMZwZYatFWx8Ho4KkbaSMyypRRRCaCYZZbvhdNXRgGMoX8
+ m0t/17iE7ybbNB5q1tHDPhEQneUZmHO6brBkTloO6ZjWtY96zYXy9yFmouPHeOz+xiQI
+ aFMA==
+X-Gm-Message-State: AOAM531L265MZi7+HVaihZAK5m6l+CiH1uY4W47Vb+fZHd2cAF8iHDmh
+ zEc6+DvQsTu/0Y6oc1W5h9kh9w==
+X-Google-Smtp-Source: ABdhPJwRoO2cqSfiIyELK6qa+Af82dhca8i8fo5HxOp/mekP2QVhbTUZxnyxq8ZaahBRZGpMXF9DbQ==
+X-Received: by 2002:adf:fa8b:: with SMTP id h11mr5818082wrr.391.1594735747960; 
+ Tue, 14 Jul 2020 07:09:07 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 33sm31372511wri.16.2020.07.14.07.09.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 07:09:06 -0700 (PDT)
+Date: Tue, 14 Jul 2020 16:09:04 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Melissa Wen <melissa.srw@gmail.com>
+Subject: Re: [PATCH] drm/vkms: add wait_for_vblanks in atomic_commit_tail
+Message-ID: <20200714140904.GF3278063@phenom.ffwll.local>
+Mail-Followup-To: Melissa Wen <melissa.srw@gmail.com>,
+ Sidong Yang <realwakka@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200701153134.4187-1-realwakka@gmail.com>
+ <20200702131355.GX3278063@phenom.ffwll.local>
+ <20200710170533.xn2ar2cpekom6i2n@smtp.gmail.com>
+ <20200713160621.GQ3278063@phenom.ffwll.local>
+ <20200714102009.4qxgdq5bkpwhhhio@smtp.gmail.com>
+ <CAJeY4oF9k--dGOYaC9qAXiVbx6aX2a6isXpfOg+JV2s+UskKGA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200709163235.360054-1-lkundrak@v3.sk>
+Content-Disposition: inline
+In-Reply-To: <CAJeY4oF9k--dGOYaC9qAXiVbx6aX2a6isXpfOg+JV2s+UskKGA@mail.gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,70 +78,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Stuge <peter@stuge.se>, balbi@kernel.org, linux-usb@vger.kernel.org,
- sam@ravnborg.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sidong Yang <realwakka@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMDkuMDcuMjAyMCAxOC4zMiwgc2tyZXYgTHVib21pciBSaW50ZWw6Cj4gSGVsbG8sCj4g
-Cj4gT24gMjkgTWF5IDIwMjAgTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+IC4uLgo+PiBUaGlzIHNl
-cmllcyBhZGRzIGEgVVNCIGhvc3QgZHJpdmVyIGFuZCBhIGRldmljZS9nYWRnZXQgZHJpdmVyIHRv
-IGFjaGlldmUKPj4gdGhhdC4KPj4KPj4gVGhlIHJlYXNvbiBmb3IgY2FsbGluZyBpdCAnR2VuZXJp
-YycgaXMgc28gYW55b25lIGNhbiBtYWtlIGEgVVNCCj4+IGRpc3BsYXkvYWRhcHRlciBhZ2FpbnN0
-IHRoaXMgZHJpdmVyLCBhbGwgdGhhdCdzIG5lZWRlZCBpcyB0byBhZGQgYSBVU0IKPj4gdmlkOnBp
-ZC4gSSBoYXZlIGRvbmUgYSBtaWNyb2NvbnRyb2xsZXIgaW1wbGVtZW50YXRpb24gaGFjayBqdXN0
-IHRvIHNlZQo+PiBob3cgdGhhdCB3b3VsZCB3b3JrIG91dFsxXSAod2hpY2ggdW5jb252ZXJlZCBh
-IGNvdXBsZSBvZiBidWdzIGluIHRoZQo+PiBob3N0IGRyaXZlcikuCj4gLi4uCj4gCj4gVGhpcyBp
-cyBhY3R1YWxseSB2ZXJ5IGNvb2w7IGZpbmFsbHkgYSBnb29kIHdheSB0byBkcml2ZSB0aGUgY2hl
-YXBvCj4gU1BJL0kyQyBkaXNwbGF5cyBmcm9tIGNvbXB1dGVycyB3aG9zZSBvbmx5IG1lYW5zIG9m
-IGV4cGFuc2lvbiBpcyBVU0IKPiB3aXRoIGEgbGl0dGxlIGhlbHAgZnJvbSBhIG1pY3JvY29udHJv
-bGxlci4gSSd2ZSBhY3R1YWxseSBoYWQgc29tZQo+IHN1Y2Nlc3MgZG9pbmcganVzdCB0aGF0IFsx
-XS4KCk5pY2UgdG8gc2VlIGEgbW9ub2Nocm9tZSBpbXBsZW1lbnRhdGlvbiwgSSBhY3R1YWxseSBw
-bGFubmVkIHRvIHJlbW92ZQp0aGUgUjEgZm9ybWF0IGZyb20gdjMgc2luY2UgdGhlIGdhZGdldCBk
-cml2ZXIgZG9lc24ndCBpbXBsZW1lbnQgaXQuCkhhdmluZyB1bnVzZWQgKGFuZCBwb29ybHkgdGVz
-dGVkKSBjb2RlIGlzbid0IHRoYXQgZ3JlYXQsIGJ1dCBJIGZvcmdvdC4KSXQgdHVybnMgb3V0IGl0
-IHdhcyBhIGdvb2QgdGhpbmcgdGhhdCBJIGZvcmdvdCB0aGF0IDotKQoKPiAKPiBbMV0gaHR0cHM6
-Ly9hc3NldHMub2N0b2Rvbi5zb2NpYWwvbWVkaWFfYXR0YWNobWVudHMvZmlsZXMvMDA5Lzk4My85
-NjAvb3JpZ2luYWwvNjRhZDhlYTQ2YzFiMDZjNS5qcGcKPiAKPiBJIHN1cHBvc2UgeW91IGNhbiBh
-ZGQ6Cj4gCj4gVGVzdGVkLWJ5OiBMdWJvbWlyIFJpbnRlbCA8bGt1bmRyYWtAdjMuc2s+Cj4gCj4g
-SSd2ZSBoYWQgdG8ganVtcCB0aHJvdWdoIHNvbWUgaG9vcHMgdGhvdWdoLgo+IAo+IE15IE9MRUQg
-ZGlzcGxheSBpcyBhIDEyOHg2NCBTU0QxMzA2IFsxXSBkcml2ZW4gZnJvbSB0aGUgU1BJIGJ1cy4g
-VGhlIGZyYW1lCj4gYnVmZmVyIFNSQU0gaXMgbm9ybWFsbHkgc2Nhbm5lZCBvdXQgaW4gc3RyaXBl
-cyBvZiA4IHZlcnRpY2FsIHBpeGVscyBjYWxsZWQKPiAicGFnZXMiLiBXaGVuIHRoZSBkaXNwbGF5
-IGlzIHR1cm5lZCBvbiBpdHMgc2lkZSwgd2l0aCAidmVydGljYWwKPiBhZGRyZXNzaW5nIG1vZGUi
-IGFuZCAic2VnbWVudCByZW1hcHBpbmciIGVuYWJsZWQgYW5kIGJ5dGVzIGJlaW5nIHNlbnQgTFNC
-Cj4gZmlyc3QsIGl0IGFwcGVhcnMgbGluZWFyIC0tIGl0J3MgZWFzeSB0byByZXBhaW50IHRoZSB3
-aG9sZSBkaXNwbGF5IGZyb20KPiB3aGF0IGlzIG5vdyB0aGUgdG9wIGxlZnQgY29ybmVyIHRvIHRo
-ZSBib3R0b20gcmlnaHQuIFRoaXMgaXMgdmVyeQo+IGNvbnZlbmllbnQgZm9yIHBhaW50aW5nIHBp
-eGVscyBhcyB0aGV5IGNvbWUsIHdpdGhvdXQgYnVmZmVycmluZyB0aGVtIG9yCj4gZG9pbmcgYW55
-IGNvbnZlcnNpb25zIChhc3N1bWluZyB0aGF0IG1lbW9yeSBhbmQgY3B1IGN5Y2xlcyBhcmUgYXQK
-PiBwcmVtaXVtIG9uIE1DVXMpLgo+IAo+IFsxXSBodHRwczovL2Nkbi1zaG9wLmFkYWZydWl0LmNv
-bS9kYXRhc2hlZXRzL1NTRDEzMDYucGRmCj4gCj4gVGhlcmUgZG9lc24ndCBzZWVtIGEgY29tZm9y
-dGFibGUgd2F5IHRvIGRvIHBhcnRpYWwgcmVkcmF3cyB0aG91Z2guIFdvdWxkCj4geW91IGZpbmQg
-aXQgb2JqZWN0aW9uYWJsZSBpZiB0aGUgZGV2aWNlIGNvdWxkIGluZGljYXRlIHRoYXQgbmVlZHMg
-ZnVsbAo+IGZyYW1lcyBpbnN0ZWFkIG9mIGp1c3QgdGhlIGRhbWFnZWQgYXJlYXM/IFBlcmhhcHMg
-dGhlbiB0aGUgZHJpdmVyCj4gd291bGRuJ3QgZXZlbiBuZWVkIHRvIGJvdGhlciBpc3N1aW5nIEdV
-RF9EUk1fVVNCX1JFUV9TRVRfQlVGRkVSIHRvCj4gZGlzcGxheXMgZHVtYiBlbm91Z2ggdG8gYmUg
-aW5jYXBhYmxlIG9mIHBhcnRpYWwgcmVkcmF3cyBhbmQgZGVjb21wcmVzc2lvbi4KPiAKClllYWgg
-SSBmaWd1cmVkIGFsd2F5cyBoYXZpbmcgZnVsbCB1cGRhdGVzIG1pZ2h0IGJlbmVmaXQvc2ltcGxp
-ZnkKbW9ub2Nocm9tZSBkZXZpY2VzLCBidXQgSSdkIHdhaXQgZm9yIGFuIGFjdHVhbCBkZXZpY2Ug
-bmVlZGluZyBpdCBiZWZvcmUKYWRkaW5nIGl0LiBOb3cgdGhhdCB5b3UgbmVlZCBpdCwgSSdsbCBh
-ZGQgYSBmbGFnIGZvciBpdCBpbiB0aGUgbmV4dAp2ZXJzaW9uLgoKSSB3b3VsZCBsaWtlIHRvIGtl
-ZXAgdGhlIFNFVF9CVUZGRVIgcmVxdWVzdCBzaW5jZSBpdCB3aWxsIHNlcnZlIGFzIGEKc3luY2lu
-ZyBwb2ludCBiZXR3ZWVuIHRoZSBob3N0IGFuZCB0aGUgZGV2aWNlLiBJJ20gbm8gVVNCIGV4cGVy
-dCBidXQgSQphc3N1bWUgdGhhdCBhIGJ1bGsgdHJhbnNmZXIgY2FuIGZhaWwgaGFsZndheSB0aHJv
-dWdoIGFuZCByZXN1bHQgaW4gdGhlCm5leHQgdXBkYXRlIHN0YXJ0aW5nIHdoZXJlIHRoZSBwcmV2
-aW91cyBvbmUgZmFpbGVkIGFuZCB0aHVzIHdyaXRpbmcKYmV5b25kIHRoZSBlbmQgb2YgdGhlIGRp
-c3BsYXkgYnVmZmVyLgoKTm9yYWxmLgoKPiBNeSB3b3JrLWluLXByb2dyZXNzIGNvZGUgdGhhdCB3
-b3JrcyBvbiBTVE0zMkYxMDMgKGUuZy4gIkJsdWUgUGlsbCIKPiBib2FyZHMpLCBvciBHRDMyVkYx
-MDMgKFJJU0MtViAiUG9sb3MgQWxlZiIpIGlzIGF0IFsyXS4gVGhlIHBhcnRpYWwgcmVkcmF3cwo+
-IHRoYXQgZG9uJ3Qgc3RhcnQgZnJvbSBjb2x1bW4gemVybyBvciBhcmUgbm90ICJwYWdlIGFsaWdu
-ZWQiIGRvbid0IHdvcmsKPiBjb3JyZWN0bHkgZm9yIHRoZSB0aW1lIGJlaW5nOyBYMTEgZG9lc24n
-dCBzZWVtIHRvIGNhcmUuCj4gCj4gWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9oYWNrZXJzcGFjZS9s
-aWJvcGVuY20zLWdmMzJ2LWV4YW1wbGVzL3RyZWUvbHIvZ2QzMnYvZXhhbXBsZXMvZ2QzMnYvZjEw
-My9wb2xvcy1hbGVmL3VzYi1kaXNwbGF5Cj4gCj4gVGhhbmsgeW91IQo+IEx1Ym8KPiAKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Jul 14, 2020 at 07:39:42AM -0300, Melissa Wen wrote:
+> On Tue, Jul 14, 2020 at 7:20 AM Melissa Wen <melissa.srw@gmail.com> wrote:
+> >
+> > On 07/13, Daniel Vetter wrote:
+> > > On Fri, Jul 10, 2020 at 02:05:33PM -0300, Melissa Wen wrote:
+> > > > On 07/02, Daniel Vetter wrote:
+> > > > > On Wed, Jul 01, 2020 at 03:31:34PM +0000, Sidong Yang wrote:
+> > > > > > there is an error when igt test is run continuously. vkms_atomic_commit_tail()
+> > > > > > need to call drm_atomic_helper_wait_for_vblanks() for give up ownership of
+> > > > > > vblank events. without this code, next atomic commit will not enable vblank
+> > > > > > and raise timeout error.
+> > > > > >
+> > > > > > Signed-off-by: Sidong Yang <realwakka@gmail.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+> > > > > >  1 file changed, 2 insertions(+)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > index 1e8b2169d834..10b9be67a068 100644
+> > > > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > @@ -93,6 +93,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+> > > > > >                 flush_work(&vkms_state->composer_work);
+> > > > > >         }
+> > > > > >
+> > > > > > +       drm_atomic_helper_wait_for_vblanks(dev, old_state);
+> > > > >
+> > > > > Uh, we have a wait_for_flip_done right above, which should be doing
+> > > > > exactly the same, but more precisely: Instead of just waiting for any
+> > > > > vblank to happen, we wait for exactly the vblank corresponding to this
+> > > > > atomic commit. So no races possible. If this is papering over some issue,
+> > > > > then I think more debugging is needed.
+> > > > >
+> > > > > What exactly is going wrong here for you?
+> > > >
+> > > > Hi Daniel and Sidong,
+> > > >
+> > > > I noticed a similar issue when running the IGT test kms_cursor_crc. For
+> > > > example, a subtest that passes on the first run (alpha-opaque) fails on
+> > > > the second due to a kind of busy waiting in subtest preparation (the
+> > > > subtest fails before actually running).
+> > > >
+> > > > In addition, in the same test, the dpms subtest started to fail since
+> > > > the commit that change from wait_for_vblanks to wait_for_flip_done. By
+> > > > reverting this commit, the dpms subtest passes again and the sequential
+> > > > subtests return to normal.
+> > > >
+> > > > I am trying to figure out what's missing from using flip_done op on
+> > > > vkms, since I am also interested in solving this problem and I
+> > > > understand that the change for flip_done has been discussed in the past.
+> > > >
+> > > > Do you have any idea?
+> > >
+> > > Uh, not at all. This is indeed rather surprising ...
+> > >
+> > > What exactly is the failure mode when running a test the 2nd time? Full
+> > > igt logs might give me an idea. But yeah this is kinda surprising.
+> >
+> > Hi Daniel,
+> >
+> > This is the IGT log of the 2nd run of kms_cursor_crc/alpha-opaque:
+> >
+> > IGT-Version: 1.25-NO-GIT (x86_64) (Linux: 5.8.0-rc2-DRM+ x86_64)
+> > Force option used: Using driver vkms
+> > Starting subtest: pipe-A-cursor-alpha-opaque
+> > Timed out: Opening crc fd, and poll for first CRC.
+> > Subtest pipe-A-cursor-alpha-opaque failed.
+> > **** DEBUG ****
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: Virtual-1: set_pipe(A)
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: Virtual-1: Selecting pipe A
+> > (kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1024, height=768, format=XR24(0x34325258), modifier=0x0, size=0)
+> > (kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=1, pitch=4096)
+> > (kms_cursor_crc:2317) igt_fb-DEBUG: Test requirement passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+> > (kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1024, height=768, format=XR24(0x34325258), modifier=0x0, size=0)
+> > (kms_cursor_crc:2317) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=2, pitch=4096)
+> > (kms_cursor_crc:2317) igt_fb-DEBUG: Test requirement passed: cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 && plane_idx < pipe->n_planes
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 && plane_idx < pipe->n_planes
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: plane_set_fb(37)
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: plane_set_size (1024x768)
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: A.0: fb_set_size(1024x768)
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: commit {
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display:     Virtual-1: SetCrtc pipe A, fb 37, src (0, 0), mode 1024x768
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display:     SetCursor pipe A, disabling
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display:     MoveCursor pipe A, (0, 0)
+> > (kms_cursor_crc:2317) igt_kms-DEBUG: display: }
+> > (kms_cursor_crc:2317) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+> > (kms_cursor_crc:2317) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+> > (kms_cursor_crc:2317) igt_debugfs-DEBUG: Opening debugfs directory '/sys/kernel/debug/dri/0'
+> > (kms_cursor_crc:2317) igt_core-INFO: Timed out: Opening crc fd, and poll for first CRC.
+> > ****  END  ****
+> > Subtest pipe-A-cursor-alpha-opaque: FAIL (10.017s)
+> >
+> > ---
+> >
+> > What I found was a timeout in the poll of
+> > igt_debugfs/igt_pipe_crc_start() that in turn is called in the
+> > prepare_crc() of kms_cursor_crc.
+> >
+> > Initially, I thought it was just a matter of timing for vblank and sent
+> > a patch to IGT that solved the problem by calling igt_wait_for_vblank()
+> > before the "start" op. But then I saw that the timeout also happens in a
+> > similar way in the dpms subtest, which before the change to flip_done
+> > was succeded.
+> >
+> > I still have doubts if it is or not a matter of timing...
+> 
+> Just to complement, this is what I sent to IGT due to my first suspicion
+> (still not reviewed): https://patchwork.freedesktop.org/series/78813/
+
+Hm, so the first patch makes some sense I think, that would indeed be a
+test bug if we pile up the crc and leak the old one.
+
+The 2nd patch looks a bit like similar duct-tape like the kernel patch
+here, somehow forcing a full vblank wait instead of just waiting for the
+previos flip to complete fixes something. I'm just really confused what it
+could be.
+
+We don't have multiple crtc in vkms, so it's likely not that, but it could
+be that something goes wrong when we switch everything on. And after one
+vblank, things are in sync and working ...
+
+Maybe to test this theory, adding a drm_crtc_wait_one_vblank() to the
+crtc->enable function? If that fixes all these bugs, then we at least have
+a better idea where this vblank wait is needed, and can try to investigate
+a bit more focused why.
+
+I don't think it's relevant for crtc->disable, since once the crtc is off,
+vblanks stop doing anything. And since steady-state seems to work (at
+least your igt patch only adds a vblank wait on setup), so I don't think
+we need it for all flips ...
+
+Stil confused what's going on here.
+-Daniel
+
+> 
+> >
+> >
+> > Thanks,
+> >
+> > Melissa
+> > >
+> > > Also happy to chat on irc for debugging ideas, that might be faster (I'm
+> > > danvet on #dri-devel on freenode).
+> > > -Daniel
+> > >
+> > > >
+> > > > Melissa
+> > > >
+> > > > > -Daniel
+> > > > >
+> > > > > > +
+> > > > > >         drm_atomic_helper_cleanup_planes(dev, old_state);
+> > > > > >  }
+> > > > > >
+> > > > > > --
+> > > > > > 2.17.1
+> > > > > >
+> > > > >
+> > > > > --
+> > > > > Daniel Vetter
+> > > > > Software Engineer, Intel Corporation
+> > > > > http://blog.ffwll.ch
+> > > > > _______________________________________________
+> > > > > dri-devel mailing list
+> > > > > dri-devel@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
