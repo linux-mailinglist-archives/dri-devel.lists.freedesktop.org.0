@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C47A21F7D8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 19:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC30A21F7E6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 19:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D656F6E966;
-	Tue, 14 Jul 2020 17:05:39 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861D06E8A6;
- Tue, 14 Jul 2020 17:05:38 +0000 (UTC)
-IronPort-SDR: meFsugL38YBuI0gcYpx9fQbfs6GEr6WCx0Ro91TeUPSZ67OhwILuvExTXOkmu/r8qHyHcVXbEs
- cAbaL8V6GAxw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="148969073"
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="148969073"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2020 10:05:37 -0700
-IronPort-SDR: sBQjsKdXldgUzTz4tE232k6dSJ2KZdeQwIvKJvnXDMvGze1Oeo8d9SGGlbPZModN4c4FKnjvWW
- oLdz4AlVILLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="268703278"
-Received: from lkp-server02.sh.intel.com (HELO 393d9bdf0d5c) ([10.239.97.151])
- by fmsmga007.fm.intel.com with ESMTP; 14 Jul 2020 10:05:35 -0700
-Received: from kbuild by 393d9bdf0d5c with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1jvON4-0000D3-SL; Tue, 14 Jul 2020 17:05:34 +0000
-Date: Wed, 15 Jul 2020 01:04:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karthik B S <karthik.b.s@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH] drm/i915: g4x_get_flip_counter() can be static
-Message-ID: <20200714170448.GA60632@f43cbbe531e7>
-References: <20200714012725.18383-2-karthik.b.s@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10FA6E03D;
+	Tue, 14 Jul 2020 17:10:39 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98F566E03D
+ for <dri-devel@freedesktop.org>; Tue, 14 Jul 2020 17:10:38 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id l6so755210plt.7
+ for <dri-devel@freedesktop.org>; Tue, 14 Jul 2020 10:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9Pi0r+taXC55e2CabsrtsPMzJOxhTQ5VmZxPESoJ2R0=;
+ b=YcUpdW8ssFvg31o7FKf1VxZt+87ICTP6BSy10MKwemlGlPTgoZywHlO0FpXTOwd/RU
+ w/bmCXL2iKjRaYWDvnTjtwzPvUKBib7XWkuxrC/k8O0L3uhEvg0mByeAVTHLIuI+oYJi
+ UYI69blXL++kD2Z9kDNOsL0ynAVx1mU7fpvMs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9Pi0r+taXC55e2CabsrtsPMzJOxhTQ5VmZxPESoJ2R0=;
+ b=bBHEpBxGBAiyscPwjNlx4RX0l5egwldHCkpUEula90gg7g+OmRmXqHWLnUP01qyM3J
+ 0Q7Jat3Bgcn+gahOq1fFJ1wPGyVUhZjcMc8vJLBMATwKXHdJ9iJPOaRBmwx/+ixmpjsF
+ AeE+6hrXnyH5p8yBRlgt2Zs9Id1R/qQo5iXj6aYqY091X1RAz2CoI6uaO8rS9vuuc6t4
+ +IF+CmmG5adcai/d97b3TlnYZ6pjYZKrB0QxURdY16s8bC8dUgI1W8SBKfmIrZnyXHSG
+ hm/JbS8Co6AnptLonqUafLTD/ylRTAa8Tuldf+7Ej5rXMnFYXrie+/vR+P2rrI4xttxT
+ ge8w==
+X-Gm-Message-State: AOAM53131kvnrIgeWGVNaJhUvzHP4TnszqEWmuI3LFwCRDeFgG+xaQio
+ 5bhjZxbiWetJoHUlXCIkcUQA3w==
+X-Google-Smtp-Source: ABdhPJwDHng07+7Jqf3f0zfUAjKLkymgxwE7dDtjLH3NoOVCed41ZFg0oAaAvDN6Z5TOUJLbYrwhEg==
+X-Received: by 2002:a17:90b:8d0:: with SMTP id
+ ds16mr5960924pjb.2.1594746638227; 
+ Tue, 14 Jul 2020 10:10:38 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
+ by smtp.gmail.com with ESMTPSA id a3sm16338620pgd.73.2020.07.14.10.10.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jul 2020 10:10:37 -0700 (PDT)
+Date: Tue, 14 Jul 2020 10:10:36 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH] drm: msm: a6xx: fix gpu failure after system resume
+Message-ID: <20200714171036.GS3191083@google.com>
+References: <1594733130-398-1-git-send-email-akhilpo@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200714012725.18383-2-karthik.b.s@intel.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1594733130-398-1-git-send-email-akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,34 +64,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, paulo.r.zanoni@intel.com,
- Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
- vandita.kulkarni@intel.com, uma.shankar@intel.com, daniel.vetter@intel.com,
- nicholas.kazlauskas@amd.com
+Cc: devicetree@vger.kernel.org, rnayak@codeaurora.org, jonathan@marek.ca,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 14, 2020 at 06:55:30PM +0530, Akhil P Oommen wrote:
+> On targets where GMU is available, GMU takes over the ownership of GX GDSC
+> during its initialization. So, take a refcount on the GX PD on behalf of
+> GMU before we initialize it. This makes sure that nobody can collapse the
+> GX GDSC once GMU owns the GX GDSC. This patch fixes some weird failures
+> during GPU wake up during system resume.
+> 
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
 
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- i915_irq.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I went through a few dozen suspend/resume cycles on SC7180 and didn't run
+into the kernel panic that typically occurs after a few iterations without
+this patch.
 
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index 9812a8051c5ea..79a3118f918a1 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -697,7 +697,7 @@ u32 i915_get_vblank_counter(struct drm_crtc *crtc)
- 	return (((high1 << 8) | low) + (pixel >= vbl_start)) & 0xffffff;
- }
- 
--u32 g4x_get_flip_counter(struct drm_crtc *crtc)
-+static u32 g4x_get_flip_counter(struct drm_crtc *crtc)
- {
- 	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
- 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+Reported-by: Matthias Kaehlcke <mka@chromium.org>
+Tested-by: Matthias Kaehlcke <mka@chromium.org>
+
+On which tree is this patch based on? I had to apply it manually because
+'git am' is unhappy when I try to apply it:
+
+  error: sha1 information is lacking or useless (drivers/gpu/drm/msm/adreno/a6xx_gmu.c).
+  error: could not build fake ancestor
+
+Both upstream and drm-msm are in my remotes and synced, so I suspect it's
+some private tree. Please make sure to base patches on the corresponding
+maintainer tree or upstream, whichs makes life easier for maintainers,
+testers and reviewers.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
