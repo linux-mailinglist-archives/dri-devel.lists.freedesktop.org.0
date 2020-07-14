@@ -1,67 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE4621F58A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 16:57:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B63721F59A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 17:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4AFA6E992;
-	Tue, 14 Jul 2020 14:57:53 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE526E82E
- for <dri-devel@freedesktop.org>; Tue, 14 Jul 2020 14:57:50 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1594738672; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=rPT/6bcoi+yeld8ZbjkMYo22+/QxPs1ApgbqbZ3wZM8=;
- b=Ec2LlAIyJwlCk++G7pEbuTvjIvDaNiO6z3Y2NMv3jVlebjG//3t8CMY/lXKWXPWEU4GOQ8gX
- B4k7JfOGb+uDdaOUMLGK395YYh7wcVI5qEI22uuLOVmqiw2b1uJc2RMnUAgtaKsL2YTZVoLC
- ywqspkNuRCERzQCI//1VjCv0A/M=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n16.prod.us-west-2.postgun.com with SMTP id
- 5f0dc7d6c9bd2efa2e4f713d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 14 Jul 2020 14:57:26
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 33D0CC43391; Tue, 14 Jul 2020 14:57:26 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9C80EC433C8;
- Tue, 14 Jul 2020 14:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9C80EC433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Tue, 14 Jul 2020 08:57:21 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Subject: Re: [PATCH] drm: msm: a6xx: fix gpu failure after system resume
-Message-ID: <20200714145721.GD24345@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
- freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, mka@chromium.org, jonathan@marek.ca,
- robdclark@gmail.com, rnayak@codeaurora.org
-References: <1594733130-398-1-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84606E82E;
+	Tue, 14 Jul 2020 15:00:50 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1CE6E1CD;
+ Tue, 14 Jul 2020 15:00:50 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z2so22263323wrp.2;
+ Tue, 14 Jul 2020 08:00:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m59HlNWnnijhup2N6/gP3q1N+dQLZkPGUJT6GpfAj7I=;
+ b=tMovU9EXODTSjEjZcXFaSowJOF+NdFuvRrCYxo+LU5ndjJKm2tRth+GQkXf1gceQiT
+ dHMFRbRVE78+Tik9lwMGOI3M776CldzluFPZUVHFMm6+iH1iNWTmbTTXVkSDFvpecTwj
+ w2D7MFZXpvqvjUKa9+FFmItoeN070gkQlxOJBmAfbCDd7qQSTwu8sBZtwpAEkMD//zxs
+ GjYs2H+7C3xOtEa+u99FFfSeTZe84XqpvG4BDfwad30N+VdfQIp+ObDA81Qfgq8J0tMw
+ ov7xhR3EdNCX+r4KO+I+fD/4lwwFZ9trum/BBXMC4aSroFNXWoxrU5OA8PiZ54DOeS6q
+ OwXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m59HlNWnnijhup2N6/gP3q1N+dQLZkPGUJT6GpfAj7I=;
+ b=ifx3m74LUyv9M7MQAxbmvTiXmeF+HDBSFAw/KMBM7ilyZZE64dtQQ+Cb7ZRvNEFPU2
+ cIYl2sXQ0v2hbmG7uemQY2MYtX1LDo+ddwiY5dPJFgA3ZOsNjOvUWfUPiJQjqvKgQX0M
+ fbVgdLf93O5sv4E3CiDpaUJZ9uQdqgrsA4bKBHZiVUMHxR+4/hfpYcLt9/nrMdN1AVm8
+ 7VXRegwfDElrSdJEG5VvZ4eLgim9yYbuJ/0PWx6UT4hMVB5vY0ZLVDt0dfD8raaJtV+0
+ OvRg8f7IgB/vQcYKnqkFbxRbLVGWrO4oIyKi3yc1vrgcy/ParoRKZ72mPL8WmaiEBJb9
+ X6Xg==
+X-Gm-Message-State: AOAM533rBIpyO26sz2O/fIHMTOTY2ixy0pibHahviaJWo9inzo+HvNey
+ 9Kh4LRy5C2BXDGDQnFGoCcCUdmwKPu6DThqhWRQ=
+X-Google-Smtp-Source: ABdhPJyBLeGqdtVhfAhwMXnqmqAxt3RjTLzaJDgUQZ7IJiZkFh2deHB4q+aRjfziN9NE5zJWmm7p4R1cUyGHmhpLlso=
+X-Received: by 2002:adf:fa89:: with SMTP id h9mr6158347wrr.120.1594738848683; 
+ Tue, 14 Jul 2020 08:00:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1594733130-398-1-git-send-email-akhilpo@codeaurora.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20200708164335.25097-1-hdegoede@redhat.com>
+ <CADnq5_NeJBbCFKR96DWbCQteaRPCmThwD7_2biy7vSb-MifD9A@mail.gmail.com>
+ <e6e73584-4e96-2250-6dc0-f3a26ee880fc@redhat.com>
+In-Reply-To: <e6e73584-4e96-2250-6dc0-f3a26ee880fc@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 14 Jul 2020 11:00:37 -0400
+Message-ID: <CADnq5_MQrxj6cx2wQpsRxJjN5fgdvTbduUyEv+cZEa120p1aEQ@mail.gmail.com>
+Subject: Re: [PATCH 0/9] drm: Add privacy-screen class and connector properties
+To: Hans de Goede <hdegoede@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,87 +62,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, rnayak@codeaurora.org, jonathan@marek.ca,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, mka@chromium.org,
- dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sebastien Bacher <seb128@ubuntu.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 14, 2020 at 06:55:30PM +0530, Akhil P Oommen wrote:
-> On targets where GMU is available, GMU takes over the ownership of GX GDSC
-> during its initialization. So, take a refcount on the GX PD on behalf of
-> GMU before we initialize it. This makes sure that nobody can collapse the
-> GX GDSC once GMU owns the GX GDSC. This patch fixes some weird failures
-> during GPU wake up during system resume.
+On Thu, Jul 9, 2020 at 8:48 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 7/8/20 11:25 PM, Alex Deucher wrote:
+> > On Wed, Jul 8, 2020 at 12:43 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >>
+> >> Hi All,
+> >>
+> >> Here is the privacy-screen related code which we discussed a while ago.
+> >> This series consists of a number of different parts:
+> >>
+> >> 1. A new version of Rajat's privacy-screen connector properties patch,
+> >> this adds new userspace API in the form of new properties
+> >>
+> >> 2. Since on most devices the privacy screen is actually controlled by
+> >> some vendor specific ACPI/WMI interface which has a driver under
+> >> drivers/platform/x86, we need some "glue" code to make this functionality
+> >> available to KMS drivers. Patches 3-5 add a new privacy-screen class for
+> >> this, which allows non KMS drivers (and possibly KMS drivers too) to
+> >> register a privacy-screen device and also adds an interface for KMS drivers
+> >> to get access to the privacy-screen associated with a specific connector.
+> >> This is modelled similar to how we deal with e.g. PWMs and GPIOs in the
+> >> kernel, including separate includes for consumers and providers(drivers).
+> >>
+> >> 3. Some drm_connector helper functions to keep the actual changes needed
+> >> for this in individual KMS drivers as small as possible (patch 6).
+> >>
+> >> 4. Make the thinkpad_acpi code register a privacy-screen device on
+> >> ThinkPads with a privacy-screen (patches 7-8)
+> >>
+> >> 5. Make the i915 driver export the privacy-screen functionality through
+> >> the connector properties on the eDP connector.
+> >
+> > Care to create a patch 10 for amdgpu?  Lenovo sells AMD thinkpads with
+> > a privacy screen as well, presumably it works
+> > the same way.
+>
+> Yes the AMD based Thinkpads should work the same way.
+>
+> We will need similar changes for amdgpu and very likely also for
+> nouveau. The problem is I don't really have hw to test this.
+>
+> Do you have access to a recent thinkpad with amdgpu ? It does not need
+> to have a privacy screen, as long as it is new enough that the ACPI
+> tables have the GSSS and SSSS methods you can test by ignoring
+> the presence bit for the privacy-screen, I use this little change for
+> that:
 
-The change looks fine but this explanation is confusing. When I read it I
-thought "oh, man, we weren't taking a reference to the GX PD during resume???"
-but that's not really the case. We *are* taking a reference, just not soon
-enough to avoid possible issues. It would be helpful if you reworded this to
-explain that you are moving the reference and perhaps to shine a bit more light
-on what the "weird" failures are.
+Thanks for the hints Hans.  If I can find some time, I will give it a try.
 
-Jordan
+Alex
 
-> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>
+>  From 9438bababe77dfccbade5c2377bdc7d6a777a6c6 Mon Sep 17 00:00:00 2001
+> From: Hans de Goede <hdegoede@redhat.com>
+> Date: Wed, 27 May 2020 14:38:42 +0200
+> Subject: [PATCH] platform/x86: thinkpad_acpi: Hack to allow testing
+>   on devices without a privacy-screen
+>
+> Hack to allow testing on devices without a privacy-screen.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index a6f43ff..5b2df7d 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -873,10 +873,19 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
->  	/* Turn on the resources */
->  	pm_runtime_get_sync(gmu->dev);
->  
-> +	/*
-> +	 * "enable" the GX power domain which won't actually do anything but it
-> +	 * will make sure that the refcounting is correct in case we need to
-> +	 * bring down the GX after a GMU failure
-> +	 */
-> +	if (!IS_ERR_OR_NULL(gmu->gxpd))
-> +		pm_runtime_get_sync(gmu->gxpd);
-> +
->  	/* Use a known rate to bring up the GMU */
->  	clk_set_rate(gmu->core_clk, 200000000);
->  	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
->  	if (ret) {
-> +		pm_runtime_put(gmu->gxpd);
->  		pm_runtime_put(gmu->dev);
->  		return ret;
->  	}
-> @@ -919,19 +928,12 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
->  	/* Set the GPU to the current freq */
->  	a6xx_gmu_set_initial_freq(gpu, gmu);
->  
-> -	/*
-> -	 * "enable" the GX power domain which won't actually do anything but it
-> -	 * will make sure that the refcounting is correct in case we need to
-> -	 * bring down the GX after a GMU failure
-> -	 */
-> -	if (!IS_ERR_OR_NULL(gmu->gxpd))
-> -		pm_runtime_get(gmu->gxpd);
-> -
->  out:
->  	/* On failure, shut down the GMU to leave it in a good state */
->  	if (ret) {
->  		disable_irq(gmu->gmu_irq);
->  		a6xx_rpmh_stop(gmu);
-> +		pm_runtime_put(gmu->gxpd);
->  		pm_runtime_put(gmu->dev);
->  	}
->  
-> -- 
-> 2.7.4
-> 
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+>   drivers/gpu/drm/drm_privacy_screen_x86.c | 4 ++++
+>   drivers/platform/x86/thinkpad_acpi.c     | 4 ++--
+>   2 files changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
+> index f486d9087819..87725766a90d 100644
+> --- a/drivers/gpu/drm/drm_privacy_screen_x86.c
+> +++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
+> @@ -41,7 +41,11 @@ static bool __init detect_thinkpad_privacy_screen(void)
+>         if (ACPI_FAILURE(status))
+>                 return false;
+>
+> +#if 1
+> +       return true;
+> +#else
+>         return (output & 0x10000) ? true : false;
+> +#endif
+>   }
+>
+>   static const struct arch_init_data arch_init_data[] __initconst = {
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index 1583c18f7f77..92aad746d1f8 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -9747,8 +9747,8 @@ static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
+>         if (!acpi_evalf(lcdshadow_get_handle, &output, NULL, "dd", 0))
+>                 return -EIO;
+>
+> -       if (!(output & 0x10000))
+> -               return 0;
+> +//     if (!(output & 0x10000))
+> +//             return 0;
+>
+>         lcdshadow_dev = drm_privacy_screen_register(&tpacpi_pdev->dev,
+>                                                     &lcdshadow_ops);
+> --
+> 2.26.2
+>
+>
+> So if you have a machine with an AMDGPU and with the mentioned ACPI methods,
+> then you should be able to implement this yourself. You can read/write the new
+> props under X11 with xrandr. And you monitor if the changes make it to the
+> hardware by doing:
+>
+> cat /proc/acpi/ibm/lcdshadow
+>
+> And you can simulate external changes (like through a hotkey handled by the embedded-controller) by doing:
+>
+> echo 0 > /proc/acpi/ibm/lcdshadow
+> echo 1 > /proc/acpi/ibm/lcdshadow
+>
+> When you do this you should see udev change events for the properties, you
+> can test for those by doing:
+>
+> sudo udevadm monitor -u -p
+>
+> ###
+>
+> With all that said, I can take a shot at blindly implementing this for amdgpu
+> but I would greatly prefer an actually tested patch, even if it is tested in
+> the way described above. When the patch is ready you can just send it to me
+> and I'll add my s-o-b and add it as patch 10 in the patch-set for the next
+> version.
+>
+> Regards,
+>
+> Hans
+>
+>
+> >> I was a bit in doubt if I should calls this series a RFC, or just call
+> >> it v1, since there is no real userspace code using this yet. It was
+> >> tested using xrandr property access and udevadm event monitoring.
+> >> I do expect / hope we will have patches for a userspace consumer of the
+> >> new properties (mutter) ready soon.
+> >>
+> >> But since the code is completely ready, including API documentation,
+> >> I've decided to just call this v1. Hopefully we can get patches for the
+> >> first userspace consumer of this ready during the review of this.
+> >>
+> >> Regards,
+> >>
+> >> Hans
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
