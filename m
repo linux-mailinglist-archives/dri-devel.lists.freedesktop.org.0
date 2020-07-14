@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C9121FF51
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 23:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C57321FF3E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 22:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 797BA6E9EB;
-	Tue, 14 Jul 2020 20:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D856E9D2;
+	Tue, 14 Jul 2020 20:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D8A6E9A0;
- Tue, 14 Jul 2020 20:58:40 +0000 (UTC)
-IronPort-SDR: 7tRGVQiFNlU8HYMdYmebJhHO+03Wa4kStICnKe+huPtjllQMADRLavaXJhQrMThUoELSngjkYj
- coksgga1Q8mw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="150444603"
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="150444603"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60D836E974;
+ Tue, 14 Jul 2020 20:58:41 +0000 (UTC)
+IronPort-SDR: tsr5Hn9DAL9GeHZiJljcxIu4XuiNo+syGgNUT1/Na4sJWs3ZebI0Aryu4R35XKBBchYn4ANhYA
+ c6XHnhAAuJtw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9682"; a="150444605"
+X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="150444605"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2020 13:58:40 -0700
-IronPort-SDR: gT212vAOyKEFzd/VoQjXZkagnejYAbevCMGspp8zsHSGWSdF+E9WfSQtwNn1QMWXYvSl8SfBJz
- +UgeStCQjeBA==
+ 14 Jul 2020 13:58:41 -0700
+IronPort-SDR: /vKyhD9URq8Lqlbqpx2l+KyTaJmwzlHuyhyS8Iba07ZYLkebBGwpT2gfrBt/OmZOuM+716U1q0
+ 14eO+A9UYRlA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="316504237"
+X-IronPort-AV: E=Sophos;i="5.75,352,1589266800"; d="scan'208";a="316504244"
 Received: from ahanamuk-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.251.155.61])
  by orsmga008.jf.intel.com with ESMTP; 14 Jul 2020 13:58:40 -0700
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
  bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH v2 41/59] drm/kmb: Changes for LCD to Mipi
-Date: Tue, 14 Jul 2020 13:57:27 -0700
-Message-Id: <1594760265-11618-42-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH v2 42/59] drm/kmb: Update LCD programming to match MIPI
+Date: Tue, 14 Jul 2020 13:57:28 -0700
+Message-Id: <1594760265-11618-43-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
@@ -57,443 +57,304 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Also free dsi resources on driver unload. System clock frequency change
-for llp ratio calculation.
-
-v2: upclassed dev_private
+Mipi input expects the memory layout to be unpacked with 8 bits per
+pixel in RGB (BRG) order. If the LCD is not configured properly,
+corrupted output results, changed dma_unpacked to 0 in mipi FG.
 
 Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
 ---
- drivers/gpu/drm/kmb/kmb_crtc.c  |  25 ++++----
- drivers/gpu/drm/kmb/kmb_drv.c   |   6 +-
- drivers/gpu/drm/kmb/kmb_drv.h   |   1 +
- drivers/gpu/drm/kmb/kmb_dsi.c   | 135 +++++++++++-----------------------------
- drivers/gpu/drm/kmb/kmb_dsi.h   |   2 +-
- drivers/gpu/drm/kmb/kmb_plane.c |  24 +++----
- drivers/gpu/drm/kmb/kmb_regs.h  |   2 +
- 7 files changed, 70 insertions(+), 125 deletions(-)
+ drivers/gpu/drm/kmb/kmb_crtc.c  |  6 +++---
+ drivers/gpu/drm/kmb/kmb_drv.h   |  1 +
+ drivers/gpu/drm/kmb/kmb_dsi.c   | 27 +++++++++++++++++----------
+ drivers/gpu/drm/kmb/kmb_dsi.h   |  1 +
+ drivers/gpu/drm/kmb/kmb_plane.c | 37 +++++++++++++++++++++++++++----------
+ drivers/gpu/drm/kmb/kmb_regs.h  |  1 +
+ 6 files changed, 50 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
-index f77e6f5..cbf998f 100644
+index cbf998f..a6a0444 100644
 --- a/drivers/gpu/drm/kmb/kmb_crtc.c
 +++ b/drivers/gpu/drm/kmb/kmb_crtc.c
-@@ -90,11 +90,14 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	vm.vfront_porch = 0;
+@@ -87,16 +87,16 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	kmb_dsi_hw_init(dev);
+ #ifdef LCD_TEST
+ //	vm.vfront_porch = m->crtc_vsync_start - m->crtc_vdisplay;
+-	vm.vfront_porch = 0;
++	vm.vfront_porch = 2;
  //	vm.vback_porch = m->crtc_vtotal - m->crtc_vsync_end;
- 	vm.vback_porch = 0;
--	vm.vsync_len = m->crtc_vsync_end - m->crtc_vsync_start;
-+//	vm.vsync_len = m->crtc_vsync_end - m->crtc_vsync_start;
-+	vm.vsync_len = 1;
+-	vm.vback_porch = 0;
++	vm.vback_porch = 2;
+ //	vm.vsync_len = m->crtc_vsync_end - m->crtc_vsync_start;
+ 	vm.vsync_len = 1;
  	//vm.hfront_porch = m->crtc_hsync_start - m->crtc_hdisplay;
  	vm.hfront_porch = 0;
--	vm.hback_porch = m->crtc_htotal - m->crtc_hsync_end;
--	vm.hsync_len = m->crtc_hsync_end - m->crtc_hsync_start;
-+	vm.hback_porch = 0;
-+	//vm.hback_porch = m->crtc_htotal - m->crtc_hsync_end;
-+	vm.hsync_len = 1;
-+//	vm.hsync_len = m->crtc_hsync_end - m->crtc_hsync_start;
+ 	vm.hback_porch = 0;
+ 	//vm.hback_porch = m->crtc_htotal - m->crtc_hsync_end;
+-	vm.hsync_len = 1;
++	vm.hsync_len = 7;
+ //	vm.hsync_len = m->crtc_hsync_end - m->crtc_hsync_start;
  
  	vsync_start_offset = m->crtc_vsync_start - m->crtc_hsync_start;
- 	vsync_end_offset = m->crtc_vsync_end - m->crtc_hsync_end;
-@@ -106,13 +109,13 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 			vm.hback_porch, vm.hfront_porch, vm.hsync_len);
- 	kmb_write_lcd(dev_p, LCD_V_ACTIVEHEIGHT,
- 			m->crtc_vdisplay - 1);
--	kmb_write_lcd(dev_p, LCD_V_BACKPORCH, vm.vback_porch - 1);
--	kmb_write_lcd(dev_p, LCD_V_FRONTPORCH, vm.vfront_porch - 1);
-+	kmb_write_lcd(dev_p, LCD_V_BACKPORCH, vm.vback_porch);
-+	kmb_write_lcd(dev_p, LCD_V_FRONTPORCH, vm.vfront_porch);
- 	kmb_write_lcd(dev_p, LCD_VSYNC_WIDTH, vm.vsync_len - 1);
- 	kmb_write_lcd(dev_p, LCD_H_ACTIVEWIDTH,
- 			m->crtc_hdisplay - 1);
--	kmb_write_lcd(dev_p, LCD_H_BACKPORCH, vm.hback_porch - 1);
--	kmb_write_lcd(dev_p, LCD_H_FRONTPORCH, vm.hfront_porch - 1);
-+	kmb_write_lcd(dev_p, LCD_H_BACKPORCH, vm.hback_porch);
-+	kmb_write_lcd(dev_p, LCD_H_FRONTPORCH, vm.hfront_porch);
- 	kmb_write_lcd(dev_p, LCD_HSYNC_WIDTH, vm.hsync_len - 1);
- 	/*this is hardcoded as 0 in the Myriadx code */
- 	kmb_write_lcd(dev_p, LCD_VSYNC_START, 0);
-@@ -122,11 +125,11 @@ static void kmb_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 		kmb_write_lcd(dev_p,
- 				LCD_VSYNC_WIDTH_EVEN, vm.vsync_len - 1);
- 		kmb_write_lcd(dev_p,
--				LCD_V_BACKPORCH_EVEN, vm.vback_porch - 1);
-+				LCD_V_BACKPORCH_EVEN, vm.vback_porch);
- 		kmb_write_lcd(dev_p,
--				LCD_V_FRONTPORCH_EVEN, vm.vfront_porch - 1);
--		kmb_write_lcd(dev_p,
--				LCD_V_ACTIVEHEIGHT_EVEN, m->crtc_vdisplay - 1);
-+				LCD_V_FRONTPORCH_EVEN, vm.vfront_porch);
-+		kmb_write_lcd(dev_p, LCD_V_ACTIVEHEIGHT_EVEN,
-+			m->crtc_vdisplay - 1);
- 		/*this is hardcoded as 10 in the Myriadx code*/
- 		kmb_write_lcd(dev_p, LCD_VSYNC_START_EVEN, 10);
- 		kmb_write_lcd(dev_p, LCD_VSYNC_END_EVEN, 10);
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 8bd3011..039dd21 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -216,7 +216,7 @@ static int kmb_load(struct drm_device *drm, unsigned long flags)
- #endif
- 	/* Set MIPI clock to 24 Mhz*/
- 	DRM_INFO("Get clk_mipi before set = %ld\n", clk_get_rate(clk_mipi));
--//#define MIPI_CLK
-+#define MIPI_CLK
- #ifdef MIPI_CLK
- 	ret = clk_set_rate(clk_mipi, KMB_MIPI_DEFAULT_CLK);
- 	DRM_INFO("Get clk_mipi after set = %ld\n", clk_get_rate(clk_mipi));
-@@ -497,7 +497,7 @@ static void kmb_drm_unload(struct device *dev)
- 	dev_set_drvdata(dev, NULL);
- 
- 	/* Unregister DSI host */
--	dsi_host_unregister();
-+	kmb_dsi_host_unregister();
- }
- 
- static int kmb_probe(struct platform_device *pdev)
-@@ -573,7 +573,7 @@ static int kmb_probe(struct platform_device *pdev)
- 	drm_mode_config_cleanup(drm);
- 	dev_set_drvdata(dev, NULL);
- 	drm_dev_put(drm);
--	dsi_host_unregister();
-+	kmb_dsi_host_unregister();
- 
- 	return ret;
- }
 diff --git a/drivers/gpu/drm/kmb/kmb_drv.h b/drivers/gpu/drm/kmb/kmb_drv.h
-index 89d7845..aa77631 100644
+index aa77631..3a1b66c 100644
 --- a/drivers/gpu/drm/kmb/kmb_drv.h
 +++ b/drivers/gpu/drm/kmb/kmb_drv.h
-@@ -15,6 +15,7 @@
- #define KMB_LCD_DEFAULT_CLK		250000000
- #define KMB_MIPI_DEFAULT_CLK		24000000
- #define KMB_MIPI_DEFAULT_CFG_CLK	24000000
-+#define KMB_SYS_CLK_MHZ			500
+@@ -30,6 +30,7 @@ struct kmb_drm_private {
+ 	spinlock_t			irq_lock;
+ 	int				irq_lcd;
+ 	int				irq_mipi;
++	dma_addr_t			fb_addr;
+ };
  
- struct kmb_drm_private {
- 	struct drm_device		drm;
+ static inline struct kmb_drm_private *to_kmb(const struct drm_device *dev)
 diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
-index c23719c..a9f2d78 100644
+index a9f2d78..e01c4f9 100644
 --- a/drivers/gpu/drm/kmb/kmb_dsi.c
 +++ b/drivers/gpu/drm/kmb/kmb_dsi.c
-@@ -80,6 +80,7 @@ static struct mipi_dsi_device *dsi_device;
+@@ -25,6 +25,7 @@
+ static int hw_initialized;
+ #define IMAGE_PATH "/home/root/1280x720.pnm"
+ //#define MIPI_TX_TEST_PATTERN_GENERATION
++//#define MIPI_DMA
+ //#define RTL_TEST
+ //#define IMG_WIDTH_PX      640
+ //#define IMG_HEIGHT_LINES  10
+@@ -33,6 +34,7 @@ static int hw_initialized;
+ 
+ /*MIPI TX CFG*/
+ //#define MIPI_TX_LANE_DATA_RATE_MBPS 1782
++//#define MIPI_TX_LANE_DATA_RATE_MBPS 800
+ #define MIPI_TX_LANE_DATA_RATE_MBPS 891
+ //#define MIPI_TX_LANE_DATA_RATE_MBPS 80
+ #define MIPI_TX_REF_CLK_KHZ         24000
+@@ -80,14 +82,14 @@ static struct mipi_dsi_device *dsi_device;
   * these will eventually go to the device tree sections,
   * and can be used as a refernce later for device tree additions
   */
-+//#define RES_1920x1080
+-//#define RES_1920x1080
++#define RES_1920x1080
  #ifdef RES_1920x1080
  #define IMG_HEIGHT_LINES  1080
  #define IMG_WIDTH_PX      1920
-@@ -262,10 +263,18 @@ static int kmb_dsi_get_modes(struct drm_connector *connector)
- 	return num_modes;
- }
+ #define MIPI_TX_ACTIVE_LANES 4
+ #endif
  
-+void kmb_dsi_host_unregister(void)
-+{
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
-+	mipi_dsi_host_unregister(dsi_host);
-+	kfree(dsi_host);
-+}
+-#define RES_1280x720
++//#define RES_1280x720
+ #ifdef RES_1280x720
+ #define IMG_HEIGHT_LINES  720
+ #define IMG_WIDTH_PX      1280
+@@ -97,9 +99,9 @@ struct mipi_tx_frame_section_cfg mipi_tx_frame0_sect_cfg = {
+ 	.width_pixels = IMG_WIDTH_PX,
+ 	.height_lines = IMG_HEIGHT_LINES,
+ 	.data_type = DSI_LP_DT_PPS_RGB888_24B,
+-	//.data_mode = MIPI_DATA_MODE1,
+-	.data_mode = MIPI_DATA_MODE0,
+-	.dma_packed = 1
++	.data_mode = MIPI_DATA_MODE1,
++//	.data_mode = MIPI_DATA_MODE0,
++	.dma_packed = 0
+ };
+ 
+ #ifdef RES_1920x1080
+@@ -544,12 +546,15 @@ static u32 mipi_tx_fg_section_cfg_regs(struct kmb_drm_private *dev_p,
+ 		<< MIPI_TX_SECT_VC_SHIFT);	/* bits [23:22] */
+ 	/* data mode */
+ 	cfg |= ((ph_cfg->data_mode & MIPI_TX_SECT_DM_MASK)
+-		<< MIPI_TX_SECT_DM_SHIFT);	/* bits [24:25] */
+-	cfg |= MIPI_TX_SECT_DMA_PACKED;
+-	DRM_INFO("%s : %d ctrl=%d frame_id=%d section=%d cfg=%x\n",
+-		 __func__, __LINE__, ctrl_no, frame_id, section, cfg);
++			<< MIPI_TX_SECT_DM_SHIFT); /* bits [24:25]*/
++	if (ph_cfg->dma_packed)
++		cfg |= MIPI_TX_SECT_DMA_PACKED;
++	DRM_INFO("%s : %d ctrl=%d frame_id=%d section=%d cfg=%x packed=%d\n",
++			__func__, __LINE__, ctrl_no, frame_id, section, cfg,
++			ph_cfg->dma_packed);
+ 	kmb_write_mipi(dev_p, (MIPI_TXm_HS_FGn_SECTo_PH(ctrl_no, frame_id,
+-							section)), cfg);
++					section)), cfg);
 +
- static void kmb_dsi_connector_destroy(struct drm_connector *connector)
- {
- 	struct kmb_connector *kmb_connector = to_kmb_connector(connector);
+ 	/*unpacked bytes */
+ 	/*there are 4 frame generators and each fg has 4 sections
+ 	 *there are 2 registers for unpacked bytes -
+@@ -601,6 +606,7 @@ static u32 mipi_tx_fg_section_cfg(struct kmb_drm_private *dev_p, u8 frame_id,
+ 	ph_cfg.wc = *wc;
+ 	ph_cfg.data_mode = frame_scfg->data_mode;
+ 	ph_cfg.data_type = frame_scfg->data_type;
++	ph_cfg.dma_packed = frame_scfg->dma_packed;
+ 	ph_cfg.vchannel = frame_id;
  
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	drm_connector_cleanup(connector);
- 	kfree(kmb_connector);
- }
-@@ -274,8 +283,19 @@ static void kmb_dsi_encoder_destroy(struct drm_encoder *encoder)
- {
- 	struct kmb_dsi *kmb_dsi = to_kmb_dsi(encoder);
- 
-+	DRM_INFO("%s : %d\n", __func__, __LINE__);
-+	if (!kmb_dsi)
-+		return;
-+
-+	kfree(kmb_dsi->dsi_host);
-+
- 	drm_encoder_cleanup(encoder);
-+
-+	kmb_dsi_connector_destroy(&kmb_dsi->attached_connector->base);
-+
- 	kfree(kmb_dsi);
-+	if (!dsi_device)
-+		kfree(dsi_device);
- }
- 
- static const struct drm_encoder_funcs kmb_dsi_funcs = {
-@@ -385,13 +405,8 @@ struct drm_bridge *kmb_dsi_host_bridge_init(struct device *dev)
- 	return bridge;
- }
- 
--void dsi_host_unregister(void)
--{
--	mipi_dsi_host_unregister(dsi_host);
--}
--
- u32 mipi_get_datatype_params(u32 data_type, u32 data_mode,
--			     struct mipi_data_type_params *params)
-+		struct mipi_data_type_params *params)
- {
- 	struct mipi_data_type_params data_type_parameters;
- 
-@@ -608,8 +623,10 @@ static void mipi_tx_fg_cfg_regs(struct kmb_drm_private *dev_p,
- 
- 	/*Get system clock for blanking period cnfigurations */
- 	/*TODO need to get system clock from clock driver */
--	/* Assume 700 Mhz system clock for now */
--	sysclk = 500;
-+	/* 500 Mhz system clock minus 50 - to account for the difference in
-+	 * mipi clock speed in RTL tests
-+	 */
-+	sysclk = KMB_SYS_CLK_MHZ - 50;
+ 	mipi_tx_fg_section_cfg_regs(dev_p, frame_id, section,
+@@ -627,6 +633,7 @@ static void mipi_tx_fg_cfg_regs(struct kmb_drm_private *dev_p,
+ 	 * mipi clock speed in RTL tests
+ 	 */
+ 	sysclk = KMB_SYS_CLK_MHZ - 50;
++//	sysclk = KMB_SYS_CLK_MHZ;
  
  	/*ppl-pixel packing layer, llp-low level protocol
  	 * frame genartor timing parameters are clocked on the system clock
-@@ -875,9 +892,6 @@ static u32 mipi_tx_init_cntrl(struct kmb_drm_private *dev_p,
- 
- 		active_vchannels++;
- 
--		/*connect lcd to mipi */
--		kmb_write_msscam(dev_p, MSS_LCD_MIPI_CFG, 1);
--
- 		/*stop iterating as only one virtual channel shall be used for
- 		 * LCD connection
- 		 */
-@@ -1662,56 +1676,17 @@ void mipi_tx_handle_irqs(struct kmb_drm_private *dev_p)
- 
- }
- 
--void dma_transfer(struct kmb_drm_private *dev_p, int mipi_number,
--		  u64 dma_start_address, int data_length)
-+void connect_lcd_to_mipi(struct kmb_drm_private *dev_p)
- {
--	u64 dma_cfg_adr_offset;
--	u64 dma_start_adr_offset;
--	u64 dma_length_adr_offset;
--	u32 reg_wr_data;
--	int axi_burst_length;
--	int mipi_fifo_flush;
--	int dma_pipelined_axi_en;
--	int dma_en;
--	int dma_autorestart_mode_0;
--	int tx_rx;
--
--	DRM_INFO("%s: starting a new DMA transfer for mipi %d ", __func__,
--		 mipi_number);
--
--	if (mipi_number < 6)
--		tx_rx = 0;
--	else
--		tx_rx = 1;
--
--	dma_cfg_adr_offset =
--		MIPI_TX_HS_DMA_CFG + HS_OFFSET(mipi_number);
--	dma_start_adr_offset =
--		MIPI_TX_HS_DMA_START_ADR_CHAN0 + HS_OFFSET(mipi_number);
--	dma_length_adr_offset =
--		MIPI_TX_HS_DMA_LEN_CHAN0 + HS_OFFSET(mipi_number);
--
--	reg_wr_data = 0;
--	reg_wr_data = dma_start_address;
--	kmb_write_mipi(dev_p, dma_start_adr_offset, reg_wr_data);
--
--	reg_wr_data = 0;
--	reg_wr_data = data_length;
--	kmb_write_mipi(dev_p, dma_length_adr_offset, reg_wr_data);
--
--	axi_burst_length = 16;
--	mipi_fifo_flush = 0;
--	dma_pipelined_axi_en = 1;
--	dma_en = 1;
--	dma_autorestart_mode_0 = 0;
--
--	reg_wr_data = 0;
--	reg_wr_data =
--	    ((axi_burst_length & 0x1ffff) << 0 | (mipi_fifo_flush & 0xf) << 9 |
--	     (dma_pipelined_axi_en & 0x1) << 13 | (dma_en & 0xf) << 16 |
--	     (dma_autorestart_mode_0 & 0x3) << 24);
--
--	kmb_write_mipi(dev_p, dma_cfg_adr_offset, reg_wr_data);
-+#ifdef LCD_TEST
-+	/*connect lcd to mipi */
-+	/*DISABLE MIPI->CIF CONNECTION*/
-+	kmb_write_msscam(dev_p, MSS_MIPI_CIF_CFG, 0);
-+	/*ENABLE LCD->MIPI CONNECTION */
-+	kmb_write_msscam(dev_p, MSS_LCD_MIPI_CFG, 1);
-+	/*DISABLE LCD->CIF LOOPBACK */
-+	kmb_write_msscam(dev_p, MSS_LOOPBACK_CFG, 0);
-+#endif
- }
- 
- /**
-@@ -1753,46 +1728,12 @@ int kmb_dsi_hw_init(struct drm_device *dev)
- 	mipi_tx_init_cntrl(dev_p, &mipi_tx_init_cfg);
- 	/*d-phy initialization */
- 	mipi_tx_init_dphy(dev_p, &mipi_tx_init_cfg);
-+	connect_lcd_to_mipi(dev_p);
- #ifdef MIPI_TX_TEST_PATTERN_GENERATION
- 	mipi_tx_hs_tp_gen(dev_p, 0, MIPI_TX_HS_TP_V_STRIPES, 0x15, 0xff,
- 			0xff00, MIPI_CTRL6);
- 	DRM_INFO("%s : %d IRQ_STATUS = 0x%x\n", __func__, __LINE__,
- 			GET_MIPI_TX_HS_IRQ_STATUS(dev_p, MIPI_CTRL6));
--#elseif MIPI_DMA
--	  dma_data_length = image_height * image_width * unpacked_bytes;
--	file = filp_open(IMAGE_PATH, O_RDWR, 0);
--	if (IS_ERR(file)) {
--		DRM_ERROR("filp_open failed\n");
--		return -EBADF;
--	}
--
--	file_buf = kzalloc(PAGE_SIZE, GFP_KERNEL);
--	if (!file_buf) {
--		DRM_ERROR("file_buf alloc failed\n");
--		return -ENOMEM;
--	}
--
--	i_size = i_size_read(file_inode(file));
--	while (offset < i_size) {
--
--		file_buf_len = kmb_kernel_read(file, offset,
--					       file_buf, PAGE_SIZE);
--		if (file_buf_len < 0) {
--			rc = file_buf_len;
--			break;
--		}
--		if (file_buf_len == 0)
--			break;
--		offset += file_buf_len;
--		count++;
--		dma_tx_start_address = file_buf;
--		dma_transfer(dev_p, MIPI_CTRL6, dma_tx_start_address,
--			     PAGE_SIZE);
--
--	}
--	DRM_INFO("count = %d\n", count);
--	kfree(file_buf);
--	filp_close(file, NULL);
- #endif //MIPI_TX_TEST_PATTERN_GENERATION
- 
- 	hw_initialized = true;
-@@ -1829,12 +1770,11 @@ int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
- 	host = kmb_dsi_host_init(dev, kmb_dsi);
- 	if (!host) {
- 		DRM_ERROR("Faile to allocate host\n");
--//              drm_encoder_cleanup(encoder);
- 		kfree(kmb_dsi);
- 		kfree(kmb_connector);
- 		return -ENOMEM;
- 	}
--
-+	kmb_dsi->dsi_host = host;
- 	connector = &kmb_connector->base;
- 	encoder = &kmb_dsi->base;
- 	encoder->possible_crtcs = 1;
-@@ -1849,7 +1789,6 @@ int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge)
- 	DRM_INFO("%s : %d connector = %s encoder = %s\n", __func__,
- 		 __LINE__, connector->name, encoder->name);
- 
--	DRM_INFO("%s : %d\n", __func__, __LINE__);
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 
- 	/* Link drm_bridge to encoder */
 diff --git a/drivers/gpu/drm/kmb/kmb_dsi.h b/drivers/gpu/drm/kmb/kmb_dsi.h
-index 035ad80..1ece5c7 100644
+index 1ece5c7..912e06d 100644
 --- a/drivers/gpu/drm/kmb/kmb_dsi.h
 +++ b/drivers/gpu/drm/kmb/kmb_dsi.h
-@@ -319,7 +319,7 @@ struct drm_bridge *kmb_dsi_host_bridge_init(struct device *dev);
- int kmb_dsi_init(struct drm_device *dev, struct drm_bridge *bridge);
- void kmb_plane_destroy(struct drm_plane *plane);
- void mipi_tx_handle_irqs(struct kmb_drm_private *dev_p);
--void dsi_host_unregister(void);
-+void kmb_dsi_host_unregister(void);
- int kmb_dsi_hw_init(struct drm_device *dev);
+@@ -262,6 +262,7 @@ struct mipi_tx_frame_sect_phcfg {
+ 	enum mipi_data_mode data_mode;
+ 	enum mipi_dsi_data_type data_type;
+ 	uint8_t vchannel;
++	uint8_t dma_packed;
+ };
  
- #define to_kmb_connector(x) container_of(x, struct kmb_connector, base)
+ struct mipi_tx_frame_cfg {
 diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index c57f06f..fce8dca 100644
+index fce8dca..f6dfe24 100644
 --- a/drivers/gpu/drm/kmb/kmb_plane.c
 +++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -270,6 +270,8 @@ unsigned int set_bits_per_pixel(const struct drm_format_info *format)
- 		val = LCD_LAYER_32BPP;
+@@ -96,6 +96,7 @@ static const u32 csc_coef_lcd[] = {
+ 	-179, 125, -226
+ };
+ 
++
+ static unsigned int check_pixel_format(struct drm_plane *plane, u32 format)
+ {
+ 	int i;
+@@ -244,17 +245,21 @@ unsigned int set_pixel_format(u32 format)
+ 		val = LCD_LAYER_FORMAT_RGBA8888 | LCD_LAYER_BGR_ORDER;
  		break;
  	}
-+	DRM_INFO("%s : %d bpp=0x%x\n", __func__, __LINE__, bpp);
-+	val = LCD_LAYER_24BPP;
++	DRM_INFO("%s : %d layer format val=%d\n", __func__, __LINE__, val);
  	return val;
  }
  
-@@ -350,9 +352,8 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 		  | LCD_DMA_LAYER_CONT_UPDATE | LCD_DMA_LAYER_AXI_BURST_1
+ unsigned int set_bits_per_pixel(const struct drm_format_info *format)
+ {
+-	int i;
+ 	u32 bpp = 0;
+ 	unsigned int val = 0;
+ 
+-	for (i = 0; i < format->num_planes; i++)
+-		bpp += 8 * format->cpp[i];
++	if (format->num_planes > 1) {
++		val = LCD_LAYER_8BPP;
++		return val;
++	}
++
++	bpp += 8*format->cpp[0];
+ 
+ 	switch (bpp) {
+ 	case 8:
+@@ -270,8 +275,8 @@ unsigned int set_bits_per_pixel(const struct drm_format_info *format)
+ 		val = LCD_LAYER_32BPP;
+ 		break;
+ 	}
+-	DRM_INFO("%s : %d bpp=0x%x\n", __func__, __LINE__, bpp);
+-	val = LCD_LAYER_24BPP;
++
++	DRM_INFO("%s : %d bpp=%d val=%d\n", __func__, __LINE__, bpp, val);
+ 	return val;
+ }
+ 
+@@ -325,11 +330,12 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	dev_p = to_kmb(plane->dev);
+ 
+-	src_w = plane->state->src_w >> 16;
++	src_w = (plane->state->src_w >> 16);
+ 	src_h = plane->state->src_h >> 16;
+ 	crtc_x = plane->state->crtc_x;
+ 	crtc_y = plane->state->crtc_y;
+ 
++	DRM_INFO("src_w=%d src_h=%d\n", src_w, src_h);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_WIDTH(plane_id), src_w-1);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_HEIGHT(plane_id), src_h-1);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_COL_START(plane_id), crtc_x);
+@@ -339,6 +345,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	val |= set_bits_per_pixel(fb->format);
+ 	/*CHECKME Leon drvr sets it to 100 try this for now */
+ 	val |= LCD_LAYER_FIFO_100;
++	val |= LCD_LAYER_BGR_ORDER;
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_CFG(plane_id), val);
+ 
+ 	/*re-initialize interrupts */
+@@ -353,29 +360,33 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
  		  | LCD_DMA_LAYER_VSTRIDE_EN;
  */
--	dma_cfg = LCD_DMA_LAYER_ENABLE
--		  | LCD_DMA_LAYER_AXI_BURST_1
--		  | LCD_DMA_LAYER_VSTRIDE_EN;
-+	dma_cfg = LCD_DMA_LAYER_ENABLE | LCD_DMA_LAYER_VSTRIDE_EN
-+		  | LCD_DMA_LAYER_AXI_BURST_16 | LCD_DMA_LAYER_CONT_UPDATE;
+ 	dma_cfg = LCD_DMA_LAYER_ENABLE | LCD_DMA_LAYER_VSTRIDE_EN
+-		  | LCD_DMA_LAYER_AXI_BURST_16 | LCD_DMA_LAYER_CONT_UPDATE;
++		| LCD_DMA_LAYER_AXI_BURST_16 |
++		LCD_DMA_LAYER_CONT_PING_PONG_UPDATE;
  
  	/* disable DMA first */
  	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_CFG(plane_id),
-@@ -368,14 +369,13 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 			~LCD_DMA_LAYER_ENABLE);
++	kmb_write_lcd(dev_p, LCD_FIFO_FLUSH + plane_id*0x400, 1);
+ 
+ 	/* pinpong mode is enabled - at the end of DMA transfer, start new
+ 	 * transfer alternatively using main and shadow register settings.
+ 	 * So update both main and shadow registers
+ 	 */
+ 	addr = drm_fb_cma_get_gem_addr(fb, plane->state, 0);
++	dev_p->fb_addr = addr;
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_START_ADDR(plane_id), addr);
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_START_SHADOW(plane_id), addr);
  
  	width = fb->width;
  	height = fb->height;
--	dma_len = width * height * fb->format->cpp[0];
-+	dma_len = width * height * 1;
+-	dma_len = width * height * 1;
++	dma_len = width * height * fb->format->cpp[0];
  	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LEN(plane_id), dma_len);
  	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LEN_SHADOW(plane_id), dma_len);
  
--	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LINE_VSTRIDE(plane_id),
--			fb->pitches[0]);
-+	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LINE_VSTRIDE(plane_id), width);
+-	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LINE_VSTRIDE(plane_id), width);
++	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LINE_VSTRIDE(plane_id),
++			fb->pitches[0]);
  	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_LINE_WIDTH(plane_id),
--			(width*fb->format->cpp[0]));
-+			(width));
+-			(width));
++			(width*fb->format->cpp[0]));
  
  	/*program Cb/Cr for planar formats*/
  	if (num_planes > 1) {
-@@ -430,11 +430,11 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	}
+@@ -413,6 +424,9 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
  
- //	ctrl |= LCD_CTRL_ENABLE;
--//	ctrl |= LCD_CTRL_PROGRESSIVE | LCD_CTRL_TIM_GEN_ENABLE
--//		| LCD_CTRL_CONTINUOUS | LCD_CTRL_OUTPUT_ENABLED;
--
- 	ctrl |= LCD_CTRL_PROGRESSIVE | LCD_CTRL_TIM_GEN_ENABLE
--		| LCD_CTRL_ONE_SHOT | LCD_CTRL_OUTPUT_ENABLED;
-+		| LCD_CTRL_CONTINUOUS | LCD_CTRL_OUTPUT_ENABLED;
-+
-+//	ctrl |= LCD_CTRL_PROGRESSIVE | LCD_CTRL_TIM_GEN_ENABLE
-+//		| LCD_CTRL_ONE_SHOT | LCD_CTRL_OUTPUT_ENABLED;
- 	/*LCD is connected to MIPI on kmb
- 	 * Therefore this bit is required for DSI Tx
+ 	/* enable DMA */
+ 	kmb_write_lcd(dev_p, LCD_LAYERn_DMA_CFG(plane_id), dma_cfg);
++	DRM_INFO("%s : %d dma_cfg=0x%x LCD_DMA_CFG=0x%x\n", __func__,
++			__LINE__, dma_cfg,
++			kmb_read_lcd(dev_p, LCD_LAYERn_DMA_CFG(plane_id)));
+ 
+ 	switch (plane_id) {
+ 	case LAYER_0:
+@@ -446,6 +460,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
+ 	 * from the Myriadx tests
  	 */
-@@ -453,7 +453,7 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
- 	}
+ 	out_format |= LCD_OUTF_FORMAT_RGB888;
++//	out_format |= LCD_OUTF_BGR_ORDER;
  
- 	/*set background color to white*/
--	kmb_write_lcd(dev_p, LCD_BG_COLOUR_LS, 0xffffff);
-+//	kmb_write_lcd(dev_p, LCD_BG_COLOUR_LS, 0xffffff);
+ 	if (val & LCD_LAYER_PLANAR_STORAGE) {
+ 		/*enable CSC if input is planar and output is RGB */
+@@ -457,7 +472,9 @@ static void kmb_plane_atomic_update(struct drm_plane *plane,
  	/*leave RGB order,conversion mode and clip mode to default*/
  	/* do not interleave RGB channels for mipi Tx compatibility */
  	out_format |= LCD_OUTF_MIPI_RGB_MODE;
++//	out_format |= LCD_OUTF_SYNC_MODE ;
+ 	kmb_write_lcd(dev_p, LCD_OUT_FORMAT_CFG, out_format);
++
+ //	kmb_write_lcd(dev_p, LCD_CONTROL, LCD_CTRL_ENABLE);
+ #endif
+ }
 diff --git a/drivers/gpu/drm/kmb/kmb_regs.h b/drivers/gpu/drm/kmb/kmb_regs.h
-index c83740bb..ca7e4be 100644
+index ca7e4be..e95891a 100644
 --- a/drivers/gpu/drm/kmb/kmb_regs.h
 +++ b/drivers/gpu/drm/kmb/kmb_regs.h
-@@ -714,8 +714,10 @@
- 			& (1 << (dphy - MIPI_DPHY6)))
- #define DPHY_CFG_CLK_EN				(0x18c)
+@@ -350,6 +350,7 @@
+ #define LCD_OUTF_BGR_ORDER			  (1 << 5)
+ #define LCD_OUTF_Y_ORDER			  (1 << 6)
+ #define LCD_OUTF_CRCB_ORDER			  (1 << 7)
++#define LCD_OUTF_SYNC_MODE			  (1 << 11)
+ #define LCD_OUTF_RGB_CONV_MODE			  (1 << 14)
+ #define LCD_OUTF_MIPI_RGB_MODE			  (1 << 18)
  
-+#define MSS_MIPI_CIF_CFG		(0x00)
- #define MSS_LCD_MIPI_CFG		(0x04)
- #define MSS_CAM_CLK_CTRL		(0x10)
-+#define MSS_LOOPBACK_CFG		(0x0C)
- #define   LCD				(1<<1)
- #define   MIPI_COMMON			(1<<2)
- #define   MIPI_TX0			(1<<9)
 -- 
 2.7.4
 
