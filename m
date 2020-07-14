@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296FE2205AA
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427812205B1
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92696E43B;
-	Wed, 15 Jul 2020 06:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39986E453;
+	Wed, 15 Jul 2020 07:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 490 seconds by postgrey-1.36 at gabe;
- Tue, 14 Jul 2020 13:48:44 UTC
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF766E14F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 13:48:44 +0000 (UTC)
-Received: by unicorn.mansr.com (Postfix, from userid 65534)
- id DA23615363; Tue, 14 Jul 2020 14:40:32 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on unicorn.mansr.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.0 required=5.0 tests=none autolearn=unavailable
- autolearn_force=no version=3.4.4
-Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:8d8e::3])
- by unicorn.mansr.com (Postfix) with ESMTPS id 42A1F15360;
- Tue, 14 Jul 2020 14:40:32 +0100 (BST)
-Received: by raven.mansr.com (Postfix, from userid 51770)
- id 392E321A6F3; Tue, 14 Jul 2020 14:40:32 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [PATCH] drm: sun4i: hdmi: Fix inverted HPD result
-References: <20200711011030.21997-1-wens@kernel.org>
-Date: Tue, 14 Jul 2020 14:40:32 +0100
-In-Reply-To: <20200711011030.21997-1-wens@kernel.org> (Chen-Yu Tsai's message
- of "Sat, 11 Jul 2020 09:10:30 +0800")
-Message-ID: <yw1x5zaqnrjj.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
+Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
+ [59.111.176.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E5D6E892
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 14:20:50 +0000 (UTC)
+Received: from njvxl5505.vivo.xyz (unknown [157.0.31.124])
+ by mail-m17613.qiye.163.com (Hmail) with ESMTPA id E8D0948166E;
+ Tue, 14 Jul 2020 22:20:43 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Drew Davenport <ddavenport@chromium.org>, Bernard Zhao <bernard@vivo.com>,
+ Hongbo Yao <yaohongbo@huawei.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm: use kthread_create_worker instead of kthread_run
+Date: Tue, 14 Jul 2020 22:20:29 +0800
+Message-Id: <20200714142034.23843-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZTENKQk0aTh9MThgaVkpOQk9MSE1PT09JSUJVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kxw6DQw*HjgsNjYuPjE3OCgr
+ HQoaCx5VSlVKTkJPTEhNT09PTU5IVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU9ZV1kIAVlBT0xNQzcG
+X-HM-Tid: 0a734db3030f93bakuwse8d0948166e
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,59 +48,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: opensource.kernel@vivo.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Chen-Yu Tsai <wens@kernel.org> writes:
+Use kthread_create_worker to simplify the code and optimise
+the manager struct: msm_drm_thread. With this change, we
+could remove struct element (struct task_struct *thread &
+struct kthread_worker worker), instead, use one point (struct
+kthread_worker *worker).
 
-> From: Chen-Yu Tsai <wens@csie.org>
->
-> When the extra HPD polling in sun4i_hdmi was removed, the result of
-> HPD was accidentally inverted.
->
-> Fix this by inverting the check.
->
-> Fixes: bda8eaa6dee7 ("drm: sun4i: hdmi: Remove extra HPD polling")
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c |  2 +-
+ drivers/gpu/drm/msm/msm_drv.c            | 18 ++++++------------
+ drivers/gpu/drm/msm/msm_drv.h            |  3 +--
+ 3 files changed, 8 insertions(+), 15 deletions(-)
 
-Tested-by: Mans Rullgard <mans@mansr.com>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index e15b42a780e0..c959c959021d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -396,7 +396,7 @@ static void dpu_crtc_frame_event_cb(void *data, u32 event)
+ 	fevent->event = event;
+ 	fevent->crtc = crtc;
+ 	fevent->ts = ktime_get();
+-	kthread_queue_work(&priv->event_thread[crtc_id].worker, &fevent->work);
++	kthread_queue_work(priv->event_thread[crtc_id].worker, &fevent->work);
+ }
+ 
+ void dpu_crtc_complete_commit(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index f6ce40bf3699..82e79b82a594 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -238,10 +238,8 @@ static int msm_drm_uninit(struct device *dev)
+ 
+ 	/* clean up event worker threads */
+ 	for (i = 0; i < priv->num_crtcs; i++) {
+-		if (priv->event_thread[i].thread) {
+-			kthread_destroy_worker(&priv->event_thread[i].worker);
+-			priv->event_thread[i].thread = NULL;
+-		}
++		if (priv->event_thread[i].worker)
++			kthread_destroy_worker(priv->event_thread[i].worker);
+ 	}
+ 
+ 	msm_gem_shrinker_cleanup(ddev);
+@@ -504,19 +502,15 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+ 	for (i = 0; i < priv->num_crtcs; i++) {
+ 		/* initialize event thread */
+ 		priv->event_thread[i].crtc_id = priv->crtcs[i]->base.id;
+-		kthread_init_worker(&priv->event_thread[i].worker);
+ 		priv->event_thread[i].dev = ddev;
+-		priv->event_thread[i].thread =
+-			kthread_run(kthread_worker_fn,
+-				&priv->event_thread[i].worker,
+-				"crtc_event:%d", priv->event_thread[i].crtc_id);
+-		if (IS_ERR(priv->event_thread[i].thread)) {
++		priv->event_thread[i].worker = kthread_create_worker(0,
++			"crtc_event:%d", priv->event_thread[i].crtc_id);
++		if (IS_ERR(priv->event_thread[i].worker)) {
+ 			DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
+-			priv->event_thread[i].thread = NULL;
+ 			goto err_msm_uninit;
+ 		}
+ 
+-		ret = sched_setscheduler(priv->event_thread[i].thread,
++		ret = sched_setscheduler(priv->event_thread[i].worker->task,
+ 					 SCHED_FIFO, &param);
+ 		if (ret)
+ 			dev_warn(dev, "event_thread set priority failed:%d\n",
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index e2d6a6056418..daf2f4e5548c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -129,9 +129,8 @@ struct msm_display_info {
+ /* Commit/Event thread specific structure */
+ struct msm_drm_thread {
+ 	struct drm_device *dev;
+-	struct task_struct *thread;
+ 	unsigned int crtc_id;
+-	struct kthread_worker worker;
++	struct kthread_worker *worker;
+ };
+ 
+ struct msm_drm_private {
+-- 
+2.17.1
 
-> ---
->
-> Sorry for the screw-up.
->
-> ---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun=
-4i/sun4i_hdmi_enc.c
-> index 557cbe5ab35f..2f2c9f0a1071 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -260,7 +260,7 @@ sun4i_hdmi_connector_detect(struct drm_connector *con=
-nector, bool force)
->  	unsigned long reg;
->
->  	reg =3D readl(hdmi->base + SUN4I_HDMI_HPD_REG);
-> -	if (reg & SUN4I_HDMI_HPD_HIGH) {
-> +	if (!(reg & SUN4I_HDMI_HPD_HIGH)) {
->  		cec_phys_addr_invalidate(hdmi->cec_adap);
->  		return connector_status_disconnected;
->  	}
-> -- =
-
-> 2.27.0
->
-
--- =
-
-M=E5ns Rullg=E5rd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
