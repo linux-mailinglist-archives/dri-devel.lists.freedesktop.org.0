@@ -1,58 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524CC2205A3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9AE2205AC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC096E43D;
-	Wed, 15 Jul 2020 06:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7626E448;
+	Wed, 15 Jul 2020 06:59:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72E536E41A;
- Tue, 14 Jul 2020 16:33:09 +0000 (UTC)
-Received: by mail-il1-x143.google.com with SMTP id i18so14737248ilk.10;
- Tue, 14 Jul 2020 09:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2v74DtJfidVxmpf1PQZAEw4tnokF3wni9AEugEzeRKc=;
- b=cNdSutJBzO6Kg8H5UK7GGzsZNIn63ZqSknBHVkJciFbNow2tN+84fFUTAH5ZWU+mrg
- fk3cgF0krZkHrFmPCQMinrGzt1pfEpS5m4C5kw2z04157wfxymSGiKcJhwfwnzdTSiGx
- S55Cn5uS4Q1K5fT0oTPssneFnFfj+6jsPKOx8+j/ga41IfEpW7AzrHIfiyIWgQlL8KLQ
- tMgmStbxR0XKAwBUJ05ei5zSoiBoWh0NdZCv8N+0TaDo5TGihA5UlCIgq0OLHTzHrVxs
- WURrOvOt1gEMBryG3njE3YlybrCfm2iV//DMa0I4XtbbQmf9mETetU/zw9HdhIVnx+wN
- OJZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2v74DtJfidVxmpf1PQZAEw4tnokF3wni9AEugEzeRKc=;
- b=Liu19vIWk5n//PFBYKJN0SqEfLYkIORF1XKjXow3YhYM58pmXelN5m6yZkpSJHvrCY
- iAkakuRC1FgmS23z63Mt7vGjbdXQeFcqHnnmIMaG3X8hz3KhVlMJxG8HXW3uqMrIgNm/
- /eHieBr6e4w3TbfQ1XtbpSvmNSBrhjRIRh6mu6SyXN2OCVgxn/a7ndo+VgesxrgpI0SU
- 60MDKxWJk+VoFTL6qPm8iykenB1JDIAN4oucCOwruutATTbXFLAK4rX3uMoWEwlL7pZA
- 4o40bDFomL8XTmyXU9CjLY16vtTmpd2oDtAhw92Tig1YWm9NLSEtqSj9yWOr+XImvB9+
- p7eg==
-X-Gm-Message-State: AOAM530O+3FaLuzSPkCHaillcJ3AIrDeaFAG6Bt+YsvDRFlU6TiUR/nU
- p+3Bw5tKaWIKsF7CmvZ42dxEhitB2/4eAWxzkJ0=
-X-Google-Smtp-Source: ABdhPJwIuFjoprAEwGXRfj5lcBjDIs4LLbNalWFrIBkfLOGyR6XHqrRCeUWiFE0ODwubXbHbkOA0ENGHJUyJiNFgxrU=
-X-Received: by 2002:a92:849c:: with SMTP id y28mr4965659ilk.33.1594744388613; 
- Tue, 14 Jul 2020 09:33:08 -0700 (PDT)
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC3B6E187
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 17:16:03 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06EHChrb153815;
+ Tue, 14 Jul 2020 17:15:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type; s=corp-2020-01-29;
+ bh=7Pb6O54ow1VQASDVJQvOoUC45VOUa7lVY8Ov4jBbY7g=;
+ b=mr1HkAQaMguxlirGA0uLYeirOpjvHxgrSRQXAWD73n3oQn4TMgegU877OpPQPDkt4www
+ Q0nd7EOyNHntzrRrkSNU2dpEPfPdoOF2vvSzGT4GfZ3k44EapTaLazUXTWT9Uj9qcPk8
+ d7LOvqhBU630GiczL6ntluDpN6Hu0IuMxKj+y1q5zytGwGrOHYfV98E1ueblw2P3X+VH
+ 0fN/vRhEGVRh9+/EOydNIUwdZ1p9Ci3pvynoPpJXag258Djt6AmAOq1AsjW3aEZ8OgGG
+ tJrO/+3Kmnm2hX+sldf//cHKwjCg/25KWIvObimVgWzLNY5VtXHdhUZAvGMhl4dl0HEh kg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 3274ur6ryk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 14 Jul 2020 17:15:58 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06EHDarG170505;
+ Tue, 14 Jul 2020 17:15:57 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 327q6spy46-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jul 2020 17:15:57 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06EHFtmN018901;
+ Tue, 14 Jul 2020 17:15:55 GMT
+Received: from [10.39.221.185] (/10.39.221.185)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 14 Jul 2020 10:15:55 -0700
+Subject: Re: [PATCH] fbdev: Detect integer underflow at "struct
+ fbcon_ops"->clear_margins.
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
+ <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
+ <CGME20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346@eucas1p1.samsung.com>
+ <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
+ <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
+From: George Kennedy <george.kennedy@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <c5bf6d5c-8d0a-8df5-2a11-38bf37a11d67@oracle.com>
+Date: Tue, 14 Jul 2020 13:15:53 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200710230224.2265647-1-dianders@chromium.org>
- <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
- <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
- <CAL_JsqLJM5nwNSdugMBLDVtjP97dikCm_AiHjnDs1jqBOFoaaQ@mail.gmail.com>
- <CAD=FV=UP0AHWr22U69TKcwwAefPCYMsfzymobczqmrdB6BOOhA@mail.gmail.com>
-In-Reply-To: <CAD=FV=UP0AHWr22U69TKcwwAefPCYMsfzymobczqmrdB6BOOhA@mail.gmail.com>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Tue, 14 Jul 2020 10:32:57 -0600
-Message-ID: <CAOCk7NoX-XAXy2WaYGjGOtEmypis-DO-W1cfU0wnucHH0oZrqg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 0/9] drm/msm: Avoid possible infinite probe
- deferral and speed booting
-To: Doug Anderson <dianders@chromium.org>
+In-Reply-To: <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007140126
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 impostorscore=0
+ suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007140126
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,230 +89,636 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
+ Jiri Slaby <jslaby@suse.com>, Dmitry Vyukov <dvyukov@google.com>
+Content-Type: multipart/mixed; boundary="===============0679935968=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 13, 2020 at 5:50 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Mon, Jul 13, 2020 at 1:25 PM Rob Herring <robh+dt@kernel.org> wrote:
-> >
-> > On Mon, Jul 13, 2020 at 9:08 AM Doug Anderson <dianders@chromium.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, Jul 13, 2020 at 7:11 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > > >
-> > > > On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
-> > > > >
-> > > > > I found that if I ever had a little mistake in my kernel config,
-> > > > > or device tree, or graphics driver that my system would sit in a loop
-> > > > > at bootup trying again and again and again.  An example log was:
-> > > >
-> > > > Why do we care about optimizing the error case?
-> > >
-> > > It actually results in a _fully_ infinite loop.  That is: if anything
-> > > small causes a component of DRM to fail to probe then the whole system
-> > > doesn't boot because it just loops trying to probe over and over
-> > > again.  The messages I put in the commit message are printed over and
-> > > over and over again.
-> >
-> > Sounds like a bug as that's not what should happen.
-> >
-> > If you defer during boot (initcalls), then you'll be on the deferred
-> > list until late_initcall and everything is retried. After
-> > late_initcall, only devices getting added should trigger probing. But
-> > maybe the adding and then removing a device is causing a re-trigger.
->
-> Right, I'm nearly certain that the adding and then removing is causing
-> a re-trigger.  I believe the loop would happen for any case where we
-> have a probe function that:
->
-> 1. Adds devices.
-> 2. After adding devices it decides that it needs to defer.
-> 3. Removes the devices it added.
-> 4. Return -EPROBE_DEFER from its probe function.
->
-> Specifically from what I know about how -EPROBE_DEFER works I'm not
-> sure how it wouldn't cause an infinite loop in that case.
->
-> Perhaps the missing part of my explanation, though, is why it never
-> gets out of this infinite loop.  In my case I purposely made the
-> bridge chip "ti-sn65dsi86.c" return an error (-EINVAL) in its probe
-> every time.  Obviously I wasn't going to get a display up like this,
-> but I just wanted to not loop forever at bootup.  I tracked down
-> exactly why we get an - EPROBE_DEFER over and over in this case.
->
-> You can see it in msm_dsi_host_register().  If some components haven't
-> shown up when that function runs it will _always_ return
-> -EPROBE_DEFER.
->
-> In my case, since I caused the bridge to fail to probe, those
-> components will _never_ show up.  That means that
-> msm_dsi_host_register() will _always_ return -EPROBE_DEFER.
->
-> I haven't dug through all the DRM code enough, but it doesn't
-> necessarily seem like the wrong behavior.  If the bridge driver or a
-> panel was a module then (presumably) they could show up later and so
-> it should be OK for it to defer, right?
->
-> So with all that, it doesn't really feel like this is a bug so much as
-> it's an unsupported use case.  The current deferral logic simply can't
-> handle the case we're throwing at it.  You cannot return -EPROBE_DEFER
-> if your probe function adds devices each time through the probe
-> function.
->
-> Assuming all the above makes sense, that means we're stuck with:
->
-> a) This patch series, which makes us not add devices.
->
-> b) Some other patch series which rearchitects the MSM graphics stack
-> to not return -EPROBE_DEFER in this case.
+This is a multi-part message in MIME format.
+--===============0679935968==
+Content-Type: multipart/alternative;
+ boundary="------------4967EE9DDB85FA5DE5760002"
+Content-Language: en-US
 
-This isn't a MSM specific issue.  This is an issue with how the DSI
-interface works, and how software is structured in Linux.  I would
-expect that pretty much any DSI host in the kernel would have some
-version of this issue.
+This is a multi-part message in MIME format.
+--------------4967EE9DDB85FA5DE5760002
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The problem is that DSI is not "hot pluggable", so to give the DRM
-stack the info it needs, we need both the DSI controller (aka the MSM
-graphics stack in your case), and the thing it connects to (in your
-case, the TI bridge, normally the actual panel) because the DRM stack
-expects that if init completes, it has certain information
-(resolution, etc), and some of that information is in the DSI
-controller, and some of it is on the DSI device.
+Hello Tetsuo,
 
+Can you try the a.out built from the original Syzkaller modified repro C 
+program? It walks 0-7 through xres and yres of the fb_var_screeninfo struct.
+
+// https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6
+// autogenerated by syzkaller (https://github.com/google/syzkaller)
+
+#define _GNU_SOURCE
+
+#include <endian.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <sys/fcntl.h>
+#include <unistd.h>
+
+#include <errno.h>
+
+#include <linux/fb.h>
+
+int verbose = 0;
+
+void
+dumpit(unsigned char *buf, int count, int addr)
+{
+     int i, j;
+     char bp[256];
+
+     memset(bp, 0, 256);
+
+     for (i = j = 0; i < count; i++, j++) {
+         if (j == 16) {
+             j = 0;
+             printf("%s\n", bp);
+             memset(bp, 0, 256);
+         }
+         if (j == 0) {
+             sprintf(&bp[strlen(bp)], "%x: ", addr + i);
+         }
+         sprintf(&bp[strlen(bp)], "%02x ", buf[i]);
+     }
+     if (j != 0) {
+         printf("%s\n", bp);
+     }
+}
+
+uint64_t r[1] = {0xffffffffffffffff};
+
+int main(int argc, char **argv)
+{
+   syscall(__NR_mmap, 0x20000000ul, 0x1000000ul, 3ul, 0x32ul, -1, 0);
+   intptr_t res = 0;
+   uint32_t activate = FB_ACTIVATE_NOW;
+   struct fb_var_screeninfo *varp = (struct fb_var_screeninfo *)0x200001c0;
+   struct fb_var_screeninfo *starting_varp = malloc(sizeof(struct fb_var_screeninfo *));
+   char *vp = (char *)varp;
+   int i, sum, rtn, c;
+   extern char *optarg;
+   int limit = 0, passes = 0;
+   unsigned int start_address = 0;
+   unsigned int pattern = 0;
+   int breakit = 1;
+	
+	while ((c = getopt (argc, argv, "a:v")) != -1)
+	switch (c)
+	{
+	case 'a':
+		activate = strtol(optarg, 0, 0);
+		break;
+	case 'v':
+		verbose++;
+		break;
+	default:
+		fprintf(stderr, "\nusage: %s [-a <activate code>] [-v]\n\n", argv[0]);
+		return -1;
+	}
+
+	int fd = open("/dev/fb0", O_RDWR);
+	if (fd < 0) {
+		perror("open");
+		return 0;
+	}
+	printf("fd: %d\n", fd);
+	r[0] = fd;
+
+
+	rtn = syscall(__NR_ioctl, r[0], 0x4600ul, 0x200001c0ul);
+	if (rtn < 0) {
+		perror("ioctl");
+		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
+	}
+
+	if (verbose) {
+		printf("FBIOGET_VSCREENINFO:\n");
+		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
+	}
+
+	memcpy(starting_varp, varp, sizeof(struct fb_var_screeninfo));
+
+	fprintf(stderr, "activate = %d\n", activate);
+
+	varp->activate = activate;
+
+	if (verbose) {
+		printf("Pre FBIOPUT_VSCREENINFO:\n");
+		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
+
+		sleep(2);
+	}
+
+	rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
+	if (rtn < 0) {
+		perror("ioctl");
+		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
+	}
+	limit = 2;
+	for (pattern = 0 ; pattern < 8 ; pattern++) {
+		unsigned long addr = 0x200001c0;
+		passes = 0;
+		printf("\nWalk START addr = 0x%x, Break pattern=%x\n", addr, pattern);
+		while (addr <= 0x2000025c) {
+			fprintf(stderr, "======================== %d: addr=%x ========================\n", passes, addr);
+			memcpy(varp, starting_varp, sizeof(struct fb_var_screeninfo));
+			*(uint32_t*)addr = pattern;
+			varp->activate = activate;
+			printf("Pre FBIOPUT_VSCREENINFO: pattern=%x\n", pattern);
+			dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
+			sleep(3);
+			rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
+			if (rtn < 0) {
+				perror("ioctl");
+				fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
+			}
+			addr += 4;
+			passes++;
+			if (passes == limit)
+				break;
+		}
+	}
+	close(fd);
+
+	return 0;
+}
+
+With my patch it gets output like the following:
+
+[root@localhost ~]# ./fb_break
+fd: 3
+activate = 0
+
+Walk START addr = 0x200001c0, Break pattern=0
+======================== 0: addr=200001c0 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=0
+200001c0: 00 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ioctl: Invalid argument
+rtn=-1, errno=22
+======================== 1: addr=200001c4 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=0
+200001c0: 00 04 00 00 00 00 00 00 00 04 00 00 00 03 00 00
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ioctl: Invalid argument
+rtn=-1, errno=22
+
+Walk START addr = 0x200001c0, Break pattern=1
+======================== 0: addr=200001c0 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=1
+200001c0: 01 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ioctl: Invalid argument
+rtn=-1, errno=22
+
+...
+
+======================== 1: addr=200001c4 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=7
+200001c0: 00 04 00 00 07 00 00 00 00 04 00 00 00 03 00 00
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ioctl: Invalid argument
+rtn=-1, errno=22
+[root@localhost ~]#
+
+Thank you,
+George
+
+On 7/14/2020 6:27 AM, Tetsuo Handa wrote:
+> On 2020/07/14 16:22, Bartlomiej Zolnierkiewicz wrote:
+>> How does this patch relate to:
+>>
+>> 	https://marc.info/?l=linux-fbdev&m=159415024816722&w=2
+>>
+>> ?
+>>
+>> It seems to address the same issue, I've added George and Dan to Cc:.
+> George Kennedy's patch does not help for my case.
 >
-> c) Smarten up the deferral system to somehow detect this loop.  I'm
-> really not sure how to do this.  You'd have to somehow know that you
-> keep adding the same devices over and over again and they didn't get
-> us out of the deferral loop last time and so you should eventually
-> give up.
+> You can try a.out built from
 >
+> ----------
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <fcntl.h>
+> #include <sys/ioctl.h>
+> #include <linux/fb.h>
 >
-> > > > >   msm ae00000.mdss: bound ae01000.mdp (ops 0xffffffe596e951f8)
-> > > > >   msm_dsi ae94000.dsi: ae94000.dsi supply gdsc not found, using dummy regulator
-> > > > >   msm_dsi_manager_register: failed to register mipi dsi host for DSI 0
-> > > > >   [drm:ti_sn_bridge_probe] *ERROR* could not find any panel node
-> > > > >   ...
-> > > > >
-> > > > > I finally tracked it down where this was happening:
-> > > > >   - msm_pdev_probe() is called.
-> > > > >   - msm_pdev_probe() registers drivers.  Registering drivers kicks
-> > > > >     off processing of probe deferrals.
-> > > > >   - component_master_add_with_match() could return -EPROBE_DEFER.
-> > > > >     making msm_pdev_probe() return -EPROBE_DEFER.
-> > > > >   - When msm_pdev_probe() returned the processing of probe deferrals
-> > > > >     happens.
-> > > > >   - Loop back to the start.
-> > > > >
-> > > > > It looks like we can fix this by marking "mdss" as a "simple-bus".
-> > > > > I have no idea if people consider this the right thing to do or a
-> > > > > hack.  Hopefully it's the right thing to do.  :-)
-> > > >
-> > > > It's a simple test. Do the child devices have any dependency on the
-> > > > parent to probe and/or function? If so, not a simple-bus.
-> > >
-> > > Great!  You can see in the earlier patch in the series that the very
-> > > first thing that happens when the parent device probes is that it
-> > > calls devm_of_platform_populate().  That means no dependencies, right?
-> >
-> > It should. But then I reviewed the MDSS binding today and it looks
-> > like the MDSS is the interrupt parent for at least some child devices?
+> int main(int argc, char *argv[])
+> {
+>          const int fd = open("/dev/fb0", O_ACCMODE);
+>          struct fb_var_screeninfo var = { };
+>          ioctl(fd, FBIOGET_VSCREENINFO, &var);
+>          var.xres = var.yres = 16;
+>          ioctl(fd, FBIOPUT_VSCREENINFO, &var);
+>          return 0;
+> }
+> ----------
 >
-> Hrm.  How does that work?  Let's see...
+> with a fault injection patch
 >
-> ...ah, I believe it works because we don't try to grab interrupts in
-> the probe path of our sub-components.  That means we probe them just
-> fine without the parent.  I guess it has to be like this because
-> otherwise we end up with circular dependencies.
+> ----------
+> --- a/drivers/tty/vt/vt.c
+> +++ b/drivers/tty/vt/vt.c
+> @@ -1214,6 +1214,10 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+>   
+>   	if (new_screen_size > KMALLOC_MAX_SIZE)
+>   		return -EINVAL;
+> +	if (!strcmp(current->comm, "a.out")) {
+> +		printk(KERN_INFO "Forcing memory allocation failure.\n");
+> +		return -ENOMEM;
+> +	}
+>   	newscreen = kzalloc(new_screen_size, GFP_USER);
+>   	if (!newscreen)
+>   		return -ENOMEM;
+> ----------
 >
-> So there is a dependency of the child on the parent and of the parent
-> on the child (the parent won't really probe until the children do).
-> No idea if this means that the whole thing was architected in a
-> non-optimal way or if it's just really hard to fit the DRM Component
-> model into the Linux Driver model (or both).  Where does that leave us
-> about whether "simple-bus" is OK, though?
+> . What my patch workarounds is cases when vc_do_resize() did not update vc->vc_{cols,rows} .
+> Unless vc->vc_{cols,rows} are updated by vc_do_resize() in a way that avoids integer underflow at
 >
+> 	unsigned int rw = info->var.xres - (vc->vc_cols*cw);
+> 	unsigned int bh = info->var.yres - (vc->vc_rows*ch);
 >
+> , this crash won't go away.
 >
-> > >  So that means it's fine/correct to add "simple-bus" here?
-> > >
-> > >
-> > > > > Once I do this I notice that my boot gets marginally faster (you
-> > > > > don't need to probe the sub devices over and over) and also if I
-> > > >
-> > > > Can you quantify that?
-> > >
-> > > I'd say < 100 us.  I can try to quantify more if needed, but it wasn't
-> > > the point of this patch.
-> > >
-> > >
-> > > > Have you run with devlinks enabled. You need a command line option to
-> > > > enable. That too should reduce deferred probes.
-> > >
-> > > Ah, good idea!  I will try it.  However, even with devlinks, if there
-> > > is any chance of deferred probes then we need a fix like this.  The
-> > > point of the patch isn't about speeding things up but about avoiding
-> > > an infinite loop at bootup due to a small bug.
-> >
-> > I think a deferred probe would only happen if there's a dependency we
-> > don't track (but we're tracking about everything that's common). But
-> > if there's some error, I'm not sure what would happen. Seems like a
-> > good test case. :)
->
-> Maybe now that I've pointed at msm_dsi_host_register() it will help
-> clarify.  I don't know a ton about the MSM DRM world (mostly I just
-> jumped in here because I was sick of getting stuck in this infinite
-> loop), but I'm not sure how we can get around the problems.
->
-> I guess in my specific case we could maybe determine that the bridge
-> chip returned -EINVAL and thus would never probe, but what about if I
-> put the bridge chip driver in a loadable kernel module?
->
-> My device links knowledge is super weak (and I'm currently mostly
-> focused on the slightly older 5.4 kernel if that matters) but are you
-> saying that the system should just know which device would eventually
-> provide the bridge/panel and would know not to probe the main DRM
-> driver until after it probes?
->
->
-> > > > > have a problem it doesn't loop forever (on my system it still
-> > > > > gets upset about some stuck clocks in that case, but at least I
-> > > > > can boot up).
-> > > >
-> > > > Deferred probe only runs when a device is added, so it's not like it
-> > > > is continually running.
-> > >
-> > > If you don't mind looking at the code patch, see:
-> > >
-> > > https://lore.kernel.org/r/20200710160131.4.I358ea82de218ea5f4406572ade23f5e121297555@changeid/
-> > >
-> > > Specifically you can see that each time we try to probe we were
-> > > calling of_platform_populate().  That appeared to be enough to trigger
-> > > things.
-> >
-> > Like I said, sounds like a bug. Even if 'simple-bus' is the
-> > appropriate thing to do here, it should be fixed or at least
-> > understood.
-> >
-> > Rob
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+> [   39.995757][ T2788] Forcing memory allocation failure.
+> [   39.996527][ T2788] BUG: unable to handle page fault for address: ffffa9d180d7b000
+> [   39.996529][ T2788] #PF: supervisor write access in kernel mode
+> [   39.996530][ T2788] #PF: error_code(0x0002) - not-present page
+> [   39.996531][ T2788] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 1324e4067 PTE 0
+> [   39.996547][ T2788] Oops: 0002 [#1] SMP
+> [   39.996550][ T2788] CPU: 2 PID: 2788 Comm: a.out Not tainted 5.8.0-rc5+ #757
+> [   39.996551][ T2788] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
+> [   39.996555][ T2788] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
+
+
+--------------4967EE9DDB85FA5DE5760002
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Hello Tetsuo,<br>
+    <br>
+    Can you try the a.out built from the original Syzkaller modified
+    repro C program? It walks 0-7 through xres and yres of the
+    fb_var_screeninfo struct.<br>
+    <pre>// <a class="moz-txt-link-freetext" href="https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6">https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6</a>
+// autogenerated by syzkaller (<a class="moz-txt-link-freetext" href="https://github.com/google/syzkaller">https://github.com/google/syzkaller</a>)
+
+#define _GNU_SOURCE
+
+#include &lt;endian.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/syscall.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/fcntl.h&gt;
+#include &lt;unistd.h&gt;
+
+#include &lt;errno.h&gt;
+
+#include &lt;linux/fb.h&gt;
+
+int verbose = 0;
+
+void
+dumpit(unsigned char *buf, int count, int addr)
+{
+    int i, j;
+    char bp[256];
+
+    memset(bp, 0, 256);
+
+    for (i = j = 0; i &lt; count; i++, j++) {
+        if (j == 16) {
+            j = 0;
+            printf("%s\n", bp);
+            memset(bp, 0, 256);
+        }
+        if (j == 0) {
+            sprintf(&amp;bp[strlen(bp)], "%x: ", addr + i);
+        }
+        sprintf(&amp;bp[strlen(bp)], "%02x ", buf[i]);
+    }
+    if (j != 0) {
+        printf("%s\n", bp);
+    }
+}
+
+uint64_t r[1] = {0xffffffffffffffff};
+
+int main(int argc, char **argv)
+{
+  syscall(__NR_mmap, 0x20000000ul, 0x1000000ul, 3ul, 0x32ul, -1, 0);
+  intptr_t res = 0;
+  uint32_t activate = FB_ACTIVATE_NOW;
+  struct fb_var_screeninfo *varp = (struct fb_var_screeninfo *)0x200001c0;
+  struct fb_var_screeninfo *starting_varp = malloc(sizeof(struct fb_var_screeninfo *));
+  char *vp = (char *)varp;
+  int i, sum, rtn, c;
+  extern char *optarg;
+  int limit = 0, passes = 0;
+  unsigned int start_address = 0;
+  unsigned int pattern = 0;
+  int breakit = 1;
+	
+	while ((c = getopt (argc, argv, "a:v")) != -1)
+	switch (c)
+	{
+	case 'a':
+		activate = strtol(optarg, 0, 0);
+		break;
+	case 'v':
+		verbose++;
+		break;
+	default:
+		fprintf(stderr, "\nusage: %s [-a &lt;activate code&gt;] [-v]\n\n", argv[0]);
+		return -1;
+	}
+
+	int fd = open("/dev/fb0", O_RDWR);
+	if (fd &lt; 0) {
+		perror("open");
+		return 0;
+	}
+	printf("fd: %d\n", fd);
+	r[0] = fd;
+
+
+	rtn = syscall(__NR_ioctl, r[0], 0x4600ul, 0x200001c0ul);
+	if (rtn &lt; 0) {
+		perror("ioctl");
+		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
+	}
+
+	if (verbose) {
+		printf("FBIOGET_VSCREENINFO:\n");
+		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
+	}
+
+	memcpy(starting_varp, varp, sizeof(struct fb_var_screeninfo));
+
+	fprintf(stderr, "activate = %d\n", activate);
+
+	varp-&gt;activate = activate;
+
+	if (verbose) {
+		printf("Pre FBIOPUT_VSCREENINFO:\n");
+		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
+
+		sleep(2);
+	}
+
+	rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
+	if (rtn &lt; 0) {
+		perror("ioctl");
+		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
+	}
+	limit = 2;
+	for (pattern = 0 ; pattern &lt; 8 ; pattern++) {
+		unsigned long addr = 0x200001c0;
+		passes = 0;
+		printf("\nWalk START addr = 0x%x, Break pattern=%x\n", addr, pattern);
+		while (addr &lt;= 0x2000025c) {
+			fprintf(stderr, "======================== %d: addr=%x ========================\n", passes, addr);
+			memcpy(varp, starting_varp, sizeof(struct fb_var_screeninfo));
+			*(uint32_t*)addr = pattern;
+			varp-&gt;activate = activate;
+			printf("Pre FBIOPUT_VSCREENINFO: pattern=%x\n", pattern);
+			dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
+			sleep(3);
+			rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
+			if (rtn &lt; 0) {
+				perror("ioctl");
+				fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
+			}
+			addr += 4;
+			passes++;
+			if (passes == limit)
+				break;
+		}
+	}
+	close(fd);
+
+	return 0;
+}
+
+</pre>
+    With my patch it gets output like the following:<br>
+    <pre>[root@localhost ~]# ./fb_break 
+fd: 3
+activate = 0
+
+Walk START addr = 0x200001c0, Break pattern=0
+======================== 0: addr=200001c0 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=0
+200001c0: 00 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00 
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+ioctl: Invalid argument
+rtn=-1, errno=22
+======================== 1: addr=200001c4 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=0
+200001c0: 00 04 00 00 00 00 00 00 00 04 00 00 00 03 00 00 
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+ioctl: Invalid argument
+rtn=-1, errno=22
+
+Walk START addr = 0x200001c0, Break pattern=1
+======================== 0: addr=200001c0 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=1
+200001c0: 01 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00 
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+ioctl: Invalid argument
+rtn=-1, errno=22
+
+...
+
+======================== 1: addr=200001c4 ========================
+Pre FBIOPUT_VSCREENINFO: pattern=7
+200001c0: 00 04 00 00 07 00 00 00 00 04 00 00 00 03 00 00 
+200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
+200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
+200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
+20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
+20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+ioctl: Invalid argument
+rtn=-1, errno=22
+[root@localhost ~]# 
+</pre>
+    Thank you,<br>
+    George<br>
+    <br>
+    <div class="moz-cite-prefix">On 7/14/2020 6:27 AM, Tetsuo Handa
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp">
+      <pre class="moz-quote-pre" wrap="">On 2020/07/14 16:22, Bartlomiej Zolnierkiewicz wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">How does this patch relate to:
+
+	<a class="moz-txt-link-freetext" href="https://marc.info/?l=linux-fbdev&amp;m=159415024816722&amp;w=2">https://marc.info/?l=linux-fbdev&amp;m=159415024816722&amp;w=2</a>
+
+?
+
+It seems to address the same issue, I've added George and Dan to Cc:.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+George Kennedy's patch does not help for my case.
+
+You can try a.out built from
+
+----------
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;linux/fb.h&gt;
+
+int main(int argc, char *argv[])
+{
+        const int fd = open("/dev/fb0", O_ACCMODE);
+        struct fb_var_screeninfo var = { };
+        ioctl(fd, FBIOGET_VSCREENINFO, &amp;var);
+        var.xres = var.yres = 16;
+        ioctl(fd, FBIOPUT_VSCREENINFO, &amp;var);
+        return 0;
+}
+----------
+
+with a fault injection patch
+
+----------
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -1214,6 +1214,10 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+ 
+ 	if (new_screen_size &gt; KMALLOC_MAX_SIZE)
+ 		return -EINVAL;
++	if (!strcmp(current-&gt;comm, "a.out")) {
++		printk(KERN_INFO "Forcing memory allocation failure.\n");
++		return -ENOMEM;
++	}
+ 	newscreen = kzalloc(new_screen_size, GFP_USER);
+ 	if (!newscreen)
+ 		return -ENOMEM;
+----------
+
+. What my patch workarounds is cases when vc_do_resize() did not update vc-&gt;vc_{cols,rows} .
+Unless vc-&gt;vc_{cols,rows} are updated by vc_do_resize() in a way that avoids integer underflow at
+
+	unsigned int rw = info-&gt;var.xres - (vc-&gt;vc_cols*cw);
+	unsigned int bh = info-&gt;var.yres - (vc-&gt;vc_rows*ch);
+
+, this crash won't go away.
+
+[   39.995757][ T2788] Forcing memory allocation failure.
+[   39.996527][ T2788] BUG: unable to handle page fault for address: ffffa9d180d7b000
+[   39.996529][ T2788] #PF: supervisor write access in kernel mode
+[   39.996530][ T2788] #PF: error_code(0x0002) - not-present page
+[   39.996531][ T2788] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 1324e4067 PTE 0
+[   39.996547][ T2788] Oops: 0002 [#1] SMP
+[   39.996550][ T2788] CPU: 2 PID: 2788 Comm: a.out Not tainted 5.8.0-rc5+ #757
+[   39.996551][ T2788] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
+[   39.996555][ T2788] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------4967EE9DDB85FA5DE5760002--
+
+--===============0679935968==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0679935968==--
