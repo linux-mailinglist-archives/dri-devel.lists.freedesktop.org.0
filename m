@@ -1,102 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28FF21E9F0
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:22:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CDE21EA05
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 09:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E91C06E3EC;
-	Tue, 14 Jul 2020 07:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA8489D4B;
+	Tue, 14 Jul 2020 07:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E58B6E3EC
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 07:22:33 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200714072231euoutp02873d64f18c3a524074b0e50ed63c383e~hjYZ5E4v11575415754euoutp02P
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 07:22:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200714072231euoutp02873d64f18c3a524074b0e50ed63c383e~hjYZ5E4v11575415754euoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1594711351;
- bh=A+eNGV3ET0CirM0GBnHCLZbHHAmr71tTDLcyfoMOPQM=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=rYsyyqlDCYEoFOy+qUSuppsoXG6TLfjjpOnL4bDLXbHLfWHmXBW9uThHZvNbrZy0J
- Mt9htNr8krQ59icm//ky1GDRxUGwUti/mu8hVNwxV2NiQBA1QUBp+B3MrI410xsku7
- myat8QJ770ufA5yk0wEb/aUsyW40MEDk3jVx54ME=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200714072231eucas1p22c497ab5e9ebe1ff4bc738d19d8296a5~hjYZxz2pn0515905159eucas1p2w;
- Tue, 14 Jul 2020 07:22:31 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 28.BC.06456.73D5D0F5; Tue, 14
- Jul 2020 08:22:31 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346~hjYZdX8n61369813698eucas1p1O;
- Tue, 14 Jul 2020 07:22:31 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200714072231eusmtrp1ac15a51868ed9bc2710216639489d440~hjYZcn5E-1735217352eusmtrp1S;
- Tue, 14 Jul 2020 07:22:31 +0000 (GMT)
-X-AuditID: cbfec7f2-7efff70000001938-9b-5f0d5d37eb20
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id C1.9B.06314.73D5D0F5; Tue, 14
- Jul 2020 08:22:31 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200714072230eusmtip19b265bf4092b878a513ab0bb1ff17b66~hjYY9oE_k2784427844eusmtip1J;
- Tue, 14 Jul 2020 07:22:30 +0000 (GMT)
-Subject: Re: [PATCH] fbdev: Detect integer underflow at
- "struct fbcon_ops"->clear_margins.
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
-Date: Tue, 14 Jul 2020 09:22:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 584AF89D4B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 07:27:15 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208539] New: Warning at drm_mod_object_add on when display is
+ re-enabled (after display off)
+Date: Tue, 14 Jul 2020 07:27:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dl9pf@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cc cf_regression
+Message-ID: <bug-208539-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPKsWRmVeSWpSXmKPExsWy7djPc7rmsbzxBs+OK1m8/jedxeLK1/ds
- FhMetrFbfP6zlt2iefF6NospGz4wWZzo+8BqcXnXHDaL2S3vWB04PRZsKvXYuXYVk8f+uWvY
- Pe53H2fy+Pj0FovH+i1XWTw+b5ILYI/isklJzcksSy3St0vgypi9+xZTwUOniusbljI2MD4y
- 7WLk5JAQMJHYeayTqYuRi0NIYAWjxIW+BewQzhdGif1ND1kgnM+MElc/HmfrYuQAa/k6qwYi
- vpxRYvOFqVAdbxklrl+eww4yV1ggRmLywvXMILaIgKnEpzs7mUGKmAXWM0nMPnuIESTBJmAl
- MbF9FZjNK2Ancf7uZlYQm0VAVeLz1edsILaoQITEpweHWSFqBCVOznzCAmJzCnhIfPvSCVbD
- LCAucevJfCYIW15i+9s5YMskBC6xS7yd8I8N4lMXiZ+n+tghbGGJV8e3QNkyEqcn97BANKxj
- lPjb8QKqezujxPLJMN3WEnfO/QIHALOApsT6XfoQYUeJpbMPM0PChU/ixltBiCP4JCZtmw4V
- 5pXoaBOCqFaT2LBsAxvM2q6dK5knMCrNQvLaLCTvzELyziyEvQsYWVYxiqeWFuempxYb5qWW
- 6xUn5haX5qXrJefnbmIEJqvT/45/2sH49VLSIUYBDkYlHl4Jf554IdbEsuLK3EOMEhzMSiK8
- TmdPxwnxpiRWVqUW5ccXleakFh9ilOZgURLnNV70MlZIID2xJDU7NbUgtQgmy8TBKdXAuM7/
- g4+K/aEphvpyWV8j64vZcq+0PSpdxsfJ2OSWqReyd7WdS1OmTGjTuhtHXLnnnZZ+mlUZ+fB8
- xRvN304n/u4LCBSv/xh+Zd+9pzO2WX/m+nljVsiP89efzMkT4Uppe7dibU2Q6t6uzIjZNf+6
- xK43OM1Q+3LuVnnxn5sPv+7Z07L9oX07jxJLcUaioRZzUXEiAIUrigZSAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsVy+t/xu7rmsbzxBq/m8Fi8/jedxeLK1/ds
- FhMetrFbfP6zlt2iefF6NospGz4wWZzo+8BqcXnXHDaL2S3vWB04PRZsKvXYuXYVk8f+uWvY
- Pe53H2fy+Pj0FovH+i1XWTw+b5ILYI/SsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaP
- tTIyVdK3s0lJzcksSy3St0vQy5i9+xZTwUOniusbljI2MD4y7WLk4JAQMJH4Oqumi5GLQ0hg
- KaPE0TtXGSHiMhLH15d1MXICmcISf651sUHUvGaUuDu5mR0kISwQI/Hg/wZWEFtEwFTi052d
- zCBFzALrmSS27PjIBNFxiFHi1PFzLCBVbAJWEhPbVzGC2LwCdhLn724G62YRUJX4fPU5G4gt
- KhAhcXjHLKgaQYmTM5+A9XIKeEh8+9IJVsMsoC7xZ94lZghbXOLWk/lMELa8xPa3c5gnMArN
- QtI+C0nLLCQts5C0LGBkWcUoklpanJueW2yoV5yYW1yal66XnJ+7iREYm9uO/dy8g/HSxuBD
- jAIcjEo8vBL+PPFCrIllxZW5QA9yMCuJ8DqdPR0nxJuSWFmVWpQfX1Sak1p8iNEU6LmJzFKi
- yfnAtJFXEm9oamhuYWlobmxubGahJM7bIXAwRkggPbEkNTs1tSC1CKaPiYNTqoFRYJn2JAWT
- W0/XMvW+yvibIrh/qXHKPYFsp6cV23jOlkyQKb58dFbSpHylqb4dCycvfX9vmW5Q/FuTxR8s
- T/GITYn5XxX8IbDda4NUhMfjVRscp6YeVF3BYT5XT2w+n1tX3vW4K09MKnQaJOcFeswuCkqv
- 9li3pbDJ8dasUJurCV4RIiusGrcrsRRnJBpqMRcVJwIAtEUzb+MCAAA=
-X-CMS-MailID: 20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346
-X-Msg-Generator: CA
-X-RootMTR: 20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346
-References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
- <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
- <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
- <CGME20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,230 +52,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, George Kennedy <george.kennedy@oracle.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Jiri Slaby <jslaby@suse.com>,
- Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=208539
 
-[ Please Cc: fbdev Maintainer (happens to be me :) on fbdev patches, thanks. ]
+            Bug ID: 208539
+           Summary: Warning at drm_mod_object_add on when display is
+                    re-enabled (after display off)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.8.0-rc5
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: dl9pf@gmx.de
+                CC: dl9pf@gmx.de
+        Regression: Yes
 
-Hi,
+[78580.431312] [drm] DM_MST: starting TM on aconnector: 00000000d383a98b [id:
+67]
+[78580.744579] ------------[ cut here ]------------
+[78580.744595] WARNING: CPU: 2 PID: 23119 at
+drivers/gpu/drm/drm_mode_object.c:45 drm_mode_object_add+0x75/0x80 [drm]
+[78580.744595] Modules linked in: fuse(E) rfcomm(E) tun(E) af_packet(E)
+xt_tcpudp(E) ip6t_REJECT(E) nf_reject_ipv6(E) ip6t_rpfilter(E) ipt_REJECT(E)
+nf_reject_ipv4(E) xt_conntrack(E) ebtable_nat(E) ebtable_broute(E)
+ip6table_nat(E) ip6table_mangle(E) ip6table_raw(E) ip6table_security(E)
+iptable_nat(E) nf_nat(E) iptable_mangle(E) iptable_raw(E) iptable_security(E)
+nf_conntrack(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) iscsi_ibft(E)
+iscsi_boot_sysfs(E) ip_set(E) nfnetlink(E) ebtable_filter(E) ebtables(E)
+ip6table_filter(E) ip6_tables(E) iptable_filter(E) ip_tables(E) x_tables(E)
+dmi_sysfs(E) cmac(E) algif_hash(E) algif_skcipher(E) af_alg(E) bnep(E) msr(E)
+intel_rapl_msr(E) intel_rapl_common(E) hid_logitech_hidpp(E)
+x86_pkg_temp_thermal(E) intel_powerclamp(E) iTCO_wdt(E) coretemp(E) ee1004(E)
+iTCO_vendor_support(E) kvm_intel(E) tps6598x(E) mei_hdcp(E) roles(E) typec(E)
+kvm(E) irqbypass(E) crct10dif_pclmul(E) crc32_pclmul(E) nls_iso8859_1(E)
+ghash_clmulni_intel(E) nls_cp437(E) aesni_intel(E)
+[78580.744607]  crypto_simd(E) vfat(E) cryptd(E) fat(E) glue_helper(E)
+pcspkr(E) intel_wmi_thunderbolt(E) wmi_bmof(E) deflate(E) i2c_i801(E)
+efi_pstore(E) e1000e(E) i2c_smbus(E) iwlwifi(E) btusb(E) cdc_ether(E) btrtl(E)
+usbnet(E) btbcm(E) btintel(E) igb(E) cfg80211(E) ptp(E) bluetooth(E) r8152(E)
+mei_me(E) pps_core(E) dca(E) mei(E) ecdh_generic(E) mii(E) uvcvideo(E)
+videobuf2_vmalloc(E) rfkill(E) videobuf2_memops(E) ecc(E) videobuf2_v4l2(E)
+uas(E) snd_hda_codec_realtek(E) videobuf2_common(E) snd_hda_codec_generic(E)
+videodev(E) ledtrig_audio(E) usb_storage(E) snd_hda_codec_hdmi(E)
+snd_usb_audio(E) snd_hda_intel(E) snd_usbmidi_lib(E) snd_intel_dspcfg(E)
+snd_rawmidi(E) snd_seq_device(E) intel_lpss_pci(E) hid_logitech_dj(E)
+intel_lpss(E) joydev(E) mc(E) idma64(E) snd_hda_codec(E) ir_rc6_decoder(E)
+snd_hda_core(E) intel_pch_thermal(E) snd_hwdep(E) snd_pcm(E) snd_timer(E)
+snd(E) soundcore(E) thermal(E) fan(E) i2c_multi_instantiate(E) rc_rc6_mce(E)
+ite_cir(E) rc_core(E) button(E) acpi_pad(E)
+[78580.744620]  btrfs(E) blake2b_generic(E) libcrc32c(E) xor(E) hid_generic(E)
+usbhid(E) raid6_pq(E) crc32c_intel(E) xhci_pci(E) serio_raw(E) sdhci_pci(E)
+xhci_hcd(E) cqhci(E) sdhci(E) usbcore(E) mmc_core(E) wmi(E) video(E)
+pinctrl_sunrisepoint(E) pinctrl_intel(E) amdgpu(E) iommu_v2(E) gpu_sched(E)
+i2c_algo_bit(E) ttm(E) drm_kms_helper(E) syscopyarea(E) sysfillrect(E)
+sysimgblt(E) fb_sys_fops(E) cec(E) drm(E) sg(E) dm_multipath(E) dm_mod(E)
+scsi_dh_rdac(E) scsi_dh_emc(E) scsi_dh_alua(E) efivarfs(E)
+[78580.744628] CPU: 2 PID: 23119 Comm: kworker/2:2 Tainted: G        W   E    
+5.8.0-rc5-1-default-20200713-0948 #1
+[78580.744629] Hardware name: Intel Corporation NUC8i7HVK/NUC8i7HVB, BIOS
+HNKBLi70.86A.0054.2019.0214.1350 02/14/2019
+[78580.744636] Workqueue: events_long drm_dp_mst_link_probe_work
+[drm_kms_helper]
+[78580.744645] RIP: 0010:drm_mode_object_add+0x75/0x80 [drm]
+[78580.744646] Code: 85 c0 78 07 89 45 00 44 89 65 04 4c 89 ef e8 f2 9e ef f6
+85 db b8 00 00 00 00 0f 4e c3 5b 5d 41 5c 41 5d c3 80 7f 60 00 74 a9 <0f> 0b eb
+a5 0f 1f 80 00 00 00 00 0f 1f 44 00 00 41 54 4c 8d a7 f8
+[78580.744647] RSP: 0000:ffffa66f44b43b18 EFLAGS: 00010202
+[78580.744648] RAX: ffffffffc0ab3120 RBX: ffff8ba6c7611000 RCX:
+0000000000000007
+[78580.744648] RDX: 00000000e0e0e0e0 RSI: ffff8babddd0b218 RDI:
+ffff8ba6c7611000
+[78580.744648] RBP: ffff8babddd0b218 R08: 0000000000000000 R09:
+ffff8babddd0b200
+[78580.744649] R10: 0000000000000000 R11: ffffa66f44b43c08 R12:
+00000000e0e0e0e0
+[78580.744649] R13: 0000000000000007 R14: ffffffffc0929e00 R15:
+ffff8babddd0b218
+[78580.744650] FS:  0000000000000000(0000) GS:ffff8bae1ec80000(0000)
+knlGS:0000000000000000
+[78580.744650] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[78580.744651] CR2: 00007f948d2c95c0 CR3: 00000008444e0004 CR4:
+00000000003606e0
+[78580.744651] Call Trace:
+[78580.744662]  drm_encoder_init+0x49/0x160 [drm]
+[78580.744664]  ? _cond_resched+0x16/0x40
+[78580.744666]  ? kmem_cache_alloc_trace+0x14b/0x200
+[78580.744741]  dm_dp_add_mst_connector+0x114/0x1e0 [amdgpu]
+[78580.744747]  drm_dp_mst_port_add_connector+0x52/0xe0 [drm_kms_helper]
+[78580.744749]  ? acpi_os_signal_semaphore+0x70/0x80
+[78580.744750]  ? acpi_ut_release_mutex+0x13e/0x145
+[78580.744751]  ? _cond_resched+0x16/0x40
+[78580.744753]  ? klist_next+0x136/0x140
+[78580.744754]  ? __process_new_driver+0x20/0x20
+[78580.744756]  ? bus_for_each_drv+0x82/0xa0
+[78580.744757]  ? i2c_register_adapter+0x1b1/0x370
+[78580.744761]  ? drm_dp_port_set_pdt+0x115/0x2a0 [drm_kms_helper]
+[78580.744765]  drm_dp_mst_handle_link_address_port+0x2cf/0x4b0
+[drm_kms_helper]
+[78580.744770]  drm_dp_send_link_address+0x1a5/0x370 [drm_kms_helper]
+[78580.744771]  ? __queue_work+0x1e0/0x370
+[78580.744775]  drm_dp_check_and_send_link_address+0xad/0xd0 [drm_kms_helper]
+[78580.744778]  drm_dp_mst_link_probe_work+0x94/0x180 [drm_kms_helper]
+[78580.744780]  process_one_work+0x1e3/0x3b0
+[78580.744781]  worker_thread+0x46/0x340
+[78580.744782]  ? process_one_work+0x3b0/0x3b0
+[78580.744783]  kthread+0x119/0x140
+[78580.744784]  ? __kthread_bind_mask+0x60/0x60
+[78580.744786]  ret_from_fork+0x22/0x30
+[78580.744787] ---[ end trace 439e8523e829733f ]---
+[78581.000232] ------------[ cut here ]------------
+[78581.000257] WARNING: CPU: 2 PID: 23119 at
+drivers/gpu/drm/drm_mode_object.c:45 drm_mode_object_add+0x75/0x80 [drm]
+[78581.000258] Modules linked in: fuse(E) rfcomm(E) tun(E) af_packet(E)
+xt_tcpudp(E) ip6t_REJECT(E) nf_reject_ipv6(E) ip6t_rpfilter(E) ipt_REJECT(E)
+nf_reject_ipv4(E) xt_conntrack(E) ebtable_nat(E) ebtable_broute(E)
+ip6table_nat(E) ip6table_mangle(E) ip6table_raw(E) ip6table_security(E)
+iptable_nat(E) nf_nat(E) iptable_mangle(E) iptable_raw(E) iptable_security(E)
+nf_conntrack(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) iscsi_ibft(E)
+iscsi_boot_sysfs(E) ip_set(E) nfnetlink(E) ebtable_filter(E) ebtables(E)
+ip6table_filter(E) ip6_tables(E) iptable_filter(E) ip_tables(E) x_tables(E)
+dmi_sysfs(E) cmac(E) algif_hash(E) algif_skcipher(E) af_alg(E) bnep(E) msr(E)
+intel_rapl_msr(E) intel_rapl_common(E) hid_logitech_hidpp(E)
+x86_pkg_temp_thermal(E) intel_powerclamp(E) iTCO_wdt(E) coretemp(E) ee1004(E)
+iTCO_vendor_support(E) kvm_intel(E) tps6598x(E) mei_hdcp(E) roles(E) typec(E)
+kvm(E) irqbypass(E) crct10dif_pclmul(E) crc32_pclmul(E) nls_iso8859_1(E)
+ghash_clmulni_intel(E) nls_cp437(E) aesni_intel(E)
+[78581.000281]  crypto_simd(E) vfat(E) cryptd(E) fat(E) glue_helper(E)
+pcspkr(E) intel_wmi_thunderbolt(E) wmi_bmof(E) deflate(E) i2c_i801(E)
+efi_pstore(E) e1000e(E) i2c_smbus(E) iwlwifi(E) btusb(E) cdc_ether(E) btrtl(E)
+usbnet(E) btbcm(E) btintel(E) igb(E) cfg80211(E) ptp(E) bluetooth(E) r8152(E)
+mei_me(E) pps_core(E) dca(E) mei(E) ecdh_generic(E) mii(E) uvcvideo(E)
+videobuf2_vmalloc(E) rfkill(E) videobuf2_memops(E) ecc(E) videobuf2_v4l2(E)
+uas(E) snd_hda_codec_realtek(E) videobuf2_common(E) snd_hda_codec_generic(E)
+videodev(E) ledtrig_audio(E) usb_storage(E) snd_hda_codec_hdmi(E)
+snd_usb_audio(E) snd_hda_intel(E) snd_usbmidi_lib(E) snd_intel_dspcfg(E)
+snd_rawmidi(E) snd_seq_device(E) intel_lpss_pci(E) hid_logitech_dj(E)
+intel_lpss(E) joydev(E) mc(E) idma64(E) snd_hda_codec(E) ir_rc6_decoder(E)
+snd_hda_core(E) intel_pch_thermal(E) snd_hwdep(E) snd_pcm(E) snd_timer(E)
+snd(E) soundcore(E) thermal(E) fan(E) i2c_multi_instantiate(E) rc_rc6_mce(E)
+ite_cir(E) rc_core(E) button(E) acpi_pad(E)
+[78581.000310]  btrfs(E) blake2b_generic(E) libcrc32c(E) xor(E) hid_generic(E)
+usbhid(E) raid6_pq(E) crc32c_intel(E) xhci_pci(E) serio_raw(E) sdhci_pci(E)
+xhci_hcd(E) cqhci(E) sdhci(E) usbcore(E) mmc_core(E) wmi(E) video(E)
+pinctrl_sunrisepoint(E) pinctrl_intel(E) amdgpu(E) iommu_v2(E) gpu_sched(E)
+i2c_algo_bit(E) ttm(E) drm_kms_helper(E) syscopyarea(E) sysfillrect(E)
+sysimgblt(E) fb_sys_fops(E) cec(E) drm(E) sg(E) dm_multipath(E) dm_mod(E)
+scsi_dh_rdac(E) scsi_dh_emc(E) scsi_dh_alua(E) efivarfs(E)
+[78581.000326] CPU: 2 PID: 23119 Comm: kworker/2:2 Tainted: G        W   E    
+5.8.0-rc5-1-default-20200713-0948 #1
+[78581.000326] Hardware name: Intel Corporation NUC8i7HVK/NUC8i7HVB, BIOS
+HNKBLi70.86A.0054.2019.0214.1350 02/14/2019
+[78581.000335] Workqueue: events_long drm_dp_mst_link_probe_work
+[drm_kms_helper]
+[78581.000346] RIP: 0010:drm_mode_object_add+0x75/0x80 [drm]
+[78581.000347] Code: 85 c0 78 07 89 45 00 44 89 65 04 4c 89 ef e8 f2 9e ef f6
+85 db b8 00 00 00 00 0f 4e c3 5b 5d 41 5c 41 5d c3 80 7f 60 00 74 a9 <0f> 0b eb
+a5 0f 1f 80 00 00 00 00 0f 1f 44 00 00 41 54 4c 8d a7 f8
+[78581.000348] RSP: 0018:ffffa66f44b43b18 EFLAGS: 00010202
+[78581.000348] RAX: ffffffffc0ab3120 RBX: ffff8ba6c7611000 RCX:
+0000000000000007
+[78581.000349] RDX: 00000000e0e0e0e0 RSI: ffff8babddd08a18 RDI:
+ffff8ba6c7611000
+[78581.000349] RBP: ffff8babddd08a18 R08: 0000000000000000 R09:
+ffff8babddd08a00
+[78581.000350] R10: 0000000000000000 R11: ffffffffb8338420 R12:
+00000000e0e0e0e0
+[78581.000350] R13: 0000000000000007 R14: ffffffffc0929e00 R15:
+ffff8babddd08a18
+[78581.000351] FS:  0000000000000000(0000) GS:ffff8bae1ec80000(0000)
+knlGS:0000000000000000
+[78581.000351] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[78581.000352] CR2: 00007f856fc25000 CR3: 000000076c170001 CR4:
+00000000003606e0
+[78581.000352] Call Trace:
+[78581.000363]  drm_encoder_init+0x49/0x160 [drm]
+[78581.000366]  ? _cond_resched+0x16/0x40
+[78581.000368]  ? kmem_cache_alloc_trace+0x14b/0x200
+[78581.000461]  dm_dp_add_mst_connector+0x114/0x1e0 [amdgpu]
+[78581.000467]  drm_dp_mst_port_add_connector+0x52/0xe0 [drm_kms_helper]
+[78581.000470]  ? acpi_os_signal_semaphore+0x70/0x80
+[78581.000471]  ? acpi_ut_release_mutex+0x13e/0x145
+[78581.000472]  ? _cond_resched+0x16/0x40
+[78581.000474]  ? klist_next+0x136/0x140
+[78581.000476]  ? __process_new_driver+0x20/0x20
+[78581.000477]  ? bus_for_each_drv+0x82/0xa0
+[78581.000478]  ? _cond_resched+0x16/0x40
+[78581.000479]  ? kmem_cache_alloc_trace+0x14b/0x200
+[78581.000483]  ? drm_dp_mst_add_port+0x2f/0xe0 [drm_kms_helper]
+[78581.000487]  drm_dp_mst_handle_link_address_port+0x2cf/0x4b0
+[drm_kms_helper]
+[78581.000492]  drm_dp_send_link_address+0x1a5/0x370 [drm_kms_helper]
+[78581.000494]  ? __queue_work+0x1e0/0x370
+[78581.000497]  drm_dp_check_and_send_link_address+0xad/0xd0 [drm_kms_helper]
+[78581.000501]  drm_dp_mst_link_probe_work+0x94/0x180 [drm_kms_helper]
+[78581.000502]  process_one_work+0x1e3/0x3b0
+[78581.000503]  worker_thread+0x46/0x340
+[78581.000504]  ? process_one_work+0x3b0/0x3b0
+[78581.000505]  kthread+0x119/0x140
+[78581.000506]  ? __kthread_bind_mask+0x60/0x60
+[78581.000508]  ret_from_fork+0x22/0x30
+[78581.000509] ---[ end trace 439e8523e8297340 ]---
 
-On 7/12/20 1:10 PM, Tetsuo Handa wrote:
-> I found that
-> 
->   const int fd = open("/dev/fb0", O_ACCMODE);
->   struct fb_var_screeninfo var = { };
->   ioctl(fd, FBIOGET_VSCREENINFO, &var);
->   var.xres = var.yres = 1;
->   ioctl(fd, FBIOPUT_VSCREENINFO, &var);
-> 
-> causes general protection fault in bitfill_aligned(), for vc_do_resize()
-> updates vc->vc_{cols,rows} only when vc_do_resize() will return 0.
-> 
-> [   20.102222] BUG: unable to handle page fault for address: ffffb80500d7b000
-> [   20.102225] #PF: supervisor write access in kernel mode
-> [   20.102226] #PF: error_code(0x0002) - not-present page
-> [   20.102227] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 132525067 PTE 0
-> [   20.102230] Oops: 0002 [#1] SMP
-> [   20.102232] CPU: 3 PID: 2786 Comm: a.out Not tainted 5.8.0-rc4+ #749
-> [   20.102233] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
-> [   20.102237] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
-> [   20.102277] Call Trace:
-> [   20.102281]  cfb_fillrect+0x159/0x340 [cfbfillrect]
-> [   20.102747]  vmw_fb_fillrect+0x12/0x30 [vmwgfx]
-> [   20.102755]  bit_clear_margins+0x92/0xf0 [fb]
-> [   20.102760]  fbcon_clear_margins+0x4c/0x50 [fb]
-> [   20.102763]  fbcon_switch+0x321/0x570 [fb]
-> [   20.102771]  redraw_screen+0xe0/0x250
-> [   20.102775]  fbcon_modechanged+0x164/0x1b0 [fb]
-> [   20.102779]  fbcon_update_vcs+0x15/0x20 [fb]
-> [   20.102781]  fb_set_var+0x364/0x3c0 [fb]
-> [   20.102817]  do_fb_ioctl+0x2ff/0x3f0 [fb]
-> [   20.103139]  fb_ioctl+0x2e/0x40 [fb]
-> [   20.103141]  ksys_ioctl+0x86/0xc0
-> [   20.103146]  __x64_sys_ioctl+0x15/0x20
-> [   20.103148]  do_syscall_64+0x54/0xa0
-> [   20.103151]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> If vc_do_resize() fails (e.g. kzalloc() failure) when var.xres or var.yres
-> is going to shrink, bit_clear_margins() hits integer underflow bug due to
-> info->var.xres < (vc->vc_cols * cw) or info->var.yres < (vc->vc_rows * ch).
-> Unexpectedly large rw or bh will try to overrun the __iomem region and
-> causes general protection fault.
-> 
-> This crash is easily reproducible by calling vc_do_resize(vc, 0, 0)
-> which the reproducer above will do. Since fbcon_modechanged() is doing
-> 
->   cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
->   rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
->   cols /= vc->vc_font.width;
->   rows /= vc->vc_font.height;
->   vc_resize(vc, cols, rows);
->   (...snipped...)
->   update_screen(vc);
-> 
-> , var.xres < vc->vc_font.width makes cols = 0 and var.yres < vc->vc_font.height
-> makes rows = 0. But vc_do_resize() does not set vc->vc_cols = vc->vc_rows = 0
-> due to
-> 
->   new_cols = (cols ? cols : vc->vc_cols);
->   new_rows = (lines ? lines : vc->vc_rows);
-> 
-> exception.
-> 
-> Of course, the root problem is that callers of do_vc_resize() are not
-> handling vc_do_resize() failures, but it might not be easy to handle
-> them under complicated dependency. Therefore, as a band-aid workaround,
-> this patch checks integer underflow in "struct fbcon_ops"->clear_margins
-> call, assuming that vc->vc_cols * vc->vc_font.width and
-> vc->vc_rows * vc->vc_font.heigh do not cause integer overflow.
-> 
-> I hope that we can survive even if info->var.{xres,yres} were increased
-> but vc->vc_{cols,rows} were not increased due to kzalloc() failure, for
-> the __iomem memory for cfb_fillrect() seems to be allocated upon driver
-> load.
-> 
-> By the way, syzbot has several reports which are stalling inside filling
-> functions. Although reproducer for [1] is not found yet, it has tried
-> 
->   r0 = openat$fb0(0xffffffffffffff9c, &(0x7f0000000180)='/dev/fb0\x00', 0x0, 0x0)
->   ioctl$FBIOPUT_VSCREENINFO(r0, 0x4601, &(0x7f0000000000)={0x0, 0x0, 0x0, 0x500, 0x0, 0x0, 0x4})
-> 
-> which corresponds to
-> 
->   const int fd = open("/dev/fb0", O_ACCMODE);
->   struct fb_var_screeninfo var = { };
->   var.yres_virtual = 0x500;
->   var.bits_per_pixel = 4;
->   ioctl(fd, FBIOPUT_VSCREENINFO, &var);
-> 
-> and somehow hit unexpectedly long bit_clear_margins() loops. I don't know
-> why syzbot does not hit general protection fault, but it would depend on
-> environment because in my VMware environment ioctl(FBIOPUT_VSCREENINFO)
-> returns -EINVAL if var.xres == var.yres == 0.
-> 
-> [1] https://syzkaller.appspot.com/bug?id=91ecc3bf32ab1a551c33a39dab7fc0c8cd7b7e16
-> 
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-How does this patch relate to:
+dl9pf@monster:~> inxi -G
+Graphics:  Device-1: Advanced Micro Devices [AMD/ATI] Polaris 22 XT [Radeon RX
+Vega M GH] driver: amdgpu v: kernel 
+           Display: x11 server: X.Org 1.20.8 driver: amdgpu resolution: 1:
+1080x1920~60Hz 2: 1920x1080~60Hz 3: 1080x1920 
+           OpenGL: renderer: AMD VEGAM (DRM 3.38.0
+5.8.0-rc5-1-default-20200713-0948 LLVM 10.0.0) v: 4.6 Mesa 20.1.1
 
-	https://marc.info/?l=linux-fbdev&m=159415024816722&w=2
-
-?
-
-It seems to address the same issue, I've added George and Dan to Cc:.
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
-> ---
->  drivers/video/fbdev/core/bitblit.c   | 4 ++--
->  drivers/video/fbdev/core/fbcon_ccw.c | 4 ++--
->  drivers/video/fbdev/core/fbcon_cw.c  | 4 ++--
->  drivers/video/fbdev/core/fbcon_ud.c  | 4 ++--
->  4 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-> index ca935c09a261..35ebeeccde4d 100644
-> --- a/drivers/video/fbdev/core/bitblit.c
-> +++ b/drivers/video/fbdev/core/bitblit.c
-> @@ -216,7 +216,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
->  	region.color = color;
->  	region.rop = ROP_COPY;
->  
-> -	if (rw && !bottom_only) {
-> +	if ((int) rw > 0 && !bottom_only) {
->  		region.dx = info->var.xoffset + rs;
->  		region.dy = 0;
->  		region.width = rw;
-> @@ -224,7 +224,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
->  		info->fbops->fb_fillrect(info, &region);
->  	}
->  
-> -	if (bh) {
-> +	if ((int) bh > 0) {
->  		region.dx = info->var.xoffset;
->  		region.dy = info->var.yoffset + bs;
->  		region.width = rs;
-> diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
-> index dfa9a8aa4509..78f3a5621478 100644
-> --- a/drivers/video/fbdev/core/fbcon_ccw.c
-> +++ b/drivers/video/fbdev/core/fbcon_ccw.c
-> @@ -201,7 +201,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
->  	region.color = color;
->  	region.rop = ROP_COPY;
->  
-> -	if (rw && !bottom_only) {
-> +	if ((int) rw > 0 && !bottom_only) {
->  		region.dx = 0;
->  		region.dy = info->var.yoffset;
->  		region.height = rw;
-> @@ -209,7 +209,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
->  		info->fbops->fb_fillrect(info, &region);
->  	}
->  
-> -	if (bh) {
-> +	if ((int) bh > 0) {
->  		region.dx = info->var.xoffset + bs;
->  		region.dy = 0;
->                  region.height = info->var.yres_virtual;
-> diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
-> index ce08251bfd38..fd098ff17574 100644
-> --- a/drivers/video/fbdev/core/fbcon_cw.c
-> +++ b/drivers/video/fbdev/core/fbcon_cw.c
-> @@ -184,7 +184,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
->  	region.color = color;
->  	region.rop = ROP_COPY;
->  
-> -	if (rw && !bottom_only) {
-> +	if ((int) rw > 0 && !bottom_only) {
->  		region.dx = 0;
->  		region.dy = info->var.yoffset + rs;
->  		region.height = rw;
-> @@ -192,7 +192,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
->  		info->fbops->fb_fillrect(info, &region);
->  	}
->  
-> -	if (bh) {
-> +	if ((int) bh > 0) {
->  		region.dx = info->var.xoffset;
->  		region.dy = info->var.yoffset;
->                  region.height = info->var.yres;
-> diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
-> index 1936afc78fec..e165a3fad29a 100644
-> --- a/drivers/video/fbdev/core/fbcon_ud.c
-> +++ b/drivers/video/fbdev/core/fbcon_ud.c
-> @@ -231,7 +231,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
->  	region.color = color;
->  	region.rop = ROP_COPY;
->  
-> -	if (rw && !bottom_only) {
-> +	if ((int) rw > 0 && !bottom_only) {
->  		region.dy = 0;
->  		region.dx = info->var.xoffset;
->  		region.width  = rw;
-> @@ -239,7 +239,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
->  		info->fbops->fb_fillrect(info, &region);
->  	}
->  
-> -	if (bh) {
-> +	if ((int) bh > 0) {
->  		region.dy = info->var.yoffset;
->  		region.dx = info->var.xoffset;
->                  region.height  = bh;
-> 
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
