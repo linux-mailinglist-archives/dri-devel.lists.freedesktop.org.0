@@ -2,80 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9AE2205AC
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAE62205A4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C7626E448;
-	Wed, 15 Jul 2020 06:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90886E439;
+	Wed, 15 Jul 2020 06:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC3B6E187
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 17:16:03 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06EHChrb153815;
- Tue, 14 Jul 2020 17:15:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type; s=corp-2020-01-29;
- bh=7Pb6O54ow1VQASDVJQvOoUC45VOUa7lVY8Ov4jBbY7g=;
- b=mr1HkAQaMguxlirGA0uLYeirOpjvHxgrSRQXAWD73n3oQn4TMgegU877OpPQPDkt4www
- Q0nd7EOyNHntzrRrkSNU2dpEPfPdoOF2vvSzGT4GfZ3k44EapTaLazUXTWT9Uj9qcPk8
- d7LOvqhBU630GiczL6ntluDpN6Hu0IuMxKj+y1q5zytGwGrOHYfV98E1ueblw2P3X+VH
- 0fN/vRhEGVRh9+/EOydNIUwdZ1p9Ci3pvynoPpJXag258Djt6AmAOq1AsjW3aEZ8OgGG
- tJrO/+3Kmnm2hX+sldf//cHKwjCg/25KWIvObimVgWzLNY5VtXHdhUZAvGMhl4dl0HEh kg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 3274ur6ryk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 14 Jul 2020 17:15:58 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06EHDarG170505;
- Tue, 14 Jul 2020 17:15:57 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 327q6spy46-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Jul 2020 17:15:57 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06EHFtmN018901;
- Tue, 14 Jul 2020 17:15:55 GMT
-Received: from [10.39.221.185] (/10.39.221.185)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 14 Jul 2020 10:15:55 -0700
-Subject: Re: [PATCH] fbdev: Detect integer underflow at "struct
- fbcon_ops"->clear_margins.
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
- <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
- <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
- <CGME20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346@eucas1p1.samsung.com>
- <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
- <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
-From: George Kennedy <george.kennedy@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <c5bf6d5c-8d0a-8df5-2a11-38bf37a11d67@oracle.com>
-Date: Tue, 14 Jul 2020 13:15:53 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr
+ [80.12.242.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D74A6E5A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 18:35:34 +0000 (UTC)
+Received: from localhost.localdomain ([93.23.14.36]) by mwinf5d77 with ME
+ id 36bS2300P0mgUh1036bTVi; Tue, 14 Jul 2020 20:35:32 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 14 Jul 2020 20:35:32 +0200
+X-ME-IP: 93.23.14.36
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: sumit.semwal@linaro.org, davem@davemloft.net, kuba@kernel.org,
+ christian.koenig@amd.com, mhabets@solarflare.com, jwi@linux.ibm.com,
+ zhongjiang@huawei.com, weiyongjun1@huawei.com, vaibhavgupta40@gmail.com
+Subject: [PATCH] ksz884x: switch from 'pci_' to 'dma_' API
+Date: Tue, 14 Jul 2020 20:35:01 +0200
+Message-Id: <20200714183501.310949-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0
- phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007140126
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 impostorscore=0
- suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2007140126
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,636 +41,310 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
- Jiri Slaby <jslaby@suse.com>, Dmitry Vyukov <dvyukov@google.com>
-Content-Type: multipart/mixed; boundary="===============0679935968=="
+Cc: netdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============0679935968==
-Content-Type: multipart/alternative;
- boundary="------------4967EE9DDB85FA5DE5760002"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------4967EE9DDB85FA5DE5760002
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hello Tetsuo,
-
-Can you try the a.out built from the original Syzkaller modified repro C 
-program? It walks 0-7 through xres and yres of the fb_var_screeninfo struct.
-
-// https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6
-// autogenerated by syzkaller (https://github.com/google/syzkaller)
-
-#define _GNU_SOURCE
-
-#include <endian.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/syscall.h>
-#include <sys/types.h>
-#include <sys/fcntl.h>
-#include <unistd.h>
-
-#include <errno.h>
-
-#include <linux/fb.h>
-
-int verbose = 0;
-
-void
-dumpit(unsigned char *buf, int count, int addr)
-{
-     int i, j;
-     char bp[256];
-
-     memset(bp, 0, 256);
-
-     for (i = j = 0; i < count; i++, j++) {
-         if (j == 16) {
-             j = 0;
-             printf("%s\n", bp);
-             memset(bp, 0, 256);
-         }
-         if (j == 0) {
-             sprintf(&bp[strlen(bp)], "%x: ", addr + i);
-         }
-         sprintf(&bp[strlen(bp)], "%02x ", buf[i]);
-     }
-     if (j != 0) {
-         printf("%s\n", bp);
-     }
-}
-
-uint64_t r[1] = {0xffffffffffffffff};
-
-int main(int argc, char **argv)
-{
-   syscall(__NR_mmap, 0x20000000ul, 0x1000000ul, 3ul, 0x32ul, -1, 0);
-   intptr_t res = 0;
-   uint32_t activate = FB_ACTIVATE_NOW;
-   struct fb_var_screeninfo *varp = (struct fb_var_screeninfo *)0x200001c0;
-   struct fb_var_screeninfo *starting_varp = malloc(sizeof(struct fb_var_screeninfo *));
-   char *vp = (char *)varp;
-   int i, sum, rtn, c;
-   extern char *optarg;
-   int limit = 0, passes = 0;
-   unsigned int start_address = 0;
-   unsigned int pattern = 0;
-   int breakit = 1;
-	
-	while ((c = getopt (argc, argv, "a:v")) != -1)
-	switch (c)
-	{
-	case 'a':
-		activate = strtol(optarg, 0, 0);
-		break;
-	case 'v':
-		verbose++;
-		break;
-	default:
-		fprintf(stderr, "\nusage: %s [-a <activate code>] [-v]\n\n", argv[0]);
-		return -1;
-	}
-
-	int fd = open("/dev/fb0", O_RDWR);
-	if (fd < 0) {
-		perror("open");
-		return 0;
-	}
-	printf("fd: %d\n", fd);
-	r[0] = fd;
-
-
-	rtn = syscall(__NR_ioctl, r[0], 0x4600ul, 0x200001c0ul);
-	if (rtn < 0) {
-		perror("ioctl");
-		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
-	}
-
-	if (verbose) {
-		printf("FBIOGET_VSCREENINFO:\n");
-		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
-	}
-
-	memcpy(starting_varp, varp, sizeof(struct fb_var_screeninfo));
-
-	fprintf(stderr, "activate = %d\n", activate);
-
-	varp->activate = activate;
-
-	if (verbose) {
-		printf("Pre FBIOPUT_VSCREENINFO:\n");
-		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
-
-		sleep(2);
-	}
-
-	rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
-	if (rtn < 0) {
-		perror("ioctl");
-		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
-	}
-	limit = 2;
-	for (pattern = 0 ; pattern < 8 ; pattern++) {
-		unsigned long addr = 0x200001c0;
-		passes = 0;
-		printf("\nWalk START addr = 0x%x, Break pattern=%x\n", addr, pattern);
-		while (addr <= 0x2000025c) {
-			fprintf(stderr, "======================== %d: addr=%x ========================\n", passes, addr);
-			memcpy(varp, starting_varp, sizeof(struct fb_var_screeninfo));
-			*(uint32_t*)addr = pattern;
-			varp->activate = activate;
-			printf("Pre FBIOPUT_VSCREENINFO: pattern=%x\n", pattern);
-			dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
-			sleep(3);
-			rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
-			if (rtn < 0) {
-				perror("ioctl");
-				fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
-			}
-			addr += 4;
-			passes++;
-			if (passes == limit)
-				break;
-		}
-	}
-	close(fd);
-
-	return 0;
-}
-
-With my patch it gets output like the following:
-
-[root@localhost ~]# ./fb_break
-fd: 3
-activate = 0
-
-Walk START addr = 0x200001c0, Break pattern=0
-======================== 0: addr=200001c0 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=0
-200001c0: 00 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-ioctl: Invalid argument
-rtn=-1, errno=22
-======================== 1: addr=200001c4 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=0
-200001c0: 00 04 00 00 00 00 00 00 00 04 00 00 00 03 00 00
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-ioctl: Invalid argument
-rtn=-1, errno=22
-
-Walk START addr = 0x200001c0, Break pattern=1
-======================== 0: addr=200001c0 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=1
-200001c0: 01 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-ioctl: Invalid argument
-rtn=-1, errno=22
-
-...
-
-======================== 1: addr=200001c4 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=7
-200001c0: 00 04 00 00 07 00 00 00 00 04 00 00 00 03 00 00
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-ioctl: Invalid argument
-rtn=-1, errno=22
-[root@localhost ~]#
-
-Thank you,
-George
-
-On 7/14/2020 6:27 AM, Tetsuo Handa wrote:
-> On 2020/07/14 16:22, Bartlomiej Zolnierkiewicz wrote:
->> How does this patch relate to:
->>
->> 	https://marc.info/?l=linux-fbdev&m=159415024816722&w=2
->>
->> ?
->>
->> It seems to address the same issue, I've added George and Dan to Cc:.
-> George Kennedy's patch does not help for my case.
->
-> You can try a.out built from
->
-> ----------
-> #include <sys/types.h>
-> #include <sys/stat.h>
-> #include <fcntl.h>
-> #include <sys/ioctl.h>
-> #include <linux/fb.h>
->
-> int main(int argc, char *argv[])
-> {
->          const int fd = open("/dev/fb0", O_ACCMODE);
->          struct fb_var_screeninfo var = { };
->          ioctl(fd, FBIOGET_VSCREENINFO, &var);
->          var.xres = var.yres = 16;
->          ioctl(fd, FBIOPUT_VSCREENINFO, &var);
->          return 0;
-> }
-> ----------
->
-> with a fault injection patch
->
-> ----------
-> --- a/drivers/tty/vt/vt.c
-> +++ b/drivers/tty/vt/vt.c
-> @@ -1214,6 +1214,10 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
->   
->   	if (new_screen_size > KMALLOC_MAX_SIZE)
->   		return -EINVAL;
-> +	if (!strcmp(current->comm, "a.out")) {
-> +		printk(KERN_INFO "Forcing memory allocation failure.\n");
-> +		return -ENOMEM;
-> +	}
->   	newscreen = kzalloc(new_screen_size, GFP_USER);
->   	if (!newscreen)
->   		return -ENOMEM;
-> ----------
->
-> . What my patch workarounds is cases when vc_do_resize() did not update vc->vc_{cols,rows} .
-> Unless vc->vc_{cols,rows} are updated by vc_do_resize() in a way that avoids integer underflow at
->
-> 	unsigned int rw = info->var.xres - (vc->vc_cols*cw);
-> 	unsigned int bh = info->var.yres - (vc->vc_rows*ch);
->
-> , this crash won't go away.
->
-> [   39.995757][ T2788] Forcing memory allocation failure.
-> [   39.996527][ T2788] BUG: unable to handle page fault for address: ffffa9d180d7b000
-> [   39.996529][ T2788] #PF: supervisor write access in kernel mode
-> [   39.996530][ T2788] #PF: error_code(0x0002) - not-present page
-> [   39.996531][ T2788] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 1324e4067 PTE 0
-> [   39.996547][ T2788] Oops: 0002 [#1] SMP
-> [   39.996550][ T2788] CPU: 2 PID: 2788 Comm: a.out Not tainted 5.8.0-rc5+ #757
-> [   39.996551][ T2788] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
-> [   39.996555][ T2788] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
-
-
---------------4967EE9DDB85FA5DE5760002
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Hello Tetsuo,<br>
-    <br>
-    Can you try the a.out built from the original Syzkaller modified
-    repro C program? It walks 0-7 through xres and yres of the
-    fb_var_screeninfo struct.<br>
-    <pre>// <a class="moz-txt-link-freetext" href="https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6">https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6</a>
-// autogenerated by syzkaller (<a class="moz-txt-link-freetext" href="https://github.com/google/syzkaller">https://github.com/google/syzkaller</a>)
-
-#define _GNU_SOURCE
-
-#include &lt;endian.h&gt;
-#include &lt;stdint.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;string.h&gt;
-#include &lt;sys/syscall.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/fcntl.h&gt;
-#include &lt;unistd.h&gt;
-
-#include &lt;errno.h&gt;
-
-#include &lt;linux/fb.h&gt;
-
-int verbose = 0;
-
-void
-dumpit(unsigned char *buf, int count, int addr)
-{
-    int i, j;
-    char bp[256];
-
-    memset(bp, 0, 256);
-
-    for (i = j = 0; i &lt; count; i++, j++) {
-        if (j == 16) {
-            j = 0;
-            printf("%s\n", bp);
-            memset(bp, 0, 256);
-        }
-        if (j == 0) {
-            sprintf(&amp;bp[strlen(bp)], "%x: ", addr + i);
-        }
-        sprintf(&amp;bp[strlen(bp)], "%02x ", buf[i]);
-    }
-    if (j != 0) {
-        printf("%s\n", bp);
-    }
-}
-
-uint64_t r[1] = {0xffffffffffffffff};
-
-int main(int argc, char **argv)
-{
-  syscall(__NR_mmap, 0x20000000ul, 0x1000000ul, 3ul, 0x32ul, -1, 0);
-  intptr_t res = 0;
-  uint32_t activate = FB_ACTIVATE_NOW;
-  struct fb_var_screeninfo *varp = (struct fb_var_screeninfo *)0x200001c0;
-  struct fb_var_screeninfo *starting_varp = malloc(sizeof(struct fb_var_screeninfo *));
-  char *vp = (char *)varp;
-  int i, sum, rtn, c;
-  extern char *optarg;
-  int limit = 0, passes = 0;
-  unsigned int start_address = 0;
-  unsigned int pattern = 0;
-  int breakit = 1;
-	
-	while ((c = getopt (argc, argv, "a:v")) != -1)
-	switch (c)
-	{
-	case 'a':
-		activate = strtol(optarg, 0, 0);
-		break;
-	case 'v':
-		verbose++;
-		break;
-	default:
-		fprintf(stderr, "\nusage: %s [-a &lt;activate code&gt;] [-v]\n\n", argv[0]);
-		return -1;
-	}
-
-	int fd = open("/dev/fb0", O_RDWR);
-	if (fd &lt; 0) {
-		perror("open");
-		return 0;
-	}
-	printf("fd: %d\n", fd);
-	r[0] = fd;
-
-
-	rtn = syscall(__NR_ioctl, r[0], 0x4600ul, 0x200001c0ul);
-	if (rtn &lt; 0) {
-		perror("ioctl");
-		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
-	}
-
-	if (verbose) {
-		printf("FBIOGET_VSCREENINFO:\n");
-		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
-	}
-
-	memcpy(starting_varp, varp, sizeof(struct fb_var_screeninfo));
-
-	fprintf(stderr, "activate = %d\n", activate);
-
-	varp-&gt;activate = activate;
-
-	if (verbose) {
-		printf("Pre FBIOPUT_VSCREENINFO:\n");
-		dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
-
-		sleep(2);
-	}
-
-	rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
-	if (rtn &lt; 0) {
-		perror("ioctl");
-		fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
-	}
-	limit = 2;
-	for (pattern = 0 ; pattern &lt; 8 ; pattern++) {
-		unsigned long addr = 0x200001c0;
-		passes = 0;
-		printf("\nWalk START addr = 0x%x, Break pattern=%x\n", addr, pattern);
-		while (addr &lt;= 0x2000025c) {
-			fprintf(stderr, "======================== %d: addr=%x ========================\n", passes, addr);
-			memcpy(varp, starting_varp, sizeof(struct fb_var_screeninfo));
-			*(uint32_t*)addr = pattern;
-			varp-&gt;activate = activate;
-			printf("Pre FBIOPUT_VSCREENINFO: pattern=%x\n", pattern);
-			dumpit((unsigned char *)vp, sizeof(struct fb_var_screeninfo), 0x200001c0);
-			sleep(3);
-			rtn = syscall(__NR_ioctl, r[0], 0x4601ul, 0x200001c0ul);
-			if (rtn &lt; 0) {
-				perror("ioctl");
-				fprintf(stderr, "rtn=%d, errno=%d\n", rtn, errno);
-			}
-			addr += 4;
-			passes++;
-			if (passes == limit)
-				break;
-		}
-	}
-	close(fd);
-
-	return 0;
-}
-
-</pre>
-    With my patch it gets output like the following:<br>
-    <pre>[root@localhost ~]# ./fb_break 
-fd: 3
-activate = 0
-
-Walk START addr = 0x200001c0, Break pattern=0
-======================== 0: addr=200001c0 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=0
-200001c0: 00 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00 
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-ioctl: Invalid argument
-rtn=-1, errno=22
-======================== 1: addr=200001c4 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=0
-200001c0: 00 04 00 00 00 00 00 00 00 04 00 00 00 03 00 00 
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-ioctl: Invalid argument
-rtn=-1, errno=22
-
-Walk START addr = 0x200001c0, Break pattern=1
-======================== 0: addr=200001c0 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=1
-200001c0: 01 00 00 00 00 03 00 00 00 04 00 00 00 03 00 00 
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-ioctl: Invalid argument
-rtn=-1, errno=22
-
-...
-
-======================== 1: addr=200001c4 ========================
-Pre FBIOPUT_VSCREENINFO: pattern=7
-200001c0: 00 04 00 00 07 00 00 00 00 04 00 00 00 03 00 00 
-200001d0: 00 00 00 00 00 00 00 00 20 00 00 00 00 00 00 00 
-200001e0: 10 00 00 00 08 00 00 00 00 00 00 00 08 00 00 00 
-200001f0: 08 00 00 00 00 00 00 00 00 00 00 00 08 00 00 00 
-20000200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000210: 00 00 00 00 00 00 00 00 2c 01 00 00 90 01 00 00 
-20000220: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000230: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000240: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-20000250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-ioctl: Invalid argument
-rtn=-1, errno=22
-[root@localhost ~]# 
-</pre>
-    Thank you,<br>
-    George<br>
-    <br>
-    <div class="moz-cite-prefix">On 7/14/2020 6:27 AM, Tetsuo Handa
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp">
-      <pre class="moz-quote-pre" wrap="">On 2020/07/14 16:22, Bartlomiej Zolnierkiewicz wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">How does this patch relate to:
-
-	<a class="moz-txt-link-freetext" href="https://marc.info/?l=linux-fbdev&amp;m=159415024816722&amp;w=2">https://marc.info/?l=linux-fbdev&amp;m=159415024816722&amp;w=2</a>
-
-?
-
-It seems to address the same issue, I've added George and Dan to Cc:.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-George Kennedy's patch does not help for my case.
-
-You can try a.out built from
-
-----------
-#include &lt;sys/types.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;sys/ioctl.h&gt;
-#include &lt;linux/fb.h&gt;
-
-int main(int argc, char *argv[])
-{
-        const int fd = open("/dev/fb0", O_ACCMODE);
-        struct fb_var_screeninfo var = { };
-        ioctl(fd, FBIOGET_VSCREENINFO, &amp;var);
-        var.xres = var.yres = 16;
-        ioctl(fd, FBIOPUT_VSCREENINFO, &amp;var);
-        return 0;
-}
-----------
-
-with a fault injection patch
-
-----------
---- a/drivers/tty/vt/vt.c
-+++ b/drivers/tty/vt/vt.c
-@@ -1214,6 +1214,10 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+The wrappers in include/linux/pci-dma-compat.h should go away.
+
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
+
+When memory is allocated in 'ksz_alloc_desc()', GFP_KERNEL can be used
+because a few lines below, GFP_KERNEL is also used in the
+'ksz_alloc_soft_desc()' calls.
+
+
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/net/ethernet/micrel/ksz884x.c | 68 ++++++++++++---------------
+ 1 file changed, 30 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/net/ethernet/micrel/ksz884x.c b/drivers/net/ethernet/micrel/ksz884x.c
+index 2ce7304d3753..bb646b65cc95 100644
+--- a/drivers/net/ethernet/micrel/ksz884x.c
++++ b/drivers/net/ethernet/micrel/ksz884x.c
+@@ -4390,9 +4390,9 @@ static int ksz_alloc_desc(struct dev_info *adapter)
+ 		DESC_ALIGNMENT;
  
- 	if (new_screen_size &gt; KMALLOC_MAX_SIZE)
- 		return -EINVAL;
-+	if (!strcmp(current-&gt;comm, "a.out")) {
-+		printk(KERN_INFO "Forcing memory allocation failure.\n");
-+		return -ENOMEM;
-+	}
- 	newscreen = kzalloc(new_screen_size, GFP_USER);
- 	if (!newscreen)
- 		return -ENOMEM;
-----------
-
-. What my patch workarounds is cases when vc_do_resize() did not update vc-&gt;vc_{cols,rows} .
-Unless vc-&gt;vc_{cols,rows} are updated by vc_do_resize() in a way that avoids integer underflow at
-
-	unsigned int rw = info-&gt;var.xres - (vc-&gt;vc_cols*cw);
-	unsigned int bh = info-&gt;var.yres - (vc-&gt;vc_rows*ch);
-
-, this crash won't go away.
-
-[   39.995757][ T2788] Forcing memory allocation failure.
-[   39.996527][ T2788] BUG: unable to handle page fault for address: ffffa9d180d7b000
-[   39.996529][ T2788] #PF: supervisor write access in kernel mode
-[   39.996530][ T2788] #PF: error_code(0x0002) - not-present page
-[   39.996531][ T2788] PGD 13a48c067 P4D 13a48c067 PUD 13a48d067 PMD 1324e4067 PTE 0
-[   39.996547][ T2788] Oops: 0002 [#1] SMP
-[   39.996550][ T2788] CPU: 2 PID: 2788 Comm: a.out Not tainted 5.8.0-rc5+ #757
-[   39.996551][ T2788] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
-[   39.996555][ T2788] RIP: 0010:bitfill_aligned+0x87/0x120 [cfbfillrect]
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------4967EE9DDB85FA5DE5760002--
-
---===============0679935968==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+ 	adapter->desc_pool.alloc_virt =
+-		pci_zalloc_consistent(adapter->pdev,
+-				      adapter->desc_pool.alloc_size,
+-				      &adapter->desc_pool.dma_addr);
++		dma_alloc_coherent(&adapter->pdev->dev,
++				   adapter->desc_pool.alloc_size,
++				   &adapter->desc_pool.dma_addr, GFP_KERNEL);
+ 	if (adapter->desc_pool.alloc_virt == NULL) {
+ 		adapter->desc_pool.alloc_size = 0;
+ 		return 1;
+@@ -4431,7 +4431,8 @@ static int ksz_alloc_desc(struct dev_info *adapter)
+ static void free_dma_buf(struct dev_info *adapter, struct ksz_dma_buf *dma_buf,
+ 	int direction)
+ {
+-	pci_unmap_single(adapter->pdev, dma_buf->dma, dma_buf->len, direction);
++	dma_unmap_single(&adapter->pdev->dev, dma_buf->dma, dma_buf->len,
++			 direction);
+ 	dev_kfree_skb(dma_buf->skb);
+ 	dma_buf->skb = NULL;
+ 	dma_buf->dma = 0;
+@@ -4456,16 +4457,15 @@ static void ksz_init_rx_buffers(struct dev_info *adapter)
+ 
+ 		dma_buf = DMA_BUFFER(desc);
+ 		if (dma_buf->skb && dma_buf->len != adapter->mtu)
+-			free_dma_buf(adapter, dma_buf, PCI_DMA_FROMDEVICE);
++			free_dma_buf(adapter, dma_buf, DMA_FROM_DEVICE);
+ 		dma_buf->len = adapter->mtu;
+ 		if (!dma_buf->skb)
+ 			dma_buf->skb = alloc_skb(dma_buf->len, GFP_ATOMIC);
+ 		if (dma_buf->skb && !dma_buf->dma)
+-			dma_buf->dma = pci_map_single(
+-				adapter->pdev,
+-				skb_tail_pointer(dma_buf->skb),
+-				dma_buf->len,
+-				PCI_DMA_FROMDEVICE);
++			dma_buf->dma = dma_map_single(&adapter->pdev->dev,
++						skb_tail_pointer(dma_buf->skb),
++						dma_buf->len,
++						DMA_FROM_DEVICE);
+ 
+ 		/* Set descriptor. */
+ 		set_rx_buf(desc, dma_buf->dma);
+@@ -4543,11 +4543,10 @@ static void ksz_free_desc(struct dev_info *adapter)
+ 
+ 	/* Free memory. */
+ 	if (adapter->desc_pool.alloc_virt)
+-		pci_free_consistent(
+-			adapter->pdev,
+-			adapter->desc_pool.alloc_size,
+-			adapter->desc_pool.alloc_virt,
+-			adapter->desc_pool.dma_addr);
++		dma_free_coherent(&adapter->pdev->dev,
++				  adapter->desc_pool.alloc_size,
++				  adapter->desc_pool.alloc_virt,
++				  adapter->desc_pool.dma_addr);
+ 
+ 	/* Reset resource pool. */
+ 	adapter->desc_pool.alloc_size = 0;
+@@ -4590,12 +4589,10 @@ static void ksz_free_buffers(struct dev_info *adapter,
+ static void ksz_free_mem(struct dev_info *adapter)
+ {
+ 	/* Free transmit buffers. */
+-	ksz_free_buffers(adapter, &adapter->hw.tx_desc_info,
+-		PCI_DMA_TODEVICE);
++	ksz_free_buffers(adapter, &adapter->hw.tx_desc_info, DMA_TO_DEVICE);
+ 
+ 	/* Free receive buffers. */
+-	ksz_free_buffers(adapter, &adapter->hw.rx_desc_info,
+-		PCI_DMA_FROMDEVICE);
++	ksz_free_buffers(adapter, &adapter->hw.rx_desc_info, DMA_FROM_DEVICE);
+ 
+ 	/* Free descriptors. */
+ 	ksz_free_desc(adapter);
+@@ -4657,9 +4654,8 @@ static void send_packet(struct sk_buff *skb, struct net_device *dev)
+ 
+ 		dma_buf->len = skb_headlen(skb);
+ 
+-		dma_buf->dma = pci_map_single(
+-			hw_priv->pdev, skb->data, dma_buf->len,
+-			PCI_DMA_TODEVICE);
++		dma_buf->dma = dma_map_single(&hw_priv->pdev->dev, skb->data,
++					      dma_buf->len, DMA_TO_DEVICE);
+ 		set_tx_buf(desc, dma_buf->dma);
+ 		set_tx_len(desc, dma_buf->len);
+ 
+@@ -4676,11 +4672,10 @@ static void send_packet(struct sk_buff *skb, struct net_device *dev)
+ 			dma_buf = DMA_BUFFER(desc);
+ 			dma_buf->len = skb_frag_size(this_frag);
+ 
+-			dma_buf->dma = pci_map_single(
+-				hw_priv->pdev,
+-				skb_frag_address(this_frag),
+-				dma_buf->len,
+-				PCI_DMA_TODEVICE);
++			dma_buf->dma = dma_map_single(&hw_priv->pdev->dev,
++						      skb_frag_address(this_frag),
++						      dma_buf->len,
++						      DMA_TO_DEVICE);
+ 			set_tx_buf(desc, dma_buf->dma);
+ 			set_tx_len(desc, dma_buf->len);
+ 
+@@ -4700,9 +4695,8 @@ static void send_packet(struct sk_buff *skb, struct net_device *dev)
+ 	} else {
+ 		dma_buf->len = len;
+ 
+-		dma_buf->dma = pci_map_single(
+-			hw_priv->pdev, skb->data, dma_buf->len,
+-			PCI_DMA_TODEVICE);
++		dma_buf->dma = dma_map_single(&hw_priv->pdev->dev, skb->data,
++					      dma_buf->len, DMA_TO_DEVICE);
+ 		set_tx_buf(desc, dma_buf->dma);
+ 		set_tx_len(desc, dma_buf->len);
+ 	}
+@@ -4756,9 +4750,8 @@ static void transmit_cleanup(struct dev_info *hw_priv, int normal)
+ 		}
+ 
+ 		dma_buf = DMA_BUFFER(desc);
+-		pci_unmap_single(
+-			hw_priv->pdev, dma_buf->dma, dma_buf->len,
+-			PCI_DMA_TODEVICE);
++		dma_unmap_single(&hw_priv->pdev->dev, dma_buf->dma,
++				 dma_buf->len, DMA_TO_DEVICE);
+ 
+ 		/* This descriptor contains the last buffer in the packet. */
+ 		if (dma_buf->skb) {
+@@ -4991,9 +4984,8 @@ static inline int rx_proc(struct net_device *dev, struct ksz_hw* hw,
+ 	packet_len = status.rx.frame_len - 4;
+ 
+ 	dma_buf = DMA_BUFFER(desc);
+-	pci_dma_sync_single_for_cpu(
+-		hw_priv->pdev, dma_buf->dma, packet_len + 4,
+-		PCI_DMA_FROMDEVICE);
++	dma_sync_single_for_cpu(&hw_priv->pdev->dev, dma_buf->dma,
++				packet_len + 4, DMA_FROM_DEVICE);
+ 
+ 	do {
+ 		/* skb->data != skb->head */
+@@ -6935,8 +6927,8 @@ static int pcidev_init(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	result = -ENODEV;
+ 
+-	if (pci_set_dma_mask(pdev, DMA_BIT_MASK(32)) ||
+-			pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32)))
++	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)) ||
++	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32)))
+ 		return result;
+ 
+ 	reg_base = pci_resource_start(pdev, 0);
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0679935968==--
