@@ -2,70 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B240F21F62E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 17:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB3421F64A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 17:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D596E532;
-	Tue, 14 Jul 2020 15:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAAD46E8A7;
+	Tue, 14 Jul 2020 15:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com
- [IPv6:2607:f8b0:4864:20::e2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42C56E532
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 15:31:25 +0000 (UTC)
-Received: by mail-vs1-xe2e.google.com with SMTP id k7so8735842vso.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WksUM6pNI+S4CMahaIw3W532k7nAO9tbEiDkzLv1CSM=;
- b=Wim6yhMrOtHj4Obe5ed3OHki+ECj+oGFL5miVjOUk/VdS8ZzJuC9l+wt2q2ai1dEQe
- TlrGeWOCFBEiVGdatHH0GWLAdKOp/Pbda9YggdQasMCy6pqwDpHv4+m3GwzZKsqfXDQM
- wVLLbO0svs94J/bEPWFTvqxqE/NvlRMZJJ2kM=
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29A16E8A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 15:41:42 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id g20so17728497edm.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fPc2Ss/8lpvcY2mROIad4+yzm0HXN/Mn6E5P50MZh+g=;
+ b=At4gkRUItDv2bTs0xNUQM6klkWzkjBtcD5o50Y2SJAnx+zKx8I5H//b36vyamjzR/A
+ RZzwpBJDvYsTOZz/Ai/RIUmNFK/bDWapx2VMd67/9AC5ekcX5ckzxokHGZ6ahFWqa6ye
+ ctoxBjYJVT26gEdpOdAovQJpd0IAG9rgZbuNQ3nj7b1Lyw0PihmVFTpagYxhP9OxM1Tv
+ 9eMBXwsHA80WDrXTeDiTm12HJxzRet/p1RioqNg1ChFmKyP3MfQvWi2CQMD9J7hyHFqR
+ /UpNGM5Fbv+sTgtTo9KLx9NzTjA+DMIAjGbmJfePiyTuSCBqSvjRLxH9aSq94Yi/25G6
+ uFQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WksUM6pNI+S4CMahaIw3W532k7nAO9tbEiDkzLv1CSM=;
- b=RcvWttVcHC5F0Gw4nfmTj0lbcoTuCPJMnKwmpV2FPScLojzr8hpStZ4RPFSQX1D44A
- H35RerqdgH/1Jr9nOaTDTUdravoEMZ38J+Xh3OwCQlRB594qeiffVjVpxNrFVwRwE7yC
- ySnvrBOwkx6Lbnxayi3Ej45/5rtZwCnDYd0yE4SeexU+6oFNWNKMSo0eZI9/DhLqm6rp
- 2xM+pTAD8Fk0xKH4f8U90c5jjFCd9SqgTcgkc8fg5u3MUL7SlWnb3qhlq6oLrKNS5CQd
- 63CF6R5gi/mdzgRWIkvNt3U+FVLx3metOp2X4NZmMOfrSCZ66K+ZiqSdgR7wS2tXZdqE
- 1O1w==
-X-Gm-Message-State: AOAM532iBMGbjcnb5wcT832VxBrDWAEbmtTR9bvn9f5fO9jUtnDQ/Lp+
- spYgTKRz2JXPMxfGA/khiSPmkpMU1pM=
-X-Google-Smtp-Source: ABdhPJwC8zelGzOpCy8uMUVizQf9hYQz4etwmq7EoBvXFXHXH8SYP6bv6PJRI0LK9Tkpi7gFmmd8cQ==
-X-Received: by 2002:a67:b909:: with SMTP id q9mr3408324vsn.132.1594740684436; 
- Tue, 14 Jul 2020 08:31:24 -0700 (PDT)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com.
- [209.85.222.50])
- by smtp.gmail.com with ESMTPSA id x79sm1933329vsx.17.2020.07.14.08.31.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jul 2020 08:31:22 -0700 (PDT)
-Received: by mail-ua1-f50.google.com with SMTP id u33so3527716uad.9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 08:31:22 -0700 (PDT)
-X-Received: by 2002:ab0:150c:: with SMTP id o12mr3958335uae.90.1594740682019; 
- Tue, 14 Jul 2020 08:31:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fPc2Ss/8lpvcY2mROIad4+yzm0HXN/Mn6E5P50MZh+g=;
+ b=D97uOVOSpGQ5CIc/OxDcHgSEDSBDqv72ig8JfRKZ4v0XKQ2aFza45KvVmM8Kq4jV7v
+ 5UEN8jfCi3EEgHEu9F0mbenQmxcTQ4Q/QiiL93n0PI4P69OFeRhaiWeFlphLdV3D5GR1
+ TefTyHnSD0E0wwzc/JQMx7TUYXdL+XImapu6WctAGvNP9R+HZPK5/SmAjsIWV0ufHp7n
+ I6j6rIK7lwQKqESGipPM2Px06S1Tl8fpuRnAQeuxOuFXpXUc/2Vf5LDm70sYe7p7EQHZ
+ a/5/T/yfCK/mCQVJqkRAucMg5/SxWGKkwtWjcTWgidoFFy/tI3590QCOQzNJi627RuA0
+ xfuQ==
+X-Gm-Message-State: AOAM530OwhRuEnjcR4yvWcFQkoZtWWr0EjYOa+lPkHwYgIrQzW71Xw8N
+ 5VizyU+gJnj48t8QiIkJ975y9X1gkhETNg==
+X-Google-Smtp-Source: ABdhPJwZObsEu8F5INUsvjQ8cz1MKDyRzRFpaBjGfKgiWcqbuSEzB2QfIMzWZgTdyKXSf+zp7gasYw==
+X-Received: by 2002:a05:6402:559:: with SMTP id
+ i25mr4994902edx.35.1594741301264; 
+ Tue, 14 Jul 2020 08:41:41 -0700 (PDT)
+Received: from localhost.localdomain (31-10-158-161.cgn.dynamic.upc.ch.
+ [31.10.158.161])
+ by smtp.gmail.com with ESMTPSA id s7sm15200482edr.57.2020.07.14.08.41.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jul 2020 08:41:40 -0700 (PDT)
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf/sw_sync: Avoid recursive lock during fence signal.
+Date: Tue, 14 Jul 2020 17:41:02 +0200
+Message-Id: <20200714154102.450826-1-bas@basnieuwenhuizen.nl>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20191218143416.v3.6.Iaf8d698f4e5253d658ae283d2fd07268076a7c27@changeid>
- <20200710011935.GA7056@gentoo.org>
- <CAD=FV=X3oazamoKR1jHoXm-yCAp9208ahNd8y+NDPt1pU=5xRg@mail.gmail.com>
- <CAD=FV=UWQsGit6XMCzHn5cBRAC9nAaGReDyMzMM2Su02bfiPyQ@mail.gmail.com>
- <dc786abb-4bc2-2416-7ee5-de408aceb8f1@kali.org>
- <e0702671-3bed-9e3d-c7f4-d050c617eb65@kali.org>
- <bc795659-7dd6-c667-1c93-4331510ecfbc@kali.org>
- <CAD=FV=VC+RP8WfS-yuc65WRN2KokNbAs-F3UdQtQoZjcMMSNFA@mail.gmail.com>
- <f81f0d22-85d6-66eb-c8d9-345757f53959@kali.org>
- <CAD=FV=WB_4xLe9UZX3eVemybQ1neXJVZgzrDCW-xUxbAM6hCTA@mail.gmail.com>
- <8e306b6d-246d-aa7f-cb24-923e13afcd04@kali.org>
-In-Reply-To: <8e306b6d-246d-aa7f-cb24-923e13afcd04@kali.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 14 Jul 2020 08:31:10 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XeBLRc4v5K3vj=m9PGMuW8GVUq110ApX6xS2QaiJd=pw@mail.gmail.com>
-Message-ID: <CAD=FV=XeBLRc4v5K3vj=m9PGMuW8GVUq110ApX6xS2QaiJd=pw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] drm/bridge: ti-sn65dsi86: Use 18-bit DP if we can
-To: Steev Klimaszewski <steev@kali.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,93 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Steev Klimaszewski <steev@gentoo.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Gustavo Padovan <gustavo@padovan.org>, stable@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Jul 10, 2020 at 10:11 AM Steev Klimaszewski <steev@kali.org> wrote:
->
->
-> On 7/10/20 9:47 AM, Doug Anderson wrote:
-> > Hi,
-> >
-> >
-> > But should I continue on this path,
-> > It's probably worth getting dithering working on your sdm845 anyway in
-> > case anyone actually does put a 6bpp panel on this SoC.
-> >
-> >
-> >> or should we be finding others who
-> >> have an N61 and see what their EDID reports?
-> > I have an email out to BOE, but it might take a little while to get a
-> > response.  I'll see what they say.  If they say that the panel
-> > actually supports 8bpp then it's a no-brainer and we should just
-> > switch to 8bpp and be done.
-> >
-> > ...but if they say it's a 6bpp panel that has its own dither logic
-> > then it gets more complicated.  Initially one would think there should
-> > be very little downside in defining the panel as an 8bpp panel and
-> > calling it done.  ...except that it conflicts with some other work
-> > that I have in progress.  :-P  Specifically if you treat the panel as
-> > 6bpp and then reduce the blanking a tiny bit you can actually save 75
-> > mW of total system power on my board (probably similar on your board
-> > since you have the same bridge chip).  You can see a patch to do that
-> > here:
-> >
-> > https://crrev.com/c/2276384
-> >
-> > ...so I'm hoping to get some clarity from BOE both on the true bits
-> > per pixel and whether my proposed timings are valid before moving
-> > forward.  Is that OK?
-> >
-> >
-> > -Doug
->
->
-> It's fine by me - testing Rob's suggestion of changing
-> MAX_HDISPLAY_SPLIT 1080->1920 along with the change to adding IS_SDM845
-> does give me a full screen that looks nicer, I'm fine with using the
-> hack locally until a proper solution is found.  And I'm always a fan of
-> using less power on a laptop.
->
->
-> I'll give the patch a spin here if you want as well.
->
->
-> Hopefully BOE gets back to you soon, and there's no rush, I'm just an
-> end user who is extremely appreciative of all the work everyone on the
-> list and the kernel in general put in to make my machines usable.
-
-Just FYI that I got confirmation that the panel is truly 6 bpp but it
-will do FRC dithering if given an 8 bpp input.  That means that you
-should be getting just as good picture quality (and possibly more
-tunable) by using the dithering in the display pipeline and leaving
-the panel as 6bpp.  Thus I'm going to assume that's the route we'll go
-down.  If ever we find someone that wants to use this panel on a
-display controller that can't do its own dithering then I guess we'll
-have to figure out what to do then...
-
-In terms of the more optimal pixel clock for saving power, my proposal
-is still being analyzed and I'll report back when I hear more.  I'm
-seeing if BOE can confirm that my proposal will work both for my panel
-(the -n62 variant) and the one you have (the -n61 variant).
-
--Doug
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q2FsbHRyZWU6CiAgdGltZWxpbmVfZmVuY2VfcmVsZWFzZQogIGRybV9zY2hlZF9lbnRpdHlfd2Fr
+ZXVwCiAgZG1hX2ZlbmNlX3NpZ25hbF9sb2NrZWQKICBzeW5jX3RpbWVsaW5lX3NpZ25hbAogIHN3
+X3N5bmNfaW9jdGwKClJlbGVhc2luZyB0aGUgcmVmZXJlbmNlIHRvIHRoZSBmZW5jZSBpbiB0aGUg
+ZmVuY2Ugc2lnbmFsIGNhbGxiYWNrCnNlZW1zIHJlYXNvbmFibGUgdG8gbWUsIHNvIHRoaXMgcGF0
+Y2ggYXZvaWRzIHRoZSBsb2NraW5nIGlzc3VlIGluCnN3X3N5bmMuCgpkMzg2MmU0NGRhYTcgKCJk
+bWEtYnVmL3N3LXN5bmM6IEZpeCBsb2NraW5nIGFyb3VuZCBzeW5jX3RpbWVsaW5lIGxpc3RzIikK
+Zml4ZWQgdGhlIHJlY3Vyc2l2ZSBsb2NraW5nIGlzc3VlIGJ1dCBjYXVzZWQgYW4gdXNlLWFmdGVy
+LWZyZWUuIExhdGVyCmQzYzZkZDFmYjMwZCAoImRtYS1idWYvc3dfc3luYzogU3luY2hyb25pemUg
+c2lnbmFsIHZzIHN5bmNwdCBmcmVlIikKZml4ZWQgdGhlIHVzZS1hZnRlci1mcmVlIGJ1dCByZWlu
+dHJvZHVjZWQgdGhlIHJlY3Vyc2l2ZSBsb2NraW5nIGlzc3VlLgoKSW4gdGhpcyBhdHRlbXB0IHdl
+IGF2b2lkIHRoZSB1c2UtYWZ0ZXItZnJlZSBzdGlsbCBiZWNhdXNlIHRoZSByZWxlYXNlCmZ1bmN0
+aW9uIHN0aWxsIGFsd2F5cyBsb2NrcywgYW5kIG91dHNpZGUgb2YgdGhlIGxvY2tpbmcgcmVnaW9u
+IGluIHRoZQpzaWduYWwgZnVuY3Rpb24gd2UgaGF2ZSBwcm9wZXJseSByZWZjb3VudGVkIHJlZmVy
+ZW5jZXMuCgpXZSBmdXJ0aGVybW9yZSBhbHNvIGF2b2lkIHRoZSByZWN1cml2ZSBsb2NrIGJ5IG1h
+a2luZyBzdXJlIHRoYXQgZWl0aGVyOgoKMSkgV2UgaGF2ZSBhIHByb3Blcmx5IHJlZmNvdW50ZWQg
+cmVmZXJlbmNlLCBwcmV2ZW50aW5nIHRoZSBzaWduYWwgZnJvbQogICB0cmlnZ2VyaW5nIHRoZSBy
+ZWxlYXNlIGZ1bmN0aW9uIGluc2lkZSB0aGUgbG9ja2VkIHJlZ2lvbi4KMikgVGhlIHJlZmNvdW50
+IHdhcyBhbHJlYWR5IHplcm8sIGFuZCBoZW5jZSBub2JvZHkgd2lsbCBiZSBhYmxlIHRvIHRyaWdn
+ZXIKICAgdGhlIHJlbGVhc2UgZnVuY3Rpb24gZnJvbSB0aGUgc2lnbmFsIGZ1bmN0aW9uLgoKRml4
+ZXM6IGQzYzZkZDFmYjMwZCAoImRtYS1idWYvc3dfc3luYzogU3luY2hyb25pemUgc2lnbmFsIHZz
+IHN5bmNwdCBmcmVlIikKQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+
+CkNjOiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KQ2M6IEd1c3Rhdm8g
+UGFkb3ZhbiA8Z3VzdGF2b0BwYWRvdmFuLm9yZz4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlz
+dGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgpTaWduZWQt
+b2ZmLWJ5OiBCYXMgTmlldXdlbmh1aXplbiA8YmFzQGJhc25pZXV3ZW5odWl6ZW4ubmw+Ci0tLQog
+ZHJpdmVycy9kbWEtYnVmL3N3X3N5bmMuYyB8IDI4ICsrKysrKysrKysrKysrKysrKysrLS0tLS0t
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9zd19zeW5jLmMgYi9kcml2ZXJzL2RtYS1idWYvc3df
+c3luYy5jCmluZGV4IDM0OGIzYTkxNzBmYS4uMzBhNDgyZjc1ZDU2IDEwMDY0NAotLS0gYS9kcml2
+ZXJzL2RtYS1idWYvc3dfc3luYy5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9zd19zeW5jLmMKQEAg
+LTE5Miw5ICsxOTIsMTIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkbWFfZmVuY2Vfb3BzIHRpbWVs
+aW5lX2ZlbmNlX29wcyA9IHsKIHN0YXRpYyB2b2lkIHN5bmNfdGltZWxpbmVfc2lnbmFsKHN0cnVj
+dCBzeW5jX3RpbWVsaW5lICpvYmosIHVuc2lnbmVkIGludCBpbmMpCiB7CiAJc3RydWN0IHN5bmNf
+cHQgKnB0LCAqbmV4dDsKKwlzdHJ1Y3QgbGlzdF9oZWFkIHJlZl9saXN0OwogCiAJdHJhY2Vfc3lu
+Y190aW1lbGluZShvYmopOwogCisJSU5JVF9MSVNUX0hFQUQoJnJlZl9saXN0KTsKKwogCXNwaW5f
+bG9ja19pcnEoJm9iai0+bG9jayk7CiAKIAlvYmotPnZhbHVlICs9IGluYzsKQEAgLTIwNiwxOCAr
+MjA5LDI3IEBAIHN0YXRpYyB2b2lkIHN5bmNfdGltZWxpbmVfc2lnbmFsKHN0cnVjdCBzeW5jX3Rp
+bWVsaW5lICpvYmosIHVuc2lnbmVkIGludCBpbmMpCiAJCWxpc3RfZGVsX2luaXQoJnB0LT5saW5r
+KTsKIAkJcmJfZXJhc2UoJnB0LT5ub2RlLCAmb2JqLT5wdF90cmVlKTsKIAotCQkvKgotCQkgKiBB
+IHNpZ25hbCBjYWxsYmFjayBtYXkgcmVsZWFzZSB0aGUgbGFzdCByZWZlcmVuY2UgdG8gdGhpcwot
+CQkgKiBmZW5jZSwgY2F1c2luZyBpdCB0byBiZSBmcmVlZC4gVGhhdCBvcGVyYXRpb24gaGFzIHRv
+IGJlCi0JCSAqIGxhc3QgdG8gYXZvaWQgYSB1c2UgYWZ0ZXIgZnJlZSBpbnNpZGUgdGhpcyBsb29w
+LCBhbmQgbXVzdAotCQkgKiBiZSBhZnRlciB3ZSByZW1vdmUgdGhlIGZlbmNlIGZyb20gdGhlIHRp
+bWVsaW5lIGluIG9yZGVyIHRvCi0JCSAqIHByZXZlbnQgZGVhZGxvY2tpbmcgb24gdGltZWxpbmUt
+PmxvY2sgaW5zaWRlCi0JCSAqIHRpbWVsaW5lX2ZlbmNlX3JlbGVhc2UoKS4KLQkJICovCisJCS8q
+IFdlIG5lZWQgdG8gdGFrZSBhIHJlZmVyZW5jZSB0byBhdm9pZCBhIHJlbGVhc2UgZHVyaW5nCisJ
+CSAqIHNpZ25hbGxpbmcgKHdoaWNoIGNhbiBjYXVzZSBhIHJlY3Vyc2l2ZSBsb2NrIG9mIG9iai0+
+bG9jaykuCisJCSAqIElmIHJlZmNvdW50IHdhcyBhbHJlYWR5IHplcm8sIGFub3RoZXIgdGhyZWFk
+IGlzIGFscmVhZHkgdGFraW5nCisJCSAqIGNhcmUgb2YgZGVzdHJ1Y3RpbmcgdGhlIGZlbmNlLCBz
+byB0aGUgc2lnbmFsIGNhbm5vdCByZWxlYXNlCisJCSAqIGl0IGFnYWluIGFuZCB3ZSBoZW5jZSB3
+aWxsIG5vdCBoYXZlIHRoZSByZWN1cnNpdmUgbG9jay4gKi8KKwkJaWYgKGRtYV9mZW5jZV9nZXRf
+cmN1KCZwdC0+YmFzZSkpCisJCQlsaXN0X2FkZF90YWlsKCZwdC0+bGluaywgJnJlZl9saXN0KTsK
+KwogCQlkbWFfZmVuY2Vfc2lnbmFsX2xvY2tlZCgmcHQtPmJhc2UpOwogCX0KIAogCXNwaW5fdW5s
+b2NrX2lycSgmb2JqLT5sb2NrKTsKKworCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShwdCwgbmV4
+dCwgJnJlZl9saXN0LCBsaW5rKSB7CisJCS8qIFRoaXMgbmVlZHMgdG8gYmUgY2xlYXJlZCBiZWZv
+cmUgcmVsZWFzZSwgb3RoZXJ3aXNlIHRoZQorCQkgKiB0aW1lbGluZV9mZW5jZV9yZWxlYXNlIGZ1
+bmN0aW9uIGdldHMgY29uZnVzZWQgYWJvdXQgYWxzbworCQkgKiByZW1vdmluZyB0aGUgZmVuY2Ug
+ZnJvbSB0aGUgcHRfdHJlZS4gKi8KKwkJbGlzdF9kZWxfaW5pdCgmcHQtPmxpbmspOworCisJCWRt
+YV9mZW5jZV9wdXQoJnB0LT5iYXNlKTsKKwl9CiB9CiAKIC8qKgotLSAKMi4yNy4wCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
