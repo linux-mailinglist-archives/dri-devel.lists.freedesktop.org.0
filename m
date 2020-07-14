@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DD921E636
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 05:15:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA7621E638
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 05:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DFD6E87B;
-	Tue, 14 Jul 2020 03:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EAF26E89F;
+	Tue, 14 Jul 2020 03:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2064.outbound.protection.outlook.com [40.107.92.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F35136E87B;
- Tue, 14 Jul 2020 03:14:54 +0000 (UTC)
+ (mail-bn7nam10on2087.outbound.protection.outlook.com [40.107.92.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBD96E89D;
+ Tue, 14 Jul 2020 03:15:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IRU39nSYdqzTRmOx9V6PtPlLi7GJskwW9tM9EOPHbriuBZKCYBGIJ8xQSbrqcD0Av0PYDQrLWi5ljLHd21DZ72XrNpetjMKOIl3F003kOm6ey9Mza/l3C7IrGqSvLj1429nRcsVx5+trmlkU9JSpBvSIl1KTDmuaJbZ+OPvD4StGDtjY7en+j2NhZEX84VXj9H6hgKgBx4KYYiYURTObrAzPgodDHhLyb72QfOdmiM5LkegD5lvWOWS2V7KamZYcCnyD7WFbDllU5phhQq9Xo1bogFeU6eEFd1J2Qbgj02zyKZDgUzu3AViYSSMe6L3/lCFMKCZxYLwfirOedJHCcA==
+ b=VkGiDrlCFyT16HTH37vI7ZWCSewgKQ0okyiQ0xy9Ej4IQmKXJyQNrry91z5bUceF0x3+lP4438yv8nzXtdND+S9mKA2NvsJmzdhS0hF19BMVq/Ued+R2Cn67v4hJ7mQRd9wRm3nvE2CiA2T0LwBxaKSiVi0Gvn8RknDfLIZqE8VZqWUcrd0H67gRy5y7QjDb7tkIKDISmMCBQ80ZKIfZMaiCcUaJOTXZCy4RK4aCq2JTRloMsKFPOBttxShS4luY6wmF01fflOIDuvTH7jc7wz9zrlluYs8YF31kQXGZCnriQbJTnCkI2WW1ie1r9iOMysUzIfm31wmpPQvPzxPrWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQ/mNhwdbCjCTlePIQxYHLrab3LW76fHEOQVfHi+tac=;
- b=WCTUxwUlArBhbyAEQmrNKGCa//jjmTMYQQ37V4WDevjMFGyQK+smqbLetMpcJCfU06VuMp07CF2XC+jM7ddQbFLTu5pw2cynrlaS5VWW/fRyhu1h1b4dHJFnemEn8ARN9sZtdPTaYFn2EpxJ0WD7uT94jUu/UDIDNyMcV0yPPsyiF6vF7NF3PFUppbwpv3iaq6lxBPZafZ+/OcKRSj5NGObHGqbH455Gw8sCYRpytQqe8mrkfdWwiMW5kWotM5v4AEv42wwPn4g3vnmKBXEgpEcccJhvb0Ujo1+ZQ4ahBNOBq6Pv1PoEDsCInSfNeJTTNDf7GA5olguWyZHa2jDiaQ==
+ bh=/Of2HaKNf3ugTA8dteNQQZ23zTzXbSDqwnB2X6XbvV0=;
+ b=GKeFV521pnXpWZlNIIkX28TF9KQxDT5bARWIj7TGpsvpXNcChIZLteQtSIvl9Eb6EB79uJ3Jq71aSg8HhoKYIfGGP8KMnerqQlMI0P3NHEjIKxoJWzsV7HnH/Oq0SijIJI2FKttvOsNvy3YQbqaxZg+tb18sntBaTz4UY9V5vP8CHFT6DHMWNXCbWt7TEM9+TRSqVg8i+ONdS5cGIi+IjfpOsKnCMd4+PsIc5Sa/UfCBMGxowfoqLCtYmuVKI9JKzLy6V7qlajCKRMbfsoDqKMaVxRX05EmkveTViezYi0Y9vMIV6BqTg70j6HP2gJg57TPIV1zbTOQxjAuwGSN3cw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQ/mNhwdbCjCTlePIQxYHLrab3LW76fHEOQVfHi+tac=;
- b=Vnm1+2z90QCozRGFiXiZqMIpVpekEzqsN98lzPoCkddDCxzPKajjJ9013/g55KqunEYRkFANROtfQkKl6c4ZCKA6uqYIFaJKRG/yGtXQ1g/rSnOfiAyOTf/3OFro/SA9nm4kT73kQKLHBk15sHyBIo8SmcgYyLS6T4RKJSZVSSg=
+ bh=/Of2HaKNf3ugTA8dteNQQZ23zTzXbSDqwnB2X6XbvV0=;
+ b=zaa4zoYCdGtk/D+/S9QKgaK8gsNxkCfTk2oW8Sri5OajnzGv6hmTMK9ic3YxIA46KQ8Flq33OHaUXDC//rmeLnNlwkbPQdpwqLAlIIa4JNLcpRS557lW7xRbt5G5k860lkQ/Y/KE8+znqV+y0IGeSaYCuDj6WP/sc+iMKekTanM=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -35,18 +35,20 @@ Received: from DM5PR12MB2407.namprd12.prod.outlook.com (2603:10b6:4:b4::24) by
  DM5PR12MB1210.namprd12.prod.outlook.com (2603:10b6:3:75::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.23; Tue, 14 Jul 2020 03:14:48 +0000
+ 15.20.3174.23; Tue, 14 Jul 2020 03:14:58 +0000
 Received: from DM5PR12MB2407.namprd12.prod.outlook.com
  ([fe80::9c20:aa3e:1b50:7ce5]) by DM5PR12MB2407.namprd12.prod.outlook.com
  ([fe80::9c20:aa3e:1b50:7ce5%4]) with mapi id 15.20.3174.026; Tue, 14 Jul 2020
- 03:14:48 +0000
+ 03:14:58 +0000
 From: Felix Kuehling <Felix.Kuehling@amd.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/1] Upstreaming the KFD IPC API
-Date: Mon, 13 Jul 2020 23:14:34 -0400
-Message-Id: <20200714031435.13362-1-Felix.Kuehling@amd.com>
+Subject: [PATCH 1/1] drm/amdkfd: Add IPC API
+Date: Mon, 13 Jul 2020 23:14:35 -0400
+Message-Id: <20200714031435.13362-2-Felix.Kuehling@amd.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200714031435.13362-1-Felix.Kuehling@amd.com>
+References: <20200714031435.13362-1-Felix.Kuehling@amd.com>
 X-ClientProxiedBy: YT1PR01CA0015.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::28)
  To DM5PR12MB2407.namprd12.prod.outlook.com
  (2603:10b6:4:b4::24)
@@ -55,34 +57,34 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from Harpoon.amd.com (165.204.55.251) by
  YT1PR01CA0015.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3174.22 via Frontend Transport; Tue, 14 Jul 2020 03:14:47 +0000
+ 15.20.3174.22 via Frontend Transport; Tue, 14 Jul 2020 03:14:57 +0000
 X-Mailer: git-send-email 2.27.0
 X-Originating-IP: [165.204.55.251]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3f9b8b1b-d66c-49fe-8a18-08d827a41096
+X-MS-Office365-Filtering-Correlation-Id: 96b3d737-f215-4e67-eb43-08d827a41671
 X-MS-TrafficTypeDiagnostic: DM5PR12MB1210:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1210271D3A06F0F241DED49A92610@DM5PR12MB1210.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
+X-Microsoft-Antispam-PRVS: <DM5PR12MB121039E8C955A31B6531216092610@DM5PR12MB1210.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NRsUbjHeH+NdNdDcGFPlx3bDeIzioAlXuCwPXBCchMsFMXh7ccMsfcT/Dvinr1B6AUUrJyGiFErh8So6nJKBdXjb/g/kzvUlNNK9EixFrvx20N3c9MQ5fIMrOBvNu2Q/mrixOxYQWhXzJrBkBEue4EarSbj6SdRcx5bwkG0D09Pa5zHuGKa/zwk9H+T4OH6arTIJ+BAwEWrJMW+ga5Yi/fzez0Y+7W+7W2mqAZ65DDieIUbTeiOkduPiXcWGScxvGlTSCtmZwxPn0SY86lPWQehcHQV2k/CeDB6+xRdmm/iGhSwF0HsQTRcHKgd4jCYH/8Azi25taJiWsIdsAFaU1qpaKthmQvRFwsAnvOpt+qHgSKOijfJhV0NLhCZ3lNLwQE8lZFtlyW0SnRMVeIaxbA==
+X-Microsoft-Antispam-Message-Info: xWliB6Zm/NIhkYsOSsNSExRC6WIG2zdEqLE3V/yYfsSUDlej4S6Az2dYinagFl62BhcNRpF0DRNjeddUfnfgHT4uSp8Ma3ZNg3rwlyoAfhp3r5+IcTLm6C3qGoZGYEJNvTnbX+QnxOhd0DeXjqgKVWbNdTiGvuudZtiLL2FpxVANhDPmBPWNXapBsAdtaAqmv9vL0KRnkhwLTYRjyZXw7IUiUx6mSPcHeB3NelBMg7QvgpzrzSAehIE2ovqv21TMx3fnbVrCuDKM/m5592g1HLC8z/k0h2oMydgKoskZwsvReLL3VqDtd3CRta9FS5Yu075dl8U1djyRhou8VFdDTg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM5PR12MB2407.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39860400002)(136003)(366004)(346002)(396003)(376002)(36756003)(86362001)(1076003)(6666004)(66476007)(66946007)(7696005)(26005)(5660300002)(316002)(478600001)(66556008)(52116002)(966005)(8676002)(8936002)(6486002)(956004)(4326008)(16526019)(2906002)(83380400001)(186003)(2616005);
+ SFS:(4636009)(39860400002)(136003)(366004)(346002)(396003)(376002)(36756003)(86362001)(1076003)(6666004)(66476007)(66946007)(7696005)(26005)(5660300002)(316002)(30864003)(478600001)(66556008)(52116002)(8676002)(8936002)(6486002)(956004)(4326008)(16526019)(2906002)(83380400001)(186003)(2616005);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: +n2/V9wQ6Oi7HiPOhp5WXHIdMSD6XOnvfJ3tctHiwbrVxScRY4fiC/8Fl1wkmL7UU9SZZSI/8J03piFFYSihXkv6gNW3wpDG06tYDrMG+waU5wohc17MZA9RRd3pIbXUY0DmY2+ZCDegM+L8muyyIc2g93zY/gU8teitPa2VvJQ/+EtaJOMNqZrMeueXzVCmaL8ZzAXVIQAY0KiVkRenKrHaBB6dDat+2So2Ar3au58oQJcwD/ToFdwGjtZD3KPmpyHrQZCHFbM7/gnNDxl9tnESSPNEcXYx+guzmMcoG0T06iSrO0fQsoiI2Isq/aKEChgwY/lXsPJsOwuHm1lxpg12zdApFhWuYRxmyBc1hUqrnmPJvBhCkW+4mLmuM3UaSNwQXVfX+aRRnyW/oSF9DlL8Uc+QXkZuIpS2b2QQ890+qpUbfyOcB3Md1Si6p+LdXiefHzV72W0n23IkLA0m7CBNfLK7eMITUtjzC9UYqmX64tog5sUCLqgj0HznLX9g
+X-MS-Exchange-AntiSpam-MessageData: 4HOwCMrb+JxnA96ISEOwut0+fXF+wNA4O9GJK4oXNbkfQpBlhpnVPa4ntBkMwTKcIt9IYehgq2OE6wovQFsazT+VqDh3D/QME0GzN16sBVI7a0Mpwp+nLkiGv3pPxzeYDnI6XuN8csMC6e7vG4+GkBtp0/TypUiT8Ay8/bE/n7ldV+e9oPl5gTdTjuxv7/cy1IYF8oaQYX3J9ai+44C+cBR6o6eBmZRWfC4Il1WYIQ7vOIDwDGNImQKFbSGmdtFRe65gPjoR+LtDoRIMK5ZHf+jVECBA2Rw/ZeafhBNypxjtm6Ummg6NeCLA6N+etOlH8XXrOZ8N26ApjB8vY97BGran6AdevC0RHo5wsgWV/RyPybT+g1HNYzdqJWrAoMJ/d+Sa+NxSz+Ag4n73yPICZ9AYXTHrDxmkjrEdAFPsoV8h+86dhNrAOK3DXQ+/YhWwM1qMhevAfoAaZAB9yDKerfZ7HlDN1GUhlxiYb3BhjDUM8GRF89M6flHkEvoleUFZ
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f9b8b1b-d66c-49fe-8a18-08d827a41096
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96b3d737-f215-4e67-eb43-08d827a41671
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2407.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 03:14:48.1165 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2020 03:14:58.0347 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lhJWIQeMihDfv0bbzMSgza/LIetTZmKfQ/nARSxKxGeEoEQeKhqDQxbz9K0PYc1ApvasBaP+KAa/C6h2aMMtRg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bvar9euxGPphAF58aH93BH7trisIl6Bqd7DfJ97njTRVOvGQ0yEc2vnRezCchXA+GRdiuTvQDnblwXIfi9G1NA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1210
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,21 +104,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This API is used by MPI/UCX for efficiently sharing VRAM between MPI
-ranks on the same node. It has been part of the ROCm DKMS branch for a
-long time. This code is refactored to be less invasive for upstreaming.
-As a result struct kfd_bo and the associated interval tree is not needed
-upstream.
+This allows exporting and importing buffers. The API generates handles
+that can be used with the HIP IPC API, i.e. big numbers rather than
+file descriptors.
 
-The introduction of this API upstream bumps the KFD API version to 1.4.
-
-The corresponding Thunk change that goes with the proposed upstreaming of
-this API can be found here:
-https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface/commit/682922bd405caaab64887e8e702b7d996ba9e2a8
-
-Felix Kuehling (1):
-  drm/amdkfd: Add IPC API
-
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+---
  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |   5 +
  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  56 +++-
  drivers/gpu/drm/amd/amdkfd/Makefile           |   3 +-
@@ -130,6 +123,724 @@ Felix Kuehling (1):
  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_ipc.c
  create mode 100644 drivers/gpu/drm/amd/amdkfd/kfd_ipc.h
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index 3f2b695cf19e..0f8dc4c4f924 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -49,6 +49,7 @@ struct kfd_bo_va_list {
+ struct kgd_mem {
+ 	struct mutex lock;
+ 	struct amdgpu_bo *bo;
++	struct kfd_ipc_obj *ipc_obj;
+ 	struct list_head bo_va_list;
+ 	/* protected by amdkfd_process_info.lock */
+ 	struct ttm_validate_buffer validate_list;
+@@ -240,9 +241,13 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct kgd_dev *kgd,
+ 
+ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
+ 				      struct dma_buf *dmabuf,
++				      struct kfd_ipc_obj *ipc_obj,
+ 				      uint64_t va, void *vm,
+ 				      struct kgd_mem **mem, uint64_t *size,
+ 				      uint64_t *mmap_offset);
++int amdgpu_amdkfd_gpuvm_export_ipc_obj(struct kgd_dev *kgd, void *vm,
++				       struct kgd_mem *mem,
++				       struct kfd_ipc_obj **ipc_obj);
+ 
+ void amdgpu_amdkfd_gpuvm_init_mem_limits(void);
+ void amdgpu_amdkfd_unreserve_memory_limit(struct amdgpu_bo *bo);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index c408936e8f98..cd5f23c0c2ca 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -29,6 +29,7 @@
+ #include "amdgpu_vm.h"
+ #include "amdgpu_amdkfd.h"
+ #include "amdgpu_dma_buf.h"
++#include "kfd_ipc.h"
+ #include <uapi/linux/kfd_ioctl.h>
+ 
+ /* BO flag to indicate a KFD userptr BO */
+@@ -1353,6 +1354,9 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
+ 			*size = 0;
+ 	}
+ 
++	/* Unreference the ipc_obj if applicable */
++	kfd_ipc_obj_put(&mem->ipc_obj);
++
+ 	/* Free the BO*/
+ 	drm_gem_object_put_unlocked(&mem->bo->tbo.base);
+ 	mutex_destroy(&mem->lock);
+@@ -1656,6 +1660,7 @@ int amdgpu_amdkfd_gpuvm_get_vm_fault_info(struct kgd_dev *kgd,
+ 
+ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
+ 				      struct dma_buf *dma_buf,
++				      struct kfd_ipc_obj *ipc_obj,
+ 				      uint64_t va, void *vm,
+ 				      struct kgd_mem **mem, uint64_t *size,
+ 				      uint64_t *mmap_offset)
+@@ -1692,15 +1697,18 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
+ 
+ 	INIT_LIST_HEAD(&(*mem)->bo_va_list);
+ 	mutex_init(&(*mem)->lock);
+-	
+-	(*mem)->alloc_flags =
+-		((bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) ?
+-		KFD_IOC_ALLOC_MEM_FLAGS_VRAM : KFD_IOC_ALLOC_MEM_FLAGS_GTT)
+-		| KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE
+-		| KFD_IOC_ALLOC_MEM_FLAGS_EXECUTABLE;
++	if (bo->kfd_bo)
++		(*mem)->alloc_flags = bo->kfd_bo->alloc_flags;
++	else
++		(*mem)->alloc_flags =
++			((bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) ?
++			KFD_IOC_ALLOC_MEM_FLAGS_VRAM : KFD_IOC_ALLOC_MEM_FLAGS_GTT)
++			| KFD_IOC_ALLOC_MEM_FLAGS_WRITABLE
++			| KFD_IOC_ALLOC_MEM_FLAGS_EXECUTABLE;
+ 
+ 	drm_gem_object_get(&bo->tbo.base);
+ 	(*mem)->bo = bo;
++	(*mem)->ipc_obj = ipc_obj;
+ 	(*mem)->va = va;
+ 	(*mem)->domain = (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM) ?
+ 		AMDGPU_GEM_DOMAIN_VRAM : AMDGPU_GEM_DOMAIN_GTT;
+@@ -1713,6 +1721,42 @@ int amdgpu_amdkfd_gpuvm_import_dmabuf(struct kgd_dev *kgd,
+ 	return 0;
+ }
+ 
++int amdgpu_amdkfd_gpuvm_export_ipc_obj(struct kgd_dev *kgd, void *vm,
++				       struct kgd_mem *mem,
++				       struct kfd_ipc_obj **ipc_obj)
++{
++	struct amdgpu_device *adev = NULL;
++	struct dma_buf *dmabuf;
++	int r = 0;
++
++	if (!kgd || !vm || !mem)
++		return -EINVAL;
++
++	adev = get_amdgpu_device(kgd);
++	mutex_lock(&mem->lock);
++
++	if (mem->ipc_obj) {
++		*ipc_obj = mem->ipc_obj;
++		goto unlock_out;
++	}
++
++	dmabuf = amdgpu_gem_prime_export(&mem->bo->tbo.base, 0);
++	if (IS_ERR(dmabuf)) {
++		r = PTR_ERR(dmabuf);
++		goto unlock_out;
++	}
++
++	r = kfd_ipc_store_insert(dmabuf, &mem->ipc_obj);
++	if (r)
++		dma_buf_put(dmabuf);
++	else
++		*ipc_obj = mem->ipc_obj;
++
++unlock_out:
++	mutex_unlock(&mem->lock);
++	return r;
++}
++
+ /* Evict a userptr BO by stopping the queues if necessary
+  *
+  * Runs in MMU notifier, may be in RECLAIM_FS context. This means it
+diff --git a/drivers/gpu/drm/amd/amdkfd/Makefile b/drivers/gpu/drm/amd/amdkfd/Makefile
+index e1e4115dcf78..815d9a9e7a3c 100644
+--- a/drivers/gpu/drm/amd/amdkfd/Makefile
++++ b/drivers/gpu/drm/amd/amdkfd/Makefile
+@@ -54,7 +54,8 @@ AMDKFD_FILES	:= $(AMDKFD_PATH)/kfd_module.o \
+ 		$(AMDKFD_PATH)/kfd_dbgdev.o \
+ 		$(AMDKFD_PATH)/kfd_dbgmgr.o \
+ 		$(AMDKFD_PATH)/kfd_smi_events.o \
+-		$(AMDKFD_PATH)/kfd_crat.o
++		$(AMDKFD_PATH)/kfd_crat.o \
++		$(AMDKFD_PATH)/kfd_ipc.o
+ 
+ ifneq ($(CONFIG_AMD_IOMMU_V2),)
+ AMDKFD_FILES += $(AMDKFD_PATH)/kfd_iommu.o
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index e9b96ad3d9a5..e7d15fa02b5e 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -38,6 +38,7 @@
+ #include "kfd_priv.h"
+ #include "kfd_device_queue_manager.h"
+ #include "kfd_dbgmgr.h"
++#include "kfd_ipc.h"
+ #include "amdgpu_amdkfd.h"
+ #include "kfd_smi_events.h"
+ 
+@@ -1691,53 +1692,58 @@ static int kfd_ioctl_import_dmabuf(struct file *filep,
+ 				   struct kfd_process *p, void *data)
+ {
+ 	struct kfd_ioctl_import_dmabuf_args *args = data;
+-	struct kfd_process_device *pdd;
+-	struct dma_buf *dmabuf;
+ 	struct kfd_dev *dev;
+-	int idr_handle;
+-	uint64_t size;
+-	void *mem;
+ 	int r;
+ 
+ 	dev = kfd_device_by_id(args->gpu_id);
+ 	if (!dev)
+ 		return -EINVAL;
+ 
+-	dmabuf = dma_buf_get(args->dmabuf_fd);
+-	if (IS_ERR(dmabuf))
+-		return PTR_ERR(dmabuf);
++	r = kfd_ipc_import_dmabuf(dev, p, args->dmabuf_fd,
++				  args->va_addr, &args->handle, NULL);
++	if (r)
++		pr_err("Failed to import dmabuf\n");
+ 
+-	mutex_lock(&p->mutex);
++	return r;
++}
+ 
+-	pdd = kfd_bind_process_to_device(dev, p);
+-	if (IS_ERR(pdd)) {
+-		r = PTR_ERR(pdd);
+-		goto err_unlock;
+-	}
++static int kfd_ioctl_ipc_export_handle(struct file *filep,
++				       struct kfd_process *p,
++				       void *data)
++{
++	struct kfd_ioctl_ipc_export_handle_args *args = data;
++	struct kfd_dev *dev;
++	int r;
++
++	dev = kfd_device_by_id(args->gpu_id);
++	if (!dev)
++		return -EINVAL;
+ 
+-	r = amdgpu_amdkfd_gpuvm_import_dmabuf(dev->kgd, dmabuf,
+-					      args->va_addr, pdd->vm,
+-					      (struct kgd_mem **)&mem, &size,
+-					      NULL);
++	r = kfd_ipc_export_as_handle(dev, p, args->handle, args->share_handle);
+ 	if (r)
+-		goto err_unlock;
++		pr_err("Failed to export IPC handle\n");
+ 
+-	idr_handle = kfd_process_device_create_obj_handle(pdd, mem);
+-	if (idr_handle < 0) {
+-		r = -EFAULT;
+-		goto err_free;
+-	}
++	return r;
++}
+ 
+-	mutex_unlock(&p->mutex);
++static int kfd_ioctl_ipc_import_handle(struct file *filep,
++				       struct kfd_process *p,
++				       void *data)
++{
++	struct kfd_ioctl_ipc_import_handle_args *args = data;
++	struct kfd_dev *dev = NULL;
++	int r;
+ 
+-	args->handle = MAKE_HANDLE(args->gpu_id, idr_handle);
++	dev = kfd_device_by_id(args->gpu_id);
++	if (!dev)
++		return -EINVAL;
+ 
+-	return 0;
++	r = kfd_ipc_import_handle(p, args->share_handle, args->va_addr,
++				  &args->handle, &args->gpu_id,
++				  &args->mmap_offset);
++	if (r)
++		pr_err("Failed to import IPC handle\n");
+ 
+-err_free:
+-	amdgpu_amdkfd_gpuvm_free_memory_of_gpu(dev->kgd, (struct kgd_mem *)mem, NULL);
+-err_unlock:
+-	mutex_unlock(&p->mutex);
+ 	return r;
+ }
+ 
+@@ -1853,6 +1859,12 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
+ 
+ 	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SMI_EVENTS,
+ 			kfd_ioctl_smi_events, 0),
++
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_IPC_IMPORT_HANDLE,
++				kfd_ioctl_ipc_import_handle, 0),
++
++	AMDKFD_IOCTL_DEF(AMDKFD_IOC_IPC_EXPORT_HANDLE,
++				kfd_ioctl_ipc_export_handle, 0),
+ };
+ 
+ #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_ipc.c b/drivers/gpu/drm/amd/amdkfd/kfd_ipc.c
+new file mode 100644
+index 000000000000..3de8d7826f07
+--- /dev/null
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_ipc.c
+@@ -0,0 +1,263 @@
++/*
++ * Copyright 2014 Advanced Micro Devices, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include <linux/slab.h>
++#include <linux/random.h>
++
++#include "kfd_ipc.h"
++#include "kfd_priv.h"
++#include "amdgpu_amdkfd.h"
++
++#define KFD_IPC_HASH_TABLE_SIZE_SHIFT 4
++#define KFD_IPC_HASH_TABLE_SIZE_MASK ((1 << KFD_IPC_HASH_TABLE_SIZE_SHIFT) - 1)
++
++static struct kfd_ipc_handles {
++	DECLARE_HASHTABLE(handles, KFD_IPC_HASH_TABLE_SIZE_SHIFT);
++	struct mutex lock;
++} kfd_ipc_handles;
++
++/* Since, handles are random numbers, it can be used directly as hashing key.
++ * The least 4 bits of the handle are used as key. However, during import all
++ * 128 bits of the handle are checked to prevent handle snooping.
++ */
++#define HANDLE_TO_KEY(sh) ((*(uint64_t *)sh) & KFD_IPC_HASH_TABLE_SIZE_MASK)
++
++int kfd_ipc_store_insert(struct dma_buf *dmabuf, struct kfd_ipc_obj **ipc_obj)
++{
++	struct kfd_ipc_obj *obj;
++
++	obj = kmalloc(sizeof(*obj), GFP_KERNEL);
++	if (!obj)
++		return -ENOMEM;
++
++	/* The initial ref belongs to the allocator process.
++	 * The IPC object store itself does not hold a ref since
++	 * there is no specific moment in time where that ref should
++	 * be dropped, except "when there are no more userspace processes
++	 * holding a ref to the object". Therefore the removal from IPC
++	 * storage happens at ipc_obj release time.
++	 */
++	kref_init(&obj->ref);
++	obj->dmabuf = dmabuf;
++	get_random_bytes(obj->share_handle, sizeof(obj->share_handle));
++
++	mutex_lock(&kfd_ipc_handles.lock);
++	hlist_add_head(&obj->node,
++		&kfd_ipc_handles.handles[HANDLE_TO_KEY(obj->share_handle)]);
++	mutex_unlock(&kfd_ipc_handles.lock);
++
++	if (ipc_obj)
++		*ipc_obj = obj;
++
++	return 0;
++}
++
++static void ipc_obj_release(struct kref *r)
++{
++	struct kfd_ipc_obj *obj;
++
++	obj = container_of(r, struct kfd_ipc_obj, ref);
++
++	mutex_lock(&kfd_ipc_handles.lock);
++	hash_del(&obj->node);
++	mutex_unlock(&kfd_ipc_handles.lock);
++
++	dma_buf_put(obj->dmabuf);
++	kfree(obj);
++}
++
++static struct kfd_ipc_obj *ipc_obj_get(struct kfd_ipc_obj *obj)
++{
++	if (kref_get_unless_zero(&obj->ref))
++		return obj;
++	return NULL;
++}
++
++void kfd_ipc_obj_put(struct kfd_ipc_obj **obj)
++{
++	if (*obj) {
++		kref_put(&(*obj)->ref, ipc_obj_release);
++		*obj = NULL;
++	}
++}
++
++int kfd_ipc_init(void)
++{
++	mutex_init(&kfd_ipc_handles.lock);
++	hash_init(kfd_ipc_handles.handles);
++	return 0;
++}
++
++static int kfd_import_dmabuf_create_kfd_bo(struct kfd_dev *dev,
++					   struct kfd_process *p,
++					   struct dma_buf *dmabuf,
++					   struct kfd_ipc_obj *ipc_obj,
++					   uint64_t va_addr, uint64_t *handle,
++					   uint64_t *mmap_offset)
++{
++	int r;
++	void *mem;
++	uint64_t size;
++	int idr_handle;
++	struct kfd_process_device *pdd = NULL;
++
++	if (!handle)
++		return -EINVAL;
++
++	if (!dev)
++		return -EINVAL;
++
++	mutex_lock(&p->mutex);
++
++	pdd = kfd_bind_process_to_device(dev, p);
++	if (IS_ERR(pdd)) {
++		r = PTR_ERR(pdd);
++		goto err_unlock;
++	}
++
++	r = amdgpu_amdkfd_gpuvm_import_dmabuf(dev->kgd, dmabuf, ipc_obj,
++					va_addr, pdd->vm,
++					(struct kgd_mem **)&mem, &size,
++					mmap_offset);
++	if (r)
++		goto err_unlock;
++
++	idr_handle = kfd_process_device_create_obj_handle(pdd, mem);
++	if (idr_handle < 0) {
++		r = -EFAULT;
++		goto err_free;
++	}
++
++	mutex_unlock(&p->mutex);
++
++	*handle = MAKE_HANDLE(dev->id, idr_handle);
++
++	return 0;
++
++err_free:
++	amdgpu_amdkfd_gpuvm_free_memory_of_gpu(dev->kgd, (struct kgd_mem *)mem,
++					       NULL);
++err_unlock:
++	mutex_unlock(&p->mutex);
++	return r;
++}
++
++int kfd_ipc_import_dmabuf(struct kfd_dev *dev, struct kfd_process *p,
++			  int dmabuf_fd, uint64_t va_addr,
++			  uint64_t *handle, uint64_t *mmap_offset)
++{
++	int r;
++	struct dma_buf *dmabuf = dma_buf_get(dmabuf_fd);
++
++	if (!dmabuf)
++		return -EINVAL;
++
++	r = kfd_import_dmabuf_create_kfd_bo(dev, p, dmabuf, NULL,
++					    va_addr, handle, mmap_offset);
++	dma_buf_put(dmabuf);
++	return r;
++}
++
++int kfd_ipc_import_handle(struct kfd_process *p,
++			  uint32_t *share_handle, uint64_t va_addr,
++			  uint64_t *handle, uint32_t *gpu_id,
++			  uint64_t *mmap_offset)
++{
++	struct kfd_dev *dev;
++	int r;
++	struct kfd_ipc_obj *entry, *found = NULL;
++
++	mutex_lock(&kfd_ipc_handles.lock);
++	/* Convert the user provided handle to hash key and search only in that
++	 * bucket
++	 */
++	hlist_for_each_entry(entry,
++		&kfd_ipc_handles.handles[HANDLE_TO_KEY(share_handle)], node) {
++		if (!memcmp(entry->share_handle, share_handle,
++			    sizeof(entry->share_handle))) {
++			found = ipc_obj_get(entry);
++			break;
++		}
++	}
++	mutex_unlock(&kfd_ipc_handles.lock);
++
++	if (!found)
++		return -EINVAL;
++
++	pr_debug("Found ipc_dma_buf: %p\n", found->dmabuf);
++
++	dev = kfd_device_by_id(found->gpu_id);
++	if (!dev)
++		return -ENODEV;
++
++	r = kfd_import_dmabuf_create_kfd_bo(dev, p, found->dmabuf, found,
++					    va_addr, handle, mmap_offset);
++	if (r)
++		goto error_unref;
++
++	*gpu_id = found->gpu_id;
++
++	return r;
++
++error_unref:
++	kfd_ipc_obj_put(&found);
++	return r;
++}
++
++int kfd_ipc_export_as_handle(struct kfd_dev *dev, struct kfd_process *p,
++			     uint64_t handle, uint32_t *ipc_handle)
++{
++	struct kfd_process_device *pdd = NULL;
++	struct kfd_ipc_obj *ipc_obj;
++	struct kgd_mem *mem;
++	int r;
++
++	if (!dev || !ipc_handle)
++		return -EINVAL;
++
++	mutex_lock(&p->mutex);
++	pdd = kfd_bind_process_to_device(dev, p);
++	if (IS_ERR(pdd)) {
++		mutex_unlock(&p->mutex);
++		pr_err("Failed to get pdd\n");
++		return PTR_ERR(pdd);
++	}
++
++	mem = kfd_process_device_translate_handle(pdd, GET_IDR_HANDLE(handle));
++	mutex_unlock(&p->mutex);
++
++	if (!mem) {
++		pr_err("Failed to get bo");
++		return -EINVAL;
++	}
++
++	r = amdgpu_amdkfd_gpuvm_export_ipc_obj(dev->kgd, pdd->vm, mem,
++					       &ipc_obj);
++	if (r)
++		return r;
++
++	ipc_obj->gpu_id = dev->id;
++	memcpy(ipc_handle, ipc_obj->share_handle,
++	       sizeof(ipc_obj->share_handle));
++
++	return r;
++}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_ipc.h b/drivers/gpu/drm/amd/amdkfd/kfd_ipc.h
+new file mode 100644
+index 000000000000..9450a667918e
+--- /dev/null
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_ipc.h
+@@ -0,0 +1,55 @@
++/*
++ * Copyright 2014 Advanced Micro Devices, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef KFD_IPC_H_
++#define KFD_IPC_H_
++
++#include <linux/types.h>
++#include <linux/dma-buf.h>
++
++/* avoid including kfd_priv.h */
++struct kfd_dev;
++struct kfd_process;
++
++struct kfd_ipc_obj {
++	struct hlist_node node;
++	struct kref ref;
++	struct dma_buf *dmabuf;
++	uint32_t share_handle[4];
++	uint32_t gpu_id;
++};
++
++int kfd_ipc_import_handle(struct kfd_process *p,
++			  uint32_t *share_handle, uint64_t va_addr,
++			  uint64_t *handle, uint32_t *gpu_id,
++			  uint64_t *mmap_offset);
++int kfd_ipc_import_dmabuf(struct kfd_dev *kfd, struct kfd_process *p,
++			  int dmabuf_fd, uint64_t va_addr,
++			  uint64_t *handle, uint64_t *mmap_offset);
++int kfd_ipc_export_as_handle(struct kfd_dev *dev, struct kfd_process *p,
++			     uint64_t handle, uint32_t *ipc_handle);
++
++int kfd_ipc_store_insert(struct dma_buf *dmabuf, struct kfd_ipc_obj **ipc_obj);
++void kfd_ipc_obj_put(struct kfd_ipc_obj **obj);
++
++#endif /* KFD_IPC_H_ */
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_module.c b/drivers/gpu/drm/amd/amdkfd/kfd_module.c
+index f4b7f7e6c40e..0946d5692692 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_module.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_module.c
+@@ -52,6 +52,10 @@ static int kfd_init(void)
+ 	if (err < 0)
+ 		goto err_topology;
+ 
++	err = kfd_ipc_init();
++	if (err < 0)
++		goto err_ipc;
++
+ 	err = kfd_process_create_wq();
+ 	if (err < 0)
+ 		goto err_create_wq;
+@@ -66,6 +70,7 @@ static int kfd_init(void)
+ 	return 0;
+ 
+ err_create_wq:
++err_ipc:
+ 	kfd_topology_shutdown();
+ err_topology:
+ 	kfd_chardev_exit();
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 51ba2020732e..1588b2b45a32 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -321,6 +321,8 @@ struct kfd_dev {
+ 	spinlock_t smi_lock;
+ };
+ 
++struct kfd_ipc_obj;
++
+ enum kfd_mempool {
+ 	KFD_MEMPOOL_SYSTEM_CACHEABLE = 1,
+ 	KFD_MEMPOOL_SYSTEM_WRITECOMBINE = 2,
+@@ -1087,6 +1089,9 @@ int dbgdev_wave_reset_wavefronts(struct kfd_dev *dev, struct kfd_process *p);
+ 
+ bool kfd_is_locked(void);
+ 
++/* IPC Support */
++int kfd_ipc_init(void);
++
+ /* Compute profile */
+ void kfd_inc_compute_active(struct kfd_dev *dev);
+ void kfd_dec_compute_active(struct kfd_dev *dev);
+diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+index f738c3b53f4e..90ff334e2b5b 100644
+--- a/include/uapi/linux/kfd_ioctl.h
++++ b/include/uapi/linux/kfd_ioctl.h
+@@ -29,9 +29,10 @@
+ /*
+  * - 1.1 - initial version
+  * - 1.3 - Add SMI events support
++ * - 1.4 - Add IPC export/import
+  */
+ #define KFD_IOCTL_MAJOR_VERSION 1
+-#define KFD_IOCTL_MINOR_VERSION 3
++#define KFD_IOCTL_MINOR_VERSION 4
+ 
+ struct kfd_ioctl_get_version_args {
+ 	__u32 major_version;	/* from KFD */
+@@ -464,6 +465,57 @@ enum kfd_mmio_remap {
+ 	KFD_MMIO_REMAP_HDP_REG_FLUSH_CNTL = 4,
+ };
+ 
++/* Export IPC handle
++ *
++ * @handle[in]:         buffer handle of the BO to export
++ * @gpu_id[in]:         GPU ID where @handle was allocated
++ * @share_handle[out]:  share handle that can be used with
++ *                      @kfd_ioctl_ipc_import_handle_args
++ *
++ * @share_handle is a 128 bit random number generated with
++ * @get_random_bytes. This number should be very hard to guess.
++ * Knowledge of the @share_handle implies authorization to access
++ * the shared memory. User mode should treat it like a secret key.
++ * It can be used to import this BO in a different process context
++ * for IPC buffer sharing. The handle will be valid as long as the
++ * underlying BO exists. If the same BO is exported multiple times,
++ * the same handle will be returned.
++ *
++ * Return 0 on success, negative errno on errors.
++ */
++struct kfd_ioctl_ipc_export_handle_args {
++	__u64 handle;		/* to KFD */
++	__u32 share_handle[4];	/* from KFD */
++	__u32 gpu_id;		/* to KFD */
++	__u32 pad;
++};
++
++/* Import IPC handle
++ *
++ * @share_handle[in]:  share handle from @kfd_ioctl_ipc_export_handle_args
++ * @va_addr[in]:       virtual address at which to import the BO
++ * @handle[out]:       buffer handle of the imported BO
++ * @gpu_id[out]:       device in which the shared BO was created
++ * @mmap_offset[out]:  mmap offset for CPU-mapping the BO
++ *
++ * @handle represents a new reference to the shared BO. This reference
++ * must be released with kfd_ioctl_free_memory_of_gpu_args.
++ *
++ * The BO can be mapped for GPU access with @kfd_ioctl_map_memory_to_gpu_args.
++ *
++ * It can be mapped for CPU access using the @mmap_offset.
++ *
++ * Return 0 on success, negative errno on errors.
++ */
++struct kfd_ioctl_ipc_import_handle_args {
++	__u64 handle;		/* from KFD */
++	__u64 va_addr;		/* to KFD */
++	__u64 mmap_offset;	/* from KFD */
++	__u32 share_handle[4];	/* to KFD */
++	__u32 gpu_id;		/* from KFD */
++	__u32 pad;
++};
++
+ #define AMDKFD_IOCTL_BASE 'K'
+ #define AMDKFD_IO(nr)			_IO(AMDKFD_IOCTL_BASE, nr)
+ #define AMDKFD_IOR(nr, type)		_IOR(AMDKFD_IOCTL_BASE, nr, type)
+@@ -564,7 +616,13 @@ enum kfd_mmio_remap {
+ #define AMDKFD_IOC_SMI_EVENTS			\
+ 		AMDKFD_IOWR(0x1F, struct kfd_ioctl_smi_events_args)
+ 
++#define AMDKFD_IOC_IPC_IMPORT_HANDLE                                    \
++		AMDKFD_IOWR(0x20, struct kfd_ioctl_ipc_import_handle_args)
++
++#define AMDKFD_IOC_IPC_EXPORT_HANDLE		\
++		AMDKFD_IOWR(0x21, struct kfd_ioctl_ipc_export_handle_args)
++
+ #define AMDKFD_COMMAND_START		0x01
+-#define AMDKFD_COMMAND_END		0x20
++#define AMDKFD_COMMAND_END		0x22
+ 
+ #endif
 -- 
 2.27.0
 
