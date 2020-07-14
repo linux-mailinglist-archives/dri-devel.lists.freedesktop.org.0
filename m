@@ -2,47 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EB42205AF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296FE2205AA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6296E44B;
-	Wed, 15 Jul 2020 07:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B92696E43B;
+	Wed, 15 Jul 2020 06:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D19946E149
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 13:37:33 +0000 (UTC)
-Received: from fsav301.sakura.ne.jp (fsav301.sakura.ne.jp [153.120.85.132])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06EDbQxS094750;
- Tue, 14 Jul 2020 22:37:26 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav301.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav301.sakura.ne.jp);
- Tue, 14 Jul 2020 22:37:26 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav301.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06EDbQm9094743
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Tue, 14 Jul 2020 22:37:26 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] fbdev: Detect integer underflow at "struct
- fbcon_ops"->clear_margins.
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
- <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
- <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
- <CGME20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346@eucas1p1.samsung.com>
- <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
- <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
-Message-ID: <adff5d10-fe35-62d4-74c5-182958c5ada7@i-love.sakura.ne.jp>
-Date: Tue, 14 Jul 2020 22:37:27 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+X-Greylist: delayed 490 seconds by postgrey-1.36 at gabe;
+ Tue, 14 Jul 2020 13:48:44 UTC
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DF766E14F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 13:48:44 +0000 (UTC)
+Received: by unicorn.mansr.com (Postfix, from userid 65534)
+ id DA23615363; Tue, 14 Jul 2020 14:40:32 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on unicorn.mansr.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=5.0 tests=none autolearn=unavailable
+ autolearn_force=no version=3.4.4
+Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:8d8e::3])
+ by unicorn.mansr.com (Postfix) with ESMTPS id 42A1F15360;
+ Tue, 14 Jul 2020 14:40:32 +0100 (BST)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+ id 392E321A6F3; Tue, 14 Jul 2020 14:40:32 +0100 (BST)
+From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [PATCH] drm: sun4i: hdmi: Fix inverted HPD result
+References: <20200711011030.21997-1-wens@kernel.org>
+Date: Tue, 14 Jul 2020 14:40:32 +0100
+In-Reply-To: <20200711011030.21997-1-wens@kernel.org> (Chen-Yu Tsai's message
+ of "Sat, 11 Jul 2020 09:10:30 +0800")
+Message-ID: <yw1x5zaqnrjj.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,42 +48,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, George Kennedy <george.kennedy@oracle.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Jiri Slaby <jslaby@suse.com>,
- Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020/07/14 19:27, Tetsuo Handa wrote:
-> On 2020/07/14 16:22, Bartlomiej Zolnierkiewicz wrote:
->> How does this patch relate to:
->>
->> 	https://marc.info/?l=linux-fbdev&m=159415024816722&w=2
->>
->> ?
->>
->> It seems to address the same issue, I've added George and Dan to Cc:.
-> 
-> George Kennedy's patch does not help for my case.
-> 
+Chen-Yu Tsai <wens@kernel.org> writes:
 
-OK. You can add
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> When the extra HPD polling in sun4i_hdmi was removed, the result of
+> HPD was accidentally inverted.
+>
+> Fix this by inverting the check.
+>
+> Fixes: bda8eaa6dee7 ("drm: sun4i: hdmi: Remove extra HPD polling")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Reported-and-tested-by: syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>
+Tested-by: Mans Rullgard <mans@mansr.com>
 
-to my patch.
+> ---
+>
+> Sorry for the screw-up.
+>
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun=
+4i/sun4i_hdmi_enc.c
+> index 557cbe5ab35f..2f2c9f0a1071 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> @@ -260,7 +260,7 @@ sun4i_hdmi_connector_detect(struct drm_connector *con=
+nector, bool force)
+>  	unsigned long reg;
+>
+>  	reg =3D readl(hdmi->base + SUN4I_HDMI_HPD_REG);
+> -	if (reg & SUN4I_HDMI_HPD_HIGH) {
+> +	if (!(reg & SUN4I_HDMI_HPD_HIGH)) {
+>  		cec_phys_addr_invalidate(hdmi->cec_adap);
+>  		return connector_status_disconnected;
+>  	}
+> -- =
 
-By the way, if
+> 2.27.0
+>
 
-  /* bitfill_aligned() assumes that it's at least 8x8 */
+-- =
 
-is true, don't we need to also check that the rect to fill is at least
-8x8 in bit_clear_margins() ? (Well, I feel did it mean multiple of 8x8 ?
-Then, what is bitfill_unaligned() for ?)
+M=E5ns Rullg=E5rd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
