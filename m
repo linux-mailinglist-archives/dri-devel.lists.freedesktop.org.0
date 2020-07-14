@@ -2,30 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7185021FE4F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 22:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88D121FE57
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jul 2020 22:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D224A6E867;
-	Tue, 14 Jul 2020 20:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF60A6E888;
+	Tue, 14 Jul 2020 20:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 050BC6E888;
- Tue, 14 Jul 2020 20:14:17 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from build.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 21820127-1500050 
- for multiple; Tue, 14 Jul 2020 21:14:10 +0100
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] dma-buf/sw_sync: Separate signal/timeline locks
-Date: Tue, 14 Jul 2020 21:14:07 +0100
-Message-Id: <20200714201407.28968-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200714200646.14041-2-chris@chris-wilson.co.uk>
-References: <20200714200646.14041-2-chris@chris-wilson.co.uk>
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56F0D6E88B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 20:15:27 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id a12so18645909ion.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 13:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/p+bzwQ5QmwSIzj6F5AB3nkYDC6rYoTIEY0YZ290OuQ=;
+ b=XFk3n0rC1iLpK80lY+HAOO1hbISONecERQS6IMwz1DkGmZrBJDxS1q2tfAPOgs5tJT
+ QVtM2ceFLcUn64poiMwiP9T8x47Gyd9jYo66OPWOAlF8gah2QUztXKlAMYJB/TGMePkX
+ rUkkrr6/uRaxzvHY5wQlniEV6Y1OM+AZejg5DpMeOc7YxjYLCu7Va7K22Zrjgi7DkVY6
+ IbpGJDcU9/sigTr9SrZvm81ql6U62wCZ49+d4FFyR2oIdww+BW47IkzCkueVbqG5IPDr
+ XBpUFTUX6AXJdfnJob5g9djHoX7pfHe2iTIJS998V/Opugxy3/OGm8Prnzv1YB11mROB
+ Z3+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/p+bzwQ5QmwSIzj6F5AB3nkYDC6rYoTIEY0YZ290OuQ=;
+ b=m6p6G4PjLXZwItCyivVsrOHfF2b4qRwwgW+a2C6qK16f5qu2Shjqe5AOpBUlXLUrL8
+ UbzN0AX4blEPNqOT+5GJNVjiBSzdy1WbRpVIKaXBcYG1e9LVtxKtOjsjCyNV4q3pseoN
+ hbm2sXglZSvAFsdPucNk46OuXgaCAMfGLj+mKTuwzmA4xdBeJcBwEU7pGvU0o1Ukf5zL
+ aDk51P3SAqa6Xo5G2vM9wpfpxWS0wGp4ush5cMpEAHCY0C0jmFIdSXQEBrCLzOQETl5j
+ u/binx2Aeum/RHGseLzMew0zxDqAQgJohrvyqgu9rgtFcNlQ1sMJQTVeyR1XcJ4zy989
+ /BZw==
+X-Gm-Message-State: AOAM532M9CgKDa27Z8mNzOIV8IQKoaIlTFA6cXZeY3shEb5+5YgpF/jI
+ F29/zcuMWJZYuewbHg1eo9WJgJUYAvodwjh9o81SvA==
+X-Google-Smtp-Source: ABdhPJwDIGVrJ7lxywITvDgwcv+EfcTlfNr95Jjd9li82NJlpmmppxQ7J1WX4hGgfSFieyM5CTPkkDsIYmau/LZrIHs=
+X-Received: by 2002:a05:6602:22d5:: with SMTP id
+ e21mr4801657ioe.98.1594757726673; 
+ Tue, 14 Jul 2020 13:15:26 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200714200646.14041-1-chris@chris-wilson.co.uk>
+In-Reply-To: <20200714200646.14041-1-chris@chris-wilson.co.uk>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Tue, 14 Jul 2020 22:14:40 +0200
+Message-ID: <CAP+8YyFz5qii=3pK4t2GKxgC=z6_Q0dsGTGzXX=tUgLihrp41g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dma-buf/sw_sync: Avoid recursive lock during fence
+ signal.
+To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,120 +64,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Gustavo Padovan <gustavo@padovan.org>, intel-gfx@lists.freedesktop.org,
+ stable@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we decouple the sync_pt from the timeline tree upon release, in
-order to allow releasing the sync_pt from a signal callback we need to
-separate the sync_pt signaling lock from the timeline tree lock.
-
-v2: Mark up the unlocked read of the current timeline value.
-
-Suggested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
----
- drivers/dma-buf/sw_sync.c    | 33 ++++++++++++++++++++-------------
- drivers/dma-buf/sync_debug.h |  2 ++
- 2 files changed, 22 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 807c82148062..5851bf7076d0 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -132,24 +132,32 @@ static void timeline_fence_release(struct dma_fence *fence)
- {
- 	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
- 	struct sync_timeline *parent = dma_fence_parent(fence);
--	unsigned long flags;
- 
--	spin_lock_irqsave(fence->lock, flags);
- 	if (!list_empty(&pt->link)) {
--		list_del(&pt->link);
--		rb_erase(&pt->node, &parent->pt_tree);
-+		unsigned long flags;
-+
-+		spin_lock_irqsave(&parent->lock, flags);
-+		if (!list_empty(&pt->link)) {
-+			list_del(&pt->link);
-+			rb_erase(&pt->node, &parent->pt_tree);
-+		}
-+		spin_unlock_irqrestore(&parent->lock, flags);
- 	}
--	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	sync_timeline_put(parent);
- 	dma_fence_free(fence);
- }
- 
--static bool timeline_fence_signaled(struct dma_fence *fence)
-+static int timeline_value(struct dma_fence *fence)
- {
--	struct sync_timeline *parent = dma_fence_parent(fence);
-+	return READ_ONCE(dma_fence_parent(fence)->value);
-+}
- 
--	return !__dma_fence_is_later(fence->seqno, parent->value, fence->ops);
-+static bool timeline_fence_signaled(struct dma_fence *fence)
-+{
-+	return !__dma_fence_is_later(fence->seqno,
-+				     timeline_value(fence),
-+				     fence->ops);
- }
- 
- static bool timeline_fence_enable_signaling(struct dma_fence *fence)
-@@ -166,9 +174,7 @@ static void timeline_fence_value_str(struct dma_fence *fence,
- static void timeline_fence_timeline_value_str(struct dma_fence *fence,
- 					     char *str, int size)
- {
--	struct sync_timeline *parent = dma_fence_parent(fence);
--
--	snprintf(str, size, "%d", parent->value);
-+	snprintf(str, size, "%d", timeline_value(fence));
- }
- 
- static const struct dma_fence_ops timeline_fence_ops = {
-@@ -252,12 +258,13 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
- 		return NULL;
- 
- 	sync_timeline_get(obj);
--	dma_fence_init(&pt->base, &timeline_fence_ops, &obj->lock,
-+	spin_lock_init(&pt->lock);
-+	dma_fence_init(&pt->base, &timeline_fence_ops, &pt->lock,
- 		       obj->context, value);
- 	INIT_LIST_HEAD(&pt->link);
- 
- 	spin_lock_irq(&obj->lock);
--	if (!dma_fence_is_signaled_locked(&pt->base)) {
-+	if (!dma_fence_is_signaled(&pt->base)) {
- 		struct rb_node **p = &obj->pt_tree.rb_node;
- 		struct rb_node *parent = NULL;
- 
-diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
-index 6176e52ba2d7..fd073fc32329 100644
---- a/drivers/dma-buf/sync_debug.h
-+++ b/drivers/dma-buf/sync_debug.h
-@@ -55,11 +55,13 @@ static inline struct sync_timeline *dma_fence_parent(struct dma_fence *fence)
-  * @base: base fence object
-  * @link: link on the sync timeline's list
-  * @node: node in the sync timeline's tree
-+ * @lock: fence signaling lock
-  */
- struct sync_pt {
- 	struct dma_fence base;
- 	struct list_head link;
- 	struct rb_node node;
-+	spinlock_t lock;
- };
- 
- extern const struct file_operations sw_sync_debugfs_fops;
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhhbmtzIGZvciB1cGRhdGluZyB0aGUgcGF0Y2guIExHVE0KCk9uIFR1ZSwgSnVsIDE0LCAyMDIw
+IGF0IDEwOjA3IFBNIENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPiB3cm90
+ZToKPgo+IEZyb206IEJhcyBOaWV1d2VuaHVpemVuIDxiYXNAYmFzbmlldXdlbmh1aXplbi5ubD4K
+Pgo+IENhbGx0cmVlOgo+ICAgdGltZWxpbmVfZmVuY2VfcmVsZWFzZQo+ICAgZHJtX3NjaGVkX2Vu
+dGl0eV93YWtldXAKPiAgIGRtYV9mZW5jZV9zaWduYWxfbG9ja2VkCj4gICBzeW5jX3RpbWVsaW5l
+X3NpZ25hbAo+ICAgc3dfc3luY19pb2N0bAo+Cj4gUmVsZWFzaW5nIHRoZSByZWZlcmVuY2UgdG8g
+dGhlIGZlbmNlIGluIHRoZSBmZW5jZSBzaWduYWwgY2FsbGJhY2sKPiBzZWVtcyByZWFzb25hYmxl
+IHRvIG1lLCBzbyB0aGlzIHBhdGNoIGF2b2lkcyB0aGUgbG9ja2luZyBpc3N1ZSBpbgo+IHN3X3N5
+bmMuCj4KPiBkMzg2MmU0NGRhYTcgKCJkbWEtYnVmL3N3LXN5bmM6IEZpeCBsb2NraW5nIGFyb3Vu
+ZCBzeW5jX3RpbWVsaW5lIGxpc3RzIikKPiBmaXhlZCB0aGUgcmVjdXJzaXZlIGxvY2tpbmcgaXNz
+dWUgYnV0IGNhdXNlZCBhbiB1c2UtYWZ0ZXItZnJlZS4gTGF0ZXIKPiBkM2M2ZGQxZmIzMGQgKCJk
+bWEtYnVmL3N3X3N5bmM6IFN5bmNocm9uaXplIHNpZ25hbCB2cyBzeW5jcHQgZnJlZSIpCj4gZml4
+ZWQgdGhlIHVzZS1hZnRlci1mcmVlIGJ1dCByZWludHJvZHVjZWQgdGhlIHJlY3Vyc2l2ZSBsb2Nr
+aW5nIGlzc3VlLgo+Cj4gSW4gdGhpcyBhdHRlbXB0IHdlIGF2b2lkIHRoZSB1c2UtYWZ0ZXItZnJl
+ZSBzdGlsbCBiZWNhdXNlIHRoZSByZWxlYXNlCj4gZnVuY3Rpb24gc3RpbGwgYWx3YXlzIGxvY2tz
+LCBhbmQgb3V0c2lkZSBvZiB0aGUgbG9ja2luZyByZWdpb24gaW4gdGhlCj4gc2lnbmFsIGZ1bmN0
+aW9uIHdlIGhhdmUgcHJvcGVybHkgcmVmY291bnRlZCByZWZlcmVuY2VzLgo+Cj4gV2UgZnVydGhl
+cm1vcmUgYWxzbyBhdm9pZCB0aGUgcmVjdXJpdmUgbG9jayBieSBtYWtpbmcgc3VyZSB0aGF0IGVp
+dGhlcjoKPgo+IDEpIFdlIGhhdmUgYSBwcm9wZXJseSByZWZjb3VudGVkIHJlZmVyZW5jZSwgcHJl
+dmVudGluZyB0aGUgc2lnbmFsIGZyb20KPiAgICB0cmlnZ2VyaW5nIHRoZSByZWxlYXNlIGZ1bmN0
+aW9uIGluc2lkZSB0aGUgbG9ja2VkIHJlZ2lvbi4KPiAyKSBUaGUgcmVmY291bnQgd2FzIGFscmVh
+ZHkgemVybywgYW5kIGhlbmNlIG5vYm9keSB3aWxsIGJlIGFibGUgdG8gdHJpZ2dlcgo+ICAgIHRo
+ZSByZWxlYXNlIGZ1bmN0aW9uIGZyb20gdGhlIHNpZ25hbCBmdW5jdGlvbi4KPgo+IHYyOiBNb3Zl
+IGRtYV9mZW5jZV9zaWduYWwoKSBpbnRvIHNlY29uZCBsb29wIGluIHByZXBhcmF0aW9uIHRvIG1v
+dmluZwo+IHRoZSBjYWxsYmFjayBvdXQgb2YgdGhlIHRpbWVsaW5lIG9iai0+bG9jay4KPgo+IEZp
+eGVzOiBkM2M2ZGQxZmIzMGQgKCJkbWEtYnVmL3N3X3N5bmM6IFN5bmNocm9uaXplIHNpZ25hbCB2
+cyBzeW5jcHQgZnJlZSIpCj4gQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5v
+cmc+Cj4gQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+IENjOiBH
+dXN0YXZvIFBhZG92YW4gPGd1c3Rhdm9AcGFkb3Zhbi5vcmc+Cj4gQ2M6IENocmlzdGlhbiBLw7Zu
+aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5v
+cmc+Cj4gU2lnbmVkLW9mZi1ieTogQmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVp
+emVuLm5sPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29u
+LmNvLnVrPgo+IC0tLQo+ICBkcml2ZXJzL2RtYS1idWYvc3dfc3luYy5jIHwgMzIgKysrKysrKysr
+KysrKysrKysrKysrKy0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlvbnMo
+KyksIDEwIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9zd19z
+eW5jLmMgYi9kcml2ZXJzL2RtYS1idWYvc3dfc3luYy5jCj4gaW5kZXggMzQ4YjNhOTE3MGZhLi44
+MDdjODIxNDgwNjIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL3N3X3N5bmMuYwo+ICsr
+KyBiL2RyaXZlcnMvZG1hLWJ1Zi9zd19zeW5jLmMKPiBAQCAtMTkyLDYgKzE5Miw3IEBAIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyB0aW1lbGluZV9mZW5jZV9vcHMgPSB7Cj4gIHN0
+YXRpYyB2b2lkIHN5bmNfdGltZWxpbmVfc2lnbmFsKHN0cnVjdCBzeW5jX3RpbWVsaW5lICpvYmos
+IHVuc2lnbmVkIGludCBpbmMpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBzeW5jX3B0ICpwdCwgKm5l
+eHQ7Cj4gKyAgICAgICBMSVNUX0hFQUQoc2lnbmFsKTsKPgo+ICAgICAgICAgdHJhY2Vfc3luY190
+aW1lbGluZShvYmopOwo+Cj4gQEAgLTIwMywyMSArMjA0LDMyIEBAIHN0YXRpYyB2b2lkIHN5bmNf
+dGltZWxpbmVfc2lnbmFsKHN0cnVjdCBzeW5jX3RpbWVsaW5lICpvYmosIHVuc2lnbmVkIGludCBp
+bmMpCj4gICAgICAgICAgICAgICAgIGlmICghdGltZWxpbmVfZmVuY2Vfc2lnbmFsZWQoJnB0LT5i
+YXNlKSkKPiAgICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPgo+IC0gICAgICAgICAgICAg
+ICBsaXN0X2RlbF9pbml0KCZwdC0+bGluayk7Cj4gLSAgICAgICAgICAgICAgIHJiX2VyYXNlKCZw
+dC0+bm9kZSwgJm9iai0+cHRfdHJlZSk7Cj4gLQo+ICAgICAgICAgICAgICAgICAvKgo+IC0gICAg
+ICAgICAgICAgICAgKiBBIHNpZ25hbCBjYWxsYmFjayBtYXkgcmVsZWFzZSB0aGUgbGFzdCByZWZl
+cmVuY2UgdG8gdGhpcwo+IC0gICAgICAgICAgICAgICAgKiBmZW5jZSwgY2F1c2luZyBpdCB0byBi
+ZSBmcmVlZC4gVGhhdCBvcGVyYXRpb24gaGFzIHRvIGJlCj4gLSAgICAgICAgICAgICAgICAqIGxh
+c3QgdG8gYXZvaWQgYSB1c2UgYWZ0ZXIgZnJlZSBpbnNpZGUgdGhpcyBsb29wLCBhbmQgbXVzdAo+
+IC0gICAgICAgICAgICAgICAgKiBiZSBhZnRlciB3ZSByZW1vdmUgdGhlIGZlbmNlIGZyb20gdGhl
+IHRpbWVsaW5lIGluIG9yZGVyIHRvCj4gLSAgICAgICAgICAgICAgICAqIHByZXZlbnQgZGVhZGxv
+Y2tpbmcgb24gdGltZWxpbmUtPmxvY2sgaW5zaWRlCj4gLSAgICAgICAgICAgICAgICAqIHRpbWVs
+aW5lX2ZlbmNlX3JlbGVhc2UoKS4KPiArICAgICAgICAgICAgICAgICogV2UgbmVlZCB0byB0YWtl
+IGEgcmVmZXJlbmNlIHRvIGF2b2lkIGEgcmVsZWFzZSBkdXJpbmcKPiArICAgICAgICAgICAgICAg
+ICogc2lnbmFsbGluZyAod2hpY2ggY2FuIGNhdXNlIGEgcmVjdXJzaXZlIGxvY2sgb2Ygb2JqLT5s
+b2NrKS4KPiArICAgICAgICAgICAgICAgICogSWYgcmVmY291bnQgd2FzIGFscmVhZHkgemVybywg
+YW5vdGhlciB0aHJlYWQgaXMgYWxyZWFkeQo+ICsgICAgICAgICAgICAgICAgKiB0YWtpbmcgY2Fy
+ZSBvZiBkZXN0cm95aW5nIHRoZSBmZW5jZS4KPiAgICAgICAgICAgICAgICAgICovCj4gLSAgICAg
+ICAgICAgICAgIGRtYV9mZW5jZV9zaWduYWxfbG9ja2VkKCZwdC0+YmFzZSk7Cj4gKyAgICAgICAg
+ICAgICAgIGlmICghZG1hX2ZlbmNlX2dldF9yY3UoJnB0LT5iYXNlKSkKPiArICAgICAgICAgICAg
+ICAgICAgICAgICBjb250aW51ZTsKPiArCj4gKyAgICAgICAgICAgICAgIGxpc3RfbW92ZV90YWls
+KCZwdC0+bGluaywgJnNpZ25hbCk7Cj4gKyAgICAgICAgICAgICAgIHJiX2VyYXNlKCZwdC0+bm9k
+ZSwgJm9iai0+cHRfdHJlZSk7Cj4gICAgICAgICB9Cj4KPiAgICAgICAgIHNwaW5fdW5sb2NrX2ly
+cSgmb2JqLT5sb2NrKTsKPiArCj4gKyAgICAgICBsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUocHQs
+IG5leHQsICZzaWduYWwsIGxpbmspIHsKPiArICAgICAgICAgICAgICAgLyoKPiArICAgICAgICAg
+ICAgICAgICogVGhpcyBuZWVkcyB0byBiZSBjbGVhcmVkIGJlZm9yZSByZWxlYXNlLCBvdGhlcndp
+c2UgdGhlCj4gKyAgICAgICAgICAgICAgICAqIHRpbWVsaW5lX2ZlbmNlX3JlbGVhc2UgZnVuY3Rp
+b24gZ2V0cyBjb25mdXNlZCBhYm91dCBhbHNvCj4gKyAgICAgICAgICAgICAgICAqIHJlbW92aW5n
+IHRoZSBmZW5jZSBmcm9tIHRoZSBwdF90cmVlLgo+ICsgICAgICAgICAgICAgICAgKi8KPiArICAg
+ICAgICAgICAgICAgbGlzdF9kZWxfaW5pdCgmcHQtPmxpbmspOwo+ICsKPiArICAgICAgICAgICAg
+ICAgZG1hX2ZlbmNlX3NpZ25hbCgmcHQtPmJhc2UpOwo+ICsgICAgICAgICAgICAgICBkbWFfZmVu
+Y2VfcHV0KCZwdC0+YmFzZSk7Cj4gKyAgICAgICB9Cj4gIH0KPgo+ICAvKioKPiAtLQo+IDIuMjAu
+MQo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
