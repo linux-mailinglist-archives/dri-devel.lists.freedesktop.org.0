@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A379D22163C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 22:30:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 263EA22168F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 22:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8F5D6EC18;
-	Wed, 15 Jul 2020 20:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3E389AD2;
+	Wed, 15 Jul 2020 20:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
- [209.85.166.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8316D6EC17
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 20:30:36 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id y2so3694569ioy.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 13:30:36 -0700 (PDT)
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE28289AD2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 20:49:09 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id t6so742151ooh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 13:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iKzzj8zSTXcQ4stpa90DPw4HD3mp4PdLWYGCtZd2rco=;
+ b=JbTsxR3PBqZV5d7QZxMjf1cpYNU3NhB1eROFkpXVDZntkDw+HMdQfLbF4ukgRo6qZW
+ lTAH8wcvfNRko0J+gKKP8BVm0QuLm34SnnCJ5C0V1wD9saZnr2Geo0nuRMU1sGwvJCj+
+ vEoLoscckcK1Y1GdeZREEBQHeIcnp7yHdzHRY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yYUQrUg8P+/Z2qQaRZUnCH8LNzb7PJi2wPNt7qBjrAk=;
- b=GmHJu6lspfB+6MVX+cpjXl3y/zD2kY8fxuMD0SGwLLyv/GaoDJ1hyTUNY+vO9dN9TV
- jI1xb5M+hltkfZ1JKs/IhDFbXrwqyPiBU8C8CQe1rgI8OX/FD0cUNFrCglTbX3kgvKrl
- FlcpxypbsXv0a0IxP3gjoz+RsPKns6PUuUH0mLGC85IzNap6MpiTagPZKUxYoMoeOwFQ
- WXmJEWa1FsUK/XbGzEl4TAt4T4UydkxcHiQ2YPjd+0v3BtXPJ/lzCjoJ0IjD7f0EbJia
- vVn8EvN58J+BGea+l9DEqKQmvpMQqWNOXgsZxeTBlqVcY9nAIcXActadepW+rTu07wph
- pUWg==
-X-Gm-Message-State: AOAM533ABwolerAWgcdrGGtvUYulU3v9a7DYA1fOHdE9usuP8YDCR0YH
- JElbQAnY8BbioYUlu0dLXTH6mFHXmQ==
-X-Google-Smtp-Source: ABdhPJy/Dkdfg1gv5bU+wnbD/kvGdXdWEHoc1q9BvuFWtmaNw+uFMhXfRK/BiwT7u5MnV+3YpU7dbQ==
-X-Received: by 2002:a05:6602:1581:: with SMTP id
- e1mr1165025iow.44.1594845035932; 
- Wed, 15 Jul 2020 13:30:35 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id o7sm1692424ioo.4.2020.07.15.13.30.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 13:30:35 -0700 (PDT)
-Received: (nullmailer pid 767349 invoked by uid 1000);
- Wed, 15 Jul 2020 20:30:34 -0000
-Date: Wed, 15 Jul 2020 14:30:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCHv1 1/4] dt-bindings: display: panel-dsi-cm: convert to YAML
-Message-ID: <20200715203034.GA767277@bogus>
-References: <20200629223315.118256-1-sebastian.reichel@collabora.com>
- <20200629223315.118256-2-sebastian.reichel@collabora.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iKzzj8zSTXcQ4stpa90DPw4HD3mp4PdLWYGCtZd2rco=;
+ b=STHISa+Q5DmCZGFlUeUMTjl6+ouHJW1xPppHwF646imXCFRpp8r20cQ3+H9VBlYWYe
+ xYtvVZiuwqSuY1VEb0zWW7gJMbPWIL0aDzMUgrxvfWhiKbNAJBoAsYGY8QfalcmZ78M8
+ RZ8DPDlLXvo36e/Atpf7pfBPgrwe7ucRX4qfJuGAl51APIRpNQoIqS7ed753NBv+n3Mg
+ ogpcW77j//0VZ/UUhk0pUKzyM8j8aKejB7U/LAmdVxpEg6Lk0ePuZgmXrtlxdF8ztjaO
+ 3EC92TsfW7qtr7xm2ypVHp3J0yqXSFfwZjFmczUYsAQ491c3X3bIMWoqLn+AM4tWPmGK
+ 8EHA==
+X-Gm-Message-State: AOAM532J29PvyRsVOql7yR4SB28W1EjIJvP8fGv5EgZjO219Ri6mgvL1
+ QZgTOxGKL/uEsOCtcKMLPUvcPNRjvq9mzrp2WKQiIQ==
+X-Google-Smtp-Source: ABdhPJziLvwDTEmy76j+v/HNPYt2tB3GXWPfceubgXWnsQk3Vt+k66GrFFtZFVuc8vR6ZZ6wSvsrbwu/5DqIrxTIi5g=
+X-Received: by 2002:a4a:bb8a:: with SMTP id h10mr1049097oop.28.1594846149054; 
+ Wed, 15 Jul 2020 13:49:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200629223315.118256-2-sebastian.reichel@collabora.com>
+References: <20200715145902.13122-1-tzimmermann@suse.de>
+ <CAPM=9tx1+cNHR3aYWFNey9veYn18A=b1Tgm9Pa4UvKjUSFg22g@mail.gmail.com>
+In-Reply-To: <CAPM=9tx1+cNHR3aYWFNey9veYn18A=b1Tgm9Pa4UvKjUSFg22g@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 15 Jul 2020 22:48:58 +0200
+Message-ID: <CAKMK7uE-7ggF0Sibkap64vxbZNbcMxFDuuxfDO+QDsXQfY0dQg@mail.gmail.com>
+Subject: Re: [PATCH 0/8] drm/mgag200: Support desktop chips
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +58,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-omap@vger.kernel.org,
- Tony Lindgren <tony@atomide.com>, "H. Nikolaus Schaller" <hns@goldelico.com>,
- Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
- kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: John Donnelly <john.p.donnelly@oracle.com>,
+ kernel test robot <rong.a.chen@intel.com>, Egbert Eich <eich@suse.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 30 Jun 2020 00:33:12 +0200, Sebastian Reichel wrote:
-> Convert panel-dsi-cm bindings to YAML and add
-> missing properties while at it.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/display/panel/panel-dsi-cm.txt   |  29 -----
->  .../bindings/display/panel/panel-dsi-cm.yaml  | 100 ++++++++++++++++++
->  2 files changed, 100 insertions(+), 29 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
-> 
+On Wed, Jul 15, 2020 at 9:56 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Thu, 16 Jul 2020 at 00:59, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> > This patchset puts device initialization in the correct order and
+> > adds support for G200 Desktop chips (PCI ids 0x520 and 0x521).
+>
+> why? :-)
+>
+> I'm pretty sure I NAKed the previous version because the userspace
+> experience for these old cards was probably better with
+> xorg-x11-drv-mga, but hey maybe it isn't anymore and we should go
+> ahead. I know SuSE use these for testing, but apart from that do we
+> really think we have any users for this?
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I'm more of the "why not" kind ... if you don't want this driver,
+don't enable it. Maybe worst case the physical card driver ids should
+be a Kconfig option or so. But if the goal is to stomp fbdev into the
+ground I think we should be ok with having drivers for anything. Even
+if it's kinda horrible :-)
+
+Of course you're not going to get any kind of acceleration, but then
+modern desktops don't accelerate if you have anything less than maybe
+gles2 anyway, and that entire idea of a reasonable 2d api that's
+actually generally useful died a hundred times already.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
