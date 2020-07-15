@@ -1,67 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738162205B9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CC02205BA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B01F6E5CE;
-	Wed, 15 Jul 2020 07:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93E326E463;
+	Wed, 15 Jul 2020 07:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 738A76EA49
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 22:54:27 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id x72so8260662pfc.6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jul 2020 15:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3y0aRHGaKLcjgwTZ86bMCl3Kd5iHKCmsfg8nxWgSzuE=;
- b=m5pNVSgBKkI6PwKQD2vUNqG0ZLdHsap8ldYmjfwKhC+N+RIw2BMBiferTYXMbClpjp
- DpoKnsjuM90XtJwOPN4OurXsXBPpCBZWEs07T12VxyB8yN53I3XzUuzB8DOUvNVJiMcq
- wje9eSPnrY+4TlhRPNovSBBxBP5rfQ1puEAZD4Sy2XtdK//5udIt1MPngviFqsA6ZrYJ
- XxjI5/Qyqwn4cjAhgCs6pS7cSo1c8hcItjtq4BFwdh0lEc0Gf9lAomM6yarfhCvfXMyH
- FMpnMChKgP1HPaipU47gMOXvR86AkNoU42tqIPzSy+Io6W/QRI0fb2muHcr8WFNhiY53
- yaTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3y0aRHGaKLcjgwTZ86bMCl3Kd5iHKCmsfg8nxWgSzuE=;
- b=jqNERAK276DzDp1Zq/NVqTzJUC4uKIRFFsQKsTEyiyhITv+xibcyWNmcjw9VkO4MuD
- xtUz0q/Drlhu64bEJyuptmb0SRmWmnUGGcsJYvGUP77UlIrOgAQw8McU0PRp/k98dQwJ
- 9Jaf8TFQx0Q9HCHJI9s+YhJ3fTgwtL7dP9ibU27gSkjR6J89WwPPoJJT3jl6btR1R6zn
- rAPq0BH6HqEOHb7PN7LcXwPE1wT0dN5I6U8oOxBHXB+6FZ7Zrr+vMxqIxf0VtxYv6k0P
- jw84WVkM/MFecCtDCPVBqKxIQ/9QNLaYCeOOb56glq9572bXwPn1QvzaLuQmjRyLPeAZ
- 46fQ==
-X-Gm-Message-State: AOAM533SHtolXzezoIyKDUDtnJSMva3u1YwKG8ojlyqkkIqZhpwFN1xE
- qCjE04SnHsJ9WndvSIJnMscqDA==
-X-Google-Smtp-Source: ABdhPJx3Wi8OjlqSsBzWZjk6f7Ltz4EPiYqzQQwwUOpxm0+vSSgBw2G4lGptzsHtGsccxn9jxT3+WQ==
-X-Received: by 2002:a62:1646:: with SMTP id 67mr6079256pfw.281.1594767266740; 
- Tue, 14 Jul 2020 15:54:26 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id my9sm113099pjb.44.2020.07.14.15.54.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jul 2020 15:54:26 -0700 (PDT)
-Date: Tue, 14 Jul 2020 15:52:20 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [Freedreno] [PATCH 0/9] drm/msm: Avoid possible infinite probe
- deferral and speed booting
-Message-ID: <20200714225220.GI388985@builder.lan>
-References: <20200710230224.2265647-1-dianders@chromium.org>
- <CAL_JsqKC5WtHb-coMCxMTDJ7CJcjVXcAxDT4J9N-Xyr=0uuURA@mail.gmail.com>
- <CAD=FV=XWKoTd_t2uRGpw3oa0Nij2EPeAJpOHhUipXFW07JN2qw@mail.gmail.com>
- <CAL_JsqLJM5nwNSdugMBLDVtjP97dikCm_AiHjnDs1jqBOFoaaQ@mail.gmail.com>
- <CAD=FV=UP0AHWr22U69TKcwwAefPCYMsfzymobczqmrdB6BOOhA@mail.gmail.com>
- <CAOCk7NoX-XAXy2WaYGjGOtEmypis-DO-W1cfU0wnucHH0oZrqg@mail.gmail.com>
- <CAL_Jsq+Nys+ry-3D07e-68e=9Pb34C9Js6piAnzwd1gXf_DmTw@mail.gmail.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F55A6E3A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 05:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description;
+ bh=YMqA4e1JC5L+qLXFvqzuaShUVuLVIuYUnNwfr5LoQVE=; b=FussjJjxrO6Ou5ypAx7HgdpCvv
+ /bCUIKQBeT3mpCjCXj2mjJ6JyXA95qjDOsX1n76uxYZCSqMV1CPWrxoNm5P31gy6gW3U64UYOu+un
+ NrFoxfZZiyiAYCdyDPgh5vh0t6pdPpCoYf6Y978ky0lQFExfZaaIAeMHT8DepIyfvSJC8qpkQqBFG
+ kMfIqUazby4vRAnHIW9qYv5OW1jIqGEiFo7ubZBCZ0Fpcol/LDYVTiLsWOuWHn2XD2i7MYOBhpdeh
+ pXh7rBujm9iktR3aPMgbhxhEm3oA7CxG1QAByOEknwMi5lzjOBLCItmmkg/Kw7ZZamDkklBOWnPFg
+ veWDn2tA==;
+Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jvZti-0006Vd-Rt; Wed, 15 Jul 2020 05:24:03 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 7/7] drm: drm_rect.h: delete duplicated word in comment
+Date: Tue, 14 Jul 2020 22:23:49 -0700
+Message-Id: <20200715052349.23319-7-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200715052349.23319-1-rdunlap@infradead.org>
+References: <20200715052349.23319-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+Nys+ry-3D07e-68e=9Pb34C9Js6piAnzwd1gXf_DmTw@mail.gmail.com>
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,131 +48,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Andy Gross <agross@kernel.org>, freedreno <freedreno@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 14 Jul 15:13 PDT 2020, Rob Herring wrote:
+Drop doubled word "the" in a comment.
 
-> On Tue, Jul 14, 2020 at 10:33 AM Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
-> >
-> > On Mon, Jul 13, 2020 at 5:50 PM Doug Anderson <dianders@chromium.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, Jul 13, 2020 at 1:25 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > > >
-> > > > On Mon, Jul 13, 2020 at 9:08 AM Doug Anderson <dianders@chromium.org> wrote:
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > On Mon, Jul 13, 2020 at 7:11 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > > > > >
-> > > > > > On Fri, Jul 10, 2020 at 5:02 PM Douglas Anderson <dianders@chromium.org> wrote:
-> > > > > > >
-> > > > > > > I found that if I ever had a little mistake in my kernel config,
-> > > > > > > or device tree, or graphics driver that my system would sit in a loop
-> > > > > > > at bootup trying again and again and again.  An example log was:
-> > > > > >
-> > > > > > Why do we care about optimizing the error case?
-> > > > >
-> > > > > It actually results in a _fully_ infinite loop.  That is: if anything
-> > > > > small causes a component of DRM to fail to probe then the whole system
-> > > > > doesn't boot because it just loops trying to probe over and over
-> > > > > again.  The messages I put in the commit message are printed over and
-> > > > > over and over again.
-> > > >
-> > > > Sounds like a bug as that's not what should happen.
-> > > >
-> > > > If you defer during boot (initcalls), then you'll be on the deferred
-> > > > list until late_initcall and everything is retried. After
-> > > > late_initcall, only devices getting added should trigger probing. But
-> > > > maybe the adding and then removing a device is causing a re-trigger.
-> > >
-> > > Right, I'm nearly certain that the adding and then removing is causing
-> > > a re-trigger.  I believe the loop would happen for any case where we
-> > > have a probe function that:
-> > >
-> > > 1. Adds devices.
-> > > 2. After adding devices it decides that it needs to defer.
-> > > 3. Removes the devices it added.
-> > > 4. Return -EPROBE_DEFER from its probe function.
-> > >
-> > > Specifically from what I know about how -EPROBE_DEFER works I'm not
-> > > sure how it wouldn't cause an infinite loop in that case.
-> > >
-> > > Perhaps the missing part of my explanation, though, is why it never
-> > > gets out of this infinite loop.  In my case I purposely made the
-> > > bridge chip "ti-sn65dsi86.c" return an error (-EINVAL) in its probe
-> > > every time.  Obviously I wasn't going to get a display up like this,
-> > > but I just wanted to not loop forever at bootup.  I tracked down
-> > > exactly why we get an - EPROBE_DEFER over and over in this case.
-> > >
-> > > You can see it in msm_dsi_host_register().  If some components haven't
-> > > shown up when that function runs it will _always_ return
-> > > -EPROBE_DEFER.
-> > >
-> > > In my case, since I caused the bridge to fail to probe, those
-> > > components will _never_ show up.  That means that
-> > > msm_dsi_host_register() will _always_ return -EPROBE_DEFER.
-> > >
-> > > I haven't dug through all the DRM code enough, but it doesn't
-> > > necessarily seem like the wrong behavior.  If the bridge driver or a
-> > > panel was a module then (presumably) they could show up later and so
-> > > it should be OK for it to defer, right?
-> > >
-> > > So with all that, it doesn't really feel like this is a bug so much as
-> > > it's an unsupported use case.  The current deferral logic simply can't
-> > > handle the case we're throwing at it.  You cannot return -EPROBE_DEFER
-> > > if your probe function adds devices each time through the probe
-> > > function.
-> > >
-> > > Assuming all the above makes sense, that means we're stuck with:
-> > >
-> > > a) This patch series, which makes us not add devices.
-> > >
-> > > b) Some other patch series which rearchitects the MSM graphics stack
-> > > to not return -EPROBE_DEFER in this case.
-> >
-> > This isn't a MSM specific issue.  This is an issue with how the DSI
-> > interface works, and how software is structured in Linux.  I would
-> > expect that pretty much any DSI host in the kernel would have some
-> > version of this issue.
-> >
-> > The problem is that DSI is not "hot pluggable", so to give the DRM
-> > stack the info it needs, we need both the DSI controller (aka the MSM
-> > graphics stack in your case), and the thing it connects to (in your
-> > case, the TI bridge, normally the actual panel) because the DRM stack
-> > expects that if init completes, it has certain information
-> > (resolution, etc), and some of that information is in the DSI
-> > controller, and some of it is on the DSI device.
-> 
-> Ah yes, DRM's lack of hot-plug and discrete component support... Is
-> that not improved with some of the bridge rework?
-> 
-> Anyways, given there is a child dependency on the parent, I don't
-> think we should work-around DRM deficiencies in DT.
-> 
-> BTW, There's also a deferred probe timeout you can use which stops
-> deferring probe some number of seconds after late_initcall.
-> 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+---
+ include/drm/drm_rect.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I don't think we can rely on the deferred probe timeout, given that it
-was reverted back to 0 seconds past late_initcall - which given that
-most of the involved components are modules, means that without the
-opt-in command line option we would likely fail to bring up the display.
-
-Regards,
-Bjorn
+--- linux-next-20200714.orig/include/drm/drm_rect.h
++++ linux-next-20200714/include/drm/drm_rect.h
+@@ -180,7 +180,7 @@ static inline int drm_rect_height(const
+ }
+ 
+ /**
+- * drm_rect_visible - determine if the the rectangle is visible
++ * drm_rect_visible - determine if the rectangle is visible
+  * @r: rectangle whose visibility is returned
+  *
+  * RETURNS:
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
