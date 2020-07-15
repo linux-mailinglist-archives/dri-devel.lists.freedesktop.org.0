@@ -1,23 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEA12214B6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 20:53:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 215162214C8
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 21:01:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1589A6EBF6;
-	Wed, 15 Jul 2020 18:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB3586EBFB;
+	Wed, 15 Jul 2020 19:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6AD16EBF6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 18:52:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD1716EBFB
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 19:01:01 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208413] amdgpu driver crash
-Date: Wed, 15 Jul 2020 18:52:54 +0000
+Subject: [Bug 208573] Black screen on boot if two displays plugged in with
+ NAVI 10
+Date: Wed, 15 Jul 2020 19:01:01 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -26,16 +27,16 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ghutzriop@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
+X-Bugzilla-Who: thomas.langkamp@medicalschool-hamburg.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-208413-2300-dbOqhgWuiC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208413-2300@https.bugzilla.kernel.org/>
-References: <bug-208413-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-208573-2300-nLAO21HJ13@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208573-2300@https.bugzilla.kernel.org/>
+References: <bug-208573-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,14 +57,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208413
+https://bugzilla.kernel.org/show_bug.cgi?id=208573
 
-ghutzriop@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |PATCH_ALREADY_AVAILABLE
+--- Comment #2 from Thomas Langkamp (thomas.langkamp@medicalschool-hamburg.de) ---
+Created attachment 290305
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290305&action=edit
+dmesg just after plugging in second display
 
 -- 
 You are receiving this mail because:
