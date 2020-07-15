@@ -1,58 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9784022102B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 17:06:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D4A221096
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 17:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2916EB85;
-	Wed, 15 Jul 2020 15:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F2516EB7F;
+	Wed, 15 Jul 2020 15:12:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE93B6EB7F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 15:05:53 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z2so3116657wrp.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 08:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=5TIaMH+3vispAvRwy2hL3kDcw3ROjiCZD2RLZ5ywIeI=;
- b=kPR1o9cJynlXgYNy0MW9gfyn70hRYvE1PJ6Bs80vsUi71Aq5jlpSHqaKPTnD22J24J
- 6JKHaNOaLOvK4a4dG5e/RIkVG1Lu8s85x3dFPb+Tki/Z4VwZ127oLNfS09W3mSp1CzgX
- QcP1rkj52oHJagE1wPb3zZ9xJottWAASOY3ro=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=5TIaMH+3vispAvRwy2hL3kDcw3ROjiCZD2RLZ5ywIeI=;
- b=nIMPScAYt5me+y/9YEavoaz6IFgZ9BPPqZ6PYxxoyWsPo0KghpY71RFDWljooNLZp3
- lt46lMTJdTj01b1vlU+d2aXPIPYeiji4bNAvaP636eWHoMgiDqVEpXMrFDopLGZDKqqz
- Ozq0kiqPcF6HMn+UxXJDblM0xuGOBthy2cpTBHbvNgzjt2sXFxksJ0ozYf1ZotR/4obq
- Riqc2628MZEjnCQs/V0YQjHasxva8hvw3Xb6ja2insv8HrQaQqrBQb+HgDpsOo2GGL66
- KAxrvQ6hMgiV/JE3lD3hg0hRfuNM7klHZzu+UyklzVT1cZ2iTwOCKWGc1QlMGscpuOHY
- WWyA==
-X-Gm-Message-State: AOAM533C4gep5Q03EzjTJJfHM/Y6VDZQojgZtpk/CztDpbIy406S/tCz
- Mw6G70wW9Hi/Il0yrq8oqml8Aw==
-X-Google-Smtp-Source: ABdhPJy9L8Qq75v/NSWzoCmm4DOJoWKS2U7POCiivAT9KLUdb5cshOm+8fyceIlItAdk4blgeXTVZw==
-X-Received: by 2002:adf:a34a:: with SMTP id d10mr11832038wrb.59.1594825552042; 
- Wed, 15 Jul 2020 08:05:52 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u186sm3894907wmu.10.2020.07.15.08.05.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 08:05:50 -0700 (PDT)
-Date: Wed, 15 Jul 2020 17:05:49 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 00/59] Add support for KeemBay DRM driver
-Message-ID: <20200715150549.GL3278063@phenom.ffwll.local>
-References: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3366EB7F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 15:12:37 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06FF38MP145934;
+ Wed, 15 Jul 2020 15:12:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=0JkdM7OaeZKo/wNUM2SyUi9gk7ZssmR/pU76UHP9/Xc=;
+ b=HSR188X/Hvk1zLPBJUb3Cd8Tr9EvT8gzYNdB5JVap9w0llK7ChDwTWd9GTbydK5PdEaj
+ xnxOud9i8FHXezvhiFuWLUwJWzJOvWVzkaSR06zmfxsAylJnayEgQayKc0jqldoeW8Uy
+ h4+/JxUbHlciV5waMwe3uMv6XcmPXMyC7eyIl79SKtkV4Jcxfn5nbsygYWv3JNY7ETHj
+ NMVYgO6EtrYsM63+i+0ubS9JEdPQB8aKUzXKUm6eIQ+0fYuWNTJv1Ex0s/PfRgLr0kGF
+ u3wM0pZkfvkLUtMBaj3dQQVXN0DHpRJm0gbgDISho8UwH5Lhp7p7+L8MqJOQbyD9X/Dm DA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 3275cmc051-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 15 Jul 2020 15:12:31 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06FF3eFq126116;
+ Wed, 15 Jul 2020 15:12:30 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 327q6up5jp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Jul 2020 15:12:30 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06FFCSA3023623;
+ Wed, 15 Jul 2020 15:12:28 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 15 Jul 2020 08:12:28 -0700
+Date: Wed, 15 Jul 2020 18:12:20 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH v2] fbdev: Detect integer underflow at "struct
+ fbcon_ops"->clear_margins.
+Message-ID: <20200715151220.GE2571@kadam>
+References: <adff5d10-fe35-62d4-74c5-182958c5ada7@i-love.sakura.ne.jp>
+ <20200715015102.3814-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <20200715094836.GD2571@kadam>
+ <9e6eac10-c5c3-f518-36cc-9ea32fb5d7fe@i-love.sakura.ne.jp>
+ <b50f85c7-80e5-89c5-0aca-31d8e9892665@i-love.sakura.ne.jp>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <b50f85c7-80e5-89c5-0aca-31d8e9892665@i-love.sakura.ne.jp>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9683
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007150124
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9683
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ priorityscore=1501
+ bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007150124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,143 +83,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
- edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ George Kennedy <george.kennedy@oracle.com>, Jiri Slaby <jslaby@suse.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5pdGhhCgpPbiBUdWUsIEp1bCAxNCwgMjAyMCBhdCAwMTo1Njo0NlBNIC0wNzAwLCBBbml0
-aGEgQ2hyaXNhbnRodXMgd3JvdGU6Cj4gVGhpcyBpcyBhIG5ldyBEUk0gZHJpdmVyIGZvciBJbnRl
-bCdzIEtlZW1CYXkgU09DLgo+IFRoZSBTb0MgY291cGxlcyBhbiBBUk0gQ29ydGV4IEE1MyBDUFUg
-d2l0aCBhbiBJbnRlbAo+IE1vdmlkaXVzIFZQVS4KPiAKPiBUaGlzIGRyaXZlciBpcyB0ZXN0ZWQg
-d2l0aCB0aGUgS01CIEVWTSBib2FyZCB3aGljaCBpcyB0aGUgcmVmZXJuY2UgYmFvcmQKPiBmb3Ig
-S2VlbSBCYXkgU09DLiBUaGUgU09DJ3MgZGlzcGxheSBwaXBlbGluZSBpcyBhcyBmb2xsb3dzCj4g
-Cj4gKy0tLS0tLS0tLS0tLS0tKyAgICArLS0tLS0tLS0tKyAgICArLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0rCj4gfExDRCBjb250cm9sbGVyfCAtPiB8TWlwaSBEU0kgfCAtPiB8TWlwaSB0byBIRE1J
-IENvbnZlcnRlciB8Cj4gKy0tLS0tLS0tLS0tLS0tKyAgICArLS0tLS0tLS0tKyAgICArLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0rCj4gCj4gTENEIGNvbnRyb2xsZXIgYW5kIE1pcGkgRFNJIHRyYW5z
-bWl0dGVyIGFyZSBwYXJ0IG9mIHRoZSBTT0MgYW5kCj4gbWlwaSB0byBIRE1JIGNvbnZlcnRlciBp
-cyBBRFY3NTM1IGZvciBLTUIgRVZNIGJvYXJkLgo+IAo+IFRoZSBEUk0gZHJpdmVyIGlzIGEgYmFz
-aWMgS01TIGF0b21pYyBtb2Rlc2V0dGluZyBkaXNwbGF5IGRyaXZlciBhbmQKPiBoYXMgbm8gMkQg
-b3IgM0QgZ3JhcGhpY3MuSXQgY2FsbHMgaW50byB0aGUgQURWIGJyaWRnZSBkcml2ZXIgYXQKPiB0
-aGUgY29ubmVjdG9yIGxldmVsLgo+IAo+IE9ubHkgMTA4MHAgcmVzb2x1dGlvbiBhbmQgc2luZ2xl
-IHBsYW5lIGlzIHN1cHBvcnRlZCBhdCB0aGlzIHRpbWUuCj4gVGhlIHVzZWNhc2UgaXMgZm9yIGRl
-YnVnZ2luZyB2aWRlbyBhbmQgY2FtZXJhIG91dHB1dHMuCj4gCj4gRGV2aWNlIHRyZWUgcGF0Y2hl
-cyBhcmUgdW5kZXIgcmV2aWV3IGhlcmUKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1h
-cm0ta2VybmVsLzIwMjAwNzA4MTc1MDIwLjE5NDQzNi0xLWRhbmllbGUuYWxlc3NhbmRyZWxsaUBs
-aW51eC5pbnRlbC5jb20vVC8KCkNvb2wsIG5ldyBkcml2ZXIsIHRoYW5rcyBhIGxvdCBmb3Igc3Vi
-bWl0dGluZy4KCj4gQ2hhbmdlcyBzaW5jZSB2MToKPiAtIFJlbW92ZWQgcmVkdW5kYW50IGxpY2Vu
-c2UgdGV4dCwgdXBkYXRlZCBsaWNlbnNlCj4gLSBSZWFycmFuZ2VkIGluY2x1ZGUgYmxvY2tzCj4g
-LSByZW5hbWVkIGdsb2JhbCB2YXJzIGFuZCByZW1vdmVkIGV4dGVybiBpbiBjCj4gLSBVc2VkIHVw
-Y2xhc3NpbmcgZm9yIGRldl9wcml2YXRlCj4gLSBVc2VkIGRybV9kZXZfaW5pdCBpbiBkcm0gZGV2
-aWNlIGNyZWF0ZSAod2lsbCBiZSB1cGRhdGVkIHRvIHVzZQo+ICAgZGV2bV9kcm1fZGV2X2FsbG9j
-KCkgaW4gYSBzZXBhcmF0ZSBwYXRjaCBsYXRlciBhcyBrbWIgZHJpdmVyIGlzIGN1cnJlbnRseQo+
-ICAgZGV2ZWxvcGVkIG9uIDUuNCBrZXJuZWwpCgpkcm0gbW92ZXMgZmFpcmx5IHF1aWNrbHksIHBs
-ZWFzZSBkZXZlbG9wIHRoZSB1cHN0cmVhbSBzdWJtaXNzaW9uIG9uIHRvcCBvZgpsaW51eC1uZXh0
-IG9yIHNpbWlsYXIuIFdlIGNvbnN0YW50bHkgYWRkIG5ldyBoZWxwZXJzIHRvIHNpbXBsaWZ5IGRy
-aXZlcnMsCmFuZCB3ZSBleHBlY3QgbmV3IGRyaXZlciBzdWJtaXNzaW9ucyB0byBiZSB1cCB0byBk
-YXRlIHdpdGggYWxsIHRoYXQuCgpBbm90aGVyIHRoaW5nOiBGcm9tIHlvdXIgZGVzY3JpcHRpb24g
-aXQgc291bmRzIGxpa2UgaXQncyBhIHZlcnkgc2ltcGxlCmRyaXZlciwganVzdCBhIHNpbmdsZSBw
-bGFuZS9jcnRjLCBub3RoaW5nIGZhbmN5LCBwbHVzIGFkdiBicmlkZ2Ugb3V0cHV0LgpJcyB0aGUg
-ZHJpdmVyIGFscmVhZHkgdXNpbmcgc2ltcGxlIGRpc3BsYXkgcGlwZWxpbmUgaGVscGVycz8gSSB0
-aGluayB0aGF0CndvdWxkIGJlIGFuIGlkZWFsIGZpdCBhbmQgcHJvYmFibHkgZ3JlYXRseSBzaW1w
-bGlmaWVzIHRoZSBjb2RlLgoKPiAtIG1pbm9yIGNsZWFudXBzCgpUaGUgcGF0Y2ggc2VyaWVzIGxv
-b2tzIGxpa2UgaXQgY29udGFpbnMgdGhlIGVudGlyZSBkZXZlbG9wbWVudCBoaXN0b3J5LCBvcgph
-dCBsZWFzdCBsYXJnZSBjaHVua3Mgb2YgaXQuIFRoYXQncyB1c2VmdWwgZm9yIHlvdSwgYnV0IGZv
-ciB1cHN0cmVhbWluZwp0aGUgbWFpbiBmb2N1ZXMgKGVzcGVjaWFsbHkgZm9yIHNtYWxsZXIgZHJp
-dmVycykgaXMgd2hldGhlciB5b3VyIGRyaXZlcgp1c2VzIGFsbCB0aGUgYXZhaWxhYmxlIGhlbHBl
-cnMgYW5kIGludGVncmF0aW9ucyBjb3JyZWN0bHkuIEFuZCBmb3IgdGhhdAppdCdzIG11Y2ggZWFz
-aWVyIGlmIHRoZSBoaXN0b3J5IGlzIGNsZWFuZWQgdXAsIGFuZCBhbGwgaW50ZXJtZWRpYXRlIHN0
-ZXBzCnJlbW92ZWQuCgpJIHRoaW5rIG9uY2UgdGhhdCdzIGRvbmUgSSBjYW4gZG8gYSBxdWljayBw
-YXNzIGFuZCBkcm9wIHN1Z2dlc3Rpb25zIGZvcgpjbGVhbnVwIGFuZCBzdHVmZiBsaWtlIHRoYXQs
-IGFuZCB0aGVuIHdlIHNob3VsZCAodXN1YWxseSBhdCBsZWFzdCkgYmUgYWJsZQp0byBwdWxsIGlu
-IHRoZSBkcml2ZXIgZmFpcmx5IHF1aWNrbHkuCgpBbm90aGVyIHRoaW5nIHRvIGNvbnNpZGVyIGlz
-IHdoZXJlL2hvdyB0aGlzIGRyaXZlciB3aWxsIGJlIG1haW50YWluZWQuClByZWZlcnJlZCBvcHRp
-b24gaXMgYXMgcGFydCBvZiBkcm0tbWlzYyBzbyB0aGF0IHdlIGhhdmUgcmVkdWRhbmN5IGFuZCBh
-bGwKdGhhdCBpbiBhIGZhaXJseSBiaWcgZ3JvdXAuIFdvcmtzIHdpdGggY29tbWl0IHJpZ2h0cywg
-c28gbWF5YmUgY2hlY2sgb3V0CnNvbWUgb2Ygb3VyIGRvY3MgYWJvdXQgdGhhdCB0b28uCgpodHRw
-czovL2RybS5wYWdlcy5mcmVlZGVza3RvcC5vcmcvbWFpbnRhaW5lci10b29scy9kcm0tbWlzYy5o
-dG1sCgpUaGUgY29tbWl0dGVyIG1vZGVsIGNvbWVzIHdpdGggYSBmdWxsIHNldCBvZiBzY3JpcHRz
-IGFuZCBkb2NzIHRvIGF2b2lkCm9vcHNpZXMgaW4gbWFpbnRhaW5lcnNoaXAuIEdlbmVyYWxseSB3
-b3JrcyByZWFsbHkgd2VsbC4KCkNoZWVycywgRGFuaWVsCgoKPiAKPiBBbml0aGEgQ2hyaXNhbnRo
-dXMgKDUyKToKPiAgIGRybS9rbWI6IEFkZCBzdXBwb3J0IGZvciBLZWVtQmF5IERpc3BsYXkKPiAg
-IGRybS9rbWI6IEFkZGVkIGlkIHRvIGttYl9wbGFuZQo+ICAgZHJtL2ttYjogU2V0IGNvcnJlY3Qg
-dmFsdWVzIGluIHRoZSBMQVlFUm5fQ0ZHIHJlZ2lzdGVyCj4gICBkcm0va21iOiBVc2UgYml3aXNl
-IG9wZXJhdG9ycyBmb3IgcmVnaXN0ZXIgZGVmaW5pdGlvbnMKPiAgIGRybS9rbWI6IFVwZGF0ZWQg
-a21iX3BsYW5lX2F0b21pY19jaGVjawo+ICAgZHJtL2ttYjogSW5pdGlhbCBjaGVjay1pbiBmb3Ig
-TWlwaSBEU0kKPiAgIGRybS9rbWI6IFNldCBPVVRfRk9STUFUX0NGRyByZWdpc3Rlcgo+ICAgZHJt
-L2ttYjogQWRkZWQgbWlwaV9kc2lfaG9zdCBpbml0aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFy
-dCAxIG9mIE1pcGkgVHggSW5pdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6IFBhcnQgMiBvZiBNaXBp
-IFR4IEluaXRpYWxpemF0aW9uCj4gICBkcm0va21iOiBVc2UgY29ycmVjdCBtbWlvIG9mZnNldCBm
-cm9tIGRhdGEgYm9vawo+ICAgZHJtL2ttYjogUGFydDMgb2YgTWlwaSBUeCBpbml0aWFsaXphdGlv
-bgo+ICAgZHJtL2ttYjogUGFydDQgb2YgTWlwaSBUeCBJbml0aWFsaXphdGlvbgo+ICAgZHJtL2tt
-YjogQ29ycmVjdCBhZGRyZXNzIG9mZnNldHMgZm9yIG1pcGkgcmVnaXN0ZXJzCj4gICBkcm0va21i
-OiBQYXJ0NSBvZiBNaXBpIFR4IEludGl0aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFydDYgb2Yg
-TWlwaSBUeCBJbml0aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFydDcgb2YgTWlwaSBUeCBJbml0
-aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFydDggb2YgTWlwaSBUeCBJbml0aWFsaXphdGlvbgo+
-ICAgZHJtL2ttYjogQWRkZWQgaW9yZW1hcC9pb3VubWFwIGZvciByZWdpc3RlciBhY2Nlc3MKPiAg
-IGRybS9rbWI6IFJlZ2lzdGVyIElSUSBmb3IgTENECj4gICBkcm0va21iOiBJUlEgaGFuZGxlcnMg
-Zm9yIExDRCBhbmQgbWlwaSBkc2kKPiAgIGRybS9rbWI6IFNldCBoYXJkY29kZWQgdmFsdWVzIHRv
-IExDRF9WU1lOQ19TVEFSVAo+ICAgZHJtL2ttYjogQWRkaXRpb25hbCByZWdpc3RlciBwcm9ncmFt
-bWluZyB0byB1cGRhdGVfcGxhbmUKPiAgIGRybS9rbWI6IEFkZCBBRFY3NTM1IGJyaWRnZQo+ICAg
-ZHJtL2ttYjogRGlzcGxheSBjbG9jayBlbmFibGUvZGlzYWJsZQo+ICAgZHJtL2ttYjogcmViYXNl
-IHRvIG5ld2VyIGtlcm5lbCB2ZXJzaW9uCj4gICBkcm0va21iOiBtaW5vciBuYW1lIGNoYW5nZSB0
-byBtYXRjaCBkZXZpY2UgdHJlZQo+ICAgZHJtL2ttYjogQ2hhbmdlZCBNTUlPIHNpemUKPiAgIGRy
-bS9rbWI6IERlZmVyIFByb2JlCj4gICBkcm0va21iOiBjYWxsIGJyaWRnZSBpbml0IGluIHRoZSB2
-ZXJ5IGJlZ2lubmluZwo+ICAgZHJtL2ttYjogRW5hYmxlIE1TU19DQU1fQ0xLX0NUUkwgZm9yIExD
-RCBhbmQgTUlQSQo+ICAgZHJtL2ttYjogU2V0IE1TU19DQU1fUlNUTl9DVFJMIGFsb25nIHdpdGgg
-ZW5hYmxlCj4gICBkcm0va21iOiBNaXBpIERQSFkgaW5pdGlhbGl6YXRpb24gY2hhbmdlcwo+ICAg
-ZHJtL2ttYjogRml4ZWQgZHJpdmVyIHVubG9hZAo+ICAgZHJtL2ttYjogQWRkZWQgTENEX1RFU1Qg
-Y29uZmlnCj4gICBkcm0va21iOiBDaGFuZ2VzIGZvciBMQ0QgdG8gTWlwaQo+ICAgZHJtL2ttYjog
-VXBkYXRlIExDRCBwcm9ncmFtbWluZyB0byBtYXRjaCBNSVBJCj4gICBkcm0va21iOiBDaGFuZ2Vk
-IG5hbWUgb2YgZHJpdmVyIHRvIGttYi1kcm0KPiAgIGRybS9rbWI6IE1pcGkgc2V0dGluZ3MgZnJv
-bSBpbnB1dCB0aW1pbmdzCj4gICBkcm0va21iOiBFbmFibGUgTENEIGludGVycnVwdHMKPiAgIGRy
-bS9rbWI6IEVuYWJsZSBMQ0QgaW50ZXJydXB0cyBkdXJpbmcgbW9kZXNldAo+ICAgZHJtL2ttYjog
-RG9u4oCZdCBpbmFkdmVydGFudGx5IGRpc2FibGUgTENEIGNvbnRyb2xsZXIKPiAgIGRybS9rbWI6
-IFNXQVAgUiBhbmQgQiBMQ0QgTGF5ZXIgb3JkZXIKPiAgIGRybS9rbWI6IERpc2FibGUgcGluZyBw
-b25nIG1vZGUKPiAgIGRybS9rbWI6IERvIHRoZSBsYXllciBpbml0aWFsaXphdGlvbnMgb25seSBv
-bmNlCj4gICBkcm0va21iOiBkaXNhYmxlIHRoZSBMQ0QgbGF5ZXIgaW4gRU9GIGlycSBoYW5kbGVy
-Cj4gICBkcm0va21iOiBJbml0aWFsaXplIHVuaW5pdGlhbGl6ZWQgdmFyaWFibGVzCj4gICBkcm0v
-a21iOiBBZGRlZCB1c2VmdWwgbWVzc2FnZXMgaW4gTENEIElTUgo+ICAga21iL2RybTogUHJ1bmUg
-dW5zdXBwb3J0ZWQgbW9kZXMKPiAgIGRybS9rbWI6IHdvcmthcm91bmQgZm9yIGRtYSB1bmRlZmxv
-dyBpc3N1ZQo+ICAgZHJtL2ttYjogR2V0IFN5c3RlbSBDbG9jayBmcm9tIFNDTUkKPiAgIGRybS9r
-bWI6IHdvcmsgYXJvdW5kIGZvciBwbGFuYXIgZm9ybWF0cwo+IAo+IEVkbXVuZCBEZWEgKDcpOgo+
-ICAgZHJtL2ttYjogQ2xlYW51cCBwcm9iZSBmdW5jdGlvbnMKPiAgIGRybS9rbWI6IFJldmVydCBk
-c2lfaG9zdCBiYWNrIHRvIGEgc3RhdGljIHZhcmlhYmxlCj4gICBkcm0va21iOiBJbml0aWFsaXpl
-IGNsb2NrcyBmb3IgY2xrX21zc2NhbSwgY2xrX21pcGlfZWNmZywgJgo+ICAgICBjbGtfbWlwaV9j
-ZmcuCj4gICBkcm0va21iOiBSZW1vdmUgZGVjbGFyYXRpb24gb2YgaXJxX2xjZC9pcnFfbWlwaQo+
-ICAgZHJtL2ttYjogRW5hYmxlIE1JUEkgVFggSFMgVGVzdCBQYXR0ZXJuIEdlbmVyYXRpb24KPiAg
-IGRybS9rbWI6IFdyaXRlIHRvIExDRF9MQVlFUm5fQ0ZHIG9ubHkgb25jZQo+ICAgZHJtL2ttYjog
-Q2xlYW5lZCB1cCBjb2RlCj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAgICAgfCAg
-ICAyICsKPiAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICB8ICAgIDEgKwo+ICBkcml2
-ZXJzL2dwdS9kcm0va21iL0tjb25maWcgICAgIHwgICAxMiArCj4gIGRyaXZlcnMvZ3B1L2RybS9r
-bWIvTWFrZWZpbGUgICAgfCAgICAyICsKPiAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfY3J0Yy5j
-ICB8ICAyMjYgKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfY3J0Yy5oICB8ICAgNDEg
-Kwo+ICBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kcnYuYyAgIHwgIDgwOSArKysrKysrKysrKysr
-KysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rydi5oICAgfCAgMTc2ICsrKysKPiAgZHJp
-dmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmMgICB8IDE5MjcgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2RzaS5oICAgfCAg
-MzcwICsrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMgfCAgNTE4ICsr
-KysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmggfCAgMTI0ICsrKwo+
-ICBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9yZWdzLmggIHwgIDczOCArKysrKysrKysrKysrKysK
-PiAgMTMgZmlsZXMgY2hhbmdlZCwgNDk0NiBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEw
-MDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL0tjb25maWcKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
-aXZlcnMvZ3B1L2RybS9rbWIvTWFrZWZpbGUKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
-Z3B1L2RybS9rbWIva21iX2NydGMuYwo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUv
-ZHJtL2ttYi9rbWJfY3J0Yy5oCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
-a21iL2ttYl9kcnYuYwo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9r
-bWJfZHJ2LmgKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rz
-aS5jCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuaAo+
-ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYwo+ICBj
-cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuaAo+ICBjcmVh
-dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcmVncy5oCj4gCj4gLS0gCj4g
-Mi43LjQKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwo+IEludGVsLWdmeCBtYWlsaW5nIGxpc3QKPiBJbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9pbnRl
-bC1nZngKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3Jh
-dGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Wed, Jul 15, 2020 at 11:02:58PM +0900, Tetsuo Handa wrote:
+> On 2020/07/15 20:17, Tetsuo Handa wrote:
+> > On 2020/07/15 18:48, Dan Carpenter wrote:
+> >>> @@ -216,7 +216,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+> >>>  	region.color = color;
+> >>>  	region.rop = ROP_COPY;
+> >>>  
+> >>> -	if (rw && !bottom_only) {
+> >>> +	if ((int) rw > 0 && !bottom_only) {
+> >>>  		region.dx = info->var.xoffset + rs;
+> >>                             ^^^^^^^^^^^^^^^^^^^^^^
+> >>
+> >> If you choose a very high positive "rw" then this addition can overflow.
+> >> info->var.xoffset comes from the user and I don't think it's checked...
+> > 
+> > Well, I think it would be checked by "struct fb_ops"->check_var hook.
+> > For example, vmw_fb_check_var() has
+> > 
+> > 	if ((var->xoffset + var->xres) > par->max_width ||
+> > 	    (var->yoffset + var->yres) > par->max_height) {
+> > 		DRM_ERROR("Requested geom can not fit in framebuffer\n");
+> > 		return -EINVAL;
+> > 	}
+> > 
+> > check. Of course, there might be integer overflow in that check...
+> > Having sanity check at caller of "struct fb_ops"->check_var might be nice.
+> > 
+> 
+> Well, while
+> 
+>         const int fd = open("/dev/fb0", O_ACCMODE);
+>         struct fb_var_screeninfo var = { };
+>         ioctl(fd, FBIOGET_VSCREENINFO, &var);
+>         var.xres = var.yres = 4;
+>         var.xoffset = 4294967292U;
+>         ioctl(fd, FBIOPUT_VSCREENINFO, &var);
+> 
+> bypassed
+> 
+>   (var->xoffset + var->xres) > par->max_width
+> 
+> check in vmw_fb_check_var(),
+> 
+> ----------
+> --- a/drivers/video/fbdev/core/bitblit.c
+> +++ b/drivers/video/fbdev/core/bitblit.c
+> @@ -216,6 +216,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+>         region.color = color;
+>         region.rop = ROP_COPY;
+> 
+> +       printk(KERN_INFO "%s info->var.xoffset=%u rs=%u info->var.yoffset=%u bs=%u\n", __func__, info->var.xoffset, rs, info->var.yoffset, bs);
+>         if ((int) rw > 0 && !bottom_only) {
+>                 region.dx = info->var.xoffset + rs;
+>                 region.dy = 0;
+> ----------
+> 
+> says that info->var.xoffset does not come from the user.
+> 
+> ----------
+>  bit_clear_margins info->var.xoffset=0 rs=1024 info->var.yoffset=0 bs=800
+> ----------
+
+In fb_set_var() we do:
+
+drivers/video/fbdev/core/fbmem.c
+  1055          ret = info->fbops->fb_check_var(var, info);
+  1056  
+  1057          if (ret)
+  1058                  return ret;
+  1059  
+  1060          if ((var->activate & FB_ACTIVATE_MASK) != FB_ACTIVATE_NOW)
+  1061                  return 0;
+  1062  
+  1063          if (!basic_checks(var))
+  1064                  return -EINVAL;
+  1065  
+  1066          if (info->fbops->fb_get_caps) {
+  1067                  ret = fb_check_caps(info, var, var->activate);
+  1068  
+  1069                  if (ret)
+  1070                          return ret;
+  1071          }
+  1072  
+  1073          old_var = info->var;
+  1074          info->var = *var;
+                ^^^^^^^^^^^^^^^^
+This should set "info->var.offset".
+
+  1075  
+  1076          if (info->fbops->fb_set_par) {
+  1077                  ret = info->fbops->fb_set_par(info);
+  1078  
+  1079                  if (ret) {
+  1080                          info->var = old_var;
+  1081                          printk(KERN_WARNING "detected "
+
+I've complained about integer overflows in fbdev for a long time...
+
+What I'd like to see is something like the following maybe.  I don't
+know how to get the vc_data in fbmem.c so it doesn't include your checks
+for negative.
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index caf817bcb05c..5c74181fea5d 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -934,6 +934,54 @@ fb_pan_display(struct fb_info *info, struct fb_var_screeninfo *var)
+ }
+ EXPORT_SYMBOL(fb_pan_display);
+ 
++static bool basic_checks(struct fb_var_screeninfo *var)
++{
++	unsigned int v_margins, h_margins;
++
++	/* I think var->height and var->width == UINT_MAX means something. */
++
++	if (var->xres > INT_MAX ||
++	    var->yres > INT_MAX ||
++	    var->xres_virtual > INT_MAX ||
++	    var->yres_virtual > INT_MAX ||
++	    var->xoffset > INT_MAX ||
++	    var->yoffset > INT_MAX ||
++	    var->left_margin > INT_MAX ||
++	    var->right_margin > INT_MAX ||
++	    var->upper_margin > INT_MAX ||
++	    var->lower_margin > INT_MAX ||
++	    var->hsync_len > INT_MAX ||
++	    var->vsync_len > INT_MAX)
++		return false;
++
++	if (var->bits_per_pixel > 128)
++		return false;
++	if (var->rotate > FB_ROTATE_CCW)
++		return false;
++
++	if (var->xoffset > INT_MAX - var->xres)
++		return false;
++	if (var->yoffset > INT_MAX - var->yres)
++		return false;
++
++	if (var->left_margin > INT_MAX - var->right_margin ||
++	    var->upper_margin > INT_MAX - var->lower_margin)
++		return false;
++
++	v_margins = var->left_margin + var->right_margin;
++	h_margins = var->upper_margin + var->lower_margin;
++
++	if (var->xres > INT_MAX - var->hsync_len ||
++	    var->yres > INT_MAX - var->vsync_len)
++		return false;
++
++	if (v_margins > INT_MAX - var->hsync_len - var->xres ||
++	    h_margins > INT_MAX - var->vsync_len - var->yres)
++		return false;
++
++	return true;
++}
++
+ static int fb_check_caps(struct fb_info *info, struct fb_var_screeninfo *var,
+ 			 u32 activate)
+ {
+@@ -1012,6 +1060,9 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+ 	if ((var->activate & FB_ACTIVATE_MASK) != FB_ACTIVATE_NOW)
+ 		return 0;
+ 
++	if (!basic_checks(var))
++		return -EINVAL;
++
+ 	if (info->fbops->fb_get_caps) {
+ 		ret = fb_check_caps(info, var, var->activate);
+ 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
