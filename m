@@ -2,49 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45AC42205AD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B2022059D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 09:00:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E813B6E451;
-	Wed, 15 Jul 2020 06:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DCB6E430;
+	Wed, 15 Jul 2020 06:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6CD6E0B7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 00:24:17 +0000 (UTC)
-Received: from fsav401.sakura.ne.jp (fsav401.sakura.ne.jp [133.242.250.100])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06F0O9m6009533;
- Wed, 15 Jul 2020 09:24:09 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DC36E15E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 01:51:18 +0000 (UTC)
+Received: from fsav302.sakura.ne.jp (fsav302.sakura.ne.jp [153.120.85.133])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06F1p74Y092199;
+ Wed, 15 Jul 2020 10:51:07 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
 Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav401.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav401.sakura.ne.jp);
- Wed, 15 Jul 2020 09:24:09 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav401.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06F0O80A009529
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Wed, 15 Jul 2020 09:24:09 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] fbdev: Detect integer underflow at "struct
+ by fsav302.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp);
+ Wed, 15 Jul 2020 10:51:07 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp)
+Received: from localhost.localdomain (M106072142033.v4.enabler.ne.jp
+ [106.72.142.33]) (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06F1p2pR092141
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 15 Jul 2020 10:51:07 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH v2] fbdev: Detect integer underflow at "struct
  fbcon_ops"->clear_margins.
-To: George Kennedy <george.kennedy@oracle.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <189fc902-db7c-9886-cc31-c0348435303a@i-love.sakura.ne.jp>
- <20200712111013.11881-1-penguin-kernel@I-love.SAKURA.ne.jp>
- <20200712111013.11881-2-penguin-kernel@I-love.SAKURA.ne.jp>
- <CGME20200714072231eucas1p17c53f0a661346ebfd316ebd5796ca346@eucas1p1.samsung.com>
- <db4b3346-b9f8-a428-1445-1fcbd8521e1d@samsung.com>
- <e00078d1-e5fb-a019-3036-cb182ed2e40b@i-love.sakura.ne.jp>
- <c5bf6d5c-8d0a-8df5-2a11-38bf37a11d67@oracle.com>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <a2433659-4f95-d508-11de-8273fd2b6632@i-love.sakura.ne.jp>
-Date: Wed, 15 Jul 2020 09:24:06 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <c5bf6d5c-8d0a-8df5-2a11-38bf37a11d67@oracle.com>
-Content-Language: en-US
+Date: Wed, 15 Jul 2020 10:51:02 +0900
+Message-Id: <20200715015102.3814-1-penguin-kernel@I-love.SAKURA.ne.jp>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <adff5d10-fe35-62d4-74c5-182958c5ada7@i-love.sakura.ne.jp>
+References: <adff5d10-fe35-62d4-74c5-182958c5ada7@i-love.sakura.ne.jp>
 X-Mailman-Approved-At: Wed, 15 Jul 2020 06:59:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,28 +49,160 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>,
- Jiri Slaby <jslaby@suse.com>, Dmitry Vyukov <dvyukov@google.com>
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ George Kennedy <george.kennedy@oracle.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Jiri Slaby <jslaby@suse.com>, Dan Carpenter <dan.carpenter@oracle.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020/07/15 2:15, George Kennedy wrote:
-> Can you try the a.out built from the original Syzkaller modified repro C program? It walks 0-7 through xres and yres of the fb_var_screeninfo struct.
+syzbot is reporting general protection fault in bitfill_aligned() [1]
+caused by integer underflow in bit_clear_margins(). The cause of this
+problem is when and how do_vc_resize() updates vc->vc_{cols,rows}.
 
-I'm not familiar with exploit code. What do you want to explain via this program?
+If vc_do_resize() fails (e.g. kzalloc() fails) when var.xres or var.yres
+is going to shrink, vc->vc_{cols,rows} will not be updated. This allows
+bit_clear_margins() to see info->var.xres < (vc->vc_cols * cw) or
+info->var.yres < (vc->vc_rows * ch). Unexpectedly large rw or bh will
+try to overrun the __iomem region and causes general protection fault.
 
->   struct fb_var_screeninfo *varp = (struct fb_var_screeninfo *)0x200001c0;
->   struct fb_var_screeninfo *starting_varp = malloc(sizeof(struct fb_var_screeninfo *));
+Also, vc_resize(vc, 0, 0) does not set vc->vc_{cols,rows} = 0 due to
 
->     memcpy(starting_varp, varp, sizeof(struct fb_var_screeninfo));
+  new_cols = (cols ? cols : vc->vc_cols);
+  new_rows = (lines ? lines : vc->vc_rows);
 
->             memcpy(varp, starting_varp, sizeof(struct fb_var_screeninfo));
+exception. Since cols and lines are calculated as
 
-At least, I suspect there is a memory corruption bug in this program
-because of malloc()ing only sizeof(struct fb_var_screeninfo *) bytes.
+  cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+  rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+  cols /= vc->vc_font.width;
+  rows /= vc->vc_font.height;
+  vc_resize(vc, cols, rows);
+
+in fbcon_modechanged(), var.xres < vc->vc_font.width makes cols = 0
+and var.yres < vc->vc_font.height makes rows = 0. This means that
+
+  const int fd = open("/dev/fb0", O_ACCMODE);
+  struct fb_var_screeninfo var = { };
+  ioctl(fd, FBIOGET_VSCREENINFO, &var);
+  var.xres = var.yres = 1;
+  ioctl(fd, FBIOPUT_VSCREENINFO, &var);
+
+easily reproduces integer underflow bug explained above.
+
+Of course, callers of vc_resize() are not handling vc_do_resize() failure
+is bad. But we can't avoid vc_resize(vc, 0, 0) which returns 0. Therefore,
+as a band-aid workaround, this patch checks integer underflow in
+"struct fbcon_ops"->clear_margins call, assuming that
+vc->vc_cols * vc->vc_font.width and vc->vc_rows * vc->vc_font.heigh do not
+cause integer overflow.
+
+[1] https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6
+
+Reported-and-tested-by: syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ drivers/video/fbdev/core/bitblit.c   | 4 ++--
+ drivers/video/fbdev/core/fbcon_ccw.c | 4 ++--
+ drivers/video/fbdev/core/fbcon_cw.c  | 4 ++--
+ drivers/video/fbdev/core/fbcon_ud.c  | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+index ca935c09a261..35ebeeccde4d 100644
+--- a/drivers/video/fbdev/core/bitblit.c
++++ b/drivers/video/fbdev/core/bitblit.c
+@@ -216,7 +216,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 	region.color = color;
+ 	region.rop = ROP_COPY;
+ 
+-	if (rw && !bottom_only) {
++	if ((int) rw > 0 && !bottom_only) {
+ 		region.dx = info->var.xoffset + rs;
+ 		region.dy = 0;
+ 		region.width = rw;
+@@ -224,7 +224,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 		info->fbops->fb_fillrect(info, &region);
+ 	}
+ 
+-	if (bh) {
++	if ((int) bh > 0) {
+ 		region.dx = info->var.xoffset;
+ 		region.dy = info->var.yoffset + bs;
+ 		region.width = rs;
+diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
+index dfa9a8aa4509..78f3a5621478 100644
+--- a/drivers/video/fbdev/core/fbcon_ccw.c
++++ b/drivers/video/fbdev/core/fbcon_ccw.c
+@@ -201,7 +201,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 	region.color = color;
+ 	region.rop = ROP_COPY;
+ 
+-	if (rw && !bottom_only) {
++	if ((int) rw > 0 && !bottom_only) {
+ 		region.dx = 0;
+ 		region.dy = info->var.yoffset;
+ 		region.height = rw;
+@@ -209,7 +209,7 @@ static void ccw_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 		info->fbops->fb_fillrect(info, &region);
+ 	}
+ 
+-	if (bh) {
++	if ((int) bh > 0) {
+ 		region.dx = info->var.xoffset + bs;
+ 		region.dy = 0;
+                 region.height = info->var.yres_virtual;
+diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
+index ce08251bfd38..fd098ff17574 100644
+--- a/drivers/video/fbdev/core/fbcon_cw.c
++++ b/drivers/video/fbdev/core/fbcon_cw.c
+@@ -184,7 +184,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 	region.color = color;
+ 	region.rop = ROP_COPY;
+ 
+-	if (rw && !bottom_only) {
++	if ((int) rw > 0 && !bottom_only) {
+ 		region.dx = 0;
+ 		region.dy = info->var.yoffset + rs;
+ 		region.height = rw;
+@@ -192,7 +192,7 @@ static void cw_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 		info->fbops->fb_fillrect(info, &region);
+ 	}
+ 
+-	if (bh) {
++	if ((int) bh > 0) {
+ 		region.dx = info->var.xoffset;
+ 		region.dy = info->var.yoffset;
+                 region.height = info->var.yres;
+diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
+index 1936afc78fec..e165a3fad29a 100644
+--- a/drivers/video/fbdev/core/fbcon_ud.c
++++ b/drivers/video/fbdev/core/fbcon_ud.c
+@@ -231,7 +231,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 	region.color = color;
+ 	region.rop = ROP_COPY;
+ 
+-	if (rw && !bottom_only) {
++	if ((int) rw > 0 && !bottom_only) {
+ 		region.dy = 0;
+ 		region.dx = info->var.xoffset;
+ 		region.width  = rw;
+@@ -239,7 +239,7 @@ static void ud_clear_margins(struct vc_data *vc, struct fb_info *info,
+ 		info->fbops->fb_fillrect(info, &region);
+ 	}
+ 
+-	if (bh) {
++	if ((int) bh > 0) {
+ 		region.dy = info->var.yoffset;
+ 		region.dx = info->var.xoffset;
+                 region.height  = bh;
+-- 
+2.18.4
 
 _______________________________________________
 dri-devel mailing list
