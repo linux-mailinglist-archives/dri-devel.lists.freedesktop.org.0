@@ -1,50 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86044220EAE
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 16:05:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 075B9220F9D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 16:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFB96EB6B;
-	Wed, 15 Jul 2020 14:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E0F26EB69;
+	Wed, 15 Jul 2020 14:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6CE6EB6B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 14:05:53 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id g37so1524756otb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 07:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DAYoqkDRQAeimHaUrZmBQDu7Jf6R2HY8pFOK/1qjsZs=;
- b=ExB08Ndx/lwe9KJ+y1k309GKK7sF/MF0efPoCdBiTbDymxtxRRaQbxExAxojod4PBh
- EA1jZVNhexWK494JzUkP235H3ZZ5wBejzUF/Jy/yFYghfhFMwmYmwvsuLl9R7AaNP410
- iz0R6ZFCV4dD0kZ+Y9WGWd0YNYbbAl2sWiI0Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DAYoqkDRQAeimHaUrZmBQDu7Jf6R2HY8pFOK/1qjsZs=;
- b=aYF3sUdlWfT1aOfhFjh6QkhJXlLWKGZVrf3VqRDurlhxoE1YuIfjJbjwzg2VAVgRCw
- BKrf2Prvom4ZZMnoKfD7WQ62XGt1KykCXgcogzLFOYUebAnKCL2WLMVR1HVGM0tbtK7G
- 3eWsItaDYY3jF1lxb/l0KGg0mwNpP4p0t0xqS1wn4/agWHCAgeodwdf2Sm3st+uWoiWG
- Mh2FKPe/FjWaw1oxzQ75LINHKCpimZlI3tFTHJQyuoYbLkROhQsXnHlTci/ROg6xZLDF
- 3SoOo+pMvCzrgYTwuMd6eA86oGwQOc3nsAW/FPWYnM44wwklLG9R0N0R18Q7muhqMCQI
- PGZA==
-X-Gm-Message-State: AOAM530iCTGrEtvE61mYvEhnTMrcreoYyLrMKoFIJVSKrNBHNBIPt79N
- uROwuOHCy1Yf/r8XwaaxVVyfWBH4kRMgS2yuwiku3g==
-X-Google-Smtp-Source: ABdhPJyaiNWDvfSd56kH8sua2TotZr//W7ffRo893laPrqhjhye1a7sziKFxpauaVvOzh9CFNxodbysgjearB3i2d5U=
-X-Received: by 2002:a9d:d55:: with SMTP id 79mr9444012oti.281.1594821952517;
- Wed, 15 Jul 2020 07:05:52 -0700 (PDT)
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCFA36EB69;
+ Wed, 15 Jul 2020 14:37:58 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21828417-1500050 for multiple; Wed, 15 Jul 2020 15:37:54 +0100
 MIME-Version: 1.0
-References: <87a70029vz.fsf@intel.com> <875zao2989.fsf@intel.com>
-In-Reply-To: <875zao2989.fsf@intel.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 15 Jul 2020 16:05:41 +0200
-Message-ID: <CAKMK7uGbLrp+sreKNV0FUdG_o7NRvRf=B-rN3zM91174diceJA@mail.gmail.com>
-Subject: Re: [PULL] drm-intel-next
-To: Jani Nikula <jani.nikula@intel.com>, Lyude <lyude@redhat.com>
+In-Reply-To: <CAKMK7uGtGkYnq+Fe1jD7t315OOgRCiZhqvpTjoOLuYhuV3Qy3A@mail.gmail.com>
+References: <20200715104905.11006-1-chris@chris-wilson.co.uk>
+ <20200715104905.11006-2-chris@chris-wilson.co.uk>
+ <20200715121022.GK3278063@phenom.ffwll.local>
+ <159481570397.13728.7155187046112827709@build.alporthouse.com>
+ <159481680826.13728.12654400528941223194@build.alporthouse.com>
+ <CAKMK7uGtGkYnq+Fe1jD7t315OOgRCiZhqvpTjoOLuYhuV3Qy3A@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] dma-buf/dma-fence: Add quick tests before
+ dma_fence_remove_callback
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 15 Jul 2020 15:37:53 +0100
+Message-ID: <159482387319.13728.9618623288194653161@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,57 +44,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 15, 2020 at 3:34 PM Jani Nikula <jani.nikula@intel.com> wrote:
->
->
-> Argh, failed to mention:
->
-> On Wed, 15 Jul 2020, Jani Nikula <jani.nikula@intel.com> wrote:
-> > Lee Shawn C (1):
-> >       drm/i915/mst: filter out the display mode exceed sink's capability
->
-> The above depends on:
->
-> > Lyude Paul (1):
-> >       drm/probe_helper: Add drm_connector_helper_funcs.mode_valid_ctx
->
-> Which has changes outside of i915:
->
-> >  drivers/gpu/drm/drm_crtc_helper_internal.h         |   7 +-
-> >  drivers/gpu/drm/drm_probe_helper.c                 |  97 +--
->
-> and does not have an explicit ack recorded, though drm-misc maintainers
-> have been Cc'd. :(
->
-> I decided they were benign enough, but needed to be mentioned.
+Quoting Daniel Vetter (2020-07-15 15:03:34)
+> On Wed, Jul 15, 2020 at 2:40 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > There's a further problem in that we call INIT_LIST_HEAD on the
+> > dma_fence_cb before the signal callback. So even if list_empty_careful()
+> > confirms the dma_fence_cb to be completely decoupled, the containing
+> > struct may still be inuse.
+> 
+> The kerneldoc of dma_fence_remove_callback() already has a very stern
+> warning that this will blow up if you don't hold a full reference or
+> otherwise control the lifetime of this stuff. So I don't think we have
+> to worry about any of that. Or do you mean something else?
 
-Yeah looks all fine, adding Lyude just as fyi.
--Daniel
+It's the struct dma_fence_cb itself that may be freed/reused. Consider
+dma_fence_default_wait(). That uses struct default_wait_cb on the stack,
+so in order to ensure that the callback is completed the list_empty
+check has to remain under the spinlock, or else
+dma_fence_default_wait_cb() can still be dereferencing wait->task as the
+function returns.
 
->
-> BR,
-> Jani.
->
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+So currently it is:
 
+signed long
+dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
+{
+        struct default_wait_cb cb;
+        unsigned long flags;
+        signed long ret = timeout ? timeout : 1;
 
+        spin_lock_irqsave(fence->lock, flags);
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+        if (intr && signal_pending(current)) {
+                ret = -ERESTARTSYS;
+                goto out;
+        }
+
+        if (!__dma_fence_enable_signaling(fence))
+                goto out;
+
+        if (!timeout) {
+                ret = 0;
+                goto out;
+        }
+
+        cb.base.func = dma_fence_default_wait_cb;
+        cb.task = current;
+        list_add(&cb.base.node, &fence->cb_list);
+
+        while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
+                if (intr)
+                        __set_current_state(TASK_INTERRUPTIBLE);
+                else
+                        __set_current_state(TASK_UNINTERRUPTIBLE);
+                spin_unlock_irqrestore(fence->lock, flags);
+
+                ret = schedule_timeout(ret);
+
+                spin_lock_irqsave(fence->lock, flags);
+                if (ret > 0 && intr && signal_pending(current))
+                        ret = -ERESTARTSYS;
+        }
+
+        if (!list_empty(&cb.base.node))
+                list_del(&cb.base.node);
+        __set_current_state(TASK_RUNNING);
+
+out:
+        spin_unlock_irqrestore(fence->lock, flags);
+        return ret;
+}
+
+but it could be written as:
+
+signed long
+dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
+{
+        struct default_wait_cb cb;
+	int state = intr ? TASK_INTERRUPTIBLE : TASK_UNINTERRUPTIBLE;
+
+        cb.task = current;
+	if (dma_fence_add_callback(fence, &cb.base, dma_fence_default_wait_cb))
+		return timeout ? timeout : 1;
+
+	for (;;) {
+		set_current_state(state);
+
+		if (dma_fence_is_signaled(fence)) {
+			timeout = timeout ? timeout : 1;
+			break;
+		}
+
+		if (signal_pending_state(state, current)) {
+			timeout = -ERESTARTSYS;
+			break;
+		}
+
+		if (!timeout)
+			break;
+
+                timeout = schedule_timeout(timeout);
+        }
+        __set_current_state(TASK_RUNNING);
+
+	dma_fence_remove_callback(fence, &cb.base);
+
+        return timeout;
+}
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
