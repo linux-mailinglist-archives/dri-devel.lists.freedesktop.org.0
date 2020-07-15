@@ -1,58 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C722217AE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 00:19:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF472217CE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 00:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92796EB46;
-	Wed, 15 Jul 2020 22:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B53D76EB73;
+	Wed, 15 Jul 2020 22:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8386EB46;
- Wed, 15 Jul 2020 22:19:24 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id s26so2721648pfm.4;
- Wed, 15 Jul 2020 15:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qxMjYphEfEAV7tSz+LCOdD9vQZvr3WacRlabwazm568=;
- b=tUbTUWR3dxj56+YyBKIZgJW/7OA2iUxxr4thXULbGaCVs/FCj2qxgmftDdCgQcDfAj
- P5pg8iyiIjQnURraFdk4xxB9TYVuanQxxhvUUAqFJKFeXquE3grQoz4CcppAAy4p5B5E
- R+/cmzvRIj8wFAXTYPyl3DfbeeARc8bZzK9LkaPYajrSDztZTrdukZcz/XpD4YeBH+Se
- vYEXBRqGTZ/F2Fuv9aMgg/pO+40ZN4ejTFs7IzCFduxAh5ykbHu13lc1dBt0YzCg57dZ
- p4UV4ANTI/ixautCIS60xQkouahgl9VBwr1QkJCepyM0WYVBoR1dvQklHkzhUAmNDkU/
- NR5Q==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3880C6EB73
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 22:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594852373;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cRbbb6VsF72TuG3Q+P4+9Vi5iW/jJmh79aKgAp5Z+8A=;
+ b=YJNVhWY80miek2meiGKD8rbA4q4R7Ox+M81JDWjr4dSMOPKQlgXiQxCEg9iVl9UFKKBKAu
+ rFPNXla+iN8O5BO6ZDTTWGU4oUQ5fJT+ob9Wf+ix7C4YrkXfOO2XoDVckoGH/hFdCQq6T5
+ owdLCVrxt4sFvbNV3vph31VOiSp0W70=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-I8Q5f2obMyGJ20QDGJ5yug-1; Wed, 15 Jul 2020 18:32:38 -0400
+X-MC-Unique: I8Q5f2obMyGJ20QDGJ5yug-1
+Received: by mail-qt1-f197.google.com with SMTP id r25so2443240qtj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 15:32:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=qxMjYphEfEAV7tSz+LCOdD9vQZvr3WacRlabwazm568=;
- b=tdcSKsmbFIEt8Y875s4O4Dy9NUHBb920UMfw+qbdo9cSHyrXQ+O6VGa1O+lHS0035w
- JsK8qBgLOVoaOub7I30Jec0/+1xFvMBJqkivm7MhHMYe+y6GvfTvGlwgZFZHujGTY9Em
- cU3RS6uC8vAdrNQZKouKV23NN55MyWLTwROYUWcQtXtSR/h0cGgR8FmkCtDEOnq3V2Ta
- IbYLey9AWCp7cLJKlS7urWXRuEEWKhkJzcnuModb0RtifR82Q3RWURmhoxlm4mCIwI4H
- fZD5C8Hn1k5p+0EeGdbeVKPVwsTOSDCl/DS+CderGMykKJplLBnaSzd7eQtqJpG1XeYz
- jgjQ==
-X-Gm-Message-State: AOAM533PoGtXakejWrd/3Wn3VystJQrOmesYIQ5WNi+B5LlfzR60jXn1
- GtsKbqUs9GMfXgOb5/VGAe51zQ2akiU=
-X-Google-Smtp-Source: ABdhPJztQ4b1Z0Z4rUFJQFEEF4msB+mPG53K5SjClbyNecECZ4BF9AnbVoPPw+8lwtj9Zq1DN6QehQ==
-X-Received: by 2002:a63:135b:: with SMTP id 27mr1656329pgt.37.1594851563677;
- Wed, 15 Jul 2020 15:19:23 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- p9sm1445997pgc.77.2020.07.15.15.19.22
+ bh=cRbbb6VsF72TuG3Q+P4+9Vi5iW/jJmh79aKgAp5Z+8A=;
+ b=OyYFcnFQjf9zVvf4dXlXkn7reYDNGwsUEGva8jFSHhtuTLVSAMbHFYRhywnsWjhvxE
+ THXyXzKCP4/oBvjP/HScfz8N0ZlW9U9OTMLd/F9sJh25BqUmRfOT17zjZIwVjUYkv20F
+ qWVbuPoxp+zS8zb31ArtRK4XMCzSUievpjHnHc43J3xf0088suXFSTTxqeB+ZQ+85j3Y
+ aoWB5Mb0fv9gcekxKpX9mIFn92oOz2Y142FQaSDtt6r7DXcAknnLrkDwW5r8mP1IddFb
+ MUuWi6gCvhDPaC5/+sR8Qv+zK0C6OQheiJ0efeVLKnewKW5JmSghb2FBoRQBaMl+HeQ7
+ KIZQ==
+X-Gm-Message-State: AOAM530Dvjdoh0W1blmAQwxCdAtk3cOBThjnkdHkjZOBLO/0iWhrMSrQ
+ oHrCgs9VLsfYcjIqph9RnCM1j80nxwSa8wne6UbB8Jz1Iw01VkrAX4bJEVm1H2VCcxkqRkW9aNG
+ eVr2jdhS09C6KCD+zpisevewsdrQo
+X-Received: by 2002:ac8:170a:: with SMTP id w10mr2257613qtj.392.1594852357073; 
+ Wed, 15 Jul 2020 15:32:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxovRtIT37N+Dr3RXhTA5P5mXkxqwnp0tmNsHjFQ4uBJAdYxP61h/NV4vz5wVIUzZ9hee+eEA==
+X-Received: by 2002:ac8:170a:: with SMTP id w10mr2257598qtj.392.1594852356812; 
+ Wed, 15 Jul 2020 15:32:36 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id w4sm5226471qtc.5.2020.07.15.15.32.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 15:19:22 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dpu: fix/enable 6bpc dither with split-lm
-Date: Wed, 15 Jul 2020 15:19:51 -0700
-Message-Id: <20200715221955.3209856-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ Wed, 15 Jul 2020 15:32:35 -0700 (PDT)
+Message-ID: <ab503ddbd9103cc6652a243b79292ce73dc9f720.camel@redhat.com>
+Subject: Re: [PATCH 0/8] drm/mgag200: Support desktop chips
+From: Lyude Paul <lyude@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, 
+ airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com,
+ krzk@kernel.org,  john.p.donnelly@Oracle.com, rong.a.chen@intel.com,
+ kraxel@redhat.com,  eich@suse.com, tiwai@suse.de
+Date: Wed, 15 Jul 2020 18:32:34 -0400
+In-Reply-To: <20200715145902.13122-1-tzimmermann@suse.de>
+References: <20200715145902.13122-1-tzimmermann@suse.de>
+Organization: Red Hat
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,106 +82,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Steev Klimaszewski <steev@gentoo.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Doug Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Zheng Bin <zhengbin13@huawei.com>, Kalyan Thota <kalyan_t@codeaurora.org>,
- Drew Davenport <ddavenport@chromium.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Reply-To: lyude@redhat.com
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Will try to look over this tomorrow, jfyi
 
-If split-lm is used (for ex, on sdm845), we can have multiple ping-
-pongs, but only a single phys encoder.  We need to configure dithering
-on each of them.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 22 ++++++++++---------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  3 +--
- 2 files changed, 13 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 46df0ff75b85..9b98b63c77fb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -212,14 +212,14 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
- 	15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
- };
- 
--static void _dpu_encoder_setup_dither(struct dpu_encoder_phys *phys)
-+static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
- {
- 	struct dpu_hw_dither_cfg dither_cfg = { 0 };
- 
--	if (!phys->hw_pp || !phys->hw_pp->ops.setup_dither)
-+	if (!hw_pp->ops.setup_dither)
- 		return;
- 
--	switch (phys->connector->display_info.bpc) {
-+	switch (bpc) {
- 	case 6:
- 		dither_cfg.c0_bitdepth = 6;
- 		dither_cfg.c1_bitdepth = 6;
-@@ -228,14 +228,14 @@ static void _dpu_encoder_setup_dither(struct dpu_encoder_phys *phys)
- 		dither_cfg.temporal_en = 0;
- 		break;
- 	default:
--		phys->hw_pp->ops.setup_dither(phys->hw_pp, NULL);
-+		hw_pp->ops.setup_dither(hw_pp, NULL);
- 		return;
- 	}
- 
- 	memcpy(&dither_cfg.matrix, dither_matrix,
- 			sizeof(u32) * DITHER_MATRIX_SZ);
- 
--	phys->hw_pp->ops.setup_dither(phys->hw_pp, &dither_cfg);
-+	hw_pp->ops.setup_dither(hw_pp, &dither_cfg);
- }
- 
- void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
-@@ -1132,11 +1132,13 @@ static void _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
- 
- 	_dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
- 
--	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
--		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
--			struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
--
--			_dpu_encoder_setup_dither(phys);
-+	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI &&
-+			!WARN_ON(dpu_enc->num_phys_encs == 0)) {
-+		unsigned bpc = dpu_enc->phys_encs[0]->connector->display_info.bpc;
-+		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-+			if (!dpu_enc->hw_pp[i])
-+				continue;
-+			_dpu_encoder_setup_dither(dpu_enc->hw_pp[i], bpc);
- 		}
- 	}
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-index 7411ab6bf6af..bea4ab5c58c5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-@@ -231,8 +231,7 @@ static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
- 	c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
- 	c->ops.get_line_count = dpu_hw_pp_get_line_count;
- 
--	if (test_bit(DPU_PINGPONG_DITHER, &features) &&
--		IS_SC7180_TARGET(c->hw.hwversion))
-+	if (test_bit(DPU_PINGPONG_DITHER, &features))
- 		c->ops.setup_dither = dpu_hw_pp_setup_dither;
- };
- 
--- 
-2.26.2
+On Wed, 2020-07-15 at 16:58 +0200, Thomas Zimmermann wrote:
+> This patchset puts device initialization in the correct order and
+> adds support for G200 Desktop chips (PCI ids 0x520 and 0x521).
+> 
+> The first 7 patches prepare the driver. Desktop chips would probably
+> work without them, but since we're at it we can also do it right.
+> 
+> Patch 1 enables cached page mappings GEM buffers. SHMEM supports
+> this well now and the MGA device does not access the buffer memory
+> directly. So now corrupt display output is to be expected.
+> 
+> Patches 2 to 6 fix the initialization of device registers. Several
+> fundamental registers were only done late during device initialization.
+> This was probably not a problem in practice, as the VGA BIOS does the
+> setup iduring POST anyway. These patches move the code to the beginning
+> of the device initialization. If we ever have to POST a MGA device from
+> the driver, the corect order of operations counts.
+> 
+> G200SEs store a unique id in the device structure. Patch 7 moves the
+> value to model-specific data area. This will be helpful for patch 8.
+> 
+> Patch 8 adds support for desktop chips' PCI ids. all the memory and
+> modesetting code continues to work as before. The PLL setup code gets
+> an additional helper for the new HW. PCI and DAC regsiters get a few
+> new default values. Most significantly, the driver parses the VGA BIOS
+> for clock settings. It's all separate from the server code, so no
+> regressions are to be expected.
+> 
+> The new HW support is based on an earlier patch the was posted in July
+> 2017. [1]
+> 
+> Tested on G200EW and G200 AGP hardware by running the fbdev console,
+> Weston and Gnome on Xorg.
+> 
+> [1] https://lists.freedesktop.org/archives/dri-devel/2017-July/147647.html
+> 
+> Thomas Zimmermann (8):
+>   drm/mgag200: Enable caching for SHMEM pages
+>   drm/mgag200: Move register initialization into helper function
+>   drm/mgag200: Initialize PCI registers early during device setup
+>   drm/mgag200: Enable MGA mode during device register initialization
+>   drm/mgag200: Set MISC memory flags in mm init code
+>   drm/mgag200: Clear <page> field during MM init
+>   drm/mgag200: Move G200SE's unique id into model-specific data
+>   drm/mgag200: Add support for G200 desktop cards
+> 
+>  MAINTAINERS                            |   2 +-
+>  drivers/gpu/drm/mgag200/Kconfig        |  12 +-
+>  drivers/gpu/drm/mgag200/mgag200_drv.c  | 213 +++++++++++++++++++++++--
+>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  19 ++-
+>  drivers/gpu/drm/mgag200/mgag200_mm.c   |   8 +
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 153 +++++++++++-------
+>  drivers/gpu/drm/mgag200/mgag200_reg.h  |   4 +
+>  7 files changed, 328 insertions(+), 83 deletions(-)
+> 
+> --
+> 2.27.0
+> 
 
 _______________________________________________
 dri-devel mailing list
