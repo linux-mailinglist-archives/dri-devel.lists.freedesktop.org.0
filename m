@@ -1,55 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147B72208AC
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 11:25:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9E8220936
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 11:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC496EA75;
-	Wed, 15 Jul 2020 09:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B270896B5;
+	Wed, 15 Jul 2020 09:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E1C6EA73
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 09:25:38 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id k23so1486231iom.10
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 02:25:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9N7c3+4EQk3t5aJo24n0tWMhb0k3+hCHNbts8Wc4kH0=;
- b=mhyhQ8I2n37F811M1V4iNzwmDT/ZIXhPaECiizLHt9E7PByM8jEtxcVI4b/7fJ/y1A
- lOqPCp514XQVnqCrIJa19H0UvtUWef3bJYNY1kK8ew1K0/P+orsaA7AyvkRqG2SqgLw8
- H1UvIr5hE80/j5CV0u6kdanne15VBPETMkj0zt51KETnP1v9pW7nf/oqgXlkzMjeZUjE
- tIqMjA1bWyN3QXCD8w3nFrRNfx27cWtTi56bWAML0hc7mFgFNuUJqoKhl9mqgCxDOP+3
- 3x7uqV8ESRWlKeXeFN0jWeIsmNH3bWnlNaayC2y88istBTrWW+nHpci2OrXRiLKRoux8
- Q7iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9N7c3+4EQk3t5aJo24n0tWMhb0k3+hCHNbts8Wc4kH0=;
- b=Hv4gKarAmbP8/32C/REiuuRp+RQkJnphNp2h6XwAZxnw0p7q/Ycw4zjay953WaQ5wR
- QP3jgPUL+SqtGPbWlzR44t1pqST0O87r+iOWDOcqX3PCrphVcBy3tNnDCxqj5HtpztQC
- agAfEhIGMJowVnTBRhHmb/oV2dbSwYJtgWddOYGLDjDSX9uES7yCLTeGCX/UTbycm51a
- PnW3LJmN7h30fNxl1aLsAt89l6tNA3l7He0VdV4ut+sFYeSVCoBMVffsCLL6mGm94GhF
- 3/Rb6e3Ed0W5/04K7JKhB6GYp9/r0LwNoV6yfJ75myw/RPUR0RwolrTDspHO6DfUwF2x
- 4PJg==
-X-Gm-Message-State: AOAM530bkEGFGyrGyPnL0MBag2ezAwFNWYWdO5ad7V4W2pLjyQbMnwiK
- Aa2YmM4pX0pbvyDuD9V1+0bReZxUX+1jicYHEowM3B9wOhU=
-X-Google-Smtp-Source: ABdhPJwBl9zsKV4KNXWrB3LhCWqKIMHjdNQ079HGjNYW+qL0IfMxl2dzUPze1vIRS2/sKwesfcxOoJnlEuOkS4nPbcw=
-X-Received: by 2002:a02:b899:: with SMTP id p25mr11082692jam.115.1594805137188; 
- Wed, 15 Jul 2020 02:25:37 -0700 (PDT)
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D6B6EA77
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 09:50:54 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06F9mSh7176609;
+ Wed, 15 Jul 2020 09:50:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=L1fC24AO0mFGrHZ+aeKv7ArHLZSEsoi+M3DofTmccgo=;
+ b=yusml1W+ItxebkMydFTO6Lu0XB7PqaZ7ZytBPghep5MTwdPUvM85wje7wtukJRhtHKBK
+ daFyp0vFfmaN/h/NSJ8Mx0Ic9bC9ClTp0aDxjMo5hyybbASJu3MqJuQ5H0UWt/mLFjw2
+ Hta5Ub3rxsvTvqBP0hGW7Mp+mi+SQa15sFzHcBAtAT+rlh5xbvXqeUD5xmYFNvtddex5
+ vDk7hceohFW8rhK5ZgQzUWgV3x5VFqNzN3pggi6dWBoZ76Ri+9pRrEeILe3s9NUMGZyd
+ r0mg8pLLZxDdGpSnaPLMBrBbB662aZM31X6AvahJgcxxIPnsh2SxaJSxZzJqByqFxMDw kg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 3275cmac7e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 15 Jul 2020 09:50:48 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06F9ldJH118956;
+ Wed, 15 Jul 2020 09:48:47 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 327q6u3f6m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 Jul 2020 09:48:47 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06F9miY4015244;
+ Wed, 15 Jul 2020 09:48:44 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 15 Jul 2020 02:48:44 -0700
+Date: Wed, 15 Jul 2020 12:48:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: Re: [PATCH v2] fbdev: Detect integer underflow at "struct
+ fbcon_ops"->clear_margins.
+Message-ID: <20200715094836.GD2571@kadam>
+References: <adff5d10-fe35-62d4-74c5-182958c5ada7@i-love.sakura.ne.jp>
+ <20200715015102.3814-1-penguin-kernel@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
-References: <20200714212401.15825-1-chris@chris-wilson.co.uk>
- <20200714212401.15825-3-chris@chris-wilson.co.uk>
-In-Reply-To: <20200714212401.15825-3-chris@chris-wilson.co.uk>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Wed, 15 Jul 2020 11:25:25 +0200
-Message-ID: <CAP+8YyFEhM-cs00OD2LCNoLB8ypOabvCHxvi-0ghUE29Y+LUAA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dma-buf/sw_sync: Separate signal/timeline locks
-To: Chris Wilson <chris@chris-wilson.co.uk>
+Content-Disposition: inline
+In-Reply-To: <20200715015102.3814-1-penguin-kernel@I-love.SAKURA.ne.jp>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007150081
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9682
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ priorityscore=1501
+ bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 clxscore=1011 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007150081
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,170 +80,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ George Kennedy <george.kennedy@oracle.com>, Jiri Slaby <jslaby@suse.com>,
+ Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Still Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-
-On Tue, Jul 14, 2020 at 11:24 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
->
-> Since we decouple the sync_pt from the timeline tree upon release, in
-> order to allow releasing the sync_pt from a signal callback we need to
-> separate the sync_pt signaling lock from the timeline tree lock.
->
-> v2: Mark up the unlocked read of the current timeline value.
-> v3: Store a timeline pointer in the sync_pt as we cannot use the common
-> fence->lock trick to find our parent anymore.
->
-> Suggested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+On Wed, Jul 15, 2020 at 10:51:02AM +0900, Tetsuo Handa wrote:
+> syzbot is reporting general protection fault in bitfill_aligned() [1]
+> caused by integer underflow in bit_clear_margins(). The cause of this
+> problem is when and how do_vc_resize() updates vc->vc_{cols,rows}.
+> 
+> If vc_do_resize() fails (e.g. kzalloc() fails) when var.xres or var.yres
+> is going to shrink, vc->vc_{cols,rows} will not be updated. This allows
+> bit_clear_margins() to see info->var.xres < (vc->vc_cols * cw) or
+> info->var.yres < (vc->vc_rows * ch). Unexpectedly large rw or bh will
+> try to overrun the __iomem region and causes general protection fault.
+> 
+> Also, vc_resize(vc, 0, 0) does not set vc->vc_{cols,rows} = 0 due to
+> 
+>   new_cols = (cols ? cols : vc->vc_cols);
+>   new_rows = (lines ? lines : vc->vc_rows);
+> 
+> exception. Since cols and lines are calculated as
+> 
+>   cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+>   rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+>   cols /= vc->vc_font.width;
+>   rows /= vc->vc_font.height;
+>   vc_resize(vc, cols, rows);
+> 
+> in fbcon_modechanged(), var.xres < vc->vc_font.width makes cols = 0
+> and var.yres < vc->vc_font.height makes rows = 0. This means that
+> 
+>   const int fd = open("/dev/fb0", O_ACCMODE);
+>   struct fb_var_screeninfo var = { };
+>   ioctl(fd, FBIOGET_VSCREENINFO, &var);
+>   var.xres = var.yres = 1;
+>   ioctl(fd, FBIOPUT_VSCREENINFO, &var);
+> 
+> easily reproduces integer underflow bug explained above.
+> 
+> Of course, callers of vc_resize() are not handling vc_do_resize() failure
+> is bad. But we can't avoid vc_resize(vc, 0, 0) which returns 0. Therefore,
+> as a band-aid workaround, this patch checks integer underflow in
+> "struct fbcon_ops"->clear_margins call, assuming that
+> vc->vc_cols * vc->vc_font.width and vc->vc_rows * vc->vc_font.heigh do not
+> cause integer overflow.
+> 
+> [1] https://syzkaller.appspot.com/bug?id=a565882df74fa76f10d3a6fec4be31098dbb37c6
+> 
+> Reported-and-tested-by: syzbot <syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 > ---
->  drivers/dma-buf/sw_sync.c    | 40 +++++++++++++++++++++---------------
->  drivers/dma-buf/sync_debug.c |  2 +-
->  drivers/dma-buf/sync_debug.h | 13 +++++++-----
->  3 files changed, 32 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index 807c82148062..17a5c1a3b7ce 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -123,33 +123,39 @@ static const char *timeline_fence_get_driver_name(struct dma_fence *fence)
->
->  static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
->  {
-> -       struct sync_timeline *parent = dma_fence_parent(fence);
-> -
-> -       return parent->name;
-> +       return sync_timeline(fence)->name;
->  }
->
->  static void timeline_fence_release(struct dma_fence *fence)
->  {
->         struct sync_pt *pt = dma_fence_to_sync_pt(fence);
-> -       struct sync_timeline *parent = dma_fence_parent(fence);
-> -       unsigned long flags;
-> +       struct sync_timeline *parent = pt->timeline;
->
-> -       spin_lock_irqsave(fence->lock, flags);
->         if (!list_empty(&pt->link)) {
-> -               list_del(&pt->link);
-> -               rb_erase(&pt->node, &parent->pt_tree);
-> +               unsigned long flags;
-> +
-> +               spin_lock_irqsave(&parent->lock, flags);
-> +               if (!list_empty(&pt->link)) {
-> +                       list_del(&pt->link);
-> +                       rb_erase(&pt->node, &parent->pt_tree);
-> +               }
-> +               spin_unlock_irqrestore(&parent->lock, flags);
->         }
-> -       spin_unlock_irqrestore(fence->lock, flags);
->
->         sync_timeline_put(parent);
->         dma_fence_free(fence);
->  }
->
-> -static bool timeline_fence_signaled(struct dma_fence *fence)
-> +static int timeline_value(struct dma_fence *fence)
->  {
-> -       struct sync_timeline *parent = dma_fence_parent(fence);
-> +       return READ_ONCE(sync_timeline(fence)->value);
-> +}
->
-> -       return !__dma_fence_is_later(fence->seqno, parent->value, fence->ops);
-> +static bool timeline_fence_signaled(struct dma_fence *fence)
-> +{
-> +       return !__dma_fence_is_later(fence->seqno,
-> +                                    timeline_value(fence),
-> +                                    fence->ops);
->  }
->
->  static bool timeline_fence_enable_signaling(struct dma_fence *fence)
-> @@ -166,9 +172,7 @@ static void timeline_fence_value_str(struct dma_fence *fence,
->  static void timeline_fence_timeline_value_str(struct dma_fence *fence,
->                                              char *str, int size)
->  {
-> -       struct sync_timeline *parent = dma_fence_parent(fence);
-> -
-> -       snprintf(str, size, "%d", parent->value);
-> +       snprintf(str, size, "%d", timeline_value(fence));
->  }
->
->  static const struct dma_fence_ops timeline_fence_ops = {
-> @@ -252,12 +256,14 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
->                 return NULL;
->
->         sync_timeline_get(obj);
-> -       dma_fence_init(&pt->base, &timeline_fence_ops, &obj->lock,
-> +       spin_lock_init(&pt->lock);
-> +       dma_fence_init(&pt->base, &timeline_fence_ops, &pt->lock,
->                        obj->context, value);
->         INIT_LIST_HEAD(&pt->link);
-> +       pt->timeline = obj;
->
->         spin_lock_irq(&obj->lock);
-> -       if (!dma_fence_is_signaled_locked(&pt->base)) {
-> +       if (!dma_fence_is_signaled(&pt->base)) {
->                 struct rb_node **p = &obj->pt_tree.rb_node;
->                 struct rb_node *parent = NULL;
->
-> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
-> index 101394f16930..2188ee17e889 100644
-> --- a/drivers/dma-buf/sync_debug.c
-> +++ b/drivers/dma-buf/sync_debug.c
-> @@ -65,7 +65,7 @@ static const char *sync_status_str(int status)
->  static void sync_print_fence(struct seq_file *s,
->                              struct dma_fence *fence, bool show)
->  {
-> -       struct sync_timeline *parent = dma_fence_parent(fence);
-> +       struct sync_timeline *parent = sync_timeline(fence);
->         int status;
->
->         status = dma_fence_get_status_locked(fence);
-> diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
-> index 6176e52ba2d7..56589dae2159 100644
-> --- a/drivers/dma-buf/sync_debug.h
-> +++ b/drivers/dma-buf/sync_debug.h
-> @@ -45,23 +45,26 @@ struct sync_timeline {
->         struct list_head        sync_timeline_list;
->  };
->
-> -static inline struct sync_timeline *dma_fence_parent(struct dma_fence *fence)
-> -{
-> -       return container_of(fence->lock, struct sync_timeline, lock);
-> -}
-> -
->  /**
->   * struct sync_pt - sync_pt object
->   * @base: base fence object
->   * @link: link on the sync timeline's list
->   * @node: node in the sync timeline's tree
-> + * @lock: fence signaling lock
->   */
->  struct sync_pt {
->         struct dma_fence base;
-> +       struct sync_timeline *timeline;
->         struct list_head link;
->         struct rb_node node;
-> +       spinlock_t lock;
->  };
->
-> +static inline struct sync_timeline *sync_timeline(struct dma_fence *fence)
-> +{
-> +       return container_of(fence, struct sync_pt, base)->timeline;
-> +}
-> +
->  extern const struct file_operations sw_sync_debugfs_fops;
->
->  void sync_timeline_debug_add(struct sync_timeline *obj);
-> --
-> 2.20.1
->
+>  drivers/video/fbdev/core/bitblit.c   | 4 ++--
+>  drivers/video/fbdev/core/fbcon_ccw.c | 4 ++--
+>  drivers/video/fbdev/core/fbcon_cw.c  | 4 ++--
+>  drivers/video/fbdev/core/fbcon_ud.c  | 4 ++--
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+> index ca935c09a261..35ebeeccde4d 100644
+> --- a/drivers/video/fbdev/core/bitblit.c
+> +++ b/drivers/video/fbdev/core/bitblit.c
+> @@ -216,7 +216,7 @@ static void bit_clear_margins(struct vc_data *vc, struct fb_info *info,
+>  	region.color = color;
+>  	region.rop = ROP_COPY;
+>  
+> -	if (rw && !bottom_only) {
+> +	if ((int) rw > 0 && !bottom_only) {
+>  		region.dx = info->var.xoffset + rs;
+                            ^^^^^^^^^^^^^^^^^^^^^^
+
+If you choose a very high positive "rw" then this addition can overflow.
+info->var.xoffset comes from the user and I don't think it's checked...
+
+regards,
+dan carpenter
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
