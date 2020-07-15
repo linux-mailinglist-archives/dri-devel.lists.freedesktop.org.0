@@ -1,57 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0579220FBF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 16:46:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCA522100A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 16:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FB26EB76;
-	Wed, 15 Jul 2020 14:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4846EA92;
+	Wed, 15 Jul 2020 14:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8679A6EB76
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 14:46:21 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id j11so2359977oiw.12
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 07:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CagZzgMrU4eCZIriE5QO01v+DjsMk01y7RGm/HUhEd0=;
- b=MQF1ph7cNa7whGx+wTgkb3HICiePnbOJBnNb6phhgza8AmnLi2VLmKpKwskIXzV4R5
- JPjHAGDozZxBNxgoIPNWWxS+pG6oesOWcpAYvSufpGKzWGIfOofP3C9hQeS1XrKk5jvO
- MjfH/Ti1LU9oiFqjhIupEaqOATfgSUY92AR8o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CagZzgMrU4eCZIriE5QO01v+DjsMk01y7RGm/HUhEd0=;
- b=BgOoYJSq83rGNuAfWVIV5cpIvui+35APvoYSOvCejzC94LjaoWwO3970dlCWHZIGGB
- G5Zw65P8NQGViAE4Pqb8OnbNPN06wYujkPqee6nsP1VJGFkeHvx+ExdTDef0XwldhcX6
- 2KmZU9ZDPXXRNigrbuhZy2qAjMxxBkCGvBQuHihvV6xdwTuSuBXtzBelX+AQm22hBmVC
- r+bkPrlDWgTxilQhAnk6JR1AYYeGVOhBivtJwb+EB2hSMo6Mb1h+0ygTJ07mVPvcDp3q
- JsyMQtIiHHmSyUvw2V58p8nHKVvQTnCNMGzN1ddHkjybK7OWGtzQjg9NyFtxyPgiQjWU
- JTHA==
-X-Gm-Message-State: AOAM530PeI7zQTbMacBcHfVhMqO4TF4YUSFEqvQDfpPsUqguG1ZnlH8F
- SLNZfEkEka77g2Xe9DwDYv94IwubruvCeVO0etiqiQ==
-X-Google-Smtp-Source: ABdhPJwrHCH3VMAzjfmjULjN/sMVoDywmNXdrYOtDdbIgNi7to3qvY54405EIQrUkD89Ng3Y4lHUJQMjmYD75lQ7tZg=
-X-Received: by 2002:aca:da03:: with SMTP id r3mr91545oig.14.1594824380757;
- Wed, 15 Jul 2020 07:46:20 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A876E098
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 14:59:09 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A88B8AB89;
+ Wed, 15 Jul 2020 14:59:11 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@redhat.com, sam@ravnborg.org,
+ emil.velikov@collabora.com, lyude@redhat.com, krzk@kernel.org,
+ john.p.donnelly@Oracle.com, rong.a.chen@intel.com, kraxel@redhat.com,
+ eich@suse.com, tiwai@suse.de
+Subject: [PATCH 0/8] drm/mgag200: Support desktop chips
+Date: Wed, 15 Jul 2020 16:58:54 +0200
+Message-Id: <20200715145902.13122-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200715104905.11006-1-chris@chris-wilson.co.uk>
- <20200715104905.11006-2-chris@chris-wilson.co.uk>
- <20200715121022.GK3278063@phenom.ffwll.local>
- <159481570397.13728.7155187046112827709@build.alporthouse.com>
- <159481680826.13728.12654400528941223194@build.alporthouse.com>
- <CAKMK7uGtGkYnq+Fe1jD7t315OOgRCiZhqvpTjoOLuYhuV3Qy3A@mail.gmail.com>
- <159482387319.13728.9618623288194653161@build.alporthouse.com>
-In-Reply-To: <159482387319.13728.9618623288194653161@build.alporthouse.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 15 Jul 2020 16:46:09 +0200
-Message-ID: <CAKMK7uEPZDjZGe_5prz+6my8vzTMK1yLzD-VYHS0ri576tfsDw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] dma-buf/dma-fence: Add quick tests before
- dma_fence_remove_callback
-To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,142 +38,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 15, 2020 at 4:37 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
->
-> Quoting Daniel Vetter (2020-07-15 15:03:34)
-> > On Wed, Jul 15, 2020 at 2:40 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > There's a further problem in that we call INIT_LIST_HEAD on the
-> > > dma_fence_cb before the signal callback. So even if list_empty_careful()
-> > > confirms the dma_fence_cb to be completely decoupled, the containing
-> > > struct may still be inuse.
-> >
-> > The kerneldoc of dma_fence_remove_callback() already has a very stern
-> > warning that this will blow up if you don't hold a full reference or
-> > otherwise control the lifetime of this stuff. So I don't think we have
-> > to worry about any of that. Or do you mean something else?
->
-> It's the struct dma_fence_cb itself that may be freed/reused. Consider
-> dma_fence_default_wait(). That uses struct default_wait_cb on the stack,
-> so in order to ensure that the callback is completed the list_empty
-> check has to remain under the spinlock, or else
-> dma_fence_default_wait_cb() can still be dereferencing wait->task as the
-> function returns.
+This patchset puts device initialization in the correct order and
+adds support for G200 Desktop chips (PCI ids 0x520 and 0x521).
 
-The current implementation of remove_callback doesn't work if you
-don't own the callback structure. Or control its lifetime through some
-other means.
+The first 7 patches prepare the driver. Desktop chips would probably
+work without them, but since we're at it we can also do it right.
 
-So if we have callers removing other callback structures, that just
-doesn't work, you can only remove your own.
+Patch 1 enables cached page mappings GEM buffers. SHMEM supports
+this well now and the MGA device does not access the buffer memory
+directly. So now corrupt display output is to be expected.
 
-From a quick spot check across a few callers we don't seem to have a
-problem here, all current callers for this function are in various
-wait functions (driver specific, or multi fence waits, stuff like
-that).
--Daniel
+Patches 2 to 6 fix the initialization of device registers. Several
+fundamental registers were only done late during device initialization.
+This was probably not a problem in practice, as the VGA BIOS does the
+setup iduring POST anyway. These patches move the code to the beginning
+of the device initialization. If we ever have to POST a MGA device from
+the driver, the corect order of operations counts.
 
-> So currently it is:
->
-> signed long
-> dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
-> {
->         struct default_wait_cb cb;
->         unsigned long flags;
->         signed long ret = timeout ? timeout : 1;
->
->         spin_lock_irqsave(fence->lock, flags);
->
->         if (intr && signal_pending(current)) {
->                 ret = -ERESTARTSYS;
->                 goto out;
->         }
->
->         if (!__dma_fence_enable_signaling(fence))
->                 goto out;
->
->         if (!timeout) {
->                 ret = 0;
->                 goto out;
->         }
->
->         cb.base.func = dma_fence_default_wait_cb;
->         cb.task = current;
->         list_add(&cb.base.node, &fence->cb_list);
->
->         while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
->                 if (intr)
->                         __set_current_state(TASK_INTERRUPTIBLE);
->                 else
->                         __set_current_state(TASK_UNINTERRUPTIBLE);
->                 spin_unlock_irqrestore(fence->lock, flags);
->
->                 ret = schedule_timeout(ret);
->
->                 spin_lock_irqsave(fence->lock, flags);
->                 if (ret > 0 && intr && signal_pending(current))
->                         ret = -ERESTARTSYS;
->         }
->
->         if (!list_empty(&cb.base.node))
->                 list_del(&cb.base.node);
->         __set_current_state(TASK_RUNNING);
->
-> out:
->         spin_unlock_irqrestore(fence->lock, flags);
->         return ret;
-> }
->
-> but it could be written as:
->
-> signed long
-> dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
-> {
->         struct default_wait_cb cb;
->         int state = intr ? TASK_INTERRUPTIBLE : TASK_UNINTERRUPTIBLE;
->
->         cb.task = current;
->         if (dma_fence_add_callback(fence, &cb.base, dma_fence_default_wait_cb))
->                 return timeout ? timeout : 1;
->
->         for (;;) {
->                 set_current_state(state);
->
->                 if (dma_fence_is_signaled(fence)) {
->                         timeout = timeout ? timeout : 1;
->                         break;
->                 }
->
->                 if (signal_pending_state(state, current)) {
->                         timeout = -ERESTARTSYS;
->                         break;
->                 }
->
->                 if (!timeout)
->                         break;
->
->                 timeout = schedule_timeout(timeout);
->         }
->         __set_current_state(TASK_RUNNING);
->
->         dma_fence_remove_callback(fence, &cb.base);
->
->         return timeout;
-> }
-> -Chris
+G200SEs store a unique id in the device structure. Patch 7 moves the
+value to model-specific data area. This will be helpful for patch 8.
 
+Patch 8 adds support for desktop chips' PCI ids. all the memory and
+modesetting code continues to work as before. The PLL setup code gets
+an additional helper for the new HW. PCI and DAC regsiters get a few
+new default values. Most significantly, the driver parses the VGA BIOS
+for clock settings. It's all separate from the server code, so no
+regressions are to be expected.
 
+The new HW support is based on an earlier patch the was posted in July
+2017. [1]
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tested on G200EW and G200 AGP hardware by running the fbdev console,
+Weston and Gnome on Xorg.
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2017-July/147647.html
+
+Thomas Zimmermann (8):
+  drm/mgag200: Enable caching for SHMEM pages
+  drm/mgag200: Move register initialization into helper function
+  drm/mgag200: Initialize PCI registers early during device setup
+  drm/mgag200: Enable MGA mode during device register initialization
+  drm/mgag200: Set MISC memory flags in mm init code
+  drm/mgag200: Clear <page> field during MM init
+  drm/mgag200: Move G200SE's unique id into model-specific data
+  drm/mgag200: Add support for G200 desktop cards
+
+ MAINTAINERS                            |   2 +-
+ drivers/gpu/drm/mgag200/Kconfig        |  12 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c  | 213 +++++++++++++++++++++++--
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  19 ++-
+ drivers/gpu/drm/mgag200/mgag200_mm.c   |   8 +
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 153 +++++++++++-------
+ drivers/gpu/drm/mgag200/mgag200_reg.h  |   4 +
+ 7 files changed, 328 insertions(+), 83 deletions(-)
+
+--
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
