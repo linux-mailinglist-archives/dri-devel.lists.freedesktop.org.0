@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDFD221314
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 19:01:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B20122132B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 19:06:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80AD6894D4;
-	Wed, 15 Jul 2020 17:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3FB76EBDC;
+	Wed, 15 Jul 2020 17:06:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC08894D4;
- Wed, 15 Jul 2020 17:01:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9676EBDC;
+ Wed, 15 Jul 2020 17:06:53 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 0CE952003D;
- Wed, 15 Jul 2020 19:01:42 +0200 (CEST)
-Date: Wed, 15 Jul 2020 19:01:41 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id BDAF32003D;
+ Wed, 15 Jul 2020 19:06:50 +0200 (CEST)
+Date: Wed, 15 Jul 2020 19:06:49 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Subject: Re: [PATCH v2 00/59] Add support for KeemBay DRM driver
-Message-ID: <20200715170141.GA1785807@ravnborg.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH v2 00/59] Add support for KeemBay DRM driver
+Message-ID: <20200715170649.GB1785807@ravnborg.org>
 References: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
+ <20200715150549.GL3278063@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
+In-Reply-To: <20200715150549.GL3278063@phenom.ffwll.local>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8
- a=tnJ4eNg_Qm_Kxzz0QjIA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
- a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
+ a=Wk9AzPC2wjdKAl7LsWUA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,119 +44,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, edmund.j.dea@intel.com,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- daniel.vetter@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, daniel.vetter@intel.com,
+ intel-gfx@lists.freedesktop.org, edmund.j.dea@intel.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5pdGhhLgoKT24gVHVlLCBKdWwgMTQsIDIwMjAgYXQgMDE6NTY6NDZQTSAtMDcwMCwgQW5p
-dGhhIENocmlzYW50aHVzIHdyb3RlOgo+IFRoaXMgaXMgYSBuZXcgRFJNIGRyaXZlciBmb3IgSW50
-ZWwncyBLZWVtQmF5IFNPQy4KPiBUaGUgU29DIGNvdXBsZXMgYW4gQVJNIENvcnRleCBBNTMgQ1BV
-IHdpdGggYW4gSW50ZWwKPiBNb3ZpZGl1cyBWUFUuCj4gCj4gVGhpcyBkcml2ZXIgaXMgdGVzdGVk
-IHdpdGggdGhlIEtNQiBFVk0gYm9hcmQgd2hpY2ggaXMgdGhlIHJlZmVybmNlIGJhb3JkCj4gZm9y
-IEtlZW0gQmF5IFNPQy4gVGhlIFNPQydzIGRpc3BsYXkgcGlwZWxpbmUgaXMgYXMgZm9sbG93cwo+
-IAo+ICstLS0tLS0tLS0tLS0tLSsgICAgKy0tLS0tLS0tLSsgICAgKy0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tKwo+IHxMQ0QgY29udHJvbGxlcnwgLT4gfE1pcGkgRFNJIHwgLT4gfE1pcGkgdG8gSERN
-SSBDb252ZXJ0ZXIgfAo+ICstLS0tLS0tLS0tLS0tLSsgICAgKy0tLS0tLS0tLSsgICAgKy0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tKwo+IAo+IExDRCBjb250cm9sbGVyIGFuZCBNaXBpIERTSSB0cmFu
-c21pdHRlciBhcmUgcGFydCBvZiB0aGUgU09DIGFuZAo+IG1pcGkgdG8gSERNSSBjb252ZXJ0ZXIg
-aXMgQURWNzUzNSBmb3IgS01CIEVWTSBib2FyZC4KPiAKPiBUaGUgRFJNIGRyaXZlciBpcyBhIGJh
-c2ljIEtNUyBhdG9taWMgbW9kZXNldHRpbmcgZGlzcGxheSBkcml2ZXIgYW5kCj4gaGFzIG5vIDJE
-IG9yIDNEIGdyYXBoaWNzLkl0IGNhbGxzIGludG8gdGhlIEFEViBicmlkZ2UgZHJpdmVyIGF0Cj4g
-dGhlIGNvbm5lY3RvciBsZXZlbC4KPiAKPiBPbmx5IDEwODBwIHJlc29sdXRpb24gYW5kIHNpbmds
-ZSBwbGFuZSBpcyBzdXBwb3J0ZWQgYXQgdGhpcyB0aW1lLgo+IFRoZSB1c2VjYXNlIGlzIGZvciBk
-ZWJ1Z2dpbmcgdmlkZW8gYW5kIGNhbWVyYSBvdXRwdXRzLgo+IAo+IERldmljZSB0cmVlIHBhdGNo
-ZXMgYXJlIHVuZGVyIHJldmlldyBoZXJlCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgt
-YXJtLWtlcm5lbC8yMDIwMDcwODE3NTAyMC4xOTQ0MzYtMS1kYW5pZWxlLmFsZXNzYW5kcmVsbGlA
-bGludXguaW50ZWwuY29tL1QvCj4gCj4gQ2hhbmdlcyBzaW5jZSB2MToKPiAtIFJlbW92ZWQgcmVk
-dW5kYW50IGxpY2Vuc2UgdGV4dCwgdXBkYXRlZCBsaWNlbnNlCj4gLSBSZWFycmFuZ2VkIGluY2x1
-ZGUgYmxvY2tzCj4gLSByZW5hbWVkIGdsb2JhbCB2YXJzIGFuZCByZW1vdmVkIGV4dGVybiBpbiBj
-Cj4gLSBVc2VkIHVwY2xhc3NpbmcgZm9yIGRldl9wcml2YXRlCj4gLSBVc2VkIGRybV9kZXZfaW5p
-dCBpbiBkcm0gZGV2aWNlIGNyZWF0ZSAod2lsbCBiZSB1cGRhdGVkIHRvIHVzZQo+ICAgZGV2bV9k
-cm1fZGV2X2FsbG9jKCkgaW4gYSBzZXBhcmF0ZSBwYXRjaCBsYXRlciBhcyBrbWIgZHJpdmVyIGlz
-IGN1cnJlbnRseQo+ICAgZGV2ZWxvcGVkIG9uIDUuNCBrZXJuZWwpCj4gLSBtaW5vciBjbGVhbnVw
-cwoKQ291bGQgeW91IHBsZWFzZSBpbmNsdWRlIGEgVE9ETyBvciBzb21ldGhpbmcuCkl0IGlzIG5v
-dCBvYnZpb3VzIGlmIHNvbWUgcG9pbnRzIGZyb20gbGFzdCByZXZpZXcgYXJlIHBlbmRpbmcKb3Ig
-dGhleSB3ZXJlIHNraXBwZWQuIEZyb20gYSBxdWljayBsb29rIG1heWJlIGhhbGYgb2YgdGhlIHBv
-aXRucyB3ZXJlCmFkZHJlc3NlZCB3aGljaCBpcyBnb29kLiBCdXQgc29tZSBwb2ludHMgYXJlIHll
-dCB0byBiZSBkb25lLgoKCVNhbQoKCj4gCj4gQW5pdGhhIENocmlzYW50aHVzICg1Mik6Cj4gICBk
-cm0va21iOiBBZGQgc3VwcG9ydCBmb3IgS2VlbUJheSBEaXNwbGF5Cj4gICBkcm0va21iOiBBZGRl
-ZCBpZCB0byBrbWJfcGxhbmUKPiAgIGRybS9rbWI6IFNldCBjb3JyZWN0IHZhbHVlcyBpbiB0aGUg
-TEFZRVJuX0NGRyByZWdpc3Rlcgo+ICAgZHJtL2ttYjogVXNlIGJpd2lzZSBvcGVyYXRvcnMgZm9y
-IHJlZ2lzdGVyIGRlZmluaXRpb25zCj4gICBkcm0va21iOiBVcGRhdGVkIGttYl9wbGFuZV9hdG9t
-aWNfY2hlY2sKPiAgIGRybS9rbWI6IEluaXRpYWwgY2hlY2staW4gZm9yIE1pcGkgRFNJCj4gICBk
-cm0va21iOiBTZXQgT1VUX0ZPUk1BVF9DRkcgcmVnaXN0ZXIKPiAgIGRybS9rbWI6IEFkZGVkIG1p
-cGlfZHNpX2hvc3QgaW5pdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6IFBhcnQgMSBvZiBNaXBpIFR4
-IEluaXRpYWxpemF0aW9uCj4gICBkcm0va21iOiBQYXJ0IDIgb2YgTWlwaSBUeCBJbml0aWFsaXph
-dGlvbgo+ICAgZHJtL2ttYjogVXNlIGNvcnJlY3QgbW1pbyBvZmZzZXQgZnJvbSBkYXRhIGJvb2sK
-PiAgIGRybS9rbWI6IFBhcnQzIG9mIE1pcGkgVHggaW5pdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6
-IFBhcnQ0IG9mIE1pcGkgVHggSW5pdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6IENvcnJlY3QgYWRk
-cmVzcyBvZmZzZXRzIGZvciBtaXBpIHJlZ2lzdGVycwo+ICAgZHJtL2ttYjogUGFydDUgb2YgTWlw
-aSBUeCBJbnRpdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6IFBhcnQ2IG9mIE1pcGkgVHggSW5pdGlh
-bGl6YXRpb24KPiAgIGRybS9rbWI6IFBhcnQ3IG9mIE1pcGkgVHggSW5pdGlhbGl6YXRpb24KPiAg
-IGRybS9rbWI6IFBhcnQ4IG9mIE1pcGkgVHggSW5pdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6IEFk
-ZGVkIGlvcmVtYXAvaW91bm1hcCBmb3IgcmVnaXN0ZXIgYWNjZXNzCj4gICBkcm0va21iOiBSZWdp
-c3RlciBJUlEgZm9yIExDRAo+ICAgZHJtL2ttYjogSVJRIGhhbmRsZXJzIGZvciBMQ0QgYW5kIG1p
-cGkgZHNpCj4gICBkcm0va21iOiBTZXQgaGFyZGNvZGVkIHZhbHVlcyB0byBMQ0RfVlNZTkNfU1RB
-UlQKPiAgIGRybS9rbWI6IEFkZGl0aW9uYWwgcmVnaXN0ZXIgcHJvZ3JhbW1pbmcgdG8gdXBkYXRl
-X3BsYW5lCj4gICBkcm0va21iOiBBZGQgQURWNzUzNSBicmlkZ2UKPiAgIGRybS9rbWI6IERpc3Bs
-YXkgY2xvY2sgZW5hYmxlL2Rpc2FibGUKPiAgIGRybS9rbWI6IHJlYmFzZSB0byBuZXdlciBrZXJu
-ZWwgdmVyc2lvbgo+ICAgZHJtL2ttYjogbWlub3IgbmFtZSBjaGFuZ2UgdG8gbWF0Y2ggZGV2aWNl
-IHRyZWUKPiAgIGRybS9rbWI6IENoYW5nZWQgTU1JTyBzaXplCj4gICBkcm0va21iOiBEZWZlciBQ
-cm9iZQo+ICAgZHJtL2ttYjogY2FsbCBicmlkZ2UgaW5pdCBpbiB0aGUgdmVyeSBiZWdpbm5pbmcK
-PiAgIGRybS9rbWI6IEVuYWJsZSBNU1NfQ0FNX0NMS19DVFJMIGZvciBMQ0QgYW5kIE1JUEkKPiAg
-IGRybS9rbWI6IFNldCBNU1NfQ0FNX1JTVE5fQ1RSTCBhbG9uZyB3aXRoIGVuYWJsZQo+ICAgZHJt
-L2ttYjogTWlwaSBEUEhZIGluaXRpYWxpemF0aW9uIGNoYW5nZXMKPiAgIGRybS9rbWI6IEZpeGVk
-IGRyaXZlciB1bmxvYWQKPiAgIGRybS9rbWI6IEFkZGVkIExDRF9URVNUIGNvbmZpZwo+ICAgZHJt
-L2ttYjogQ2hhbmdlcyBmb3IgTENEIHRvIE1pcGkKPiAgIGRybS9rbWI6IFVwZGF0ZSBMQ0QgcHJv
-Z3JhbW1pbmcgdG8gbWF0Y2ggTUlQSQo+ICAgZHJtL2ttYjogQ2hhbmdlZCBuYW1lIG9mIGRyaXZl
-ciB0byBrbWItZHJtCj4gICBkcm0va21iOiBNaXBpIHNldHRpbmdzIGZyb20gaW5wdXQgdGltaW5n
-cwo+ICAgZHJtL2ttYjogRW5hYmxlIExDRCBpbnRlcnJ1cHRzCj4gICBkcm0va21iOiBFbmFibGUg
-TENEIGludGVycnVwdHMgZHVyaW5nIG1vZGVzZXQKPiAgIGRybS9rbWI6IERvbuKAmXQgaW5hZHZl
-cnRhbnRseSBkaXNhYmxlIExDRCBjb250cm9sbGVyCj4gICBkcm0va21iOiBTV0FQIFIgYW5kIEIg
-TENEIExheWVyIG9yZGVyCj4gICBkcm0va21iOiBEaXNhYmxlIHBpbmcgcG9uZyBtb2RlCj4gICBk
-cm0va21iOiBEbyB0aGUgbGF5ZXIgaW5pdGlhbGl6YXRpb25zIG9ubHkgb25jZQo+ICAgZHJtL2tt
-YjogZGlzYWJsZSB0aGUgTENEIGxheWVyIGluIEVPRiBpcnEgaGFuZGxlcgo+ICAgZHJtL2ttYjog
-SW5pdGlhbGl6ZSB1bmluaXRpYWxpemVkIHZhcmlhYmxlcwo+ICAgZHJtL2ttYjogQWRkZWQgdXNl
-ZnVsIG1lc3NhZ2VzIGluIExDRCBJU1IKPiAgIGttYi9kcm06IFBydW5lIHVuc3VwcG9ydGVkIG1v
-ZGVzCj4gICBkcm0va21iOiB3b3JrYXJvdW5kIGZvciBkbWEgdW5kZWZsb3cgaXNzdWUKPiAgIGRy
-bS9rbWI6IEdldCBTeXN0ZW0gQ2xvY2sgZnJvbSBTQ01JCj4gICBkcm0va21iOiB3b3JrIGFyb3Vu
-ZCBmb3IgcGxhbmFyIGZvcm1hdHMKPiAKPiBFZG11bmQgRGVhICg3KToKPiAgIGRybS9rbWI6IENs
-ZWFudXAgcHJvYmUgZnVuY3Rpb25zCj4gICBkcm0va21iOiBSZXZlcnQgZHNpX2hvc3QgYmFjayB0
-byBhIHN0YXRpYyB2YXJpYWJsZQo+ICAgZHJtL2ttYjogSW5pdGlhbGl6ZSBjbG9ja3MgZm9yIGNs
-a19tc3NjYW0sIGNsa19taXBpX2VjZmcsICYKPiAgICAgY2xrX21pcGlfY2ZnLgo+ICAgZHJtL2tt
-YjogUmVtb3ZlIGRlY2xhcmF0aW9uIG9mIGlycV9sY2QvaXJxX21pcGkKPiAgIGRybS9rbWI6IEVu
-YWJsZSBNSVBJIFRYIEhTIFRlc3QgUGF0dGVybiBHZW5lcmF0aW9uCj4gICBkcm0va21iOiBXcml0
-ZSB0byBMQ0RfTEFZRVJuX0NGRyBvbmx5IG9uY2UKPiAgIGRybS9rbWI6IENsZWFuZWQgdXAgY29k
-ZQo+IAo+ICBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyAgICAgICAgIHwgICAgMiArCj4gIGRyaXZl
-cnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAgfCAgICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL2tt
-Yi9LY29uZmlnICAgICB8ICAgMTIgKwo+ICBkcml2ZXJzL2dwdS9kcm0va21iL01ha2VmaWxlICAg
-IHwgICAgMiArCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2NydGMuYyAgfCAgMjI2ICsrKysr
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2NydGMuaCAgfCAgIDQxICsKPiAgZHJpdmVycy9n
-cHUvZHJtL2ttYi9rbWJfZHJ2LmMgICB8ICA4MDkgKysrKysrKysrKysrKysrKwo+ICBkcml2ZXJz
-L2dwdS9kcm0va21iL2ttYl9kcnYuaCAgIHwgIDE3NiArKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9r
-bWIva21iX2RzaS5jICAgfCAxOTI3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKwo+ICBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuaCAgIHwgIDM3MCArKysrKysrKwo+
-ICBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9wbGFuZS5jIHwgIDUxOCArKysrKysrKysrKwo+ICBk
-cml2ZXJzL2dwdS9kcm0va21iL2ttYl9wbGFuZS5oIHwgIDEyNCArKysKPiAgZHJpdmVycy9ncHUv
-ZHJtL2ttYi9rbWJfcmVncy5oICB8ICA3MzggKysrKysrKysrKysrKysrCj4gIDEzIGZpbGVzIGNo
-YW5nZWQsIDQ5NDYgaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
-cHUvZHJtL2ttYi9LY29uZmlnCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
-a21iL01ha2VmaWxlCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL2tt
-Yl9jcnRjLmMKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Ny
-dGMuaAo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHJ2LmMK
-PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rydi5oCj4gIGNy
-ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuYwo+ICBjcmVhdGUg
-bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmgKPiAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMKPiAgY3JlYXRlIG1vZGUgMTAw
-NjQ0IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmgKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3JlZ3MuaAo+IAo+IC0tIAo+IDIuNy40Cj4gCj4gX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Jul 15, 2020 at 05:05:49PM +0200, Daniel Vetter wrote:
+> Hi Anitha
+> 
+> On Tue, Jul 14, 2020 at 01:56:46PM -0700, Anitha Chrisanthus wrote:
+> > This is a new DRM driver for Intel's KeemBay SOC.
+> > The SoC couples an ARM Cortex A53 CPU with an Intel
+> > Movidius VPU.
+> > 
+> > This driver is tested with the KMB EVM board which is the refernce baord
+> > for Keem Bay SOC. The SOC's display pipeline is as follows
+> > 
+> > +--------------+    +---------+    +-----------------------+
+> > |LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
+> > +--------------+    +---------+    +-----------------------+
+> > 
+> > LCD controller and Mipi DSI transmitter are part of the SOC and
+> > mipi to HDMI converter is ADV7535 for KMB EVM board.
+> > 
+> > The DRM driver is a basic KMS atomic modesetting display driver and
+> > has no 2D or 3D graphics.It calls into the ADV bridge driver at
+> > the connector level.
+> > 
+> > Only 1080p resolution and single plane is supported at this time.
+> > The usecase is for debugging video and camera outputs.
+> > 
+> > Device tree patches are under review here
+> > https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
+> 
+> Cool, new driver, thanks a lot for submitting.
+> 
+> > Changes since v1:
+> > - Removed redundant license text, updated license
+> > - Rearranged include blocks
+> > - renamed global vars and removed extern in c
+> > - Used upclassing for dev_private
+> > - Used drm_dev_init in drm device create (will be updated to use
+> >   devm_drm_dev_alloc() in a separate patch later as kmb driver is currently
+> >   developed on 5.4 kernel)
+> 
+> drm moves fairly quickly, please develop the upstream submission on top of
+> linux-next or similar. We constantly add new helpers to simplify drivers,
+> and we expect new driver submissions to be up to date with all that.
+Seconded!
+
+> 
+> Another thing: From your description it sounds like it's a very simple
+> driver, just a single plane/crtc, nothing fancy, plus adv bridge output.
+> Is the driver already using simple display pipeline helpers? I think that
+> would be an ideal fit and probably greatly simplifies the code.
+> 
+> > - minor cleanups
+> 
+> The patch series looks like it contains the entire development history, or
+> at least large chunks of it. That's useful for you, but for upstreaming
+> the main focues (especially for smaller drivers) is whether your driver
+> uses all the available helpers and integrations correctly. And for that
+> it's much easier if the history is cleaned up, and all intermediate steps
+> removed.
+And also agree on this point.
+The submission could be split up in a few patches where the split is
+file based. So only with the latest patch, containing Makefile +
+Kconfig,the driver i buildable.
+This would ease review as one looses focus when trying to review 1000+
+lines in one mail.
+
+You will loose some of the internal history - but if important keep
+relevant parts in sensible comments.
+
+	Sam
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
