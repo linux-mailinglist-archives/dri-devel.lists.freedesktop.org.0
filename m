@@ -1,33 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7903322100B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 16:59:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9784022102B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 17:06:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B953D6EB75;
-	Wed, 15 Jul 2020 14:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2916EB85;
+	Wed, 15 Jul 2020 15:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A673E6EB7C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 14:59:11 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4382FAF96;
- Wed, 15 Jul 2020 14:59:13 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@redhat.com, sam@ravnborg.org,
- emil.velikov@collabora.com, lyude@redhat.com, krzk@kernel.org,
- john.p.donnelly@Oracle.com, rong.a.chen@intel.com, kraxel@redhat.com,
- eich@suse.com, tiwai@suse.de
-Subject: [PATCH 8/8] drm/mgag200: Add support for G200 desktop cards
-Date: Wed, 15 Jul 2020 16:59:02 +0200
-Message-Id: <20200715145902.13122-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200715145902.13122-1-tzimmermann@suse.de>
-References: <20200715145902.13122-1-tzimmermann@suse.de>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE93B6EB7F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 15:05:53 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z2so3116657wrp.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 08:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=5TIaMH+3vispAvRwy2hL3kDcw3ROjiCZD2RLZ5ywIeI=;
+ b=kPR1o9cJynlXgYNy0MW9gfyn70hRYvE1PJ6Bs80vsUi71Aq5jlpSHqaKPTnD22J24J
+ 6JKHaNOaLOvK4a4dG5e/RIkVG1Lu8s85x3dFPb+Tki/Z4VwZ127oLNfS09W3mSp1CzgX
+ QcP1rkj52oHJagE1wPb3zZ9xJottWAASOY3ro=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=5TIaMH+3vispAvRwy2hL3kDcw3ROjiCZD2RLZ5ywIeI=;
+ b=nIMPScAYt5me+y/9YEavoaz6IFgZ9BPPqZ6PYxxoyWsPo0KghpY71RFDWljooNLZp3
+ lt46lMTJdTj01b1vlU+d2aXPIPYeiji4bNAvaP636eWHoMgiDqVEpXMrFDopLGZDKqqz
+ Ozq0kiqPcF6HMn+UxXJDblM0xuGOBthy2cpTBHbvNgzjt2sXFxksJ0ozYf1ZotR/4obq
+ Riqc2628MZEjnCQs/V0YQjHasxva8hvw3Xb6ja2insv8HrQaQqrBQb+HgDpsOo2GGL66
+ KAxrvQ6hMgiV/JE3lD3hg0hRfuNM7klHZzu+UyklzVT1cZ2iTwOCKWGc1QlMGscpuOHY
+ WWyA==
+X-Gm-Message-State: AOAM533C4gep5Q03EzjTJJfHM/Y6VDZQojgZtpk/CztDpbIy406S/tCz
+ Mw6G70wW9Hi/Il0yrq8oqml8Aw==
+X-Google-Smtp-Source: ABdhPJy9L8Qq75v/NSWzoCmm4DOJoWKS2U7POCiivAT9KLUdb5cshOm+8fyceIlItAdk4blgeXTVZw==
+X-Received: by 2002:adf:a34a:: with SMTP id d10mr11832038wrb.59.1594825552042; 
+ Wed, 15 Jul 2020 08:05:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u186sm3894907wmu.10.2020.07.15.08.05.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jul 2020 08:05:50 -0700 (PDT)
+Date: Wed, 15 Jul 2020 17:05:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 00/59] Add support for KeemBay DRM driver
+Message-ID: <20200715150549.GL3278063@phenom.ffwll.local>
+References: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1594760265-11618-1-git-send-email-anitha.chrisanthus@intel.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,376 +65,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+ edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for G200 desktop cards. We can reuse the whole
-memory and modesetting code. A few PCI and DAC register values have to
-be updated accordingly.
-
-The most significant change is in the PLL setup. The get the clock limits
-and reference clocks, parses the device's BIOS. With no BIOS found, safe
-defaults are being used.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Co-developed-by: Egbert Eich <eich@suse.com>
-Signed-off-by: Egbert Eich <eich@suse.com>
-Co-developed-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- MAINTAINERS                            |   2 +-
- drivers/gpu/drm/mgag200/Kconfig        |  12 +--
- drivers/gpu/drm/mgag200/mgag200_drv.c  | 125 ++++++++++++++++++++++++-
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  10 ++
- drivers/gpu/drm/mgag200/mgag200_mode.c |  80 ++++++++++++++++
- 5 files changed, 220 insertions(+), 9 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 415954a98934..4c6f96e2b79b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5406,7 +5406,7 @@ S:	Orphan / Obsolete
- F:	drivers/gpu/drm/mga/
- F:	include/uapi/drm/mga_drm.h
- 
--DRM DRIVER FOR MGA G200 SERVER GRAPHICS CHIPS
-+DRM DRIVER FOR MGA G200 GRAPHICS CHIPS
- M:	Dave Airlie <airlied@redhat.com>
- S:	Odd Fixes
- F:	drivers/gpu/drm/mgag200/
-diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kconfig
-index 93be766715c9..eec59658a938 100644
---- a/drivers/gpu/drm/mgag200/Kconfig
-+++ b/drivers/gpu/drm/mgag200/Kconfig
-@@ -1,13 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_MGAG200
--	tristate "Kernel modesetting driver for MGA G200 server engines"
-+	tristate "Matrox G200"
- 	depends on DRM && PCI && MMU
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
- 	help
--	 This is a KMS driver for the MGA G200 server chips, it
--	 does not support the original MGA G200 or any of the desktop
--	 chips. It requires 0.3.0 of the modesetting userspace driver,
--	 and a version of mga driver that will fail on KMS enabled
--	 devices.
--
-+	 This is a KMS driver for Matrox G200 chips. It supports the original
-+	 MGA G200 desktop chips and the server variants. It requires 0.3.0
-+	 of the modesetting userspace driver, and a version of mga driver
-+	 that will fail on KMS enabled devices.
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index f7652e16365c..419817d6e2cd 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -64,6 +64,14 @@ static int mgag200_regs_init(struct mga_device *mdev)
- 	u8 crtcext3;
- 
- 	switch (mdev->type) {
-+	case G200_PCI:
-+	case G200_AGP:
-+		if (mgag200_has_sgram(mdev))
-+			option = 0x4049cd21;
-+		else
-+			option = 0x40499121;
-+		option2 = 0x00008000;
-+		break;
- 	case G200_SE_A:
- 	case G200_SE_B:
- 		if (mgag200_has_sgram(mdev))
-@@ -115,6 +123,117 @@ static int mgag200_regs_init(struct mga_device *mdev)
- 	return 0;
- }
- 
-+static void mgag200_g200_interpret_bios(struct mga_device *mdev,
-+					unsigned char __iomem *bios,
-+					size_t size)
-+{
-+	static const unsigned int expected_length[6] = {
-+		0, 64, 64, 64, 128, 128
-+	};
-+
-+	struct drm_device *dev = &mdev->base;
-+	unsigned char __iomem *pins;
-+	unsigned int pins_len, version;
-+	int offset;
-+	int tmp;
-+
-+	if (size < MGA_BIOS_OFFSET + 1)
-+		return;
-+
-+	if (bios[45] != 'M' || bios[46] != 'A' || bios[47] != 'T' ||
-+	    bios[48] != 'R' || bios[49] != 'O' || bios[50] != 'X')
-+		return;
-+
-+	offset = (bios[MGA_BIOS_OFFSET + 1] << 8) | bios[MGA_BIOS_OFFSET];
-+
-+	if (offset + 5 > size)
-+		return;
-+
-+	pins = bios + offset;
-+	if (pins[0] == 0x2e && pins[1] == 0x41) {
-+		version = pins[5];
-+		pins_len = pins[2];
-+	} else {
-+		version = 1;
-+		pins_len = pins[0] + (pins[1] << 8);
-+	}
-+
-+	if (version < 1 || version > 5) {
-+		drm_warn(dev, "Unknown BIOS PInS version: %d\n", version);
-+		return;
-+	}
-+	if (pins_len != expected_length[version]) {
-+		drm_warn(dev, "Unexpected BIOS PInS size: %d expeced: %d\n",
-+			 pins_len, expected_length[version]);
-+		return;
-+	}
-+
-+	if (offset + pins_len > size)
-+		return;
-+
-+	drm_dbg_kms(dev, "MATROX BIOS PInS version %d size: %d found\n",
-+		    version, pins_len);
-+
-+	switch (version) {
-+	case 1:
-+		tmp = pins[24] + (pins[25] << 8);
-+		if (tmp)
-+			mdev->model.g200.pclk_max = tmp * 10;
-+		break;
-+	case 2:
-+		if (pins[41] != 0xff)
-+			mdev->model.g200.pclk_max = (pins[41] + 100) * 1000;
-+		break;
-+	case 3:
-+		if (pins[36] != 0xff)
-+			mdev->model.g200.pclk_max = (pins[36] + 100) * 1000;
-+		if (pins[52] & 0x20)
-+			mdev->model.g200.ref_clk = 14318;
-+		break;
-+	case 4:
-+		if (pins[39] != 0xff)
-+			mdev->model.g200.pclk_max = pins[39] * 4 * 1000;
-+		if (pins[92] & 0x01)
-+			mdev->model.g200.ref_clk = 14318;
-+		break;
-+	case 5:
-+		tmp = pins[4] ? 8000 : 6000;
-+		if (pins[123] != 0xff)
-+			mdev->model.g200.pclk_min = pins[123] * tmp;
-+		if (pins[38] != 0xff)
-+			mdev->model.g200.pclk_max = pins[38] * tmp;
-+		if (pins[110] & 0x01)
-+			mdev->model.g200.ref_clk = 14318;
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+static void mgag200_g200_init_refclk(struct mga_device *mdev)
-+{
-+	struct drm_device *dev = &mdev->base;
-+	unsigned char __iomem *bios;
-+	size_t size;
-+
-+	mdev->model.g200.pclk_min = 50000;
-+	mdev->model.g200.pclk_max = 230000;
-+	mdev->model.g200.ref_clk = 27050;
-+
-+	bios = pci_map_rom(dev->pdev, &size);
-+	if (!bios)
-+		return;
-+
-+	if (size != 0 && bios[0] == 0x55 && bios[1] == 0xaa)
-+		mgag200_g200_interpret_bios(mdev, bios, size);
-+
-+	pci_unmap_rom(dev->pdev, bios);
-+
-+	drm_dbg_kms(dev, "pclk_min: %ld pclk_max: %ld ref_clk: %ld\n",
-+		    mdev->model.g200.pclk_min, mdev->model.g200.pclk_max,
-+		    mdev->model.g200.ref_clk);
-+}
-+
- static void mgag200_g200se_init_unique_id(struct mga_device *mdev)
- {
- 	struct drm_device *dev = &mdev->base;
-@@ -138,7 +257,9 @@ static int mgag200_device_init(struct mga_device *mdev, unsigned long flags)
- 	if (ret)
- 		return ret;
- 
--	if (IS_G200_SE(mdev))
-+	if (mdev->type == G200_PCI || mdev->type == G200_AGP)
-+		mgag200_g200_init_refclk(mdev);
-+	else if (IS_G200_SE(mdev))
- 		mgag200_g200se_init_unique_id(mdev);
- 
- 	ret = mgag200_mm_init(mdev);
-@@ -182,6 +303,8 @@ mgag200_device_create(struct pci_dev *pdev, unsigned long flags)
-  */
- 
- static const struct pci_device_id mgag200_pciidlist[] = {
-+	{ PCI_VENDOR_ID_MATROX, 0x520, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_PCI },
-+	{ PCI_VENDOR_ID_MATROX, 0x521, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_AGP },
- 	{ PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0,
- 		G200_SE_A | MGAG200_FLAG_HW_BUG_NO_STARTADD},
- 	{ PCI_VENDOR_ID_MATROX, 0x524, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_SE_B },
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 048efe635aff..54061a61e9ca 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -38,6 +38,8 @@
- #define RREG32(reg) ioread32(((void __iomem *)mdev->rmmio) + (reg))
- #define WREG32(reg, v) iowrite32(v, ((void __iomem *)mdev->rmmio) + (reg))
- 
-+#define MGA_BIOS_OFFSET 0x7ffc
-+
- #define ATTR_INDEX 0x1fc0
- #define ATTR_DATA 0x1fc1
- 
-@@ -129,6 +131,8 @@ struct mga_mc {
- };
- 
- enum mga_type {
-+	G200_PCI,
-+	G200_AGP,
- 	G200_SE_A,
- 	G200_SE_B,
- 	G200_WB,
-@@ -167,12 +171,18 @@ struct mga_device {
- 	int fb_mtrr;
- 
- 	union {
-+		struct {
-+			long ref_clk;
-+			long pclk_min;
-+			long pclk_max;
-+		} g200;
- 		struct {
- 			/* SE model number stored in reg 0x1e24 */
- 			u32 unique_rev_id;
- 		} g200se;
- 	} model;
- 
-+
- 	struct mga_connector connector;
- 	struct drm_simple_display_pipe display_pipe;
- };
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 752409c7f326..bc11552415f5 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -108,6 +108,77 @@ static inline void mga_wait_busy(struct mga_device *mdev)
- 	} while ((status & 0x01) && time_before(jiffies, timeout));
- }
- 
-+/*
-+ * PLL setup
-+ */
-+
-+static int mgag200_g200_set_plls(struct mga_device *mdev, long clock)
-+{
-+	struct drm_device *dev = &mdev->base;
-+	const int post_div_max = 7;
-+	const int in_div_min = 1;
-+	const int in_div_max = 6;
-+	const int feed_div_min = 7;
-+	const int feed_div_max = 127;
-+	u8 testm, testn;
-+	u8 n = 0, m = 0, p, s;
-+	long f_vco;
-+	long computed;
-+	long delta, tmp_delta;
-+	long ref_clk = mdev->model.g200.ref_clk;
-+	long p_clk_min = mdev->model.g200.pclk_min;
-+	long p_clk_max =  mdev->model.g200.pclk_max;
-+
-+	if (clock > p_clk_max) {
-+		drm_err(dev, "Pixel Clock %ld too high\n", clock);
-+		return 1;
-+	}
-+
-+	if (clock <  p_clk_min >> 3)
-+		clock = p_clk_min >> 3;
-+
-+	f_vco = clock;
-+	for (p = 0;
-+	     p <= post_div_max && f_vco < p_clk_min;
-+	     p = (p << 1) + 1, f_vco <<= 1)
-+		;
-+
-+	delta = clock;
-+
-+	for (testm = in_div_min; testm <= in_div_max; testm++) {
-+		for (testn = feed_div_min; testn <= feed_div_max; testn++) {
-+			computed = ref_clk * (testn + 1) / (testm + 1);
-+			if (computed < f_vco)
-+				tmp_delta = f_vco - computed;
-+			else
-+				tmp_delta  = computed - f_vco;
-+			if (tmp_delta < delta) {
-+				delta = tmp_delta;
-+				m = testm;
-+				n = testn;
-+			}
-+		}
-+	}
-+	f_vco = ref_clk * (n + 1) / (m + 1);
-+	if (f_vco < 100000)
-+		s = 0;
-+	else if (f_vco < 140000)
-+		s = 1;
-+	else if (f_vco < 180000)
-+		s = 2;
-+	else
-+		s = 3;
-+
-+	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
-+		    clock, f_vco, m, n, p, s);
-+
-+	WREG_DAC(MGA1064_PIX_PLLC_M, m);
-+	WREG_DAC(MGA1064_PIX_PLLC_N, n);
-+	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
-+
-+	return 0;
-+}
-+
- #define P_ARRAY_SIZE 9
- 
- static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
-@@ -717,6 +788,9 @@ static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
- 	u8 misc;
- 
- 	switch(mdev->type) {
-+	case G200_PCI:
-+	case G200_AGP:
-+		return mgag200_g200_set_plls(mdev, clock);
- 	case G200_SE_A:
- 	case G200_SE_B:
- 		return mga_g200se_set_plls(mdev, clock);
-@@ -894,6 +968,12 @@ static void mgag200_set_dac_regs(struct mga_device *mdev)
- 	};
- 
- 	switch (mdev->type) {
-+	case G200_PCI:
-+	case G200_AGP:
-+		dacvalue[MGA1064_SYS_PLL_M] = 0x04;
-+		dacvalue[MGA1064_SYS_PLL_N] = 0x2D;
-+		dacvalue[MGA1064_SYS_PLL_P] = 0x19;
-+		break;
- 	case G200_SE_A:
- 	case G200_SE_B:
- 		dacvalue[MGA1064_VREF_CTL] = 0x03;
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQW5pdGhhCgpPbiBUdWUsIEp1bCAxNCwgMjAyMCBhdCAwMTo1Njo0NlBNIC0wNzAwLCBBbml0
+aGEgQ2hyaXNhbnRodXMgd3JvdGU6Cj4gVGhpcyBpcyBhIG5ldyBEUk0gZHJpdmVyIGZvciBJbnRl
+bCdzIEtlZW1CYXkgU09DLgo+IFRoZSBTb0MgY291cGxlcyBhbiBBUk0gQ29ydGV4IEE1MyBDUFUg
+d2l0aCBhbiBJbnRlbAo+IE1vdmlkaXVzIFZQVS4KPiAKPiBUaGlzIGRyaXZlciBpcyB0ZXN0ZWQg
+d2l0aCB0aGUgS01CIEVWTSBib2FyZCB3aGljaCBpcyB0aGUgcmVmZXJuY2UgYmFvcmQKPiBmb3Ig
+S2VlbSBCYXkgU09DLiBUaGUgU09DJ3MgZGlzcGxheSBwaXBlbGluZSBpcyBhcyBmb2xsb3dzCj4g
+Cj4gKy0tLS0tLS0tLS0tLS0tKyAgICArLS0tLS0tLS0tKyAgICArLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0rCj4gfExDRCBjb250cm9sbGVyfCAtPiB8TWlwaSBEU0kgfCAtPiB8TWlwaSB0byBIRE1J
+IENvbnZlcnRlciB8Cj4gKy0tLS0tLS0tLS0tLS0tKyAgICArLS0tLS0tLS0tKyAgICArLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0rCj4gCj4gTENEIGNvbnRyb2xsZXIgYW5kIE1pcGkgRFNJIHRyYW5z
+bWl0dGVyIGFyZSBwYXJ0IG9mIHRoZSBTT0MgYW5kCj4gbWlwaSB0byBIRE1JIGNvbnZlcnRlciBp
+cyBBRFY3NTM1IGZvciBLTUIgRVZNIGJvYXJkLgo+IAo+IFRoZSBEUk0gZHJpdmVyIGlzIGEgYmFz
+aWMgS01TIGF0b21pYyBtb2Rlc2V0dGluZyBkaXNwbGF5IGRyaXZlciBhbmQKPiBoYXMgbm8gMkQg
+b3IgM0QgZ3JhcGhpY3MuSXQgY2FsbHMgaW50byB0aGUgQURWIGJyaWRnZSBkcml2ZXIgYXQKPiB0
+aGUgY29ubmVjdG9yIGxldmVsLgo+IAo+IE9ubHkgMTA4MHAgcmVzb2x1dGlvbiBhbmQgc2luZ2xl
+IHBsYW5lIGlzIHN1cHBvcnRlZCBhdCB0aGlzIHRpbWUuCj4gVGhlIHVzZWNhc2UgaXMgZm9yIGRl
+YnVnZ2luZyB2aWRlbyBhbmQgY2FtZXJhIG91dHB1dHMuCj4gCj4gRGV2aWNlIHRyZWUgcGF0Y2hl
+cyBhcmUgdW5kZXIgcmV2aWV3IGhlcmUKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1h
+cm0ta2VybmVsLzIwMjAwNzA4MTc1MDIwLjE5NDQzNi0xLWRhbmllbGUuYWxlc3NhbmRyZWxsaUBs
+aW51eC5pbnRlbC5jb20vVC8KCkNvb2wsIG5ldyBkcml2ZXIsIHRoYW5rcyBhIGxvdCBmb3Igc3Vi
+bWl0dGluZy4KCj4gQ2hhbmdlcyBzaW5jZSB2MToKPiAtIFJlbW92ZWQgcmVkdW5kYW50IGxpY2Vu
+c2UgdGV4dCwgdXBkYXRlZCBsaWNlbnNlCj4gLSBSZWFycmFuZ2VkIGluY2x1ZGUgYmxvY2tzCj4g
+LSByZW5hbWVkIGdsb2JhbCB2YXJzIGFuZCByZW1vdmVkIGV4dGVybiBpbiBjCj4gLSBVc2VkIHVw
+Y2xhc3NpbmcgZm9yIGRldl9wcml2YXRlCj4gLSBVc2VkIGRybV9kZXZfaW5pdCBpbiBkcm0gZGV2
+aWNlIGNyZWF0ZSAod2lsbCBiZSB1cGRhdGVkIHRvIHVzZQo+ICAgZGV2bV9kcm1fZGV2X2FsbG9j
+KCkgaW4gYSBzZXBhcmF0ZSBwYXRjaCBsYXRlciBhcyBrbWIgZHJpdmVyIGlzIGN1cnJlbnRseQo+
+ICAgZGV2ZWxvcGVkIG9uIDUuNCBrZXJuZWwpCgpkcm0gbW92ZXMgZmFpcmx5IHF1aWNrbHksIHBs
+ZWFzZSBkZXZlbG9wIHRoZSB1cHN0cmVhbSBzdWJtaXNzaW9uIG9uIHRvcCBvZgpsaW51eC1uZXh0
+IG9yIHNpbWlsYXIuIFdlIGNvbnN0YW50bHkgYWRkIG5ldyBoZWxwZXJzIHRvIHNpbXBsaWZ5IGRy
+aXZlcnMsCmFuZCB3ZSBleHBlY3QgbmV3IGRyaXZlciBzdWJtaXNzaW9ucyB0byBiZSB1cCB0byBk
+YXRlIHdpdGggYWxsIHRoYXQuCgpBbm90aGVyIHRoaW5nOiBGcm9tIHlvdXIgZGVzY3JpcHRpb24g
+aXQgc291bmRzIGxpa2UgaXQncyBhIHZlcnkgc2ltcGxlCmRyaXZlciwganVzdCBhIHNpbmdsZSBw
+bGFuZS9jcnRjLCBub3RoaW5nIGZhbmN5LCBwbHVzIGFkdiBicmlkZ2Ugb3V0cHV0LgpJcyB0aGUg
+ZHJpdmVyIGFscmVhZHkgdXNpbmcgc2ltcGxlIGRpc3BsYXkgcGlwZWxpbmUgaGVscGVycz8gSSB0
+aGluayB0aGF0CndvdWxkIGJlIGFuIGlkZWFsIGZpdCBhbmQgcHJvYmFibHkgZ3JlYXRseSBzaW1w
+bGlmaWVzIHRoZSBjb2RlLgoKPiAtIG1pbm9yIGNsZWFudXBzCgpUaGUgcGF0Y2ggc2VyaWVzIGxv
+b2tzIGxpa2UgaXQgY29udGFpbnMgdGhlIGVudGlyZSBkZXZlbG9wbWVudCBoaXN0b3J5LCBvcgph
+dCBsZWFzdCBsYXJnZSBjaHVua3Mgb2YgaXQuIFRoYXQncyB1c2VmdWwgZm9yIHlvdSwgYnV0IGZv
+ciB1cHN0cmVhbWluZwp0aGUgbWFpbiBmb2N1ZXMgKGVzcGVjaWFsbHkgZm9yIHNtYWxsZXIgZHJp
+dmVycykgaXMgd2hldGhlciB5b3VyIGRyaXZlcgp1c2VzIGFsbCB0aGUgYXZhaWxhYmxlIGhlbHBl
+cnMgYW5kIGludGVncmF0aW9ucyBjb3JyZWN0bHkuIEFuZCBmb3IgdGhhdAppdCdzIG11Y2ggZWFz
+aWVyIGlmIHRoZSBoaXN0b3J5IGlzIGNsZWFuZWQgdXAsIGFuZCBhbGwgaW50ZXJtZWRpYXRlIHN0
+ZXBzCnJlbW92ZWQuCgpJIHRoaW5rIG9uY2UgdGhhdCdzIGRvbmUgSSBjYW4gZG8gYSBxdWljayBw
+YXNzIGFuZCBkcm9wIHN1Z2dlc3Rpb25zIGZvcgpjbGVhbnVwIGFuZCBzdHVmZiBsaWtlIHRoYXQs
+IGFuZCB0aGVuIHdlIHNob3VsZCAodXN1YWxseSBhdCBsZWFzdCkgYmUgYWJsZQp0byBwdWxsIGlu
+IHRoZSBkcml2ZXIgZmFpcmx5IHF1aWNrbHkuCgpBbm90aGVyIHRoaW5nIHRvIGNvbnNpZGVyIGlz
+IHdoZXJlL2hvdyB0aGlzIGRyaXZlciB3aWxsIGJlIG1haW50YWluZWQuClByZWZlcnJlZCBvcHRp
+b24gaXMgYXMgcGFydCBvZiBkcm0tbWlzYyBzbyB0aGF0IHdlIGhhdmUgcmVkdWRhbmN5IGFuZCBh
+bGwKdGhhdCBpbiBhIGZhaXJseSBiaWcgZ3JvdXAuIFdvcmtzIHdpdGggY29tbWl0IHJpZ2h0cywg
+c28gbWF5YmUgY2hlY2sgb3V0CnNvbWUgb2Ygb3VyIGRvY3MgYWJvdXQgdGhhdCB0b28uCgpodHRw
+czovL2RybS5wYWdlcy5mcmVlZGVza3RvcC5vcmcvbWFpbnRhaW5lci10b29scy9kcm0tbWlzYy5o
+dG1sCgpUaGUgY29tbWl0dGVyIG1vZGVsIGNvbWVzIHdpdGggYSBmdWxsIHNldCBvZiBzY3JpcHRz
+IGFuZCBkb2NzIHRvIGF2b2lkCm9vcHNpZXMgaW4gbWFpbnRhaW5lcnNoaXAuIEdlbmVyYWxseSB3
+b3JrcyByZWFsbHkgd2VsbC4KCkNoZWVycywgRGFuaWVsCgoKPiAKPiBBbml0aGEgQ2hyaXNhbnRo
+dXMgKDUyKToKPiAgIGRybS9rbWI6IEFkZCBzdXBwb3J0IGZvciBLZWVtQmF5IERpc3BsYXkKPiAg
+IGRybS9rbWI6IEFkZGVkIGlkIHRvIGttYl9wbGFuZQo+ICAgZHJtL2ttYjogU2V0IGNvcnJlY3Qg
+dmFsdWVzIGluIHRoZSBMQVlFUm5fQ0ZHIHJlZ2lzdGVyCj4gICBkcm0va21iOiBVc2UgYml3aXNl
+IG9wZXJhdG9ycyBmb3IgcmVnaXN0ZXIgZGVmaW5pdGlvbnMKPiAgIGRybS9rbWI6IFVwZGF0ZWQg
+a21iX3BsYW5lX2F0b21pY19jaGVjawo+ICAgZHJtL2ttYjogSW5pdGlhbCBjaGVjay1pbiBmb3Ig
+TWlwaSBEU0kKPiAgIGRybS9rbWI6IFNldCBPVVRfRk9STUFUX0NGRyByZWdpc3Rlcgo+ICAgZHJt
+L2ttYjogQWRkZWQgbWlwaV9kc2lfaG9zdCBpbml0aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFy
+dCAxIG9mIE1pcGkgVHggSW5pdGlhbGl6YXRpb24KPiAgIGRybS9rbWI6IFBhcnQgMiBvZiBNaXBp
+IFR4IEluaXRpYWxpemF0aW9uCj4gICBkcm0va21iOiBVc2UgY29ycmVjdCBtbWlvIG9mZnNldCBm
+cm9tIGRhdGEgYm9vawo+ICAgZHJtL2ttYjogUGFydDMgb2YgTWlwaSBUeCBpbml0aWFsaXphdGlv
+bgo+ICAgZHJtL2ttYjogUGFydDQgb2YgTWlwaSBUeCBJbml0aWFsaXphdGlvbgo+ICAgZHJtL2tt
+YjogQ29ycmVjdCBhZGRyZXNzIG9mZnNldHMgZm9yIG1pcGkgcmVnaXN0ZXJzCj4gICBkcm0va21i
+OiBQYXJ0NSBvZiBNaXBpIFR4IEludGl0aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFydDYgb2Yg
+TWlwaSBUeCBJbml0aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFydDcgb2YgTWlwaSBUeCBJbml0
+aWFsaXphdGlvbgo+ICAgZHJtL2ttYjogUGFydDggb2YgTWlwaSBUeCBJbml0aWFsaXphdGlvbgo+
+ICAgZHJtL2ttYjogQWRkZWQgaW9yZW1hcC9pb3VubWFwIGZvciByZWdpc3RlciBhY2Nlc3MKPiAg
+IGRybS9rbWI6IFJlZ2lzdGVyIElSUSBmb3IgTENECj4gICBkcm0va21iOiBJUlEgaGFuZGxlcnMg
+Zm9yIExDRCBhbmQgbWlwaSBkc2kKPiAgIGRybS9rbWI6IFNldCBoYXJkY29kZWQgdmFsdWVzIHRv
+IExDRF9WU1lOQ19TVEFSVAo+ICAgZHJtL2ttYjogQWRkaXRpb25hbCByZWdpc3RlciBwcm9ncmFt
+bWluZyB0byB1cGRhdGVfcGxhbmUKPiAgIGRybS9rbWI6IEFkZCBBRFY3NTM1IGJyaWRnZQo+ICAg
+ZHJtL2ttYjogRGlzcGxheSBjbG9jayBlbmFibGUvZGlzYWJsZQo+ICAgZHJtL2ttYjogcmViYXNl
+IHRvIG5ld2VyIGtlcm5lbCB2ZXJzaW9uCj4gICBkcm0va21iOiBtaW5vciBuYW1lIGNoYW5nZSB0
+byBtYXRjaCBkZXZpY2UgdHJlZQo+ICAgZHJtL2ttYjogQ2hhbmdlZCBNTUlPIHNpemUKPiAgIGRy
+bS9rbWI6IERlZmVyIFByb2JlCj4gICBkcm0va21iOiBjYWxsIGJyaWRnZSBpbml0IGluIHRoZSB2
+ZXJ5IGJlZ2lubmluZwo+ICAgZHJtL2ttYjogRW5hYmxlIE1TU19DQU1fQ0xLX0NUUkwgZm9yIExD
+RCBhbmQgTUlQSQo+ICAgZHJtL2ttYjogU2V0IE1TU19DQU1fUlNUTl9DVFJMIGFsb25nIHdpdGgg
+ZW5hYmxlCj4gICBkcm0va21iOiBNaXBpIERQSFkgaW5pdGlhbGl6YXRpb24gY2hhbmdlcwo+ICAg
+ZHJtL2ttYjogRml4ZWQgZHJpdmVyIHVubG9hZAo+ICAgZHJtL2ttYjogQWRkZWQgTENEX1RFU1Qg
+Y29uZmlnCj4gICBkcm0va21iOiBDaGFuZ2VzIGZvciBMQ0QgdG8gTWlwaQo+ICAgZHJtL2ttYjog
+VXBkYXRlIExDRCBwcm9ncmFtbWluZyB0byBtYXRjaCBNSVBJCj4gICBkcm0va21iOiBDaGFuZ2Vk
+IG5hbWUgb2YgZHJpdmVyIHRvIGttYi1kcm0KPiAgIGRybS9rbWI6IE1pcGkgc2V0dGluZ3MgZnJv
+bSBpbnB1dCB0aW1pbmdzCj4gICBkcm0va21iOiBFbmFibGUgTENEIGludGVycnVwdHMKPiAgIGRy
+bS9rbWI6IEVuYWJsZSBMQ0QgaW50ZXJydXB0cyBkdXJpbmcgbW9kZXNldAo+ICAgZHJtL2ttYjog
+RG9u4oCZdCBpbmFkdmVydGFudGx5IGRpc2FibGUgTENEIGNvbnRyb2xsZXIKPiAgIGRybS9rbWI6
+IFNXQVAgUiBhbmQgQiBMQ0QgTGF5ZXIgb3JkZXIKPiAgIGRybS9rbWI6IERpc2FibGUgcGluZyBw
+b25nIG1vZGUKPiAgIGRybS9rbWI6IERvIHRoZSBsYXllciBpbml0aWFsaXphdGlvbnMgb25seSBv
+bmNlCj4gICBkcm0va21iOiBkaXNhYmxlIHRoZSBMQ0QgbGF5ZXIgaW4gRU9GIGlycSBoYW5kbGVy
+Cj4gICBkcm0va21iOiBJbml0aWFsaXplIHVuaW5pdGlhbGl6ZWQgdmFyaWFibGVzCj4gICBkcm0v
+a21iOiBBZGRlZCB1c2VmdWwgbWVzc2FnZXMgaW4gTENEIElTUgo+ICAga21iL2RybTogUHJ1bmUg
+dW5zdXBwb3J0ZWQgbW9kZXMKPiAgIGRybS9rbWI6IHdvcmthcm91bmQgZm9yIGRtYSB1bmRlZmxv
+dyBpc3N1ZQo+ICAgZHJtL2ttYjogR2V0IFN5c3RlbSBDbG9jayBmcm9tIFNDTUkKPiAgIGRybS9r
+bWI6IHdvcmsgYXJvdW5kIGZvciBwbGFuYXIgZm9ybWF0cwo+IAo+IEVkbXVuZCBEZWEgKDcpOgo+
+ICAgZHJtL2ttYjogQ2xlYW51cCBwcm9iZSBmdW5jdGlvbnMKPiAgIGRybS9rbWI6IFJldmVydCBk
+c2lfaG9zdCBiYWNrIHRvIGEgc3RhdGljIHZhcmlhYmxlCj4gICBkcm0va21iOiBJbml0aWFsaXpl
+IGNsb2NrcyBmb3IgY2xrX21zc2NhbSwgY2xrX21pcGlfZWNmZywgJgo+ICAgICBjbGtfbWlwaV9j
+ZmcuCj4gICBkcm0va21iOiBSZW1vdmUgZGVjbGFyYXRpb24gb2YgaXJxX2xjZC9pcnFfbWlwaQo+
+ICAgZHJtL2ttYjogRW5hYmxlIE1JUEkgVFggSFMgVGVzdCBQYXR0ZXJuIEdlbmVyYXRpb24KPiAg
+IGRybS9rbWI6IFdyaXRlIHRvIExDRF9MQVlFUm5fQ0ZHIG9ubHkgb25jZQo+ICAgZHJtL2ttYjog
+Q2xlYW5lZCB1cCBjb2RlCj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9LY29uZmlnICAgICAgICAgfCAg
+ICAyICsKPiAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICB8ICAgIDEgKwo+ICBkcml2
+ZXJzL2dwdS9kcm0va21iL0tjb25maWcgICAgIHwgICAxMiArCj4gIGRyaXZlcnMvZ3B1L2RybS9r
+bWIvTWFrZWZpbGUgICAgfCAgICAyICsKPiAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfY3J0Yy5j
+ICB8ICAyMjYgKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfY3J0Yy5oICB8ICAgNDEg
+Kwo+ICBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kcnYuYyAgIHwgIDgwOSArKysrKysrKysrKysr
+KysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rydi5oICAgfCAgMTc2ICsrKysKPiAgZHJp
+dmVycy9ncHUvZHJtL2ttYi9rbWJfZHNpLmMgICB8IDE5MjcgKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2RzaS5oICAgfCAg
+MzcwICsrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmMgfCAgNTE4ICsr
+KysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX3BsYW5lLmggfCAgMTI0ICsrKwo+
+ICBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9yZWdzLmggIHwgIDczOCArKysrKysrKysrKysrKysK
+PiAgMTMgZmlsZXMgY2hhbmdlZCwgNDk0NiBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL0tjb25maWcKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
+aXZlcnMvZ3B1L2RybS9rbWIvTWFrZWZpbGUKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+Z3B1L2RybS9rbWIva21iX2NydGMuYwo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUv
+ZHJtL2ttYi9rbWJfY3J0Yy5oCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
+a21iL2ttYl9kcnYuYwo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9r
+bWJfZHJ2LmgKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9rbWIva21iX2Rz
+aS5jCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0va21iL2ttYl9kc2kuaAo+
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuYwo+ICBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcGxhbmUuaAo+ICBjcmVh
+dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcmVncy5oCj4gCj4gLS0gCj4g
+Mi43LjQKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xwo+IEludGVsLWdmeCBtYWlsaW5nIGxpc3QKPiBJbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9pbnRl
+bC1nZngKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3Jh
+dGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
