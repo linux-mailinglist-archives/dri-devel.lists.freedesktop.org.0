@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A94220C97
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 14:03:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB23220C9B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jul 2020 14:05:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C505F6EB2B;
-	Wed, 15 Jul 2020 12:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83B26EB38;
+	Wed, 15 Jul 2020 12:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8CA6EB2B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 12:03:43 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id g75so5311104wme.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 05:03:42 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83ED96EB38
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 12:05:07 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id z13so2397881wrw.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 05:05:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=1FfPLCjiOZfVPMY6SEoLGJR3cEuEk/qp9UiuwmY8/Zw=;
- b=GkljGvwOCvf76Prs/T1i+Yd+t6gjS1q2k0DDuf8Nw3P2TZeBhiKCa2W28KEezNnfjJ
- ta7zQwmbNPFnYUnKRwCJ7wpo3PXTVaijagpMhPGkaj4Hv8iNYMv6KrMkXMkR81pk/ep0
- nCKtHZuztA/GRllSpUW06if8oWgRaGxpuVN3I=
+ bh=AeobqevlgxW6S/1jvLpikz7Xrm71aKFvBeFHoL5vYBU=;
+ b=B0b0XZ+i5RC8QqHCTi1/oPWnTYCTs8binzuyaCBrmwad7iS+ZyuVeakYQlEqMEYp1C
+ AQaBkw13rbn/FoTf8p9gawQZJx/soYCdMXyJyompkc8wFsNop8LNAx5W1c+GSPwloEnk
+ iZVMtt/kwRUz7kgyjXDD8vPV34og8PbV1h8k8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=1FfPLCjiOZfVPMY6SEoLGJR3cEuEk/qp9UiuwmY8/Zw=;
- b=YCni8jrSU8XInFWqRSd5AiHROSDgi72T6ajHa5kGooRERPVoH24whEddyQmYAv6cwv
- wKrMEh8X9yZ4hXud1bZI6RE2uH+8aOpat7XsJ7Ruh5za3cHjOzloFwatep52BBpCXLIl
- ki2oHKvzCFuIHLQI2IugtzgacqQQPo6guutyH874Oc41MOwt9omHCZUpE3GgNINR10dU
- moMIyTrD0opKmJlvda+uKUSoAf8GYwaDZksFu9qnr3YNsCJWUg0745DS/xtxl5nL9Gw0
- tP6lpnZ5s0OmIVPslshWrnGEG0dyWEGPYpA4CGxcVRCs4clmqYyBlr5IOhbnd7cAduFA
- Vu2g==
-X-Gm-Message-State: AOAM531grpUokWhmFMZFZyD6I+tiZRr0lb2SDIBUTiBZ/HJima10uHaG
- bD63/YdcqZE/aIGBqqlE4vA92w==
-X-Google-Smtp-Source: ABdhPJybPrQq/NJXSsfzu2zrR2PYj1djREC+vWdXXMxKQd32mcieYtJ911F5wuoWXIjo/InQSCTdEQ==
-X-Received: by 2002:a7b:cc85:: with SMTP id p5mr8205466wma.18.1594814621638;
- Wed, 15 Jul 2020 05:03:41 -0700 (PDT)
+ bh=AeobqevlgxW6S/1jvLpikz7Xrm71aKFvBeFHoL5vYBU=;
+ b=DX9SpY+chNH3Sayd3E3OikXhwXYDPlfcQS4euTvKt71AwWB693EBbftAYAiFP/EGAY
+ /Uw+Lco/UNwHAXljxduNxVTgij0f6QbhThsAdXOWLuTzW9wwJyc/+KFZDd7Qe3Sw1cF7
+ t42LjeI8tNjpEof6FArx8s29LiMmPhd7udNdRL66x0gRhIhqc1BPKM134CH/lDlo6SHr
+ aIH0oJJhKZ+ixnCo039CFEXFSozlaEYCRWu+eydaAyqwhTSrrlz3P08T7lsWkdIEjWqz
+ 5BWgUqmA6X4ELpgP/NpRmuI0shK4/frkBscV3vLCq3onDETQTosblBlzDGKbf9KnqiJR
+ tQew==
+X-Gm-Message-State: AOAM533rZpd/sARfp8DKCjSACaMiWsbJV07BveIDM7OYUO8dIS6YkiBl
+ cYFtyV9TyFLdw00ldgQL9AwKKw==
+X-Google-Smtp-Source: ABdhPJzxbvgaL49qg+VF1cCI2CqYh4iGKEd2eaSGpqaN7AokBtncLtpiemoeX8OdEUnF8geVMYdl+Q==
+X-Received: by 2002:a5d:6a06:: with SMTP id m6mr10891043wru.321.1594814706200; 
+ Wed, 15 Jul 2020 05:05:06 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w128sm3557542wmb.19.2020.07.15.05.03.40
+ by smtp.gmail.com with ESMTPSA id 129sm3169967wmd.48.2020.07.15.05.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 05:03:41 -0700 (PDT)
-Date: Wed, 15 Jul 2020 14:03:39 +0200
+ Wed, 15 Jul 2020 05:05:05 -0700 (PDT)
+Date: Wed, 15 Jul 2020 14:05:03 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 1/7] drm: drm_atomic.h: delete duplicated word in comment
-Message-ID: <20200715120339.GI3278063@phenom.ffwll.local>
-Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org
-References: <20200715052349.23319-1-rdunlap@infradead.org>
+To: Jing Xiangfeng <jingxiangfeng@huawei.com>
+Subject: Re: [PATCH] drm: remove redundant assignment to variable 'ret'
+Message-ID: <20200715120503.GJ3278063@phenom.ffwll.local>
+Mail-Followup-To: Jing Xiangfeng <jingxiangfeng@huawei.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, ajax@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200715070559.180986-1-jingxiangfeng@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200715052349.23319-1-rdunlap@infradead.org>
+In-Reply-To: <20200715070559.180986-1-jingxiangfeng@huawei.com>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,41 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 14, 2020 at 10:23:43PM -0700, Randy Dunlap wrote:
-> Drop doubled word "than" in a comment.
+On Wed, Jul 15, 2020 at 03:05:59PM +0800, Jing Xiangfeng wrote:
+> The variable ret has been assigned the value '-EINVAL'. The assignment
+> in the if() is redundant. We can remove it.
+
+Nope, that's not correct. Before this assignement ret is guaranteed to be
+0.
+-Daniel
+
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-
-Entire series pushed to drm-misc-next, thanks for your patches. Should
-still make it to 5.9.
-
-Cheers, Daniel
-
+> Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
 > ---
->  include/drm/drm_atomic.h |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_auth.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> --- linux-next-20200714.orig/include/drm/drm_atomic.h
-> +++ linux-next-20200714/include/drm/drm_atomic.h
-> @@ -103,7 +103,7 @@ struct drm_crtc_commit {
->  	 *
->  	 * Will be signalled when all hw register changes for this commit have
->  	 * been written out. Especially when disabling a pipe this can be much
-> -	 * later than than @flip_done, since that can signal already when the
-> +	 * later than @flip_done, since that can signal already when the
->  	 * screen goes black, whereas to fully shut down a pipe more register
->  	 * I/O is required.
->  	 *
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index 800ac39f3213..6e1b502f2797 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -299,7 +299,6 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+>  
+>  	if (file_priv->master->lessor != NULL) {
+>  		DRM_DEBUG_LEASE("Attempt to drop lessee %d as master\n", file_priv->master->lessee_id);
+> -		ret = -EINVAL;
+>  		goto out_unlock;
+>  	}
+>  
+> -- 
+> 2.17.1
+> 
 
 -- 
 Daniel Vetter
