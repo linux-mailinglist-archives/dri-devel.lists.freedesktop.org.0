@@ -1,42 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE22C222AA2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 20:07:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C49C222B16
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 20:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB9A6ECB7;
-	Thu, 16 Jul 2020 18:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA8606E06E;
+	Thu, 16 Jul 2020 18:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFCC6ECB7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 18:07:12 +0000 (UTC)
-Received: from earth.universe (dyndsl-095-033-172-209.ewe-ip-backbone.de
- [95.33.172.209])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C3F8A2070E;
- Thu, 16 Jul 2020 18:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594922831;
- bh=HlSaSCiEPNOBTSTBuAMOcLv7ffieEP5NgVQyzwP20Ac=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mjVECEpSB2yxv9DKO7aACQ0pHBLNljhbrS6vKrmslrHHE8ODmKsqCqbNr4JpwFs8k
- n6po3ACtQnLAxWuVts1SgT0MMS0xjlzBvY/ymjMJdC2w8Bgcg62o54CCdcVYoEfMht
- qjt+KOwImQGQp0hTgVjWRIvpgyllWpjqlWHoJO84=
-Received: by earth.universe (Postfix, from userid 1000)
- id 350E93C08CE; Thu, 16 Jul 2020 20:07:10 +0200 (CEST)
-Date: Thu, 16 Jul 2020 20:07:10 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCHv2 1/4] dt-bindings: display: panel-dsi-cm: convert to YAML
-Message-ID: <20200716180710.u6pqe6fvn4usuidf@earth.universe>
-References: <20200716125733.83654-1-sebastian.reichel@collabora.com>
- <20200716125733.83654-2-sebastian.reichel@collabora.com>
- <20200716175258.GE2235355@ravnborg.org>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE74D6E06E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 18:37:05 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208587] New: amdgpu hang and gnome shell crash if playing video
+ on 5600M with DRI_PRIME
+Date: Thu, 16 Jul 2020 18:37:05 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dani@rodler-keller.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-208587-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200716175258.GE2235355@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,244 +52,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, Tony Lindgren <tony@atomide.com>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, Merlijn Wajer <merlijn@wizzup.org>,
- Rob Herring <robh+dt@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, linux-omap@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1803017608=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=208587
 
---===============1803017608==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cl2alezg7yxsq6tn"
-Content-Disposition: inline
+            Bug ID: 208587
+           Summary: amdgpu hang and gnome shell crash if playing video on
+                    5600M with DRI_PRIME
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.8.0-rc5
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: dani@rodler-keller.de
+        Regression: No
 
+Created attachment 290321
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290321&action=edit
+dmesg
 
---cl2alezg7yxsq6tn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On my Dell Inc. G5 5505 the Gnome Shell Wayland session crashes when I try to
+watch a video with "DRI_PRIME=1 firefox" on the AMD 5600M I get the following
+kernel error messages
 
-Hi,
+[Do Jul 16 20:16:03 2020] [drm:mod_hdcp_add_display_to_topology [amdgpu]]
+*ERROR* Failed to add display topology, DTM TA is not initialized.
+[Do Jul 16 20:16:03 2020] [drm] [Link 0] WARNING MOD_HDCP_STATUS_FAILURE IN
+STATE HDCP_UNINITIALIZED STAY COUNT 0
+[Do Jul 16 20:16:03 2020] ------------[ cut here ]------------
+[Do Jul 16 20:16:03 2020] WARNING: CPU: 7 PID: 181 at
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_resource.c:3194
+dcn20_validate_bandwidth_fp+0x7a/0xb0 [amdgpu]
 
-On Thu, Jul 16, 2020 at 07:52:58PM +0200, Sam Ravnborg wrote:
-> On Thu, Jul 16, 2020 at 02:57:30PM +0200, Sebastian Reichel wrote:
-> > Convert panel-dsi-cm bindings to YAML and add
-> > missing properties while at it.
-> >=20
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
->=20
-> Hi Sebastian.
->=20
-> Look good now. Applied this patch to drm-misc-next.
+CPU Brand:  AMD Ryzen 7 4800H with Radeon Graphics   
 
-Thanks!
+Operating System Version:
+    "Arch Linux" (64 bit)
+    Kernel Name:  Linux
+    Kernel Version:  5.8.0-rc5-1-mainline
+    Window Manager:  GNOME Shell (Wayland)
+    Firefox 78
 
-> $ ls Documentation/devicetree/bindings/display/panel/*.txt
-> Documentation/devicetree/bindings/display/panel/display-timing.txt
->=20
-> Nice :-)
+DRI_PRIME=1 glxinfo
 
-Indeed.
+Device: AMD Radeon RX 5600M (NAVI10, DRM 3.38.0, 5.8.0-rc5-1-mainline, LLVM
+10.0.0) (0x731f)
+    Version: 20.1.3
 
-> The DTS file changes needs to go in via another route.
+DRI_PRIME=0 glxinfo
 
-No worries. I guess Tony will queue them up when he finds some time.
+    Device: AMD RENOIR (DRM 3.38.0, 5.8.0-rc5-1-mainline, LLVM 10.0.0) (0x1636)
+    Version: 20.1.3
 
--- Sebastian
-
->=20
-> 	Sam
->=20
-> > ---
-> >  .../bindings/display/panel/panel-dsi-cm.txt   | 29 -------
-> >  .../bindings/display/panel/panel-dsi-cm.yaml  | 86 +++++++++++++++++++
-> >  2 files changed, 86 insertions(+), 29 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/panel/pan=
-el-dsi-cm.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/pan=
-el-dsi-cm.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-=
-cm.txt b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-> > deleted file mode 100644
-> > index dce48eb9db57..000000000000
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.txt
-> > +++ /dev/null
-> > @@ -1,29 +0,0 @@
-> > -Generic MIPI DSI Command Mode Panel
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > -
-> > -Required properties:
-> > -- compatible: "panel-dsi-cm"
-> > -
-> > -Optional properties:
-> > -- label: a symbolic name for the panel
-> > -- reset-gpios: panel reset gpio
-> > -- te-gpios: panel TE gpio
-> > -
-> > -Required nodes:
-> > -- Video port for DSI input
-> > -
-> > -Example
-> > --------
-> > -
-> > -lcd0: display {
-> > -	compatible =3D "tpo,taal", "panel-dsi-cm";
-> > -	label =3D "lcd0";
-> > -
-> > -	reset-gpios =3D <&gpio4 6 GPIO_ACTIVE_HIGH>;
-> > -
-> > -	port {
-> > -		lcd0_in: endpoint {
-> > -			remote-endpoint =3D <&dsi1_out_ep>;
-> > -		};
-> > -	};
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dsi-=
-cm.yaml b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
-> > new file mode 100644
-> > index 000000000000..d766c949c622
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dsi-cm.yaml
-> > @@ -0,0 +1,86 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/panel-dsi-cm.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: DSI command mode panels
-> > +
-> > +maintainers:
-> > +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > +  - Sebastian Reichel <sre@kernel.org>
-> > +
-> > +description: |
-> > +  This binding file is a collection of the DSI panels that
-> > +  are usually driven in command mode. If no backlight is
-> > +  referenced via the optional backlight property, the DSI
-> > +  panel is assumed to have native backlight support.
-> > +  The panel may use an OF graph binding for the association
-> > +  to the display, or it may be a direct child node of the
-> > +  display.
-> > +
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +
-> > +properties:
-> > +
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +        - motorola,droid4-panel        # Panel from Motorola Droid4 ph=
-one
-> > +        - nokia,himalaya               # Panel from Nokia N950 phone
-> > +        - tpo,taal                     # Panel from OMAP4 SDP board
-> > +      - const: panel-dsi-cm            # Generic DSI command mode pane=
-l compatible fallback
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: DSI virtual channel
-> > +
-> > +  vddi-supply:
-> > +    description:
-> > +      Display panels require power to be supplied. While several panel=
-s need
-> > +      more than one power supply with panel-specific constraints gover=
-ning the
-> > +      order and timings of the power supplies, in many cases a single =
-power
-> > +      supply is sufficient, either because the panel has a single powe=
-r rail, or
-> > +      because all its power rails can be driven by the same supply. In=
- that case
-> > +      the vddi-supply property specifies the supply powering the panel=
- as a
-> > +      phandle to a regulator.
-> > +
-> > +  vpnl-supply:
-> > +    description:
-> > +      When the display panel needs a second power supply, this propert=
-y can be
-> > +      used in addition to vddi-supply. Both supplies will be enabled a=
-t the
-> > +      same time before the panel is being accessed.
-> > +
-> > +  width-mm: true
-> > +  height-mm: true
-> > +  label: true
-> > +  rotation: true
-> > +  panel-timing: true
-> > +  port: true
-> > +  reset-gpios: true
-> > +  te-gpios: true
-> > +  backlight: true
-> > +
-> > +additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    dsi-controller {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        panel@0 {
-> > +            compatible =3D "tpo,taal", "panel-dsi-cm";
-> > +            reg =3D <0>;
-> > +            reset-gpios =3D <&gpio4 6 GPIO_ACTIVE_HIGH>;
-> > +        };
-> > +    };
-> > +
-> > +...
-> > --=20
-> > 2.27.0
-
---cl2alezg7yxsq6tn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl8Ql0oACgkQ2O7X88g7
-+preABAAgkV9HVYAck0qetl7wnYhWxP8E2jkCpXkwayunf9Z0HqMEZXXKwky0BHm
-ehDVmkpO0aNUBkrJWWjBsiR/F61UlwPpD+YU91EWCv5nYS0+PIqBM/Qy9NaU0gId
-BcGvoDrcTgQFbeSfxM75jDRvdS6klvpGf+1CQCgfs/PzWB+PifeXX0BKavrpArD/
-SFZqfNzSQZy5zMDXPQaJH0VfVXLlequ1wJcZOR+5jCKyGqh0wbfT28BAvqqg/Z4v
-hmqI9llRv5rSD/gXHU5Dc0tGwrijq4sXQWQ0PGRkKifNM1Dd2BW2JmV9MywJi6W2
-jVK46kFJfY/GZDH3SveuLGDOgynMKGjENbRI2BAuUz+WMBVf6rktIG+N6EQZUcjp
-ok/V7g8HPTMa/CXohVPc/4rK5iVdJW3QDB2GErr3A0daTzM5KM/9LTury8MQo6Y7
-dLEM0LjUjInYaKlE4rCVsiYbm5t7EZRRCdOPRHY/nZakAs5ciRH6W5zXgtkEzqPP
-9v2iyzWY81fcFPtzBQ9LYrF0ZWOoXCGZrkBsdpTYtqJ5CXN6QKxNuPBrGEsc56vy
-5W0vNzsyHszbdpwwybJ9rjSnoOcmbKekXQaspu5YMt7GNcTR9vtX2XhvGaFPAiAI
-SsLbQBegMh2Odapmp9vY8YAzYSGkG+3g2W6hD2Z8W5oquCSFrf8=
-=ZJ4X
------END PGP SIGNATURE-----
-
---cl2alezg7yxsq6tn--
-
---===============1803017608==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1803017608==--
