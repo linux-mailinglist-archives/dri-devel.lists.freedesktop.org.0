@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AC1221C0E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 07:44:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FA5221C30
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 07:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0650E6E28A;
-	Thu, 16 Jul 2020 05:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8F7F6E29B;
+	Thu, 16 Jul 2020 05:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 896F46E28A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 05:44:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05B46E29B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 05:55:07 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C7F05B1A9;
- Thu, 16 Jul 2020 05:44:40 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id BB3C9B6F7;
+ Thu, 16 Jul 2020 05:55:09 +0000 (UTC)
 Subject: Re: [PATCH 0/8] drm/mgag200: Support desktop chips
+From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Dave Airlie <airlied@gmail.com>
 References: <20200715145902.13122-1-tzimmermann@suse.de>
  <CAPM=9tx1+cNHR3aYWFNey9veYn18A=b1Tgm9Pa4UvKjUSFg22g@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e88a2b2d-185c-fef4-6928-446e1ac0c95c@suse.de>
-Date: Thu, 16 Jul 2020 07:44:31 +0200
+ <e88a2b2d-185c-fef4-6928-446e1ac0c95c@suse.de>
+Message-ID: <dec4e5cf-f309-4695-6362-200ca663ff71@suse.de>
+Date: Thu, 16 Jul 2020 07:55:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAPM=9tx1+cNHR3aYWFNey9veYn18A=b1Tgm9Pa4UvKjUSFg22g@mail.gmail.com>
+In-Reply-To: <e88a2b2d-185c-fef4-6928-446e1ac0c95c@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,19 +46,19 @@ Cc: John Donnelly <john.p.donnelly@oracle.com>,
  Krzysztof Kozlowski <krzk@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
  Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0654074382=="
+Content-Type: multipart/mixed; boundary="===============0949948874=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0654074382==
+--===============0949948874==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="K9mbtuF4pqrEXaUFwTcTXgzBun6duqndU"
+ boundary="EOHx2xuLdEtKHz4VlgVU8lnnpzpzQ6Oyy"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---K9mbtuF4pqrEXaUFwTcTXgzBun6duqndU
-Content-Type: multipart/mixed; boundary="9utUqrymrBTA3fjOJkN4Jb5J3R3sS2Mrf";
+--EOHx2xuLdEtKHz4VlgVU8lnnpzpzQ6Oyy
+Content-Type: multipart/mixed; boundary="YDFZHVgLQglipeZZ8Lcqabi40b5XFvEUg";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Dave Airlie <airlied@gmail.com>
@@ -67,50 +68,68 @@ Cc: John Donnelly <john.p.donnelly@oracle.com>,
  Krzysztof Kozlowski <krzk@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
  Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <e88a2b2d-185c-fef4-6928-446e1ac0c95c@suse.de>
+Message-ID: <dec4e5cf-f309-4695-6362-200ca663ff71@suse.de>
 Subject: Re: [PATCH 0/8] drm/mgag200: Support desktop chips
 References: <20200715145902.13122-1-tzimmermann@suse.de>
  <CAPM=9tx1+cNHR3aYWFNey9veYn18A=b1Tgm9Pa4UvKjUSFg22g@mail.gmail.com>
-In-Reply-To: <CAPM=9tx1+cNHR3aYWFNey9veYn18A=b1Tgm9Pa4UvKjUSFg22g@mail.gmail.com>
+ <e88a2b2d-185c-fef4-6928-446e1ac0c95c@suse.de>
+In-Reply-To: <e88a2b2d-185c-fef4-6928-446e1ac0c95c@suse.de>
 
---9utUqrymrBTA3fjOJkN4Jb5J3R3sS2Mrf
+--YDFZHVgLQglipeZZ8Lcqabi40b5XFvEUg
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
 
-Am 15.07.20 um 21:56 schrieb Dave Airlie:
-> On Thu, 16 Jul 2020 at 00:59, Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
+
+Am 16.07.20 um 07:44 schrieb Thomas Zimmermann:
+> Hi
+>=20
+> Am 15.07.20 um 21:56 schrieb Dave Airlie:
+>> On Thu, 16 Jul 2020 at 00:59, Thomas Zimmermann <tzimmermann@suse.de> =
+wrote:
+>>>
+>>> This patchset puts device initialization in the correct order and
+>>> adds support for G200 Desktop chips (PCI ids 0x520 and 0x521).
 >>
->> This patchset puts device initialization in the correct order and
->> adds support for G200 Desktop chips (PCI ids 0x520 and 0x521).
+>> why? :-)
 >=20
-> why? :-)
+> With G200 support in place, we can add also support for the newer cards=
 
-With G200 support in place, we can add also support for the newer cards
-in the G-Series up to the G550. Believe it or not, the G550 for PCIe is
-still being actively marketed and manufactured by Matrox. [1] Even the
-predecessor chips G450 was only EOLed in Oct 2016. [2] So while the
-chips might be 20yrs old, the devices are still current.
+> in the G-Series up to the G550. Believe it or not, the G550 for PCIe is=
 
-Best regards
-Thomas
-
-[1]
-https://matrox.com/graphics/en/products/graphics_cards/g_series/g550pcie/=
-?productTabs=3D1
-[2] https://www.matrox.com/graphics/en/products/legacy/g_series/g450pci/
-
+> still being actively marketed and manufactured by Matrox. [1] Even the
+> predecessor chips G450 was only EOLed in Oct 2016. [2] So while the
+> chips might be 20yrs old, the devices are still current.
 >=20
-> I'm pretty sure I NAKed the previous version because the userspace
-> experience for these old cards was probably better with
-> xorg-x11-drv-mga, but hey maybe it isn't anymore and we should go
-> ahead. I know SuSE use these for testing, but apart from that do we
-> really think we have any users for this?
+> Best regards
+> Thomas
 >=20
-> Dave.
+> [1]
+> https://matrox.com/graphics/en/products/graphics_cards/g_series/g550pci=
+e/?productTabs=3D1
+> [2] https://www.matrox.com/graphics/en/products/legacy/g_series/g450pci=
+/
+>=20
+>>
+>> I'm pretty sure I NAKed the previous version because the userspace
+>> experience for these old cards was probably better with
+>> xorg-x11-drv-mga, but hey maybe it isn't anymore and we should go
+>> ahead. I know SuSE use these for testing, but apart from that do we
+>> really think we have any users for this?
+
+Well, I got at least one email from someone thanking me for this patch. :=
+)
+
+>>
+>> Dave.
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+>=20
+>=20
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
@@ -126,28 +145,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---9utUqrymrBTA3fjOJkN4Jb5J3R3sS2Mrf--
+--YDFZHVgLQglipeZZ8Lcqabi40b5XFvEUg--
 
---K9mbtuF4pqrEXaUFwTcTXgzBun6duqndU
+--EOHx2xuLdEtKHz4VlgVU8lnnpzpzQ6Oyy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8P6UMUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPt8Af/fqb6B0tMJYlM/ChOLYfYsg0YrBqu
-tGD8u1ubqPKaLysxTT/TR7abCOWiA4jmmQC3Dj1I5utxs6lh2CveBmnX2m4MaH8o
-qiFr6541f3Ak68tV6QdmEE5I29Mx996BmHZh2U62NuzJKx2RPkIr4xkFFgZF+CAy
-VsIX1jMnoSrH8gO2GRCc3qET/LL2KQrfTlChDVD+0BOoquDIDpSjCgyA6a50/q4N
-zEV3dP4thgguW26Ob26qMDAN2DwGoulFQ5sl+6RactBXJp1IOLB7rYavQIAZEWoY
-y3SiwkIz+Nk6dzoC7KL+I5g+YfU5aBz4h9ui2Hxfjeua/EnAhf/JRPuKTQ==
-=JBIy
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8P67kUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMooQf+LGMFGMSKHh03rKqx2kr9vHqRrnYY
+IaU0TnJySv0oou0/CXNfZYPSUhxEGkVyk+0i+A25sNP0CutSzGIh1R4bGK2Spihv
+b1doF//Y1CyjEJ64dXJmYoJ+JwRiHqxGXMKCyZ/koOrQm9Vj2CwyfYGw3F7DZPds
+p3V3YVpyVF+pU+nBJMsWg4ArXU11pvIxcw/0MCF4K1BdJWLkEN9GEvJLw4mNJdBu
+9/a2gtn3gDrxEcNiyyLCS6iBrFRmSlpjr1z3fq9SfT3DQVaQvt5tMZwpGTBsDgCd
+cFMEHqZLxOabezvbCZwIlX/5fIrzKF2Hj6Ue7txNfknYxb27n2LugNs17g==
+=3VGf
 -----END PGP SIGNATURE-----
 
---K9mbtuF4pqrEXaUFwTcTXgzBun6duqndU--
+--EOHx2xuLdEtKHz4VlgVU8lnnpzpzQ6Oyy--
 
---===============0654074382==
+--===============0949948874==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -158,4 +177,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0654074382==--
+--===============0949948874==--
