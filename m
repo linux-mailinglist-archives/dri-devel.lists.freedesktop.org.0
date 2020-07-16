@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE595222C82
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 22:11:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87960222C88
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 22:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0C66E14A;
-	Thu, 16 Jul 2020 20:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C61989206;
+	Thu, 16 Jul 2020 20:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C64716E14A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 20:11:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83EE56ECD2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 20:13:10 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 9499620039;
- Thu, 16 Jul 2020 22:11:38 +0200 (CEST)
-Date: Thu, 16 Jul 2020 22:11:37 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 7B1DC20024;
+ Thu, 16 Jul 2020 22:13:08 +0200 (CEST)
+Date: Thu, 16 Jul 2020 22:13:07 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/3] drm/vram-helper: Set object function iff they are
- not provided by driver
-Message-ID: <20200716201137.GB2254583@ravnborg.org>
-References: <20200714083238.28479-1-tzimmermann@suse.de>
- <20200714083238.28479-4-tzimmermann@suse.de>
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: Re: [PATCH] drm/vboxvideo: Replace HTTP links with HTTPS ones
+Message-ID: <20200716201307.GC2254583@ravnborg.org>
+References: <20200713124923.34282-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200714083238.28479-4-tzimmermann@suse.de>
+In-Reply-To: <20200713124923.34282-1-grandmaster@al2klimov.de>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=xqjHhYHaL07RImKNgcgA:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8 a=hOkPH7apAAAA:8 a=e5mUnYsNAAAA:8
+ a=XgQJnKahRCJPmaHFw9QA:9 a=CjuIK1q_8ugA:10 a=q5qCbkKORm8A:10
+ a=EzwKAMo-yAEA:10 a=W4TVW4IDbPiebHqcZpNg:22 a=hPNTZtN9UGdAj5b0s3uK:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,72 +45,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jiayang5@huawei.com, airlied@linux.ie, butterflyhuangxx@gmail.com,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, hdegoede@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 14, 2020 at 10:32:38AM +0200, Thomas Zimmermann wrote:
-> Don't override the GEM object functions unconditionally. If the driver
-> sets the GEM functions, VRAM helpers will now them. The idea has been
-s/now/own
-> taken from SHMEM helpers. If drivers need special versions of some of
-> the GEM functions, they can now override them.
+On Mon, Jul 13, 2020 at 02:49:23PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index af767d3da5da..7194144610cb 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -190,6 +190,7 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
->  						unsigned long pg_align)
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
-The documentation of drm_gem_vram_create() could really use some love
-here. It should document the behavior around gem_create_object(), and
-the default allocation of drm_gem_vram_object with no drm_gem_object
-assigned etc.
+Applied to drm-misc-next.
 
 	Sam
 
-
+> ---
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+> 
+>  If there are any URLs to be removed completely or at least not just HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+> 
+> 
+>  drivers/gpu/drm/vboxvideo/hgsmi_defs.h | 2 +-
+>  drivers/gpu/drm/vboxvideo/vbox_hgsmi.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_defs.h b/drivers/gpu/drm/vboxvideo/hgsmi_defs.h
+> index 6c8df1cdb087..3cb52f2b2274 100644
+> --- a/drivers/gpu/drm/vboxvideo/hgsmi_defs.h
+> +++ b/drivers/gpu/drm/vboxvideo/hgsmi_defs.h
+> @@ -58,7 +58,7 @@ struct hgsmi_buffer_tail {
+>  	/* Reserved, must be initialized to 0. */
+>  	u32 reserved;
+>  	/*
+> -	 * One-at-a-Time Hash: http://www.burtleburtle.net/bob/hash/doobs.html
+> +	 * One-at-a-Time Hash: https://www.burtleburtle.net/bob/hash/doobs.html
+>  	 * Over the header, offset and for first 4 bytes of the tail.
+>  	 */
+>  	u32 checksum;
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c b/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c
+> index 94b60654a012..a9ca4d0c3eca 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_hgsmi.c
+> @@ -8,7 +8,7 @@
+>  #include "vboxvideo_vbe.h"
+>  #include "hgsmi_defs.h"
+>  
+> -/* One-at-a-Time Hash from http://www.burtleburtle.net/bob/hash/doobs.html */
+> +/* One-at-a-Time Hash from https://www.burtleburtle.net/bob/hash/doobs.html */
+>  static u32 hgsmi_hash_process(u32 hash, const u8 *data, int size)
 >  {
->  	struct drm_gem_vram_object *gbo;
-> +	struct drm_gem_object *gem;
->  	struct drm_vram_mm *vmm = dev->vram_mm;
->  	struct ttm_bo_device *bdev;
->  	int ret;
-> @@ -199,8 +200,7 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
->  		return ERR_PTR(-EINVAL);
->  
->  	if (dev->driver->gem_create_object) {
-> -		struct drm_gem_object *gem =
-> -			dev->driver->gem_create_object(dev, size);
-> +		gem = dev->driver->gem_create_object(dev, size);
->  		if (!gem)
->  			return ERR_PTR(-ENOMEM);
->  		gbo = drm_gem_vram_of_gem(gem);
-> @@ -208,11 +208,13 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
->  		gbo = kzalloc(sizeof(*gbo), GFP_KERNEL);
->  		if (!gbo)
->  			return ERR_PTR(-ENOMEM);
-> +		gem = &gbo->bo.base;
->  	}
->  
-> -	gbo->bo.base.funcs = &drm_gem_vram_object_funcs;
-> +	if (!gem->funcs)
-> +		gem->funcs = &drm_gem_vram_object_funcs;
->  
-> -	ret = drm_gem_object_init(dev, &gbo->bo.base, size);
-> +	ret = drm_gem_object_init(dev, gem, size);
->  	if (ret) {
->  		kfree(gbo);
->  		return ERR_PTR(ret);
+>  	while (size--) {
 > -- 
 > 2.27.0
 > 
