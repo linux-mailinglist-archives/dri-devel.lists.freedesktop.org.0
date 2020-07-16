@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160A3221D98
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 09:48:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330CC221DD0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 10:06:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFEA46E0A5;
-	Thu, 16 Jul 2020 07:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7823E6E0CC;
+	Thu, 16 Jul 2020 08:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1698E8845B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 07:48:12 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id z13so5979087wrw.5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 00:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pHlj95PuHpuK8EjcpSbfxXj0YDkpzRmPGGIY4XdbH3k=;
- b=uZ4RhjF7HbYAeqMgXIZrT4AmEiOo/SImpN+ix9b8VOSxo7T24rdTZELOiQI4/xSaJH
- 6PoHPTBksYQti9z41OMZXyvGHYnIAc+odSDmXHYb6a+/PycZ1v2KZu0X++jkmNSlxyyy
- 6SGSMRSyxhrqFWQPk/fh5jkhXHuftqAR49lQMpeb48WYXmB1jemQHkQq6zMRSRqp0Uma
- jrxNbiFYXNGMMdpEH3N9pzNmRsGh1lf87UMhZlSs0LHL4M3mgZ0SqIEs7wowxBPMfwRn
- Jne1L6nXzHHXSjizB12jL1WXkUedi6z1WGROPNdqS6NCYbf6Vs3/lN9VYP4qGnIk5EGb
- rMsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pHlj95PuHpuK8EjcpSbfxXj0YDkpzRmPGGIY4XdbH3k=;
- b=aLKuaGoMaXwAGQcu99eD5kjTtszahBC5GAKSKAQdRVXMunrQaFiBCA7SZync6+H+o2
- S3unEJzpBAcrjscFDxzplkzpYJ+az0rz1sNHMveJAR2V8MoIRcvBGwLafgFLbh25gey1
- pBpObbHc0uLyrylt9gqFF2Lhbz5Vf0tzog2MyjxNNXLOj7wYV8abfpAVWcounudEQZVz
- BJEWurpURA6TCRwPfomhc7OdkHHFK7qmsbehLVpvRZwE7n7UNQIK7s/K9LcMzTZEDkbH
- QSSQNN0R2oa3a8/oqmv3XCR1UdU/PjLCMCgzTdf923cFteWt6vKVMprjhJg+YDZirr3s
- RySQ==
-X-Gm-Message-State: AOAM530WZnO1DZIiuaWvuq6Em8dLztqx6TglREMJA5xm2qac8KjW2PPz
- q9qfkozp2HCupiO2t20AEo24avyO
-X-Google-Smtp-Source: ABdhPJx1u63WFUrRbt3JlCc1SzMqF9XJsq+en45uQ+5QOpwCEkCtroLKn3wg98MUpOkKj9LVwmuZvw==
-X-Received: by 2002:adf:f7cb:: with SMTP id a11mr3498573wrq.291.1594885690235; 
- Thu, 16 Jul 2020 00:48:10 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:6d1c:4116:45ce:e5b5])
- by smtp.gmail.com with ESMTPSA id a123sm7087779wmd.28.2020.07.16.00.48.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 00:48:09 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: remove TTM_MEMTYPE_FLAG_CMA
-Date: Thu, 16 Jul 2020 09:48:08 +0200
-Message-Id: <20200716074808.2525-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB076E0CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 08:05:59 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BE9D020809
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 08:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594886759;
+ bh=ehYqwwPvhuxxIPWHvlV3lLMdf3GltGXOOPUU/9ywhbk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=NUX4V55vt4vDnhVkTf8fxI7TNgH3zODiAlWoDTATCG7RRdPANygNwAvNS6W5TZWQW
+ SSdJcDQi4Jb0D+6miI511OufLznjUg6BIZLFLtlUCQNq06JGEPi0nWV6X5MaM8bFOC
+ 7oYDeoj4xzpTLhtqIbGKVncaWoF6cMtiJRPHVL7s=
+Received: by mail-lj1-f176.google.com with SMTP id s9so6068989ljm.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 01:05:58 -0700 (PDT)
+X-Gm-Message-State: AOAM530Gm7G3voCsyooSpJH22HLpROaMOJ1h+EelNAFymrxQ1zZTDyfT
+ lEQT0y5RBfamUlYHO8cOxzEsGjS1HcbtjDTzxnA=
+X-Google-Smtp-Source: ABdhPJxazghiflEzI/K26+i5bXrJUHgf5KqjhEhjQP9dK24Tz6XSyIB/akZSw4IY6VNdFmgg7CnAA+tbWy1cJgyFKIY=
+X-Received: by 2002:a2e:3a14:: with SMTP id h20mr1308635lja.331.1594886757055; 
+ Thu, 16 Jul 2020 01:05:57 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200714071305.18492-1-wens@kernel.org>
+ <20200714071305.18492-2-wens@kernel.org>
+ <20200716080043.6duzgo2ikeqr5lnw@gilmour.lan>
+In-Reply-To: <20200716080043.6duzgo2ikeqr5lnw@gilmour.lan>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 16 Jul 2020 16:05:46 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64a=kDwx-bEtXSyX1QCMe65KETgDHhbkYGBjX8Fv3Jk-A@mail.gmail.com>
+Message-ID: <CAGb2v64a=kDwx-bEtXSyX1QCMe65KETgDHhbkYGBjX8Fv3Jk-A@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: display: panel-dpi: Add bits-per-color
+ property
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,114 +56,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Madhav.Chauhan@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Siarhei Siamashka <siarhei.siamashka@gmail.com>,
+ David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIG9yaWdpbmFsIGludGVudGlvbiB3YXMgdG8gYXZvaWQgQ1BVIHBhZ2UgdGFibGUgdW5tYXBz
-CndoZW4gQk9zIG1vdmUgYmV0d2VlbiB0aGUgR1RUIGFuZCBTWVNURU0gZG9tYWluLgoKVGhlIHBy
-b2JsZW0gaXMgdGhhdCB0aGlzIG5ldmVyIGNvcnJlY3RseSBoYW5kbGVkIGNoYW5nZXMKaW4gdGhl
-IGNhY2hpbmcgYXR0cmlidXRlcyBvciBiYWNraW5nIHBhZ2VzLgoKSnVzdCBkcm9wIHRoaXMgZm9y
-IG5vdyBhbmQgc2ltcGx5IHVubWFwIHRoZSBDUFUgcGFnZQp0YWJsZXMgaW4gYWxsIGNhc2VzLgoK
-U2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
-PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyAgICB8ICA0ICst
-LQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jICAgICAgIHwgIDMgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jICAgICAgICB8ICAyICstCiBkcml2ZXJz
-L2dwdS9kcm0vdHRtL3R0bV9iby5jICAgICAgICAgICAgICAgfCAzNCArKysrLS0tLS0tLS0tLS0t
-LS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgfCAgMiAr
-LQogaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCAgICAgICAgICAgIHwgIDEgLQogNiBm
-aWxlcyBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAzNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKaW5kZXggOWMwZjEyZjc0YWY5Li40NGZhOGJj
-NDlkMTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0u
-YworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKQEAgLTkzLDcg
-KzkzLDcgQEAgc3RhdGljIGludCBhbWRncHVfaW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2Rl
-dmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAkJbWFuLT5mdW5jID0gJmFtZGdwdV9ndHRfbWdy
-X2Z1bmM7CiAJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwog
-CQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKLQkJbWFuLT5mbGFn
-cyA9IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEUgfCBUVE1fTUVNVFlQRV9GTEFHX0NNQTsKKwkJ
-bWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEU7CiAJCWJyZWFrOwogCWNhc2Ug
-VFRNX1BMX1ZSQU06CiAJCS8qICJPbi1jYXJkIiB2aWRlbyByYW0gKi8KQEAgLTEwOCw3ICsxMDgs
-NyBAQCBzdGF0aWMgaW50IGFtZGdwdV9pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNl
-ICpiZGV2LCB1aW50MzJfdCB0eXBlLAogCWNhc2UgQU1ER1BVX1BMX09BOgogCQkvKiBPbi1jaGlw
-IEdEUyBtZW1vcnkqLwogCQltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsKLQkJbWFu
-LT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQgfCBUVE1fTUVNVFlQRV9GTEFHX0NNQTsK
-KwkJbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQ7CiAJCW1hbi0+YXZhaWxhYmxl
-X2NhY2hpbmcgPSBUVE1fUExfRkxBR19VTkNBQ0hFRDsKIAkJbWFuLT5kZWZhdWx0X2NhY2hpbmcg
-PSBUVE1fUExfRkxBR19VTkNBQ0hFRDsKIAkJYnJlYWs7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
-ZWF1X2JvLmMKaW5kZXggYTEwMzc0NzhmYTNmLi43ODgzMzQxZjhjODMgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2JvLmMKQEAgLTY5NSw4ICs2OTUsNyBAQCBub3V2ZWF1X2JvX2luaXRf
-bWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCiAJCQkJ
-VFRNX1BMX0ZMQUdfV0M7CiAJCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX1dD
-OwogCQl9IGVsc2UgewotCQkJbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEUg
-fAotCQkJCSAgICAgVFRNX01FTVRZUEVfRkxBR19DTUE7CisJCQltYW4tPmZsYWdzID0gVFRNX01F
-TVRZUEVfRkxBR19NQVBQQUJMRTsKIAkJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExf
-TUFTS19DQUNISU5HOwogCQkJbWFuLT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNI
-RUQ7CiAJCX0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5j
-IGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKaW5kZXggNzMwODU1MjNmYWQ3
-Li41NGFmMDZkZjg2NWIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
-X3R0bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCkBAIC04NCw3
-ICs4NCw3IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19k
-ZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCiAJCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdl
-cl9mdW5jOwogCQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsK
-IAkJbWFuLT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7Ci0JCW1hbi0+Zmxh
-Z3MgPSBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFIHwgVFRNX01FTVRZUEVfRkxBR19DTUE7CisJ
-CW1hbi0+ZmxhZ3MgPSBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFOwogI2lmIElTX0VOQUJMRUQo
-Q09ORklHX0FHUCkKIAkJaWYgKHJkZXYtPmZsYWdzICYgUkFERU9OX0lTX0FHUCkgewogCQkJaWYg
-KCFyZGV2LT5kZGV2LT5hZ3ApIHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
-X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCmluZGV4IDhiOWU3ZjYyYmVhNy4u
-MDc2OGEwNTRhOTE2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKQEAgLTI3MiwyMCArMjcyLDE1IEBAIHN0
-YXRpYyBpbnQgdHRtX2JvX2hhbmRsZV9tb3ZlX21lbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
-KmJvLAogCQkJCSAgc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgpCiB7CiAJc3RydWN0IHR0
-bV9ib19kZXZpY2UgKmJkZXYgPSBiby0+YmRldjsKLQlib29sIG9sZF9pc19wY2kgPSB0dG1fbWVt
-X3JlZ19pc19wY2koYmRldiwgJmJvLT5tZW0pOwotCWJvb2wgbmV3X2lzX3BjaSA9IHR0bV9tZW1f
-cmVnX2lzX3BjaShiZGV2LCBtZW0pOwogCXN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqb2xk
-X21hbiA9ICZiZGV2LT5tYW5bYm8tPm1lbS5tZW1fdHlwZV07CiAJc3RydWN0IHR0bV9tZW1fdHlw
-ZV9tYW5hZ2VyICpuZXdfbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsKLQlpbnQgcmV0
-ID0gMDsKKwlpbnQgcmV0OwogCi0JaWYgKG9sZF9pc19wY2kgfHwgbmV3X2lzX3BjaSB8fAotCSAg
-ICAoKG1lbS0+cGxhY2VtZW50ICYgYm8tPm1lbS5wbGFjZW1lbnQgJiBUVE1fUExfTUFTS19DQUNI
-SU5HKSA9PSAwKSkgewotCQlyZXQgPSB0dG1fbWVtX2lvX2xvY2sob2xkX21hbiwgdHJ1ZSk7Ci0J
-CWlmICh1bmxpa2VseShyZXQgIT0gMCkpCi0JCQlnb3RvIG91dF9lcnI7Ci0JCXR0bV9ib191bm1h
-cF92aXJ0dWFsX2xvY2tlZChibyk7Ci0JCXR0bV9tZW1faW9fdW5sb2NrKG9sZF9tYW4pOwotCX0K
-KwlyZXQgPSB0dG1fbWVtX2lvX2xvY2sob2xkX21hbiwgdHJ1ZSk7CisJaWYgKHVubGlrZWx5KHJl
-dCAhPSAwKSkKKwkJZ290byBvdXRfZXJyOworCXR0bV9ib191bm1hcF92aXJ0dWFsX2xvY2tlZChi
-byk7CisJdHRtX21lbV9pb191bmxvY2sob2xkX21hbik7CiAKIAkvKgogCSAqIENyZWF0ZSBhbmQg
-YmluZCBhIHR0bSBpZiByZXF1aXJlZC4KQEAgLTE2OTgsMjMgKzE2OTMsNiBAQCBFWFBPUlRfU1lN
-Qk9MKHR0bV9ib19kZXZpY2VfaW5pdCk7CiAgKiBidWZmZXIgb2JqZWN0IHZtIGZ1bmN0aW9ucy4K
-ICAqLwogCi1ib29sIHR0bV9tZW1fcmVnX2lzX3BjaShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
-diwgc3RydWN0IHR0bV9tZW1fcmVnICptZW0pCi17Ci0Jc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5h
-Z2VyICptYW4gPSAmYmRldi0+bWFuW21lbS0+bWVtX3R5cGVdOwotCi0JaWYgKCEobWFuLT5mbGFn
-cyAmIFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQpKSB7Ci0JCWlmIChtZW0tPm1lbV90eXBlID09IFRU
-TV9QTF9TWVNURU0pCi0JCQlyZXR1cm4gZmFsc2U7Ci0KLQkJaWYgKG1hbi0+ZmxhZ3MgJiBUVE1f
-TUVNVFlQRV9GTEFHX0NNQSkKLQkJCXJldHVybiBmYWxzZTsKLQotCQlpZiAobWVtLT5wbGFjZW1l
-bnQgJiBUVE1fUExfRkxBR19DQUNIRUQpCi0JCQlyZXR1cm4gZmFsc2U7Ci0JfQotCXJldHVybiB0
-cnVlOwotfQotCiB2b2lkIHR0bV9ib191bm1hcF92aXJ0dWFsX2xvY2tlZChzdHJ1Y3QgdHRtX2J1
-ZmZlcl9vYmplY3QgKmJvKQogewogCXN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2ID0gYm8tPmJk
-ZXY7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVy
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMKaW5kZXggYmZk
-MGM1NGVjMzBhLi42YmVhNzU0OGFlZTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3R0bV9idWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dm
-eF90dG1fYnVmZmVyLmMKQEAgLTc2Miw3ICs3NjIsNyBAQCBzdGF0aWMgaW50IHZtd19pbml0X21l
-bV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAogCQkgKiAg
-c2xvdHMgYXMgd2VsbCBhcyB0aGUgYm8gc2l6ZS4KIAkJICovCiAJCW1hbi0+ZnVuYyA9ICZ2bXdf
-Z21yaWRfbWFuYWdlcl9mdW5jOwotCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19DTUEg
-fCBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFOworCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVf
-RkxBR19NQVBQQUJMRTsKIAkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NB
-Q0hFRDsKIAkJbWFuLT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7CiAJCWJy
-ZWFrOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCBiL2luY2x1
-ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKaW5kZXggNDU1MjJlNGZiZDZiLi43MWIxOTVlNzhj
-N2MgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKKysrIGIvaW5j
-bHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaApAQCAtNDcsNyArNDcsNiBAQAogCiAjZGVmaW5l
-IFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQgICAgICAgICAoMSA8PCAwKQkvKiBGaXhlZCAob24tY2Fy
-ZCkgUENJIG1lbW9yeSAqLwogI2RlZmluZSBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFICAgICAg
-KDEgPDwgMSkJLyogTWVtb3J5IG1hcHBhYmxlICovCi0jZGVmaW5lIFRUTV9NRU1UWVBFX0ZMQUdf
-Q01BICAgICAgICAgICAoMSA8PCAzKQkvKiBDYW4ndCBtYXAgYXBlcnR1cmUgKi8KIAogc3RydWN0
-IHR0bV9tZW1fdHlwZV9tYW5hZ2VyOwogCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Jul 16, 2020 at 4:00 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Tue, Jul 14, 2020 at 03:13:01PM +0800, Chen-Yu Tsai wrote:
+> > From: Chen-Yu Tsai <wens@csie.org>
+> >
+> > Some LCD panels do not support 24-bit true color, or 8bits per channel
+> > RGB. Many low end ones only support up to 6 bits per channel natively.
+> >
+> > Add a device tree property to describe the native bit depth of the
+> > panel. This is separate from the bus width or format of the connection
+> > to the display output.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> > ---
+> >  .../devicetree/bindings/display/panel/panel-dpi.yaml          | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > index 0cd74c8dab42..8eb013fb1969 100644
+> > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
+> > @@ -26,6 +26,9 @@ properties:
+> >    height-mm: true
+> >    label: true
+> >    panel-timing: true
+> > +  bits-per-color:
+> > +    description:
+> > +      Shall contain an integer describing the number of bits per color.
+>
+> You should specify its type (u32), range (1-8 I guess?) and default
+> value (which seems to be 8).
+
+Ok.
+
+> Also, it's not unusual to have a different number of bits per color,
+> like for 16 bits panels where we usually use RGB565. I guess we could
+> make that an array?
+
+So for different number of bits per color, I'm not sure whether that's
+a function of the panel itself, or the bus format. I don't really have
+any 16-bit panels on hand. As it stands DRM only handles a common color
+depth.
+
+ChenYu
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
