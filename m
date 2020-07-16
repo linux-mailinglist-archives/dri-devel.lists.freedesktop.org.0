@@ -1,63 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D50221FE4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 11:43:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4D6221FDA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 11:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1B36EC38;
-	Thu, 16 Jul 2020 09:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9066889D83;
+	Thu, 16 Jul 2020 09:42:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F154B6EBEA
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 18:37:53 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id j10so2510569qtq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jul 2020 11:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wu5L69ovDWpf3LlRTghHvSZ9xDVM0oBpBNBxh9J31aU=;
- b=X41U7h2bTsN1nK0Puc/tLb924o67b+2UV9G0xJtvqBnjtGU2GJVoLTPmPc2FM+tUrb
- Yqa/M22owsTFVTn8qQuvMAhKKdbOchqlqkKcL3i9UZ7cUvoSJemVue+leOt2xxf4Udl8
- 0QdSDzjGO8hph3oKTCCMmWEFoJT7nzr3yBVxVmuVLny7X4bnY73FE7kXEKyzlggqVxvG
- ilX0nPTbXIaLsc5zdeyl8IwR+yURCMy/1WPaHPWiskOYpN8t4ShR35rLkwoy8ME/5pnH
- P+ys0a1HCyZMA23ZGY+NOI1MtM773J6j+OiXsBamFl5mwJG04FdBbpXcVaX0EsJ17Cia
- EHIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wu5L69ovDWpf3LlRTghHvSZ9xDVM0oBpBNBxh9J31aU=;
- b=OADZ8HLjnccqOApKPYnpIMFSyZOks5u6g6R9xkmGGfx1O4vd3RsqmDks2rS30fttpv
- Vo4QB7SVdqWOiUnwSk4PbqytgDmgaOcgtKbvia00EtTf6oma4qnILc1kEPVX1vNBO0Ld
- CPvVVblhaAI7THPt57+kNi0pCvzkgIN4+HEteybL/1OBgb9t03IgDk2RYqOs00cVC5hN
- n+npLl8j4JNq6Tac9IqJg+GnTef9kdjtDmwxgGQHy0Rcj34UWAf5S9/YMfhny7hsWa0o
- h5jpuoHbc0YHx8PzVjQks3W5K241ZHLA4ZCgVu5jOhH3usdRxZO/B0K+6ycHq7cGqX6c
- TqbA==
-X-Gm-Message-State: AOAM531U9JiT8Qsk5EWRBq8KnMjBa6VIPHKhzClr+SSch8xlEpcZwl1B
- TZrzFBt7OPYcBghY0ryBlbUeaQ==
-X-Google-Smtp-Source: ABdhPJz3H5u/h/w/d+GjGc1uZlqsx1rCJM9E4KLLiOaeaJjvmt5xA4eeQYXiFdMY+OuSMREJ5zLqug==
-X-Received: by 2002:ac8:5542:: with SMTP id o2mr1219868qtr.47.1594838272913;
- Wed, 15 Jul 2020 11:37:52 -0700 (PDT)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id z60sm4010802qtc.30.2020.07.15.11.37.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jul 2020 11:37:52 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm/adreno: fix gpu probe if no interconnect-names
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200715182955.3081774-1-robdclark@gmail.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <baef95e0-e44f-be7d-f60f-0ba75b550050@marek.ca>
-Date: Wed, 15 Jul 2020 14:36:33 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F8A6E1A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 01:59:50 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 094F3E12A9A918CC266D;
+ Thu, 16 Jul 2020 09:59:41 +0800 (CST)
+Received: from [10.174.179.105] (10.174.179.105) by smtp.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 16 Jul
+ 2020 09:59:39 +0800
+Subject: Re: [PATCH] drm: remove redundant assignment to variable 'ret'
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <ajax@redhat.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20200715070559.180986-1-jingxiangfeng@huawei.com>
+ <20200715120503.GJ3278063@phenom.ffwll.local>
+From: Jing Xiangfeng <jingxiangfeng@huawei.com>
+Message-ID: <5F0FB48A.6080407@huawei.com>
+Date: Thu, 16 Jul 2020 09:59:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.1.0
 MIME-Version: 1.0
-In-Reply-To: <20200715182955.3081774-1-robdclark@gmail.com>
-Content-Language: en-US
+In-Reply-To: <20200715120503.GJ3278063@phenom.ffwll.local>
+X-Originating-IP: [10.174.179.105]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 16 Jul 2020 09:42:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,83 +46,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Brian Masney <masneyb@onstation.org>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/15/20 2:29 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> If there is no interconnect-names, but there is an interconnects
-> property, then of_icc_get(dev, "gfx-mem"); would return an error
-> rather than NULL.
-> 
-> Also, if there is no interconnect-names property, there will never
-> be a ocmem path.  But of_icc_get(dev, "ocmem") would return -EINVAL
-> instead of -ENODATA.  Just don't bother trying in this case.
-> 
-> Fixes: 8e29fb37b301 ("drm/msm: handle for EPROBE_DEFER for of_icc_get")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index 0527e85184e1..c4ac998b90c8 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -979,6 +979,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->   	struct adreno_platform_config *config = dev->platform_data;
->   	struct msm_gpu_config adreno_gpu_config  = { 0 };
->   	struct msm_gpu *gpu = &adreno_gpu->base;
-> +	bool has_interconnect_names = true;
->   	int ret;
->   
->   	adreno_gpu->funcs = funcs;
-> @@ -1005,12 +1006,13 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->   
->   	/* Check for an interconnect path for the bus */
->   	gpu->icc_path = of_icc_get(dev, "gfx-mem");
-> -	if (!gpu->icc_path) {
-> +	if (IS_ERR_OR_NULL(gpu->icc_path)) {
->   		/*
->   		 * Keep compatbility with device trees that don't have an
->   		 * interconnect-names property.
->   		 */
->   		gpu->icc_path = of_icc_get(dev, NULL);
 
-This is misleading because if it gets a EPROBE_DEFER error (or any other 
-error), it will hit this path. Maybe there's a specific error you can 
-check for instead to identify the "no-interconnect-names" case?
 
-Also don't think its a good idea to be calling of_icc_get(dev, NULL) 
-again when there's a EPROBE_DEFER, the interconnect driver could come up 
-between the two calls
+On 2020/7/15 20:05, Daniel Vetter wrote:
+> On Wed, Jul 15, 2020 at 03:05:59PM +0800, Jing Xiangfeng wrote:
+>> The variable ret has been assigned the value '-EINVAL'. The assignment
+>> in the if() is redundant. We can remove it.
+>
+> Nope, that's not correct. Before this assignement ret is guaranteed to be
+> 0.
 
-> +		has_interconnect_names = false;
->   	}
->   	if (IS_ERR(gpu->icc_path)) {
->   		ret = PTR_ERR(gpu->icc_path);
-> @@ -1018,7 +1020,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->   		return ret;
->   	}
->   
-> -	gpu->ocmem_icc_path = of_icc_get(dev, "ocmem");
-> +	if (has_interconnect_names)
-> +		gpu->ocmem_icc_path = of_icc_get(dev, "ocmem");
-> +
->   	if (IS_ERR(gpu->ocmem_icc_path)) {
->   		ret = PTR_ERR(gpu->ocmem_icc_path);
->   		gpu->ocmem_icc_path = NULL;
-> 
+Before this assignment ret is '-EINVAL'(see commit 45bc3d26c95a: "drm: 
+rework SET_MASTER and DROP_MASTER perm handling"). It is set to 0 above
+around the drm_drop_master() calls.
+
+Thanks
+> -Daniel
+>
+>>
+>> Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
+>> ---
+>>   drivers/gpu/drm/drm_auth.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>> index 800ac39f3213..6e1b502f2797 100644
+>> --- a/drivers/gpu/drm/drm_auth.c
+>> +++ b/drivers/gpu/drm/drm_auth.c
+>> @@ -299,7 +299,6 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+>>
+>>   	if (file_priv->master->lessor != NULL) {
+>>   		DRM_DEBUG_LEASE("Attempt to drop lessee %d as master\n", file_priv->master->lessee_id);
+>> -		ret = -EINVAL;
+>>   		goto out_unlock;
+>>   	}
+>>
+>> --
+>> 2.17.1
+>>
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
