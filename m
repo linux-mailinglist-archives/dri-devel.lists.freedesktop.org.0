@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671952235C6
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 09:22:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F132235B6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 09:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 462116ED39;
-	Fri, 17 Jul 2020 07:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB5A6ED0F;
+	Fri, 17 Jul 2020 07:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 490B16E2E6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 16:39:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBC96E2E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 16:39:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1594917533; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1594917534; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C47O06jRppbagFRte6gS37MUQbV04aQyhbcbGArG1Wk=;
- b=Wl8KNIjgyKJUjNeF2I5UdIMo8cUNhKSP3mmXSABUl/pNZf0bVvrnUm8F9z0cGjwexZTeyb
- 5DpihKiqnM9a+wvWKMDtI0I9gY+4rLsOjxCjGnV75oLAn5JbDmhURqiO0oOWFHonMr1PbI
- ja5rP2p6VUqc29wwFx0/rwY9JiiWBJI=
+ bh=Yfps6zJTHRjLHKhT7ej722q1fZZeWk7kGex+GBCz5ic=;
+ b=UNQhsv6dbbeFw050Bnzp8j+Cg1NaNTKGKhqN0l0uOpBiZfvzgk09TTft7OictnLlhtKBym
+ gDwltSCqIJ6INz4nhYcjTHM2Li8t1snyjqgeuPtJ1ZzOTym8x8zKH0ZPyemExCMUXebAFu
+ E5VShWUFjoQ+LAx0W+GQfz35cISFU7s=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 02/12] dt-bindings: display: Convert ingenic,
- lcd.txt to YAML
-Date: Thu, 16 Jul 2020 18:38:36 +0200
-Message-Id: <20200716163846.174790-2-paul@crapouillou.net>
+Subject: [PATCH v3 03/12] dt-bindings: display: Add ingenic,ipu.yaml
+Date: Thu, 16 Jul 2020 18:38:37 +0200
+Message-Id: <20200716163846.174790-3-paul@crapouillou.net>
 In-Reply-To: <20200716163846.174790-1-paul@crapouillou.net>
 References: <20200716163846.174790-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -52,102 +51,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the ingenic,lcd.txt to a new ingenic,lcd.yaml file.
+Add documentation of the Device Tree bindings for the Image Processing
+Unit (IPU) found in most Ingenic SoCs.
 
-In the process, the new ingenic,jz4780-lcd compatible string has been
-added.
-
-v2: Add info about IPU at port@8
+v2: Add missing 'const' in items list
 v3: No change
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Reviewed-by: Rob Herring <robh@kernel.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../bindings/display/ingenic,lcd.txt          |  45 -------
- .../bindings/display/ingenic,lcd.yaml         | 126 ++++++++++++++++++
- 2 files changed, 126 insertions(+), 45 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.txt
- create mode 100644 Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+ .../bindings/display/ingenic,ipu.yaml         | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/ingenic,ipu.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.txt b/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-deleted file mode 100644
-index 01e3261defb6..000000000000
---- a/Documentation/devicetree/bindings/display/ingenic,lcd.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Ingenic JZ47xx LCD driver
--
--Required properties:
--- compatible: one of:
--  * ingenic,jz4740-lcd
--  * ingenic,jz4725b-lcd
--  * ingenic,jz4770-lcd
--- reg: LCD registers location and length
--- clocks: LCD pixclock and device clock specifiers.
--	   The device clock is only required on the JZ4740.
--- clock-names: "lcd_pclk" and "lcd"
--- interrupts: Specifies the interrupt line the LCD controller is connected to.
--
--Example:
--
--panel {
--	compatible = "sharp,ls020b1dd01d";
--
--	backlight = <&backlight>;
--	power-supply = <&vcc>;
--
--	port {
--		panel_input: endpoint {
--			remote-endpoint = <&panel_output>;
--		};
--	};
--};
--
--
--lcd: lcd-controller@13050000 {
--	compatible = "ingenic,jz4725b-lcd";
--	reg = <0x13050000 0x1000>;
--
--	interrupt-parent = <&intc>;
--	interrupts = <31>;
--
--	clocks = <&cgu JZ4725B_CLK_LCD>;
--	clock-names = "lcd";
--
--	port {
--		panel_output: endpoint {
--			remote-endpoint = <&panel_input>;
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/display/ingenic,lcd.yaml b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
+diff --git a/Documentation/devicetree/bindings/display/ingenic,ipu.yaml b/Documentation/devicetree/bindings/display/ingenic,ipu.yaml
 new file mode 100644
-index 000000000000..d56db1802fad
+index 000000000000..5bfc33eb32c9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ingenic,lcd.yaml
-@@ -0,0 +1,126 @@
++++ b/Documentation/devicetree/bindings/display/ingenic,ipu.yaml
+@@ -0,0 +1,65 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/ingenic,lcd.yaml#
++$id: http://devicetree.org/schemas/display/ingenic,ipu.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Ingenic SoCs LCD controller devicetree bindings
++title: Ingenic SoCs Image Processing Unit (IPU) devicetree bindings
 +
 +maintainers:
 +  - Paul Cercueil <paul@crapouillou.net>
 +
 +properties:
-+  $nodename:
-+    pattern: "^lcd-controller@[0-9a-f]+$"
-+
 +  compatible:
-+    enum:
-+      - ingenic,jz4740-lcd
-+      - ingenic,jz4725b-lcd
-+      - ingenic,jz4770-lcd
-+      - ingenic,jz4780-lcd
++    oneOf:
++      - enum:
++        - ingenic,jz4725b-ipu
++        - ingenic,jz4760-ipu
++      - items:
++        - const: ingenic,jz4770-ipu
++        - const: ingenic,jz4760-ipu
 +
 +  reg:
 +    maxItems: 1
@@ -156,100 +99,40 @@ index 000000000000..d56db1802fad
 +    maxItems: 1
 +
 +  clocks:
-+    items:
-+      - description: Pixel clock
-+      - description: Module clock
-+    minItems: 1
++    maxItems: 1
 +
 +  clock-names:
-+    items:
-+      - const: lcd_pclk
-+      - const: lcd
-+    minItems: 1
++    const: ipu
 +
-+  port:
++patternProperties:
++  "^ports?$":
 +    description: OF graph bindings (specified in bindings/graph.txt).
-+
-+  ports:
-+    description: OF graph bindings (specified in bindings/graph.txt).
-+    type: object
-+    properties:
-+      port@0:
-+        type: object
-+        description: DPI output, to interface with TFT panels.
-+
-+      port@8:
-+        type: object
-+        description: Link to the Image Processing Unit (IPU).
-+          (See ingenic,ipu.yaml).
-+
-+    required:
-+      - port@0
 +
 +required:
-+    - compatible
-+    - reg
-+    - interrupts
-+    - clocks
-+    - clock-names
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - ingenic,jz4740-lcd
-+          - ingenic,jz4780-lcd
-+then:
-+  properties:
-+    clocks:
-+      minItems: 2
-+    clock-names:
-+      minItems: 2
-+else:
-+  properties:
-+    clocks:
-+      maxItems: 1
-+    clock-names:
-+      maxItems: 1
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/jz4740-cgu.h>
-+    lcd-controller@13050000 {
-+      compatible = "ingenic,jz4740-lcd";
-+      reg = <0x13050000 0x1000>;
++    #include <dt-bindings/clock/jz4770-cgu.h>
++    ipu@13080000 {
++      compatible = "ingenic,jz4770-ipu", "ingenic,jz4760-ipu";
++      reg = <0x13080000 0x800>;
 +
 +      interrupt-parent = <&intc>;
-+      interrupts = <30>;
++      interrupts = <29>;
 +
-+      clocks = <&cgu JZ4740_CLK_LCD_PCLK>, <&cgu JZ4740_CLK_LCD>;
-+      clock-names = "lcd_pclk", "lcd";
-+
-+      port {
-+        endpoint {
-+          remote-endpoint = <&panel_input>;
-+        };
-+      };
-+    };
-+
-+  - |
-+    #include <dt-bindings/clock/jz4725b-cgu.h>
-+    lcd-controller@13050000 {
-+      compatible = "ingenic,jz4725b-lcd";
-+      reg = <0x13050000 0x1000>;
-+
-+      interrupt-parent = <&intc>;
-+      interrupts = <31>;
-+
-+      clocks = <&cgu JZ4725B_CLK_LCD>;
-+      clock-names = "lcd_pclk";
++      clocks = <&cgu JZ4770_CLK_IPU>;
++      clock-names = "ipu";
 +
 +      port {
-+        endpoint {
-+          remote-endpoint = <&panel_input>;
++        ipu_ep: endpoint {
++          remote-endpoint = <&lcdc_ep>;
 +        };
 +      };
 +    };
