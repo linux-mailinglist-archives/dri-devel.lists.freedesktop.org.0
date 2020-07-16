@@ -1,38 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F842222CA1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 22:19:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7685222CA6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 22:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E01B6ECDB;
-	Thu, 16 Jul 2020 20:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02D476ECE1;
+	Thu, 16 Jul 2020 20:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1C46ECDB
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 20:19:30 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 1D3A520039;
- Thu, 16 Jul 2020 22:19:28 +0200 (CEST)
-Date: Thu, 16 Jul 2020 22:19:26 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Suraj Upadhyay <usuraj35@gmail.com>
-Subject: Re: [PATCH 0/4] drm: core: Convert logging to drm_* functions.
-Message-ID: <20200716201926.GE2254583@ravnborg.org>
-References: <cover.1594136880.git.usuraj35@gmail.com>
- <20200710175643.GF17565@ravnborg.org>
- <20200711151126.GA12262@blackclown>
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 775D36ECE3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 20:21:27 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id x8so4352253plm.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 13:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pz5u7Nl+iTJUonoiBLwcqOKTZmTebMlmblSIOFO6rAM=;
+ b=d1KqoUc9C65mdlIM1wphjX9P9IvQqnkH+VGwg/9vsqbDhMF3tDcIpZMzzqkhrqVqiP
+ uBxiOsyg8SCYYZ7sMGB0J94YxMnLxQWj9PiFOhub5rbkZikf76aLsDuutPUqOHMg5Wfg
+ /UTwEqcNRFWh5p+d8sfnnwVnT90s2PhcNYhw8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pz5u7Nl+iTJUonoiBLwcqOKTZmTebMlmblSIOFO6rAM=;
+ b=ZZFAY3I3x4i4Le4yAUdTKn3zceXJ8luvx6PlAc+ssCfH4gyc6Ueguz3y1LFCv0Lg9A
+ CaRoTQjEiMlG7yBf8gxq2ZDsk1Slkahrrb+DtjblbiM8+p78JXOxQ0B+xO7jtfKKHYPW
+ eIiuPtWo8lVJI38QbkV7N/UBwedHFRcQrOLL3jWe8XuG/bxm5hdKI5ij/tWPJJoXSTfc
+ Yfkz18o8mOycPIl6AiluA2a5obkNANon8bDf+SDLSOaGYUfrLc8zC3+cO0HcoE/UxqRg
+ HxpmVgnhRVssSSfXnXq5SAYLGTMNgmiEkDuCcMa5nDDgIHuZCoHO0y39qF+Krw9RA4Rp
+ GUJw==
+X-Gm-Message-State: AOAM5339P/avxqTQ9swaIoFE/HNBfZiyYr1XlavFpNJUtik26DSPEb0+
+ kRcbd10+vKU7qZNze7ruSKr99BqHp44=
+X-Google-Smtp-Source: ABdhPJzawA3nZe2sQ2O21b+jEe2lje6nBGUfnkf12tO9O2zxF36z+tkqvDv1LnqypSnSRKd1+UUnNg==
+X-Received: by 2002:a17:902:5981:: with SMTP id
+ p1mr4745234pli.141.1594930886819; 
+ Thu, 16 Jul 2020 13:21:26 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
+ by smtp.gmail.com with ESMTPSA id m17sm5815606pfo.182.2020.07.16.13.21.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 13:21:26 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm: panel: simple: Delay HPD checking on boe_nv133fhm_n61
+ for 15 ms
+Date: Thu, 16 Jul 2020 13:21:22 -0700
+Message-Id: <20200716132120.1.I01e738cd469b61fc9b28b3ef1c6541a4f48b11bf@changeid>
+X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200711151126.GA12262@blackclown>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=M7-yi6CMk_IXB4dErxsA:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,117 +64,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ steev@kali.org, bjorn.andersson@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Suraj.
+On boe_nv133fhm_n62 (and presumably on boe_nv133fhm_n61) a scope shows
+a small spike on the HPD line right when you power the panel on.  The
+picture looks something like this:
 
-On Sat, Jul 11, 2020 at 08:41:26PM +0530, Suraj Upadhyay wrote:
-> On Fri, Jul 10, 2020 at 07:56:43PM +0200, Sam Ravnborg wrote:
-> > Hi Suraj.
-> > 
-> > On Tue, Jul 07, 2020 at 10:04:14PM +0530, Suraj Upadhyay wrote:
-> > > 
-> > > This patchset converts logging to drm_* functions in drm core.
-> > > 
-> > > The following functions have been converted to their respective
-> > > DRM alternatives :
-> > > dev_info()      --> drm_info()
-> > > dev_err()       --> drm_err()
-> > > dev_warn()      --> drm_warn()
-> > > dev_err_once()  --> drm_err_once().
-> > 
-> > I would prefer that DRM_* logging in the same files are converted in the
-> > same patch. So we have one logging conversion patch for each file you
-> > touches and that we do not need to re-vist the files later to change
-> > another set of logging functions.
-> 
-> Agreed.
-> 
-> > If possible WARN_* should also be converted to drm_WARN_*
-> > If patch is too large, then split them up but again lets have all
-> > logging updated when we touch a file.
-> > 
-> > Care to take a look at this approach?
-> >
-> 
-> Hii,
-> 	The problem with WARN_* macros is that they are used without any
-> drm device context. For example [this use here](https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_edid.c#n1667) in drm_edid.c,
-> doesn't have a drm device context and only has one argument (namely !raw_edid).
-> There are many more such use cases.
-> 
-> And also there were cases where dev_* logging functions didn't have any
-> drm_device context.
-> 
-> I would be very glad, if we came up with a possible solution to this
-> problem. I think we should develop drm_* logging APIs which could print
-> contextless logs (which would possibly be midlyering) or give every situation a context.
+         +--------------------------------------
+         |
+         |
+         |
+Power ---+
+                                           +---
+                                           |
+              ++                           |
+         +----+|                           |
+HPD -----+     +---------------------------+
 
-This was discussed in the past.
-For now the focus is migrating existing logging to the new drm_ based
-logging. Preferably using coccinelle.
-when we are more or less covered there we can discuss if we will add
-more logging functions.
+So right when power is applied there's a little bump in HPD and then
+there's small spike right before it goes low.  The total time of the
+little bump plus the spike was measured on one panel as being 8 ms
+long.  The total time for the HPD to go high on the same panel was
+51.2 ms, though the datasheet only promises it is < 200 ms.
 
-> 
-> > Also please consider if coccinelle can make this job easier.
-> > There is a lot of files...
-> 
-> I totally agree with you. I will remember this next time.
-> 
-> But here, in this patchset I have tried to convert all possible
-> cases of conversion, i.e. I have changed logging wherever there was a
-> drm_device context.
+When asked about this glitch, BOE indicated that it was expected and
+persisted until the TCON has been initialized.
 
-Please note this in the changelog when you resend.
-I delete your original patches so they are gone now from my mail-box.
-Yeah, could dig them up somewhere, but it is easier to let you resend
-them and then we can have an updated changelog too.
+If this was a real hotpluggable DP panel then this wouldn't matter a
+whole lot.  We'd debounce the HPD signal for a really long time and so
+the little blip wouldn't hurt.  However, this is not a hotpluggable DP
+panel and the the debouncing logic isn't needed and just shows down
+the time needed to get the display working.  This is why the code in
+panel_simple_prepare() doesn't do debouncing and just waits for HPD to
+go high once.  Unfortunately if we get unlucky and happen to poll the
+HPD line right at the spike we can try talking to the panel before
+it's ready.
 
-	Sam
+Let's handle this situation by putting in a 15 ms prepare delay and
+decreasing the "hpd absent delay" by 15 ms.  That means:
+* If you don't have HPD hooked up at all you've still got the
+  hardcoded 200 ms delay.
+* If you've got HPD hooked up you will always wait at least 15 ms
+  before checking HPD.  The only case where this could be bad is if
+  the panel is sharing a voltage rail with something else in the
+  system and was already turned on long before the panel came up.  In
+  such a case we'll be delaying 15 ms for no reason, but it's not a
+  huge delay and I don't see any other good solution to handle that
+  case.
 
-> 
-> Thanks.
-> 
-> > 	Sam
-> > 
-> > > 
-> > > Suraj Upadhyay (4):
-> > >   drm: mipi-dsi: Convert logging to drm_* functions.
-> > >   drm: mipi-dbi: Convert logging to drm_* functions.
-> > >   drm: edid: Convert logging to drm_* functions.
-> > >   drm: fb-helper: Convert logging to drm_* functions.
-> > > 
-> > >  drivers/gpu/drm/drm_edid.c      |  7 +++----
-> > >  drivers/gpu/drm/drm_fb_helper.c |  2 +-
-> > >  drivers/gpu/drm/drm_mipi_dbi.c  |  4 ++--
-> > >  drivers/gpu/drm/drm_mipi_dsi.c  | 15 +++++++--------
-> > >  4 files changed, 13 insertions(+), 15 deletions(-)
-> > > 
-> > > -- 
-> > > 2.17.1
-> > > 
-> > > 
-> > 
-> > 
-> > 
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > 
+Even though the delay was measured as 8 ms, 15 ms was chosen to give a
+bit of margin.
 
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+I don't actually have a device in front of me that is exhibiting these
+problems.  I believe that it is only some devices and some of the
+time.  Still, this patch seems safe and seems likely to fix the issue
+given the scope shots.
 
+ drivers/gpu/drm/panel/panel-simple.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 88493538a147..046a06b55800 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1260,7 +1260,21 @@ static const struct panel_desc boe_nv133fhm_n61 = {
+ 		.height = 165,
+ 	},
+ 	.delay = {
+-		.hpd_absent_delay = 200,
++		/*
++		 * When power is first given to the panel there's a short
++		 * spike on the HPD line.  It was explained that this spike
++		 * was until the TCON data download was complete.  On
++		 * one system this was measured at 8 ms.  We'll put 15 ms
++		 * in the prepare delay just to be safe and take it away
++		 * from the hpd_absent_delay (which would otherwise be 200 ms)
++		 * to handle this.  That means:
++		 * - If HPD isn't hooked up you still have 200 ms delay.
++		 * - If HPD is hooked up we won't try to look at it for the
++		 *   first 15 ms.
++		 */
++		.prepare = 15,
++		.hpd_absent_delay = 185,
++
+ 		.unprepare = 500,
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+-- 
+2.28.0.rc0.105.gf9edc3c819-goog
 
 _______________________________________________
 dri-devel mailing list
