@@ -2,27 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE2022359E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 09:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404F12235C1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 09:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70EF66ED0B;
-	Fri, 17 Jul 2020 07:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC8BE6ED2A;
+	Fri, 17 Jul 2020 07:22:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE266EBB1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 14:51:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 11A82ACBF;
- Thu, 16 Jul 2020 14:51:32 +0000 (UTC)
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Eric Anholt <eric@anholt.net>,
-	Dave Emett <david.emett@broadcom.com>
-Subject: [PATCH] drm/v3d: Use platform_get_irq_optional() to get optional IRQs
-Date: Thu, 16 Jul 2020 16:49:27 +0200
-Message-Id: <20200716144927.7193-1-nsaenzjulienne@suse.de>
-X-Mailer: git-send-email 2.27.0
+Received: from crapouillou.net (crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F876E2E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 16:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1594917532; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:references; bh=ZxOxYK7rdmy6ZMNe+mLCkT04eXTl/5csusRl6Ybtnow=;
+ b=DW4WPfv3e2cU56e/brqKRNV82UdkvShqbXyCKQm5WjfWo0pIU1vAqz/epRSvWuSfBm6f3E
+ J4+2HW//hDT1v9V7Tl0zxpWz0va8yn7OErFgf0TuWZC6P+rUiJOcfOt/IyIPB77ZfGgAbf
+ h+JAJUyQzDYPW/GSi6bFpx9I4JaEqg8=
+From: Paul Cercueil <paul@crapouillou.net>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3 01/12] drm/ingenic: Fix incorrect assumption about
+ plane->index
+Date: Thu, 16 Jul 2020 18:38:35 +0200
+Message-Id: <20200716163846.174790-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 17 Jul 2020 07:22:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -37,36 +41,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ od@zcrc.me, stable@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aside from being more correct, the non optional version of the function
-prints an error when failing to find the IRQ.
+plane->index is NOT the index of the color plane in a YUV frame.
+Actually, a YUV frame is represented by a single drm_plane, even though
+it contains three Y, U, V planes.
 
-Fixes: eea9b97b4504 ("drm/v3d: Add support for V3D v4.2")
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+v2-v3: No change
+
+Cc: stable@vger.kernel.org # v5.3
+Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx SoCs")
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/v3d/v3d_irq.c | 2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index c88686489b88..0be2eb7876be 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -217,7 +217,7 @@ v3d_irq_init(struct v3d_dev *v3d)
- 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS);
- 	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
+index deb37b4a8e91..606d8acb0954 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+@@ -386,7 +386,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+ 		width = state->src_w >> 16;
+ 		height = state->src_h >> 16;
+-		cpp = state->fb->format->cpp[plane->index];
++		cpp = state->fb->format->cpp[0];
  
--	irq1 = platform_get_irq(v3d_to_pdev(v3d), 1);
-+	irq1 = platform_get_irq_optional(v3d_to_pdev(v3d), 1);
- 	if (irq1 == -EPROBE_DEFER)
- 		return irq1;
- 	if (irq1 > 0) {
+ 		priv->dma_hwdesc->addr = addr;
+ 		priv->dma_hwdesc->cmd = width * height * cpp / 4;
 -- 
 2.27.0
 
