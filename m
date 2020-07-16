@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75327222A1B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 19:41:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C512B222A29
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 19:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B0F6E2F8;
-	Thu, 16 Jul 2020 17:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3B66ECA6;
+	Thu, 16 Jul 2020 17:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB4076E2F8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 17:41:50 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1jw7tA-00065m-Ju; Thu, 16 Jul 2020 19:41:44 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1jw7t8-0000UW-32; Thu, 16 Jul 2020 19:41:42 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/mxsfb: drop unused function parameter
-Date: Thu, 16 Jul 2020 19:41:39 +0200
-Message-Id: <20200716174139.16602-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.27.0
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F7E6ECA6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 17:43:38 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id B649920024;
+ Thu, 16 Jul 2020 19:43:36 +0200 (CEST)
+Date: Thu, 16 Jul 2020 19:43:35 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v3 01/12] drm/ingenic: Fix incorrect assumption about
+ plane->index
+Message-ID: <20200716174335.GC2235355@ravnborg.org>
+References: <20200716163846.174790-1-paul@crapouillou.net>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20200716163846.174790-1-paul@crapouillou.net>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
+ a=4WA-eTY_EG-Q7__DAOgA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=9LHmKk7ezEChjTCyhBa9:22 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,33 +45,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Shawn Guo <shawnguo@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, od@zcrc.me,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZmxhZ3MgaXMgdW51c2VkIHNpbmNlIHRoZSBkcml2ZXIgd2FzIGludHJvZHVjZWQgaW4gY29tbWl0
-IDQ1ZDU5ZDcwNDA4MAooImRybTogQWRkIG5ldyBkcml2ZXIgZm9yIE1YU0ZCIGNvbnRyb2xsZXIi
-KS4KClNpZ25lZC1vZmYtYnk6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1LmtsZWluZS1rb2VuaWdAcGVu
-Z3V0cm9uaXguZGU+Ci0tLQogZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jIHwgNCAr
-Ky0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9kcnYuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9teHNmYi9teHNmYl9kcnYuYwppbmRleCA0OTdjZjQ0M2E5YWYuLmZiOTcyZGQ0ZjY0MiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9teHNmYi9teHNmYl9kcnYuYwpAQCAtMTkxLDcgKzE5MSw3IEBAIHN0YXRpYyBz
-dHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGVfZnVuY3MgbXhzZmJfZnVuY3MgPSB7CiAJLmRp
-c2FibGVfdmJsYW5rCT0gbXhzZmJfcGlwZV9kaXNhYmxlX3ZibGFuaywKIH07CiAKLXN0YXRpYyBp
-bnQgbXhzZmJfbG9hZChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCB1bnNpZ25lZCBsb25nIGZsYWdz
-KQorc3RhdGljIGludCBteHNmYl9sb2FkKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0pCiB7CiAJc3Ry
-dWN0IHBsYXRmb3JtX2RldmljZSAqcGRldiA9IHRvX3BsYXRmb3JtX2RldmljZShkcm0tPmRldik7
-CiAJc3RydWN0IG14c2ZiX2RybV9wcml2YXRlICpteHNmYjsKQEAgLTQwNyw3ICs0MDcsNyBAQCBz
-dGF0aWMgaW50IG14c2ZiX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAJaWYg
-KElTX0VSUihkcm0pKQogCQlyZXR1cm4gUFRSX0VSUihkcm0pOwogCi0JcmV0ID0gbXhzZmJfbG9h
-ZChkcm0sIDApOworCXJldCA9IG14c2ZiX2xvYWQoZHJtKTsKIAlpZiAocmV0KQogCQlnb3RvIGVy
-cl9mcmVlOwogCi0tIAoyLjI3LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+Hi Paul.
+
+On Thu, Jul 16, 2020 at 06:38:35PM +0200, Paul Cercueil wrote:
+> plane->index is NOT the index of the color plane in a YUV frame.
+> Actually, a YUV frame is represented by a single drm_plane, even though
+> it contains three Y, U, V planes.
+> 
+> v2-v3: No change
+> 
+> Cc: stable@vger.kernel.org # v5.3
+> Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx SoCs")
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+A cover letter would have been useful. Please consider that in the
+future.
+All patches in this set are:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+A few requires some trivial issues fixed. They can be fixed while
+applying.
+
+I consider the patch-set ready to go in and I expect you to commit them.
+
+	Sam
+
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> index deb37b4a8e91..606d8acb0954 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> @@ -386,7 +386,7 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+>  		width = state->src_w >> 16;
+>  		height = state->src_h >> 16;
+> -		cpp = state->fb->format->cpp[plane->index];
+> +		cpp = state->fb->format->cpp[0];
+>  
+>  		priv->dma_hwdesc->addr = addr;
+>  		priv->dma_hwdesc->cmd = width * height * cpp / 4;
+> -- 
+> 2.27.0
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
