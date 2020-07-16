@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AB522201A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 12:02:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C39CA22208C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jul 2020 12:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D895D88830;
-	Thu, 16 Jul 2020 10:02:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2686E103;
+	Thu, 16 Jul 2020 10:24:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A6788830
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 10:02:23 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id w3so10986475wmi.4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 03:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=HmJaP7NVFikmcFK4iQg7dTx43rAgLK9eCD2nR0ykggk=;
- b=QXqXKWHD595aOxvBvIH0/gxFgCKeBmrudeJvMWbRzyIjiUcd8RY3hApeSAnEV1kvE3
- QpgeeNZA2EfDthgH3ykQZgPNBvm2P3awtwuaXp2nmwOFPFwcQ0DOVXbvhgDB53c/Ae0I
- XIkCuf6zc8kz51rbtP8PDxSLTOyINc3kqx25w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=HmJaP7NVFikmcFK4iQg7dTx43rAgLK9eCD2nR0ykggk=;
- b=XoIwMmizc2NqYifmfuUPMqq+6ebJWKxhWfbWq/q/YZeuFfZaoFIjONTlZ8QMcuKFC1
- 6eh7X0FALXtcVfbGXK71nabvxzHGZ6ZqcnQD7ru8yMikc3ZY0A6GS2cyQoj2sv4Ax6lo
- HIZFSJfY3TQKlgQ8B7v2WWiP147IQ4Eu72gAo3aYmknZTvubdS4xC2Hk4+9dfNcWSofk
- 51NR9mO3shBRJkcmnRRSNqNcOTcN2RwWQiYoZo7TTGNXn20bos0w1VFb0OY+PGxDelkE
- jj1aJdD8I+WekyqiX05C5P92Xrar2xax6gIWhW1iN1rF6fd4cZj6s0f2L9hABW4rSs8f
- oqwg==
-X-Gm-Message-State: AOAM531yC81TNxitWfmXpkBDwRr2E7QgM6V/xmasZIqUJtB17mefj7tm
- 1WGkkejBbIdGaFWNuxgCP2oeyg==
-X-Google-Smtp-Source: ABdhPJy/fuyzYF8bhQ0P7Z9zswy1xZik8dtBkFxL5eo+aszv5YPTqw8TmSmFdKQ6/aArjI3D5ObphA==
-X-Received: by 2002:a1c:5418:: with SMTP id i24mr3521598wmb.47.1594893742062; 
- Thu, 16 Jul 2020 03:02:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x9sm8030657wmk.45.2020.07.16.03.02.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 03:02:21 -0700 (PDT)
-Date: Thu, 16 Jul 2020 12:02:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jing Xiangfeng <jingxiangfeng@huawei.com>
-Subject: Re: [PATCH] drm: remove redundant assignment to variable 'ret'
-Message-ID: <20200716100202.GO3278063@phenom.ffwll.local>
-Mail-Followup-To: Jing Xiangfeng <jingxiangfeng@huawei.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, ajax@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200715070559.180986-1-jingxiangfeng@huawei.com>
- <20200715120503.GJ3278063@phenom.ffwll.local>
- <5F0FB48A.6080407@huawei.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46C6B6E103
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 10:24:58 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Thu, 16 Jul 2020 10:24:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: strzol@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-K21jYjmp3S@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5F0FB48A.6080407@huawei.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +52,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 16, 2020 at 09:59:38AM +0800, Jing Xiangfeng wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
+
+--- Comment #68 from Stratos Zolotas (strzol@gmail.com) ---
+(In reply to Stratos Zolotas from comment #60)
 > 
-> 
-> On 2020/7/15 20:05, Daniel Vetter wrote:
-> > On Wed, Jul 15, 2020 at 03:05:59PM +0800, Jing Xiangfeng wrote:
-> > > The variable ret has been assigned the value '-EINVAL'. The assignment
-> > > in the if() is redundant. We can remove it.
-> > 
-> > Nope, that's not correct. Before this assignement ret is guaranteed to be
-> > 0.
-> 
-> Before this assignment ret is '-EINVAL'(see commit 45bc3d26c95a: "drm:
-> rework SET_MASTER and DROP_MASTER perm handling"). It is set to 0 above
-> around the drm_drop_master() calls.
+> To make things looks more strange... I have a non-explicable development
+> with this issue. When it appeared to me I was in the middle of upgrading
+> some components on my system. I replaced my AMD FX-8350 with one AMD Ryzen 5
+> 3600X and my Gigabyte GA-970a-ds3p motherboard with one Gigabyte X570 UD
+> (along with new RAM dimms from 16GB to 32GB). RX580 stayed the same and also
+> OS is the same (disks moved to the new motherboard, no re-install). Guess
+> what... running with 5.7.7 for 48 hours now without issues.... problem has
+> disappeared. I suspect a very rare combination of things maybe even not in
+> the amdgpu driver itself... With 5.7.7 on my "old" configuration, I had the
+> crash almost immediately after login like in the above comment.
 
-Ah indeed, but it got fixed already in 
-
-commit 264ddd077c72092178153fc32d510dcecff32eeb
-Author: Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Sat May 30 13:46:40 2020 +0100
-
-    drm/auth: make drm_{set,drop}master_ioctl symmetrical
-
-That's why your patch didn't make any sense to me.
--Daniel
-
-> 
-> Thanks
-> > -Daniel
-> > 
-> > > 
-> > > Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
-> > > ---
-> > >   drivers/gpu/drm/drm_auth.c | 1 -
-> > >   1 file changed, 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> > > index 800ac39f3213..6e1b502f2797 100644
-> > > --- a/drivers/gpu/drm/drm_auth.c
-> > > +++ b/drivers/gpu/drm/drm_auth.c
-> > > @@ -299,7 +299,6 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
-> > > 
-> > >   	if (file_priv->master->lessor != NULL) {
-> > >   		DRM_DEBUG_LEASE("Attempt to drop lessee %d as master\n", file_priv->master->lessee_id);
-> > > -		ret = -EINVAL;
-> > >   		goto out_unlock;
-> > >   	}
-> > > 
-> > > --
-> > > 2.17.1
-> > > 
-> > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Just to report that got the issue after some days with my new hardware setup,
+so it is still there, hope you guys pinpoint it soon!
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
