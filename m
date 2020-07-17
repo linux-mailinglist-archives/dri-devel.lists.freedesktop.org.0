@@ -1,51 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C4E2239BA
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 12:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A52B3223A8E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 13:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 722B46E04E;
-	Fri, 17 Jul 2020 10:51:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE9506E12A;
+	Fri, 17 Jul 2020 11:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A0A6E04E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 10:51:03 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jwNxE-0003u7-5w; Fri, 17 Jul 2020 12:51:00 +0200
-Message-ID: <c325bee7980feb3564de05a0a6d15c1708e2c7c0.camel@pengutronix.de>
-Subject: Re: [PATCH v5 0/4] Add support for iMX8MQ Display Controller Subsystem
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>, dri-devel
- <dri-devel@lists.freedesktop.org>,  Linux ARM
- <linux-arm-kernel@lists.infradead.org>, devicetree
- <devicetree@vger.kernel.org>, Guido =?ISO-8859-1?Q?G=FCnther?=
- <agx@sigxcpu.org>, lukas@mntmn.com, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>
-Date: Fri, 17 Jul 2020 12:50:56 +0200
-In-Reply-To: <20200717094517.layssf75bxe3ijs4@fsr-ub1864-141>
-References: <20200709164736.18291-1-laurentiu.palcu@oss.nxp.com>
- <3c03afff3256ec36e12b9d9408830fbb4853f982.camel@pengutronix.de>
- <CAKMK7uGsveS+cwxiTq7BGrB1OcE_ff9bAxgSFDMUSmS7gRLJ7g@mail.gmail.com>
- <febb665904a9c3c680363be8ea83f243ccd09cb7.camel@pengutronix.de>
- <20200717092758.GR3278063@phenom.ffwll.local>
- <20200717094517.layssf75bxe3ijs4@fsr-ub1864-141>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24AF56E118
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 11:32:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594985543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TYpWDk5YRbEJgevYd6gB8eGgLm0tIiJeUcncZGG+w6o=;
+ b=i6ABQZygQAef7piM003bSba61BBGO8Rvdm6v1YtrN9Uf4Fm32+vz9lXwjJcUQ+5oJMgedJ
+ 7mRYlrUVRAV0uwNbnxqRcLYnCt9kPyaFOm3dpYXzxZSAL3ZUdCMdwpqWs0OOTA/kS7dDOg
+ Y1AYhXm+3PnveeHdtzlvHkWmmy4WDQc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-N9rMbJamOGunt2UhQWTNpg-1; Fri, 17 Jul 2020 07:32:21 -0400
+X-MC-Unique: N9rMbJamOGunt2UhQWTNpg-1
+Received: by mail-qt1-f199.google.com with SMTP id m25so6061749qtk.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 04:32:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TYpWDk5YRbEJgevYd6gB8eGgLm0tIiJeUcncZGG+w6o=;
+ b=fOhBE9XnFidhcFsllADkXPRpNB2BQX0f5VxYTRKOHBW7qtDSQX1kDsFdRSI5tpiyKt
+ fBYAo+aAxUp663IRONnUr8aN2T4RtEEHRodyeJpTKUr1JsP4rnQeCuoGBVIfEArFETlW
+ 1HMsQD/SFnaUgmrfn2UnXWcP5PdlIyI6LvvrOFX5VjD8QB7E/xv/9Seghicikp3xCZSC
+ IzFZkVUgFCT9xM/755SjStkU5GwBv58KTRLrbkz13aJlH24FC888m25PlJ8x43Yg6XDA
+ CChwlnMfNWwLT0lHEWr9Lc1HdjrjE6eK/7mCtUMYEiZUZdMBQGh6gE5un3Li6OKyBAOF
+ 42AQ==
+X-Gm-Message-State: AOAM531KXvjPjokZc6P6Om542DJI6O6kSnkxBtA5IVv7mqeEb6M8DE0z
+ 7uy55DkK8n318kLUMlWvr5UqxNFHTO79AO7Wb5aPUT9U/tN2QhcXxPq32tREi/KacaTKbEN6pFi
+ hoS3dVJjK7RdfZpznLmhqtSjREsUbRFuLeY8TKOPf3i4R
+X-Received: by 2002:a37:a589:: with SMTP id o131mr8525059qke.102.1594985541186; 
+ Fri, 17 Jul 2020 04:32:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8U5sWpquWmgK/Rg67k2lvFtnWDq2c6Co4MkYKbyr1oubN2HBDkG+dq9s8lm6gAwtT3o4kndbiPD79JItfOvo=
+X-Received: by 2002:a37:a589:: with SMTP id o131mr8525028qke.102.1594985540875; 
+ Fri, 17 Jul 2020 04:32:20 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
+ <20200716235440.GA675421@bjorn-Precision-5520>
+ <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+In-Reply-To: <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 17 Jul 2020 13:32:10 +0200
+Message-ID: <CACO55tso5SVipAR=AZfqhp6GGkKO9angv6f+nd61wvgAJtrOKg@mail.gmail.com>
+Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
+ without DLL Link Active train links in 100 ms"
+To: Bjorn Helgaas <helgaas@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,95 +72,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sasha Levin <sashal@kernel.org>, Patrick Volkerding <volkerdi@gmail.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, den 17.07.2020, 12:45 +0300 schrieb Laurentiu Palcu:
-> Hi Lukas and Daniel,
-> 
-> On Fri, Jul 17, 2020 at 11:27:58AM +0200, Daniel Vetter wrote:
-> > On Fri, Jul 17, 2020 at 11:12:39AM +0200, Lucas Stach wrote:
-> > > Am Freitag, den 17.07.2020, 10:59 +0200 schrieb Daniel Vetter:
-> > > > On Fri, Jul 17, 2020 at 10:18 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > > Hi Laurentiu,
-> > > > > 
-> > > > > Am Donnerstag, den 09.07.2020, 19:47 +0300 schrieb Laurentiu Palcu:
-> > > > > > From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> > > > > > 
-> > > > > > Hi,
-> > > > > > 
-> > > > > > This patchset adds initial DCSS support for iMX8MQ chip. Initial support
-> > > > > > includes only graphics plane support (no video planes), no HDR10 capabilities,
-> > > > > > no graphics decompression (only linear, tiled and super-tiled buffers allowed).
-> > > > > > 
-> > > > > > Support for the rest of the features will be added incrementally, in subsequent
-> > > > > > patches.
-> > > > > > 
-> > > > > > The patchset was tested with both HDP driver (in the downstream tree) and the upstream
-> > > > > > MIPI-DSI driver (with a couple of patches on top, to make it work correctly with DCSS).
-> > > > > 
-> > > > > I think the series (minus 3/5 and minor correction to the DT binding)
-> > > > > is fine to go in now. So just some formal questions: are you going to
-> > > > > maintain this driver in upstream? If so we should add a MAINTAINERS
-> > > > > entry to that effect. I can offer to act as a reviewer in this case.
-> 
-> I can maintain the DCSS driver, sure, and the more reviewers the better.
-> Thanks for helping out with this. Should I send a v6 then with a patch
-> for MAINTAINERS?
-> 
-> > > > > How do you intend to merge this? IMO pushing this through drm-misc
-> > > > > seems like the right thing to do. If you agree I can help you get this
-> > > > > applied. If you are going to maintain the driver on your own, I think
-> > > > > you should then apply for commit rights to drm-misc.
-> > > > 
-> > > > drm/imx isn't listed yet as under the drm-misc umbrella, maybe we
-> > > > should put the entire collective of imx drivers under drm-misc? Or
-> > > > maybe it's just an oversight that the git repo isn't specified in the
-> > > > MAINTAINERS entry. Also maybe we should add the pengutronix kernel
-> > > > team alias there too?
-> > > 
-> > > drm/imx was exclusively the IPUv3 up until now, which is in fact
-> > > maintained outside of drm-misc in its own git tree. This has worked
-> > > quite well in the past so even though IPUv3 doesn't see a lot of churn
-> > > these days the motivation to change anything to this workflow is quite
-> > > low. And yes, the git tree is missing from the MAINTAINERS entry.
-> > > 
-> > > For the DCSS driver, if it's going to be maintained by NXP, I figured
-> > > it might be easier for Laurentiu to push things into drm-misc than set
-> > > up a separate public git tree. But IMHO that's fully up to him to
-> > > decide.
-> > 
-> > /me puts on maintainer hat
-> > 
-> > Much prefer drm-misc over random people playing maintainer and fumbling
-> > it. I think the reasonable options are either in the current imx tree, or
-> > drm-misc. Standalone tree for these small drivers just doesn't make much
-> > sense.
-> 
-> I don't have anything against either method, though I have to agree I
-> like things to be simple. Going through drm-misc sounds simple enough to me. :)
-> However, since there is going to be more activity in the DRM IMX area in
-> the future, reviving the drm/imx tree, and push all IMX related stuff
-> through drm/imx, could make sense as well.
+Filed at https://bugzilla.kernel.org/show_bug.cgi?id=208597
 
-I think drm-misc is the right place then.
+oddly enough I wasn't able to reproduce it on my XPS 9560, will ping
+once something breaks.
 
-Please send a v6 with the following changes:
-- drop the component framework patch
-- drop the i.MX8MQ DT patch, this should go through Shawn's imx tree
-after the driver and binding has landed in drm-misc
-- you can add my Reviewed-by to the whole series or I can add it when
-applying
-- add a MAINTAINERS entry, please add me as a reviewer if you don't
-mind
-
-I can push this initial series into drm-misc until you've got your own
-commit rights.
-
-Regards,
-Lucas
+On Fri, Jul 17, 2020 at 2:43 AM Karol Herbst <kherbst@redhat.com> wrote:
+>
+> On Fri, Jul 17, 2020 at 1:54 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> >
+> > [+cc Sasha -- stable kernel regression]
+> > [+cc Patrick, Kai-Heng, LKML]
+> >
+> > On Fri, Jul 17, 2020 at 12:10:39AM +0200, Karol Herbst wrote:
+> > > On Tue, Jul 7, 2020 at 9:30 PM Karol Herbst <kherbst@redhat.com> wrote:
+> > > >
+> > > > Hi everybody,
+> > > >
+> > > > with the mentioned commit Nouveau isn't able to load firmware onto the
+> > > > GPU on one of my systems here. Even though the issue doesn't always
+> > > > happen I am quite confident this is the commit breaking it.
+> > > >
+> > > > I am still digging into the issue and trying to figure out what
+> > > > exactly breaks, but it shows up in different ways. Either we are not
+> > > > able to boot the engines on the GPU or the GPU becomes unresponsive.
+> > > > Btw, this is also a system where our runtime power management issue
+> > > > shows up, so maybe there is indeed something funky with the bridge
+> > > > controller.
+> > > >
+> > > > Just pinging you in case you have an idea on how this could break Nouveau
+> > > >
+> > > > most of the times it shows up like this:
+> > > > nouveau 0000:01:00.0: acr: AHESASC binary failed
+> > > >
+> > > > Sometimes it works at boot and fails at runtime resuming with random
+> > > > faults. So I will be investigating a bit more, but yeah... I am super
+> > > > sure the commit triggered this issue, no idea if it actually causes
+> > > > it.
+> > >
+> > > so yeah.. I reverted that locally and never ran into issues again.
+> > > Still valid on latest 5.7. So can we get this reverted or properly
+> > > fixed? This breaks runtime pm for us on at least some hardware.
+> >
+> > Yeah, that stinks.  We had another similar report from Patrick:
+> >
+> >   https://lore.kernel.org/r/CAErSpo5sTeK_my1dEhWp7aHD0xOp87+oHYWkTjbL7ALgDbXo-Q@mail.gmail.com
+> >
+> > Apparently the problem is ec411e02b7a2 ("PCI/PM: Assume ports without
+> > DLL Link Active train links in 100 ms"), which Patrick found was
+> > backported to v5.4.49 as 828b192c57e8, and you found was backported to
+> > v5.7.6 as afaff825e3a4.
+> >
+> > Oddly, Patrick reported that v5.7.7 worked correctly, even though it
+> > still contains afaff825e3a4.
+> >
+> > I guess in the absence of any other clues we'll have to revert it.
+> > I hate to do that because that means we'll have slow resume of
+> > Thunderbolt-connected devices again, but that's better than having
+> > GPUs completely broken.
+> >
+> > Could you and Patrick open bugzilla.kernel.org reports, attach dmesg
+> > logs and "sudo lspci -vv" output, and add the URLs to Kai-Heng's
+> > original report at https://bugzilla.kernel.org/show_bug.cgi?id=206837
+> > and to this thread?
+> >
+> > There must be a way to fix the slow resume problem without breaking
+> > the GPUs.
+> >
+>
+> I wouldn't be surprised if this is related to the Intel bridge we
+> check against for Nouveau.. I still have to check on another laptop
+> with the same bridge our workaround was required as well but wouldn't
+> be surprised if it shows the same problem. Will get you the
+> information from both systems tomorrow then.
+>
+> > Bjorn
+> >
 
 _______________________________________________
 dri-devel mailing list
