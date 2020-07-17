@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D78223B27
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 14:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB93E223B80
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 14:39:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 964986E09C;
-	Fri, 17 Jul 2020 12:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 916BB6E207;
+	Fri, 17 Jul 2020 12:39:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 445E46E09C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 12:12:41 +0000 (UTC)
-Received: by mail-oo1-xc43.google.com with SMTP id c4so1805865oou.6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 05:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mgpqIN79nCOfCVhNvxr/rGM/YK4i7u/VPV1BFAAPJaw=;
- b=Uhw94F6OVAquHONB+Evcb0benKNMjZ/MuPp98SVYNLV2GJt53ooUMfBAgndPGC/Qm/
- DGszdD1dYLOu+W8JqPU+WicbVUR7AVolKq+qDk6I1756ULeegD1oTd8rDhgdkhshGo4+
- I41Om38utJXWyZIpzRceOjNvGEbRcD0t3Ux0g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mgpqIN79nCOfCVhNvxr/rGM/YK4i7u/VPV1BFAAPJaw=;
- b=HlbtKhuan0AtnPkASiUtJS9Zzd2sG3hJ56jJ9Zo3Ub4XbyX6JWcoJR0/P8UcOV0yg2
- fmXbrHw5TZrcLW+T4jpa3rYMDZVqtn70qHw/45sQKRbWhVks2oCMxoRmrOmz/SKWhJ3P
- 7MtBebpEfki8NbUnuqC3LA+sWmc9wkLs/XgPbCq2L8glKp4in30SI/JEKrpYgcB95zJ7
- Z8QcAqyYQbKde1CLI2TRzGSD3Xvc9ZErVSDAtUY7lbOmesauog08s1Z2xy4Gaq90Hdfm
- tg6cu1fDGftvhlP6aos4RSgq4kyMnxz670WpK0PoLXjk9r6VCfziN8kwLHZ6uWdH7lS4
- iS+Q==
-X-Gm-Message-State: AOAM531vw/LOujuWHkmhOsPvmDQFF8gTjW6gtYAjs39sHCg5lwLPoCeb
- kvHg/avzLIU9gbAla7X6j20lTg9cwj5BnGeSRRLMbA==
-X-Google-Smtp-Source: ABdhPJxPDHhBpPwBRT60SUcGdNpykcqlU/t2dXosfVIoY0zbR9Y3+4Q/RU03XCNfEWTJvup70SmMtilH0FFLnJBsJTs=
-X-Received: by 2002:a4a:b6c5:: with SMTP id w5mr8159004ooo.89.1594987960413;
- Fri, 17 Jul 2020 05:12:40 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA976E207
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 12:39:44 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Fri, 17 Jul 2020 12:39:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: anthony.ruhier@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-6iXTqFJhnT@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20200709164736.18291-1-laurentiu.palcu@oss.nxp.com>
- <3c03afff3256ec36e12b9d9408830fbb4853f982.camel@pengutronix.de>
- <CAKMK7uGsveS+cwxiTq7BGrB1OcE_ff9bAxgSFDMUSmS7gRLJ7g@mail.gmail.com>
- <febb665904a9c3c680363be8ea83f243ccd09cb7.camel@pengutronix.de>
- <20200717092758.GR3278063@phenom.ffwll.local>
- <20200717094517.layssf75bxe3ijs4@fsr-ub1864-141>
- <c325bee7980feb3564de05a0a6d15c1708e2c7c0.camel@pengutronix.de>
-In-Reply-To: <c325bee7980feb3564de05a0a6d15c1708e2c7c0.camel@pengutronix.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 17 Jul 2020 14:12:29 +0200
-Message-ID: <CAKMK7uGQbgB_w3-j1GzZdS0ZcqgQc+LZZxSUbBWeEz_vYf4nJQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] Add support for iMX8MQ Display Controller Subsystem
-To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,120 +52,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, lukas@mntmn.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 17, 2020 at 12:51 PM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Am Freitag, den 17.07.2020, 12:45 +0300 schrieb Laurentiu Palcu:
-> > Hi Lukas and Daniel,
-> >
-> > On Fri, Jul 17, 2020 at 11:27:58AM +0200, Daniel Vetter wrote:
-> > > On Fri, Jul 17, 2020 at 11:12:39AM +0200, Lucas Stach wrote:
-> > > > Am Freitag, den 17.07.2020, 10:59 +0200 schrieb Daniel Vetter:
-> > > > > On Fri, Jul 17, 2020 at 10:18 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > > > > Hi Laurentiu,
-> > > > > >
-> > > > > > Am Donnerstag, den 09.07.2020, 19:47 +0300 schrieb Laurentiu Palcu:
-> > > > > > > From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> > > > > > >
-> > > > > > > Hi,
-> > > > > > >
-> > > > > > > This patchset adds initial DCSS support for iMX8MQ chip. Initial support
-> > > > > > > includes only graphics plane support (no video planes), no HDR10 capabilities,
-> > > > > > > no graphics decompression (only linear, tiled and super-tiled buffers allowed).
-> > > > > > >
-> > > > > > > Support for the rest of the features will be added incrementally, in subsequent
-> > > > > > > patches.
-> > > > > > >
-> > > > > > > The patchset was tested with both HDP driver (in the downstream tree) and the upstream
-> > > > > > > MIPI-DSI driver (with a couple of patches on top, to make it work correctly with DCSS).
-> > > > > >
-> > > > > > I think the series (minus 3/5 and minor correction to the DT binding)
-> > > > > > is fine to go in now. So just some formal questions: are you going to
-> > > > > > maintain this driver in upstream? If so we should add a MAINTAINERS
-> > > > > > entry to that effect. I can offer to act as a reviewer in this case.
-> >
-> > I can maintain the DCSS driver, sure, and the more reviewers the better.
-> > Thanks for helping out with this. Should I send a v6 then with a patch
-> > for MAINTAINERS?
-> >
-> > > > > > How do you intend to merge this? IMO pushing this through drm-misc
-> > > > > > seems like the right thing to do. If you agree I can help you get this
-> > > > > > applied. If you are going to maintain the driver on your own, I think
-> > > > > > you should then apply for commit rights to drm-misc.
-> > > > >
-> > > > > drm/imx isn't listed yet as under the drm-misc umbrella, maybe we
-> > > > > should put the entire collective of imx drivers under drm-misc? Or
-> > > > > maybe it's just an oversight that the git repo isn't specified in the
-> > > > > MAINTAINERS entry. Also maybe we should add the pengutronix kernel
-> > > > > team alias there too?
-> > > >
-> > > > drm/imx was exclusively the IPUv3 up until now, which is in fact
-> > > > maintained outside of drm-misc in its own git tree. This has worked
-> > > > quite well in the past so even though IPUv3 doesn't see a lot of churn
-> > > > these days the motivation to change anything to this workflow is quite
-> > > > low. And yes, the git tree is missing from the MAINTAINERS entry.
-> > > >
-> > > > For the DCSS driver, if it's going to be maintained by NXP, I figured
-> > > > it might be easier for Laurentiu to push things into drm-misc than set
-> > > > up a separate public git tree. But IMHO that's fully up to him to
-> > > > decide.
-> > >
-> > > /me puts on maintainer hat
-> > >
-> > > Much prefer drm-misc over random people playing maintainer and fumbling
-> > > it. I think the reasonable options are either in the current imx tree, or
-> > > drm-misc. Standalone tree for these small drivers just doesn't make much
-> > > sense.
-> >
-> > I don't have anything against either method, though I have to agree I
-> > like things to be simple. Going through drm-misc sounds simple enough to me. :)
-> > However, since there is going to be more activity in the DRM IMX area in
-> > the future, reviving the drm/imx tree, and push all IMX related stuff
-> > through drm/imx, could make sense as well.
->
-> I think drm-misc is the right place then.
->
-> Please send a v6 with the following changes:
-> - drop the component framework patch
-> - drop the i.MX8MQ DT patch, this should go through Shawn's imx tree
-> after the driver and binding has landed in drm-misc
-> - you can add my Reviewed-by to the whole series or I can add it when
-> applying
-> - add a MAINTAINERS entry, please add me as a reviewer if you don't
-> mind
->
-> I can push this initial series into drm-misc until you've got your own
-> commit rights.
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
-For drm-misc howto get started:
+--- Comment #71 from Anthony Ruhier (anthony.ruhier@gmail.com) ---
+Just to give some news, I can confirm that I haven't had any freeze since
+Wednesday. Usually, when my system just idled, it would quickly trigger the
+bug. That or doing something CPU intensive (like compiling firefox). But
+nothing since I reverted the 3 commits.
 
-https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
+Really good job Duncan! Thanks a lot for your debug!
 
-And howto get commit rights:
+MB chipset: x470 
+CPU: ryzen 2700x
+GPU: vega64
 
-https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
-
-Once you have the fd.o bug report to request commit rights pls paste
-it here so we can get the ack from drm-misc maintainers.
-
-Cheers, Daniel
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
