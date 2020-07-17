@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A7C22427E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 19:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9132224397
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 20:58:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E72316E22A;
-	Fri, 17 Jul 2020 17:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA306E0D9;
+	Fri, 17 Jul 2020 18:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 704546E22A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 17:47:19 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id f12so11718142eja.9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 10:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MCHMQCyaGiFmiAEOZCGJJ9+ZHHBfKYMD4ndLx0utt+k=;
- b=kL6cSQaA7ZAVb822SFcAn7jM2Z6R7qPL+QjfpbvzDVzuf+tomRxqOFWAJ20xTDf1tY
- 2rbaQqrOLOC/Bo8gmXu2gTHqxX6Qo4NB57ye5M0qR6u6UtQM5s8N+0UVlh9tLUyFdjL/
- Eyj8QpTzQ9BBM2QPHD6E8YuSF8JTRCENbiVEYnryF8HkLcdFxrbD313fC06dlQ2mRqAv
- YMyf04NxtyDacYtALlkVvz5xR1aGACID1vGMZI0WQsm1aXahrqOuctfNzpptlK/1atPw
- h5zCqVW2HBLNE64+8ZJPcJqL5mjo3EtLkUTKyOAKfciGLTj114RioK73jR5iAjg69Lsb
- XMdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MCHMQCyaGiFmiAEOZCGJJ9+ZHHBfKYMD4ndLx0utt+k=;
- b=Wb+uAZPd7ng2yeg9kXveaAeiHQ5AsBzW8KttUJW6aN/uXUWuTEX54V0+rlyzotiWt0
- rnNsfJ8i7x48LLfeMkrfpSrS/vMFIb0l5ShYpzcjS9w5YdTyopxLd4MhGQCyhccUdlhz
- qYguNLRWuRPnfEYnRAK//JjFzgCgVTdWLDIMQoY644b8ALZ+KGNd3WGgYYWrLDiWsNIE
- DbMSsP4Ysvirk7niy+JNWG4mkBBWo4rzUI5KvHbXv13YwBwYma8H3Qp9J+qmQ2lmUAO7
- uqbhmHIu78+smGPQUaMDKqkrwcdu+cKzoawAVeE29VLi8i8Spzvpp0qiRQ2OmQk0bfBQ
- dxkQ==
-X-Gm-Message-State: AOAM533Z4fePskZ5TzrclMXoirCxg37dRtBai8TNpq3T5oQ194xm46oY
- IRyFqY3FBTTLpFxHt1ZSGDvfiO2d43tKqUutL5s=
-X-Google-Smtp-Source: ABdhPJwtmM5I9XsUxydmrAjDhrNrNvfs/8okO6i9fpHQnBYs8v9G4H73wAYeFtCw/gPwg6HQpmgc6UytC/0WnR2RsRo=
-X-Received: by 2002:a17:906:7c54:: with SMTP id
- g20mr9931963ejp.460.1595008037981; 
- Fri, 17 Jul 2020 10:47:17 -0700 (PDT)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7AF36E0D9;
+ Fri, 17 Jul 2020 18:58:30 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f11f4c90000>; Fri, 17 Jul 2020 11:58:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 17 Jul 2020 11:58:30 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 17 Jul 2020 11:58:30 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 Jul
+ 2020 18:58:30 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+ Frontend Transport; Fri, 17 Jul 2020 18:58:29 +0000
+Received: from jajones-aftershock.nvidia.com (Not Verified[172.20.40.74]) by
+ rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5f11f4d50000>; Fri, 17 Jul 2020 11:58:29 -0700
+From: James Jones <jajones@nvidia.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Ben Skeggs <bskeggs@redhat.com>, "Kirill A . Shutemov" <kirill@shutemov.name>
+Subject: [PATCH] drm/nouveau: Accept 'legacy' format modifiers
+Date: Fri, 17 Jul 2020 11:57:57 -0700
+Message-ID: <20200717185757.2786-1-jajones@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <1594292674-15632-1-git-send-email-rnayak@codeaurora.org>
- <1594292674-15632-4-git-send-email-rnayak@codeaurora.org>
-In-Reply-To: <1594292674-15632-4-git-send-email-rnayak@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 17 Jul 2020 10:47:51 -0700
-Message-ID: <CAF6AEGvioVKKSN-UP35OfJcfUXeHy34Y6w2eM_FZU+zpTaRE7A@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] arm64: dts: sdm845: Add DSI and MDP OPP tables and
- power-domains
-To: Rajendra Nayak <rnayak@codeaurora.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1595012297; bh=2t0eesWzsoG2op7SkfO1G02lUoOtw11S4/Ld+ehKJYQ=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=doFMCg1/00YZnQgvEuVxVzhSBKGZktD0kOL0oo/A20RSEBmw9hN7gSzNZhhMILBmq
+ T9cvtm507ZRi42WLIDmd76mqiU0GZmToLYC2X3rnT033BCWd1ZWJ9PX1vWH0h2f7iK
+ FSyjcUidJrirG0suqMIN1dLeeqWJl/ZoSkMyJRnTdD22gpfW63YAiy5OOKzC9ppy5O
+ Ut1S1ub8CRwtyEdZCQPr/RdgBtiPj99nt+ZAgvZZZP9H9AFto8DRBe0fGaMOgoVdjn
+ CE79+lJegCD8YCDGic+xgzlhU0LrIx2BuNMEqDlUpp+h9VzV4oCMHSupVSeTkZ0pPm
+ WCVfpH/IZ6eaw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,140 +61,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Sean Paul <sean@poorly.run>, Matthias Kaehlcke <mka@chromium.org>
+Cc: Nouveau <nouveau@lists.freedesktop.org>, James Jones <jajones@nvidia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 9, 2020 at 4:05 AM Rajendra Nayak <rnayak@codeaurora.org> wrote:
->
-> Add the OPP tables for DSI and MDP based on the perf state/clk
-> requirements, and add the power-domains property to specify the
-> scalable power domain.
->
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+Accept the DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()
+family of modifiers to handle broken userspace
+Xorg modesetting and Mesa drivers.
 
-Tested-by: Rob Clark <robdclark@gmail.com>
+Tested with Xorg 1.20 modesetting driver,
+weston@c46c70dac84a4b3030cd05b380f9f410536690fc,
+gnome & KDE wayland desktops from Ubuntu 18.04,
+and sway 1.5
 
-Bjorn, the two driver patches are queued up in msm-next, I assume
-you'll pickup the two dt patches?
+Signed-off-by: James Jones <jajones@nvidia.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_display.c | 26 +++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
-BR,
--R
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index 496c4621cc78..31543086254b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -191,8 +191,14 @@ nouveau_decode_mod(struct nouveau_drm *drm,
+ 		   uint32_t *tile_mode,
+ 		   uint8_t *kind)
+ {
++	struct nouveau_display *disp = nouveau_display(drm->dev);
+ 	BUG_ON(!tile_mode || !kind);
+ 
++	if ((modifier & (0xffull << 12)) == 0ull) {
++		/* Legacy modifier.  Translate to this device's 'kind.' */
++		modifier |= disp->format_modifiers[0] & (0xffull << 12);
++	}
++
+ 	if (modifier == DRM_FORMAT_MOD_LINEAR) {
+ 		/* tile_mode will not be used in this case */
+ 		*tile_mode = 0;
+@@ -227,6 +233,16 @@ nouveau_framebuffer_get_layout(struct drm_framebuffer *fb,
+ 	}
+ }
+ 
++static const u64 legacy_modifiers[] = {
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(0),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(1),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(2),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(3),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(4),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(5),
++	DRM_FORMAT_MOD_INVALID
++};
++
+ static int
+ nouveau_validate_decode_mod(struct nouveau_drm *drm,
+ 			    uint64_t modifier,
+@@ -247,8 +263,14 @@ nouveau_validate_decode_mod(struct nouveau_drm *drm,
+ 	     (disp->format_modifiers[mod] != modifier);
+ 	     mod++);
+ 
+-	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
+-		return -EINVAL;
++	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID) {
++		for (mod = 0;
++		     (legacy_modifiers[mod] != DRM_FORMAT_MOD_INVALID) &&
++		     (legacy_modifiers[mod] != modifier);
++		     mod++);
++		if (legacy_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
++			return -EINVAL;
++	}
+ 
+ 	nouveau_decode_mod(drm, modifier, tile_mode, kind);
+ 
+-- 
+2.17.1
 
-> ---
->  arch/arm64/boot/dts/qcom/sdm845.dtsi | 59 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 59 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> index fee50d9..3efdd70 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> @@ -3296,6 +3296,35 @@
->                         #power-domain-cells = <1>;
->                 };
->
-> +               dsi_opp_table: dsi-opp-table {
-> +                       compatible = "operating-points-v2";
-> +
-> +                       opp-19200000 {
-> +                               opp-hz = /bits/ 64 <19200000>;
-> +                               required-opps = <&rpmhpd_opp_min_svs>;
-> +                       };
-> +
-> +                       opp-180000000 {
-> +                               opp-hz = /bits/ 64 <180000000>;
-> +                               required-opps = <&rpmhpd_opp_low_svs>;
-> +                       };
-> +
-> +                       opp-275000000 {
-> +                               opp-hz = /bits/ 64 <275000000>;
-> +                               required-opps = <&rpmhpd_opp_svs>;
-> +                       };
-> +
-> +                       opp-328580000 {
-> +                               opp-hz = /bits/ 64 <328580000>;
-> +                               required-opps = <&rpmhpd_opp_svs_l1>;
-> +                       };
-> +
-> +                       opp-358000000 {
-> +                               opp-hz = /bits/ 64 <358000000>;
-> +                               required-opps = <&rpmhpd_opp_nom>;
-> +                       };
-> +               };
-> +
->                 mdss: mdss@ae00000 {
->                         compatible = "qcom,sdm845-mdss";
->                         reg = <0 0x0ae00000 0 0x1000>;
-> @@ -3340,6 +3369,8 @@
->                                                   <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
->                                 assigned-clock-rates = <300000000>,
->                                                        <19200000>;
-> +                               operating-points-v2 = <&mdp_opp_table>;
-> +                               power-domains = <&rpmhpd SDM845_CX>;
->
->                                 interrupt-parent = <&mdss>;
->                                 interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-> @@ -3364,6 +3395,30 @@
->                                                 };
->                                         };
->                                 };
-> +
-> +                               mdp_opp_table: mdp-opp-table {
-> +                                       compatible = "operating-points-v2";
-> +
-> +                                       opp-19200000 {
-> +                                               opp-hz = /bits/ 64 <19200000>;
-> +                                               required-opps = <&rpmhpd_opp_min_svs>;
-> +                                       };
-> +
-> +                                       opp-171428571 {
-> +                                               opp-hz = /bits/ 64 <171428571>;
-> +                                               required-opps = <&rpmhpd_opp_low_svs>;
-> +                                       };
-> +
-> +                                       opp-344000000 {
-> +                                               opp-hz = /bits/ 64 <344000000>;
-> +                                               required-opps = <&rpmhpd_opp_svs_l1>;
-> +                                       };
-> +
-> +                                       opp-430000000 {
-> +                                               opp-hz = /bits/ 64 <430000000>;
-> +                                               required-opps = <&rpmhpd_opp_nom>;
-> +                                       };
-> +                               };
->                         };
->
->                         dsi0: dsi@ae94000 {
-> @@ -3386,6 +3441,8 @@
->                                               "core",
->                                               "iface",
->                                               "bus";
-> +                               operating-points-v2 = <&dsi_opp_table>;
-> +                               power-domains = <&rpmhpd SDM845_CX>;
->
->                                 phys = <&dsi0_phy>;
->                                 phy-names = "dsi";
-> @@ -3450,6 +3507,8 @@
->                                               "core",
->                                               "iface",
->                                               "bus";
-> +                               operating-points-v2 = <&dsi_opp_table>;
-> +                               power-domains = <&rpmhpd SDM845_CX>;
->
->                                 phys = <&dsi1_phy>;
->                                 phy-names = "dsi";
-> --
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> of Code Aurora Forum, hosted by The Linux Foundation
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
