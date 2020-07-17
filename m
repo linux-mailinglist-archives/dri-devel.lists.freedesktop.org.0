@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC3A223F67
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 17:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD67224078
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 18:20:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD9B56EDE6;
-	Fri, 17 Jul 2020 15:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9247B6E461;
+	Fri, 17 Jul 2020 16:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 547366EDE6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 15:23:04 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id 575A43A9802
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 15:03:03 +0000 (UTC)
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it
- [93.34.118.233]) (Authenticated sender: jacopo@jmondi.org)
- by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 21AD3C000F;
- Fri, 17 Jul 2020 15:02:32 +0000 (UTC)
-Date: Fri, 17 Jul 2020 17:06:05 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200717150605.e46btmozsbavmfdd@uno.localdomain>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20200527071555.GA23912@lxhi-065.adit-jv.com>
- <20200605132900.on527xcggg6f6pil@uno.localdomain>
- <20200605134124.GA28734@lxhi-065.adit-jv.com>
- <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
- <20200607024158.GD7339@pendragon.ideasonboard.com>
- <20200608094432.GA27063@lxhi-065.adit-jv.com>
- <20200612151209.xdaqimvpq7ysvu2q@uno.localdomain>
- <20200615141723.GA22692@lxhi-065.adit-jv.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2C116E461
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 16:20:14 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id bm28so8187332edb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 09:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=efN2uKFDZXpgLfoJY/eErs8o7zF1deEJZBO5IyFo8NI=;
+ b=obHc5zncS9Emc9zEPipZp4zFxj075sw3gCnd3XWRkjNYU8Or6dIAnATvL9tkWkgI5B
+ Bz9EU30iXOChRiugiFumvfPJj1q4aHv9sY/vZ8zphajYisKV2jlcrRMFJP4MmudCZDcQ
+ xrthHedKJ+6C/K/6UbV00K8B2R2/8NX5aIaITRRcI9R7zgCfLBvU8hu43PVc0xGdBZwN
+ C7OONg4T9CoC9rDfe/qw14VVxd0XSrorcrai9yXbofyIVSy954ByeJ4uDULt8QGaVq4V
+ WVx6uKUjFrNAsX1hqANlAAYXH1tpDD+sqZRXJxdDnCJ9dx0Gt4Ksau/LYGRix5DEhSfS
+ 4CFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=efN2uKFDZXpgLfoJY/eErs8o7zF1deEJZBO5IyFo8NI=;
+ b=DgxR4TCjWB7q4gcKjtJMqNLFC5o+Xjvw5a3Vp8zzTPwV6uMnl66WD3Y3h6mqBcnkbx
+ /0czZLksYbrglbVvI1EMS82qNVF9uZdlrMyGECoK8BVGLI6aWepZseGcj7coM9kFgyx3
+ pLnyX2bPsOqOh+RyHGFV5ekIHPfFBPQ8PAcLV1hcOnadd/IhfA1PZCn/gALEcgM3YVYo
+ CGypVxRctgmLlVAmQNLSM52IZ0fAfU9Rn9L/KA10jB8iKkoUsEO0bSN+sZuSu42VMb+s
+ 7cpCRI98+x8yGL5lZROHNzILUiR5girzejHjPPZomKTVgGUg988BTruHAe9CJzuBb7bS
+ Dl8Q==
+X-Gm-Message-State: AOAM530l8DofB8SEySJDFcJqU7WohI6OUZeaP8hNNT2qBE5ktQmzhNDL
+ /eianIC1CD5PVuCq2zuqMMs=
+X-Google-Smtp-Source: ABdhPJwreqcmknRZAA/ayM7AnZu4AwEMQTT7/kF3fAyRxWR/szU6ZexOQo+1mfWqVxlR+9L5TrSH8g==
+X-Received: by 2002:a05:6402:3138:: with SMTP id
+ dd24mr10148075edb.118.1595002813386; 
+ Fri, 17 Jul 2020 09:20:13 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id m13sm8248902ejc.1.2020.07.17.09.20.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jul 2020 09:20:12 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: [GIT PULL] drm/tegra: Changes for v5.9-rc1
+Date: Fri, 17 Jul 2020 18:20:11 +0200
+Message-Id: <20200717162011.1661788-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200615141723.GA22692@lxhi-065.adit-jv.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,128 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, airlied@linux.ie, mrodin@de.adit-jv.com,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hien.dang.eb@renesas.com,
- Eugeniu Rosca <roscaeugeniu@gmail.com>,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- gotthard.voellmeke@renesas.com, koji.matsuoka.xm@renesas.com,
- horms@verge.net.au, seanpaul@chromium.org, michael.dege@renesas.com,
- michael.klein@renesas.com, Harsha.ManjulaMallikarjun@in.bosch.com,
- ezequiel@collabora.com, efriedrich@de.adit-jv.com,
- ChaitanyaKumar.Borah@in.bosch.com, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, VenkataRajesh.Kalakodima@in.bosch.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, uli+renesas@fpond.eu
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Eugeniu,
-
-On Mon, Jun 15, 2020 at 04:17:23PM +0200, Eugeniu Rosca wrote:
-> Hi Jacopo,
->
-> On Fri, Jun 12, 2020 at 05:12:09PM +0200, Jacopo Mondi wrote:
-> > On Mon, Jun 08, 2020 at 11:44:32AM +0200, Eugeniu Rosca wrote:
-> > > FWIW, I seem to hit pre-existing issues in vanilla rcar-du,
-> > > while unplugging HDMI cable during a cyclic suspend-resume:
-> > >
-> > > HW: H3 ES2.0 Salvator-X
-> > > SW: renesas-drivers-2020-06-02-v5.7
-> > > .config: renesas_defconfig +CONFIG_PM_DEBUG +CONFIG_PM_ADVANCED_DEBUG
-> > > Use-case:
-> > >
-> > >   --------8<---------
-> > > $ cat s2ram.sh
-> > > modprobe i2c-dev
-> > > echo 9 > /proc/sys/kernel/printk
-> > > i2cset -f -y 7 0x30 0x20 0x0F
-> >
-> > According to
-> > https://elinux.org/R-Car/Boards/Salvator-X#Suspend-to-RAM
-> > this is not needed anymore
->
-> Good to know. Thanks for the useful remark.
->
-> > > echo 0 > /sys/module/suspend/parameters/pm_test_delay
-> > > echo core  > /sys/power/pm_test
-> > > echo deep > /sys/power/mem_sleep
-> > > echo 1 > /sys/power/pm_debug_messages
-> > > echo 0 > /sys/power/pm_print_times
-> > > echo mem > /sys/power/state
-> > >
-> > > $ while true; do sh s2ram.sh ; done
-> > > $ # unplug HDMI cable several times
-> >
-> > I tried unplugging an plugging the cable while the system was
-> > suspended and after resume but I was not able to reproduce anything.
->
-> Your comment sounds like you suspended the system once and resumed it
-> afterwards, while my description mentions "cyclic" :), meaning:
->
-> $ while true; do sh s2ram.sh; done
-> $ # connect-disconnect the hdmi display a couple of times
-> $ # NOTE: to avoid this manual step, I am thinking of a USB-controlled
->     HDMI switcher long-term
->
-> >
-> > Could you provide more precise instructions on how to reproduce this ?
-> > I.e. when to disconnect the cable to trigger the below error.
->
-> See above :)
->
-> BTW, using renesas-drivers-2020-06-02-v5.7 as base and performing the
-> use-case just described, I got today (with minimal effort):
->
-> [  459.321733] Enabling non-boot CPUs ...
-> [  459.331132] Detected PIPT I-cache on CPU1
-> [  459.331189] CPU1: Booted secondary processor 0x0000000001 [0x411fd073]
-> [  459.332312] CPU1 is up
-> [  459.345635] Detected PIPT I-cache on CPU2
-> [  459.345671] CPU2: Booted secondary processor 0x0000000002 [0x411fd073]
-> [  459.346624] CPU2 is up
-> [  459.359912] Detected PIPT I-cache on CPU3
-> [  459.359942] CPU3: Booted secondary processor 0x0000000003 [0x411fd073]
-> [  459.360918] CPU3 is up
-> [  459.374183] Detected VIPT I-cache on CPU4
-> [  459.374252] CPU4: Booted secondary processor 0x0000000100 [0x410fd034]
-> [  459.375875] cpufreq: cpufreq_online: CPU4: Running at unlisted freq: 1199999 KHz
-> [  459.394204] cpufreq: cpufreq_online: CPU4: Unlisted initial frequency changed to: 1200000 KHz
-> [  459.403879] CPU4 is up
-> [  459.406469] Detected VIPT I-cache on CPU5
-> [  459.406519] CPU5: Booted secondary processor 0x0000000101 [0x410fd034]
-> [  459.408520] CPU5 is up
-> [  459.421762] Detected VIPT I-cache on CPU6
-> [  459.421810] CPU6: Booted secondary processor 0x0000000102 [0x410fd034]
-> [  459.423831] CPU6 is up
-> [  459.437114] Detected VIPT I-cache on CPU7
-> [  459.437164] CPU7: Booted secondary processor 0x0000000103 [0x410fd034]
-> [  459.439258] CPU7 is up
-> [  459.456217] PM: noirq resume of devices complete after 3.878 msecs
-> [  459.471529] PM: early resume of devices complete after 8.590 msecs
-> [  469.726906] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:76:crtc-3] flip_done timed out
-
-I've been able to reproduce this same issue, but I see that errors in
-drm_atomic_helper_wait_for_dependencies always follow a first failure
-in drm_atomic_helper_wait_for_flip_done
-
-Looking at the log what I see is that
-[  160.488762] PM: late suspend of devices complete after 10.509 msecs
-[  171.235584] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:75:crtc-1] flip_done timed out
-
-The 10 second elapsed there matches the timout in
-drm_atomic_helper_wait_for_flip_done and it seems the issue is related
-to the first atomic commit after resume not being able to succesfully
-receive a flip_done event, possibly as the HDMI connector has been
-disconnected while the system was suspending or suspended and the DRM
-state was not updated.
-
-Can you confirm you see the same failure sequence ?
-
-Thanks
-  j
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGF2ZSwKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgZmNlM2E1MWQ5YjMx
+MzEyYWExMmVjYjcyZmZhYmZjNGM3YjQwYmRjNjoKCiAgZHJtL3RlZ3JhOiBBZGQgenBvcyBwcm9w
+ZXJ0eSBmb3IgY3Vyc29yIHBsYW5lcyAoMjAyMC0wNi0xNiAxOTowMzoyNSArMDIwMCkKCmFyZSBh
+dmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBzc2g6Ly9naXQuZnJlZWRlc2t0
+b3Aub3JnL2dpdC90ZWdyYS9saW51eC5naXQgdGFncy9kcm0vdGVncmEvZm9yLTUuOS1yYzEKCmZv
+ciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byA0ZmJhNmQyMmNhOWFkMjhiODg3MWQ3NjNiMzVh
+NGRhMmUxY2EyNzJlOgoKICBkcm0vdGVncmE6IHBsYW5lOiBTdXBwb3J0IDE4MMKwIHJvdGF0aW9u
+ICgyMDIwLTA3LTE3IDE2OjA2OjE3ICswMjAwKQoKTm90ZSB0aGF0IEkndmUgc3VwcGxpZWQgdGhl
+IHNzaDovLyBVUkwgYWJvdmUgYXMgb3Bwb3NlZCB0byB0aGUgZ2l0Oi8vClVSTCB0aGF0IEkgdXN1
+YWxseSB1c2UuIFRoZSBsYXR0ZXIgaGFzIGJlZW4gc29tZXdoYXQgc3BvdHR5IGZvciBtZS4gTGV0
+Cm1lIGtub3cgaWYgdGhpcyBpcyBjYXVzaW5nIGFueSBpc3N1ZXMuCgpUaGFua3MsClRoaWVycnkK
+Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KZHJtL3RlZ3JhOiBDaGFuZ2VzIGZvciB2NS45LXJjMQoKVGhpcyBzZXQgb2YgcGF0
+Y2hlcyBjb250YWlucyBhIGZldyBwcmVwYXJhdG9yeSBwYXRjaGVzIHRvIGVuYWJsZSB2aWRlbwpj
+YXB0dXJlIHN1cHBvcnQgZnJvbSBleHRlcm5hbCBjYW1lcmEgbW9kdWxlcy4gVGhpcyBpcyBhIGRl
+cGVuZGVuY3kgZm9yCnRoZSBWNEwyIGRyaXZlciBwYXRjaGVzIHRoYXQgd2lsbCBsaWtlbHkgYmUg
+bWVyZ2VkIGluIHY1Ljkgb3IgdjUuMTAuCgpPbiB0b3Agb2YgdGhhdCB0aGVyZSBhcmUgYSBjb3Vw
+bGUgb2YgZml4ZXMgYWNyb3NzIHRoZSBib2FyZCBhcyB3ZWxsIGFzCnNvbWUgaW1wcm92ZW1lbnRz
+LgoKRnJvbSBhIGZlYXR1cmUgcG9pbnQgb2YgdmlldyB0aGlzIGFsc28gYWRkcyBzdXBwb3J0IGZv
+ciBob3Jpem9udGFsCnJlZmxlY3Rpb24gYW5kIDE4MMKwIHJvdGF0aW9uIG9mIHBsYW5lcy4KCi0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KRG1pdHJ5IE9zaXBlbmtvICg5KToKICAgICAgZ3B1OiBob3N0MXg6IE9wdGltaXplIEJP
+cyB1c2FnZSB3aGVuIGZpcmV3YWxsIGlzIGVuYWJsZWQKICAgICAgZ3B1OiBob3N0MXg6IFB1dCBn
+YXRoZXIncyBCTyBvbiBwaW5uaW5nIGVycm9yCiAgICAgIGdwdTogaG9zdDF4OiBkZWJ1ZzogRml4
+IG11bHRpcGxlIGNoYW5uZWxzIGVtaXR0aW5nIG1lc3NhZ2VzIHNpbXVsdGFuZW91c2x5CiAgICAg
+IGdwdTogaG9zdDF4OiBkZWJ1ZzogRHVtcCBwdXNoIGJ1ZmZlciBzdGF0ZQogICAgICBkcm0vdGVn
+cmE6IGdyM2Q6IEFzc2VydCByZXNldCBiZWZvcmUgcG93ZXItZ2F0aW5nCiAgICAgIGRybS90ZWdy
+YTogZ3IyZDogQWRkIHRpbGVkIFBBVEJBU0UgYWRkcmVzcyByZWdpc3RlcgogICAgICBkcm0vdGVn
+cmE6IHBsYW5lOiBSZW5hbWUgYm90dG9tX3VwIHRvIHJlZmxlY3RfeQogICAgICBkcm0vdGVncmE6
+IHBsYW5lOiBTdXBwb3J0IGhvcml6b250YWwgcmVmbGVjdGlvbgogICAgICBkcm0vdGVncmE6IHBs
+YW5lOiBTdXBwb3J0IDE4MMKwIHJvdGF0aW9uCgpTb3dqYW55YSBLb21hdGluZW5pICgzKToKICAg
+ICAgZ3B1OiBob3N0MXg6IG1pcGk6IFVwZGF0ZSB0ZWdyYV9taXBpX3JlcXVlc3QoKSB0byBiZSBu
+b2RlIGJhc2VkCiAgICAgIGdwdTogaG9zdDF4OiBtaXBpOiBVc2UgcmVhZGxfcmVsYXhlZF9wb2xs
+X3RpbWVvdXQoKSBpbiB0ZWdyYV9taXBpX3dhaXQoKQogICAgICBncHU6IGhvc3QxeDogbWlwaTog
+U3BsaXQgdGVncmFfbWlwaV9jYWxpYnJhdGUoKSBhbmQgdGVncmFfbWlwaV93YWl0KCkKClRhbmcg
+QmluICgxKToKICAgICAgZHJtL3RlZ3JhOiBkYzogT21pdCBzdXBlcmZsdW91cyBlcnJvciBtZXNz
+YWdlIGluIHRlZ3JhX2RjX3Byb2JlKCkKClRoaWVycnkgUmVkaW5nICgxKToKICAgICAgZHJtL3Rl
+Z3JhOiBzb3I6IFVzZSBjb3JyZWN0IHBvd2VyIHN1cHBseSBuYW1lcyBmb3IgSERNSQoKIGRyaXZl
+cnMvZ3B1L2RybS90ZWdyYS9kYy5jICAgICAgIHwgNTAgKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmggICAgICAgfCAgMyAr
+Ky0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kc2kuYyAgICAgIHwgIDkgKysrKysrLS0KIGRyaXZl
+cnMvZ3B1L2RybS90ZWdyYS9ncjJkLmMgICAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL3RlZ3Jh
+L2dyMmQuaCAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZ3IzZC5jICAgICB8ICAy
+ICsrCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuYyAgICB8ICAzICsrLQogZHJpdmVycy9n
+cHUvZHJtL3RlZ3JhL3BsYW5lLmggICAgfCAgMyArKy0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9z
+b3IuYyAgICAgIHwgIDQgKystLQogZHJpdmVycy9ncHUvaG9zdDF4L2RlYnVnLmMgICAgICAgfCAg
+NCArKysrCiBkcml2ZXJzL2dwdS9ob3N0MXgvaHcvZGVidWdfaHcuYyB8ICA2ICsrKysrCiBkcml2
+ZXJzL2dwdS9ob3N0MXgvam9iLmMgICAgICAgICB8IDI3ICsrKysrKysrKysrKysrKystLS0tLS0K
+IGRyaXZlcnMvZ3B1L2hvc3QxeC9taXBpLmMgICAgICAgIHwgMzcgKysrKysrKysrKysrKysrKy0t
+LS0tLS0tLS0tLS0KIGluY2x1ZGUvbGludXgvaG9zdDF4LmggICAgICAgICAgIHwgIDQgKysrLQog
+MTQgZmlsZXMgY2hhbmdlZCwgMTExIGluc2VydGlvbnMoKyksIDQzIGRlbGV0aW9ucygtKQpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
