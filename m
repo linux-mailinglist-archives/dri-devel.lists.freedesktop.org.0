@@ -1,56 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478DA2240D2
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 18:54:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DCC224202
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 19:39:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C80FC6E067;
-	Fri, 17 Jul 2020 16:54:12 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E316E067
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 16:54:12 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id n22so8649384ejy.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 09:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S/tcpiEgnv1Vg5/I/OqgwYTF2aG01fzIys/jsiwnsBI=;
- b=V08GEdlJqw4cSc4CYRXDay4U2O0xjmQgoh0OxThxGSd8zlyBOJCSG0LvDkG+BS5q1U
- WQv0Rec190mcxfeNnx9LuXQbIcPLoGhH9X8bLpMg7FMUa8CJ4BFRAVr21oo/Ux4WjiXV
- XQP26ElmfuVKTXFD2k5+sr7XL8I08MHgj8irONWZb+auOwjrSAvavYNSxJaAwRtE+8rV
- 44qJWazIJ97dD/JSmF3tSb5TPixZ3QkjOHRwMoYqP2y9Yrp9oLo51Wc+hHjAOh1KK9S2
- PQSr2dtMbPXRDKC1aEq87RcfJ3uV/RCo9mYd7hZGPLwFVaPb4Z3ZGA6AC1NARDnv5O43
- rNGA==
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2779C6EE17;
+	Fri, 17 Jul 2020 17:39:22 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF6D6EE17
+ for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 17:39:21 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id b205so2298714vkb.8
+ for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 10:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=oOIi1T3qSHBH51MzlGC0XDR/RneCxeHWL3lEOGZbKJY=;
+ b=h50OyDj1X58pC7yEJMwCHYam/5JpjacNj4lnzko/r7vN8UfLwGNHM+oCutt8YGlrWX
+ sPZ3WG4CgGPiEsti7uJRLIjgLGclvu+gWYfbmNJlNQmexUpO+essviBd/mlHsE8bWYcQ
+ XyzSByoFKpUZu/3vuZVc8VRbmooB91m5COMos=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S/tcpiEgnv1Vg5/I/OqgwYTF2aG01fzIys/jsiwnsBI=;
- b=Q2rQecqtgY6qZgw+rmFf6b9j0y/LDgkhiHCo71JlMAf9JMV+u25A2JhtZebH2jOWXS
- 755FtP6XRKTByl9MjJbPmtIEgMlJReO46smiNMGNqqbuc6humjzbORxs0xRrEiOf8jVN
- UUCW5Q9oCIGvzJOxmXZlSw2Wjvwr8i5qTRB7dYMG4CkAtxTnvB8WyPH8Y3Sy3TtGXSyk
- qXuaf7n+nmhiKjSM6hMS8tD6I0FFZgKXvcZQWZBPqiuLJiXwn8OYGFnnGG9485n9gBvK
- 4rGIApjE95DWX8WjR0EWE8irA7bTvwBMfbq8za86wtQ5okOK+KCN17/go8XCNMfrQpJk
- x6wg==
-X-Gm-Message-State: AOAM533onD+d5/Nu0KFU0asKgRe8O4BGnAoCTTGtHS2Fimp++uwqQAoO
- RF65Vzo6whdR+QCziiEJU0SEyaURT4jnTgNMcNpQtB3J
-X-Google-Smtp-Source: ABdhPJxeMxUiEad3F5pqF1zmMQCX7DX5YW7te/oFGx5apYjlR/tGaK2csLBqusCu4S1I2ioC55TIZ0IM57TEY9PInGA=
-X-Received: by 2002:a17:906:1751:: with SMTP id
- d17mr9220665eje.140.1595004850955; 
- Fri, 17 Jul 2020 09:54:10 -0700 (PDT)
+ :message-id:subject:to;
+ bh=oOIi1T3qSHBH51MzlGC0XDR/RneCxeHWL3lEOGZbKJY=;
+ b=D+OsYSpNWIccKs5uhGAYOWRdCh5iqIIXpjrZKG982+KFFLfQR9MOWUkwiR/DG8GKmU
+ 6jtlRMkvMIz/pCR2W4pnfthwC9qLg3CbRVeiz995avSVPzPVgB/tjLfCjQ9SVA4v2caf
+ hZrJSa5kRC1PIzzM1QHHXy9kU9hs6o+yRnMTu+R4rhcXkghfm4FkDCAiX1GFgCLeBtUk
+ JcA4VYEVF6xM2jGK7Z4U7SQlow74DWlc9niEdz3aNi3mLj/nmdwLuFiLvufEEBRR3ztK
+ wMuUJeAYhHMkilLKaKnsQUMhxMiA9GZJAtDJGK/riA/U3Vx4Qe3NWorbFnDUarmdGVnk
+ 3Q/g==
+X-Gm-Message-State: AOAM532IXslTsgZcZfT/oxYu/cvww0uRSMVARmKn2YAjr7r2D2qwGt1T
+ s7w3Hf6AVbHk+v1zZ4DMnucse+R2+pI=
+X-Google-Smtp-Source: ABdhPJzs3FdlYkBTt0atNgY0I4FjIN92KheKnj9IuQdtGjA+Fq1gAUp3firBNexjQxf49Pd5jnobSg==
+X-Received: by 2002:a1f:a18f:: with SMTP id k137mr8313859vke.69.1595007560138; 
+ Fri, 17 Jul 2020 10:39:20 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com.
+ [209.85.217.54])
+ by smtp.gmail.com with ESMTPSA id c11sm1304398vke.50.2020.07.17.10.39.19
+ for <dri-devel@freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jul 2020 10:39:19 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id k7so5268613vso.2
+ for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 10:39:19 -0700 (PDT)
+X-Received: by 2002:a67:69c1:: with SMTP id e184mr8687935vsc.119.1595007558792; 
+ Fri, 17 Jul 2020 10:39:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200716144927.7193-1-nsaenzjulienne@suse.de>
-In-Reply-To: <20200716144927.7193-1-nsaenzjulienne@suse.de>
-From: Eric Anholt <eric@anholt.net>
-Date: Fri, 17 Jul 2020 09:54:00 -0700
-Message-ID: <CADaigPWN9fJS2YB3Ly3bBTj8ur=F8_Li+hBzbDuSN0ig3mOiiA@mail.gmail.com>
-Subject: Re: [PATCH] drm/v3d: Use platform_get_irq_optional() to get optional
- IRQs
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+References: <1594996458-15529-1-git-send-email-akhilpo@codeaurora.org>
+ <20200717144607.GA16703@jcrouse1-lnx.qualcomm.com>
+In-Reply-To: <20200717144607.GA16703@jcrouse1-lnx.qualcomm.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 17 Jul 2020 10:39:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vdg36wBJiYM9bxGy-8hjxEf85aYAGuqR=Xh_oM0pLt0g@mail.gmail.com>
+Message-ID: <CAD=FV=Vdg36wBJiYM9bxGy-8hjxEf85aYAGuqR=Xh_oM0pLt0g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: msm: a6xx: fix gpu failure after system resume
+To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ dri-devel@freedesktop.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ LKML <linux-kernel@vger.kernel.org>, Matthias Kaehlcke <mka@chromium.org>, 
+ Rob Clark <robdclark@gmail.com>, Doug Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,42 +73,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Dave Emett <david.emett@broadcom.com>, linux-rpi-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 16, 2020 at 7:51 AM Nicolas Saenz Julienne
-<nsaenzjulienne@suse.de> wrote:
->
-> Aside from being more correct, the non optional version of the function
-> prints an error when failing to find the IRQ.
->
-> Fixes: eea9b97b4504 ("drm/v3d: Add support for V3D v4.2")
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
->  drivers/gpu/drm/v3d/v3d_irq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-> index c88686489b88..0be2eb7876be 100644
-> --- a/drivers/gpu/drm/v3d/v3d_irq.c
-> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
-> @@ -217,7 +217,7 @@ v3d_irq_init(struct v3d_dev *v3d)
->                 V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS);
->         V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS);
->
-> -       irq1 = platform_get_irq(v3d_to_pdev(v3d), 1);
-> +       irq1 = platform_get_irq_optional(v3d_to_pdev(v3d), 1);
->         if (irq1 == -EPROBE_DEFER)
->                 return irq1;
->         if (irq1 > 0) {
-> --
+Hi,
 
-Reviewed-by: Eric Anholt <eric@anholt.net>
+On Fri, Jul 17, 2020 at 7:46 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>
+> On Fri, Jul 17, 2020 at 08:04:18PM +0530, Akhil P Oommen wrote:
+> > On targets where GMU is available, GMU takes over the ownership of GX GDSC
+> > during its initialization. So, move the refcount-get on GX PD before we
+> > initialize the GMU. This ensures that nobody can collapse the GX GDSC
+> > once GMU owns the GX GDSC. This patch fixes some GMU OOB errors seen
+> > during GPU wake up during a system resume.
+>
+> > Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> > Reported-by: Matthias Kaehlcke <mka@chromium.org>
+> > Tested-by: Matthias Kaehlcke <mka@chromium.org>
+>
+> The Signed-off-by needs to be at the end but I think Rob can do that for you.
+
+It does?  I've always been told that this is supposed to be roughly a
+log of what happens.  In that sense you added your SoB before the
+review/test happened so it should come before.  I know some
+maintainers seem to do things differently but that seems to be the
+most common.  In that sense, I think the order that Akhil has is
+correct.  ...but, obviously, it's up to the maintainer.  ;-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
