@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE212237B8
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 11:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB592237BA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 11:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6EC6ED82;
-	Fri, 17 Jul 2020 09:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F316A6ED74;
+	Fri, 17 Jul 2020 09:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD5C6ED74
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E290B6ED78
  for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 09:04:53 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id r12so10108628wrj.13
+Received: by mail-wr1-x444.google.com with SMTP id z2so10234723wrp.2
  for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 02:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2MKH1tJ9qSuHfCI8dt54bEoTHWg3poixNtCDKdvH1gQ=;
- b=XxFKPRx8LfXHA16pus5atxoDUpZPcUkKZ2LoWPgKri23uU3qI4XyE5Zc+dmIA0ZzYo
- QPEf1pRk2Vqt1IOKUbnWbuGDoDjLoGkSW8k3YpdGnM30MpUGA1x4q150kzEejsAzhQ7K
- fe8WYU4Ru4lvfApxCMefZTn8aIjI2dMpGmWqU=
+ bh=+PgYCTE9+86LL8hmpo3wNDvQ3MAJhOxmPWFQosNnkp0=;
+ b=kge1RFcNb3MA3gqeJzyuV24hUc8Wuu5d52T2gwyiKPKlVVFuua5swyDy6DIhvkNK5V
+ O7aHOHvHI2g+W6rPUxi9EK/wSmgHDfpELQi/FWldTxF4LA5hKnx2XUn/hJYTg+GvKjKs
+ 0ppARKzGJPOZVBBk6nxakp5DLfoTkaBi9D+gU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2MKH1tJ9qSuHfCI8dt54bEoTHWg3poixNtCDKdvH1gQ=;
- b=Or+9crsvsJpLL6AsqVA9ZUuVX51vUb8/qXYagfOuuvHeiAuekE1lAh70/dB4sGpH9m
- ZSsburdVMUZDomdqY1TO7I6MV368lw4lMr4EvsGZChFggS4PpR0H2sVVmPmKHZXWN/bs
- 3O8UZhrflgVT6GoAw7v2y6n7xDa8PNa3o6v96HSywCU+ech3+V8QW0dZagOnsLD8ZSoy
- 7djcM1GGLAAS8YLPyUkouj5Jz3zwGrwJHS//sekYfYUxEMfZrJm1RZCfNaeiLawAL10L
- j5I2a8ULSQTbxjVRaF9SbdgzjcDy3jW7P7js43kw4kzxsfxaQjNrZJDDPMc0IAKH5Byw
- kiZA==
-X-Gm-Message-State: AOAM531mbLFn6A7lQFTsRAY20SqfzfePjqtKvEfEBrvSg6R78PmfyY8h
- kZU+eA7Nd9oTkWV6X+iSTLd9a6ulGkU=
-X-Google-Smtp-Source: ABdhPJy87J04mCCJi3dPYXNTmym8RxU7SrkWeIvYHdcll3PmRtppmZAv5T80hzZacVjuiBt+YxLiWg==
-X-Received: by 2002:a5d:4e50:: with SMTP id r16mr9123202wrt.274.1594976691380; 
- Fri, 17 Jul 2020 02:04:51 -0700 (PDT)
+ bh=+PgYCTE9+86LL8hmpo3wNDvQ3MAJhOxmPWFQosNnkp0=;
+ b=tCpy4lpvLQMPfd1hnb7io0Td4oUOtH7xrRxPUkuw7Bp/DKVE4jyECxqiHBV0t18bai
+ rJf72S9SDKyYfX5t2I/d0BjGsFScp2SYMK6V+KgwK6ih869K7FGs6UGY8fmWggPopXp+
+ PxasiZGy6E7UHNKw3uI55Mw4WaGrxQ85tujUhbUynuX7GwVOCrVATZqsZuWGhWUX2/Qf
+ lyMbfsiMRJEjyqpH+1xckuFZNDeEMW9ZiOe7u3rrcdMSV3PIPzHZRsfShTO57KVwrsfQ
+ a4Enk2QjMyu2pustVZFf9f68clC9xraLa9lCT6NAnXCWanaPlFNri+t2OkMMTn/gpUYa
+ l0AQ==
+X-Gm-Message-State: AOAM531acrCYX7XRf61FBjrICer+b+Pz6j/daMWWoNTvbxw6ca3bFBIb
+ zRWZjWVCeM1DdY5RPqplBWcdF/3z0WE=
+X-Google-Smtp-Source: ABdhPJy+91Soji71zWg4yMwSROun4xr6l/lazz9FI4nvDy4dRbGGruyC/WVVdgCNY4lq5iOhkRtW/w==
+X-Received: by 2002:adf:fe4b:: with SMTP id m11mr9095443wrs.36.1594976692331; 
+ Fri, 17 Jul 2020 02:04:52 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l67sm14520833wml.13.2020.07.17.02.04.50
+ by smtp.gmail.com with ESMTPSA id l67sm14520833wml.13.2020.07.17.02.04.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jul 2020 02:04:50 -0700 (PDT)
+ Fri, 17 Jul 2020 02:04:51 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 17/18] drm/arc: Move to drm/tiny
-Date: Fri, 17 Jul 2020 11:04:29 +0200
-Message-Id: <20200717090430.1146256-17-daniel.vetter@ffwll.ch>
+Subject: [PATCH 18/18] drm/aspeed: Use managed drmm_mode_config_cleanup
+Date: Fri, 17 Jul 2020 11:04:30 +0200
+Message-Id: <20200717090430.1146256-18-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200717090430.1146256-1-daniel.vetter@ffwll.ch>
 References: <20200717090430.1146256-1-daniel.vetter@ffwll.ch>
@@ -63,130 +63,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Joel Stanley <joel@jms.id.au>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because it is.
+Since aspeed doesn't use devm_kzalloc anymore we can use the managed
+mode config cleanup.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: linux-aspeed@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- MAINTAINERS                                         |  2 +-
- drivers/gpu/drm/Kconfig                             |  2 --
- drivers/gpu/drm/Makefile                            |  1 -
- drivers/gpu/drm/arc/Kconfig                         | 10 ----------
- drivers/gpu/drm/arc/Makefile                        |  3 ---
- drivers/gpu/drm/tiny/Kconfig                        | 10 ++++++++++
- drivers/gpu/drm/tiny/Makefile                       |  1 +
- drivers/gpu/drm/{arc/arcpgu_drv.c => tiny/arcpgu.c} |  0
- 8 files changed, 12 insertions(+), 17 deletions(-)
- delete mode 100644 drivers/gpu/drm/arc/Kconfig
- delete mode 100644 drivers/gpu/drm/arc/Makefile
- rename drivers/gpu/drm/{arc/arcpgu_drv.c => tiny/arcpgu.c} (100%)
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 415954a98934..0ed6c36004e4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1322,7 +1322,7 @@ ARC PGU DRM DRIVER
- M:	Alexey Brodkin <abrodkin@synopsys.com>
- S:	Supported
- F:	Documentation/devicetree/bindings/display/snps,arcpgu.txt
--F:	drivers/gpu/drm/arc/
-+F:	drivers/gpu/drm/tiny/arcpgu.c
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index 903f4f304647..0e19523f2a06 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -63,15 +63,15 @@ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
+ 	.atomic_commit		= drm_atomic_helper_commit,
+ };
  
- ARCNET NETWORK LAYER
- M:	Michael Grzeschik <m.grzeschik@pengutronix.de>
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index c4fd57d8b717..d44c6eac2c58 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -354,8 +354,6 @@ source "drivers/gpu/drm/vc4/Kconfig"
- 
- source "drivers/gpu/drm/etnaviv/Kconfig"
- 
--source "drivers/gpu/drm/arc/Kconfig"
+-static void aspeed_gfx_setup_mode_config(struct drm_device *drm)
++static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
+ {
+-	drm_mode_config_init(drm);
 -
- source "drivers/gpu/drm/hisilicon/Kconfig"
- 
- source "drivers/gpu/drm/mediatek/Kconfig"
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 2c0e5a7e5953..e69eafbf9e39 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -109,7 +109,6 @@ obj-y			+= panel/
- obj-y			+= bridge/
- obj-$(CONFIG_DRM_FSL_DCU) += fsl-dcu/
- obj-$(CONFIG_DRM_ETNAVIV) += etnaviv/
--obj-$(CONFIG_DRM_ARCPGU)+= arc/
- obj-y			+= hisilicon/
- obj-$(CONFIG_DRM_ZTE)	+= zte/
- obj-$(CONFIG_DRM_MXSFB)	+= mxsfb/
-diff --git a/drivers/gpu/drm/arc/Kconfig b/drivers/gpu/drm/arc/Kconfig
-deleted file mode 100644
-index e8f3d63e0b91..000000000000
---- a/drivers/gpu/drm/arc/Kconfig
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--config DRM_ARCPGU
--	tristate "ARC PGU"
--	depends on DRM && OF
--	select DRM_KMS_CMA_HELPER
--	select DRM_KMS_HELPER
--	help
--	  Choose this option if you have an ARC PGU controller.
--
--	  If M is selected the module will be called arcpgu.
-diff --git a/drivers/gpu/drm/arc/Makefile b/drivers/gpu/drm/arc/Makefile
-deleted file mode 100644
-index b26f2495c532..000000000000
---- a/drivers/gpu/drm/arc/Makefile
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--arcpgu-y := arcpgu_drv.o
--obj-$(CONFIG_DRM_ARCPGU) += arcpgu.o
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 2b6414f0fa75..9bbaa1a69050 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -1,5 +1,15 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+config DRM_ARCPGU
-+	tristate "ARC PGU"
-+	depends on DRM && OF
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_KMS_HELPER
-+	help
-+	  Choose this option if you have an ARC PGU controller.
+ 	drm->mode_config.min_width = 0;
+ 	drm->mode_config.min_height = 0;
+ 	drm->mode_config.max_width = 800;
+ 	drm->mode_config.max_height = 600;
+ 	drm->mode_config.funcs = &aspeed_gfx_mode_config_funcs;
 +
-+	  If M is selected the module will be called arcpgu.
-+
- config DRM_CIRRUS_QEMU
- 	tristate "Cirrus driver for QEMU emulated device"
- 	depends on DRM && PCI && MMU
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 6ae4e9e5a35f..bef6780bdd6f 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
++	return drmm_mode_config_init(drm);
+ }
  
-+obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
- obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/tiny/arcpgu.c
-similarity index 100%
-rename from drivers/gpu/drm/arc/arcpgu_drv.c
-rename to drivers/gpu/drm/tiny/arcpgu.c
+ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
+@@ -144,7 +144,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	writel(0, priv->base + CRT_CTRL1);
+ 	writel(0, priv->base + CRT_CTRL2);
+ 
+-	aspeed_gfx_setup_mode_config(drm);
++	ret = aspeed_gfx_setup_mode_config(drm);
++	if (ret < 0)
++		return ret;
+ 
+ 	ret = drm_vblank_init(drm, 1);
+ 	if (ret < 0) {
+@@ -179,7 +181,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ static void aspeed_gfx_unload(struct drm_device *drm)
+ {
+ 	drm_kms_helper_poll_fini(drm);
+-	drm_mode_config_cleanup(drm);
+ }
+ 
+ DEFINE_DRM_GEM_CMA_FOPS(fops);
 -- 
 2.27.0
 
