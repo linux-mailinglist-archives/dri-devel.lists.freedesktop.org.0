@@ -2,57 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE2F223D2A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 15:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39904223D60
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 15:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9696EDCF;
-	Fri, 17 Jul 2020 13:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A656EC7A;
+	Fri, 17 Jul 2020 13:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-1.mimecast.com [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF406EDD1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 13:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1594993482;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TvTZhPSdzExaa3NqVT5lrZowcWZbA2nAdgDfnfLh550=;
- b=A+ZQgbCQUKGT74ww9kATxPRwO6tHtzrCX+UMxZLq4ubnpiU+VTiYY1KZalvQ3XIgQ3BJF0
- EIX3NYvycdHm612fv6ecJM4VNuCJ/tu9HuVSepT8JiHs69CO5zi6mHfAtNuJPvP6aMua7t
- FuGWUX7ZvX1kct4/YlGML8DFK/rw81U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-Qz7nQif4PPGmfrt5J-VdiQ-1; Fri, 17 Jul 2020 09:44:39 -0400
-X-MC-Unique: Qz7nQif4PPGmfrt5J-VdiQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8436800463;
- Fri, 17 Jul 2020 13:44:36 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-162.ams2.redhat.com
- [10.36.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4053E10013C0;
- Fri, 17 Jul 2020 13:44:34 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH v5 16/16] drm/i915: panel: Use atomic PWM API for devs with an
- external PWM controller
-Date: Fri, 17 Jul 2020 15:44:30 +0200
-Message-Id: <20200717134430.127575-2-hdegoede@redhat.com>
-In-Reply-To: <20200717134430.127575-1-hdegoede@redhat.com>
-References: <20200717133753.127282-1-hdegoede@redhat.com>
- <20200717134430.127575-1-hdegoede@redhat.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 924646EC7A;
+ Fri, 17 Jul 2020 13:54:43 +0000 (UTC)
+IronPort-SDR: mcTztTu54ZPCyHpRd7x9dEZWHaoFq8MRQN4929vaXDB+FOr1DJPhNIc45pDU6Z2YCvbf+q5lGC
+ ipb05wQvByLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="214304244"
+X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; d="scan'208";a="214304244"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2020 06:54:42 -0700
+IronPort-SDR: 1DE6JHLS0jmQphB5rtxkSKoB918oKzEBJDeFXp4wLJs12CnZGuPKTwR4xcjDhCwdMhRP+47czv
+ Qu+k97VSzQIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; d="scan'208";a="326848245"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 17 Jul 2020 06:54:40 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Jul 2020 16:54:39 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/todo: Plumb drm_atomic_state all over
+Date: Fri, 17 Jul 2020 16:54:39 +0300
+Message-Id: <20200717135439.5996-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,197 +48,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
- Jani Nikula <jani.nikula@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the PWM drivers which we use have been converted to the atomic
-PWM API, we can move the i915 panel code over to using the atomic PWM API.
-
-The removes a long standing FIXME and this removes a flicker where
-the backlight brightness would jump to 100% when i915 loads even if
-using the fastset path.
-
-Note that this commit also simplifies pwm_disable_backlight(), by dropping
-the intel_panel_actually_set_backlight(..., 0) call. This call sets the
-PWM to 0% duty-cycle. I believe that this call was only present as a
-workaround for a bug in the pwm-crc.c driver where it failed to clear the
-PWM_OUTPUT_ENABLE bit. This is fixed by an earlier patch in this series.
-
-After the dropping of this workaround, the usleep call, which seems
-unnecessary to begin with, has no useful effect anymore, so drop that too.
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v4:
-- Add a note to the commit message about the dropping of the
-  intel_panel_actually_set_backlight() and usleep() calls from
-  pwm_disable_backlight()
-- Use the pwm_set/get_relative_duty_cycle() helpers instead of using DIY code
-  for this
----
- .../drm/i915/display/intel_display_types.h    |  3 +-
- drivers/gpu/drm/i915/display/intel_panel.c    | 71 +++++++++----------
- 2 files changed, 34 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index de32f9efb120..4bd9981e70a1 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -28,6 +28,7 @@
- 
- #include <linux/async.h>
- #include <linux/i2c.h>
-+#include <linux/pwm.h>
- #include <linux/sched/clock.h>
- 
- #include <drm/drm_atomic.h>
-@@ -223,7 +224,7 @@ struct intel_panel {
- 		bool util_pin_active_low;	/* bxt+ */
- 		u8 controller;		/* bxt+ only */
- 		struct pwm_device *pwm;
--		int pwm_period_ns;
-+		struct pwm_state pwm_state;
- 
- 		/* DPCD backlight */
- 		u8 pwmgen_bit_count;
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index cb28b9908ca4..3d97267c8238 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -592,10 +592,10 @@ static u32 bxt_get_backlight(struct intel_connector *connector)
- static u32 pwm_get_backlight(struct intel_connector *connector)
- {
- 	struct intel_panel *panel = &connector->panel;
--	int duty_ns;
-+	struct pwm_state state;
- 
--	duty_ns = pwm_get_duty_cycle(panel->backlight.pwm);
--	return DIV_ROUND_UP(duty_ns * 100, panel->backlight.pwm_period_ns);
-+	pwm_get_state(panel->backlight.pwm, &state);
-+	return pwm_get_relative_duty_cycle(&state, 100);
- }
- 
- static void lpt_set_backlight(const struct drm_connector_state *conn_state, u32 level)
-@@ -669,10 +669,9 @@ static void bxt_set_backlight(const struct drm_connector_state *conn_state, u32
- static void pwm_set_backlight(const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_panel *panel = &to_intel_connector(conn_state->connector)->panel;
--	int duty_ns = DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 100);
- 
--	pwm_config(panel->backlight.pwm, duty_ns,
--		   panel->backlight.pwm_period_ns);
-+	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
-+	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- static void
-@@ -841,10 +840,8 @@ static void pwm_disable_backlight(const struct drm_connector_state *old_conn_sta
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
- 
--	/* Disable the backlight */
--	intel_panel_actually_set_backlight(old_conn_state, 0);
--	usleep_range(2000, 3000);
--	pwm_disable(panel->backlight.pwm);
-+	panel->backlight.pwm_state.enabled = false;
-+	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- void intel_panel_disable_backlight(const struct drm_connector_state *old_conn_state)
-@@ -1176,9 +1173,12 @@ static void pwm_enable_backlight(const struct intel_crtc_state *crtc_state,
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
-+	int level = panel->backlight.level;
- 
--	pwm_enable(panel->backlight.pwm);
--	intel_panel_actually_set_backlight(conn_state, panel->backlight.level);
-+	level = intel_panel_compute_brightness(connector, level);
-+	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
-+	panel->backlight.pwm_state.enabled = true;
-+	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- static void __intel_panel_enable_backlight(const struct intel_crtc_state *crtc_state,
-@@ -1897,8 +1897,7 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_panel *panel = &connector->panel;
- 	const char *desc;
--	u32 level, ns;
--	int retval;
-+	u32 level;
- 
- 	/* Get the right PWM chip for DSI backlight according to VBT */
- 	if (dev_priv->vbt.dsi.config->pwm_blc == PPS_BLC_PMIC) {
-@@ -1916,36 +1915,30 @@ static int pwm_setup_backlight(struct intel_connector *connector,
- 		return -ENODEV;
- 	}
- 
--	panel->backlight.pwm_period_ns = NSEC_PER_SEC /
--					 get_vbt_pwm_freq(dev_priv);
--
--	/*
--	 * FIXME: pwm_apply_args() should be removed when switching to
--	 * the atomic PWM API.
--	 */
--	pwm_apply_args(panel->backlight.pwm);
--
- 	panel->backlight.max = 100; /* 100% */
- 	panel->backlight.min = get_backlight_min_vbt(connector);
--	level = intel_panel_compute_brightness(connector, 100);
--	ns = DIV_ROUND_UP(level * panel->backlight.pwm_period_ns, 100);
- 
--	retval = pwm_config(panel->backlight.pwm, ns,
--			    panel->backlight.pwm_period_ns);
--	if (retval < 0) {
--		drm_err(&dev_priv->drm, "Failed to configure the pwm chip\n");
--		pwm_put(panel->backlight.pwm);
--		panel->backlight.pwm = NULL;
--		return retval;
-+	if (pwm_is_enabled(panel->backlight.pwm) &&
-+	    pwm_get_period(panel->backlight.pwm)) {
-+		/* PWM is already enabled, use existing settings */
-+		pwm_get_state(panel->backlight.pwm, &panel->backlight.pwm_state);
-+
-+		level = pwm_get_relative_duty_cycle(&panel->backlight.pwm_state,
-+						    100);
-+		level = intel_panel_compute_brightness(connector, level);
-+		panel->backlight.level = clamp(level, panel->backlight.min,
-+					       panel->backlight.max);
-+		panel->backlight.enabled = true;
-+
-+		drm_dbg_kms(&dev_priv->drm, "PWM already enabled at freq %ld, VBT freq %d, level %d\n",
-+			    NSEC_PER_SEC / panel->backlight.pwm_state.period,
-+			    get_vbt_pwm_freq(dev_priv), level);
-+	} else {
-+		/* Set period from VBT frequency, leave other settings at 0. */
-+		panel->backlight.pwm_state.period =
-+			NSEC_PER_SEC / get_vbt_pwm_freq(dev_priv);
- 	}
- 
--	level = DIV_ROUND_UP(pwm_get_duty_cycle(panel->backlight.pwm) * 100,
--			     panel->backlight.pwm_period_ns);
--	level = intel_panel_compute_brightness(connector, level);
--	panel->backlight.level = clamp(level, panel->backlight.min,
--				       panel->backlight.max);
--	panel->backlight.enabled = panel->backlight.level != 0;
--
- 	drm_info(&dev_priv->drm, "Using %s PWM for LCD backlight control\n",
- 		 desc);
- 	return 0;
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCkFk
+ZCBhIFRPRE8gZm9yIHBsdW1iaW5nIGRybV9hdG9taWNfc3RhdGUgYWxsIG92ZXIgdG8gZWFzZQp0
+aGUgaHVyZGxlcyBvZiBhY2Nlc3NpbmcgYWRkaXRpb25hbCBvYmplY3Qgc3RhdGVzLgoKUmV2aWV3
+ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+ICNpcmMKU2lnbmVk
+LW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4K
+LS0tCiBEb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCB8IDQ2ICsrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKQoKZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IGIvRG9jdW1lbnRhdGlvbi9ncHUv
+dG9kby5yc3QKaW5kZXggNzk2OWYxMDY4NzdkLi5iMGVhMTdkYThmZjYgMTAwNjQ0Ci0tLSBhL0Rv
+Y3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0
+CkBAIC00MDMsNiArNDAzLDUyIEBAIENvbnRhY3Q6IEVtaWwgVmVsaWtvdiwgcmVzcGVjdGl2ZSBk
+cml2ZXIgbWFpbnRhaW5lcnMKIAogTGV2ZWw6IEludGVybWVkaWF0ZQogCitQbHVtYiBkcm1fYXRv
+bWljX3N0YXRlIGFsbCBvdmVyCistLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisKK0N1
+cnJlbnRseSB2YXJpb3VzIGF0b21pYyBmdW5jdGlvbnMgdGFrZSBqdXN0IGEgc2luZ2xlIG9yIGEg
+aGFuZGZ1bCBvZgorb2JqZWN0IHN0YXRlcyAoZWcuIHBsYW5lIHN0YXRlKS4gV2hpbGUgdGhhdCBz
+aW5nbGUgb2JqZWN0IHN0YXRlIGNhbgorc3VmZmljZSBmb3Igc29tZSBzaW1wbGUgY2FzZXMsIHdl
+IG9mdGVuIGhhdmUgdG8gZGlnIG91dCBhZGRpdGlvbmFsCitvYmplY3Qgc3RhdGVzIGZvciBkZWFs
+aW5nIHdpdGggdmFyaW91cyBkZXBlbmRlbmNpZXMgYmV0d2VlbiB0aGUgaW5kaXZpZHVhbAorb2Jq
+ZWN0cyBvciB0aGUgaGFyZHdhcmUgdGhleSByZXByZXNlbnQuIFRoZSBwcm9jZXNzIG9mIGRpZ2dp
+bmcgb3V0IHRoZQorYWRkaXRpb25hbCBzdGF0ZXMgaXMgcmF0aGVyIG5vbi1pbnR1aXRpdmUgYW5k
+IGVycm9yIHByb25lLgorCitUbyBmaXggdGhhdCBtb3N0IGZ1bmN0aW9ucyBzaG91bGQgcmF0aGVy
+IHRha2UgdGhlIG92ZXJhbGwKK2RybV9hdG9taWNfc3RhdGUgYXMgb25lIG9mIHRoZWlyIHBhcmFt
+ZXRlcnMuIFRoZSBvdGhlciBwYXJhbWV0ZXJzCit3b3VsZCBnZW5lcmFsbHkgYmUgdGhlIG9iamVj
+dChzKSB3ZSBtYWlubHkgd2FudCB0byBpbnRlcmFjdCB3aXRoLgorCitGb3IgZXhhbXBsZSwgaW5z
+dGVhZCBvZgorCisuLiBjb2RlLWJsb2NrOjogYworCisgICBpbnQgKCphdG9taWNfY2hlY2spKHN0
+cnVjdCBkcm1fcGxhbmUgKnBsYW5lLCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSk7CisK
+K3dlIHdvdWxkIGhhdmUgc29tZXRoaW5nIGxpa2UKKworLi4gY29kZS1ibG9jazo6IGMKKworICAg
+aW50ICgqYXRvbWljX2NoZWNrKShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwgc3RydWN0IGRybV9h
+dG9taWNfc3RhdGUgKnN0YXRlKTsKKworVGhlIGltcGxlbWVudGF0aW9uIGNhbiB0aGVuIHRyaXZp
+YWxseSBnYWluIGFjY2VzcyB0byBhbnkgcmVxdWlyZWQgb2JqZWN0CitzdGF0ZShzKSB2aWEgZHJt
+X2F0b21pY19nZXRfcGxhbmVfc3RhdGUoKSwgZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRl
+KCksCitkcm1fYXRvbWljX2dldF9vbGRfcGxhbmVfc3RhdGUoKSwgYW5kIHRoZWlyIGVxdWl2YWxl
+bnRzIGZvcgorb3RoZXIgb2JqZWN0IHR5cGVzLgorCitBZGRpdGlvbmFsbHkgbWFueSBkcml2ZXJz
+IGN1cnJlbnRseSBhY2Nlc3MgdGhlIG9iamVjdC0+c3RhdGUgcG9pbnRlcgorZGlyZWN0bHkgaW4g
+dGhlaXIgY29tbWl0IGZ1bmN0aW9ucy4gVGhhdCBpcyBub3QgZ29pbmcgdG8gd29yayBpZiB3ZQor
+ZWcuIHdhbnQgdG8gYWxsb3cgZGVlcGVyIGNvbW1pdCBwaXBlbGluZXMgYXMgdGhvc2UgcG9pbnRl
+cnMgY291bGQKK3RoZW4gcG9pbnQgdG8gdGhlIHN0YXRlcyBjb3JyZXNwb25kaW5nIHRvIGEgZnV0
+dXJlIGNvbW1pdCBpbnN0ZWFkIG9mCit0aGUgY3VycmVudCBjb21taXQgd2UncmUgdHJ5aW5nIHRv
+IHByb2Nlc3MuIEFsc28gbm9uLWJsb2NraW5nIGNvbW1pdHMKK2V4ZWN1dGUgbG9ja2xlc3NseSBz
+byB0aGVyZSBhcmUgc2VyaW91cyBjb25jZXJucyB3aXRoIGRlcmVmZXJlbmNpbmcKK3RoZSBvYmpl
+Y3QtPnN0YXRlIHBvaW50ZXJzIHdpdGhvdXQgaG9sZGluZyB0aGUgbG9ja3MgdGhhdCBwcm90ZWN0
+IHRoZW0uCitVc2Ugb2YgZHJtX2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKCksIGRybV9hdG9t
+aWNfZ2V0X29sZF9wbGFuZV9zdGF0ZSgpLAorZXRjLiBhdm9pZHMgdGhlc2UgcHJvYmxlbXMgYXMg
+d2VsbCBzaW5jZSB0aGV5IHJlbGF0ZSB0byBhIHNwZWNpZmljCitjb21taXQgdmlhIHRoZSBwYXNz
+ZWQgaW4gZHJtX2F0b21pY19zdGF0ZS4KKworQ29udGFjdDogVmlsbGUgU3lyasOkbMOkLCBEYW5p
+ZWwgVmV0dGVyCisKK0xldmVsOiBJbnRlcm1lZGlhdGUKKwogCiBDb3JlIHJlZmFjdG9yaW5ncwog
+PT09PT09PT09PT09PT09PT0KLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
