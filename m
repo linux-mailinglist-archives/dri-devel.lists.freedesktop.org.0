@@ -2,36 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285CC22448F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 21:48:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC772244B7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 22:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6442A6E856;
-	Fri, 17 Jul 2020 19:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB816E8C8;
+	Fri, 17 Jul 2020 20:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 030416E856
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 19:48:55 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
+X-Greylist: delayed 467 seconds by postgrey-1.36 at gabe;
+ Fri, 17 Jul 2020 20:00:00 UTC
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
+ [83.223.95.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B82FF6E8C5;
+ Fri, 17 Jul 2020 20:00:00 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f1c:0])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 6268180501;
- Fri, 17 Jul 2020 21:48:51 +0200 (CEST)
-Date: Fri, 17 Jul 2020 21:48:49 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Subject: Re: [PATCH v6 2/4] drm/imx: Add initial support for DCSS on iMX8MQ
-Message-ID: <20200717194849.GA2369507@ravnborg.org>
-References: <20200717144132.2206-1-laurentiu.palcu@oss.nxp.com>
- <20200717144132.2206-3-laurentiu.palcu@oss.nxp.com>
+ (Client CN "*.hostsharing.net",
+ Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+ by bmailout1.hostsharing.net (Postfix) with ESMTPS id E02A030000CF7;
+ Fri, 17 Jul 2020 21:52:09 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id A84152B0C74; Fri, 17 Jul 2020 21:52:09 +0200 (CEST)
+Date: Fri, 17 Jul 2020 21:52:09 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
+ without DLL Link Active train links in 100 ms"
+Message-ID: <20200717195209.vmtyfmgweoo645lh@wunner.de>
+References: <20200716235440.GA675421@bjorn-Precision-5520>
+ <ec6623032131fc3e656713b8ec644cdff89a8066.camel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200717144132.2206-3-laurentiu.palcu@oss.nxp.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=8AirrxEcAAAA:8 a=zm2rouQ-rTcRMPztwuMA:9
- a=CjuIK1q_8ugA:10 a=ST-jHhOKWsTCqRlWije3:22
+In-Reply-To: <ec6623032131fc3e656713b8ec644cdff89a8066.camel@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,56 +48,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- lukas@mntmn.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, agx@sigxcpu.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ Patrick Volkerding <volkerdi@gmail.com>, Linux PCI <linux-pci@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurentiu.
+On Fri, Jul 17, 2020 at 03:04:10PM -0400, Lyude Paul wrote:
+> Isn't it possible to tell whether a PCI device is connected through
+> thunderbolt or not? We could probably get away with just defaulting
+> to 100ms for thunderbolt devices without DLL Link Active specified,
+> and then default to the old delay value for non-thunderbolt devices.
 
-On Fri, Jul 17, 2020 at 05:41:27PM +0300, Laurentiu Palcu wrote:
-> From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> 
-> This adds initial support for iMX8MQ's Display Controller Subsystem (DCSS).
-> Some of its capabilities include:
->  * 4K@60fps;
->  * HDR10;
->  * one graphics and 2 video pipelines;
->  * on-the-fly decompression of compressed video and graphics;
-> 
-> The reference manual can be found here:
-> https://www.nxp.com/webapp/Download?colCode=IMX8MDQLQRM
-> 
-> The current patch adds only basic functionality: one primary plane for
-> graphics, linear, tiled and super-tiled buffers support (no graphics
-> decompression yet), no HDR10 and no video planes.
-> 
-> Video planes support and HDR10 will be added in subsequent patches once
-> per-plane de-gamma/CSC/gamma support is in.
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-
-....
-        return drm_bridge_attach(encoder, bridge, NULL, 0);
-....
-
-The above code-snippet tells that the display-driver rely on the bridge
-to create the connector.
-Could this by any chance be updated to the new way where the display
-driver creates the connector - and thus passing DRM_BRIDGE_ATTACH_NO_CONNECTOR
-as the flags argument?
-
-What bridges would be relevant?
-To check that the reelvant bridges are already ported.
-
-	Sam
+pci_is_thunderbolt_attached()
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
