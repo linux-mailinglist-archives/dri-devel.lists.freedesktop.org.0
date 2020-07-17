@@ -1,65 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AA6224531
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 22:29:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AFC2245BE
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 23:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71AC6E8CB;
-	Fri, 17 Jul 2020 20:29:33 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B566E24B
- for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 20:29:32 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id o184so5517064vsc.0
- for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 13:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YLpVMDYrwWJk9a87cWOg2bUrC1EGuGNsrDX+jB50X64=;
- b=QOcdUWmVYO1ruHidjb3BSZV+nTbElxTyRNbKn8qrlYGKW/hsoUgNhdQV35VwVKTeCK
- cLuBXa3aF18NO7qBg+2XtVH09Gnp+OP/6/WjY2PVwrY0zQuGLT6HFiEd6w2HW4jkN+kO
- uAGvcAq319nP7pcGzfoiqyaBryN0jxK7I9qTc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YLpVMDYrwWJk9a87cWOg2bUrC1EGuGNsrDX+jB50X64=;
- b=loeqhnA+yLgSyXC7sjfkHMYqP8vN6Uxv7XcJlsyLfeYC/X5xdA+365k9CqGWCC8qkD
- 6rvVaJvfxZVT+VE7th5F9aDW5SGZuDwJeYksh+qD6XZMvBm0tDLoPrUOzYF+kofdPv4v
- QfvakIA4ZN0rM6HAJa2VcxRcEXny0KOIh+/YmWgDv76NSRgPpsDiatXPmZQWfRkwJSah
- pCi7X0bi43jxNB/+/tw9/w386br6/DauZG2+yjmzJcCz1EPR+wftZ71vVinnn96Qv5C6
- fYkk2F9gZakcMxbTXjwaRPyR2x0XzGvYNfqPubJM8q4Ipz0hxFu57+xbdoJ7ahKmMzOm
- wFkQ==
-X-Gm-Message-State: AOAM530wyWKVcPlIDr+WiKRypP4UkacmSY3nuS6SFm3w6Q5kCu15Cvq5
- JVVKeIhm71vy2uOcpd9ipdQlHl2bqMQ=
-X-Google-Smtp-Source: ABdhPJyW7plOJFe9oeQ9J/+gskzp1bSjcPeRvVLiocVBVqCOE6g+eFFN5GblOmUFBlPfnCz7nAACqw==
-X-Received: by 2002:a05:6102:21b4:: with SMTP id
- i20mr9310564vsb.164.1595017771469; 
- Fri, 17 Jul 2020 13:29:31 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
- [209.85.222.45])
- by smtp.gmail.com with ESMTPSA id s184sm1341853vkh.52.2020.07.17.13.29.30
- for <dri-devel@freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jul 2020 13:29:30 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id p6so3255306uaq.12
- for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 13:29:30 -0700 (PDT)
-X-Received: by 2002:ab0:44e5:: with SMTP id n92mr8909789uan.121.1595017769995; 
- Fri, 17 Jul 2020 13:29:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <1594996458-15529-1-git-send-email-akhilpo@codeaurora.org>
- <20200717144607.GA16703@jcrouse1-lnx.qualcomm.com>
- <CAD=FV=Vdg36wBJiYM9bxGy-8hjxEf85aYAGuqR=Xh_oM0pLt0g@mail.gmail.com>
- <CAF6AEGvY9qxpi8rqL4Lef+Qs1yc20K3jEewK+9mWuTdhkLDKkA@mail.gmail.com>
-In-Reply-To: <CAF6AEGvY9qxpi8rqL4Lef+Qs1yc20K3jEewK+9mWuTdhkLDKkA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 17 Jul 2020 13:29:18 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VjTzD_Swcbuk8o20tGkkx1EtPF-CT74wZYBnB39-xLUQ@mail.gmail.com>
-Message-ID: <CAD=FV=VjTzD_Swcbuk8o20tGkkx1EtPF-CT74wZYBnB39-xLUQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: msm: a6xx: fix gpu failure after system resume
-To: Rob Clark <robdclark@gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF8496E260;
+	Fri, 17 Jul 2020 21:16:14 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C87D26E24B;
+ Fri, 17 Jul 2020 21:16:13 +0000 (UTC)
+IronPort-SDR: 1MFJJ1P+qPyBLGZX5FRcZe+CK8AM+h9gDEHQFqP/8UcBwt9qDLtZuTxm0pV7ZgO1KzL9xdwbHM
+ vLDsKTJ0M+Ew==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="129758791"
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; d="scan'208";a="129758791"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2020 14:16:13 -0700
+IronPort-SDR: uUm16KqF2ruRZr6jyNK9+SVPGlpTsAXGeQZKpLDxDZYGgTtTGUi2TXwqSulTinKXg4iyChm9gm
+ RIEjiFrslU0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; d="scan'208";a="300687838"
+Received: from duffjusx-mobl1.amr.corp.intel.com (HELO
+ achrisan-DESK2.amr.corp.intel.com) ([10.251.156.115])
+ by orsmga002.jf.intel.com with ESMTP; 17 Jul 2020 14:16:12 -0700
+From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
+ bob.j.paauwe@intel.com, edmund.j.dea@intel.com
+Subject: [PATCH v3] Add support for KeemBay DRM driver
+Date: Fri, 17 Jul 2020 14:15:50 -0700
+Message-Id: <1595020551-30768-1-git-send-email-anitha.chrisanthus@intel.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,53 +47,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is a new DRM driver for Intel's KeemBay SOC.
+The SoC couples an ARM Cortex A53 CPU with an Intel
+Movidius VPU.
 
+This driver is tested with the KMB EVM board which is the refernce baord
+for Keem Bay SOC. The SOC's display pipeline is as follows
 
-On Fri, Jul 17, 2020 at 1:24 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Fri, Jul 17, 2020 at 10:39 AM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Hi,
-> >
-> > On Fri, Jul 17, 2020 at 7:46 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
-> > >
-> > > On Fri, Jul 17, 2020 at 08:04:18PM +0530, Akhil P Oommen wrote:
-> > > > On targets where GMU is available, GMU takes over the ownership of GX GDSC
-> > > > during its initialization. So, move the refcount-get on GX PD before we
-> > > > initialize the GMU. This ensures that nobody can collapse the GX GDSC
-> > > > once GMU owns the GX GDSC. This patch fixes some GMU OOB errors seen
-> > > > during GPU wake up during a system resume.
-> > >
-> > > > Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> > > > Reported-by: Matthias Kaehlcke <mka@chromium.org>
-> > > > Tested-by: Matthias Kaehlcke <mka@chromium.org>
-> > >
-> > > The Signed-off-by needs to be at the end but I think Rob can do that for you.
-> >
-> > It does?  I've always been told that this is supposed to be roughly a
-> > log of what happens.  In that sense you added your SoB before the
-> > review/test happened so it should come before.  I know some
-> > maintainers seem to do things differently but that seems to be the
-> > most common.  In that sense, I think the order that Akhil has is
-> > correct.  ...but, obviously, it's up to the maintainer.  ;-)
->
-> yeah, I chronological order was my understanding too.. but presumably
-> the Reported-by happened before the Signed-of-by (which is how I
-> reordered things when applying the patch)
++--------------+    +---------+    +-----------------------+
+|LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
++--------------+    +---------+    +-----------------------+
 
-Doh!  Yeah, I somehow read that as Reviewed-by.  Thanks!  :-)
+LCD controller and Mipi DSI transmitter are part of the SOC and
+mipi to HDMI converter is ADV7535 for KMB EVM board.
 
--Doug
+The DRM driver is a basic KMS atomic modesetting display driver and
+has no 2D or 3D graphics.It calls into the ADV bridge driver at
+the connector level.
+
+Only 1080p resolution and single plane is supported at this time.
+The usecase is for debugging video and camera outputs.
+
+Device tree patches are under review here
+https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
+
+Changes since v1:
+- Removed redundant license text, updated license
+- Rearranged include blocks
+- renamed global vars and removed extern in c
+- Used upclassing for dev_private
+- Used drm_dev_init in drm device create
+- minor cleanups
+
+Changes since v2:
+- squashed all commits to a single commit
+- logging changed to drm_info, drm_dbg etc.
+- used devm_drm_dev_alloc()
+- removed commented out sections and general cleanup
+
+Anitha Chrisanthus (1):
+  drm/kmb: Add support for KeemBay Display
+
+ drivers/gpu/drm/Kconfig         |    2 +
+ drivers/gpu/drm/Makefile        |    1 +
+ drivers/gpu/drm/kmb/Kconfig     |   12 +
+ drivers/gpu/drm/kmb/Makefile    |    2 +
+ drivers/gpu/drm/kmb/kmb_crtc.c  |  219 +++++
+ drivers/gpu/drm/kmb/kmb_crtc.h  |   41 +
+ drivers/gpu/drm/kmb/kmb_drv.c   |  759 ++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_drv.h   |  165 ++++
+ drivers/gpu/drm/kmb/kmb_dsi.c   | 1833 +++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_dsi.h   |  370 ++++++++
+ drivers/gpu/drm/kmb/kmb_plane.c |  515 +++++++++++
+ drivers/gpu/drm/kmb/kmb_plane.h |  124 +++
+ drivers/gpu/drm/kmb/kmb_regs.h  |  738 ++++++++++++++++
+ 13 files changed, 4781 insertions(+)
+ create mode 100644 drivers/gpu/drm/kmb/Kconfig
+ create mode 100644 drivers/gpu/drm/kmb/Makefile
+ create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_regs.h
+
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
