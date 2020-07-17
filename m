@@ -2,38 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC7A22588B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70169225882
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0D89FD9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1624789FAD;
 	Mon, 20 Jul 2020 07:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC506ED37
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 08:00:46 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id A1E10D976030469F0894;
- Fri, 17 Jul 2020 16:00:38 +0800 (CST)
-Received: from [127.0.0.1] (10.174.179.91) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Jul 2020
- 16:00:36 +0800
-Subject: Re: [PATCH -next] drm/komeda: Convert to DEFINE_SHOW_ATTRIBUTE
-To: Daniel Vetter <daniel@ffwll.ch>, "james qian wang (Arm Technology China)"
- <james.qian.wang@arm.com>
-References: <20200716090333.13334-1-miaoqinglang@huawei.com>
- <20200717064017.GA76612@jamwan02-TSP300>
- <CAKMK7uEpmhKok9Q3Rrg0v=1p7pv-wpV0Y3-k9GVav+Ad5Z4AkQ@mail.gmail.com>
-From: miaoqinglang <miaoqinglang@huawei.com>
-Message-ID: <7264de7e-6da4-288d-855d-410b2e05458b@huawei.com>
-Date: Fri, 17 Jul 2020 16:00:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FB16EDD0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 13:40:40 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 46BA15C00C8;
+ Fri, 17 Jul 2020 09:40:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 17 Jul 2020 09:40:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=9wtQGfX5A/sjIQNvHFVuON+pdxE
+ vSOVnkKnj5ek512o=; b=O5WOxjjgZDmMLZ2789x6pZ7/dcQiUZUsvZvAnV8c+mc
+ GprpW4fYTolz4h88yZ+9YVSUYmRu5POOLfHWv5sfq6kcvfielFINiyRtJLFaFqIk
+ E/Kuhel5Y2x2yrKFVWyxjEACJtRf2YEEJQjVqlO2nI3357TTYdZBvyyyuNIa7BPt
+ 6xkJP4A4U92g+vYiYC7po2Q6PTzy1dmw/Mi7wF61nZDE9o0l21ZtgDfkeObwtyMN
+ 34GVzr+kC4jb1hpY2UO1V8kory71fzqwtM6GySM1t2u4bJXiNafN9mqlpjs3ysGV
+ BovMqSN0gKg/vhtjZwqfoz3JS0FIVh2sflvaPOjd29g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9wtQGf
+ X5A/sjIQNvHFVuON+pdxEvSOVnkKnj5ek512o=; b=KC/1RaWP38bzljJGlF+A3r
+ JA/vxU4ghkAd5LZN95VquKMlwKNvKYci11ZtJKNN3hHIvpv4uzO5BEiqy/bVpFmu
+ N84664B1ZomVrBdNa2OGK7z4o7SlIXFHWTD587UMd2KFEtn6OEFupkYaKqLSRJ/B
+ aINRWap+JeeXlcziS8PDjVHLbIdzn5Z4AWWJS6XM8Uv1sNtFcYbfjZRduk9Ogq89
+ CTRTTR2ObVj/gtR8DBZkVk18sgbiUFVDsKitjeXITiuwu17Nf/C8fcTfMqpYeJDc
+ Iv3dr2Hbf0ey87hBj1zFMpX4/og4elDajiyJe8zgowerouZTTyobBvJ/UTdPN4UQ
+ ==
+X-ME-Sender: <xms:UqoRX38Pt43dhJWB_YnYYW2dJv7nrwwk_NIlp-mvK6gs9VAhl27fzQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrfeeigdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:UqoRXzvP54E4kf_nGaQJUXN7mHiew2ECM_kuu13hPIlHSqG-Rf-xKQ>
+ <xmx:UqoRX1CWpr_oFRvcx6rCyS8S31bMFG9fJAddohWUw7cbZydKyRc92w>
+ <xmx:UqoRXzdMnXuR3D-Z05YFkq3TAVK_AbLOeCpx-9CS7TmTfUKL3EtB-g>
+ <xmx:VqoRXxomC2n1dDXLyLpTkcc9ADj08l7bXRSoO6w55EaLYC7-c2t7dA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D90FB328005A;
+ Fri, 17 Jul 2020 09:40:33 -0400 (EDT)
+Date: Fri, 17 Jul 2020 15:40:31 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@kernel.org>
+Subject: Re: [PATCH] drm: sun4i: hdmi: Fix inverted HPD result
+Message-ID: <20200717134031.rymy4ac6lyhme7fb@gilmour.lan>
+References: <20200711011030.21997-1-wens@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEpmhKok9Q3Rrg0v=1p7pv-wpV0Y3-k9GVav+Ad5Z4AkQ@mail.gmail.com>
-X-Originating-IP: [10.174.179.91]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:37 +0000
+In-Reply-To: <20200711011030.21997-1-wens@kernel.org>
+X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,67 +76,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mihail Atanassov <mihail.atanassov@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, nd <nd@arm.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0449969599=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgrlnKggMjAyMC83LzE3IDE1OjA2LCBEYW5pZWwgVmV0dGVyIOWGmemBkzoKPiBPbiBGcmksIEp1
-bCAxNywgMjAyMCBhdCA4OjQwIEFNIGphbWVzIHFpYW4gd2FuZyAoQXJtIFRlY2hub2xvZ3kgQ2hp
-bmEpCj4gPGphbWVzLnFpYW4ud2FuZ0Bhcm0uY29tPiB3cm90ZToKPj4KPj4gT24gVGh1LCBKdWwg
-MTYsIDIwMjAgYXQgMDU6MDM6MzNQTSArMDgwMCwgUWluZ2xhbmcgTWlhbyB3cm90ZToKPj4+IEZy
-b206IExpdSBTaGl4aW4gPGxpdXNoaXhpbjJAaHVhd2VpLmNvbT4KPj4+Cj4+PiBVc2UgREVGSU5F
-X1NIT1dfQVRUUklCVVRFIG1hY3JvIHRvIHNpbXBsaWZ5IHRoZSBjb2RlLgo+Pj4KPj4+IFNpZ25l
-ZC1vZmYtYnk6IExpdSBTaGl4aW4gPGxpdXNoaXhpbjJAaHVhd2VpLmNvbT4KPj4+IC0tLQo+Pj4g
-ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYyB8IDEzICst
-LS0tLS0tLS0tLS0KPj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxMiBkZWxl
-dGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5
-L2tvbWVkYS9rb21lZGFfZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRh
-L2tvbWVkYV9kZXYuYwo+Pj4gaW5kZXggMDI0NmIyZTk0Li40YTEwZTZiOWUgMTAwNjQ0Cj4+PiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYwo+Pj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZGV2LmMKPj4+
-IEBAIC00MSwxOCArNDEsNyBAQCBzdGF0aWMgaW50IGtvbWVkYV9yZWdpc3Rlcl9zaG93KHN0cnVj
-dCBzZXFfZmlsZSAqc2YsIHZvaWQgKngpCj4+PiAgICAgICAgcmV0dXJuIDA7Cj4+PiAgIH0KPj4+
-Cj4+PiAtc3RhdGljIGludCBrb21lZGFfcmVnaXN0ZXJfb3BlbihzdHJ1Y3QgaW5vZGUgKmlub2Rl
-LCBzdHJ1Y3QgZmlsZSAqZmlscCkKPj4+IC17Cj4+PiAtICAgICByZXR1cm4gc2luZ2xlX29wZW4o
-ZmlscCwga29tZWRhX3JlZ2lzdGVyX3Nob3csIGlub2RlLT5pX3ByaXZhdGUpOwo+Pj4gLX0KPj4+
-IC0KPj4+IC1zdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBrb21lZGFfcmVnaXN0
-ZXJfZm9wcyA9IHsKPj4+IC0gICAgIC5vd25lciAgICAgICAgICA9IFRISVNfTU9EVUxFLAo+Pj4g
-LSAgICAgLm9wZW4gICAgICAgICAgID0ga29tZWRhX3JlZ2lzdGVyX29wZW4sCj4+PiAtICAgICAu
-cmVhZF9pdGVyICAgICAgICAgICAgICA9IHNlcV9yZWFkX2l0ZXIsCj4+PiAtICAgICAubGxzZWVr
-ICAgICAgICAgPSBzZXFfbHNlZWssCj4+PiAtICAgICAucmVsZWFzZSAgICAgICAgPSBzaW5nbGVf
-cmVsZWFzZSwKPj4+IC19Owo+Pj4gK0RFRklORV9TSE9XX0FUVFJJQlVURShrb21lZGFfcmVnaXN0
-ZXIpOwo+Pj4KPj4KPj4gSGkgU2hpeGluICYgUWluZ2xhbmcKPj4KPj4gVGhhbmtzIGZvciB5b3Vy
-IHBhdGNoLgo+Pgo+PiBSZXZpZXdlZC1ieTogSmFtZXMgUWlhbiBXYW5nIDxqYW1lcy5xaWFuLndh
-bmdAYXJtLmNvbT4KPj4KPj4gU2luY2UgeW91ciBwYXRjaCBpcyBub3QgZm9yIGRybS1taXNjLW5l
-eHQsIHNvIHNlZW1zIGJldHRlcgo+PiB0byBsZWF2ZSBpdCB0byB5b3UgdG8gbWVyZ2UgaXQuIDop
-Cj4gCj4gSSBkbyB0aGluayBpdCdzIGZvciBkcm0tbWlzYy1uZXh0LCB3aGF0IG90aGVyIHRyZWUg
-d291bGQgaXQgYmUgZm9yPwo+IFNvbWUgcGVvcGxlIHB1dCAtbmV4dCBpbiB0aGVpciBwYXRjaCB0
-YWcgdG8gZGlmZmVyZW50aWF0ZSBmcm9tIC1maXhlcywKPiBzbyBtYWludGFpbmVycyBrbm93IHdo
-YXQgdG8gZG8gd2l0aCB0aGUgcGF0Y2guIEl0J3MgYWxzbyBub3QgcGFydCBvZiBhCj4gc2VyaWVz
-LCBoZW5jZSBJIHRoaW5rIHRoaXMgaXMgb24geW91IHRvIGFwcGx5IGl0LgogPgpIaSBKYW1lcyAm
-IERhbmllbCwKCuKAi1NvcnJ5IEkgZGlkbid0IG1ha2UgaXQgY2xlYXIgaW4gY29tbWl0IGxvZywg
-YnV0IGl0IGRvIGJhc2VkIG9uIGxpbnV4LW5leHQuCgrigItJIHRoaW5rIHRoZSByZWFzb24gd2h5
-IEphbWVzIHRoaW5rIGl0J3Mgbm90IGZvciBkcm0tbWlzYy1uZXh0CmlzIGNvbmZsaWN0cyBleGlz
-dHMgd2hlbiB0aGlzIHBhdGNoIGJlaW5nIGFwcGxpZWQuIFRoZXJlJ3MgY29uZmxpY3RzIApiZWNh
-dXNlIGNvbW1pdCA8NGQ0OTAxYzZkNz4gd2hpY2ggc3dpdGNoZWQgb3ZlciBkaXJlY3Qgc2VxX3Jl
-YWQgbWV0aG9kIApjYWxscyB0byBzZXFfcmVhZF9pdGVyIHNob3VsZCBhcHBsaWVkIGJlZm9yZSB0
-aGlzIGNsZWFuLXVwIHBhdGNoKGxpbmthZ2UgCmxpc3RlZCBhcyBiZWxvdykuCgpodHRwczovL2tl
-cm5lbC5nb29nbGVzb3VyY2UuY29tL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4
-LW5leHQvKy80ZDQ5MDFjNmQ3NDhlZmFiOGFhYjZlN2QyNDA1ZGFkYWVkMGJlYTUwCgpJIGNhbiBz
-ZW5kIGEgbmV3IHBhdGNoIGJhc2VkIG9uIG1haW5saW5lIGlmIG5lZWRlZC4KCuKAi1RoYW5rcy4K
-ClFpbmdsYW5nCgouCgkKID4KPiBDaGVlcnMsIERhbmllbAo+IAo+Pgo+PiBUaGFua3MKPj4gSmFt
-ZXMKPj4KPj4+ICAgI2lmZGVmIENPTkZJR19ERUJVR19GUwo+Pj4gICBzdGF0aWMgdm9pZCBrb21l
-ZGFfZGVidWdmc19pbml0KHN0cnVjdCBrb21lZGFfZGV2ICptZGV2KQo+Pj4gLS0KPj4+IDIuMTcu
-MQo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+PiBk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwKPiAKPiAKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+
+--===============0449969599==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ggg674spti3sbwh2"
+Content-Disposition: inline
+
+
+--ggg674spti3sbwh2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Jul 11, 2020 at 09:10:30AM +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>=20
+> When the extra HPD polling in sun4i_hdmi was removed, the result of
+> HPD was accidentally inverted.
+>=20
+> Fix this by inverting the check.
+>=20
+> Fixes: bda8eaa6dee7 ("drm: sun4i: hdmi: Remove extra HPD polling")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+
+Applied, thanks!
+Maxime
+
+--ggg674spti3sbwh2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXxGqTwAKCRDj7w1vZxhR
+xWQfAP44Hs2MnWMhQ8CZjUv98v1ax9GAOtgzEyT6dOopNLDF0AD/cVGAXw5sOJJC
+0GStzYXMOUlNMkbemLENX2yRAJcZwwY=
+=JKFg
+-----END PGP SIGNATURE-----
+
+--ggg674spti3sbwh2--
+
+--===============0449969599==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0449969599==--
