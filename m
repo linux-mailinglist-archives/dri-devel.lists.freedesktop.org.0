@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22B9223E68
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 16:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 726C4223E69
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 16:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F65B6EDDA;
-	Fri, 17 Jul 2020 14:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D04206EC87;
+	Fri, 17 Jul 2020 14:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR04-HE1-obe.outbound.protection.outlook.com
  (mail-eopbgr70050.outbound.protection.outlook.com [40.107.7.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91DB36EC87
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 14:42:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 223BE6EC87
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 14:42:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dCm8gYI4PxwnMw1UJlSmQ65VosZ1vmxHSBtr1DgNm3FoJ9U27oWnlOOVkn0fDP+ELVVTGhy3noptxvLVjU+Hb+KucIEfdB20b7mQfHYXVL5udpTnqWeAfyrMd4oXhIt57CiTloNl/JyWWTvUrhFKe8ekSFnHG567IPpyt7OH7juL+CxSKgXZJuK/HvWU54LUAphoYp2aYwvb93uVpkNOhI7TWWlUW3FBsA4ADKcqBc/yziO5W5pGSOcuGt2DRlmVjavhjKATKslQv8JNU/KMnhcN3wWsVX6AWlP7qqFdKxBuANBHhf8jbZ/3pj/GaN1CU+mPVnWcURnE8ZZKxUIC7Q==
+ b=klda8smGDPhkyiSvjtjhm7/T3MtOWuhhhfoFhGeEchfdpx5rVpqVX24G1Fi2n9BhBMtzRqiTz3fmxktG2lYuKgVpCsjrQ+pxMzMvYaH83GH/duF5PSdqTXt7HPfQjlfj7wgVLavTsNavq4zV0H5e2AYC1zWOtoWDww9VeQj/pkbQw44OCJtMQk/BK3WCQNSu42EpHTi+ptZsrjWrgDxbCKa7wiWDipPo24Nzz8K3idEn5U2IiWN+hBrNASgK5NKNiEIGgkXFLpHDEZBEKfCPxHeRiJ6N6FsnAva9BhGIh0W/t/bOhhQPY8ggtnepOE961OZbbyG6wY6Go7nAeIhrhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ClX19k+2BxAIACd9hxjSjbQ4Yk9bAKHTBZw8Idcd/pM=;
- b=Jkm6SlSgaO3m/M7b9aDF2OMqgkYqn/YoBb9z4M2qHpaaCDxhxXjTZHY2OkdYMpA4dZO9UrSjl+cEgCAV9QJ/LZJIuMaW8M622x9/TuN+6u5vNCQontEMpGUdVorOkJnijPWXYHFi3QaqAa+8JEix0uPxsEivwbIIsO/QmHN/io36bX+mO4z3mCrGbMhMvGSp0GJjhb9e+1ecTGEu/rLtQfzHhVk1Xi8AfOGYphAzlJjIRDXscD9AVXkCeJj5DpVUlqKID+8NU6Bocgh0M5JGUuuIeyrmVyfWeBJvhlZ2YqO/nSCSJnFe4pRUqsaArqCcWH/rEqETGXP6wvZKmjrfjw==
+ bh=q7m5N/zleAtbPtD2p0lIjJN+NnDakaeTkYggM7+aLWQ=;
+ b=byKcT4tpySlPOZ6/nKu2PjoQMwNpQK1Ogu3jVOAV7nvbcz0D/CXYVQS2AHfQ0fLwKgreR2qF4vGOrN0yoKG8eC1G+uwbLwx6UIoX13Kz78+5e/kXEHVWohCcLeU/rlwY6s2Tc6CUjpz/4ZNwJ1s8+k3PlCMAxIsocZxLPKeGGlw7DQGFMFL7j8no8DEyMJyYVcMEURJ7262XivryD+3uECO22EPigKRngfn63XCE1/OwaWs1ABk8FvCiB2pv8JhC0BAT/x//erI+3AT2TYIxWE2tGvUd2yuC32UeIMdLy63L/82iw1E152bt2mI/uyKTd+kvAVrPHsFtX4SbkSIHrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ClX19k+2BxAIACd9hxjSjbQ4Yk9bAKHTBZw8Idcd/pM=;
- b=BlLIIiW5+152QAlXOAYTF/kuU3gVDMoDp3Ruy+XGVQFnYiroDeoFhkgGY7SlffME56PeX0mBKWW+koZsSc9gbKztHnIZ8ZK+u6JcF5Lqudnf3t1V+pSpUE0dciJSnbXM8iI6WcKRyF0WYkzIKu4MAM8X0imFf6FqHZX7S+IkDcc=
-Authentication-Results: pengutronix.de; dkim=none (message not signed)
- header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
+ bh=q7m5N/zleAtbPtD2p0lIjJN+NnDakaeTkYggM7+aLWQ=;
+ b=Dw4Q9aoklBMwc6aOU7YDNUCM/pyiY1B1dUfIpw5LpJMgDRIgLTLTrw3615kNpd2tpbT91ELhrEgilY6eyytwHcfj0/zCkSHYeLr0SBFFWPiaSui0OTTNmYhb88e8RTjUgT+OuDisU0CMg9tFSkeezURvI1NQp8Ue9lKcuojCxWY=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none
+ header.from=oss.nxp.com;
 Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
  (2603:10a6:803:22::27) by VI1PR04MB6959.eurprd04.prod.outlook.com
  (2603:10a6:803:139::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Fri, 17 Jul
- 2020 14:42:23 +0000
+ 2020 14:42:25 +0000
 Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
  ([fe80::4c0:79dd:b734:9ea7]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
  ([fe80::4c0:79dd:b734:9ea7%5]) with mapi id 15.20.3174.029; Fri, 17 Jul 2020
- 14:42:23 +0000
+ 14:42:25 +0000
 From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v6 0/4] Add support for iMX8MQ Display Controller Subsystem
-Date: Fri, 17 Jul 2020 17:41:25 +0300
-Message-Id: <20200717144132.2206-1-laurentiu.palcu@oss.nxp.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v6 1/4] drm/imx: compile imx directory by default
+Date: Fri, 17 Jul 2020 17:41:26 +0300
+Message-Id: <20200717144132.2206-2-laurentiu.palcu@oss.nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200717144132.2206-1-laurentiu.palcu@oss.nxp.com>
+References: <20200717144132.2206-1-laurentiu.palcu@oss.nxp.com>
 X-ClientProxiedBy: AM4PR05CA0035.eurprd05.prod.outlook.com (2603:10a6:205::48)
  To VI1PR0402MB3902.eurprd04.prod.outlook.com
  (2603:10a6:803:22::27)
@@ -57,36 +59,36 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from fsr-ub1864-141.ea.freescale.net (83.217.231.2) by
  AM4PR05CA0035.eurprd05.prod.outlook.com (2603:10a6:205::48) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.19 via Frontend Transport; Fri, 17 Jul 2020 14:42:21 +0000
+ 15.20.3195.19 via Frontend Transport; Fri, 17 Jul 2020 14:42:23 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [83.217.231.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9251bf47-f2f0-42ca-93c9-08d82a5f9db8
+X-MS-Office365-Filtering-Correlation-Id: da14504c-35ef-4bb8-d1b0-08d82a5f9ed6
 X-MS-TrafficTypeDiagnostic: VI1PR04MB6959:
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB69590BB2F5A4285EA528E235BE7C0@VI1PR04MB6959.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB6959F786008E38B2998788BDBE7C0@VI1PR04MB6959.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qPlhqal1FP5XR6Q/edQp8hz44uFGdR8wbDGad4LBwod+j0CUzqN+FEBewot30SxmI+DQpFdM3DfsTR679rmkMtI4tUBq1mxdki+59AaoYz8SH5ktaPTh2LC3K8zALOzfD7e6TwPjQf2ufax40v6ZxHvUPPw/0Ran5GGr7F6vyLkNF0xGVEELR1Y7CV3mTxiEEbr1cFR70+yzfXF1JZSqFnAfdwrniLoUWxuDYQ7JQOS5EuGkueH5gFtqVtdRB8wd7uLd919H2ts5hGico9BswlEjxPqxiYbHNuLdQVjcXr3WF1G+hIeUAQPWh0SC9rnhVgXv0y4Jk/aRH8Y107Wm474Uz2R0/LvofUbrm2G9lysUQr2H/G1c442QqFczDqGQ
+X-Microsoft-Antispam-Message-Info: PNk/zm5aOKi/RgQJgRiQxJBgxI2XeIIZyHWh5KRg9XnKyPNBoXcdPCCW2kSaLas0KmVUcFT+BBxlRcLm2UCkDrHWswDuQp8F8BjajcjaEYmPKpYgg3aA9vHeFq2L4XBq69AsAalJ0uiWNrbgCw5B2PaNXiwHBTMoJnnhRwzMjV8LzxMCNabyc9HQ5bFx1yZu9e2FjFw4cu2jC4fawGe/YzebmA2e1X/jQdX/4nBigjByI/mysGkHsEvUnKURkauOAl8ypzWiawFPX0CDUbbIY9kY0eRQtyJ9I7c0bn5WDvwM1imTUOBX6UhUMP2Jz67u2QbQsjIg25Al523X0OLn0g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(110136005)(186003)(44832011)(16526019)(1076003)(8936002)(2906002)(6506007)(86362001)(26005)(6486002)(2616005)(5660300002)(66946007)(478600001)(66476007)(66556008)(6512007)(4326008)(316002)(83380400001)(956004)(8676002)(52116002)(32563001);
+ SFS:(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(110136005)(186003)(44832011)(16526019)(1076003)(8936002)(2906002)(6506007)(86362001)(26005)(6486002)(2616005)(5660300002)(66946007)(478600001)(66476007)(7416002)(66556008)(6512007)(4326008)(316002)(83380400001)(956004)(8676002)(52116002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: KCA6QW46ZlTFBQDf0Tkqpe8C2dkrGH7/EW7eWpKwpiB4WXFlV5/9RCJj83o+TqdVl3+zhMn3Z+fwVcsKKX9uREy4q1nL/V2Pfq9TNyduL25KkZKZH+4Fm3EbdOXaViqgfAcUPR1M764E9KwRyYclG4YPPPnTfT3QI/4/Y730Tr36aE270oyq+rR1MoFJ6giiFbfDbc5KNn45LMBTxJmxXWk/p4xY2pmWvF1fukNFdQ740lpIZg9CZr3RSDhpykfrh5AX9gQBYXEdKnQo0WxmMTtX7YfjGU7NL0P0hRIxt52bFMQZaLnjVeDG8wfa93k6DzVBUN39mEld2/0929k9x7Tqrrp8L92Y6n4zBBo6ecLEsE3zIQasHtJ5tm17Rl7B1NWpIiFLflRFXWVBoee/Adg9/+ExprrihDeyUVUsCCIcRbaY590sLZXdOIr9279I1DlViUmjQPHWVLmqNhGtZv4Kfc+1lG8E6vWVAOXZZv4=
+X-MS-Exchange-AntiSpam-MessageData: mV4bEhWkDJeKIEZs8AdB9jnlvnK5uLTqnZHeOnm4BeVb5cWGZIW2wYvuDXRAgTAz5mRZ30wmikZRZlKaB9WP3DMHBN60LoWZJbBjcWXShK4P2ZyMoCPc4mVAfPBxIvgZ4D8nzEIftNrao0t5u93JMUlEfmqUAlz/OjeOkURKPrtfYcNVKC4qug777BSl+KiFqFWFCPe9Q+jkZuj71oDobKOcwGL49AoCquoa8PrHie+bg/p3Fdof39qJY48uvsGdvHavwX1PVBbRWQ0Ec9Bmhv6okjzmhdWxRx8HSr2BlBmR+A+mbAtOkffHiJS4TzdcoO7GESA9S0fYayg2sqeb4/Dqou3YZ+z59Qkf4C23GJpImRW4Ob/qRBi/7OMftnp18nhpIFDHQU5DwyFDK4rezy86wYaOQOGCivARbYeRynEBCDYW7/YU+mX4rxNKknSCxyxOK53HbdcCuXN/9D8L5I57+Jg50dwpwrklC0SPuqY=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9251bf47-f2f0-42ca-93c9-08d82a5f9db8
+X-MS-Exchange-CrossTenant-Network-Message-Id: da14504c-35ef-4bb8-d1b0-08d82a5f9ed6
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 14:42:23.3261 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2020 14:42:25.0661 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L/3NoSdsBCHvl//6CwZVTJb3/O2aH99Fua6CVLOcDSS+HIWCnb2fvTQ7jAk1obfbx8dhNwFrngZQdXqhqlzgrw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: S71kXxfO8e04Ure747OZII6DcIrx5qVndgaQz+2ViS4s6PyH84kfBYUdqscUGOJpVlXKjaE8XGCS17OalRwpIg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6959
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,8 +102,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, agx@sigxcpu.org, lukas@mntmn.com,
- linux-kernel@vger.kernel.org, laurentiu.palcu@oss.nxp.com
+Cc: agx@sigxcpu.org, lukas@mntmn.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com,
+ laurentiu.palcu@oss.nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -109,127 +112,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
 
-Hi,
+Currently the drm/imx/ directory is compiled only if DRM_IMX is set. Adding a
+new IMX related IP in the same directory would need DRM_IMX to be set, which would
+bring in also IPUv3 core driver...
 
-This patchset adds initial DCSS support for iMX8MQ chip. Initial support
-includes only graphics plane support (no video planes), no HDR10 capabilities,
-no graphics decompression (only linear, tiled and super-tiled buffers allowed).
+The current patch would allow adding new IPs in the imx/ directory without needing
+to set DRM_IMX.
 
-Support for the rest of the features will be added incrementally, in subsequent
-patches.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The patchset was tested with both HDP driver (in the downstream tree) and the upstream
-MIPI-DSI driver (with a couple of patches on top, to make it work correctly with DCSS).
-
-Thanks,
-Laurentiu
-
-Changes in v6:
- * Addressed Rob's comment and added "additionalProperties: false" at
-   the end of the bindings' properties. However, this change surfaced
-   an issue with the assigned-clock* properties not being documented in
-   the properties section. Added the descriptions and the bindings patch
-   will need another review;
- * Added an entry for DCSS driver in the MAINTAINERS file;
- * Removed the component framework patch altogether;
-
-Changes in v5:
- * Rebased to latest;
- * Took out component framework support and made it a separate patch so
-   that people can still test with HDP driver, which makes use of it.
-   But the idea is to get rid of it once HDP driver's next versions
-   will remove component framework as well;
- * Slight improvement to modesetting: avoid cutting off the pixel clock
-   if the new mode and the old one are equal. Also, in this case, is
-   not necessary to wait for DTG to shut off. This would allow to switch
-   from 8b RGB to 12b YUV422, for example, with no interruptions (at least
-   from DCSS point of view);
- * Do not fire off CTXLD when going to suspend, unless it still has
-   entries that need to be committed to DCSS;
- * Addressed Rob's comments on bindings;
-
-Changes in v4:
- * Addressed Lucas and Philipp's comments:
-   * Added DRM_KMS_CMA_HELPER dependency in Kconfig;
-   * Removed usage of devm_ functions since I'm already doing all the
-     clean-up in the submodules_deinit();
-   * Moved the drm_crtc_arm_vblank_event() in dcss_crtc_atomic_flush();
-   * Removed en_completion variable from dcss_crtc since this was
-     introduced mainly to avoid vblank timeout warnings which were fixed
-     by arming the vblank event in flush() instead of begin();
-   * Removed clks_on and irq_enabled flags since all the calls to
-     enabling/disabling clocks and interrupts were balanced;
-   * Removed the custom atomic_commit callback and used the DRM core
-     helper and, in the process, got rid of a workqueue that wasn't
-     necessary anymore;
-   * Fixed some minor DT binding issues flagged by Philipp;
-   * Some other minor changes suggested by Lucas;
- * Removed YUV formats from the supported formats as these cannot work
-   without the HDR10 module CSCs and LUTs. Will add them back when I
-   will add support for video planes;
-
-Changes in v3:
- * rebased to latest linux-next and made it compile as drmP.h was
-   removed;
- * removed the patch adding the VIDEO2_PLL clock. It's already applied;
- * removed an unnecessary 50ms sleep in the dcss_dtg_sync_set();
- * fixed a a spurious hang reported by Lukas Hartmann and encountered
-   by me several times;
- * mask DPR and DTG interrupts by default, as they may come enabled from
-   U-boot;
-
-Changes in v2:
- * Removed '0x' in node's unit-address both in DT and yaml;
- * Made the address region size lowercase, to be consistent;
- * Removed some left-over references to P010;
- * Added a Kconfig dependency of DRM && ARCH_MXC. This will also silence compilation
-   issues reported by kbuild for other architectures;
-
-
-Laurentiu Palcu (4):
-  drm/imx: compile imx directory by default
-  drm/imx: Add initial support for DCSS on iMX8MQ
-  MAINTAINERS: Add entry for i.MX 8MQ DCSS driver
-  dt-bindings: display: imx: add bindings for DCSS
-
- .../bindings/display/imx/nxp,imx8mq-dcss.yaml | 104 +++
- MAINTAINERS                                   |   8 +
- drivers/gpu/drm/Makefile                      |   2 +-
- drivers/gpu/drm/imx/Kconfig                   |   2 +
- drivers/gpu/drm/imx/Makefile                  |   1 +
- drivers/gpu/drm/imx/dcss/Kconfig              |   9 +
- drivers/gpu/drm/imx/dcss/Makefile             |   6 +
- drivers/gpu/drm/imx/dcss/dcss-blkctl.c        |  70 ++
- drivers/gpu/drm/imx/dcss/dcss-crtc.c          | 219 +++++
- drivers/gpu/drm/imx/dcss/dcss-ctxld.c         | 424 +++++++++
- drivers/gpu/drm/imx/dcss/dcss-dev.c           | 314 +++++++
- drivers/gpu/drm/imx/dcss/dcss-dev.h           | 177 ++++
- drivers/gpu/drm/imx/dcss/dcss-dpr.c           | 562 ++++++++++++
- drivers/gpu/drm/imx/dcss/dcss-drv.c           | 138 +++
- drivers/gpu/drm/imx/dcss/dcss-dtg.c           | 409 +++++++++
- drivers/gpu/drm/imx/dcss/dcss-kms.c           | 177 ++++
- drivers/gpu/drm/imx/dcss/dcss-kms.h           |  43 +
- drivers/gpu/drm/imx/dcss/dcss-plane.c         | 405 +++++++++
- drivers/gpu/drm/imx/dcss/dcss-scaler.c        | 826 ++++++++++++++++++
- drivers/gpu/drm/imx/dcss/dcss-ss.c            | 180 ++++
- 20 files changed, 4075 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
- create mode 100644 drivers/gpu/drm/imx/dcss/Kconfig
- create mode 100644 drivers/gpu/drm/imx/dcss/Makefile
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-blkctl.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-crtc.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ctxld.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.h
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dpr.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-drv.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dtg.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.h
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-plane.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-scaler.c
- create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ss.c
-
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 2c0e5a7e5953..c4d12e756c63 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -100,7 +100,7 @@ obj-$(CONFIG_DRM_MSM) += msm/
+ obj-$(CONFIG_DRM_TEGRA) += tegra/
+ obj-$(CONFIG_DRM_STM) += stm/
+ obj-$(CONFIG_DRM_STI) += sti/
+-obj-$(CONFIG_DRM_IMX) += imx/
++obj-y 			+= imx/
+ obj-$(CONFIG_DRM_INGENIC) += ingenic/
+ obj-$(CONFIG_DRM_MEDIATEK) += mediatek/
+ obj-$(CONFIG_DRM_MESON)	+= meson/
 -- 
 2.17.1
 
