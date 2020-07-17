@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF819223281
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 06:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93622232A1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 06:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 120276ECD3;
-	Fri, 17 Jul 2020 04:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3DB6ECDA;
+	Fri, 17 Jul 2020 04:50:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC7386ECD3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 04:42:19 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208589] amdgpu screen corruption with DRI_PRIME on external
- monitor at resolution 2560x1440 and more then 60hz
-Date: Fri, 17 Jul 2020 04:42:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208589-2300-c7txBSCjhu@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208589-2300@https.bugzilla.kernel.org/>
-References: <bug-208589-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83F36ECDA
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 04:50:03 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.8-rc6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594961403;
+ bh=CEV5+HvUM+LJKJaEOLF10YSjYvEU7QkhIiBxygFcz/8=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=a5sNoLbBcOuJ7SOQPLPzaPrHJarkgWYV2FbpO7JfcUreRVCJ0e0nppYHuyzG5jdh2
+ XVM9WTywhcrZghEFEHz/p++4FcI+f6YKq24v6dR9lSfVs861lmd7MOKU5oFGHO86Hs
+ pDaQ+bdIXR1hzO+pqnG2/G/KCxX5mL85hP/nEL8w=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txCq=97pFiCoOGLz7-Ght-spbVFKURx_b0kVw9sO1+=zw@mail.gmail.com>
+References: <CAPM=9txCq=97pFiCoOGLz7-Ght-spbVFKURx_b0kVw9sO1+=zw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9txCq=97pFiCoOGLz7-Ght-spbVFKURx_b0kVw9sO1+=zw@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-07-17-1
+X-PR-Tracked-Commit-Id: adbe8a3cae94a63e9f416795c750237a9b789124
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 8882572675c1bb1cc544f4e229a11661f1fc52e4
+Message-Id: <159496140350.7072.5113413721616431155.pr-tracker-bot@kernel.org>
+Date: Fri, 17 Jul 2020 04:50:03 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,25 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208589
+The pull request you sent on Fri, 17 Jul 2020 13:42:02 +1000:
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-07-17-1
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/8882572675c1bb1cc544f4e229a11661f1fc52e4
 
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-Does appending amdgpu.runpm=0 to the kernel command line in grub fix the issue?
+Thank you!
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
