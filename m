@@ -2,38 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B572222F6B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 01:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580D5222FEE
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 02:24:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1863C6E134;
-	Thu, 16 Jul 2020 23:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2396E108;
+	Fri, 17 Jul 2020 00:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A646E134;
- Thu, 16 Jul 2020 23:54:42 +0000 (UTC)
-Received: from localhost (mobile-166-175-191-139.mycingular.net
- [166.175.191.139])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1AA32206F4;
- Thu, 16 Jul 2020 23:54:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594943682;
- bh=5JJSHjqmJlDv9mXOvlmTppZP30lsQeoHcSBH5e6zomY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=jYtPm3RtLoP4YCa/HNF9mG73mziytXde43UKFlYiPwOZ0xNzjIZuANUx82RnQOxzM
- D4bYVCLwh14O89ldVqnKI1QeRVqkKLYckkMDsttFq1Ff/j7ClI2CZzD6jtG8zdgTmS
- HLXCuGk3naDByOot88co+hUnYRj30e+fIupHmo3A=
-Date: Thu, 16 Jul 2020 18:54:40 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
- without DLL Link Active train links in 100 ms"
-Message-ID: <20200716235440.GA675421@bjorn-Precision-5520>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350ED6E10A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 00:24:40 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id b6so9086874wrs.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jul 2020 17:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cWI0O8ov/cB7LvUvANYy2BdtL3NWtW+6ICLatzsxStk=;
+ b=qTLjr9E2Cigm+QQ3bpC+nncFVgn98AtfuoEN0gOnWLz+qcLQ/QMzzzvFGcHcaSxMB5
+ mUMYrt2xCiaD3ysv1hrSjBWXg/1RdUda+HxPUShtLD4XYx8y5LSNnvh4o1BatNDMhAl6
+ bug10QHQxnqDBMKLUN40vCkMj86DDCZ7Ox3t+bkMzPmX7KTw2/3Y99yNEXqdvOKDgNPF
+ TNckVF8ZPYJtcVeArp4YBLxVv+sDsKY3o26dEwB22WbEjNJn/3wVS+mdpILc9UR8gWL1
+ cB6wEJEXXjTvXeYSPMGNHuYPjRsMp169wynV9IKEtP0v9yGPw1shv1ll14lLDZ4qSUyz
+ IA7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cWI0O8ov/cB7LvUvANYy2BdtL3NWtW+6ICLatzsxStk=;
+ b=fwQ5NSEzWlD8IDxYS0x5hnAtBUWNBdHAI+P71AJ8Z8GOAGGStdnq1oJ8iiOZA0MtXI
+ TLDnbxY9KSb78xjm/G9ZMxzNLxsv/uWAHRQNuXWGy4dxl6zMZm4IJj30s9yjBoQ6S/I+
+ FD8z1jKxxun+8CJozAkuoKH9EvoQCJqkrHXF9P75R5AwI13io+Ioc1PlYyeREYuJguYs
+ tU/h1U/yjT0YxRPMxy/Z+OSXKB93c1AAqDqxe8VrpFIThofi84rzb+dxIcRjCi5hynfD
+ 0E4h82zf+KXVBrkTT9o9RKn1+apXiZR7t/pzL99o4n7OwLntWzpW1K6/N8IJcwLOacrb
+ UXIQ==
+X-Gm-Message-State: AOAM531oy9esOsCigub+FYQk19kyIFrlfDxW41Lw2qNcOqe5Oi8eVS6a
+ 8rvM9kSqEmBrYXKFfqXXTVJIxmOxvkqDE6FyJ+PbGg==
+X-Google-Smtp-Source: ABdhPJz/UdkyX1+2nKOJ2DgRc9FLuww4fxK+5D63LNUDkhVbxg90y/n4DT3cqY5/H83HeRBYePcQp6QPq00dtdYFABI=
+X-Received: by 2002:adf:f9c8:: with SMTP id w8mr7405442wrr.354.1594945478672; 
+ Thu, 16 Jul 2020 17:24:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
+References: <20200715100432.13928-1-chris@chris-wilson.co.uk>
+ <CAP+8YyF9djTo++3Gww2NNkOE_=fu9n+HzjoN7e78pVgJf_SP7A@mail.gmail.com>
+ <159480926758.13728.809663901463022623@build.alporthouse.com>
+ <CAP+8YyHDYQSBmRohBwnhcB96p+ZHU2hT106CS6_-8A0Fk1Hegw@mail.gmail.com>
+ <CAPj87rN+Sg6PRzGx-FjRFBoenpD9EsV9=ZbiCHEThcgt09YbMQ@mail.gmail.com>
+ <CAKMK7uFw_cu4kc5poS2et3j0UXogS4z0Gt3CXj-kS9OvpGpkDA@mail.gmail.com>
+In-Reply-To: <CAKMK7uFw_cu4kc5poS2et3j0UXogS4z0Gt3CXj-kS9OvpGpkDA@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 17 Jul 2020 01:24:27 +0100
+Message-ID: <CAPj87rO6rUU7+F2LuhfksFNYA+merqOBcNoh3xz3ZY1ubf+OEA@mail.gmail.com>
+Subject: Re: [Intel-gfx] sw_sync deadlock avoidance, take 3
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,76 +66,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Patrick Volkerding <volkerdi@gmail.com>,
- Linux PCI <linux-pci@vger.kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>, Ben Skeggs <bskeggs@redhat.com>,
- nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+cc Sasha -- stable kernel regression]
-[+cc Patrick, Kai-Heng, LKML]
+Hi all,
 
-On Fri, Jul 17, 2020 at 12:10:39AM +0200, Karol Herbst wrote:
-> On Tue, Jul 7, 2020 at 9:30 PM Karol Herbst <kherbst@redhat.com> wrote:
+On Wed, 15 Jul 2020 at 12:57, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, Jul 15, 2020 at 1:47 PM Daniel Stone <daniel@fooishbar.org> wrote:
+> > On Wed, 15 Jul 2020 at 12:05, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl> wrote:
+> > > Yes, this is used as part of the Android stack on Chrome OS (need to
+> > > see if ChromeOS specific, but
+> > > https://source.android.com/devices/graphics/sync#sync_timeline
+> > > suggests not)
 > >
-> > Hi everybody,
+> > Android used to mandate it for their earlier iteration of release
+> > fences, which was an empty/future fence having no guarantee of
+> > eventual forward progress until someone committed work later on. For
+> > example, when you committed a buffer to SF, it would give you an empty
+> > 'release fence' for that buffer which would only be tied to work to
+> > signal it when you committed your _next_ buffer, which might never
+> > happen. They removed that because a) future fences were a bad idea,
+> > and b) it was only ever useful if you assumed strictly
+> > FIFO/round-robin return order which wasn't always true.
 > >
-> > with the mentioned commit Nouveau isn't able to load firmware onto the
-> > GPU on one of my systems here. Even though the issue doesn't always
-> > happen I am quite confident this is the commit breaking it.
-> >
-> > I am still digging into the issue and trying to figure out what
-> > exactly breaks, but it shows up in different ways. Either we are not
-> > able to boot the engines on the GPU or the GPU becomes unresponsive.
-> > Btw, this is also a system where our runtime power management issue
-> > shows up, so maybe there is indeed something funky with the bridge
-> > controller.
-> >
-> > Just pinging you in case you have an idea on how this could break Nouveau
-> >
-> > most of the times it shows up like this:
-> > nouveau 0000:01:00.0: acr: AHESASC binary failed
-> >
-> > Sometimes it works at boot and fails at runtime resuming with random
-> > faults. So I will be investigating a bit more, but yeah... I am super
-> > sure the commit triggered this issue, no idea if it actually causes
-> > it.
-> 
-> so yeah.. I reverted that locally and never ran into issues again.
-> Still valid on latest 5.7. So can we get this reverted or properly
-> fixed? This breaks runtime pm for us on at least some hardware.
+> > So now it's been watered down to 'use this if you don't have a
+> > hardware timeline', but why don't we work with Android people to get
+> > that removed entirely?
+>
+> I think there's some testcases still using these, but most real fence
+> testcases use vgem nowadays. So from an upstream pov there's indeed
+> not much if anything holding us back from just deleting this all. And
+> would probably be a good idea.
 
-Yeah, that stinks.  We had another similar report from Patrick:
+It looks like this is just a docs hangover which can be fixed; sw_sync
+is no longer part of the unified Android kernel image, so it can no
+longer be relied on post-Treble. So let's just continue on the
+assumption that sw_sync is not anything anyone can rely on.
 
-  https://lore.kernel.org/r/CAErSpo5sTeK_my1dEhWp7aHD0xOp87+oHYWkTjbL7ALgDbXo-Q@mail.gmail.com
-
-Apparently the problem is ec411e02b7a2 ("PCI/PM: Assume ports without
-DLL Link Active train links in 100 ms"), which Patrick found was
-backported to v5.4.49 as 828b192c57e8, and you found was backported to
-v5.7.6 as afaff825e3a4.
-
-Oddly, Patrick reported that v5.7.7 worked correctly, even though it
-still contains afaff825e3a4.
-
-I guess in the absence of any other clues we'll have to revert it.
-I hate to do that because that means we'll have slow resume of
-Thunderbolt-connected devices again, but that's better than having
-GPUs completely broken.
-
-Could you and Patrick open bugzilla.kernel.org reports, attach dmesg
-logs and "sudo lspci -vv" output, and add the URLs to Kai-Heng's
-original report at https://bugzilla.kernel.org/show_bug.cgi?id=206837
-and to this thread?
-
-There must be a way to fix the slow resume problem without breaking
-the GPUs.
-
-Bjorn
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
