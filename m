@@ -1,50 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8CF22587F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:30:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC7A22588B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC8089FD7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0D89FD9;
 	Mon, 20 Jul 2020 07:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1002 seconds by postgrey-1.36 at gabe;
- Fri, 17 Jul 2020 07:27:08 UTC
-Received: from lonlinode-sdnproxy-1.icoremail.net
- (lonlinode-sdnproxy-1.icoremail.net [139.162.193.133])
- by gabe.freedesktop.org (Postfix) with SMTP id EF3706ECEA;
- Fri, 17 Jul 2020 07:27:08 +0000 (UTC)
-Received: from localhost.localdomain (unknown [218.77.105.7])
- by c1app1 (Coremail) with SMTP id AQINCgDnhpnKThFfx6ivAQ--.31076S2;
- Fri, 17 Jul 2020 15:10:03 +0800 (CST)
-From: Qiu Wenbo <qiuwenbo@phytium.com.cn>
-To: Evan Quan <evan.quan@amd.com>,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/amd/powerplay: fix a crash when overclocking Vega M
-Date: Fri, 17 Jul 2020 15:09:57 +0800
-Message-Id: <20200717070958.41489-1-qiuwenbo@phytium.com.cn>
-X-Mailer: git-send-email 2.27.0
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC506ED37
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jul 2020 08:00:46 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id A1E10D976030469F0894;
+ Fri, 17 Jul 2020 16:00:38 +0800 (CST)
+Received: from [127.0.0.1] (10.174.179.91) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Jul 2020
+ 16:00:36 +0800
+Subject: Re: [PATCH -next] drm/komeda: Convert to DEFINE_SHOW_ATTRIBUTE
+To: Daniel Vetter <daniel@ffwll.ch>, "james qian wang (Arm Technology China)"
+ <james.qian.wang@arm.com>
+References: <20200716090333.13334-1-miaoqinglang@huawei.com>
+ <20200717064017.GA76612@jamwan02-TSP300>
+ <CAKMK7uEpmhKok9Q3Rrg0v=1p7pv-wpV0Y3-k9GVav+Ad5Z4AkQ@mail.gmail.com>
+From: miaoqinglang <miaoqinglang@huawei.com>
+Message-ID: <7264de7e-6da4-288d-855d-410b2e05458b@huawei.com>
+Date: Fri, 17 Jul 2020 16:00:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-CM-TRANSID: AQINCgDnhpnKThFfx6ivAQ--.31076S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zr47Cw1UZF48WFWUJFyxKrg_yoW8CFWrpF
- 93GrZ0vw15JFZrAFyxAF4rWFn7ZwnrZa4rKryUG390vw12qrW09FyDAFySgrW8Ga97Jr43
- Kw47Z345JFsakrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
- 8cxan2IY04v7MxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUjE1v3UUUUU==
-X-Originating-IP: [218.77.105.7]
-X-CM-SenderInfo: 5tlx4vhqerq15k1wx33pof0zgofq/
+In-Reply-To: <CAKMK7uEpmhKok9Q3Rrg0v=1p7pv-wpV0Y3-k9GVav+Ad5Z4AkQ@mail.gmail.com>
+X-Originating-IP: [10.174.179.91]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,61 +46,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen Wandun <chenwandun@huawei.com>, David Airlie <airlied@linux.ie>,
- Qiu Wenbo <qiuwenbo@phytium.com.cn>, YueHaibing <yuehaibing@huawei.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Huang <JinHuiEric.Huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, yu kuai <yukuai3@huawei.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mihail Atanassov <mihail.atanassov@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, nd <nd@arm.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid kernel crash when vddci_control is SMU7_VOLTAGE_CONTROL_NONE and
-vddci_voltage_table is empty. It has been tested on Intel Hades Canyon
-(i7-8809G).
-
-Bug: https://bugzilla.kernel.org/show_bug.cgi?id=208489
-Fixes: ac7822b0026f ("drm/amd/powerplay: add smumgr support for VEGAM (v2)")
-Signed-off-by: Qiu Wenbo <qiuwenbo@phytium.com.cn>
----
- drivers/gpu/drm/amd/powerplay/smumgr/vegam_smumgr.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/vegam_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/vegam_smumgr.c
-index 3da71a088b92..0ecc18b55ffb 100644
---- a/drivers/gpu/drm/amd/powerplay/smumgr/vegam_smumgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/smumgr/vegam_smumgr.c
-@@ -644,9 +644,6 @@ static int vegam_get_dependency_volt_by_clk(struct pp_hwmgr *hwmgr,
- 
- 	/* sclk is bigger than max sclk in the dependence table */
- 	*voltage |= (dep_table->entries[i - 1].vddc * VOLTAGE_SCALE) << VDDC_SHIFT;
--	vddci = phm_find_closest_vddci(&(data->vddci_voltage_table),
--			(dep_table->entries[i - 1].vddc -
--					(uint16_t)VDDC_VDDCI_DELTA));
- 
- 	if (SMU7_VOLTAGE_CONTROL_NONE == data->vddci_control)
- 		*voltage |= (data->vbios_boot_state.vddci_bootup_value *
-@@ -654,8 +651,13 @@ static int vegam_get_dependency_volt_by_clk(struct pp_hwmgr *hwmgr,
- 	else if (dep_table->entries[i - 1].vddci)
- 		*voltage |= (dep_table->entries[i - 1].vddci *
- 				VOLTAGE_SCALE) << VDDC_SHIFT;
--	else
-+	else {
-+		vddci = phm_find_closest_vddci(&(data->vddci_voltage_table),
-+				(dep_table->entries[i - 1].vddc -
-+						(uint16_t)VDDC_VDDCI_DELTA));
-+
- 		*voltage |= (vddci * VOLTAGE_SCALE) << VDDCI_SHIFT;
-+	}
- 
- 	if (SMU7_VOLTAGE_CONTROL_NONE == data->mvdd_control)
- 		*mvdd = data->vbios_boot_state.mvdd_bootup_value * VOLTAGE_SCALE;
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgrlnKggMjAyMC83LzE3IDE1OjA2LCBEYW5pZWwgVmV0dGVyIOWGmemBkzoKPiBPbiBGcmksIEp1
+bCAxNywgMjAyMCBhdCA4OjQwIEFNIGphbWVzIHFpYW4gd2FuZyAoQXJtIFRlY2hub2xvZ3kgQ2hp
+bmEpCj4gPGphbWVzLnFpYW4ud2FuZ0Bhcm0uY29tPiB3cm90ZToKPj4KPj4gT24gVGh1LCBKdWwg
+MTYsIDIwMjAgYXQgMDU6MDM6MzNQTSArMDgwMCwgUWluZ2xhbmcgTWlhbyB3cm90ZToKPj4+IEZy
+b206IExpdSBTaGl4aW4gPGxpdXNoaXhpbjJAaHVhd2VpLmNvbT4KPj4+Cj4+PiBVc2UgREVGSU5F
+X1NIT1dfQVRUUklCVVRFIG1hY3JvIHRvIHNpbXBsaWZ5IHRoZSBjb2RlLgo+Pj4KPj4+IFNpZ25l
+ZC1vZmYtYnk6IExpdSBTaGl4aW4gPGxpdXNoaXhpbjJAaHVhd2VpLmNvbT4KPj4+IC0tLQo+Pj4g
+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYyB8IDEzICst
+LS0tLS0tLS0tLS0KPj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxMiBkZWxl
+dGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5
+L2tvbWVkYS9rb21lZGFfZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRh
+L2tvbWVkYV9kZXYuYwo+Pj4gaW5kZXggMDI0NmIyZTk0Li40YTEwZTZiOWUgMTAwNjQ0Cj4+PiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYwo+Pj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZGV2LmMKPj4+
+IEBAIC00MSwxOCArNDEsNyBAQCBzdGF0aWMgaW50IGtvbWVkYV9yZWdpc3Rlcl9zaG93KHN0cnVj
+dCBzZXFfZmlsZSAqc2YsIHZvaWQgKngpCj4+PiAgICAgICAgcmV0dXJuIDA7Cj4+PiAgIH0KPj4+
+Cj4+PiAtc3RhdGljIGludCBrb21lZGFfcmVnaXN0ZXJfb3BlbihzdHJ1Y3QgaW5vZGUgKmlub2Rl
+LCBzdHJ1Y3QgZmlsZSAqZmlscCkKPj4+IC17Cj4+PiAtICAgICByZXR1cm4gc2luZ2xlX29wZW4o
+ZmlscCwga29tZWRhX3JlZ2lzdGVyX3Nob3csIGlub2RlLT5pX3ByaXZhdGUpOwo+Pj4gLX0KPj4+
+IC0KPj4+IC1zdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBrb21lZGFfcmVnaXN0
+ZXJfZm9wcyA9IHsKPj4+IC0gICAgIC5vd25lciAgICAgICAgICA9IFRISVNfTU9EVUxFLAo+Pj4g
+LSAgICAgLm9wZW4gICAgICAgICAgID0ga29tZWRhX3JlZ2lzdGVyX29wZW4sCj4+PiAtICAgICAu
+cmVhZF9pdGVyICAgICAgICAgICAgICA9IHNlcV9yZWFkX2l0ZXIsCj4+PiAtICAgICAubGxzZWVr
+ICAgICAgICAgPSBzZXFfbHNlZWssCj4+PiAtICAgICAucmVsZWFzZSAgICAgICAgPSBzaW5nbGVf
+cmVsZWFzZSwKPj4+IC19Owo+Pj4gK0RFRklORV9TSE9XX0FUVFJJQlVURShrb21lZGFfcmVnaXN0
+ZXIpOwo+Pj4KPj4KPj4gSGkgU2hpeGluICYgUWluZ2xhbmcKPj4KPj4gVGhhbmtzIGZvciB5b3Vy
+IHBhdGNoLgo+Pgo+PiBSZXZpZXdlZC1ieTogSmFtZXMgUWlhbiBXYW5nIDxqYW1lcy5xaWFuLndh
+bmdAYXJtLmNvbT4KPj4KPj4gU2luY2UgeW91ciBwYXRjaCBpcyBub3QgZm9yIGRybS1taXNjLW5l
+eHQsIHNvIHNlZW1zIGJldHRlcgo+PiB0byBsZWF2ZSBpdCB0byB5b3UgdG8gbWVyZ2UgaXQuIDop
+Cj4gCj4gSSBkbyB0aGluayBpdCdzIGZvciBkcm0tbWlzYy1uZXh0LCB3aGF0IG90aGVyIHRyZWUg
+d291bGQgaXQgYmUgZm9yPwo+IFNvbWUgcGVvcGxlIHB1dCAtbmV4dCBpbiB0aGVpciBwYXRjaCB0
+YWcgdG8gZGlmZmVyZW50aWF0ZSBmcm9tIC1maXhlcywKPiBzbyBtYWludGFpbmVycyBrbm93IHdo
+YXQgdG8gZG8gd2l0aCB0aGUgcGF0Y2guIEl0J3MgYWxzbyBub3QgcGFydCBvZiBhCj4gc2VyaWVz
+LCBoZW5jZSBJIHRoaW5rIHRoaXMgaXMgb24geW91IHRvIGFwcGx5IGl0LgogPgpIaSBKYW1lcyAm
+IERhbmllbCwKCuKAi1NvcnJ5IEkgZGlkbid0IG1ha2UgaXQgY2xlYXIgaW4gY29tbWl0IGxvZywg
+YnV0IGl0IGRvIGJhc2VkIG9uIGxpbnV4LW5leHQuCgrigItJIHRoaW5rIHRoZSByZWFzb24gd2h5
+IEphbWVzIHRoaW5rIGl0J3Mgbm90IGZvciBkcm0tbWlzYy1uZXh0CmlzIGNvbmZsaWN0cyBleGlz
+dHMgd2hlbiB0aGlzIHBhdGNoIGJlaW5nIGFwcGxpZWQuIFRoZXJlJ3MgY29uZmxpY3RzIApiZWNh
+dXNlIGNvbW1pdCA8NGQ0OTAxYzZkNz4gd2hpY2ggc3dpdGNoZWQgb3ZlciBkaXJlY3Qgc2VxX3Jl
+YWQgbWV0aG9kIApjYWxscyB0byBzZXFfcmVhZF9pdGVyIHNob3VsZCBhcHBsaWVkIGJlZm9yZSB0
+aGlzIGNsZWFuLXVwIHBhdGNoKGxpbmthZ2UgCmxpc3RlZCBhcyBiZWxvdykuCgpodHRwczovL2tl
+cm5lbC5nb29nbGVzb3VyY2UuY29tL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4
+LW5leHQvKy80ZDQ5MDFjNmQ3NDhlZmFiOGFhYjZlN2QyNDA1ZGFkYWVkMGJlYTUwCgpJIGNhbiBz
+ZW5kIGEgbmV3IHBhdGNoIGJhc2VkIG9uIG1haW5saW5lIGlmIG5lZWRlZC4KCuKAi1RoYW5rcy4K
+ClFpbmdsYW5nCgouCgkKID4KPiBDaGVlcnMsIERhbmllbAo+IAo+Pgo+PiBUaGFua3MKPj4gSmFt
+ZXMKPj4KPj4+ICAgI2lmZGVmIENPTkZJR19ERUJVR19GUwo+Pj4gICBzdGF0aWMgdm9pZCBrb21l
+ZGFfZGVidWdmc19pbml0KHN0cnVjdCBrb21lZGFfZGV2ICptZGV2KQo+Pj4gLS0KPj4+IDIuMTcu
+MQo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+PiBk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwKPiAKPiAKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
