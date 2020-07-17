@@ -1,41 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06045223E70
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 16:43:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6317D223E83
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jul 2020 16:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82AE46E228;
-	Fri, 17 Jul 2020 14:43:20 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8BF96E228;
- Fri, 17 Jul 2020 14:43:19 +0000 (UTC)
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 41B7E22B4D;
- Fri, 17 Jul 2020 14:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594996999;
- bh=kfIT860OGYjpsG+nnhvbf8g/TLaZHhOpaJXIoOPMX4k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CtmQXYemaxq5EZM3qammzH9eXI+H3tIAZbwTf1FIOvkKux2il9kBx8+m0GP3sZGVJ
- yiyiFCcl0C04iZ8omtucXb3T4HxWEcBwG9Vq94CCPlfzmb8UATfR9ys9FrqWQCz0aP
- tdactR5dpsJmLPN0Y4uFVqZbHsv8hZ4i3nc6+Sgk=
-Date: Fri, 17 Jul 2020 10:43:18 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
- without DLL Link Active train links in 100 ms"
-Message-ID: <20200717144318.GP2722994@sasha-vm>
-References: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
- <20200716235440.GA675421@bjorn-Precision-5520>
- <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADE2F6EDDE;
+	Fri, 17 Jul 2020 14:46:28 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54AD86EDDE
+ for <dri-devel@freedesktop.org>; Fri, 17 Jul 2020 14:46:24 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1594997187; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=+bOQoMlayiU8zaVsun4ZAjjXcdS6Du8WzvCubqCAKxo=;
+ b=gM4ztaXTglaZknWfcBbES6Nba2JrSm/NqiWL6kirkfDJ5NhG0ahZOQv8ozFJ5SAUlIcnsiNx
+ IuJ1VzBGUhWLy/dvI78ns3gDvvgrW/HCGBYiyDRgjgSSILhMB8IFi9+DbEjpw1iYYN5k7vSk
+ h3EoV/71LP3bw4ucLZIMgtNaOUA=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
+ 5f11b9b565270fa59564ef72 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Jul 2020 14:46:13
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 94AEDC43391; Fri, 17 Jul 2020 14:46:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C3593C433C6;
+ Fri, 17 Jul 2020 14:46:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C3593C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Fri, 17 Jul 2020 08:46:07 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH v2] drm: msm: a6xx: fix gpu failure after system resume
+Message-ID: <20200717144607.GA16703@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mka@chromium.org, robdclark@gmail.com, dianders@chromium.org
+References: <1594996458-15529-1-git-send-email-akhilpo@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+In-Reply-To: <1594996458-15529-1-git-send-email-akhilpo@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,91 +72,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Patrick Volkerding <volkerdi@gmail.com>,
- Linux PCI <linux-pci@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>,
- stable@vger.kernel.org, Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, mka@chromium.org, dri-devel@freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 17, 2020 at 02:43:52AM +0200, Karol Herbst wrote:
->On Fri, Jul 17, 2020 at 1:54 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->>
->> [+cc Sasha -- stable kernel regression]
->> [+cc Patrick, Kai-Heng, LKML]
->>
->> On Fri, Jul 17, 2020 at 12:10:39AM +0200, Karol Herbst wrote:
->> > On Tue, Jul 7, 2020 at 9:30 PM Karol Herbst <kherbst@redhat.com> wrote:
->> > >
->> > > Hi everybody,
->> > >
->> > > with the mentioned commit Nouveau isn't able to load firmware onto the
->> > > GPU on one of my systems here. Even though the issue doesn't always
->> > > happen I am quite confident this is the commit breaking it.
->> > >
->> > > I am still digging into the issue and trying to figure out what
->> > > exactly breaks, but it shows up in different ways. Either we are not
->> > > able to boot the engines on the GPU or the GPU becomes unresponsive.
->> > > Btw, this is also a system where our runtime power management issue
->> > > shows up, so maybe there is indeed something funky with the bridge
->> > > controller.
->> > >
->> > > Just pinging you in case you have an idea on how this could break Nouveau
->> > >
->> > > most of the times it shows up like this:
->> > > nouveau 0000:01:00.0: acr: AHESASC binary failed
->> > >
->> > > Sometimes it works at boot and fails at runtime resuming with random
->> > > faults. So I will be investigating a bit more, but yeah... I am super
->> > > sure the commit triggered this issue, no idea if it actually causes
->> > > it.
->> >
->> > so yeah.. I reverted that locally and never ran into issues again.
->> > Still valid on latest 5.7. So can we get this reverted or properly
->> > fixed? This breaks runtime pm for us on at least some hardware.
->>
->> Yeah, that stinks.  We had another similar report from Patrick:
->>
->>   https://lore.kernel.org/r/CAErSpo5sTeK_my1dEhWp7aHD0xOp87+oHYWkTjbL7ALgDbXo-Q@mail.gmail.com
->>
->> Apparently the problem is ec411e02b7a2 ("PCI/PM: Assume ports without
->> DLL Link Active train links in 100 ms"), which Patrick found was
->> backported to v5.4.49 as 828b192c57e8, and you found was backported to
->> v5.7.6 as afaff825e3a4.
->>
->> Oddly, Patrick reported that v5.7.7 worked correctly, even though it
->> still contains afaff825e3a4.
->>
->> I guess in the absence of any other clues we'll have to revert it.
->> I hate to do that because that means we'll have slow resume of
->> Thunderbolt-connected devices again, but that's better than having
->> GPUs completely broken.
->>
->> Could you and Patrick open bugzilla.kernel.org reports, attach dmesg
->> logs and "sudo lspci -vv" output, and add the URLs to Kai-Heng's
->> original report at https://bugzilla.kernel.org/show_bug.cgi?id=206837
->> and to this thread?
->>
->> There must be a way to fix the slow resume problem without breaking
->> the GPUs.
->>
->
->I wouldn't be surprised if this is related to the Intel bridge we
->check against for Nouveau.. I still have to check on another laptop
->with the same bridge our workaround was required as well but wouldn't
->be surprised if it shows the same problem. Will get you the
->information from both systems tomorrow then.
+On Fri, Jul 17, 2020 at 08:04:18PM +0530, Akhil P Oommen wrote:
+> On targets where GMU is available, GMU takes over the ownership of GX GDSC
+> during its initialization. So, move the refcount-get on GX PD before we
+> initialize the GMU. This ensures that nobody can collapse the GX GDSC
+> once GMU owns the GX GDSC. This patch fixes some GMU OOB errors seen
+> during GPU wake up during a system resume.
 
-I take it that ec411e02b7a2 will be reverted upstream?
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> Reported-by: Matthias Kaehlcke <mka@chromium.org>
+> Tested-by: Matthias Kaehlcke <mka@chromium.org>
+
+The Signed-off-by needs to be at the end but I think Rob can do that for you.
+
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
+
+> ---
+> Changes from v1:
+> - Reworded the commit text
+> - Added Reported-by & Tested-by tags
+> 
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 21e77d6..1d33020 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -854,10 +854,19 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+>  	/* Turn on the resources */
+>  	pm_runtime_get_sync(gmu->dev);
+>  
+> +	/*
+> +	 * "enable" the GX power domain which won't actually do anything but it
+> +	 * will make sure that the refcounting is correct in case we need to
+> +	 * bring down the GX after a GMU failure
+> +	 */
+> +	if (!IS_ERR_OR_NULL(gmu->gxpd))
+> +		pm_runtime_get_sync(gmu->gxpd);
+> +
+>  	/* Use a known rate to bring up the GMU */
+>  	clk_set_rate(gmu->core_clk, 200000000);
+>  	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
+>  	if (ret) {
+> +		pm_runtime_put(gmu->gxpd);
+>  		pm_runtime_put(gmu->dev);
+>  		return ret;
+>  	}
+> @@ -903,19 +912,12 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+>  	else
+>  		a6xx_hfi_set_freq(gmu, gmu->current_perf_index);
+>  
+> -	/*
+> -	 * "enable" the GX power domain which won't actually do anything but it
+> -	 * will make sure that the refcounting is correct in case we need to
+> -	 * bring down the GX after a GMU failure
+> -	 */
+> -	if (!IS_ERR_OR_NULL(gmu->gxpd))
+> -		pm_runtime_get(gmu->gxpd);
+> -
+>  out:
+>  	/* On failure, shut down the GMU to leave it in a good state */
+>  	if (ret) {
+>  		disable_irq(gmu->gmu_irq);
+>  		a6xx_rpmh_stop(gmu);
+> +		pm_runtime_put(gmu->gxpd);
+>  		pm_runtime_put(gmu->dev);
+>  	}
+>  
+> -- 
+> 2.7.4
+> 
 
 -- 
-Thanks,
-Sasha
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
