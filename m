@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA47D224852
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jul 2020 05:34:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 727C4224854
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jul 2020 05:43:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6DC6E147;
-	Sat, 18 Jul 2020 03:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 105896E185;
+	Sat, 18 Jul 2020 03:43:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED106E126;
- Sat, 18 Jul 2020 03:33:59 +0000 (UTC)
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57C5E6E185;
+ Sat, 18 Jul 2020 03:43:31 +0000 (UTC)
 Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5f126d6b0000>; Fri, 17 Jul 2020 20:32:59 -0700
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f126f6e0000>; Fri, 17 Jul 2020 20:41:34 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate102.nvidia.com (PGP Universal service);
- Fri, 17 Jul 2020 20:33:59 -0700
+ Fri, 17 Jul 2020 20:43:31 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Fri, 17 Jul 2020 20:33:59 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 18 Jul
- 2020 03:33:59 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sat, 18 Jul 2020 03:33:59 +0000
-Received: from jajones-aftershock.nvidia.com (Not Verified[172.20.40.93]) by
- hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5f126da60001>; Fri, 17 Jul 2020 20:33:59 -0700
+ by hqpgpgate102.nvidia.com on Fri, 17 Jul 2020 20:43:31 -0700
+Received: from [172.20.40.65] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 18 Jul
+ 2020 03:43:30 +0000
+Subject: Re: [PATCH] drm/nouveau: Accept 'legacy' format modifiers
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200717185757.2786-1-jajones@nvidia.com>
+ <20200717194751.GS3278063@phenom.ffwll.local>
+X-Nvconfidentiality: public
 From: James Jones <jajones@nvidia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ben Skeggs <bskeggs@redhat.com>, "Kirill A . Shutemov" <kirill@shutemov.name>
-Subject: [PATCH v2] drm/nouveau: Accept 'legacy' format modifiers
-Date: Fri, 17 Jul 2020 20:33:52 -0700
-Message-ID: <20200718033352.1810-1-jajones@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+Message-ID: <279b4b06-3f1e-9a5d-6bd8-c2518629bee1@nvidia.com>
+Date: Fri, 17 Jul 2020 20:43:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200717194751.GS3278063@phenom.ffwll.local>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1595043179; bh=r3utpu8P38elzbeX70fh7ZURGKycZAcFCTZwVVfke5w=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- X-NVConfidentiality:MIME-Version:Content-Type;
- b=hPGQE+rGQJE2FnV6uBnZh/ZRZGVcLHaQYouZRJZDdHWB/i5Rj39UgahqxUGF6jlxz
- AcW87mPsxxGGUYJJSEpHRjUMpIz9r3YZKbf487XovCI3uMDZcDxBIzI+wAAUymQgHs
- 5RdkKxTD+8g+dQOi0lVgli+Fov4sirFNP44cguJ9v9MTIWcc3i7fqGsAaGII9W2Iln
- zdMbmVuXYp3mIXCLO8HaAc8HGEjZNE6vwUep+WdnLkD9o1yIlFjAcyFqkFCwPwPSdW
- coorGArlty3JR5ZfpIOuJl5zTf78yb1l+gGaZaAWG/hBc9B0SwhFHBMG5D8+5TdPGW
- +/YR3vXRnOj7A==
+ t=1595043694; bh=kbFgpJluXgkOW5if3XG8oeyt100Ly6TttuzLtSbxh5g=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=VWX1O0RPJm5qwP68y93lv34RPz9HEghRGbAC6CD4KtwAsgBx5tBqyc51fxbMxrYVq
+ drtR/4uDAAFB0OE5eGCmY0IrXVnJSIuRInc3hA/HHwoAEHxJrQd2FMb6HB5+FrQTQw
+ 0abybKYA39PI0QM9ZFL98j/APPavCKkWEaLcpE7H+aniw3ZvcN52XPU3wZjSWbUNS1
+ 6N641TkghvzZVJGa7wV0jdW5tfnP4CR3r7jOWDiuXEidA9Vmwi3rEB7TJf2Pd4h7nY
+ cssCICkZm5QgoT+JyIWv4cg++equ5uVZukCZMmmOgYxfaoA6RbOBdwNaEE3x2tJp+p
+ A1Ig4r9mo7ifw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,119 +64,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nouveau <nouveau@lists.freedesktop.org>, James Jones <jajones@nvidia.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Nouveau <nouveau@lists.freedesktop.org>,
+ "Kirill A . Shutemov" <kirill@shutemov.name>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Accept the DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()
-family of modifiers to handle broken userspace
-Xorg modesetting and Mesa drivers. Existing Mesa
-drivers are still aware of only these older
-format modifiers which do not differentiate
-between different variations of the block linear
-layout. When the format modifier support flag was
-flipped in the nouveau kernel driver, the X.org
-modesetting driver began attempting to use its
-format modifier-enabled framebuffer path. Because
-the set of format modifiers advertised by the
-kernel prior to this change do not intersect with
-the set of format modifiers advertised by Mesa,
-allocating GBM buffers using format modifiers
-fails and the modesetting driver falls back to
-non-modifier allocation. However, it still later
-queries the modifier of the GBM buffer when
-creating its DRM-KMS framebuffer object, receives
-the old-format modifier from Mesa, and attempts
-to create a framebuffer with it. Since the kernel
-is still not aware of these formats, this fails.
+On 7/17/20 12:47 PM, Daniel Vetter wrote:
+> On Fri, Jul 17, 2020 at 11:57:57AM -0700, James Jones wrote:
+>> Accept the DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()
+>> family of modifiers to handle broken userspace
+>> Xorg modesetting and Mesa drivers.
+>>
+>> Tested with Xorg 1.20 modesetting driver,
+>> weston@c46c70dac84a4b3030cd05b380f9f410536690fc,
+>> gnome & KDE wayland desktops from Ubuntu 18.04,
+>> and sway 1.5
+> 
+> Just bikeshed, but maybe a few more words on what exactly is broken and
+> how this works around it. Specifically why we only accept these, but don't
+> advertise them.
 
-Userspace should not be attempting to query format
-modifiers of GBM buffers allocated with a non-
-format-modifier-aware allocation path, but to
-avoid breaking existing userspace behavior, this
-change accepts the old-style format modifiers when
-creating framebuffers and applying them to planes
-by translating them to the equivalent new-style
-modifier. To accomplish this, some layout
-parameters must be assumed to match properties of
-the device targeted by the relevant ioctls. To
-avoid perpetuating misuse of the old-style
-modifiers, this change does not advertise support
-for them. Doing so would imply compatibility
-between devices with incompatible memory layouts.
+Added quite a few words.
 
-Tested with Xorg 1.20 modesetting driver,
-weston@c46c70dac84a4b3030cd05b380f9f410536690fc,
-gnome & KDE wayland desktops from Ubuntu 18.04,
-and sway 1.5
+>>
+>> Signed-off-by: James Jones <jajones@nvidia.com>
+> 
+> Needs Fixes: line here. Also nice to mention the bug reporter/link.
 
-Reported-by: Kirill A. Shutemov <kirill@shutemov.name>
-Fixes: fa4f4c213f5f ("drm/nouveau/kms: Support NVIDIA format modifiers")
-Link: https://lkml.org/lkml/2020/6/30/1251
-Signed-off-by: James Jones <jajones@nvidia.com>
----
- drivers/gpu/drm/nouveau/nouveau_display.c | 26 +++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+Done in v2.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 496c4621cc78..31543086254b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -191,8 +191,14 @@ nouveau_decode_mod(struct nouveau_drm *drm,
- 		   uint32_t *tile_mode,
- 		   uint8_t *kind)
- {
-+	struct nouveau_display *disp = nouveau_display(drm->dev);
- 	BUG_ON(!tile_mode || !kind);
- 
-+	if ((modifier & (0xffull << 12)) == 0ull) {
-+		/* Legacy modifier.  Translate to this device's 'kind.' */
-+		modifier |= disp->format_modifiers[0] & (0xffull << 12);
-+	}
-+
- 	if (modifier == DRM_FORMAT_MOD_LINEAR) {
- 		/* tile_mode will not be used in this case */
- 		*tile_mode = 0;
-@@ -227,6 +233,16 @@ nouveau_framebuffer_get_layout(struct drm_framebuffer *fb,
- 	}
- }
- 
-+static const u64 legacy_modifiers[] = {
-+	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(0),
-+	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(1),
-+	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(2),
-+	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(3),
-+	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(4),
-+	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(5),
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
- static int
- nouveau_validate_decode_mod(struct nouveau_drm *drm,
- 			    uint64_t modifier,
-@@ -247,8 +263,14 @@ nouveau_validate_decode_mod(struct nouveau_drm *drm,
- 	     (disp->format_modifiers[mod] != modifier);
- 	     mod++);
- 
--	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
--		return -EINVAL;
-+	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID) {
-+		for (mod = 0;
-+		     (legacy_modifiers[mod] != DRM_FORMAT_MOD_INVALID) &&
-+		     (legacy_modifiers[mod] != modifier);
-+		     mod++);
-+		if (legacy_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
-+			return -EINVAL;
-+	}
- 
- 	nouveau_decode_mod(drm, modifier, tile_mode, kind);
- 
--- 
-2.17.1
+>> ---
+>>   drivers/gpu/drm/nouveau/nouveau_display.c | 26 +++++++++++++++++++++--
+>>   1 file changed, 24 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+>> index 496c4621cc78..31543086254b 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+>> @@ -191,8 +191,14 @@ nouveau_decode_mod(struct nouveau_drm *drm,
+>>   		   uint32_t *tile_mode,
+>>   		   uint8_t *kind)
+>>   {
+>> +	struct nouveau_display *disp = nouveau_display(drm->dev);
+>>   	BUG_ON(!tile_mode || !kind);
+>>   
+>> +	if ((modifier & (0xffull << 12)) == 0ull) {
+>> +		/* Legacy modifier.  Translate to this device's 'kind.' */
+>> +		modifier |= disp->format_modifiers[0] & (0xffull << 12);
+>> +	}
+> 
+> Hm I tried to understand what this magic does by looking at drm_fourcc.h,
+> but the drm_fourcc_canonicalize_nvidia_format_mod() in there implements
+> something else. Is that function wrong, or should we use it here instead?
+>
+ > Or is there something else going on entirely?
 
+This may be slightly clearer with the expanded change description:
+
+Canonicalize assumes the old modifiers are only used by certain Tegra 
+revisions, because the Mesa patches were supposed to land and obliterate 
+all uses beyond that.  That assumption means it can assume the specific 
+page kind (0xfe) used by the display-engine-compatible layout on those 
+specific devices.  There is no way to generally canonicalize a legacy 
+modifier without referencing a specific device type, as is indirectly 
+done here.
+
+This code does a limited device-specific canonicalization: It 
+substitutes the display-appropriate page kind used by this specific 
+device, ensuring we derive this correct page kind later in the function. 
+  I iterated on the best way to accomplish this a few times, and this 
+was the least-invasive thing I came up with, but it does require a 
+pretty thorough understanding of the NVIDIA modifier macros.
+
+Thanks for the quick review.
+
+-James
+
+> 
+> Cheers, Daniel
+> 
+>> +
+>>   	if (modifier == DRM_FORMAT_MOD_LINEAR) {
+>>   		/* tile_mode will not be used in this case */
+>>   		*tile_mode = 0;
+>> @@ -227,6 +233,16 @@ nouveau_framebuffer_get_layout(struct drm_framebuffer *fb,
+>>   	}
+>>   }
+>>   
+>> +static const u64 legacy_modifiers[] = {
+>> +	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(0),
+>> +	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(1),
+>> +	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(2),
+>> +	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(3),
+>> +	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(4),
+>> +	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(5),
+>> +	DRM_FORMAT_MOD_INVALID
+>> +};
+>> +
+>>   static int
+>>   nouveau_validate_decode_mod(struct nouveau_drm *drm,
+>>   			    uint64_t modifier,
+>> @@ -247,8 +263,14 @@ nouveau_validate_decode_mod(struct nouveau_drm *drm,
+>>   	     (disp->format_modifiers[mod] != modifier);
+>>   	     mod++);
+>>   
+>> -	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
+>> -		return -EINVAL;
+>> +	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID) {
+>> +		for (mod = 0;
+>> +		     (legacy_modifiers[mod] != DRM_FORMAT_MOD_INVALID) &&
+>> +		     (legacy_modifiers[mod] != modifier);
+>> +		     mod++);
+>> +		if (legacy_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
+>> +			return -EINVAL;
+>> +	}
+>>   
+>>   	nouveau_decode_mod(drm, modifier, tile_mode, kind);
+>>   
+>> -- 
+>> 2.17.1
+>>
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
