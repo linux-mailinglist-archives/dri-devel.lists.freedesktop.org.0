@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AE9225201
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 15:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37E5225267
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 17:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F6B6E02D;
-	Sun, 19 Jul 2020 13:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0726E03F;
+	Sun, 19 Jul 2020 15:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 469276E02D;
- Sun, 19 Jul 2020 13:39:56 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id DFA79804DA;
- Sun, 19 Jul 2020 15:39:53 +0200 (CEST)
-Date: Sun, 19 Jul 2020 15:39:52 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Steve Cohen <cohens@codeaurora.org>
-Subject: Re: [PATCH] drm: hold gem reference until object is no longer accessed
-Message-ID: <20200719133952.GA40646@ravnborg.org>
-References: <1594420826-4897-1-git-send-email-cohens@codeaurora.org>
- <20200716202952.GF2254583@ravnborg.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50E446E03F
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 15:15:55 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208611] amdgpu crash on sharing image memory between Vulkan and
+ OpenGL
+Date: Sun, 19 Jul 2020 15:15:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-208611-2300-wxdIUlQBGc@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208611-2300@https.bugzilla.kernel.org/>
+References: <bug-208611-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200716202952.GF2254583@ravnborg.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=LpQP-O61AAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=T2CN4U7q9iM9Igr8EeIA:9 a=CjuIK1q_8ugA:10 a=pioyyrs4ZptJ924tMmac:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,95 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adelva@google.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, pdhaval@codeaurora.org, seanpaul@chromium.org,
- freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steve.
+https://bugzilla.kernel.org/show_bug.cgi?id=208611
 
-On Thu, Jul 16, 2020 at 10:29:52PM +0200, Sam Ravnborg wrote:
-> Hi Steve and others.
-> 
-> On Fri, Jul 10, 2020 at 06:40:26PM -0400, Steve Cohen wrote:
-> > BUG: KASAN: use-after-free in drm_gem_open_ioctl
-> > 
-> > There is potential for use-after-free here if the GEM object
-> > handle is closed between the idr lookup and retrieving the size
-> > from the object since a local reference is not being held at that
-> > point. Hold the local reference while the object can still be
-> > accessed to resolve this.
-> > 
-> > Signed-off-by: Steve Cohen <cohens@codeaurora.org>
-> > ---
-> >  drivers/gpu/drm/drm_gem.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > index 7bf628e..4b2891c 100644
-> > --- a/drivers/gpu/drm/drm_gem.c
-> > +++ b/drivers/gpu/drm/drm_gem.c
-> > @@ -898,14 +898,15 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
-> >  
-> >  	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
-> >  	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
-> > -	drm_gem_object_put_unlocked(obj);
-> >  	if (ret)
-> > -		return ret;
-> > +		goto out;
-> >  
-> >  	args->handle = handle;
-> >  	args->size = obj->size;
-> >  
-> > -	return 0;
-> > +out:
-> > +	drm_gem_object_put_unlocked(obj);
-> > +	return ret;
-> 
-> Lookign at drm_gem_flink_ioctl() that is implmented just above this
-> functions there are two things that I noted.
-> 
-> 1) In drm_gem_flink_ioctl() the label is named "err:" - and my OCD likes
-> that similar labels have the same name.
-> 
-> 2) The function takes the object_name_lock but fails to release it in
-> the error situation.
-Daniel pointed out on irc that drm_gem_handle_create_tail releases the
-lock. If I had read the comment I would have noticed too - sigh.
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-With the label name fixed to "err:" like used in the function above:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-Please re-submit.
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+This is most likely a bug in mesa.  The kernel driver is just the messenger.
 
-	Sam
-
-> 
-> Danile Vetter updated the locking in
-> 20228c447846da9399ead53fdbbc8ab69b47788a ("drm/gem: completely close gem_open vs. gem_close races")
-> 
-> but I failed to follow it all.
-> 
-> 	Sam
-> 
-> >  }
-> >  
-> >  /**
-> > -- 
-> > The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> > a Linux Foundation Collaborative Project
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
