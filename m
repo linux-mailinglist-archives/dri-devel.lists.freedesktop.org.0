@@ -2,37 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B0225309
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 19:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73972253CB
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 21:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5F096E152;
-	Sun, 19 Jul 2020 17:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 975736E15B;
+	Sun, 19 Jul 2020 19:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E326E152
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:18:12 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id CE31220026;
- Sun, 19 Jul 2020 19:18:07 +0200 (CEST)
-Date: Sun, 19 Jul 2020 19:18:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH v5 3/4] drm/bridge: Introduce LT9611 DSI to HDMI bridge
-Message-ID: <20200719171806.GA55541@ravnborg.org>
-References: <20200708103559.132300-1-vkoul@kernel.org>
- <20200708103559.132300-4-vkoul@kernel.org>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870296E0F6
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 19:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595188271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5+W4juhVWCiEA3fhSp7PQYC8FiX7DnbLymUoDvTE4gg=;
+ b=EdC+3Bt+YZsOTzp8pdpsCrCUn5hVEgq7fMs7F/DoEPZRkxUa/BK2gs7lXwtJUlEkSI/dRf
+ MMUdtiq3CHQen34GzUZxGxLl9a1yAbLjZbKFGXeJPyuqrKY4VhTuSveJDAtD3qCSG40aUF
+ Pj2ex6pTBQ8T++S1TPJY3JVIiXSvIpE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-r-WdGX2uNBC0LiUReCpgkQ-1; Sun, 19 Jul 2020 15:51:08 -0400
+X-MC-Unique: r-WdGX2uNBC0LiUReCpgkQ-1
+Received: by mail-qt1-f197.google.com with SMTP id r9so10570915qtp.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 12:51:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5+W4juhVWCiEA3fhSp7PQYC8FiX7DnbLymUoDvTE4gg=;
+ b=fGenylHmz87m/589m9gvHGOe4bUvBtOZ1Nm8oMtoV/gbh4ID1puhYtOaPssWTbULZG
+ 2Oi8W1lZ/a71nfpERn/VLB6Tv8cQIpA4kfkeaHT35Letk4qycF2DJKEqUki8Ghgf17GA
+ z9Q+qIY3jEqJTjilbmGzo5KtM65BLFQ9I5JbdgdSYpIGcRuxzyQQxNN5kpaMjk28BNzr
+ 37qT19UiaR7tF+xATDbz+3MliU4GgOUp7PPSIIrOFMjUYte9VF/GN0O8HPBeBuSVckU/
+ qhnbRQFSwzZbKOmqvo9HyX/r6CAEEvnx6IW0jwil3iT3RkPWrgHic8yVoLh+XirZ/Myi
+ 6AFQ==
+X-Gm-Message-State: AOAM5309I1jFMBJjxVCfn8Swi+ZX0t5bJbtQp98oBRRhe8WjQulnjkLg
+ PEK+Jx4IHsuKjSDKxqILZZQ7Onc//Jni6IEUqMNgT53t6u1hfyUJUY/q9Af9e22VbnXYh7xpDjW
+ EoacnB6gJYzxXgNkpCwNz6+qE5RmStDqiBF7TPt7ljB5l
+X-Received: by 2002:ac8:4250:: with SMTP id r16mr20990801qtm.378.1595188267463; 
+ Sun, 19 Jul 2020 12:51:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9yVJg1QjyL9ivv5A6w+hu0GivIVSEEJqorLOC5n0j8PWQVDcfmYvz9E5//ryrqzbOSjwmCLlGhUm5y3yGbRs=
+X-Received: by 2002:ac8:4250:: with SMTP id r16mr20990785qtm.378.1595188267211; 
+ Sun, 19 Jul 2020 12:51:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200708103559.132300-4-vkoul@kernel.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8
- a=fbRPyE8KL9-ZYcdT3u0A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=cvBusfyB2V15izCimMoJ:22 a=AjGcO6oz07-iQ99wixmX:22
+References: <20200717190547.648604-1-kherbst@redhat.com>
+ <e7a8cb3a-e9f8-b78a-93f0-c09e5eb5ed10@canonical.com>
+In-Reply-To: <e7a8cb3a-e9f8-b78a-93f0-c09e5eb5ed10@canonical.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Sun, 19 Jul 2020 21:50:56 +0200
+Message-ID: <CACO55tvLCrqeV8MsVDbTaWP2EPAeZtfU08Kb2fVGCD6X+g3-rg@mail.gmail.com>
+Subject: Re: [PATCH] RFC: ACPI / OSI: remove workarounds for hybrid graphics
+ laptops
+To: Alex Hung <alex.hung@canonical.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,113 +71,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: nouveau <nouveau@lists.freedesktop.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ACPI Mailing List <linux-acpi@vger.kernel.org>,
+ Len Brown <lenb@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vinod.
+On Fri, Jul 17, 2020 at 9:52 PM Alex Hung <alex.hung@canonical.com> wrote:
+>
+> On 2020-07-17 1:05 p.m., Karol Herbst wrote:
+> > It's hard to figure out what systems are actually affected and right now I
+> > don't see a good way of removing those...
+> >
+> > But I'd like to see thos getting removed and drivers fixed instead (which
+> > happened at least for nouveau).
+> >
+> > And as mentioned before, I prefer people working on fixing issues instead
+> > of spending time to add firmware level workarounds which are hard to know
+> > to which systems they apply to, hard to remove and basically a big huge
+> > pain to work with.> In the end I have no idea how to even figure out what systems are affected
+> > and which not by this, so I have no idea how to even verify we can safely
+> > remove this (which just means those are impossible to remove unless we risk
+> > breaking systems, which again makes those supper annoying to deal with).
+> >
+> > Also from the comments it's hard to get what those bits really do. Are they
+> > just preventing runtime pm or do the devices are powered down when booting?
+> > I am sure it's the former, still...
+> >
+> > Please, don't do this again.
+> >
+> > For now, those workaround prevent power savings on systems those workaround
+> > applies to, which might be any so those should get removed asap and if
+> > new issues arrise removing those please do a proper bug report and we can
+> > look into it and come up with a proper fix (and keep this patch out until
+> > we resolve all of those).
+> >
+> > Signed-off-by: Karol Herbst <kherbst@redhat.com>
+> > CC: Alex Hung <alex.hung@canonical.com>
+> > CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> > CC: Len Brown <lenb@kernel.org>
+> > CC: Lyude Paul <lyude@redhat.com>
+> > CC: linux-kernel@vger.kernel.org
+> > CC: dri-devel@lists.freedesktop.org
+> > CC: nouveau@lists.freedesktop.org
+> > ---
+> >  drivers/acpi/osi.c | 24 ------------------------
+> >  1 file changed, 24 deletions(-)
+> >
+> > diff --git a/drivers/acpi/osi.c b/drivers/acpi/osi.c
+> > index 9f68538091384..d4405e1ca9b97 100644
+> > --- a/drivers/acpi/osi.c
+> > +++ b/drivers/acpi/osi.c
+> > @@ -44,30 +44,6 @@ osi_setup_entries[OSI_STRING_ENTRIES_MAX] __initdata = {
+> >       {"Processor Device", true},
+> >       {"3.0 _SCP Extensions", true},
+> >       {"Processor Aggregator Device", true},
+> > -     /*
+> > -      * Linux-Dell-Video is used by BIOS to disable RTD3 for NVidia graphics
+> > -      * cards as RTD3 is not supported by drivers now.  Systems with NVidia
+> > -      * cards will hang without RTD3 disabled.
+> > -      *
+> > -      * Once NVidia drivers officially support RTD3, this _OSI strings can
+> > -      * be removed if both new and old graphics cards are supported.
+> > -      */
+> > -     {"Linux-Dell-Video", true},
+> > -     /*
+> > -      * Linux-Lenovo-NV-HDMI-Audio is used by BIOS to power on NVidia's HDMI
+> > -      * audio device which is turned off for power-saving in Windows OS.
+> > -      * This power management feature observed on some Lenovo Thinkpad
+> > -      * systems which will not be able to output audio via HDMI without
+> > -      * a BIOS workaround.
+> > -      */
+> > -     {"Linux-Lenovo-NV-HDMI-Audio", true},
+> > -     /*
+> > -      * Linux-HPI-Hybrid-Graphics is used by BIOS to enable dGPU to
+> > -      * output video directly to external monitors on HP Inc. mobile
+> > -      * workstations as Nvidia and AMD VGA drivers provide limited
+> > -      * hybrid graphics supports.
+> > -      */
+> > -     {"Linux-HPI-Hybrid-Graphics", true},
+> >  };
+> >
+> >  static u32 acpi_osi_handler(acpi_string interface, u32 supported)
+> >
+>
+> The changes were discussed and tested a while ago, and no crashes were
+> observed. Thanks for solving PM issues in nouveau.
+>
+> Acked-by: Alex Hung <alex.hung@canonical.com>
+>
 
-Three trivial points below.
-The rest looks good.
-
-With these fixed you can add:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
-
-On Wed, Jul 08, 2020 at 04:05:58PM +0530, Vinod Koul wrote:
-> Lontium Lt9611 is a DSI to HDMI bridge which supports two DSI ports and
-> I2S port as an input and HDMI port as output
-> 
-> Co-developed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Tested-by: John Stultz <john.stultz@linaro.org>
-> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> ---
->  drivers/gpu/drm/bridge/Kconfig          |   13 +
->  drivers/gpu/drm/bridge/Makefile         |    1 +
->  drivers/gpu/drm/bridge/lontium-lt9611.c | 1142 +++++++++++++++++++++++
->  3 files changed, 1156 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
-> 
-> +
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_print.h>
-
-In alphabetical order. drm_probe_helper needs to be moved.
-
-> +
-> +#define EDID_SEG_SIZE	256
-> +#define EDID_LEN	32
-> +#define EDID_LOOP	8
-> +#define KEY_DDC_ACCS_DONE 0x02
-> +#define DDC_NO_ACK	0x50
-> +
-
-
-> +static void lt9611_pcr_setup(struct lt9611 *lt9611, const struct drm_display_mode *mode)
-> +{
-> +	const struct reg_sequence reg_cfg[] = {
-> +		{ 0x830b, 0x01 },
-> +		{ 0x830c, 0x10 },
-> +		{ 0x8348, 0x00 },
-> +		{ 0x8349, 0x81 },
-> +
-> +		/* stage 1 */
-> +		{ 0x8321, 0x4a },
-> +		{ 0x8324, 0x71 },
-> +		{ 0x8325, 0x30 },
-> +		{ 0x832a, 0x01 },
-> +
-> +		/* stage 2 */
-> +		{ 0x834a, 0x40 },
-> +		{ 0x831d, 0x10 },
-> +
-> +		/* MK limit */
-> +		{ 0x832d, 0x38 },
-> +		{ 0x8331, 0x08 },
-> +	};
-> +	const struct reg_sequence reg_cfg2[] = {
-> +			{ 0x830b, 0x03 },
-> +			{ 0x830c, 0xd0 },
-> +			{ 0x8348, 0x03 },
-> +			{ 0x8349, 0xe0 },
-> +			{ 0x8324, 0x72 },
-> +			{ 0x8325, 0x00 },
-> +			{ 0x832a, 0x01 },
-> +			{ 0x834a, 0x10 },
-> +			{ 0x831d, 0x10 },
-> +			{ 0x8326, 0x37 },
-Block above is indented one tab too much.
-
-> +static int lt9611_bridge_attach(struct drm_bridge *bridge,
-> +				enum drm_bridge_attach_flags flags)
-> +{
-> +	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-> +	int ret;
-> +
-> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> +		dev_err(lt9611->dev, "Fix bridge driver to make connector optional!");
-> +		return -EINVAL;
-> +	}
-This should say that the display driver should be fixed.
-If a display driver expects this bridge to create the connector
-it would not work.
-
+By any chance, do you have a list of systems implementing those workarounds?
 
 _______________________________________________
 dri-devel mailing list
