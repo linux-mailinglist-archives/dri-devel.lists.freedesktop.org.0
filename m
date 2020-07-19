@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75AC82250AE
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 10:08:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E07032250AB
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 10:08:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898016E4D7;
-	Sun, 19 Jul 2020 08:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A8D6E4DE;
+	Sun, 19 Jul 2020 08:08:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39CA389FDD
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 08:08:13 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id j11so17021498ljo.7
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 01:08:13 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B96C889BF0
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 08:08:14 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id y18so8160217lfh.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 01:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=76GYwHJgmpg1D+ufO0JSzMv0fcAJAUH2Ai/nlDiORJQ=;
- b=fH3SGUi6PCNnnzkTN7BquDl+u2btMvTf81oi3LU+7FneCF2MCGfqc7CKzni3O2OX6L
- KWnF534GMBpMZGFDjscLbUeFGk1AuYP5sDRxPStQJgp6W+Mh+rN6Ja54z6uvnAZ5LBUk
- DviY2+kn/YsIwezhGuLxaL4k5PJORjV3yCT3lcPcnNX4/ZWxydT9svNvr+OkZmHalkx5
- vNpnpvg/lvJ7ZneIWDRrAvn5/Ng18ORLvC8Y9AKo2Nmwla7p+pT59d+uqegZZftgP+pJ
- kU4hss2AXLRGa5XO+M5rcOQvYA8MvVuHPG3mQWa+jRoB6vaNtZFm6PgQDcBfS8VcMidK
- dSlg==
+ bh=vYmiCB0MtpvvbRewOLH7Fp+n6izpRPTScgvaYJf2yds=;
+ b=rTe9EDHIqjM1Y00rFLXvWizwbnluID02ic9eaNLptmDFg1+P+fR85RzF9W3iqnSjrp
+ rCAolR1X67UJVyrkwypTtwh1c+lvqmS/8tRTQiqnBh4P+84UR3qzXt1GIpuVHM59GbIC
+ Odgy2JF9olhe400rEGFfSokVU0Gwga/Np+PPRwYPcd9r4JJkw7a2/plpVdnw4W0+r998
+ TiJLttDKR2aUOK8450vjW2R+KtW1jsrP2+brgSikBVG3kz/iIwiWmnhsHTVOgReqHPv4
+ s1MJgRYy2lERhU62sGp4Zw7iVSlo9iFz4fa/ppCcRNjkCDoOpAf31wI+t04ksGEtt96p
+ eYkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=76GYwHJgmpg1D+ufO0JSzMv0fcAJAUH2Ai/nlDiORJQ=;
- b=rn5gp//z3t7Rm9nuEHU5mpnConMuCnhBAJU37fn4wO0UZ/lLS8jznIQckVjnpcqn6H
- 8xsBbuGVGFwdc1oOkJRC7/hhB0ltR9pIfcg0RhjKZrr3yq0Eb6d59yVkqFxqJY05OcAs
- xwyVqBE6YUZAMQ6VZpfsC+bSe2esVdhYeQ8/vB6DtuAacLFS84eZitMJ2XFBSo4KSH40
- 3GB+Yy09RsHWn+gmbW6qB9fUEew2cYwepohdODlWsR2pjQFFIC8TPut6Kqf1L7G+fEjh
- i38lgaEJiA703Ye0Wb60tQwTZMCcDKxwiwlw1Iqi1NRB6sPwdno4IMMMXHf7zicmKz7S
- jdog==
-X-Gm-Message-State: AOAM532eeWu/WtoaZmMgT+7htFSUz0hqMZ2/CN0o8ufVTwApTw12c2ps
- GSSFhIUxQFSswxLpOzxruA7fBTW3H/c=
-X-Google-Smtp-Source: ABdhPJwYCyvEJr4JKQu2wAiVlSR8RATflYb7drCCKaX0jVaBWgPcevLelVojOMKCgG3v5B+FO+PQvg==
-X-Received: by 2002:a05:651c:1b6:: with SMTP id
- c22mr6893563ljn.421.1595146091482; 
- Sun, 19 Jul 2020 01:08:11 -0700 (PDT)
+ bh=vYmiCB0MtpvvbRewOLH7Fp+n6izpRPTScgvaYJf2yds=;
+ b=fI+7OcQA5IZFS4YwvpQBUmA4AYiY+wPp2j6m0GnZs5Elkxg/0jzXIe2LpWW5SRK/PS
+ geN1hlE3frFS4HTRHilDdjQCnLJOD3yBl5Eiq5sLZhS9VrmIz6zoIfZl3qgAGNE6v4Z2
+ XqqW0WUNPk8xjEuXIzYasuYymmgxD5dpGArIhomnlb46VXtxqTgPGA5GcCpDIkvGerIN
+ seN+cL/yhpPJYSxgxOuGuHCM+aMOiFrVulxCwPkNZGGTeR8y1khmw6FDQskAZWQQ9DMD
+ V9e8tDhrBLa1ps2Ez6mMOOAtZ95wd2rFPg1StxW/8/PimEhPInRJAALUw+QRfmLU4xq7
+ ShJA==
+X-Gm-Message-State: AOAM533Gh9dhR8YGJdUhcelkqfPNj98vASJQXGJq2PvUMqX3FFuUcaBt
+ oF0Jp0Rws/KL7bb3omMgKkfavt54VrU=
+X-Google-Smtp-Source: ABdhPJy5cVGtNAuiTzKiKirU3wZgRjcJT9PYjTM+yqqzPVpq8sqJDG+GwWU81AtzClvSAXr+4RCc3A==
+X-Received: by 2002:a05:6512:1105:: with SMTP id
+ l5mr8207304lfg.76.1595146092914; 
+ Sun, 19 Jul 2020 01:08:12 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:d5fe:fe9c:fc06:b74c])
- by smtp.gmail.com with ESMTPSA id 72sm732407lfh.97.2020.07.19.01.08.10
+ by smtp.gmail.com with ESMTPSA id 72sm732407lfh.97.2020.07.19.01.08.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Jul 2020 01:08:11 -0700 (PDT)
+ Sun, 19 Jul 2020 01:08:12 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v5 06/19] backlight: document inline functions in backlight.h
-Date: Sun, 19 Jul 2020 10:07:30 +0200
-Message-Id: <20200719080743.8560-7-sam@ravnborg.org>
+Subject: [PATCH v5 07/19] backlight: document enums in backlight.h
+Date: Sun, 19 Jul 2020 10:07:31 +0200
+Message-Id: <20200719080743.8560-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200719080743.8560-1-sam@ravnborg.org>
 References: <20200719080743.8560-1-sam@ravnborg.org>
@@ -87,10 +87,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the inline functions in backlight.h
+Add kernel-doc documentation for the backlight enums
 
 v2:
- - Fix spelling (Daniel)
+  - Add intro to each enum member (Daniel)
+    Except backlight type as line lenght was too long.
+    The generated HTML is the same.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
@@ -99,43 +101,112 @@ Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- include/linux/backlight.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ include/linux/backlight.h | 72 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
 diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 7654fe5f1589..7d6cb61e10f5 100644
+index 7d6cb61e10f5..0f425b32e6be 100644
 --- a/include/linux/backlight.h
 +++ b/include/linux/backlight.h
-@@ -268,6 +268,10 @@ struct backlight_device {
- 	int use_count;
+@@ -14,26 +14,98 @@
+ #include <linux/mutex.h>
+ #include <linux/notifier.h>
+ 
++/**
++ * enum backlight_update_reason - what method was used to update backlight
++ *
++ * A driver indicates the method (reason) used for updating the backlight
++ * when calling backlight_force_update().
++ */
+ enum backlight_update_reason {
++	/**
++	 * @BACKLIGHT_UPDATE_HOTKEY: The backlight was updated using a hot-key.
++	 */
+ 	BACKLIGHT_UPDATE_HOTKEY,
++
++	/**
++	 * @BACKLIGHT_UPDATE_SYSFS: The backlight was updated using sysfs.
++	 */
+ 	BACKLIGHT_UPDATE_SYSFS,
  };
  
 +/**
-+ * backlight_update_status - force an update of the backlight device status
-+ * @bd: the backlight device
++ * enum backlight_type - the type of backlight control
++ *
++ * The type of interface used to control the backlight.
 + */
- static inline int backlight_update_status(struct backlight_device *bd)
- {
- 	int ret = -ENOENT;
-@@ -361,6 +365,18 @@ extern int backlight_device_set_brightness(struct backlight_device *bd, unsigned
- 
- #define to_backlight_device(obj) container_of(obj, struct backlight_device, dev)
+ enum backlight_type {
++	/**
++	 * @BACKLIGHT_RAW:
++	 *
++	 * The backlight is controlled using hardware registers.
++	 */
+ 	BACKLIGHT_RAW = 1,
++
++	/**
++	 * @BACKLIGHT_PLATFORM:
++	 *
++	 * The backlight is controlled using a platform-specific interface.
++	 */
+ 	BACKLIGHT_PLATFORM,
++
++	/**
++	 * @BACKLIGHT_FIRMWARE:
++	 *
++	 * The backlight is controlled using a standard firmware interface.
++	 */
+ 	BACKLIGHT_FIRMWARE,
++
++	/**
++	 * @BACKLIGHT_TYPE_MAX: Number of entries.
++	 */
+ 	BACKLIGHT_TYPE_MAX,
+ };
  
 +/**
-+ * bl_get_data - access devdata
-+ * @bl_dev: pointer to backlight device
++ * enum backlight_notification - the type of notification
 + *
-+ * When a backlight device is registered the driver has the possibility
-+ * to supply a void * devdata. bl_get_data() return a pointer to the
-+ * devdata.
-+ *
-+ * RETURNS:
-+ *
-+ * pointer to devdata stored while registering the backlight device.
++ * The notifications that is used for notification sent to the receiver
++ * that registered notifications using backlight_register_notifier().
 + */
- static inline void * bl_get_data(struct backlight_device *bl_dev)
- {
- 	return dev_get_drvdata(&bl_dev->dev);
+ enum backlight_notification {
++	/**
++	 * @BACKLIGHT_REGISTERED: The backlight device is registered.
++	 */
+ 	BACKLIGHT_REGISTERED,
++
++	/**
++	 * @BACKLIGHT_UNREGISTERED: The backlight revice is unregistered.
++	 */
+ 	BACKLIGHT_UNREGISTERED,
+ };
+ 
++/** enum backlight_scale - the type of scale used for brightness values
++ *
++ * The type of scale used for brightness values.
++ */
+ enum backlight_scale {
++	/**
++	 * @BACKLIGHT_SCALE_UNKNOWN: The scale is unknown.
++	 */
+ 	BACKLIGHT_SCALE_UNKNOWN = 0,
++
++	/**
++	 * @BACKLIGHT_SCALE_LINEAR: The scale is linear.
++	 *
++	 * The linear scale will increase brightness the same for each step.
++	 */
+ 	BACKLIGHT_SCALE_LINEAR,
++
++	/**
++	 * @BACKLIGHT_SCALE_NON_LINEAR: The scale is not linear.
++	 *
++	 * This is often used when the brightness values tries to adjust to
++	 * the relative perception of the eye demanding a non-linear scale.
++	 */
+ 	BACKLIGHT_SCALE_NON_LINEAR,
+ };
+ 
 -- 
 2.25.1
 
