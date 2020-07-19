@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0091F22527E
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 17:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC3C2252B0
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 18:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244F66E13A;
-	Sun, 19 Jul 2020 15:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D426E12F;
+	Sun, 19 Jul 2020 16:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835EC6E13A
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 15:34:15 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208611] amdgpu crash on sharing image memory between Vulkan and
- OpenGL
-Date: Sun, 19 Jul 2020 15:34:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: yalterz@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208611-2300-h3cGWmpiGu@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208611-2300@https.bugzilla.kernel.org/>
-References: <bug-208611-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8327A6E12F
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 16:03:37 +0000 (UTC)
+Received: from localhost (unknown [122.171.202.192])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 49FFF207EA;
+ Sun, 19 Jul 2020 16:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595174617;
+ bh=/pbAZENBPjrMYXorA52W5HNHDodFxjYnJsIpzouhsGY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=1GP6P1/lo8ECz85mykPgihU5psB+Nx4RgKc1A48vqIllfPQ+RjjRLI2pGnplDzuuA
+ FOfsJRDQ6x8Rui1L9osCVzIUHkYkGes37dZADDIys5iTqZEB/4ddZy7mPi5Qg+MARK
+ aoK8eMdc1LUCb+sOLlWmy6LXv5MKl/ooRzJ7gUbU=
+Date: Sun, 19 Jul 2020 21:33:32 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v5 0/4] Add LT9611 DSI to HDMI bridge
+Message-ID: <20200719160332.GA12965@vkoul-mobl>
+References: <20200708103559.132300-1-vkoul@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200708103559.132300-1-vkoul@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,23 +46,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208611
+Hello,
 
---- Comment #2 from Ivan Molodetskikh (yalterz@gmail.com) ---
-(In reply to Alex Deucher from comment #1)
-> This is most likely a bug in mesa.  The kernel driver is just the messenger.
+On 08-07-20, 16:05, Vinod Koul wrote:
+> Hi,
+> 
+> This series adds driver and bindings for Lontium LT9611 bridge chip which
+> takes MIPI DSI as input and HDMI as output.
+> 
+> This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
 
-I have opened a bug report in mesa:
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/3291
+Any feedback on this series?
+
+> 
+> [1]: https://www.96boards.org/product/rb3-platform/
+> 
+> Changes in v5:
+>  - make symbol static, reported by kbuild-bot
+> 
+> Changes in v4:
+>  - Add msm/dsi patch to create connector and support DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>  - Fix comments provided by Sam
+> 
+> Changes in v3:
+>  - fix kbuild reported error
+>  - rebase on v5.8-rc1
+> 
+> Changes in v2:
+>  - Add acks by Rob
+>  - Fix comments reported by Emil and rename the file to lontium-lt9611.c
+>  - Fix comments reported by Laurent on binding and driver
+>  - Add HDMI audio support
+> 
+> Vinod Koul (4):
+>   dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+>   dt-bindings: display: bridge: Add documentation for LT9611
+>   drm/bridge: Introduce LT9611 DSI to HDMI bridge
+>   drm/msm/dsi: attach external bridge with
+>     DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> 
+>  .../display/bridge/lontium,lt9611.yaml        |  176 +++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+>  drivers/gpu/drm/bridge/Kconfig                |   13 +
+>  drivers/gpu/drm/bridge/Makefile               |    1 +
+>  drivers/gpu/drm/bridge/lontium-lt9611.c       | 1142 +++++++++++++++++
+>  drivers/gpu/drm/msm/dsi/dsi.c                 |    7 +-
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c         |   27 +-
+>  7 files changed, 1348 insertions(+), 20 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+>  create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
+> 
+> -- 
+> 2.26.2
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+~Vinod
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
