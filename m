@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C184022508C
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 10:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDA4225092
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 10:08:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4D389F6E;
-	Sun, 19 Jul 2020 08:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522C889F6F;
+	Sun, 19 Jul 2020 08:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E9289F6E
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 08:08:04 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id x9so17028629ljc.5
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 01:08:04 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001A789F6E
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 08:08:05 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id q7so17078414ljm.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 01:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WnI5F454pMZI6Esv1LgL7L2JfitladHB6StSSThkZNI=;
- b=Z8trr1tlrNcJmz4HoHn9adB6bJd9M8zYoGrkDc30++eOz0f2ld8VLs5yNrPJIbb81g
- 1xwki8GLp9mJgEF0hjQV0vtGhhwvWEU1N6b3joW7Y9LIH45UivASrZF6ftTsDcCeXBwe
- DFwjsNTkosOE7b0pTrBgseXg63DMFglYbA3ARM9I/ifBX+IqERM9QadZ4MKuuzNck328
- 12McziDSW3iV3MPkHiXjXNP+pwNFi4qsy+X1jans3WgUqnb4H70H7qtKDmXy9VXvUJ/b
- TLrOXN6eH8zbcO4WHtbkT+UFXi7Gp9oxCcX284hwWKNPJ0kgjxOvDmfj2Z+rKZpsWqFQ
- AprA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BtmQn9giIZ5hxkwK3X6Uyd4+tt3rw+QxpQWl1Fgi+8Y=;
+ b=m0o1tttwiUHt1WthakYIAwHFJ59daNJuz7IVB3JnCyaZz0w7mCjJ6LFSRCTv1VSwCd
+ WXK46r7kRAh+iTw/TMN2yFIF+J9Z8mQ+ZOKP6H0DnZyADjwr3ngY0Qlt7IUpeY4EgNKz
+ dh4WdXxzgKKv4/eDRbaqG5OfpsJLDgpYA5t1j4z8bRM+5efzTQOQNmboEntDAeywWq6u
+ OtZeAcZSyLtZ5r0FXfHxbTGFA4kmecbigeHMZYRGnelcJ4srnqjv5hHeSSzTx14452Lh
+ Zy6F72vANE1PNZsduLIbAhqqbYAh3Vzrbpjba5Yy1ZtuJYSkPM/OcQ4ieOqMd20JiUQO
+ GpBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=WnI5F454pMZI6Esv1LgL7L2JfitladHB6StSSThkZNI=;
- b=ZUVL/H5N/R2Q5Ejfa7PG4DHSDk/cK754pLMOvfBVIjqmuF452OcRi0/KbFgp/XhNkZ
- spW298hqr3RaI7S2bFBqw257VGxDxHB7iw78HDYaEHmyK8Yw/rUn8CQsKsVlQRGd58H3
- JnxrAfJ4IlxEkERkeedthVkhSp+O2mQbtGlTxKiO/VCJ+fmv0ifU6wnbvo9bd+yLljtK
- Kg10Yd3rdIiRSYtNMOAceFkJF/RK09wTvfdQmKg/jGGMBgZU+WgDuMF7jZxAnqjX5I9s
- KrDj9lJdZzvUOURNhq0PkpTQLf61AfjO1jooPG0M3GaOojD7XZTs3erbXd0CD3RZl4y/
- Z0dA==
-X-Gm-Message-State: AOAM533PULL0K2pYg9oJ2fpB9nnJiQG53XBfYxFb6f3nQiK37ur4HiWp
- 0pDP/aDlrtvsMhIEAPtMYVC8pUF60Ac=
-X-Google-Smtp-Source: ABdhPJwlmppqA7BV4OvP0HV49A8Pja1NU+jaBZTZwubftCwEK6zwc1GhTyRydeLODV0nED3CA5IPTQ==
-X-Received: by 2002:a2e:b8d4:: with SMTP id s20mr8011885ljp.177.1595146082636; 
- Sun, 19 Jul 2020 01:08:02 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=BtmQn9giIZ5hxkwK3X6Uyd4+tt3rw+QxpQWl1Fgi+8Y=;
+ b=fqw96TpRw/ynYWIAf7Vr6mjGKjz6ntI0c7sGPlNsJlf4o6W4jCbMwJqp4YoFVzOWRr
+ v/yP8MZyh6i64uBphR1GWKuFwCF0Xa6HnaOEexPH2HVJ1/HoEm1+0JdkFAs40O9gUOmZ
+ lO+u/1+hckBPPFgOluOf33J7Qbk9gNbm5Ap+gwFZyp6qNgoi+1YQnyKftBw5YMUkx4fA
+ 48f9o59WC5SpqXSqIUG/1oYDdGESJjUq77ymjtpgg7e+v0FO6D4EJRtbiDq8ULS+zv2n
+ 5kSc5WOnP/wFJMPNipGBRqOV8C5jy3K8uVlfym0w3ABb1InAjkEdEgXgk6Fm+PKMKb6E
+ J9bA==
+X-Gm-Message-State: AOAM532w9sJzSAjIf0gVCyROUtW9y1V06uQ5sSWk0HCerQU08mhIJKXy
+ 0WZJvV6WzzynmEcNev4jRM1soY8esyE=
+X-Google-Smtp-Source: ABdhPJycJq2U5Syxryg3drCdjc+s82C7Kvu1qoBVnwr5waApqzSlh47x0jMk/YdughkLZ1ra3potHQ==
+X-Received: by 2002:a2e:9e5a:: with SMTP id g26mr8280144ljk.207.1595146084147; 
+ Sun, 19 Jul 2020 01:08:04 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:d5fe:fe9c:fc06:b74c])
- by smtp.gmail.com with ESMTPSA id 72sm732407lfh.97.2020.07.19.01.08.00
+ by smtp.gmail.com with ESMTPSA id 72sm732407lfh.97.2020.07.19.01.08.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Jul 2020 01:08:02 -0700 (PDT)
+ Sun, 19 Jul 2020 01:08:03 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v5 0/19] backlight: backlight updates
-Date: Sun, 19 Jul 2020 10:07:24 +0200
-Message-Id: <20200719080743.8560-1-sam@ravnborg.org>
+Subject: [PATCH v5 01/19] backlight: refactor fb_notifier_callback()
+Date: Sun, 19 Jul 2020 10:07:25 +0200
+Message-Id: <20200719080743.8560-2-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200719080743.8560-1-sam@ravnborg.org>
+References: <20200719080743.8560-1-sam@ravnborg.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,137 +86,77 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all.
+Increase readability of fb_notifier_callback() by removing
+a few indent levels.
+No functional change.
 
-Follow-up on v4 - with only a few changes listed below and
-in the individual patches.
-Thanks for all the reviews and the feedback on the patches!
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+---
+ drivers/video/backlight/backlight.c | 43 +++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-I am planning a follow-up on this patchset to update the
-backlight drivers all over to use backlight_get_brightness()
-and backlight_is_blank() as appropriate.
-
-v5:
-  - Added r-b's
-  - Updated cr_bllcd to use gpio-backlight semantics
-  - Various editorial updates to changelogs
-  - Rebased on top of Lee's backlight tree
-  - Dropped "make of_find_backlight_by_node() static"
-    The change depends on drm-misc-next.
-    Will be re-send when the changes hits the backlight tree
-    (We could have done this in other ways, but it is easier to just wait)
-
-v4:
-  - Introduced backlight_get_brightness based on feedback from Emil.
-  - Properly described the rationale behind more restrictive locking use
-    I checked that locking was not used outside backlight core
-    by renaming the lock fields.
-    As it is not used seems OK to restrict use to the core.
-  - Introducing backlight_get_brightness invalidated
-    some patches and I did a bit finer split to ease review.
-  - Added acks
-  - A few small adjustments documented in the individual patches
-
-v3:
-  - Dropped video patch that was reviewd and thus applied
-  - Updated kernel-doc so all fields now have a short intro
-  - Improved readability in a lot of places, thanks to review
-    feedback from Daniel - thanks!
-  - Added better intro to backlight
-  - Added acks
-
-    Several other smaller changes documented in the
-    patches.
-    I left out patches to make functions static as
-    there are dependencies to drm-misc-next for these.
-
-v2:
-  - Dropped drm patches that was reviewed and thus applied (Thanks Tomi)
-  - Updated backligth_is_blank() based on Daniel's feedback
-  - Dropped EXPORT_SYMBOL that was no longer relevant
-  - Reordered patches, so patches with no external
-    dependencies comes first
-  - Updated the description that follows.
-
-The following series touches a lot of backlight things.
-
-Starts with a small refactoring in backligth.c to remove some indents.
-This increases the readability and no functional changes.
-
-Then two new helpers backlight_is_blank(), backlight_get_brightness()
-are added. These helpers simplifies the implementation of update_status()
-in the backlight drivers where they are used.
-
-Then while surfing the code I missed some documentation.
-So I got a bit carried away and updated the documentation
-for the backlight core and added it to kernel-doc.
-The documentation express my current understanding.
-Everything from spelling errors to outright wrong content
-shall be anticipated - so please review!
-We are all best helped if the documentation is correct
-and up-to-date and it is readable.
-
-In this process I identified that the backlight_bl driver
-was no longer in use - so drop it.
-
-Everything builds, but so far no run-time testing.
-
-        Sam
-
-Sam Ravnborg (19):
-      backlight: refactor fb_notifier_callback()
-      backlight: add backlight_is_blank()
-      backlight: improve backlight_ops documentation
-      backlight: improve backlight_properties documentation
-      backlight: improve backlight_device documentation
-      backlight: document inline functions in backlight.h
-      backlight: document enums in backlight.h
-      backlight: remove the unused backlight_bl driver
-      backlight: drop extern from prototypes
-      backlight: add overview and update existing doc
-      backlight: wire up kernel-doc documentation
-      backlight: introduce backlight_get_brightness()
-      backlight: as3711_bl: simplify update_status
-      backlight: cr_bllcd: introduce gpio-backlight semantics
-      backlight: gpio_backlight: simplify update_status()
-      backlight: jornada720_bl: introduce backlight_is_blank()
-      backlight: use backlight_get_brightness()
-      backlight: drop backlight_put()
-      backlight: make of_find_backlight static
-
- Documentation/gpu/backlight.rst          |  12 +
- Documentation/gpu/index.rst              |   1 +
- drivers/video/backlight/88pm860x_bl.c    |  13 +-
- drivers/video/backlight/Kconfig          |   8 -
- drivers/video/backlight/Makefile         |   1 -
- drivers/video/backlight/adp5520_bl.c     |  10 +-
- drivers/video/backlight/adp8860_bl.c     |  10 +-
- drivers/video/backlight/adp8870_bl.c     |  10 +-
- drivers/video/backlight/as3711_bl.c      |  11 +-
- drivers/video/backlight/backlight.c      | 208 +++++++++-------
- drivers/video/backlight/bd6107.c         |   7 +-
- drivers/video/backlight/corgi_lcd.c      |   8 +-
- drivers/video/backlight/cr_bllcd.c       |  25 +-
- drivers/video/backlight/da903x_bl.c      |  13 +-
- drivers/video/backlight/ep93xx_bl.c      |   8 +-
- drivers/video/backlight/generic_bl.c     | 110 ---------
- drivers/video/backlight/gpio_backlight.c |  17 +-
- drivers/video/backlight/hp680_bl.c       |   6 +-
- drivers/video/backlight/jornada720_bl.c  |   2 +-
- drivers/video/backlight/kb3886_bl.c      |   6 +-
- drivers/video/backlight/led_bl.c         |   7 +-
- drivers/video/backlight/lm3533_bl.c      |   8 +-
- drivers/video/backlight/locomolcd.c      |   6 +-
- drivers/video/backlight/lv5207lp.c       |   7 +-
- drivers/video/backlight/max8925_bl.c     |  13 +-
- drivers/video/backlight/pwm_bl.c         |   7 +-
- drivers/video/backlight/qcom-wled.c      |   7 +-
- drivers/video/backlight/tps65217_bl.c    |  10 +-
- drivers/video/backlight/wm831x_bl.c      |  13 +-
- include/linux/backlight.h                | 399 +++++++++++++++++++++++++------
- 30 files changed, 497 insertions(+), 466 deletions(-)
-
-
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 744ba58488e0..18501956dd87 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -58,28 +58,29 @@ static int fb_notifier_callback(struct notifier_block *self,
+ 
+ 	bd = container_of(self, struct backlight_device, fb_notif);
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops)
+-		if (!bd->ops->check_fb ||
+-		    bd->ops->check_fb(bd, evdata->info)) {
+-			fb_blank = *(int *)evdata->data;
+-			if (fb_blank == FB_BLANK_UNBLANK &&
+-			    !bd->fb_bl_on[node]) {
+-				bd->fb_bl_on[node] = true;
+-				if (!bd->use_count++) {
+-					bd->props.state &= ~BL_CORE_FBBLANK;
+-					bd->props.fb_blank = FB_BLANK_UNBLANK;
+-					backlight_update_status(bd);
+-				}
+-			} else if (fb_blank != FB_BLANK_UNBLANK &&
+-				   bd->fb_bl_on[node]) {
+-				bd->fb_bl_on[node] = false;
+-				if (!(--bd->use_count)) {
+-					bd->props.state |= BL_CORE_FBBLANK;
+-					bd->props.fb_blank = fb_blank;
+-					backlight_update_status(bd);
+-				}
+-			}
++
++	if (!bd->ops)
++		goto out;
++	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
++		goto out;
++
++	fb_blank = *(int *)evdata->data;
++	if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
++		bd->fb_bl_on[node] = true;
++		if (!bd->use_count++) {
++			bd->props.state &= ~BL_CORE_FBBLANK;
++			bd->props.fb_blank = FB_BLANK_UNBLANK;
++			backlight_update_status(bd);
++		}
++	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
++		bd->fb_bl_on[node] = false;
++		if (!(--bd->use_count)) {
++			bd->props.state |= BL_CORE_FBBLANK;
++			bd->props.fb_blank = fb_blank;
++			backlight_update_status(bd);
+ 		}
++	}
++out:
+ 	mutex_unlock(&bd->ops_lock);
+ 	return 0;
+ }
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
