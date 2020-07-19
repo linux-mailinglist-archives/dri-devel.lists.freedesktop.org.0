@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4ED6225895
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519B222588C
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A856E187;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3FC6E1CD;
 	Mon, 20 Jul 2020 07:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.al2klimov.de (smtp.al2klimov.de
- [IPv6:2a01:4f8:c0c:1465::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 055E76E042
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 10:10:19 +0000 (UTC)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by smtp.al2klimov.de (Postfix) with ESMTPA id 6DB27BC078;
- Sun, 19 Jul 2020 10:10:14 +0000 (UTC)
-From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To: robh+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- b.zolnierkie@samsung.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH for v5.9] ARM: dts: mxs: Replace HTTP links with HTTPS ones
-Date: Sun, 19 Jul 2020 12:10:08 +0200
-Message-Id: <20200719101008.57623-1-grandmaster@al2klimov.de>
+Received: from crapouillou.net (crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B20246E110
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 11:08:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1595156901; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qtrq8DWA1MSBvJzHIvwu9TgumC0NB4bv34kVPO/wg5Q=;
+ b=Ux/db8/+KGuBoet3V7QqV/HszzxM1csvIdFcoldH2kBNTbKPOBkt2ZNmlKrCX3d/zNSRun
+ S8dc3Q67mW7KnnLTqCJso0orUSrmJRq7hc9n6LqM0yQZmOcKY7B5dAyZjH3a4dQs8NtZlI
+ DJaAotCQwaKQ65SULB5DFxMom33UlEw=
+Date: Sun, 19 Jul 2020 13:08:12 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm/ingenic: Silence uninitialized-variable warning
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <OXQPDQ.F020MLMIOEKM@crapouillou.net>
+In-Reply-To: <20200719102354.GA20692@ravnborg.org>
+References: <20200719093834.14084-1-paul@crapouillou.net>
+ <20200719102354.GA20692@ravnborg.org>
 MIME-Version: 1.0
-X-Spamd-Bar: ++++++
-X-Spam-Level: ******
-Authentication-Results: smtp.al2klimov.de;
- auth=pass smtp.auth=aklimov@al2klimov.de
- smtp.mailfrom=grandmaster@al2klimov.de
-X-Spam: Yes
-X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:37 +0000
+X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,135 +44,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+Hi Sam,
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+Le dim. 19 juil. 2020 =E0 12:23, Sam Ravnborg <sam@ravnborg.org> a =
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+=E9crit :
+> Hi Paul.
+> =
 
- If there are any URLs to be removed completely
- or at least not (just) HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+> On Sun, Jul 19, 2020 at 11:38:34AM +0200, Paul Cercueil wrote:
+>>  Silence compiler warning about used but uninitialized 'ipu_state'
+>>  variable. In practice, the variable would never be used when
+>>  uninitialized, but the compiler cannot know that 'priv->ipu_plane' =
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+>> will
+>>  always be NULL if CONFIG_INGENIC_IPU is disabled.
+>> =
 
- If you apply the patch, please let me know.
+>>  Silence the warning by initializing the value to NULL.
+>> =
 
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Patch looks good. Had to dig into the code to understand the
+> change to the no_vblank flag.
+> So:
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> =
 
+> I expect you to commit the patch.
 
- arch/arm/boot/dts/imx23-pinfunc.h     | 4 ++--
- arch/arm/boot/dts/imx28-pinfunc.h     | 4 ++--
- arch/arm/boot/dts/imx53-tx53-x13x.dts | 4 ++--
- arch/arm/boot/dts/mxs-pinfunc.h       | 4 ++--
- include/video/imx-ipu-v3.h            | 4 ++--
- 5 files changed, 10 insertions(+), 10 deletions(-)
+Pushed, thanks.
 
-diff --git a/arch/arm/boot/dts/imx23-pinfunc.h b/arch/arm/boot/dts/imx23-pinfunc.h
-index 5c0f32ca3a93..f9d7eb6679de 100644
---- a/arch/arm/boot/dts/imx23-pinfunc.h
-+++ b/arch/arm/boot/dts/imx23-pinfunc.h
-@@ -7,8 +7,8 @@
-  * License. You may obtain a copy of the GNU General Public License
-  * Version 2 at the following locations:
-  *
-- * http://www.opensource.org/licenses/gpl-license.html
-- * http://www.gnu.org/copyleft/gpl.html
-+ * https://www.opensource.org/licenses/gpl-license.html
-+ * https://www.gnu.org/copyleft/gpl.html
-  */
- 
- #ifndef __DT_BINDINGS_MX23_PINCTRL_H__
-diff --git a/arch/arm/boot/dts/imx28-pinfunc.h b/arch/arm/boot/dts/imx28-pinfunc.h
-index e11f69ba0fe4..ffd5412b70ae 100644
---- a/arch/arm/boot/dts/imx28-pinfunc.h
-+++ b/arch/arm/boot/dts/imx28-pinfunc.h
-@@ -7,8 +7,8 @@
-  * License. You may obtain a copy of the GNU General Public License
-  * Version 2 at the following locations:
-  *
-- * http://www.opensource.org/licenses/gpl-license.html
-- * http://www.gnu.org/copyleft/gpl.html
-+ * https://www.opensource.org/licenses/gpl-license.html
-+ * https://www.gnu.org/copyleft/gpl.html
-  */
- 
- #ifndef __DT_BINDINGS_MX28_PINCTRL_H__
-diff --git a/arch/arm/boot/dts/imx53-tx53-x13x.dts b/arch/arm/boot/dts/imx53-tx53-x13x.dts
-index 6cdf2082c742..a34d98cf6ed4 100644
---- a/arch/arm/boot/dts/imx53-tx53-x13x.dts
-+++ b/arch/arm/boot/dts/imx53-tx53-x13x.dts
-@@ -41,8 +41,8 @@
-  * License. You may obtain a copy of the GNU General Public License
-  * Version 2 at the following locations:
-  *
-- * http://www.opensource.org/licenses/gpl-license.html
-- * http://www.gnu.org/copyleft/gpl.html
-+ * https://www.opensource.org/licenses/gpl-license.html
-+ * https://www.gnu.org/copyleft/gpl.html
-  */
- 
- /dts-v1/;
-diff --git a/arch/arm/boot/dts/mxs-pinfunc.h b/arch/arm/boot/dts/mxs-pinfunc.h
-index c6da987b20cb..6766292eee30 100644
---- a/arch/arm/boot/dts/mxs-pinfunc.h
-+++ b/arch/arm/boot/dts/mxs-pinfunc.h
-@@ -7,8 +7,8 @@
-  * License. You may obtain a copy of the GNU General Public License
-  * Version 2 at the following locations:
-  *
-- * http://www.opensource.org/licenses/gpl-license.html
-- * http://www.gnu.org/copyleft/gpl.html
-+ * https://www.opensource.org/licenses/gpl-license.html
-+ * https://www.gnu.org/copyleft/gpl.html
-  */
- 
- #ifndef __DT_BINDINGS_MXS_PINCTRL_H__
-diff --git a/include/video/imx-ipu-v3.h b/include/video/imx-ipu-v3.h
-index 06b0b57e996c..749490e3c66e 100644
---- a/include/video/imx-ipu-v3.h
-+++ b/include/video/imx-ipu-v3.h
-@@ -5,8 +5,8 @@
-  * Public License.  You may obtain a copy of the GNU Lesser General
-  * Public License Version 2.1 or later at the following locations:
-  *
-- * http://www.opensource.org/licenses/lgpl-license.html
-- * http://www.gnu.org/copyleft/lgpl.html
-+ * https://www.opensource.org/licenses/lgpl-license.html
-+ * https://www.gnu.org/copyleft/lgpl.html
-  */
- 
- #ifndef __DRM_IPU_H__
--- 
-2.27.0
+> Looking at the code I noticed that the return value of
+> drm_atomic_get_plane_state() is not checked.
+> Can you try to look into this.
+
+Right. I'll fix it.
+
+-Paul
+
+> 	Sam
+> =
+
+>>  ---
+>>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>> =
+
+>>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
+
+>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  index b6d946fbeaf5..ada990a7f911 100644
+>>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>  @@ -198,7 +198,7 @@ static int ingenic_drm_crtc_atomic_check(struct =
+
+>> drm_crtc *crtc,
+>>   					 struct drm_crtc_state *state)
+>>   {
+>>   	struct ingenic_drm *priv =3D drm_crtc_get_priv(crtc);
+>>  -	struct drm_plane_state *f1_state, *f0_state, *ipu_state;
+>>  +	struct drm_plane_state *f1_state, *f0_state, *ipu_state =3D NULL;
+>>   	long rate;
+>> =
+
+>>   	if (!drm_atomic_crtc_needs_modeset(state))
+>>  @@ -229,7 +229,7 @@ static int ingenic_drm_crtc_atomic_check(struct =
+
+>> drm_crtc *crtc,
+>> =
+
+>>   		/* If all the planes are disabled, we won't get a VBLANK IRQ */
+>>   		priv->no_vblank =3D !f1_state->fb && !f0_state->fb &&
+>>  -				  !(priv->ipu_plane && ipu_state->fb);
+>>  +				  !(ipu_state && ipu_state->fb);
+>>   	}
+>> =
+
+>>   	return 0;
+>>  --
+>>  2.27.0
+
 
 _______________________________________________
 dri-devel mailing list
