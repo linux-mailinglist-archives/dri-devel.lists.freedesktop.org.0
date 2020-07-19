@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C08224E44
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 01:33:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9DC225072
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 09:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 149496E2B6;
-	Sat, 18 Jul 2020 23:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D324A6E4C9;
+	Sun, 19 Jul 2020 07:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD9A06E2B6
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jul 2020 23:33:27 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id s9so16506838ljm.11
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jul 2020 16:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D31A86E4C9;
+ Sun, 19 Jul 2020 07:31:58 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id d1so7253124plr.8;
+ Sun, 19 Jul 2020 00:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/uOHqtO1l7zkVQ8bbrjF3EFuuScxemsHl8Jv5NCr0Zs=;
- b=wZWp6ChjpBomhs7feoixsNH6mvZLKAYA8u/pFpS6/4nXNwsMmcWx1WrkYAa6kpeyhw
- ut1SO2AgAFg6va3LkF4XlPm8dhKGm8IRhMu+s/52INWp8R2v5f777thEv9Z2BmsFva+p
- tbvz0Dfvyrb8M8PNIGClarnUhD8glzwj4RxsQrH7DGmoWQ3hG0zA4kfDhYXULDfUifqC
- 6Pia5lWZ07e49ux85FjYMggGYJFae0DeZVbbW9cDHIWz+9lxFMj4jk06rPuJ4jOchqBf
- ZBJdLaWhjbhZ6ngabbnkjbl4hEiOPNOjbJsipvegjgu17Hme8z1GhDtB5FCw/Wpor4GQ
- Wm7Q==
+ bh=vPr8MNrHCYsTqyeKQ7sEP+a0CaHWVcwL6peMb/lruJU=;
+ b=RrJhHXSCbXTYcwYXRBXoXmsCw+vVWXatf9/Z15DO6TlS1ABPftLW9FSbtbk0HWXYsg
+ bgcLh9RwGn5NxUPytE6DXH1UJDKNp59IEMPvK8sFknN/nAWfGWv2mMUp6YByMorFN+lQ
+ Y63mBozCLzcILsmhVxHmZr1+tkuwyxm1Te75fAjGq1HlLx9ntAevX5xBaf8LACuGcowa
+ V5iM3es0KTlEBRvCYrRnzB8Aw+fe6GRTZ5e2DmJLeCqKnHbb+s1HOgh304I5LJMbs7wm
+ m4UluKKMTap5dUTu9AaNeSbQBXxQ/NXdmU3dfSrkhOyZkzaeXmzgC85p11OHegXLChfj
+ 9mwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/uOHqtO1l7zkVQ8bbrjF3EFuuScxemsHl8Jv5NCr0Zs=;
- b=HZs2EKIuB16vKXUokCtUeVkeQut0xAKoFo2oYl/8uqehuf3Sw5h3iEq4vZ2bFrzHpw
- SUQBAR+l98vJDeOORJ04vvga7xjO0VgMY83JWy0eegWiUTOlsPPgTbNgzfYUzN922MoM
- st2QdyfgvJA8UtqzKYAUFIGl5SQ9Ht8sujy2BxTGGpzpkYLjohevwMWYSP/6vgZ67zQB
- fDhsgzf/1ZyrECFv60fni6fUiYaSsR9KGxCqpSYXRK2fJh0DjFlxvHNwCrqIEbZB6ns0
- k79Ib5zb6sEPTv3vRXNPW0/SXgleCoWtIjaa3O6AvSZhmAK6g6bv+FvH2wlVEPTBVqKh
- huFw==
-X-Gm-Message-State: AOAM531ZqJIFbW3w167Fa9IVjfDL/GhHsO9Kg4z4men1Yp2Xo5+FdlDK
- ys6ds2EYh9z/dy84NyMIX+4C80XEOEP90A==
-X-Google-Smtp-Source: ABdhPJzM97xRZHLijv/cmF6LPcoOA2S7d7QGKXpHi41IClGjjZvS6hGjF7P3ul7SN5iMTYkM1sHJgw==
-X-Received: by 2002:a2e:978c:: with SMTP id y12mr7173559lji.270.1595115205664; 
- Sat, 18 Jul 2020 16:33:25 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id d22sm2014139lfs.26.2020.07.18.16.33.24
+ bh=vPr8MNrHCYsTqyeKQ7sEP+a0CaHWVcwL6peMb/lruJU=;
+ b=N+xg1uj3mwtg+DbK8ssg080twMGiPUFYWy0A8su47fUBD991OjD1sK5zFeGjH2EYjY
+ uTJHtRWYdGfzfJ6NrLb+WpPrfHiXg6G8BG5t+xxnlGwjshUVIzX13zwdfHFt0cLP5eJF
+ pdoN5djFGk6kn74HQS2HQPdeueLPYh2ch/h8XXDOeYbYjdTvBc3daddUlU9RQIHEizD3
+ Wn9ze5wu6pwl7JserR9rOPWwU0xQKGGbWwpLGqa1/VPzKMpZX1kgEp+uFuwy5Mo150zZ
+ 5IVCdXRjLbndqnhASk8NoSShPgSHsd/txk1QMq8ayxXvbYRV21anDv9LODMCUWrE9zix
+ io0Q==
+X-Gm-Message-State: AOAM530NgVXo+/Kw9wPcLZX+EwY4kciAnvelbxIWQV7bMAWtUGBgB22N
+ fxjdlFnh419YEfus9yylLhO2PrM2rRf7RQ==
+X-Google-Smtp-Source: ABdhPJyAmtl2idOUK1wJaAK1+FgpTeIi4n7bptmKbrUk1bg1/nkEUa7Rd/nen/0vnKG5Xw6VoYpiKQ==
+X-Received: by 2002:a17:902:8498:: with SMTP id
+ c24mr13823604plo.332.1595143918113; 
+ Sun, 19 Jul 2020 00:31:58 -0700 (PDT)
+Received: from localhost.localdomain
+ (ec2-52-221-254-146.ap-southeast-1.compute.amazonaws.com. [52.221.254.146])
+ by smtp.gmail.com with ESMTPSA id a2sm12692988pfg.120.2020.07.19.00.31.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jul 2020 16:33:24 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/mcde: Fix stability issue
-Date: Sun, 19 Jul 2020 01:33:22 +0200
-Message-Id: <20200718233323.3407670-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+ Sun, 19 Jul 2020 00:31:57 -0700 (PDT)
+From: Qiang Yu <yuq825@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/lima: fix wait pp reset timeout
+Date: Sun, 19 Jul 2020 15:30:50 +0800
+Message-Id: <20200719073050.776962-1-yuq825@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,59 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
- linux-arm-kernel@lists.infradead.org
+Cc: lima@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Andreas Baierl <ichgeh@imkreisrum.de>,
+ Qiang Yu <yuq825@gmail.com>, Erico Nunes <nunes.erico@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenener a display update was sent, apart from updating
-the memory base address we called mcde_display_send_one_frame()
-which also sent a command to the display requesting the TE IRQ
-and enabling the FIFO.
+PP bcast is marked as doing async reset after job is done.
+When resume after suspend, each PP is reset individually,
+so no need to reset in PP bcast resume. But I forgot to
+clear the PP bcast async reset mark so call into async wait
+before job run and gets timeout.
 
-When continous updates are running this is wrong: we need
-to only send this to start the flow to the display on
-the very first update. This lead to the display pipeline
-locking up and crashing.
-
-Check if the flow is already running and in that case
-do not call mcde_display_send_one_frame().
-
-This fixes crashes on the Samsung GT-S7710 (Skomer).
-
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Cc: stable@vger.kernel.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Fixes: 3446d7e9883d ("drm/lima: add resume/suspend callback for each ip")
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
 ---
- drivers/gpu/drm/mcde/mcde_display.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/lima/lima_pp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index 212aee60cf61..1d8ea8830a17 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -1086,9 +1086,14 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
- 	 */
- 	if (fb) {
- 		mcde_set_extsrc(mcde, drm_fb_cma_get_gem_addr(fb, pstate, 0));
--		if (!mcde->video_mode)
--			/* Send a single frame using software sync */
--			mcde_display_send_one_frame(mcde);
-+		if (!mcde->video_mode) {
-+			/*
-+			 * Send a single frame using software sync if the flow
-+			 * is not active yet.
-+			 */
-+			if (mcde->flow_active == 0)
-+				mcde_display_send_one_frame(mcde);
-+		}
- 		dev_info_once(mcde->dev, "sent first display update\n");
- 	} else {
- 		/*
+diff --git a/drivers/gpu/drm/lima/lima_pp.c b/drivers/gpu/drm/lima/lima_pp.c
+index 33f01383409c..a5c95bed08c0 100644
+--- a/drivers/gpu/drm/lima/lima_pp.c
++++ b/drivers/gpu/drm/lima/lima_pp.c
+@@ -271,6 +271,8 @@ void lima_pp_fini(struct lima_ip *ip)
+ 
+ int lima_pp_bcast_resume(struct lima_ip *ip)
+ {
++	/* PP has been reset by individual PP resume */
++	ip->data.async_reset = false;
+ 	return 0;
+ }
+ 
 -- 
-2.26.2
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
