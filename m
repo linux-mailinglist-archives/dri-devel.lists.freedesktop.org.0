@@ -2,28 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B678922588E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF53D225891
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E9D6E217;
-	Mon, 20 Jul 2020 07:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA976E172;
+	Mon, 20 Jul 2020 07:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.al2klimov.de (smtp.al2klimov.de
- [IPv6:2a01:4f8:c0c:1465::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC7EA6E14F
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:14:39 +0000 (UTC)
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [78.46.175.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3904589D9A
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:24:49 +0000 (UTC)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by smtp.al2klimov.de (Postfix) with ESMTPA id 4198DBC085;
- Sun, 19 Jul 2020 17:14:35 +0000 (UTC)
+ by smtp.al2klimov.de (Postfix) with ESMTPA id 5B174BC078;
+ Sun, 19 Jul 2020 17:24:45 +0000 (UTC)
 From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH for v5.9] drm: Replace HTTP links with HTTPS ones
-Date: Sun, 19 Jul 2020 19:14:28 +0200
-Message-Id: <20200719171428.60470-1-grandmaster@al2klimov.de>
+To: jsarha@ti.com, tomi.valkeinen@ti.com, airlied@linux.ie, daniel@ffwll.ch,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH for v5.9] drm/tilcdc: Replace HTTP links with HTTPS ones
+Date: Sun, 19 Jul 2020 19:24:38 +0200
+Message-Id: <20200719172438.60536-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 X-Spamd-Bar: +++++
 X-Spam-Level: *****
@@ -88,53 +86,22 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- Documentation/gpu/vgaarbiter.rst | 8 ++++----
- drivers/gpu/drm/drm_modes.c      | 2 +-
- include/uapi/drm/drm_mode.h      | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
-index 0b41b051d021..339ed5fecd2e 100644
---- a/Documentation/gpu/vgaarbiter.rst
-+++ b/Documentation/gpu/vgaarbiter.rst
-@@ -185,7 +185,7 @@ enhancing the kernel code to adapt as a kernel module and also did the
- implementation of the user space side [3]. Now (2009) Tiago Vignatti and Dave
- Airlie finally put this work in shape and queued to Jesse Barnes' PCI tree.
+diff --git a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
+index aac617acb64f..8b2a71395647 100644
+--- a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
++++ b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
+@@ -46,7 +46,7 @@ Optional nodes:
+     crossed and LCD_DATA[0:4] is for Red[3:7] and LCD_DATA[11:15] is
+     for Blue[3-7]. For more details see section 3.1.1 in AM335x
+     Silicon Errata:
+-    http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=sprz360
++    https://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=sprz360
  
--0) http://cgit.freedesktop.org/xorg/xserver/commit/?id=4b42448a2388d40f257774fbffdccaea87bd0347
--1) http://lists.freedesktop.org/archives/xorg/2005-March/006663.html
--2) http://lists.freedesktop.org/archives/xorg/2005-March/006745.html
--3) http://lists.freedesktop.org/archives/xorg/2007-October/029507.html
-+0) https://cgit.freedesktop.org/xorg/xserver/commit/?id=4b42448a2388d40f257774fbffdccaea87bd0347
-+1) https://lists.freedesktop.org/archives/xorg/2005-March/006663.html
-+2) https://lists.freedesktop.org/archives/xorg/2005-March/006745.html
-+3) https://lists.freedesktop.org/archives/xorg/2007-October/029507.html
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index fec1c33b3045..f6f21a5507f4 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -548,7 +548,7 @@ EXPORT_SYMBOL(drm_gtf_mode_complex);
-  * Generalized Timing Formula is derived from:
-  *
-  *	GTF Spreadsheet by Andy Morrish (1/5/97)
-- *	available at http://www.vesa.org
-+ *	available at https://www.vesa.org
-  *
-  * And it is copied from the file of xserver/hw/xfree86/modes/xf86gtf.c.
-  * What I have done is to translate it by using integer calculation.
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 735c8cfdaaa1..deea447e5f22 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -497,7 +497,7 @@ struct drm_mode_fb_cmd2 {
- 	 * In case of planar formats, this ioctl allows up to 4
- 	 * buffer objects with offsets and pitches per plane.
- 	 * The pitch and offset order is dictated by the fourcc,
--	 * e.g. NV12 (http://fourcc.org/yuv.php#NV12) is described as:
-+	 * e.g. NV12 (https://fourcc.org/yuv.php#NV12) is described as:
- 	 *
- 	 *   YUV 4:2:0 image with a plane of 8 bit Y samples
- 	 *   followed by an interleaved U/V plane containing
+ Example:
+ 
 -- 
 2.27.0
 
