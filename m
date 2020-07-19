@@ -1,109 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E342251E7
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 14:57:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 278712251EB
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jul 2020 15:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2287B6E04B;
-	Sun, 19 Jul 2020 12:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552176E0A0;
+	Sun, 19 Jul 2020 13:07:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2051.outbound.protection.outlook.com [40.107.243.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4380E6E04B
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 12:57:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cUc7bPI8VQd6wmQxd2T1wiikjylQAmmiR8CIRITfC/x0n8WfihGFESpss69gisGyqnJNkvR/PW+G2bPXFkRWtOWSoDeQpOSIaeP6Xg7Al7vPwlyvHtAYCh8Gx0UbzkgbQKprtCNfiCnDkXWztvZozZ39/P+F8eEC1T1Dx+W1iea7LA6CetQjtHpX4nA1jGnsLOLlJsGx4zW3U4YQIR2iOUmjPkhdeWZZuRibM4fX6omrJa5tk9jAB4qJ7EuTK7ahb/OMCT0dyvcX+fz77lCKUUNiHZzTtHhxT27nB1wBZnOFDokLiRBBaaTwZYww3dgDdAxVAgygMTawi0/i6Wvmxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YzSCMOOL9ZJcFztfgSFzM1RjwywIM5bAGWPVAOSTNXo=;
- b=XBdhZAwy8BTYPJBPn0GFMc/H9QVs5NifcH/Dafk86JozUhrfysO9o+nrFNZ1AxgEDTZ9K1sSSWthARrj0RdNvvLREMi+VsFMsRRu1xTcgfRZENyY6vIQZswDstdWkMuy5m8i43NkuaaAn3ef2d3Jq+/3jPXYTUmiduLMgA5V3cibJRe6eQU9H/lSR18Y4ujOr6ftmBp6tgndkYdac5fG237DfI0q+UIPXmg7Iu/BDctJzWVTRdN7ZTpOb/3dqDXOP2Jt9XDNKdSrR+CaLbbM+LCsgzu0EqE0ZeZZobIDOfhczyP+OGsxInqkWTLPqRrhP6P6NOXt9ZmFapzny7/+yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YzSCMOOL9ZJcFztfgSFzM1RjwywIM5bAGWPVAOSTNXo=;
- b=kX/sXgGpDwwfgEJAs6kZpToqGBip+bY8W5599eDbGnn7Bv1tWI5LrtpYq00vMxUhvqMEV8AcJUAQXppBkfZ6OQ3cTfIz7qPHVL8VL01Y1AiB11Y0MzkYrwf7X6UW1gck0bsjrRbmUFL73LyHugVBZ5+NXTeCJ3NNoMiprCWKPGc=
-Received: from BL0PR12MB2433.namprd12.prod.outlook.com (2603:10b6:207:4a::25)
- by MN2PR12MB3920.namprd12.prod.outlook.com (2603:10b6:208:168::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Sun, 19 Jul
- 2020 12:57:09 +0000
-Received: from BL0PR12MB2433.namprd12.prod.outlook.com
- ([fe80::8884:f5cd:cc08:b29a]) by BL0PR12MB2433.namprd12.prod.outlook.com
- ([fe80::8884:f5cd:cc08:b29a%7]) with mapi id 15.20.3174.026; Sun, 19 Jul 2020
- 12:57:09 +0000
-From: "Chauhan, Madhav" <Madhav.Chauhan@amd.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 2/8] drm/radeon: stop using TTM_MEMTYPE_FLAG_MAPPABLE
-Thread-Topic: [PATCH 2/8] drm/radeon: stop using TTM_MEMTYPE_FLAG_MAPPABLE
-Thread-Index: AQHWW2+3iJBWH3foeEy+BVSTAn/cXqkO34Wg
-Date: Sun, 19 Jul 2020 12:57:08 +0000
-Message-ID: <BL0PR12MB24332E2D588EEE15F702AEFD9C7A0@BL0PR12MB2433.namprd12.prod.outlook.com>
-References: <20200716125037.67437-1-christian.koenig@amd.com>
- <20200716125037.67437-2-christian.koenig@amd.com>
-In-Reply-To: <20200716125037.67437-2-christian.koenig@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-07-19T12:57:00Z; 
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=d6108533-8b3e-4bcb-8b18-0000cc7c33b4;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_enabled: true
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_setdate: 2020-07-19T12:56:50Z
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_method: Standard
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_name: Internal Use Only -
- Unrestricted
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_actionid: a518ebbe-f1ba-4e2e-a8cf-0000d4d5e12b
-msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_contentbits: 0
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_enabled: true
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_setdate: 2020-07-19T12:57:03Z
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_method: Privileged
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_name: Public_0
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_actionid: cf914747-30f5-48ff-b21f-000038232dfd
-msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_contentbits: 0
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [122.171.179.105]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: dd571c52-4db9-481a-18c7-08d82be33f48
-x-ms-traffictypediagnostic: MN2PR12MB3920:
-x-microsoft-antispam-prvs: <MN2PR12MB39206E8B902EB2BD77EFEC029C7A0@MN2PR12MB3920.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vc9o7bme+LdQMm265WZ+A2bWTcyjttS55zOOagcUHV+zJ4GOz8OcPC/P7Sn1VWvMV7bD/KcfwJIoRUm03IHlVqPpYp6bcVqdqJfQ5RqS1J8i71tbqX4pmNLtevq08ZVbpWGrDEhCayMGkFX0x9L3zs6Lk+0oWP9tNqxRv/cvg8tjZbJLmrpteq41CAJkh1LTpYmnoZFPiHv0/GrKEh+77KuFd6jQ6T2kZ+lGFqON2viQYCO2k1H1X7EvRi+x2nSXw5aV1uNLfcFLDXsogZ9ZIONFy7XPMQWJYMbFYV+ugq6G0YQHkoCPSGeNYWZgAyVanDBxXYcd8g7EP3Ufd/JAvQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2433.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(136003)(396003)(376002)(366004)(346002)(9686003)(55016002)(76116006)(66476007)(66556008)(64756008)(66446008)(66946007)(8676002)(26005)(110136005)(71200400001)(86362001)(52536014)(186003)(316002)(33656002)(83380400001)(5660300002)(2906002)(7696005)(53546011)(6506007)(478600001)(8936002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: bw7yjoZV+7bm+5gMcDVpXv/YKOwUohbsYUy07STU/mAjHbqTzLOGCdGUx2L6Yz8If55V9nBiSgJ3LSN3CjfPQXnZM+PsIzYZlkeUaq0lGpkHXAZQosM+BjPUGjL5LkQR+0kzz4VAsGO2hVm/dQY+Jl8womXuQbXgSVmIjZdrW3aUJBuGKIDGill7jkUNnqXeAsQFi9fWMpvihjMQ/x1C3ZxtTKDwlWcfd24FxzFChLeb0hxoB3sj9Kk0qtEIoBsLqTFubKpDnrwyGGMTu6N49bTmX4k9+p4uuqIrWHSyjLCP7goMExIgb+XJWKCHrgsYh/ziaJ8G2sxaY+3v3xW+Aqdftz7O8adO6gysj3OfeDqyMjfuzAadIG7jf98PJnKBEAIa73ald5YzZZVSIPNh8fK3QaL1Yay6GsqTDFWUCarKxu3R+bGmBJK6OdRtszJgwNJQZ7FlAqdd5ELLgkFWjIIcjKG3I8yznlwi2RXowxDP5tWa/GYYdYCry8EQSViH
-x-ms-exchange-transport-forked: True
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD5826E065
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 13:07:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 549B080511;
+ Sun, 19 Jul 2020 15:06:58 +0200 (CEST)
+Date: Sun, 19 Jul 2020 15:06:56 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 06/21] drm/bridge: tc358767: add drm_panel_bridge
+ support
+Message-ID: <20200719130656.GB31024@ravnborg.org>
+References: <20200703192417.372164-1-sam@ravnborg.org>
+ <20200703192417.372164-7-sam@ravnborg.org>
+ <20200710221935.GJ5964@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2433.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd571c52-4db9-481a-18c7-08d82be33f48
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2020 12:57:09.0846 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Fppl0axgBtWtOeNHxK861xjEg7V9b3iYlIQnoy+HmWA4jFiXej2qk5tnv4JGj0MV8yupfk+PsE06U3uiYAcJ1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3920
+Content-Disposition: inline
+In-Reply-To: <20200710221935.GJ5964@pendragon.ideasonboard.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=hD80L64hAAAA:8 a=IpJZQVW2AAAA:8
+ a=P1BnusSwAAAA:8 a=RwHePtW7AAAA:8 a=e5mUnYsNAAAA:8 a=N4x6fHONVFxJnwInMYUA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=IawgGOuG5U0WyFbmm1f5:22
+ a=D0XLA9XvdZm18NrgonBM:22 a=FqraQwd7dyEg5dwJgZJs:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,67 +49,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, kbuild test robot <lkp@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W0FNRCBQdWJsaWMgVXNlXQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQ2hy
-aXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IA0KU2VudDog
-VGh1cnNkYXksIEp1bHkgMTYsIDIwMjAgNjoyMSBQTQ0KVG86IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcNCkNjOiBDaGF1aGFuLCBNYWRoYXYgPE1hZGhhdi5DaGF1aGFuQGFtZC5jb20+
-DQpTdWJqZWN0OiBbUEFUQ0ggMi84XSBkcm0vcmFkZW9uOiBzdG9wIHVzaW5nIFRUTV9NRU1UWVBF
-X0ZMQUdfTUFQUEFCTEUNCg0KVGhlIGRyaXZlciBkb2Vzbid0IGV4cG9zZSBhbnkgbm90LW1hcGFi
-bGUgbWVtb3J5IHJlc291cmNlcy4NCg0KTG9va3MgbGlrZSBzcGVsbCBtaXN0YWtlIGluICJtYXBh
-YmxlIi4gUGxlYXNlIGNoZWNrLg0KDQpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxj
-aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3Jh
-ZGVvbl90dG0uYyB8IDEzICsrKystLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
-b25zKCspLCA5IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Jh
-ZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYw0K
-aW5kZXggNTRhZjA2ZGY4NjViLi5iNDc0NzgxYTA5MjAgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYw0KKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
-YWRlb25fdHRtLmMNCkBAIC03Niw3ICs3Niw3IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2luaXRfbWVt
-X3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsDQogCXN3aXRj
-aCAodHlwZSkgew0KIAljYXNlIFRUTV9QTF9TWVNURU06DQogCQkvKiBTeXN0ZW0gbWVtb3J5ICov
-DQotCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19NQVBQQUJMRTsNCisJCW1hbi0+Zmxh
-Z3MgPSAwOw0KDQphZGV2IG1lbW9yeSB3YXMgc2V0IHRvIHplcm8gd2hpbGUgYWxsb2NhdGVkIGFu
-ZCBhZGV2LT5tbWFuLmJkZXYgdXNlZCB0byBmZXRjaCBkaWZmZXJlbnQgbW1hbi4NCkRvIHdlIG5l
-ZWQgZXhwbGljaXQgaW5pdGlhbGl6YXRpb24gdG8gJzAnPz8gDQoNClJlZ2FyZHMsDQpNYWRoYXYN
-Cg0KIAkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9NQVNLX0NBQ0hJTkc7DQogCQlt
-YW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsNCiAJCWJyZWFrOw0KQEAg
-LTg0LDcgKzg0LDcgQEAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRt
-X2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwNCiAJCW1hbi0+ZnVuYyA9ICZ0dG1fYm9f
-bWFuYWdlcl9mdW5jOw0KIAkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9NQVNLX0NB
-Q0hJTkc7DQogCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsNCi0J
-CW1hbi0+ZmxhZ3MgPSBUVE1fTUVNVFlQRV9GTEFHX01BUFBBQkxFOw0KKwkJbWFuLT5mbGFncyA9
-IDA7DQogI2lmIElTX0VOQUJMRUQoQ09ORklHX0FHUCkNCiAJCWlmIChyZGV2LT5mbGFncyAmIFJB
-REVPTl9JU19BR1ApIHsNCiAJCQlpZiAoIXJkZXYtPmRkZXYtPmFncCkgew0KQEAgLTkyLDggKzky
-LDYgQEAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2Rldmlj
-ZSAqYmRldiwgdWludDMyX3QgdHlwZSwNCiAJCQkJCSAgKHVuc2lnbmVkKXR5cGUpOw0KIAkJCQly
-ZXR1cm4gLUVJTlZBTDsNCiAJCQl9DQotCQkJaWYgKCFyZGV2LT5kZGV2LT5hZ3AtPmNhbnRfdXNl
-X2FwZXJ0dXJlKQ0KLQkJCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19NQVBQQUJMRTsN
-CiAJCQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfVU5DQUNIRUQgfA0KIAkJ
-CQkJCSBUVE1fUExfRkxBR19XQzsNCiAJCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9G
-TEFHX1dDOyBAQCAtMTAzLDggKzEwMSw3IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2luaXRfbWVtX3R5
-cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsDQogCWNhc2UgVFRN
-X1BMX1ZSQU06DQogCQkvKiAiT24tY2FyZCIgdmlkZW8gcmFtICovDQogCQltYW4tPmZ1bmMgPSAm
-dHRtX2JvX21hbmFnZXJfZnVuYzsNCi0JCW1hbi0+ZmxhZ3MgPSBUVE1fTUVNVFlQRV9GTEFHX0ZJ
-WEVEIHwNCi0JCQkgICAgIFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEU7DQorCQltYW4tPmZsYWdz
-ID0gVFRNX01FTVRZUEVfRkxBR19GSVhFRDsNCiAJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBU
-VE1fUExfRkxBR19VTkNBQ0hFRCB8IFRUTV9QTF9GTEFHX1dDOw0KIAkJbWFuLT5kZWZhdWx0X2Nh
-Y2hpbmcgPSBUVE1fUExfRkxBR19XQzsNCiAJCWJyZWFrOw0KQEAgLTM5NCw3ICszOTEsNiBAQCBz
-dGF0aWMgaW50IHJhZGVvbl9ib19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJv
-b2wgZXZpY3QsDQogDQogc3RhdGljIGludCByYWRlb25fdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVj
-dCB0dG1fYm9fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1lbSkgIHsNCi0Jc3Ry
-dWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4gPSAmYmRldi0+bWFuW21lbS0+bWVtX3R5cGVd
-Ow0KIAlzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiA9IHJhZGVvbl9nZXRfcmRldihiZGV2KTsN
-CiANCiAJbWVtLT5idXMuYWRkciA9IE5VTEw7DQpAQCAtNDAyLDggKzM5OCw3IEBAIHN0YXRpYyBp
-bnQgcmFkZW9uX3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwg
-c3RydWN0IHR0bV9tZW1fDQogCW1lbS0+YnVzLnNpemUgPSBtZW0tPm51bV9wYWdlcyA8PCBQQUdF
-X1NISUZUOw0KIAltZW0tPmJ1cy5iYXNlID0gMDsNCiAJbWVtLT5idXMuaXNfaW9tZW0gPSBmYWxz
-ZTsNCi0JaWYgKCEobWFuLT5mbGFncyAmIFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEUpKQ0KLQkJ
-cmV0dXJuIC1FSU5WQUw7DQorDQogCXN3aXRjaCAobWVtLT5tZW1fdHlwZSkgew0KIAljYXNlIFRU
-TV9QTF9TWVNURU06DQogCQkvKiBzeXN0ZW0gbWVtb3J5ICovDQotLQ0KMi4xNy4xDQpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Laurent.
+
+On Sat, Jul 11, 2020 at 01:19:35AM +0300, Laurent Pinchart wrote:
+> Hi Sam,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Jul 03, 2020 at 09:24:02PM +0200, Sam Ravnborg wrote:
+> > Prepare the bridge driver for use in a chained setup by
+> > replacing direct use of drm_panel with drm_panel_bridge support.
+> > 
+> > The bridge driver assume the panel is optional.
+> > The relevant tests are migrated over to check for the
+> > pnale bridge to keep the same functionality.
+> 
+> s/pnale/panel/
+> 
+> > Note: the bridge panel will use the connector type from the panel.
+> > 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> >  drivers/gpu/drm/bridge/tc358767.c | 57 +++++++++++++++----------------
+> >  1 file changed, 27 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> > index c2777b226c75..08d483664258 100644
+> > --- a/drivers/gpu/drm/bridge/tc358767.c
+> > +++ b/drivers/gpu/drm/bridge/tc358767.c
+> > @@ -244,8 +244,8 @@ struct tc_data {
+> >  	struct drm_dp_aux	aux;
+> >  
+> >  	struct drm_bridge	bridge;
+> > +	struct drm_bridge	*panel_bridge;
+> >  	struct drm_connector	connector;
+> > -	struct drm_panel	*panel;
+> >  
+> >  	/* link settings */
+> >  	struct tc_edp_link	link;
+> > @@ -1236,13 +1236,6 @@ static int tc_stream_disable(struct tc_data *tc)
+> >  	return 0;
+> >  }
+> >  
+> > -static void tc_bridge_pre_enable(struct drm_bridge *bridge)
+> > -{
+> > -	struct tc_data *tc = bridge_to_tc(bridge);
+> > -
+> > -	drm_panel_prepare(tc->panel);
+> > -}
+> > -
+> >  static void tc_bridge_enable(struct drm_bridge *bridge)
+> >  {
+> >  	struct tc_data *tc = bridge_to_tc(bridge);
+> > @@ -1266,8 +1259,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+> >  		tc_main_link_disable(tc);
+> >  		return;
+> >  	}
+> > -
+> > -	drm_panel_enable(tc->panel);
+> >  }
+> >  
+> >  static void tc_bridge_disable(struct drm_bridge *bridge)
+> > @@ -1275,8 +1266,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+> >  	struct tc_data *tc = bridge_to_tc(bridge);
+> >  	int ret;
+> >  
+> > -	drm_panel_disable(tc->panel);
+> > -
+> >  	ret = tc_stream_disable(tc);
+> >  	if (ret < 0)
+> >  		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
+> > @@ -1286,13 +1275,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+> >  		dev_err(tc->dev, "main link disable error: %d\n", ret);
+> >  }
+> >  
+> > -static void tc_bridge_post_disable(struct drm_bridge *bridge)
+> > -{
+> > -	struct tc_data *tc = bridge_to_tc(bridge);
+> > -
+> > -	drm_panel_unprepare(tc->panel);
+> > -}
+> > -
+> >  static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+> >  				 const struct drm_display_mode *mode,
+> >  				 struct drm_display_mode *adj)
+> > @@ -1348,9 +1330,11 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+> >  		return 0;
+> >  	}
+> >  
+> > -	count = drm_panel_get_modes(tc->panel, connector);
+> > -	if (count > 0)
+> > -		return count;
+> > +	if (tc->panel_bridge) {
+> > +		count = drm_bridge_get_modes(tc->panel_bridge, connector);
+> > +		if (count > 0)
+> > +			return count;
+> > +	}
+> >  
+> >  	edid = drm_get_edid(connector, &tc->aux.ddc);
+> >  
+> > @@ -1378,7 +1362,7 @@ static enum drm_connector_status tc_connector_detect(struct drm_connector *conne
+> >  	int ret;
+> >  
+> >  	if (tc->hpd_pin < 0) {
+> > -		if (tc->panel)
+> > +		if (tc->panel_bridge)
+> >  			return connector_status_connected;
+> >  		else
+> >  			return connector_status_unknown;
+> > @@ -1413,6 +1397,13 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+> >  	struct drm_device *drm = bridge->dev;
+> >  	int ret;
+> >  
+> > +	if (tc->panel_bridge) {
+> > +		ret = drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
+> > +					&tc->bridge, flags);
+> > +		if (ret < 0)
+> > +			return ret;
+> > +	}
+> 
+> With this both this driver and the panel bridge driver will create a
+> connector. The simplest way to handle that is probably to pass
+> flags & ~DRM_BRIDGE_ATTACH_NO_CONNECTOR to drm_bridge_attach(). It's a
+> bit of a hack, but should go away once all users are converted to
+> !DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+
+I do not follow you here - sorry.
+
+We have two situations:
+
+display driver creates the connector - and passes DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+- bridge driver shall not create connector
+- bridge panel shall not create connector
+
+display driver expect bridge to create connector and passes 0
+- bridge driver shall not create connector
+- bridge panel shall create connector
+
+So the correct logic seems to be:
+- if there is a bridge panel do not create a connector in the bridge
+- otherwise just follow the flags
+
+I will try to implement this.
+
+	Sam
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +
+> >  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> >  		DRM_ERROR("Fix bridge driver to make connector optional!");
+> >  		return -EINVAL;
+> > @@ -1421,7 +1412,7 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+> >  	/* Create DP/eDP connector */
+> >  	drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
+> >  	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs,
+> > -				 tc->panel ? DRM_MODE_CONNECTOR_eDP :
+> > +				 tc->panel_bridge ? DRM_MODE_CONNECTOR_eDP :
+> >  				 DRM_MODE_CONNECTOR_DisplayPort);
+> >  	if (ret)
+> >  		return ret;
+> > @@ -1435,9 +1426,6 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+> >  					       DRM_CONNECTOR_POLL_DISCONNECT;
+> >  	}
+> >  
+> > -	if (tc->panel)
+> > -		drm_panel_attach(tc->panel, &tc->connector);
+> > -
+> >  	drm_display_info_set_bus_formats(&tc->connector.display_info,
+> >  					 &bus_format, 1);
+> >  	tc->connector.display_info.bus_flags =
+> > @@ -1453,10 +1441,8 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
+> >  	.attach = tc_bridge_attach,
+> >  	.mode_valid = tc_mode_valid,
+> >  	.mode_set = tc_bridge_mode_set,
+> > -	.pre_enable = tc_bridge_pre_enable,
+> >  	.enable = tc_bridge_enable,
+> >  	.disable = tc_bridge_disable,
+> > -	.post_disable = tc_bridge_post_disable,
+> >  	.mode_fixup = tc_bridge_mode_fixup,
+> >  };
+> >  
+> > @@ -1547,6 +1533,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+> >  static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+> >  {
+> >  	struct device *dev = &client->dev;
+> > +	struct drm_panel *panel;
+> >  	struct tc_data *tc;
+> >  	int ret;
+> >  
+> > @@ -1557,10 +1544,20 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+> >  	tc->dev = dev;
+> >  
+> >  	/* port@2 is the output port */
+> > -	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &tc->panel, NULL);
+> > +	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+> >  	if (ret && ret != -ENODEV)
+> >  		return ret;
+> >  
+> > +	if (panel) {
+> > +		struct drm_bridge *pbridge;
+> > +
+> > +		pbridge = devm_drm_panel_bridge_add(dev, panel);
+> > +		if (IS_ERR(pbridge))
+> > +			return PTR_ERR(pbridge);
+> > +
+> > +		tc->panel_bridge = pbridge;
+> > +	}
+> > +
+> >  	/* Shut down GPIO is optional */
+> >  	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+> >  	if (IS_ERR(tc->sd_gpio))
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
