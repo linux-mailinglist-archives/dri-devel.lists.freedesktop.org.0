@@ -1,27 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF53D225891
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5016225898
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA976E172;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432E96E15E;
 	Mon, 20 Jul 2020 07:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.al2klimov.de (smtp.al2klimov.de [78.46.175.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3904589D9A
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:24:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57766E03D
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:45:09 +0000 (UTC)
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by smtp.al2klimov.de (Postfix) with ESMTPA id 5B174BC078;
- Sun, 19 Jul 2020 17:24:45 +0000 (UTC)
+ by smtp.al2klimov.de (Postfix) with ESMTPA id DFBE7BC078;
+ Sun, 19 Jul 2020 17:45:03 +0000 (UTC)
 From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To: jsarha@ti.com, tomi.valkeinen@ti.com, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH for v5.9] drm/tilcdc: Replace HTTP links with HTTPS ones
-Date: Sun, 19 Jul 2020 19:24:38 +0200
-Message-Id: <20200719172438.60536-1-grandmaster@al2klimov.de>
+To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ paul.walmsley@sifive.com, krzk@kernel.org, sboyd@kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH for v5.9] dt-bindings: drm/bridge: Replace HTTP links with
+ HTTPS ones
+Date: Sun, 19 Jul 2020 19:44:57 +0200
+Message-Id: <20200719174457.60674-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 X-Spamd-Bar: +++++
 X-Spam-Level: *****
@@ -86,22 +88,22 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt | 2 +-
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.txt         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
-index aac617acb64f..8b2a71395647 100644
---- a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
-+++ b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
-@@ -46,7 +46,7 @@ Optional nodes:
-     crossed and LCD_DATA[0:4] is for Red[3:7] and LCD_DATA[11:15] is
-     for Blue[3-7]. For more details see section 3.1.1 in AM335x
-     Silicon Errata:
--    http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=sprz360
-+    https://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=sprz360
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
+index 8ec4a7f2623a..4b4b08dadc9e 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
+@@ -2,7 +2,7 @@ SN65DSI86 DSI to eDP bridge chip
+ --------------------------------
  
- Example:
+ This is the binding for Texas Instruments SN65DSI86 bridge.
+-http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=sn65dsi86&fileType=pdf
++https://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=sn65dsi86&fileType=pdf
  
+ Required properties:
+ - compatible: Must be "ti,sn65dsi86"
 -- 
 2.27.0
 
