@@ -2,59 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45EEF22587E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC69225884
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C482B89F92;
-	Mon, 20 Jul 2020 07:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A521089FEC;
+	Mon, 20 Jul 2020 07:30:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 380 seconds by postgrey-1.36 at gabe;
- Sun, 19 Jul 2020 15:52:18 UTC
-Received: from fudan.edu.cn (mail.fudan.edu.cn [202.120.224.73])
- by gabe.freedesktop.org (Postfix) with ESMTP id 87CD56E117
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 15:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- Message-ID:MIME-Version:Content-Type:Content-Disposition:
- Content-Transfer-Encoding; bh=nLgoWePWpiGRb9MQLcDy7kVpH9lYYEUHpm
- +ppMx20Fc=; b=V2x5CcAbYVxuE1BKBUl7fMe39rKDy2n2vkeMYT3NzlPFht9v3n
- Zcvtb3NAl/a8BeD8oktsga0a9lxDUQE86jqGfsjQj3gJWmJF/ks/0d3tZICg57F8
- djnO3voddKoUdWRp0OQQZEdOj/QRQ7bZlnXFfJgiTXSaBRrlixPrwbQEI=
-Received: from xin-virtual-machine (unknown [111.192.165.241])
- by app2 (Coremail) with SMTP id XQUFCgCHjLypahRfupwJAg--.48S3;
- Sun, 19 Jul 2020 23:45:48 +0800 (CST)
-Date: Sun, 19 Jul 2020 23:45:45 +0800
-From: Xin Xiong <xiongx18@fudan.edu.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: fix drm_dp_mst_port refcount leaks in
- drm_dp_mst_allocate_vcpi
-Message-ID: <20200719154545.GA41231@xin-virtual-machine>
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E226E14F
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:04:45 +0000 (UTC)
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.66.162])
+ by relay5.mymailcheap.com (Postfix) with ESMTPS id 9854620099
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 17:04:43 +0000 (UTC)
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
+ [91.134.140.82])
+ by relay2.mymailcheap.com (Postfix) with ESMTPS id 40EBE3EDEC;
+ Sun, 19 Jul 2020 19:04:41 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 209F12A6D5;
+ Sun, 19 Jul 2020 19:04:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1595178281;
+ bh=osOYVWjBgvnZfBvRnCBhngvsXrIwFrLGFgseB6Kbr8M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YSp5HYd2xSeFOyiw9Clx6R1EP3lQBKhlSLfh7SW6fMLcyeo58Cb1R9lZqnVNjjfdt
+ w+lvjHIzwCA0tZorz1p8cNOw2ezplhdlTEp1QX4zn1Enu8z5iQyLgHs4ciEwi6zlVU
+ dHlE5DlqApjYe55n6EODr+5V46TEAE76kRZZ9UnI=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+ by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id h4fQaNZ63w1v; Sun, 19 Jul 2020 19:04:40 +0200 (CEST)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter2.mymailcheap.com (Postfix) with ESMTPS;
+ Sun, 19 Jul 2020 19:04:40 +0200 (CEST)
+Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 35FA840856;
+ Sun, 19 Jul 2020 17:04:39 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=aosc.io header.i=@aosc.io header.b="dELVP1rf"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from ice-e5v2.lan (unknown [59.41.163.116])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 726D240856;
+ Sun, 19 Jul 2020 17:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+ t=1595178270; bh=osOYVWjBgvnZfBvRnCBhngvsXrIwFrLGFgseB6Kbr8M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dELVP1rfpxCKnJXBbSFQScCMFzIyvjoVyNtU4cGpk/qFe/70Cve2OT83eNeyS0As/
+ 0cWAwLEIUa8uFIK3OQTMUZ5Ek4baF7IObNp8wLO2w0mHxE976aGMjMIF3q3oRFrDKK
+ TkUfnhONd1bvQmVTrNOXrDHCNHhABB8I9XOBF9vo=
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 0/4] Add support for Feixin K101-IM2BYL02 panel
+Date: Mon, 20 Jul 2020 01:04:06 +0800
+Message-Id: <20200719170411.275812-1-icenowy@aosc.io>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-CM-TRANSID: XQUFCgCHjLypahRfupwJAg--.48S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFWktF47Cr17JrW5ZFyDGFg_yoW8CF1xpF
- W7Kryjvr9Yva1Dta1Uu3WkCr4kuanFvF1xJrWUCw17u34Utr1FqF15Gw1aqFy7ArWxtFyF
- qanFkF48CF129aDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
- xwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_Xr
- Wl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWU
- JVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7V
- AKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU8fHUUUUU
- U
-X-CM-SenderInfo: arytiiqsuqiimz6i3vldqovvfxof0/
+X-Rspamd-Queue-Id: 35FA840856
+X-Spamd-Result: default: False [6.40 / 20.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ BROKEN_CONTENT_TYPE(1.50)[]; R_SPF_SOFTFAIL(0.00)[~all];
+ ML_SERVERS(-3.10)[213.133.102.83]; DKIM_TRACE(0.00)[aosc.io:+];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ FREEMAIL_TO(0.00)[gmail.com,ravnborg.org,kernel.org];
+ RCVD_NO_TLS_LAST(0.10)[];
+ RECEIVED_SPAMHAUS_PBL(0.00)[59.41.163.116:received];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
+ ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[aosc.io:s=default];
+ FROM_HAS_DN(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; DMARC_NA(0.00)[aosc.io];
+ MID_CONTAINS_FROM(1.00)[];
+ RCVD_IN_DNSWL_NONE(0.00)[213.133.102.83:from];
+ HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1];
+ RCVD_COUNT_TWO(0.00)[2]; SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: mail20.mymailcheap.com
 X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,45 +98,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn,
- Xin Xiong <xiongx18@fudan.edu.cn>, Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtX2RwX21zdF9hbGxvY2F0ZV92Y3BpKCkgaW52b2tlcwpkcm1fZHBfbXN0X3RvcG9sb2d5X2dl
-dF9wb3J0X3ZhbGlkYXRlZCgpLCB3aGljaCBpbmNyZWFzZXMgdGhlIHJlZmNvdW50Cm9mIHRoZSAi
-cG9ydCIuCgpUaGVzZSByZWZlcmVuY2UgY291bnRpbmcgaXNzdWVzIHRha2UgcGxhY2UgaW4gdHdv
-IGV4Y2VwdGlvbiBoYW5kbGluZwpwYXRocyBzZXBhcmF0ZWx5LiBFaXRoZXIgd2hlbiDigJxzbG90
-c+KAnSBpcyBsZXNzIHRoYW4gMCBvciB3aGVuCmRybV9kcF9pbml0X3ZjcGkoKSByZXR1cm5zIGEg
-bmVnYXRpdmUgdmFsdWUsIHRoZSBmdW5jdGlvbiBmb3JnZXRzIHRvCnJlZHVjZSB0aGUgcmVmY250
-IGluY3JlYXNlZCBkcm1fZHBfbXN0X3RvcG9sb2d5X2dldF9wb3J0X3ZhbGlkYXRlZCgpLAp3aGlj
-aCByZXN1bHRzIGluIGEgcmVmY291bnQgbGVhay4KCkZpeCB0aGVzZSBpc3N1ZXMgYnkgcHVsbGlu
-ZyB1cCB0aGUgZXJyb3IgaGFuZGxpbmcgd2hlbiAic2xvdHMiIGlzIGxlc3MKdGhhbiAwLCBhbmQg
-Y2FsbGluZyBkcm1fZHBfbXN0X3RvcG9sb2d5X3B1dF9wb3J0KCkgYmVmb3JlIHRlcm1pbmF0aW9u
-CndoZW4gZHJtX2RwX2luaXRfdmNwaSgpIHJldHVybnMgYSBuZWdhdGl2ZSB2YWx1ZS4KClNpZ25l
-ZC1vZmYtYnk6IFhpeXUgWWFuZyA8eGl5dXlhbmcxOUBmdWRhbi5lZHUuY24+ClNpZ25lZC1vZmYt
-Ynk6IFhpbiBUYW4gPHRhbnhpbi5jdGZAZ21haWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBYaW4gWGlv
-bmcgPHhpb25neDE4QGZ1ZGFuLmVkdS5jbj4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21z
-dF90b3BvbG9neS5jIHwgNyArKysrLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
-LCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0
-X3RvcG9sb2d5LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCmluZGV4
-IDFlMjZiODk2MjhmOS4uOTdiNDhiNTMxZWM2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2RwX21zdF90b3BvbG9neS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3Rv
-cG9sb2d5LmMKQEAgLTQyNjEsMTEgKzQyNjEsMTEgQEAgYm9vbCBkcm1fZHBfbXN0X2FsbG9jYXRl
-X3ZjcGkoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCiB7CiAJaW50IHJldDsK
-IAotCXBvcnQgPSBkcm1fZHBfbXN0X3RvcG9sb2d5X2dldF9wb3J0X3ZhbGlkYXRlZChtZ3IsIHBv
-cnQpOwotCWlmICghcG9ydCkKKwlpZiAoc2xvdHMgPCAwKQogCQlyZXR1cm4gZmFsc2U7CiAKLQlp
-ZiAoc2xvdHMgPCAwKQorCXBvcnQgPSBkcm1fZHBfbXN0X3RvcG9sb2d5X2dldF9wb3J0X3ZhbGlk
-YXRlZChtZ3IsIHBvcnQpOworCWlmICghcG9ydCkKIAkJcmV0dXJuIGZhbHNlOwogCiAJaWYgKHBv
-cnQtPnZjcGkudmNwaSA+IDApIHsKQEAgLTQyODEsNiArNDI4MSw3IEBAIGJvb2wgZHJtX2RwX21z
-dF9hbGxvY2F0ZV92Y3BpKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLAogCWlm
-IChyZXQpIHsKIAkJRFJNX0RFQlVHX0tNUygiZmFpbGVkIHRvIGluaXQgdmNwaSBzbG90cz0lZCBt
-YXg9NjMgcmV0PSVkXG4iLAogCQkJICAgICAgRElWX1JPVU5EX1VQKHBibiwgbWdyLT5wYm5fZGl2
-KSwgcmV0KTsKKwkJZHJtX2RwX21zdF90b3BvbG9neV9wdXRfcG9ydChwb3J0KTsKIAkJZ290byBv
-dXQ7CiAJfQogCURSTV9ERUJVR19LTVMoImluaXRpbmcgdmNwaSBmb3IgcGJuPSVkIHNsb3RzPSVk
-XG4iLAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+The controller chip of Feixin K101-IM2BA02 is going to be discontinued,
+so Feixin start to provide K101-IM2BYL02 panel as a replacement, which
+utilizes Ilitek ILI9881C controller.
+
+Add support for K101-IM2BYL02 panel.
+
+By the way, is there a way that can try both kind of panels in the same
+kernel/DTB combo? K101-IM2BYL02 has the same pinout with K101-IM2BA02,
+and PineTab schedule to switch to it w/o modifying the mainboard.
+
+Icenowy Zheng (4):
+  drm/panel: ilitek-ili9881c: prepare for adding support for extra
+    panels
+  dt-bindings: ili9881c: add compatible string for Feixin K101-IM2BYL02
+  drm/panel: ilitek-ili9881c: add support for Feixin K101-IM2BYL02 panel
+  [DO NOT MERGE] arm64: allwinner: dts: a64: enable K101-IM2BYL02 panel
+    for PineTab
+
+ .../display/panel/ilitek,ili9881c.yaml        |   1 +
+ .../boot/dts/allwinner/sun50i-a64-pinetab.dts |  10 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 273 ++++++++++++++++--
+ 3 files changed, 265 insertions(+), 19 deletions(-)
+
+-- 
+2.27.0
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
