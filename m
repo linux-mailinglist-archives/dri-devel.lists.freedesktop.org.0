@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D16226FC5
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 22:35:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9545A227017
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 22:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0551689E05;
-	Mon, 20 Jul 2020 20:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF6D89F0A;
+	Mon, 20 Jul 2020 20:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FD489E08
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 20:35:23 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id q7so21730073ljm.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uRo9EdYadeSHfWc3w5HzcQwlKy6cTkikAo9K/0JHwHo=;
- b=xoEgnIu5VO5MY/m5ZXunTu4suP8heSTunV5TLZByQPwx/BhfkTxuaZlLnLeK8PhQ33
- 7ff8tXr7qCqRc4Lw1b+Q69MOHATFUtqNmyJDbWuG98r5c7TAAatyibWJqhK6BR6IeMjJ
- chrn73pykCae9chbKs6FJ4frDSY1Y+mQg8P02y+8wQp1X5JRnkdG127wluWOrMwWHF+8
- S8Uvs+pZUAEADFciI1nYDoTzfeLAK4J+MMrxBuMp45V1BIqr28c5HgbEI5ikDKVpdr4F
- nkQTbhigF49LpcvkeO2As/7IEdAh6Zrgr6VgJKM4Hz1lBeop3s3nW81UAGP5GtSZY4o5
- ZVWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uRo9EdYadeSHfWc3w5HzcQwlKy6cTkikAo9K/0JHwHo=;
- b=ms9bBjnB3HMVqqqRzXaZUQIYiAbPxgEoANi4k48uqc1I5v0yDxnXthcKQqZGV7xM8b
- NPI6shs/BcUun+7r29xPL9En+/pqNCL707FJH6J3jSrIdDMAjsPDH59j/bGSoG7FjCOz
- q7//IOaZixm7HtvpotzDm/BLKo6Y/0E/UP3vCZlvJQ4zDEBz44A7pWuFzLF3kYfmZhgB
- oNWgOX+OTbYgvZhfuMqiQpC3Asz1MFGmF/t42NSUzEGyg+In9waIae7uXStff10x49SS
- r9jNs14CjIxfxLU+zQiuMrD2vrp/5v84ntE4cTVo2ZIMXs6hEwHh9ToqMsZe0TMRo50B
- oTgw==
-X-Gm-Message-State: AOAM5339bIBI35/M3Lk/n6O/Yw36eTCX2R4R+IToufdsx0jxUSe0huNA
- M8BgP/mm+/rMU1403+mg7qiVyA==
-X-Google-Smtp-Source: ABdhPJwezis85ILHHrud26O/M6yjSAlvBotN1CpSZrbeceY8aHaFh0INwK56irstMSkEZOblGC6nDw==
-X-Received: by 2002:a2e:981a:: with SMTP id a26mr11433503ljj.337.1595277321404; 
- Mon, 20 Jul 2020 13:35:21 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id y24sm3435076ljy.91.2020.07.20.13.35.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 13:35:20 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2 v1] backlight: Add Kinetic KTD253 backlight driver
-Date: Mon, 20 Jul 2020 22:35:06 +0200
-Message-Id: <20200720203506.3883129-2-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200720203506.3883129-1-linus.walleij@linaro.org>
-References: <20200720203506.3883129-1-linus.walleij@linaro.org>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5672889F0A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 20:57:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595278641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=epckH3RTrZi5cYmGZDu/11K+cHm6x4vqJk8JLUqbk84=;
+ b=OySoCssiNUJN2lokcX4uw+3ffBDRlYscWutpVvIIuFfY3Ft75kvY6dyi7WJh96Gg4AmYK5
+ Dvp78Kwy8UD2MvR8AhEXPydZk0RUWU/As/cpPCDv1Pr0Kx31l/bqDVx3Gpa1b4Dbc9Puhv
+ gGvzd9eThM3jlwSKwlI5/FBRoS2UZgs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-09bg8cUrNASZmwx-EKBX9g-1; Mon, 20 Jul 2020 16:57:19 -0400
+X-MC-Unique: 09bg8cUrNASZmwx-EKBX9g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB984107ACCA;
+ Mon, 20 Jul 2020 20:57:17 +0000 (UTC)
+Received: from Ruby.redhat.com (ovpn-120-196.rdu2.redhat.com [10.10.120.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1109076216;
+ Mon, 20 Jul 2020 20:57:16 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH] drm/nouveau/kms/nv50-: Fix CRC-related compile errors with
+ debugfs disabled
+Date: Mon, 20 Jul 2020 16:56:56 -0400
+Message-Id: <20200720205659.296879-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,339 +55,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Kinetic KTD253 backlight driver is controlled with a
-single GPIO line, but still supports a range of brightness
-settings by sending fast pulses on the line.
-
-This is based off the source code release for the Samsung
-GT-S7710 mobile phone.
-
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- MAINTAINERS                                |   6 +
- drivers/video/backlight/Kconfig            |   8 +
- drivers/video/backlight/Makefile           |   1 +
- drivers/video/backlight/ktd253-backlight.c | 254 +++++++++++++++++++++
- 4 files changed, 269 insertions(+)
- create mode 100644 drivers/video/backlight/ktd253-backlight.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b4a43a9e7fbc..ea6fcc5bb79e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9610,6 +9610,12 @@ F:	Documentation/admin-guide/auxdisplay/ks0108.rst
- F:	drivers/auxdisplay/ks0108.c
- F:	include/linux/ks0108.h
- 
-+KTD253 BACKLIGHT DRIVER
-+M:	Linus Walleij <linus.walleij@linaro.org>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
-+F:	drivers/video/backlight/ktd253-backlight.c
-+
- L3MDEV
- M:	David Ahern <dsahern@kernel.org>
- L:	netdev@vger.kernel.org
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index 7d22d7377606..6a74c60707b4 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -190,6 +190,14 @@ config BACKLIGHT_IPAQ_MICRO
- 	  computers. Say yes if you have one of the h3100/h3600/h3700
- 	  machines.
- 
-+config BACKLIGHT_KTD253
-+	tristate "Backlight Driver for Kinetic KTD253"
-+	depends on GPIOLIB || COMPILE_TEST
-+	help
-+	  Say y to enabled the backlight driver for the Kinetic KTD253
-+	  which is a 1-wire GPIO-controlled backlight found in some mobile
-+	  phones.
-+
- config BACKLIGHT_LM3533
- 	tristate "Backlight Driver for LM3533"
- 	depends on MFD_LM3533
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index 0c1a1524627a..d50cd12574ae 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_BACKLIGHT_GPIO)		+= gpio_backlight.o
- obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
- obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
- obj-$(CONFIG_BACKLIGHT_IPAQ_MICRO)	+= ipaq_micro_bl.o
-+obj-$(CONFIG_BACKLIGHT_KTD253)		+= ktd253-backlight.o
- obj-$(CONFIG_BACKLIGHT_LM3533)		+= lm3533_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3630A)		+= lm3630a_bl.o
- obj-$(CONFIG_BACKLIGHT_LM3639)		+= lm3639_bl.o
-diff --git a/drivers/video/backlight/ktd253-backlight.c b/drivers/video/backlight/ktd253-backlight.c
-new file mode 100644
-index 000000000000..d460d1fef329
---- /dev/null
-+++ b/drivers/video/backlight/ktd253-backlight.c
-@@ -0,0 +1,254 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Backlight driver for the Kinetic KTD253
-+ * Based on code and know-how from the Samsung GT-S7710
-+ * Gareth Phillips <gareth.phillips@samsung.com>
-+ */
-+#include <linux/backlight.h>
-+#include <linux/err.h>
-+#include <linux/fb.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+#include <linux/slab.h>
-+#include <linux/delay.h>
-+#include <linux/limits.h>
-+
-+/* Current ratio is n/32 from 1/32 to 32/32 */
-+#define KTD253_MIN_RATIO 1
-+#define KTD253_MAX_RATIO 32
-+#define KTD253_DEFAULT_RATIO 13
-+
-+/* With the table we use this is 24/32 current ratio actually */
-+#define KTD253_MAX_BRIGHTNESS 255
-+#define KTD253_DEFAULT_BRIGHTNESS 160
-+
-+#define KTD253_T_LOW_NS (200 + 10) /* Additional 10ns as safety factor */
-+#define KTD253_T_HIGH_NS (200 + 10) /* Additional 10ns as safety factor */
-+#define KTD253_T_OFF_MS 3
-+
-+struct ktd253_backlight {
-+	struct device *dev;
-+	struct gpio_desc *gpiod;
-+	u16 ratio;
-+	unsigned int brightness;
-+};
-+
-+/*
-+ * The following table is used to convert brightness level to the LED
-+ * Current Ratio expressed as (full current) /(n * 32).
-+ * i.e. 1 = 1/32 full current. Zero indicates LED is powered off.
-+ * The table is intended to allow the brightness level to be "tuned"
-+ * to compensate for non-linearity of brightness relative to current.
-+ */
-+static const u16 ktd253_brightness_to_current_ratio[] = {
-+	0,      /* (0/32) KTD253_BACKLIGHT_OFF */
-+	39,     /* (1/32) KTD253_MIN_RATIO */
-+	58,     /* (2/32) */
-+	67,     /* (3/32) */
-+	76,     /* (4/32) */
-+	85,     /* (5/32) */
-+	94,     /* (6/32) */
-+	104,    /* (7/32) */
-+	113,    /* (8/32) */
-+	122,    /* (9/32) */
-+	131,    /* (10/32) */
-+	145,    /* (11/32) */
-+	159,    /* (12/32) */
-+	169,    /* (13/32) */
-+	179,    /* (14/32) */
-+	189,    /* (15/32) */
-+	196,    /* (16/32) */
-+	203,    /* (17/32) */
-+	210,    /* (18/32) */
-+	217,    /* (19/32) */
-+	224,    /* (20/32) */
-+	231,    /* (21/32) */
-+	238,    /* (22/32) */
-+	245,    /* (23/32) */
-+	255,    /* (24/32) */
-+	300,    /* (25/32) */
-+	300,    /* (26/32) */
-+	300,    /* (27/32) */
-+	300,    /* (28/32) */
-+	300,    /* (29/32) */
-+	300,    /* (30/32) */
-+	300,    /* (31/32) */
-+	300     /* (32/32) KTD253_MAX_RATIO */
-+
-+};
-+
-+/* Inspired by gpio_bl.c */
-+static int ktd253_backlight_get_next_brightness(struct backlight_device *bl)
-+{
-+	int brightness = bl->props.brightness;
-+
-+	if (bl->props.power != FB_BLANK_UNBLANK ||
-+	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
-+	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-+		brightness = 0;
-+
-+	return brightness;
-+}
-+
-+static int ktd253_backlight_update_status(struct backlight_device *bl)
-+{
-+	struct ktd253_backlight *ktd253 = bl_get_data(bl);
-+	int brightness = ktd253_backlight_get_next_brightness(bl);
-+	u16 target_ratio;
-+	u16 current_ratio = ktd253->ratio;
-+	unsigned long flags;
-+
-+	dev_dbg(ktd253->dev, "new brightness: %d\n", brightness);
-+
-+	/* Look up the current ratio */
-+	for (target_ratio = KTD253_MAX_RATIO; target_ratio > 0; target_ratio--) {
-+		if (brightness > ktd253_brightness_to_current_ratio[target_ratio - 1])
-+			break;
-+	}
-+
-+	dev_dbg(ktd253->dev, "new ratio: %d/32\n", target_ratio);
-+
-+	if (target_ratio == current_ratio)
-+		/* This is already right */
-+		return 0;
-+
-+	if (target_ratio == 0) {
-+		gpiod_set_value_cansleep(ktd253->gpiod, 0);
-+		/*
-+		 * We need to keep the GPIO low for at least this long
-+		 * to actually switch the KTD253 off.
-+		 */
-+		msleep(KTD253_T_OFF_MS);
-+		ktd253->ratio = 0;
-+		return 0;
-+	}
-+
-+	if (current_ratio == 0) {
-+		gpiod_set_value_cansleep(ktd253->gpiod, 1);
-+		ndelay(KTD253_T_HIGH_NS);
-+		/* We always fall back to this when we power on */
-+		current_ratio = KTD253_MAX_RATIO;
-+	}
-+
-+	/*
-+	 * WARNING:
-+	 * The loop to set the correct current level is performed
-+	 * with interrupts disabled as it is timing critical.
-+	 * The maximum number of cycles of the loop is 32
-+	 * so the time taken will be (T_LOW_NS + T_HIGH_NS + loop_time) * 32,
-+	 */
-+	local_irq_save(flags);
-+	while (current_ratio != target_ratio) {
-+		/*
-+		 * These GPIO operations absolutely can NOT sleep so no
-+		 * _cansleep suffixes, and no using GPIO expanders on
-+		 * slow buses for this!
-+		 */
-+		gpiod_set_value(ktd253->gpiod, 0);
-+		ndelay(KTD253_T_LOW_NS);
-+		gpiod_set_value(ktd253->gpiod, 1);
-+		ndelay(KTD253_T_HIGH_NS);
-+		/* After 1/32 we loop back to 32/32 */
-+		if (current_ratio == KTD253_MIN_RATIO)
-+			current_ratio = KTD253_MAX_RATIO;
-+		else
-+			current_ratio--;
-+	}
-+	local_irq_restore(flags);
-+	ktd253->ratio = current_ratio;
-+
-+	dev_dbg(ktd253->dev, "new ratio set to %d/32\n", target_ratio);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ktd253_backlight_ops = {
-+	.options	= BL_CORE_SUSPENDRESUME,
-+	.update_status	= ktd253_backlight_update_status,
-+};
-+
-+static int ktd253_backlight_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct backlight_device *bl;
-+	struct ktd253_backlight *ktd253;
-+	u32 max_brightness;
-+	u32 brightness;
-+	int ret;
-+
-+	ktd253 = devm_kzalloc(dev, sizeof(*ktd253), GFP_KERNEL);
-+	if (!ktd253)
-+		return -ENOMEM;
-+	ktd253->dev = dev;
-+
-+	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
-+	if (ret)
-+		max_brightness = KTD253_MAX_BRIGHTNESS;
-+
-+	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-+	if (ret)
-+		brightness = KTD253_DEFAULT_BRIGHTNESS;
-+
-+	if (brightness)
-+		/* This will be the default ratio when the KTD253 is enabled */
-+		ktd253->ratio = KTD253_MAX_RATIO;
-+	else
-+		ktd253->ratio = 0;
-+
-+	ktd253->gpiod = devm_gpiod_get(dev, NULL,
-+				       brightness ? GPIOD_OUT_HIGH :
-+				       GPIOD_OUT_LOW);
-+	if (IS_ERR(ktd253->gpiod)) {
-+		ret = PTR_ERR(ktd253->gpiod);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "gpio line missing or invalid.\n");
-+		return ret;
-+	}
-+	gpiod_set_consumer_name(ktd253->gpiod, dev_name(dev));
-+
-+	bl = devm_backlight_device_register(dev, dev_name(dev), dev, ktd253,
-+					    &ktd253_backlight_ops, NULL);
-+	if (IS_ERR(bl)) {
-+		dev_err(dev, "failed to register backlight\n");
-+		return PTR_ERR(bl);
-+	}
-+	bl->props.max_brightness = max_brightness;
-+	/* When we just enable the GPIO line we set max brightness */
-+	if (brightness) {
-+		bl->props.brightness = brightness;
-+		bl->props.power = FB_BLANK_UNBLANK;
-+		ktd253_backlight_update_status(bl);
-+	} else {
-+		bl->props.brightness = 0;
-+		bl->props.power = FB_BLANK_POWERDOWN;
-+	}
-+
-+	platform_set_drvdata(pdev, bl);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ktd253_backlight_of_match[] = {
-+	{ .compatible = "kinetic,ktd253" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ktd253_backlight_of_match);
-+
-+static struct platform_driver ktd253_backlight_driver = {
-+	.driver = {
-+		.name = "ktd253-backlight",
-+		.of_match_table = ktd253_backlight_of_match,
-+	},
-+	.probe		= ktd253_backlight_probe,
-+};
-+module_platform_driver(ktd253_backlight_driver);
-+
-+MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
-+MODULE_DESCRIPTION("Kinetic KTD253 Backlight Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:ktd253-backlight");
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TG9va3MgbGlrZSBJIG1hZGUgdGhlIG1pc3Rha2Ugb2YgZm9yZ2V0dGluZyB0byBjaGVjayB3aGV0
+aGVyIG9yIG5vdCB0aGlzCndvdWxkIGJ1aWxkIHdpdGhvdXQgQ09ORklHX0RFQlVHX0ZTLCBhcyB0
+aGUgS2J1aWxkIGJvdCByZXBvcnRlZCBzb21lCmlzc3VlcyBidWlsZGluZyB3aXRoIHRlZ3JhX2Rl
+ZmNvbmZpZzoKCkluIGZpbGUgaW5jbHVkZWQgZnJvbSBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9u
+b3V2ZWF1X2Rpc3BsYXkuYzo0NzoKLi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9j
+cmMuaDogSW4gZnVuY3Rpb24K4oCYbnY1MF9oZWFkX2NyY19sYXRlX3JlZ2lzdGVy4oCZOgouL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5oOjEwNjo0NzogZXJyb3I6IHBhcmFt
+ZXRlciBuYW1lCm9taXR0ZWQKICAxMDYgfCBzdGF0aWMgaW5saW5lIGludCBudjUwX2hlYWRfY3Jj
+X2xhdGVfcmVnaXN0ZXIoc3RydWN0IG52NTBfaGVhZCAqKSB7fQogICAgICB8ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn4KLi9k
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDoxMDY6NTQ6IHdhcm5pbmc6IG5v
+IHJldHVybgpzdGF0ZW1lbnQgaW4gZnVuY3Rpb24gcmV0dXJuaW5nIG5vbi12b2lkIFstV3JldHVy
+bi10eXBlXQogIDEwNiB8IHN0YXRpYyBpbmxpbmUgaW50IG52NTBfaGVhZF9jcmNfbGF0ZV9yZWdp
+c3RlcihzdHJ1Y3QgbnY1MF9oZWFkICopIHt9CiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn4KLi9kcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDogSW4gZnVuY3Rpb24K4oCYbnY1MF9jcmNfaGFuZGxl
+X3ZibGFua+KAmToKLi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDoxMDg6
+NTc6IHdhcm5pbmc6IOKAmHJldHVybuKAmSB3aXRoCmEgdmFsdWUsIGluIGZ1bmN0aW9uIHJldHVy
+bmluZyB2b2lkIFstV3JldHVybi10eXBlXQogIDEwOCB8IG52NTBfY3JjX2hhbmRsZV92Ymxhbmso
+c3RydWN0IG52NTBfaGVhZCAqaGVhZCkgeyByZXR1cm4gMDsgfQogICAgICB8ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgouL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5oOjEwODoxOiBub3RlOiBkZWNsYXJlZCBoZXJl
+CiAgMTA4IHwgbnY1MF9jcmNfaGFuZGxlX3ZibGFuayhzdHJ1Y3QgbnY1MF9oZWFkICpoZWFkKSB7
+IHJldHVybiAwOyB9CiAgICAgIHwgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fgouL2RyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5oOiBJbiBmdW5jdGlvbgrigJhudjUwX2NyY19hdG9t
+aWNfY2hlY2vigJk6Ci4vZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjLmg6MTEx
+OjIzOiBlcnJvcjogcGFyYW1ldGVyIG5hbWUKb21pdHRlZAogIDExMSB8IG52NTBfY3JjX2F0b21p
+Y19jaGVjayhzdHJ1Y3QgbnY1MF9oZWFkICosIHN0cnVjdCBudjUwX2hlYWRfYXRvbSAqLAogICAg
+ICB8ICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn4KLi9kcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDoxMTE6NDM6IGVycm9yOiBwYXJhbWV0ZXIgbmFt
+ZQpvbWl0dGVkCiAgMTExIHwgbnY1MF9jcmNfYXRvbWljX2NoZWNrKHN0cnVjdCBudjUwX2hlYWQg
+Kiwgc3RydWN0IG52NTBfaGVhZF9hdG9tICosCiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KLi9kcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDoxMTI6OTogZXJyb3I6IHBhcmFtZXRlciBuYW1l
+Cm9taXR0ZWQKICAxMTIgfCAgICAgICAgIHN0cnVjdCBudjUwX2hlYWRfYXRvbSAqKSB7fQogICAg
+ICB8ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KLi9kcml2ZXJzL2dwdS9kcm0vbm91
+dmVhdS9kaXNwbnY1MC9jcmMuaDoxMTI6MTY6IHdhcm5pbmc6IG5vIHJldHVybgpzdGF0ZW1lbnQg
+aW4gZnVuY3Rpb24gcmV0dXJuaW5nIG5vbi12b2lkIFstV3JldHVybi10eXBlXQogIDExMiB8ICAg
+ICAgICAgc3RydWN0IG52NTBfaGVhZF9hdG9tICopIHt9CiAgICAgIHwgICAgICAgICAgICAgICAg
+Xn5+fn5+fn5+fn5+fn4KLi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDog
+SW4gZnVuY3Rpb24K4oCYbnY1MF9jcmNfYXRvbWljX3N0b3BfcmVwb3J0aW5n4oCZOgouL2RyaXZl
+cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5oOjExNDozMjogZXJyb3I6IHBhcmFtZXRl
+ciBuYW1lCm9taXR0ZWQKICAxMTQgfCBudjUwX2NyY19hdG9taWNfc3RvcF9yZXBvcnRpbmcoc3Ry
+dWN0IGRybV9hdG9taWNfc3RhdGUgKikge30KICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgouL2RyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L2Rpc3BudjUwL2NyYy5oOiBJbiBmdW5jdGlvbgrigJhudjUwX2NyY19hdG9taWNfcHJlcGFy
+ZV9ub3RpZmllcl9jb250ZXh0c+KAmToKLi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1
+MC9jcmMuaDoxMTY6NDM6IGVycm9yOiBwYXJhbWV0ZXIgbmFtZQpvbWl0dGVkCiAgMTE2IHwgbnY1
+MF9jcmNfYXRvbWljX3ByZXBhcmVfbm90aWZpZXJfY29udGV4dHMoc3RydWN0IGRybV9hdG9taWNf
+c3RhdGUgKikge30KICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Ci4vZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+ZGlzcG52NTAvY3JjLmg6IEluIGZ1bmN0aW9uCuKAmG52NTBfY3JjX2F0b21pY19zdGFydF9yZXBv
+cnRpbmfigJk6Ci4vZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjLmg6MTE4OjMz
+OiBlcnJvcjogcGFyYW1ldGVyIG5hbWUKb21pdHRlZAogIDExOCB8IG52NTBfY3JjX2F0b21pY19z
+dGFydF9yZXBvcnRpbmcoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKikge30KICAgICAgfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KLi9k
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDogSW4gZnVuY3Rpb24K4oCYbnY1
+MF9jcmNfYXRvbWljX3NldOKAmToKLi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9j
+cmMuaDoxMjA6MjE6IGVycm9yOiBwYXJhbWV0ZXIgbmFtZQpvbWl0dGVkCiAgMTIwIHwgbnY1MF9j
+cmNfYXRvbWljX3NldChzdHJ1Y3QgbnY1MF9oZWFkICosIHN0cnVjdCBudjUwX2hlYWRfYXRvbSAq
+KSB7fQogICAgICB8ICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+Ci4vZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvY3JjLmg6MTIwOjQxOiBlcnJvcjogcGFyYW1l
+dGVyIG5hbWUKb21pdHRlZAogIDEyMCB8IG52NTBfY3JjX2F0b21pY19zZXQoc3RydWN0IG52NTBf
+aGVhZCAqLCBzdHJ1Y3QgbnY1MF9oZWFkX2F0b20gKikge30KICAgICAgfCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KLi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaDogSW4gZnVuY3Rpb24K4oCYbnY1MF9j
+cmNfYXRvbWljX2NscuKAmToKLi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMu
+aDoxMjI6MjE6IGVycm9yOiBwYXJhbWV0ZXIgbmFtZQpvbWl0dGVkCiAgMTIyIHwgbnY1MF9jcmNf
+YXRvbWljX2NscihzdHJ1Y3QgbnY1MF9oZWFkICopIHt9CiAgICAgIHwgICAgICAgICAgICAgICAg
+ICAgICBefn5+fn5+fn5+fn5+fn5+fn4KZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9k
+aXNwbGF5LmM6IEluIGZ1bmN0aW9uCuKAmG5vdXZlYXVfZnJhbWVidWZmZXJfbmV34oCZOgpkcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rpc3BsYXkuYzoyODY6MTU6IHdhcm5pbmc6IHZh
+cmlhYmxlCuKAmHdpZHRo4oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFy
+aWFibGVdCiAgMjg2IHwgIHVuc2lnbmVkIGludCB3aWR0aCwgaGVpZ2h0LCBpOwogICAgICB8ICAg
+ICAgICAgICAgICAgXn5+fn4KClNvLCBmaXggdGhlIGlubGluZSBmdW5jdGlvbiBkZWNsYXJhdGlv
+bnMgd2UgdXNlIGluCmRybS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9jcmMuaCB3
+aGVuIENPTkZJR19ERUJVR19GUyBpcwplbmFibGVkLgoKRml4ZXM6IDEyODg1ZWNiZmU2MiAoImRy
+bS9ub3V2ZWF1L2ttcy9udmQ5LTogQWRkIENSQyBzdXBwb3J0IikKUmVwb3J0ZWQtYnk6IGtlcm5l
+bCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBMeXVkZSBQYXVsIDxs
+eXVkZUByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Ny
+Yy5oIHwgMjMgKysrKysrKysrKysrLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNl
+cnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9kaXNwbnY1MC9jcmMuaCBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUw
+L2NyYy5oCmluZGV4IDRiYzU5ZTc3OTMxNTEuLjkyZGYwODQ0OTJhOGMgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5oCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L2Rpc3BudjUwL2NyYy5oCkBAIC0xMDYsMjYgKzEwNiwyNyBAQCBzdHJ1Y3QgbnY1
+MF9jcmNfYXRvbSB7fTsKICNkZWZpbmUgbnY1MF9jcmNfc2V0X3NvdXJjZSBOVUxMCiAKIHN0YXRp
+YyBpbmxpbmUgdm9pZCBudjUwX2NyY19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpIHt9Ci1z
+dGF0aWMgaW5saW5lIGludCBudjUwX2hlYWRfY3JjX2xhdGVfcmVnaXN0ZXIoc3RydWN0IG52NTBf
+aGVhZCAqKSB7fQotc3RhdGljIGlubGluZSB2b2lkCi1udjUwX2NyY19oYW5kbGVfdmJsYW5rKHN0
+cnVjdCBudjUwX2hlYWQgKmhlYWQpIHsgcmV0dXJuIDA7IH0KK3N0YXRpYyBpbmxpbmUgaW50Citu
+djUwX2hlYWRfY3JjX2xhdGVfcmVnaXN0ZXIoc3RydWN0IG52NTBfaGVhZCAqaGVhZCkgeyByZXR1
+cm4gMDsgfQorc3RhdGljIGlubGluZSB2b2lkIG52NTBfY3JjX2hhbmRsZV92Ymxhbmsoc3RydWN0
+IG52NTBfaGVhZCAqaGVhZCkge30KIAogc3RhdGljIGlubGluZSBpbnQKLW52NTBfY3JjX2F0b21p
+Y19jaGVja19oZWFkKHN0cnVjdCBudjUwX2hlYWQgKiwgc3RydWN0IG52NTBfaGVhZF9hdG9tICos
+Ci0JCQkgICBzdHJ1Y3QgbnY1MF9oZWFkX2F0b20gKikge30KK252NTBfY3JjX2F0b21pY19jaGVj
+a19oZWFkKHN0cnVjdCBudjUwX2hlYWQgKmhlYWQsCisJCQkgICBzdHJ1Y3QgbnY1MF9oZWFkX2F0
+b20gKmFzeWgsCisJCQkgICBzdHJ1Y3QgbnY1MF9oZWFkX2F0b20gKmFybWgpIHsgcmV0dXJuIDA7
+IH0KIHN0YXRpYyBpbmxpbmUgdm9pZCBudjUwX2NyY19hdG9taWNfY2hlY2tfb3V0cChzdHJ1Y3Qg
+bnY1MF9hdG9tICphdG9tKSB7fQogc3RhdGljIGlubGluZSB2b2lkCi1udjUwX2NyY19hdG9taWNf
+c3RvcF9yZXBvcnRpbmcoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKikge30KK252NTBfY3JjX2F0
+b21pY19zdG9wX3JlcG9ydGluZyhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpIHt9CiBz
+dGF0aWMgaW5saW5lIHZvaWQKLW52NTBfY3JjX2F0b21pY19pbml0X25vdGlmaWVyX2NvbnRleHRz
+KHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICopIHt9CitudjUwX2NyY19hdG9taWNfaW5pdF9ub3Rp
+Zmllcl9jb250ZXh0cyhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpIHt9CiBzdGF0aWMg
+aW5saW5lIHZvaWQKLW52NTBfY3JjX2F0b21pY19yZWxlYXNlX25vdGlmaWVyX2NvbnRleHRzKHN0
+cnVjdCBkcm1fYXRvbWljX3N0YXRlICopIHt9CitudjUwX2NyY19hdG9taWNfcmVsZWFzZV9ub3Rp
+Zmllcl9jb250ZXh0cyhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpIHt9CiBzdGF0aWMg
+aW5saW5lIHZvaWQKLW52NTBfY3JjX2F0b21pY19zdGFydF9yZXBvcnRpbmcoc3RydWN0IGRybV9h
+dG9taWNfc3RhdGUgKikge30KK252NTBfY3JjX2F0b21pY19zdGFydF9yZXBvcnRpbmcoc3RydWN0
+IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKSB7fQogc3RhdGljIGlubGluZSB2b2lkCi1udjUwX2Ny
+Y19hdG9taWNfc2V0KHN0cnVjdCBudjUwX2hlYWQgKiwgc3RydWN0IG52NTBfaGVhZF9hdG9tICop
+IHt9CitudjUwX2NyY19hdG9taWNfc2V0KHN0cnVjdCBudjUwX2hlYWQgKmhlYWQsIHN0cnVjdCBu
+djUwX2hlYWRfYXRvbSAqc3RhdGUpIHt9CiBzdGF0aWMgaW5saW5lIHZvaWQKLW52NTBfY3JjX2F0
+b21pY19jbHIoc3RydWN0IG52NTBfaGVhZCAqKSB7fQorbnY1MF9jcmNfYXRvbWljX2NscihzdHJ1
+Y3QgbnY1MF9oZWFkICpoZWFkKSB7fQogCiAjZW5kaWYgLyogSVNfRU5BQkxFRChDT05GSUdfREVC
+VUdfRlMpICovCiAjZW5kaWYgLyogIV9fTlY1MF9DUkNfSF9fICovCi0tIAoyLjI2LjIKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
