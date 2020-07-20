@@ -1,66 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA32226162
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 15:56:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E282262B9
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 17:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B557689C69;
-	Mon, 20 Jul 2020 13:56:42 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA12189C69
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1595253399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=7tMCyaXprYGfI8LnX0MbcX5R8eRYMM3w9rSz3694Vjs=;
- b=E5zbdOmZ2PKdxP98ZkaEwLWlkEUqs1+c1yVCGMykjMNhlqomZpizWhm/xyIfu8wMAhdxcG
- 1IIkVy5Nxytr+dx34RyQEifMXhvWn2SVd5+wmDqbiayb8T61f/6QlxFuq6hv3uH1Jf0n+U
- OIktYoh/PElNPgxrkjNG8q+HeNcQdtY=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-bZ38kiz5NL6oKFw0DiYtyA-1; Mon, 20 Jul 2020 09:56:37 -0400
-X-MC-Unique: bZ38kiz5NL6oKFw0DiYtyA-1
-Received: by mail-qv1-f70.google.com with SMTP id g17so10197171qvw.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 06:56:37 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A1289CF3;
+	Mon, 20 Jul 2020 15:03:32 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD82C89CF3
+ for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 15:03:30 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id d18so17924816ion.0
+ for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 08:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pcfxvqUoA5Q84iZVIjEC8f/UAFuiPguvgTdlO6gr+z8=;
+ b=LhPnnGZz+comE1cgyo/Ade5S1kE4zEhoPaaFmdVrbq0kxfF79/KbgosYjWd3jhGj6z
+ PZ864OAiQJyZ8WPWu6phfbFiY0PR+batdntkmBkfGuUeF74RfofIncSfeHpmTOePF1pk
+ Ui72NQbpRw423r3rcUPqaiB/ILqEoJezxU+i2HJrkDVxCMHcaCT2tK0OwO7SS2KWX0dI
+ 0NaiTW6dGdv3Ns2/bPxEVvBTpatUK2feYLsXNNkX3CxHcyhzEaXKMpxvhWxbF2avLfGW
+ rKAvuWuQy6krRYFHtP+y+ytu/TgFRuu8J0nceHE6k6yko8K9n5dtO1b6ghj3Q0EYWq68
+ rR2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=7tMCyaXprYGfI8LnX0MbcX5R8eRYMM3w9rSz3694Vjs=;
- b=QgBx9pqz8+96WoGhddQ3A0bR+rbK8l1ZqyKe3DI012PRrA7BDKptXtLfHPwOn7nIyH
- FIBID1kgybB79voZP5S0/XIQJd3dbAdo3ZQkUdOCWmsehyb5lmrkFJtxv0c0J8MONZlA
- gfQKEouJRkD9f4wDnHoTaJwMXoXrDJqiHgygEKGmrPshgffKW1W5x1USPQoy82iqYUtx
- Y2NfFHAKTBQOMqnJUndKY2lCddGDZ8qg+ehvISgNByYkoaBQb4weZrIVZbTdSg6qnaOf
- KfjAtVGirImE4REnIbo0w1JpSNvQFi0hxNqEEyvf8ej+5kXbaXHwIEYrm6faTD8wblsn
- z3jQ==
-X-Gm-Message-State: AOAM531jZsv/bPWSncio+QvwcAVZnYi+Am29MPDjl+k8CtHzNU84CFZy
- UBnmtkASI2OLLWVD6xFwMlbYD93nZ5b3YEfVDFD5noNTWOKLIf57UC0e+m0RliNAN+wAknVnzvA
- PTMOH7DsA8BlCuI1+XySjAlLpcmNd
-X-Received: by 2002:a37:7d86:: with SMTP id
- y128mr19798343qkc.343.1595253397382; 
- Mon, 20 Jul 2020 06:56:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTMQGtS9l84oZcTdxSM7bf/4qQeuw9Loq8FVtpq/6KNdrsJ6rg9R8UUqWj/PRUzlKliYjXiQ==
-X-Received: by 2002:a37:7d86:: with SMTP id
- y128mr19798327qkc.343.1595253397127; 
- Mon, 20 Jul 2020 06:56:37 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id s128sm18471192qkd.108.2020.07.20.06.56.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 06:56:36 -0700 (PDT)
-From: trix@redhat.com
-To: eric@anholt.net, airlied@linux.ie, daniel@ffwll.ch, itoral@igalia.com,
- navid.emamdoost@gmail.com
-Subject: [PATCH] drm/v3d: remove second free in v3d_submit_cl_ioctl
-Date: Mon, 20 Jul 2020 06:56:31 -0700
-Message-Id: <20200720135631.2854-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pcfxvqUoA5Q84iZVIjEC8f/UAFuiPguvgTdlO6gr+z8=;
+ b=fWV3f1QImb1I0AWK5ebrSj/sGDxt7ni8mTu93exCIVwdGnsSwObc71cKguEXgapHpF
+ ob8/QBJf5+LpkpYNxCYanL3zGtmw6gmUjZEJ2CKFTVOLbyoImSxyH2rmNHDWgRb+Iqwy
+ ew/62GqGHXUfhjiLLJqda/byiabY1T+Q4l9SdVNmbJMFug3U2h+iyU1kgge7Rky3saJQ
+ 8Do70V5yLLUVkT2xvK7kkJ+BKTd2TIesKNWBCkCKNsSzNAarS3W8CvYmkcJF8r8/Hkvx
+ JUfPTfk5r7oMocDAKNWtNBslmgzZQT7A+9E8RNg+BHp/tRuS5h4ADJMFbncLI/lxOBEa
+ SoYA==
+X-Gm-Message-State: AOAM5315QAhyWmkysTN1iW8DQcVHqpimSwntLZJ00ylJ0rSHxvP7+/jB
+ t0LxJhsJAZKjFbNIzofmZ4/WR0sfpo0ITIGmXNE=
+X-Google-Smtp-Source: ABdhPJzIbmtiIdLPMhyi/GvPa8hA5p1L8XEl7Yhw3/V97KBA7XMRywAMZ5AtZBSscwPbiDM0aPGhETkFHsZErsQ6ju8=
+X-Received: by 2002:a5d:8d12:: with SMTP id p18mr23344299ioj.148.1595257409980; 
+ Mon, 20 Jul 2020 08:03:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <1594644106-22449-1-git-send-email-akhilpo@codeaurora.org>
+ <CAF6AEGtAEwZbWxLb4MxaWNswvtrFbLK+N0Fez2XYr7odKZffWA@mail.gmail.com>
+ <20200720100131.6ux4zumbwqpa42ye@vireshk-mac-ubuntu>
+In-Reply-To: <20200720100131.6ux4zumbwqpa42ye@vireshk-mac-ubuntu>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 20 Jul 2020 08:03:32 -0700
+Message-ID: <CAF6AEGurrsd3nrbB=ktZjWfKTNbKwPHYwTFiZdD-NOW1T7gePQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] Add support for GPU DDR BW scaling
+To: Viresh Kumar <viresh.kumar@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,58 +62,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
+ saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sibi Sankar <sibis@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+On Mon, Jul 20, 2020 at 3:01 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 15-07-20, 08:36, Rob Clark wrote:
+> > I can take the first two into msm-next, the 3rd will need to wait
+> > until dev_pm_opp_set_bw() lands
+>
+> You can base that on a8351c12c6c7 in linux-next, I will make sure not to rebase
+> it anymore.
+>
 
-clang static analysis reports this error
+I can't really base on something newer than drm-next
 
-v3d_gem.c:573:4: warning: Attempt to free released
-  memory [unix.Malloc]
-    kfree(bin);
-    ^~~~~~~~~~
-
-Problem is in the block of code
-
-	if (ret) {
-		kfree(bin);
-		v3d_job_put(&render->base);
-		kfree(bin);
-		return ret;
-	}
-
-Obviously bin is freed twice.
-So remove one.
-
-Fixes: 0d352a3a8a1f ("drm/v3d: don't leak bin job if v3d_job_init fails.")
-Fixes: 29cd13cfd762 ("drm/v3d: Fix memory leak in v3d_submit_cl_ioctl")
-
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/v3d/v3d_gem.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 915f8bfdb58c..3cfbdb8e6a91 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -570,7 +570,6 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		if (ret) {
- 			kfree(bin);
- 			v3d_job_put(&render->base);
--			kfree(bin);
- 			return ret;
- 		}
- 
--- 
-2.18.1
-
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
