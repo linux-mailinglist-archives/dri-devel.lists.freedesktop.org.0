@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CD622640E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 17:41:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F55422657F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 17:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D9AA89C52;
-	Mon, 20 Jul 2020 15:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F19D89D60;
+	Mon, 20 Jul 2020 15:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CFE89C2C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 15:41:48 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1595259713; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=Khv5W6hRlGoBvmDyC/nMnnkhxq/ZdLAoSFvvweioOuc=;
- b=YJCqBkzH/F7bqa/xi4Nlx+UkrGPIAYoZJkAO9MkH/Of60GTd7T05LMjHHYbNuKcLmKRGBd/m
- ZVWT2KrgI/oUpVH+p+hFjlsPU6wyZjd8SPrGMTZz2+xNNG967hJ0EfJerq6ggh1jLAvQ1iy/
- wVDbN4ZQ1eb53DL79+hz/nE2onM=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
- 5f15bb365912b3a405669c4e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 20 Jul 2020 15:41:42
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id C5270C43456; Mon, 20 Jul 2020 15:41:36 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id C1F50C4344C;
- Mon, 20 Jul 2020 15:41:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C1F50C4344C
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v10 12/13] drm/msm/a6xx: Add support for per-instance
- pagetables
-Date: Mon, 20 Jul 2020 09:40:46 -0600
-Message-Id: <20200720154047.3611092-13-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720154047.3611092-1-jcrouse@codeaurora.org>
-References: <20200720154047.3611092-1-jcrouse@codeaurora.org>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C216789D60
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 15:55:47 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id g75so16920wme.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 08:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9loMMk4AmgL39kq2nHKTL54p5LAIvezlxMI8Wqiloh0=;
+ b=iU+vSMgoggzN79PqiedjZBwG1jpwM5ahTMH3sMRyNxJEnwbLec3H/U9ybGdenZHEnx
+ e9KFL69kntgW2I9V2MSHHeYSA1ndT10Cdo5+P/QZW+rYcScdCzXQ/kZP1GUMF7YSj62j
+ cmc36anUbZNrXDXzPLm4t4Fhr2iMWJuzUa/Kk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9loMMk4AmgL39kq2nHKTL54p5LAIvezlxMI8Wqiloh0=;
+ b=VPUpKsyD4rz8XfrMexA2dwjT3/X6R66kOmGvVNcHn7wq0ghs1R0moL/Mfg3WCwqi7R
+ AKbTmTWYdRm8oS+paH2luRjd9p9hPNEZ2Tjkkxf9k4Y9030osUljx7pf967ffDXMb8rw
+ Mb3lfjDiQBtpcptC0jgrzXodEQFe5u9UoaxRzD2OI/JNznGJV58/Z2COd+ssj8nVS1w5
+ dK+rQnz0yBbd2U4pVmQqoqQ4cbvI3n8Lc0YlQBtoB6biyX4bVoZ8cio4+OLDASk5hRF0
+ F8QDz+Wc7OEL1KkJErlgDrbPvknQYKlICDrcMD3ZvsDjuOgk5eC0vDC8luVeim6cBdg7
+ btvw==
+X-Gm-Message-State: AOAM532oU9KhlRhp082wekoucQ3oQJIUSqWY3t2DTOPuNGs28gXkm6bR
+ VY94MURJCpEwz5u/7X+97oFEFCzlclc=
+X-Google-Smtp-Source: ABdhPJwqBHy1SmhV0ZuWV4+kRUTMo3ruiksVzDNa2NfsMPv7Qa2EyMfJ4Y09yo03FpESm1rEWTCAWg==
+X-Received: by 2002:a1c:345:: with SMTP id 66mr29680wmd.31.1595260546396;
+ Mon, 20 Jul 2020 08:55:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z1sm34222803wru.30.2020.07.20.08.55.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 08:55:45 -0700 (PDT)
+Date: Mon, 20 Jul 2020 17:55:43 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2] drm: pl111: Update documentation
+Message-ID: <20200720155543.GY3278063@phenom.ffwll.local>
+References: <20200720130327.92364-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200720130327.92364-1-linus.walleij@linaro.org>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,149 +64,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, iommu@lists.linux-foundation.org,
- Akhil P Oommen <akhilpo@codeaurora.org>, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Russell King <linux@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for using per-instance pagetables if all the dependencies are
-available.
+On Mon, Jul 20, 2020 at 03:03:27PM +0200, Linus Walleij wrote:
+> Remove notes about migrating from the old driver which is
+> retired as all users are now migrated.
+> 
+> Update the text to reflect that we support PL110 and PL111
+> alike.
+> 
+> Drop the bullet on memory bandwidth scaling: this has been
+> implemented.
+> 
+> Cc: Russell King <linux@armlinux.org.uk>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - Fix up the documentation rst link as well so we don't
+>   get build failures in the documentation.
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
+I'm always happy when people take care of the docs.
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 53 +++++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
- drivers/gpu/drm/msm/msm_ringbuffer.h  |  1 +
- 3 files changed, 55 insertions(+)
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  Documentation/gpu/pl111.rst       |  8 ++++----
+>  drivers/gpu/drm/pl111/pl111_drv.c | 20 +++++---------------
+>  2 files changed, 9 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/gpu/pl111.rst b/Documentation/gpu/pl111.rst
+> index 9b03736d33dd..6d9a1b59a545 100644
+> --- a/Documentation/gpu/pl111.rst
+> +++ b/Documentation/gpu/pl111.rst
+> @@ -1,6 +1,6 @@
+> -==========================================
+> - drm/pl111 ARM PrimeCell PL111 CLCD Driver
+> -==========================================
+> +====================================================
+> + drm/pl111 ARM PrimeCell PL110 and PL111 CLCD Driver
+> +====================================================
+>  
+>  .. kernel-doc:: drivers/gpu/drm/pl111/pl111_drv.c
+> -   :doc: ARM PrimeCell PL111 CLCD Driver
+> +   :doc: ARM PrimeCell PL110 and PL111 CLCD Driver
+> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+> index 96e58fda75d8..46b0d1c4a16c 100644
+> --- a/drivers/gpu/drm/pl111/pl111_drv.c
+> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
+> @@ -10,18 +10,11 @@
+>   */
+>  
+>  /**
+> - * DOC: ARM PrimeCell PL111 CLCD Driver
+> + * DOC: ARM PrimeCell PL110 and PL111 CLCD Driver
+>   *
+> - * The PL111 is a simple LCD controller that can support TFT and STN
+> - * displays.  This driver exposes a standard KMS interface for them.
+> - *
+> - * This driver uses the same Device Tree binding as the fbdev CLCD
+> - * driver.  While the fbdev driver supports panels that may be
+> - * connected to the CLCD internally to the CLCD driver, in DRM the
+> - * panels get split out to drivers/gpu/drm/panels/.  This means that,
+> - * in converting from using fbdev to using DRM, you also need to write
+> - * a panel driver (which may be as simple as an entry in
+> - * panel-simple.c).
+> + * The PL110/PL111 is a simple LCD controller that can support TFT
+> + * and STN displays. This driver exposes a standard KMS interface
+> + * for them.
+>   *
+>   * The driver currently doesn't expose the cursor.  The DRM API for
+>   * cursors requires support for 64x64 ARGB8888 cursor images, while
+> @@ -29,16 +22,13 @@
+>   * cursors.  While one could imagine trying to hack something together
+>   * to look at the ARGB8888 and program reasonable in monochrome, we
+>   * just don't expose the cursor at all instead, and leave cursor
+> - * support to the X11 software cursor layer.
+> + * support to the application software cursor layer.
+>   *
+>   * TODO:
+>   *
+>   * - Fix race between setting plane base address and getting IRQ for
+>   *   vsync firing the pageflip completion.
+>   *
+> - * - Use the "max-memory-bandwidth" DT property to filter the
+> - *   supported formats.
+> - *
+>   * - Read back hardware state at boot to skip reprogramming the
+>   *   hardware when doing a no-op modeset.
+>   *
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 5eabb0109577..57c6cdec7e9a 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -81,6 +81,41 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
- 	OUT_RING(ring, upper_32_bits(iova));
- }
- 
-+static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
-+		struct msm_ringbuffer *ring, struct msm_file_private *ctx)
-+{
-+	phys_addr_t ttbr;
-+	u32 asid;
-+	u64 memptr = rbmemptr(ring, ttbr0);
-+
-+	if (ctx == a6xx_gpu->cur_ctx)
-+		return;
-+
-+	if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
-+		return;
-+
-+	/* Execute the table update */
-+	OUT_PKT7(ring, CP_SMMU_TABLE_UPDATE, 4);
-+	OUT_RING(ring, CP_SMMU_TABLE_UPDATE_0_TTBR0_LO(lower_32_bits(ttbr)));
-+	OUT_RING(ring,
-+		CP_SMMU_TABLE_UPDATE_1_TTBR0_HI(upper_32_bits(ttbr)) |
-+		CP_SMMU_TABLE_UPDATE_1_ASID(asid));
-+	OUT_RING(ring, CP_SMMU_TABLE_UPDATE_2_CONTEXTIDR(0));
-+	OUT_RING(ring, CP_SMMU_TABLE_UPDATE_3_CONTEXTBANK(0));
-+
-+	/*
-+	 * Write the new TTBR0 to the memstore. This is good for debugging.
-+	 */
-+	OUT_PKT7(ring, CP_MEM_WRITE, 4);
-+	OUT_RING(ring, CP_MEM_WRITE_0_ADDR_LO(lower_32_bits(memptr)));
-+	OUT_RING(ring, CP_MEM_WRITE_1_ADDR_HI(upper_32_bits(memptr)));
-+	OUT_RING(ring, lower_32_bits(ttbr));
-+	OUT_RING(ring, (asid << 16) | upper_32_bits(ttbr));
-+
-+
-+	a6xx_gpu->cur_ctx = ctx;
-+}
-+
- static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- {
- 	unsigned int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
-@@ -90,6 +125,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	struct msm_ringbuffer *ring = submit->ring;
- 	unsigned int i;
- 
-+	a6xx_set_pagetable(a6xx_gpu, ring, submit->queue->ctx);
-+
- 	get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
- 		rbmemptr_stats(ring, index, cpcycles_start));
- 
-@@ -696,6 +733,8 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	/* Always come up on rb 0 */
- 	a6xx_gpu->cur_ring = gpu->rb[0];
- 
-+	a6xx_gpu->cur_ctx = NULL;
-+
- 	/* Enable the SQE_to start the CP engine */
- 	gpu_write(gpu, REG_A6XX_CP_SQE_CNTL, 1);
- 
-@@ -1008,6 +1047,19 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
- 	return (unsigned long)busy_time;
- }
- 
-+static struct msm_gem_address_space *
-+a6xx_create_private_address_space(struct msm_gpu *gpu)
-+{
-+	struct msm_mmu *mmu;
-+
-+	mmu = msm_iommu_pagetable_create(gpu->aspace->mmu);
-+	if (IS_ERR(mmu))
-+		return msm_gem_address_space_get(gpu->aspace);
-+
-+	return msm_gem_address_space_create(mmu,
-+		"gpu", 0x100000000ULL, 0x1ffffffffULL);
-+}
-+
- static const struct adreno_gpu_funcs funcs = {
- 	.base = {
- 		.get_param = adreno_get_param,
-@@ -1031,6 +1083,7 @@ static const struct adreno_gpu_funcs funcs = {
- 		.gpu_state_put = a6xx_gpu_state_put,
- #endif
- 		.create_address_space = adreno_iommu_create_address_space,
-+		.create_private_address_space = a6xx_create_private_address_space,
- 	},
- 	.get_timestamp = a6xx_get_timestamp,
- };
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 03ba60d5b07f..da22d7549d9b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -19,6 +19,7 @@ struct a6xx_gpu {
- 	uint64_t sqe_iova;
- 
- 	struct msm_ringbuffer *cur_ring;
-+	struct msm_file_private *cur_ctx;
- 
- 	struct a6xx_gmu gmu;
- };
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 7764373d0ed2..0987d6bf848c 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -31,6 +31,7 @@ struct msm_rbmemptrs {
- 	volatile uint32_t fence;
- 
- 	volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
-+	volatile u64 ttbr0;
- };
- 
- struct msm_ringbuffer {
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
