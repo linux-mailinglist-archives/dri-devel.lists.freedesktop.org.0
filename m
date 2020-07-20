@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4B92258DF
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:44:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8917225A51
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 10:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB976E157;
-	Mon, 20 Jul 2020 07:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4012289DBF;
+	Mon, 20 Jul 2020 08:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5506E157
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 07:44:16 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id c80so21259391wme.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 00:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A9689DBF
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 08:48:30 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id w3so24296717wmi.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 01:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=20SMlD+A4VIJMsR26B/2DgrUrGz2fRix7+w2Orep+0E=;
- b=jgEL6WY/qRm79F9vPLshN0nbrVOny5ry4N0n6Coi1tTCWe9oesaS0uTV52D0H0pZ6i
- wc1unYka1hb7RVzWm7+L7JlpRxBJcojRzsG6bTrJNVK4KzJMbAYVnsuZOYIupqNl3DOx
- Mz1aRrd/rJqnYXFKbtEbQcQWVy8YxTIksTvmU=
+ bh=3Mvv6V7aL0bS8bLhb+v9J48PYxr/jDUQbWZDKJ3of4k=;
+ b=GPZr4RzzAiGFrXA4Lc2u8SHFw4nz+8LttAOAp071b1HN8JGHbq8hJeNnFyFnZfQNpI
+ wfvmIupf6FmdZMHcWDZ0RGgfmR6/UkXw1Ry9fxlPWa55mXeOllJIylslp/fcTX1P5tpX
+ X4PGv9AY4r+UTZ4ZUwjPhWtlHUj2YMSTGaYw/KHK8TwLdyFW4hiMT8Iz731WhgUcs+Rb
+ yoVZvTLCdpKiKVYTxaGVMCUqMrf8WZjC1zVmAwKexn5OhhWEN+kFygPDdy0g1OcaX5tg
+ Tdc2WARpJx4H5rlw2EUN8LdK4kBj/RkauWc0R3XCvaYw6Oo12LBLFN0aPNKxOJUEsnJ7
+ RQGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=20SMlD+A4VIJMsR26B/2DgrUrGz2fRix7+w2Orep+0E=;
- b=ZvLe37VZl0mfVdvko30ElAMlLNsHKtQ1nubI7YljWrYKSBN37dkK+WOFeeGCeVUJ3q
- yeL12uwS8VZ4sYtHqR7y5PBRQyFYphulLrCT7Q7eaEsbIUe4YAW7yVu9RN2VgQmlskSr
- 8H0MWp+Y14PnKeiA92JhTZyug0YadisW4/gX7qm3C0vibpYVrr4pPACaRCg0HrzxcatU
- oYwsoHM/mHVBI+HAg2xwLKMWrvP7PNUiQw7wZchHcY/GwLoNuu/fymUxILVXhLSrqZwT
- 2ZdyN/H4WTVZsbYwK7x+s5x7PtVMOTLcZMI+q2jhyT2qPGyhhczl5QqSVmb99lnsmvC3
- csNw==
-X-Gm-Message-State: AOAM5335NfOIAqAdSZ8VzBEX8joFL+vdbvMcAkddo/tpdJCblAQH/w+H
- bS8O2ruv5CYVoK6gUn2Rkz90SzBQkS0=
-X-Google-Smtp-Source: ABdhPJywzfoo9yD4QIdX7Jk3CsF0um/d5+/YFa9VkkkzGeYwKi5hTdPcgOVCEpx/fRySuSYOkv1oLw==
-X-Received: by 2002:a7b:c197:: with SMTP id y23mr21507732wmi.114.1595231054677; 
- Mon, 20 Jul 2020 00:44:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m2sm31088183wmg.0.2020.07.20.00.44.13
+ bh=3Mvv6V7aL0bS8bLhb+v9J48PYxr/jDUQbWZDKJ3of4k=;
+ b=FKAqgzni5huF7fC1h1ZU7bb2q/5njwI9gUi5U46u5bLgaKuU/PhsoEdFj3Y/7QnGMa
+ cL8q9MU+3GwG7Nrga2Zp5XKtuT+9lAf+xKOreyG40tnnCi7hulw+QjqhsbJqdk2SaZMA
+ VO2nP3mO5oG/7FATj92T0vToCqJysT48N+Tcp6WLommeEbSp/oYofLUcZwkNBzqGo6GU
+ c44ORC4eqslrqlujASV5KJQbCtJqpwNz+Jw9ce9+XNS1lR3NXSWCeC+bxa9jZFBY6FpO
+ MOZ0QxnGAWo4Xv4QCVVXG37dh8MWR0WqxkxDaAOm9sd2L40tNG3k2BlUSIXX3okMiWA4
+ S+xQ==
+X-Gm-Message-State: AOAM530amHdiwCLtFuNYSdXc/550aJ1a2/2wkRlcXnrQFZO5ZNd3JfgU
+ AuRNcbyfhlGJ7n3+kjoRxxloDw==
+X-Google-Smtp-Source: ABdhPJzE0VX+v4xxb0yfbr3uIHhTnBrDiWh9q2HaxcqnvtD/UybPjPxZBEj8tuo6izQM73ENIq/qcA==
+X-Received: by 2002:a1c:a74c:: with SMTP id q73mr19955891wme.96.1595234909650; 
+ Mon, 20 Jul 2020 01:48:29 -0700 (PDT)
+Received: from holly.lan (82-132-214-103.dab.02.net. [82.132.214.103])
+ by smtp.gmail.com with ESMTPSA id l15sm30561453wro.33.2020.07.20.01.48.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jul 2020 00:44:14 -0700 (PDT)
-Date: Mon, 20 Jul 2020 09:44:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: dan.carpenter@oracle.com
-Subject: Re: [bug report] drm/ingenic: Add support for the IPU
-Message-ID: <20200720074412.GX3278063@phenom.ffwll.local>
-References: <20200720072237.GA8232@mwanda>
+ Mon, 20 Jul 2020 01:48:28 -0700 (PDT)
+Date: Mon, 20 Jul 2020 09:48:22 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v5 14/19] backlight: cr_bllcd: introduce gpio-backlight
+ semantics
+Message-ID: <20200720084822.wt5guzetkrgbgdcc@holly.lan>
+References: <20200719080743.8560-1-sam@ravnborg.org>
+ <20200719080743.8560-15-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200720072237.GA8232@mwanda>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200719080743.8560-15-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,90 +68,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paul@crapouillou.net, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-arm-msm@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Andy Gross <agross@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ patches@opensource.cirrus.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 20, 2020 at 10:22:37AM +0300, dan.carpenter@oracle.com wrote:
-> Hello Paul Cercueil,
+On Sun, Jul 19, 2020 at 10:07:38AM +0200, Sam Ravnborg wrote:
+> cr_bllcd can turn backlight ON or OFF.
+> Fix semantitics so they equals what we know from gpio-backlight.
+> brightness == 0   => backlight off
+> brightness == 1   => backlight on
 > 
-> The patch fc1acf317b01: "drm/ingenic: Add support for the IPU" from
-> Jul 16, 2020, leads to the following static checker warning:
+> Use the backlight_get_brightness() helper to simplify the code.
 > 
-> 	drivers/gpu/drm/ingenic/ingenic-drm-drv.c:232 ingenic_drm_crtc_atomic_check()
-> 	error: potentially dereferencing uninitialized 'ipu_state'.
-> 
-> drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->    197  static int ingenic_drm_crtc_atomic_check(struct drm_crtc *crtc,
->    198                                           struct drm_crtc_state *state)
->    199  {
->    200          struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
->    201          struct drm_plane_state *f1_state, *f0_state, *ipu_state;
->    202          long rate;
->    203  
->    204          if (!drm_atomic_crtc_needs_modeset(state))
->    205                  return 0;
->    206  
->    207          if (state->mode.hdisplay > priv->soc_info->max_width ||
->    208              state->mode.vdisplay > priv->soc_info->max_height)
->    209                  return -EINVAL;
+> v2:
+>   - reworked to introduce gpio-backlight semantics (Daniel)
 
-Random entirely unrelated drive-through comment: These mode checks should
-be in crtc_helper_funcs->mode_valid so that they're shared between the
-atomic_check and output probe paths.
+Wasn't this added for v5? However, I spotted this change amoung the
+other patches so no worries...
 
-But preexisting issues, just something that would be nice to rectify.
 
-Cheers, Daniel
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
 
->    210  
->    211          rate = clk_round_rate(priv->pix_clk,
->    212                                state->adjusted_mode.clock * 1000);
->    213          if (rate < 0)
->    214                  return rate;
->    215  
->    216          if (priv->soc_info->has_osd) {
->    217                  f1_state = drm_atomic_get_plane_state(state->state, &priv->f1);
->    218                  f0_state = drm_atomic_get_plane_state(state->state, &priv->f0);
->    219  
->    220                  if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && priv->ipu_plane) {
-> 
-> Do we need to check both the CONFIG and the priv->ipu_plane or would it
-> be sufficient to just check if (priv->ipu_plane) {?
-> 
->    221                          ipu_state = drm_atomic_get_plane_state(state->state, priv->ipu_plane);
->    222  
->    223                          /* IPU and F1 planes cannot be enabled at the same time. */
->    224                          if (f1_state->fb && ipu_state->fb) {
->    225                                  dev_dbg(priv->dev, "Cannot enable both F1 and IPU\n");
->    226                                  return -EINVAL;
->    227                          }
->    228                  }
->    229  
->    230                  /* If all the planes are disabled, we won't get a VBLANK IRQ */
->    231                  priv->no_vblank = !f1_state->fb && !f0_state->fb &&
->    232                                    !(priv->ipu_plane && ipu_state->fb);
->                                             ^^^^^^^^^^^^^^^
-> Because here we're only checking "priv->ipu_plane".
-> 
->    233          }
->    234  
->    235          return 0;
->    236  }
-> 
-> regards,
-> dan carpenter
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
