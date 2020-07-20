@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E282262B9
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 17:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B8F2262BE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 17:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A1289CF3;
-	Mon, 20 Jul 2020 15:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AEAC89C98;
+	Mon, 20 Jul 2020 15:04:00 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD82C89CF3
- for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 15:03:30 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id d18so17924816ion.0
- for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 08:03:30 -0700 (PDT)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF9389C98
+ for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 15:03:59 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id g20so13030966edm.4
+ for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 08:03:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc; bh=pcfxvqUoA5Q84iZVIjEC8f/UAFuiPguvgTdlO6gr+z8=;
@@ -29,17 +29,18 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
  bh=pcfxvqUoA5Q84iZVIjEC8f/UAFuiPguvgTdlO6gr+z8=;
- b=fWV3f1QImb1I0AWK5ebrSj/sGDxt7ni8mTu93exCIVwdGnsSwObc71cKguEXgapHpF
- ob8/QBJf5+LpkpYNxCYanL3zGtmw6gmUjZEJ2CKFTVOLbyoImSxyH2rmNHDWgRb+Iqwy
- ew/62GqGHXUfhjiLLJqda/byiabY1T+Q4l9SdVNmbJMFug3U2h+iyU1kgge7Rky3saJQ
- 8Do70V5yLLUVkT2xvK7kkJ+BKTd2TIesKNWBCkCKNsSzNAarS3W8CvYmkcJF8r8/Hkvx
- JUfPTfk5r7oMocDAKNWtNBslmgzZQT7A+9E8RNg+BHp/tRuS5h4ADJMFbncLI/lxOBEa
- SoYA==
-X-Gm-Message-State: AOAM5315QAhyWmkysTN1iW8DQcVHqpimSwntLZJ00ylJ0rSHxvP7+/jB
- t0LxJhsJAZKjFbNIzofmZ4/WR0sfpo0ITIGmXNE=
-X-Google-Smtp-Source: ABdhPJzIbmtiIdLPMhyi/GvPa8hA5p1L8XEl7Yhw3/V97KBA7XMRywAMZ5AtZBSscwPbiDM0aPGhETkFHsZErsQ6ju8=
-X-Received: by 2002:a5d:8d12:: with SMTP id p18mr23344299ioj.148.1595257409980; 
- Mon, 20 Jul 2020 08:03:29 -0700 (PDT)
+ b=RBE3HoFm4ndCoDpjg0Oo4IbqxvcLT+kKrCGhHaQ2DUjrOGebZ+rcneseIFDiSfWPxW
+ kqwx5l6G1FpsqedS8nXfbgGukYjOBltZRPM3qZUr3GlBYz1xy/GreOt0ItRH7+PjJE++
+ c+58z226Eu2gT+bSSGYmK89nIfDhKrZlQP8wPjSCBZmOuRe2acQHiffdCFDyT1aigVWp
+ K93/Gi+sPm27TD1xN11A/GfG1QMguxdsi+StdYTzVI1F6b+56P6BqklVQ1mpx8coOVlM
+ FydtxHrKwYGJdSnRz5yj8jrK4213mRvxW/OfB/4ujGch91M4uOzA+d+8nX2DWYU0KKfF
+ X6sA==
+X-Gm-Message-State: AOAM530krdCkGZI9M+f9GXYXnWAbqeHDGtNyHe8sOgg6d+myYcTtLvJG
+ TqFSDVJZ4qxVYhXx/idmTj/bg6M62+UHODeUhXQ=
+X-Google-Smtp-Source: ABdhPJxr/dF/eAhMBtgTK8Ekd/dD+VXGNXZ2szgkQS7sHIh3pcfb9CmuaJFDjNwfsB5hiYCLpFtQuCqbT1WNnHB92j4=
+X-Received: by 2002:a05:6402:1250:: with SMTP id
+ l16mr22421840edw.362.1595257438172; 
+ Mon, 20 Jul 2020 08:03:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <1594644106-22449-1-git-send-email-akhilpo@codeaurora.org>
  <CAF6AEGtAEwZbWxLb4MxaWNswvtrFbLK+N0Fez2XYr7odKZffWA@mail.gmail.com>
