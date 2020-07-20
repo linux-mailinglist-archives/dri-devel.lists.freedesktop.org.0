@@ -2,35 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C6D2260B7
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 15:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48592260BA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 15:23:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C7D89DB4;
-	Mon, 20 Jul 2020 13:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93C689DB9;
+	Mon, 20 Jul 2020 13:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF1389DB4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:22:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37A6489DB9
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:23:13 +0000 (UTC)
 Received: from lupine.hi.pengutronix.de
  ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jxVkn-0005Q0-0w; Mon, 20 Jul 2020 15:22:49 +0200
+ id 1jxVl9-0005QS-MN; Mon, 20 Jul 2020 15:23:11 +0200
 Received: from pza by lupine with local (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jxVkl-0006sd-IY; Mon, 20 Jul 2020 15:22:47 +0200
-Message-ID: <90a99bbca52358d81f2313dfb3953f6baad12152.camel@pengutronix.de>
-Subject: Re: [PATCH 1/2] drm/imx: fix use after free
+ id 1jxVkn-0006so-TM; Mon, 20 Jul 2020 15:22:49 +0200
+Message-ID: <74fe611ff6e12750b056d18703059787d475eaa1.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/imx: imx-tve: Delete an error message in
+ imx_tve_bind()
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Marco Felsch <m.felsch@pengutronix.de>, airlied@linux.ie,
- daniel@ffwll.ch,  shawnguo@kernel.org, stefan@agner.ch,
- rmk+kernel@armlinux.org.uk
-Date: Mon, 20 Jul 2020 15:22:47 +0200
-In-Reply-To: <20200611124332.20819-1-m.felsch@pengutronix.de>
-References: <20200611124332.20819-1-m.felsch@pengutronix.de>
+To: Markus Elfring <Markus.Elfring@web.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ kernel@pengutronix.de,  Fabio Estevam <festevam@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
+Date: Mon, 20 Jul 2020 15:22:49 +0200
+In-Reply-To: <eb87043b-1881-da68-ba28-35406b6594ed@web.de>
+References: <eb87043b-1881-da68-ba28-35406b6594ed@web.de>
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
@@ -50,46 +53,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- kernel@pengutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2020-06-11 at 14:43 +0200, Marco Felsch wrote:
-> From: Philipp Zabel <p.zabel@pengutronix.de>
-> 
-> Component driver structures allocated with devm_kmalloc() in bind() are
-> freed automatically after unbind(). Since the contained drm structures
-> are accessed afterwards in drm_mode_config_cleanup(), move the
-> allocation into probe() to extend the driver structure's lifetime to the
-> lifetime of the device. This should eventually be changed to use drm
-> resource managed allocations with lifetime of the drm device.
-> 
-> We also need to ensure that all componets are available during the
-> unbind() so we need to call component_unbind_all() before we free
-> non-devres resources like planes.
-> 
-> Note this patch fixes the the use after free bug but introduces a
-> possible boot loop issue. The issue is triggered if the HDMI support is
-> enabled and a component driver always return -EPROBE_DEFER, see
-> discussion [1] for more details.
-> 
-> [1] https://lkml.org/lkml/2020/3/24/1467
-> 
-> Fixes: 17b5001b5143 ("imx-drm: convert to componentised device support")
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> [m.felsch@pengutronix: fix imx_tve_probe()]
-> [m.felsch@pengutronix: resort component_unbind_all())
-> [m.felsch@pengutronix: adapt commit message]
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-
-Thank you, applied to imx-drm/next.
-
-regards
-Philipp
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU3VuLCAyMDIwLTA0LTA1IGF0IDExOjE2ICswMjAwLCBNYXJrdXMgRWxmcmluZyB3cm90ZToK
+PiBGcm9tOiBNYXJrdXMgRWxmcmluZyA8ZWxmcmluZ0B1c2Vycy5zb3VyY2Vmb3JnZS5uZXQ+Cj4g
+RGF0ZTogU3VuLCA1IEFwciAyMDIwIDExOjAxOjQ5ICswMjAwCj4gCj4gVGhlIGZ1bmN0aW9uIOKA
+nHBsYXRmb3JtX2dldF9pcnHigJ0gY2FuIGxvZyBhbiBlcnJvciBhbHJlYWR5Lgo+IFRodXMgb21p
+dCBhIHJlZHVuZGFudCBtZXNzYWdlIGZvciB0aGUgZXhjZXB0aW9uIGhhbmRsaW5nIGluIHRoZQo+
+IGNhbGxpbmcgZnVuY3Rpb24uCj4gCj4gVGhpcyBpc3N1ZSB3YXMgZGV0ZWN0ZWQgYnkgdXNpbmcg
+dGhlIENvY2NpbmVsbGUgc29mdHdhcmUuCj4gCj4gU2lnbmVkLW9mZi1ieTogTWFya3VzIEVsZnJp
+bmcgPGVsZnJpbmdAdXNlcnMuc291cmNlZm9yZ2UubmV0PgoKVGhhbmsgeW91LCBhcHBsaWVkIHRv
+IGlteC1kcm0vbmV4dC4KCnJlZ2FyZHMKUGhpbGlwcApfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
