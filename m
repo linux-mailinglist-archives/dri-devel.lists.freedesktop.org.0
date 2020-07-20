@@ -1,65 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C6A22589C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A12C92258A0
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 09:31:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895F16E247;
-	Mon, 20 Jul 2020 07:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3E86E140;
+	Mon, 20 Jul 2020 07:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B90C89FD3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 01:18:57 +0000 (UTC)
-Received: from mail-pj1-f72.google.com ([209.85.216.72])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <alex.hung@canonical.com>) id 1jxKSF-00036F-N4
- for dri-devel@lists.freedesktop.org; Mon, 20 Jul 2020 01:18:55 +0000
-Received: by mail-pj1-f72.google.com with SMTP id k7so12368368pjw.2
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jul 2020 18:18:55 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58F7889FAC
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 07:31:16 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id 22so21218972wmg.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 00:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=OVJCr1m5cczEE11Y4OrOEI2+d5VysNb+avvmYGzz5EQ=;
+ b=c2blEXv0PV3Forf/ih8O0N/mHD2GxHU2L/pCRcwYxPtM45rL0mRfdPLxH55yIKq/hQ
+ A9wJ6pwhd6rMsNEnULADCT0fxYXXijggxfgpwa+AOCL8LW2a6O1iVuYlDSBFXV3uqekV
+ OdRhqh8OBMAJvnxn57iZOwlGdigLtnkVQMBpc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dTQyUG61kX2XCwIUiPSY5cCF6yJekK9Ymo10gmabLSw=;
- b=OO3A5gR+JiLrfdjKenbjOlyyMYoFfXgFsFnvzYtbgts1E2PLeEu5knj9io79Qb3t33
- hMGJO4UfPyHEr6vP5dR9iporEx3JtzotreBQxO6FL+3xFIIgHWLXQiFS059/fXtkyrkO
- /8WT8CFrvARJ1IF3J6EJemsAS3T9TJBW9oJVlvzvzjml1hTUx4/LElGjpGCGqf8LHYZ0
- P4GiaaLha08EgakufeZWrNqxH8iZW5PtR9aQVRNT28sDsbUczBV6CuzYvEjB3A67/flr
- dB4Koj/VFhtUGCKDue7qSKltqZmr/0ScBLY8ulXjUmIdOcBpOcecj87pr+BxzWTdjRmx
- 0wdA==
-X-Gm-Message-State: AOAM533eDNcM2Blc4IZWImVD4CwOl84M03nHFS2aZYlnr4KKK5jKMSvG
- 6BSeO+m8NOLVrc4XoT9z12cLxbAiTlgabZV1RRS70fCjfMR3oIxlXmx+ygP1++ZWDIQyK4D+gQ6
- Ekq5BdRqQ59PXZb2sXS4JW3YTq+JpecYf4EZ6Q5IO7bAlGg==
-X-Received: by 2002:a65:490d:: with SMTP id p13mr16441328pgs.183.1595207934350; 
- Sun, 19 Jul 2020 18:18:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwudbwMDOJLkji0WfrSzxkPuyTod60uCI/xIM8pY05aS+io4K0fWco4Zfmkc0P1TnvefU0aMw==
-X-Received: by 2002:a65:490d:: with SMTP id p13mr16441307pgs.183.1595207933994; 
- Sun, 19 Jul 2020 18:18:53 -0700 (PDT)
-Received: from [192.168.0.119] (d66-222-144-129.abhsia.telus.net.
- [66.222.144.129])
- by smtp.gmail.com with ESMTPSA id 15sm10012333pjs.8.2020.07.19.18.18.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Jul 2020 18:18:53 -0700 (PDT)
-Subject: Re: [PATCH] RFC: ACPI / OSI: remove workarounds for hybrid graphics
- laptops
-To: Karol Herbst <kherbst@redhat.com>
-References: <20200717190547.648604-1-kherbst@redhat.com>
- <e7a8cb3a-e9f8-b78a-93f0-c09e5eb5ed10@canonical.com>
- <CACO55tvLCrqeV8MsVDbTaWP2EPAeZtfU08Kb2fVGCD6X+g3-rg@mail.gmail.com>
-From: Alex Hung <alex.hung@canonical.com>
-Message-ID: <8ad1866d-eb61-a30c-5875-5ffbfd2e17e1@canonical.com>
-Date: Sun, 19 Jul 2020 19:18:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=OVJCr1m5cczEE11Y4OrOEI2+d5VysNb+avvmYGzz5EQ=;
+ b=ENHHpitYaNxTudHMKkpyDxYOTAdv1RKi98HVDJKYAVE9zyeDB+ZuFV4QIbWrXxsNGL
+ +KRLF5ThAqGyei8HEcxl09uo+snlbrTChxSbHkDeugBrgJaEHFZvSBkOS6gwecuimbte
+ RQTFX0zfF51T4W5qnSQr+IUtMPrG25mg8Vtr9hVAW8d+eBcllIaDWnNV49AS7bmGydP7
+ 8AEYlwqIMrjaSQRbQc5V0/mC1QHoiiabc8MeF/NovsNc3eVsej0iwTA/0rxHWMtmx226
+ FjKJ+V+X3eshMt7jZXhPxtv3aUbYnNlYqfqSbuV5iFxzb1bS5zzOO6WO8AyN1fCdVGJJ
+ U2rQ==
+X-Gm-Message-State: AOAM532dizWCiqH0FKQIFTRtV/h5YD6OPJJedf9FWfIJE0/iedjYI2cH
+ vLOdlyu3olMh0PmSFLl14Vsoxg==
+X-Google-Smtp-Source: ABdhPJxN7p0owcN96PIeSqEMA5x15Cm1uEAARNlBA5eLxTQA3ETt1N2u3muHoio5moLJDyia7v05Vw==
+X-Received: by 2002:a1c:48e:: with SMTP id 136mr19492056wme.164.1595230274849; 
+ Mon, 20 Jul 2020 00:31:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h11sm7051935wrb.68.2020.07.20.00.31.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 00:31:14 -0700 (PDT)
+Date: Mon, 20 Jul 2020 09:31:12 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH] drm/mxsfb: Make supported modifiers explicit
+Message-ID: <20200720073112.GU3278063@phenom.ffwll.local>
+Mail-Followup-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Lucas Stach <l.stach@pengutronix.de>, Marek Vasut <marex@denx.de>,
+ Stefan Agner <stefan@agner.ch>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <26877532e272c12a74c33188e2a72abafc9a2e1c.1584973664.git.agx@sigxcpu.org>
+ <d39209a3664179f895a7dfabbd02d27a6adb9895.camel@pengutronix.de>
+ <20200718171407.GA72952@bogon.m.sigxcpu.org>
 MIME-Version: 1.0
-In-Reply-To: <CACO55tvLCrqeV8MsVDbTaWP2EPAeZtfU08Kb2fVGCD6X+g3-rg@mail.gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Mon, 20 Jul 2020 07:30:36 +0000
+Content-Disposition: inline
+In-Reply-To: <20200718171407.GA72952@bogon.m.sigxcpu.org>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,115 +76,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ACPI Mailing List <linux-acpi@vger.kernel.org>,
- Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Marek Vasut <marex@denx.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-19 1:50 p.m., Karol Herbst wrote:
-> On Fri, Jul 17, 2020 at 9:52 PM Alex Hung <alex.hung@canonical.com> wrote:
->>
->> On 2020-07-17 1:05 p.m., Karol Herbst wrote:
->>> It's hard to figure out what systems are actually affected and right now I
->>> don't see a good way of removing those...
->>>
->>> But I'd like to see thos getting removed and drivers fixed instead (which
->>> happened at least for nouveau).
->>>
->>> And as mentioned before, I prefer people working on fixing issues instead
->>> of spending time to add firmware level workarounds which are hard to know
->>> to which systems they apply to, hard to remove and basically a big huge
->>> pain to work with.> In the end I have no idea how to even figure out what systems are affected
->>> and which not by this, so I have no idea how to even verify we can safely
->>> remove this (which just means those are impossible to remove unless we risk
->>> breaking systems, which again makes those supper annoying to deal with).
->>>
->>> Also from the comments it's hard to get what those bits really do. Are they
->>> just preventing runtime pm or do the devices are powered down when booting?
->>> I am sure it's the former, still...
->>>
->>> Please, don't do this again.
->>>
->>> For now, those workaround prevent power savings on systems those workaround
->>> applies to, which might be any so those should get removed asap and if
->>> new issues arrise removing those please do a proper bug report and we can
->>> look into it and come up with a proper fix (and keep this patch out until
->>> we resolve all of those).
->>>
->>> Signed-off-by: Karol Herbst <kherbst@redhat.com>
->>> CC: Alex Hung <alex.hung@canonical.com>
->>> CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
->>> CC: Len Brown <lenb@kernel.org>
->>> CC: Lyude Paul <lyude@redhat.com>
->>> CC: linux-kernel@vger.kernel.org
->>> CC: dri-devel@lists.freedesktop.org
->>> CC: nouveau@lists.freedesktop.org
->>> ---
->>>  drivers/acpi/osi.c | 24 ------------------------
->>>  1 file changed, 24 deletions(-)
->>>
->>> diff --git a/drivers/acpi/osi.c b/drivers/acpi/osi.c
->>> index 9f68538091384..d4405e1ca9b97 100644
->>> --- a/drivers/acpi/osi.c
->>> +++ b/drivers/acpi/osi.c
->>> @@ -44,30 +44,6 @@ osi_setup_entries[OSI_STRING_ENTRIES_MAX] __initdata = {
->>>       {"Processor Device", true},
->>>       {"3.0 _SCP Extensions", true},
->>>       {"Processor Aggregator Device", true},
->>> -     /*
->>> -      * Linux-Dell-Video is used by BIOS to disable RTD3 for NVidia graphics
->>> -      * cards as RTD3 is not supported by drivers now.  Systems with NVidia
->>> -      * cards will hang without RTD3 disabled.
->>> -      *
->>> -      * Once NVidia drivers officially support RTD3, this _OSI strings can
->>> -      * be removed if both new and old graphics cards are supported.
->>> -      */
->>> -     {"Linux-Dell-Video", true},
->>> -     /*
->>> -      * Linux-Lenovo-NV-HDMI-Audio is used by BIOS to power on NVidia's HDMI
->>> -      * audio device which is turned off for power-saving in Windows OS.
->>> -      * This power management feature observed on some Lenovo Thinkpad
->>> -      * systems which will not be able to output audio via HDMI without
->>> -      * a BIOS workaround.
->>> -      */
->>> -     {"Linux-Lenovo-NV-HDMI-Audio", true},
->>> -     /*
->>> -      * Linux-HPI-Hybrid-Graphics is used by BIOS to enable dGPU to
->>> -      * output video directly to external monitors on HP Inc. mobile
->>> -      * workstations as Nvidia and AMD VGA drivers provide limited
->>> -      * hybrid graphics supports.
->>> -      */
->>> -     {"Linux-HPI-Hybrid-Graphics", true},
->>>  };
->>>
->>>  static u32 acpi_osi_handler(acpi_string interface, u32 supported)
->>>
->>
->> The changes were discussed and tested a while ago, and no crashes were
->> observed. Thanks for solving PM issues in nouveau.
->>
->> Acked-by: Alex Hung <alex.hung@canonical.com>
->>
-> 
-> By any chance, do you have a list of systems implementing those workarounds?
-> 
+On Sat, Jul 18, 2020 at 07:14:07PM +0200, Guido G=FCnther wrote:
+> Hi,
+> On Mon, Mar 23, 2020 at 04:51:05PM +0100, Lucas Stach wrote:
+> > Am Montag, den 23.03.2020, 15:52 +0100 schrieb Guido G=FCnther:
+> > > In contrast to other display controllers on imx like DCSS and ipuv3
+> > > lcdif/mxsfb does not support detiling e.g. vivante tiled layouts.
+> > > Since mesa might assume otherwise make it explicit that only
+> > > DRM_FORMAT_MOD_LINEAR is supported.
+> > > =
 
-I don't keep a list but the workaround, in theory, should only apply to
-the systems with the specific nvidia hardware.
+> > > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+> > =
 
-I reminded OEMs and ODMs that these _OSI strings were temporary
-solutions, and highlighted we were going to remove them after our
-discussion last year. If they were paying attentions recent systems
-shouldn't have these _OSI strings.
+> > Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> =
 
--- 
-Cheers,
-Alex Hung
+> Can i do anything to get this applied?
+> Cheers,
+
+Lucas has drm-misc commit rights, I expect him to push.
+-Daniel
+
+>  -- Guido
+> =
+
+> > =
+
+> > > ---
+> > >  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 9 +++++++--
+> > >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > > =
+
+> > > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsf=
+b/mxsfb_drv.c
+> > > index 762379530928..fc71e7a7a02e 100644
+> > > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> > > @@ -73,6 +73,11 @@ static const uint32_t mxsfb_formats[] =3D {
+> > >  	DRM_FORMAT_RGB565
+> > >  };
+> > >  =
+
+> > > +static const uint64_t mxsfb_modifiers[] =3D {
+> > > +	DRM_FORMAT_MOD_LINEAR,
+> > > +	DRM_FORMAT_MOD_INVALID
+> > > +};
+> > > +
+> > >  static struct mxsfb_drm_private *
+> > >  drm_pipe_to_mxsfb_drm_private(struct drm_simple_display_pipe *pipe)
+> > >  {
+> > > @@ -334,8 +339,8 @@ static int mxsfb_load(struct drm_device *drm, uns=
+igned long flags)
+> > >  	}
+> > >  =
+
+> > >  	ret =3D drm_simple_display_pipe_init(drm, &mxsfb->pipe, &mxsfb_func=
+s,
+> > > -			mxsfb_formats, ARRAY_SIZE(mxsfb_formats), NULL,
+> > > -			mxsfb->connector);
+> > > +			mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
+> > > +			mxsfb_modifiers, mxsfb->connector);
+> > >  	if (ret < 0) {
+> > >  		dev_err(drm->dev, "Cannot setup simple display pipe\n");
+> > >  		goto err_vblank;
+> > =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
