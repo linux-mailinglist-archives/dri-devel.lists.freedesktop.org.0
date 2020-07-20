@@ -2,56 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CCB227A73
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216C2227A64
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0879D6E43D;
-	Tue, 21 Jul 2020 08:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C70389A62;
+	Tue, 21 Jul 2020 08:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 281D489C46
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 22:48:23 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1595285305; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=s0jG+iqI1xm5qE8hGJ4Y5CHq8zc7tYz9BsVJvtMkJVE=;
- b=oLmFhOoRL/fbJzCLA49evH//xwBtfDHjHdeTVoF92+Azs2fxGWMN7/Hn3nc1AhO3L4bA68PL
- k0aw2SXSu7WQe2vezGJ3ATizkEtxBBSgfznf6FCrALyIoKncPmrbc89onG7oXADwXRBbtaae
- beRYfs+24DN8lk03P1A/kFES8BI=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
- 5f161f318423214e1342a92e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 20 Jul 2020 22:48:17
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2EB26C433CA; Mon, 20 Jul 2020 22:48:16 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3761BC433C6;
- Mon, 20 Jul 2020 22:48:13 +0000 (UTC)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7987089C8D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 23:28:12 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id o11so19396140wrv.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 16:28:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fALmHikCwdjyueFwfhicDSDPKSqtvisQ5e0TXQMf40k=;
+ b=Pxpqz/mKMQrC/SefCwPUQFhpJMGbpMICDdu6+tKvoaGSIa6fZ7D2Tffemx8fPJ7sWC
+ LYanf/0jhKzrDKywqduf61MhL5JflMFJZB2iM0S5iDYWxKqoplVKnIERsydku4ORuWQA
+ fPOzJH7DK1fETCpubVgHcWIiefyi4QX264VzbfbxxWV44lKz5cHJc6yg/J1BQkoGl6TY
+ S4N1ZuSTUTdng/5eoB8lN/6Bbibzm+oOZWEE8lW3xBHnO+6gxXQw747UpTxEcPBwyF+9
+ nInOOHGj8P9MeUAizU8P8lo9eWOGogGmD/y+lR0AFAA61aqb8p0bqlRo0DLtyqjPWpaW
+ q3cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=fALmHikCwdjyueFwfhicDSDPKSqtvisQ5e0TXQMf40k=;
+ b=A6sPRtdMXeySaA+cu4JY4Fv7GoQFfaLkYIvBSe2vvzyJi+ZX9Li/4xlrnxF1oBwSuS
+ yEru/+sZAJk7+I0sUjdycK1iGyJQp4rP39UJik5yHDgVRpU5q7L55ersOSbsuxWxqUbE
+ 2ZR1Qa+42sUbvHdmnibo6LnNTtKRPnVubsbZtNLf6lxA2UtmOJnMVxwQciuLhmRIxAOf
+ Kk0Ym+8/th/zw5FN+XleJLJF2VopTb08DBZBkc9tFB+5OQBT/wiR4p4G2VJKg1sC7fCM
+ rR09928BqooVztpdpH371fE3YrmEO+JltrhBzzkVGb7xX+Dn5P86xMwklXXG5h6rAXw3
+ 8fBg==
+X-Gm-Message-State: AOAM531k6bs5DFpROe/Z4cSecJtxa0XRBHLC3vN6AFiQFraFUJywCLTp
+ TGkqM8cSI6IiL9LbLGNogds=
+X-Google-Smtp-Source: ABdhPJxoH03f8ZKKGZXRmnkhvID0cBIeVpRiroc+WTY3/KAECr9u8O6tpwd5dVhoyEO2dZ6RWQJIVQ==
+X-Received: by 2002:a5d:400b:: with SMTP id n11mr23429848wrp.74.1595287690898; 
+ Mon, 20 Jul 2020 16:28:10 -0700 (PDT)
+Received: from [10.67.50.75] ([192.19.223.252])
+ by smtp.googlemail.com with ESMTPSA id 31sm17243890wrj.94.2020.07.20.16.28.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jul 2020 16:28:09 -0700 (PDT)
+Subject: Re: [PATCH v8 00/12] PCI: brcmstb: enable PCIe for STB chips
+To: Jim Quinlan <james.quinlan@broadcom.com>, linux-pci@vger.kernel.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Christoph Hellwig <hch@lst.de>, bcm-kernel-feedback-list@broadcom.com,
+ Robin Murphy <robin.murphy@arm.com>
+References: <20200715143530.9702-1-james.quinlan@broadcom.com>
+From: Florian Fainelli <f.fainelli@gmail.com>
+Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ G10n8gCguORqNGMsVRxrlLs7/himep7MrCc=
+Message-ID: <8e5be265-6029-3c43-989c-4a046dd60c50@gmail.com>
+Date: Mon, 20 Jul 2020 16:27:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Date: Mon, 20 Jul 2020 15:48:13 -0700
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH] drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets
-In-Reply-To: <159527632812.1987609.6364896740387949838@swboyd.mtv.corp.google.com>
-References: <20200707184125.15114-1-khsieh@codeaurora.org>
- <159527632812.1987609.6364896740387949838@swboyd.mtv.corp.google.com>
-Message-ID: <91a8eef836c1939cb57942c6fdcf2772@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <20200715143530.9702-1-james.quinlan@broadcom.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 21 Jul 2020 08:18:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,978 +127,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, sean@poorly.run
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
+ <linux-ide@vger.kernel.org>, Julien Grall <julien.grall@arm.com>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, Oliver Neukum <oneukum@suse.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Jens Axboe <axboe@kernel.dk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-20 13:18, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2020-07-07 11:41:25)
->> add event thread to execute events serially from event queue. Also
->> timeout mode is supported  which allow an event be deferred to be
->> executed at later time. Both link and phy compliant tests had been
->> done successfully.
->> 
->> This change depends-on following series:
->>         
->> https://lore.kernel.org/dri-devel/20200630184507.15589-1-tanmay@codeaurora.org/
->> 
+On 7/15/20 7:35 AM, Jim Quinlan wrote:
+> Patchset Summary:
+>   Enhance a PCIe host controller driver.  Because of its unusual design
+>   we are foced to change dev->dma_pfn_offset into a more general role
+>   allowing multiple offsets.  See the 'v1' notes below for more info.
+
+Christoph, Robin, are you happy with this version?
+
 > 
-> Can this be sent along with that series?
+> v8:
+>   Commit: "device core: Introduce DMA range map, supplanting ..."
+>   -- To satisfy a specific m68 compile configuration, I moved the 'struct
+>      bus_dma_region; definition out of #ifdef CONFIG_HAS_DMA and also defined
+>      three inline functions for !CONFIG_HAS_DMA (kernel test robot).
+>   -- The sunXi drivers -- suc4i_csi, sun6i_csi, cedrus_hw -- set
+>      a pfn_offset outside of_dma_configure() but the code offers no 
+>      insight on the size of the translation window.  V7 had me using
+>      SIZE_MAX as the size.  I have since contacted the sunXi maintainer and
+>      he said that using a size of SZ_4G would cover sunXi configurations.
 > 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> ---
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  12 +-
->>  drivers/gpu/drm/msm/dp/dp_aux.c             |   4 +
->>  drivers/gpu/drm/msm/dp/dp_aux.h             |   1 +
->>  drivers/gpu/drm/msm/dp/dp_catalog.c         |  78 ++-
->>  drivers/gpu/drm/msm/dp/dp_ctrl.c            | 361 +++++++----
->>  drivers/gpu/drm/msm/dp/dp_ctrl.h            |   3 +-
->>  drivers/gpu/drm/msm/dp/dp_display.c         | 654 
->> +++++++++++++-------
->>  drivers/gpu/drm/msm/dp/dp_hpd.c             |   2 +-
->>  drivers/gpu/drm/msm/dp/dp_hpd.h             |   1 +
->>  drivers/gpu/drm/msm/dp/dp_link.c            |  22 +-
->>  drivers/gpu/drm/msm/dp/dp_panel.c           |  56 +-
->>  drivers/gpu/drm/msm/dp/dp_panel.h           |  10 +-
->>  drivers/gpu/drm/msm/dp/dp_parser.c          |  45 +-
->>  drivers/gpu/drm/msm/dp/dp_parser.h          |   2 +
->>  drivers/gpu/drm/msm/dp/dp_power.c           |  32 +-
->>  drivers/gpu/drm/msm/dp/dp_power.h           |   1 +
->>  drivers/gpu/drm/msm/dp/dp_reg.h             |   1 +
->>  17 files changed, 861 insertions(+), 424 deletions(-)
+> v7:
+>   Commit: "device core: Introduce DMA range map, supplanting ..."
+>   -- remove second kcalloc/copy in device.c (AndyS)
+>   -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
+>   -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
+>   -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
+>   -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
+>   Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
+>   -- correct name of function in the commit msg (SergeiS)
+>   
+> v6:
+>   Commit "device core: Introduce DMA range map":
+>   -- of_dma_get_range() now takes a single argument and returns either
+>      NULL, a valid map, or an ERR_PTR. (Robin)
+>   -- offsets are no longer a PFN value but an actual address. (Robin)
+>   -- the bus_dma_region struct stores the range size instead of
+>      the cpu_end and pci_end values. (Robin)
+>   -- devices that were setting a single offset with no boundaries
+>      have been modified to have boundaries; in a few places
+>      where this informatino was unavilable a /* FIXME: ... */
+>      comment was added. (Robin)
+>   -- dma_attach_offset_range() can be called when an offset
+>      map already exists; if it's range is already present
+>      nothing is done and success is returned. (Robin)
+>   All commits:
+>   -- Man name/style/corrections/etc changed (Bjorn)
+>   -- rebase to Torvalds master
 > 
-> It seems to spread various changes throughout the DP bits and only has 
-> a
-> short description about what's changing. Given that the series above
-> isn't merged it would be better to get rid of this change and make the
-> changes in the patches that introduce these files.
+> v5:
+>   Commit "device core: Introduce multiple dma pfn offsets"
+>   -- in of/address.c: "map_size = 0" => "*map_size = 0"
+>   -- use kcalloc instead of kzalloc (AndyS)
+>   -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
+>   Commit "PCI: brcmstb: Set internal memory viewport sizes"
+>   -- now gives error on missing dma-ranges property.
+>   Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+>   -- removed "Allof:" from brcm,scb-sizes definition (RobH)
+>   All Commits:
+>   -- indentation style, use max chars 100 (AndyS)
+>   -- rebased to torvalds master
+> 
+> v4:
+>   Commit "device core: Introduce multiple dma pfn offsets"
+>   -- of_dma_get_range() does not take a dev param but instead
+>      takes two "out" params: map and map_size.  We do this so
+>      that the code that parses dma-ranges is separate from
+>      the code that modifies 'dev'.   (Nicolas)
+>   -- the separate case of having a single pfn offset has
+>      been removed and is now processed by going through the
+>      map array. (Nicolas)
+>   -- move attach_uniform_dma_pfn_offset() from of/address.c to
+>      dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
+>   -- devm_kcalloc => devm_kzalloc (DanC)
+>   -- add/fix assignment to dev->dma_pfn_offset_map for func
+>      attach_uniform_dma_pfn_offset() (DanC, Nicolas)
+>   -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
+>   -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
+>   -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
+>   -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
+>   Commit "of: Include a dev param in of_dma_get_range()"
+>   -- this commit was sqaushed with "device core: Introduce ..."
+> 
+> v3:
+>   Commit "device core: Introduce multiple dma pfn offsets"
+>   Commit "arm: dma-mapping: Invoke dma offset func if needed"
+>   -- The above two commits have been squashed.  More importantly,
+>      the code has been modified so that the functionality for
+>      multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
+>      In fact, dma_pfn_offset is removed and supplanted by
+>      dma_pfn_offset_map, which is a pointer to an array.  The
+>      more common case of a uniform offset is now handled as
+>      a map with a single entry, while cases requiring multiple
+>      pfn offsets use a map with multiple entries.  Code paths
+>      that used to do this:
+> 
+>          dev->dma_pfn_offset = mydrivers_pfn_offset;
+> 
+>      have been changed to do this:
+> 
+>          attach_uniform_dma_pfn_offset(dev, pfn_offset);
+> 
+>   Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+>   -- Add if/then clause for required props: resets, reset-names (RobH)
+>   -- Change compatible list from const to enum (RobH)
+>   -- Change list of u32-tuples to u64 (RobH)
+> 
+>   Commit "of: Include a dev param in of_dma_get_range()"
+>   -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+> 
+>   Commit "device core: Add ability to handle multiple dma offsets"
+>   -- align comment in device.h (AndyS).
+>   -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
+>      dma_pfn_offset_region (AndyS).
+> 
+> v2:
+> Commit: "device core: Add ability to handle multiple dma offsets"
+>   o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
+>   o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
+>   o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
+>   o dev->dma_pfn_map => dev->dma_pfn_offset_map
+>   o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
+>   o In device.h: s/const void */const struct dma_pfn_offset_region */
+>   o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
+>     guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
+>   o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
+>     dev->dma_pfn_offset_map is copied as well.
+>   o Merged two of the DMA commits into one (Christoph).
+> 
+> Commit "arm: dma-mapping: Invoke dma offset func if needed":
+>   o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
+> 
+> Other commits' changes:
+>   o Removed need for carrying of_id var in priv (Nicolas)
+>   o Commit message rewordings (Bjorn)
+>   o Commit log messages filled to 75 chars (Bjorn)
+>   o devm_reset_control_get_shared())
+>     => devm_reset_control_get_optional_shared (Philipp)
+>   o Add call to reset_control_assert() in PCIe remove routines (Philipp)
+> 
+> v1:
+> This patchset expands the usefulness of the Broadcom Settop Box PCIe
+> controller by building upon the PCIe driver used currently by the
+> Raspbery Pi.  Other forms of this patchset were submitted by me years
+> ago and not accepted; the major sticking point was the code required
+> for the DMA remapping needed for the PCIe driver to work [1].
+> 
+> There have been many changes to the DMA and OF subsystems since that
+> time, making a cleaner and less intrusive patchset possible.  This
+> patchset implements a generalization of "dev->dma_pfn_offset", except
+> that instead of a single scalar offset it provides for multiple
+> offsets via a function which depends upon the "dma-ranges" property of
+> the PCIe host controller.  This is required for proper functionality
+> of the BrcmSTB PCIe controller and possibly some other devices.
+> 
+> [1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+> 
+> Jim Quinlan (12):
+>   PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
+>   ata: ahci_brcm: Fix use of BCM7216 reset controller
+>   dt-bindings: PCI: Add bindings for more Brcmstb chips
+>   PCI: brcmstb: Add bcm7278 register info
+>   PCI: brcmstb: Add suspend and resume pm_ops
+>   PCI: brcmstb: Add bcm7278 PERST# support
+>   PCI: brcmstb: Add control of rescal reset
+>   device core: Introduce DMA range map, supplanting dma_pfn_offset
+>   PCI: brcmstb: Set additional internal memory DMA viewport sizes
+>   PCI: brcmstb: Accommodate MSI for older chips
+>   PCI: brcmstb: Set bus max burst size by chip type
+>   PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
+> 
+>  .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
+>  arch/arm/include/asm/dma-mapping.h            |   9 +-
+>  arch/arm/mach-keystone/keystone.c             |  17 +-
+>  arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
+>  arch/sh/kernel/dma-coherent.c                 |  16 +-
+>  arch/x86/pci/sta2x11-fixup.c                  |   7 +-
+>  drivers/acpi/arm64/iort.c                     |   5 +-
+>  drivers/ata/ahci_brcm.c                       |  11 +-
+>  drivers/gpu/drm/sun4i/sun4i_backend.c         |   5 +-
+>  drivers/iommu/io-pgtable-arm.c                |   2 +-
+>  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   5 +-
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   4 +-
+>  drivers/of/address.c                          |  95 ++--
+>  drivers/of/device.c                           |  47 +-
+>  drivers/of/of_private.h                       |   9 +-
+>  drivers/of/unittest.c                         |  35 +-
+>  drivers/pci/controller/Kconfig                |   3 +-
+>  drivers/pci/controller/pcie-brcmstb.c         | 408 +++++++++++++++---
+>  drivers/remoteproc/remoteproc_core.c          |   2 +-
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   7 +-
+>  drivers/usb/core/message.c                    |   4 +-
+>  drivers/usb/core/usb.c                        |   2 +-
+>  include/linux/device.h                        |   4 +-
+>  include/linux/dma-direct.h                    |  10 +-
+>  include/linux/dma-mapping.h                   |  43 ++
+>  include/linux/pfn.h                           |   2 +
+>  kernel/dma/coherent.c                         |  10 +-
+>  kernel/dma/mapping.c                          |  53 +++
+>  28 files changed, 683 insertions(+), 197 deletions(-)
 > 
 
-Yes, the base DP driver is not yet merged as its still in reviews and 
-has been for a while.
-While it is being reviewed, different developers are working on 
-different aspects of DP such as base DP driver, DP compliance, audio etc 
-to keep things going in parallel.
-To maintain the authorship of the different developers, we prefer having 
-them as separate changes and not merge them.
-We can make all these changes as part of the same series if that shall 
-help to keep things together but would prefer the changes themselves to 
-be separate.
-Please consider this and let us know if that works.
 
->> 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index b439e482fc80..87b291b8d7b7 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -1183,13 +1183,6 @@ static void dpu_encoder_virt_disable(struct 
->> drm_encoder *drm_enc)
->>         dpu_kms = to_dpu_kms(priv->kms);
->>         global_state = dpu_kms_get_existing_global_state(dpu_kms);
->> 
->> -       if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && 
->> priv->dp) {
->> -               if (msm_dp_display_disable(priv->dp, drm_enc)) {
->> -                       DPU_ERROR_ENC(dpu_enc, "dp display disable 
->> failed\n");
->> -                       return;
->> -               }
->> -       }
->> -
->>         trace_dpu_enc_disable(DRMID(drm_enc));
->> 
->>         /* wait for idle */
->> @@ -1220,6 +1213,11 @@ static void dpu_encoder_virt_disable(struct 
->> drm_encoder *drm_enc)
->> 
->>         dpu_rm_release(global_state, drm_enc);
->> 
->> +       if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && 
->> priv->dp) {
->> +               if (msm_dp_display_disable(priv->dp, drm_enc))
->> +                       DPU_ERROR_ENC(dpu_enc, "dp display disable 
->> failed\n");
->> +       }
->> +
->>         mutex_unlock(&dpu_enc->enc_lock);
->>  }
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
->> b/drivers/gpu/drm/msm/dp/dp_aux.c
->> index 696dc8741f1e..c0e8ad031895 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
->> @@ -189,6 +189,8 @@ static void dp_aux_native_handler(struct 
->> dp_aux_private *aux)
->>                 aux->aux_error_num = DP_AUX_ERR_TOUT;
->>         if (isr & DP_INTR_NACK_DEFER)
->>                 aux->aux_error_num = DP_AUX_ERR_NACK;
->> +       if (isr & DP_INTR_AUX_ERROR)
->> +               aux->aux_error_num = DP_AUX_ERR_DPPHY_AUX;
->> 
->>         complete(&aux->comp);
->>  }
->> @@ -359,6 +361,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
->> *dp_aux,
->>                                         PHY_AUX_CFG1);
->>                         dp_catalog_aux_reset(aux->catalog);
->>                 }
->> +               if (aux->aux_error_num == DP_AUX_ERR_DPPHY_AUX)
->> +                       usleep_range(400, 400); /* need 400us before 
->> next try */
-> 
-> Typically usleep_range() should be a range, and not the same number
-> for both ends of the range.
-> 
->>                 goto unlock_exit;
->>         }
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c 
->> b/drivers/gpu/drm/msm/dp/dp_catalog.c
->> index ab69ae3e2dbd..367eb54c9a68 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
->> @@ -452,7 +452,6 @@ void dp_catalog_aux_setup(struct dp_catalog 
->> *dp_catalog)
->>         dp_write_phy(catalog, REG_DP_PHY_PD_CTL, 
->> DP_PHY_PD_CTL_PSR_PWRDN);
->> 
->>         /* Make sure that hardware is done with  PSR power down */
->> -       wmb();
-> 
-> Is that comment above now not needed?
-> 
->>         dp_write_phy(catalog, REG_DP_PHY_PD_CTL, DP_PHY_PD_CTL_PWRDN |
->>                 DP_PHY_PD_CTL_AUX_PWRDN | DP_PHY_PD_CTL_LANE_0_1_PWRDN
->>                 | DP_PHY_PD_CTL_LANE_2_3_PWRDN | 
->> DP_PHY_PD_CTL_PLL_PWRDN
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index 98654f39806c..100ab84375f7 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -26,6 +26,13 @@
->>  #define MR_LINK_SYMBOL_ERM 0x80
->>  #define MR_LINK_PRBS7 0x100
->>  #define MR_LINK_CUSTOM80 0x200
->> +#define MR_LINK_TRAINING4  0x40
->> +
->> +enum {
->> +       DP_TRAINING_NONE,
->> +       DP_TRAINING_1,
->> +       DP_TRAINING_2,
->> +};
->> 
->>  struct dp_tu_calc_input {
->>         u64 lclk;        /* 162, 270, 540 and 810 */
->> @@ -58,7 +65,6 @@ struct dp_vc_tu_mapping_table {
->> 
->>  struct dp_ctrl_private {
->>         struct dp_ctrl dp_ctrl;
->> -
->>         struct device *dev;
->>         struct drm_dp_aux *aux;
->>         struct dp_panel *panel;
->> @@ -68,10 +74,16 @@ struct dp_ctrl_private {
->>         struct dp_catalog *catalog;
->> 
->>         struct completion idle_comp;
->> -       struct mutex push_idle_mutex;
->>         struct completion video_comp;
->>  };
->> 
->> +struct dp_cr_status {
->> +       u8 lane_0_1;
->> +       u8 lane_2_3;
->> +};
->> +
->> +#define DP_LANE0_1_CR_DONE     0x11
->> +
->>  static int dp_aux_link_configure(struct drm_dp_aux *aux,
->>                                         struct dp_link_info *link)
->>  {
->> @@ -97,8 +109,6 @@ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl)
->> 
->>         ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->> 
->> -       mutex_lock(&ctrl->push_idle_mutex);
->> -
->>         reinit_completion(&ctrl->idle_comp);
->>         dp_catalog_ctrl_state_ctrl(ctrl->catalog, 
->> DP_STATE_CTRL_PUSH_IDLE);
->> 
->> @@ -106,7 +116,6 @@ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl)
->>                         IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES))
->>                 pr_warn("PUSH_IDLE pattern timedout\n");
->> 
->> -       mutex_unlock(&ctrl->push_idle_mutex);
->>         pr_debug("mainlink off done\n");
->>  }
->> 
->> @@ -985,7 +994,7 @@ static int dp_ctrl_wait4video_ready(struct 
->> dp_ctrl_private *ctrl)
->> 
->>         if (!wait_for_completion_timeout(&ctrl->video_comp,
->>                                 WAIT_FOR_VIDEO_READY_TIMEOUT_JIFFIES)) 
->> {
->> -               DRM_ERROR("Link Train timedout\n");
->> +               DRM_ERROR("wait4video timedout\n");
->>                 ret = -ETIMEDOUT;
->>         }
->>         return ret;
->> @@ -1006,13 +1015,13 @@ static int dp_ctrl_update_vx_px(struct 
->> dp_ctrl_private *ctrl)
->>         if (ret)
->>                 return ret;
->> 
->> -       if (voltage_swing_level > DP_TRAIN_VOLTAGE_SWING_MAX) {
->> +       if (voltage_swing_level >= DP_TRAIN_VOLTAGE_SWING_MAX) {
->>                 DRM_DEBUG_DP("max. voltage swing level reached %d\n",
->>                                 voltage_swing_level);
->>                 max_level_reached |= DP_TRAIN_MAX_SWING_REACHED;
->>         }
->> 
->> -       if (pre_emphasis_level == DP_TRAIN_PRE_EMPHASIS_MAX) {
->> +       if (pre_emphasis_level >= DP_TRAIN_PRE_EMPHASIS_MAX) {
->>                 DRM_DEBUG_DP("max. pre-emphasis level reached %d\n",
->>                                 pre_emphasis_level);
->>                 max_level_reached  |= 
->> DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
->> @@ -1044,8 +1053,11 @@ static bool dp_ctrl_train_pattern_set(struct 
->> dp_ctrl_private *ctrl,
->>         DRM_DEBUG_DP("sink: pattern=%x\n", pattern);
->> 
->>         buf = pattern;
->> -       ret = drm_dp_dpcd_writeb(ctrl->aux,
->> -                                       DP_TRAINING_PATTERN_SET, buf);
->> +
->> +       if (pattern && pattern != DP_TRAINING_PATTERN_4)
->> +               buf |= DP_LINK_SCRAMBLING_DISABLE;
->> +
->> +       ret = drm_dp_dpcd_writeb(ctrl->aux, DP_TRAINING_PATTERN_SET, 
->> buf);
->>         return ret == 1;
->>  }
->> 
->> @@ -1071,19 +1083,23 @@ static int dp_ctrl_read_link_status(struct 
->> dp_ctrl_private *ctrl,
->>         return -ETIMEDOUT;
->>  }
->> 
->> -static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl)
->> +static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
->> +               struct dp_cr_status *cr, int *training_step)
->>  {
->>         int tries, old_v_level, ret = 0;
->>         u8 link_status[DP_LINK_STATUS_SIZE];
->> -       int const maximum_retries = 5;
->> +       int const maximum_retries = 4;
->> 
->>         dp_catalog_ctrl_state_ctrl(ctrl->catalog, 0);
->> 
->> +       *training_step = DP_TRAINING_1;
->> +
->>         ret = dp_catalog_ctrl_set_pattern(ctrl->catalog, 
->> DP_TRAINING_PATTERN_1);
->>         if (ret)
->>                 return ret;
->>         dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
->>                 DP_LINK_SCRAMBLING_DISABLE);
->> +
->>         ret = dp_ctrl_update_vx_px(ctrl);
->>         if (ret)
->>                 return ret;
->> @@ -1097,12 +1113,15 @@ static int dp_ctrl_link_train_1(struct 
->> dp_ctrl_private *ctrl)
->>                 if (ret)
->>                         return ret;
->> 
->> +               cr->lane_0_1 = link_status[0];
->> +               cr->lane_2_3 = link_status[1];
->> +
->>                 if (drm_dp_clock_recovery_ok(link_status,
->>                         ctrl->link->link_params.num_lanes)) {
->> -                       return ret;
->> +                       return 0;
->>                 }
->> 
->> -               if (ctrl->link->phy_params.v_level >
->> +               if (ctrl->link->phy_params.v_level >=
->>                         DP_TRAIN_VOLTAGE_SWING_MAX) {
->>                         DRM_ERROR_RATELIMITED("max v_level 
->> reached\n");
->>                         return -EAGAIN;
->> @@ -1125,8 +1144,10 @@ static int dp_ctrl_link_train_1(struct 
->> dp_ctrl_private *ctrl)
->>         return -ETIMEDOUT;
->>  }
->> 
->> -static void dp_ctrl_link_rate_down_shift(struct dp_ctrl_private 
->> *ctrl)
->> +static int dp_ctrl_link_rate_down_shift(struct dp_ctrl_private *ctrl)
->>  {
->> +       int ret = 0;
->> +
->>         switch (ctrl->link->link_params.rate) {
->>         case 810000:
->>                 ctrl->link->link_params.rate = 540000;
->> @@ -1135,13 +1156,32 @@ static void 
->> dp_ctrl_link_rate_down_shift(struct dp_ctrl_private *ctrl)
->>                 ctrl->link->link_params.rate = 270000;
->>                 break;
->>         case 270000:
->> +               ctrl->link->link_params.rate = 162000;
->> +               break;
->>         case 162000:
->>         default:
->> -               ctrl->link->link_params.rate = 162000;
->> +               ret = -1;
-> 
-> Use a real error code instead of -1?
-> 
->>                 break;
->>         };
->> 
->>         DRM_DEBUG_DP("new rate=0x%x\n", ctrl->link->link_params.rate);
-> 
-> Maybe this should be under a condition like if (!ret)?
-> 
->> +
->> +       return ret;
->> +}
->> +
->>  static void dp_ctrl_clear_training_pattern(struct dp_ctrl_private 
->> *ctrl)
->> @@ -1214,18 +1260,20 @@ static int dp_ctrl_link_train(struct 
->> dp_ctrl_private *ctrl)
->>         drm_dp_dpcd_write(ctrl->aux, DP_MAIN_LINK_CHANNEL_CODING_SET,
->>                                 &encoding, 1);
->> 
->> -       ret = dp_ctrl_link_train_1(ctrl);
->> +       ret = dp_ctrl_link_train_1(ctrl, cr, training_step);
->>         if (ret) {
->>                 DRM_ERROR("link training #1 failed. ret=%d\n", ret);
->> +               ret = -EAGAIN;
->>                 goto end;
->>         }
->> 
->>         /* print success info as this is a result of user initiated 
->> action */
->>         DRM_DEBUG_DP("link training #1 successful\n");
->> 
->> -       ret = dp_ctrl_link_training_2(ctrl);
->> +       ret = dp_ctrl_link_train_2(ctrl, cr, training_step);
->>         if (ret) {
->>                 DRM_ERROR("link training #2 failed. ret=%d\n", ret);
->> +               ret = -EAGAIN;
-> 
-> Why override ret?
-> 
->>                 goto end;
->>         }
->> 
->> @@ -1235,58 +1283,36 @@ static int dp_ctrl_link_train(struct 
->> dp_ctrl_private *ctrl)
->> -static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl, bool 
->> train)
->> +static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
->> +               struct dp_cr_status *cr, int *training_step)
->>  {
->> -       bool mainlink_ready = false;
->>         int ret = 0;
->> 
->>         dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, true);
->> 
->> -       ret = dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, 
->> false);
->> -       if (ret)
->> -               return ret;
->> -
->>         if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN)
->>                 return ret;
->> 
->> -       if (train) {
->> -               /*
->> -                * As part of previous calls, DP controller state 
->> might have
->> -                * transitioned to PUSH_IDLE. In order to start 
->> transmitting
->> -                * a link training pattern, we have to first do soft 
->> reset.
->> -                */
->> -               dp_catalog_ctrl_reset(ctrl->catalog);
->> -
->> -               ret = dp_ctrl_link_train(ctrl);
->> -               if (ret)
->> -                       return ret;
->> -       }
->> -
->>         /*
->> -        * Set up transfer unit values and set controller state to 
->> send
->> -        * video.
->> +        * As part of previous calls, DP controller state might have
->> +        * transitioned to PUSH_IDLE. In order to start transmitting
->> +        * a link training pattern, we have to first do soft reset.
->>          */
->> -       dp_ctrl_setup_tr_unit(ctrl);
->> -       dp_catalog_ctrl_state_ctrl(ctrl->catalog, 
->> DP_STATE_CTRL_SEND_VIDEO);
->> +       dp_catalog_ctrl_reset(ctrl->catalog);
->> 
->> -       ret = dp_ctrl_wait4video_ready(ctrl);
->> -       if (ret)
->> -               return ret;
->> +       ret = dp_ctrl_link_train(ctrl, cr, training_step);
->> 
->> -       mainlink_ready = 
->> dp_catalog_ctrl_mainlink_ready(ctrl->catalog);
->> -       DRM_DEBUG_DP("mainlink %s\n", mainlink_ready ? "READY" : "NOT 
->> READY");
->>         return ret;
->>  }
->> 
->>  static void dp_ctrl_set_clock_rate(struct dp_ctrl_private *ctrl,
->> -                                  char *name, u32 rate)
->> +                       enum dp_pm_type module, char *name, u32 rate)
->>  {
->> -       u32 num = ctrl->parser->mp[DP_CTRL_PM].num_clk;
->> -       struct dss_clk *cfg = ctrl->parser->mp[DP_CTRL_PM].clk_config;
->> +       u32 num = ctrl->parser->mp[module].num_clk;
->> +       struct dss_clk *cfg = ctrl->parser->mp[module].clk_config;
->> 
->>         while (num && strcmp(cfg->clk_name, name)) {
->>                 num--;
->> @@ -1308,16 +1334,33 @@ static int 
->> dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
->> 
->>         dp_power_set_link_clk_parent(ctrl->power);
->> 
->> -       dp_ctrl_set_clock_rate(ctrl, "ctrl_link",
->> +       dp_ctrl_set_clock_rate(ctrl, DP_CTRL_PM, "ctrl_link",
->>                                         ctrl->link->link_params.rate);
->> 
->> -       dp_ctrl_set_clock_rate(ctrl, "stream_pixel",
->> -                                       ctrl->dp_ctrl.pixel_rate);
->> -
->>         ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, true);
->>         if (ret)
->>                 DRM_ERROR("Unable to start link clocks. ret=%d\n", 
->> ret);
->> 
->> +       DRM_DEBUG_DP("link rate=%d pixel_clk=%d\n",
->> +               ctrl->link->link_params.rate, 
->> ctrl->dp_ctrl.pixel_rate);
->> +
->> +       return ret;
->> +}
->> +
->> +static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
->> +{
->> +       int ret = 0;
->> +
->> +       dp_ctrl_set_clock_rate(ctrl, DP_STREAM_PM, "stream_pixel",
->> +                                       ctrl->dp_ctrl.pixel_rate);
->> +
->> +       ret = dp_power_clk_enable(ctrl->power, DP_STREAM_PM, true);
->> +       if (ret)
->> +               DRM_ERROR("Unabled to start pixel clocks. ret=%d\n", 
->> ret);
->> +
->> +       DRM_DEBUG_DP("link rate=%d pixel_clk=%d\n",
->> +                       ctrl->link->link_params.rate, 
->> ctrl->dp_ctrl.pixel_rate);
->> +
->>         return ret;
->>  }
->> 
->> @@ -1407,37 +1450,30 @@ static int 
->> dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
->>                 return ret;
->>         }
->> 
->> -       dp_ctrl_configure_source_params(ctrl);
->> -       dp_catalog_ctrl_config_msa(ctrl->catalog,
->> -               ctrl->link->link_params.rate,
->> -               ctrl->dp_ctrl.pixel_rate, 
->> dp_ctrl_use_fixed_nvid(ctrl));
->> -       reinit_completion(&ctrl->idle_comp);
->> -
->>         return ret;
->>  }
->> 
->>  static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
->>  {
->>         int ret = 0;
->> -       int tries;
->> +       struct dp_cr_status cr;
->> +       int training_step = DP_TRAINING_NONE;
->> 
->>         dp_ctrl_push_idle(&ctrl->dp_ctrl);
->>         dp_catalog_ctrl_reset(ctrl->catalog);
->> 
->>         ctrl->dp_ctrl.pixel_rate = 
->> ctrl->panel->dp_mode.drm_mode.clock;
->> 
->> -       for (tries = 0; tries < 10; tries++) {
->> -               ret = dp_ctrl_reinitialize_mainlink(ctrl);
->> -               if (ret) {
->> -                       DRM_ERROR("Failed to reinitialize mainlink. 
->> ret=%d\n",
->> -                                       ret);
->> -                       break;
->> -               }
->> +       ret = dp_ctrl_setup_main_link(ctrl, &cr, &training_step);
->> +       if (ret)
->> +               goto end;
->> 
->> -               ret = dp_ctrl_setup_main_link(ctrl, true);
->> -               if (ret == -EAGAIN) /* try with lower link rate */
->> -                       dp_ctrl_link_rate_down_shift(ctrl);
->> -       }
->> +       dp_ctrl_clear_training_pattern(ctrl);
->> +
->> +       dp_catalog_ctrl_state_ctrl(ctrl->catalog, 
->> DP_STATE_CTRL_SEND_VIDEO);
->> +
->> +       ret = dp_ctrl_wait4video_ready(ctrl);
->> +end:
->>         return ret;
->>  }
->> 
->> @@ -1450,22 +1486,22 @@ static int 
->> dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
->>                 return ret;
->>         }
->> 
->> -       dp_ctrl_push_idle(&ctrl->dp_ctrl);
->>         /*
->>          * The global reset will need DP link related clocks to be
->>          * running. Add the global reset just before disabling the
->>          * link clocks and core clocks.
->>          */
->> -       dp_catalog_ctrl_reset(ctrl->catalog);
->>         ret = dp_ctrl_off(&ctrl->dp_ctrl);
->>         if (ret) {
->>                 DRM_ERROR("failed to disable DP controller\n");
->>                 return ret;
->>         }
->> 
->> -       ret = dp_ctrl_on(&ctrl->dp_ctrl);
->> -       if (ret)
->> -               DRM_ERROR("failed to enable DP controller\n");
->> +       ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
->> +       if (!ret)
->> +               ret = dp_ctrl_on_stream(&ctrl->dp_ctrl);
->> +       else
->> +               DRM_ERROR("failed to enable DP link controller\n");
->> 
->>         return ret;
->>  }
->> @@ -1485,27 +1521,33 @@ static bool 
->> dp_ctrl_send_phy_test_pattern(struct dp_ctrl_private *ctrl)
->>                 return false;
->>         }
->>         dp_catalog_ctrl_send_phy_pattern(ctrl->catalog, 
->> pattern_requested);
->> +       dp_ctrl_update_vx_px(ctrl);
->>         dp_link_send_test_response(ctrl->link);
->> 
->>         pattern_sent = 
->> dp_catalog_ctrl_read_phy_pattern(ctrl->catalog);
->> 
->>         switch (pattern_sent) {
->>         case MR_LINK_TRAINING1:
->> -               success = pattern_requested ==
->> -                               DP_LINK_QUAL_PATTERN_D10_2;
->> +               success = (pattern_requested ==
->> +                               DP_PHY_TEST_PATTERN_D10_2);
->>                 break;
->>         case MR_LINK_SYMBOL_ERM:
->> -               success = (pattern_requested ==
->> -                               DP_LINK_QUAL_PATTERN_ERROR_RATE)
->> -                       || (pattern_requested ==
->> -                               DP_LINK_QUAL_PATTERN_HBR2_EYE);
->> +               success = ((pattern_requested ==
->> +                               DP_PHY_TEST_PATTERN_ERROR_COUNT) ||
->> +                               (pattern_requested ==
->> +                               DP_PHY_TEST_PATTERN_CP2520));
->>                 break;
->>         case MR_LINK_PRBS7:
->> -               success = pattern_requested == 
->> DP_LINK_QUAL_PATTERN_PRBS7;
->> +               success = (pattern_requested ==
->> +                               DP_PHY_TEST_PATTERN_PRBS7);
->>                 break;
->>         case MR_LINK_CUSTOM80:
->> -               success = pattern_requested ==
->> -                               DP_LINK_QUAL_PATTERN_80BIT_CUSTOM;
->> +               success = (pattern_requested ==
->> +                               DP_PHY_TEST_PATTERN_80BIT_CUSTOM);
->> +               break;
->> +       case MR_LINK_TRAINING4:
->> +               success = (pattern_requested ==
->> +                               DP_PHY_TEST_PATTERN_SEL_MASK);
->>                 break;
->>         default:
->>                 success = false;
->> @@ -1537,12 +1579,12 @@ void dp_ctrl_handle_sink_request(struct 
->> dp_ctrl *dp_ctrl)
->>                 }
->>         }
->> 
->> -       if (sink_request & DP_LINK_STATUS_UPDATED)
->> +       if (sink_request & DP_LINK_STATUS_UPDATED) {
->>                 if (dp_ctrl_link_maintenance(ctrl)) {
->> -                       DRM_ERROR("LM failed: STATUS_UPDATED\n");
->> +                       DRM_ERROR("LM failed: TEST_LINK_TRAINING\n");
->>                         return;
->>                 }
->> -
->> +       }
->> 
->>         if (sink_request & DP_TEST_LINK_TRAINING) {
->>                 dp_link_send_test_response(ctrl->link);
->> @@ -1553,13 +1595,15 @@ void dp_ctrl_handle_sink_request(struct 
->> dp_ctrl *dp_ctrl)
->>         }
->>  }
->> 
->> -int dp_ctrl_on(struct dp_ctrl *dp_ctrl)
->> +int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>  {
->>         int rc = 0;
->>         struct dp_ctrl_private *ctrl;
->>         u32 rate = 0;
->> -       u32 link_train_max_retries = 10;
->> +       u32 link_train_max_retries = 5;
-> 
-> Any reason these variables are u32 instead of unsigned int? Does the
-> size of the variable matter if we're counting things?
-> 
->>         u32 const phy_cts_pixel_clk_khz = 148500;
->> +       struct dp_cr_status cr;
->> +       int training_step;
-> 
-> Any reason to be int vs unsigned int?
-> 
->> 
->>         if (!dp_ctrl)
->>                 return -EINVAL;
->> @@ -1601,16 +1648,115 @@ int dp_ctrl_on(struct dp_ctrl *dp_ctrl)
->>                                         rc);
->>                         break;
->>                 }
->> -               rc = dp_ctrl_setup_main_link(ctrl, true);
->> -               if (!rc)
->> +
->> +               training_step = DP_TRAINING_NONE;
->> +               rc = dp_ctrl_setup_main_link(ctrl, &cr, 
->> &training_step);
->> +               if (rc == 0) {
->> +                       /* training completed successfully */
->>                         break;
->> -               /* try with lower link rate */
->> -               dp_ctrl_link_rate_down_shift(ctrl);
->> +               } else if (training_step == DP_TRAINING_1) {
->> +                       /* link train_1 failed */
->> +                       rc = dp_ctrl_link_rate_down_shift(ctrl);
->> +                       if (rc < 0) { /* alread in RBR = 1.6G */
-> 
-> already?
-> 
->> +                               if (cr.lane_0_1 & DP_LANE0_1_CR_DONE) 
->> {
->> +                                       /*
->> +                                        * some lanes are ready,
->> +                                        * reduce lane number
->> +                                        */
->> +                                       rc = 
->> dp_ctrl_link_lane_down_shift(ctrl);
->> +                                       if (rc < 0) { /* lane == 1 
->> already */
->> +                                               /* end with failure */
->> +                                               break;
-> [..]
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 36b6ee4131bb..23ff23a5259f 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -783,6 +807,182 @@ int dp_display_get_test_bpp(struct msm_dp *dp)
->>                 dp_display->link->test_video.test_bit_depth);
->>  }
->> 
->> +static void dp_display_config_hpd(struct dp_display_private *dp)
->> +{
->> +
->> +       dp_display_host_init(dp);
->> +       dp_catalog_ctrl_hpd_config(dp->catalog);
->> +
->> +       /* Enable interrupt first time
->> +        * we are leaving dp clocks on during disconnect
->> +        * and never disable interrupt
->> +        */
->> +       enable_irq(dp->irq);
->> +}
->> +
->> +static int hpd_event_thread(void *data)
->> +{
->> +       struct dp_display_private *dp_priv;
->> +       unsigned long flag;
->> +       struct dp_event *todo;
->> +       int timeout_mode = 0;
->> +       int ret;
->> +
->> +       dp_priv = (struct dp_display_private *)data;
->> +
->> +       while (1) {
->> +               if (timeout_mode) {
->> +                       ret = wait_event_timeout(dp_priv->event_q,
->> +                               (dp_priv->event_pndx == 
->> dp_priv->event_gndx),
->> +                                               EVENT_TIMEOUT);
->> +               } else {
->> +                       ret = wait_event_timeout(dp_priv->event_q,
->> +                               (dp_priv->event_pndx != 
->> dp_priv->event_gndx),
->> +                                               EVENT_TIMEOUT);
->> +               }
->> +               spin_lock_irqsave(&dp_priv->event_lock, flag);
->> +               todo = &dp_priv->event_list[dp_priv->event_gndx];
->> +               if (todo->delay) {
->> +                       struct dp_event *todo_next;
->> +
->> +                       dp_priv->event_gndx++;
->> +                       dp_priv->event_gndx %= DP_EVENT_Q_MAX;
->> +
->> +                       /* re enter delay event into q */
->> +                       todo_next = 
->> &dp_priv->event_list[dp_priv->event_pndx++];
->> +                       dp_priv->event_pndx %= DP_EVENT_Q_MAX;
->> +                       todo_next->event_id = todo->event_id;
->> +                       todo_next->data = todo->data;
->> +                       todo_next->delay = todo->delay - 1;
->> +
->> +                       /* clean up older event */
->> +                       todo->event_id = EV_NO_EVENT;
->> +                       todo->delay = 0;
->> +
->> +                       /* switch to timeout mode */
->> +                       timeout_mode = 1;
->> +                       spin_unlock_irqrestore(&dp_priv->event_lock, 
->> flag);
->> +                       continue;
->> +               }
->> +
->> +               /* timeout with no events in q */
->> +               if (dp_priv->event_pndx == dp_priv->event_gndx) {
->> +                       spin_unlock_irqrestore(&dp_priv->event_lock, 
->> flag);
->> +                       continue;
->> +               }
->> +
->> +               dp_priv->event_gndx++;
->> +               dp_priv->event_gndx %= DP_EVENT_Q_MAX;
->> +               timeout_mode = 0;
->> +               spin_unlock_irqrestore(&dp_priv->event_lock, flag);
->> +
->> +               switch (todo->event_id) {
->> +               case EV_HPD_INIT_SETUP:
->> +                       dp_display_config_hpd(dp_priv);
->> +                       break;
->> +               case EV_HPD_PLUG_INT:
->> +                       dp_hpd_plug_handle(dp_priv, todo->data);
->> +                       break;
->> +               case EV_HPD_UNPLUG_INT:
->> +                       dp_hpd_unplug_handle(dp_priv, todo->data);
->> +                       break;
->> +               case EV_IRQ_HPD_INT:
->> +                       dp_irq_hpd_handle(dp_priv, todo->data);
->> +                       break;
->> +               case EV_HPD_REPLUG_INT:
->> +                       /* do nothing */
->> +                       break;
->> +               case EV_USER_NOTIFICATION:
->> +                       dp_display_send_hpd_notification(dp_priv,
->> +                                               todo->data);
->> +                       break;
->> +               default:
->> +                       break;
->> +               }
->> +       }
->> +
->> +       return 0;
->> +}
->> +
->> +static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
->> +{
->> +       init_waitqueue_head(&dp_priv->event_q);
->> +       spin_lock_init(&dp_priv->event_lock);
->> +
->> +       kthread_run(hpd_event_thread, (void *)dp_priv, 
->> "dp_hpd_handler");
-> 
-> Is the cast necessary?
-> 
->> +}
->> +
->> @@ -890,8 +1069,13 @@ void msm_dp_irq_postinstall(struct msm_dp 
->> *dp_display)
->> 
->>         dp = container_of(dp_display, struct dp_display_private, 
->> dp_display);
->> 
->> -       INIT_DELAYED_WORK(&dp->config_hpd_work, 
->> dp_display_config_hpd_work);
->> -       queue_delayed_work(system_wq, &dp->config_hpd_work, HZ * 10);
->> +       dp_hpd_event_setup(dp);
->> +
->> +       /* This hack Delays HPD configuration by 10 sec
->> +        * ToDo(User): Implement correct boot sequence of
-> 
-> Typically todo is written "TODO(email@domain)" instead of User.
-> 
->> +        * HPD configuration and remove this hack
->> +        */
->> +       dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
->>  }
->> 
->>  int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device 
->> *dev,
->> @@ -938,37 +1122,47 @@ int msm_dp_display_enable(struct msm_dp *dp, 
->> struct drm_encoder *encoder)
->>                 return -EINVAL;
->>         }
->> 
->> +       mutex_lock(&dp_display->event_mutex);
->> +
->>         rc = dp_display_set_mode(dp, &dp_display->dp_mode);
->>         if (rc) {
->>                 DRM_ERROR("Failed to perform a mode set, rc=%d\n", 
->> rc);
->> +               mutex_unlock(&dp_display->event_mutex);
->>                 return rc;
->>         }
->> 
->>         rc = dp_display_prepare(dp);
->>         if (rc) {
->>                 DRM_ERROR("DP display prepare failed, rc=%d\n", rc);
->> +               mutex_unlock(&dp_display->event_mutex);
->>                 return rc;
->>         }
->> 
->> -       rc = dp_display_enable(dp);
->> -       if (rc) {
->> -               DRM_ERROR("DP display enable failed, rc=%d\n", rc);
->> -               dp_display_unprepare(dp);
->> -               return rc;
->> -       }
->> +       dp_display_enable(dp_display, 0);
->> 
->>         rc = dp_display_post_enable(dp);
->>         if (rc) {
->>                 DRM_ERROR("DP display post enable failed, rc=%d\n", 
->> rc);
->> -               dp_display_disable(dp);
->> +               dp_display_disable(dp_display, 0);
->>                 dp_display_unprepare(dp);
->>         }
->> +
->> +       /* completed connection */
->> +       atomic_set(&dp_display->hpd_state, ST_CONNECTED);
->> +
->> +       mutex_unlock(&dp_display->event_mutex);
->> +
->>         return rc;
->>  }
->> 
->>  int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder 
->> *encoder)
->>  {
->>         int rc = 0;
->> +       struct dp_display_private *dp_display;
->> +
->> +       dp_display = container_of(dp, struct dp_display_private, 
->> dp_display);
->> +
->> +       mutex_lock(&dp_display->event_mutex);
->> 
->>         rc = dp_display_pre_disable(dp);
->>         if (rc) {
->> @@ -976,16 +1170,16 @@ int msm_dp_display_disable(struct msm_dp *dp, 
->> struct drm_encoder *encoder)
->>                 return rc;
->>         }
->> 
->> -       rc = dp_display_disable(dp);
->> -       if (rc) {
->> -               DRM_ERROR("DP display disable failed, rc=%d\n", rc);
->> -               return rc;
->> -       }
->> +       dp_display_disable(dp_display, 0);
->> 
->>         rc = dp_display_unprepare(dp);
->>         if (rc)
->>                 DRM_ERROR("DP display unprepare failed, rc=%d\n", rc);
->> 
->> +       /* completed disconnection */
->> +       atomic_set(&dp_display->hpd_state, ST_DISCONNECTED);
->> +
->> +       mutex_unlock(&dp_display->event_mutex);
->>         return rc;
->>  }
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.c 
->> b/drivers/gpu/drm/msm/dp/dp_hpd.c
->> index 5b08ce580702..5b8fe32022b5 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_hpd.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_hpd.c
->> @@ -24,7 +24,7 @@ struct dp_hpd_private {
->>         struct dp_usbpd dp_usbpd;
->>  };
->> 
->> -static int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd)
->> +int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd)
->>  {
->>         int rc = 0;
->>         struct dp_hpd_private *hpd_priv;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.h 
->> b/drivers/gpu/drm/msm/dp/dp_hpd.h
->> index c0178524bec7..5bc5bb64680f 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_hpd.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_hpd.h
->> @@ -75,5 +75,6 @@ struct dp_usbpd *dp_hpd_get(struct device *dev, 
->> struct dp_usbpd_cb *cb);
->> 
->>  int dp_hpd_register(struct dp_usbpd *dp_usbpd);
->>  void dp_hpd_unregister(struct dp_usbpd *dp_usbpd);
->> +int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd);
->> 
->>  #endif /* _DP_HPD_H_ */
->> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c 
->> b/drivers/gpu/drm/msm/dp/dp_link.c
->> index 9c75a4d327bb..f5e51c7988cb 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_link.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
->> @@ -661,7 +661,6 @@ static int dp_link_parse_request(struct 
->> dp_link_private *link)
->> 
->>         DRM_DEBUG_DP("Test:(0x%x) requested\n", data);
->>         link->request.test_requested = data;
->> -
->>         if (link->request.test_requested == 
->> DP_TEST_LINK_PHY_TEST_PATTERN) {
->>                 ret = dp_link_parse_phy_test_params(link);
->>                 if (ret)
-> 
-> Drop this hunk?
+-- 
+Florian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
