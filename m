@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB97226FAA
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 22:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20181226FC4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 22:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6FEA89C21;
-	Mon, 20 Jul 2020 20:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58F3089E03;
+	Mon, 20 Jul 2020 20:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
- [IPv6:2607:f8b0:4864:20::942])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4773689C21
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 20:24:15 +0000 (UTC)
-Received: by mail-ua1-x942.google.com with SMTP id b13so5464314uav.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f8OZQPM5EHX3K0LcIbG7M5SK0hksxqYnwmQqH5pq9aU=;
- b=Vm+rTjwEti7KsrVH0G9zYwoD4ZvDR6asQnjKP0m5wquwlArH8wQZRdqCHpEs2vHPvD
- g75u4ABiQ/mstLqHDFM3kEjUdBRDLkaT+aHsmawJTSXH6qiC4UZtxnBplOeiU32rw9e6
- TVFHTnzR3EKkZyrNnb68WQkbezTZ8VZU5t++w=
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECA5989E03
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 20:35:20 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id h22so21675151lji.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x2zJYpgDs4IU0fc9VR3TdzhXdQh+0MOJRer0pywnXKA=;
+ b=KhkPtvIsDLUNIupaXYNs8UBWIwdZ5u3Ek5KzfJqFq/S0YjXqGAPiLmgJ8ef90Q0q9l
+ zXaUKRTw8YvweSdBStgruLCIAPSNwXiiOKMzP+FUmVd7CdH8+m8yks4w7YQbA735nY1m
+ Dhf9ftDAXtFClaNUWPGxg4atllIYzWU1vQzjQNFS68jYxjRmHMURVEL84OdGJXRjD8A3
+ i0FQSxlq89LbYuIqg68lCArt8ML/2QEDRwashMf9J5pQxQ5kx6s9bm+weCDzNzh4qu3X
+ HhdCiEb6DWrcAlOQBt/OQjjqRBzPgposiQLdr7rFarZ4M8llrLhhmOkGZCMiM0ItgmBD
+ zt2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f8OZQPM5EHX3K0LcIbG7M5SK0hksxqYnwmQqH5pq9aU=;
- b=TfxuE+zZu34btFeiy1snZdht+S6lMpkhANkILDvOVKVgUyiPTyzrZGmw1BBmSIbtSp
- 4OvDodfT4kxBx/S1wbFx2XB1aTdAaTM4pkfPEl0ty7VHjwZezyuG7FX34kY25dMtdI2J
- vIxnKR11rPkRmitLX0ibIYLELH+UydmbPGBsl30Gd6com3Sejo7LUvSkOWuKUjQ6Fw6N
- XzlFW/Yg6DZJbHb4d5prJIJ+a6RQKWftMWECyVyqm44WDKFiCo96I900lASDBFwDnKrs
- sLR8XDKRIxU85thjXmFw5b9p6bG44cjNsJzsJsKfR+x0HH4MlMPVooxSgQc2/RKBlqXm
- lrPg==
-X-Gm-Message-State: AOAM53347O/OxLtYtWO27sPKijIASyJDHpinWLX+EDy0hl/0UapAdVNC
- TSL4++WNjXx3nTw6FuuQzWbPMVxKaqY=
-X-Google-Smtp-Source: ABdhPJw10hs+dmjnXV+AXtSJ1v8YlULrtbiUqgJPSmxo/ZOGplf6ZC/NSp4Fv0qaU1yqHb7q54/cag==
-X-Received: by 2002:ab0:283:: with SMTP id 3mr15934269uah.18.1595276653827;
- Mon, 20 Jul 2020 13:24:13 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
- [209.85.217.48])
- by smtp.gmail.com with ESMTPSA id f7sm2390954vso.5.2020.07.20.13.24.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jul 2020 13:24:12 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id p25so9200684vsg.4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 13:24:12 -0700 (PDT)
-X-Received: by 2002:a05:6102:20a:: with SMTP id
- z10mr17445636vsp.213.1595276651995; 
- Mon, 20 Jul 2020 13:24:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x2zJYpgDs4IU0fc9VR3TdzhXdQh+0MOJRer0pywnXKA=;
+ b=j3aIcyCaD7FbIswHvigVRmOFZe/fRDpm5T0fYRgNLFSGeE7ZCO9kcSrWm50geL0vjM
+ ZiflEnGRrt3zuBs6irXVMHn5JrQ1ti6ZmBrglpH8mlPFfYGQMrLfnaSCaCuuFaMlF8jH
+ okyoq1E5x4g5O1NSMy9lLgEe+KpTZJ6B0cR1DulJeM/gUm/JdLbdLckSU/bSQnuTcgs/
+ /fsN+TnoiNIzDswRt59Acd9hbppJMT6FoQpWAj7srTDHrapL5TT4A8ow+vdcX2MPiCCg
+ NDm9xuH6p6Q6LRl3YdsVz/poipze6kT0VZ/E/puQgqEFI4ZJGAY1wMHAYyuGGDAcjl0w
+ ishg==
+X-Gm-Message-State: AOAM530xHWBtZE0ftkRIsS8r2BWLEIs9MZgXDPa0glNz98SM1YvB0V9n
+ PRERLpHY4Q9L1PVWOrrT46iWhQ==
+X-Google-Smtp-Source: ABdhPJzvwrDIcDCCe4LB9xTwr68FXr5R+zlTi94XLknZf5DVBVuutopYN4TgqjOAlrk4Du5owjyogQ==
+X-Received: by 2002:a2e:8718:: with SMTP id m24mr11490351lji.253.1595277319177; 
+ Mon, 20 Jul 2020 13:35:19 -0700 (PDT)
+Received: from localhost.bredbandsbolaget
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id y24sm3435076ljy.91.2020.07.20.13.35.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 13:35:18 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2 v1] dt-bindings: backlight: Add Kinetic KTD253 bindings
+Date: Mon, 20 Jul 2020 22:35:05 +0200
+Message-Id: <20200720203506.3883129-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200716132120.1.I01e738cd469b61fc9b28b3ef1c6541a4f48b11bf@changeid>
-In-Reply-To: <20200716132120.1.I01e738cd469b61fc9b28b3ef1c6541a4f48b11bf@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 20 Jul 2020 13:24:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WonUcENxsY_jnYdw3d5rS0OMmrDAoMsDwYRZbMwCkJdw@mail.gmail.com>
-Message-ID: <CAD=FV=WonUcENxsY_jnYdw3d5rS0OMmrDAoMsDwYRZbMwCkJdw@mail.gmail.com>
-Subject: Re: [PATCH] drm: panel: simple: Delay HPD checking on
- boe_nv133fhm_n61 for 15 ms
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,82 +67,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This adds device tree bindings for the Kinetic KTD253
+white LED backlight driver.
 
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ .../leds/backlight/kinetic,ktd253.yaml        | 48 +++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
 
-On Thu, Jul 16, 2020 at 1:21 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> On boe_nv133fhm_n62 (and presumably on boe_nv133fhm_n61) a scope shows
-> a small spike on the HPD line right when you power the panel on.  The
-> picture looks something like this:
->
->          +--------------------------------------
->          |
->          |
->          |
-> Power ---+
->                                            +---
->                                            |
->               ++                           |
->          +----+|                           |
-> HPD -----+     +---------------------------+
->
-> So right when power is applied there's a little bump in HPD and then
-> there's small spike right before it goes low.  The total time of the
-> little bump plus the spike was measured on one panel as being 8 ms
-> long.  The total time for the HPD to go high on the same panel was
-> 51.2 ms, though the datasheet only promises it is < 200 ms.
->
-> When asked about this glitch, BOE indicated that it was expected and
-> persisted until the TCON has been initialized.
->
-> If this was a real hotpluggable DP panel then this wouldn't matter a
-> whole lot.  We'd debounce the HPD signal for a really long time and so
-> the little blip wouldn't hurt.  However, this is not a hotpluggable DP
-> panel and the the debouncing logic isn't needed and just shows down
-> the time needed to get the display working.  This is why the code in
-> panel_simple_prepare() doesn't do debouncing and just waits for HPD to
-> go high once.  Unfortunately if we get unlucky and happen to poll the
-> HPD line right at the spike we can try talking to the panel before
-> it's ready.
->
-> Let's handle this situation by putting in a 15 ms prepare delay and
-> decreasing the "hpd absent delay" by 15 ms.  That means:
-> * If you don't have HPD hooked up at all you've still got the
->   hardcoded 200 ms delay.
-> * If you've got HPD hooked up you will always wait at least 15 ms
->   before checking HPD.  The only case where this could be bad is if
->   the panel is sharing a voltage rail with something else in the
->   system and was already turned on long before the panel came up.  In
->   such a case we'll be delaying 15 ms for no reason, but it's not a
->   huge delay and I don't see any other good solution to handle that
->   case.
->
-> Even though the delay was measured as 8 ms, 15 ms was chosen to give a
-> bit of margin.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> I don't actually have a device in front of me that is exhibiting these
-> problems.  I believe that it is only some devices and some of the
-> time.  Still, this patch seems safe and seems likely to fix the issue
-> given the scope shots.
+diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+new file mode 100644
+index 000000000000..610bf9a0e270
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktd253.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Kinetic Technologies KTD253 one-wire backlight
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description: |
++  The Kinetic Technologies KTD253 is a white LED backlight that is
++  controlled by a single GPIO line. If you just turn on the backlight
++  it goes to maximum backlight then you can set the level of backlight
++  using pulses on the enable wire.
++
++properties:
++  compatible:
++    const: kinetic,ktd253
++
++  gpios:
++    description: GPIO to use to enable/disable and dim the backlight.
++    maxItems: 1
++
++  default-brightness:
++    description: Default brightness level on boot. 0 is off.
++    minimum: 0
++    maximum: 255
++
++  max-brightness:
++    description: Maximum brightness that is allowed during runtime.
++    minimum: 0
++    maximum: 255
++
++required:
++  - compatible
++  - gpios
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    backlight {
++        compatible = "kinetic,ktd253";
++        gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
++        default-on;
++        default-brightness = <160>;
++    };
+-- 
+2.26.2
 
-Just to follow-up, I just heard that someone who had a panel
-exhibiting this problem tried my patch and it fixed it for them.  :-)
-So this is not such a shot in the dark anymore.
-
--Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
