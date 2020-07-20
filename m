@@ -2,63 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A084225D4F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 13:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7CA225DE2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jul 2020 13:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73A4E89EA3;
-	Mon, 20 Jul 2020 11:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE6D96E38A;
+	Mon, 20 Jul 2020 11:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 517 seconds by postgrey-1.36 at gabe;
- Mon, 20 Jul 2020 11:24:13 UTC
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A39489EA3;
- Mon, 20 Jul 2020 11:24:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id EEED53F64F;
- Mon, 20 Jul 2020 13:15:33 +0200 (CEST)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=gTkGdHYR; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vixtsmS5pBFA; Mon, 20 Jul 2020 13:15:33 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 7B7A03F2DB;
- Mon, 20 Jul 2020 13:15:30 +0200 (CEST)
-Received: from localhost.localdomain (unknown [134.134.139.76])
- by mail1.shipmail.org (Postfix) with ESMTPSA id CCBA93605CC;
- Mon, 20 Jul 2020 13:15:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1595243729; bh=mjlfxngBtSmrB32mu8iDZVMjrYWXXM5cA0DACfYZQ2A=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=gTkGdHYRQjhf+Xn+mawTLz9g2cXReJ781N7XtbRK9TZGGLo4yDhimnm9Mevq/ntPQ
- uyLUhQhfiM7x08z9IjjGWSu3S+AP+bNX+mEqJyRsxaF/sP0FmGUpVvXDhY8a5dEKvZ
- LGF1OoSNnF/ZVdVaQNJHgwIeW7LViWHDfAvpN52E=
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
-Date: Mon, 20 Jul 2020 13:15:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82B3A6E37F;
+ Mon, 20 Jul 2020 11:54:24 +0000 (UTC)
+IronPort-SDR: JhMH1A6O7//qjI5edXB8AxsTWYLORFThpE2GcIVv2B8Iy6n3SYGlDeucu6l/H7AGvV7H0dsMLQ
+ cov0QpQlqshA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9687"; a="149048185"
+X-IronPort-AV: E=Sophos;i="5.75,374,1589266800"; d="scan'208";a="149048185"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2020 04:54:23 -0700
+IronPort-SDR: 5sgpX0E+b6Osza77XdCFk8oDkUAVRXp1ym3rt1jYjozczqgDUqQ2R9VuvZK1v47qCuPsYluuPx
+ Yg1dWNHQwp+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,374,1589266800"; d="scan'208";a="431586698"
+Received: from unknown (HELO karthik-2012-Client-Platform.iind.intel.com)
+ ([10.223.74.217])
+ by orsmga004.jf.intel.com with ESMTP; 20 Jul 2020 04:54:20 -0700
+From: Karthik B S <karthik.b.s@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 0/5] Asynchronous flip implementation for i915
+Date: Mon, 20 Jul 2020 17:01:12 +0530
+Message-Id: <20200720113117.16131-1-karthik.b.s@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20200709123339.547390-1-daniel.vetter@ffwll.ch>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +47,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, linux-rdma@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Steve Pronovost <spronovo@microsoft.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Jesse Natalie <jenatali@microsoft.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-media@vger.kernel.org
+Cc: paulo.r.zanoni@intel.com, Karthik B S <karthik.b.s@intel.com>,
+ dri-devel@lists.freedesktop.org, vandita.kulkarni@intel.com,
+ uma.shankar@intel.com, daniel.vetter@intel.com, nicholas.kazlauskas@amd.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Without async flip support in the kernel, fullscreen apps where game
+resolution is equal to the screen resolution, must perform an extra blit
+per frame prior to flipping.
 
-On 7/9/20 2:33 PM, Daniel Vetter wrote:
-> Comes up every few years, gets somewhat tedious to discuss, let's
-> write this down once and for all.
->
-> What I'm not sure about is whether the text should be more explicit in
-> flat out mandating the amdkfd eviction fences for long running compute
-> workloads or workloads where userspace fencing is allowed.
+Asynchronous page flips will also boost the FPS of Mesa benchmarks.
 
-Although (in my humble opinion) it might be possible to completely 
-untangle kernel-introduced fences for resource management and dma-fences 
-used for completion- and dependency tracking and lift a lot of 
-restrictions for the dma-fences, including prohibiting infinite ones, I 
-think this makes sense describing the current state.
+v2: -Few patches have been squashed and patches have been shuffled as
+     per the reviews on the previous version.
 
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@intel.com>
+v3: -Few patches have been squashed and patches have been shuffled as
+     per the reviews on the previous version.
 
+v4: -Made changes to fix the sequence and time stamp issue as per the
+     comments received on the previous version.
+    -Timestamps are calculated using the flip done time stamp and current
+     timestamp. Here I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP flag is used
+     for timestamp calculations.
+    -Event is sent from the interrupt handler immediately using this
+     updated timestamps and sequence.
+    -Added more state checks as async flip should only allow change in plane
+     surface address and nothing else should be allowed to change.
+    -Added a separate plane hook for async flip.
+    -Need to find a way to reject fbc enabling if it comes as part of this
+     flip as bspec states that changes to FBC are not allowed.
+
+v5: -Fixed the Checkpatch and sparse warnings.
+
+Karthik B S (5):
+  drm/i915: Add enable/disable flip done and flip done handler
+  drm/i915: Add support for async flips in I915
+  drm/i915: Add checks specific to async flips
+  drm/i915: Do not call drm_crtc_arm_vblank_event in async flips
+  drm/i915: Enable async flips in i915
+
+ drivers/gpu/drm/i915/display/intel_display.c | 123 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_sprite.c  |  33 ++++-
+ drivers/gpu/drm/i915/i915_irq.c              |  83 +++++++++++--
+ drivers/gpu/drm/i915/i915_irq.h              |   2 +
+ drivers/gpu/drm/i915/i915_reg.h              |   5 +-
+ 5 files changed, 237 insertions(+), 9 deletions(-)
+
+-- 
+2.22.0
 
 _______________________________________________
 dri-devel mailing list
