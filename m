@@ -1,59 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B282227B55
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:01:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55377227B71
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:15:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB02F6E51A;
-	Tue, 21 Jul 2020 09:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 968236E51B;
+	Tue, 21 Jul 2020 09:15:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 149956E51B
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:01:37 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id w3so2079113wmi.4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=zNj1IGoeKVAb8dC83T2Ghzw4r2YvkDKuOqgG0KELND8=;
- b=ECr74pl3lQhwVc4AlsFxs6zs0Y156iB+4Q/MKXAwYPrd5HzzBjdcCydbV2FgGQkTRo
- mOthk83YDeQnu9n6chamwcpEQYknd4gRKYrNecGpfJzK0+bPWNWiC2pJPS9Ev3Cr1W+L
- bsP1Uko9LZrmqithNCai+N81APFI06IqxggbU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=zNj1IGoeKVAb8dC83T2Ghzw4r2YvkDKuOqgG0KELND8=;
- b=DZTUWT7DQuSrsq+YZed8LaXI85bGkXrWcpOP8BN/qihPT83QtC/g2Qa78T5Zf7HTSI
- rN3PnXOdicAmLgUceVc+mgkd8y0JqmDl8T1WNLN4fDeMl+hEMvcXbrvg8o9+jTAWG0tt
- 8OiPlQXVehafDex4+sYIFReiauBCWFwfY1fJF++F+RJyta08Zgeh4e90T+KJEpU9MXlD
- QKCc/g9Ej52YXzXE+DQXe3ab6DYFjjb0DQfAcEW9SFUymHz9Cy2h8PfSDtYIw/FybaSV
- f3TPgMGsLnO8T6TWZK5ocFit1dYwNgCSowzQ65HNkMc1jdv8TaX6QTaPZy6/Ms9EsfUQ
- bbQA==
-X-Gm-Message-State: AOAM532ncfmUO2yW09CozJ5QcfaK04PsStU5giNa7KJFN3FTaiX40Wh4
- jzSoK1s092qQL4MPpYBTqvhS8zL/2Nc=
-X-Google-Smtp-Source: ABdhPJyDu8r2W+o3jMDeFXaCPeTmAHfeYsW6xfk9QqKhdgU5EKcGVZFFxQE30XRTE75WNKqX5T211Q==
-X-Received: by 2002:a1c:e405:: with SMTP id b5mr3325593wmh.54.1595322095643;
- Tue, 21 Jul 2020 02:01:35 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z11sm6632492wrw.93.2020.07.21.02.01.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 02:01:34 -0700 (PDT)
-Date: Tue, 21 Jul 2020 11:01:32 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH 05/11] drm/ttm: remove TTM_MEMTYPE_FLAG_CMA
-Message-ID: <20200721090132.GD6419@phenom.ffwll.local>
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690089.outbound.protection.outlook.com [40.107.69.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A5A6E51B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:15:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kS4mCIIeeMXvCu+T9IlJlP1u/Ea7ZzPQJTYiaq/GJBk4rcelCt7jjXZy3UiIOm82awB3/oWpwmD2PA6/pBjO/192NIncZxN3jXTfqAyuI9LDfmLiKeuGb8LREtYDxokoBC1X+PTic/pbSFpEuvtabzKDkJJkp9oqYGdGkXB4oS1x8G18JBZHpxPmlwFvv3ldT/0jRXUXcQhxESs8SSA0dqlEFBy5BwFNULl0p3U8TS0tJJx8iEVmGnNn+D69uhRWut1bS8UQ4pPNjgfPplqd5a6vJosay7jEU31I/Kj3vfZOIF6EqX3PrUusZjuCIV7EA6NJIHPDmd8EdSHrpN323Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gZBw7grgFgboJx6/PjfK4IN3zE5D5ua5dhsIMkZs96E=;
+ b=UM2m8nR403OEU+/lcLEKz79kORKVIg6D+9hJGtD6XyA3RBUW9INY9BxDfMtEMxksWawhI3rovi6zQnPeQiRnFaJkJ7hTOTDYMWzYdVvEiQJ7ein6YPYzWEq3CjnACplhBMuSyFsyH2QKCvz2cA+4OUl6aE5XuudsC17F1Ju+E2UYignwTi1Gdq/8Ijz0qQN30Q+dmpeqDCfSPWudBdH0eN3rBZC9YFCAXOMwe6otZRU8cw8CizJPc11eRiSZqdpDERe+2XKzu5cP7ZfQogwS3HNebJXqIWZ8i7yuXyHKV0CvgjAXJ19JIWyOPn+JNM6KC60ANCMqEdcc6KJosh/I2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gZBw7grgFgboJx6/PjfK4IN3zE5D5ua5dhsIMkZs96E=;
+ b=TJ2Qaqfn0DsPziBB4hpyQ4K9aKO25rmOddBmkghkcCfBQiVOSdO1s9EQDOWH+HnQx5HYLXoWgKMlpiHQEIem5DyPdqpGeNM7JvQGlX8WqQ0ftZ7Ap5zqjLGSMH/4M8bPfkwmncs13YMCBmD2vNB2I8Luom5a5YGdukm+3uzh1y8=
+Received: from BL0PR12MB2433.namprd12.prod.outlook.com (2603:10b6:207:4a::25)
+ by MN2PR12MB3758.namprd12.prod.outlook.com (2603:10b6:208:169::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Tue, 21 Jul
+ 2020 09:15:40 +0000
+Received: from BL0PR12MB2433.namprd12.prod.outlook.com
+ ([fe80::8106:ca24:2065:cf04]) by BL0PR12MB2433.namprd12.prod.outlook.com
+ ([fe80::8106:ca24:2065:cf04%7]) with mapi id 15.20.3195.025; Tue, 21 Jul 2020
+ 09:15:40 +0000
+From: "Chauhan, Madhav" <Madhav.Chauhan@amd.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 01/11] drm: remove optional dummy function from drivers
+ using TTM
+Thread-Topic: [PATCH 01/11] drm: remove optional dummy function from drivers
+ using TTM
+Thread-Index: AQHWXzEjRAIseUWvwEuDIEE+HFoNkqkRwDSw
+Date: Tue, 21 Jul 2020 09:15:40 +0000
+Message-ID: <BL0PR12MB243374E1D5F16264AC1FD75D9C780@BL0PR12MB2433.namprd12.prod.outlook.com>
 References: <20200721073245.2484-1-christian.koenig@amd.com>
- <20200721073245.2484-5-christian.koenig@amd.com>
+In-Reply-To: <20200721073245.2484-1-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-07-21T09:15:35Z; 
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=03d7fbb8-1574-4f1f-aca3-00005d39e1fd;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_enabled: true
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_setdate: 2020-07-21T09:15:28Z
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_method: Standard
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_name: Internal Use Only -
+ Unrestricted
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_actionid: de7b671f-5730-4190-9400-00006ec3d14e
+msip_label_76546daa-41b6-470c-bb85-f6f40f044d7f_contentbits: 0
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_enabled: true
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_setdate: 2020-07-21T09:15:36Z
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_method: Privileged
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_name: Public_0
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_actionid: 9b262b31-9139-4415-b820-0000238717c7
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_contentbits: 0
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [171.61.68.189]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ac138928-0978-494d-d206-08d82d56a364
+x-ms-traffictypediagnostic: MN2PR12MB3758:
+x-microsoft-antispam-prvs: <MN2PR12MB375888851A51466FF7338A609C780@MN2PR12MB3758.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:366;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: S5VkJWZ6EAq5h+QO50yLToqnLH3pEbuVwqnMkXWThTUnyydlo+4gt17jf0sbGqWbWPkHrUd3l5ZeN1iKhvkAcA1SDaoz76+f+I7O7vvbZfntD0l7t18FtaApUiW/OFEWOCW+oVsHm5fi9q0+uTs1LHi01JBtZlwbrfrddD7YmigxiDxfEVCgXKR0AUjtQo1w0Ws/yETTwXgFTciRQYARwuvAobRaYDa+h1YhmrGumcdMWzN6mAQ/UocFe86rvpCSNY95wcqpzEhsqSGfX8sgLiiI/QZgYEbAVOj+MMvGSuWgmUu52PI+GEWc2yTwV3IQ2BKorRBChYfo6ym1yeiwHQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB2433.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(376002)(366004)(39860400002)(136003)(346002)(55016002)(52536014)(86362001)(71200400001)(316002)(76116006)(4326008)(110136005)(54906003)(8676002)(2906002)(478600001)(66574015)(8936002)(9686003)(83380400001)(5660300002)(64756008)(66476007)(186003)(33656002)(6506007)(53546011)(66946007)(66556008)(26005)(7696005)(66446008);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: cqyMWZjyHAOnBhn6lcg2fI4S5l7IuCWZP7qX29G8J3A+9LV6WCUzzdOrBYzgHfyf5fn8FAcdN9XivL975SG9AikrZphs65zUn0MIaarRr4f5/vx6z4nIqQF1tkdICqWEok7vdvZ0fAyPh7yQHZNzGAZX1UUrpifBMFtuimHE6XEKjV09JU8vJ0NE+jFFe4qygqZc/uuW5fO63WyUdT1GvY2evlmyzXF+xgBafXKinej07f0xd8bNCODuBeGc5sut+jlV/tNk30ScRIyXs4fI2oY53qvnGRQ8/ude03hWjCtXedKMdDFX44otnIzBUXqHwcWFNQcYDruk0PhOyKlOQN2022fQ+NEbHdbGRawY8kyz+/VuWwfNTJNDDABU1wKAPRwJ0/Kfu9UPF3K2TO8Pw/d3XmDt/vBlTCAYiK3Ysp8tDVU6Brmzgy5Rje93S6DjZc168wuLWfNkF8hUPpUSQjOlJONphhMp9mhUz3pmoHA=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200721073245.2484-5-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2433.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac138928-0978-494d-d206-08d82d56a364
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2020 09:15:40.2857 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: r/eNpshELd7manJ50LlAcjtbiFB1Hb/pBNYXwC8iSYFw48QkG6uaqZoEmghF4LQisZV15J3B2Rpyeb017K64Qg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3758
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,210 +117,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: "michael.j.ruhl@intel.com" <michael.j.ruhl@intel.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 09:32:39AM +0200, Christian K=F6nig wrote:
-> The original intention was to avoid CPU page table unmaps
-> when BOs move between the GTT and SYSTEM domain.
-> =
-
-> The problem is that this never correctly handled changes
-> in the caching attributes or backing pages.
-> =
-
-> Just drop this for now and simply unmap the CPU page
-> tables in all cases.
-> =
-
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  4 +--
->  drivers/gpu/drm/nouveau/nouveau_bo.c       |  3 +-
->  drivers/gpu/drm/radeon/radeon_ttm.c        |  2 +-
->  drivers/gpu/drm/ttm/ttm_bo.c               | 34 ++++------------------
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
->  include/drm/ttm/ttm_bo_driver.h            |  1 -
->  6 files changed, 11 insertions(+), 35 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.c
-> index 9c0f12f74af9..44fa8bc49d18 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -93,7 +93,7 @@ static int amdgpu_init_mem_type(struct ttm_bo_device *b=
-dev, uint32_t type,
->  		man->func =3D &amdgpu_gtt_mgr_func;
->  		man->available_caching =3D TTM_PL_MASK_CACHING;
->  		man->default_caching =3D TTM_PL_FLAG_CACHED;
-> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE | TTM_MEMTYPE_FLAG_CMA;
-> +		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
->  		break;
->  	case TTM_PL_VRAM:
->  		/* "On-card" video ram */
-> @@ -108,7 +108,7 @@ static int amdgpu_init_mem_type(struct ttm_bo_device =
-*bdev, uint32_t type,
->  	case AMDGPU_PL_OA:
->  		/* On-chip GDS memory*/
->  		man->func =3D &ttm_bo_manager_func;
-> -		man->flags =3D TTM_MEMTYPE_FLAG_FIXED | TTM_MEMTYPE_FLAG_CMA;
-> +		man->flags =3D TTM_MEMTYPE_FLAG_FIXED;
->  		man->available_caching =3D TTM_PL_FLAG_UNCACHED;
->  		man->default_caching =3D TTM_PL_FLAG_UNCACHED;
->  		break;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
-au/nouveau_bo.c
-> index a1037478fa3f..7883341f8c83 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -695,8 +695,7 @@ nouveau_bo_init_mem_type(struct ttm_bo_device *bdev, =
-uint32_t type,
->  				TTM_PL_FLAG_WC;
->  			man->default_caching =3D TTM_PL_FLAG_WC;
->  		} else {
-> -			man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE |
-> -				     TTM_MEMTYPE_FLAG_CMA;
-> +			man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
->  			man->available_caching =3D TTM_PL_MASK_CACHING;
->  			man->default_caching =3D TTM_PL_FLAG_CACHED;
->  		}
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
-/radeon_ttm.c
-> index 73085523fad7..54af06df865b 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -84,7 +84,7 @@ static int radeon_init_mem_type(struct ttm_bo_device *b=
-dev, uint32_t type,
->  		man->func =3D &ttm_bo_manager_func;
->  		man->available_caching =3D TTM_PL_MASK_CACHING;
->  		man->default_caching =3D TTM_PL_FLAG_CACHED;
-> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE | TTM_MEMTYPE_FLAG_CMA;
-> +		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
->  #if IS_ENABLED(CONFIG_AGP)
->  		if (rdev->flags & RADEON_IS_AGP) {
->  			if (!rdev->ddev->agp) {
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 8b9e7f62bea7..0768a054a916 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -272,20 +272,15 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer=
-_object *bo,
->  				  struct ttm_operation_ctx *ctx)
->  {
->  	struct ttm_bo_device *bdev =3D bo->bdev;
-> -	bool old_is_pci =3D ttm_mem_reg_is_pci(bdev, &bo->mem);
-> -	bool new_is_pci =3D ttm_mem_reg_is_pci(bdev, mem);
->  	struct ttm_mem_type_manager *old_man =3D &bdev->man[bo->mem.mem_type];
->  	struct ttm_mem_type_manager *new_man =3D &bdev->man[mem->mem_type];
-> -	int ret =3D 0;
-> +	int ret;
->  =
-
-> -	if (old_is_pci || new_is_pci ||
-> -	    ((mem->placement & bo->mem.placement & TTM_PL_MASK_CACHING) =3D=3D =
-0)) {
-> -		ret =3D ttm_mem_io_lock(old_man, true);
-> -		if (unlikely(ret !=3D 0))
-> -			goto out_err;
-> -		ttm_bo_unmap_virtual_locked(bo);
-> -		ttm_mem_io_unlock(old_man);
-> -	}
-
-Fastpath for when there's no mapping at all might be a more reasonable
-idea than trying to keep it around. Lots of one-shot upload or indirect
-upload buffers generally, and maybe avoiding the ttm_mem_type_manager io
-mutex is worth it. Anyway totally different thing.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +	ret =3D ttm_mem_io_lock(old_man, true);
-> +	if (unlikely(ret !=3D 0))
-> +		goto out_err;
-> +	ttm_bo_unmap_virtual_locked(bo);
-> +	ttm_mem_io_unlock(old_man);
->  =
-
->  	/*
->  	 * Create and bind a ttm if required.
-> @@ -1698,23 +1693,6 @@ EXPORT_SYMBOL(ttm_bo_device_init);
->   * buffer object vm functions.
->   */
->  =
-
-> -bool ttm_mem_reg_is_pci(struct ttm_bo_device *bdev, struct ttm_mem_reg *=
-mem)
-> -{
-> -	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
-> -
-> -	if (!(man->flags & TTM_MEMTYPE_FLAG_FIXED)) {
-> -		if (mem->mem_type =3D=3D TTM_PL_SYSTEM)
-> -			return false;
-> -
-> -		if (man->flags & TTM_MEMTYPE_FLAG_CMA)
-> -			return false;
-> -
-> -		if (mem->placement & TTM_PL_FLAG_CACHED)
-> -			return false;
-> -	}
-> -	return true;
-> -}
-> -
->  void ttm_bo_unmap_virtual_locked(struct ttm_buffer_object *bo)
->  {
->  	struct ttm_bo_device *bdev =3D bo->bdev;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm=
-/vmwgfx/vmwgfx_ttm_buffer.c
-> index bfd0c54ec30a..6bea7548aee0 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -762,7 +762,7 @@ static int vmw_init_mem_type(struct ttm_bo_device *bd=
-ev, uint32_t type,
->  		 *  slots as well as the bo size.
->  		 */
->  		man->func =3D &vmw_gmrid_manager_func;
-> -		man->flags =3D TTM_MEMTYPE_FLAG_CMA | TTM_MEMTYPE_FLAG_MAPPABLE;
-> +		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
->  		man->available_caching =3D TTM_PL_FLAG_CACHED;
->  		man->default_caching =3D TTM_PL_FLAG_CACHED;
->  		break;
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_dri=
-ver.h
-> index 45522e4fbd6b..71b195e78c7c 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -47,7 +47,6 @@
->  =
-
->  #define TTM_MEMTYPE_FLAG_FIXED         (1 << 0)	/* Fixed (on-card) PCI m=
-emory */
->  #define TTM_MEMTYPE_FLAG_MAPPABLE      (1 << 1)	/* Memory mappable */
-> -#define TTM_MEMTYPE_FLAG_CMA           (1 << 3)	/* Can't map aperture */
->  =
-
->  struct ttm_mem_type_manager;
->  =
-
-> -- =
-
-> 2.17.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+W0FNRCBQdWJsaWMgVXNlXQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQ2hy
+aXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IA0KU2VudDog
+VHVlc2RheSwgSnVseSAyMSwgMjAyMCAxOjAzIFBNDQpUbzogZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZw0KQ2M6IENoYXVoYW4sIE1hZGhhdiA8TWFkaGF2LkNoYXVoYW5AYW1kLmNvbT47
+IHR6aW1tZXJtYW5uQHN1c2UuZGU7IG1pY2hhZWwuai5ydWhsQGludGVsLmNvbQ0KU3ViamVjdDog
+W1BBVENIIDAxLzExXSBkcm06IHJlbW92ZSBvcHRpb25hbCBkdW1teSBmdW5jdGlvbiBmcm9tIGRy
+aXZlcnMgdXNpbmcgVFRNDQoNCkltcGxlbWVudGluZyB0aG9zZSBpcyBjb21wbGV0ZWx5IHVuZWNl
+c3NhcnkuDQoNCkxHVE0uIE5pdHBpY2s6IFBsZWFzZSBjaGVjayBzcGVsbCBvZiAidW5lY2Vzc2Fy
+eSINCg0KUmV2aWV3ZWQtYnk6IE1hZGhhdiBDaGF1aGFuIDxtYWRoYXYuY2hhdWhhbkBhbWQuY29t
+Pg0KDQpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
+ZC5jb20+DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgICAg
+fCAgNSAtLS0tLQ0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMgICAgICB8
+ICA1IC0tLS0tDQogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMgICAgICAgICAgICAgIHwg
+IDYgLS0tLS0tDQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgICAgICAgIHwg
+IDUgLS0tLS0NCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgfCAx
+MSAtLS0tLS0tLS0tLQ0KIDUgZmlsZXMgY2hhbmdlZCwgMzIgZGVsZXRpb25zKC0pDQoNCmRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMNCmluZGV4IDNkZjY4NTI4N2NjMS4uOWMw
+ZjEyZjc0YWY5IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X3R0bS5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMNCkBA
+IC04MzYsMTAgKzgzNiw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3R0bV9pb19tZW1fcmVzZXJ2ZShz
+dHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9tZW1fDQogCXJldHVybiAwOw0K
+IH0NCiANCi1zdGF0aWMgdm9pZCBhbWRncHVfdHRtX2lvX21lbV9mcmVlKHN0cnVjdCB0dG1fYm9f
+ZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1lbSkgLXsgLX0NCi0NCiBzdGF0aWMg
+dW5zaWduZWQgbG9uZyBhbWRncHVfdHRtX2lvX21lbV9wZm4oc3RydWN0IHR0bV9idWZmZXJfb2Jq
+ZWN0ICpibywNCiAJCQkJCSAgIHVuc2lnbmVkIGxvbmcgcGFnZV9vZmZzZXQpDQogew0KQEAgLTE3
+NTQsNyArMTc1MCw2IEBAIHN0YXRpYyBzdHJ1Y3QgdHRtX2JvX2RyaXZlciBhbWRncHVfYm9fZHJp
+dmVyID0gew0KIAkucmVsZWFzZV9ub3RpZnkgPSAmYW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5LA0K
+IAkuZmF1bHRfcmVzZXJ2ZV9ub3RpZnkgPSAmYW1kZ3B1X2JvX2ZhdWx0X3Jlc2VydmVfbm90aWZ5
+LA0KIAkuaW9fbWVtX3Jlc2VydmUgPSAmYW1kZ3B1X3R0bV9pb19tZW1fcmVzZXJ2ZSwNCi0JLmlv
+X21lbV9mcmVlID0gJmFtZGdwdV90dG1faW9fbWVtX2ZyZWUsDQogCS5pb19tZW1fcGZuID0gYW1k
+Z3B1X3R0bV9pb19tZW1fcGZuLA0KIAkuYWNjZXNzX21lbW9yeSA9ICZhbWRncHVfdHRtX2FjY2Vz
+c19tZW1vcnksDQogCS5kZWxfZnJvbV9scnVfbm90aWZ5ID0gJmFtZGdwdV92bV9kZWxfZnJvbV9s
+cnVfbm90aWZ5IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBl
+ci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYw0KaW5kZXggZDEwN2Ey
+Njc5ZTIzLi4zMjk2ZWQzZGYzNTggMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dl
+bV92cmFtX2hlbHBlci5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBl
+ci5jDQpAQCAtMTA4MSwxMCArMTA4MSw2IEBAIHN0YXRpYyBpbnQgYm9fZHJpdmVyX2lvX21lbV9y
+ZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LA0KIAlyZXR1cm4gMDsNCiB9DQogDQot
+c3RhdGljIHZvaWQgYm9fZHJpdmVyX2lvX21lbV9mcmVlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpi
+ZGV2LA0KLQkJCQkgIHN0cnVjdCB0dG1fbWVtX3JlZyAqbWVtKQ0KLXsgfQ0KLQ0KIHN0YXRpYyBz
+dHJ1Y3QgdHRtX2JvX2RyaXZlciBib19kcml2ZXIgPSB7DQogCS50dG1fdHRfY3JlYXRlID0gYm9f
+ZHJpdmVyX3R0bV90dF9jcmVhdGUsDQogCS50dG1fdHRfcG9wdWxhdGUgPSB0dG1fcG9vbF9wb3B1
+bGF0ZSwNCkBAIC0xMDk0LDcgKzEwOTAsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIg
+Ym9fZHJpdmVyID0gew0KIAkuZXZpY3RfZmxhZ3MgPSBib19kcml2ZXJfZXZpY3RfZmxhZ3MsDQog
+CS5tb3ZlX25vdGlmeSA9IGJvX2RyaXZlcl9tb3ZlX25vdGlmeSwNCiAJLmlvX21lbV9yZXNlcnZl
+ID0gYm9fZHJpdmVyX2lvX21lbV9yZXNlcnZlLA0KLQkuaW9fbWVtX2ZyZWUgPSBib19kcml2ZXJf
+aW9fbWVtX2ZyZWUsDQogfTsNCiANCiAvKg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9x
+eGwvcXhsX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMgaW5kZXggNTJlYWEy
+ZDIyNzQ1Li5hNmU2NzE0OWVmNGEgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4
+bF90dG0uYw0KKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMNCkBAIC0xMjksMTEg
+KzEyOSw2IEBAIGludCBxeGxfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2aWNl
+ICpiZGV2LA0KIAlyZXR1cm4gMDsNCiB9DQogDQotc3RhdGljIHZvaWQgcXhsX3R0bV9pb19tZW1f
+ZnJlZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwNCi0JCQkJc3RydWN0IHR0bV9tZW1fcmVn
+ICptZW0pDQotew0KLX0NCi0NCiAvKg0KICAqIFRUTSBiYWNrZW5kIGZ1bmN0aW9ucy4NCiAgKi8N
+CkBAIC0yNDcsNyArMjQyLDYgQEAgc3RhdGljIHN0cnVjdCB0dG1fYm9fZHJpdmVyIHF4bF9ib19k
+cml2ZXIgPSB7DQogCS5ldmljdF9mbGFncyA9ICZxeGxfZXZpY3RfZmxhZ3MsDQogCS5tb3ZlID0g
+JnF4bF9ib19tb3ZlLA0KIAkuaW9fbWVtX3Jlc2VydmUgPSAmcXhsX3R0bV9pb19tZW1fcmVzZXJ2
+ZSwNCi0JLmlvX21lbV9mcmVlID0gJnF4bF90dG1faW9fbWVtX2ZyZWUsDQogCS5tb3ZlX25vdGlm
+eSA9ICZxeGxfYm9fbW92ZV9ub3RpZnksDQogfTsNCiANCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
+X3R0bS5jDQppbmRleCBmNGYxZTYzNzMxYTUuLjczMDg1NTIzZmFkNyAxMDA2NDQNCi0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0v
+cmFkZW9uL3JhZGVvbl90dG0uYw0KQEAgLTQ1NywxMCArNDU3LDYgQEAgc3RhdGljIGludCByYWRl
+b25fdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBzdHJ1Y3Qg
+dHRtX21lbV8NCiAJcmV0dXJuIDA7DQogfQ0KIA0KLXN0YXRpYyB2b2lkIHJhZGVvbl90dG1faW9f
+bWVtX2ZyZWUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fbWVtX3JlZyAq
+bWVtKSAteyAtfQ0KLQ0KIC8qDQogICogVFRNIGJhY2tlbmQgZnVuY3Rpb25zLg0KICAqLw0KQEAg
+LTc3NCw3ICs3NzAsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgcmFkZW9uX2JvX2Ry
+aXZlciA9IHsNCiAJLm1vdmVfbm90aWZ5ID0gJnJhZGVvbl9ib19tb3ZlX25vdGlmeSwNCiAJLmZh
+dWx0X3Jlc2VydmVfbm90aWZ5ID0gJnJhZGVvbl9ib19mYXVsdF9yZXNlcnZlX25vdGlmeSwNCiAJ
+LmlvX21lbV9yZXNlcnZlID0gJnJhZGVvbl90dG1faW9fbWVtX3Jlc2VydmUsDQotCS5pb19tZW1f
+ZnJlZSA9ICZyYWRlb25fdHRtX2lvX21lbV9mcmVlLA0KIH07DQogDQogaW50IHJhZGVvbl90dG1f
+aW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngv
+dm13Z2Z4X3R0bV9idWZmZXIuYw0KaW5kZXggZmJjZDExYTdiMjE1Li5iZmQwYzU0ZWMzMGEgMTAw
+NjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMNCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYw0KQEAgLTgxNSwx
+NSArODE1LDYgQEAgc3RhdGljIGludCB2bXdfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1f
+Ym9fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX21lbV9yZWcNCiAJcmV0dXJuIDA7DQogfQ0KIA0K
+LXN0YXRpYyB2b2lkIHZtd190dG1faW9fbWVtX2ZyZWUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
+ZXYsIHN0cnVjdCB0dG1fbWVtX3JlZyAqbWVtKSAteyAtfQ0KLQ0KLXN0YXRpYyBpbnQgdm13X3R0
+bV9mYXVsdF9yZXNlcnZlX25vdGlmeShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKSAtew0K
+LQlyZXR1cm4gMDsNCi19DQotDQogLyoqDQogICogdm13X21vdmVfbm90aWZ5IC0gVFRNIG1vdmVf
+bm90aWZ5X2NhbGxiYWNrDQogICoNCkBAIC04NjYsNyArODU3LDUgQEAgc3RydWN0IHR0bV9ib19k
+cml2ZXIgdm13X2JvX2RyaXZlciA9IHsNCiAJLnZlcmlmeV9hY2Nlc3MgPSB2bXdfdmVyaWZ5X2Fj
+Y2VzcywNCiAJLm1vdmVfbm90aWZ5ID0gdm13X21vdmVfbm90aWZ5LA0KIAkuc3dhcF9ub3RpZnkg
+PSB2bXdfc3dhcF9ub3RpZnksDQotCS5mYXVsdF9yZXNlcnZlX25vdGlmeSA9ICZ2bXdfdHRtX2Zh
+dWx0X3Jlc2VydmVfbm90aWZ5LA0KIAkuaW9fbWVtX3Jlc2VydmUgPSAmdm13X3R0bV9pb19tZW1f
+cmVzZXJ2ZSwNCi0JLmlvX21lbV9mcmVlID0gJnZtd190dG1faW9fbWVtX2ZyZWUsDQogfTsNCi0t
+DQoyLjE3LjENCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
