@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4610C228814
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 20:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B97D228824
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 20:24:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B4B6E421;
-	Tue, 21 Jul 2020 18:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0284C6E427;
+	Tue, 21 Jul 2020 18:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8452E6E156
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 18:19:09 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id h1so15768488otq.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 11:19:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=a22hQK6cJeMfHLvNiRw93Ty044K5y0nmFYyuDYDGOcI=;
- b=RRts8Pwr5UcXXv3Bw+O9xoHnODEWp1V/p9FlxiDtRAKNg+HxEHVHcKsKyJoEilJYdv
- q+rn4deBX9ggDziultofcYH0vtI7iUhGC1o2Sm09VJbb27z0uOKkDOVyZvjfaO7uPWWn
- 7hh7xMU+JE9uzVYgLmFx+C9um8P94b6VFznq4=
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6884B6E422
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 18:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595355864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ealMEOrHFYO0kZ1pKFx9efUp2/FF6Eq+swSNcBoDaSA=;
+ b=Y5gUTrSb7ROYKIDqYBCitJ3ygTc4RhrNj/HU9qtGrfpR4n4/PNehZq560WlD/7xPaGuM1K
+ DLyo60JjxtFlqbJHlEW610cDeCUgWMc0OhS7BpzAkPDRSAeTzN1kbhUl0Ls+Yup1WfFbdb
+ 8DFAdLP9Rj4ukA0z1Pq/uLySqxdCEkY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-rcY55pqPMTWnsgECDYO8RQ-1; Tue, 21 Jul 2020 14:24:22 -0400
+X-MC-Unique: rcY55pqPMTWnsgECDYO8RQ-1
+Received: by mail-qt1-f200.google.com with SMTP id t36so14854480qtc.16
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 11:24:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=a22hQK6cJeMfHLvNiRw93Ty044K5y0nmFYyuDYDGOcI=;
- b=cJfM+LdtTXfrqntHVNetDDjIdHvHOzKqd2T9qpWKhKJceykRYhF4yazwFJa0eJYxrh
- yKxmFv3oGoIqu8l0aOROUEELuMNu4LVR4aCH99WoBVcnyGImZczwvBqu/4BtOL3ATXvD
- myBqhMCLAwPRjFcllw0ejQ8fIx+84PGib55/sobRaBefd334aRUe8qUlIAsVXMBrsP7t
- TNEo32VMIQ29qjhU6GYvlUApPrR0mh0vlhVlBnx8wkaxL2pg7JrkXUoqaoLYU8owKv+8
- m06Ig3+jJSxI0AapZeAkv1IZFjw4PTT3FqQhT3hcFmr894E8/vcnVLE8nsLCrHfWi0OE
- lowQ==
-X-Gm-Message-State: AOAM530CblfxIwhfg5O6eLIu3uwQOCdCvvKip+kmRi3VSU6bGgaGJSAJ
- lnPe+LYncHMZSsRdU8szqRSccfi8Kjtq9ep3Iu7Scw==
-X-Google-Smtp-Source: ABdhPJxcmcdY93XzSZSgT29lbh/+9cL9bNlOYjhUUtCZpNsuNRauZwGL7jeysaYtumdQH4HCtzK6O992FnCwdZ8uYq0=
-X-Received: by 2002:a05:6830:1d0:: with SMTP id
- r16mr27028455ota.188.1595355548728; 
- Tue, 21 Jul 2020 11:19:08 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=ealMEOrHFYO0kZ1pKFx9efUp2/FF6Eq+swSNcBoDaSA=;
+ b=HZYYbkps5CFKKozswOwlZmHkEmIJwZZp2XOnDWQMMX9UO++Ue3pKQ4qdp6VTwQUkre
+ x8BfTgGMHULSaM6htL08ZyTlcm5ZrIhHrmnwuEoZGtRWgKdIeYYgUOXWek2u6o3Sa1gG
+ xsmaOipifSxZ9abnPlRD+6CssXlMo0AIFTAw/ziWNXpyy+GQuodulnV0JYJf8GGNi3X8
+ Qt598fhXdOCYJLmkeSqap2Ao4hE08UyynsAmwvPGpsq4e13uwXR/v5uvbFFOuw7jr4Ka
+ T6/fSaDIM6u6qZLuQ8RakP/YgyiAYSFqtqHgnOzfJzv62l2r50a2O0s04U8Tvgo6ZtXx
+ rKRw==
+X-Gm-Message-State: AOAM530G4M8NhUbcOCXOBVQCg5Vyf7MIaL5PxgkWO8yuDkv6onheV4sf
+ Po2lJynStX1vyWD6yGxnmQTdXKTKg1doSHCH8M4OTQxJy3RKRQ5J8HWifOQxRsU/JNIqjKwNd8I
+ ylUas6KOQs1aRmacj0ylRs3SqsIob
+X-Received: by 2002:ac8:c7:: with SMTP id d7mr30400197qtg.235.1595355861660;
+ Tue, 21 Jul 2020 11:24:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5OPDtOL+vQse+EIZ+qb5SVhRfGv2p/Vv3U6BZWjtbTj7sJmsbB+3Na09bYDi+UjZ28Uz31A==
+X-Received: by 2002:ac8:c7:: with SMTP id d7mr30400169qtg.235.1595355861423;
+ Tue, 21 Jul 2020 11:24:21 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id x12sm510481qta.67.2020.07.21.11.24.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 11:24:20 -0700 (PDT)
+Message-ID: <a80a591ce61b632503c9ed52adc7c40faad8b068.camel@redhat.com>
+Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
+ without DLL Link Active train links in 100 ms"
+From: Lyude Paul <lyude@redhat.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Date: Tue, 21 Jul 2020 14:24:19 -0400
+In-Reply-To: <dc7a592219f58f9a5df7fa7135fa3fc87d9450f0.camel@redhat.com>
+References: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
+ <20200716235440.GA675421@bjorn-Precision-5520>
+ <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+ <CACO55tso5SVipAR=AZfqhp6GGkKO9angv6f+nd61wvgAJtrOKg@mail.gmail.com>
+ <20200721122247.GI5180@lahna.fi.intel.com>
+ <f951fba07ca7fa2fdfd590cd5023d1b31f515fa2.camel@redhat.com>
+ <20200721152737.GS5180@lahna.fi.intel.com>
+ <dc7a592219f58f9a5df7fa7135fa3fc87d9450f0.camel@redhat.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local>
- <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
- <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
- <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
- <74727f17-b3a5-ca12-6db6-e47543797b72@shipmail.org>
- <CAKMK7uFfMi5M5EkCeG6=tjuDANH4=gDLnFpxCYU-E-xyrxwYUg@mail.gmail.com>
- <ae4e4188-39e6-ec41-c11d-91e9211b4d3a@shipmail.org>
- <f8f73b9f-ce8d-ea02-7caa-d50b75b72809@amd.com>
- <6ed364c9-893b-8974-501a-418585eb4def@shipmail.org>
-In-Reply-To: <6ed364c9-893b-8974-501a-418585eb4def@shipmail.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 21 Jul 2020 20:18:57 +0200
-Message-ID: <CAKMK7uF9kFD+=2_6LJ1Wa2UNUAhAAjs5MNz7dmTfe-4_EFYjWA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,81 +88,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Steve Pronovost <spronovo@microsoft.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Jesse Natalie <jenatali@microsoft.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ Patrick Volkerding <volkerdi@gmail.com>, Linux PCI <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMjEsIDIwMjAgYXQgNzo0NiBQTSBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwp
-Cjx0aG9tYXNfb3NAc2hpcG1haWwub3JnPiB3cm90ZToKPgo+Cj4gT24gMjAyMC0wNy0yMSAxNTo1
-OSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+IEFtIDIxLjA3LjIwIHVtIDEyOjQ3IHNjaHJp
-ZWIgVGhvbWFzIEhlbGxzdHLDtm0gKEludGVsKToKPiAuLi4KPiA+PiBZZXMsIHdlIGNhbid0IGRv
-IG1hZ2ljLiBBcyBzb29uIGFzIGFuIGluZGVmaW5pdGUgYmF0Y2ggbWFrZXMgaXQgdG8KPiA+PiBz
-dWNoIGhhcmR3YXJlIHdlJ3ZlIGxvc3QuIEJ1dCBzaW5jZSB3ZSBjYW4gYnJlYWsgb3V0IHdoaWxl
-IHRoZSBiYXRjaAo+ID4+IGlzIHN0dWNrIGluIHRoZSBzY2hlZHVsZXIgd2FpdGluZywgd2hhdCBJ
-IGJlbGlldmUgd2UgKmNhbiogZG8gd2l0aAo+ID4+IHRoaXMgYXBwcm9hY2ggaXMgdG8gYXZvaWQg
-ZGVhZGxvY2tzIGR1ZSB0byBsb2NhbGx5IHVua25vd24KPiA+PiBkZXBlbmRlbmNpZXMsIHdoaWNo
-IGhhcyBzb21lIGJlYXJpbmcgb24gdGhpcyBkb2N1bWVudGF0aW9uIHBhdGNoLCBhbmQKPiA+PiBh
-bHNvIHRvIGFsbG93IG1lbW9yeSBhbGxvY2F0aW9uIGluIGRtYS1mZW5jZSAobm90IG1lbW9yeS1m
-ZW5jZSkKPiA+PiBjcml0aWNhbCBzZWN0aW9ucywgbGlrZSBncHUgZmF1bHQtIGFuZCBlcnJvciBo
-YW5kbGVycyB3aXRob3V0Cj4gPj4gcmVzb3J0aW5nIHRvIHVzaW5nIG1lbW9yeSBwb29scy4KPiA+
-Cj4gPiBBdm9pZGluZyBkZWFkbG9ja3MgaXMgb25seSB0aGUgdGlwIG9mIHRoZSBpY2ViZXJnIGhl
-cmUuCj4gPgo+ID4gV2hlbiB5b3UgYWxsb3cgdGhlIGtlcm5lbCB0byBkZXBlbmQgb24gdXNlciBz
-cGFjZSB0byBwcm9jZWVkIHdpdGggc29tZQo+ID4gb3BlcmF0aW9uIHRoZXJlIGFyZSBhIGxvdCBt
-b3JlIHRoaW5ncyB3aGljaCBuZWVkIGNvbnNpZGVyYXRpb24uCj4gPgo+ID4gRS5nLiB3aGF0IGhh
-cHBlbnMgd2hlbiBhbiB1c2Vyc3BhY2UgcHJvY2VzcyB3aGljaCBoYXMgc3VibWl0dGVkIHN0dWZm
-Cj4gPiB0byB0aGUga2VybmVsIGlzIGtpbGxlZD8gQXJlIHRoZSBwcmVwYXJlZCBjb21tYW5kcyBz
-ZW5kIHRvIHRoZQo+ID4gaGFyZHdhcmUgb3IgYWJvcnRlZCBhcyB3ZWxsPyBXaGF0IGRvIHdlIGRv
-IHdpdGggb3RoZXIgcHJvY2Vzc2VzCj4gPiB3YWl0aW5nIGZvciB0aGF0IHN0dWZmPwo+ID4KPiA+
-IEhvdyB0byB3ZSBkbyByZXNvdXJjZSBhY2NvdW50aW5nPyBXaGVuIHByb2Nlc3NlcyBuZWVkIHRv
-IGJsb2NrIHdoZW4KPiA+IHN1Ym1pdHRpbmcgdG8gdGhlIGhhcmR3YXJlIHN0dWZmIHdoaWNoIGlz
-IG5vdCByZWFkeSB3ZSBoYXZlIGEgcHJvY2Vzcwo+ID4gd2UgY2FuIHB1bmlzaCBmb3IgYmxvY2tp
-bmcgcmVzb3VyY2VzLiBCdXQgaG93IGlzIGtlcm5lbCBtZW1vcnkgdXNlZAo+ID4gZm9yIGEgc3Vi
-bWlzc2lvbiBhY2NvdW50ZWQ/IEhvdyBkbyB3ZSBhdm9pZCBkZW55IG9mIHNlcnZpY2UgYXR0YWNr
-cwo+ID4gaGVyZSB3ZXJlIHNvbWVib2R5IGVhdHMgdXAgYWxsIG1lbW9yeSBieSBkb2luZyBzdWJt
-aXNzaW9ucyB3aGljaCBjYW4ndAo+ID4gZmluaXNoPwo+ID4KPiBIbW0uIEFyZSB0aGVzZSBwcm9i
-bGVtcyByZWFsbHkgdW5pcXVlIHRvIHVzZXItc3BhY2UgY29udHJvbGxlZAo+IGRlcGVuZGVuY2ll
-cz8gQ291bGRuJ3QgeW91IGhpdCB0aGUgc2FtZSBvciBzaW1pbGFyIHByb2JsZW1zIHdpdGgKPiBt
-aXMtYmVoYXZpbmcgc2hhZGVycyBibG9ja2luZyB0aW1lbGluZSBwcm9ncmVzcz8KCldlIGp1c3Qg
-a2lsbCB0aGVtLCB3aGljaCB3ZSBjYW4gYmVjYXVzZSBzdHVmZiBuZWVkcyB0byBjb21wbGV0ZSBp
-biBhCnRpbWVseSBmYXNoaW9uLCBhbmQgd2l0aG91dCBhbnkgZnVydGhlciBpbnRlcnZlbnRpb24g
-LSBhbGwKcHJlcmVxdWlzaXRlIGRlcGVuZGVuY2llcyBtdXN0IGJlIGFuZCBhcmUga25vd24gYnkg
-dGhlIGtlcm5lbC4KCkJ1dCB3aXRoIHRoZSBsb25nL2VuZGxlc3MgcnVubmluZyBjb21wdXRlIHN0
-dWZmIHdpdGggdXNlcnNwYWNlIHN5bmMKcG9pbnQgYW5kIGV2ZXJ5dGhpbmcgZnJlZS13aGVlbGlu
-ZywgaW5jbHVkaW5nIHN0dWZmIGxpa2UgImhleSBJJ2xsCnN1Ym1pdCB0aGlzIHBhdGNoIGJ1dCB0
-aGUgbWVtb3J5IGlzbid0IGV2ZW4gYWxsIGFsbG9jYXRlZCB5ZXQsIHNvIEknbQpqdXN0IGdvaW5n
-IHRvIGhhbmcgaXQgb24gdGhpcyBzZW1hcGhvcmUgdW50aWwgdGhhdCdzIGRvbmUiIGlzIGVudGly
-ZWx5CmRpZmZlcmVudC4gVGhlcmUganVzdCBzaG9vdGluZyB0aGUgYmF0Y2gga2lsbHMgdGhlIHBy
-b2dyYW1taW5nIG1vZGVsLAphbmQgYWJpdHJhcmlseSBob2xkaW5nIHVwIGEgYmF0Y2ggZm9yIGFu
-b3RoZXIgb25lIHRvIGZpcnN0IGdldCBpdHMKbWVtb3J5IGFsc28gYnJlYWtzIGl0LCBiZWNhdXNl
-IHVzZXJzcGFjZSBtaWdodCBoYXZlIGlzc3VlZCB0aGVtIHdpdGgKZGVwZW5kZW5jaWVzIGluIHRo
-ZSBvdGhlciBvcmRlci4KClNvIHdpdGggdGhhdCBleGVjdXRpb24gbW9kZWwgeW91IGRvbid0IHJ1
-biBiYXRjaGVzLCBidXQganVzdCBhbiBlbnRpcmUKY29udGV4dC4gVXAgdG8gdXNlcnNwYWNlIHdo
-YXQgaXQgZG9lcyB3aXRoIHRoYXQsIGFuZCBsaWtlIHdpdGggY3B1CnRocmVhZHMganVzdCBydW5u
-aW5nIGEgYnVzeSBsb29wIGRvaW5nIG5vdGhpbmcgaXMgcGVyZmVjdGx5IGxlZ2l0Cihmcm9tIHRo
-ZSBrZXJuZWwgcG92J3MgYXQgbGVhc3QpIHdvcmtsb2FkLiBOb3RoaW5nIGluIHRoZSBrZXJuZWwg
-ZXZlcgp3YWl0cyBvbiBzdWNoIGEgY29udGV4dCB0byBkbyBhbnl0aGluZywgaWYgdGhlIGtlcm5l
-bCBuZWVkcyBzb21ldGhpbmcKeW91IGp1c3QgcHJlZW1wdCAob3IgaWYgaXQncyBtZW1vcnkgYW5k
-IHlvdSBoYXZlIGdwdSBwYWdlIGZhdWx0CmhhbmRsaW5nLCByaXAgb3V0IHRoZSBwYWdlKS4gQWNj
-b3VudGluZyBpcyBhbGwgZG9uZSBvbiBhIHNwZWNpZmljIGdwdQpjb250ZXh0IHRvby4gQW5kIHBy
-b2JhYmx5IHdlIG5lZWQgYSBzb21ld2hhdCBjb25zaXN0ZW50IGFwcHJvYWNoIG9uCmhvdyB3ZSBo
-YW5kbGUgdGhlc2UgZ3B1IGNvbnRleHQgdGhpbmdzIChkZWZpbml0ZWx5IG5lZWRlZCBmb3IgY2dy
-b3VwcwphbmQgYWxsIHRoYXQpLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
-Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, 2020-07-21 at 12:00 -0400, Lyude Paul wrote:
+> On Tue, 2020-07-21 at 18:27 +0300, Mika Westerberg wrote:
+> > On Tue, Jul 21, 2020 at 11:01:55AM -0400, Lyude Paul wrote:
+> > > Sure thing. Also, feel free to let me know if you'd like access to one
+> > > of
+> > > the
+> > > systems we saw breaking with this patch - I'm fairly sure I've got one
+> > > of
+> > > them
+> > > locally at my apartment and don't mind setting up AMT/KVM/SSH
+> > 
+> > Probably no need for remote access (thanks for the offer, though). I
+> > attached a test patch to the bug report:
+> > 
+> >   https://bugzilla.kernel.org/show_bug.cgi?id=208597
+> > 
+> > that tries to work it around (based on the ->pm_cap == 0). I wonder if
+> > anyone would have time to try it out.
+> 
+> Will give it a shot today and let you know the result
+
+Ahh-actually, I thought the laptop I had locally could reproduce this bug but
+that doesn't appear to be the case whoops. Karol Herbst still has access to a
+machine that can test this though, so they'll likely get to trying the patch
+today or tommorrow
+
+> 
+-- 
+Cheers,
+	Lyude Paul (she/her)
+	Software Engineer at Red Hat
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
