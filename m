@@ -2,63 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59588227A17
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5249B227AB2
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:32:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 799666E50E;
-	Tue, 21 Jul 2020 08:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBACD6E0CC;
+	Tue, 21 Jul 2020 08:32:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3926E50E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:02:16 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id j18so1849866wmi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 01:02:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=4Yx95fJnyvCXPOsdA0T3nG7DjBHq+G1/7n0p5dQWM8o=;
- b=hzvoLGKWstlSpSi6ir0TS/gm6q6V0Yb43duiL1PQOKkVUjYiJrcDQHxe+BzEZuNr/t
- /nJbZ+uAtsBqSu6qBgLSDPUu5jVUSxLs9KWQPPGUGKcFDpgHA21nsmdtISoioLIggNuq
- TXhBGLa/aNztYvV75+tcLdQyrIaanlsyYADMluC8DsNVZkKZ2WgXEpwHqyUTdniN+eh6
- J0Awj2Z5DgSIefcCSrtYrDHWBkPpzl54LNksdgia62MLtULGlGNPu0pYycYQmVupOCM2
- /jXJTBHrCevRjIuODT7fWxwmfTiRkrJJ1+LCIOolaCE8Iv79vDZGuY/vBs3DHvCQzQ/V
- bOXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=4Yx95fJnyvCXPOsdA0T3nG7DjBHq+G1/7n0p5dQWM8o=;
- b=GuNG+r8FB5o3i1exbyy16CKF17APNTnYl2TfjW2M1KmxfqUPqSeCkQA3jbtzslufdq
- G3Z606LrP1QQWfezvKLTb/PgBugKXHKILZbiMkqGIkNgIrF3Oltkb4uyFoavzDKcmbbs
- f5Kbb9YhOxPag6UfLPdxDoQ30kgXeDU4HmW6rO7P4wsBjG0x0xXn1dKVl3NCXZtxJOU+
- KOoprnIuwbb9Dfqu7kZCBehyrh0ogM5Ue0/XaLIhnCBxbhXXRgVbicFeIaglQgHk4fmC
- CMPMUb/U40if+xU0d4I3Ne9PWLv3hoaVFDvzaau9Pb6bGyb/m9CbKH7lAWIcjW294tnl
- b5Sw==
-X-Gm-Message-State: AOAM530prJFaWBRbSaVDwpME36SHIvpyyA/6J6MDGsXYnluZGrQwp+yo
- HO1JdBKCUMiOe9oSZbabl8g=
-X-Google-Smtp-Source: ABdhPJzXF1Ed6wUZPLNVka+X5plW5OM/MjmDvk2bFp8JHsrCTi0o5DJvls0Ee+zyolKPGxoSQdWLjw==
-X-Received: by 2002:a1c:48d:: with SMTP id 135mr2987839wme.102.1595318534696; 
- Tue, 21 Jul 2020 01:02:14 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id 68sm24879503wra.39.2020.07.21.01.02.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 21 Jul 2020 01:02:14 -0700 (PDT)
-Subject: Re: [PATCH 01/11] drm: remove optional dummy function from drivers
- using TTM
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: dri-devel@lists.freedesktop.org
-References: <20200721073245.2484-1-christian.koenig@amd.com>
-Message-ID: <2b0e60de-a88f-d46e-ddbb-ff1df9134675@gmail.com>
-Date: Tue, 21 Jul 2020 10:02:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37826E0CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:32:31 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id A418180695;
+ Tue, 21 Jul 2020 10:32:29 +0200 (CEST)
+Date: Tue, 21 Jul 2020 10:32:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/2 v1] dt-bindings: backlight: Add Kinetic KTD253 bindings
+Message-ID: <20200721083228.GA283099@ravnborg.org>
+References: <20200720203506.3883129-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200721073245.2484-1-christian.koenig@amd.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200720203506.3883129-1-linus.walleij@linaro.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=gEfo2CItAAAA:8
+ a=e5mUnYsNAAAA:8 a=3ht3TW4W6TadcqOHVe8A:9 a=CjuIK1q_8ugA:10
+ a=AjGcO6oz07-iQ99wixmX:22 a=cvBusfyB2V15izCimMoJ:22
+ a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,103 +45,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U29ycnksIEkgb25jZSBtb3JlIGZvcmdvdCB0aGUgY292ZXIgbGV0dGVyLgoKVGhpcyBpcyBqdXN0
-IHNvbWUgY2xlYW51cCBhbGwgb3ZlciBkcml2ZXJzIHVzaW5nIFRUTS4KClRoZSBvbmx5IGltcG9y
-dGFudCBmdW5jdGlvbmFsIGNoYW5nZSBpcyB0aGUgcmVtb3ZhbCBvZiB0aGUgQ01BIChDYW4ndCAK
-TWFwIEFwZXJ0dXJlKSBmbGFnIHNpbmNlIHRoaXMgbWlnaHQgYmUgYSBidWcgZml4LgoKUGxlYXNl
-IHJldmlldyBhbmQvb3IgY29tbWVudCwKQ2hyaXN0aWFuLgoKQW0gMjEuMDcuMjAgdW0gMDk6MzIg
-c2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+IEltcGxlbWVudGluZyB0aG9zZSBpcyBjb21wbGV0
-ZWx5IHVuZWNlc3NhcnkuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9hbWRncHVfdHRtLmMgICAgfCAgNSAtLS0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
-dnJhbV9oZWxwZXIuYyAgICAgIHwgIDUgLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
-X3R0bS5jICAgICAgICAgICAgICB8ICA2IC0tLS0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9yYWRlb25fdHRtLmMgICAgICAgIHwgIDUgLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8IDExIC0tLS0tLS0tLS0tCj4gICA1IGZpbGVzIGNoYW5n
-ZWQsIDMyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90
-dG0uYwo+IGluZGV4IDNkZjY4NTI4N2NjMS4uOWMwZjEyZjc0YWY5IDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwo+IEBAIC04MzYsMTAgKzgzNiw2IEBAIHN0YXRp
-YyBpbnQgYW1kZ3B1X3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
-diwgc3RydWN0IHR0bV9tZW1fCj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZv
-aWQgYW1kZ3B1X3R0bV9pb19tZW1fZnJlZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3Ry
-dWN0IHR0bV9tZW1fcmVnICptZW0pCj4gLXsKPiAtfQo+IC0KPiAgIHN0YXRpYyB1bnNpZ25lZCBs
-b25nIGFtZGdwdV90dG1faW9fbWVtX3BmbihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+
-ICAgCQkJCQkgICB1bnNpZ25lZCBsb25nIHBhZ2Vfb2Zmc2V0KQo+ICAgewo+IEBAIC0xNzU0LDcg
-KzE3NTAsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgYW1kZ3B1X2JvX2RyaXZlciA9
-IHsKPiAgIAkucmVsZWFzZV9ub3RpZnkgPSAmYW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5LAo+ICAg
-CS5mYXVsdF9yZXNlcnZlX25vdGlmeSA9ICZhbWRncHVfYm9fZmF1bHRfcmVzZXJ2ZV9ub3RpZnks
-Cj4gICAJLmlvX21lbV9yZXNlcnZlID0gJmFtZGdwdV90dG1faW9fbWVtX3Jlc2VydmUsCj4gLQku
-aW9fbWVtX2ZyZWUgPSAmYW1kZ3B1X3R0bV9pb19tZW1fZnJlZSwKPiAgIAkuaW9fbWVtX3BmbiA9
-IGFtZGdwdV90dG1faW9fbWVtX3BmbiwKPiAgIAkuYWNjZXNzX21lbW9yeSA9ICZhbWRncHVfdHRt
-X2FjY2Vzc19tZW1vcnksCj4gICAJLmRlbF9mcm9tX2xydV9ub3RpZnkgPSAmYW1kZ3B1X3ZtX2Rl
-bF9mcm9tX2xydV9ub3RpZnkKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
-dnJhbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKPiBp
-bmRleCBkMTA3YTI2NzllMjMuLjMyOTZlZDNkZjM1OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9n
-ZW1fdnJhbV9oZWxwZXIuYwo+IEBAIC0xMDgxLDEwICsxMDgxLDYgQEAgc3RhdGljIGludCBib19k
-cml2ZXJfaW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICAJcmV0
-dXJuIDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZvaWQgYm9fZHJpdmVyX2lvX21lbV9mcmVlKHN0
-cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+IC0JCQkJICBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1l
-bSkKPiAteyB9Cj4gLQo+ICAgc3RhdGljIHN0cnVjdCB0dG1fYm9fZHJpdmVyIGJvX2RyaXZlciA9
-IHsKPiAgIAkudHRtX3R0X2NyZWF0ZSA9IGJvX2RyaXZlcl90dG1fdHRfY3JlYXRlLAo+ICAgCS50
-dG1fdHRfcG9wdWxhdGUgPSB0dG1fcG9vbF9wb3B1bGF0ZSwKPiBAQCAtMTA5NCw3ICsxMDkwLDYg
-QEAgc3RhdGljIHN0cnVjdCB0dG1fYm9fZHJpdmVyIGJvX2RyaXZlciA9IHsKPiAgIAkuZXZpY3Rf
-ZmxhZ3MgPSBib19kcml2ZXJfZXZpY3RfZmxhZ3MsCj4gICAJLm1vdmVfbm90aWZ5ID0gYm9fZHJp
-dmVyX21vdmVfbm90aWZ5LAo+ICAgCS5pb19tZW1fcmVzZXJ2ZSA9IGJvX2RyaXZlcl9pb19tZW1f
-cmVzZXJ2ZSwKPiAtCS5pb19tZW1fZnJlZSA9IGJvX2RyaXZlcl9pb19tZW1fZnJlZSwKPiAgIH07
-Cj4gICAKPiAgIC8qCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5j
-IGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKPiBpbmRleCA1MmVhYTJkMjI3NDUuLmE2
-ZTY3MTQ5ZWY0YSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwo+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jCj4gQEAgLTEyOSwxMSArMTI5LDYg
-QEAgaW50IHF4bF90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
-Cj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZvaWQgcXhsX3R0bV9pb19tZW1f
-ZnJlZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPiAtCQkJCXN0cnVjdCB0dG1fbWVtX3Jl
-ZyAqbWVtKQo+IC17Cj4gLX0KPiAtCj4gICAvKgo+ICAgICogVFRNIGJhY2tlbmQgZnVuY3Rpb25z
-Lgo+ICAgICovCj4gQEAgLTI0Nyw3ICsyNDIsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2
-ZXIgcXhsX2JvX2RyaXZlciA9IHsKPiAgIAkuZXZpY3RfZmxhZ3MgPSAmcXhsX2V2aWN0X2ZsYWdz
-LAo+ICAgCS5tb3ZlID0gJnF4bF9ib19tb3ZlLAo+ICAgCS5pb19tZW1fcmVzZXJ2ZSA9ICZxeGxf
-dHRtX2lvX21lbV9yZXNlcnZlLAo+IC0JLmlvX21lbV9mcmVlID0gJnF4bF90dG1faW9fbWVtX2Zy
-ZWUsCj4gICAJLm1vdmVfbm90aWZ5ID0gJnF4bF9ib19tb3ZlX25vdGlmeSwKPiAgIH07Cj4gICAK
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+IGluZGV4IGY0ZjFlNjM3MzFhNS4uNzMw
-ODU1MjNmYWQ3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
-bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiBAQCAtNDU3
-LDEwICs0NTcsNiBAQCBzdGF0aWMgaW50IHJhZGVvbl90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0
-IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fbWVtXwo+ICAgCXJldHVybiAwOwo+ICAg
-fQo+ICAgCj4gLXN0YXRpYyB2b2lkIHJhZGVvbl90dG1faW9fbWVtX2ZyZWUoc3RydWN0IHR0bV9i
-b19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fbWVtX3JlZyAqbWVtKQo+IC17Cj4gLX0KPiAtCj4g
-ICAvKgo+ICAgICogVFRNIGJhY2tlbmQgZnVuY3Rpb25zLgo+ICAgICovCj4gQEAgLTc3NCw3ICs3
-NzAsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgcmFkZW9uX2JvX2RyaXZlciA9IHsK
-PiAgIAkubW92ZV9ub3RpZnkgPSAmcmFkZW9uX2JvX21vdmVfbm90aWZ5LAo+ICAgCS5mYXVsdF9y
-ZXNlcnZlX25vdGlmeSA9ICZyYWRlb25fYm9fZmF1bHRfcmVzZXJ2ZV9ub3RpZnksCj4gICAJLmlv
-X21lbV9yZXNlcnZlID0gJnJhZGVvbl90dG1faW9fbWVtX3Jlc2VydmUsCj4gLQkuaW9fbWVtX2Zy
-ZWUgPSAmcmFkZW9uX3R0bV9pb19tZW1fZnJlZSwKPiAgIH07Cj4gICAKPiAgIGludCByYWRlb25f
-dHRtX2luaXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92
-bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+IGluZGV4IGZiY2QxMWE3YjIxNS4uYmZkMGM1NGVj
-MzBhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZm
-ZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+
-IEBAIC04MTUsMTUgKzgxNSw2IEBAIHN0YXRpYyBpbnQgdm13X3R0bV9pb19tZW1fcmVzZXJ2ZShz
-dHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9tZW1fcmVnCj4gICAJcmV0dXJu
-IDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZvaWQgdm13X3R0bV9pb19tZW1fZnJlZShzdHJ1Y3Qg
-dHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9tZW1fcmVnICptZW0pCj4gLXsKPiAtfQo+
-IC0KPiAtc3RhdGljIGludCB2bXdfdHRtX2ZhdWx0X3Jlc2VydmVfbm90aWZ5KHN0cnVjdCB0dG1f
-YnVmZmVyX29iamVjdCAqYm8pCj4gLXsKPiAtCXJldHVybiAwOwo+IC19Cj4gLQo+ICAgLyoqCj4g
-ICAgKiB2bXdfbW92ZV9ub3RpZnkgLSBUVE0gbW92ZV9ub3RpZnlfY2FsbGJhY2sKPiAgICAqCj4g
-QEAgLTg2Niw3ICs4NTcsNSBAQCBzdHJ1Y3QgdHRtX2JvX2RyaXZlciB2bXdfYm9fZHJpdmVyID0g
-ewo+ICAgCS52ZXJpZnlfYWNjZXNzID0gdm13X3ZlcmlmeV9hY2Nlc3MsCj4gICAJLm1vdmVfbm90
-aWZ5ID0gdm13X21vdmVfbm90aWZ5LAo+ICAgCS5zd2FwX25vdGlmeSA9IHZtd19zd2FwX25vdGlm
-eSwKPiAtCS5mYXVsdF9yZXNlcnZlX25vdGlmeSA9ICZ2bXdfdHRtX2ZhdWx0X3Jlc2VydmVfbm90
-aWZ5LAo+ICAgCS5pb19tZW1fcmVzZXJ2ZSA9ICZ2bXdfdHRtX2lvX21lbV9yZXNlcnZlLAo+IC0J
-LmlvX21lbV9mcmVlID0gJnZtd190dG1faW9fbWVtX2ZyZWUsCj4gICB9OwoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Linus.
+
+On Mon, Jul 20, 2020 at 10:35:05PM +0200, Linus Walleij wrote:
+> This adds device tree bindings for the Kinetic KTD253
+> white LED backlight driver.
+> 
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+
+See a few comments in the following.
+
+	Sam
+
+> ---
+>  .../leds/backlight/kinetic,ktd253.yaml        | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> new file mode 100644
+> index 000000000000..610bf9a0e270
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktd253.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Kinetic Technologies KTD253 one-wire backlight
+> +
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +description: |
+> +  The Kinetic Technologies KTD253 is a white LED backlight that is
+> +  controlled by a single GPIO line. If you just turn on the backlight
+> +  it goes to maximum backlight then you can set the level of backlight
+> +  using pulses on the enable wire.
+
+No $ref for common.yaml?
+
+> +
+> +properties:
+> +  compatible:
+> +    const: kinetic,ktd253
+> +
+> +  gpios:
+A less generic and more descriptive name would be good.
+
+> +    description: GPIO to use to enable/disable and dim the backlight.
+> +    maxItems: 1
+> +
+> +  default-brightness:
+> +    description: Default brightness level on boot. 0 is off.
+> +    minimum: 0
+> +    maximum: 255
+> +
+> +  max-brightness:
+> +    description: Maximum brightness that is allowed during runtime.
+> +    minimum: 0
+> +    maximum: 255
+Both looks like candidates for common.yaml - they are used by other
+bindings.
+
+> +
+> +required:
+> +  - compatible
+> +  - gpios
+It would make senste that maximum-brighness was mandatory too.
+
+addtionalProperties: false??
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    backlight {
+> +        compatible = "kinetic,ktd253";
+> +        gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+> +        default-on;
+default-on is not documented - and not part of common.yaml.
+
+> +        default-brightness = <160>;
+> +    };
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
