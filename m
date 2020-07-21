@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD022284F6
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 18:09:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 248A82284F9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 18:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663CC6E35F;
-	Tue, 21 Jul 2020 16:09:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE8D6E40C;
+	Tue, 21 Jul 2020 16:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2AD16E35F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 16:09:38 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id h16so16874911ilj.11
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:09:38 -0700 (PDT)
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC0F96E40C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 16:10:02 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id p205so21965790iod.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:10:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=MAFnSJ9nfMA+aM1fdOKhLqLRIwC/D6r6rOu7Wq8LJQU=;
- b=nq8efa6NLtzmhWxf6tA9cSJFnc3ZhcKHQRtAj47Ud8WGnArLGGDU6shHEC2MalBIds
- F2OmnWOjTmHAdjjSNMLn3AVqrLZjRNapsltaa+UUPT14V2lEabTYMrW3/VUSg2ymCVzs
- 7nXk+/sr2+l2Bv0b/XCUUfv9j+yCZmrJTdg+QNcYtXxnRHmM4TnKIY8g9R4lnS6Br1pC
- QI/GUDkbiI2KuyH0rmMkpDkUpwQQMy2SQGOM9cRRyDx3jidmcadxWNA3SgYjmvlyiPGP
- 4DWtj859xY6VExn79aaxNe+mpO/d1yh4DzMRL0NE+9c69ZoC9tvyRNju1cryy0OhUPsT
- CeLQ==
-X-Gm-Message-State: AOAM532K+aW0t1g5RDQ2U3j0ulk4K35qN1Dh4y3EaQcP2Ot6vR7Dk7PP
- ckQguiNSHd7AQGs+O5VXBA==
-X-Google-Smtp-Source: ABdhPJz0uCodnN2b+0uHsM5KcqfLRxa9mPLd8qxPeebl+S3wN2JyK2Dag3ihJB+mmf/jI3cqcRZxNA==
-X-Received: by 2002:a92:d308:: with SMTP id x8mr28150239ila.3.1595347778144;
- Tue, 21 Jul 2020 09:09:38 -0700 (PDT)
+ bh=5vZnPunGzHzcF0JaBHQsiLzx0dizWC0QJDWGM3L9f5c=;
+ b=JP19GPg6++jEUZCrmurtOQQA5K2//WpUpH1TIb9mWXZY8kHZYvJLh9uStkLYe2bOxp
+ QwtXMaKqbBQREjn57UX1eaOVe0z/giosTU697qH+XkpVQNv4WVTyANd2ttf0ag7blwWo
+ slxhzzQZiFcXM6Wmve3qOtyeECltVXaz5kGeTmlH5ON5e1R9ZOKkXlXYWD+Eno4hYHpi
+ 7D99N7XdaqizS5fU4GtQBaCTzlUZ3ubQXu64GS1G1JL1V551jyCUUUxif2HSstpDCyg0
+ /Jpa3g5cjJ75JZxlc/BYPZuEaIdPaExJBqjS4qOUcZYlISEwDVI10eRb1QXTb7QJWCTe
+ AhVw==
+X-Gm-Message-State: AOAM533KiSpp4GocuQy2gx04U0WcyOToBHcwC26WBS0DRpZZpGlPMzoR
+ iap9sM07XC2YRmSxIMUbcOAzanTtPjb/
+X-Google-Smtp-Source: ABdhPJw/GMPRXuRPapKDmiimXNT1feeBi8f4deFqtacLZt7Z7EGOGgBWwTEEUTrlaQ4Q9UqmXfWaCA==
+X-Received: by 2002:a6b:7210:: with SMTP id n16mr28740129ioc.177.1595347802108; 
+ Tue, 21 Jul 2020 09:10:02 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id e21sm11034941ioe.11.2020.07.21.09.09.36
+ by smtp.gmail.com with ESMTPSA id d6sm10604898ilq.27.2020.07.21.09.09.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 09:09:37 -0700 (PDT)
-Received: (nullmailer pid 387737 invoked by uid 1000);
- Tue, 21 Jul 2020 16:09:35 -0000
-Date: Tue, 21 Jul 2020 10:09:35 -0600
+ Tue, 21 Jul 2020 09:10:01 -0700 (PDT)
+Received: (nullmailer pid 388371 invoked by uid 1000);
+ Tue, 21 Jul 2020 16:09:58 -0000
+Date: Tue, 21 Jul 2020 10:09:58 -0600
 From: Rob Herring <robh@kernel.org>
 To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: Re: [PATCH for v5.9] drm/tilcdc: Replace HTTP links with HTTPS ones
-Message-ID: <20200721160935.GA387686@bogus>
-References: <20200719172438.60536-1-grandmaster@al2klimov.de>
+Subject: Re: [PATCH for v5.9] dt-bindings: drm/bridge: Replace HTTP links
+ with HTTPS ones
+Message-ID: <20200721160958.GA388320@bogus>
+References: <20200719174457.60674-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200719172438.60536-1-grandmaster@al2klimov.de>
+In-Reply-To: <20200719174457.60674-1-grandmaster@al2klimov.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,15 +59,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, tomi.valkeinen@ti.com,
- jsarha@ti.com
+Cc: devicetree@vger.kernel.org, sboyd@kernel.org, linux-kernel@vger.kernel.org,
+ krzk@kernel.org, airlied@linux.ie, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, paul.walmsley@sifive.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 19 Jul 2020 19:24:38 +0200, Alexander A. Klimov wrote:
+On Sun, 19 Jul 2020 19:44:57 +0200, Alexander A. Klimov wrote:
 > Rationale:
 > Reduces attack surface on kernel devs opening the links for MITM
 > as HTTPS traffic is much harder to manipulate.
@@ -106,7 +107,7 @@ On Sun, 19 Jul 2020 19:24:38 +0200, Alexander A. Klimov wrote:
 >  Impossible is nothing! :)
 > 
 > 
->  Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt | 2 +-
+>  .../devicetree/bindings/display/bridge/ti,sn65dsi86.txt         | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
