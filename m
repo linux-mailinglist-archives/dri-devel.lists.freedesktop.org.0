@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0478C2280A2
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 15:11:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3E82280A3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 15:11:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6CA76E261;
-	Tue, 21 Jul 2020 13:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 803706E2E5;
+	Tue, 21 Jul 2020 13:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB6E26E1BC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 12:57:52 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1595336272; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=zL4Vmv3VgfCA8IfWdHITcCzdfO+3oA2nyWU0ZMt5Q0A=;
- b=tZdoAwUNk5wBAsL5vzk2vujCY5tznoLVTibFmUe4YTBC38EhPqeVzawMR2pyUPOSOQOgZevO
- 3hyyIeFc+gpkje/gkQ9fZB4cQlWWDfINcSknVpdCuUI+9cCmxuiehQH8L9Q1IUj/GniKL+GD
- V4D3ShJuOJj799n2Ug3hsZE8ojk=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n18.prod.us-west-2.postgun.com with SMTP id
- 5f16e64f3dbcb593a9b88c1b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 21 Jul 2020 12:57:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 92AA6C433CA; Tue, 21 Jul 2020 12:57:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: kalyan_t)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id DF31AC433C9;
- Tue, 21 Jul 2020 12:57:49 +0000 (UTC)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3A189D86
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 12:59:00 +0000 (UTC)
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06LCv7SQ024874; Tue, 21 Jul 2020 14:58:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=FG8Jpl88uMJR2Haodeqb+M02x+DZQPQlOWwZUmrVcUA=;
+ b=EnkM8LhL48Qm5Tc33FT+Mm9bbek5SiuCwmBudd95SfBBA3CMuo4EC1mHnE+nEZb5eibf
+ XrSHD1iOYavvex1XaflRy+33LRTvHIKC5TsKjmC7h0Z2j/7e4fg+cG3kBcDptsU/uBG0
+ U/BsrIjOPjcpVmAq+XNveXjyAq3vgACDJc5VdBmj/aVZyLflszg5DrGYcN/KcJmfc1X+
+ 0pWax5B1Pkqf9WMIjH3L5TCcC1p38SicwwsranTlt4dtYjGCvsf+QROOlvtfOLWEGhpU
+ YoyxN7GiYXeVYmstM/jxDHNa7Yu6F0/u649t99REgf9mJX7YwwnMLQUIK1ujWh0rMBUs dw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 32bs6uwy66-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jul 2020 14:58:50 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4FBBE100034;
+ Tue, 21 Jul 2020 14:58:50 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2F5D32BE25A;
+ Tue, 21 Jul 2020 14:58:50 +0200 (CEST)
+Received: from lmecxl0912.lme.st.com (10.75.127.50) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 21 Jul
+ 2020 14:58:49 +0200
+Subject: Re: [PATCH v5 0/8] Enable ili9341 and l3gd20 on stm32f429-disco
+To: dillon min <dillon.minfei@gmail.com>
+References: <broonie@kernel.org>
+ <1590378062-7965-1-git-send-email-dillon.minfei@gmail.com>
+ <198ad79c-ab12-55f0-814f-afc454a7e8ef@st.com>
+ <CAL9mu0L3ZF5+nh2ENzxnu0f6AAh1ygoWx1bEkS3WkJt8TN7C7Q@mail.gmail.com>
+ <d7986a59-1337-ca33-fed0-0b6af458dbbb@st.com>
+ <CAL9mu0LyJ9RP4_m_43a-eCfEUp=1A2ZEQQLwZ2Xg4kzfsXruhA@mail.gmail.com>
+From: Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <112dd65b-2a3c-a776-8d31-f0d0b8f2c355@st.com>
+Date: Tue, 21 Jul 2020 14:58:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Date: Tue, 21 Jul 2020 18:27:49 +0530
-From: kalyan_t@codeaurora.org
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: fix/enable 6bpc dither with
- split-lm
-In-Reply-To: <CAF6AEGuV7vTseh5KmCremhhfR1E4sAY1oPAwtCOCtYb1vx=A0g@mail.gmail.com>
-References: <20200715221955.3209856-1-robdclark@gmail.com>
- <92c9e9d08dfa014f1589186a68902de7@codeaurora.org>
- <CAF6AEGuV7vTseh5KmCremhhfR1E4sAY1oPAwtCOCtYb1vx=A0g@mail.gmail.com>
-Message-ID: <dbd08d83075ce6356a233f66b3001cc7@codeaurora.org>
-X-Sender: kalyan_t@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <CAL9mu0LyJ9RP4_m_43a-eCfEUp=1A2ZEQQLwZ2Xg4kzfsXruhA@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG8NODE1.st.com (10.75.127.22) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-21_08:2020-07-21,
+ 2020-07-21 signatures=0
 X-Mailman-Approved-At: Tue, 21 Jul 2020 13:11:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,133 +74,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Zheng Bin <zhengbin13@huawei.com>,
- Sean Paul <sean@poorly.run>, Steev Klimaszewski <steev@gentoo.org>,
- Drew Davenport <ddavenport@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ BINDINGS" <devicetree@vger.kernel.org>, Dave Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-clk <linux-clk@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, thierry.reding@gmail.com,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-20 20:53, Rob Clark wrote:
-> On Mon, Jul 20, 2020 at 5:53 AM <kalyan_t@codeaurora.org> wrote:
->> 
->> On 2020-07-16 03:49, Rob Clark wrote:
->> > From: Rob Clark <robdclark@chromium.org>
->> >
->> > If split-lm is used (for ex, on sdm845), we can have multiple ping-
->> > pongs, but only a single phys encoder.  We need to configure dithering
->> > on each of them.
->> >
->> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-      Reviewed-by: Kalyan Thota <kalyan_t@codeaurora.org>
->> > ---
->> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 22 ++++++++++---------
->> >  .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  3 +--
->> >  2 files changed, 13 insertions(+), 12 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> > b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> > index 46df0ff75b85..9b98b63c77fb 100644
->> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> > @@ -212,14 +212,14 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->> >       15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->> >  };
->> >
->> > -static void _dpu_encoder_setup_dither(struct dpu_encoder_phys *phys)
->> > +static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp,
->> > unsigned bpc)
->> >  {
->> >       struct dpu_hw_dither_cfg dither_cfg = { 0 };
->> >
->> > -     if (!phys->hw_pp || !phys->hw_pp->ops.setup_dither)
->> > +     if (!hw_pp->ops.setup_dither)
->> >               return;
->> >
->> > -     switch (phys->connector->display_info.bpc) {
->> > +     switch (bpc) {
->> >       case 6:
->> >               dither_cfg.c0_bitdepth = 6;
->> >               dither_cfg.c1_bitdepth = 6;
->> > @@ -228,14 +228,14 @@ static void _dpu_encoder_setup_dither(struct
->> > dpu_encoder_phys *phys)
->> >               dither_cfg.temporal_en = 0;
->> >               break;
->> >       default:
->> > -             phys->hw_pp->ops.setup_dither(phys->hw_pp, NULL);
->> > +             hw_pp->ops.setup_dither(hw_pp, NULL);
->> >               return;
->> >       }
->> >
->> >       memcpy(&dither_cfg.matrix, dither_matrix,
->> >                       sizeof(u32) * DITHER_MATRIX_SZ);
->> >
->> > -     phys->hw_pp->ops.setup_dither(phys->hw_pp, &dither_cfg);
->> > +     hw_pp->ops.setup_dither(hw_pp, &dither_cfg);
->> >  }
->> >
->> >  void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys
->> > *phys_enc,
->> > @@ -1132,11 +1132,13 @@ static void
->> > _dpu_encoder_virt_enable_helper(struct drm_encoder *drm_enc)
->> >
->> >       _dpu_encoder_update_vsync_source(dpu_enc, &dpu_enc->disp_info);
->> >
->> > -     if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
->> > -             for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->> > -                     struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
->> > -
->> > -                     _dpu_encoder_setup_dither(phys);
->> > +     if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI &&
->> > +                     !WARN_ON(dpu_enc->num_phys_encs == 0)) {
->> > +             unsigned bpc = dpu_enc->phys_encs[0]->connector->display_info.bpc;
->> > +             for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
->> > +                     if (!dpu_enc->hw_pp[i])
->> > +                             continue;
->> > +                     _dpu_encoder_setup_dither(dpu_enc->hw_pp[i], bpc);
->> >               }
->> >       }
->> >  }
->> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->> > b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->> > index 7411ab6bf6af..bea4ab5c58c5 100644
->> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->> > @@ -231,8 +231,7 @@ static void _setup_pingpong_ops(struct
->> > dpu_hw_pingpong *c,
->> >       c->ops.poll_timeout_wr_ptr = dpu_hw_pp_poll_timeout_wr_ptr;
->> >       c->ops.get_line_count = dpu_hw_pp_get_line_count;
->> >
->> > -     if (test_bit(DPU_PINGPONG_DITHER, &features) &&
->> > -             IS_SC7180_TARGET(c->hw.hwversion))
->> > +     if (test_bit(DPU_PINGPONG_DITHER, &features))
->> >               c->ops.setup_dither = dpu_hw_pp_setup_dither;
->> >  };
->> 
->> Change looks good to me
-> 
-> Does that count as a Reviewed-by?
-> 
-Sure i have added the tag.
-
-> BR,
-> -R
-> 
->> 
->> - Kalyan
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiA3LzIxLzIwIDI6NTUgUE0sIGRpbGxvbiBtaW4gd3JvdGU6Cj4gSGksIEFsZXhhbmRyZSwK
+PiAKPiAKPiBPbiBUdWUsIEp1bCAyMSwgMjAyMCBhdCA3OjU0IFBNIEFsZXhhbmRyZSBUb3JndWUK
+PiA8YWxleGFuZHJlLnRvcmd1ZUBzdC5jb20+IHdyb3RlOgo+Pgo+Pgo+Pgo+PiBPbiA3LzIxLzIw
+IDEyOjM5IFBNLCBkaWxsb24gbWluIHdyb3RlOgo+Pj4gSGkgQWxleGFuZHJlLAo+Pj4KPj4+IE9u
+IFR1ZSwgSnVsIDIxLCAyMDIwIGF0IDU6MTkgUE0gQWxleGFuZHJlIFRvcmd1ZQo+Pj4gPGFsZXhh
+bmRyZS50b3JndWVAc3QuY29tPiB3cm90ZToKPj4+Pgo+Pj4+IEhpIERpbGxvbgo+Pj4+Cj4+Pj4g
+T24gNS8yNS8yMCA1OjQwIEFNLCBkaWxsb24ubWluZmVpQGdtYWlsLmNvbSB3cm90ZToKPj4+Pj4g
+RnJvbTogZGlsbG9uIG1pbiA8ZGlsbG9uLm1pbmZlaUBnbWFpbC5jb20+Cj4+Pj4+Cj4+Pj4+IFY1
+J3MgdXBkYXRlIGJhc2VkIG9uIE1hcmsgQnJvd24ncyBzdWdnZXN0aW9uLCB1c2UgJ1NQSV9NQVNU
+RVJfTVVTVF9SWCcKPj4+Pj4gZm9yIFNQSV9TSU1QTEVYX1JYIG1vZGUgb24gc3RtMzIgc3BpIGNv
+bnRyb2xsZXIuCj4+Pj4+Cj4+Pj4+IFY1Ogo+Pj4+PiAxIGluc3RlYWQgb2YgYWRkIHNlbmQgZHVt
+bXkgZGF0YSBvdXQgdW5kZXIgU0lNUExFWF9SWCBtb2RlLAo+Pj4+PiAgICAgICBhZGQgZmxhZ3Mg
+J1NQSV9DT05UUk9MTEVSX01VU1RfVFgnIGZvciBzdG0zMiBzcGkgZHJpdmVyCj4+Pj4+IDIgYnlw
+YXNzICdTUElfQ09OVFJPTExFUl9NVVNUX1RYJyBhbmQgJ1NQSV9DT05UUk9MTEVSX01VU1RfUlgn
+IHVuZGVyCj4+Pj4+ICdTUElfM1dJUkUnIG1vZGUKPj4+Pj4KPj4+Pgo+Pj4+IENvbmNlcm5pbmcg
+RFQgcGF0Y2hlcywgdGhleSBsb29rIGdvb2RzIGZvciBtZS4gSG93ZXZlciBJJ2xsIG1lcmdlIHRo
+ZW0KPj4+PiB3aGVuIGRyaXZlcnMgcGFydHMgd2lsbCBiZSBtZXJnZWQuCj4+Pj4KPj4+PiByZWdh
+cmRzCj4+Pj4gQWxleAo+Pj4gVGhpcyBwYXRjaHNldCBzdGF0dXMgaXMgOgo+Pj4gZHRzOgo+Pj4g
+ICAgICAgQVJNOiBkdHM6IHN0bTMyOiBBZGQgZG1hIGNvbmZpZyBmb3Igc3BpNQo+Pj4gICAgICAg
+QVJNOiBkdHM6IHN0bTMyOiBBZGQgcGluIG1hcCBmb3IgbHRkYyAmIHNwaTUgb24gc3RtMzJmNDI5
+LWRpc2NvIGJvYXJkCj4+PiAgICAgICBBUk06IGR0czogc3RtMzI6IGVuYWJsZSBsdGRjIGJpbmRp
+bmcgd2l0aCBpbGk5MzQxLCBneXJvIGwzZ2QyMCBvbgo+Pj4gICAgICAgICBzdG0zMjQyOS1kaXNj
+byBib2FyZAo+Pj4KPj4+IHBhbmVsLWJpbmRpbmdzOiBSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmfv
+vIwgbmVlZCBtb3JlIHJldmlld2luZyB0byBtZXJnZQo+Pj4gICAgICAgZHQtYmluZGluZ3M6IGRp
+c3BsYXk6IHBhbmVsOiBBZGQgaWxpdGVrIGlsaTkzNDEgcGFuZWwgYmluZGluZ3MKPj4+Cj4+PiBj
+bGs6IEFja2VkLWJ5OiBTdGVwaGVuIEJveWQgLCBuZWVkIG1vcmUgcmV2aWV3aW5nIHRvIG1lcmdl
+Cj4+PiAgICAgICBjbGs6IHN0bTMyOiBGaXggc3RtMzJmNDI5J3MgbHRkYyBkcml2ZXIgaGFuZyBp
+biBzZXQgY2xvY2sgcmF0ZSwKPj4+ICAgICAgICAgZml4IGR1cGxpY2F0ZWQgbHRkYyBjbG9jayBy
+ZWdpc3RlciB0byAnY2xrX2NvcmUnIGNhc2UgbHRkYydzIGNsb2NrCj4+PiAgICAgICAgICAgdHVy
+biBvZmYgYnkgY2xrX2Rpc2FibGVfdW51c2VkKCkKPj4+Cj4+PiBkcm0tcGFuZWw6ICBSZXZpZXdl
+ZC1ieTogTGludXMgV2FsbGVpaiAuIG5lZWQgbW9yZSByZXZpZXdpbmcgdG8gbWVyZ2UKPj4+ICAg
+ICAgIGRybS9wYW5lbDogQWRkIGlsaXRlayBpbGk5MzQxIHBhbmVsIGRyaXZlcgo+Pj4KPj4+IHNw
+aS1kcml2ZXI6IEFja2VkLWJ5OiBNYXJrIEJyb3duIO+8jG1lcmdlZCBpbnRvIG1haW5saW5lCj4+
+PiAgICAgICBzcGk6IHN0bTMyOiBBZGQgJ1NQSV9TSU1QTEVYX1JYJywgJ1NQSV8zV0lSRV9SWCcg
+c3VwcG9ydCBmb3Igc3RtMzJmNAo+Pj4gICAgICAgc3BpOiBmbGFncyAnU1BJX0NPTlRST0xMRVJf
+TVVTVF9SWCcgYW5kICdTUElfQ09OVFJPTExFUl9NVVNUX1RYJyBjYW4ndAo+Pj4gICAgICAgICBi
+ZWNvZXhpdCB3aXRoICdTUElfM1dJUkUnIG1vZGUKPj4+Cj4+PiBGb3IgaWxpOTM0MSBkcml2ZXJz
+LCBpdCBzZWVtcyB0byBuZWVkIG1vcmUgdGltZSB0byByZXZpZXcsIG9yIG1pZ2h0IGJlIGRyb3Bw
+ZWQuCj4+PiBzaW5jZSB0aGUgZHJtIG1haW50YWluZXIgbWlnaHQgY3JlYXRlIGEgbmV3IGludGVy
+ZmFjZSB0byBzdXBwb3J0Cj4+PiBEUEksREJJLERTSSBpbiBvbmUgZHJpdmVyLgo+Pj4gQ3VycmVu
+dGx5IGl0J3MgdW5kZXIgZGlzY3Vzc2lvbi4gSSB3aWxsIHJld29yayB0aGUgaWxpOTM0MSBkcml2
+ZXIgYWZ0ZXIgdGhhdC4KPj4+Cj4+PiBCdXQsIHdlIGNhbiB1c2UgdGhlIGV4aXN0aW5nICJkcml2
+ZXJzL2dwdS9kcm0vdGlueS9pbGk5MzQxLmMiIGRyaXZlciB0byBzdXBwb3J0Cj4+PiBpbGk5MzQx
+IG9uIHN0bTMyZjQyOS1kaXNjbyBib2FyZCBvbmx5IHVzaW5nIHRoZSBzcGkgYnVzLiBleGNlcHQg
+dGhlCj4+PiBkaXNwbGF5IHJlZnJlc2ggcGVyZm9ybWFuY2UgaXMgbm90IGFzIGdvb2QgYXMgdGhl
+IGx0ZGMgaW50ZXJmYWNlLgo+Pj4KPj4+IEkgY2FuIHN1Ym1pdCBhIG5ldyBwYXRjaCBqdXN0IHdp
+dGggZHRzIGNoYW5nZWQgdGhpcyB3ZWVrIGZvciBpdCwgaWYgeW91IG5lZWQuCj4+Pgo+Pgo+Pgo+
+PiBUaGFua3MgZm9yIHRoaXMgc3RhdHVzLiBJJ20gY2xvc2UgdG8gc2VuZCBteSBQUiBmb3IgdjUu
+OS4gVGhlcmUgaXMgbm8KPj4gbmVlZHMgdG8gaGF2ZSBhbiBpbnRlcm1lZGlhdGUgdmVyc2lvbiAo
+RXhjZXB0IHlvdSBhYnNvbHV0ZWx5IHdhbnQgaXQpLgo+Pgo+PiBUaGFua3MKPj4gYWxleAo+IE9r
+LCBJIHByZWZlciB0byB1c2UgdGhlIGx0ZGMgaW50ZXJmYWNlIHRvIGRyaXZlIGlsaTkzNDEgZWl0
+aGVyLgoKT2ssIHNvIGxldCdzIHdhaXQgZm9yIHRoZSBmdWxsIHJldmlldyBvZiB0aGlzIHNlcmll
+cy4KCkNoZWVycwpBbGV4Cgo+IAo+IFRoYW5rcywKPiBEaWxsb24uCj4+Cj4+PiBUaGFua3MsCj4+
+PiBEaWxsb24uCj4+Pj4KPj4+Pgo+Pj4+Cj4+Pj4+IFY0Ogo+Pj4+PiBBY2NvcmRpbmcgdG8gYWxl
+eGFuZHJlIHRvcmd1ZSdzIHN1Z2dlc3Rpb24sIGNvbWJpbmUgaWxpOTM0MSBhbmQKPj4+Pj4gbDNn
+ZDIwJ3MgbW9kaWZpY2F0aW9uIG9uIHN0bTMyZjQyOS1kaXNjbyBib2FyZCB0byBvbmUgcGF0Y2hz
+ZXQuCj4+Pj4+Cj4+Pj4+IENoYW5nZXM6Cj4+Pj4+Cj4+Pj4+IGlsaTkzNDE6Cj4+Pj4+Cj4+Pj4+
+IDEgdXBkYXRlIGlsaTkzNDEgcGFuZWwgZHJpdmVyIGFjY29yZGluZyB0byBMaW51cydzIHN1Z2dl
+c3Rpb24KPj4+Pj4gMiBkcm9wIFYxJ3MgTm8uNSBwYXRjaCwgc3VtYml0IG5ldyBjaGFuZ2VzIGZv
+ciBjbGstc3RtMzJmNAo+Pj4+PiAzIG1lcmdlIGwzZ2QyMCdzIGNoYW5nZSB0byB0aGlzIHBhdGNo
+c2V0Cj4+Pj4+Cj4+Pj4+IFYzOgo+Pj4+PiAxIG1lcmdlIG9yaWdpbmFsIHRpbnkvaWxpOTM0MS5j
+IGRyaXZlciB0byBwYW5lbC9wYW5lbC1pbGl0ZWstaWxpOTM0MS5jCj4+Pj4+ICAgICAgdG8gc3Vw
+cG9ydCBzZXJpYWwgc3BpICYgcGFyYWxsZWwgcmdiIGludGVyZmFjZSBpbiBvbmUgZHJpdmVyLgo+
+Pj4+PiAyIHVwZGF0ZSBpbGl0ZWssaWxpOTM0MS55YW1sIGR0cyBiaW5kaW5nIGRvY3VtZW50YXRp
+b24uCj4+Pj4+IDMgdXBkYXRlIHN0bTMyZjQyOS1kaXNjbyBkdHMgYmluZGluZwo+Pj4+Pgo+Pj4+
+PiBWMjoKPj4+Pj4gMSB2ZXJpZnkgaWxpdGVrLGlsaTkzNDEueWFtbCB3aXRoIG1ha2UgTz0uLi9s
+aW51eC1zdG0zMgo+Pj4+PiAgICAgIGR0X2JpbmRpbmdfY2hlY2sKPj4+Pj4gICAgICBEVF9TQ0hF
+TUFfRklMRVM9RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwv
+Cj4+Pj4+ICAgICAgaWxpdGVrLGlsaTkzNDEueWFtbAo+Pj4+Pgo+Pj4+PiBWMToKPj4+Pj4gMSBh
+ZGQgaWxpOTM0MSBkcm0gcGFuZWwgZHJpdmVyCj4+Pj4+IDIgYWRkIGx0ZGMsIHNwaTUgY29udHJv
+bGxlciBmb3Igc3RtMzJmNDI5LWRpc2NvCj4+Pj4+IDMgYWRkIGx0ZGMsIHNwaTUgcGluIG1hcCBm
+b3Igc3RtMzJmNDI5LWRpc2NvCj4+Pj4+IDQgYWRkIGRvY3MgYWJvdXQgaWxpOTM0MQo+Pj4+PiA1
+IGZpeCBsdGRjIGRyaXZlciBsb2FkaW5nIGhhbmcgaW4gY2xrIHNldCByYXRlIGJ1Zwo+Pj4+Pgo+
+Pj4+Pgo+Pj4+PiBMM2dkMjA6Cj4+Pj4+IFYzOgo+Pj4+PiAxIG1lcmdlIHN0bTMyZjQyOS1kaXNj
+byBkdGJzIGJpbmRpbmcgd2l0aCBpbGk5MzQxIHBhcnQKPj4+Pj4KPj4+Pj4gVjI6Cj4+Pj4+IDEg
+aW5zZXJ0IGJsYW5rIGxpbmUgYXQgc3RtMzJmNDIwLWRpc2NvLmR0cyBsaW5lIDE0Mwo+Pj4+PiAy
+IGFkZCBtb3JlIGRlc2NyaXB0aW9uIGZvciBsM2dkMjAgaW4gY29tbWl0IG1lc3NhZ2UKPj4+Pj4K
+Pj4+Pj4gVjE6Cj4+Pj4+IDEgZW5hYmxlIHNwaTUgY29udHJvbGxlciBvbiBzdG0zMmY0MjktZGlz
+Y28gKGR0cykKPj4+Pj4gMiBhZGQgc3BpNSBwaW5tYXAgZm9yIHN0bTMyZjQyOS1kaXNjbyAgKGR0
+cykKPj4+Pj4gMyBhZGQgU1BJX1NJTVBMRVhfUlgsIFNQSV8zV0lSRV9SWCBzdXBwb3J0IGZvciBz
+dG0zMmY0Cj4+Pj4+Cj4+Pj4+Cj4+Pj4+IGRpbGxvbiBtaW4gKDgpOgo+Pj4+PiAgICAgIEFSTTog
+ZHRzOiBzdG0zMjogQWRkIGRtYSBjb25maWcgZm9yIHNwaTUKPj4+Pj4gICAgICBBUk06IGR0czog
+c3RtMzI6IEFkZCBwaW4gbWFwIGZvciBsdGRjICYgc3BpNSBvbiBzdG0zMmY0MjktZGlzY28gYm9h
+cmQKPj4+Pj4gICAgICBBUk06IGR0czogc3RtMzI6IGVuYWJsZSBsdGRjIGJpbmRpbmcgd2l0aCBp
+bGk5MzQxLCBneXJvIGwzZ2QyMCBvbgo+Pj4+PiAgICAgICAgc3RtMzI0MjktZGlzY28gYm9hcmQK
+Pj4+Pj4gICAgICBkdC1iaW5kaW5nczogZGlzcGxheTogcGFuZWw6IEFkZCBpbGl0ZWsgaWxpOTM0
+MSBwYW5lbCBiaW5kaW5ncwo+Pj4+PiAgICAgIGNsazogc3RtMzI6IEZpeCBzdG0zMmY0MjkncyBs
+dGRjIGRyaXZlciBoYW5nIGluIHNldCBjbG9jayByYXRlLAo+Pj4+PiAgICAgICAgZml4IGR1cGxp
+Y2F0ZWQgbHRkYyBjbG9jayByZWdpc3RlciB0byAnY2xrX2NvcmUnIGNhc2UgbHRkYydzIGNsb2Nr
+Cj4+Pj4+ICAgICAgICAgIHR1cm4gb2ZmIGJ5IGNsa19kaXNhYmxlX3VudXNlZCgpCj4+Pj4+ICAg
+ICAgZHJtL3BhbmVsOiBBZGQgaWxpdGVrIGlsaTkzNDEgcGFuZWwgZHJpdmVyCj4+Pj4+ICAgICAg
+c3BpOiBzdG0zMjogQWRkICdTUElfU0lNUExFWF9SWCcsICdTUElfM1dJUkVfUlgnIHN1cHBvcnQg
+Zm9yIHN0bTMyZjQKPj4+Pj4gICAgICBzcGk6IGZsYWdzICdTUElfQ09OVFJPTExFUl9NVVNUX1JY
+JyBhbmQgJ1NQSV9DT05UUk9MTEVSX01VU1RfVFgnIGNhbid0Cj4+Pj4+ICAgICAgICBiZSAgICAg
+Y29leGl0IHdpdGggJ1NQSV8zV0lSRScgbW9kZQo+Pj4+Pgo+Pj4+PiAgICAgLi4uL2JpbmRpbmdz
+L2Rpc3BsYXkvcGFuZWwvaWxpdGVrLGlsaTkzNDEueWFtbCAgICAgfCAgIDY5ICsrCj4+Pj4+ICAg
+ICBhcmNoL2FybS9ib290L2R0cy9zdG0zMmY0LXBpbmN0cmwuZHRzaSAgICAgICAgICAgICB8ICAg
+NjcgKwo+Pj4+PiAgICAgYXJjaC9hcm0vYm9vdC9kdHMvc3RtMzJmNDI5LWRpc2NvLmR0cyAgICAg
+ICAgICAgICAgfCAgIDQ4ICsKPj4+Pj4gICAgIGFyY2gvYXJtL2Jvb3QvZHRzL3N0bTMyZjQyOS5k
+dHNpICAgICAgICAgICAgICAgICAgIHwgICAgMyArCj4+Pj4+ICAgICBkcml2ZXJzL2Nsay9jbGst
+c3RtMzJmNC5jICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDcgKy0KPj4+Pj4gICAgIGRy
+aXZlcnMvZ3B1L2RybS9wYW5lbC9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgIHwgICAxMiAr
+Cj4+Pj4+ICAgICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvTWFrZWZpbGUgICAgICAgICAgICAgICAg
+ICAgICB8ICAgIDEgKwo+Pj4+PiAgICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWlsaXRl
+ay1pbGk5MzQxLmMgICAgICAgfCAxMzAxICsrKysrKysrKysrKysrKysrKysrCj4+Pj4+ICAgICBk
+cml2ZXJzL3NwaS9zcGktc3RtMzIuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMTkg
+Ky0KPj4+Pj4gICAgIGRyaXZlcnMvc3BpL3NwaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwgICAgMyArLQo+Pj4+PiAgICAgMTAgZmlsZXMgY2hhbmdlZCwgMTUyMSBpbnNlcnRp
+b25zKCspLCA5IGRlbGV0aW9ucygtKQo+Pj4+PiAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2lsaXRlayxpbGk5MzQx
+LnlhbWwKPj4+Pj4gICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vcGFuZWwv
+cGFuZWwtaWxpdGVrLWlsaTkzNDEuYwo+Pj4+PgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
