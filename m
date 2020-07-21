@@ -1,58 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604BE2282FB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 17:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 365EF228303
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 17:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50E5789FAC;
-	Tue, 21 Jul 2020 15:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019636E591;
+	Tue, 21 Jul 2020 15:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32FE6E591
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 15:00:43 +0000 (UTC)
-IronPort-SDR: iHbId+4vtnCcGiQIiQwy0lkgIMbu+2A4qd3aEIHLUSu2mnuKGLv/0qRG+og43Ex1nUAtzAo7JX
- pURJWEzYPLAg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="149295845"
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; d="scan'208";a="149295845"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2020 08:00:42 -0700
-IronPort-SDR: 2JgYyJ3e0B2ZxFLOg10fnEmH+KTXvI/GdeB1A929wTIhqFVLxGHpAFz0UV3DQERI+sYnQJWC0A
- accbGPVY9baA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; d="scan'208";a="310272458"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by fmsmga004.fm.intel.com with ESMTP; 21 Jul 2020 08:00:42 -0700
-Received: from fmsmsx155.amr.corp.intel.com (10.18.116.71) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 21 Jul 2020 08:00:42 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.75]) by
- FMSMSX155.amr.corp.intel.com ([169.254.5.149]) with mapi id 14.03.0439.000;
- Tue, 21 Jul 2020 08:00:41 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: RE: [PATCH] io-mapping: Indicate mapping failure
-Thread-Topic: [PATCH] io-mapping: Indicate mapping failure
-Thread-Index: AQHWX2mezoQb/5kWOECvvagPAlWoCqkSkjMA//+K4SA=
-Date: Tue, 21 Jul 2020 15:00:41 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E866301245DF505@FMSMSX108.amr.corp.intel.com>
-References: <20200721141641.81112-1-michael.j.ruhl@intel.com>
- <20200721141641.81112-2-michael.j.ruhl@intel.com>
- <20200721144722.GH3703480@smile.fi.intel.com>
-In-Reply-To: <20200721144722.GH3703480@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.108]
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 201BD6E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 15:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595343722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSIJqWa6gC/bRdgGTlEg6I1iiFHrJPO8X4/n8B0VJ9k=;
+ b=e6KVtLvTLOXVzTKe+GL8MqJOlvMHL1nKyOar7wWKtfQAn2mN9I+OqEqQuGtXgw5Ajrmxhr
+ duV0AfRoIOptqB8u4x1vocgtm+LHYIveIB5e3qLQ1g+Z70HXcMUxAwzlkIfewMqetvsNO7
+ XWn5SNOLKjc6B/Wlq2tRQDsw9RYuEls=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-IxUp9Fp2OGG1QQxWD_TNKg-1; Tue, 21 Jul 2020 11:01:58 -0400
+X-MC-Unique: IxUp9Fp2OGG1QQxWD_TNKg-1
+Received: by mail-qk1-f200.google.com with SMTP id v16so13936545qka.18
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:01:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=mSIJqWa6gC/bRdgGTlEg6I1iiFHrJPO8X4/n8B0VJ9k=;
+ b=dRAr5qdQVgLBHsp3wCI7bWHX4i98myVLXbixkOIi3jQ0P8ZRdqZp+cXnzdiNwlFx/I
+ lC3GuQ/+3saGAzGuvysOvuN5vKhHBaRWLsb6tC1u4zuJGttPgXJ8NkTNwsLWUDrMgzn2
+ 2Obl+llGycP+2Zsiq6Ty8G6W4LSI4wVmncVVw1zD/Ovs2Ot3LaicCy1JugVmRpBI22OC
+ AMmSEFEHSVGFl/6JGkKOXs5ijhyq8oJjs4nFRSeNm2wTyZk1Jq+LLD9BF3MRF54RuFyZ
+ tjI5bjZOeol2je/DM+BxR1bep4iBA/st1d1TSBoNmVJVixUL1tOawlQ99QIZXIrRQw7x
+ Xuag==
+X-Gm-Message-State: AOAM5326VCs4p/CGtVSW3vb05pCKCyHAA+xzNt5hUuOVL3zH3c3M6oxs
+ y7F0E5/tG94lWaAIZD4xgxwMZE30eyhHyuGwEUIBTatjKTOMCI5783T9OAb1KfAuLO1EfJCuBW5
+ 2BRHOOJq10FGhAAXvvA7jMRqRtgxk
+X-Received: by 2002:a37:a51:: with SMTP id 78mr16530735qkk.121.1595343717898; 
+ Tue, 21 Jul 2020 08:01:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJH5IxpTv0tqc1DLQ+iSUR4KYz9tNO0jJWsz8BvtZ9Y/QpYN7MJ20Jq9ljgK+EQmQWXFPL4g==
+X-Received: by 2002:a37:a51:: with SMTP id 78mr16530715qkk.121.1595343717650; 
+ Tue, 21 Jul 2020 08:01:57 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id f4sm22024521qtp.38.2020.07.21.08.01.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 08:01:57 -0700 (PDT)
+Message-ID: <f951fba07ca7fa2fdfd590cd5023d1b31f515fa2.camel@redhat.com>
+Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
+ without DLL Link Active train links in 100 ms"
+From: Lyude Paul <lyude@redhat.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>, Karol Herbst
+ <kherbst@redhat.com>
+Date: Tue, 21 Jul 2020 11:01:55 -0400
+In-Reply-To: <20200721122247.GI5180@lahna.fi.intel.com>
+References: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
+ <20200716235440.GA675421@bjorn-Precision-5520>
+ <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+ <CACO55tso5SVipAR=AZfqhp6GGkKO9angv6f+nd61wvgAJtrOKg@mail.gmail.com>
+ <20200721122247.GI5180@lahna.fi.intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +84,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Mike Rapoport <rppt@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Patrick Volkerding <volkerdi@gmail.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQW5keSBTaGV2Y2hlbmtvIDxhbmRy
-aXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+DQo+U2VudDogVHVlc2RheSwgSnVseSAyMSwg
-MjAyMCAxMDo0NyBBTQ0KPlRvOiBSdWhsLCBNaWNoYWVsIEogPG1pY2hhZWwuai5ydWhsQGludGVs
-LmNvbT4NCj5DYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgQW5kcmV3IE1vcnRv
-biA8YWtwbUBsaW51eC0NCj5mb3VuZGF0aW9uLm9yZz47IE1pa2UgUmFwb3BvcnQgPHJwcHRAbGlu
-dXguaWJtLmNvbT47IENocmlzIFdpbHNvbg0KPjxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+OyBz
-dGFibGVAdmdlci5rZXJuZWwub3JnDQo+U3ViamVjdDogUmU6IFtQQVRDSF0gaW8tbWFwcGluZzog
-SW5kaWNhdGUgbWFwcGluZyBmYWlsdXJlDQo+DQo+T24gVHVlLCBKdWwgMjEsIDIwMjAgYXQgMTA6
-MTY6NDFBTSAtMDQwMCwgTWljaGFlbCBKLiBSdWhsIHdyb3RlOg0KPj4gU29tZXRpbWVzIGl0IGlz
-IGdvb2QgdG8ga25vdyB3aGVuIHlvdXIgbWFwcGluZyBmYWlsZWQuDQo+DQo+Q2FuIHlvdSBlbGFi
-b3JhdGUuLi4NCg0KU3VyZSwgZ3Vlc3MgSSB3YXMgdG9vIGdsaWIuIPCfmIoNCg0KQ3VycmVudGx5
-ICB0aGUgaW9fbWFwcGluZ19pbml0X3djICh0aGUgIUFUT01JQ19JT01BUCB2ZXJzaW9uKSwgZnVu
-Y3Rpb24gd2lsbA0KYWx3YXlzIHJldHVybiBzdWNjZXNzLg0KDQpJZiB0aGUgc2V0dGluZyBvZiB0
-aGUgaW9tZW0gKGZyb20gaW9yZW1hcF93YykgZmFpbHMsIHRoZSBvbmx5IHdheSBmb3IgdGhlIA0K
-Y2FsbGVyIHRvIGtub3cgaXMgdG8gY2hlY2sgdGhlIHZhbHVlIG9mIGlvbWFwLT5pb21lbS4NCg0K
-U2luY2UgYWxsIG9mIHRoZSBjYWxsZXJzIGV4cGVjdCBhIE5VTEwgcmV0dXJuIG9uIGVycm9yLCBh
-bmQgY2hlY2sgZm9yIGEgTlVMTCwNCkkgZmVsdCB0aGlzIG5lZWRlZCBhIGZpeGVzIChpLmUuIHVu
-ZXhwZWN0ZWQgYmVoYXZpb3IpLg0KDQo+PiBGaXhlczogY2FmYWYxNGE1ZDhmICgiaW8tbWFwcGlu
-ZzogQWx3YXlzIGNyZWF0ZSBhIHN0cnVjdCB0byBob2xkIG1ldGFkYXRhDQo+YWJvdXQgdGhlIGlv
-LW1hcHBpbmciDQo+DQo+Li4uZXNwZWNpYWxseSB0YWtpbmcgaW50byBhY2NvdW50IHRoYXQgRml4
-ZXMgaW1wbGllcyByZWdyZXNzaW9uIC8gYnVnPw0KDQpUaGUgZmFpbHVyZSAoaW4gbXkgY2FzZSBh
-IGNyYXNoKSBpcyBub3QgcmV2ZWFsZWQgdW50aWwgdGhlIGFkZHJlc3MgaXMgYWNjZXNzZWQNCmxv
-bmcgYWZ0ZXIgdGhlIGluaXQuDQoNCkkgd2lsbCB1cGRhdGUgdGhlIGNvbW1pdC4NCg0KTWlrZQ0K
-DQo+LS0NCj5XaXRoIEJlc3QgUmVnYXJkcywNCj5BbmR5IFNoZXZjaGVua28NCj4NCg0KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Sure thing. Also, feel free to let me know if you'd like access to one of the
+systems we saw breaking with this patch - I'm fairly sure I've got one of them
+locally at my apartment and don't mind setting up AMT/KVM/SSH
+
+On Tue, 2020-07-21 at 15:22 +0300, Mika Westerberg wrote:
+> Hi,
+> 
+> [Sorry for the delay, I was on vacation]
+> 
+> On Fri, Jul 17, 2020 at 01:32:10PM +0200, Karol Herbst wrote:
+> > Filed at https://bugzilla.kernel.org/show_bug.cgi?id=208597
+> 
+> Thanks for reporting.
+> 
+> I'll check your logs and try to figure if there is something we can do
+> to make both nouveau and TBT working at the same time.
+> 
+> > oddly enough I wasn't able to reproduce it on my XPS 9560, will ping
+> > once something breaks.
+-- 
+Cheers,
+	Lyude Paul (she/her)
+	Software Engineer at Red Hat
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
