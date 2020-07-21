@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AEC227ED7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03165227FC3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 14:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2ADC6E115;
-	Tue, 21 Jul 2020 11:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E1B6E1D5;
+	Tue, 21 Jul 2020 12:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4931A89E2A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 11:28:45 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id f18so2503402wml.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 04:28:45 -0700 (PDT)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B01736E1D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 12:16:32 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id t4so16998251oij.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 05:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4TOLW2imB3rsMZepinPh8jkYmxmq6wzr9xbAWaAB63E=;
- b=zxA+ofaVwdl1bgNC13zN9ubxqHC9ewBBFt+NnKG2h8XDElraUcs8hoO7/q7zF2Yg34
- QmQ8jfkqyfb2Bkbbu9KNvYZpTSBzFtcg2JwlKSHR60ZRl9bUVELDmjyBfasdmAhQdXgq
- PE6MvfWaYT3PJv46TQIXdtpbH44y7um8SFGrXcNMYM16TDfD/rgKWEZyiV+mNTPsJKgK
- 0qp/LLknorODSNsIgwkyLxHgbqETiKwOfAzWazzQv+cAbP7yNKacslNMXFNbwdqwTDm+
- xmP3Q05/LOa1PZrMl1I1tFxtlneod5QopL6jJhffKklyh2wBHqyecIgrZbv5XaITUF/L
- 9NEw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Tj0YIElsm/HeEdxHt1th62ZXmZMXZLHwFI4YkjRLTkY=;
+ b=BG35BdvFgBIhVOcdziHOXibKbCb5GtjXDtlWr2qAdaS+a1hXrW20zoBQnecaEZ+HSa
+ ofXv8y+dlK8kApzfUtejG9Yw3oo4bM6ewEbMekzD6uZAbw1g/gVihT1vEB6f+eRA1JVh
+ Xx93rVMtHX2vpoRbWUYqBXYfk32r8lzhptDCAXXrmdW6rwQwhnu39Fy/+Lq7ik8OpGgW
+ YN+0M2jGozU+HpOwZIpT7cJX2zT7jOSKjZYpQczR6rtuin0uy+01I5zcUvrVcbLs9JV6
+ 5qtz7kMahyFdJrgm4Ac5qhrO7kyiDpajM/IlLSfOrr5NtAinHGEhB6254DTtVFjFttLC
+ BlJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4TOLW2imB3rsMZepinPh8jkYmxmq6wzr9xbAWaAB63E=;
- b=pNwKyaujtSX9A2bX2UpGr/0fnhoZZVRP+lCvLrNwwOFb2oGtvHptDs6MRV2hQak9Av
- /Fy2RaGA2WZNqAqcOasJHlUeV23A3XeUUlZUgswGWCU03d7h/l7MPEWQm6CJmoUa426G
- T2L/kr/Crs0rEpGlNAAu9yuV+kavPIjb3qke97w/nyrpJL2mQNTSDVw/WpWJZwV48Sky
- 9WbgENuAb+LEu2nU7K5Z/VKkQKSdqJsmhilno7yLfERQwqVlD4ZhqqkM0PyZ6NW4kKaj
- iajVFRMBCQViiM0Od1NVFC8+IJFqHaahOFIOK2H4aQHdM8qDRhYQciCAN/OSMJwbF8Uz
- vLew==
-X-Gm-Message-State: AOAM5315qalQAEIaPChgdq7ATX3dj7zvDPX/dwmP/oGiZ+rYbygkJhbe
- bKRZoqLwMSSeFSiO4+I2JX6UlQ==
-X-Google-Smtp-Source: ABdhPJxD0h2M/2DjFqCYE+/h1ypZKlgo6FcZAnC0ULNYW3repPMTnleiqfIwBksS16IjOuUgYaKaGQ==
-X-Received: by 2002:a1c:f616:: with SMTP id w22mr3482710wmc.44.1595330923806; 
- Tue, 21 Jul 2020 04:28:43 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id 22sm3336707wmb.11.2020.07.21.04.28.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 04:28:43 -0700 (PDT)
-Date: Tue, 21 Jul 2020 12:28:41 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 1/2 v1] dt-bindings: backlight: Add Kinetic KTD253 bindings
-Message-ID: <20200721112841.jxocq26yxhwy3gag@holly.lan>
-References: <20200720203506.3883129-1-linus.walleij@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Tj0YIElsm/HeEdxHt1th62ZXmZMXZLHwFI4YkjRLTkY=;
+ b=J8j4GCxe0AV9UlNc2x6+X6jmzVUU7CUw+9HuGJmkDYBEa61BtfZzCr9lYyTR5KNFgC
+ TJ0CFG1ZGnduifBNSvi7yXSH1gvNIsAFMpdMC63P+ZfQAzaXzyAEWYhwQBf2PjgjZjvS
+ Ki1PTwLC452TkVw4XG6rTqYvDAP61UleLQFJhFOovs3t7Cg/bljaS+w5AndBBJ578GEp
+ CdWpvAQBy/4b5iFKLNvdwbsJhRseFRrCVkgINrJbBxcXCO4oJ6BDJqAgIxJ3ezsWileg
+ R+8KGqGcYSZBHopzk5wHQNOrj/2E+Rspc4GWTcZnisG+0BF81c8UoZX0FJ4I9J625XFM
+ ye7w==
+X-Gm-Message-State: AOAM532fCu/Gk7Ok96KzuRRz8GSP7wo85ahU1CCo4WA0OVlhGhtBRElz
+ MKOYpOAE4j8FICkzMg62S7bZpW1SIrpU5ooxJ8hvqA==
+X-Google-Smtp-Source: ABdhPJy7skUMTTFe9eMztqkjUQzK3SGXa8K9qJK6R1zk8g6dESlbOvXxjD+GaAh0s5BIlZfxJljITdtcursSIjP6m+A=
+X-Received: by 2002:aca:f184:: with SMTP id p126mr2826593oih.76.1595333791831; 
+ Tue, 21 Jul 2020 05:16:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200720203506.3883129-1-linus.walleij@linaro.org>
+References: <20200716153858.526-1-sumit.semwal@linaro.org>
+ <20200716153858.526-2-sumit.semwal@linaro.org>
+ <20200721033328.GA3492972@bogus>
+In-Reply-To: <20200721033328.GA3492972@bogus>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Tue, 21 Jul 2020 17:46:20 +0530
+Message-ID: <CAO_48GFREVQ8q=thFw4gJp0wu1MYHkxHi3sxDr8ejRyyY-6_0Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add bindings for Tianma
+ nt36672a panel
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,100 +63,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "David S . Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 20, 2020 at 10:35:05PM +0200, Linus Walleij wrote:
-> This adds device tree bindings for the Kinetic KTD253
-> white LED backlight driver.
-> 
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  .../leds/backlight/kinetic,ktd253.yaml        | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
-> new file mode 100644
-> index 000000000000..610bf9a0e270
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktd253.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Kinetic Technologies KTD253 one-wire backlight
-> +
-> +maintainers:
-> +  - Linus Walleij <linus.walleij@linaro.org>
-> +
-> +description: |
-> +  The Kinetic Technologies KTD253 is a white LED backlight that is
-> +  controlled by a single GPIO line. If you just turn on the backlight
-> +  it goes to maximum backlight then you can set the level of backlight
-> +  using pulses on the enable wire.
-> +
-> +properties:
-> +  compatible:
-> +    const: kinetic,ktd253
-> +
-> +  gpios:
-> +    description: GPIO to use to enable/disable and dim the backlight.
-> +    maxItems: 1
-> +
-> +  default-brightness:
-> +    description: Default brightness level on boot. 0 is off.
-> +    minimum: 0
-> +    maximum: 255
-> +
-> +  max-brightness:
-> +    description: Maximum brightness that is allowed during runtime.
-> +    minimum: 0
-> +    maximum: 255
+Hello Rob,
 
-[I ended up dropping this into this thread... but it applies to both
-patches]
+Thanks for the review!
+On Tue, 21 Jul 2020 at 09:03, Rob Herring <robh@kernel.org> wrote:
+>
+> On Thu, Jul 16, 2020 at 09:08:57PM +0530, Sumit Semwal wrote:
+> > The nt36672a panel from Tianma is a FHD+ panel with a resolution of 1080x2246
+> > and 6.18 inches size. It is found in some of the Poco F1 phones.
+> >
+> > Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> > ---
+> >  .../display/panel/tianma,nt36672a.yaml        | 110 ++++++++++++++++++
+> >  1 file changed, 110 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/tianma,nt36672a.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/tianma,nt36672a.yaml b/Documentation/devicetree/bindings/display/panel/tianma,nt36672a.yaml
+> > new file mode 100644
+> > index 000000000000..3c583ca926ee
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/tianma,nt36672a.yaml
+> > @@ -0,0 +1,110 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/tianma,nt36672a.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Tianma model NT36672A DSI Panel display driver
+> > +
+> > +maintainers:
+> > +  - Sumit Semwal <sumit.semwal@linaro.org>
+> > +
+> > +description: |
+> > +  The nt36672a panel from Tianma is a FHD+ LCD display panel with a resolution
+> > +  of 1080x2246. It is a video mode DSI panel.
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: tianma,nt36672a
+> > +
+> > +  reg:
+> > +    description: DSI virtual channel of the peripheral
+> > +
+> > +  reset-gpios:
+> > +    description: phandle of gpio for reset line - This should be 8mA, gpio
+> > +      can be configured using mux, pinctrl, pinctrl-names (active high)
+> > +
+> > +  vddio-supply:
+> > +    description: phandle of the regulator that provides the supply voltage
+> > +      Power IC supply
+> > +
+> > +  vddpos-supply:
+> > +    description: phandle of the positive boost supply regulator
+> > +
+> > +  vddneg-supply:
+> > +    description: phandle of the negative boost supply regulator
+> > +
+> > +  pinctrl-names:
+> > +    description: Pinctrl for panel active and suspend
+> > +
+> > +  pinctrl-0:
+> > +    description: Active pinctrls
+> > +
+> > +  pinctrl-1:
+> > +    description: Suspend pinctrls
+>
+> I think the pinctrl should go in the DSI controller node, not the
+> display unless it is settings for 'reset-gpios'.
+Yes, from the downstream code, this seems to be for reset-gpios.
 
-I'm a bit sceptical of having a max-brightness in the DT and a driver
-defined lookup table in the driver itself. That doesn't make a whole lot
-of sense to me since the maximum brightness here is basically relies on
-knowing what scale the Linux driver has opted to implement in its tables.
+>
+> > +
+> > +  ports:
+> > +    type: object
+> > +    properties:
+> > +      port@0:
+> > +        type: object
+> > +        description: DSI input port driven by master DSI
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +        required:
+> > +          - reg
+>
+> For a single port, you can do just 'port' (without ports node).
+Thanks; will update in next version.
+>
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - vddi0-supply
+> > +  - vddpos-supply
+> > +  - vddneg-supply
+> > +  - reset-gpios
+> > +  - pinctrl-names
+> > +  - pinctrl-0
+> > +  - pinctrl-1
+> > +  - ports
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |+
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    dsi0 {
+>
+> dsi {
+>
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      panel@0 {
+> > +        compatible = "tianma,nt36672a";
+> > +        reg = <0>;
+> > +        vddi0-supply = <&vreg_l14a_1p88>;
+> > +        vddpos-supply = <&lab>;
+> > +        vddneg-supply = <&ibb>;
+> > +
+> > +        reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+> > +
+> > +        pinctrl-names = "panel_active", "panel_suspend";
+> > +        pinctrl-0 = <&sde_dsi_active>;
+> > +        pinctrl-1 = <&sde_dsi_suspend>;
+> > +
+> > +        ports {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          port@0 {
+> > +            reg = <0>;
+> > +            tianma_nt36672a_in_0: endpoint {
+> > +              remote-endpoint = <&dsi0_out>;
+> > +            };
+> > +          };
+> > +        };
+> > +      };
+> > +    };
+> > +
+> > +...
+> > --
+> > 2.27.0
+> >
 
-I think there are two options here.
-
-1. Throw away the brightness table in the driver and expose the hardware
-   steps directly (maybe using allowing properties such as
-   max-brightness = 24 if the top 8 values cannot be distinguished
-   visually).
-
-2. Implement a brightness table in the DT if there really is a need
-   to linearize the feel of the slider. In that case max-brightness
-   can be inferred from the maximum value in the table.
-
-Note that #2 is absolutely *not* the same as the tables in pwm_bl.c
-(which are used to map a very wide linear scale on the hardware into a
-smaller logarithmic interface for software to use). For this driver
-the driver's lookup table is used to present an oversized
-scale to software and quantizing it in the driver (using variably sized
-quantums) to create a hardware value.
-
-This can be useful if the hardware's perceptual response feels *really*
-lumpy but often results in sliders with dead zones (because they do not
-"snap" to the hardware intervals). Looking at the gaps in the driver I'm
-suspect the table is not worth the effort (the difference in the deltas
-is pretty modest) but I'm happy to contradicted by someone with access
-to the hardware!
-
-
-Daniel.
+Best,
+Sumit.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
