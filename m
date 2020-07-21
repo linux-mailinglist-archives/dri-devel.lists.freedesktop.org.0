@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B73D227BA3
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268D6227BA8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B20876E530;
-	Tue, 21 Jul 2020 09:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 322E86E51C;
+	Tue, 21 Jul 2020 09:24:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D8189C61
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:24:32 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id g37so14548335otb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:24:32 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C077E6E51C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:24:52 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id j18so2096334wmi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nquXkdQRYOPtoNI/3pjve4BmhzPYso4IxoVNtZc0VME=;
- b=CjocwH1W7nFMYJlFZJt0tm40L0soTBLF2A1OyB8G88wf51ZiFhqG/CutsmKeZ5Tdmn
- Y5Pra1EDDvtZhDbFNA40Deym9NI9pzjBkrIByHZc4nyCatLi/P96S+39Zw9EyC+sMvmu
- rkq8EcEXbJqZEJMu9S+hwNyEDe9BYYwCY1240=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=+kFwgEQ0u+QutyN0DraJp+TtaODFGI1C+5smsG/vgAs=;
+ b=YmDdQ+ZQ0iCteeZnMpX9Inzq0zuk/bKvOeNDuDHQucgONghKzEpvA9KC5u0yHSQalv
+ LwhcK0IH1+okCT7rJqkdz5gbKO17BWRe8ZP79/PnvpF9ZXuvFFNhnZHi1HhRIYITuQnW
+ h4jTaLjAJ8e8VnuROL56U+PL6E3ZbwqILrjzA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nquXkdQRYOPtoNI/3pjve4BmhzPYso4IxoVNtZc0VME=;
- b=n2f+sUJw+tXYI/qoBnlYidpweKhgh9kyJfo1wRQllmxmocyHHF6RFkXTR1lWmdz5c3
- 5QM6f6rcYPVoBxLg++jR1jzxyXp3kE5+HDn6kO/E6rfefya09rn4SspSQgC0KWnmKoxS
- y415lO5XS1GjFQHdp6xbumFNrrYoaG27+aFjEWQYGZd+6nMM61/uaEFBNXtM6tE8AdkL
- xJepXoeTz1CH6ImQaOJ5XtGGZnvHB6NNep94PDCwnGLREhjJ2QMw2t5MdYiF0M6nQrFM
- 8psBZMtHnVxK6BNXvnlMEpXWrkKUervWGD67ozb3EoXZToty9EtWEBRQTUVnYTH9vTyL
- QlGg==
-X-Gm-Message-State: AOAM532Sn2Pn5UDq6UGi7oqyU2QtjKGVo/LbteJHpvTRrBaT6sI6xGD4
- uGFRn9XdUUIN9M/cQ7tjS7w+nXPMvMnUvxipRPl7nQ==
-X-Google-Smtp-Source: ABdhPJwWzQp8+gEl+OMQCIoHdSTE3WuDzqd0vQntTpza9P5RjwTtbLNRcl1/BieXye7/bW+4dhAaba2R8DiOHrzunIU=
-X-Received: by 2002:a05:6830:1d0:: with SMTP id
- r16mr25072001ota.188.1595323471609; 
- Tue, 21 Jul 2020 02:24:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=+kFwgEQ0u+QutyN0DraJp+TtaODFGI1C+5smsG/vgAs=;
+ b=JJhQuQtGYV8xEv6/aQE4skLcTe1dm3DJIHifH1GAQIf4sgY6sfjtbHhNfcubBuSLqq
+ U+JDK1DHgnXHCfZD3vU0x7h3mL7FRwx3uO3GxvrQ5Npn7V4tXuN4A8q81qEwo9lkXoZs
+ MFbakl42oAU0B2x96LmVmPZkaV5NVLOn5FXV87GJZU0P1fiRHkZG71B0g16W5lLEjqpy
+ CZIrTDvFLts6UgqboSCkToGzA77ecmi0fEr/+ZoLf6wrvsjKrFhyLw2H7IlaUOXSjFG1
+ cVLoj9TTYInx7Al/DHZug32rYDWeM0InUcFPotLnp1NXyHXUw6T2Ekh6gfGxRv2OAV7x
+ W28g==
+X-Gm-Message-State: AOAM532Y0Lca5mm3wGxJdnfybSDEJYwkuvNVxtgrxxHPUABbVzD5Y/Fx
+ /pkHE3bpqsV8MM+VO8v0S4hJ9NYnBXg=
+X-Google-Smtp-Source: ABdhPJxAhuQ9X9OOkAS6LgR5K5iOjI2MDaSdmv4Q9kMI+ZtKyo3uSJ4+rlzZkyc144oJyheBAIallw==
+X-Received: by 2002:a1c:ab84:: with SMTP id u126mr3061993wme.43.1595323490656; 
+ Tue, 21 Jul 2020 02:24:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 88sm1408593wrk.43.2020.07.21.02.24.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 02:24:50 -0700 (PDT)
+Date: Tue, 21 Jul 2020 11:24:48 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH 06/11] drm/radeon: stop using TTM_MEMTYPE_FLAG_MAPPABLE
+Message-ID: <20200721092448.GE6419@phenom.ffwll.local>
+References: <20200721073245.2484-1-christian.koenig@amd.com>
+ <20200721073245.2484-6-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local>
- <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
- <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
- <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
- <CAKMK7uHcWMGnLqmNqoyYmk_UcErEZwRon-ybc9t-Joa+bHacaQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHcWMGnLqmNqoyYmk_UcErEZwRon-ybc9t-Joa+bHacaQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 21 Jul 2020 11:24:20 +0200
-Message-ID: <CAKMK7uF6L1vZR9VxTdvN80xQ3Qn6jBnGV5QQCBUrNOwrWPjruw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200721073245.2484-6-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,108 +66,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Steve Pronovost <spronovo@microsoft.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Jason Ekstrand <jason@jlekstrand.net>, Jesse Natalie <jenatali@microsoft.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMjEsIDIwMjAgYXQgMTE6MTYgQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZm
-d2xsLmNoPiB3cm90ZToKPgo+IE9uIFR1ZSwgSnVsIDIxLCAyMDIwIGF0IDEwOjU1IEFNIENocmlz
-dGlhbiBLw7ZuaWcKPiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPiA+Cj4gPiBB
-bSAyMS4wNy4yMCB1bSAxMDo0NyBzY2hyaWViIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCk6Cj4g
-PiA+Cj4gPiA+IE9uIDcvMjEvMjAgOTo0NSBBTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiA+
-ID4+IEFtIDIxLjA3LjIwIHVtIDA5OjQxIHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+ID4+PiBP
-biBNb24sIEp1bCAyMCwgMjAyMCBhdCAwMToxNToxN1BNICswMjAwLCBUaG9tYXMgSGVsbHN0csO2
-bSAoSW50ZWwpCj4gPiA+Pj4gd3JvdGU6Cj4gPiA+Pj4+IEhpLAo+ID4gPj4+Pgo+ID4gPj4+PiBP
-biA3LzkvMjAgMjozMyBQTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4+Pj4+IENvbWVzIHVw
-IGV2ZXJ5IGZldyB5ZWFycywgZ2V0cyBzb21ld2hhdCB0ZWRpb3VzIHRvIGRpc2N1c3MsIGxldCdz
-Cj4gPiA+Pj4+PiB3cml0ZSB0aGlzIGRvd24gb25jZSBhbmQgZm9yIGFsbC4KPiA+ID4+Pj4+Cj4g
-PiA+Pj4+PiBXaGF0IEknbSBub3Qgc3VyZSBhYm91dCBpcyB3aGV0aGVyIHRoZSB0ZXh0IHNob3Vs
-ZCBiZSBtb3JlCj4gPiA+Pj4+PiBleHBsaWNpdCBpbgo+ID4gPj4+Pj4gZmxhdCBvdXQgbWFuZGF0
-aW5nIHRoZSBhbWRrZmQgZXZpY3Rpb24gZmVuY2VzIGZvciBsb25nIHJ1bm5pbmcKPiA+ID4+Pj4+
-IGNvbXB1dGUKPiA+ID4+Pj4+IHdvcmtsb2FkcyBvciB3b3JrbG9hZHMgd2hlcmUgdXNlcnNwYWNl
-IGZlbmNpbmcgaXMgYWxsb3dlZC4KPiA+ID4+Pj4gQWx0aG91Z2ggKGluIG15IGh1bWJsZSBvcGlu
-aW9uKSBpdCBtaWdodCBiZSBwb3NzaWJsZSB0byBjb21wbGV0ZWx5Cj4gPiA+Pj4+IHVudGFuZ2xl
-Cj4gPiA+Pj4+IGtlcm5lbC1pbnRyb2R1Y2VkIGZlbmNlcyBmb3IgcmVzb3VyY2UgbWFuYWdlbWVu
-dCBhbmQgZG1hLWZlbmNlcwo+ID4gPj4+PiB1c2VkIGZvcgo+ID4gPj4+PiBjb21wbGV0aW9uLSBh
-bmQgZGVwZW5kZW5jeSB0cmFja2luZyBhbmQgbGlmdCBhIGxvdCBvZiByZXN0cmljdGlvbnMKPiA+
-ID4+Pj4gZm9yIHRoZQo+ID4gPj4+PiBkbWEtZmVuY2VzLCBpbmNsdWRpbmcgcHJvaGliaXRpbmcg
-aW5maW5pdGUgb25lcywgSSB0aGluayB0aGlzIG1ha2VzCj4gPiA+Pj4+IHNlbnNlCj4gPiA+Pj4+
-IGRlc2NyaWJpbmcgdGhlIGN1cnJlbnQgc3RhdGUuCj4gPiA+Pj4gWWVhaCBJIHRoaW5rIGEgZnV0
-dXJlIHBhdGNoIG5lZWRzIHRvIHR5cGUgdXAgaG93IHdlIHdhbnQgdG8gbWFrZSB0aGF0Cj4gPiA+
-Pj4gaGFwcGVuIChmb3Igc29tZSBjcm9zcyBkcml2ZXIgY29uc2lzdGVuY3kpIGFuZCB3aGF0IG5l
-ZWRzIHRvIGJlCj4gPiA+Pj4gY29uc2lkZXJlZC4gU29tZSBvZiB0aGUgbmVjZXNzYXJ5IHBhcnRz
-IGFyZSBhbHJlYWR5IHRoZXJlICh3aXRoIGxpa2UKPiA+ID4+PiB0aGUKPiA+ID4+PiBwcmVlbXB0
-aW9uIGZlbmNlcyBhbWRrZmQgaGFzIGFzIGFuIGV4YW1wbGUpLCBidXQgSSB0aGluayBzb21lIGNs
-ZWFyCj4gPiA+Pj4gZG9jcwo+ID4gPj4+IG9uIHdoYXQncyByZXF1aXJlZCBmcm9tIGJvdGggaHcs
-IGRyaXZlcnMgYW5kIHVzZXJzcGFjZSB3b3VsZCBiZSByZWFsbHkKPiA+ID4+PiBnb29kLgo+ID4g
-Pj4KPiA+ID4+IEknbSBjdXJyZW50bHkgd3JpdGluZyB0aGF0IHVwLCBidXQgcHJvYmFibHkgc3Rp
-bGwgbmVlZCBhIGZldyBkYXlzIGZvcgo+ID4gPj4gdGhpcy4KPiA+ID4KPiA+ID4gR3JlYXQhIEkg
-cHV0IGRvd24gc29tZSAodmVyeSkgaW5pdGlhbCB0aG91Z2h0cyBhIGNvdXBsZSBvZiB3ZWVrcyBh
-Z28KPiA+ID4gYnVpbGRpbmcgb24gZXZpY3Rpb24gZmVuY2VzIGZvciB2YXJpb3VzIGhhcmR3YXJl
-IGNvbXBsZXhpdHkgbGV2ZWxzIGhlcmU6Cj4gPiA+Cj4gPiA+IGh0dHBzOi8vbmFtMTEuc2FmZWxp
-bmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmdpdGxhYi5mcmVl
-ZGVza3RvcC5vcmclMkZ0aG9tYXNoJTJGZG9jcyUyRi0lMkZibG9iJTJGbWFzdGVyJTJGVW50YW5n
-bGluZyUyNTIwZG1hLWZlbmNlJTI1MjBhbmQlMjUyMG1lbW9yeSUyNTIwYWxsb2NhdGlvbi5vZHQm
-YW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDODk3OGJiZDc4
-MjNlNGI0MTY2MzcwOGQ4MmQ1MmFkZDMlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgz
-ZCU3QzAlN0MwJTdDNjM3MzA5MTgwNDI0MzEyMzkwJmFtcDtzZGF0YT10VHh4MnZmemZ3TE0xSUJK
-U3FxQVpSdzE2MDRSJTJGMGJJM013TjElMkZCZjJWUSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4gPgo+
-ID4KPiA+IEkgZG9uJ3QgdGhpbmsgdGhhdCB0aGlzIHdpbGwgZXZlciBiZSBwb3NzaWJsZS4KPiA+
-Cj4gPiBTZWUgdGhhdCBEYW5pZWwgZGVzY3JpYmVzIGluIGhpcyB0ZXh0IGlzIHRoYXQgaW5kZWZp
-bml0ZSBmZW5jZXMgYXJlIGEKPiA+IGJhZCBpZGVhIGZvciBtZW1vcnkgbWFuYWdlbWVudCwgYW5k
-IEkgdGhpbmsgdGhhdCB0aGlzIGlzIGEgZml4ZWQgZmFjdC4KPiA+Cj4gPiBJbiBvdGhlciB3b3Jk
-cyB0aGUgd2hvbGUgY29uY2VwdCBvZiBzdWJtaXR0aW5nIHdvcmsgdG8gdGhlIGtlcm5lbCB3aGlj
-aAo+ID4gZGVwZW5kcyBvbiBzb21lIHVzZXIgc3BhY2UgaW50ZXJhY3Rpb24gZG9lc24ndCB3b3Jr
-IGFuZCBuZXZlciB3aWxsLgo+ID4KPiA+IFdoYXQgY2FuIGJlIGRvbmUgaXMgdGhhdCBkbWFfZmVu
-Y2VzIHdvcmsgd2l0aCBoYXJkd2FyZSBzY2hlZHVsZXJzLiBFLmcuCj4gPiB3aGF0IHRoZSBLRkQg
-dHJpZXMgdG8gZG8gd2l0aCBpdHMgcHJlZW1wdGlvbiBmZW5jZXMuCj4gPgo+ID4gQnV0IGZvciB0
-aGlzIHlvdSBuZWVkIGEgYmV0dGVyIGNvbmNlcHQgYW5kIGRlc2NyaXB0aW9uIG9mIHdoYXQgdGhl
-Cj4gPiBoYXJkd2FyZSBzY2hlZHVsZXIgaXMgc3VwcG9zZWQgdG8gZG8gYW5kIGhvdyB0aGF0IGlu
-dGVyYWN0cyB3aXRoCj4gPiBkbWFfZmVuY2Ugb2JqZWN0cy4KPgo+IFllYWggSSB0aGluayB0cnlp
-bmcgdG8gc3BsaXQgZG1hX2ZlbmNlIHdvbnQgd29yaywgc2ltcGx5IGJlY2F1c2Ugb2YKPiBpbmVy
-dGlhLiBDcmVhdGluZyBhbiBlbnRpcmVseSBuZXcgdGhpbmcgZm9yIGF1Z21lbnRlZCB1c2Vyc3Bh
-Y2UKPiBjb250cm9sbGVkIGZlbmNpbmcsIGFuZCB0aGVuIGpvdHRpbmcgZG93biBhbGwgdGhlIHJ1
-bGVzIHRoZQo+IGtlcm5lbC9ody91c2Vyc3BhY2UgbmVlZCB0byBvYmV5IHRvIG5vdCBicmVhayBk
-bWFfZmVuY2UgaXMgd2hhdCBJIGhhZAo+IGluIG1pbmQuIEFuZCBJIGd1ZXNzIHRoYXQncyBhbHNv
-IHdoYXQgQ2hyaXN0aWFuIGlzIHdvcmtpbmcgb24uIEUuZy4KPiBqdXN0IGdvaW5nIHRocm91Z2gg
-YWxsIHRoZSBjYXNlcyBvZiBob3cgbXVjaCB5b3VyIGh3IGNhbiBwcmVlbXB0IG9yCj4gaGFuZGxl
-IHBhZ2UgZmF1bHRzIG9uIHRoZSBncHUsIGFuZCB3aGF0IHRoYXQgbWVhbnMgaW4gdGVybXMgb2YK
-PiBkbWFfZmVuY2VfYmVnaW4vZW5kX3NpZ25hbGxpbmcgYW5kIG90aGVyIGNvbnN0cmFpbnRzIHdv
-dWxkIGJlIHJlYWxseQo+IGdvb2QuCgpPciByZXBocmFzZWQgaW4gdGVybXMgb2YgVGhvbWFzJyBk
-b2M6IGRtYS1mZW5jZSB3aWxsIHN0YXkgdGhlIG1lbW9yeQpmZW5jZSwgYW5kIGFsc28gdGhlIHN5
-bmMgZmVuY2UgZm9yIGN1cnJlbnQgdXNlcnNwYWNlIGFuZCB3aW5zeXMuCgpUaGVuIHdlIGNyZWF0
-ZSBhIG5ldyB0aGluZyBhbmQgY29tcGxldGUgcHJvdG9jb2wgYW5kIGRyaXZlciByZXZpbmcgb2YK
-dGhlIGVudGlyZSB3b3JsZC4gVGhlIHJlYWxseSBoYXJkIHBhcnQgaXMgdGhhdCBydW5uaW5nIG9s
-ZCBzdHVmZiBvbiBhCm5ldyBzdGFjayBpcyBwb3NzaWJsZSAod2UnZCBiZSB0b3RhbGx5IHNjcmV3
-ZWQgb3RoZXJ3aXNlLCBzaW5jZSBpdAp3b3VsZCBiZWNvbWUgYSBzeXN0ZW0gd2lkZSBmbGFnIGRh
-eSkuIEJ1dCBydW5uaW5nIG5ldyBzdHVmZiBvbiBhbiBvbGQKc3RhY2sgKGV2ZW4gaWYgaXQncyBq
-dXN0IHNvbWV0aGluZyBpbiB1c2Vyc3BhY2UgbGlrZSB0aGUgY29tcG9zaXRvcikKZG9lc24ndCB3
-b3JrLCBiZWNhdXNlIHRoZW4geW91IHRpZSB0aGUgbmV3IHN5bmNocm9uaXphdGlvbiBmZW5jZXMg
-YmFjawppbnRvIHRoZSBkbWEtZmVuY2UgbWVtb3J5IGZlbmNlcywgYW5kIGdhbWUgb3Zlci4KClNv
-IHllYWggYXJvdW5kIDUgeWVhcnMgb3Igc28gZm9yIGFueXRoaW5nIHRoYXQgd2FudHMgdG8gdXNl
-IGEgd2luc3lzLApvciBhdCBsZWFzdCB0aGF0J3Mgd2hhdCBpdCB1c3VhbGx5IHRha2VzIHVzIHRv
-IGRvIHNvbWV0aGluZyBsaWtlIHRoaXMKOi0vIEVudGlyZWx5IHN0YW5kLWFsb25lIGNvbXB1dGUg
-d29ya2xvYWRzIChpcnJlc3BlY3RpdmUgd2hldGhlciBpdCdzCmN1ZGEsIGNsLCB2ayBvciB3aGF0
-ZXZlcikgZG9lc24ndCBoYXZlIHRoYXQgcHJvYmxlbSBvZmMuCi1EYW5pZWwKCj4gLURhbmllbAo+
-Cj4gPgo+ID4gQ2hyaXN0aWFuLgo+ID4KPiA+ID4KPiA+ID4gL1Rob21hcwo+ID4gPgo+ID4gPgo+
-ID4KPgo+Cj4gLS0KPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
-cnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29m
-dHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Jul 21, 2020 at 09:32:40AM +0200, Christian K=F6nig wrote:
+> The driver doesn't expose any not-mapable memory resources.
+> =
+
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/radeon/radeon_ttm.c | 13 ++++---------
+>  1 file changed, 4 insertions(+), 9 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index 54af06df865b..b474781a0920 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -76,7 +76,7 @@ static int radeon_init_mem_type(struct ttm_bo_device *b=
+dev, uint32_t type,
+>  	switch (type) {
+>  	case TTM_PL_SYSTEM:
+>  		/* System memory */
+> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+> +		man->flags =3D 0;
+>  		man->available_caching =3D TTM_PL_MASK_CACHING;
+>  		man->default_caching =3D TTM_PL_FLAG_CACHED;
+>  		break;
+> @@ -84,7 +84,7 @@ static int radeon_init_mem_type(struct ttm_bo_device *b=
+dev, uint32_t type,
+>  		man->func =3D &ttm_bo_manager_func;
+>  		man->available_caching =3D TTM_PL_MASK_CACHING;
+>  		man->default_caching =3D TTM_PL_FLAG_CACHED;
+> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+> +		man->flags =3D 0;
+>  #if IS_ENABLED(CONFIG_AGP)
+>  		if (rdev->flags & RADEON_IS_AGP) {
+>  			if (!rdev->ddev->agp) {
+> @@ -92,8 +92,6 @@ static int radeon_init_mem_type(struct ttm_bo_device *b=
+dev, uint32_t type,
+>  					  (unsigned)type);
+>  				return -EINVAL;
+>  			}
+> -			if (!rdev->ddev->agp->cant_use_aperture)
+> -				man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+
+There is a bunch of agp drivers (alpha, ppc, that kind of stuff) with this
+flag set. And radeon.ko did at least once work on these. And your patch to
+disable agp only changes the default, it doesn't rip out the code.
+
+So not sure your assumption here is correct.
+-Daniel
+
+>  			man->available_caching =3D TTM_PL_FLAG_UNCACHED |
+>  						 TTM_PL_FLAG_WC;
+>  			man->default_caching =3D TTM_PL_FLAG_WC;
+> @@ -103,8 +101,7 @@ static int radeon_init_mem_type(struct ttm_bo_device =
+*bdev, uint32_t type,
+>  	case TTM_PL_VRAM:
+>  		/* "On-card" video ram */
+>  		man->func =3D &ttm_bo_manager_func;
+> -		man->flags =3D TTM_MEMTYPE_FLAG_FIXED |
+> -			     TTM_MEMTYPE_FLAG_MAPPABLE;
+> +		man->flags =3D TTM_MEMTYPE_FLAG_FIXED;
+>  		man->available_caching =3D TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+>  		man->default_caching =3D TTM_PL_FLAG_WC;
+>  		break;
+> @@ -394,7 +391,6 @@ static int radeon_bo_move(struct ttm_buffer_object *b=
+o, bool evict,
+>  =
+
+>  static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct =
+ttm_mem_reg *mem)
+>  {
+> -	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
+>  	struct radeon_device *rdev =3D radeon_get_rdev(bdev);
+>  =
+
+>  	mem->bus.addr =3D NULL;
+> @@ -402,8 +398,7 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_de=
+vice *bdev, struct ttm_mem_
+>  	mem->bus.size =3D mem->num_pages << PAGE_SHIFT;
+>  	mem->bus.base =3D 0;
+>  	mem->bus.is_iomem =3D false;
+> -	if (!(man->flags & TTM_MEMTYPE_FLAG_MAPPABLE))
+> -		return -EINVAL;
+> +
+>  	switch (mem->mem_type) {
+>  	case TTM_PL_SYSTEM:
+>  		/* system memory */
+> -- =
+
+> 2.17.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
