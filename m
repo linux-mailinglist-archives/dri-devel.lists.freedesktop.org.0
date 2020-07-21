@@ -1,59 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FE12279F6
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 09:55:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1C9227A04
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D4B6E4C4;
-	Tue, 21 Jul 2020 07:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D686E506;
+	Tue, 21 Jul 2020 08:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E586E6E4C4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 07:55:33 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y3so2845291wrl.4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 00:55:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=pC+MGteSaMp2RBo9D5sBnIPWSphfRqDbYcC1LuuInP0=;
- b=RerIcbVYT+ToH2PS40TmLP+Hdsgw2OT71mvs/T5kbPeY6hp3Ol0b7D+elEWJ3TrRrG
- 6evA7WgT+vCgDv70GzXAG3f6CV3lwIyRmxrNXx6ckMvgA+1YfnbX4pwHBhQoJh9FnawY
- GhmAUqguH1I1waahe5o3lNn+LZzO5rHvNz8mE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pC+MGteSaMp2RBo9D5sBnIPWSphfRqDbYcC1LuuInP0=;
- b=pD7ZLxXUNPNuIG323RxFjp+01NuRc+u4+MATN2TJStyyaKVAn9awcghQgtEh7mVW++
- S7PsvAvakmPZCXgleLAmpH5VPW8qr5FDz78BbZqUkxjPIiHfhRstv84g+Pf+mul4hQpt
- mg+FjweJL6T048S6usDv5A1B1TcNrBMYcq+TMCzhSmkfBsz8vCVb14Y9k6JkLj8BMwOL
- VCY06QmXBOoJG+JtLaXJI4zsYE+I1H2uQZUVqIjl7BYHsv2AG8M+uTUtHMndany4SHaD
- 8gh9AUOSfnOPJ9mS0MpBIVCL4ZTr/ULPkROyYSqbJEYnCazYCyseqNlqohjlJ6N9f911
- Og8g==
-X-Gm-Message-State: AOAM530u9G3tcg1VIPrwD4oqYoAXNyAXNOlKdkXWtEWrfDu2xLJBK2P9
- diRCr/SNn9Kq/LDc7SZjnmFchw==
-X-Google-Smtp-Source: ABdhPJyBiIhIdHCuPngi6T5lVyRtpPE9JF1UmoFOu6WcQ3sp7JC/inXzrYZ8ZYybVpNdMbIXv55DFg==
-X-Received: by 2002:adf:8562:: with SMTP id 89mr27523981wrh.57.1595318132529; 
- Tue, 21 Jul 2020 00:55:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g126sm1700186wme.16.2020.07.21.00.55.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 00:55:31 -0700 (PDT)
-Date: Tue, 21 Jul 2020 09:55:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 01/11] drm: remove optional dummy function from drivers
- using TTM
-Message-ID: <20200721075530.GC3278063@phenom.ffwll.local>
-References: <20200721073245.2484-1-christian.koenig@amd.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D56E6E506
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:00:28 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 002392005C;
+ Tue, 21 Jul 2020 10:00:23 +0200 (CEST)
+Date: Tue, 21 Jul 2020 10:00:22 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 1/1] video: backlight: cr_bllcd: Remove unused variable
+ 'intensity'
+Message-ID: <20200721080022.GA41608@ravnborg.org>
+References: <20200721073919.925935-1-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200721073245.2484-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200721073919.925935-1-lee.jones@linaro.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8
+ a=hD80L64hAAAA:8 a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=8YDWVOxWXuGqFK3bR7oA:9
+ a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=cvBusfyB2V15izCimMoJ:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,187 +46,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 09:32:35AM +0200, Christian K=F6nig wrote:
-> Implementing those is completely unecessary.
-> =
-
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 -----
->  drivers/gpu/drm/drm_gem_vram_helper.c      |  5 -----
->  drivers/gpu/drm/qxl/qxl_ttm.c              |  6 ------
->  drivers/gpu/drm/radeon/radeon_ttm.c        |  5 -----
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 11 -----------
->  5 files changed, 32 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.c
-> index 3df685287cc1..9c0f12f74af9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -836,10 +836,6 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_d=
-evice *bdev, struct ttm_mem_
->  	return 0;
->  }
->  =
-
-> -static void amdgpu_ttm_io_mem_free(struct ttm_bo_device *bdev, struct tt=
-m_mem_reg *mem)
-> -{
-> -}
-> -
->  static unsigned long amdgpu_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
->  					   unsigned long page_offset)
->  {
-> @@ -1754,7 +1750,6 @@ static struct ttm_bo_driver amdgpu_bo_driver =3D {
->  	.release_notify =3D &amdgpu_bo_release_notify,
->  	.fault_reserve_notify =3D &amdgpu_bo_fault_reserve_notify,
->  	.io_mem_reserve =3D &amdgpu_ttm_io_mem_reserve,
-> -	.io_mem_free =3D &amdgpu_ttm_io_mem_free,
->  	.io_mem_pfn =3D amdgpu_ttm_io_mem_pfn,
->  	.access_memory =3D &amdgpu_ttm_access_memory,
->  	.del_from_lru_notify =3D &amdgpu_vm_del_from_lru_notify
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_=
-gem_vram_helper.c
-> index d107a2679e23..3296ed3df358 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -1081,10 +1081,6 @@ static int bo_driver_io_mem_reserve(struct ttm_bo_=
-device *bdev,
->  	return 0;
->  }
->  =
-
-> -static void bo_driver_io_mem_free(struct ttm_bo_device *bdev,
-> -				  struct ttm_mem_reg *mem)
-> -{ }
-> -
->  static struct ttm_bo_driver bo_driver =3D {
->  	.ttm_tt_create =3D bo_driver_ttm_tt_create,
->  	.ttm_tt_populate =3D ttm_pool_populate,
-> @@ -1094,7 +1090,6 @@ static struct ttm_bo_driver bo_driver =3D {
->  	.evict_flags =3D bo_driver_evict_flags,
->  	.move_notify =3D bo_driver_move_notify,
->  	.io_mem_reserve =3D bo_driver_io_mem_reserve,
-> -	.io_mem_free =3D bo_driver_io_mem_free,
->  };
->  =
-
->  /*
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index 52eaa2d22745..a6e67149ef4a 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -129,11 +129,6 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bde=
-v,
->  	return 0;
->  }
->  =
-
-> -static void qxl_ttm_io_mem_free(struct ttm_bo_device *bdev,
-> -				struct ttm_mem_reg *mem)
-> -{
-> -}
-> -
->  /*
->   * TTM backend functions.
->   */
-> @@ -247,7 +242,6 @@ static struct ttm_bo_driver qxl_bo_driver =3D {
->  	.evict_flags =3D &qxl_evict_flags,
->  	.move =3D &qxl_bo_move,
->  	.io_mem_reserve =3D &qxl_ttm_io_mem_reserve,
-> -	.io_mem_free =3D &qxl_ttm_io_mem_free,
->  	.move_notify =3D &qxl_bo_move_notify,
->  };
->  =
-
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
-/radeon_ttm.c
-> index f4f1e63731a5..73085523fad7 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -457,10 +457,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_d=
-evice *bdev, struct ttm_mem_
->  	return 0;
->  }
->  =
-
-> -static void radeon_ttm_io_mem_free(struct ttm_bo_device *bdev, struct tt=
-m_mem_reg *mem)
-> -{
-> -}
-> -
->  /*
->   * TTM backend functions.
->   */
-> @@ -774,7 +770,6 @@ static struct ttm_bo_driver radeon_bo_driver =3D {
->  	.move_notify =3D &radeon_bo_move_notify,
->  	.fault_reserve_notify =3D &radeon_bo_fault_reserve_notify,
->  	.io_mem_reserve =3D &radeon_ttm_io_mem_reserve,
-> -	.io_mem_free =3D &radeon_ttm_io_mem_free,
->  };
->  =
-
->  int radeon_ttm_init(struct radeon_device *rdev)
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm=
-/vmwgfx/vmwgfx_ttm_buffer.c
-> index fbcd11a7b215..bfd0c54ec30a 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -815,15 +815,6 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_devi=
-ce *bdev, struct ttm_mem_reg
->  	return 0;
->  }
->  =
-
-> -static void vmw_ttm_io_mem_free(struct ttm_bo_device *bdev, struct ttm_m=
-em_reg *mem)
-> -{
-> -}
-> -
-> -static int vmw_ttm_fault_reserve_notify(struct ttm_buffer_object *bo)
-> -{
-> -	return 0;
-> -}
-> -
->  /**
->   * vmw_move_notify - TTM move_notify_callback
->   *
-> @@ -866,7 +857,5 @@ struct ttm_bo_driver vmw_bo_driver =3D {
->  	.verify_access =3D vmw_verify_access,
->  	.move_notify =3D vmw_move_notify,
->  	.swap_notify =3D vmw_swap_notify,
-> -	.fault_reserve_notify =3D &vmw_ttm_fault_reserve_notify,
->  	.io_mem_reserve =3D &vmw_ttm_io_mem_reserve,
-> -	.io_mem_free =3D &vmw_ttm_io_mem_free,
->  };
-> -- =
-
-> 2.17.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGVlLgoKT24gVHVlLCBKdWwgMjEsIDIwMjAgYXQgMDg6Mzk6MTlBTSArMDEwMCwgTGVlIEpv
+bmVzIHdyb3RlOgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcga2VybmVsIGJ1aWxkIHdhcm5pbmc6Cj4g
+Cj4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2NyX2JsbGNkLmM6IEluIGZ1bmN0aW9uIOKAmGNy
+X2JhY2tsaWdodF9zZXRfaW50ZW5zaXR54oCZOgo+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9j
+cl9ibGxjZC5jOjYyOjY6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJsZSDigJhpbnRlbnNpdHnigJkg
+Wy1XdW51c2VkLXZhcmlhYmxlXQo+ICA2MiB8IGludCBpbnRlbnNpdHkgPSBiZC0+cHJvcHMuYnJp
+Z2h0bmVzczsKPiAgfCBefn5+fn5+fn4KPiAKPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPgo+IENjOiBEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3Jn
+Pgo+IENjOiBKaW5nb28gSGFuIDxqaW5nb29oYW4xQGdtYWlsLmNvbT4KPiBDYzogQmFydGxvbWll
+aiBab2xuaWVya2lld2ljeiA8Yi56b2xuaWVya2llQHNhbXN1bmcuY29tPgo+IENjOiBkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGxpbnV4LWZiZGV2QHZnZXIua2VybmVsLm9y
+Zwo+IEZpeGVzOiAyNGQzNDYxN2MyNGYgKCJiYWNrbGlnaHQ6IGNyX2JsbGNkOiBJbnRyb2R1Y2Ug
+Z3Bpby1iYWNrbGlnaHQgc2VtYW50aWNzIikKPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxl
+ZS5qb25lc0BsaW5hcm8ub3JnPgoKVGhhbmtzIGZvciBmaXhpbmcgdGhpcy4KVGhlIGRyaXZlciBv
+bmx5IGJ1aWxkIGZvciBYODYgc28gdGhlIHdhcm5pbmdzIHdhcyBsb3N0IGluIG90aGVyIGJ1aWxk
+Cm5vaXNlLgpPbmUgbW9yZSB0aGluZyB0byBpbXByb3ZlIGJlZm9yZSBuZXh0IHN1Ym1pc3Npb24g
+LSBzb3JyeSBmb3IgdGhpcy4KClJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
+Zy5vcmc+Cgo+IC0tLQo+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9jcl9ibGxjZC5jIHwgMSAt
+Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvdmlkZW8vYmFja2xpZ2h0L2NyX2JsbGNkLmMgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9j
+cl9ibGxjZC5jCj4gaW5kZXggYTI0ZDQyZTFlYTNjZC4uNGFkMGE3MjUzMWZlMiAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9jcl9ibGxjZC5jCj4gKysrIGIvZHJpdmVycy92
+aWRlby9iYWNrbGlnaHQvY3JfYmxsY2QuYwo+IEBAIC01OSw3ICs1OSw2IEBAIHN0cnVjdCBjcl9w
+YW5lbCB7Cj4gIAo+ICBzdGF0aWMgaW50IGNyX2JhY2tsaWdodF9zZXRfaW50ZW5zaXR5KHN0cnVj
+dCBiYWNrbGlnaHRfZGV2aWNlICpiZCkKPiAgewo+IC0JaW50IGludGVuc2l0eSA9IGJkLT5wcm9w
+cy5icmlnaHRuZXNzOwo+ICAJdTMyIGFkZHIgPSBncGlvX2JhciArIENSVk1MX1BBTkVMX1BPUlQ7
+Cj4gIAl1MzIgY3VyID0gaW5sKGFkZHIpOwo+ICAKPiAtLSAKPiAyLjI1LjEKPiAKPiBfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
