@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17DB227A6B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 404CA227A76
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4509489C37;
-	Tue, 21 Jul 2020 08:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F276E441;
+	Tue, 21 Jul 2020 08:18:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 60903 seconds by postgrey-1.36 at gabe;
- Tue, 21 Jul 2020 01:17:36 UTC
-Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14876E09A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 01:17:36 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.32])
- by regular1.263xmail.com (Postfix) with ESMTP id 3FE201173;
- Tue, 21 Jul 2020 09:17:33 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from [172.16.12.230] (unknown [58.22.7.114])
- by smtp.263.net (postfix) whith ESMTP id
- P4704T139888013862656S1595294251487593_; 
- Tue, 21 Jul 2020 09:17:32 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <fca0e68f4de44e6d9502d0de77824d86>
-X-RL-SENDER: andy.yan@rock-chips.com
-X-SENDER: yxj@rock-chips.com
-X-LOGIN-NAME: andy.yan@rock-chips.com
-X-FST-TO: linux-arm-kernel@lists.infradead.org
-X-SENDER-IP: 58.22.7.114
-X-ATTACHMENT-NUM: 0
-X-DNS-TYPE: 0
-X-System-Flag: 0
-Subject: =?UTF-8?Q?Re=3a_=5bPATCH_2/5=5d_drm=3a_rockchip=3a_add_missing_regi?=
- =?UTF-8?B?c3RlcnMgZm9yIFJLMzE4OOOAkOivt+azqOaEj++8jOmCruS7tueUsWxpbnV4LXJv?=
- =?UTF-8?Q?ckchip-bounces+andy=2eyan=3drock-chips=2ecom=40lists=2einfradead?=
- =?UTF-8?B?Lm9yZ+S7o+WPkeOAkQ==?=
-To: Alex Bee <knaerzche@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>
-References: <20200718200323.3559-1-knaerzche@gmail.com>
- <20200718200323.3559-3-knaerzche@gmail.com>
- <871ce1ac-2d5b-c0a2-60a6-6aba0f296c18@rock-chips.com>
- <12296860-d6ed-5135-7c4e-545362829051@gmail.com>
-From: Andy Yan <andy.yan@rock-chips.com>
-Message-ID: <c53a4909-03ff-7477-fb71-1418cf97634b@rock-chips.com>
-Date: Tue, 21 Jul 2020 09:17:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from m176150.mail.qiye.163.com (m176150.mail.qiye.163.com
+ [59.111.176.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C780489B11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 01:33:40 +0000 (UTC)
+Received: from vivo.com (wm-10.qy.internal [127.0.0.1])
+ by m176150.mail.qiye.163.com (Hmail) with ESMTP id 083D01A2142;
+ Tue, 21 Jul 2020 09:33:03 +0800 (CST)
+Message-ID: <AE2AjQBfDVxlYNyBF9u*s4rp.1.1595295183020.Hmail.bernard@vivo.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Drew Davenport <ddavenport@chromium.org>, 
+ Bernard Zhao <bernard@vivo.com>, Hongbo Yao <yaohongbo@huawei.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Kalyan Thota <kalyan_t@codeaurora.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: =?UTF-8?B?W1Jlc2VuZF1bUEFUQ0hdIGRybS9tc206IHVzZSBrdGhyZWFkX2NyZWF0ZV93b3JrZXIgaW5zdGVhZCBvZiBrdGhyZWFkX3J1bg==?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 14.29.82.33
 MIME-Version: 1.0
-In-Reply-To: <12296860-d6ed-5135-7c4e-545362829051@gmail.com>
-Content-Language: en-US
+Received: from bernard@vivo.com( [14.29.82.33) ] by ajax-webmail ( [127.0.0.1]
+ ) ; Tue, 21 Jul 2020 09:33:03 +0800 (GMT+08:00)
+From: Bernard <bernard@vivo.com>
+Date: Tue, 21 Jul 2020 09:33:03 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZSE8ZQh5CQ05OSU8eVkpOQk5JQk5KQ0hKT0tVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo#SToRKjkdPy0DFyI1Ajk9Qg5R
+ CE8JC1VKVUpOQk5JQk5KQ0hOSENVMxYaEhdVGR4JFRoJHzsNEg0UVRgUFkVZV1kSC1lBWUpPVUlC
+ VUNJVUhIWVdZCAFZQU1OTk83Bg++
+X-HM-Tid: 0a736f00b0cd93b4kuws083d01a2142
 X-Mailman-Approved-At: Tue, 21 Jul 2020 08:18:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +54,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: opensource.kernel@vivo.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQWxleDoKCk9uIDcvMjAvMjAgMTA6NDYgUE0sIEFsZXggQmVlIHdyb3RlOgo+IEhpIEFuZHks
-Cj4KPiBBbSAyMC4wNy4yMCB1bSAxMDoyMiBzY2hyaWViIEFuZHkgWWFuOgo+PiBIaSBBbGV4Ogo+
-Pgo+PiBPbiA3LzE5LzIwIDQ6MDMgQU0sIEFsZXggQmVlIHdyb3RlOgo+Pj4gVGhpcyBwYXRjaCBh
-ZGRzIGRpdGhlcl91cCwgZHNwX2x1dF9lbiwgZGF0YV9ibGFuayBhbmQgZHNwX2RhdGFfc3dhcAo+
-Pj4gcmVnaXN0ZXJzIHRvIGVuYWJsZSB0aGVpciByZXNwZWN0aXZlIGZ1bmN0aW9uYWxpdHkgZm9y
-IFJLMzE4OCdzIFZPUC4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBBbGV4IEJlZSA8a25hZXJ6Y2hl
-QGdtYWlsLmNvbT4KPj4+IC0tLQo+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tj
-aGlwX3ZvcF9yZWcuYyB8IDQgKysrKwo+Pj4gwqAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
-cygrKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2No
-aXBfdm9wX3JlZy5jIAo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfdm9w
-X3JlZy5jCj4+PiBpbmRleCBiMDQ2OTEwMTI5ZmIuLjk3MWE2YmRhNzQ1OCAxMDA2NDQKPj4+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF92b3BfcmVnLmMKPj4+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF92b3BfcmVnLmMKPj4+IEBAIC01MTIs
-NiArNTEyLDEwIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgdm9wX2NvbW1vbiByazMxODhfY29tbW9u
-ID0gewo+Pj4gwqDCoMKgwqDCoCAuZGl0aGVyX2Rvd25fZW4gPSBWT1BfUkVHKFJLMzE4OF9EU1Bf
-Q1RSTDAsIDB4MSwgMTEpLAo+Pj4gwqDCoMKgwqDCoCAuZGl0aGVyX2Rvd25fbW9kZSA9IFZPUF9S
-RUcoUkszMTg4X0RTUF9DVFJMMCwgMHgxLCAxMCksCj4+PiDCoMKgwqDCoMKgIC5kc3BfYmxhbmsg
-PSBWT1BfUkVHKFJLMzE4OF9EU1BfQ1RSTDEsIDB4MywgMjQpLAo+Pj4gK8KgwqDCoCAuZGl0aGVy
-X3VwID0gVk9QX1JFRyhSSzMxODhfRFNQX0NUUkwwLCAweDEsIDkpLAo+Pj4gK8KgwqDCoCAuZHNw
-X2x1dF9lbiA9IFZPUF9SRUcoUkszMTg4X1NZU19DVFJMLCAweDEsIDI4KSwKPj4+ICvCoMKgwqAg
-LmRhdGFfYmxhbmsgPSBWT1BfUkVHKFJLMzE4OF9EU1BfQ1RSTDEsIDB4MSwgMjUpLAo+Pj4gK8Kg
-wqDCoCAuZHNwX2RhdGFfc3dhcCA9IFZPUF9SRUcoUkszMTg4X0RTUF9DVFJMMSwgMHgxZiwgMjYp
-LAo+Pgo+Pgo+Pgo+PiBJIGNhbid0IGZpbmQgdGhlIGRlZmluaXRpb24gb2YgZHNwX2RhdGFfc3dh
-cCwgb3IgSSBtaXNzZWQgc29tZXRoaW5nPwo+Pgo+IE5vdGUgdGhhdCAuZHNwX2RhdGFfc3dhcCBp
-cyBub3QgZGVmaW5lZCB3aXRoIHRoYXQgbmFtZSBpbiBUUk0gKGFzIGl0IAo+IGlzIG5vdCBpbiBS
-SzMyODgvUkszMzI4KSwgc2luY2UgcG90ZW50aWFsbHkgbW9yZSB0aGUgb25lIGJpdCB3b3VsZCAK
-PiBoYXZlIHRvIGJlIHNldCBmb3IgdGhpcyAoY3VycmVudGx5IG9ubHkgUkJfU1dBUCAoMHgyKSBp
-cyBpbXBsZW1lbnRlZCAKPiBpbiB0aGUgVk9QIGRyaXZlcikuCj4KCkkgbWVhbiBJIGRpZG4ndCBm
-aW5kIHRoZSBkZWZpbml0aW9uIG9mIGRzcF9kYXRhX3N3YXDCoCBpbiBzdHJ1Y3QgCnZvcF9jb21t
-LCBJIGV2ZW4gc2VhcmNoIGRybS1taXNjLW5leHQgdHJlZS4KCgo+IFRvIGJlIHNvbWUga2luZCBv
-ZiBmdXR1cmUgcHJvb2YgKGlmIEJHX1NXQVAsIFJHX1NXQVAsIERFTFRBX1NXQVAgb3IgCj4gRFVN
-TVlfU1dBUCBldmVyIGdldCBpbXBsZW1lbnRlZCkgaXQgc2hvdWxkIGJlIGFsaWduZWQgd2l0aCB3
-aGF0IGlzIAo+IGRlZmluZWQgZm9yIFJLMzI4OC9SSzMzMjggbm93IHRvIGF1dG9tYXRpY2FsbHkg
-YmVuZWZpdCBmcm9tIHRoYXQgCj4gYWRkaXRpb25zLiBBbmQgaXQgd291bGQsIHNpbmNlIFJLMzI4
-OF9EU1BfQ1RSTDAgQklUMTIsIEJJVDEzLCBCSVQxNCwgCj4gQklUMTUsIEJJVDE2IGV4YWN0bHkg
-bWF0Y2hlcyB3aXRoIFJLMzE4OF9EU1BfQ1RSTDEgQklUMjYsIEJJVDI3LCAKPiBCSVQyOCwgQklU
-MjksIEJJVDMwLgo+Cj4gQ3VycmVudCBpbXBsZW1lbnRhdGlvbiBzZXRzIEJJVDEzIGZvciBSSzMy
-ODggYW5kIHdpdGggdGhpcyBwYXRjaCBCSVQyNyAKPiBmb3IgUkszMTg4IHRvIGVuYWJsZSBSQl9T
-V0FQLgo+Cj4+Cj4+Cj4+PiDCoCB9Owo+Pj4gwqAgwqAgc3RhdGljIGNvbnN0IHN0cnVjdCB2b3Bf
-d2luX2RhdGEgcmszMTg4X3ZvcF93aW5fZGF0YVtdID0gewo+Pgo+Pgo+IFJlZ2FyZHMsCj4KPiBB
-bGV4Cj4KPgo+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Use kthread_create_worker to simplify the code and optimise
+the manager struct: msm_drm_thread. With this change, we
+could remove struct element (struct task_struct *thread &
+struct kthread_worker worker), instead, use one point (struct
+kthread_worker *worker).
+
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c |  2 +-
+ drivers/gpu/drm/msm/msm_drv.c            | 18 ++++++------------
+ drivers/gpu/drm/msm/msm_drv.h            |  3 +--
+ 3 files changed, 8 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index e15b42a780e0..c959c959021d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -396,7 +396,7 @@ static void dpu_crtc_frame_event_cb(void *data, u32 event)
+ 	fevent->event = event;
+ 	fevent->crtc = crtc;
+ 	fevent->ts = ktime_get();
+-	kthread_queue_work(&priv->event_thread[crtc_id].worker, &fevent->work);
++	kthread_queue_work(priv->event_thread[crtc_id].worker, &fevent->work);
+ }
+ 
+ void dpu_crtc_complete_commit(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index f6ce40bf3699..82e79b82a594 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -238,10 +238,8 @@ static int msm_drm_uninit(struct device *dev)
+ 
+ 	/* clean up event worker threads */
+ 	for (i = 0; i < priv->num_crtcs; i++) {
+-		if (priv->event_thread[i].thread) {
+-			kthread_destroy_worker(&priv->event_thread[i].worker);
+-			priv->event_thread[i].thread = NULL;
+-		}
++		if (priv->event_thread[i].worker)
++			kthread_destroy_worker(priv->event_thread[i].worker);
+ 	}
+ 
+ 	msm_gem_shrinker_cleanup(ddev);
+@@ -504,19 +502,15 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+ 	for (i = 0; i < priv->num_crtcs; i++) {
+ 		/* initialize event thread */
+ 		priv->event_thread[i].crtc_id = priv->crtcs[i]->base.id;
+-		kthread_init_worker(&priv->event_thread[i].worker);
+ 		priv->event_thread[i].dev = ddev;
+-		priv->event_thread[i].thread =
+-			kthread_run(kthread_worker_fn,
+-				&priv->event_thread[i].worker,
+-				"crtc_event:%d", priv->event_thread[i].crtc_id);
+-		if (IS_ERR(priv->event_thread[i].thread)) {
++		priv->event_thread[i].worker = kthread_create_worker(0,
++			"crtc_event:%d", priv->event_thread[i].crtc_id);
++		if (IS_ERR(priv->event_thread[i].worker)) {
+ 			DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
+-			priv->event_thread[i].thread = NULL;
+ 			goto err_msm_uninit;
+ 		}
+ 
+-		ret = sched_setscheduler(priv->event_thread[i].thread,
++		ret = sched_setscheduler(priv->event_thread[i].worker->task,
+ 					 SCHED_FIFO, &param);
+ 		if (ret)
+ 			dev_warn(dev, "event_thread set priority failed:%d\n",
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index e2d6a6056418..daf2f4e5548c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -129,9 +129,8 @@ struct msm_display_info {
+ /* Commit/Event thread specific structure */
+ struct msm_drm_thread {
+ 	struct drm_device *dev;
+-	struct task_struct *thread;
+ 	unsigned int crtc_id;
+-	struct kthread_worker worker;
++	struct kthread_worker *worker;
+ };
+ 
+ struct msm_drm_private {
+-- 
+2.17.1
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
