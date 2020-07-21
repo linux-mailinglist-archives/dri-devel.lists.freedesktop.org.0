@@ -2,64 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC21227E82
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D718227E83
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153516E175;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43E196E4AA;
 	Tue, 21 Jul 2020 11:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFB46E51C
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:20:02 +0000 (UTC)
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 06L9CtxF007329; Tue, 21 Jul 2020 11:19:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=q4cJixvw6MNxKZShEfqVrQUezj6sONSFD+NAWmLsois=;
- b=mNovSMgTc5zsIlYiUcYJgltIUoSElkk14PWIyKhUge2mllSNXADiD0UPI8214JyLM532
- 2UibEmXshAtF1Bieutt63KjvnHu6uzrrt+Zuw2GMWPuqsnMbpVZRcwPm5bgLai0pMK2D
- n8VzT4zPaGVUdjSut0/TKqyPmalTi+fqhIQA2RyRnDRTDB0YRK5IhKctJ4l+rpGxgLgR
- EwYO4Dq/3earbrQuYugDxAAmIf7tZy+vjMXIapkBaI9WaeVdx3GYZXW6NCfEV3xIUR2U
- 7vcvPfl1RfZfGolZ2gjnHTlsU0rj31ZxXVc/CCeRHnD/ZPiHKF27vSXqWGAtwrYpGXmU UA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 32bs6uvykr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jul 2020 11:19:51 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AE35310002A;
- Tue, 21 Jul 2020 11:19:48 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 76D8F2A8DA8;
- Tue, 21 Jul 2020 11:19:48 +0200 (CEST)
-Received: from lmecxl0912.lme.st.com (10.75.127.44) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 21 Jul
- 2020 11:19:47 +0200
-Subject: Re: [PATCH v5 0/8] Enable ili9341 and l3gd20 on stm32f429-disco
-To: <dillon.minfei@gmail.com>, <robh+dt@kernel.org>, <p.zabel@pengutronix.de>, 
- <mcoquelin.stm32@gmail.com>, <thierry.reding@gmail.com>,
- <sam@ravnborg.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <mturquette@baylibre.com>, <sboyd@kernel.org>
-References: <broonie@kernel.org>
- <1590378062-7965-1-git-send-email-dillon.minfei@gmail.com>
-From: Alexandre Torgue <alexandre.torgue@st.com>
-Message-ID: <198ad79c-ab12-55f0-814f-afc454a7e8ef@st.com>
-Date: Tue, 21 Jul 2020 11:19:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF5D16E51C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:23:46 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 281BF58010D;
+ Tue, 21 Jul 2020 05:23:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 21 Jul 2020 05:23:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=x0tir+s+BOA84v7ZwfmMnAHoypG
+ Rmb6HnlXSdXNH2I0=; b=fV65wltrZ3rUv6cZRL2rvf6GyJaJowvLYnQbRlZLgMh
+ iCD88uBovfc557F1XIu8yCoQBxw8OVPNqFfugeVjQllsLRRHe30Iln3yBPteyI22
+ 5ZxzC5kcP60fjYXBHgaAUiBsfDkjCzOd+ZAf0z+xdtsNkirS6inMddCGzbC6bEsB
+ c7PoaH6fISg+aN2Iu3M+wGm5+5jW4moHa0cgBAuCGTlWN3G4fUj3Fhflq98rS1hS
+ jwlmdh086G5dKlMGejGofVLuxO6xffQKKu/caInNzPg01wLsSDoYd/tRp989kDPM
+ yPL2HHLVXjjA+K1da1sPE6/CYo1UivU4NM7fnzv6JJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=x0tir+
+ s+BOA84v7ZwfmMnAHoypGRmb6HnlXSdXNH2I0=; b=MTnB31s3EU6RFpUCuCYDXO
+ 3YZk8e+bjoZ52wD5jP6RzdTjRILGC1ygxdZr/TiGlB9CMo1Czg1IQQKxgFYONlnT
+ /puzlmM7YvS6MWIBGI0MuLRsQ1h35cJSUNvw5lmqtKNMFH1jOkPis01R4qYrosYZ
+ wLSQHMsAhywiAkRn6ZwsM5N8C3KuDzbQSg5FS7sRsVRVDDe9tODEZQa3wFourZBZ
+ zRVh4y/hblE9dkfuo04qMvRWOv4jlGB3bGo2nb/qswl0ZQNzjlI2mj/rdSLDLyt0
+ xe+yuW9e1Wh0Z2mAoyMC2yQYT37cfJf0vAE3o8psdZBnydY2bAZAkgYZ1zIXFOMw
+ ==
+X-ME-Sender: <xms:G7QWX2Ulju6BysJfXK8sElzp_0fHg-DD7o_jaVMeQJXBKiUxDs251w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrgeeigdduudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:G7QWXynGMJ-UQ-RN-5QI9AG6o2Y7PHFQuaK3_qNR68CS8S9hDY1-Zg>
+ <xmx:G7QWX6aN-cz87Hg7_1bM6MT5zocXDCAOS8JJ04bYAKio27ASwWuqgw>
+ <xmx:G7QWX9Xfb0nJxrD_H6iq7g6UcZ93zRGP2W8fM63B9bSjBrxz8_1nwA>
+ <xmx:ILQWX6Us7OlF1nO3lVZ_p-kWq3LT5qG9CP5naVistWKtfXrq2riePA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7A6883280063;
+ Tue, 21 Jul 2020 05:23:39 -0400 (EDT)
+Date: Tue, 21 Jul 2020 11:23:33 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: display: panel-dpi: Add bits-per-color
+ property
+Message-ID: <20200721092333.yr3wwmrxwz5rvpam@gilmour.lan>
+References: <20200714071305.18492-1-wens@kernel.org>
+ <20200714071305.18492-2-wens@kernel.org>
+ <20200721021026.GA3382460@bogus>
 MIME-Version: 1.0
-In-Reply-To: <1590378062-7965-1-git-send-email-dillon.minfei@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG7NODE1.st.com (10.75.127.19) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-07-21_02:2020-07-21,
- 2020-07-21 signatures=0
+In-Reply-To: <20200721021026.GA3382460@bogus>
 X-Mailman-Approved-At: Tue, 21 Jul 2020 11:16:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,113 +79,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+Cc: devicetree@vger.kernel.org, Siarhei Siamashka <siarhei.siamashka@gmail.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
  linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1067852805=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dillon
 
-On 5/25/20 5:40 AM, dillon.minfei@gmail.com wrote:
-> From: dillon min <dillon.minfei@gmail.com>
-> 
-> V5's update based on Mark Brown's suggestion, use 'SPI_MASTER_MUST_RX'
-> for SPI_SIMPLEX_RX mode on stm32 spi controller.
-> 
-> V5:
-> 1 instead of add send dummy data out under SIMPLEX_RX mode,
->     add flags 'SPI_CONTROLLER_MUST_TX' for stm32 spi driver
-> 2 bypass 'SPI_CONTROLLER_MUST_TX' and 'SPI_CONTROLLER_MUST_RX' under
-> 'SPI_3WIRE' mode
-> 
-
-Concerning DT patches, they look goods for me. However I'll merge them 
-when drivers parts will be merged.
-
-regards
-Alex
+--===============1067852805==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="odw3lcwqgr2hgq6u"
+Content-Disposition: inline
 
 
+--odw3lcwqgr2hgq6u
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> V4:
-> According to alexandre torgue's suggestion, combine ili9341 and
-> l3gd20's modification on stm32f429-disco board to one patchset.
-> 
-> Changes:
-> 
-> ili9341:
-> 
-> 1 update ili9341 panel driver according to Linus's suggestion
-> 2 drop V1's No.5 patch, sumbit new changes for clk-stm32f4
-> 3 merge l3gd20's change to this patchset
-> 
-> V3:
-> 1 merge original tiny/ili9341.c driver to panel/panel-ilitek-ili9341.c
->    to support serial spi & parallel rgb interface in one driver.
-> 2 update ilitek,ili9341.yaml dts binding documentation.
-> 3 update stm32f429-disco dts binding
-> 
-> V2:
-> 1 verify ilitek,ili9341.yaml with make O=../linux-stm32
->    dt_binding_check
->    DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/
->    ilitek,ili9341.yaml
-> 
-> V1:
-> 1 add ili9341 drm panel driver
-> 2 add ltdc, spi5 controller for stm32f429-disco
-> 3 add ltdc, spi5 pin map for stm32f429-disco
-> 4 add docs about ili9341
-> 5 fix ltdc driver loading hang in clk set rate bug
-> 
-> 
-> L3gd20:
-> V3:
-> 1 merge stm32f429-disco dtbs binding with ili9341 part
-> 
-> V2:
-> 1 insert blank line at stm32f420-disco.dts line 143
-> 2 add more description for l3gd20 in commit message
-> 
-> V1:
-> 1 enable spi5 controller on stm32f429-disco (dts)
-> 2 add spi5 pinmap for stm32f429-disco  (dts)
-> 3 add SPI_SIMPLEX_RX, SPI_3WIRE_RX support for stm32f4
-> 
-> 
-> dillon min (8):
->    ARM: dts: stm32: Add dma config for spi5
->    ARM: dts: stm32: Add pin map for ltdc & spi5 on stm32f429-disco board
->    ARM: dts: stm32: enable ltdc binding with ili9341, gyro l3gd20 on
->      stm32429-disco board
->    dt-bindings: display: panel: Add ilitek ili9341 panel bindings
->    clk: stm32: Fix stm32f429's ltdc driver hang in set clock rate,
->      fix duplicated ltdc clock register to 'clk_core' case ltdc's clock
->        turn off by clk_disable_unused()
->    drm/panel: Add ilitek ili9341 panel driver
->    spi: stm32: Add 'SPI_SIMPLEX_RX', 'SPI_3WIRE_RX' support for stm32f4
->    spi: flags 'SPI_CONTROLLER_MUST_RX' and 'SPI_CONTROLLER_MUST_TX' can't
->      be     coexit with 'SPI_3WIRE' mode
-> 
->   .../bindings/display/panel/ilitek,ili9341.yaml     |   69 ++
->   arch/arm/boot/dts/stm32f4-pinctrl.dtsi             |   67 +
->   arch/arm/boot/dts/stm32f429-disco.dts              |   48 +
->   arch/arm/boot/dts/stm32f429.dtsi                   |    3 +
->   drivers/clk/clk-stm32f4.c                          |    7 +-
->   drivers/gpu/drm/panel/Kconfig                      |   12 +
->   drivers/gpu/drm/panel/Makefile                     |    1 +
->   drivers/gpu/drm/panel/panel-ilitek-ili9341.c       | 1301 ++++++++++++++++++++
->   drivers/spi/spi-stm32.c                            |   19 +-
->   drivers/spi/spi.c                                  |    3 +-
->   10 files changed, 1521 insertions(+), 9 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
->   create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-> 
+On Mon, Jul 20, 2020 at 08:10:26PM -0600, Rob Herring wrote:
+> On Tue, Jul 14, 2020 at 03:13:01PM +0800, Chen-Yu Tsai wrote:
+> > From: Chen-Yu Tsai <wens@csie.org>
+> >=20
+> > Some LCD panels do not support 24-bit true color, or 8bits per channel
+> > RGB. Many low end ones only support up to 6 bits per channel natively.
+>=20
+> This should be implied by the panel's compatible property.
+
+I'm not sure it should, or at least it's not sufficient. Some panels
+while 24 bits capable might only have the higher bits connected to save
+off a couple of pins per color, in which case we should probably
+describe that somehow.
+
+Maxime
+
+--odw3lcwqgr2hgq6u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXxa0FQAKCRDj7w1vZxhR
+xZkZAQDftXEa79LnkvoDY7JmWNKr84twqwgwvGDvry1EED0yNgD/T4JNTJQkfpM+
+3Rm9c1KwCUpO971+NRBdz79kBZgYVAw=
+=ofIw
+-----END PGP SIGNATURE-----
+
+--odw3lcwqgr2hgq6u--
+
+--===============1067852805==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1067852805==--
