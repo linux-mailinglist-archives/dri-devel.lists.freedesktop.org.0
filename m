@@ -2,97 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C003227B3D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9513B227B40
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B936E527;
-	Tue, 21 Jul 2020 08:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B05746E528;
+	Tue, 21 Jul 2020 08:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2081.outbound.protection.outlook.com [40.107.243.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 272FC6E51B;
- Tue, 21 Jul 2020 08:55:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RyWoBuQ5/q8f7GSM5pxp7oX4iypUMU8JrRihVvht5qUo14kbroUGsZeSw+2pAotaqcvYinXgl6uceXG8lwdh4ageLVAvteUcTdtBCvUjt2lSu1SUqGJ0NGQCYfA2R71n1BhwRcuVrdsDz0BDMqAGHwIayxNV45l/r2b6/ZFVHLrELLGxUHx+TnctK4GuX/ZaHqrj+E4IOgazYBfFYCq9mvZAmfa85jvLWVXkWMpSsNC6oc9iDGyGVvx30p82tTCYKAM3gcRmKJtyYRM8nWamiQL0rbk3uuLiYo8Pp56vGm0Q2HASMawAaBi0WWz8bRPp3LjbR9GpUKW7VEZn//EBtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QeaGCrrDHmqsSeyTGV4X/OwWpWxAHHNG/nNNVIxtZPA=;
- b=jDIqUXgIx1uMb/e5Gf7K1BeulL5n/Y5nTrMa5ONdS8Wr1fsL96Gj//Wl3FsqFn1CqgrymRtwvsvhQhpovmNHWdlA2JGVj/uUkiOov2pHSrjYR13tkSpjnHNxflGqC5/miSkQ1s9qs3n35UVB69vP5U1FtIZFKTdTes+9RiRRgb133o9VfUayWo9wjcw5cLYrcZN4wkDxAQs3n9rQb1uP/T3UaBNsYDDyk8G+rx29w2M781bbd5MTJfGT+pOYmWQHwPhf1tikRGt0yYtYR0QeNK5n/niw1o37eGhZpDF9JW9YEj9+rkmrZxTTjQTTob5k3nE+7VlKzXPeHjWuVdodoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QeaGCrrDHmqsSeyTGV4X/OwWpWxAHHNG/nNNVIxtZPA=;
- b=k1L0dIXX99MPttlQHdGZxGeqZvwlQKfFDEcBvBq2K58ylw1w1AGopksnZ5GGsZaohglQEtGCh09N0qvgTCEYOxd7JkIDdrUzfUwBMh/gDVQOBv19Cvei43iR1dYfeHxbxdST3hflV2TqQjemXB1cUqtj6Yhj2nt6CzuMo2d5brM=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3967.namprd12.prod.outlook.com (2603:10b6:208:16c::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.17; Tue, 21 Jul
- 2020 08:55:22 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3195.026; Tue, 21 Jul 2020
- 08:55:21 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local>
- <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
- <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <2ca2c004-1e11-87f5-4bd8-761e1b44d21f@amd.com>
-Date: Tue, 21 Jul 2020 10:55:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <57a5eb9d-b74f-8ce4-7199-94e911d9b68b@shipmail.org>
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR04CA0127.eurprd04.prod.outlook.com
- (2603:10a6:208:55::32) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7756E528
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:56:29 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id s10so20321491wrw.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 01:56:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=9uzWoi/wCkdasRHzdl/GGpiJVuQvvdOImQa6SAFqqIc=;
+ b=EKWsN+CsI+02WRjwwW/22Pr5fhxfi1yK4WIQq+SVUtWWtAA4eNzwmZnyMwQSEv4IUb
+ mgNHEp5vero6YhvPqH4kx0qyICjadlBWXhWEqGQOyeIn1jfBkQkdACQqnPRL8nREkT47
+ S/JEmzfzdO4xeE0V14oF71TEnx4Y7tsfx1xZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=9uzWoi/wCkdasRHzdl/GGpiJVuQvvdOImQa6SAFqqIc=;
+ b=khT7YXOkS+PQ9UFiYqeLO/jG+49cs4KeOj62yqrRKUvg08+7P4Dmtkv+GkPH7JA1Zb
+ ar7Q6lgIufHpeBYBSZFql1zk7hnd2JHsjsCiFyWUrFZ7A5gwLWgOnMnb74zGFtwYmyzp
+ 73UoHTT4sWXjtEbuTmOAOx2TMTBPMXggjSejKRCVvP8bVL5KjDqRQo/18oM4NzQbr1V1
+ 6O0VV3T/VviWhw6FDuLTAWX+kGLLiEC/4ePyHflbyQAl9hFOUAi/P2/z7jsId1Py4ID3
+ HjME1QKN+/IcAO07BhAahHGUwBsM1+QL4hbFpgzfaPeH2lKq3/SVjMaGZ8QZlVBg+JS/
+ wpxw==
+X-Gm-Message-State: AOAM532C6BfT/LsDItRaChXmIJQje/WTWrSDnGOf3QF8xxH4bTgJXkwG
+ zOK598e52I8RA2kqIG73iKWdSex5L6w=
+X-Google-Smtp-Source: ABdhPJyRPLBPzZ53FaYAzWZsd61W//azcZxrFNGYZuORIXAfcEs4BP8clVJftTIXPZIz/9VAPGD//Q==
+X-Received: by 2002:a5d:4751:: with SMTP id o17mr26413040wrs.345.1595321787757; 
+ Tue, 21 Jul 2020 01:56:27 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 133sm2892706wme.5.2020.07.21.01.56.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 01:56:27 -0700 (PDT)
+Date: Tue, 21 Jul 2020 10:56:25 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH 04/11] drm/ttm: cleanup coding style and implementation.
+Message-ID: <20200721085625.GC6419@phenom.ffwll.local>
+References: <20200721073245.2484-1-christian.koenig@amd.com>
+ <20200721073245.2484-4-christian.koenig@amd.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR04CA0127.eurprd04.prod.outlook.com (2603:10a6:208:55::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3195.18 via Frontend Transport; Tue, 21 Jul 2020 08:55:19 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c78dc7db-fd98-4487-e0ec-08d82d53ccc8
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3967:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3967567C61BC043F2058343F83780@MN2PR12MB3967.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K8rlvC2wFfrdV23lhT4j0xR0dD9gmUFu7MPEQCWmSOztkQ+OyTxg7R+hbwVYVG9sX9ct+YtOwGgtydW0wE024a1LCCOb35M8TL3QGhA0WtVSoZpLBIhyfviSO+lS4hUwhgNoNCMWXcA8uqlh+7lSbywiYv280mqj5uFUEZtNF+4cajSJRv5si6bhfMVOoAIP0AbZQ4jh+W2B5fRKr5Z5WOfrAXLrWhW0kd0F2rzWodFipMgGshGv3pbbXRl1RLOpZsBRMeOdwk+pse14Qwd90YFxuiAnea6CO38HCCTJjq7koryTqYy8lm7/XFzT9hkw/kIG9JSKBBmO488LJPLJADVXwXcQzxACPYMcwtuOm91LLndwCsllXPSiUfBGIpvaErlnCygVBFDoRFxP1gOPZuUYfH9HK+81xF7IMkVCPFc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(45080400002)(8676002)(316002)(66574015)(53546011)(86362001)(6486002)(36756003)(8936002)(4326008)(52116002)(478600001)(110136005)(66556008)(66476007)(16526019)(31696002)(2616005)(66946007)(186003)(54906003)(6666004)(2906002)(5660300002)(966005)(31686004)(7416002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: j5mbNK/Jgj9MbhAJ5gwTfJ+CkMspFk073mKcJj4d4yHlqML3H+MZQDLBxiUZKol8Kyk8RpzPLAworAeONdvWfGLuRE1y+ySef7GkbfMo9RjHxx4jufjqPzWyLkJLvXTJlgxhTWNHJxLjBRK8jldOq1TSLM8EIVeDASsWA3AmtsJE5ld5vcZUYQk69bg/Z9118M5pjRfrkGH7hQjRLDkUXQqshD/HLW9b16c/17E4B2m2VrPqhSiX0qT/FrM51TgnhgW2Nv4RP6lVp7Yr4+phiDYQ9Q/nxxGux2tpAGN8XIJQif4L4WcOvnSXLh8YnIp6O9BduFMlqnelVgdiF+qFl8ChKcrenKu7vhuOvkiED1hcimwscTPvRwjNZa7FHb2Prx4t1BBAMfx7y5ZCZqXQn0NOfGRhJG3Cj6pj3hAGJSjVTioQjODcdm/5TJFtC5InsKsGdSdSQU4DmdZuAZaO8J72Mw8gtYL5QAwEemNB3dXiCaWKkFf8rkCAFxGAmV47u5/CiypVMfTXaGwibIqP0SuyYTOc+jOVzqkRpoDdch7lpEIKOujG/WwE/uHugyW7
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c78dc7db-fd98-4487-e0ec-08d82d53ccc8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2020 08:55:21.7195 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jFZhoKNd61bmkQxYXFVOo0u1t22+F09PgeCmpytZeEgYR9Bqyy9LlVgORb47dDiY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3967
+Content-Disposition: inline
+In-Reply-To: <20200721073245.2484-4-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,70 +66,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, linux-rdma@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Steve Pronovost <spronovo@microsoft.com>,
- amd-gfx@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
- Jesse Natalie <jenatali@microsoft.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjEuMDcuMjAgdW0gMTA6NDcgc2NocmllYiBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpOgo+
-Cj4gT24gNy8yMS8yMCA5OjQ1IEFNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+PiBBbSAyMS4w
-Ny4yMCB1bSAwOTo0MSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4+PiBPbiBNb24sIEp1bCAyMCwg
-MjAyMCBhdCAwMToxNToxN1BNICswMjAwLCBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIAo+Pj4g
-d3JvdGU6Cj4+Pj4gSGksCj4+Pj4KPj4+PiBPbiA3LzkvMjAgMjozMyBQTSwgRGFuaWVsIFZldHRl
-ciB3cm90ZToKPj4+Pj4gQ29tZXMgdXAgZXZlcnkgZmV3IHllYXJzLCBnZXRzIHNvbWV3aGF0IHRl
-ZGlvdXMgdG8gZGlzY3VzcywgbGV0J3MKPj4+Pj4gd3JpdGUgdGhpcyBkb3duIG9uY2UgYW5kIGZv
-ciBhbGwuCj4+Pj4+Cj4+Pj4+IFdoYXQgSSdtIG5vdCBzdXJlIGFib3V0IGlzIHdoZXRoZXIgdGhl
-IHRleHQgc2hvdWxkIGJlIG1vcmUgCj4+Pj4+IGV4cGxpY2l0IGluCj4+Pj4+IGZsYXQgb3V0IG1h
-bmRhdGluZyB0aGUgYW1ka2ZkIGV2aWN0aW9uIGZlbmNlcyBmb3IgbG9uZyBydW5uaW5nIAo+Pj4+
-PiBjb21wdXRlCj4+Pj4+IHdvcmtsb2FkcyBvciB3b3JrbG9hZHMgd2hlcmUgdXNlcnNwYWNlIGZl
-bmNpbmcgaXMgYWxsb3dlZC4KPj4+PiBBbHRob3VnaCAoaW4gbXkgaHVtYmxlIG9waW5pb24pIGl0
-IG1pZ2h0IGJlIHBvc3NpYmxlIHRvIGNvbXBsZXRlbHkgCj4+Pj4gdW50YW5nbGUKPj4+PiBrZXJu
-ZWwtaW50cm9kdWNlZCBmZW5jZXMgZm9yIHJlc291cmNlIG1hbmFnZW1lbnQgYW5kIGRtYS1mZW5j
-ZXMgCj4+Pj4gdXNlZCBmb3IKPj4+PiBjb21wbGV0aW9uLSBhbmQgZGVwZW5kZW5jeSB0cmFja2lu
-ZyBhbmQgbGlmdCBhIGxvdCBvZiByZXN0cmljdGlvbnMgCj4+Pj4gZm9yIHRoZQo+Pj4+IGRtYS1m
-ZW5jZXMsIGluY2x1ZGluZyBwcm9oaWJpdGluZyBpbmZpbml0ZSBvbmVzLCBJIHRoaW5rIHRoaXMg
-bWFrZXMgCj4+Pj4gc2Vuc2UKPj4+PiBkZXNjcmliaW5nIHRoZSBjdXJyZW50IHN0YXRlLgo+Pj4g
-WWVhaCBJIHRoaW5rIGEgZnV0dXJlIHBhdGNoIG5lZWRzIHRvIHR5cGUgdXAgaG93IHdlIHdhbnQg
-dG8gbWFrZSB0aGF0Cj4+PiBoYXBwZW4gKGZvciBzb21lIGNyb3NzIGRyaXZlciBjb25zaXN0ZW5j
-eSkgYW5kIHdoYXQgbmVlZHMgdG8gYmUKPj4+IGNvbnNpZGVyZWQuIFNvbWUgb2YgdGhlIG5lY2Vz
-c2FyeSBwYXJ0cyBhcmUgYWxyZWFkeSB0aGVyZSAod2l0aCBsaWtlIAo+Pj4gdGhlCj4+PiBwcmVl
-bXB0aW9uIGZlbmNlcyBhbWRrZmQgaGFzIGFzIGFuIGV4YW1wbGUpLCBidXQgSSB0aGluayBzb21l
-IGNsZWFyIAo+Pj4gZG9jcwo+Pj4gb24gd2hhdCdzIHJlcXVpcmVkIGZyb20gYm90aCBodywgZHJp
-dmVycyBhbmQgdXNlcnNwYWNlIHdvdWxkIGJlIHJlYWxseQo+Pj4gZ29vZC4KPj4KPj4gSSdtIGN1
-cnJlbnRseSB3cml0aW5nIHRoYXQgdXAsIGJ1dCBwcm9iYWJseSBzdGlsbCBuZWVkIGEgZmV3IGRh
-eXMgZm9yIAo+PiB0aGlzLgo+Cj4gR3JlYXQhIEkgcHV0IGRvd24gc29tZSAodmVyeSkgaW5pdGlh
-bCB0aG91Z2h0cyBhIGNvdXBsZSBvZiB3ZWVrcyBhZ28gCj4gYnVpbGRpbmcgb24gZXZpY3Rpb24g
-ZmVuY2VzIGZvciB2YXJpb3VzIGhhcmR3YXJlIGNvbXBsZXhpdHkgbGV2ZWxzIGhlcmU6Cj4KPiBo
-dHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMl
-M0ElMkYlMkZnaXRsYWIuZnJlZWRlc2t0b3Aub3JnJTJGdGhvbWFzaCUyRmRvY3MlMkYtJTJGYmxv
-YiUyRm1hc3RlciUyRlVudGFuZ2xpbmclMjUyMGRtYS1mZW5jZSUyNTIwYW5kJTI1MjBtZW1vcnkl
-MjUyMGFsbG9jYXRpb24ub2R0JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQw
-YW1kLmNvbSU3Qzg5NzhiYmQ3ODIzZTRiNDE2NjM3MDhkODJkNTJhZGQzJTdDM2RkODk2MWZlNDg4
-NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzMwOTE4MDQyNDMxMjM5MCZhbXA7c2Rh
-dGE9dFR4eDJ2Znpmd0xNMUlCSlNxcUFaUncxNjA0UiUyRjBiSTNNd04xJTJGQmYyVlElM0QmYW1w
-O3Jlc2VydmVkPTAgCj4KCkkgZG9uJ3QgdGhpbmsgdGhhdCB0aGlzIHdpbGwgZXZlciBiZSBwb3Nz
-aWJsZS4KClNlZSB0aGF0IERhbmllbCBkZXNjcmliZXMgaW4gaGlzIHRleHQgaXMgdGhhdCBpbmRl
-ZmluaXRlIGZlbmNlcyBhcmUgYSAKYmFkIGlkZWEgZm9yIG1lbW9yeSBtYW5hZ2VtZW50LCBhbmQg
-SSB0aGluayB0aGF0IHRoaXMgaXMgYSBmaXhlZCBmYWN0LgoKSW4gb3RoZXIgd29yZHMgdGhlIHdo
-b2xlIGNvbmNlcHQgb2Ygc3VibWl0dGluZyB3b3JrIHRvIHRoZSBrZXJuZWwgd2hpY2ggCmRlcGVu
-ZHMgb24gc29tZSB1c2VyIHNwYWNlIGludGVyYWN0aW9uIGRvZXNuJ3Qgd29yayBhbmQgbmV2ZXIg
-d2lsbC4KCldoYXQgY2FuIGJlIGRvbmUgaXMgdGhhdCBkbWFfZmVuY2VzIHdvcmsgd2l0aCBoYXJk
-d2FyZSBzY2hlZHVsZXJzLiBFLmcuIAp3aGF0IHRoZSBLRkQgdHJpZXMgdG8gZG8gd2l0aCBpdHMg
-cHJlZW1wdGlvbiBmZW5jZXMuCgpCdXQgZm9yIHRoaXMgeW91IG5lZWQgYSBiZXR0ZXIgY29uY2Vw
-dCBhbmQgZGVzY3JpcHRpb24gb2Ygd2hhdCB0aGUgCmhhcmR3YXJlIHNjaGVkdWxlciBpcyBzdXBw
-b3NlZCB0byBkbyBhbmQgaG93IHRoYXQgaW50ZXJhY3RzIHdpdGggCmRtYV9mZW5jZSBvYmplY3Rz
-LgoKQ2hyaXN0aWFuLgoKPgo+IC9UaG9tYXMKPgo+CgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Jul 21, 2020 at 09:32:38AM +0200, Christian K=F6nig wrote:
+> Only functional change is to always keep io_reserved_count up to date
+> for debugging even when it is not used otherwise.
+
+Functional change in a cleanup patch. Tsk. It looks correct though ...
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> =
+
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo_util.c | 97 +++++++++++++++----------------
+>  1 file changed, 48 insertions(+), 49 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_=
+bo_util.c
+> index 6c05f4fd15ae..7fb3e0bcbab4 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -115,39 +115,35 @@ static int ttm_mem_io_evict(struct ttm_mem_type_man=
+ager *man)
+>  {
+>  	struct ttm_buffer_object *bo;
+>  =
+
+> -	if (!man->use_io_reserve_lru || list_empty(&man->io_reserve_lru))
+> +	bo =3D list_first_entry_or_null(&man->io_reserve_lru,
+> +				      struct ttm_buffer_object,
+> +				      io_reserve_lru);
+> +	if (!bo)
+>  		return -ENOSPC;
+>  =
+
+> -	bo =3D list_first_entry(&man->io_reserve_lru,
+> -			      struct ttm_buffer_object,
+> -			      io_reserve_lru);
+>  	list_del_init(&bo->io_reserve_lru);
+>  	ttm_bo_unmap_virtual_locked(bo);
+> -
+>  	return 0;
+>  }
+>  =
+
+> -
+>  int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+>  		       struct ttm_mem_reg *mem)
+>  {
+>  	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
+> -	int ret =3D 0;
+> +	int ret;
+> +
+> +	if (mem->bus.io_reserved_count++)
+> +		return 0;
+>  =
+
+>  	if (!bdev->driver->io_mem_reserve)
+>  		return 0;
+> -	if (likely(!man->use_io_reserve_lru))
+> -		return bdev->driver->io_mem_reserve(bdev, mem);
+>  =
+
+> -	if (bdev->driver->io_mem_reserve &&
+> -	    mem->bus.io_reserved_count++ =3D=3D 0) {
+>  retry:
+> -		ret =3D bdev->driver->io_mem_reserve(bdev, mem);
+> -		if (ret =3D=3D -ENOSPC) {
+> -			ret =3D ttm_mem_io_evict(man);
+> -			if (ret =3D=3D 0)
+> -				goto retry;
+> -		}
+> +	ret =3D bdev->driver->io_mem_reserve(bdev, mem);
+> +	if (ret =3D=3D -ENOSPC) {
+> +		ret =3D ttm_mem_io_evict(man);
+> +		if (ret =3D=3D 0)
+> +			goto retry;
+>  	}
+>  	return ret;
+>  }
+> @@ -155,35 +151,31 @@ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+>  void ttm_mem_io_free(struct ttm_bo_device *bdev,
+>  		     struct ttm_mem_reg *mem)
+>  {
+> -	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
+> -
+> -	if (likely(!man->use_io_reserve_lru))
+> +	if (--mem->bus.io_reserved_count)
+>  		return;
+>  =
+
+> -	if (bdev->driver->io_mem_reserve &&
+> -	    --mem->bus.io_reserved_count =3D=3D 0 &&
+> -	    bdev->driver->io_mem_free)
+> -		bdev->driver->io_mem_free(bdev, mem);
+> +	if (!bdev->driver->io_mem_free)
+> +		return;
+>  =
+
+> +	bdev->driver->io_mem_free(bdev, mem);
+>  }
+>  =
+
+>  int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
+>  {
+> +	struct ttm_mem_type_manager *man =3D &bo->bdev->man[bo->mem.mem_type];
+>  	struct ttm_mem_reg *mem =3D &bo->mem;
+>  	int ret;
+>  =
+
+> -	if (!mem->bus.io_reserved_vm) {
+> -		struct ttm_mem_type_manager *man =3D
+> -			&bo->bdev->man[mem->mem_type];
+> +	if (mem->bus.io_reserved_vm)
+> +		return 0;
+>  =
+
+> -		ret =3D ttm_mem_io_reserve(bo->bdev, mem);
+> -		if (unlikely(ret !=3D 0))
+> -			return ret;
+> -		mem->bus.io_reserved_vm =3D true;
+> -		if (man->use_io_reserve_lru)
+> -			list_add_tail(&bo->io_reserve_lru,
+> -				      &man->io_reserve_lru);
+> -	}
+> +	ret =3D ttm_mem_io_reserve(bo->bdev, mem);
+> +	if (unlikely(ret !=3D 0))
+> +		return ret;
+> +	mem->bus.io_reserved_vm =3D true;
+> +	if (man->use_io_reserve_lru)
+> +		list_add_tail(&bo->io_reserve_lru,
+> +			      &man->io_reserve_lru);
+>  	return 0;
+>  }
+>  =
+
+> @@ -191,15 +183,17 @@ void ttm_mem_io_free_vm(struct ttm_buffer_object *b=
+o)
+>  {
+>  	struct ttm_mem_reg *mem =3D &bo->mem;
+>  =
+
+> -	if (mem->bus.io_reserved_vm) {
+> -		mem->bus.io_reserved_vm =3D false;
+> -		list_del_init(&bo->io_reserve_lru);
+> -		ttm_mem_io_free(bo->bdev, mem);
+> -	}
+> +	if (!mem->bus.io_reserved_vm)
+> +		return;
+> +
+> +	mem->bus.io_reserved_vm =3D false;
+> +	list_del_init(&bo->io_reserve_lru);
+> +	ttm_mem_io_free(bo->bdev, mem);
+>  }
+>  =
+
+> -static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev, struct ttm_me=
+m_reg *mem,
+> -			void **virtual)
+> +static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
+> +			       struct ttm_mem_reg *mem,
+> +			       void **virtual)
+>  {
+>  	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
+>  	int ret;
+> @@ -216,9 +210,11 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device =
+*bdev, struct ttm_mem_reg *m
+>  		addr =3D mem->bus.addr;
+>  	} else {
+>  		if (mem->placement & TTM_PL_FLAG_WC)
+> -			addr =3D ioremap_wc(mem->bus.base + mem->bus.offset, mem->bus.size);
+> +			addr =3D ioremap_wc(mem->bus.base + mem->bus.offset,
+> +					  mem->bus.size);
+>  		else
+> -			addr =3D ioremap(mem->bus.base + mem->bus.offset, mem->bus.size);
+> +			addr =3D ioremap(mem->bus.base + mem->bus.offset,
+> +				       mem->bus.size);
+>  		if (!addr) {
+>  			(void) ttm_mem_io_lock(man, false);
+>  			ttm_mem_io_free(bdev, mem);
+> @@ -230,8 +226,9 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device *=
+bdev, struct ttm_mem_reg *m
+>  	return 0;
+>  }
+>  =
+
+> -static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev, struct ttm_m=
+em_reg *mem,
+> -			 void *virtual)
+> +static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev,
+> +				struct ttm_mem_reg *mem,
+> +				void *virtual)
+>  {
+>  	struct ttm_mem_type_manager *man;
+>  =
+
+> @@ -513,11 +510,13 @@ static int ttm_bo_ioremap(struct ttm_buffer_object =
+*bo,
+>  	} else {
+>  		map->bo_kmap_type =3D ttm_bo_map_iomap;
+>  		if (mem->placement & TTM_PL_FLAG_WC)
+> -			map->virtual =3D ioremap_wc(bo->mem.bus.base + bo->mem.bus.offset + o=
+ffset,
+> +			map->virtual =3D ioremap_wc(bo->mem.bus.base +
+> +						  bo->mem.bus.offset + offset,
+>  						  size);
+>  		else
+> -			map->virtual =3D ioremap(bo->mem.bus.base + bo->mem.bus.offset + offs=
+et,
+> -						       size);
+> +			map->virtual =3D ioremap(bo->mem.bus.base +
+> +					       bo->mem.bus.offset + offset,
+> +					       size);
+>  	}
+>  	return (!map->virtual) ? -ENOMEM : 0;
+>  }
+> -- =
+
+> 2.17.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
