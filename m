@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEEA227E00
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:03:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AEC227ED7
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:28:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 991606E103;
-	Tue, 21 Jul 2020 11:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2ADC6E115;
+	Tue, 21 Jul 2020 11:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEBA86E05F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 11:03:10 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jxq37-000393-Fq; Tue, 21 Jul 2020 13:03:05 +0200
-Message-ID: <e38c494a544d7e0607ee89abcc6a85419e700011.camel@pengutronix.de>
-Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, Luben Tuikov
- <luben.tuikov@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 21 Jul 2020 13:03:04 +0200
-In-Reply-To: <2cef1ca3-115c-44ee-9caf-6cb8d6404796@amd.com>
-References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
- <0de5ad33ca2ff86fee13a453aa9096c274afbd3c.camel@pengutronix.de>
- <d710aba7c3acc537bfb1c20362f7c8dbee421f02.camel@pengutronix.de>
- <740fb929-e788-075b-87db-e2524ed4b086@gmail.com>
- <CADnq5_Np=OFgqAb4TPRz5yqx1YZSwWybS=F6R_r6r01QRrzADA@mail.gmail.com>
- <61128c11-9e65-bc21-6306-ea4efea18b76@amd.com>
- <90de1234-a103-a695-4ad7-83b1486e15ee@amd.com>
- <02ba868c-e904-3681-c795-59a4e48926d5@amd.com>
- <b1ebac7c-5593-bc87-1f36-ea55503f05d1@amd.com>
- <4b5c56d2-4ce4-3626-623f-d4a8124d76fa@amd.com>
- <d4ba6ed9-604e-5e88-f427-679639dcf8e9@amd.com>
- <dbb2e7f0-85b7-f9e0-7875-144a8cca4993@amd.com>
- <2cef1ca3-115c-44ee-9caf-6cb8d6404796@amd.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4931A89E2A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 11:28:45 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id f18so2503402wml.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 04:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4TOLW2imB3rsMZepinPh8jkYmxmq6wzr9xbAWaAB63E=;
+ b=zxA+ofaVwdl1bgNC13zN9ubxqHC9ewBBFt+NnKG2h8XDElraUcs8hoO7/q7zF2Yg34
+ QmQ8jfkqyfb2Bkbbu9KNvYZpTSBzFtcg2JwlKSHR60ZRl9bUVELDmjyBfasdmAhQdXgq
+ PE6MvfWaYT3PJv46TQIXdtpbH44y7um8SFGrXcNMYM16TDfD/rgKWEZyiV+mNTPsJKgK
+ 0qp/LLknorODSNsIgwkyLxHgbqETiKwOfAzWazzQv+cAbP7yNKacslNMXFNbwdqwTDm+
+ xmP3Q05/LOa1PZrMl1I1tFxtlneod5QopL6jJhffKklyh2wBHqyecIgrZbv5XaITUF/L
+ 9NEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4TOLW2imB3rsMZepinPh8jkYmxmq6wzr9xbAWaAB63E=;
+ b=pNwKyaujtSX9A2bX2UpGr/0fnhoZZVRP+lCvLrNwwOFb2oGtvHptDs6MRV2hQak9Av
+ /Fy2RaGA2WZNqAqcOasJHlUeV23A3XeUUlZUgswGWCU03d7h/l7MPEWQm6CJmoUa426G
+ T2L/kr/Crs0rEpGlNAAu9yuV+kavPIjb3qke97w/nyrpJL2mQNTSDVw/WpWJZwV48Sky
+ 9WbgENuAb+LEu2nU7K5Z/VKkQKSdqJsmhilno7yLfERQwqVlD4ZhqqkM0PyZ6NW4kKaj
+ iajVFRMBCQViiM0Od1NVFC8+IJFqHaahOFIOK2H4aQHdM8qDRhYQciCAN/OSMJwbF8Uz
+ vLew==
+X-Gm-Message-State: AOAM5315qalQAEIaPChgdq7ATX3dj7zvDPX/dwmP/oGiZ+rYbygkJhbe
+ bKRZoqLwMSSeFSiO4+I2JX6UlQ==
+X-Google-Smtp-Source: ABdhPJxD0h2M/2DjFqCYE+/h1ypZKlgo6FcZAnC0ULNYW3repPMTnleiqfIwBksS16IjOuUgYaKaGQ==
+X-Received: by 2002:a1c:f616:: with SMTP id w22mr3482710wmc.44.1595330923806; 
+ Tue, 21 Jul 2020 04:28:43 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id 22sm3336707wmb.11.2020.07.21.04.28.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 04:28:43 -0700 (PDT)
+Date: Tue, 21 Jul 2020 12:28:41 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/2 v1] dt-bindings: backlight: Add Kinetic KTD253 bindings
+Message-ID: <20200721112841.jxocq26yxhwy3gag@holly.lan>
+References: <20200720203506.3883129-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20200720203506.3883129-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,88 +67,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emily Deng <Emily.Deng@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- steven.price@arm.com
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrey,
-
-Am Mittwoch, den 12.02.2020, 11:33 -0500 schrieb Andrey Grodzovsky:
-> On 2/11/20 7:53 PM, Luben Tuikov wrote:
-> > On 2020-02-11 4:27 p.m., Andrey Grodzovsky wrote:
-> > > On 2/11/20 10:55 AM, Andrey Grodzovsky wrote:
-> > > > On 2/10/20 4:50 PM, Luben Tuikov wrote:
-> > > > > Hi Lucas,
-> > > > > 
-> > > > > Thank you for bringing awareness of this issue, publicly.
-> > > > > 
-> > > > > As soon as this patch showed up back in November of 2019,
-> > > > > I objected to it, privately.
-> > > > 
-> > > > I didn't find this objection in my mail actually
-> > Yes, I didn't send it to you.
-> > 
-> > > > > I suggested to instead use a _list_ to store the "state" of
-> > > > > all jobs of the same state. Then, at any time, timeout interrupt
-> > > > > or whatever, we can atomically (irq spinlock) move the timeout/bad
-> > > > > job to the timedout/cleanup/bad job list, and wake someone up
-> > > > > to deal with that list asynchronously, and return from the
-> > > > > interrupt/etc.
-> > > > > immediately.
-> > > > 
-> > > > Sounds a good idea to me, i think enough for us to have 2 lists,
-> > > > timeout list for jobs scheduled to HW and not yet completed
-> > > > (completion fence signaled) and cleanup list for those that did
-> > > > complete. This should give alternative solution to the race condition
-> > > > this patch was addressing without causing the break the Lucas
-> > > > reported. If no one objects I think i can try implement it.
-> > > > 
-> > > > Andrey
-> > > 
-> > > Thinking more i realize Luben is right about having also bad job list as
-> > > this is needed for normal job competition (by fence callback from
-> > > amdgpu_fence_process)  and you need to decide if you move it to cleanup
-> > > list from timeout list or not. If it's already in bad job list - meaning
-> > > that it's being processed by GPU recovery code you don't touch it,
-> > > otherwise you move it to cleanup list where it will be freed eventually
-> > > by invocation of drm_sched_get_cleanup_job.
-> > Yep...
-> > 
-> > Perhaps fewer lists, than "timeout", "bad" and "cleanup" could be had.
-> > I'd also name the "bad" list as "recovery" list, as that is what would
-> > be done to commands on that list.
-> > 
-> > "Timeout" is a status "timed-out", so perhaps just set the timeout
-> > flag and move it to a "done" list. (Note that the command can still
-> > complete asynchronously while on that list and while it has status
-> > "timed-out'.)
-> > 
-> > The idea is that,
-> > 1) it avoid contention and races when more than one context
-> >     can update the job at the same time, and
-> > 2) easy to process all jobs of a certain state and/or
-> >     move them around, etc.
-> > 
-> > Let's discuss it and come up with a plan. :-)
-> > 
-> > Regards,
-> > Luben
+On Mon, Jul 20, 2020 at 10:35:05PM +0200, Linus Walleij wrote:
+> This adds device tree bindings for the Kinetic KTD253
+> white LED backlight driver.
 > 
-> Sure, let me maybe come up with a draft patch so we have more concrete 
-> stuff to discuss and review.
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  .../leds/backlight/kinetic,ktd253.yaml        | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> new file mode 100644
+> index 000000000000..610bf9a0e270
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktd253.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Kinetic Technologies KTD253 one-wire backlight
+> +
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +description: |
+> +  The Kinetic Technologies KTD253 is a white LED backlight that is
+> +  controlled by a single GPIO line. If you just turn on the backlight
+> +  it goes to maximum backlight then you can set the level of backlight
+> +  using pulses on the enable wire.
+> +
+> +properties:
+> +  compatible:
+> +    const: kinetic,ktd253
+> +
+> +  gpios:
+> +    description: GPIO to use to enable/disable and dim the backlight.
+> +    maxItems: 1
+> +
+> +  default-brightness:
+> +    description: Default brightness level on boot. 0 is off.
+> +    minimum: 0
+> +    maximum: 255
+> +
+> +  max-brightness:
+> +    description: Maximum brightness that is allowed during runtime.
+> +    minimum: 0
+> +    maximum: 255
 
-It seems we all dropped the ball on this one. I believe this is still
-an open issue. Has there been any progress from your side on fixing
-this?
+[I ended up dropping this into this thread... but it applies to both
+patches]
 
-Regards,
-Lucas
+I'm a bit sceptical of having a max-brightness in the DT and a driver
+defined lookup table in the driver itself. That doesn't make a whole lot
+of sense to me since the maximum brightness here is basically relies on
+knowing what scale the Linux driver has opted to implement in its tables.
 
+I think there are two options here.
+
+1. Throw away the brightness table in the driver and expose the hardware
+   steps directly (maybe using allowing properties such as
+   max-brightness = 24 if the top 8 values cannot be distinguished
+   visually).
+
+2. Implement a brightness table in the DT if there really is a need
+   to linearize the feel of the slider. In that case max-brightness
+   can be inferred from the maximum value in the table.
+
+Note that #2 is absolutely *not* the same as the tables in pwm_bl.c
+(which are used to map a very wide linear scale on the hardware into a
+smaller logarithmic interface for software to use). For this driver
+the driver's lookup table is used to present an oversized
+scale to software and quantizing it in the driver (using variably sized
+quantums) to create a hardware value.
+
+This can be useful if the hardware's perceptual response feels *really*
+lumpy but often results in sliders with dead zones (because they do not
+"snap" to the hardware intervals). Looking at the gaps in the driver I'm
+suspect the table is not worth the effort (the difference in the deltas
+is pretty modest) but I'm happy to contradicted by someone with access
+to the hardware!
+
+
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
