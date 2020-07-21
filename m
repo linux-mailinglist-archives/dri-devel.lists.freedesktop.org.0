@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4474F227E85
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:16:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEEA227E00
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 13:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D48A6E4C5;
-	Tue, 21 Jul 2020 11:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 991606E103;
+	Tue, 21 Jul 2020 11:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
- [IPv6:2607:f8b0:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A519089AA6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 10:39:54 +0000 (UTC)
-Received: by mail-il1-x141.google.com with SMTP id i18so15972874ilk.10
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 03:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ThwS3sNnaYzxm6RkRoYdeoF//cTjYR2kssQx54vWp9w=;
- b=DVhxs5ezBobHnE9TBd4flPu5hJQLpMuAU2lC54qqaNv9XMKXCMX5PaT5SlWkqrzxOw
- EL706Ffqv525EBxHSA241prY6WAcYvLU/KkxBqS46cZCyB+AclCVSPiJa8Hoax4XXS0G
- O/BGBd615gOBOmIDHg2fL65Q4IjlGd23UTo9BuOlh2wQWIHEHGUTRbMaVD3dc/fRzwwY
- 5kYIGyaFCuRjVqoG1eppc5hn00vDznhO9+puJnS7B6+IoS6uVwu9tLZBw+ZYIyPsOeOv
- iucOa/CI9OxSjLfSl6r7OefuxDuy0H4AnaLeROENvSLMUlYeVtYH+BY5eR1mAVb5fb5v
- b3/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ThwS3sNnaYzxm6RkRoYdeoF//cTjYR2kssQx54vWp9w=;
- b=RJfr3kYEnJULSbvYUA1uPh0/o5GUVhT9d5VfDCgp+PuYWsBkH6mJtPPvr4eSPxgSf+
- FreoL13+pg86krkCSXbIHoNGrB8NWM+B9lxn0e+7O87lHkD5J+y4a9B7ZZBlaypj1+oh
- p21fdrcmuNVbtEYQQbqwxndNvuuhcLLsdZRZItbbZ+h/chtZpOqghyxh7yYSo+sTEl6M
- g3OxzVtOFVihNsKHY9Im3qv/PQL2xwhgPPOPKDancmaAwgd571PqxdKOjD4z16cTfb27
- A06iQQP2jkOtCo+N1YIRXHCxY1Tht4CivIkT51XYmQMPh0WzZdP02dGXDJHLCXPTCVKt
- NHAA==
-X-Gm-Message-State: AOAM533Xa0JYCLv8vZv6woi5wKv2T6/LmAtZCSSNTdQF/TlA+WgEXgxG
- C3Pdq03Qc6Jmt00GibGZteFWi6+63wX2/IL59/g=
-X-Google-Smtp-Source: ABdhPJw+/FQVMZplQXPTaorV2hEw8VbZnoDU19wgkFEZlMX3P8qajDscpYadCkFjjbvhCIYI0S6Lg8dGv0Kq5wRCsYI=
-X-Received: by 2002:a05:6e02:bcd:: with SMTP id
- c13mr26319082ilu.184.1595327993883; 
- Tue, 21 Jul 2020 03:39:53 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEBA86E05F
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 11:03:10 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jxq37-000393-Fq; Tue, 21 Jul 2020 13:03:05 +0200
+Message-ID: <e38c494a544d7e0607ee89abcc6a85419e700011.camel@pengutronix.de>
+Subject: Re: [PATCH v4] drm/scheduler: Avoid accessing freed bad job.
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, Luben Tuikov
+ <luben.tuikov@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 21 Jul 2020 13:03:04 +0200
+In-Reply-To: <2cef1ca3-115c-44ee-9caf-6cb8d6404796@amd.com>
+References: <1574715089-14875-1-git-send-email-andrey.grodzovsky@amd.com>
+ <0de5ad33ca2ff86fee13a453aa9096c274afbd3c.camel@pengutronix.de>
+ <d710aba7c3acc537bfb1c20362f7c8dbee421f02.camel@pengutronix.de>
+ <740fb929-e788-075b-87db-e2524ed4b086@gmail.com>
+ <CADnq5_Np=OFgqAb4TPRz5yqx1YZSwWybS=F6R_r6r01QRrzADA@mail.gmail.com>
+ <61128c11-9e65-bc21-6306-ea4efea18b76@amd.com>
+ <90de1234-a103-a695-4ad7-83b1486e15ee@amd.com>
+ <02ba868c-e904-3681-c795-59a4e48926d5@amd.com>
+ <b1ebac7c-5593-bc87-1f36-ea55503f05d1@amd.com>
+ <4b5c56d2-4ce4-3626-623f-d4a8124d76fa@amd.com>
+ <d4ba6ed9-604e-5e88-f427-679639dcf8e9@amd.com>
+ <dbb2e7f0-85b7-f9e0-7875-144a8cca4993@amd.com>
+ <2cef1ca3-115c-44ee-9caf-6cb8d6404796@amd.com>
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-References: <broonie@kernel.org>
- <1590378062-7965-1-git-send-email-dillon.minfei@gmail.com>
- <198ad79c-ab12-55f0-814f-afc454a7e8ef@st.com>
-In-Reply-To: <198ad79c-ab12-55f0-814f-afc454a7e8ef@st.com>
-From: dillon min <dillon.minfei@gmail.com>
-Date: Tue, 21 Jul 2020 18:39:16 +0800
-Message-ID: <CAL9mu0L3ZF5+nh2ENzxnu0f6AAh1ygoWx1bEkS3WkJt8TN7C7Q@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] Enable ili9341 and l3gd20 on stm32f429-disco
-To: Alexandre Torgue <alexandre.torgue@st.com>
-X-Mailman-Approved-At: Tue, 21 Jul 2020 11:16:25 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,117 +59,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Dave Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- linux-clk <linux-clk@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-spi <linux-spi@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, thierry.reding@gmail.com,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Emily Deng <Emily.Deng@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ steven.price@arm.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQWxleGFuZHJlLAoKT24gVHVlLCBKdWwgMjEsIDIwMjAgYXQgNToxOSBQTSBBbGV4YW5kcmUg
-VG9yZ3VlCjxhbGV4YW5kcmUudG9yZ3VlQHN0LmNvbT4gd3JvdGU6Cj4KPiBIaSBEaWxsb24KPgo+
-IE9uIDUvMjUvMjAgNTo0MCBBTSwgZGlsbG9uLm1pbmZlaUBnbWFpbC5jb20gd3JvdGU6Cj4gPiBG
-cm9tOiBkaWxsb24gbWluIDxkaWxsb24ubWluZmVpQGdtYWlsLmNvbT4KPiA+Cj4gPiBWNSdzIHVw
-ZGF0ZSBiYXNlZCBvbiBNYXJrIEJyb3duJ3Mgc3VnZ2VzdGlvbiwgdXNlICdTUElfTUFTVEVSX01V
-U1RfUlgnCj4gPiBmb3IgU1BJX1NJTVBMRVhfUlggbW9kZSBvbiBzdG0zMiBzcGkgY29udHJvbGxl
-ci4KPiA+Cj4gPiBWNToKPiA+IDEgaW5zdGVhZCBvZiBhZGQgc2VuZCBkdW1teSBkYXRhIG91dCB1
-bmRlciBTSU1QTEVYX1JYIG1vZGUsCj4gPiAgICAgYWRkIGZsYWdzICdTUElfQ09OVFJPTExFUl9N
-VVNUX1RYJyBmb3Igc3RtMzIgc3BpIGRyaXZlcgo+ID4gMiBieXBhc3MgJ1NQSV9DT05UUk9MTEVS
-X01VU1RfVFgnIGFuZCAnU1BJX0NPTlRST0xMRVJfTVVTVF9SWCcgdW5kZXIKPiA+ICdTUElfM1dJ
-UkUnIG1vZGUKPiA+Cj4KPiBDb25jZXJuaW5nIERUIHBhdGNoZXMsIHRoZXkgbG9vayBnb29kcyBm
-b3IgbWUuIEhvd2V2ZXIgSSdsbCBtZXJnZSB0aGVtCj4gd2hlbiBkcml2ZXJzIHBhcnRzIHdpbGwg
-YmUgbWVyZ2VkLgo+Cj4gcmVnYXJkcwo+IEFsZXgKVGhpcyBwYXRjaHNldCBzdGF0dXMgaXMgOgpk
-dHM6CiAgICBBUk06IGR0czogc3RtMzI6IEFkZCBkbWEgY29uZmlnIGZvciBzcGk1CiAgICBBUk06
-IGR0czogc3RtMzI6IEFkZCBwaW4gbWFwIGZvciBsdGRjICYgc3BpNSBvbiBzdG0zMmY0MjktZGlz
-Y28gYm9hcmQKICAgIEFSTTogZHRzOiBzdG0zMjogZW5hYmxlIGx0ZGMgYmluZGluZyB3aXRoIGls
-aTkzNDEsIGd5cm8gbDNnZDIwIG9uCiAgICAgIHN0bTMyNDI5LWRpc2NvIGJvYXJkCgpwYW5lbC1i
-aW5kaW5nczogUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5n77yMIG5lZWQgbW9yZSByZXZpZXdpbmcg
-dG8gbWVyZ2UKICAgIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiBwYW5lbDogQWRkIGlsaXRlayBpbGk5
-MzQxIHBhbmVsIGJpbmRpbmdzCgpjbGs6IEFja2VkLWJ5OiBTdGVwaGVuIEJveWQgLCBuZWVkIG1v
-cmUgcmV2aWV3aW5nIHRvIG1lcmdlCiAgICBjbGs6IHN0bTMyOiBGaXggc3RtMzJmNDI5J3MgbHRk
-YyBkcml2ZXIgaGFuZyBpbiBzZXQgY2xvY2sgcmF0ZSwKICAgICAgZml4IGR1cGxpY2F0ZWQgbHRk
-YyBjbG9jayByZWdpc3RlciB0byAnY2xrX2NvcmUnIGNhc2UgbHRkYydzIGNsb2NrCiAgICAgICAg
-dHVybiBvZmYgYnkgY2xrX2Rpc2FibGVfdW51c2VkKCkKCmRybS1wYW5lbDogIFJldmlld2VkLWJ5
-OiBMaW51cyBXYWxsZWlqIC4gbmVlZCBtb3JlIHJldmlld2luZyB0byBtZXJnZQogICAgZHJtL3Bh
-bmVsOiBBZGQgaWxpdGVrIGlsaTkzNDEgcGFuZWwgZHJpdmVyCgpzcGktZHJpdmVyOiBBY2tlZC1i
-eTogTWFyayBCcm93biDvvIxtZXJnZWQgaW50byBtYWlubGluZQogICAgc3BpOiBzdG0zMjogQWRk
-ICdTUElfU0lNUExFWF9SWCcsICdTUElfM1dJUkVfUlgnIHN1cHBvcnQgZm9yIHN0bTMyZjQKICAg
-IHNwaTogZmxhZ3MgJ1NQSV9DT05UUk9MTEVSX01VU1RfUlgnIGFuZCAnU1BJX0NPTlRST0xMRVJf
-TVVTVF9UWCcgY2FuJ3QKICAgICAgYmVjb2V4aXQgd2l0aCAnU1BJXzNXSVJFJyBtb2RlCgpGb3Ig
-aWxpOTM0MSBkcml2ZXJzLCBpdCBzZWVtcyB0byBuZWVkIG1vcmUgdGltZSB0byByZXZpZXcsIG9y
-IG1pZ2h0IGJlIGRyb3BwZWQuCnNpbmNlIHRoZSBkcm0gbWFpbnRhaW5lciBtaWdodCBjcmVhdGUg
-YSBuZXcgaW50ZXJmYWNlIHRvIHN1cHBvcnQKRFBJLERCSSxEU0kgaW4gb25lIGRyaXZlci4KQ3Vy
-cmVudGx5IGl0J3MgdW5kZXIgZGlzY3Vzc2lvbi4gSSB3aWxsIHJld29yayB0aGUgaWxpOTM0MSBk
-cml2ZXIgYWZ0ZXIgdGhhdC4KCkJ1dCwgd2UgY2FuIHVzZSB0aGUgZXhpc3RpbmcgImRyaXZlcnMv
-Z3B1L2RybS90aW55L2lsaTkzNDEuYyIgZHJpdmVyIHRvIHN1cHBvcnQKaWxpOTM0MSBvbiBzdG0z
-MmY0MjktZGlzY28gYm9hcmQgb25seSB1c2luZyB0aGUgc3BpIGJ1cy4gZXhjZXB0IHRoZQpkaXNw
-bGF5IHJlZnJlc2ggcGVyZm9ybWFuY2UgaXMgbm90IGFzIGdvb2QgYXMgdGhlIGx0ZGMgaW50ZXJm
-YWNlLgoKSSBjYW4gc3VibWl0IGEgbmV3IHBhdGNoIGp1c3Qgd2l0aCBkdHMgY2hhbmdlZCB0aGlz
-IHdlZWsgZm9yIGl0LCBpZiB5b3UgbmVlZC4KClRoYW5rcywKRGlsbG9uLgo+Cj4KPgo+ID4gVjQ6
-Cj4gPiBBY2NvcmRpbmcgdG8gYWxleGFuZHJlIHRvcmd1ZSdzIHN1Z2dlc3Rpb24sIGNvbWJpbmUg
-aWxpOTM0MSBhbmQKPiA+IGwzZ2QyMCdzIG1vZGlmaWNhdGlvbiBvbiBzdG0zMmY0MjktZGlzY28g
-Ym9hcmQgdG8gb25lIHBhdGNoc2V0Lgo+ID4KPiA+IENoYW5nZXM6Cj4gPgo+ID4gaWxpOTM0MToK
-PiA+Cj4gPiAxIHVwZGF0ZSBpbGk5MzQxIHBhbmVsIGRyaXZlciBhY2NvcmRpbmcgdG8gTGludXMn
-cyBzdWdnZXN0aW9uCj4gPiAyIGRyb3AgVjEncyBOby41IHBhdGNoLCBzdW1iaXQgbmV3IGNoYW5n
-ZXMgZm9yIGNsay1zdG0zMmY0Cj4gPiAzIG1lcmdlIGwzZ2QyMCdzIGNoYW5nZSB0byB0aGlzIHBh
-dGNoc2V0Cj4gPgo+ID4gVjM6Cj4gPiAxIG1lcmdlIG9yaWdpbmFsIHRpbnkvaWxpOTM0MS5jIGRy
-aXZlciB0byBwYW5lbC9wYW5lbC1pbGl0ZWstaWxpOTM0MS5jCj4gPiAgICB0byBzdXBwb3J0IHNl
-cmlhbCBzcGkgJiBwYXJhbGxlbCByZ2IgaW50ZXJmYWNlIGluIG9uZSBkcml2ZXIuCj4gPiAyIHVw
-ZGF0ZSBpbGl0ZWssaWxpOTM0MS55YW1sIGR0cyBiaW5kaW5nIGRvY3VtZW50YXRpb24uCj4gPiAz
-IHVwZGF0ZSBzdG0zMmY0MjktZGlzY28gZHRzIGJpbmRpbmcKPiA+Cj4gPiBWMjoKPiA+IDEgdmVy
-aWZ5IGlsaXRlayxpbGk5MzQxLnlhbWwgd2l0aCBtYWtlIE89Li4vbGludXgtc3RtMzIKPiA+ICAg
-IGR0X2JpbmRpbmdfY2hlY2sKPiA+ICAgIERUX1NDSEVNQV9GSUxFUz1Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC8KPiA+ICAgIGlsaXRlayxpbGk5MzQxLnlh
-bWwKPiA+Cj4gPiBWMToKPiA+IDEgYWRkIGlsaTkzNDEgZHJtIHBhbmVsIGRyaXZlcgo+ID4gMiBh
-ZGQgbHRkYywgc3BpNSBjb250cm9sbGVyIGZvciBzdG0zMmY0MjktZGlzY28KPiA+IDMgYWRkIGx0
-ZGMsIHNwaTUgcGluIG1hcCBmb3Igc3RtMzJmNDI5LWRpc2NvCj4gPiA0IGFkZCBkb2NzIGFib3V0
-IGlsaTkzNDEKPiA+IDUgZml4IGx0ZGMgZHJpdmVyIGxvYWRpbmcgaGFuZyBpbiBjbGsgc2V0IHJh
-dGUgYnVnCj4gPgo+ID4KPiA+IEwzZ2QyMDoKPiA+IFYzOgo+ID4gMSBtZXJnZSBzdG0zMmY0Mjkt
-ZGlzY28gZHRicyBiaW5kaW5nIHdpdGggaWxpOTM0MSBwYXJ0Cj4gPgo+ID4gVjI6Cj4gPiAxIGlu
-c2VydCBibGFuayBsaW5lIGF0IHN0bTMyZjQyMC1kaXNjby5kdHMgbGluZSAxNDMKPiA+IDIgYWRk
-IG1vcmUgZGVzY3JpcHRpb24gZm9yIGwzZ2QyMCBpbiBjb21taXQgbWVzc2FnZQo+ID4KPiA+IFYx
-Ogo+ID4gMSBlbmFibGUgc3BpNSBjb250cm9sbGVyIG9uIHN0bTMyZjQyOS1kaXNjbyAoZHRzKQo+
-ID4gMiBhZGQgc3BpNSBwaW5tYXAgZm9yIHN0bTMyZjQyOS1kaXNjbyAgKGR0cykKPiA+IDMgYWRk
-IFNQSV9TSU1QTEVYX1JYLCBTUElfM1dJUkVfUlggc3VwcG9ydCBmb3Igc3RtMzJmNAo+ID4KPiA+
-Cj4gPiBkaWxsb24gbWluICg4KToKPiA+ICAgIEFSTTogZHRzOiBzdG0zMjogQWRkIGRtYSBjb25m
-aWcgZm9yIHNwaTUKPiA+ICAgIEFSTTogZHRzOiBzdG0zMjogQWRkIHBpbiBtYXAgZm9yIGx0ZGMg
-JiBzcGk1IG9uIHN0bTMyZjQyOS1kaXNjbyBib2FyZAo+ID4gICAgQVJNOiBkdHM6IHN0bTMyOiBl
-bmFibGUgbHRkYyBiaW5kaW5nIHdpdGggaWxpOTM0MSwgZ3lybyBsM2dkMjAgb24KPiA+ICAgICAg
-c3RtMzI0MjktZGlzY28gYm9hcmQKPiA+ICAgIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiBwYW5lbDog
-QWRkIGlsaXRlayBpbGk5MzQxIHBhbmVsIGJpbmRpbmdzCj4gPiAgICBjbGs6IHN0bTMyOiBGaXgg
-c3RtMzJmNDI5J3MgbHRkYyBkcml2ZXIgaGFuZyBpbiBzZXQgY2xvY2sgcmF0ZSwKPiA+ICAgICAg
-Zml4IGR1cGxpY2F0ZWQgbHRkYyBjbG9jayByZWdpc3RlciB0byAnY2xrX2NvcmUnIGNhc2UgbHRk
-YydzIGNsb2NrCj4gPiAgICAgICAgdHVybiBvZmYgYnkgY2xrX2Rpc2FibGVfdW51c2VkKCkKPiA+
-ICAgIGRybS9wYW5lbDogQWRkIGlsaXRlayBpbGk5MzQxIHBhbmVsIGRyaXZlcgo+ID4gICAgc3Bp
-OiBzdG0zMjogQWRkICdTUElfU0lNUExFWF9SWCcsICdTUElfM1dJUkVfUlgnIHN1cHBvcnQgZm9y
-IHN0bTMyZjQKPiA+ICAgIHNwaTogZmxhZ3MgJ1NQSV9DT05UUk9MTEVSX01VU1RfUlgnIGFuZCAn
-U1BJX0NPTlRST0xMRVJfTVVTVF9UWCcgY2FuJ3QKPiA+ICAgICAgYmUgICAgIGNvZXhpdCB3aXRo
-ICdTUElfM1dJUkUnIG1vZGUKPiA+Cj4gPiAgIC4uLi9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2ls
-aXRlayxpbGk5MzQxLnlhbWwgICAgIHwgICA2OSArKwo+ID4gICBhcmNoL2FybS9ib290L2R0cy9z
-dG0zMmY0LXBpbmN0cmwuZHRzaSAgICAgICAgICAgICB8ICAgNjcgKwo+ID4gICBhcmNoL2FybS9i
-b290L2R0cy9zdG0zMmY0MjktZGlzY28uZHRzICAgICAgICAgICAgICB8ICAgNDggKwo+ID4gICBh
-cmNoL2FybS9ib290L2R0cy9zdG0zMmY0MjkuZHRzaSAgICAgICAgICAgICAgICAgICB8ICAgIDMg
-Kwo+ID4gICBkcml2ZXJzL2Nsay9jbGstc3RtMzJmNC5jICAgICAgICAgICAgICAgICAgICAgICAg
-ICB8ICAgIDcgKy0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL0tjb25maWcgICAgICAgICAg
-ICAgICAgICAgICAgfCAgIDEyICsKPiA+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL01ha2VmaWxl
-ICAgICAgICAgICAgICAgICAgICAgfCAgICAxICsKPiA+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLWlsaXRlay1pbGk5MzQxLmMgICAgICAgfCAxMzAxICsrKysrKysrKysrKysrKysrKysr
-Cj4gPiAgIGRyaXZlcnMvc3BpL3NwaS1zdG0zMi5jICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgICAxOSArLQo+ID4gICBkcml2ZXJzL3NwaS9zcGkuYyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8ICAgIDMgKy0KPiA+ICAgMTAgZmlsZXMgY2hhbmdlZCwgMTUyMSBpbnNlcnRp
-b25zKCspLCA5IGRlbGV0aW9ucygtKQo+ID4gICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvaWxpdGVrLGlsaTkzNDEueWFt
-bAo+ID4gICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWls
-aXRlay1pbGk5MzQxLmMKPiA+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+Hi Andrey,
+
+Am Mittwoch, den 12.02.2020, 11:33 -0500 schrieb Andrey Grodzovsky:
+> On 2/11/20 7:53 PM, Luben Tuikov wrote:
+> > On 2020-02-11 4:27 p.m., Andrey Grodzovsky wrote:
+> > > On 2/11/20 10:55 AM, Andrey Grodzovsky wrote:
+> > > > On 2/10/20 4:50 PM, Luben Tuikov wrote:
+> > > > > Hi Lucas,
+> > > > > 
+> > > > > Thank you for bringing awareness of this issue, publicly.
+> > > > > 
+> > > > > As soon as this patch showed up back in November of 2019,
+> > > > > I objected to it, privately.
+> > > > 
+> > > > I didn't find this objection in my mail actually
+> > Yes, I didn't send it to you.
+> > 
+> > > > > I suggested to instead use a _list_ to store the "state" of
+> > > > > all jobs of the same state. Then, at any time, timeout interrupt
+> > > > > or whatever, we can atomically (irq spinlock) move the timeout/bad
+> > > > > job to the timedout/cleanup/bad job list, and wake someone up
+> > > > > to deal with that list asynchronously, and return from the
+> > > > > interrupt/etc.
+> > > > > immediately.
+> > > > 
+> > > > Sounds a good idea to me, i think enough for us to have 2 lists,
+> > > > timeout list for jobs scheduled to HW and not yet completed
+> > > > (completion fence signaled) and cleanup list for those that did
+> > > > complete. This should give alternative solution to the race condition
+> > > > this patch was addressing without causing the break the Lucas
+> > > > reported. If no one objects I think i can try implement it.
+> > > > 
+> > > > Andrey
+> > > 
+> > > Thinking more i realize Luben is right about having also bad job list as
+> > > this is needed for normal job competition (by fence callback from
+> > > amdgpu_fence_process)  and you need to decide if you move it to cleanup
+> > > list from timeout list or not. If it's already in bad job list - meaning
+> > > that it's being processed by GPU recovery code you don't touch it,
+> > > otherwise you move it to cleanup list where it will be freed eventually
+> > > by invocation of drm_sched_get_cleanup_job.
+> > Yep...
+> > 
+> > Perhaps fewer lists, than "timeout", "bad" and "cleanup" could be had.
+> > I'd also name the "bad" list as "recovery" list, as that is what would
+> > be done to commands on that list.
+> > 
+> > "Timeout" is a status "timed-out", so perhaps just set the timeout
+> > flag and move it to a "done" list. (Note that the command can still
+> > complete asynchronously while on that list and while it has status
+> > "timed-out'.)
+> > 
+> > The idea is that,
+> > 1) it avoid contention and races when more than one context
+> >     can update the job at the same time, and
+> > 2) easy to process all jobs of a certain state and/or
+> >     move them around, etc.
+> > 
+> > Let's discuss it and come up with a plan. :-)
+> > 
+> > Regards,
+> > Luben
+> 
+> Sure, let me maybe come up with a draft patch so we have more concrete 
+> stuff to discuss and review.
+
+It seems we all dropped the ball on this one. I believe this is still
+an open issue. Has there been any progress from your side on fixing
+this?
+
+Regards,
+Lucas
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
