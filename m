@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C174822808C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 15:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1622D22808E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 15:07:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1FD06E20D;
-	Tue, 21 Jul 2020 13:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2F36E25A;
+	Tue, 21 Jul 2020 13:07:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBEB96E25A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 13:06:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 189B76E25A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 13:07:15 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jxryt-0000O5-HF; Tue, 21 Jul 2020 15:06:51 +0200
+ id 1jxrzF-0000QR-Nm; Tue, 21 Jul 2020 15:07:13 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/imx: drop panel attach/detach
-Date: Tue, 21 Jul 2020 15:06:50 +0200
-Message-Id: <20200721130650.27926-1-p.zabel@pengutronix.de>
+Subject: [PATCH] drm/imx: dw_hdmi-imx: use imx_drm_encoder_parse_of
+Date: Tue, 21 Jul 2020 15:07:10 +0200
+Message-Id: <20200721130710.28254-1-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -48,68 +48,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_panel_attach/detach() functions are empty since
-commit aa6c43644bc5 ("drm/panel: drop drm_device from drm_panel"),
-remove them.
+This is the same code and comment that is already shared by imx-ldb,
+imx-tve, and parallel-display in imx_drm_encoder_parse_of().
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/imx/imx-ldb.c          | 10 ----------
- drivers/gpu/drm/imx/parallel-display.c |  6 ------
- 2 files changed, 16 deletions(-)
+ drivers/gpu/drm/imx/dw_hdmi-imx.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 8791d60be92e..af757d1e21fe 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -455,13 +455,6 @@ static int imx_ldb_register(struct drm_device *drm,
- 		drm_connector_attach_encoder(&imx_ldb_ch->connector, encoder);
- 	}
+diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+index 87869b9997a6..a4f178c1d9bc 100644
+--- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
++++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+@@ -217,15 +217,9 @@ static int dw_hdmi_imx_bind(struct device *dev, struct device *master,
+ 	hdmi->dev = &pdev->dev;
+ 	encoder = &hdmi->encoder;
  
--	if (imx_ldb_ch->panel) {
--		ret = drm_panel_attach(imx_ldb_ch->panel,
--				       &imx_ldb_ch->connector);
--		if (ret)
--			return ret;
--	}
--
- 	return 0;
- }
+-	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
+-	/*
+-	 * If we failed to find the CRTC(s) which this encoder is
+-	 * supposed to be connected to, it's because the CRTC has
+-	 * not been registered yet.  Defer probing, and hope that
+-	 * the required CRTC is added later.
+-	 */
+-	if (encoder->possible_crtcs == 0)
+-		return -EPROBE_DEFER;
++	ret = imx_drm_encoder_parse_of(drm, encoder, dev->of_node);
++	if (ret)
++		return ret;
  
-@@ -702,9 +695,6 @@ static void imx_ldb_unbind(struct device *dev, struct device *master,
- 	for (i = 0; i < 2; i++) {
- 		struct imx_ldb_channel *channel = &imx_ldb->channel[i];
- 
--		if (channel->panel)
--			drm_panel_detach(channel->panel);
--
- 		kfree(channel->edid);
- 		i2c_put_adapter(channel->ddc);
- 	}
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index a831b5bd1613..8232f512b9ed 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -289,9 +289,6 @@ static int imx_pd_register(struct drm_device *drm,
- 				   DRM_MODE_CONNECTOR_DPI);
- 	}
- 
--	if (imxpd->panel)
--		drm_panel_attach(imxpd->panel, &imxpd->connector);
--
- 	if (imxpd->next_bridge) {
- 		ret = drm_bridge_attach(encoder, imxpd->next_bridge,
- 					&imxpd->bridge, 0);
-@@ -357,9 +354,6 @@ static void imx_pd_unbind(struct device *dev, struct device *master,
- {
- 	struct imx_parallel_display *imxpd = dev_get_drvdata(dev);
- 
--	if (imxpd->panel)
--		drm_panel_detach(imxpd->panel);
--
- 	kfree(imxpd->edid);
- }
- 
+ 	ret = dw_hdmi_imx_parse_dt(hdmi);
+ 	if (ret < 0)
 -- 
 2.20.1
 
