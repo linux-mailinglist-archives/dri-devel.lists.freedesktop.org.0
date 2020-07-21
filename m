@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2FD228344
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 17:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E06F22835E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 17:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4F589BB3;
-	Tue, 21 Jul 2020 15:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D74F6E05C;
+	Tue, 21 Jul 2020 15:15:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A91A88924
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 15:13:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6056E05C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 15:15:07 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208647] persistent amdgpu: [mmhub] page faults
-Date: Tue, 21 Jul 2020 15:13:14 +0000
+Date: Tue, 21 Jul 2020 15:15:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -26,14 +26,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: jay.foad@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208647-2300-rwzV7SjVWh@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208647-2300-RERzDbNgI6@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208647-2300@https.bugzilla.kernel.org/>
 References: <bug-208647-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,15 +58,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208647
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-This is most likely a userspace issue (e.g., mesa).  The kernel driver is just
-the messenger.
+--- Comment #2 from Jay Foad (jay.foad@gmail.com) ---
+Wouldn't there normally be a useful pid in the first line if it came from
+userspace?
 
 -- 
 You are receiving this mail because:
