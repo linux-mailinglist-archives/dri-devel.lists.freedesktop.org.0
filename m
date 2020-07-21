@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9513B227B40
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B282227B55
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05746E528;
-	Tue, 21 Jul 2020 08:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB02F6E51A;
+	Tue, 21 Jul 2020 09:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7756E528
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:56:29 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id s10so20321491wrw.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 01:56:29 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 149956E51B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:01:37 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id w3so2079113wmi.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=9uzWoi/wCkdasRHzdl/GGpiJVuQvvdOImQa6SAFqqIc=;
- b=EKWsN+CsI+02WRjwwW/22Pr5fhxfi1yK4WIQq+SVUtWWtAA4eNzwmZnyMwQSEv4IUb
- mgNHEp5vero6YhvPqH4kx0qyICjadlBWXhWEqGQOyeIn1jfBkQkdACQqnPRL8nREkT47
- S/JEmzfzdO4xeE0V14oF71TEnx4Y7tsfx1xZo=
+ bh=zNj1IGoeKVAb8dC83T2Ghzw4r2YvkDKuOqgG0KELND8=;
+ b=ECr74pl3lQhwVc4AlsFxs6zs0Y156iB+4Q/MKXAwYPrd5HzzBjdcCydbV2FgGQkTRo
+ mOthk83YDeQnu9n6chamwcpEQYknd4gRKYrNecGpfJzK0+bPWNWiC2pJPS9Ev3Cr1W+L
+ bsP1Uko9LZrmqithNCai+N81APFI06IqxggbU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=9uzWoi/wCkdasRHzdl/GGpiJVuQvvdOImQa6SAFqqIc=;
- b=khT7YXOkS+PQ9UFiYqeLO/jG+49cs4KeOj62yqrRKUvg08+7P4Dmtkv+GkPH7JA1Zb
- ar7Q6lgIufHpeBYBSZFql1zk7hnd2JHsjsCiFyWUrFZ7A5gwLWgOnMnb74zGFtwYmyzp
- 73UoHTT4sWXjtEbuTmOAOx2TMTBPMXggjSejKRCVvP8bVL5KjDqRQo/18oM4NzQbr1V1
- 6O0VV3T/VviWhw6FDuLTAWX+kGLLiEC/4ePyHflbyQAl9hFOUAi/P2/z7jsId1Py4ID3
- HjME1QKN+/IcAO07BhAahHGUwBsM1+QL4hbFpgzfaPeH2lKq3/SVjMaGZ8QZlVBg+JS/
- wpxw==
-X-Gm-Message-State: AOAM532C6BfT/LsDItRaChXmIJQje/WTWrSDnGOf3QF8xxH4bTgJXkwG
- zOK598e52I8RA2kqIG73iKWdSex5L6w=
-X-Google-Smtp-Source: ABdhPJyRPLBPzZ53FaYAzWZsd61W//azcZxrFNGYZuORIXAfcEs4BP8clVJftTIXPZIz/9VAPGD//Q==
-X-Received: by 2002:a5d:4751:: with SMTP id o17mr26413040wrs.345.1595321787757; 
- Tue, 21 Jul 2020 01:56:27 -0700 (PDT)
+ bh=zNj1IGoeKVAb8dC83T2Ghzw4r2YvkDKuOqgG0KELND8=;
+ b=DZTUWT7DQuSrsq+YZed8LaXI85bGkXrWcpOP8BN/qihPT83QtC/g2Qa78T5Zf7HTSI
+ rN3PnXOdicAmLgUceVc+mgkd8y0JqmDl8T1WNLN4fDeMl+hEMvcXbrvg8o9+jTAWG0tt
+ 8OiPlQXVehafDex4+sYIFReiauBCWFwfY1fJF++F+RJyta08Zgeh4e90T+KJEpU9MXlD
+ QKCc/g9Ej52YXzXE+DQXe3ab6DYFjjb0DQfAcEW9SFUymHz9Cy2h8PfSDtYIw/FybaSV
+ f3TPgMGsLnO8T6TWZK5ocFit1dYwNgCSowzQ65HNkMc1jdv8TaX6QTaPZy6/Ms9EsfUQ
+ bbQA==
+X-Gm-Message-State: AOAM532ncfmUO2yW09CozJ5QcfaK04PsStU5giNa7KJFN3FTaiX40Wh4
+ jzSoK1s092qQL4MPpYBTqvhS8zL/2Nc=
+X-Google-Smtp-Source: ABdhPJyDu8r2W+o3jMDeFXaCPeTmAHfeYsW6xfk9QqKhdgU5EKcGVZFFxQE30XRTE75WNKqX5T211Q==
+X-Received: by 2002:a1c:e405:: with SMTP id b5mr3325593wmh.54.1595322095643;
+ Tue, 21 Jul 2020 02:01:35 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 133sm2892706wme.5.2020.07.21.01.56.26
+ by smtp.gmail.com with ESMTPSA id z11sm6632492wrw.93.2020.07.21.02.01.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 01:56:27 -0700 (PDT)
-Date: Tue, 21 Jul 2020 10:56:25 +0200
+ Tue, 21 Jul 2020 02:01:34 -0700 (PDT)
+Date: Tue, 21 Jul 2020 11:01:32 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH 04/11] drm/ttm: cleanup coding style and implementation.
-Message-ID: <20200721085625.GC6419@phenom.ffwll.local>
+Subject: Re: [PATCH 05/11] drm/ttm: remove TTM_MEMTYPE_FLAG_CMA
+Message-ID: <20200721090132.GD6419@phenom.ffwll.local>
 References: <20200721073245.2484-1-christian.koenig@amd.com>
- <20200721073245.2484-4-christian.koenig@amd.com>
+ <20200721073245.2484-5-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200721073245.2484-4-christian.koenig@amd.com>
+In-Reply-To: <20200721073245.2484-5-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,222 +73,187 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 09:32:38AM +0200, Christian K=F6nig wrote:
-> Only functional change is to always keep io_reserved_count up to date
-> for debugging even when it is not used otherwise.
+On Tue, Jul 21, 2020 at 09:32:39AM +0200, Christian K=F6nig wrote:
+> The original intention was to avoid CPU page table unmaps
+> when BOs move between the GTT and SYSTEM domain.
+> =
 
-Functional change in a cleanup patch. Tsk. It looks correct though ...
+> The problem is that this never correctly handled changes
+> in the caching attributes or backing pages.
+> =
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
+> Just drop this for now and simply unmap the CPU page
+> tables in all cases.
 > =
 
 > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
 > ---
->  drivers/gpu/drm/ttm/ttm_bo_util.c | 97 +++++++++++++++----------------
->  1 file changed, 48 insertions(+), 49 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  4 +--
+>  drivers/gpu/drm/nouveau/nouveau_bo.c       |  3 +-
+>  drivers/gpu/drm/radeon/radeon_ttm.c        |  2 +-
+>  drivers/gpu/drm/ttm/ttm_bo.c               | 34 ++++------------------
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
+>  include/drm/ttm/ttm_bo_driver.h            |  1 -
+>  6 files changed, 11 insertions(+), 35 deletions(-)
 > =
 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_=
-bo_util.c
-> index 6c05f4fd15ae..7fb3e0bcbab4 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -115,39 +115,35 @@ static int ttm_mem_io_evict(struct ttm_mem_type_man=
-ager *man)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ttm.c
+> index 9c0f12f74af9..44fa8bc49d18 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -93,7 +93,7 @@ static int amdgpu_init_mem_type(struct ttm_bo_device *b=
+dev, uint32_t type,
+>  		man->func =3D &amdgpu_gtt_mgr_func;
+>  		man->available_caching =3D TTM_PL_MASK_CACHING;
+>  		man->default_caching =3D TTM_PL_FLAG_CACHED;
+> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE | TTM_MEMTYPE_FLAG_CMA;
+> +		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+>  		break;
+>  	case TTM_PL_VRAM:
+>  		/* "On-card" video ram */
+> @@ -108,7 +108,7 @@ static int amdgpu_init_mem_type(struct ttm_bo_device =
+*bdev, uint32_t type,
+>  	case AMDGPU_PL_OA:
+>  		/* On-chip GDS memory*/
+>  		man->func =3D &ttm_bo_manager_func;
+> -		man->flags =3D TTM_MEMTYPE_FLAG_FIXED | TTM_MEMTYPE_FLAG_CMA;
+> +		man->flags =3D TTM_MEMTYPE_FLAG_FIXED;
+>  		man->available_caching =3D TTM_PL_FLAG_UNCACHED;
+>  		man->default_caching =3D TTM_PL_FLAG_UNCACHED;
+>  		break;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
+au/nouveau_bo.c
+> index a1037478fa3f..7883341f8c83 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -695,8 +695,7 @@ nouveau_bo_init_mem_type(struct ttm_bo_device *bdev, =
+uint32_t type,
+>  				TTM_PL_FLAG_WC;
+>  			man->default_caching =3D TTM_PL_FLAG_WC;
+>  		} else {
+> -			man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE |
+> -				     TTM_MEMTYPE_FLAG_CMA;
+> +			man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+>  			man->available_caching =3D TTM_PL_MASK_CACHING;
+>  			man->default_caching =3D TTM_PL_FLAG_CACHED;
+>  		}
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index 73085523fad7..54af06df865b 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -84,7 +84,7 @@ static int radeon_init_mem_type(struct ttm_bo_device *b=
+dev, uint32_t type,
+>  		man->func =3D &ttm_bo_manager_func;
+>  		man->available_caching =3D TTM_PL_MASK_CACHING;
+>  		man->default_caching =3D TTM_PL_FLAG_CACHED;
+> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE | TTM_MEMTYPE_FLAG_CMA;
+> +		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+>  #if IS_ENABLED(CONFIG_AGP)
+>  		if (rdev->flags & RADEON_IS_AGP) {
+>  			if (!rdev->ddev->agp) {
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 8b9e7f62bea7..0768a054a916 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -272,20 +272,15 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer=
+_object *bo,
+>  				  struct ttm_operation_ctx *ctx)
 >  {
->  	struct ttm_buffer_object *bo;
->  =
-
-> -	if (!man->use_io_reserve_lru || list_empty(&man->io_reserve_lru))
-> +	bo =3D list_first_entry_or_null(&man->io_reserve_lru,
-> +				      struct ttm_buffer_object,
-> +				      io_reserve_lru);
-> +	if (!bo)
->  		return -ENOSPC;
->  =
-
-> -	bo =3D list_first_entry(&man->io_reserve_lru,
-> -			      struct ttm_buffer_object,
-> -			      io_reserve_lru);
->  	list_del_init(&bo->io_reserve_lru);
->  	ttm_bo_unmap_virtual_locked(bo);
-> -
->  	return 0;
->  }
->  =
-
-> -
->  int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
->  		       struct ttm_mem_reg *mem)
->  {
->  	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
+>  	struct ttm_bo_device *bdev =3D bo->bdev;
+> -	bool old_is_pci =3D ttm_mem_reg_is_pci(bdev, &bo->mem);
+> -	bool new_is_pci =3D ttm_mem_reg_is_pci(bdev, mem);
+>  	struct ttm_mem_type_manager *old_man =3D &bdev->man[bo->mem.mem_type];
+>  	struct ttm_mem_type_manager *new_man =3D &bdev->man[mem->mem_type];
 > -	int ret =3D 0;
 > +	int ret;
-> +
-> +	if (mem->bus.io_reserved_count++)
-> +		return 0;
 >  =
 
->  	if (!bdev->driver->io_mem_reserve)
->  		return 0;
-> -	if (likely(!man->use_io_reserve_lru))
-> -		return bdev->driver->io_mem_reserve(bdev, mem);
+> -	if (old_is_pci || new_is_pci ||
+> -	    ((mem->placement & bo->mem.placement & TTM_PL_MASK_CACHING) =3D=3D =
+0)) {
+> -		ret =3D ttm_mem_io_lock(old_man, true);
+> -		if (unlikely(ret !=3D 0))
+> -			goto out_err;
+> -		ttm_bo_unmap_virtual_locked(bo);
+> -		ttm_mem_io_unlock(old_man);
+> -	}
+
+Fastpath for when there's no mapping at all might be a more reasonable
+idea than trying to keep it around. Lots of one-shot upload or indirect
+upload buffers generally, and maybe avoiding the ttm_mem_type_manager io
+mutex is worth it. Anyway totally different thing.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +	ret =3D ttm_mem_io_lock(old_man, true);
+> +	if (unlikely(ret !=3D 0))
+> +		goto out_err;
+> +	ttm_bo_unmap_virtual_locked(bo);
+> +	ttm_mem_io_unlock(old_man);
 >  =
 
-> -	if (bdev->driver->io_mem_reserve &&
-> -	    mem->bus.io_reserved_count++ =3D=3D 0) {
->  retry:
-> -		ret =3D bdev->driver->io_mem_reserve(bdev, mem);
-> -		if (ret =3D=3D -ENOSPC) {
-> -			ret =3D ttm_mem_io_evict(man);
-> -			if (ret =3D=3D 0)
-> -				goto retry;
-> -		}
-> +	ret =3D bdev->driver->io_mem_reserve(bdev, mem);
-> +	if (ret =3D=3D -ENOSPC) {
-> +		ret =3D ttm_mem_io_evict(man);
-> +		if (ret =3D=3D 0)
-> +			goto retry;
->  	}
->  	return ret;
->  }
-> @@ -155,35 +151,31 @@ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
->  void ttm_mem_io_free(struct ttm_bo_device *bdev,
->  		     struct ttm_mem_reg *mem)
->  {
+>  	/*
+>  	 * Create and bind a ttm if required.
+> @@ -1698,23 +1693,6 @@ EXPORT_SYMBOL(ttm_bo_device_init);
+>   * buffer object vm functions.
+>   */
+>  =
+
+> -bool ttm_mem_reg_is_pci(struct ttm_bo_device *bdev, struct ttm_mem_reg *=
+mem)
+> -{
 > -	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
 > -
-> -	if (likely(!man->use_io_reserve_lru))
-> +	if (--mem->bus.io_reserved_count)
->  		return;
->  =
-
-> -	if (bdev->driver->io_mem_reserve &&
-> -	    --mem->bus.io_reserved_count =3D=3D 0 &&
-> -	    bdev->driver->io_mem_free)
-> -		bdev->driver->io_mem_free(bdev, mem);
-> +	if (!bdev->driver->io_mem_free)
-> +		return;
->  =
-
-> +	bdev->driver->io_mem_free(bdev, mem);
->  }
->  =
-
->  int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
->  {
-> +	struct ttm_mem_type_manager *man =3D &bo->bdev->man[bo->mem.mem_type];
->  	struct ttm_mem_reg *mem =3D &bo->mem;
->  	int ret;
->  =
-
-> -	if (!mem->bus.io_reserved_vm) {
-> -		struct ttm_mem_type_manager *man =3D
-> -			&bo->bdev->man[mem->mem_type];
-> +	if (mem->bus.io_reserved_vm)
-> +		return 0;
->  =
-
-> -		ret =3D ttm_mem_io_reserve(bo->bdev, mem);
-> -		if (unlikely(ret !=3D 0))
-> -			return ret;
-> -		mem->bus.io_reserved_vm =3D true;
-> -		if (man->use_io_reserve_lru)
-> -			list_add_tail(&bo->io_reserve_lru,
-> -				      &man->io_reserve_lru);
+> -	if (!(man->flags & TTM_MEMTYPE_FLAG_FIXED)) {
+> -		if (mem->mem_type =3D=3D TTM_PL_SYSTEM)
+> -			return false;
+> -
+> -		if (man->flags & TTM_MEMTYPE_FLAG_CMA)
+> -			return false;
+> -
+> -		if (mem->placement & TTM_PL_FLAG_CACHED)
+> -			return false;
 > -	}
-> +	ret =3D ttm_mem_io_reserve(bo->bdev, mem);
-> +	if (unlikely(ret !=3D 0))
-> +		return ret;
-> +	mem->bus.io_reserved_vm =3D true;
-> +	if (man->use_io_reserve_lru)
-> +		list_add_tail(&bo->io_reserve_lru,
-> +			      &man->io_reserve_lru);
->  	return 0;
->  }
->  =
-
-> @@ -191,15 +183,17 @@ void ttm_mem_io_free_vm(struct ttm_buffer_object *b=
-o)
+> -	return true;
+> -}
+> -
+>  void ttm_bo_unmap_virtual_locked(struct ttm_buffer_object *bo)
 >  {
->  	struct ttm_mem_reg *mem =3D &bo->mem;
+>  	struct ttm_bo_device *bdev =3D bo->bdev;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm=
+/vmwgfx/vmwgfx_ttm_buffer.c
+> index bfd0c54ec30a..6bea7548aee0 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> @@ -762,7 +762,7 @@ static int vmw_init_mem_type(struct ttm_bo_device *bd=
+ev, uint32_t type,
+>  		 *  slots as well as the bo size.
+>  		 */
+>  		man->func =3D &vmw_gmrid_manager_func;
+> -		man->flags =3D TTM_MEMTYPE_FLAG_CMA | TTM_MEMTYPE_FLAG_MAPPABLE;
+> +		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
+>  		man->available_caching =3D TTM_PL_FLAG_CACHED;
+>  		man->default_caching =3D TTM_PL_FLAG_CACHED;
+>  		break;
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_dri=
+ver.h
+> index 45522e4fbd6b..71b195e78c7c 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -47,7 +47,6 @@
 >  =
 
-> -	if (mem->bus.io_reserved_vm) {
-> -		mem->bus.io_reserved_vm =3D false;
-> -		list_del_init(&bo->io_reserve_lru);
-> -		ttm_mem_io_free(bo->bdev, mem);
-> -	}
-> +	if (!mem->bus.io_reserved_vm)
-> +		return;
-> +
-> +	mem->bus.io_reserved_vm =3D false;
-> +	list_del_init(&bo->io_reserve_lru);
-> +	ttm_mem_io_free(bo->bdev, mem);
->  }
+>  #define TTM_MEMTYPE_FLAG_FIXED         (1 << 0)	/* Fixed (on-card) PCI m=
+emory */
+>  #define TTM_MEMTYPE_FLAG_MAPPABLE      (1 << 1)	/* Memory mappable */
+> -#define TTM_MEMTYPE_FLAG_CMA           (1 << 3)	/* Can't map aperture */
 >  =
 
-> -static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev, struct ttm_me=
-m_reg *mem,
-> -			void **virtual)
-> +static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
-> +			       struct ttm_mem_reg *mem,
-> +			       void **virtual)
->  {
->  	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
->  	int ret;
-> @@ -216,9 +210,11 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device =
-*bdev, struct ttm_mem_reg *m
->  		addr =3D mem->bus.addr;
->  	} else {
->  		if (mem->placement & TTM_PL_FLAG_WC)
-> -			addr =3D ioremap_wc(mem->bus.base + mem->bus.offset, mem->bus.size);
-> +			addr =3D ioremap_wc(mem->bus.base + mem->bus.offset,
-> +					  mem->bus.size);
->  		else
-> -			addr =3D ioremap(mem->bus.base + mem->bus.offset, mem->bus.size);
-> +			addr =3D ioremap(mem->bus.base + mem->bus.offset,
-> +				       mem->bus.size);
->  		if (!addr) {
->  			(void) ttm_mem_io_lock(man, false);
->  			ttm_mem_io_free(bdev, mem);
-> @@ -230,8 +226,9 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device *=
-bdev, struct ttm_mem_reg *m
->  	return 0;
->  }
+>  struct ttm_mem_type_manager;
 >  =
 
-> -static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev, struct ttm_m=
-em_reg *mem,
-> -			 void *virtual)
-> +static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev,
-> +				struct ttm_mem_reg *mem,
-> +				void *virtual)
->  {
->  	struct ttm_mem_type_manager *man;
->  =
-
-> @@ -513,11 +510,13 @@ static int ttm_bo_ioremap(struct ttm_buffer_object =
-*bo,
->  	} else {
->  		map->bo_kmap_type =3D ttm_bo_map_iomap;
->  		if (mem->placement & TTM_PL_FLAG_WC)
-> -			map->virtual =3D ioremap_wc(bo->mem.bus.base + bo->mem.bus.offset + o=
-ffset,
-> +			map->virtual =3D ioremap_wc(bo->mem.bus.base +
-> +						  bo->mem.bus.offset + offset,
->  						  size);
->  		else
-> -			map->virtual =3D ioremap(bo->mem.bus.base + bo->mem.bus.offset + offs=
-et,
-> -						       size);
-> +			map->virtual =3D ioremap(bo->mem.bus.base +
-> +					       bo->mem.bus.offset + offset,
-> +					       size);
->  	}
->  	return (!map->virtual) ? -ENOMEM : 0;
->  }
 > -- =
 
 > 2.17.1
