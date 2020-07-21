@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE1F2281BF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 16:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245A22281E4
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 16:20:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2EFC6E4E6;
-	Tue, 21 Jul 2020 14:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0474689BD4;
+	Tue, 21 Jul 2020 14:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647906E4F9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 14:17:12 +0000 (UTC)
-IronPort-SDR: e8lFxL/xYAo6qTguCIpLh0PG33nfKeXAYWFr2nCIksMhx4nSHfI3BHl8MhuS/qqwOPeKdhsOQL
- 5TcYCkwqlDTg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9688"; a="148066431"
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; d="scan'208";a="148066431"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2020 07:17:05 -0700
-IronPort-SDR: kUGuur520vYHG+MsEvUzPNTsy0P8FILd150pEgw4W2aUP/1TtgNEEq2xqkMVXbXHtjI4yDZJ/f
- VnIqoj7BHqUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; d="scan'208";a="432011539"
-Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
- by orsmga004.jf.intel.com with ESMTP; 21 Jul 2020 07:17:03 -0700
-From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C319289BD4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 14:20:10 +0000 (UTC)
+Received: from localhost (unknown [137.135.114.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6CE2320702;
+ Tue, 21 Jul 2020 14:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595341210;
+ bh=cAP1G3QA2CqDg6tz1CmbfyTfHQOZhCiHvnGoZ28h2OY=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Subject:In-Reply-To:References:
+ From;
+ b=Z48SoPS96EBFIFheNRidOqjfsIr1BTpwe7kdh2S773MenCOI71lbzeKOIW2Q17i7M
+ wHsVKc53XKvt2OVS+Lq9MZU9ksQJ7E4nRJsIDt0Tb4HvnkdEcEzQ68yqfsTqR0+ydt
+ 0yPM9P+ezBxdLAkH+91OWkf2FgVvJfOavUVNZTcg=
+Date: Tue, 21 Jul 2020 14:20:09 +0000
+From: Sasha Levin <sashal@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] io-mapping: Indicate mapping failure
-Date: Tue, 21 Jul 2020 10:16:41 -0400
-Message-Id: <20200721141641.81112-2-michael.j.ruhl@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200721141641.81112-1-michael.j.ruhl@intel.com>
-References: <20200721141641.81112-1-michael.j.ruhl@intel.com>
-MIME-Version: 1.0
+Subject: Re: [PATCH] drm/mcde: Fix stability issue
+In-Reply-To: <20200718233323.3407670-1-linus.walleij@linaro.org>
+References: <20200718233323.3407670-1-linus.walleij@linaro.org>
+Message-Id: <20200721142010.6CE2320702@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,45 +46,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mike Rapoport <rppt@linux.ibm.com>, stable@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: stable@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+ linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sometimes it is good to know when your mapping failed.
+Hi
 
-Fixes: cafaf14a5d8f ("io-mapping: Always create a struct to hold metadata about the io-mapping"
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: stable@vger.kernel.org
-Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
----
- include/linux/io-mapping.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[This is an automated email]
 
-diff --git a/include/linux/io-mapping.h b/include/linux/io-mapping.h
-index 0beaa3eba155..5641e06cbcf7 100644
---- a/include/linux/io-mapping.h
-+++ b/include/linux/io-mapping.h
-@@ -118,7 +118,7 @@ io_mapping_init_wc(struct io_mapping *iomap,
- 	iomap->prot = pgprot_noncached(PAGE_KERNEL);
- #endif
- 
--	return iomap;
-+	return iomap->iomem ? iomap : NULL;
- }
- 
- static inline void
+This commit has been processed because it contains a -stable tag.
+The stable tag indicates that it's relevant for the following trees: all
+
+The bot has tested the following trees: v5.7.9, v5.4.52, v4.19.133, v4.14.188, v4.9.230, v4.4.230.
+
+v5.4.52: Failed to apply! Possible dependencies:
+    768859c239922 ("drm/mcde: Provide vblank handling unconditionally")
+    d920e8da3d837 ("drm/mcde: Fix frame sync setup for video mode panels")
+
+v4.19.133: Failed to apply! Possible dependencies:
+    01648890f336a ("staging: vboxvideo: Embed drm_device into driver structure")
+    0424d7ba4574b ("staging: vboxvideo: Init fb_info.fix.smem once from fbdev_create")
+    0fdda2ce74e5f ("staging: vboxvideo: Move pin / unpin of fb out of vbox_crtc_set_base_and_mode")
+    131abc56e1bac ("drm/vboxvideo: Move the vboxvideo driver out of staging")
+    3498ea8b7e3c8 ("staging: vboxvideo: Fold vbox_drm_resume() into vbox_pm_resume()")
+    35f3288c453e2 ("staging: vboxvideo: Atomic phase 1: convert cursor to universal plane")
+    438340aa20975 ("staging: vboxvideo: Atomic phase 3: Switch last bits over to atomic")
+    4f2a8f5898ecd ("drm: Add ASPEED GFX driver")
+    5cf5332d529bf ("staging: vboxvideo: Restore page-flip support")
+    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+    685bb884e0a42 ("staging: vboxvideo: Drop duplicate vbox_err.h file")
+    79815ee23890c ("staging: vboxvideo: Move setup of modesetting from driver_load to mode_init")
+    96bae04347b24 ("staging/vboxvideo: prepare for drmP.h removal from drm_modeset_helper.h")
+    a1d2a6339961e ("drm/lima: driver for ARM Mali4xx GPUs")
+    a5aca20574693 ("staging: vboxvideo: Fix modeset / page_flip error handling")
+    acc962c514007 ("staging: vboxvideo: Change licence headers over to SPDX")
+    cb5eaf187d1d9 ("staging: vboxvideo: Expose creation of universal primary plane")
+    cc0ec5eb721f1 ("staging: vboxvideo: Atomic phase 1: Use drm_plane_helpers for primary plane")
+    cd76c287a52fe ("staging: vboxvideo: Cleanup the comments")
+    ce8ec32cbd420 ("staging: vboxvideo: Remove vboxfb_create_object() wrapper")
+    cfc1fc63be447 ("staging: vboxvideo: Move bo_[un]resere calls into vbox_bo_[un]pin")
+    d46709094deb6 ("staging: vboxvideo: Fold driver_load/unload into probe/remove functions")
+    f4d6d90f83147 ("staging: vboxvideo: Add fl_flag argument to vbox_fb_pin() helper")
+
+v4.14.188: Failed to apply! Possible dependencies:
+    01648890f336a ("staging: vboxvideo: Embed drm_device into driver structure")
+    0424d7ba4574b ("staging: vboxvideo: Init fb_info.fix.smem once from fbdev_create")
+    0fdda2ce74e5f ("staging: vboxvideo: Move pin / unpin of fb out of vbox_crtc_set_base_and_mode")
+    131abc56e1bac ("drm/vboxvideo: Move the vboxvideo driver out of staging")
+    179c02fe90a41 ("drm/tve200: Add new driver for TVE200")
+    1daddbc8dec56 ("staging: vboxvideo: Update driver to use drm_dev_register.")
+    1ebafd1561a05 ("staging: vboxvideo: Fix IRQs no longer working")
+    2408898e3b6c9 ("staging: vboxvideo: Add page-flip support")
+    3498ea8b7e3c8 ("staging: vboxvideo: Fold vbox_drm_resume() into vbox_pm_resume()")
+    35f3288c453e2 ("staging: vboxvideo: Atomic phase 1: convert cursor to universal plane")
+    438340aa20975 ("staging: vboxvideo: Atomic phase 3: Switch last bits over to atomic")
+    4f2a8f5898ecd ("drm: Add ASPEED GFX driver")
+    5b8ea816e8e05 ("drm/tinydrm: add driver for ST7735R panels")
+    5cf5332d529bf ("staging: vboxvideo: Restore page-flip support")
+    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+    65aac17423284 ("staging: vboxvideo: Change address of scanout buffer on page-flip")
+    685bb884e0a42 ("staging: vboxvideo: Drop duplicate vbox_err.h file")
+    6d544fd6f4e15 ("drm/doc: Put all driver docs into a separate chapter")
+    79815ee23890c ("staging: vboxvideo: Move setup of modesetting from driver_load to mode_init")
+    96bae04347b24 ("staging/vboxvideo: prepare for drmP.h removal from drm_modeset_helper.h")
+    a1d2a6339961e ("drm/lima: driver for ARM Mali4xx GPUs")
+    a5aca20574693 ("staging: vboxvideo: Fix modeset / page_flip error handling")
+    acc962c514007 ("staging: vboxvideo: Change licence headers over to SPDX")
+    ba67f54d911c3 ("staging: vboxvideo: Pass a new framebuffer to vbox_crtc_do_set_base")
+    c575b7eeb89f9 ("drm/xen-front: Add support for Xen PV display frontend")
+    cb5eaf187d1d9 ("staging: vboxvideo: Expose creation of universal primary plane")
+    cc0ec5eb721f1 ("staging: vboxvideo: Atomic phase 1: Use drm_plane_helpers for primary plane")
+    cd76c287a52fe ("staging: vboxvideo: Cleanup the comments")
+    ce8ec32cbd420 ("staging: vboxvideo: Remove vboxfb_create_object() wrapper")
+    cfc1fc63be447 ("staging: vboxvideo: Move bo_[un]resere calls into vbox_bo_[un]pin")
+    d46709094deb6 ("staging: vboxvideo: Fold driver_load/unload into probe/remove functions")
+    f4d6d90f83147 ("staging: vboxvideo: Add fl_flag argument to vbox_fb_pin() helper")
+
+v4.9.230: Failed to apply! Possible dependencies:
+    0a886f59528aa ("drm: zte: add initial vou drm driver")
+    179c02fe90a41 ("drm/tve200: Add new driver for TVE200")
+    3650c25ad0a7b ("drm/meson: Add RST to bring together kerneldoc")
+    384fe7a4d732c ("drivers: net: xgene-v2: Add DMA descriptor")
+    3b3f9a75d9318 ("drivers: net: xgene-v2: Add base driver")
+    413dfbbfca549 ("MAINTAINERS: add entry for Aspeed I2C driver")
+    45d59d704080c ("drm: Add new driver for MXSFB controller")
+    51c5d8447bd71 ("MMC: meson: initial support for GX platforms")
+    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+    60c5d3b72989e ("drm/vc4: Add RST to bring together vc4 kerneldoc.")
+    6d544fd6f4e15 ("drm/doc: Put all driver docs into a separate chapter")
+    70dbd9b258d5a ("MAINTAINERS: Add entry for APM X-Gene SoC Ethernet (v2) driver")
+    7683e9e529258 ("Properly alphabetize MAINTAINERS file")
+    81ccd0cab29b6 ("drivers: net: xgene-v2: Add mac configuration")
+    b105bcdaaa0ef ("drivers: net: xgene-v2: Add transmit and receive")
+    bbbe775ec5b5d ("drm: Add support for Amlogic Meson Graphic Controller")
+    bed41005e6174 ("drm/pl111: Initial drm/kms driver for pl111")
+    d52ea7e3d4938 ("MAINTAINERS: Add drm-misc")
+    fa201ac2c61f5 ("drm: Add DRM support for tiny LCD displays")
+    fa6d095eb23a8 ("drm/tegra: Add driver documentation")
+    fd33f3eca6bfb ("MAINTAINERS: Add maintainers for the meson clock driver")
+
+v4.4.230: Failed to apply! Possible dependencies:
+    0a886f59528aa ("drm: zte: add initial vou drm driver")
+    119f5173628aa ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
+    22cba31bae9dc ("Documentation/sphinx: add basic working Sphinx configuration and build")
+    23e7b2ab9a8ff ("drm/hisilicon: Add hisilicon kirin drm master driver")
+    3650c25ad0a7b ("drm/meson: Add RST to bring together kerneldoc")
+    45d59d704080c ("drm: Add new driver for MXSFB controller")
+    51dacf208988e ("drm: Add support of ARC PGU display controller")
+    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+    6d544fd6f4e15 ("drm/doc: Put all driver docs into a separate chapter")
+    8e22d79240d95 ("drm: Add support for ARM's HDLCD controller.")
+    a8c21a5451d83 ("drm/etnaviv: add initial etnaviv DRM driver")
+    bbbe775ec5b5d ("drm: Add support for Amlogic Meson Graphic Controller")
+    bed41005e6174 ("drm/pl111: Initial drm/kms driver for pl111")
+    ca00c2b986eaf ("Documentation/gpu: split up the gpu documentation")
+    cb597fcea5c28 ("Documentation/gpu: add new gpu.rst converted from DocBook gpu.tmpl")
+    d92d9c3a14488 ("drm: hide legacy drivers with CONFIG_DRM_LEGACY")
+    fa201ac2c61f5 ("drm: Add DRM support for tiny LCD displays")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
+
 -- 
-2.21.0
-
+Thanks
+Sasha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
