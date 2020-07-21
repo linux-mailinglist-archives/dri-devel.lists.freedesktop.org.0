@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AD6227BB9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:29:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C5F227BBE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C57F6E536;
-	Tue, 21 Jul 2020 09:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6D788EF2;
+	Tue, 21 Jul 2020 09:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 475FD6E550
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:29:05 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id a15so5534864wrh.10
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:29:05 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA47488EF2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:30:10 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a14so5628682wra.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=1Ie6G74XJdw7VgUpbgB8b+JX6BNo4qUcTXsFkruZ7aM=;
- b=eGNWM6fuPOkmvrpbVweU79Ki/KRE/o4TuM764JKnhrNkvf2cBqymNDZJtPWfO0UMGE
- 114BOLdeYHhzT1Cc6GlpgcB/Wx4gkIB9YwCK42Lusu2nqusWPNsOPkMzVeouYqBNHmv1
- 9A6J63bX+9IdQZhzOmBCugM0/pAvC2p6/vNfM=
+ bh=p+/SheO24iF1AKhD/tlcF2i42kPeW4qURoV8olVTlxY=;
+ b=kegZTnZhKIXYZO40+zm//B5i5FuH/4RbArAxFqtQMACp7KK6u4Y52AQqZ7M+ViC8Vs
+ x6pAmN7T3+NjBo+eEQsaT5tq/rGe6LXbJm51fEfQh+dfXDaJdqvtbXqQx5JmZyjG62Wc
+ qSF/MIJfPd8h2wt4kyEhM+I78VnKvwQdabSa8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=1Ie6G74XJdw7VgUpbgB8b+JX6BNo4qUcTXsFkruZ7aM=;
- b=irmYj3pjqTl5y9yRNCtKw3J2l7b1EJCx84tm7AadWsGMAzfmPXGnWPwy2YH2cqCOkV
- ul1jXzAOK3pS5X1stMb0uBj+7IVnIWD/PQIis42RFkXfoqOPABz7S7ocYkUzx2YIgFjZ
- pPcvejEoxc6cLd9YiyWN1TkI1hljz81uS9Fyyky62anjo0So6Im6y2rTzzZC3rh7Jhdm
- F5VjBQNH8wYFHwg32q95KTDtdrtNwL167v1tD2O1Zw8+lfLO/XOuCVcb/lsSPBzPLnqK
- 7AnS6GyCDngz+4FIDO2qFvP2Wb5YU2gWFaXR5+OTsDfkAdtwKC0ziHY8jlEcknHr9Jxl
- 1GnQ==
-X-Gm-Message-State: AOAM530AaDyXCU8XGnGtNaNnC1BEorInLro52c9QR92Xfy9Z+i1+UWtD
- wr2wpyM09ih8EYYBdrG+D/49Ig==
-X-Google-Smtp-Source: ABdhPJwKz89W/tf9byzkXIdXhLgwLzJ5i7AEDmA75tAuiTwlxhZQyE/ZQcSpELqqEFjO5L2vos9kBQ==
-X-Received: by 2002:a5d:6683:: with SMTP id l3mr27000437wru.288.1595323743984; 
- Tue, 21 Jul 2020 02:29:03 -0700 (PDT)
+ bh=p+/SheO24iF1AKhD/tlcF2i42kPeW4qURoV8olVTlxY=;
+ b=cwet7cumEoaT1ztzYnx1ESve99LNxgx7l0OwrABhJF92R5/RcfgacYybt34/4tBNvR
+ sfQfXPhMoqPGGkq4Y27w0HLyBl+vm0PtPb/zsbmSQLs/m8bl2te974q1P67fwNzsWPfD
+ xLNBlgT6otRVdiS9+suJNhYRy1dWGpE9wdXXZQKNP4kfy/95XnaglpYjTg5BUJ+nC3T0
+ uOR6YexUyuxd0+Xnvu/MxPbdmMHMaZlcRh8tsKGIGGb1azovgaqCzffrk5Tfa0h3inUc
+ 2FxOtmiv1she6+8RV3OmRf8F/sXq0HbxJDopz1AlZtTzZXOzxVNzPqOlA5+hw8/Acfrs
+ 2ccA==
+X-Gm-Message-State: AOAM5324wQZMRoL692omXN+y0BLCgn02oSs25enOPmJrP94He3ezqzSc
+ 8kJoP7R6zjXWBoQwUtk6ZOMvaoFASHk=
+X-Google-Smtp-Source: ABdhPJxN5Uq4lCsM+/B7Wi3eUOdhd0ZM4i3nJGHJGvMyc96OsPF73sLPYPYRAgIJ0d1OiWgKmbtkrA==
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr25418808wrm.113.1595323809420; 
+ Tue, 21 Jul 2020 02:30:09 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 1sm2657726wmf.0.2020.07.21.02.29.03
+ by smtp.gmail.com with ESMTPSA id 78sm2747442wma.31.2020.07.21.02.30.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 02:29:03 -0700 (PDT)
-Date: Tue, 21 Jul 2020 11:29:01 +0200
+ Tue, 21 Jul 2020 02:30:08 -0700 (PDT)
+Date: Tue, 21 Jul 2020 11:30:07 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH 10/11] drm/qxl: stop using TTM_MEMTYPE_FLAG_MAPPABLE v2
-Message-ID: <20200721092901.GI6419@phenom.ffwll.local>
+Subject: Re: [PATCH 11/11] drm/ttm: remove TTM_MEMTYPE_FLAG_MAPPABLE
+Message-ID: <20200721093007.GJ6419@phenom.ffwll.local>
 References: <20200721073245.2484-1-christian.koenig@amd.com>
- <20200721073245.2484-10-christian.koenig@amd.com>
+ <20200721073245.2484-11-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200721073245.2484-10-christian.koenig@amd.com>
+In-Reply-To: <20200721073245.2484-11-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,77 +73,35 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 09:32:44AM +0200, Christian K=F6nig wrote:
-> The driver doesn't expose any not-mapable memory resources.
-> =
-
-> v2: remove unused man variable as well
+On Tue, Jul 21, 2020 at 09:32:45AM +0200, Christian K=F6nig wrote:
+> Not used any more. And it is bad design to use a TTM flag
+> to do a check inside a driver.
 > =
 
 > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
->  drivers/gpu/drm/qxl/qxl_ttm.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+>  include/drm/ttm/ttm_bo_driver.h | 1 -
+>  1 file changed, 1 deletion(-)
 > =
 
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index a6e67149ef4a..1d8e07b8b19e 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -54,7 +54,7 @@ static int qxl_init_mem_type(struct ttm_bo_device *bdev=
-, uint32_t type,
->  	switch (type) {
->  	case TTM_PL_SYSTEM:
->  		/* System memory */
-> -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
-> +		man->flags =3D 0;
->  		man->available_caching =3D TTM_PL_MASK_CACHING;
->  		man->default_caching =3D TTM_PL_FLAG_CACHED;
->  		break;
-> @@ -62,8 +62,7 @@ static int qxl_init_mem_type(struct ttm_bo_device *bdev=
-, uint32_t type,
->  	case TTM_PL_PRIV:
->  		/* "On-card" video ram */
->  		man->func =3D &ttm_bo_manager_func;
-> -		man->flags =3D TTM_MEMTYPE_FLAG_FIXED |
-> -			     TTM_MEMTYPE_FLAG_MAPPABLE;
-> +		man->flags =3D TTM_MEMTYPE_FLAG_FIXED;
->  		man->available_caching =3D TTM_PL_MASK_CACHING;
->  		man->default_caching =3D TTM_PL_FLAG_CACHED;
->  		break;
-> @@ -99,7 +98,6 @@ static void qxl_evict_flags(struct ttm_buffer_object *b=
-o,
->  int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
->  			   struct ttm_mem_reg *mem)
->  {
-> -	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
->  	struct qxl_device *qdev =3D qxl_get_qdev(bdev);
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_dri=
+ver.h
+> index 71b195e78c7c..9b251853afe2 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -46,7 +46,6 @@
+>  #define TTM_MAX_BO_PRIORITY	4U
 >  =
 
->  	mem->bus.addr =3D NULL;
-> @@ -107,8 +105,7 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
->  	mem->bus.size =3D mem->num_pages << PAGE_SHIFT;
->  	mem->bus.base =3D 0;
->  	mem->bus.is_iomem =3D false;
-> -	if (!(man->flags & TTM_MEMTYPE_FLAG_MAPPABLE))
-> -		return -EINVAL;
-> +
->  	switch (mem->mem_type) {
->  	case TTM_PL_SYSTEM:
->  		/* system memory */
-> -- =
+>  #define TTM_MEMTYPE_FLAG_FIXED         (1 << 0)	/* Fixed (on-card) PCI m=
+emory */
+> -#define TTM_MEMTYPE_FLAG_MAPPABLE      (1 << 1)	/* Memory mappable */
 
-> 2.17.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
+I think you can still do this, and it makes sense to delete: Just code a
+driver-specific check in the io callback which checks whether a buffer can
+be mappable directly, instead of going through the indirection of using
+this flag.
+-Daniel
 -- =
 
 Daniel Vetter
