@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986A3227BB8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AD6227BB9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 11:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA5096E544;
-	Tue, 21 Jul 2020 09:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C57F6E536;
+	Tue, 21 Jul 2020 09:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB706E53E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:28:46 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id q5so20473522wru.6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:28:46 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475FD6E550
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 09:29:05 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a15so5534864wrh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 02:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=NTw4lCdVfoJ+8yNyc+wjorVBXWCd0x4fPr6aHyvgI1Q=;
- b=ScOOlF9dmXAuWWv4nX6y1aRdhY8Bjde+sgSW2RW5bO764ON34fuWw4Md2mQT9lZZG5
- gBGBP9coC+7PuOV0sRWMedyf0x9vToZ5zONr/z7jn3bmt3BEr/YLMg9EVWdp1iGqoqZX
- jA3xnOFr8sG4Bx3LEzW4mVmHuydIijVkqFZpU=
+ bh=1Ie6G74XJdw7VgUpbgB8b+JX6BNo4qUcTXsFkruZ7aM=;
+ b=eGNWM6fuPOkmvrpbVweU79Ki/KRE/o4TuM764JKnhrNkvf2cBqymNDZJtPWfO0UMGE
+ 114BOLdeYHhzT1Cc6GlpgcB/Wx4gkIB9YwCK42Lusu2nqusWPNsOPkMzVeouYqBNHmv1
+ 9A6J63bX+9IdQZhzOmBCugM0/pAvC2p6/vNfM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=NTw4lCdVfoJ+8yNyc+wjorVBXWCd0x4fPr6aHyvgI1Q=;
- b=UELgfyj8yxVTu3kMXqonSSIXLmV3+G2tLCmpXB7EPBp5lEU7xYim8kutxoaX/JluZq
- x/kSAN5bkYTsgmOyQDP4ixBIfFNJt3Ij10PLTMQeDpz9c954sqskea0t1a6nmKYJfrEt
- HeTb3slifhWO5dy1KIu+h0YlpkO4qj6ratmpyLHDSuSHWp6uzJzQ1+YwmpxlLC4utTC4
- 6nUF/Sr+y6Yb1C6NoKtyReLC0YD5zKKsPlhQ0D0jab2Oku0kgPAhfRyLXZFpxXjYMVqV
- FSykOxF+9OWOkonX1qaJWBp8eBcEhGn5o3VbqfKJEOqM1ImgvK/IGHLJzo80PMkXHuIn
- 9BJA==
-X-Gm-Message-State: AOAM530gNPSC9PSJ/sbBVydT1AeOjCk21CybmJWJMESi4t4uaXX9ME8j
- N3G3S+4wxLIZi/HOqQFdWi+KOw==
-X-Google-Smtp-Source: ABdhPJzr06soee6Wj6VWCYTz+KEySfcfBtTnyRiDejT+ZICW7pqC3UlPZB18uTGxQicM/mG8o466Ew==
-X-Received: by 2002:adf:a11d:: with SMTP id o29mr7802327wro.421.1595323725385; 
- Tue, 21 Jul 2020 02:28:45 -0700 (PDT)
+ bh=1Ie6G74XJdw7VgUpbgB8b+JX6BNo4qUcTXsFkruZ7aM=;
+ b=irmYj3pjqTl5y9yRNCtKw3J2l7b1EJCx84tm7AadWsGMAzfmPXGnWPwy2YH2cqCOkV
+ ul1jXzAOK3pS5X1stMb0uBj+7IVnIWD/PQIis42RFkXfoqOPABz7S7ocYkUzx2YIgFjZ
+ pPcvejEoxc6cLd9YiyWN1TkI1hljz81uS9Fyyky62anjo0So6Im6y2rTzzZC3rh7Jhdm
+ F5VjBQNH8wYFHwg32q95KTDtdrtNwL167v1tD2O1Zw8+lfLO/XOuCVcb/lsSPBzPLnqK
+ 7AnS6GyCDngz+4FIDO2qFvP2Wb5YU2gWFaXR5+OTsDfkAdtwKC0ziHY8jlEcknHr9Jxl
+ 1GnQ==
+X-Gm-Message-State: AOAM530AaDyXCU8XGnGtNaNnC1BEorInLro52c9QR92Xfy9Z+i1+UWtD
+ wr2wpyM09ih8EYYBdrG+D/49Ig==
+X-Google-Smtp-Source: ABdhPJwKz89W/tf9byzkXIdXhLgwLzJ5i7AEDmA75tAuiTwlxhZQyE/ZQcSpELqqEFjO5L2vos9kBQ==
+X-Received: by 2002:a5d:6683:: with SMTP id l3mr27000437wru.288.1595323743984; 
+ Tue, 21 Jul 2020 02:29:03 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t13sm13123207wru.65.2020.07.21.02.28.44
+ by smtp.gmail.com with ESMTPSA id 1sm2657726wmf.0.2020.07.21.02.29.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jul 2020 02:28:44 -0700 (PDT)
-Date: Tue, 21 Jul 2020 11:28:43 +0200
+ Tue, 21 Jul 2020 02:29:03 -0700 (PDT)
+Date: Tue, 21 Jul 2020 11:29:01 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH 09/11] drm/nouveau: stop using TTM_MEMTYPE_FLAG_MAPPABLE
-Message-ID: <20200721092843.GH6419@phenom.ffwll.local>
+Subject: Re: [PATCH 10/11] drm/qxl: stop using TTM_MEMTYPE_FLAG_MAPPABLE v2
+Message-ID: <20200721092901.GI6419@phenom.ffwll.local>
 References: <20200721073245.2484-1-christian.koenig@amd.com>
- <20200721073245.2484-9-christian.koenig@amd.com>
+ <20200721073245.2484-10-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200721073245.2484-9-christian.koenig@amd.com>
+In-Reply-To: <20200721073245.2484-10-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,8 +73,11 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 21, 2020 at 09:32:43AM +0200, Christian K=F6nig wrote:
+On Tue, Jul 21, 2020 at 09:32:44AM +0200, Christian K=F6nig wrote:
 > The driver doesn't expose any not-mapable memory resources.
+> =
+
+> v2: remove unused man variable as well
 > =
 
 > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
@@ -82,71 +85,55 @@ On Tue, Jul 21, 2020 at 09:32:43AM +0200, Christian K=F6nig wrote:
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > ---
->  drivers/gpu/drm/nouveau/nouveau_bo.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/qxl/qxl_ttm.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > =
 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
-au/nouveau_bo.c
-> index 7883341f8c83..4ccf937df0d0 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -655,13 +655,12 @@ nouveau_bo_init_mem_type(struct ttm_bo_device *bdev=
+> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+> index a6e67149ef4a..1d8e07b8b19e 100644
+> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+> @@ -54,7 +54,7 @@ static int qxl_init_mem_type(struct ttm_bo_device *bdev=
 , uint32_t type,
->  =
-
 >  	switch (type) {
 >  	case TTM_PL_SYSTEM:
+>  		/* System memory */
 > -		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
 > +		man->flags =3D 0;
 >  		man->available_caching =3D TTM_PL_MASK_CACHING;
 >  		man->default_caching =3D TTM_PL_FLAG_CACHED;
 >  		break;
->  	case TTM_PL_VRAM:
+> @@ -62,8 +62,7 @@ static int qxl_init_mem_type(struct ttm_bo_device *bdev=
+, uint32_t type,
+>  	case TTM_PL_PRIV:
+>  		/* "On-card" video ram */
+>  		man->func =3D &ttm_bo_manager_func;
 > -		man->flags =3D TTM_MEMTYPE_FLAG_FIXED |
 > -			     TTM_MEMTYPE_FLAG_MAPPABLE;
 > +		man->flags =3D TTM_MEMTYPE_FLAG_FIXED;
->  		man->available_caching =3D TTM_PL_FLAG_UNCACHED |
->  					 TTM_PL_FLAG_WC;
->  		man->default_caching =3D TTM_PL_FLAG_WC;
-> @@ -690,12 +689,12 @@ nouveau_bo_init_mem_type(struct ttm_bo_device *bdev=
-, uint32_t type,
->  			man->func =3D &ttm_bo_manager_func;
+>  		man->available_caching =3D TTM_PL_MASK_CACHING;
+>  		man->default_caching =3D TTM_PL_FLAG_CACHED;
+>  		break;
+> @@ -99,7 +98,6 @@ static void qxl_evict_flags(struct ttm_buffer_object *b=
+o,
+>  int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
+>  			   struct ttm_mem_reg *mem)
+>  {
+> -	struct ttm_mem_type_manager *man =3D &bdev->man[mem->mem_type];
+>  	struct qxl_device *qdev =3D qxl_get_qdev(bdev);
 >  =
 
->  		if (drm->agp.bridge) {
-> -			man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
-> +			man->flags =3D 0;
->  			man->available_caching =3D TTM_PL_FLAG_UNCACHED |
->  				TTM_PL_FLAG_WC;
->  			man->default_caching =3D TTM_PL_FLAG_WC;
->  		} else {
-> -			man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE;
-> +			man->flags =3D 0;
->  			man->available_caching =3D TTM_PL_MASK_CACHING;
->  			man->default_caching =3D TTM_PL_FLAG_CACHED;
->  		}
-> @@ -1437,7 +1436,6 @@ nouveau_bo_verify_access(struct ttm_buffer_object *=
-bo, struct file *filp)
->  static int
->  nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_re=
-g *reg)
->  {
-> -	struct ttm_mem_type_manager *man =3D &bdev->man[reg->mem_type];
->  	struct nouveau_drm *drm =3D nouveau_bdev(bdev);
->  	struct nvkm_device *device =3D nvxx_device(&drm->client.device);
->  	struct nouveau_mem *mem =3D nouveau_mem(reg);
-> @@ -1447,8 +1445,7 @@ nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bd=
-ev, struct ttm_mem_reg *reg)
->  	reg->bus.size =3D reg->num_pages << PAGE_SHIFT;
->  	reg->bus.base =3D 0;
->  	reg->bus.is_iomem =3D false;
+>  	mem->bus.addr =3D NULL;
+> @@ -107,8 +105,7 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
+>  	mem->bus.size =3D mem->num_pages << PAGE_SHIFT;
+>  	mem->bus.base =3D 0;
+>  	mem->bus.is_iomem =3D false;
 > -	if (!(man->flags & TTM_MEMTYPE_FLAG_MAPPABLE))
 > -		return -EINVAL;
 > +
->  	switch (reg->mem_type) {
+>  	switch (mem->mem_type) {
 >  	case TTM_PL_SYSTEM:
->  		/* System memory */
+>  		/* system memory */
 > -- =
 
 > 2.17.1
