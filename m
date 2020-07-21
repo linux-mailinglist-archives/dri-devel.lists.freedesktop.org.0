@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9558227A5B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266E7227A72
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 544CB6E431;
-	Tue, 21 Jul 2020 08:18:04 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFD46E1C4
- for <dri-devel@freedesktop.org>; Tue, 21 Jul 2020 03:24:55 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id s26so10063526pfm.4
- for <dri-devel@freedesktop.org>; Mon, 20 Jul 2020 20:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=xEKJp/jVsPRX4UpWt8HfxSdWbSchkUleBYjVnsTaofA=;
- b=LQHyZUWBvXVCW395DzCgA0Dhe5iVnTk00XHZfa9Y30Fi6a7xuBBwh8d/I2OiyxQi8O
- +LA8HvHeYdFDOzs4BqC3u3SV8ITPjtTbJFB8rSBrsk5B9SfjlOOghCWPQ2HCeWTEw5It
- R7Yq+EdLhhwajEl5phhZ0NpX/S8XoLKNpSthc2i5xLCERwf8ohqeWqd93eJzunZtDWpC
- wxlBW46cFDuL3s+EbbViTlFSPFuZ/CxjYL7oDjdoKeSHoZVhk1lgTqI9fwmdg2LZ0woA
- yl/MBm9Qb8WXF8FkLvcb1DUI6Owzq7zAgMNx9EDlZwu4lJ033QNTwmrXOozbT5lNJcRS
- 71aA==
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4357D89E39;
+	Tue, 21 Jul 2020 08:18:23 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E6F6E3DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 04:27:08 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id d4so11350489pgk.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 21:27:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jIb2rFOZN8gwoOlXTkxPZa6eyeZDpgkSyS7W8wCzIJg=;
+ b=WvDaw8DXxILkRr/NoclGFf0Rt0bm/iie3CNU3ZYfRBxlZ3lZovpsXOcdh3xgFByHih
+ aU4ABPVp2FzRKAoUX9PQtPZU5+8n8XyIuUFBWdNFPjrloSZ1wwtOW85Gx+3KkNcwxMY4
+ AVxsqdoadhQc1+eyMrH2gYFo6d/D2sDR6TXHQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xEKJp/jVsPRX4UpWt8HfxSdWbSchkUleBYjVnsTaofA=;
- b=AbF5W38iZ0+y88XlhLO2RMSDEbXx1PTJjt+fNny6OCT4DxjWPMAlPhgZPFBbFV/YPH
- GtD/T7mACWzI5XwUkjiVZmJF/KgWRJwri1uylV3mdKrza3Uarphbyn8TyvNY+HqUHv3g
- hCODhrS5kIhcf9b2rcp19CvuypJM3roP5UUeCeLJ62jBQbReuYUMZXMVsNQI9nbliPDM
- +mUxBBJyzd/T6H2DIxFFGKNT2gR4PVBgxezug3C+S458aQCnjwB5FzxjAvQK9xzDaDbS
- 4mKYGq8qb2XyQWFWgLMqbwoKNB+0kY+rJBmoaztVMv4lAHBbUbK0yVC5s6bYW5UEGNTV
- WTFQ==
-X-Gm-Message-State: AOAM532siaZoIe5GleeLwXpyCoe2MBKQx1oMKBijq7qamXp//Eb7Xl6i
- 41Z60ifueseIK1RMi3jpVhRrFw==
-X-Google-Smtp-Source: ABdhPJzzJUvTTt3zYg8Ad9nFkak4Z6dshzvJaAVPO+PpmMtkXDtOIXzZcz5rd02eSZR/emH7oCtbLw==
-X-Received: by 2002:a65:4bc8:: with SMTP id p8mr20871536pgr.418.1595301895018; 
- Mon, 20 Jul 2020 20:24:55 -0700 (PDT)
-Received: from localhost ([223.179.133.67])
- by smtp.gmail.com with ESMTPSA id e18sm18353912pff.37.2020.07.20.20.24.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 20 Jul 2020 20:24:53 -0700 (PDT)
-Date: Tue, 21 Jul 2020 08:54:42 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v5 0/6] Add support for GPU DDR BW scaling
-Message-ID: <20200721032442.hv7l4q6633vnmnfe@vireshk-mac-ubuntu>
-References: <1594644106-22449-1-git-send-email-akhilpo@codeaurora.org>
- <CAF6AEGtAEwZbWxLb4MxaWNswvtrFbLK+N0Fez2XYr7odKZffWA@mail.gmail.com>
- <20200720100131.6ux4zumbwqpa42ye@vireshk-mac-ubuntu>
- <CAF6AEGurrsd3nrbB=ktZjWfKTNbKwPHYwTFiZdD-NOW1T7gePQ@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jIb2rFOZN8gwoOlXTkxPZa6eyeZDpgkSyS7W8wCzIJg=;
+ b=aU9m9sQzSmHa5xtl3Ff0r115nzyxHAOwm3SOHQH7Kw3/fQTGcq/cR2EXdS4coIRJlC
+ ojEYcb4VPNPYy3ue8hRVlwQ2ooDL08TQB2NPmoOHa1MkuVqkdsLGpn859J60HqiCv5l3
+ oWMZbXHckWwutFPJYSdx/7I3IA7MUmfbOF98R95d759ZfEbHYa7lpIDOVsyEJksi5+E5
+ bICeRvM4kqYFIttAdNlxF3WB7qOmhef7pfnsxL/4nVjote48cULWW3xA68l1vDM9POfh
+ wdS0km7Z2MmnS8YPf4sjJSJuuTrk9AifkHpjikNcijhp+VxtcCHo8KoxgqZ7z0Cc406e
+ KMmA==
+X-Gm-Message-State: AOAM530H6gdKheUOX2qjS2dKE9JBL6lLluYxBl0oWXIo8FLwF7KBO8Fm
+ /ue9JRayboYnKrp6W/o5bqIg9w==
+X-Google-Smtp-Source: ABdhPJz9Vh2IOS/1uRlQ2nI9iXmkt0IM/J22K0/Kq13gyoo2noXO6h6x9nUFPTbwdyISrFtDedLw5w==
+X-Received: by 2002:a63:395:: with SMTP id 143mr21310754pgd.57.1595305627807; 
+ Mon, 20 Jul 2020 21:27:07 -0700 (PDT)
+Received: from alex-desktop.lan (c-73-63-253-164.hsd1.ca.comcast.net.
+ [73.63.253.164])
+ by smtp.gmail.com with ESMTPSA id o8sm1207075pjf.37.2020.07.20.21.27.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jul 2020 21:27:06 -0700 (PDT)
+From: Alexandru Stan <amstan@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 0/3] PWM backlight interpolation adjustments
+Date: Mon, 20 Jul 2020 21:25:19 -0700
+Message-Id: <20200721042522.2403410-1-amstan@chromium.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGurrsd3nrbB=ktZjWfKTNbKwPHYwTFiZdD-NOW1T7gePQ@mail.gmail.com>
-User-Agent: NeoMutt/20170609 (1.8.3)
 X-Mailman-Approved-At: Tue, 21 Jul 2020 08:18:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,41 +69,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
- saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Sibi Sankar <sibis@codeaurora.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Alexandru Stan <amstan@chromium.org>, linux-pwm@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20-07-20, 08:03, Rob Clark wrote:
-> On Mon, Jul 20, 2020 at 3:01 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > On 15-07-20, 08:36, Rob Clark wrote:
-> > > I can take the first two into msm-next, the 3rd will need to wait
-> > > until dev_pm_opp_set_bw() lands
-> >
-> > You can base that on a8351c12c6c7 in linux-next, I will make sure not to rebase
-> > it anymore.
+I was trying to adjust the brightness for a new chromebook:
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2291209
+Like a lot of panels, the low end needs to be cropped,
+and now that we have the interpolation stuff I wanted to make use of it
+and bake in even the curve.
 
-This was 5.8-rc1 + 2 patches for OPP. That's all.
+I found the behavior a little unintuitive and non-linear. See patch 1
+for a suggested fix for this.
 
-> >
-> 
-> I can't really base on something newer than drm-next
+Unfortunatelly a few veyron dts files were relying on this
+(perhaps weird) behavior. Those devices also want a minimum brightness.
+The issue is that they also want the 0% point for turning off the
+display.
+https://github.com/torvalds/linux/commit/6233269bce47bd450196a671ab28eb1ec5eb88d9#diff-e401ae20091bbfb311a062c464f4f47fL23
 
-But you need the OPP dependency, isn't it ?
+So the idea here is to change those dts files to only say <3 255> (patch
+3), and add in a virtual 0% point at the bottom of the scale (patch 2).
+
+We have to do this conditionally because it seems some devices like to
+have the scale inverted:
+  % git grep "brightness-levels\s*=\s*<\s*[1-9]"|cat
+  arch/arm/boot/dts/tegra124-apalis-eval.dts:             brightness-levels = <255 231 223 207 191 159 127 0>;
+
+
+Alexandru Stan (3):
+  backlight: pwm_bl: Fix interpolation
+  backlight: pwm_bl: Artificially add 0% during interpolation
+  ARM: dts: rockchip: Remove 0 point in backlight
+
+ arch/arm/boot/dts/rk3288-veyron-jaq.dts    |  2 +-
+ arch/arm/boot/dts/rk3288-veyron-minnie.dts |  2 +-
+ arch/arm/boot/dts/rk3288-veyron-tiger.dts  |  2 +-
+ drivers/video/backlight/pwm_bl.c           | 78 +++++++++++-----------
+ 4 files changed, 42 insertions(+), 42 deletions(-)
 
 -- 
-viresh
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
