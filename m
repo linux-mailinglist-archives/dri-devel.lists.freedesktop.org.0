@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33A9228A90
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 23:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDEA228B17
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 23:24:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985536E037;
-	Tue, 21 Jul 2020 21:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83E8F6E0FB;
+	Tue, 21 Jul 2020 21:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C236E037
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 21:16:05 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Tue, 21 Jul 2020 21:16:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: mnrzk@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-znmrvEwL7a@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6406E0FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 21:24:24 +0000 (UTC)
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
+ [73.231.172.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8A36D20717;
+ Tue, 21 Jul 2020 21:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595366664;
+ bh=F15VAIQ+YcMoi/vlFKHrDvp0zggcPKztBbuy29xhWTM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fL7u260G4CO6iuAQXZToNhssS1mkJZOPhWIFmh7Dj9W+gyv+/B5fZSQN1ALuEZ+dI
+ tR8c5BcPe600k7in81VO97qkAk4/wg9fVNDvyZAAdgnWEkuIcSglP7YuYTQYxPZ//S
+ 8ZjUlMKltIsIGQIWDb4q4U8YNe/Rjmiau8nIH5SE=
+Date: Tue, 21 Jul 2020 14:24:24 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+Subject: Re: [PATCH v2] io-mapping: Indicate mapping failure
+Message-Id: <20200721142424.b8846cddf1efd48e45278a42@linux-foundation.org>
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301245E046C@FMSMSX108.amr.corp.intel.com>
+References: <20200721171936.81563-1-michael.j.ruhl@intel.com>
+ <20200721135648.9603d924377825a7e6c0023b@linux-foundation.org>
+ <14063C7AD467DE4B82DEDB5C278E866301245E046C@FMSMSX108.amr.corp.intel.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,56 +48,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Mike Rapoport <rppt@linux.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+On Tue, 21 Jul 2020 21:02:44 +0000 "Ruhl, Michael J" <michael.j.ruhl@intel.com> wrote:
 
---- Comment #79 from mnrzk@protonmail.com ---
-(In reply to Kees Cook from comment #78)
-> (In reply to mnrzk from comment #76)
-> > If my understanding is correct, base would have previously been filled with
-> > the freelist pointer (since it's the first 8 bytes). Now since the freelist
-> > pointer is being put in the middle (rounded to the nearest sizeof(void*),
-> >  or 8 bytes), it's being put in the last 8 bytes of *dm_state
-> > (or dm_state->context).
-> > 
-> > I'll place a void* for padding in the middle of struct dm_atomic_state* and
-> > if my hypothesis is correct, the padding will be filled with garbage data
-> > instead of context and the bug should be fixed. Of course, there would
-> > still be a use-after-free bug in the code which may cause other issues in
-> > the future so I wouldn't really consider it a solution.
+> >--- a/include/linux/io-mapping.h~io-mapping-indicate-mapping-failure-fix
+> >+++ a/include/linux/io-mapping.h
+> >@@ -107,9 +107,12 @@ io_mapping_init_wc(struct io_mapping *io
+> > 		   resource_size_t base,
+> > 		   unsigned long size)
+> > {
+> >+	iomap->iomem = ioremap_wc(base, size);
+> >+	if (!iomap->iomem)
+> >+		return NULL;
+> >+
 > 
-> Agreed: that should make it disappear again, but as you say, it's just
-> kicking the problem down the road since now the failing condition is losing
-> a race with kfree()+kmalloc()+new contents.
+> This does make more sense.
 > 
-> And if you want to detect without crashing, you can just zero the padding at
-> init time and report when it's non-NULL at workqueue run time... I wonder if
-> KASAN can run in a mode where the allocation/freeing tracking happens, but
-> without the heavy checking instrumentation? Then when the corruption is
-> detected, it could dump a traceback about who did the early kfree()... hmmm.
+> I am confused by the two follow up emails I just got.
 
-So far I've been testing it by passing my GPU to my VM via vfio-pci and
-attaching kgdb to the guest. To test if the context was invalid, I added
-a check to make sure the context pointer wasn't garbage data (by checking
-if dc_state was not null and the upper 16 bits were set on dc_state).
+One was your original patch, the other is my suggested alteration.
 
-I wonder if there's any way to set a watchpoint to see where exactly the
-dm_atomic_state gets filled with garbage data.
+> Shall I resubmit, or is this path (if !iomap->iomem) return NULL)
+> now in the tree.
 
-Also, since I'm not too familiar with freelists, do freelist pointers look
-like regular pointers? On a regular pointer on a system with a 48-bit
-virtual address space, regular pointers would be something like
-0xffffXXXXXXXXXXXX. I've noticed that the data being inserted never
-followed this format. Is this something valuable to note or is that just
-the nature of freelist pointers?
+All is OK.  If my alteration is acceptable (and, preferably, tested!)
+then when the time comes, I'll fold it into the base patch, add a
+note indicating this change and shall then send it to Linus.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
