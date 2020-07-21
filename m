@@ -1,88 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C411C22918B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 09:03:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 676B7229182
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 09:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 640D06E5C5;
-	Wed, 22 Jul 2020 07:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D41A56E445;
+	Wed, 22 Jul 2020 07:02:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2DE16E040;
- Tue, 21 Jul 2020 18:36:58 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id e64so22497292iof.12;
- Tue, 21 Jul 2020 11:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=DKoqtLlCZ3xb5WBePvpj1u1JNUm5TcuvXGpT5UK2G08=;
- b=OGNxulUtSF4ynIewzetTCPyyWNFlPsCe/npBc9CT8DR+dc8tQKgB+dM+rrnpvXoDnE
- tAKKO+yh/JDOdiRKRHmCjV3Q39ZDOOhUCo7ugO+S10btdbBXNVF0i6tLFrk3MEdc2xuv
- L4S5PHK7EZFjh710wkrvs4I/7qx7H+/0EvGfSNLXx7IsOtlcvEplkKFtx9K8wieQA31F
- aRQ0QITJHNeV72WeeVcCRdy4jYTWS4aovMQYVlv5Hwh24KwYjBug493ROJpaXi2IN5Hb
- qc+3pSeZUR5+9uFQQsOTcYn8FWvhe6vFahthIufPxCPhaPbONEMAhhc7zmrWEF4LGs06
- k+Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=DKoqtLlCZ3xb5WBePvpj1u1JNUm5TcuvXGpT5UK2G08=;
- b=izOCQDv07GdaGpAgrZmt4vAC5RHjONWmI9WrL/UiVUg4UHnFJ6TNQCdV1yDcx6aUi4
- yHOmtLqurW/ZHxmsYnM8vWXNXnXWO6BrxO2yCMB8ovwJYtxeGJnVHtqLa5Te3wXWC9gX
- nwT6z4ZfwU43Y9PlxHQLDemFEHa4AsXGV6wBPeiCblOsQ/NvZ3kCTZcYHN39jEE21y3d
- 31tRSBLZn/6u6eP5HX6zoaWzGyA3BeY2dLk5MBHwypieYkJZdVtOW3/7OIm2vmjWax1x
- yj7a0Vr8C1DaAl5GVUhorw2gTMqyB0xwLx/T4E5no5GeakMZcYizypftXzT91vCTVl8G
- SI9g==
-X-Gm-Message-State: AOAM531jaM7Aa/k07vWjnDNpOI9YtUGcFdCIWZspOzT4Z9VKhssNLHxa
- k81Uxr1+Wi83OAISGwOq6pw=
-X-Google-Smtp-Source: ABdhPJyjm3x7B2weH8RJQpPYu2oZG841KdnHRI51EDjG4coHaalocFrLEryqkmen2USsZ0klb87UgA==
-X-Received: by 2002:a6b:b555:: with SMTP id e82mr28464431iof.56.1595356617867; 
- Tue, 21 Jul 2020 11:36:57 -0700 (PDT)
-Received: from hive64.slackware.lan (SEB-ai06-18-141.wcta.net. [64.110.18.141])
- by smtp.gmail.com with ESMTPSA id u3sm10795893iol.41.2020.07.21.11.36.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jul 2020 11:36:57 -0700 (PDT)
-Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
- without DLL Link Active train links in 100 ms"
-To: Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>
-References: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
- <20200716235440.GA675421@bjorn-Precision-5520>
- <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
- <CACO55tso5SVipAR=AZfqhp6GGkKO9angv6f+nd61wvgAJtrOKg@mail.gmail.com>
- <20200721122247.GI5180@lahna.fi.intel.com>
- <f951fba07ca7fa2fdfd590cd5023d1b31f515fa2.camel@redhat.com>
- <20200721152737.GS5180@lahna.fi.intel.com>
-From: Patrick Volkerding <volkerdi@gmail.com>
-Autocrypt: addr=volkerdi@gmail.com; prefer-encrypt=mutual; keydata=
- mQGiBD5dIFQRBADB31WinbXdaGk/8RNkpnZclu1w3Xmd5ItACDLB2FhOhArw35EAMOYzxI0g
- RtDNWN4pn9n74q4HbFzyRWElThWRtBTYLEpImzrk7HYVCjMxjw5A0fTr88aiHOth5aS0vPAo
- q+3TYn6JDSipf2bR03G2JVwgj3Iu066pX4naivNm8wCgldHGF3y9vT3UPYh3QFgEUlCalt0D
- /3n6NopRYy0hMN6BPu+NarXwv6NQ9g0GV5FNjEErigkrD/htqCyWAUl8zyCKKUFZZx4UGBRZ
- 5guCdNzwgYH3yn3aVMhJYQ6tcSlLsj3fJIz4LAZ3+rI77rbn7gHHdp7CSAuV+QHv3aNanUD/
- KGz5SPSvF4w+5qRM4PfPNT1hLMV8BACzxiyX7vzeE4ZxNYvcuCtv0mvEHl9yD66NFA35RvXa
- O0QiRVYeoUa5JOQZgwq+fIB0zgsEYDhXFkC1hM/QL4NccMRk8C09nFn4eiz4dAEnwKt4rLCJ
- KhkLl1DWTSoXHe/dOXaLnFyLzB1J8hEYmUvw3SwPt//wMqDiVBLeZfFcdLQwU2xhY2t3YXJl
- IExpbnV4IFByb2plY3QgPHNlY3VyaXR5QHNsYWNrd2FyZS5jb20+iF8EExECAB8ECwcDAgMV
- AgMDFgIBAh4BAheABQJQPlypBQlBo7MrAAoJEGpEY8BAECIzjOwAn3vptb6K1v2wLI9eVlnC
- dx4m1btpAJ9sFt4KwJrEdiO5wFC4xe9G4eZl4rkBDQQ+XSBVEAQA3VYlpPyRKdOKoM6t1SwN
- G0YgVFSvxy/eiratBf7misDBsJeH86Pf8H9OfVHOcqscLiC+iqvDgqeTUX9vASjlnvcoS/3H
- 5TDPlxiifIDggqd2euNtJ8+lyXRBV6yPsBIA6zki9cR4zphe48hKpSsDfj7uL5sfyc2UmKKb
- oSu3x7cAAwUD/1jmoLQs9bItbTosoy+5+Uzrl0ShRlv+iZV8RPzAMFuRJNxUJkUmmThowtXR
- aPKFI9AVd+pP44aAJ+zxCPtS2isiW20AxubJoBPpXcVatJWi4sG+TM5Z5VRoLg7tIDNVWsyH
- GXPAhIG2Y8Z1kyWwb4P8A/W2b1ZCqS7Fx4yEhTikiEwEGBECAAwFAlA+XL8FCUGjs2IACgkQ
- akRjwEAQIjMsbQCgk59KFTbTlZfJ6FoZjjEmK3/xGR4AniYT+EdSdvEyRtZYkqWzp1ayvO1b
-Message-ID: <d3253a47-09ff-8bc7-3ca1-a80bdc09d1c2@gmail.com>
-Date: Tue, 21 Jul 2020 13:37:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2376E45C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 21:16:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1595366171; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=QIFHHn9Bz6CS1awEQLVI1+5x4m0PpVAHkNs3N45sppE=;
+ b=I41a6pT0UokDexNnt6TDXaehUhULAvBgxJv5BxbN1F8bdgKHGQNSlwUFd1Mvb514slBRRVzB
+ 93JzUNz6yhJkgmke/5/EnYM8rylXbGrk7FHJe0qXIbLwalX3ClK4LJFMXlobKYKVNvO5teQS
+ nzqElbYjLawAhlJUMdT5XCdzdHQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n11.prod.us-east-1.postgun.com with SMTP id
+ 5f175af98423214e13d2f2b1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 21 Jul 2020 21:15:37
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id EBA42C433C9; Tue, 21 Jul 2020 21:15:36 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9FDE8C433C6;
+ Tue, 21 Jul 2020 21:15:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200721152737.GS5180@lahna.fi.intel.com>
-Content-Language: en-US
+Date: Tue, 21 Jul 2020 14:15:35 -0700
+From: khsieh@codeaurora.org
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets
+In-Reply-To: <CAF6AEGs0+=tpOWtY0kUc=Vt7EdEEwQjEffMXxFtDo142gRYRhQ@mail.gmail.com>
+References: <20200707184125.15114-1-khsieh@codeaurora.org>
+ <159527632812.1987609.6364896740387949838@swboyd.mtv.corp.google.com>
+ <91a8eef836c1939cb57942c6fdcf2772@codeaurora.org>
+ <159528794676.3847286.1584696687662833591@swboyd.mtv.corp.google.com>
+ <CAF6AEGs0+=tpOWtY0kUc=Vt7EdEEwQjEffMXxFtDo142gRYRhQ@mail.gmail.com>
+Message-ID: <9fa6328419fa5ddcca856d3c505394f8@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Wed, 22 Jul 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Karol Herbst <kherbst@redhat.com>,
- Linux PCI <linux-pci@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="us-ascii"
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org,
+ Sean Paul <sean@poorly.run>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/21/20 10:27 AM, Mika Westerberg wrote:
-> On Tue, Jul 21, 2020 at 11:01:55AM -0400, Lyude Paul wrote:
->> Sure thing. Also, feel free to let me know if you'd like access to one of the
->> systems we saw breaking with this patch - I'm fairly sure I've got one of them
->> locally at my apartment and don't mind setting up AMT/KVM/SSH
-> Probably no need for remote access (thanks for the offer, though). I
-> attached a test patch to the bug report:
->
->   https://bugzilla.kernel.org/show_bug.cgi?id=208597
->
-> that tries to work it around (based on the ->pm_cap == 0). I wonder if
-> anyone would have time to try it out.
-
-
-Hi Mika,
-
-I can confirm that this patch applied to 5.4.52 fixes the issue with
-hybrid graphics on the Thinkpad X1 Extreme gen2.
-
-Thanks,
-
-Pat
-
+On 2020-07-20 19:57, Rob Clark wrote:
+> On Mon, Jul 20, 2020 at 4:32 PM Stephen Boyd <swboyd@chromium.org> 
+> wrote:
+>> 
+>> Quoting khsieh@codeaurora.org (2020-07-20 15:48:13)
+>> > On 2020-07-20 13:18, Stephen Boyd wrote:
+>> > > Quoting Kuogee Hsieh (2020-07-07 11:41:25)
+>> > >>  drivers/gpu/drm/msm/dp/dp_power.c           |  32 +-
+>> > >>  drivers/gpu/drm/msm/dp/dp_power.h           |   1 +
+>> > >>  drivers/gpu/drm/msm/dp/dp_reg.h             |   1 +
+>> > >>  17 files changed, 861 insertions(+), 424 deletions(-)
+>> > >
+>> > > It seems to spread various changes throughout the DP bits and only has
+>> > > a
+>> > > short description about what's changing. Given that the series above
+>> > > isn't merged it would be better to get rid of this change and make the
+>> > > changes in the patches that introduce these files.
+>> > >
+>> >
+>> > Yes, the base DP driver is not yet merged as its still in reviews and
+>> > has been for a while.
+>> > While it is being reviewed, different developers are working on
+>> > different aspects of DP such as base DP driver, DP compliance, audio etc
+>> > to keep things going in parallel.
+>> > To maintain the authorship of the different developers, we prefer having
+>> > them as separate changes and not merge them.
+>> > We can make all these changes as part of the same series if that shall
+>> > help to keep things together but would prefer the changes themselves to
+>> > be separate.
+>> > Please consider this and let us know if that works.
+>> >
+>> 
+>> I'm not the maintainer here so it's not really up to me, but this is 
+>> why
+>> we have the Co-developed-by tag, to show that multiple people worked 
+>> on
+>> some patch. The patch is supposed to logically stand on its own
+>> regardless of how many people worked on it. Authorship is a single
+>> person but the Co-developed-by tag helps express that more than one
+>> person is the actual author of the patch. Can you use that tag instead
+>> and then squash this into the other DP patches?
+> 
+> The dpu mega-patches are hard enough to review already.. I'd really
+> appreciated it if the dpu dev's sort out some way to squash later
+> fixups into earlier patches
+> 
+> BR,
+> -R
+as per discussion on IRC, I have separated the parts of this change 
+which are
+unrelated to compliance and we have merged it to the base DP driver and 
+added
+the Co-developed-by tag there. Since this change adds supports for DP 
+compliance
+on MSM chipsets which is a new feature and not fixes to the base driver, 
+we will
+prefer to have this as a separate change as it will make it easier for 
+you to
+review it instead of continuing to expand the base DP driver
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
