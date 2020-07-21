@@ -1,39 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245A22281E4
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 16:20:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA252281E5
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 16:20:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0474689BD4;
-	Tue, 21 Jul 2020 14:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A1E6E4E3;
+	Tue, 21 Jul 2020 14:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C319289BD4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 14:20:10 +0000 (UTC)
-Received: from localhost (unknown [137.135.114.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6CE2320702;
- Tue, 21 Jul 2020 14:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595341210;
- bh=cAP1G3QA2CqDg6tz1CmbfyTfHQOZhCiHvnGoZ28h2OY=;
- h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Subject:In-Reply-To:References:
- From;
- b=Z48SoPS96EBFIFheNRidOqjfsIr1BTpwe7kdh2S773MenCOI71lbzeKOIW2Q17i7M
- wHsVKc53XKvt2OVS+Lq9MZU9ksQJ7E4nRJsIDt0Tb4HvnkdEcEzQ68yqfsTqR0+ydt
- 0yPM9P+ezBxdLAkH+91OWkf2FgVvJfOavUVNZTcg=
-Date: Tue, 21 Jul 2020 14:20:09 +0000
-From: Sasha Levin <sashal@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/mcde: Fix stability issue
-In-Reply-To: <20200718233323.3407670-1-linus.walleij@linaro.org>
-References: <20200718233323.3407670-1-linus.walleij@linaro.org>
-Message-Id: <20200721142010.6CE2320702@mail.kernel.org>
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr20049.outbound.protection.outlook.com [40.107.2.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 655A16E4E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 14:20:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OOXNjxtUKTz6oRijv0ujrbUr8dBEnVOx5Syf0MS5p66Hl9wk2Ji66kOvi7cNMp38tujd586rZCe1JKkUQRid0EAcnes+mpeDpBGfa1mZ7gkIzh+Qu2jHdwH5SboGoV157ne5m0XQb4a0iBg2Gvq5y1P1cmt9E2RnTYqhXUYV1JTJHBBV5L5g/ep4/TVwwT8aBHnoyv24Yvd9FfBNDdakXB2vl2QryUTF12VE7B6QVpEygqdgqg7hNEsMP+ub6CCnyzYxdUc8JOav+oYprShuVAuamFeJGjMMLlOdj2kAV4+nHfmYexiteFK0Z+c37BFoLnfm2UZdqoGX67Cj3+EV1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N7soWmPq2azqlHD9jzBjQBQdFQUhG5FqZN2Tw0bcNvU=;
+ b=WaRRwdjNQdGgMdYG4z381unLhSLbzJFJflQWEfs80XkUUeaMSf3l4jC5BHW6Y8E12ugRobKBPFl1asQn+Pc7rm1uIjktCaua67A5OVSnMUBfE5KFQpzPNS9fkrDXngzTfkV9kKJPDHXIY21wU7P49oBHGIg/dHbQ/NwQ5ZEd5SOSzpgpm8ze/jrPoNDyKtDP6b6P5jxmVqrLqwmgyYNwaGHdT22i2xp7Dd+rrPEFKYaW4RuKzgEQBWkPJcOMkbHe3NXILlb+9pEcFs0QaSvN07tf6Y9iGNqFf9YXFUrzc3xFLohghggoG1f4cHZEe4M+ysu50a0IM0pSEYMC6teeCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N7soWmPq2azqlHD9jzBjQBQdFQUhG5FqZN2Tw0bcNvU=;
+ b=WveVnYLxGKABh9V1M/R9XgB+gnlr21awpYJ7yjM/t+N0Cy/hZIdcaA2DPJBu+GNGJXnvrpQEoK/MPU2oQiCZyOkDmYhdy/hIQI/QNonUiwqHZGLlIcNyjSgKC68Gy+TyzF2x7NSBlQsBx0Q2boqhS7j9/lypalBGYBAZOGJ9ONc=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by VI1PR04MB6031.eurprd04.prod.outlook.com
+ (2603:10a6:803:102::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Tue, 21 Jul
+ 2020 14:20:48 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::4c0:79dd:b734:9ea7]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::4c0:79dd:b734:9ea7%5]) with mapi id 15.20.3195.026; Tue, 21 Jul 2020
+ 14:20:47 +0000
+Date: Tue, 21 Jul 2020 17:20:44 +0300
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v7 2/5] drm/imx: Add initial support for DCSS on iMX8MQ
+Message-ID: <20200721142044.sapgfboekk2e53zj@fsr-ub1864-141>
+References: <20200721102007.18368-1-laurentiu.palcu@oss.nxp.com>
+ <20200721102007.18368-3-laurentiu.palcu@oss.nxp.com>
+ <58a3ebe2620008daeab826a8216b6b5ad672fc7c.camel@pengutronix.de>
+Content-Disposition: inline
+In-Reply-To: <58a3ebe2620008daeab826a8216b6b5ad672fc7c.camel@pengutronix.de>
+User-Agent: NeoMutt/20171215
+X-ClientProxiedBy: AM0PR02CA0001.eurprd02.prod.outlook.com
+ (2603:10a6:208:3e::14) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fsr-ub1864-141 (83.217.231.2) by
+ AM0PR02CA0001.eurprd02.prod.outlook.com (2603:10a6:208:3e::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.20 via Frontend Transport; Tue, 21 Jul 2020 14:20:46 +0000
+X-Originating-IP: [83.217.231.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3a4e9503-8ce0-47be-74a1-08d82d814351
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6031:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB6031D84CF50CA5381C53B010BE780@VI1PR04MB6031.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lfT8ckg8Vi2o7dyfuzGJWvdt8VLISLwj9mzeuEoEaV7kiTE0EP1E8K31UA+q1lVb0OVYDIvlBoU2U6N2fbfF68y8YiSL9EuMO6QvjK4BnTbJSTrdPNyRqBDBAc3hgXqgSxz9kRwQOs9jp6zTTzeusvYajAbkCNDip3O/0EwamjrR+j6APi/I0E+plpIrECYTLN9Rm+dgqoqOMJSw97IkNL/MDizekMSb6xqAMZUqKYG/aP4DAz33bWSrWWWw7lTvdiYvzwSylL6nxKIO8u6eBA8tr8ip8M6iR7LTAD/cVDGlXLS+6vNB73yhBbO+t/wSZETILH8zc5VO7+NBiKOL6ZRcGt3A9xGMRC992iYeFy9RbizmlbxHGYO3RyoMf+4eHNc2vCecM5syUeH8I3jmlFcKuHLVWNeI0jWNgjm7uhRgQtggECprm+WddcgtQkN7xn9VTNATkPADlK9JcVu6TQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(33716001)(8936002)(55016002)(66556008)(52116002)(66476007)(86362001)(44832011)(966005)(1076003)(956004)(5660300002)(66946007)(8676002)(6496006)(83380400001)(2906002)(54906003)(9686003)(7416002)(6916009)(186003)(16526019)(26005)(498600001)(4326008)(32563001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 3902j3MteW+7c3eq2Z8MutUc7LFWmKEO+t9YoYJaHlu3dvJZ1kqp8/D/tYTEwMH+f72V2bpFvluFMe/K5eR3lagwDAv+tI+xw6cm+Wi3f8V2ma7usPJHCYGno/QEvmQM3dAQV30K94ZmvgBNAMjIDb+EjAJ47Rq09altsPwk5UsMp/8fgrRwXJDz8C0Qh83OD9/WPXWwOTqJj9FeXGqsF2FcDSK6OUxdeLEKPe4h013th3bA0E1oTGVUZq8bJS9ltPXLyR6LCagKTPgB5WZP0AMt6Snr2zT4Wi6h7MJ5SHyBfuDaBi+mK+f9h5ugEH4ESmFp2QrVYCxpaT6pq1JmZ8itHmmEAvqQD9kzojbt7G4JQ7SrFWSBmEE6/REAob/XreR965Y4a/rKXUpUYLLIXziwZ1haDtvFDUTrZXzTmDZFkvxPczkP2PCLl5BB+tlZZQJeTp5Q88PF09I8bmt6a91hxXBaqjLS76ql1Eskb/o=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a4e9503-8ce0-47be-74a1-08d82d814351
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2020 14:20:47.9516 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CkaFGQd4Ep5hj9ptdb1MwAMRbJZ4jR9u5g9aU4OIvPy2jufHnMTom69mVW66bzGn28owqdCItpHZiNxZ5ENE/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,136 +100,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, lukas@mntmn.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, agx@sigxcpu.org,
  linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Philipp,
 
-[This is an automated email]
+On Tue, Jul 21, 2020 at 02:43:28PM +0200, Philipp Zabel wrote:
+> Hi Laurentiu,
+> 
+> On Tue, 2020-07-21 at 13:20 +0300, Laurentiu Palcu wrote:
+> > From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> > 
+> > This adds initial support for iMX8MQ's Display Controller Subsystem (DCSS).
+> > Some of its capabilities include:
+> >  * 4K@60fps;
+> >  * HDR10;
+> >  * one graphics and 2 video pipelines;
+> >  * on-the-fly decompression of compressed video and graphics;
+> > 
+> > The reference manual can be found here:
+> > https://www.nxp.com/webapp/Download?colCode=IMX8MDQLQRM
+> > 
+> > The current patch adds only basic functionality: one primary plane for
+> > graphics, linear, tiled and super-tiled buffers support (no graphics
+> > decompression yet), no HDR10 and no video planes.
+> > 
+> > Video planes support and HDR10 will be added in subsequent patches once
+> > per-plane de-gamma/CSC/gamma support is in.
+> > 
+> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+> > Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  drivers/gpu/drm/imx/Kconfig            |   2 +
+> >  drivers/gpu/drm/imx/Makefile           |   1 +
+> >  drivers/gpu/drm/imx/dcss/Kconfig       |   9 +
+> >  drivers/gpu/drm/imx/dcss/Makefile      |   6 +
+> >  drivers/gpu/drm/imx/dcss/dcss-blkctl.c |  70 +++
+> >  drivers/gpu/drm/imx/dcss/dcss-crtc.c   | 219 +++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-ctxld.c  | 424 +++++++++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-dev.c    | 314 ++++++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-dev.h    | 177 ++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-dpr.c    | 562 +++++++++++++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-drv.c    | 138 +++++
+> >  drivers/gpu/drm/imx/dcss/dcss-dtg.c    | 409 ++++++++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-kms.c    | 177 ++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-kms.h    |  43 ++
+> >  drivers/gpu/drm/imx/dcss/dcss-plane.c  | 405 ++++++++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-scaler.c | 826 +++++++++++++++++++++++++
+> >  drivers/gpu/drm/imx/dcss/dcss-ss.c     | 180 ++++++
+> >  17 files changed, 3962 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/Kconfig
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/Makefile
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-blkctl.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-crtc.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ctxld.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.h
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dpr.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-drv.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dtg.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.h
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-plane.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-scaler.c
+> >  create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ss.c
+> > 
+> > diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
+> > index 207bf7409dfb..6231048aa5aa 100644
+> > --- a/drivers/gpu/drm/imx/Kconfig
+> > +++ b/drivers/gpu/drm/imx/Kconfig
+> > @@ -39,3 +39,5 @@ config DRM_IMX_HDMI
+> >  	depends on DRM_IMX
+> >  	help
+> >  	  Choose this if you want to use HDMI on i.MX6.
+> > +
+> > +source "drivers/gpu/drm/imx/dcss/Kconfig"
+> > diff --git a/drivers/gpu/drm/imx/Makefile b/drivers/gpu/drm/imx/Makefile
+> > index 21cdcc2faabc..b644deffe948 100644
+> > --- a/drivers/gpu/drm/imx/Makefile
+> > +++ b/drivers/gpu/drm/imx/Makefile
+> > @@ -9,3 +9,4 @@ obj-$(CONFIG_DRM_IMX_TVE) += imx-tve.o
+> >  obj-$(CONFIG_DRM_IMX_LDB) += imx-ldb.o
+> >  
+> >  obj-$(CONFIG_DRM_IMX_HDMI) += dw_hdmi-imx.o
+> > +obj-$(CONFIG_DRM_IMX_DCSS) += dcss/
+> > diff --git a/drivers/gpu/drm/imx/dcss/Kconfig b/drivers/gpu/drm/imx/dcss/Kconfig
+> > new file mode 100644
+> > index 000000000000..988979bc22cc
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/imx/dcss/Kconfig
+> > @@ -0,0 +1,9 @@
+> > +config DRM_IMX_DCSS
+> > +	tristate "i.MX8MQ DCSS"
+> > +	select RESET_CONTROLLER
+> 
+> Why does DCSS select RESET_CONTROLLER?
 
-This commit has been processed because it contains a -stable tag.
-The stable tag indicates that it's relevant for the following trees: all
+Why indeed? Apparently, for no reason at all... :/ I must've used SRC at
+some point, at the very beginning, though I don't even remember using
+it... Hmm, weird. I'll remove it. Thanks for spotting it.
 
-The bot has tested the following trees: v5.7.9, v5.4.52, v4.19.133, v4.14.188, v4.9.230, v4.4.230.
+Thanks,
+Laurentiu
 
-v5.4.52: Failed to apply! Possible dependencies:
-    768859c239922 ("drm/mcde: Provide vblank handling unconditionally")
-    d920e8da3d837 ("drm/mcde: Fix frame sync setup for video mode panels")
-
-v4.19.133: Failed to apply! Possible dependencies:
-    01648890f336a ("staging: vboxvideo: Embed drm_device into driver structure")
-    0424d7ba4574b ("staging: vboxvideo: Init fb_info.fix.smem once from fbdev_create")
-    0fdda2ce74e5f ("staging: vboxvideo: Move pin / unpin of fb out of vbox_crtc_set_base_and_mode")
-    131abc56e1bac ("drm/vboxvideo: Move the vboxvideo driver out of staging")
-    3498ea8b7e3c8 ("staging: vboxvideo: Fold vbox_drm_resume() into vbox_pm_resume()")
-    35f3288c453e2 ("staging: vboxvideo: Atomic phase 1: convert cursor to universal plane")
-    438340aa20975 ("staging: vboxvideo: Atomic phase 3: Switch last bits over to atomic")
-    4f2a8f5898ecd ("drm: Add ASPEED GFX driver")
-    5cf5332d529bf ("staging: vboxvideo: Restore page-flip support")
-    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-    685bb884e0a42 ("staging: vboxvideo: Drop duplicate vbox_err.h file")
-    79815ee23890c ("staging: vboxvideo: Move setup of modesetting from driver_load to mode_init")
-    96bae04347b24 ("staging/vboxvideo: prepare for drmP.h removal from drm_modeset_helper.h")
-    a1d2a6339961e ("drm/lima: driver for ARM Mali4xx GPUs")
-    a5aca20574693 ("staging: vboxvideo: Fix modeset / page_flip error handling")
-    acc962c514007 ("staging: vboxvideo: Change licence headers over to SPDX")
-    cb5eaf187d1d9 ("staging: vboxvideo: Expose creation of universal primary plane")
-    cc0ec5eb721f1 ("staging: vboxvideo: Atomic phase 1: Use drm_plane_helpers for primary plane")
-    cd76c287a52fe ("staging: vboxvideo: Cleanup the comments")
-    ce8ec32cbd420 ("staging: vboxvideo: Remove vboxfb_create_object() wrapper")
-    cfc1fc63be447 ("staging: vboxvideo: Move bo_[un]resere calls into vbox_bo_[un]pin")
-    d46709094deb6 ("staging: vboxvideo: Fold driver_load/unload into probe/remove functions")
-    f4d6d90f83147 ("staging: vboxvideo: Add fl_flag argument to vbox_fb_pin() helper")
-
-v4.14.188: Failed to apply! Possible dependencies:
-    01648890f336a ("staging: vboxvideo: Embed drm_device into driver structure")
-    0424d7ba4574b ("staging: vboxvideo: Init fb_info.fix.smem once from fbdev_create")
-    0fdda2ce74e5f ("staging: vboxvideo: Move pin / unpin of fb out of vbox_crtc_set_base_and_mode")
-    131abc56e1bac ("drm/vboxvideo: Move the vboxvideo driver out of staging")
-    179c02fe90a41 ("drm/tve200: Add new driver for TVE200")
-    1daddbc8dec56 ("staging: vboxvideo: Update driver to use drm_dev_register.")
-    1ebafd1561a05 ("staging: vboxvideo: Fix IRQs no longer working")
-    2408898e3b6c9 ("staging: vboxvideo: Add page-flip support")
-    3498ea8b7e3c8 ("staging: vboxvideo: Fold vbox_drm_resume() into vbox_pm_resume()")
-    35f3288c453e2 ("staging: vboxvideo: Atomic phase 1: convert cursor to universal plane")
-    438340aa20975 ("staging: vboxvideo: Atomic phase 3: Switch last bits over to atomic")
-    4f2a8f5898ecd ("drm: Add ASPEED GFX driver")
-    5b8ea816e8e05 ("drm/tinydrm: add driver for ST7735R panels")
-    5cf5332d529bf ("staging: vboxvideo: Restore page-flip support")
-    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-    65aac17423284 ("staging: vboxvideo: Change address of scanout buffer on page-flip")
-    685bb884e0a42 ("staging: vboxvideo: Drop duplicate vbox_err.h file")
-    6d544fd6f4e15 ("drm/doc: Put all driver docs into a separate chapter")
-    79815ee23890c ("staging: vboxvideo: Move setup of modesetting from driver_load to mode_init")
-    96bae04347b24 ("staging/vboxvideo: prepare for drmP.h removal from drm_modeset_helper.h")
-    a1d2a6339961e ("drm/lima: driver for ARM Mali4xx GPUs")
-    a5aca20574693 ("staging: vboxvideo: Fix modeset / page_flip error handling")
-    acc962c514007 ("staging: vboxvideo: Change licence headers over to SPDX")
-    ba67f54d911c3 ("staging: vboxvideo: Pass a new framebuffer to vbox_crtc_do_set_base")
-    c575b7eeb89f9 ("drm/xen-front: Add support for Xen PV display frontend")
-    cb5eaf187d1d9 ("staging: vboxvideo: Expose creation of universal primary plane")
-    cc0ec5eb721f1 ("staging: vboxvideo: Atomic phase 1: Use drm_plane_helpers for primary plane")
-    cd76c287a52fe ("staging: vboxvideo: Cleanup the comments")
-    ce8ec32cbd420 ("staging: vboxvideo: Remove vboxfb_create_object() wrapper")
-    cfc1fc63be447 ("staging: vboxvideo: Move bo_[un]resere calls into vbox_bo_[un]pin")
-    d46709094deb6 ("staging: vboxvideo: Fold driver_load/unload into probe/remove functions")
-    f4d6d90f83147 ("staging: vboxvideo: Add fl_flag argument to vbox_fb_pin() helper")
-
-v4.9.230: Failed to apply! Possible dependencies:
-    0a886f59528aa ("drm: zte: add initial vou drm driver")
-    179c02fe90a41 ("drm/tve200: Add new driver for TVE200")
-    3650c25ad0a7b ("drm/meson: Add RST to bring together kerneldoc")
-    384fe7a4d732c ("drivers: net: xgene-v2: Add DMA descriptor")
-    3b3f9a75d9318 ("drivers: net: xgene-v2: Add base driver")
-    413dfbbfca549 ("MAINTAINERS: add entry for Aspeed I2C driver")
-    45d59d704080c ("drm: Add new driver for MXSFB controller")
-    51c5d8447bd71 ("MMC: meson: initial support for GX platforms")
-    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-    60c5d3b72989e ("drm/vc4: Add RST to bring together vc4 kerneldoc.")
-    6d544fd6f4e15 ("drm/doc: Put all driver docs into a separate chapter")
-    70dbd9b258d5a ("MAINTAINERS: Add entry for APM X-Gene SoC Ethernet (v2) driver")
-    7683e9e529258 ("Properly alphabetize MAINTAINERS file")
-    81ccd0cab29b6 ("drivers: net: xgene-v2: Add mac configuration")
-    b105bcdaaa0ef ("drivers: net: xgene-v2: Add transmit and receive")
-    bbbe775ec5b5d ("drm: Add support for Amlogic Meson Graphic Controller")
-    bed41005e6174 ("drm/pl111: Initial drm/kms driver for pl111")
-    d52ea7e3d4938 ("MAINTAINERS: Add drm-misc")
-    fa201ac2c61f5 ("drm: Add DRM support for tiny LCD displays")
-    fa6d095eb23a8 ("drm/tegra: Add driver documentation")
-    fd33f3eca6bfb ("MAINTAINERS: Add maintainers for the meson clock driver")
-
-v4.4.230: Failed to apply! Possible dependencies:
-    0a886f59528aa ("drm: zte: add initial vou drm driver")
-    119f5173628aa ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
-    22cba31bae9dc ("Documentation/sphinx: add basic working Sphinx configuration and build")
-    23e7b2ab9a8ff ("drm/hisilicon: Add hisilicon kirin drm master driver")
-    3650c25ad0a7b ("drm/meson: Add RST to bring together kerneldoc")
-    45d59d704080c ("drm: Add new driver for MXSFB controller")
-    51dacf208988e ("drm: Add support of ARC PGU display controller")
-    5fc537bfd0003 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-    6d544fd6f4e15 ("drm/doc: Put all driver docs into a separate chapter")
-    8e22d79240d95 ("drm: Add support for ARM's HDLCD controller.")
-    a8c21a5451d83 ("drm/etnaviv: add initial etnaviv DRM driver")
-    bbbe775ec5b5d ("drm: Add support for Amlogic Meson Graphic Controller")
-    bed41005e6174 ("drm/pl111: Initial drm/kms driver for pl111")
-    ca00c2b986eaf ("Documentation/gpu: split up the gpu documentation")
-    cb597fcea5c28 ("Documentation/gpu: add new gpu.rst converted from DocBook gpu.tmpl")
-    d92d9c3a14488 ("drm: hide legacy drivers with CONFIG_DRM_LEGACY")
-    fa201ac2c61f5 ("drm: Add DRM support for tiny LCD displays")
-
-
-NOTE: The patch will not be queued to stable trees until it is upstream.
-
-How should we proceed with this patch?
-
--- 
-Thanks
-Sasha
+> 
+> regards
+> Philipp
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
