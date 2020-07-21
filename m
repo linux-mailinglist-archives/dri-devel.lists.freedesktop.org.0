@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC279227A6C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59588227A17
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 10:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07B9289BAE;
-	Tue, 21 Jul 2020 08:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799666E50E;
+	Tue, 21 Jul 2020 08:02:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B1C6E408
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 04:42:19 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id c12so12674158ilf.5
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jul 2020 21:42:19 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3926E50E
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 08:02:16 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id j18so1849866wmi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 01:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=4Yx95fJnyvCXPOsdA0T3nG7DjBHq+G1/7n0p5dQWM8o=;
+ b=hzvoLGKWstlSpSi6ir0TS/gm6q6V0Yb43duiL1PQOKkVUjYiJrcDQHxe+BzEZuNr/t
+ /nJbZ+uAtsBqSu6qBgLSDPUu5jVUSxLs9KWQPPGUGKcFDpgHA21nsmdtISoioLIggNuq
+ TXhBGLa/aNztYvV75+tcLdQyrIaanlsyYADMluC8DsNVZkKZ2WgXEpwHqyUTdniN+eh6
+ J0Awj2Z5DgSIefcCSrtYrDHWBkPpzl54LNksdgia62MLtULGlGNPu0pYycYQmVupOCM2
+ /jXJTBHrCevRjIuODT7fWxwmfTiRkrJJ1+LCIOolaCE8Iv79vDZGuY/vBs3DHvCQzQ/V
+ bOXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=Katev7es+Tw30gWBrxnYxlAA+IrkGIil3BdIjpNkBSU=;
- b=X31+vCCEHZdkUMVy5c//ntoFje3M256Ncr5Fic2p8/A/XfnX2EH6kkKUK3LeyqlVO+
- Xi417f0asY8yfHhDUjYdUv2Bkt7GI6X/yVbQ7Zp5X6PHmwWMdtaQUQ2f/jCio8TMCgmk
- FbVH/E4KGG0vVikktj5tV5P5hNR/r3rlVI+uMLMgh0SuY0L53ibD0lhpoN1b2X80zHKJ
- r9jZVLtqu3vcvBoe8c8dJBg1wjKAEhecvLu3T59ibpN7rj54ky9a+hkTiCFnYm6C+SCF
- 5hno/ZivfFF0LogXW6vj6RT9jyh7APrmyfSuzxmmj0GYxuV0z6HG6Xs7aFaS1V5cQtQC
- +gew==
-X-Gm-Message-State: AOAM532dKZTwNQhoqMOBg223Ufci1gR0prifgLRfOdJOI1E3psVCGBvu
- 16+oZqGhK0Dg80NfwuxORTq/UwMvUj+Lh+yQjfIMVy2ZFFCG
-X-Google-Smtp-Source: ABdhPJydDec5HyAd8YK8qPZCatWKhDRmcka4pyOtp5HHtI1/2WGYR2OZL1BY2xNDRiWn0Q5TiM35nhvsqdF2VZjDIsc1ygpB+Xvh
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=4Yx95fJnyvCXPOsdA0T3nG7DjBHq+G1/7n0p5dQWM8o=;
+ b=GuNG+r8FB5o3i1exbyy16CKF17APNTnYl2TfjW2M1KmxfqUPqSeCkQA3jbtzslufdq
+ G3Z606LrP1QQWfezvKLTb/PgBugKXHKILZbiMkqGIkNgIrF3Oltkb4uyFoavzDKcmbbs
+ f5Kbb9YhOxPag6UfLPdxDoQ30kgXeDU4HmW6rO7P4wsBjG0x0xXn1dKVl3NCXZtxJOU+
+ KOoprnIuwbb9Dfqu7kZCBehyrh0ogM5Ue0/XaLIhnCBxbhXXRgVbicFeIaglQgHk4fmC
+ CMPMUb/U40if+xU0d4I3Ne9PWLv3hoaVFDvzaau9Pb6bGyb/m9CbKH7lAWIcjW294tnl
+ b5Sw==
+X-Gm-Message-State: AOAM530prJFaWBRbSaVDwpME36SHIvpyyA/6J6MDGsXYnluZGrQwp+yo
+ HO1JdBKCUMiOe9oSZbabl8g=
+X-Google-Smtp-Source: ABdhPJzXF1Ed6wUZPLNVka+X5plW5OM/MjmDvk2bFp8JHsrCTi0o5DJvls0Ee+zyolKPGxoSQdWLjw==
+X-Received: by 2002:a1c:48d:: with SMTP id 135mr2987839wme.102.1595318534696; 
+ Tue, 21 Jul 2020 01:02:14 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id 68sm24879503wra.39.2020.07.21.01.02.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 21 Jul 2020 01:02:14 -0700 (PDT)
+Subject: Re: [PATCH 01/11] drm: remove optional dummy function from drivers
+ using TTM
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org
+References: <20200721073245.2484-1-christian.koenig@amd.com>
+Message-ID: <2b0e60de-a88f-d46e-ddbb-ff1df9134675@gmail.com>
+Date: Tue, 21 Jul 2020 10:02:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Received: by 2002:a92:4913:: with SMTP id w19mr24874586ila.185.1595306539009; 
- Mon, 20 Jul 2020 21:42:19 -0700 (PDT)
-Date: Mon, 20 Jul 2020 21:42:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000090cd5905aaec3f2c@google.com>
-Subject: KASAN: stack-out-of-bounds Write in sys_imageblit
-From: syzbot <syzbot+ba5bd977df7bb87862c4@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-X-Mailman-Approved-At: Tue, 21 Jul 2020 08:18:03 +0000
+In-Reply-To: <20200721073245.2484-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,93 +71,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    4fa640dc Merge tag 'vfio-v5.8-rc7' of git://github.com/awi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17ec2d58900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=575b381064b1cba2
-dashboard link: https://syzkaller.appspot.com/bug?extid=ba5bd977df7bb87862c4
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ba5bd977df7bb87862c4@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: stack-out-of-bounds in fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
-BUG: KASAN: stack-out-of-bounds in sys_imageblit+0x117f/0x1290 drivers/video/fbdev/core/sysimgblt.c:275
-Write of size 4 at addr ffffc900097d7d90 by task syz-executor.1/11925
-
-CPU: 1 PID: 11925 Comm: syz-executor.1 Not tainted 5.8.0-rc6-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x18f/0x20d lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0x5/0x436 mm/kasan/report.c:383
- __kasan_report mm/kasan/report.c:513 [inline]
- kasan_report.cold+0x1f/0x37 mm/kasan/report.c:530
- fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
- sys_imageblit+0x117f/0x1290 drivers/video/fbdev/core/sysimgblt.c:275
- drm_fb_helper_sys_imageblit+0x1c/0x180 drivers/gpu/drm/drm_fb_helper.c:763
- bit_putcs_unaligned drivers/video/fbdev/core/bitblit.c:139 [inline]
- bit_putcs+0x6e1/0xd20 drivers/video/fbdev/core/bitblit.c:188
- fbcon_putcs+0x33c/0x3f0 drivers/video/fbdev/core/fbcon.c:1362
- do_update_region+0x399/0x630 drivers/tty/vt/vt.c:683
- invert_screen+0x1d4/0x600 drivers/tty/vt/vt.c:800
- highlight drivers/tty/vt/selection.c:57 [inline]
- clear_selection drivers/tty/vt/selection.c:84 [inline]
- clear_selection+0x55/0x70 drivers/tty/vt/selection.c:80
- vc_do_resize+0x1099/0x13f0 drivers/tty/vt/vt.c:1230
- fbcon_do_set_font+0x4ad/0x950 drivers/video/fbdev/core/fbcon.c:2609
- fbcon_set_font+0x767/0x8b0 drivers/video/fbdev/core/fbcon.c:2706
- con_font_set drivers/tty/vt/vt.c:4571 [inline]
- con_font_op+0xd25/0x1110 drivers/tty/vt/vt.c:4636
- vt_ioctl+0x1180/0x2670 drivers/tty/vt/vt_ioctl.c:928
- vt_compat_ioctl+0x168/0x6b0 drivers/tty/vt/vt_ioctl.c:1249
- tty_compat_ioctl+0x19c/0x410 drivers/tty/tty_io.c:2847
- __do_compat_sys_ioctl+0x1d3/0x230 fs/ioctl.c:847
- do_syscall_32_irqs_on+0x3f/0x60 arch/x86/entry/common.c:428
- __do_fast_syscall_32 arch/x86/entry/common.c:475 [inline]
- do_fast_syscall_32+0x7f/0x120 arch/x86/entry/common.c:503
- entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
-RIP: 0023:0xf7f48569
-Code: Bad RIP value.
-RSP: 002b:00000000f5d430bc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000004b61
-RDX: 0000000020000080 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-
-
-Memory state around the buggy address:
- ffffc900097d7c80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc900097d7d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffffc900097d7d80: 00 00 f1 f1 f1 f1 00 00 f3 f3 00 00 00 00 00 00
-                         ^
- ffffc900097d7e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffc900097d7e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+U29ycnksIEkgb25jZSBtb3JlIGZvcmdvdCB0aGUgY292ZXIgbGV0dGVyLgoKVGhpcyBpcyBqdXN0
+IHNvbWUgY2xlYW51cCBhbGwgb3ZlciBkcml2ZXJzIHVzaW5nIFRUTS4KClRoZSBvbmx5IGltcG9y
+dGFudCBmdW5jdGlvbmFsIGNoYW5nZSBpcyB0aGUgcmVtb3ZhbCBvZiB0aGUgQ01BIChDYW4ndCAK
+TWFwIEFwZXJ0dXJlKSBmbGFnIHNpbmNlIHRoaXMgbWlnaHQgYmUgYSBidWcgZml4LgoKUGxlYXNl
+IHJldmlldyBhbmQvb3IgY29tbWVudCwKQ2hyaXN0aWFuLgoKQW0gMjEuMDcuMjAgdW0gMDk6MzIg
+c2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+IEltcGxlbWVudGluZyB0aG9zZSBpcyBjb21wbGV0
+ZWx5IHVuZWNlc3NhcnkuCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfdHRtLmMgICAgfCAgNSAtLS0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
+dnJhbV9oZWxwZXIuYyAgICAgIHwgIDUgLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X3R0bS5jICAgICAgICAgICAgICB8ICA2IC0tLS0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fdHRtLmMgICAgICAgIHwgIDUgLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdn
+Zngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8IDExIC0tLS0tLS0tLS0tCj4gICA1IGZpbGVzIGNoYW5n
+ZWQsIDMyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90
+dG0uYwo+IGluZGV4IDNkZjY4NTI4N2NjMS4uOWMwZjEyZjc0YWY5IDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwo+IEBAIC04MzYsMTAgKzgzNiw2IEBAIHN0YXRp
+YyBpbnQgYW1kZ3B1X3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
+diwgc3RydWN0IHR0bV9tZW1fCj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZv
+aWQgYW1kZ3B1X3R0bV9pb19tZW1fZnJlZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3Ry
+dWN0IHR0bV9tZW1fcmVnICptZW0pCj4gLXsKPiAtfQo+IC0KPiAgIHN0YXRpYyB1bnNpZ25lZCBs
+b25nIGFtZGdwdV90dG1faW9fbWVtX3BmbihzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+
+ICAgCQkJCQkgICB1bnNpZ25lZCBsb25nIHBhZ2Vfb2Zmc2V0KQo+ICAgewo+IEBAIC0xNzU0LDcg
+KzE3NTAsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgYW1kZ3B1X2JvX2RyaXZlciA9
+IHsKPiAgIAkucmVsZWFzZV9ub3RpZnkgPSAmYW1kZ3B1X2JvX3JlbGVhc2Vfbm90aWZ5LAo+ICAg
+CS5mYXVsdF9yZXNlcnZlX25vdGlmeSA9ICZhbWRncHVfYm9fZmF1bHRfcmVzZXJ2ZV9ub3RpZnks
+Cj4gICAJLmlvX21lbV9yZXNlcnZlID0gJmFtZGdwdV90dG1faW9fbWVtX3Jlc2VydmUsCj4gLQku
+aW9fbWVtX2ZyZWUgPSAmYW1kZ3B1X3R0bV9pb19tZW1fZnJlZSwKPiAgIAkuaW9fbWVtX3BmbiA9
+IGFtZGdwdV90dG1faW9fbWVtX3BmbiwKPiAgIAkuYWNjZXNzX21lbW9yeSA9ICZhbWRncHVfdHRt
+X2FjY2Vzc19tZW1vcnksCj4gICAJLmRlbF9mcm9tX2xydV9ub3RpZnkgPSAmYW1kZ3B1X3ZtX2Rl
+bF9mcm9tX2xydV9ub3RpZnkKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
+dnJhbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKPiBp
+bmRleCBkMTA3YTI2NzllMjMuLjMyOTZlZDNkZjM1OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9n
+ZW1fdnJhbV9oZWxwZXIuYwo+IEBAIC0xMDgxLDEwICsxMDgxLDYgQEAgc3RhdGljIGludCBib19k
+cml2ZXJfaW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICAJcmV0
+dXJuIDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZvaWQgYm9fZHJpdmVyX2lvX21lbV9mcmVlKHN0
+cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+IC0JCQkJICBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1l
+bSkKPiAteyB9Cj4gLQo+ICAgc3RhdGljIHN0cnVjdCB0dG1fYm9fZHJpdmVyIGJvX2RyaXZlciA9
+IHsKPiAgIAkudHRtX3R0X2NyZWF0ZSA9IGJvX2RyaXZlcl90dG1fdHRfY3JlYXRlLAo+ICAgCS50
+dG1fdHRfcG9wdWxhdGUgPSB0dG1fcG9vbF9wb3B1bGF0ZSwKPiBAQCAtMTA5NCw3ICsxMDkwLDYg
+QEAgc3RhdGljIHN0cnVjdCB0dG1fYm9fZHJpdmVyIGJvX2RyaXZlciA9IHsKPiAgIAkuZXZpY3Rf
+ZmxhZ3MgPSBib19kcml2ZXJfZXZpY3RfZmxhZ3MsCj4gICAJLm1vdmVfbm90aWZ5ID0gYm9fZHJp
+dmVyX21vdmVfbm90aWZ5LAo+ICAgCS5pb19tZW1fcmVzZXJ2ZSA9IGJvX2RyaXZlcl9pb19tZW1f
+cmVzZXJ2ZSwKPiAtCS5pb19tZW1fZnJlZSA9IGJvX2RyaXZlcl9pb19tZW1fZnJlZSwKPiAgIH07
+Cj4gICAKPiAgIC8qCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5j
+IGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKPiBpbmRleCA1MmVhYTJkMjI3NDUuLmE2
+ZTY3MTQ5ZWY0YSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jCj4gQEAgLTEyOSwxMSArMTI5LDYg
+QEAgaW50IHF4bF90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
+Cj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZvaWQgcXhsX3R0bV9pb19tZW1f
+ZnJlZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPiAtCQkJCXN0cnVjdCB0dG1fbWVtX3Jl
+ZyAqbWVtKQo+IC17Cj4gLX0KPiAtCj4gICAvKgo+ICAgICogVFRNIGJhY2tlbmQgZnVuY3Rpb25z
+Lgo+ICAgICovCj4gQEAgLTI0Nyw3ICsyNDIsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2
+ZXIgcXhsX2JvX2RyaXZlciA9IHsKPiAgIAkuZXZpY3RfZmxhZ3MgPSAmcXhsX2V2aWN0X2ZsYWdz
+LAo+ICAgCS5tb3ZlID0gJnF4bF9ib19tb3ZlLAo+ICAgCS5pb19tZW1fcmVzZXJ2ZSA9ICZxeGxf
+dHRtX2lvX21lbV9yZXNlcnZlLAo+IC0JLmlvX21lbV9mcmVlID0gJnF4bF90dG1faW9fbWVtX2Zy
+ZWUsCj4gICAJLm1vdmVfbm90aWZ5ID0gJnF4bF9ib19tb3ZlX25vdGlmeSwKPiAgIH07Cj4gICAK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+IGluZGV4IGY0ZjFlNjM3MzFhNS4uNzMw
+ODU1MjNmYWQ3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0
+bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiBAQCAtNDU3
+LDEwICs0NTcsNiBAQCBzdGF0aWMgaW50IHJhZGVvbl90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0
+IHR0bV9ib19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fbWVtXwo+ICAgCXJldHVybiAwOwo+ICAg
+fQo+ICAgCj4gLXN0YXRpYyB2b2lkIHJhZGVvbl90dG1faW9fbWVtX2ZyZWUoc3RydWN0IHR0bV9i
+b19kZXZpY2UgKmJkZXYsIHN0cnVjdCB0dG1fbWVtX3JlZyAqbWVtKQo+IC17Cj4gLX0KPiAtCj4g
+ICAvKgo+ICAgICogVFRNIGJhY2tlbmQgZnVuY3Rpb25zLgo+ICAgICovCj4gQEAgLTc3NCw3ICs3
+NzAsNiBAQCBzdGF0aWMgc3RydWN0IHR0bV9ib19kcml2ZXIgcmFkZW9uX2JvX2RyaXZlciA9IHsK
+PiAgIAkubW92ZV9ub3RpZnkgPSAmcmFkZW9uX2JvX21vdmVfbm90aWZ5LAo+ICAgCS5mYXVsdF9y
+ZXNlcnZlX25vdGlmeSA9ICZyYWRlb25fYm9fZmF1bHRfcmVzZXJ2ZV9ub3RpZnksCj4gICAJLmlv
+X21lbV9yZXNlcnZlID0gJnJhZGVvbl90dG1faW9fbWVtX3Jlc2VydmUsCj4gLQkuaW9fbWVtX2Zy
+ZWUgPSAmcmFkZW9uX3R0bV9pb19tZW1fZnJlZSwKPiAgIH07Cj4gICAKPiAgIGludCByYWRlb25f
+dHRtX2luaXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92
+bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+IGluZGV4IGZiY2QxMWE3YjIxNS4uYmZkMGM1NGVj
+MzBhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZm
+ZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+
+IEBAIC04MTUsMTUgKzgxNSw2IEBAIHN0YXRpYyBpbnQgdm13X3R0bV9pb19tZW1fcmVzZXJ2ZShz
+dHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9tZW1fcmVnCj4gICAJcmV0dXJu
+IDA7Cj4gICB9Cj4gICAKPiAtc3RhdGljIHZvaWQgdm13X3R0bV9pb19tZW1fZnJlZShzdHJ1Y3Qg
+dHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9tZW1fcmVnICptZW0pCj4gLXsKPiAtfQo+
+IC0KPiAtc3RhdGljIGludCB2bXdfdHRtX2ZhdWx0X3Jlc2VydmVfbm90aWZ5KHN0cnVjdCB0dG1f
+YnVmZmVyX29iamVjdCAqYm8pCj4gLXsKPiAtCXJldHVybiAwOwo+IC19Cj4gLQo+ICAgLyoqCj4g
+ICAgKiB2bXdfbW92ZV9ub3RpZnkgLSBUVE0gbW92ZV9ub3RpZnlfY2FsbGJhY2sKPiAgICAqCj4g
+QEAgLTg2Niw3ICs4NTcsNSBAQCBzdHJ1Y3QgdHRtX2JvX2RyaXZlciB2bXdfYm9fZHJpdmVyID0g
+ewo+ICAgCS52ZXJpZnlfYWNjZXNzID0gdm13X3ZlcmlmeV9hY2Nlc3MsCj4gICAJLm1vdmVfbm90
+aWZ5ID0gdm13X21vdmVfbm90aWZ5LAo+ICAgCS5zd2FwX25vdGlmeSA9IHZtd19zd2FwX25vdGlm
+eSwKPiAtCS5mYXVsdF9yZXNlcnZlX25vdGlmeSA9ICZ2bXdfdHRtX2ZhdWx0X3Jlc2VydmVfbm90
+aWZ5LAo+ICAgCS5pb19tZW1fcmVzZXJ2ZSA9ICZ2bXdfdHRtX2lvX21lbV9yZXNlcnZlLAo+IC0J
+LmlvX21lbV9mcmVlID0gJnZtd190dG1faW9fbWVtX2ZyZWUsCj4gICB9OwoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
