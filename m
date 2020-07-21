@@ -2,95 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EBA2279AE
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 09:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FE12279F6
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jul 2020 09:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0D256E4B5;
-	Tue, 21 Jul 2020 07:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D4B6E4C4;
+	Tue, 21 Jul 2020 07:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750050.outbound.protection.outlook.com [40.107.75.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 842A06E4AA;
- Tue, 21 Jul 2020 07:45:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JH4r4aiIjtUZTVN3wCAR85JmhzgvHxeKRPv4I6P33gABSgVxmKHFJ6w5mpI9xOdM5PQy/N9bB7xHU8PsdRb+x1x5JnP29cpVptm8d8Fmq9Gx5AgqCakA3ftwV46OYsFq2W4T7/1IqL6hCtGDmPcX977SkQFl1PVRif2zlrcOhnWkwbek5sxPTpu6I3jqtGKdHuDfiQwQRfCh2ysQOG1PoCiariCONc95ryg8h/5prkibj9Q0IV5fO43Y3R47qFRHRR8XeUCo8aqB3N4RI3GXaSKWkBuCVNifyEXYSayl4fvEKMy4mr3bJMzubPfwJETtzvLEJ/2fhJ08H4zxd8XoDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wUWqYWXjGZ5OdnuqsTdsz2ev0WdISQZDr42VloR8yTg=;
- b=BBjk7K4eNb5Xo8gOipIrLOEQq9ZPr5fNd9H3rz6kG6++6EBa73Eue8YOTXQFyGNeC1CMxPePxv0AHja76vkvb39x5Mmn3AopIQIQQI+Tgz1O7VgruMA6Wgc5G/8/4cASHzsmJS9YZoZr1a7ohkYKJ5xfDS/SsWpRWMS4QEDkQb8H4qTrU4osXtFMvqSyHz0TND4sul3nCYn5ZPfsK8HRvNa6HN0XTomnrfuyahSsFa6Ql/o8PDVdorb9TakdvDF2vQk3riZwYjcuFB3ZNSgF6D2GUweAwjbZFNuTxgxlE9lpW7sTSexXZCsGrCg0UPbiV7nXOSiZgptzIvGF7wPLxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wUWqYWXjGZ5OdnuqsTdsz2ev0WdISQZDr42VloR8yTg=;
- b=c+dtzQWRT44Rk4LpECCKHIfnAqFBH7IxBMsj6AHLd+byUq4V74rkvMnkOhwUp0Y1GF+wJZ7A9jcDoF+SvqmwGgQbbw+kwsQZNbyNbijlE4hG86imHv00B666Qd4PBgwnN22bVe/YdJvl2/iDPSQIU7gjMW2oAoV4tdjp7/iZoas=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3935.namprd12.prod.outlook.com (2603:10b6:208:168::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.23; Tue, 21 Jul
- 2020 07:45:26 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3195.026; Tue, 21 Jul 2020
- 07:45:08 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH 1/2] dma-buf.rst: Document why indefinite
- fences are a bad idea
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-References: <20200707201229.472834-4-daniel.vetter@ffwll.ch>
- <20200709123339.547390-1-daniel.vetter@ffwll.ch>
- <93b673b7-bb48-96eb-dc2c-bd4f9304000e@shipmail.org>
- <20200721074157.GB3278063@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <3603bb71-318b-eb53-0532-9daab62dce86@amd.com>
-Date: Tue, 21 Jul 2020 09:45:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200721074157.GB3278063@phenom.ffwll.local>
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR03CA0025.eurprd03.prod.outlook.com
- (2603:10a6:208:14::38) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E586E6E4C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 07:55:33 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y3so2845291wrl.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 00:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=pC+MGteSaMp2RBo9D5sBnIPWSphfRqDbYcC1LuuInP0=;
+ b=RerIcbVYT+ToH2PS40TmLP+Hdsgw2OT71mvs/T5kbPeY6hp3Ol0b7D+elEWJ3TrRrG
+ 6evA7WgT+vCgDv70GzXAG3f6CV3lwIyRmxrNXx6ckMvgA+1YfnbX4pwHBhQoJh9FnawY
+ GhmAUqguH1I1waahe5o3lNn+LZzO5rHvNz8mE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pC+MGteSaMp2RBo9D5sBnIPWSphfRqDbYcC1LuuInP0=;
+ b=pD7ZLxXUNPNuIG323RxFjp+01NuRc+u4+MATN2TJStyyaKVAn9awcghQgtEh7mVW++
+ S7PsvAvakmPZCXgleLAmpH5VPW8qr5FDz78BbZqUkxjPIiHfhRstv84g+Pf+mul4hQpt
+ mg+FjweJL6T048S6usDv5A1B1TcNrBMYcq+TMCzhSmkfBsz8vCVb14Y9k6JkLj8BMwOL
+ VCY06QmXBOoJG+JtLaXJI4zsYE+I1H2uQZUVqIjl7BYHsv2AG8M+uTUtHMndany4SHaD
+ 8gh9AUOSfnOPJ9mS0MpBIVCL4ZTr/ULPkROyYSqbJEYnCazYCyseqNlqohjlJ6N9f911
+ Og8g==
+X-Gm-Message-State: AOAM530u9G3tcg1VIPrwD4oqYoAXNyAXNOlKdkXWtEWrfDu2xLJBK2P9
+ diRCr/SNn9Kq/LDc7SZjnmFchw==
+X-Google-Smtp-Source: ABdhPJyBiIhIdHCuPngi6T5lVyRtpPE9JF1UmoFOu6WcQ3sp7JC/inXzrYZ8ZYybVpNdMbIXv55DFg==
+X-Received: by 2002:adf:8562:: with SMTP id 89mr27523981wrh.57.1595318132529; 
+ Tue, 21 Jul 2020 00:55:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g126sm1700186wme.16.2020.07.21.00.55.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 00:55:31 -0700 (PDT)
+Date: Tue, 21 Jul 2020 09:55:30 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 01/11] drm: remove optional dummy function from drivers
+ using TTM
+Message-ID: <20200721075530.GC3278063@phenom.ffwll.local>
+References: <20200721073245.2484-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR03CA0025.eurprd03.prod.outlook.com (2603:10a6:208:14::38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3216.20 via Frontend Transport; Tue, 21 Jul 2020 07:45:05 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 22de25be-7bf2-498f-4608-08d82d49fd49
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3935:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB393545FF5A8E570BA46DC7B783780@MN2PR12MB3935.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lrltq7Ly72C8i0bovbe0zZUFMP4Tfdyg2RsSqDceZyLsfPKvUdY6pJf2iCAn+Y74/qZfsTc63IlsEP0GB2fkQdizlCINvrm+yi9db1h/nlM605u0+xap/qweIh+oaoV90CTHBRsWZJLc29brjhhWt6CGYWnPYKJHf7si8R5Y+Wznyaiwha5OFuGuUjrVjknAmY98KFbZDjCAreeF4dRM1CCZPBGilHWxBS/4ZCky81aVaaH2fC+5nuq5vbhikKf/1KF5vysF5+ea7La7y9HL3P9SRBpEG5t0CfMexq0K4oYqGBvVjCGQgHMgoAWCVimLuQKCuCGGXNC7DLut3ZNeTU8iNf+JUofesjhgcaIiIa61Z0ZXsEHM0RcPZyT9dZwh
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39860400002)(5660300002)(8676002)(52116002)(53546011)(6486002)(8936002)(86362001)(478600001)(7416002)(31696002)(6666004)(316002)(110136005)(186003)(4326008)(54906003)(66946007)(66556008)(31686004)(2616005)(66476007)(16526019)(36756003)(2906002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: cxZHbExQQhGeLFZVzw/wzeeLojbqJpl1tA5DhMdFLoATBRaxTd7i467dORphz1si3INLY7Yx7SmBBjzovaEq/tFAQHcBnBduoPSdytdogLcb+INCJbHvNuQlC4lKO0YU9DxOzVsH+bLFLowRcf7XuXBDZzNwA2mm1fv+X8XsobWs3V73rP6tmeKEiIbnLU9BTGrMcG5tWfhFivveJHxnYIqn5I/Q+20cHNHF0bYhtnL4mDG28Ln7yYCtXNvP3HvLd2riyGUTuSKsxZ3I2P4wXdHN+KBPMBdV/hi6UzMXgaF7iZF4Tejkjpl7IPOc/54ZvZQv8TPZL9S/JrK/dy05mU41QIk17c1OnbYIkXTfThZ4ORB4phuomRN0GMuwHFtcjJ8+JMcdgN2CPesyR004E25Fs5Gsa0wBf8jpJR6XH4vNoNIvtoEKy9QmY/XwWEvId0s7Hx3UnNfpCTHndSgdNTCoGpdS3xEC0vUpZT/2hVKunIoWYqjQ28Ko03eOTvCQ8siizE4fUNoqi0udpqpmfVx1BLYZsg5JxpR/3eisG3AcrFZL41Q/K964cbZm9Yap
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22de25be-7bf2-498f-4608-08d82d49fd49
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2020 07:45:08.1363 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0ThKWsuBaLokNtiT4Q6yFfZqYtxeKlxVTVLiWK1NUTsK51epKUjyyPcvIY910y5A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3935
+Content-Disposition: inline
+In-Reply-To: <20200721073245.2484-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,50 +66,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, linux-rdma@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Steve Pronovost <spronovo@microsoft.com>,
- amd-gfx@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
- Jesse Natalie <jenatali@microsoft.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Madhav.Chauhan@amd.com, michael.j.ruhl@intel.com, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjEuMDcuMjAgdW0gMDk6NDEgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIE1vbiwgSnVs
-IDIwLCAyMDIwIGF0IDAxOjE1OjE3UE0gKzAyMDAsIFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkg
-d3JvdGU6Cj4+IEhpLAo+Pgo+PiBPbiA3LzkvMjAgMjozMyBQTSwgRGFuaWVsIFZldHRlciB3cm90
-ZToKPj4+IENvbWVzIHVwIGV2ZXJ5IGZldyB5ZWFycywgZ2V0cyBzb21ld2hhdCB0ZWRpb3VzIHRv
-IGRpc2N1c3MsIGxldCdzCj4+PiB3cml0ZSB0aGlzIGRvd24gb25jZSBhbmQgZm9yIGFsbC4KPj4+
-Cj4+PiBXaGF0IEknbSBub3Qgc3VyZSBhYm91dCBpcyB3aGV0aGVyIHRoZSB0ZXh0IHNob3VsZCBi
-ZSBtb3JlIGV4cGxpY2l0IGluCj4+PiBmbGF0IG91dCBtYW5kYXRpbmcgdGhlIGFtZGtmZCBldmlj
-dGlvbiBmZW5jZXMgZm9yIGxvbmcgcnVubmluZyBjb21wdXRlCj4+PiB3b3JrbG9hZHMgb3Igd29y
-a2xvYWRzIHdoZXJlIHVzZXJzcGFjZSBmZW5jaW5nIGlzIGFsbG93ZWQuCj4+IEFsdGhvdWdoIChp
-biBteSBodW1ibGUgb3BpbmlvbikgaXQgbWlnaHQgYmUgcG9zc2libGUgdG8gY29tcGxldGVseSB1
-bnRhbmdsZQo+PiBrZXJuZWwtaW50cm9kdWNlZCBmZW5jZXMgZm9yIHJlc291cmNlIG1hbmFnZW1l
-bnQgYW5kIGRtYS1mZW5jZXMgdXNlZCBmb3IKPj4gY29tcGxldGlvbi0gYW5kIGRlcGVuZGVuY3kg
-dHJhY2tpbmcgYW5kIGxpZnQgYSBsb3Qgb2YgcmVzdHJpY3Rpb25zIGZvciB0aGUKPj4gZG1hLWZl
-bmNlcywgaW5jbHVkaW5nIHByb2hpYml0aW5nIGluZmluaXRlIG9uZXMsIEkgdGhpbmsgdGhpcyBt
-YWtlcyBzZW5zZQo+PiBkZXNjcmliaW5nIHRoZSBjdXJyZW50IHN0YXRlLgo+IFllYWggSSB0aGlu
-ayBhIGZ1dHVyZSBwYXRjaCBuZWVkcyB0byB0eXBlIHVwIGhvdyB3ZSB3YW50IHRvIG1ha2UgdGhh
-dAo+IGhhcHBlbiAoZm9yIHNvbWUgY3Jvc3MgZHJpdmVyIGNvbnNpc3RlbmN5KSBhbmQgd2hhdCBu
-ZWVkcyB0byBiZQo+IGNvbnNpZGVyZWQuIFNvbWUgb2YgdGhlIG5lY2Vzc2FyeSBwYXJ0cyBhcmUg
-YWxyZWFkeSB0aGVyZSAod2l0aCBsaWtlIHRoZQo+IHByZWVtcHRpb24gZmVuY2VzIGFtZGtmZCBo
-YXMgYXMgYW4gZXhhbXBsZSksIGJ1dCBJIHRoaW5rIHNvbWUgY2xlYXIgZG9jcwo+IG9uIHdoYXQn
-cyByZXF1aXJlZCBmcm9tIGJvdGggaHcsIGRyaXZlcnMgYW5kIHVzZXJzcGFjZSB3b3VsZCBiZSBy
-ZWFsbHkKPiBnb29kLgoKSSdtIGN1cnJlbnRseSB3cml0aW5nIHRoYXQgdXAsIGJ1dCBwcm9iYWJs
-eSBzdGlsbCBuZWVkIGEgZmV3IGRheXMgZm9yIHRoaXMuCgpDaHJpc3RpYW4uCgo+PiBSZXZpZXdl
-ZC1ieTogVGhvbWFzIEhlbGxzdHJvbSA8dGhvbWFzLmhlbGxzdHJvbUBpbnRlbC5jb20+Cj4gVGhh
-bmtzIGZvciB0YWtpbmcgYSBsb29rLCBmaXJzdCAzIHBhdGNoZXMgaGVyZSB3aXRoIGFubm90YXRp
-b25zIGFuZCBkb2NzCj4gbWVyZ2VkIHRvIGRybS1taXNjLW5leHQuIEknbGwgYXNrIE1hYXJ0ZW4v
-RGF2ZSB3aGV0aGVyIGFub3RoZXIgcHVsbCBpcyBvawo+IGZvciA1Ljkgc28gdGhhdCBldmVyeW9u
-ZSBjYW4gdXNlIHRoaXMgYXNhcC4KPiAtRGFuaWVsCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Jul 21, 2020 at 09:32:35AM +0200, Christian K=F6nig wrote:
+> Implementing those is completely unecessary.
+> =
+
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 -----
+>  drivers/gpu/drm/drm_gem_vram_helper.c      |  5 -----
+>  drivers/gpu/drm/qxl/qxl_ttm.c              |  6 ------
+>  drivers/gpu/drm/radeon/radeon_ttm.c        |  5 -----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 11 -----------
+>  5 files changed, 32 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ttm.c
+> index 3df685287cc1..9c0f12f74af9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -836,10 +836,6 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_d=
+evice *bdev, struct ttm_mem_
+>  	return 0;
+>  }
+>  =
+
+> -static void amdgpu_ttm_io_mem_free(struct ttm_bo_device *bdev, struct tt=
+m_mem_reg *mem)
+> -{
+> -}
+> -
+>  static unsigned long amdgpu_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
+>  					   unsigned long page_offset)
+>  {
+> @@ -1754,7 +1750,6 @@ static struct ttm_bo_driver amdgpu_bo_driver =3D {
+>  	.release_notify =3D &amdgpu_bo_release_notify,
+>  	.fault_reserve_notify =3D &amdgpu_bo_fault_reserve_notify,
+>  	.io_mem_reserve =3D &amdgpu_ttm_io_mem_reserve,
+> -	.io_mem_free =3D &amdgpu_ttm_io_mem_free,
+>  	.io_mem_pfn =3D amdgpu_ttm_io_mem_pfn,
+>  	.access_memory =3D &amdgpu_ttm_access_memory,
+>  	.del_from_lru_notify =3D &amdgpu_vm_del_from_lru_notify
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_=
+gem_vram_helper.c
+> index d107a2679e23..3296ed3df358 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -1081,10 +1081,6 @@ static int bo_driver_io_mem_reserve(struct ttm_bo_=
+device *bdev,
+>  	return 0;
+>  }
+>  =
+
+> -static void bo_driver_io_mem_free(struct ttm_bo_device *bdev,
+> -				  struct ttm_mem_reg *mem)
+> -{ }
+> -
+>  static struct ttm_bo_driver bo_driver =3D {
+>  	.ttm_tt_create =3D bo_driver_ttm_tt_create,
+>  	.ttm_tt_populate =3D ttm_pool_populate,
+> @@ -1094,7 +1090,6 @@ static struct ttm_bo_driver bo_driver =3D {
+>  	.evict_flags =3D bo_driver_evict_flags,
+>  	.move_notify =3D bo_driver_move_notify,
+>  	.io_mem_reserve =3D bo_driver_io_mem_reserve,
+> -	.io_mem_free =3D bo_driver_io_mem_free,
+>  };
+>  =
+
+>  /*
+> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+> index 52eaa2d22745..a6e67149ef4a 100644
+> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+> @@ -129,11 +129,6 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bde=
+v,
+>  	return 0;
+>  }
+>  =
+
+> -static void qxl_ttm_io_mem_free(struct ttm_bo_device *bdev,
+> -				struct ttm_mem_reg *mem)
+> -{
+> -}
+> -
+>  /*
+>   * TTM backend functions.
+>   */
+> @@ -247,7 +242,6 @@ static struct ttm_bo_driver qxl_bo_driver =3D {
+>  	.evict_flags =3D &qxl_evict_flags,
+>  	.move =3D &qxl_bo_move,
+>  	.io_mem_reserve =3D &qxl_ttm_io_mem_reserve,
+> -	.io_mem_free =3D &qxl_ttm_io_mem_free,
+>  	.move_notify =3D &qxl_bo_move_notify,
+>  };
+>  =
+
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index f4f1e63731a5..73085523fad7 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -457,10 +457,6 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_d=
+evice *bdev, struct ttm_mem_
+>  	return 0;
+>  }
+>  =
+
+> -static void radeon_ttm_io_mem_free(struct ttm_bo_device *bdev, struct tt=
+m_mem_reg *mem)
+> -{
+> -}
+> -
+>  /*
+>   * TTM backend functions.
+>   */
+> @@ -774,7 +770,6 @@ static struct ttm_bo_driver radeon_bo_driver =3D {
+>  	.move_notify =3D &radeon_bo_move_notify,
+>  	.fault_reserve_notify =3D &radeon_bo_fault_reserve_notify,
+>  	.io_mem_reserve =3D &radeon_ttm_io_mem_reserve,
+> -	.io_mem_free =3D &radeon_ttm_io_mem_free,
+>  };
+>  =
+
+>  int radeon_ttm_init(struct radeon_device *rdev)
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm=
+/vmwgfx/vmwgfx_ttm_buffer.c
+> index fbcd11a7b215..bfd0c54ec30a 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> @@ -815,15 +815,6 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_devi=
+ce *bdev, struct ttm_mem_reg
+>  	return 0;
+>  }
+>  =
+
+> -static void vmw_ttm_io_mem_free(struct ttm_bo_device *bdev, struct ttm_m=
+em_reg *mem)
+> -{
+> -}
+> -
+> -static int vmw_ttm_fault_reserve_notify(struct ttm_buffer_object *bo)
+> -{
+> -	return 0;
+> -}
+> -
+>  /**
+>   * vmw_move_notify - TTM move_notify_callback
+>   *
+> @@ -866,7 +857,5 @@ struct ttm_bo_driver vmw_bo_driver =3D {
+>  	.verify_access =3D vmw_verify_access,
+>  	.move_notify =3D vmw_move_notify,
+>  	.swap_notify =3D vmw_swap_notify,
+> -	.fault_reserve_notify =3D &vmw_ttm_fault_reserve_notify,
+>  	.io_mem_reserve =3D &vmw_ttm_io_mem_reserve,
+> -	.io_mem_free =3D &vmw_ttm_io_mem_free,
+>  };
+> -- =
+
+> 2.17.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
