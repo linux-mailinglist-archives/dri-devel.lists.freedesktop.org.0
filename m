@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6F3229763
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 13:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14EA922977E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 13:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36AEF6E10B;
-	Wed, 22 Jul 2020 11:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9C926E81A;
+	Wed, 22 Jul 2020 11:33:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4236E10B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 11:28:36 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id k4so1565203oik.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 04:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6bn4b//HEhKHc0N6UaI5TBTaYuc1qas6wnYiCWnAtgM=;
- b=J7FLGy5jXb6QZKC31h4iD562hrANyX0JD1+CvbDEcBJC35BIkyxLyrWTba1dqfv/HU
- xuAnEOlpZn7lpIzBFZHsgHmF+XgQoTB+gfTPmU2Mmgv5VC2fep8M7MVIYes5b3vkEcD0
- O63pzme7Elgn2uKyjeDrm4U9aivJhjntivtlg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6bn4b//HEhKHc0N6UaI5TBTaYuc1qas6wnYiCWnAtgM=;
- b=QhRrI7t4ZvBxg+M8swwOmepGzEO81QSBS2fVph6zUKQV8bS1NlCTyIJcwHifzFB3E8
- Pu2IoVJuamMP7nwg9UNfemmUcH0w4B7xOCQgimTI3wg6T90iUJDKNMOV5/b844fBxGwy
- kKHk+DKE07moX0Vlgbecx1b1TftkQkQpTJgpUabmWgMO47Ct46TBZ4ydh0mJ8DMTZvRz
- A8RWlRgWtrg4QW2QjYvpDre52gsTNU6IS4SN188vCUj+nM29vhxslHsQHHC84JHWTbuf
- YBhj9gQ7+Gv2Gh8g46Yf6EviQgcYzStLTK9TLylB41jtP9yP/zp8kbTy5COQF6wAex8E
- ru/Q==
-X-Gm-Message-State: AOAM531wDkIAp67EqBLF/DtkxNDO68o0LjykL17varwYUVDC7sE19bOY
- g3ov0rX4EcETcQTKXie3g3ig3rYRTAC0XJGwiGT6zQ==
-X-Google-Smtp-Source: ABdhPJyP4ntnFRU7Pa6riKYvoC7zKP2Rio7P8wUl06L0AMz8+efGKuviaWuqRvz1JBPsxJw7bVjtw1uzlOInZYethJs=
-X-Received: by 2002:a05:6808:88:: with SMTP id
- s8mr6324890oic.101.1595417316120; 
- Wed, 22 Jul 2020 04:28:36 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4821389B4D;
+ Wed, 22 Jul 2020 11:33:32 +0000 (UTC)
+IronPort-SDR: 9YFp9nAOfyA6c6+x6pYp6kabMihn/c2aLJoYmQPcgG+se8JNDm1PQdZmuvt93VYlEtUanwaHU+
+ fJGNCHb/K0Qg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="147807473"
+X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; d="scan'208";a="147807473"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2020 04:33:31 -0700
+IronPort-SDR: crb0g6DXLg7BYUWf2B208Qvj2EicPyZp2PefbqKNCNUb8raK4+G1cXn5SWWRYqUz7yoxq86/gc
+ 3vYsnm181upg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; d="scan'208";a="326667254"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 22 Jul 2020 04:33:28 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 22 Jul 2020 14:33:28 +0300
+Date: Wed, 22 Jul 2020 14:33:28 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v1] drm/i915/dsi: Drop double check for ACPI
+ companion device
+Message-ID: <20200722113328.GA6112@intel.com>
+References: <20200529123317.20470-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-References: <CAPaKu7S2BjymZN1pPnYz-YAXpHsD8Q_EPxttifhoTBc-Qe52dg@mail.gmail.com>
- <CAAfnVB=9o=xy13Z1ErgXVhcBf24TLQMGJHnfDKoSMSw2MZdg2A@mail.gmail.com>
- <ed03508d-c87d-681e-4c24-c5c8e26ed72a@amd.com>
- <CAKMK7uH8JHVuUE+ASmASgeZL9mpC7yMZu90Mm_2PLR99fAf06g@mail.gmail.com>
- <d94dcb9b-32cb-c03c-92d3-71153391f301@amd.com>
-In-Reply-To: <d94dcb9b-32cb-c03c-92d3-71153391f301@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 22 Jul 2020 13:28:25 +0200
-Message-ID: <CAKMK7uFAi7WZKeybqH61pvhQRXLAo0cNFjjHFCyTcNJ34FSkBA@mail.gmail.com>
-Subject: Re: pages pinned for BO lifetime and security
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200529123317.20470-1-andriy.shevchenko@linux.intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,135 +53,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdWwgMjIsIDIwMjAgYXQgMToxMiBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMjIuMDcuMjAgdW0gMDk6MzIgc2Nocmll
-YiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gV2VkLCBKdWwgMjIsIDIwMjAgYXQgOToxOSBBTSBDaHJp
-c3RpYW4gS8O2bmlnCj4gPiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPiA+PiBB
-bSAyMi4wNy4yMCB1bSAwMjoyMiBzY2hyaWViIEd1cmNoZXRhbiBTaW5naDoKPiA+Pgo+ID4+ICtD
-aHJpc3RpYW4gd2hvIGFkZGVkIERNQUJVRl9NT1ZFX05PVElGWSB3aGljaCBhZGRlZCB0aGUgcmVs
-ZXZhbnQgYmx1cmI6Cj4gPj4KPiA+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9u
-Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZnaXQua2VybmVsLm9yZyUyRnB1YiUyRnNj
-bSUyRmxpbnV4JTJGa2VybmVsJTJGZ2l0JTJGdG9ydmFsZHMlMkZsaW51eC5naXQlMkZ0cmVlJTJG
-ZHJpdmVycyUyRmRtYS1idWYlMkZLY29uZmlnJTIzbjQ2JmFtcDtkYXRhPTAyJTdDMDElN0NjaHJp
-c3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzkxNmY2YTliNjQ4ODRlMjFmZDdmMDhkODJlMTE1Yzhi
-JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzMxMDAwMDEy
-Mjc1MjI3MSZhbXA7c2RhdGE9V0tzM0tTcjNLMURkVm1EYUlaJTJGblY4VkVCUFdNR01TR3dlZWF5
-MEhJT3h3JTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4KPiA+PiBDdXJyZW50bHksIHRoZSB1c2VyIHNl
-ZW1zIHRvIGFtZGdwdSBmb3IgUDJQIGRtYS1idWYgYW5kIGl0IHNlZW1zIHRvIHBsdW1iIHR0bSAo
-Km1vdmVfbm90aWZ5KSBjYWxsYmFjayB0byBkbWEtYnVmLiAgV2UncmUgbm90IHN1cmUgaWYgaXQn
-cyBhIHNlY3VyaXR5IGlzc3VlIG9jY3VycmluZyBhY3Jvc3MgRFJNIGRyaXZlcnMsIG9yIG9uZSBt
-b3JlIHNwZWNpZmljIHRvIHRoZSBuZXcgYW1kZ3B1IHVzZSBjYXNlLgo+ID4+Cj4gPj4gT24gVHVl
-LCBKdWwgMjEsIDIwMjAgYXQgMTowMyBQTSBDaGlhLUkgV3UgPG9sdmFmZmVAZ21haWwuY29tPiB3
-cm90ZToKPiA+Pj4gSGkgbGlzdCwKPiA+Pj4KPiA+Pj4gdmlydGlvLWdwdSBpcyBtb3ZpbmcgaW4g
-dGhlIGRpcmVjdGlvbiB3aGVyZSBCTyBwYWdlcyBhcmUgcGlubmVkIGZvcgo+ID4+PiB0aGUgbGlm
-ZXRpbWUgZm9yIHNpbXBsaWNpdHkuICBJIGFtIHdvbmRlcmluZyBpZiB0aGF0IGlzIGNvbnNpZGVy
-ZWQgYQo+ID4+PiBzZWN1cml0eSBpc3N1ZSBpbiBnZW5lcmFsLCBlc3BlY2lhbGx5IGFmdGVyIHJ1
-bm5pbmcgaW50byB0aGUKPiA+Pj4gZGVzY3JpcHRpb24gb2YgdGhlIG5ldyBETUFCVUZfTU9WRV9O
-T1RJRlkgY29uZmlnIG9wdGlvbi4KPiA+Pgo+ID4+IFllcywgdGhhdCBpcyBnZW5lcmFsbHkgY29u
-c2lkZXJlZCBhIGRlbnkgb2Ygc2VydmljZSBwb3NzaWJpbGl0eSBhbmQgc28gZmFyIERhdmUgYW5k
-IERhbmllbCBoYXZlIHJlamVjdGVkIGFsbCB0cmllcyB0byB1cHN0cmVhbSBzdHVmZiBsaWtlIHRo
-aXMgYXMgZmFyIGFzIEkga25vdy4KPiA+IFVoIHdlIGhhdmUgbWVyZ2VkIHByZXR0eSBtdWNoIGFs
-bCBhcm0tc29jIGRyaXZlcnMgd2l0aG91dCByZWFsCj4gPiBzaHJpbmtlcnMuIFdoZXRoZXIgdGhh
-dCB3YXMgYSBnb29kIGlkZWEgb3Igbm90IGlzIG1heWJlIGRpZmZlcmVudAo+ID4gcXVlc3Rpb24g
-LSBub3cgdGhhdCB3ZSBkbyBoYXZlIHByZXR0eSBnb29kIGhlbHBlcnMgbWF5YmUgd2Ugc2hvdWxk
-Cj4gPiBwb2tlIHRoaXMgYSBiaXQgbW9yZS4gQnV0IHRoZW4gU29DcyBTdWNrICh0bSkuCj4KPiBJ
-IHdhcyB1bmRlciB0aGUgaW1wcmVzc2lvbiB0aGF0IHRob3NlIFNvQyBkcml2ZXJzIHN0aWxsIHVz
-ZSB0aGUgR0VNCj4gaGVscGVycyB3aGljaCB1bnBpbm5zIHN0dWZmIHdoZW4gaXQgaXMgbm90IGlu
-IHVzZS4gQnV0IEkgbWlnaHQgYmUgd3JvbmcuCgpJdCdzIGtpbmRhIG1vc3RseSB0aGVyZSwgZXZl
-biBzb21lIGhlbHBlcnMgZm9yIHNocmlua2luZyBidXQgYSkKaGVscGVycyBvbiwgbm90IGFsbCBk
-cml2ZXJzIHVzZSBpdCBiKSBmb3IgcHVyZ2VhYmxlIG9iamVjdHMgb25seSwgbm90CmdlbmVyYWxs
-eSBmb3IgaW5hY3RpdmUgc3R1ZmYgLSB0aGVyZSdzIG5vIGFjdGl2ZSB1c2UgdHJhY2tpbmcgYykg
-Y21hCmhlbHBlcnMgKG9rIHRoYXQgb25lIGlzIG9ubHkgZm9yIHZjNCBhcyB0aGUgcmVuZGVyIGRy
-aXZlcikgZG9uJ3QgZXZlbgpoYXZlIHRoYXQuIEkgaGFkIHNvbWUgc2xvdyBidXJuZXIgc2VyaWVz
-IHRvIGdldCB1cyB0b3dhcmRzIGRtYV9yZXN2CmxvY2tpbmcgaW4gc2htZW0gaGVscGVycyBhbmQg
-dGhlbiBtYXliZSBldmVuIGEgY29tbW9uIHNocmlua2VyIGhlbHBlcgp3aXRoIHNvbWUgImFjdHVh
-bGx5IGtpY2sgaXQgb3V0IG5vdyIgY2FsbGJhY2ssIGJ1dCB5ZWFoIG5ldmVyIGdvdAp0aGVyZS4K
-ClNvIG1heWJlIHBlci1kZXZpY2Ugb2JqZWN0IHNocmlua2VyIGhlbHBlciB3b3VsZCBiZSBzb21l
-dGhpbmcgbmVhdCB3ZQpjb3VsZCBsaWZ0IG91dCBvZiB0dG0gKHdoZW4gaXQncyBoYXBwZW5pbmcp
-LCBtYXliZSB3aXRoIGEgc2ltcGxlCmNhbGxiYWNrIHNvbWV3aGVyZSBpbiBpdCdzIGxydSB0cmFj
-a2luZy4gUHJvYmFibHkgYmVzdCBpZiB0aGUgc2hyaW5rZXIKbHJ1IGlzIG91dHJpZ2h0IHNlcGFy
-YXRlIGZyb20gYW55dGhpbmcgZWxzZSBvciBpdCBqdXN0IGdldHMgbWVzc3kuCi1EYW5pZWwKCj4g
-PiBCdXQgZm9yIHJlYWwgZ3B1cyB0aGV5IGRvIGluZGVlZCBhbGwgaGF2ZSBzaHJpbmtlcnMsIGFu
-ZCBub3QganVzdCAicGluCj4gPiBldmVyeXRoaW5nIGZvcmV2ZXIiIG1vZGVsLiBSZWFsIGdwdXMg
-PSBzdHVmZiB5b3UgbWlnaHQgcnVuIG9uIHNlcnZlcnMKPiA+IG9yIG11bHRpLWFwcCBhbmQgYWxs
-IHRoYXQgc3R1ZmYsIG5vdCB3aXRoIGEgc2ltcGxlICJ3ZSBqdXN0IGtpbGwgYWxsCj4gPiBiYWNr
-Z3JvdW5kIGpvYnMgaWYgbWVtb3J5IGdldHMgbG93IiBtb2RlbCBsaWtlIG9uIGFuZHJvaWQgYW5k
-IG90aGVyCj4gPiBzdWNoIHRoaW5ncy4KPiA+Cj4gPj4gRE1BLWJ1ZiBhbiBwaW5uaW5nIGZvciBz
-Y2Fub3V0IGFyZSB0aGUgb25seSBleGNlcHRpb25zIHNpbmNlIHRoZSBpbXBsZW1lbnRhdGlvbiB3
-b3VsZG4ndCBoYXZlIGJlZW4gcG9zc2libGUgb3RoZXJ3aXNlLgo+ID4+Cj4gPj4+IE1vc3QgZHJp
-dmVycyBkbyBub3QgaGF2ZSBhIHNocmlua2VyLCBvciB3aGV0aGVyIGEgQk8gaXMgcHVyZ2VhYmxl
-IGlzCj4gPj4+IGVudGlyZWx5IGNvbnRyb2xsZWQgYnkgdGhlIHVzZXJzcGFjZSAobWFkdmljZSku
-ICBUaGV5IGNhbiBiZQo+ID4+PiBjYXRlZ29yaXplZCBhcyAiYSBzZWN1cml0eSBwcm9ibGVtIHdo
-ZXJlIHVzZXJzcGFjZSBpcyBhYmxlIHRvIHBpbgo+ID4+PiB1bnJlc3RyaWN0ZWQgYW1vdW50cyBv
-ZiBtZW1vcnkiLiAgQnV0IHRob3NlIGRyaXZlcnMgYXJlIG5vcm1hbGx5IGZvdW5kCj4gPj4+IG9u
-IHN5c3RlbXMgd2l0aG91dCBzd2FwLiAgSSBkb24ndCB0aGluayB0aGUgaXNzdWUgYXBwbGllcy4K
-PiA+Pgo+ID4+IFRoaXMgaXMgY29tcGxldGVseSBpbmRlcGVuZGVudCBvZiB0aGUgYXZhaWxhYmls
-aXR5IG9mIHN3YXAgb3Igbm90Lgo+ID4+Cj4gPj4gUGlubmluZyBvZiBwYWdlcyBpbiBsYXJnZSBx
-dWFudGl0aWVzIGNhbiByZXN1bHQgaW4gYWxsIGtpbmQgb2YgcHJvYmxlbXMgYW5kIG5lZWRzIHRv
-IGJlIHByZXZlbnRlZCBldmVuIHdpdGhvdXQgc3dhcC4KPiA+IFllYWggeW91IGRvbid0IGp1c3Qg
-a2lsbCBzd2FwLCB5b3Uga2lsbCBhIHRvbiBvZiBvdGhlciBrZXJuZWwgc2VydmljZXMKPiA+IHdp
-dGggbWFzcyBwaW5uaW5nLiBJIHRoaW5rIGV2ZW4gdGhlIHBpbm5pbmcgb2Ygc2Nhbm91dCBidWZm
-ZXJzIGZvcgo+ID4gaTkxNSBmcm9tIHN5c3RlbSBtZW1vcnkgaXMgc29tZXdoYXQgcXVlc3Rpb25h
-YmxlIChidXQgSSBndWVzcyBzbWFsbAo+ID4gZW5vdWdoIHRvIG5vdCBtYXR0ZXIgaW4gcHJhY3Rp
-Y2UpLgo+Cj4gWWVhaCwgd2UgaGFkIGEgcmVhbGx5IGhhcmQgdGltZSBleHBsYWluaW5nIHRoYXQg
-aW50ZXJuYWxseSBhcyB3ZWxsLgo+Cj4gQ2hyaXN0aWFuLgo+Cj4gPj4gT3RoZXJ3aXNlIHlvdSBj
-YW4gcmFuIGludG8gcHJvYmxlbXMgZXZlbiB3aXRoIHNpbXBsZSBJL08gb3BlcmF0aW9ucyBmb3Ig
-ZXhhbXBsZS4KPiA+Pgo+ID4+PiBPZiB0aGUgZGVza3RvcCBHUFUgZHJpdmVycywgaTkxNSdzIHNo
-cmlua2VyIGNlcnRhaW5seSBzdXBwb3J0cyBwdXJnaW5nCj4gPj4+IHRvIHN3YXAuICBUVE0gaXMg
-YSBiaXQgaGFyZCB0byBmb2xsb3cuICBJIGNhbid0IHJlYWxseSB0ZWxsIGlmIGFtZGdwdQo+ID4+
-PiBvciBub3V2ZWF1IHN1cHBvcnRzIHRoYXQuICB2aXJ0aW8tZ3B1IGlzIG1vcmUgY29tbW9ubHkg
-Zm91bmQgb24KPiA+Pj4gc3lzdGVtcyB3aXRoIHN3YXBzIHNvIEkgdGhpbmsgaXQgc2hvdWxkIGZv
-bGxvdyB0aGUgZGVza3RvcCBwcmFjdGljZXM/Cj4gPj4KPiA+PiBXaGF0IHdlIGRvIGF0IGxlYXN0
-IGluIHRoZSBhbWRncHUsIHJhZGVvbiwgaTkxNSBhbmQgbm91dmVhdSBpcyB0byBvbmx5IGFsbG93
-IGl0IGZvciBzY2Fub3V0IGFuZCB0aGF0IGluIHR1cm4gaXMgbGltaXRlZCBieSB0aGUgcGh5c2lj
-YWwgbnVtYmVyIG9mIENSVENzIG9uIHRoZSBib2FyZC4KPiA+Pgo+ID4+PiBUcnV0aCBpcywgdGhl
-IGVtdWxhdGVkIHZpcnRpby1ncHUgZGV2aWNlIGFsd2F5cyBzdXBwb3J0cyBwYWdlIG1vdmVzCj4g
-Pj4+IHdpdGggVklSVElPX0dQVV9DTURfUkVTT1VSQ0Vfe0FUVEFDSCxERVRBQ0h9X0JBQ0tJTkcu
-ICBJdCBpcyBqdXN0IHRoYXQKPiA+Pj4gdGhlIGRyaXZlciBkb2VzIG5vdCBtYWtlIHVzZSBvZiB0
-aGVtLiAgVGhhdCBtYWtlcyB0aGlzIGxlc3Mgb2YgYW4KPiA+Pj4gaXNzdWUgYmVjYXVzZSB0aGUg
-ZHJpdmVyIGNhbiBiZSBmaXhlZCBhbnl0aW1lIChmaW5nZXIgY3Jvc3NlZCB0aGF0IHRoZQo+ID4+
-PiBlbXVsYXRvciB3b24ndCBoYXZlIGJ1Z3MgaW4gdGhlc2UgdW50ZXN0ZWQgcGF0aHMpLiAgVGhp
-cyBpc3N1ZSBiZWNvbWVzCj4gPj4+IG1vcmUgdXJnZW50IGJlY2F1c2Ugd2UgYXJlIGNvbnNpZGVy
-aW5nIGFkZGluZyBhIG5ldyBIVyBjb21tYW5kWzFdCj4gPj4+IHdoZXJlIHBhZ2UgbW92ZXMgd2ls
-bCBiZSBkaXNhbGxvd2VkLiAgV2UgZGVmaW5pdGVseSBkb24ndCB3YW50IGEgSFcKPiA+Pj4gY29t
-bWFuZCB0aGF0IGlzIGluaGVyZW50bHkgaW5zZWN1cmUsIGlmIEJPIHBhZ2VzIHBpbm5lZCBmb3Ig
-dGhlCj4gPj4+IGxpZmV0aW1lIGlzIGNvbnNpZGVyZWQgYSBzZWN1cml0eSBpc3N1ZSBvbiBkZXNr
-dG9wcy4KPiA+Pgo+ID4+IFllYWgsIHRoYXQncyBwcm9iYWJseSBub3Qgc3VjaCBhIGdvb2QgaWRl
-YSA6KQo+ID4gV2VsbCBpZiB0aGUgcGlubmluZyBpcyBqdXN0IGZvciB0aGUgZHVyYXRpb24gb2Yg
-dGhlIGh3IGNvbW1hbmQsIGl0J3MKPiA+IGZpbmUsIGp1c3QgbGlrZSBiYXRjaCBidWZmZXJzLiBC
-dXQgaWYgaXQncyBsb25nIHRlcm0gcGlubmluZyB0aGVuIHRoYXQKPiA+IGRvZXNuJ3Qgc291bmQg
-bGlrZSBhIGdvb2QgaWRlYS4gUkRNQSBoYXMgdGhpcyBhcyB0aGVpciBpbmhlcml0IGh3Cj4gPiBw
-cm9ncmFtbWluZyBtb2RlbCAoZXhjZXB0IGlmIHlvdXIgaHcgaXMgcmVhbGx5IGZhbmN5IGFuZCBo
-YXMgaHcgcGFnZQo+ID4gZmF1bHQgaGFuZGxpbmcgb24gdGhlIHJkbWEgbmljKSwgYW5kIHRoZXkg
-aGFyZCBsaW1pdCBzdWNoIHBpbnMgdG8gd2hhdAo+ID4geW91IGNhbiBtbG9jayAob3Igc29tZXRo
-aW5nIHNpbWlsYXIgd2l0aGluIHJkbWEpLgo+ID4gLURhbmllbAo+ID4KPiA+PiBSZWdhcmRzLAo+
-ID4+IENocmlzdGlhbi4KPiA+Pgo+ID4+PiBbMV0gVklSVElPX0dQVV9DTURfUkVTT1VSQ0VfQ1JF
-QVRFX0JMT0IKPiA+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29r
-LmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZyUyRnZpcmdsJTJG
-ZHJtLW1pc2MtbmV4dCUyRi0lMkZibG9iJTJGdmlydGlvLWdwdS1uZXh0JTJGaW5jbHVkZSUyRnVh
-cGklMkZsaW51eCUyRnZpcnRpb19ncHUuaCUyM0wzOTYmYW1wO2RhdGE9MDIlN0MwMSU3Q2Nocmlz
-dGlhbi5rb2VuaWclNDBhbWQuY29tJTdDOTE2ZjZhOWI2NDg4NGUyMWZkN2YwOGQ4MmUxMTVjOGIl
-N0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MzEwMDAwMTIy
-NzUyMjcxJmFtcDtzZGF0YT1BV3R3emslMkJQN1A3MDMxaWJUdW1yMkolMkZRQiUyRnpzc2cxSW1h
-ZyUyRnN0eXNSNUElM0QmYW1wO3Jlc2VydmVkPTAKPiA+Pgo+ID4+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
-dAo+ID4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+PiBodHRwczovL25hbTEx
-LnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0
-cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2Rh
-dGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDOTE2ZjZhOWI2NDg4NGUy
-MWZkN2YwOGQ4MmUxMTVjOGIlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAl
-N0MwJTdDNjM3MzEwMDAwMTIyNzUyMjcxJmFtcDtzZGF0YT1JMFZIcjk2b1d6cFd5aU5YakQxakc5
-JTJGcDIlMkY4NDhDZFBjNCUyRlRmNlNrV204JTNEJmFtcDtyZXNlcnZlZD0wCj4gPgo+ID4KPgoK
-Ci0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpo
-dHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On Fri, May 29, 2020 at 03:33:17PM +0300, Andy Shevchenko wrote:
+> acpi_dev_get_resources() does perform the NULL pointer check against
+> ACPI companion device which is given as function parameter. Thus,
+> there is no need to duplicate this check in the caller.
+> =
+
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Sorry, I did look at this but apparently forgot to reply...
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 24 ++++++++------------
+>  1 file changed, 10 insertions(+), 14 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/d=
+rm/i915/display/intel_dsi_vbt.c
+> index 574dcfec9577..6f9e08cda964 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> @@ -426,23 +426,19 @@ static void i2c_acpi_find_adapter(struct intel_dsi =
+*intel_dsi,
+>  {
+>  	struct drm_device *drm_dev =3D intel_dsi->base.base.dev;
+>  	struct device *dev =3D &drm_dev->pdev->dev;
+> -	struct acpi_device *acpi_dev;
+> +	struct acpi_device *acpi_dev =3D ACPI_COMPANION(dev);
+>  	struct list_head resource_list;
+>  	struct i2c_adapter_lookup lookup;
+>  =
+
+> -	acpi_dev =3D ACPI_COMPANION(dev);
+> -	if (acpi_dev) {
+> -		memset(&lookup, 0, sizeof(lookup));
+> -		lookup.slave_addr =3D slave_addr;
+> -		lookup.intel_dsi =3D intel_dsi;
+> -		lookup.dev_handle =3D acpi_device_handle(acpi_dev);
+> -
+> -		INIT_LIST_HEAD(&resource_list);
+> -		acpi_dev_get_resources(acpi_dev, &resource_list,
+> -				       i2c_adapter_lookup,
+> -				       &lookup);
+> -		acpi_dev_free_resource_list(&resource_list);
+> -	}
+> +	memset(&lookup, 0, sizeof(lookup));
+> +	lookup.slave_addr =3D slave_addr;
+> +	lookup.intel_dsi =3D intel_dsi;
+> +	lookup.dev_handle =3D acpi_device_handle(acpi_dev);
+
+struct i2c_adapter_lookup lookup =3D {
+	.slave_addr =3D ...
+};
+
+?
+
+> +
+> +	INIT_LIST_HEAD(&resource_list);
+
+Declare as LIST_HEAD(resource_list); ?
+
+> +	acpi_dev_get_resources(acpi_dev, &resource_list,
+> +			       i2c_adapter_lookup, &lookup);
+> +	acpi_dev_free_resource_list(&resource_list);
+
+I was very confused by this code since on the first glance it appears to
+absolutely nothing. After a deeper look it looks like
+i2c_adapter_lookup() magically mutates intel_dsi->i2c_bus_num.
+Did I mention I hate functions with side effects? IMO would be much
+better if i2c_adapter_lookup() did what it says on the tin and just
+returned the adapter number and let the caller deal with it. But
+this is a pre-existing issue with the code and so not directly related
+to your patch.
+
+>  }
+>  #else
+>  static inline void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+> -- =
+
+> 2.26.2
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
