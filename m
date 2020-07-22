@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE48C228DD4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 04:03:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1987E228DD7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 04:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5E689B7D;
-	Wed, 22 Jul 2020 02:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE32389BBD;
+	Wed, 22 Jul 2020 02:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7418992E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 02:03:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053BC89BBD
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 02:05:26 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
  amdgpu_atomic_commit_tail
-Date: Wed, 22 Jul 2020 02:03:15 +0000
+Date: Wed, 22 Jul 2020 02:05:24 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-MZgZy8cfAH@https.bugzilla.kernel.org/>
+Message-ID: <bug-207383-2300-tcQYdvcFRu@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
 References: <bug-207383-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,26 +59,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
---- Comment #80 from Kees Cook (kees@outflux.net) ---
-(In reply to mnrzk from comment #79)
-> I wonder if there's any way to set a watchpoint to see where exactly the
-> dm_atomic_state gets filled with garbage data.
+--- Comment #81 from Kees Cook (kees@outflux.net) ---
+I assume this is the change, BTW:
 
-mm/slub.c set_freepointer() (via several possible paths through slab_free())
-via writes the pointer. What you really want to know is "who called kfree()
-before this tried to read from here?". 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index d61186ff411d..2b8da2b17a5d 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -424,6 +424,8 @@ struct dm_crtc_state {
+ struct dm_atomic_state {
+        struct drm_private_state base;
 
-> Also, since I'm not too familiar with freelists, do freelist pointers look
-> like regular pointers? On a regular pointer on a system with a 48-bit
-> virtual address space, regular pointers would be something like
-> 0xffffXXXXXXXXXXXX. I've noticed that the data being inserted never
-> followed this format. Is this something valuable to note or is that just
-> the nature of freelist pointers?
-
-With CONFIG_SLAB_FREELIST_HARDENED=y the contents will be randomly permuted on
-a per-slab basis. Without, they'll look like a "regular" kernel heap pointer
-(0xffff....). You maybe have much more exciting failure modes without
-CONFIG_SLAB_FREELIST_HARDENED since the pointer will actually be valid. :P
++       /* This will be overwritten by the freelist pointer during kfree() */
++       void *padding;
+        struct dc_state *context;
+ };
 
 -- 
 You are receiving this mail because:
