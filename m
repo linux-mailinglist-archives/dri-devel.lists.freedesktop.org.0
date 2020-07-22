@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001CA22969A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 12:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3A92296DB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 13:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF73489BAC;
-	Wed, 22 Jul 2020 10:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3D16E044;
+	Wed, 22 Jul 2020 11:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D3189BBE
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 10:50:01 +0000 (UTC)
-Received: from localhost (p54b33083.dip0.t-ipconnect.de [84.179.48.131])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F1277206F5;
- Wed, 22 Jul 2020 10:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595415000;
- bh=w2CgJwPey3KVWQwleXtivdygRth+bNEvTOILhdD+/AY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ktpV/MHdEMtUX7VhR6Q03U9rnmvRjAn/cCUDCOT90hUt/oZIpp6HGi9jifbCoHlxM
- B3CPB7deqGF5FkbypZhZToKqnJbjQzTMWwl7ewOm6nRUVd9C1xkw+3dynR4Sm63kL0
- a3CqdUq8T0f4r9LBlZ8KNYxZpCPBj0OuG/z7M8TY=
-Date: Wed, 22 Jul 2020 12:49:58 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 09/20] Documentation: i2c: eliminate duplicated word
-Message-ID: <20200722104958.GM1030@ninjato>
-References: <20200707180414.10467-1-rdunlap@infradead.org>
- <20200707180414.10467-10-rdunlap@infradead.org>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130736E044
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 11:04:23 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id y3so1480463wrl.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 04:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=OCy4M+IerAUwrGq+R10RYFBywYGUc8/udZhkNLn8gcA=;
+ b=blnhOXIRlgBIHslJnR+DyX3qRw0egROpKwj7Y0Zkk0MMdUtpreXtgx75Kq1wPrfpcw
+ YT0xqBP0X9bvfkLrjDAjTmnTxzFZrZQIvAqUg6rrrRMpE1+2Am8fg/BMXJTPLpUCrRHG
+ WG4KDPcO+AnnCn+WJph8oQSDcEQOtFVBnYkClbRvOg2bqXfvK2yeOn1d/J2s59wzpd0b
+ VTw1CPE1C6poESLQsUVR+9mx8lbuqnKWymfrOoz608Ea4C1gFhgHQ1OA0EBcrOP2hpnE
+ 2Z07LwLiO83BYhupbyWqS0g8hcUHHqXlNFYa0FOnBXmju5sMmeNIWSPap5YxzMnH1UeX
+ n0Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=OCy4M+IerAUwrGq+R10RYFBywYGUc8/udZhkNLn8gcA=;
+ b=edtDRS2HFZU9tIlcVDp7M0+08/YR6+oIxdTIySbJQWo+CIaZ+v0H1JjykWgBuXkFi0
+ i38vwIZg5qFZnCKauvFPTukkZv3u8182M5FVQeXLBHoTILXq0NuQ82tGqJDQKkz/ae4J
+ aqC+n3hGw1vw0czexA0wY1GZhmem9pS5f4DzRVfGPlcl7ro7AJFOMed5bTevJoWwxsEu
+ 237qP9++sO9/nKb+Pq839Z3lItcPTsHuR/rP7U/CUjgqdWbPHJXYGPA0yCIcBGI5Vywn
+ J1Qq36KPmn2hvU37cPsLXpVK4xd8bqynl4zN2BwP0brjCZXQ6EUoriB6EXLYfEGn7WBa
+ gLjg==
+X-Gm-Message-State: AOAM533CeYnRRZnXiygEBQqtfhfM6wWT6aIegCCla+qeUFYugiFaV6Hv
+ byXjQE6tLn/QNynhRodUBa8=
+X-Google-Smtp-Source: ABdhPJyen9XQxbMOmxYyIRo9xkcOiFhcP/BsUcVILGQr7xM0UXW3SkKzFeItTtT4WGFXCvo6Y3Wceg==
+X-Received: by 2002:adf:ea06:: with SMTP id q6mr29366083wrm.69.1595415861662; 
+ Wed, 22 Jul 2020 04:04:21 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id t2sm6735027wma.43.2020.07.22.04.04.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jul 2020 04:04:21 -0700 (PDT)
+Date: Wed, 22 Jul 2020 08:04:11 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/vkms: add missing drm_crtc_vblank_put to the get/put
+ pair on flush
+Message-ID: <20200722110411.ebkv6knvc6mzw5uf@smtp.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200707180414.10467-10-rdunlap@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,94 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, kgdb-bugreport@lists.sourceforge.net,
- linux-fpga@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Paul Cercueil <paul@crapouillou.net>, keyrings@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, linux-i2c@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, linux-leds@vger.kernel.org,
- linux-s390@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Halil Pasic <pasic@linux.ibm.com>,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- James Wang <james.qian.wang@arm.com>, linux-input@vger.kernel.org,
- Mali DP Maintainers <malidp@foss.arm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-mips@vger.kernel.org,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, Wu Hao <hao.wu@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, linux-kbuild@vger.kernel.org,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Jiri Kosina <jikos@kernel.org>,
- Hannes Reinecke <hare@suse.com>, linux-block@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, linux-mm@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Jens Axboe <axboe@kernel.dk>, Michal Marek <michal.lkml@markovi.net>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Pierre Morel <pmorel@linux.ibm.com>, linux-kernel@vger.kernel.org,
- Jason Wessel <jason.wessel@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Mike Rapoport <rppt@kernel.org>, Dan Murphy <dmurphy@ti.com>
-Content-Type: multipart/mixed; boundary="===============1544209947=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-usp@googlegroups.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch adds a missing drm_crtc_vblank_put op to the pair
+drm_crtc_vblank_get/put (inc/decrement counter to guarantee vblanks).
 
---===============1544209947==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n1iI6MeELQa9IOaF"
-Content-Disposition: inline
+It clears the execution of the following kms_cursor_crc subtests:
+1. pipe-A-cursor-[size,alpha-opaque, NxN-(on-screen, off-screen, sliding,
+   random, fast-moving])] - successful when running individually.
+2. pipe-A-cursor-dpms passes again
+3. pipe-A-cursor-suspend also passes
 
+The issue was initially tracked in the sequential execution of IGT
+kms_cursor_crc subtest: when running the test sequence or one of its
+subtests twice, the odd execs complete and the pairs get stuck in an
+endless wait. In the IGT code, calling a wait_for_vblank before the start
+of CRC capture prevented the busy-wait. But the problem persisted in the
+pipe-A-cursor-dpms and -suspend subtests.
 
---n1iI6MeELQa9IOaF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Checking the history, the pipe-A-cursor-dpms subtest was successful when,
+in vkms_atomic_commit_tail, instead of using the flip_done op, it used
+wait_for_vblanks. Another way to prevent blocking was wait_one_vblank when
+enabling crtc. However, in both cases, pipe-A-cursor-suspend persisted
+blocking in the 2nd start of CRC capture, which may indicate that
+something got stuck in the step of CRC setup. Indeed, wait_one_vblank in
+the crc setup was able to sync things and free all kms_cursor_crc
+subtests.
 
-On Tue, Jul 07, 2020 at 11:04:03AM -0700, Randy Dunlap wrote:
-> Drop doubled word "new".
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Tracing and comparing a clean run with a blocked one:
+- in a clean one, vkms_crtc_atomic_flush enables vblanks;
+- when blocked, only in next op, vkms_crtc_atomic_enable, the vblanks
+started. Moreover, a series of vkms_vblank_simulate flow out until
+disabling vblanks.
+Also watching the steps of vkms_crtc_atomic_flush, when the very first
+drm_crtc_vblank_get returned an error, the subtest crashed. On the other
+hand, when vblank_get succeeded, the subtest completed. Finally, checking
+the flush steps: it increases counter to hold a vblank reference (get),
+but there isn't a op to decreased it and release vblanks (put).
 
-For the record:
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_crtc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Acked-by: Wolfram Sang <wsa@kernel.org>
-
-
---n1iI6MeELQa9IOaF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8YGdYACgkQFA3kzBSg
-KbadpA/9EQDFCbpqtn7iQvroXO/jn90XPgO/eYkUVHWLS+Wjvnn5pwwQSX2PDYKm
-dx12lepK1qRqXevubBe+L1iqPn3D0E9fN76wFuduXdKo2yMlq8o1fjkw4YAbSEmm
-oJK0WrVBfSBaCFfGTy7Uh7pc5Tb766msmLYfCC6VY5Rdlr9F9ETmHgI+7S6Lx8BJ
-dXai3pSkOYaYGBajVdqRXRemtrE9x29nMbV8k2vFlELR1sRW8LAu4WOJ3SA9PfcP
-jzPlcM8IV6nv2jVUvg5jpR9KQ3SHBRkKkmUgClWt/ZnxpqAjCziyimemRq6GmhNK
-WIR0JiLChmgtF4XL+vPLBSiBHLKR4RjcpFwhJaAs3xYUymtdag+uTWvy6VfXliRy
-rp1wIFSGP/0XynfajB+xXWjtV2CGKn9nmxwUWzCiz7QAikyI920ciFEGXYfhD/9a
-opU6msSpxF+Oh25LZo2dR5QT5GZx9p1wkRxBBYYIeeboxv9LlMyLMXATDoCBGW/T
-1jwmnIhDOetaTLzs7P2o54/LP32bVBsOfj6mcvZQ5N4ShIVMgHaiXBOUzqike+L2
-EHwIHXjxI7NOeKpR5hXdr4JBNLAfyjtC6P0dCS03r2tNfuEizFlH2y7jDYvAcxKJ
-5BqXSC1DnU7frboGfq/9qLfWIBUaeK34RIU46gmN/knsgV8y9zc=
-=l+uH
------END PGP SIGNATURE-----
-
---n1iI6MeELQa9IOaF--
-
---===============1544209947==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index ac85e17428f8..a99d6b4a92dd 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -246,6 +246,7 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 		spin_unlock(&crtc->dev->event_lock);
+ 
++		drm_crtc_vblank_put(crtc);
+ 		crtc->state->event = NULL;
+ 	}
+ 
+-- 
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1544209947==--
