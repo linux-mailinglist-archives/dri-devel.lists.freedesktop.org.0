@@ -2,28 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34290229876
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 14:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4CA229877
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 14:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E04E16E14B;
-	Wed, 22 Jul 2020 12:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0443A6E1C0;
+	Wed, 22 Jul 2020 12:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 530196E14B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 12:48:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22BDE6E14B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 12:48:09 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jyEAI-0006bq-OV; Wed, 22 Jul 2020 14:48:06 +0200
+ id 1jyEAJ-0006bq-NR; Wed, 22 Jul 2020 14:48:07 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/imx: imx-tve: use regmap fast_io spinlock
-Date: Wed, 22 Jul 2020 14:48:02 +0200
-Message-Id: <20200722124803.12043-1-p.zabel@pengutronix.de>
+Subject: [PATCH 2/2] drm/imx: imx-tve: remove redundant enable tracking
+Date: Wed, 22 Jul 2020 14:48:03 +0200
+Message-Id: <20200722124803.12043-2-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200722124803.12043-1-p.zabel@pengutronix.de>
+References: <20200722124803.12043-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
 X-SA-Exim-Mail-From: p.zabel@pengutronix.de
@@ -48,75 +50,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the custom spinlock with the fast_io spinlock provided by
-regmap.
+The DRM core already takes care that encoder enable and disable calls
+are balanced.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/imx/imx-tve.c | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+ drivers/gpu/drm/imx/imx-tve.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
-index 813bb6156a68..854f56603210 100644
+index 854f56603210..ef3c25d87d87 100644
 --- a/drivers/gpu/drm/imx/imx-tve.c
 +++ b/drivers/gpu/drm/imx/imx-tve.c
-@@ -13,7 +13,6 @@
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
--#include <linux/spinlock.h>
- #include <linux/videodev2.h>
- 
- #include <video/imx-ipu-v3.h>
-@@ -104,7 +103,6 @@ struct imx_tve {
+@@ -103,7 +103,6 @@ struct imx_tve {
  	struct drm_connector connector;
  	struct drm_encoder encoder;
  	struct device *dev;
--	spinlock_t lock;	/* register lock */
- 	bool enabled;
+-	bool enabled;
  	int mode;
  	int di_hsync_pin;
-@@ -129,22 +127,6 @@ static inline struct imx_tve *enc_to_tve(struct drm_encoder *e)
- 	return container_of(e, struct imx_tve, encoder);
- }
+ 	int di_vsync_pin;
+@@ -129,12 +128,8 @@ static inline struct imx_tve *enc_to_tve(struct drm_encoder *e)
  
--static void tve_lock(void *__tve)
--__acquires(&tve->lock)
--{
--	struct imx_tve *tve = __tve;
--
--	spin_lock(&tve->lock);
--}
--
--static void tve_unlock(void *__tve)
--__releases(&tve->lock)
--{
--	struct imx_tve *tve = __tve;
--
--	spin_unlock(&tve->lock);
--}
--
  static void tve_enable(struct imx_tve *tve)
  {
- 	if (!tve->enabled) {
-@@ -500,8 +482,7 @@ static struct regmap_config tve_regmap_config = {
+-	if (!tve->enabled) {
+-		tve->enabled = true;
+-		clk_prepare_enable(tve->clk);
+-		regmap_update_bits(tve->regmap, TVE_COM_CONF_REG,
+-				   TVE_EN, TVE_EN);
+-	}
++	clk_prepare_enable(tve->clk);
++	regmap_update_bits(tve->regmap, TVE_COM_CONF_REG, TVE_EN, TVE_EN);
  
- 	.readable_reg = imx_tve_readable_reg,
+ 	/* clear interrupt status register */
+ 	regmap_write(tve->regmap, TVE_STAT_REG, 0xffffffff);
+@@ -151,11 +146,8 @@ static void tve_enable(struct imx_tve *tve)
  
--	.lock = tve_lock,
--	.unlock = tve_unlock,
-+	.fast_io = true,
+ static void tve_disable(struct imx_tve *tve)
+ {
+-	if (tve->enabled) {
+-		tve->enabled = false;
+-		regmap_update_bits(tve->regmap, TVE_COM_CONF_REG, TVE_EN, 0);
+-		clk_disable_unprepare(tve->clk);
+-	}
++	regmap_update_bits(tve->regmap, TVE_COM_CONF_REG, TVE_EN, 0);
++	clk_disable_unprepare(tve->clk);
+ }
  
- 	.max_register = 0xdc,
- };
-@@ -544,7 +525,6 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
- 	memset(tve, 0, sizeof(*tve));
- 
- 	tve->dev = dev;
--	spin_lock_init(&tve->lock);
- 
- 	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
- 	if (ddc_node) {
+ static int tve_setup_tvout(struct imx_tve *tve)
 -- 
 2.20.1
 
