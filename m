@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7E022A94D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E266322A93C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 799286E46D;
-	Thu, 23 Jul 2020 07:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F413B89739;
+	Thu, 23 Jul 2020 07:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126476E06D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 18:14:27 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id a1so2342408edt.10
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 11:14:26 -0700 (PDT)
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2196E067
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 18:14:33 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id w6so3252449ejq.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 11:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8DzSnA+/kDSS5MO4IA6iCFwIhWVFbU1RNSo1HqBPhhE=;
- b=h74/5hAiMInjB9Fh08FXp2jhDwcfejMysp5Tyeezamsue8iNB23OsKWUBXt3A0am1I
- nBcB+8gUGZiVM+0ZthTspcxTVKzsI2CiMMnms+shi3KdJrcrDrMgIxO+aT0hhMmRJFad
- M70iXUs+ZS9QGlP1Uek4npwRV356wYHb2Bdf+hlVb+rwsO/CbS4qsXMSeBwJW9/uAwG7
- g8ChBR4i4ULijJk16piKMt6//vlz9v7LW8fecxk983jDTUNMFk1ytlwkGhEa62Zdlipj
- BH5jReOJYvJpbf9HJvGd/PILO0NpoYP0tI3wnh32qfYXKLnntvmtzPOtbOty08HT5Nsf
- LoGQ==
+ bh=9YXzBu5CzF+ORy2slLhhzsC7TGMl1ab46whl8Gc0jIE=;
+ b=YZT+wLdJt81DIoI1eEOPyqj1ApstGxBDSFtKpxwA9aFw78rHiaPtz1o5R5aWPA7mJV
+ zmNy+2woINSM+h80UBALJOtOA5Upoq2morXnjWFdTQ+Wtq6buPJsqYcpPDzzaESTPck8
+ tqZXYqMilV+HuupNqSOpFSxS29xvqMO9EENURQIGqLlabe8vJ8zb3/5WKCe6akTx6gDA
+ SUp6DhxR16CeNKMBUPluYu+Z6vVdb83WgEs8iYvA+T5Qj20InAeKKUMLFkdk+OmiOKLc
+ LL+k+HbMYlgqkEwBrDHamrOmKY1UgM1OIJAGO7wZjw+h6mM9gTK41HYB0dM36Eqxdsr9
+ pJvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=8DzSnA+/kDSS5MO4IA6iCFwIhWVFbU1RNSo1HqBPhhE=;
- b=BybKFE4thRNl+U1sxXP4ZpK4tiKhwc3bnAKax2PaBzpxUeaWFH+/V+p9X3cZEMPe5G
- W0uni0m5A2PxfPYTQpCQSaa08Vevjt0j917Gcxax5+GCJ1HmIEROFA7+4JniL+DAJbN7
- KZzaI2OekQ2CDzOpMEdYcoq/fXLMKM6bTXHDKsH75jaMjxPCTDCzkvGN4JI6Qrl85a4D
- OL/O/ueCMeTcm0xNf8XGORmc5aoajcHnY0aElR0HNNucDIqP1UmysI/lJLRwwVC9fJ62
- +yk8tQQhgE1wNlSyIoakQjy+c7XSfYwp88duap/bc799RDr9Wfl84zdM39lGvEalcUis
- JyTw==
-X-Gm-Message-State: AOAM531iNPFWVZi47JKQgHA76NdjLT2jLa8SwZQ424eG+tq9QB8PfkX/
- obv0wClGGffGT4Rb55G2iA==
-X-Google-Smtp-Source: ABdhPJwP7oFCOGzbeuXabVgTdjc+lVDGG1HApDtuMAMIV7v5O3m1ikWS1rZCnLDPzEy+7DsURp/2eQ==
-X-Received: by 2002:aa7:c4d1:: with SMTP id p17mr680912edr.268.1595441665602; 
- Wed, 22 Jul 2020 11:14:25 -0700 (PDT)
+ bh=9YXzBu5CzF+ORy2slLhhzsC7TGMl1ab46whl8Gc0jIE=;
+ b=dgk2S+LgJL07DvtsU6l/g16aGbPMlQ8z4JOn9AYzNLQ0KOSiosI+u1JIEFPNLuFA3L
+ CXZx6afuZVanjXf2SC16QqzlddHc/otmsZP0ZoHiG/oxq9IgS3N6+K/lidODnl3WNOdd
+ PT6Y2Trh7YfapTrSCKDqEG3028HPnyh7mIdPvK3pEXHKWK/LLzouJgyYxdUzFF3Ym1MI
+ 4acJ1thnmWrc0Ew9vdHo0JL5gzdR+ekzaYbodFLLkmwsoUsi9BCkiI8xziahYSXD0X/p
+ QG42+C3uKip3fPrPMGCCg33hCEFmgVqKAxi94Chphusi+ZeVUmm7CGgbVMttGiWNs4oK
+ a08w==
+X-Gm-Message-State: AOAM533GsvgYjv+zD8YLne0KP204fEmz5NtTY93dSxRRVTibwu2iByXH
+ c08LyM8YVju85/I6YfOi7g==
+X-Google-Smtp-Source: ABdhPJw3iiCki6IlU7m1rxI1/D3e8gIWcFUfyjOXBSfZ5zryqeraDoQ2XJLCt9CzAECYRrmd99AhNA==
+X-Received: by 2002:a17:906:6406:: with SMTP id d6mr810152ejm.30.1595441671712; 
+ Wed, 22 Jul 2020 11:14:31 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:810b:f40:e00:922b:34ff:fe38:6455])
  by smtp.googlemail.com with ESMTPSA id
- x64sm372954edc.95.2020.07.22.11.14.24
+ x64sm372954edc.95.2020.07.22.11.14.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jul 2020 11:14:25 -0700 (PDT)
+ Wed, 22 Jul 2020 11:14:31 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Sandy Huang <hjc@rock-chips.com>,
  =?UTF-8?q?Heiko=20St=C3=BCbner=20?= <heiko@sntech.de>
-Subject: [PATCH v2 3/5] drm: rockchip: add alpha support for RK3036, RK3066,
- RK3126 and RK3188
-Date: Wed, 22 Jul 2020 20:13:30 +0200
-Message-Id: <20200722181332.26995-4-knaerzche@gmail.com>
+Subject: [PATCH v2 4/5] drm: rockchip: set alpha_en to 0 if it is not used
+Date: Wed, 22 Jul 2020 20:13:31 +0200
+Message-Id: <20200722181332.26995-5-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200722181332.26995-1-knaerzche@gmail.com>
 References: <20200722181332.26995-1-knaerzche@gmail.com>
@@ -77,118 +76,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With commit 2aae8ed1f390
-("drm/rockchip: Add per-pixel alpha support for the PX30 VOP") alpha
-support was introduced for PX30's VOP.
-RK3036, RK3066, RK3126 and RK3188 VOPs support alpha blending in the
-same manner.
-With the exception of RK3066 all of them support pre-multiplied alpha.
+alpha_en should be set to 0 if it is not used, i.e. to disable alpha
+blending if it was enabled before and should be disabled now.
 
-Lets add these registers to make this work for those VOPs as well.
+Fixes: 2aae8ed1f390 ("drm/rockchip: Add per-pixel alpha support for the PX30 VOP")
 
 Signed-off-by: Alex Bee <knaerzche@gmail.com>
 ---
 
 Changes in v2:
-- rephrase commit message
+- capitalize "F" of "Fixes" in the commit message
 
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 21 +++++++++++++++++++++
- drivers/gpu/drm/rockchip/rockchip_vop_reg.h |  1 +
- 2 files changed, 22 insertions(+)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index a50877818a86..5a13b4ab77e1 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -104,6 +104,9 @@ static const struct vop_win_phy rk3036_win0_data = {
- 	.uv_mst = VOP_REG(RK3036_WIN0_CBR_MST, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3036_WIN0_VIR, 0xffff, 0),
- 	.uv_vir = VOP_REG(RK3036_WIN0_VIR, 0x1fff, 16),
-+	.alpha_mode = VOP_REG(RK3036_DSP_CTRL0, 0x1, 18),
-+	.alpha_en = VOP_REG(RK3036_ALPHA_CTRL, 0x1, 0),
-+	.alpha_pre_mul = VOP_REG(RK3036_DSP_CTRL0, 0x1, 29),
- };
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index c80f7d9fd13f..0f23144491e4 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1013,6 +1013,7 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
+ 		VOP_WIN_SET(vop, win, alpha_en, 1);
+ 	} else {
+ 		VOP_WIN_SET(vop, win, src_alpha_ctl, SRC_ALPHA_EN(0));
++		VOP_WIN_SET(vop, win, alpha_en, 0);
+ 	}
  
- static const struct vop_win_phy rk3036_win1_data = {
-@@ -119,6 +122,9 @@ static const struct vop_win_phy rk3036_win1_data = {
- 	.dsp_st = VOP_REG(RK3036_WIN1_DSP_ST, 0x1fff1fff, 0),
- 	.yrgb_mst = VOP_REG(RK3036_WIN1_MST, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3036_WIN1_VIR, 0xffff, 0),
-+	.alpha_mode = VOP_REG(RK3036_DSP_CTRL0, 0x1, 19),
-+	.alpha_en = VOP_REG(RK3036_ALPHA_CTRL, 0x1, 1),
-+	.alpha_pre_mul = VOP_REG(RK3036_DSP_CTRL0, 0x1, 29),
- };
- 
- static const struct vop_win_data rk3036_vop_win_data[] = {
-@@ -185,6 +191,9 @@ static const struct vop_win_phy rk3126_win1_data = {
- 	.dsp_st = VOP_REG(RK3126_WIN1_DSP_ST, 0x1fff1fff, 0),
- 	.yrgb_mst = VOP_REG(RK3126_WIN1_MST, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3036_WIN1_VIR, 0xffff, 0),
-+	.alpha_mode = VOP_REG(RK3036_DSP_CTRL0, 0x1, 19),
-+	.alpha_en = VOP_REG(RK3036_ALPHA_CTRL, 0x1, 1),
-+	.alpha_pre_mul = VOP_REG(RK3036_DSP_CTRL0, 0x1, 29),
- };
- 
- static const struct vop_win_data rk3126_vop_win_data[] = {
-@@ -364,6 +373,8 @@ static const struct vop_win_phy rk3066_win0_data = {
- 	.uv_mst = VOP_REG(RK3066_WIN0_CBR_MST0, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3066_WIN0_VIR, 0xffff, 0),
- 	.uv_vir = VOP_REG(RK3066_WIN0_VIR, 0x1fff, 16),
-+	.alpha_mode = VOP_REG(RK3066_DSP_CTRL0, 0x1, 21),
-+	.alpha_en = VOP_REG(RK3066_BLEND_CTRL, 0x1, 0),
- };
- 
- static const struct vop_win_phy rk3066_win1_data = {
-@@ -381,6 +392,8 @@ static const struct vop_win_phy rk3066_win1_data = {
- 	.uv_mst = VOP_REG(RK3066_WIN1_CBR_MST, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3066_WIN1_VIR, 0xffff, 0),
- 	.uv_vir = VOP_REG(RK3066_WIN1_VIR, 0x1fff, 16),
-+	.alpha_mode = VOP_REG(RK3066_DSP_CTRL0, 0x1, 22),
-+	.alpha_en = VOP_REG(RK3066_BLEND_CTRL, 0x1, 1),
- };
- 
- static const struct vop_win_phy rk3066_win2_data = {
-@@ -394,6 +407,8 @@ static const struct vop_win_phy rk3066_win2_data = {
- 	.dsp_st = VOP_REG(RK3066_WIN2_DSP_ST, 0x1fff1fff, 0),
- 	.yrgb_mst = VOP_REG(RK3066_WIN2_MST, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3066_WIN2_VIR, 0xffff, 0),
-+	.alpha_mode = VOP_REG(RK3066_DSP_CTRL0, 0x1, 23),
-+	.alpha_en = VOP_REG(RK3066_BLEND_CTRL, 0x1, 2),
- };
- 
- static const struct vop_modeset rk3066_modeset = {
-@@ -476,6 +491,9 @@ static const struct vop_win_phy rk3188_win0_data = {
- 	.yrgb_mst = VOP_REG(RK3188_WIN0_YRGB_MST0, 0xffffffff, 0),
- 	.uv_mst = VOP_REG(RK3188_WIN0_CBR_MST0, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3188_WIN_VIR, 0x1fff, 0),
-+	.alpha_mode = VOP_REG(RK3188_DSP_CTRL0, 0x1, 18),
-+	.alpha_en = VOP_REG(RK3188_ALPHA_CTRL, 0x1, 0),
-+	.alpha_pre_mul = VOP_REG(RK3188_DSP_CTRL0, 0x1, 29),
- };
- 
- static const struct vop_win_phy rk3188_win1_data = {
-@@ -490,6 +508,9 @@ static const struct vop_win_phy rk3188_win1_data = {
- 	.dsp_st = VOP_REG(RK3188_WIN1_DSP_ST, 0x0fff0fff, 0),
- 	.yrgb_mst = VOP_REG(RK3188_WIN1_MST, 0xffffffff, 0),
- 	.yrgb_vir = VOP_REG(RK3188_WIN_VIR, 0x1fff, 16),
-+	.alpha_mode = VOP_REG(RK3188_DSP_CTRL0, 0x1, 19),
-+	.alpha_en = VOP_REG(RK3188_ALPHA_CTRL, 0x1, 1),
-+	.alpha_pre_mul = VOP_REG(RK3188_DSP_CTRL0, 0x1, 29),
- };
- 
- static const struct vop_modeset rk3188_modeset = {
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
-index 6e9fa5815d4d..0b3cd65ba5c1 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
-@@ -955,6 +955,7 @@
- #define RK3188_DSP_CTRL0		0x04
- #define RK3188_DSP_CTRL1		0x08
- #define RK3188_INT_STATUS		0x10
-+#define RK3188_ALPHA_CTRL		0x14
- #define RK3188_WIN0_YRGB_MST0		0x20
- #define RK3188_WIN0_CBR_MST0		0x24
- #define RK3188_WIN0_YRGB_MST1		0x28
+ 	VOP_WIN_SET(vop, win, enable, 1);
 -- 
 2.17.1
 
