@@ -1,40 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A56322990F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 15:14:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B55B229926
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 15:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2EF16E048;
-	Wed, 22 Jul 2020 13:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 819426E584;
+	Wed, 22 Jul 2020 13:26:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB3206E048
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 13:14:37 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F279329;
- Wed, 22 Jul 2020 15:14:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595423676;
- bh=Yy1kPitq1p4+UT+TJhQ9MFHfEcOUO4nuS8woENFDtKE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iUx5z42nUo41McjzpXcpPYK3kDiTO0mS1R0i5jJXLLU3o3kpDsQg+ihnlOuKkDYxX
- sfXX1nV021EDZeAuXNHMdFQKl2tey7qXoTUZT4lGFnkv5g5LDVx2Vko187/pg+yYdP
- OhB1hAttWuHlUPXd0sIziaSJsIWioKxfeEu5GqWo=
-Date: Wed, 22 Jul 2020 16:14:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v5 3/4] drm/bridge: Introduce LT9611 DSI to HDMI bridge
-Message-ID: <20200722131430.GJ5833@pendragon.ideasonboard.com>
-References: <20200708103559.132300-1-vkoul@kernel.org>
- <20200708103559.132300-4-vkoul@kernel.org>
- <20200719171806.GA55541@ravnborg.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7786E584
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 13:26:00 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1jyEkx-0002EC-1T; Wed, 22 Jul 2020 15:25:59 +0200
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
+Date: Wed, 22 Jul 2020 15:25:58 +0200
+Message-Id: <20200722132558.28289-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200719171806.GA55541@ravnborg.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,126 +42,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- linux-kernel@vger.kernel.org
+Cc: kernel@pengutronix.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Add a drm_simple_encoder_init() variant that registers
+drm_encoder_cleanup() with drmm_add_action().
 
-On Sun, Jul 19, 2020 at 07:18:06PM +0200, Sam Ravnborg wrote:
-> Hi Vinod.
-> 
-> Three trivial points below.
-> The rest looks good.
-> 
-> With these fixed you can add:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> 	Sam
-> 
-> On Wed, Jul 08, 2020 at 04:05:58PM +0530, Vinod Koul wrote:
-> > Lontium Lt9611 is a DSI to HDMI bridge which supports two DSI ports and
-> > I2S port as an input and HDMI port as output
-> > 
-> > Co-developed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > Tested-by: John Stultz <john.stultz@linaro.org>
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > ---
-> >  drivers/gpu/drm/bridge/Kconfig          |   13 +
-> >  drivers/gpu/drm/bridge/Makefile         |    1 +
-> >  drivers/gpu/drm/bridge/lontium-lt9611.c | 1142 +++++++++++++++++++++++
-> >  3 files changed, 1156 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
-> > 
-> > +
-> > +#include <drm/drm_probe_helper.h>
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_bridge.h>
-> > +#include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_print.h>
-> 
-> In alphabetical order. drm_probe_helper needs to be moved.
-> 
-> > +
-> > +#define EDID_SEG_SIZE	256
-> > +#define EDID_LEN	32
-> > +#define EDID_LOOP	8
-> > +#define KEY_DDC_ACCS_DONE 0x02
-> > +#define DDC_NO_ACK	0x50
-> > +
-> 
-> > +static void lt9611_pcr_setup(struct lt9611 *lt9611, const struct drm_display_mode *mode)
-> > +{
-> > +	const struct reg_sequence reg_cfg[] = {
-> > +		{ 0x830b, 0x01 },
-> > +		{ 0x830c, 0x10 },
-> > +		{ 0x8348, 0x00 },
-> > +		{ 0x8349, 0x81 },
-> > +
-> > +		/* stage 1 */
-> > +		{ 0x8321, 0x4a },
-> > +		{ 0x8324, 0x71 },
-> > +		{ 0x8325, 0x30 },
-> > +		{ 0x832a, 0x01 },
-> > +
-> > +		/* stage 2 */
-> > +		{ 0x834a, 0x40 },
-> > +		{ 0x831d, 0x10 },
-> > +
-> > +		/* MK limit */
-> > +		{ 0x832d, 0x38 },
-> > +		{ 0x8331, 0x08 },
-> > +	};
-> > +	const struct reg_sequence reg_cfg2[] = {
-> > +			{ 0x830b, 0x03 },
-> > +			{ 0x830c, 0xd0 },
-> > +			{ 0x8348, 0x03 },
-> > +			{ 0x8349, 0xe0 },
-> > +			{ 0x8324, 0x72 },
-> > +			{ 0x8325, 0x00 },
-> > +			{ 0x832a, 0x01 },
-> > +			{ 0x834a, 0x10 },
-> > +			{ 0x831d, 0x10 },
-> > +			{ 0x8326, 0x37 },
-> 
-> Block above is indented one tab too much.
-> 
-> > +static int lt9611_bridge_attach(struct drm_bridge *bridge,
-> > +				enum drm_bridge_attach_flags flags)
-> > +{
-> > +	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-> > +	int ret;
-> > +
-> > +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> > +		dev_err(lt9611->dev, "Fix bridge driver to make connector optional!");
-> > +		return -EINVAL;
-> > +	}
->
-> This should say that the display driver should be fixed.
-> If a display driver expects this bridge to create the connector
-> it would not work.
+Now drivers can store encoders in memory allocated with drmm_kmalloc()
+after the call to drmm_mode_config_init(), without having to manually
+make sure that drm_encoder_cleanup() is called before the memory is
+freed.
 
-Actually, for new bridge drivers, connector creation should be optional
-from the start. We don't want a failure in that case, the feature should
-be implemented.
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/gpu/drm/drm_simple_kms_helper.c | 42 +++++++++++++++++++++++++
+ include/drm/drm_simple_kms_helper.h     |  4 +++
+ 2 files changed, 46 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+index 74946690aba4..a243f00cf63d 100644
+--- a/drivers/gpu/drm/drm_simple_kms_helper.c
++++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+@@ -9,6 +9,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_managed.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+@@ -71,6 +72,47 @@ int drm_simple_encoder_init(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_simple_encoder_init);
+ 
++static void drmm_encoder_cleanup(struct drm_device *dev, void *ptr)
++{
++	struct drm_encoder *encoder = ptr;
++
++	drm_encoder_cleanup(encoder);
++}
++
++/**
++ * drmm_simple_encoder_init - Initialize a preallocated encoder with
++ *                            basic functionality.
++ * @dev: drm device
++ * @encoder: the encoder to initialize
++ * @encoder_type: user visible type of the encoder
++ *
++ * Initialises a preallocated encoder that has no further functionality.
++ * Settings for possible CRTC and clones are left to their initial values.
++ * Cleanup is automatically handled through registering drm_encoder_cleanup()
++ * with drmm_add_action().
++ *
++ * The caller of drmm_simple_encoder_init() is responsible for allocating
++ * the encoder's memory with drmm_kzalloc() to ensure it is automatically
++ * freed after the encoder has been cleaned up.
++ *
++ * Returns:
++ * Zero on success, error code on failure.
++ */
++int drmm_simple_encoder_init(struct drm_device *dev,
++			     struct drm_encoder *encoder,
++			     int encoder_type)
++{
++	int ret;
++
++	ret = drm_encoder_init(dev, encoder, &drm_simple_encoder_funcs_cleanup,
++			       encoder_type, NULL);
++	if (ret)
++		return ret;
++
++	return drmm_add_action_or_reset(dev, drmm_encoder_cleanup, encoder);
++}
++EXPORT_SYMBOL(drmm_simple_encoder_init);
++
+ static enum drm_mode_status
+ drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
+ 			       const struct drm_display_mode *mode)
+diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
+index a026375464ff..27f0915599c8 100644
+--- a/include/drm/drm_simple_kms_helper.h
++++ b/include/drm/drm_simple_kms_helper.h
+@@ -185,4 +185,8 @@ int drm_simple_encoder_init(struct drm_device *dev,
+ 			    struct drm_encoder *encoder,
+ 			    int encoder_type);
+ 
++int drmm_simple_encoder_init(struct drm_device *dev,
++			     struct drm_encoder *encoder,
++			     int encoder_type);
++
+ #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
