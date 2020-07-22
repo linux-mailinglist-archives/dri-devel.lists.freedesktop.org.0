@@ -1,37 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238DA229181
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 09:03:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E64F222918F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 09:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF5866E43A;
-	Wed, 22 Jul 2020 07:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBA7F88503;
+	Wed, 22 Jul 2020 07:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 978966E108
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 01:49:49 +0000 (UTC)
-Received: from njvxl5505.vivo.xyz (unknown [157.0.31.125])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 751ED4823E7;
- Wed, 22 Jul 2020 09:49:47 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: remove meaningless if(ret) check code.
-Date: Wed, 22 Jul 2020 09:49:39 +0800
-Message-Id: <20200722014939.4047-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.17.1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZQk8dQklDTBhKTk8dVkpOQk5IQ0lOQ0xNTUtVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6KxA6TCo5OT8tFxUWUTw0OU9D
- AQlPCwNVSlVKTkJOSENJTkNDS01IVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU5ZV1kIAVlBSkJDSzcG
-X-HM-Tid: 0a73743660da93bakuws751ed4823e7
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6637D6E108;
+ Wed, 22 Jul 2020 01:52:35 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 46135F10C8CAD54FD757;
+ Wed, 22 Jul 2020 09:52:30 +0800 (CST)
+Received: from localhost (10.174.179.108) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Wed, 22 Jul 2020
+ 09:52:22 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>, <Jack.Zhang1@amd.com>
+Subject: [PATCH -next] drm/amdgpu/vcn3.0: Remove set but not used variable
+ 'direct_poll'
+Date: Wed, 22 Jul 2020 09:52:10 +0800
+Message-ID: <20200722015210.29488-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
+MIME-Version: 1.0
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 22 Jul 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,39 +42,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
-MIME-Version: 1.0
+Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function drm_panel_add always returns true.
-So if(ret) check code will never run into error branch.
-Remove these check will make the code a bit readable.
+drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c: In function vcn_v3_0_start_sriov:
+drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:1235:3:
+ warning: variable direct_poll set but not used [-Wunused-but-set-variable]
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+It is never used, so can remove it.
+
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-index 95b789ab9d29..2c168a405928 100644
---- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-+++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-@@ -225,9 +225,7 @@ static int feiyang_dsi_probe(struct mipi_dsi_device *dsi)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+index 910a4a32ff78..53f680134c40 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+@@ -1231,8 +1231,6 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
+ 		direct_wt = { {0} };
+ 	struct mmsch_v3_0_cmd_direct_read_modify_write
+ 		direct_rd_mod_wt = { {0} };
+-	struct mmsch_v3_0_cmd_direct_polling
+-		direct_poll = { {0} };
+ 	struct mmsch_v3_0_cmd_end end = { {0} };
+ 	struct mmsch_v3_0_init_header header;
  
--	ret = drm_panel_add(&ctx->panel);
--	if (ret < 0)
--		return ret;
-+	drm_panel_add(&ctx->panel);
+@@ -1240,8 +1238,6 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
+ 		MMSCH_COMMAND__DIRECT_REG_WRITE;
+ 	direct_rd_mod_wt.cmd_header.command_type =
+ 		MMSCH_COMMAND__DIRECT_REG_READ_MODIFY_WRITE;
+-	direct_poll.cmd_header.command_type =
+-		MMSCH_COMMAND__DIRECT_REG_POLLING;
+ 	end.cmd_header.command_type =
+ 		MMSCH_COMMAND__END;
  
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
 -- 
 2.17.1
+
 
 _______________________________________________
 dri-devel mailing list
