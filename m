@@ -1,31 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6040F22993C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 15:31:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E90229946
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 15:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACE16E81D;
-	Wed, 22 Jul 2020 13:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD2089D53;
+	Wed, 22 Jul 2020 13:35:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6CC46E81E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 13:30:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD75289D53
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 13:35:15 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jyEpf-0002o0-Ar; Wed, 22 Jul 2020 15:30:51 +0200
+ id 1jyEtu-0003cg-AK; Wed, 22 Jul 2020 15:35:14 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/8] drm/imx: ipuv3-crtc: use drm managed resources
-Date: Wed, 22 Jul 2020 15:30:42 +0200
-Message-Id: <20200722133042.30140-8-p.zabel@pengutronix.de>
+Subject: [PATCH 1/2] gpu: ipu-v3: Add Rec.709 limited range support to DP
+Date: Wed, 22 Jul 2020 15:35:10 +0200
+Message-Id: <20200722133511.28616-1-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200722133042.30140-1-p.zabel@pengutronix.de>
-References: <20200722133042.30140-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
 X-SA-Exim-Mail-From: p.zabel@pengutronix.de
@@ -50,190 +48,133 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drmm_kzalloc() to align crtc memory lifetime with the drm device,
-and use drmm_add_action_or_reset() to make sure IPU resources are
-released and drm_crtc_cleanup() is called before the memory is freed.
+Add YCbCr encoding and quantization range parameters to
+ipu_dp_setup_channel() and configure the CSC DP matrix
+accordingly.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/imx/ipuv3-crtc.c | 75 ++++++++++++++------------------
- 1 file changed, 33 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/imx/ipuv3-plane.c |  9 ++++++---
+ drivers/gpu/ipu-v3/ipu-dp.c       | 25 ++++++++++++++++++++++---
+ include/video/imx-ipu-v3.h        |  2 ++
+ 3 files changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
-index b0dacbadaf52..0e2f4b30d9ba 100644
---- a/drivers/gpu/drm/imx/ipuv3-crtc.c
-+++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-@@ -166,7 +167,6 @@ static void ipu_disable_vblank(struct drm_crtc *crtc)
- 
- static const struct drm_crtc_funcs ipu_crtc_funcs = {
- 	.set_config = drm_atomic_helper_set_config,
--	.destroy = drm_crtc_cleanup,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.reset = imx_drm_crtc_reset,
- 	.atomic_duplicate_state = imx_drm_crtc_duplicate_state,
-@@ -323,37 +323,42 @@ static const struct drm_crtc_helper_funcs ipu_helper_funcs = {
- 	.atomic_enable = ipu_crtc_atomic_enable,
- };
- 
--static void ipu_put_resources(struct ipu_crtc *ipu_crtc)
-+static void ipu_put_resources(struct drm_device *dev, void *ptr)
- {
-+	struct ipu_crtc *ipu_crtc = ptr;
-+
- 	if (!IS_ERR_OR_NULL(ipu_crtc->dc))
- 		ipu_dc_put(ipu_crtc->dc);
- 	if (!IS_ERR_OR_NULL(ipu_crtc->di))
- 		ipu_di_put(ipu_crtc->di);
- }
- 
--static int ipu_get_resources(struct ipu_crtc *ipu_crtc,
-+static int ipu_get_resources(struct drm_device *dev, struct ipu_crtc *ipu_crtc,
- 		struct ipu_client_platformdata *pdata)
- {
- 	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
- 	int ret;
- 
- 	ipu_crtc->dc = ipu_dc_get(ipu, pdata->dc);
--	if (IS_ERR(ipu_crtc->dc)) {
--		ret = PTR_ERR(ipu_crtc->dc);
--		goto err_out;
--	}
-+	if (IS_ERR(ipu_crtc->dc))
-+		return PTR_ERR(ipu_crtc->dc);
-+
-+	ret = drmm_add_action_or_reset(dev, ipu_put_resources, ipu_crtc);
-+	if (ret)
-+		return ret;
- 
- 	ipu_crtc->di = ipu_di_get(ipu, pdata->di);
--	if (IS_ERR(ipu_crtc->di)) {
--		ret = PTR_ERR(ipu_crtc->di);
--		goto err_out;
--	}
-+	if (IS_ERR(ipu_crtc->di))
-+		return PTR_ERR(ipu_crtc->di);
- 
- 	return 0;
--err_out:
--	ipu_put_resources(ipu_crtc);
-+}
- 
--	return ret;
-+static void ipu_crtc_cleanup(struct drm_device *drm, void *ptr)
-+{
-+	struct drm_crtc *crtc = ptr;
-+
-+	drm_crtc_cleanup(crtc);
- }
- 
- static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
-@@ -364,7 +369,7 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
- 	int dp = -EINVAL;
- 	int ret;
- 
--	ret = ipu_get_resources(ipu_crtc, pdata);
-+	ret = ipu_get_resources(drm, ipu_crtc, pdata);
- 	if (ret) {
- 		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
- 				ret);
-@@ -377,13 +382,19 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
- 					    DRM_PLANE_TYPE_PRIMARY);
- 	if (IS_ERR(ipu_crtc->plane[0])) {
- 		ret = PTR_ERR(ipu_crtc->plane[0]);
--		goto err_put_resources;
-+		return ret;
+diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+index d7464051514f..faecba638b76 100644
+--- a/drivers/gpu/drm/imx/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+@@ -608,11 +608,14 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+ 	ics = ipu_drm_fourcc_to_colorspace(fb->format->format);
+ 	switch (ipu_plane->dp_flow) {
+ 	case IPU_DP_FLOW_SYNC_BG:
+-		ipu_dp_setup_channel(ipu_plane->dp, ics, IPUV3_COLORSPACE_RGB);
++		ipu_dp_setup_channel(ipu_plane->dp, DRM_COLOR_YCBCR_BT601,
++				     DRM_COLOR_YCBCR_LIMITED_RANGE, ics,
++				     IPUV3_COLORSPACE_RGB);
+ 		break;
+ 	case IPU_DP_FLOW_SYNC_FG:
+-		ipu_dp_setup_channel(ipu_plane->dp, ics,
+-					IPUV3_COLORSPACE_UNKNOWN);
++		ipu_dp_setup_channel(ipu_plane->dp, DRM_COLOR_YCBCR_BT601,
++				     DRM_COLOR_YCBCR_LIMITED_RANGE, ics,
++				     IPUV3_COLORSPACE_UNKNOWN);
+ 		break;
  	}
  
- 	crtc->port = pdata->of_node;
- 	drm_crtc_helper_add(crtc, &ipu_helper_funcs);
--	drm_crtc_init_with_planes(drm, crtc, &ipu_crtc->plane[0]->base, NULL,
--				  &ipu_crtc_funcs, NULL);
-+	ret = drm_crtc_init_with_planes(drm, crtc, &ipu_crtc->plane[0]->base,
-+					NULL, &ipu_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = drmm_add_action_or_reset(drm, ipu_crtc_cleanup, crtc);
-+	if (ret)
-+		return ret;
+diff --git a/drivers/gpu/ipu-v3/ipu-dp.c b/drivers/gpu/ipu-v3/ipu-dp.c
+index 8f67e985f26a..6a558205db96 100644
+--- a/drivers/gpu/ipu-v3/ipu-dp.c
++++ b/drivers/gpu/ipu-v3/ipu-dp.c
+@@ -10,6 +10,7 @@
+ #include <linux/io.h>
+ #include <linux/err.h>
  
- 	/* If this crtc is using the DP, add an overlay plane */
- 	if (pdata->dp >= 0 && pdata->dma[1] > 0) {
-@@ -400,17 +411,12 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
- 			"imx_drm", ipu_crtc);
- 	if (ret < 0) {
- 		dev_err(ipu_crtc->dev, "irq request failed with %d.\n", ret);
--		goto err_put_plane1_res;
-+		return ret;
- 	}
- 	/* Only enable IRQ when we actually need it to trigger work. */
- 	disable_irq(ipu_crtc->irq);
++#include <drm/drm_color_mgmt.h>
+ #include <video/imx-ipu-v3.h>
+ #include "ipu-prv.h"
  
- 	return 0;
--
--err_put_resources:
--	ipu_put_resources(ipu_crtc);
--
--	return ret;
+@@ -125,6 +126,8 @@ int ipu_dp_set_window_pos(struct ipu_dp *dp, u16 x_pos, u16 y_pos)
+ EXPORT_SYMBOL_GPL(ipu_dp_set_window_pos);
+ 
+ static void ipu_dp_csc_init(struct ipu_flow *flow,
++		enum drm_color_encoding ycbcr_enc,
++		enum drm_color_range range,
+ 		enum ipu_color_space in,
+ 		enum ipu_color_space out,
+ 		u32 place)
+@@ -148,7 +151,18 @@ static void ipu_dp_csc_init(struct ipu_flow *flow,
+ 				flow->base + DP_CSC_0);
+ 		writel(0x200 | (2 << 14) | (0x200 << 16) | (2 << 30),
+ 				flow->base + DP_CSC_1);
++	} else if (ycbcr_enc == DRM_COLOR_YCBCR_BT709) {
++		/* Rec.709 limited range */
++		writel(0x095 | (0x000 << 16), flow->base + DP_CSC_A_0);
++		writel(0x0e5 | (0x095 << 16), flow->base + DP_CSC_A_1);
++		writel(0x3e5 | (0x3bc << 16), flow->base + DP_CSC_A_2);
++		writel(0x095 | (0x10e << 16), flow->base + DP_CSC_A_3);
++		writel(0x000 | (0x3e10 << 16) | (1 << 30),
++				flow->base + DP_CSC_0);
++		writel(0x09a | (1 << 14) | (0x3dbe << 16) | (1 << 30),
++				flow->base + DP_CSC_1);
+ 	} else {
++		/* BT.601 limited range */
+ 		writel(0x095 | (0x000 << 16), flow->base + DP_CSC_A_0);
+ 		writel(0x0cc | (0x095 << 16), flow->base + DP_CSC_A_1);
+ 		writel(0x3ce | (0x398 << 16), flow->base + DP_CSC_A_2);
+@@ -165,6 +179,8 @@ static void ipu_dp_csc_init(struct ipu_flow *flow,
  }
  
- static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
-@@ -419,31 +425,22 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
- 	struct drm_device *drm = data;
- 	struct ipu_crtc *ipu_crtc;
- 
--	ipu_crtc = dev_get_drvdata(dev);
--	memset(ipu_crtc, 0, sizeof(*ipu_crtc));
-+	ipu_crtc = drmm_kzalloc(drm, sizeof(*ipu_crtc), GFP_KERNEL);
-+	if (!ipu_crtc)
-+		return -ENOMEM;
- 
- 	ipu_crtc->dev = dev;
- 
- 	return ipu_crtc_init(ipu_crtc, pdata, drm);
- }
- 
--static void ipu_drm_unbind(struct device *dev, struct device *master,
--	void *data)
--{
--	struct ipu_crtc *ipu_crtc = dev_get_drvdata(dev);
--
--	ipu_put_resources(ipu_crtc);
--}
--
- static const struct component_ops ipu_crtc_ops = {
- 	.bind = ipu_drm_bind,
--	.unbind = ipu_drm_unbind,
- };
- 
- static int ipu_drm_probe(struct platform_device *pdev)
+ int ipu_dp_setup_channel(struct ipu_dp *dp,
++		enum drm_color_encoding ycbcr_enc,
++		enum drm_color_range range,
+ 		enum ipu_color_space in,
+ 		enum ipu_color_space out)
  {
- 	struct device *dev = &pdev->dev;
--	struct ipu_crtc *ipu_crtc;
- 	int ret;
+@@ -183,7 +199,8 @@ int ipu_dp_setup_channel(struct ipu_dp *dp,
+ 		 * foreground and background are of same colorspace, put
+ 		 * colorspace converter after combining unit.
+ 		 */
+-		ipu_dp_csc_init(flow, flow->foreground.in_cs, flow->out_cs,
++		ipu_dp_csc_init(flow, ycbcr_enc, range,
++				flow->foreground.in_cs, flow->out_cs,
+ 				DP_COM_CONF_CSC_DEF_BOTH);
+ 	} else {
+ 		if (flow->foreground.in_cs == IPUV3_COLORSPACE_UNKNOWN ||
+@@ -192,10 +209,12 @@ int ipu_dp_setup_channel(struct ipu_dp *dp,
+ 			 * foreground identical to output, apply color
+ 			 * conversion on background
+ 			 */
+-			ipu_dp_csc_init(flow, flow->background.in_cs,
++			ipu_dp_csc_init(flow, ycbcr_enc, range,
++					flow->background.in_cs,
+ 					flow->out_cs, DP_COM_CONF_CSC_DEF_BG);
+ 		else
+-			ipu_dp_csc_init(flow, flow->foreground.in_cs,
++			ipu_dp_csc_init(flow, ycbcr_enc, range,
++					flow->foreground.in_cs,
+ 					flow->out_cs, DP_COM_CONF_CSC_DEF_FG);
+ 	}
  
- 	if (!dev->platform_data)
-@@ -453,12 +450,6 @@ static int ipu_drm_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+diff --git a/include/video/imx-ipu-v3.h b/include/video/imx-ipu-v3.h
+index d1b3889f74d8..c422a403c099 100644
+--- a/include/video/imx-ipu-v3.h
++++ b/include/video/imx-ipu-v3.h
+@@ -17,6 +17,7 @@
+ #include <linux/bitmap.h>
+ #include <linux/fb.h>
+ #include <linux/of.h>
++#include <drm/drm_color_mgmt.h>
+ #include <media/v4l2-mediabus.h>
+ #include <video/videomode.h>
  
--	ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
--	if (!ipu_crtc)
--		return -ENOMEM;
--
--	dev_set_drvdata(dev, ipu_crtc);
--
- 	return component_add(dev, &ipu_crtc_ops);
- }
- 
+@@ -330,6 +331,7 @@ int ipu_dp_enable_channel(struct ipu_dp *dp);
+ void ipu_dp_disable_channel(struct ipu_dp *dp, bool sync);
+ void ipu_dp_disable(struct ipu_soc *ipu);
+ int ipu_dp_setup_channel(struct ipu_dp *dp,
++		enum drm_color_encoding ycbcr_enc, enum drm_color_range range,
+ 		enum ipu_color_space in, enum ipu_color_space out);
+ int ipu_dp_set_window_pos(struct ipu_dp *, u16 x_pos, u16 y_pos);
+ int ipu_dp_set_global_alpha(struct ipu_dp *dp, bool enable, u8 alpha,
 -- 
 2.20.1
 
