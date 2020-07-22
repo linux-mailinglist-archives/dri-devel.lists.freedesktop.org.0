@@ -1,55 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53B0228FBF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 07:34:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30817229015
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 07:52:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DFBC6E320;
-	Wed, 22 Jul 2020 05:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2296E326;
+	Wed, 22 Jul 2020 05:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC876E320
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 05:34:42 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id w17so927566otl.4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 22:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yTKyZdfMfJTLesMV7IRlTH0vv2Auk5OVqbvD/qU/lD4=;
- b=FtCgAqHgJiZ5tm1WPhggxbwOIymperTqJfvLulZRiP1c9rvcAWdESvmrDfiZCsce51
- jooZuNuz/utPbsv2rMlV7SeG8GNSpeqg38wlkVMhCbwg0jAqTwnVbOmpGet7POVJ6uht
- IkAMod8ndkO8Wn5FQGa9T/C18FYga6krkO8iE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yTKyZdfMfJTLesMV7IRlTH0vv2Auk5OVqbvD/qU/lD4=;
- b=A3l1iZVPqIDdli/BnPVhbEFGcQ8ZV9EDQ6cVmFyHefppOZOtvglSVw2B3rqcK7vhut
- e5mEhm6RvptfYG7duKh23nKHa8mUmdYzodJv2lKYIKieKsrTb5JPZHPyeqJ20VLBeEKw
- S+pVXPuD1l6aZOf6vpVG++GUF7P7GWnh2taapDQhtSykgLNYcsAMWapn5ZhgsSth4FJB
- M7Wtm2ntMqbiqLISCKQUuMU9ka880WIuVcVbZdVr4QHajt49hf3yqqRQyJ7TYJOh1HL4
- U/AF1V/bcXrU1HQDFa2ryDY51PlBGu/RK0WxFeiIP3pBqa2TjJKOE5K7iNiqPglHsOnt
- qksw==
-X-Gm-Message-State: AOAM531LLCzuDudm4YhculysN5yPOiMVEdz4smNU7NXBi/H27KMkKmq+
- T8Nagp6XGvWJ+ygXeodv3Ui7o5HVhIPwDvAdna7Yuocl
-X-Google-Smtp-Source: ABdhPJwhM3o1hrmE7su19QH6M+EsehbTd5X8iK2YC7L+VqVSYRCd13Cf1pxAKEA/6BWlewivwC1c+bafRD7UDZcgXgA=
-X-Received: by 2002:a05:6830:1d0:: with SMTP id
- r16mr28904675ota.188.1595396081837; 
- Tue, 21 Jul 2020 22:34:41 -0700 (PDT)
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C546E326
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 05:52:45 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4BBPkd2qC6z9sPB;
+ Wed, 22 Jul 2020 15:52:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1595397164;
+ bh=+DXFXfkYQ7uc+rrRZx7ipC29lUJNlQ0fiSh7XiaivgA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=A91MMATIUEaxLTuUSUSdP7KATr04kAPL8N5UX9dO7hhyHoOXaLRV8iG1/1lML/umk
+ sSBpcfCEtqy7XFgPDk2QXzVewAD+ZKdK1potR30457KWa6szjB2yqH3SV3drCMBpjN
+ jQH0Z99e/UDe4R55zZBKOfK/hpvb0xwAY37vw+TgR6AeTYI6rVIgXZaC5fEfLmgz0l
+ kff4Kr/f+nNa8fm7KXdxeR3iYKTaPvAdrNc9rFztrIUp+iHURI1i+XiPRtNOjRgO7h
+ Nn9AzYnTgWqmR8GZMhkoXtwar7loQlKhUA4f13IFnQxCSe6NRgHVuLh5Naso0YrLf8
+ Wrt3AM/F5MG5g==
+Date: Wed, 22 Jul 2020 15:52:39 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Rob Herring <robherring2@gmail.com>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the devicetree tree with the drm tree
+Message-ID: <20200722155239.07bafdfc@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20200721073245.2484-1-christian.koenig@amd.com>
- <20200721073245.2484-6-christian.koenig@amd.com>
- <20200721092448.GE6419@phenom.ffwll.local>
- <8a602078-3dad-4158-6057-07427ea69d74@gmail.com>
-In-Reply-To: <8a602078-3dad-4158-6057-07427ea69d74@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 22 Jul 2020 07:34:30 +0200
-Message-ID: <CAKMK7uE5M8LkuXQp07jveuVz8ybfKW4yoGC4fxJgbG1+9uX_Wg@mail.gmail.com>
-Subject: Re: [PATCH 06/11] drm/radeon: stop using TTM_MEMTYPE_FLAG_MAPPABLE
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,95 +47,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Madhav.Chauhan@amd.com, "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Alexander A.
+ Klimov" <grandmaster@al2klimov.de>, Douglas Anderson <dianders@chromium.org>
+Content-Type: multipart/mixed; boundary="===============2033368510=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMjEsIDIwMjAgYXQgNDo0NiBQTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
-LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyMS4wNy4yMCB1bSAxMToy
-NCBzY2hyaWViIGRhbmllbEBmZndsbC5jaDoKPiA+IE9uIFR1ZSwgSnVsIDIxLCAyMDIwIGF0IDA5
-OjMyOjQwQU0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPj4gVGhlIGRyaXZlciBk
-b2Vzbid0IGV4cG9zZSBhbnkgbm90LW1hcGFibGUgbWVtb3J5IHJlc291cmNlcy4KPiA+Pgo+ID4+
-IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
-bT4KPiA+PiAtLS0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jIHwg
-MTMgKysrKy0tLS0tLS0tLQo+ID4+ICAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwg
-OSBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFk
-ZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4g
-Pj4gaW5kZXggNTRhZjA2ZGY4NjViLi5iNDc0NzgxYTA5MjAgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+ID4+IEBAIC03Niw3ICs3Niw3IEBAIHN0YXRpYyBpbnQg
-cmFkZW9uX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90
-IHR5cGUsCj4gPj4gICAgICBzd2l0Y2ggKHR5cGUpIHsKPiA+PiAgICAgIGNhc2UgVFRNX1BMX1NZ
-U1RFTToKPiA+PiAgICAgICAgICAgICAgLyogU3lzdGVtIG1lbW9yeSAqLwo+ID4+IC0gICAgICAg
-ICAgICBtYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19NQVBQQUJMRTsKPiA+PiArICAgICAg
-ICAgICAgbWFuLT5mbGFncyA9IDA7Cj4gPj4gICAgICAgICAgICAgIG1hbi0+YXZhaWxhYmxlX2Nh
-Y2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+ID4+ICAgICAgICAgICAgICBtYW4tPmRlZmF1
-bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPiA+PiAgICAgICAgICAgICAgYnJlYWs7
-Cj4gPj4gQEAgLTg0LDcgKzg0LDcgQEAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlwZShz
-dHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPiA+PiAgICAgICAgICAg
-ICAgbWFuLT5mdW5jID0gJnR0bV9ib19tYW5hZ2VyX2Z1bmM7Cj4gPj4gICAgICAgICAgICAgIG1h
-bi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+ID4+ICAgICAgICAg
-ICAgICBtYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPiA+PiAtICAg
-ICAgICAgICAgbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEU7Cj4gPj4gKyAg
-ICAgICAgICAgIG1hbi0+ZmxhZ3MgPSAwOwo+ID4+ICAgI2lmIElTX0VOQUJMRUQoQ09ORklHX0FH
-UCkKPiA+PiAgICAgICAgICAgICAgaWYgKHJkZXYtPmZsYWdzICYgUkFERU9OX0lTX0FHUCkgewo+
-ID4+ICAgICAgICAgICAgICAgICAgICAgIGlmICghcmRldi0+ZGRldi0+YWdwKSB7Cj4gPj4gQEAg
-LTkyLDggKzkyLDYgQEAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRt
-X2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPiA+PiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAodW5zaWduZWQpdHlwZSk7Cj4gPj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPiA+PiAgICAgICAgICAgICAgICAgICAgICB9
-Cj4gPj4gLSAgICAgICAgICAgICAgICAgICAgaWYgKCFyZGV2LT5kZGV2LT5hZ3AtPmNhbnRfdXNl
-X2FwZXJ0dXJlKQo+ID4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgbWFuLT5mbGFncyA9
-IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEU7Cj4gPiBUaGVyZSBpcyBhIGJ1bmNoIG9mIGFncCBk
-cml2ZXJzIChhbHBoYSwgcHBjLCB0aGF0IGtpbmQgb2Ygc3R1ZmYpIHdpdGggdGhpcwo+ID4gZmxh
-ZyBzZXQuIEFuZCByYWRlb24ua28gZGlkIGF0IGxlYXN0IG9uY2Ugd29yayBvbiB0aGVzZS4gQW5k
-IHlvdXIgcGF0Y2ggdG8KPiA+IGRpc2FibGUgYWdwIG9ubHkgY2hhbmdlcyB0aGUgZGVmYXVsdCwg
-aXQgZG9lc24ndCByaXAgb3V0IHRoZSBjb2RlLgo+Cj4gVGhlIGtleSBwaW50IGlzIHRoYXQgdGhl
-IGZsYWdzIGZvciBBR1AgYXJlIHRoZSBzYW1lIGFzIHRoZSBvbmUgZm9yIHRoZQo+IFBDSWUgcGF0
-aC4gU28gbm8gZnVuY3Rpb25hbCBjaGFuZ2UgYXQgYWxsIDopCgpJIG1pc3JlYWQgdGhlIGNvZGUg
-c29tZWhvdywgSSBkaWRuJ3Qgc3BvdCB0aGUgdW5jb25kaXRpb25hbCBzZXR0aW5nIG9mCkZMQUdf
-TUFQUEFCTEUgZm9yIGFsbCBUVE1fUExfVFQsIGlycmVzcGVjdGl2ZSBvZiBhZ3Agb3Igbm90LCBz
-b21laG93CnRob3VnaHQgdGhhdCdzIGFub3RoZXIgY2FzZS4KClJldmlld2VkLWJ5OiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgoKPgo+IFRoZSByZWFsIGhhbmRsaW5nIG9m
-IGNhbnRfdXNlX2FwZXJ0dXJlIGlzIGluIHJhZGVvbl90dG1faW9fbWVtX3Jlc2VydmUoKS4KPgo+
-IENocmlzdGlhbi4KPgo+ID4KPiA+IFNvIG5vdCBzdXJlIHlvdXIgYXNzdW1wdGlvbiBoZXJlIGlz
-IGNvcnJlY3QuCj4gPiAtRGFuaWVsCj4gPgo+ID4+ICAgICAgICAgICAgICAgICAgICAgIG1hbi0+
-YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfRkxBR19VTkNBQ0hFRCB8Cj4gPj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRUTV9QTF9GTEFHX1dDOwo+ID4+
-ICAgICAgICAgICAgICAgICAgICAgIG1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdf
-V0M7Cj4gPj4gQEAgLTEwMyw4ICsxMDEsNyBAQCBzdGF0aWMgaW50IHJhZGVvbl9pbml0X21lbV90
-eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJfdCB0eXBlLAo+ID4+ICAgICAg
-Y2FzZSBUVE1fUExfVlJBTToKPiA+PiAgICAgICAgICAgICAgLyogIk9uLWNhcmQiIHZpZGVvIHJh
-bSAqLwo+ID4+ICAgICAgICAgICAgICBtYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsK
-PiA+PiAtICAgICAgICAgICAgbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQgfAo+
-ID4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgVFRNX01FTVRZUEVfRkxBR19NQVBQQUJMRTsK
-PiA+PiArICAgICAgICAgICAgbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQ7Cj4g
-Pj4gICAgICAgICAgICAgIG1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfRkxBR19VTkNB
-Q0hFRCB8IFRUTV9QTF9GTEFHX1dDOwo+ID4+ICAgICAgICAgICAgICBtYW4tPmRlZmF1bHRfY2Fj
-aGluZyA9IFRUTV9QTF9GTEFHX1dDOwo+ID4+ICAgICAgICAgICAgICBicmVhazsKPiA+PiBAQCAt
-Mzk0LDcgKzM5MSw2IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2JvX21vdmUoc3RydWN0IHR0bV9idWZm
-ZXJfb2JqZWN0ICpibywgYm9vbCBldmljdCwKPiA+Pgo+ID4+ICAgc3RhdGljIGludCByYWRlb25f
-dHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCBzdHJ1Y3QgdHRt
-X21lbV9yZWcgKm1lbSkKPiA+PiAgIHsKPiA+PiAtICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFu
-YWdlciAqbWFuID0gJmJkZXYtPm1hblttZW0tPm1lbV90eXBlXTsKPiA+PiAgICAgIHN0cnVjdCBy
-YWRlb25fZGV2aWNlICpyZGV2ID0gcmFkZW9uX2dldF9yZGV2KGJkZXYpOwo+ID4+Cj4gPj4gICAg
-ICBtZW0tPmJ1cy5hZGRyID0gTlVMTDsKPiA+PiBAQCAtNDAyLDggKzM5OCw3IEBAIHN0YXRpYyBp
-bnQgcmFkZW9uX3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwg
-c3RydWN0IHR0bV9tZW1fCj4gPj4gICAgICBtZW0tPmJ1cy5zaXplID0gbWVtLT5udW1fcGFnZXMg
-PDwgUEFHRV9TSElGVDsKPiA+PiAgICAgIG1lbS0+YnVzLmJhc2UgPSAwOwo+ID4+ICAgICAgbWVt
-LT5idXMuaXNfaW9tZW0gPSBmYWxzZTsKPiA+PiAtICAgIGlmICghKG1hbi0+ZmxhZ3MgJiBUVE1f
-TUVNVFlQRV9GTEFHX01BUFBBQkxFKSkKPiA+PiAtICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7
-Cj4gPj4gKwo+ID4+ICAgICAgc3dpdGNoIChtZW0tPm1lbV90eXBlKSB7Cj4gPj4gICAgICBjYXNl
-IFRUTV9QTF9TWVNURU06Cj4gPj4gICAgICAgICAgICAgIC8qIHN5c3RlbSBtZW1vcnkgKi8KPiA+
-PiAtLQo+ID4+IDIuMTcuMQo+ID4+Cj4gPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KPiA+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPj4gZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0
-d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============2033368510==
+Content-Type: multipart/signed; boundary="Sig_/oWXN3SQ8lhH9H.AU2OpA83W";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/oWXN3SQ8lhH9H.AU2OpA83W
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the devicetree tree got a conflict in:
+
+  Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.txt
+
+between commit:
+
+  5a2e9b658cdc ("dt-bindings: drm/bridge: ti-sn65dsi86: Convert to yaml")
+
+from the drm tree and commit:
+
+  382646090f7f ("dt-bindings: drm/bridge: Replace HTTP links with HTTPS one=
+s")
+
+from the devicetree tree.
+
+I fixed it up (I delete the file and adde the following merge fix
+patch) and can carry the fix as necessary. This is now fixed as far as
+linux-next is concerned, but any non trivial conflicts should be
+mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 22 Jul 2020 15:47:22 +1000
+Subject: [PATCH] fix for "dt-bindings: drm/bridge: Replace HTTP links with =
+HTTPS ones"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.=
+yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+index be10e8cf31e1..f8622bd0f61e 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+@@ -11,7 +11,7 @@ maintainers:
+=20
+ description: |
+   The Texas Instruments SN65DSI86 bridge takes MIPI DSI in and outputs eDP.
+-  http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=
+=3Dsn65dsi86&fileType=3Dpdf
++  https://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=
+=3Dsn65dsi86&fileType=3Dpdf
+=20
+ properties:
+   compatible:
+--=20
+2.27.0
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/oWXN3SQ8lhH9H.AU2OpA83W
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl8X1CcACgkQAVBC80lX
+0GwyWwf/YY8JKEer/2P6zf3IYHeHk0ZD+pm8MZsXm19M+/dHnvxs0kSficrlJ5iy
+oOQhfgCgBIgzUUQqR5PH2bXkXEyiPp/LsX2WupbNOa9V+zUpRIUanbDJbBMGf8dQ
+BBSTeJtOpf/U6pqOdY17NQFPBuBMRi4ng+9eiGXWJvjN6uoqWrIhWOilDuAxC9gC
+oO1YQesKFh46ONrGJJLKbFVjnhe+XDrsUZwdZPQHbPncUZK4AWhqs4BA560hqmmd
+Cm8nT4nqpuCPOvrKrXVudFj4Uu1FSiT7N1/Ati5/FEj0hZM1FzOYPaQ34v5YDeae
+abW5mOmRlOGr2JDHVNZc2ut4ZK8PTg==
+=aBZg
+-----END PGP SIGNATURE-----
+
+--Sig_/oWXN3SQ8lhH9H.AU2OpA83W--
+
+--===============2033368510==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2033368510==--
