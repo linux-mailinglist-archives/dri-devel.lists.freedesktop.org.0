@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223FC228D11
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 02:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01C7228D12
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 02:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771A66E134;
-	Wed, 22 Jul 2020 00:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1012E6E135;
+	Wed, 22 Jul 2020 00:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EFEC6E134;
- Wed, 22 Jul 2020 00:22:03 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z15so197650wrl.8;
- Tue, 21 Jul 2020 17:22:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAF16E135
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 00:22:46 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id u25so333990lfm.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 17:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=76HUDfWZhaARVooyxDCIOj9blSgQTf/u/IOtCa+nrKM=;
- b=ahg4JNUuc9ssgve80L8bfxHve4YLoKjUl4MTmjtp90HfoBgeyImdvZQmyz219gfo9Y
- XUxJH4mi4QNoGbPuq5m++mRAADWt2cxeGhKq7r42DAl8rxjW7NN9REHtbySLzcUgULUJ
- x/bTInfKJIU0USxASQVLnm2C9O+sxy9m39N+XcGc9f2c2Fy1ufyn6hLqvHaUAgElRThr
- dqNCM/06SRbrr2emA+tFH0R7LeQWyfQFv5tVBnAHhfkKYioOKzR72s6PDTpvNMhiZSfa
- mcNHzgnd2RkqoCTpewkr+ZYnM3BuZJcu+FwsLHoQT0UOloxofLYrrmFoy79zWJK7mSBE
- NABQ==
+ :cc; bh=bke+YfNGh2lqCQicsEXGSXnWzyR5TAW3UW4d27SxP1I=;
+ b=iOcAVQzGby684J9yNtMEzC1fK+tJPsn/klPfhATFG1CUkYZqQZRl4Wna+I8pUZIJ3B
+ XYSXqd00Dj4jib2TPffmzVM5jqiVqTdgZ/SqjRZDhGJAwGBL8YxEH3CyDvttJP3/5sKY
+ swmbPI2jcNqpxVraVkEJCcYatA3b1j8jZhTBQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=76HUDfWZhaARVooyxDCIOj9blSgQTf/u/IOtCa+nrKM=;
- b=UYne2zVFP+CfKMvveBjKZDbf5sEC2wYIUisjVrbI0RtWnTXQ17IHFhXRKkN8ju0iDG
- p4/TdGSf4rRzHxwP33yu/Z28tOtP6x1TAtoqcepJqukHvsKGKW2UiJj+BxQzF6oL3LKu
- poyh0XU4KK/pUObDHvEEoFW78tyGRtPy6H+nFPZmd1p9fQSCjNQJyuuFtcOhFzqgtteZ
- yGDWoCHzc8Dj5mdujzZ303jG0p1Xq6xUZhUFd+Sg/lg7uGbocHPim3gVAacN7h0L945o
- JweRgzaLLk5FeczzQE9st02xi5dboHFsm1kWxt78lShq9L008AZMRTdMMAv+haUx8kKX
- jagQ==
-X-Gm-Message-State: AOAM5329z7AkjrvAbVfqh94S/7XXtnBVKPxgSRL3Js75VKUU5OI8/Sw+
- Zi4BmPqYy/l9Jo0EZAzy3PsULaY3QviAJ5cydU0=
-X-Google-Smtp-Source: ABdhPJyheSsVZA+4yrw5Gbi+Tiwp9dcucANWSAVEzG07VRLLK/fZW79U6+ge251tQGqUmEN8pDPl482klDFefb/60Yw=
-X-Received: by 2002:adf:a351:: with SMTP id d17mr3189369wrb.111.1595377321869; 
- Tue, 21 Jul 2020 17:22:01 -0700 (PDT)
+ bh=bke+YfNGh2lqCQicsEXGSXnWzyR5TAW3UW4d27SxP1I=;
+ b=GnM0C9csqgpUlUdcJsUz4S5V8jGQmPLbYWDVvknUKATXgXveTyJ97xig9+EoqeY0Mu
+ E8+eu9Mwsy7qpcLAPzrnr1Cc2L2rkPBQLwMsD+mraZkom8tdff9YG4d1vBnuV6aZw7Xr
+ C3BgZ8nQ1tTmOqFP8xmvgcSoliBFou2RtgXhM4naG6Z+x1afzn3iIoIG3BX4pl6bpNZq
+ d8A4EwaJUnHTl35RoipmJb/gON94Ptr89Z5EPhQ8P14F1T8m+9UpAS4b14JmYr6IaN38
+ kvLpOPLOw15S753mslUVTkHoaqR0AyF4afEsXwXhdGDVCt8VYe6x2sH1BjtDOW8bP0pB
+ Gm3A==
+X-Gm-Message-State: AOAM532BZGUr/o8wp8RvT9ki7BF4kewlRfJLesykI8n+fTKPh5LywdAS
+ iZvRgkSrzYo4zE5qsxmJByDAmA4oDPs=
+X-Google-Smtp-Source: ABdhPJwaZqdmd4nnRS8gIQlXJPs5OKRZl0mEgkhDiSaGwp3lTRTDj/ghncxirgRuEafQ9d3utY8j6Q==
+X-Received: by 2002:a19:a8f:: with SMTP id 137mr3257409lfk.145.1595377364015; 
+ Tue, 21 Jul 2020 17:22:44 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
+ [209.85.167.44])
+ by smtp.gmail.com with ESMTPSA id n4sm6408996lfl.40.2020.07.21.17.22.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jul 2020 17:22:43 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id s9so322936lfs.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 17:22:43 -0700 (PDT)
+X-Received: by 2002:a19:4f5d:: with SMTP id a29mr4752873lfk.107.1595377362959; 
+ Tue, 21 Jul 2020 17:22:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200626231242.15010-1-manasi.d.navare@intel.com>
-In-Reply-To: <20200626231242.15010-1-manasi.d.navare@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 21 Jul 2020 20:21:50 -0400
-Message-ID: <CADnq5_NEFxfsN-mJ5T8ZzYiLjVQU-kwnXyu3TszAmk5uegL4Vg@mail.gmail.com>
-Subject: Re: [PATCH v4] Revert "drm/amd/display: Expose connector VRR range
- via debugfs"
-To: Manasi Navare <manasi.d.navare@intel.com>
+References: <CAPaKu7S2BjymZN1pPnYz-YAXpHsD8Q_EPxttifhoTBc-Qe52dg@mail.gmail.com>
+In-Reply-To: <CAPaKu7S2BjymZN1pPnYz-YAXpHsD8Q_EPxttifhoTBc-Qe52dg@mail.gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Tue, 21 Jul 2020 17:22:29 -0700
+X-Gmail-Original-Message-ID: <CAAfnVB=9o=xy13Z1ErgXVhcBf24TLQMGJHnfDKoSMSw2MZdg2A@mail.gmail.com>
+Message-ID: <CAAfnVB=9o=xy13Z1ErgXVhcBf24TLQMGJHnfDKoSMSw2MZdg2A@mail.gmail.com>
+Subject: Re: pages pinned for BO lifetime and security
+To: christian.koenig@amd.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,101 +68,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- AMD gfx <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0106987378=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 26, 2020 at 7:11 PM Manasi Navare <manasi.d.navare@intel.com> wrote:
->
-> From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
->
-> v3:
-> * Rebase (Manasi)
-> v2:
-> * Rebase (Manasi)
->
-> As both VRR min and max are already part of drm_display_info,
-> drm can expose this VRR range for each connector.
->
-> Hence this logic should move to core DRM.
->
-> This reverts commit 727962f030c23422a01e8b22d0f463815fb15ec4.
->
-> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Manasi Navare <manasi.d.navare@intel.com>
-> Cc: AMD gfx <amd-gfx@lists.freedesktop.org>
-> Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+--===============0106987378==
+Content-Type: multipart/alternative; boundary="000000000000010bb805aafcbd61"
 
-Applied.  Thanks!
+--000000000000010bb805aafcbd61
+Content-Type: text/plain; charset="UTF-8"
 
-Alex
++Christian who added DMABUF_MOVE_NOTIFY which added the relevant blurb:
 
-> ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 -------------------
->  1 file changed, 20 deletions(-)
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/dma-buf/Kconfig#n46
+
+Currently, the user seems to amdgpu for P2P dma-buf and it seems to plumb
+ttm (*move_notify) callback to dma-buf.  We're not sure if it's a security
+issue occurring across DRM drivers, or one more specific to the new amdgpu
+use case.
+
+On Tue, Jul 21, 2020 at 1:03 PM Chia-I Wu <olvaffe@gmail.com> wrote:
+
+> Hi list,
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 1d692f4f42f3..b246354967bc 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -820,24 +820,6 @@ static int output_bpc_show(struct seq_file *m, void *data)
->         return res;
->  }
+> virtio-gpu is moving in the direction where BO pages are pinned for
+> the lifetime for simplicity.  I am wondering if that is considered a
+> security issue in general, especially after running into the
+> description of the new DMABUF_MOVE_NOTIFY config option.
 >
-> -/*
-> - * Returns the min and max vrr vfreq through the connector's debugfs file.
-> - * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> - */
-> -static int vrr_range_show(struct seq_file *m, void *data)
-> -{
-> -       struct drm_connector *connector = m->private;
-> -       struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-> -
-> -       if (connector->status != connector_status_connected)
-> -               return -ENODEV;
-> -
-> -       seq_printf(m, "Min: %u\n", (unsigned int)aconnector->min_vfreq);
-> -       seq_printf(m, "Max: %u\n", (unsigned int)aconnector->max_vfreq);
-> -
-> -       return 0;
-> -}
-> -
->  #ifdef CONFIG_DRM_AMD_DC_HDCP
->  /*
->   * Returns the HDCP capability of the Display (1.4 for now).
-> @@ -1001,7 +983,6 @@ static ssize_t dp_dpcd_data_read(struct file *f, char __user *buf,
->  DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
->  DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
->  DEFINE_SHOW_ATTRIBUTE(output_bpc);
-> -DEFINE_SHOW_ATTRIBUTE(vrr_range);
->  #ifdef CONFIG_DRM_AMD_DC_HDCP
->  DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
->  #endif
-> @@ -1058,7 +1039,6 @@ static const struct {
->                 {"link_settings", &dp_link_settings_debugfs_fops},
->                 {"phy_settings", &dp_phy_settings_debugfs_fop},
->                 {"test_pattern", &dp_phy_test_pattern_fops},
-> -               {"vrr_range", &vrr_range_fops},
->  #ifdef CONFIG_DRM_AMD_DC_HDCP
->                 {"hdcp_sink_capability", &hdcp_sink_capability_fops},
->  #endif
-> --
-> 2.19.1
+> Most drivers do not have a shrinker, or whether a BO is purgeable is
+> entirely controlled by the userspace (madvice).  They can be
+> categorized as "a security problem where userspace is able to pin
+> unrestricted amounts of memory".  But those drivers are normally found
+> on systems without swap.  I don't think the issue applies.
 >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Of the desktop GPU drivers, i915's shrinker certainly supports purging
+> to swap.  TTM is a bit hard to follow.  I can't really tell if amdgpu
+> or nouveau supports that.  virtio-gpu is more commonly found on
+> systems with swaps so I think it should follow the desktop practices?
+>
+> Truth is, the emulated virtio-gpu device always supports page moves
+> with VIRTIO_GPU_CMD_RESOURCE_{ATTACH,DETACH}_BACKING.  It is just that
+> the driver does not make use of them.  That makes this less of an
+> issue because the driver can be fixed anytime (finger crossed that the
+> emulator won't have bugs in these untested paths).  This issue becomes
+> more urgent because we are considering adding a new HW command[1]
+> where page moves will be disallowed.  We definitely don't want a HW
+> command that is inherently insecure, if BO pages pinned for the
+> lifetime is considered a security issue on desktops.
+>
+> [1] VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
+>
+> https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virtio-gpu-next/include/uapi/linux/virtio_gpu.h#L396
+>
+
+--000000000000010bb805aafcbd61
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">+Christian who added DMABUF_MOVE_NOTIFY which added the re=
+levant blurb:<br><br><a href=3D"https://git.kernel.org/pub/scm/linux/kernel=
+/git/torvalds/linux.git/tree/drivers/dma-buf/Kconfig#n46" target=3D"_blank"=
+>https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dr=
+ivers/dma-buf/Kconfig#n46</a><br><br>Currently, the user seems to amdgpu fo=
+r P2P dma-buf and it seems to plumb ttm (*move_notify) callback to dma-buf.=
+=C2=A0 We&#39;re not sure if it&#39;s a security issue occurring across DRM=
+ drivers, or one more specific to the new amdgpu use case.<br></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 2=
+1, 2020 at 1:03 PM Chia-I Wu &lt;<a href=3D"mailto:olvaffe@gmail.com" targe=
+t=3D"_blank">olvaffe@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Hi list,<br>
+<br>
+virtio-gpu is moving in the direction where BO pages are pinned for<br>
+the lifetime for simplicity.=C2=A0 I am wondering if that is considered a<b=
+r>
+security issue in general, especially after running into the<br>
+description of the new DMABUF_MOVE_NOTIFY config option.<br>
+<br>
+Most drivers do not have a shrinker, or whether a BO is purgeable is<br>
+entirely controlled by the userspace (madvice).=C2=A0 They can be<br>
+categorized as &quot;a security problem where userspace is able to pin<br>
+unrestricted amounts of memory&quot;.=C2=A0 But those drivers are normally =
+found<br>
+on systems without swap.=C2=A0 I don&#39;t think the issue applies.<br>
+<br>
+Of the desktop GPU drivers, i915&#39;s shrinker certainly supports purging<=
+br>
+to swap.=C2=A0 TTM is a bit hard to follow.=C2=A0 I can&#39;t really tell i=
+f amdgpu<br>
+or nouveau supports that.=C2=A0 virtio-gpu is more commonly found on<br>
+systems with swaps so I think it should follow the desktop practices?<br>
+<br>
+Truth is, the emulated virtio-gpu device always supports page moves<br>
+with VIRTIO_GPU_CMD_RESOURCE_{ATTACH,DETACH}_BACKING.=C2=A0 It is just that=
+<br>
+the driver does not make use of them.=C2=A0 That makes this less of an<br>
+issue because the driver can be fixed anytime (finger crossed that the<br>
+emulator won&#39;t have bugs in these untested paths).=C2=A0 This issue bec=
+omes<br>
+more urgent because we are considering adding a new HW command[1]<br>
+where page moves will be disallowed.=C2=A0 We definitely don&#39;t want a H=
+W<br>
+command that is inherently insecure, if BO pages pinned for the<br>
+lifetime is considered a security issue on desktops.<br>
+<br>
+[1] VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB<br>
+<a href=3D"https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virtio=
+-gpu-next/include/uapi/linux/virtio_gpu.h#L396" rel=3D"noreferrer" target=
+=3D"_blank">https://gitlab.freedesktop.org/virgl/drm-misc-next/-/blob/virti=
+o-gpu-next/include/uapi/linux/virtio_gpu.h#L396</a><br>
+</blockquote></div>
+
+--000000000000010bb805aafcbd61--
+
+--===============0106987378==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0106987378==--
