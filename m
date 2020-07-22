@@ -1,34 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64F222918F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 09:03:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA55229186
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jul 2020 09:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBA7F88503;
-	Wed, 22 Jul 2020 07:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37206E44D;
+	Wed, 22 Jul 2020 07:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6637D6E108;
- Wed, 22 Jul 2020 01:52:35 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 46135F10C8CAD54FD757;
- Wed, 22 Jul 2020 09:52:30 +0800 (CST)
-Received: from localhost (10.174.179.108) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Wed, 22 Jul 2020
- 09:52:22 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <airlied@linux.ie>, <daniel@ffwll.ch>, <Jack.Zhang1@amd.com>
-Subject: [PATCH -next] drm/amdgpu/vcn3.0: Remove set but not used variable
- 'direct_poll'
-Date: Wed, 22 Jul 2020 09:52:10 +0800
-Message-ID: <20200722015210.29488-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0E736E31C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jul 2020 05:19:16 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id x9so387379plr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jul 2020 22:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dmd/Tm2NKIlPmtmf250Rr5po/tBi+tVL5ukErGpu6/M=;
+ b=fZW1F7DltafThR0vBDMpn78I1muDP0lGZn3RhT1ELTFKpoeX8LXcT8AlQBpWyexuw0
+ SaOCdrpFD6Btz0PYfdejP8xgqBzdxb6cIwiEbUkCsix7k0RPv/Rqxd+khvFbANg8mvEu
+ Tf8EX+3Fg/sG2aUMJ23I+Lve68oOIld2MKKXqsC3M3Ou35QKn6jaI/Ml3moPaK6lgPTB
+ V8xSL3NXBlulAaqHu/8dvSZlaVfJNh+HyBQSe2ZHB+fL6eMRyMb9UT2Ci4ITKksV1gA4
+ k8vTH33euyrNNE+FsnGAByJLOlZfWdtTdfhh/9CAv6S5K3f9M8SIRJeRgu4ux08/UjKn
+ 3xdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dmd/Tm2NKIlPmtmf250Rr5po/tBi+tVL5ukErGpu6/M=;
+ b=teyfDFw4PZH6me/wgzAuflJCaTeHj+5+Cnt5sb7kI3qFA6PtA8bLRTEyIARo7iBwva
+ lWsdbi2ugbRZePPsqiEb4txjYCSedbjFtaMk2nWsMRwohTjokDOpOQfTZDojVyTx1I/7
+ fgSTj+MrcrnJbiqfSPTdddkZYc+oYkaid74h2ruEsftMl96lxcR9tr20gMdtnglcA6WI
+ lKicvFm4gU7LWmDkEvjtjzzloVIeSDI5JLl+mgDBSauU2z8TBVTEI6ptobH8X6uh8viy
+ v8yW6cbswPH2DL2WWZPw+JV6BJRnsrvbx90ozlNuI9D7vb+f0U3eWENGpan6BDoVWgTD
+ qPeA==
+X-Gm-Message-State: AOAM531s41lEe7KY7V3ttcAqUPFYODWRBo7yCbVdgMbsvC46Smny7KTd
+ Y8DdqosecC0u6bweuhTtS58MAQ==
+X-Google-Smtp-Source: ABdhPJyXyJC/r6TNRCFBvIm4BOX5hZWyrt2U6MzGfh0U8fNwL8IQsJTk6C62jeiorB+OWFvXacBrQw==
+X-Received: by 2002:a17:902:8204:: with SMTP id
+ x4mr26310498pln.16.1595395155749; 
+ Tue, 21 Jul 2020 22:19:15 -0700 (PDT)
+Received: from C02ZK051LVCK.local.net ([61.120.150.77])
+ by smtp.gmail.com with ESMTPSA id h3sm4971462pjz.23.2020.07.21.22.19.09
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 21 Jul 2020 22:19:12 -0700 (PDT)
+From: Xin He <hexin.op@bytedance.com>
+To: airlied@linux.ie,
+	kraxel@redhat.com,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/virtio: fix memory leak in virtio_gpu_cleanup_object()
+Date: Wed, 22 Jul 2020 13:18:51 +0800
+Message-Id: <20200722051851.72662-1-hexin.op@bytedance.com>
+X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 MIME-Version: 1.0
-X-Originating-IP: [10.174.179.108]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 22 Jul 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,49 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Xin He <hexin.op@bytedance.com>, Qi Liu <liuqi.16@bytedance.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c: In function vcn_v3_0_start_sriov:
-drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:1235:3:
- warning: variable direct_poll set but not used [-Wunused-but-set-variable]
+Before setting shmem->pages to NULL, kfree() should
+be called.
 
-It is never used, so can remove it.
-
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Signed-off-by: Xin He <hexin.op@bytedance.com>
+Reviewed-by: Qi Liu <liuqi.16@bytedance.com>
 ---
- drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-index 910a4a32ff78..53f680134c40 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
-@@ -1231,8 +1231,6 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
- 		direct_wt = { {0} };
- 	struct mmsch_v3_0_cmd_direct_read_modify_write
- 		direct_rd_mod_wt = { {0} };
--	struct mmsch_v3_0_cmd_direct_polling
--		direct_poll = { {0} };
- 	struct mmsch_v3_0_cmd_end end = { {0} };
- 	struct mmsch_v3_0_init_header header;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 6ccbd01cd888..703b5cd51751 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -79,6 +79,7 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ 			}
  
-@@ -1240,8 +1238,6 @@ static int vcn_v3_0_start_sriov(struct amdgpu_device *adev)
- 		MMSCH_COMMAND__DIRECT_REG_WRITE;
- 	direct_rd_mod_wt.cmd_header.command_type =
- 		MMSCH_COMMAND__DIRECT_REG_READ_MODIFY_WRITE;
--	direct_poll.cmd_header.command_type =
--		MMSCH_COMMAND__DIRECT_REG_POLLING;
- 	end.cmd_header.command_type =
- 		MMSCH_COMMAND__END;
- 
+ 			sg_free_table(shmem->pages);
++			kfree(shmem->pages);
+ 			shmem->pages = NULL;
+ 			drm_gem_shmem_unpin(&bo->base.base);
+ 		}
 -- 
-2.17.1
-
+2.21.1 (Apple Git-122.3)
 
 _______________________________________________
 dri-devel mailing list
