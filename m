@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BA122A9AA
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CA522A9AC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:30:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9EA56E847;
-	Thu, 23 Jul 2020 07:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C626E848;
+	Thu, 23 Jul 2020 07:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 767D16E847
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 07:29:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD5B66E848
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 07:30:07 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208661] Backlight doesn't work with both nv_backlight and
  acpi_video
-Date: Thu, 23 Jul 2020 07:29:28 +0000
+Date: Thu, 23 Jul 2020 07:30:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208661-2300-9eK0A7cHYB@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208661-2300-rnN9cQM8by@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208661-2300@https.bugzilla.kernel.org/>
 References: <bug-208661-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208661
 
---- Comment #1 from Shannon Gaines (iknstudio@protonmail.com) ---
-Created attachment 290477
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290477&action=edit
-acpidump.txt
+--- Comment #2 from Shannon Gaines (iknstudio@protonmail.com) ---
+Update: nvidia-legacy-390xx driver allows me to change the backlight via
+acpi_video0, however nouveau doesn't under any circumstances. No clue why.
 
 -- 
 You are receiving this mail because:
