@@ -2,50 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8393A22B35C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 18:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A50E22B399
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 18:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B1B6E216;
-	Thu, 23 Jul 2020 16:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 043B46E225;
+	Thu, 23 Jul 2020 16:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A556E216
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 16:21:26 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D2C6E221
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 16:34:55 +0000 (UTC)
+Received: from localhost.localdomain (unknown [122.171.202.192])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DFE8322B40
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 16:21:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6E718206F4;
+ Thu, 23 Jul 2020 16:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595521286;
- bh=6+0/elepkARkgOsTxARSEPfUsQ0kUT59TejC709DQOk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=rNWywE0uqiF5fWYLgX1UMCbtbCYBJ1ob7Ojq6jMbqsECPSXnAhOywBkb/WEfBgHBe
- H6fiECXyUWpQuDsiI/Kxs2pWTCu57/keSneVpFJbQ0rCjfW1F7HcLSlR1rIz+j+yVQ
- DKmFF4ESoUQ+eoNmxiZZDozNkHR98UXo5Me86NHA=
-Received: by mail-ej1-f42.google.com with SMTP id gg18so3624852ejb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 09:21:25 -0700 (PDT)
-X-Gm-Message-State: AOAM533pE7iUMjfI385rY8JVMuEG1d78hlo9cNs8lxK8cEhLp3sLGsVS
- rIg1tND4gEac7HSq1aPhNObzrSpJedNF3oW3dw==
-X-Google-Smtp-Source: ABdhPJwfk66abeK8oi/cVBHx5H7Gp1l6otQXnpopQ1fbIoD2End7rCWaLJQk2FAbvfBbzOPHRPtXGys6UdSJM+h5hMI=
-X-Received: by 2002:a17:906:7857:: with SMTP id
- p23mr4119216ejm.260.1595521284362; 
- Thu, 23 Jul 2020 09:21:24 -0700 (PDT)
+ s=default; t=1595522094;
+ bh=MP/p5I5PmDdq9WQ/ZX6AaTgVnkcn2iem13nFwnvaoJU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RQqey9r/4/ERgiO+HerjYshII4jgiJgjp7KH7vNxS8Pd9rAjBGgDsfgljy2U9WnY7
+ CYNdvo10MPtN2bLSpYW7meQfgzHTVSiNnzFkbavIrqCZEwTk0sAZ94sPkk5SAJ1yAw
+ UrfsSziC1GUkRZIBFmVJes+rAmP/YS/GBtv0lNRg=
+From: Vinod Koul <vkoul@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Clark <robdclark@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v6 0/3] Add LT9611 DSI to HDMI bridge
+Date: Thu, 23 Jul 2020 22:04:39 +0530
+Message-Id: <20200723163442.1280414-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
- <1595469798-3824-2-git-send-email-yongqiang.niu@mediatek.com>
- <CAFqH_50=MkBLHJ23hJo--RG=4560ttOUOjHuEwpevghFZ59xQQ@mail.gmail.com>
- <1595498644.13250.2.camel@mhfsdcap03>
-In-Reply-To: <1595498644.13250.2.camel@mhfsdcap03>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 24 Jul 2020 00:21:13 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8SgNcAAch=AQazAG0z2wGte1Wa614bnAgG2eZQxCzL7A@mail.gmail.com>
-Message-ID: <CAAOTY_8SgNcAAch=AQazAG0z2wGte1Wa614bnAgG2eZQxCzL7A@mail.gmail.com>
-Subject: Re: [v7,
- PATCH 1/7] drm/mediatek: move ddp component defint into mtk_mmsys.h
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,117 +44,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+IOaWvCAyMDIw5bm0N+ac
-iDIz5pelIOmAseWbmyDkuIvljYg2OjA25a+r6YGT77yaCj4KPiBPbiBUaHUsIDIwMjAtMDctMjMg
-YXQgMTE6MzQgKzAyMDAsIEVucmljIEJhbGxldGJvIFNlcnJhIHdyb3RlOgo+ID4gSGkgWW9uZ3Fp
-YW4gTml1LAo+ID4KPiA+IFRoYW5rIHlvdSBmb3IgeW91ciBwYXRjaAo+ID4KPiA+IE1pc3NhdGdl
-IGRlIFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPiBkZWwgZGlhIGRq
-LiwgMjMKPiA+IGRlIGp1bC4gMjAyMCBhIGxlcyA0OjA1Ogo+ID4gPgo+ID4gPiBtb3ZlIGRkcCBj
-b21wb25lbnQgZGVmaW50IGludG8gbXRrX21tc3lzLmgKPiA+ID4KPiA+Cj4gPiBUaGVyZSBpcyBh
-IHR5cG8sIHNob3VsZCBiZSAiZGVmaW5lcyIuIEJ1dCB3aHkgeW91IHNob3VsZCBtb3ZlIHRoZXNl
-Cj4gPiBkZWZpbmVzIHRvIG10ay1tbXN5cz8KPiA+Cj4KPiBjayBkbyBub3QgbGlrZSB0aGlzIDoK
-PiA+IC0jaW5jbHVkZSAiLi4vLi4vZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5oIgo+ID4g
-LSNpbmNsdWRlICIuLi8uLi9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuaCIKCkkg
-dGhpbmsgbm8gb25lIGxpa2UgdGhpcy4KCj4KPiBhZnRlciByZW1vdmUgdGhpcywgd2UgbmVlZCBt
-b3ZlIHRoZSBkZHAgY29tcG9uZW50IGRlZmluZQo+Cj4gdHlwZSBlcnJvciB3aWxsIGZpeGVkIGlu
-IG5leHQgdmVyc2lvbi4KPgoKbW1zeXMgaXMgdGhlIGRyaXZlciB3aGljaCBjb250cm9sIHRoZSBy
-b3V0aW5nIG9mIHRoZXNlIGRkcCBjb21wb25lbnQsCnNvIHRoZSBkZWZpbml0aW9uIG9mIG10a19k
-ZHBfY29tcF9pZCBzaG91bGQgYmUgcGxhY2VkIGluIG10ay1tbXN5cy5oCgpSZWdhcmRzLApDaHVu
-LUt1YW5nLgoKPgo+ID4KPiA+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlv
-bmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmggfCAzNCArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQo+ID4gPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmMgICAgICAgICAg
-ICB8ICA0ICstLS0KPiA+ID4gIGluY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5o
-ICAgICAgfCAzMyArKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiA+ICAzIGZpbGVzIGNo
-YW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDM2IGRlbGV0aW9ucygtKQo+ID4gPgo+ID4gPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuaCBiL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmgKPiA+ID4gaW5kZXggZGVi
-ZTM2My4uMTYxMjAxZiAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kcm1fZGRwX2NvbXAuaAo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2RybV9kZHBfY29tcC5oCj4gPiA+IEBAIC03LDYgKzcsNyBAQAo+ID4gPiAgI2RlZmluZSBN
-VEtfRFJNX0REUF9DT01QX0gKPiA+ID4KPiA+ID4gICNpbmNsdWRlIDxsaW51eC9pby5oPgo+ID4g
-PiArI2luY2x1ZGUgPGxpbnV4L3NvYy9tZWRpYXRlay9tdGstbW1zeXMuaD4KPiA+ID4KPiA+ID4g
-IHN0cnVjdCBkZXZpY2U7Cj4gPiA+ICBzdHJ1Y3QgZGV2aWNlX25vZGU7Cj4gPiA+IEBAIC0zNSwz
-OSArMzYsNiBAQCBlbnVtIG10a19kZHBfY29tcF90eXBlIHsKPiA+ID4gICAgICAgICBNVEtfRERQ
-X0NPTVBfVFlQRV9NQVgsCj4gPiA+ICB9Owo+ID4gPgo+ID4gPiAtZW51bSBtdGtfZGRwX2NvbXBf
-aWQgewo+ID4gPiAtICAgICAgIEREUF9DT01QT05FTlRfQUFMMCwKPiA+ID4gLSAgICAgICBERFBf
-Q09NUE9ORU5UX0FBTDEsCj4gPiA+IC0gICAgICAgRERQX0NPTVBPTkVOVF9CTFMsCj4gPiA+IC0g
-ICAgICAgRERQX0NPTVBPTkVOVF9DQ09SUiwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX0NP
-TE9SMCwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX0NPTE9SMSwKPiA+ID4gLSAgICAgICBE
-RFBfQ09NUE9ORU5UX0RJVEhFUiwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX0RQSTAsCj4g
-PiA+IC0gICAgICAgRERQX0NPTVBPTkVOVF9EUEkxLAo+ID4gPiAtICAgICAgIEREUF9DT01QT05F
-TlRfRFNJMCwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX0RTSTEsCj4gPiA+IC0gICAgICAg
-RERQX0NPTVBPTkVOVF9EU0kyLAo+ID4gPiAtICAgICAgIEREUF9DT01QT05FTlRfRFNJMywKPiA+
-ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX0dBTU1BLAo+ID4gPiAtICAgICAgIEREUF9DT01QT05F
-TlRfT0QwLAo+ID4gPiAtICAgICAgIEREUF9DT01QT05FTlRfT0QxLAo+ID4gPiAtICAgICAgIERE
-UF9DT01QT05FTlRfT1ZMMCwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX09WTF8yTDAsCj4g
-PiA+IC0gICAgICAgRERQX0NPTVBPTkVOVF9PVkxfMkwxLAo+ID4gPiAtICAgICAgIEREUF9DT01Q
-T05FTlRfT1ZMMSwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX1BXTTAsCj4gPiA+IC0gICAg
-ICAgRERQX0NPTVBPTkVOVF9QV00xLAo+ID4gPiAtICAgICAgIEREUF9DT01QT05FTlRfUFdNMiwK
-PiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX1JETUEwLAo+ID4gPiAtICAgICAgIEREUF9DT01Q
-T05FTlRfUkRNQTEsCj4gPiA+IC0gICAgICAgRERQX0NPTVBPTkVOVF9SRE1BMiwKPiA+ID4gLSAg
-ICAgICBERFBfQ09NUE9ORU5UX1VGT0UsCj4gPiA+IC0gICAgICAgRERQX0NPTVBPTkVOVF9XRE1B
-MCwKPiA+ID4gLSAgICAgICBERFBfQ09NUE9ORU5UX1dETUExLAo+ID4gPiAtICAgICAgIEREUF9D
-T01QT05FTlRfSURfTUFYLAo+ID4gPiAtfTsKPiA+ID4gLQo+ID4gPiAgc3RydWN0IG10a19kZHBf
-Y29tcDsKPiA+ID4gIHN0cnVjdCBjbWRxX3BrdDsKPiA+ID4gIHN0cnVjdCBtdGtfZGRwX2NvbXBf
-ZnVuY3Mgewo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lz
-LmMgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYwo+ID4gPiBpbmRleCBhNTVmMjU1
-Li4zNmFkNjZiIDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1z
-eXMuYwo+ID4gPiArKysgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYwo+ID4gPiBA
-QCAtNSwxMyArNSwxMSBAQAo+ID4gPiAgICovCj4gPiA+Cj4gPiA+ICAjaW5jbHVkZSA8bGludXgv
-ZGV2aWNlLmg+Cj4gPiA+ICsjaW5jbHVkZSA8bGludXgvaW8uaD4KPiA+ID4gICNpbmNsdWRlIDxs
-aW51eC9vZl9kZXZpY2UuaD4KPiA+ID4gICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2Uu
-aD4KPiA+ID4gICNpbmNsdWRlIDxsaW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmg+Cj4gPiA+
-Cj4gPiA+IC0jaW5jbHVkZSAiLi4vLi4vZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5oIgo+
-ID4gPiAtI2luY2x1ZGUgIi4uLy4uL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5o
-Igo+ID4gPiAtCj4gPiA+ICAjZGVmaW5lIERJU1BfUkVHX0NPTkZJR19ESVNQX09WTDBfTU9VVF9F
-TiAgICAgIDB4MDQwCj4gPiA+ICAjZGVmaW5lIERJU1BfUkVHX0NPTkZJR19ESVNQX09WTDFfTU9V
-VF9FTiAgICAgIDB4MDQ0Cj4gPiA+ICAjZGVmaW5lIERJU1BfUkVHX0NPTkZJR19ESVNQX09EX01P
-VVRfRU4gICAgICAgICAgICAgICAgMHgwNDgKPiA+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGlu
-dXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oIGIvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsv
-bXRrLW1tc3lzLmgKPiA+ID4gaW5kZXggN2JhYjVkOS4uMjIyOGJmNiAxMDA2NDQKPiA+ID4gLS0t
-IGEvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmgKPiA+ID4gKysrIGIvaW5j
-bHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmgKPiA+ID4gQEAgLTksNiArOSwzOSBA
-QAo+ID4gPiAgZW51bSBtdGtfZGRwX2NvbXBfaWQ7Cj4gPiA+ICBzdHJ1Y3QgZGV2aWNlOwo+ID4g
-Pgo+ID4gPiArZW51bSBtdGtfZGRwX2NvbXBfaWQgewo+ID4gPiArICAgICAgIEREUF9DT01QT05F
-TlRfQUFMMCwKPiA+ID4gKyAgICAgICBERFBfQ09NUE9ORU5UX0FBTDEsCj4gPiA+ICsgICAgICAg
-RERQX0NPTVBPTkVOVF9CTFMsCj4gPiA+ICsgICAgICAgRERQX0NPTVBPTkVOVF9DQ09SUiwKPiA+
-ID4gKyAgICAgICBERFBfQ09NUE9ORU5UX0NPTE9SMCwKPiA+ID4gKyAgICAgICBERFBfQ09NUE9O
-RU5UX0NPTE9SMSwKPiA+ID4gKyAgICAgICBERFBfQ09NUE9ORU5UX0RJVEhFUiwKPiA+ID4gKyAg
-ICAgICBERFBfQ09NUE9ORU5UX0RQSTAsCj4gPiA+ICsgICAgICAgRERQX0NPTVBPTkVOVF9EUEkx
-LAo+ID4gPiArICAgICAgIEREUF9DT01QT05FTlRfRFNJMCwKPiA+ID4gKyAgICAgICBERFBfQ09N
-UE9ORU5UX0RTSTEsCj4gPiA+ICsgICAgICAgRERQX0NPTVBPTkVOVF9EU0kyLAo+ID4gPiArICAg
-ICAgIEREUF9DT01QT05FTlRfRFNJMywKPiA+ID4gKyAgICAgICBERFBfQ09NUE9ORU5UX0dBTU1B
-LAo+ID4gPiArICAgICAgIEREUF9DT01QT05FTlRfT0QwLAo+ID4gPiArICAgICAgIEREUF9DT01Q
-T05FTlRfT0QxLAo+ID4gPiArICAgICAgIEREUF9DT01QT05FTlRfT1ZMMCwKPiA+ID4gKyAgICAg
-ICBERFBfQ09NUE9ORU5UX09WTF8yTDAsCj4gPiA+ICsgICAgICAgRERQX0NPTVBPTkVOVF9PVkxf
-MkwxLAo+ID4gPiArICAgICAgIEREUF9DT01QT05FTlRfT1ZMMSwKPiA+ID4gKyAgICAgICBERFBf
-Q09NUE9ORU5UX1BXTTAsCj4gPiA+ICsgICAgICAgRERQX0NPTVBPTkVOVF9QV00xLAo+ID4gPiAr
-ICAgICAgIEREUF9DT01QT05FTlRfUFdNMiwKPiA+ID4gKyAgICAgICBERFBfQ09NUE9ORU5UX1JE
-TUEwLAo+ID4gPiArICAgICAgIEREUF9DT01QT05FTlRfUkRNQTEsCj4gPiA+ICsgICAgICAgRERQ
-X0NPTVBPTkVOVF9SRE1BMiwKPiA+ID4gKyAgICAgICBERFBfQ09NUE9ORU5UX1VGT0UsCj4gPiA+
-ICsgICAgICAgRERQX0NPTVBPTkVOVF9XRE1BMCwKPiA+ID4gKyAgICAgICBERFBfQ09NUE9ORU5U
-X1dETUExLAo+ID4gPiArICAgICAgIEREUF9DT01QT05FTlRfSURfTUFYLAo+ID4gPiArfTsKPiA+
-ID4gKwo+ID4gPiAgdm9pZCBtdGtfbW1zeXNfZGRwX2Nvbm5lY3Qoc3RydWN0IGRldmljZSAqZGV2
-LAo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBj
-dXIsCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lk
-IG5leHQpOwo+ID4gPiAtLQo+ID4gPiAxLjguMS4xLmRpcnR5Cj4KPiBfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IExpbnV4LW1lZGlhdGVrIG1haWxpbmcg
-bGlzdAo+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBodHRwOi8vbGlzdHMu
-aW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVrCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi,
+
+This series adds driver and bindings for Lontium LT9611 bridge chip which
+takes MIPI DSI as input and HDMI as output.
+
+This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
+
+[1]: https://www.96boards.org/product/rb3-platform/
+
+Changes in v6:
+ - Drop msm/dsi patch as we need to get more bridges fixed before we add that
+ - Bring back support for DRM_BRIDGE_ATTACH_NO_CONNECTOR not set, now driver
+	supports both
+ - Fix nits found by Sam
+
+Changes in v5:
+ - make symbol static, reported by kbuild-bot
+
+Changes in v4:
+ - Add msm/dsi patch to create connector and support DRM_BRIDGE_ATTACH_NO_CONNECTOR
+ - Fix comments provided by Sam
+
+Changes in v3:
+ - fix kbuild reported error
+ - rebase on v5.8-rc1
+
+Changes in v2:
+ - Add acks by Rob
+ - Fix comments reported by Emil and rename the file to lontium-lt9611.c
+ - Fix comments reported by Laurent on binding and driver
+ - Add HDMI audio support
+
+Vinod Koul (3):
+  dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+  dt-bindings: display: bridge: Add documentation for LT9611
+  drm/bridge: Introduce LT9611 DSI to HDMI bridge
+
+ .../display/bridge/lontium,lt9611.yaml        |  176 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ drivers/gpu/drm/bridge/Kconfig                |   13 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/lontium-lt9611.c       | 1229 +++++++++++++++++
+ 5 files changed, 1421 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
+
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
