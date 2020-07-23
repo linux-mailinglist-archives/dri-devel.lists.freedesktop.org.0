@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9253222BEF9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E51A22BEF6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EACD6E92A;
-	Fri, 24 Jul 2020 07:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C34C6E926;
+	Fri, 24 Jul 2020 07:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-40135.protonmail.ch (mail-40135.protonmail.ch
  [185.70.40.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3338E6E270;
- Thu, 23 Jul 2020 22:57:22 +0000 (UTC)
-Date: Thu, 23 Jul 2020 22:57:13 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2914889B0B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 22:58:34 +0000 (UTC)
+Date: Thu, 23 Jul 2020 22:58:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1595545039;
- bh=IABwxqdCkkyTX2FsPRq3CfvvI2V2JvrQN6xMWEn3Gqk=;
+ s=protonmail; t=1595545112;
+ bh=lg9xOnMsFhhdqALv0aeP/Vx2Gofelvm+74wmCknZsFo=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=hkTpBGEzkydV88rPZf+GE+1a6u71lj+Hn7+btGAvmLwhOV6+0b8CixNJ++hZjksJq
- hbwiTSivH0iQsHR5omtQb3yTBLGsK6OYiic6AfLKoOHoWgDol7ANoc9BT7F1+8l+XY
- xSeVgzqqs0bbVzLjIEK7keh4RyfYW6/+OmULxXTc=
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+ b=wJWQyTrNxzYCugTunHerczbSVBPFAyOkFnBt7X5S1XVzsUu/CqTghfT5XKiJqfCMb
+ G1g3xRBuQI4aoyJodntEqzHGTw4zt+dQyEA0OkIP7e/Z9Q+YFww7/QLZdrEgJ35/qn
+ M4P8GF7YJgW5MjILTKRXcogl6z7WEMPnUhlcPT04=
+To: Kees Cook <keescook@chromium.org>
 From: Mazin Rezk <mnrzk@protonmail.com>
 Subject: Re: [PATCH] amdgpu_dm: fix nonblocking atomic commit use-after-free
-Message-ID: <3iDgskt5iP3y77MHUJ2_5uSThyUteHxPvVqoL5SpnpTIpz5cdkifyDOynpiVukS_peaYGOkn9bHSpvRYa-vFOCjUYH68taIuKyZqhOByAVI=@protonmail.com>
-In-Reply-To: <ccd5d51b-b018-a3db-169b-ba6278a7be9f@amd.com>
+Message-ID: <4KGdosy_NHW6FYCc2rCq4e71vYI7e4InqrLJ4S1GJsLcfjHv_INF-CzIYusOFqznOxyvflBTlFCXvyy7J37fn-QKfNOQK78MM38VdjdUXks=@protonmail.com>
+In-Reply-To: <202007231524.A24720C@keescook>
 References: <YIGsJ9LlFquvBI2iWPKhJwjKBwDUr_C-38oVpLJJHJ5rDCY_Zrrv392o6UPNxHoeQrcpLYC9U4fZdpD9ilz6Amg2IxkSexGLQMCQIBek8rc=@protonmail.com>
- <ccd5d51b-b018-a3db-169b-ba6278a7be9f@amd.com>
+ <202007231524.A24720C@keescook>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-0.5 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
@@ -50,10 +50,10 @@ Reply-To: Mazin Rezk <mnrzk@protonmail.com>
 Cc: "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>,
  "anthony.ruhier@gmail.com" <anthony.ruhier@gmail.com>,
  "1i5t5.duncan@cox.net" <1i5t5.duncan@cox.net>,
- "keescook@chromium.org" <keescook@chromium.org>,
  "sunpeng.li@amd.com" <sunpeng.li@amd.com>, Mazin Rezk <mnrzk@protonmail.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
  "regressions@leemhuis.info" <regressions@leemhuis.info>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
  "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
@@ -65,18 +65,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It seems that I spoke too soon. I ran the system for another hour after
-submitting the patch and the bug just occurred. :/
+On Thursday, July 23, 2020 6:32 PM, Kees Cook <keescook@chromium.org> wrote:
 
-Sadly, that means the bug isn't really fixed and that I have to go
-investigate further.
-
-At the very least, this patch seems to delay the occurrence of the bug
-significantly which may help in further discovering the cause.
-
-On Thursday, July 23, 2020 6:16 PM, Kazlauskas, Nicholas <nicholas.kazlauskas@amd.com> wrote:
-
-> On 2020-07-23 5:10 p.m., Mazin Rezk wrote:
+> On Thu, Jul 23, 2020 at 09:10:15PM +0000, Mazin Rezk wrote:
 >
 > > When amdgpu_dm_atomic_commit_tail is running in the workqueue,
 > > drm_atomic_state_put will get called while amdgpu_dm_atomic_commit_tail is
@@ -95,117 +86,36 @@ On Thursday, July 23, 2020 6:16 PM, Kazlauskas, Nicholas <nicholas.kazlauskas@am
 > > According to my testing on 5.8.0-rc6, this should fix bug 207383 on
 > > Bugzilla [1].
 > > [1] https://bugzilla.kernel.org/show_bug.cgi?id=207383
+>
+> Nice work tracking this down!
+>
 > > Fixes: 3202fa62f ("slub: relocate freelist pointer to middle of object")
-> > Reported-by: Duncan 1i5t5.duncan@cox.net
-> > Signed-off-by: Mazin Rezk mnrzk@protonmail.com
 >
-> Thanks for the investigation and your patch. I appreciate the help in
-> trying to narrow down the root cause as this issue has been difficult to
-> reproduce on my setups.
+> I do, however, object to this Fixes tag. :) The flaw appears to have
+> been with amdgpu_dm's reference tracking of "state" in the nonblocking
+> case. (How this reference counting is supposed to work correctly, though,
+> I'm not sure.) If I look at where the drm helper was split from being
+> the default callback, it looks like this was what introduced the bug:
 >
-> Though I'm not sure this really resolves the issue - we make use of the
-> drm_atomic_helper_commit helper function from DRM which internally does
-> what you're doing with this patch:
+> da5c47f682ab ("drm/amd/display: Remove acrtc->stream")
 >
-> drm_atomic_state_get(state);
-> if (nonblock)
-> queue_work(system_unbound_wq, &state->commit_work);
+> ? 3202fa62f certainly exposed it much more quickly, but there was a race
+> even without 3202fa62f where something could have realloced the memory
+> and written over it.
 >
->     else
->     	commit_tail(state);
+> -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 >
->
-> So even when it gets queued off to the unbound workqueue we still have a
-> reference on the state.
->
-> That reference gets dropped as part of commit tail helper in DRM as well:
->
-> if (funcs && funcs->atomic_commit_tail)
->
->     	funcs->atomic_commit_tail(old_state);
->
->     else
->     	drm_atomic_helper_commit_tail(old_state);
->
->
-> commit_time_ms = ktime_ms_delta(ktime_get(), start);
-> if (commit_time_ms > 0)
->
->     	drm_self_refresh_helper_update_avg_times(old_state,
->     					 (unsigned long)commit_time_ms,
->     					 new_self_refresh_mask);
->
->
-> drm_atomic_helper_commit_cleanup_done(old_state);
->
-> drm_atomic_state_put(old_state);
->
+> Kees Cook
 
-I initially noticed that right after I wrote this patch so I was expecting
-the patch to fail. However, after several hours of testing, the crash just
-didn't occur so I believed the bug was fixed.
 
-> So instead of a use after free happening when we access the state we get
-> a double-free happening later at the end of commit tail in DRM.
->
-> What I think would be the right next step here is to actually determine
-> what sequence of IOCTLs and atomic commits are happening under your
-> setup with a very verbose dmesg log. You can set a debug level for DRM
-> in your kernel parameters with something like:
->
-> drm.debug=0x54
->
-> I don't see anything in amdgpu_dm.c that looks like it would be freeing
-> the state so I suspect something in the core is this doing this.
+Thanks, I'll be sure to avoid using 3202fa62f as the cause next time.
+I just thought to do that because it was what made the use-after-free cause
+a noticeable bug.
 
-Going through the KASAN use-after-free bug report in the Bugzilla
-attachments, it appears that the state is being freed at the end of
-commit_tail. Perhaps amdgpu_dm_atomic_commit_tail is being called on the
-the same old state twice? I can't quite think of any other possible
-explanation as to why that happens.
-
->
-> > drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
-> > 1 file changed, 3 insertions(+)
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index 86ffa0c2880f..86d6652872f2 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -7303,6 +7303,7 @@ static int amdgpu_dm_atomic_commit(struct drm_device *dev,
-> > * unset legacy_cursor_update
-> > */
-> >
-> > -   drm_atomic_state_get(state);
->
-> Also note that if the drm_atomic_helper_commit() call fails here then
-> we're going to never free this structure. So we should really be
-> checking the return code here below before trying to do this, if at all.
-
-Oh right, that's true. I looked at amdgpu_dm_atomic_commit_tail and didn't
-see any return statements in there, so I thought it was safe.
-
->
-> Regards,
-> Nicholas Kazlauskas
->
-> >       return drm_atomic_helper_commit(dev, state, nonblock);
-> >
-> >       /*TODO Handle EINTR, reenable IRQ*/
-> >
-> >
-> > @@ -7628,6 +7629,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
-> >
-> >       if (dc_state_temp)
-> >       	dc_release_state(dc_state_temp);
-> >
-> >
-> > -
-> > -   drm_atomic_state_put(state);
-> >     }
-> >
-> >
-> > --
-> > 2.27.0
+Also, by the way, I just realised the patch didn't completely solve the bug.
+Sorry about that, making an LKML thread on this was hasty on my part. Should
+I get further confirmation from the Bugzilla thread before submitting a patch
+for this bug in the future?
 
 Thanks,
 Mazin Rezk
