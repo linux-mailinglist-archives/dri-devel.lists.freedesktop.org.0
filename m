@@ -2,36 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E38D22B1E4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 16:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C702822B244
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 17:16:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDDA6E0E2;
-	Thu, 23 Jul 2020 14:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC256E129;
+	Thu, 23 Jul 2020 15:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26BA16E1F3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 14:56:19 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1jycdt-0007Ez-MI; Thu, 23 Jul 2020 16:56:17 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720106E129
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 15:16:25 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id e22so4772557edq.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 08:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VVAepg4w1+cfxAwsnKHwtIiICECKKdomkIx5zob9laE=;
+ b=amjnKHfyi3YIQQKUgsQzfScCb12mTOFUB1komky4x+Kingv3zmsy2yu4y084nAJxxc
+ /g7cko1Pc0D7dxoCEBIoiJKzCAtdJ4ARjzBQ+jSPc7So9n0WqxB00YCmmTLiZiv4wEhb
+ ahTYtbxV/PkjLyJu49aktNj8c02oXxTFaHlqaZKeNE8kPA85lDmtAVWjAWKRycMe4t0l
+ y2Z8bagrFd2RjlNc4f6IydHh3GAuk/cZbEeoH/4UfuFSlKLtxzz/pWbDjEemp5gfUAGu
+ t/mHWCip0ac2ZlP6/egYhtPUxZiRgSXow6om0sZRv0x8VDy6u1c2Vl0ZPAesNS319Blu
+ 7Tug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VVAepg4w1+cfxAwsnKHwtIiICECKKdomkIx5zob9laE=;
+ b=gjmhFnEor4FyqEjZN+jCEZ6uZSh/Gpqduy+O+1KDtA/0ZdobFCu4WCYPIXRZQxmH4N
+ WD3tynKsR3DNGX67AHOzBWnE0dXCGZCNwazeQUpJBHp2knlPz7Sl9fALOiZ0kKJuWuOI
+ onOy6Zjgjm32F2Y57N+zYmt3Y0j6qXp24RktZTXSA79YPJgZ5mvJypmV6vuuN/8PrcaZ
+ 46JXjgNATN3pwt+RfKLTkN9jvpfHpjb8Dw547qWj8M83EwCc8LHJq1AXUhZbZgdqH9qz
+ ZiQNg/fRUWnC2nqXhSOgfuzRpw7Wbqo4UWoxxlkQPKwme6uchQEKJdaWYjccjmd9hDkP
+ aFSw==
+X-Gm-Message-State: AOAM530q4O6XC6pu3GeC+aQ7y+HZ3BdAHVyjqjw9dEWLwbniPtuQzMz4
+ k+UoqVUSbmgdEAfb8a9ZQ9AoZnVe
+X-Google-Smtp-Source: ABdhPJz2Isif3Du7G88sLcxy2nCdwcNEx4cAaexFG+jt8FVa4NkrlEx++mqw8OIEFeLslOE+6fidTw==
+X-Received: by 2002:aa7:d692:: with SMTP id d18mr4723554edr.73.1595517383710; 
+ Thu, 23 Jul 2020 08:16:23 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:4ca2:7494:c4d6:51a4])
+ by smtp.gmail.com with ESMTPSA id m6sm2221591eja.87.2020.07.23.08.16.22
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jul 2020 08:16:22 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/simple_kms_helper: add drmm_simple_encoder_init()
-Date: Thu, 23 Jul 2020 16:56:14 +0200
-Message-Id: <20200723145614.18459-2-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200723145614.18459-1-p.zabel@pengutronix.de>
-References: <20200723145614.18459-1-p.zabel@pengutronix.de>
+Subject: [PATCH 1/9] drm/ttm: initialize the system domain with defaults
+Date: Thu, 23 Jul 2020 17:16:13 +0200
+Message-Id: <20200723151621.3536-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,95 +67,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a drm_simple_encoder_init() variant that allocates an encoder with
-drmm_kzalloc() and registers drm_encoder_cleanup() with
-drmm_add_action_or_reset().
-
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-Changes since v1:
- - based on drmm_encoder_init
- - use AE initialize spelling
- - fold allocation into drmm_(simple_)encoder_init, to reduce
-   boilerplate
----
- drivers/gpu/drm/drm_simple_kms_helper.c | 12 ++++++++++++
- include/drm/drm_simple_kms_helper.h     | 24 ++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 74946690aba4..eb1ea7b6f05d 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -9,6 +9,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -71,6 +72,17 @@ int drm_simple_encoder_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_simple_encoder_init);
- 
-+static const struct drm_encoder_funcs drmm_simple_encoder_funcs_empty = { };
-+
-+void *__drmm_simple_encoder_init(struct drm_device *dev, size_t size,
-+				 size_t offset, int encoder_type)
-+{
-+	return __drmm_encoder_init(dev, size, offset,
-+				   &drmm_simple_encoder_funcs_empty,
-+				   encoder_type, NULL);
-+}
-+EXPORT_SYMBOL(__drmm_simple_encoder_init);
-+
- static enum drm_mode_status
- drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
- 			       const struct drm_display_mode *mode)
-diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
-index a026375464ff..58f5d4d5e78a 100644
---- a/include/drm/drm_simple_kms_helper.h
-+++ b/include/drm/drm_simple_kms_helper.h
-@@ -185,4 +185,28 @@ int drm_simple_encoder_init(struct drm_device *dev,
- 			    struct drm_encoder *encoder,
- 			    int encoder_type);
- 
-+void *__drmm_simple_encoder_init(struct drm_device *dev, size_t size,
-+				 size_t offset, int encoder_type);
-+
-+/**
-+ * drmm_simple_encoder_init - Allocate and initialize an encoder with basic
-+ *                            functionality.
-+ * @dev: drm device
-+ * @type: the type of the struct which contains struct &drm_encoder
-+ * @member: the name of the &drm_encoder within @type.
-+ * @encoder_type: user visible type of the encoder
-+ *
-+ * Allocates and initializes an encoder that has no further functionality.
-+ * Settings for possible CRTC and clones are left to their initial values.
-+ * Cleanup is automatically handled through registering drm_encoder_cleanup()
-+ * with drmm_add_action().
-+ *
-+ * Returns:
-+ * Pointer to new encoder, or ERR_PTR on failure.
-+ */
-+#define drmm_simple_encoder_init(dev, type, member, encoder_type) \
-+	((type *) __drmm_simple_encoder_init(dev, sizeof(type), \
-+					     offsetof(type, member), \
-+					     encoder_type))
-+
- #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
--- 
-2.20.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SW5zdGVhZCBvZiByZXBlYXRpbmcgdGhhdCBpbiBlYWNoIGRyaXZlci4KClNpZ25lZC1vZmYtYnk6
+IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgICAgfCAzIC0tLQogZHJpdmVycy9ncHUv
+ZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYyAgICAgIHwgMyAtLS0KIGRyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L25vdXZlYXVfYm8uYyAgICAgICB8IDMgLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4
+bF90dG0uYyAgICAgICAgICAgICAgfCAzIC0tLQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fdHRtLmMgICAgICAgIHwgMyAtLS0KIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAg
+ICAgICAgICAgICB8IDIgKysKIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZm
+ZXIuYyB8IDIgLS0KIDcgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlv
+bnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRt
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKaW5kZXggMGRkNWU4
+MDIwOTFkLi5lNTdjNDlhOTFiNzMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV90dG0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+dHRtLmMKQEAgLTg0LDkgKzg0LDYgQEAgc3RhdGljIGludCBhbWRncHVfaW5pdF9tZW1fdHlwZShz
+dHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAlzd2l0Y2ggKHR5cGUp
+IHsKIAljYXNlIFRUTV9QTF9TWVNURU06CiAJCS8qIFN5c3RlbSBtZW1vcnkgKi8KLQkJbWFuLT5m
+bGFncyA9IDA7Ci0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5H
+OwotCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKIAkJYnJlYWs7
+CiAJY2FzZSBUVE1fUExfVFQ6CiAJCS8qIEdUVCBtZW1vcnkgICovCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9n
+ZW1fdnJhbV9oZWxwZXIuYwppbmRleCAzMjk2ZWQzZGYzNTguLmJlMTc3YWZkZWI5YSAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYworKysgYi9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jCkBAIC0xMDA5LDkgKzEwMDksNiBAQCBzdGF0
+aWMgaW50IGJvX2RyaXZlcl9pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2
+LCB1aW50MzJfdCB0eXBlLAogewogCXN3aXRjaCAodHlwZSkgewogCWNhc2UgVFRNX1BMX1NZU1RF
+TToKLQkJbWFuLT5mbGFncyA9IDA7Ci0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExf
+TUFTS19DQUNISU5HOwotCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hF
+RDsKIAkJYnJlYWs7CiAJY2FzZSBUVE1fUExfVlJBTToKIAkJbWFuLT5mdW5jID0gJnR0bV9ib19t
+YW5hZ2VyX2Z1bmM7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
+X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKaW5kZXggNGNjZjkz
+N2RmMGQwLi41M2FmMjUwMjBiYjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfYm8uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMK
+QEAgLTY1NSw5ICs2NTUsNiBAQCBub3V2ZWF1X2JvX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9i
+b19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCiAKIAlzd2l0Y2ggKHR5cGUpIHsKIAljYXNl
+IFRUTV9QTF9TWVNURU06Ci0JCW1hbi0+ZmxhZ3MgPSAwOwotCQltYW4tPmF2YWlsYWJsZV9jYWNo
+aW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKLQkJbWFuLT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1f
+UExfRkxBR19DQUNIRUQ7CiAJCWJyZWFrOwogCWNhc2UgVFRNX1BMX1ZSQU06CiAJCW1hbi0+Zmxh
+Z3MgPSBUVE1fTUVNVFlQRV9GTEFHX0ZJWEVEOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3F4bC9xeGxfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwppbmRleCAxZDhl
+MDdiOGIxOWUuLmU5YjhjOTIxYzFmMCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9x
+eGxfdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKQEAgLTU0LDkgKzU0
+LDYgQEAgc3RhdGljIGludCBxeGxfaW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAq
+YmRldiwgdWludDMyX3QgdHlwZSwKIAlzd2l0Y2ggKHR5cGUpIHsKIAljYXNlIFRUTV9QTF9TWVNU
+RU06CiAJCS8qIFN5c3RlbSBtZW1vcnkgKi8KLQkJbWFuLT5mbGFncyA9IDA7Ci0JCW1hbi0+YXZh
+aWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwotCQltYW4tPmRlZmF1bHRfY2Fj
+aGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKIAkJYnJlYWs7CiAJY2FzZSBUVE1fUExfVlJBTToK
+IAljYXNlIFRUTV9QTF9QUklWOgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
+YWRlb25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwppbmRleCBi
+NDc0NzgxYTA5MjAuLmI0Y2I3NTM2MTU3NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Jh
+ZGVvbi9yYWRlb25fdHRtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRt
+LmMKQEAgLTc2LDkgKzc2LDYgQEAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlwZShzdHJ1
+Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKIAlzd2l0Y2ggKHR5cGUpIHsK
+IAljYXNlIFRUTV9QTF9TWVNURU06CiAJCS8qIFN5c3RlbSBtZW1vcnkgKi8KLQkJbWFuLT5mbGFn
+cyA9IDA7Ci0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwot
+CQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKIAkJYnJlYWs7CiAJ
+Y2FzZSBUVE1fUExfVFQ6CiAJCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX2JvLmMKaW5kZXggN2MwMmNlNzg0ODA1Li4xZjFmOWU0NjMyNjUgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90
+dG1fYm8uYwpAQCAtMTY3Nyw2ICsxNjc3LDggQEAgaW50IHR0bV9ib19kZXZpY2VfaW5pdChzdHJ1
+Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKIAkgKiBJbml0aWFsaXplIHRoZSBzeXN0ZW0gbWVtb3J5
+IGJ1ZmZlciB0eXBlLgogCSAqIE90aGVyIHR5cGVzIG5lZWQgdG8gYmUgZHJpdmVyIC8gSU9DVEwg
+aW5pdGlhbGl6ZWQuCiAJICovCisJYmRldi0+bWFuW1RUTV9QTF9TWVNURU1dLmF2YWlsYWJsZV9j
+YWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKKwliZGV2LT5tYW5bVFRNX1BMX1NZU1RFTV0u
+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfQ0FDSEVEOwogCXJldCA9IHR0bV9ib19pbml0
+X21tKGJkZXYsIFRUTV9QTF9TWVNURU0sIDApOwogCWlmICh1bmxpa2VseShyZXQgIT0gMCkpCiAJ
+CWdvdG8gb3V0X25vX3N5czsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
+Z2Z4X3R0bV9idWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZm
+ZXIuYwppbmRleCAxZDc4MTg3ZWFiYTYuLjAwY2VmMWEzYTE3OCAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwpAQCAtNzQyLDggKzc0Miw2IEBAIHN0YXRpYyBp
+bnQgdm13X2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90
+IHR5cGUsCiAJc3dpdGNoICh0eXBlKSB7CiAJY2FzZSBUVE1fUExfU1lTVEVNOgogCQkvKiBTeXN0
+ZW0gbWVtb3J5ICovCi0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNI
+RUQ7Ci0JCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfQ0FDSEVEOwogCQlicmVh
+azsKIAljYXNlIFRUTV9QTF9WUkFNOgogCQkvKiAiT24tY2FyZCIgdmlkZW8gcmFtICovCi0tIAoy
+LjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
