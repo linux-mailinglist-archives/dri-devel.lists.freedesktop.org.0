@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A50E22B399
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 18:35:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE7822B39A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 18:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 043B46E225;
-	Thu, 23 Jul 2020 16:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7DD6E226;
+	Thu, 23 Jul 2020 16:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D2C6E221
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 16:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0BAB6E226
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 16:35:01 +0000 (UTC)
 Received: from localhost.localdomain (unknown [122.171.202.192])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6E718206F4;
- Thu, 23 Jul 2020 16:34:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 854DF20714;
+ Thu, 23 Jul 2020 16:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595522094;
- bh=MP/p5I5PmDdq9WQ/ZX6AaTgVnkcn2iem13nFwnvaoJU=;
- h=From:To:Cc:Subject:Date:From;
- b=RQqey9r/4/ERgiO+HerjYshII4jgiJgjp7KH7vNxS8Pd9rAjBGgDsfgljy2U9WnY7
- CYNdvo10MPtN2bLSpYW7meQfgzHTVSiNnzFkbavIrqCZEwTk0sAZ94sPkk5SAJ1yAw
- UrfsSziC1GUkRZIBFmVJes+rAmP/YS/GBtv0lNRg=
+ s=default; t=1595522101;
+ bh=j4EX+FYYMmUL3lz0Sf39rotA7d7j4vro6NAbsWtYLko=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Nwv/5eMywXCp0cM0DCZaJQH48pL2K9joRr9bJ18pYb1gTue84gV+dg3b7BnEEmKOI
+ QH5zQYGOCANIwj4bheQo+jBwyOI2fB+a3A6+uwAaGEM7lR+nf45ivUej+NanYfhYzP
+ ErzuX5n8hQrhmshcttbOQXObifHQs6NvZUiPgE20=
 From: Vinod Koul <vkoul@kernel.org>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Rob Clark <robdclark@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v6 0/3] Add LT9611 DSI to HDMI bridge
-Date: Thu, 23 Jul 2020 22:04:39 +0530
-Message-Id: <20200723163442.1280414-1-vkoul@kernel.org>
+Subject: [PATCH v6 1/3] dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+Date: Thu, 23 Jul 2020 22:04:40 +0530
+Message-Id: <20200723163442.1280414-2-vkoul@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200723163442.1280414-1-vkoul@kernel.org>
+References: <20200723163442.1280414-1-vkoul@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,52 +59,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add prefix for Lontium Semiconductor Corporation
 
-This series adds driver and bindings for Lontium LT9611 bridge chip which
-takes MIPI DSI as input and HDMI as output.
+Acked-by: Rob Herring <robh@kernel.org>
+Tested-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
-
-[1]: https://www.96boards.org/product/rb3-platform/
-
-Changes in v6:
- - Drop msm/dsi patch as we need to get more bridges fixed before we add that
- - Bring back support for DRM_BRIDGE_ATTACH_NO_CONNECTOR not set, now driver
-	supports both
- - Fix nits found by Sam
-
-Changes in v5:
- - make symbol static, reported by kbuild-bot
-
-Changes in v4:
- - Add msm/dsi patch to create connector and support DRM_BRIDGE_ATTACH_NO_CONNECTOR
- - Fix comments provided by Sam
-
-Changes in v3:
- - fix kbuild reported error
- - rebase on v5.8-rc1
-
-Changes in v2:
- - Add acks by Rob
- - Fix comments reported by Emil and rename the file to lontium-lt9611.c
- - Fix comments reported by Laurent on binding and driver
- - Add HDMI audio support
-
-Vinod Koul (3):
-  dt-bindings: vendor-prefixes: Add Lontium vendor prefix
-  dt-bindings: display: bridge: Add documentation for LT9611
-  drm/bridge: Introduce LT9611 DSI to HDMI bridge
-
- .../display/bridge/lontium,lt9611.yaml        |  176 +++
- .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
- drivers/gpu/drm/bridge/Kconfig                |   13 +
- drivers/gpu/drm/bridge/Makefile               |    1 +
- drivers/gpu/drm/bridge/lontium-lt9611.c       | 1229 +++++++++++++++++
- 5 files changed, 1421 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
- create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 9aeab66be85f..31cdb21a3d22 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -595,6 +595,8 @@ patternProperties:
+     description: Logic Technologies Limited
+   "^longcheer,.*":
+     description: Longcheer Technology (Shanghai) Co., Ltd.
++  "^lontium,.*":
++    description: Lontium Semiconductor Corporation
+   "^loongson,.*":
+     description: Loongson Technology Corporation Limited
+   "^lsi,.*":
 -- 
 2.26.2
 
