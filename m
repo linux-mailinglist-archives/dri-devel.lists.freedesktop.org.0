@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B91822A938
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F7722A946
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5988934F;
-	Thu, 23 Jul 2020 07:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DDC6E353;
+	Thu, 23 Jul 2020 07:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Thu, 23 Jul 2020 02:09:46 UTC
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 25E086E03A
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:09:47 +0000 (UTC)
-X-UUID: 6d44cec7ecd54cb5b98e8b01c0b0980a-20200723
+ by gabe.freedesktop.org (Postfix) with ESMTP id 492C66E03A
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:09:46 +0000 (UTC)
+X-UUID: 37846e38e6154bd4a32b9135f1a1732c-20200723
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=qFRLx/+6VxdIz+jDbGtfOLe8xjP4LdN/gpj4rcMmUbQ=; 
- b=U4GnLzzBYuGpVTTf5/wG2PFZ/0d/W0V305H+5hbnJWDoWbbtFP4I86ds7fSgZFGMMU2OoDti4snB0+hKFk0g/CGUSAPZHttPMb7FfJUssY3oz55DLFcmagQVe/8B6BaSBqVp/pG6YVDGf3YEOBW+HqwzjSTnUOJbjeYYK8+GLhI=;
-X-UUID: 6d44cec7ecd54cb5b98e8b01c0b0980a-20200723
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=e5iSRY4VliKQs90FY/j7EHQD5eERa91+EY28FFLkydA=; 
+ b=FiaEZ+RHglj5btdVr3Auaj+2XheVUaJZzv5yfdIDQHX6NuVLTW1CCo+67D1loHFA/QZioFP+FMzpeegegC14GkQQjD6FrvyaqcMRmzP24f6ccczZtmsUjdBU9JJyiIA7/ScvsdrJxi+fXr7FMxVXuB0w1Mto8aC2U2HIKdSPqBo=;
+X-UUID: 37846e38e6154bd4a32b9135f1a1732c-20200723
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 76920452; Thu, 23 Jul 2020 10:04:41 +0800
+ with ESMTP id 993325964; Thu, 23 Jul 2020 10:04:42 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 23 Jul 2020 10:04:40 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 23 Jul 2020 10:04:41 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 23 Jul 2020 10:04:36 +0800
+ Transport; Thu, 23 Jul 2020 10:04:37 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [v7, PATCH 0/7] add drm support for MT8183
-Date: Thu, 23 Jul 2020 10:03:11 +0800
-Message-ID: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [v7,
+ PATCH 1/7] drm/mediatek: move ddp component defint into mtk_mmsys.h
+Date: Thu, 23 Jul 2020 10:03:12 +0800
+Message-ID: <1595469798-3824-2-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
+References: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 X-MTK: N
 X-Mailman-Approved-At: Thu, 23 Jul 2020 07:03:15 +0000
@@ -60,68 +65,130 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series are based on 5.8-rc1 and provide 7 patch
-to support mediatek SOC MT8183
+move ddp component defint into mtk_mmsys.h
 
-Change since v6
-- move ddp component define into mtk_mmsys.h
-- add mmsys private data to support different ic path connection
-- add mt8183-mmsys.c to support 8183 path connection
-- fix reviewed issue in v6
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 34 +----------------------------
+ drivers/soc/mediatek/mtk-mmsys.c            |  4 +---
+ include/linux/soc/mediatek/mtk-mmsys.h      | 33 ++++++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 36 deletions(-)
 
-Change since v5
-- fix reviewed issue in v5
-base https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
-
-Change since v4
-- fix reviewed issue in v4
-
-Change since v3
-- fix reviewed issue in v3
-- fix type error in v3
-- fix conflict with iommu patch
-
-Change since v2
-- fix reviewed issue in v2
-- add mutex node into dts file
-
-Changes since v1:
-- fix reviewed issue in v1
-- add dts for mt8183 display nodes
-- adjust display clock control flow in patch 22
-- add vmap support for mediatek drm in patch 23
-- fix page offset issue for mmap function in patch 24
-- enable allow_fb_modifiers for mediatek drm in patch 25
-
-
-Yongqiang Niu (7):
-  drm/mediatek: move ddp component define into mtk_mmsys.h
-  mtk-mmsys: add mmsys private data
-  mtk-mmsys: add mt8183 mmsys support
-  dt-bindings: mediatek: add rdma_fifo_size description for mt8183
-    display
-  arm64: dts: add display nodes for mt8183
-  drm/mediatek: add fifo_size into rdma private data
-  drm/mediatek: add support for mediatek SOC MT8183
-
- .../bindings/display/mediatek/mediatek,disp.txt    |  14 ++
- arch/arm64/boot/dts/mediatek/mt8183.dtsi           |  98 ++++++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  18 ++
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |  25 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c             |  47 ++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |  34 +--
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  43 ++++
- drivers/soc/mediatek/Makefile                      |   1 +
- drivers/soc/mediatek/mmsys/Makefile                |   3 +
- drivers/soc/mediatek/mmsys/mt2701-mmsys.c          | 250 +++++++++++++++++++
- drivers/soc/mediatek/mmsys/mt8183-mmsys.c          | 161 ++++++++++++
- drivers/soc/mediatek/mtk-mmsys.c                   | 276 ++++-----------------
- include/linux/soc/mediatek/mtk-mmsys.h             |  48 ++++
- 13 files changed, 756 insertions(+), 262 deletions(-)
- create mode 100644 drivers/soc/mediatek/mmsys/Makefile
- create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
- create mode 100644 drivers/soc/mediatek/mmsys/mt8183-mmsys.c
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+index debe363..161201f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+@@ -7,6 +7,7 @@
+ #define MTK_DRM_DDP_COMP_H
+ 
+ #include <linux/io.h>
++#include <linux/soc/mediatek/mtk-mmsys.h>
+ 
+ struct device;
+ struct device_node;
+@@ -35,39 +36,6 @@ enum mtk_ddp_comp_type {
+ 	MTK_DDP_COMP_TYPE_MAX,
+ };
+ 
+-enum mtk_ddp_comp_id {
+-	DDP_COMPONENT_AAL0,
+-	DDP_COMPONENT_AAL1,
+-	DDP_COMPONENT_BLS,
+-	DDP_COMPONENT_CCORR,
+-	DDP_COMPONENT_COLOR0,
+-	DDP_COMPONENT_COLOR1,
+-	DDP_COMPONENT_DITHER,
+-	DDP_COMPONENT_DPI0,
+-	DDP_COMPONENT_DPI1,
+-	DDP_COMPONENT_DSI0,
+-	DDP_COMPONENT_DSI1,
+-	DDP_COMPONENT_DSI2,
+-	DDP_COMPONENT_DSI3,
+-	DDP_COMPONENT_GAMMA,
+-	DDP_COMPONENT_OD0,
+-	DDP_COMPONENT_OD1,
+-	DDP_COMPONENT_OVL0,
+-	DDP_COMPONENT_OVL_2L0,
+-	DDP_COMPONENT_OVL_2L1,
+-	DDP_COMPONENT_OVL1,
+-	DDP_COMPONENT_PWM0,
+-	DDP_COMPONENT_PWM1,
+-	DDP_COMPONENT_PWM2,
+-	DDP_COMPONENT_RDMA0,
+-	DDP_COMPONENT_RDMA1,
+-	DDP_COMPONENT_RDMA2,
+-	DDP_COMPONENT_UFOE,
+-	DDP_COMPONENT_WDMA0,
+-	DDP_COMPONENT_WDMA1,
+-	DDP_COMPONENT_ID_MAX,
+-};
+-
+ struct mtk_ddp_comp;
+ struct cmdq_pkt;
+ struct mtk_ddp_comp_funcs {
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index a55f255..36ad66b 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -5,13 +5,11 @@
+  */
+ 
+ #include <linux/device.h>
++#include <linux/io.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/soc/mediatek/mtk-mmsys.h>
+ 
+-#include "../../gpu/drm/mediatek/mtk_drm_ddp.h"
+-#include "../../gpu/drm/mediatek/mtk_drm_ddp_comp.h"
+-
+ #define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN	0x040
+ #define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN	0x044
+ #define DISP_REG_CONFIG_DISP_OD_MOUT_EN		0x048
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 7bab5d9..2228bf6 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -9,6 +9,39 @@
+ enum mtk_ddp_comp_id;
+ struct device;
+ 
++enum mtk_ddp_comp_id {
++	DDP_COMPONENT_AAL0,
++	DDP_COMPONENT_AAL1,
++	DDP_COMPONENT_BLS,
++	DDP_COMPONENT_CCORR,
++	DDP_COMPONENT_COLOR0,
++	DDP_COMPONENT_COLOR1,
++	DDP_COMPONENT_DITHER,
++	DDP_COMPONENT_DPI0,
++	DDP_COMPONENT_DPI1,
++	DDP_COMPONENT_DSI0,
++	DDP_COMPONENT_DSI1,
++	DDP_COMPONENT_DSI2,
++	DDP_COMPONENT_DSI3,
++	DDP_COMPONENT_GAMMA,
++	DDP_COMPONENT_OD0,
++	DDP_COMPONENT_OD1,
++	DDP_COMPONENT_OVL0,
++	DDP_COMPONENT_OVL_2L0,
++	DDP_COMPONENT_OVL_2L1,
++	DDP_COMPONENT_OVL1,
++	DDP_COMPONENT_PWM0,
++	DDP_COMPONENT_PWM1,
++	DDP_COMPONENT_PWM2,
++	DDP_COMPONENT_RDMA0,
++	DDP_COMPONENT_RDMA1,
++	DDP_COMPONENT_RDMA2,
++	DDP_COMPONENT_UFOE,
++	DDP_COMPONENT_WDMA0,
++	DDP_COMPONENT_WDMA1,
++	DDP_COMPONENT_ID_MAX,
++};
++
+ void mtk_mmsys_ddp_connect(struct device *dev,
+ 			   enum mtk_ddp_comp_id cur,
+ 			   enum mtk_ddp_comp_id next);
 -- 
 1.8.1.1.dirty
 _______________________________________________
