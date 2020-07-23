@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E081A22A947
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:03:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C17422A94A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 09:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6E06E356;
-	Thu, 23 Jul 2020 07:03:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C42716E3BC;
+	Thu, 23 Jul 2020 07:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 25E106E233
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:09:58 +0000 (UTC)
-X-UUID: 182d5d5635094cfcaa4eaca8bdbe048b-20200723
+ by gabe.freedesktop.org (Postfix) with ESMTP id 265C36E225
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:10:01 +0000 (UTC)
+X-UUID: 5da1960f1fef4b059b4fae46f302f882-20200723
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Grs5ZKo+Kb4nPk8FUoPPdvMh04ElZQ3N2JhQRc+vMC4=; 
- b=JmmDsk4vdR7it9Vz/BXXIYLKieUgUFCKTKMaGfW4Ej9EsaObN5hfC9ybx4BLUecPnXpOblUrxKgUgGtx3O0xKGY/JvcHZGXBqvpIzKMvuJRNl/ubOPNh3oJb0z6OhFPQLKeq98rzKLiAcrYpRgDp9dehfLWNrZsKnnK+0k4hGao=;
-X-UUID: 182d5d5635094cfcaa4eaca8bdbe048b-20200723
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ bh=PQR+pTRUJr2p2puT6kEgda5uTBofuzbyJhCIDKViHyo=; 
+ b=UrrfWmEM8lHzjImmf5k9oRlssqM9kbkRKdL1PjMoNJACRgWsxIppljhHsuYVMuly0vjp4hvVOtswkMh0vwrR3ao50pjbP6W58y3oUOONsa1tDfd/6Fq1Ryjd1noOIy1ZMp8SsmqRLBfZ+p6sb2iK0Ll5JTk0NqyYHcLsts4Gvvw=;
+X-UUID: 5da1960f1fef4b059b4fae46f302f882-20200723
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
  mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 391782693; Thu, 23 Jul 2020 10:04:53 +0800
+ with ESMTP id 928054689; Thu, 23 Jul 2020 10:04:55 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 23 Jul 2020 10:04:52 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 23 Jul 2020 10:04:54 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 23 Jul 2020 10:04:47 +0800
+ Transport; Thu, 23 Jul 2020 10:04:49 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [v7, PATCH 5/7] arm64: dts: add display nodes for mt8183
-Date: Thu, 23 Jul 2020 10:03:16 +0800
-Message-ID: <1595469798-3824-6-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [v7, PATCH 6/7] drm/mediatek: add fifo_size into rdma private data
+Date: Thu, 23 Jul 2020 10:03:17 +0800
+Message-ID: <1595469798-3824-7-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -62,132 +62,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch add display nodes for mt8183
+the fifo size of rdma in mt8183 is different.
+rdma0 fifo size is 5k
+rdma1 fifo size is 2k
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 98 ++++++++++++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index 7b781eb..440cf22 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -31,6 +31,11 @@
- 		i2c9 = &i2c9;
- 		i2c10 = &i2c10;
- 		i2c11 = &i2c11;
-+		ovl0 = &ovl0;
-+		ovl_2l0 = &ovl_2l0;
-+		ovl_2l1 = &ovl_2l1;
-+		rdma0 = &rdma0;
-+		rdma1 = &rdma1;
- 	};
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+index e04319f..794acc5 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+@@ -63,6 +63,7 @@ struct mtk_disp_rdma {
+ 	struct mtk_ddp_comp		ddp_comp;
+ 	struct drm_crtc			*crtc;
+ 	const struct mtk_disp_rdma_data	*data;
++	u32				fifo_size;
+ };
  
- 	cpus {
-@@ -707,9 +712,102 @@
- 		mmsys: syscon@14000000 {
- 			compatible = "mediatek,mt8183-mmsys", "syscon";
- 			reg = <0 0x14000000 0 0x1000>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
- 			#clock-cells = <1>;
- 		};
+ static inline struct mtk_disp_rdma *comp_to_rdma(struct mtk_ddp_comp *comp)
+@@ -131,12 +132,18 @@ static void mtk_rdma_config(struct mtk_ddp_comp *comp, unsigned int width,
+ 	unsigned int threshold;
+ 	unsigned int reg;
+ 	struct mtk_disp_rdma *rdma = comp_to_rdma(comp);
++	u32 rdma_fifo_size;
  
-+		ovl0: ovl@14008000 {
-+			compatible = "mediatek,mt8183-disp-ovl";
-+			reg = <0 0x14008000 0 0x1000>;
-+			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_OVL0>;
-+		};
+ 	mtk_ddp_write_mask(cmdq_pkt, width, comp,
+ 			   DISP_REG_RDMA_SIZE_CON_0, 0xfff);
+ 	mtk_ddp_write_mask(cmdq_pkt, height, comp,
+ 			   DISP_REG_RDMA_SIZE_CON_1, 0xfffff);
+ 
++	if (rdma->fifo_size)
++		rdma_fifo_size = rdma->fifo_size;
++	else
++		rdma_fifo_size = RDMA_FIFO_SIZE(rdma);
 +
-+		ovl_2l0: ovl@14009000 {
-+			compatible = "mediatek,mt8183-disp-ovl-2l";
-+			reg = <0 0x14009000 0 0x1000>;
-+			interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
-+		};
+ 	/*
+ 	 * Enable FIFO underflow since DSI and DPI can't be blocked.
+ 	 * Keep the FIFO pseudo size reset default of 8 KiB. Set the
+@@ -145,7 +152,7 @@ static void mtk_rdma_config(struct mtk_ddp_comp *comp, unsigned int width,
+ 	 */
+ 	threshold = width * height * vrefresh * 4 * 7 / 1000000;
+ 	reg = RDMA_FIFO_UNDERFLOW_EN |
+-	      RDMA_FIFO_PSEUDO_SIZE(RDMA_FIFO_SIZE(rdma)) |
++	      RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) |
+ 	      RDMA_OUTPUT_VALID_FIFO_THRESHOLD(threshold);
+ 	mtk_ddp_write(cmdq_pkt, reg, comp, DISP_REG_RDMA_FIFO_CON);
+ }
+@@ -291,6 +298,16 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
+ 		return comp_id;
+ 	}
+ 
++	if (of_find_property(dev->of_node, "mediatek,rdma_fifo_size", &ret)) {
++		ret = of_property_read_u32(dev->of_node,
++					   "mediatek,rdma_fifo_size",
++					   &priv->fifo_size);
++		if (ret) {
++			dev_err(dev, "Failed to get rdma fifo size\n");
++			return ret;
++		}
++	}
 +
-+		ovl_2l1: ovl@1400a000 {
-+			compatible = "mediatek,mt8183-disp-ovl-2l";
-+			reg = <0 0x1400a000 0 0x1000>;
-+			interrupts = <GIC_SPI 227 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
-+		};
-+
-+		rdma0: rdma@1400b000 {
-+			compatible = "mediatek,mt8183-disp-rdma";
-+			reg = <0 0x1400b000 0 0x1000>;
-+			interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
-+			mediatek,rdma_fifo_size = <5120>;
-+		};
-+
-+		rdma1: rdma@1400c000 {
-+			compatible = "mediatek,mt8183-disp-rdma";
-+			reg = <0 0x1400c000 0 0x1000>;
-+			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_RDMA1>;
-+			mediatek,rdma_fifo_size = <2048>;
-+		};
-+
-+		color0: color@1400e000 {
-+			compatible = "mediatek,mt8183-disp-color",
-+				     "mediatek,mt8173-disp-color";
-+			reg = <0 0x1400e000 0 0x1000>;
-+			interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
-+		};
-+
-+		ccorr0: ccorr@1400f000 {
-+			compatible = "mediatek,mt8183-disp-ccorr";
-+			reg = <0 0x1400f000 0 0x1000>;
-+			interrupts = <GIC_SPI 232 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
-+		};
-+
-+		aal0: aal@14010000 {
-+			compatible = "mediatek,mt8183-disp-aal",
-+				     "mediatek,mt8173-disp-aal";
-+			reg = <0 0x14010000 0 0x1000>;
-+			interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_AAL0>;
-+		};
-+
-+		gamma0: gamma@14011000 {
-+			compatible = "mediatek,mt8183-disp-gamma",
-+				     "mediatek,mt8173-disp-gamma";
-+			reg = <0 0x14011000 0 0x1000>;
-+			interrupts = <GIC_SPI 234 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
-+		};
-+
-+		dither0: dither@14012000 {
-+			compatible = "mediatek,mt8183-disp-dither";
-+			reg = <0 0x14012000 0 0x1000>;
-+			interrupts = <GIC_SPI 235 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
-+		};
-+
-+		mutex: mutex@14016000 {
-+			compatible = "mediatek,mt8183-disp-mutex";
-+			reg = <0 0x14016000 0 0x1000>;
-+			interrupts = <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>;
-+			power-domains = <&scpsys MT8183_POWER_DOMAIN_DISP>;
-+		};
-+
- 		smi_common: smi@14019000 {
- 			compatible = "mediatek,mt8183-smi-common", "syscon";
- 			reg = <0 0x14019000 0 0x1000>;
+ 	ret = mtk_ddp_comp_init(dev, dev->of_node, &priv->ddp_comp, comp_id,
+ 				&mtk_disp_rdma_funcs);
+ 	if (ret) {
 -- 
 1.8.1.1.dirty
 _______________________________________________
