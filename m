@@ -2,32 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5405A22AB8B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 11:13:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8201722ABB4
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 11:24:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2D389C19;
-	Thu, 23 Jul 2020 09:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC6D6E880;
+	Thu, 23 Jul 2020 09:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA5D89B78
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 09:13:18 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D1653AC7C;
- Thu, 23 Jul 2020 09:13:24 +0000 (UTC)
-Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284A26E880
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 09:23:56 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id d4so3887238otk.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rzPh/vBzRB6UXrlaCJ4hTFYTsu2neUnAI6gqPTlV0oQ=;
+ b=eSlDSTbNvuE7/Yw4aef6zcbX3rrZ7SuhUsDbg/eAXXIfVRrL0d8eepVTzEFT6ulSA+
+ XPfarn7hg8wcMLiN4veNKFxi9EWa1wTrSthx5ct2qDIcGb/IfTN8Ws0hgYmwn3lC0Z1r
+ n204wPjiClgKrOx0wPjaNOeYQsH4jBvoPFcm0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rzPh/vBzRB6UXrlaCJ4hTFYTsu2neUnAI6gqPTlV0oQ=;
+ b=EMefolPjHlDlhhJ9lk7C4Jw0XildoIYR1xf5ISlRDoI9jZp521COlTKSIiMYTS6iXT
+ +a1ANC1vAIu7zallqJ075I3hDb6EKf5K72F0Ro3ebjNS8Jh3o8XDS1a/QwlUFa/OJNi9
+ E7LdQR7YU2TzkHKMBsrSqMk2MXliVWxvztU85bjaGxlYqfTshioVR/Yp1N0hG6Z4wOVG
+ lpzRRTaDIwQQ5IZJmL5AdmeOQHl3GzigLrYYEL7xGDpDyOmJAmBDVqNzamRmLbxfTfyi
+ dgHHv+z7GiRzw+VmUjn/WqIB69RTWZqbvoRbMrqf+ecuOr2DMiTcsQUM3L4C7egrq7fQ
+ 4RDQ==
+X-Gm-Message-State: AOAM530Q5D+BuIx5mETdMAPGooBgPbmj66jVPU7ZGk5teoMT9ZMPXEgB
+ gohOhqXIyYdpI1bgFcBaLXEc5a3m7iYlHC2s0DZcINjg
+X-Google-Smtp-Source: ABdhPJz6VrN+Ejez5bLaHXANe7nNs7071LFCUgVmzV9nMXoIwHqYmSRfQrJ3Ff7muyKIMwZpMFGorQxu8zWyPndKrjI=
+X-Received: by 2002:a9d:d55:: with SMTP id 79mr3515007oti.281.1595496236071;
+ Thu, 23 Jul 2020 02:23:56 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200722132558.28289-1-p.zabel@pengutronix.de>
  <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
  <CAKMK7uHzYkR4R=2gUZf28rbGM+NmoTCtL_kuGxMe0erZo6KeCA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <39754137-376f-da84-edd2-2134772f3a39@suse.de>
-Date: Thu, 23 Jul 2020 11:13:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHzYkR4R=2gUZf28rbGM+NmoTCtL_kuGxMe0erZo6KeCA@mail.gmail.com>
+ <39754137-376f-da84-edd2-2134772f3a39@suse.de>
+In-Reply-To: <39754137-376f-da84-edd2-2134772f3a39@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 23 Jul 2020 11:23:45 +0200
+Message-ID: <CAKMK7uG6nFaYmNQw3tYc8Xoy8=TPguy1P4kMSHzodwC+TheBuA@mail.gmail.com>
+Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,257 +63,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sascha Hauer <kernel@pengutronix.de>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1981038869=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1981038869==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sq1vCxhkOr63hflDw4Jj3iPp1dqHGEJLE"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sq1vCxhkOr63hflDw4Jj3iPp1dqHGEJLE
-Content-Type: multipart/mixed; boundary="yYoO9YZJPvxciRyglPbn2ORJc0us7v77s";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sascha Hauer <kernel@pengutronix.de>
-Message-ID: <39754137-376f-da84-edd2-2134772f3a39@suse.de>
-Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
-References: <20200722132558.28289-1-p.zabel@pengutronix.de>
- <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
- <CAKMK7uHzYkR4R=2gUZf28rbGM+NmoTCtL_kuGxMe0erZo6KeCA@mail.gmail.com>
-In-Reply-To: <CAKMK7uHzYkR4R=2gUZf28rbGM+NmoTCtL_kuGxMe0erZo6KeCA@mail.gmail.com>
-
---yYoO9YZJPvxciRyglPbn2ORJc0us7v77s
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 23.07.20 um 11:05 schrieb Daniel Vetter:
-> On Thu, Jul 23, 2020 at 9:36 AM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> I have meanwhile seen your imx patchset where this would be useful.
->>
->> I still think you should try to pre-allocated all encoders up to a
->> limit, so that an extra drmm_kzalloc() is not required. But see my
->> comments below.
->=20
-> Uh preallocation is horribly, because you need to first preallocate
-> all encoders, then call drmm_mode_config_init, and only then can you
-> call  drm_encoder_init. That's terrible flow, and I'm aware of the
-
-Out of curiosity, what's the problem with the code flow? If you embed
-everything in the device's structure, you'd pre-allocate automatically.
-Then acquire one of the encoders just before drm_encoder_init(). Sure,
-it needs a little helper to acquire and release the preallocated encoder
-memory, but that's not that bad.
-
-Best regards
-Thomas
-
-> problem. That's why we need new set of drmm_ helpers to do all the
-> steps for kms static object setup, if we actually want to improve
-> things.
-> -Daniel
->=20
->>
->> Am 22.07.20 um 15:25 schrieb Philipp Zabel:
->>> Add a drm_simple_encoder_init() variant that registers
->>> drm_encoder_cleanup() with drmm_add_action().
->>>
->>> Now drivers can store encoders in memory allocated with drmm_kmalloc(=
-)
->>> after the call to drmm_mode_config_init(), without having to manually=
-
->>> make sure that drm_encoder_cleanup() is called before the memory is
->>> freed.
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> ---
->>>  drivers/gpu/drm/drm_simple_kms_helper.c | 42 +++++++++++++++++++++++=
-++
->>>  include/drm/drm_simple_kms_helper.h     |  4 +++
->>>  2 files changed, 46 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/dr=
-m/drm_simple_kms_helper.c
->>> index 74946690aba4..a243f00cf63d 100644
->>> --- a/drivers/gpu/drm/drm_simple_kms_helper.c
->>> +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
->>> @@ -9,6 +9,7 @@
->>>  #include <drm/drm_atomic.h>
->>>  #include <drm/drm_atomic_helper.h>
->>>  #include <drm/drm_bridge.h>
->>> +#include <drm/drm_managed.h>
->>>  #include <drm/drm_plane_helper.h>
->>>  #include <drm/drm_probe_helper.h>
->>>  #include <drm/drm_simple_kms_helper.h>
->>> @@ -71,6 +72,47 @@ int drm_simple_encoder_init(struct drm_device *dev=
-,
->>>  }
->>>  EXPORT_SYMBOL(drm_simple_encoder_init);
->>>
->>> +static void drmm_encoder_cleanup(struct drm_device *dev, void *ptr)
->>
->> It's the reset helper, so drmm_simple_encoder_reset() would be appropr=
-iate.
->>
->>> +{
->>> +     struct drm_encoder *encoder =3D ptr;
->>> +
->>> +     drm_encoder_cleanup(encoder);
->>
->> This should first check for (encoder->dev) being true. If drivers
->> somehow manage to clean-up the mode config first, we should detect it.=
- I
->> know it's a bug, but I wouldn't trust drivers with that.
->>
->>> +}
->>> +
->>> +/**
->>> + * drmm_simple_encoder_init - Initialize a preallocated encoder with=
-
->>> + *                            basic functionality.
->>> + * @dev: drm device
->>> + * @encoder: the encoder to initialize
->>> + * @encoder_type: user visible type of the encoder
->>> + *
->>> + * Initialises a preallocated encoder that has no further functional=
-ity.
->>
->> 'Initializes'
->>
->>> + * Settings for possible CRTC and clones are left to their initial v=
-alues.
->>> + * Cleanup is automatically handled through registering drm_encoder_=
-cleanup()
->>> + * with drmm_add_action().
->>> + *
->>> + * The caller of drmm_simple_encoder_init() is responsible for alloc=
-ating
->>> + * the encoder's memory with drmm_kzalloc() to ensure it is automati=
-cally
->>> + * freed after the encoder has been cleaned up.
->>> + *
->>
->> The idiomatic way of cleaning up an encoder is via mode-config cleanup=
-=2E
->> This interface is an exception for a corner case. So there needs to be=
- a
->> paragraph that clearly explains the corner case. Please also discourag=
-e
->> from using drmm_simple_encoder_init() if drm_simple_encoder_init() wou=
-ld
->> work.
->>
->> Best regards
->> Thomas
->>
->>> + * Returns:
->>> + * Zero on success, error code on failure.
->>> + */
->>> +int drmm_simple_encoder_init(struct drm_device *dev,
->>> +                          struct drm_encoder *encoder,
->>> +                          int encoder_type)
->>> +{
->>> +     int ret;
->>> +
->>> +     ret =3D drm_encoder_init(dev, encoder, &drm_simple_encoder_func=
-s_cleanup,
->>> +                            encoder_type, NULL);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>> +     return drmm_add_action_or_reset(dev, drmm_encoder_cleanup, enco=
-der);
->>> +}
->>> +EXPORT_SYMBOL(drmm_simple_encoder_init);
->>> +
->>>  static enum drm_mode_status
->>>  drm_simple_kms_crtc_mode_valid(struct drm_crtc *crtc,
->>>                              const struct drm_display_mode *mode)
->>> diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_si=
-mple_kms_helper.h
->>> index a026375464ff..27f0915599c8 100644
->>> --- a/include/drm/drm_simple_kms_helper.h
->>> +++ b/include/drm/drm_simple_kms_helper.h
->>> @@ -185,4 +185,8 @@ int drm_simple_encoder_init(struct drm_device *de=
-v,
->>>                           struct drm_encoder *encoder,
->>>                           int encoder_type);
->>>
->>> +int drmm_simple_encoder_init(struct drm_device *dev,
->>> +                          struct drm_encoder *encoder,
->>> +                          int encoder_type);
->>> +
->>>  #endif /* __LINUX_DRM_SIMPLE_KMS_HELPER_H */
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---yYoO9YZJPvxciRyglPbn2ORJc0us7v77s--
-
---sq1vCxhkOr63hflDw4Jj3iPp1dqHGEJLE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8ZVKkUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP+HQgAtwG79uro4d1oR89Ow8T85h4eDHmf
-auePi+OX31ggUBevsX7XtDx40tjmHdjKgSWBEP6v9JmAZf5giEhrhxeCrBOplB6L
-Xn4hmN7gqohlTChKL63J/6le6LI75XGsW1fhBSczDcRFaQPRRrmIKUbZldo4o0jv
-PYT/MyFBaIcsS8rWk9dWE+mLgYEoxcvnd3JO23IlTbWQ45rZTQZROpubGehuP4XA
-MH+H/+eqCg6hdOcokrwndj+aJQqPasKsriW7KJX+QwgWKGLnG0iLfIfZqcctUK/L
-O0vLYLmJd4n4Oeq2gLwIWv1dMeCq1YgPiuQgoML1iHpnUui8r+sJA1UC/Q==
-=9Vnq
------END PGP SIGNATURE-----
-
---sq1vCxhkOr63hflDw4Jj3iPp1dqHGEJLE--
-
---===============1981038869==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1981038869==--
+T24gVGh1LCBKdWwgMjMsIDIwMjAgYXQgMTE6MTMgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IEFtIDIzLjA3LjIwIHVtIDExOjA1IHNj
+aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIFRodSwgSnVsIDIzLCAyMDIwIGF0IDk6MzYgQU0g
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+ID4+Cj4gPj4g
+SGkKPiA+Pgo+ID4+IEkgaGF2ZSBtZWFud2hpbGUgc2VlbiB5b3VyIGlteCBwYXRjaHNldCB3aGVy
+ZSB0aGlzIHdvdWxkIGJlIHVzZWZ1bC4KPiA+Pgo+ID4+IEkgc3RpbGwgdGhpbmsgeW91IHNob3Vs
+ZCB0cnkgdG8gcHJlLWFsbG9jYXRlZCBhbGwgZW5jb2RlcnMgdXAgdG8gYQo+ID4+IGxpbWl0LCBz
+byB0aGF0IGFuIGV4dHJhIGRybW1fa3phbGxvYygpIGlzIG5vdCByZXF1aXJlZC4gQnV0IHNlZSBt
+eQo+ID4+IGNvbW1lbnRzIGJlbG93Lgo+ID4KPiA+IFVoIHByZWFsbG9jYXRpb24gaXMgaG9ycmli
+bHksIGJlY2F1c2UgeW91IG5lZWQgdG8gZmlyc3QgcHJlYWxsb2NhdGUKPiA+IGFsbCBlbmNvZGVy
+cywgdGhlbiBjYWxsIGRybW1fbW9kZV9jb25maWdfaW5pdCwgYW5kIG9ubHkgdGhlbiBjYW4geW91
+Cj4gPiBjYWxsICBkcm1fZW5jb2Rlcl9pbml0LiBUaGF0J3MgdGVycmlibGUgZmxvdywgYW5kIEkn
+bSBhd2FyZSBvZiB0aGUKPgo+IE91dCBvZiBjdXJpb3NpdHksIHdoYXQncyB0aGUgcHJvYmxlbSB3
+aXRoIHRoZSBjb2RlIGZsb3c/IElmIHlvdSBlbWJlZAo+IGV2ZXJ5dGhpbmcgaW4gdGhlIGRldmlj
+ZSdzIHN0cnVjdHVyZSwgeW91J2QgcHJlLWFsbG9jYXRlIGF1dG9tYXRpY2FsbHkuCj4gVGhlbiBh
+Y3F1aXJlIG9uZSBvZiB0aGUgZW5jb2RlcnMganVzdCBiZWZvcmUgZHJtX2VuY29kZXJfaW5pdCgp
+LiBTdXJlLAo+IGl0IG5lZWRzIGEgbGl0dGxlIGhlbHBlciB0byBhY3F1aXJlIGFuZCByZWxlYXNl
+IHRoZSBwcmVhbGxvY2F0ZWQgZW5jb2Rlcgo+IG1lbW9yeSwgYnV0IHRoYXQncyBub3QgdGhhdCBi
+YWQuCgpUaGlzIGlzIGZpbmUgZm9yIHRpbnkgZHJpdmVycywgaXQncyB0b3RhbGx5IG5vbi13b3Jr
+YWJsZSBmb3IgYmlnCmRyaXZlcnMgd2hlcmUgdGhlIG51bWJlciBvZiBlbmNvZGVyL2Nvbm5lY3Rv
+ciB3ZSBuZWVkIGFyZSB2ZXJ5IGR5bmFtaWMKKGRlcGVuZGluZyB1cG9uIHdoaWNoIHBsYXRmb3Jt
+IHlvdSBydW4gb24pLiBUcnkgZG9pbmcgdGhpcyB3aXRoIGFkbWdwdQpvciBzb21lIHNpbWlsYXIg
+Y29tcGxleCBkcml2ZXIsIGl0IGp1c3QgZG9lc24ndCB3b3JrLgotRGFuaWVsCgo+Cj4gQmVzdCBy
+ZWdhcmRzCj4gVGhvbWFzCj4KPiA+IHByb2JsZW0uIFRoYXQncyB3aHkgd2UgbmVlZCBuZXcgc2V0
+IG9mIGRybW1fIGhlbHBlcnMgdG8gZG8gYWxsIHRoZQo+ID4gc3RlcHMgZm9yIGttcyBzdGF0aWMg
+b2JqZWN0IHNldHVwLCBpZiB3ZSBhY3R1YWxseSB3YW50IHRvIGltcHJvdmUKPiA+IHRoaW5ncy4K
+PiA+IC1EYW5pZWwKPiA+Cj4gPj4KPiA+PiBBbSAyMi4wNy4yMCB1bSAxNToyNSBzY2hyaWViIFBo
+aWxpcHAgWmFiZWw6Cj4gPj4+IEFkZCBhIGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KCkgdmFyaWFu
+dCB0aGF0IHJlZ2lzdGVycwo+ID4+PiBkcm1fZW5jb2Rlcl9jbGVhbnVwKCkgd2l0aCBkcm1tX2Fk
+ZF9hY3Rpb24oKS4KPiA+Pj4KPiA+Pj4gTm93IGRyaXZlcnMgY2FuIHN0b3JlIGVuY29kZXJzIGlu
+IG1lbW9yeSBhbGxvY2F0ZWQgd2l0aCBkcm1tX2ttYWxsb2MoKQo+ID4+PiBhZnRlciB0aGUgY2Fs
+bCB0byBkcm1tX21vZGVfY29uZmlnX2luaXQoKSwgd2l0aG91dCBoYXZpbmcgdG8gbWFudWFsbHkK
+PiA+Pj4gbWFrZSBzdXJlIHRoYXQgZHJtX2VuY29kZXJfY2xlYW51cCgpIGlzIGNhbGxlZCBiZWZv
+cmUgdGhlIG1lbW9yeSBpcwo+ID4+PiBmcmVlZC4KPiA+Pj4KPiA+Pj4gU2lnbmVkLW9mZi1ieTog
+UGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KPiA+Pj4gLS0tCj4gPj4+ICBk
+cml2ZXJzL2dwdS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmMgfCA0MiArKysrKysrKysrKysr
+KysrKysrKysrKysrCj4gPj4+ICBpbmNsdWRlL2RybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaCAg
+ICAgfCAgNCArKysKPiA+Pj4gIDIgZmlsZXMgY2hhbmdlZCwgNDYgaW5zZXJ0aW9ucygrKQo+ID4+
+Pgo+ID4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9zaW1wbGVfa21zX2hlbHBl
+ci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5jCj4gPj4+IGluZGV4
+IDc0OTQ2NjkwYWJhNC4uYTI0M2YwMGNmNjNkIDEwMDY0NAo+ID4+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmMKPiA+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9zaW1wbGVfa21zX2hlbHBlci5jCj4gPj4+IEBAIC05LDYgKzksNyBAQAo+ID4+PiAgI2lu
+Y2x1ZGUgPGRybS9kcm1fYXRvbWljLmg+Cj4gPj4+ICAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNf
+aGVscGVyLmg+Cj4gPj4+ICAjaW5jbHVkZSA8ZHJtL2RybV9icmlkZ2UuaD4KPiA+Pj4gKyNpbmNs
+dWRlIDxkcm0vZHJtX21hbmFnZWQuaD4KPiA+Pj4gICNpbmNsdWRlIDxkcm0vZHJtX3BsYW5lX2hl
+bHBlci5oPgo+ID4+PiAgI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+Cj4gPj4+ICAj
+aW5jbHVkZSA8ZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5oPgo+ID4+PiBAQCAtNzEsNiArNzIs
+NDcgQEAgaW50IGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
+Cj4gPj4+ICB9Cj4gPj4+ICBFWFBPUlRfU1lNQk9MKGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KTsK
+PiA+Pj4KPiA+Pj4gK3N0YXRpYyB2b2lkIGRybW1fZW5jb2Rlcl9jbGVhbnVwKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYsIHZvaWQgKnB0cikKPiA+Pgo+ID4+IEl0J3MgdGhlIHJlc2V0IGhlbHBlciwg
+c28gZHJtbV9zaW1wbGVfZW5jb2Rlcl9yZXNldCgpIHdvdWxkIGJlIGFwcHJvcHJpYXRlLgo+ID4+
+Cj4gPj4+ICt7Cj4gPj4+ICsgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciA9IHB0cjsK
+PiA+Pj4gKwo+ID4+PiArICAgICBkcm1fZW5jb2Rlcl9jbGVhbnVwKGVuY29kZXIpOwo+ID4+Cj4g
+Pj4gVGhpcyBzaG91bGQgZmlyc3QgY2hlY2sgZm9yIChlbmNvZGVyLT5kZXYpIGJlaW5nIHRydWUu
+IElmIGRyaXZlcnMKPiA+PiBzb21laG93IG1hbmFnZSB0byBjbGVhbi11cCB0aGUgbW9kZSBjb25m
+aWcgZmlyc3QsIHdlIHNob3VsZCBkZXRlY3QgaXQuIEkKPiA+PiBrbm93IGl0J3MgYSBidWcsIGJ1
+dCBJIHdvdWxkbid0IHRydXN0IGRyaXZlcnMgd2l0aCB0aGF0Lgo+ID4+Cj4gPj4+ICt9Cj4gPj4+
+ICsKPiA+Pj4gKy8qKgo+ID4+PiArICogZHJtbV9zaW1wbGVfZW5jb2Rlcl9pbml0IC0gSW5pdGlh
+bGl6ZSBhIHByZWFsbG9jYXRlZCBlbmNvZGVyIHdpdGgKPiA+Pj4gKyAqICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGJhc2ljIGZ1bmN0aW9uYWxpdHkuCj4gPj4+ICsgKiBAZGV2OiBkcm0gZGV2
+aWNlCj4gPj4+ICsgKiBAZW5jb2RlcjogdGhlIGVuY29kZXIgdG8gaW5pdGlhbGl6ZQo+ID4+PiAr
+ICogQGVuY29kZXJfdHlwZTogdXNlciB2aXNpYmxlIHR5cGUgb2YgdGhlIGVuY29kZXIKPiA+Pj4g
+KyAqCj4gPj4+ICsgKiBJbml0aWFsaXNlcyBhIHByZWFsbG9jYXRlZCBlbmNvZGVyIHRoYXQgaGFz
+IG5vIGZ1cnRoZXIgZnVuY3Rpb25hbGl0eS4KPiA+Pgo+ID4+ICdJbml0aWFsaXplcycKPiA+Pgo+
+ID4+PiArICogU2V0dGluZ3MgZm9yIHBvc3NpYmxlIENSVEMgYW5kIGNsb25lcyBhcmUgbGVmdCB0
+byB0aGVpciBpbml0aWFsIHZhbHVlcy4KPiA+Pj4gKyAqIENsZWFudXAgaXMgYXV0b21hdGljYWxs
+eSBoYW5kbGVkIHRocm91Z2ggcmVnaXN0ZXJpbmcgZHJtX2VuY29kZXJfY2xlYW51cCgpCj4gPj4+
+ICsgKiB3aXRoIGRybW1fYWRkX2FjdGlvbigpLgo+ID4+PiArICoKPiA+Pj4gKyAqIFRoZSBjYWxs
+ZXIgb2YgZHJtbV9zaW1wbGVfZW5jb2Rlcl9pbml0KCkgaXMgcmVzcG9uc2libGUgZm9yIGFsbG9j
+YXRpbmcKPiA+Pj4gKyAqIHRoZSBlbmNvZGVyJ3MgbWVtb3J5IHdpdGggZHJtbV9remFsbG9jKCkg
+dG8gZW5zdXJlIGl0IGlzIGF1dG9tYXRpY2FsbHkKPiA+Pj4gKyAqIGZyZWVkIGFmdGVyIHRoZSBl
+bmNvZGVyIGhhcyBiZWVuIGNsZWFuZWQgdXAuCj4gPj4+ICsgKgo+ID4+Cj4gPj4gVGhlIGlkaW9t
+YXRpYyB3YXkgb2YgY2xlYW5pbmcgdXAgYW4gZW5jb2RlciBpcyB2aWEgbW9kZS1jb25maWcgY2xl
+YW51cC4KPiA+PiBUaGlzIGludGVyZmFjZSBpcyBhbiBleGNlcHRpb24gZm9yIGEgY29ybmVyIGNh
+c2UuIFNvIHRoZXJlIG5lZWRzIHRvIGJlIGEKPiA+PiBwYXJhZ3JhcGggdGhhdCBjbGVhcmx5IGV4
+cGxhaW5zIHRoZSBjb3JuZXIgY2FzZS4gUGxlYXNlIGFsc28gZGlzY291cmFnZQo+ID4+IGZyb20g
+dXNpbmcgZHJtbV9zaW1wbGVfZW5jb2Rlcl9pbml0KCkgaWYgZHJtX3NpbXBsZV9lbmNvZGVyX2lu
+aXQoKSB3b3VsZAo+ID4+IHdvcmsuCj4gPj4KPiA+PiBCZXN0IHJlZ2FyZHMKPiA+PiBUaG9tYXMK
+PiA+Pgo+ID4+PiArICogUmV0dXJuczoKPiA+Pj4gKyAqIFplcm8gb24gc3VjY2VzcywgZXJyb3Ig
+Y29kZSBvbiBmYWlsdXJlLgo+ID4+PiArICovCj4gPj4+ICtpbnQgZHJtbV9zaW1wbGVfZW5jb2Rl
+cl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPj4+ICsgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKPiA+Pj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgaW50IGVuY29kZXJfdHlwZSkKPiA+Pj4gK3sKPiA+Pj4gKyAgICAgaW50IHJl
+dDsKPiA+Pj4gKwo+ID4+PiArICAgICByZXQgPSBkcm1fZW5jb2Rlcl9pbml0KGRldiwgZW5jb2Rl
+ciwgJmRybV9zaW1wbGVfZW5jb2Rlcl9mdW5jc19jbGVhbnVwLAo+ID4+PiArICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGVuY29kZXJfdHlwZSwgTlVMTCk7Cj4gPj4+ICsgICAgIGlmIChyZXQp
+Cj4gPj4+ICsgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiA+Pj4gKwo+ID4+PiArICAgICByZXR1
+cm4gZHJtbV9hZGRfYWN0aW9uX29yX3Jlc2V0KGRldiwgZHJtbV9lbmNvZGVyX2NsZWFudXAsIGVu
+Y29kZXIpOwo+ID4+PiArfQo+ID4+PiArRVhQT1JUX1NZTUJPTChkcm1tX3NpbXBsZV9lbmNvZGVy
+X2luaXQpOwo+ID4+PiArCj4gPj4+ICBzdGF0aWMgZW51bSBkcm1fbW9kZV9zdGF0dXMKPiA+Pj4g
+IGRybV9zaW1wbGVfa21zX2NydGNfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4g
+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5
+X21vZGUgKm1vZGUpCj4gPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fc2ltcGxlX2tt
+c19oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5oCj4gPj4+IGlu
+ZGV4IGEwMjYzNzU0NjRmZi4uMjdmMDkxNTU5OWM4IDEwMDY0NAo+ID4+PiAtLS0gYS9pbmNsdWRl
+L2RybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaAo+ID4+PiArKysgYi9pbmNsdWRlL2RybS9kcm1f
+c2ltcGxlX2ttc19oZWxwZXIuaAo+ID4+PiBAQCAtMTg1LDQgKzE4NSw4IEBAIGludCBkcm1fc2lt
+cGxlX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4+PiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKPiA+Pj4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICBpbnQgZW5jb2Rlcl90eXBlKTsKPiA+Pj4KPiA+Pj4gK2ludCBk
+cm1tX3NpbXBsZV9lbmNvZGVyX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+Pj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+ID4+
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgZW5jb2Rlcl90eXBlKTsKPiA+Pj4gKwo+
+ID4+PiAgI2VuZGlmIC8qIF9fTElOVVhfRFJNX1NJTVBMRV9LTVNfSEVMUEVSX0ggKi8KPiA+Pj4K
+PiA+Pgo+ID4+IC0tCj4gPj4gVGhvbWFzIFppbW1lcm1hbm4KPiA+PiBHcmFwaGljcyBEcml2ZXIg
+RGV2ZWxvcGVyCj4gPj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gPj4g
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gPj4gKEhSQiAzNjgwOSwg
+QUcgTsO8cm5iZXJnKQo+ID4+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIK
+PiA+Pgo+ID4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Cj4gPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiA+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo+ID4KPiA+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdy
+YXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2
+ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZl
+cgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
+aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
