@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E7E22B246
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 17:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BDDC22B24B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 17:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 646AA6E19B;
-	Thu, 23 Jul 2020 15:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE536E1AA;
+	Thu, 23 Jul 2020 15:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D7186E19B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 15:16:27 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id n26so6828285ejx.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 08:16:27 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2681C6E1AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 15:17:14 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id l4so6744807ejd.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 08:17:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mt8S+z1WwkIokDLkoG1kZVJo4eDZuutSXj13Vy94YfU=;
- b=SuaN9EKzERQ46o9zR9CHsY9RPgXhH9sdyLNMC+vXV9MHr8QLbz9kx20agljKV/RdCI
- RpyTpO4a5V7rRNDvNUiGv5vzDfBg3bMzCxBAKvfrZMUz1Yi3OlJAWM6D9ZARxTcAnPBQ
- Kh6jpdSdDIoTXfzsGvOT4ZJ8O/Xey7zKfHK6kiAyrheNKiKAni/bRYh7sH5ot6B5gKvW
- 2oPhCQUKaXpMboBeWmIkvn46J+LxW7j3w+aX0l3gtO7pQ9JWTJ6Ba1DhodOzwl/XM2dm
- nwvkvdPfftcEmuU0zmsTnRzsswUX5pMb4os8VzNNP5Fudwf3UABJLkxf+1CagyZmHOcf
- VUOQ==
+ bh=WLrTQ/IPjfHEZietqRj/pOdrEnnFPF8zhuPRDHptE+s=;
+ b=ekCCj/kDwll6UW/Y2YBDaumrq51jX53YaTpDbg3V4nInWogNAHeELvRWxv4RSuTwYW
+ yniFsCCjyi4kJ9wZrlWXZdZx1MwOQyIbuhVVg5kxN8iHKtwkzuVhuTKh0pV/cnI2TH+9
+ QcoUTstH4biMTG0YnsPS6/HsRaUg+MOgVIfr0iRKHyAzaLnCyzlow31WkMoAM4dTP1dx
+ XNQVfRayX+W/BX8crqNV6vIsszenFi8qSKQ6djlaJN3jivOtQLFqlePqHujf3wd6cY/0
+ LNWUbUJyEi7H3+1NuE5DewoJK3Yu0/jSAB1K5K/wUPJ2is055GTzrN2WQKbCd571N4Xe
+ UjZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mt8S+z1WwkIokDLkoG1kZVJo4eDZuutSXj13Vy94YfU=;
- b=LeOxBelPYZ+j+Fo1vAVQAUf3oQ+qLoxTihha23KS+T1b6/9Nc4+7hF2MsRmpNPF9e4
- tYStm8TpzlT9OEsTJbA7XzmTRJ5vR6ViEIp9wJsgm67Gu/Bb2RUz/0lbRLJOQp+iBnpO
- ifs+ocwJbLY6YfKlF260XljfPBhdg+PUGKj1r6cXlTeRbDTKW7M4snaW9ARRzNMO8O8P
- P7KdvgX5/JCm8d2kVNuQRaLZYFKvpoXGkEDvws4yUq1NLpoQ/ux3K4KhhR6w0gQkRT8H
- FOedN2XTkHsyK+V2jZJer1SzT92NcgGLfCC23ayQKdKhn2ZIaBWfzJqHUJb33eTAiZj0
- EPKw==
-X-Gm-Message-State: AOAM532YMIf5hBEMndsjjfwjAkWoXp2gkQUBNoofm5bgpYCVabi1Ddbq
- 9Evnzzik761xZlx1iWgtjLZDswjU
-X-Google-Smtp-Source: ABdhPJxDodxyn6FC2w1xtX3bNUoWMtM4kM9EWXOwVvpA3VBkJDCq2FgJl7WWB9cmwLbmRZza5Sbf5g==
-X-Received: by 2002:a17:906:ca56:: with SMTP id
- jx22mr4738028ejb.494.1595517385657; 
- Thu, 23 Jul 2020 08:16:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WLrTQ/IPjfHEZietqRj/pOdrEnnFPF8zhuPRDHptE+s=;
+ b=VJSJF/CKOKkbd2o7HE2VBl+fZu4YjNBUveS1iEvMcblfBU4OYfWQuxhzhBzofh8d6o
+ /oDc2nrXKhwffqhhisujYusOlJmmDCL291vFkyIj2KkAgmCe1/mRaRvtBoKv8+SSKkp9
+ VPolxjZYFTce7g78Ji636xEp0fXLcFXHwDfxoAnH3U68i4wlEwLiIsiokNvOeEMpXn1j
+ Q+11hmy3jLroZVkstv7sK5y7jdxCMzv/KpvBzFmDZDBHHW3c7jKYKsnKSa8TThJZORNr
+ j4EUpsvJYJfchjEpMtbFwLsMfkL8KYjfHXcxx0JgQloXhZjWzkSbxPGbeOPUL5C+Z/CK
+ 8PMg==
+X-Gm-Message-State: AOAM530uU8z+2hT8/HM2NmEIc46YXjMlGwZUhU9wF01toS3Dpo+14mzG
+ DLcyWx7lhyynqgEthck6JGRokH2T
+X-Google-Smtp-Source: ABdhPJwqQTaMoBD6sNrBwHgOiiw+df5BAoohx8yJUn7Rtyp5lV7AfdONi9jDJD96q3odk7Pi16QJuw==
+X-Received: by 2002:a17:906:248b:: with SMTP id
+ e11mr4034248ejb.280.1595517432560; 
+ Thu, 23 Jul 2020 08:17:12 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:4ca2:7494:c4d6:51a4])
- by smtp.gmail.com with ESMTPSA id m6sm2221591eja.87.2020.07.23.08.16.25
+ by smtp.gmail.com with ESMTPSA id q6sm2239197ejn.30.2020.07.23.08.17.11
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 08:16:25 -0700 (PDT)
+ Thu, 23 Jul 2020 08:17:12 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/9] drm/radeon: stop implementing init_mem_type
-Date: Thu, 23 Jul 2020 17:16:15 +0200
-Message-Id: <20200723151621.3536-3-christian.koenig@amd.com>
+Subject: More TTM cleanups
+Date: Thu, 23 Jul 2020 17:17:01 +0200
+Message-Id: <20200723151710.3591-1-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200723151621.3536-1-christian.koenig@amd.com>
-References: <20200723151621.3536-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,72 +68,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW5zdGVhZCBqdXN0IGluaXRpYWxpemUgdGhlIG1lbW9yeSB0eXBlIHBhcmFtZXRlcnMKYmVmb3Jl
-IGNhbGxpbmcgdHRtX2JvX2luaXRfbW0uCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmln
-IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9y
-YWRlb25fdHRtLmMgfCA3MCArKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNo
-YW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDM1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9yYWRlb25fdHRtLmMKaW5kZXggOWFiYTE4YTE0M2U3Li5iMGI1OWM1NTM3ODUgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCkBAIC02OSw0MyArNjksNDMgQEAgc3RydWN0IHJhZGVv
-bl9kZXZpY2UgKnJhZGVvbl9nZXRfcmRldihzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldikKIHN0
-YXRpYyBpbnQgcmFkZW9uX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
-IHVpbnQzMl90IHR5cGUsCiAJCQkJc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCiB7
-Ci0Jc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXY7CisJcmV0dXJuIDA7Cit9CiAKLQlyZGV2ID0g
-cmFkZW9uX2dldF9yZGV2KGJkZXYpOworc3RhdGljIGludCByYWRlb25fdHRtX2luaXRfdnJhbShz
-dHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikKK3sKKwlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFn
-ZXIgKm1hbiA9ICZyZGV2LT5tbWFuLmJkZXYubWFuW1RUTV9QTF9WUkFNXTsKIAotCXN3aXRjaCAo
-dHlwZSkgewotCWNhc2UgVFRNX1BMX1NZU1RFTToKLQkJLyogU3lzdGVtIG1lbW9yeSAqLwotCQli
-cmVhazsKLQljYXNlIFRUTV9QTF9UVDoKLQkJbWFuLT5mdW5jID0gJnR0bV9ib19tYW5hZ2VyX2Z1
-bmM7Ci0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwotCQlt
-YW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKLQkJbWFuLT51c2VfdHQg
-PSB0cnVlOworCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOworCW1hbi0+YXZhaWxh
-YmxlX2NhY2hpbmcgPSBUVE1fUExfRkxBR19VTkNBQ0hFRCB8IFRUTV9QTF9GTEFHX1dDOworCW1h
-bi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfV0M7CisKKwlyZXR1cm4gdHRtX2JvX2lu
-aXRfbW0oJnJkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1ZSQU0sCisJCQkgICAgICByZGV2LT5tYy5y
-ZWFsX3ZyYW1fc2l6ZSA+PiBQQUdFX1NISUZUKTsKK30KKworc3RhdGljIGludCByYWRlb25fdHRt
-X2luaXRfZ3R0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQoreworCXN0cnVjdCB0dG1fbWVt
-X3R5cGVfbWFuYWdlciAqbWFuID0gJnJkZXYtPm1tYW4uYmRldi5tYW5bVFRNX1BMX1RUXTsKKwor
-CW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOworCW1hbi0+YXZhaWxhYmxlX2NhY2hp
-bmcgPSBUVE1fUExfTUFTS19DQUNISU5HOworCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BM
-X0ZMQUdfQ0FDSEVEOworCW1hbi0+dXNlX3R0ID0gdHJ1ZTsKICNpZiBJU19FTkFCTEVEKENPTkZJ
-R19BR1ApCi0JCWlmIChyZGV2LT5mbGFncyAmIFJBREVPTl9JU19BR1ApIHsKLQkJCWlmICghcmRl
-di0+ZGRldi0+YWdwKSB7Ci0JCQkJRFJNX0VSUk9SKCJBR1AgaXMgbm90IGVuYWJsZWQgZm9yIG1l
-bW9yeSB0eXBlICV1XG4iLAotCQkJCQkgICh1bnNpZ25lZCl0eXBlKTsKLQkJCQlyZXR1cm4gLUVJ
-TlZBTDsKLQkJCX0KLQkJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfRkxBR19VTkNB
-Q0hFRCB8Ci0JCQkJCQkgVFRNX1BMX0ZMQUdfV0M7Ci0JCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9
-IFRUTV9QTF9GTEFHX1dDOworCWlmIChyZGV2LT5mbGFncyAmIFJBREVPTl9JU19BR1ApIHsKKwkJ
-aWYgKCFyZGV2LT5kZGV2LT5hZ3ApIHsKKwkJCURSTV9FUlJPUigiQUdQIGlzIG5vdCBlbmFibGVk
-XG4iKTsKKwkJCXJldHVybiAtRUlOVkFMOwogCQl9Ci0jZW5kaWYKLQkJYnJlYWs7Ci0JY2FzZSBU
-VE1fUExfVlJBTToKLQkJLyogIk9uLWNhcmQiIHZpZGVvIHJhbSAqLwotCQltYW4tPmZ1bmMgPSAm
-dHRtX2JvX21hbmFnZXJfZnVuYzsKLQkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9G
-TEFHX1VOQ0FDSEVEIHwgVFRNX1BMX0ZMQUdfV0M7CisJCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcg
-PSBUVE1fUExfRkxBR19VTkNBQ0hFRCB8CisJCQkJCSBUVE1fUExfRkxBR19XQzsKIAkJbWFuLT5k
-ZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19XQzsKLQkJYnJlYWs7Ci0JZGVmYXVsdDoKLQkJ
-RFJNX0VSUk9SKCJVbnN1cHBvcnRlZCBtZW1vcnkgdHlwZSAldVxuIiwgKHVuc2lnbmVkKXR5cGUp
-OwotCQlyZXR1cm4gLUVJTlZBTDsKIAl9Ci0JcmV0dXJuIDA7CisjZW5kaWYKKworCXJldHVybiB0
-dG1fYm9faW5pdF9tbSgmcmRldi0+bW1hbi5iZGV2LCBUVE1fUExfVFQsCisJCQkgICAgICByZGV2
-LT5tYy5ndHRfc2l6ZSA+PiBQQUdFX1NISUZUKTsKIH0KIAogc3RhdGljIHZvaWQgcmFkZW9uX2V2
-aWN0X2ZsYWdzKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCkBAIC03NzgsOCArNzc4LDgg
-QEAgaW50IHJhZGVvbl90dG1faW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikKIAkJcmV0
-dXJuIHI7CiAJfQogCXJkZXYtPm1tYW4uaW5pdGlhbGl6ZWQgPSB0cnVlOwotCXIgPSB0dG1fYm9f
-aW5pdF9tbSgmcmRldi0+bW1hbi5iZGV2LCBUVE1fUExfVlJBTSwKLQkJCQlyZGV2LT5tYy5yZWFs
-X3ZyYW1fc2l6ZSA+PiBQQUdFX1NISUZUKTsKKworCXIgPSByYWRlb25fdHRtX2luaXRfdnJhbShy
-ZGV2KTsKIAlpZiAocikgewogCQlEUk1fRVJST1IoIkZhaWxlZCBpbml0aWFsaXppbmcgVlJBTSBo
-ZWFwLlxuIik7CiAJCXJldHVybiByOwpAQCAtODA0LDggKzgwNCw4IEBAIGludCByYWRlb25fdHRt
-X2luaXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCiAJfQogCURSTV9JTkZPKCJyYWRlb246
-ICV1TSBvZiBWUkFNIG1lbW9yeSByZWFkeVxuIiwKIAkJICh1bnNpZ25lZCkgKHJkZXYtPm1jLnJl
-YWxfdnJhbV9zaXplIC8gKDEwMjQgKiAxMDI0KSkpOwotCXIgPSB0dG1fYm9faW5pdF9tbSgmcmRl
-di0+bW1hbi5iZGV2LCBUVE1fUExfVFQsCi0JCQkJcmRldi0+bWMuZ3R0X3NpemUgPj4gUEFHRV9T
-SElGVCk7CisKKwlyID0gcmFkZW9uX3R0bV9pbml0X2d0dChyZGV2KTsKIAlpZiAocikgewogCQlE
-Uk1fRVJST1IoIkZhaWxlZCBpbml0aWFsaXppbmcgR1RUIGhlYXAuXG4iKTsKIAkJcmV0dXJuIHI7
-Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Just another round of random TTM cleanups.
+
+Please review and/or comment.
+
+Thanks,
+Christian.
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
