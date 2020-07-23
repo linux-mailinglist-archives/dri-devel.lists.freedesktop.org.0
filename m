@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8C822AB4C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 11:05:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C80DF22AB4D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 11:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA4A6E875;
-	Thu, 23 Jul 2020 09:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C91628980C;
+	Thu, 23 Jul 2020 09:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF836E875
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 09:05:23 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id w17so3853965otl.4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GqTiB/YK5PLvRUC2nUYqS9I0hvzibzZMkuJ8TERwEWM=;
- b=PcSM3ZaCvhxO+2q088lTmRbUro3VJWg5FAnUOoZqZjU5NBSJnEIyAerV7sdd9lXY5o
- y04K7d9bIyCHXswymcn5ON9o3o53kwZ139fBVykJY9PAKW1ljW+jwLJqVMP0KmFHKRu+
- hcBPH12H2BTUtr38+bMSRHBCb6PBAJlwcOvVk=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D043C8980C
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 09:05:56 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id f18so4476529wml.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 02:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4YwVwYWTqndxCbsk2H38cWSsg3v3dA5HnwhfyPRdygY=;
+ b=Dh+hv/l6NQ3KPAUwJ3pGLveCtOWhIrkufkmB1J+B6iIB43BdLXWcJxxEw2kn1aV+//
+ 2JduwiOcZylMNxNHMcbMG9ZbOIEHlqKi3fhxPOpIxh10qbgq5XYcYr81SyFIWCdzFHd4
+ 15yPWQewJKf/16Bt+3N4M4eDj6wXOH2/RBv+0qs8XhfvzmcTQR74kceTWo/9YQOhHdlF
+ O7P8bR3q3iUqAML7xw5WsywjG3nrGqFPLPvCJ/RvXDzoddRmu6iIgmgrJk3xL3Lx9OL+
+ 3Vynunr/OK7U/oZLr+jaCT+zxs/+6mBxrJajTs7hC+4/Ls4HRMdvH9wOOkaPBsOIxr6a
+ LgUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GqTiB/YK5PLvRUC2nUYqS9I0hvzibzZMkuJ8TERwEWM=;
- b=cZbaonQa2xjvfcgaEcgEz41sgH1EaioCWm8pawlNvbIkbR9OK/e/ubnkKILpDgewf0
- 6KVsZb/cg2YxL9Jh2XaZ0Aqy96F4K27UQ0jm/f3aYyq+G6mxea56V6xf6FeuU12kVXCQ
- G7G5UHi/eMBcaZUNRgo8JFmnaTqqLCU3s37UG7n957OCD1xIsLbDG/UlCNxPk6s6Qky+
- McrLDexJ09/UwrCE6EF/M8308tlkjTOcz0GbNCRHOfWFa9gBPp3E5Q6/oY8SQ83xJE5s
- Py0iFPzS2DB4v/fdh7MAQtEkIdRTbpAq1btl9QZAxvi+6jVxO3K7fSbwWbkUqrL4qfn5
- k3mQ==
-X-Gm-Message-State: AOAM531P9ks3NH8JYu+Z7LPTR2hQZblHPBn4x1RkiWde86odRss3FIiJ
- G+5G/LRsdCAlP829Pg4YJqX5b4rymgsxzkGY7Lv/0g==
-X-Google-Smtp-Source: ABdhPJwgNBKIdA1/lpLt3UWW0Rxnl25IVBo1ruq5WiR4mZHCcLbIRLl3qkWfN8lfJPHP7jOgNK6pNKKRP1qGmJ6oJvQ=
-X-Received: by 2002:a05:6830:1613:: with SMTP id
- g19mr3190235otr.303.1595495122526; 
- Thu, 23 Jul 2020 02:05:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4YwVwYWTqndxCbsk2H38cWSsg3v3dA5HnwhfyPRdygY=;
+ b=dp1kZGVXkoIHOoNjmgWT5/pJTeRXs9YhcCtBTWuywT0OMrc3cfvFoj2NuOwiyLepxY
+ 7nr1yW5hbr33LSGwkqkBRsLkepOmZltmDjk/zu1n/a9nepzIpAyurvg/0HH99Jal7SQa
+ gUlE3uUXs/2byMgKgjuQk40ZCoICm12gMi/ZkIjPx3moNg1VO++AMJbzf8kn5Vb+blgB
+ TA9VuzBLoVjGm5wfiUfRevEvXVKjK7OgXgk/jdITWDpNRDT4HLQUTXLUbvxTp7miyeWR
+ oOAmEhSQwJO46MCwkNYDu2OLvCJqLuUwWKLbXC4ff/typlLGkJQR6kfpuO2tV7aaWNfu
+ iXCw==
+X-Gm-Message-State: AOAM532STRKBDfB2nGFejHP1hXulBFmKhTYikTVkdBDOPPPSGiYZVprb
+ EICkJx58CnjhcBhUeffZyyty8w==
+X-Google-Smtp-Source: ABdhPJzM4ikkmRW1tN1fO+N5OIpr1/NNankXN3WMB2rYpcK0NBtOI2uo45JomMLql69t8i0N0TZePQ==
+X-Received: by 2002:a1c:4c16:: with SMTP id z22mr3176646wmf.103.1595495155216; 
+ Thu, 23 Jul 2020 02:05:55 -0700 (PDT)
+Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:5ce9:901f:7444:d44d])
+ by smtp.gmail.com with ESMTPSA id 62sm2947397wrq.31.2020.07.23.02.05.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jul 2020 02:05:54 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: daniel@ffwll.ch
+Subject: [PATCH 1/2] drm/fourcc: fix Amlogic Video Framebuffer Compression
+ macro
+Date: Thu, 23 Jul 2020 11:05:50 +0200
+Message-Id: <20200723090551.27529-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <20200722132558.28289-1-p.zabel@pengutronix.de>
- <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
-In-Reply-To: <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 23 Jul 2020 11:05:10 +0200
-Message-ID: <CAKMK7uHzYkR4R=2gUZf28rbGM+NmoTCtL_kuGxMe0erZo6KeCA@mail.gmail.com>
-Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
-To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,108 +66,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <kernel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: khilman@baylibre.com, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMjMsIDIwMjAgYXQgOTozNiBBTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gSSBoYXZlIG1lYW53aGlsZSBzZWVuIHlv
-dXIgaW14IHBhdGNoc2V0IHdoZXJlIHRoaXMgd291bGQgYmUgdXNlZnVsLgo+Cj4gSSBzdGlsbCB0
-aGluayB5b3Ugc2hvdWxkIHRyeSB0byBwcmUtYWxsb2NhdGVkIGFsbCBlbmNvZGVycyB1cCB0byBh
-Cj4gbGltaXQsIHNvIHRoYXQgYW4gZXh0cmEgZHJtbV9remFsbG9jKCkgaXMgbm90IHJlcXVpcmVk
-LiBCdXQgc2VlIG15Cj4gY29tbWVudHMgYmVsb3cuCgpVaCBwcmVhbGxvY2F0aW9uIGlzIGhvcnJp
-Ymx5LCBiZWNhdXNlIHlvdSBuZWVkIHRvIGZpcnN0IHByZWFsbG9jYXRlCmFsbCBlbmNvZGVycywg
-dGhlbiBjYWxsIGRybW1fbW9kZV9jb25maWdfaW5pdCwgYW5kIG9ubHkgdGhlbiBjYW4geW91CmNh
-bGwgIGRybV9lbmNvZGVyX2luaXQuIFRoYXQncyB0ZXJyaWJsZSBmbG93LCBhbmQgSSdtIGF3YXJl
-IG9mIHRoZQpwcm9ibGVtLiBUaGF0J3Mgd2h5IHdlIG5lZWQgbmV3IHNldCBvZiBkcm1tXyBoZWxw
-ZXJzIHRvIGRvIGFsbCB0aGUKc3RlcHMgZm9yIGttcyBzdGF0aWMgb2JqZWN0IHNldHVwLCBpZiB3
-ZSBhY3R1YWxseSB3YW50IHRvIGltcHJvdmUKdGhpbmdzLgotRGFuaWVsCgo+Cj4gQW0gMjIuMDcu
-MjAgdW0gMTU6MjUgc2NocmllYiBQaGlsaXBwIFphYmVsOgo+ID4gQWRkIGEgZHJtX3NpbXBsZV9l
-bmNvZGVyX2luaXQoKSB2YXJpYW50IHRoYXQgcmVnaXN0ZXJzCj4gPiBkcm1fZW5jb2Rlcl9jbGVh
-bnVwKCkgd2l0aCBkcm1tX2FkZF9hY3Rpb24oKS4KPiA+Cj4gPiBOb3cgZHJpdmVycyBjYW4gc3Rv
-cmUgZW5jb2RlcnMgaW4gbWVtb3J5IGFsbG9jYXRlZCB3aXRoIGRybW1fa21hbGxvYygpCj4gPiBh
-ZnRlciB0aGUgY2FsbCB0byBkcm1tX21vZGVfY29uZmlnX2luaXQoKSwgd2l0aG91dCBoYXZpbmcg
-dG8gbWFudWFsbHkKPiA+IG1ha2Ugc3VyZSB0aGF0IGRybV9lbmNvZGVyX2NsZWFudXAoKSBpcyBj
-YWxsZWQgYmVmb3JlIHRoZSBtZW1vcnkgaXMKPiA+IGZyZWVkLgo+ID4KPiA+IFNpZ25lZC1vZmYt
-Ynk6IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4gPiAtLS0KPiA+ICBk
-cml2ZXJzL2dwdS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmMgfCA0MiArKysrKysrKysrKysr
-KysrKysrKysrKysrCj4gPiAgaW5jbHVkZS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmggICAg
-IHwgIDQgKysrCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspCj4gPgo+ID4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuYwo+ID4gaW5kZXggNzQ5NDY2OTBh
-YmE0Li5hMjQzZjAwY2Y2M2QgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3Np
-bXBsZV9rbXNfaGVscGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc2ltcGxlX2tt
-c19oZWxwZXIuYwo+ID4gQEAgLTksNiArOSw3IEBACj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fYXRv
-bWljLmg+Cj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX2hlbHBlci5oPgo+ID4gICNpbmNs
-dWRlIDxkcm0vZHJtX2JyaWRnZS5oPgo+ID4gKyNpbmNsdWRlIDxkcm0vZHJtX21hbmFnZWQuaD4K
-PiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9wbGFuZV9oZWxwZXIuaD4KPiA+ICAjaW5jbHVkZSA8ZHJt
-L2RybV9wcm9iZV9oZWxwZXIuaD4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9zaW1wbGVfa21zX2hl
-bHBlci5oPgo+ID4gQEAgLTcxLDYgKzcyLDQ3IEBAIGludCBkcm1fc2ltcGxlX2VuY29kZXJfaW5p
-dChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gIH0KPiA+ICBFWFBPUlRfU1lNQk9MKGRybV9z
-aW1wbGVfZW5jb2Rlcl9pbml0KTsKPiA+Cj4gPiArc3RhdGljIHZvaWQgZHJtbV9lbmNvZGVyX2Ns
-ZWFudXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqcHRyKQo+Cj4gSXQncyB0aGUgcmVz
-ZXQgaGVscGVyLCBzbyBkcm1tX3NpbXBsZV9lbmNvZGVyX3Jlc2V0KCkgd291bGQgYmUgYXBwcm9w
-cmlhdGUuCj4KPiA+ICt7Cj4gPiArICAgICBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIgPSBw
-dHI7Cj4gPiArCj4gPiArICAgICBkcm1fZW5jb2Rlcl9jbGVhbnVwKGVuY29kZXIpOwo+Cj4gVGhp
-cyBzaG91bGQgZmlyc3QgY2hlY2sgZm9yIChlbmNvZGVyLT5kZXYpIGJlaW5nIHRydWUuIElmIGRy
-aXZlcnMKPiBzb21laG93IG1hbmFnZSB0byBjbGVhbi11cCB0aGUgbW9kZSBjb25maWcgZmlyc3Qs
-IHdlIHNob3VsZCBkZXRlY3QgaXQuIEkKPiBrbm93IGl0J3MgYSBidWcsIGJ1dCBJIHdvdWxkbid0
-IHRydXN0IGRyaXZlcnMgd2l0aCB0aGF0Lgo+Cj4gPiArfQo+ID4gKwo+ID4gKy8qKgo+ID4gKyAq
-IGRybW1fc2ltcGxlX2VuY29kZXJfaW5pdCAtIEluaXRpYWxpemUgYSBwcmVhbGxvY2F0ZWQgZW5j
-b2RlciB3aXRoCj4gPiArICogICAgICAgICAgICAgICAgICAgICAgICAgICAgYmFzaWMgZnVuY3Rp
-b25hbGl0eS4KPiA+ICsgKiBAZGV2OiBkcm0gZGV2aWNlCj4gPiArICogQGVuY29kZXI6IHRoZSBl
-bmNvZGVyIHRvIGluaXRpYWxpemUKPiA+ICsgKiBAZW5jb2Rlcl90eXBlOiB1c2VyIHZpc2libGUg
-dHlwZSBvZiB0aGUgZW5jb2Rlcgo+ID4gKyAqCj4gPiArICogSW5pdGlhbGlzZXMgYSBwcmVhbGxv
-Y2F0ZWQgZW5jb2RlciB0aGF0IGhhcyBubyBmdXJ0aGVyIGZ1bmN0aW9uYWxpdHkuCj4KPiAnSW5p
-dGlhbGl6ZXMnCj4KPiA+ICsgKiBTZXR0aW5ncyBmb3IgcG9zc2libGUgQ1JUQyBhbmQgY2xvbmVz
-IGFyZSBsZWZ0IHRvIHRoZWlyIGluaXRpYWwgdmFsdWVzLgo+ID4gKyAqIENsZWFudXAgaXMgYXV0
-b21hdGljYWxseSBoYW5kbGVkIHRocm91Z2ggcmVnaXN0ZXJpbmcgZHJtX2VuY29kZXJfY2xlYW51
-cCgpCj4gPiArICogd2l0aCBkcm1tX2FkZF9hY3Rpb24oKS4KPiA+ICsgKgo+ID4gKyAqIFRoZSBj
-YWxsZXIgb2YgZHJtbV9zaW1wbGVfZW5jb2Rlcl9pbml0KCkgaXMgcmVzcG9uc2libGUgZm9yIGFs
-bG9jYXRpbmcKPiA+ICsgKiB0aGUgZW5jb2RlcidzIG1lbW9yeSB3aXRoIGRybW1fa3phbGxvYygp
-IHRvIGVuc3VyZSBpdCBpcyBhdXRvbWF0aWNhbGx5Cj4gPiArICogZnJlZWQgYWZ0ZXIgdGhlIGVu
-Y29kZXIgaGFzIGJlZW4gY2xlYW5lZCB1cC4KPiA+ICsgKgo+Cj4gVGhlIGlkaW9tYXRpYyB3YXkg
-b2YgY2xlYW5pbmcgdXAgYW4gZW5jb2RlciBpcyB2aWEgbW9kZS1jb25maWcgY2xlYW51cC4KPiBU
-aGlzIGludGVyZmFjZSBpcyBhbiBleGNlcHRpb24gZm9yIGEgY29ybmVyIGNhc2UuIFNvIHRoZXJl
-IG5lZWRzIHRvIGJlIGEKPiBwYXJhZ3JhcGggdGhhdCBjbGVhcmx5IGV4cGxhaW5zIHRoZSBjb3Ju
-ZXIgY2FzZS4gUGxlYXNlIGFsc28gZGlzY291cmFnZQo+IGZyb20gdXNpbmcgZHJtbV9zaW1wbGVf
-ZW5jb2Rlcl9pbml0KCkgaWYgZHJtX3NpbXBsZV9lbmNvZGVyX2luaXQoKSB3b3VsZAo+IHdvcmsu
-Cj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+ID4gKyAqIFJldHVybnM6Cj4gPiArICogWmVy
-byBvbiBzdWNjZXNzLCBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4gPiArICovCj4gPiAraW50IGRy
-bW1fc2ltcGxlX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+ID4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgaW50IGVuY29kZXJfdHlwZSkKPiA+ICt7Cj4gPiArICAg
-ICBpbnQgcmV0Owo+ID4gKwo+ID4gKyAgICAgcmV0ID0gZHJtX2VuY29kZXJfaW5pdChkZXYsIGVu
-Y29kZXIsICZkcm1fc2ltcGxlX2VuY29kZXJfZnVuY3NfY2xlYW51cCwKPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgZW5jb2Rlcl90eXBlLCBOVUxMKTsKPiA+ICsgICAgIGlmIChyZXQp
-Cj4gPiArICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiArCj4gPiArICAgICByZXR1cm4gZHJt
-bV9hZGRfYWN0aW9uX29yX3Jlc2V0KGRldiwgZHJtbV9lbmNvZGVyX2NsZWFudXAsIGVuY29kZXIp
-Owo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybW1fc2ltcGxlX2VuY29kZXJfaW5pdCk7Cj4g
-PiArCj4gPiAgc3RhdGljIGVudW0gZHJtX21vZGVfc3RhdHVzCj4gPiAgZHJtX3NpbXBsZV9rbXNf
-Y3J0Y19tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiA+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4gPiBk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmggYi9pbmNsdWRl
-L2RybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaAo+ID4gaW5kZXggYTAyNjM3NTQ2NGZmLi4yN2Yw
-OTE1NTk5YzggMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fc2ltcGxlX2ttc19oZWxw
-ZXIuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmgKPiA+IEBA
-IC0xODUsNCArMTg1LDggQEAgaW50IGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYsCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fZW5j
-b2RlciAqZW5jb2RlciwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IGVuY29kZXJf
-dHlwZSk7Cj4gPgo+ID4gK2ludCBkcm1tX3NpbXBsZV9lbmNvZGVyX2luaXQoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fZW5j
-b2RlciAqZW5jb2RlciwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBlbmNvZGVy
-X3R5cGUpOwo+ID4gKwo+ID4gICNlbmRpZiAvKiBfX0xJTlVYX0RSTV9TSU1QTEVfS01TX0hFTFBF
-Ul9IICovCj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBE
-ZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxk
-c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJl
-cmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+Cj4gX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5pZWwg
-VmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5m
-ZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Fix the Amlogic Video Framebuffer Compression modifier macro to
+correctly add the layout options, a pair of parenthesis was missing.
+
+Fixes: d6528ec88309 ("drm/fourcc: Add modifier definitions for describing Amlogic Video Framebuffer Compression")
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ include/uapi/drm/drm_fourcc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 4bee7de5f306..82f327801267 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -1004,7 +1004,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+ #define DRM_FORMAT_MOD_AMLOGIC_FBC(__layout, __options) \
+ 	fourcc_mod_code(AMLOGIC, \
+ 			((__layout) & __fourcc_mod_amlogic_layout_mask) | \
+-			((__options) & __fourcc_mod_amlogic_options_mask \
++			(((__options) & __fourcc_mod_amlogic_options_mask) \
+ 			 << __fourcc_mod_amlogic_options_shift))
+ 
+ /* Amlogic FBC Layouts */
+-- 
+2.22.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
