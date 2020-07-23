@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5826722B1C6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 16:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA59B22B1C7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 16:46:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB346E0A2;
-	Thu, 23 Jul 2020 14:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3C66E17D;
+	Thu, 23 Jul 2020 14:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 638EB6E0A2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 14:46:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4BCF6E0E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 14:46:39 +0000 (UTC)
 Received: from lupine.hi.pengutronix.de
  ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jycUG-000681-OF; Thu, 23 Jul 2020 16:46:20 +0200
+ id 1jycUX-0006B6-UH; Thu, 23 Jul 2020 16:46:37 +0200
 Received: from pza by lupine with local (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1jycUG-0000uT-DA; Thu, 23 Jul 2020 16:46:20 +0200
-Message-ID: <40ff9fdfb62d93f30a803f8397ae0c0f61e8e51a.camel@pengutronix.de>
+ id 1jycUX-0000v0-Dj; Thu, 23 Jul 2020 16:46:37 +0200
+Message-ID: <d05752c669260a7662d7208a4ce602b75ff33b30.camel@pengutronix.de>
 Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Date: Thu, 23 Jul 2020 16:46:20 +0200
-In-Reply-To: <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
+To: daniel@ffwll.ch
+Date: Thu, 23 Jul 2020 16:46:37 +0200
+In-Reply-To: <20200722222243.GM6419@phenom.ffwll.local>
 References: <20200722132558.28289-1-p.zabel@pengutronix.de>
- <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
+ <34224c32-7c17-4c7e-1ec9-03215ec7ed8a@suse.de>
+ <e11f2cc1a3348260d08d13f1d43df4ef534f09f6.camel@pengutronix.de>
+ <20200722222243.GM6419@phenom.ffwll.local>
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
@@ -49,115 +51,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Daniel,
 
-On Thu, 2020-07-23 at 09:35 +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> I have meanwhile seen your imx patchset where this would be useful.
-> 
-> I still think you should try to pre-allocated all encoders up to a
-> limit, so that an extra drmm_kzalloc() is not required. But see my
-> comments below.
+On Thu, 2020-07-23 at 00:22 +0200, daniel@ffwll.ch wrote:
+[...]
+> Yeah the drmm_ versions of these need to check that the ->cleanup hook is
+> NULL.
+>
+> Also there's not actually a double-free, since drm_foo_cleanup removes it
+> from the lists, which means drm_mode_config_cleanup won't even see it. But
+> if the driver has some additional code in ->cleanup that won't ever run,
+> so probably still a bug.
+>
+> I also think that the drmm_foo_ wrappers should also do the allocation
+> (and upcasting) kinda like drmm_dev_alloc(). Otherwise we're still stuck
+> with tons of boilerplate.
 
-Thank you for the review coments. The complication with imx-drm is that
-the encoders are all in separate platform devices, using the component
-framework. Preallocating encoders in the main driver would be
-impractical.
+Ok, I'll try this:
 
-The encoders are added in the component .bind() callback, so the main
-driver must call drmm_mode_config_init() before binding all components.
-The bind callback also is the first place where the component drivers
-get to know the drm device, so it is not possible to use drmm_kzalloc()
-any earlier.
+drmm_encoder_init() variant can verify that the passed
+drm_encoder_funcs::destroy hook is NULL.
 
-> Am 22.07.20 um 15:25 schrieb Philipp Zabel:
-> > Add a drm_simple_encoder_init() variant that registers
-> > drm_encoder_cleanup() with drmm_add_action().
-> > 
-> > Now drivers can store encoders in memory allocated with drmm_kmalloc()
-> > after the call to drmm_mode_config_init(), without having to manually
-> > make sure that drm_encoder_cleanup() is called before the memory is
-> > freed.
-> > 
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/drm_simple_kms_helper.c | 42 +++++++++++++++++++++++++
-> >  include/drm/drm_simple_kms_helper.h     |  4 +++
-> >  2 files changed, 46 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-> > index 74946690aba4..a243f00cf63d 100644
-> > --- a/drivers/gpu/drm/drm_simple_kms_helper.c
-> > +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-> > @@ -9,6 +9,7 @@
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_bridge.h>
-> > +#include <drm/drm_managed.h>
-> >  #include <drm/drm_plane_helper.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/drm_simple_kms_helper.h>
-> > @@ -71,6 +72,47 @@ int drm_simple_encoder_init(struct drm_device *dev,
-> >  }
-> >  EXPORT_SYMBOL(drm_simple_encoder_init);
-> >  
-> > +static void drmm_encoder_cleanup(struct drm_device *dev, void *ptr)
-> 
-> It's the reset helper, so drmm_simple_encoder_reset() would be appropriate.
-> 
-> > +{
-> > +	struct drm_encoder *encoder = ptr;
-> > +
-> > +	drm_encoder_cleanup(encoder);
-> 
-> This should first check for (encoder->dev) being true. If drivers
-> somehow manage to clean-up the mode config first, we should detect it. I
-> know it's a bug, but I wouldn't trust drivers with that.
+drmm_simple_encoder_init() can just provide empty drm_encoder_funcs
+internally.
 
-I don't think this can happen, a previously called drm_encoder_cleanup()
-would have removed the encoder from the drm_mode_config::encoder list.
+> For now I think it's ok if drivers that switch to drmm_ just copypaste,
+> until we're sure this is the right thing to do. And then maybe also roll
+> these out for all objects that stay for the entire lifetime of drm_device
+> (plane, crtc, encoder, plus variants). Just to make sure we're consistent
+> across all of them.
 
-> > +}
-> > +
-> > +/**
-> > + * drmm_simple_encoder_init - Initialize a preallocated encoder with
-> > + *                            basic functionality.
-> > + * @dev: drm device
-> > + * @encoder: the encoder to initialize
-> > + * @encoder_type: user visible type of the encoder
-> > + *
-> > + * Initialises a preallocated encoder that has no further functionality.
-> 
-> 'Initializes'
-
-Copy & paste from the drm_simple_encoder_init, I'll fix this in the next
-version.
-
-> > + * Settings for possible CRTC and clones are left to their initial values.
-> > + * Cleanup is automatically handled through registering drm_encoder_cleanup()
-> > + * with drmm_add_action().
-> > + *
-> > + * The caller of drmm_simple_encoder_init() is responsible for allocating
-> > + * the encoder's memory with drmm_kzalloc() to ensure it is automatically
-> > + * freed after the encoder has been cleaned up.
-> > + *
-> 
-> The idiomatic way of cleaning up an encoder is via mode-config cleanup.
-> This interface is an exception for a corner case. So there needs to be a
-> paragraph that clearly explains the corner case. Please also discourage
-> from using drmm_simple_encoder_init() if drm_simple_encoder_init() would
-> work.
-
-I was hoping that we would eventually switch to drmres cleanup as the
-preferred method, thus getting rid of the need for per-driver cleanup in
-the error paths and destroy callbacks in most cases.
+Thank you for clarifying, I wasn't sure this was the goal. I've started
+with this function mostly because this is the most used one in imx-drm
+and the only one where I didn't have to deal with va_args boilerplate.
 
 regards
 Philipp
