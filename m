@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AF822A3BF
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 02:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EBC22A3D9
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jul 2020 02:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0AF66E17B;
-	Thu, 23 Jul 2020 00:36:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E5289337;
+	Thu, 23 Jul 2020 00:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E62A56E111;
- Thu, 23 Jul 2020 00:36:31 +0000 (UTC)
-IronPort-SDR: S/dWEbIlBAVoF8sselSGJR58DaGDMfsMq0ZRek3fEOIdzP5GIr4e/nyRln/lXyO6BOR7VbduZB
- tTrpcteQukzg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="147938041"
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="147938041"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2020 17:36:31 -0700
-IronPort-SDR: VJfQy1+hjn8BV7AyN9F9+kbOngxJwDVFqwrRKMdy4+G1Vnae1La6VYOW7/QR80mfX/nb40JQ8F
- PJZ7Azfo3vww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="488644366"
-Received: from kialmah1-desk.jf.intel.com (HELO kialmah1-desk.vprodemo.com)
- ([134.134.156.178])
- by fmsmga005.fm.intel.com with ESMTP; 22 Jul 2020 17:36:31 -0700
-From: Khaled Almahallawy <khaled.almahallawy@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915/dp: TPS4 PHY test pattern compliance support
-Date: Wed, 22 Jul 2020 17:36:27 -0700
-Message-Id: <20200723003627.31198-2-khaled.almahallawy@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200723003627.31198-1-khaled.almahallawy@intel.com>
-References: <20200723003627.31198-1-khaled.almahallawy@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD7589337
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 00:48:58 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Thu, 23 Jul 2020 00:48:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: mnrzk@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-6JpptNX7JW@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,82 +52,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, animesh.manna@intel.com,
- Khaled Almahallawy <khaled.almahallawy@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding support for TPS4 (CP2520 Pattern 3) PHY pattern source tests.
-
-v2: uniform bit names TP4a/b/c (Manasi)
-
-Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 14 ++++++++++++--
- drivers/gpu/drm/i915/i915_reg.h         |  4 ++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index d6295eb20b63..4b74b2ec5665 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5371,7 +5371,7 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 			&intel_dp->compliance.test_data.phytest;
- 	struct intel_crtc *crtc = to_intel_crtc(dig_port->base.base.crtc);
- 	enum pipe pipe = crtc->pipe;
--	u32 pattern_val;
-+	u32 pattern_val, dp_tp_ctl;
- 
- 	switch (data->phy_pattern) {
- 	case DP_PHY_TEST_PATTERN_NONE:
-@@ -5411,7 +5411,7 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 			       DDI_DP_COMP_CTL_ENABLE |
- 			       DDI_DP_COMP_CTL_CUSTOM80);
- 		break;
--	case DP_PHY_TEST_PATTERN_CP2520:
-+	case DP_PHY_TEST_PATTERN_CP2520_PAT1:
- 		/*
- 		 * FIXME: Ideally pattern should come from DPCD 0x24A. As
- 		 * current firmware of DPR-100 could not set it, so hardcoding
-@@ -5423,6 +5423,16 @@ static void intel_dp_phy_pattern_update(struct intel_dp *intel_dp)
- 			       DDI_DP_COMP_CTL_ENABLE | DDI_DP_COMP_CTL_HBR2 |
- 			       pattern_val);
- 		break;
-+		case DP_PHY_TEST_PATTERN_CP2520_PAT3:
-+			DRM_DEBUG_KMS("Set TPS4 Phy Test Pattern\n");
-+			intel_de_write(dev_priv, DDI_DP_COMP_CTL(pipe), 0x0);
-+			dp_tp_ctl = intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
-+			dp_tp_ctl &= ~DP_TP_CTL_TRAIN_PAT4_SEL_MASK;
-+			dp_tp_ctl |= DP_TP_CTL_TRAIN_PAT4_SEL_TP4a;
-+			dp_tp_ctl &= ~DP_TP_CTL_LINK_TRAIN_MASK;
-+			dp_tp_ctl |= DP_TP_CTL_LINK_TRAIN_PAT4;
-+			intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl);
-+			break;
- 	default:
- 		WARN(1, "Invalid Phy Test Pattern\n");
- 	}
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index a0d31f3bf634..c586595b9e76 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -9982,6 +9982,10 @@ enum skl_power_gate {
- #define  DP_TP_CTL_MODE_SST			(0 << 27)
- #define  DP_TP_CTL_MODE_MST			(1 << 27)
- #define  DP_TP_CTL_FORCE_ACT			(1 << 25)
-+#define  DP_TP_CTL_TRAIN_PAT4_SEL_MASK		(3 << 19)
-+#define  DP_TP_CTL_TRAIN_PAT4_SEL_TP4a		(0 << 19)
-+#define  DP_TP_CTL_TRAIN_PAT4_SEL_TP4b		(1 << 19)
-+#define  DP_TP_CTL_TRAIN_PAT4_SEL_TP4c		(2 << 19)
- #define  DP_TP_CTL_ENHANCED_FRAME_ENABLE	(1 << 18)
- #define  DP_TP_CTL_FDI_AUTOTRAIN		(1 << 15)
- #define  DP_TP_CTL_LINK_TRAIN_MASK		(7 << 8)
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDczODMKCi0tLSBD
+b21tZW50ICM4NSBmcm9tIG1ucnprQHByb3Rvbm1haWwuY29tIC0tLQooSW4gcmVwbHkgdG8gQ2hy
+aXN0aWFuIEvDtm5pZyBmcm9tIGNvbW1lbnQgIzgzKQo+IEluc3RlYWQgb2Ygd29ya2luZyBhcm91
+bmQgdGhlIGJ1ZyBJIHRoaW5rIHdlIHNob3VsZCBjb25jZW50cmF0ZSBvbiBuYWlsaW5nCj4gdGhl
+IHJvb3QgY2F1c2UuCj4gCj4gSSBzdWdnZXN0IHRvIGluc2VydCBhbiB1c2UgYWZ0ZXIgZnJlZSBj
+aGVjayBpbnRvIGp1c3QgdGhhdCBzdHJ1Y3R1cmUuIEluCj4gb3RoZXIgd29yZHMgYWRkIGEgZmll
+bGQgIm1hZ2ljX251bWJlciIgd2lsbCBpdCB3aXRoIDB4ZGVhZGJlZWYgb24gYWxsb2NhdGlvbgo+
+IGFuZCBzZXQgaXQgdG8gemVybyBiZWZvcmUgdGhlIGtmcmVlKCkuCj4gCj4gQSBzaW1wbGUgQlVH
+X09OKHB0ci0+bWFnaWNfbnVtYmVyICE9IDB4ZGVhZGJlZWYpIHNob3VsZCB5aWVsZCByZXN1bHRz
+IHJhdGhlcgo+IHF1aWNrbHkuCj4gCj4gVGhlbiBqdXN0IGFkZCBwcmludGsoKXMgYmVmb3JlIHRo
+ZSBrZnJlZSgpIHRvIGZpZ3VyZSBvdXQgd2h5IHdlIGhhdmUgdGhpcwo+IHVzZSBhZnRlciBmcmVl
+IHJhY2UuCgpGYWlyIHBvaW50LCBJIHdhcyBqdXN0IHRyeWluZyB0byBjb25maXJtIG15IGh5cG90
+aGVzaXMuCgpJIHJlYWxpc2VkIHdoeSB0aGUgdGVzdCBmYWlsZWQsIGFkZGluZyA4IGJ5dGVzIG9m
+IHBhZGRpbmcgdG8gdGhlIG1pZGRsZQptYWRlIHRoZSBzdHJ1Y3Qgc2l6ZSAyNCBieXRlcy4gU2lu
+Y2UgdGhlIGZyZWVsaXN0IHBvaW50ZXIgaXMgYmVpbmcgYWRkZWQKdG8gdGhlIG1pZGRsZSAoMTIg
+Ynl0ZXMpIGFuZCB0aGF0J3MgYWxpZ25lZCB0byB0aGUgbmVhcmVzdCA4IGJ5dGVzLCB0aGUKcG9p
+bnRlciBlbmRlZCB1cCBiZWluZyBwbGFjZWQgYXQgYW4gb2Zmc2V0IG9mIDE2IGJ5dGVzIChjb250
+ZXh0KS4KCkFmdGVyIG1ha2luZyB0aGUgcGFkZGluZyBhbiBhcnJheSBvZiAyIHZvaWQqIGFuZCBp
+bml0aWFsaXNpbmcgaXQgdG8KezB4REVBREJFRUZDQUZFRjAwRCwgMHgxQkFERjAwRDFCQURDMERF
+fSwgdGhlIHBhZGRpbmcgd2FzIGV2ZW50dWFsbHkKY29ycnVwdGVkIHdpdGggdGhlIGNvbnRleHQg
+YmVpbmcgbGVmdCBpbnRhY3QgYW5kIHRoZXJlZm9yZSwgbm8gY3Jhc2hpbmcuCgpHREIgb3V0cHV0
+IG9mIGRtX3N0cnVjdDoKewogICAgYmFzZSA9IHtzdGF0ZSA9IDB4ZmZmZjg4ODI3Mzg4NGMwMH0s
+CiAgICBwYWRkaW5nID0gezB4ZGVhZGJlZWZjYWZlZjAwZCwgMHg1MTNkZjgzYWZkM2FkN2IyfSwK
+ICAgIGNvbnRleHQgPSAweGZmZmY4ODgyNGU2ODAwMDAKfQoKVGhhdCBzYWlkLCBJIHN0aWxsIGRv
+bid0IGtub3cgdGhlIHJvb3QgY2F1c2Ugb2YgdGhlIGJ1ZywgSSdsbCBzZWUKaWYgSSBjYW4gdXNl
+IEtBU0FOIG9yIHNvbWV0aGluZyB0byBmaWd1cmUgb3V0IHdoYXQgZXhhY3RseSBmcmVlZApkbV9z
+dGF0ZS4gSWYgYW55b25lIGlzIG1vcmUgZmFtaWxpYXIgd2l0aCB0aGlzIGNvZGUgaGFzIGFueSBh
+ZHZpY2UKZm9yIG1lLCBwbGVhc2UgbGV0IG1lIGtub3cuCgotLSAKWW91IGFyZSByZWNlaXZpbmcg
+dGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBi
+dWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
