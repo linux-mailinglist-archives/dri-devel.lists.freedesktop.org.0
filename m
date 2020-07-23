@@ -1,37 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CE522BE59
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 08:56:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3693722BEFC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE92E6E916;
-	Fri, 24 Jul 2020 06:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0D76E92C;
+	Fri, 24 Jul 2020 07:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351A46E916
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 06:56:22 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 534F2AE59;
- Fri, 24 Jul 2020 06:56:29 +0000 (UTC)
-Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
-To: Dave Airlie <airlied@gmail.com>
-References: <20200709193016.291267-1-sam@ravnborg.org>
- <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
- <20200713162159.GR3278063@phenom.ffwll.local>
- <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
- <20200714084141.GW3278063@phenom.ffwll.local>
- <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
- <CAPM=9tyoJhvudNake+w=e4S9dQ8MT_bQEF9USuj=_vHBRLzA8Q@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c153037b-9c62-ce2c-60b1-9ce1e6cbe937@suse.de>
-Date: Fri, 24 Jul 2020 08:56:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F0136E89D
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 10:05:17 +0000 (UTC)
+X-UUID: 98bf441f4f364f28b43fc4dc64c536c7-20200723
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=nIqgvQpS3VAhbyseetbTsl4br2KGKeKt/w/IWi2RGrk=; 
+ b=NU0SiGyAI4hlwm4enjiBB2qWC+KyXn1ijbG1UoqaD/M422CwQx/2VjE18vRsEKaXnKTgXnLWdLpSW3lZ1ihiWV1fm8nQT+kWpi+f220b6zszD9ph/VTKW28qmHft1Br2wdc6F8Dl7MDW8SMO0vbhs+g7wZFqs9bzS1nO3r7JLkM=;
+X-UUID: 98bf441f4f364f28b43fc4dc64c536c7-20200723
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1215864354; Thu, 23 Jul 2020 18:05:13 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n2.mediatek.inc
+ (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 23 Jul 2020 18:05:11 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 23 Jul 2020 18:05:12 +0800
+Message-ID: <1595498644.13250.2.camel@mhfsdcap03>
+Subject: Re: [v7, PATCH 1/7] drm/mediatek: move ddp component defint into
+ mtk_mmsys.h
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Thu, 23 Jul 2020 18:04:04 +0800
+In-Reply-To: <CAFqH_50=MkBLHJ23hJo--RG=4560ttOUOjHuEwpevghFZ59xQQ@mail.gmail.com>
+References: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1595469798-3824-2-git-send-email-yongqiang.niu@mediatek.com>
+ <CAFqH_50=MkBLHJ23hJo--RG=4560ttOUOjHuEwpevghFZ59xQQ@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <CAPM=9tyoJhvudNake+w=e4S9dQ8MT_bQEF9USuj=_vHBRLzA8Q@mail.gmail.com>
+X-MTK: N
+X-Mailman-Approved-At: Fri, 24 Jul 2020 07:21:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,233 +55,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: multipart/mixed; boundary="===============0621423991=="
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, "moderated list:ARM/Mediatek SoC
+ support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0621423991==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="UoNhuhgd8y0iyS9rbFTQ3jZevNbTlzfLf"
+On Thu, 2020-07-23 at 11:34 +0200, Enric Balletbo Serra wrote:
+> Hi Yongqian Niu,
+> 
+> Thank you for your patch
+> 
+> Missatge de Yongqiang Niu <yongqiang.niu@mediatek.com> del dia dj., 23
+> de jul. 2020 a les 4:05:
+> >
+> > move ddp component defint into mtk_mmsys.h
+> >
+> 
+> There is a typo, should be "defines". But why you should move these
+> defines to mtk-mmsys?
+> 
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UoNhuhgd8y0iyS9rbFTQ3jZevNbTlzfLf
-Content-Type: multipart/mixed; boundary="7xhbTJCUlprBHMzC4KPIrLubtUNH8uRUl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, sparclinux@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, "David S. Miller" <davem@davemloft.net>
-Message-ID: <c153037b-9c62-ce2c-60b1-9ce1e6cbe937@suse.de>
-Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
-References: <20200709193016.291267-1-sam@ravnborg.org>
- <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
- <20200713162159.GR3278063@phenom.ffwll.local>
- <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
- <20200714084141.GW3278063@phenom.ffwll.local>
- <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
- <CAPM=9tyoJhvudNake+w=e4S9dQ8MT_bQEF9USuj=_vHBRLzA8Q@mail.gmail.com>
-In-Reply-To: <CAPM=9tyoJhvudNake+w=e4S9dQ8MT_bQEF9USuj=_vHBRLzA8Q@mail.gmail.com>
+ck do not like this :
+> -#include "../../gpu/drm/mediatek/mtk_drm_ddp.h"
+> -#include "../../gpu/drm/mediatek/mtk_drm_ddp_comp.h"
 
---7xhbTJCUlprBHMzC4KPIrLubtUNH8uRUl
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+after remove this, we need move the ddp component define
 
-Hi
-
-Am 24.07.20 um 06:53 schrieb Dave Airlie:
-> On Tue, 14 Jul 2020 at 18:56, Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
->>
->> Hi
->>
->> Am 14.07.20 um 10:41 schrieb Daniel Vetter:
->>> On Tue, Jul 14, 2020 at 08:41:58AM +0200, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 13.07.20 um 18:21 schrieb Daniel Vetter:
->>>>> On Fri, Jul 10, 2020 at 08:28:16AM +0200, Thomas Zimmermann wrote:
->>>>>> Hi
->>>>>>
->>>>>> Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
->>>>>>> Mark reported that sparc64 would panic while booting using qemu.
->>>>>>> Mark bisected this to a patch that introduced generic fbdev emula=
-tion to
->>>>>>> the bochs DRM driver.
->>>>>>> Mark pointed out that a similar bug was fixed before where
->>>>>>> the sys helpers was replaced by cfb helpers.
->>>>>>>
->>>>>>> The culprint here is that the framebuffer reside in IO memory whi=
-ch
->>>>>>> requires SPARC ASI_PHYS (physical) loads and stores.
->>>>>>>
->>>>>>> The current bohcs DRM driver uses a shadow buffer.
->>>>>>> So all copying to the framebuffer happens in
->>>>>>> drm_fb_helper_dirty_blit_real().
->>>>>>>
->>>>>>> The fix is to replace the memcpy with memcpy_toio() from io.h.
->>>>>>>
->>>>>>> memcpy_toio() uses writeb() where the original fbdev code
->>>>>>> used sbus_memcpy_toio(). The latter uses sbus_writeb().
->>>>>>>
->>>>>>> The difference between writeb() and sbus_memcpy_toio() is
->>>>>>> that writeb() writes bytes in little-endian, where sbus_writeb() =
-writes
->>>>>>> bytes in big-endian. As endian does not matter for byte writes th=
-ey are
->>>>>>> the same. So we can safely use memcpy_toio() here.
->>>>>>>
->>>>>>> For many architectures memcpy_toio() is a simple memcpy().
->>>>>>> One sideeffect that is unknow is if this has any impact on other
->>>>>>> architectures.
->>>>>>> So far the analysis tells that this change is OK for other arch's=
-=2E
->>>>>>> but testing would be good.
->>>>>>>
->>>>>>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
->>>>>>> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>>>> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
->>>>>>> Cc: "David S. Miller" <davem@davemloft.net>
->>>>>>> Cc: sparclinux@vger.kernel.org
->>>>>>
->>>>>> So this actually is a problem in practice. Do you know how userspa=
-ce
->>>>>> handles this?
->>>>>>
->>>>>> For this patch
->>>>>>
->>>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>
->>>>>> but I'd like to have someone with more architecture expertise ack =
-this
->>>>>> as well.
->>>>>>
->>>>>> Best regards
->>>>>> Thomas
->>>>>>
->>>>>>> ---
->>>>>>>  drivers/gpu/drm/drm_fb_helper.c | 2 +-
->>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/dr=
-m_fb_helper.c
->>>>>>> index 5609e164805f..4d05b0ab1592 100644
->>>>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>>>>> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(str=
-uct drm_fb_helper *fb_helper,
->>>>>>>   unsigned int y;
->>>>>>>
->>>>>>>   for (y =3D clip->y1; y < clip->y2; y++) {
->>>>>>> -         memcpy(dst, src, len);
->>>>>>> +         memcpy_toio(dst, src, len);
->>>>>
->>>>> I don't think we can do this unconditionally, there's fbdev-helper =
-drivers
->>>>> using shmem helpers, and for shmem memcpy_toio is wrong. We need a =
-switch
->>>>> to fix this properly I think.
->>>>
->>>> I once has a patch set for this problem, but it didn't make it. [1]
->>>>
->>>> Buffers can move between I/O and system memory, so a simple flag wou=
-ld
->>>> not work. I'd propose this
->>>>
->>>> bool drm_gem_is_iomem(struct drm_gem_object *obj)
->>>> {
->>>>      if (obj->funcs && obj->funcs->is_iomem)
->>>>              return obj->funcs->is_iomem(obj);
->>>>      return false;
->>>> }
->>>>
->>>> Most GEM implmentations wouldn't bother, but VRAM helpers could set =
-the
->>>> is_iomem function and return the current state. Fbdev helpers can th=
-en
->>>> pick the correct memcpy_*() function.
->>>
->>> Hm wasn't the (long term at least) idea to add the is_iomem flag to t=
-he
->>> vmap functions? is_iomem is kinda only well-defined if there's a vmap=
- of
->>> the buffer around (which also pins it), or in general when the buffer=
- is
->>> pinned. Outside of that an ->is_iomem function doesn't make much sens=
-e.
->>
->> Oh. From how I understood the original discussion, you shoot down the
->> idea because sparse would not support it well?
->>
->> The other idea was to add an additional vmap_iomem() helper that retur=
-ns
->> an__iomem pointer. Can we try that?
->>
-> Did we get anywhere with this yet?
-
-Not yet. But I intend to work on it ASAP.
-
-Best regards
-Thomas
-
->=20
-> Dave.
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+type error will fixed in next version.
 
 
---7xhbTJCUlprBHMzC4KPIrLubtUNH8uRUl--
-
---UoNhuhgd8y0iyS9rbFTQ3jZevNbTlzfLf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8ahhQUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPmXwf/W5Yjjrg0BIkPRFUi8DFIHNs+8AAD
-m807dUpcXqY84uLF7sG57ug9qfVX/rjLTvNjwytQsjretvm/kBa1aeKD9vockdR8
-iBhVR08MG9g83gMnj9rzFlWTka+P8w9geHYDC/S90dMCtxHvMQUYoaA0c+40lRLc
-yBMfobc1RnPrWzv2W8BFA/YIUaTTfwtDD73T7JpIm9N5rqMkPoIBz4v9ERdLTL/e
-+cuxbGFtR2K3ZE6u07q/88E4ohAIcDl2+fG5lcHNSR++p7eizxygEACmbaqQyjOo
-ISgHoETr5s1oWBN0OcwWDN5zoN/XErAb4M1w8BCgCyQG41Brm7CWv66PLA==
-=n5dj
------END PGP SIGNATURE-----
-
---UoNhuhgd8y0iyS9rbFTQ3jZevNbTlzfLf--
-
---===============0621423991==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> 
+> 
+> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 34 +----------------------------
+> >  drivers/soc/mediatek/mtk-mmsys.c            |  4 +---
+> >  include/linux/soc/mediatek/mtk-mmsys.h      | 33 ++++++++++++++++++++++++++++
+> >  3 files changed, 35 insertions(+), 36 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > index debe363..161201f 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> > @@ -7,6 +7,7 @@
+> >  #define MTK_DRM_DDP_COMP_H
+> >
+> >  #include <linux/io.h>
+> > +#include <linux/soc/mediatek/mtk-mmsys.h>
+> >
+> >  struct device;
+> >  struct device_node;
+> > @@ -35,39 +36,6 @@ enum mtk_ddp_comp_type {
+> >         MTK_DDP_COMP_TYPE_MAX,
+> >  };
+> >
+> > -enum mtk_ddp_comp_id {
+> > -       DDP_COMPONENT_AAL0,
+> > -       DDP_COMPONENT_AAL1,
+> > -       DDP_COMPONENT_BLS,
+> > -       DDP_COMPONENT_CCORR,
+> > -       DDP_COMPONENT_COLOR0,
+> > -       DDP_COMPONENT_COLOR1,
+> > -       DDP_COMPONENT_DITHER,
+> > -       DDP_COMPONENT_DPI0,
+> > -       DDP_COMPONENT_DPI1,
+> > -       DDP_COMPONENT_DSI0,
+> > -       DDP_COMPONENT_DSI1,
+> > -       DDP_COMPONENT_DSI2,
+> > -       DDP_COMPONENT_DSI3,
+> > -       DDP_COMPONENT_GAMMA,
+> > -       DDP_COMPONENT_OD0,
+> > -       DDP_COMPONENT_OD1,
+> > -       DDP_COMPONENT_OVL0,
+> > -       DDP_COMPONENT_OVL_2L0,
+> > -       DDP_COMPONENT_OVL_2L1,
+> > -       DDP_COMPONENT_OVL1,
+> > -       DDP_COMPONENT_PWM0,
+> > -       DDP_COMPONENT_PWM1,
+> > -       DDP_COMPONENT_PWM2,
+> > -       DDP_COMPONENT_RDMA0,
+> > -       DDP_COMPONENT_RDMA1,
+> > -       DDP_COMPONENT_RDMA2,
+> > -       DDP_COMPONENT_UFOE,
+> > -       DDP_COMPONENT_WDMA0,
+> > -       DDP_COMPONENT_WDMA1,
+> > -       DDP_COMPONENT_ID_MAX,
+> > -};
+> > -
+> >  struct mtk_ddp_comp;
+> >  struct cmdq_pkt;
+> >  struct mtk_ddp_comp_funcs {
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+> > index a55f255..36ad66b 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -5,13 +5,11 @@
+> >   */
+> >
+> >  #include <linux/device.h>
+> > +#include <linux/io.h>
+> >  #include <linux/of_device.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/soc/mediatek/mtk-mmsys.h>
+> >
+> > -#include "../../gpu/drm/mediatek/mtk_drm_ddp.h"
+> > -#include "../../gpu/drm/mediatek/mtk_drm_ddp_comp.h"
+> > -
+> >  #define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN      0x040
+> >  #define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN      0x044
+> >  #define DISP_REG_CONFIG_DISP_OD_MOUT_EN                0x048
+> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+> > index 7bab5d9..2228bf6 100644
+> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> > @@ -9,6 +9,39 @@
+> >  enum mtk_ddp_comp_id;
+> >  struct device;
+> >
+> > +enum mtk_ddp_comp_id {
+> > +       DDP_COMPONENT_AAL0,
+> > +       DDP_COMPONENT_AAL1,
+> > +       DDP_COMPONENT_BLS,
+> > +       DDP_COMPONENT_CCORR,
+> > +       DDP_COMPONENT_COLOR0,
+> > +       DDP_COMPONENT_COLOR1,
+> > +       DDP_COMPONENT_DITHER,
+> > +       DDP_COMPONENT_DPI0,
+> > +       DDP_COMPONENT_DPI1,
+> > +       DDP_COMPONENT_DSI0,
+> > +       DDP_COMPONENT_DSI1,
+> > +       DDP_COMPONENT_DSI2,
+> > +       DDP_COMPONENT_DSI3,
+> > +       DDP_COMPONENT_GAMMA,
+> > +       DDP_COMPONENT_OD0,
+> > +       DDP_COMPONENT_OD1,
+> > +       DDP_COMPONENT_OVL0,
+> > +       DDP_COMPONENT_OVL_2L0,
+> > +       DDP_COMPONENT_OVL_2L1,
+> > +       DDP_COMPONENT_OVL1,
+> > +       DDP_COMPONENT_PWM0,
+> > +       DDP_COMPONENT_PWM1,
+> > +       DDP_COMPONENT_PWM2,
+> > +       DDP_COMPONENT_RDMA0,
+> > +       DDP_COMPONENT_RDMA1,
+> > +       DDP_COMPONENT_RDMA2,
+> > +       DDP_COMPONENT_UFOE,
+> > +       DDP_COMPONENT_WDMA0,
+> > +       DDP_COMPONENT_WDMA1,
+> > +       DDP_COMPONENT_ID_MAX,
+> > +};
+> > +
+> >  void mtk_mmsys_ddp_connect(struct device *dev,
+> >                            enum mtk_ddp_comp_id cur,
+> >                            enum mtk_ddp_comp_id next);
+> > --
+> > 1.8.1.1.dirty
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0621423991==--
