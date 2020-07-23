@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C5922BEF3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9253222BEF9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92B26E924;
-	Fri, 24 Jul 2020 07:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EACD6E92A;
+	Fri, 24 Jul 2020 07:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40141.protonmail.ch (mail-40141.protonmail.ch
- [185.70.40.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B6A6E512
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 22:57:26 +0000 (UTC)
+Received: from mail-40135.protonmail.ch (mail-40135.protonmail.ch
+ [185.70.40.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3338E6E270;
+ Thu, 23 Jul 2020 22:57:22 +0000 (UTC)
 Date: Thu, 23 Jul 2020 22:57:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1595545043;
+ s=protonmail; t=1595545039;
  bh=IABwxqdCkkyTX2FsPRq3CfvvI2V2JvrQN6xMWEn3Gqk=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=cY3fCz08bQWMC0o839WkTCbTakJcgyG6Xh1y41VGLjk2CzbFXp/8ffHda8rI975IM
- T9g+Cs9lHlwDosw51K1BeYcVm8UzDmuHgrdBYy7ru6KSaqwN5un2xUrL6XORzT20qW
- IVMFM63KgBXnyrNHRPS9tNT6Yjum+vN3UYYZMaEI=
+ b=hkTpBGEzkydV88rPZf+GE+1a6u71lj+Hn7+btGAvmLwhOV6+0b8CixNJ++hZjksJq
+ hbwiTSivH0iQsHR5omtQb3yTBLGsK6OYiic6AfLKoOHoWgDol7ANoc9BT7F1+8l+XY
+ xSeVgzqqs0bbVzLjIEK7keh4RyfYW6/+OmULxXTc=
 To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
 From: Mazin Rezk <mnrzk@protonmail.com>
 Subject: Re: [PATCH] amdgpu_dm: fix nonblocking atomic commit use-after-free
