@@ -2,33 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205C722DFD6
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393DA22DFEB
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3A289EAE;
-	Sun, 26 Jul 2020 15:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1109289F35;
+	Sun, 26 Jul 2020 15:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7396E92F;
- Fri, 24 Jul 2020 07:45:22 +0000 (UTC)
-Received: from [192.168.0.2] (ip5f5af51b.dynamic.kabel-deutschland.de
- [95.90.245.27])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 95C4C2002EE2B;
- Fri, 24 Jul 2020 09:45:18 +0200 (CEST)
-Subject: Re: [PATCH] amdgpu_dm: fix nonblocking atomic commit use-after-free
-To: Kees Cook <keescook@chromium.org>, Mazin Rezk <mnrzk@protonmail.com>
-References: <YIGsJ9LlFquvBI2iWPKhJwjKBwDUr_C-38oVpLJJHJ5rDCY_Zrrv392o6UPNxHoeQrcpLYC9U4fZdpD9ilz6Amg2IxkSexGLQMCQIBek8rc=@protonmail.com>
- <202007231524.A24720C@keescook>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Message-ID: <a86cba0b-4513-e7c3-ae75-bb331433f664@molgen.mpg.de>
-Date: Fri, 24 Jul 2020 09:45:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B7B6E4F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 09:31:15 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id e8so9322714ljb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 02:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TBUxgudIuaDLAvLBANWhcm32RAOD50DQBXyfj2jsnh4=;
+ b=Mf6ETM7ztIRbwjiqdscapi6l9//E/tfVMAaamIup0eE1/HQOKAdQHP6t1dPv9Y9wQh
+ QCq3ECza5RUGvdRueuVmu5PemT0/eJsrc1xZTolBXPT9d8p5FNOREcaVe9nNJsD4/XOn
+ fbO58i7FBj74xB8EhCAVW37Njy/qdCvnvx3zj88P2Qr/f0yaBQtVXQssU4xQG7UKrTj9
+ AeaJ7r09bRqFXHURxpbKEYu7C+aA+gd+LZ5TyulVZasfOuwC5jUhmYZpCOaGU2cpAFhQ
+ SWdrI1DmMJEltKZaQA6fucFMfH8SAnju0B5/+mJHw5p46opV3I0Gj2xToLOuShtW9IPV
+ 8xbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=TBUxgudIuaDLAvLBANWhcm32RAOD50DQBXyfj2jsnh4=;
+ b=F+cDRpUijuCqfeqZQZRycpjNeVA7/yo2NXmON3m3WaUx2Eg949FzVSzUZkdVyFvzFm
+ PbTEasBfSTlGZTZdqBHY8WI4TOkGs3V1Na/q9Qe/2X3+1hv0pYzLLyhFqVlHZnl/j3BN
+ VZbkY0t3vux9U4gRU5pnXpw4PN6FuG42iYSlLbGtzb/e7nwQBgDX4XLQUSbtvHdIRH32
+ X9O+ERdkmLuNV81VdybR7UM5H1Oyv55t2LZ2GRRcWGtcokyw5uIh6NuEEHCeQd1i9tlV
+ KsaSxh43o/joxBaX0DoqScXhYt0hpGV8j+MhauoY0/tZTU6dBn/lQW6F1uIumeqg9fFR
+ HZgw==
+X-Gm-Message-State: AOAM530LWjdsp8+cjYrc1IDTFhPqq7q3NvjCXMBTO6EMQ+WpFaRpxMOU
+ SmZAlPCRv+fBuorO9OXJcJSPgLyk8xA=
+X-Google-Smtp-Source: ABdhPJyYL/2FJHBDk6bM7QU+nPX0YDimDInJXXxpicOfu+ldA96NXGc/cdDQ7seaU002+wFwwJXGJw==
+X-Received: by 2002:a05:651c:156:: with SMTP id
+ c22mr4151018ljd.453.1595583073494; 
+ Fri, 24 Jul 2020 02:31:13 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:48a4:44fe:25f3:4dcc:b496:1546?
+ ([2a00:1fa0:48a4:44fe:25f3:4dcc:b496:1546])
+ by smtp.gmail.com with ESMTPSA id n3sm120108ljj.39.2020.07.24.02.31.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Jul 2020 02:31:12 -0700 (PDT)
+Subject: Re: [PATCH] newport_con: vc_color is now in state
+To: Jiri Slaby <jslaby@suse.cz>, gregkh@linuxfoundation.org
+References: <202007241318.wXYkumEO%lkp@intel.com>
+ <20200724062735.18229-1-jslaby@suse.cz>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <b1b9d90a-5fe3-947a-dc4e-8576cd143869@gmail.com>
+Date: Fri, 24 Jul 2020 12:30:59 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <202007231524.A24720C@keescook>
+In-Reply-To: <20200724062735.18229-1-jslaby@suse.cz>
 Content-Language: en-US
 X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,62 +75,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anthony.ruhier@gmail.com, 1i5t5.duncan@cox.net, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, regressions@leemhuis.info,
- amd-gfx@lists.freedesktop.org, Alexander Deucher <Alexander.Deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, mphantomx@yahoo.com.br,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGVhciBLZWVzLAoKCkFtIDI0LjA3LjIwIHVtIDAwOjMyIHNjaHJpZWIgS2VlcyBDb29rOgo+IE9u
-IFRodSwgSnVsIDIzLCAyMDIwIGF0IDA5OjEwOjE1UE0gKzAwMDAsIE1hemluIFJlemsgd3JvdGU6
-Cj4+IFdoZW4gYW1kZ3B1X2RtX2F0b21pY19jb21taXRfdGFpbCBpcyBydW5uaW5nIGluIHRoZSB3
-b3JrcXVldWUsCj4+IGRybV9hdG9taWNfc3RhdGVfcHV0IHdpbGwgZ2V0IGNhbGxlZCB3aGlsZSBh
-bWRncHVfZG1fYXRvbWljX2NvbW1pdF90YWlsIGlzCj4+IHJ1bm5pbmcsIGNhdXNpbmcgYSByYWNl
-IGNvbmRpdGlvbiB3aGVyZSBzdGF0ZSAoYW5kIHRoZW4gZG1fc3RhdGUpIGlzCj4+IHNvbWV0aW1l
-cyBmcmVlZCB3aGlsZSBhbWRncHVfZG1fYXRvbWljX2NvbW1pdF90YWlsIGlzIHJ1bm5pbmcuIFRo
-aXMgYnVnIGhhcwo+PiBvY2N1cnJlZCBzaW5jZSA1LjctcmMxIGFuZCBpcyB3ZWxsIGRvY3VtZW50
-ZWQgYW1vbmcgcG9sYXJpczExIHVzZXJzIFsxXS4KPj4KPj4gUHJpb3IgdG8gNS43LCB0aGlzIHdh
-cyBub3QgYSBub3RpY2VhYmxlIGlzc3VlIHNpbmNlIHRoZSBmcmVlbGlzdCBwb2ludGVyCj4+IHdh
-cyBzdG9yZWQgYXQgdGhlIGJlZ2lubmluZyBvZiBkbV9zdGF0ZSAoYmFzZSksIHdoaWNoIHdhcyB1
-bnVzZWQuIEFmdGVyCj4+IGNoYW5naW5nIHRoZSBmcmVlbGlzdCBwb2ludGVyIHRvIGJlIHN0b3Jl
-ZCBpbiB0aGUgbWlkZGxlIG9mIHRoZSBzdHJ1Y3QsIHRoZQo+PiBmcmVlbGlzdCBwb2ludGVyIG92
-ZXJ3cm90ZSB0aGUgY29udGV4dCwgY2F1c2luZyBkY19zdGF0ZSB0byBiZWNvbWUgZ2FyYmFnZQo+
-PiBkYXRhIGFuZCBtYWRlIHRoZSBjYWxsIHRvIGRtX2VuYWJsZV9wZXJfZnJhbWVfY3J0Y19tYXN0
-ZXJfc3luYyBkZXJlZmVyZW5jZQo+PiBhIGZyZWVsaXN0IHBvaW50ZXIuCj4+Cj4+IFRoaXMgcGF0
-Y2ggZml4ZXMgdGhlIGFmb3JlbWVudGlvbmVkIGlzc3VlIGJ5IGNhbGxpbmcgZHJtX2F0b21pY19z
-dGF0ZV9nZXQKPj4gaW4gYW1kZ3B1X2RtX2F0b21pY19jb21taXQgYmVmb3JlIGRybV9hdG9taWNf
-aGVscGVyX2NvbW1pdCBpcyBjYWxsZWQgYW5kCj4+IGRybV9hdG9taWNfc3RhdGVfcHV0IGFmdGVy
-IGFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwgaXMgY29tcGxldGUuCj4+Cj4+IEFjY29yZGlu
-ZyB0byBteSB0ZXN0aW5nIG9uIDUuOC4wLXJjNiwgdGhpcyBzaG91bGQgZml4IGJ1ZyAyMDczODMg
-b24KPj4gQnVnemlsbGEgWzFdLgo+Pgo+PiBbMV0gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3Jn
-L3Nob3dfYnVnLmNnaT9pZD0yMDczODMKPiAKPiBOaWNlIHdvcmsgdHJhY2tpbmcgdGhpcyBkb3du
-IQo+IAo+PiBGaXhlczogMzIwMmZhNjJmICgic2x1YjogcmVsb2NhdGUgZnJlZWxpc3QgcG9pbnRl
-ciB0byBtaWRkbGUgb2Ygb2JqZWN0IikKPiAKPiBJIGRvLCBob3dldmVyLCBvYmplY3QgdG8gdGhp
-cyBGaXhlcyB0YWcuIDopIFRoZSBmbGF3IGFwcGVhcnMgdG8gaGF2ZQo+IGJlZW4gd2l0aCBhbWRn
-cHVfZG0ncyByZWZlcmVuY2UgdHJhY2tpbmcgb2YgInN0YXRlIiBpbiB0aGUgbm9uYmxvY2tpbmcK
-PiBjYXNlLiAoSG93IHRoaXMgcmVmZXJlbmNlIGNvdW50aW5nIGlzIHN1cHBvc2VkIHRvIHdvcmsg
-Y29ycmVjdGx5LCB0aG91Z2gsCj4gSSdtIG5vdCBzdXJlLikgSWYgSSBsb29rIGF0IHdoZXJlIHRo
-ZSBkcm0gaGVscGVyIHdhcyBzcGxpdCBmcm9tIGJlaW5nCj4gdGhlIGRlZmF1bHQgY2FsbGJhY2ss
-IGl0IGxvb2tzIGxpa2UgdGhpcyB3YXMgd2hhdCBpbnRyb2R1Y2VkIHRoZSBidWc6Cj4gCj4gZGE1
-YzQ3ZjY4MmFiICgiZHJtL2FtZC9kaXNwbGF5OiBSZW1vdmUgYWNydGMtPnN0cmVhbSIpCj4gCj4g
-PyAzMjAyZmE2MmYgY2VydGFpbmx5IGV4cG9zZWQgaXQgbXVjaCBtb3JlIHF1aWNrbHksIGJ1dCB0
-aGVyZSB3YXMgYSByYWNlCj4gZXZlbiB3aXRob3V0IDMyMDJmYTYyZiB3aGVyZSBzb21ldGhpbmcg
-Y291bGQgaGF2ZSByZWFsbG9jZWQgdGhlIG1lbW9yeQo+IGFuZCB3cml0dGVuIG92ZXIgaXQuCgpJ
-IHVuZGVyc3RhbmQgdGhlIEZpeGVzIHRhZyBtYWlubHkgYSBoZWxwIHdoZW4gYmFja3BvcnRpbmcg
-Y29tbWl0cy4KCkFzIExpbnV4IDUuOC1yYzcgaXMgZ29pbmcgdG8gYmUgcmVsZWFzZWQgdGhpcyBT
-dW5kYXksIEkgd29uZGVyLCBpZiAKY29tbWl0IDMyMDJmYTYyZiAoInNsdWI6IHJlbG9jYXRlIGZy
-ZWVsaXN0IHBvaW50ZXIgdG8gbWlkZGxlIG9mIG9iamVjdCIpIApzaG91bGQgYmUgcmV2ZXJ0ZWQg
-Zm9yIG5vdyB0byBmaXggdGhlIHJlZ3Jlc3Npb24gZm9yIHRoZSB1c2VycyBhY2NvcmRpbmcgCnRv
-IExpbnV44oCZIG5vIHJlZ3Jlc3Npb24gcG9saWN5LiBPbmNlIHRoZSBBTURHUFUvRFJNIGRyaXZl
-ciBpc3N1ZSBpcyAKZml4ZWQsIGl0IGNhbiBiZSByZWFwcGxpZWQuIEkga25vdyBpdOKAmXMgbm90
-IG9wdGltYWwsIGJ1dCBhcyBzb21lIHRlc3RpbmcgCmlzIGdvaW5nIHRvIGJlIGludm9sdmVkIGZv
-ciB0aGUgZml4LCBJ4oCZZCBhcmd1ZSBpdOKAmXMgdGhlIGJlc3Qgb3B0aW9uIGZvciAKdGhlIHVz
-ZXJzLgoKCktpbmQgcmVnYXJkcywKClBhdWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On 24.07.2020 9:27, Jiri Slaby wrote:
+
+> Since commit 28bc24fc46f9 (vc: separate state), vc->vc_color is known as
+
+    Cgit says "Bad object id: 28bc24fc46f9" (in Linus' repo). Also, you should
+enclose the commit summary in (""), not just ()...
+
+> vc->state.color. Somehow both me and 0-day bot missed this driver during
+> the conversion.
+> 
+> So fix the driver now.
+> 
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-mips@vger.kernel.org
+[...]
+
+MBR, Sergei
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
