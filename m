@@ -2,24 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A5822DFDB
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5418522DFEE
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FD5A89ED6;
-	Sun, 26 Jul 2020 15:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFC789F2A;
+	Sun, 26 Jul 2020 15:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail4.protonmail.ch (mail4.protonmail.ch [185.70.40.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56FE6E98C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 21:09:13 +0000 (UTC)
+Received: from mail-40135.protonmail.ch (mail-40135.protonmail.ch
+ [185.70.40.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588C66E994
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 21:09:16 +0000 (UTC)
 Date: Fri, 24 Jul 2020 21:09:04 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1595624951;
+ s=protonmail; t=1595624954;
  bh=Y8a3UGIVUH//nWWAHOfJ574aWDANSyRzuKfaeg2ulx4=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=YGj/lN+HFANsv1agtWAfUQJ7IvssJEJY15hq9PWChRGnsw5JEgsYYiWDl31LukOud
- dOE/V34tZUicUA8wP8eoHSncAd542wShdz8LPbuUbbzSPBZJ5Dc7yEPvZxzXeW/Ik6
- Q9yTCzgVKFotxwH/ft0g8N6MDWQonb3zGWZES6KI=
+ b=FIb+sm+kToFyvdLp5N0/6hKTvNwAfMtyf/yJabXCCV82G7xS4BSSkPqbOzKTVkDfj
+ Ti4DQ5zBK5IpE6qXC4tBSmqWqjrslvgzQUJ4uOgLCHAEbkLAvgXrweslc+EbfyMfwm
+ 9gb/43k3dt2k56PceZP9puWUjg3j1CXGUlY6EIsw=
 To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
 From: Mazin Rezk <mnrzk@protonmail.com>
 Subject: Re: [PATCH] amdgpu_dm: fix nonblocking atomic commit use-after-free
@@ -33,7 +34,7 @@ X-Spam-Status: No, score=-0.5 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
  shortcircuit=no autolearn=disabled version=3.4.4
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
-X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:44 +0000
+X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
