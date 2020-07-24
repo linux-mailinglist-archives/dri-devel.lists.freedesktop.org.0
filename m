@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4FD22D13A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 23:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475D422D214
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 01:10:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F896EA23;
-	Fri, 24 Jul 2020 21:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91D8F6EA35;
+	Fri, 24 Jul 2020 23:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3C66EA0D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 21:40:03 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.8-rc7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595626803;
- bh=DxJA8cVzgvxqbDGC3Uzf8eFJ4JiqoI58bB3qOxHc3nc=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=IukPE7mvaDxQtVOYlHR3w4Jos/yos2OPqoPT3wQ85RteWQRZ0nEKufzzJEeUrCaOZ
- Tai3Lv74P55oJfYiqW0Usjq9y4uMwIEB2Z+yrBPHAYsDneu2rl62N245asoCFjpUwn
- DthQP1jo4eudgk4C3zBlw5zeZHB+TkQ1/geSEjmg=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twWoMc=xxXnZ7kKYp_fmYEquLE=PgVtjPhcH86Ocv3W7g@mail.gmail.com>
-References: <CAPM=9twWoMc=xxXnZ7kKYp_fmYEquLE=PgVtjPhcH86Ocv3W7g@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9twWoMc=xxXnZ7kKYp_fmYEquLE=PgVtjPhcH86Ocv3W7g@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2020-07-24
-X-PR-Tracked-Commit-Id: d8904ca9d338cdaa67e3bd06d7a7d418e426648c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 88fff0b7dcc132c924d710d75d1401264b6d0ef6
-Message-Id: <159562680338.3064.493657765815732199.pr-tracker-bot@kernel.org>
-Date: Fri, 24 Jul 2020 21:40:03 +0000
-To: Dave Airlie <airlied@gmail.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F0946EA35
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 23:09:56 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208661] Backlight doesn't work with both nv_backlight and
+ acpi_video
+Date: Fri, 24 Jul 2020 23:09:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: iknstudio@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-208661-2300-t8CDRPImal@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208661-2300@https.bugzilla.kernel.org/>
+References: <bug-208661-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,28 +52,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 24 Jul 2020 14:56:40 +1000:
+https://bugzilla.kernel.org/show_bug.cgi?id=208661
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-07-24
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/88fff0b7dcc132c924d710d75d1401264b6d0ef6
-
-Thank you!
+--- Comment #5 from Shannon Gaines (iknstudio@protonmail.com) ---
+Created attachment 290549
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290549&action=edit
+mmiotrace for nvidia initialization
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
