@@ -1,51 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1B622BADD
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 02:17:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1119F22BB8B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 03:30:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 185CF6E8A9;
-	Fri, 24 Jul 2020 00:17:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA8A6E8BD;
+	Fri, 24 Jul 2020 01:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF6FF6E8A8
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 00:17:37 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id o25so2426817uar.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 17:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tn6bqYg/1KWkV4kpAzCYFhcP+XCPRuDgdoeZet33vWk=;
- b=awreHD28nDVNZexMGVyopatjZJnZVe7HOWZqVLh+RCrrko33Dtr7aUGgwOkz5TkDTZ
- 0yYGVwi8WX8RUoZPeer0O6R6Mkxv2fwqIKd57tgnZhCiaJXkJVcV2SPbhNZ3XCGWvsmS
- wfHBen5QSZrel1hvkK/0sXZYsKhLRDS4KyFac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tn6bqYg/1KWkV4kpAzCYFhcP+XCPRuDgdoeZet33vWk=;
- b=PFXeTsCeZNdnz0PJEbxC7P5t+7sV1Z2+nO//P0oD0O8rcs+xg5pQO17wfXQxkR3PCw
- hc2on3xuMkVtz72VNkAf8QYzChjvURVbUdTYC22FPU3fkR43b9fJp9lP/GNTkc1NAtbq
- v7J/rAQ/ZJdy87TVFcpzjngZdtH91arn+AKVDz3yVKg5XNltxL1W5LQe32vL0f6FjH7Q
- n41bNgpp73hoj4h0sB1YLWN2mq+YWbYTuHBd3JhXpjosTjg9/tEmfJAGjAm+zXQERJ1F
- 5R0Crhfeza3EsXiBK27l+JNKY2URWuD9HAcev38q2bjaI2R2JyfRnVshaOZnlssOuq3P
- mzOA==
-X-Gm-Message-State: AOAM530ytsiTzDz9scWwqwaKtEiAlvTwFFotWd5X+i+vYbfhPsPz8gIO
- qrhJdofm+ANBAoEzYoDIZQyRmTnbyCgpEAkmKNpNWg==
-X-Google-Smtp-Source: ABdhPJyap0e7CTwf8HrhrJhPhF9DOR7AKPD9OIoxL1bXe7v3Dk4cmLWDUcc1+/hhsto3hTn53fbsk/M7qmHWyPm46q8=
-X-Received: by 2002:a9f:22c4:: with SMTP id 62mr6134025uan.135.1595549856863; 
- Thu, 23 Jul 2020 17:17:36 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC8E6E8BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 01:30:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38AB8279;
+ Fri, 24 Jul 2020 03:30:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1595554231;
+ bh=akS/wzc0BWt9gQYq9HsNLG1pa4mQkWgmvntLaanjo4Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qfND16UkHYN3vA2A7MdntXo1DC2Tc2f2Hjqzy89OEu8bAfIclINlSmp/x3oV/jtd0
+ Y+LT+EHhMTiOYz4EfVmvOwTKxRvvj8QTkrg59LFwJ1OuKflWR43FwvCRHSFR3ltHAQ
+ B5H6QOjrSa5SpYoUp6tezNBGa+0zHZN1Z2za++8s=
+Date: Fri, 24 Jul 2020 04:30:24 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH] drm: bridge: adv7511: Add missing bridge type
+Message-ID: <20200724013024.GL21353@pendragon.ideasonboard.com>
+References: <20200723104523.1006706-1-vkoul@kernel.org>
 MIME-Version: 1.0
-References: <20200627070307.516803-1-drinkcat@chromium.org>
- <20200627070307.516803-2-drinkcat@chromium.org> <878sfanzft.fsf@kernel.org>
-In-Reply-To: <878sfanzft.fsf@kernel.org>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Fri, 24 Jul 2020 08:17:25 +0800
-Message-ID: <CANMq1KDugXcmvrGOJzcvWvbzScPDsQVuJ4gSDXTJan+FY1H3Ew@mail.gmail.com>
-Subject: Re: [PATCH 1/4] usb: cdns3: gadget: Replace trace_printk by dev_dbg
-To: Felipe Balbi <balbi@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20200723104523.1006706-1-vkoul@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,83 +45,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <peter.chen@nxp.com>,
- "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
- Rafael Aquini <aquini@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Todor Tomov <todor.too@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Howells <dhowells@redhat.com>, Tiezhu Yang <yangtiezhu@loongson.cn>,
- Will Deacon <will@kernel.org>,
- Christian Brauner <christian.brauner@ubuntu.com>,
- Kees Cook <keescook@chromium.org>, devel@driverdev.osuosl.org,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jayshri Pawar <jpawar@cadence.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andy Gross <agross@kernel.org>,
- Tomas Winkler <tomas.winkler@intel.com>, Alexey Dobriyan <adobriyan@gmail.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Pawel Laszczak <pawell@cadence.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Chao Yu <chao@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Roger Quadros <rogerq@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-usb@vger.kernel.org,
- lkml <linux-kernel@vger.kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Colin Ian King <colin.king@canonical.com>,
- Andrew Morton <akpm@linux-foundation.org>, Divya Indi <divya.indi@oracle.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 23, 2020 at 9:17 PM Felipe Balbi <balbi@kernel.org> wrote:
->
-> Nicolas Boichat <drinkcat@chromium.org> writes:
->
-> > trace_printk should not be used in production code, replace it
-> > call with dev_dbg.
-> >
-> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> >
-> > ---
-> >
-> > Unclear why a trace_printk was used in the first place, it's
-> > possible that some rate-limiting is necessary here.
-> >
-> >  drivers/usb/cdns3/gadget.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
-> > index 5e24c2e57c0d8c8..c303ab7c62d1651 100644
-> > --- a/drivers/usb/cdns3/gadget.c
-> > +++ b/drivers/usb/cdns3/gadget.c
-> > @@ -421,7 +421,7 @@ static int cdns3_start_all_request(struct cdns3_device *priv_dev,
-> >               if ((priv_req->flags & REQUEST_INTERNAL) ||
-> >                   (priv_ep->flags & EP_TDLCHK_EN) ||
-> >                       priv_ep->use_streams) {
-> > -                     trace_printk("Blocking external request\n");
-> > +                     dev_dbg(priv_dev->dev, "Blocking external request\n");
->
-> Instead, I would suggest adding a proper trace event here; one that
-> includes "priv_ep->flags" in the output.
+Hi Vinod,
 
-The patch was already merged by Greg
-(https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/usb/cdns3/gadget.c?id=b3a5ce874c2619c9b8a6c5bbcfefdb95e0227600),
-but feel free to do that as a follow-up CL.
+Thank you for the patch.
 
-Looks like Peter -- the main author, is ok with dev_dbg (also,
-apologies for missing the R-b tag when I sent a v2 -- which is the one
-that was merged by Greg).
+On Thu, Jul 23, 2020 at 04:15:23PM +0530, Vinod Koul wrote:
+> Add bridge type as DRM_MODE_CONNECTOR_HDMIA
+> 
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
 
-Thanks,
+This has already been submitted: https://lore.kernel.org/dri-devel/20200720124228.12552-1-laurentiu.palcu@oss.nxp.com/
 
->
-> --
-> balbi
+> ---
+> 
+> I found this when testing Dragon-board 410c which uses this bridge
+> [    6.671913] msm 1a00000.mdss: [drm:msm_dsi_manager_ext_bridge_init [msm]] *ERROR* drm_bridge_connector_init failed: -22
+> [    6.678879] msm 1a00000.mdss: [drm:msm_dsi_modeset_init [msm]] *ERROR* failed to create dsi connector: -19
+> 
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index f45cdca9cce5..a0d392c338da 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1283,6 +1283,7 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+>  	adv7511->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
+>  			    | DRM_BRIDGE_OP_HPD;
+>  	adv7511->bridge.of_node = dev->of_node;
+> +	adv7511->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+>  
+>  	drm_bridge_add(&adv7511->bridge);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
