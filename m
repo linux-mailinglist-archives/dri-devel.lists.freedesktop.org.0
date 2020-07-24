@@ -1,40 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D849222CE5C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 21:07:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3A422CE65
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 21:08:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7061F6E85D;
-	Fri, 24 Jul 2020 19:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E55E389D5B;
+	Fri, 24 Jul 2020 19:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB2246E85D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 19:07:22 +0000 (UTC)
-IronPort-SDR: PPbfZ4plr/L/uKqN0lnklqtag5iHEh7rBAWIWq/ATcpHliWgbkwYnF4S39k8u2hiYFtKfcNFNK
- OB+ydwLaXwgQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9692"; a="152049758"
-X-IronPort-AV: E=Sophos;i="5.75,391,1589266800"; d="scan'208";a="152049758"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2020 12:07:21 -0700
-IronPort-SDR: zSExrlcZD7vK6l03JkmYmJYW9Mm+L6SnxsSbyuCnKai3zpf2gPwN5YHer8lAsmxUsRy0Zynlh6
- 4nyWWxh4uHhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,391,1589266800"; d="scan'208";a="363454792"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 24 Jul 2020 12:07:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 24 Jul 2020 22:07:18 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2752589D5B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 19:08:43 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/omap: Use {} to zero initialize the mode
-Date: Fri, 24 Jul 2020 22:07:18 +0300
-Message-Id: <20200724190718.23567-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.26.2
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Fri, 24 Jul 2020 19:08:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: laser.eyess.trackers@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-207383-2300-m61PtFQ60K@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,35 +52,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRo
-ZSBmaXJzdCBtZW1iZXIgb2YgZHJtX2Rpc3BsYXlfbW9kZSBpcyBubyBsb25nZXIgYSBzdHJ1Y3R1
-cmUsIGJ1dAp0aGUgY29kZSBpcyBzdGlsbCB1c2luZyB7ezB9fSB0byB6ZXJvIGluaXRpYWxpemUg
-aXQuIE1ha2UgdGhhdCBqdXN0Cnt9IHNvIGl0IHdvcmtzIHJlZ2FyZGxlc3Mgb2Ygd2hhdCBsaWVz
-IGluc2lkZS4KCkNjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgpDYzogTGF1cmVu
-dCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydCtyZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+CkNj
-OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgpGaXhlczogNDJhY2IwNmIw
-MWIxICgiZHJtOiBwYWhvbGUgc3RydWN0IGRybV9kaXNwbGF5X21vZGUiKQpTaWduZWQtb2ZmLWJ5
-OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfY29ubmVjdG9yLmMgfCAyICstCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vb21hcGRybS9vbWFwX2Nvbm5lY3Rvci5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBk
-cm0vb21hcF9jb25uZWN0b3IuYwppbmRleCA1Mjg3NjQ1NjZiMTcuLmRlOTVkYzFiODYxYyAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9jb25uZWN0b3IuYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2Nvbm5lY3Rvci5jCkBAIC04OSw3ICs4OSw3IEBA
-IHN0YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cyBvbWFwX2Nvbm5lY3Rvcl9tb2RlX3ZhbGlkKHN0
-cnVjdCBkcm1fY29ubmVjdG9yICpjb25uCiAJCQkJIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpt
-b2RlKQogewogCXN0cnVjdCBvbWFwX2Nvbm5lY3RvciAqb21hcF9jb25uZWN0b3IgPSB0b19vbWFw
-X2Nvbm5lY3Rvcihjb25uZWN0b3IpOwotCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIG5ld19tb2Rl
-ID0geyB7IDAgfSB9OworCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIG5ld19tb2RlID0ge307CiAJ
-ZW51bSBkcm1fbW9kZV9zdGF0dXMgc3RhdHVzOwogCiAJc3RhdHVzID0gb21hcF9jb25uZWN0b3Jf
-bW9kZV9maXh1cChvbWFwX2Nvbm5lY3Rvci0+b3V0cHV0LCBtb2RlLAotLSAKMi4yNi4yCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
+
+laser.eyess.trackers@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |laser.eyess.trackers@gmail.
+                   |                            |com
+
+--- Comment #91 from laser.eyess.trackers@gmail.com ---
+I wanted to comment on this bug because I believe I have been experiencing it
+based on a bug report I filed with amdgpu[1]. As of 5.7.8 on Arch Linux I no
+longer experiencing this bug regularly. Usually I could trigger it every 1-3
+days. The biggest change I made was turning off adaptive_sync (VRR, Freesync,
+etc.) in my window manager. Now it's been almost a week and I haven't seen it.
+Right now I am on 5.7.9 and will keep running as long as possible until it
+crashes again, if it crashes again.
+
+
+I see some discussion here about race conditions between memory allocations and
+atomic commits, and while I don't understand most of it, would I be correct in
+assuming that variable frame timing would exacerbate this bug? If so, I believe
+that is exactly what I am experiencing. I'd love to help test patches for this
+as they come in, but for now I want to add that VRR is an important part of the
+equation for this bug for me.
+
+
+The bug report linked in [1] has more of my set up but all I'll say here is
+that I also have a multimonitor setup, each one supports VRR and they are at
+varying resolutions/refresh rates; two at 1440p 144Hz, one at 4k 60Hz.
+
+
+1. https://gitlab.freedesktop.org/drm/amd/-/issues/1216
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
