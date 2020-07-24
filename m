@@ -1,39 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E51A22BEF6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:21:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0712B22BEDD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C34C6E926;
-	Fri, 24 Jul 2020 07:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385926E4BB;
+	Fri, 24 Jul 2020 07:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40135.protonmail.ch (mail-40135.protonmail.ch
- [185.70.40.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2914889B0B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jul 2020 22:58:34 +0000 (UTC)
-Date: Thu, 23 Jul 2020 22:58:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1595545112;
- bh=lg9xOnMsFhhdqALv0aeP/Vx2Gofelvm+74wmCknZsFo=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=wJWQyTrNxzYCugTunHerczbSVBPFAyOkFnBt7X5S1XVzsUu/CqTghfT5XKiJqfCMb
- G1g3xRBuQI4aoyJodntEqzHGTw4zt+dQyEA0OkIP7e/Z9Q+YFww7/QLZdrEgJ35/qn
- M4P8GF7YJgW5MjILTKRXcogl6z7WEMPnUhlcPT04=
-To: Kees Cook <keescook@chromium.org>
-From: Mazin Rezk <mnrzk@protonmail.com>
-Subject: Re: [PATCH] amdgpu_dm: fix nonblocking atomic commit use-after-free
-Message-ID: <4KGdosy_NHW6FYCc2rCq4e71vYI7e4InqrLJ4S1GJsLcfjHv_INF-CzIYusOFqznOxyvflBTlFCXvyy7J37fn-QKfNOQK78MM38VdjdUXks=@protonmail.com>
-In-Reply-To: <202007231524.A24720C@keescook>
-References: <YIGsJ9LlFquvBI2iWPKhJwjKBwDUr_C-38oVpLJJHJ5rDCY_Zrrv392o6UPNxHoeQrcpLYC9U4fZdpD9ilz6Amg2IxkSexGLQMCQIBek8rc=@protonmail.com>
- <202007231524.A24720C@keescook>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06C966E4BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 07:17:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 33AFAACB5;
+ Fri, 24 Jul 2020 07:17:57 +0000 (UTC)
+Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
+To: Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20200722132558.28289-1-p.zabel@pengutronix.de>
+ <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
+ <40ff9fdfb62d93f30a803f8397ae0c0f61e8e51a.camel@pengutronix.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <c34458e7-5d97-99f4-c00d-b0bd873a0ece@suse.de>
+Date: Fri, 24 Jul 2020 09:17:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.5 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
- shortcircuit=no autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
-X-Mailman-Approved-At: Fri, 24 Jul 2020 07:21:47 +0000
+In-Reply-To: <40ff9fdfb62d93f30a803f8397ae0c0f61e8e51a.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,80 +40,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Mazin Rezk <mnrzk@protonmail.com>
-Cc: "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>,
- "anthony.ruhier@gmail.com" <anthony.ruhier@gmail.com>,
- "1i5t5.duncan@cox.net" <1i5t5.duncan@cox.net>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>, Mazin Rezk <mnrzk@protonmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
- "regressions@leemhuis.info" <regressions@leemhuis.info>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "mphantomx@yahoo.com.br" <mphantomx@yahoo.com.br>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel@pengutronix.de
+Content-Type: multipart/mixed; boundary="===============0996983301=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, July 23, 2020 6:32 PM, Kees Cook <keescook@chromium.org> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0996983301==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="RNh0i6aUy8C2CnZoRqYLOo5eU8SNW3ium"
 
-> On Thu, Jul 23, 2020 at 09:10:15PM +0000, Mazin Rezk wrote:
->
-> > When amdgpu_dm_atomic_commit_tail is running in the workqueue,
-> > drm_atomic_state_put will get called while amdgpu_dm_atomic_commit_tail is
-> > running, causing a race condition where state (and then dm_state) is
-> > sometimes freed while amdgpu_dm_atomic_commit_tail is running. This bug has
-> > occurred since 5.7-rc1 and is well documented among polaris11 users [1].
-> > Prior to 5.7, this was not a noticeable issue since the freelist pointer
-> > was stored at the beginning of dm_state (base), which was unused. After
-> > changing the freelist pointer to be stored in the middle of the struct, the
-> > freelist pointer overwrote the context, causing dc_state to become garbage
-> > data and made the call to dm_enable_per_frame_crtc_master_sync dereference
-> > a freelist pointer.
-> > This patch fixes the aforementioned issue by calling drm_atomic_state_get
-> > in amdgpu_dm_atomic_commit before drm_atomic_helper_commit is called and
-> > drm_atomic_state_put after amdgpu_dm_atomic_commit_tail is complete.
-> > According to my testing on 5.8.0-rc6, this should fix bug 207383 on
-> > Bugzilla [1].
-> > [1] https://bugzilla.kernel.org/show_bug.cgi?id=207383
->
-> Nice work tracking this down!
->
-> > Fixes: 3202fa62f ("slub: relocate freelist pointer to middle of object")
->
-> I do, however, object to this Fixes tag. :) The flaw appears to have
-> been with amdgpu_dm's reference tracking of "state" in the nonblocking
-> case. (How this reference counting is supposed to work correctly, though,
-> I'm not sure.) If I look at where the drm helper was split from being
-> the default callback, it looks like this was what introduced the bug:
->
-> da5c47f682ab ("drm/amd/display: Remove acrtc->stream")
->
-> ? 3202fa62f certainly exposed it much more quickly, but there was a race
-> even without 3202fa62f where something could have realloced the memory
-> and written over it.
->
-> -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
->
-> Kees Cook
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--RNh0i6aUy8C2CnZoRqYLOo5eU8SNW3ium
+Content-Type: multipart/mixed; boundary="1Hv2TYA44YnKdToMtALCVHw7QZpbrbxN1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de
+Message-ID: <c34458e7-5d97-99f4-c00d-b0bd873a0ece@suse.de>
+Subject: Re: [PATCH] drm/simple_kms_helper: add drmm_simple_encoder_init()
+References: <20200722132558.28289-1-p.zabel@pengutronix.de>
+ <d17c7f37-e63e-b4a9-adde-c691f09a0075@suse.de>
+ <40ff9fdfb62d93f30a803f8397ae0c0f61e8e51a.camel@pengutronix.de>
+In-Reply-To: <40ff9fdfb62d93f30a803f8397ae0c0f61e8e51a.camel@pengutronix.de>
+
+--1Hv2TYA44YnKdToMtALCVHw7QZpbrbxN1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 23.07.20 um 16:46 schrieb Philipp Zabel:
+> Hi Thomas,
+>=20
+> On Thu, 2020-07-23 at 09:35 +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> I have meanwhile seen your imx patchset where this would be useful.
+>>
+>> I still think you should try to pre-allocated all encoders up to a
+>> limit, so that an extra drmm_kzalloc() is not required. But see my
+>> comments below.
+>=20
+> Thank you for the review coments. The complication with imx-drm is that=
+
+> the encoders are all in separate platform devices, using the component
+> framework. Preallocating encoders in the main driver would be
+> impractical.
+>=20
+> The encoders are added in the component .bind() callback, so the main
+> driver must call drmm_mode_config_init() before binding all components.=
+
+> The bind callback also is the first place where the component drivers
+> get to know the drm device, so it is not possible to use drmm_kzalloc()=
+
+> any earlier.
+>=20
+>> Am 22.07.20 um 15:25 schrieb Philipp Zabel:
+>>> Add a drm_simple_encoder_init() variant that registers
+>>> drm_encoder_cleanup() with drmm_add_action().
+>>>
+>>> Now drivers can store encoders in memory allocated with drmm_kmalloc(=
+)
+>>> after the call to drmm_mode_config_init(), without having to manually=
+
+>>> make sure that drm_encoder_cleanup() is called before the memory is
+>>> freed.
+>>>
+>>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+>>> ---
+>>>  drivers/gpu/drm/drm_simple_kms_helper.c | 42 +++++++++++++++++++++++=
+++
+>>>  include/drm/drm_simple_kms_helper.h     |  4 +++
+>>>  2 files changed, 46 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/dr=
+m/drm_simple_kms_helper.c
+>>> index 74946690aba4..a243f00cf63d 100644
+>>> --- a/drivers/gpu/drm/drm_simple_kms_helper.c
+>>> +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+>>> @@ -9,6 +9,7 @@
+>>>  #include <drm/drm_atomic.h>
+>>>  #include <drm/drm_atomic_helper.h>
+>>>  #include <drm/drm_bridge.h>
+>>> +#include <drm/drm_managed.h>
+>>>  #include <drm/drm_plane_helper.h>
+>>>  #include <drm/drm_probe_helper.h>
+>>>  #include <drm/drm_simple_kms_helper.h>
+>>> @@ -71,6 +72,47 @@ int drm_simple_encoder_init(struct drm_device *dev=
+,
+>>>  }
+>>>  EXPORT_SYMBOL(drm_simple_encoder_init);
+>>> =20
+>>> +static void drmm_encoder_cleanup(struct drm_device *dev, void *ptr)
+>>
+>> It's the reset helper, so drmm_simple_encoder_reset() would be appropr=
+iate.
+>>
+>>> +{
+>>> +	struct drm_encoder *encoder =3D ptr;
+>>> +
+>>> +	drm_encoder_cleanup(encoder);
+>>
+>> This should first check for (encoder->dev) being true. If drivers
+>> somehow manage to clean-up the mode config first, we should detect it.=
+ I
+>> know it's a bug, but I wouldn't trust drivers with that.
+>=20
+> I don't think this can happen, a previously called drm_encoder_cleanup(=
+)
+> would have removed the encoder from the drm_mode_config::encoder list.
+
+It cannot legally happen, but AFAICS a careless driver could run
+drm_mode_config_cleanup() and release the encoder. This release callback
+would still run afterwards and it should warn about the error.
+
+>=20
+>>> +}
+>>> +
+>>> +/**
+>>> + * drmm_simple_encoder_init - Initialize a preallocated encoder with=
+
+>>> + *                            basic functionality.
+>>> + * @dev: drm device
+>>> + * @encoder: the encoder to initialize
+>>> + * @encoder_type: user visible type of the encoder
+>>> + *
+>>> + * Initialises a preallocated encoder that has no further functional=
+ity.
+>>
+>> 'Initializes'
+>=20
+> Copy & paste from the drm_simple_encoder_init, I'll fix this in the nex=
+t
+> version.
+
+Yeah. That was originally my typo. :p
+
+>=20
+>>> + * Settings for possible CRTC and clones are left to their initial v=
+alues.
+>>> + * Cleanup is automatically handled through registering drm_encoder_=
+cleanup()
+>>> + * with drmm_add_action().
+>>> + *
+>>> + * The caller of drmm_simple_encoder_init() is responsible for alloc=
+ating
+>>> + * the encoder's memory with drmm_kzalloc() to ensure it is automati=
+cally
+>>> + * freed after the encoder has been cleaned up.
+>>> + *
+>>
+>> The idiomatic way of cleaning up an encoder is via mode-config cleanup=
+=2E
+>> This interface is an exception for a corner case. So there needs to be=
+ a
+>> paragraph that clearly explains the corner case. Please also discourag=
+e
+>> from using drmm_simple_encoder_init() if drm_simple_encoder_init() wou=
+ld
+>> work.
+>=20
+> I was hoping that we would eventually switch to drmres cleanup as the
+> preferred method, thus getting rid of the need for per-driver cleanup i=
+n
+> the error paths and destroy callbacks in most cases.
+
+True. I do support that. But we should also consider how to do this
+efficiently. Using drmm_mode_config_init() sets up a release function
+that handles all initialized encoders. For the majority of drivers, this
+is sufficient. Using drmm_encoder_init() in those drivers just adds
+overhead without additional benefits. That's also why I consider imx'
+requirements a corner case.
+
+Best regards
+Thomas
+
+>=20
+> regards
+> Philipp
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-Thanks, I'll be sure to avoid using 3202fa62f as the cause next time.
-I just thought to do that because it was what made the use-after-free cause
-a noticeable bug.
+--1Hv2TYA44YnKdToMtALCVHw7QZpbrbxN1--
 
-Also, by the way, I just realised the patch didn't completely solve the bug.
-Sorry about that, making an LKML thread on this was hasty on my part. Should
-I get further confirmation from the Bugzilla thread before submitting a patch
-for this bug in the future?
+--RNh0i6aUy8C2CnZoRqYLOo5eU8SNW3ium
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks,
-Mazin Rezk
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8aixkUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOW+Af/ZBBvZO5bM1EvFGKV6v2IS9h/9OzG
+CwR2OeilYte8ryq/zWNlGgYqFWhiB0aIuDYsOSlE4k1HzqqklVhI3yNJvuc3iuTT
+ZBwOhMvIcTrLQr1jylju0oEYFWAJ/yZ7y6C0BVu6UGl+b24xDESyLmFpYQRX+5U9
+5r70FbSzM+kpJmO2lvvC6cLObj3Pr82LgY0EYpEqK/n+lqxQgu1DVZzO9vMyReWP
+WpiOY5otjJgLfgX6S+vivuR9Iq+8PdLG6E/U7Z/amS1qBWfmrfRFC8JcPhrcGMCL
+WL3poZ+j+Legx4owRTF7FgsOBXpB+mG1v9ym8VV6Zs8Lrsi9EcLd2/ZFIw==
+=LAKF
+-----END PGP SIGNATURE-----
+
+--RNh0i6aUy8C2CnZoRqYLOo5eU8SNW3ium--
+
+--===============0996983301==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0996983301==--
