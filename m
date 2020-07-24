@@ -2,49 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5887322DFD3
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3F222DFDE
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9226189EB4;
-	Sun, 26 Jul 2020 15:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3445A89ED3;
+	Sun, 26 Jul 2020 15:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
- Fri, 24 Jul 2020 12:50:13 UTC
-Received: from esa2.hc3370-68.iphmx.com (esa2.hc3370-68.iphmx.com
- [216.71.145.153])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6E1A6E970
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 12:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1595595014;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=LnrKUU0E0L2NEx45muJDP2eR0l7cIb2vvmXBeLMbICs=;
- b=cIBtSJa2Nvk8MtW65gyeD3dI6znqIDOVr5LDbrZ9h97qDmeFLJCAYOAs
- 10wRaQWdGOVI9eDg2BHf4kNSMB4AZdpyVqWs9e+0aOYk9UQc7IX1CuLRD
- b8zmVP9mMKTMTe3cYWpi8WfDuKghvVyEswXlUDazE14ZkEUXlWWN3I4o1 I=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: WfBQbZ/B8RjixznMe135h8G4op5I57LLr6cNhd+2OlPg5iZoQzntVR2fvI66FzZ1wlsu2aGkR4
- ZTXryKKaEGGOgpNI6NUmNv9sIISAdllRW8pF5Wsw0jnCf0Un1Q0JwhxiUG2N/GLyNmw6VI40PG
- ziD5YP1SssIvYKgACa/1Ty0AuogXr9+achvpsOZqLB9Nwq7ifesdt/ZozyCHzUASG4GdOluU++
- 8bvRw7dRXdla4XWmbl7wasqEPit5RMymzZx9vV0MT4FkQlksJDfa6kf7HV3p6eTnXhFRXgyk7p
- 3jQ=
-X-SBRS: 2.7
-X-MesageID: 23139916
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.75,390,1589256000"; d="scan'208";a="23139916"
-From: Roger Pau Monne <roger.pau@citrix.com>
-To: <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 4/4] xen: add helpers to allocate unpopulated memory
-Date: Fri, 24 Jul 2020 14:42:41 +0200
-Message-ID: <20200724124241.48208-5-roger.pau@citrix.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200724124241.48208-1-roger.pau@citrix.com>
-References: <20200724124241.48208-1-roger.pau@citrix.com>
-MIME-Version: 1.0
+X-Greylist: delayed 539 seconds by postgrey-1.36 at gabe;
+ Fri, 24 Jul 2020 20:45:35 UTC
+Received: from rnd-relay.smtp.broadcom.com (unknown [192.19.232.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82A656E891
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 20:45:35 +0000 (UTC)
+Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net
+ [10.75.242.48])
+ by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id 895D71A03F9;
+ Fri, 24 Jul 2020 13:36:33 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com 895D71A03F9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+ s=dkimrelay; t=1595622993;
+ bh=iROEOxL20fkN82DgSDT9xCh4bM04NvfKU+zpU572Jk4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=lcGhd/wOCVZmX1uQE+GWSKEK2BWwEueoL+jv3N84yu0EAaCrPAl/nUVvi6rT8mOu9
+ rASCHru+AQAcyYZ3CEkqi5KUYyMSyTxVd5/uswShD7qMRV6WWL65xjb7TcWRYqTceP
+ pqpEUGBi0Jm0wPHubSaLmoIIGnS4t1bpm4q2u+GA=
+Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net
+ [10.28.16.211])
+ by mail-irv-17.broadcom.com (Postfix) with ESMTP id A7441140208;
+ Fri, 24 Jul 2020 13:34:10 -0700 (PDT)
+From: Jim Quinlan <james.quinlan@broadcom.com>
+To: linux-pci@vger.kernel.org, Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+ bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
+Subject: [PATCH v9 00/12] PCI: brcmstb: enable PCIe for STB chips
+Date: Fri, 24 Jul 2020 16:33:42 -0400
+Message-Id: <20200724203407.16972-1-james.quinlan@broadcom.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,286 +51,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@linux.ie>, Yan
- Yankovskyi <yyankovskyi@gmail.com>, David Hildenbrand <david@redhat.com>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Roger Pau Monne <roger.pau@citrix.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR REMOTEPROC SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ "open list:LIBATA SUBSYSTEM Serial and Parallel ATA drivers"
+ <linux-ide@vger.kernel.org>, Julien Grall <julien.grall@arm.com>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ "open list:ACPI FOR ARM64 ACPI/arm64" <linux-acpi@vger.kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, Oliver Neukum <oneukum@suse.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Jens Axboe <axboe@kernel.dk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VG8gYmUgdXNlZCBpbiBvcmRlciB0byBjcmVhdGUgZm9yZWlnbiBtYXBwaW5ncy4gVGhpcyBpcyBi
-YXNlZCBvbiB0aGUKWk9ORV9ERVZJQ0UgZmFjaWxpdHkgd2hpY2ggaXMgdXNlZCBieSBwZXJzaXN0
-ZW50IG1lbW9yeSBkZXZpY2VzIGluCm9yZGVyIHRvIGNyZWF0ZSBzdHJ1Y3QgcGFnZXMgYW5kIGtl
-cm5lbCB2aXJ0dWFsIG1hcHBpbmdzIGZvciB0aGUgSU9NRU0KYXJlYXMgb2Ygc3VjaCBkZXZpY2Vz
-LiBOb3RlIHRoYXQgb24ga2VybmVscyB3aXRob3V0IHN1cHBvcnQgZm9yClpPTkVfREVWSUNFIFhl
-biB3aWxsIGZhbGxiYWNrIHRvIHVzZSBiYWxsb29uZWQgcGFnZXMgaW4gb3JkZXIgdG8KY3JlYXRl
-IGZvcmVpZ24gbWFwcGluZ3MuCgpUaGUgbmV3bHkgYWRkZWQgaGVscGVycyB1c2UgdGhlIHNhbWUg
-cGFyYW1ldGVycyBhcyB0aGUgZXhpc3RpbmcKe2FsbG9jL2ZyZWV9X3hlbmJhbGxvb25lZF9wYWdl
-cyBmdW5jdGlvbnMsIHdoaWNoIGFsbG93cyBmb3IgaW4tcGxhY2UKcmVwbGFjZW1lbnQgb2YgdGhl
-IGNhbGxlcnMuIE9uY2UgYSBtZW1vcnkgcmVnaW9uIGhhcyBiZWVuIGFkZGVkIHRvIGJlCnVzZWQg
-YXMgc2NyYXRjaCBtYXBwaW5nIHNwYWNlIGl0IHdpbGwgbm8gbG9uZ2VyIGJlIHJlbGVhc2VkLCBh
-bmQgcGFnZXMKcmV0dXJuZWQgYXJlIGtlcHQgaW4gYSBsaW5rZWQgbGlzdC4gVGhpcyBhbGxvd3Mg
-dG8gaGF2ZSBhIGJ1ZmZlciBvZgpwYWdlcyBhbmQgcHJldmVudHMgcmVzb3J0aW5nIHRvIGZyZXF1
-ZW50IGFkZGl0aW9ucyBhbmQgcmVtb3ZhbHMgb2YKcmVnaW9ucy4KCklmIGVuYWJsZWQgKGJlY2F1
-c2UgWk9ORV9ERVZJQ0UgaXMgc3VwcG9ydGVkKSB0aGUgdXNhZ2Ugb2YgdGhlIG5ldwpmdW5jdGlv
-bmFsaXR5IHVudGFuZ2xlcyBYZW4gYmFsbG9vbiBhbmQgUkFNIGhvdHBsdWcgZnJvbSB0aGUgdXNh
-Z2Ugb2YKdW5wb3B1bGF0ZWQgcGh5c2ljYWwgbWVtb3J5IHJhbmdlcyB0byBtYXAgZm9yZWlnbiBw
-YWdlcywgd2hpY2ggaXMgdGhlCmNvcnJlY3QgdGhpbmcgdG8gZG8gaW4gb3JkZXIgdG8gYXZvaWQg
-bWFwcGluZ3Mgb2YgZm9yZWlnbiBwYWdlcyBkZXBlbmQKb24gbWVtb3J5IGhvdHBsdWcuCgpTaWdu
-ZWQtb2ZmLWJ5OiBSb2dlciBQYXUgTW9ubsOpIDxyb2dlci5wYXVAY2l0cml4LmNvbT4KLS0tCkkn
-dmUgbm90IGFkZGVkIGEgbmV3IG1lbW9yeV90eXBlIHR5cGUgYW5kIGp1c3QgdXNlZApNRU1PUllf
-REVWSUNFX0RFVkRBWCB3aGljaCBzZWVtcyB0byBiZSB3aGF0IHdlIHdhbnQgZm9yIHN1Y2ggbWVt
-b3J5CnJlZ2lvbnMuIEknbSB1bnN1cmUgd2hldGhlciBhYnVzaW5nIHRoaXMgdHlwZSBpcyBmaW5l
-LCBvciBpZiBJIHNob3VsZAppbnN0ZWFkIGFkZCBhIHNwZWNpZmljIHR5cGUsIG1heWJlIE1FTU9S
-WV9ERVZJQ0VfR0VORVJJQz8gSSBkb24ndAp0aGluayB3ZSBzaG91bGQgYmUgdXNpbmcgYSBzcGVj
-aWZpYyBYZW4gdHlwZSBhdCBhbGwuCi0tLQpDYzogT2xla3NhbmRyIEFuZHJ1c2hjaGVua28gPG9s
-ZWtzYW5kcl9hbmRydXNoY2hlbmtvQGVwYW0uY29tPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVk
-QGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogQm9yaXMg
-T3N0cm92c2t5IDxib3Jpcy5vc3Ryb3Zza3lAb3JhY2xlLmNvbT4KQ2M6IEp1ZXJnZW4gR3Jvc3Mg
-PGpncm9zc0BzdXNlLmNvbT4KQ2M6IFN0ZWZhbm8gU3RhYmVsbGluaSA8c3N0YWJlbGxpbmlAa2Vy
-bmVsLm9yZz4KQ2M6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KQ2M6
-IFJvZ2VyIFBhdSBNb25uZSA8cm9nZXIucGF1QGNpdHJpeC5jb20+CkNjOiBXZWkgTGl1IDx3bEB4
-ZW4ub3JnPgpDYzogWWFuIFlhbmtvdnNreWkgPHl5YW5rb3Zza3lpQGdtYWlsLmNvbT4KQ2M6IGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IHhlbi1kZXZlbEBsaXN0cy54ZW5wcm9q
-ZWN0Lm9yZwpDYzogbGludXgtbW1Aa3ZhY2sub3JnCkNjOiBEYXZpZCBIaWxkZW5icmFuZCA8ZGF2
-aWRAcmVkaGF0LmNvbT4KQ2M6IE1pY2hhbCBIb2NrbyA8bWhvY2tvQGtlcm5lbC5vcmc+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dlbS5jIHwgICA4ICstCiBkcml2ZXJz
-L3hlbi9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy94ZW4vYmFs
-bG9vbi5jICAgICAgICAgICAgICAgICAgIHwgICA0ICstCiBkcml2ZXJzL3hlbi9ncmFudC10YWJs
-ZS5jICAgICAgICAgICAgICAgfCAgIDQgKy0KIGRyaXZlcnMveGVuL3ByaXZjbWQuYyAgICAgICAg
-ICAgICAgICAgICB8ICAgNCArLQogZHJpdmVycy94ZW4vdW5wb3B1bGF0ZWQtYWxsb2MuYyAgICAg
-ICAgIHwgMjIyICsrKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy94ZW4veGVuYnVzL3hl
-bmJ1c19jbGllbnQuYyAgICAgIHwgICA2ICstCiBkcml2ZXJzL3hlbi94bGF0ZV9tbXUuYyAgICAg
-ICAgICAgICAgICAgfCAgIDQgKy0KIGluY2x1ZGUveGVuL3hlbi5oICAgICAgICAgICAgICAgICAg
-ICAgICB8ICAgOCArCiA5IGZpbGVzIGNoYW5nZWQsIDI0NiBpbnNlcnRpb25zKCspLCAxNSBkZWxl
-dGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3hlbi91bnBvcHVsYXRlZC1hbGxv
-Yy5jCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dlbS5j
-IGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dlbS5jCmluZGV4IGYwYjg1ZTA5
-NDExMS4uOWRkMDZlYWU3NjdhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0veGVuL3hlbl9k
-cm1fZnJvbnRfZ2VtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dl
-bS5jCkBAIC05OSw4ICs5OSw4IEBAIHN0YXRpYyBzdHJ1Y3QgeGVuX2dlbV9vYmplY3QgKmdlbV9j
-cmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90IHNpemUpCiAJCSAqIGFsbG9jYXRl
-IGJhbGxvb25lZCBwYWdlcyB3aGljaCB3aWxsIGJlIHVzZWQgdG8gbWFwCiAJCSAqIGdyYW50IHJl
-ZmVyZW5jZXMgcHJvdmlkZWQgYnkgdGhlIGJhY2tlbmQKIAkJICovCi0JCXJldCA9IGFsbG9jX3hl
-bmJhbGxvb25lZF9wYWdlcyh4ZW5fb2JqLT5udW1fcGFnZXMsCi0JCQkJCSAgICAgICB4ZW5fb2Jq
-LT5wYWdlcyk7CisJCXJldCA9IHhlbl9hbGxvY191bnBvcHVsYXRlZF9wYWdlcyh4ZW5fb2JqLT5u
-dW1fcGFnZXMsCisJCQkJCSAgICAgICAgICB4ZW5fb2JqLT5wYWdlcyk7CiAJCWlmIChyZXQgPCAw
-KSB7CiAJCQlEUk1fRVJST1IoIkNhbm5vdCBhbGxvY2F0ZSAlenUgYmFsbG9vbmVkIHBhZ2VzOiAl
-ZFxuIiwKIAkJCQkgIHhlbl9vYmotPm51bV9wYWdlcywgcmV0KTsKQEAgLTE1Miw4ICsxNTIsOCBA
-QCB2b2lkIHhlbl9kcm1fZnJvbnRfZ2VtX2ZyZWVfb2JqZWN0X3VubG9ja2VkKHN0cnVjdCBkcm1f
-Z2VtX29iamVjdCAqZ2VtX29iaikKIAl9IGVsc2UgewogCQlpZiAoeGVuX29iai0+cGFnZXMpIHsK
-IAkJCWlmICh4ZW5fb2JqLT5iZV9hbGxvYykgewotCQkJCWZyZWVfeGVuYmFsbG9vbmVkX3BhZ2Vz
-KHhlbl9vYmotPm51bV9wYWdlcywKLQkJCQkJCQl4ZW5fb2JqLT5wYWdlcyk7CisJCQkJeGVuX2Zy
-ZWVfdW5wb3B1bGF0ZWRfcGFnZXMoeGVuX29iai0+bnVtX3BhZ2VzLAorCQkJCQkJCSAgIHhlbl9v
-YmotPnBhZ2VzKTsKIAkJCQlnZW1fZnJlZV9wYWdlc19hcnJheSh4ZW5fb2JqKTsKIAkJCX0gZWxz
-ZSB7CiAJCQkJZHJtX2dlbV9wdXRfcGFnZXMoJnhlbl9vYmotPmJhc2UsCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL3hlbi9NYWtlZmlsZSBiL2RyaXZlcnMveGVuL01ha2VmaWxlCmluZGV4IDBkMzIyZjNk
-OTBjZC4uNzg4YTVkOWM4ZWYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL3hlbi9NYWtlZmlsZQorKysg
-Yi9kcml2ZXJzL3hlbi9NYWtlZmlsZQpAQCAtNDIsMyArNDIsNCBAQCB4ZW4tZ250ZGV2LSQoQ09O
-RklHX1hFTl9HTlRERVZfRE1BQlVGKQkrPSBnbnRkZXYtZG1hYnVmLm8KIHhlbi1nbnRhbGxvYy15
-CQkJCTo9IGdudGFsbG9jLm8KIHhlbi1wcml2Y21kLXkJCQkJOj0gcHJpdmNtZC5vIHByaXZjbWQt
-YnVmLm8KIG9iai0kKENPTkZJR19YRU5fRlJPTlRfUEdESVJfU0hCVUYpCSs9IHhlbi1mcm9udC1w
-Z2Rpci1zaGJ1Zi5vCitvYmotJChDT05GSUdfWk9ORV9ERVZJQ0UpCQkrPSB1bnBvcHVsYXRlZC1h
-bGxvYy5vCmRpZmYgLS1naXQgYS9kcml2ZXJzL3hlbi9iYWxsb29uLmMgYi9kcml2ZXJzL3hlbi9i
-YWxsb29uLmMKaW5kZXggYjFkOGIwMjhiZjgwLi44MTVlZjEwZWIyZmYgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMveGVuL2JhbGxvb24uYworKysgYi9kcml2ZXJzL3hlbi9iYWxsb29uLmMKQEAgLTY1NCw3
-ICs2NTQsNyBAQCB2b2lkIGZyZWVfeGVuYmFsbG9vbmVkX3BhZ2VzKGludCBucl9wYWdlcywgc3Ry
-dWN0IHBhZ2UgKipwYWdlcykKIH0KIEVYUE9SVF9TWU1CT0woZnJlZV94ZW5iYWxsb29uZWRfcGFn
-ZXMpOwogCi0jaWZkZWYgQ09ORklHX1hFTl9QVgorI2lmIGRlZmluZWQoQ09ORklHX1hFTl9QVikg
-JiYgIWRlZmluZWQoQ09ORklHX1pPTkVfREVWSUNFKQogc3RhdGljIHZvaWQgX19pbml0IGJhbGxv
-b25fYWRkX3JlZ2lvbih1bnNpZ25lZCBsb25nIHN0YXJ0X3BmbiwKIAkJCQkgICAgICB1bnNpZ25l
-ZCBsb25nIHBhZ2VzKQogewpAQCAtNzA4LDcgKzcwOCw3IEBAIHN0YXRpYyBpbnQgX19pbml0IGJh
-bGxvb25faW5pdCh2b2lkKQogCXJlZ2lzdGVyX3N5c2N0bF90YWJsZSh4ZW5fcm9vdCk7CiAjZW5k
-aWYKIAotI2lmZGVmIENPTkZJR19YRU5fUFYKKyNpZiBkZWZpbmVkKENPTkZJR19YRU5fUFYpICYm
-ICFkZWZpbmVkKENPTkZJR19aT05FX0RFVklDRSkKIAl7CiAJCWludCBpOwogCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL3hlbi9ncmFudC10YWJsZS5jIGIvZHJpdmVycy94ZW4vZ3JhbnQtdGFibGUuYwpp
-bmRleCA4ZDA2YmYxY2MzNDcuLjUyM2RjZGYzOWNjOSAxMDA2NDQKLS0tIGEvZHJpdmVycy94ZW4v
-Z3JhbnQtdGFibGUuYworKysgYi9kcml2ZXJzL3hlbi9ncmFudC10YWJsZS5jCkBAIC04MDEsNyAr
-ODAxLDcgQEAgaW50IGdudHRhYl9hbGxvY19wYWdlcyhpbnQgbnJfcGFnZXMsIHN0cnVjdCBwYWdl
-ICoqcGFnZXMpCiB7CiAJaW50IHJldDsKIAotCXJldCA9IGFsbG9jX3hlbmJhbGxvb25lZF9wYWdl
-cyhucl9wYWdlcywgcGFnZXMpOworCXJldCA9IHhlbl9hbGxvY191bnBvcHVsYXRlZF9wYWdlcyhu
-cl9wYWdlcywgcGFnZXMpOwogCWlmIChyZXQgPCAwKQogCQlyZXR1cm4gcmV0OwogCkBAIC04MzYs
-NyArODM2LDcgQEAgRVhQT1JUX1NZTUJPTF9HUEwoZ250dGFiX3BhZ2VzX2NsZWFyX3ByaXZhdGUp
-Owogdm9pZCBnbnR0YWJfZnJlZV9wYWdlcyhpbnQgbnJfcGFnZXMsIHN0cnVjdCBwYWdlICoqcGFn
-ZXMpCiB7CiAJZ250dGFiX3BhZ2VzX2NsZWFyX3ByaXZhdGUobnJfcGFnZXMsIHBhZ2VzKTsKLQlm
-cmVlX3hlbmJhbGxvb25lZF9wYWdlcyhucl9wYWdlcywgcGFnZXMpOworCXhlbl9mcmVlX3VucG9w
-dWxhdGVkX3BhZ2VzKG5yX3BhZ2VzLCBwYWdlcyk7CiB9CiBFWFBPUlRfU1lNQk9MX0dQTChnbnR0
-YWJfZnJlZV9wYWdlcyk7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMveGVuL3ByaXZjbWQuYyBiL2Ry
-aXZlcnMveGVuL3ByaXZjbWQuYwppbmRleCBhMjUwZDExODE0NGEuLjU2MDAwYWI3MDk3NCAxMDA2
-NDQKLS0tIGEvZHJpdmVycy94ZW4vcHJpdmNtZC5jCisrKyBiL2RyaXZlcnMveGVuL3ByaXZjbWQu
-YwpAQCAtNDI1LDcgKzQyNSw3IEBAIHN0YXRpYyBpbnQgYWxsb2NfZW1wdHlfcGFnZXMoc3RydWN0
-IHZtX2FyZWFfc3RydWN0ICp2bWEsIGludCBudW1wZ3MpCiAJaWYgKHBhZ2VzID09IE5VTEwpCiAJ
-CXJldHVybiAtRU5PTUVNOwogCi0JcmMgPSBhbGxvY194ZW5iYWxsb29uZWRfcGFnZXMobnVtcGdz
-LCBwYWdlcyk7CisJcmMgPSB4ZW5fYWxsb2NfdW5wb3B1bGF0ZWRfcGFnZXMobnVtcGdzLCBwYWdl
-cyk7CiAJaWYgKHJjICE9IDApIHsKIAkJcHJfd2FybigiJXMgQ291bGQgbm90IGFsbG9jICVkIHBm
-bnMgcmM6JWRcbiIsIF9fZnVuY19fLAogCQkJbnVtcGdzLCByYyk7CkBAIC05MDAsNyArOTAwLDcg
-QEAgc3RhdGljIHZvaWQgcHJpdmNtZF9jbG9zZShzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkK
-IAogCXJjID0geGVuX3VubWFwX2RvbWFpbl9nZm5fcmFuZ2Uodm1hLCBudW1nZm5zLCBwYWdlcyk7
-CiAJaWYgKHJjID09IDApCi0JCWZyZWVfeGVuYmFsbG9vbmVkX3BhZ2VzKG51bXBncywgcGFnZXMp
-OworCQl4ZW5fZnJlZV91bnBvcHVsYXRlZF9wYWdlcyhudW1wZ3MsIHBhZ2VzKTsKIAllbHNlCiAJ
-CXByX2NyaXQoInVuYWJsZSB0byB1bm1hcCBNRk4gcmFuZ2U6IGxlYWtpbmcgJWQgcGFnZXMuIHJj
-PSVkXG4iLAogCQkJbnVtcGdzLCByYyk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL3hlbi91bnBvcHVs
-YXRlZC1hbGxvYy5jIGIvZHJpdmVycy94ZW4vdW5wb3B1bGF0ZWQtYWxsb2MuYwpuZXcgZmlsZSBt
-b2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLmFhYTkxY2VmYmJmOQotLS0gL2Rldi9udWxs
-CisrKyBiL2RyaXZlcnMveGVuL3VucG9wdWxhdGVkLWFsbG9jLmMKQEAgLTAsMCArMSwyMjIgQEAK
-Ky8qCisgKiBIZWxwZXJzIHRvIGFsbG9jYXRlIHVucG9wdWxhdGVkIG1lbW9yeSBmb3IgZm9yZWln
-biBtYXBwaW5ncworICoKKyAqIENvcHlyaWdodCAoYykgMjAyMCwgQ2l0cml4IFN5c3RlbXMgUiZE
-CisgKgorICogVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmli
-dXRlIGl0IGFuZC9vcgorICogbW9kaWZ5IGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdl
-bmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAyCisgKiBhcyBwdWJsaXNoZWQgYnkgdGhlIEZy
-ZWUgU29mdHdhcmUgRm91bmRhdGlvbjsgb3IsIHdoZW4gZGlzdHJpYnV0ZWQKKyAqIHNlcGFyYXRl
-bHkgZnJvbSB0aGUgTGludXgga2VybmVsIG9yIGluY29ycG9yYXRlZCBpbnRvIG90aGVyCisgKiBz
-b2Z0d2FyZSBwYWNrYWdlcywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisgKgor
-ICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBw
-ZXJzb24gb2J0YWluaW5nIGEgY29weQorICogb2YgdGhpcyBzb3VyY2UgZmlsZSAodGhlICJTb2Z0
-d2FyZSIpLCB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0CisgKiByZXN0cmljdGlvbiwg
-aW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbiB0aGUgcmlnaHRzIHRvIHVzZSwgY29weSwgbW9k
-aWZ5LAorICogbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsIGFuZC9vciBz
-ZWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsCisgKiBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8g
-d2hvbSB0aGUgU29mdHdhcmUgaXMgZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvCisgKiB0
-aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisgKgorICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3Rp
-Y2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4KKyAqIGFs
-bCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLgorICoKKyAq
-IFRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFO
-WSBLSU5ELCBFWFBSRVNTIE9SCisgKiBJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVE
-IFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSwKKyAqIEZJVE5FU1MgRk9SIEEg
-UEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuIElOIE5PIEVWRU5UIFNIQUxM
-IFRIRQorICogQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBD
-TEFJTSwgREFNQUdFUyBPUiBPVEhFUgorICogTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElP
-TiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcKKyAqIEZST00sIE9VVCBP
-RiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIg
-REVBTElOR1MKKyAqIElOIFRIRSBTT0ZUV0FSRS4KKyAqLworCisjaW5jbHVkZSA8bGludXgvZXJy
-bm8uaD4KKyNpbmNsdWRlIDxsaW51eC9nZnAuaD4KKyNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4K
-KyNpbmNsdWRlIDxsaW51eC9tbS5oPgorI2luY2x1ZGUgPGxpbnV4L21lbXJlbWFwLmg+CisjaW5j
-bHVkZSA8bGludXgvc2xhYi5oPgorCisjaW5jbHVkZSA8YXNtL3BhZ2UuaD4KKworI2luY2x1ZGUg
-PHhlbi9wYWdlLmg+CisjaW5jbHVkZSA8eGVuL3hlbi5oPgorCitzdGF0aWMgREVGSU5FX01VVEVY
-KGxvY2spOworc3RhdGljIExJU1RfSEVBRChsaXN0KTsKK3N0YXRpYyB1bnNpZ25lZCBpbnQgY291
-bnQ7CisKK3N0YXRpYyBpbnQgZmlsbCh1bnNpZ25lZCBpbnQgbnJfcGFnZXMpCit7CisJc3RydWN0
-IGRldl9wYWdlbWFwICpwZ21hcDsKKwl2b2lkICp2YWRkcjsKKwl1bnNpZ25lZCBpbnQgaSwgYWxs
-b2NfcGFnZXMgPSByb3VuZF91cChucl9wYWdlcywgUEFHRVNfUEVSX1NFQ1RJT04pOworCWludCBu
-aWQsIHJldDsKKworCXBnbWFwID0ga3phbGxvYyhzaXplb2YoKnBnbWFwKSwgR0ZQX0tFUk5FTCk7
-CisJaWYgKCFwZ21hcCkKKwkJcmV0dXJuIC1FTk9NRU07CisKKwlwZ21hcC0+dHlwZSA9IE1FTU9S
-WV9ERVZJQ0VfREVWREFYOworCXBnbWFwLT5yZXMubmFtZSA9ICJYRU4gU0NSQVRDSCI7CisJcGdt
-YXAtPnJlcy5mbGFncyA9IElPUkVTT1VSQ0VfTUVNIHwgSU9SRVNPVVJDRV9CVVNZOworCisJcmV0
-ID0gYWxsb2NhdGVfcmVzb3VyY2UoJmlvbWVtX3Jlc291cmNlLCAmcGdtYXAtPnJlcywKKwkJCQlh
-bGxvY19wYWdlcyAqIFBBR0VfU0laRSwgMCwgLTEsCisJCQkJUEFHRVNfUEVSX1NFQ1RJT04gKiBQ
-QUdFX1NJWkUsIE5VTEwsIE5VTEwpOworCWlmIChyZXQgPCAwKSB7CisJCXByX2VycigiQ2Fubm90
-IGFsbG9jYXRlIG5ldyBJT01FTSByZXNvdXJjZVxuIik7CisJCWtmcmVlKHBnbWFwKTsKKwkJcmV0
-dXJuIHJldDsKKwl9CisKKwluaWQgPSBtZW1vcnlfYWRkX3BoeXNhZGRyX3RvX25pZChwZ21hcC0+
-cmVzLnN0YXJ0KTsKKworI2lmZGVmIENPTkZJR19YRU5fSEFWRV9QVk1NVQorCS8qCisJICogV2Ug
-ZG9uJ3Qgc3VwcG9ydCBQViBNTVUgd2hlbiBMaW51eCBhbmQgWGVuIGlzIHVzaW5nCisJICogZGlm
-ZmVyZW50IHBhZ2UgZ3JhbnVsYXJpdHkuCisJICovCisJQlVJTERfQlVHX09OKFhFTl9QQUdFX1NJ
-WkUgIT0gUEFHRV9TSVpFKTsKKworICAgICAgICAvKgorICAgICAgICAgKiBtZW1yZW1hcCB3aWxs
-IGJ1aWxkIHBhZ2UgdGFibGVzIGZvciB0aGUgbmV3IG1lbW9yeSBzbworICAgICAgICAgKiB0aGUg
-cDJtIG11c3QgY29udGFpbiBpbnZhbGlkIGVudHJpZXMgc28gdGhlIGNvcnJlY3QKKyAgICAgICAg
-ICogbm9uLXByZXNlbnQgUFRFcyB3aWxsIGJlIHdyaXR0ZW4uCisgICAgICAgICAqCisgICAgICAg
-ICAqIElmIGEgZmFpbHVyZSBvY2N1cnMsIHRoZSBvcmlnaW5hbCAoaWRlbnRpdHkpIHAybSBlbnRy
-aWVzCisgICAgICAgICAqIGFyZSBub3QgcmVzdG9yZWQgc2luY2UgdGhpcyByZWdpb24gaXMgbm93
-IGtub3duIG5vdCB0bworICAgICAgICAgKiBjb25mbGljdCB3aXRoIGFueSBkZXZpY2VzLgorICAg
-ICAgICAgKi8KKwlpZiAoIXhlbl9mZWF0dXJlKFhFTkZFQVRfYXV0b190cmFuc2xhdGVkX3BoeXNt
-YXApKSB7CisJCXhlbl9wZm5fdCBwZm4gPSBQRk5fRE9XTihwZ21hcC0+cmVzLnN0YXJ0KTsKKwor
-CQlmb3IgKGkgPSAwOyBpIDwgYWxsb2NfcGFnZXM7IGkrKykgeworCQkJaWYgKCFzZXRfcGh5c190
-b19tYWNoaW5lKHBmbiArIGksIElOVkFMSURfUDJNX0VOVFJZKSkgeworCQkJCXByX3dhcm4oInNl
-dF9waHlzX3RvX21hY2hpbmUoKSBmYWlsZWQsIG5vIG1lbW9yeSBhZGRlZFxuIik7CisJCQkJcmVs
-ZWFzZV9yZXNvdXJjZSgmcGdtYXAtPnJlcyk7CisJCQkJa2ZyZWUocGdtYXApOworCQkJCXJldHVy
-biAtRU5PTUVNOworCQkJfQorICAgICAgICAgICAgICAgIH0KKwl9CisjZW5kaWYKKworCXZhZGRy
-ID0gbWVtcmVtYXBfcGFnZXMocGdtYXAsIG5pZCk7CisJaWYgKElTX0VSUih2YWRkcikpIHsKKwkJ
-cHJfZXJyKCJDYW5ub3QgcmVtYXAgbWVtb3J5IHJhbmdlXG4iKTsKKwkJcmVsZWFzZV9yZXNvdXJj
-ZSgmcGdtYXAtPnJlcyk7CisJCWtmcmVlKHBnbWFwKTsKKwkJcmV0dXJuIFBUUl9FUlIodmFkZHIp
-OworCX0KKworCWZvciAoaSA9IDA7IGkgPCBhbGxvY19wYWdlczsgaSsrKSB7CisJCXN0cnVjdCBw
-YWdlICpwZyA9IHZpcnRfdG9fcGFnZSh2YWRkciArIFBBR0VfU0laRSAqIGkpOworCisJCUJVR19P
-TighdmlydF9hZGRyX3ZhbGlkKHZhZGRyICsgUEFHRV9TSVpFICogaSkpOworCQlsaXN0X2FkZCgm
-cGctPmxydSwgJmxpc3QpOworCQljb3VudCsrOworCX0KKworCXJldHVybiAwOworfQorCisvKioK
-KyAqIHhlbl9hbGxvY191bnBvcHVsYXRlZF9wYWdlcyAtIGFsbG9jIHVucG9wdWxhdGVkIHBhZ2Vz
-CisgKiBAbnJfcGFnZXM6IE51bWJlciBvZiBwYWdlcworICogQHBhZ2VzOiBwYWdlcyByZXR1cm5l
-ZAorICogQHJldHVybiAwIG9uIHN1Y2Nlc3MsIGVycm9yIG90aGVyd2lzZQorICovCitpbnQgeGVu
-X2FsbG9jX3VucG9wdWxhdGVkX3BhZ2VzKHVuc2lnbmVkIGludCBucl9wYWdlcywgc3RydWN0IHBh
-Z2UgKipwYWdlcykKK3sKKwl1bnNpZ25lZCBpbnQgaTsKKwlpbnQgcmV0ID0gMDsKKworCW11dGV4
-X2xvY2soJmxvY2spOworCWlmIChjb3VudCA8IG5yX3BhZ2VzKSB7CisJCXJldCA9IGZpbGwobnJf
-cGFnZXMpOworCQlpZiAocmV0KQorCQkJZ290byBvdXQ7CisJfQorCisJZm9yIChpID0gMDsgaSA8
-IG5yX3BhZ2VzOyBpKyspIHsKKwkJc3RydWN0IHBhZ2UgKnBnID0gbGlzdF9maXJzdF9lbnRyeV9v
-cl9udWxsKCZsaXN0LCBzdHJ1Y3QgcGFnZSwKKwkJCQkJCQkgICBscnUpOworCisJCUJVR19PTigh
-cGcpOworCQlsaXN0X2RlbCgmcGctPmxydSk7CisJCWNvdW50LS07CisJCXBhZ2VzW2ldID0gcGc7
-CisKKyNpZmRlZiBDT05GSUdfWEVOX0hBVkVfUFZNTVUKKwkJLyoKKwkJICogV2UgZG9uJ3Qgc3Vw
-cG9ydCBQViBNTVUgd2hlbiBMaW51eCBhbmQgWGVuIGlzIHVzaW5nCisJCSAqIGRpZmZlcmVudCBw
-YWdlIGdyYW51bGFyaXR5LgorCQkgKi8KKwkJQlVJTERfQlVHX09OKFhFTl9QQUdFX1NJWkUgIT0g
-UEFHRV9TSVpFKTsKKworCQlpZiAoIXhlbl9mZWF0dXJlKFhFTkZFQVRfYXV0b190cmFuc2xhdGVk
-X3BoeXNtYXApKSB7CisJCQlyZXQgPSB4ZW5fYWxsb2NfcDJtX2VudHJ5KHBhZ2VfdG9fcGZuKHBn
-KSk7CisJCQlpZiAocmV0IDwgMCkgeworCQkJCXVuc2lnbmVkIGludCBqOworCisJCQkJZm9yIChq
-ID0gMDsgaiA8PSBpOyBqKyspIHsKKwkJCQkJbGlzdF9hZGQoJnBhZ2VzW2pdLT5scnUsICZsaXN0
-KTsKKwkJCQkJY291bnQrKzsKKwkJCQl9CisJCQkJZ290byBvdXQ7CisJCQl9CisJCX0KKyNlbmRp
-ZgorCX0KKworb3V0OgorCW11dGV4X3VubG9jaygmbG9jayk7CisJcmV0dXJuIHJldDsKK30KK0VY
-UE9SVF9TWU1CT0woeGVuX2FsbG9jX3VucG9wdWxhdGVkX3BhZ2VzKTsKKworLyoqCisgKiB4ZW5f
-ZnJlZV91bnBvcHVsYXRlZF9wYWdlcyAtIHJldHVybiB1bnBvcHVsYXRlZCBwYWdlcworICogQG5y
-X3BhZ2VzOiBOdW1iZXIgb2YgcGFnZXMKKyAqIEBwYWdlczogcGFnZXMgdG8gcmV0dXJuCisgKi8K
-K3ZvaWQgeGVuX2ZyZWVfdW5wb3B1bGF0ZWRfcGFnZXModW5zaWduZWQgaW50IG5yX3BhZ2VzLCBz
-dHJ1Y3QgcGFnZSAqKnBhZ2VzKQoreworCXVuc2lnbmVkIGludCBpOworCisJbXV0ZXhfbG9jaygm
-bG9jayk7CisJZm9yIChpID0gMDsgaSA8IG5yX3BhZ2VzOyBpKyspIHsKKwkJbGlzdF9hZGQoJnBh
-Z2VzW2ldLT5scnUsICZsaXN0KTsKKwkJY291bnQrKzsKKwl9CisJbXV0ZXhfdW5sb2NrKCZsb2Nr
-KTsKK30KK0VYUE9SVF9TWU1CT0woeGVuX2ZyZWVfdW5wb3B1bGF0ZWRfcGFnZXMpOworCisjaWZk
-ZWYgQ09ORklHX1hFTl9QVgorc3RhdGljIGludCBfX2luaXQgaW5pdCh2b2lkKQoreworCXVuc2ln
-bmVkIGludCBpOworCisJaWYgKCF4ZW5fZG9tYWluKCkpCisJCXJldHVybiAtRU5PREVWOworCisJ
-LyoKKwkgKiBJbml0aWFsaXplIHdpdGggcGFnZXMgZnJvbSB0aGUgZXh0cmEgbWVtb3J5IHJlZ2lv
-bnMgKHNlZQorCSAqIGFyY2gveDg2L3hlbi9zZXR1cC5jKS4KKwkgKi8KKwlmb3IgKGkgPSAwOyBp
-IDwgWEVOX0VYVFJBX01FTV9NQVhfUkVHSU9OUzsgaSsrKSB7CisJCXVuc2lnbmVkIGludCBqOwor
-CisJCWZvciAoaiA9IDA7IGogPCB4ZW5fZXh0cmFfbWVtW2ldLm5fcGZuczsgaisrKSB7CisJCQlz
-dHJ1Y3QgcGFnZSAqcGcgPQorCQkJCXBmbl90b19wYWdlKHhlbl9leHRyYV9tZW1baV0uc3RhcnRf
-cGZuICsgaik7CisKKwkJCWxpc3RfYWRkKCZwZy0+bHJ1LCAmbGlzdCk7CisJCQljb3VudCsrOwor
-CQl9CisJfQorCisJcmV0dXJuIDA7Cit9CitzdWJzeXNfaW5pdGNhbGwoaW5pdCk7CisjZW5kaWYK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMveGVuL3hlbmJ1cy94ZW5idXNfY2xpZW50LmMgYi9kcml2ZXJz
-L3hlbi94ZW5idXMveGVuYnVzX2NsaWVudC5jCmluZGV4IDc4NmZiYjdkOGJlMC4uNzBiNmM0Nzgw
-ZmJkIDEwMDY0NAotLS0gYS9kcml2ZXJzL3hlbi94ZW5idXMveGVuYnVzX2NsaWVudC5jCisrKyBi
-L2RyaXZlcnMveGVuL3hlbmJ1cy94ZW5idXNfY2xpZW50LmMKQEAgLTYxNSw3ICs2MTUsNyBAQCBz
-dGF0aWMgaW50IHhlbmJ1c19tYXBfcmluZ19odm0oc3RydWN0IHhlbmJ1c19kZXZpY2UgKmRldiwK
-IAlib29sIGxlYWtlZCA9IGZhbHNlOwogCXVuc2lnbmVkIGludCBucl9wYWdlcyA9IFhFTkJVU19Q
-QUdFUyhucl9ncmVmcyk7CiAKLQllcnIgPSBhbGxvY194ZW5iYWxsb29uZWRfcGFnZXMobnJfcGFn
-ZXMsIG5vZGUtPmh2bS5wYWdlcyk7CisJZXJyID0geGVuX2FsbG9jX3VucG9wdWxhdGVkX3BhZ2Vz
-KG5yX3BhZ2VzLCBub2RlLT5odm0ucGFnZXMpOwogCWlmIChlcnIpCiAJCWdvdG8gb3V0X2VycjsK
-IApAQCAtNjU2LDcgKzY1Niw3IEBAIHN0YXRpYyBpbnQgeGVuYnVzX21hcF9yaW5nX2h2bShzdHJ1
-Y3QgeGVuYnVzX2RldmljZSAqZGV2LAogCQkJIGFkZHIsIG5yX3BhZ2VzKTsKICBvdXRfZnJlZV9i
-YWxsb29uZWRfcGFnZXM6CiAJaWYgKCFsZWFrZWQpCi0JCWZyZWVfeGVuYmFsbG9vbmVkX3BhZ2Vz
-KG5yX3BhZ2VzLCBub2RlLT5odm0ucGFnZXMpOworCQl4ZW5fZnJlZV91bnBvcHVsYXRlZF9wYWdl
-cyhucl9wYWdlcywgbm9kZS0+aHZtLnBhZ2VzKTsKICBvdXRfZXJyOgogCXJldHVybiBlcnI7CiB9
-CkBAIC04NTIsNyArODUyLDcgQEAgc3RhdGljIGludCB4ZW5idXNfdW5tYXBfcmluZ19odm0oc3Ry
-dWN0IHhlbmJ1c19kZXZpY2UgKmRldiwgdm9pZCAqdmFkZHIpCiAJCQkgICAgICAgaW5mby5hZGRy
-cyk7CiAJaWYgKCFydikgewogCQl2dW5tYXAodmFkZHIpOwotCQlmcmVlX3hlbmJhbGxvb25lZF9w
-YWdlcyhucl9wYWdlcywgbm9kZS0+aHZtLnBhZ2VzKTsKKwkJeGVuX2ZyZWVfdW5wb3B1bGF0ZWRf
-cGFnZXMobnJfcGFnZXMsIG5vZGUtPmh2bS5wYWdlcyk7CiAJfQogCWVsc2UKIAkJV0FSTigxLCAi
-TGVha2luZyAlcCwgc2l6ZSAldSBwYWdlKHMpXG4iLCB2YWRkciwgbnJfcGFnZXMpOwpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy94ZW4veGxhdGVfbW11LmMgYi9kcml2ZXJzL3hlbi94bGF0ZV9tbXUuYwpp
-bmRleCA3YjEwNzdmMGFiY2IuLjM0NzQyYzZlMTg5ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy94ZW4v
-eGxhdGVfbW11LmMKKysrIGIvZHJpdmVycy94ZW4veGxhdGVfbW11LmMKQEAgLTIzMiw3ICsyMzIs
-NyBAQCBpbnQgX19pbml0IHhlbl94bGF0ZV9tYXBfYmFsbG9vbmVkX3BhZ2VzKHhlbl9wZm5fdCAq
-KmdmbnMsIHZvaWQgKip2aXJ0LAogCQlrZnJlZShwYWdlcyk7CiAJCXJldHVybiAtRU5PTUVNOwog
-CX0KLQlyYyA9IGFsbG9jX3hlbmJhbGxvb25lZF9wYWdlcyhucl9wYWdlcywgcGFnZXMpOworCXJj
-ID0geGVuX2FsbG9jX3VucG9wdWxhdGVkX3BhZ2VzKG5yX3BhZ2VzLCBwYWdlcyk7CiAJaWYgKHJj
-KSB7CiAJCXByX3dhcm4oIiVzIENvdWxkbid0IGJhbGxvb24gYWxsb2MgJWxkIHBhZ2VzIHJjOiVk
-XG4iLCBfX2Z1bmNfXywKIAkJCW5yX3BhZ2VzLCByYyk7CkBAIC0yNDksNyArMjQ5LDcgQEAgaW50
-IF9faW5pdCB4ZW5feGxhdGVfbWFwX2JhbGxvb25lZF9wYWdlcyh4ZW5fcGZuX3QgKipnZm5zLCB2
-b2lkICoqdmlydCwKIAlpZiAoIXZhZGRyKSB7CiAJCXByX3dhcm4oIiVzIENvdWxkbid0IG1hcCAl
-bGQgcGFnZXMgcmM6JWRcbiIsIF9fZnVuY19fLAogCQkJbnJfcGFnZXMsIHJjKTsKLQkJZnJlZV94
-ZW5iYWxsb29uZWRfcGFnZXMobnJfcGFnZXMsIHBhZ2VzKTsKKwkJeGVuX2ZyZWVfdW5wb3B1bGF0
-ZWRfcGFnZXMobnJfcGFnZXMsIHBhZ2VzKTsKIAkJa2ZyZWUocGFnZXMpOwogCQlrZnJlZShwZm5z
-KTsKIAkJcmV0dXJuIC1FTk9NRU07CmRpZmYgLS1naXQgYS9pbmNsdWRlL3hlbi94ZW4uaCBiL2lu
-Y2x1ZGUveGVuL3hlbi5oCmluZGV4IDE5YTcyZjU5MWUyYi4uYWEzM2JjMGQ5MzNjIDEwMDY0NAot
-LS0gYS9pbmNsdWRlL3hlbi94ZW4uaAorKysgYi9pbmNsdWRlL3hlbi94ZW4uaApAQCAtNTIsNCAr
-NTIsMTIgQEAgYm9vbCB4ZW5fYmlvdmVjX3BoeXNfbWVyZ2VhYmxlKGNvbnN0IHN0cnVjdCBiaW9f
-dmVjICp2ZWMxLAogZXh0ZXJuIHU2NCB4ZW5fc2F2ZWRfbWF4X21lbV9zaXplOwogI2VuZGlmCiAK
-KyNpZmRlZiBDT05GSUdfWk9ORV9ERVZJQ0UKK2ludCB4ZW5fYWxsb2NfdW5wb3B1bGF0ZWRfcGFn
-ZXModW5zaWduZWQgaW50IG5yX3BhZ2VzLCBzdHJ1Y3QgcGFnZSAqKnBhZ2VzKTsKK3ZvaWQgeGVu
-X2ZyZWVfdW5wb3B1bGF0ZWRfcGFnZXModW5zaWduZWQgaW50IG5yX3BhZ2VzLCBzdHJ1Y3QgcGFn
-ZSAqKnBhZ2VzKTsKKyNlbHNlCisjZGVmaW5lIHhlbl9hbGxvY191bnBvcHVsYXRlZF9wYWdlcyBh
-bGxvY194ZW5iYWxsb29uZWRfcGFnZXMKKyNkZWZpbmUgeGVuX2ZyZWVfdW5wb3B1bGF0ZWRfcGFn
-ZXMgZnJlZV94ZW5iYWxsb29uZWRfcGFnZXMKKyNlbmRpZgorCiAjZW5kaWYJLyogX1hFTl9YRU5f
-SCAqLwotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+
+Patchset Summary:
+  Enhance a PCIe host controller driver.  Because of its unusual design
+  we are foced to change dev->dma_pfn_offset into a more general role
+  allowing multiple offsets.  See the 'v1' notes below for more info.
+
+NOTE: ChristophH wanted the dma_set_offset_range() function
+      to have a range from [0...~(phys_addr_t)0], i.e. no specific
+      bounds.  RobinM requested this function to have specific bounds,
+      which has been implemented since v6.  If I do not hear from
+      Robin in the near future about this request, I will submit
+      v10 which will have no specific bounds.
+
+v9:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- A number of code improvements were implemented as suggested by
+     ChristophH.  Unfortunately, some of these changes reversed the
+     implemented suggestions of other reviewers; for example, the new
+     macros PFN_DMA_ADDR(), DMA_ADDR_PFN() have been pulled.
+
+v8:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- To satisfy a specific m68 compile configuration, I moved the 'struct
+     bus_dma_region; definition out of #ifdef CONFIG_HAS_DMA and also defined
+     three inline functions for !CONFIG_HAS_DMA (kernel test robot).
+  -- The sunXi drivers -- suc4i_csi, sun6i_csi, cedrus_hw -- set
+     a pfn_offset outside of_dma_configure() but the code offers no 
+     insight on the size of the translation window.  V7 had me using
+     SIZE_MAX as the size.  I have since contacted the sunXi maintainer and
+     he said that using a size of SZ_4G would cover sunXi configurations.
+
+v7:
+  Commit: "device core: Introduce DMA range map, supplanting ..."
+  -- remove second kcalloc/copy in device.c (AndyS)
+  -- use PTR_ERR_OR_ZERO() and PHYS_PFN() (AndyS)
+  -- indentation, sizeof(struct ...) => sizeof(*r) (AndyS)
+  -- add pfn.h definitions: PFN_DMA_ADDR(), DMA_ADDR_PFN() (AndyS)
+  -- Fixed compile error in "sun6i_csi.c" (kernel test robot)
+  Commit "ata: ahci_brcm: Fix use of BCM7216 reset controller"
+  -- correct name of function in the commit msg (SergeiS)
+  
+v6:
+  Commit "device core: Introduce DMA range map":
+  -- of_dma_get_range() now takes a single argument and returns either
+     NULL, a valid map, or an ERR_PTR. (Robin)
+  -- offsets are no longer a PFN value but an actual address. (Robin)
+  -- the bus_dma_region struct stores the range size instead of
+     the cpu_end and pci_end values. (Robin)
+  -- devices that were setting a single offset with no boundaries
+     have been modified to have boundaries; in a few places
+     where this information was unavilable a /* FIXME: ... */
+     comment was added. (Robin)
+  -- dma_attach_offset_range() can be called when an offset
+     map already exists; if it's range is already present
+     nothing is done and success is returned. (Robin)
+  All commits:
+  -- Man name/style/corrections/etc changed (Bjorn)
+  -- rebase to Torvalds master
+
+v5:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- in of/address.c: "map_size = 0" => "*map_size = 0"
+  -- use kcalloc instead of kzalloc (AndyS)
+  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
+  Commit "PCI: brcmstb: Set internal memory viewport sizes"
+  -- now gives error on missing dma-ranges property.
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
+  All Commits:
+  -- indentation style, use max chars 100 (AndyS)
+  -- rebased to torvalds master
+
+v4:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  -- of_dma_get_range() does not take a dev param but instead
+     takes two "out" params: map and map_size.  We do this so
+     that the code that parses dma-ranges is separate from
+     the code that modifies 'dev'.   (Nicolas)
+  -- the separate case of having a single pfn offset has
+     been removed and is now processed by going through the
+     map array. (Nicolas)
+  -- move attach_uniform_dma_pfn_offset() from of/address.c to
+     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
+  -- devm_kcalloc => devm_kzalloc (DanC)
+  -- add/fix assignment to dev->dma_pfn_offset_map for func
+     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
+  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
+  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
+  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
+  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- this commit was sqaushed with "device core: Introduce ..."
+
+v3:
+  Commit "device core: Introduce multiple dma pfn offsets"
+  Commit "arm: dma-mapping: Invoke dma offset func if needed"
+  -- The above two commits have been squashed.  More importantly,
+     the code has been modified so that the functionality for
+     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
+     In fact, dma_pfn_offset is removed and supplanted by
+     dma_pfn_offset_map, which is a pointer to an array.  The
+     more common case of a uniform offset is now handled as
+     a map with a single entry, while cases requiring multiple
+     pfn offsets use a map with multiple entries.  Code paths
+     that used to do this:
+
+         dev->dma_pfn_offset = mydrivers_pfn_offset;
+
+     have been changed to do this:
+
+         attach_uniform_dma_pfn_offset(dev, pfn_offset);
+
+  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
+  -- Add if/then clause for required props: resets, reset-names (RobH)
+  -- Change compatible list from const to enum (RobH)
+  -- Change list of u32-tuples to u64 (RobH)
+
+  Commit "of: Include a dev param in of_dma_get_range()"
+  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+
+  Commit "device core: Add ability to handle multiple dma offsets"
+  -- align comment in device.h (AndyS).
+  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
+     dma_pfn_offset_region (AndyS).
+
+v2:
+Commit: "device core: Add ability to handle multiple dma offsets"
+  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
+  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
+  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
+  o dev->dma_pfn_map => dev->dma_pfn_offset_map
+  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
+  o In device.h: s/const void */const struct dma_pfn_offset_region */
+  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
+    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
+  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
+    dev->dma_pfn_offset_map is copied as well.
+  o Merged two of the DMA commits into one (Christoph).
+
+Commit "arm: dma-mapping: Invoke dma offset func if needed":
+  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
+
+Other commits' changes:
+  o Removed need for carrying of_id var in priv (Nicolas)
+  o Commit message rewordings (Bjorn)
+  o Commit log messages filled to 75 chars (Bjorn)
+  o devm_reset_control_get_shared())
+    => devm_reset_control_get_optional_shared (Philipp)
+  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
+
+v1:
+This patchset expands the usefulness of the Broadcom Settop Box PCIe
+controller by building upon the PCIe driver used currently by the
+Raspbery Pi.  Other forms of this patchset were submitted by me years
+ago and not accepted; the major sticking point was the code required
+for the DMA remapping needed for the PCIe driver to work [1].
+
+There have been many changes to the DMA and OF subsystems since that
+time, making a cleaner and less intrusive patchset possible.  This
+patchset implements a generalization of "dev->dma_pfn_offset", except
+that instead of a single scalar offset it provides for multiple
+offsets via a function which depends upon the "dma-ranges" property of
+the PCIe host controller.  This is required for proper functionality
+of the BrcmSTB PCIe controller and possibly some other devices.
+
+[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+
+Jim Quinlan (12):
+  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
+  ata: ahci_brcm: Fix use of BCM7216 reset controller
+  dt-bindings: PCI: Add bindings for more Brcmstb chips
+  PCI: brcmstb: Add bcm7278 register info
+  PCI: brcmstb: Add suspend and resume pm_ops
+  PCI: brcmstb: Add bcm7278 PERST# support
+  PCI: brcmstb: Add control of rescal reset
+  device core: Introduce DMA range map, supplanting dma_pfn_offset
+  PCI: brcmstb: Set additional internal memory DMA viewport sizes
+  PCI: brcmstb: Accommodate MSI for older chips
+  PCI: brcmstb: Set bus max burst size by chip type
+  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
+
+ .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
+ arch/arm/include/asm/dma-mapping.h            |  10 +-
+ arch/arm/mach-keystone/keystone.c             |  17 +-
+ arch/sh/drivers/pci/pcie-sh7786.c             |   9 +-
+ arch/sh/kernel/dma-coherent.c                 |  15 +-
+ arch/x86/pci/sta2x11-fixup.c                  |   7 +-
+ drivers/acpi/arm64/iort.c                     |   5 +-
+ drivers/ata/ahci_brcm.c                       |  11 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |   5 +-
+ drivers/iommu/io-pgtable-arm.c                |   2 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   5 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   4 +-
+ drivers/of/address.c                          |  71 ++-
+ drivers/of/device.c                           |  43 +-
+ drivers/of/of_private.h                       |  10 +-
+ drivers/of/unittest.c                         |  32 +-
+ drivers/pci/controller/Kconfig                |   3 +-
+ drivers/pci/controller/pcie-brcmstb.c         | 409 +++++++++++++++---
+ drivers/remoteproc/remoteproc_core.c          |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   7 +-
+ drivers/usb/core/message.c                    |   4 +-
+ drivers/usb/core/usb.c                        |   2 +-
+ include/linux/device.h                        |   4 +-
+ include/linux/dma-direct.h                    |   8 +-
+ include/linux/dma-mapping.h                   |  34 ++
+ kernel/dma/coherent.c                         |  10 +-
+ kernel/dma/mapping.c                          |  63 +++
+ 27 files changed, 653 insertions(+), 195 deletions(-)
+
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
