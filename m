@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C833E22C259
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 11:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689F422C268
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 11:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A50D6E4F4;
-	Fri, 24 Jul 2020 09:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE2D16E4FE;
+	Fri, 24 Jul 2020 09:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1D76E4F4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 09:33:48 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6C766AC90;
- Fri, 24 Jul 2020 09:33:55 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] drm: add drmm_encoder_init()
-To: Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 855226E4FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 09:38:09 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id a21so6512341otq.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 02:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=QloI/GPDzWp+q7Qs2hLarS3G28tBDGG7vJeE+WSaFDY=;
+ b=IGoUBtP/pACcbKjPHN6jMDsukkq95UodtrNK0fp5UExnN13Ak7KrvQwWwFZ6IK18Lz
+ D0+z24EDdKyFHYX+O63EPpYCM+Dbj5yALPEUv3+bYEDawqReRv5R6V7Hx2aeVteeb9Cd
+ qgjsyp/2BdjbckAShW6g74rmXb6P/op9wJCRQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QloI/GPDzWp+q7Qs2hLarS3G28tBDGG7vJeE+WSaFDY=;
+ b=dATYBrZao5DkJLLU8Ut4UEOAgYh3nq/FVA+8dYLotbjkDfTkvM6mpXMlvinn35ELtd
+ oG/+KK10moF4ChakNTh1zK0pa0lk7x2g1zleQIefQmwdnMi1nQhShpn8QBcePF0o2XE1
+ uISy2eU68AZVNkLeQd0dPKakesTSH3SkhrUr0YUF/Z2xOem/FH1IPjdu7IfsYHuylBzC
+ gpI22Q05D6mRy22BqYXH7rGwgoPg7p4ESHW/3XgljuWs09VChFuTI1A0+AxId7WfmbNn
+ 6bW7YqJW0gVfCIz8ZKck+EBWTn0rvlKAZnHZ+4KlxZ3MWyZ5CYVpXRfTmcapgFl97jOL
+ BddQ==
+X-Gm-Message-State: AOAM532W+6eaq8h1Q4YM8ZFx8BylUofkqfaWalWOsO6XuMwTSktNIKw9
+ wKmPwRXSM7zJkdtIpnI5SYl8G9kWaBCnXqRDwFt3fA==
+X-Google-Smtp-Source: ABdhPJyMs7Is1ugkNV59QNzRgmMijFlYA0sbqFZGVsjHSCIx1690EcaeXlr+qNPMsUGQv6XQf8xPJnO9lXOc729ZnNg=
+X-Received: by 2002:a05:6830:1d0:: with SMTP id
+ r16mr8512261ota.188.1595583488497; 
+ Fri, 24 Jul 2020 02:38:08 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200723145614.18459-1-p.zabel@pengutronix.de>
  <cfffabc0edc59c33f2c0a77276bee20cafe11220.camel@pengutronix.de>
  <CAKMK7uGaAtk4AY5y=jbC7nDduRYFBfLSdHE8wykJ602Lk-3n+Q@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <6270df98-1f28-b4a6-6309-6420781cd444@suse.de>
-Date: Fri, 24 Jul 2020 11:33:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGaAtk4AY5y=jbC7nDduRYFBfLSdHE8wykJ602Lk-3n+Q@mail.gmail.com>
+ <6270df98-1f28-b4a6-6309-6420781cd444@suse.de>
+In-Reply-To: <6270df98-1f28-b4a6-6309-6420781cd444@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 24 Jul 2020 11:37:56 +0200
+Message-ID: <CAKMK7uGk=eC4prwM4hMmiANOAK37HuCauiRtBHAz3TP=DJ09SQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: add drmm_encoder_init()
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,323 +64,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sascha Hauer <kernel@pengutronix.de>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0576490755=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0576490755==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Le3jT9cHv7keWC1ZV9Pbx8Vay7Bzbyuxc"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Le3jT9cHv7keWC1ZV9Pbx8Vay7Bzbyuxc
-Content-Type: multipart/mixed; boundary="ftJnEeWVDbqJ0LO1cGiCEfEXBTy84wrmJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Sascha Hauer <kernel@pengutronix.de>
-Message-ID: <6270df98-1f28-b4a6-6309-6420781cd444@suse.de>
-Subject: Re: [PATCH v2 1/2] drm: add drmm_encoder_init()
-References: <20200723145614.18459-1-p.zabel@pengutronix.de>
- <cfffabc0edc59c33f2c0a77276bee20cafe11220.camel@pengutronix.de>
- <CAKMK7uGaAtk4AY5y=jbC7nDduRYFBfLSdHE8wykJ602Lk-3n+Q@mail.gmail.com>
-In-Reply-To: <CAKMK7uGaAtk4AY5y=jbC7nDduRYFBfLSdHE8wykJ602Lk-3n+Q@mail.gmail.com>
-
---ftJnEeWVDbqJ0LO1cGiCEfEXBTy84wrmJ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 24.07.20 um 11:07 schrieb Daniel Vetter:
-> On Fri, Jul 24, 2020 at 10:49 AM Philipp Zabel <p.zabel@pengutronix.de>=
- wrote:
->>
->> On Thu, 2020-07-23 at 16:56 +0200, Philipp Zabel wrote:
->>> Add a drm_encoder_init() variant that allocates an encoder with
->>> drmm_kzalloc() and registers drm_encoder_cleanup() with
->>> drmm_add_action_or_reset().
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->=20
-> Thanks for doing this!
->=20
->>> ---
->>> New in v2
->>> ---
->>>  drivers/gpu/drm/drm_encoder.c | 101 ++++++++++++++++++++++++++------=
---
->>>  include/drm/drm_encoder.h     |  30 ++++++++++
->>>  2 files changed, 108 insertions(+), 23 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_enco=
-der.c
->>> index e555281f43d4..91184f67333c 100644
->>> --- a/drivers/gpu/drm/drm_encoder.c
->>> +++ b/drivers/gpu/drm/drm_encoder.c
->>> @@ -26,6 +26,7 @@
->>>  #include <drm/drm_device.h>
->>>  #include <drm/drm_drv.h>
->>>  #include <drm/drm_encoder.h>
->>> +#include <drm/drm_managed.h>
->>>
->>>  #include "drm_crtc_internal.h"
->>>
->>> @@ -91,25 +92,10 @@ void drm_encoder_unregister_all(struct drm_device=
- *dev)
->>>       }
->>>  }
->>>
->>> -/**
->>> - * drm_encoder_init - Init a preallocated encoder
->>> - * @dev: drm device
->>> - * @encoder: the encoder to init
->>> - * @funcs: callbacks for this encoder
->>> - * @encoder_type: user visible type of the encoder
->>> - * @name: printf style format string for the encoder name, or NULL f=
-or default name
->>> - *
->>> - * Initialises a preallocated encoder. Encoder should be subclassed =
-as part of
->>> - * driver encoder objects. At driver unload time drm_encoder_cleanup=
-() should be
->>> - * called from the driver's &drm_encoder_funcs.destroy hook.
->>> - *
->>> - * Returns:
->>> - * Zero on success, error code on failure.
->>> - */
->>> -int drm_encoder_init(struct drm_device *dev,
->>> -                  struct drm_encoder *encoder,
->>> -                  const struct drm_encoder_funcs *funcs,
->>> -                  int encoder_type, const char *name, ...)
->>> +static int __drm_encoder_init(struct drm_device *dev,
->>> +                           struct drm_encoder *encoder,
->>> +                           const struct drm_encoder_funcs *funcs,
->>> +                           int encoder_type, const char *name, va_li=
-st ap)
->>>  {
->>>       int ret;
->>>
->>> @@ -125,11 +111,7 @@ int drm_encoder_init(struct drm_device *dev,
->>>       encoder->encoder_type =3D encoder_type;
->>>       encoder->funcs =3D funcs;
->>>       if (name) {
->>> -             va_list ap;
->>> -
->>> -             va_start(ap, name);
->>>               encoder->name =3D kvasprintf(GFP_KERNEL, name, ap);
->>> -             va_end(ap);
->>>       } else {
->>>               encoder->name =3D kasprintf(GFP_KERNEL, "%s-%d",
->>>                                         drm_encoder_enum_list[encoder=
-_type].name,
->>> @@ -150,6 +132,38 @@ int drm_encoder_init(struct drm_device *dev,
->>>
->>>       return ret;
->>>  }
->>> +
->>> +/**
->>> + * drm_encoder_init - Init a preallocated encoder
->>> + * @dev: drm device
->>> + * @encoder: the encoder to init
->>> + * @funcs: callbacks for this encoder
->>> + * @encoder_type: user visible type of the encoder
->>> + * @name: printf style format string for the encoder name, or NULL f=
-or default name
->>> + *
->>> + * Initialises a preallocated encoder. Encoder should be subclassed =
-as part of
->>> + * driver encoder objects. At driver unload time drm_encoder_cleanup=
-() should be
->>> + * called from the driver's &drm_encoder_funcs.destroy hook.
->>> + *
->>> + * Returns:
->>> + * Zero on success, error code on failure.
->>> + */
->>> +int drm_encoder_init(struct drm_device *dev,
->>> +                  struct drm_encoder *encoder,
->>> +                  const struct drm_encoder_funcs *funcs,
->>> +                  int encoder_type, const char *name, ...)
->>> +{
->>> +     va_list ap;
->>> +     int ret;
->>> +
->>> +     if (name)
->>> +             va_start(ap, name);
->>> +     ret =3D __drm_encoder_init(dev, encoder, funcs, encoder_type, n=
-ame, ap);
->>> +     if (name)
->>> +             va_end(ap);
->>> +
->>> +     return ret;
->>> +}
->>>  EXPORT_SYMBOL(drm_encoder_init);
->>>
->>>  /**
->>> @@ -181,6 +195,47 @@ void drm_encoder_cleanup(struct drm_encoder *enc=
-oder)
->>>  }
->>>  EXPORT_SYMBOL(drm_encoder_cleanup);
->>>
->>> +void drmm_encoder_init_release(struct drm_device *dev, void *ptr)
->>> +{
->>> +     struct drm_encoder *encoder =3D ptr;
->>
->> I'll add
->>
->>         if (WARN_ON(!encoder->dev))
->>                 return;
->>
->> here.
->>
->>> +     drm_encoder_cleanup(encoder);
->>> +}
->>> +
->>> +void *__drmm_encoder_init(struct drm_device *dev, size_t size, size_=
-t offset,
->>> +                       const struct drm_encoder_funcs *funcs,
->>> +                       int encoder_type, const char *name, ...)
->>> +{
->>> +     void *container;
->>> +     struct drm_encoder *encoder;
->>> +     va_list ap;
->>> +     int ret;
->>> +
->>> +     if (WARN_ON(!funcs || funcs->destroy))
->>> +             return ERR_PTR(-EINVAL);
->>> +
->>> +     container =3D drmm_kzalloc(dev, size, GFP_KERNEL);
->>> +     if (!container)
->>> +             return ERR_PTR(-EINVAL);
->>> +
->>> +     encoder =3D container + offset;
->>> +
->>> +     if (name)
->>> +             va_start(ap, name);
->>> +     ret =3D __drm_encoder_init(dev, encoder, funcs, encoder_type, n=
-ame, ap);
->>> +     if (name)
->>> +             va_end(ap);
->>> +     if (ret)
->>> +             return ERR_PTR(ret);
->>> +
->>> +     ret =3D drmm_add_action_or_reset(dev, drmm_encoder_init_release=
-, encoder);
->>> +     if (ret)
->>> +             return ERR_PTR(ret);
->>> +
->>> +     return container;
->>> +}
->>> +EXPORT_SYMBOL(__drmm_encoder_init);
->>> +
->>>  static struct drm_crtc *drm_encoder_get_crtc(struct drm_encoder *enc=
-oder)
->>>  {
->>>       struct drm_connector *connector;
->>> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
->>> index a60f5f1555ac..54b82554ee88 100644
->>> --- a/include/drm/drm_encoder.h
->>> +++ b/include/drm/drm_encoder.h
->>> @@ -195,6 +195,36 @@ int drm_encoder_init(struct drm_device *dev,
->>>                    const struct drm_encoder_funcs *funcs,
->>>                    int encoder_type, const char *name, ...);
->>>
->>> +__printf(6, 7)
->>> +void *__drmm_encoder_init(struct drm_device *dev,
->>> +                       size_t size, size_t offset,
->>> +                       const struct drm_encoder_funcs *funcs,
->>> +                       int encoder_type,
->>> +                       const char *name, ...);
->>> +
->>> +/**
->>> + * drmm_encoder_init - Allocate and initialize an encoder
->>> + * @dev: drm device
->>> + * @type: the type of the struct which contains struct &drm_encoder
->>> + * @member: the name of the &drm_encoder within @type.
->>> + * @funcs: callbacks for this encoder
->>> + * @encoder_type: user visible type of the encoder
->>> + * @name: printf style format string for the encoder name, or NULL f=
-or default name
->>> + *
->>> + * Allocates and initializes an encoder. Encoder should be subclasse=
-d as part of
->>> + * driver encoder objects. Cleanup is automatically handled through =
-registering
->>> + * drm_encoder_cleanup() with drmm_add_action().
->>> + *
->>> + * The @drm_encoder_funcs.destroy hook must be NULL.
->>> + *
->>> + * Returns:
->>> + * Pointer to new encoder, or ERR_PTR on failure.
->>> + */
->>> +#define drmm_encoder_init(dev, type, member, funcs, encoder_type, na=
-me, ...) \
->>> +     ((type *) __drmm_encoder_init(dev, sizeof(type), \
->>> +                                   offsetof(type, member), funcs, \
->>> +                                   encoder_type, name, ##__VA_ARGS__=
-))
->>> +
->>
->> Should this be called drmm_encoder_alloc instead?
->=20
-> Yes. Same for the internal helper for consistency. Also see my other
-
-I'd suggest calling it drmm_encoder_create() to express that it's _alloc
-+ _init. Calling it just _alloc sounds as if it doesn't do the _init.
-
-Best regards
-Thomas
-
-> reply, if the _alloc() variant is all that's needed that makes me
-> happy, since then we don't need to code up the drmm_assert_managed
-> check for the _init() variants to make sure drivers dont give it
-> something stupid like a devm_kzalloc range :-)
-> -Daniel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---ftJnEeWVDbqJ0LO1cGiCEfEXBTy84wrmJ--
-
---Le3jT9cHv7keWC1ZV9Pbx8Vay7Bzbyuxc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8aqvYUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiM6Jgf9GJolzclnUSdg+sdPaGYj9qP09taz
-RxSeE3vvE/kxhCeb2gufOJZtQJLjKHKAAAhd7yqhJlXAL5Efz/51VRqKekKDEF24
-G1D0Wqtm3itYpDQaU9D6xiUs3QTaGkAd54rD/LmEEPAFO0jkXIDtlvPJv2VhumMJ
-XBVCgtPeogv1b3I8FAGtMgWr0qWRYNfAXsIiqkiQ5QRGmbYv+7j8jVs1iMQaq3c5
-JlbE1YgWdXnbaH1+CFXj7iIWAOr7ihyHqbZD12rn/5lreuq0pcJ5sVwk0dWTgsSJ
-ZE4SL9k/kfhM9fF2Wcr8D5LIBP0dX0yq0YL0LqFs6JK0gGcW/FMx+7/z4Q==
-=Mc2W
------END PGP SIGNATURE-----
-
---Le3jT9cHv7keWC1ZV9Pbx8Vay7Bzbyuxc--
-
---===============0576490755==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0576490755==--
+T24gRnJpLCBKdWwgMjQsIDIwMjAgYXQgMTE6MzMgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IEFtIDI0LjA3LjIwIHVtIDExOjA3IHNj
+aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIEZyaSwgSnVsIDI0LCAyMDIwIGF0IDEwOjQ5IEFN
+IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+IHdyb3RlOgo+ID4+Cj4gPj4g
+T24gVGh1LCAyMDIwLTA3LTIzIGF0IDE2OjU2ICswMjAwLCBQaGlsaXBwIFphYmVsIHdyb3RlOgo+
+ID4+PiBBZGQgYSBkcm1fZW5jb2Rlcl9pbml0KCkgdmFyaWFudCB0aGF0IGFsbG9jYXRlcyBhbiBl
+bmNvZGVyIHdpdGgKPiA+Pj4gZHJtbV9remFsbG9jKCkgYW5kIHJlZ2lzdGVycyBkcm1fZW5jb2Rl
+cl9jbGVhbnVwKCkgd2l0aAo+ID4+PiBkcm1tX2FkZF9hY3Rpb25fb3JfcmVzZXQoKS4KPiA+Pj4K
+PiA+Pj4gU2lnbmVkLW9mZi1ieTogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5k
+ZT4KPiA+Cj4gPiBUaGFua3MgZm9yIGRvaW5nIHRoaXMhCj4gPgo+ID4+PiAtLS0KPiA+Pj4gTmV3
+IGluIHYyCj4gPj4+IC0tLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9lbmNvZGVyLmMgfCAx
+MDEgKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLQo+ID4+PiAgaW5jbHVkZS9kcm0v
+ZHJtX2VuY29kZXIuaCAgICAgfCAgMzAgKysrKysrKysrKwo+ID4+PiAgMiBmaWxlcyBjaGFuZ2Vk
+LCAxMDggaW5zZXJ0aW9ucygrKSwgMjMgZGVsZXRpb25zKC0pCj4gPj4+Cj4gPj4+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VuY29kZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZW5jb2Rlci5jCj4gPj4+IGluZGV4IGU1NTUyODFmNDNkNC4uOTExODRmNjczMzNjIDEwMDY0NAo+
+ID4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VuY29kZXIuYwo+ID4+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vZHJtX2VuY29kZXIuYwo+ID4+PiBAQCAtMjYsNiArMjYsNyBAQAo+ID4+PiAg
+I2luY2x1ZGUgPGRybS9kcm1fZGV2aWNlLmg+Cj4gPj4+ICAjaW5jbHVkZSA8ZHJtL2RybV9kcnYu
+aD4KPiA+Pj4gICNpbmNsdWRlIDxkcm0vZHJtX2VuY29kZXIuaD4KPiA+Pj4gKyNpbmNsdWRlIDxk
+cm0vZHJtX21hbmFnZWQuaD4KPiA+Pj4KPiA+Pj4gICNpbmNsdWRlICJkcm1fY3J0Y19pbnRlcm5h
+bC5oIgo+ID4+Pgo+ID4+PiBAQCAtOTEsMjUgKzkyLDEwIEBAIHZvaWQgZHJtX2VuY29kZXJfdW5y
+ZWdpc3Rlcl9hbGwoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiA+Pj4gICAgICAgfQo+ID4+PiAg
+fQo+ID4+Pgo+ID4+PiAtLyoqCj4gPj4+IC0gKiBkcm1fZW5jb2Rlcl9pbml0IC0gSW5pdCBhIHBy
+ZWFsbG9jYXRlZCBlbmNvZGVyCj4gPj4+IC0gKiBAZGV2OiBkcm0gZGV2aWNlCj4gPj4+IC0gKiBA
+ZW5jb2RlcjogdGhlIGVuY29kZXIgdG8gaW5pdAo+ID4+PiAtICogQGZ1bmNzOiBjYWxsYmFja3Mg
+Zm9yIHRoaXMgZW5jb2Rlcgo+ID4+PiAtICogQGVuY29kZXJfdHlwZTogdXNlciB2aXNpYmxlIHR5
+cGUgb2YgdGhlIGVuY29kZXIKPiA+Pj4gLSAqIEBuYW1lOiBwcmludGYgc3R5bGUgZm9ybWF0IHN0
+cmluZyBmb3IgdGhlIGVuY29kZXIgbmFtZSwgb3IgTlVMTCBmb3IgZGVmYXVsdCBuYW1lCj4gPj4+
+IC0gKgo+ID4+PiAtICogSW5pdGlhbGlzZXMgYSBwcmVhbGxvY2F0ZWQgZW5jb2Rlci4gRW5jb2Rl
+ciBzaG91bGQgYmUgc3ViY2xhc3NlZCBhcyBwYXJ0IG9mCj4gPj4+IC0gKiBkcml2ZXIgZW5jb2Rl
+ciBvYmplY3RzLiBBdCBkcml2ZXIgdW5sb2FkIHRpbWUgZHJtX2VuY29kZXJfY2xlYW51cCgpIHNo
+b3VsZCBiZQo+ID4+PiAtICogY2FsbGVkIGZyb20gdGhlIGRyaXZlcidzICZkcm1fZW5jb2Rlcl9m
+dW5jcy5kZXN0cm95IGhvb2suCj4gPj4+IC0gKgo+ID4+PiAtICogUmV0dXJuczoKPiA+Pj4gLSAq
+IFplcm8gb24gc3VjY2VzcywgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+ID4+PiAtICovCj4gPj4+
+IC1pbnQgZHJtX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4+PiAtICAg
+ICAgICAgICAgICAgICAgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+ID4+PiAtICAgICAg
+ICAgICAgICAgICAgY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyX2Z1bmNzICpmdW5jcywKPiA+Pj4g
+LSAgICAgICAgICAgICAgICAgIGludCBlbmNvZGVyX3R5cGUsIGNvbnN0IGNoYXIgKm5hbWUsIC4u
+LikKPiA+Pj4gK3N0YXRpYyBpbnQgX19kcm1fZW5jb2Rlcl9pbml0KHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2VuY29k
+ZXIgKmVuY29kZXIsCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1
+Y3QgZHJtX2VuY29kZXJfZnVuY3MgKmZ1bmNzLAo+ID4+PiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgaW50IGVuY29kZXJfdHlwZSwgY29uc3QgY2hhciAqbmFtZSwgdmFfbGlzdCBhcCkKPiA+
+Pj4gIHsKPiA+Pj4gICAgICAgaW50IHJldDsKPiA+Pj4KPiA+Pj4gQEAgLTEyNSwxMSArMTExLDcg
+QEAgaW50IGRybV9lbmNvZGVyX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+Pj4gICAg
+ICAgZW5jb2Rlci0+ZW5jb2Rlcl90eXBlID0gZW5jb2Rlcl90eXBlOwo+ID4+PiAgICAgICBlbmNv
+ZGVyLT5mdW5jcyA9IGZ1bmNzOwo+ID4+PiAgICAgICBpZiAobmFtZSkgewo+ID4+PiAtICAgICAg
+ICAgICAgIHZhX2xpc3QgYXA7Cj4gPj4+IC0KPiA+Pj4gLSAgICAgICAgICAgICB2YV9zdGFydChh
+cCwgbmFtZSk7Cj4gPj4+ICAgICAgICAgICAgICAgZW5jb2Rlci0+bmFtZSA9IGt2YXNwcmludGYo
+R0ZQX0tFUk5FTCwgbmFtZSwgYXApOwo+ID4+PiAtICAgICAgICAgICAgIHZhX2VuZChhcCk7Cj4g
+Pj4+ICAgICAgIH0gZWxzZSB7Cj4gPj4+ICAgICAgICAgICAgICAgZW5jb2Rlci0+bmFtZSA9IGth
+c3ByaW50ZihHRlBfS0VSTkVMLCAiJXMtJWQiLAo+ID4+PiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgZHJtX2VuY29kZXJfZW51bV9saXN0W2VuY29kZXJfdHlwZV0ubmFt
+ZSwKPiA+Pj4gQEAgLTE1MCw2ICsxMzIsMzggQEAgaW50IGRybV9lbmNvZGVyX2luaXQoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwKPiA+Pj4KPiA+Pj4gICAgICAgcmV0dXJuIHJldDsKPiA+Pj4gIH0K
+PiA+Pj4gKwo+ID4+PiArLyoqCj4gPj4+ICsgKiBkcm1fZW5jb2Rlcl9pbml0IC0gSW5pdCBhIHBy
+ZWFsbG9jYXRlZCBlbmNvZGVyCj4gPj4+ICsgKiBAZGV2OiBkcm0gZGV2aWNlCj4gPj4+ICsgKiBA
+ZW5jb2RlcjogdGhlIGVuY29kZXIgdG8gaW5pdAo+ID4+PiArICogQGZ1bmNzOiBjYWxsYmFja3Mg
+Zm9yIHRoaXMgZW5jb2Rlcgo+ID4+PiArICogQGVuY29kZXJfdHlwZTogdXNlciB2aXNpYmxlIHR5
+cGUgb2YgdGhlIGVuY29kZXIKPiA+Pj4gKyAqIEBuYW1lOiBwcmludGYgc3R5bGUgZm9ybWF0IHN0
+cmluZyBmb3IgdGhlIGVuY29kZXIgbmFtZSwgb3IgTlVMTCBmb3IgZGVmYXVsdCBuYW1lCj4gPj4+
+ICsgKgo+ID4+PiArICogSW5pdGlhbGlzZXMgYSBwcmVhbGxvY2F0ZWQgZW5jb2Rlci4gRW5jb2Rl
+ciBzaG91bGQgYmUgc3ViY2xhc3NlZCBhcyBwYXJ0IG9mCj4gPj4+ICsgKiBkcml2ZXIgZW5jb2Rl
+ciBvYmplY3RzLiBBdCBkcml2ZXIgdW5sb2FkIHRpbWUgZHJtX2VuY29kZXJfY2xlYW51cCgpIHNo
+b3VsZCBiZQo+ID4+PiArICogY2FsbGVkIGZyb20gdGhlIGRyaXZlcidzICZkcm1fZW5jb2Rlcl9m
+dW5jcy5kZXN0cm95IGhvb2suCj4gPj4+ICsgKgo+ID4+PiArICogUmV0dXJuczoKPiA+Pj4gKyAq
+IFplcm8gb24gc3VjY2VzcywgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+ID4+PiArICovCj4gPj4+
+ICtpbnQgZHJtX2VuY29kZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4+PiArICAg
+ICAgICAgICAgICAgICAgc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLAo+ID4+PiArICAgICAg
+ICAgICAgICAgICAgY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyX2Z1bmNzICpmdW5jcywKPiA+Pj4g
+KyAgICAgICAgICAgICAgICAgIGludCBlbmNvZGVyX3R5cGUsIGNvbnN0IGNoYXIgKm5hbWUsIC4u
+LikKPiA+Pj4gK3sKPiA+Pj4gKyAgICAgdmFfbGlzdCBhcDsKPiA+Pj4gKyAgICAgaW50IHJldDsK
+PiA+Pj4gKwo+ID4+PiArICAgICBpZiAobmFtZSkKPiA+Pj4gKyAgICAgICAgICAgICB2YV9zdGFy
+dChhcCwgbmFtZSk7Cj4gPj4+ICsgICAgIHJldCA9IF9fZHJtX2VuY29kZXJfaW5pdChkZXYsIGVu
+Y29kZXIsIGZ1bmNzLCBlbmNvZGVyX3R5cGUsIG5hbWUsIGFwKTsKPiA+Pj4gKyAgICAgaWYgKG5h
+bWUpCj4gPj4+ICsgICAgICAgICAgICAgdmFfZW5kKGFwKTsKPiA+Pj4gKwo+ID4+PiArICAgICBy
+ZXR1cm4gcmV0Owo+ID4+PiArfQo+ID4+PiAgRVhQT1JUX1NZTUJPTChkcm1fZW5jb2Rlcl9pbml0
+KTsKPiA+Pj4KPiA+Pj4gIC8qKgo+ID4+PiBAQCAtMTgxLDYgKzE5NSw0NyBAQCB2b2lkIGRybV9l
+bmNvZGVyX2NsZWFudXAoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKQo+ID4+PiAgfQo+ID4+
+PiAgRVhQT1JUX1NZTUJPTChkcm1fZW5jb2Rlcl9jbGVhbnVwKTsKPiA+Pj4KPiA+Pj4gK3ZvaWQg
+ZHJtbV9lbmNvZGVyX2luaXRfcmVsZWFzZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpw
+dHIpCj4gPj4+ICt7Cj4gPj4+ICsgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciA9IHB0
+cjsKPiA+Pgo+ID4+IEknbGwgYWRkCj4gPj4KPiA+PiAgICAgICAgIGlmIChXQVJOX09OKCFlbmNv
+ZGVyLT5kZXYpKQo+ID4+ICAgICAgICAgICAgICAgICByZXR1cm47Cj4gPj4KPiA+PiBoZXJlLgo+
+ID4+Cj4gPj4+ICsgICAgIGRybV9lbmNvZGVyX2NsZWFudXAoZW5jb2Rlcik7Cj4gPj4+ICt9Cj4g
+Pj4+ICsKPiA+Pj4gK3ZvaWQgKl9fZHJtbV9lbmNvZGVyX2luaXQoc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwgc2l6ZV90IHNpemUsIHNpemVfdCBvZmZzZXQsCj4gPj4+ICsgICAgICAgICAgICAgICAg
+ICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZW5jb2Rlcl9mdW5jcyAqZnVuY3MsCj4gPj4+ICsgICAg
+ICAgICAgICAgICAgICAgICAgIGludCBlbmNvZGVyX3R5cGUsIGNvbnN0IGNoYXIgKm5hbWUsIC4u
+LikKPiA+Pj4gK3sKPiA+Pj4gKyAgICAgdm9pZCAqY29udGFpbmVyOwo+ID4+PiArICAgICBzdHJ1
+Y3QgZHJtX2VuY29kZXIgKmVuY29kZXI7Cj4gPj4+ICsgICAgIHZhX2xpc3QgYXA7Cj4gPj4+ICsg
+ICAgIGludCByZXQ7Cj4gPj4+ICsKPiA+Pj4gKyAgICAgaWYgKFdBUk5fT04oIWZ1bmNzIHx8IGZ1
+bmNzLT5kZXN0cm95KSkKPiA+Pj4gKyAgICAgICAgICAgICByZXR1cm4gRVJSX1BUUigtRUlOVkFM
+KTsKPiA+Pj4gKwo+ID4+PiArICAgICBjb250YWluZXIgPSBkcm1tX2t6YWxsb2MoZGV2LCBzaXpl
+LCBHRlBfS0VSTkVMKTsKPiA+Pj4gKyAgICAgaWYgKCFjb250YWluZXIpCj4gPj4+ICsgICAgICAg
+ICAgICAgcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gPj4+ICsKPiA+Pj4gKyAgICAgZW5jb2Rl
+ciA9IGNvbnRhaW5lciArIG9mZnNldDsKPiA+Pj4gKwo+ID4+PiArICAgICBpZiAobmFtZSkKPiA+
+Pj4gKyAgICAgICAgICAgICB2YV9zdGFydChhcCwgbmFtZSk7Cj4gPj4+ICsgICAgIHJldCA9IF9f
+ZHJtX2VuY29kZXJfaW5pdChkZXYsIGVuY29kZXIsIGZ1bmNzLCBlbmNvZGVyX3R5cGUsIG5hbWUs
+IGFwKTsKPiA+Pj4gKyAgICAgaWYgKG5hbWUpCj4gPj4+ICsgICAgICAgICAgICAgdmFfZW5kKGFw
+KTsKPiA+Pj4gKyAgICAgaWYgKHJldCkKPiA+Pj4gKyAgICAgICAgICAgICByZXR1cm4gRVJSX1BU
+UihyZXQpOwo+ID4+PiArCj4gPj4+ICsgICAgIHJldCA9IGRybW1fYWRkX2FjdGlvbl9vcl9yZXNl
+dChkZXYsIGRybW1fZW5jb2Rlcl9pbml0X3JlbGVhc2UsIGVuY29kZXIpOwo+ID4+PiArICAgICBp
+ZiAocmV0KQo+ID4+PiArICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKHJldCk7Cj4gPj4+ICsK
+PiA+Pj4gKyAgICAgcmV0dXJuIGNvbnRhaW5lcjsKPiA+Pj4gK30KPiA+Pj4gK0VYUE9SVF9TWU1C
+T0woX19kcm1tX2VuY29kZXJfaW5pdCk7Cj4gPj4+ICsKPiA+Pj4gIHN0YXRpYyBzdHJ1Y3QgZHJt
+X2NydGMgKmRybV9lbmNvZGVyX2dldF9jcnRjKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikK
+PiA+Pj4gIHsKPiA+Pj4gICAgICAgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcjsKPiA+
+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9lbmNvZGVyLmggYi9pbmNsdWRlL2RybS9k
+cm1fZW5jb2Rlci5oCj4gPj4+IGluZGV4IGE2MGY1ZjE1NTVhYy4uNTRiODI1NTRlZTg4IDEwMDY0
+NAo+ID4+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZW5jb2Rlci5oCj4gPj4+ICsrKyBiL2luY2x1
+ZGUvZHJtL2RybV9lbmNvZGVyLmgKPiA+Pj4gQEAgLTE5NSw2ICsxOTUsMzYgQEAgaW50IGRybV9l
+bmNvZGVyX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+Pj4gICAgICAgICAgICAgICAg
+ICAgIGNvbnN0IHN0cnVjdCBkcm1fZW5jb2Rlcl9mdW5jcyAqZnVuY3MsCj4gPj4+ICAgICAgICAg
+ICAgICAgICAgICBpbnQgZW5jb2Rlcl90eXBlLCBjb25zdCBjaGFyICpuYW1lLCAuLi4pOwo+ID4+
+Pgo+ID4+PiArX19wcmludGYoNiwgNykKPiA+Pj4gK3ZvaWQgKl9fZHJtbV9lbmNvZGVyX2luaXQo
+c3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgc2l6
+ZV90IHNpemUsIHNpemVfdCBvZmZzZXQsCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgIGNv
+bnN0IHN0cnVjdCBkcm1fZW5jb2Rlcl9mdW5jcyAqZnVuY3MsCj4gPj4+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIGludCBlbmNvZGVyX3R5cGUsCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAg
+IGNvbnN0IGNoYXIgKm5hbWUsIC4uLik7Cj4gPj4+ICsKPiA+Pj4gKy8qKgo+ID4+PiArICogZHJt
+bV9lbmNvZGVyX2luaXQgLSBBbGxvY2F0ZSBhbmQgaW5pdGlhbGl6ZSBhbiBlbmNvZGVyCj4gPj4+
+ICsgKiBAZGV2OiBkcm0gZGV2aWNlCj4gPj4+ICsgKiBAdHlwZTogdGhlIHR5cGUgb2YgdGhlIHN0
+cnVjdCB3aGljaCBjb250YWlucyBzdHJ1Y3QgJmRybV9lbmNvZGVyCj4gPj4+ICsgKiBAbWVtYmVy
+OiB0aGUgbmFtZSBvZiB0aGUgJmRybV9lbmNvZGVyIHdpdGhpbiBAdHlwZS4KPiA+Pj4gKyAqIEBm
+dW5jczogY2FsbGJhY2tzIGZvciB0aGlzIGVuY29kZXIKPiA+Pj4gKyAqIEBlbmNvZGVyX3R5cGU6
+IHVzZXIgdmlzaWJsZSB0eXBlIG9mIHRoZSBlbmNvZGVyCj4gPj4+ICsgKiBAbmFtZTogcHJpbnRm
+IHN0eWxlIGZvcm1hdCBzdHJpbmcgZm9yIHRoZSBlbmNvZGVyIG5hbWUsIG9yIE5VTEwgZm9yIGRl
+ZmF1bHQgbmFtZQo+ID4+PiArICoKPiA+Pj4gKyAqIEFsbG9jYXRlcyBhbmQgaW5pdGlhbGl6ZXMg
+YW4gZW5jb2Rlci4gRW5jb2RlciBzaG91bGQgYmUgc3ViY2xhc3NlZCBhcyBwYXJ0IG9mCj4gPj4+
+ICsgKiBkcml2ZXIgZW5jb2RlciBvYmplY3RzLiBDbGVhbnVwIGlzIGF1dG9tYXRpY2FsbHkgaGFu
+ZGxlZCB0aHJvdWdoIHJlZ2lzdGVyaW5nCj4gPj4+ICsgKiBkcm1fZW5jb2Rlcl9jbGVhbnVwKCkg
+d2l0aCBkcm1tX2FkZF9hY3Rpb24oKS4KPiA+Pj4gKyAqCj4gPj4+ICsgKiBUaGUgQGRybV9lbmNv
+ZGVyX2Z1bmNzLmRlc3Ryb3kgaG9vayBtdXN0IGJlIE5VTEwuCj4gPj4+ICsgKgo+ID4+PiArICog
+UmV0dXJuczoKPiA+Pj4gKyAqIFBvaW50ZXIgdG8gbmV3IGVuY29kZXIsIG9yIEVSUl9QVFIgb24g
+ZmFpbHVyZS4KPiA+Pj4gKyAqLwo+ID4+PiArI2RlZmluZSBkcm1tX2VuY29kZXJfaW5pdChkZXYs
+IHR5cGUsIG1lbWJlciwgZnVuY3MsIGVuY29kZXJfdHlwZSwgbmFtZSwgLi4uKSBcCj4gPj4+ICsg
+ICAgICgodHlwZSAqKSBfX2RybW1fZW5jb2Rlcl9pbml0KGRldiwgc2l6ZW9mKHR5cGUpLCBcCj4g
+Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9mZnNldG9mKHR5cGUsIG1l
+bWJlciksIGZ1bmNzLCBcCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGVuY29kZXJfdHlwZSwgbmFtZSwgIyNfX1ZBX0FSR1NfXykpCj4gPj4+ICsKPiA+Pgo+ID4+IFNo
+b3VsZCB0aGlzIGJlIGNhbGxlZCBkcm1tX2VuY29kZXJfYWxsb2MgaW5zdGVhZD8KPiA+Cj4gPiBZ
+ZXMuIFNhbWUgZm9yIHRoZSBpbnRlcm5hbCBoZWxwZXIgZm9yIGNvbnNpc3RlbmN5LiBBbHNvIHNl
+ZSBteSBvdGhlcgo+Cj4gSSdkIHN1Z2dlc3QgY2FsbGluZyBpdCBkcm1tX2VuY29kZXJfY3JlYXRl
+KCkgdG8gZXhwcmVzcyB0aGF0IGl0J3MgX2FsbG9jCj4gKyBfaW5pdC4gQ2FsbGluZyBpdCBqdXN0
+IF9hbGxvYyBzb3VuZHMgYXMgaWYgaXQgZG9lc24ndCBkbyB0aGUgX2luaXQuCgpBdCBsZWFzdCBp
+biBkcm0gdGhlIHBhdHRlcm4gd2UndmUgaGFkIHRodXMgZmFyIGlzIGFsbG9jID0ga3phbGxvYyAr
+CmluaXQuIFdlIGRvIHVzZSBjcmVhdGUsIGJ1dCB0aGF0J3MgZm9yIHByb3BlcnRpZXMgYW5kIGZp
+bGVzIGFuZCBzdHVmZiwKbm90IGFsbG9jYXRpbmcvaW5pdGluZyBkcml2ZXIgb2JqZWN0cy4KClNv
+IG1heWJlIGEgYml0IGEgYmlrZXNoZWQsIGJ1dCBpbW8gYWxsb2MoKSBpcyBtb3JlIGNvbnNpc3Rl
+bnQgd2l0aAplLmcuIGRldm1fZHJtX2Rldl9hbGxvYy4gT3RoZXJ3aXNlIEkgdGhpbmsgd2Ugc2hv
+dWxkIHJlbmFtZSB0aGF0IG9uZQooYW5kIGFsbCByZWxhdGVkIG9uZXMpIGZvciBjb25zaXN0ZW5j
+eS4KLURhbmllbAoKPgo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPiByZXBseSwgaWYgdGhl
+IF9hbGxvYygpIHZhcmlhbnQgaXMgYWxsIHRoYXQncyBuZWVkZWQgdGhhdCBtYWtlcyBtZQo+ID4g
+aGFwcHksIHNpbmNlIHRoZW4gd2UgZG9uJ3QgbmVlZCB0byBjb2RlIHVwIHRoZSBkcm1tX2Fzc2Vy
+dF9tYW5hZ2VkCj4gPiBjaGVjayBmb3IgdGhlIF9pbml0KCkgdmFyaWFudHMgdG8gbWFrZSBzdXJl
+IGRyaXZlcnMgZG9udCBnaXZlIGl0Cj4gPiBzb21ldGhpbmcgc3R1cGlkIGxpa2UgYSBkZXZtX2t6
+YWxsb2MgcmFuZ2UgOi0pCj4gPiAtRGFuaWVsCj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFu
+bgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAo
+SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5k
+w7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
+cnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
