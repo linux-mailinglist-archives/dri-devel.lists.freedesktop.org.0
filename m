@@ -1,67 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393DA22DFEB
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F01522DFFF
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1109289F35;
-	Sun, 26 Jul 2020 15:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6594089FE8;
+	Sun, 26 Jul 2020 15:03:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B7B6E4F4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 09:31:15 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id e8so9322714ljb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 02:31:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TBUxgudIuaDLAvLBANWhcm32RAOD50DQBXyfj2jsnh4=;
- b=Mf6ETM7ztIRbwjiqdscapi6l9//E/tfVMAaamIup0eE1/HQOKAdQHP6t1dPv9Y9wQh
- QCq3ECza5RUGvdRueuVmu5PemT0/eJsrc1xZTolBXPT9d8p5FNOREcaVe9nNJsD4/XOn
- fbO58i7FBj74xB8EhCAVW37Njy/qdCvnvx3zj88P2Qr/f0yaBQtVXQssU4xQG7UKrTj9
- AeaJ7r09bRqFXHURxpbKEYu7C+aA+gd+LZ5TyulVZasfOuwC5jUhmYZpCOaGU2cpAFhQ
- SWdrI1DmMJEltKZaQA6fucFMfH8SAnju0B5/+mJHw5p46opV3I0Gj2xToLOuShtW9IPV
- 8xbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TBUxgudIuaDLAvLBANWhcm32RAOD50DQBXyfj2jsnh4=;
- b=F+cDRpUijuCqfeqZQZRycpjNeVA7/yo2NXmON3m3WaUx2Eg949FzVSzUZkdVyFvzFm
- PbTEasBfSTlGZTZdqBHY8WI4TOkGs3V1Na/q9Qe/2X3+1hv0pYzLLyhFqVlHZnl/j3BN
- VZbkY0t3vux9U4gRU5pnXpw4PN6FuG42iYSlLbGtzb/e7nwQBgDX4XLQUSbtvHdIRH32
- X9O+ERdkmLuNV81VdybR7UM5H1Oyv55t2LZ2GRRcWGtcokyw5uIh6NuEEHCeQd1i9tlV
- KsaSxh43o/joxBaX0DoqScXhYt0hpGV8j+MhauoY0/tZTU6dBn/lQW6F1uIumeqg9fFR
- HZgw==
-X-Gm-Message-State: AOAM530LWjdsp8+cjYrc1IDTFhPqq7q3NvjCXMBTO6EMQ+WpFaRpxMOU
- SmZAlPCRv+fBuorO9OXJcJSPgLyk8xA=
-X-Google-Smtp-Source: ABdhPJyYL/2FJHBDk6bM7QU+nPX0YDimDInJXXxpicOfu+ldA96NXGc/cdDQ7seaU002+wFwwJXGJw==
-X-Received: by 2002:a05:651c:156:: with SMTP id
- c22mr4151018ljd.453.1595583073494; 
- Fri, 24 Jul 2020 02:31:13 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:48a4:44fe:25f3:4dcc:b496:1546?
- ([2a00:1fa0:48a4:44fe:25f3:4dcc:b496:1546])
- by smtp.gmail.com with ESMTPSA id n3sm120108ljj.39.2020.07.24.02.31.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jul 2020 02:31:12 -0700 (PDT)
-Subject: Re: [PATCH] newport_con: vc_color is now in state
-To: Jiri Slaby <jslaby@suse.cz>, gregkh@linuxfoundation.org
-References: <202007241318.wXYkumEO%lkp@intel.com>
- <20200724062735.18229-1-jslaby@suse.cz>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <b1b9d90a-5fe3-947a-dc4e-8576cd143869@gmail.com>
-Date: Fri, 24 Jul 2020 12:30:59 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D25986E500;
+ Fri, 24 Jul 2020 09:57:55 +0000 (UTC)
+IronPort-SDR: 5i+8zyrsbix6xIvikOVr7t6sJAxRhTbp1mG8EmsI6YBAB0CNptzCnjifNtibjeOLob6Mw/8cIj
+ 3sMjY0Qs1i3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="149874097"
+X-IronPort-AV: E=Sophos;i="5.75,390,1589266800"; d="scan'208";a="149874097"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2020 02:57:55 -0700
+IronPort-SDR: cS6AjwGmqe1CzASREo9m3bSD0i7nq6nx2NdTBrfCiDcatBkQp2JO/2N1o/OCEYIcYy8doDCyNu
+ L5Yqc3r1+Ymg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,390,1589266800"; d="scan'208";a="393270148"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+ by fmsmga001.fm.intel.com with SMTP; 24 Jul 2020 02:57:51 -0700
+Received: by lahna (sSMTP sendmail emulation); Fri, 24 Jul 2020 12:57:51 +0300
+Date: Fri, 24 Jul 2020 12:57:51 +0300
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: nouveau regression with 5.7 caused by "PCI/PM: Assume ports
+ without DLL Link Active train links in 100 ms"
+Message-ID: <20200724095751.GU1375436@lahna.fi.intel.com>
+References: <CACO55tuA+XMgv=GREf178NzTLTHri4kyD5mJjKuDpKxExauvVg@mail.gmail.com>
+ <20200716235440.GA675421@bjorn-Precision-5520>
+ <CACO55tuVJHjEbsW657ToczN++_iehXA8pimPAkzc=NOnx4Ztnw@mail.gmail.com>
+ <CACO55tso5SVipAR=AZfqhp6GGkKO9angv6f+nd61wvgAJtrOKg@mail.gmail.com>
+ <20200721122247.GI5180@lahna.fi.intel.com>
+ <f951fba07ca7fa2fdfd590cd5023d1b31f515fa2.camel@redhat.com>
+ <20200721152737.GS5180@lahna.fi.intel.com>
+ <d3253a47-09ff-8bc7-3ca1-a80bdc09d1c2@gmail.com>
+ <20200722092507.GC5180@lahna.fi.intel.com>
+ <CACO55tsv63VP93F7xJ3nfZ7SkOk0c6WkgvuP+8fY14gypmn4Fg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200724062735.18229-1-jslaby@suse.cz>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CACO55tsv63VP93F7xJ3nfZ7SkOk0c6WkgvuP+8fY14gypmn4Fg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,35 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, Patrick Volkerding <volkerdi@gmail.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau <nouveau@lists.freedesktop.org>, Bjorn Helgaas <bhelgaas@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24.07.2020 9:27, Jiri Slaby wrote:
-
-> Since commit 28bc24fc46f9 (vc: separate state), vc->vc_color is known as
-
-    Cgit says "Bad object id: 28bc24fc46f9" (in Linus' repo). Also, you should
-enclose the commit summary in (""), not just ()...
-
-> vc->state.color. Somehow both me and 0-day bot missed this driver during
-> the conversion.
+On Thu, Jul 23, 2020 at 10:30:58PM +0200, Karol Herbst wrote:
+> On Wed, Jul 22, 2020 at 11:25 AM Mika Westerberg
+> <mika.westerberg@linux.intel.com> wrote:
+> >
+> > On Tue, Jul 21, 2020 at 01:37:12PM -0500, Patrick Volkerding wrote:
+> > > On 7/21/20 10:27 AM, Mika Westerberg wrote:
+> > > > On Tue, Jul 21, 2020 at 11:01:55AM -0400, Lyude Paul wrote:
+> > > >> Sure thing. Also, feel free to let me know if you'd like access to one of the
+> > > >> systems we saw breaking with this patch - I'm fairly sure I've got one of them
+> > > >> locally at my apartment and don't mind setting up AMT/KVM/SSH
+> > > > Probably no need for remote access (thanks for the offer, though). I
+> > > > attached a test patch to the bug report:
+> > > >
+> > > >   https://bugzilla.kernel.org/show_bug.cgi?id=208597
+> > > >
+> > > > that tries to work it around (based on the ->pm_cap == 0). I wonder if
+> > > > anyone would have time to try it out.
+> > >
+> > >
+> > > Hi Mika,
+> > >
+> > > I can confirm that this patch applied to 5.4.52 fixes the issue with
+> > > hybrid graphics on the Thinkpad X1 Extreme gen2.
+> >
+> > Great, thanks for testing!
+> >
 > 
-> So fix the driver now.
-> 
-> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-mips@vger.kernel.org
-[...]
+> yeah, works on the P1G2 as well.
 
-MBR, Sergei
+Thanks for testing!
+
+Since we have the revert queued for this release cycle, I think I will
+send an updated version of "PCI/PM: Assume ports without DLL Link Active
+train links in 100 ms" after v5.9-rc1 is released that has this
+workaround in place.
+
+(I'm continuing my vacation so will be offline next week).
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
