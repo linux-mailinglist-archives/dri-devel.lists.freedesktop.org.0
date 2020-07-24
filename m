@@ -1,75 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B8722C053
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 09:59:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5401822C075
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 10:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF1BA6E93A;
-	Fri, 24 Jul 2020 07:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23EA76E936;
+	Fri, 24 Jul 2020 08:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3358F6E93A
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 07:59:18 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 61D49B1A5;
- Fri, 24 Jul 2020 07:59:25 +0000 (UTC)
-Subject: Re: [PATCH] newport_con: vc_color is now in state
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <202007241318.wXYkumEO%lkp@intel.com>
- <20200724062735.18229-1-jslaby@suse.cz> <20200724075819.GA3955149@kroah.com>
-From: Jiri Slaby <jslaby@suse.cz>
-Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <2c7e2be6-526f-0b5d-466b-3e563342f1d9@suse.cz>
-Date: Fri, 24 Jul 2020 09:59:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3530A6E936
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 08:09:42 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id g37so6350899otb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 01:09:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u5WUEiZQnTzlqtDgNNXx/FqFurAeXgz8pOyQpPHE4t8=;
+ b=SDXPTA/HGCTJKrnaW1Xrtkxowy+uFFdQ7usysrz++2vNgGJD3FtsH+BOFxh5ZvHkR6
+ HWxX+uTvJz59xyS1wxWEqPWBeJUufj6WObvLKi1Uv2xl3Ji+2p7Hh7Dd3pqxF9FX3IT1
+ hH6h4tF+4WZk6YefOCSvdp0jD0op5IwhHp4Oo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u5WUEiZQnTzlqtDgNNXx/FqFurAeXgz8pOyQpPHE4t8=;
+ b=Qne8PPYPUeChp/dBcHmNHvb/AhNDXN8n1Nvn0WbEUFk5ahUwbprtQRluvH+qnvdQX7
+ 2+NsabrXUagL1MQSMklEhnjnGV0MCtqeEUIPCvt8F96sGmeVOXOR5xbLv22Dxufch+AQ
+ ZytIFCsKIOGEFZePZY9rAAKoVW+vzntzSgUGcw6xUYu6wa+h6HJg3KDA0Yl1KBLisGKX
+ wawECKUBX5rOWoPdZ05uTteokgSUq4FKuGAcFcf64MtShhlLx/DK+ehJp0B+fmBg17pK
+ d3/SrQ2mGC3WIPcc4UUWotxcglo6PdXNZlO/XN5AX18AJieutNAIWSOoK5MqXwak5lw/
+ ZLHA==
+X-Gm-Message-State: AOAM533N1rCT2OepVlM0czI+PjQacxtuJrC7pFVvj1uSdaNk3MFJEm8+
+ f42JNt5ujSjRV4F5L/p+S98gK/swg1kRHHjT6zCJfg==
+X-Google-Smtp-Source: ABdhPJxrcn73s+oeNAhDxP1Hfx1gAd9s6xWRszh9+1yFGeaWJuXHIZfHeiyh/Fi8iVbRRSALUJpKIUV88cYAQs2eDqM=
+X-Received: by 2002:a05:6830:1613:: with SMTP id
+ g19mr7466756otr.303.1595578181467; 
+ Fri, 24 Jul 2020 01:09:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200724075819.GA3955149@kroah.com>
-Content-Language: en-US
+References: <20200709193016.291267-1-sam@ravnborg.org>
+ <14ce41c4-d683-1551-9f21-37b054f5752c@suse.de>
+ <20200713162159.GR3278063@phenom.ffwll.local>
+ <1ed6bd2a-6f8f-ca69-3244-03402874d5a3@suse.de>
+ <20200714084141.GW3278063@phenom.ffwll.local>
+ <a3fdd8b9-bf2b-dcd7-63b7-91f379865a6c@suse.de>
+ <CAPM=9tyoJhvudNake+w=e4S9dQ8MT_bQEF9USuj=_vHBRLzA8Q@mail.gmail.com>
+ <20200724062359.GA612640@ravnborg.org>
+In-Reply-To: <20200724062359.GA612640@ravnborg.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 24 Jul 2020 10:09:30 +0200
+Message-ID: <CAKMK7uHRxXeduoQHs-FmX2nZp966fUs6h8-+ecJjiPm4E6ARwQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/drm_fb_helper: fix fbdev with sparc64
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,40 +65,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, sparclinux@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24. 07. 20, 9:58, Greg KH wrote:
-> On Fri, Jul 24, 2020 at 08:27:35AM +0200, Jiri Slaby wrote:
->> Since commit 28bc24fc46f9 (vc: separate state), vc->vc_color is known as
->> vc->state.color. Somehow both me and 0-day bot missed this driver during
->> the conversion.
->>
->> So fix the driver now.
->>
->> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
->> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: linux-fbdev@vger.kernel.org
->> Cc: linux-mips@vger.kernel.org
->> ---
->>  drivers/video/console/newport_con.c | 10 +++++-----
->>  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> You forgot the "Reported-by:" line :(
+On Fri, Jul 24, 2020 at 8:24 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+>  Hi Dave.
+>  On Fri, Jul 24, 2020 at 02:53:30PM +1000, Dave Airlie wrote:
+> > On Tue, 14 Jul 2020 at 18:56, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > >
+> > > Hi
+> > >
+> > > Am 14.07.20 um 10:41 schrieb Daniel Vetter:
+> > > > On Tue, Jul 14, 2020 at 08:41:58AM +0200, Thomas Zimmermann wrote:
+> > > >> Hi
+> > > >>
+> > > >> Am 13.07.20 um 18:21 schrieb Daniel Vetter:
+> > > >>> On Fri, Jul 10, 2020 at 08:28:16AM +0200, Thomas Zimmermann wrote:
+> > > >>>> Hi
+> > > >>>>
+> > > >>>> Am 09.07.20 um 21:30 schrieb Sam Ravnborg:
+> > > >>>>> Mark reported that sparc64 would panic while booting using qemu.
+> > > >>>>> Mark bisected this to a patch that introduced generic fbdev emulation to
+> > > >>>>> the bochs DRM driver.
+> > > >>>>> Mark pointed out that a similar bug was fixed before where
+> > > >>>>> the sys helpers was replaced by cfb helpers.
+> > > >>>>>
+> > > >>>>> The culprint here is that the framebuffer reside in IO memory which
+> > > >>>>> requires SPARC ASI_PHYS (physical) loads and stores.
+> > > >>>>>
+> > > >>>>> The current bohcs DRM driver uses a shadow buffer.
+> > > >>>>> So all copying to the framebuffer happens in
+> > > >>>>> drm_fb_helper_dirty_blit_real().
+> > > >>>>>
+> > > >>>>> The fix is to replace the memcpy with memcpy_toio() from io.h.
+> > > >>>>>
+> > > >>>>> memcpy_toio() uses writeb() where the original fbdev code
+> > > >>>>> used sbus_memcpy_toio(). The latter uses sbus_writeb().
+> > > >>>>>
+> > > >>>>> The difference between writeb() and sbus_memcpy_toio() is
+> > > >>>>> that writeb() writes bytes in little-endian, where sbus_writeb() writes
+> > > >>>>> bytes in big-endian. As endian does not matter for byte writes they are
+> > > >>>>> the same. So we can safely use memcpy_toio() here.
+> > > >>>>>
+> > > >>>>> For many architectures memcpy_toio() is a simple memcpy().
+> > > >>>>> One sideeffect that is unknow is if this has any impact on other
+> > > >>>>> architectures.
+> > > >>>>> So far the analysis tells that this change is OK for other arch's.
+> > > >>>>> but testing would be good.
+> > > >>>>>
+> > > >>>>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > >>>>> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > > >>>>> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > > >>>>> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > > >>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > >>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > >>>>> Cc: "David S. Miller" <davem@davemloft.net>
+> > > >>>>> Cc: sparclinux@vger.kernel.org
+> > > >>>>
+> > > >>>> So this actually is a problem in practice. Do you know how userspace
+> > > >>>> handles this?
+> > > >>>>
+> > > >>>> For this patch
+> > > >>>>
+> > > >>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > >>>>
+> > > >>>> but I'd like to have someone with more architecture expertise ack this
+> > > >>>> as well.
+> > > >>>>
+> > > >>>> Best regards
+> > > >>>> Thomas
+> > > >>>>
+> > > >>>>> ---
+> > > >>>>>  drivers/gpu/drm/drm_fb_helper.c | 2 +-
+> > > >>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >>>>>
+> > > >>>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > >>>>> index 5609e164805f..4d05b0ab1592 100644
+> > > >>>>> --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > >>>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > >>>>> @@ -399,7 +399,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+> > > >>>>>   unsigned int y;
+> > > >>>>>
+> > > >>>>>   for (y = clip->y1; y < clip->y2; y++) {
+> > > >>>>> -         memcpy(dst, src, len);
+> > > >>>>> +         memcpy_toio(dst, src, len);
+> > > >>>
+> > > >>> I don't think we can do this unconditionally, there's fbdev-helper drivers
+> > > >>> using shmem helpers, and for shmem memcpy_toio is wrong. We need a switch
+> > > >>> to fix this properly I think.
+> > > >>
+> > > >> I once has a patch set for this problem, but it didn't make it. [1]
+> > > >>
+> > > >> Buffers can move between I/O and system memory, so a simple flag would
+> > > >> not work. I'd propose this
+> > > >>
+> > > >> bool drm_gem_is_iomem(struct drm_gem_object *obj)
+> > > >> {
+> > > >>      if (obj->funcs && obj->funcs->is_iomem)
+> > > >>              return obj->funcs->is_iomem(obj);
+> > > >>      return false;
+> > > >> }
+> > > >>
+> > > >> Most GEM implmentations wouldn't bother, but VRAM helpers could set the
+> > > >> is_iomem function and return the current state. Fbdev helpers can then
+> > > >> pick the correct memcpy_*() function.
+> > > >
+> > > > Hm wasn't the (long term at least) idea to add the is_iomem flag to the
+> > > > vmap functions? is_iomem is kinda only well-defined if there's a vmap of
+> > > > the buffer around (which also pins it), or in general when the buffer is
+> > > > pinned. Outside of that an ->is_iomem function doesn't make much sense.
+> > >
+> > > Oh. From how I understood the original discussion, you shoot down the
+> > > idea because sparse would not support it well?
+> > >
+> > > The other idea was to add an additional vmap_iomem() helper that returns
+> > > an__iomem pointer. Can we try that?
+> > >
+> > Did we get anywhere with this yet?
+>
+> A few on the work I did so far.
+> Using qemu the original reported bug was fixed only be replacing a
+> memcpy with memcpy_toio.
+> But this looks like only a half solution as we would still use the sys_*
+> variants to copy data to the framebuffer, and tye do not cope with
+> frambuffer in dedicated IO memory.
+>
+> But I have not managed to get it work wiht qemu when using the cfb_*
+> variants. I end up in a deadlock waiting for the console lock.
+> So far my debuggin have not told me why I lock up the boot waiting for
+> the console lock and I am stuck on that.
+>
+> I could send the patch memcpy => memcpy_toio but I am afraid it may not
+> work on real HW as we do not cover the sys_* => cfb_*
 
-Ah, I didn't know/notice. Will do next time. Thanks.
+Let's focus on the single memcpy_toio for the regression fix only for
+now, that seems to be enough to get the system back to booting. Note
+that we don't want the cfb helpers for the case where fbdev emulation
+has a staging buffer in system memory, i.e. when the memcpy_toio
+matters. So fixing that really should be all that's needed.
 
-
+Fixing sys vs cfb is more a case of making it possible of other
+drivers to also use the generic fbdev support, so that we can support
+the case of framebuffer in io space without the dirtyfb staging upload
+buffer. So minimal regression fix, more feature work (like the sys vs
+cfb stuff) goes into -next.
+-Daniel
 -- 
-js
-suse labs
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
