@@ -2,51 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F1822C1A9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 11:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907A422C1B0
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jul 2020 11:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D456E3EC;
-	Fri, 24 Jul 2020 09:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3CF46E4D4;
+	Fri, 24 Jul 2020 09:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B64F6E3EC
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 09:07:33 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id t198so7444666oie.7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 02:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nqvO1S2mG20BJ09Eb0nAEicifTic6hOyt1/icCs+NPk=;
- b=GRXMjKgdg7mt6BihO7pC5jSY0d59lolU7wU6duJe7TZOmaeOGxj1S0kpZuP4mASFhX
- RfVgywMKuL4nKcG5HwSMhpBnMIATUI2MHzr6+EvEgKoU3XATwqbPtHHABf6KRdo2CVHK
- /tiuWW3vw0c+s0344T/yFkVlwtjxup5BJ86Yo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nqvO1S2mG20BJ09Eb0nAEicifTic6hOyt1/icCs+NPk=;
- b=SUA8Za6JYjOuRWAWpSd8GNNnbyj5a9uUnkxjaiTehfesfP/Jy7ToNIGG/cyeGMUddS
- B7l3G7deGTnybxocnL6sVn+2H06hmA2cwW462zeAgYzIfXjo3tkcC6I+EB7kTqcJ9e5W
- uedOFYiIWaXvaOUpz7waFDeV4G/tMiZNwOjYSLAVxXGWS+VdUbTFAsWu/60qFPWFZ4vX
- TOAH/17BJFl4h5x9wbcGu/A9sz9ujykFcGBk/D5IZkW/tql9BbvKcHO3yRnwVmds6xYM
- iEN/gR8d1SV+E5Up3l/E3+H3ScBW1srwNKI6WhWA4nyjkX9MOkDxYGm0v+hb5YiNownG
- Bkkw==
-X-Gm-Message-State: AOAM533CmE95mRTwM4z2vLfjORB2RRsi4uidWfZhmit8C1ngjQglT+Bc
- xhViPsisSL3a92VASEOwTWVmv8nZ8yw5z8Y9jX+sXw==
-X-Google-Smtp-Source: ABdhPJw2UlFdhLObdeQMUYIlzLACED/9arqmywrZ6UUki6YeIipXPVltZUYCcehWAdgDEksWvR0rEejxcmhwwpq0yEo=
-X-Received: by 2002:a05:6808:88:: with SMTP id
- s8mr6790182oic.101.1595581652330; 
- Fri, 24 Jul 2020 02:07:32 -0700 (PDT)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2043.outbound.protection.outlook.com [40.107.21.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B244E6E4D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 09:08:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iZhUBMhxOZ/MPCfq7s/hDaym8M/NBH97Pcu3I0IpylwhAEnikxo9t1LLIZhnA3++8k1f3SJdGHnz6jAjXupzOW14Kk89IthSQ8PXS009cFEfIQjyY3QXZdPKM8EIFIt5pDGl95c2/lECN8YCBXYxGttcSlU0fds5TgLeX+LWWkByI8+6pq6SZOVDwcTs+5xkujXT7naFGVnxj0DgjWb7R74E30c18sdXC24WmXR4Kf/1eyUdofr4NX97+e9DWNkw69hf8bf1k+br2bGqVqkmaUbjy69vvodkZJ8x2HtDnbBMxmi9BDb4MXw13if3PxjnIjsjPoR9hqur2sUCxlxvuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4aB3vYkq7eu8rLKcGsaxI+wW+pSzlOUqcKow7TDksfs=;
+ b=n1qtmhbFDr0Hjhh51b4EPncwJoN+4HjFT8/4oR8jYQCZ02yWs+KqdhWamZLZVvkvSJdTS5SSb78OuRqooa2AgB8Q5L6po7Bied+Vo5dFmBqW3gJoeSWMv8V6MxXe97dPPcIdmFEG1bqYW8qrHXsHonTqeCxmmmlzY1lqX8qFg41d1s6PoHEXMzGeLDSc3KntlDF1aDcK5CtEQIr/R2bEG1bTPfaLwUjzm3cWm7PF7/7rgjJXuu2EE6eMwsmhFmjS8ilHCPOx0iAuNLoGNDH9eyQRdKvlpDAYMBzDw/Fut9mkAXEwg39+W/60qSebH2ay6Rbl0STHy8Jfno7qWDMQmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4aB3vYkq7eu8rLKcGsaxI+wW+pSzlOUqcKow7TDksfs=;
+ b=CQ8oVLWPwyhQxaJMiGiIHKeu3AwYiuElvvyYKTp5EqpHEEgqCXNgZj/KrQcBOxRupkTs4vD0f88Sc7GffsEdsWpIyc7x44GYTIbrR1PPNm44xbvMwuMlGruhwffdpxu4ggJudtlbnxyuSPI6va8/7h2aKqy3foWtVkNPUGhCAfI=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by VI1PR04MB6960.eurprd04.prod.outlook.com
+ (2603:10a6:803:12d::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.23; Fri, 24 Jul
+ 2020 09:08:19 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::4c0:79dd:b734:9ea7]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::4c0:79dd:b734:9ea7%5]) with mapi id 15.20.3195.028; Fri, 24 Jul 2020
+ 09:08:19 +0000
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v8 0/5] Add support for iMX8MQ Display Controller Subsystem
+Date: Fri, 24 Jul 2020 12:07:29 +0300
+Message-Id: <20200724090736.12228-1-laurentiu.palcu@oss.nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: AM0PR10CA0128.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:e6::45) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
 MIME-Version: 1.0
-References: <20200723145614.18459-1-p.zabel@pengutronix.de>
- <cfffabc0edc59c33f2c0a77276bee20cafe11220.camel@pengutronix.de>
-In-Reply-To: <cfffabc0edc59c33f2c0a77276bee20cafe11220.camel@pengutronix.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 24 Jul 2020 11:07:20 +0200
-Message-ID: <CAKMK7uGaAtk4AY5y=jbC7nDduRYFBfLSdHE8wykJ602Lk-3n+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: add drmm_encoder_init()
-To: Philipp Zabel <p.zabel@pengutronix.de>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fsr-ub1864-141.ea.freescale.net (83.217.231.2) by
+ AM0PR10CA0128.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::45) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.23 via Frontend Transport; Fri, 24 Jul 2020 09:08:18 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [83.217.231.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3b178697-dda5-485d-4a99-08d82fb11ba1
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6960:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB6960E66951A8FFBB2472ABF1BE770@VI1PR04MB6960.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4LJ+B5namELbxRIgecGnSGe+4UZI83RPTjIV+aSI9Ia1pzpZxJ7xtlH++EQhU4rSuKRoE8gGVgpQnFoM2PhxZ59NfI0tKUOsq1ew+NgJ9pCtZVhO457fFnMbV2R+uLyqy5Rgbmb0bjHkSTieIyZzRGgO3YulKtlaaUH4gXenzmXmDD5Cbxj4GXgd993bQ/BqxbolvkE9qZ8jWQbDnpC5nuPe2SGaQI8ykTHiMmrzXizYcFz5+DEqsz30XkFxWOulUnK6ANuy77WqpkslN3quWE2y28Xr988v+FWmE93MrF4uq30OFCMPHz4jxdJGh9HHlNPbJY4m2An1g20I6HSUVkMv152nNltU2aPllZV0QVl3lANrq3e/vB9pZ4FP6ZRulz5QQJieKo8SeiRJluNEXR326CUrYQ/mbXH3sUgfbzQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(346002)(396003)(136003)(39860400002)(376002)(26005)(5660300002)(186003)(86362001)(6506007)(83380400001)(478600001)(966005)(1076003)(16526019)(52116002)(2616005)(66556008)(66946007)(66476007)(6512007)(6666004)(956004)(8676002)(2906002)(6486002)(4326008)(44832011)(8936002)(110136005)(316002)(32563001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: nqXMH1jSC2tCUKG0Oap9JSiqDx5x0XU992ZC8k3dM84FV9iFxP2rlu/bnJ5VZQM3Df+ZgewzqtUX3n1VMcmed3wUEFORwn5DWGVxIZIQ+024I+Ga+1rLVDUXR4gu6goAcx+yVj4NcOdwThZqrfRBQ551vaC86OSWMZQCsBZBcdk0MYJEyBL+nHCVQTZ9pxM9hmRq0R4LibpS+ghdR1mfhZdnQeNeTm2/16ile2xTzoqh8v/2AFJlXlmHMqWu1aelpK6VXvP2g7toHH6BOuv3C1JFssOskbgBDeBGvTWSfXYcokOLqrDulYf8grZff1v2JAQ9fKFliAYBK9AHoHLlLLKnEzQRPQuuDT6HaNe/FYBw4VGEm6GNNloZBWy6mpy/SaK575dVyrPqrUPMSo74zJnA/pRyz0dnIrzzXWOoZnJ3ijTySLrpKHpxuKQm6rJ76E9001xF67uhCvlEh8oDuwdTH1q3us1L8qgmWGlLJAk=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b178697-dda5-485d-4a99-08d82fb11ba1
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2020 09:08:19.4535 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dZNjH5m5MgBjVqeH0mRyy5tfv1ovZyx5e91cQJpFafXJvY5Wtg1156aHEayY5v2ot9+xkEwtdjpI2V073hpBfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6960
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,231 +101,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Sascha Hauer <kernel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: agx@sigxcpu.org, lukas@mntmn.com, laurentiu.palcu@oss.nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 24, 2020 at 10:49 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> On Thu, 2020-07-23 at 16:56 +0200, Philipp Zabel wrote:
-> > Add a drm_encoder_init() variant that allocates an encoder with
-> > drmm_kzalloc() and registers drm_encoder_cleanup() with
-> > drmm_add_action_or_reset().
-> >
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
 
-Thanks for doing this!
+Hi,
 
-> > ---
-> > New in v2
-> > ---
-> >  drivers/gpu/drm/drm_encoder.c | 101 ++++++++++++++++++++++++++--------
-> >  include/drm/drm_encoder.h     |  30 ++++++++++
-> >  2 files changed, 108 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-> > index e555281f43d4..91184f67333c 100644
-> > --- a/drivers/gpu/drm/drm_encoder.c
-> > +++ b/drivers/gpu/drm/drm_encoder.c
-> > @@ -26,6 +26,7 @@
-> >  #include <drm/drm_device.h>
-> >  #include <drm/drm_drv.h>
-> >  #include <drm/drm_encoder.h>
-> > +#include <drm/drm_managed.h>
-> >
-> >  #include "drm_crtc_internal.h"
-> >
-> > @@ -91,25 +92,10 @@ void drm_encoder_unregister_all(struct drm_device *dev)
-> >       }
-> >  }
-> >
-> > -/**
-> > - * drm_encoder_init - Init a preallocated encoder
-> > - * @dev: drm device
-> > - * @encoder: the encoder to init
-> > - * @funcs: callbacks for this encoder
-> > - * @encoder_type: user visible type of the encoder
-> > - * @name: printf style format string for the encoder name, or NULL for default name
-> > - *
-> > - * Initialises a preallocated encoder. Encoder should be subclassed as part of
-> > - * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
-> > - * called from the driver's &drm_encoder_funcs.destroy hook.
-> > - *
-> > - * Returns:
-> > - * Zero on success, error code on failure.
-> > - */
-> > -int drm_encoder_init(struct drm_device *dev,
-> > -                  struct drm_encoder *encoder,
-> > -                  const struct drm_encoder_funcs *funcs,
-> > -                  int encoder_type, const char *name, ...)
-> > +static int __drm_encoder_init(struct drm_device *dev,
-> > +                           struct drm_encoder *encoder,
-> > +                           const struct drm_encoder_funcs *funcs,
-> > +                           int encoder_type, const char *name, va_list ap)
-> >  {
-> >       int ret;
-> >
-> > @@ -125,11 +111,7 @@ int drm_encoder_init(struct drm_device *dev,
-> >       encoder->encoder_type = encoder_type;
-> >       encoder->funcs = funcs;
-> >       if (name) {
-> > -             va_list ap;
-> > -
-> > -             va_start(ap, name);
-> >               encoder->name = kvasprintf(GFP_KERNEL, name, ap);
-> > -             va_end(ap);
-> >       } else {
-> >               encoder->name = kasprintf(GFP_KERNEL, "%s-%d",
-> >                                         drm_encoder_enum_list[encoder_type].name,
-> > @@ -150,6 +132,38 @@ int drm_encoder_init(struct drm_device *dev,
-> >
-> >       return ret;
-> >  }
-> > +
-> > +/**
-> > + * drm_encoder_init - Init a preallocated encoder
-> > + * @dev: drm device
-> > + * @encoder: the encoder to init
-> > + * @funcs: callbacks for this encoder
-> > + * @encoder_type: user visible type of the encoder
-> > + * @name: printf style format string for the encoder name, or NULL for default name
-> > + *
-> > + * Initialises a preallocated encoder. Encoder should be subclassed as part of
-> > + * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
-> > + * called from the driver's &drm_encoder_funcs.destroy hook.
-> > + *
-> > + * Returns:
-> > + * Zero on success, error code on failure.
-> > + */
-> > +int drm_encoder_init(struct drm_device *dev,
-> > +                  struct drm_encoder *encoder,
-> > +                  const struct drm_encoder_funcs *funcs,
-> > +                  int encoder_type, const char *name, ...)
-> > +{
-> > +     va_list ap;
-> > +     int ret;
-> > +
-> > +     if (name)
-> > +             va_start(ap, name);
-> > +     ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-> > +     if (name)
-> > +             va_end(ap);
-> > +
-> > +     return ret;
-> > +}
-> >  EXPORT_SYMBOL(drm_encoder_init);
-> >
-> >  /**
-> > @@ -181,6 +195,47 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
-> >  }
-> >  EXPORT_SYMBOL(drm_encoder_cleanup);
-> >
-> > +void drmm_encoder_init_release(struct drm_device *dev, void *ptr)
-> > +{
-> > +     struct drm_encoder *encoder = ptr;
->
-> I'll add
->
->         if (WARN_ON(!encoder->dev))
->                 return;
->
-> here.
->
-> > +     drm_encoder_cleanup(encoder);
-> > +}
-> > +
-> > +void *__drmm_encoder_init(struct drm_device *dev, size_t size, size_t offset,
-> > +                       const struct drm_encoder_funcs *funcs,
-> > +                       int encoder_type, const char *name, ...)
-> > +{
-> > +     void *container;
-> > +     struct drm_encoder *encoder;
-> > +     va_list ap;
-> > +     int ret;
-> > +
-> > +     if (WARN_ON(!funcs || funcs->destroy))
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     container = drmm_kzalloc(dev, size, GFP_KERNEL);
-> > +     if (!container)
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     encoder = container + offset;
-> > +
-> > +     if (name)
-> > +             va_start(ap, name);
-> > +     ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-> > +     if (name)
-> > +             va_end(ap);
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +
-> > +     ret = drmm_add_action_or_reset(dev, drmm_encoder_init_release, encoder);
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +
-> > +     return container;
-> > +}
-> > +EXPORT_SYMBOL(__drmm_encoder_init);
-> > +
-> >  static struct drm_crtc *drm_encoder_get_crtc(struct drm_encoder *encoder)
-> >  {
-> >       struct drm_connector *connector;
-> > diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> > index a60f5f1555ac..54b82554ee88 100644
-> > --- a/include/drm/drm_encoder.h
-> > +++ b/include/drm/drm_encoder.h
-> > @@ -195,6 +195,36 @@ int drm_encoder_init(struct drm_device *dev,
-> >                    const struct drm_encoder_funcs *funcs,
-> >                    int encoder_type, const char *name, ...);
-> >
-> > +__printf(6, 7)
-> > +void *__drmm_encoder_init(struct drm_device *dev,
-> > +                       size_t size, size_t offset,
-> > +                       const struct drm_encoder_funcs *funcs,
-> > +                       int encoder_type,
-> > +                       const char *name, ...);
-> > +
-> > +/**
-> > + * drmm_encoder_init - Allocate and initialize an encoder
-> > + * @dev: drm device
-> > + * @type: the type of the struct which contains struct &drm_encoder
-> > + * @member: the name of the &drm_encoder within @type.
-> > + * @funcs: callbacks for this encoder
-> > + * @encoder_type: user visible type of the encoder
-> > + * @name: printf style format string for the encoder name, or NULL for default name
-> > + *
-> > + * Allocates and initializes an encoder. Encoder should be subclassed as part of
-> > + * driver encoder objects. Cleanup is automatically handled through registering
-> > + * drm_encoder_cleanup() with drmm_add_action().
-> > + *
-> > + * The @drm_encoder_funcs.destroy hook must be NULL.
-> > + *
-> > + * Returns:
-> > + * Pointer to new encoder, or ERR_PTR on failure.
-> > + */
-> > +#define drmm_encoder_init(dev, type, member, funcs, encoder_type, name, ...) \
-> > +     ((type *) __drmm_encoder_init(dev, sizeof(type), \
-> > +                                   offsetof(type, member), funcs, \
-> > +                                   encoder_type, name, ##__VA_ARGS__))
-> > +
->
-> Should this be called drmm_encoder_alloc instead?
+This patchset adds initial DCSS support for iMX8MQ chip. Initial support
+includes only graphics plane support (no video planes), no HDR10 capabilities,
+no graphics decompression (only linear, tiled and super-tiled buffers allowed).
 
-Yes. Same for the internal helper for consistency. Also see my other
-reply, if the _alloc() variant is all that's needed that makes me
-happy, since then we don't need to code up the drmm_assert_managed
-check for the _init() variants to make sure drivers dont give it
-something stupid like a devm_kzalloc range :-)
--Daniel
+Support for the rest of the features will be added incrementally, in subsequent
+patches.
+
+The patchset was tested with both HDP driver (in the downstream tree) and the upstream
+MIPI-DSI driver (with a couple of patches on top, to make it work correctly with DCSS).
+
+Thanks,
+Laurentiu
+
+Changes in v8:
+ * Removed 'select RESET_CONTROLLER" from Kconfig as Philipp pointed
+   out. SRC is not used in DCSS driver;
+ * Nothing else changed;
+
+Changes in v7:
+ * Added a patch to initialize the connector using the drm_bridge_connector
+   API as Sam suggested. Tested it using NWL_DSI and ADV7535 with
+   Guido's patch [1] applied and one fix for ADV [2]. Also, some extra
+   patches for ADV and NWL were needed, from our downstream tree, which
+   will be upstreamed soon by their author;
+ * Rest of the patches are untouched;
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2020-July/273025.html
+[2] https://lists.freedesktop.org/archives/dri-devel/2020-July/273132.html
+
+Changes in v6:
+ * Addressed Rob's comment and added "additionalProperties: false" at
+   the end of the bindings' properties. However, this change surfaced
+   an issue with the assigned-clock* properties not being documented in
+   the properties section. Added the descriptions and the bindings patch
+   will need another review;
+ * Added an entry for DCSS driver in the MAINTAINERS file;
+ * Removed the component framework patch altogether;
+
+Changes in v5:
+ * Rebased to latest;
+ * Took out component framework support and made it a separate patch so
+   that people can still test with HDP driver, which makes use of it.
+   But the idea is to get rid of it once HDP driver's next versions
+   will remove component framework as well;
+ * Slight improvement to modesetting: avoid cutting off the pixel clock
+   if the new mode and the old one are equal. Also, in this case, is
+   not necessary to wait for DTG to shut off. This would allow to switch
+   from 8b RGB to 12b YUV422, for example, with no interruptions (at least
+   from DCSS point of view);
+ * Do not fire off CTXLD when going to suspend, unless it still has
+   entries that need to be committed to DCSS;
+ * Addressed Rob's comments on bindings;
+
+Changes in v4:
+ * Addressed Lucas and Philipp's comments:
+   * Added DRM_KMS_CMA_HELPER dependency in Kconfig;
+   * Removed usage of devm_ functions since I'm already doing all the
+     clean-up in the submodules_deinit();
+   * Moved the drm_crtc_arm_vblank_event() in dcss_crtc_atomic_flush();
+   * Removed en_completion variable from dcss_crtc since this was
+     introduced mainly to avoid vblank timeout warnings which were fixed
+     by arming the vblank event in flush() instead of begin();
+   * Removed clks_on and irq_enabled flags since all the calls to
+     enabling/disabling clocks and interrupts were balanced;
+   * Removed the custom atomic_commit callback and used the DRM core
+     helper and, in the process, got rid of a workqueue that wasn't
+     necessary anymore;
+   * Fixed some minor DT binding issues flagged by Philipp;
+   * Some other minor changes suggested by Lucas;
+ * Removed YUV formats from the supported formats as these cannot work
+   without the HDR10 module CSCs and LUTs. Will add them back when I
+   will add support for video planes;
+
+Changes in v3:
+ * rebased to latest linux-next and made it compile as drmP.h was
+   removed;
+ * removed the patch adding the VIDEO2_PLL clock. It's already applied;
+ * removed an unnecessary 50ms sleep in the dcss_dtg_sync_set();
+ * fixed a a spurious hang reported by Lukas Hartmann and encountered
+   by me several times;
+ * mask DPR and DTG interrupts by default, as they may come enabled from
+   U-boot;
+
+Changes in v2:
+ * Removed '0x' in node's unit-address both in DT and yaml;
+ * Made the address region size lowercase, to be consistent;
+ * Removed some left-over references to P010;
+ * Added a Kconfig dependency of DRM && ARCH_MXC. This will also silence compilation
+   issues reported by kbuild for other architectures;
+
+
+Laurentiu Palcu (5):
+  drm/imx: compile imx directory by default
+  drm/imx: Add initial support for DCSS on iMX8MQ
+  drm/imx/dcss: use drm_bridge_connector API
+  MAINTAINERS: Add entry for i.MX 8MQ DCSS driver
+  dt-bindings: display: imx: add bindings for DCSS
+
+ .../bindings/display/imx/nxp,imx8mq-dcss.yaml | 104 +++
+ MAINTAINERS                                   |   8 +
+ drivers/gpu/drm/Makefile                      |   2 +-
+ drivers/gpu/drm/imx/Kconfig                   |   2 +
+ drivers/gpu/drm/imx/Makefile                  |   1 +
+ drivers/gpu/drm/imx/dcss/Kconfig              |   8 +
+ drivers/gpu/drm/imx/dcss/Makefile             |   6 +
+ drivers/gpu/drm/imx/dcss/dcss-blkctl.c        |  70 ++
+ drivers/gpu/drm/imx/dcss/dcss-crtc.c          | 219 +++++
+ drivers/gpu/drm/imx/dcss/dcss-ctxld.c         | 424 +++++++++
+ drivers/gpu/drm/imx/dcss/dcss-dev.c           | 325 +++++++
+ drivers/gpu/drm/imx/dcss/dcss-dev.h           | 177 ++++
+ drivers/gpu/drm/imx/dcss/dcss-dpr.c           | 562 ++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-drv.c           | 138 +++
+ drivers/gpu/drm/imx/dcss/dcss-dtg.c           | 409 +++++++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.c           | 198 +++++
+ drivers/gpu/drm/imx/dcss/dcss-kms.h           |  44 +
+ drivers/gpu/drm/imx/dcss/dcss-plane.c         | 405 +++++++++
+ drivers/gpu/drm/imx/dcss/dcss-scaler.c        | 826 ++++++++++++++++++
+ drivers/gpu/drm/imx/dcss/dcss-ss.c            | 180 ++++
+ 20 files changed, 4107 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
+ create mode 100644 drivers/gpu/drm/imx/dcss/Kconfig
+ create mode 100644 drivers/gpu/drm/imx/dcss/Makefile
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-blkctl.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-crtc.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ctxld.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dev.h
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dpr.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-drv.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-dtg.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-kms.h
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-plane.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-scaler.c
+ create mode 100644 drivers/gpu/drm/imx/dcss/dcss-ss.c
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
