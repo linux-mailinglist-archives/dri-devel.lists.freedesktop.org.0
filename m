@@ -2,38 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CB022D987
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 21:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EEA22D98E
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 21:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C466E2A8;
-	Sat, 25 Jul 2020 19:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8E16E2E3;
+	Sat, 25 Jul 2020 19:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3C86E2A8
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 19:10:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 8F02C20028;
- Sat, 25 Jul 2020 21:10:14 +0200 (CEST)
-Date: Sat, 25 Jul 2020 21:10:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2] drm/drm_fb_helper: fix fbdev with sparc64
-Message-ID: <20200725191012.GA434957@ravnborg.org>
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EBE6E2E3
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 19:19:59 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id f5so13227964ljj.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 12:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g4J6dkRqHFKiKhjcRC8q/JmeC/kbD2LNmS8StOCmtOU=;
+ b=mvXHuh6jpM3ry5QoR34JW1d8FG1E/6i19D+6eHevdB/BJD97IyC8wD2xC+bM8l5Ujc
+ 48KF5bxobuUlIlCULXPavhfxF3h1KYr8QgsIyILVedJSXIv54uInP6GcUT1iXSG+ayYu
+ EUD7recqFSD++W9kn404rRgoXuFpxT5nBnjmX6YS6TX57Bn99MxgL9v8Ty2mxycVSlz9
+ lFPJy/ecKwv3YkQic14JYKpV3fDDMlwGCrzbXwY0ocmBn8/Wkw7sQcmAuR6xMs5JLrnE
+ TvooKIp0/sJ+Z9iwMaWOvHuMMjRAhrsvnR6k1debndHhInU3NvFu9JxZ3LxaPSPWVaS3
+ e1Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g4J6dkRqHFKiKhjcRC8q/JmeC/kbD2LNmS8StOCmtOU=;
+ b=QzF+1HS8gzIKSdrA77HpUhu48xZzPqQxaaGM0U41hnDvK39blkU7eJPssIPGj5346k
+ 5oF/c2YlUT2BmS0f9msCZ3Bc+bHNOXMQ6yPG/QzlZiuP1iHpN+LQ9TUGTv2z+Zm2kRUH
+ sgDRAbVktt5uL5dyzMuQvnGtsK4fe5gegAzIqWg6Ziwqp0EbxoHMMfqecXyPhWvXkuyP
+ 6JdDw7xjd42hUPgDXCjlofRRxqk8IeAAEEcuoaV5TqRzl11h0KW2icIiAGRhznYnHBWh
+ Fu9jNEfZJPe4LIQcsA1vG8NW7hBnWoelQTX6XT2TLXFWMFuT93phWM9OhX15TBoLrE+g
+ 3ehw==
+X-Gm-Message-State: AOAM533OdKijgaTL0mFBI1tK7sHND+7DxDq3qKJU2jvQOgUMKtezcjkS
+ 61jRc1EdfFHr777sfOM26Nro25YY6sl8Asc67wA=
+X-Google-Smtp-Source: ABdhPJwX2YWaS3FX13+Q0LtCtGPNZAsAPnsJBOyVicKVnyzv1PltkImBXj4c5goex61U5pVCv5ilQrP7FYqxDuxoALY=
+X-Received: by 2002:a2e:9d0b:: with SMTP id t11mr589477lji.365.1595704797729; 
+ Sat, 25 Jul 2020 12:19:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=pcZqCyVeAAAA:8 a=QyXUC8HyAAAA:8
- a=20KFwNOVAAAA:8 a=J1Y8HTJGAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8
- a=X86rTowx3Nat8lXJRjwA:9 a=xmRN5Wt8QP5Y1GuR:21 a=po6XuuqY1lXjsTWi:21
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=SGy6VSG0Ue1xmPAwIFl9:22
- a=y1Q9-5lHfBjTkpIzbSAN:22 a=AjGcO6oz07-iQ99wixmX:22
- a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200722110411.ebkv6knvc6mzw5uf@smtp.gmail.com>
+ <20200722120502.GK6419@phenom.ffwll.local>
+ <20200722140604.27dfzfnzug5vb75r@smtp.gmail.com>
+ <CAKMK7uHWCnJ+3YnP2FwVGH6cEDkmPnH9ALjY_1R51QVs0HPG0Q@mail.gmail.com>
+ <20200725011737.GA2851@realwakka>
+ <CAKMK7uEWPCzx+K=+nJsLT5HRBVJ+s8tqx30Ljkr4BCBDComyWQ@mail.gmail.com>
+ <20200725174514.esh4gqek6oddizvh@smtp.gmail.com>
+ <CAKMK7uEi0UFSwYTO7h6_YKN+UykOuVcmhMSG_ySy9uyo_7Pz-g@mail.gmail.com>
+ <20200725184918.togb54bxuifrq77c@smtp.gmail.com>
+In-Reply-To: <20200725184918.togb54bxuifrq77c@smtp.gmail.com>
+From: Melissa Wen <melissa.srw@gmail.com>
+Date: Sat, 25 Jul 2020 16:19:46 -0300
+Message-ID: <CAJeY4oEr1mDASzdjfyeXqfqUmM6n1ULgnedM7dif6db6Qk-r2g@mail.gmail.com>
+Subject: Re: [PATCH] drm/vkms: add missing drm_crtc_vblank_put to the get/put
+ pair on flush
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,134 +69,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- sparclinux@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, kernel-usp@googlegroups.com,
+ Sidong Yang <realwakka@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From 1323a7433691aee112a9b2df8041b5024895a77e Mon Sep 17 00:00:00 2001
-From: Sam Ravnborg <sam@ravnborg.org>
-Date: Thu, 9 Jul 2020 21:30:16 +0200
-Subject: [PATCH v2 1/1] drm/drm_fb_helper: fix fbdev with sparc64
+> No, this very first warning continues (only once) :(
+> From here (drm_crtc_vblank_on):
+>         if (atomic_read(&vblank->refcount) != 0 || drm_vblank_offdelay == 0)
+>                 drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
 
-Recent kernels have been reported to panic using the bochs_drm framebuffer under
-qemu-system-sparc64 which was bisected to commit 7a0483ac4ffc "drm/bochs: switch to
-generic drm fbdev emulation". The backtrace indicates that the shadow framebuffer
-copy in drm_fb_helper_dirty_blit_real() is trying to access the real framebuffer
-using a virtual address rather than use an IO access typically implemented using a
-physical (ASI_PHYS) access on SPARC.
+Sorry, not sure when this warning is triggered.
 
-The fix is to replace the memcpy with memcpy_toio() from io.h.
-
-memcpy_toio() uses writeb() where the original fbdev code
-used sbus_memcpy_toio(). The latter uses sbus_writeb().
-
-The difference between writeb() and sbus_memcpy_toio() is
-that writeb() writes bytes in little-endian, where sbus_writeb() writes
-bytes in big-endian. As endian does not matter for byte writes they are
-the same. So we can safely use memcpy_toio() here.
-
-For many architectures memcpy_toio() is a simple memcpy().
-One side-effect that is unknown is if this has any impact on other
-architectures.
-So far the analysis tells that this change is OK for other arch's.
-but testing would be good.
-
-v2:
-  - Added missing __iomem cast (kernel test robot)
-  - Made changelog readable and fix typos (Mark)
-  - Add flag to select iomem - and set it in the bochs driver
-
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reported-by: kernel test robot <lkp@intel.com>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: sparclinux@vger.kernel.org
-Link: https://patchwork.freedesktop.org/patch/msgid/20200709193016.291267-1-sam@ravnborg.org
----
-
-This fix introducing a flag in mode_config is at best a band-aid
-solution until we have a proper fix.
-We need to propagate the info about iomem so it is not a driver flag
-thing.
-
-There is also the issue with sys* versus cfb* functions, where cfb*
-functions are used for iomem.
-I did not manage to make the bochs driver work with the cfb* functions,
-for some unknown reason booting would be stuck waiting for the console
-mutex when usign the cfb* functions.
-
-I consider this fix OK to get the kernel working for sparc64 with the
-bochs driver for now. And with the fbdev_uses_iomem flag no other
-drivers will see any changes.
-
-	Sam
-
- drivers/gpu/drm/bochs/bochs_kms.c | 1 +
- drivers/gpu/drm/drm_fb_helper.c   | 6 +++++-
- include/drm/drm_mode_config.h     | 9 +++++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-index 05d8373888e8..079f46f5cdb6 100644
---- a/drivers/gpu/drm/bochs/bochs_kms.c
-+++ b/drivers/gpu/drm/bochs/bochs_kms.c
-@@ -146,6 +146,7 @@ int bochs_kms_init(struct bochs_device *bochs)
- 	bochs->dev->mode_config.preferred_depth = 24;
- 	bochs->dev->mode_config.prefer_shadow = 0;
- 	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
-+	bochs->dev->mode_config.fbdev_use_iomem = true;
- 	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
- 
- 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 5609e164805f..89cfd68ef400 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -399,7 +399,11 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
- 	unsigned int y;
- 
- 	for (y = clip->y1; y < clip->y2; y++) {
--		memcpy(dst, src, len);
-+		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
-+			memcpy(dst, src, len);
-+		else
-+			memcpy_toio((void __iomem *)dst, src, len);
-+
- 		src += fb->pitches[0];
- 		dst += fb->pitches[0];
- 	}
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 6c3ef49b46b3..c24c066bdd9c 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -865,6 +865,15 @@ struct drm_mode_config {
- 	 */
- 	bool prefer_shadow_fbdev;
- 
-+	/**
-+	 * @fbdev_use_iomem:
-+	 *
-+	 * Set to true if framebuffer reside in iomem.
-+	 * When set to true memcpy_toio() is used when copying the framebuffer in
-+	 * drm_fb_helper.drm_fb_helper_dirty_blit_real()
-+	 */
-+	bool fbdev_use_iomem;
-+
- 	/**
- 	 * @quirk_addfb_prefer_xbgr_30bpp:
- 	 *
--- 
-2.25.1
-
+>
+> > But I'm still wondering why after step 3 we don't get -EINVAL from
+> > vblank_get() - after vblank_off() vblank->enabled should be false
+> > again, getting us back to the same state as after 1. Is that not
+> > happening?
+>
+> Yes (sorry if it got confused), we got -EINVAL after setp 3:
+>
+> In step 3, at the end of the 2nd running, we have:
+> atomic_disable
+> --> vblank_off [!vblank->inmodeset + refcount going 0->1 + inmodeset=1]
+> and then in next vblank_get: -EINVAL (!vblank->enabled + refcount ends 1)
+> as in the first step.
+>
+> Melissa
+>
+> > -Daniel
+> >
+> > >
+> > > > >
+> > > > > Thanks
+> > > > > -Sidong
+> > > > >
+> > > > > > > >
+> > > > > > > > >             crtc->state->event = NULL;
+> > > > > > > > >     }
+> > > > > > > > >
+> > > > > > > > > --
+> > > > > > > > > 2.27.0
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > --
+> > > > > > > > Daniel Vetter
+> > > > > > > > Software Engineer, Intel Corporation
+> > > > > > > > http://blog.ffwll.ch
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > Daniel Vetter
+> > > > > > Software Engineer, Intel Corporation
+> > > > > > http://blog.ffwll.ch
+> > > > > > _______________________________________________
+> > > > > > dri-devel mailing list
+> > > > > > dri-devel@lists.freedesktop.org
+> > > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > >
+> > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
