@@ -2,31 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE59422DFF9
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76DB22E002
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:04:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F23089DF7;
-	Sun, 26 Jul 2020 15:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7572589FF7;
+	Sun, 26 Jul 2020 15:03:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1AFE6EA66
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 07:40:03 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 6C26CB54E9F1A10EBBCF;
- Sat, 25 Jul 2020 15:39:59 +0800 (CST)
-Received: from huawei.com (10.175.100.227) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Sat, 25 Jul 2020
- 15:39:51 +0800
-From: Ming Li <limingming.li@huawei.com>
-To: <b.zolnierkie@samsung.com>
-Subject: [PATCH -next] vc: Fix build errors
-Date: Sat, 25 Jul 2020 15:47:43 +0800
-Message-ID: <20200725074743.31740-1-limingming.li@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF0A8989A
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 09:08:46 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id f1so9742720wro.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 02:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DyMBL+yC5aIhYRGcaqnJysyITwH53U1Ro41N0CgRvhs=;
+ b=WQbQ8gmkRDWDzzP1+7raI6cxoeLmKTadrBGLHChz9qVlYLI7uTps1l2/Qh4MafNLx9
+ FjFKFCtt1FFiy9A0CcZZChIQ1/uLdrD3lya9doFjD3bpuk7Pmj81Im5Eo7VD6kxetqhN
+ Iv1mFQW9nntPe3o4zYxKy+6vihdYkEyyyXG3nVzupo9vjOiyQAJXDU7heVH4Xofvglo3
+ VLIxFOPVdGiD6uj1gt1ylQIU4VygZZrbW+krWA6bufIx/jwTHb6kPvdSgGsr5fXKrY54
+ oNcNZY4pbNESzRKHoC8Jy/XX2Zqgtla4BfadkHQLw7og4mdbU6nuVn1sci5w3o1q+t/p
+ DnGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DyMBL+yC5aIhYRGcaqnJysyITwH53U1Ro41N0CgRvhs=;
+ b=hi7j3n2ZYvXeR6GihiBsu7h1KFu3I6LXOp06J5mfTdoMBWYS6n6ttIij+zOfNiGAS3
+ WRUHdp+loenekTRb3sInkFQy8YbMWgU19dZCCfFlZ9yv/BjH9Q1pP1B4yByQqGiS9fID
+ RiqQCIUghmeXma1ZnVPBiCv8V3WdcXo5C7ePLVqcvT6FeaicwqEd9iR+4lDwTX88CuIB
+ RCQ3SlIeXsuMucv5k1LwdqKPv3asihKqLRk/SL60RKn40ueoDDPvJiaVmHGbuG1ZblhV
+ Tfi1eJ0JrzdJVWirzaaZt5Z5EiIr31AsgejK0lwk52tv4DzH/Y3OGKdBvFAIFP3Vd53N
+ hQ9w==
+X-Gm-Message-State: AOAM530S2qub+v+BOH10YVixi24lH5ohWMwooX3Y6+QacRnlgHuy+G0f
+ ILHQv0rW2hhdbY2kvZCPGb8=
+X-Google-Smtp-Source: ABdhPJwVxo79mPawJutmkPpxtYQ7dWDmm+5ZOr7of7YeMdOgECyD7PzQD5HyqrFAkmML4Rd/2dhmAQ==
+X-Received: by 2002:adf:fd04:: with SMTP id e4mr11659409wrr.353.1595668125165; 
+ Sat, 25 Jul 2020 02:08:45 -0700 (PDT)
+Received: from [192.168.1.145] (94-39-209-155.adsl-ull.clienti.tiscali.it.
+ [94.39.209.155])
+ by smtp.gmail.com with ESMTPSA id n12sm3831238wrg.77.2020.07.25.02.08.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Jul 2020 02:08:44 -0700 (PDT)
+Subject: Re: [PATCH 5/5] drm: rockchip: use overlay windows as such
+To: Alex Bee <knaerzche@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>
+References: <20200718200323.3559-1-knaerzche@gmail.com>
+ <20200718200323.3559-6-knaerzche@gmail.com>
+From: Paolo Sabatino <paolo.sabatino@gmail.com>
+Message-ID: <3a420557-8f49-02bf-e5d8-94c69534b2ca@gmail.com>
+Date: Sat, 25 Jul 2020 11:08:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Originating-IP: [10.175.100.227]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200718200323.3559-6-knaerzche@gmail.com>
+Content-Language: it-IT
 X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,73 +73,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, gregkh@linuxfoundation.org,
- john.wanghui@huawei.com, dri-devel@lists.freedesktop.org,
- linux-next@vger.kernel.org, cuibixuan@huawei.com, jslaby@suse.cz
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QnVpbGQgZXJyb3JzIGFyZSBzZWVuIG9uIE1JUFMgcGxhdGZvcm1zIGJlY2F1c2Ugb2YKdmMgc3Rh
-dGUgc2VwYXJhdGlvbiBhbmQgdGhlIGZvbGxvd2luZyBidWlsZCBlcnJvcwp3ZXJlIHJlcG9ydGVk
-LgoKLi4vbGludXgvZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLmM6IEluIGZ1bmN0
-aW9uIOKAmG5ld3BvcnRfY2xlYXLigJk6Ci4uL2xpbnV4L2RyaXZlcnMvdmlkZW8vY29uc29sZS9u
-ZXdwb3J0X2Nvbi5jOjM2NToxNTogZXJyb3I6CuKAmHN0cnVjdCB2Y19kYXRh4oCZIGhhcyBubyBt
-ZW1iZXIgbmFtZWQg4oCYdmNfY29sb3LigJk7IGRpZCB5b3UgbWVhbiDigJh2Y19jb2xz4oCZPwog
-ICAgICAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOwogICAgICAgICAgICAgICBefn5+
-fn5+fgogICAgICAgICAgICAgICB2Y19jb2xzCi4uL2xpbnV4L2RyaXZlcnMvdmlkZW8vY29uc29s
-ZS9uZXdwb3J0X2Nvbi5jOjM2ODoxNTogZXJyb3I6CuKAmHN0cnVjdCB2Y19kYXRh4oCZIGhhcyBu
-byBtZW1iZXIgbmFtZWQg4oCYdmNfY29sb3LigJk7IGRpZCB5b3UgbWVhbiDigJh2Y19jb2xz4oCZ
-PwogICAgICAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOwogICAgICAgICAgICAgICBe
-fn5+fn5+fgogICAgICAgICAgICAgICB2Y19jb2xzCi4uL2xpbnV4L2RyaXZlcnMvdmlkZW8vY29u
-c29sZS9uZXdwb3J0X2Nvbi5jOjM3MDoxNTogZXJyb3I6CuKAmHN0cnVjdCB2Y19kYXRh4oCZIGhh
-cyBubyBtZW1iZXIgbmFtZWQg4oCYdmNfY29sb3LigJk7IGRpZCB5b3UgbWVhbiDigJh2Y19jb2xz
-4oCZPwogICAgICAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOwogICAgICAgICAgICAg
-ICBefn5+fn5+fgogICAgICAgICAgICAgICB2Y19jb2xzCi4uL2xpbnV4L2RyaXZlcnMvdmlkZW8v
-Y29uc29sZS9uZXdwb3J0X2Nvbi5jOiBJbiBmdW5jdGlvbiDigJhuZXdwb3J0X3Njcm9sbOKAmToK
-Li4vbGludXgvZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLmM6NTk0OjE1OiBlcnJv
-cjoK4oCYc3RydWN0IHZjX2RhdGHigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJh2Y19jb2xvcuKA
-mTsgZGlkIHlvdSBtZWFuIOKAmHZjX2NvbHPigJk/CiAgICAgICAgICAodmMtPnZjX2NvbG9yICYg
-MHhmMCkgPj4gNCk7CiAgICAgICAgICAgICAgIF5+fn5+fn5+CiAgICAgICAgICAgICAgIHZjX2Nv
-bHMKLi4vbGludXgvZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLmM6NTk4OjE1OiBl
-cnJvcjoK4oCYc3RydWN0IHZjX2RhdGHigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJh2Y19jb2xv
-cuKAmTsgZGlkIHlvdSBtZWFuIOKAmHZjX2NvbHPigJk/CiAgICAgICAgICAodmMtPnZjX2NvbG9y
-ICYgMHhmMCkgPj4gNCk7CiAgICAgICAgICAgICAgIF5+fn5+fn5+CiAgICAgICAgICAgICAgIHZj
-X2NvbHMKbWFrZVs0XTogKioqIFsvc2NyYXRjaC9saW51eC9zY3JpcHRzL01ha2VmaWxlLmJ1aWxk
-OjI4MDogZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLm9dIEVycm9yIDEKbWFrZVsz
-XTogKioqIFsvc2NyYXRjaC9saW51eC9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjQ5NzogZHJpdmVy
-cy92aWRlby9jb25zb2xlXSBFcnJvciAyCm1ha2VbM106ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlz
-aGVkIGpvYnMuLi4uCgpGaXhlczogMjhiYzI0ZmM0NmY5ICgidmM6IHNlcGFyYXRlIHN0YXRlIikK
-U2lnbmVkLW9mZi1ieTogTWluZyBMaSA8bGltaW5nbWluZy5saUBodWF3ZWkuY29tPgpDYzogSmly
-aSBTbGFieSA8anNsYWJ5QHN1c2UuY3o+CkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBs
-aW51eGZvdW5kYXRpb24ub3JnPgpDYzogQmFydGxvbWllaiBab2xuaWVya2lld2ljeiA8Yi56b2xu
-aWVya2llQHNhbXN1bmcuY29tPgotLS0KIGRyaXZlcnMvdmlkZW8vY29uc29sZS9uZXdwb3J0X2Nv
-bi5jIHwgMTAgKysrKystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBk
-ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3cG9ydF9j
-b24uYyBiL2RyaXZlcnMvdmlkZW8vY29uc29sZS9uZXdwb3J0X2Nvbi5jCmluZGV4IGRmM2M1MmQ3
-MjE1OS4uNzJmMTQ2ZDA0N2Q5IDEwMDY0NAotLS0gYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3
-cG9ydF9jb24uYworKysgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3cG9ydF9jb24uYwpAQCAt
-MzYyLDEyICszNjIsMTIgQEAgc3RhdGljIHZvaWQgbmV3cG9ydF9jbGVhcihzdHJ1Y3QgdmNfZGF0
-YSAqdmMsIGludCBzeSwgaW50IHN4LCBpbnQgaGVpZ2h0LAogCiAJaWYgKHlzdGFydCA8IHllbmQp
-IHsKIAkJbmV3cG9ydF9jbGVhcl9zY3JlZW4oc3ggPDwgMywgeXN0YXJ0LCB4ZW5kLCB5ZW5kLAot
-CQkJCSAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOworCQkJCSAgICAgKHZjLT5zdGF0
-ZS5jb2xvciAmIDB4ZjApID4+IDQpOwogCX0gZWxzZSB7CiAJCW5ld3BvcnRfY2xlYXJfc2NyZWVu
-KHN4IDw8IDMsIHlzdGFydCwgeGVuZCwgMTAyMywKLQkJCQkgICAgICh2Yy0+dmNfY29sb3IgJiAw
-eGYwKSA+PiA0KTsKKwkJCQkgICAgICh2Yy0+c3RhdGUuY29sb3IgJiAweGYwKSA+PiA0KTsKIAkJ
-bmV3cG9ydF9jbGVhcl9zY3JlZW4oc3ggPDwgMywgMCwgeGVuZCwgeWVuZCwKLQkJCQkgICAgICh2
-Yy0+dmNfY29sb3IgJiAweGYwKSA+PiA0KTsKKwkJCQkgICAgICh2Yy0+c3RhdGUuY29sb3IgJiAw
-eGYwKSA+PiA0KTsKIAl9CiB9CiAKQEAgLTU5MSwxMSArNTkxLDExIEBAIHN0YXRpYyBib29sIG5l
-d3BvcnRfc2Nyb2xsKHN0cnVjdCB2Y19kYXRhICp2YywgdW5zaWduZWQgaW50IHQsIHVuc2lnbmVk
-IGludCBiLAogCQkJdG9wc2NhbiA9ICh0b3BzY2FuICsgKGxpbmVzIDw8IDQpKSAmIDB4M2ZmOwog
-CQkJbmV3cG9ydF9jbGVhcl9saW5lcyh2Yy0+dmNfcm93cyAtIGxpbmVzLAogCQkJCQkgICAgdmMt
-PnZjX3Jvd3MgLSAxLAotCQkJCQkgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOworCQkJ
-CQkgICAgKHZjLT5zdGF0ZS5jb2xvciAmIDB4ZjApID4+IDQpOwogCQl9IGVsc2UgewogCQkJdG9w
-c2NhbiA9ICh0b3BzY2FuICsgKC1saW5lcyA8PCA0KSkgJiAweDNmZjsKIAkJCW5ld3BvcnRfY2xl
-YXJfbGluZXMoMCwgbGluZXMgLSAxLAotCQkJCQkgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+
-IDQpOworCQkJCQkgICAgKHZjLT5zdGF0ZS5jb2xvciAmIDB4ZjApID4+IDQpOwogCQl9CiAJCW5w
-cmVncy0+Y3NldC50b3BzY2FuID0gKHRvcHNjYW4gLSAxKSAmIDB4M2ZmOwogCQlyZXR1cm4gZmFs
-c2U7Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On 18/07/20 22:03, Alex Bee wrote:
+>   static const int rk3188_vop_intrs[] = {
+> @@ -980,7 +980,7 @@ static const struct vop_win_data rk3228_vop_win_data[] = {
+>   	{ .base = 0x00, .phy = &rk3288_win01_data,
+>   	  .type = DRM_PLANE_TYPE_PRIMARY },
+>   	{ .base = 0x40, .phy = &rk3288_win01_data,
+> -	  .type = DRM_PLANE_TYPE_CURSOR },
+> +	  .type = DRM_PLANE_TYPE_OVERLAY },
+>   };
+>   
+>   static const struct vop_data rk3228_vop = {
+
+Tried on several rk322x boards, it worked fine.
+
+Tested-by: Paolo Sabatino <paolo.sabatino@gmail.com>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
