@@ -2,44 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0E722D5D3
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 09:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F343622D5DD
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 09:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2AC76EA64;
-	Sat, 25 Jul 2020 07:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11706EA66;
+	Sat, 25 Jul 2020 07:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 096FC6EA64
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 07:35:46 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Sat, 25 Jul 2020 07:35:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: vandalhj@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-IvH01GCzRc@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15A1D6EA66
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 07:41:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 284FCB66C;
+ Sat, 25 Jul 2020 07:42:03 +0000 (UTC)
+Subject: Re: [PATCH -next] vc: Fix build errors
+To: Ming Li <limingming.li@huawei.com>, b.zolnierkie@samsung.com
+References: <20200725074743.31740-1-limingming.li@huawei.com>
+From: Jiri Slaby <jslaby@suse.cz>
+Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <98f7beee-8fab-6c56-7179-424b6bb45443@suse.cz>
+Date: Sat, 25 Jul 2020 09:41:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200725074743.31740-1-limingming.li@huawei.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,188 +81,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, gregkh@linuxfoundation.org,
+ john.wanghui@huawei.com, dri-devel@lists.freedesktop.org,
+ linux-next@vger.kernel.org, cuibixuan@huawei.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205089
+On 25. 07. 20, 9:47, Ming Li wrote:
+> Build errors are seen on MIPS platforms because of
+> vc state separation and the following build erros
+> were reported.
 
-Lech (vandalhj@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |vandalhj@gmail.com
-
---- Comment #13 from Lech (vandalhj@gmail.com) ---
-Jul 25 09:19:54 lech-ryzen-vega kernel: [37627.065966]
-[drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for fences
-timed out!
-Jul 25 09:19:54 lech-ryzen-vega kernel: [37631.935858] [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* ring gfx timeout, signaled seq=1228554, emitted seq=1228556
-Jul 25 09:19:54 lech-ryzen-vega kernel: [37631.935939] [drm:amdgpu_job_timedout
-[amdgpu]] *ERROR* Process information: process HeroesOfTheStor pid 28617 thread
-HeroesOfTheStor pid 28691
-Jul 25 09:19:54 lech-ryzen-vega kernel: [37631.935948] amdgpu 0000:0b:00.0: GPU
-reset begin!
-Jul 25 09:19:54 lech-ryzen-vega kernel: [37632.181860]
-[drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR* Waiting for fences
-timed out!
-Jul 25 09:19:54 lech-ryzen-vega kernel: [37632.312215] amdgpu 0000:0b:00.0: GPU
-BACO reset
-Jul 25 09:19:55 lech-ryzen-vega kernel: [37632.888325] amdgpu 0000:0b:00.0: GPU
-reset succeeded, trying to resume
-Jul 25 09:19:55 lech-ryzen-vega kernel: [37632.888485] [drm] PCIE GART of 512M
-enabled (table at 0x000000F400900000).
-Jul 25 09:19:55 lech-ryzen-vega kernel: [37632.888509] [drm] VRAM is lost due
-to GPU reset!
-Jul 25 09:19:55 lech-ryzen-vega kernel: [37632.888833] [drm] PSP is resuming...
-Jul 25 09:19:55 lech-ryzen-vega kernel: [37633.076488] [drm] reserve 0x400000
-from 0xf5fe800000 for PSP TMR
-Jul 25 09:19:55 lech-ryzen-vega kernel: [37633.255659] [drm] kiq ring mec 2
-pipe 1 q 0
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373718] snd_hda_intel
-0000:0b:00.1: azx_get_response timeout, switching to polling mode: last
-cmd=0x00af2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373723] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373726] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373728] snd_hda_intel
-0000:0b:00.1: spurious response 0x233:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373730] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373731] snd_hda_intel
-0000:0b:00.1: spurious response 0x1:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373733] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373735] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373736] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373738] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:56 lech-ryzen-vega kernel: [37634.373739] snd_hda_intel
-0000:0b:00.1: spurious response 0x0:0x0, last cmd=0xaf2d00
-Jul 25 09:19:57 lech-ryzen-vega kernel: [37635.377702] snd_hda_intel
-0000:0b:00.1: No response from codec, disabling MSI: last cmd=0x00a72d01
-Jul 25 09:19:58 lech-ryzen-vega kernel: [37636.393677] snd_hda_intel
-0000:0b:00.1: No response from codec, resetting bus: last cmd=0x00a72d01
-Jul 25 09:19:59 lech-ryzen-vega kernel: [37637.397658] snd_hda_intel
-0000:0b:00.1: azx_get_response timeout, switching to single_cmd mode: last
-cmd=0x00b77701
-Jul 25 09:19:59 lech-ryzen-vega kernel: [37637.419432] [drm] UVD and UVD ENC
-initialized successfully.
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519135] [drm] VCE initialized
-successfully.
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519149] amdgpu 0000:0b:00.0:
-ring gfx uses VM inv eng 0 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519151] amdgpu 0000:0b:00.0:
-ring comp_1.0.0 uses VM inv eng 1 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519153] amdgpu 0000:0b:00.0:
-ring comp_1.1.0 uses VM inv eng 4 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519155] amdgpu 0000:0b:00.0:
-ring comp_1.2.0 uses VM inv eng 5 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519156] amdgpu 0000:0b:00.0:
-ring comp_1.3.0 uses VM inv eng 6 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519158] amdgpu 0000:0b:00.0:
-ring comp_1.0.1 uses VM inv eng 7 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519159] amdgpu 0000:0b:00.0:
-ring comp_1.1.1 uses VM inv eng 8 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519161] amdgpu 0000:0b:00.0:
-ring comp_1.2.1 uses VM inv eng 9 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519162] amdgpu 0000:0b:00.0:
-ring comp_1.3.1 uses VM inv eng 10 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519164] amdgpu 0000:0b:00.0:
-ring kiq_2.1.0 uses VM inv eng 11 on hub 0
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519166] amdgpu 0000:0b:00.0:
-ring sdma0 uses VM inv eng 0 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519167] amdgpu 0000:0b:00.0:
-ring page0 uses VM inv eng 1 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519169] amdgpu 0000:0b:00.0:
-ring sdma1 uses VM inv eng 4 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519170] amdgpu 0000:0b:00.0:
-ring page1 uses VM inv eng 5 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519171] amdgpu 0000:0b:00.0:
-ring uvd_0 uses VM inv eng 6 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519173] amdgpu 0000:0b:00.0:
-ring uvd_enc_0.0 uses VM inv eng 7 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519174] amdgpu 0000:0b:00.0:
-ring uvd_enc_0.1 uses VM inv eng 8 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519176] amdgpu 0000:0b:00.0:
-ring vce0 uses VM inv eng 9 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519177] amdgpu 0000:0b:00.0:
-ring vce1 uses VM inv eng 10 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519179] amdgpu 0000:0b:00.0:
-ring vce2 uses VM inv eng 11 on hub 1
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519180] [drm] ECC is not
-present.
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.519182] [drm] SRAM ECC is not
-present.
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.520993] [drm] recover vram bo
-from shadow start
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522435] [drm] recover vram bo
-from shadow done
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522437] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522438] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522466] amdgpu 0000:0b:00.0: GPU
-reset(2) succeeded!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522477] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522479] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522481] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522482] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522484] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522485] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522487] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522488] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522489] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522491] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522492] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522493] [drm] Skip scheduling
-IBs!
-Jul 25 09:20:00 lech-ryzen-vega kernel: [37637.522770] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.127879] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.129190] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.162337] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.164145] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.164261] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.167924] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-Jul 25 09:20:10 lech-ryzen-vega kernel: [37648.168801] [drm:amdgpu_cs_ioctl
-[amdgpu]] *ERROR* Failed to initialize parser -125!
-
-HW: 
-Vega 56 
-Ryzen 3600X
-
-SW:
-5.7.1-050701-generic x86_64
-Mesa 20.2.0-devel (git-14a12b7 2020-07-24 focal-oibaf-ppa)
-
-You can safely reopen it.
+Thanks, but already fixed:
+https://lore.kernel.org/dri-devel/20200724062735.18229-1-jslaby@suse.cz/
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+js
+suse labs
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
