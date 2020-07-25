@@ -1,55 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30DE22D441
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 05:26:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEBA22D458
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 05:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6834E6EA5A;
-	Sat, 25 Jul 2020 03:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37DA6EA5B;
+	Sat, 25 Jul 2020 03:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D16656EA5A
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 03:26:37 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id w2so6438980pgg.10
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 20:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=H0jwgkKJw1F2QGrxp3XRsBO4Zv0vbxAb7H7LFDlABiQ=;
- b=RbNTN2vPJ+dA/LwMFiC3sJgHNi9P7iDpEf0QPN9vRRqQ7v6rh8ugXQpi5Vouhpb/+x
- E/SZz2L0MCrCHEVHr9cQu4Fa+J9Oq6lk738yyuyDRw+2Ej5YQOGNQjVEs6rpQ38YxvVY
- mrkXyY/dpROjus1mzoaCe3ZvJaPBbZsCVRiB3LkavibRHIGwVH5CbMFDNohLUpHSyO1R
- Hf0jM7DvjDSq3Id5l1M0ElsmQ1zPlI5eziR8fpmSC7io0yxpn4ckZiTj+RBX2EA7SUhy
- pmLxYj5HhfjFkeeE+7fkuSm24xWP8b4xfqAthKMGLZI9OKgeJEKSaT1uD/uQzBOK3UST
- A6Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=H0jwgkKJw1F2QGrxp3XRsBO4Zv0vbxAb7H7LFDlABiQ=;
- b=gIibajQ7I7gUehQl/1ltKt1MByANy6RFU2Zc+G3hnXMcb4/eXQ0/kiYqRo71x6b4qa
- v8hvZl7nL7cNz38rjd/A4bRd/lwqiLTn+IP4ZYnxwGFAimHquAO+wqhaVLevN6xXCdAe
- AK+Glbrk8e2uZ7oG6TXIOzB8jGZGkHucf7cDtF4x1410uVh7pv7aPoWGtS0Vw56LiHGk
- vXl8ei4GLtdmOoXxcx34nN+85z+g+hGgSSg47uUwHSWIq4ojhXgNAIxKylBwcfo6ODGE
- KpwlNgqW9glp9/fsvEmkMxVb1NFOR43++ICf3vS1Hp+idJTQ+SYFQ3FjLg6BjKNk+1Q2
- ZuoQ==
-X-Gm-Message-State: AOAM531i45GTHcle5n1tDkhZDJAaTINUCMhPPPYpj/xyWJ+/XNlz8dci
- a4WpXzpce4mDNK5kpA9SWKZX0Q==
-X-Google-Smtp-Source: ABdhPJye4Zi1p+g7i5EeVNtB5XOqoG/SM8okB5VAhbaF1GX8NRKfTkCuaLkqofWvksTtGS/kYQYgww==
-X-Received: by 2002:a63:fe42:: with SMTP id x2mr11177808pgj.207.1595647597349; 
- Fri, 24 Jul 2020 20:26:37 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- 204sm7754074pfx.3.2020.07.24.20.26.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jul 2020 20:26:36 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH] dma-heap: Add proper kref handling on dma-buf heaps
-Date: Sat, 25 Jul 2020 03:26:33 +0000
-Message-Id: <20200725032633.125006-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31B66EA5B
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 03:45:26 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6BD7420774
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 03:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595648726;
+ bh=/xi1l59t4puPNMHa6vw+Wd6hAJ1YW7wjpGo/KFK67X4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=iIS1UnzfBDp4JZn7blCJlTzLHKbpEZBF7uiHi6Rs7wNlnt70Gim6sl1x4nrtwsS9c
+ riLZAxptx/nDlq1rkQkjqDycH66BStyZkAV52zSlNAQU/+MZgmr0dtUs6DILJJsBhY
+ VM7uEN5YxXW/XjkL/bK8oVe8tMDFhN9+bLy+7VBM=
+Received: by mail-ej1-f49.google.com with SMTP id w9so11855719ejc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jul 2020 20:45:26 -0700 (PDT)
+X-Gm-Message-State: AOAM531uKzd8OR3JvtN1LjfcQ+SuZ++LPdnghxbmB4NNiJ83LBJi5RqE
+ 2lvOG9EwpOESVq23U1qJBvof4Z1xHYtlhqvcWQ==
+X-Google-Smtp-Source: ABdhPJxzrr2oNDn9HERLTsIjAMm+pViG6iwprV4+t/cPE8RMjtFFo/kBjpquOofvuhgoLjfdcSKqzQlhG7Q0XCm7Nck=
+X-Received: by 2002:a17:906:8489:: with SMTP id
+ m9mr9652154ejx.94.1595648724836; 
+ Fri, 24 Jul 2020 20:45:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1595469798-3824-8-git-send-email-yongqiang.niu@mediatek.com>
+ <CAAOTY_9hdvw7htuOkJmmmGR9SAev4O+kWuMopfP_F=8Vg=_U+A@mail.gmail.com>
+ <1595647858.13250.20.camel@mhfsdcap03>
+In-Reply-To: <1595647858.13250.20.camel@mhfsdcap03>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 25 Jul 2020 11:45:13 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9Y=bcxPWQG7H4Su_X11e3kRx761ZmHTb_wOtb0R71-WA@mail.gmail.com>
+Message-ID: <CAAOTY_9Y=bcxPWQG7H4Su_X11e3kRx761ZmHTb_wOtb0R71-WA@mail.gmail.com>
+Subject: Re: [v7, PATCH 7/7] drm/mediatek: add support for mediatek SOC MT8183
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,132 +57,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Liam Mark <lmark@codeaurora.org>,
- "Andrew F . Davis" <afd@ti.com>, Laura Abbott <labbott@kernel.org>,
- linux-media@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add proper refcounting on the dma_heap structure.
-While existing heaps are built-in, we may eventually
-have heaps loaded from modules, and we'll need to be
-able to properly handle the references to the heaps
-
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Andrew F. Davis <afd@ti.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/dma-heap.c | 31 +++++++++++++++++++++++++++----
- include/linux/dma-heap.h   |  6 ++++++
- 2 files changed, 33 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index afd22c9dbdcf..90c3720acc1c 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -40,6 +40,8 @@ struct dma_heap {
- 	dev_t heap_devt;
- 	struct list_head list;
- 	struct cdev heap_cdev;
-+	int minor;
-+	struct kref refcount;
- };
- 
- static LIST_HEAD(heap_list);
-@@ -190,11 +192,31 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
- 	return heap->priv;
- }
- 
-+static void dma_heap_release(struct kref *ref)
-+{
-+	struct dma_heap *heap = container_of(ref, struct dma_heap, refcount);
-+
-+	/* Remove heap from the list */
-+	mutex_lock(&heap_list_lock);
-+	list_del(&heap->list);
-+	mutex_unlock(&heap_list_lock);
-+
-+	device_destroy(dma_heap_class, heap->heap_devt);
-+	cdev_del(&heap->heap_cdev);
-+	xa_erase(&dma_heap_minors, heap->minor);
-+
-+	kfree(heap);
-+}
-+
-+void dma_heap_put(struct dma_heap *h)
-+{
-+	kref_put(&h->refcount, dma_heap_release);
-+}
-+
- struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- {
- 	struct dma_heap *heap, *h, *err_ret;
- 	struct device *dev_ret;
--	unsigned int minor;
- 	int ret;
- 
- 	if (!exp_info->name || !strcmp(exp_info->name, "")) {
-@@ -223,12 +245,13 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 	if (!heap)
- 		return ERR_PTR(-ENOMEM);
- 
-+	kref_init(&heap->refcount);
- 	heap->name = exp_info->name;
- 	heap->ops = exp_info->ops;
- 	heap->priv = exp_info->priv;
- 
- 	/* Find unused minor number */
--	ret = xa_alloc(&dma_heap_minors, &minor, heap,
-+	ret = xa_alloc(&dma_heap_minors, &heap->minor, heap,
- 		       XA_LIMIT(0, NUM_HEAP_MINORS - 1), GFP_KERNEL);
- 	if (ret < 0) {
- 		pr_err("dma_heap: Unable to get minor number for heap\n");
-@@ -237,7 +260,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- 	}
- 
- 	/* Create device */
--	heap->heap_devt = MKDEV(MAJOR(dma_heap_devt), minor);
-+	heap->heap_devt = MKDEV(MAJOR(dma_heap_devt), heap->minor);
- 
- 	cdev_init(&heap->heap_cdev, &dma_heap_fops);
- 	ret = cdev_add(&heap->heap_cdev, heap->heap_devt, 1);
-@@ -267,7 +290,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
- err2:
- 	cdev_del(&heap->heap_cdev);
- err1:
--	xa_erase(&dma_heap_minors, minor);
-+	xa_erase(&dma_heap_minors, heap->minor);
- err0:
- 	kfree(heap);
- 	return err_ret;
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 454e354d1ffb..c1572f29cfac 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -56,4 +56,10 @@ void *dma_heap_get_drvdata(struct dma_heap *heap);
-  */
- struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
- 
-+/**
-+ * dma_heap_put - drops a reference to a dmabuf heaps, potentially freeing it
-+ * @heap:		heap pointer
-+ */
-+void dma_heap_put(struct dma_heap *heap);
-+
- #endif /* _DMA_HEAPS_H */
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMOW5tDfmnIgyNeaXpSDpgLHlha0g5LiK5Y2IMTE6MzLlr6vpgZPvvJoKPgo+IE9u
+IFNhdCwgMjAyMC0wNy0yNSBhdCAwNzoyNCArMDgwMCwgQ2h1bi1LdWFuZyBIdSB3cm90ZToKPiA+
+IEhpIFlvbmdxaWFuZzoKPiA+Cj4gPiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlh
+dGVrLmNvbT4g5pa8IDIwMjDlubQ35pyIMjPml6Ug6YCx5ZubIOS4iuWNiDEwOjE15a+r6YGT77ya
+Cj4gPiA+Cj4gPiA+IFRoaXMgcGF0Y2ggYWRkIHN1cHBvcnQgZm9yIG1lZGlhdGVrIFNPQyBNVDgx
+ODMKPiA+ID4gMS5vdmxfMmwgc2hhcmUgZHJpdmVyIHdpdGggb3ZsCj4gPgo+ID4gSSB0aGluayB0
+aGlzIGlzIGRvbmUgaW4gWzFdLCBbMl0sIFszXSwgdGhpcyBwYXRjaCBqdXN0IGFkZCB0aGUgc3Vw
+cG9ydAo+ID4gb2YgbXQ4MTgzLW92bCBhbmQgbXQ4MTgzLW92bC0ybC4KPiA+Cj4gPiBbMV0gaHR0
+cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGlu
+dXguZ2l0L2NvbW1pdC9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWs/aD12NS44LXJjNiZpZD0xMzJj
+NmUyNTBlZDc0NTQ0Mzk3M2NhZGE4ZGIxN2NkYmFlYmRmNTUxCj4gPiBbMl0gaHR0cHM6Ly9naXQu
+a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2Nv
+bW1pdC9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWs/aD12NS44LXJjNiZpZD0zMTg0NjJkMWE1Njg2
+MzRiYTA5MjYzY2M3MzBjYjBmYjFkNTZjMmIzCj4gPiBbM10gaHR0cHM6Ly9naXQua2VybmVsLm9y
+Zy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWs/aD12NS44LXJjNiZpZD01NzE0OGJhYWM4Yjc4NDYxZTM5NDk1
+M2NmZDUzMTdiZGU4Zjc5NWFiCj4gPgo+ID4gPiAyLnJkbWExIHNoYXJlIGRyaXZlIHdpdGggcmRt
+YTAsIGJ1dCBmaWZvIHNpemUgaXMgZGlmZmVyZW50Cj4gPgo+ID4gSSB0aGluayB0aGlzIGlzIGRv
+bmUgaW4gWzRdLCB0aGlzIHBhdGNoIGp1c3QgYWRkIHRoZSBzdXBwb3J0IG9mIG10ODE4My1yZG1h
+Lgo+ID4KPiA+IFs0XSBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzExNjc5NTQ5
+Lwo+ID4KPiA+ID4gMy5hZGQgbXQ4MTgzIG11dGV4IHByaXZhdGUgZGF0YSwgYW5kIG1tc3lzIHBy
+aXZhdGUgZGF0YQo+ID4gPiA0LmFkZCBtdDgxODMgbWFpbiBhbmQgZXh0ZXJuYWwgcGF0aCBtb2R1
+bGUgZm9yIGNydGMgY3JlYXRlCj4gPgo+ID4gVGhlIGZvdXJ0aCBpdGVtIGlzIHRoZSBtbXN5cyBw
+cml2YXRlIGRhdGEgaW4gdGhpcmQgaXRlbSwgc28geW91IG5lZWQKPiA+IG5vdCB0byByZXBlYXQg
+aXQuCj4gPgo+Cj4gaSB3aWxsIHJlbW92ZSBzb21lIHVzZWxlc3MgZGVzY3JpcHRpb24gaW4gbmV4
+dCB2ZXJzaW9uLgo+ID4gPgo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25n
+cWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMgIHwgMTggKysrKysrKysrKysrCj4gPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5jIHwgIDYgKysrKwo+ID4gPiAgZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMgICB8IDQ3ICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9k
+cnYuYyAgIHwgNDMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ID4gIDQgZmlsZXMg
+Y2hhbmdlZCwgMTE0IGluc2VydGlvbnMoKykKPiA+ID4KPiA+Cj4gPiBbc25pcF0KPiA+Cj4gPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gPiA+IGluZGV4IDAxNGMxYmIu
+LjYwNzg4YzEgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZHJtX2RkcC5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rk
+cC5jCj4gPiA+IEBAIC0xNSw2ICsxNSw4IEBACj4gPiA+Cj4gPiA+ICAjZGVmaW5lIE1UMjcwMV9E
+SVNQX01VVEVYMF9NT0QwICAgICAgICAgICAgICAgICAgICAgICAgMHgyYwo+ID4gPiAgI2RlZmlu
+ZSBNVDI3MDFfRElTUF9NVVRFWDBfU09GMCAgICAgICAgICAgICAgICAgICAgICAgIDB4MzAKPiA+
+ID4gKyNkZWZpbmUgTVQ4MTgzX0RJU1BfTVVURVgwX01PRDAgICAgICAgICAgICAgICAgICAgICAg
+ICAweDMwCj4gPiA+ICsjZGVmaW5lIE1UODE4M19ESVNQX01VVEVYMF9TT0YwICAgICAgICAgICAg
+ICAgICAgICAgICAgMHgyYwo+ID4gPgo+ID4gPiAgI2RlZmluZSBESVNQX1JFR19NVVRFWF9FTihu
+KSAgICAgICAgICAgICAgICAgICAoMHgyMCArIDB4MjAgKiAobikpCj4gPiA+ICAjZGVmaW5lIERJ
+U1BfUkVHX01VVEVYKG4pICAgICAgICAgICAgICAgICAgICAgICgweDI0ICsgMHgyMCAqIChuKSkK
+PiA+ID4gQEAgLTI1LDYgKzI3LDE4IEBACj4gPiA+Cj4gPiA+ICAjZGVmaW5lIElOVF9NVVRFWCAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJJVCgxKQo+ID4gPgo+ID4gPiArI2RlZmluZSBN
+VDgxODNfTVVURVhfTU9EX0RJU1BfUkRNQTAgICAgICAgICAgICAwCj4gPiA+ICsjZGVmaW5lIE1U
+ODE4M19NVVRFWF9NT0RfRElTUF9SRE1BMSAgICAgICAgICAgIDEKPiA+ID4gKyNkZWZpbmUgTVQ4
+MTgzX01VVEVYX01PRF9ESVNQX09WTDAgICAgICAgICAgICAgOQo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfT1ZMMF8yTCAgICAgICAgICAxMAo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfT1ZMMV8yTCAgICAgICAgICAxMQo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfV0RNQTAgICAgICAgICAgICAxMgo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfQ09MT1IwICAgICAgICAgICAxMwo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfQ0NPUlIwICAgICAgICAgICAxNAo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfQUFMMCAgICAgICAgICAgICAxNQo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfR0FNTUEwICAgICAgICAgICAxNgo+ID4gPiArI2RlZmluZSBNVDgx
+ODNfTVVURVhfTU9EX0RJU1BfRElUSEVSMCAgICAgICAgICAxNwo+ID4gPiArCj4gPiA+ICAjZGVm
+aW5lIE1UODE3M19NVVRFWF9NT0RfRElTUF9PVkwwICAgICAgICAgICAgIDExCj4gPiA+ICAjZGVm
+aW5lIE1UODE3M19NVVRFWF9NT0RfRElTUF9PVkwxICAgICAgICAgICAgIDEyCj4gPiA+ICAjZGVm
+aW5lIE1UODE3M19NVVRFWF9NT0RfRElTUF9SRE1BMCAgICAgICAgICAgIDEzCj4gPiA+IEBAIC03
+NCw2ICs4OCwxMCBAQAo+ID4gPiAgI2RlZmluZSBNVVRFWF9TT0ZfRFNJMiAgICAgICAgICAgICAg
+ICAgNQo+ID4gPiAgI2RlZmluZSBNVVRFWF9TT0ZfRFNJMyAgICAgICAgICAgICAgICAgNgo+ID4g
+Pgo+ID4gPiArI2RlZmluZSBNVDgxODNfTVVURVhfU09GX0RQSTAgICAgICAgICAgICAgICAgICAy
+Cj4gPiA+ICsjZGVmaW5lIE1UODE4M19NVVRFWF9FT0ZfRFNJMCAgICAgICAgICAgICAgICAgIChN
+VVRFWF9TT0ZfRFNJMCA8PCA2KQo+ID4gPiArI2RlZmluZSBNVDgxODNfTVVURVhfRU9GX0RQSTAg
+ICAgICAgICAgICAgICAgICAoTVQ4MTgzX01VVEVYX1NPRl9EUEkwIDw8IDYpCj4gPiA+ICsKPiA+
+ID4KPiA+ID4gIHN0cnVjdCBtdGtfZGlzcF9tdXRleCB7Cj4gPiA+ICAgICAgICAgaW50IGlkOwo+
+ID4gPiBAQCAtMTUzLDYgKzE3MSwyMCBAQCBzdHJ1Y3QgbXRrX2RkcCB7Cj4gPiA+ICAgICAgICAg
+W0REUF9DT01QT05FTlRfV0RNQTFdID0gTVQ4MTczX01VVEVYX01PRF9ESVNQX1dETUExLAo+ID4g
+PiAgfTsKPiA+ID4KPiA+ID4gK3N0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgbXQ4MTgzX211dGV4
+X21vZFtERFBfQ09NUE9ORU5UX0lEX01BWF0gPSB7Cj4gPiA+ICsgICAgICAgW0REUF9DT01QT05F
+TlRfQUFMMF0gPSBNVDgxODNfTVVURVhfTU9EX0RJU1BfQUFMMCwKPiA+ID4gKyAgICAgICBbRERQ
+X0NPTVBPTkVOVF9DQ09SUl0gPSBNVDgxODNfTVVURVhfTU9EX0RJU1BfQ0NPUlIwLAo+ID4gPiAr
+ICAgICAgIFtERFBfQ09NUE9ORU5UX0NPTE9SMF0gPSBNVDgxODNfTVVURVhfTU9EX0RJU1BfQ09M
+T1IwLAo+ID4gPiArICAgICAgIFtERFBfQ09NUE9ORU5UX0RJVEhFUl0gPSBNVDgxODNfTVVURVhf
+TU9EX0RJU1BfRElUSEVSMCwKPiA+ID4gKyAgICAgICBbRERQX0NPTVBPTkVOVF9HQU1NQV0gPSBN
+VDgxODNfTVVURVhfTU9EX0RJU1BfR0FNTUEwLAo+ID4gPiArICAgICAgIFtERFBfQ09NUE9ORU5U
+X09WTDBdID0gTVQ4MTgzX01VVEVYX01PRF9ESVNQX09WTDAsCj4gPiA+ICsgICAgICAgW0REUF9D
+T01QT05FTlRfT1ZMXzJMMF0gPSBNVDgxODNfTVVURVhfTU9EX0RJU1BfT1ZMMF8yTCwKPiA+ID4g
+KyAgICAgICBbRERQX0NPTVBPTkVOVF9PVkxfMkwxXSA9IE1UODE4M19NVVRFWF9NT0RfRElTUF9P
+VkwxXzJMLAo+ID4gPiArICAgICAgIFtERFBfQ09NUE9ORU5UX1JETUEwXSA9IE1UODE4M19NVVRF
+WF9NT0RfRElTUF9SRE1BMCwKPiA+ID4gKyAgICAgICBbRERQX0NPTVBPTkVOVF9SRE1BMV0gPSBN
+VDgxODNfTVVURVhfTU9EX0RJU1BfUkRNQTEsCj4gPiA+ICsgICAgICAgW0REUF9DT01QT05FTlRf
+V0RNQTBdID0gTVQ4MTgzX01VVEVYX01PRF9ESVNQX1dETUEwLAo+ID4gPiArfTsKPiA+ID4gKwo+
+ID4gPiAgc3RhdGljIGNvbnN0IHVuc2lnbmVkIGludCBtdDI3MTJfbXV0ZXhfc29mW0REUF9NVVRF
+WF9TT0ZfRFNJMyArIDFdID0gewo+ID4gPiAgICAgICAgIFtERFBfTVVURVhfU09GX1NJTkdMRV9N
+T0RFXSA9IE1VVEVYX1NPRl9TSU5HTEVfTU9ERSwKPiA+ID4gICAgICAgICBbRERQX01VVEVYX1NP
+Rl9EU0kwXSA9IE1VVEVYX1NPRl9EU0kwLAo+ID4gPiBAQCAtMTYzLDYgKzE5NSwxMiBAQCBzdHJ1
+Y3QgbXRrX2RkcCB7Cj4gPiA+ICAgICAgICAgW0REUF9NVVRFWF9TT0ZfRFNJM10gPSBNVVRFWF9T
+T0ZfRFNJMywKPiA+ID4gIH07Cj4gPiA+Cj4gPiA+ICtzdGF0aWMgY29uc3QgdW5zaWduZWQgaW50
+IG10ODE4M19tdXRleF9zb2ZbRERQX01VVEVYX1NPRl9EU0kzICsgMV0gPSB7Cj4gPiA+ICsgICAg
+ICAgW0REUF9NVVRFWF9TT0ZfU0lOR0xFX01PREVdID0gTVVURVhfU09GX1NJTkdMRV9NT0RFLAo+
+ID4gPiArICAgICAgIFtERFBfTVVURVhfU09GX0RTSTBdID0gTVVURVhfU09GX0RTSTAgfCBNVDgx
+ODNfTVVURVhfRU9GX0RTSTAsCj4gPgo+ID4gSSB0aGluayB0aGlzIGFycmF5IGlzIGZvciAnc29m
+Jywgc28geW91IHNob3VsZCBkcm9wIE1UODE4M19NVVRFWF9FT0ZfRFNJMC4KPiA+Cj4gPiA+ICsg
+ICAgICAgW0REUF9NVVRFWF9TT0ZfRFBJMF0gPSBNVDgxODNfTVVURVhfU09GX0RQSTAgfCBNVDgx
+ODNfTVVURVhfRU9GX0RQSTAsCj4gPgo+ID4gRGl0dG8uCj4KPiB3ZSBuZWVkIHNldCBFT0YgYXQg
+dGhlIHNhbWUgb24gTVQ4MTgzLCB0aGF0IGlzIGRpZmZlcmVudCB3aXRoIGJlZm9yZSBTb0MKPiBF
+T0YgYW5kIFNPRiBhcmUgbG9jYXRpb24gaW4gdGhlIHNhbWUgaGFyZHdhcmUgcmVnaXN0ZXIuCgpF
+dmVuIHRob3VnaCBFT0YgYW5kIFNPRiBhcmUgbG9jYXRlZCBpbiB0aGUgc2FtZSBoYXJkd2FyZSBy
+ZWdpc3Rlciwgd2h5CnNob3VsZCB3ZSBzZXQgRU9GPwpXZSBqdXN0IG5lZWQgbXV0ZXggaGFyZHdh
+cmUgdG8gc2VuZCBTT0YgdG8gTU9Ecywgd2UgZG9uJ3QgbmVlZCBtdXRleAp0byBzZW5kIEVPRi4K
+Cj4gPgo+ID4gUmVnYXJkcywKPiA+IENodW4tS3VhbmcuCj4gPgo+ID4gPiArfTsKPiA+ID4gKwo+
+ID4gPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZGRwX2RhdGEgbXQyNzAxX2RkcF9kcml2ZXJf
+ZGF0YSA9IHsKPiA+ID4gICAgICAgICAubXV0ZXhfbW9kID0gbXQyNzAxX211dGV4X21vZCwKPiA+
+ID4gICAgICAgICAubXV0ZXhfc29mID0gbXQyNzEyX211dGV4X3NvZiwKPiA+ID4gQEAgLTE4NCw2
+ICsyMjIsMTMgQEAgc3RydWN0IG10a19kZHAgewo+ID4gPiAgICAgICAgIC5tdXRleF9zb2ZfcmVn
+ID0gTVQyNzAxX0RJU1BfTVVURVgwX1NPRjAsCj4gPiA+ICB9Owo+ID4gPgo+Cl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
