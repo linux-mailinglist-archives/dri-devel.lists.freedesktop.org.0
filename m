@@ -1,74 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F343622D5DD
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 09:42:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D35122D896
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 17:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11706EA66;
-	Sat, 25 Jul 2020 07:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3A66E25B;
+	Sat, 25 Jul 2020 15:54:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15A1D6EA66
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 07:41:56 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 284FCB66C;
- Sat, 25 Jul 2020 07:42:03 +0000 (UTC)
-Subject: Re: [PATCH -next] vc: Fix build errors
-To: Ming Li <limingming.li@huawei.com>, b.zolnierkie@samsung.com
-References: <20200725074743.31740-1-limingming.li@huawei.com>
-From: Jiri Slaby <jslaby@suse.cz>
-Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <98f7beee-8fab-6c56-7179-424b6bb45443@suse.cz>
-Date: Sat, 25 Jul 2020 09:41:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D136E25B
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 15:54:18 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id y22so10676988oie.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 08:54:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7BjkiE1GN+mh3yOkUNEJsHhkZ6KsGJ1P6f7ZdAty3Jc=;
+ b=GcEseSQX/ZY/yzXt4/evGDbqxoqUKrU1b7V6U1nn0kb9tbsrUu8sxbo0i1s4VGmQMY
+ Z8aEue4FMAqkmS5v4Ai5Mgs4tJNYPLdnG1qzuiuCHCiabR4f1YTUb10eBP4eLChx60jD
+ QJALmHTm+Oir2mxrR6e1sMTU1KxAjgf2jXVc8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7BjkiE1GN+mh3yOkUNEJsHhkZ6KsGJ1P6f7ZdAty3Jc=;
+ b=hVQlGYdnyxKebFDCiu+eUM33BqnBG/X71og0YO06+63p2Cw037zJIDefn1GxIMRk7b
+ qiSOfxn65SAuttAoA5ABffHDDvsbbDcEzF7nSoiqONSzmVjXq2D4uphiPLpap9cxxTYn
+ TVeIhRiq4lHhtgiVY40XL4YSZTsIbeKjS4xZ2ZRgOQyrlmSaProPXayNbeQRG/MCiu5O
+ 5rYjwMY4nTfoKCP1fq49W85ZciTXI1SfW3WGQFdxg5ymwt/hMDM9syBXbmEmKx8NH/L4
+ PBlotGJUWj97tt2NdqJ80HuxbprWPTSUc3cWrANmBrjQBcdWpqGxTVSaDew36Gch1Xmh
+ BvIA==
+X-Gm-Message-State: AOAM533yZtEz63Qmy0evSzA2g+9Dj6bCDhqvR6smPSU65r49HF3ILAF0
+ l5T4MLAthRQ39HEImoitkvgnA2A1E58nlN9zo5MGmw==
+X-Google-Smtp-Source: ABdhPJzcQZJr/JigGR3ib8O5dLHrOjcSyBbnZtVsiMK4UbfLwAhTGKnd06RjYBUpOMABOphSdi7YP78Z440PXU0V45M=
+X-Received: by 2002:a05:6808:88:: with SMTP id
+ s8mr11568435oic.101.1595692457203; 
+ Sat, 25 Jul 2020 08:54:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200725074743.31740-1-limingming.li@huawei.com>
-Content-Language: en-US
+References: <20200722181332.26995-1-knaerzche@gmail.com>
+ <CAKMK7uGKyYea_9MamAQw2=ebjW=raYCDeFCf_5jyyJPHL9AZWA@mail.gmail.com>
+ <47599ce1-2a3b-87eb-c46e-8f7f79ca945e@gmail.com>
+In-Reply-To: <47599ce1-2a3b-87eb-c46e-8f7f79ca945e@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sat, 25 Jul 2020 17:54:06 +0200
+Message-ID: <CAKMK7uEn0552JuTuwpL-XdYSVk7OA=fEsphpivS8ouE-10--Zg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] drm: rockchip: various ports for older VOPs
+To: Alex Bee <knaerzche@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,25 +60,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, gregkh@linuxfoundation.org,
- john.wanghui@huawei.com, dri-devel@lists.freedesktop.org,
- linux-next@vger.kernel.org, cuibixuan@huawei.com
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25. 07. 20, 9:47, Ming Li wrote:
-> Build errors are seen on MIPS platforms because of
-> vc state separation and the following build erros
-> were reported.
+On Sat, Jul 25, 2020 at 3:52 PM Alex Bee <knaerzche@gmail.com> wrote:
+>
+>
+> Am 22.07.20 um 23:43 schrieb Daniel Vetter:
+> > On Wed, Jul 22, 2020 at 8:13 PM Alex Bee <knaerzche@gmail.com> wrote:
+> >> Hi,
+> >>
+> >> this series mainly ports existining functionality to older SoCs - most
+> >> importantly enables alpha blending for RK3036, RK3066, RK3126 and
+> >> RK3188.
+> >> Besides that, it also changes the window type from DRM_PLANE_TYPE_CURSOR
+> >> to DRM_PLANE_TYPE_OVERLAY for VOPs that have only one (1) overlay window.
+> > This doesn't make much sense, the cursor overlay is really just a hint
+> > for legacy ioctls that this is the overlay that should be used for
+> > cursors. Compositors should try to use such planes as full overlays
+> > (if they don't want to use them as a cursor). So sounds like a case of
+> > "fix your compositor".
+> I agree here - but: If HWC windows would have been implemented in this
+> particular driver, their max size would be 128x128 on some SoCs - so
+> they woudn't be really suitable to create an OSD overlay at 4K, for
+> example. I don't know, but I guess other vendors implement their HWC
+> windows on this reduced HW resources as well. I guess that is one of the
+> reasons, why userspace, which aims to be cross-plattfrom, avoids
+> DRM_PLANE_TYPE_CURSOR when its looking for an usable overlay plane. (a
+> heuristic, indeed)
 
-Thanks, but already fixed:
-https://lore.kernel.org/dri-devel/20200724062735.18229-1-jslaby@suse.cz/
+Which userspace does that? We should fix that, not try to work around
+that in all the drivers in upstream, that wont work.
+-Daniel
+
+> > For atomic there's 0 difference between a overlay or a cursor (primary
+> > plane is still treated somewhat special in the RMFB ioctl, but again
+> > that's for backwards compat reasons with existing uapi, not because
+> > the primary plane is different).
+> >
+> > What does happen though is that this breaks cursor for legacy
+> > userspace, which is probably not really what you want.
+>
+> Indeed not.
+>
+> Beforhand I was submiiting this, I looked arround and couldn't find
+> anything which relies or even depends of a cursor window to be
+> available. Even if: as per spec only one DRM_PLANE_TYPE_PRIMARY is
+> mandatory, everything else is optional.
+>
+> > -Daniel
+> >
+> >
+> >> Regards,
+> >> Alex
+> >>
+> >> Changes in v2:
+> >> - drop not yet upstreamed dsp_data_swap from RK3188 regs
+> >> - rephrase most commit messages
+> >>
+> >> Alex Bee (5):
+> >>    drm: rockchip: add scaling for RK3036 win1
+> >>    drm: rockchip: add missing registers for RK3188
+> >>    drm: rockchip: add alpha support for RK3036, RK3066, RK3126 and RK3188
+> >>    drm: rockchip: set alpha_en to 0 if it is not used
+> >>    drm: rockchip: use overlay windows as such
+> >>
+> >>   drivers/gpu/drm/rockchip/rockchip_drm_vop.c |  1 +
+> >>   drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 42 ++++++++++++++++++---
+> >>   drivers/gpu/drm/rockchip/rockchip_vop_reg.h |  1 +
+> >>   3 files changed, 38 insertions(+), 6 deletions(-)
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+>
+> Best Regards
+>
+
 
 -- 
-js
-suse labs
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
