@@ -2,35 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC8A22DFD5
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE59422DFF9
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9D5D89DB2;
-	Sun, 26 Jul 2020 15:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F23089DF7;
+	Sun, 26 Jul 2020 15:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEB96EA61
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 06:31:18 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 9D84E36C33CB5477DF20;
- Sat, 25 Jul 2020 14:31:06 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 25 Jul 2020 14:30:58 +0800
-From: Wei Yongjun <weiyongjun1@huawei.com>
-To: Hyun Kwon <hyun.kwon@xilinx.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, David Airlie <airlied@linux.ie>,
- "Daniel Vetter" <daniel@ffwll.ch>, Michal Simek <michal.simek@xilinx.com>,
- "Philipp Zabel" <p.zabel@pengutronix.de>
-Subject: [PATCH -next] drm: xlnx: Fix typo in parameter description
-Date: Sat, 25 Jul 2020 06:34:29 +0000
-Message-ID: <20200725063429.172139-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.20.1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AFE6EA66
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 07:40:03 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 6C26CB54E9F1A10EBBCF;
+ Sat, 25 Jul 2020 15:39:59 +0800 (CST)
+Received: from huawei.com (10.175.100.227) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Sat, 25 Jul 2020
+ 15:39:51 +0800
+From: Ming Li <limingming.li@huawei.com>
+To: <b.zolnierkie@samsung.com>
+Subject: [PATCH -next] vc: Fix build errors
+Date: Sat, 25 Jul 2020 15:47:43 +0800
+Message-ID: <20200725074743.31740-1-limingming.li@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
+X-Originating-IP: [10.175.100.227]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:44 +0000
+X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,40 +40,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hulk Robot <hulkci@huawei.com>,
- Wei Yongjun <weiyongjun1@huawei.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, gregkh@linuxfoundation.org,
+ john.wanghui@huawei.com, dri-devel@lists.freedesktop.org,
+ linux-next@vger.kernel.org, cuibixuan@huawei.com, jslaby@suse.cz
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix typo in parameter description.
-
-Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 821f7a71e182..3d53638ab15e 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -44,7 +44,7 @@ MODULE_PARM_DESC(aux_timeout_ms, "DP aux timeout value in msec (default: 50)");
-  */
- static uint zynqmp_dp_power_on_delay_ms = 4;
- module_param_named(power_on_delay_ms, zynqmp_dp_power_on_delay_ms, uint, 0444);
--MODULE_PARM_DESC(aux_timeout_ms, "DP power on delay in msec (default: 4)");
-+MODULE_PARM_DESC(power_on_delay_ms, "DP power on delay in msec (default: 4)");
- 
- /* Link configuration registers */
- #define ZYNQMP_DP_LINK_BW_SET				0x0
-
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QnVpbGQgZXJyb3JzIGFyZSBzZWVuIG9uIE1JUFMgcGxhdGZvcm1zIGJlY2F1c2Ugb2YKdmMgc3Rh
+dGUgc2VwYXJhdGlvbiBhbmQgdGhlIGZvbGxvd2luZyBidWlsZCBlcnJvcwp3ZXJlIHJlcG9ydGVk
+LgoKLi4vbGludXgvZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLmM6IEluIGZ1bmN0
+aW9uIOKAmG5ld3BvcnRfY2xlYXLigJk6Ci4uL2xpbnV4L2RyaXZlcnMvdmlkZW8vY29uc29sZS9u
+ZXdwb3J0X2Nvbi5jOjM2NToxNTogZXJyb3I6CuKAmHN0cnVjdCB2Y19kYXRh4oCZIGhhcyBubyBt
+ZW1iZXIgbmFtZWQg4oCYdmNfY29sb3LigJk7IGRpZCB5b3UgbWVhbiDigJh2Y19jb2xz4oCZPwog
+ICAgICAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOwogICAgICAgICAgICAgICBefn5+
+fn5+fgogICAgICAgICAgICAgICB2Y19jb2xzCi4uL2xpbnV4L2RyaXZlcnMvdmlkZW8vY29uc29s
+ZS9uZXdwb3J0X2Nvbi5jOjM2ODoxNTogZXJyb3I6CuKAmHN0cnVjdCB2Y19kYXRh4oCZIGhhcyBu
+byBtZW1iZXIgbmFtZWQg4oCYdmNfY29sb3LigJk7IGRpZCB5b3UgbWVhbiDigJh2Y19jb2xz4oCZ
+PwogICAgICAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOwogICAgICAgICAgICAgICBe
+fn5+fn5+fgogICAgICAgICAgICAgICB2Y19jb2xzCi4uL2xpbnV4L2RyaXZlcnMvdmlkZW8vY29u
+c29sZS9uZXdwb3J0X2Nvbi5jOjM3MDoxNTogZXJyb3I6CuKAmHN0cnVjdCB2Y19kYXRh4oCZIGhh
+cyBubyBtZW1iZXIgbmFtZWQg4oCYdmNfY29sb3LigJk7IGRpZCB5b3UgbWVhbiDigJh2Y19jb2xz
+4oCZPwogICAgICAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOwogICAgICAgICAgICAg
+ICBefn5+fn5+fgogICAgICAgICAgICAgICB2Y19jb2xzCi4uL2xpbnV4L2RyaXZlcnMvdmlkZW8v
+Y29uc29sZS9uZXdwb3J0X2Nvbi5jOiBJbiBmdW5jdGlvbiDigJhuZXdwb3J0X3Njcm9sbOKAmToK
+Li4vbGludXgvZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLmM6NTk0OjE1OiBlcnJv
+cjoK4oCYc3RydWN0IHZjX2RhdGHigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJh2Y19jb2xvcuKA
+mTsgZGlkIHlvdSBtZWFuIOKAmHZjX2NvbHPigJk/CiAgICAgICAgICAodmMtPnZjX2NvbG9yICYg
+MHhmMCkgPj4gNCk7CiAgICAgICAgICAgICAgIF5+fn5+fn5+CiAgICAgICAgICAgICAgIHZjX2Nv
+bHMKLi4vbGludXgvZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLmM6NTk4OjE1OiBl
+cnJvcjoK4oCYc3RydWN0IHZjX2RhdGHigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJh2Y19jb2xv
+cuKAmTsgZGlkIHlvdSBtZWFuIOKAmHZjX2NvbHPigJk/CiAgICAgICAgICAodmMtPnZjX2NvbG9y
+ICYgMHhmMCkgPj4gNCk7CiAgICAgICAgICAgICAgIF5+fn5+fn5+CiAgICAgICAgICAgICAgIHZj
+X2NvbHMKbWFrZVs0XTogKioqIFsvc2NyYXRjaC9saW51eC9zY3JpcHRzL01ha2VmaWxlLmJ1aWxk
+OjI4MDogZHJpdmVycy92aWRlby9jb25zb2xlL25ld3BvcnRfY29uLm9dIEVycm9yIDEKbWFrZVsz
+XTogKioqIFsvc2NyYXRjaC9saW51eC9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjQ5NzogZHJpdmVy
+cy92aWRlby9jb25zb2xlXSBFcnJvciAyCm1ha2VbM106ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlz
+aGVkIGpvYnMuLi4uCgpGaXhlczogMjhiYzI0ZmM0NmY5ICgidmM6IHNlcGFyYXRlIHN0YXRlIikK
+U2lnbmVkLW9mZi1ieTogTWluZyBMaSA8bGltaW5nbWluZy5saUBodWF3ZWkuY29tPgpDYzogSmly
+aSBTbGFieSA8anNsYWJ5QHN1c2UuY3o+CkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBs
+aW51eGZvdW5kYXRpb24ub3JnPgpDYzogQmFydGxvbWllaiBab2xuaWVya2lld2ljeiA8Yi56b2xu
+aWVya2llQHNhbXN1bmcuY29tPgotLS0KIGRyaXZlcnMvdmlkZW8vY29uc29sZS9uZXdwb3J0X2Nv
+bi5jIHwgMTAgKysrKystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBk
+ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3cG9ydF9j
+b24uYyBiL2RyaXZlcnMvdmlkZW8vY29uc29sZS9uZXdwb3J0X2Nvbi5jCmluZGV4IGRmM2M1MmQ3
+MjE1OS4uNzJmMTQ2ZDA0N2Q5IDEwMDY0NAotLS0gYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3
+cG9ydF9jb24uYworKysgYi9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvbmV3cG9ydF9jb24uYwpAQCAt
+MzYyLDEyICszNjIsMTIgQEAgc3RhdGljIHZvaWQgbmV3cG9ydF9jbGVhcihzdHJ1Y3QgdmNfZGF0
+YSAqdmMsIGludCBzeSwgaW50IHN4LCBpbnQgaGVpZ2h0LAogCiAJaWYgKHlzdGFydCA8IHllbmQp
+IHsKIAkJbmV3cG9ydF9jbGVhcl9zY3JlZW4oc3ggPDwgMywgeXN0YXJ0LCB4ZW5kLCB5ZW5kLAot
+CQkJCSAgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOworCQkJCSAgICAgKHZjLT5zdGF0
+ZS5jb2xvciAmIDB4ZjApID4+IDQpOwogCX0gZWxzZSB7CiAJCW5ld3BvcnRfY2xlYXJfc2NyZWVu
+KHN4IDw8IDMsIHlzdGFydCwgeGVuZCwgMTAyMywKLQkJCQkgICAgICh2Yy0+dmNfY29sb3IgJiAw
+eGYwKSA+PiA0KTsKKwkJCQkgICAgICh2Yy0+c3RhdGUuY29sb3IgJiAweGYwKSA+PiA0KTsKIAkJ
+bmV3cG9ydF9jbGVhcl9zY3JlZW4oc3ggPDwgMywgMCwgeGVuZCwgeWVuZCwKLQkJCQkgICAgICh2
+Yy0+dmNfY29sb3IgJiAweGYwKSA+PiA0KTsKKwkJCQkgICAgICh2Yy0+c3RhdGUuY29sb3IgJiAw
+eGYwKSA+PiA0KTsKIAl9CiB9CiAKQEAgLTU5MSwxMSArNTkxLDExIEBAIHN0YXRpYyBib29sIG5l
+d3BvcnRfc2Nyb2xsKHN0cnVjdCB2Y19kYXRhICp2YywgdW5zaWduZWQgaW50IHQsIHVuc2lnbmVk
+IGludCBiLAogCQkJdG9wc2NhbiA9ICh0b3BzY2FuICsgKGxpbmVzIDw8IDQpKSAmIDB4M2ZmOwog
+CQkJbmV3cG9ydF9jbGVhcl9saW5lcyh2Yy0+dmNfcm93cyAtIGxpbmVzLAogCQkJCQkgICAgdmMt
+PnZjX3Jvd3MgLSAxLAotCQkJCQkgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+IDQpOworCQkJ
+CQkgICAgKHZjLT5zdGF0ZS5jb2xvciAmIDB4ZjApID4+IDQpOwogCQl9IGVsc2UgewogCQkJdG9w
+c2NhbiA9ICh0b3BzY2FuICsgKC1saW5lcyA8PCA0KSkgJiAweDNmZjsKIAkJCW5ld3BvcnRfY2xl
+YXJfbGluZXMoMCwgbGluZXMgLSAxLAotCQkJCQkgICAgKHZjLT52Y19jb2xvciAmIDB4ZjApID4+
+IDQpOworCQkJCQkgICAgKHZjLT5zdGF0ZS5jb2xvciAmIDB4ZjApID4+IDQpOwogCQl9CiAJCW5w
+cmVncy0+Y3NldC50b3BzY2FuID0gKHRvcHNjYW4gLSAxKSAmIDB4M2ZmOwogCQlyZXR1cm4gZmFs
+c2U7Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
