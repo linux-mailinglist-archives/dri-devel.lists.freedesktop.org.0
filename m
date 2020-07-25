@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF5F22DFD4
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E25022DFFD
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D224589EB7;
-	Sun, 26 Jul 2020 15:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6E689DFB;
+	Sun, 26 Jul 2020 15:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13A256E14D
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 21:13:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E828F6E102
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 21:15:07 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4BDf295TNkz1rt4N;
- Sat, 25 Jul 2020 23:13:53 +0200 (CEST)
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BDf3Y1rNzz1tBxZ;
+ Sat, 25 Jul 2020 23:15:05 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4BDf295GNfz1qxpQ;
- Sat, 25 Jul 2020 23:13:53 +0200 (CEST)
+ by mail.m-online.net (Postfix) with ESMTP id 4BDf3Y1dd8z1qxpQ;
+ Sat, 25 Jul 2020 23:15:05 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
  by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
  port 10024)
- with ESMTP id Hx59tOOreTfX; Sat, 25 Jul 2020 23:13:52 +0200 (CEST)
-X-Auth-Info: KlNTHwIfMgS9hWZg06oB8tHCmLe1ND/xqgM93WeJeM0=
+ with ESMTP id 74yM-soCC0Il; Sat, 25 Jul 2020 23:15:03 +0200 (CEST)
+X-Auth-Info: ejvp1sharnWNbykzn+OC2bNTTXSNZ8ghRmj48G5R1H8=
 Received: from desktop.lan (ip-86-49-101-166.net.upcbroadband.cz
  [86.49.101.166])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  by mail.mnet-online.de (Postfix) with ESMTPSA;
- Sat, 25 Jul 2020 23:13:52 +0200 (CEST)
+ Sat, 25 Jul 2020 23:15:03 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/panel: simple: Add DT bindings for Powertip
- PH800480T013
-Date: Sat, 25 Jul 2020 23:13:35 +0200
-Message-Id: <20200725211335.5717-3-marex@denx.de>
+Subject: [PATCH 1/2] dt-bindings: Add DT bindings for Toshiba TC358762
+ DSI-to-DPI bridge
+Date: Sat, 25 Jul 2020 23:14:56 +0200
+Message-Id: <20200725211457.5772-1-marex@denx.de>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200725211335.5717-1-marex@denx.de>
-References: <20200725211335.5717-1-marex@denx.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,7 +58,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Powertip PH800480T013 800x480 parallel LCD, this
+Add DT bindings for Toshiba TC358762 DSI-to-DPI bridge, this
 one is used in the Raspberry Pi 7" touchscreen display unit.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -70,51 +68,132 @@ Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: devicetree@vger.kernel.org
 ---
- drivers/gpu/drm/panel/panel-simple.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ .../display/bridge/toshiba,tc358762.yaml      | 116 ++++++++++++++++++
+ 1 file changed, 116 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index af6ea5480c81..6bf6604ca78e 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2986,6 +2986,27 @@ static const struct panel_desc pda_91_00156_a0  = {
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- };
- 
-+static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
-+	.clock = 24750,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 54,
-+	.hsync_end = 800 + 54 + 2,
-+	.htotal = 800 + 54 + 2 + 44,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 49,
-+	.vsync_end = 480 + 49 + 2,
-+	.vtotal = 480 + 49 + 2 + 22,
-+};
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
+new file mode 100644
+index 000000000000..40098ca761a3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
+@@ -0,0 +1,116 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358762.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+static const struct panel_desc powertip_ph800480t013_idf02  = {
-+	.modes = &powertip_ph800480t013_idf02_mode,
-+	.num_modes = 1,
-+	.size = {
-+		.width = 152,
-+		.height = 91,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+};
- 
- static const struct drm_display_mode qd43003c0_40_mode = {
- 	.clock = 9000,
-@@ -3998,6 +4019,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "pda,91-00156-a0",
- 		.data = &pda_91_00156_a0,
-+	}, {
-+		.compatible = "powertip,ph800480t013-idf02",
-+		.data = &powertip_ph800480t013_idf02,
- 	}, {
- 		.compatible = "qiaodian,qd43003c0-40",
- 		.data = &qd43003c0_40,
++title: Toshiba TC358762 MIPI DSI to MIPI DPI bridge
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++
++description: |
++  The TC358762 is bridge device which converts MIPI DSI to MIPI DPI.
++
++properties:
++  compatible:
++    enum:
++      - toshiba,tc358762
++
++  reg:
++    maxItems: 1
++    description: virtual channel number of a DSI peripheral
++
++  vddc-supply:
++    description: Regulator for 1.2V internal core power.
++
++  ports:
++    type: object
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        additionalProperties: false
++
++        description: |
++          Video port for MIPI DSI input
++
++        properties:
++          reg:
++            const: 0
++
++        patternProperties:
++          endpoint:
++            type: object
++            additionalProperties: false
++
++            properties:
++              remote-endpoint: true
++
++        required:
++          - reg
++
++      port@1:
++        type: object
++        additionalProperties: false
++
++        description: |
++          Video port for MIPI DPI output (panel or connector).
++
++        properties:
++          reg:
++            const: 1
++
++        patternProperties:
++          endpoint:
++            type: object
++            additionalProperties: false
++
++            properties:
++              remote-endpoint: true
++
++        required:
++          - reg
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - vddc-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    bridge@0 {
++        reg = <0>;
++        compatible = "toshiba,tc358762";
++        vddc-supply = <&vcc_1v2_reg>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        port@0 {
++            reg = <0>;
++            bridge_in: endpoint {
++                remote-endpoint = <&dsi_out>;
++            };
++        };
++
++        port@1 {
++            reg = <1>;
++            bridge_out: endpoint {
++                remote-endpoint = <&panel_in>;
++            };
++        };
++    };
 -- 
 2.27.0
 
