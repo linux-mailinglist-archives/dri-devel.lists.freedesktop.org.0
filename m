@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C7F22DD60
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 10:57:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304B722DD66
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 10:58:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 026776E0EC;
-	Sun, 26 Jul 2020 08:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F00289C52;
+	Sun, 26 Jul 2020 08:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 942596E0EC
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 08:57:16 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id m16so6598572pls.5
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 01:57:16 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7475089BF1
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 08:58:36 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id f7so1708167pln.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 01:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZP6JsF3L+gDvWgHfD54eIIL78/CR3lRmnvV/akntuxo=;
- b=KKEnX2zyJ6WkI8ZbudaqCNi0gmqCxgGR74WNSBQn1L5ax2cCLiA4yIxbco/HI8MUEe
- /PWnKwGDsY2c4uH3zi7/nNB2V3aKPytCWS3gguyLYHNVQT1thhG25x7sp1KJBmraHmWh
- r2sGLen+0xjKZxb2J9K7oQ7IQTnWzz/b9jq+n5oVOF4ZUSMy7sb+cvXakBzJiyN9vdHk
- 95zej/S8i0suWDfeg2ZLV5uLS4Jra1N01tVcu5BP/zccUYoirpfeAzo0J+39lI9zaKge
- bTvoPhu6kDIHbJ0suV41LNBb51EIHmjXorPfaKxRbwIbXMp03ES7a/6jD50ayrnFh81h
- Kerg==
+ :cc; bh=E1yGJnuNpD4do6FBG5mJhUC2P0QZnCXgqJQvqFc7BYo=;
+ b=boRNySGGJxBWJtX6SQlUK/nW6EuoNyYorWR+XRHUVvjzoi5RZ4qTUEUL/j0OAfTD01
+ 8uytWTN5ntgW32dfW93cE2A7YnZlTFkzK4bZOwwtDgpjSe/hB6j4kHgvwUJUAD7YA0F/
+ gYnaRCUxQi+OiCr1i42eu4C8R3Fjqk9cLqIEfWxg37Gq6VQS1zWu7d1/IyMObeQRs4BY
+ /N751t7kH7YTyEKqidIW6vBwXSaMrq/pfTNSHxHf/FR2XupdtBiEfnjkpcP4F0giG/1Z
+ aoTVV0jNK6SAJ9HMncQ2e0kxB+lPJ84tVeEBM6PWbrDjbddFzpDo20a8wisiStSmvyaV
+ BPww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZP6JsF3L+gDvWgHfD54eIIL78/CR3lRmnvV/akntuxo=;
- b=SzYMFTemWmmIZ0unVnGifkwvXWezMDfdf8gfWZQWrwzcXwZPS9fj6a13Tc3mVa94vR
- yIRA8XzkuVTgAn1ObPhbhwlPrlSA1h8w+cIQdusHhgHCwhPz/JZrOVNA9tIO1JpLoaG3
- 2o6rjDii0BPsy//d5kQvRceFBb8wQNiO6d0p833KY7q3MyHznEekKVBCW+roX984HSXf
- 2RAtEyQQim2Jod5IGCgX6Z/5CN99GB8zM3hL+Ebz6Z4+xLMvaGVR23rcHnX9syyEtLz3
- lBb3YYihSMEeDNOsE93RYmPfASFBJVVePXRMAfGENhUGe0ZioMJ9RFxbpU2RimNYm+Ho
- UoMg==
-X-Gm-Message-State: AOAM533Cj5JiXxmINU1SxDsay4+QfIuUfFDvbrzE1D+x/WQerExh/P0X
- ue5tmHiNFMlC5tHF2StkIJl3JmkKhtkceoy34nE=
-X-Google-Smtp-Source: ABdhPJz/011v164prAx72VNLA4uAtxCJ1iLFgTJpcujNZYr5oVQ2I6rVwrYZrx3eEti8ZKJeynfcAEuaKvMiXDR5oRA=
-X-Received: by 2002:a17:90a:498b:: with SMTP id
- d11mr14007458pjh.129.1595753836222; 
- Sun, 26 Jul 2020 01:57:16 -0700 (PDT)
+ bh=E1yGJnuNpD4do6FBG5mJhUC2P0QZnCXgqJQvqFc7BYo=;
+ b=QmdJM0z8b//2Lfw40Ev4UrZVtDYbciJT22v/wn2MFqJN7VxFfQ6iFtoGnDwAwqHsNK
+ mNQDcad3pLYXGOdxJwdYszIBlAeNMYy1FkJ4EdoCdlzMnkKb1Fcx6dnahiwuo+6UUSBc
+ M73fM3EESa0Ymlb/BF66CkmEeDB8/xu67IONYEHcRlMOUwDlWNml0tTAGIBCA3KxmX30
+ TBOtHZACjwV9sPsYG6YzYSpGdlak5EmOA4axcQRr3XbTcc6bXHF7KDXI3Tq8xR2lgMWc
+ TgxuYAZ2HhdH7/ldYPMfYGAwcIjLL5miD5DY6MEFkQTkk4z7NTAmFg1NSKtFlN4Mxh+E
+ 6yLw==
+X-Gm-Message-State: AOAM532H/pivRw5MZQc+sdWzRDHJ+A1yTMv3r76kkCwrRlAxIdT7GX80
+ uTbxfvnVUtwkFPS2eNh1ZDxRHaIZKEadAJm3xsY=
+X-Google-Smtp-Source: ABdhPJxC26t1TVcy2BCqXWYJOp1U0PTQPyZFkQTpOeUL9TGGQ4UfvPWOI+Hk4O0dYoLWVYDKACgPpCZivTvThQPKa4k=
+X-Received: by 2002:a17:90b:3547:: with SMTP id
+ lt7mr13187611pjb.181.1595753916026; 
+ Sun, 26 Jul 2020 01:58:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200726052047.9856-1-gaurav1086@gmail.com>
-In-Reply-To: <20200726052047.9856-1-gaurav1086@gmail.com>
+References: <20200726050713.9461-1-gaurav1086@gmail.com>
+In-Reply-To: <20200726050713.9461-1-gaurav1086@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 26 Jul 2020 11:57:00 +0300
-Message-ID: <CAHp75VcL9sT-Ff6FND1v5pWUF=Ey7MXE61uB5Ae3HMpJaOYaUg@mail.gmail.com>
-Subject: Re: [PATCH] [video/fbdev] mbxfb_remove: fix null pointer dereference
+Date: Sun, 26 Jul 2020 11:58:20 +0300
+Message-ID: <CAHp75Vf0F+vtgg_NB0dL5Ck9m4_7fEHyH84mWrhTOXrEoL5SGA@mail.gmail.com>
+Subject: Re: [PATCH] [video/fbdev] fb_flashcursor: Remove redundant null check
 To: Gaurav Singh <gaurav1086@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,44 +62,28 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  open list <linux-kernel@vger.kernel.org>,
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Nathan Chancellor <natechancellor@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Peter Rosin <peda@axentia.se>, Qiujun Huang <hqjagain@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 26, 2020 at 8:26 AM Gaurav Singh <gaurav1086@gmail.com> wrote:
+On Sun, Jul 26, 2020 at 8:17 AM Gaurav Singh <gaurav1086@gmail.com> wrote:
 >
-> Function mbxfb_debugfs_remove() accesses fbi->par without NULL check,
-> hence do the NULL check in the caller mbxfb_remove().
+> ops cannot be NULL as its being accessed later without
 
-...
+it's
 
-> @@ -1012,11 +1012,10 @@ static int mbxfb_remove(struct platform_device *dev)
->
->         write_reg_dly(SYSRST_RST, SYSRST);
->
-> -       mbxfb_debugfs_remove(fbi);
-> -
+> checks. Remove the redundant NULL check.
 
->         if (fbi) {
-
-Can you explain how this is NULL on ->remove()?
-
-I bet this check is simply redundant. But you have to check and update
-commit message accordingly.
-
->                 struct mbxfb_info *mfbi = fbi->par;
->
-> +               mbxfb_debugfs_remove(fbi);
->                 unregister_framebuffer(fbi);
->                 if (mfbi) {
->                         if (mfbi->platform_remove)
-
+Commit message doesn't clarify why your fix is the correct one.
+Maybe it's the other way around, missed check in the rest of the code there?
 
 -- 
 With Best Regards,
