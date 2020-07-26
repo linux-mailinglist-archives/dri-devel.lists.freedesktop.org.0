@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A56122DC54
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 08:47:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A09A222DC5E
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 08:55:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F48E89F8E;
-	Sun, 26 Jul 2020 06:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 267856E0AB;
+	Sun, 26 Jul 2020 06:55:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46BB489F8E
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 06:47:12 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Sun, 26 Jul 2020 06:47:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: mnrzk@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-Z6y7rTbjA2@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D88B6E0AB
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 06:55:11 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id EAA6F80462;
+ Sun, 26 Jul 2020 08:55:07 +0200 (CEST)
+Date: Sun, 26 Jul 2020 08:55:06 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 2/3] dt-bindings: Add DT bindings for Powertip PH800480T013
+Message-ID: <20200726065506.GA1691925@ravnborg.org>
+References: <20200725211335.5717-1-marex@denx.de>
+ <20200725211335.5717-2-marex@denx.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200725211335.5717-2-marex@denx.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=-VAfIpHNAAAA:8 a=VwQbUJbxAAAA:8
+ a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8 a=HjWte2sARek0_tVLlIUA:9
+ a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22 a=srlwD-8ojaedGGhPAyx8:22
+ a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,77 +47,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+Hi Marek.
 
---- Comment #94 from mnrzk@protonmail.com ---
-I just got this interesting log w/ drm.debug=0x54 right before a crash:
+On Sat, Jul 25, 2020 at 11:13:34PM +0200, Marek Vasut wrote:
+> Add DT bindings for Powertip PH800480T013 800x480 parallel LCD,
+> this one is used in the Raspberry Pi 7" touchscreen display unit.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> To: dri-devel@lists.freedesktop.org
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../panel/powertip,ph800480t013-idf02.yaml    | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/powertip,ph800480t013-idf02.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/powertip,ph800480t013-idf02.yaml b/Documentation/devicetree/bindings/display/panel/powertip,ph800480t013-idf02.yaml
+> new file mode 100644
+> index 000000000000..8a2a4f79f365
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/powertip,ph800480t013-idf02.yaml
+> @@ -0,0 +1,28 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/powertip,ph800480t013-idf02#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: POWERTIP PH800480T013-IDF2 7.0" WVGA TFT LCD panel
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: powertip,ph800480t013-idf02
+> +
+> +  power-supply: true
+> +  backlight: true
+> +  port: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +
+> +...
 
-[  971.537862] [drm:drm_atomic_state_init [drm]] Allocated atomic state
-00000000cac2d51a
-[  971.537909] [drm:drm_atomic_get_crtc_state [drm]] Added [CRTC:47:crtc-0]
-00000000dc3e08a2 state to 00000000cac2d51a
-[  971.537938] [drm:drm_atomic_get_plane_state [drm]] Added [PLANE:45:plane-5]
-00000000ab054dfb state to 00000000cac2d51a
-[  971.537963] [drm:drm_atomic_set_fb_for_plane [drm]] Set [FB:103] for
-[PLANE:45:plane-5] state 00000000ab054dfb
-[  971.537988] [drm:drm_atomic_check_only [drm]] checking 00000000cac2d51a
-[  971.538064] [drm:drm_atomic_get_private_obj_state [drm]] Added new private
-object 00000000da817c3e state 000000001743c8e6 to 00000000cac2d51a
-[  971.538211] [drm:drm_atomic_nonblocking_commit [drm]] committing
-00000000cac2d51a nonblocking
-[  971.538898] [drm:drm_atomic_state_init [drm]] Allocated atomic state
-00000000cc027c4b
-[  971.538941] [drm:drm_atomic_get_crtc_state [drm]] Added [CRTC:49:crtc-1]
-00000000992fcbd2 state to 00000000cc027c4b
-[  971.538968] [drm:drm_atomic_get_plane_state [drm]] Added [PLANE:44:plane-4]
-000000009d6970b1 state to 00000000cc027c4b
-[  971.538992] [drm:drm_atomic_set_fb_for_plane [drm]] Set [FB:103] for
-[PLANE:44:plane-4] state 000000009d6970b1
-[  971.539017] [drm:drm_atomic_check_only [drm]] checking 00000000cc027c4b
-[  971.539108] [drm:drm_atomic_get_private_obj_state [drm]] Added new private
-object 00000000da817c3e state 0000000057153d72 to 00000000cc027c4b
-[  971.539140] [drm:drm_atomic_nonblocking_commit [drm]] committing
-00000000cc027c4b nonblocking
-[  971.544942] [drm:drm_atomic_state_default_clear [drm]] Clearing atomic state
-00000000cc027c4b
-[  971.544977] [drm:__drm_atomic_state_free [drm]] Freeing atomic state
-00000000cc027c4b
+The binding matches what we have in panel-simple.yaml.
+So it should be added there, and not an independent binding file.
 
-and then my debugger detected a use-after-free while 00000000cac2d51a was being
-committed.
-
-Basically the sequence of events is as follows:
-
-1. Non-blocking commit #1 (00000000cac2d51a) was requested, allocated, and is
-deferred to workqueue.
-
-2. Non-blocking commit #2 (00000000cc027c4b) was requested, allocated, and is
-deferred to workqueue.
-
-3. Commit #2 starts and completes before commit #1 is started, dm_state is
-freed.
-
-4. Commit #1 starts after commit #2 and is using commit #2's freed dm_state
-pointer.
-
-And from every instance of this bug I have seen, it has been due to
-page-flipping.
-
-So Nicholas, it seems your observation was correct; the sequence of events are
-very similar to how you've described the other bug.
-
-Perhaps we'll have to look into the page-flipping code to figure out what
-exactly
-is going on.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
