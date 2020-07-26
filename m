@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D099722E2BA
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 23:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1D622E2BC
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 23:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2EAA6E103;
-	Sun, 26 Jul 2020 21:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641E26E101;
+	Sun, 26 Jul 2020 21:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 162316E103
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 21:26:17 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6715C6E101
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 21:27:49 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4922B304;
- Sun, 26 Jul 2020 23:26:15 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0267A51D;
+ Sun, 26 Jul 2020 23:27:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595798775;
- bh=xCXF96c9a2QmAawxpeCN9WG3PigydXgwcPDo7N5QJSw=;
+ s=mail; t=1595798868;
+ bh=QHmspjfJHZzQmsxT1Y1E2iOS3/LGsGxQtRgYRy1vKHI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dAbDIpVsrjpx4QKZHVKKtwXB8uASZMWbwIHJw4qGI1CX2aVFjl59CiYhzu7t4kvt9
- 8ZaRtmkyFa23ckdyWcZmzdohfTfYAbUHG2Sz207q9DD6l03R/aGG4oNAKWXtIafcb4
- JidiHZtTFP7f03s8OKVOZOF5CKF0x/+wQZVAhBZQ=
-Date: Mon, 27 Jul 2020 00:26:07 +0300
+ b=S3MuBP+9MkDaFYKxr77stFZuw8Zm4WfBjRLyjlMPAQiaK1ocYPiXuY494xSQqeYLq
+ scyGv1GXsjn02nX7og9/0/NtckU20WmJso3ywtSXpPspiDha1oEriG8AzRDF+zdVMi
+ WzmUI9Xv0B5kgv+r97bA1jaPC6Ul72P84WSJY3p8=
+Date: Mon, 27 Jul 2020 00:27:40 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v4 02/15] drm/panel: panel-simple: add default
- connector_type
-Message-ID: <20200726212607.GF14755@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 05/15] drm/bridge: tc358767: add detect bridge operation
+Message-ID: <20200726212740.GG14755@pendragon.ideasonboard.com>
 References: <20200726203324.3722593-1-sam@ravnborg.org>
- <20200726203324.3722593-3-sam@ravnborg.org>
+ <20200726203324.3722593-6-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200726203324.3722593-3-sam@ravnborg.org>
+In-Reply-To: <20200726203324.3722593-6-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +62,103 @@ Hi Sam,
 
 Thank you for the patch.
 
-On Sun, Jul 26, 2020 at 10:33:11PM +0200, Sam Ravnborg wrote:
-> All panels shall report a connector type.
-> panel-simple has a lot of panels with no connector_type,
-> and for these fall back to DPI as the default.
+On Sun, Jul 26, 2020 at 10:33:14PM +0200, Sam Ravnborg wrote:
+> Prepare the bridge driver for chained operation by adding
+> support for the detect operation.
 > 
 > v2:
->   - Rebased on top of validation of panel description
+>   - Do not announce detect operation if there is no hpd pin (Laurent)
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 30 ++++++++++++++++++++----------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index c2777b226c75..e8ba713bedac 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1369,21 +1369,13 @@ static const struct drm_connector_helper_funcs tc_connector_helper_funcs = {
+>  	.get_modes = tc_connector_get_modes,
+>  };
+>  
+> -static enum drm_connector_status tc_connector_detect(struct drm_connector *connector,
+> -						     bool force)
+> +static enum drm_connector_status tc_bridge_detect(struct drm_bridge *bridge)
+>  {
+> -	struct tc_data *tc = connector_to_tc(connector);
+> +	struct tc_data *tc = bridge_to_tc(bridge);
+>  	bool conn;
+>  	u32 val;
+>  	int ret;
+>  
+> -	if (tc->hpd_pin < 0) {
+> -		if (tc->panel)
+> -			return connector_status_connected;
+> -		else
+> -			return connector_status_unknown;
+> -	}
+> -
+>  	ret = regmap_read(tc->regmap, GPIOI, &val);
+>  	if (ret)
+>  		return connector_status_unknown;
+> @@ -1396,6 +1388,20 @@ static enum drm_connector_status tc_connector_detect(struct drm_connector *conne
+>  		return connector_status_disconnected;
+>  }
+>  
+> +static enum drm_connector_status
+> +tc_connector_detect(struct drm_connector *connector, bool force)
+> +{
+> +	struct tc_data *tc = connector_to_tc(connector);
+> +
+> +	if (tc->hpd_pin >= 0)
+> +		return tc_bridge_detect(&tc->bridge);
+> +	else
+> +		if (tc->panel)
+> +			return connector_status_connected;
+> +
+> +	return connector_status_unknown;
+
+I'd write this
+
+	if (tc->hpd_pin >= 0)
+		return tc_bridge_detect(&tc->bridge);
+
+	if (tc->panel)
+		return connector_status_connected;
+	else
+		return connector_status_unknown;
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index a8d68102931e..56ab073e4e6e 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -500,6 +500,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  	struct panel_simple *panel;
->  	struct display_timing dt;
->  	struct device_node *ddc;
-> +	int connector_type;
->  	u32 bus_flags;
->  	int err;
+> +}
+> +
+>  static const struct drm_connector_funcs tc_connector_funcs = {
+>  	.detect = tc_connector_detect,
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+> @@ -1458,6 +1464,7 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
+>  	.disable = tc_bridge_disable,
+>  	.post_disable = tc_bridge_post_disable,
+>  	.mode_fixup = tc_bridge_mode_fixup,
+> +	.detect = tc_bridge_detect,
+>  };
 >  
-> @@ -550,10 +551,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
->  	}
+>  static bool tc_readable_reg(struct device *dev, unsigned int reg)
+> @@ -1680,6 +1687,9 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  		return ret;
 >  
-> +	connector_type = desc->connector_type;
->  	/* Catch common mistakes for panels. */
-> -	switch (desc->connector_type) {
-> +	switch (connector_type) {
->  	case 0:
->  		dev_warn(dev, "Specify missing connector_type\n");
-> +		connector_type = DRM_MODE_CONNECTOR_DPI;
->  		break;
->  	case DRM_MODE_CONNECTOR_LVDS:
->  		WARN_ON(desc->bus_flags &
-> @@ -600,11 +603,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  		break;
->  	default:
->  		dev_warn(dev, "Specify a valid connector_type: %d\n", desc->connector_type);
-> +		connector_type = DRM_MODE_CONNECTOR_DPI;
->  		break;
->  	}
+>  	tc->bridge.funcs = &tc_bridge_funcs;
+> +	if (tc->hpd_pin >= 0)
+> +		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+> +
+>  	tc->bridge.of_node = dev->of_node;
+>  	drm_bridge_add(&tc->bridge);
 >  
-> -	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
-> -		       desc->connector_type);
-> +	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
->  
->  	err = drm_panel_of_backlight(&panel->base);
->  	if (err)
 
 -- 
 Regards,
