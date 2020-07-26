@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF3E22E290
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 22:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C12B22E292
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 22:34:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC746E06E;
-	Sun, 26 Jul 2020 20:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A5B76E071;
+	Sun, 26 Jul 2020 20:33:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A776C6E059
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 20:33:46 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id f5so15001784ljj.10
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 13:33:46 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470A96E064
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 20:33:48 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id x9so15023703ljc.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 13:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nOZbsQZpgjOycHk0tiCVZFPbraV+pXlHSxRel9UQjHw=;
- b=R3LgLSBLNnSVekabz3NBn6UpXchETW8u2hZ0FMZZToNx5fhFa0WnqWmjVInCrP+Vgl
- fUyJn7d6e5L+3yVTQOoixO9IAHuGRib446OZs6UrFUy8187IbrcH/cMXpFl71uX7xKE+
- 4TWdllZKIpmYUQ12Bwp6DXhIgDEhpKJ0+ru35eSbwJn0/uzsVa6C4VuNMy7DeYpU7Hep
- zdzV9OefQ1n3wtsSIXZxgakEloNednjitzIh+nH4XMSzxr5ooU4D7xUZVihtSSR+yVxl
- 8cYDcGA2FK6k9WNbpT5ChtYRQ185V6uwbd1v338idDq7/nh3fGQrae5RTOIYvcYT7dzB
- 1S1w==
+ bh=1EBB3Ir0B1NE0wvwosVJgq3XPk7EGt/V/fFDmbYyVf4=;
+ b=YXhSEqF++71SO/LJklmLBv9zd/MX4mD8laTZmfik6vIKEZ7ctkbbjJZcyCrlIO6oib
+ XDYVK4PG7b58QeOKXdHkXlv5nCeUvths45VJ8IMLHH7LiZy5jNp3xCs4GM/V+Ok+u+Ie
+ /eNQPt/oNfWakvL+ruxt88kXTTEE6Pwn1lLNB6U7JepvVHJaWadP+1ophU39MxJrITrP
+ sSMfGHueMTEVu/CPbFGv55SHTj0+AefmawaZh/3+o0mA9YB2RshWUMx2smxazVXS8l80
+ ImpT5IN1eUuEgj2wpejW6uU4uOk/s2g6x8a5RQHgbzAE/ReZ/q7uB/LjhxSRv7PWW+H6
+ ka9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nOZbsQZpgjOycHk0tiCVZFPbraV+pXlHSxRel9UQjHw=;
- b=igK92gbHg8B5K11oo0vog1dG7Q2Ep6oN4HqCMa99TRdQdU4rkLyB2+9XddKyyNvqz/
- 33QXuBVKw1Uv6Y25uBF6ZgFmBGSZL3H+qqoiC/b5f9E5zKu0SbuuO1MnJ/+AwATEaXkJ
- yZ85t+exEQTS3rK3MPQ8sfz41xPL4iH1lj18Cp2kN6tFDm9FDta4ACyCAfKiLUCwmSC2
- cIDW5tj98Z2BgDQTml8BoePwWaxLn401QywVOnZECCIkHzHKAhLnFkoslJBSXzoNuVf+
- S50rKux9hJOpfrcnflCPBbFdbKuJwMIbC4+YQmLNfq+lb6MUOjpOaLjpZl5N2hMzlReC
- D81w==
-X-Gm-Message-State: AOAM530mhr5VB531+mSuIV/9GMmm1iUeVIBT3w20IMMUsvLwXrVvWWO7
- NFFev9xh2X4w1BHfP/POvB0+WSwn1s4=
-X-Google-Smtp-Source: ABdhPJxNfh+FsCl4LP32/OHq5e6vWYeul6tsXlIbCZ5ob3aCv6EkElOQd9AQQ+Jt+f8MW3DDcjejWw==
-X-Received: by 2002:a05:651c:1213:: with SMTP id
- i19mr359850lja.191.1595795624945; 
- Sun, 26 Jul 2020 13:33:44 -0700 (PDT)
+ bh=1EBB3Ir0B1NE0wvwosVJgq3XPk7EGt/V/fFDmbYyVf4=;
+ b=eafkj1BNbu921t8VPwKX6fkE3oQxaWASjtRadp+BgFtkybMScI8Mv5YfPNcEJpf+Xd
+ J28cWhsIhSuHi3blr/dXqgxqIZ2BXgBuAjLrLQeYarAlfM6b+MPfHC35YMYcZ7x+4fNm
+ k+LxpIKKXGKn04UDEDP9qwswmdDrO7sxOSpNM0vViJZrOCDDdK46evIoRofWTYOiBGnN
+ Fx+fv1Vhl4/ZX1aEff2nNWoKgeVzVHBS6u2UKn9h1UZKe/NgKcRf1PnGEOHggeL0Wzpr
+ dMeQ8u1B6qr5wfATTzoSDABdO4IGzErqe1xuPCdVWd0HWR/Zp+O5BH69nblPWQ4xAcyU
+ eRBA==
+X-Gm-Message-State: AOAM531Ji1Sh2kg4igCN02FzYh9Xc3p1BME96NeuwfNlvBzb4W/Wc/Sf
+ EndMjrUf4stYG0od2zRcGW6qY1hIYsE=
+X-Google-Smtp-Source: ABdhPJzk4FGerqnrHIijBAH/PsM5cEHyI3MTmfsw0/sL73nUBjBeYjIMyWklGASXWg5EGI7RvLJskg==
+X-Received: by 2002:a2e:81d7:: with SMTP id s23mr8340494ljg.398.1595795626572; 
+ Sun, 26 Jul 2020 13:33:46 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:955c:e8d3:9c9d:41af])
- by smtp.gmail.com with ESMTPSA id 203sm2538473lfk.49.2020.07.26.13.33.43
+ by smtp.gmail.com with ESMTPSA id 203sm2538473lfk.49.2020.07.26.13.33.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 13:33:44 -0700 (PDT)
+ Sun, 26 Jul 2020 13:33:45 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 09/15] drm/bridge: megachips: add helper to create connector
-Date: Sun, 26 Jul 2020 22:33:18 +0200
-Message-Id: <20200726203324.3722593-10-sam@ravnborg.org>
+Subject: [PATCH v4 10/15] drm/bridge: megachips: get drm_device from bridge
+Date: Sun, 26 Jul 2020 22:33:19 +0200
+Message-Id: <20200726203324.3722593-11-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200726203324.3722593-1-sam@ravnborg.org>
 References: <20200726203324.3722593-1-sam@ravnborg.org>
@@ -81,7 +80,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Factor out connector creation to a small helper function.
+Fix so drm_device is read from the bridge.
+This is a preparation for the connector being optional.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -94,81 +94,24 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 47 +++++++++++--------
- 1 file changed, 27 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-index 6200f12a37e6..258e0525cdcc 100644
+index 258e0525cdcc..cf1dfbc88acf 100644
 --- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
 +++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-@@ -191,6 +191,32 @@ static const struct drm_connector_funcs ge_b850v3_lvds_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
+@@ -226,8 +226,8 @@ static irqreturn_t ge_b850v3_lvds_irq_handler(int irq, void *dev_id)
+ 				  STDP4028_DPTX_IRQ_STS_REG,
+ 				  STDP4028_DPTX_IRQ_CLEAR);
  
-+static int ge_b850v3_lvds_create_connector(struct drm_bridge *bridge)
-+{
-+	struct drm_connector *connector = &ge_b850v3_lvds_ptr->connector;
-+	int ret;
-+
-+	if (!bridge->encoder) {
-+		DRM_ERROR("Parent encoder object not found");
-+		return -ENODEV;
-+	}
-+
-+	connector->polled = DRM_CONNECTOR_POLL_HPD;
-+
-+	drm_connector_helper_add(connector,
-+				 &ge_b850v3_lvds_connector_helper_funcs);
-+
-+	ret = drm_connector_init(bridge->dev, connector,
-+				 &ge_b850v3_lvds_connector_funcs,
-+				 DRM_MODE_CONNECTOR_DisplayPort);
-+	if (ret) {
-+		DRM_ERROR("Failed to initialize connector with drm\n");
-+		return ret;
-+	}
-+
-+	return drm_connector_attach_encoder(connector, bridge->encoder);
-+}
-+
- static irqreturn_t ge_b850v3_lvds_irq_handler(int irq, void *dev_id)
- {
- 	struct i2c_client *stdp4028_i2c
-@@ -209,7 +235,6 @@ static irqreturn_t ge_b850v3_lvds_irq_handler(int irq, void *dev_id)
- static int ge_b850v3_lvds_attach(struct drm_bridge *bridge,
- 				 enum drm_bridge_attach_flags flags)
- {
--	struct drm_connector *connector = &ge_b850v3_lvds_ptr->connector;
- 	struct i2c_client *stdp4028_i2c
- 			= ge_b850v3_lvds_ptr->stdp4028_i2c;
- 	int ret;
-@@ -219,25 +244,7 @@ static int ge_b850v3_lvds_attach(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
+-	if (ge_b850v3_lvds_ptr->connector.dev)
+-		drm_kms_helper_hotplug_event(ge_b850v3_lvds_ptr->connector.dev);
++	if (ge_b850v3_lvds_ptr->bridge.dev)
++		drm_kms_helper_hotplug_event(ge_b850v3_lvds_ptr->bridge.dev);
  
--	if (!bridge->encoder) {
--		DRM_ERROR("Parent encoder object not found");
--		return -ENODEV;
--	}
--
--	connector->polled = DRM_CONNECTOR_POLL_HPD;
--
--	drm_connector_helper_add(connector,
--				 &ge_b850v3_lvds_connector_helper_funcs);
--
--	ret = drm_connector_init(bridge->dev, connector,
--				 &ge_b850v3_lvds_connector_funcs,
--				 DRM_MODE_CONNECTOR_DisplayPort);
--	if (ret) {
--		DRM_ERROR("Failed to initialize connector with drm\n");
--		return ret;
--	}
--
--	ret = drm_connector_attach_encoder(connector, bridge->encoder);
-+	ret = ge_b850v3_lvds_create_connector(bridge);
- 	if (ret)
- 		return ret;
- 
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.25.1
 
