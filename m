@@ -1,39 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6C022E1C1
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 19:50:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B97E22E1D0
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 20:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D57889C9B;
-	Sun, 26 Jul 2020 17:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCED89D3E;
+	Sun, 26 Jul 2020 18:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E65489C9B
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 17:50:35 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 7061420023;
- Sun, 26 Jul 2020 19:50:32 +0200 (CEST)
-Date: Sun, 26 Jul 2020 19:50:31 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Swapnil Jakhade <sjakhade@cadence.com>
-Subject: Re: [PATCH v7 3/3] drm: bridge: cdns-mhdp: Add j721e wrapper
-Message-ID: <20200726175031.GK3275923@ravnborg.org>
-References: <1595403640-12816-1-git-send-email-sjakhade@cadence.com>
- <1595403640-12816-4-git-send-email-sjakhade@cadence.com>
+X-Greylist: delayed 360 seconds by postgrey-1.36 at gabe;
+ Sun, 26 Jul 2020 18:03:23 UTC
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF1C89D3E
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 18:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1595786601;
+ s=strato-dkim-0002; d=gerhold.net;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=sgrIlsRu3tTV7/SFO/NsvidkS88USSPVoIq5RUCV9cY=;
+ b=MTzzYluqxTl12B71+38CjibPS2slcJGCKpx1jN4RyqrzoFHWFDH0ysz14eBiTorwi8
+ bU5C04k0StwXutKKvR9MXyjU620GcF4JJ7RWbWMTQMCrRfybfQm1a97jlSPsv3hbknzr
+ Aexkcyg3GnU39GEJ6bQL4Ye8aEAVJK8O6EIoFVNf9+j3w7nAHcch8Nd+lo5R/w6OFd7u
+ Hf7+S0GPjF5WKLK0lcVtgH3ILJf8MTsUOEn17l4H+sD0kkkpKBKfJlgxq3zbGHMEJa+b
+ JlaOnZnPTNJ33QAwiMKn5jlF8hC/V2tKLfVU1eSNSQjj/1sah2XTkE+0cpbC12D66lv0
+ g3Mw==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8j8IcjDBg=="
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
+ with ESMTPSA id Y0939ew6QHpII7L
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Sun, 26 Jul 2020 19:51:18 +0200 (CEST)
+Date: Sun, 26 Jul 2020 19:51:11 +0200
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] drm/mcde: Fix stability issue
+Message-ID: <20200726175111.GA5343@gerhold.net>
+References: <20200718233323.3407670-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1595403640-12816-4-git-send-email-sjakhade@cadence.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=sozttTNsAAAA:8 a=Br2UW1UjAAAA:8 a=P1BnusSwAAAA:8
- a=e5mUnYsNAAAA:8 a=eEAO8_bJDlSYck1gigMA:9 a=CjuIK1q_8ugA:10
- a=aeg5Gbbo78KNqacMgKqU:22 a=WmXOPjafLNExVIMTj843:22
- a=D0XLA9XvdZm18NrgonBM:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200718233323.3407670-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,257 +54,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, praneeth@ti.com,
- yamonkar@cadence.com, narmstrong@baylibre.com, airlied@linux.ie,
- tomi.valkeinen@ti.com, jonas@kwiboo.se, nsekhar@ti.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
- jsarha@ti.com, mparab@cadence.com
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Swapnil
-
-Small nits in the following.
-
-	Sam
-
-On Wed, Jul 22, 2020 at 09:40:40AM +0200, Swapnil Jakhade wrote:
-> Add j721e wrapper for mhdp, which sets up the clock and data muxes.
+On Sun, Jul 19, 2020 at 01:33:22AM +0200, Linus Walleij wrote:
+> Whenener a display update was sent, apart from updating
+> the memory base address we called mcde_display_send_one_frame()
+> which also sent a command to the display requesting the TE IRQ
+> and enabling the FIFO.
 > 
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
-> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> When continous updates are running this is wrong: we need
+> to only send this to start the flow to the display on
+> the very first update. This lead to the display pipeline
+> locking up and crashing.
+> 
+> Check if the flow is already running and in that case
+> do not call mcde_display_send_one_frame().
+> 
+> This fixes crashes on the Samsung GT-S7710 (Skomer).
+> 
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/Kconfig           | 13 ++++
->  drivers/gpu/drm/bridge/Makefile          |  5 ++
->  drivers/gpu/drm/bridge/cdns-mhdp-core.c  | 15 +++++
->  drivers/gpu/drm/bridge/cdns-mhdp-core.h  |  1 +
->  drivers/gpu/drm/bridge/cdns-mhdp-j721e.c | 75 ++++++++++++++++++++++++
->  drivers/gpu/drm/bridge/cdns-mhdp-j721e.h | 19 ++++++
->  6 files changed, 128 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
->  create mode 100644 drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
+>  drivers/gpu/drm/mcde/mcde_display.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 6a4c324302a8..8c1738653b7e 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -38,6 +38,19 @@ config DRM_CDNS_MHDP
->  	  It takes a DPI stream as input and outputs it encoded
->  	  in DP format.
->  
-> +if DRM_CDNS_MHDP
-> +
-> +config DRM_CDNS_MHDP_J721E
-> +	depends on ARCH_K3_J721E_SOC
-> +	bool "J721E Cadence DPI/DP wrapper support"
-> +	default y
-> +	help
-> +	  Support J721E Cadence DPI/DP wrapper. This is a wrapper
-> +	  which adds support for J721E related platform ops. It
-> +	  initializes the J721e Display Port and sets up the
-> +	  clock and data muxes.
-> +endif
-> +
->  config DRM_CHRONTEL_CH7033
->  	tristate "Chrontel CH7033 Video Encoder"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 0080a9f80f29..f81d606e9598 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -2,6 +2,11 @@
->  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
->  obj-$(CONFIG_DRM_CDNS_MHDP) += cdns-mhdp.o
->  cdns-mhdp-objs := cdns-mhdp-core.o
-> +
-> +ifeq ($(CONFIG_DRM_CDNS_MHDP_J721E),y)
-> +	cdns-mhdp-objs += cdns-mhdp-j721e.o
-> +endif
+> diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
+> index 212aee60cf61..1d8ea8830a17 100644
+> --- a/drivers/gpu/drm/mcde/mcde_display.c
+> +++ b/drivers/gpu/drm/mcde/mcde_display.c
+> @@ -1086,9 +1086,14 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
+>  	 */
+>  	if (fb) {
+>  		mcde_set_extsrc(mcde, drm_fb_cma_get_gem_addr(fb, pstate, 0));
+> -		if (!mcde->video_mode)
+> -			/* Send a single frame using software sync */
+> -			mcde_display_send_one_frame(mcde);
+> +		if (!mcde->video_mode) {
+> +			/*
+> +			 * Send a single frame using software sync if the flow
+> +			 * is not active yet.
+> +			 */
+> +			if (mcde->flow_active == 0)
+> +				mcde_display_send_one_frame(mcde);
+> +		}
 
-Use the idiomatic:
-cdns-mhdp-$(CONFIG_DRM_CDNS_MHDP_J721E) += cdns-mhdp-j721e.o
+I think this makes sense as a fix for the issue you described, so FWIW:
+Acked-by: Stephan Gerhold <stephan@gerhold.net>
 
+While looking at this I had a few thoughts for potential future patches:
 
-> +
->  obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
->  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
->  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
-> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.c b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-> index b16c5503cef1..eeb33c54334f 100644
-> --- a/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.c
-> @@ -38,6 +38,8 @@
->  
->  #include "cdns-mhdp-core.h"
->  
-> +#include "cdns-mhdp-j721e.h"
-> +
->  static DECLARE_WAIT_QUEUE_HEAD(fw_load_wq);
->  
->  static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
-> @@ -1691,6 +1693,16 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
->  
->  	conn->display_info.bus_flags = DRM_BUS_FLAG_DE_HIGH;
->  
-> +	if (of_device_is_compatible(mhdp->dev->of_node, "ti,j721e-mhdp8546"))
-> +	/*
-> +	 * DP is internal to J7 SoC and we need to use DRIVE_POSEDGE
-> +	 * in the display controller. This is achieved for the time being
-> +	 * by defining SAMPLE_NEGEDGE here.
-> +	 */
-> +		conn->display_info.bus_flags |=
-> +					DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-> +					DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE;
-> +
->  	ret = drm_connector_attach_encoder(conn, bridge->encoder);
->  	if (ret) {
->  		dev_err(mhdp->dev, "failed to attach connector to encoder\n");
-> @@ -2470,6 +2482,9 @@ static int cdns_mhdp_remove(struct platform_device *pdev)
->  
->  static const struct of_device_id mhdp_ids[] = {
->  	{ .compatible = "cdns,mhdp8546", },
-> +#ifdef CONFIG_DRM_CDNS_MHDP_J721E
-> +	{ .compatible = "ti,j721e-mhdp8546", .data = &mhdp_ti_j721e_ops },
-> +#endif
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, mhdp_ids);
-> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-core.h b/drivers/gpu/drm/bridge/cdns-mhdp-core.h
-> index d1bfcdef4249..4e176698caca 100644
-> --- a/drivers/gpu/drm/bridge/cdns-mhdp-core.h
-> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-core.h
-> @@ -343,6 +343,7 @@ struct cdns_mhdp_bridge_state {
->  
->  struct cdns_mhdp_device {
->  	void __iomem *regs;
-> +	void __iomem *j721e_regs;
->  
->  	struct device *dev;
->  	struct clk *clk;
-> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
-> new file mode 100644
-> index 000000000000..7555c217c9a0
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.c
-> @@ -0,0 +1,75 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * TI j721e Cadence MHDP DP wrapper
-> + *
-> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-> + * Author: Jyri Sarha <jsarha@ti.com
-> + */
-> +
-> +#include <linux/io.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "cdns-mhdp-j721e.h"
-> +
-> +#define	REVISION			0x00
-> +#define	DPTX_IPCFG			0x04
-> +#define	ECC_MEM_CFG			0x08
-> +#define	DPTX_DSC_CFG			0x0c
-> +#define	DPTX_SRC_CFG			0x10
-> +#define	DPTX_VIF_SECURE_MODE_CFG	0x14
-> +#define	DPTX_VIF_CONN_STATUS		0x18
-> +#define	PHY_CLK_STATUS			0x1c
-> +
-> +#define DPTX_SRC_AIF_EN			BIT(16)
-> +#define DPTX_SRC_VIF_3_IN30B		BIT(11)
-> +#define DPTX_SRC_VIF_2_IN30B		BIT(10)
-> +#define DPTX_SRC_VIF_1_IN30B		BIT(9)
-> +#define DPTX_SRC_VIF_0_IN30B		BIT(8)
-> +#define DPTX_SRC_VIF_3_SEL_DPI5		BIT(7)
-> +#define DPTX_SRC_VIF_3_SEL_DPI3		0
-> +#define DPTX_SRC_VIF_2_SEL_DPI4		BIT(6)
-> +#define DPTX_SRC_VIF_2_SEL_DPI2		0
-> +#define DPTX_SRC_VIF_1_SEL_DPI3		BIT(5)
-> +#define DPTX_SRC_VIF_1_SEL_DPI1		0
-> +#define DPTX_SRC_VIF_0_SEL_DPI2		BIT(4)
-> +#define DPTX_SRC_VIF_0_SEL_DPI0		0
-> +#define DPTX_SRC_VIF_3_EN		BIT(3)
-> +#define DPTX_SRC_VIF_2_EN		BIT(2)
-> +#define DPTX_SRC_VIF_1_EN		BIT(1)
-> +#define DPTX_SRC_VIF_0_EN		BIT(0)
-> +
-> +/* TODO turn DPTX_IPCFG fw_mem_clk_en at pm_runtime_suspend. */
-> +
-> +static int cdns_mhdp_j721e_init(struct cdns_mhdp_device *mhdp)
-> +{
-> +	struct platform_device *pdev = to_platform_device(mhdp->dev);
-> +
-> +	mhdp->j721e_regs = devm_platform_ioremap_resource(pdev, 1);
-> +	if (IS_ERR(mhdp->j721e_regs))
-> +		return PTR_ERR(mhdp->j721e_regs);
+ - Clearly mcde_display_send_one_frame() does not only send a single
+   frame only in some cases (when te_sync = true), so maybe it should
+   be named differently?
 
-Use PTR_ERR_OR_ZERO() like this:
+ - I was a bit confused because with this change we also call
+   mcde_dsi_te_request() only once. Looking at the vendor driver the
+   nova_dsilink_te_request() function that is very similar is only
+   called within mcde_add_bta_te_oneshot_listener(), which is only
+   called for MCDE_SYNCSRC_BTA.
 
-	return PTR_ERR_OR_ZERO(mhdp->j721e_regs);
+   However, the rest of the MCDE code looks more similar to
+   MCDE_SYNCSRC_TE0, which does not call that function in the vendor
+   driver. I wonder if mcde_dsi_te_request() is needed at all?
 
-> +
-> +	return 0;
-> +}
-> +
-> +static void cdns_mhdp_j721e_enable(struct cdns_mhdp_device *mhdp)
-> +{
-> +	/*
-> +	 * Eneble VIF_0 and select DPI2 as its input. DSS0 DPI0 is connected
-> +	 * to eDP DPI2. This is the only supported SST configuration on
-> +	 * J721E.
-> +	 */
-> +	writel(DPTX_SRC_VIF_0_EN | DPTX_SRC_VIF_0_SEL_DPI2,
-> +	       mhdp->j721e_regs + DPTX_SRC_CFG);
-> +}
-> +
-> +static void cdns_mhdp_j721e_disable(struct cdns_mhdp_device *mhdp)
-> +{
-> +	/* Put everything to defaults  */
-> +	writel(0, mhdp->j721e_regs + DPTX_DSC_CFG);
-> +}
-> +
-> +const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
-> +	.init = cdns_mhdp_j721e_init,
-> +	.enable = cdns_mhdp_j721e_enable,
-> +	.disable = cdns_mhdp_j721e_disable,
-> +};
-> diff --git a/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-> new file mode 100644
-> index 000000000000..f1ff07b82d32
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/cdns-mhdp-j721e.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * TI j721e Cadence MHDP DP wrapper
-> + *
-> + * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-> + * Author: Jyri Sarha <jsarha@ti.com
-> + */
-> +
-> +#ifndef CDNS_MHDP_J721E_H
-> +#define CDNS_MHDP_J721E_H
-> +
-> +#include <linux/platform_device.h>
-> +#include "cdns-mhdp-core.h"
-> +
-> +struct mhdp_platform_ops;
-> +
-> +extern const struct mhdp_platform_ops mhdp_ti_j721e_ops;
-> +
-> +#endif /* !CDNS_MHDP_J721E_H */
-> -- 
-> 2.26.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Thanks,
+Stephan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
