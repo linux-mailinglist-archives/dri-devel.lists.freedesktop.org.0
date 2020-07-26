@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A2D22E285
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 22:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F0B22E287
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 22:33:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100FF89C25;
-	Sun, 26 Jul 2020 20:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DCE489C69;
+	Sun, 26 Jul 2020 20:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A616689C0D
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 20:33:34 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id f5so15001532ljj.10
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 13:33:34 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB9F89C25
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 20:33:36 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id q4so15049626lji.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 13:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Kb6rhhd4yAVo8imxNoYzCr/Y6WmeBxmKHR7gEo1ltg4=;
- b=p4g3fPFUxDNJlS6LRmzynhWo9XOjN4u+TOw3it7ff26SVSxw82xMNM/ixDEAb+fmVG
- flfvpW3b06ChOx9HFBx5JBYktPjoVo3KYS/FDe9zk6t5RIY8WYVtOoH8GVB2Lgk393w8
- B/KPsMA2L2WBQ3rfv94GbLC0ypYZH11f2P5S9gC4O4BxV9ae6Y7l/pVV3f3wNPknxGof
- tmxZ0uI+FaeLCh6Gi4h2XDQU1a+t6v8SqPEN6W8sYpDmSVIpbDD747EITLKBTD2NAVcV
- DkZYmZlZWpPfSQs7z/Fm17gAJRtED4zYYsb/nvUHRtqRLxCfn84U8DBX7nbLhhGoiwBC
- PjKA==
+ bh=YpVbuQILlWQf2ZZYt+NNaZwjYYiIiRCUdPFG0n/z94E=;
+ b=BJ+BePGIFzEdAxLhU6xdclp/SFcAMTVuUwcctfupQAcB0E7/JoGBNOO43xa/ZcIfkE
+ 31UmBDCSz0FWQK4fnr1RQzcTFftkFTxpxm36jlbq/PkCkZ1f5g881LBhcP7ZnCzds7fU
+ 91iwUf8PWUSBWE8AMEfRa++MMBwJsrWkWpEkQ/3wtbUbf5sczyUthTZiv+hPnnV9pwBy
+ C1dOvVJX5x2yBQD/u/UQoC5VExANQAMta/JPUJud3oD0zbuHHwi+bEHhVZQGU5BrWQu2
+ BJk7rei+X9RyZ2pTS5XePH/oH5NPUPMSiw7ylttl8d7hPszqnb/H0qdSXU6Um2QQ4aO2
+ q0tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Kb6rhhd4yAVo8imxNoYzCr/Y6WmeBxmKHR7gEo1ltg4=;
- b=afSMVNC0q88JSP0+x3qrd1CVB01jKxgyFfU1vxp2hm9hKBOxZ1seOMu9wYOCixHcMy
- qbxKCbAV4n5YrcO1GJzIdJe5ogNyP3l2I8rE2klntzz66PffFmta6rlWo5ATi8GIkOZy
- CQQdXZWyHcBMbSb043O1SXQBLYUhLpJpSZSVxztIYZpeHLkbVdLO4XYK7GEcGSeebPRZ
- Z39gZGj61iWGc77ebuediffqBN6UG2cp/Rpw+iuJZksTQ8SAj2YKY7njp4QMFB9RfV9i
- 0pHThvvD+xMtxHiLlZqPzT5WVj21EJ9EnXyL/BfNmiAwVeXLKva8C9zw1JFTxAqjsuT3
- NsZg==
-X-Gm-Message-State: AOAM530TdqHiaQSnLnV9/C3Mt2d1Rk3chJnShyYcvGy7n2gQwrgNAZe0
- Uqmi+Noov/EMxwNwoKMJ6gZTU+0KiOs=
-X-Google-Smtp-Source: ABdhPJwXEGfh/6Pr62d86QJkp6tmh+kpLJFyA8GRH8yp+o0zYZ9oAKhmNX0+ymaRg+wDYfyamQJPjA==
-X-Received: by 2002:a2e:b5b7:: with SMTP id f23mr7912855ljn.380.1595795612889; 
- Sun, 26 Jul 2020 13:33:32 -0700 (PDT)
+ bh=YpVbuQILlWQf2ZZYt+NNaZwjYYiIiRCUdPFG0n/z94E=;
+ b=B2bDpuaFNZDJq7bWlnKWjI9M4KeFSt94eADI894AQiva+wHsZvRbkC5IMYl0mCG+z6
+ iFyRWgXO03sDXpqMwTn1mo6nHdXBz2wqt1fXq7xw5GaLObH8+mim1dA0juEd6SfOaBAW
+ Q6pDvAovXI/TwHuGFAQsvw/5T3//3liqX89Wd4L8h0k6LOSXGC8fGqqNPpbtDPhxOEH8
+ /HRzExIB/6QW6jOneL2I8itTMoVrK4ULrL7T7x6K7TllQBvfgfsUS4hIIwHMY+oEvZJo
+ 8pNG0+DqYDY8Dc7dph/klLYydBcGwXK0BBR943qyfMX21ZV8CPS0t1AXWwCgFW+BKP2N
+ PbYg==
+X-Gm-Message-State: AOAM5317SMKaqzfgSP03jYIQ0oY6OfcUXp/T2miDT1VW28jX9JQheOkN
+ HfuiGUkHNzqLFGVD+mzmYCMeGf5EJsQ=
+X-Google-Smtp-Source: ABdhPJwWVx6/3ZkML12a8CWHpGWn35JXf62oSqPmr2hZ8PpWB2bAB3RcPmGj7T7Y8ZZD8I+4uJgpjQ==
+X-Received: by 2002:a05:651c:1b5:: with SMTP id
+ c21mr8642290ljn.82.1595795614392; 
+ Sun, 26 Jul 2020 13:33:34 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:955c:e8d3:9c9d:41af])
- by smtp.gmail.com with ESMTPSA id 203sm2538473lfk.49.2020.07.26.13.33.31
+ by smtp.gmail.com with ESMTPSA id 203sm2538473lfk.49.2020.07.26.13.33.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 13:33:32 -0700 (PDT)
+ Sun, 26 Jul 2020 13:33:33 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 01/15] drm/panel: panel-simple: validate panel description
-Date: Sun, 26 Jul 2020 22:33:10 +0200
-Message-Id: <20200726203324.3722593-2-sam@ravnborg.org>
+Subject: [PATCH v4 02/15] drm/panel: panel-simple: add default connector_type
+Date: Sun, 26 Jul 2020 22:33:11 +0200
+Message-Id: <20200726203324.3722593-3-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200726203324.3722593-1-sam@ravnborg.org>
 References: <20200726203324.3722593-1-sam@ravnborg.org>
@@ -78,100 +79,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Warn if we detect a panel with incomplete/wrong description.
-This is inspired by a similar patch by Laurent that introduced checks
-for LVDS panels - this extends the checks to the remaining type of
-connectors.
-
-This is known to warn for some of the existing panels but added
-despite this as we need help from people using the panels to
-add the missing info.
-The checks are not complete but will catch the most common mistakes.
-
-The checks at the same time serves as documentation for the minimum
-required description for a panel.
-
-The checks uses dev_warn() as we know this will hit. WARN() was
-too noisy at the moment for anything else than LVDS.
+All panels shall report a connector type.
+panel-simple has a lot of panels with no connector_type,
+and for these fall back to DPI as the default.
 
 v2:
-  - Use dev_warn (Laurent)
-  - Check for empty bus_flags
+  - Rebased on top of validation of panel description
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 41 ++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 54323515ca2c..a8d68102931e 100644
+index a8d68102931e..56ab073e4e6e 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
 @@ -500,6 +500,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
  	struct panel_simple *panel;
  	struct display_timing dt;
  	struct device_node *ddc;
-+	u32 bus_flags;
++	int connector_type;
+ 	u32 bus_flags;
  	int err;
  
- 	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-@@ -549,8 +550,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+@@ -550,10 +551,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
  	}
  
--	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
--		/* Catch common mistakes for LVDS panels. */
-+	/* Catch common mistakes for panels. */
-+	switch (desc->connector_type) {
-+	case 0:
-+		dev_warn(dev, "Specify missing connector_type\n");
-+		break;
-+	case DRM_MODE_CONNECTOR_LVDS:
++	connector_type = desc->connector_type;
+ 	/* Catch common mistakes for panels. */
+-	switch (desc->connector_type) {
++	switch (connector_type) {
+ 	case 0:
+ 		dev_warn(dev, "Specify missing connector_type\n");
++		connector_type = DRM_MODE_CONNECTOR_DPI;
+ 		break;
+ 	case DRM_MODE_CONNECTOR_LVDS:
  		WARN_ON(desc->bus_flags &
- 			~(DRM_BUS_FLAG_DE_LOW |
- 			  DRM_BUS_FLAG_DE_HIGH |
-@@ -564,6 +569,38 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		WARN_ON((desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ||
- 			 desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA) &&
- 			desc->bpc != 8);
-+		break;
-+	case DRM_MODE_CONNECTOR_eDP:
-+		if (desc->bus_format == 0)
-+			dev_warn(dev, "Specify missing bus_format\n");
-+		if (desc->bpc != 6 && desc->bpc != 8)
-+			dev_warn(dev, "Expected bpc in {6,8} but got: %d\n", desc->bpc);
-+		break;
-+	case DRM_MODE_CONNECTOR_DSI:
-+		if (desc->bpc != 6 && desc->bpc != 8)
-+			dev_warn(dev, "Expected bpc in {6,8} but got: %d\n", desc->bpc);
-+		break;
-+	case DRM_MODE_CONNECTOR_DPI:
-+		bus_flags = DRM_BUS_FLAG_DE_LOW |
-+			    DRM_BUS_FLAG_DE_HIGH |
-+			    DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
-+			    DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-+			    DRM_BUS_FLAG_DATA_MSB_TO_LSB |
-+			    DRM_BUS_FLAG_DATA_LSB_TO_MSB |
-+			    DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE |
-+			    DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE;
-+		if (desc->bus_flags & ~bus_flags)
-+			dev_warn(dev, "Unexpected bus_flags(%d)\n", desc->bus_flags & ~bus_flags);
-+		if (!(desc->bus_flags & bus_flags))
-+			dev_warn(dev, "Specify missing bus_flags\n");
-+		if (desc->bus_format == 0)
-+			dev_warn(dev, "Specify missing bus_format\n");
-+		if (desc->bpc != 6 && desc->bpc != 8)
-+			dev_warn(dev, "Expected bpc in {6,8} but got: %d\n", desc->bpc);
-+		break;
-+	default:
-+		dev_warn(dev, "Specify a valid connector_type: %d\n", desc->connector_type);
-+		break;
+@@ -600,11 +603,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		break;
+ 	default:
+ 		dev_warn(dev, "Specify a valid connector_type: %d\n", desc->connector_type);
++		connector_type = DRM_MODE_CONNECTOR_DPI;
+ 		break;
  	}
  
- 	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+-	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+-		       desc->connector_type);
++	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
+ 
+ 	err = drm_panel_of_backlight(&panel->base);
+ 	if (err)
 -- 
 2.25.1
 
