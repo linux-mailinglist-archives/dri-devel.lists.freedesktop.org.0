@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6476822E2C9
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 23:40:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1891022E2CE
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 23:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4CB6E037;
-	Sun, 26 Jul 2020 21:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EDE76E0E4;
+	Sun, 26 Jul 2020 21:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D06566E037
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 21:40:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 577C389935
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 21:48:45 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E99A351D;
- Sun, 26 Jul 2020 23:40:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2687551D;
+ Sun, 26 Jul 2020 23:48:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595799630;
- bh=XDmgg/JIMXuPokalSkHKCfYYsp0KZkUB2Fdxal91cPA=;
+ s=mail; t=1595800120;
+ bh=MSMDQDa0+QLhLptci/IOCn5yNqG7mnl4mD8dhVJoRnI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=haw6/1odVhnpeJgwaOiXoQ3M3OTYm8nKJa2yMXQ5YsLHMDQR4UsvuPzvh8uVaV+eZ
- 5+g/0x2IsebzJm/v3Lq2PMwD7fODJotGYa8ZRWVcNFBxGqaejLwvuq9+uP0gvikMho
- ja5a3cRg2rRTMYKGuVOEQZqctndCfeX70wAfqtqY=
-Date: Mon, 27 Jul 2020 00:40:22 +0300
+ b=n0f+PcmvMtkmT2VCMyjIoODoOBOcxsHtcETdfQe3VjpNVCfl0JXhE3WcPV1JKgoZG
+ ejQKYe6S3ANlEJottAsOXDEw/EloIR+IkK3jPKuJX9uwZbHq6QBhxy3s/yk9lYNy5f
+ FRuncFaxmdP3yA/fUm1yXpNWlwzB69yUU5rmgDoY=
+Date: Mon, 27 Jul 2020 00:48:32 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v4 06/15] drm/bridge: tc358767: add get_edid bridge
- operation
-Message-ID: <20200726214022.GB28704@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 07/15] drm/bridge: tc358767: add drm_panel_bridge
+ support
+Message-ID: <20200726214832.GC28704@pendragon.ideasonboard.com>
 References: <20200726203324.3722593-1-sam@ravnborg.org>
- <20200726203324.3722593-7-sam@ravnborg.org>
+ <20200726203324.3722593-8-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200726203324.3722593-7-sam@ravnborg.org>
+In-Reply-To: <20200726203324.3722593-8-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,105 +63,216 @@ Hi Sam,
 
 Thank you for the patch.
 
-On Sun, Jul 26, 2020 at 10:33:15PM +0200, Sam Ravnborg wrote:
-> Prepare for chained bridge with the addition of
-> get_edid support.
+On Sun, Jul 26, 2020 at 10:33:16PM +0200, Sam Ravnborg wrote:
+> With the bridge operations implemented the last step to prepare
+> this driver for a chained setup is the use of the bridge panel driver.
+> 
+> The bridge panel driver is only used when a prot@2 is present in
+
+s/prot/port/
+
+> the DT. So when the display driver request a connector
+
+s/request/requests/
+
+> support both situations:
+> - connector created by bridge panel driver
+> - connector created by this driver
+> 
+> And on top, support that the display driver creates the connector,
+> which is the preferred setup.
+> 
+> Note: the bridge panel will use the connector type from the panel.
 > 
 > v2:
->   - Fixed handling of edid storage (Laurent)
+>   - Merge connector and drm_panel_bridge patches
+>     and fix so we do not create two connectors (Laurent)
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Andrzej Hajda <a.hajda@samsung.com>
 > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > Cc: Jonas Karlman <jonas@kwiboo.se>
 > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/gpu/drm/bridge/tc358767.c | 34 ++++++++++++++++---------------
->  1 file changed, 18 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/bridge/tc358767.c | 70 +++++++++++++++----------------
+>  1 file changed, 35 insertions(+), 35 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index e8ba713bedac..d86d7f06bebb 100644
+> index d86d7f06bebb..75a2cd792ccc 100644
 > --- a/drivers/gpu/drm/bridge/tc358767.c
 > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -250,8 +250,6 @@ struct tc_data {
+> @@ -244,8 +244,8 @@ struct tc_data {
+>  	struct drm_dp_aux	aux;
+>  
+>  	struct drm_bridge	bridge;
+> +	struct drm_bridge	*panel_bridge;
+>  	struct drm_connector	connector;
+> -	struct drm_panel	*panel;
+>  
 >  	/* link settings */
 >  	struct tc_edp_link	link;
->  
-> -	/* display edid */
-> -	struct edid		*edid;
->  	/* current mode */
->  	struct drm_display_mode	mode;
->  
-> @@ -1335,11 +1333,19 @@ static void tc_bridge_mode_set(struct drm_bridge *bridge,
->  	tc->mode = *mode;
+> @@ -1234,13 +1234,6 @@ static int tc_stream_disable(struct tc_data *tc)
+>  	return 0;
 >  }
 >  
-> +static struct edid *tc_get_edid(struct drm_bridge *bridge,
-> +				struct drm_connector *connector)
-> +{
-> +	struct tc_data *tc = bridge_to_tc(bridge);
-> +
-> +	return drm_get_edid(connector, &tc->aux.ddc);
-> +}
-> +
->  static int tc_connector_get_modes(struct drm_connector *connector)
+> -static void tc_bridge_pre_enable(struct drm_bridge *bridge)
+> -{
+> -	struct tc_data *tc = bridge_to_tc(bridge);
+> -
+> -	drm_panel_prepare(tc->panel);
+> -}
+> -
+>  static void tc_bridge_enable(struct drm_bridge *bridge)
 >  {
->  	struct tc_data *tc = connector_to_tc(connector);
-> +	int num_modes;
->  	struct edid *edid;
-> -	int count;
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+> @@ -1264,8 +1257,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  		tc_main_link_disable(tc);
+>  		return;
+>  	}
+> -
+> -	drm_panel_enable(tc->panel);
+>  }
+>  
+>  static void tc_bridge_disable(struct drm_bridge *bridge)
+> @@ -1273,8 +1264,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+>  	struct tc_data *tc = bridge_to_tc(bridge);
 >  	int ret;
 >  
->  	ret = tc_get_display_props(tc);
-> @@ -1348,21 +1354,15 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+> -	drm_panel_disable(tc->panel);
+> -
+>  	ret = tc_stream_disable(tc);
+>  	if (ret < 0)
+>  		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
+> @@ -1284,13 +1273,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+>  		dev_err(tc->dev, "main link disable error: %d\n", ret);
+>  }
+>  
+> -static void tc_bridge_post_disable(struct drm_bridge *bridge)
+> -{
+> -	struct tc_data *tc = bridge_to_tc(bridge);
+> -
+> -	drm_panel_unprepare(tc->panel);
+> -}
+> -
+>  static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+>  				 const struct drm_display_mode *mode,
+>  				 struct drm_display_mode *adj)
+> @@ -1354,9 +1336,11 @@ static int tc_connector_get_modes(struct drm_connector *connector)
 >  		return 0;
 >  	}
 >  
-> -	count = drm_panel_get_modes(tc->panel, connector);
-> -	if (count > 0)
-> -		return count;
+> -	num_modes = drm_panel_get_modes(tc->panel, connector);
+> -	if (num_modes > 0)
+> -		return num_modes;
+> +	if (tc->panel_bridge) {
+> +		num_modes = drm_bridge_get_modes(tc->panel_bridge, connector);
+> +		if (num_modes > 0)
+> +			return num_modes;
+> +	}
+>  
+>  	edid = tc_get_edid(&tc->bridge, connector);
+>  	num_modes = drm_add_edid_modes(connector, edid);
+> @@ -1396,7 +1380,7 @@ tc_connector_detect(struct drm_connector *connector, bool force)
+>  	if (tc->hpd_pin >= 0)
+>  		return tc_bridge_detect(&tc->bridge);
+>  	else
+> -		if (tc->panel)
+> +		if (tc->panel_bridge)
+>  			return connector_status_connected;
+>  
+>  	return connector_status_unknown;
+> @@ -1419,16 +1403,23 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  	struct drm_device *drm = bridge->dev;
+>  	int ret;
+>  
+> -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> -		DRM_ERROR("Fix bridge driver to make connector optional!");
+> -		return -EINVAL;
+> +	if (tc->panel_bridge) {
+> +		enum drm_bridge_attach_flags panel_flags;
+> +
+> +		/* If a connector is required then this driver shall create it */
+> +		panel_flags = flags & ~DRM_BRIDGE_ATTACH_NO_CONNECTOR;
+
+Shouldn't this be
+
+		panel_flags = flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR;
+
+to ensure that the panel driver will not create a connector ?
+
+> +		ret = drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
+> +					&tc->bridge, panel_flags);
+> +		if (ret)
+> +			return ret;
+>  	}
+>  
+> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+> +		return 0;
+> +
+>  	/* Create DP/eDP connector */
+>  	drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
+> -	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs,
+> -				 tc->panel ? DRM_MODE_CONNECTOR_eDP :
+> -				 DRM_MODE_CONNECTOR_DisplayPort);
+> +	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs, tc->bridge.type);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1441,9 +1432,6 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  					       DRM_CONNECTOR_POLL_DISCONNECT;
+>  	}
+>  
+> -	if (tc->panel)
+> -		drm_panel_attach(tc->panel, &tc->connector);
 > -
-> -	edid = drm_get_edid(connector, &tc->aux.ddc);
-> -
-> -	kfree(tc->edid);
-> -	tc->edid = edid;
-> -	if (!edid)
-> -		return 0;
-> +	num_modes = drm_panel_get_modes(tc->panel, connector);
-> +	if (num_modes > 0)
-> +		return num_modes;
->  
-> -	drm_connector_update_edid_property(connector, edid);
-> -	count = drm_add_edid_modes(connector, edid);
-> +	edid = tc_get_edid(&tc->bridge, connector);
-> +	num_modes = drm_add_edid_modes(connector, edid);
-> +	kfree(edid);
->  
-> -	return count;
-> +	return num_modes;
->  }
->  
->  static const struct drm_connector_helper_funcs tc_connector_helper_funcs = {
-> @@ -1465,6 +1465,7 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
->  	.post_disable = tc_bridge_post_disable,
+>  	drm_display_info_set_bus_formats(&tc->connector.display_info,
+>  					 &bus_format, 1);
+>  	tc->connector.display_info.bus_flags =
+> @@ -1459,10 +1447,8 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
+>  	.attach = tc_bridge_attach,
+>  	.mode_valid = tc_mode_valid,
+>  	.mode_set = tc_bridge_mode_set,
+> -	.pre_enable = tc_bridge_pre_enable,
+>  	.enable = tc_bridge_enable,
+>  	.disable = tc_bridge_disable,
+> -	.post_disable = tc_bridge_post_disable,
 >  	.mode_fixup = tc_bridge_mode_fixup,
 >  	.detect = tc_bridge_detect,
-> +	.get_edid = tc_get_edid,
->  };
+>  	.get_edid = tc_get_edid,
+> @@ -1555,6 +1541,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+>  static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  {
+>  	struct device *dev = &client->dev;
+> +	struct drm_panel *panel;
+>  	struct tc_data *tc;
+>  	int ret;
 >  
->  static bool tc_readable_reg(struct device *dev, unsigned int reg)
-> @@ -1689,6 +1690,7 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
->  	tc->bridge.funcs = &tc_bridge_funcs;
->  	if (tc->hpd_pin >= 0)
->  		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-> +	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
+> @@ -1565,10 +1552,23 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	tc->dev = dev;
 >  
->  	tc->bridge.of_node = dev->of_node;
->  	drm_bridge_add(&tc->bridge);
+>  	/* port@2 is the output port */
+> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &tc->panel, NULL);
+> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+>  	if (ret && ret != -ENODEV)
+>  		return ret;
+>  
+> +	if (panel) {
+> +		struct drm_bridge *panel_bridge;
+> +
+> +		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> +		if (IS_ERR(panel_bridge))
+> +			return PTR_ERR(panel_bridge);
+> +
+> +		tc->panel_bridge = panel_bridge;
+> +		tc->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> +	} else {
+> +		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+> +	}
+> +
+>  	/* Shut down GPIO is optional */
+>  	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(tc->sd_gpio))
 
 -- 
 Regards,
