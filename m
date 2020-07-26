@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2ADB22DFE8
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9088E22DFD8
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4FA189F0A;
-	Sun, 26 Jul 2020 15:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1FDD89F4A;
+	Sun, 26 Jul 2020 15:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4805C894DD;
- Sun, 26 Jul 2020 11:14:23 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id y10so14266961eje.1;
- Sun, 26 Jul 2020 04:14:23 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 204D989F89;
+ Sun, 26 Jul 2020 11:14:35 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id c2so4218277edx.8;
+ Sun, 26 Jul 2020 04:14:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=37BF1UwxVP7CixpP1U6Ina051uTwRlG/juDBdj9kXV4=;
- b=YXAZG2TJKcydz5dEyEcSkHS1L5TwH6/lU+Vvf6qFl3eFLWq0tk6ftDpI3RM0Y6WZZC
- Ic0APMwNKBbIwG24yj7aEonzyJCMqIMYPKgE68dPyC5DKROwn/CtRTu2dW2YsPWaPmJR
- ImUyqE+J+bXk4CMa/bAMkI3jNdbEWeg7tEqs2zzuFmmfUEZEYoeDkZfY87joNawLu0g/
- fCIgQ8pUlg979SghIRlS1hF4c7jHZws+9rP221oy/7xDgSpBI3V+SmENpT16dbrcBXfn
- AWgI7zF8WRS8Y1e02nxyrO0S32sHoBqsn6jZOBZ+AqpeVH9vhA0MqUvtRWyk6UlMYR2V
- 5PgQ==
+ bh=odkhAQTvRYESHiHGqpDynQYqs+08K37ujfoJpgK5xW8=;
+ b=BWil68KsIDDYAqe6oxpdO98IqNFBgoGjsgfFXzj8jCJqWoxTYil9KyuW2hk9Oagmh+
+ oupi2RpWAhncyOn5ZT2QO+EOjeB7+WOFsaeNYI6f8T+yx3bl5NS4THB/dzqhQ6XFlfMd
+ LzEU5kPx67MURKnXl6VWifwP268jMDacRsl8cl2b0NN80oTan+vvxeCYdEGgxOKmnDpt
+ D1neRCuEV/0KHdojYzJ5Im/T161KvIJ525H5ahZNI1AKrEBAPtPsSj3Ldjamf/kKUZ3z
+ dzCh3SKPEvHA3jkQ1zjlRpYyW1p7nxYPskBkgZBB/0F0vG4JASY1REaA5XBy+F+iv0Oe
+ PXrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=37BF1UwxVP7CixpP1U6Ina051uTwRlG/juDBdj9kXV4=;
- b=BisZaKYx23dgBoopbrV/2Dzc4dUqWayFIWrXMQKWCsam6+jRcUYm0xgDPvcM6SKXU2
- JRlJXicddQHcx92PJIoB0tlFfwy+d9/VbBsTDf5VzSs7bvtUregIxorWEEWTzS7VWP4/
- +hw4/NwG04nLG4IV4oaR1tY19mXlWTsJAXotVoYuSrdvjZSwrfN0iPE61aTz6t60N3IR
- b4dnBBv/dabge+vjXZ5lEkr6mlAqk909RVaLN82ys9tvzpdLikn2LvZbwi5JlJedqSg3
- IAKJCODUM0o9OMSkdRVu7fwkk09dquRm6qU3Q43WGbLnqnyQsIbikeDyfyiqXP6yV1Ab
- a61Q==
-X-Gm-Message-State: AOAM5338T9bP7wxKIBKy5Rkn25nlGRDuuaImj+Jp+Mv+ZXunyqjtJI5y
- HTWvzA0a6OU6THX8mkLsDTM=
-X-Google-Smtp-Source: ABdhPJwTeEEQ2ZXZVpgawfqhB50ZrkrMpC5+cmMg9MzlJgq+tYGn96zmWoVuMYZ86Q5HRvZmLGQ2bw==
-X-Received: by 2002:a17:906:8489:: with SMTP id
- m9mr14318876ejx.94.1595762061902; 
- Sun, 26 Jul 2020 04:14:21 -0700 (PDT)
+ bh=odkhAQTvRYESHiHGqpDynQYqs+08K37ujfoJpgK5xW8=;
+ b=MOcbtgwV5jktQ9CaEr85jhxdCynYCb3xTQrlgxov4M/thMxOSmyoRMPjyGdCKlceLr
+ HO8IGmbrWMlq/7o0bx1t3bCeQ6KNK4AywoxRTnQpomA/OED6uEfvje+jgYYNf5Hl34yi
+ hBMkevIdjpjG/5jHgEcnrLglQXt5EgOrW0IV2pLJ5Uy5bPmUjghg/nlq6hDW/s4tS9/O
+ fGhbxIr+P0t6whnI5jAztYKKA+e9n9ymMnTXrE8G7uUuLqBm97qsusIZz3MlRtFIU8pm
+ XlQ1OXGfsiHaTUQAtgRcZOSilXBPDps17lFVyv5wgX57kBr48Ob4bmnD833E9EBYs1z0
+ 7//A==
+X-Gm-Message-State: AOAM531R7ub6fAfWzTXuyISyJJlQlNgztJys18GkD4VLUmqrPvAIEbt5
+ P6G9ANs+wNogZlpMojdh0Vs=
+X-Google-Smtp-Source: ABdhPJzm8S6QvxC7Jm7ur4kYYxIFDeXo8r8iCerJChS7geyPJpEr9L0UPhbdcwFKI2tl0oyxsMbwxw==
+X-Received: by 2002:aa7:d654:: with SMTP id v20mr6147049edr.314.1595762073743; 
+ Sun, 26 Jul 2020 04:14:33 -0700 (PDT)
 Received: from localhost.localdomain (abad207.neoplus.adsl.tpnet.pl.
  [83.6.167.207])
- by smtp.googlemail.com with ESMTPSA id d23sm4696253ejj.74.2020.07.26.04.14.19
+ by smtp.googlemail.com with ESMTPSA id d23sm4696253ejj.74.2020.07.26.04.14.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 04:14:21 -0700 (PDT)
+ Sun, 26 Jul 2020 04:14:33 -0700 (PDT)
 From: Konrad Dybcio <konradybcio@gmail.com>
 To: konradybcio@gmail.com
-Subject: [PATCH 6/9] drm/msm/dsi: Add DSI configuration for SDM660
-Date: Sun, 26 Jul 2020 13:12:03 +0200
-Message-Id: <20200726111215.22361-7-konradybcio@gmail.com>
+Subject: [PATCH 7/9] drm/msm/mdp5: Add MDP5 configuration for SDM636/660
+Date: Sun, 26 Jul 2020 13:12:04 +0200
+Message-Id: <20200726111215.22361-8-konradybcio@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200726111215.22361-1-konradybcio@gmail.com>
 References: <20200726111215.22361-1-konradybcio@gmail.com>
@@ -90,66 +89,137 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This also applies to sdm630/636 and their SDA
-counterparts.
+This commit adds support for the MDP5 IP on Snapdragon
+636/660.
 
 Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
 ---
- drivers/gpu/drm/msm/dsi/dsi_cfg.c | 21 +++++++++++++++++++++
- drivers/gpu/drm/msm/dsi/dsi_cfg.h |  1 +
- 2 files changed, 22 insertions(+)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 105 +++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 813d69deb5e8..f892f2cbe8bb 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-@@ -149,6 +149,25 @@ static const struct msm_dsi_config msm8998_dsi_cfg = {
- 	.num_dsi = 2,
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index 2e02de8a7e41..df10c1ac7591 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -1002,6 +1002,110 @@ static const struct mdp5_cfg_hw sdm630_config = {
+ 	.max_clk = 412500000,
  };
  
-+static const char * const dsi_sdm660_bus_clk_names[] = {
-+	"iface", "bus", "core", "core_mmss",
-+};
++static const struct mdp5_cfg_hw sdm660_config = {
++	.name = "sdm660",
++	.mdp = {
++		.count = 1,
++		.caps = MDP_CAP_DSC |
++			MDP_CAP_CDM |
++			MDP_CAP_SRC_SPLIT |
++			0,
++	},
++	.ctl = {
++		.count = 5,
++		.base = { 0x01000, 0x01200, 0x01400, 0x01600, 0x01800 },
++		.flush_hw_mask = 0xf4ffffff,
++	},
++	.pipe_vig = {
++		.count = 2,
++		.base = { 0x04000, 0x6000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SCALE	|
++			MDP_PIPE_CAP_CSC	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_rgb = {
++		.count = 4,
++		.base = { 0x14000, 0x16000, 0x18000, 0x1a000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SCALE	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_dma = {
++		.count = 2, /* driver supports max of 2 currently */
++		.base = { 0x24000, 0x26000, 0x28000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_cursor = {
++		.count = 1,
++		.base = { 0x34000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			MDP_PIPE_CAP_CURSOR	|
++			0,
++	},
 +
-+static const struct msm_dsi_config sdm660_dsi_cfg = {
-+	.io_offset = DSI_6G_REG_SHIFT,
-+	.reg_cfg = {
-+		.num = 2,
-+		.regs = {
-+			{"vdd", 73400, 32 },	/* 0.9 V */
-+			{"vdda", 12560, 4 },	/* 1.2 V */
++	.lm = {
++		.count = 4,
++		.base = { 0x44000, 0x45000, 0x46000, 0x49000 },
++		.instances = {
++				{ .id = 0, .pp = 0, .dspp = 0,
++				  .caps = MDP_LM_CAP_DISPLAY |
++					  MDP_LM_CAP_PAIR, },
++				{ .id = 1, .pp = 1, .dspp = 1,
++				  .caps = MDP_LM_CAP_DISPLAY, },
++				{ .id = 2, .pp = 2, .dspp = -1,
++				  .caps = MDP_LM_CAP_DISPLAY |
++					  MDP_LM_CAP_PAIR, },
++				{ .id = 3, .pp = 3, .dspp = -1,
++				  .caps = MDP_LM_CAP_WB, },
++				},
++		.nb_stages = 8,
++		.max_width = 2560,
++		.max_height = 0xFFFF,
++	},
++	.dspp = {
++		.count = 2,
++		.base = { 0x54000, 0x56000 },
++	},
++	.ad = {
++		.count = 2,
++		.base = { 0x78000, 0x78800 },
++	},
++	.pp = {
++		.count = 5,
++		.base = { 0x70000, 0x70800, 0x71000, 0x71800, 0x72000 },
++	},
++	.cdm = {
++		.count = 1,
++		.base = { 0x79200 },
++	},
++	.dsc = {
++		.count = 2,
++		.base = { 0x80000, 0x80400 },
++	},
++	.intf = {
++		.base = { 0x6a000, 0x6a800, 0x6b000, 0x6b800 },
++		.connect = {
++			[0] = INTF_DISABLED,
++			[1] = INTF_DSI,
++			[2] = INTF_DSI,
++			[3] = INTF_HDMI,
 +		},
 +	},
-+	.bus_clk_names = dsi_sdm660_bus_clk_names,
-+	.num_bus_clks = ARRAY_SIZE(dsi_sdm660_bus_clk_names),
-+	.io_start = { 0xc994000, 0xc996000 },
-+	.num_dsi = 2,
++	.max_clk = 412500000,
 +};
 +
- static const char * const dsi_sdm845_bus_clk_names[] = {
- 	"iface", "bus",
+ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
+ 	{ .revision = 0, .config = { .hw = &msm8x74v1_config } },
+ 	{ .revision = 2, .config = { .hw = &msm8x74v2_config } },
+@@ -1016,6 +1120,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
+ 
+ static const struct mdp5_cfg_handler cfg_handlers_v3[] = {
+ 	{ .revision = 0, .config = { .hw = &msm8998_config } },
++	{ .revision = 2, .config = { .hw = &sdm660_config } },
+ 	{ .revision = 3, .config = { .hw = &sdm630_config } },
  };
-@@ -240,6 +259,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
- 		&msm8996_dsi_cfg, &msm_dsi_6g_host_ops},
- 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V1_4_2,
- 		&msm8976_dsi_cfg, &msm_dsi_6g_host_ops},
-+	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_1_0,
-+		&sdm660_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_2_0,
- 		&msm8998_dsi_cfg, &msm_dsi_6g_v2_host_ops},
- 	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_2_1,
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-index 217e24a65178..efd469d1db45 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-@@ -18,6 +18,7 @@
- #define MSM_DSI_6G_VER_MINOR_V1_3_1	0x10030001
- #define MSM_DSI_6G_VER_MINOR_V1_4_1	0x10040001
- #define MSM_DSI_6G_VER_MINOR_V1_4_2	0x10040002
-+#define MSM_DSI_6G_VER_MINOR_V2_1_0	0x20010000
- #define MSM_DSI_6G_VER_MINOR_V2_2_0	0x20000000
- #define MSM_DSI_6G_VER_MINOR_V2_2_1	0x20020001
- #define MSM_DSI_6G_VER_MINOR_V2_4_1	0x20040001
+ 
 -- 
 2.27.0
 
