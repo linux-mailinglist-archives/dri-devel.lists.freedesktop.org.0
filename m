@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDBA22D993
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jul 2020 21:29:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A56122DC54
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 08:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABF56E16B;
-	Sat, 25 Jul 2020 19:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F48E89F8E;
+	Sun, 26 Jul 2020 06:47:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B7636E16B
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 19:29:48 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id q6so13255744ljp.4
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 12:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QRn/o7p7Dr6ct7GVq8d3H/58B25NpUh0o8HDRDgbelU=;
- b=rPFIK4uzBFnqaegkZ+ahCYgrdrkZNiv3wYqRuQzpEKS3OiuC5VNfZMggQTw7ZE6ITP
- zJK6sTJfQD9XiBbsvXpCHALUrBKqPEP3n7UQVwTqnAajLsH7kt56nylrgTBQEx7EKG+U
- O7SZ5oR4GHNUj+mEwpYPD6k5y3deSn868L4pXgBsrb4bIXK5uAT/WRTfGjHrlGYUytdL
- sgQa+8AeGJU633TIgtzEjONDWz+ho+glG3ug/FvX7xowRGKrfjg1/l1HHkyU3N7RS/Zu
- /e1p/NdzwV3hYL2PwRn3HDYlZA/fTrW3lWcLxGHiWr9PgKzHgHj2ED/R5BrqH00ovfuF
- 8yqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QRn/o7p7Dr6ct7GVq8d3H/58B25NpUh0o8HDRDgbelU=;
- b=mYpkHqZput8iHnKTv+H08KSbNtj/4558zA/BuTYJ756F/BKsygU220z2Jr5ynnI958
- YlwvSvJHqA2RJdNf2dWaTPA9qgsPL2olKWhvy1tMt0CcTdnxsEAOS8XTX2BNjFCGUcEO
- NyC8LK5CkHHTPC849WJ2GBHUabPKVQj8/f/hWpvTTbsgd5DiAKuZBIz2j0kXW26ZnazT
- B4pxYiJ/z+IPsvCZUNQKjNuTWcTO+AI3lNN5XwbQy5Z5+Yli/2MsahSxaxRUBSxCu3oC
- vQsnfCpyVS0QiNtDQnKIzYsJvZgNn6WxT8g6CTS4xuXGbfXzh+yy664muGYH45jx5Yte
- Wx0A==
-X-Gm-Message-State: AOAM5301HNbWDB4DWWXe6hD3zVsIMGuzyZgCBHgmAOoPNEzzIDP1VZMY
- 5/DuGl7Y6jzbQ1t6upt4ZixdnSaYCMCTVU/BvTQ=
-X-Google-Smtp-Source: ABdhPJy4nIkdNHCtvK1N9MfD51qsqqFMMgFVTsb9MPToJUX4nGtOLa7aZokCkKC+sUqPYXpTnCK4esEz99fi8gSqe0M=
-X-Received: by 2002:a2e:8858:: with SMTP id z24mr6885159ljj.425.1595705386442; 
- Sat, 25 Jul 2020 12:29:46 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BB489F8E
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 06:47:12 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Sun, 26 Jul 2020 06:47:10 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: mnrzk@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-Z6y7rTbjA2@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20200722110411.ebkv6knvc6mzw5uf@smtp.gmail.com>
- <20200722120502.GK6419@phenom.ffwll.local>
- <20200722140604.27dfzfnzug5vb75r@smtp.gmail.com>
- <CAKMK7uHWCnJ+3YnP2FwVGH6cEDkmPnH9ALjY_1R51QVs0HPG0Q@mail.gmail.com>
- <20200725011737.GA2851@realwakka>
- <CAKMK7uEWPCzx+K=+nJsLT5HRBVJ+s8tqx30Ljkr4BCBDComyWQ@mail.gmail.com>
- <20200725174514.esh4gqek6oddizvh@smtp.gmail.com>
- <CAKMK7uEi0UFSwYTO7h6_YKN+UykOuVcmhMSG_ySy9uyo_7Pz-g@mail.gmail.com>
- <20200725184918.togb54bxuifrq77c@smtp.gmail.com>
- <CAJeY4oEr1mDASzdjfyeXqfqUmM6n1ULgnedM7dif6db6Qk-r2g@mail.gmail.com>
-In-Reply-To: <CAJeY4oEr1mDASzdjfyeXqfqUmM6n1ULgnedM7dif6db6Qk-r2g@mail.gmail.com>
-From: Melissa Wen <melissa.srw@gmail.com>
-Date: Sat, 25 Jul 2020 16:29:35 -0300
-Message-ID: <CAJeY4oHzL2q1yRDQweSK5CM5WdHrWqqPVhkNc5DPzP1ayJLw+A@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: add missing drm_crtc_vblank_put to the get/put
- pair on flush
-To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +52,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, kernel-usp@googlegroups.com,
- Sidong Yang <realwakka@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 25, 2020 at 4:19 PM Melissa Wen <melissa.srw@gmail.com> wrote:
->
-> > No, this very first warning continues (only once) :(
-> > From here (drm_crtc_vblank_on):
-> >         if (atomic_read(&vblank->refcount) != 0 || drm_vblank_offdelay == 0)
-> >                 drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
->
-> Sorry, not sure when this warning is triggered.
+https://bugzilla.kernel.org/show_bug.cgi?id=207383
 
-Again, I just had to look at the trace:
-[   52.299388]  drm_get_last_vbltimestamp+0xaa/0xc0 [drm]
-[   52.299389]  drm_reset_vblank_timestamp+0x5b/0xd0 [drm]
-[   52.299389]  drm_crtc_vblank_on.cold+0x37/0x103 [drm]
-[   52.299390]  drm_atomic_helper_commit_modeset_enable
+--- Comment #94 from mnrzk@protonmail.com ---
+I just got this interesting log w/ drm.debug=0x54 right before a crash:
 
->
-> >
-> > > But I'm still wondering why after step 3 we don't get -EINVAL from
-> > > vblank_get() - after vblank_off() vblank->enabled should be false
-> > > again, getting us back to the same state as after 1. Is that not
-> > > happening?
-> >
-> > Yes (sorry if it got confused), we got -EINVAL after setp 3:
-> >
-> > In step 3, at the end of the 2nd running, we have:
-> > atomic_disable
-> > --> vblank_off [!vblank->inmodeset + refcount going 0->1 + inmodeset=1]
-> > and then in next vblank_get: -EINVAL (!vblank->enabled + refcount ends 1)
-> > as in the first step.
-> >
-> > Melissa
-> >
-> > > -Daniel
-> > >
-> > > >
-> > > > > >
-> > > > > > Thanks
-> > > > > > -Sidong
-> > > > > >
-> > > > > > > > >
-> > > > > > > > > >             crtc->state->event = NULL;
-> > > > > > > > > >     }
-> > > > > > > > > >
-> > > > > > > > > > --
-> > > > > > > > > > 2.27.0
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > --
-> > > > > > > > > Daniel Vetter
-> > > > > > > > > Software Engineer, Intel Corporation
-> > > > > > > > > http://blog.ffwll.ch
-> > > > > > >
-> > > > > > >
-> > > > > > >
-> > > > > > > --
-> > > > > > > Daniel Vetter
-> > > > > > > Software Engineer, Intel Corporation
-> > > > > > > http://blog.ffwll.ch
-> > > > > > > _______________________________________________
-> > > > > > > dri-devel mailing list
-> > > > > > > dri-devel@lists.freedesktop.org
-> > > > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > > > >
-> > > > >
-> > > > >
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > http://blog.ffwll.ch
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
+[  971.537862] [drm:drm_atomic_state_init [drm]] Allocated atomic state
+00000000cac2d51a
+[  971.537909] [drm:drm_atomic_get_crtc_state [drm]] Added [CRTC:47:crtc-0]
+00000000dc3e08a2 state to 00000000cac2d51a
+[  971.537938] [drm:drm_atomic_get_plane_state [drm]] Added [PLANE:45:plane-5]
+00000000ab054dfb state to 00000000cac2d51a
+[  971.537963] [drm:drm_atomic_set_fb_for_plane [drm]] Set [FB:103] for
+[PLANE:45:plane-5] state 00000000ab054dfb
+[  971.537988] [drm:drm_atomic_check_only [drm]] checking 00000000cac2d51a
+[  971.538064] [drm:drm_atomic_get_private_obj_state [drm]] Added new private
+object 00000000da817c3e state 000000001743c8e6 to 00000000cac2d51a
+[  971.538211] [drm:drm_atomic_nonblocking_commit [drm]] committing
+00000000cac2d51a nonblocking
+[  971.538898] [drm:drm_atomic_state_init [drm]] Allocated atomic state
+00000000cc027c4b
+[  971.538941] [drm:drm_atomic_get_crtc_state [drm]] Added [CRTC:49:crtc-1]
+00000000992fcbd2 state to 00000000cc027c4b
+[  971.538968] [drm:drm_atomic_get_plane_state [drm]] Added [PLANE:44:plane-4]
+000000009d6970b1 state to 00000000cc027c4b
+[  971.538992] [drm:drm_atomic_set_fb_for_plane [drm]] Set [FB:103] for
+[PLANE:44:plane-4] state 000000009d6970b1
+[  971.539017] [drm:drm_atomic_check_only [drm]] checking 00000000cc027c4b
+[  971.539108] [drm:drm_atomic_get_private_obj_state [drm]] Added new private
+object 00000000da817c3e state 0000000057153d72 to 00000000cc027c4b
+[  971.539140] [drm:drm_atomic_nonblocking_commit [drm]] committing
+00000000cc027c4b nonblocking
+[  971.544942] [drm:drm_atomic_state_default_clear [drm]] Clearing atomic state
+00000000cc027c4b
+[  971.544977] [drm:__drm_atomic_state_free [drm]] Freeing atomic state
+00000000cc027c4b
+
+and then my debugger detected a use-after-free while 00000000cac2d51a was being
+committed.
+
+Basically the sequence of events is as follows:
+
+1. Non-blocking commit #1 (00000000cac2d51a) was requested, allocated, and is
+deferred to workqueue.
+
+2. Non-blocking commit #2 (00000000cc027c4b) was requested, allocated, and is
+deferred to workqueue.
+
+3. Commit #2 starts and completes before commit #1 is started, dm_state is
+freed.
+
+4. Commit #1 starts after commit #2 and is using commit #2's freed dm_state
+pointer.
+
+And from every instance of this bug I have seen, it has been due to
+page-flipping.
+
+So Nicholas, it seems your observation was correct; the sequence of events are
+very similar to how you've described the other bug.
+
+Perhaps we'll have to look into the page-flipping code to figure out what
+exactly
+is going on.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
