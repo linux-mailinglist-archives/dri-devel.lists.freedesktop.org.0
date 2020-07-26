@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E9322DDF2
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 12:26:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6B722DE13
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 12:56:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9922F89F3B;
-	Sun, 26 Jul 2020 10:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F01989E26;
+	Sun, 26 Jul 2020 10:55:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B6E89F3B
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 10:26:20 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id v21so2953280otj.9
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 03:26:20 -0700 (PDT)
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7434A89E26
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 10:55:54 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id w17so11964399oie.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 03:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k2Fq4D+MVaPvOwyYejkASFNE/Fbxf9pO3/22f+1eVLs=;
- b=PHf0VFLDhl6XKmXhQHgwoYrMD2qxUGTx/e7U1VrDSzvUSNGyFfFVxoNihxoInyIPuw
- Su6+h1XQunxpBb9kezEWJX+oB5gKajxzh71pifMnMo7PgJ13V276+jHKCiZvJ4nbe3DC
- WhxaaPD2cSTrMa0YukAZhZl3//fYQPKxx9X+0=
+ :cc:content-transfer-encoding;
+ bh=6WNqj62XIJNMJpBSLIoF+oK3SvEtxJm7DMBMaoHvQNc=;
+ b=ksQr/KjAKoj6K1YWJsNhP5TzrcjUIZCm0bapYm+hcOK8zAVMpuGemdo1vCysNHiUGS
+ 6Fhdr9xXsB1xj0jT6oQv5lTuZjX9lek/Ni+Qtk3P1thclIr40kjtx4U/SloQB8OBkLpw
+ qvqVjjQ0E5nzna81nZQACXERty84NX7gcfjZI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k2Fq4D+MVaPvOwyYejkASFNE/Fbxf9pO3/22f+1eVLs=;
- b=c54MskrbfikAl+dplLduzxa/l1pOHELSi7BxVUSWFskz4Sk0nAM36ocv5lLSVh4oY8
- LZ5tMXkI/7RMqbTgcagJMlctbU+UUs9TArCPCkM1GAmxMcO7OxCESnKusE8tO2JZYmnT
- /klBvJoFRsxSBXr/O1neMbaniOAX1VbIEJwnnNWaApsF5b+jdq7+GT53RcLtgAEpT9Vf
- V7l0kZBETWD+biD4AvJIS7/cmhEe6qZCJRN0JdWMD8IJXpqmRGDY7TY0pr/+8AcQoNK2
- pe7VUEErb6uakf9J0qWxvyN/j5lyoL6kx1MBX/PUVynNzoqGEtT2B0nrZN+NHR+5K3za
- VSHA==
-X-Gm-Message-State: AOAM531Y6FNZYAXO3TSmR73ihZMK4hsKUPHAagNDKuEpr9qIB5m3q1pm
- QPmschI887TqyOPQxfWEUcTf7a8jdsK3QiJ6DjhhHw==
-X-Google-Smtp-Source: ABdhPJyZhUQ4Fh4nXvfvrvS+6faPmS0iTsYPW5EqoFSiJT1LIF7mkGiZ0BnwJrnHpkOv/j9qN/tXoeCLJ3hT0Evvxos=
-X-Received: by 2002:a05:6830:1613:: with SMTP id
- g19mr15498856otr.303.1595759179525; 
- Sun, 26 Jul 2020 03:26:19 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6WNqj62XIJNMJpBSLIoF+oK3SvEtxJm7DMBMaoHvQNc=;
+ b=qg8vQq5V2aD0xXMxr/0kwCWAB654UYFPf4MArzJbMilEepC8N1bCH/iEovyff7x+mv
+ /AIrhylbisKQwuC6qvCRw833eM9RQmwd53WblfxGfYj4ajU7CyB896fv45CfOIaAhKl6
+ NMAg64z7gLKFY0SAqJKjwxE5s3+S/IosPeemTWj6CnntmtXZLCYhbPJVyS9Iqh+aQlVs
+ 02XUMwiRhmr9PoJ85fYzuzUaVk9SFKXpR7BPALf/1YPyccpinzp/VwxR66OrdjaNAhGv
+ 6zggTIr9vw8lHRftfxY/MSiEsYMh6vzVxKpRvHzL3d9bAjw/O3zCoiLkzUg+x5LLTnVr
+ mQTQ==
+X-Gm-Message-State: AOAM533DgnKtpaxV8rctUEBaM6dNymyHOdZMsF530ih/GpPLjVulWfqE
+ wNlws5BzEY5bKeTZq+GrsCxKCbxbIFDlszF1EGlJqg==
+X-Google-Smtp-Source: ABdhPJxlP6z88hS7L3tLUGz5t+u9WoHPURho4z8fid0z7I/joNfOsaJHogAzgfu6OgLOIwqIB41Ufv9z5QWGVPok70Q=
+X-Received: by 2002:aca:7549:: with SMTP id q70mr4710759oic.128.1595760953545; 
+ Sun, 26 Jul 2020 03:55:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200722110411.ebkv6knvc6mzw5uf@smtp.gmail.com>
- <20200722120502.GK6419@phenom.ffwll.local>
- <20200722140604.27dfzfnzug5vb75r@smtp.gmail.com>
- <CAKMK7uHWCnJ+3YnP2FwVGH6cEDkmPnH9ALjY_1R51QVs0HPG0Q@mail.gmail.com>
- <20200725011737.GA2851@realwakka>
- <CAKMK7uEWPCzx+K=+nJsLT5HRBVJ+s8tqx30Ljkr4BCBDComyWQ@mail.gmail.com>
- <20200725174514.esh4gqek6oddizvh@smtp.gmail.com>
- <CAKMK7uEi0UFSwYTO7h6_YKN+UykOuVcmhMSG_ySy9uyo_7Pz-g@mail.gmail.com>
- <20200725184918.togb54bxuifrq77c@smtp.gmail.com>
- <CAJeY4oEr1mDASzdjfyeXqfqUmM6n1ULgnedM7dif6db6Qk-r2g@mail.gmail.com>
- <CAJeY4oHzL2q1yRDQweSK5CM5WdHrWqqPVhkNc5DPzP1ayJLw+A@mail.gmail.com>
-In-Reply-To: <CAJeY4oHzL2q1yRDQweSK5CM5WdHrWqqPVhkNc5DPzP1ayJLw+A@mail.gmail.com>
+References: <20200722181332.26995-1-knaerzche@gmail.com>
+ <CAKMK7uGKyYea_9MamAQw2=ebjW=raYCDeFCf_5jyyJPHL9AZWA@mail.gmail.com>
+ <47599ce1-2a3b-87eb-c46e-8f7f79ca945e@gmail.com>
+ <CAKMK7uEn0552JuTuwpL-XdYSVk7OA=fEsphpivS8ouE-10--Zg@mail.gmail.com>
+ <0e5f6e41-5fa4-2989-f4b8-89a9471db931@gmail.com>
+In-Reply-To: <0e5f6e41-5fa4-2989-f4b8-89a9471db931@gmail.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sun, 26 Jul 2020 12:26:08 +0200
-Message-ID: <CAKMK7uGQXXDhYGOwYdorKECgNW2Ydq=Mxu_Tm-GrOY8SHftB+g@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: add missing drm_crtc_vblank_put to the get/put
- pair on flush
-To: Melissa Wen <melissa.srw@gmail.com>
+Date: Sun, 26 Jul 2020 12:55:42 +0200
+Message-ID: <CAKMK7uFjFVr4rDBpBWei-SAtBkKtQPQ0PmuJ9Bd6q4n3JAWv=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] drm: rockchip: various ports for older VOPs
+To: Alex Bee <knaerzche@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,112 +62,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, kernel-usp@googlegroups.com,
- Sidong Yang <realwakka@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 25, 2020 at 9:29 PM Melissa Wen <melissa.srw@gmail.com> wrote:
->
-> On Sat, Jul 25, 2020 at 4:19 PM Melissa Wen <melissa.srw@gmail.com> wrote:
-> >
-> > > No, this very first warning continues (only once) :(
-> > > From here (drm_crtc_vblank_on):
-> > >         if (atomic_read(&vblank->refcount) != 0 || drm_vblank_offdelay == 0)
-> > >                 drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
-> >
-> > Sorry, not sure when this warning is triggered.
->
-> Again, I just had to look at the trace:
-> [   52.299388]  drm_get_last_vbltimestamp+0xaa/0xc0 [drm]
-> [   52.299389]  drm_reset_vblank_timestamp+0x5b/0xd0 [drm]
-> [   52.299389]  drm_crtc_vblank_on.cold+0x37/0x103 [drm]
-> [   52.299390]  drm_atomic_helper_commit_modeset_enable
-
-Yeah I think vkms can't generate a reasonable timestamp when the
-hrtimer is off. I thought the warning comes from a different
-callchain, but seems to be a general problem.
-
-I guess in the vkms timestamp function we should check whether the
-timer is running, and if it's not running, then we just grab the
-current time and done.
--Daniel
-
-> >
-> > >
-> > > > But I'm still wondering why after step 3 we don't get -EINVAL from
-> > > > vblank_get() - after vblank_off() vblank->enabled should be false
-> > > > again, getting us back to the same state as after 1. Is that not
-> > > > happening?
-> > >
-> > > Yes (sorry if it got confused), we got -EINVAL after setp 3:
-> > >
-> > > In step 3, at the end of the 2nd running, we have:
-> > > atomic_disable
-> > > --> vblank_off [!vblank->inmodeset + refcount going 0->1 + inmodeset=1]
-> > > and then in next vblank_get: -EINVAL (!vblank->enabled + refcount ends 1)
-> > > as in the first step.
-> > >
-> > > Melissa
-> > >
-> > > > -Daniel
-> > > >
-> > > > >
-> > > > > > >
-> > > > > > > Thanks
-> > > > > > > -Sidong
-> > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > >             crtc->state->event = NULL;
-> > > > > > > > > > >     }
-> > > > > > > > > > >
-> > > > > > > > > > > --
-> > > > > > > > > > > 2.27.0
-> > > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > --
-> > > > > > > > > > Daniel Vetter
-> > > > > > > > > > Software Engineer, Intel Corporation
-> > > > > > > > > > http://blog.ffwll.ch
-> > > > > > > >
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > --
-> > > > > > > > Daniel Vetter
-> > > > > > > > Software Engineer, Intel Corporation
-> > > > > > > > http://blog.ffwll.ch
-> > > > > > > > _______________________________________________
-> > > > > > > > dri-devel mailing list
-> > > > > > > > dri-devel@lists.freedesktop.org
-> > > > > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > --
-> > > > > > Daniel Vetter
-> > > > > > Software Engineer, Intel Corporation
-> > > > > > http://blog.ffwll.ch
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBKdWwgMjUsIDIwMjAgYXQgODo0OCBQTSBBbGV4IEJlZSA8a25hZXJ6Y2hlQGdtYWls
+LmNvbT4gd3JvdGU6Cj4KPgo+IEFtIDI1LjA3LjIwIHVtIDE3OjU0IHNjaHJpZWIgRGFuaWVsIFZl
+dHRlcjoKPiA+IE9uIFNhdCwgSnVsIDI1LCAyMDIwIGF0IDM6NTIgUE0gQWxleCBCZWUgPGtuYWVy
+emNoZUBnbWFpbC5jb20+IHdyb3RlOgo+ID4+Cj4gPj4gQW0gMjIuMDcuMjAgdW0gMjM6NDMgc2No
+cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4+PiBPbiBXZWQsIEp1bCAyMiwgMjAyMCBhdCA4OjEzIFBN
+IEFsZXggQmVlIDxrbmFlcnpjaGVAZ21haWwuY29tPiB3cm90ZToKPiA+Pj4+IEhpLAo+ID4+Pj4K
+PiA+Pj4+IHRoaXMgc2VyaWVzIG1haW5seSBwb3J0cyBleGlzdGluaW5nIGZ1bmN0aW9uYWxpdHkg
+dG8gb2xkZXIgU29DcyAtIG1vc3QKPiA+Pj4+IGltcG9ydGFudGx5IGVuYWJsZXMgYWxwaGEgYmxl
+bmRpbmcgZm9yIFJLMzAzNiwgUkszMDY2LCBSSzMxMjYgYW5kCj4gPj4+PiBSSzMxODguCj4gPj4+
+PiBCZXNpZGVzIHRoYXQsIGl0IGFsc28gY2hhbmdlcyB0aGUgd2luZG93IHR5cGUgZnJvbSBEUk1f
+UExBTkVfVFlQRV9DVVJTT1IKPiA+Pj4+IHRvIERSTV9QTEFORV9UWVBFX09WRVJMQVkgZm9yIFZP
+UHMgdGhhdCBoYXZlIG9ubHkgb25lICgxKSBvdmVybGF5IHdpbmRvdy4KPiA+Pj4gVGhpcyBkb2Vz
+bid0IG1ha2UgbXVjaCBzZW5zZSwgdGhlIGN1cnNvciBvdmVybGF5IGlzIHJlYWxseSBqdXN0IGEg
+aGludAo+ID4+PiBmb3IgbGVnYWN5IGlvY3RscyB0aGF0IHRoaXMgaXMgdGhlIG92ZXJsYXkgdGhh
+dCBzaG91bGQgYmUgdXNlZCBmb3IKPiA+Pj4gY3Vyc29ycy4gQ29tcG9zaXRvcnMgc2hvdWxkIHRy
+eSB0byB1c2Ugc3VjaCBwbGFuZXMgYXMgZnVsbCBvdmVybGF5cwo+ID4+PiAoaWYgdGhleSBkb24n
+dCB3YW50IHRvIHVzZSB0aGVtIGFzIGEgY3Vyc29yKS4gU28gc291bmRzIGxpa2UgYSBjYXNlIG9m
+Cj4gPj4+ICJmaXggeW91ciBjb21wb3NpdG9yIi4KPiA+PiBJIGFncmVlIGhlcmUgLSBidXQ6IElm
+IEhXQyB3aW5kb3dzIHdvdWxkIGhhdmUgYmVlbiBpbXBsZW1lbnRlZCBpbiB0aGlzCj4gPj4gcGFy
+dGljdWxhciBkcml2ZXIsIHRoZWlyIG1heCBzaXplIHdvdWxkIGJlIDEyOHgxMjggb24gc29tZSBT
+b0NzIC0gc28KPiA+PiB0aGV5IHdvdWRuJ3QgYmUgcmVhbGx5IHN1aXRhYmxlIHRvIGNyZWF0ZSBh
+biBPU0Qgb3ZlcmxheSBhdCA0SywgZm9yCj4gPj4gZXhhbXBsZS4gSSBkb24ndCBrbm93LCBidXQg
+SSBndWVzcyBvdGhlciB2ZW5kb3JzIGltcGxlbWVudCB0aGVpciBIV0MKPiA+PiB3aW5kb3dzIG9u
+IHRoaXMgcmVkdWNlZCBIVyByZXNvdXJjZXMgYXMgd2VsbC4gSSBndWVzcyB0aGF0IGlzIG9uZSBv
+ZiB0aGUKPiA+PiByZWFzb25zLCB3aHkgdXNlcnNwYWNlLCB3aGljaCBhaW1zIHRvIGJlIGNyb3Nz
+LXBsYXR0ZnJvbSwgYXZvaWRzCj4gPj4gRFJNX1BMQU5FX1RZUEVfQ1VSU09SIHdoZW4gaXRzIGxv
+b2tpbmcgZm9yIGFuIHVzYWJsZSBvdmVybGF5IHBsYW5lLiAoYQo+ID4+IGhldXJpc3RpYywgaW5k
+ZWVkKQo+ID4gV2hpY2ggdXNlcnNwYWNlIGRvZXMgdGhhdD8KPiBrb2RpLWdibToKPiBodHRwczov
+L2dpdGh1Yi5jb20veGJtYy94Ym1jL2Jsb2IvbWFzdGVyL3hibWMvd2luZG93aW5nL2dibS9EUk1V
+dGlscy5jcHAjTDQwNgoKQ2FuIHlvdSBwbHMgZmlsZSBhIGJ1ZyByZXBvcnQsIGxpbmtpbmcgdG8g
+dGhpcyB0aHJlYWQgaGVyZT8KCk1heWJlIGFsc28gbGluayB0byB0aGUgZG9jczoKCmh0dHBzOi8v
+ZHJpLmZyZWVkZXNrdG9wLm9yZy9kb2NzL2RybS9ncHUvZHJtLWttcy5odG1sP2hpZ2hsaWdodD1k
+cm1fcGxhbmUjYy5kcm1fcGxhbmVfdHlwZQoKIkZvciB1c2Vyc3BhY2Ugd2hpY2ggaXMgdW5pdmVy
+c2FsIHBsYW5lIGF3YXJlIGFuZCB3aGljaCBpcyB1c2luZyB0aGF0CmF0b21pYyBJT0NUTCB0aGVy
+ZeKAmXMgbm8gZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZXNlIHBsYW5lcyAoYmV5b25nIHdoYXQKdGhl
+IGRyaXZlciBhbmQgaGFyZHdhcmUgY2FuIHN1cHBvcnQgb2YgY291cnNlKS4iCgpBbHNvIGZlZWwg
+ZnJlZSB0byBjYyBtZSBvbiB0aGUgZ2l0aHViIGlzc3VlIChJJ20gQGRhbnZldCBvdmVyIHRoZXJl
+KQppbiBjYXNlIHRoZXJlJ3MgbW9yZSBxdWVzdGlvbnMuCgpDaGVlcnMsIERhbmllbAoKPgo+ID4g
+V2Ugc2hvdWxkIGZpeCB0aGF0LCBub3QgdHJ5IHRvIHdvcmsgYXJvdW5kCj4gPiB0aGF0IGluIGFs
+bCB0aGUgZHJpdmVycyBpbiB1cHN0cmVhbSwgdGhhdCB3b250IHdvcmsuCj4gWW91J3JlIHJpZ2h0
+IEknbGwgZHJvcCB0aGlzIHBhcnQuCj4gPiAtRGFuaWVsCj4gPgo+ID4+PiBGb3IgYXRvbWljIHRo
+ZXJlJ3MgMCBkaWZmZXJlbmNlIGJldHdlZW4gYSBvdmVybGF5IG9yIGEgY3Vyc29yIChwcmltYXJ5
+Cj4gPj4+IHBsYW5lIGlzIHN0aWxsIHRyZWF0ZWQgc29tZXdoYXQgc3BlY2lhbCBpbiB0aGUgUk1G
+QiBpb2N0bCwgYnV0IGFnYWluCj4gPj4+IHRoYXQncyBmb3IgYmFja3dhcmRzIGNvbXBhdCByZWFz
+b25zIHdpdGggZXhpc3RpbmcgdWFwaSwgbm90IGJlY2F1c2UKPiA+Pj4gdGhlIHByaW1hcnkgcGxh
+bmUgaXMgZGlmZmVyZW50KS4KPiA+Pj4KPiA+Pj4gV2hhdCBkb2VzIGhhcHBlbiB0aG91Z2ggaXMg
+dGhhdCB0aGlzIGJyZWFrcyBjdXJzb3IgZm9yIGxlZ2FjeQo+ID4+PiB1c2Vyc3BhY2UsIHdoaWNo
+IGlzIHByb2JhYmx5IG5vdCByZWFsbHkgd2hhdCB5b3Ugd2FudC4KPiA+PiBJbmRlZWQgbm90Lgo+
+ID4+Cj4gPj4gQmVmb3JoYW5kIEkgd2FzIHN1Ym1paXRpbmcgdGhpcywgSSBsb29rZWQgYXJyb3Vu
+ZCBhbmQgY291bGRuJ3QgZmluZAo+ID4+IGFueXRoaW5nIHdoaWNoIHJlbGllcyBvciBldmVuIGRl
+cGVuZHMgb2YgYSBjdXJzb3Igd2luZG93IHRvIGJlCj4gPj4gYXZhaWxhYmxlLiBFdmVuIGlmOiBh
+cyBwZXIgc3BlYyBvbmx5IG9uZSBEUk1fUExBTkVfVFlQRV9QUklNQVJZIGlzCj4gPj4gbWFuZGF0
+b3J5LCBldmVyeXRoaW5nIGVsc2UgaXMgb3B0aW9uYWwuCj4gPj4KPiA+Pj4gLURhbmllbAo+ID4+
+Pgo+ID4+Pgo+ID4+Pj4gUmVnYXJkcywKPiA+Pj4+IEFsZXgKPiA+Pj4+Cj4gPj4+PiBDaGFuZ2Vz
+IGluIHYyOgo+ID4+Pj4gLSBkcm9wIG5vdCB5ZXQgdXBzdHJlYW1lZCBkc3BfZGF0YV9zd2FwIGZy
+b20gUkszMTg4IHJlZ3MKPiA+Pj4+IC0gcmVwaHJhc2UgbW9zdCBjb21taXQgbWVzc2FnZXMKPiA+
+Pj4+Cj4gPj4+PiBBbGV4IEJlZSAoNSk6Cj4gPj4+PiAgICAgZHJtOiByb2NrY2hpcDogYWRkIHNj
+YWxpbmcgZm9yIFJLMzAzNiB3aW4xCj4gPj4+PiAgICAgZHJtOiByb2NrY2hpcDogYWRkIG1pc3Np
+bmcgcmVnaXN0ZXJzIGZvciBSSzMxODgKPiA+Pj4+ICAgICBkcm06IHJvY2tjaGlwOiBhZGQgYWxw
+aGEgc3VwcG9ydCBmb3IgUkszMDM2LCBSSzMwNjYsIFJLMzEyNiBhbmQgUkszMTg4Cj4gPj4+PiAg
+ICAgZHJtOiByb2NrY2hpcDogc2V0IGFscGhhX2VuIHRvIDAgaWYgaXQgaXMgbm90IHVzZWQKPiA+
+Pj4+ICAgICBkcm06IHJvY2tjaGlwOiB1c2Ugb3ZlcmxheSB3aW5kb3dzIGFzIHN1Y2gKPiA+Pj4+
+Cj4gPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jIHwg
+IDEgKwo+ID4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX3ZvcF9yZWcu
+YyB8IDQyICsrKysrKysrKysrKysrKysrKy0tLQo+ID4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3Jv
+Y2tjaGlwL3JvY2tjaGlwX3ZvcF9yZWcuaCB8ICAxICsKPiA+Pj4+ICAgIDMgZmlsZXMgY2hhbmdl
+ZCwgMzggaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPiA+Pj4+Cj4gPj4+PiAtLQo+ID4+
+Pj4gMi4xNy4xCj4gPj4+Pgo+ID4+PiAtLQo+ID4+PiBEYW5pZWwgVmV0dGVyCj4gPj4+IFNvZnR3
+YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4+PiBodHRwOi8vYmxvZy5mZndsbC5j
+aAo+ID4+IEJlc3QgUmVnYXJkcwo+ID4+Cj4gPgo+IEJlc3QgcmVnYXJkcwoKCgotLSAKRGFuaWVs
+IFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cu
+ZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
