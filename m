@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1E822DFD0
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5C222DFD9
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0763589EA3;
-	Sun, 26 Jul 2020 15:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E96189F33;
+	Sun, 26 Jul 2020 15:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
- [IPv6:2607:f8b0:4864:20::f41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB046E0AB
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 05:20:56 +0000 (UTC)
-Received: by mail-qv1-xf41.google.com with SMTP id u8so5982846qvj.12
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jul 2020 22:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id;
- bh=10G3Z7zc2hpC9xFkXBhwCWtTHJ66WyVHYUrUeWXwqKc=;
- b=M6tMLNPmHDwRPfUV/IcFUmlGGdPnUDIJGtLFqruOJH7NnHWLTk1cw4HxXlnFBwh4K1
- g/yT+XHVjAcliIlb83NW843FatIudzqZ5kOFuTdbe6jF3auvR+aYkC6qPoliSDXoaxyk
- Y1DS0Mg1uPEVk5hJae6iSEWZyLH7GbB9YsO+zYldksunAUV8viyeTbjp3ZtqyCn0r2FY
- BZpHH5axCbqggTHuvzQQAYi1mC9PQ2SDVJOU4eVT8WSQbDoeqVnaVe7jC2kUBgkfLCj+
- /o5Z+OmSCmovhr/qByM3tPIiWDoMKEvhivDScza+wYRgayCxMscK5i4bAN/F5O+KjAT7
- zwqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=10G3Z7zc2hpC9xFkXBhwCWtTHJ66WyVHYUrUeWXwqKc=;
- b=Ligpa6rkWsDnQrtrNXlP78IhNIbrI0wcPY3IOwgbVE1RoNQk9ztwFWxEiTObQoWSq+
- up7WM4HTPKTRMgM2b/CcPyWjikZE9kDE09WWk7c4yTnkN9X6sOjfJHUCNowJ9aGzM+Wo
- SNuzATe9eDbXMmob/n6QJuIJSYgeIWTBqddqtxbjGHkOAO72S1C4/3P+8c/lI65GvHaD
- MquEXYmQ5jJF/4TSVaJHdCJ4wOYDLNhbIeSgYDvvmyDHHiHvpMkHJsYq+ckExjDtpRoJ
- FbshRnI/4KxXt7og3byDsLAdXIQBUq/Vjczc5jBdkg+vdfU3jii8BEy56VL6mGTMJRgn
- x3uw==
-X-Gm-Message-State: AOAM530dDGA32Ld3f+dWc+U6POliRYVD6uKHO8mEbbv4XZyfuFnTKHpv
- MgZ5CW+z6SwNIlrQocaULI8=
-X-Google-Smtp-Source: ABdhPJwNOivgw43Vn9IA5nLTrZOB3NaVskEB1shd7sPm43WXFeLNIjFckNZ1t5DJKuOlDAzRNs9P1g==
-X-Received: by 2002:a0c:ffc6:: with SMTP id h6mr12098268qvv.251.1595740856028; 
- Sat, 25 Jul 2020 22:20:56 -0700 (PDT)
-Received: from linux.home ([2604:2000:1344:41d:159c:94c1:6e96:1b7e])
- by smtp.googlemail.com with ESMTPSA id
- t65sm13364129qkf.119.2020.07.25.22.20.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jul 2020 22:20:55 -0700 (PDT)
-From: Gaurav Singh <gaurav1086@gmail.com>
-To: gaurav1086@gmail.com, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@intel.com>,
- dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
- linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] [video/fbdev] mbxfb_remove: fix null pointer dereference
-Date: Sun, 26 Jul 2020 01:20:45 -0400
-Message-Id: <20200726052047.9856-1-gaurav1086@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:45 +0000
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2A189359
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 10:13:16 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BDzKQ29Q0z1qrfD;
+ Sun, 26 Jul 2020 12:13:14 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4BDzKQ0nmvz1qw6h;
+ Sun, 26 Jul 2020 12:13:14 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id I3uHk3kyKvZs; Sun, 26 Jul 2020 12:13:13 +0200 (CEST)
+X-Auth-Info: +UxxsQTk0lTXcwxY3B7PbpBPvZXT0hDIdYuGW0bu7v4=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Sun, 26 Jul 2020 12:13:12 +0200 (CEST)
+Subject: Re: [PATCH 1/2] dt-bindings: Add DT bindings for Toshiba TC358762
+ DSI-to-DPI bridge
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200725211457.5772-1-marex@denx.de>
+ <20200726070627.GC1691925@ravnborg.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <a3eb3adc-ebfc-50bb-4da9-032a5c7279fe@denx.de>
+Date: Sun, 26 Jul 2020 12:13:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200726070627.GC1691925@ravnborg.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Sun, 26 Jul 2020 15:02:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,40 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-MIME-Version: 1.0
+Cc: Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Function mbxfb_debugfs_remove() accesses fbi->par without NULL check,
-hence do the NULL check in the caller mbxfb_remove().
+On 7/26/20 9:06 AM, Sam Ravnborg wrote:
+> Hi Marek.
 
-Signed-off-by: Gaurav Singh <gaurav1086@gmail.com>
----
- drivers/video/fbdev/mbx/mbxfb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi,
 
-diff --git a/drivers/video/fbdev/mbx/mbxfb.c b/drivers/video/fbdev/mbx/mbxfb.c
-index 6dc287c819cb..515c0cda1994 100644
---- a/drivers/video/fbdev/mbx/mbxfb.c
-+++ b/drivers/video/fbdev/mbx/mbxfb.c
-@@ -1012,11 +1012,10 @@ static int mbxfb_remove(struct platform_device *dev)
- 
- 	write_reg_dly(SYSRST_RST, SYSRST);
- 
--	mbxfb_debugfs_remove(fbi);
--
- 	if (fbi) {
- 		struct mbxfb_info *mfbi = fbi->par;
- 
-+		mbxfb_debugfs_remove(fbi);
- 		unregister_framebuffer(fbi);
- 		if (mfbi) {
- 			if (mfbi->platform_remove)
--- 
-2.17.1
+> On Sat, Jul 25, 2020 at 11:14:56PM +0200, Marek Vasut wrote:
+>> Add DT bindings for Toshiba TC358762 DSI-to-DPI bridge, this
+>> one is used in the Raspberry Pi 7" touchscreen display unit.
+[...]
+> This looks like a candidate for the simple-bridge-yaml binding.
+> Did you check if this is sufficient or we really need a new binding?
 
+The binding says "Transparent non-programmable DRM bridges", but this
+TC358762 one is programmable, so I would expect a separate binding file
+is better in case the driver evolves and needs more DT properties.
+
+> If we need a new binding then they to take a look at how simple-bridge
+> define the ports. You can do this in a simple way than what is used
+> here.
+> It looks like this was copied from toshiba,tc358768.yaml, but there are
+> better examples to follow.
+
+I took a subset of the file.
+
+[...]
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
