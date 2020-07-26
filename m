@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7F722DFE9
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8554E22DFF2
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 17:03:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCEEC89F03;
-	Sun, 26 Jul 2020 15:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29EFF89DE5;
+	Sun, 26 Jul 2020 15:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0652F894DD;
- Sun, 26 Jul 2020 11:13:36 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id q4so6842468edv.13;
- Sun, 26 Jul 2020 04:13:35 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3EBB89DEC;
+ Sun, 26 Jul 2020 11:13:47 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id z17so10057758edr.9;
+ Sun, 26 Jul 2020 04:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cs+gLIqTnPWhYBODTViZE90E8/vlMy99+hp1beAtSdc=;
- b=TfjEq8a0HN5EKRYxTu1RrtRq3PV8DWEu0s4HFYSYMFjNqF/Q/sPzeWIw6VYdwxenCy
- VSDLsjexOMBD5C4SpTiHsWj9P8IDMPWP4CZSUqFaQMuVvI8ob9Ai4ldYp3XMOJVu0Zpl
- Ae3ElERiJl2bp5NcSvoKdHLAJJmgnlomdfrMTuT45onAQEoniH5kki9IWBEIRa95myuE
- +FeVc49sACD9W+uf4ze8mpOblD0DUv4Y34PDMMWSeNHa8FRdgsVFQepYK0Q6UDpqclVZ
- sC5DcRdSiMcKGgXv+enX2h47KonLbIkBhW3nZe18zAt4LXJIfoBRxZEOXMSOOGMN8GbP
- 9fTQ==
+ bh=UbgBtdsZGIemXshDXMwmxf8DoQcpEbxLRUMayd/h/0g=;
+ b=GkEdKGdFtTYQj/wFf/bU8fnqXSKDhM5E0FjRRZJL84pEHDMtWyOnAXT6OdfN3bhReH
+ sKyk7syptobl4TxxsRCJ2Bn7k/nQuTFBkLv3Gii5l6BaMg/RiOg8rhssAI8l8Z9aTqwO
+ n47zSWet0TK8BesjiHOnq7Yj/MN1tg9VGJX0gvgtHpC7YnDsU6MKf0d5rnh9gF6SkJa+
+ GvjFgW++sRaGks9UYMNByvlEGD7rXzJyPc6XZpQfkwn98nPPzwgt6W6jjnl8lJbL6577
+ vQEq6d5cWTmTzNBS10zqJ+6xWqFgtofWSJ6KOOVBHMwcGRl3OOqeo/2HPU/HwPzsDy2l
+ icVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cs+gLIqTnPWhYBODTViZE90E8/vlMy99+hp1beAtSdc=;
- b=qyzunS98KY4lZGNUvxrFjUfU50YTglvcH9MsgDuJJV3p82NwRdmTdWO6i+p0Pj/yt4
- JBOs1NPJXrx5C5fwBfcgWx8i9FN22jq546PcFwqsB5+hhC1Qsk8Sr1GCpCMpq+UiCO/X
- XcQFafLH/aiaoIaHfCOOyMnb7NC0j+hB851NxTSkbJXL9HMMw6dmkr0p/mRzNYFpa8/S
- /fcIP2ZIAMOCmZ906LF7UL5mYm/8ZULZ4m3X/VEM1rlRvFZYPDUQ6thJDiyXBLYd1GFZ
- Jl9RFdb7jfT/eS4IVkUUB0GrQkfYYG/oErvwJwx2W4ZE43eDgDvQXP+4AQukoT6cq6oS
- D/Mw==
-X-Gm-Message-State: AOAM5324in2OUhFqLOrZ93Lbv01SJFL8ucYkufS54vDCGv9Q2RJq5jBc
- +ceqhsztTkJzdMMMKKJ+3Ig=
-X-Google-Smtp-Source: ABdhPJweKLGsol8NQGsiYc75+IT7bG6HGpzYRGIJFqb3lQ91mVNQIxF51Gc1uUa+b+igMmW85X4QwQ==
-X-Received: by 2002:aa7:c90a:: with SMTP id b10mr17062270edt.71.1595762014668; 
- Sun, 26 Jul 2020 04:13:34 -0700 (PDT)
+ bh=UbgBtdsZGIemXshDXMwmxf8DoQcpEbxLRUMayd/h/0g=;
+ b=eCqqMAeZ9ZH3j58c9+Iniz5oHSGPzY1Cc/NvffpAw3whAwH22Ag2a4vCc4OJ5vyBn5
+ WQaOm5H33obj31kXjf+NQ0KMfwO4aNw98DD6+fgAul6YgP2NbTg1s2/Fl55CW28fYcfc
+ UgVpcXQGozEwaB4fsJ3cFERN8cBI//xeJyraO1RyLW1CAX9/Cu7GoSQ/aDk0hRAjnT/N
+ X7JXqxTbR8tQUGn+z+edFyBr0Mfa8CLSiV88brPeIDCvXCWFaWpA3jr6qFBLv2BLFyOT
+ MGRi50RLv/Q6a/mso1bwulekm/EgPKu6JIZsPnj9GZWAFWLQYq9mIhQ8XF6ja92ugttP
+ 0+dQ==
+X-Gm-Message-State: AOAM533r74/8HxT7oQwKD264Oi+vB9PVw6CWmb4WSKiAwmJv/o16Lf81
+ qfa3CZ37U69ZaX9ASgm400M=
+X-Google-Smtp-Source: ABdhPJzOyixNGF0EsoqZKZkm/6+YqgQs81jjv0P0Oa8ZJNnWeDK79k8NR0e7xq+4mLzEswwNytYdaA==
+X-Received: by 2002:a05:6402:308e:: with SMTP id
+ de14mr1187894edb.344.1595762026436; 
+ Sun, 26 Jul 2020 04:13:46 -0700 (PDT)
 Received: from localhost.localdomain (abad207.neoplus.adsl.tpnet.pl.
  [83.6.167.207])
- by smtp.googlemail.com with ESMTPSA id d23sm4696253ejj.74.2020.07.26.04.13.32
+ by smtp.googlemail.com with ESMTPSA id d23sm4696253ejj.74.2020.07.26.04.13.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jul 2020 04:13:34 -0700 (PDT)
+ Sun, 26 Jul 2020 04:13:46 -0700 (PDT)
 From: Konrad Dybcio <konradybcio@gmail.com>
 To: konradybcio@gmail.com
-Subject: [PATCH 2/9] phy: qcom-qusb2: Add support for SDM630/660
-Date: Sun, 26 Jul 2020 13:11:59 +0200
-Message-Id: <20200726111215.22361-3-konradybcio@gmail.com>
+Subject: [PATCH 3/9] drivers: usb: dwc3-qcom: Add sdm660 compatible
+Date: Sun, 26 Jul 2020 13:12:00 +0200
+Message-Id: <20200726111215.22361-4-konradybcio@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200726111215.22361-1-konradybcio@gmail.com>
 References: <20200726111215.22361-1-konradybcio@gmail.com>
@@ -89,54 +90,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QUSB on these SoCs actually uses *almost* the same
-configuration that msm8996 does, so we can reuse
-the phy_cfg from there with just a single change
-(se clock scheme).
-
 Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
 ---
- Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml | 1 +
- drivers/phy/qualcomm/phy-qcom-qusb2.c                     | 7 ++++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
+ drivers/usb/dwc3/dwc3-qcom.c                         | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
-index b5a6195de7ff..e61a3ca3deba 100644
---- a/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,qusb2-phy.yaml
-@@ -20,6 +20,7 @@ properties:
-         - enum:
-           - qcom,msm8996-qusb2-phy
-           - qcom,msm8998-qusb2-phy
-+          - qcom,sdm660-qusb2-phy
-       - items:
-         - enum:
-           - qcom,sc7180-qusb2-phy
-diff --git a/drivers/phy/qualcomm/phy-qcom-qusb2.c b/drivers/phy/qualcomm/phy-qcom-qusb2.c
-index 393011a05b48..11852ebe9e49 100644
---- a/drivers/phy/qualcomm/phy-qcom-qusb2.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qusb2.c
-@@ -702,7 +702,8 @@ static int qusb2_phy_init(struct phy *phy)
- 	usleep_range(150, 160);
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index dac10848dd7f..c5280d6406ec 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -16,6 +16,7 @@ properties:
+           - qcom,msm8996-dwc3
+           - qcom,msm8998-dwc3
+           - qcom,sc7180-dwc3
++          - qcom,sdm660-dwc3
+           - qcom,sdm845-dwc3
+       - const: qcom,dwc3
  
- 	/* Default is single-ended clock on msm8996 */
--	qphy->has_se_clk_scheme = true;
-+	if (!of_device_is_compatible(phy->dev.of_node, "qcom,sdm660-qusb2-phy"))
-+		qphy->has_se_clk_scheme = true;
- 	/*
- 	 * read TCSR_PHY_CLK_SCHEME register to check if single-ended
- 	 * clock scheme is selected. If yes, then disable differential
-@@ -815,6 +816,10 @@ static const struct of_device_id qusb2_phy_of_match_table[] = {
- 	}, {
- 		.compatible	= "qcom,msm8998-qusb2-phy",
- 		.data		= &msm8998_phy_cfg,
-+	}, {
-+		.compatible	= "qcom,sdm660-qusb2-phy",
-+		/* sdm630/660 use the same config as msm8996. */
-+		.data		= &msm8996_phy_cfg,
- 	}, {
- 		/*
- 		 * Deprecated. Only here to support legacy device
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 1dfd024cd06b..d6b3e1bb550a 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -753,6 +753,7 @@ static const struct of_device_id dwc3_qcom_of_match[] = {
+ 	{ .compatible = "qcom,dwc3" },
+ 	{ .compatible = "qcom,msm8996-dwc3" },
+ 	{ .compatible = "qcom,msm8998-dwc3" },
++	{ .compatible = "qcom,sdm660-dwc3" },
+ 	{ .compatible = "qcom,sdm845-dwc3" },
+ 	{ }
+ };
 -- 
 2.27.0
 
