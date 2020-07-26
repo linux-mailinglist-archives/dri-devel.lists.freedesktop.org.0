@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADBD22E2B7
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 23:24:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D099722E2BA
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 23:26:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8888F6E0F3;
-	Sun, 26 Jul 2020 21:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2EAA6E103;
+	Sun, 26 Jul 2020 21:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8844E6E0F3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 21:24:52 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 162316E103
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 21:26:17 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADBDB304;
- Sun, 26 Jul 2020 23:24:49 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4922B304;
+ Sun, 26 Jul 2020 23:26:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595798689;
- bh=K93g8cGjsFLpKVAoBLZ6TGgR+2xoJ9Fb4n1cxI475xQ=;
+ s=mail; t=1595798775;
+ bh=xCXF96c9a2QmAawxpeCN9WG3PigydXgwcPDo7N5QJSw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S0KHywEunLeMI+DaJ6rp/U9YxnDBM8dR/g7XkJ3ZQytn+t5HKjJR3TKxzIdL1NTal
- +lNooNJXJr+5keGt39/GPaaSHMDpQCkIrxYLTexEf1u67tSyQpB15+HXlSCwV5eubQ
- 8iwFFcNklFLCLxnb/2AR9wGByWjUugBYZLf9yu1o=
-Date: Mon, 27 Jul 2020 00:24:41 +0300
+ b=dAbDIpVsrjpx4QKZHVKKtwXB8uASZMWbwIHJw4qGI1CX2aVFjl59CiYhzu7t4kvt9
+ 8ZaRtmkyFa23ckdyWcZmzdohfTfYAbUHG2Sz207q9DD6l03R/aGG4oNAKWXtIafcb4
+ JidiHZtTFP7f03s8OKVOZOF5CKF0x/+wQZVAhBZQ=
+Date: Mon, 27 Jul 2020 00:26:07 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v4 01/15] drm/panel: panel-simple: validate panel
- description
-Message-ID: <20200726212441.GE14755@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 02/15] drm/panel: panel-simple: add default
+ connector_type
+Message-ID: <20200726212607.GF14755@pendragon.ideasonboard.com>
 References: <20200726203324.3722593-1-sam@ravnborg.org>
- <20200726203324.3722593-2-sam@ravnborg.org>
+ <20200726203324.3722593-3-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200726203324.3722593-2-sam@ravnborg.org>
+In-Reply-To: <20200726203324.3722593-3-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,115 +63,65 @@ Hi Sam,
 
 Thank you for the patch.
 
-On Sun, Jul 26, 2020 at 10:33:10PM +0200, Sam Ravnborg wrote:
-> Warn if we detect a panel with incomplete/wrong description.
-> This is inspired by a similar patch by Laurent that introduced checks
-> for LVDS panels - this extends the checks to the remaining type of
-> connectors.
-> 
-> This is known to warn for some of the existing panels but added
-> despite this as we need help from people using the panels to
-> add the missing info.
-> The checks are not complete but will catch the most common mistakes.
-> 
-> The checks at the same time serves as documentation for the minimum
-
-s/serves/serve/
-
-> required description for a panel.
-> 
-> The checks uses dev_warn() as we know this will hit. WARN() was
-> too noisy at the moment for anything else than LVDS.
+On Sun, Jul 26, 2020 at 10:33:11PM +0200, Sam Ravnborg wrote:
+> All panels shall report a connector type.
+> panel-simple has a lot of panels with no connector_type,
+> and for these fall back to DPI as the default.
 > 
 > v2:
->   - Use dev_warn (Laurent)
->   - Check for empty bus_flags
+>   - Rebased on top of validation of panel description
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 41 ++++++++++++++++++++++++++--
->  1 file changed, 39 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panel/panel-simple.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 54323515ca2c..a8d68102931e 100644
+> index a8d68102931e..56ab073e4e6e 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
 > @@ -500,6 +500,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
 >  	struct panel_simple *panel;
 >  	struct display_timing dt;
 >  	struct device_node *ddc;
-> +	u32 bus_flags;
+> +	int connector_type;
+>  	u32 bus_flags;
 >  	int err;
 >  
->  	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-> @@ -549,8 +550,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+> @@ -550,10 +551,12 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
 >  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
 >  	}
 >  
-> -	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
-> -		/* Catch common mistakes for LVDS panels. */
-> +	/* Catch common mistakes for panels. */
-> +	switch (desc->connector_type) {
-> +	case 0:
-> +		dev_warn(dev, "Specify missing connector_type\n");
-> +		break;
-> +	case DRM_MODE_CONNECTOR_LVDS:
+> +	connector_type = desc->connector_type;
+>  	/* Catch common mistakes for panels. */
+> -	switch (desc->connector_type) {
+> +	switch (connector_type) {
+>  	case 0:
+>  		dev_warn(dev, "Specify missing connector_type\n");
+> +		connector_type = DRM_MODE_CONNECTOR_DPI;
+>  		break;
+>  	case DRM_MODE_CONNECTOR_LVDS:
 >  		WARN_ON(desc->bus_flags &
->  			~(DRM_BUS_FLAG_DE_LOW |
->  			  DRM_BUS_FLAG_DE_HIGH |
-> @@ -564,6 +569,38 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  		WARN_ON((desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ||
->  			 desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA) &&
->  			desc->bpc != 8);
-> +		break;
-> +	case DRM_MODE_CONNECTOR_eDP:
-> +		if (desc->bus_format == 0)
-> +			dev_warn(dev, "Specify missing bus_format\n");
-> +		if (desc->bpc != 6 && desc->bpc != 8)
-> +			dev_warn(dev, "Expected bpc in {6,8} but got: %d\n", desc->bpc);
-
-bpc is unsigned, so s/%d/%u/
-
-> +		break;
-> +	case DRM_MODE_CONNECTOR_DSI:
-> +		if (desc->bpc != 6 && desc->bpc != 8)
-> +			dev_warn(dev, "Expected bpc in {6,8} but got: %d\n", desc->bpc);
-
-Same here.
-
-> +		break;
-> +	case DRM_MODE_CONNECTOR_DPI:
-> +		bus_flags = DRM_BUS_FLAG_DE_LOW |
-> +			    DRM_BUS_FLAG_DE_HIGH |
-> +			    DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
-> +			    DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-> +			    DRM_BUS_FLAG_DATA_MSB_TO_LSB |
-> +			    DRM_BUS_FLAG_DATA_LSB_TO_MSB |
-> +			    DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE |
-> +			    DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE;
-> +		if (desc->bus_flags & ~bus_flags)
-> +			dev_warn(dev, "Unexpected bus_flags(%d)\n", desc->bus_flags & ~bus_flags);
-> +		if (!(desc->bus_flags & bus_flags))
-> +			dev_warn(dev, "Specify missing bus_flags\n");
-> +		if (desc->bus_format == 0)
-> +			dev_warn(dev, "Specify missing bus_format\n");
-> +		if (desc->bpc != 6 && desc->bpc != 8)
-> +			dev_warn(dev, "Expected bpc in {6,8} but got: %d\n", desc->bpc);
-
-And here too.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +		break;
-> +	default:
-> +		dev_warn(dev, "Specify a valid connector_type: %d\n", desc->connector_type);
-> +		break;
+> @@ -600,11 +603,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  		break;
+>  	default:
+>  		dev_warn(dev, "Specify a valid connector_type: %d\n", desc->connector_type);
+> +		connector_type = DRM_MODE_CONNECTOR_DPI;
+>  		break;
 >  	}
 >  
->  	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+> -	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+> -		       desc->connector_type);
+> +	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
+>  
+>  	err = drm_panel_of_backlight(&panel->base);
+>  	if (err)
 
 -- 
 Regards,
