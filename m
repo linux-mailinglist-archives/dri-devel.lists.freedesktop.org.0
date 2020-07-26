@@ -1,55 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6B722DE13
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 12:56:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE2C22DE8D
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 13:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F01989E26;
-	Sun, 26 Jul 2020 10:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48BD389DE3;
+	Sun, 26 Jul 2020 11:29:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7434A89E26
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 10:55:54 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id w17so11964399oie.6
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 03:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6WNqj62XIJNMJpBSLIoF+oK3SvEtxJm7DMBMaoHvQNc=;
- b=ksQr/KjAKoj6K1YWJsNhP5TzrcjUIZCm0bapYm+hcOK8zAVMpuGemdo1vCysNHiUGS
- 6Fhdr9xXsB1xj0jT6oQv5lTuZjX9lek/Ni+Qtk3P1thclIr40kjtx4U/SloQB8OBkLpw
- qvqVjjQ0E5nzna81nZQACXERty84NX7gcfjZI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6WNqj62XIJNMJpBSLIoF+oK3SvEtxJm7DMBMaoHvQNc=;
- b=qg8vQq5V2aD0xXMxr/0kwCWAB654UYFPf4MArzJbMilEepC8N1bCH/iEovyff7x+mv
- /AIrhylbisKQwuC6qvCRw833eM9RQmwd53WblfxGfYj4ajU7CyB896fv45CfOIaAhKl6
- NMAg64z7gLKFY0SAqJKjwxE5s3+S/IosPeemTWj6CnntmtXZLCYhbPJVyS9Iqh+aQlVs
- 02XUMwiRhmr9PoJ85fYzuzUaVk9SFKXpR7BPALf/1YPyccpinzp/VwxR66OrdjaNAhGv
- 6zggTIr9vw8lHRftfxY/MSiEsYMh6vzVxKpRvHzL3d9bAjw/O3zCoiLkzUg+x5LLTnVr
- mQTQ==
-X-Gm-Message-State: AOAM533DgnKtpaxV8rctUEBaM6dNymyHOdZMsF530ih/GpPLjVulWfqE
- wNlws5BzEY5bKeTZq+GrsCxKCbxbIFDlszF1EGlJqg==
-X-Google-Smtp-Source: ABdhPJxlP6z88hS7L3tLUGz5t+u9WoHPURho4z8fid0z7I/joNfOsaJHogAzgfu6OgLOIwqIB41Ufv9z5QWGVPok70Q=
-X-Received: by 2002:aca:7549:: with SMTP id q70mr4710759oic.128.1595760953545; 
- Sun, 26 Jul 2020 03:55:53 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7F789DDF;
+ Sun, 26 Jul 2020 11:29:23 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 925DF2065C;
+ Sun, 26 Jul 2020 11:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595762963;
+ bh=FcISULcENrwx81QjXOIpqrFYOUXkcvOucAljXmeWIS0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=X6KrjTtfF97R1vgiPP4OiEPSOm3pdv31vtTZ4ZAAjhUVaN6E1x28gYob73/CuL5HA
+ lEKf31CFiDDqmP/DwNe6J8+f2DYdIUrKeV+DR2VWJn4CUrBvRf8AemBPkwwOxw4UTe
+ lGPGXcx/2WFoxRiD9jKW298Yn42alfHdz9oY2+BQ=
+Date: Sun, 26 Jul 2020 13:29:20 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Konrad Dybcio <konradybcio@gmail.com>
+Subject: Re: [PATCH 9/9] soc/qcom: Add REVID driver
+Message-ID: <20200726112920.GA1286220@kroah.com>
+References: <20200726111215.22361-1-konradybcio@gmail.com>
+ <20200726111215.22361-10-konradybcio@gmail.com>
 MIME-Version: 1.0
-References: <20200722181332.26995-1-knaerzche@gmail.com>
- <CAKMK7uGKyYea_9MamAQw2=ebjW=raYCDeFCf_5jyyJPHL9AZWA@mail.gmail.com>
- <47599ce1-2a3b-87eb-c46e-8f7f79ca945e@gmail.com>
- <CAKMK7uEn0552JuTuwpL-XdYSVk7OA=fEsphpivS8ouE-10--Zg@mail.gmail.com>
- <0e5f6e41-5fa4-2989-f4b8-89a9471db931@gmail.com>
-In-Reply-To: <0e5f6e41-5fa4-2989-f4b8-89a9471db931@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sun, 26 Jul 2020 12:55:42 +0200
-Message-ID: <CAKMK7uFjFVr4rDBpBWei-SAtBkKtQPQ0PmuJ9Bd6q4n3JAWv=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] drm: rockchip: various ports for older VOPs
-To: Alex Bee <knaerzche@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200726111215.22361-10-konradybcio@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +47,730 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Krzysztof Wilczynski <kw@linux.com>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
+ Kishon Vijay Abraham I <kishon@ti.com>, martin.botka1@gmail.com,
+ Andy Gross <agross@kernel.org>, Brian Masney <masneyb@onstation.org>,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Xiaozhe Shi <xiaozhes@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <sean@poorly.run>, Ben Dooks <ben.dooks@codethink.co.uk>,
+ Felipe Balbi <balbi@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ linux-usb@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
+ linux-kernel@vger.kernel.org, zhengbin <zhengbin13@huawei.com>,
+ Manu Gautam <mgautam@codeaurora.org>, Vinod Koul <vkoul@kernel.org>,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBKdWwgMjUsIDIwMjAgYXQgODo0OCBQTSBBbGV4IEJlZSA8a25hZXJ6Y2hlQGdtYWls
-LmNvbT4gd3JvdGU6Cj4KPgo+IEFtIDI1LjA3LjIwIHVtIDE3OjU0IHNjaHJpZWIgRGFuaWVsIFZl
-dHRlcjoKPiA+IE9uIFNhdCwgSnVsIDI1LCAyMDIwIGF0IDM6NTIgUE0gQWxleCBCZWUgPGtuYWVy
-emNoZUBnbWFpbC5jb20+IHdyb3RlOgo+ID4+Cj4gPj4gQW0gMjIuMDcuMjAgdW0gMjM6NDMgc2No
-cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4+PiBPbiBXZWQsIEp1bCAyMiwgMjAyMCBhdCA4OjEzIFBN
-IEFsZXggQmVlIDxrbmFlcnpjaGVAZ21haWwuY29tPiB3cm90ZToKPiA+Pj4+IEhpLAo+ID4+Pj4K
-PiA+Pj4+IHRoaXMgc2VyaWVzIG1haW5seSBwb3J0cyBleGlzdGluaW5nIGZ1bmN0aW9uYWxpdHkg
-dG8gb2xkZXIgU29DcyAtIG1vc3QKPiA+Pj4+IGltcG9ydGFudGx5IGVuYWJsZXMgYWxwaGEgYmxl
-bmRpbmcgZm9yIFJLMzAzNiwgUkszMDY2LCBSSzMxMjYgYW5kCj4gPj4+PiBSSzMxODguCj4gPj4+
-PiBCZXNpZGVzIHRoYXQsIGl0IGFsc28gY2hhbmdlcyB0aGUgd2luZG93IHR5cGUgZnJvbSBEUk1f
-UExBTkVfVFlQRV9DVVJTT1IKPiA+Pj4+IHRvIERSTV9QTEFORV9UWVBFX09WRVJMQVkgZm9yIFZP
-UHMgdGhhdCBoYXZlIG9ubHkgb25lICgxKSBvdmVybGF5IHdpbmRvdy4KPiA+Pj4gVGhpcyBkb2Vz
-bid0IG1ha2UgbXVjaCBzZW5zZSwgdGhlIGN1cnNvciBvdmVybGF5IGlzIHJlYWxseSBqdXN0IGEg
-aGludAo+ID4+PiBmb3IgbGVnYWN5IGlvY3RscyB0aGF0IHRoaXMgaXMgdGhlIG92ZXJsYXkgdGhh
-dCBzaG91bGQgYmUgdXNlZCBmb3IKPiA+Pj4gY3Vyc29ycy4gQ29tcG9zaXRvcnMgc2hvdWxkIHRy
-eSB0byB1c2Ugc3VjaCBwbGFuZXMgYXMgZnVsbCBvdmVybGF5cwo+ID4+PiAoaWYgdGhleSBkb24n
-dCB3YW50IHRvIHVzZSB0aGVtIGFzIGEgY3Vyc29yKS4gU28gc291bmRzIGxpa2UgYSBjYXNlIG9m
-Cj4gPj4+ICJmaXggeW91ciBjb21wb3NpdG9yIi4KPiA+PiBJIGFncmVlIGhlcmUgLSBidXQ6IElm
-IEhXQyB3aW5kb3dzIHdvdWxkIGhhdmUgYmVlbiBpbXBsZW1lbnRlZCBpbiB0aGlzCj4gPj4gcGFy
-dGljdWxhciBkcml2ZXIsIHRoZWlyIG1heCBzaXplIHdvdWxkIGJlIDEyOHgxMjggb24gc29tZSBT
-b0NzIC0gc28KPiA+PiB0aGV5IHdvdWRuJ3QgYmUgcmVhbGx5IHN1aXRhYmxlIHRvIGNyZWF0ZSBh
-biBPU0Qgb3ZlcmxheSBhdCA0SywgZm9yCj4gPj4gZXhhbXBsZS4gSSBkb24ndCBrbm93LCBidXQg
-SSBndWVzcyBvdGhlciB2ZW5kb3JzIGltcGxlbWVudCB0aGVpciBIV0MKPiA+PiB3aW5kb3dzIG9u
-IHRoaXMgcmVkdWNlZCBIVyByZXNvdXJjZXMgYXMgd2VsbC4gSSBndWVzcyB0aGF0IGlzIG9uZSBv
-ZiB0aGUKPiA+PiByZWFzb25zLCB3aHkgdXNlcnNwYWNlLCB3aGljaCBhaW1zIHRvIGJlIGNyb3Nz
-LXBsYXR0ZnJvbSwgYXZvaWRzCj4gPj4gRFJNX1BMQU5FX1RZUEVfQ1VSU09SIHdoZW4gaXRzIGxv
-b2tpbmcgZm9yIGFuIHVzYWJsZSBvdmVybGF5IHBsYW5lLiAoYQo+ID4+IGhldXJpc3RpYywgaW5k
-ZWVkKQo+ID4gV2hpY2ggdXNlcnNwYWNlIGRvZXMgdGhhdD8KPiBrb2RpLWdibToKPiBodHRwczov
-L2dpdGh1Yi5jb20veGJtYy94Ym1jL2Jsb2IvbWFzdGVyL3hibWMvd2luZG93aW5nL2dibS9EUk1V
-dGlscy5jcHAjTDQwNgoKQ2FuIHlvdSBwbHMgZmlsZSBhIGJ1ZyByZXBvcnQsIGxpbmtpbmcgdG8g
-dGhpcyB0aHJlYWQgaGVyZT8KCk1heWJlIGFsc28gbGluayB0byB0aGUgZG9jczoKCmh0dHBzOi8v
-ZHJpLmZyZWVkZXNrdG9wLm9yZy9kb2NzL2RybS9ncHUvZHJtLWttcy5odG1sP2hpZ2hsaWdodD1k
-cm1fcGxhbmUjYy5kcm1fcGxhbmVfdHlwZQoKIkZvciB1c2Vyc3BhY2Ugd2hpY2ggaXMgdW5pdmVy
-c2FsIHBsYW5lIGF3YXJlIGFuZCB3aGljaCBpcyB1c2luZyB0aGF0CmF0b21pYyBJT0NUTCB0aGVy
-ZeKAmXMgbm8gZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZXNlIHBsYW5lcyAoYmV5b25nIHdoYXQKdGhl
-IGRyaXZlciBhbmQgaGFyZHdhcmUgY2FuIHN1cHBvcnQgb2YgY291cnNlKS4iCgpBbHNvIGZlZWwg
-ZnJlZSB0byBjYyBtZSBvbiB0aGUgZ2l0aHViIGlzc3VlIChJJ20gQGRhbnZldCBvdmVyIHRoZXJl
-KQppbiBjYXNlIHRoZXJlJ3MgbW9yZSBxdWVzdGlvbnMuCgpDaGVlcnMsIERhbmllbAoKPgo+ID4g
-V2Ugc2hvdWxkIGZpeCB0aGF0LCBub3QgdHJ5IHRvIHdvcmsgYXJvdW5kCj4gPiB0aGF0IGluIGFs
-bCB0aGUgZHJpdmVycyBpbiB1cHN0cmVhbSwgdGhhdCB3b250IHdvcmsuCj4gWW91J3JlIHJpZ2h0
-IEknbGwgZHJvcCB0aGlzIHBhcnQuCj4gPiAtRGFuaWVsCj4gPgo+ID4+PiBGb3IgYXRvbWljIHRo
-ZXJlJ3MgMCBkaWZmZXJlbmNlIGJldHdlZW4gYSBvdmVybGF5IG9yIGEgY3Vyc29yIChwcmltYXJ5
-Cj4gPj4+IHBsYW5lIGlzIHN0aWxsIHRyZWF0ZWQgc29tZXdoYXQgc3BlY2lhbCBpbiB0aGUgUk1G
-QiBpb2N0bCwgYnV0IGFnYWluCj4gPj4+IHRoYXQncyBmb3IgYmFja3dhcmRzIGNvbXBhdCByZWFz
-b25zIHdpdGggZXhpc3RpbmcgdWFwaSwgbm90IGJlY2F1c2UKPiA+Pj4gdGhlIHByaW1hcnkgcGxh
-bmUgaXMgZGlmZmVyZW50KS4KPiA+Pj4KPiA+Pj4gV2hhdCBkb2VzIGhhcHBlbiB0aG91Z2ggaXMg
-dGhhdCB0aGlzIGJyZWFrcyBjdXJzb3IgZm9yIGxlZ2FjeQo+ID4+PiB1c2Vyc3BhY2UsIHdoaWNo
-IGlzIHByb2JhYmx5IG5vdCByZWFsbHkgd2hhdCB5b3Ugd2FudC4KPiA+PiBJbmRlZWQgbm90Lgo+
-ID4+Cj4gPj4gQmVmb3JoYW5kIEkgd2FzIHN1Ym1paXRpbmcgdGhpcywgSSBsb29rZWQgYXJyb3Vu
-ZCBhbmQgY291bGRuJ3QgZmluZAo+ID4+IGFueXRoaW5nIHdoaWNoIHJlbGllcyBvciBldmVuIGRl
-cGVuZHMgb2YgYSBjdXJzb3Igd2luZG93IHRvIGJlCj4gPj4gYXZhaWxhYmxlLiBFdmVuIGlmOiBh
-cyBwZXIgc3BlYyBvbmx5IG9uZSBEUk1fUExBTkVfVFlQRV9QUklNQVJZIGlzCj4gPj4gbWFuZGF0
-b3J5LCBldmVyeXRoaW5nIGVsc2UgaXMgb3B0aW9uYWwuCj4gPj4KPiA+Pj4gLURhbmllbAo+ID4+
-Pgo+ID4+Pgo+ID4+Pj4gUmVnYXJkcywKPiA+Pj4+IEFsZXgKPiA+Pj4+Cj4gPj4+PiBDaGFuZ2Vz
-IGluIHYyOgo+ID4+Pj4gLSBkcm9wIG5vdCB5ZXQgdXBzdHJlYW1lZCBkc3BfZGF0YV9zd2FwIGZy
-b20gUkszMTg4IHJlZ3MKPiA+Pj4+IC0gcmVwaHJhc2UgbW9zdCBjb21taXQgbWVzc2FnZXMKPiA+
-Pj4+Cj4gPj4+PiBBbGV4IEJlZSAoNSk6Cj4gPj4+PiAgICAgZHJtOiByb2NrY2hpcDogYWRkIHNj
-YWxpbmcgZm9yIFJLMzAzNiB3aW4xCj4gPj4+PiAgICAgZHJtOiByb2NrY2hpcDogYWRkIG1pc3Np
-bmcgcmVnaXN0ZXJzIGZvciBSSzMxODgKPiA+Pj4+ICAgICBkcm06IHJvY2tjaGlwOiBhZGQgYWxw
-aGEgc3VwcG9ydCBmb3IgUkszMDM2LCBSSzMwNjYsIFJLMzEyNiBhbmQgUkszMTg4Cj4gPj4+PiAg
-ICAgZHJtOiByb2NrY2hpcDogc2V0IGFscGhhX2VuIHRvIDAgaWYgaXQgaXMgbm90IHVzZWQKPiA+
-Pj4+ICAgICBkcm06IHJvY2tjaGlwOiB1c2Ugb3ZlcmxheSB3aW5kb3dzIGFzIHN1Y2gKPiA+Pj4+
-Cj4gPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jIHwg
-IDEgKwo+ID4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX3ZvcF9yZWcu
-YyB8IDQyICsrKysrKysrKysrKysrKysrKy0tLQo+ID4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3Jv
-Y2tjaGlwL3JvY2tjaGlwX3ZvcF9yZWcuaCB8ICAxICsKPiA+Pj4+ICAgIDMgZmlsZXMgY2hhbmdl
-ZCwgMzggaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPiA+Pj4+Cj4gPj4+PiAtLQo+ID4+
-Pj4gMi4xNy4xCj4gPj4+Pgo+ID4+PiAtLQo+ID4+PiBEYW5pZWwgVmV0dGVyCj4gPj4+IFNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4+PiBodHRwOi8vYmxvZy5mZndsbC5j
-aAo+ID4+IEJlc3QgUmVnYXJkcwo+ID4+Cj4gPgo+IEJlc3QgcmVnYXJkcwoKCgotLSAKRGFuaWVs
-IFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cu
-ZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Sun, Jul 26, 2020 at 01:12:06PM +0200, Konrad Dybcio wrote:
+> From: Xiaozhe Shi <xiaozhes@codeaurora.org>
+> 
+> Add the REVID device driver. The REVID driver will print out the PMIC
+> revision at probe time.
+
+Why do we need this noise in the kernel log?
+
+> --- /dev/null
+> +++ b/drivers/soc/qcom/qpnp-revid.c
+> @@ -0,0 +1,288 @@
+> +/* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 and
+> + * only version 2 as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + */
+
+You can drop the GPL boilerplate text and add a proper SPDX line at the
+top.
+
+Didn't checkpatch ask for that?
+
+> +
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/spmi.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/err.h>
+> +#include <linux/qpnp/qpnp-revid.h>
+> +#include <linux/of.h>
+> +
+> +#define REVID_REVISION1	0x0
+> +#define REVID_REVISION2	0x1
+> +#define REVID_REVISION3	0x2
+> +#define REVID_REVISION4	0x3
+> +#define REVID_TYPE	0x4
+> +#define REVID_SUBTYPE	0x5
+> +#define REVID_STATUS1	0x8
+> +#define REVID_SPARE_0	0x60
+> +#define REVID_TP_REV	0xf1
+> +#define REVID_FAB_ID	0xf2
+> +
+> +#define QPNP_REVID_DEV_NAME "qcom,qpnp-revid"
+> +
+> +static const char *const pmic_names[] = {
+> +	[0] =	"Unknown PMIC",
+> +	[PM8941_SUBTYPE] = "PM8941",
+> +	[PM8841_SUBTYPE] = "PM8841",
+> +	[PM8019_SUBTYPE] = "PM8019",
+> +	[PM8226_SUBTYPE] = "PM8226",
+> +	[PM8110_SUBTYPE] = "PM8110",
+> +	[PMA8084_SUBTYPE] = "PMA8084",
+> +	[PMI8962_SUBTYPE] = "PMI8962",
+> +	[PMD9635_SUBTYPE] = "PMD9635",
+> +	[PM8994_SUBTYPE] = "PM8994",
+> +	[PMI8994_SUBTYPE] = "PMI8994",
+> +	[PM8916_SUBTYPE] = "PM8916",
+> +	[PM8004_SUBTYPE] = "PM8004",
+> +	[PM8909_SUBTYPE] = "PM8909",
+> +	[PM2433_SUBTYPE] = "PM2433",
+> +	[PMD9655_SUBTYPE] = "PMD9655",
+> +	[PM8950_SUBTYPE] = "PM8950",
+> +	[PMI8950_SUBTYPE] = "PMI8950",
+> +	[PMK8001_SUBTYPE] = "PMK8001",
+> +	[PMI8996_SUBTYPE] = "PMI8996",
+> +	[PM8998_SUBTYPE] = "PM8998",
+> +	[PMI8998_SUBTYPE] = "PMI8998",
+> +	[PM8005_SUBTYPE] = "PM8005",
+> +	[PM8937_SUBTYPE] = "PM8937",
+> +	[PM660L_SUBTYPE] = "PM660L",
+> +	[PM660_SUBTYPE] = "PM660",
+> +	[PMI632_SUBTYPE] = "PMI632",
+> +	[PMI8937_SUBTYPE] = "PMI8937",
+> +	[PM8150_SUBTYPE] = "PM8150",
+> +	[PM8150B_SUBTYPE] = "PM8150B",
+> +	[PM8150L_SUBTYPE] = "PM8150L",
+> +	[PM6150_SUBTYPE] = "PM6150",
+> +	[PM8150A_SUBTYPE] = "PM8150A",
+> +	[PME9205_SUBTYPE] = "PME9205",
+> +	[PM6125_SUBTYPE] = "PM6125",
+> +	[PM8008_SUBTYPE] = "PM8008",
+> +	[SMB1355_SUBTYPE] = "SMB1355",
+> +	[SMB1390_SUBTYPE] = "SMB1390",
+> +};
+> +
+> +struct revid_chip {
+> +	struct list_head	link;
+> +	struct device_node	*dev_node;
+> +	struct pmic_revid_data	data;
+> +};
+> +
+> +static LIST_HEAD(revid_chips);
+> +static DEFINE_MUTEX(revid_chips_lock);
+> +
+> +static const struct of_device_id qpnp_revid_match_table[] = {
+> +	{ .compatible = QPNP_REVID_DEV_NAME },
+> +	{}
+> +};
+> +
+> +static u8 qpnp_read_byte(struct regmap *regmap, u16 addr)
+> +{
+> +	int rc;
+> +	int val;
+> +
+> +	rc = regmap_read(regmap, addr, &val);
+> +	if (rc) {
+> +		pr_err("read failed rc=%d\n", rc);
+
+Drivers should always use dev_err() and friends, as you have access to a
+struct device * always.  Please fix up the driver here to use that api
+instead, no pr_* should be needed at all.
+
+> +		return 0;
+> +	}
+> +	return (u8)val;
+> +}
+> +
+> +/**
+> + * get_revid_data - Return the revision information of PMIC
+> + * @dev_node: Pointer to the revid peripheral of the PMIC for which
+> + *		revision information is seeked
+> + *
+> + * CONTEXT: Should be called in non atomic context
+> + *
+> + * RETURNS: pointer to struct pmic_revid_data filled with the information
+> + *		about the PMIC revision
+> + */
+> +struct pmic_revid_data *get_revid_data(struct device_node *dev_node)
+> +{
+> +	struct revid_chip *revid_chip;
+> +
+> +	if (!dev_node)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	mutex_lock(&revid_chips_lock);
+> +	list_for_each_entry(revid_chip, &revid_chips, link) {
+> +		if (dev_node == revid_chip->dev_node) {
+> +			mutex_unlock(&revid_chips_lock);
+> +			return &revid_chip->data;
+> +		}
+> +	}
+> +	mutex_unlock(&revid_chips_lock);
+> +	return ERR_PTR(-EINVAL);
+> +}
+> +EXPORT_SYMBOL(get_revid_data);
+
+Horrible global symbol name.  Who calls this?  This is the last patch in
+the series, so if there is no user for this, please don't export it.
+
+> +
+> +#define PM8941_PERIPHERAL_SUBTYPE	0x01
+> +#define PM8226_PERIPHERAL_SUBTYPE	0x04
+> +#define PMD9655_PERIPHERAL_SUBTYPE	0x0F
+> +#define PMI8950_PERIPHERAL_SUBTYPE	0x11
+> +#define PMI8937_PERIPHERAL_SUBTYPE	0x37
+> +static size_t build_pmic_string(char *buf, size_t n, int sid,
+> +		u8 subtype, u8 rev1, u8 rev2, u8 rev3, u8 rev4)
+> +{
+> +	size_t pos = 0;
+> +	/*
+> +	 * In early versions of PM8941 and PM8226, the major revision number
+> +	 * started incrementing from 0 (eg 0 = v1.0, 1 = v2.0).
+> +	 * Increment the major revision number here if the chip is an early
+> +	 * version of PM8941 or PM8226.
+> +	 */
+> +	if (((int)subtype == PM8941_PERIPHERAL_SUBTYPE
+> +			|| (int)subtype == PM8226_PERIPHERAL_SUBTYPE)
+> +			&& rev4 < 0x02)
+> +		rev4++;
+> +
+> +	pos += snprintf(buf + pos, n - pos, "PMIC@SID%d", sid);
+> +	if (subtype >= ARRAY_SIZE(pmic_names) || subtype == 0)
+> +		pos += snprintf(buf + pos, n - pos, ": %s (subtype: 0x%02X)",
+> +				pmic_names[0], subtype);
+> +	else
+> +		pos += snprintf(buf + pos, n - pos, ": %s",
+> +				pmic_names[subtype]);
+> +	pos += snprintf(buf + pos, n - pos, " v%d.%d", rev4, rev3);
+> +	if (rev2 || rev1)
+> +		pos += snprintf(buf + pos, n - pos, ".%d", rev2);
+> +	if (rev1)
+> +		pos += snprintf(buf + pos, n - pos, ".%d", rev1);
+> +	return pos;
+> +}
+> +
+> +#define PMIC_PERIPHERAL_TYPE		0x51
+> +#define PMIC_STRING_MAXLENGTH		80
+> +static int qpnp_revid_probe(struct platform_device *pdev)
+> +{
+> +	u8 rev1, rev2, rev3, rev4, pmic_type, pmic_subtype, pmic_status;
+> +	u8 option1, option2, option3, option4, spare0;
+> +	unsigned int base;
+> +	int rc, fab_id, tp_rev;
+> +	char pmic_string[PMIC_STRING_MAXLENGTH] = {'\0'};
+> +	struct revid_chip *revid_chip;
+> +	struct regmap *regmap;
+> +
+> +	regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +	if (!regmap) {
+> +		dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	rc = of_property_read_u32(pdev->dev.of_node, "reg", &base);
+> +	if (rc < 0) {
+> +		dev_err(&pdev->dev,
+> +			"Couldn't find reg in node = %s rc = %d\n",
+> +			pdev->dev.of_node->full_name, rc);
+> +		return rc;
+> +	}
+> +	pmic_type = qpnp_read_byte(regmap, base + REVID_TYPE);
+> +	if (pmic_type != PMIC_PERIPHERAL_TYPE) {
+> +		pr_err("Invalid REVID peripheral type: %02X\n", pmic_type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	rev1 = qpnp_read_byte(regmap, base + REVID_REVISION1);
+> +	rev2 = qpnp_read_byte(regmap, base + REVID_REVISION2);
+> +	rev3 = qpnp_read_byte(regmap, base + REVID_REVISION3);
+> +	rev4 = qpnp_read_byte(regmap, base + REVID_REVISION4);
+> +
+> +	pmic_subtype = qpnp_read_byte(regmap, base + REVID_SUBTYPE);
+> +	if (pmic_subtype != PMD9655_PERIPHERAL_SUBTYPE)
+> +		pmic_status = qpnp_read_byte(regmap, base + REVID_STATUS1);
+> +	else
+> +		pmic_status = 0;
+> +
+> +	/* special case for PMI8937 */
+> +	if (pmic_subtype == PMI8950_PERIPHERAL_SUBTYPE) {
+> +		/* read spare register */
+> +		spare0 = qpnp_read_byte(regmap, base + REVID_SPARE_0);
+> +		if (spare0)
+> +			pmic_subtype = PMI8937_PERIPHERAL_SUBTYPE;
+> +	}
+> +
+> +	if (of_property_read_bool(pdev->dev.of_node, "qcom,fab-id-valid"))
+> +		fab_id = qpnp_read_byte(regmap, base + REVID_FAB_ID);
+> +	else
+> +		fab_id = -EINVAL;
+> +
+> +	if (of_property_read_bool(pdev->dev.of_node, "qcom,tp-rev-valid"))
+> +		tp_rev = qpnp_read_byte(regmap, base + REVID_TP_REV);
+> +	else
+> +		tp_rev = -EINVAL;
+> +
+> +	revid_chip = devm_kzalloc(&pdev->dev, sizeof(struct revid_chip),
+> +						GFP_KERNEL);
+> +	if (!revid_chip)
+> +		return -ENOMEM;
+> +
+> +	revid_chip->dev_node = pdev->dev.of_node;
+> +	revid_chip->data.rev1 = rev1;
+> +	revid_chip->data.rev2 = rev2;
+> +	revid_chip->data.rev3 = rev3;
+> +	revid_chip->data.rev4 = rev4;
+> +	revid_chip->data.pmic_subtype = pmic_subtype;
+> +	revid_chip->data.pmic_type = pmic_type;
+> +	revid_chip->data.fab_id = fab_id;
+> +	revid_chip->data.tp_rev = tp_rev;
+> +
+> +	if (pmic_subtype < ARRAY_SIZE(pmic_names))
+> +		revid_chip->data.pmic_name = pmic_names[pmic_subtype];
+> +	else
+> +		revid_chip->data.pmic_name = pmic_names[0];
+> +
+> +	mutex_lock(&revid_chips_lock);
+> +	list_add(&revid_chip->link, &revid_chips);
+> +	mutex_unlock(&revid_chips_lock);
+> +
+> +	option1 = pmic_status & 0x3;
+> +	option2 = (pmic_status >> 2) & 0x3;
+> +	option3 = (pmic_status >> 4) & 0x3;
+> +	option4 = (pmic_status >> 6) & 0x3;
+> +
+> +	build_pmic_string(pmic_string, PMIC_STRING_MAXLENGTH,
+> +			  to_spmi_device(pdev->dev.parent)->usid,
+> +			pmic_subtype, rev1, rev2, rev3, rev4);
+> +	pr_info("%s options: %d, %d, %d, %d\n",
+> +			pmic_string, option1, option2, option3, option4);
+
+Again, dev_info().
+
+But really, why?  Who uses this information?  Drivers should be quiet if
+all is working properly, no need to log anything.
+
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver qpnp_revid_driver = {
+> +	.probe	= qpnp_revid_probe,
+> +	.driver	= {
+> +		.name		= QPNP_REVID_DEV_NAME,
+> +		.owner		= THIS_MODULE,
+> +		.of_match_table	= qpnp_revid_match_table,
+> +	},
+> +};
+> +
+> +static int __init qpnp_revid_init(void)
+> +{
+> +	return platform_driver_register(&qpnp_revid_driver);
+> +}
+> +
+> +static void __exit qpnp_revid_exit(void)
+> +{
+> +	return platform_driver_unregister(&qpnp_revid_driver);
+> +}
+> +
+> +subsys_initcall(qpnp_revid_init);
+
+Why subsys_initcall() if no one uses the function in this module?
+
+Can't you just use the "normal" platform module init macros?
+
+> +module_exit(qpnp_revid_exit);
+> +
+> +MODULE_DESCRIPTION("QPNP REVID DRIVER");
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_ALIAS("platform:" QPNP_REVID_DEV_NAME);
+> diff --git a/include/linux/qpnp/qpnp-revid.h b/include/linux/qpnp/qpnp-revid.h
+> new file mode 100644
+> index 000000000000..0fbdd528d204
+> --- /dev/null
+> +++ b/include/linux/qpnp/qpnp-revid.h
+
+Why do you need a .h file in the include directory if only a single .c
+file needs it?  Just put that info in the .c file itself.
+
+
+> @@ -0,0 +1,369 @@
+> +/* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 and
+> + * only version 2 as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + */
+> +
+> +#ifndef __QPNP_REVID
+> +#define __QPNP_REVID
+> +
+> +/* Common TYPE for all PMICs */
+> +#define PMIC_TYPE		0x51
+> +
+> +/* PM8994 */
+> +#define PM8941_SUBTYPE		0x01
+> +
+> +#define PM8941_V1P0_REV1	0x00
+> +#define PM8941_V1P0_REV2	0x00
+> +#define PM8941_V1P0_REV3	0x00
+> +#define PM8941_V1P0_REV4	0x01
+> +
+> +#define PM8941_V2P0_REV1	0x00
+> +#define PM8941_V2P0_REV2	0x00
+> +#define PM8941_V2P0_REV3	0x00
+> +#define PM8941_V2P0_REV4	0x01
+> +
+> +#define PM8941_V3P0_REV1	0x00
+> +#define PM8941_V3P0_REV2	0x00
+> +#define PM8941_V3P0_REV3	0x00
+> +#define PM8941_V3P0_REV4	0x03
+> +
+> +#define PM8941_V3P1_REV1	0x00
+> +#define PM8941_V3P1_REV2	0x00
+> +#define PM8941_V3P1_REV3	0x01
+> +#define PM8941_V3P1_REV4	0x03
+> +
+> +/* PM8841 */
+> +#define PM8841_SUBTYPE		0x02
+> +
+> +/* PM8019 */
+> +#define PM8019_SUBTYPE		0x03
+> +
+> +/* PM8226 */
+> +#define PM8226_SUBTYPE		0x04
+> +
+> +#define PM8226_V2P2_REV1	0x00
+> +#define PM8226_V2P2_REV2	0x00
+> +#define PM8226_V2P2_REV3	0x02
+> +#define PM8226_V2P2_REV4	0x02
+> +
+> +#define PM8226_V2P1_REV1	0x00
+> +#define PM8226_V2P1_REV2	0x00
+> +#define PM8226_V2P1_REV3	0x01
+> +#define PM8226_V2P1_REV4	0x02
+> +
+> +#define PM8226_V2P0_REV1	0x00
+> +#define PM8226_V2P0_REV2	0x00
+> +#define PM8226_V2P0_REV3	0x00
+> +#define PM8226_V2P0_REV4	0x02
+> +
+> +#define PM8226_V1P0_REV1	0x00
+> +#define PM8226_V1P0_REV2	0x00
+> +#define PM8226_V1P0_REV3	0x00
+> +#define PM8226_V1P0_REV4	0x00
+> +
+> +/* PM8110 */
+> +#define PM8110_SUBTYPE		0x05
+> +
+> +#define PM8110_V1P0_REV1	0x00
+> +#define PM8110_V1P0_REV2	0x00
+> +#define PM8110_V1P0_REV3	0x00
+> +#define PM8110_V1P0_REV4	0x01
+> +
+> +#define PM8110_V1P1_REV1	0x00
+> +#define PM8110_V1P1_REV2	0x01
+> +#define PM8110_V1P1_REV3	0x00
+> +#define PM8110_V1P1_REV4	0x01
+> +
+> +#define PM8110_V1P3_REV1	0x00
+> +#define PM8110_V1P3_REV2	0x03
+> +#define PM8110_V1P3_REV3	0x00
+> +#define PM8110_V1P3_REV4	0x01
+> +
+> +#define PM8110_V2P0_REV1	0x00
+> +#define PM8110_V2P0_REV2	0x00
+> +#define PM8110_V2P0_REV3	0x00
+> +#define PM8110_V2P0_REV4	0x02
+> +
+> +/* PMA8084 */
+> +#define PMA8084_SUBTYPE		0x06
+> +
+> +/* PMI8962 */
+> +#define PMI8962_SUBTYPE		0x07
+> +
+> +/* PMD9635 */
+> +#define PMD9635_SUBTYPE		0x08
+> +/* PM8994 */
+> +#define PM8994_SUBTYPE		0x09
+> +
+> +/* PMI8994 */
+> +#define PMI8994_TYPE		0x51
+> +#define PMI8994_SUBTYPE		0x0A
+> +
+> +#define PMI8994_V1P0_REV1	0x00
+> +#define PMI8994_V1P0_REV2	0x00
+> +#define PMI8994_V1P0_REV3	0x00
+> +#define PMI8994_V1P0_REV4	0x01
+> +
+> +#define PMI8994_V2P0_REV1	0x00
+> +#define PMI8994_V2P0_REV2	0x00
+> +#define PMI8994_V2P0_REV3	0x00
+> +#define PMI8994_V2P0_REV4	0x02
+> +
+> +/* PM8916 */
+> +#define PM8916_SUBTYPE		0x0B
+> +
+> +#define PM8916_V1P0_REV1	0x00
+> +#define PM8916_V1P0_REV2	0x00
+> +#define PM8916_V1P0_REV3	0x00
+> +#define PM8916_V1P0_REV4	0x01
+> +
+> +#define PM8916_V1P1_REV1	0x00
+> +#define PM8916_V1P1_REV2	0x00
+> +#define PM8916_V1P1_REV3	0x01
+> +#define PM8916_V1P1_REV4	0x01
+> +
+> +#define PM8916_V2P0_REV1	0x00
+> +#define PM8916_V2P0_REV2	0x00
+> +#define PM8916_V2P0_REV3	0x00
+> +#define PM8916_V2P0_REV4	0x02
+> +
+> +/* PM8004 */
+> +#define PM8004_SUBTYPE		0x0C
+> +
+> +/* PM8909 */
+> +#define PM8909_SUBTYPE		0x0D
+> +
+> +#define PM8909_V1P0_REV1	0x00
+> +#define PM8909_V1P0_REV2	0x00
+> +#define PM8909_V1P0_REV3	0x00
+> +#define PM8909_V1P0_REV4	0x01
+> +
+> +#define PM8909_V1P1_REV1	0x00
+> +#define PM8909_V1P1_REV2	0x00
+> +#define PM8909_V1P1_REV3	0x01
+> +#define PM8909_V1P1_REV4	0x01
+> +
+> +/* PM2433 */
+> +#define PM2433_SUBTYPE		0x0E
+> +
+> +/* PMD9655 */
+> +#define PMD9655_SUBTYPE		0x0F
+> +
+> +/* PM8950 */
+> +#define PM8950_SUBTYPE		0x10
+> +#define PM8950_V1P0_REV4	0x01
+> +
+> +#define PM8950_V2P0_REV4	0x02
+> +
+> +/* PMI8950 */
+> +#define PMI8950_SUBTYPE		0x11
+> +
+> +/* PMK8001 */
+> +#define PMK8001_SUBTYPE		0x12
+> +
+> +/* PMI8996 */
+> +#define PMI8996_SUBTYPE		0x13
+> +
+> +/* PM8998 */
+> +#define PM8998_SUBTYPE	0x14
+> +
+> +/* PMI8998 */
+> +#define PMI8998_SUBTYPE	0x15
+> +
+> +/* PM660 */
+> +#define PM660L_SUBTYPE	0x1A
+> +#define PM660_SUBTYPE	0x1B
+> +
+> +/* PM8150 */
+> +#define PM8150_SUBTYPE		0x1E
+> +#define PM8150L_SUBTYPE		0x1F
+> +#define PM8150B_SUBTYPE		0x20
+> +#define PM8150A_SUBTYPE		0x27
+> +
+> +/* PM6150 SUBTYPE */
+> +#define PM6150_SUBTYPE		0x28
+> +#define PM6150L_SUBTYPE		0x1F
+> +
+> +/* PME9205 SUBTYPE */
+> +#define PME9205_SUBTYPE		0x24
+> +
+> +/* PM6125 SUBTYPE */
+> +#define PM6125_SUBTYPE		0x2D
+> +
+> +/* PMI632 */
+> +#define PMI632_SUBTYPE	0x25
+> +
+> +/* PM8008 SUBTYPE */
+> +#define PM8008_SUBTYPE	0x2C
+> +
+> +/* PMI8998 REV_ID */
+> +#define PMI8998_V1P0_REV1	0x00
+> +#define PMI8998_V1P0_REV2	0x00
+> +#define PMI8998_V1P0_REV3	0x00
+> +#define PMI8998_V1P0_REV4	0x01
+> +
+> +#define PMI8998_V1P1_REV1	0x00
+> +#define PMI8998_V1P1_REV2	0x00
+> +#define PMI8998_V1P1_REV3	0x01
+> +#define PMI8998_V1P1_REV4	0x01
+> +
+> +#define PMI8998_V2P0_REV1	0x00
+> +#define PMI8998_V2P0_REV2	0x00
+> +#define PMI8998_V2P0_REV3	0x00
+> +#define PMI8998_V2P0_REV4	0x02
+> +
+> +/* PM660 REV_ID */
+> +#define PM660_V1P0_REV1		0x00
+> +#define PM660_V1P0_REV2		0x00
+> +#define PM660_V1P0_REV3		0x00
+> +#define PM660_V1P0_REV4		0x01
+> +
+> +#define PM660_V1P1_REV1		0x00
+> +#define PM660_V1P1_REV2		0x00
+> +#define PM660_V1P1_REV3		0x01
+> +#define PM660_V1P1_REV4		0x01
+> +
+> +/* PM660L REV_ID */
+> +#define PM660L_V1P1_REV1	0x00
+> +#define PM660L_V1P1_REV2	0x00
+> +#define PM660L_V1P1_REV3	0x01
+> +#define PM660L_V1P1_REV4	0x01
+> +
+> +#define PM660L_V2P0_REV1	0x00
+> +#define PM660L_V2P0_REV2	0x00
+> +#define PM660L_V2P0_REV3	0x00
+> +#define PM660L_V2P0_REV4	0x02
+> +
+> +/* PMI632 REV_ID */
+> +#define PMI632_V1P0_REV1	0x00
+> +#define PMI632_V1P0_REV2	0x00
+> +#define PMI632_V1P0_REV3	0x00
+> +#define PMI632_V1P0_REV4	0x01
+> +
+> +/* PM8150B_REV_ID */
+> +#define PM8150B_V1P0_REV1	0x00
+> +#define PM8150B_V1P0_REV2	0x00
+> +#define PM8150B_V1P0_REV3	0x00
+> +#define PM8150B_V1P0_REV4	0x01
+> +
+> +#define PM8150B_V2P0_REV1	0x00
+> +#define PM8150B_V2P0_REV2	0x00
+> +#define PM8150B_V2P0_REV3	0x00
+> +#define PM8150B_V2P0_REV4	0x02
+> +
+> +/* PM8150L_REV_ID */
+> +#define PM8150L_V1P0_REV1	0x00
+> +#define PM8150L_V1P0_REV2	0x00
+> +#define PM8150L_V1P0_REV3	0x00
+> +#define PM8150L_V1P0_REV4	0x01
+> +
+> +#define PM8150L_V2P0_REV1	0x00
+> +#define PM8150L_V2P0_REV2	0x00
+> +#define PM8150L_V2P0_REV3	0x00
+> +#define PM8150L_V2P0_REV4	0x02
+> +
+> +#define PM8150L_V3P0_REV1	0x00
+> +#define PM8150L_V3P0_REV2	0x00
+> +#define PM8150L_V3P0_REV3	0x00
+> +#define PM8150L_V3P0_REV4	0x03
+> +
+> +/* PM8150A_REV_ID */
+> +#define PM8150A_V1P0_REV1	0x00
+> +#define PM8150A_V1P0_REV2	0x00
+> +#define PM8150A_V1P0_REV3	0x00
+> +#define PM8150A_V1P0_REV4	0x01
+> +
+> +#define PM8150A_V2P0_REV1	0x00
+> +#define PM8150A_V2P0_REV2	0x00
+> +#define PM8150A_V2P0_REV3	0x00
+> +#define PM8150A_V2P0_REV4	0x02
+> +
+> +/* PME9205_REV_ID */
+> +#define PME9205_V1P0_REV1	0x00
+> +#define PME9205_V1P0_REV2	0x00
+> +#define PME9205_V1P0_REV3	0x00
+> +#define PME9205_V1P0_REV4	0x01
+> +
+> +#define PME9205_V2P0_REV1	0x00
+> +#define PME9205_V2P0_REV2	0x00
+> +#define PME9205_V2P0_REV3	0x00
+> +#define PME9205_V2P0_REV4	0x02
+> +
+> +/* PM6150_REV_ID */
+> +#define PM6150_V1P0_REV1	0x00
+> +#define PM6150_V1P0_REV2	0x00
+> +#define PM6150_V1P0_REV3	0x00
+> +#define PM6150_V1P0_REV4	0x01
+> +
+> +#define PM6150_V1P1_REV1	0x00
+> +#define PM6150_V1P1_REV2	0x00
+> +#define PM6150_V1P1_REV3	0x01
+> +#define PM6150_V1P1_REV4	0x01
+> +
+> +#define PM6150_V2P0_REV1	0x00
+> +#define PM6150_V2P0_REV2	0x00
+> +#define PM6150_V2P0_REV3	0x00
+> +#define PM6150_V2P0_REV4	0x02
+> +
+> +/* PM6125_REV_ID */
+> +#define PM6125_V1P0_REV1	0x00
+> +#define PM6125_V1P0_REV2	0x00
+> +#define PM6125_V1P0_REV3	0x00
+> +#define PM6125_V1P0_REV4	0x01
+> +
+> +/* PMI8998 FAB_ID */
+> +#define PMI8998_FAB_ID_SMIC	0x11
+> +#define PMI8998_FAB_ID_GF	0x30
+> +
+> +/* PM660 FAB_ID */
+> +#define PM660_FAB_ID_GF		0x0
+> +#define PM660_FAB_ID_TSMC	0x2
+> +#define PM660_FAB_ID_MX		0x3
+> +
+> +/* PM8005 */
+> +#define PM8005_SUBTYPE		0x18
+> +
+> +/* PM8937 */
+> +#define PM8937_SUBTYPE		0x19
+> +
+> +/* PMI8937 */
+> +#define PMI8937_SUBTYPE		0x37
+> +
+> +/* SMB1390 */
+> +#define SMB1390_SUBTYPE		0x23
+> +
+> +/* SMB1381 */
+> +#define SMB1381_SUBTYPE		0x17
+> +
+> +/* SMB1355 */
+> +#define SMB1355_SUBTYPE		0x1C
+> +
+> +struct pmic_revid_data {
+> +	u8		rev1;
+> +	u8		rev2;
+> +	u8		rev3;
+> +	u8		rev4;
+> +	u8		pmic_type;
+> +	u8		pmic_subtype;
+> +	const char	*pmic_name;
+> +	int		fab_id;
+> +	int		tp_rev;
+
+int and not u32 or u64?
+
+But again, who uses this module?  If it's only good for a single line in
+the kernel log, that feels like a huge waste to me.
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
