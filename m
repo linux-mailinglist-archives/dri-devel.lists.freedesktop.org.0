@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C90322DC75
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 09:06:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D5F22DCC8
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jul 2020 09:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9376E0BE;
-	Sun, 26 Jul 2020 07:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37E396E094;
+	Sun, 26 Jul 2020 07:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB796E0BE
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 07:06:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55CAD6E094
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jul 2020 07:15:20 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 105BC804D0;
- Sun, 26 Jul 2020 09:06:29 +0200 (CEST)
-Date: Sun, 26 Jul 2020 09:06:27 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 4E4CC804DA;
+ Sun, 26 Jul 2020 09:15:18 +0200 (CEST)
+Date: Sun, 26 Jul 2020 09:15:17 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 1/2] dt-bindings: Add DT bindings for Toshiba TC358762
- DSI-to-DPI bridge
-Message-ID: <20200726070627.GC1691925@ravnborg.org>
+Subject: Re: [PATCH 2/2] drm/bridge: tc358762: Add basic driver for Toshiba
+ TC358762 DSI-to-DPI bridge
+Message-ID: <20200726071517.GD1691925@ravnborg.org>
 References: <20200725211457.5772-1-marex@denx.de>
+ <20200725211457.5772-2-marex@denx.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200725211457.5772-1-marex@denx.de>
+In-Reply-To: <20200725211457.5772-2-marex@denx.de>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
  a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=-VAfIpHNAAAA:8 a=VwQbUJbxAAAA:8
- a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8 a=vuj2G59k994ZmPg4AKwA:9
- a=wbD7NUIKGkgungp3:21 a=qKJNNfG_pp9gv25l:21 a=CjuIK1q_8ugA:10
- a=Vxmtnl_E_bksehYqCbjh:22 a=srlwD-8ojaedGGhPAyx8:22
+ a=7gkXJVJtAAAA:8 a=hD80L64hAAAA:8 a=LbIKf5qS0vqErLkYX2EA:9
+ a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22 a=srlwD-8ojaedGGhPAyx8:22
  a=AjGcO6oz07-iQ99wixmX:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,9 +56,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Marek.
 
-On Sat, Jul 25, 2020 at 11:14:56PM +0200, Marek Vasut wrote:
-> Add DT bindings for Toshiba TC358762 DSI-to-DPI bridge, this
-> one is used in the Raspberry Pi 7" touchscreen display unit.
+On Sat, Jul 25, 2020 at 11:14:57PM +0200, Marek Vasut wrote:
+> Add very basic driver for Toshiba TC358762 DSI-to-DPI bridge, derived
+> from tc358764 driver and panel-raspberrypi-touchscreen. This driver is
+> meant to replace the panel-raspberrypi-touchscreen too, as the bridge
+> connection can be described in DT too.
 > 
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > To: dri-devel@lists.freedesktop.org
@@ -67,145 +68,426 @@ On Sat, Jul 25, 2020 at 11:14:56PM +0200, Marek Vasut wrote:
 > Cc: Rob Herring <robh+dt@kernel.org>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > Cc: devicetree@vger.kernel.org
+> ---
 
-This looks like a candidate for the simple-bridge-yaml binding.
-Did you check if this is sufficient or we really need a new binding?
+Two general comments.
+- This driver should use the bridge panel - this will simplify the
+  driver in many places. We already have several good examples in-tree
+  that does this.
 
-If we need a new binding then they to take a look at how simple-bridge
-define the ports. You can do this in a simple way than what is used
-here.
-It looks like this was copied from toshiba,tc358768.yaml, but there are
-better examples to follow.
+- The driver does not respect the "flags" argument in the attach
+  operation. All new bridge drivers shall respect the flags operation to
+  prepare for use in a setup with chained bridges.
+  In short the flags is used to determine if the display driver or the
+  bridge creates the connector.
+  When the bridge panel is introduced you can drop all the connector
+  creation code and just pass the flag to the bridge panel.
+  The bridge panel will then create the connector if requested.
+  This is possible because this simple bridge driver does not add
+  anything to the connector that the bridge panel does not know.
 
 	Sam
 
-> ---
->  .../display/bridge/toshiba,tc358762.yaml      | 116 ++++++++++++++++++
->  1 file changed, 116 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
+
+>  drivers/gpu/drm/bridge/Kconfig    |   9 +
+>  drivers/gpu/drm/bridge/Makefile   |   1 +
+>  drivers/gpu/drm/bridge/tc358762.c | 352 ++++++++++++++++++++++++++++++
+>  3 files changed, 362 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/tc358762.c
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 43271c21d3fc..3e76e3fccb78 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -153,6 +153,15 @@ config DRM_THINE_THC63LVD1024
+>  	help
+>  	  Thine THC63LVD1024 LVDS/parallel converter driver.
+>  
+> +config DRM_TOSHIBA_TC358762
+> +	tristate "TC358762 DSI/DPI bridge"
+> +	depends on OF
+> +	select DRM_MIPI_DSI
+> +	select DRM_KMS_HELPER
+> +	select DRM_PANEL
+> +	help
+> +	  Toshiba TC358762 DSI/DPI bridge driver.
+> +
+>  config DRM_TOSHIBA_TC358764
+>  	tristate "TC358764 DSI/LVDS bridge"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index d63d4b7e4347..b341c60ee96a 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -12,6 +12,7 @@ obj-$(CONFIG_DRM_SII902X) += sii902x.o
+>  obj-$(CONFIG_DRM_SII9234) += sii9234.o
+>  obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += simple-bridge.o
+>  obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
+> +obj-$(CONFIG_DRM_TOSHIBA_TC358762) += tc358762.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
+>  obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
+> diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
 > new file mode 100644
-> index 000000000000..40098ca761a3
+> index 000000000000..6eb0c0c10623
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
-> @@ -0,0 +1,116 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358762.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/gpu/drm/bridge/tc358762.c
+> @@ -0,0 +1,352 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2020 Marek Vasut <marex@denx.de>
+> + *
+> + * Based on tc358764.c by
+> + *  Andrzej Hajda <a.hajda@samsung.com>
+> + *  Maciej Purski <m.purski@samsung.com>
+Someone should finish the conversion of tc358764.c to the new bridge API
+(that someone is me).
+
+> + *
+> + * Based on rpi_touchscreen.c by
+> + *  Eric Anholt <eric@anholt.net>
+> + */
 > +
-> +title: Toshiba TC358762 MIPI DSI to MIPI DPI bridge
+> +#include <linux/delay.h>
+> +#include <linux/module.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/regulator/consumer.h>
 > +
-> +maintainers:
-> +  - Marek Vasut <marex@denx.de>
+> +#include <video/mipi_display.h>
 > +
-> +description: |
-> +  The TC358762 is bridge device which converts MIPI DSI to MIPI DPI.
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_probe_helper.h>
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - toshiba,tc358762
+> +/* PPI layer registers */
+> +#define PPI_STARTPPI		0x0104 /* START control bit */
+> +#define PPI_LPTXTIMECNT		0x0114 /* LPTX timing signal */
+> +#define PPI_D0S_ATMR		0x0144
+> +#define PPI_D1S_ATMR		0x0148
+> +#define PPI_D0S_CLRSIPOCOUNT	0x0164 /* Assertion timer for Lane 0 */
+> +#define PPI_D1S_CLRSIPOCOUNT	0x0168 /* Assertion timer for Lane 1 */
+> +#define PPI_START_FUNCTION	1
 > +
-> +  reg:
-> +    maxItems: 1
-> +    description: virtual channel number of a DSI peripheral
+> +/* DSI layer registers */
+> +#define DSI_STARTDSI		0x0204 /* START control bit of DSI-TX */
+> +#define DSI_LANEENABLE		0x0210 /* Enables each lane */
+> +#define DSI_RX_START		1
 > +
-> +  vddc-supply:
-> +    description: Regulator for 1.2V internal core power.
+> +/* LCDC/DPI Host Registers */
+> +#define LCDCTRL			0x0420
 > +
-> +  ports:
-> +    type: object
+> +/* SPI Master Registers */
+> +#define SPICMR			0x0450
+> +#define SPITCR			0x0454
 > +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
+> +/* System Controller Registers */
+> +#define SYSCTRL			0x0464
 > +
-> +      "#size-cells":
-> +        const: 0
+> +/* System registers */
+> +#define LPX_PERIOD		3
 > +
-> +      port@0:
-> +        type: object
-> +        additionalProperties: false
+> +/* Lane enable PPI and DSI register bits */
+> +#define LANEENABLE_CLEN		BIT(0)
+> +#define LANEENABLE_L0EN		BIT(1)
+> +#define LANEENABLE_L1EN		BIT(2)
 > +
-> +        description: |
-> +          Video port for MIPI DSI input
+> +struct tc358762 {
+> +	struct device *dev;
+> +	struct drm_bridge bridge;
+> +	struct drm_connector connector;
+> +	struct regulator *regulator;
+> +	struct drm_panel *panel;
+> +	bool pre_enabled;
+> +	int error;
+> +};
 > +
-> +        properties:
-> +          reg:
-> +            const: 0
+> +static int tc358762_clear_error(struct tc358762 *ctx)
+> +{
+> +	int ret = ctx->error;
 > +
-> +        patternProperties:
-> +          endpoint:
-> +            type: object
-> +            additionalProperties: false
+> +	ctx->error = 0;
+> +	return ret;
+> +}
 > +
-> +            properties:
-> +              remote-endpoint: true
+> +static void tc358762_write(struct tc358762 *ctx, u16 addr, u32 val)
+> +{
+> +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> +	ssize_t ret;
+> +	u8 data[6];
 > +
-> +        required:
-> +          - reg
+> +	if (ctx->error)
+> +		return;
 > +
-> +      port@1:
-> +        type: object
-> +        additionalProperties: false
+> +	data[0] = addr;
+> +	data[1] = addr >> 8;
+> +	data[2] = val;
+> +	data[3] = val >> 8;
+> +	data[4] = val >> 16;
+> +	data[5] = val >> 24;
 > +
-> +        description: |
-> +          Video port for MIPI DPI output (panel or connector).
+> +	ret = mipi_dsi_generic_write(dsi, data, sizeof(data));
+> +	if (ret < 0)
+> +		ctx->error = ret;
+> +}
 > +
-> +        properties:
-> +          reg:
-> +            const: 1
+> +static inline struct tc358762 *bridge_to_tc358762(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct tc358762, bridge);
+> +}
 > +
-> +        patternProperties:
-> +          endpoint:
-> +            type: object
-> +            additionalProperties: false
+> +static inline
+> +struct tc358762 *connector_to_tc358762(struct drm_connector *connector)
+> +{
+> +	return container_of(connector, struct tc358762, connector);
+> +}
 > +
-> +            properties:
-> +              remote-endpoint: true
+> +static int tc358762_init(struct tc358762 *ctx)
+> +{
+> +	tc358762_write(ctx, DSI_LANEENABLE,
+> +		       LANEENABLE_L0EN | LANEENABLE_CLEN);
+> +	tc358762_write(ctx, PPI_D0S_CLRSIPOCOUNT, 5);
+> +	tc358762_write(ctx, PPI_D1S_CLRSIPOCOUNT, 5);
+> +	tc358762_write(ctx, PPI_D0S_ATMR, 0);
+> +	tc358762_write(ctx, PPI_D1S_ATMR, 0);
+> +	tc358762_write(ctx, PPI_LPTXTIMECNT, LPX_PERIOD);
 > +
-> +        required:
-> +          - reg
+> +	tc358762_write(ctx, SPICMR, 0x00);
+> +	tc358762_write(ctx, LCDCTRL, 0x00100150);
+> +	tc358762_write(ctx, SYSCTRL, 0x040f);
+> +	msleep(100);
 > +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +      - port@1
+> +	tc358762_write(ctx, PPI_STARTPPI, PPI_START_FUNCTION);
+> +	tc358762_write(ctx, DSI_STARTDSI, DSI_RX_START);
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vddc-supply
-> +  - ports
+> +	msleep(100);
 > +
-> +additionalProperties: false
+> +	return tc358762_clear_error(ctx);
+> +}
 > +
-> +examples:
-> +  - |
-> +    bridge@0 {
-> +        reg = <0>;
-> +        compatible = "toshiba,tc358762";
-> +        vddc-supply = <&vcc_1v2_reg>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        port@0 {
-> +            reg = <0>;
-> +            bridge_in: endpoint {
-> +                remote-endpoint = <&dsi_out>;
-> +            };
-> +        };
+> +static int tc358762_get_modes(struct drm_connector *connector)
+> +{
+> +	struct tc358762 *ctx = connector_to_tc358762(connector);
 > +
-> +        port@1 {
-> +            reg = <1>;
-> +            bridge_out: endpoint {
-> +                remote-endpoint = <&panel_in>;
-> +            };
-> +        };
-> +    };
+> +	return drm_panel_get_modes(ctx->panel, connector);
+> +}
+> +
+> +static const
+> +struct drm_connector_helper_funcs tc358762_connector_helper_funcs = {
+> +	.get_modes = tc358762_get_modes,
+> +};
+> +
+> +static const struct drm_connector_funcs tc358762_connector_funcs = {
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.destroy = drm_connector_cleanup,
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+> +static void tc358762_disable(struct drm_bridge *bridge)
+> +{
+> +	struct tc358762 *ctx = bridge_to_tc358762(bridge);
+> +	int ret = drm_panel_disable(bridge_to_tc358762(bridge)->panel);
+> +
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error disabling panel (%d)\n", ret);
+> +}
+> +
+> +static void tc358762_post_disable(struct drm_bridge *bridge)
+> +{
+> +	struct tc358762 *ctx = bridge_to_tc358762(bridge);
+> +	int ret;
+> +
+> +	/*
+> +	 * The post_disable hook might be called multiple times.
+> +	 * We want to avoid regulator imbalance below.
+> +	 */
+> +	if (!ctx->pre_enabled)
+> +		return;
+> +
+> +	ctx->pre_enabled = false;
+> +
+> +	ret = drm_panel_unprepare(ctx->panel);
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error unpreparing panel (%d)\n", ret);
+> +
+> +	ret = regulator_disable(ctx->regulator);
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error disabling regulators (%d)\n", ret);
+> +}
+> +
+> +static void tc358762_pre_enable(struct drm_bridge *bridge)
+> +{
+> +	struct tc358762 *ctx = bridge_to_tc358762(bridge);
+> +	int ret;
+> +
+> +	ret = regulator_enable(ctx->regulator);
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error enabling regulators (%d)\n", ret);
+> +
+> +	ret = tc358762_init(ctx);
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error initializing bridge (%d)\n", ret);
+> +
+> +	ret = drm_panel_prepare(ctx->panel);
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error preparing panel (%d)\n", ret);
+> +
+> +	ctx->pre_enabled = true;
+> +}
+> +
+> +static void tc358762_enable(struct drm_bridge *bridge)
+> +{
+> +	struct tc358762 *ctx = bridge_to_tc358762(bridge);
+> +	int ret = drm_panel_enable(ctx->panel);
+> +
+> +	if (ret < 0)
+> +		dev_err(ctx->dev, "error enabling panel (%d)\n", ret);
+> +}
+> +
+> +static int tc358762_attach(struct drm_bridge *bridge,
+> +			   enum drm_bridge_attach_flags flags)
+> +{
+> +	struct tc358762 *ctx = bridge_to_tc358762(bridge);
+> +	struct drm_device *drm = bridge->dev;
+> +	int ret;
+> +
+> +	ret = drm_connector_init(drm, &ctx->connector,
+> +				 &tc358762_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_DPI);
+> +	if (ret) {
+> +		DRM_ERROR("Failed to initialize connector\n");
+> +		return ret;
+> +	}
+> +
+> +	drm_connector_helper_add(&ctx->connector,
+> +				 &tc358762_connector_helper_funcs);
+> +	drm_connector_attach_encoder(&ctx->connector, bridge->encoder);
+> +	drm_panel_attach(ctx->panel, &ctx->connector);
+> +	ctx->connector.funcs->reset(&ctx->connector);
+> +	drm_connector_register(&ctx->connector);
+> +
+> +	return 0;
+> +}
+> +
+> +static void tc358762_detach(struct drm_bridge *bridge)
+> +{
+> +	struct tc358762 *ctx = bridge_to_tc358762(bridge);
+> +
+> +	drm_connector_unregister(&ctx->connector);
+> +	drm_panel_detach(ctx->panel);
+> +	ctx->panel = NULL;
+> +	drm_connector_put(&ctx->connector);
+> +}
+> +
+> +static const struct drm_bridge_funcs tc358762_bridge_funcs = {
+> +	.disable = tc358762_disable,
+> +	.post_disable = tc358762_post_disable,
+> +	.enable = tc358762_enable,
+> +	.pre_enable = tc358762_pre_enable,
+> +	.attach = tc358762_attach,
+> +	.detach = tc358762_detach,
+> +};
+> +
+> +static int tc358762_parse_dt(struct tc358762 *ctx)
+> +{
+> +	struct device *dev = ctx->dev;
+> +	int ret;
+> +
+> +	ret = drm_of_find_panel_or_bridge(ctx->dev->of_node, 1, 0, &ctx->panel,
+> +					  NULL);
+> +	if (ret && ret != -EPROBE_DEFER)
+> +		dev_err(dev, "cannot find panel (%d)\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int tc358762_configure_regulators(struct tc358762 *ctx)
+> +{
+> +	ctx->regulator = devm_regulator_get(ctx->dev, "vddc");
+> +	if (IS_ERR(ctx->regulator))
+> +		return PTR_ERR(ctx->regulator);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tc358762_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct tc358762 *ctx;
+> +	int ret;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(struct tc358762), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	mipi_dsi_set_drvdata(dsi, ctx);
+> +
+> +	ctx->dev = dev;
+> +	ctx->pre_enabled = false;
+> +
+> +	/* TODO: Find out how to get dual-lane mode working */
+> +	dsi->lanes = 1;
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+> +			  MIPI_DSI_MODE_LPM;
+> +
+> +	ret = tc358762_parse_dt(ctx);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = tc358762_configure_regulators(ctx);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ctx->bridge.funcs = &tc358762_bridge_funcs;
+> +	ctx->bridge.of_node = dev->of_node;
+> +
+> +	drm_bridge_add(&ctx->bridge);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret < 0) {
+> +		drm_bridge_remove(&ctx->bridge);
+> +		dev_err(dev, "failed to attach dsi\n");
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int tc358762_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct tc358762 *ctx = mipi_dsi_get_drvdata(dsi);
+> +
+> +	mipi_dsi_detach(dsi);
+> +	drm_bridge_remove(&ctx->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id tc358762_of_match[] = {
+> +	{ .compatible = "toshiba,tc358762" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, tc358762_of_match);
+> +
+> +static struct mipi_dsi_driver tc358762_driver = {
+> +	.probe = tc358762_probe,
+> +	.remove = tc358762_remove,
+> +	.driver = {
+> +		.name = "tc358762",
+> +		.of_match_table = tc358762_of_match,
+> +	},
+> +};
+> +module_mipi_dsi_driver(tc358762_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
+> +MODULE_DESCRIPTION("MIPI-DSI based Driver for TC358762 DSI/DPI Bridge");
+> +MODULE_LICENSE("GPL v2");
 > -- 
 > 2.27.0
 _______________________________________________
