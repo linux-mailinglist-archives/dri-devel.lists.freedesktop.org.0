@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C8022FDFB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BC822FDED
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 750B66E0FF;
-	Mon, 27 Jul 2020 23:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593806E0EA;
+	Mon, 27 Jul 2020 23:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
  [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E44B389FD4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40EA89F45;
  Mon, 27 Jul 2020 20:50:34 +0000 (UTC)
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5f1f3e0d0000>; Mon, 27 Jul 2020 13:50:21 -0700
+ id <B5f1f3e0d0001>; Mon, 27 Jul 2020 13:50:21 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
  Mon, 27 Jul 2020 13:50:34 -0700
@@ -28,9 +28,10 @@ From: Daniel Dadap <ddadap@nvidia.com>
 To: <dri-devel@lists.freedesktop.org>, <lukas@wunner.de>,
  <intel-gfx@lists.freedesktop.org>, <jani.nikula@linux.intel.com>,
  <joonas.lahtinen@linux.intel.com>, <rodrigo.vivi@intel.com>
-Subject: [PATCH 5/6] i915: fail atomic commit when muxed away
-Date: Mon, 27 Jul 2020 15:51:11 -0500
-Message-ID: <20200727205112.27698-6-ddadap@nvidia.com>
+Subject: [PATCH 6/6] i915: bail out of eDP link training while mux-switched
+ away
+Date: Mon, 27 Jul 2020 15:51:12 -0500
+Message-ID: <20200727205112.27698-7-ddadap@nvidia.com>
 X-Mailer: git-send-email 2.18.4
 In-Reply-To: <20200727205112.27698-1-ddadap@nvidia.com>
 References: <ba78cd19-45ad-b17e-5174-256cc11f36c2%40nvidia.com>
@@ -41,16 +42,16 @@ X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1595883021; bh=59T4gHQyf67sIQu9+jHG3Vk/zJuDG9Yb+zkpmwcbSGg=;
+ t=1595883021; bh=F/7YLGa7lOJIOpot14G8UyAHptYWSR4x6Lg82bmZ0i0=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  X-Originating-IP:X-ClientProxiedBy:Content-Type;
- b=d1izXNZRmvxqzmKSS1zvEOv0HB5/f1KWrY1PuQ3QEEuJZMJJyBjRKGtphEWy9vxnc
- 8HmgTTulW+zl/eq4gXjS2h4Rl/k/nTN3itD/zRQcCmNgmCfkmENuF3MtAaYimcA5c7
- u8vaf5EhFwHuxAQgm9X6D+2HZ3lqmXEvL7kM8YyE7kKgVrliok79w0R2atHgdGYvQG
- kJLByhsxCVbSkqzcXA/Zx39hr+eC/CdgMrXej0tU2yIwQ7KWyt9OQDwz8TQQ+sMjwL
- qGCleO3UinuwDE4Hi/GvaCF6XTtO9bpZP9FBnLoDuPxx/5kLoaeIXvVCmb2Iw176S6
- 4obCYlZugF+fQ==
+ b=LbIor99mef0CsNFbjZIxw7elacyTZ6vLx/IaB/ZJWFzcPxlKtjsWIzLPvkBQxtTij
+ CsUIra9eSpJnUNqaQbmlzuQjJqwjSanXgZ/MFDiRmaLfIvMiBhSLM+kw/saHCXqWIc
+ lfM9vsryjaSEVrhtfEbvY+5yDNy0IU1KGEXWDBipmD0KRJk3E/fNrEICalhEjsF6IJ
+ 5aWreiLbJy0+oPt21wNrbFnp3qkM6znsIGcB/OZ52P+mv46gmlDCZopBOARRM/gjAZ
+ i+dHp0Q3WFUHbPykl2oCfHsUDP0g7yEAoEEW3emWfei2Pv+sWl058aktjlgnbi3kBj
+ 6KI2+GO+rj1/w==
 X-Mailman-Approved-At: Mon, 27 Jul 2020 23:32:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,41 +71,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attempting to commit a modeset while mux-switched away can cause
-problems due to DisplayPort links being unavailable while they are
-physically disconnected. In order to avoid this, bail out of atomic
-commit early if attempted while a display mux is switched away.
+It is not possible to train a Displayport link while the lanes are
+physically disconnected by a display mux. In order to prevent problems
+associated with attempting to train a disconnected link, abort eDP
+link training if the i915 GPU is not an active vga-switcheroo client.
+This short circuit is eDP-specific, as normal DP (e.g. for external
+displays) should be able to detect that the link is not physically
+connected, while eDP is usually assumed to be always connected.
 
 Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp_link_training.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 346846609f45..4ad799e4b024 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -31,6 +31,7 @@
- #include <linux/module.h>
- #include <linux/dma-resv.h>
- #include <linux/slab.h>
-+#include <linux/vga_switcheroo.h>
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index a7defb37ab00..a1c61db8a228 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -24,6 +24,7 @@
+ #include "intel_display_types.h"
+ #include "intel_dp.h"
+ #include "intel_dp_link_training.h"
++#include "linux/vga_switcheroo.h"
  
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -15736,6 +15737,12 @@ static int intel_atomic_commit(struct drm_device *dev,
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	int ret = 0;
- 
-+	if (!vga_switcheroo_is_client_active(to_pci_dev(dev->dev))) {
-+		drm_dbg_atomic(&dev_priv->drm,
-+			"Atomic commit attempted while muxed away.\n");
-+		return -EINVAL;
-+	}
+ static void
+ intel_dp_dump_link_status(const u8 link_status[DP_LINK_STATUS_SIZE])
+@@ -371,6 +372,14 @@ void
+ intel_dp_start_link_train(struct intel_dp *intel_dp)
+ {
+ 	struct intel_connector *intel_connector = intel_dp->attached_connector;
++	struct device *dev = dp_to_dig_port(intel_dp)->base.base.dev->dev;
 +
- 	state->wakeref = intel_runtime_pm_get(&dev_priv->runtime_pm);
++	if (intel_dp_is_edp(intel_dp) &&
++	    !vga_switcheroo_is_client_active(to_pci_dev(dev))) {
++		drm_dbg_kms(&dp_to_i915(intel_dp)->drm,
++			"eDP link training not allowed when muxed away.");
++		return;
++	}
  
- 	drm_atomic_state_get(&state->base);
+ 	if (!intel_dp_link_training_clock_recovery(intel_dp))
+ 		goto failure_handling;
 -- 
 2.18.4
 
