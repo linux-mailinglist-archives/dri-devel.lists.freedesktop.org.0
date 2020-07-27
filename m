@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1607422F43F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 18:02:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1681C22F441
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 18:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13FA4899F3;
-	Mon, 27 Jul 2020 16:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD3D892F3;
+	Mon, 27 Jul 2020 16:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CC7899F3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:02:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7CA789B68
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:03:15 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Mon, 27 Jul 2020 16:02:17 +0000
+Date: Mon, 27 Jul 2020 16:03:14 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204241-2300-d3VVEI6ZgH@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204241-2300-ix7ccOxx5x@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,18 +58,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=204241
 
-felipejfc (fjfcavalcanti@gmail.com) changed:
+--- Comment #64 from felipejfc (fjfcavalcanti@gmail.com) ---
+(In reply to felipejfc from comment #63)
+> I'm having the same issue with an AMD RX5700 and kernel version 5.7.9-1 on
+> manjaro linux.
+> 
+> for me adding kernel params 'amd_iommu=on iommu=pt' didn't solve the
+> problem. graphics won't turn on so monitor just keeps blinking
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |fjfcavalcanti@gmail.com
-
---- Comment #63 from felipejfc (fjfcavalcanti@gmail.com) ---
-I'm having the same issue with an AMD RX5700 and kernel version 5.7.9-1 on
-manjaro linux.
-
-for me adding kernel params 'amd_iommu=on iommu=pt' didn't solve the problem.
-graphics won't turn on so monitor just keeps blinking
+complementing my last answer, the "fix" that worked for me was to disable IOMMU
+on BIOS
 
 -- 
 You are receiving this mail because:
