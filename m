@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9BF2303B5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 09:17:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8952303B6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 09:17:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F72A6E1B4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 943986E1B5;
 	Tue, 28 Jul 2020 07:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail4.protonmail.ch (mail4.protonmail.ch [185.70.40.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD5E86E10D;
- Mon, 27 Jul 2020 23:42:21 +0000 (UTC)
+Received: from mail-40137.protonmail.ch (mail-40137.protonmail.ch
+ [185.70.40.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A810F6E10D
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 23:42:19 +0000 (UTC)
 Date: Mon, 27 Jul 2020 23:42:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1595893339;
+ s=protonmail; t=1595893337;
  bh=AQmh+uIpMfdES2g/A6HYV2B7dFrVRubFbvwlphZUT8g=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=cHrGxmf4oAuMDr7t2PFpVVj0YlkaTbYoryFFckpC/cCCzKLMJPbLhnWeFpiBrBkeL
- kFgOmaek9XuMkWzxx8byw9Hk4snVK5hcaZ03hTd57k6FRUor/rqU3uJifmCAirVDwK
- Qr7fsTYZ4gT3PKeWvReeuNy4tjoGs65wI02Y5dps=
+ b=P6r7QQ9T1mUUCe5fmJwfr+/kY8+mA6XOr2sAZots0cNaZeHaUfbM8Tsy5jyZLr+nf
+ bML7DBIC0dePa0e6X/I8sldsMsTIv+ERmWX6lWbGOwU4T3neAeUVDPAuIWl2eU88Qr
+ XAE1c+i8xkb18SMkhuTRNnfjyD0ED4b8chkNbWXY=
 To: Daniel Vetter <daniel@ffwll.ch>
 From: Mazin Rezk <mnrzk@protonmail.com>
 Subject: Re: [PATCH] drm/amd/display: Clear dm_state for fast updates
