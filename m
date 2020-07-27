@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094D822FDEC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC27D22FDF6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E408F6E0CD;
-	Mon, 27 Jul 2020 23:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9CB6E13D;
+	Mon, 27 Jul 2020 23:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D262D89119;
- Mon, 27 Jul 2020 20:50:23 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5f1f3db50000>; Mon, 27 Jul 2020 13:48:53 -0700
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4EAA89916;
+ Mon, 27 Jul 2020 20:50:29 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f1f3de90003>; Mon, 27 Jul 2020 13:49:45 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 27 Jul 2020 13:50:23 -0700
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 27 Jul 2020 13:50:29 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 27 Jul 2020 13:50:23 -0700
+ by hqpgpgate101.nvidia.com on Mon, 27 Jul 2020 13:50:29 -0700
 Received: from lenny.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 Jul
- 2020 20:50:20 +0000
+ 2020 20:50:25 +0000
 From: Daniel Dadap <ddadap@nvidia.com>
 To: <dri-devel@lists.freedesktop.org>, <lukas@wunner.de>,
  <intel-gfx@lists.freedesktop.org>, <jani.nikula@linux.intel.com>,
  <joonas.lahtinen@linux.intel.com>, <rodrigo.vivi@intel.com>
-Subject: [PATCH 0/6] vga-switcheroo: initial dynamic mux switch support
-Date: Mon, 27 Jul 2020 15:51:06 -0500
-Message-ID: <20200727205112.27698-1-ddadap@nvidia.com>
+Subject: [PATCH 1/6] vga-switcheroo: add new "immediate" switch event type
+Date: Mon, 27 Jul 2020 15:51:07 -0500
+Message-ID: <20200727205112.27698-2-ddadap@nvidia.com>
 X-Mailer: git-send-email 2.18.4
-In-Reply-To: <ba78cd19-45ad-b17e-5174-256cc11f36c2%40nvidia.com>
+In-Reply-To: <20200727205112.27698-1-ddadap@nvidia.com>
 References: <ba78cd19-45ad-b17e-5174-256cc11f36c2%40nvidia.com>
+ <20200727205112.27698-1-ddadap@nvidia.com>
 X-NVConfidentiality: public
 MIME-Version: 1.0
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1595882933; bh=z5Jc9i+TiTEi55M4vxDMTLo+EJu+zbC9sADpEVJmrhk=;
+ t=1595882985; bh=DsoKqreQfzZURwMK9ZuJ+aIV8L91hqK5a/R/nG9qDc8=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  X-Originating-IP:X-ClientProxiedBy:Content-Type;
- b=A2WkCFSLhAfUBKHcaOm/rx5W5AnaQA/omA9OcoEuqBB+paOUwOyLJ9V+Lg/cs5yXC
- olVidr3uZtAX648Swmtxb9nS1ZZH7AzVmOZWA8ML3JvxK0ARLrbToUgkITjyZPZ6RF
- 96o9St9btYXZzW5GwMYiznzowP48Nd69CTgdKXr+8w82mnnjz6JpkLuAdL5/EQxoD4
- LMoPf1JKm+n5Zle0v+mtV9pmmzLZoYzO0l7/C16/4dK/HBW+YtohugZwMIDcqt61Oy
- 5B1q1KY4DgsoDzXDyfOtlWkvBbs1RKu3PtFlKz/V5aJepooBbzn1cxDtKKkk/SsiV8
- jeOXnDHCTpEGw==
+ b=XxfbYJlwhaLGrbeC8OnkvZxKPWBimJmSAvWBtxNQdzhPsyUj9I1uEZYtkdgWa0q4f
+ EUqsSvb77DCUeXKB1UNDoiIwEt2pWoINXhfkDKugJi/3FFNCq6GC1iesI6k/m81vBs
+ iMxWW6A/qUdeMv5qWY6PEWe/ZCZ9OTFUsyCY59guS56DMGxrXxklvSfoAEsDSjkLBS
+ JHsFgI2afC1+xVUCeqr8gkkG+ux9qPWsfc3SJMyI17seooWzjuxDiS2/4is51WKm2e
+ x68Mo4wDUiqE4nIHx05UpUgbKtAduIx0v6kwSyvXz+wjmzfqPOUb792m1qPX6H/eUL
+ /uV8X7yWMJ72Q==
 X-Mailman-Approved-At: Mon, 27 Jul 2020 23:32:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,31 +70,215 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes to allow vga-switcheroo to switch the mux while modesetting
-clients remain active. There is existing support for switching the
-mux without checking can_switch; however, this support also does not
-reprobe after the mux switch is complete. This patch series adds a new
-type of switch event which switches immediately while still calling
-client driver callbacks, and updates the i915 DRM-KMS driver to reprobe
-eDP outputs after switching the mux to an i915-driven GPU, and to avoid
-using eDP links (which i915 always assumes to be connected) while the
-mux is switched away.
+vga-switcheroo supports the following types of mux switch events:
 
-Daniel Dadap (6):
-  vga-switcheroo: add new "immediate" switch event type
-  vga-switcheroo: Add a way to test for the active client
-  vga-switcheroo: notify clients of pending/completed switch events
-  i915: implement vga-switcheroo reprobe() callback
-  i915: fail atomic commit when muxed away
-  i915: bail out of eDP link training while mux-switched away
+* standard: checks the clients' can_switch() callbacks and switches
+  the mux if the client drivers report that they are prepared for a
+  switch. Also uses client and handler callbacks to manage power on
+  the GPUs and reprobe display outputs.
+* deferred: registers the intent to perform a mux switch and defers
+  it until the client drivers no longer have any active modesetting
+  clients. Performs the equivalent of a standard switch when clients
+  are ready.
+* mux-only: switches the mux immediately without testing can_switch
+  first and without calling any of the client or handler callbacks
+  for power management and reprobing.
 
- drivers/gpu/drm/i915/display/intel_display.c  |   7 +
- .../drm/i915/display/intel_dp_link_training.c |   9 ++
- drivers/gpu/drm/i915/i915_switcheroo.c        |  27 +++-
- drivers/gpu/vga/vga_switcheroo.c              | 153 ++++++++++++++----
- include/linux/vga_switcheroo.h                |  20 +++
- 5 files changed, 185 insertions(+), 31 deletions(-)
+In order to support additional use cases involving dynamic switching
+of display muxes, add a new type of "immediate" switch event which
+skips the can_switch test and power management hooks, but still calls
+the reprobe hook. This switch event type uses 'I' as a prefix for its
+commands, similar to the existing 'D' pefix for the deferred commands
+and 'M' for the mux-only commands.
 
+Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
+---
+ drivers/gpu/vga/vga_switcheroo.c | 86 +++++++++++++++++++++-----------
+ 1 file changed, 58 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
+index 087304b1a5d7..cf3c7024dafa 100644
+--- a/drivers/gpu/vga/vga_switcheroo.c
++++ b/drivers/gpu/vga/vga_switcheroo.c
+@@ -631,16 +631,23 @@ EXPORT_SYMBOL(vga_switcheroo_unlock_ddc);
+  * * DDIS: Delayed switch to the discrete graphics device.
+  * * MIGD: Mux-only switch to the integrated graphics device.
+  *   Does not remap console or change the power state of either gpu.
++ *   Does not call into any client-supplied callbacks, e.g. reprobe.
+  *   If the integrated GPU is currently off, the screen will turn black.
+  *   If it is on, the screen will show whatever happens to be in VRAM.
+  *   Either way, the user has to blindly enter the command to switch back.
+  * * MDIS: Mux-only switch to the discrete graphics device.
++ * * IIGD: Immediate switch to the integrated graphics device.
++ *   Does not test for active user space processes utilizing the device
++ *   files of the GPU or audio device. Does not change the power state of
++ *   either gpu. The console is remapped and client-provided callbacks
++ *   such as reprobe are called.
++ *  * IDIS: Immediate switch to the discrete graphics device.
+  *
+  * For GPUs whose power state is controlled by the driver's runtime pm,
+  * the ON and OFF commands are a no-op (see next section).
+  *
+- * For muxless machines, the IGD/DIS, DIGD/DDIS and MIGD/MDIS commands
+- * should not be used.
++ * For muxless machines, the IGD/DIS, DIGD/DDIS, MIGD/MDIS and IIGD/IDIS
++ * commands should not be used.
+  */
+ 
+ static int vga_switcheroo_show(struct seq_file *m, void *v)
+@@ -704,7 +711,8 @@ static void set_audio_state(enum vga_switcheroo_client_id id,
+ }
+ 
+ /* stage one happens before delay */
+-static int vga_switchto_stage1(struct vga_switcheroo_client *new_client)
++static int vga_switchto_stage1(struct vga_switcheroo_client *new_client,
++			       bool power_control)
+ {
+ 	struct vga_switcheroo_client *active;
+ 
+@@ -712,7 +720,8 @@ static int vga_switchto_stage1(struct vga_switcheroo_client *new_client)
+ 	if (!active)
+ 		return 0;
+ 
+-	if (vga_switcheroo_pwr_state(new_client) == VGA_SWITCHEROO_OFF)
++	if (power_control &&
++	    vga_switcheroo_pwr_state(new_client) == VGA_SWITCHEROO_OFF)
+ 		vga_switchon(new_client);
+ 
+ 	vga_set_default_device(new_client->pdev);
+@@ -720,7 +729,8 @@ static int vga_switchto_stage1(struct vga_switcheroo_client *new_client)
+ }
+ 
+ /* post delay */
+-static int vga_switchto_stage2(struct vga_switcheroo_client *new_client)
++static int vga_switchto_stage2(struct vga_switcheroo_client *new_client,
++			       bool power_control)
+ {
+ 	int ret;
+ 	struct vga_switcheroo_client *active;
+@@ -747,7 +757,8 @@ static int vga_switchto_stage2(struct vga_switcheroo_client *new_client)
+ 	if (new_client->ops->reprobe)
+ 		new_client->ops->reprobe(new_client->pdev);
+ 
+-	if (vga_switcheroo_pwr_state(active) == VGA_SWITCHEROO_ON)
++	if (power_control &&
++	    vga_switcheroo_pwr_state(active) == VGA_SWITCHEROO_ON)
+ 		vga_switchoff(active);
+ 
+ 	/* let HDA controller autoresume if GPU uses driver power control */
+@@ -779,6 +790,7 @@ vga_switcheroo_debugfs_write(struct file *filp, const char __user *ubuf,
+ 	int ret;
+ 	bool delay = false, can_switch;
+ 	bool just_mux = false;
++	bool immediate_switch = false;
+ 	enum vga_switcheroo_client_id client_id = VGA_SWITCHEROO_UNKNOWN_ID;
+ 	struct vga_switcheroo_client *client = NULL;
+ 
+@@ -822,30 +834,48 @@ vga_switcheroo_debugfs_write(struct file *filp, const char __user *ubuf,
+ 		goto out;
+ 	}
+ 
+-	/* request a delayed switch - test can we switch now */
+-	if (strncmp(usercmd, "DIGD", 4) == 0) {
+-		client_id = VGA_SWITCHEROO_IGD;
+-		delay = true;
+-	}
+-
+-	if (strncmp(usercmd, "DDIS", 4) == 0) {
+-		client_id = VGA_SWITCHEROO_DIS;
+-		delay = true;
+-	}
+ 
++	/* normal switch request */
+ 	if (strncmp(usercmd, "IGD", 3) == 0)
+ 		client_id = VGA_SWITCHEROO_IGD;
+ 
+ 	if (strncmp(usercmd, "DIS", 3) == 0)
+ 		client_id = VGA_SWITCHEROO_DIS;
+ 
+-	if (strncmp(usercmd, "MIGD", 4) == 0) {
+-		just_mux = true;
+-		client_id = VGA_SWITCHEROO_IGD;
+-	}
+-	if (strncmp(usercmd, "MDIS", 4) == 0) {
+-		just_mux = true;
+-		client_id = VGA_SWITCHEROO_DIS;
++	if (client_id == VGA_SWITCHEROO_UNKNOWN_ID) {
++		switch (usercmd[0]) {
++		case 'D':
++			/*
++			 * request a delayed switch -
++			 * test can we switch now
++			 */
++			delay = true;
++			break;
++		case 'I':
++			/*
++			 * switch immediately -
++			 * ignore can switch test;
++			 * communicate switch to clients
++			 */
++			immediate_switch = true;
++			break;
++		case 'M':
++			/*
++			 * switch immediately -
++			 * ignore can switch test;
++			 * do not communicate switch to clients
++			 */
++			just_mux = true;
++			break;
++		default:
++			goto out;
++		}
++
++		if (strncmp(usercmd + 1, "IGD", 3) == 0)
++			client_id = VGA_SWITCHEROO_IGD;
++
++		if (strncmp(usercmd + 1, "DIS", 3) == 0)
++			client_id = VGA_SWITCHEROO_DIS;
+ 	}
+ 
+ 	if (client_id == VGA_SWITCHEROO_UNKNOWN_ID)
+@@ -867,17 +897,17 @@ vga_switcheroo_debugfs_write(struct file *filp, const char __user *ubuf,
+ 		goto out;
+ 
+ 	/* okay we want a switch - test if devices are willing to switch */
+-	can_switch = check_can_switch();
++	can_switch = immediate_switch || check_can_switch();
+ 
+ 	if (can_switch == false && delay == false)
+ 		goto out;
+ 
+ 	if (can_switch) {
+-		ret = vga_switchto_stage1(client);
++		ret = vga_switchto_stage1(client, !immediate_switch);
+ 		if (ret)
+ 			pr_err("switching failed stage 1 %d\n", ret);
+ 
+-		ret = vga_switchto_stage2(client);
++		ret = vga_switchto_stage2(client, !immediate_switch);
+ 		if (ret)
+ 			pr_err("switching failed stage 2 %d\n", ret);
+ 
+@@ -886,7 +916,7 @@ vga_switcheroo_debugfs_write(struct file *filp, const char __user *ubuf,
+ 		vgasr_priv.delayed_switch_active = true;
+ 		vgasr_priv.delayed_client_id = client_id;
+ 
+-		ret = vga_switchto_stage1(client);
++		ret = vga_switchto_stage1(client, !immediate_switch);
+ 		if (ret)
+ 			pr_err("delayed switching stage 1 failed %d\n", ret);
+ 	}
+@@ -951,7 +981,7 @@ int vga_switcheroo_process_delayed_switch(void)
+ 	if (!client || !check_can_switch())
+ 		goto err;
+ 
+-	ret = vga_switchto_stage2(client);
++	ret = vga_switchto_stage2(client, true);
+ 	if (ret)
+ 		pr_err("delayed switching failed stage 2 %d\n", ret);
+ 
 -- 
 2.18.4
 
