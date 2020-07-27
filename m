@@ -2,41 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1484922E66F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 09:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DC322E686
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 09:28:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 986F989CAC;
-	Mon, 27 Jul 2020 07:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92B789C93;
+	Mon, 27 Jul 2020 07:28:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B8789CAC
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 07:23:03 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 5B089804DA;
- Mon, 27 Jul 2020 09:22:58 +0200 (CEST)
-Date: Mon, 27 Jul 2020 09:22:56 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v4 07/15] drm/bridge: tc358767: add drm_panel_bridge
- support
-Message-ID: <20200727072256.GA3799743@ravnborg.org>
-References: <20200726203324.3722593-1-sam@ravnborg.org>
- <20200726203324.3722593-8-sam@ravnborg.org>
- <20200726214832.GC28704@pendragon.ideasonboard.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E066189C93
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 07:28:47 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id 3so6731696wmi.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 00:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=esRwbTCzDO7x2Eh5vxgXr51hblMhF7XMAdzGe185q58=;
+ b=RcFtDGx2prygoi/goLympmWmMWrHgs+W+Mu8GWjpCcrcy5qljVybkEdf4FSqlvKvB5
+ gFsyOki6z1CTxJB85UYVCV/xddThoGl56Gm+kIOMzsY8x+RR0QH8EQ+uC011LxY6y6DN
+ FO1lP8Ne4sJg+kDhGugIRthqY6y7LCKhwmskh+k1GXjrhOCdEqiKdsUh7L+5nkJ0ke49
+ rTq5PuDKFubDWBaXPdjJRE9lf7nPbwKv8uf3z/R6jsFIVndcLu8K11Cg2YaQ+fDmjTyZ
+ 8pBAd8vmo3eK/LCzxVW1LfhiVeU6EnNz5lS5ZmDxbz4HqpSEzrlxtmW6vDSn0/nCamL+
+ 5Ppw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=esRwbTCzDO7x2Eh5vxgXr51hblMhF7XMAdzGe185q58=;
+ b=YOefqgE8ZPKYgA/W4qsJfJJ7Sz4Sp4pucKs63nKkpqZMsRsBi2WnD6yvLT5xpC5WL/
+ 99nvQ5uU+FtD3mSrBdLVVCJ9DMfXRCU1Pldir0fMA7DpMSxiGrPpJ/w7JKYDJqc1sVgD
+ qvWCgw/g0X5pxKsQbhq78WnTpE2vsLHRCnOcKROMj2j0Yc0k3JOPfdeQ3l1R/0vOthM8
+ 8yphe6c3ATCRM3Y+KrpL/eooUQJqMW3lAQJQI6lOT1KyX0KJcXYMOZnEnaRV8bpAtpRY
+ Shba4La2u2Qb5RKbOCEETMh/uKi8bp8SCdupcpNm9RlVtGTIse4gw4IjMpI+uiOhM9m6
+ 7y3A==
+X-Gm-Message-State: AOAM5319W70hkzJ0QNANJSbgKtxuOiSzWCRzyxLkpbkvIq56TvEiTSUM
+ X6FTTsZjNJx1AManwP1NL1G8pw==
+X-Google-Smtp-Source: ABdhPJwwFyXP9m/QKHlWEoJgeVi7242QOXUA6jx28eAS7kwNdU7yV7fLodxpOYPkpJ7kyPDLJVd3yg==
+X-Received: by 2002:a1c:c256:: with SMTP id s83mr17451497wmf.17.1595834926293; 
+ Mon, 27 Jul 2020 00:28:46 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:c02:85df:32ef:2826?
+ ([2a01:e35:2ec0:82b0:c02:85df:32ef:2826])
+ by smtp.gmail.com with ESMTPSA id y189sm19988868wmd.27.2020.07.27.00.28.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jul 2020 00:28:45 -0700 (PDT)
+Subject: Re: [PATCH 1/2] drm/fourcc: fix Amlogic Video Framebuffer Compression
+ macro
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200723090551.27529-1-narmstrong@baylibre.com>
+ <20200726172549.GH3275923@ravnborg.org>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <c056f317-c705-8356-e83b-ef3e206f4811@baylibre.com>
+Date: Mon, 27 Jul 2020 09:28:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200726214832.GC28704@pendragon.ideasonboard.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=P1BnusSwAAAA:8 a=hD80L64hAAAA:8
- a=IpJZQVW2AAAA:8 a=RwHePtW7AAAA:8 a=BCzp7en0e6PmTZLbanEA:9
- a=PtiKW14iDIf8ZSlN:21 a=mcsOGsdddqy8Jpaq:21 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
- a=IawgGOuG5U0WyFbmm1f5:22 a=FqraQwd7dyEg5dwJgZJs:22
+In-Reply-To: <20200726172549.GH3275923@ravnborg.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,249 +124,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- kbuild test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Martin Donnelly <martin.donnelly@ge.com>
+Cc: khilman@baylibre.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent.
+On 26/07/2020 19:25, Sam Ravnborg wrote:
+> Hi Neil.
+> 
+> On Thu, Jul 23, 2020 at 11:05:50AM +0200, Neil Armstrong wrote:
+>> Fix the Amlogic Video Framebuffer Compression modifier macro to
+>> correctly add the layout options, a pair of parenthesis was missing.
+>>
+>> Fixes: d6528ec88309 ("drm/fourcc: Add modifier definitions for describing Amlogic Video Framebuffer Compression")
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> Looks correct just looking at the patch below.
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> I assume you will apply the patch.
 
-Thanks for the prompt review.
+Yes, indeed
 
-On Mon, Jul 27, 2020 at 12:48:32AM +0300, Laurent Pinchart wrote:
-> Hi Sam,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Jul 26, 2020 at 10:33:16PM +0200, Sam Ravnborg wrote:
-> > With the bridge operations implemented the last step to prepare
-> > this driver for a chained setup is the use of the bridge panel driver.
-> > 
-> > The bridge panel driver is only used when a prot@2 is present in
-> 
-> s/prot/port/
-> 
-> > the DT. So when the display driver request a connector
-> 
-> s/request/requests/
-> 
-> > support both situations:
-> > - connector created by bridge panel driver
-> > - connector created by this driver
-> > 
-> > And on top, support that the display driver creates the connector,
-> > which is the preferred setup.
-> > 
-> > Note: the bridge panel will use the connector type from the panel.
-> > 
-> > v2:
-> >   - Merge connector and drm_panel_bridge patches
-> >     and fix so we do not create two connectors (Laurent)
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Andrzej Hajda <a.hajda@samsung.com>
-> > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> >  drivers/gpu/drm/bridge/tc358767.c | 70 +++++++++++++++----------------
-> >  1 file changed, 35 insertions(+), 35 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> > index d86d7f06bebb..75a2cd792ccc 100644
-> > --- a/drivers/gpu/drm/bridge/tc358767.c
-> > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> > @@ -244,8 +244,8 @@ struct tc_data {
-> >  	struct drm_dp_aux	aux;
-> >  
-> >  	struct drm_bridge	bridge;
-> > +	struct drm_bridge	*panel_bridge;
-> >  	struct drm_connector	connector;
-> > -	struct drm_panel	*panel;
-> >  
-> >  	/* link settings */
-> >  	struct tc_edp_link	link;
-> > @@ -1234,13 +1234,6 @@ static int tc_stream_disable(struct tc_data *tc)
-> >  	return 0;
-> >  }
-> >  
-> > -static void tc_bridge_pre_enable(struct drm_bridge *bridge)
-> > -{
-> > -	struct tc_data *tc = bridge_to_tc(bridge);
-> > -
-> > -	drm_panel_prepare(tc->panel);
-> > -}
-> > -
-> >  static void tc_bridge_enable(struct drm_bridge *bridge)
-> >  {
-> >  	struct tc_data *tc = bridge_to_tc(bridge);
-> > @@ -1264,8 +1257,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
-> >  		tc_main_link_disable(tc);
-> >  		return;
-> >  	}
-> > -
-> > -	drm_panel_enable(tc->panel);
-> >  }
-> >  
-> >  static void tc_bridge_disable(struct drm_bridge *bridge)
-> > @@ -1273,8 +1264,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
-> >  	struct tc_data *tc = bridge_to_tc(bridge);
-> >  	int ret;
-> >  
-> > -	drm_panel_disable(tc->panel);
-> > -
-> >  	ret = tc_stream_disable(tc);
-> >  	if (ret < 0)
-> >  		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
-> > @@ -1284,13 +1273,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
-> >  		dev_err(tc->dev, "main link disable error: %d\n", ret);
-> >  }
-> >  
-> > -static void tc_bridge_post_disable(struct drm_bridge *bridge)
-> > -{
-> > -	struct tc_data *tc = bridge_to_tc(bridge);
-> > -
-> > -	drm_panel_unprepare(tc->panel);
-> > -}
-> > -
-> >  static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
-> >  				 const struct drm_display_mode *mode,
-> >  				 struct drm_display_mode *adj)
-> > @@ -1354,9 +1336,11 @@ static int tc_connector_get_modes(struct drm_connector *connector)
-> >  		return 0;
-> >  	}
-> >  
-> > -	num_modes = drm_panel_get_modes(tc->panel, connector);
-> > -	if (num_modes > 0)
-> > -		return num_modes;
-> > +	if (tc->panel_bridge) {
-> > +		num_modes = drm_bridge_get_modes(tc->panel_bridge, connector);
-> > +		if (num_modes > 0)
-> > +			return num_modes;
-> > +	}
-> >  
-> >  	edid = tc_get_edid(&tc->bridge, connector);
-> >  	num_modes = drm_add_edid_modes(connector, edid);
-> > @@ -1396,7 +1380,7 @@ tc_connector_detect(struct drm_connector *connector, bool force)
-> >  	if (tc->hpd_pin >= 0)
-> >  		return tc_bridge_detect(&tc->bridge);
-> >  	else
-> > -		if (tc->panel)
-> > +		if (tc->panel_bridge)
-> >  			return connector_status_connected;
-> >  
-> >  	return connector_status_unknown;
-> > @@ -1419,16 +1403,23 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
-> >  	struct drm_device *drm = bridge->dev;
-> >  	int ret;
-> >  
-> > -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> > -		DRM_ERROR("Fix bridge driver to make connector optional!");
-> > -		return -EINVAL;
-> > +	if (tc->panel_bridge) {
-> > +		enum drm_bridge_attach_flags panel_flags;
-> > +
-> > +		/* If a connector is required then this driver shall create it */
-> > +		panel_flags = flags & ~DRM_BRIDGE_ATTACH_NO_CONNECTOR;
-> 
-> Shouldn't this be
-> 
-> 		panel_flags = flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR;
-> 
-> to ensure that the panel driver will not create a connector ?
-
-Brown paper bag time so I can hide myself.
-You are ofc right. Will fix and send a v5.
-Same for other patch were the same pattern is used.
-
-	Sam
+Thanks !
+Neil
 
 > 
-> > +		ret = drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
-> > +					&tc->bridge, panel_flags);
-> > +		if (ret)
-> > +			return ret;
-> >  	}
-> >  
-> > +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> > +		return 0;
-> > +
-> >  	/* Create DP/eDP connector */
-> >  	drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
-> > -	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs,
-> > -				 tc->panel ? DRM_MODE_CONNECTOR_eDP :
-> > -				 DRM_MODE_CONNECTOR_DisplayPort);
-> > +	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs, tc->bridge.type);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > @@ -1441,9 +1432,6 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
-> >  					       DRM_CONNECTOR_POLL_DISCONNECT;
-> >  	}
-> >  
-> > -	if (tc->panel)
-> > -		drm_panel_attach(tc->panel, &tc->connector);
-> > -
-> >  	drm_display_info_set_bus_formats(&tc->connector.display_info,
-> >  					 &bus_format, 1);
-> >  	tc->connector.display_info.bus_flags =
-> > @@ -1459,10 +1447,8 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
-> >  	.attach = tc_bridge_attach,
-> >  	.mode_valid = tc_mode_valid,
-> >  	.mode_set = tc_bridge_mode_set,
-> > -	.pre_enable = tc_bridge_pre_enable,
-> >  	.enable = tc_bridge_enable,
-> >  	.disable = tc_bridge_disable,
-> > -	.post_disable = tc_bridge_post_disable,
-> >  	.mode_fixup = tc_bridge_mode_fixup,
-> >  	.detect = tc_bridge_detect,
-> >  	.get_edid = tc_get_edid,
-> > @@ -1555,6 +1541,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
-> >  static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
-> >  {
-> >  	struct device *dev = &client->dev;
-> > +	struct drm_panel *panel;
-> >  	struct tc_data *tc;
-> >  	int ret;
-> >  
-> > @@ -1565,10 +1552,23 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
-> >  	tc->dev = dev;
-> >  
-> >  	/* port@2 is the output port */
-> > -	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &tc->panel, NULL);
-> > +	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
-> >  	if (ret && ret != -ENODEV)
-> >  		return ret;
-> >  
-> > +	if (panel) {
-> > +		struct drm_bridge *panel_bridge;
-> > +
-> > +		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > +		if (IS_ERR(panel_bridge))
-> > +			return PTR_ERR(panel_bridge);
-> > +
-> > +		tc->panel_bridge = panel_bridge;
-> > +		tc->bridge.type = DRM_MODE_CONNECTOR_eDP;
-> > +	} else {
-> > +		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-> > +	}
-> > +
-> >  	/* Shut down GPIO is optional */
-> >  	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
-> >  	if (IS_ERR(tc->sd_gpio))
+> 	Sam
 > 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+>> ---
+>>  include/uapi/drm/drm_fourcc.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+>> index 4bee7de5f306..82f327801267 100644
+>> --- a/include/uapi/drm/drm_fourcc.h
+>> +++ b/include/uapi/drm/drm_fourcc.h
+>> @@ -1004,7 +1004,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>>  #define DRM_FORMAT_MOD_AMLOGIC_FBC(__layout, __options) \
+>>  	fourcc_mod_code(AMLOGIC, \
+>>  			((__layout) & __fourcc_mod_amlogic_layout_mask) | \
+>> -			((__options) & __fourcc_mod_amlogic_options_mask \
+>> +			(((__options) & __fourcc_mod_amlogic_options_mask) \
+>>  			 << __fourcc_mod_amlogic_options_shift))
+>>  
+>>  /* Amlogic FBC Layouts */
+>> -- 
+>> 2.22.0
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
