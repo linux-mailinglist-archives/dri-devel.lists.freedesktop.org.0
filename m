@@ -2,58 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE25E22EA4C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 12:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C933622EA5D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 12:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F7D89824;
-	Mon, 27 Jul 2020 10:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F1E89BC0;
+	Mon, 27 Jul 2020 10:50:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8909289824
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 10:46:55 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k8so3938745wma.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 03:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jEXz4XHYIboeUYM649x1ewNgKPhYYWsfFCIkAjX0d70=;
- b=lShWZxM3LDqR2O1xn0+a7LGDoh7eK+PDPO63q57eAiebNglZPUbhlfd29jUyhO4vTT
- Re6keLI9fN1FdvOSulAYMA2yMPyU7y3M84OoSdSOF2HggzKFJegEpiycUH8vWhLcE9Oj
- qCLxYw8+CBCBV9BLOHdbmqZ6w3fMSKw7JSN0Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jEXz4XHYIboeUYM649x1ewNgKPhYYWsfFCIkAjX0d70=;
- b=aVtuwa2yCFnKDnua4gHWMu5zNWjBUT/xuzTB731yQPC6DSYKoMFjbGs8zjdwiwmQmv
- g1G3/UZy9ug8j26drTnsl/UGym4Xgc4C828qv/KtqR4ESbVvNmlOcW+scq3aDZRHQwNo
- +7DBOTyixzadtG72IgatwheMSXOJRzQMVaxDikXixHsi437+ElIQBAo7+fe0nP9mWLxL
- 4PQohdUm4OZQZ7Lkc33CFL3DtcafEEd0+qozq/mXszUUidcoPu6amXT/LvgaU0mwAsBu
- 4xK2J7S5mplQtunfu0HCAZcKspWBqWER2EgF1F+g958QbaLi4UGJKxIR1Tyr1gwcpX/H
- vlqA==
-X-Gm-Message-State: AOAM533ZvP5IS5axPX1K0pqrVvhxK3l3jYI5onNE0S1qfN661cAnPu0u
- 5+/WrugaRuFpXOHzr9mBMNEVww==
-X-Google-Smtp-Source: ABdhPJwkEgX6Rpv2WvYFmrujAQBDVT6alrcLllmhBgp57MUMLwy6O+9ie28bbQUOBfipbi6PW40dQg==
-X-Received: by 2002:a05:600c:25cc:: with SMTP id
- 12mr3608461wml.120.1595846813826; 
- Mon, 27 Jul 2020 03:46:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o2sm11791068wrj.21.2020.07.27.03.46.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 03:46:53 -0700 (PDT)
-Date: Mon, 27 Jul 2020 12:46:51 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH 3/3] drm/ast: Disable cursor while switching display modes
-Message-ID: <20200727104651.GW6419@phenom.ffwll.local>
-References: <20200727073707.21097-1-tzimmermann@suse.de>
- <20200727073707.21097-4-tzimmermann@suse.de>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA6B89BC0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 10:50:28 +0000 (UTC)
+IronPort-SDR: lJoYmsqu8FMn9h4m0iMWYfYN4gK2EwF5Igm/VN66x1oASqfLuBVdd96recbejIiTTRHfy505FY
+ VG6JH7v0fGXg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9694"; a="148870046"
+X-IronPort-AV: E=Sophos;i="5.75,402,1589266800"; d="scan'208";a="148870046"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2020 03:50:27 -0700
+IronPort-SDR: 5TkCZ9utZMd6t8xkb/NIxbc8weYZ++eAk/uERXv2C4WyXtDx2x62chinvKwgqIbQUSVK8t/htL
+ BEw4ged+mVdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,402,1589266800"; d="scan'208";a="312170816"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+ by fmsmga004.fm.intel.com with ESMTP; 27 Jul 2020 03:50:26 -0700
+Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
+ ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 27 Jul 2020 03:50:26 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ by edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 27 Jul 2020 03:50:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bWhNYV9UN+WAu+xaVyNd56us6hiHIpHXRA8LV2w/pBrId5XNDF+NlW9kfMMUXnNkSWXv2/x4sUQ9M6QsFIozgV1S2rcpw+B63hpDGidz2IOpPibHXfN8pL7vjHz5XZfNE06YXtbaSsRGTjQZLjPqiKAsWjRVXdZZKkHPw4/7QfpXczsBG4ZubC+OXqUif3bV5azQeWcUJ5sT0la/Yr2+plkZVppfFfspP/BpWYn6Jf5QdTMujHla86ibpx3zeQGWYTn1RFLWTjeJGDsErdFlmfd13Yf4an4LCngAjcP0rFHuCpkB4PRiNNZH5++yGhVZRLEP121BpDhrSyLChR5nVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RKP3WctCAd0Awm9DbC1dDk+jh+UReaRstoOKT3VwIt0=;
+ b=CiC/koSWnsvEomYSCqv3HDHquDVygzW5obOjF+gpE3BLD8LbneJ4dIsfl23C0ccqvsekdbrko6B9pALIY3EpZDYroL08VmXDrCzbX3L8rMDDW+pvzBJvkaydjBp1r7mOnpjW6mdvBhXmZlxO7y5a7nXyTqOBy51p7D5NkMdgdb20cOq0rNEvSfC5d9K9V+LrvQW6C29dNBPQXv57QK15Mc7sWU6co2KV3NJkKN6Bdw0lq8vfrHxCYce4btebzrrqkhk7xTZ76q8wWT32F7z4rykyPRKx9XAZc7wqssExicUkoEONVoU4TvegwUVoYIOyKOrvtPnanteV1QhmhA01MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RKP3WctCAd0Awm9DbC1dDk+jh+UReaRstoOKT3VwIt0=;
+ b=l+SzihKZ/Qap/ieo9OaVUwemZ6DEjpQOjc6X6ynLwKjxIgV3UAN4fb52ibVe2/3DCWLHUkSvr8Mc5vunvGpunxBwRr3HnzCzqIUzbFeXYwvwUav82qOj4rZFKEr/te5VwP/ZaDtXTUdVmPeySYpTRLtGIwkPVuCa/pGMW8+rRLs=
+Received: from BL0PR11MB3315.namprd11.prod.outlook.com (2603:10b6:208:6c::33)
+ by MN2PR11MB4206.namprd11.prod.outlook.com (2603:10b6:208:188::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.27; Mon, 27 Jul
+ 2020 10:50:23 +0000
+Received: from BL0PR11MB3315.namprd11.prod.outlook.com
+ ([fe80::2495:853:c506:9876]) by BL0PR11MB3315.namprd11.prod.outlook.com
+ ([fe80::2495:853:c506:9876%6]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
+ 10:50:23 +0000
+From: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/9] drm/ttm: initialize the system domain with defaults
+Thread-Topic: [PATCH 1/9] drm/ttm: initialize the system domain with defaults
+Thread-Index: AQHWZAI5IBJUkCEhDk2uEtF4mvkgQakbP26A
+Date: Mon, 27 Jul 2020 10:50:23 +0000
+Message-ID: <10da016f256f726b49c09f7440e0dc2c82809bbc.camel@intel.com>
+References: <20200723151621.3536-1-christian.koenig@amd.com>
+ <20200727094251.GO6419@phenom.ffwll.local>
+ <731e9553-81f3-752f-3e44-71027693d3bc@gmail.com>
+In-Reply-To: <731e9553-81f3-752f-3e44-71027693d3bc@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [134.134.137.77]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ee9f86b2-e0f4-4a53-fbda-08d8321add54
+x-ms-traffictypediagnostic: MN2PR11MB4206:
+x-microsoft-antispam-prvs: <MN2PR11MB42065253DBA65E479C5E550D97720@MN2PR11MB4206.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NKrdRl3wh6EpTy/8Bq+5BAvyI9ZQrHZVdV2MQDeJldyR9fN/kNcpZAFJxuXSuSPTq5HsvOCywRCiLHdPeltMkgKRfDmU9+DVI9Fgh7Ul/QTl/kPrnTXIMKPgIb5Ym6wYy/Nlyv04iRY4gxMfesz1CZgvVEQG41XYNRtvO/A8ijn0xUE5exRftv/RopkPCyHu8X2264PXBrrAmMkVdRP64VjI/qzD5LATBa/4lN3S5YJI7Em1ZDOnq6PbNaoSy626v/BvNitNbtaRWdorRYezCp/IIEtlZH3SGvmr2al6P/F0QRqlXjXQLq88UE39VuXCUgjXQ1vRN1umd0HfMXo+AOakdc0V72ojkozpgTzmj6Y=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR11MB3315.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(136003)(346002)(366004)(396003)(39860400002)(8936002)(71200400001)(8676002)(316002)(76116006)(91956017)(6512007)(66556008)(64756008)(66446008)(66476007)(66946007)(478600001)(86362001)(4326008)(966005)(2906002)(36756003)(6506007)(110136005)(26005)(186003)(6486002)(2616005)(83380400001)(5660300002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: IPPsFv2qgo7Jd6Hn5+7eGaBgZhaH8bmd7vaaSVyFEAUreMIF0d2U7JMd2hB4vDHKxrsKLHTZPUSbOcenj01fcm7tmz9HyLm1/UhMIPiH+2WkwQX75IJewZuVYI0IgUVf4CiVA/uY8jI1u/DtRco1izcjEOlqx7TDqBfAZIOBfrXbbRDhfYAPr4ItO8gF2BuaAS2FPzgXup751zr89UktclBaOn12f5qlwofZD26fb+8VZU7usCPKa0D2kqlPfP8daIx6UNjRUxLUR8QO0sYtvoDxQYXdqYziFsNYJoT4l5o5NCizKX1/8aDOEGu//rPVTwouR+6I3iMN5GiRxkeGOVI+nbq0ljGy6SVZfu0gt4TOUr/MFgU3RwoCN3aQpzbA/QYoh9++rAZKV2UvEyQPQcr4N4wOGQffLI/BTU0v97VAuX1g4s9B2RExRJ+H/i+xCsiCwGYf4nbRdtaiCPmFKpE1u4ObOXeB+Inr5B7ThAM5PhqAx1IDjNndeKiT7PG7
+x-ms-exchange-transport-forked: True
+Content-ID: <2B1089C3A256C64AAD78BEDA3D7E4F1F@namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200727073707.21097-4-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3315.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee9f86b2-e0f4-4a53-fbda-08d8321add54
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2020 10:50:23.5068 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gf2AQ4bSH6KzKKjOZJUs0dQm+SLQvimNiRDz1AcrvwiHsPPXBcqngDZFHezBfect8I6iQnyuEC5AIvI2BDk2vOj6mZqNQNs0rVwx1EhoO3g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4206
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,175 +115,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
- stable@vger.kernel.org, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 27, 2020 at 09:37:07AM +0200, Thomas Zimmermann wrote:
-> The ast's HW cursor requires the primary plane and CRTC to display
-> at a correct mode and format. This is not the case while switching
-> display modes, which can lead to the screen turing permanently dark.
-> 
-> As a workaround, the ast driver now disables active HW cursors while
-> the mode switch takes place. It also synchronizes with the vertical
-> refresh to give HW cursor and primary plane some time to catch up on
-> each other.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 4961eb60f145 ("drm/ast: Enable atomic modesetting")
-
-Since you already do modeset when changing primary plane I think the much
-cleaner solution is to use drm_atomic_helper_disable_planes_on_crtc() and
-drm_atomic_helper_commit_planes() with flags =
-DRM_PLANE_COMMIT_ACTIVE_ONLY or so, with corresponding changes in
-atomic_commit_tail. Much cleaner instead of hand-rolling this all in
-callbacks.
-
-Note that with atomic helpers it is _very_ much encouraged to throw the
-helper structure into the wind and write your own stuff, this thing is
-intentionally very modular. This is to avoid incomprehensible drivers that
-are forced to hack around the helper midlayer in their callbacks like the
-below very much looks like.
--Daniel
-
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
-> Cc: <stable@vger.kernel.org> # v5.6+
-> ---
->  drivers/gpu/drm/ast/ast_drv.h  |  2 ++
->  drivers/gpu/drm/ast/ast_mode.c | 53 +++++++++++++++++++++++++++++++++-
->  2 files changed, 54 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 57414b429db3..564670b5d2ee 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -162,6 +162,8 @@ void ast_driver_unload(struct drm_device *dev);
->  
->  #define AST_IO_MM_OFFSET		(0x380)
->  
-> +#define AST_IO_VGAIR1_VREFRESH		BIT(3)
-> +
->  #define __ast_read(x) \
->  static inline u##x ast_read##x(struct ast_private *ast, u32 reg) { \
->  u##x val = 0;\
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 5b2b39c93033..e18365bbc08c 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -514,6 +514,17 @@ static void ast_set_start_address_crt1(struct ast_private *ast,
->  
->  }
->  
-> +static void ast_wait_for_vretrace(struct ast_private *ast)
-> +{
-> +	unsigned long timeout = jiffies + HZ;
-> +	u8 vgair1;
-> +
-> +	do {
-> +		vgair1 = ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-> +	} while (!(vgair1 & AST_IO_VGAIR1_VREFRESH) &&
-> +		 time_before(jiffies, timeout));
-> +}
-> +
->  /*
->   * Primary plane
->   */
-> @@ -666,6 +677,14 @@ static int ast_cursor_plane_helper_atomic_check(struct drm_plane *plane,
->  	return 0;
->  }
->  
-> +static bool ast_disable_cursor_during_modeset(struct drm_plane *cursor_plane)
-> +{
-> +	const struct drm_plane_state *cursor_state = cursor_plane->state;
-> +
-> +	return cursor_state && cursor_state->visible && cursor_state->crtc &&
-> +	       drm_atomic_crtc_needs_modeset(cursor_state->crtc->state);
-> +}
-> +
->  static void
->  ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
->  				      struct drm_plane_state *old_state)
-> @@ -678,7 +697,12 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
->  		ast_cursor_page_flip(ast);
->  	}
->  
-> -	ast_cursor_show(ast, state->crtc_x, state->crtc_y);
-> +	/*
-> +	 * For modesets, delay show() until end of atomic_flush(). See the
-> +	 * atomic_begin() helper for more information.
-> +	 */
-> +	if (!ast_disable_cursor_during_modeset(plane))
-> +		ast_cursor_show(ast, state->crtc_x, state->crtc_y);
->  }
->  
->  static void
-> @@ -764,6 +788,22 @@ static void ast_crtc_helper_atomic_begin(struct drm_crtc *crtc,
->  	struct ast_private *ast = to_ast_private(crtc->dev);
->  
->  	ast_open_key(ast);
-> +
-> +	/*
-> +	 * HW cursors require the underlying primary plane and CRTC to
-> +	 * display a valid mode and image. This is not the case during
-> +	 * full modeset operations. So we temporarily disable any active
-> +	 * HW cursor and re-enable it at the end of the atomic_flush()
-> +	 * helper. The busy waiting allows the code to sync with the
-> +	 * vertical refresh.
-> +	 *
-> +	 * We only do this during *full* modesets. It does not affect
-> +	 * simple pageflips on the planes.
-> +	 */
-> +	if (ast_disable_cursor_during_modeset(&ast->cursor_plane)) {
-> +		ast_cursor_hide(ast);
-> +		ast_wait_for_vretrace(ast);
-> +	}
->  }
->  
->  static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
-> @@ -771,6 +811,7 @@ static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
->  {
->  	struct drm_device *dev = crtc->dev;
->  	struct ast_private *ast = to_ast_private(dev);
-> +	struct drm_plane_state *cursor_state = ast->cursor_plane.state;
->  	struct ast_crtc_state *ast_state;
->  	const struct drm_format_info *format;
->  	struct ast_vbios_mode_info *vbios_mode_info;
-> @@ -799,6 +840,16 @@ static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
->  	ast_set_dclk_reg(ast, adjusted_mode, vbios_mode_info);
->  	ast_set_crtthd_reg(ast);
->  	ast_set_sync_reg(ast, adjusted_mode, vbios_mode_info);
-> +
-> +	/*
-> +	 * Re-enabling the HW cursor; if any. See the atomic_begin() helper
-> +	 * for more information.
-> +	 */
-> +	if (ast_disable_cursor_during_modeset(&ast->cursor_plane)) {
-> +		ast_wait_for_vretrace(ast);
-> +		ast_cursor_show(ast, cursor_state->crtc_x,
-> +				cursor_state->crtc_y);
-> +	}
->  }
->  
->  static void
-> -- 
-> 2.27.0
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAyMDIwLTA3LTI3IGF0IDEyOjM5ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
+Og0KPiBBbSAyNy4wNy4yMCB1bSAxMTo0MiBzY2hyaWViIGRhbmllbEBmZndsbC5jaDoNCj4gPiBP
+biBUaHUsIEp1bCAyMywgMjAyMCBhdCAwNToxNjoxM1BNICswMjAwLCBDaHJpc3RpYW4gS8O2bmln
+IHdyb3RlOg0KPiA+ID4gSW5zdGVhZCBvZiByZXBlYXRpbmcgdGhhdCBpbiBlYWNoIGRyaXZlci4N
+Cj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
+LmtvZW5pZ0BhbWQuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV90dG0uYyAgICB8IDMgLS0tDQo+ID4gPiAgIGRyaXZlcnMvZ3B1L2RybS9k
+cm1fZ2VtX3ZyYW1faGVscGVyLmMgICAgICB8IDMgLS0tDQo+ID4gPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L25vdXZlYXVfYm8uYyAgICAgICB8IDMgLS0tDQo+ID4gPiAgIGRyaXZlcnMvZ3B1
+L2RybS9xeGwvcXhsX3R0bS5jICAgICAgICAgICAgICB8IDMgLS0tDQo+ID4gPiAgIGRyaXZlcnMv
+Z3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jICAgICAgICB8IDMgLS0tDQo+ID4gPiAgIGRyaXZl
+cnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgICAgICAgICAgICAgICB8IDIgKysNCj4gPiA+ICAgZHJp
+dmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jIHwgMiAtLQ0KPiA+ID4gICA3
+IGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pDQo+ID4gPiAN
+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRt
+LmMNCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jDQo+ID4g
+PiBpbmRleCAwZGQ1ZTgwMjA5MWQuLmU1N2M0OWE5MWI3MyAxMDA2NDQNCj4gPiA+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYw0KPiA+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jDQo+ID4gPiBAQCAtODQsOSArODQsNiBA
+QCBzdGF0aWMgaW50IGFtZGdwdV9pbml0X21lbV90eXBlKHN0cnVjdA0KPiA+ID4gdHRtX2JvX2Rl
+dmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwNCj4gPiA+ICAgCXN3aXRjaCAodHlwZSkgew0KPiA+
+ID4gICAJY2FzZSBUVE1fUExfU1lTVEVNOg0KPiA+ID4gICAJCS8qIFN5c3RlbSBtZW1vcnkgKi8N
+Cj4gPiA+IC0JCW1hbi0+ZmxhZ3MgPSAwOw0KPiA+ID4gLQkJbWFuLT5hdmFpbGFibGVfY2FjaGlu
+ZyA9IFRUTV9QTF9NQVNLX0NBQ0hJTkc7DQo+ID4gPiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9
+IFRUTV9QTF9GTEFHX0NBQ0hFRDsNCj4gPiA+ICAgCQlicmVhazsNCj4gPiA+ICAgCWNhc2UgVFRN
+X1BMX1RUOg0KPiA+ID4gICAJCS8qIEdUVCBtZW1vcnkgICovDQo+ID4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYw0KPiA+ID4gYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jDQo+ID4gPiBpbmRleCAzMjk2ZWQzZGYzNTguLmJl
+MTc3YWZkZWI5YSAxMDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3Zy
+YW1faGVscGVyLmMNCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVs
+cGVyLmMNCj4gPiA+IEBAIC0xMDA5LDkgKzEwMDksNiBAQCBzdGF0aWMgaW50IGJvX2RyaXZlcl9p
+bml0X21lbV90eXBlKHN0cnVjdA0KPiA+ID4gdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3Qg
+dHlwZSwNCj4gPiA+ICAgew0KPiA+ID4gICAJc3dpdGNoICh0eXBlKSB7DQo+ID4gPiAgIAljYXNl
+IFRUTV9QTF9TWVNURU06DQo+ID4gPiAtCQltYW4tPmZsYWdzID0gMDsNCj4gPiA+IC0JCW1hbi0+
+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOw0KPiA+ID4gLQkJbWFuLT5k
+ZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7DQo+ID4gPiAgIAkJYnJlYWs7DQo+
+ID4gPiAgIAljYXNlIFRUTV9QTF9WUkFNOg0KPiA+ID4gICAJCW1hbi0+ZnVuYyA9ICZ0dG1fYm9f
+bWFuYWdlcl9mdW5jOw0KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
+L25vdXZlYXVfYm8uYw0KPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Jv
+LmMNCj4gPiA+IGluZGV4IDRjY2Y5MzdkZjBkMC4uNTNhZjI1MDIwYmIyIDEwMDY0NA0KPiA+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jDQo+ID4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMNCj4gPiA+IEBAIC02NTUsOSArNjU1
+LDYgQEAgbm91dmVhdV9ib19pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlDQo+ID4g
+PiAqYmRldiwgdWludDMyX3QgdHlwZSwNCj4gPiA+ICAgDQo+ID4gPiAgIAlzd2l0Y2ggKHR5cGUp
+IHsNCj4gPiA+ICAgCWNhc2UgVFRNX1BMX1NZU1RFTToNCj4gPiA+IC0JCW1hbi0+ZmxhZ3MgPSAw
+Ow0KPiA+ID4gLQkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9NQVNLX0NBQ0hJTkc7
+DQo+ID4gPiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsNCj4g
+PiA+ICAgCQlicmVhazsNCj4gPiA+ICAgCWNhc2UgVFRNX1BMX1ZSQU06DQo+ID4gPiAgIAkJbWFu
+LT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQ7DQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMNCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL3F4bC9x
+eGxfdHRtLmMNCj4gPiA+IGluZGV4IDFkOGUwN2I4YjE5ZS4uZTliOGM5MjFjMWYwIDEwMDY0NA0K
+PiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMNCj4gPiA+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jDQo+ID4gPiBAQCAtNTQsOSArNTQsNiBAQCBzdGF0
+aWMgaW50IHF4bF9pbml0X21lbV90eXBlKHN0cnVjdA0KPiA+ID4gdHRtX2JvX2RldmljZSAqYmRl
+diwgdWludDMyX3QgdHlwZSwNCj4gPiA+ICAgCXN3aXRjaCAodHlwZSkgew0KPiA+ID4gICAJY2Fz
+ZSBUVE1fUExfU1lTVEVNOg0KPiA+ID4gICAJCS8qIFN5c3RlbSBtZW1vcnkgKi8NCj4gPiA+IC0J
+CW1hbi0+ZmxhZ3MgPSAwOw0KPiA+ID4gLQkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9Q
+TF9NQVNLX0NBQ0hJTkc7DQo+ID4gPiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9G
+TEFHX0NBQ0hFRDsNCj4gPiA+ICAgCQlicmVhazsNCj4gPiA+ICAgCWNhc2UgVFRNX1BMX1ZSQU06
+DQo+ID4gPiAgIAljYXNlIFRUTV9QTF9QUklWOg0KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jDQo+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX3R0bS5jDQo+ID4gPiBpbmRleCBiNDc0NzgxYTA5MjAuLmI0Y2I3NTM2MTU3NyAx
+MDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jDQo+
+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYw0KPiA+ID4gQEAg
+LTc2LDkgKzc2LDYgQEAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlwZShzdHJ1Y3QNCj4g
+PiA+IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsDQo+ID4gPiAgIAlzd2l0Y2gg
+KHR5cGUpIHsNCj4gPiA+ICAgCWNhc2UgVFRNX1BMX1NZU1RFTToNCj4gPiA+ICAgCQkvKiBTeXN0
+ZW0gbWVtb3J5ICovDQo+ID4gPiAtCQltYW4tPmZsYWdzID0gMDsNCj4gPiA+IC0JCW1hbi0+YXZh
+aWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOw0KPiA+ID4gLQkJbWFuLT5kZWZh
+dWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7DQo+ID4gPiAgIAkJYnJlYWs7DQo+ID4g
+PiAgIAljYXNlIFRUTV9QTF9UVDoNCj4gPiA+ICAgCQltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFn
+ZXJfZnVuYzsNCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
+DQo+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMNCj4gPiA+IGluZGV4IDdjMDJj
+ZTc4NDgwNS4uMWYxZjllNDYzMjY1IDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3R0bS90dG1fYm8uYw0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYw0K
+PiA+ID4gQEAgLTE2NzcsNiArMTY3Nyw4IEBAIGludCB0dG1fYm9fZGV2aWNlX2luaXQoc3RydWN0
+IHR0bV9ib19kZXZpY2UNCj4gPiA+ICpiZGV2LA0KPiA+ID4gICAJICogSW5pdGlhbGl6ZSB0aGUg
+c3lzdGVtIG1lbW9yeSBidWZmZXIgdHlwZS4NCj4gPiA+ICAgCSAqIE90aGVyIHR5cGVzIG5lZWQg
+dG8gYmUgZHJpdmVyIC8gSU9DVEwgaW5pdGlhbGl6ZWQuDQo+ID4gPiAgIAkgKi8NCj4gPiA+ICsJ
+YmRldi0+bWFuW1RUTV9QTF9TWVNURU1dLmF2YWlsYWJsZV9jYWNoaW5nID0NCj4gPiA+IFRUTV9Q
+TF9NQVNLX0NBQ0hJTkc7DQo+ID4gPiArCWJkZXYtPm1hbltUVE1fUExfU1lTVEVNXS5kZWZhdWx0
+X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7DQo+ID4gPiAgIAlyZXQgPSB0dG1fYm9faW5p
+dF9tbShiZGV2LCBUVE1fUExfU1lTVEVNLCAwKTsNCj4gPiA+ICAgCWlmICh1bmxpa2VseShyZXQg
+IT0gMCkpDQo+ID4gPiAgIAkJZ290byBvdXRfbm9fc3lzOw0KPiA+ID4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYw0KPiA+ID4gYi9kcml2ZXJz
+L2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMNCj4gPiA+IGluZGV4IDFkNzgxODdl
+YWJhNi4uMDBjZWYxYTNhMTc4IDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jDQo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdm13
+Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMNCj4gPiA+IEBAIC03NDIsOCArNzQyLDYgQEAgc3RhdGlj
+IGludCB2bXdfaW5pdF9tZW1fdHlwZShzdHJ1Y3QNCj4gPiA+IHR0bV9ib19kZXZpY2UgKmJkZXYs
+IHVpbnQzMl90IHR5cGUsDQo+ID4gPiAgIAlzd2l0Y2ggKHR5cGUpIHsNCj4gPiA+ICAgCWNhc2Ug
+VFRNX1BMX1NZU1RFTToNCj4gPiA+ICAgCQkvKiBTeXN0ZW0gbWVtb3J5ICovDQo+ID4gPiAtCQlt
+YW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfQ0FDSEVEOw0KPiA+IEFib3ZlIGlz
+IENBQ0hFRCwgbm90IENBQ0hJTkcsIHNvIG5lZWRzIHRvIHN0YXkgdG8gb3ZlcndyaXRlIHRoZQ0K
+PiA+IGRlZmF1bHQuDQo+IA0KPiBDcmFwIEkgbWlzc2VkIHRoYXQuIFByb2JsZW0gaXMgdGhhdCBJ
+IHdhbnRlZCB0byByZW1vdmUgdGhlDQo+IHBvc3NpYmlsaXR5IA0KPiB0byBpbml0IHRoZSBzeXN0
+ZW0gZG9tYWluIHdpdGggZGlmZmVyZW50IGNhY2hpbmcgYXR0cmlidXRlcy4NCj4gDQo+IEkgZG9u
+J3Qgc2VlIGhvdyB2bXdnZnggaXMgZXZlcnkgZ29pbmcgdG8gdXNlIHRoaXM/IFRob21hcyBkbyB5
+b3UNCj4gaGF2ZSANCj4gYW55IGlkZWEgd2hhdCB0aGlzIHdhcyBnb29kIGZvcj8NCg0KSSBpbnRl
+cnByZXQgdGhhdCBsaWtlIHZtd2dmeCBjYW4ndCBoYW5kbGUgYW55IG90aGVyIGNhY2hpbmcgYXR0
+cmlidXRlDQp0aGFuICdjYWNoZWQnLiBCdXQgSSBjYW4ndCBzZWUgYW55b25lIGZlZWRpbmcgdm13
+Z2Z4IHN5c3RlbSBtZW1vcnkNCmJ1ZmZlcnMgd2l0aCBvdGhlciBjYWNoaW5nIGF0dHJpYnV0ZXMu
+IEluIHRoYXQgY2FzZSwgdGhvc2Ugd291bGQgYmUNCmlnbm9yZWQuDQoNCi9UaG9tYXMNCg0KDQo+
+IA0KPiBUaGFua3MsDQo+IENocmlzdGlhbi4NCj4gDQo+ID4gV2l0aCB0aGF0IGZpeGVkOg0KPiA+
+IA0KPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNo
+Pg0KPiA+IA0KPiA+ID4gLQkJbWFuLT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNI
+RUQ7DQo+ID4gPiAgIAkJYnJlYWs7DQo+ID4gPiAgIAljYXNlIFRUTV9QTF9WUkFNOg0KPiA+ID4g
+ICAJCS8qICJPbi1jYXJkIiB2aWRlbyByYW0gKi8NCj4gPiA+IC0tIA0KPiA+ID4gMi4xNy4xDQo+
+ID4gPiANCj4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fDQo+ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0DQo+ID4gPiBkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnDQo+ID4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpJbnRlbCBTd2VkZW4gQUIKUmVn
+aXN0ZXJlZCBPZmZpY2U6IElzYWZqb3Jkc2dhdGFuIDMwQiwgMTY0IDQwIEtpc3RhLCBTdG9ja2hv
+bG0sIFN3ZWRlbgpSZWdpc3RyYXRpb24gTnVtYmVyOiA1NTYxODktNjAyNwoKVGhpcyBlLW1haWwg
+YW5kIGFueSBhdHRhY2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwgZm9y
+CnRoZSBzb2xlIHVzZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9y
+IGRpc3RyaWJ1dGlvbgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFy
+ZSBub3QgdGhlIGludGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhlIHNlbmRlciBh
+bmQgZGVsZXRlIGFsbCBjb3BpZXMuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
