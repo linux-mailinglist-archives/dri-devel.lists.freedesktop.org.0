@@ -1,47 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A47622E70C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 09:57:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D92922E72E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 10:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7C689A1E;
-	Mon, 27 Jul 2020 07:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE05E898F0;
+	Mon, 27 Jul 2020 08:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06CE589A1E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 07:57:03 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id 0195D5C9274;
- Mon, 27 Jul 2020 09:57:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1595836622;
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4495F8979F
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 08:01:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595836869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LGBTDypnn98VoUa0enllE/xumS+sC3iSA3D4O2yJre4=;
- b=LlkRe9y95LekZqB5HMC6/7utJjS/Qo6H2ojgfBL3/6HxSr4H5gi9FeklDroKij+mXpdqlJ
- 5FuN4TwJs/STn+w4TnZS/e/pvYsEGc4cIYuzMJdduqkI0oVdA8TKhs8oFljadXE1xBSHqS
- egsaKnDvS+m86dva1x2gjzqWO/ORepM=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=kFPPskvXLtA3OM8boP9HcoOBUPstBcsqpRElLohYglg=;
+ b=OC3kjwObRH6mvMcXyos1zj0fXKqINlEXR++kvJZv43zhXD+ltrenH7e7YtIRY0HkaV3VuG
+ f+2pCXqAyOwHkUizN6uAcHoOXvaf6/PjH0mp8ggknsN0eGMFlkbfBDO0L54juHA/tC4vNt
+ TS/yHYOSNHUt1M6xSK/L53c7Rmae44c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-TfzIlOpdPF6myWxB3Q8wdQ-1; Mon, 27 Jul 2020 04:01:00 -0400
+X-MC-Unique: TfzIlOpdPF6myWxB3Q8wdQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 782F41DE2;
+ Mon, 27 Jul 2020 08:00:57 +0000 (UTC)
+Received: from [10.36.114.48] (ovpn-114-48.ams2.redhat.com [10.36.114.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C535072691;
+ Mon, 27 Jul 2020 08:00:46 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] xen: add helpers to allocate unpopulated memory
+To: Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Roger Pau Monne <roger.pau@citrix.com>, linux-kernel@vger.kernel.org
+References: <20200724124241.48208-1-roger.pau@citrix.com>
+ <20200724124241.48208-5-roger.pau@citrix.com>
+ <1778c97f-3a69-8280-141c-879814dd213f@redhat.com>
+ <1fd1d29e-5c10-0c29-0628-b79807f81de6@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <6bd01b60-2625-c46e-f9ff-95247700a8cc@redhat.com>
+Date: Mon, 27 Jul 2020 10:00:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Date: Mon, 27 Jul 2020 09:57:00 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 11/22] drm: mxsfb: Stop using DRM simple display
- pipeline helper
-In-Reply-To: <20200726182804.GB14755@pendragon.ideasonboard.com>
-References: <20200530031015.15492-1-laurent.pinchart@ideasonboard.com>
- <20200530031015.15492-12-laurent.pinchart@ideasonboard.com>
- <de32ceef5b51ad55fe9b2a932991f4b3@agner.ch>
- <20200616015003.GA28342@pendragon.ideasonboard.com>
- <bb139837d7ecdaecdf88083bb496a1ec@agner.ch>
- <20200717020655.GR5960@pendragon.ideasonboard.com>
- <20200726182804.GB14755@pendragon.ideasonboard.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <919e64d9f3b9db0d8be09a21e576eb5f@agner.ch>
-X-Sender: stefan@agner.ch
+In-Reply-To: <1fd1d29e-5c10-0c29-0628-b79807f81de6@oracle.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,587 +109,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
- linux-imx@nxp.com, kernel@pengutronix.de, robert.chiras@nxp.com,
- leonard.crestez@nxp.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
+ dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, xen-devel@lists.xenproject.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-26 20:28, Laurent Pinchart wrote:
-> Hi Stefan,
-> 
-> On Fri, Jul 17, 2020 at 05:06:55AM +0300, Laurent Pinchart wrote:
->> On Thu, Jul 09, 2020 at 12:25:42PM +0200, Stefan Agner wrote:
->> > On 2020-06-16 03:50, Laurent Pinchart wrote:
->> >> On Thu, Jun 11, 2020 at 09:33:11PM +0200, Stefan Agner wrote:
->> >>> On 2020-05-30 05:10, Laurent Pinchart wrote:
->> >>>> The DRM simple display pipeline helper only supports a single plane. In
->> >>>> order to prepare for support of the alpha plane on i.MX6SX and i.MX7,
->> >>>> move away from the helper. No new feature is added.
->> >>>>
->> >>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> >>>> ---
->> >>>> Changes since v1:
->> >>>>
->> >>>> - Move after mxsfb_crtc.c rename to mxsfb_kms.c
->> >>>> ---
->> >>>>  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 108 +++---------------
->> >>>>  drivers/gpu/drm/mxsfb/mxsfb_drv.h |  23 ++--
->> >>>>  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 184 +++++++++++++++++++++++++++---
->> >>>>  3 files changed, 197 insertions(+), 118 deletions(-)
->> >>>>
->> >>>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
->> >>>> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
->> >>>> index 204c1e52e9aa..a8da92976d13 100644
->> >>>> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
->> >>>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
->> >>>> @@ -10,22 +10,23 @@
->> >>>>
->> >>>>  #include <linux/clk.h>
->> >>>>  #include <linux/dma-mapping.h>
->> >>>> +#include <linux/io.h>
->> >>>>  #include <linux/module.h>
->> >>>>  #include <linux/of_device.h>
->> >>>> +#include <linux/platform_device.h>
->> >>>>  #include <linux/pm_runtime.h>
->> >>>> -#include <linux/spinlock.h>
->> >>>>
->> >>>> -#include <drm/drm_atomic.h>
->> >>>>  #include <drm/drm_atomic_helper.h>
->> >>>> -#include <drm/drm_crtc.h>
->> >>>> +#include <drm/drm_bridge.h>
->> >>>> +#include <drm/drm_connector.h>
->> >>>>  #include <drm/drm_drv.h>
->> >>>>  #include <drm/drm_fb_helper.h>
->> >>>>  #include <drm/drm_gem_cma_helper.h>
->> >>>>  #include <drm/drm_gem_framebuffer_helper.h>
->> >>>>  #include <drm/drm_irq.h>
->> >>>> +#include <drm/drm_mode_config.h>
->> >>>>  #include <drm/drm_of.h>
->> >>>>  #include <drm/drm_probe_helper.h>
->> >>>> -#include <drm/drm_simple_kms_helper.h>
->> >>>>  #include <drm/drm_vblank.h>
->> >>>>
->> >>>>  #include "mxsfb_drv.h"
->> >>>> @@ -57,17 +58,6 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
->> >>>>  	},
->> >>>>  };
->> >>>>
->> >>>> -static const uint32_t mxsfb_formats[] = {
->> >>>> -	DRM_FORMAT_XRGB8888,
->> >>>> -	DRM_FORMAT_RGB565
->> >>>> -};
->> >>>> -
->> >>>> -static struct mxsfb_drm_private *
->> >>>> -drm_pipe_to_mxsfb_drm_private(struct drm_simple_display_pipe *pipe)
->> >>>> -{
->> >>>> -	return container_of(pipe, struct mxsfb_drm_private, pipe);
->> >>>> -}
->> >>>> -
->> >>>>  void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb)
->> >>>>  {
->> >>>>  	if (mxsfb->clk_axi)
->> >>>> @@ -90,77 +80,6 @@ static const struct drm_mode_config_helper_funcs
->> >>>> mxsfb_mode_config_helpers = {
->> >>>>  	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
->> >>>>  };
->> >>>>
->> >>>> -static void mxsfb_pipe_enable(struct drm_simple_display_pipe *pipe,
->> >>>> -			      struct drm_crtc_state *crtc_state,
->> >>>> -			      struct drm_plane_state *plane_state)
->> >>>> -{
->> >>>> -	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
->> >>>> -	struct drm_device *drm = pipe->plane.dev;
->> >>>> -
->> >>>> -	pm_runtime_get_sync(drm->dev);
->> >>>> -	mxsfb_crtc_enable(mxsfb);
->> >>>> -}
->> >>>> -
->> >>>> -static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
->> >>>> -{
->> >>>> -	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
->> >>>> -	struct drm_device *drm = pipe->plane.dev;
->> >>>> -	struct drm_crtc *crtc = &pipe->crtc;
->> >>>> -	struct drm_pending_vblank_event *event;
->> >>>> -
->> >>>> -	mxsfb_crtc_disable(mxsfb);
->> >>>> -	pm_runtime_put_sync(drm->dev);
->> >>>> -
->> >>>> -	spin_lock_irq(&drm->event_lock);
->> >>>> -	event = crtc->state->event;
->> >>>> -	if (event) {
->> >>>> -		crtc->state->event = NULL;
->> >>>> -		drm_crtc_send_vblank_event(crtc, event);
->> >>>> -	}
->> >>>> -	spin_unlock_irq(&drm->event_lock);
->> >>>> -}
->> >>>> -
->> >>>> -static void mxsfb_pipe_update(struct drm_simple_display_pipe *pipe,
->> >>>> -			      struct drm_plane_state *plane_state)
->> >>>> -{
->> >>>> -	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
->> >>>> -
->> >>>> -	mxsfb_plane_atomic_update(mxsfb, plane_state);
->> >>>> -}
->> >>>> -
->> >>>> -static int mxsfb_pipe_enable_vblank(struct drm_simple_display_pipe *pipe)
->> >>>> -{
->> >>>> -	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
->> >>>> -
->> >>>> -	/* Clear and enable VBLANK IRQ */
->> >>>> -	mxsfb_enable_axi_clk(mxsfb);
->> >>>> -	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>> -	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_SET);
->> >>>> -	mxsfb_disable_axi_clk(mxsfb);
->> >>>> -
->> >>>> -	return 0;
->> >>>> -}
->> >>>> -
->> >>>> -static void mxsfb_pipe_disable_vblank(struct drm_simple_display_pipe *pipe)
->> >>>> -{
->> >>>> -	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
->> >>>> -
->> >>>> -	/* Disable and clear VBLANK IRQ */
->> >>>> -	mxsfb_enable_axi_clk(mxsfb);
->> >>>> -	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>> -	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>> -	mxsfb_disable_axi_clk(mxsfb);
->> >>>> -}
->> >>>> -
->> >>>> -static struct drm_simple_display_pipe_funcs mxsfb_funcs = {
->> >>>> -	.enable		= mxsfb_pipe_enable,
->> >>>> -	.disable	= mxsfb_pipe_disable,
->> >>>> -	.update		= mxsfb_pipe_update,
->> >>>> -	.prepare_fb	= drm_gem_fb_simple_display_pipe_prepare_fb,
->> >>>> -	.enable_vblank	= mxsfb_pipe_enable_vblank,
->> >>>> -	.disable_vblank	= mxsfb_pipe_disable_vblank,
->> >>>> -};
->> >>>> -
->> >>>>  static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
->> >>>>  {
->> >>>>  	struct drm_device *drm = mxsfb->drm;
->> >>>> @@ -183,7 +102,7 @@ static int mxsfb_attach_bridge(struct
->> >>>> mxsfb_drm_private *mxsfb)
->> >>>>  	if (!bridge)
->> >>>>  		return -ENODEV;
->> >>>>
->> >>>> -	ret = drm_simple_display_pipe_attach_bridge(&mxsfb->pipe, bridge);
->> >>>> +	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL, 0);
->> >>>>  	if (ret) {
->> >>>>  		DRM_DEV_ERROR(drm->dev,
->> >>>>  			      "failed to attach bridge: %d\n", ret);
->> >>>> @@ -250,10 +169,9 @@ static int mxsfb_load(struct drm_device *drm,
->> >>>> unsigned long flags)
->> >>>>  	/* Modeset init */
->> >>>>  	drm_mode_config_init(drm);
->> >>>>
->> >>>> -	ret = drm_simple_display_pipe_init(drm, &mxsfb->pipe, &mxsfb_funcs,
->> >>>> -			mxsfb_formats, ARRAY_SIZE(mxsfb_formats), NULL, NULL);
->> >>>> +	ret = mxsfb_kms_init(mxsfb);
->> >>>>  	if (ret < 0) {
->> >>>> -		dev_err(drm->dev, "Cannot setup simple display pipe\n");
->> >>>> +		dev_err(drm->dev, "Failed to initialize KMS pipeline\n");
->> >>>>  		goto err_vblank;
->> >>>>  	}
->> >>>>
->> >>>> @@ -309,11 +227,11 @@ static void mxsfb_unload(struct drm_device *drm)
->> >>>>  	pm_runtime_disable(drm->dev);
->> >>>>  }
->> >>>>
->> >>>> -static void mxsfb_irq_preinstall(struct drm_device *drm)
->> >>>> +static void mxsfb_irq_disable(struct drm_device *drm)
->> >>>>  {
->> >>>>  	struct mxsfb_drm_private *mxsfb = drm->dev_private;
->> >>>>
->> >>>> -	mxsfb_pipe_disable_vblank(&mxsfb->pipe);
->> >>>> +	mxsfb->crtc.funcs->disable_vblank(&mxsfb->crtc);
->> >>>>  }
->> >>>>
->> >>>>  static irqreturn_t mxsfb_irq_handler(int irq, void *data)
->> >>>> @@ -327,7 +245,7 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
->> >>>>  	reg = readl(mxsfb->base + LCDC_CTRL1);
->> >>>>
->> >>>>  	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
->> >>>> -		drm_crtc_handle_vblank(&mxsfb->pipe.crtc);
->> >>>> +		drm_crtc_handle_vblank(&mxsfb->crtc);
->> >>>>
->> >>>>  	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>>
->> >>>> @@ -341,8 +259,8 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
->> >>>>  static struct drm_driver mxsfb_driver = {
->> >>>>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->> >>>>  	.irq_handler		= mxsfb_irq_handler,
->> >>>> -	.irq_preinstall		= mxsfb_irq_preinstall,
->> >>>> -	.irq_uninstall		= mxsfb_irq_preinstall,
->> >>>> +	.irq_preinstall		= mxsfb_irq_disable,
->> >>>> +	.irq_uninstall		= mxsfb_irq_disable,
->> >>>>  	.gem_free_object_unlocked = drm_gem_cma_free_object,
->> >>>>  	.gem_vm_ops		= &drm_gem_cma_vm_ops,
->> >>>>  	.dumb_create		= drm_gem_cma_dumb_create,
->> >>>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
->> >>>> b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
->> >>>> index 0e3e5a63bbf9..edd766ad254f 100644
->> >>>> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
->> >>>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
->> >>>> @@ -8,7 +8,12 @@
->> >>>>  #ifndef __MXSFB_DRV_H__
->> >>>>  #define __MXSFB_DRV_H__
->> >>>>
->> >>>> -struct drm_device;
->> >>>> +#include <drm/drm_crtc.h>
->> >>>> +#include <drm/drm_device.h>
->> >>>> +#include <drm/drm_encoder.h>
->> >>>> +#include <drm/drm_plane.h>
->> >>>> +
->> >>>> +struct clk;
->> >>>>
->> >>>>  struct mxsfb_devdata {
->> >>>>  	unsigned int	 transfer_count;
->> >>>> @@ -29,20 +34,22 @@ struct mxsfb_drm_private {
->> >>>>  	struct clk			*clk_disp_axi;
->> >>>>
->> >>>>  	struct drm_device		*drm;
->> >>>> -	struct drm_simple_display_pipe	pipe;
->> >>>> +	struct drm_plane		plane;
->> >>>> +	struct drm_crtc			crtc;
->> >>>> +	struct drm_encoder		encoder;
->> >>>>  	struct drm_connector		*connector;
->> >>>>  	struct drm_bridge		*bridge;
->> >>>>  };
->> >>>>
->> >>>> -int mxsfb_setup_crtc(struct drm_device *dev);
->> >>>> -int mxsfb_create_output(struct drm_device *dev);
->> >>>> +static inline struct mxsfb_drm_private *
->> >>>> +to_mxsfb_drm_private(struct drm_device *drm)
->> >>>> +{
->> >>>> +	return drm->dev_private;
->> >>>> +}
->> >>>>
->> >>>>  void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb);
->> >>>>  void mxsfb_disable_axi_clk(struct mxsfb_drm_private *mxsfb);
->> >>>>
->> >>>> -void mxsfb_crtc_enable(struct mxsfb_drm_private *mxsfb);
->> >>>> -void mxsfb_crtc_disable(struct mxsfb_drm_private *mxsfb);
->> >>>> -void mxsfb_plane_atomic_update(struct mxsfb_drm_private *mxsfb,
->> >>>> -			       struct drm_plane_state *state);
->> >>>> +int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb);
->> >>>>
->> >>>>  #endif /* __MXSFB_DRV_H__ */
->> >>>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> >>>> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> >>>> index c4f1575b4210..8f339adb8d04 100644
->> >>>> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> >>>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> >>>> @@ -9,15 +9,21 @@
->> >>>>   */
->> >>>>
->> >>>>  #include <linux/clk.h>
->> >>>> +#include <linux/io.h>
->> >>>>  #include <linux/iopoll.h>
->> >>>> +#include <linux/pm_runtime.h>
->> >>>>  #include <linux/spinlock.h>
->> >>>>
->> >>>> +#include <drm/drm_atomic.h>
->> >>>> +#include <drm/drm_atomic_helper.h>
->> >>>>  #include <drm/drm_bridge.h>
->> >>>>  #include <drm/drm_crtc.h>
->> >>>> +#include <drm/drm_encoder.h>
->> >>>>  #include <drm/drm_fb_cma_helper.h>
->> >>>>  #include <drm/drm_fourcc.h>
->> >>>>  #include <drm/drm_gem_cma_helper.h>
->> >>>> -#include <drm/drm_simple_kms_helper.h>
->> >>>> +#include <drm/drm_plane.h>
->> >>>> +#include <drm/drm_plane_helper.h>
->> >>>>  #include <drm/drm_vblank.h>
->> >>>>
->> >>>>  #include "mxsfb_drv.h"
->> >>>> @@ -26,6 +32,10 @@
->> >>>>  /* 1 second delay should be plenty of time for block reset */
->> >>>>  #define RESET_TIMEOUT		1000000
->> >>>>
->> >>>> +/*
->> >>>> -----------------------------------------------------------------------------
->> >>>> + * CRTC
->> >>>> + */
->> >>>> +
->> >>>>  static u32 set_hsync_pulse_width(struct mxsfb_drm_private *mxsfb, u32 val)
->> >>>>  {
->> >>>>  	return (val & mxsfb->devdata->hs_wdth_mask) <<
->> >>>> @@ -35,9 +45,8 @@ static u32 set_hsync_pulse_width(struct
->> >>>> mxsfb_drm_private *mxsfb, u32 val)
->> >>>>  /* Setup the MXSFB registers for decoding the pixels out of the framebuffer */
->> >>>>  static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
->> >>>>  {
->> >>>> -	struct drm_crtc *crtc = &mxsfb->pipe.crtc;
->> >>>> -	struct drm_device *drm = crtc->dev;
->> >>>> -	const u32 format = crtc->primary->state->fb->format->format;
->> >>>> +	struct drm_device *drm = mxsfb->drm;
->> >>>> +	const u32 format = mxsfb->crtc.primary->state->fb->format->format;
->> >>>>  	u32 ctrl, ctrl1;
->> >>>>
->> >>>>  	ctrl = CTRL_BYPASS_COUNT | CTRL_MASTER;
->> >>>> @@ -71,8 +80,7 @@ static int mxsfb_set_pixel_fmt(struct
->> >>>> mxsfb_drm_private *mxsfb)
->> >>>>
->> >>>>  static void mxsfb_set_bus_fmt(struct mxsfb_drm_private *mxsfb)
->> >>>>  {
->> >>>> -	struct drm_crtc *crtc = &mxsfb->pipe.crtc;
->> >>>> -	struct drm_device *drm = crtc->dev;
->> >>>> +	struct drm_device *drm = mxsfb->drm;
->> >>>>  	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
->> >>>>  	u32 reg;
->> >>>>
->> >>>> @@ -175,7 +183,7 @@ static int mxsfb_reset_block(struct
->> >>>> mxsfb_drm_private *mxsfb)
->> >>>>
->> >>>>  static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
->> >>>>  {
->> >>>> -	struct drm_framebuffer *fb = mxsfb->pipe.plane.state->fb;
->> >>>> +	struct drm_framebuffer *fb = mxsfb->plane.state->fb;
->> >>>>  	struct drm_gem_cma_object *gem;
->> >>>>
->> >>>>  	if (!fb)
->> >>>> @@ -190,8 +198,8 @@ static dma_addr_t mxsfb_get_fb_paddr(struct
->> >>>> mxsfb_drm_private *mxsfb)
->> >>>>
->> >>>>  static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb)
->> >>>>  {
->> >>>> -	struct drm_device *drm = mxsfb->pipe.crtc.dev;
->> >>>> -	struct drm_display_mode *m = &mxsfb->pipe.crtc.state->adjusted_mode;
->> >>>> +	struct drm_device *drm = mxsfb->crtc.dev;
->> >>>> +	struct drm_display_mode *m = &mxsfb->crtc.state->adjusted_mode;
->> >>>>  	u32 bus_flags = mxsfb->connector->display_info.bus_flags;
->> >>>>  	u32 vdctrl0, vsync_pulse_len, hsync_pulse_len;
->> >>>>  	int err;
->> >>>> @@ -273,10 +281,29 @@ static void mxsfb_crtc_mode_set_nofb(struct
->> >>>> mxsfb_drm_private *mxsfb)
->> >>>>  	       mxsfb->base + LCDC_VDCTRL4);
->> >>>>  }
->> >>>>
->> >>>> -void mxsfb_crtc_enable(struct mxsfb_drm_private *mxsfb)
->> >>>> +static int mxsfb_crtc_atomic_check(struct drm_crtc *crtc,
->> >>>> +				   struct drm_crtc_state *state)
->> >>>>  {
->> >>>> +	bool has_primary = state->plane_mask &
->> >>>> +			   drm_plane_mask(crtc->primary);
->> >>>> +
->> >>>> +	/* The primary plane has to be enabled when the CRTC is active. */
->> >>>> +	if (has_primary != state->active)
->> >>>> +		return -EINVAL;
->> >>>
->> >>> This actually fails some of the igt subtests of kms_vblank.
->> >>>
->> >>> I think it has to be:
->> >>> if (state->active && !has_primary)
->> >>>
->> >>> With that, all kms_vblank tests succeed (or are skipped).
->> >>>
->> >>> With that fixed:
->> >>> Reviewed-by: Stefan Agner <stefan@agner.ch>
->> >>
->> >> Good catch, this will be fixed in v3. Speaking of which, I'm still
->> >> missing your review on 02/22 and 22/22. Do you plan to have a look at
->> >> them ?
->> >
->> > Yeah sorry, I did initially miss them and sent a review a couple of
->> > weeks ago.
->> >
->> > Would be good if you can send a v3 soon, I think it should still be
->> > early enough to make it into the next merge window.
->>
->> I'm afraid I'm fairly busy at the moment :-( I'll try to give it a go
->> next week, but it will be too late for v5.9.
-> 
-> Turns out I had already sent a v3 a month ago :-) I'll send a rebased v4
-> shortly.
-> 
-
-Oh sorry, missed that one. I just checked my inbox and spam folder, but
-wasn't able to find it. I think you missed my email?
-https://lwn.net/Articles/823498/
-
-Thanks for v4! Will take care of it today or tomorrow.
-
---
-Stefan
-
->> >>>> +
->> >>>> +	/* TODO: Is this needed ? */
->> >>>> +	return drm_atomic_add_affected_planes(state->state, crtc);
->> >>>> +}
->> >>>> +
->> >>>> +static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
->> >>>> +				     struct drm_crtc_state *old_state)
->> >>>> +{
->> >>>> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
->> >>>> +	struct drm_device *drm = mxsfb->drm;
->> >>>>  	dma_addr_t paddr;
->> >>>>
->> >>>> +	pm_runtime_get_sync(drm->dev);
->> >>>> +
->> >>>>  	mxsfb_enable_axi_clk(mxsfb);
->> >>>>  	mxsfb_crtc_mode_set_nofb(mxsfb);
->> >>>>
->> >>>> @@ -290,17 +317,100 @@ void mxsfb_crtc_enable(struct mxsfb_drm_private *mxsfb)
->> >>>>  	mxsfb_enable_controller(mxsfb);
->> >>>>  }
->> >>>>
->> >>>> -void mxsfb_crtc_disable(struct mxsfb_drm_private *mxsfb)
->> >>>> +static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
->> >>>> +				      struct drm_crtc_state *old_state)
->> >>>>  {
->> >>>> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
->> >>>> +	struct drm_device *drm = mxsfb->drm;
->> >>>> +	struct drm_pending_vblank_event *event;
->> >>>> +
->> >>>>  	mxsfb_disable_controller(mxsfb);
->> >>>>  	mxsfb_disable_axi_clk(mxsfb);
->> >>>> +
->> >>>> +	pm_runtime_put_sync(drm->dev);
->> >>>> +
->> >>>> +	spin_lock_irq(&drm->event_lock);
->> >>>> +	event = crtc->state->event;
->> >>>> +	if (event) {
->> >>>> +		crtc->state->event = NULL;
->> >>>> +		drm_crtc_send_vblank_event(crtc, event);
->> >>>> +	}
->> >>>> +	spin_unlock_irq(&drm->event_lock);
->> >>>> +}
->> >>>> +
->> >>>> +static int mxsfb_crtc_enable_vblank(struct drm_crtc *crtc)
->> >>>> +{
->> >>>> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
->> >>>> +
->> >>>> +	/* Clear and enable VBLANK IRQ */
->> >>>> +	mxsfb_enable_axi_clk(mxsfb);
->> >>>> +	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>> +	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_SET);
->> >>>> +	mxsfb_disable_axi_clk(mxsfb);
->> >>>> +
->> >>>> +	return 0;
->> >>>> +}
->> >>>> +
->> >>>> +static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
->> >>>> +{
->> >>>> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
->> >>>> +
->> >>>> +	/* Disable and clear VBLANK IRQ */
->> >>>> +	mxsfb_enable_axi_clk(mxsfb);
->> >>>> +	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>> +	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
->> >>>> +	mxsfb_disable_axi_clk(mxsfb);
->> >>>> +}
->> >>>> +
->> >>>> +static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
->> >>>> +	.atomic_check = mxsfb_crtc_atomic_check,
->> >>>> +	.atomic_enable = mxsfb_crtc_atomic_enable,
->> >>>> +	.atomic_disable = mxsfb_crtc_atomic_disable,
->> >>>> +};
->> >>>> +
->> >>>> +static const struct drm_crtc_funcs mxsfb_crtc_funcs = {
->> >>>> +	.reset = drm_atomic_helper_crtc_reset,
->> >>>> +	.destroy = drm_crtc_cleanup,
->> >>>> +	.set_config = drm_atomic_helper_set_config,
->> >>>> +	.page_flip = drm_atomic_helper_page_flip,
->> >>>> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
->> >>>> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
->> >>>> +	.enable_vblank = mxsfb_crtc_enable_vblank,
->> >>>> +	.disable_vblank = mxsfb_crtc_disable_vblank,
->> >>>> +};
->> >>>> +
->> >>>> +/*
->> >>>> -----------------------------------------------------------------------------
->> >>>> + * Encoder
->> >>>> + */
->> >>>> +
->> >>>> +static const struct drm_encoder_funcs mxsfb_encoder_funcs = {
->> >>>> +	.destroy = drm_encoder_cleanup,
->> >>>> +};
->> >>>> +
->> >>>> +/*
->> >>>> -----------------------------------------------------------------------------
->> >>>> + * Planes
->> >>>> + */
->> >>>> +
->> >>>> +static int mxsfb_plane_atomic_check(struct drm_plane *plane,
->> >>>> +				    struct drm_plane_state *plane_state)
->> >>>> +{
->> >>>> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
->> >>>> +	struct drm_crtc_state *crtc_state;
->> >>>> +
->> >>>> +	crtc_state = drm_atomic_get_new_crtc_state(plane_state->state,
->> >>>> +						   &mxsfb->crtc);
->> >>>> +
->> >>>> +	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
->> >>>> +						   DRM_PLANE_HELPER_NO_SCALING,
->> >>>> +						   DRM_PLANE_HELPER_NO_SCALING,
->> >>>> +						   false, true);
->> >>>>  }
->> >>>>
->> >>>> -void mxsfb_plane_atomic_update(struct mxsfb_drm_private *mxsfb,
->> >>>> -			       struct drm_plane_state *state)
->> >>>> +static void mxsfb_plane_atomic_update(struct drm_plane *plane,
->> >>>> +				      struct drm_plane_state *old_pstate)
->> >>>>  {
->> >>>> -	struct drm_simple_display_pipe *pipe = &mxsfb->pipe;
->> >>>> -	struct drm_crtc *crtc = &pipe->crtc;
->> >>>> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
->> >>>> +	struct drm_crtc *crtc = &mxsfb->crtc;
->> >>>>  	struct drm_pending_vblank_event *event;
->> >>>>  	dma_addr_t paddr;
->> >>>>
->> >>>> @@ -324,3 +434,47 @@ void mxsfb_plane_atomic_update(struct
->> >>>> mxsfb_drm_private *mxsfb,
->> >>>>  		mxsfb_disable_axi_clk(mxsfb);
->> >>>>  	}
->> >>>>  }
->> >>>> +
->> >>>> +static const struct drm_plane_helper_funcs mxsfb_plane_helper_funcs = {
->> >>>> +	.atomic_check = mxsfb_plane_atomic_check,
->> >>>> +	.atomic_update = mxsfb_plane_atomic_update,
->> >>>> +};
->> >>>> +
->> >>>> +static const struct drm_plane_funcs mxsfb_plane_funcs = {
->> >>>> +	.update_plane		= drm_atomic_helper_update_plane,
->> >>>> +	.disable_plane		= drm_atomic_helper_disable_plane,
->> >>>> +	.destroy		= drm_plane_cleanup,
->> >>>> +	.reset			= drm_atomic_helper_plane_reset,
->> >>>> +	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
->> >>>> +	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
->> >>>> +};
->> >>>> +
->> >>>> +static const uint32_t mxsfb_formats[] = {
->> >>>> +	DRM_FORMAT_XRGB8888,
->> >>>> +	DRM_FORMAT_RGB565
->> >>>> +};
->> >>>> +
->> >>>> +int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
->> >>>> +{
->> >>>> +	struct drm_encoder *encoder = &mxsfb->encoder;
->> >>>> +	struct drm_plane *plane = &mxsfb->plane;
->> >>>> +	struct drm_crtc *crtc = &mxsfb->crtc;
->> >>>> +	int ret;
->> >>>> +
->> >>>> +	drm_plane_helper_add(plane, &mxsfb_plane_helper_funcs);
->> >>>> +	ret = drm_universal_plane_init(mxsfb->drm, plane, 0, &mxsfb_plane_funcs,
->> >>>> +				       mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
->> >>>> +				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
->> >>>> +	if (ret)
->> >>>> +		return ret;
->> >>>> +
->> >>>> +	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
->> >>>> +	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc, plane, NULL,
->> >>>> +					&mxsfb_crtc_funcs, NULL);
->> >>>> +	if (ret)
->> >>>> +		return ret;
->> >>>> +
->> >>>> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
->> >>>> +	return drm_encoder_init(mxsfb->drm, encoder, &mxsfb_encoder_funcs,
->> >>>> +				DRM_MODE_ENCODER_NONE, NULL);
->> >>>> +}
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjQuMDcuMjAgMTg6MzYsIEJvcmlzIE9zdHJvdnNreSB3cm90ZToKPiBPbiA3LzI0LzIwIDEw
+OjM0IEFNLCBEYXZpZCBIaWxkZW5icmFuZCB3cm90ZToKPj4gQ0NpbmcgRGFuCj4+Cj4+IE9uIDI0
+LjA3LjIwIDE0OjQyLCBSb2dlciBQYXUgTW9ubmUgd3JvdGU6Cj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy94ZW4vdW5wb3B1bGF0ZWQtYWxsb2MuYyBiL2RyaXZlcnMveGVuL3VucG9wdWxhdGVkLWFs
+bG9jLmMKPj4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4+PiBpbmRleCAwMDAwMDAwMDAwMDAuLmFh
+YTkxY2VmYmJmOQo+Pj4gLS0tIC9kZXYvbnVsbAo+Pj4gKysrIGIvZHJpdmVycy94ZW4vdW5wb3B1
+bGF0ZWQtYWxsb2MuYwo+Pj4gQEAgLTAsMCArMSwyMjIgQEAKPiAKPiAKPiAKPj4+ICsgKi8KPj4+
+ICsKPj4+ICsjaW5jbHVkZSA8bGludXgvZXJybm8uaD4KPj4+ICsjaW5jbHVkZSA8bGludXgvZ2Zw
+Lmg+Cj4+PiArI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPgo+Pj4gKyNpbmNsdWRlIDxsaW51eC9t
+bS5oPgo+Pj4gKyNpbmNsdWRlIDxsaW51eC9tZW1yZW1hcC5oPgo+Pj4gKyNpbmNsdWRlIDxsaW51
+eC9zbGFiLmg+Cj4+PiArCj4+PiArI2luY2x1ZGUgPGFzbS9wYWdlLmg+Cj4+PiArCj4+PiArI2lu
+Y2x1ZGUgPHhlbi9wYWdlLmg+Cj4+PiArI2luY2x1ZGUgPHhlbi94ZW4uaD4KPj4+ICsKPj4+ICtz
+dGF0aWMgREVGSU5FX01VVEVYKGxvY2spOwo+Pj4gK3N0YXRpYyBMSVNUX0hFQUQobGlzdCk7Cj4+
+PiArc3RhdGljIHVuc2lnbmVkIGludCBjb3VudDsKPj4+ICsKPj4+ICtzdGF0aWMgaW50IGZpbGwo
+dW5zaWduZWQgaW50IG5yX3BhZ2VzKQo+IAo+IAo+IExlc3MgZ2VuZXJpYyBuYW1lcz8gSG93IGFi
+b3V0wqAgbGlzdF9sb2NrLCBwZ19saXN0LCBwZ19jb3VudCwKPiBmaWxsX3BnbGlzdCgpPyAoQnV0
+IHRoZXNlIGFyZSBiYWQgdG9vLCBzbyBtYXliZSB5b3UgY2FuIGNvbWUgdXAgd2l0aAo+IHNvbWV0
+aGluZyBiZXR0ZXIpCj4gCj4gCj4+PiArewo+Pj4gKwlzdHJ1Y3QgZGV2X3BhZ2VtYXAgKnBnbWFw
+Owo+Pj4gKwl2b2lkICp2YWRkcjsKPj4+ICsJdW5zaWduZWQgaW50IGksIGFsbG9jX3BhZ2VzID0g
+cm91bmRfdXAobnJfcGFnZXMsIFBBR0VTX1BFUl9TRUNUSU9OKTsKPj4+ICsJaW50IG5pZCwgcmV0
+Owo+Pj4gKwo+Pj4gKwlwZ21hcCA9IGt6YWxsb2Moc2l6ZW9mKCpwZ21hcCksIEdGUF9LRVJORUwp
+Owo+Pj4gKwlpZiAoIXBnbWFwKQo+Pj4gKwkJcmV0dXJuIC1FTk9NRU07Cj4+PiArCj4+PiArCXBn
+bWFwLT50eXBlID0gTUVNT1JZX0RFVklDRV9ERVZEQVg7Cj4+PiArCXBnbWFwLT5yZXMubmFtZSA9
+ICJYRU4gU0NSQVRDSCI7Cj4gCj4gCj4gVHlwaWNhbGx5IGlvbWVtIHJlc291cmNlcyBvbmx5IGNh
+cGl0YWxpemUgZmlyc3QgbGV0dGVycy4KPiAKPiAKPj4+ICsJcGdtYXAtPnJlcy5mbGFncyA9IElP
+UkVTT1VSQ0VfTUVNIHwgSU9SRVNPVVJDRV9CVVNZOwo+Pj4gKwo+Pj4gKwlyZXQgPSBhbGxvY2F0
+ZV9yZXNvdXJjZSgmaW9tZW1fcmVzb3VyY2UsICZwZ21hcC0+cmVzLAo+Pj4gKwkJCQlhbGxvY19w
+YWdlcyAqIFBBR0VfU0laRSwgMCwgLTEsCj4+PiArCQkJCVBBR0VTX1BFUl9TRUNUSU9OICogUEFH
+RV9TSVpFLCBOVUxMLCBOVUxMKTsKPiAKPiAKPiBBcmUgd2Ugbm90IGdvaW5nIHRvIGVuZCB1cCB3
+aXRoIGEgd2hvbGUgYnVuY2ggb2YgIlhlbiBzY3JhdGNoIiByZXNvdXJjZQo+IHJhbmdlcyBmb3Ig
+ZWFjaCBtaXNzIGluIHRoZSBwYWdlIGxpc3Q/IE9yIGRvIHdlIGV4cGVjdCB0aGVtIHRvIGdldCBt
+ZXJnZWQ/Cj4gCgpBRkFJSywgbm8gcmVzb3VyY2VzIHdpbGwgZ2V0IG1lcmdlZCAoYW5kIGl0J3Mg
+aW4gdGhlIGdlbmVyYWwgY2FzZSBub3QKc2FmZSB0byBkbykuIFRoZSBvbGQgYXBwcm9hY2ggKGFk
+ZF9tZW1vcnlfcmVzb3VyY2UoKSkgd2lsbCBlbmQgdXAgd2l0aAp0aGUgc2FtZSBzaXR1YXRpb24g
+KCJYZW4gU2NyYXRjaCIgdnMuICJTeXN0ZW0gUkFNIikgb25lIG5ldyByZXNvdXJjZSBwZXIKYWRk
+ZWQgbWVtb3J5IGJsb2NrL3NlY3Rpb24uCgpGV0lXLCBJIGFtIGxvb2tpbmcgaW50byBtZXJnaW5n
+IHNlbGVjdGVkIHJlc291cmNlcyBpbiB0aGUgY29udGV4dCBvZgp2aXJ0aW8tbWVtIF9hZnRlcl8g
+YWRkaW5nIHN1Y2NlZWRlZCAobm90IGRpcmVjdGx5IHdoZW4gYWRkaW5nIHRoZQpyZXNvdXJjZSB0
+byB0aGUgdHJlZSkuIEludGVyZmFjZSBtaWdodCBsb29rIHNvbWV0aGluZyBsaWtlCgp2b2lkIG1l
+cmdlX2NoaWxkX21lbV9yZXNvdXJjZXMoc3RydWN0IHJlc291cmNlICpwYXJlbnQsIGNvbnN0IGNo
+YXIgKm5hbWUpOwoKU28gSSBjYW4sIGZvciBleGFtcGxlLCB0cmlnZ2VyIG1lcmdpbmcgb2YgYWxs
+ICJTeXN0ZW0gUkFNICh2aXJ0aW9fbWVtKSIKcmVzb3VyY2VzLCB0aGF0IGFyZSBsb2NhdGVkIHVu
+ZGVyIGEgZGV2aWNlIG5vZGUgKGUuZy4sICJ2aXJ0aW8wIikuCgpJIGFsc28gdGhvdWdodCBhYm91
+dCB0YWdnaW5nIGVhY2ggbWVyZ2VhYmxlIHJlc291cmNlIHZpYSBzb21ldGhpbmcgbGlrZQoiSU9S
+RVNPVVJDRV9NRVJHRUFCTEUiIC0gd2hlcmVieSB0aGUgdXNlciBhZ3JlZXMgdGhhdCBpdCBkb2Vz
+IG5vdCBob2xkCmFueSBwb2ludGVycyB0byBzdWNoIGEgcmVzb3VyY2UuIEJ1dCBJIGRvbid0IHNl
+ZSB5ZXQgYSBjb3BlbGxpbmcgcmVhc29uCnRvIHNhY3JpZmljZSBzcGFjZSBmb3IgYSBuZXcgZmxh
+Zy4KClNvIHdpdGggdGhpcyBpbiBwbGFjZSwgdGhpcyBjb2RlIGNvdWxkIGNhbGwgb25jZSBhZGRp
+bmcgc3VjY2VlZGVkCgptZXJnZV9jaGlsZF9tZW1fcmVzb3VyY2VzKCZpb21lbV9yZXNvdXJjZSwg
+IlhlbiBTY3JhdGNoIik7CgotLSAKVGhhbmtzLAoKRGF2aWQgLyBkaGlsZGVuYgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
