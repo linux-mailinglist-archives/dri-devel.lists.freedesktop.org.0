@@ -2,32 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DADE22EB4E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 13:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1077C22EBFC
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 14:23:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABE1289D84;
-	Mon, 27 Jul 2020 11:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 759F28808E;
+	Mon, 27 Jul 2020 12:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97F7D89D84
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 11:37:44 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 748D5ADB5;
- Mon, 27 Jul 2020 11:37:53 +0000 (UTC)
-Subject: Re: [PATCH 2/3] drm/ast: Store image size in HW cursor info
-To: daniel@ffwll.ch
-References: <20200727073707.21097-1-tzimmermann@suse.de>
- <20200727073707.21097-3-tzimmermann@suse.de>
- <20200727104250.GV6419@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8c92a1c5-59b8-6b36-5c45-20783b5435eb@suse.de>
-Date: Mon, 27 Jul 2020 13:37:39 +0200
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 795C68808E
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 12:23:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hq/NiFhgNCQXD4Whxp2ejBsLivpdkmpCRvIA2aDZ41xWlZkeFc8s71T6zR4ppneIQdMm4932bmkZmDNnXvhJEZo4qivzaTurGB4LbT9uF2FFpfQMdwGJ7oYUjH1Vm1O4W0xX0dnIDMr/HxlaU5PU00jIu/FqB24EtXRIabFBzC3R3GODvtU1cZDjGnn/r5AXJEFweGmsjZ3s3FW7c6sONSMs0lPlJMFZ3TSIVagisr8kGFOy6UaKy0Kk5ZuGVItRFUk62xstLrr4JPUhUhI9pfeb8OuFLVnzh8Z1EYkrDOtFjRKcpDuPe5ua9eXe+shfQDqvPW6hkB1r2YTq5eC4BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=52JXgw0X27eqAmpVNGOdwKBWOhJWZUoOPeb/nIg8sJY=;
+ b=NOZmtuEm3eX8EJDkX9ob8egPv4WXz0PjS9m0GhLqXVzYbSX4MIhMwlFu3aesRfFrL7jw+Q6IoDTFnIXjvRAJjWIheEMXZ5udlXU6k4zD1RHcnklPyRoht+lbGz02YFNcz0J1h8SBmBVJ0kTwHgtUuC7qGOvB1JvWTG800LCDzZVm4krJnMXEuu3hQes/N3tsc9GNy1+pUd+3NbGBk3+vfN7xk+GyQENd4kpj44m9d6vPnaZqqpuuW9ns1dB9c1QaB8Zj/rDqnOuUIji1TT5bsEg1iG7cvXuTyDPik2ddCP4wyBggJL/7TSaLF3BKwvJmOYNZh/cHA4zh6jginhv5cw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=52JXgw0X27eqAmpVNGOdwKBWOhJWZUoOPeb/nIg8sJY=;
+ b=R8LX2h4+YtoNigA6+H5RKfsG9y5VLyUz3zHlAB2yRIGzvEPP1bqZB6RDCtB13S0aLHsZqy/PO0iqm6uv0afwvAJyvEcFzov5zSTncimrhTiO62zkc6LmfwQr7ft6HwDfGUlvPIw9alLxaLny28CliGldSha9+Ffr/sYeznnIx4U=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2451.namprd12.prod.outlook.com (2603:10b6:207:4e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20; Mon, 27 Jul
+ 2020 12:23:16 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
+ 12:23:16 +0000
+Subject: Re: [PATCH 1/9] drm/ttm: initialize the system domain with defaults
+To: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>
+References: <20200723151621.3536-1-christian.koenig@amd.com>
+ <20200727094251.GO6419@phenom.ffwll.local>
+ <731e9553-81f3-752f-3e44-71027693d3bc@gmail.com>
+ <10da016f256f726b49c09f7440e0dc2c82809bbc.camel@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <419b0a05-63f7-3daa-8ebc-cc6636d8837b@amd.com>
+Date: Mon, 27 Jul 2020 14:23:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
+In-Reply-To: <10da016f256f726b49c09f7440e0dc2c82809bbc.camel@intel.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM3PR04CA0129.eurprd04.prod.outlook.com (2603:10a6:207::13)
+ To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <20200727104250.GV6419@phenom.ffwll.local>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM3PR04CA0129.eurprd04.prod.outlook.com (2603:10a6:207::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.22 via Frontend Transport; Mon, 27 Jul 2020 12:23:15 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 569cbb25-2a1c-4a39-b581-08d83227d6f2
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2451:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2451FECE469E2892E687AEE483720@BL0PR12MB2451.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cU4DV633+qnwHQUv1CJwUwZRUgDqPdf8OPaEKBRycP0taBzFE4b+zcrmb/I3RSneKDbmvOuE6E7sSBSBJTKWjw1+HcB86bTfHp15B3YPvxsYJRDra+6kTnhx1MDbASG4NVwWAqGJs/2x96kXHodgQBXKPhPYaOUuKK5tjsf7A9VmXhTo5k/3TOefhf76hsrgzmjQCURrpvrcV2VEMm7StjpR/cfVX7QT4S4TD4IFcJra8/CaNKlQN5BYnUIkOSiV1O5wwPmRKYUv56/NDcKFugl6jkaUOK+FKWZ+onrLfAmP2jtV1O/AeQTjqJnUCQQEZ29X7pioadK/tMZ9Po6/xxqnuapYOltpd2pxYxnpvNq912A8hwbMSWN5sCozr/5ftGNmATef4xt9Ha31oEpMJmooR3f/qaN5n5w2pfKVovw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(39860400002)(346002)(136003)(366004)(396003)(36756003)(83380400001)(86362001)(52116002)(31696002)(31686004)(66556008)(66476007)(66946007)(66574015)(5660300002)(4326008)(45080400002)(110136005)(6666004)(6486002)(478600001)(316002)(186003)(2616005)(966005)(8936002)(8676002)(16526019)(2906002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: j/JGuPzWmn8kqZjfAAoXIHXcqN1iancO/y1s/lt3Nq6MLYKkSW1u5wsgXTxG6yxSPCVMsmUoQq391N6i58j9hASTLDMRFnX91GOmjTF56D8+UjBV+yKAiVttLGZaqYCdNFNWiha+HHpNix6GcyDe+fIDB06xXisAqaSkgC4hTDmPvqBHxvdah8DP34u2qOVY9r9fVem+Hg3hWMr9GLjw6SKGPH6bJRxPYtCmjpfbdaBK7pG1baNXEDduUmaUAtAd6EZPxdHLSBPjJ74OT5BCv4kYEW3Sh7CwRy1qK0S7wwyf8PjGi0qKSkhIk1mIMste+kePyW2do9wIiUE1hrzXwYy23swsV4rtK3H3mPvw2abrAHwbW9xogIWGVxUBffqU0KWih4Wj0yJvNnK5pg6gHNJjAiGNrMuem+jxc0bEw6llXThNk3k5NuRAVdF91dvdYW1Ykw5dhTcK9dYaXyY/dm0k7s351rsHtb89zCt2RI9vHnhvjmmX/xHvtQvbsztiAcadun410Sk4z50DB4PYw48Bpqx84NYAeJZbuoNxy1bDd3cWXu6A2xr+6yn2vsS2
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 569cbb25-2a1c-4a39-b581-08d83227d6f2
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2020 12:23:16.7676 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NG76Hv8RJ6sAzgFvi6mdWzmVYJ6njsAEWhhiDwEbD88AR56OwLcFtZHGHRFZ6o0a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2451
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,240 +102,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- emil.l.velikov@gmail.com, stable@vger.kernel.org, kraxel@redhat.com,
- airlied@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1826861362=="
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1826861362==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="CmuSZk7dK7cCWP7ppEw3yAZs6wc1aPuGD"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CmuSZk7dK7cCWP7ppEw3yAZs6wc1aPuGD
-Content-Type: multipart/mixed; boundary="moSum8Rl9rGkQ40nN1I6ufdPQr9ySwFxF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
- stable@vger.kernel.org, sam@ravnborg.org
-Message-ID: <8c92a1c5-59b8-6b36-5c45-20783b5435eb@suse.de>
-Subject: Re: [PATCH 2/3] drm/ast: Store image size in HW cursor info
-References: <20200727073707.21097-1-tzimmermann@suse.de>
- <20200727073707.21097-3-tzimmermann@suse.de>
- <20200727104250.GV6419@phenom.ffwll.local>
-In-Reply-To: <20200727104250.GV6419@phenom.ffwll.local>
-
---moSum8Rl9rGkQ40nN1I6ufdPQr9ySwFxF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 27.07.20 um 12:42 schrieb daniel@ffwll.ch:
-> On Mon, Jul 27, 2020 at 09:37:06AM +0200, Thomas Zimmermann wrote:
->> Store the image size as part of the HW cursor info, so that the
->> cursor show function doesn't require the information from the
->> caller. No functional changes.
->=20
-> Uh just pass the state structure and done? All these "store random stuf=
-f
-> in private structures" (they're not even atomic state structures, it's =
-the
-> driver private thing even!) is very non-atomic. And I see zero reasons =
-why
-> you have to do this, the cursor stays around.
-
-It's not random stuff. Ast cannot use ARGB8888 for cursors. Anything in
-ast_private.cursor represents cursor hardware state (not DRM state);
-duplicated for double buffering.
-
- * gbo: two perma-pinned GEM objects at the end of VRAM. It's the HW
-cursor buffer in ARGB4444 format. The userspace's cursor image is
-converted to ARGB4444 and copied into the current backbuffer.
-
- * vaddr: A mapping of the gbo's into kernel address space. We don't
-want to map the gbo on each update, so they are mapped once and the
-kernel address is stored in vaddr.
-
- * size: the size of each HW buffer. We could use the value in the fb,
-but storing this as well makes the cursor code self-contained.
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Fixes: 4961eb60f145 ("drm/ast: Enable atomic modesetting")
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Gerd Hoffmann <kraxel@redhat.com>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: Emil Velikov <emil.l.velikov@gmail.com>
->> Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
->> Cc: <stable@vger.kernel.org> # v5.6+
->> ---
->>  drivers/gpu/drm/ast/ast_cursor.c | 13 +++++++++++--
->>  drivers/gpu/drm/ast/ast_drv.h    |  7 +++++--
->>  drivers/gpu/drm/ast/ast_mode.c   |  8 +-------
->>  3 files changed, 17 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/as=
-t_cursor.c
->> index acf0d23514e8..8642a0ce9da6 100644
->> --- a/drivers/gpu/drm/ast/ast_cursor.c
->> +++ b/drivers/gpu/drm/ast/ast_cursor.c
->> @@ -87,6 +87,8 @@ int ast_cursor_init(struct ast_private *ast)
->> =20
->>  		ast->cursor.gbo[i] =3D gbo;
->>  		ast->cursor.vaddr[i] =3D vaddr;
->> +		ast->cursor.size[i].width =3D 0;
->> +		ast->cursor.size[i].height =3D 0;
->>  	}
->> =20
->>  	return drmm_add_action_or_reset(dev, ast_cursor_release, NULL);
->> @@ -194,6 +196,9 @@ int ast_cursor_blit(struct ast_private *ast, struc=
-t drm_framebuffer *fb)
->>  	/* do data transfer to cursor BO */
->>  	update_cursor_image(dst, src, fb->width, fb->height);
->> =20
->> +	ast->cursor.size[ast->cursor.next_index].width =3D fb->width;
->> +	ast->cursor.size[ast->cursor.next_index].height =3D fb->height;
->> +
->>  	drm_gem_vram_vunmap(gbo, src);
->>  	drm_gem_vram_unpin(gbo);
->> =20
->> @@ -249,14 +254,18 @@ static void ast_cursor_set_location(struct ast_p=
-rivate *ast, u16 x, u16 y,
->>  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xc7, y1);
->>  }
->> =20
->> -void ast_cursor_show(struct ast_private *ast, int x, int y,
->> -		     unsigned int offset_x, unsigned int offset_y)
->> +void ast_cursor_show(struct ast_private *ast, int x, int y)
->>  {
->> +	unsigned int offset_x, offset_y;
->>  	u8 x_offset, y_offset;
->>  	u8 __iomem *dst, __iomem *sig;
->>  	u8 jreg;
->> =20
->>  	dst =3D ast->cursor.vaddr[ast->cursor.next_index];
->> +	offset_x =3D AST_MAX_HWC_WIDTH -
->> +		   ast->cursor.size[ast->cursor.next_index].width;
->> +	offset_y =3D AST_MAX_HWC_HEIGHT -
->> +		   ast->cursor.size[ast->cursor.next_index].height;
->> =20
->>  	sig =3D dst + AST_HWC_SIZE;
->>  	writel(x, sig + AST_HWC_SIGNATURE_X);
->> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_d=
-rv.h
->> index e3a264ac7ee2..57414b429db3 100644
->> --- a/drivers/gpu/drm/ast/ast_drv.h
->> +++ b/drivers/gpu/drm/ast/ast_drv.h
->> @@ -116,6 +116,10 @@ struct ast_private {
->>  	struct {
->>  		struct drm_gem_vram_object *gbo[AST_DEFAULT_HWC_NUM];
->>  		void __iomem *vaddr[AST_DEFAULT_HWC_NUM];
->> +		struct {
->> +			unsigned int width;
->> +			unsigned int height;
->> +		} size[AST_DEFAULT_HWC_NUM];
->>  		unsigned int next_index;
->>  	} cursor;
->> =20
->> @@ -311,8 +315,7 @@ void ast_release_firmware(struct drm_device *dev);=
-
->>  int ast_cursor_init(struct ast_private *ast);
->>  int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *=
-fb);
->>  void ast_cursor_page_flip(struct ast_private *ast);
->> -void ast_cursor_show(struct ast_private *ast, int x, int y,
->> -		     unsigned int offset_x, unsigned int offset_y);
->> +void ast_cursor_show(struct ast_private *ast, int x, int y);
->>  void ast_cursor_hide(struct ast_private *ast);
->> =20
->>  #endif
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
-mode.c
->> index 3680a000b812..5b2b39c93033 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -671,20 +671,14 @@ ast_cursor_plane_helper_atomic_update(struct drm=
-_plane *plane,
->>  				      struct drm_plane_state *old_state)
->>  {
->>  	struct drm_plane_state *state =3D plane->state;
->> -	struct drm_framebuffer *fb =3D state->fb;
->>  	struct ast_private *ast =3D plane->dev->dev_private;
->> -	unsigned int offset_x, offset_y;
->> -
->> -	offset_x =3D AST_MAX_HWC_WIDTH - fb->width;
->> -	offset_y =3D AST_MAX_HWC_WIDTH - fb->height;
->> =20
->>  	if (state->fb !=3D old_state->fb) {
->>  		/* A new cursor image was installed. */
->>  		ast_cursor_page_flip(ast);
->>  	}
->> =20
->> -	ast_cursor_show(ast, state->crtc_x, state->crtc_y,
->> -			offset_x, offset_y);
->> +	ast_cursor_show(ast, state->crtc_x, state->crtc_y);
->>  }
->> =20
->>  static void
->> --=20
->> 2.27.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---moSum8Rl9rGkQ40nN1I6ufdPQr9ySwFxF--
-
---CmuSZk7dK7cCWP7ppEw3yAZs6wc1aPuGD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8evIMUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOaewf/Td1IsttQNF4KERc+23/KgYJuRF6A
-jZeW2ilwy1wROmTGi3mCDMMt/puu1MYJU7tP3RErO/n6y7HK2UVDkoX/g55JThdt
-fopg2FZYmqXMNzEQAdgMHPrhv3fwSGtwhp+yp1Kcp2Hecu72Fkzqzmj/2d9Uz00x
-VimEC7GsmAFkQwdlI+X+RuHaHHugXctFVwQBH8TZuxdPRVRsLuaQkTc/AXX9nH3j
-Wf56Ce5dBzcTWfdJhBmZjFAkFsEnOTj11rAgzhzEJhSbG3A0TW/s1c0dbi0ga31o
-MN0i5/m74tIXFaGn5N6ftwOUsgz1jy8IYjsYJdZWcMLbbupJJJt5sUFhzw==
-=IeIN
------END PGP SIGNATURE-----
-
---CmuSZk7dK7cCWP7ppEw3yAZs6wc1aPuGD--
-
---===============1826861362==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1826861362==--
+QW0gMjcuMDcuMjAgdW0gMTI6NTAgc2NocmllYiBIZWxsc3Ryb20sIFRob21hczoKPiBPbiBNb24s
+IDIwMjAtMDctMjcgYXQgMTI6MzkgKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEFt
+IDI3LjA3LjIwIHVtIDExOjQyIHNjaHJpZWIgZGFuaWVsQGZmd2xsLmNoOgo+Pj4gT24gVGh1LCBK
+dWwgMjMsIDIwMjAgYXQgMDU6MTY6MTNQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
+Pj4+PiBJbnN0ZWFkIG9mIHJlcGVhdGluZyB0aGF0IGluIGVhY2ggZHJpdmVyLgo+Pj4+Cj4+Pj4g
+U2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
+Pgo+Pj4+IC0tLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0u
+YyAgICB8IDMgLS0tCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIu
+YyAgICAgIHwgMyAtLS0KPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Jv
+LmMgICAgICAgfCAzIC0tLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jICAg
+ICAgICAgICAgICB8IDMgLS0tCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25f
+dHRtLmMgICAgICAgIHwgMyAtLS0KPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
+ICAgICAgICAgICAgICAgfCAyICsrCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
+ZnhfdHRtX2J1ZmZlci5jIHwgMiAtLQo+Pj4+ICAgIDcgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRp
+b25zKCspLCAxNyBkZWxldGlvbnMoLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV90dG0uYwo+Pj4+IGluZGV4IDBkZDVlODAyMDkxZC4uZTU3YzQ5YTkxYjcz
+IDEwMDY0NAo+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0u
+Ywo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYwo+Pj4+
+IEBAIC04NCw5ICs4NCw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2luaXRfbWVtX3R5cGUoc3RydWN0
+Cj4+Pj4gdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPj4+PiAgICAJc3dpdGNo
+ICh0eXBlKSB7Cj4+Pj4gICAgCWNhc2UgVFRNX1BMX1NZU1RFTToKPj4+PiAgICAJCS8qIFN5c3Rl
+bSBtZW1vcnkgKi8KPj4+PiAtCQltYW4tPmZsYWdzID0gMDsKPj4+PiAtCQltYW4tPmF2YWlsYWJs
+ZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKPj4+PiAtCQltYW4tPmRlZmF1bHRfY2Fj
+aGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPj4+PiAgICAJCWJyZWFrOwo+Pj4+ICAgIAljYXNl
+IFRUTV9QTF9UVDoKPj4+PiAgICAJCS8qIEdUVCBtZW1vcnkgICovCj4+Pj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKPj4+PiBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKPj4+PiBpbmRleCAzMjk2ZWQzZGYzNTguLmJlMTc3
+YWZkZWI5YSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hl
+bHBlci5jCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYwo+
+Pj4+IEBAIC0xMDA5LDkgKzEwMDksNiBAQCBzdGF0aWMgaW50IGJvX2RyaXZlcl9pbml0X21lbV90
+eXBlKHN0cnVjdAo+Pj4+IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCj4+Pj4g
+ICAgewo+Pj4+ICAgIAlzd2l0Y2ggKHR5cGUpIHsKPj4+PiAgICAJY2FzZSBUVE1fUExfU1lTVEVN
+Ogo+Pj4+IC0JCW1hbi0+ZmxhZ3MgPSAwOwo+Pj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcg
+PSBUVE1fUExfTUFTS19DQUNISU5HOwo+Pj4+IC0JCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRN
+X1BMX0ZMQUdfQ0FDSEVEOwo+Pj4+ICAgIAkJYnJlYWs7Cj4+Pj4gICAgCWNhc2UgVFRNX1BMX1ZS
+QU06Cj4+Pj4gICAgCQltYW4tPmZ1bmMgPSAmdHRtX2JvX21hbmFnZXJfZnVuYzsKPj4+PiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jCj4+Pj4gYi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPj4+PiBpbmRleCA0Y2NmOTM3ZGYwZDAu
+LjUzYWYyNTAyMGJiMiAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9u
+b3V2ZWF1X2JvLmMKPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Jv
+LmMKPj4+PiBAQCAtNjU1LDkgKzY1NSw2IEBAIG5vdXZlYXVfYm9faW5pdF9tZW1fdHlwZShzdHJ1
+Y3QgdHRtX2JvX2RldmljZQo+Pj4+ICpiZGV2LCB1aW50MzJfdCB0eXBlLAo+Pj4+ICAgIAo+Pj4+
+ICAgIAlzd2l0Y2ggKHR5cGUpIHsKPj4+PiAgICAJY2FzZSBUVE1fUExfU1lTVEVNOgo+Pj4+IC0J
+CW1hbi0+ZmxhZ3MgPSAwOwo+Pj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExf
+TUFTS19DQUNISU5HOwo+Pj4+IC0JCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdf
+Q0FDSEVEOwo+Pj4+ICAgIAkJYnJlYWs7Cj4+Pj4gICAgCWNhc2UgVFRNX1BMX1ZSQU06Cj4+Pj4g
+ICAgCQltYW4tPmZsYWdzID0gVFRNX01FTVRZUEVfRkxBR19GSVhFRDsKPj4+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9x
+eGwvcXhsX3R0bS5jCj4+Pj4gaW5kZXggMWQ4ZTA3YjhiMTllLi5lOWI4YzkyMWMxZjAgMTAwNjQ0
+Cj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKPj4+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYwo+Pj4+IEBAIC01NCw5ICs1NCw2IEBAIHN0YXRpYyBp
+bnQgcXhsX2luaXRfbWVtX3R5cGUoc3RydWN0Cj4+Pj4gdHRtX2JvX2RldmljZSAqYmRldiwgdWlu
+dDMyX3QgdHlwZSwKPj4+PiAgICAJc3dpdGNoICh0eXBlKSB7Cj4+Pj4gICAgCWNhc2UgVFRNX1BM
+X1NZU1RFTToKPj4+PiAgICAJCS8qIFN5c3RlbSBtZW1vcnkgKi8KPj4+PiAtCQltYW4tPmZsYWdz
+ID0gMDsKPj4+PiAtCQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElO
+RzsKPj4+PiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPj4+
+PiAgICAJCWJyZWFrOwo+Pj4+ICAgIAljYXNlIFRUTV9QTF9WUkFNOgo+Pj4+ICAgIAljYXNlIFRU
+TV9QTF9QUklWOgo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
+bl90dG0uYwo+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPj4+PiBp
+bmRleCBiNDc0NzgxYTA5MjAuLmI0Y2I3NTM2MTU3NyAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9y
+YWRlb24vcmFkZW9uX3R0bS5jCj4+Pj4gQEAgLTc2LDkgKzc2LDYgQEAgc3RhdGljIGludCByYWRl
+b25faW5pdF9tZW1fdHlwZShzdHJ1Y3QKPj4+PiB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50MzJf
+dCB0eXBlLAo+Pj4+ICAgIAlzd2l0Y2ggKHR5cGUpIHsKPj4+PiAgICAJY2FzZSBUVE1fUExfU1lT
+VEVNOgo+Pj4+ICAgIAkJLyogU3lzdGVtIG1lbW9yeSAqLwo+Pj4+IC0JCW1hbi0+ZmxhZ3MgPSAw
+Owo+Pj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+
+Pj4+IC0JCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfQ0FDSEVEOwo+Pj4+ICAg
+IAkJYnJlYWs7Cj4+Pj4gICAgCWNhc2UgVFRNX1BMX1RUOgo+Pj4+ICAgIAkJbWFuLT5mdW5jID0g
+JnR0bV9ib19tYW5hZ2VyX2Z1bmM7Cj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX2JvLmMKPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPj4+PiBpbmRl
+eCA3YzAyY2U3ODQ4MDUuLjFmMWY5ZTQ2MzI2NSAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9iby5jCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8u
+Ywo+Pj4+IEBAIC0xNjc3LDYgKzE2NzcsOCBAQCBpbnQgdHRtX2JvX2RldmljZV9pbml0KHN0cnVj
+dCB0dG1fYm9fZGV2aWNlCj4+Pj4gKmJkZXYsCj4+Pj4gICAgCSAqIEluaXRpYWxpemUgdGhlIHN5
+c3RlbSBtZW1vcnkgYnVmZmVyIHR5cGUuCj4+Pj4gICAgCSAqIE90aGVyIHR5cGVzIG5lZWQgdG8g
+YmUgZHJpdmVyIC8gSU9DVEwgaW5pdGlhbGl6ZWQuCj4+Pj4gICAgCSAqLwo+Pj4+ICsJYmRldi0+
+bWFuW1RUTV9QTF9TWVNURU1dLmF2YWlsYWJsZV9jYWNoaW5nID0KPj4+PiBUVE1fUExfTUFTS19D
+QUNISU5HOwo+Pj4+ICsJYmRldi0+bWFuW1RUTV9QTF9TWVNURU1dLmRlZmF1bHRfY2FjaGluZyA9
+IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPj4+PiAgICAJcmV0ID0gdHRtX2JvX2luaXRfbW0oYmRldiwg
+VFRNX1BMX1NZU1RFTSwgMCk7Cj4+Pj4gICAgCWlmICh1bmxpa2VseShyZXQgIT0gMCkpCj4+Pj4g
+ICAgCQlnb3RvIG91dF9ub19zeXM7Cj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92
+bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
+bXdnZnhfdHRtX2J1ZmZlci5jCj4+Pj4gaW5kZXggMWQ3ODE4N2VhYmE2Li4wMGNlZjFhM2ExNzgg
+MTAwNjQ0Cj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZl
+ci5jCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5j
+Cj4+Pj4gQEAgLTc0Miw4ICs3NDIsNiBAQCBzdGF0aWMgaW50IHZtd19pbml0X21lbV90eXBlKHN0
+cnVjdAo+Pj4+IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90IHR5cGUsCj4+Pj4gICAgCXN3
+aXRjaCAodHlwZSkgewo+Pj4+ICAgIAljYXNlIFRUTV9QTF9TWVNURU06Cj4+Pj4gICAgCQkvKiBT
+eXN0ZW0gbWVtb3J5ICovCj4+Pj4gLQkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9G
+TEFHX0NBQ0hFRDsKPj4+IEFib3ZlIGlzIENBQ0hFRCwgbm90IENBQ0hJTkcsIHNvIG5lZWRzIHRv
+IHN0YXkgdG8gb3ZlcndyaXRlIHRoZQo+Pj4gZGVmYXVsdC4KPj4gQ3JhcCBJIG1pc3NlZCB0aGF0
+LiBQcm9ibGVtIGlzIHRoYXQgSSB3YW50ZWQgdG8gcmVtb3ZlIHRoZQo+PiBwb3NzaWJpbGl0eQo+
+PiB0byBpbml0IHRoZSBzeXN0ZW0gZG9tYWluIHdpdGggZGlmZmVyZW50IGNhY2hpbmcgYXR0cmli
+dXRlcy4KPj4KPj4gSSBkb24ndCBzZWUgaG93IHZtd2dmeCBpcyBldmVyeSBnb2luZyB0byB1c2Ug
+dGhpcz8gVGhvbWFzIGRvIHlvdQo+PiBoYXZlCj4+IGFueSBpZGVhIHdoYXQgdGhpcyB3YXMgZ29v
+ZCBmb3I/Cj4gSSBpbnRlcnByZXQgdGhhdCBsaWtlIHZtd2dmeCBjYW4ndCBoYW5kbGUgYW55IG90
+aGVyIGNhY2hpbmcgYXR0cmlidXRlCj4gdGhhbiAnY2FjaGVkJy4gQnV0IEkgY2FuJ3Qgc2VlIGFu
+eW9uZSBmZWVkaW5nIHZtd2dmeCBzeXN0ZW0gbWVtb3J5Cj4gYnVmZmVycyB3aXRoIG90aGVyIGNh
+Y2hpbmcgYXR0cmlidXRlcy4gSW4gdGhhdCBjYXNlLCB0aG9zZSB3b3VsZCBiZQo+IGlnbm9yZWQu
+CgpZZWFoLCBhZ3JlZS4gU28gYW55IG9iamVjdGlvbnMgdG8gY2hhbmdlIHRoYXQgc2V0dGluZyBp
+biB2bXdnZng/CgpUaGlzIHdheSB3ZSBjb3VsZCBoYXZlIHRoZSBzYW1lIHNldHRpbmdzIGZvciBh
+bGwgZHJpdmVycyBpbiB0aGUga2VybmVsIAphbmQgSSBkb24ndCBzZWUgd2h5IGFueSBkcml2ZXIg
+c2hvdWxkIGhhdmUgc29tZXRoaW5nIHNwZWNpYWwgaGVyZS4KCkNocmlzdGlhbi4KCj4KPiAvVGhv
+bWFzCj4KPgo+PiBUaGFua3MsCj4+IENocmlzdGlhbi4KPj4KPj4+IFdpdGggdGhhdCBmaXhlZDoK
+Pj4+Cj4+PiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
+aD4KPj4+Cj4+Pj4gLQkJbWFuLT5kZWZhdWx0X2NhY2hpbmcgPSBUVE1fUExfRkxBR19DQUNIRUQ7
+Cj4+Pj4gICAgCQlicmVhazsKPj4+PiAgICAJY2FzZSBUVE1fUExfVlJBTToKPj4+PiAgICAJCS8q
+ICJPbi1jYXJkIiB2aWRlbyByYW0gKi8KPj4+PiAtLSAKPj4+PiAyLjE3LjEKPj4+Pgo+Pj4+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+Pj4gZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdAo+Pj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+
+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0
+cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZk
+cmktZGV2ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdD
+NjY5OTEzODM4ODRjNDZhNzlmNDYwOGQ4MzIxYWUxMzYlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4
+MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3MzE0NDM4MzIzMjU1MTkzJmFtcDtzZGF0YT1ZODZRSmRu
+clRtaGFHNVN4MU5tS2FlVWJiT2tyVnZRUVAlMkJCQjI5U3VBOUklM0QmYW1wO3Jlc2VydmVkPTAK
+PiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCj4gSW50ZWwgU3dlZGVuIEFCCj4gUmVnaXN0ZXJlZCBPZmZpY2U6IElz
+YWZqb3Jkc2dhdGFuIDMwQiwgMTY0IDQwIEtpc3RhLCBTdG9ja2hvbG0sIFN3ZWRlbgo+IFJlZ2lz
+dHJhdGlvbiBOdW1iZXI6IDU1NjE4OS02MDI3Cj4KPiBUaGlzIGUtbWFpbCBhbmQgYW55IGF0dGFj
+aG1lbnRzIG1heSBjb250YWluIGNvbmZpZGVudGlhbCBtYXRlcmlhbCBmb3IKPiB0aGUgc29sZSB1
+c2Ugb2YgdGhlIGludGVuZGVkIHJlY2lwaWVudChzKS4gQW55IHJldmlldyBvciBkaXN0cmlidXRp
+b24KPiBieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3QgdGhl
+IGludGVuZGVkCj4gcmVjaXBpZW50LCBwbGVhc2UgY29udGFjdCB0aGUgc2VuZGVyIGFuZCBkZWxl
+dGUgYWxsIGNvcGllcy4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
