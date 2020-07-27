@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4293B22F3E3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 17:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A9122F3F1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 17:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9408E89C99;
-	Mon, 27 Jul 2020 15:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17C7089BA1;
+	Mon, 27 Jul 2020 15:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7350289C99
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 15:32:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 201B989A88
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 15:37:15 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207901] Nouveau: In a 4 monitor setup, 1-2 displays remains
  black after boot
-Date: Mon, 27 Jul 2020 15:32:42 +0000
+Date: Mon, 27 Jul 2020 15:37:14 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mauricegale1@gmail.com
+X-Bugzilla-Who: imirkin@alum.mit.edu
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207901-2300-y07cb0qMOo@https.bugzilla.kernel.org/>
+Message-ID: <bug-207901-2300-18imjzWcGD@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207901-2300@https.bugzilla.kernel.org/>
 References: <bug-207901-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,18 +59,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207901
 
---- Comment #26 from Maurice Gale (mauricegale1@gmail.com) ---
-Sorry for the delay and the mistake. It loaded the 5.3 kernel by default. I
-recreated the log using 5.7-rc5 with the i2c timeout patch. I also added the
-new grub options. The file size is much larger than the old one, so it should
-be correct this time.
-
-I noticed that I have more luck getting all monitors displayed when I do not
-have the Display->MiniDisplay connected (Swap it out for Display->HDMI). It
-seems as though mini display is causing some issues.
-
-Again, thank you so much for your help, and please let me know if you need
-anything else.
+--- Comment #27 from Ilia Mirkin (imirkin@alum.mit.edu) ---
+DP -> HDMI is, most likely, just passive, so the displays are being driven as
+HDMI rather than as DP. DP is the problematic protocol...
 
 -- 
 You are receiving this mail because:
