@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2EE22F777
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 20:14:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B251522F77E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 20:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603E289DCF;
-	Mon, 27 Jul 2020 18:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD7B89F2E;
+	Mon, 27 Jul 2020 18:14:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
- [209.85.166.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D75EC89DCF;
- Mon, 27 Jul 2020 18:13:58 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id t18so13949804ilh.2;
- Mon, 27 Jul 2020 11:13:58 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D9789F2E;
+ Mon, 27 Jul 2020 18:14:20 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id t142so9326520wmt.4;
+ Mon, 27 Jul 2020 11:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=oweP9/5P4IwfXq7FRGFpzMEQgr6J1hZ6crzxPuNCiqY=;
+ b=e+vB9jT04h1RqsV7Fy7tiIT+AHPMYl/g2rFgZntMj6RpzHGLDjLAI8bOB/FL+yBNX/
+ 9qn331OfOwaU3a8WYOhf3CAAJYYXHhs4KMXgtBWnexxEufuchYEnVKcDBSXzVUispykn
+ PR40AH4VCMOWPdvJgpX6acxF7DBqNP8KyP2q4AIPqMVFUtDLmsCl6VmFgcNrsvst1eG9
+ klrjBAOThyjIG0dioA2ojFxTUJn17xbtsqRdZ6z0B6yZtinAFVZ395Hi2lInjq360Fl9
+ UtHO5WaCd+wmaxPB5DTQj2gwpModMlRNzeqY5m7liEbD/D9B33L3Io0obgG6UCAB3VY/
+ xNiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qphSXwUDbDL/STSwZyNfj+0kNYsQNz0+uZs8OU4m+yA=;
- b=IEEpJRJ1Q+61SGdgW9relMJy0PPxl97JOdnMMsJ6KJtm4XRLWi6Ri2C/lct7LQIeq9
- RjtHjMsehEh59wtydBqUclexT2MCs4wFIHl6o54jjtRBx+glj3myKEQY4+LDnpVoo9QJ
- cS+wfdMSfBJ2yvgE85LKwzOuXstaPhDEJVsWgbXAGVMYem92UwzDDiUTsEA5U8KeDVBp
- 0987H5P+RPC/bXZ8awEQMCqyMAo0nVKV5Os8grkknb4E6+PMC47gLATMpkL9YGAccnqJ
- WNoCDkpYHO1YyXLXOTEIixkcfLJbj5gdM3Cyw2DPOBd84vbJVcJlbYvduFRuqrj7VHgU
- C2Mw==
-X-Gm-Message-State: AOAM530xSE8E50IAwAu3QmscJW22NGBXGMVMSapPklAnmHufkLM2jaTe
- ZaNZHkP7/1Fux2lqH4mPQg==
-X-Google-Smtp-Source: ABdhPJxgiypIQYIODHYWAN1gC3+lDaAHwErFKahF6Ut43xD7/abYM0/1Z1iU78NrtHLEqfkyGnVtBQ==
-X-Received: by 2002:a05:6e02:1213:: with SMTP id
- a19mr3107446ilq.129.1595873638096; 
- Mon, 27 Jul 2020 11:13:58 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id z68sm1237830ilf.25.2020.07.27.11.13.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 11:13:57 -0700 (PDT)
-Received: (nullmailer pid 638572 invoked by uid 1000);
- Mon, 27 Jul 2020 18:13:52 -0000
-Date: Mon, 27 Jul 2020 12:13:52 -0600
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konradybcio@gmail.com>
-Subject: Re: [PATCH 9/9] soc/qcom: Add REVID driver
-Message-ID: <20200727181352.GB634850@bogus>
-References: <20200726111215.22361-1-konradybcio@gmail.com>
- <20200726111215.22361-10-konradybcio@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oweP9/5P4IwfXq7FRGFpzMEQgr6J1hZ6crzxPuNCiqY=;
+ b=orZPTEsm2E8AqGd1DPFbhqUP8yUq4+N/MFuAHjju0LFB/Q//EUWG7jaJJrx/Nhd+zX
+ c+GCaweqTAR7gIdNWBGQg3SKAZaJkllGlKly8m3Agd34da7a+wICMJ9Mhs1zhAuU/t5+
+ SxtaC9SUzWfegdCOQeF1rPTi4eiC3fe5COe5gdNdnuAlzZkZ2JpcWsI0Jxc2GkW6qsgW
+ SLR4LI+tx0+Xhm7uATONrtCJ6HXlABAd0V3c/GuwMTQOM2LpPcL52OPWizJG0Q0YzZKd
+ e9x7CA/fJr2BzUTMBCCy7Ycp2AHb15pMTaq87XsLGV31H4u2aaaLxArdHfvSr3wNZoVP
+ DsoA==
+X-Gm-Message-State: AOAM533iRz02Zxaht19FwDEk+XsZprtWByY0cDz9DwM7GboEUprKP5gu
+ TFSdtobT9nBNd6BXQzXJz5NEOFdNbzNKuDGNpCs=
+X-Google-Smtp-Source: ABdhPJwDf3NQVRSMOOvQ3/gDp3spLrysuALfIbGNUz8NSRkrcu7vnDQpr1MxHquSAobzWw/p7CVeHkm3ribJUJCaGHA=
+X-Received: by 2002:a7b:c941:: with SMTP id i1mr429279wml.73.1595873658666;
+ Mon, 27 Jul 2020 11:14:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200726111215.22361-10-konradybcio@gmail.com>
+References: <20200727103421.50739-1-christophe.jaillet@wanadoo.fr>
+ <224fc7f6-f56b-1dc8-87f2-33ff85d5720d@gmail.com>
+In-Reply-To: <224fc7f6-f56b-1dc8-87f2-33ff85d5720d@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 27 Jul 2020 14:14:07 -0400
+Message-ID: <CADnq5_MKR9SC947WCN6Qp4BLhrK03=FtT7hD7b+DwNQ46krmkQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/radeon: switch from 'pci_' to 'dma_' API
+To: Christian Koenig <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,78 +62,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Wilczynski <kw@linux.com>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
- Kishon Vijay Abraham I <kishon@ti.com>, martin.botka1@gmail.com,
- Andy Gross <agross@kernel.org>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, Xiaozhe Shi <xiaozhes@codeaurora.org>,
- Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
- Ben Dooks <ben.dooks@codethink.co.uk>, Felipe Balbi <balbi@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, zhengbin <zhengbin13@huawei.com>,
- Manu Gautam <mgautam@codeaurora.org>, Vinod Koul <vkoul@kernel.org>,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 Jul 2020 13:12:06 +0200, Konrad Dybcio wrote:
-> From: Xiaozhe Shi <xiaozhes@codeaurora.org>
-> 
-> Add the REVID device driver. The REVID driver will print out the PMIC
-> revision at probe time.
-> 
-> Signed-off-by: Xiaozhe Shi <xiaozhes@codeaurora.org>
-> [konradybcio@gmail.com: Fast-forward the driver from kernel 4.14 to 5.8,
-> convert binding to yaml]
-> Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
-> ---
->  .../bindings/soc/qcom/qcom,qpnp-revid.yaml    |  38 ++
->  drivers/soc/qcom/Kconfig                      |   9 +
->  drivers/soc/qcom/Makefile                     |   1 +
->  drivers/soc/qcom/qpnp-revid.c                 | 288 ++++++++++++++
->  include/linux/qpnp/qpnp-revid.h               | 369 ++++++++++++++++++
->  5 files changed, 705 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml
->  create mode 100644 drivers/soc/qcom/qpnp-revid.c
->  create mode 100644 include/linux/qpnp/qpnp-revid.h
-> 
-
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml:  while scanning a block scalar
-  in "<unicode string>", line 22, column 18
-found a tab character where an indentation space is expected
-  in "<unicode string>", line 24, column 1
-Documentation/devicetree/bindings/Makefile:20: recipe for target 'Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.example.dts' failed
-make[1]: *** [Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml
-Makefile:1347: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
-
-
-See https://patchwork.ozlabs.org/patch/1336467
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIE1vbiwgSnVsIDI3LCAyMDIwIGF0IDk6NDIgQU0g
+Q2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3Rl
+Ogo+Cj4gQW0gMjcuMDcuMjAgdW0gMTI6MzQgc2NocmllYiBDaHJpc3RvcGhlIEpBSUxMRVQ6Cj4g
+PiBUaGUgd3JhcHBlcnMgaW4gaW5jbHVkZS9saW51eC9wY2ktZG1hLWNvbXBhdC5oIHNob3VsZCBn
+byBhd2F5Lgo+ID4KPiA+IFRoZSBwYXRjaCBoYXMgYmVlbiBnZW5lcmF0ZWQgd2l0aCB0aGUgY29j
+Y2luZWxsZSBzY3JpcHQgYmVsb3cgYW5kIGhhcyBiZWVuCj4gPiBoYW5kIG1vZGlmaWVkIHRvIHJl
+cGxhY2UgR0ZQXyB3aXRoIGEgY29ycmVjdCBmbGFnLgo+ID4gSXQgaGFzIGJlZW4gY29tcGlsZSB0
+ZXN0ZWQuCj4gPgo+ID4gV2hlbiBtZW1vcnkgaXMgYWxsb2NhdGVkIGluICdyYWRlb25fZ2FydF90
+YWJsZV9yYW1fYWxsb2MoKScgR0ZQX0tFUk5FTAo+ID4gY2FuIGJlIHVzZWQgYmVjYXVzZSBpdHMg
+Y2FsbGVycyBhbHJlYWR5IHVzZSB0aGlzIGZsYWcuCj4gPgo+ID4gQm90aCAncjEwMF9wY2lfZ2Fy
+dF9pbml0KCknIChyMTAwLmMpIGFuZCAncnM0MDBfZ2FydF9pbml0KCknIChyczQwMC5jKQo+ID4g
+Y2FsbCAncmFkZW9uX2dhcnRfaW5pdCgpJy4KPiA+IFRoaXMgZnVuY3Rpb24gdXNlcyAndm1hbGxv
+YycuCj4gPgo+ID4KPiA+IEBACj4gPiBAQAo+ID4gLSAgICBQQ0lfRE1BX0JJRElSRUNUSU9OQUwK
+PiA+ICsgICAgRE1BX0JJRElSRUNUSU9OQUwKPiA+Cj4gPiBAQAo+ID4gQEAKPiA+IC0gICAgUENJ
+X0RNQV9UT0RFVklDRQo+ID4gKyAgICBETUFfVE9fREVWSUNFCj4gPgo+ID4gQEAKPiA+IEBACj4g
+PiAtICAgIFBDSV9ETUFfRlJPTURFVklDRQo+ID4gKyAgICBETUFfRlJPTV9ERVZJQ0UKPiA+Cj4g
+PiBAQAo+ID4gQEAKPiA+IC0gICAgUENJX0RNQV9OT05FCj4gPiArICAgIERNQV9OT05FCj4gPgo+
+ID4gQEAKPiA+IGV4cHJlc3Npb24gZTEsIGUyLCBlMzsKPiA+IEBACj4gPiAtICAgIHBjaV9hbGxv
+Y19jb25zaXN0ZW50KGUxLCBlMiwgZTMpCj4gPiArICAgIGRtYV9hbGxvY19jb2hlcmVudCgmZTEt
+PmRldiwgZTIsIGUzLCBHRlBfKQo+ID4KPiA+IEBACj4gPiBleHByZXNzaW9uIGUxLCBlMiwgZTM7
+Cj4gPiBAQAo+ID4gLSAgICBwY2lfemFsbG9jX2NvbnNpc3RlbnQoZTEsIGUyLCBlMykKPiA+ICsg
+ICAgZG1hX2FsbG9jX2NvaGVyZW50KCZlMS0+ZGV2LCBlMiwgZTMsIEdGUF8pCj4gPgo+ID4gQEAK
+PiA+IGV4cHJlc3Npb24gZTEsIGUyLCBlMywgZTQ7Cj4gPiBAQAo+ID4gLSAgICBwY2lfZnJlZV9j
+b25zaXN0ZW50KGUxLCBlMiwgZTMsIGU0KQo+ID4gKyAgICBkbWFfZnJlZV9jb2hlcmVudCgmZTEt
+PmRldiwgZTIsIGUzLCBlNCkKPiA+Cj4gPiBAQAo+ID4gZXhwcmVzc2lvbiBlMSwgZTIsIGUzLCBl
+NDsKPiA+IEBACj4gPiAtICAgIHBjaV9tYXBfc2luZ2xlKGUxLCBlMiwgZTMsIGU0KQo+ID4gKyAg
+ICBkbWFfbWFwX3NpbmdsZSgmZTEtPmRldiwgZTIsIGUzLCBlNCkKPiA+Cj4gPiBAQAo+ID4gZXhw
+cmVzc2lvbiBlMSwgZTIsIGUzLCBlNDsKPiA+IEBACj4gPiAtICAgIHBjaV91bm1hcF9zaW5nbGUo
+ZTEsIGUyLCBlMywgZTQpCj4gPiArICAgIGRtYV91bm1hcF9zaW5nbGUoJmUxLT5kZXYsIGUyLCBl
+MywgZTQpCj4gPgo+ID4gQEAKPiA+IGV4cHJlc3Npb24gZTEsIGUyLCBlMywgZTQsIGU1Owo+ID4g
+QEAKPiA+IC0gICAgcGNpX21hcF9wYWdlKGUxLCBlMiwgZTMsIGU0LCBlNSkKPiA+ICsgICAgZG1h
+X21hcF9wYWdlKCZlMS0+ZGV2LCBlMiwgZTMsIGU0LCBlNSkKPiA+Cj4gPiBAQAo+ID4gZXhwcmVz
+c2lvbiBlMSwgZTIsIGUzLCBlNDsKPiA+IEBACj4gPiAtICAgIHBjaV91bm1hcF9wYWdlKGUxLCBl
+MiwgZTMsIGU0KQo+ID4gKyAgICBkbWFfdW5tYXBfcGFnZSgmZTEtPmRldiwgZTIsIGUzLCBlNCkK
+PiA+Cj4gPiBAQAo+ID4gZXhwcmVzc2lvbiBlMSwgZTIsIGUzLCBlNDsKPiA+IEBACj4gPiAtICAg
+IHBjaV9tYXBfc2coZTEsIGUyLCBlMywgZTQpCj4gPiArICAgIGRtYV9tYXBfc2coJmUxLT5kZXYs
+IGUyLCBlMywgZTQpCj4gPgo+ID4gQEAKPiA+IGV4cHJlc3Npb24gZTEsIGUyLCBlMywgZTQ7Cj4g
+PiBAQAo+ID4gLSAgICBwY2lfdW5tYXBfc2coZTEsIGUyLCBlMywgZTQpCj4gPiArICAgIGRtYV91
+bm1hcF9zZygmZTEtPmRldiwgZTIsIGUzLCBlNCkKPiA+Cj4gPiBAQAo+ID4gZXhwcmVzc2lvbiBl
+MSwgZTIsIGUzLCBlNDsKPiA+IEBACj4gPiAtICAgIHBjaV9kbWFfc3luY19zaW5nbGVfZm9yX2Nw
+dShlMSwgZTIsIGUzLCBlNCkKPiA+ICsgICAgZG1hX3N5bmNfc2luZ2xlX2Zvcl9jcHUoJmUxLT5k
+ZXYsIGUyLCBlMywgZTQpCj4gPgo+ID4gQEAKPiA+IGV4cHJlc3Npb24gZTEsIGUyLCBlMywgZTQ7
+Cj4gPiBAQAo+ID4gLSAgICBwY2lfZG1hX3N5bmNfc2luZ2xlX2Zvcl9kZXZpY2UoZTEsIGUyLCBl
+MywgZTQpCj4gPiArICAgIGRtYV9zeW5jX3NpbmdsZV9mb3JfZGV2aWNlKCZlMS0+ZGV2LCBlMiwg
+ZTMsIGU0KQo+ID4KPiA+IEBACj4gPiBleHByZXNzaW9uIGUxLCBlMiwgZTMsIGU0Owo+ID4gQEAK
+PiA+IC0gICAgcGNpX2RtYV9zeW5jX3NnX2Zvcl9jcHUoZTEsIGUyLCBlMywgZTQpCj4gPiArICAg
+IGRtYV9zeW5jX3NnX2Zvcl9jcHUoJmUxLT5kZXYsIGUyLCBlMywgZTQpCj4gPgo+ID4gQEAKPiA+
+IGV4cHJlc3Npb24gZTEsIGUyLCBlMywgZTQ7Cj4gPiBAQAo+ID4gLSAgICBwY2lfZG1hX3N5bmNf
+c2dfZm9yX2RldmljZShlMSwgZTIsIGUzLCBlNCkKPiA+ICsgICAgZG1hX3N5bmNfc2dfZm9yX2Rl
+dmljZSgmZTEtPmRldiwgZTIsIGUzLCBlNCkKPiA+Cj4gPiBAQAo+ID4gZXhwcmVzc2lvbiBlMSwg
+ZTI7Cj4gPiBAQAo+ID4gLSAgICBwY2lfZG1hX21hcHBpbmdfZXJyb3IoZTEsIGUyKQo+ID4gKyAg
+ICBkbWFfbWFwcGluZ19lcnJvcigmZTEtPmRldiwgZTIpCj4gPgo+ID4gQEAKPiA+IGV4cHJlc3Np
+b24gZTEsIGUyOwo+ID4gQEAKPiA+IC0gICAgcGNpX3NldF9kbWFfbWFzayhlMSwgZTIpCj4gPiAr
+ICAgIGRtYV9zZXRfbWFzaygmZTEtPmRldiwgZTIpCj4gPgo+ID4gQEAKPiA+IGV4cHJlc3Npb24g
+ZTEsIGUyOwo+ID4gQEAKPiA+IC0gICAgcGNpX3NldF9jb25zaXN0ZW50X2RtYV9tYXNrKGUxLCBl
+MikKPiA+ICsgICAgZG1hX3NldF9jb2hlcmVudF9tYXNrKCZlMS0+ZGV2LCBlMikKPiA+Cj4gPiBT
+aWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5h
+ZG9vLmZyPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4KPgo+ID4gLS0tCj4gPiBJZiBuZWVkZWQsIHNlZSBwb3N0IGZyb20gQ2hyaXN0
+b3BoIEhlbGx3aWcgb24gdGhlIGtlcm5lbC1qYW5pdG9ycyBNTDoKPiA+ICAgICBodHRwczovL21h
+cmMuaW5mby8/bD1rZXJuZWwtamFuaXRvcnMmbT0xNTg3NDU2NzgzMDcxODYmdz00Cj4gPiAtLS0K
+PiA+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2FydC5jIHwgOSArKysrLS0tLS0K
+PiA+ICAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiA+
+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2FydC5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2FydC5jCj4gPiBpbmRleCBmMTc4YmEzMjE3
+MTUuLmI3Y2UyNTRlNTY2MyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24v
+cmFkZW9uX2dhcnQuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2Fy
+dC5jCj4gPiBAQCAtNzIsOCArNzIsOCBAQCBpbnQgcmFkZW9uX2dhcnRfdGFibGVfcmFtX2FsbG9j
+KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ID4gICB7Cj4gPiAgICAgICB2b2lkICpwdHI7
+Cj4gPgo+ID4gLSAgICAgcHRyID0gcGNpX2FsbG9jX2NvbnNpc3RlbnQocmRldi0+cGRldiwgcmRl
+di0+Z2FydC50YWJsZV9zaXplLAo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+JnJkZXYtPmdhcnQudGFibGVfYWRkcik7Cj4gPiArICAgICBwdHIgPSBkbWFfYWxsb2NfY29oZXJl
+bnQoJnJkZXYtPnBkZXYtPmRldiwgcmRldi0+Z2FydC50YWJsZV9zaXplLAo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICZyZGV2LT5nYXJ0LnRhYmxlX2FkZHIsIEdGUF9LRVJORUwp
+Owo+ID4gICAgICAgaWYgKHB0ciA9PSBOVUxMKSB7Cj4gPiAgICAgICAgICAgICAgIHJldHVybiAt
+RU5PTUVNOwo+ID4gICAgICAgfQo+ID4gQEAgLTExMCw5ICsxMTAsOCBAQCB2b2lkIHJhZGVvbl9n
+YXJ0X3RhYmxlX3JhbV9mcmVlKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ID4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHJkZXYtPmdhcnQudGFibGVfc2l6ZSA+PiBQQUdFX1NISUZU
+KTsKPiA+ICAgICAgIH0KPiA+ICAgI2VuZGlmCj4gPiAtICAgICBwY2lfZnJlZV9jb25zaXN0ZW50
+KHJkZXYtPnBkZXYsIHJkZXYtPmdhcnQudGFibGVfc2l6ZSwKPiA+IC0gICAgICAgICAgICAgICAg
+ICAgICAgICAgKHZvaWQgKilyZGV2LT5nYXJ0LnB0ciwKPiA+IC0gICAgICAgICAgICAgICAgICAg
+ICAgICAgcmRldi0+Z2FydC50YWJsZV9hZGRyKTsKPiA+ICsgICAgIGRtYV9mcmVlX2NvaGVyZW50
+KCZyZGV2LT5wZGV2LT5kZXYsIHJkZXYtPmdhcnQudGFibGVfc2l6ZSwKPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICh2b2lkICopcmRldi0+Z2FydC5wdHIsIHJkZXYtPmdhcnQudGFibGVfYWRk
+cik7Cj4gPiAgICAgICByZGV2LT5nYXJ0LnB0ciA9IE5VTEw7Cj4gPiAgICAgICByZGV2LT5nYXJ0
+LnRhYmxlX2FkZHIgPSAwOwo+ID4gICB9Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
