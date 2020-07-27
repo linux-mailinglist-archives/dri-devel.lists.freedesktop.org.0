@@ -2,25 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA31D2303B3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 09:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9BF2303B5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 09:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33206E183;
-	Tue, 28 Jul 2020 07:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F72A6E1B4;
+	Tue, 28 Jul 2020 07:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40140.protonmail.ch (mail-40140.protonmail.ch
- [185.70.40.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454836E12F
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 23:42:23 +0000 (UTC)
+Received: from mail4.protonmail.ch (mail4.protonmail.ch [185.70.40.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD5E86E10D;
+ Mon, 27 Jul 2020 23:42:21 +0000 (UTC)
 Date: Mon, 27 Jul 2020 23:42:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1595893340;
+ s=protonmail; t=1595893339;
  bh=AQmh+uIpMfdES2g/A6HYV2B7dFrVRubFbvwlphZUT8g=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=WPaKlK87v5tMlYboefBGF39WRaUFU27b7wQRzJkJ9uB7fbY/ytSsgHkgcbkkq8cfV
- /OJfCX1otKSQfRrp98/he37W9RmEybcs/bJZU4qBd4/ja2FdEBxx0mVv06ZN9wj9JT
- W/xhMBV3amEPPZj0xrA5KyRlcMg2flG8EQszcoG4=
+ b=cHrGxmf4oAuMDr7t2PFpVVj0YlkaTbYoryFFckpC/cCCzKLMJPbLhnWeFpiBrBkeL
+ kFgOmaek9XuMkWzxx8byw9Hk4snVK5hcaZ03hTd57k6FRUor/rqU3uJifmCAirVDwK
+ Qr7fsTYZ4gT3PKeWvReeuNy4tjoGs65wI02Y5dps=
 To: Daniel Vetter <daniel@ffwll.ch>
 From: Mazin Rezk <mnrzk@protonmail.com>
 Subject: Re: [PATCH] drm/amd/display: Clear dm_state for fast updates
