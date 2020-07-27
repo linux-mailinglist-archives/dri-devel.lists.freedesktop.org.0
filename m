@@ -1,37 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6593122FDF3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F16922FDFC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFDEF6E0F0;
-	Mon, 27 Jul 2020 23:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E156E143;
+	Mon, 27 Jul 2020 23:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1D789ECB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 21:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1595884246; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ibbcLRFYEgPnpCrphWR8XefoNyDdgUA3SsRIyBPw0sk=;
- b=vG80/saNxe7RbQ4n9kOrudyT3as6nUBJKZqkLrVI1Cg6EJihUgPVNcQMfo4rDTZ+y2wLkB
- V9iid1aHwaVBMeVpis/PXLy0/e768UIgbPZkj6XiEUKxfGtaKwUT12VwqR+0K7rTaG+g92
- R0YfOeOU/4nSYQCgFpqQUMY22Loz/QQ=
-Date: Mon, 27 Jul 2020 23:10:30 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 3/6] drm/bridge: Add SPI DBI host driver
-To: Sam Ravnborg <sam@ravnborg.org>
-Message-Id: <I5C5EQ.EDR7T5UF0W67@crapouillou.net>
-In-Reply-To: <20200727203158.GA1016751@ravnborg.org>
-References: <20200727164613.19744-1-paul@crapouillou.net>
- <20200727164613.19744-4-paul@crapouillou.net>
- <20200727203158.GA1016751@ravnborg.org>
+Received: from mail-40130.protonmail.ch (mail-40130.protonmail.ch
+ [185.70.40.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9DB289ECB
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 21:11:39 +0000 (UTC)
+Date: Mon, 27 Jul 2020 21:11:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1595884297;
+ bh=J5UnwDGjGDm1GIlnrWPWuIc1UUtS+SRgiZtCCMV1dgU=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=TCnJrzRADNWeQKeNkq7j/brbkgXB3qrKl+Rp2Wc5h/nV1lC3QuG9kocLN7saKdlyG
+ ZIuXvVqUS4x9x9Os8WxeECHqmYJ899OgEM5urtxygOH51zYh0hXOsHol8eViV2UTtN
+ eFkrUeuCPy3dLPJNUkQ0oFVobzsxJiWJ71S2vK4k=
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Mazin Rezk <mnrzk@protonmail.com>
+Subject: Re: [PATCH] drm/amd/display: Clear dm_state for fast updates
+Message-ID: <Fnx2lsAReNccvQbyMYBgghvef4ekiQ_ZWL0m5BwF-2h48gvnNLghI4zkIWhQwy-H6CiytTXaxEtZ83dYRlzAXeKHujBRLc_tffmcJVWjwuo=@protonmail.com>
+In-Reply-To: <CAKMK7uHCu02P4tvhF4LQbtYeNciU61ONC9EZRmQ-0wEGFPzZgg@mail.gmail.com>
+References: <M0lxN5AUlPvzBKULfIBe5BZRwfQGXeMQCdWItYcQ-9P79y32WzExYK2Y0DwyNVtyGelqbvV07_lFk1oeT4cApbT-P_oH0bnxQbMmFsJv_xg=@protonmail.com>
+ <ba078fb0-0dbc-df06-cfe9-f9537883f82a@amd.com>
+ <e2f55480-c24f-6c85-08d3-21131a22d0bf@amd.com>
+ <3b7e3e50-2ff7-eff3-2ffc-abaa4b36ce7f@amd.com>
+ <CAKMK7uHCu02P4tvhF4LQbtYeNciU61ONC9EZRmQ-0wEGFPzZgg@mail.gmail.com>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-0.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_REPLYTO
+ shortcircuit=no autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-Mailman-Approved-At: Mon, 27 Jul 2020 23:32:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,472 +49,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- od@zcrc.me, Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Reply-To: Mazin Rezk <mnrzk@protonmail.com>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
+ "mphantomx@yahoo.com.br" <mphantomx@yahoo.com.br>,
+ Duncan <1i5t5.duncan@cox.net>, Kees Cook <keescook@chromium.org>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>, Mazin Rezk <mnrzk@protonmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>,
+ "regressions@leemhuis.info" <regressions@leemhuis.info>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Alexander Deucher <Alexander.Deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "anthony.ruhier@gmail.com" <anthony.ruhier@gmail.com>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-
-Le lun. 27 juil. 2020 =E0 22:31, Sam Ravnborg <sam@ravnborg.org> a =
-
-=E9crit :
-> Hi Paul.
-> =
-
-> On Mon, Jul 27, 2020 at 06:46:10PM +0200, Paul Cercueil wrote:
->>  This driver will register a DBI host driver for panels connected =
-
->> over
->>  SPI.
-> So this is actually a MIPI DBI host driver.
-> =
-
-> I personally would love to have added mipi_ in the names - to make it
-> all more explicit.
-> But maybe that just because I get confused on all the acronyms.
-
-I can rename the driver and move it out of drm/bridge/, no problem.
-
-> Some details in the following. Will try to find some more time so I =
-
-> can
-> grasp the full picture. The following was just my low-level notes for
-> now.
-> =
-
-> 	Sam
->> =
-
->>  DBI types c1 and c3 are supported. C1 is a SPI protocol with 9 bits =
-
->> per
->>  word, with the data/command information in the 9th (MSB) bit. C3 is =
-
->> a
->>  SPI protocol with 8 bits per word, with the data/command information
->>  carried by a separate GPIO.
-> =
-
-> We did not have any define to distingush between DBI_C1 and DBI_c3:
-> +/* MIPI bus types */
-> +#define MIPI_DEVICE_TYPE_DSI           BIT(0)
-> +#define MIPI_DEVICE_TYPE_DBI_SPI_MODE1 BIT(1)
-> +#define MIPI_DEVICE_TYPE_DBI_SPI_MODE2 BIT(2)
-> +#define MIPI_DEVICE_TYPE_DBI_SPI_MODE3 BIT(3)
-> +#define MIPI_DEVICE_TYPE_DBI_M6800     BIT(4)
-> +#define MIPI_DEVICE_TYPE_DBI_I8080     BIT(5)
-> =
-
-> Is this on purpose?
-
-I understand the confusion. Here SPI_MODE1/3 actually mean SPI_C1/3. I =
-
-will rename them.
-
-> I had assumed the host should tell what it supports and the device =
-
-> should
-> tell what it wanted.
-> So if the host did not support DBI_C3 and device wants it - then we
-> could give up early.
-
-Well that's exactly what's done here - just with badly named macros :)
-
->> =
-
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   drivers/gpu/drm/bridge/Kconfig   |   8 +
->>   drivers/gpu/drm/bridge/Makefile  |   1 +
->>   drivers/gpu/drm/bridge/dbi-spi.c | 261 =
-
->> +++++++++++++++++++++++++++++++
-> This is no bridge driver - so does not belong in the bridge
-> directory.
-> gpu/drm/drm_mipi_dbi_spi.c?
-> =
-
->>   3 files changed, 270 insertions(+)
->>   create mode 100644 drivers/gpu/drm/bridge/dbi-spi.c
->> =
-
->>  diff --git a/drivers/gpu/drm/bridge/Kconfig =
-
->> b/drivers/gpu/drm/bridge/Kconfig
->>  index c7f0dacfb57a..ed38366847c1 100644
->>  --- a/drivers/gpu/drm/bridge/Kconfig
->>  +++ b/drivers/gpu/drm/bridge/Kconfig
->>  @@ -219,6 +219,14 @@ config DRM_TI_TPD12S015
->>   	  Texas Instruments TPD12S015 HDMI level shifter and ESD =
-
->> protection
->>   	  driver.
->> =
-
->>  +config DRM_MIPI_DBI_SPI
->>  +	tristate "SPI host support for MIPI DBI"
->>  +	depends on OF && SPI
->>  +	select DRM_MIPI_DSI
->>  +	select DRM_MIPI_DBI
->>  +	help
->>  +	  Driver to support DBI over SPI.
->>  +
->>   source "drivers/gpu/drm/bridge/analogix/Kconfig"
->> =
-
->>   source "drivers/gpu/drm/bridge/adv7511/Kconfig"
->>  diff --git a/drivers/gpu/drm/bridge/Makefile =
-
->> b/drivers/gpu/drm/bridge/Makefile
->>  index 7d7c123a95e4..c2c522c2774f 100644
->>  --- a/drivers/gpu/drm/bridge/Makefile
->>  +++ b/drivers/gpu/drm/bridge/Makefile
->>  @@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_I2C_ADV7511) +=3D adv7511/
->>   obj-$(CONFIG_DRM_TI_SN65DSI86) +=3D ti-sn65dsi86.o
->>   obj-$(CONFIG_DRM_TI_TFP410) +=3D ti-tfp410.o
->>   obj-$(CONFIG_DRM_TI_TPD12S015) +=3D ti-tpd12s015.o
->>  +obj-$(CONFIG_DRM_MIPI_DBI_SPI) +=3D dbi-spi.o
-> mipi_dbi_spi.o would be nice...
-> =
-
->>   obj-$(CONFIG_DRM_NWL_MIPI_DSI) +=3D nwl-dsi.o
->> =
-
->>   obj-y +=3D analogix/
->>  diff --git a/drivers/gpu/drm/bridge/dbi-spi.c =
-
->> b/drivers/gpu/drm/bridge/dbi-spi.c
->>  new file mode 100644
->>  index 000000000000..1060b8f95fba
->>  --- /dev/null
->>  +++ b/drivers/gpu/drm/bridge/dbi-spi.c
->>  @@ -0,0 +1,261 @@
->>  +// SPDX-License-Identifier: GPL-2.0-or-later
->>  +/*
->>  + * MIPI Display Bus Interface (DBI) SPI support
->>  + *
->>  + * Copyright 2016 Noralf Tr=F8nnes
->>  + * Copyright 2020 Paul Cercueil <paul@crapouillou.net>
->>  + */
->>  +
->>  +#include <linux/gpio/consumer.h>
->>  +#include <linux/module.h>
->>  +#include <linux/spi/spi.h>
->>  +
->>  +#include <drm/drm_mipi_dbi.h>
->>  +#include <drm/drm_mipi_dsi.h>
->>  +
->>  +#include <video/mipi_display.h>
->>  +
->>  +struct dbi_spi {
->>  +	struct mipi_dsi_host host;
-> It is very confusing that the mipi_dbi_spi driver uses a dsi_host.
-> It clashes in my head - and then reviewing it not easy.
-
- From now on read all "mipi_dsi_*" as a MIPI DSI/DBI API. Renaming the =
-
-API means a treewide patchset that touches many many files...
-
-> =
-
->>  +	struct mipi_dsi_host_ops host_ops;
-> const?
->>  +
->>  +	struct spi_device *spi;
->>  +	struct gpio_desc *dc;
->>  +	struct mutex cmdlock;
->>  +
->>  +	unsigned int current_bus_type;
->>  +
->>  +	/**
->>  +	 * @tx_buf9: Buffer used for Option 1 9-bit conversion
->>  +	 */
->>  +	void *tx_buf9;
->>  +
->>  +	/**
->>  +	 * @tx_buf9_len: Size of tx_buf9.
->>  +	 */
->>  +	size_t tx_buf9_len;
->>  +};
->>  +
->>  +static inline struct dbi_spi *host_to_dbi_spi(struct mipi_dsi_host =
-
->> *host)
->>  +{
->>  +	return container_of(host, struct dbi_spi, host);
->>  +}
->>  +
->>  +static ssize_t dbi_spi1_transfer(struct mipi_dsi_host *host,
->>  +				 const struct mipi_dsi_msg *msg)
->>  +{
->>  +	struct dbi_spi *dbi =3D host_to_dbi_spi(host);
->>  +	struct spi_device *spi =3D dbi->spi;
->>  +	struct spi_transfer tr =3D {
->>  +		.bits_per_word =3D 9,
->>  +	};
->>  +	const u8 *src8 =3D msg->tx_buf;
->>  +	struct spi_message m;
->>  +	size_t max_chunk, chunk;
->>  +	size_t len =3D msg->tx_len;
->>  +	bool cmd_byte =3D true;
->>  +	unsigned int i;
->>  +	u16 *dst16;
->>  +	int ret;
->>  +
->>  +	tr.speed_hz =3D mipi_dbi_spi_cmd_max_speed(spi, len);
->>  +	dst16 =3D dbi->tx_buf9;
->>  +
->>  +	max_chunk =3D min(dbi->tx_buf9_len / 2, len);
-> Hmm, this looks not right. We limit the max_chunk to 8K here.
-> We learned the other day that we count in bytes.
-> OR did I miss something?
-
-We want to extend 8-bit values into 16-bit values, and we have a =
-
-X-bytes output buffer for that, so the maximum input buffer size we can =
-
-use is (X/2).
-
-This code is the original algorithm in drm_mipi_dbi.c, I didn't change =
-
-anything here (safe for the fix that was merged a couple of days ago to =
-
-drm-misc-fixes).
-
-> =
-
->>  +
->>  +	spi_message_init_with_transfers(&m, &tr, 1);
->>  +	tr.tx_buf =3D dst16;
->>  +
->>  +	while (len) {
->>  +		chunk =3D min(len, max_chunk);
->>  +
->>  +		for (i =3D 0; i < chunk; i++) {
->>  +			dst16[i] =3D *src8++;
->>  +
->>  +			/* Bit 9: 0 means command, 1 means data */
->>  +			if (!cmd_byte)
->>  +				dst16[i] |=3D BIT(9);
->>  +
->>  +			cmd_byte =3D false;
->>  +		}
->>  +
->>  +		tr.len =3D chunk * 2;
->>  +		len -=3D chunk;
->>  +
->>  +		ret =3D spi_sync(spi, &m);
->>  +		if (ret)
->>  +			return ret;
->>  +	}
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static ssize_t dbi_spi3_transfer(struct mipi_dsi_host *host,
->>  +				 const struct mipi_dsi_msg *msg)
->>  +{
->>  +	struct dbi_spi *dbi =3D host_to_dbi_spi(host);
->>  +	struct spi_device *spi =3D dbi->spi;
->>  +	const u8 *buf =3D msg->tx_buf;
->>  +	unsigned int bpw =3D 8;
->>  +	u32 speed_hz;
->>  +	ssize_t ret;
->>  +
->>  +	/* for now we only support sending messages, not receiving */
->>  +	if (msg->rx_len)
->>  +		return -EINVAL;
->>  +
->>  +	gpiod_set_value_cansleep(dbi->dc, 0);
->>  +
->>  +	speed_hz =3D mipi_dbi_spi_cmd_max_speed(spi, 1);
->>  +	ret =3D mipi_dbi_spi_transfer(spi, speed_hz, 8, buf, 1);
->>  +	if (ret || msg->tx_len =3D=3D 1)
->>  +		return ret;
->>  +
->>  +	if (buf[0] =3D=3D MIPI_DCS_WRITE_MEMORY_START)
->>  +		bpw =3D 16;
->>  +
->>  +	gpiod_set_value_cansleep(dbi->dc, 1);
->>  +	speed_hz =3D mipi_dbi_spi_cmd_max_speed(spi, msg->tx_len - 1);
->>  +
->>  +	ret =3D mipi_dbi_spi_transfer(spi, speed_hz, bpw,
->>  +				    &buf[1], msg->tx_len - 1);
->>  +	if (ret)
->>  +		return ret;
->>  +
->>  +	return msg->tx_len;
->>  +}
->>  +
->>  +static ssize_t dbi_spi_transfer(struct mipi_dsi_host *host,
->>  +				const struct mipi_dsi_msg *msg)
->>  +{
->>  +	struct dbi_spi *dbi =3D host_to_dbi_spi(host);
->>  +
->>  +	switch (dbi->current_bus_type) {
->>  +	case MIPI_DEVICE_TYPE_DBI_SPI_MODE1:
->>  +		return dbi_spi1_transfer(host, msg);
->>  +	case MIPI_DEVICE_TYPE_DBI_SPI_MODE3:
->>  +		return dbi_spi3_transfer(host, msg);
->>  +	default:
->>  +		dev_err(&dbi->spi->dev, "Unknown transfer type\n");
->>  +		return -EINVAL;
->>  +	}
->>  +}
->>  +
->>  +static int dbi_spi_attach(struct mipi_dsi_host *host,
->>  +			  struct mipi_dsi_device *dsi)
->>  +{
->>  +	struct dbi_spi *dbi =3D host_to_dbi_spi(host);
->>  +
->>  +	dbi->current_bus_type =3D dsi->bus_type;
->>  +
->>  +	if (dbi->current_bus_type =3D=3D MIPI_DEVICE_TYPE_DBI_SPI_MODE1) {
->>  +		dbi->tx_buf9_len =3D SZ_16K;
->>  +
->>  +		dbi->tx_buf9 =3D kmalloc(dbi->tx_buf9_len, GFP_KERNEL);
->>  +		if (!dbi->tx_buf9)
->>  +			return -ENOMEM;
->>  +	}
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static int dbi_spi_detach(struct mipi_dsi_host *host,
->>  +			  struct mipi_dsi_device *dsi)
->>  +{
->>  +	struct dbi_spi *dbi =3D host_to_dbi_spi(host);
->>  +
->>  +	kfree(dbi->tx_buf9);
->>  +	dbi->tx_buf9_len =3D 0;
->>  +
->>  +	return 0; /* Nothing to do */
->>  +}
->>  +
->>  +static void dbi_spi_host_unregister(void *d)
->>  +{
->>  +	mipi_dsi_host_unregister(d);
->>  +}
->>  +
->>  +static int dbi_spi_probe(struct spi_device *spi)
->>  +{
->>  +	struct device *dev =3D &spi->dev;
->>  +	struct mipi_dsi_device_info info =3D { };
->>  +	struct mipi_dsi_device *dsi;
->>  +	struct dbi_spi *dbi;
->>  +	int ret;
->>  +
->>  +	dbi =3D devm_kzalloc(dev, sizeof(*dbi), GFP_KERNEL);
->>  +	if (!dbi)
->>  +		return -ENOMEM;
->>  +
->>  +	dbi->host.dev =3D dev;
->>  +	dbi->host.ops =3D &dbi->host_ops;
->>  +	dbi->spi =3D spi;
->>  +	spi_set_drvdata(spi, dbi);
->>  +
->>  +	dbi->dc =3D devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
->>  +	if (IS_ERR(dbi->dc)) {
->>  +		dev_err(dev, "Failed to get gpio 'dc'\n");
->>  +		return PTR_ERR(dbi->dc);
->>  +	}
->>  +
->>  +	if (spi_is_bpw_supported(spi, 9))
->>  +		dbi->host.bus_types |=3D MIPI_DEVICE_TYPE_DBI_SPI_MODE1;
->>  +	if (dbi->dc)
->>  +		dbi->host.bus_types |=3D MIPI_DEVICE_TYPE_DBI_SPI_MODE3;
->>  +
->>  +	if (!dbi->host.bus_types) {
->>  +		dev_err(dev, "Neither Type1 nor Type3 are supported\n");
->>  +		return -EINVAL;
->>  +	}
->>  +
->>  +	dbi->host_ops.transfer =3D dbi_spi_transfer;
->>  +	dbi->host_ops.attach =3D dbi_spi_attach;
->>  +	dbi->host_ops.detach =3D dbi_spi_detach;
->>  +
->>  +	mutex_init(&dbi->cmdlock);
->>  +
->>  +	ret =3D mipi_dsi_host_register(&dbi->host);
->>  +	if (ret) {
->>  +		dev_err(dev, "Unable to register DSI host\n");
->>  +		return ret;
->>  +	}
->>  +
->>  +	ret =3D devm_add_action_or_reset(dev, dbi_spi_host_unregister, =
-
->> &dbi->host);
->>  +	if (ret)
->>  +		return ret;
->>  +
->>  +	/*
->>  +	 * Register our own node as a MIPI DSI device.
->>  +	 * This ensures that the panel driver will be probed.
->>  +	 */
->>  +	info.channel =3D 0;
->>  +	info.node =3D of_node_get(dev->of_node);
->>  +
->>  +	dsi =3D mipi_dsi_device_register_full(&dbi->host, &info);
->>  +	if (IS_ERR(dsi)) {
->>  +		dev_err(dev, "Failed to add DSI device\n");
->>  +		return PTR_ERR(dsi);
->>  +	}
->>  +
->>  +	return 0;
->>  +}
->>  +
->>  +static const struct of_device_id dbi_spi_of_match[] =3D {
->>  +	{ .compatible =3D "adafruit,yx240qv29" },
->>  +	{ .compatible =3D "leadtek,ltk035c5444t-spi" },
->>  +	{ }
-> Would it be better with a fall-back compatible like:
-> mipi,dbi-spi.
-> So the nodes must includes this compatible to be registered with
-> this driver?
-
-Ideally, it would be perfect, but unfortunately we cannot do that.
-
-If a node has the following:
-compatible =3D "adafruit,yx240qv29", "mipi-dbi-spi";
-
-Then Linux will probe only with the first compatible string since it =
-
-has a driver for it. It will use the fallback string only if no driver =
-
-matches the first string.
-
--Paul
-
-> =
-
->>  +};
->>  +MODULE_DEVICE_TABLE(of, dbi_spi_of_match);
->>  +
->>  +static struct spi_driver dbi_spi_driver =3D {
->>  +	.driver =3D {
->>  +		.name =3D "dbi-spi",
->>  +		.of_match_table =3D dbi_spi_of_match,
->>  +	},
->>  +	.probe =3D dbi_spi_probe,
->>  +};
->>  +module_spi_driver(dbi_spi_driver);
->>  +
->>  +MODULE_DESCRIPTION("DBI SPI bus driver");
->>  +MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
->>  +MODULE_LICENSE("GPL");
->>  --
->>  2.27.0
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uZGF5LCBKdWx5IDI3LCAyMDIwIDQ6MjkgUE0sIERhbmllbCBWZXR0ZXIgPGRhbmllbEBm
+ZndsbC5jaD4gd3JvdGU6Cgo+IE9uIE1vbiwgSnVsIDI3LCAyMDIwIGF0IDk6MjggUE0gQ2hyaXN0
+aWFuIEvDtm5pZwo+IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+ID4KPiA+IEFt
+IDI3LjA3LjIwIHVtIDE2OjA1IHNjaHJpZWIgS2F6bGF1c2thcywgTmljaG9sYXM6Cj4gPiA+IE9u
+IDIwMjAtMDctMjcgOTozOSBhLm0uLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gPj4gQW0g
+MjcuMDcuMjAgdW0gMDc6NDAgc2NocmllYiBNYXppbiBSZXprOgo+ID4gPj4+IFRoaXMgcGF0Y2gg
+Zml4ZXMgYSByYWNlIGNvbmRpdGlvbiB0aGF0IGNhdXNlcyBhIHVzZS1hZnRlci1mcmVlIGR1cmlu
+Zwo+ID4gPj4+IGFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwuIFRoaXMgY2FuIG9jY3VyIHdo
+ZW4gMiBub24tYmxvY2tpbmcKPiA+ID4+PiBjb21taXRzCj4gPiA+Pj4gYXJlIHJlcXVlc3RlZCBh
+bmQgdGhlIHNlY29uZCBvbmUgZmluaXNoZXMgYmVmb3JlIHRoZSBmaXJzdC4KPiA+ID4+PiBFc3Nl
+bnRpYWxseSwKPiA+ID4+PiB0aGlzIGJ1ZyBvY2N1cnMgd2hlbiB0aGUgZm9sbG93aW5nIHNlcXVl
+bmNlIG9mIGV2ZW50cyBoYXBwZW5zOgo+ID4gPj4+Cj4gPiA+Pj4gMS4gTm9uLWJsb2NraW5nIGNv
+bW1pdCAjMSBpcyByZXF1ZXN0ZWQgdy8gYSBuZXcgZG1fc3RhdGUgIzEgYW5kIGlzCj4gPiA+Pj4g
+ZGVmZXJyZWQgdG8gdGhlIHdvcmtxdWV1ZS4KPiA+ID4+Pgo+ID4gPj4+IDIuIE5vbi1ibG9ja2lu
+ZyBjb21taXQgIzIgaXMgcmVxdWVzdGVkIHcvIGEgbmV3IGRtX3N0YXRlICMyIGFuZCBpcwo+ID4g
+Pj4+IGRlZmVycmVkIHRvIHRoZSB3b3JrcXVldWUuCj4gPiA+Pj4KPiA+ID4+PiAzLiBDb21taXQg
+IzIgc3RhcnRzIGJlZm9yZSBjb21taXQgIzEsIGRtX3N0YXRlICMxIGlzIHVzZWQgaW4gdGhlCj4g
+PiA+Pj4gY29tbWl0X3RhaWwgYW5kIGNvbW1pdCAjMiBjb21wbGV0ZXMsIGZyZWVpbmcgZG1fc3Rh
+dGUgIzEuCj4gPiA+Pj4KPiA+ID4+PiA0LiBDb21taXQgIzEgc3RhcnRzIGFmdGVyIGNvbW1pdCAj
+MiBjb21wbGV0ZXMsIHVzZXMgdGhlIGZyZWVkIGRtX3N0YXRlCj4gPiA+Pj4gMSBhbmQgZGVyZWZl
+cmVuY2VzIGEgZnJlZWxpc3QgcG9pbnRlciB3aGlsZSBzZXR0aW5nIHRoZSBjb250ZXh0Lgo+ID4g
+Pj4KPiA+ID4+IFdlbGwgSSBvbmx5IGhhdmUgYSBvbmUgbWlsZSBoaWdoIHZpZXcgb24gdGhpcywg
+YnV0IHdoeSBkb24ndCB5b3UgbGV0Cj4gPiA+PiB0aGUgd29yayBpdGVtcyBleGVjdXRlIGluIG9y
+ZGVyPwo+ID4gPj4KPiA+ID4+IFRoYXQgd291bGQgYmUgYmV0dGVyIGFueXdheSBjYXVzZSB0aGlz
+IHdheSB3ZSBkb24ndCB0cmlnZ2VyIGEgY2FjaGUKPiA+ID4+IGxpbmUgcGluZyBwb25nIGJldHdl
+ZW4gQ1BVcy4KPiA+ID4+Cj4gPiA+PiBDaHJpc3RpYW4uCj4gPiA+Cj4gPiA+IFdlIHVzZSB0aGUg
+RFJNIGhlbHBlcnMgZm9yIG1hbmFnaW5nIGRybV9hdG9taWNfY29tbWl0X3N0YXRlIGFuZCB0aG9z
+ZQo+ID4gPiBoZWxwZXJzIGludGVybmFsbHkgcHVzaCBub24tYmxvY2tpbmcgY29tbWl0IHdvcmsg
+aW50byB0aGUgc3lzdGVtCj4gPiA+IHVuYm91bmQgd29yayBxdWV1ZS4KPiA+Cj4gPiBNaG0sIHdl
+bGwgaWYgeW91IHNlbmQgdGhvc2UgaGVscGVyIGF0b21pYyBjb21taXRzIGluIHRoZSBvcmRlciBB
+LEIgYW5kCj4gPiB0aGV5IGV4ZWN1dGUgaXQgaW4gdGhlIG9yZGVyIEIsQSBJIHdvdWxkIGNhbGwg
+dGhhdCBhIGJ1ZyA6KQo+Cj4gVGhlIHdheSBpdCB3b3JrcyBpcyBpdCBwdXNoZXMgYWxsIGNvbW1p
+dHMgaW50byB1bmJvdW5kIHdvcmsgcXVldWUsIGJ1dAo+IHRoZW4gZm9yY2VzIHNlcmlhbGl6YXRp
+b24gYXMgbmVlZGVkLiBXZSBkbyBfbm90XyB3YW50IGUuZy4gdXBkYXRlcyBvbgo+IGRpZmZlcmVu
+dCBDUlRDIHRvIGJlIHNlcmlhbGl6ZWQsIHRoYXQgd291bGQgcmVzdWx0IGluIGxvdHMgb2YganVk
+ZGVyLgo+IEFuZCBodyBpcyBmdW5ueSBlbm91Z2ggdGhhdCB0aGVyZSdzIGFsbCBraW5kcyBvZiBk
+ZXBlbmRlbmNpZXMuCj4KPiBUaGUgd2F5IHlvdSBmb3JjZSBzeW5jaHJvbml6YXRpb24gaXMgYnkg
+YWRkaW5nIG90aGVyIENSVEMgc3RhdGUKPiBvYmplY3RzLiBTbyBpZiBEQyBpcyBidXN0ZWQgYW5k
+IGNhbiBvbmx5IGhhbmRsZSBhIHNpbmdsZSB1cGRhdGUgcGVyCj4gd29yayBpdGVtLCB0aGVuIEkg
+Z3Vlc3MgeW91IGFsd2F5cyBuZWVkIGFsbCBDUlRDIHN0YXRlcyBhbmQgZXZlcnl0aGluZwo+IHdp
+bGwgYmUgcnVuIGluIG9yZGVyLiBCdXQgdGhhdCBhbHNvIHRvdGFsbHkga2lsbHMgbW9kZXJuIG11
+bHRpLXNjcmVlbgo+IGNvbXBvc2l0b3JzLiBYb3JnIGlzbid0IG1vZGVybiwganVzdCBpbiBjYXNl
+IHRoYXQncyBub3QgY2xlYXIgOi0pCj4KPiBMdWNraW5nIGF0IHRoZSBjb2RlIGl0IHNlZW1zIGxp
+a2UgeW91IGluZGVlZCBoYXZlIG9ubHkgYSBzaW5nbGUgZG0KPiBzdGF0ZSwgc28geWVhaCBnbG9i
+YWwgc3luYyBpcyB3aGF0IHlvdSdsbCBuZWVkIGFzIGltbWVkaWF0ZSBmaXgsIGFuZAo+IHRoZW4g
+bWF5YmUgZml4IHVwIERNIHRvIG5vdCBiZSBxdWl0ZSBzbyBzaWxseSAuLi4gb3IgYXQgbGVhc3Qg
+b25seSBkbwo+IHRoZSBkbSBzdGF0ZSBzdHVmZiB3aGVuIHJlYWxseSBuZWVkZWQuCj4KPiBXZSBj
+b3VsZCBhbHNvIHNwcmlua2xlIHRoZSBkcm1fY3J0Y19jb21taXQgc3RydWN0dXJlIGFyb3VuZCBh
+IGJpdAo+IChpdCdzIHRoZSBnbHVlIHRoYXQgcHJvdmlkZXMgdGhlIHN5bmNocm9uaXphdGlvbiBh
+Y3Jvc3MgY29tbWl0cyksIGJ1dAo+IHNpbmNlIHlvdXIgZG0gc3RhdGUgaXMgZ2xvYmFsIGp1c3Qg
+Z3JhYmJpbmcgYWxsIGNydGMgc3RhdGVzCj4gdW5jb25kaXRpb25hbGx5IGFzIHBhcnQgb2YgdGhh
+dCBpcyBwcm9iYWJseSBiZXN0Lgo+Cj4gPiA+IFdoaWxlIHdlIGNvdWxkIGR1cGxpY2F0ZSBhIGNv
+cHkgb2YgdGhhdCBjb2RlIHdpdGggbm90aGluZyBidXQgdGhlCj4gPiA+IHdvcmtxdWV1ZSBjaGFu
+Z2VkIHRoYXQgaXNuJ3Qgc29tZXRoaW5nIEknZCByZWFsbHkgbGlrZSB0byBtYWludGFpbgo+ID4g
+PiBnb2luZyBmb3J3YXJkLgo+ID4KPiA+IEknbSBub3QgdGFsa2luZyBhYm91dCBkdXBsaWNhdGlu
+ZyB0aGUgY29kZSwgSSdtIHRhbGtpbmcgYWJvdXQgZml4aW5nIHRoZQo+ID4gaGVscGVycy4gSSBk
+b24ndCBrbm93IHRoYXQgY29kZSB3ZWxsLCBidXQgZnJvbSB0aGUgb3V0c2lkZSBpdCBzb3VuZHMK
+PiA+IGxpa2UgYSBidWcgdGhlcmUuCj4gPgo+ID4gQW5kIGV4ZWN1dGluZyB3b3JrIGl0ZW1zIGlu
+IHRoZSBvcmRlciB0aGV5IGFyZSBzdWJtaXR0ZWQgaXMgdHJpdmlhbC4KPiA+Cj4gPiBIYWQgYW55
+Ym9keSBwaW5nZWQgRGFuaWVsIG9yIG90aGVyIHBlb3BsZSBmYW1pbGlhciB3aXRoIHRoZSBoZWxw
+ZXIgY29kZQo+ID4gYWJvdXQgaXQ/Cj4KPiBZZWFoIHNvbWV0aGluZyBpcyB3cm9uZyBoZXJlLCBh
+bmQgdGhlIGZpeCBsb29rcyBob3JyaWJsZSA6LSkKPgo+IEFzaWRlLCBJJ3ZlIGFsc28gc2VlbiBz
+b21lIHJlY2VudCBkaXNjdXNzaW9uIGZsYXJlIHVwIGFib3V0Cj4gZHJtX2F0b21pY19zdGF0ZV9n
+ZXQvcHV0IHVzZWQgdG8gcGFwZXIgb3ZlciBzb21lIG90aGVyIHVzZS1hZnRlci1mcmVlLAo+IGJ1
+dCB0aGlzIHRpbWUgcmVsYXRlZCB0byBpbnRlcnJ1cHQgaGFuZGxlcnMuIE1heWJlIGEgZmV3IHJ1
+bGVzIGFib3V0Cj4gdGhhdDoKPiAtIGRvbnQKPiAtIGVzcGVjaWFsbHkgbm90IHdoZW4gaXQncyBp
+bnRlcnJ1cHQgaGFuZGxlcnMsIGJlY2F1c2UgeW91IGNhbid0IGNhbGwKPiBkcm1fYXRvbWljX3N0
+YXRlX3B1dCBmcm9tIGludGVycnVwdCBoYW5kbGVycy4KPgo+IEluc3RlYWQgaGF2ZSBhbiBzcGlu
+X2xvY2tfaXJxIHRvIHByb3RlY3QgdGhlIHNoYXJlZCBkYXRlIHdpdGggeW91cgo+IGludGVycnVw
+dCBoYW5kbGVyLCBhbmQgX2NvcHlfIHRoZSBkYXRlIG92ZXIuIFRoaXMgaXMgZS5nLiB3aGF0Cj4g
+ZHJtX2NydGNfYXJtX3ZibGFua19ldmVudCBkb2VzLgoKTmljaG9sYXMgd3JvdGUgYSBwYXRjaCB0
+aGF0IGF0dGVtcHRlZCB0byByZXNvbHZlIHRoZSBpc3N1ZSBieSBhZGRpbmcgZXZlcnkKQ1JUQyBp
+bnRvIHRoZSBjb21taXQgdG8gdXNlIHVzZSB0aGUgc3RhbGwgY2hlY2tzLiBbMV0gV2hpbGUgdGhp
+cyBmb3JjZXMKc3luY2hyb25pc2F0aW9uIG9uIGNvbW1pdHMsIGl0J3Mga2luZCBvZiBhIGhhY2t5
+IG1ldGhvZCB0aGF0IG1heSB0YWtlIGEKdG9sbCBvbiBwZXJmb3JtYW5jZS4KCklzIGl0IHBvc3Np
+YmxlIHRvIGhhdmUgYSBEUk0gaGVscGVyIHRoYXQgZm9yY2VzIHN5bmNocm9uaXNhdGlvbiBvbiBz
+b21lCmNvbW1pdHMgd2l0aG91dCBoYXZpbmcgdG8gYWRkIGV2ZXJ5IENSVEMgaW50byB0aGUgY29t
+bWl0PwoKQWxzbywgaXMgc3luY2hyb25pc2F0aW9uIHJlYWxseSBuZWNlc3NhcnkgZm9yIGZhc3Qg
+dXBkYXRlcyBpbiBhbWRncHU/CkknbGwgYWRtaXQsIHRoZSBpZGVhIG9mIGVsaW1pbmF0aW5nIHRo
+ZSB1c2UtYWZ0ZXItZnJlZSBidWcgYnkgZWxpbWluYXRpbmcKdGhlIHVzZSBlbnRpcmVseSBkb2Vz
+bid0IHNlZW0gaWRlYWw7IGJ1dCBpcyBmb3JjaW5nIHN5bmNocm9uaXNhdGlvbiBvbgp0aGVzZSB1
+cGRhdGVzIHRoYXQgbXVjaCBiZXR0ZXI/CgpbMV0gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3Jn
+L3Nob3dfYnVnLmNnaT9pZD0yMDczODMjYzk2CgpUaGFua3MsCk1hemluIFJlemsKCj4KPiBDaGVl
+cnMsIERhbmllbAo+Cj4gPgo+ID4gUmVnYXJkcywKPiA+IENocmlzdGlhbi4KPiA+Cj4gPiA+Cj4g
+PiA+IFJlZ2FyZHMsCj4gPiA+IE5pY2hvbGFzIEthemxhdXNrYXMKPiA+ID4KPiA+ID4+Cj4gPiA+
+Pj4KPiA+ID4+PiBTaW5jZSB0aGlzIGJ1ZyBoYXMgb25seSBiZWVuIHNwb3R0ZWQgd2l0aCBmYXN0
+IGNvbW1pdHMsIHRoaXMgcGF0Y2gKPiA+ID4+PiBmaXhlcwo+ID4gPj4+IHRoZSBidWcgYnkgY2xl
+YXJpbmcgdGhlIGRtX3N0YXRlIGluc3RlYWQgb2YgdXNpbmcgdGhlIG9sZCBkY19zdGF0ZSBmb3IK
+PiA+ID4+PiBmYXN0IHVwZGF0ZXMuIEluIGFkZGl0aW9uLCBzaW5jZSBkbV9zdGF0ZSBpcyBvbmx5
+IHVzZWQgZm9yIGl0cyBkY19zdGF0ZQo+ID4gPj4+IGFuZCBhbWRncHVfZG1fYXRvbWljX2NvbW1p
+dF90YWlsIHdpbGwgcmV0YWluIHRoZSBkY19zdGF0ZSBpZiBub25lIGlzCj4gPiA+Pj4gZm91bmQs
+Cj4gPiA+Pj4gcmVtb3ZpbmcgdGhlIGRtX3N0YXRlIHNob3VsZCBub3QgaGF2ZSBhbnkgY29uc2Vx
+dWVuY2VzIGluIGZhc3QgdXBkYXRlcy4KPiA+ID4+Pgo+ID4gPj4+IFRoaXMgdXNlLWFmdGVyLWZy
+ZWUgYnVnIGhhcyBleGlzdGVkIGZvciBhIHdoaWxlIG5vdywgYnV0IG9ubHkgY2F1c2VkIGEKPiA+
+ID4+PiBub3RpY2VhYmxlIGlzc3VlIHN0YXJ0aW5nIGZyb20gNS43LXJjMSBkdWUgdG8gMzIwMmZh
+NjJmICgic2x1YjoKPiA+ID4+PiByZWxvY2F0ZQo+ID4gPj4+IGZyZWVsaXN0IHBvaW50ZXIgdG8g
+bWlkZGxlIG9mIG9iamVjdCIpIG1vdmluZyB0aGUgZnJlZWxpc3QgcG9pbnRlciBmcm9tCj4gPiA+
+Pj4gZG1fc3RhdGUtPmJhc2UgKHdoaWNoIHdhcyB1bnVzZWQpIHRvIGRtX3N0YXRlLT5jb250ZXh0
+ICh3aGljaCBpcwo+ID4gPj4+IGRlcmVmZXJlbmNlZCkuCj4gPiA+Pj4KPiA+ID4+PiBCdWd6aWxs
+YTogaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDczODMKPiA+
+ID4+PiBGaXhlczogYmQyMDBkMTkwZjQ1ICgiZHJtL2FtZC9kaXNwbGF5OiBEb24ndCByZXBsYWNl
+IHRoZSBkY19zdGF0ZQo+ID4gPj4+IGZvciBmYXN0IHVwZGF0ZXMiKQo+ID4gPj4+IFJlcG9ydGVk
+LWJ5OiBEdW5jYW4gPDFpNXQ1LmR1bmNhbkBjb3gubmV0Pgo+ID4gPj4+IFNpZ25lZC1vZmYtYnk6
+IE1hemluIFJlemsgPG1ucnprQHByb3Rvbm1haWwuY29tPgo+ID4gPj4+IC0tLQo+ID4gPj4+ICAg
+Li4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jIHwgMzYKPiA+ID4+
+PiArKysrKysrKysrKysrKy0tLS0tCj4gPiA+Pj4gICAxIGZpbGUgY2hhbmdlZCwgMjcgaW5zZXJ0
+aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKPiA+ID4+Pgo+ID4gPj4+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCj4gPiA+Pj4gYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCj4gPiA+Pj4g
+aW5kZXggODZmZmEwYzI4ODBmLi43MTBlZGM3MGUzN2UgMTAwNjQ0Cj4gPiA+Pj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwo+ID4gPj4+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKPiA+
+ID4+PiBAQCAtODcxNywyMCArODcxNywzOCBAQCBzdGF0aWMgaW50IGFtZGdwdV9kbV9hdG9taWNf
+Y2hlY2soc3RydWN0Cj4gPiA+Pj4gZHJtX2RldmljZSAqZGV2LAo+ID4gPj4+ICAgICAgICAgICAg
+KiB0aGUgc2FtZSByZXNvdXJjZS4gSWYgd2UgaGF2ZSBhIG5ldyBEQyBjb250ZXh0IGFzIHBhcnQg
+b2YKPiA+ID4+PiAgICAgICAgICAgICogdGhlIERNIGF0b21pYyBzdGF0ZSBmcm9tIHZhbGlkYXRp
+b24gd2UgbmVlZCB0byBmcmVlIGl0IGFuZAo+ID4gPj4+ICAgICAgICAgICAgKiByZXRhaW4gdGhl
+IGV4aXN0aW5nIG9uZSBpbnN0ZWFkLgo+ID4gPj4+ICsgICAgICAgICAqCj4gPiA+Pj4gKyAgICAg
+ICAgICogRnVydGhlcm1vcmUsIHNpbmNlIHRoZSBETSBhdG9taWMgc3RhdGUgb25seSBjb250YWlu
+cyB0aGUgREMKPiA+ID4+PiArICAgICAgICAgKiBjb250ZXh0IGFuZCBjYW4gc2FmZWx5IGJlIGFu
+bnVsbGVkLCB3ZSBjYW4gZnJlZSB0aGUgc3RhdGUKPiA+ID4+PiArICAgICAgICAgKiBhbmQgY2xl
+YXIgdGhlIGFzc29jaWF0ZWQgcHJpdmF0ZSBvYmplY3Qgbm93IHRvIGZyZWUKPiA+ID4+PiArICAg
+ICAgICAgKiBzb21lIG1lbW9yeSBhbmQgYXZvaWQgYSBwb3NzaWJsZSB1c2UtYWZ0ZXItZnJlZSBs
+YXRlci4KPiA+ID4+PiAgICAgICAgICAgICovCj4gPiA+Pj4gLSAgICAgICAgc3RydWN0IGRtX2F0
+b21pY19zdGF0ZSAqbmV3X2RtX3N0YXRlLCAqb2xkX2RtX3N0YXRlOwo+ID4gPj4+Cj4gPiA+Pj4g
+LSAgICAgICAgbmV3X2RtX3N0YXRlID0gZG1fYXRvbWljX2dldF9uZXdfc3RhdGUoc3RhdGUpOwo+
+ID4gPj4+IC0gICAgICAgIG9sZF9kbV9zdGF0ZSA9IGRtX2F0b21pY19nZXRfb2xkX3N0YXRlKHN0
+YXRlKTsKPiA+ID4+PiArICAgICAgICBmb3IgKGkgPSAwOyBpIDwgc3RhdGUtPm51bV9wcml2YXRl
+X29ianM7IGkrKykgewo+ID4gPj4+ICsgICAgICAgICAgICBzdHJ1Y3QgZHJtX3ByaXZhdGVfb2Jq
+ICpvYmogPSBzdGF0ZS0+cHJpdmF0ZV9vYmpzW2ldLnB0cjsKPiA+ID4+Pgo+ID4gPj4+IC0gICAg
+ICAgIGlmIChuZXdfZG1fc3RhdGUgJiYgb2xkX2RtX3N0YXRlKSB7Cj4gPiA+Pj4gLSAgICAgICAg
+ICAgIGlmIChuZXdfZG1fc3RhdGUtPmNvbnRleHQpCj4gPiA+Pj4gLSAgICAgICAgICAgICAgICBk
+Y19yZWxlYXNlX3N0YXRlKG5ld19kbV9zdGF0ZS0+Y29udGV4dCk7Cj4gPiA+Pj4gKyAgICAgICAg
+ICAgIGlmIChvYmotPmZ1bmNzID09IGFkZXYtPmRtLmF0b21pY19vYmouZnVuY3MpIHsKPiA+ID4+
+PiArICAgICAgICAgICAgICAgIGludCBqID0gc3RhdGUtPm51bV9wcml2YXRlX29ianMtMTsKPiA+
+ID4+Pgo+ID4gPj4+IC0gICAgICAgICAgICBuZXdfZG1fc3RhdGUtPmNvbnRleHQgPSBvbGRfZG1f
+c3RhdGUtPmNvbnRleHQ7Cj4gPiA+Pj4gKyAgICAgICAgICAgICAgICBkbV9hdG9taWNfZGVzdHJv
+eV9zdGF0ZShvYmosCj4gPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgIHN0YXRlLT5wcml2
+YXRlX29ianNbaV0uc3RhdGUpOwo+ID4gPj4+ICsKPiA+ID4+PiArICAgICAgICAgICAgICAgIC8q
+IElmIGkgaXMgbm90IGF0IHRoZSBlbmQgb2YgdGhlIGFycmF5IHRoZW4gdGhlCj4gPiA+Pj4gKyAg
+ICAgICAgICAgICAgICAgKiBsYXN0IGVsZW1lbnQgbmVlZHMgdG8gYmUgbW92ZWQgdG8gd2hlcmUg
+aSB3YXMKPiA+ID4+PiArICAgICAgICAgICAgICAgICAqIGJlZm9yZSB0aGUgYXJyYXkgY2FuIHNh
+ZmVseSBiZSB0cnVuY2F0ZWQuCj4gPiA+Pj4gKyAgICAgICAgICAgICAgICAgKi8KPiA+ID4+PiAr
+ICAgICAgICAgICAgICAgIGlmIChpICE9IGopCj4gPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAg
+c3RhdGUtPnByaXZhdGVfb2Jqc1tpXSA9Cj4gPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+IHN0YXRlLT5wcml2YXRlX29ianNbal07Cj4gPiA+Pj4KPiA+ID4+PiAtICAgICAgICAgICAgaWYg
+KG9sZF9kbV9zdGF0ZS0+Y29udGV4dCkKPiA+ID4+PiAtICAgICAgICAgICAgICAgIGRjX3JldGFp
+bl9zdGF0ZShvbGRfZG1fc3RhdGUtPmNvbnRleHQpOwo+ID4gPj4+ICsgICAgICAgICAgICAgICAg
+c3RhdGUtPnByaXZhdGVfb2Jqc1tqXS5wdHIgPSBOVUxMOwo+ID4gPj4+ICsgICAgICAgICAgICAg
+ICAgc3RhdGUtPnByaXZhdGVfb2Jqc1tqXS5zdGF0ZSA9IE5VTEw7Cj4gPiA+Pj4gKyAgICAgICAg
+ICAgICAgICBzdGF0ZS0+cHJpdmF0ZV9vYmpzW2pdLm9sZF9zdGF0ZSA9IE5VTEw7Cj4gPiA+Pj4g
+KyAgICAgICAgICAgICAgICBzdGF0ZS0+cHJpdmF0ZV9vYmpzW2pdLm5ld19zdGF0ZSA9IE5VTEw7
+Cj4gPiA+Pj4gKwo+ID4gPj4+ICsgICAgICAgICAgICAgICAgc3RhdGUtPm51bV9wcml2YXRlX29i
+anMgPSBqOwo+ID4gPj4+ICsgICAgICAgICAgICAgICAgYnJlYWs7Cj4gPiA+Pj4gKyAgICAgICAg
+ICAgIH0KPiA+ID4+PiAgICAgICAgICAgfQo+ID4gPj4+ICAgICAgIH0KPiA+ID4+Pgo+ID4gPj4+
+IC0tCj4gPiA+Pj4gMi4yNy4wCj4gPiA+Pj4KPiA+ID4+Cj4gPiA+Cj4gPgo+ID4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+IGRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IGh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4KPgo+Cj4g
+LS0KPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9u
+Cj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
