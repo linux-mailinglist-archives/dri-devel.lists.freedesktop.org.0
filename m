@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A14422F5DC
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 18:56:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F3122F5F0
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 19:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2424B89D99;
-	Mon, 27 Jul 2020 16:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1404389D60;
+	Mon, 27 Jul 2020 17:03:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDBE289D99
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:56:27 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id A3333804A4;
- Mon, 27 Jul 2020 18:56:23 +0200 (CEST)
-Date: Mon, 27 Jul 2020 18:56:22 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v4 0/15] drm/bridge: support chained bridges + panel
- updates
-Message-ID: <20200727165622.GA891939@ravnborg.org>
-References: <20200726203324.3722593-1-sam@ravnborg.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A2589D60
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 17:03:01 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C731556;
+ Mon, 27 Jul 2020 19:02:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1595869372;
+ bh=BmUuid7qCzoWbedOU9sLebblb85wP/lsToqZ1PEAt7g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NK7YhBPigSjuPp+8tFWoURgc5JobClMElhBjG4x8/0HB1ty/e2Xrao9L3SD+DC6sv
+ m8+PkL77ie+LOjD+mEWtHHyPmrAwZniDzQlw0vPssSlSdwCgdIv3vxmAEhGzJOj/0b
+ sauWg5WMzGjPy7pRV1Xrucl5Y6ybdjam0Z2sNvuY=
+Date: Mon, 27 Jul 2020 20:02:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 2/6] drm: dsi: Let host and device specify supported bus
+Message-ID: <20200727170245.GF17521@pendragon.ideasonboard.com>
+References: <20200727164613.19744-1-paul@crapouillou.net>
+ <20200727164613.19744-3-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200726203324.3722593-1-sam@ravnborg.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=hkVmIG1S_xXsaS0GYzwA:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200727164613.19744-3-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,101 +46,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thierry Reding <thierry.reding@gmail.com>,
- Martin Donnelly <martin.donnelly@ge.com>, kbuild test robot <lkp@intel.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ od@zcrc.me, Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent/all.
+Hi Paul,
 
-On Sun, Jul 26, 2020 at 10:33:09PM +0200, Sam Ravnborg wrote:
-> The objective is that all bridge drivers shall support a chained setup
-> connector creation is moved to the display drivers.
-> This is just one step on this path.
+Thank you for the patch.
+
+On Mon, Jul 27, 2020 at 06:46:09PM +0200, Paul Cercueil wrote:
+> The current MIPI DSI framework can very well be used to support MIPI DBI
+> panels. In order to add support for the various bus types supported by
+> DBI, the DRM panel drivers should specify the bus type they will use,
+> and the DSI host drivers should specify the bus types they are
+> compatible with.
 > 
-> The general approach for the bridge drivers:
-> - Introduce bridge operations
-> - Introduce use of panel bridge and make connector creation optional
+> The DSI host driver can then use the information provided by the DBI/DSI
+> device driver, such as the bus type and the number of lanes, to
+> configure its hardware properly.
 > 
-> v4:
->   - Dropped patch for ti-sn65dsi86. Await full conversion.
->   - Dropped patch for ti-tpd12s015. It was wrong (Laurent)
->   - Drop boe,hv070wsa-100 patch, it was applied
->   - Combined a few patches to fix connector created twice (Laurent)
->   - Fix memory leak in get_edid in several drivers (Laurent)
->   - Added patch to validate panel descriptions in panel-simple
->   - Set bridge.type in relevant drivers
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c |  9 +++++++++
+>  include/drm/drm_mipi_dsi.h     | 12 ++++++++++++
+
+Use the mipi_dsi_* API for DBI panels will be very confusing to say the
+least. Can we consider a global name refactoring to clarify all this ?
+
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index 5dd475e82995..11ef885de765 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -281,6 +281,9 @@ int mipi_dsi_host_register(struct mipi_dsi_host *host)
+>  {
+>  	struct device_node *node;
 >  
-> v3:
->   - Rebase on top of drm-misc-next
->   - Address kbuild test robot feedback
+> +	if (WARN_ON_ONCE(!host->bus_types))
+> +		host->bus_types = MIPI_DEVICE_TYPE_DSI;
+> +
+>  	for_each_available_child_of_node(host->dev->of_node, node) {
+>  		/* skip nodes without reg property */
+>  		if (!of_find_property(node, "reg", NULL))
+> @@ -323,6 +326,12 @@ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
+>  {
+>  	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
 >  
-> v2:
->   - Updated bus_flags for boe,hv070wsa-100
->   - Collected r-b, but did not apply patches yet
->   - On the panel side the panel-simple driver gained a default
->     connector type for all the dumb panels that do not
->     include so in their description.
->     With this change panels always provide a connector type,
->     and we have the potential to drop most uses of
->     devm_drm_panel_bridge_add_typed().
->   - Added conversion of a few more bridge drivers
-> 
-> Patches can build but no run-time testing.
-> So both test and review feedback appreciated!
-> 
-> 	Sam
-> 
-> Sam Ravnborg (15):
->       drm/panel: panel-simple: validate panel description
->       drm/panel: panel-simple: add default connector_type
->       drm/bridge: tc358764: drop drm_connector_(un)register
->       drm/bridge: tc358764: add drm_panel_bridge support
->       drm/bridge: tc358767: add detect bridge operation
->       drm/bridge: tc358767: add get_edid bridge operation
->       drm/bridge: tc358767: add drm_panel_bridge support
->       drm/bridge: parade-ps8622: add drm_panel_bridge support
->       drm/bridge: megachips: add helper to create connector
->       drm/bridge: megachips: get drm_device from bridge
->       drm/bridge: megachips: enable detect bridge operation
->       drm/bridge: megachips: add get_edid bridge operation
->       drm/bridge: megachips: make connector creation optional
->       drm/bridge: nxp-ptn3460: add get_edid bridge operation
->       drm/bridge: nxp-ptn3460: add drm_panel_bridge support
+> +	if (WARN_ON_ONCE(!dsi->bus_type))
+> +		dsi->bus_type = MIPI_DEVICE_TYPE_DSI;
+> +
+> +	if (!(dsi->bus_type & dsi->host->bus_types))
+> +		return -EINVAL;
+> +
+>  	if (!ops || !ops->attach)
+>  		return -ENOSYS;
+>  
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 360e6377e84b..65d2961fc054 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -63,6 +63,14 @@ struct mipi_dsi_packet {
+>  int mipi_dsi_create_packet(struct mipi_dsi_packet *packet,
+>  			   const struct mipi_dsi_msg *msg);
+>  
+> +/* MIPI bus types */
+> +#define MIPI_DEVICE_TYPE_DSI		BIT(0)
+> +#define MIPI_DEVICE_TYPE_DBI_SPI_MODE1	BIT(1)
+> +#define MIPI_DEVICE_TYPE_DBI_SPI_MODE2	BIT(2)
+> +#define MIPI_DEVICE_TYPE_DBI_SPI_MODE3	BIT(3)
+> +#define MIPI_DEVICE_TYPE_DBI_M6800	BIT(4)
+> +#define MIPI_DEVICE_TYPE_DBI_I8080	BIT(5)
+> +
+>  /**
+>   * struct mipi_dsi_host_ops - DSI bus operations
+>   * @attach: attach DSI device to DSI host
+> @@ -94,11 +102,13 @@ struct mipi_dsi_host_ops {
+>   * struct mipi_dsi_host - DSI host device
+>   * @dev: driver model device node for this DSI host
+>   * @ops: DSI host operations
+> + * @bus_types: Bitmask of supported MIPI bus types
+>   * @list: list management
+>   */
+>  struct mipi_dsi_host {
+>  	struct device *dev;
+>  	const struct mipi_dsi_host_ops *ops;
+> +	unsigned int bus_types;
+>  	struct list_head list;
+>  };
+>  
+> @@ -162,6 +172,7 @@ struct mipi_dsi_device_info {
+>   * @host: DSI host for this peripheral
+>   * @dev: driver model device node for this peripheral
+>   * @name: DSI peripheral chip type
+> + * @bus_type: MIPI bus type (MIPI_DEVICE_TYPE_DSI/...)
+>   * @channel: virtual channel assigned to the peripheral
+>   * @format: pixel format for video mode
+>   * @lanes: number of active data lanes
+> @@ -178,6 +189,7 @@ struct mipi_dsi_device {
+>  	struct device dev;
+>  
+>  	char name[DSI_DEV_NAME_SIZE];
+> +	unsigned int bus_type;
+>  	unsigned int channel;
+>  	unsigned int lanes;
+>  	enum mipi_dsi_pixel_format format;
 
-Laurent reviewed the full series - thanks!
-I went ahead and applied the patches for drivers where all
-patches was reviewed.
+-- 
+Regards,
 
-I will send a v5 soon for tc358767 and nxp-ptn3460 where I have fixed
-my brown paper bag bugs
-.
-I am very happy Laurent spotted these before we applied the patches.
-This also gives a good indication of the quality of the review.
-
-	Sam
-
-> 
->  .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |  97 +++++++++-------
->  drivers/gpu/drm/bridge/nxp-ptn3460.c               | 103 ++++++++---------
->  drivers/gpu/drm/bridge/parade-ps8622.c             | 100 +++-------------
->  drivers/gpu/drm/bridge/tc358764.c                  | 110 +++---------------
->  drivers/gpu/drm/bridge/tc358767.c                  | 126 +++++++++++----------
->  drivers/gpu/drm/panel/panel-simple.c               |  48 +++++++-
->  6 files changed, 242 insertions(+), 342 deletions(-)
-> 
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
