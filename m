@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1980C22EA2B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 12:39:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE29E22EA2D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 12:40:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD9889D40;
-	Mon, 27 Jul 2020 10:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E117289D58;
+	Mon, 27 Jul 2020 10:40:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF0189D40
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 10:39:20 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id by13so11718432edb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 03:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=st6r5oS3z6DNZv2ZuYxmQAoS3NnRHmcOEsBwsvxxXrs=;
- b=G8sTM6xfXAZxjHjbkm6Y8/nWd42IpjEV9w4oAGwxtbRhz6TKdvF1ofW/atvegOpeYd
- 0FNSiYHACKiwQg1PLLmG0If+jARUS+kk5vn1smzd5Huv41YI+wMITxs5huEX4/zuxqgJ
- Vmu6YOIACWB3MpPFRoIWNVks1tMpiV4Vo7WgTG1VEgAxUcXIB0Qw6ELULkMbqeWVHsJ5
- GIyUAxJ7rAD+2YFm5/7DlpDzoYZUxwVLeS+Blem+NWxxFVZNGkcxxx8+NeQKKHFNfm09
- w3tkL7aQZvV2eCAyV6gxMQeQOdnPqroqPJfyfnt9SihgB6pbaxLhA9MzXcQBQJSlHwOz
- udYw==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF3389D58
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 10:40:47 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id 3so7313715wmi.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 03:40:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QAGkxy7zDHqwfq3HR6Ep0RxFMMTvIif5jJbN4T7u8T0=;
+ b=CW/VPSXTsqGNsByyHKn5qQLkyJKMqZTfdy0I6FAc8bU6LUVU67IHuEJDrKqTj7FJJ2
+ Nud4pYYKQSJevTynBSKaPkQ9Gyap8A/u5Bi+29WdBj/6ezoBguSPMrH5HIsWrlEwLQA6
+ YR0aYMiWWjCQQfpyenXbDy0yobOQM6ifeARnI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=st6r5oS3z6DNZv2ZuYxmQAoS3NnRHmcOEsBwsvxxXrs=;
- b=ri1ZDidekuGrDNDZi8KpbCdwvctTdTZ05G8I1DJOVH1576a1eoQ7vKG2goefsfc/IL
- KFCqYbdQRnQmIXsA8M5Cf2HZgUN977UyxbmQZl1ZrxgjhURB4QqBik4Rv2gmCSGv5sRd
- sKQM8euNuPoouxc0wVGezxJlkDMWs8J6queQ5JJ63KgVz+fGpKlB5s5qHczSQKGPw26q
- xmlq/64W7rLXRjSulOwcMCEJDwmp/eh393zls5PAbqKXRiyt2/eCLlLbfEzguQ4q5kJd
- EjGgEbBm0Xydb9wvbKSHqPSDHBeKU8Qa5yE+t8axdQ83DSdiMA8ykR38/XgpmqcsOebu
- dCXg==
-X-Gm-Message-State: AOAM532ln3jG/hXcK7oDIeEEy2ZM1m20XBKNAArkaHrSGXsAA6HqiH8l
- v9zG0PTiLtmBDpugC4I64YtXO1U5
-X-Google-Smtp-Source: ABdhPJy+gVntAvQJLhVLLCNNqUHQsdTQ5y80hBvM/QGbjfI0P3pHlWdnml05NaWn9kKBeiza06srdg==
-X-Received: by 2002:a05:6402:899:: with SMTP id
- e25mr8496776edy.311.1595846358981; 
- Mon, 27 Jul 2020 03:39:18 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id n9sm7365743edr.46.2020.07.27.03.39.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 03:39:18 -0700 (PDT)
-Subject: Re: [PATCH 1/9] drm/ttm: initialize the system domain with defaults
-To: daniel@ffwll.ch, =?UTF-8?Q?Thomas_Hellstr=c3=b6m?=
- <thomas.hellstrom@intel.com>
-References: <20200723151621.3536-1-christian.koenig@amd.com>
- <20200727094251.GO6419@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <731e9553-81f3-752f-3e44-71027693d3bc@gmail.com>
-Date: Mon, 27 Jul 2020 12:39:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QAGkxy7zDHqwfq3HR6Ep0RxFMMTvIif5jJbN4T7u8T0=;
+ b=aMFbOlwjOuBE8gGxOuLBH73q/mbWZWpoqCy2X2GLapQGPQlmGQKXcClwIZ2iYj77SG
+ c/92Mea2YOyc9yjBXi4oFBrx9bujB2q83uATepOpLk/oDqsLPkGfTPmTarn/T7HfonKB
+ zz+g1Kk2N+KCquGvetcakR9Gavy7pFAOjOuUDCK7eFDCRbcI3w2VMoUDB8WR06ktD0cG
+ lDEg9ocjZeuFdNxbC3gKapAh+/kGBm8Z7DDagGwvC4LFaltBJRIzMJLF4Zi6s1P5bx0E
+ VlOI6O3c21JWDDsEC1HpKcb3Ql0jQFTmcsdK15kjFVg8kkDmYoRvGZI+2uIoDoiC4JMi
+ zwJA==
+X-Gm-Message-State: AOAM532WNqtLWbsntXmAP4WlF3KefiA4CVo21YkSQKOMjsiZeYx4eaoX
+ NIzI2D1N5MTyWI7Few+lg9//xg==
+X-Google-Smtp-Source: ABdhPJw+X1md0G79Cgzmhg5XANVN1gR3Nxk/a+aOwWwjQ1jzk31BJ1RUZQgLagH67Ncu9SKX0MVyEA==
+X-Received: by 2002:a7b:ce04:: with SMTP id m4mr19528565wmc.1.1595846446333;
+ Mon, 27 Jul 2020 03:40:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 111sm6228210wrc.53.2020.07.27.03.40.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jul 2020 03:40:45 -0700 (PDT)
+Date: Mon, 27 Jul 2020 12:40:43 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH 1/3] drm/ast: Do full modeset if the primary plane's
+ format changes
+Message-ID: <20200727104043.GU6419@phenom.ffwll.local>
+References: <20200727073707.21097-1-tzimmermann@suse.de>
+ <20200727073707.21097-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200727094251.GO6419@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200727073707.21097-2-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,108 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ stable@vger.kernel.org, sam@ravnborg.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjcuMDcuMjAgdW0gMTE6NDIgc2NocmllYiBkYW5pZWxAZmZ3bGwuY2g6Cj4gT24gVGh1LCBK
-dWwgMjMsIDIwMjAgYXQgMDU6MTY6MTNQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-Pj4gSW5zdGVhZCBvZiByZXBlYXRpbmcgdGhhdCBpbiBlYWNoIGRyaXZlci4KPj4KPj4gU2lnbmVk
-LW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+PiAt
-LS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgICAgfCAzIC0t
-LQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMgICAgICB8IDMgLS0t
-Cj4+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jICAgICAgIHwgMyAtLS0K
-Pj4gICBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF90dG0uYyAgICAgICAgICAgICAgfCAzIC0tLQo+
-PiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jICAgICAgICB8IDMgLS0tCj4+
-ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyAgICAgICAgICAgICAgIHwgMiArKwo+PiAg
-IGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyB8IDIgLS0KPj4gICA3
-IGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pCj4+Cj4+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKPj4gaW5kZXggMGRkNWU4MDIwOTFk
-Li5lNTdjNDlhOTFiNzMgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV90dG0uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-dHRtLmMKPj4gQEAgLTg0LDkgKzg0LDYgQEAgc3RhdGljIGludCBhbWRncHVfaW5pdF9tZW1fdHlw
-ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPj4gICAJc3dpdGNo
-ICh0eXBlKSB7Cj4+ICAgCWNhc2UgVFRNX1BMX1NZU1RFTToKPj4gICAJCS8qIFN5c3RlbSBtZW1v
-cnkgKi8KPj4gLQkJbWFuLT5mbGFncyA9IDA7Cj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcg
-PSBUVE1fUExfTUFTS19DQUNISU5HOwo+PiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9Q
-TF9GTEFHX0NBQ0hFRDsKPj4gICAJCWJyZWFrOwo+PiAgIAljYXNlIFRUTV9QTF9UVDoKPj4gICAJ
-CS8qIEdUVCBtZW1vcnkgICovCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dl
-bV92cmFtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYwo+
-PiBpbmRleCAzMjk2ZWQzZGYzNTguLmJlMTc3YWZkZWI5YSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbV92cmFtX2hlbHBlci5jCj4+IEBAIC0xMDA5LDkgKzEwMDksNiBAQCBzdGF0aWMgaW50
-IGJvX2RyaXZlcl9pbml0X21lbV90eXBlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1aW50
-MzJfdCB0eXBlLAo+PiAgIHsKPj4gICAJc3dpdGNoICh0eXBlKSB7Cj4+ICAgCWNhc2UgVFRNX1BM
-X1NZU1RFTToKPj4gLQkJbWFuLT5mbGFncyA9IDA7Cj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hp
-bmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+PiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRU
-TV9QTF9GTEFHX0NBQ0hFRDsKPj4gICAJCWJyZWFrOwo+PiAgIAljYXNlIFRUTV9QTF9WUkFNOgo+
-PiAgIAkJbWFuLT5mdW5jID0gJnR0bV9ib19tYW5hZ2VyX2Z1bmM7Cj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91
-dmVhdS9ub3V2ZWF1X2JvLmMKPj4gaW5kZXggNGNjZjkzN2RmMGQwLi41M2FmMjUwMjBiYjIgMTAw
-NjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+PiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPj4gQEAgLTY1NSw5ICs2NTUs
-NiBAQCBub3V2ZWF1X2JvX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYs
-IHVpbnQzMl90IHR5cGUsCj4+ICAgCj4+ICAgCXN3aXRjaCAodHlwZSkgewo+PiAgIAljYXNlIFRU
-TV9QTF9TWVNURU06Cj4+IC0JCW1hbi0+ZmxhZ3MgPSAwOwo+PiAtCQltYW4tPmF2YWlsYWJsZV9j
-YWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElORzsKPj4gLQkJbWFuLT5kZWZhdWx0X2NhY2hpbmcg
-PSBUVE1fUExfRkxBR19DQUNIRUQ7Cj4+ICAgCQlicmVhazsKPj4gICAJY2FzZSBUVE1fUExfVlJB
-TToKPj4gICAJCW1hbi0+ZmxhZ3MgPSBUVE1fTUVNVFlQRV9GTEFHX0ZJWEVEOwo+PiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhs
-L3F4bF90dG0uYwo+PiBpbmRleCAxZDhlMDdiOGIxOWUuLmU5YjhjOTIxYzFmMCAxMDA2NDQKPj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMKPj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3F4bC9xeGxfdHRtLmMKPj4gQEAgLTU0LDkgKzU0LDYgQEAgc3RhdGljIGludCBxeGxfaW5p
-dF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPj4g
-ICAJc3dpdGNoICh0eXBlKSB7Cj4+ICAgCWNhc2UgVFRNX1BMX1NZU1RFTToKPj4gICAJCS8qIFN5
-c3RlbSBtZW1vcnkgKi8KPj4gLQkJbWFuLT5mbGFncyA9IDA7Cj4+IC0JCW1hbi0+YXZhaWxhYmxl
-X2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+PiAtCQltYW4tPmRlZmF1bHRfY2FjaGlu
-ZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPj4gICAJCWJyZWFrOwo+PiAgIAljYXNlIFRUTV9QTF9W
-UkFNOgo+PiAgIAljYXNlIFRUTV9QTF9QUklWOgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90
-dG0uYwo+PiBpbmRleCBiNDc0NzgxYTA5MjAuLmI0Y2I3NTM2MTU3NyAxMDA2NDQKPj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPj4gQEAgLTc2LDkgKzc2LDYgQEAgc3RhdGljIGludCBy
-YWRlb25faW5pdF9tZW1fdHlwZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3Qg
-dHlwZSwKPj4gICAJc3dpdGNoICh0eXBlKSB7Cj4+ICAgCWNhc2UgVFRNX1BMX1NZU1RFTToKPj4g
-ICAJCS8qIFN5c3RlbSBtZW1vcnkgKi8KPj4gLQkJbWFuLT5mbGFncyA9IDA7Cj4+IC0JCW1hbi0+
-YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+PiAtCQltYW4tPmRlZmF1
-bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPj4gICAJCWJyZWFrOwo+PiAgIAljYXNl
-IFRUTV9QTF9UVDoKPj4gICAJCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwo+PiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS90dG0vdHRtX2JvLmMKPj4gaW5kZXggN2MwMmNlNzg0ODA1Li4xZjFmOWU0NjMyNjUgMTAwNjQ0
-Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm8uYwo+PiBAQCAtMTY3Nyw2ICsxNjc3LDggQEAgaW50IHR0bV9ib19k
-ZXZpY2VfaW5pdChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPj4gICAJICogSW5pdGlhbGl6
-ZSB0aGUgc3lzdGVtIG1lbW9yeSBidWZmZXIgdHlwZS4KPj4gICAJICogT3RoZXIgdHlwZXMgbmVl
-ZCB0byBiZSBkcml2ZXIgLyBJT0NUTCBpbml0aWFsaXplZC4KPj4gICAJICovCj4+ICsJYmRldi0+
-bWFuW1RUTV9QTF9TWVNURU1dLmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElO
-RzsKPj4gKwliZGV2LT5tYW5bVFRNX1BMX1NZU1RFTV0uZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BM
-X0ZMQUdfQ0FDSEVEOwo+PiAgIAlyZXQgPSB0dG1fYm9faW5pdF9tbShiZGV2LCBUVE1fUExfU1lT
-VEVNLCAwKTsKPj4gICAJaWYgKHVubGlrZWx5KHJldCAhPSAwKSkKPj4gICAJCWdvdG8gb3V0X25v
-X3N5czsKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9i
-dWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+PiBp
-bmRleCAxZDc4MTg3ZWFiYTYuLjAwY2VmMWEzYTE3OCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYwo+PiBAQCAtNzQyLDggKzc0Miw2IEBAIHN0YXRp
-YyBpbnQgdm13X2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQz
-Ml90IHR5cGUsCj4+ICAgCXN3aXRjaCAodHlwZSkgewo+PiAgIAljYXNlIFRUTV9QTF9TWVNURU06
-Cj4+ICAgCQkvKiBTeXN0ZW0gbWVtb3J5ICovCj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcg
-PSBUVE1fUExfRkxBR19DQUNIRUQ7Cj4gQWJvdmUgaXMgQ0FDSEVELCBub3QgQ0FDSElORywgc28g
-bmVlZHMgdG8gc3RheSB0byBvdmVyd3JpdGUgdGhlIGRlZmF1bHQuCgpDcmFwIEkgbWlzc2VkIHRo
-YXQuIFByb2JsZW0gaXMgdGhhdCBJIHdhbnRlZCB0byByZW1vdmUgdGhlIHBvc3NpYmlsaXR5IAp0
-byBpbml0IHRoZSBzeXN0ZW0gZG9tYWluIHdpdGggZGlmZmVyZW50IGNhY2hpbmcgYXR0cmlidXRl
-cy4KCkkgZG9uJ3Qgc2VlIGhvdyB2bXdnZnggaXMgZXZlcnkgZ29pbmcgdG8gdXNlIHRoaXM/IFRo
-b21hcyBkbyB5b3UgaGF2ZSAKYW55IGlkZWEgd2hhdCB0aGlzIHdhcyBnb29kIGZvcj8KClRoYW5r
-cywKQ2hyaXN0aWFuLgoKPiBXaXRoIHRoYXQgZml4ZWQ6Cj4KPiBSZXZpZXdlZC1ieTogRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPgo+PiAtCQltYW4tPmRlZmF1bHRfY2Fj
-aGluZyA9IFRUTV9QTF9GTEFHX0NBQ0hFRDsKPj4gICAJCWJyZWFrOwo+PiAgIAljYXNlIFRUTV9Q
-TF9WUkFNOgo+PiAgIAkJLyogIk9uLWNhcmQiIHZpZGVvIHJhbSAqLwo+PiAtLSAKPj4gMi4xNy4x
-Cj4+Cj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+
-IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Jul 27, 2020 at 09:37:05AM +0200, Thomas Zimmermann wrote:
+> The atomic modesetting code tried to distinguish format changes from
+> full modesetting operations. In practice, this was buggy and the format
+> registers were often updated even for simple pageflips.
+
+Nah it's not buggy, it's intentional. Most hw can update formats in a flip
+withouth having to shut down the hw to do so.
+
+
+> Instead do a full modeset if the primary plane changes formats. It's
+> just as rare as an actual mode change, so there will be no performance
+> penalty.
+> 
+> The patch also replaces a reference to drm_crtc_state.allow_modeset with
+> the correct call to drm_atomic_crtc_needs_modeset().
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 4961eb60f145 ("drm/ast: Enable atomic modesetting")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
+> Cc: <stable@vger.kernel.org> # v5.6+
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 154cd877d9d1..3680a000b812 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -527,8 +527,8 @@ static const uint32_t ast_primary_plane_formats[] = {
+>  static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>  						 struct drm_plane_state *state)
+>  {
+> -	struct drm_crtc_state *crtc_state;
+> -	struct ast_crtc_state *ast_crtc_state;
+> +	struct drm_crtc_state *crtc_state, *old_crtc_state;
+> +	struct ast_crtc_state *ast_crtc_state, *old_ast_crtc_state;
+>  	int ret;
+>  
+>  	if (!state->crtc)
+> @@ -550,6 +550,15 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>  
+>  	ast_crtc_state->format = state->fb->format;
+>  
+> +	old_crtc_state = drm_atomic_get_old_crtc_state(state->state, state->crtc);
+> +	if (!old_crtc_state)
+> +		return 0;
+> +	old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
+> +	if (!old_ast_crtc_state)
+
+The above two if checks should never fail, I'd wrap them in a WARN_ON.
+
+> +		return 0;
+> +	if (ast_crtc_state->format != old_ast_crtc_state->format)
+> +		crtc_state->mode_changed = true;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -775,18 +784,18 @@ static void ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+>  
+>  	ast_state = to_ast_crtc_state(crtc->state);
+>  
+> -	format = ast_state->format;
+> -	if (!format)
+> +	if (!drm_atomic_crtc_needs_modeset(crtc->state))
+>  		return;
+>  
+> +	format = ast_state->format;
+> +	if (drm_WARN_ON_ONCE(dev, !format))
+> +		return; /* BUG: We didn't set format in primary check(). */
+
+Hm that entire ast_state->format machinery looks kinda strange, can't you
+just look up the primary plane state everywhere and that's it?
+drm_framebuffer are fully invariant and refcounted to the state, so there
+really shouldn't be any need to copy format around.
+
+But that's maybe for a next patch. With the commit message clarified that
+everything works as designed, and maybe the two WARN_ON added:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +
+>  	vbios_mode_info = &ast_state->vbios_mode_info;
+>  
+>  	ast_set_color_reg(ast, format);
+>  	ast_set_vbios_color_reg(ast, format, vbios_mode_info);
+>  
+> -	if (!crtc->state->mode_changed)
+> -		return;
+> -
+>  	adjusted_mode = &crtc->state->adjusted_mode;
+>  
+>  	ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
+> -- 
+> 2.27.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
