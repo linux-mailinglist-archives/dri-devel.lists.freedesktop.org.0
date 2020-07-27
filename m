@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8D122EA78
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 12:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5502E22EB02
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 13:18:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B25089A32;
-	Mon, 27 Jul 2020 10:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6582F89B83;
+	Mon, 27 Jul 2020 11:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E357F89A32
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 10:54:08 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id b13so9392170edz.7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 03:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=srT7MPW2GSzmS8q9+Bl4wXkhjw3Snf37AEv0ymuePqI=;
- b=WcmnwcgXMumjuqm7x17hWPGbwvO9P2kvlISh/AyJCPyfbrc18SrTtCevDf7dRVDLbT
- rR0uuI6mto30pVmkTTceHpF9zfEp81uSA+ERUswToKrdNhqsyMV67CGvCbeaPaUH/SCT
- EaOtne/V8gNxAnqH57+/9z/IwTZPKvmGdikJfqhuLcHOpW1qNS+WjTkPqez2P4jcQvB0
- YlpMgomL2UBHtQCo3h7DYpb79fXPIXYqAb1wAvYYUQcAbSOG3bJ3h7+D7+LzyOqDNiKb
- kORoIcfi2s7m22HCVY8wgMx5sbKM9fboeLMD58T3ws/r/Q9IysAC9kkbOdhxJtnQfkBp
- Pz0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=srT7MPW2GSzmS8q9+Bl4wXkhjw3Snf37AEv0ymuePqI=;
- b=X6KQLlfmwiwgdYGmxApEuGIJQ73kuOkhHNPaTzgSi/hcbOtpmSWhgqhqhg3KX1IFEy
- iGQDuH8h1T7O3vh4DK2SWWmrJyw7Nq6D26wHqC16D5JK3oRsMbhX9Er8Zqks+FkdCp9T
- H1qULF5O9ZYILgKxFPsL68mCUfNviGdsVlj/AwqVS3snjigB15UcQoHJ9tgfeE618irq
- HivGu6/fvdXjDMYQFa+Ucnz9m0dKAgCq+gh8M7JQUXTrZhs9fcE8LiokqieEPajvFIsb
- HdDjUMPOBGPvbze2In3sIy65rtJ88FOZ3iFeMw+vla6wjpX3FGaxuIik8y5JaDMVYUiI
- YMMw==
-X-Gm-Message-State: AOAM532+mYLBdZC9bBDK8NHFSEt9zwpwznAvDkJd3tKme4j0dh2Ghs3H
- ISiQrNzZjj8t1/PqL+pbGBBDXUVd
-X-Google-Smtp-Source: ABdhPJwdyeuVy8VB6wB7NjGcRuYU221I8vMQLLUJW3RcuLsXYeGaCcv029h8kh3dGvFyTRQ8IDlXrg==
-X-Received: by 2002:a05:6402:3058:: with SMTP id
- bu24mr20541500edb.242.1595847247217; 
- Mon, 27 Jul 2020 03:54:07 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id k7sm1630637edr.76.2020.07.27.03.54.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jul 2020 03:54:06 -0700 (PDT)
-Subject: Re: [PATCH 3/9] drm/radeon: stop implementing init_mem_type
-To: daniel@ffwll.ch
-References: <20200723151621.3536-1-christian.koenig@amd.com>
- <20200723151621.3536-3-christian.koenig@amd.com>
- <20200727103000.GR6419@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <00c49fec-7d22-6e0c-a949-aa55db80c8d7@gmail.com>
-Date: Mon, 27 Jul 2020 12:54:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8859289B83
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 11:18:35 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06RBBYkv075682;
+ Mon, 27 Jul 2020 11:18:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=CW7CisCspEvmGQA5eKVvGEMkI+QfepNMKTZ5Xq6e9Tg=;
+ b=L8CiPDjBVAGMRid6OeWssVHBC0hzE6NX6wN1Z39E7X1Z2w/HUrkI92t4Uz1xEPtnj8dE
+ ssBH1onVuZExFpr0NA48pg1zPpvUZ7E4GdTESMEhu8WwKXUwxN1FP5c3US0eoYM71N5G
+ euf8453KmdEoteXlWQepwQu9x/LFUMYuZQH9++IXtMW0GYcZVrp3uN9f3M83S/n6AMol
+ pVcA1wcZqyRK/f3ocTvjqXDNXQlyGq9ZlzkEOm9cMBYRktd5frL6uA0lrD7IycGry9N2
+ AWE4Qw0MATxDeOFdT4+p6KzMUvTW9NhVHxQCWp66ISC+XCnHmN9Lp28NWuqx81zHAwAp +g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 32hu1j0x15-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 27 Jul 2020 11:18:33 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06RBColY098984;
+ Mon, 27 Jul 2020 11:18:32 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 32hu5qqu0k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Jul 2020 11:18:32 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 06RBIV8V015384;
+ Mon, 27 Jul 2020 11:18:31 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 27 Jul 2020 04:18:30 -0700
+Date: Mon, 27 Jul 2020 14:18:25 +0300
+From: <dan.carpenter@oracle.com>
+To: hyun.kwon@xilinx.com
+Subject: [bug report] drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort
+ Subsystem
+Message-ID: <20200727111825.GB389488@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <20200727103000.GR6419@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9694
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=3 spamscore=0 mlxlogscore=839 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007270083
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9694
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ bulkscore=0 mlxlogscore=839
+ lowpriorityscore=0 malwarescore=0 clxscore=1011 mlxscore=0 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=3 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007270083
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,94 +75,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
 Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjcuMDcuMjAgdW0gMTI6MzAgc2NocmllYiBkYW5pZWxAZmZ3bGwuY2g6Cj4gT24gVGh1LCBK
-dWwgMjMsIDIwMjAgYXQgMDU6MTY6MTVQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToK
-Pj4gSW5zdGVhZCBqdXN0IGluaXRpYWxpemUgdGhlIG1lbW9yeSB0eXBlIHBhcmFtZXRlcnMKPj4g
-YmVmb3JlIGNhbGxpbmcgdHRtX2JvX2luaXRfbW0uCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBIbSB3aGF0J3MgdGhlIG1v
-dGl2YXRpb24gaGVyZT8gSSBkbyBhZ3JlZSB0aGF0IHRoZSBpbml0X21lbV90eXBlIGNhbGxiYWNr
-Cj4gaXMgcmF0aGVyIG1pZGxheWVyLXkgKGhhdmluZyBhIHBlci10eXBlIGNhc3QgaW4gYSBjYWxs
-YmFjayBpcyBhIHZlcnkgY2xlYXIKPiBzaWduYWwgc29tZXRoaW5nIHdpdGggdGhlIGxheWVyaW5n
-IGlzIGFsbCBidXN0ZWQpLiBTbyByZW1vdmluZyB0aGlzIHNvdW5kcwo+IGxpa2UgYSBnb29kIGlk
-ZWEsIGJ1dCBub3QgcmVhbGx5IGZvbGxvd2luZyB3aHkganVzdCBmb3IgcmFkZW9uPyBPciBzaW1w
-bHkKPiB3aXA/CgpPbiB0aGUgZmlyc3QgdHJ5IG9ubHkgdGhlIGZpcnN0IDMgbWFpbHMgbWFkZSBp
-dCB0byB0aGUgbGlzdCBhbmQgdGhlbiBteSAKaW50ZXJuZXQgY29ubmVjdGlvbiBjcmFzaGVkLgoK
-SSd2ZSBzZW5kIG91dCB0aGUgZnVsbCBzZXQgYSBtaW51dGUgbGF0ZXIgb25jZSBtb3JlLgoKQ2hy
-aXN0aWFuLgoKPiAtRGFuaWVsCj4KPgo+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRl
-b24vcmFkZW9uX3R0bS5jIHwgNzAgKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KPj4gICAx
-IGZpbGUgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygrKSwgMzUgZGVsZXRpb25zKC0pCj4+Cj4+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMv
-Z3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4+IGluZGV4IDlhYmExOGExNDNlNy4uYjBiNTlj
-NTUzNzg1IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0u
-Ywo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+PiBAQCAtNjks
-NDMgKzY5LDQzIEBAIHN0cnVjdCByYWRlb25fZGV2aWNlICpyYWRlb25fZ2V0X3JkZXYoc3RydWN0
-IHR0bV9ib19kZXZpY2UgKmJkZXYpCj4+ICAgc3RhdGljIGludCByYWRlb25faW5pdF9tZW1fdHlw
-ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgdWludDMyX3QgdHlwZSwKPj4gICAJCQkJc3Ry
-dWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCj4+ICAgewo+PiAtCXN0cnVjdCByYWRlb25f
-ZGV2aWNlICpyZGV2Owo+PiArCXJldHVybiAwOwo+PiArfQo+PiAgIAo+PiAtCXJkZXYgPSByYWRl
-b25fZ2V0X3JkZXYoYmRldik7Cj4+ICtzdGF0aWMgaW50IHJhZGVvbl90dG1faW5pdF92cmFtKHN0
-cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+PiArewo+PiArCXN0cnVjdCB0dG1fbWVtX3R5cGVf
-bWFuYWdlciAqbWFuID0gJnJkZXYtPm1tYW4uYmRldi5tYW5bVFRNX1BMX1ZSQU1dOwo+PiAgIAo+
-PiAtCXN3aXRjaCAodHlwZSkgewo+PiAtCWNhc2UgVFRNX1BMX1NZU1RFTToKPj4gLQkJLyogU3lz
-dGVtIG1lbW9yeSAqLwo+PiAtCQlicmVhazsKPj4gLQljYXNlIFRUTV9QTF9UVDoKPj4gLQkJbWFu
-LT5mdW5jID0gJnR0bV9ib19tYW5hZ2VyX2Z1bmM7Cj4+IC0JCW1hbi0+YXZhaWxhYmxlX2NhY2hp
-bmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+PiAtCQltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRU
-TV9QTF9GTEFHX0NBQ0hFRDsKPj4gLQkJbWFuLT51c2VfdHQgPSB0cnVlOwo+PiArCW1hbi0+ZnVu
-YyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwo+PiArCW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBU
-VE1fUExfRkxBR19VTkNBQ0hFRCB8IFRUTV9QTF9GTEFHX1dDOwo+PiArCW1hbi0+ZGVmYXVsdF9j
-YWNoaW5nID0gVFRNX1BMX0ZMQUdfV0M7Cj4+ICsKPj4gKwlyZXR1cm4gdHRtX2JvX2luaXRfbW0o
-JnJkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1ZSQU0sCj4+ICsJCQkgICAgICByZGV2LT5tYy5yZWFs
-X3ZyYW1fc2l6ZSA+PiBQQUdFX1NISUZUKTsKPj4gK30KPj4gKwo+PiArc3RhdGljIGludCByYWRl
-b25fdHRtX2luaXRfZ3R0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+PiArewo+PiArCXN0
-cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuID0gJnJkZXYtPm1tYW4uYmRldi5tYW5bVFRN
-X1BMX1RUXTsKPj4gKwo+PiArCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwo+PiAr
-CW1hbi0+YXZhaWxhYmxlX2NhY2hpbmcgPSBUVE1fUExfTUFTS19DQUNISU5HOwo+PiArCW1hbi0+
-ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfQ0FDSEVEOwo+PiArCW1hbi0+dXNlX3R0ID0g
-dHJ1ZTsKPj4gICAjaWYgSVNfRU5BQkxFRChDT05GSUdfQUdQKQo+PiAtCQlpZiAocmRldi0+Zmxh
-Z3MgJiBSQURFT05fSVNfQUdQKSB7Cj4+IC0JCQlpZiAoIXJkZXYtPmRkZXYtPmFncCkgewo+PiAt
-CQkJCURSTV9FUlJPUigiQUdQIGlzIG5vdCBlbmFibGVkIGZvciBtZW1vcnkgdHlwZSAldVxuIiwK
-Pj4gLQkJCQkJICAodW5zaWduZWQpdHlwZSk7Cj4+IC0JCQkJcmV0dXJuIC1FSU5WQUw7Cj4+IC0J
-CQl9Cj4+IC0JCQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfVU5DQUNIRUQg
-fAo+PiAtCQkJCQkJIFRUTV9QTF9GTEFHX1dDOwo+PiAtCQkJbWFuLT5kZWZhdWx0X2NhY2hpbmcg
-PSBUVE1fUExfRkxBR19XQzsKPj4gKwlpZiAocmRldi0+ZmxhZ3MgJiBSQURFT05fSVNfQUdQKSB7
-Cj4+ICsJCWlmICghcmRldi0+ZGRldi0+YWdwKSB7Cj4+ICsJCQlEUk1fRVJST1IoIkFHUCBpcyBu
-b3QgZW5hYmxlZFxuIik7Cj4+ICsJCQlyZXR1cm4gLUVJTlZBTDsKPj4gICAJCX0KPj4gLSNlbmRp
-Zgo+PiAtCQlicmVhazsKPj4gLQljYXNlIFRUTV9QTF9WUkFNOgo+PiAtCQkvKiAiT24tY2FyZCIg
-dmlkZW8gcmFtICovCj4+IC0JCW1hbi0+ZnVuYyA9ICZ0dG1fYm9fbWFuYWdlcl9mdW5jOwo+PiAt
-CQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfVU5DQUNIRUQgfCBUVE1fUExf
-RkxBR19XQzsKPj4gKwkJbWFuLT5hdmFpbGFibGVfY2FjaGluZyA9IFRUTV9QTF9GTEFHX1VOQ0FD
-SEVEIHwKPj4gKwkJCQkJIFRUTV9QTF9GTEFHX1dDOwo+PiAgIAkJbWFuLT5kZWZhdWx0X2NhY2hp
-bmcgPSBUVE1fUExfRkxBR19XQzsKPj4gLQkJYnJlYWs7Cj4+IC0JZGVmYXVsdDoKPj4gLQkJRFJN
-X0VSUk9SKCJVbnN1cHBvcnRlZCBtZW1vcnkgdHlwZSAldVxuIiwgKHVuc2lnbmVkKXR5cGUpOwo+
-PiAtCQlyZXR1cm4gLUVJTlZBTDsKPj4gICAJfQo+PiAtCXJldHVybiAwOwo+PiArI2VuZGlmCj4+
-ICsKPj4gKwlyZXR1cm4gdHRtX2JvX2luaXRfbW0oJnJkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1RU
-LAo+PiArCQkJICAgICAgcmRldi0+bWMuZ3R0X3NpemUgPj4gUEFHRV9TSElGVCk7Cj4+ICAgfQo+
-PiAgIAo+PiAgIHN0YXRpYyB2b2lkIHJhZGVvbl9ldmljdF9mbGFncyhzdHJ1Y3QgdHRtX2J1ZmZl
-cl9vYmplY3QgKmJvLAo+PiBAQCAtNzc4LDggKzc3OCw4IEBAIGludCByYWRlb25fdHRtX2luaXQo
-c3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4+ICAgCQlyZXR1cm4gcjsKPj4gICAJfQo+PiAg
-IAlyZGV2LT5tbWFuLmluaXRpYWxpemVkID0gdHJ1ZTsKPj4gLQlyID0gdHRtX2JvX2luaXRfbW0o
-JnJkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1ZSQU0sCj4+IC0JCQkJcmRldi0+bWMucmVhbF92cmFt
-X3NpemUgPj4gUEFHRV9TSElGVCk7Cj4+ICsKPj4gKwlyID0gcmFkZW9uX3R0bV9pbml0X3ZyYW0o
-cmRldik7Cj4+ICAgCWlmIChyKSB7Cj4+ICAgCQlEUk1fRVJST1IoIkZhaWxlZCBpbml0aWFsaXpp
-bmcgVlJBTSBoZWFwLlxuIik7Cj4+ICAgCQlyZXR1cm4gcjsKPj4gQEAgLTgwNCw4ICs4MDQsOCBA
-QCBpbnQgcmFkZW9uX3R0bV9pbml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+PiAgIAl9
-Cj4+ICAgCURSTV9JTkZPKCJyYWRlb246ICV1TSBvZiBWUkFNIG1lbW9yeSByZWFkeVxuIiwKPj4g
-ICAJCSAodW5zaWduZWQpIChyZGV2LT5tYy5yZWFsX3ZyYW1fc2l6ZSAvICgxMDI0ICogMTAyNCkp
-KTsKPj4gLQlyID0gdHRtX2JvX2luaXRfbW0oJnJkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1RULAo+
-PiAtCQkJCXJkZXYtPm1jLmd0dF9zaXplID4+IFBBR0VfU0hJRlQpOwo+PiArCj4+ICsJciA9IHJh
-ZGVvbl90dG1faW5pdF9ndHQocmRldik7Cj4+ICAgCWlmIChyKSB7Cj4+ICAgCQlEUk1fRVJST1Io
-IkZhaWxlZCBpbml0aWFsaXppbmcgR1RUIGhlYXAuXG4iKTsKPj4gICAJCXJldHVybiByOwo+PiAt
-LSAKPj4gMi4xNy4xCj4+Cj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+Hello Hyun Kwon,
+
+The patch d76271d22694: "drm: xlnx: DRM/KMS driver for Xilinx ZynqMP
+DisplayPort Subsystem" from Jul 7, 2018, leads to the following
+static checker warning:
+
+	drivers/gpu/drm/xlnx/zynqmp_dp.c:594 zynqmp_dp_mode_configure()
+	error: iterator underflow 'bws' (-1)-2
+
+drivers/gpu/drm/xlnx/zynqmp_dp.c
+   566  static int zynqmp_dp_mode_configure(struct zynqmp_dp *dp, int pclock,
+   567                                      u8 current_bw)
+   568  {
+   569          int max_rate = dp->link_config.max_rate;
+   570          u8 bws[3] = { DP_LINK_BW_1_62, DP_LINK_BW_2_7, DP_LINK_BW_5_4 };
+   571          u8 max_lanes = dp->link_config.max_lanes;
+   572          u8 max_link_rate_code = drm_dp_link_rate_to_bw_code(max_rate);
+   573          u8 bpp = dp->config.bpp;
+   574          u8 lane_cnt;
+   575          s8 i;
+   576  
+   577          if (current_bw == DP_LINK_BW_1_62) {
+   578                  dev_err(dp->dev, "can't downshift. already lowest link rate\n");
+   579                  return -EINVAL;
+   580          }
+   581  
+   582          for (i = ARRAY_SIZE(bws) - 1; i >= 0; i--) {
+                                              ^^^^^^
+This exits with i == -1.
+
+   583                  if (current_bw && bws[i] >= current_bw)
+   584                          continue;
+   585  
+   586                  if (bws[i] <= max_link_rate_code)
+   587                          break;
+   588          }
+   589  
+   590          for (lane_cnt = 1; lane_cnt <= max_lanes; lane_cnt <<= 1) {
+   591                  int bw;
+   592                  u32 rate;
+   593  
+   594                  bw = drm_dp_bw_code_to_link_rate(bws[i]);
+                                                         ^^^^^^
+Potential negative array offset.
+
+   595                  rate = zynqmp_dp_max_rate(bw, lane_cnt, bpp);
+   596                  if (pclock <= rate) {
+   597                          dp->mode.bw_code = bws[i];
+   598                          dp->mode.lane_cnt = lane_cnt;
+   599                          dp->mode.pclock = pclock;
+   600                          return dp->mode.bw_code;
+   601                  }
+   602          }
+   603  
+   604          dev_err(dp->dev, "failed to configure link values\n");
+   605  
+   606          return -EINVAL;
+   607  }
+
+regards,
+dan carpenter
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
