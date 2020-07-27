@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C29422FDEA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5FC22FDE8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2643A6E0CF;
-	Mon, 27 Jul 2020 23:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033D86E0CE;
+	Mon, 27 Jul 2020 23:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A09F89CB8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:46:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A7A89CE0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1595868388; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1595868389; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=MtLblppNNVqqD4yIcKXJwzqFKv9axvFG2JT5i06IIaw=;
- b=B/WCCelMAS1f/6HHzqQavBAgjXw8kYhLil0R6m8apbVssD4XbI9ipotp+ivDXDkSfVU36c
- pcYaXEPTxgItpQ47eknnwdNj6IB6IZaFsu4H3jYcneJyhz9a5HsU6Oo1pZnztE+3QvkqsP
- 410dAs5dpZJRDoI7pgHCkaRJapBT4CM=
+ in-reply-to:in-reply-to:references:references;
+ bh=mA0DRhoXYfyoP4lmizj2glYU71M+JBHynLFFki0MJG8=;
+ b=XIm9XgIArDbF4XmISOig7RvqAcx2s2zsdQ/st5sKUc3lnzQLwZGgWB2dnrlViJ29MyFxjH
+ 5++A+qejU3P8LvWhrRnc1te9rNuHOWdv4oO1kS01RJ137rB8EVNyTYPnqe+bEkzlOkgHez
+ D2mA/+gq9Eovh2JDYJochFF/yY3rK0k=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -31,9 +32,11 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 0/6] DBI/DSI, panel drivers, and tinyDRM compat
-Date: Mon, 27 Jul 2020 18:46:07 +0200
-Message-Id: <20200727164613.19744-1-paul@crapouillou.net>
+Subject: [PATCH 1/6] dt-bindings: display: Document NewVision NV3052C DT node
+Date: Mon, 27 Jul 2020 18:46:08 +0200
+Message-Id: <20200727164613.19744-2-paul@crapouillou.net>
+In-Reply-To: <20200727164613.19744-1-paul@crapouillou.net>
+References: <20200727164613.19744-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 27 Jul 2020 23:32:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,136 +58,90 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add documentation for the Device Tree node for LCD panels based on the
+NewVision NV3052C controller.
 
-Here's a follow-up on the previous discussion about the current state of
-DSI/DBI panel drivers, TinyDRM, and the need of a cleanup.
-
-For the record, here is a small sum-up of the current situation:
-
-- the current MIPI DBI code (drivers/gpu/drm/drm_mipi_dbi.c) is lagging
-  way behind the MIPI DSI code (drivers/gpu/drm/drm_mipi_dsi.c). While
-  the DSI code adds a proper bus support, with support for host drivers
-  and client devices, there is no such thing with the DBI code. As such,
-  it is currently impossible to write a standard DRM panel driver for a
-  DBI panel.
-
-- Even if the MIPI DBI code was updated with a proper bus, many panels
-  and MIPI controllers support both DSI and DBI, so it would be a pain
-  to support them without resolving to duplicating each driver.
-
-- The panel drivers written against the DBI code are all "tinyDRM"
-  drivers, which means that they will register a full yet simple DRM
-  driver, and cannot be used as regular DRM panels for a different DRM
-  driver.
-
-- These "tinyDRM" drivers all use SPI directly, even though the panels
-  they're driving can work on other interfaces (e.g. i8080 bus). Which
-  means that one driver written for e.g. a ILI9341 would not work if
-  the control interface is not SPI.
-
-- The "tinyDRM" common code is entangled with DBI and there is no clear
-  separation between the two. It could very well be moved to a single
-  "tinyDRM" driver that works with a DRM panel obtained from devicetree,
-  because the only requirement is that the panel supports a few given
-  DCS commands.
-
-This patchset introduces the following:
-
-* Patch [2/6] slightly tweaks the MIPI DSI code so that it now also
-  supports MIPI DBI over various hardware buses. Because if you think
-  about it, DSI is just the same as DBI just on a different hardware
-  bus. The DSI host drivers, now DSI/DBI host drivers, set compatibility
-  bits for the hardware buses they support (DSI, DBI/i8080, DBI/SPI9,
-  DBI/SPI+GPIO), which is matched against the hardware bus that panel
-  drivers request.
-
-* For the DBI panels connected over SPI, a new DSI/DBI host driver is
-  added in patch [3/6]. It allows MIPI DBI panel drivers to be written
-  with the DSI/DBI framework, even if they are connected over SPI,
-  instead of registering as SPI device drivers. Since most of these
-  panels can be connected over various buses, it permits to reuse the
-  same driver independently of the bus used.
-
-* Patch [4/6] adds a panel driver for NewVision NV3052C based panels.
-  This has been successfully tested on the Anbernic RG350M handheld
-  console, along with the dbi-spi bridge and the ingenic-drm driver.
-
-* A TinyDRM driver for DSI/DBI panels, once again independent of the bus
-  used; the only dependency (currently) being that the panel must
-  understand DCS commands.
-
-* A DRM panel driver to test the stack. This driver controls Ilitek
-  ILI9341 based DBI panels, like the Adafruit YX240QV29-T 320x240 2.4"
-  TFT LCD panel. This panel was converted from
-  drivers/gpu/drm/tiny/ili9341.c.
-
-Patches [1-4] were successfully tested on hardware.
-Patches [5-6] were compile-tested and runtime-tested but without
-hardware connected, so I'd want a Tested-by on these two.
-
-Another thing to note, is that it does not break Device Tree ABI. The
-display node stays the same:
-
-spi {
-	...
-
-	display@0 {
-		compatible = "adafruit,yx240qv29", "ilitek,ili9341";
-		reg = <0>;
-		spi-max-frequency = <32000000>;
-		dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
-		reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
-		rotation = <270>;
-		backlight = <&backlight>;
-	};
-};
-
-The reason it works, is that the "adafruit,yx240qv29" device is probed
-on the SPI bus, so it will match with the SPI/DBI host driver. This will
-in turn register the very same node with the DSI bus, and the ILI9341
-DRM panel driver will probe. The driver will detect that no controller
-is linked to the panel, and eventually register the DBI/DSI TinyDRM
-driver.
-
-One drawback of this approach, is that the "adafruit,yx240qv29" must be
-added to the dbi-spi bridge driver (unless a custom rule is added for a
-"dbi-spi" fallback compatible string). I still think that it's a small
-price to pay to avoid breaking the Device Tree bindings.
-
-Feedback welcome.
-
-Cheers,
--Paul
-
-Paul Cercueil (6):
-  dt-bindings: display: Document NewVision NV3052C DT node
-  drm: dsi: Let host and device specify supported bus
-  drm/bridge: Add SPI DBI host driver
-  drm/panel: Add panel driver for NewVision NV3052C based LCDs
-  drm/tiny: Add TinyDRM for DSI/DBI panels
-  drm/panel: Add Ilitek ILI9341 DBI panel driver
-
- .../display/panel/newvision,nv3052c.yaml      |  69 +++
- drivers/gpu/drm/bridge/Kconfig                |   8 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/dbi-spi.c              | 262 +++++++++
- drivers/gpu/drm/drm_mipi_dsi.c                |   9 +
- drivers/gpu/drm/panel/Kconfig                 |  18 +
- drivers/gpu/drm/panel/Makefile                |   2 +
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c  | 345 ++++++++++++
- .../gpu/drm/panel/panel-newvision-nv3052c.c   | 523 ++++++++++++++++++
- drivers/gpu/drm/tiny/Kconfig                  |   8 +
- drivers/gpu/drm/tiny/Makefile                 |   1 +
- drivers/gpu/drm/tiny/tiny-dsi.c               | 266 +++++++++
- include/drm/drm_mipi_dsi.h                    |  31 ++
- 13 files changed, 1543 insertions(+)
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ .../display/panel/newvision,nv3052c.yaml      | 69 +++++++++++++++++++
+ 1 file changed, 69 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
- create mode 100644 drivers/gpu/drm/bridge/dbi-spi.c
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
- create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
- create mode 100644 drivers/gpu/drm/tiny/tiny-dsi.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
+new file mode 100644
+index 000000000000..751a28800fc2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/newvision,nv3052c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NewVision NV3052C TFT LCD panel driver with SPI control bus
++
++maintainers:
++  - Paul Cercueil <paul@crapouillou.net>
++
++description: |
++  This is a driver for 320x240 TFT panels, accepting a variety of input
++  streams that get adapted and scaled to the panel. The panel output has
++  960 TFT source driver pins and 240 TFT gate driver pins, VCOM, VCOML and
++  VCOMH outputs.
++
++  The panel must obey the rules for a SPI slave device as specified in
++  spi/spi-controller.yaml
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - leadtek,ltk035c5444t-spi
++
++      - const: newvision,nv3052c
++
++  reg:
++    maxItems: 1
++
++  reset-gpios: true
++  port: true
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      display@0 {
++        compatible = "leadtek,ltk035c5444t-spi", "newvision,nv3052c";
++        reg = <0>;
++
++        spi-max-frequency = <15000000>;
++        spi-3wire;
++        reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
++        backlight = <&backlight>;
++        power-supply = <&vcc>;
++
++        port {
++          panel_input: endpoint {
++              remote-endpoint = <&panel_output>;
++          };
++        };
++      };
++    };
++
++...
 -- 
 2.27.0
 
