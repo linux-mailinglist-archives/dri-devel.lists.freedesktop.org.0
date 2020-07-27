@@ -2,39 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A80A22F653
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 19:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E120E22F697
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 19:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB0289E14;
-	Mon, 27 Jul 2020 17:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E69D489E3B;
+	Mon, 27 Jul 2020 17:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C72089E14
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 17:13:56 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1312F556;
- Mon, 27 Jul 2020 19:13:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595870032;
- bh=G1Bi2N3+0TyMe6SelTENfcKu4lmn7O+ThVyohX4DRCc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=acFqBkxxh/wqjGSBoJh0Yw9lT5CPJ4UAZ/Bj0WnHQ4ryS7wsss9FLOQvDdNzNam8d
- 4GbHaFrg3vieYjPvHNp83+lar2Eq7YFZ3Dt1f3IWSUb7W+b5EQRn9brb2LkPSZQN8m
- HEfmqLQ4XK5Piu9MXUpCp97yBhr5QWGiXYi4/qk4=
-Date: Mon, 27 Jul 2020 20:13:44 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v5 5/5] drm/bridge: nxp-ptn3460: add drm_panel_bridge
- support
-Message-ID: <20200727171344.GI17521@pendragon.ideasonboard.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA1A89E3B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 17:26:57 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 5AF2B2002C;
+ Mon, 27 Jul 2020 19:26:54 +0200 (CEST)
+Date: Mon, 27 Jul 2020 19:26:53 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v5 0/5] drm/bridge: Update tc358767 and nxp-ptn3460 to
+ support chained bridges
+Message-ID: <20200727172653.GA960826@ravnborg.org>
 References: <20200727170320.959777-1-sam@ravnborg.org>
- <20200727170320.959777-6-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200727170320.959777-6-sam@ravnborg.org>
+In-Reply-To: <20200727170320.959777-1-sam@ravnborg.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=DpMF2YBpyC8SxPmEn3oA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,199 +46,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Andrzej Hajda <a.hajda@samsung.com>,
  Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hi all.
 
-Thank you for the patch.
-
-On Mon, Jul 27, 2020 at 07:03:20PM +0200, Sam Ravnborg wrote:
-> Prepare the bridge driver for use in a chained setup.
+On Mon, Jul 27, 2020 at 07:03:15PM +0200, Sam Ravnborg wrote:
+> This patch-set aims to make connector creation optional
+> and prepare the bridge drivers for use in a chained setup.
 > 
-> - Replacing direct use of drm_panel with drm_panel_bridge support.
-> - Make the connector creation optional
+> The objective is that all bridge drivers shall support a chained setup
+> connector creation is moved to the display drivers.
+> This is just one step on this path.
 > 
-> Note: the bridge panel will use the connector type from the panel.
+> The general approach for the bridge drivers:
+> - Introduce bridge operations
+> - Introduce use of panel bridge and make connector creation optional
 > 
+> v5:
+>   - Applied reviewed patches, so we went from 15 to 5
+>   - Fixed bug in connector creation in both drivers
+> 
+> v4:
+>   - Dropped patch for ti-sn65dsi86. Await full conversion
+>   - Dropped patch for ti-tpd12s015. It was wrong (Laurent)
+>   - Drop boe,hv070wsa-100 patch, it was applied
+>   - Combined a few patches to fix connector created twice (Laurent)
+>   - Fix memory leak in get_edid (Laurent)
+>   - Added patch to validate panel descriptions in panel-simple
+>   - Set bridge.type in relevant drivers
+>  
 > v3:
->   - Fix wrong logic in connector creation (Laurent)
-> 
+>   - Rebase on top of drm-misc-next
+>   - Address kbuild test robot feedback
+>  
 > v2:
->   - Use panel_bridge for local variable name to align with other drivers
->   - Fix that connector was created twice (Laurent)
->   - Set bridge.type to DRM_MODE_CONNECTOR_LVDS.
+>   - Updated bus_flags for boe,hv070wsa-100
+>   - Collected r-b, but did not apply patches yet
+>   - On the panel side the panel-simple driver gained a default
+>     connector type for all the dumb panels that do not
+>     include so in their description.
+>     With this change panels always provide a connector type,
+>     and we have the potential to drop most uses of
+>     devm_drm_panel_bridge_add_typed().
+>   - Added conversion of a few more bridge drivers
 > 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> ---
->  drivers/gpu/drm/bridge/nxp-ptn3460.c | 60 ++++++++++------------------
->  1 file changed, 20 insertions(+), 40 deletions(-)
+> Patches can build but no run-time testing.
+> So both test and review feedback appreciated!
 > 
-> diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-> index 2805c8938f98..391c1f66f60f 100644
-> --- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-> +++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-> @@ -29,7 +29,7 @@ struct ptn3460_bridge {
->  	struct drm_connector connector;
->  	struct i2c_client *client;
->  	struct drm_bridge bridge;
-> -	struct drm_panel *panel;
-> +	struct drm_bridge *panel_bridge;
->  	struct gpio_desc *gpio_pd_n;
->  	struct gpio_desc *gpio_rst_n;
->  	u32 edid_emulation;
-> @@ -126,11 +126,6 @@ static void ptn3460_pre_enable(struct drm_bridge *bridge)
->  	usleep_range(10, 20);
->  	gpiod_set_value(ptn_bridge->gpio_rst_n, 1);
->  
-> -	if (drm_panel_prepare(ptn_bridge->panel)) {
-> -		DRM_ERROR("failed to prepare panel\n");
-> -		return;
-> -	}
-> -
->  	/*
->  	 * There's a bug in the PTN chip where it falsely asserts hotplug before
->  	 * it is fully functional. We're forced to wait for the maximum start up
-> @@ -145,16 +140,6 @@ static void ptn3460_pre_enable(struct drm_bridge *bridge)
->  	ptn_bridge->enabled = true;
->  }
->  
-> -static void ptn3460_enable(struct drm_bridge *bridge)
-> -{
-> -	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
-> -
-> -	if (drm_panel_enable(ptn_bridge->panel)) {
-> -		DRM_ERROR("failed to enable panel\n");
-> -		return;
-> -	}
-> -}
-> -
->  static void ptn3460_disable(struct drm_bridge *bridge)
->  {
->  	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
-> @@ -164,24 +149,10 @@ static void ptn3460_disable(struct drm_bridge *bridge)
->  
->  	ptn_bridge->enabled = false;
->  
-> -	if (drm_panel_disable(ptn_bridge->panel)) {
-> -		DRM_ERROR("failed to disable panel\n");
-> -		return;
-> -	}
-> -
->  	gpiod_set_value(ptn_bridge->gpio_rst_n, 1);
->  	gpiod_set_value(ptn_bridge->gpio_pd_n, 0);
->  }
->  
-> -static void ptn3460_post_disable(struct drm_bridge *bridge)
-> -{
-> -	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
-> -
-> -	if (drm_panel_unprepare(ptn_bridge->panel)) {
-> -		DRM_ERROR("failed to unprepare panel\n");
-> -		return;
-> -	}
-> -}
->  
->  static struct edid *ptn3460_get_edid(struct drm_bridge *bridge,
->  				     struct drm_connector *connector)
-> @@ -245,12 +216,18 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
->  				 enum drm_bridge_attach_flags flags)
->  {
->  	struct ptn3460_bridge *ptn_bridge = bridge_to_ptn3460(bridge);
-> +	enum drm_bridge_attach_flags panel_flags;
->  	int ret;
->  
-> -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> -		DRM_ERROR("Fix bridge driver to make connector optional!");
-> -		return -EINVAL;
-> -	}
-> +	/* Let this driver create connector if requested */
-> +	panel_flags = flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR;
-> +	ret = drm_bridge_attach(bridge->encoder, ptn_bridge->panel_bridge,
-> +				bridge, panel_flags);
+> 	Sam
+> 
+> 
+> Sam Ravnborg (5):
+>       drm/bridge: tc358767: add detect bridge operation
+>       drm/bridge: tc358767: add get_edid bridge operation
+>       drm/bridge: tc358767: add drm_panel_bridge support
+>       drm/bridge: nxp-ptn3460: add get_edid bridge operation
+>       drm/bridge: nxp-ptn3460: add drm_panel_bridge support
 
-Same here, you could write
+Fixed up per Laurent's suggestion and applied to drm-misc-next.
 
-				flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+	Sam
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> +		return 0;
->  
->  	if (!bridge->encoder) {
->  		DRM_ERROR("Parent encoder object not found");
-> @@ -270,9 +247,6 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
->  	drm_connector_attach_encoder(&ptn_bridge->connector,
->  							bridge->encoder);
->  
-> -	if (ptn_bridge->panel)
-> -		drm_panel_attach(ptn_bridge->panel, &ptn_bridge->connector);
-> -
->  	drm_helper_hpd_irq_event(ptn_bridge->connector.dev);
->  
->  	return ret;
-> @@ -280,9 +254,7 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
->  
->  static const struct drm_bridge_funcs ptn3460_bridge_funcs = {
->  	.pre_enable = ptn3460_pre_enable,
-> -	.enable = ptn3460_enable,
->  	.disable = ptn3460_disable,
-> -	.post_disable = ptn3460_post_disable,
->  	.attach = ptn3460_bridge_attach,
->  	.get_edid = ptn3460_get_edid,
->  };
-> @@ -292,6 +264,8 @@ static int ptn3460_probe(struct i2c_client *client,
->  {
->  	struct device *dev = &client->dev;
->  	struct ptn3460_bridge *ptn_bridge;
-> +	struct drm_bridge *panel_bridge;
-> +	struct drm_panel *panel;
->  	int ret;
->  
->  	ptn_bridge = devm_kzalloc(dev, sizeof(*ptn_bridge), GFP_KERNEL);
-> @@ -299,10 +273,15 @@ static int ptn3460_probe(struct i2c_client *client,
->  		return -ENOMEM;
->  	}
->  
-> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &ptn_bridge->panel, NULL);
-> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, NULL);
->  	if (ret)
->  		return ret;
->  
-> +	panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> +	if (IS_ERR(panel_bridge))
-> +		return PTR_ERR(panel_bridge);
-> +
-> +	ptn_bridge->panel_bridge = panel_bridge;
->  	ptn_bridge->client = client;
->  
->  	ptn_bridge->gpio_pd_n = devm_gpiod_get(&client->dev, "powerdown",
-> @@ -334,6 +313,7 @@ static int ptn3460_probe(struct i2c_client *client,
->  
->  	ptn_bridge->bridge.funcs = &ptn3460_bridge_funcs;
->  	ptn_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
-> +	ptn_bridge->bridge.type = DRM_MODE_CONNECTOR_LVDS;
->  	ptn_bridge->bridge.of_node = dev->of_node;
->  	drm_bridge_add(&ptn_bridge->bridge);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+> 
+>  drivers/gpu/drm/bridge/nxp-ptn3460.c | 103 +++++++++++++---------------
+>  drivers/gpu/drm/bridge/tc358767.c    | 126 +++++++++++++++++++----------------
+>  2 files changed, 114 insertions(+), 115 deletions(-)
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
