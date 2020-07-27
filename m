@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1271622F75F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 20:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAD322F765
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 20:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9EDA89F6E;
-	Mon, 27 Jul 2020 18:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507E589F71;
+	Mon, 27 Jul 2020 18:12:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3351589F6E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 18:10:35 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id l17so3685044ilq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 11:10:35 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6956889E8C;
+ Mon, 27 Jul 2020 18:12:11 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a15so15803160wrh.10;
+ Mon, 27 Jul 2020 11:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=n+cjMJexAD4hVslCLfZxYw0xSj4v32Cg73ix8mAo6lQ=;
+ b=rvXZRTq8JQeLezn3Y8PtrvIvpSkDiBHveZhfRmIRsSBeDJZnjKqBGy+QWwELGHHK9h
+ IcMm8HWjNIwnu3YVdbwj7AmtnCfpAhFZ+Rpc4w8N91b/7XRDjPtMUQxHAY+v6x5JU1nS
+ 3XcXWMQ8Z6v41HCiM/COJFtN8CNp79O9B+gMY9IdeHjA7WwIXl3acZ7NJYKKF2pW6le1
+ 9956/PiAmuH96Npac+3FjCpIR1YH8sTu6ZSf+wTE+16ZZ4Wm2B1q9cjwtZTrnH27vFLU
+ Os2LTJRtUv0ccsrNI3bsAmwtod5CkcmTpMeDKKx+aTuxVAdxyuvYtKYrRed634svN5W2
+ SgpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jRzTHR+VUU5DFiybjijCTcymNwc6WwfSJ1wj6lSvSl4=;
- b=qwhgPyhx3I8YRuEqAO73ZVLBrTi+lEWIDFsezZeBAtQ3514+qqUTkR616IIG7i0BmO
- 8+sf277tdtblvT5eiNaG7v3Ye29+r8GHLXsOBuIGeqFO9JkRIyKmLLPWHNKxy23ut9x9
- yXAw7EXDAAfXPhIX1uv84KIIBLsRd6BNoRV/XysP6NttlUt6kw0n1I3Ke+svP5CYPW04
- 5btXWpdLmspRFckOx/GlfYu0z9XsXyvXqKT85Cd+xZgHoDyZiYSzFX9rJxFTyiKC+yb1
- 3Csl0CpHOh/2uEg32lFyieoHqtLPU5xnHP9DUcBjY8BKRqWyWurH1l3vlya7V569oDhV
- lj9g==
-X-Gm-Message-State: AOAM531hSt4prSZEoTFBA7X/3ra9fR32KumIl8CEGFBZa+FhS2vPK2Lz
- lsDVpJcHQqV2vPOW5wvqsw==
-X-Google-Smtp-Source: ABdhPJw1a3yQdlRw7bOiSeDh/nd8Gh2ukbCWk8IYLKoeUc7WnO6thQ/sgeWWEpYf2f0YkxeHe4+Odg==
-X-Received: by 2002:a92:cc4d:: with SMTP id t13mr17986305ilq.283.1595873433143; 
- Mon, 27 Jul 2020 11:10:33 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id q70sm4862762ili.49.2020.07.27.11.10.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 11:10:32 -0700 (PDT)
-Received: (nullmailer pid 634067 invoked by uid 1000);
- Mon, 27 Jul 2020 18:10:32 -0000
-Date: Mon, 27 Jul 2020 12:10:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 1/2] dt-bindings: Add DT bindings for Toshiba TC358762
- DSI-to-DPI bridge
-Message-ID: <20200727181032.GB633248@bogus>
-References: <20200725211457.5772-1-marex@denx.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=n+cjMJexAD4hVslCLfZxYw0xSj4v32Cg73ix8mAo6lQ=;
+ b=gyjzUvE+H9QeMGnVOt8VSGVRaE3OE3qO+2IBMbEkZt9xt4B3QtBhsl9iEs268fO/i7
+ zgjtp2+ZMG3j6iO4FNuceFzdNpuFBtvpSvcKAGFUlvWuDfr5cxjSvy4XlE4wGOaNaatk
+ HEVX6dkwDgXkxmzr6ASCu2IJsu7ZkLqhGebU2bdsjCuLlDR+2fUmJ/dCODFbq2yFJ9nG
+ F9NP0fhiwQKYuwswHiEGaj5ra84hSJaMQgOMqvHZLO7QJLlW9lujvpS4kiYwOftTQOL0
+ GImSJsO/sjO8d0OmEE9G/KYbJRDl7YV7f9o88znCIULHCpt8p4DxT95SXejoemnaP7BT
+ C4fw==
+X-Gm-Message-State: AOAM533ebV9KoMqp7uy0TkKqddXqk+Y3/kbTORMdipi/qdz61ZkJqRm7
+ EDB5LV51LiUJWbtF03ArrOCahueztm4WQ0l9WHY=
+X-Google-Smtp-Source: ABdhPJwFtDW1X9++0RKW78h+dwtCDaX++VHQCmLYontPEXnwlgS2w9CTdMWsfkGtAl4r3B+vtG4bXra770bQd6VRpaY=
+X-Received: by 2002:adf:a351:: with SMTP id d17mr21027063wrb.111.1595873530004; 
+ Mon, 27 Jul 2020 11:12:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200725211457.5772-1-marex@denx.de>
+References: <20200727103436.50793-1-christophe.jaillet@wanadoo.fr>
+ <898acaf6-9975-40b1-1104-586b64689ccd@gmail.com>
+In-Reply-To: <898acaf6-9975-40b1-1104-586b64689ccd@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 27 Jul 2020 14:11:58 -0400
+Message-ID: <CADnq5_OqdUxSKv21pg9o=a_dwyW7-j3URy+BYHrS+ubzuA-7NQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/radeon: avoid a useless memset
+To: Christian Koenig <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,53 +62,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Jul 2020 23:14:56 +0200, Marek Vasut wrote:
-> Add DT bindings for Toshiba TC358762 DSI-to-DPI bridge, this
-> one is used in the Raspberry Pi 7" touchscreen display unit.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> To: dri-devel@lists.freedesktop.org
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../display/bridge/toshiba,tc358762.yaml      | 116 ++++++++++++++++++
->  1 file changed, 116 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.yaml
-> 
-
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dts:20.13-23: Warning (reg_format): /example-0/bridge@0:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
-Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: example-0: bridge@0:reg:0: [0] is too short
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: bridge@0: '#address-cells', '#size-cells', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/bridge/toshiba,tc358762.example.dt.yaml: bridge@0: 'ports' is a required property
-
-
-See https://patchwork.ozlabs.org/patch/1336337
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIE1vbiwgSnVsIDI3LCAyMDIwIGF0IDk6NDEgQU0g
+Q2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3Rl
+Ogo+Cj4gQW0gMjcuMDcuMjAgdW0gMTI6MzQgc2NocmllYiBDaHJpc3RvcGhlIEpBSUxMRVQ6Cj4g
+PiBBdm9pZCBhIG1lbXNldCBhZnRlciBhIGNhbGwgdG8gJ2RtYV9hbGxvY19jb2hlcmVudCgpJy4K
+PiA+IFRoaXMgaXMgdXNlbGVzcyBzaW5jZQo+ID4gY29tbWl0IDUxOGEyZjE5MjVjMyAoImRtYS1t
+YXBwaW5nOiB6ZXJvIG1lbW9yeSByZXR1cm5lZCBmcm9tIGRtYV9hbGxvY18qIikKPiA+Cj4gPiBT
+aWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5h
+ZG9vLmZyPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4KPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9u
+X2dhcnQuYyB8IDEgLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQo+ID4KPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nYXJ0LmMgYi9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nYXJ0LmMKPiA+IGluZGV4IGI3Y2UyNTRlNTY2My4u
+MzgwOGE3NTMxMjdiIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fZ2FydC5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nYXJ0LmMK
+PiA+IEBAIC04NSw3ICs4NSw2IEBAIGludCByYWRlb25fZ2FydF90YWJsZV9yYW1fYWxsb2Moc3Ry
+dWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4gPiAgICAgICB9Cj4gPiAgICNlbmRpZgo+ID4gICAg
+ICAgcmRldi0+Z2FydC5wdHIgPSBwdHI7Cj4gPiAtICAgICBtZW1zZXQoKHZvaWQgKilyZGV2LT5n
+YXJ0LnB0ciwgMCwgcmRldi0+Z2FydC50YWJsZV9zaXplKTsKPiA+ICAgICAgIHJldHVybiAwOwo+
+ID4gICB9Cj4gPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KPiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQt
+Z2Z4Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
