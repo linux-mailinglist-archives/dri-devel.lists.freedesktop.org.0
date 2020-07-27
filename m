@@ -2,26 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9FD22FDFF
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F7522FE02
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 198346E0F5;
-	Mon, 27 Jul 2020 23:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3E36E0FE;
+	Mon, 27 Jul 2020 23:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B854189CFA
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:46:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC41589CB8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1595868393; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1595868396; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zsd9mflfQcsk+xgJqhjXGlGwSK2UjhoZdPN7rSg5rKU=;
- b=PEM5XzooHWjJnb5Ltc4NFn76PNXFHlBQN6JyCi0irT3T0q5qPYMq2T/fb6CLfbuhfPjxE0
- OU/l4fH6cZCd7GXwYpCEC7vsCDS8tjzJQsbz3ebkZzZuRabF/hNMt0yKHyYyT/TR2oW8CS
- LHuw71OK9rzYC7X3Rs+yLbxcbUeKRAk=
+ bh=nysmR0SC7B+v3qNvqarKUEvR3vAcJfQC78FpAEioujM=;
+ b=tbmSzquzn/bgmmU8wP2GsCAj7DYsfzx7qXIZZfBxV+lt5pbBsoLXzdlPeKw/fo88w6uivf
+ zj1YWgnjRRvIOTfabiInR84UWhOewJDFWL90edjEng/EFEfhneRfoJwWlUpYJqI0hCyvfO
+ u1l85JFQA4kiMOC1mCTp7Bt/PnvAtUA=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -33,9 +32,10 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 3/6] drm/bridge: Add SPI DBI host driver
-Date: Mon, 27 Jul 2020 18:46:10 +0200
-Message-Id: <20200727164613.19744-4-paul@crapouillou.net>
+Subject: [PATCH 4/6] drm/panel: Add panel driver for NewVision NV3052C based
+ LCDs
+Date: Mon, 27 Jul 2020 18:46:11 +0200
+Message-Id: <20200727164613.19744-5-paul@crapouillou.net>
 In-Reply-To: <20200727164613.19744-1-paul@crapouillou.net>
 References: <20200727164613.19744-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -54,151 +54,588 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Paul Cercueil <paul@crapouillou.net>, devicetree@vger.kernel.org,
  od@zcrc.me, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBkcml2ZXIgd2lsbCByZWdpc3RlciBhIERCSSBob3N0IGRyaXZlciBmb3IgcGFuZWxzIGNv
-bm5lY3RlZCBvdmVyClNQSS4KCkRCSSB0eXBlcyBjMSBhbmQgYzMgYXJlIHN1cHBvcnRlZC4gQzEg
-aXMgYSBTUEkgcHJvdG9jb2wgd2l0aCA5IGJpdHMgcGVyCndvcmQsIHdpdGggdGhlIGRhdGEvY29t
-bWFuZCBpbmZvcm1hdGlvbiBpbiB0aGUgOXRoIChNU0IpIGJpdC4gQzMgaXMgYQpTUEkgcHJvdG9j
-b2wgd2l0aCA4IGJpdHMgcGVyIHdvcmQsIHdpdGggdGhlIGRhdGEvY29tbWFuZCBpbmZvcm1hdGlv
-bgpjYXJyaWVkIGJ5IGEgc2VwYXJhdGUgR1BJTy4KClNpZ25lZC1vZmYtYnk6IFBhdWwgQ2VyY3Vl
-aWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2Nv
-bmZpZyAgIHwgICA4ICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGUgIHwgICAxICsK
-IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZGJpLXNwaS5jIHwgMjYxICsrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysKIDMgZmlsZXMgY2hhbmdlZCwgMjcwIGluc2VydGlvbnMoKykKIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2RiaS1zcGkuYwoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvS2NvbmZpZwppbmRleCBjN2YwZGFjZmI1N2EuLmVkMzgzNjY4NDdjMSAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvS2NvbmZpZwpAQCAtMjE5LDYgKzIxOSwxNCBAQCBjb25maWcgRFJNX1RJX1RQRDEyUzAxNQog
-CSAgVGV4YXMgSW5zdHJ1bWVudHMgVFBEMTJTMDE1IEhETUkgbGV2ZWwgc2hpZnRlciBhbmQgRVNE
-IHByb3RlY3Rpb24KIAkgIGRyaXZlci4KIAorY29uZmlnIERSTV9NSVBJX0RCSV9TUEkKKwl0cmlz
-dGF0ZSAiU1BJIGhvc3Qgc3VwcG9ydCBmb3IgTUlQSSBEQkkiCisJZGVwZW5kcyBvbiBPRiAmJiBT
-UEkKKwlzZWxlY3QgRFJNX01JUElfRFNJCisJc2VsZWN0IERSTV9NSVBJX0RCSQorCWhlbHAKKwkg
-IERyaXZlciB0byBzdXBwb3J0IERCSSBvdmVyIFNQSS4KKwogc291cmNlICJkcml2ZXJzL2dwdS9k
-cm0vYnJpZGdlL2FuYWxvZ2l4L0tjb25maWciCiAKIHNvdXJjZSAiZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS9hZHY3NTExL0tjb25maWciCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZQppbmRleCA3ZDdjMTIz
-YTk1ZTQuLmMyYzUyMmMyNzc0ZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9N
-YWtlZmlsZQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL01ha2VmaWxlCkBAIC0yMCw2ICsy
-MCw3IEBAIG9iai0kKENPTkZJR19EUk1fSTJDX0FEVjc1MTEpICs9IGFkdjc1MTEvCiBvYmotJChD
-T05GSUdfRFJNX1RJX1NONjVEU0k4NikgKz0gdGktc242NWRzaTg2Lm8KIG9iai0kKENPTkZJR19E
-Uk1fVElfVEZQNDEwKSArPSB0aS10ZnA0MTAubwogb2JqLSQoQ09ORklHX0RSTV9USV9UUEQxMlMw
-MTUpICs9IHRpLXRwZDEyczAxNS5vCitvYmotJChDT05GSUdfRFJNX01JUElfREJJX1NQSSkgKz0g
-ZGJpLXNwaS5vCiBvYmotJChDT05GSUdfRFJNX05XTF9NSVBJX0RTSSkgKz0gbndsLWRzaS5vCiAK
-IG9iai15ICs9IGFuYWxvZ2l4LwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9k
-Ymktc3BpLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2RiaS1zcGkuYwpuZXcgZmlsZSBtb2Rl
-IDEwMDY0NAppbmRleCAwMDAwMDAwMDAwMDAuLjEwNjBiOGY5NWZiYQotLS0gL2Rldi9udWxsCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZGJpLXNwaS5jCkBAIC0wLDAgKzEsMjYxIEBACisv
-LyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcgorLyoKKyAqIE1JUEkg
-RGlzcGxheSBCdXMgSW50ZXJmYWNlIChEQkkpIFNQSSBzdXBwb3J0CisgKgorICogQ29weXJpZ2h0
-IDIwMTYgTm9yYWxmIFRyw7hubmVzCisgKiBDb3B5cmlnaHQgMjAyMCBQYXVsIENlcmN1ZWlsIDxw
-YXVsQGNyYXBvdWlsbG91Lm5ldD4KKyAqLworCisjaW5jbHVkZSA8bGludXgvZ3Bpby9jb25zdW1l
-ci5oPgorI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgorI2luY2x1ZGUgPGxpbnV4L3NwaS9zcGku
-aD4KKworI2luY2x1ZGUgPGRybS9kcm1fbWlwaV9kYmkuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX21p
-cGlfZHNpLmg+CisKKyNpbmNsdWRlIDx2aWRlby9taXBpX2Rpc3BsYXkuaD4KKworc3RydWN0IGRi
-aV9zcGkgeworCXN0cnVjdCBtaXBpX2RzaV9ob3N0IGhvc3Q7CisJc3RydWN0IG1pcGlfZHNpX2hv
-c3Rfb3BzIGhvc3Rfb3BzOworCisJc3RydWN0IHNwaV9kZXZpY2UgKnNwaTsKKwlzdHJ1Y3QgZ3Bp
-b19kZXNjICpkYzsKKwlzdHJ1Y3QgbXV0ZXggY21kbG9jazsKKworCXVuc2lnbmVkIGludCBjdXJy
-ZW50X2J1c190eXBlOworCisJLyoqCisJICogQHR4X2J1Zjk6IEJ1ZmZlciB1c2VkIGZvciBPcHRp
-b24gMSA5LWJpdCBjb252ZXJzaW9uCisJICovCisJdm9pZCAqdHhfYnVmOTsKKworCS8qKgorCSAq
-IEB0eF9idWY5X2xlbjogU2l6ZSBvZiB0eF9idWY5LgorCSAqLworCXNpemVfdCB0eF9idWY5X2xl
-bjsKK307CisKK3N0YXRpYyBpbmxpbmUgc3RydWN0IGRiaV9zcGkgKmhvc3RfdG9fZGJpX3NwaShz
-dHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCkKK3sKKwlyZXR1cm4gY29udGFpbmVyX29mKGhvc3Qs
-IHN0cnVjdCBkYmlfc3BpLCBob3N0KTsKK30KKworc3RhdGljIHNzaXplX3QgZGJpX3NwaTFfdHJh
-bnNmZXIoc3RydWN0IG1pcGlfZHNpX2hvc3QgKmhvc3QsCisJCQkJIGNvbnN0IHN0cnVjdCBtaXBp
-X2RzaV9tc2cgKm1zZykKK3sKKwlzdHJ1Y3QgZGJpX3NwaSAqZGJpID0gaG9zdF90b19kYmlfc3Bp
-KGhvc3QpOworCXN0cnVjdCBzcGlfZGV2aWNlICpzcGkgPSBkYmktPnNwaTsKKwlzdHJ1Y3Qgc3Bp
-X3RyYW5zZmVyIHRyID0geworCQkuYml0c19wZXJfd29yZCA9IDksCisJfTsKKwljb25zdCB1OCAq
-c3JjOCA9IG1zZy0+dHhfYnVmOworCXN0cnVjdCBzcGlfbWVzc2FnZSBtOworCXNpemVfdCBtYXhf
-Y2h1bmssIGNodW5rOworCXNpemVfdCBsZW4gPSBtc2ctPnR4X2xlbjsKKwlib29sIGNtZF9ieXRl
-ID0gdHJ1ZTsKKwl1bnNpZ25lZCBpbnQgaTsKKwl1MTYgKmRzdDE2OworCWludCByZXQ7CisKKwl0
-ci5zcGVlZF9oeiA9IG1pcGlfZGJpX3NwaV9jbWRfbWF4X3NwZWVkKHNwaSwgbGVuKTsKKwlkc3Qx
-NiA9IGRiaS0+dHhfYnVmOTsKKworCW1heF9jaHVuayA9IG1pbihkYmktPnR4X2J1ZjlfbGVuIC8g
-MiwgbGVuKTsKKworCXNwaV9tZXNzYWdlX2luaXRfd2l0aF90cmFuc2ZlcnMoJm0sICZ0ciwgMSk7
-CisJdHIudHhfYnVmID0gZHN0MTY7CisKKwl3aGlsZSAobGVuKSB7CisJCWNodW5rID0gbWluKGxl
-biwgbWF4X2NodW5rKTsKKworCQlmb3IgKGkgPSAwOyBpIDwgY2h1bms7IGkrKykgeworCQkJZHN0
-MTZbaV0gPSAqc3JjOCsrOworCisJCQkvKiBCaXQgOTogMCBtZWFucyBjb21tYW5kLCAxIG1lYW5z
-IGRhdGEgKi8KKwkJCWlmICghY21kX2J5dGUpCisJCQkJZHN0MTZbaV0gfD0gQklUKDkpOworCisJ
-CQljbWRfYnl0ZSA9IGZhbHNlOworCQl9CisKKwkJdHIubGVuID0gY2h1bmsgKiAyOworCQlsZW4g
-LT0gY2h1bms7CisKKwkJcmV0ID0gc3BpX3N5bmMoc3BpLCAmbSk7CisJCWlmIChyZXQpCisJCQly
-ZXR1cm4gcmV0OworCX0KKworCXJldHVybiAwOworfQorCitzdGF0aWMgc3NpemVfdCBkYmlfc3Bp
-M190cmFuc2ZlcihzdHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCwKKwkJCQkgY29uc3Qgc3RydWN0
-IG1pcGlfZHNpX21zZyAqbXNnKQoreworCXN0cnVjdCBkYmlfc3BpICpkYmkgPSBob3N0X3RvX2Ri
-aV9zcGkoaG9zdCk7CisJc3RydWN0IHNwaV9kZXZpY2UgKnNwaSA9IGRiaS0+c3BpOworCWNvbnN0
-IHU4ICpidWYgPSBtc2ctPnR4X2J1ZjsKKwl1bnNpZ25lZCBpbnQgYnB3ID0gODsKKwl1MzIgc3Bl
-ZWRfaHo7CisJc3NpemVfdCByZXQ7CisKKwkvKiBmb3Igbm93IHdlIG9ubHkgc3VwcG9ydCBzZW5k
-aW5nIG1lc3NhZ2VzLCBub3QgcmVjZWl2aW5nICovCisJaWYgKG1zZy0+cnhfbGVuKQorCQlyZXR1
-cm4gLUVJTlZBTDsKKworCWdwaW9kX3NldF92YWx1ZV9jYW5zbGVlcChkYmktPmRjLCAwKTsKKwor
-CXNwZWVkX2h6ID0gbWlwaV9kYmlfc3BpX2NtZF9tYXhfc3BlZWQoc3BpLCAxKTsKKwlyZXQgPSBt
-aXBpX2RiaV9zcGlfdHJhbnNmZXIoc3BpLCBzcGVlZF9oeiwgOCwgYnVmLCAxKTsKKwlpZiAocmV0
-IHx8IG1zZy0+dHhfbGVuID09IDEpCisJCXJldHVybiByZXQ7CisKKwlpZiAoYnVmWzBdID09IE1J
-UElfRENTX1dSSVRFX01FTU9SWV9TVEFSVCkKKwkJYnB3ID0gMTY7CisKKwlncGlvZF9zZXRfdmFs
-dWVfY2Fuc2xlZXAoZGJpLT5kYywgMSk7CisJc3BlZWRfaHogPSBtaXBpX2RiaV9zcGlfY21kX21h
-eF9zcGVlZChzcGksIG1zZy0+dHhfbGVuIC0gMSk7CisKKwlyZXQgPSBtaXBpX2RiaV9zcGlfdHJh
-bnNmZXIoc3BpLCBzcGVlZF9oeiwgYnB3LAorCQkJCSAgICAmYnVmWzFdLCBtc2ctPnR4X2xlbiAt
-IDEpOworCWlmIChyZXQpCisJCXJldHVybiByZXQ7CisKKwlyZXR1cm4gbXNnLT50eF9sZW47Cit9
-CisKK3N0YXRpYyBzc2l6ZV90IGRiaV9zcGlfdHJhbnNmZXIoc3RydWN0IG1pcGlfZHNpX2hvc3Qg
-Kmhvc3QsCisJCQkJY29uc3Qgc3RydWN0IG1pcGlfZHNpX21zZyAqbXNnKQoreworCXN0cnVjdCBk
-Ymlfc3BpICpkYmkgPSBob3N0X3RvX2RiaV9zcGkoaG9zdCk7CisKKwlzd2l0Y2ggKGRiaS0+Y3Vy
-cmVudF9idXNfdHlwZSkgeworCWNhc2UgTUlQSV9ERVZJQ0VfVFlQRV9EQklfU1BJX01PREUxOgor
-CQlyZXR1cm4gZGJpX3NwaTFfdHJhbnNmZXIoaG9zdCwgbXNnKTsKKwljYXNlIE1JUElfREVWSUNF
-X1RZUEVfREJJX1NQSV9NT0RFMzoKKwkJcmV0dXJuIGRiaV9zcGkzX3RyYW5zZmVyKGhvc3QsIG1z
-Zyk7CisJZGVmYXVsdDoKKwkJZGV2X2VycigmZGJpLT5zcGktPmRldiwgIlVua25vd24gdHJhbnNm
-ZXIgdHlwZVxuIik7CisJCXJldHVybiAtRUlOVkFMOworCX0KK30KKworc3RhdGljIGludCBkYmlf
-c3BpX2F0dGFjaChzdHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCwKKwkJCSAgc3RydWN0IG1pcGlf
-ZHNpX2RldmljZSAqZHNpKQoreworCXN0cnVjdCBkYmlfc3BpICpkYmkgPSBob3N0X3RvX2RiaV9z
-cGkoaG9zdCk7CisKKwlkYmktPmN1cnJlbnRfYnVzX3R5cGUgPSBkc2ktPmJ1c190eXBlOworCisJ
-aWYgKGRiaS0+Y3VycmVudF9idXNfdHlwZSA9PSBNSVBJX0RFVklDRV9UWVBFX0RCSV9TUElfTU9E
-RTEpIHsKKwkJZGJpLT50eF9idWY5X2xlbiA9IFNaXzE2SzsKKworCQlkYmktPnR4X2J1ZjkgPSBr
-bWFsbG9jKGRiaS0+dHhfYnVmOV9sZW4sIEdGUF9LRVJORUwpOworCQlpZiAoIWRiaS0+dHhfYnVm
-OSkKKwkJCXJldHVybiAtRU5PTUVNOworCX0KKworCXJldHVybiAwOworfQorCitzdGF0aWMgaW50
-IGRiaV9zcGlfZGV0YWNoKHN0cnVjdCBtaXBpX2RzaV9ob3N0ICpob3N0LAorCQkJICBzdHJ1Y3Qg
-bWlwaV9kc2lfZGV2aWNlICpkc2kpCit7CisJc3RydWN0IGRiaV9zcGkgKmRiaSA9IGhvc3RfdG9f
-ZGJpX3NwaShob3N0KTsKKworCWtmcmVlKGRiaS0+dHhfYnVmOSk7CisJZGJpLT50eF9idWY5X2xl
-biA9IDA7CisKKwlyZXR1cm4gMDsgLyogTm90aGluZyB0byBkbyAqLworfQorCitzdGF0aWMgdm9p
-ZCBkYmlfc3BpX2hvc3RfdW5yZWdpc3Rlcih2b2lkICpkKQoreworCW1pcGlfZHNpX2hvc3RfdW5y
-ZWdpc3RlcihkKTsKK30KKworc3RhdGljIGludCBkYmlfc3BpX3Byb2JlKHN0cnVjdCBzcGlfZGV2
-aWNlICpzcGkpCit7CisJc3RydWN0IGRldmljZSAqZGV2ID0gJnNwaS0+ZGV2OworCXN0cnVjdCBt
-aXBpX2RzaV9kZXZpY2VfaW5mbyBpbmZvID0geyB9OworCXN0cnVjdCBtaXBpX2RzaV9kZXZpY2Ug
-KmRzaTsKKwlzdHJ1Y3QgZGJpX3NwaSAqZGJpOworCWludCByZXQ7CisKKwlkYmkgPSBkZXZtX2t6
-YWxsb2MoZGV2LCBzaXplb2YoKmRiaSksIEdGUF9LRVJORUwpOworCWlmICghZGJpKQorCQlyZXR1
-cm4gLUVOT01FTTsKKworCWRiaS0+aG9zdC5kZXYgPSBkZXY7CisJZGJpLT5ob3N0Lm9wcyA9ICZk
-YmktPmhvc3Rfb3BzOworCWRiaS0+c3BpID0gc3BpOworCXNwaV9zZXRfZHJ2ZGF0YShzcGksIGRi
-aSk7CisKKwlkYmktPmRjID0gZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwoZGV2LCAiZGMiLCBHUElP
-RF9PVVRfTE9XKTsKKwlpZiAoSVNfRVJSKGRiaS0+ZGMpKSB7CisJCWRldl9lcnIoZGV2LCAiRmFp
-bGVkIHRvIGdldCBncGlvICdkYydcbiIpOworCQlyZXR1cm4gUFRSX0VSUihkYmktPmRjKTsKKwl9
-CisKKwlpZiAoc3BpX2lzX2Jwd19zdXBwb3J0ZWQoc3BpLCA5KSkKKwkJZGJpLT5ob3N0LmJ1c190
-eXBlcyB8PSBNSVBJX0RFVklDRV9UWVBFX0RCSV9TUElfTU9ERTE7CisJaWYgKGRiaS0+ZGMpCisJ
-CWRiaS0+aG9zdC5idXNfdHlwZXMgfD0gTUlQSV9ERVZJQ0VfVFlQRV9EQklfU1BJX01PREUzOwor
-CisJaWYgKCFkYmktPmhvc3QuYnVzX3R5cGVzKSB7CisJCWRldl9lcnIoZGV2LCAiTmVpdGhlciBU
-eXBlMSBub3IgVHlwZTMgYXJlIHN1cHBvcnRlZFxuIik7CisJCXJldHVybiAtRUlOVkFMOworCX0K
-KworCWRiaS0+aG9zdF9vcHMudHJhbnNmZXIgPSBkYmlfc3BpX3RyYW5zZmVyOworCWRiaS0+aG9z
-dF9vcHMuYXR0YWNoID0gZGJpX3NwaV9hdHRhY2g7CisJZGJpLT5ob3N0X29wcy5kZXRhY2ggPSBk
-Ymlfc3BpX2RldGFjaDsKKworCW11dGV4X2luaXQoJmRiaS0+Y21kbG9jayk7CisKKwlyZXQgPSBt
-aXBpX2RzaV9ob3N0X3JlZ2lzdGVyKCZkYmktPmhvc3QpOworCWlmIChyZXQpIHsKKwkJZGV2X2Vy
-cihkZXYsICJVbmFibGUgdG8gcmVnaXN0ZXIgRFNJIGhvc3RcbiIpOworCQlyZXR1cm4gcmV0Owor
-CX0KKworCXJldCA9IGRldm1fYWRkX2FjdGlvbl9vcl9yZXNldChkZXYsIGRiaV9zcGlfaG9zdF91
-bnJlZ2lzdGVyLCAmZGJpLT5ob3N0KTsKKwlpZiAocmV0KQorCQlyZXR1cm4gcmV0OworCisJLyoK
-KwkgKiBSZWdpc3RlciBvdXIgb3duIG5vZGUgYXMgYSBNSVBJIERTSSBkZXZpY2UuCisJICogVGhp
-cyBlbnN1cmVzIHRoYXQgdGhlIHBhbmVsIGRyaXZlciB3aWxsIGJlIHByb2JlZC4KKwkgKi8KKwlp
-bmZvLmNoYW5uZWwgPSAwOworCWluZm8ubm9kZSA9IG9mX25vZGVfZ2V0KGRldi0+b2Zfbm9kZSk7
-CisKKwlkc2kgPSBtaXBpX2RzaV9kZXZpY2VfcmVnaXN0ZXJfZnVsbCgmZGJpLT5ob3N0LCAmaW5m
-byk7CisJaWYgKElTX0VSUihkc2kpKSB7CisJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGFkZCBE
-U0kgZGV2aWNlXG4iKTsKKwkJcmV0dXJuIFBUUl9FUlIoZHNpKTsKKwl9CisKKwlyZXR1cm4gMDsK
-K30KKworc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgZGJpX3NwaV9vZl9tYXRjaFtd
-ID0geworCXsgLmNvbXBhdGlibGUgPSAiYWRhZnJ1aXQseXgyNDBxdjI5IiB9LAorCXsgLmNvbXBh
-dGlibGUgPSAibGVhZHRlayxsdGswMzVjNTQ0NHQtc3BpIiB9LAorCXsgfQorfTsKK01PRFVMRV9E
-RVZJQ0VfVEFCTEUob2YsIGRiaV9zcGlfb2ZfbWF0Y2gpOworCitzdGF0aWMgc3RydWN0IHNwaV9k
-cml2ZXIgZGJpX3NwaV9kcml2ZXIgPSB7CisJLmRyaXZlciA9IHsKKwkJLm5hbWUgPSAiZGJpLXNw
-aSIsCisJCS5vZl9tYXRjaF90YWJsZSA9IGRiaV9zcGlfb2ZfbWF0Y2gsCisJfSwKKwkucHJvYmUg
-PSBkYmlfc3BpX3Byb2JlLAorfTsKK21vZHVsZV9zcGlfZHJpdmVyKGRiaV9zcGlfZHJpdmVyKTsK
-KworTU9EVUxFX0RFU0NSSVBUSU9OKCJEQkkgU1BJIGJ1cyBkcml2ZXIiKTsKK01PRFVMRV9BVVRI
-T1IoIlBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PiIpOworTU9EVUxFX0xJQ0VO
-U0UoIkdQTCIpOwotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+This driver supports the NewVision NV3052C based LCDs. Right now, it
+only supports the LeadTek LTK035C5444T 2.4" 640x480 TFT LCD panel, which
+can be found in the Anbernic RG-350M handheld console.
+
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/panel/Kconfig                 |   9 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-newvision-nv3052c.c   | 523 ++++++++++++++++++
+ 3 files changed, 533 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index de2f2a452be5..6a8a51a702d8 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -198,6 +198,15 @@ config DRM_PANEL_NEC_NL8048HL11
+ 	  panel (found on the Zoom2/3/3630 SDP boards). To compile this driver
+ 	  as a module, choose M here.
+ 
++config DRM_PANEL_NEWVISION_NV3052C
++	tristate "NewVision NV3052C DSI/SPI RGB panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to enable support for the panels built
++	  around the NewVision NV3052C display controller.
++
+ config DRM_PANEL_NOVATEK_NT35510
+ 	tristate "Novatek NT35510 RGB panel driver"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index e45ceac6286f..a0516ced87db 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829) += panel-leadtek-ltk500hd1829.o
+ obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
+ obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
+ obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
++obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3052C) += panel-newvision-nv3052c.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) += panel-novatek-nt35510.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT39016) += panel-novatek-nt39016.o
+ obj-$(CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO) += panel-olimex-lcd-olinuxino.o
+diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+new file mode 100644
+index 000000000000..2feabef6dc3c
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+@@ -0,0 +1,523 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * NevVision NV3052C IPS LCD panel driver
++ *
++ * Copyright (C) 2020, Paul Cercueil <paul@crapouillou.net>
++ */
++
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/gpio/consumer.h>
++#include <linux/media-bus-format.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/regulator/consumer.h>
++
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++
++#include <video/mipi_display.h>
++
++struct nv3052c_panel_info {
++	const struct drm_display_mode *display_modes;
++	unsigned int num_modes;
++	unsigned int bus_type;
++	u16 width_mm, height_mm;
++	u32 bus_format, bus_flags;
++};
++
++struct nv3052c_reg {
++	u8 cmd;
++	u8 value;
++};
++
++struct nv3052c {
++	struct drm_panel drm_panel;
++	struct mipi_dsi_device *dsi;
++	struct device *dev;
++
++	struct regulator *supply;
++	const struct nv3052c_panel_info *panel_info;
++
++	struct gpio_desc *reset_gpio;
++
++	struct backlight_device *backlight;
++};
++
++static const struct nv3052c_reg nv3052c_regs[] = {
++	{ 0xff, 0x30 },
++	{ 0xff, 0x52 },
++	{ 0xff, 0x01 },
++	{ 0xe3, 0x00 },
++	{ 0x40, 0x00 },
++	{ 0x03, 0x40 },
++	{ 0x04, 0x00 },
++	{ 0x05, 0x03 },
++	{ 0x08, 0x00 },
++	{ 0x09, 0x07 },
++	{ 0x0a, 0x01 },
++	{ 0x0b, 0x32 },
++	{ 0x0c, 0x32 },
++	{ 0x0d, 0x0b },
++	{ 0x0e, 0x00 },
++	{ 0x23, 0xa0 },
++
++	{ 0x24, 0x0c },
++	{ 0x25, 0x06 },
++	{ 0x26, 0x14 },
++	{ 0x27, 0x14 },
++
++	{ 0x38, 0xcc },
++	{ 0x39, 0xd7 },
++	{ 0x3a, 0x4a },
++
++	{ 0x28, 0x40 },
++	{ 0x29, 0x01 },
++	{ 0x2a, 0xdf },
++	{ 0x49, 0x3c },
++	{ 0x91, 0x77 },
++	{ 0x92, 0x77 },
++	{ 0xa0, 0x55 },
++	{ 0xa1, 0x50 },
++	{ 0xa4, 0x9c },
++	{ 0xa7, 0x02 },
++	{ 0xa8, 0x01 },
++	{ 0xa9, 0x01 },
++	{ 0xaa, 0xfc },
++	{ 0xab, 0x28 },
++	{ 0xac, 0x06 },
++	{ 0xad, 0x06 },
++	{ 0xae, 0x06 },
++	{ 0xaf, 0x03 },
++	{ 0xb0, 0x08 },
++	{ 0xb1, 0x26 },
++	{ 0xb2, 0x28 },
++	{ 0xb3, 0x28 },
++	{ 0xb4, 0x33 },
++	{ 0xb5, 0x08 },
++	{ 0xb6, 0x26 },
++	{ 0xb7, 0x08 },
++	{ 0xb8, 0x26 },
++	{ 0xf0, 0x00 },
++	{ 0xf6, 0xc0 },
++
++	{ 0xff, 0x30 },
++	{ 0xff, 0x52 },
++	{ 0xff, 0x02 },
++	{ 0xb0, 0x0b },
++	{ 0xb1, 0x16 },
++	{ 0xb2, 0x17 },
++	{ 0xb3, 0x2c },
++	{ 0xb4, 0x32 },
++	{ 0xb5, 0x3b },
++	{ 0xb6, 0x29 },
++	{ 0xb7, 0x40 },
++	{ 0xb8, 0x0d },
++	{ 0xb9, 0x05 },
++	{ 0xba, 0x12 },
++	{ 0xbb, 0x10 },
++	{ 0xbc, 0x12 },
++	{ 0xbd, 0x15 },
++	{ 0xbe, 0x19 },
++	{ 0xbf, 0x0e },
++	{ 0xc0, 0x16 },
++	{ 0xc1, 0x0a },
++	{ 0xd0, 0x0c },
++	{ 0xd1, 0x17 },
++	{ 0xd2, 0x14 },
++	{ 0xd3, 0x2e },
++	{ 0xd4, 0x32 },
++	{ 0xd5, 0x3c },
++	{ 0xd6, 0x22 },
++	{ 0xd7, 0x3d },
++	{ 0xd8, 0x0d },
++	{ 0xd9, 0x07 },
++	{ 0xda, 0x13 },
++	{ 0xdb, 0x13 },
++	{ 0xdc, 0x11 },
++	{ 0xdd, 0x15 },
++	{ 0xde, 0x19 },
++	{ 0xdf, 0x10 },
++	{ 0xe0, 0x17 },
++	{ 0xe1, 0x0a },
++
++	{ 0xff, 0x30 },
++	{ 0xff, 0x52 },
++	{ 0xff, 0x03 },
++	{ 0x00, 0x2a },
++	{ 0x01, 0x2a },
++	{ 0x02, 0x2a },
++	{ 0x03, 0x2a },
++	{ 0x04, 0x61 },
++	{ 0x05, 0x80 },
++	{ 0x06, 0xc7 },
++	{ 0x07, 0x01 },
++	{ 0x08, 0x03 },
++	{ 0x09, 0x04 },
++	{ 0x70, 0x22 },
++	{ 0x71, 0x80 },
++	{ 0x30, 0x2a },
++	{ 0x31, 0x2a },
++	{ 0x32, 0x2a },
++	{ 0x33, 0x2a },
++	{ 0x34, 0x61 },
++	{ 0x35, 0xc5 },
++	{ 0x36, 0x80 },
++	{ 0x37, 0x23 },
++	{ 0x40, 0x03 },
++	{ 0x41, 0x04 },
++	{ 0x42, 0x05 },
++	{ 0x43, 0x06 },
++	{ 0x44, 0x11 },
++	{ 0x45, 0xe8 },
++	{ 0x46, 0xe9 },
++	{ 0x47, 0x11 },
++	{ 0x48, 0xea },
++	{ 0x49, 0xeb },
++	{ 0x50, 0x07 },
++	{ 0x51, 0x08 },
++	{ 0x52, 0x09 },
++	{ 0x53, 0x0a },
++	{ 0x54, 0x11 },
++	{ 0x55, 0xec },
++	{ 0x56, 0xed },
++	{ 0x57, 0x11 },
++	{ 0x58, 0xef },
++	{ 0x59, 0xf0 },
++	{ 0xb1, 0x01 },
++	{ 0xb4, 0x15 },
++	{ 0xb5, 0x16 },
++	{ 0xb6, 0x09 },
++	{ 0xb7, 0x0f },
++	{ 0xb8, 0x0d },
++	{ 0xb9, 0x0b },
++	{ 0xba, 0x00 },
++	{ 0xc7, 0x02 },
++	{ 0xca, 0x17 },
++	{ 0xcb, 0x18 },
++	{ 0xcc, 0x0a },
++	{ 0xcd, 0x10 },
++	{ 0xce, 0x0e },
++	{ 0xcf, 0x0c },
++	{ 0xd0, 0x00 },
++	{ 0x81, 0x00 },
++	{ 0x84, 0x15 },
++	{ 0x85, 0x16 },
++	{ 0x86, 0x10 },
++	{ 0x87, 0x0a },
++	{ 0x88, 0x0c },
++	{ 0x89, 0x0e },
++	{ 0x8a, 0x02 },
++	{ 0x97, 0x00 },
++	{ 0x9a, 0x17 },
++	{ 0x9b, 0x18 },
++	{ 0x9c, 0x0f },
++	{ 0x9d, 0x09 },
++	{ 0x9e, 0x0b },
++	{ 0x9f, 0x0d },
++	{ 0xa0, 0x01 },
++
++	{ 0xff, 0x30 },
++	{ 0xff, 0x52 },
++	{ 0xff, 0x02 },
++	{ 0x01, 0x01 },
++	{ 0x02, 0xda },
++	{ 0x03, 0xba },
++	{ 0x04, 0xa8 },
++	{ 0x05, 0x9a },
++	{ 0x06, 0x70 },
++	{ 0x07, 0xff },
++	{ 0x08, 0x91 },
++	{ 0x09, 0x90 },
++	{ 0x0a, 0xff },
++	{ 0x0b, 0x8f },
++	{ 0x0c, 0x60 },
++	{ 0x0d, 0x58 },
++	{ 0x0e, 0x48 },
++	{ 0x0f, 0x38 },
++	{ 0x10, 0x2b },
++
++	{ 0xff, 0x30 },
++	{ 0xff, 0x52 },
++	{ 0xff, 0x00 },
++	{ 0x36, 0x0a },
++};
++
++static inline struct nv3052c *to_nv3052c(struct drm_panel *panel)
++{
++	return container_of(panel, struct nv3052c, drm_panel);
++}
++
++static int nv3052c_prepare(struct drm_panel *drm_panel)
++{
++	struct nv3052c *priv = to_nv3052c(drm_panel);
++	unsigned int i;
++	int err;
++
++	err = regulator_enable(priv->supply);
++	if (err) {
++		dev_err(priv->dev, "Failed to enable power supply: %d\n", err);
++		return err;
++	}
++
++	/* Reset the chip */
++	gpiod_set_value_cansleep(priv->reset_gpio, 1);
++	usleep_range(10, 1000);
++	gpiod_set_value_cansleep(priv->reset_gpio, 0);
++	usleep_range(5000, 20000);
++
++	for (i = 0; i < ARRAY_SIZE(nv3052c_regs); i++) {
++		err = mipi_dsi_dcs_write(priv->dsi, nv3052c_regs[i].cmd,
++					 &nv3052c_regs[i].value, 1);
++		if (err) {
++			dev_err(priv->dev, "Unable to set register: %d\n", err);
++			goto err_disable_regulator;
++		}
++	}
++
++	err = mipi_dsi_dcs_exit_sleep_mode(priv->dsi);
++	if (err) {
++		dev_err(priv->dev, "Unable to exit sleep mode: %d\n", err);
++		return err;
++	}
++
++	msleep(100);
++
++	return 0;
++
++err_disable_regulator:
++	regulator_disable(priv->supply);
++	return err;
++}
++
++static int nv3052c_unprepare(struct drm_panel *drm_panel)
++{
++	struct nv3052c *priv = to_nv3052c(drm_panel);
++	int err;
++
++	err = mipi_dsi_dcs_enter_sleep_mode(priv->dsi);
++	if (err) {
++		dev_err(priv->dev, "Unable to enter sleep mode: %d\n", err);
++		return err;
++	}
++
++	gpiod_set_value_cansleep(priv->reset_gpio, 1);
++
++	regulator_disable(priv->supply);
++
++	return 0;
++}
++
++static int nv3052c_enable(struct drm_panel *drm_panel)
++{
++	struct nv3052c *priv = to_nv3052c(drm_panel);
++	int err;
++
++	err = mipi_dsi_dcs_set_display_on(priv->dsi);
++	if (err) {
++		dev_err(priv->dev, "Unable to enable display: %d\n", err);
++		return err;
++	}
++
++	if (priv->backlight) {
++		/* Wait for the picture to be ready before enabling backlight */
++		usleep_range(10000, 20000);
++
++		err = backlight_enable(priv->backlight);
++	}
++
++	return err;
++}
++
++static int nv3052c_disable(struct drm_panel *drm_panel)
++{
++	struct nv3052c *priv = to_nv3052c(drm_panel);
++	int err;
++
++	backlight_disable(priv->backlight);
++
++	err = mipi_dsi_dcs_set_display_off(priv->dsi);
++	if (err) {
++		dev_err(priv->dev, "Unable to disable display: %d\n", err);
++		return err;
++	}
++
++	return 0;
++}
++
++static int nv3052c_get_modes(struct drm_panel *drm_panel,
++			     struct drm_connector *connector)
++{
++	struct nv3052c *priv = to_nv3052c(drm_panel);
++	const struct nv3052c_panel_info *panel_info = priv->panel_info;
++	struct drm_display_mode *mode;
++	unsigned int i;
++
++	for (i = 0; i < panel_info->num_modes; i++) {
++		mode = drm_mode_duplicate(connector->dev,
++					  &panel_info->display_modes[i]);
++		if (!mode)
++			return -ENOMEM;
++
++		drm_mode_set_name(mode);
++
++		mode->type = DRM_MODE_TYPE_DRIVER;
++		if (panel_info->num_modes == 1)
++			mode->type |= DRM_MODE_TYPE_PREFERRED;
++
++		drm_mode_probed_add(connector, mode);
++	}
++
++	connector->display_info.bpc = 8;
++	connector->display_info.width_mm = panel_info->width_mm;
++	connector->display_info.height_mm = panel_info->height_mm;
++
++	drm_display_info_set_bus_formats(&connector->display_info,
++					 &panel_info->bus_format, 1);
++	connector->display_info.bus_flags = panel_info->bus_flags;
++
++	return panel_info->num_modes;
++}
++
++static const struct drm_panel_funcs nv3052c_funcs = {
++	.prepare	= nv3052c_prepare,
++	.unprepare	= nv3052c_unprepare,
++	.enable		= nv3052c_enable,
++	.disable	= nv3052c_disable,
++	.get_modes	= nv3052c_get_modes,
++};
++
++static int nv3052c_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct nv3052c *priv;
++	int err;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dev = dev;
++	priv->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, priv);
++
++	priv->panel_info = of_device_get_match_data(dev);
++	if (!priv->panel_info)
++		return -EINVAL;
++
++	dsi->bus_type = priv->panel_info->bus_type;
++
++	priv->supply = devm_regulator_get(dev, "power");
++	if (IS_ERR(priv->supply)) {
++		dev_err(dev, "Failed to get power supply\n");
++		return PTR_ERR(priv->supply);
++	}
++
++	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(priv->reset_gpio)) {
++		dev_err(dev, "Failed to get reset GPIO\n");
++		return PTR_ERR(priv->reset_gpio);
++	}
++
++	priv->backlight = devm_of_find_backlight(dev);
++	if (IS_ERR(priv->backlight)) {
++		err = PTR_ERR(priv->backlight);
++		if (err != -EPROBE_DEFER)
++			dev_err(dev, "Failed to get backlight handle\n");
++		return err;
++	}
++
++	drm_panel_init(&priv->drm_panel, dev, &nv3052c_funcs,
++		       DRM_MODE_CONNECTOR_DPI);
++
++	err = drm_panel_add(&priv->drm_panel);
++	if (err < 0) {
++		dev_err(dev, "Failed to register priv\n");
++		return err;
++	}
++
++	err = mipi_dsi_attach(dsi);
++	if (err) {
++		dev_err(dev, "Failed to attach panel\n");
++		drm_panel_remove(&priv->drm_panel);
++		return err;
++	}
++
++	/*
++	 * We can't call mipi_dsi_maybe_register_tiny_driver(), since the
++	 * NV3052C does not support MIPI_DCS_WRITE_MEMORY_START.
++	 */
++
++	return 0;
++}
++
++static int nv3052c_remove(struct mipi_dsi_device *dsi)
++{
++	struct nv3052c *priv = mipi_dsi_get_drvdata(dsi);
++
++	mipi_dsi_detach(dsi);
++	drm_panel_remove(&priv->drm_panel);
++
++	nv3052c_disable(&priv->drm_panel);
++	nv3052c_unprepare(&priv->drm_panel);
++
++	return 0;
++}
++
++static const struct drm_display_mode ltk035c5444t_modes[] = {
++	{ /* 60 Hz */
++		.clock = 24000,
++		.hdisplay = 640,
++		.hsync_start = 640 + 96,
++		.hsync_end = 640 + 96 + 16,
++		.htotal = 640 + 96 + 16 + 48,
++		.vdisplay = 480,
++		.vsync_start = 480 + 5,
++		.vsync_end = 480 + 5 + 2,
++		.vtotal = 480 + 5 + 2 + 13,
++		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++	},
++	{ /* 50 Hz */
++		.clock = 18000,
++		.hdisplay = 640,
++		.hsync_start = 640 + 39,
++		.hsync_end = 640 + 39 + 2,
++		.htotal = 640 + 39 + 2 + 39,
++		.vdisplay = 480,
++		.vsync_start = 480 + 5,
++		.vsync_end = 480 + 5 + 2,
++		.vtotal = 480 + 5 + 2 + 13,
++		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++	},
++};
++
++static const struct nv3052c_panel_info ltk035c5444t_spi_panel_info = {
++	.display_modes = ltk035c5444t_modes,
++	.num_modes = ARRAY_SIZE(ltk035c5444t_modes),
++	.bus_type = MIPI_DEVICE_TYPE_DBI_SPI_MODE1,
++	.width_mm = 77,
++	.height_mm = 64,
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
++};
++
++static const struct of_device_id nv3052c_of_match[] = {
++	{ .compatible = "leadtek,ltk035c5444t-spi", .data = &ltk035c5444t_spi_panel_info },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, nv3052c_of_match);
++
++static struct mipi_dsi_driver nv3052c_driver = {
++	.driver = {
++		.name = "nv3052c",
++		.of_match_table = nv3052c_of_match,
++	},
++	.probe = nv3052c_probe,
++	.remove = nv3052c_remove,
++};
++module_mipi_dsi_driver(nv3052c_driver);
++
++MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
++MODULE_LICENSE("GPL v2");
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
