@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC69822E3DB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 04:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F2B22E3E4
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 04:07:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C46B6E151;
-	Mon, 27 Jul 2020 02:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB0E6E1A2;
+	Mon, 27 Jul 2020 02:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 311AE6E0F4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 02:07:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA2C6E14A
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 02:07:20 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52D22240D;
- Mon, 27 Jul 2020 04:07:16 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2658C23D9;
+ Mon, 27 Jul 2020 04:07:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595815636;
- bh=DivkHrAE8HTaI+737hYVEVYVm0rrMNaQlXEm7LFExIg=;
+ s=mail; t=1595815637;
+ bh=joq8LQLRKgdq2hj3kjKQpkSoreEP50oWMFLpiJC0d/k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fFbYp/Zlih0vunBnwYlGCZiHRAe6Ed/fwNuc5+nGh71XC5GEiHThE+iUmMCbhelsq
- I96lZpVXnielFVZVz6eMlfDUe2giJlIZsoElaLxnq7yCaoofeP+YlhjwnOFIPnLwBX
- RX43KXkWLbN81Zl7t0OaF8QJPPX9HQ9yNlBTt0Vs=
+ b=Q8YK2f63NOnsuU+wxxkHD8uLi5q+BBKKBvt+tVKskj6w712l6Zn33VqX8BiutaWKa
+ 5mPiBEmwSbvTXx1Ya4qNI7KOZ0v+oKcrqlzysorg3mnYwD9TqVKqedMIl7e0SexO1p
+ ZQ0kQwiWVkl1iguLxRbR7fSdbdiiIDrjkJoI/uys=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 11/22] drm: mxsfb: Stop using DRM simple display pipeline
- helper
-Date: Mon, 27 Jul 2020 05:06:43 +0300
-Message-Id: <20200727020654.8231-12-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 12/22] drm: mxsfb: Move vblank event arm to CRTC
+ .atomic_flush()
+Date: Mon, 27 Jul 2020 05:06:44 +0300
+Message-Id: <20200727020654.8231-13-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
 References: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
@@ -53,536 +53,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM simple display pipeline helper only supports a single plane. In
-order to prepare for support of the alpha plane on i.MX6SX and i.MX7,
-move away from the helper. No new feature is added.
+The vblank event is armed in the plane .atomic_update(). This works fine
+as we have a single plane, and was the only option when the driver was
+using the drm_simple_kms_helper helper, but will break as soon as
+multiple planes are supported. Move it to CRTC .atomic_flush().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Reviewed-by: Stefan Agner <stefan@agner.ch>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
-Changes since v2:
-
-- Fix primary plane enable check in mxsfb_crtc_atomic_check()
-
 Changes since v1:
 
-- Move after mxsfb_crtc.c rename to mxsfb_kms.c
+- Reword commit message
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 114 ++----------------
- drivers/gpu/drm/mxsfb/mxsfb_drv.h |  23 ++--
- drivers/gpu/drm/mxsfb/mxsfb_kms.c | 190 +++++++++++++++++++++++++++---
- 3 files changed, 203 insertions(+), 124 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 35 ++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 0ee9e5cd492b..08b2b2735bc6 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -10,22 +10,23 @@
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 2346ad56daea..770546e67a8d 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -295,6 +295,25 @@ static int mxsfb_crtc_atomic_check(struct drm_crtc *crtc,
+ 	return drm_atomic_add_affected_planes(state->state, crtc);
+ }
  
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
-+#include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
--#include <linux/spinlock.h>
- 
--#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
--#include <drm/drm_crtc.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_connector.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_irq.h>
-+#include <drm/drm_mode_config.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
- 
- #include "mxsfb_drv.h"
-@@ -57,22 +58,6 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 	},
- };
- 
--static const uint32_t mxsfb_formats[] = {
--	DRM_FORMAT_XRGB8888,
--	DRM_FORMAT_RGB565
--};
--
--static const uint64_t mxsfb_modifiers[] = {
--	DRM_FORMAT_MOD_LINEAR,
--	DRM_FORMAT_MOD_INVALID
--};
--
--static struct mxsfb_drm_private *
--drm_pipe_to_mxsfb_drm_private(struct drm_simple_display_pipe *pipe)
--{
--	return container_of(pipe, struct mxsfb_drm_private, pipe);
--}
--
- void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb)
++static void mxsfb_crtc_atomic_flush(struct drm_crtc *crtc,
++				    struct drm_crtc_state *old_state)
++{
++	struct drm_pending_vblank_event *event;
++
++	event = crtc->state->event;
++	crtc->state->event = NULL;
++
++	if (!event)
++		return;
++
++	spin_lock_irq(&crtc->dev->event_lock);
++	if (drm_crtc_vblank_get(crtc) == 0)
++		drm_crtc_arm_vblank_event(crtc, event);
++	else
++		drm_crtc_send_vblank_event(crtc, event);
++	spin_unlock_irq(&crtc->dev->event_lock);
++}
++
+ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_crtc_state *old_state)
  {
- 	if (mxsfb->clk_axi)
-@@ -95,77 +80,6 @@ static const struct drm_mode_config_helper_funcs mxsfb_mode_config_helpers = {
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
- };
+@@ -364,6 +383,7 @@ static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
  
--static void mxsfb_pipe_enable(struct drm_simple_display_pipe *pipe,
--			      struct drm_crtc_state *crtc_state,
--			      struct drm_plane_state *plane_state)
--{
--	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
--	struct drm_device *drm = pipe->plane.dev;
--
--	pm_runtime_get_sync(drm->dev);
--	mxsfb_crtc_enable(mxsfb);
--}
--
--static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
--{
--	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
--	struct drm_device *drm = pipe->plane.dev;
--	struct drm_crtc *crtc = &pipe->crtc;
+ static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
+ 	.atomic_check = mxsfb_crtc_atomic_check,
++	.atomic_flush = mxsfb_crtc_atomic_flush,
+ 	.atomic_enable = mxsfb_crtc_atomic_enable,
+ 	.atomic_disable = mxsfb_crtc_atomic_disable,
+ };
+@@ -410,23 +430,8 @@ static void mxsfb_plane_atomic_update(struct drm_plane *plane,
+ 				      struct drm_plane_state *old_pstate)
+ {
+ 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
+-	struct drm_crtc *crtc = &mxsfb->crtc;
 -	struct drm_pending_vblank_event *event;
--
--	mxsfb_crtc_disable(mxsfb);
--	pm_runtime_put_sync(drm->dev);
--
--	spin_lock_irq(&drm->event_lock);
+ 	dma_addr_t paddr;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
 -	event = crtc->state->event;
 -	if (event) {
 -		crtc->state->event = NULL;
--		drm_crtc_send_vblank_event(crtc, event);
+-
+-		if (drm_crtc_vblank_get(crtc) == 0) {
+-			drm_crtc_arm_vblank_event(crtc, event);
+-		} else {
+-			drm_crtc_send_vblank_event(crtc, event);
+-		}
 -	}
--	spin_unlock_irq(&drm->event_lock);
--}
+-	spin_unlock_irq(&crtc->dev->event_lock);
 -
--static void mxsfb_pipe_update(struct drm_simple_display_pipe *pipe,
--			      struct drm_plane_state *plane_state)
--{
--	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
--
--	mxsfb_plane_atomic_update(mxsfb, plane_state);
--}
--
--static int mxsfb_pipe_enable_vblank(struct drm_simple_display_pipe *pipe)
--{
--	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
--
--	/* Clear and enable VBLANK IRQ */
--	mxsfb_enable_axi_clk(mxsfb);
--	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
--	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_SET);
--	mxsfb_disable_axi_clk(mxsfb);
--
--	return 0;
--}
--
--static void mxsfb_pipe_disable_vblank(struct drm_simple_display_pipe *pipe)
--{
--	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
--
--	/* Disable and clear VBLANK IRQ */
--	mxsfb_enable_axi_clk(mxsfb);
--	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
--	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
--	mxsfb_disable_axi_clk(mxsfb);
--}
--
--static struct drm_simple_display_pipe_funcs mxsfb_funcs = {
--	.enable		= mxsfb_pipe_enable,
--	.disable	= mxsfb_pipe_disable,
--	.update		= mxsfb_pipe_update,
--	.prepare_fb	= drm_gem_fb_simple_display_pipe_prepare_fb,
--	.enable_vblank	= mxsfb_pipe_enable_vblank,
--	.disable_vblank	= mxsfb_pipe_disable_vblank,
--};
--
- static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- {
- 	struct drm_device *drm = mxsfb->drm;
-@@ -189,7 +103,7 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- 	if (!bridge)
- 		return -ENODEV;
- 
--	ret = drm_simple_display_pipe_attach_bridge(&mxsfb->pipe, bridge);
-+	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL, 0);
- 	if (ret) {
- 		DRM_DEV_ERROR(drm->dev,
- 			      "failed to attach bridge: %d\n", ret);
-@@ -256,11 +170,9 @@ static int mxsfb_load(struct drm_device *drm)
- 	/* Modeset init */
- 	drm_mode_config_init(drm);
- 
--	ret = drm_simple_display_pipe_init(drm, &mxsfb->pipe, &mxsfb_funcs,
--			mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
--			mxsfb_modifiers, NULL);
-+	ret = mxsfb_kms_init(mxsfb);
- 	if (ret < 0) {
--		dev_err(drm->dev, "Cannot setup simple display pipe\n");
-+		dev_err(drm->dev, "Failed to initialize KMS pipeline\n");
- 		goto err_vblank;
- 	}
- 
-@@ -316,11 +228,11 @@ static void mxsfb_unload(struct drm_device *drm)
- 	pm_runtime_disable(drm->dev);
- }
- 
--static void mxsfb_irq_preinstall(struct drm_device *drm)
-+static void mxsfb_irq_disable(struct drm_device *drm)
- {
- 	struct mxsfb_drm_private *mxsfb = drm->dev_private;
- 
--	mxsfb_pipe_disable_vblank(&mxsfb->pipe);
-+	mxsfb->crtc.funcs->disable_vblank(&mxsfb->crtc);
- }
- 
- static irqreturn_t mxsfb_irq_handler(int irq, void *data)
-@@ -334,7 +246,7 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
- 	reg = readl(mxsfb->base + LCDC_CTRL1);
- 
- 	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
--		drm_crtc_handle_vblank(&mxsfb->pipe.crtc);
-+		drm_crtc_handle_vblank(&mxsfb->crtc);
- 
- 	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
- 
-@@ -348,8 +260,8 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
- static struct drm_driver mxsfb_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.irq_handler		= mxsfb_irq_handler,
--	.irq_preinstall		= mxsfb_irq_preinstall,
--	.irq_uninstall		= mxsfb_irq_preinstall,
-+	.irq_preinstall		= mxsfb_irq_disable,
-+	.irq_uninstall		= mxsfb_irq_disable,
- 	DRM_GEM_CMA_DRIVER_OPS,
- 	.fops	= &fops,
- 	.name	= "mxsfb-drm",
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-index 0e3e5a63bbf9..edd766ad254f 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-@@ -8,7 +8,12 @@
- #ifndef __MXSFB_DRV_H__
- #define __MXSFB_DRV_H__
- 
--struct drm_device;
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_encoder.h>
-+#include <drm/drm_plane.h>
-+
-+struct clk;
- 
- struct mxsfb_devdata {
- 	unsigned int	 transfer_count;
-@@ -29,20 +34,22 @@ struct mxsfb_drm_private {
- 	struct clk			*clk_disp_axi;
- 
- 	struct drm_device		*drm;
--	struct drm_simple_display_pipe	pipe;
-+	struct drm_plane		plane;
-+	struct drm_crtc			crtc;
-+	struct drm_encoder		encoder;
- 	struct drm_connector		*connector;
- 	struct drm_bridge		*bridge;
- };
- 
--int mxsfb_setup_crtc(struct drm_device *dev);
--int mxsfb_create_output(struct drm_device *dev);
-+static inline struct mxsfb_drm_private *
-+to_mxsfb_drm_private(struct drm_device *drm)
-+{
-+	return drm->dev_private;
-+}
- 
- void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb);
- void mxsfb_disable_axi_clk(struct mxsfb_drm_private *mxsfb);
- 
--void mxsfb_crtc_enable(struct mxsfb_drm_private *mxsfb);
--void mxsfb_crtc_disable(struct mxsfb_drm_private *mxsfb);
--void mxsfb_plane_atomic_update(struct mxsfb_drm_private *mxsfb,
--			       struct drm_plane_state *state);
-+int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb);
- 
- #endif /* __MXSFB_DRV_H__ */
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index c4f1575b4210..2346ad56daea 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -9,15 +9,21 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/io.h>
- #include <linux/iopoll.h>
-+#include <linux/pm_runtime.h>
- #include <linux/spinlock.h>
- 
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
-+#include <drm/drm_encoder.h>
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_cma_helper.h>
--#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_plane.h>
-+#include <drm/drm_plane_helper.h>
- #include <drm/drm_vblank.h>
- 
- #include "mxsfb_drv.h"
-@@ -26,6 +32,10 @@
- /* 1 second delay should be plenty of time for block reset */
- #define RESET_TIMEOUT		1000000
- 
-+/* -----------------------------------------------------------------------------
-+ * CRTC
-+ */
-+
- static u32 set_hsync_pulse_width(struct mxsfb_drm_private *mxsfb, u32 val)
- {
- 	return (val & mxsfb->devdata->hs_wdth_mask) <<
-@@ -35,9 +45,8 @@ static u32 set_hsync_pulse_width(struct mxsfb_drm_private *mxsfb, u32 val)
- /* Setup the MXSFB registers for decoding the pixels out of the framebuffer */
- static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
- {
--	struct drm_crtc *crtc = &mxsfb->pipe.crtc;
--	struct drm_device *drm = crtc->dev;
--	const u32 format = crtc->primary->state->fb->format->format;
-+	struct drm_device *drm = mxsfb->drm;
-+	const u32 format = mxsfb->crtc.primary->state->fb->format->format;
- 	u32 ctrl, ctrl1;
- 
- 	ctrl = CTRL_BYPASS_COUNT | CTRL_MASTER;
-@@ -71,8 +80,7 @@ static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
- 
- static void mxsfb_set_bus_fmt(struct mxsfb_drm_private *mxsfb)
- {
--	struct drm_crtc *crtc = &mxsfb->pipe.crtc;
--	struct drm_device *drm = crtc->dev;
-+	struct drm_device *drm = mxsfb->drm;
- 	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 	u32 reg;
- 
-@@ -175,7 +183,7 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
- 
- static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
- {
--	struct drm_framebuffer *fb = mxsfb->pipe.plane.state->fb;
-+	struct drm_framebuffer *fb = mxsfb->plane.state->fb;
- 	struct drm_gem_cma_object *gem;
- 
- 	if (!fb)
-@@ -190,8 +198,8 @@ static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
- 
- static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb)
- {
--	struct drm_device *drm = mxsfb->pipe.crtc.dev;
--	struct drm_display_mode *m = &mxsfb->pipe.crtc.state->adjusted_mode;
-+	struct drm_device *drm = mxsfb->crtc.dev;
-+	struct drm_display_mode *m = &mxsfb->crtc.state->adjusted_mode;
- 	u32 bus_flags = mxsfb->connector->display_info.bus_flags;
- 	u32 vdctrl0, vsync_pulse_len, hsync_pulse_len;
- 	int err;
-@@ -273,10 +281,29 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb)
- 	       mxsfb->base + LCDC_VDCTRL4);
- }
- 
--void mxsfb_crtc_enable(struct mxsfb_drm_private *mxsfb)
-+static int mxsfb_crtc_atomic_check(struct drm_crtc *crtc,
-+				   struct drm_crtc_state *state)
- {
-+	bool has_primary = state->plane_mask &
-+			   drm_plane_mask(crtc->primary);
-+
-+	/* The primary plane has to be enabled when the CRTC is active. */
-+	if (state->active && !has_primary)
-+		return -EINVAL;
-+
-+	/* TODO: Is this needed ? */
-+	return drm_atomic_add_affected_planes(state->state, crtc);
-+}
-+
-+static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
-+				     struct drm_crtc_state *old_state)
-+{
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
-+	struct drm_device *drm = mxsfb->drm;
- 	dma_addr_t paddr;
- 
-+	pm_runtime_get_sync(drm->dev);
-+
- 	mxsfb_enable_axi_clk(mxsfb);
- 	mxsfb_crtc_mode_set_nofb(mxsfb);
- 
-@@ -290,17 +317,100 @@ void mxsfb_crtc_enable(struct mxsfb_drm_private *mxsfb)
- 	mxsfb_enable_controller(mxsfb);
- }
- 
--void mxsfb_crtc_disable(struct mxsfb_drm_private *mxsfb)
-+static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
-+				      struct drm_crtc_state *old_state)
- {
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
-+	struct drm_device *drm = mxsfb->drm;
-+	struct drm_pending_vblank_event *event;
-+
- 	mxsfb_disable_controller(mxsfb);
- 	mxsfb_disable_axi_clk(mxsfb);
-+
-+	pm_runtime_put_sync(drm->dev);
-+
-+	spin_lock_irq(&drm->event_lock);
-+	event = crtc->state->event;
-+	if (event) {
-+		crtc->state->event = NULL;
-+		drm_crtc_send_vblank_event(crtc, event);
-+	}
-+	spin_unlock_irq(&drm->event_lock);
-+}
-+
-+static int mxsfb_crtc_enable_vblank(struct drm_crtc *crtc)
-+{
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
-+
-+	/* Clear and enable VBLANK IRQ */
-+	mxsfb_enable_axi_clk(mxsfb);
-+	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
-+	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_SET);
-+	mxsfb_disable_axi_clk(mxsfb);
-+
-+	return 0;
-+}
-+
-+static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
-+{
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
-+
-+	/* Disable and clear VBLANK IRQ */
-+	mxsfb_enable_axi_clk(mxsfb);
-+	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
-+	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
-+	mxsfb_disable_axi_clk(mxsfb);
-+}
-+
-+static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
-+	.atomic_check = mxsfb_crtc_atomic_check,
-+	.atomic_enable = mxsfb_crtc_atomic_enable,
-+	.atomic_disable = mxsfb_crtc_atomic_disable,
-+};
-+
-+static const struct drm_crtc_funcs mxsfb_crtc_funcs = {
-+	.reset = drm_atomic_helper_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+	.enable_vblank = mxsfb_crtc_enable_vblank,
-+	.disable_vblank = mxsfb_crtc_disable_vblank,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Encoder
-+ */
-+
-+static const struct drm_encoder_funcs mxsfb_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Planes
-+ */
-+
-+static int mxsfb_plane_atomic_check(struct drm_plane *plane,
-+				    struct drm_plane_state *plane_state)
-+{
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-+	struct drm_crtc_state *crtc_state;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(plane_state->state,
-+						   &mxsfb->crtc);
-+
-+	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-+						   DRM_PLANE_HELPER_NO_SCALING,
-+						   DRM_PLANE_HELPER_NO_SCALING,
-+						   false, true);
- }
- 
--void mxsfb_plane_atomic_update(struct mxsfb_drm_private *mxsfb,
--			       struct drm_plane_state *state)
-+static void mxsfb_plane_atomic_update(struct drm_plane *plane,
-+				      struct drm_plane_state *old_pstate)
- {
--	struct drm_simple_display_pipe *pipe = &mxsfb->pipe;
--	struct drm_crtc *crtc = &pipe->crtc;
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-+	struct drm_crtc *crtc = &mxsfb->crtc;
- 	struct drm_pending_vblank_event *event;
- 	dma_addr_t paddr;
- 
-@@ -324,3 +434,53 @@ void mxsfb_plane_atomic_update(struct mxsfb_drm_private *mxsfb,
- 		mxsfb_disable_axi_clk(mxsfb);
- 	}
- }
-+
-+static const struct drm_plane_helper_funcs mxsfb_plane_helper_funcs = {
-+	.atomic_check = mxsfb_plane_atomic_check,
-+	.atomic_update = mxsfb_plane_atomic_update,
-+};
-+
-+static const struct drm_plane_funcs mxsfb_plane_funcs = {
-+	.update_plane		= drm_atomic_helper_update_plane,
-+	.disable_plane		= drm_atomic_helper_disable_plane,
-+	.destroy		= drm_plane_cleanup,
-+	.reset			= drm_atomic_helper_plane_reset,
-+	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-+};
-+
-+static const uint32_t mxsfb_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_RGB565
-+};
-+
-+static const uint64_t mxsfb_modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
-+int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
-+{
-+	struct drm_encoder *encoder = &mxsfb->encoder;
-+	struct drm_plane *plane = &mxsfb->plane;
-+	struct drm_crtc *crtc = &mxsfb->crtc;
-+	int ret;
-+
-+	drm_plane_helper_add(plane, &mxsfb_plane_helper_funcs);
-+	ret = drm_universal_plane_init(mxsfb->drm, plane, 0, &mxsfb_plane_funcs,
-+				       mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
-+				       mxsfb_modifiers, DRM_PLANE_TYPE_PRIMARY,
-+				       NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
-+	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc, plane, NULL,
-+					&mxsfb_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	return drm_encoder_init(mxsfb->drm, encoder, &mxsfb_encoder_funcs,
-+				DRM_MODE_ENCODER_NONE, NULL);
-+}
+ 	paddr = mxsfb_get_fb_paddr(mxsfb);
+ 	if (paddr) {
+ 		mxsfb_enable_axi_clk(mxsfb);
 -- 
 Regards,
 
