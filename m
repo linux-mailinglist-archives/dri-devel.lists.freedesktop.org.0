@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E545022E3DE
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 04:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37C922E3D9
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 04:07:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89FC56E156;
-	Mon, 27 Jul 2020 02:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6A86E135;
+	Mon, 27 Jul 2020 02:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACA456E135
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 02:07:23 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD2E6E134
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 02:07:25 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4E6F2F0C;
- Mon, 27 Jul 2020 04:07:21 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A7FA2F0F;
+ Mon, 27 Jul 2020 04:07:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1595815642;
- bh=dIawTmYfeYT/hr9b4yvNpYNlgEAgcyEA/X5e/kyQgTA=;
+ bh=nOBFsgZMwbF0SI0ar4Uas2qduyYr222WLybcdVcI55g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=egoMUuDY+1XQtoQshIUD+WqDYgm/fPWvaUp3dKcDvCGB29ZwztA/LqAO6CAuZ0/b2
- 9yH1weBqt/FIWrtcqIQzARDA40oObrEu1cJGVdTujJiWaB4g/0XHA0WaF1dADjKxIU
- s21t3/O1fIWw8/u6TMvFiB1NWoWd3wDo7D14bdhA=
+ b=mNBQXyNG838vO6HVZ/MihZnxkOhJ01Ufva2CHQe7seHH8d9kZYcXoRR8wRHh79JOt
+ v6oaxl+9gMSBW780h0vVPF8u0lGbFo2S7PhQ5dulAffoQGiS6q+gFy6qwTdqNNwWSj
+ q6agF9WV9wM7BwOW33mio9h9B6BJpeHHqfoNzFHE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 17/22] drm: mxsfb: Update internal IP version number for
- i.MX6SX
-Date: Mon, 27 Jul 2020 05:06:49 +0300
-Message-Id: <20200727020654.8231-18-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 18/22] drm: mxsfb: Drop non-OF support
+Date: Mon, 27 Jul 2020 05:06:50 +0300
+Message-Id: <20200727020654.8231-19-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
 References: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
@@ -53,57 +52,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCDIF present in the i.MX6SX has extra features compared to
-the i.MX28. It has however lost its IP version register, so no official
-version number is known. Bump the version to MXSFB_V6 following the i.MX
-version, in preparation for support for the additional features.
+The mxsfb driver is only used by OF platforms. Drop non-OF support.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Stefan Agner <stefan@agner.ch>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index ff5551935574..9fe0a37e007d 100644
+index 9fe0a37e007d..bb80e12d9120 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -35,6 +35,11 @@
- enum mxsfb_devtype {
- 	MXSFB_V3,
- 	MXSFB_V4,
-+	/*
-+	 * Starting at i.MX6 the hardware version register is gone, use the
-+	 * i.MX family number as the version.
-+	 */
-+	MXSFB_V6,
+@@ -131,7 +131,8 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
+ 	return 0;
+ }
+ 
+-static int mxsfb_load(struct drm_device *drm)
++static int mxsfb_load(struct drm_device *drm,
++		      const struct mxsfb_devdata *devdata)
+ {
+ 	struct platform_device *pdev = to_platform_device(drm->dev);
+ 	struct mxsfb_drm_private *mxsfb;
+@@ -144,7 +145,7 @@ static int mxsfb_load(struct drm_device *drm)
+ 
+ 	mxsfb->drm = drm;
+ 	drm->dev_private = mxsfb;
+-	mxsfb->devdata = &mxsfb_devdata[pdev->id_entry->driver_data];
++	mxsfb->devdata = devdata;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	mxsfb->base = devm_ioremap_resource(drm->dev, res);
+@@ -280,18 +281,10 @@ static struct drm_driver mxsfb_driver = {
+ 	.minor	= 0,
  };
  
- static const struct mxsfb_devdata mxsfb_devdata[] = {
-@@ -52,6 +57,13 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.hs_wdth_mask	= 0x3fff,
- 		.hs_wdth_shift	= 18,
- 	},
-+	[MXSFB_V6] = {
-+		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-+		.cur_buf	= LCDC_V4_CUR_BUF,
-+		.next_buf	= LCDC_V4_NEXT_BUF,
-+		.hs_wdth_mask	= 0x3fff,
-+		.hs_wdth_shift	= 18,
-+	},
- };
- 
- void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb)
-@@ -271,7 +283,7 @@ static struct drm_driver mxsfb_driver = {
- static const struct platform_device_id mxsfb_devtype[] = {
- 	{ .name = "imx23-fb", .driver_data = MXSFB_V3, },
- 	{ .name = "imx28-fb", .driver_data = MXSFB_V4, },
--	{ .name = "imx6sx-fb", .driver_data = MXSFB_V4, },
-+	{ .name = "imx6sx-fb", .driver_data = MXSFB_V6, },
+-static const struct platform_device_id mxsfb_devtype[] = {
+-	{ .name = "imx23-fb", .driver_data = MXSFB_V3, },
+-	{ .name = "imx28-fb", .driver_data = MXSFB_V4, },
+-	{ .name = "imx6sx-fb", .driver_data = MXSFB_V6, },
+-	{ /* sentinel */ }
+-};
+-MODULE_DEVICE_TABLE(platform, mxsfb_devtype);
+-
+ static const struct of_device_id mxsfb_dt_ids[] = {
+-	{ .compatible = "fsl,imx23-lcdif", .data = &mxsfb_devtype[0], },
+-	{ .compatible = "fsl,imx28-lcdif", .data = &mxsfb_devtype[1], },
+-	{ .compatible = "fsl,imx6sx-lcdif", .data = &mxsfb_devtype[2], },
++	{ .compatible = "fsl,imx23-lcdif", .data = &mxsfb_devdata[MXSFB_V3], },
++	{ .compatible = "fsl,imx28-lcdif", .data = &mxsfb_devdata[MXSFB_V4], },
++	{ .compatible = "fsl,imx6sx-lcdif", .data = &mxsfb_devdata[MXSFB_V6], },
  	{ /* sentinel */ }
  };
- MODULE_DEVICE_TABLE(platform, mxsfb_devtype);
+ MODULE_DEVICE_TABLE(of, mxsfb_dt_ids);
+@@ -306,14 +299,11 @@ static int mxsfb_probe(struct platform_device *pdev)
+ 	if (!pdev->dev.of_node)
+ 		return -ENODEV;
+ 
+-	if (of_id)
+-		pdev->id_entry = of_id->data;
+-
+ 	drm = drm_dev_alloc(&mxsfb_driver, &pdev->dev);
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
+ 
+-	ret = mxsfb_load(drm);
++	ret = mxsfb_load(drm, of_id->data);
+ 	if (ret)
+ 		goto err_free;
+ 
+@@ -367,7 +357,6 @@ static const struct dev_pm_ops mxsfb_pm_ops = {
+ static struct platform_driver mxsfb_platform_driver = {
+ 	.probe		= mxsfb_probe,
+ 	.remove		= mxsfb_remove,
+-	.id_table	= mxsfb_devtype,
+ 	.driver	= {
+ 		.name		= "mxsfb",
+ 		.of_match_table	= mxsfb_dt_ids,
 -- 
 Regards,
 
