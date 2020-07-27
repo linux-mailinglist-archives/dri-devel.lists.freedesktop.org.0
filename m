@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963FE22F61F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 19:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820A322F649
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 19:13:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5847089D8E;
-	Mon, 27 Jul 2020 17:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E0989E08;
+	Mon, 27 Jul 2020 17:13:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E377C89D8E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 17:06:59 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 675A589E08
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 17:13:01 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70023556;
- Mon, 27 Jul 2020 19:06:46 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61290556;
+ Mon, 27 Jul 2020 19:12:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595869606;
- bh=wIrmwt/6ipkv+x1XIdvyJnqp4JWlrMgAul2BfLxwkB4=;
+ s=mail; t=1595869971;
+ bh=nOHxunroQ9R2smC/Hf7nB9FWLDWcuBsGhIEjVSvPAxM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W8i/vBH1VEKMD1rZ4QtW6nya9o4VM4yBjpkapwhqWH5ogMIolwmISyEys3dfq+Jrd
- g+Sv5IgnE84kC47AMCE2N97JsxF3vYMSZTues3U2KfjZXMod9V4VKL4hEsV6SmfzNz
- euDkcvwF4yglB0dofs7iNqXCUmiaachtSqOkiCmo=
-Date: Mon, 27 Jul 2020 20:06:38 +0300
+ b=Ao5pT47GJLJRsXFt51YUAd+mSJ1q7BeY+ObjQRIONE7ff0HkeFI38xSzbMmBJ9VQH
+ fBPRVTzfWRioR/eoqfP2HXCIzpEOMAyyZ91HcXSuH7ayKDKpTzqZIUrNkC0FTVEDMy
+ fyhiOdVahZ4Wi31HYex4Yv/9R3KJscl9KpTMSx/k=
+Date: Mon, 27 Jul 2020 20:12:43 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 3/6] drm/bridge: Add SPI DBI host driver
-Message-ID: <20200727170638.GG17521@pendragon.ideasonboard.com>
-References: <20200727164613.19744-1-paul@crapouillou.net>
- <20200727164613.19744-4-paul@crapouillou.net>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v5 3/5] drm/bridge: tc358767: add drm_panel_bridge support
+Message-ID: <20200727171243.GH17521@pendragon.ideasonboard.com>
+References: <20200727170320.959777-1-sam@ravnborg.org>
+ <20200727170320.959777-4-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200727164613.19744-4-paul@crapouillou.net>
+In-Reply-To: <20200727170320.959777-4-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,179 +46,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- od@zcrc.me, Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGF1bCwKClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLgoKT24gTW9uLCBKdWwgMjcsIDIwMjAg
-YXQgMDY6NDY6MTBQTSArMDIwMCwgUGF1bCBDZXJjdWVpbCB3cm90ZToKPiBUaGlzIGRyaXZlciB3
-aWxsIHJlZ2lzdGVyIGEgREJJIGhvc3QgZHJpdmVyIGZvciBwYW5lbHMgY29ubmVjdGVkIG92ZXIK
-PiBTUEkuCj4gCj4gREJJIHR5cGVzIGMxIGFuZCBjMyBhcmUgc3VwcG9ydGVkLiBDMSBpcyBhIFNQ
-SSBwcm90b2NvbCB3aXRoIDkgYml0cyBwZXIKPiB3b3JkLCB3aXRoIHRoZSBkYXRhL2NvbW1hbmQg
-aW5mb3JtYXRpb24gaW4gdGhlIDl0aCAoTVNCKSBiaXQuIEMzIGlzIGEKPiBTUEkgcHJvdG9jb2wg
-d2l0aCA4IGJpdHMgcGVyIHdvcmQsIHdpdGggdGhlIGRhdGEvY29tbWFuZCBpbmZvcm1hdGlvbgo+
-IGNhcnJpZWQgYnkgYSBzZXBhcmF0ZSBHUElPLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFBhdWwgQ2Vy
-Y3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL0tjb25maWcgICB8ICAgOCArCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGUg
-IHwgICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9kYmktc3BpLmMgfCAyNjEgKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAzIGZpbGVzIGNoYW5nZWQsIDI3MCBpbnNlcnRp
-b25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2RiaS1z
-cGkuYwo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcgYi9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKPiBpbmRleCBjN2YwZGFjZmI1N2EuLmVkMzgz
-NjY4NDdjMSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKPiBAQCAtMjE5LDYgKzIxOSwxNCBA
-QCBjb25maWcgRFJNX1RJX1RQRDEyUzAxNQo+ICAJICBUZXhhcyBJbnN0cnVtZW50cyBUUEQxMlMw
-MTUgSERNSSBsZXZlbCBzaGlmdGVyIGFuZCBFU0QgcHJvdGVjdGlvbgo+ICAJICBkcml2ZXIuCj4g
-IAo+ICtjb25maWcgRFJNX01JUElfREJJX1NQSQo+ICsJdHJpc3RhdGUgIlNQSSBob3N0IHN1cHBv
-cnQgZm9yIE1JUEkgREJJIgo+ICsJZGVwZW5kcyBvbiBPRiAmJiBTUEkKPiArCXNlbGVjdCBEUk1f
-TUlQSV9EU0kKPiArCXNlbGVjdCBEUk1fTUlQSV9EQkkKPiArCWhlbHAKPiArCSAgRHJpdmVyIHRv
-IHN1cHBvcnQgREJJIG92ZXIgU1BJLgo+ICsKPiAgc291cmNlICJkcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL2FuYWxvZ2l4L0tjb25maWciCj4gIAo+ICBzb3VyY2UgImRyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvYWR2NzUxMS9LY29uZmlnIgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZQo+IGluZGV4IDdkN2Mx
-MjNhOTVlNC4uYzJjNTIyYzI3NzRmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvTWFrZWZpbGUKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL01ha2VmaWxlCj4gQEAg
-LTIwLDYgKzIwLDcgQEAgb2JqLSQoQ09ORklHX0RSTV9JMkNfQURWNzUxMSkgKz0gYWR2NzUxMS8K
-PiAgb2JqLSQoQ09ORklHX0RSTV9USV9TTjY1RFNJODYpICs9IHRpLXNuNjVkc2k4Ni5vCj4gIG9i
-ai0kKENPTkZJR19EUk1fVElfVEZQNDEwKSArPSB0aS10ZnA0MTAubwo+ICBvYmotJChDT05GSUdf
-RFJNX1RJX1RQRDEyUzAxNSkgKz0gdGktdHBkMTJzMDE1Lm8KPiArb2JqLSQoQ09ORklHX0RSTV9N
-SVBJX0RCSV9TUEkpICs9IGRiaS1zcGkubwo+ICBvYmotJChDT05GSUdfRFJNX05XTF9NSVBJX0RT
-SSkgKz0gbndsLWRzaS5vCj4gIAo+ICBvYmoteSArPSBhbmFsb2dpeC8KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9kYmktc3BpLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L2RiaS1zcGkuYwo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi4x
-MDYwYjhmOTVmYmEKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRn
-ZS9kYmktc3BpLmMKPiBAQCAtMCwwICsxLDI2MSBAQAo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRp
-ZmllcjogR1BMLTIuMC1vci1sYXRlcgo+ICsvKgo+ICsgKiBNSVBJIERpc3BsYXkgQnVzIEludGVy
-ZmFjZSAoREJJKSBTUEkgc3VwcG9ydAo+ICsgKgo+ICsgKiBDb3B5cmlnaHQgMjAxNiBOb3JhbGYg
-VHLDuG5uZXMKPiArICogQ29weXJpZ2h0IDIwMjAgUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3Vp
-bGxvdS5uZXQ+Cj4gKyAqLwo+ICsKPiArI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4K
-PiArI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvc3BpL3NwaS5o
-Pgo+ICsKPiArI2luY2x1ZGUgPGRybS9kcm1fbWlwaV9kYmkuaD4KPiArI2luY2x1ZGUgPGRybS9k
-cm1fbWlwaV9kc2kuaD4KPiArCj4gKyNpbmNsdWRlIDx2aWRlby9taXBpX2Rpc3BsYXkuaD4KPiAr
-Cj4gK3N0cnVjdCBkYmlfc3BpIHsKPiArCXN0cnVjdCBtaXBpX2RzaV9ob3N0IGhvc3Q7Cj4gKwlz
-dHJ1Y3QgbWlwaV9kc2lfaG9zdF9vcHMgaG9zdF9vcHM7Cj4gKwo+ICsJc3RydWN0IHNwaV9kZXZp
-Y2UgKnNwaTsKPiArCXN0cnVjdCBncGlvX2Rlc2MgKmRjOwo+ICsJc3RydWN0IG11dGV4IGNtZGxv
-Y2s7Cj4gKwo+ICsJdW5zaWduZWQgaW50IGN1cnJlbnRfYnVzX3R5cGU7Cj4gKwo+ICsJLyoqCj4g
-KwkgKiBAdHhfYnVmOTogQnVmZmVyIHVzZWQgZm9yIE9wdGlvbiAxIDktYml0IGNvbnZlcnNpb24K
-PiArCSAqLwo+ICsJdm9pZCAqdHhfYnVmOTsKPiArCj4gKwkvKioKPiArCSAqIEB0eF9idWY5X2xl
-bjogU2l6ZSBvZiB0eF9idWY5Lgo+ICsJICovCj4gKwlzaXplX3QgdHhfYnVmOV9sZW47Cj4gK307
-Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHN0cnVjdCBkYmlfc3BpICpob3N0X3RvX2RiaV9zcGkoc3Ry
-dWN0IG1pcGlfZHNpX2hvc3QgKmhvc3QpCj4gK3sKPiArCXJldHVybiBjb250YWluZXJfb2YoaG9z
-dCwgc3RydWN0IGRiaV9zcGksIGhvc3QpOwo+ICt9Cj4gKwo+ICtzdGF0aWMgc3NpemVfdCBkYmlf
-c3BpMV90cmFuc2ZlcihzdHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9zdCwKPiArCQkJCSBjb25zdCBz
-dHJ1Y3QgbWlwaV9kc2lfbXNnICptc2cpCj4gK3sKPiArCXN0cnVjdCBkYmlfc3BpICpkYmkgPSBo
-b3N0X3RvX2RiaV9zcGkoaG9zdCk7Cj4gKwlzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpID0gZGJpLT5z
-cGk7Cj4gKwlzdHJ1Y3Qgc3BpX3RyYW5zZmVyIHRyID0gewo+ICsJCS5iaXRzX3Blcl93b3JkID0g
-OSwKPiArCX07Cj4gKwljb25zdCB1OCAqc3JjOCA9IG1zZy0+dHhfYnVmOwo+ICsJc3RydWN0IHNw
-aV9tZXNzYWdlIG07Cj4gKwlzaXplX3QgbWF4X2NodW5rLCBjaHVuazsKPiArCXNpemVfdCBsZW4g
-PSBtc2ctPnR4X2xlbjsKPiArCWJvb2wgY21kX2J5dGUgPSB0cnVlOwo+ICsJdW5zaWduZWQgaW50
-IGk7Cj4gKwl1MTYgKmRzdDE2Owo+ICsJaW50IHJldDsKPiArCj4gKwl0ci5zcGVlZF9oeiA9IG1p
-cGlfZGJpX3NwaV9jbWRfbWF4X3NwZWVkKHNwaSwgbGVuKTsKPiArCWRzdDE2ID0gZGJpLT50eF9i
-dWY5Owo+ICsKPiArCW1heF9jaHVuayA9IG1pbihkYmktPnR4X2J1ZjlfbGVuIC8gMiwgbGVuKTsK
-PiArCj4gKwlzcGlfbWVzc2FnZV9pbml0X3dpdGhfdHJhbnNmZXJzKCZtLCAmdHIsIDEpOwo+ICsJ
-dHIudHhfYnVmID0gZHN0MTY7Cj4gKwo+ICsJd2hpbGUgKGxlbikgewo+ICsJCWNodW5rID0gbWlu
-KGxlbiwgbWF4X2NodW5rKTsKPiArCj4gKwkJZm9yIChpID0gMDsgaSA8IGNodW5rOyBpKyspIHsK
-PiArCQkJZHN0MTZbaV0gPSAqc3JjOCsrOwo+ICsKPiArCQkJLyogQml0IDk6IDAgbWVhbnMgY29t
-bWFuZCwgMSBtZWFucyBkYXRhICovCj4gKwkJCWlmICghY21kX2J5dGUpCj4gKwkJCQlkc3QxNltp
-XSB8PSBCSVQoOSk7Cj4gKwo+ICsJCQljbWRfYnl0ZSA9IGZhbHNlOwo+ICsJCX0KPiArCj4gKwkJ
-dHIubGVuID0gY2h1bmsgKiAyOwo+ICsJCWxlbiAtPSBjaHVuazsKPiArCj4gKwkJcmV0ID0gc3Bp
-X3N5bmMoc3BpLCAmbSk7Cj4gKwkJaWYgKHJldCkKPiArCQkJcmV0dXJuIHJldDsKPiArCX0KPiAr
-Cj4gKwlyZXR1cm4gMDsKPiArfQo+ICsKPiArc3RhdGljIHNzaXplX3QgZGJpX3NwaTNfdHJhbnNm
-ZXIoc3RydWN0IG1pcGlfZHNpX2hvc3QgKmhvc3QsCj4gKwkJCQkgY29uc3Qgc3RydWN0IG1pcGlf
-ZHNpX21zZyAqbXNnKQo+ICt7Cj4gKwlzdHJ1Y3QgZGJpX3NwaSAqZGJpID0gaG9zdF90b19kYmlf
-c3BpKGhvc3QpOwo+ICsJc3RydWN0IHNwaV9kZXZpY2UgKnNwaSA9IGRiaS0+c3BpOwo+ICsJY29u
-c3QgdTggKmJ1ZiA9IG1zZy0+dHhfYnVmOwo+ICsJdW5zaWduZWQgaW50IGJwdyA9IDg7Cj4gKwl1
-MzIgc3BlZWRfaHo7Cj4gKwlzc2l6ZV90IHJldDsKPiArCj4gKwkvKiBmb3Igbm93IHdlIG9ubHkg
-c3VwcG9ydCBzZW5kaW5nIG1lc3NhZ2VzLCBub3QgcmVjZWl2aW5nICovCj4gKwlpZiAobXNnLT5y
-eF9sZW4pCj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwo+ICsJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNs
-ZWVwKGRiaS0+ZGMsIDApOwo+ICsKPiArCXNwZWVkX2h6ID0gbWlwaV9kYmlfc3BpX2NtZF9tYXhf
-c3BlZWQoc3BpLCAxKTsKPiArCXJldCA9IG1pcGlfZGJpX3NwaV90cmFuc2ZlcihzcGksIHNwZWVk
-X2h6LCA4LCBidWYsIDEpOwo+ICsJaWYgKHJldCB8fCBtc2ctPnR4X2xlbiA9PSAxKQo+ICsJCXJl
-dHVybiByZXQ7Cj4gKwo+ICsJaWYgKGJ1ZlswXSA9PSBNSVBJX0RDU19XUklURV9NRU1PUllfU1RB
-UlQpCj4gKwkJYnB3ID0gMTY7Cj4gKwo+ICsJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKGRiaS0+
-ZGMsIDEpOwo+ICsJc3BlZWRfaHogPSBtaXBpX2RiaV9zcGlfY21kX21heF9zcGVlZChzcGksIG1z
-Zy0+dHhfbGVuIC0gMSk7Cj4gKwo+ICsJcmV0ID0gbWlwaV9kYmlfc3BpX3RyYW5zZmVyKHNwaSwg
-c3BlZWRfaHosIGJwdywKPiArCQkJCSAgICAmYnVmWzFdLCBtc2ctPnR4X2xlbiAtIDEpOwo+ICsJ
-aWYgKHJldCkKPiArCQlyZXR1cm4gcmV0Owo+ICsKPiArCXJldHVybiBtc2ctPnR4X2xlbjsKPiAr
-fQo+ICsKPiArc3RhdGljIHNzaXplX3QgZGJpX3NwaV90cmFuc2ZlcihzdHJ1Y3QgbWlwaV9kc2lf
-aG9zdCAqaG9zdCwKPiArCQkJCWNvbnN0IHN0cnVjdCBtaXBpX2RzaV9tc2cgKm1zZykKPiArewo+
-ICsJc3RydWN0IGRiaV9zcGkgKmRiaSA9IGhvc3RfdG9fZGJpX3NwaShob3N0KTsKPiArCj4gKwlz
-d2l0Y2ggKGRiaS0+Y3VycmVudF9idXNfdHlwZSkgewo+ICsJY2FzZSBNSVBJX0RFVklDRV9UWVBF
-X0RCSV9TUElfTU9ERTE6Cj4gKwkJcmV0dXJuIGRiaV9zcGkxX3RyYW5zZmVyKGhvc3QsIG1zZyk7
-Cj4gKwljYXNlIE1JUElfREVWSUNFX1RZUEVfREJJX1NQSV9NT0RFMzoKPiArCQlyZXR1cm4gZGJp
-X3NwaTNfdHJhbnNmZXIoaG9zdCwgbXNnKTsKPiArCWRlZmF1bHQ6Cj4gKwkJZGV2X2VycigmZGJp
-LT5zcGktPmRldiwgIlVua25vd24gdHJhbnNmZXIgdHlwZVxuIik7Cj4gKwkJcmV0dXJuIC1FSU5W
-QUw7Cj4gKwl9Cj4gK30KPiArCj4gK3N0YXRpYyBpbnQgZGJpX3NwaV9hdHRhY2goc3RydWN0IG1p
-cGlfZHNpX2hvc3QgKmhvc3QsCj4gKwkJCSAgc3RydWN0IG1pcGlfZHNpX2RldmljZSAqZHNpKQo+
-ICt7Cj4gKwlzdHJ1Y3QgZGJpX3NwaSAqZGJpID0gaG9zdF90b19kYmlfc3BpKGhvc3QpOwo+ICsK
-PiArCWRiaS0+Y3VycmVudF9idXNfdHlwZSA9IGRzaS0+YnVzX3R5cGU7Cj4gKwo+ICsJaWYgKGRi
-aS0+Y3VycmVudF9idXNfdHlwZSA9PSBNSVBJX0RFVklDRV9UWVBFX0RCSV9TUElfTU9ERTEpIHsK
-PiArCQlkYmktPnR4X2J1ZjlfbGVuID0gU1pfMTZLOwo+ICsKPiArCQlkYmktPnR4X2J1ZjkgPSBr
-bWFsbG9jKGRiaS0+dHhfYnVmOV9sZW4sIEdGUF9LRVJORUwpOwo+ICsJCWlmICghZGJpLT50eF9i
-dWY5KQo+ICsJCQlyZXR1cm4gLUVOT01FTTsKPiArCX0KPiArCj4gKwlyZXR1cm4gMDsKPiArfQo+
-ICsKPiArc3RhdGljIGludCBkYmlfc3BpX2RldGFjaChzdHJ1Y3QgbWlwaV9kc2lfaG9zdCAqaG9z
-dCwKPiArCQkJICBzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNlICpkc2kpCj4gK3sKPiArCXN0cnVjdCBk
-Ymlfc3BpICpkYmkgPSBob3N0X3RvX2RiaV9zcGkoaG9zdCk7Cj4gKwo+ICsJa2ZyZWUoZGJpLT50
-eF9idWY5KTsKPiArCWRiaS0+dHhfYnVmOV9sZW4gPSAwOwo+ICsKPiArCXJldHVybiAwOyAvKiBO
-b3RoaW5nIHRvIGRvICovCj4gK30KPiArCj4gK3N0YXRpYyB2b2lkIGRiaV9zcGlfaG9zdF91bnJl
-Z2lzdGVyKHZvaWQgKmQpCj4gK3sKPiArCW1pcGlfZHNpX2hvc3RfdW5yZWdpc3RlcihkKTsKPiAr
-fQo+ICsKPiArc3RhdGljIGludCBkYmlfc3BpX3Byb2JlKHN0cnVjdCBzcGlfZGV2aWNlICpzcGkp
-Cj4gK3sKPiArCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZzcGktPmRldjsKPiArCXN0cnVjdCBtaXBp
-X2RzaV9kZXZpY2VfaW5mbyBpbmZvID0geyB9Owo+ICsJc3RydWN0IG1pcGlfZHNpX2RldmljZSAq
-ZHNpOwo+ICsJc3RydWN0IGRiaV9zcGkgKmRiaTsKPiArCWludCByZXQ7Cj4gKwo+ICsJZGJpID0g
-ZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpkYmkpLCBHRlBfS0VSTkVMKTsKPiArCWlmICghZGJp
-KQo+ICsJCXJldHVybiAtRU5PTUVNOwo+ICsKPiArCWRiaS0+aG9zdC5kZXYgPSBkZXY7Cj4gKwlk
-YmktPmhvc3Qub3BzID0gJmRiaS0+aG9zdF9vcHM7Cj4gKwlkYmktPnNwaSA9IHNwaTsKPiArCXNw
-aV9zZXRfZHJ2ZGF0YShzcGksIGRiaSk7Cj4gKwo+ICsJZGJpLT5kYyA9IGRldm1fZ3Bpb2RfZ2V0
-X29wdGlvbmFsKGRldiwgImRjIiwgR1BJT0RfT1VUX0xPVyk7Cj4gKwlpZiAoSVNfRVJSKGRiaS0+
-ZGMpKSB7Cj4gKwkJZGV2X2VycihkZXYsICJGYWlsZWQgdG8gZ2V0IGdwaW8gJ2RjJ1xuIik7Cj4g
-KwkJcmV0dXJuIFBUUl9FUlIoZGJpLT5kYyk7Cj4gKwl9Cj4gKwo+ICsJaWYgKHNwaV9pc19icHdf
-c3VwcG9ydGVkKHNwaSwgOSkpCj4gKwkJZGJpLT5ob3N0LmJ1c190eXBlcyB8PSBNSVBJX0RFVklD
-RV9UWVBFX0RCSV9TUElfTU9ERTE7Cj4gKwlpZiAoZGJpLT5kYykKPiArCQlkYmktPmhvc3QuYnVz
-X3R5cGVzIHw9IE1JUElfREVWSUNFX1RZUEVfREJJX1NQSV9NT0RFMzsKPiArCj4gKwlpZiAoIWRi
-aS0+aG9zdC5idXNfdHlwZXMpIHsKPiArCQlkZXZfZXJyKGRldiwgIk5laXRoZXIgVHlwZTEgbm9y
-IFR5cGUzIGFyZSBzdXBwb3J0ZWRcbiIpOwo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsJfQo+ICsK
-PiArCWRiaS0+aG9zdF9vcHMudHJhbnNmZXIgPSBkYmlfc3BpX3RyYW5zZmVyOwo+ICsJZGJpLT5o
-b3N0X29wcy5hdHRhY2ggPSBkYmlfc3BpX2F0dGFjaDsKPiArCWRiaS0+aG9zdF9vcHMuZGV0YWNo
-ID0gZGJpX3NwaV9kZXRhY2g7Cj4gKwo+ICsJbXV0ZXhfaW5pdCgmZGJpLT5jbWRsb2NrKTsKPiAr
-Cj4gKwlyZXQgPSBtaXBpX2RzaV9ob3N0X3JlZ2lzdGVyKCZkYmktPmhvc3QpOwo+ICsJaWYgKHJl
-dCkgewo+ICsJCWRldl9lcnIoZGV2LCAiVW5hYmxlIHRvIHJlZ2lzdGVyIERTSSBob3N0XG4iKTsK
-PiArCQlyZXR1cm4gcmV0Owo+ICsJfQo+ICsKPiArCXJldCA9IGRldm1fYWRkX2FjdGlvbl9vcl9y
-ZXNldChkZXYsIGRiaV9zcGlfaG9zdF91bnJlZ2lzdGVyLCAmZGJpLT5ob3N0KTsKPiArCWlmIChy
-ZXQpCj4gKwkJcmV0dXJuIHJldDsKPiArCj4gKwkvKgo+ICsJICogUmVnaXN0ZXIgb3VyIG93biBu
-b2RlIGFzIGEgTUlQSSBEU0kgZGV2aWNlLgo+ICsJICogVGhpcyBlbnN1cmVzIHRoYXQgdGhlIHBh
-bmVsIGRyaXZlciB3aWxsIGJlIHByb2JlZC4KPiArCSAqLwo+ICsJaW5mby5jaGFubmVsID0gMDsK
-PiArCWluZm8ubm9kZSA9IG9mX25vZGVfZ2V0KGRldi0+b2Zfbm9kZSk7Cj4gKwo+ICsJZHNpID0g
-bWlwaV9kc2lfZGV2aWNlX3JlZ2lzdGVyX2Z1bGwoJmRiaS0+aG9zdCwgJmluZm8pOwoKVHdvIGRl
-dmljZXMgZm9yIHRoZSBzYW1lIE9GIG5vZGUgaXMgYXNraW5nIGZvciB0cm91YmxlIDotUwoKTG9v
-a2luZyBhdCB0aGUgb3RoZXIgcGF0Y2hlcyBpbiB0aGlzIHNlcmllcywgaXQgc2VlbXMgdGhhdCB3
-aGF0IHlvdSBuZWVkCmZyb20gdGhlIERTSSBmcmFtZXdvcmsgaXMgRENTLiBJIHRoaW5rIHdlIHNo
-b3VsZCB0aGVuIGV4dHJhY3QgdGhlIERDUwpzdXBwb3J0IHRvIG1pcGlfZGNzXyogZnVuY3Rpb25z
-LCB3aXRoIHR3byBkaWZmZXJlbnQgYmFja2VuZHMsIG9uZSBmb3IKRFNJIGFuZCBvbmUgZm9yIERC
-SS4gVGhhdCB3YXkgeW91IHdpbGwgYmUgYWJsZSB0byBzdXBwb3J0IERCSSBwYW5lbHMKd2l0aCBh
-IHNpbmdsZSBkcml2ZXIgaW5zdGVhZCBvZiBzcGx1dHRpbmcgdGhlIHN1cHBvcnQgYmV0d2VlbiB0
-d28KZHJpdmVycyAodGhpcyBvbmUgYW5kIHRoZSBjb3JyZXNwb25kaW5nIG1pcGlfZHNpX2RyaXZl
-cidzKS4KCj4gKwlpZiAoSVNfRVJSKGRzaSkpIHsKPiArCQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0
-byBhZGQgRFNJIGRldmljZVxuIik7Cj4gKwkJcmV0dXJuIFBUUl9FUlIoZHNpKTsKPiArCX0KPiAr
-Cj4gKwlyZXR1cm4gMDsKPiArfQo+ICsKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2Vf
-aWQgZGJpX3NwaV9vZl9tYXRjaFtdID0gewo+ICsJeyAuY29tcGF0aWJsZSA9ICJhZGFmcnVpdCx5
-eDI0MHF2MjkiIH0sCj4gKwl7IC5jb21wYXRpYmxlID0gImxlYWR0ZWssbHRrMDM1YzU0NDR0LXNw
-aSIgfSwKPiArCXsgfQo+ICt9Owo+ICtNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkYmlfc3BpX29m
-X21hdGNoKTsKPiArCj4gK3N0YXRpYyBzdHJ1Y3Qgc3BpX2RyaXZlciBkYmlfc3BpX2RyaXZlciA9
-IHsKPiArCS5kcml2ZXIgPSB7Cj4gKwkJLm5hbWUgPSAiZGJpLXNwaSIsCj4gKwkJLm9mX21hdGNo
-X3RhYmxlID0gZGJpX3NwaV9vZl9tYXRjaCwKPiArCX0sCj4gKwkucHJvYmUgPSBkYmlfc3BpX3By
-b2JlLAo+ICt9Owo+ICttb2R1bGVfc3BpX2RyaXZlcihkYmlfc3BpX2RyaXZlcik7Cj4gKwo+ICtN
-T0RVTEVfREVTQ1JJUFRJT04oIkRCSSBTUEkgYnVzIGRyaXZlciIpOwo+ICtNT0RVTEVfQVVUSE9S
-KCJQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4iKTsKPiArTU9EVUxFX0xJQ0VO
-U0UoIkdQTCIpOwoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Sam,
+
+Thank you for the patch.
+
+On Mon, Jul 27, 2020 at 07:03:18PM +0200, Sam Ravnborg wrote:
+> With the bridge operations implemented the last step to prepare
+> this driver for a chained setup is the use of the bridge panel driver.
+> 
+> The bridge panel driver is only used when a port@2 is present in
+> the DT. So when the display driver requests a connector
+> support both situations:
+> - connector created by bridge panel driver
+> - connector created by this driver
+> 
+> And on top, support that the display driver creates the connector,
+> which is the preferred setup.
+> 
+> Note: the bridge panel will use the connector type from the panel.
+> 
+> v3:
+>   - Fix wrong logic in connector creation (Laurent)
+> 
+> v2:
+>   - Merge connector and drm_panel_bridge patches
+>     and fix so we do not create two connectors (Laurent)
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 70 +++++++++++++++----------------
+>  1 file changed, 35 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index b26c669f3e91..cbad2607ab43 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -244,8 +244,8 @@ struct tc_data {
+>  	struct drm_dp_aux	aux;
+>  
+>  	struct drm_bridge	bridge;
+> +	struct drm_bridge	*panel_bridge;
+>  	struct drm_connector	connector;
+> -	struct drm_panel	*panel;
+>  
+>  	/* link settings */
+>  	struct tc_edp_link	link;
+> @@ -1234,13 +1234,6 @@ static int tc_stream_disable(struct tc_data *tc)
+>  	return 0;
+>  }
+>  
+> -static void tc_bridge_pre_enable(struct drm_bridge *bridge)
+> -{
+> -	struct tc_data *tc = bridge_to_tc(bridge);
+> -
+> -	drm_panel_prepare(tc->panel);
+> -}
+> -
+>  static void tc_bridge_enable(struct drm_bridge *bridge)
+>  {
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+> @@ -1264,8 +1257,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  		tc_main_link_disable(tc);
+>  		return;
+>  	}
+> -
+> -	drm_panel_enable(tc->panel);
+>  }
+>  
+>  static void tc_bridge_disable(struct drm_bridge *bridge)
+> @@ -1273,8 +1264,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+>  	struct tc_data *tc = bridge_to_tc(bridge);
+>  	int ret;
+>  
+> -	drm_panel_disable(tc->panel);
+> -
+>  	ret = tc_stream_disable(tc);
+>  	if (ret < 0)
+>  		dev_err(tc->dev, "main link stream stop error: %d\n", ret);
+> @@ -1284,13 +1273,6 @@ static void tc_bridge_disable(struct drm_bridge *bridge)
+>  		dev_err(tc->dev, "main link disable error: %d\n", ret);
+>  }
+>  
+> -static void tc_bridge_post_disable(struct drm_bridge *bridge)
+> -{
+> -	struct tc_data *tc = bridge_to_tc(bridge);
+> -
+> -	drm_panel_unprepare(tc->panel);
+> -}
+> -
+>  static bool tc_bridge_mode_fixup(struct drm_bridge *bridge,
+>  				 const struct drm_display_mode *mode,
+>  				 struct drm_display_mode *adj)
+> @@ -1354,9 +1336,11 @@ static int tc_connector_get_modes(struct drm_connector *connector)
+>  		return 0;
+>  	}
+>  
+> -	num_modes = drm_panel_get_modes(tc->panel, connector);
+> -	if (num_modes > 0)
+> -		return num_modes;
+> +	if (tc->panel_bridge) {
+> +		num_modes = drm_bridge_get_modes(tc->panel_bridge, connector);
+> +		if (num_modes > 0)
+> +			return num_modes;
+> +	}
+>  
+>  	edid = tc_get_edid(&tc->bridge, connector);
+>  	num_modes = drm_add_edid_modes(connector, edid);
+> @@ -1396,7 +1380,7 @@ tc_connector_detect(struct drm_connector *connector, bool force)
+>  	if (tc->hpd_pin >= 0)
+>  		return tc_bridge_detect(&tc->bridge);
+>  
+> -	if (tc->panel)
+> +	if (tc->panel_bridge)
+>  		return connector_status_connected;
+>  	else
+>  		return connector_status_unknown;
+> @@ -1419,16 +1403,23 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  	struct drm_device *drm = bridge->dev;
+>  	int ret;
+>  
+> -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> -		DRM_ERROR("Fix bridge driver to make connector optional!");
+> -		return -EINVAL;
+> +	if (tc->panel_bridge) {
+> +		enum drm_bridge_attach_flags panel_flags;
+> +
+> +		/* If a connector is required then this driver shall create it */
+> +		panel_flags = flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR;
+> +		ret = drm_bridge_attach(tc->bridge.encoder, tc->panel_bridge,
+> +					&tc->bridge, panel_flags);
+
+You could write this
+
+					flags | DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+
+and drop the panel_flags variable.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +		if (ret)
+> +			return ret;
+>  	}
+>  
+> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+> +		return 0;
+> +
+>  	/* Create DP/eDP connector */
+>  	drm_connector_helper_add(&tc->connector, &tc_connector_helper_funcs);
+> -	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs,
+> -				 tc->panel ? DRM_MODE_CONNECTOR_eDP :
+> -				 DRM_MODE_CONNECTOR_DisplayPort);
+> +	ret = drm_connector_init(drm, &tc->connector, &tc_connector_funcs, tc->bridge.type);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1441,9 +1432,6 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+>  					       DRM_CONNECTOR_POLL_DISCONNECT;
+>  	}
+>  
+> -	if (tc->panel)
+> -		drm_panel_attach(tc->panel, &tc->connector);
+> -
+>  	drm_display_info_set_bus_formats(&tc->connector.display_info,
+>  					 &bus_format, 1);
+>  	tc->connector.display_info.bus_flags =
+> @@ -1459,10 +1447,8 @@ static const struct drm_bridge_funcs tc_bridge_funcs = {
+>  	.attach = tc_bridge_attach,
+>  	.mode_valid = tc_mode_valid,
+>  	.mode_set = tc_bridge_mode_set,
+> -	.pre_enable = tc_bridge_pre_enable,
+>  	.enable = tc_bridge_enable,
+>  	.disable = tc_bridge_disable,
+> -	.post_disable = tc_bridge_post_disable,
+>  	.mode_fixup = tc_bridge_mode_fixup,
+>  	.detect = tc_bridge_detect,
+>  	.get_edid = tc_get_edid,
+> @@ -1555,6 +1541,7 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
+>  static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  {
+>  	struct device *dev = &client->dev;
+> +	struct drm_panel *panel;
+>  	struct tc_data *tc;
+>  	int ret;
+>  
+> @@ -1565,10 +1552,23 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	tc->dev = dev;
+>  
+>  	/* port@2 is the output port */
+> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &tc->panel, NULL);
+> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
+>  	if (ret && ret != -ENODEV)
+>  		return ret;
+>  
+> +	if (panel) {
+> +		struct drm_bridge *panel_bridge;
+> +
+> +		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> +		if (IS_ERR(panel_bridge))
+> +			return PTR_ERR(panel_bridge);
+> +
+> +		tc->panel_bridge = panel_bridge;
+> +		tc->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> +	} else {
+> +		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+> +	}
+> +
+>  	/* Shut down GPIO is optional */
+>  	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(tc->sd_gpio))
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
