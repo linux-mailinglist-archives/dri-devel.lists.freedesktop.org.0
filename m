@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA11722E3E7
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 04:07:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E545022E3DE
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 04:07:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00CE76E196;
-	Mon, 27 Jul 2020 02:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89FC56E156;
+	Mon, 27 Jul 2020 02:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 916B56E134
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA456E135
  for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 02:07:23 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 045F52F0D;
- Mon, 27 Jul 2020 04:07:20 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4E6F2F0C;
+ Mon, 27 Jul 2020 04:07:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1595815641;
- bh=23b5SIdBkA3zJt/poVzCQBrXn8L2KBvFeN/uhowb9zE=;
+ s=mail; t=1595815642;
+ bh=dIawTmYfeYT/hr9b4yvNpYNlgEAgcyEA/X5e/kyQgTA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fwjAJHaXgKlX5WtDQSZfNKSABXua9yJcZTfdlEa716/YfVcTZMzBDRZYiQFb7JutP
- ILkMcEQ88SJhfX21MdHDfLjgnynmkgEj6MJCIsYiV00qnTRXgo9tFMF3UJSgvpPFeU
- dRi4uW9qlecGDwnRM6qEQejtDYWmVUCJx3KrKsqE=
+ b=egoMUuDY+1XQtoQshIUD+WqDYgm/fPWvaUp3dKcDvCGB29ZwztA/LqAO6CAuZ0/b2
+ 9yH1weBqt/FIWrtcqIQzARDA40oObrEu1cJGVdTujJiWaB4g/0XHA0WaF1dADjKxIU
+ s21t3/O1fIWw8/u6TMvFiB1NWoWd3wDo7D14bdhA=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 16/22] drm: mxsfb: Add i.MX7 and i.MX8M to the list of
- supported SoCs in Kconfig
-Date: Mon, 27 Jul 2020 05:06:48 +0300
-Message-Id: <20200727020654.8231-17-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 17/22] drm: mxsfb: Update internal IP version number for
+ i.MX6SX
+Date: Mon, 27 Jul 2020 05:06:49 +0300
+Message-Id: <20200727020654.8231-18-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
 References: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
@@ -53,47 +53,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the Kconfig option description by listing the i.MX7 and i.MX8M
-SoCs, as they are supported by the same driver. Replace the list of SoCs
-in the short description with just "(e)LCDIF LCD controller" to avoid
-expanding it further in the future as support for more SoCs is added.
+The LCDIF present in the i.MX6SX has extra features compared to
+the i.MX28. It has however lost its IP version register, so no official
+version number is known. Bump the version to MXSFB_V6 following the i.MX
+version, in preparation for support for the additional features.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Reviewed-by: Stefan Agner <stefan@agner.ch>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
-Changes since v1:
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-- Make description more explicit by mentioning LCDIF and eLCDIF
-- Add i.MX8M
----
- drivers/gpu/drm/mxsfb/Kconfig | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-index e43b326e9147..0143d539f8f8 100644
---- a/drivers/gpu/drm/mxsfb/Kconfig
-+++ b/drivers/gpu/drm/mxsfb/Kconfig
-@@ -5,7 +5,7 @@ config DRM_MXS
- 	  Choose this option to select drivers for MXS FB devices
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index ff5551935574..9fe0a37e007d 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -35,6 +35,11 @@
+ enum mxsfb_devtype {
+ 	MXSFB_V3,
+ 	MXSFB_V4,
++	/*
++	 * Starting at i.MX6 the hardware version register is gone, use the
++	 * i.MX family number as the version.
++	 */
++	MXSFB_V6,
+ };
  
- config DRM_MXSFB
--	tristate "i.MX23/i.MX28/i.MX6SX MXSFB LCD controller"
-+	tristate "i.MX (e)LCDIF LCD controller"
- 	depends on DRM && OF
- 	depends on COMMON_CLK
- 	select DRM_MXS
-@@ -15,7 +15,8 @@ config DRM_MXSFB
- 	select DRM_PANEL
- 	select DRM_PANEL_BRIDGE
- 	help
--	  Choose this option if you have an i.MX23/i.MX28/i.MX6SX MXSFB
--	  LCD controller.
-+	  Choose this option if you have an LCDIF or eLCDIF LCD controller.
-+	  Those devices are found in various i.MX SoC (including i.MX23,
-+	  i.MX28, i.MX6SX, i.MX7 and i.MX8M).
+ static const struct mxsfb_devdata mxsfb_devdata[] = {
+@@ -52,6 +57,13 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+ 		.hs_wdth_mask	= 0x3fff,
+ 		.hs_wdth_shift	= 18,
+ 	},
++	[MXSFB_V6] = {
++		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
++		.cur_buf	= LCDC_V4_CUR_BUF,
++		.next_buf	= LCDC_V4_NEXT_BUF,
++		.hs_wdth_mask	= 0x3fff,
++		.hs_wdth_shift	= 18,
++	},
+ };
  
- 	  If M is selected the module will be called mxsfb.
+ void mxsfb_enable_axi_clk(struct mxsfb_drm_private *mxsfb)
+@@ -271,7 +283,7 @@ static struct drm_driver mxsfb_driver = {
+ static const struct platform_device_id mxsfb_devtype[] = {
+ 	{ .name = "imx23-fb", .driver_data = MXSFB_V3, },
+ 	{ .name = "imx28-fb", .driver_data = MXSFB_V4, },
+-	{ .name = "imx6sx-fb", .driver_data = MXSFB_V4, },
++	{ .name = "imx6sx-fb", .driver_data = MXSFB_V6, },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(platform, mxsfb_devtype);
 -- 
 Regards,
 
