@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7318D22F76F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 20:13:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2EE22F777
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jul 2020 20:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE4E89798;
-	Mon, 27 Jul 2020 18:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 603E289DCF;
+	Mon, 27 Jul 2020 18:14:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 333AF89798;
- Mon, 27 Jul 2020 18:13:52 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id t18so13949503ilh.2;
- Mon, 27 Jul 2020 11:13:52 -0700 (PDT)
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+ [209.85.166.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75EC89DCF;
+ Mon, 27 Jul 2020 18:13:58 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id t18so13949804ilh.2;
+ Mon, 27 Jul 2020 11:13:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=FezFginUTy2nglTrBQrbccgUu3m/rgDlVyShBQFXbuM=;
- b=O5QWAI6rCWWpE8Z0eqr10b+m6lZG8RJgESZQNhneUrc539VtJ87a6niCZUFqdN7tjt
- A+0eMkpJQCt7zjRxYYmXikhnEyp/87RaNndgXb5jwVLfXENkfCjJQaSAgTK13gdP97wu
- 4KuXZ4/FrSrgj4rOAt64DOQBBrHwnnpWlHX+mLdMC4vCh69WUYIhWv9KCczAvW/cxeZ1
- +5UJoyRisQbjSSta2kGYglxRPG2eCrjQHZJ85IWapO/hNsQFIyg8DjGaMRDPaoesg9zC
- sPxksR/lZHAG8oH9j9HHuvJlVdTbftDZCtSRk5906Fl/kFiqIeMA2Iy7bLGFdEmzrJ1E
- yBMA==
-X-Gm-Message-State: AOAM531O+uBsyb1tS9Uh5+uX5s5O16JzodyhEc8euhB9MyHOKNdbzvhn
- Y002FDs2h61QsY+vgY54nQ==
-X-Google-Smtp-Source: ABdhPJxcTZ1wWiZQBj6GSHPIlQHm9ClLpwRYBVSWGAnLwaItX6R/lSkREMbAFXVOnxUjPhxCOFMv7g==
-X-Received: by 2002:a05:6e02:8e4:: with SMTP id
- n4mr16683067ilt.96.1595873631429; 
- Mon, 27 Jul 2020 11:13:51 -0700 (PDT)
+ bh=qphSXwUDbDL/STSwZyNfj+0kNYsQNz0+uZs8OU4m+yA=;
+ b=IEEpJRJ1Q+61SGdgW9relMJy0PPxl97JOdnMMsJ6KJtm4XRLWi6Ri2C/lct7LQIeq9
+ RjtHjMsehEh59wtydBqUclexT2MCs4wFIHl6o54jjtRBx+glj3myKEQY4+LDnpVoo9QJ
+ cS+wfdMSfBJ2yvgE85LKwzOuXstaPhDEJVsWgbXAGVMYem92UwzDDiUTsEA5U8KeDVBp
+ 0987H5P+RPC/bXZ8awEQMCqyMAo0nVKV5Os8grkknb4E6+PMC47gLATMpkL9YGAccnqJ
+ WNoCDkpYHO1YyXLXOTEIixkcfLJbj5gdM3Cyw2DPOBd84vbJVcJlbYvduFRuqrj7VHgU
+ C2Mw==
+X-Gm-Message-State: AOAM530xSE8E50IAwAu3QmscJW22NGBXGMVMSapPklAnmHufkLM2jaTe
+ ZaNZHkP7/1Fux2lqH4mPQg==
+X-Google-Smtp-Source: ABdhPJxgiypIQYIODHYWAN1gC3+lDaAHwErFKahF6Ut43xD7/abYM0/1Z1iU78NrtHLEqfkyGnVtBQ==
+X-Received: by 2002:a05:6e02:1213:: with SMTP id
+ a19mr3107446ilq.129.1595873638096; 
+ Mon, 27 Jul 2020 11:13:58 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id c67sm9202464iof.16.2020.07.27.11.13.47
+ by smtp.gmail.com with ESMTPSA id z68sm1237830ilf.25.2020.07.27.11.13.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jul 2020 11:13:50 -0700 (PDT)
-Received: (nullmailer pid 638435 invoked by uid 1000);
- Mon, 27 Jul 2020 18:13:46 -0000
-Date: Mon, 27 Jul 2020 12:13:46 -0600
+ Mon, 27 Jul 2020 11:13:57 -0700 (PDT)
+Received: (nullmailer pid 638572 invoked by uid 1000);
+ Mon, 27 Jul 2020 18:13:52 -0000
+Date: Mon, 27 Jul 2020 12:13:52 -0600
 From: Rob Herring <robh@kernel.org>
 To: Konrad Dybcio <konradybcio@gmail.com>
 Subject: Re: [PATCH 9/9] soc/qcom: Add REVID driver
-Message-ID: <20200727181346.GA634850@bogus>
+Message-ID: <20200727181352.GB634850@bogus>
 References: <20200726111215.22361-1-konradybcio@gmail.com>
  <20200726111215.22361-10-konradybcio@gmail.com>
 MIME-Version: 1.0
@@ -68,20 +68,21 @@ Cc: Krzysztof Wilczynski <kw@linux.com>,
  Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
  Kishon Vijay Abraham I <kishon@ti.com>, martin.botka1@gmail.com,
  Andy Gross <agross@kernel.org>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Xiaozhe Shi <xiaozhes@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ devicetree@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, Xiaozhe Shi <xiaozhes@codeaurora.org>,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
  Ben Dooks <ben.dooks@codethink.co.uk>, Felipe Balbi <balbi@kernel.org>,
  Stephen Boyd <sboyd@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Harigovindan P <harigovi@codeaurora.org>, linux-kernel@vger.kernel.org,
- zhengbin <zhengbin13@huawei.com>, Manu Gautam <mgautam@codeaurora.org>,
- Vinod Koul <vkoul@kernel.org>, freedreno@lists.freedesktop.org
+ linux-kernel@vger.kernel.org, zhengbin <zhengbin13@huawei.com>,
+ Manu Gautam <mgautam@codeaurora.org>, Vinod Koul <vkoul@kernel.org>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 26, 2020 at 01:12:06PM +0200, Konrad Dybcio wrote:
+On Sun, 26 Jul 2020 13:12:06 +0200, Konrad Dybcio wrote:
 > From: Xiaozhe Shi <xiaozhes@codeaurora.org>
 > 
 > Add the REVID device driver. The REVID driver will print out the PMIC
@@ -93,9 +94,6 @@ On Sun, Jul 26, 2020 at 01:12:06PM +0200, Konrad Dybcio wrote:
 > Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
 > ---
 >  .../bindings/soc/qcom/qcom,qpnp-revid.yaml    |  38 ++
-
-Bindings should be a separate patch. checkpatch.pl will tell you this.
-
 >  drivers/soc/qcom/Kconfig                      |   9 +
 >  drivers/soc/qcom/Makefile                     |   1 +
 >  drivers/soc/qcom/qpnp-revid.c                 | 288 ++++++++++++++
@@ -104,6 +102,35 @@ Bindings should be a separate patch. checkpatch.pl will tell you this.
 >  create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml
 >  create mode 100644 drivers/soc/qcom/qpnp-revid.c
 >  create mode 100644 include/linux/qpnp/qpnp-revid.h
+> 
+
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml:  while scanning a block scalar
+  in "<unicode string>", line 22, column 18
+found a tab character where an indentation space is expected
+  in "<unicode string>", line 24, column 1
+Documentation/devicetree/bindings/Makefile:20: recipe for target 'Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml: ignoring, error parsing file
+warning: no schema found in file: ./Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml: ignoring, error parsing file
+warning: no schema found in file: ./Documentation/devicetree/bindings/soc/qcom/qcom,qpnp-revid.yaml
+Makefile:1347: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+
+See https://patchwork.ozlabs.org/patch/1336467
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
