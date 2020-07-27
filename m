@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5FC22FDE8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8599B22FE01
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 01:33:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033D86E0CE;
-	Mon, 27 Jul 2020 23:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BFD96E13B;
+	Mon, 27 Jul 2020 23:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2A7A89CE0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:46:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECBED89CFA
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 16:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1595868389; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1595868391; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mA0DRhoXYfyoP4lmizj2glYU71M+JBHynLFFki0MJG8=;
- b=XIm9XgIArDbF4XmISOig7RvqAcx2s2zsdQ/st5sKUc3lnzQLwZGgWB2dnrlViJ29MyFxjH
- 5++A+qejU3P8LvWhrRnc1te9rNuHOWdv4oO1kS01RJ137rB8EVNyTYPnqe+bEkzlOkgHez
- D2mA/+gq9Eovh2JDYJochFF/yY3rK0k=
+ bh=WqfSgQzDELNwOPH2++W23zbJDoB5JUf3lopWLT9PtM0=;
+ b=yhPiQhes6EAEZgb3hpxsN/oO6TuzCuK7uWU/NDYUgzIMrn26cIxb9DkrDt8+hbEq6fKAPj
+ q9aHeO/a9v48FIkjPep7gKIVHRpqgO1TJj4/D4lugT6wDZIDjMXHx0KBWQeME0KFav/TP7
+ JvjHYstxPk8f3QKD4TfXNbDkKa9jSa8=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -32,9 +32,9 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 1/6] dt-bindings: display: Document NewVision NV3052C DT node
-Date: Mon, 27 Jul 2020 18:46:08 +0200
-Message-Id: <20200727164613.19744-2-paul@crapouillou.net>
+Subject: [PATCH 2/6] drm: dsi: Let host and device specify supported bus
+Date: Mon, 27 Jul 2020 18:46:09 +0200
+Message-Id: <20200727164613.19744-3-paul@crapouillou.net>
 In-Reply-To: <20200727164613.19744-1-paul@crapouillou.net>
 References: <20200727164613.19744-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -58,90 +58,98 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the Device Tree node for LCD panels based on the
-NewVision NV3052C controller.
+The current MIPI DSI framework can very well be used to support MIPI DBI
+panels. In order to add support for the various bus types supported by
+DBI, the DRM panel drivers should specify the bus type they will use,
+and the DSI host drivers should specify the bus types they are
+compatible with.
+
+The DSI host driver can then use the information provided by the DBI/DSI
+device driver, such as the bus type and the number of lanes, to
+configure its hardware properly.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- .../display/panel/newvision,nv3052c.yaml      | 69 +++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
+ drivers/gpu/drm/drm_mipi_dsi.c |  9 +++++++++
+ include/drm/drm_mipi_dsi.h     | 12 ++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
-new file mode 100644
-index 000000000000..751a28800fc2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
-@@ -0,0 +1,69 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/newvision,nv3052c.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 5dd475e82995..11ef885de765 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -281,6 +281,9 @@ int mipi_dsi_host_register(struct mipi_dsi_host *host)
+ {
+ 	struct device_node *node;
+ 
++	if (WARN_ON_ONCE(!host->bus_types))
++		host->bus_types = MIPI_DEVICE_TYPE_DSI;
 +
-+title: NewVision NV3052C TFT LCD panel driver with SPI control bus
+ 	for_each_available_child_of_node(host->dev->of_node, node) {
+ 		/* skip nodes without reg property */
+ 		if (!of_find_property(node, "reg", NULL))
+@@ -323,6 +326,12 @@ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
+ {
+ 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
+ 
++	if (WARN_ON_ONCE(!dsi->bus_type))
++		dsi->bus_type = MIPI_DEVICE_TYPE_DSI;
 +
-+maintainers:
-+  - Paul Cercueil <paul@crapouillou.net>
++	if (!(dsi->bus_type & dsi->host->bus_types))
++		return -EINVAL;
 +
-+description: |
-+  This is a driver for 320x240 TFT panels, accepting a variety of input
-+  streams that get adapted and scaled to the panel. The panel output has
-+  960 TFT source driver pins and 240 TFT gate driver pins, VCOM, VCOML and
-+  VCOMH outputs.
+ 	if (!ops || !ops->attach)
+ 		return -ENOSYS;
+ 
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 360e6377e84b..65d2961fc054 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -63,6 +63,14 @@ struct mipi_dsi_packet {
+ int mipi_dsi_create_packet(struct mipi_dsi_packet *packet,
+ 			   const struct mipi_dsi_msg *msg);
+ 
++/* MIPI bus types */
++#define MIPI_DEVICE_TYPE_DSI		BIT(0)
++#define MIPI_DEVICE_TYPE_DBI_SPI_MODE1	BIT(1)
++#define MIPI_DEVICE_TYPE_DBI_SPI_MODE2	BIT(2)
++#define MIPI_DEVICE_TYPE_DBI_SPI_MODE3	BIT(3)
++#define MIPI_DEVICE_TYPE_DBI_M6800	BIT(4)
++#define MIPI_DEVICE_TYPE_DBI_I8080	BIT(5)
 +
-+  The panel must obey the rules for a SPI slave device as specified in
-+  spi/spi-controller.yaml
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+        - leadtek,ltk035c5444t-spi
-+
-+      - const: newvision,nv3052c
-+
-+  reg:
-+    maxItems: 1
-+
-+  reset-gpios: true
-+  port: true
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      display@0 {
-+        compatible = "leadtek,ltk035c5444t-spi", "newvision,nv3052c";
-+        reg = <0>;
-+
-+        spi-max-frequency = <15000000>;
-+        spi-3wire;
-+        reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
-+        backlight = <&backlight>;
-+        power-supply = <&vcc>;
-+
-+        port {
-+          panel_input: endpoint {
-+              remote-endpoint = <&panel_output>;
-+          };
-+        };
-+      };
-+    };
-+
-+...
+ /**
+  * struct mipi_dsi_host_ops - DSI bus operations
+  * @attach: attach DSI device to DSI host
+@@ -94,11 +102,13 @@ struct mipi_dsi_host_ops {
+  * struct mipi_dsi_host - DSI host device
+  * @dev: driver model device node for this DSI host
+  * @ops: DSI host operations
++ * @bus_types: Bitmask of supported MIPI bus types
+  * @list: list management
+  */
+ struct mipi_dsi_host {
+ 	struct device *dev;
+ 	const struct mipi_dsi_host_ops *ops;
++	unsigned int bus_types;
+ 	struct list_head list;
+ };
+ 
+@@ -162,6 +172,7 @@ struct mipi_dsi_device_info {
+  * @host: DSI host for this peripheral
+  * @dev: driver model device node for this peripheral
+  * @name: DSI peripheral chip type
++ * @bus_type: MIPI bus type (MIPI_DEVICE_TYPE_DSI/...)
+  * @channel: virtual channel assigned to the peripheral
+  * @format: pixel format for video mode
+  * @lanes: number of active data lanes
+@@ -178,6 +189,7 @@ struct mipi_dsi_device {
+ 	struct device dev;
+ 
+ 	char name[DSI_DEV_NAME_SIZE];
++	unsigned int bus_type;
+ 	unsigned int channel;
+ 	unsigned int lanes;
+ 	enum mipi_dsi_pixel_format format;
 -- 
 2.27.0
 
