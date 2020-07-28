@@ -2,47 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B943230CF2
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C4E230CEE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:05:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A72526E31C;
-	Tue, 28 Jul 2020 15:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C79CD89B33;
+	Tue, 28 Jul 2020 15:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 182276E0A2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:05:14 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3D81F22CBB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:05:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595948713;
- bh=Kd8bN9GSVqE1wEKIElJMHffTgXE/l8rxxPq8mJwpeDc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=cZ35l4imPETNfoE5SAGb6RI4G+j2qL/PGEF5B3hSK2uhOA9PtCfR+xbsDVzixo1A2
- U1mWrKtnqnlRfjDgl7t0mtPTxggBuCYWqyzYUs26F3x7aNYdNe8/4jg/uEpfOnQw5/
- zrPVm7uSz9hQXzOElm8GvRBKIkq0xJ4UsaYV83Oo=
-Received: by mail-yb1-f175.google.com with SMTP id g6so10760974ybo.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:05:13 -0700 (PDT)
-X-Gm-Message-State: AOAM532VeEeIsEhB/vo3AV60uVy7C2rXxHC21iUH/UjIIJ1Csw6nuo/1
- 8IRirWSwbLEQ9Uafb+K7aJ/ojk+MVXo4NCSTxw==
-X-Google-Smtp-Source: ABdhPJzpT0pH6HVQkOv8owk366/uYwD6THy4gI9lAaDuq4nkmUj1h5EG+A9f/h2y+Y7mXLtporGnSUp4PvHzrT0otbo=
-X-Received: by 2002:a9d:4002:: with SMTP id m2mr24910491ote.129.1595948711211; 
- Tue, 28 Jul 2020 08:05:11 -0700 (PDT)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0EC289B33
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:05:08 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200728150506euoutp02968f8353c19e97d695b019e00c18d7aa~l8uScKZMM0522505225euoutp024
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:05:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200728150506euoutp02968f8353c19e97d695b019e00c18d7aa~l8uScKZMM0522505225euoutp024
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1595948706;
+ bh=+jPJ4jLPZRlRRWDMyw7UrrbUfNlzvkLzijZOathISTs=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=JoitJ2UPs2jBibLt7w/WwDp6Tbm0ijMBZ6o3rAS12jgldGHIsCQQepamP7CnSSiVj
+ Lw+Sh9Zl1Cr4BfkJrs75jig0VQLV+nBIVmd0TPJPAWpXuDCLMMGkH80nAf9KehJhaN
+ /QH8QNCJpQeHFsr/eEqQ5d51nxRrh/Nrr2xT0iMk=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200728150506eucas1p214e6b64b60b624fef376c8cf9320d31e~l8uSB1xV62602526025eucas1p2U;
+ Tue, 28 Jul 2020 15:05:06 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id B9.EB.06318.2AE302F5; Tue, 28
+ Jul 2020 16:05:06 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200728150505eucas1p28f7907c32b5cdb2259520197e602d9d4~l8uRteI7a2196021960eucas1p2h;
+ Tue, 28 Jul 2020 15:05:05 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200728150505eusmtrp1a911fed0ff536f13ff87e5a554885c6c~l8uRsya7v2594525945eusmtrp1S;
+ Tue, 28 Jul 2020 15:05:05 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-ec-5f203ea2e55d
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id E8.53.06314.1AE302F5; Tue, 28
+ Jul 2020 16:05:05 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200728150504eusmtip17a30673d18eef82b371bf0f3e7d88d37~l8uQC7qFf3170531705eusmtip1h;
+ Tue, 28 Jul 2020 15:05:03 +0000 (GMT)
+Subject: Re: [PATCH v9 0/4] driver core: add probe error check helper
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <e55a23bf-59bb-43c6-f7d7-467c282b8648@samsung.com>
+Date: Tue, 28 Jul 2020 17:05:03 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200724203407.16972-1-james.quinlan@broadcom.com>
- <20200724203407.16972-9-james.quinlan@broadcom.com>
-In-Reply-To: <20200724203407.16972-9-james.quinlan@broadcom.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 28 Jul 2020 09:04:59 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+9QE_uz+81O-Bm3xycSrJptx0xmwpPdP3x65KG00ugDQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+9QE_uz+81O-Bm3xycSrJptx0xmwpPdP3x65KG00ugDQ@mail.gmail.com>
-Subject: Re: [PATCH v9 08/12] device core: Introduce DMA range map,
- supplanting dma_pfn_offset
-To: Jim Quinlan <james.quinlan@broadcom.com>
+In-Reply-To: <20200713144324.23654-1-a.hajda@samsung.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTYRjG+XbOzo7W5HNZezErG/SHRa2cxRFD7EYn6IagUZE686ClM9u0
+ zAqHN9TKrLByqYkpmVnm3Fpaac3IzEy7iUIxYoVZ2govqWnk8Szyv9/3Ps97eeCjCdl3sSd9
+ ID6R08ar4xSUK3n36VjH8rJA7/CVn4dppi+/GTG1l2vETMHHTxTzdthBMenXaijm3a8+gmnt
+ f0cyOefKJYzR3iVm3jQUUYy14CFibj35IGGseXuZ4qECIsiNfdP1imAd3ZkStt7wQcJeyS4U
+ s8aqHIp9lv9axDYVV0tY26kWEVtXnsrmmaoQ++jMBZIdNC7cOXuP69ooLu7AEU6rDIxwjbn9
+ e1KUMOCePN5ipfTILs1FLjRgPxhsyxLlIldahisRpF3MEguPIQTV3bVOZRBB50iX5F/LkHmQ
+ 4FmGryOw9LoJJgeCiZIBES/MwZugymImefbAKjjbbpDwJgKbSDhnKRDzAoV9YLKuh+JZigNB
+ 3587zSReAhef1CGe5+IwqOmziASPO7QWfpoaStMu2B+u5u3iywReBJaBIkJgOaQN3ZiOALiQ
+ hka7jRCu3ghF/U9FAs+Bry0mZxovaLtwmhQ4FWyVGYTQnI3AfKfe2RwA71+OU/xiYuromgal
+ UF4HIyW9BF8G7AbdA+7CDW5w/u4lZ1kK2Vkywb0YbO1m50A5VHQOU/lIYZgRzDAjjWFGGsP/
+ vaWIrEJyLkmnieZ0qnju6AqdWqNLio9esf+QxoimfmHbn5bhe6hxItKKMI0Us6WX53qHy8Tq
+ I7pjGisCmlB4SNe3t4XJpFHqYymc9lC4NimO01nRfJpUyKWqsr59MhytTuRiOS6B0/5TRbSL
+ px4RnsXBQT0deduWncjw2asaDTXZvX3O7Av1xiURmuaS3ck/M/UvbPN3dCx4/sX3ODps7t5S
+ WNqQru+sPuj32F/5IOekvf5+fcj2EDbFPkZu2BKlQXKTP3daqQzb+i14W7YjQRGwefXNg7GR
+ PY9l80ZDKtZI9T9MsxzhyNjk26vyUpC6GPWqpYRWp/4LOK3SioEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42I5/e/4Xd2FdgrxBsd7jSxeTjjMaLFxxnpW
+ i6kPn7BZXPn6ns2iefF6Nour318yW5x8c5XFonPiEnaLTY+vsVpc3jWHzeLQ1L2MFmuP3GW3
+ ONQXbTH3y1RmBz6Py9cuMnu8v9HK7rFz1l12j9kdM1k9Nq3qZPM4MeESk8f+uWvYPe53H2fy
+ 2Lyk3qNvyypGjwO9k1k8Pm+SC+CJ0rMpyi8tSVXIyC8usVWKNrQw0jO0tNAzMrHUMzQ2j7Uy
+ MlXSt7NJSc3JLEst0rdL0MtY9/svU8FbwYpfxw+xNTA+5u1i5OSQEDCR+LL1M3MXIxeHkMBS
+ RomVb7pYIBLiErvnv2WGsIUl/lzrYoMoessosWD+cXaQhLCAq8Sq7VvBGkQEjCX6z85iByli
+ FtjFIrF60kNWiI4eRokDbw4yglSxCWhK/N18kw3E5hWwk2h40wVmswioSkw7shmsRlQgTmL5
+ lvnsEDWCEidnPgHawMHBKWApMb8vHCTMLGAmMW/zQ2YIW15i+9s5ULa4RNOXlawTGIVmIeme
+ haRlFpKWWUhaFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAiM/23Hfm7ewXhpY/AhRgEO
+ RiUe3g/iCvFCrIllxZW5hxglOJiVRHidzp6OE+JNSaysSi3Kjy8qzUktPsRoCvTbRGYp0eR8
+ YGrKK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXAyGHMY6BoUNj+
+ 4+xEozXpdfn7ilfn/7mR/7Q++PC1d6EloY9+CyeJ6t6LKHrFfXvvCYdFedVb2m69cxPwDn08
+ 4Vzg0vXrFSJNvlpu+1FROkdFSGCyurxiyu/JFzx28HxxUDpy4aLQLO9YFqXcw8rhHgzJvLf+
+ m3QzJnBL+Av3vTjQ9DmZY46cEktxRqKhFnNRcSIA9crzRBUDAAA=
+X-CMS-MailID: 20200728150505eucas1p28f7907c32b5cdb2259520197e602d9d4
+X-Msg-Generator: CA
+X-RootMTR: 20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981
+References: <CGME20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981@eucas1p2.samsung.com>
+ <20200713144324.23654-1-a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,168 +108,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- PCI <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Borislav Petkov <bp@alien8.de>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, andy.shevchenko@gmail.com,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 24, 2020 at 2:45 PM Jim Quinlan <james.quinlan@broadcom.com> wrote:
->
-> The new field 'dma_range_map' in struct device is used to facilitate the
-> use of single or multiple offsets between mapping regions of cpu addrs and
-> dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
-> capable of holding a single uniform offset and had no region bounds
-> checking.
->
-> The function of_dma_get_range() has been modified so that it takes a single
-> argument -- the device node -- and returns a map, NULL, or an error code.
-> The map is an array that holds the information regarding the DMA regions.
-> Each range entry contains the address offset, the cpu_start address, the
-> dma_start address, and the size of the region.
->
-> of_dma_configure() is the typical manner to set range offsets but there are
-> a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
-> driver code.  These cases now invoke the function
-> dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
->
-> Signed-off-by: Jim Quinlan <james.quinlan@broadcom.com>
-> ---
+Hi Greg,
 
-[...]
+Apparently the patchset has no more comments.
 
-> diff --git a/drivers/of/address.c b/drivers/of/address.c
-> index 8eea3f6e29a4..4b718d199efe 100644
-> --- a/drivers/of/address.c
-> +++ b/drivers/of/address.c
-> @@ -918,33 +918,33 @@ void __iomem *of_io_request_and_map(struct device_node *np, int index,
->  }
->  EXPORT_SYMBOL(of_io_request_and_map);
+Could you take the patches to your tree? At least 1st and 2nd.
+
+
+Regards
+
+Andrzej
+
+
+On 13.07.2020 16:43, Andrzej Hajda wrote:
+> Hi All,
 >
-> +#ifdef CONFIG_HAS_DMA
->  /**
-> - * of_dma_get_range - Get DMA range info
-> + * of_dma_get_range - Get DMA range info and put it into a map array
->   * @np:                device node to get DMA range info
-> - * @dma_addr:  pointer to store initial DMA address of DMA range
-> - * @paddr:     pointer to store initial CPU address of DMA range
-> - * @size:      pointer to store size of DMA range
-> + * @map:       dma range structure to return
->   *
->   * Look in bottom up direction for the first "dma-ranges" property
-> - * and parse it.
-> - *  dma-ranges format:
-> + * and parse it.  Put the information into a DMA offset map array.
-> + *
-> + * dma-ranges format:
->   *     DMA addr (dma_addr)     : naddr cells
->   *     CPU addr (phys_addr_t)  : pna cells
->   *     size                    : nsize cells
->   *
-> - * It returns -ENODEV if "dma-ranges" property was not found
-> - * for this device in DT.
-> + * It returns -ENODEV if "dma-ranges" property was not found for this
-> + * device in the DT.
->   */
-> -int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *size)
-> +int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
->  {
->         struct device_node *node = of_node_get(np);
->         const __be32 *ranges = NULL;
-> -       int len;
-> -       int ret = 0;
->         bool found_dma_ranges = false;
->         struct of_range_parser parser;
->         struct of_range range;
-> -       u64 dma_start = U64_MAX, dma_end = 0, dma_offset = 0;
-> +       struct bus_dma_region *r;
-> +       int len, num_ranges = 0;
-> +       int ret;
+> Thanks for comments.
 >
->         while (node) {
->                 ranges = of_get_property(node, "dma-ranges", &len);
-> @@ -970,44 +970,35 @@ int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *siz
->         }
+> Changes since v8:
+> - fixed typo in function name,
+> - removed cocci script (added by mistake)
 >
->         of_dma_range_parser_init(&parser, node);
-> +       for_each_of_range(&parser, &range)
-> +               num_ranges++;
-> +
-> +       of_dma_range_parser_init(&parser, node);
-> +
-> +       ret = -ENOMEM;
-> +       r = kcalloc(num_ranges + 1, sizeof(*r), GFP_KERNEL);
-> +       if (!r)
-> +               goto out;
-
-AFAICT, you have the error cases covered, but you are leaking memory
-if the device is removed.
-
-[...]
-
-> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
-> index 9f04c30c4aaf..49242dd6176e 100644
-> --- a/drivers/remoteproc/remoteproc_core.c
-> +++ b/drivers/remoteproc/remoteproc_core.c
-> @@ -519,7 +519,7 @@ static int rproc_handle_vdev(struct rproc *rproc, struct fw_rsc_vdev *rsc,
->         /* Initialise vdev subdevice */
->         snprintf(name, sizeof(name), "vdev%dbuffer", rvdev->index);
->         rvdev->dev.parent = &rproc->dev;
-> -       rvdev->dev.dma_pfn_offset = rproc->dev.parent->dma_pfn_offset;
-> +       rvdev->dev.dma_range_map = rproc->dev.parent->dma_range_map;
-
-But doing this means you can't just free the dma_range_map. You need
-to do a copy here or you'd have to refcount it. Or I suppose you could
-check if it the child has a different dma_range_map ptr than the
-parent.
-
-Rob
+> Changes since v7:
+> - improved commit message
+> - added R-Bs
+>
+> Changes since v6:
+> - removed leftovers from old naming scheme in commit descritions,
+> - added R-Bs.
+>
+> Changes since v5:
+> - removed patch adding macro, dev_err_probe(dev, PTR_ERR(ptr), ...) should be used instead,
+> - added dev_dbg logging in case of -EPROBE_DEFER,
+> - renamed functions and vars according to comments,
+> - extended docs,
+> - cosmetics.
+>
+> Original message (with small adjustments):
+>
+> Recently I took some time to re-check error handling in drivers probe code,
+> and I have noticed that number of incorrect resource acquisition error handling
+> increased and there are no other propositions which can cure the situation.
+>
+> So I have decided to resend my old proposition of probe_err helper which should
+> simplify resource acquisition error handling, it also extend it with adding defer
+> probe reason to devices_deferred debugfs property, which should improve debugging
+> experience for developers/testers.
+>
+> I have also added two patches showing usage and benefits of the helper.
+>
+> My dirty/ad-hoc cocci scripts shows that this helper can be used in at least 2700 places
+> saving about 3500 lines of code.
+>
+> Regards
+> Andrzej
+>
+>
+> Andrzej Hajda (4):
+>    driver core: add device probe log helper
+>    driver core: add deferring probe reason to devices_deferred property
+>    drm/bridge/sii8620: fix resource acquisition error handling
+>    drm/bridge: lvds-codec: simplify error handling
+>
+>   drivers/base/base.h                  |  3 ++
+>   drivers/base/core.c                  | 46 ++++++++++++++++++++++++++++
+>   drivers/base/dd.c                    | 23 +++++++++++++-
+>   drivers/gpu/drm/bridge/lvds-codec.c  | 10 ++----
+>   drivers/gpu/drm/bridge/sil-sii8620.c | 21 ++++++-------
+>   include/linux/device.h               |  3 ++
+>   6 files changed, 86 insertions(+), 20 deletions(-)
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
