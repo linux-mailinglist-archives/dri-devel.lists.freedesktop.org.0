@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D54230CE0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEAF230CE2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB4B6E31D;
-	Tue, 28 Jul 2020 15:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 282236E321;
+	Tue, 28 Jul 2020 15:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9CAF6E31D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:01:06 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 9so17605346wmj.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:01:06 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A918E6E321
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:01:39 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id 184so18530997wmb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k7U1Q9zeroE/yPznt2D4XGJyQI13I8758w9wiJAiJy0=;
- b=jqMplwp4VEt7NK46p9DKah2lRF0mHZAS3/mKudshZMy8FcXvLybfAOfggbp9fNABQB
- qdQQrywnrwpr5DVhoAhfpSeN+ncqAgJtbISGMwiO6YiTK8PCRZHkJzwpW2kB8dXRo3F6
- IBtN14ZY0oRy51onC4wkHrXX2Y1HiC/3g3u0qWtxUma2C/vqF0vc9RHpTheV1xzp2TwQ
- tGxBRYBqe4wlQ+B9ML2ck5jheJgA0cFOd86MZN4vaAJkGxaj1/EZAyKBj0Vyvq1n5HqP
- dVtkcScjBUvdltbqg66XgcZowjJlsIO05W8ARbU60uZK/a5nFMjopidVmfwmeDt4r6EX
- kRYg==
+ :cc; bh=ZcrgKc86yq8jTIyryDrJPO9n2XZz5GQUQu/T72sz8/s=;
+ b=Jo9KrEARmx57XEuZF9UIjrILmxJkqN/glLYpkX7VkYNnqVSVCjrANh+1dL79NRHS+1
+ kw225T0kYBhckZq3H9fiBzqhXHLawffOfQXvDJ6HyevfgEIvEBLyD1k6MBUMuMRGgR/d
+ nbY30rZu+Fh8ghEYOuFlcFQS+xvKAlop0ZRcQcvuULOZuplN2+KOANZtFSC8llMfrEvH
+ v73MIuvqQOVIjJlKccE9+CYFGqAvsAz1HRavlCB/HZuEQyCDHdY5oVRQxNJERFrukYHH
+ hbkGzJmDiSGw+Kd10EwExQ0HBNDznk2Z24CHoqFJuSqS2TgSfCJ++2T1DaIXPlkFxOjb
+ qL+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k7U1Q9zeroE/yPznt2D4XGJyQI13I8758w9wiJAiJy0=;
- b=K/utN975Dr5YsDaGxhWACj6CocDjRF/HcgebNik419s9ATAeTTe/xM1fSfBudvDDrQ
- nlt7r4AellbCnBwtgvy3xZs+llm8oFKqnv9n/s47QWdSBpdkZL+q7Z/yt0MjB1rrb5v0
- cXrQbMC5rFe5CKDQM0SMPSXJTDGvaNHyVcDvtEE4vOPdY1yEcGIq4PfeNBPTzJumGs79
- WFVwNFvbY6RKCyFEC7fVOLxNNJzIoh2yWLdGAor12iJji64keOlZv6X+siOj3wp6shPW
- SJJq5XNu0Ps27PJTYNje/sFaEoj4wrUIA5CQAknT+p4nOQ7SzoWgpG38/vyuIIyscDi/
- 3YPw==
-X-Gm-Message-State: AOAM530kLiEAfcpUeaKTEHx5kz5He5HWQ4B4mCcRHrykWQcPmqOWy+qd
- 7lU4ba9gBX+Xnlge3qKW74pniTEKRtC2g8mRBxtacg==
-X-Google-Smtp-Source: ABdhPJwtZsESR7WdQs9vZjByKfImYo4n+KjVPXTXmg/4Xny0qvN0mdHnW9DUz8VR/jWrvijgch9md6yvGN2RFYNjzxM=
-X-Received: by 2002:a1c:e382:: with SMTP id a124mr4091054wmh.96.1595948465354; 
- Tue, 28 Jul 2020 08:01:05 -0700 (PDT)
+ bh=ZcrgKc86yq8jTIyryDrJPO9n2XZz5GQUQu/T72sz8/s=;
+ b=JrFUiUbJWfOXxXR28AjvItd4gj1y2SQZhNTDlxGElmp2AC5uQFJ2tu3I5aB8wnv6wD
+ /G27Nqy50uVTw0F8JekAS7WW4kQE8SU3kYCvV4xR9QYxQ1rBO1fIu+anAnMx2oltWFqe
+ /4kOyBskVxKhajE2TP8PfSlthbfLmMC9N17F7WL0wc3T39/8CB0S/IS69NLsome3ywdd
+ rpzXr3y1OM2AmmQ617H4bTymk3mTGY4HlZUwaUf423MDkqkFG1dgHJKcT4DT5FBegqZa
+ SE2GzTmGuTSCxx0vBTUVmH86TMoehUk/YwKqR2YCe6SAQHDU9+KIhXD7e0bS2htN460F
+ lxDw==
+X-Gm-Message-State: AOAM533/WM9Ljdp7awI5quzJ1Y8pvZZhLtY5j05kBwzj/s4FTfop6mDI
+ qhFDSBKDdt663Q9f25XUqSlJeRjEAbZ41/zLJoJeSg==
+X-Google-Smtp-Source: ABdhPJxsowHKjs4VRkG6lEsi2OtxAldJwXZhMHpPadE/C085R7BWsFMiIcXNwj9j5QNXuzmhc2E3AmMjKoxXxa/+oaE=
+X-Received: by 2002:a1c:e382:: with SMTP id a124mr4093328wmh.96.1595948498383; 
+ Tue, 28 Jul 2020 08:01:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <7d4c17db4a1214b7665375aa83fe1f8b4f0fbdfb.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <7d4c17db4a1214b7665375aa83fe1f8b4f0fbdfb.1594230107.git-series.maxime@cerno.tech>
+ <805c78c427113b151dbd289dc52116f17734a1da.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <805c78c427113b151dbd289dc52116f17734a1da.1594230107.git-series.maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 16:00:50 +0100
-Message-ID: <CAPY8ntBJriBEa4ORW5Ns0zc0ma=7HoooCPKTQb9cfiVQe02uCw@mail.gmail.com>
-Subject: Re: [PATCH v4 68/78] drm/vc4: hdmi: Deal with multiple ALSA cards
+Date: Tue, 28 Jul 2020 16:01:22 +0100
+Message-ID: <CAPY8ntBD_qkvP5DyOx8O-9kFzqKxE-q9swrhBcmRm2L4dDA7gw@mail.gmail.com>
+Subject: Re: [PATCH v4 69/78] drm/vc4: hdmi: Remove register dumps in enable
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,63 +77,63 @@ Hi Maxime
 
 On Wed, 8 Jul 2020 at 18:44, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The HDMI driver was registering a single ALSA card so far with the name
-> vc4-hdmi.
+> The current code has some logic, disabled by default, to dump the register
+> setup in the HDMI controller.
 >
-> Obviously, this is not going to work anymore when will have multiple HDMI
-
-s/will/we
-
-> controllers since we will end up trying to register two files with the same
-> name.
->
-> Let's use the variant to avoid that name conflict.
+> However, since we're going to split those functions in multiple, shorter,
+> functions that only make sense where they are called in sequence, keeping
+> the register dump makes little sense.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-With that change
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
->  drivers/gpu/drm/vc4/vc4_hdmi.h | 3 +++
->  2 files changed, 5 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 17 -----------------
+>  1 file changed, 17 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 1b6f51849d6c..0a9a323e03d8 100644
+> index 0a9a323e03d8..4058985940e6 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -1044,7 +1044,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+> @@ -430,7 +430,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>         struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+>         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+>         struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
+> -       bool debug_dump_regs = false;
+>         unsigned long pixel_rate, hsm_rate;
+>         int ret;
 >
->         card->dai_link = dai_link;
->         card->num_links = 1;
-> -       card->name = "vc4-hdmi";
-> +       card->name = vc4_hdmi->variant->card_name;
->         card->dev = dev;
+> @@ -489,14 +488,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>         if (vc4_hdmi->variant->phy_init)
+>                 vc4_hdmi->variant->phy_init(vc4_hdmi, mode);
 >
->         /*
-> @@ -1503,6 +1503,7 @@ static int vc4_hdmi_dev_remove(struct platform_device *pdev)
->  static const struct vc4_hdmi_variant bcm2835_variant = {
->         .encoder_type           = VC4_ENCODER_TYPE_HDMI0,
->         .debugfs_name           = "hdmi_regs",
-> +       .card_name              = "vc4-hdmi",
->         .max_pixel_clock        = 162000000,
->         .cec_available          = true,
->         .registers              = vc4_hdmi_fields,
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 4aea5ee8a91d..34138e0dd4a6 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -30,6 +30,9 @@ struct vc4_hdmi_variant {
->         /* Encoder Type for that controller */
->         enum vc4_encoder_type encoder_type;
+> -       if (debug_dump_regs) {
+> -               struct drm_printer p = drm_info_printer(&vc4_hdmi->pdev->dev);
+> -
+> -               dev_info(&vc4_hdmi->pdev->dev, "HDMI regs before:\n");
+> -               drm_print_regset32(&p, &vc4_hdmi->hdmi_regset);
+> -               drm_print_regset32(&p, &vc4_hdmi->hd_regset);
+> -       }
+> -
+>         HDMI_WRITE(HDMI_VID_CTL, 0);
 >
-> +       /* ALSA card name */
-> +       const char *card_name;
-> +
->         /* Filename to expose the registers in debugfs */
->         const char *debugfs_name;
+>         HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
+> @@ -522,14 +513,6 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
 >
+>         HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
+>
+> -       if (debug_dump_regs) {
+> -               struct drm_printer p = drm_info_printer(&vc4_hdmi->pdev->dev);
+> -
+> -               dev_info(&vc4_hdmi->pdev->dev, "HDMI regs after:\n");
+> -               drm_print_regset32(&p, &vc4_hdmi->hdmi_regset);
+> -               drm_print_regset32(&p, &vc4_hdmi->hd_regset);
+> -       }
+> -
+>         HDMI_WRITE(HDMI_VID_CTL,
+>                    HDMI_READ(HDMI_VID_CTL) |
+>                    VC4_HD_VID_CTL_ENABLE |
 > --
 > git-series 0.9.1
 _______________________________________________
