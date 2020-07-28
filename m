@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478F6230645
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:14:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F8323064E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:17:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F141389CA4;
-	Tue, 28 Jul 2020 09:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044306E176;
+	Tue, 28 Jul 2020 09:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9201389CA4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:14:13 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id g8so5430773wmk.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:14:13 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 302786E0F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:17:15 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id z18so13981541wrm.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=bHn40kiSAHjs9vxZCiGeqY4wSv0B6MoAUSpQbezT6D8=;
- b=SGXTEh5iADsZ7z6pSWCjRq/v0yPFfnrgejXrLx76kk9HUzEscOH6Tjjk8TEITr2VOE
- HifOJPd3CpqU/z1m39BDbbXszX0Ry2MYJFWQBWAArYk+rAudnW2/4VGr5lxIdIR2vske
- rOcbKGGivX1pdvG8QdbGpDa4ApKtc3i9v+yNk=
+ bh=Z1bQcw7LWepRbq1VziRZUacP09JIO1lYAgjefNmd5v4=;
+ b=JUDil0LKrxlfGDS47OxFa/RJFKfyk7ay/fEewtA8ZRYyQR1SRQTtQub9Y8Tntv5WFk
+ RBM90sR8YP9Y0IHluToIvn1/Tmjv78y0RhkMzkAz+MBXrYm4Qo9PYhxSHm1kqTgS6+fM
+ WH+5VeTYbaKu+8FRncoYqVQV4FrDAaN9Ktpus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bHn40kiSAHjs9vxZCiGeqY4wSv0B6MoAUSpQbezT6D8=;
- b=K80t2SobIIB5h+N9bK4sf4joK36kQsQz07uD+sXKOD3MVLyTofwbl0hb283+pjzHQT
- fBM4yWY9mIfnGKcpbrDhdrSOitBqOw6OmFBDrn6vtEcYIVWufBe1613VjXgJv41MJ+4R
- kF4PC6akGuVVCOnHPJeJbFKA1rNQksuYmgrBv73jYQ3fbmI/WTdZRLYZOPjYs/XElInK
- I/bAnhQaMyqBXEXpxC8ywUVguI1kfgGToySxhka4fSCEyl1B/YNx4yw3G6CdJ+ZnPIox
- a3ddViqpffC4pbjJjstCe5NmGM256iGhv/bQnt3FWT45ZNoqL7uICPf0+6+Um3BHpOXG
- ZdJA==
-X-Gm-Message-State: AOAM532529X2j9hVwGOsYQM/Gv9B5sib5VoyCtamEiGF/SaPKZOQavZO
- jCNIrs+apK+OZ+jKQk3xQhCZeQ==
-X-Google-Smtp-Source: ABdhPJzYhPGxdSt8KHpQPeg0pd4GdEEyRdv/C0rtMJsTGFCGm+V9NNPyyguDhJCoUhSgLMi/1ydncQ==
-X-Received: by 2002:a1c:f70c:: with SMTP id v12mr3112174wmh.100.1595927652240; 
- Tue, 28 Jul 2020 02:14:12 -0700 (PDT)
+ bh=Z1bQcw7LWepRbq1VziRZUacP09JIO1lYAgjefNmd5v4=;
+ b=hsPUnkgtfmHoz924coxmemILB8JoTyOInSQrjcBUoC1hhoA1fiFicGa5JOHX5YzEc6
+ 4niX0fZlUISjZV1ablOfXKfg/5x18X9MztlnAEJFw60V78ERnRaQdkLzfOCaqbecYPNk
+ rinJyVEoU/+NiXRdsgAQp3VwPlQMXXq6KBRifiabenmbjuKMwoA6tzP1djFC0l+KySqX
+ t3LgY0b5+tL27OpEuMNEKbR9utedxSTJ3p8ftPDHl78J0DM8WTvDEDqbrW4ILhrOy6Ad
+ QznTQjQfZIe6XCZqG8wnDcaLgN2aq7kcFTZiJiiYwce8xFfYKZJeNUTHDpVYx7sw8vwi
+ MNug==
+X-Gm-Message-State: AOAM531TadkRfN2T4axd/QPBdu4sEmz/ctqiaYdD8TiFq/wc+smFhkjO
+ Q0cfaSS/PTCMv/OgvwHuVep+qg==
+X-Google-Smtp-Source: ABdhPJyypmIgD5gqRoB48QI0E6ODDLm9eBvjuzcO8y7wzlkpLsbhTtyX6pqZ1w/LSpi3DrM3DxdEkA==
+X-Received: by 2002:a5d:540c:: with SMTP id g12mr15972521wrv.120.1595927833856; 
+ Tue, 28 Jul 2020 02:17:13 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i14sm19182924wrc.19.2020.07.28.02.14.11
+ by smtp.gmail.com with ESMTPSA id c10sm16756735wro.84.2020.07.28.02.17.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 02:14:11 -0700 (PDT)
-Date: Tue, 28 Jul 2020 11:14:09 +0200
+ Tue, 28 Jul 2020 02:17:13 -0700 (PDT)
+Date: Tue, 28 Jul 2020 11:17:11 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH] ttm: ttm_bo_swapout_all doesn't use it's argument.
-Message-ID: <20200728091409.GA6419@phenom.ffwll.local>
-References: <20200728034254.20114-1-airlied@gmail.com>
+Subject: Re: [PATCH 11/13] drm/ast: Managed release of ast firmware
+Message-ID: <20200728091711.GB6419@phenom.ffwll.local>
+References: <20200728074425.2749-1-tzimmermann@suse.de>
+ <20200728074425.2749-12-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200728034254.20114-1-airlied@gmail.com>
+In-Reply-To: <20200728074425.2749-12-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,80 +65,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com, sroland@vmware.com,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Cc: emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 28, 2020 at 01:42:54PM +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
+On Tue, Jul 28, 2020 at 09:44:23AM +0200, Thomas Zimmermann wrote:
+> The ast driver loads firmware for the DP501 display encoder. The
+> patch replaces the removal code with a managed release function.
 > 
-> Just drop the argument from this.
-> 
-> This does ask the question if this is the function vmwgfx
-> should be using or should it be doing an evict all like
-> the other drivers.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Yeah this looks a bit like ttm_bo_swapout_all shouldn't even be exported
-really, it's part of the internal shrinker stuff.
+Hm a devm_request_firmware which does exactly this would be nice I think.
+Maybe as a follow-up refactor?
 -Daniel
 
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
 > ---
->  drivers/gpu/drm/ttm/ttm_bo.c        | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
->  include/drm/ttm/ttm_bo_api.h        | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/ast/ast_dp501.c | 23 ++++++++++++++---------
+>  drivers/gpu/drm/ast/ast_drv.h   |  1 -
+>  drivers/gpu/drm/ast/ast_main.c  |  3 ---
+>  3 files changed, 14 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index b03747717ec7..f297fd5e02d4 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -1838,7 +1838,7 @@ int ttm_bo_swapout(struct ttm_bo_global *glob, struct ttm_operation_ctx *ctx)
->  }
->  EXPORT_SYMBOL(ttm_bo_swapout);
+> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+> index 4b85a504825a..88121c0e0d05 100644
+> --- a/drivers/gpu/drm/ast/ast_dp501.c
+> +++ b/drivers/gpu/drm/ast/ast_dp501.c
+> @@ -8,11 +8,24 @@
 >  
-> -void ttm_bo_swapout_all(struct ttm_bo_device *bdev)
-> +void ttm_bo_swapout_all(void)
+>  MODULE_FIRMWARE("ast_dp501_fw.bin");
+>  
+> +static void ast_release_firmware(void *data)
+> +{
+> +	struct ast_private *ast = data;
+> +
+> +	release_firmware(ast->dp501_fw);
+> +	ast->dp501_fw = NULL;
+> +}
+> +
+>  static int ast_load_dp501_microcode(struct drm_device *dev)
 >  {
->  	struct ttm_operation_ctx ctx = {
->  		.interruptible = false,
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index 470428387878..fb39826f72c1 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1352,7 +1352,7 @@ static int vmw_pm_freeze(struct device *kdev)
->  	vmw_execbuf_release_pinned_bo(dev_priv);
->  	vmw_resource_evict_all(dev_priv);
->  	vmw_release_device_early(dev_priv);
-> -	ttm_bo_swapout_all(&dev_priv->bdev);
-> +	ttm_bo_swapout_all();
->  	if (dev_priv->enable_fb)
->  		vmw_fifo_resource_dec(dev_priv);
->  	if (atomic_read(&dev_priv->num_fifo_resources) != 0) {
-> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> index b1c705a93517..a9e13b252820 100644
-> --- a/include/drm/ttm/ttm_bo_api.h
-> +++ b/include/drm/ttm/ttm_bo_api.h
-> @@ -692,7 +692,7 @@ ssize_t ttm_bo_io(struct ttm_bo_device *bdev, struct file *filp,
+>  	struct ast_private *ast = to_ast_private(dev);
+> +	int ret;
+> +
+> +	ret = request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev);
+> +	if (ret)
+> +		return ret;
 >  
->  int ttm_bo_swapout(struct ttm_bo_global *glob,
->  			struct ttm_operation_ctx *ctx);
-> -void ttm_bo_swapout_all(struct ttm_bo_device *bdev);
-> +void ttm_bo_swapout_all(void);
+> -	return request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev);
+> +	return devm_add_action_or_reset(dev->dev, ast_release_firmware, ast);
+>  }
 >  
->  /**
->   * ttm_bo_uses_embedded_gem_object - check if the given bo uses the
+>  static void send_ack(struct ast_private *ast)
+> @@ -435,11 +448,3 @@ void ast_init_3rdtx(struct drm_device *dev)
+>  		}
+>  	}
+>  }
+> -
+> -void ast_release_firmware(struct drm_device *dev)
+> -{
+> -	struct ast_private *ast = to_ast_private(dev);
+> -
+> -	release_firmware(ast->dp501_fw);
+> -	ast->dp501_fw = NULL;
+> -}
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 86c9a7ac712b..02908d005b99 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -312,7 +312,6 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
+>  bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
+>  u8 ast_get_dp501_max_clk(struct drm_device *dev);
+>  void ast_init_3rdtx(struct drm_device *dev);
+> -void ast_release_firmware(struct drm_device *dev);
+>  
+>  /* ast_cursor.c */
+>  int ast_cursor_init(struct ast_private *ast);
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index 792fb7f616ec..e3b7748335a3 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -442,11 +442,8 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
+>  
+>  void ast_device_destroy(struct ast_private *ast)
+>  {
+> -	struct drm_device *dev = &ast->base;
+> -
+>  	/* enable standard VGA decode */
+>  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
+>  
+> -	ast_release_firmware(dev);
+>  	kfree(ast->dp501_fw_addr);
+>  }
 > -- 
-> 2.26.2
+> 2.27.0
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
