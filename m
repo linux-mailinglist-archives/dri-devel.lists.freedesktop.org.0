@@ -1,36 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB930231290
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:30:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D3C2312A0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276C06E2CC;
-	Tue, 28 Jul 2020 19:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 530A86E35D;
+	Tue, 28 Jul 2020 19:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC0389DB8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 12:57:10 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 84C4B6635318109F9F2B;
- Tue, 28 Jul 2020 20:57:04 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 28 Jul 2020 20:56:59 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] drm/hisilicon: Fixed the warning: Assignment of 0/1 to
- bool variable
-Date: Tue, 28 Jul 2020 20:55:07 +0800
-Message-ID: <1595940907-17874-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA096E2DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 13:48:16 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1E74E5C00E5;
+ Tue, 28 Jul 2020 09:48:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 28 Jul 2020 09:48:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=LVHDbGRG+YUn9GBTFPve9rqJ/z
+ exe2Mb5eR3Ba0GAiY=; b=YuQIekqnXmm/bHrvgZiFXXm59r1tC3iA4rgAXX8eUu
+ 3LsAFaPFGJ0MWghilABI5xer6zspFgjLTkdj2BGyTiaynBh65HZFqQxz5/ikNXcT
+ LnYe4Cv/AkVnWW9aYNeTDqmXTC2DjMPmU25j5tS92vcRltwfYL0FJzT4FUkUtKQW
+ hm3eQi9xE5U7/KQPhVo58ysIiuIrW9hEDehWWyeuqSHa4A2xnHEzWc7SAAL6bZ5P
+ sHYkcxDhFMkmNPvfGx//cf0i+AdJvqwXKldyGokHpAe4kL0mWS2qCs70VnOofo/k
+ D2esWQKvrmGx9myORWasKoag+42KAWFvM9dLwOd6Y7xw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LVHDbGRG+YUn9GBTF
+ Pve9rqJ/zexe2Mb5eR3Ba0GAiY=; b=fIowZ4I0wCqMJMMFy58mVXI/wgFZ600US
+ Evv3wXcLcEOAnK1fR5H4G92J98FUzaWmpF8m7Gv6RjczKmNwACHNawBSXlsF8WGN
+ I9W00krECGfFC/Mp+QYNYXx9tevd2PVivlW2P323pibO1EEa6r8cmqH5eJNfJBH4
+ 3/pEReejyMMHqMXqb5nBXW5zXcA9cK9GuSh4zMM30vhAYIYK+QP23II4ugXAbVw6
+ kgHDXfa1YqfarAr3d9IpX+aGxqw1Ab6aP8Ra7nLcTKA5jl4ZLBd+ijEQ3RNrn+cz
+ fc3EgyF789J+KOefgdPz9cfFe0E7Z9YEF0CbeDxcvZGS+XW3a4xww==
+X-ME-Sender: <xms:nSwgXx1FSuEIgL7xY5lDhIcjxkC2Jy8HvHATVlgol3Tbo6xD74nlmQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedriedvgdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:nSwgX4GXacsa73gzvBYeG2rXWKnB8xmN_0tzz2Agkqmsnyt-uHEh1g>
+ <xmx:nSwgXx7AX_pcvddLWoPjw77pB7c6BJejsdizK9eUZxUcfrLyzOanzg>
+ <xmx:nSwgX-0s6wXdUjlNQaGbezc0V3fZnXutvZxkXUqgtLrQTwA5c9IxWw>
+ <xmx:niwgX-MI0KCmPrj_c4Kev0iJeeBsg01oyZZwV6zhSOuzrD4GCb57Gg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id DC1493280065;
+ Tue, 28 Jul 2020 09:48:12 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 1/2] drm/sun4i: backend: Support alpha property on lowest plane
+Date: Tue, 28 Jul 2020 15:48:09 +0200
+Message-Id: <20200728134810.883457-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,71 +75,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fixed the following warning:
-hibmc_drm_drv.c:296:1-18:WARNING: Assignment of 0/1 to bool variable.
-hibmc_drm_drv.c:301:2-19: WARNING: Assignment of 0/1 to bool variable.
+Unlike what we previously thought, only the per-pixel alpha is broken on
+the lowest plane and the per-plane alpha isn't. Remove the check on the
+alpha property being set on the lowest plane to reject a mode.
 
-v2:
-using the pci_dev.msi_enabled instead of priv->msi_enabled.
-
-v3:
-just call pci_enable_msi() and pci_disable_msi(), it's no need to
-set dev->pdev->msi_enabled again.
-
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Fixes: dcf496a6a608 ("drm/sun4i: sun4i: Introduce a quirk for lowest plane alpha support")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h | 1 -
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_backend.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 249c298..b8d839a 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -254,9 +254,8 @@ static int hibmc_unload(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 072ea113e6be..6d0f0526515f 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -589,7 +589,6 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
  
- 	if (dev->irq_enabled)
- 		drm_irq_uninstall(dev);
--	if (priv->msi_enabled)
--		pci_disable_msi(dev->pdev);
+ 	/* We can't have an alpha plane at the lowest position */
+ 	if (!backend->quirks->supports_lowest_plane_alpha &&
+-	    (plane_states[0]->fb->format->has_alpha ||
+ 	    (plane_states[0]->alpha != DRM_BLEND_ALPHA_OPAQUE)))
+ 		return -EINVAL;
  
-+	pci_disable_msi(dev->pdev);
- 	hibmc_kms_fini(priv);
- 	hibmc_mm_fini(priv);
- 	dev->dev_private = NULL;
-@@ -294,12 +293,10 @@ static int hibmc_load(struct drm_device *dev)
- 		goto err;
- 	}
- 
--	priv->msi_enabled = 0;
- 	ret = pci_enable_msi(dev->pdev);
- 	if (ret) {
- 		DRM_WARN("enabling MSI failed: %d\n", ret);
- 	} else {
--		priv->msi_enabled = 1;
- 		ret = drm_irq_install(dev, dev->pdev->irq);
- 		if (ret)
- 			DRM_WARN("install irq failed: %d\n", ret);
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 6097687..a683763 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -25,7 +25,6 @@ struct hibmc_drm_private {
- 	void __iomem   *fb_map;
- 	unsigned long  fb_base;
- 	unsigned long  fb_size;
--	bool msi_enabled;
- 
- 	/* drm */
- 	struct drm_device  *dev;
 -- 
-2.7.4
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
