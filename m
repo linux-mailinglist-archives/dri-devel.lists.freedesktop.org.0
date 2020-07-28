@@ -1,57 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EB7230EDC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 18:08:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B38230F05
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 18:16:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C296E202;
-	Tue, 28 Jul 2020 16:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E6B6E211;
+	Tue, 28 Jul 2020 16:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26C456E202
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 16:08:00 +0000 (UTC)
-IronPort-SDR: M8IdoJY9/HSzCb7xdF1b9kKwfuz/qiiniPFkOIJJuAICg4mmuB3P7JFHDZf10wlOqZBDmA7rFI
- HmGuBFaNcVDA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="236111470"
-X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; d="scan'208";a="236111470"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2020 09:07:58 -0700
-IronPort-SDR: wP8OAodxBTrytv1fBeXeKHuKz4e9cBYZmCFsPyGE0olmRkfom5iKCaUQS9Kq48Fj52Qs7bLU+0
- cRo9sYhJ9oLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; d="scan'208";a="273605829"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
- by fmsmga008.fm.intel.com with ESMTP; 28 Jul 2020 09:07:59 -0700
-Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
- FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 28 Jul 2020 09:07:58 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.75]) by
- FMSMSX151.amr.corp.intel.com ([169.254.7.35]) with mapi id 14.03.0439.000;
- Tue, 28 Jul 2020 09:07:52 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: Dave Airlie <airlied@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] nouveau: use ttm populate mapping functions. (v2)
-Thread-Topic: [PATCH] nouveau: use ttm populate mapping functions. (v2)
-Thread-Index: AQHWZI7UpS1ey9WojkqxwunJ9pNPAqkdJn5g
-Date: Tue, 28 Jul 2020 16:07:52 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E866301245EE4F7@FMSMSX108.amr.corp.intel.com>
-References: <20200728032545.19878-1-airlied@gmail.com>
-In-Reply-To: <20200728032545.19878-1-airlied@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.106]
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08DC96E211
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 16:16:44 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id 74so2935758pfx.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=5hAHQVdK1eMNUgeTGoP5P2N6Dh+EChlHcZOZmgXqG/Q=;
+ b=M1yeDf7BTYx/Jxik0hy/9QfnJMYJS/Nh2k/SXflonvJZRmbAtSK3BFYAjfbHsxXp5n
+ yX5MN3dW5QcrAtv/pibUOyQ2571GiPa9rPkbzQ3vIEPGdQcNORg/FN2ouhGWl70h5z0M
+ jmdeBUcLoZklFI2rdC6+aKvAK7w8uYR0YuKARzJV37dsBy4RK3uSio/8Cq/Y8li8BFmj
+ HCCzULjMnWnmpevXFi6zFt1ZQOCfNbCY+ZDGcXFvVnYhXZSj1+cV2PtXzpFkkDYKa1mS
+ VNXQn0wPsnVVuYQKOtz+s633rjd/DCTMw2zItBkkM23sAvGvoAYeSUVNkdIr7914/0e2
+ mQ0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=5hAHQVdK1eMNUgeTGoP5P2N6Dh+EChlHcZOZmgXqG/Q=;
+ b=VAhS1QV/64UCIIFiQKxp+CHYwlbqMHB0tbhgS7AmTqwi3+kyEuq4BcSYqjzF63EFsz
+ o5TzxZLa4fdv6YCOvAu32x3t60fZyHCY2F5Y+zb7VA+yNt/+EzenIvmQphfMpAzQFwD8
+ tJp7DF3BAH2xiE0xsOsYitmG5jL7aYZ6V0qaH2bLyy40tDrf46257Q1Gf7CvxDKGs+q2
+ BGqSFvMwURV5AJE7iewqs6WLofvuyKBxcKDLOFXZtvfaT8b/9mwO5IqjzPdu/QEz0aou
+ Y7izuE5lA0zZn1pL+mGPm9yw/cgIk8854imEtXpqCpCL1Fg4hXosdYzQ/dotM7Js538c
+ Z9nA==
+X-Gm-Message-State: AOAM533Lt0jrp2ze9iCVoAZ02zUBtH4SwxXyMkLTvYQEydX/lU5G694H
+ Z0il0fa/dLHSXMWInl3DV9E=
+X-Google-Smtp-Source: ABdhPJxhejyu5AbxgF3YkqfRK4QH2QX7YB9cC0GlaQ2jo23a48FzF5AQzVrjvciwFVW37AklN9eT3g==
+X-Received: by 2002:a63:8ec8:: with SMTP id
+ k191mr25085677pge.154.1595953003584; 
+ Tue, 28 Jul 2020 09:16:43 -0700 (PDT)
+Received: from realwakka ([61.83.141.80])
+ by smtp.gmail.com with ESMTPSA id m6sm8654592pfk.36.2020.07.28.09.16.40
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 28 Jul 2020 09:16:43 -0700 (PDT)
+Date: Tue, 28 Jul 2020 16:16:34 +0000
+From: Sidong Yang <realwakka@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>
+Subject: Re: [PATCH] drm/vkms: add missing drm_crtc_vblank_put to the get/put
+ pair on flush
+Message-ID: <20200728161634.GA6555@realwakka>
+References: <20200722140604.27dfzfnzug5vb75r@smtp.gmail.com>
+ <CAKMK7uHWCnJ+3YnP2FwVGH6cEDkmPnH9ALjY_1R51QVs0HPG0Q@mail.gmail.com>
+ <20200725011737.GA2851@realwakka>
+ <CAKMK7uEWPCzx+K=+nJsLT5HRBVJ+s8tqx30Ljkr4BCBDComyWQ@mail.gmail.com>
+ <20200725174514.esh4gqek6oddizvh@smtp.gmail.com>
+ <CAKMK7uEi0UFSwYTO7h6_YKN+UykOuVcmhMSG_ySy9uyo_7Pz-g@mail.gmail.com>
+ <20200725184918.togb54bxuifrq77c@smtp.gmail.com>
+ <CAJeY4oEr1mDASzdjfyeXqfqUmM6n1ULgnedM7dif6db6Qk-r2g@mail.gmail.com>
+ <CAJeY4oHzL2q1yRDQweSK5CM5WdHrWqqPVhkNc5DPzP1ayJLw+A@mail.gmail.com>
+ <CAKMK7uGQXXDhYGOwYdorKECgNW2Ydq=Mxu_Tm-GrOY8SHftB+g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGQXXDhYGOwYdorKECgNW2Ydq=Mxu_Tm-GrOY8SHftB+g@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,126 +78,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "bskeggs@redhat.com" <bskeggs@redhat.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, kernel-usp@googlegroups.com,
+ Melissa Wen <melissa.srw@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Dave Airlie
->Sent: Monday, July 27, 2020 11:26 PM
->To: dri-devel@lists.freedesktop.org
->Cc: bskeggs@redhat.com
->Subject: [PATCH] nouveau: use ttm populate mapping functions. (v2)
->
->From: Dave Airlie <airlied@redhat.com>
->
->Instead of rolling driver copies of them.
->
->v2: cleanup return handling (Ben)
->Signed-off-by: Dave Airlie <airlied@redhat.com>
->---
-> drivers/gpu/drm/nouveau/nouveau_bo.c | 38 ++--------------------------
-> 1 file changed, 2 insertions(+), 36 deletions(-)
->
->diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c
->b/drivers/gpu/drm/nouveau/nouveau_bo.c
->index 7806278dce57..6ef5085c9a91 100644
->--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
->+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
->@@ -1231,8 +1231,6 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm,
->struct ttm_operation_ctx *ctx)
-> 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
-> 	struct nouveau_drm *drm;
-> 	struct device *dev;
->-	unsigned i;
->-	int r;
-> 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->
-> 	if (ttm->state != tt_unpopulated)
->@@ -1260,31 +1258,7 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm,
->struct ttm_operation_ctx *ctx)
-> 		return ttm_dma_populate((void *)ttm, dev, ctx);
-> 	}
-> #endif
->-
->-	r = ttm_pool_populate(ttm, ctx);
->-	if (r) {
->-		return r;
->-	}
->-
->-	for (i = 0; i < ttm->num_pages; i++) {
->-		dma_addr_t addr;
->-
->-		addr = dma_map_page(dev, ttm->pages[i], 0, PAGE_SIZE,
->-				    DMA_BIDIRECTIONAL);
->-
->-		if (dma_mapping_error(dev, addr)) {
->-			while (i--) {
->-				dma_unmap_page(dev, ttm_dma-
->>dma_address[i],
->-					       PAGE_SIZE,
->DMA_BIDIRECTIONAL);
->-				ttm_dma->dma_address[i] = 0;
->-			}
->-			ttm_pool_unpopulate(ttm);
->-			return -EFAULT;
->-		}
->-
->-		ttm_dma->dma_address[i] = addr;
->-	}
->-	return 0;
->+	return ttm_populate_and_map_pages(dev, ttm_dma, ctx);
+On Sun, Jul 26, 2020 at 12:26:08PM +0200, Daniel Vetter wrote:
+> On Sat, Jul 25, 2020 at 9:29 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+> >
+> > On Sat, Jul 25, 2020 at 4:19 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+> > >
+> > > > No, this very first warning continues (only once) :(
+> > > > From here (drm_crtc_vblank_on):
+> > > >         if (atomic_read(&vblank->refcount) != 0 || drm_vblank_offdelay == 0)
+> > > >                 drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
+> > >
+> > > Sorry, not sure when this warning is triggered.
+> >
+> > Again, I just had to look at the trace:
+> > [   52.299388]  drm_get_last_vbltimestamp+0xaa/0xc0 [drm]
+> > [   52.299389]  drm_reset_vblank_timestamp+0x5b/0xd0 [drm]
+> > [   52.299389]  drm_crtc_vblank_on.cold+0x37/0x103 [drm]
+> > [   52.299390]  drm_atomic_helper_commit_modeset_enable
+> 
+> Yeah I think vkms can't generate a reasonable timestamp when the
+> hrtimer is off. I thought the warning comes from a different
+> callchain, but seems to be a general problem.
+> 
+> I guess in the vkms timestamp function we should check whether the
+> timer is running, and if it's not running, then we just grab the
+> current time and done.
 
-This is not a completely straight code replacement.
+I tried some test about this scenario that commit_tail calls in sequence disable 
+- enable - commit.
+In a first test. there was a warning and found out that it raised from 
+vkms_get_vblank_timestamp() the code checking vblank_hrtimer's expire time and 
+vblank_time. In first run, vblank_time and hrtimer's expire time was both zero.  
+because vblank wasn't happened yet. this warning wasn't happend since second run 
+that vblank time was set from first run. 
 
-ttm_populate_and_map_pages() also has code to deal with pages that are
-contiguous (consolidates them).
+I don't know it's good way to solve the problem. Is there no problem in other 
+drm modules?
 
-Is it possible that the nouveau HW can't handle a contiguous buffer larger
-than PAG_SIZE?
+-Sidong
 
-Thanks,
-
-Mike
-
-> }
->
-> static void
->@@ -1293,7 +1267,6 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
-> 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
-> 	struct nouveau_drm *drm;
-> 	struct device *dev;
->-	unsigned i;
-> 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
->
-> 	if (slave)
->@@ -1316,14 +1289,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
-> 	}
-> #endif
->
->-	for (i = 0; i < ttm->num_pages; i++) {
->-		if (ttm_dma->dma_address[i]) {
->-			dma_unmap_page(dev, ttm_dma->dma_address[i],
->PAGE_SIZE,
->-				       DMA_BIDIRECTIONAL);
->-		}
->-	}
->-
->-	ttm_pool_unpopulate(ttm);
->+	ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
-> }
->
-> void
->--
->2.26.2
->
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> -Daniel
+> 
+> > >
+> > > >
+> > > > > But I'm still wondering why after step 3 we don't get -EINVAL from
+> > > > > vblank_get() - after vblank_off() vblank->enabled should be false
+> > > > > again, getting us back to the same state as after 1. Is that not
+> > > > > happening?
+> > > >
+> > > > Yes (sorry if it got confused), we got -EINVAL after setp 3:
+> > > >
+> > > > In step 3, at the end of the 2nd running, we have:
+> > > > atomic_disable
+> > > > --> vblank_off [!vblank->inmodeset + refcount going 0->1 + inmodeset=1]
+> > > > and then in next vblank_get: -EINVAL (!vblank->enabled + refcount ends 1)
+> > > > as in the first step.
+> > > >
+> > > > Melissa
+> > > >
+> > > > > -Daniel
+> > > > >
+> > > > > >
+> > > > > > > >
+> > > > > > > > Thanks
+> > > > > > > > -Sidong
+> > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > >             crtc->state->event = NULL;
+> > > > > > > > > > > >     }
+> > > > > > > > > > > >
+> > > > > > > > > > > > --
+> > > > > > > > > > > > 2.27.0
+> > > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > --
+> > > > > > > > > > > Daniel Vetter
+> > > > > > > > > > > Software Engineer, Intel Corporation
+> > > > > > > > > > > http://blog.ffwll.ch
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > --
+> > > > > > > > > Daniel Vetter
+> > > > > > > > > Software Engineer, Intel Corporation
+> > > > > > > > > http://blog.ffwll.ch
+> > > > > > > > > _______________________________________________
+> > > > > > > > > dri-devel mailing list
+> > > > > > > > > dri-devel@lists.freedesktop.org
+> > > > > > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > > > --
+> > > > > > > Daniel Vetter
+> > > > > > > Software Engineer, Intel Corporation
+> > > > > > > http://blog.ffwll.ch
+> > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > Daniel Vetter
+> > > > > Software Engineer, Intel Corporation
+> > > > > http://blog.ffwll.ch
+> 
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
