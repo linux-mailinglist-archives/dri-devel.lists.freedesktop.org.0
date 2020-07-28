@@ -1,52 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFEF23000B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 05:23:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DF823000D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 05:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1B789BA3;
-	Tue, 28 Jul 2020 03:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 763716E145;
+	Tue, 28 Jul 2020 03:25:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5E489BA3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:23:38 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id qc22so4365904ejb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 20:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=Sd54gG54Ze5yTPEdGHIeadb/Kn7Njk5nmifinz29gjc=;
- b=tsa6Ya8FZeWtX1olD3E3CK0Mkma86fPXKlwCBqas0I097Km2OB4saLhWPz9MdKxOqo
- jVsRI5m0dB937zjUPHEiudQ3zFjuL1ecZjBvvtrgNmU6p36k4psTBoX0be9Cu0hhKnXI
- LDl8Esfb/Ed1NJfsIlgyzPDXXpti6oazRBNIWBUCDl+IBj1F8YA7iPTAiE74/ZaSKulf
- ybStqWGASCMi3pvwnruxS0RNKKpviDFTPne74SMh+Rm9rv1dnc1YcEFQUK/h8qzZKLYg
- ZQgrpMIsaSjKrLY8XbzcdNzu7AgsYDAhHTk+4DuT4ThCAM6m/GBMMBRXpdwcZxx2AgAu
- cMMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=Sd54gG54Ze5yTPEdGHIeadb/Kn7Njk5nmifinz29gjc=;
- b=pb0cu4lZsinWB9K1z6/nOy+dRFxqRh1zrBlAudwNfhNJffwqpHY1SPfhQeWoqyPLmZ
- 3Krjhe0I70lZRdWZ4yPrPT+vOTaOkKK6fMMDdQsJz7EfQzSAYkK0l8jNSp19HQ8eP5eq
- Zl3lSpKejMqGo0U8klYblRqhAidIB3DA3WTgMfwIm606yj2D93JLzvnSJIBiPLamKPUg
- 65t+HY460Pe0of0aT3t939cFtSoT7ZOaVuq+A7+aFBvvQnxk3lFrURNt0acNmWW/4DJ8
- 3Dai9b06zlSoB/V6BImjdL31VYy7r+wawSC2BkQNlgOy8A7g34Magq+PYroefdPWy6Fu
- dCGQ==
-X-Gm-Message-State: AOAM532A2haLM48vyvE4BlXPBix0OofcT9iMkPGN0wHP1mgaC36nzRQs
- 5DOncRiV2VEYXvWIhtSLDDXT1xdxi9Hq14kiVNQ=
-X-Google-Smtp-Source: ABdhPJyiksBasnumtBvaHvURoWmG2msFPfs+vOdpAdypVeWfyqr5KZ8duEJ6stu42+q+6qsxkIk7YH1vraOIBvieVIg=
-X-Received: by 2002:a17:906:1104:: with SMTP id
- h4mr14573799eja.456.1595906617452; 
- Mon, 27 Jul 2020 20:23:37 -0700 (PDT)
-MIME-Version: 1.0
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8236E145
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:25:52 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-X11200hvObiw-Fk6fDWIEQ-1; Mon, 27 Jul 2020 23:25:49 -0400
+X-MC-Unique: X11200hvObiw-Fk6fDWIEQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B694D8015CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:25:48 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.32.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA03F10013D0;
+ Tue, 28 Jul 2020 03:25:47 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 28 Jul 2020 13:23:26 +1000
-Message-ID: <CAPM=9tx8V2TWSTwKCik1iUvnQExZoBtGYdQZ_4MdKjdHmQJE5A@mail.gmail.com>
-Subject: ttm_tt_set_placement_caching on vram->ram transfers
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Ben Skeggs <bskeggs@redhat.com>, dri-devel <dri-devel@lists.freedesktop.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+Date: Tue, 28 Jul 2020 13:25:45 +1000
+Message-Id: <20200728032545.19878-1-airlied@gmail.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,20 +47,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian + Ben,
+From: Dave Airlie <airlied@redhat.com>
 
-Just been reviewing around driver TTM code, and found an inconsistency,
+Instead of rolling driver copies of them.
 
-amdgpu + radeon both call the above before binding the ttm and going
-gpu vram->ram copies, but I don't see nouveau doing it Not sure if it
-could cause any issues, but it does look inconsistent.
+v2: cleanup return handling (Ben)
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 38 ++--------------------------
+ 1 file changed, 2 insertions(+), 36 deletions(-)
 
-Dave.
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 7806278dce57..6ef5085c9a91 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1231,8 +1231,6 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+ 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
+ 	struct nouveau_drm *drm;
+ 	struct device *dev;
+-	unsigned i;
+-	int r;
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (ttm->state != tt_unpopulated)
+@@ -1260,31 +1258,7 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+ 		return ttm_dma_populate((void *)ttm, dev, ctx);
+ 	}
+ #endif
+-
+-	r = ttm_pool_populate(ttm, ctx);
+-	if (r) {
+-		return r;
+-	}
+-
+-	for (i = 0; i < ttm->num_pages; i++) {
+-		dma_addr_t addr;
+-
+-		addr = dma_map_page(dev, ttm->pages[i], 0, PAGE_SIZE,
+-				    DMA_BIDIRECTIONAL);
+-
+-		if (dma_mapping_error(dev, addr)) {
+-			while (i--) {
+-				dma_unmap_page(dev, ttm_dma->dma_address[i],
+-					       PAGE_SIZE, DMA_BIDIRECTIONAL);
+-				ttm_dma->dma_address[i] = 0;
+-			}
+-			ttm_pool_unpopulate(ttm);
+-			return -EFAULT;
+-		}
+-
+-		ttm_dma->dma_address[i] = addr;
+-	}
+-	return 0;
++	return ttm_populate_and_map_pages(dev, ttm_dma, ctx);
+ }
+ 
+ static void
+@@ -1293,7 +1267,6 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+ 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
+ 	struct nouveau_drm *drm;
+ 	struct device *dev;
+-	unsigned i;
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (slave)
+@@ -1316,14 +1289,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+ 	}
+ #endif
+ 
+-	for (i = 0; i < ttm->num_pages; i++) {
+-		if (ttm_dma->dma_address[i]) {
+-			dma_unmap_page(dev, ttm_dma->dma_address[i], PAGE_SIZE,
+-				       DMA_BIDIRECTIONAL);
+-		}
+-	}
+-
+-	ttm_pool_unpopulate(ttm);
++	ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
+ }
+ 
+ void
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
