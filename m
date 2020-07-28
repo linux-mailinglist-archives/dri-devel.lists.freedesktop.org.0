@@ -2,58 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9613C230697
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2517230698
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A086E22E;
-	Tue, 28 Jul 2020 09:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D73B289DDD;
+	Tue, 28 Jul 2020 09:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 078CA6E21E
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:32:45 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 184so17489073wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AU9s58NWcS4q66ON/qBITRLtbQLz4Yu7YHkO3lD5N1o=;
- b=X3yxH1PlydEeFDHHHKr1CfN30iWUPFVw5u/q1V4LWa7RGJj3qy9YXwXCLbC/UTLvxH
- vI94ur6E4g1IflF6c2LDwPqvOTQtlZZU+ilrNw358MqOXMFiOCMMbKYiXxp00JMmHwrv
- myaQ5ZXBWbJXSo9I7nrcFYymm1O4cM74diRVk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AU9s58NWcS4q66ON/qBITRLtbQLz4Yu7YHkO3lD5N1o=;
- b=Iz4y8ivx0mwTroSPS54DMWjOxNS56DrQSs/Iwpl9LvJjGxSF5O/TDs8rfSoQoFOIaT
- eD72u3WflrGHtTycgUCW/W99V/FH3pGD8Cailq50rpqa9psY9RdKeCVV52xyCIH9fszQ
- f97xXA0RO/p0hUX0Ou+cUVFOklj+X/OnTr7/103ZhvQxG8ZDRlj8t8rpolOpW7y+Nl5p
- SE7BrRsoI1iAoTSJyA1k8CGMLGduw6RZ8pU/yRtwLLN34NAnRy7EowVVFKXd1lewz5vm
- W8WZNJUpIcmisnCcIhAgJD2liUMDoEiM0MnMQ7Gj8vNRVssLOik8jSfD0yc3Q6tpP1aT
- Q7Zg==
-X-Gm-Message-State: AOAM5332JPHvYaviRThxc1OlASIwmD38XDKIkatmElmwxFKpejXHelYG
- 2ax7+gXFJQeKtoGbqpaa+ixnKQ==
-X-Google-Smtp-Source: ABdhPJzMd7r5Oa5NIocH3+xVBk8Yr1yD8sECFjIodeQxzcJMT+FPiM6Fcmh2HkTIQ0+HL2ZUwNQhbw==
-X-Received: by 2002:a1c:81d1:: with SMTP id c200mr3134701wmd.162.1595928763643; 
- Tue, 28 Jul 2020 02:32:43 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h10sm16464733wro.57.2020.07.28.02.32.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 02:32:42 -0700 (PDT)
-Date: Tue, 28 Jul 2020 11:32:41 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [Intel-gfx] [PATCH 0/6] vga-switcheroo: initial dynamic mux
- switch support
-Message-ID: <20200728093241.GE6419@phenom.ffwll.local>
-References: <ba78cd19-45ad-b17e-5174-256cc11f36c2%40nvidia.com>
- <20200727205112.27698-1-ddadap@nvidia.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5006389DDD
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:33:40 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D1D94B6A0;
+ Tue, 28 Jul 2020 09:33:49 +0000 (UTC)
+Subject: Re: [PATCH 04/13] drm/ast: Managed release of I2C adapter
+To: daniel@ffwll.ch
+References: <20200728074425.2749-1-tzimmermann@suse.de>
+ <20200728074425.2749-5-tzimmermann@suse.de>
+ <20200728092337.GD6419@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <27bc5694-e80b-d440-8e4a-c5eea94f15bd@suse.de>
+Date: Tue, 28 Jul 2020 11:33:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200727205112.27698-1-ddadap@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200728092337.GD6419@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,86 +40,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============0810736770=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 27, 2020 at 03:51:06PM -0500, Daniel Dadap wrote:
-> Changes to allow vga-switcheroo to switch the mux while modesetting
-> clients remain active. There is existing support for switching the
-> mux without checking can_switch; however, this support also does not
-> reprobe after the mux switch is complete. This patch series adds a new
-> type of switch event which switches immediately while still calling
-> client driver callbacks, and updates the i915 DRM-KMS driver to reprobe
-> eDP outputs after switching the mux to an i915-driven GPU, and to avoid
-> using eDP links (which i915 always assumes to be connected) while the
-> mux is switched away.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0810736770==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="E1amhZfnsw7mE6BRbxiWHnXPbUJmVouCs"
 
-So before digging into the details I think the big issue we need to solve
-first is locking. And current vga-switcheroo is already broken in that
-regard (there's some fixme comments in drivers about it), but I never
-cared because it was full device switch only, initiated by users.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--E1amhZfnsw7mE6BRbxiWHnXPbUJmVouCs
+Content-Type: multipart/mixed; boundary="QXPWSWf3yBAPjAUlmOsZpnmQMGGeZhXXB";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch
+Cc: airlied@redhat.com, sam@ravnborg.org, emil.l.velikov@gmail.com,
+ kraxel@redhat.com, yc_chen@aspeedtech.com, dri-devel@lists.freedesktop.org
+Message-ID: <27bc5694-e80b-d440-8e4a-c5eea94f15bd@suse.de>
+Subject: Re: [PATCH 04/13] drm/ast: Managed release of I2C adapter
+References: <20200728074425.2749-1-tzimmermann@suse.de>
+ <20200728074425.2749-5-tzimmermann@suse.de>
+ <20200728092337.GD6419@phenom.ffwll.local>
+In-Reply-To: <20200728092337.GD6419@phenom.ffwll.local>
 
-But you now add vgaswitcheroo to modeset code, and runtime switching, I
-don't think we can ignore locking here anymore. Also, it's classic abba
-deadlock design: i915 modeset code calls your new functions in
-vgaswitcheroo, and vgaswitcheroo calls into modeset code to shut down
-stuff. This doesn't work (you get away with it by omitting locking in some
-places, like the current code).
+--QXPWSWf3yBAPjAUlmOsZpnmQMGGeZhXXB
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-One totally nuts idea I've had is to protect vgaswitcheroo output state
-with a drm_modeset_lock. That supports full graph locking, which means it
-doesn't matter where we start: nouveau, i915, vgaswitcheroo. So could work
-out neatly.
+Hi
 
-Problem: That still leaves the loop for the device switching, which is all
-tangled up here, so either we make this completely separate, or we figure
-out a plan how make this work for device switching too. And the additional
-problem is that drm_modeset_lock is already a highly entrenched lock, I'm
-not sure whether we can also support the device switching with that
-approach: The device locking we'd need would need to be an outermost lock,
-or at least fairly big, whereas drm_modeset_lock is kinda a level below.
-Or I'm making a mess here (it is already one after all).
+Am 28.07.20 um 11:23 schrieb daniel@ffwll.ch:
+> On Tue, Jul 28, 2020 at 09:44:16AM +0200, Thomas Zimmermann wrote:
+>> Managed releases of the device's I2C adapter simplify the connector's
+>> release.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> I think this breaks bisect, since at this point the release callback is=
 
-Also, where's the other side? I know the other side you care about is in
-the nvidia blob driver, but that doesn't count for upstream. We need that
-code in nouveau for review and merging.
+> called when the connector is already gone. At the end of the series it'=
+s
+> fine again though.
+>=20
+> I've done a very cursory reading of your series to look for high-level
+> issues, I think overall reasonable. On the series:
+>=20
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>=20
+> But maybe you want to polish a bit more, up to you.
 
-Cheers, Daniel
+Thanks. I'll address your points and wait a bit longer. Usually Sam has
+a number of good comments as well.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>> ---
+>>  drivers/gpu/drm/ast/ast_mode.c | 21 ++++++++++-----------
+>>  1 file changed, 10 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
+mode.c
+>> index f421a60d8a96..27eb49bd12b3 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -39,6 +39,7 @@
+>>  #include <drm/drm_fourcc.h>
+>>  #include <drm/drm_gem_framebuffer_helper.h>
+>>  #include <drm/drm_gem_vram_helper.h>
+>> +#include <drm/drm_managed.h>
+>>  #include <drm/drm_plane_helper.h>
+>>  #include <drm/drm_probe_helper.h>
+>>  #include <drm/drm_simple_kms_helper.h>
+>> @@ -591,6 +592,14 @@ static void ast_i2c_setsda(void *i2c_priv, int da=
+ta)
+>>  	}
+>>  }
+>> =20
+>> +static void ast_i2c_release(struct drm_device *dev, void *data)
+>> +{
+>> +	struct ast_i2c_chan *i2c =3D data;
+>> +
+>> +	i2c_del_adapter(&i2c->adapter);
+>> +	i2c->dev =3D NULL; /* clear to signal absence of I2C support */
+>> +}
+>> +
+>>  static int ast_i2c_init(struct ast_i2c_chan *i2c, struct drm_device *=
+dev)
+>>  {
+>>  	int ret;
+>> @@ -618,7 +627,7 @@ static int ast_i2c_init(struct ast_i2c_chan *i2c, =
+struct drm_device *dev)
+>> =20
+>>  	i2c->dev =3D dev; /* signals presence of I2C support */
+>> =20
+>> -	return 0;
+>> +	return drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
+>>  }
+>> =20
+>>  static bool ast_i2c_is_initialized(struct ast_i2c_chan *i2c)
+>> @@ -626,14 +635,6 @@ static bool ast_i2c_is_initialized(struct ast_i2c=
+_chan *i2c)
+>>  	return !!i2c->dev;
+>>  }
+>> =20
+>> -static void ast_i2c_fini(struct ast_i2c_chan *i2c)
+>> -{
+>> -	if (!ast_i2c_is_initialized(i2c))
+>> -		return;
+>> -	i2c_del_adapter(&i2c->adapter);
+>> -	i2c->dev =3D NULL; /* clear to signal absence of I2C support */
+>> -}
+>> -
+>>  /*
+>>   * Primary plane
+>>   */
+>> @@ -1139,8 +1140,6 @@ static enum drm_mode_status ast_mode_valid(struc=
+t drm_connector *connector,
+>> =20
+>>  static void ast_connector_destroy(struct drm_connector *connector)
+>>  {
+>> -	struct ast_connector *ast_connector =3D to_ast_connector(connector);=
+
+>> -	ast_i2c_fini(&ast_connector->i2c);
+>>  	drm_connector_cleanup(connector);
+>>  	kfree(connector);
+>>  }
+>> --=20
+>> 2.27.0
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-> 
-> Daniel Dadap (6):
->   vga-switcheroo: add new "immediate" switch event type
->   vga-switcheroo: Add a way to test for the active client
->   vga-switcheroo: notify clients of pending/completed switch events
->   i915: implement vga-switcheroo reprobe() callback
->   i915: fail atomic commit when muxed away
->   i915: bail out of eDP link training while mux-switched away
-> 
->  drivers/gpu/drm/i915/display/intel_display.c  |   7 +
->  .../drm/i915/display/intel_dp_link_training.c |   9 ++
->  drivers/gpu/drm/i915/i915_switcheroo.c        |  27 +++-
->  drivers/gpu/vga/vga_switcheroo.c              | 153 ++++++++++++++----
->  include/linux/vga_switcheroo.h                |  20 +++
->  5 files changed, 185 insertions(+), 31 deletions(-)
-> 
-> -- 
-> 2.18.4
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+--QXPWSWf3yBAPjAUlmOsZpnmQMGGeZhXXB--
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--E1amhZfnsw7mE6BRbxiWHnXPbUJmVouCs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8f8PIUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMEtgf/cOr1qNA/kCi0a78wh3YcZSr5zSvS
+73/YyIBrBE6ex50HagkpirOMjZ12fmV/EtxXo0nG0Kw5eS7jnJRit5G4wUWPOJ4V
+gSEFLK8SdQkq/wAhSI6k3BN6OLDdyV/vU1ZS6ZwJGdoBBFnoCPR+FpKfhk7RtY7H
+GVy0UqyuqEPRqlRTTY3oCT9uEFC7kzqInQCFRP7uUXi3htLbcKKrD9ur0wdSQ8le
+jxVv3ChbslR0EooQBXd3See1Ni276HKowj2snpvHopRouceV3eqRgaLOka2+ezIJ
+XmMnxd/EGlLXKQD8k1ntvsLweQ/pA8HwCsywo514sDh0mPyM8qj14YwfZA==
+=YniJ
+-----END PGP SIGNATURE-----
+
+--E1amhZfnsw7mE6BRbxiWHnXPbUJmVouCs--
+
+--===============0810736770==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0810736770==--
