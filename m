@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6329922FF9A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 04:29:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B4322FFC9
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 04:40:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 905A26E11C;
-	Tue, 28 Jul 2020 02:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229B489E0C;
+	Tue, 28 Jul 2020 02:40:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24CA56E11C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:29:02 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBF389E0C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:40:28 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-NxefLA8PNL2XOe_GgvmETQ-1; Mon, 27 Jul 2020 22:40:26 -0400
+X-MC-Unique: NxefLA8PNL2XOe_GgvmETQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39DD3100CCC0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:40:19 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.32.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BA18712D0;
+ Tue, 28 Jul 2020 02:40:18 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Tue, 28 Jul 2020 02:29:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: 1i5t5.duncan@cox.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-1KDFNdxIYV@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] nouveau: use ttm populate mapping functions.
+Date: Tue, 28 Jul 2020 12:40:16 +1000
+Message-Id: <20200728024016.19102-1-airlied@gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,36 +47,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+From: Dave Airlie <airlied@redhat.com>
 
---- Comment #102 from Duncan (1i5t5.duncan@cox.net) ---
-(In reply to Duncan from comment #101)
-> (In reply to Nicholas Kazlauskas from comment #95)
-> > 0001-drm-amd-display-Force-add-all-CRTCs-to-state-when-us.patch
-> 
-> Just booted to 5.8-rc7 with this patched in locally (and the g320+ reverts
-> /not/ patched in).  So testing, but noting again that the bug can take a
-> couple days to trigger on my hardware, so while verifying bug-still-there
-> /might/ be fast, verifying that it's /not/ there will take awhile.
+Instead of rolling driver copies of them.
 
-So far building system updates so heavy cpu load while playing only moderate
-FHD video.  No freezes but I have seen a bit of the predicted judder.
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 32 ++--------------------------
+ 1 file changed, 2 insertions(+), 30 deletions(-)
 
-I suspect the synchronization is preventing the freezes, and the judder hasn't
-been /bad/.  But with different-refresh monitors (mine are both 60 Hz 4k
-bigscreen TVs so same refresh), or trying 4k video, particularly 4k60 which my
-system already struggles with, or possibly even both say 120 Hz monitors, the
-judder would be noticeably worse.  The 4k30 and 4k60 youtube tests will
-probably have to wait for tomorrow, tho, as I've been up near 24 now...
-
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 7806278dce57..fe773737b662 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1231,7 +1231,6 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+ 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
+ 	struct nouveau_drm *drm;
+ 	struct device *dev;
+-	unsigned i;
+ 	int r;
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+@@ -1261,29 +1260,10 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+ 	}
+ #endif
+ 
+-	r = ttm_pool_populate(ttm, ctx);
++	r = ttm_populate_and_map_pages(dev, ttm_dma, ctx);
+ 	if (r) {
+ 		return r;
+ 	}
+-
+-	for (i = 0; i < ttm->num_pages; i++) {
+-		dma_addr_t addr;
+-
+-		addr = dma_map_page(dev, ttm->pages[i], 0, PAGE_SIZE,
+-				    DMA_BIDIRECTIONAL);
+-
+-		if (dma_mapping_error(dev, addr)) {
+-			while (i--) {
+-				dma_unmap_page(dev, ttm_dma->dma_address[i],
+-					       PAGE_SIZE, DMA_BIDIRECTIONAL);
+-				ttm_dma->dma_address[i] = 0;
+-			}
+-			ttm_pool_unpopulate(ttm);
+-			return -EFAULT;
+-		}
+-
+-		ttm_dma->dma_address[i] = addr;
+-	}
+ 	return 0;
+ }
+ 
+@@ -1293,7 +1273,6 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+ 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
+ 	struct nouveau_drm *drm;
+ 	struct device *dev;
+-	unsigned i;
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (slave)
+@@ -1316,14 +1295,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+ 	}
+ #endif
+ 
+-	for (i = 0; i < ttm->num_pages; i++) {
+-		if (ttm_dma->dma_address[i]) {
+-			dma_unmap_page(dev, ttm_dma->dma_address[i], PAGE_SIZE,
+-				       DMA_BIDIRECTIONAL);
+-		}
+-	}
+-
+-	ttm_pool_unpopulate(ttm);
++	ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
+ }
+ 
+ void
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
