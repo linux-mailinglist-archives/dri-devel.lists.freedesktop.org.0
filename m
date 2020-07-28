@@ -2,39 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FE8230DB3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0635E230DD3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EACD6E34C;
-	Tue, 28 Jul 2020 15:26:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F796E34D;
+	Tue, 28 Jul 2020 15:30:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 550BC6E34D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:26:11 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id E2ED15C4F4A;
- Tue, 28 Jul 2020 17:26:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1595949969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HR06nJRqceHmVOCmkdeEilZ1V76RxVNPjlPgAkS6kjs=;
- b=ZfxrkOeuGPIF7IQQc8eO90YOdgNEUBhg9haqZg0kU/3WdyDmbk46lMz/PWWuH+wIRRZdP/
- FKKmmSqVGzwl2915OHQLr7aXBNkoHL0GJQnGG8qb33gPA8EvlJ4LJ+d9l2WdAlcuZzBEC5
- UnLQpUV3ZnDuUdsLNBixQ3aXb0acUvg=
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2516E348
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:30:34 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id f1so18172293wro.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+/MweqE4fo3ies98OuOCD9mQ9+9iVlg+rECmf+irmFA=;
+ b=I5twUgwrgMu2P8NRQJTFMtovKxG8fbPMYuB45pLfXPR7g2n7UiK4QtthPVAUUXZgtT
+ wzn4Cu+VNxVUsHmEFFmnvhwMUkbOkuhJcV5CCdQatVLfpxfrwMYweN6X9bzcTILiBrml
+ qbpHHZAWYMp3qvfAkx+9YIEokB/xeHr8RZYuNpP9VHT1EtNctMi0CToCwKER1KiyjowS
+ BFjUYBfcEZwZW+wG0tQwiDr9dHVdzfoVYGFPyw8iKwee3z5W2/xpSkKZi2OgqVu3+APs
+ lh8Mhiax7CC2akub6VPEWAXc5S2yarchllUfHvyTBswnsW7eD0nozMyGkGqwkwst+Rjh
+ F67w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+/MweqE4fo3ies98OuOCD9mQ9+9iVlg+rECmf+irmFA=;
+ b=rolgDaqw2TGF3hoiz7ahS9QeJKgUuAGKtukKvPZ8a6FdOVGypSx7KJRq+qQ4zarrgv
+ TQ/SAHjRq7lO37HwjbUM53U32MuBivRyTWna+uWQEguVIP9kAj3At39iwkeWeyLW0ivs
+ SGoruL8mUpuia5G6c8/zKraTFiNIL7pFJt4tGwYpCU9/AxIHOvx4OUbL10Vg0nuqB26L
+ 8SEwW4SjUuFEO+M39s1Eo+WIBiFVcTV/2PSnSslcR5GRRL5uVMpkeDZnIyex54+fskJA
+ hoP7EMu7Gybv97VLR70BqZWmJLimdt58KzO3oMRgbsS6/7dQ5OAQr9OS5MqZSZ6s9lQS
+ 58zw==
+X-Gm-Message-State: AOAM5317kLJ/LfZUMTNeR5PF02GyQ923xtfvMnnhLvMraA9IxegLlER+
+ jqZFcHXLSzEluuebFJ8s/UPY9b7LQGw3R853RtrA4w==
+X-Google-Smtp-Source: ABdhPJxvvieBfVuOSjh3FV/8raIvobRVmuPFlSewQwflYLjB304mWmC3gwGeRCiiEq8XJ6CMCONtTG7tM35J4cczRdE=
+X-Received: by 2002:a5d:5383:: with SMTP id d3mr18473386wrv.42.1595950232724; 
+ Tue, 28 Jul 2020 08:30:32 -0700 (PDT)
 MIME-Version: 1.0
-Date: Tue, 28 Jul 2020 17:26:09 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v4 00/22] drm: mxsfb: Add i.MX7 support
-In-Reply-To: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
-References: <20200727020654.8231-1-laurent.pinchart@ideasonboard.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <b7890695c974b93fcb03dcfe5fd62e6a@agner.ch>
-X-Sender: stefan@agner.ch
+References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
+ <90c53367b289e9c0f9eeb97794a8d3b08d813884.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <90c53367b289e9c0f9eeb97794a8d3b08d813884.1594230107.git-series.maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 28 Jul 2020 16:30:16 +0100
+Message-ID: <CAPY8ntB3eeqqz0hPSfHiJpKs9sJpU5uN5GzLsqmhtxrD0i6TJg@mail.gmail.com>
+Subject: Re: [PATCH v4 77/78] drm/vc4: drv: Support BCM2711
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,91 +62,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
- linux-imx@nxp.com, kernel@pengutronix.de, robert.chiras@nxp.com,
- leonard.crestez@nxp.com
+Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-27 04:06, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series adds i.MX7 support to the mxsfb driver. The eLCDIF
-> instance found in the i.MX7 is backward-compatible with the already
-> supported LCDC v4, but has extended features amongst which the most
-> notable one is a second plane.
-> 
-> The first 10 patches (01/22 to 10/22) contain miscellaneous cleanups and
-> refactoring to prepare for what is to come. Patch 11/22 starts the real
-> work with removal of the DRM simple display pipeline helper, as it
-> doesn't support multiple planes. The next patch (12/22) is an additional
-> cleanup.
-> 
-> Patches 13/22 to 15/22 fix vblank handling that I found to be broken
-> when testing on my device. Patch 16/22 then performs an additional small
-> cleanup, and patch 17/22 starts official support for i.MX7 by mentioning
-> it in Kconfig.
-> 
-> Patch 18/22 adds a new device model for the i.MX6SX and i.MX7 eLCDIF.
-> After three additional cleanups in patches 19/22 to 21/22, patch 22/22
-> finally adds support for the second plane.
-> 
-> The second plane suffers from an issue whose root cause hasn't been
-> found, which results in the first 64 bytes of the first line to contain
-> data of unknown origin. Help from NXP to diagnose this issue would be
-> useful and appreciated.
-> 
-> Compared to v3, the series has been rebased on the latest drm-misc,
-> without any other modifications.
-> 
-> The code is based on drm-misc-next and has been tested on an i.MX7D
-> platform with a DPI panel.
+Hi Maxime
 
-Applied the series to drm-misc-next! Thanks Laurent!
+On Wed, 8 Jul 2020 at 18:44, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The BCM2711 has a reworked display pipeline, and the load tracker needs
+> some adjustement to operate properly. Let's add a compatible for BCM2711
 
---
-Stefan
+s/adjustement/adjustment
 
-> 
-> Laurent Pinchart (22):
->   drm: mxsfb: Remove fbdev leftovers
->   drm: mxsfb: Use drm_panel_bridge
->   drm: mxsfb: Use BIT() macro to define register bitfields
->   drm: mxsfb: Remove unused macros from mxsfb_regs.h
->   drm: mxsfb: Clarify format and bus width configuration
->   drm: mxsfb: Pass mxsfb_drm_private pointer to mxsfb_reset_block()
->   drm: mxsfb: Use LCDC_CTRL register name explicitly
->   drm: mxsfb: Remove register definitions from mxsfb_crtc.c
->   drm: mxsfb: Remove unneeded includes
->   drm: mxsfb: Rename mxsfb_crtc.c to mxsfb_kms.c
->   drm: mxsfb: Stop using DRM simple display pipeline helper
->   drm: mxsfb: Move vblank event arm to CRTC .atomic_flush()
->   drm: mxsfb: Don't touch AXI clock in IRQ context
->   drm: mxsfb: Enable vblank handling
->   drm: mxsfb: Remove mxsfb_devdata unused fields
->   drm: mxsfb: Add i.MX7 and i.MX8M to the list of supported SoCs in
->     Kconfig
->   drm: mxsfb: Update internal IP version number for i.MX6SX
->   drm: mxsfb: Drop non-OF support
->   drm: mxsfb: Turn mxsfb_set_pixel_fmt() into a void function
->   drm: mxsfb: Merge mxsfb_set_pixel_fmt() and mxsfb_set_bus_fmt()
->   drm: mxsfb: Remove unnecessary spaces after tab
->   drm: mxsfb: Support the alpha plane
-> 
->  drivers/gpu/drm/mxsfb/Kconfig      |   8 +-
->  drivers/gpu/drm/mxsfb/Makefile     |   2 +-
->  drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 343 -----------------
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 254 ++++---------
->  drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  42 ++-
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 571 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/mxsfb/mxsfb_out.c  |  99 -----
->  drivers/gpu/drm/mxsfb/mxsfb_regs.h | 103 +++---
->  8 files changed, 739 insertions(+), 683 deletions(-)
->  delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_crtc.c
->  create mode 100644 drivers/gpu/drm/mxsfb/mxsfb_kms.c
->  delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_out.c
+> and disable the load tracker until properly supported.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_drv.c   |  1 +-
+>  drivers/gpu/drm/vc4/vc4_drv.h   |  3 ++-
+>  drivers/gpu/drm/vc4/vc4_kms.c   | 42 +++++++++++++++++++++++-----------
+>  drivers/gpu/drm/vc4/vc4_plane.c |  5 ++++-
+>  4 files changed, 38 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index 9567d1019212..f1a5fd5dab6f 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -372,6 +372,7 @@ static int vc4_platform_drm_remove(struct platform_device *pdev)
+>  }
+>
+>  static const struct of_device_id vc4_of_match[] = {
+> +       { .compatible = "brcm,bcm2711-vc5", },
+>         { .compatible = "brcm,bcm2835-vc4", },
+>         { .compatible = "brcm,cygnus-vc4", },
+>         {},
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 501a48a714d3..8c8d96b6289f 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -200,6 +200,9 @@ struct vc4_dev {
+>
+>         int power_refcount;
+>
+> +       /* Set to true when the load tracker is supported. */
+> +       bool load_tracker_available;
+> +
+>         /* Set to true when the load tracker is active. */
+>         bool load_tracker_enabled;
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+> index 7c8a87339959..ae479f988666 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -532,6 +532,9 @@ static int vc4_load_tracker_atomic_check(struct drm_atomic_state *state)
+>         struct drm_plane *plane;
+>         int i;
+>
+> +       if (!vc4->load_tracker_available)
+> +               return 0;
+> +
+>         priv_state = drm_atomic_get_private_obj_state(state,
+>                                                       &vc4->load_tracker);
+>         if (IS_ERR(priv_state))
+> @@ -681,10 +684,14 @@ int vc4_kms_load(struct drm_device *dev)
+>         struct vc4_load_tracker_state *load_state;
+>         int ret;
+>
+> -       /* Start with the load tracker enabled. Can be disabled through the
+> -        * debugfs load_tracker file.
+> -        */
+> -       vc4->load_tracker_enabled = true;
+> +       if (!of_device_is_compatible(dev->dev->of_node, "brcm,bcm2711-vc5")) {
+
+Is it better to look up the compatible string, or pass something via
+the .data element of the of_device_id table? Probably down to personal
+preference?
+
+> +               vc4->load_tracker_available = true;
+> +
+> +               /* Start with the load tracker enabled. Can be
+> +                * disabled through the debugfs load_tracker file.
+> +                */
+> +               vc4->load_tracker_enabled = true;
+> +       }
+>
+>         sema_init(&vc4->async_modeset, 1);
+>
+> @@ -698,8 +705,14 @@ int vc4_kms_load(struct drm_device *dev)
+>                 return ret;
+>         }
+>
+> -       dev->mode_config.max_width = 2048;
+> -       dev->mode_config.max_height = 2048;
+> +       if (of_device_is_compatible(dev->dev->of_node, "brcm,bcm2711-vc5")) {
+
+We're making the same of_device_is_compatible call twice within
+vc4_kms_load. Set a flag based on it and check that instead?
+
+  Dave
+
+> +               dev->mode_config.max_width = 7680;
+> +               dev->mode_config.max_height = 7680;
+> +       } else {
+> +               dev->mode_config.max_width = 2048;
+> +               dev->mode_config.max_height = 2048;
+> +       }
+> +
+>         dev->mode_config.funcs = &vc4_mode_funcs;
+>         dev->mode_config.preferred_depth = 24;
+>         dev->mode_config.async_page_flip = true;
+> @@ -714,14 +727,17 @@ int vc4_kms_load(struct drm_device *dev)
+>         drm_atomic_private_obj_init(dev, &vc4->ctm_manager, &ctm_state->base,
+>                                     &vc4_ctm_state_funcs);
+>
+> -       load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
+> -       if (!load_state) {
+> -               drm_atomic_private_obj_fini(&vc4->ctm_manager);
+> -               return -ENOMEM;
+> -       }
+> +       if (vc4->load_tracker_available) {
+> +               load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
+> +               if (!load_state) {
+> +                       drm_atomic_private_obj_fini(&vc4->ctm_manager);
+> +                       return -ENOMEM;
+> +               }
+>
+> -       drm_atomic_private_obj_init(dev, &vc4->load_tracker, &load_state->base,
+> -                                   &vc4_load_tracker_state_funcs);
+> +               drm_atomic_private_obj_init(dev, &vc4->load_tracker,
+> +                                           &load_state->base,
+> +                                           &vc4_load_tracker_state_funcs);
+> +       }
+>
+>         drm_mode_config_reset(dev);
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+> index 1e38e603f83b..24d7e6db6fdd 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -516,6 +516,11 @@ static void vc4_plane_calc_load(struct drm_plane_state *state)
+>         struct vc4_plane_state *vc4_state;
+>         struct drm_crtc_state *crtc_state;
+>         unsigned int vscale_factor;
+> +       struct vc4_dev *vc4;
+> +
+> +       vc4 = to_vc4_dev(state->plane->dev);
+> +       if (!vc4->load_tracker_available)
+> +               return;
+>
+>         vc4_state = to_vc4_plane_state(state);
+>         crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+> --
+> git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
