@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24DA230465
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 09:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303F9230463
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 09:44:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0BBC6E1F1;
-	Tue, 28 Jul 2020 07:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239E26E203;
+	Tue, 28 Jul 2020 07:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2531F6E1EC
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 07:44:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADC26E1D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 07:44:33 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 39A54AE59;
+ by mx2.suse.de (Postfix) with ESMTP id 51756AED9;
  Tue, 28 Jul 2020 07:44:41 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  emil.l.velikov@gmail.com, kraxel@redhat.com, yc_chen@aspeedtech.com
-Subject: [PATCH 04/13] drm/ast: Managed release of I2C adapter
-Date: Tue, 28 Jul 2020 09:44:16 +0200
-Message-Id: <20200728074425.2749-5-tzimmermann@suse.de>
+Subject: [PATCH 05/13] drm/ast: Embed CRTC and connector in struct ast_private
+Date: Tue, 28 Jul 2020 09:44:17 +0200
+Message-Id: <20200728074425.2749-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200728074425.2749-1-tzimmermann@suse.de>
 References: <20200728074425.2749-1-tzimmermann@suse.de>
@@ -44,74 +44,197 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Managed releases of the device's I2C adapter simplify the connector's
-release.
+Only single instances of CRTC and connector are supported per
+device. Embed both in ast's structure and remove the individual
+memory allocations. DRM's CRTC/connector cleanup helpers replace
+the rsp. destroy functions in ast.
+
+While at it, also convert to_ast_connector() to a function.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  | 34 ++++++++++++++-----------
+ drivers/gpu/drm/ast/ast_mode.c | 46 ++++++++--------------------------
+ 2 files changed, 31 insertions(+), 49 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index f421a60d8a96..27eb49bd12b3 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -39,6 +39,7 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_vram_helper.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -591,6 +592,14 @@ static void ast_i2c_setsda(void *i2c_priv, int data)
- 	}
- }
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index d303df568099..b401560e4e8f 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -98,6 +98,23 @@ enum ast_tx_chip {
+ #define AST_HWC_SIGNATURE_HOTSPOTX	0x14
+ #define AST_HWC_SIGNATURE_HOTSPOTY	0x18
  
-+static void ast_i2c_release(struct drm_device *dev, void *data)
-+{
-+	struct ast_i2c_chan *i2c = data;
++struct ast_i2c_chan {
++	struct i2c_adapter adapter;
++	struct drm_device *dev;
++	struct i2c_algo_bit_data bit;
++};
 +
-+	i2c_del_adapter(&i2c->adapter);
-+	i2c->dev = NULL; /* clear to signal absence of I2C support */
++struct ast_connector {
++	struct drm_connector base;
++	struct ast_i2c_chan i2c;
++};
++
++static inline struct ast_connector *
++to_ast_connector(struct drm_connector *connector)
++{
++	return container_of(connector, struct ast_connector, base);
 +}
 +
- static int ast_i2c_init(struct ast_i2c_chan *i2c, struct drm_device *dev)
- {
- 	int ret;
-@@ -618,7 +627,7 @@ static int ast_i2c_init(struct ast_i2c_chan *i2c, struct drm_device *dev)
+ struct ast_private {
+ 	struct drm_device *dev;
  
- 	i2c->dev = dev; /* signals presence of I2C support */
+@@ -118,9 +135,11 @@ struct ast_private {
+ 		unsigned int next_index;
+ 	} cursor;
  
--	return 0;
-+	return drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
+-	struct drm_encoder encoder;
+ 	struct drm_plane primary_plane;
+ 	struct drm_plane cursor_plane;
++	struct drm_crtc crtc;
++	struct drm_encoder encoder;
++	struct ast_connector connector;
+ 
+ 	bool support_wide_screen;
+ 	enum {
+@@ -225,19 +244,6 @@ static inline void ast_open_key(struct ast_private *ast)
+ 
+ #define AST_VIDMEM_DEFAULT_SIZE AST_VIDMEM_SIZE_8M
+ 
+-struct ast_i2c_chan {
+-	struct i2c_adapter adapter;
+-	struct drm_device *dev;
+-	struct i2c_algo_bit_data bit;
+-};
+-
+-struct ast_connector {
+-	struct drm_connector base;
+-	struct ast_i2c_chan i2c;
+-};
+-
+-#define to_ast_connector(x) container_of(x, struct ast_connector, base)
+-
+ struct ast_vbios_stdtable {
+ 	u8 misc;
+ 	u8 seq[4];
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 27eb49bd12b3..201313ab3e71 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -952,12 +952,6 @@ static void ast_crtc_reset(struct drm_crtc *crtc)
+ 	__drm_atomic_helper_crtc_reset(crtc, &ast_state->base);
  }
  
- static bool ast_i2c_is_initialized(struct ast_i2c_chan *i2c)
-@@ -626,14 +635,6 @@ static bool ast_i2c_is_initialized(struct ast_i2c_chan *i2c)
- 	return !!i2c->dev;
- }
- 
--static void ast_i2c_fini(struct ast_i2c_chan *i2c)
+-static void ast_crtc_destroy(struct drm_crtc *crtc)
 -{
--	if (!ast_i2c_is_initialized(i2c))
--		return;
--	i2c_del_adapter(&i2c->adapter);
--	i2c->dev = NULL; /* clear to signal absence of I2C support */
+-	drm_crtc_cleanup(crtc);
+-	kfree(crtc);
 -}
 -
- /*
-  * Primary plane
-  */
-@@ -1139,8 +1140,6 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
- 
- static void ast_connector_destroy(struct drm_connector *connector)
+ static struct drm_crtc_state *
+ ast_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
  {
--	struct ast_connector *ast_connector = to_ast_connector(connector);
--	ast_i2c_fini(&ast_connector->i2c);
- 	drm_connector_cleanup(connector);
- 	kfree(connector);
+@@ -993,7 +987,7 @@ static void ast_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+ static const struct drm_crtc_funcs ast_crtc_funcs = {
+ 	.reset = ast_crtc_reset,
+ 	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+-	.destroy = ast_crtc_destroy,
++	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.atomic_duplicate_state = ast_crtc_atomic_duplicate_state,
+@@ -1003,27 +997,19 @@ static const struct drm_crtc_funcs ast_crtc_funcs = {
+ static int ast_crtc_init(struct drm_device *dev)
+ {
+ 	struct ast_private *ast = to_ast_private(dev);
+-	struct drm_crtc *crtc;
++	struct drm_crtc *crtc = &ast->crtc;
+ 	int ret;
+ 
+-	crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
+-	if (!crtc)
+-		return -ENOMEM;
+-
+ 	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane,
+ 					&ast->cursor_plane, &ast_crtc_funcs,
+ 					NULL);
+ 	if (ret)
+-		goto err_kfree;
++		return ret;
+ 
+ 	drm_mode_crtc_set_gamma_size(crtc, 256);
+ 	drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
+ 
+ 	return 0;
+-
+-err_kfree:
+-	kfree(crtc);
+-	return ret;
  }
+ 
+ /*
+@@ -1138,12 +1124,6 @@ static enum drm_mode_status ast_mode_valid(struct drm_connector *connector,
+ 	return flags;
+ }
+ 
+-static void ast_connector_destroy(struct drm_connector *connector)
+-{
+-	drm_connector_cleanup(connector);
+-	kfree(connector);
+-}
+-
+ static const struct drm_connector_helper_funcs ast_connector_helper_funcs = {
+ 	.get_modes = ast_get_modes,
+ 	.mode_valid = ast_mode_valid,
+@@ -1152,31 +1132,28 @@ static const struct drm_connector_helper_funcs ast_connector_helper_funcs = {
+ static const struct drm_connector_funcs ast_connector_funcs = {
+ 	.reset = drm_atomic_helper_connector_reset,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = ast_connector_destroy,
++	.destroy = drm_connector_cleanup,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
+ static int ast_connector_init(struct drm_device *dev)
+ {
+-	struct ast_connector *ast_connector;
+-	struct drm_connector *connector;
+-	struct drm_encoder *encoder;
++	struct ast_private *ast = to_ast_private(dev);
++	struct ast_connector *ast_connector = &ast->connector;
++	struct drm_connector *connector = &ast_connector->base;
++	struct drm_encoder *encoder = &ast->encoder;
++	struct ast_i2c_chan *i2c = &ast_connector->i2c;
+ 	int ret;
+ 
+-	ast_connector = kzalloc(sizeof(struct ast_connector), GFP_KERNEL);
+-	if (!ast_connector)
+-		return -ENOMEM;
+-
+-	connector = &ast_connector->base;
+-	ret = ast_i2c_init(&ast_connector->i2c, dev);
++	ret = ast_i2c_init(i2c, dev);
+ 	if (ret)
+ 		drm_err(dev, "failed to add ddc bus for connector\n");
+ 
+ 	drm_connector_init_with_ddc(dev, connector,
+ 				    &ast_connector_funcs,
+ 				    DRM_MODE_CONNECTOR_VGA,
+-				    &ast_connector->i2c.adapter);
++				    &i2c->adapter);
+ 
+ 	drm_connector_helper_add(connector, &ast_connector_helper_funcs);
+ 
+@@ -1185,7 +1162,6 @@ static int ast_connector_init(struct drm_device *dev)
+ 
+ 	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
+ 
+-	encoder = list_first_entry(&dev->mode_config.encoder_list, struct drm_encoder, head);
+ 	drm_connector_attach_encoder(connector, encoder);
+ 
+ 	return 0;
 -- 
 2.27.0
 
