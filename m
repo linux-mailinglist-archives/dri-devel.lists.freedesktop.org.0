@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3741230763
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 12:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5123523079A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 12:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB22489C0A;
-	Tue, 28 Jul 2020 10:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E73E6E243;
+	Tue, 28 Jul 2020 10:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9F9889C0A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 10:12:58 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id v21so7218793otj.9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:12:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEDB86E23F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 10:25:21 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id q4so5262979oia.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Aof/IkstdyaZKoWfuNk92GZBDQ6ckAiOA/sCuGsGL6I=;
- b=NbU2aWgthvUPJhAzSvTiPxT0ZOtU5G2eG2AdSnSK87IEZE9sylk5eLW3u2WDqK696N
- H1yoSq2fFkTuIlergwQ23t0hSiiau8ecXjqCO+U8bWuxEGZJhZORLMV5itNtN7oLxk0C
- v88fbxM9EAd2WMRfPC1SPS8cFcCm1+KtbaLDA=
+ :cc; bh=c9eDEWn1oEoc77W2XMgWcgmmSn3pQA5mrUEY8YypgbM=;
+ b=lWtVLdfRXKLA0oafpiA7O2552zaBd438hBmjbAkSLj2O9mYcpWWFoSJEsXmZqn6Tvk
+ pNQ2x8Gr6+QPnxUd7JYB6ZFYmXjDQ6U/PKiGujZ43GO06+F8+wz2HSehaqn9VnSwdNdz
+ B0nkkdpOTNaYWpfTuRyC0J6rVUscABWPvy1FXcOcTPdo6xIMpVuWK6PYhBb0hsnCz93v
+ HQiEjjPFf0LDn4rvdSwrf4zpDq/ofqsh8FUWb/4msViF1TXcdKsKpus68w2RXEp33+K/
+ eLn4rjz48ppidlmY11a4xuD4kKzJwI4Jn52t7Glw0Mfu/hjOnvap9T2HKRn9Urcf/zqt
+ ikDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Aof/IkstdyaZKoWfuNk92GZBDQ6ckAiOA/sCuGsGL6I=;
- b=qWxJr+97XLY/sm1bdpbpsDXS+NvwL9rq04QHT+HwSHDBxI9Kt5TMW+HQTFYOUWg8FC
- IXqQgZvlQhxxDH4lkLVKkNPwaxD9iE2NvbwPWJphfqIKJuiH4mS7V7F3BVEzAydoqEHD
- Xily/TLfpqGEKsWFVvltmXEw3B8LJx0W4PkFiR1WRUN3LmwWAU5G1b7vjQaSFCs5+BRA
- lD3ouqpOwLbN/p+OIv53gZQJcFNBi2iVNEX+m2jDtDWMtg8LURFH7loujLmVR46YUP2J
- Io8bv1ViIWOvrgEDG5k3Wm6PDnv9zN8azyWzGLmC4gIW8G4b+AOKOiZNpn6OOlzMi7qy
- ZbjQ==
-X-Gm-Message-State: AOAM531ysdPopRADAXvuVlQXlJSG6ybuXTMSz4rnbIvgAymjWkOnFgDv
- +whaslS1WQDs6Xy6xetmgEa/pPJIAM2AffO8HuQHLcnSba4=
-X-Google-Smtp-Source: ABdhPJxjWsA5TxdUKIBtwP1CV/sLUp8Xiogs4lFtBgtOp4T0DZIsVMl3W3hfllsLWeGSY9fjOn2BS1PqFgUdigcvARI=
-X-Received: by 2002:a05:6830:1e71:: with SMTP id
- m17mr10486878otr.188.1595931177953; 
- Tue, 28 Jul 2020 03:12:57 -0700 (PDT)
+ bh=c9eDEWn1oEoc77W2XMgWcgmmSn3pQA5mrUEY8YypgbM=;
+ b=uFNOVzJuIKP9vn+MQ+Q9Lrbty41kUX0EvSRDDc6nbXe0hU2WtsAdqv/QxBmQNZYhNn
+ CmpP893MKMXTj4bFOEOOaQaQxmoikZY+kbNOvJJn8CSGhZaOqszJ8vTO6etX8Es3cZva
+ jCjj27Ta4IYc6xdhEZzpNr2v9QH838eW31scW8/AMCS7LdmmUzeftTkg63hiGXwikWvn
+ Aka0gqEui+0hqqq/7AfrAOfdsGEHRWGrrntIrfxdqktddFLez37ffy3yHuFTuHSVhqZ3
+ kcwZOfLAWHy0A54DRyyRyGoBmKS/KcAJa3krHywCbBjtoTdvwNjbfX9UnLTKoJi7G4ix
+ NH2g==
+X-Gm-Message-State: AOAM531771lNbbPBoDJrngRpi1EAnB7uzzzMOqIKMxxKFE8tv4ZNuG9O
+ /HZqGCByOpFzkriR3Nj1IvOp21TScYLPNfboWNY=
+X-Google-Smtp-Source: ABdhPJzQ5HZKTcRLoUciu8PdxQvObJp/E6hTnZ1nO7O2D46wmPBVRBbL0JFWuUmbkGTLGTYHLQPqQtDuyN6QViIforY=
+X-Received: by 2002:aca:5296:: with SMTP id g144mr2841338oib.129.1595931920837; 
+ Tue, 28 Jul 2020 03:25:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <1595930879-2478-1-git-send-email-kevin3.tang@gmail.com>
-In-Reply-To: <1595930879-2478-1-git-send-email-kevin3.tang@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 28 Jul 2020 12:12:47 +0200
-Message-ID: <CAKMK7uH+=gpJriMct8x_tiexRqf1vBuP9d+7eWsMFWm1ccYjkQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v6 0/6] Add Unisoc's drm kms module
-To: Kevin Tang <kevin3.tang@gmail.com>
+References: <1595469798-3824-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1595469798-3824-3-git-send-email-yongqiang.niu@mediatek.com>
+ <CAFqH_51sKR-tUHhdJs4N5KaGq-4+oFsAOhZsJqpFk0ikZjJ=mg@mail.gmail.com>
+ <1595647675.13250.18.camel@mhfsdcap03>
+In-Reply-To: <1595647675.13250.18.camel@mhfsdcap03>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Tue, 28 Jul 2020 12:25:09 +0200
+Message-ID: <CAFqH_52KOJx-80z4Jx2f_Hp9UVH3zrtk5VaJD1nE8OUY-St4YA@mail.gmail.com>
+Subject: Re: [v7, PATCH 2/7] mtk-mmsys: add mmsys private data
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,155 +63,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Dave Airlie <airlied@linux.ie>,
- zhang.lyra@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- orsonzhai@gmail.com, Sean Paul <sean@poorly.run>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 28, 2020 at 12:08 PM Kevin Tang <kevin3.tang@gmail.com> wrote:
->
-> From: Kevin Tang <kevin.tang@unisoc.com>
+Hi Yongqiang,
 
-Hm still no ack for dt bindings? We need that for merging.
+Missatge de Yongqiang Niu <yongqiang.niu@mediatek.com> del dia ds., 25
+de jul. 2020 a les 5:29:
+>
+> On Thu, 2020-07-23 at 11:32 +0200, Enric Balletbo Serra wrote:
+> > Hi Yongqiang Niu,
+> >
+> > Thank you for your patch.
+> >
+> > Missatge de Yongqiang Niu <yongqiang.niu@mediatek.com> del dia dj., 23
+> > de jul. 2020 a les 4:05:
+> > >
+> > > add mmsys private data
+> > >
+> >
+> > I think this change requires a better explanation of what you are
+> > doing. Although I'm really uncomfortable with this change, why you
+> > need to create a new mt2701-mmsys file?
+>
+> reason:
+> 1.there will more and more Mediatek Soc upstream, and the display path
+> connection function mtk_mmsys_ddp_mout_en, mtk_mmsys_ddp_sel_in and
+> mtk_mmsys_ddp_sout_sel will complicated more and more,
+> 2. many of the connection are only used in some SoC, and useless for
+> other SoC and not readable,
+> 3. if we add a new SoC connection, we need check is this affect other
+> Soc,
+> >
+> > > Feature: drm/mediatek
+> >
+> > Remove this.
+> next version will remove this
+> >
+> > > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> > > ---
+> > >  drivers/soc/mediatek/Makefile             |   1 +
+> > >  drivers/soc/mediatek/mmsys/Makefile       |   2 +
+> > >  drivers/soc/mediatek/mmsys/mt2701-mmsys.c | 250 +++++++++++++++++++++++++++
+> > >  drivers/soc/mediatek/mtk-mmsys.c          | 271 +++++-------------------------
+> > >  include/linux/soc/mediatek/mtk-mmsys.h    |  15 ++
+> > >  5 files changed, 314 insertions(+), 225 deletions(-)
+> > >  create mode 100644 drivers/soc/mediatek/mmsys/Makefile
+> > >  create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+> > >
+> > > diff --git a/drivers/soc/mediatek/Makefile b/drivers/soc/mediatek/Makefile
+> > > index 2afa7b9..b37ac2c 100644
+> > > --- a/drivers/soc/mediatek/Makefile
+> > > +++ b/drivers/soc/mediatek/Makefile
+> > > @@ -3,3 +3,4 @@ obj-$(CONFIG_MTK_CMDQ) += mtk-cmdq-helper.o
+> > >  obj-$(CONFIG_MTK_PMIC_WRAP) += mtk-pmic-wrap.o
+> > >  obj-$(CONFIG_MTK_SCPSYS) += mtk-scpsys.o
+> > >  obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+> > > +obj-$(CONFIG_MTK_MMSYS) += mmsys/
+> > > diff --git a/drivers/soc/mediatek/mmsys/Makefile b/drivers/soc/mediatek/mmsys/Makefile
+> > > new file mode 100644
+> > > index 0000000..33b0dab
+> > > --- /dev/null
+> > > +++ b/drivers/soc/mediatek/mmsys/Makefile
+> > > @@ -0,0 +1,2 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > +obj-y += mt2701-mmsys.o
+> > > diff --git a/drivers/soc/mediatek/mmsys/mt2701-mmsys.c b/drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+> > > new file mode 100644
+> > > index 0000000..b8e53b0
+> > > --- /dev/null
+> > > +++ b/drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+> > > @@ -0,0 +1,250 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +//
+> > > +// Copyright (c) 2020 MediaTek Inc.
+> > > +
+> > > +#include <linux/device.h>
+> > > +#include <linux/io.h>
+> > > +#include <linux/of_device.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/soc/mediatek/mtk-mmsys.h>
+> > > +
+> > > +#define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN      0x040
+> > > +#define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN      0x044
+> > > +#define DISP_REG_CONFIG_DISP_OD_MOUT_EN                0x048
+> > > +#define DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN     0x04c
+> > > +#define DISP_REG_CONFIG_DISP_UFOE_MOUT_EN      0x050
+> > > +#define DISP_REG_CONFIG_DISP_COLOR0_SEL_IN     0x084
+> > > +#define DISP_REG_CONFIG_DISP_COLOR1_SEL_IN     0x088
+> > > +#define DISP_REG_CONFIG_DSIE_SEL_IN            0x0a4
+> > > +#define DISP_REG_CONFIG_DSIO_SEL_IN            0x0a8
+> > > +#define DISP_REG_CONFIG_DPI_SEL_IN             0x0ac
+> > > +#define DISP_REG_CONFIG_DISP_RDMA2_SOUT                0x0b8
+> > > +#define DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN     0x0c4
+> > > +#define DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN     0x0c8
+> > > +#define DISP_REG_CONFIG_MMSYS_CG_CON0          0x100
+> > > +
+> > > +#define DISP_REG_CONFIG_DISP_OVL_MOUT_EN       0x030
+> > > +#define DISP_REG_CONFIG_OUT_SEL                        0x04c
+> > > +#define DISP_REG_CONFIG_DSI_SEL                        0x050
+> > > +#define DISP_REG_CONFIG_DPI_SEL                        0x064
+> > > +
+> > > +#define OVL0_MOUT_EN_COLOR0                    0x1
+> > > +#define OD_MOUT_EN_RDMA0                       0x1
+> > > +#define OD1_MOUT_EN_RDMA1                      BIT(16)
+> > > +#define UFOE_MOUT_EN_DSI0                      0x1
+> > > +#define COLOR0_SEL_IN_OVL0                     0x1
+> > > +#define OVL1_MOUT_EN_COLOR1                    0x1
+> > > +#define GAMMA_MOUT_EN_RDMA1                    0x1
+> > > +#define RDMA0_SOUT_DPI0                                0x2
+> > > +#define RDMA0_SOUT_DPI1                                0x3
+> > > +#define RDMA0_SOUT_DSI1                                0x1
+> > > +#define RDMA0_SOUT_DSI2                                0x4
+> > > +#define RDMA0_SOUT_DSI3                                0x5
+> > > +#define RDMA1_SOUT_DPI0                                0x2
+> > > +#define RDMA1_SOUT_DPI1                                0x3
+> > > +#define RDMA1_SOUT_DSI1                                0x1
+> > > +#define RDMA1_SOUT_DSI2                                0x4
+> > > +#define RDMA1_SOUT_DSI3                                0x5
+> > > +#define RDMA2_SOUT_DPI0                                0x2
+> > > +#define RDMA2_SOUT_DPI1                                0x3
+> > > +#define RDMA2_SOUT_DSI1                                0x1
+> > > +#define RDMA2_SOUT_DSI2                                0x4
+> > > +#define RDMA2_SOUT_DSI3                                0x5
+> > > +#define DPI0_SEL_IN_RDMA1                      0x1
+> > > +#define DPI0_SEL_IN_RDMA2                      0x3
+> > > +#define DPI1_SEL_IN_RDMA1                      (0x1 << 8)
+> > > +#define DPI1_SEL_IN_RDMA2                      (0x3 << 8)
+> > > +#define DSI0_SEL_IN_RDMA1                      0x1
+> > > +#define DSI0_SEL_IN_RDMA2                      0x4
+> > > +#define DSI1_SEL_IN_RDMA1                      0x1
+> > > +#define DSI1_SEL_IN_RDMA2                      0x4
+> > > +#define DSI2_SEL_IN_RDMA1                      (0x1 << 16)
+> > > +#define DSI2_SEL_IN_RDMA2                      (0x4 << 16)
+> > > +#define DSI3_SEL_IN_RDMA1                      (0x1 << 16)
+> > > +#define DSI3_SEL_IN_RDMA2                      (0x4 << 16)
+> > > +#define COLOR1_SEL_IN_OVL1                     0x1
+> > > +
+> > > +#define OVL_MOUT_EN_RDMA                       0x1
+> > > +#define BLS_TO_DSI_RDMA1_TO_DPI1               0x8
+> > > +#define BLS_TO_DPI_RDMA1_TO_DSI                        0x2
+> > > +#define DSI_SEL_IN_BLS                         0x0
+> > > +#define DPI_SEL_IN_BLS                         0x0
+> > > +#define DSI_SEL_IN_RDMA                                0x1
+> > > +
+> > > +static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
+> > > +                                         enum mtk_ddp_comp_id next,
+> > > +                                         unsigned int *addr)
+> > > +{
+> >
+> > Can't be reused this function for all devices? You did in the previous
+> > series, why not now?
+>
+> can not reused, that why need add mmsys private data like before
+> version.
 
-Also what's the maintainer plan here? Imo best would be to put this
-into the drm-misc group maintainer model, with commit rights and all:
+You did in the previous series, would that mean that your previous
+series were wrong or nonworking or break on some SoCs?
 
-https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+I agree that you need per SoC data, what I am complaining is the idea
+of having pointers to functions instead of just having the registers
+or the media paths per SoC. You can have private data for registers,
+something like this:
 
-MAINTAINERS patch to do that would be good.
--Daniel
+static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+        .clk_driver = "clk-mt8183-mm",
+        .regs = {
+                .ovl0_mout_en = MT8183_DISP_OVL0_MOUT_EN,
+                .rdma0_sout_sel_in = MT8183_DISP_RDMA0_SOUT_SEL_IN,
+                .rdma0_sout_color0 = MT8183_RDMA0_SOUT_COLOR0,
+                .rdma1_sout_sel_in = MT8183_DISP_RDMA1_SOUT_SEL_IN,
+                .rdma1_sout_dsi0 = MT8183_RDMA1_SOUT_DSI0,
+                .dpi0_sel_in = MT8183_DISP_DPI0_SEL_IN,
+                .dpi0_sel_in_rdma1 = MT8183_DPI0_SEL_IN_RDMA1,
+                .dsi0_sel_in = MT8183_DISP_DSI0_SEL_IN,
+                .dsi0_sel_in_rdma1 = MT8183_DSI0_SEL_IN_RDMA1,
+        },
+};
 
->
-> ChangeList:
-> v1:
-> 1. only upstream modeset and atomic at first commit.
-> 2. remove some unused code;
-> 3. use alpha and blend_mode properties;
-> 3. add yaml support;
-> 4. remove auto-adaptive panel driver;
-> 5. bugfix
->
-> v2:
-> 1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
-> 2. remove gem drivers, use generic CMA handlers
-> 3. remove redundant "module_init", all the sub modules loading by KMS
->
-> v3:
-> 1. multi crtc&encoder design have problem, so rollback to v1
->
-> v4:
-> 1. update to gcc-linaro-7.5.0
-> 2. update to Linux 5.6-rc3
-> 3. remove pm_runtime support
-> 4. add COMPILE_TEST, remove unused kconfig
-> 5. "drm_dev_put" on drm_unbind
-> 6. fix some naming convention issue
-> 7. remove semaphore lock for crtc flip
-> 8. remove static variables
->
-> v5:
-> 1. optimize encoder and connector code implementation
-> 2. use "platform_get_irq" and "platform_get_resource"
-> 3. drop useless function return type, drop unless debug log
-> 4. custom properties should be separate, so drop it
-> 5. use DRM_XXX replase pr_xxx
-> 6. drop dsi&dphy hal callback ops
-> 7. drop unless callback ops checking
-> 8. add comments for sprd dpu structure
->
-> v6:
-> 1. Access registers via readl/writel
-> 2. Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
-> 3. Remove always true checks for dpu core ops
->
-> Kevin Tang (6):
->   dt-bindings: display: add Unisoc's drm master bindings
->   drm/sprd: add Unisoc's drm kms master
->   dt-bindings: display: add Unisoc's dpu bindings
->   drm/sprd: add Unisoc's drm display controller driver
->   dt-bindings: display: add Unisoc's mipi dsi&dphy bindings
->   drm/sprd: add Unisoc's drm mipi dsi&dphy driver
->
->  .../devicetree/bindings/display/sprd/dphy.yaml     |   75 +
->  .../devicetree/bindings/display/sprd/dpu.yaml      |   82 ++
->  .../devicetree/bindings/display/sprd/drm.yaml      |   36 +
->  .../devicetree/bindings/display/sprd/dsi.yaml      |   98 ++
->  drivers/gpu/drm/Kconfig                            |    2 +
->  drivers/gpu/drm/Makefile                           |    1 +
->  drivers/gpu/drm/sprd/Kconfig                       |   12 +
->  drivers/gpu/drm/sprd/Makefile                      |   13 +
->  drivers/gpu/drm/sprd/disp_lib.c                    |   57 +
->  drivers/gpu/drm/sprd/disp_lib.h                    |   16 +
->  drivers/gpu/drm/sprd/dphy/Makefile                 |    7 +
->  drivers/gpu/drm/sprd/dphy/pll/Makefile             |    3 +
->  drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c  |  473 +++++++
->  drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c          |  201 +++
->  drivers/gpu/drm/sprd/dphy/sprd_dphy_api.h          |   22 +
->  drivers/gpu/drm/sprd/dpu/Makefile                  |    3 +
->  drivers/gpu/drm/sprd/dpu/dpu_r2p0.c                |  503 +++++++
->  drivers/gpu/drm/sprd/dsi/Makefile                  |    8 +
->  drivers/gpu/drm/sprd/dsi/core/Makefile             |    4 +
->  drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c      |  964 +++++++++++++
->  drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h      | 1477 ++++++++++++++++++++
->  drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c  |  328 +++++
->  drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.h  |   32 +
->  drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c            |  590 ++++++++
->  drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h            |   26 +
->  drivers/gpu/drm/sprd/sprd_dphy.c                   |  209 +++
->  drivers/gpu/drm/sprd/sprd_dphy.h                   |   50 +
->  drivers/gpu/drm/sprd/sprd_dpu.c                    |  668 +++++++++
->  drivers/gpu/drm/sprd/sprd_dpu.h                    |  190 +++
->  drivers/gpu/drm/sprd/sprd_drm.c                    |  227 +++
->  drivers/gpu/drm/sprd/sprd_drm.h                    |   18 +
->  drivers/gpu/drm/sprd/sprd_dsi.c                    |  571 ++++++++
->  drivers/gpu/drm/sprd/sprd_dsi.h                    |  108 ++
->  33 files changed, 7074 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/dphy.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/dpu.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/drm.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/dsi.yaml
->  create mode 100644 drivers/gpu/drm/sprd/Kconfig
->  create mode 100644 drivers/gpu/drm/sprd/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/disp_lib.c
->  create mode 100644 drivers/gpu/drm/sprd/disp_lib.h
->  create mode 100644 drivers/gpu/drm/sprd/dphy/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/dphy/pll/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/dphy/pll/megacores_sharkle.c
->  create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_api.c
->  create mode 100644 drivers/gpu/drm/sprd/dphy/sprd_dphy_api.h
->  create mode 100644 drivers/gpu/drm/sprd/dpu/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
->  create mode 100644 drivers/gpu/drm/sprd/dsi/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/dsi/core/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.c
->  create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0.h
->  create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.c
->  create mode 100644 drivers/gpu/drm/sprd/dsi/core/dsi_ctrl_r1p0_ppi.h
->  create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.c
->  create mode 100644 drivers/gpu/drm/sprd/dsi/sprd_dsi_api.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
->
-> --
-> 2.7.4
->
+And you can also have the media configuration paths in the driver
+data, similar to what you did for mt8183 but not for the others. But,
+I'd recommend to do this in a second step, and go step-by-step. Your
+v6 and v7 are quite different, but IMHO I'm more in favor of what you
+did for v6 (as a first step to support mt8183) than this patchset. For
+v7 I was expecting just to move the bits that needed to mtk-mmsys, not
+such rework. Said all that, I'm not the maintainer and is up to the
+maintainer to decide the direction that driver should take.
 
+> but that still not a good idea.
+>
+> the next path like this will be more readable, and more easy to maintain
+> https://patchwork.kernel.org/patch/11679539/
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ack, that's more readable and probably should be the direction to go,
+always assuming we have the *data* (mmsys_path_sel, etc.) per SoC and
+the functions  mtk_mmsys_ddp_mout_en(),  mtk_mmsys_ddp_sel_in(),
+mtk_mmsys_ddp_sout_sel() common for all SoCs.
+
+Thanks,
+ Enric
+
+[snip]
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
