@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CD0230057
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 05:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5434230059
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 05:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 283866E158;
-	Tue, 28 Jul 2020 03:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C27E36E159;
+	Tue, 28 Jul 2020 03:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93F4D6E14B;
- Tue, 28 Jul 2020 03:41:31 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4BG2XP2svDz9sTj;
- Tue, 28 Jul 2020 13:41:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1595907687;
- bh=sKjpOkEIibJEqcox3rSxH9CKwWRN+tFx/60devM8aoY=;
- h=Date:From:To:Cc:Subject:From;
- b=hdFI5assRmcIl/MPxCxaoGHtaH0S0MZmUDkm4E/XGjYCz1FujwhuVAdoEW5KAAxSL
- W5/AKynvwm3TNZdEhloxaPaWHt3T6BokBSKdef6w9yqzV3efmCqBAnh9JDpHE3A0Xs
- qosMSAMJIRPs9So/WmNciE1e+sqt8nIt4fgydxcrsVNqW2BWM3TAzhmJnwvn9a+3fP
- fSMI//ArfTxShbZsaEWlrjrXggPoqrO91JyEC3lBa5VjqEAFAI20n2PWGXw8noBinN
- VtZpQF8HWPUNwSgTicqHDiL2V1HTHgNDIIvtTQPzxI0xQHSc0tlgHvcVT8OS0nSGaB
- pSVaxEmfyuHYA==
-Date: Tue, 28 Jul 2020 13:41:19 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
-Message-ID: <20200728134119.57a54f2a@canb.auug.org.au>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D5E6E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:43:04 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-xMSofP5kOAGMCvRWJWTQvg-1; Mon, 27 Jul 2020 23:42:58 -0400
+X-MC-Unique: xMSofP5kOAGMCvRWJWTQvg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94B54801A03;
+ Tue, 28 Jul 2020 03:42:57 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.32.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51CFD1C6;
+ Tue, 28 Jul 2020 03:42:56 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] ttm: ttm_bo_swapout_all doesn't use it's argument.
+Date: Tue, 28 Jul 2020 13:42:54 +1000
+Message-Id: <20200728034254.20114-1-airlied@gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,95 +47,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Steve Cohen <cohens@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0828890090=="
+Cc: sroland@vmware.com, linux-graphics-maintainer@vmware.com,
+ christian.koenig@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0828890090==
-Content-Type: multipart/signed; boundary="Sig_/BVxTvCBDRzX0/QPHxAMG5IG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From: Dave Airlie <airlied@redhat.com>
 
---Sig_/BVxTvCBDRzX0/QPHxAMG5IG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Just drop the argument from this.
 
-Hi all,
+This does ask the question if this is the function vmwgfx
+should be using or should it be doing an evict all like
+the other drivers.
 
-Today's linux-next merge of the drm tree got a conflict in:
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c        | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
+ include/drm/ttm/ttm_bo_api.h        | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-  drivers/gpu/drm/drm_gem.c
-
-between commit:
-
-  8490d6a7e0a0 ("drm: hold gem reference until object is no longer accessed=
-")
-
-from the drm-misc-fixes tree and commit:
-
-  be6ee102341b ("drm: remove _unlocked suffix in drm_gem_object_put_unlocke=
-d")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/drm_gem.c
-index ee2058ad482c,a57f5379fc08..000000000000
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@@ -901,9 -913,7 +909,9 @@@ drm_gem_open_ioctl(struct drm_device *d
-  	args->handle =3D handle;
-  	args->size =3D obj->size;
- =20
- -	return 0;
- +err:
-- 	drm_gem_object_put_unlocked(obj);
-++	drm_gem_object_put(obj);
- +	return ret;
-  }
- =20
-  /**
-
---Sig_/BVxTvCBDRzX0/QPHxAMG5IG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl8fnl8ACgkQAVBC80lX
-0GzCcwf/RSfKiNgMs/9X0/IjhLfqM3Dn9J67OsBVs10ohNmxiT7aRrHWSEs+Kbu+
-bTSYGsCa0gpoVlAHQHROFhS+cqEnlQcmGJ1qEMRG6XX+OBw7D1HIzJPJMmtL4m82
-9AOA6SORd5nJG39MOaLwEufhvaZlTc4vURg6A1SLj7PGtwZCsNMyMlGOQvHNkhoz
-I0uny55OGAME98c+w0RHwSsFf9XetbKhEyW7uUnhsSro120HiQVqhZ95y+9Ol02i
-1gpLcliCn8y3T6cHqTGw2zb7L5kQWpDL784p17US5cSudn2zbZD4ccioQAWlMQg2
-gWT7eHLtelkBPiJVSjntQy/dJmAfpw==
-=8U80
------END PGP SIGNATURE-----
-
---Sig_/BVxTvCBDRzX0/QPHxAMG5IG--
-
---===============0828890090==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index b03747717ec7..f297fd5e02d4 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -1838,7 +1838,7 @@ int ttm_bo_swapout(struct ttm_bo_global *glob, struct ttm_operation_ctx *ctx)
+ }
+ EXPORT_SYMBOL(ttm_bo_swapout);
+ 
+-void ttm_bo_swapout_all(struct ttm_bo_device *bdev)
++void ttm_bo_swapout_all(void)
+ {
+ 	struct ttm_operation_ctx ctx = {
+ 		.interruptible = false,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 470428387878..fb39826f72c1 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -1352,7 +1352,7 @@ static int vmw_pm_freeze(struct device *kdev)
+ 	vmw_execbuf_release_pinned_bo(dev_priv);
+ 	vmw_resource_evict_all(dev_priv);
+ 	vmw_release_device_early(dev_priv);
+-	ttm_bo_swapout_all(&dev_priv->bdev);
++	ttm_bo_swapout_all();
+ 	if (dev_priv->enable_fb)
+ 		vmw_fifo_resource_dec(dev_priv);
+ 	if (atomic_read(&dev_priv->num_fifo_resources) != 0) {
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index b1c705a93517..a9e13b252820 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -692,7 +692,7 @@ ssize_t ttm_bo_io(struct ttm_bo_device *bdev, struct file *filp,
+ 
+ int ttm_bo_swapout(struct ttm_bo_global *glob,
+ 			struct ttm_operation_ctx *ctx);
+-void ttm_bo_swapout_all(struct ttm_bo_device *bdev);
++void ttm_bo_swapout_all(void);
+ 
+ /**
+  * ttm_bo_uses_embedded_gem_object - check if the given bo uses the
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0828890090==--
