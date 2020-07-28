@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0AC230004
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 05:22:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFEF23000B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 05:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C23899A3;
-	Tue, 28 Jul 2020 03:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1B789BA3;
+	Tue, 28 Jul 2020 03:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329DB899A3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:21:56 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Tue, 28 Jul 2020 03:21:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: mnrzk@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-lZFyn8ILb0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5E489BA3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:23:38 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id qc22so4365904ejb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jul 2020 20:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=Sd54gG54Ze5yTPEdGHIeadb/Kn7Njk5nmifinz29gjc=;
+ b=tsa6Ya8FZeWtX1olD3E3CK0Mkma86fPXKlwCBqas0I097Km2OB4saLhWPz9MdKxOqo
+ jVsRI5m0dB937zjUPHEiudQ3zFjuL1ecZjBvvtrgNmU6p36k4psTBoX0be9Cu0hhKnXI
+ LDl8Esfb/Ed1NJfsIlgyzPDXXpti6oazRBNIWBUCDl+IBj1F8YA7iPTAiE74/ZaSKulf
+ ybStqWGASCMi3pvwnruxS0RNKKpviDFTPne74SMh+Rm9rv1dnc1YcEFQUK/h8qzZKLYg
+ ZQgrpMIsaSjKrLY8XbzcdNzu7AgsYDAhHTk+4DuT4ThCAM6m/GBMMBRXpdwcZxx2AgAu
+ cMMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=Sd54gG54Ze5yTPEdGHIeadb/Kn7Njk5nmifinz29gjc=;
+ b=pb0cu4lZsinWB9K1z6/nOy+dRFxqRh1zrBlAudwNfhNJffwqpHY1SPfhQeWoqyPLmZ
+ 3Krjhe0I70lZRdWZ4yPrPT+vOTaOkKK6fMMDdQsJz7EfQzSAYkK0l8jNSp19HQ8eP5eq
+ Zl3lSpKejMqGo0U8klYblRqhAidIB3DA3WTgMfwIm606yj2D93JLzvnSJIBiPLamKPUg
+ 65t+HY460Pe0of0aT3t939cFtSoT7ZOaVuq+A7+aFBvvQnxk3lFrURNt0acNmWW/4DJ8
+ 3Dai9b06zlSoB/V6BImjdL31VYy7r+wawSC2BkQNlgOy8A7g34Magq+PYroefdPWy6Fu
+ dCGQ==
+X-Gm-Message-State: AOAM532A2haLM48vyvE4BlXPBix0OofcT9iMkPGN0wHP1mgaC36nzRQs
+ 5DOncRiV2VEYXvWIhtSLDDXT1xdxi9Hq14kiVNQ=
+X-Google-Smtp-Source: ABdhPJyiksBasnumtBvaHvURoWmG2msFPfs+vOdpAdypVeWfyqr5KZ8duEJ6stu42+q+6qsxkIk7YH1vraOIBvieVIg=
+X-Received: by 2002:a17:906:1104:: with SMTP id
+ h4mr14573799eja.456.1595906617452; 
+ Mon, 27 Jul 2020 20:23:37 -0700 (PDT)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 28 Jul 2020 13:23:26 +1000
+Message-ID: <CAPM=9tx8V2TWSTwKCik1iUvnQExZoBtGYdQZ_4MdKjdHmQJE5A@mail.gmail.com>
+Subject: ttm_tt_set_placement_caching on vram->ram transfers
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,89 +64,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+Hi Christian + Ben,
 
---- Comment #103 from mnrzk@protonmail.com ---
-(In reply to Nicholas Kazlauskas from comment #95)
-> Created attachment 290583 [details]
-> 0001-drm-amd-display-Force-add-all-CRTCs-to-state-when-us.patch
-> 
-> So the sequence looks like the following:
-> 
-> 1. Non-blocking commit #1 requested, checked, swaps state and deferred to
-> work queue.
-> 
-> 2. Non-blocking commit #2 requested, checked, swaps state and deferred to
-> work queue.
-> 
-> Commits #1 and #2 don't touch any of the same core DRM objects (CRTCs,
-> Planes, Connectors) so Commit #2 does not stall for Commit #1. DRM Private
-> Objects have always been avoided in stall checks, so we have no safety from
-> DRM core in this regard.
-> 
-> 3. Due to system load commit #2 executes first and finishes its commit tail
-> work. At the end of commit tail, as part of DRM core, it calls
-> drm_atomic_state_put().
-> 
-> Since this was the pageflip IOCTL we likely already dropped the reference on
-> the state held by the IOCTL itself. So it's going to actually free at this
-> point.
-> 
-> This eventually calls drm_atomic_state_clear() which does the following:
-> 
-> obj->funcs->atomic_destroy_state(obj, state->private_objs[i].state);
-> 
-> Note that it clears "state" here. Commit sets "state" to the following:
-> 
-> state->private_objs[i].state = old_obj_state;
-> obj->state = new_obj_state;
-> 
-> Since Commit #1 swapped first this means Commit #2 actually does free Commit
-> #1's private object.
-> 
-> 4. Commit #1 then executes and we get a use after free.
-> 
-> Same bug, it's just this was never corrupted before by the slab changes.
-> It's been sitting dormant for 5.0~5.8.
-> 
-> Attached is a patch that might help resolve this.
+Just been reviewing around driver TTM code, and found an inconsistency,
 
-So I just got around to testing this patch and so far, not very promising.
+amdgpu + radeon both call the above before binding the ttm and going
+gpu vram->ram copies, but I don't see nouveau doing it Not sure if it
+could cause any issues, but it does look inconsistent.
 
-Right now I can't comment on if the bug in question was resolved but this
-just introduced some new critical bugs for me.
-
-I first tried this on my bare metal system w/ my RX 480 and it boots into
-lightdm just fine. As soon as I log in and start up XFCE however, one of my
-two monitors goes black (monitor reports being asleep) but my cursor seems
-to drift into the other monitor just fine. So after that, I check the
-display settings and both monitors are detected. So I tried re-enabling the
-off monitor and then both monitors work fine.
-
-After that, another bug: I now have two cursors, one only works on my right
-monitor and the other only stays in one position.
-
-At this point, I recompiled and remade the initramfs, and sure enough, same
-issues. This time, however, changing the display settings didn't "fix" the
-issue with one monitor being blank; the off monitor activated, but the
-previously working one just froze.
-
-I also tried this on my VM passing through my GPU w/ vfio-pci; similar
-issues. Lightdm worked fine but when I started KDE Plasma, it started
-flashing white and one of my monitors just became blank. This time, I
-couldn't enable the blank display from the settings, it just didn't show
-up. Xrandr only showed one output as well; switching HDMI outputs still
-only lets me use the monitor on the "working" HDMI port.
-
-I don't exactly know how I would go about debugging this since there's just
-too many bugs to count. I also don't know if it would be worth it at all.
-
-Do you have any idea why this would occur? This patch only seems to force
-synchronisation, I don't quite know why it would break my system so much.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
