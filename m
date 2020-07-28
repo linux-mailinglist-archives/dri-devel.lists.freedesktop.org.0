@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5989E230CD3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 16:57:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D54230CE0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B826E312;
-	Tue, 28 Jul 2020 14:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEB4B6E31D;
+	Tue, 28 Jul 2020 15:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E87B6E312
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 14:57:38 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id b6so18597920wrs.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 07:57:38 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9CAF6E31D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:01:06 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id 9so17605346wmj.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BwhNWR8x4sReBUnXjkKAZ+VUi9i5Kb9McNJ2lAFUYVE=;
- b=I6r7eI3O9VehcrKADawlnXf0PAyUWwxAU3XCL5cRdAeuursNuOJMO+HtHbxlxYS1Xv
- AzghH5B+Pp1ChD3vptP4ouSznOVU5WsOSWiY3TRQYDooWtp7UT99tXpv23Gg1Bqa2WX2
- z1pUy07I5jdbs76FEVP0aD/lpF/GMVebXdg4fTZTUO+hCMH+7OuECwRUGyAqGNP4gaJO
- zpWnVoWVrt6knZRcHhO4EW6P7uM7luOEO1Sg660qoKgSbVpSJ4l2iVXZkMP5dsQH5pGn
- 99ojDgiGyDTuVsbhLGwQLTFT7o/ZxBfaBw56hnChQALvfqWdAptkdI+H86IJaeo63E+1
- BgOg==
+ :cc; bh=k7U1Q9zeroE/yPznt2D4XGJyQI13I8758w9wiJAiJy0=;
+ b=jqMplwp4VEt7NK46p9DKah2lRF0mHZAS3/mKudshZMy8FcXvLybfAOfggbp9fNABQB
+ qdQQrywnrwpr5DVhoAhfpSeN+ncqAgJtbISGMwiO6YiTK8PCRZHkJzwpW2kB8dXRo3F6
+ IBtN14ZY0oRy51onC4wkHrXX2Y1HiC/3g3u0qWtxUma2C/vqF0vc9RHpTheV1xzp2TwQ
+ tGxBRYBqe4wlQ+B9ML2ck5jheJgA0cFOd86MZN4vaAJkGxaj1/EZAyKBj0Vyvq1n5HqP
+ dVtkcScjBUvdltbqg66XgcZowjJlsIO05W8ARbU60uZK/a5nFMjopidVmfwmeDt4r6EX
+ kRYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BwhNWR8x4sReBUnXjkKAZ+VUi9i5Kb9McNJ2lAFUYVE=;
- b=gtO0M11c4r870SxzNzP/wRgbjWP91n61gpuVNvAVMEmiHzlVFkX2+hSRGIWjJR0wsM
- wCVlWe88tc8XN49awubdS4FO8xhImbYelwMv+VE5ztIX9IKFvzcC6fk07lCUgVvoJ5zQ
- iHYz3u1B8s/61N03rPSNRxbqYuzp4ZGnTbwIIzkRBnfH+GSM57H0sLkLq7Y1zFcgHwJq
- tQ+rts3iud2C7pfJOCBpMBpRhBis8+yDtQYF55O67UHvmOjIEt37GBUxtj8b0oDesAun
- uTOuAK7qMBq0E6rS3Ci1JDUNgl32YrCMYUQE/yyYz6pPZqY/+kVeoVhD2ObPaCjH+vO1
- ieJw==
-X-Gm-Message-State: AOAM530jE3VZDW+ZyTL9P4huBPWG1mG1tkGklnOCRPGt+rukF+MdnkX6
- NAo3mOBRipH6NwSaTyx6xywG2BF5fFmALo64dQKAHg==
-X-Google-Smtp-Source: ABdhPJwdvN11Z/Q0YJ6kgQpbGgsMXnn1xBOigXdlYRNApIMYuC35kGIxzsnpR7nvqAx4GRIiJdQxadfOp+Nob0+zceo=
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr20006305wrs.273.1595948257404; 
- Tue, 28 Jul 2020 07:57:37 -0700 (PDT)
+ bh=k7U1Q9zeroE/yPznt2D4XGJyQI13I8758w9wiJAiJy0=;
+ b=K/utN975Dr5YsDaGxhWACj6CocDjRF/HcgebNik419s9ATAeTTe/xM1fSfBudvDDrQ
+ nlt7r4AellbCnBwtgvy3xZs+llm8oFKqnv9n/s47QWdSBpdkZL+q7Z/yt0MjB1rrb5v0
+ cXrQbMC5rFe5CKDQM0SMPSXJTDGvaNHyVcDvtEE4vOPdY1yEcGIq4PfeNBPTzJumGs79
+ WFVwNFvbY6RKCyFEC7fVOLxNNJzIoh2yWLdGAor12iJji64keOlZv6X+siOj3wp6shPW
+ SJJq5XNu0Ps27PJTYNje/sFaEoj4wrUIA5CQAknT+p4nOQ7SzoWgpG38/vyuIIyscDi/
+ 3YPw==
+X-Gm-Message-State: AOAM530kLiEAfcpUeaKTEHx5kz5He5HWQ4B4mCcRHrykWQcPmqOWy+qd
+ 7lU4ba9gBX+Xnlge3qKW74pniTEKRtC2g8mRBxtacg==
+X-Google-Smtp-Source: ABdhPJwtZsESR7WdQs9vZjByKfImYo4n+KjVPXTXmg/4Xny0qvN0mdHnW9DUz8VR/jWrvijgch9md6yvGN2RFYNjzxM=
+X-Received: by 2002:a1c:e382:: with SMTP id a124mr4091054wmh.96.1595948465354; 
+ Tue, 28 Jul 2020 08:01:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <a47487bc8873abe33499e79d3c10d085e341614e.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <a47487bc8873abe33499e79d3c10d085e341614e.1594230107.git-series.maxime@cerno.tech>
+ <7d4c17db4a1214b7665375aa83fe1f8b4f0fbdfb.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <7d4c17db4a1214b7665375aa83fe1f8b4f0fbdfb.1594230107.git-series.maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 15:57:22 +0100
-Message-ID: <CAPY8ntCkuN-cahLd7Ex4awkcUhFVM43nGX4rZCtjRmy-wCyHGQ@mail.gmail.com>
-Subject: Re: [PATCH v4 63/78] drm/vc4: hdmi: Use clk_set_min_rate instead
+Date: Tue, 28 Jul 2020 16:00:50 +0100
+Message-ID: <CAPY8ntBJriBEa4ORW5Ns0zc0ma=7HoooCPKTQb9cfiVQe02uCw@mail.gmail.com>
+Subject: Re: [PATCH v4 68/78] drm/vc4: hdmi: Deal with multiple ALSA cards
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,37 +77,63 @@ Hi Maxime
 
 On Wed, 8 Jul 2020 at 18:44, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The HSM clock needs to be running at 101% the pixel clock of the HDMI
-> controller, however it's shared between the two HDMI controllers, which
-> means that if the resolutions are different between the two HDMI
-> controllers, and the lowest resolution is on the second (in enable order)
-> controller, the first HDMI controller will end up with a smaller than
-> expected clock rate.
+> The HDMI driver was registering a single ALSA card so far with the name
+> vc4-hdmi.
 >
-> Since we don't really need an exact frequency there, we can simply change
-> the minimum rate we expect instead.
+> Obviously, this is not going to work anymore when will have multiple HDMI
+
+s/will/we
+
+> controllers since we will end up trying to register two files with the same
+> name.
+>
+> Let's use the variant to avoid that name conflict.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
+With that change
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+>  drivers/gpu/drm/vc4/vc4_hdmi.h | 3 +++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 9f30fab744f2..d99188c90ff9 100644
+> index 1b6f51849d6c..0a9a323e03d8 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -462,7 +462,7 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
->          * pixel clock, but HSM ends up being the limiting factor.
->          */
->         hsm_rate = max_t(unsigned long, 120000000, (pixel_rate / 100) * 101);
-> -       ret = clk_set_rate(vc4_hdmi->hsm_clock, hsm_rate);
-> +       ret = clk_set_min_rate(vc4_hdmi->hsm_clock, hsm_rate);
->         if (ret) {
->                 DRM_ERROR("Failed to set HSM clock rate: %d\n", ret);
->                 return;
+> @@ -1044,7 +1044,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+>
+>         card->dai_link = dai_link;
+>         card->num_links = 1;
+> -       card->name = "vc4-hdmi";
+> +       card->name = vc4_hdmi->variant->card_name;
+>         card->dev = dev;
+>
+>         /*
+> @@ -1503,6 +1503,7 @@ static int vc4_hdmi_dev_remove(struct platform_device *pdev)
+>  static const struct vc4_hdmi_variant bcm2835_variant = {
+>         .encoder_type           = VC4_ENCODER_TYPE_HDMI0,
+>         .debugfs_name           = "hdmi_regs",
+> +       .card_name              = "vc4-hdmi",
+>         .max_pixel_clock        = 162000000,
+>         .cec_available          = true,
+>         .registers              = vc4_hdmi_fields,
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index 4aea5ee8a91d..34138e0dd4a6 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -30,6 +30,9 @@ struct vc4_hdmi_variant {
+>         /* Encoder Type for that controller */
+>         enum vc4_encoder_type encoder_type;
+>
+> +       /* ALSA card name */
+> +       const char *card_name;
+> +
+>         /* Filename to expose the registers in debugfs */
+>         const char *debugfs_name;
+>
 > --
 > git-series 0.9.1
 _______________________________________________
