@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E828230AD5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 15:01:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AD0230AE0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 15:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8E96E1F2;
-	Tue, 28 Jul 2020 13:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82B93897D0;
+	Tue, 28 Jul 2020 13:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
  [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6497E6E1F2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 13:01:02 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id g8so6072835wmk.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 06:01:02 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32388892C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 13:03:18 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id p14so16892084wmg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 06:03:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8jmZcLNhJMqYMjcTqjPQmtQ8P0Msg4xOuIQgfa8zC1w=;
- b=Hx12KSYmyNspQ20MnI262XHd/ggVHzu3cALqhn4ACAVTDUceBouCvxfbBeDW9WyLHB
- HJhl2sQ2aEpl1gXV5mh4s4iM8Tlck07exfeOsFa1bYBjLRGPJEmDme8aC1S+H3jmMTqn
- KAF4/T+Rhoa23qTWOgY6Vrx0O78QbgbXqsG0/cUbN4tzO6FoLWE/G63gDdfjUU+whmR3
- C02+0s1IUMuMrDgM8pzbOYYCemwrfdnoTTlf3fJG+nxMpMvdNr/gvgcQqXaLwrQDGM5g
- dV8Z9eP6LUJWO/08CXBVh2goLZ7fjkwO2HRrNwSKxAgG0FOR50Rz95mjiSsDFJUBQqln
- kr1Q==
+ :cc; bh=Wv84ulHBLNw4Uf5oxYsoMX+Mv7LdyizqK6mgHY/q9Lg=;
+ b=Cw/Vz4YG3V+q9BXCM+dRF8Bf1+qaTvaVBLZtNXFHMhI+iwRPIr1VMt0h31PKFR1K3w
+ +KsWrczwug5KX/BqsyIEzuvdM1keRi8mGc/8LbBrbfWJjGGSKN5PfJggpJOFmzc8L5CB
+ PSQILgbHeYV22T6xLuO7xDwIpu4iOT7pgifyK3xBoLmvUkLYykrw4ZAbjQ7OAUlogwDz
+ PkOelni0f1GB8DCgyZuITXzIjke8GqIjkEAvSBOA/3TYq2ry+qxyvO1jQMvO1wqn8q6L
+ BewuijkFBtR61aW6Z/VxiNfUu9+tu9kfUHbqz2RTBcFiF6m4HQB8aLRJVGjY9a/o1Udw
+ J0pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8jmZcLNhJMqYMjcTqjPQmtQ8P0Msg4xOuIQgfa8zC1w=;
- b=ES5EYUIZf5XnFKvkXStSkey4MzMGTUWEp9vBqKE7Ink1ewYPf76iMfAiMExsuePoCc
- +TzzyjfKm+LoUjySHvnJl28GWE8FyU463FTvSlX4+KHHV9tDUdRsaFdc5b2HTn/vwGbN
- Oq1Qe1a1YzbMIgjYyzP3uHoU36PCEA//FCiSCmFDz7IrzNeBb1DdGibeo8aigEHWNM3y
- 6bZGO+ucP6qg/2MdgPBm5yWpO8Fujs886aLzOP+5b/m7/6/Cq1EfvcgIpl+S4LOQqalk
- cffleNYbv+GyqRHle2C6KBYX+4Ybarva6NkyYyd83L33EhX9jxHteBOhA//0shei46vn
- +49Q==
-X-Gm-Message-State: AOAM530QqSGwDpWegj3OMvZCc8NMPv2OnotzhZpOaNyFrFSF2LCkOo0i
- Qj8F5z2sxWdkFopCgID3gGIwJsJdC0Zmnp/oPgaKeg==
-X-Google-Smtp-Source: ABdhPJzNJGXoMkeyB78SIo1q7nH5otCVlzH/fPUf3ev2WPGKtmu6lqowrHi4IrqPinZ5+zG7noCHHP+YZrqMMkPK5N0=
-X-Received: by 2002:a05:600c:d7:: with SMTP id
- u23mr3688799wmm.183.1595941261046; 
- Tue, 28 Jul 2020 06:01:01 -0700 (PDT)
+ bh=Wv84ulHBLNw4Uf5oxYsoMX+Mv7LdyizqK6mgHY/q9Lg=;
+ b=WQeXGqTULwO6iLrk2C8Cdtd+rreD+i+EVTj3QPYpQEKM49soPiLlPjJUwcoi96zvJ9
+ mpN7r6bzz4JlZyxSFRT0ns/lyxmgXyy/ccI9AemRYONO1jNP5NGyyOer4OqrwH/VA390
+ 9RnGHxLV3F2hxCiGdxJxmVh7H+BgoUjNNlJJJbrbuvcUFzPiy3nakg5gaXgsmzM3iABP
+ S5gJmmTYEHliWQmH446YaYDi5y40D79SQFdiEdRQwZRLRnmP3p4jjcolujRSyl3GAreG
+ VvUoxU6PBc2GDvQFt1+cKgGW6aQLoRQav+GlVDzJkdb4xCcMxeIpyfi+OXc3If2xPZmX
+ WxrA==
+X-Gm-Message-State: AOAM532mALDjH/xn6c6gBaG7qX3fHRA1hv2X5Gz31li4x7UhRMHdkKwS
+ 9aYmcOVpcborn3qhjwRZEeSu1Tz1mMpwmAqgZb4yDQ==
+X-Google-Smtp-Source: ABdhPJwdB7oDA/Uqj1bSF0wZ3zvwcMHPhTJTdpSbPzhoZ35h4LBovlO0Tm+FCn284QnywH5X/aUMaAJcxfFfhuNcVeE=
+X-Received: by 2002:a1c:e382:: with SMTP id a124mr3687596wmh.96.1595941396813; 
+ Tue, 28 Jul 2020 06:03:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <ab00cc4655224f26d74c307a410bbca8d67dbbbb.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <ab00cc4655224f26d74c307a410bbca8d67dbbbb.1594230107.git-series.maxime@cerno.tech>
+ <9ac309938e18a55c1c48d3520fe51a61f3c09b1f.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <9ac309938e18a55c1c48d3520fe51a61f3c09b1f.1594230107.git-series.maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 14:00:42 +0100
-Message-ID: <CAPY8ntAduOMFgDSkekX5mXDYbQpG_eu-CGtUBRjxAofbWJi--Q@mail.gmail.com>
-Subject: Re: [PATCH v4 52/78] drm/vc4: hdmi: Add reset callback
+Date: Tue, 28 Jul 2020 14:03:00 +0100
+Message-ID: <CAPY8ntDiLWkfYwXUyTf-v51z6t3tE7qnsBpC9wN_AMcW=CyWiQ@mail.gmail.com>
+Subject: Re: [PATCH v4 53/78] drm/vc4: hdmi: Add PHY init and disable function
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,95 +77,141 @@ Hi Maxime
 
 On Wed, 8 Jul 2020 at 18:43, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The BCM2711 and BCM283x HDMI controllers use a slightly different reset
-> sequence, so let's add a callback to reset the controller.
+> The HDMI PHY in the BCM2711 HDMI controller is significantly more
+> complicated to setup than in the older BCM283x SoCs.
+>
+> Let's add hooks to enable and disable the PHY.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 31 ++++++++++++++++++-------------
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  3 +++
->  2 files changed, 21 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/vc4/Makefile       |  1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c     | 14 +++++++-------
+>  drivers/gpu/drm/vc4/vc4_hdmi.h     | 13 +++++++++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi_phy.c | 25 +++++++++++++++++++++++++
+>  4 files changed, 46 insertions(+), 7 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vc4/vc4_hdmi_phy.c
 >
+> diff --git a/drivers/gpu/drm/vc4/Makefile b/drivers/gpu/drm/vc4/Makefile
+> index b303703bc7f3..d0163e18e9ca 100644
+> --- a/drivers/gpu/drm/vc4/Makefile
+> +++ b/drivers/gpu/drm/vc4/Makefile
+> @@ -12,6 +12,7 @@ vc4-y := \
+>         vc4_kms.o \
+>         vc4_gem.o \
+>         vc4_hdmi.o \
+> +       vc4_hdmi_phy.o \
+>         vc4_vec.o \
+>         vc4_hvs.o \
+>         vc4_irq.o \
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index a4fed1439bf3..80bc3dd9d4a8 100644
+> index 80bc3dd9d4a8..068041145d1c 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -69,6 +69,21 @@ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
->         return 0;
->  }
+> @@ -321,7 +321,9 @@ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
 >
-> +static void vc4_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
-> +{
-> +       HDMI_WRITE(HDMI_M_CTL, VC4_HD_M_SW_RST);
-> +       udelay(1);
-> +       HDMI_WRITE(HDMI_M_CTL, 0);
-> +
-> +       HDMI_WRITE(HDMI_M_CTL, VC4_HD_M_ENABLE);
-> +
-> +       HDMI_WRITE(HDMI_SW_RESET_CONTROL,
-> +                  VC4_HDMI_SW_RESET_HDMI |
-> +                  VC4_HDMI_SW_RESET_FORMAT_DETECT);
-> +
-> +       HDMI_WRITE(HDMI_SW_RESET_CONTROL, 0);
-> +}
-> +
->  static enum drm_connector_status
->  vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
->  {
-> @@ -363,11 +378,8 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
->                 return;
->         }
+>         HDMI_WRITE(HDMI_RAM_PACKET_CONFIG, 0);
 >
-> -       HDMI_WRITE(HDMI_SW_RESET_CONTROL,
-> -                  VC4_HDMI_SW_RESET_HDMI |
-> -                  VC4_HDMI_SW_RESET_FORMAT_DETECT);
+> -       HDMI_WRITE(HDMI_TX_PHY_RESET_CTL, 0xf << 16);
+> +       if (vc4_hdmi->variant->phy_disable)
+> +               vc4_hdmi->variant->phy_disable(vc4_hdmi);
+> +
+>         HDMI_WRITE(HDMI_VID_CTL,
+>                    HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_ENABLE);
+>
+> @@ -381,12 +383,8 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>         if (vc4_hdmi->variant->reset)
+>                 vc4_hdmi->variant->reset(vc4_hdmi);
+>
+> -       /* PHY should be in reset, like
+> -        * vc4_hdmi_encoder_disable() does.
+> -        */
+> -       HDMI_WRITE(HDMI_TX_PHY_RESET_CTL, 0xf << 16);
 > -
-> -       HDMI_WRITE(HDMI_SW_RESET_CONTROL, 0);
-> +       if (vc4_hdmi->variant->reset)
-> +               vc4_hdmi->variant->reset(vc4_hdmi);
+> -       HDMI_WRITE(HDMI_TX_PHY_RESET_CTL, 0);
+> +       if (vc4_hdmi->variant->phy_init)
+> +               vc4_hdmi->variant->phy_init(vc4_hdmi, mode);
 >
->         /* PHY should be in reset, like
->          * vc4_hdmi_encoder_disable() does.
-> @@ -1292,14 +1304,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->                 vc4_hdmi->hpd_active_low = hpd_gpio_flags & OF_GPIO_ACTIVE_LOW;
->         }
->
-> -       /* HDMI core must be enabled. */
-> -       if (!(HDMI_READ(HDMI_M_CTL) & VC4_HD_M_ENABLE)) {
-> -               HDMI_WRITE(HDMI_M_CTL, VC4_HD_M_SW_RST);
-> -               udelay(1);
-> -               HDMI_WRITE(HDMI_M_CTL, 0);
-> -
-> -               HDMI_WRITE(HDMI_M_CTL, VC4_HD_M_ENABLE);
-> -       }
->         pm_runtime_enable(dev);
->
->         drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
-> @@ -1428,6 +1432,7 @@ static const struct vc4_hdmi_variant bcm2835_variant = {
->         .num_registers          = ARRAY_SIZE(vc4_hdmi_fields),
+>         if (debug_dump_regs) {
+>                 struct drm_printer p = drm_info_printer(&vc4_hdmi->pdev->dev);
+> @@ -1433,6 +1431,8 @@ static const struct vc4_hdmi_variant bcm2835_variant = {
 >
 >         .init_resources         = vc4_hdmi_init_resources,
-> +       .reset                  = vc4_hdmi_reset,
+>         .reset                  = vc4_hdmi_reset,
+> +       .phy_init               = vc4_hdmi_phy_init,
+> +       .phy_disable            = vc4_hdmi_phy_disable,
 >  };
 >
 >  static const struct of_device_id vc4_hdmi_dt_match[] = {
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index b36e0210671f..17a30589f39c 100644
+> index 17a30589f39c..32c80161c786 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -35,6 +35,9 @@ struct vc4_hdmi_variant {
->          * clocks, etc) for that variant.
->          */
->         int (*init_resources)(struct vc4_hdmi *vc4_hdmi);
+> @@ -21,6 +21,8 @@ to_vc4_hdmi_encoder(struct drm_encoder *encoder)
+>         return container_of(encoder, struct vc4_hdmi_encoder, base.base);
+>  }
+>
+> +struct drm_display_mode;
 > +
-> +       /* Callback to reset the HDMI block */
-> +       void (*reset)(struct vc4_hdmi *vc4_hdmi);
+>  struct vc4_hdmi;
+>  struct vc4_hdmi_register;
+>
+> @@ -38,6 +40,13 @@ struct vc4_hdmi_variant {
+>
+>         /* Callback to reset the HDMI block */
+>         void (*reset)(struct vc4_hdmi *vc4_hdmi);
+> +
+> +       /* Callback to initialize the PHY according to the mode */
+> +       void (*phy_init)(struct vc4_hdmi *vc4_hdmi,
+> +                        struct drm_display_mode *mode);
+> +
+> +       /* Callback to disable the PHY */
+> +       void (*phy_disable)(struct vc4_hdmi *vc4_hdmi);
 >  };
 >
 >  /* HDMI audio information */
+> @@ -95,4 +104,8 @@ encoder_to_vc4_hdmi(struct drm_encoder *encoder)
+>         return container_of(_encoder, struct vc4_hdmi, encoder);
+>  }
+>
+> +void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
+> +                      struct drm_display_mode *mode);
+> +void vc4_hdmi_phy_disable(struct vc4_hdmi *vc4_hdmi);
+> +
+>  #endif /* _VC4_HDMI_H_ */
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_phy.c b/drivers/gpu/drm/vc4/vc4_hdmi_phy.c
+> new file mode 100644
+> index 000000000000..5a1746877bb5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi_phy.c
+> @@ -0,0 +1,25 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2015 Broadcom
+> + * Copyright (c) 2014 The Linux Foundation. All rights reserved.
+> + * Copyright (C) 2013 Red Hat
+> + * Author: Rob Clark <robdclark@gmail.com>
+> + */
+> +
+> +#include "vc4_hdmi.h"
+> +#include "vc4_hdmi_regs.h"
+> +
+> +void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi, struct drm_display_mode *mode)
+> +{
+> +       /* PHY should be in reset, like
+> +        * vc4_hdmi_encoder_disable() does.
+> +        */
+> +
+> +       HDMI_WRITE(HDMI_TX_PHY_RESET_CTL, 0xf << 16);
+> +       HDMI_WRITE(HDMI_TX_PHY_RESET_CTL, 0);
+> +}
+> +
+> +void vc4_hdmi_phy_disable(struct vc4_hdmi *vc4_hdmi)
+> +{
+> +       HDMI_WRITE(HDMI_TX_PHY_RESET_CTL, 0xf << 16);
+> +}
 > --
 > git-series 0.9.1
 _______________________________________________
