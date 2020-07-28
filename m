@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E897D2312A7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03122312A6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03616E3D0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9056B6E3C7;
 	Tue, 28 Jul 2020 19:30:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24B006E249;
- Tue, 28 Jul 2020 18:45:57 +0000 (UTC)
-IronPort-SDR: 0AjXZtWOFWotc2Ef6K+1hJvBle5Axy0ottPbDWVq51vhp7Jtan5UZghMH2Ja35rAvPTJ0NcQdA
- lWqP4KPeVrkg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="130852354"
-X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="130852354"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3F589D5E;
+ Tue, 28 Jul 2020 18:57:08 +0000 (UTC)
+IronPort-SDR: A1kQaf8icL4iJnXp5Hm6xU8uA2lNqWm0caDq3e3kg5BC0/AvbQ9Uit450w38sRN7bpmP36Bsni
+ SdG9wiJTaKiw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="139314532"
+X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="139314532"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2020 11:45:56 -0700
-IronPort-SDR: wwWappNoJfKls/eFsEdb++nFi5WOaro8lC2t0gajQmO4NdQk54sfqMRwrDFI40pe+1MnoCMCo0
- VeDEfvP1Pujw==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2020 11:57:07 -0700
+IronPort-SDR: UmduEKAs43os32xUjafr9i+QhylJuv1Ke5h4kc5YbuMpJDI/CH0Q6CjoAW8Gt55YsmGeo6NmF6
+ aH/dwdSgnEGw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="394420092"
+X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="286260467"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2020 11:45:53 -0700
+ by orsmga003.jf.intel.com with ESMTP; 28 Jul 2020 11:57:04 -0700
 Received: from andy by smile with local (Exim 4.94)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1k0Ubp-004W6J-2e; Tue, 28 Jul 2020 21:45:53 +0300
-Date: Tue, 28 Jul 2020 21:45:53 +0300
+ id 1k0Umd-004WCX-TA; Tue, 28 Jul 2020 21:57:03 +0300
+Date: Tue, 28 Jul 2020 21:57:03 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 05/16] pwm: lpss: Add pwm_lpss_prepare_enable() helper
-Message-ID: <20200728184553.GZ3703480@smile.fi.intel.com>
+Subject: Re: [PATCH v5 06/16] pwm: lpss: Use pwm_lpss_apply() when restoring
+ state on resume
+Message-ID: <20200728185703.GA3703480@smile.fi.intel.com>
 References: <20200717133753.127282-1-hdegoede@redhat.com>
- <20200717133753.127282-6-hdegoede@redhat.com>
+ <20200717133753.127282-7-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200717133753.127282-6-hdegoede@redhat.com>
+In-Reply-To: <20200717133753.127282-7-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,113 +66,108 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 17, 2020 at 03:37:42PM +0200, Hans de Goede wrote:
-> In the not-enabled -> enabled path pwm_lpss_apply() needs to get a
-> runtime-pm reference; and then on any errors it needs to release it
-> again.
+On Fri, Jul 17, 2020 at 03:37:43PM +0200, Hans de Goede wrote:
+> Before this commit a suspend + resume of the LPSS PWM controller
+> would result in the controller being reset to its defaults of
+> output-freq = clock/256, duty-cycle=100%, until someone changes
+> to the output-freq and/or duty-cycle are made.
 > 
-> This leads to somewhat hard to read code. This commit introduces a new
-> pwm_lpss_prepare_enable() helper and moves all the steps necessary for
-> the not-enabled -> enabled transition there, so that we can error check
-> the entire transition in a single place and only have one pm_runtime_put()
-> on failure call site.
+> This problem has been masked so far because the main consumer
+> (the i915 driver) was always making duty-cycle changes on resume.
+> With the conversion of the i915 driver to the atomic PWM API the
+> driver now only disables/enables the PWM on suspend/resume leaving
+> the output-freq and duty as is, triggering this problem.
 > 
-> While working on this I noticed that the enabled -> enabled (update
-> settings) path was quite similar, so I've added an enable parameter to
-> the new pwm_lpss_prepare_enable() helper, which allows using it in that
-> path too.
+> The LPSS PWM controller has a mechanism where the ctrl register value
+> and the actual base-unit and on-time-div values used are latched. When
+> software sets the SW_UPDATE bit then at the end of the current PWM cycle,
+> the new values from the ctrl-register will be latched into the actual
+> registers, and the SW_UPDATE bit will be cleared.
+> 
+> The problem is that before this commit our suspend/resume handling
+> consisted of simply saving the PWM ctrl register on suspend and
+> restoring it on resume, without setting the PWM_SW_UPDATE bit.
+> When the controller has lost its state over a suspend/resume and thus
+> has been reset to the defaults, just restoring the register is not
+> enough. We must also set the SW_UPDATE bit to tell the controller to
+> latch the restored values into the actual registers.
+> 
+> Fixing this problem is not as simple as just or-ing in the value which
+> is being restored with SW_UPDATE. If the PWM was enabled before we must
+> write the new settings + PWM_SW_UPDATE before setting PWM_ENABLE.
+> We must also wait for PWM_SW_UPDATE to become 0 again and depending on the
+> model we must do this either before or after the setting of PWM_ENABLE.
+> 
+> All the necessary logic for doing this is already present inside
+> pwm_lpss_apply(), so instead of duplicating this inside the resume
+> handler, this commit makes the resume handler use pwm_lpss_apply() to
+> restore the settings when necessary. This fixes the output-freq and
+> duty-cycle being reset to their defaults on resume.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-But see below.
+...
 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/pwm/pwm-lpss.c | 45 ++++++++++++++++++++++++------------------
->  1 file changed, 26 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
-> index da9bc3d10104..8a136ba2a583 100644
-> --- a/drivers/pwm/pwm-lpss.c
-> +++ b/drivers/pwm/pwm-lpss.c
-> @@ -122,41 +122,48 @@ static inline void pwm_lpss_cond_enable(struct pwm_device *pwm, bool cond)
->  		pwm_lpss_write(pwm, pwm_lpss_read(pwm) | PWM_ENABLE);
->  }
->  
-> +static int pwm_lpss_prepare_enable(struct pwm_lpss_chip *lpwm,
-> +				   struct pwm_device *pwm,
-> +				   const struct pwm_state *state,
-> +				   bool enable)
-> +{
-> +	int ret;
-> +
-> +	ret = pwm_lpss_is_updating(pwm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pwm_lpss_prepare(lpwm, pwm, state->duty_cycle, state->period);
-> +	pwm_lpss_cond_enable(pwm, enable && lpwm->info->bypass == false);
-> +	ret = pwm_lpss_wait_for_update(pwm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pwm_lpss_cond_enable(pwm, enable && lpwm->info->bypass == true);
-> +	return 0;
-> +}
-> +
->  static int pwm_lpss_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->  			  const struct pwm_state *state)
+> -static int pwm_lpss_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> -			  const struct pwm_state *state)
+> +static int __pwm_lpss_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			    const struct pwm_state *state, bool from_resume)
 >  {
 >  	struct pwm_lpss_chip *lpwm = to_lpwm(chip);
-> -	int ret;
-
-> +	int ret = 0;
-
-We can avoid this change...
-
+>  	int ret = 0;
+>  
 >  	if (state->enabled) {
 >  		if (!pwm_is_enabled(pwm)) {
->  			pm_runtime_get_sync(chip->dev);
-> -			ret = pwm_lpss_is_updating(pwm);
-> -			if (ret) {
-> -				pm_runtime_put(chip->dev);
-> -				return ret;
-> -			}
-> -			pwm_lpss_prepare(lpwm, pwm, state->duty_cycle, state->period);
-> -			pwm_lpss_cond_enable(pwm, lpwm->info->bypass == false);
-> -			ret = pwm_lpss_wait_for_update(pwm);
-> -			if (ret) {
-> +			ret = pwm_lpss_prepare_enable(lpwm, pwm, state, true);
-> +			if (ret)
->  				pm_runtime_put(chip->dev);
-> -				return ret;
-> -			}
-> -			pwm_lpss_cond_enable(pwm, lpwm->info->bypass == true);
->  		} else {
-> -			ret = pwm_lpss_is_updating(pwm);
+> -			pm_runtime_get_sync(chip->dev);
+> +			if (!from_resume)
+> +				pm_runtime_get_sync(chip->dev);
+> +
+>  			ret = pwm_lpss_prepare_enable(lpwm, pwm, state, true);
 > -			if (ret)
-> -				return ret;
-> -			pwm_lpss_prepare(lpwm, pwm, state->duty_cycle, state->period);
-> -			return pwm_lpss_wait_for_update(pwm);
-
-> +			ret = pwm_lpss_prepare_enable(lpwm, pwm, state, false);
-
-...by simple return directly from here. But I admit I haven't seen the next patch yet.
-
+> +			if (ret && !from_resume)
+>  				pm_runtime_put(chip->dev);
+>  		} else {
+>  			ret = pwm_lpss_prepare_enable(lpwm, pwm, state, false);
 >  		}
 >  	} else if (pwm_is_enabled(pwm)) {
 >  		pwm_lpss_write(pwm, pwm_lpss_read(pwm) & ~PWM_ENABLE);
->  		pm_runtime_put(chip->dev);
+> -		pm_runtime_put(chip->dev);
+> +
+> +		if (!from_resume)
+> +			pm_runtime_put(chip->dev);
 >  	}
 >  
-> -	return 0;
-> +	return ret;
+>  	return ret;
 >  }
+
+Maybe I'm too picky, but I would go even further and split apply to two versions
+
+static int pwm_lpss_apply_on_resume(struct pwm_chip *chip, struct pwm_device *pwm,
+			  const struct pwm_state *state)
+>  {
+>  	struct pwm_lpss_chip *lpwm = to_lpwm(chip);
 >  
->  static void pwm_lpss_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> -- 
-> 2.26.2
-> 
+>  	if (state->enabled)
+>  		return pwm_lpss_prepare_enable(lpwm, pwm, state, !pwm_is_enabled(pwm));
+>  	if (pwm_is_enabled(pwm)) {
+>  		pwm_lpss_write(pwm, pwm_lpss_read(pwm) & ~PWM_ENABLE);
+>  	return 0;
+>  }
+
+and another one for !from_resume.
+
+> +static int pwm_lpss_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			  const struct pwm_state *state)
+> +{
+> +	return __pwm_lpss_apply(chip, pwm, state, false);
+> +}
+
+...
+
+> +		ret = __pwm_lpss_apply(&lpwm->chip, pwm, &saved_state, true);
+> +		if (ret)
+> +			dev_err(dev, "Error restoring state on resume\n");
+
+I'm wondering if it's a real error why we do not bail out?
+Otherwise dev_warn() ?
 
 -- 
 With Best Regards,
