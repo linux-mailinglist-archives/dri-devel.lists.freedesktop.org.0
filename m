@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0447E230CF0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B943230CF2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53246E0A2;
-	Tue, 28 Jul 2020 15:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72526E31C;
+	Tue, 28 Jul 2020 15:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 649886E0A2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 182276E0A2
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:05:14 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id f18so18549393wml.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QxDxVmK0BEhYtrvSw5SuThDITVSJ95nih7WzyiY6TNg=;
- b=VDauPB6qRa6EVmiLT86Ab8sjixBlVTgYVNP2bABJh0xjtT82MKXtQJK3Z5h7KqZ3d4
- uSpRCjnz0Yg9q9x1ZbVj153pUmP+mCTVPXtxJ6IP5eOAdGIJSU4nKxLS+8cSaHnoiQao
- CB2BD8pizBCd9Ha4rSekIKmR2fhY7FnWKT7XJW57jUuZZwCYEtR7u14Ru7AGMPBh0OTO
- Q6g33s+bCkq3Q0zZV7yRzeQMhJMXu4Ca2zbTHYwozgqWmdKaAj4Bum6EWT5HPEStgfXL
- sXMe0jfVI1jninOuMAHb+YTlPnO1lhcuEC3qr0TZsH41UeiOAghvZZCJsStR8CIjV4sU
- HJCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QxDxVmK0BEhYtrvSw5SuThDITVSJ95nih7WzyiY6TNg=;
- b=EwyYDRp0gdt96FN6INj5Qka/IJ5gFap+5w6FkKj4ZNrz17fN2rsR2ToV70kxN7IbWW
- IyiWHuDdiG+m2hZVh9TaZHXXghKaKfb2R9PbbiSOuvyQXUq0RiajlZy82C+GU1jzjKrw
- 7k+skLaTTBZ5v1TmnDgWMxXIa1/3RHSOM3/HIOD7Nj/GN+F2XHUzzHY/8sO6W2+l9Sfk
- og7PHLzWsomKLZ/eBWn/gsmrms5Z1vlgbqz3OqpSV2NMQQ9SnSfgs6Pi19SL+/8hgo5M
- HkiniTAZpgNLHQCzaQQSSwmF8eRQg9nVVBzu9QOHtYUps4K5kmCxbdAmr56iRhDr0v10
- da0g==
-X-Gm-Message-State: AOAM533nmeW+oA1M/gjLiS45EoCFikFM553e74LYTpolxAByfpAjEqfR
- BIDY8IYmMMg2IOQD/7bzZ20B/EOA6SMfhBoyKa+jqA==
-X-Google-Smtp-Source: ABdhPJxHDPQtTTZrTbY1UZTbWSdu5PQ3WiVqQT+/t87lD4d4Ysa2XPJ/+sSgBPjyp+BLtkMVXpvAwGoDl0RydJrSoIw=
-X-Received: by 2002:a7b:cf18:: with SMTP id l24mr4400512wmg.116.1595948713057; 
- Tue, 28 Jul 2020 08:05:13 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3D81F22CBB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:05:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1595948713;
+ bh=Kd8bN9GSVqE1wEKIElJMHffTgXE/l8rxxPq8mJwpeDc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=cZ35l4imPETNfoE5SAGb6RI4G+j2qL/PGEF5B3hSK2uhOA9PtCfR+xbsDVzixo1A2
+ U1mWrKtnqnlRfjDgl7t0mtPTxggBuCYWqyzYUs26F3x7aNYdNe8/4jg/uEpfOnQw5/
+ zrPVm7uSz9hQXzOElm8GvRBKIkq0xJ4UsaYV83Oo=
+Received: by mail-yb1-f175.google.com with SMTP id g6so10760974ybo.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:05:13 -0700 (PDT)
+X-Gm-Message-State: AOAM532VeEeIsEhB/vo3AV60uVy7C2rXxHC21iUH/UjIIJ1Csw6nuo/1
+ 8IRirWSwbLEQ9Uafb+K7aJ/ojk+MVXo4NCSTxw==
+X-Google-Smtp-Source: ABdhPJzpT0pH6HVQkOv8owk366/uYwD6THy4gI9lAaDuq4nkmUj1h5EG+A9f/h2y+Y7mXLtporGnSUp4PvHzrT0otbo=
+X-Received: by 2002:a9d:4002:: with SMTP id m2mr24910491ote.129.1595948711211; 
+ Tue, 28 Jul 2020 08:05:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <496aecbe04aa460572d4ff02a64e77ca01368316.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <496aecbe04aa460572d4ff02a64e77ca01368316.1594230107.git-series.maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 16:04:55 +0100
-Message-ID: <CAPY8ntDwJfBFLmJA8cHpkKXu5EicsZWoa8f7Pvh8jPuXYQ_ScQ@mail.gmail.com>
-Subject: Re: [PATCH v4 71/78] drm/vc4: hdmi: Implement finer-grained hooks
-To: Maxime Ripard <maxime@cerno.tech>
+References: <20200724203407.16972-1-james.quinlan@broadcom.com>
+ <20200724203407.16972-9-james.quinlan@broadcom.com>
+In-Reply-To: <20200724203407.16972-9-james.quinlan@broadcom.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 28 Jul 2020 09:04:59 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+9QE_uz+81O-Bm3xycSrJptx0xmwpPdP3x65KG00ugDQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+9QE_uz+81O-Bm3xycSrJptx0xmwpPdP3x65KG00ugDQ@mail.gmail.com>
+Subject: Re: [PATCH v9 08/12] device core: Introduce DMA range map,
+ supplanting dma_pfn_offset
+To: Jim Quinlan <james.quinlan@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,141 +55,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
+Cc: Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ PCI <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Borislav Petkov <bp@alien8.de>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
-
-On Wed, 8 Jul 2020 at 18:44, Maxime Ripard <maxime@cerno.tech> wrote:
+On Fri, Jul 24, 2020 at 2:45 PM Jim Quinlan <james.quinlan@broadcom.com> wrote:
 >
-> In order to prevent some pixels getting stuck in an unflushable FIFO on
-> bcm2711, we need to enable the HVS, the pixelvalve (the CRTC) and the HDMI
-> controller (the encoder) in an intertwined way, and with tight delays.
+> The new field 'dma_range_map' in struct device is used to facilitate the
+> use of single or multiple offsets between mapping regions of cpu addrs and
+> dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
+> capable of holding a single uniform offset and had no region bounds
+> checking.
 >
-> However, the atomic callbacks don't really provide a way to work with
-> either constraints, so we need to roll our own callbacks so that we can
-> provide those guarantees.
+> The function of_dma_get_range() has been modified so that it takes a single
+> argument -- the device node -- and returns a map, NULL, or an error code.
+> The map is an array that holds the information regarding the DMA regions.
+> Each range entry contains the address offset, the cpu_start address, the
+> dma_start address, and the size of the region.
 >
-> Since those callbacks have been implemented and called in the CRTC code, we
-> can just implement them in the HDMI driver now.
+> of_dma_configure() is the typical manner to set range offsets but there are
+> a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
+> driver code.  These cases now invoke the function
+> dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
 >
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
+> Signed-off-by: Jim Quinlan <james.quinlan@broadcom.com>
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 39 +++++++++++++++++++++++++++++++----
->  1 file changed, 35 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 00592c1ada73..bbe521ab000b 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -320,12 +320,17 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
->                 vc4_hdmi_set_audio_infoframe(encoder);
+
+[...]
+
+> diff --git a/drivers/of/address.c b/drivers/of/address.c
+> index 8eea3f6e29a4..4b718d199efe 100644
+> --- a/drivers/of/address.c
+> +++ b/drivers/of/address.c
+> @@ -918,33 +918,33 @@ void __iomem *of_io_request_and_map(struct device_node *np, int index,
 >  }
+>  EXPORT_SYMBOL(of_io_request_and_map);
 >
-> -static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
-> +static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder)
+> +#ifdef CONFIG_HAS_DMA
+>  /**
+> - * of_dma_get_range - Get DMA range info
+> + * of_dma_get_range - Get DMA range info and put it into a map array
+>   * @np:                device node to get DMA range info
+> - * @dma_addr:  pointer to store initial DMA address of DMA range
+> - * @paddr:     pointer to store initial CPU address of DMA range
+> - * @size:      pointer to store size of DMA range
+> + * @map:       dma range structure to return
+>   *
+>   * Look in bottom up direction for the first "dma-ranges" property
+> - * and parse it.
+> - *  dma-ranges format:
+> + * and parse it.  Put the information into a DMA offset map array.
+> + *
+> + * dma-ranges format:
+>   *     DMA addr (dma_addr)     : naddr cells
+>   *     CPU addr (phys_addr_t)  : pna cells
+>   *     size                    : nsize cells
+>   *
+> - * It returns -ENODEV if "dma-ranges" property was not found
+> - * for this device in DT.
+> + * It returns -ENODEV if "dma-ranges" property was not found for this
+> + * device in the DT.
+>   */
+> -int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *size)
+> +int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
 >  {
->         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> -       int ret;
->
->         HDMI_WRITE(HDMI_RAM_PACKET_CONFIG, 0);
-> +}
-> +
-> +static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder)
-> +{
-> +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+>         struct device_node *node = of_node_get(np);
+>         const __be32 *ranges = NULL;
+> -       int len;
+> -       int ret = 0;
+>         bool found_dma_ranges = false;
+>         struct of_range_parser parser;
+>         struct of_range range;
+> -       u64 dma_start = U64_MAX, dma_end = 0, dma_offset = 0;
+> +       struct bus_dma_region *r;
+> +       int len, num_ranges = 0;
 > +       int ret;
 >
->         if (vc4_hdmi->variant->phy_disable)
->                 vc4_hdmi->variant->phy_disable(vc4_hdmi);
-> @@ -341,6 +346,10 @@ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
->                 DRM_ERROR("Failed to release power domain: %d\n", ret);
->  }
->
-> +static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
-> +{
-> +}
-> +
->  static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
->  {
->         u32 csc_ctl;
-> @@ -449,11 +458,10 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
->                   "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
->  }
->
-> -static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
-> +static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
->  {
->         struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
->         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> -       struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
->         unsigned long pixel_rate, hsm_rate;
->         int ret;
->
-> @@ -521,6 +529,13 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
->
->         if (vc4_hdmi->variant->set_timings)
->                 vc4_hdmi->variant->set_timings(vc4_hdmi, mode);
-> +}
-> +
-> +static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder)
-> +{
-> +       struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
-> +       struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-> +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
->
->         if (vc4_encoder->hdmi_monitor &&
->             drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED) {
-> @@ -536,6 +551,13 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+>         while (node) {
+>                 ranges = of_get_property(node, "dma-ranges", &len);
+> @@ -970,44 +970,35 @@ int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *siz
 >         }
 >
->         HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
-> +}
+>         of_dma_range_parser_init(&parser, node);
+> +       for_each_of_range(&parser, &range)
+> +               num_ranges++;
 > +
-> +static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder)
-> +{
-> +       struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-> +       struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-> +       int ret;
->
->         HDMI_WRITE(HDMI_VID_CTL,
->                    HDMI_READ(HDMI_VID_CTL) |
-> @@ -582,6 +604,10 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
->         vc4_hdmi_recenter_fifo(vc4_hdmi);
->  }
->
-> +static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
-> +{
-> +}
+> +       of_dma_range_parser_init(&parser, node);
 > +
->  static enum drm_mode_status
->  vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
->                             const struct drm_display_mode *mode)
-> @@ -1362,6 +1388,11 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->         dev_set_drvdata(dev, vc4_hdmi);
->         encoder = &vc4_hdmi->encoder.base.base;
->         vc4_hdmi->encoder.base.type = variant->encoder_type;
-> +       vc4_hdmi->encoder.base.pre_crtc_configure = vc4_hdmi_encoder_pre_crtc_configure;
-> +       vc4_hdmi->encoder.base.pre_crtc_enable = vc4_hdmi_encoder_pre_crtc_enable;
-> +       vc4_hdmi->encoder.base.post_crtc_enable = vc4_hdmi_encoder_post_crtc_enable;
-> +       vc4_hdmi->encoder.base.post_crtc_disable = vc4_hdmi_encoder_post_crtc_disable;
-> +       vc4_hdmi->encoder.base.post_crtc_powerdown = vc4_hdmi_encoder_post_crtc_powerdown;
->         vc4_hdmi->pdev = pdev;
->         vc4_hdmi->variant = variant;
->
-> --
-> git-series 0.9.1
+> +       ret = -ENOMEM;
+> +       r = kcalloc(num_ranges + 1, sizeof(*r), GFP_KERNEL);
+> +       if (!r)
+> +               goto out;
+
+AFAICT, you have the error cases covered, but you are leaking memory
+if the device is removed.
+
+[...]
+
+> diff --git a/drivers/remoteproc/remoteproc_core.c b/drivers/remoteproc/remoteproc_core.c
+> index 9f04c30c4aaf..49242dd6176e 100644
+> --- a/drivers/remoteproc/remoteproc_core.c
+> +++ b/drivers/remoteproc/remoteproc_core.c
+> @@ -519,7 +519,7 @@ static int rproc_handle_vdev(struct rproc *rproc, struct fw_rsc_vdev *rsc,
+>         /* Initialise vdev subdevice */
+>         snprintf(name, sizeof(name), "vdev%dbuffer", rvdev->index);
+>         rvdev->dev.parent = &rproc->dev;
+> -       rvdev->dev.dma_pfn_offset = rproc->dev.parent->dma_pfn_offset;
+> +       rvdev->dev.dma_range_map = rproc->dev.parent->dma_range_map;
+
+But doing this means you can't just free the dma_range_map. You need
+to do a copy here or you'd have to refcount it. Or I suppose you could
+check if it the child has a different dma_range_map ptr than the
+parent.
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
