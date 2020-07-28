@@ -1,56 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBDE2307D5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 12:40:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E92230858
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 13:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2788C6E25D;
-	Tue, 28 Jul 2020 10:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8156E264;
+	Tue, 28 Jul 2020 11:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2316E25D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 10:40:55 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a5so7816559wrm.6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lnyqa9+3UN7p5XZc/yQA8t0Ef1omNto0wwGE8iK64Ps=;
- b=e3aiC4Ga9fB5qgGr4vSAQOSNMC2YJanljK0xzwO/FP4PPvt4fKWeox5e9QSIaR9h96
- IbzHkgQBD67HcVVpAT47x4pZJXUzgKMfdJlOxVMfudCxZyMV0H898UN41v99WtdO3FXg
- 5y2BC0wmfHDqg/T0lvaFMrwADmgBol2r9uPe+XHXoBpp5gdJqNKp7s8cDbQv82rk7iBn
- HO+sWneuhPvWCe9pdI2njLORejD4fY2xkXz8bODjpslSW65Cj22z/lxln2Lg+enHw4Gz
- fkihrFRGvRXdQDemmYZoELVUnUzb1ZKsGVAZYFfq3lGyEmGQzKxGxzaEfhuZBqlXRq6c
- 8+dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lnyqa9+3UN7p5XZc/yQA8t0Ef1omNto0wwGE8iK64Ps=;
- b=WqCAo8Dg1QLRt1e0rFMRUWHZ12CmqE7lAfNhvMJAR1rtFRh53WbG2Kekf3t2sFaJ+7
- byJXerKTXN+g9j1ySRbGLDAkmkGrl3zeyAXufVIomPMo9m/tTH/C6WUHrHwzEk1qTu8I
- ZcX+kodp2otM/XRz6ybbQceqZj94Xk2aX2nnE0UxGX90A0xbj6dx/CEh0MSUG1+ZdFMc
- OW2mbapaxSVp2h/bQq/UqCYEW97E4ltQ2yfxzL3X6hzeNEHKPVp631ZHnhDFpQMVBqSl
- +3VquAubdCJkx0rjgyXYB+DofRNFtSCkS9SfcrkpLci61lHy6sYgVBPigviIew0Nf6zk
- N90A==
-X-Gm-Message-State: AOAM533qXAYQcEBjEYugmmMPF6Owwm+v8zdEv/EPKAPMJKVZG8TFr/a5
- VtTwomrnIXsPq9QI7C8y2OWbn6dON1SD/Qwd0b+m0Q==
-X-Google-Smtp-Source: ABdhPJwkPgquSiZ/upn1u2Q3I/tb+BHEawcLufuM8QtrW8LQqxXEhYjzDPG3DmSmELIhw4QHnc6qRbH4fzIAr0B2i1Q=
-X-Received: by 2002:a5d:6681:: with SMTP id l1mr23292071wru.47.1595932854229; 
- Tue, 28 Jul 2020 03:40:54 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEBE6E264;
+ Tue, 28 Jul 2020 11:04:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E0F67AC82;
+ Tue, 28 Jul 2020 11:04:58 +0000 (UTC)
+Date: Tue, 28 Jul 2020 13:04:46 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20200728110446.GA8076@linux-uq9g>
 MIME-Version: 1.0
-References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <03aa26eb5be1c558e3048a3b4ff3214856d5c490.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <03aa26eb5be1c558e3048a3b4ff3214856d5c490.1594230107.git-series.maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 11:40:37 +0100
-Message-ID: <CAPY8ntDeMAuDb1ZWj59+14ZQVqDjM7X+E312Lymm0P8LHFx0Yg@mail.gmail.com>
-Subject: Re: [PATCH v4 27/78] drm/vc4: crtc: Move HVS channel init before the
- PV initialisation
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +35,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+Hi Dave and Daniel,
 
-On Wed, 8 Jul 2020 at 18:43, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> In order to avoid stale pixels getting stuck in an intermediate FIFO
-> between the HVS and the pixelvalve on BCM2711, we need to configure the HVS
-> channel before the pixelvalve is reset and configured.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+here's this week's PR for drm-misc-fixes. It's mostly driver stuff.
+There's one fix in the GEM ioctl code, but it has no impact on the
+UAPI.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Best regards
+Thomas
 
-> ---
->  drivers/gpu/drm/vc4/vc4_crtc.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-> index 2c5ff45dc315..b7b0e19e2fe1 100644
-> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> @@ -427,10 +427,6 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
->
->         require_hvs_enabled(dev);
->
-> -       vc4_crtc_config_pv(crtc);
-> -
-> -       CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
-> -
->         /* Enable vblank irq handling before crtc is started otherwise
->          * drm_crtc_get_vblank() fails in vc4_crtc_update_dlist().
->          */
-> @@ -438,6 +434,10 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
->
->         vc4_hvs_atomic_enable(crtc, old_state);
->
-> +       vc4_crtc_config_pv(crtc);
-> +
-> +       CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
-> +
->         /* When feeding the transposer block the pixelvalve is unneeded and
->          * should not be enabled.
->          */
-> --
-> git-series 0.9.1
+drm-misc-fixes-2020-07-28:
+ * drm: fix possible use-after-free
+ * dbi: fix SPI Type 1 transfer
+ * drm_fb_helper: use memcpy_io on bochs' sparc64
+ * mcde: fix stability
+ * panel: fix display noise on auo,kd101n80-45na
+ * panel: delay HPD checks for boe_nv133fhm_n61
+ * bridge: drop connector check in nwl-dsi bridge
+ * bridge: set proper bridge type for adv7511
+ * of: fix a double free
+The following changes since commit f3f90c6db188d437add55aaffadd5ad5bcb8cda6:
+
+  drm/lima: fix wait pp reset timeout (2020-07-20 08:46:06 +0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-07-28
+
+for you to fetch changes up to 8490d6a7e0a0a6fab5c2d82d57a3937306660864:
+
+  drm: hold gem reference until object is no longer accessed (2020-07-27 22=
+:05:51 +0200)
+
+----------------------------------------------------------------
+ * drm: fix possible use-after-free
+ * dbi: fix SPI Type 1 transfer
+ * drm_fb_helper: use memcpy_io on bochs' sparc64
+ * mcde: fix stability
+ * panel: fix display noise on auo,kd101n80-45na
+ * panel: delay HPD checks for boe_nv133fhm_n61
+ * bridge: drop connector check in nwl-dsi bridge
+ * bridge: set proper bridge type for adv7511
+ * of: fix a double free
+
+----------------------------------------------------------------
+Biju Das (1):
+      drm: of: Fix double-free bug
+
+Douglas Anderson (1):
+      drm: panel: simple: Delay HPD checking on boe_nv133fhm_n61 for 15 ms
+
+Guido G=FCnther (1):
+      drm/bridge: nwl-dsi: Drop DRM_BRIDGE_ATTACH_NO_CONNECTOR check.
+
+Jitao Shi (1):
+      drm/panel: Fix auo, kd101n80-45na horizontal noise on edges of panel
+
+Laurentiu Palcu (1):
+      drm/bridge/adv7511: set the bridge type properly
+
+Linus Walleij (1):
+      drm/mcde: Fix stability issue
+
+Paul Cercueil (1):
+      drm/dbi: Fix SPI Type 1 (9-bit) transfer
+
+Sam Ravnborg (1):
+      drm/drm_fb_helper: fix fbdev with sparc64
+
+Steve Cohen (1):
+      drm: hold gem reference until object is no longer accessed
+
+ drivers/gpu/drm/bochs/bochs_kms.c              |  1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c   |  1 +
+ drivers/gpu/drm/bridge/nwl-dsi.c               |  5 -----
+ drivers/gpu/drm/drm_fb_helper.c                |  6 +++++-
+ drivers/gpu/drm/drm_gem.c                      | 10 ++++------
+ drivers/gpu/drm/drm_mipi_dbi.c                 |  2 +-
+ drivers/gpu/drm/drm_of.c                       |  4 +---
+ drivers/gpu/drm/mcde/mcde_display.c            | 11 ++++++++---
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c |  6 +++---
+ drivers/gpu/drm/panel/panel-simple.c           | 16 +++++++++++++++-
+ include/drm/drm_mode_config.h                  | 12 ++++++++++++
+ 11 files changed, 51 insertions(+), 23 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
