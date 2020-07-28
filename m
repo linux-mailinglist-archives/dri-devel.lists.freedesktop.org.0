@@ -1,91 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983B02311AD
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 20:27:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD38B231236
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:11:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A88A86E233;
-	Tue, 28 Jul 2020 18:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B886E223;
+	Tue, 28 Jul 2020 19:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6C986E154;
- Tue, 28 Jul 2020 18:27:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fif0YAqk4Mev2v01dTcschw+tmsNGMtkFBkOwmHXvGv498qp8bUxkAillEQ9OPBX2Okho7Ug2Y+YrFpSquzeGlZIs/BWs8L+m4cpcE8IiHSat7eQqg20mrggPW+U0K3sNZg1pE84UZUpMJhoJLPaG672cdy3xXlYR1v8J/Y/dhj4kkjw5ih85j6jZDkg7w5WsI5IsfnYMdTMqxUyZs9aGVfwfz2n2aqs1PSi75hCng8LoL5MlnTAd9FWb2373EMbWAuIT1bv9xiIN46L1irjfcBzAl3h7wuXP7DUIj51UOw06PdMThXSQXNCEKYxRjkBspRj4SxdGHGx8xbwj3U2DQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xj76NlbQtHa5GnOgWFLbcC9Z4E/GrwaORMJ/bC2UTpU=;
- b=Rt/k8heobZvXJhojdRVKhYeiOHgwlKowNjcKuBkF9iCR/RM1uau7gVqSx52v1lIksaJwiIYdEwnKQxs9OaF1jEkkXjmDOychVKIr/IzJYOkzW0V4Kv2abi+BP45MYGfOv28UJzf+OLJrmiNS4rhOwnrDiVQNDP8NqXvSRJrX44wrk7/bkSZTl01dlf3aJxG2JQKASjkDwfiPbtjrBJpzpp2xeA3ZJjckbRgeGiWGs/R6DjIsJi+UHRTh+JFV05t7QAsteyjt5M3wCDB+623/Ic1wDWJ1xtu29m9YuOft+i2hNBb98KMCOhmeXt51SH8AnxUXTwuIexTv+rof49DupQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xj76NlbQtHa5GnOgWFLbcC9Z4E/GrwaORMJ/bC2UTpU=;
- b=XiKZSThCW28X7CZ8YW3fr22bqA0mjslErdcT6UpiMHCMF0++nb3Zl73UChiNJcZUQAeiri4W8hE8h+/mHjeCnoHu291dvtDwE8miAi539llX9yBhdaWIB1DjXZtqrr16teWI1py9jjFet4Qv5/7fOS6ee+AhCjtjHEPWloyIcAQ=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2414.namprd12.prod.outlook.com (2603:10b6:802:2e::31)
- by SA0PR12MB4446.namprd12.prod.outlook.com (2603:10b6:806:71::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Tue, 28 Jul
- 2020 18:27:37 +0000
-Received: from SN1PR12MB2414.namprd12.prod.outlook.com
- ([fe80::5d1d:887c:3ba6:1d0d]) by SN1PR12MB2414.namprd12.prod.outlook.com
- ([fe80::5d1d:887c:3ba6:1d0d%7]) with mapi id 15.20.3216.034; Tue, 28 Jul 2020
- 18:27:37 +0000
-From: Felix Kuehling <Felix.Kuehling@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 1/1] drm/ttm: fix offset in VMAs with a pg_offs in
- ttm_bo_vm_access
-Date: Tue, 28 Jul 2020 14:27:04 -0400
-Message-Id: <20200728182704.1809-1-Felix.Kuehling@amd.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: YTOPR0101CA0059.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:14::36) To SN1PR12MB2414.namprd12.prod.outlook.com
- (2603:10b6:802:2e::31)
+Received: from us-smtp-delivery-1.mimecast.com
+ (us-smtp-delivery-1.mimecast.com [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C51C6E223
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 19:11:43 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-Unsaxz2YNsWibC85Jw977A-1; Tue, 28 Jul 2020 15:11:37 -0400
+X-MC-Unique: Unsaxz2YNsWibC85Jw977A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04053100CCC5;
+ Tue, 28 Jul 2020 19:11:36 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.32.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06D1660BF4;
+ Tue, 28 Jul 2020 19:11:34 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm/amdgpu: consolidate ttm reserve paths
+Date: Wed, 29 Jul 2020 05:11:33 +1000
+Message-Id: <20200728191133.28590-1-airlied@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (165.204.54.211) by
- YTOPR0101CA0059.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::36) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
- Transport; Tue, 28 Jul 2020 18:27:35 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [165.204.54.211]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fc47273a-616e-4986-db09-08d83323e714
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4446:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4446E7FED391B3B62F7E15DE92730@SA0PR12MB4446.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LBUBws/d87h9RkT3xCs+kHyNRDsO33CuCmSn0b4KH4ibQ+/Y8UKAla/ZqiOTIT0Qv6IvnRLjN/09jl00g5OeJNpIb+9TiJgGJOs++0VIo7JkJTcLpdPOJbIk1EC5lHdkAurDD84TEAKlImveLU0ICdqZ6iVcvXDo9ZP15Z0y6wy5lwl+Bf2fMPDUAkwG8uBJJ77X5k/X3Lk/dLOwSPx5x0tXRxZIGLQBWH58h6Athp3OpJOAnhl/edgP7CsytMvtk88jqR9M6rfb+ktCxZbFA3QMr32x6yj1uFhFj4w905REVmoAKbsIXI82VSl2t/nICJuNNCZmzRT2SMYZ40hqvVKUVVy4KuQ6MTF7RjVt4khidUCDcYQdwnjqZ/9JFbHv
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2414.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(366004)(396003)(376002)(136003)(346002)(316002)(478600001)(4326008)(6512007)(2906002)(8936002)(8676002)(450100002)(83380400001)(2616005)(66476007)(6486002)(66946007)(6666004)(5660300002)(26005)(16526019)(186003)(1076003)(6506007)(52116002)(956004)(36756003)(86362001)(66556008)(69590400007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: ANtRZOAMQFk5s7J+csAp3IRNWhAlFeAPfFbnbjCnqAl65GQ/pt0UL17lEVIAeNgwRRXwKw/D0WXp5IXIMyK5MG3XbrQMf8mbT79U+az6/PxaPu3gtJF0sDxwqCFENLmIZcAD2dvzHgfWHyUGxWQWnCTcbMrNEh+7sRl5Q9zUezE1SAVrwHKutocHRZYcAlXaY8ogCmFZtAGCh8l7Uo4KIeLnShRVI39v5Bam20Z3KPbMJeM1z9jQEtPxDK7ePGSsRHb8h5izmcuI/WmQ6HavicJ/gtkxgjWx8eXooWNgUT61iCwHf3h2psZVNx9QhzZDgNKk1Qtey+WGrdqUtqJfTJ3IrirPjkXA4s2VSLujOwodXGJIgH+c1QqMKY1XTLcJlcVz/GylXC6DC0s95pJnfFozua5srv1xP/ql/a85yOyaAZP0vXzxPTiLjekVZ+Br9KaDNULNO1lkrL4+HDeiPY89NdVzg30t2KAT4dOE8o24gH6QbqlN07yZy4Tcxvc+
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc47273a-616e-4986-db09-08d83323e714
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2414.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2020 18:27:36.9539 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YtZh1/WyKwdEM/pQ18jb8eeF+koXfl87E//z3edRKdc86kcM2dHhMU45xw+oO+iNRXQzMOxik5jyJN42/0U/jg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4446
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,40 +47,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: laurent.morichetti@amd.com
+Cc: christian.koenig@amd.com, bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VMAs with a pg_offs that's offset from the start of the vma_node need
-to adjust the offset within the BO accordingly. This matches the
-offset calculation in ttm_bo_vm_fault_reserved.
+From: Dave Airlie <airlied@redhat.com>
 
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Tested-by: Laurent Morichetti <laurent.morichetti@amd.com>
+Drop the WARN_ON and consolidate the two paths into one.
+
+Use the consolidate slowpath in the execbuf utils code.
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_vm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  2 +-
+ drivers/gpu/drm/ttm/ttm_execbuf_util.c     | 12 +--
+ include/drm/ttm/ttm_bo_driver.h            | 91 ++++------------------
+ 3 files changed, 20 insertions(+), 85 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 389128b8c4dd..60b41447bec8 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -405,8 +405,10 @@ static int ttm_bo_vm_access_kmap(struct ttm_buffer_object *bo,
- int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
- 		     void *buf, int len, int write)
- {
--	unsigned long offset = (addr) - vma->vm_start;
- 	struct ttm_buffer_object *bo = vma->vm_private_data;
-+	unsigned long offset = (addr) - vma->vm_start +
-+		((vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node))
-+		 << PAGE_SHIFT);
- 	int ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+index afa5189dba7d..e01e8903741e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+@@ -160,7 +160,7 @@ static inline int amdgpu_bo_reserve(struct amdgpu_bo *bo, bool no_intr)
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+ 	int r;
  
- 	if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->num_pages)
+-	r = __ttm_bo_reserve(&bo->tbo, !no_intr, false, NULL);
++	r = ttm_bo_reserve(&bo->tbo, !no_intr, false, NULL);
+ 	if (unlikely(r != 0)) {
+ 		if (r != -ERESTARTSYS)
+ 			dev_err(adev->dev, "%p reserve failed\n", bo);
+diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+index 1797f04c0534..8a8f1a6a83a6 100644
+--- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
++++ b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+@@ -93,7 +93,7 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+ 	list_for_each_entry(entry, list, head) {
+ 		struct ttm_buffer_object *bo = entry->bo;
+ 
+-		ret = __ttm_bo_reserve(bo, intr, (ticket == NULL), ticket);
++		ret = ttm_bo_reserve(bo, intr, (ticket == NULL), ticket);
+ 		if (ret == -EALREADY && dups) {
+ 			struct ttm_validate_buffer *safe = entry;
+ 			entry = list_prev_entry(entry, head);
+@@ -119,13 +119,7 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+ 		ttm_eu_backoff_reservation_reverse(list, entry);
+ 
+ 		if (ret == -EDEADLK) {
+-			if (intr) {
+-				ret = dma_resv_lock_slow_interruptible(bo->base.resv,
+-										 ticket);
+-			} else {
+-				dma_resv_lock_slow(bo->base.resv, ticket);
+-				ret = 0;
+-			}
++			ret = ttm_bo_reserve_slowpath(bo, intr, ticket);
+ 		}
+ 
+ 		if (!ret && entry->num_shared)
+@@ -133,8 +127,6 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+ 								entry->num_shared);
+ 
+ 		if (unlikely(ret != 0)) {
+-			if (ret == -EINTR)
+-				ret = -ERESTARTSYS;
+ 			if (ticket) {
+ 				ww_acquire_done(ticket);
+ 				ww_acquire_fini(ticket);
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 5a37f1cc057e..bfa9d146d3d4 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -597,29 +597,30 @@ int ttm_mem_io_lock(struct ttm_mem_type_manager *man, bool interruptible);
+ void ttm_mem_io_unlock(struct ttm_mem_type_manager *man);
+ 
+ /**
+- * __ttm_bo_reserve:
++ * ttm_bo_reserve:
+  *
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @interruptible: Sleep interruptible if waiting.
+  * @no_wait: Don't sleep while trying to reserve, rather return -EBUSY.
+  * @ticket: ticket used to acquire the ww_mutex.
+  *
+- * Will not remove reserved buffers from the lru lists.
+- * Otherwise identical to ttm_bo_reserve.
++ * Locks a buffer object for validation. (Or prevents other processes from
++ * locking it for validation), while taking a number of measures to prevent
++ * deadlocks.
+  *
+  * Returns:
+  * -EDEADLK: The reservation may cause a deadlock.
+  * Release all buffer reservations, wait for @bo to become unreserved and
+- * try again. (only if use_sequence == 1).
++ * try again.
+  * -ERESTARTSYS: A wait for the buffer to become unreserved was interrupted by
+  * a signal. Release all buffer reservations and return to user-space.
+  * -EBUSY: The function needed to sleep, but @no_wait was true
+  * -EALREADY: Bo already reserved using @ticket. This error code will only
+  * be returned if @use_ticket is set to true.
+  */
+-static inline int __ttm_bo_reserve(struct ttm_buffer_object *bo,
+-				   bool interruptible, bool no_wait,
+-				   struct ww_acquire_ctx *ticket)
++static inline int ttm_bo_reserve(struct ttm_buffer_object *bo,
++				 bool interruptible, bool no_wait,
++				 struct ww_acquire_ctx *ticket)
+ {
+ 	int ret = 0;
+ 
+@@ -641,59 +642,6 @@ static inline int __ttm_bo_reserve(struct ttm_buffer_object *bo,
+ 	return ret;
+ }
+ 
+-/**
+- * ttm_bo_reserve:
+- *
+- * @bo: A pointer to a struct ttm_buffer_object.
+- * @interruptible: Sleep interruptible if waiting.
+- * @no_wait: Don't sleep while trying to reserve, rather return -EBUSY.
+- * @ticket: ticket used to acquire the ww_mutex.
+- *
+- * Locks a buffer object for validation. (Or prevents other processes from
+- * locking it for validation) and removes it from lru lists, while taking
+- * a number of measures to prevent deadlocks.
+- *
+- * Deadlocks may occur when two processes try to reserve multiple buffers in
+- * different order, either by will or as a result of a buffer being evicted
+- * to make room for a buffer already reserved. (Buffers are reserved before
+- * they are evicted). The following algorithm prevents such deadlocks from
+- * occurring:
+- * Processes attempting to reserve multiple buffers other than for eviction,
+- * (typically execbuf), should first obtain a unique 32-bit
+- * validation sequence number,
+- * and call this function with @use_ticket == 1 and @ticket->stamp == the unique
+- * sequence number. If upon call of this function, the buffer object is already
+- * reserved, the validation sequence is checked against the validation
+- * sequence of the process currently reserving the buffer,
+- * and if the current validation sequence is greater than that of the process
+- * holding the reservation, the function returns -EDEADLK. Otherwise it sleeps
+- * waiting for the buffer to become unreserved, after which it retries
+- * reserving.
+- * The caller should, when receiving an -EDEADLK error
+- * release all its buffer reservations, wait for @bo to become unreserved, and
+- * then rerun the validation with the same validation sequence. This procedure
+- * will always guarantee that the process with the lowest validation sequence
+- * will eventually succeed, preventing both deadlocks and starvation.
+- *
+- * Returns:
+- * -EDEADLK: The reservation may cause a deadlock.
+- * Release all buffer reservations, wait for @bo to become unreserved and
+- * try again. (only if use_sequence == 1).
+- * -ERESTARTSYS: A wait for the buffer to become unreserved was interrupted by
+- * a signal. Release all buffer reservations and return to user-space.
+- * -EBUSY: The function needed to sleep, but @no_wait was true
+- * -EALREADY: Bo already reserved using @ticket. This error code will only
+- * be returned if @use_ticket is set to true.
+- */
+-static inline int ttm_bo_reserve(struct ttm_buffer_object *bo,
+-				 bool interruptible, bool no_wait,
+-				 struct ww_acquire_ctx *ticket)
+-{
+-	WARN_ON(!kref_read(&bo->kref));
+-
+-	return __ttm_bo_reserve(bo, interruptible, no_wait, ticket);
+-}
+-
+ /**
+  * ttm_bo_reserve_slowpath:
+  * @bo: A pointer to a struct ttm_buffer_object.
+@@ -708,20 +656,15 @@ static inline int ttm_bo_reserve_slowpath(struct ttm_buffer_object *bo,
+ 					  bool interruptible,
+ 					  struct ww_acquire_ctx *ticket)
+ {
+-	int ret = 0;
+-
+-	WARN_ON(!kref_read(&bo->kref));
+-
+-	if (interruptible)
+-		ret = dma_resv_lock_slow_interruptible(bo->base.resv,
+-								 ticket);
+-	else
+-		dma_resv_lock_slow(bo->base.resv, ticket);
+-
+-	if (ret == -EINTR)
+-		ret = -ERESTARTSYS;
+-
+-	return ret;
++	if (interruptible) {
++		int ret = dma_resv_lock_slow_interruptible(bo->base.resv,
++							   ticket);
++		if (ret == -EINTR)
++			ret = -ERESTARTSYS;
++		return ret;
++	}
++	dma_resv_lock_slow(bo->base.resv, ticket);
++	return 0;
+ }
+ 
+ /**
 -- 
-2.17.1
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
