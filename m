@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69C1230DF6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 17:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EB7230EDC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 18:08:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2201C896E9;
-	Tue, 28 Jul 2020 15:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49C296E202;
+	Tue, 28 Jul 2020 16:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF37896E9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:35:22 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id x5so17180791wmi.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vb051nwsz1oFDTdTE4PvPbZDMm4dY8V4dc54yc3QdHo=;
- b=PuqHGcghavxG+M+UxbDUYCDQiwxB7+25GHVYjurZ9tngk/RJ1pWDAOFY7K3ysgS9VQ
- B4BzobeVOmSQYj+He4fnx5XqId/M3UAmvDucszEo/pD4Ihi2ekoZRdlgB9c4x696mqZu
- 79yq9H3z2M7dsYVRTwUxwa4YuM2o4BCFSaEzj3uWQNRFJfyrEYh8Tn46dNakZSS2nA9G
- ahM+sXx2tNzOp7wK9J4c4t+QRnjLBOR9l8bPglSjslXbwy8crsA4Hp1b1mOQzdzIJgAc
- v/VYtVLFzyTZxvwPW2RurRdWRdo9mdFhex9prNIf4d5cz1d2jxyLg6aUqhRDTazyymex
- 1znw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Vb051nwsz1oFDTdTE4PvPbZDMm4dY8V4dc54yc3QdHo=;
- b=rpeze6tAtG8qrIx1wySy2vR2/b39S2B3DV4XhGmPMDO5NRfcutisHo5SElPkMGKfIS
- V25EHBFYaK8nYKXLdDWs/wKcLNOLSERyWkaqZ8S6TRid/NG0d8uO4pZJ7WSNF7fB+Xyi
- JLo7gxhHYjp4OPRxIRuO4bh93QZM5j/l2WT25A/mZd02ifvpCFqiBvmuqAxNRhnVIRXF
- Cat6rDysuVflIXDNmOh8a81rXT9D89/m2Ph0wEjiqo1oBVpponFGWQYdIkGHkq6KAzfI
- FXE2FC3uf3GlxFulNMeP583oVHpGoVKMqFNHFmcjT/WTm77EppQC/h5xeKOdpyKbXoUN
- R9eA==
-X-Gm-Message-State: AOAM531/mbeP7FWGebgHPSdXji112QnK29pwFqTOpUAmRt3g8iDFu0KL
- l2p94ARtdxmpdxKQ1/viS4BxDLvHo0zbmMHU7wXMJw==
-X-Google-Smtp-Source: ABdhPJxkm2v1Q9HSR+NTDmGwJ0bTshZraeUhWh/nyqG692TGcMn+DvulMQyNskb5tLiSZmwokmGYenx5lpXw9dARU5c=
-X-Received: by 2002:a1c:1d52:: with SMTP id d79mr2086622wmd.82.1595950521247; 
- Tue, 28 Jul 2020 08:35:21 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C456E202
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 16:08:00 +0000 (UTC)
+IronPort-SDR: M8IdoJY9/HSzCb7xdF1b9kKwfuz/qiiniPFkOIJJuAICg4mmuB3P7JFHDZf10wlOqZBDmA7rFI
+ HmGuBFaNcVDA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="236111470"
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; d="scan'208";a="236111470"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2020 09:07:58 -0700
+IronPort-SDR: wP8OAodxBTrytv1fBeXeKHuKz4e9cBYZmCFsPyGE0olmRkfom5iKCaUQS9Kq48Fj52Qs7bLU+0
+ cRo9sYhJ9oLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,406,1589266800"; d="scan'208";a="273605829"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Jul 2020 09:07:59 -0700
+Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 28 Jul 2020 09:07:58 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.75]) by
+ FMSMSX151.amr.corp.intel.com ([169.254.7.35]) with mapi id 14.03.0439.000;
+ Tue, 28 Jul 2020 09:07:52 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Dave Airlie <airlied@gmail.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+Thread-Topic: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+Thread-Index: AQHWZI7UpS1ey9WojkqxwunJ9pNPAqkdJn5g
+Date: Tue, 28 Jul 2020 16:07:52 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E866301245EE4F7@FMSMSX108.amr.corp.intel.com>
+References: <20200728032545.19878-1-airlied@gmail.com>
+In-Reply-To: <20200728032545.19878-1-airlied@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.106]
 MIME-Version: 1.0
-References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <768aa056fded89f2ee59b4bdc32223955bb8ffe2.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <768aa056fded89f2ee59b4bdc32223955bb8ffe2.1594230107.git-series.maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 16:35:06 +0100
-Message-ID: <CAPY8ntCa7C-1wcfduw2jqkWDFUYmtPZ=GdhduaidydRm_EUggA@mail.gmail.com>
-Subject: Re: [PATCH v4 78/78] ARM: dts: bcm2711: Enable the display pipeline
-To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,257 +64,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: "bskeggs@redhat.com" <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Dave Airlie
+>Sent: Monday, July 27, 2020 11:26 PM
+>To: dri-devel@lists.freedesktop.org
+>Cc: bskeggs@redhat.com
+>Subject: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+>
+>From: Dave Airlie <airlied@redhat.com>
+>
+>Instead of rolling driver copies of them.
+>
+>v2: cleanup return handling (Ben)
+>Signed-off-by: Dave Airlie <airlied@redhat.com>
+>---
+> drivers/gpu/drm/nouveau/nouveau_bo.c | 38 ++--------------------------
+> 1 file changed, 2 insertions(+), 36 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c
+>b/drivers/gpu/drm/nouveau/nouveau_bo.c
+>index 7806278dce57..6ef5085c9a91 100644
+>--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+>+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+>@@ -1231,8 +1231,6 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm,
+>struct ttm_operation_ctx *ctx)
+> 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
+> 	struct nouveau_drm *drm;
+> 	struct device *dev;
+>-	unsigned i;
+>-	int r;
+> 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+>
+> 	if (ttm->state != tt_unpopulated)
+>@@ -1260,31 +1258,7 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm,
+>struct ttm_operation_ctx *ctx)
+> 		return ttm_dma_populate((void *)ttm, dev, ctx);
+> 	}
+> #endif
+>-
+>-	r = ttm_pool_populate(ttm, ctx);
+>-	if (r) {
+>-		return r;
+>-	}
+>-
+>-	for (i = 0; i < ttm->num_pages; i++) {
+>-		dma_addr_t addr;
+>-
+>-		addr = dma_map_page(dev, ttm->pages[i], 0, PAGE_SIZE,
+>-				    DMA_BIDIRECTIONAL);
+>-
+>-		if (dma_mapping_error(dev, addr)) {
+>-			while (i--) {
+>-				dma_unmap_page(dev, ttm_dma-
+>>dma_address[i],
+>-					       PAGE_SIZE,
+>DMA_BIDIRECTIONAL);
+>-				ttm_dma->dma_address[i] = 0;
+>-			}
+>-			ttm_pool_unpopulate(ttm);
+>-			return -EFAULT;
+>-		}
+>-
+>-		ttm_dma->dma_address[i] = addr;
+>-	}
+>-	return 0;
+>+	return ttm_populate_and_map_pages(dev, ttm_dma, ctx);
 
-On Wed, 8 Jul 2020 at 18:44, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Now that all the drivers have been adjusted for it, let's bring in the
-> necessary device tree changes.
+This is not a completely straight code replacement.
 
-Possibly a comment to say that the VEC and PV3 are deliberately NOT
-enabled as the VEC requires further very specific clock setup changes?
+ttm_populate_and_map_pages() also has code to deal with pages that are
+contiguous (consolidates them).
 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Is it possible that the nouveau HW can't handle a contiguous buffer larger
+than PAG_SIZE?
 
-Otherwise
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Thanks,
 
-> ---
->  arch/arm/boot/dts/bcm2711-rpi-4-b.dts |  46 +++++++++++-
->  arch/arm/boot/dts/bcm2711.dtsi        | 115 ++++++++++++++++++++++++++-
->  2 files changed, 160 insertions(+), 1 deletion(-)
+Mike
+
+> }
 >
-> diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> index 222d7825e1ab..b93eb30e1ddb 100644
-> --- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> +++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-> @@ -68,6 +68,14 @@
->         };
->  };
+> static void
+>@@ -1293,7 +1267,6 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+> 	struct ttm_dma_tt *ttm_dma = (void *)ttm;
+> 	struct nouveau_drm *drm;
+> 	struct device *dev;
+>-	unsigned i;
+> 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
 >
-> +&ddc0 {
-> +       status = "okay";
-> +};
-> +
-> +&ddc1 {
-> +       status = "okay";
-> +};
-> +
->  &firmware {
->         firmware_clocks: clocks {
->                 compatible = "raspberrypi,firmware-clocks";
-> @@ -163,6 +171,36 @@
->                           "RGMII_TXD3";
->  };
+> 	if (slave)
+>@@ -1316,14 +1289,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+> 	}
+> #endif
 >
-> +&hdmi0 {
-> +       clocks = <&firmware_clocks 13>, <&dvp 0>;
-> +       status = "okay";
-> +};
-> +
-> +&hdmi1 {
-> +       clocks = <&firmware_clocks 13>, <&dvp 1>;
-> +       status = "okay";
-> +};
-> +
-> +&hvs {
-> +       clocks = <&firmware_clocks 4>;
-> +};
-> +
-> +&pixelvalve0 {
-> +       status = "okay";
-> +};
-> +
-> +&pixelvalve1 {
-> +       status = "okay";
-> +};
-> +
-> +&pixelvalve2 {
-> +       status = "okay";
-> +};
-> +
-> +&pixelvalve4 {
-> +       status = "okay";
-> +};
-> +
->  &pwm1 {
->         pinctrl-names = "default";
->         pinctrl-0 = <&pwm1_0_gpio40 &pwm1_1_gpio41>;
-> @@ -231,3 +269,11 @@
->  &vchiq {
->         interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
->  };
-> +
-> +&vc4 {
-> +       status = "okay";
-> +};
-> +
-> +&vec {
-> +       status = "disabled";
-> +};
-> diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-> index 00bcaed1be32..e637378650f6 100644
-> --- a/arch/arm/boot/dts/bcm2711.dtsi
-> +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> @@ -12,6 +12,11 @@
+>-	for (i = 0; i < ttm->num_pages; i++) {
+>-		if (ttm_dma->dma_address[i]) {
+>-			dma_unmap_page(dev, ttm_dma->dma_address[i],
+>PAGE_SIZE,
+>-				       DMA_BIDIRECTIONAL);
+>-		}
+>-	}
+>-
+>-	ttm_pool_unpopulate(ttm);
+>+	ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
+> }
 >
->         interrupt-parent = <&gicv2>;
+> void
+>--
+>2.26.2
 >
-> +       vc4: gpu {
-> +               compatible = "brcm,bcm2711-vc5";
-> +               status = "disabled";
-> +       };
-> +
->         clk_108MHz: clk-108M {
->                 #clock-cells = <0>;
->                 compatible = "fixed-clock";
-> @@ -238,6 +243,27 @@
->                         status = "disabled";
->                 };
->
-> +               pixelvalve0: pixelvalve@7e206000 {
-> +                       compatible = "brcm,bcm2711-pixelvalve0";
-> +                       reg = <0x7e206000 0x100>;
-> +                       interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               pixelvalve1: pixelvalve@7e207000 {
-> +                       compatible = "brcm,bcm2711-pixelvalve1";
-> +                       reg = <0x7e207000 0x100>;
-> +                       interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               pixelvalve2: pixelvalve@7e20a000 {
-> +                       compatible = "brcm,bcm2711-pixelvalve2";
-> +                       reg = <0x7e20a000 0x100>;
-> +                       interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
-> +                       status = "disabled";
-> +               };
-> +
->                 pwm1: pwm@7e20c800 {
->                         compatible = "brcm,bcm2835-pwm";
->                         reg = <0x7e20c800 0x28>;
-> @@ -248,10 +274,25 @@
->                         status = "disabled";
->                 };
->
-> -               hvs@7e400000 {
-> +               pixelvalve4: pixelvalve@7e216000 {
-> +                       compatible = "brcm,bcm2711-pixelvalve4";
-> +                       reg = <0x7e216000 0x100>;
-> +                       interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               hvs: hvs@7e400000 {
-> +                       compatible = "brcm,bcm2711-hvs";
->                         interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
->                 };
->
-> +               pixelvalve3: pixelvalve@7ec12000 {
-> +                       compatible = "brcm,bcm2711-pixelvalve3";
-> +                       reg = <0x7ec12000 0x100>;
-> +                       interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
-> +                       status = "disabled";
-> +               };
-> +
->                 dvp: clock@7ef00000 {
->                         compatible = "brcm,brcm2711-dvp";
->                         reg = <0x7ef00000 0x10>;
-> @@ -259,6 +300,78 @@
->                         #clock-cells = <1>;
->                         #reset-cells = <1>;
->                 };
-> +
-> +               hdmi0: hdmi@7ef00700 {
-> +                       compatible = "brcm,bcm2711-hdmi0";
-> +                       reg = <0x7ef00700 0x300>,
-> +                             <0x7ef00300 0x200>,
-> +                             <0x7ef00f00 0x80>,
-> +                             <0x7ef00f80 0x80>,
-> +                             <0x7ef01b00 0x200>,
-> +                             <0x7ef01f00 0x400>,
-> +                             <0x7ef00200 0x80>,
-> +                             <0x7ef04300 0x100>,
-> +                             <0x7ef20000 0x100>;
-> +                       reg-names = "hdmi",
-> +                                   "dvp",
-> +                                   "phy",
-> +                                   "rm",
-> +                                   "packet",
-> +                                   "metadata",
-> +                                   "csc",
-> +                                   "cec",
-> +                                   "hd";
-> +                       clock-names = "hdmi", "clk-108M";
-> +                       resets = <&dvp 0>;
-> +                       ddc = <&ddc0>;
-> +                       dmas = <&dma 10>;
-> +                       dma-names = "audio-rx";
-> +                       status = "disabled";
-> +               };
-> +
-> +               ddc0: i2c@7ef04500 {
-> +                       compatible = "brcm,bcm2711-hdmi-i2c";
-> +                       reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
-> +                       reg-names = "bsc", "auto-i2c";
-> +                       clock-frequency = <97500>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               hdmi1: hdmi@7ef05700 {
-> +                       compatible = "brcm,bcm2711-hdmi1";
-> +                       reg = <0x7ef05700 0x300>,
-> +                             <0x7ef05300 0x200>,
-> +                             <0x7ef05f00 0x80>,
-> +                             <0x7ef05f80 0x80>,
-> +                             <0x7ef06b00 0x200>,
-> +                             <0x7ef06f00 0x400>,
-> +                             <0x7ef00280 0x80>,
-> +                             <0x7ef09300 0x100>,
-> +                             <0x7ef20000 0x100>;
-> +                       reg-names = "hdmi",
-> +                                   "dvp",
-> +                                   "phy",
-> +                                   "rm",
-> +                                   "packet",
-> +                                   "metadata",
-> +                                   "csc",
-> +                                   "cec",
-> +                                   "hd";
-> +                       ddc = <&ddc1>;
-> +                       clock-names = "hdmi", "clk-108M";
-> +                       resets = <&dvp 1>;
-> +                       dmas = <&dma 17>;
-> +                       dma-names = "audio-rx";
-> +                       status = "disabled";
-> +               };
-> +
-> +               ddc1: i2c@7ef09500 {
-> +                       compatible = "brcm,bcm2711-hdmi-i2c";
-> +                       reg = <0x7ef09500 0x100>, <0x7ef05b00 0x300>;
-> +                       reg-names = "bsc", "auto-i2c";
-> +                       clock-frequency = <97500>;
-> +                       status = "disabled";
-> +               };
->         };
->
->         /*
-> --
-> git-series 0.9.1
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
