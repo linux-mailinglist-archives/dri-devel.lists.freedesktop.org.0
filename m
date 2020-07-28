@@ -1,35 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26662312B6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFAB2312B5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71E996E3C1;
-	Tue, 28 Jul 2020 19:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7116E3D2;
+	Tue, 28 Jul 2020 19:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85B8E6E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 15:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1595949410; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mCAL3uifqrwrrscsGck77s7dOI7H4T7L/Psu4vIjeNo=;
- b=ISeLpAy0gBt9aVtGQ7vMvBc4q0lHCwa/EveW3oxDGe2VLWxcbo1TZtHCNHvgG+m9slP+pt
- QLRE2x9JexqOaaYyVPYr3sCqNRyz5RizX2/BQ+8GsWcYU+HJkZZGt+lmNeSZFP7YWvtTx4
- xOVVM7wsGxQiBskNouFyBFcQMP8iNyU=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/ingenic: Validate mode in a .mode_valid callback
-Date: Tue, 28 Jul 2020 17:16:41 +0200
-Message-Id: <20200728151641.26124-3-paul@crapouillou.net>
-In-Reply-To: <20200728151641.26124-1-paul@crapouillou.net>
-References: <20200728151641.26124-1-paul@crapouillou.net>
+X-Greylist: delayed 1049 seconds by postgrey-1.36 at gabe;
+ Tue, 28 Jul 2020 17:06:03 UTC
+Received: from mail.xenproject.org (mail.xenproject.org [104.130.215.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CAA06E03A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 17:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+ s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=W/q3EC2xp/1uSlfzKWEodtbt8+Hkh9fk7Ot5gVkNxDI=; b=0EjygVLrDEeM7fxzEKp2ZCZfyW
+ cCJP1O+If5bhP4xNNzbCXDP+PxlwyNtosVREbzqftCtJMDJxbBiLcvc4YspOaTvnKcrrHu2hK0nTJ
+ 1oEy0V5ch4ZjpSEb84qfhoA5KsAiF8/udmsoizbh1NJwVVwacNWHhuOak4ho4Awlprt8=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1k0SmB-00059l-9Z; Tue, 28 Jul 2020 16:48:27 +0000
+Received: from 54-240-197-239.amazon.com ([54.240.197.239]
+ helo=a483e7b01a66.ant.amazon.com)
+ by xenbits.xenproject.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1k0SmA-0007yB-V2; Tue, 28 Jul 2020 16:48:27 +0000
+Subject: Re: [PATCH v3 4/4] xen: add helpers to allocate unpopulated memory
+To: Roger Pau Monne <roger.pau@citrix.com>, linux-kernel@vger.kernel.org
+References: <20200727091342.52325-1-roger.pau@citrix.com>
+ <20200727091342.52325-5-roger.pau@citrix.com>
+From: Julien Grall <julien@xen.org>
+Message-ID: <b5460659-88a5-c2aa-c339-815d5618bcb5@xen.org>
+Date: Tue, 28 Jul 2020 17:48:23 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200727091342.52325-5-roger.pau@citrix.com>
+Content-Language: en-GB
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,85 +58,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Wei Liu <wl@xen.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Yan Yankovskyi <yyankovskyi@gmail.com>,
+ David Hildenbrand <david@redhat.com>, dri-devel@lists.freedesktop.org,
+ Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Validate modes in the drm_crtc_helper_funcs.mode_valid() callback, which
-is designed for this purpose, instead of doing it in
-drm_crtc_helper_funcs.atomic_check().
+Hi,
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 34 +++++++++++++----------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+On 27/07/2020 10:13, Roger Pau Monne wrote:
+> To be used in order to create foreign mappings. This is based on the
+> ZONE_DEVICE facility which is used by persistent memory devices in
+> order to create struct pages and kernel virtual mappings for the IOMEM
+> areas of such devices. Note that on kernels without support for
+> ZONE_DEVICE Xen will fallback to use ballooned pages in order to
+> create foreign mappings.
+> 
+> The newly added helpers use the same parameters as the existing
+> {alloc/free}_xenballooned_pages functions, which allows for in-place
+> replacement of the callers. Once a memory region has been added to be
+> used as scratch mapping space it will no longer be released, and pages
+> returned are kept in a linked list. This allows to have a buffer of
+> pages and prevents resorting to frequent additions and removals of
+> regions.
+> 
+> If enabled (because ZONE_DEVICE is supported) the usage of the new
+> functionality untangles Xen balloon and RAM hotplug from the usage of
+> unpopulated physical memory ranges to map foreign pages, which is the
+> correct thing to do in order to avoid mappings of foreign pages depend
+> on memory hotplug.
+I think this is going to break Dom0 on Arm if the kernel has been built 
+with hotplug. This is because you may end up to re-use region that will 
+be used for the 1:1 mapping of a foreign map.
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 64eabab3ef69..5dab9c3d0a52 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -199,21 +199,8 @@ static int ingenic_drm_crtc_atomic_check(struct drm_crtc *crtc,
- {
- 	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
- 	struct drm_plane_state *f1_state, *f0_state, *ipu_state = NULL;
--	long rate;
--
--	if (!drm_atomic_crtc_needs_modeset(state))
--		return 0;
--
--	if (state->mode.hdisplay > priv->soc_info->max_width ||
--	    state->mode.vdisplay > priv->soc_info->max_height)
--		return -EINVAL;
- 
--	rate = clk_round_rate(priv->pix_clk,
--			      state->adjusted_mode.clock * 1000);
--	if (rate < 0)
--		return rate;
--
--	if (priv->soc_info->has_osd) {
-+	if (drm_atomic_crtc_needs_modeset(state) && priv->soc_info->has_osd) {
- 		f1_state = drm_atomic_get_plane_state(state->state, &priv->f1);
- 		if (IS_ERR(f1_state))
- 			return PTR_ERR(f1_state);
-@@ -242,6 +229,24 @@ static int ingenic_drm_crtc_atomic_check(struct drm_crtc *crtc,
- 	return 0;
- }
- 
-+static enum drm_mode_status
-+ingenic_drm_crtc_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
-+{
-+	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
-+	long rate;
-+
-+	if (mode->hdisplay > priv->soc_info->max_width)
-+		return MODE_BAD_HVALUE;
-+	if (mode->vdisplay > priv->soc_info->max_height)
-+		return MODE_BAD_VVALUE;
-+
-+	rate = clk_round_rate(priv->pix_clk, mode->clock * 1000);
-+	if (rate < 0)
-+		return MODE_CLOCK_RANGE;
-+
-+	return MODE_OK;
-+}
-+
- static void ingenic_drm_crtc_atomic_begin(struct drm_crtc *crtc,
- 					  struct drm_crtc_state *oldstate)
- {
-@@ -655,6 +660,7 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
- 	.atomic_begin		= ingenic_drm_crtc_atomic_begin,
- 	.atomic_flush		= ingenic_drm_crtc_atomic_flush,
- 	.atomic_check		= ingenic_drm_crtc_atomic_check,
-+	.mode_valid		= ingenic_drm_crtc_mode_valid,
- };
- 
- static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
+Note that I don't know whether hotplug has been tested on Xen on Arm 
+yet. So it might be possible to be already broken.
+
+Meanwhile, my suggestion would be to make the use of hotplug in the 
+balloon code conditional (maybe using CONFIG_ARM64 and CONFIG_ARM)?
+
+Cheers,
+
 -- 
-2.27.0
-
+Julien Grall
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
