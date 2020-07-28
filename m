@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4462319EC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:59:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DF42319E2
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:58:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 975966E45F;
-	Wed, 29 Jul 2020 06:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3638F6E44E;
+	Wed, 29 Jul 2020 06:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406C86E3EB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386866E179
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 20:12:54 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4BGSXL07Jtz1rt3P;
- Tue, 28 Jul 2020 22:12:50 +0200 (CEST)
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BGSXM1547z1rt3q;
+ Tue, 28 Jul 2020 22:12:51 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4BGSXK6jvvz1qrgF;
- Tue, 28 Jul 2020 22:12:49 +0200 (CEST)
+ by mail.m-online.net (Postfix) with ESMTP id 4BGSXM0fxCz1qrgD;
+ Tue, 28 Jul 2020 22:12:51 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
  by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
  port 10024)
- with ESMTP id Awy8Fra_9_tv; Tue, 28 Jul 2020 22:12:48 +0200 (CEST)
-X-Auth-Info: bz0Z08lmho0CJuiYcr5fupkQ7w14PN8sXYzYB6rkKGM=
+ with ESMTP id H4tW1MWQu4GS; Tue, 28 Jul 2020 22:12:50 +0200 (CEST)
+X-Auth-Info: tZ2E7ayQc5xagHRixlNC0K9EAJ917YdEV+9ak5rVtf0=
 Received: from desktop.lan (ip-86-49-101-166.net.upcbroadband.cz
  [86.49.101.166])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  by mail.mnet-online.de (Postfix) with ESMTPSA;
- Tue, 28 Jul 2020 22:12:48 +0200 (CEST)
+ Tue, 28 Jul 2020 22:12:50 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] dt-bindings: Add vendor prefix for Chefree
-Date: Tue, 28 Jul 2020 22:12:40 +0200
-Message-Id: <20200728201242.4336-1-marex@denx.de>
+Subject: [PATCH 2/3] dt-bindings: Add DT bindings for Chefree CH101OLHLWH-002
+Date: Tue, 28 Jul 2020 22:12:41 +0200
+Message-Id: <20200728201242.4336-2-marex@denx.de>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200728201242.4336-1-marex@denx.de>
+References: <20200728201242.4336-1-marex@denx.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 29 Jul 2020 06:58:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,7 +59,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Chefree Technology Corp. is an LCD panel manufacturer.
+Add DT bindings for Chefree CH101OLHLWH-002 10.1" 1280x800 LCD.
+This panel is connected via LVDS.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
@@ -65,22 +68,22 @@ Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: devicetree@vger.kernel.org
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 5b1343a8d198..7204e069d498 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -197,6 +197,8 @@ patternProperties:
-     description: Ceva, Inc.
-   "^checkpoint,.*":
-     description: Check Point Software Technologies Ltd.
-+  "^chefree,.*":
-+    description: Chefree Technology Corp.
-   "^chipidea,.*":
-     description: Chipidea, Inc
-   "^chipone,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 5a0af2b80aba..47247ace86ac 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -87,6 +87,8 @@ properties:
+       - cdtech,s070swv29hg-dc44
+         # CDTech(H.K.) Electronics Limited 7" 800x480 color TFT-LCD panel
+       - cdtech,s070wv95-ct16
++        # Chefree CH101OLHLWH-002 10.1" (1280x800) color TFT LCD panel
++      - chefree,ch101olhlwh-002
+         # Chunghwa Picture Tubes Ltd. 7" WXGA TFT LCD panel
+       - chunghwa,claa070wp03xg
+         # Chunghwa Picture Tubes Ltd. 10.1" WXGA TFT LCD panel
 -- 
 2.27.0
 
