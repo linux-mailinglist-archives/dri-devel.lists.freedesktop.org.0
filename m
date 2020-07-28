@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609B02319E9
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4462319EC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF4B6E457;
-	Wed, 29 Jul 2020 06:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 975966E45F;
+	Wed, 29 Jul 2020 06:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 685886E339;
- Tue, 28 Jul 2020 19:36:39 +0000 (UTC)
-IronPort-SDR: mHYTYQuHH8h8rYvLPXk1twdUPPDvBj3vb8bVnftsVeZYWpKVDP4SoLuQTQUwbT7MYsTjL6OoHA
- Gp9IZ9QjQPcg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="131370023"
-X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="131370023"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2020 12:36:38 -0700
-IronPort-SDR: rVy/b5juKZjeUz5zuIonmVHDxeoIOIdZ+V6UuWEsdjhL1w+GTRPIMoXzVYs0VJQLKQAEoeERIs
- 9GwSB6ogLrNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="364612411"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga001.jf.intel.com with ESMTP; 28 Jul 2020 12:36:35 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1k0VOs-004WaC-VC; Tue, 28 Jul 2020 22:36:34 +0300
-Date: Tue, 28 Jul 2020 22:36:34 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 07/16] pwm: crc: Fix period / duty_cycle times being
- off by a factor of 256
-Message-ID: <20200728193634.GD3703480@smile.fi.intel.com>
-References: <20200717133753.127282-1-hdegoede@redhat.com>
- <20200717133753.127282-8-hdegoede@redhat.com>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406C86E3EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 20:12:54 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BGSXL07Jtz1rt3P;
+ Tue, 28 Jul 2020 22:12:50 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4BGSXK6jvvz1qrgF;
+ Tue, 28 Jul 2020 22:12:49 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id Awy8Fra_9_tv; Tue, 28 Jul 2020 22:12:48 +0200 (CEST)
+X-Auth-Info: bz0Z08lmho0CJuiYcr5fupkQ7w14PN8sXYzYB6rkKGM=
+Received: from desktop.lan (ip-86-49-101-166.net.upcbroadband.cz
+ [86.49.101.166])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Tue, 28 Jul 2020 22:12:48 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] dt-bindings: Add vendor prefix for Chefree
+Date: Tue, 28 Jul 2020 22:12:40 +0200
+Message-Id: <20200728201242.4336-1-marex@denx.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200717133753.127282-8-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Wed, 29 Jul 2020 06:58:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,96 +50,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 17, 2020 at 03:37:44PM +0200, Hans de Goede wrote:
-> While looking into adding atomic-pwm support to the pwm-crc driver I
-> noticed something odd, there is a PWM_BASE_CLK define of 6 MHz and
-> there is a clock-divider which divides this with a value between 1-128,
-> and there are 256 duty-cycle steps.
-> 
-> The pwm-crc code before this commit assumed that a clock-divider
-> setting of 1 means that the PWM output is running at 6 MHZ, if that
-> is true, where do these 256 duty-cycle steps come from?
-> 
-> This would require an internal frequency of 256 * 6 MHz = 1.5 GHz, that
-> seems unlikely for a PMIC which is using a silicon process optimized for
-> power-switching transistors. It is way more likely that there is an 8
-> bit counter for the duty cycle which acts as an extra fixed divider
-> wrt the PWM output frequency.
-> 
-> The main user of the pwm-crc driver is the i915 GPU driver which uses it
-> for backlight control. Lets compare the PWM register values set by the
-> video-BIOS (the GOP), assuming the extra fixed divider is present versus
-> the PWM frequency specified in the Video-BIOS-Tables:
-> 
-> Device:		PWM Hz set by BIOS	PWM Hz specified in VBT
-> Asus T100TA 	200			200
-> Asus T100HA 	200			200
-> Lenovo Miix 2 8	23437			20000
-> Toshiba WT8-A	23437			20000
-> 
-> So as we can see if we assume the extra division by 256 then the register
-> values set by the GOP are an exact match for the VBT values, where as
-> otherwise the values would be of by a factor of 256.
-> 
-> This commit fixes the period / duty_cycle calculations to take the
-> extra division by 256 into account.
+The Chefree Technology Corp. is an LCD panel manufacturer.
 
-So, base clock is 6MHz, then 7 bit divisor. That's what original values
-were for. On top of that there is 8-bit duty cycle control ("divide by 256"
-whatever it means) with the output range 23.437kHz..183Hz.
+Signed-off-by: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v3:
-> - Use NSEC_PER_USEC instead of adding a new (non-sensical) NSEC_PER_MHZ define
-> ---
->  drivers/pwm/pwm-crc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
-> index 272eeb071147..c056eb9b858c 100644
-> --- a/drivers/pwm/pwm-crc.c
-> +++ b/drivers/pwm/pwm-crc.c
-> @@ -21,8 +21,8 @@
->  
->  #define PWM_MAX_LEVEL		0xFF
->  
-> -#define PWM_BASE_CLK		6000000  /* 6 MHz */
-> -#define PWM_MAX_PERIOD_NS	21333    /* 46.875KHz */
-> +#define PWM_BASE_CLK_MHZ	6	/* 6 MHz */
-> +#define PWM_MAX_PERIOD_NS	5461333	/* 183 Hz */
->  
->  /**
->   * struct crystalcove_pwm - Crystal Cove PWM controller
-> @@ -72,7 +72,7 @@ static int crc_pwm_config(struct pwm_chip *c, struct pwm_device *pwm,
->  
->  		/* changing the clk divisor, need to disable fisrt */
->  		crc_pwm_disable(c, pwm);
-> -		clk_div = PWM_BASE_CLK * period_ns / NSEC_PER_SEC;
-> +		clk_div = PWM_BASE_CLK_MHZ * period_ns / (256 * NSEC_PER_USEC);
->  
->  		regmap_write(crc_pwm->regmap, PWM0_CLK_DIV,
->  					clk_div | PWM_OUTPUT_ENABLE);
-> -- 
-> 2.26.2
-> 
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5b1343a8d198..7204e069d498 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -197,6 +197,8 @@ patternProperties:
+     description: Ceva, Inc.
+   "^checkpoint,.*":
+     description: Check Point Software Technologies Ltd.
++  "^chefree,.*":
++    description: Chefree Technology Corp.
+   "^chipidea,.*":
+     description: Chipidea, Inc
+   "^chipone,.*":
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
