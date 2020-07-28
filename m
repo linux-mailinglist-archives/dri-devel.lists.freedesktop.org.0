@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712EE2312AF
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 963A6231294
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA146E39E;
-	Tue, 28 Jul 2020 19:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2B266E398;
+	Tue, 28 Jul 2020 19:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4C186E1D6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 12:12:55 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4BGFtZ1Gk1z1rtN9;
- Tue, 28 Jul 2020 14:12:54 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4BGFtZ0NQHz1qtx2;
- Tue, 28 Jul 2020 14:12:54 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id y_Vlt41bg4wq; Tue, 28 Jul 2020 14:12:52 +0200 (CEST)
-X-Auth-Info: WEcLSrqT4qSnpUDFXP5DoZwuRr8ideXdJSZKhzKPoK8=
-Received: from desktop.lan (ip-86-49-101-166.net.upcbroadband.cz
- [86.49.101.166])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Tue, 28 Jul 2020 14:12:52 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2 3/3] drm/panel: simple: Add DT bindings for Powertip
- PH800480T013
-Date: Tue, 28 Jul 2020 14:12:46 +0200
-Message-Id: <20200728121246.23304-3-marex@denx.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200728121246.23304-1-marex@denx.de>
-References: <20200728121246.23304-1-marex@denx.de>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD346E1D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 12:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=yBYvIwf9TAceURjTfcYJWCSxycUdyCXExJl0HOeXT9k=; b=SW89oCq4NVmToiCnFUrJCN6ESd
+ JytiZ/mUug+oIj6e+zEeWlHiSOLXfoN+DB3W4fZyWLGB2JdgB/k1PhX4n3N5JJPnj2sRBF2ioO8bW
+ mxjQx2rKpwYDLbVKQFTwnZABaW1K+3Kk+lbNiG92oTDwpX72vQ4dQSvLBBII0bqG5Gwfm6XNnf5Xm
+ 4N+/Gxt8iILk45H665pENdW9nFzakkmTjuOuAW8C+pxqX49BoPxLO2rt3YeQnAAYU9hXYBvdLItUt
+ X2yrtQIrca5f7n1qfE5PxLkED5b5yKIbB0lyV25kAKdyC5o6dkvto9yMUh931OHkDaJccLWx7lC8n
+ fnqI1X7A==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1k0OgC-0001rr-4Y; Tue, 28 Jul 2020 12:26:00 +0000
+Subject: Re: [PATCH RFC v6 2/6] drm/sprd: add Unisoc's drm kms master
+To: Kevin Tang <kevin3.tang@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ robh+dt@kernel.org, mark.rutland@arm.com
+References: <1595930879-2478-1-git-send-email-kevin3.tang@gmail.com>
+ <1595930879-2478-3-git-send-email-kevin3.tang@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5ef12508-4600-a5f1-f456-ef0762b81d51@infradead.org>
+Date: Tue, 28 Jul 2020 05:25:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <1595930879-2478-3-git-send-email-kevin3.tang@gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,76 +53,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org
+Cc: orsonzhai@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, zhang.lyra@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for Powertip PH800480T013 800x480 parallel LCD, this
-one is used in the Raspberry Pi 7" touchscreen display unit.
+On 7/28/20 3:07 AM, Kevin Tang wrote:
+> diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
+> new file mode 100644
+> index 0000000..b189a54
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sprd/Kconfig
+> @@ -0,0 +1,12 @@
+> +config DRM_SPRD
+> +	tristate "DRM Support for Unisoc SoCs Platform"
+> +	depends on ARCH_SPRD || COMPILE_TEST
+> +	depends on DRM && OF
+> +	select DRM_KMS_HELPER
+> +	select DRM_GEM_CMA_HELPER
+> +	select DRM_KMS_CMA_HELPER
+> +	select DRM_MIPI_DSI
+> +	help
+> +	  Choose this option if you have a Unisoc chipsets.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Eric Anholt <eric@anholt.net>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org
----
-V2: Add bus_flags and connector_type
----
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+	                                          chipset.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index cb6550d37e85..298e3a26d9ee 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3000,6 +3000,31 @@ static const struct panel_desc pda_91_00156_a0  = {
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- };
- 
-+static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
-+	.clock = 24750,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 54,
-+	.hsync_end = 800 + 54 + 2,
-+	.htotal = 800 + 54 + 2 + 44,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 49,
-+	.vsync_end = 480 + 49 + 2,
-+	.vtotal = 480 + 49 + 2 + 22,
-+};
-+
-+static const struct panel_desc powertip_ph800480t013_idf02  = {
-+	.modes = &powertip_ph800480t013_idf02_mode,
-+	.num_modes = 1,
-+	.size = {
-+		.width = 152,
-+		.height = 91,
-+	},
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-+		     DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-+		     DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
- 
- static const struct drm_display_mode qd43003c0_40_mode = {
- 	.clock = 9000,
-@@ -4012,6 +4037,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "pda,91-00156-a0",
- 		.data = &pda_91_00156_a0,
-+	}, {
-+		.compatible = "powertip,ph800480t013-idf02",
-+		.data = &powertip_ph800480t013_idf02,
- 	}, {
- 		.compatible = "qiaodian,qd43003c0-40",
- 		.data = &qd43003c0_40,
+> +	  If M is selected the module will be called sprd-drm.
+
+	                                             sprd_drm.
+
+> +
+> diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
+> new file mode 100644
+> index 0000000..86d95d9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sprd/Makefile
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +subdir-ccflags-y += -I$(srctree)/$(src)
+> +
+> +obj-y := sprd_drm.o
+
+
 -- 
-2.27.0
+~Randy
 
 _______________________________________________
 dri-devel mailing list
