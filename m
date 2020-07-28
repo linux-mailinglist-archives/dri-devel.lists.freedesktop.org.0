@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7582312A3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E897D2312A7
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A93BA6E3B8;
-	Tue, 28 Jul 2020 19:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E03616E3D0;
+	Tue, 28 Jul 2020 19:30:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5847E6E191
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 18:36:16 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id 88so19245144wrh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 11:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ag+56VHWa4UupCVslbddFog8v3QbAb1GzSUnW5D8pYk=;
- b=PvUUgnajTgVqHh7tBRuZtFIB7BDtmLfblYvw2jEF15/d3+GlAPeqDzU78CSy/v0pSc
- lRFq6ogjsZSCDNnqZvDLYvmrGBsDuGWMguwsPfef44qQP0JhMGjYegJNcQNw7zqiNRbQ
- oPe6Iyj4j4DGdTKv7Om6t5OoeejJ16+aTcAjU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ag+56VHWa4UupCVslbddFog8v3QbAb1GzSUnW5D8pYk=;
- b=hr58TIdp+gjde4LCzPXJUSDQpMzGEm/71suBoPWss3eQ8v7zEgYvdYqk3BhXrA3nUv
- I44w6F9s+RqhUkf8keVk2zqgvV1zILMlBHn/s0CxGgqUmkhNqsnaKZv+8zl35eGW0HkP
- sU2+oHfYW/IoPENHIeId5sky8wMFGl+bMMMqp5U//zuj5cxrwje4Snb6P1XQrd4uLFtK
- K9ejsvEn5hCVQu5nDfmZRVyMbpa00Ft90xfUUdLcwv2wKfTwfCPJNRtBFVEfz+A8D2Ct
- zB2VKlEMhXMKaMoScDtTKfUROkXVxrdt3dTQPVM37+3PSf+IfeVCU3Yv1BpsST6Jrh0O
- rC5Q==
-X-Gm-Message-State: AOAM530/yulXMxFBZo0f9bj/PN+n86w27JkyvQ2TXze17jDk9j86OtrX
- 3Eb8g7+6YbrjZy3O4Cpl+orb+cmfO+P2JqQsw+Ec8A==
-X-Google-Smtp-Source: ABdhPJyyeHCQpGWv2ZVhb8OOYQVNDOYREJTG68F/E7l3B030xqT3Xde6PnTY6nzIbRmhmBAEDqIr9CfuhXn3sEs6Cd4=
-X-Received: by 2002:adf:ebc5:: with SMTP id v5mr22136755wrn.100.1595961374761; 
- Tue, 28 Jul 2020 11:36:14 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B006E249;
+ Tue, 28 Jul 2020 18:45:57 +0000 (UTC)
+IronPort-SDR: 0AjXZtWOFWotc2Ef6K+1hJvBle5Axy0ottPbDWVq51vhp7Jtan5UZghMH2Ja35rAvPTJ0NcQdA
+ lWqP4KPeVrkg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="130852354"
+X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="130852354"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2020 11:45:56 -0700
+IronPort-SDR: wwWappNoJfKls/eFsEdb++nFi5WOaro8lC2t0gajQmO4NdQk54sfqMRwrDFI40pe+1MnoCMCo0
+ VeDEfvP1Pujw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="394420092"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2020 11:45:53 -0700
+Received: from andy by smile with local (Exim 4.94)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1k0Ubp-004W6J-2e; Tue, 28 Jul 2020 21:45:53 +0300
+Date: Tue, 28 Jul 2020 21:45:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v5 05/16] pwm: lpss: Add pwm_lpss_prepare_enable() helper
+Message-ID: <20200728184553.GZ3703480@smile.fi.intel.com>
+References: <20200717133753.127282-1-hdegoede@redhat.com>
+ <20200717133753.127282-6-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20200724203407.16972-1-james.quinlan@broadcom.com>
- <20200724203407.16972-9-james.quinlan@broadcom.com>
- <20200728123343.GA3939@lst.de>
-In-Reply-To: <20200728123343.GA3939@lst.de>
-From: Jim Quinlan <james.quinlan@broadcom.com>
-Date: Tue, 28 Jul 2020 14:36:02 -0400
-Message-ID: <CA+-6iNwRC3UZ5nMrWeBEKYDV=Jbj5Nvf9sWgY1CPXZyy9ofS4g@mail.gmail.com>
-Subject: Re: [PATCH v9 08/12] device core: Introduce DMA range map,
- supplanting dma_pfn_offset
-To: Christoph Hellwig <hch@lst.de>
+Content-Disposition: inline
+In-Reply-To: <20200717133753.127282-6-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,125 +54,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Florian Fainelli <f.fainelli@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
+On Fri, Jul 17, 2020 at 03:37:42PM +0200, Hans de Goede wrote:
+> In the not-enabled -> enabled path pwm_lpss_apply() needs to get a
+> runtime-pm reference; and then on any errors it needs to release it
+> again.
+> 
+> This leads to somewhat hard to read code. This commit introduces a new
+> pwm_lpss_prepare_enable() helper and moves all the steps necessary for
+> the not-enabled -> enabled transition there, so that we can error check
+> the entire transition in a single place and only have one pm_runtime_put()
+> on failure call site.
+> 
+> While working on this I noticed that the enabled -> enabled (update
+> settings) path was quite similar, so I've added an enable parameter to
+> the new pwm_lpss_prepare_enable() helper, which allows using it in that
+> path too.
 
-On Tue, Jul 28, 2020 at 8:33 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> A few tiny nitpicks:
->
-> The subject should have the dma-mapping prefix, this doesn't
-> really touch the device core.
->
-> > -     rc = of_dma_get_range(np, &dma_addr, &paddr, &size);
-> > +     rc = of_dma_get_range(np, &map);
-> > +     rc = PTR_ERR_OR_ZERO(map);
->
-> I don't think you need the PTR_ERR_OR_ZERO line here, of_dma_get_range
-> returns the error.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+But see below.
 
-Yes, that link needs to be deleted.
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/pwm/pwm-lpss.c | 45 ++++++++++++++++++++++++------------------
+>  1 file changed, 26 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/pwm/pwm-lpss.c b/drivers/pwm/pwm-lpss.c
+> index da9bc3d10104..8a136ba2a583 100644
+> --- a/drivers/pwm/pwm-lpss.c
+> +++ b/drivers/pwm/pwm-lpss.c
+> @@ -122,41 +122,48 @@ static inline void pwm_lpss_cond_enable(struct pwm_device *pwm, bool cond)
+>  		pwm_lpss_write(pwm, pwm_lpss_read(pwm) | PWM_ENABLE);
+>  }
+>  
+> +static int pwm_lpss_prepare_enable(struct pwm_lpss_chip *lpwm,
+> +				   struct pwm_device *pwm,
+> +				   const struct pwm_state *state,
+> +				   bool enable)
+> +{
+> +	int ret;
+> +
+> +	ret = pwm_lpss_is_updating(pwm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pwm_lpss_prepare(lpwm, pwm, state->duty_cycle, state->period);
+> +	pwm_lpss_cond_enable(pwm, enable && lpwm->info->bypass == false);
+> +	ret = pwm_lpss_wait_for_update(pwm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pwm_lpss_cond_enable(pwm, enable && lpwm->info->bypass == true);
+> +	return 0;
+> +}
+> +
+>  static int pwm_lpss_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  			  const struct pwm_state *state)
+>  {
+>  	struct pwm_lpss_chip *lpwm = to_lpwm(chip);
+> -	int ret;
 
->
-> > +int dma_set_offset_range(struct device *dev, phys_addr_t cpu_start,
-> > +                      dma_addr_t dma_start, u64 size)hh
-> > +{
-> > +     struct bus_dma_region *map;
-> > +     u64 offset = (u64)cpu_start - (u64)dma_start;
-> > +
-> > +     if (!dev)
-> > +             return -ENODEV;
->
-> I don't think we need the NULL protection here, all DMA API calls
-> expect a device.
-Yes, your review-patch removed it but left the comment about the
-function returning -ENODEV.  So I wasn't sure to leave it in or not.
->
-> > +     if (!offset)
-> > +             return 0;
-> > +
-> > +     /*
-> > +      * See if a map already exists and we already encompass the new range:
-> > +      */
-> > +     if (dev->dma_range_map) {
-> > +             if (dma_range_overlaps(dev, cpu_start, dma_start, size, offset))
-> > +                     return 0;
-> > +             dev_err(dev, "attempt to add conflicting DMA range to existing map\n");
-> > +             return -EINVAL;
-> > +     }
->
-> And here why do we need the overlap check at all?  I'd be tempted to
-> always return an error for this case.
-I believe the overlap check was your suggestion or at least in your
-review-patch?  I'm fine with just returning an error.
+> +	int ret = 0;
 
->
-> What is the plan to merge this?  Do you want all this to go into one
-> tree, or get as many bits into the applicable trees for 5.9 and then
-> finish up for 5.10?  If the former I can apply it to the dma-mapping
-> tree and just fix up the nitpicks.
-Whatever you think is best -- I would be quite happy if you could
-accept at least the "dma_range_map" commit.   Of course I'd be most
-happy if the entire patchset were accepted, but perhaps you can just
-apply the  "dma_range_map" commit, and I will continue to bang away at
-getting the N-1 PCIe-related commits ack'd and accepted.
+We can avoid this change...
 
-Thanks much!
-Jim Quinlan
-Broadcom STB
+>  	if (state->enabled) {
+>  		if (!pwm_is_enabled(pwm)) {
+>  			pm_runtime_get_sync(chip->dev);
+> -			ret = pwm_lpss_is_updating(pwm);
+> -			if (ret) {
+> -				pm_runtime_put(chip->dev);
+> -				return ret;
+> -			}
+> -			pwm_lpss_prepare(lpwm, pwm, state->duty_cycle, state->period);
+> -			pwm_lpss_cond_enable(pwm, lpwm->info->bypass == false);
+> -			ret = pwm_lpss_wait_for_update(pwm);
+> -			if (ret) {
+> +			ret = pwm_lpss_prepare_enable(lpwm, pwm, state, true);
+> +			if (ret)
+>  				pm_runtime_put(chip->dev);
+> -				return ret;
+> -			}
+> -			pwm_lpss_cond_enable(pwm, lpwm->info->bypass == true);
+>  		} else {
+> -			ret = pwm_lpss_is_updating(pwm);
+> -			if (ret)
+> -				return ret;
+> -			pwm_lpss_prepare(lpwm, pwm, state->duty_cycle, state->period);
+> -			return pwm_lpss_wait_for_update(pwm);
+
+> +			ret = pwm_lpss_prepare_enable(lpwm, pwm, state, false);
+
+...by simple return directly from here. But I admit I haven't seen the next patch yet.
+
+>  		}
+>  	} else if (pwm_is_enabled(pwm)) {
+>  		pwm_lpss_write(pwm, pwm_lpss_read(pwm) & ~PWM_ENABLE);
+>  		pm_runtime_put(chip->dev);
+>  	}
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static void pwm_lpss_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> -- 
+> 2.26.2
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
