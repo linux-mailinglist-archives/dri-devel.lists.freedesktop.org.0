@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963A6231294
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C43D2312B7
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B266E398;
-	Tue, 28 Jul 2020 19:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BADC6E3E3;
+	Tue, 28 Jul 2020 19:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD346E1D8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 12:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=yBYvIwf9TAceURjTfcYJWCSxycUdyCXExJl0HOeXT9k=; b=SW89oCq4NVmToiCnFUrJCN6ESd
- JytiZ/mUug+oIj6e+zEeWlHiSOLXfoN+DB3W4fZyWLGB2JdgB/k1PhX4n3N5JJPnj2sRBF2ioO8bW
- mxjQx2rKpwYDLbVKQFTwnZABaW1K+3Kk+lbNiG92oTDwpX72vQ4dQSvLBBII0bqG5Gwfm6XNnf5Xm
- 4N+/Gxt8iILk45H665pENdW9nFzakkmTjuOuAW8C+pxqX49BoPxLO2rt3YeQnAAYU9hXYBvdLItUt
- X2yrtQIrca5f7n1qfE5PxLkED5b5yKIbB0lyV25kAKdyC5o6dkvto9yMUh931OHkDaJccLWx7lC8n
- fnqI1X7A==;
-Received: from [2601:1c0:6280:3f0::19c2]
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k0OgC-0001rr-4Y; Tue, 28 Jul 2020 12:26:00 +0000
-Subject: Re: [PATCH RFC v6 2/6] drm/sprd: add Unisoc's drm kms master
-To: Kevin Tang <kevin3.tang@gmail.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, mark.rutland@arm.com
-References: <1595930879-2478-1-git-send-email-kevin3.tang@gmail.com>
- <1595930879-2478-3-git-send-email-kevin3.tang@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <5ef12508-4600-a5f1-f456-ef0762b81d51@infradead.org>
-Date: Tue, 28 Jul 2020 05:25:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <1595930879-2478-3-git-send-email-kevin3.tang@gmail.com>
+X-Greylist: delayed 335 seconds by postgrey-1.36 at gabe;
+ Tue, 28 Jul 2020 12:42:02 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAEDF8997E
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 12:42:02 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-138-aKECZJEyMU60G_8cxFq3Wg-1; Tue, 28 Jul 2020 13:35:18 +0100
+X-MC-Unique: aKECZJEyMU60G_8cxFq3Wg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 28 Jul 2020 13:35:17 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Tue, 28 Jul 2020 13:35:17 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Peilin Ye' <yepeilin.cs@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: RE: [Linux-kernel-mentees] [PATCH v2] drm/bufs: Prevent
+ kernel-infoleak in copy_one_buf()
+Thread-Topic: [Linux-kernel-mentees] [PATCH v2] drm/bufs: Prevent
+ kernel-infoleak in copy_one_buf()
+Thread-Index: AQHWZNW9oERUOmwTgUadWvPHDViznqkc48JA
+Date: Tue, 28 Jul 2020 12:35:17 +0000
+Message-ID: <3058d741282b463d8aa7c8aff62e4326@AcuMS.aculab.com>
+References: <20200728014343.341303-1-yepeilin.cs@gmail.com>
+ <20200728115210.408486-1-yepeilin.cs@gmail.com>
+In-Reply-To: <20200728115210.408486-1-yepeilin.cs@gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,53 +61,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: orsonzhai@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, zhang.lyra@gmail.com
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>, Dan
+ Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/28/20 3:07 AM, Kevin Tang wrote:
-> diff --git a/drivers/gpu/drm/sprd/Kconfig b/drivers/gpu/drm/sprd/Kconfig
-> new file mode 100644
-> index 0000000..b189a54
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Kconfig
-> @@ -0,0 +1,12 @@
-> +config DRM_SPRD
-> +	tristate "DRM Support for Unisoc SoCs Platform"
-> +	depends on ARCH_SPRD || COMPILE_TEST
-> +	depends on DRM && OF
-> +	select DRM_KMS_HELPER
-> +	select DRM_GEM_CMA_HELPER
-> +	select DRM_KMS_CMA_HELPER
-> +	select DRM_MIPI_DSI
-> +	help
-> +	  Choose this option if you have a Unisoc chipsets.
-
-	                                          chipset.
-
-> +	  If M is selected the module will be called sprd-drm.
-
-	                                             sprd_drm.
-
+From: Peilin Ye
+> Sent: 28 July 2020 12:52
+> Currently `struct drm_buf_desc` is defined as follows:
+> 
+> struct drm_buf_desc {
+> 	int count;
+> 	int size;
+> 	int low_mark;
+> 	int high_mark;
+> 	enum {
+> 		_DRM_PAGE_ALIGN = 0x01,
+> 		_DRM_AGP_BUFFER = 0x02,
+> 		_DRM_SG_BUFFER = 0x04,
+> 		_DRM_FB_BUFFER = 0x08,
+> 		_DRM_PCI_BUFFER_RO = 0x10
+> 	} flags;
+> 	unsigned long agp_start;
+> };
+> 
+> copy_one_buf() is potentially copying uninitialized kernel stack memory
+> to userspace, since the compiler may leave such "holes" (around `.flags`
+> and `.agp_start` fields) in this statically allocated structure. Prevent
+> it by initializing `v` with memset().
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 5c7640ab6258 ("switch compat_drm_infobufs() to drm_ioctl_kernel()")
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> ---
+> Change in v2:
+>     - Improve commit description. (Suggested by Arnd Bergmann
+>       <arnd@arndb.de>)
+> 
+>  drivers/gpu/drm/drm_bufs.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+> index a0735fbc144b..f99cd4a3f951 100644
+> --- a/drivers/gpu/drm/drm_bufs.c
+> +++ b/drivers/gpu/drm/drm_bufs.c
+> @@ -1349,10 +1349,14 @@ static int copy_one_buf(void *data, int count, struct drm_buf_entry *from)
+>  {
+>  	struct drm_buf_info *request = data;
+>  	struct drm_buf_desc __user *to = &request->list[count];
+> -	struct drm_buf_desc v = {.count = from->buf_count,
+> -				 .size = from->buf_size,
+> -				 .low_mark = from->low_mark,
+> -				 .high_mark = from->high_mark};
+> +	struct drm_buf_desc v;
 > +
-> diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
-> new file mode 100644
-> index 0000000..86d95d9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/sprd/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0
+> +	memset(&v, 0, sizeof(v));
 > +
-> +subdir-ccflags-y += -I$(srctree)/$(src)
-> +
-> +obj-y := sprd_drm.o
+> +	v.count = from->buf_count;
+> +	v.size = from->buf_size;
+> +	v.low_mark = from->low_mark;
+> +	v.high_mark = from->high_mark;
+> 
+>  	if (copy_to_user(to, &v, offsetof(struct drm_buf_desc, flags)))
+>  		return -EFAULT;
 
+The memset() isn't needed.
+The copy_to_user() stops after the 4 'int' values so no 'random'
+kernel stack can get copied.
 
--- 
-~Randy
+Quite why it is 'right' to leave the remaining part of each
+userspace structure unchanged is another matter.
+
+	David.
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
 _______________________________________________
 dri-devel mailing list
