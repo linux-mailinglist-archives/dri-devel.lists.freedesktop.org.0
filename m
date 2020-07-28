@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED412306EB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:50:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BADCA2306EE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:51:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C45B89E5A;
-	Tue, 28 Jul 2020 09:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAF286E22B;
+	Tue, 28 Jul 2020 09:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A6989E5A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:50:40 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id s144so7000285oie.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D98026E22B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:51:00 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r12so17594199wrj.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p7WqU0daqgPYKzDM4wJY4PZYJHbY5NF/mgj6Y17PepM=;
- b=OrOtLw5EOmkRhXXIcYsw9TDIuzBhVZKGqOJAH/isn+0lcdD3Jrl499FjT3FlPrptex
- inWX7gaza/tr3nXnYkuumtjJl53aQwwmbqWksLtYZ7tdsYRpLvnK2XTYCv/8m+65Ufa+
- 7DFk3TRCPt90E+tgIzUao4sOasvA27ToklnoE=
+ :cc; bh=Znk80EAJWe03G2pyNc40Xve7p+xFAYQ6xUkMqBZJbRw=;
+ b=i+nhUpib92cG7Dt3A5EEey478owxGiRXhqyIfM1QuUGzZn8TiA+akEqhLAZ5Eqv4zc
+ yyuP77VUnuRGZToDKL7OeD98rTbEXu3aXgJqMH3TgpTxnmzsdtl2yf2ZP2XHwLyYunFt
+ vXjbinN4jflyJbhHH7x5J2skDMDYjbOZ0vKjRkQibcgO0wPORWOBjJbD5hNW+4d85ijz
+ xJSZFIebamoyAvtnJ37gqqZP61bF0wGTplxSyLoHzhFCQGUdTBRrtrZgbBrlkVdr34wC
+ 06LY0T6GQaw2cru12tQ43EYL5MN1RkE/jg7eXP/DleD6otrMesDarNDKMLAKsSNrCnVF
+ /N9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p7WqU0daqgPYKzDM4wJY4PZYJHbY5NF/mgj6Y17PepM=;
- b=XH2KCsaQLnJBzIKm1GgrqLQt/xFBSQ1pxh9bXj+dhrtKup+5jbJvbR5W84MgIbjhef
- HVm1T6GmLfOM0a8TfKs/t9asIgGLork4Q0OKsBxbACStVJf29agYhpEJgYPjpBdIF6Kn
- F0kbuJ8gxya/LckPp8ePPgzN1L+XBkfo+db3CZont2KSPM7owSWlgpuBEY2iXKJMCCqL
- 40Cs/QpjmZL70MmtROiSPSD5UBPr8rncepBfFEMzhTe32cwKyMjQUbt9VtmTUA/hiGPP
- 6yEK2DXm3ejOvnAVwyg/zHb6DNasMua596ezuZYKf2DIOH5Fn5tlV57CeeqtAHXH/2iz
- jGRA==
-X-Gm-Message-State: AOAM532IpI8ryv6fG/thBwq+JgcklNmWZKi8SOJi0XG6JffEaKwrCvvM
- uonSxdwptuIU2Yc5U6O9pLxjQ9XPGTcWE6OinpZdOg==
-X-Google-Smtp-Source: ABdhPJyZW+bp+9Nwgfg/xN8qMPQYWscCoqwnaoL0A0n3guJlRQVVgay29L57+3LBo5ONHbZ3iemXiiHIVW0XxKZO5vY=
-X-Received: by 2002:a05:6808:88:: with SMTP id
- s8mr2583624oic.101.1595929840005; 
- Tue, 28 Jul 2020 02:50:40 -0700 (PDT)
+ bh=Znk80EAJWe03G2pyNc40Xve7p+xFAYQ6xUkMqBZJbRw=;
+ b=giuoEZghPNDYfnVbF271Eb+tUTZOp/yKDUQsWGTWClXHiaEuJsKUB3Ds6aWrH4D4vj
+ m69fPVth4vtUUJiRWvCQDTbE6MEiqc/2sEONl461TKRIuEKcthTBY/pQV0eFWlqsF4zc
+ KrGV2H2pc1G90Z0bxpEtf0zR/2M80VhDPjTz6acoJtkR3kRIZieLZZjZCZz66Knfgc1J
+ 6krY7ybw5pS7t9HvaW8HcP2y7Fyssz+QqylhT63zIj2UFsOzeKAhfCiD6poRJ751u8bl
+ 9kLOtGX+HpR7VsiEUFNqyGsibtV8F96f9spxUk/STHLhp8u6930N5ZH9b5vDZqTKKtTB
+ 8prQ==
+X-Gm-Message-State: AOAM5306nWs7p3yHA/8kj0+SbpAf6OYvVkR6T+TLNvvDFMRkxGLNDFSD
+ 14uZwlSaP45k2f5C8EfHKO22RJl+QE6HBZY38jHQXQ==
+X-Google-Smtp-Source: ABdhPJz3YAjU9S+NHPtVDvPte3f9GOfaHQiDoSCKgiMmkss0RaJxXVQ9k9KgI/GbemDggIXSiz1Z354U4LyqP/tG0yU=
+X-Received: by 2002:adf:fe50:: with SMTP id m16mr6783158wrs.27.1595929859449; 
+ Tue, 28 Jul 2020 02:50:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200727233833.05e48968@canb.auug.org.au>
-In-Reply-To: <20200727233833.05e48968@canb.auug.org.au>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 28 Jul 2020 11:50:29 +0200
-Message-ID: <CAKMK7uH773DCGvU92i1R-cexnsfYoxM=wrPZOYY6i1j+-xOBMA@mail.gmail.com>
-Subject: Re: linux-next: Fixes tag needs some work in the drm-fixes tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
+References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
+ <0f6b7375a07b70353336dd7c9420138186d62936.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <0f6b7375a07b70353336dd7c9420138186d62936.1594230107.git-series.maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 28 Jul 2020 10:50:42 +0100
+Message-ID: <CAPY8ntC3Smw+pH6Dbyob_voO_+Huw9Mzpv+F_FHnrOERLfS1hA@mail.gmail.com>
+Subject: Re: [PATCH v4 11/78] drm/vc4: crtc: Use local chan variable
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 27, 2020 at 3:38 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->
-> Hi all,
->
-> In commit
->
->   163d5446c37a ("drm/nouveau/disp/gm200-: fix regression from HDA SOR selection changes")
->
-> Fixes tag
->
->   Fixes: 9b5ca547bb8 ("drm/nouveau/disp/gm200-: detect and potentially disable HDA support on some SORs")
->
-> has these problem(s):
->
->   - SHA1 should be at least 12 digits long
->     Can be fixed by setting core.abbrev to 12 (or more) or (for git v2.11
->     or later) just making sure it is not set (or set to "auto").
+Hi Maxime
 
-Hm dim (our scripting) should be checking for this already, I've added
-that after the last big round of malformed Fixes lines we've had ...
-Dave, overuse of dim -f in your history?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Wed, 8 Jul 2020 at 18:42, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The vc4_crtc_handle_page_flip already has a local variable holding the
+> value of vc4_crtc->channel, so let's use it instead.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/gpu/drm/vc4/vc4_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index d3126fe04d9a..cdeaa0cd981f 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -533,7 +533,7 @@ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
+>                  * the CRTC and encoder already reconfigured, leading to
+>                  * underruns. This can be seen when reconfiguring the CRTC.
+>                  */
+> -               vc4_hvs_unmask_underrun(dev, vc4_crtc->channel);
+> +               vc4_hvs_unmask_underrun(dev, chan);
+>         }
+>         spin_unlock_irqrestore(&dev->event_lock, flags);
+>  }
+> --
+> git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
