@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AA923069C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E132306E7
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 11:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD2189DBA;
-	Tue, 28 Jul 2020 09:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312E789E32;
+	Tue, 28 Jul 2020 09:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C13F89DBA
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:34:13 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id 3so10565003wmi.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Kpaxa27tvA7gAmK8vNONei66g8vEYnvaZGZiq12ka0Q=;
- b=W8DEwawVBbV+taJZMYmflb0Xau5No+QnbcNe1ynL7wRVJdhpGj97/mO2p8qhkB5OGK
- VgeLeWOoimtxNjy5uxDGI6Iz2HWj2NPoNfsxUrQ1Pc3DgqeWzp+mzO1ybPeiU5zI1qqx
- W4eETuZiCyHlgpMWkdT9lP0OJFRR7nEIsw4yI=
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85CDE89E32
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 09:49:08 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id l2so7076810wrc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 02:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wQ1i30iYSbM1E0tY0uz5+ptChSg4d1LMooSt7pYAIp4=;
+ b=A4OpHyoVRkvCtCk/WeGVm4r6+vfXfmRD/RTAzMlpa7itoM/Lw1OkUcHnqNAL/XFv14
+ Uv9aobxx3J9cGNv9Lx2IjlobDb54qEf9A9xwV5Ur4XI5VmOc0e6SfAG/R3YzvvYKQTPO
+ fK/+QbgKXPkMIKD/c8s4nP6Stgb+NOE+dNwDqVqLd2/AsVyTYjkaYrMbuq1uIlJ9kNjk
+ UMMzUvyqWVaCUpcWHajcI7OHUr/y8Pq8/N51Iv9evSWYev2JqfJWszVop9XSxnv3MASs
+ 3a2DQcijWC6JuqssV7uNZtEoZyF4XnN/q5CmZKnhdKr7oNuwErIYHfrzLwiDh9D9whCo
+ YEug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Kpaxa27tvA7gAmK8vNONei66g8vEYnvaZGZiq12ka0Q=;
- b=kMNpgaFMn25jZ8bM+GM+P6OGZMeZXDAkwJhL3WeeG0rsgW0vw92GsIyY9S0TygWNkT
- wUpE+aIDpoJ55xaOzDqO8X33W+ZWzD5fyJH2joad1x3YdOSPuEzCWOxy+cND/8nOyChP
- 8SrKZ3NQ75SIjdsciPjdmjgKKpoo4UoaPTHWZoldopEZuyTEQX36BgQZOlWDDSaJUbpc
- q2dQowDhTzoI9eiwUjm3jfCSkLJIkqHYgMp29k2PxuW5Y+5TJ9miLpK/0sRYlzQpMXj9
- 7mF4V+Nsp6SFELHWeN4ouufnalIF373hPpXR6WH9x402XCvt3MY3xG/Ruj3N5vKppNmC
- VucQ==
-X-Gm-Message-State: AOAM532sORqlu5v39LzUAKPPifKknk8fZFUJMaTo1Ll/0PquNR74B1If
- xLpVfFxoD4zHherh8NzXl1I2qw==
-X-Google-Smtp-Source: ABdhPJwdAWhcjv3soArz55h30rXjMTkmopL8vvg9I9cdZFaBg8G1xRooTNbf88MHaxGlcHPVSltWIg==
-X-Received: by 2002:a1c:1bce:: with SMTP id b197mr3215041wmb.32.1595928851794; 
- Tue, 28 Jul 2020 02:34:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p8sm17658936wrq.9.2020.07.28.02.34.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 02:34:11 -0700 (PDT)
-Date: Tue, 28 Jul 2020 11:34:09 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH 11/13] drm/ast: Managed release of ast firmware
-Message-ID: <20200728093409.GF6419@phenom.ffwll.local>
-References: <20200728074425.2749-1-tzimmermann@suse.de>
- <20200728074425.2749-12-tzimmermann@suse.de>
- <20200728091711.GB6419@phenom.ffwll.local>
- <9105824f-2d8c-e234-510b-e2da7d7d1ace@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wQ1i30iYSbM1E0tY0uz5+ptChSg4d1LMooSt7pYAIp4=;
+ b=oPH3JWi2O5pV7WgfoSuinnossKEL3m0FCg+QdItHYdEh8TyMjaNj9DS5pCYJ7szx4v
+ 4ou2cmRrh3O8qgqvVFJNM6KtBzYW5Qp9VdutD7LM/g3CMjMmAM0EpVhlpmCdpiuS+7qp
+ EWBYrD4TsYTY5OPRaBlyRCbH4sdkYP/KNKNBDDIApD4onIwA06pgmGzMCtWg8WzJ8PLQ
+ I1NB5UAW66/29+vEexJPAUD8oL0LiENCLBMLVWz9a3ShypQyofq5Dhy+YLBjcJtjjzE4
+ CFG6pixcuxU9xihMK+yktkO8AMaFlrN9MIHHFSLHtsQvXtc1c8UeBu0g+2gSpp4+ZOD7
+ nZ8Q==
+X-Gm-Message-State: AOAM530ZhZ7zJw6gsnB4u7Cj+1ibyMwZ4q1FyU848y1OvaeGgGsSy0HL
+ FuCMP25LJ/GpPABEyIzmpMzaq59iNqml5Ygkj58egg==
+X-Google-Smtp-Source: ABdhPJzCYKb8DvqERDkL3H9QJlkZgbf25hBn8OO3QFDLQ5DXsMbFlosEaM1m9TBf31uEuGk9GMa/XzF8p9sCGXVxoRI=
+X-Received: by 2002:adf:fdce:: with SMTP id i14mr18888180wrs.273.1595929747173; 
+ Tue, 28 Jul 2020 02:49:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9105824f-2d8c-e234-510b-e2da7d7d1ace@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
+ <4c3be351dac862a07c30bc32d13de495f1674045.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <4c3be351dac862a07c30bc32d13de495f1674045.1594230107.git-series.maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 28 Jul 2020 10:48:52 +0100
+Message-ID: <CAPY8ntA_SKfamtwEYQ7Ti+2Kj_x1gTNP7A9OZecOyBOXvc=_AA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/78] drm/vc4: crtc: Rename HVS channel to output
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,166 +62,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- kraxel@redhat.com, airlied@redhat.com, sam@ravnborg.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 28, 2020 at 11:32:04AM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
+Hi Maxime
 
-> Am 28.07.20 um 11:17 schrieb daniel@ffwll.ch:
-> > On Tue, Jul 28, 2020 at 09:44:23AM +0200, Thomas Zimmermann wrote:
-> >> The ast driver loads firmware for the DP501 display encoder. The
-> >> patch replaces the removal code with a managed release function.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > =
+On Wed, 8 Jul 2020 at 18:42, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> In vc5, the HVS has 6 outputs and 3 FIFOs (or channels), with
+> pixelvalves each being assigned to a given output, but each output can
+> then be muxed to feed from multiple FIFOs.
+>
+> Since vc4 had that entirely static, both were probably equivalent, but
+> since that changes, let's rename hvs_channel to hvs_output in the
+> vc4_crtc_data, since a pixelvalve is really connected to an output, and
+> not to a FIFO.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-> > Hm a devm_request_firmware which does exactly this would be nice I thin=
-k.
-> > Maybe as a follow-up refactor?
-> =
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-> There are so many ideas for follow-up patches wrt. devres and drmres, we
-> should add a todo item to collect them. Especially, devres is much more
-> over head in terms of reviews and kernel building/testing tha tit makes
-> sense to collect ideas and address them in larger chunks.
-
-Yeah maybe a section with wanted devres functions in todo.rst makes sense.
-For devres it depends which subsystem you're dealing with I guess, and how
-much they want to see before it lands.
--Daniel
-
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > -Daniel
-> > =
-
-> >> ---
-> >>  drivers/gpu/drm/ast/ast_dp501.c | 23 ++++++++++++++---------
-> >>  drivers/gpu/drm/ast/ast_drv.h   |  1 -
-> >>  drivers/gpu/drm/ast/ast_main.c  |  3 ---
-> >>  3 files changed, 14 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast=
-_dp501.c
-> >> index 4b85a504825a..88121c0e0d05 100644
-> >> --- a/drivers/gpu/drm/ast/ast_dp501.c
-> >> +++ b/drivers/gpu/drm/ast/ast_dp501.c
-> >> @@ -8,11 +8,24 @@
-> >>  =
-
-> >>  MODULE_FIRMWARE("ast_dp501_fw.bin");
-> >>  =
-
-> >> +static void ast_release_firmware(void *data)
-> >> +{
-> >> +	struct ast_private *ast =3D data;
-> >> +
-> >> +	release_firmware(ast->dp501_fw);
-> >> +	ast->dp501_fw =3D NULL;
-> >> +}
-> >> +
-> >>  static int ast_load_dp501_microcode(struct drm_device *dev)
-> >>  {
-> >>  	struct ast_private *ast =3D to_ast_private(dev);
-> >> +	int ret;
-> >> +
-> >> +	ret =3D request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->de=
-v);
-> >> +	if (ret)
-> >> +		return ret;
-> >>  =
-
-> >> -	return request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev=
-);
-> >> +	return devm_add_action_or_reset(dev->dev, ast_release_firmware, ast);
-> >>  }
-> >>  =
-
-> >>  static void send_ack(struct ast_private *ast)
-> >> @@ -435,11 +448,3 @@ void ast_init_3rdtx(struct drm_device *dev)
-> >>  		}
-> >>  	}
-> >>  }
-> >> -
-> >> -void ast_release_firmware(struct drm_device *dev)
-> >> -{
-> >> -	struct ast_private *ast =3D to_ast_private(dev);
-> >> -
-> >> -	release_firmware(ast->dp501_fw);
-> >> -	ast->dp501_fw =3D NULL;
-> >> -}
-> >> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_d=
-rv.h
-> >> index 86c9a7ac712b..02908d005b99 100644
-> >> --- a/drivers/gpu/drm/ast/ast_drv.h
-> >> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> >> @@ -312,7 +312,6 @@ bool ast_backup_fw(struct drm_device *dev, u8 *add=
-r, u32 size);
-> >>  bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
-> >>  u8 ast_get_dp501_max_clk(struct drm_device *dev);
-> >>  void ast_init_3rdtx(struct drm_device *dev);
-> >> -void ast_release_firmware(struct drm_device *dev);
-> >>  =
-
-> >>  /* ast_cursor.c */
-> >>  int ast_cursor_init(struct ast_private *ast);
-> >> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_=
-main.c
-> >> index 792fb7f616ec..e3b7748335a3 100644
-> >> --- a/drivers/gpu/drm/ast/ast_main.c
-> >> +++ b/drivers/gpu/drm/ast/ast_main.c
-> >> @@ -442,11 +442,8 @@ struct ast_private *ast_device_create(struct drm_=
-driver *drv,
-> >>  =
-
-> >>  void ast_device_destroy(struct ast_private *ast)
-> >>  {
-> >> -	struct drm_device *dev =3D &ast->base;
-> >> -
-> >>  	/* enable standard VGA decode */
-> >>  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
-> >>  =
-
-> >> -	ast_release_firmware(dev);
-> >>  	kfree(ast->dp501_fw_addr);
-> >>  }
-> >> -- =
-
-> >> 2.27.0
-> >>
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> ---
+>  drivers/gpu/drm/vc4/vc4_crtc.c | 8 ++++----
+>  drivers/gpu/drm/vc4/vc4_drv.h  | 4 ++--
+>  drivers/gpu/drm/vc4/vc4_hvs.c  | 2 +-
+>  drivers/gpu/drm/vc4/vc4_txp.c  | 2 +-
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index fdecaba77836..d3126fe04d9a 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -775,7 +775,7 @@ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+>
+>  static const struct vc4_pv_data bcm2835_pv0_data = {
+>         .base = {
+> -               .hvs_channel = 0,
+> +               .hvs_output = 0,
+>         },
+>         .debugfs_name = "crtc0_regs",
+>         .pixels_per_clock = 1,
+> @@ -787,7 +787,7 @@ static const struct vc4_pv_data bcm2835_pv0_data = {
+>
+>  static const struct vc4_pv_data bcm2835_pv1_data = {
+>         .base = {
+> -               .hvs_channel = 2,
+> +               .hvs_output = 2,
+>         },
+>         .debugfs_name = "crtc1_regs",
+>         .pixels_per_clock = 1,
+> @@ -799,7 +799,7 @@ static const struct vc4_pv_data bcm2835_pv1_data = {
+>
+>  static const struct vc4_pv_data bcm2835_pv2_data = {
+>         .base = {
+> -               .hvs_channel = 1,
+> +               .hvs_output = 1,
+>         },
+>         .debugfs_name = "crtc2_regs",
+>         .pixels_per_clock = 1,
+> @@ -862,7 +862,7 @@ int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
+>         drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
+>                                   crtc_funcs, NULL);
+>         drm_crtc_helper_add(crtc, crtc_helper_funcs);
+> -       vc4_crtc->channel = vc4_crtc->data->hvs_channel;
+> +       vc4_crtc->channel = vc4_crtc->data->hvs_output;
+>         drm_mode_crtc_set_gamma_size(crtc, ARRAY_SIZE(vc4_crtc->lut_r));
+>         drm_crtc_enable_color_mgmt(crtc, 0, false, crtc->gamma_size);
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index d80fc3bbb450..d1cf4c038180 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -447,8 +447,8 @@ to_vc4_encoder(struct drm_encoder *encoder)
+>  }
+>
+>  struct vc4_crtc_data {
+> -       /* Which channel of the HVS this pixelvalve sources from. */
+> -       int hvs_channel;
+> +       /* Which output of the HVS this pixelvalve sources from. */
+> +       int hvs_output;
+>  };
+>
+>  struct vc4_pv_data {
+> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> index 091fdf4908aa..6fd9de1dc65a 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> @@ -419,7 +419,7 @@ void vc4_hvs_mode_set_nofb(struct drm_crtc *crtc)
+>         struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+>         bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
+>
+> -       if (vc4_crtc->data->hvs_channel == 2) {
+> +       if (vc4_crtc->data->hvs_output == 2) {
+>                 u32 dispctrl;
+>                 u32 dsp3_mux;
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index a7c3af0005a0..f39d9900d027 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -452,7 +452,7 @@ static irqreturn_t vc4_txp_interrupt(int irq, void *data)
+>  }
+>
+>  static const struct vc4_crtc_data vc4_txp_crtc_data = {
+> -       .hvs_channel = 2,
+> +       .hvs_output = 2,
+>  };
+>
+>  static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> --
+> git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
