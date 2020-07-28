@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F612313D8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 22:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D19A2313FD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 22:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5B906E3F0;
-	Tue, 28 Jul 2020 20:27:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFDE6E3F2;
+	Tue, 28 Jul 2020 20:33:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A294B6E3F2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 20:27:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 77BD12003E;
- Tue, 28 Jul 2020 22:27:33 +0200 (CEST)
-Date: Tue, 28 Jul 2020 22:27:32 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Kevin Tang <kevin3.tang@gmail.com>
-Subject: Re: [PATCH RFC v6 1/6] dt-bindings: display: add Unisoc's drm master
- bindings
-Message-ID: <20200728202732.GB1277651@ravnborg.org>
-References: <1595930879-2478-1-git-send-email-kevin3.tang@gmail.com>
- <1595930879-2478-2-git-send-email-kevin3.tang@gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8657D6E3F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 20:33:08 +0000 (UTC)
+IronPort-SDR: 1K34wSIXhss8hQ26VKByZUEvvwEn1CvC2IdRq5KtkxcgQVnbDNhpu0Y4E6WSevoIadaQ5++Mek
+ 0XcEzaUwAqxw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="150479311"
+X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="150479311"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2020 13:33:01 -0700
+IronPort-SDR: ni4PLGfCLUQuVb2JxLZ+b1uEeVVD4cPAIuclcN2VDWOOlte+IJbcFbWLHGpAkp6e/ggr6qVHX9
+ WDU+pox8KgYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; d="scan'208";a="272425853"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by fmsmga007.fm.intel.com with ESMTP; 28 Jul 2020 13:33:01 -0700
+Received: from fmsmsx157.amr.corp.intel.com (10.18.116.73) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 28 Jul 2020 13:32:59 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.75]) by
+ FMSMSX157.amr.corp.intel.com ([169.254.14.227]) with mapi id 14.03.0439.000;
+ Tue, 28 Jul 2020 13:32:51 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Ben Skeggs <skeggsb@gmail.com>
+Subject: RE: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+Thread-Topic: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+Thread-Index: AQHWZI7UpS1ey9WojkqxwunJ9pNPAqkdJn5ggAC9cgD//4wn8A==
+Date: Tue, 28 Jul 2020 20:32:48 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E866301245EEBD6@FMSMSX108.amr.corp.intel.com>
+References: <20200728032545.19878-1-airlied@gmail.com>
+ <14063C7AD467DE4B82DEDB5C278E866301245EE4F7@FMSMSX108.amr.corp.intel.com>
+ <CACAvsv6_V4jhKra4wY32h5chheBddyZDzPWZHHOzsQn+UZLfQQ@mail.gmail.com>
+In-Reply-To: <CACAvsv6_V4jhKra4wY32h5chheBddyZDzPWZHHOzsQn+UZLfQQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.106]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1595930879-2478-2-git-send-email-kevin3.tang@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=icsG72s9AAAA:8 a=pGLkceISAAAA:8 a=gEfo2CItAAAA:8
- a=7CQSdrXTAAAA:8 a=e5mUnYsNAAAA:8 a=GBQisFtJAYk3vdkUeaMA:9
- a=CjuIK1q_8ugA:10 a=T89tl0cgrjxRNoSN2Dv0:22 a=sptkURWiP4Gy88Gu7hUp:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,105 +65,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, airlied@linux.ie, zhang.lyra@gmail.com,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, orsonzhai@gmail.com, sean@poorly.run
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kevin
-
-On Tue, Jul 28, 2020 at 06:07:54PM +0800, Kevin Tang wrote:
-> From: Kevin Tang <kevin.tang@unisoc.com>
-> 
-> The Unisoc DRM master device is a virtual device needed to list all
-> DPU devices or other display interface nodes that comprise the
-> graphics subsystem
-> 
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> ---
->  .../devicetree/bindings/display/sprd/drm.yaml      | 36 ++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/drm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/sprd/drm.yaml b/Documentation/devicetree/bindings/display/sprd/drm.yaml
-> new file mode 100644
-> index 0000000..b5792c0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sprd/drm.yaml
-drm seems like a sub-optimal name.
-How about usign the compatible name "display-subsystem" as it is a bit
-more specific (but not good).
-
-> @@ -0,0 +1,36 @@
-> +# SPDX-License-Identifier: GPL-2.0
-
-Any chance this can be (GPL-2.0-only OR BSD-2-Clause).
-I noticed that for example clock/sprd,sc9863a-clk.yaml uses this license
-so I hope this is OK.
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sprd/drm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Unisoc DRM master device
-> +
-> +maintainers:
-> +  - Mark Rutland <mark.rutland@arm.com>
-> +
-> +description: |
-> +  The Unisoc DRM master device is a virtual device needed to list all
-> +  DPU devices or other display interface nodes that comprise the
-> +  graphics subsystem.
-> +
-> +properties:
-> +  compatible:
-> +    const: sprd,display-subsystem
-> +
-> +  ports:
-> +    description:
-> +      Should contain a list of phandles pointing to display interface port
-> +      of DPU devices.
-Add type - like this:
-$ref: /schemas/types.yaml#/definitions/phandle-array
-
-See for example display/rockchip/rockchip-drm.yaml
-
-Any specific reason why this is not a ports node like used by many other
-display bindings?
-In other words - I think this is too simple.
-
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +
-
-Add:
-additionalProperties: false
-
-so we catch if other properties sneak in.
-
-> +examples:
-> +  - |
-> +    display-subsystem {
-> +        compatible = "sprd,display-subsystem";
-> +        ports = <&dpu_out>;
-> +    };
-> +
-> -- 
-> 2.7.4
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQmVuIFNrZWdncyA8c2tlZ2dzYkBn
+bWFpbC5jb20+DQo+U2VudDogVHVlc2RheSwgSnVseSAyOCwgMjAyMCA0OjE2IFBNDQo+VG86IFJ1
+aGwsIE1pY2hhZWwgSiA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPg0KPkNjOiBEYXZlIEFpcmxp
+ZSA8YWlybGllZEBnbWFpbC5jb20+OyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOw0K
+PmJza2VnZ3NAcmVkaGF0LmNvbQ0KPlN1YmplY3Q6IFJlOiBbUEFUQ0hdIG5vdXZlYXU6IHVzZSB0
+dG0gcG9wdWxhdGUgbWFwcGluZyBmdW5jdGlvbnMuICh2MikNCj4NCj5PbiBXZWQsIDI5IEp1bCAy
+MDIwIGF0IDAyOjA4LCBSdWhsLCBNaWNoYWVsIEogPG1pY2hhZWwuai5ydWhsQGludGVsLmNvbT4N
+Cj53cm90ZToNCj4+DQo+PiA+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4+ID5Gcm9tOiBk
+cmktZGV2ZWwgPGRyaS1kZXZlbC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVo
+YWxmIE9mDQo+PiA+RGF2ZSBBaXJsaWUNCj4+ID5TZW50OiBNb25kYXksIEp1bHkgMjcsIDIwMjAg
+MTE6MjYgUE0NCj4+ID5UbzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPj4gPkNj
+OiBic2tlZ2dzQHJlZGhhdC5jb20NCj4+ID5TdWJqZWN0OiBbUEFUQ0hdIG5vdXZlYXU6IHVzZSB0
+dG0gcG9wdWxhdGUgbWFwcGluZyBmdW5jdGlvbnMuICh2MikNCj4+ID4NCj4+ID5Gcm9tOiBEYXZl
+IEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPg0KPj4gPg0KPj4gPkluc3RlYWQgb2Ygcm9sbGlu
+ZyBkcml2ZXIgY29waWVzIG9mIHRoZW0uDQo+PiA+DQo+PiA+djI6IGNsZWFudXAgcmV0dXJuIGhh
+bmRsaW5nIChCZW4pDQo+PiA+U2lnbmVkLW9mZi1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVk
+aGF0LmNvbT4NCj4+ID4tLS0NCj4+ID4gZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9i
+by5jIHwgMzggKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4gPiAxIGZpbGUgY2hhbmdl
+ZCwgMiBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkNCj4+ID4NCj4+ID5kaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jDQo+PiA+Yi9kcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMNCj4+ID5pbmRleCA3ODA2Mjc4ZGNlNTcuLjZlZjUw
+ODVjOWE5MSAxMDA2NDQNCj4+ID4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
+X2JvLmMNCj4+ID4rKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMNCj4+
+ID5AQCAtMTIzMSw4ICsxMjMxLDYgQEAgbm91dmVhdV90dG1fdHRfcG9wdWxhdGUoc3RydWN0IHR0
+bV90dCAqdHRtLA0KPj4gPnN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4KQ0KPj4gPiAgICAg
+ICBzdHJ1Y3QgdHRtX2RtYV90dCAqdHRtX2RtYSA9ICh2b2lkICopdHRtOw0KPj4gPiAgICAgICBz
+dHJ1Y3Qgbm91dmVhdV9kcm0gKmRybTsNCj4+ID4gICAgICAgc3RydWN0IGRldmljZSAqZGV2Ow0K
+Pj4gPi0gICAgICB1bnNpZ25lZCBpOw0KPj4gPi0gICAgICBpbnQgcjsNCj4+ID4gICAgICAgYm9v
+bCBzbGF2ZSA9ICEhKHR0bS0+cGFnZV9mbGFncyAmIFRUTV9QQUdFX0ZMQUdfU0cpOw0KPj4gPg0K
+Pj4gPiAgICAgICBpZiAodHRtLT5zdGF0ZSAhPSB0dF91bnBvcHVsYXRlZCkNCj4+ID5AQCAtMTI2
+MCwzMSArMTI1OCw3IEBAIG5vdXZlYXVfdHRtX3R0X3BvcHVsYXRlKHN0cnVjdCB0dG1fdHQgKnR0
+bSwNCj4+ID5zdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCkNCj4+ID4gICAgICAgICAgICAg
+ICByZXR1cm4gdHRtX2RtYV9wb3B1bGF0ZSgodm9pZCAqKXR0bSwgZGV2LCBjdHgpOw0KPj4gPiAg
+ICAgICB9DQo+PiA+ICNlbmRpZg0KPj4gPi0NCj4+ID4tICAgICAgciA9IHR0bV9wb29sX3BvcHVs
+YXRlKHR0bSwgY3R4KTsNCj4+ID4tICAgICAgaWYgKHIpIHsNCj4+ID4tICAgICAgICAgICAgICBy
+ZXR1cm4gcjsNCj4+ID4tICAgICAgfQ0KPj4gPi0NCj4+ID4tICAgICAgZm9yIChpID0gMDsgaSA8
+IHR0bS0+bnVtX3BhZ2VzOyBpKyspIHsNCj4+ID4tICAgICAgICAgICAgICBkbWFfYWRkcl90IGFk
+ZHI7DQo+PiA+LQ0KPj4gPi0gICAgICAgICAgICAgIGFkZHIgPSBkbWFfbWFwX3BhZ2UoZGV2LCB0
+dG0tPnBhZ2VzW2ldLCAwLCBQQUdFX1NJWkUsDQo+PiA+LSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBETUFfQklESVJFQ1RJT05BTCk7DQo+PiA+LQ0KPj4gPi0gICAgICAgICAgICAg
+IGlmIChkbWFfbWFwcGluZ19lcnJvcihkZXYsIGFkZHIpKSB7DQo+PiA+LSAgICAgICAgICAgICAg
+ICAgICAgICB3aGlsZSAoaS0tKSB7DQo+PiA+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGRtYV91bm1hcF9wYWdlKGRldiwgdHRtX2RtYS0NCj4+ID4+ZG1hX2FkZHJlc3NbaV0sDQo+PiA+
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBBR0VfU0laRSwN
+Cj4+ID5ETUFfQklESVJFQ1RJT05BTCk7DQo+PiA+LSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHR0bV9kbWEtPmRtYV9hZGRyZXNzW2ldID0gMDsNCj4+ID4tICAgICAgICAgICAgICAgICAg
+ICAgIH0NCj4+ID4tICAgICAgICAgICAgICAgICAgICAgIHR0bV9wb29sX3VucG9wdWxhdGUodHRt
+KTsNCj4+ID4tICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRUZBVUxUOw0KPj4gPi0gICAg
+ICAgICAgICAgIH0NCj4+ID4tDQo+PiA+LSAgICAgICAgICAgICAgdHRtX2RtYS0+ZG1hX2FkZHJl
+c3NbaV0gPSBhZGRyOw0KPj4gPi0gICAgICB9DQo+PiA+LSAgICAgIHJldHVybiAwOw0KPj4gPisg
+ICAgICByZXR1cm4gdHRtX3BvcHVsYXRlX2FuZF9tYXBfcGFnZXMoZGV2LCB0dG1fZG1hLCBjdHgp
+Ow0KPj4NCj4+IFRoaXMgaXMgbm90IGEgY29tcGxldGVseSBzdHJhaWdodCBjb2RlIHJlcGxhY2Vt
+ZW50Lg0KPj4NCj4+IHR0bV9wb3B1bGF0ZV9hbmRfbWFwX3BhZ2VzKCkgYWxzbyBoYXMgY29kZSB0
+byBkZWFsIHdpdGggcGFnZXMgdGhhdCBhcmUNCj4+IGNvbnRpZ3VvdXMgKGNvbnNvbGlkYXRlcyB0
+aGVtKS4NCj4+DQo+PiBJcyBpdCBwb3NzaWJsZSB0aGF0IHRoZSBub3V2ZWF1IEhXIGNhbid0IGhh
+bmRsZSBhIGNvbnRpZ3VvdXMgYnVmZmVyIGxhcmdlcg0KPj4gdGhhbiBQQUdfU0laRT8NCj5JIHRo
+aW5rIGl0J3MgZmluZS4gIFRoZSBmdW5jdGlvbiBhcHBlYXJzIHRvIGNvbnNvbGlkYXRlIHRoZSBw
+YWdlcyBmb3INCj50aGUgZG1hX21hcF9wYWdlKCkgY2FsbCwgYnV0IG90aGVyd2lzZSBsZWF2ZSBk
+bWFfYWRkcmVzc1tdIGluDQo+UEFHRV9TSVpFIGNodW5rcywgSSBkb24ndCBiZWxpZXZlIGFueXRo
+aW5nIGVsc2UgaW4gdGhlIGRyaXZlciB3aWxsDQo+Y2FyZS4NCg0KQWhoLi4gIEkgbWlzcmVhZCBp
+dC4gICBUaGlzIGlzIGxpbWl0aW5nIHRoZSBjYWxscyB0byBkbWFfbWFwX3BhZ2UoKS4gIEluc3Rl
+YWQNCm9mIGNhbGxpbmcgaXQgZm9yIGVhY2ggcGFnZSwganVzdCBkbyBpdCBmb3IgdGhlIGZpcnN0
+IG9uZS4uLg0KDQpUaGFua3MgZm9yIHNldHRpbmcgbWUgc3RyYWlnaHQuIPCfmIoNCg0KUmV2aWV3
+ZWQtYnk6IE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPg0KDQpNaWtl
+DQoNCg0KPkJlbi4NCj4NCj4+DQo+PiBUaGFua3MsDQo+Pg0KPj4gTWlrZQ0KPj4NCj4+ID4gfQ0K
+Pj4gPg0KPj4gPiBzdGF0aWMgdm9pZA0KPj4gPkBAIC0xMjkzLDcgKzEyNjcsNiBAQCBub3V2ZWF1
+X3R0bV90dF91bnBvcHVsYXRlKHN0cnVjdCB0dG1fdHQgKnR0bSkNCj4+ID4gICAgICAgc3RydWN0
+IHR0bV9kbWFfdHQgKnR0bV9kbWEgPSAodm9pZCAqKXR0bTsNCj4+ID4gICAgICAgc3RydWN0IG5v
+dXZlYXVfZHJtICpkcm07DQo+PiA+ICAgICAgIHN0cnVjdCBkZXZpY2UgKmRldjsNCj4+ID4tICAg
+ICAgdW5zaWduZWQgaTsNCj4+ID4gICAgICAgYm9vbCBzbGF2ZSA9ICEhKHR0bS0+cGFnZV9mbGFn
+cyAmIFRUTV9QQUdFX0ZMQUdfU0cpOw0KPj4gPg0KPj4gPiAgICAgICBpZiAoc2xhdmUpDQo+PiA+
+QEAgLTEzMTYsMTQgKzEyODksNyBAQCBub3V2ZWF1X3R0bV90dF91bnBvcHVsYXRlKHN0cnVjdCB0
+dG1fdHQNCj4qdHRtKQ0KPj4gPiAgICAgICB9DQo+PiA+ICNlbmRpZg0KPj4gPg0KPj4gPi0gICAg
+ICBmb3IgKGkgPSAwOyBpIDwgdHRtLT5udW1fcGFnZXM7IGkrKykgew0KPj4gPi0gICAgICAgICAg
+ICAgIGlmICh0dG1fZG1hLT5kbWFfYWRkcmVzc1tpXSkgew0KPj4gPi0gICAgICAgICAgICAgICAg
+ICAgICAgZG1hX3VubWFwX3BhZ2UoZGV2LCB0dG1fZG1hLT5kbWFfYWRkcmVzc1tpXSwNCj4+ID5Q
+QUdFX1NJWkUsDQo+PiA+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBETUFf
+QklESVJFQ1RJT05BTCk7DQo+PiA+LSAgICAgICAgICAgICAgfQ0KPj4gPi0gICAgICB9DQo+PiA+
+LQ0KPj4gPi0gICAgICB0dG1fcG9vbF91bnBvcHVsYXRlKHR0bSk7DQo+PiA+KyAgICAgIHR0bV91
+bm1hcF9hbmRfdW5wb3B1bGF0ZV9wYWdlcyhkZXYsIHR0bV9kbWEpOw0KPj4gPiB9DQo+PiA+DQo+
+PiA+IHZvaWQNCj4+ID4tLQ0KPj4gPjIuMjYuMg0KPj4gPg0KPj4gPl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+PiA+ZHJpLWRldmVsIG1haWxpbmcgbGlz
+dA0KPj4gPmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4+ID5odHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA0KPj4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4+IGRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QNCj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4+IGh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsDQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
