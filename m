@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B372307C7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 12:37:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240912307C8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 12:38:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B75C6E24D;
-	Tue, 28 Jul 2020 10:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1B489FA9;
+	Tue, 28 Jul 2020 10:38:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D24CE6E24D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 10:37:48 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a15so17771162wrh.10
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:37:48 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA4189FA9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 10:38:44 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g10so15257509wmc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 03:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OZjzAoiWn1HSh0Y0nkJfSNiw0UIfvD0fsceTUq2RuYk=;
- b=a51eZGbm6AIsMwVK6quzrGdo4namqdd/119nT+FhzgTCI1cP2ZXE9xyzrK/Dibox96
- YDt4CzGvuA8BFkl6016hNTW65d2MdXct9rnADduF3Tm7F1000TWXFtnBDgvhHzvpINcC
- x/2/TT7wO4hqryvt80wM3Bz/a0BF49Te3UREiFw+98qdgckjXAUNXeR7LAyM563LdL8H
- t0fRLSOS82X2PRwXm7F3OXswaZIJyyg6VWwUX43rrEsTpA/0A0ZAoAFxwU9Wify7tz9R
- rGgFpoLWs5DorYH8Q4HiE3O/45ZMgSWEIEr6RgJq78b9FKZQ6Z1QbbH6ZEhxt6tbGNLF
- 56vA==
+ :cc; bh=DRhCSmIwi420CrkXUO97I66VCQgr7S8ldVnLi+5FGbg=;
+ b=ch9uv/BUJSu3oSt8k3ciCSYlMfuMBNGz6xnHGp7pe0JFdEOFJ4ONqGzURQRAVpZQ1j
+ FpQuHTgSEqbQq93FZtOKunxuGNo5G93RAsJhiHdV53vHprAEkGR5j7f7MOkYEj3AE6/L
+ F/Xmr7t+LMIJH+1FxKTk3VVDE1kZsnSHmLc/iwzXGpb3jFjkXVD83X43M3+SS1oXMZwe
+ d95QywpZiGc1PhTdgVi1tXmGewQLRDgVNtCxvXTL4iW2P7US1j5HQWyuFUSO0yud6p5o
+ sOa01w7Ly9jiTvl/9YTMcWdEM9F5NImbBJmv/sqK0/gHMfWTTX5K3lttaLayQLF9zVL5
+ J/+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OZjzAoiWn1HSh0Y0nkJfSNiw0UIfvD0fsceTUq2RuYk=;
- b=qz/WkO1pVTvJclCtc9eBNp/QHk7IZx4GKJTxq9Txigj87iLL0jz8u4rk1uD8HBYMKb
- P+FxMgW1DH+Og+fYIjdqvH4K36x69yKo5yqFK6YVrL0dX3rdfPPN07LXTNGuIrh/Xga5
- ZzPQR4V9e50uYbBp0T5IiZzCJeNhLJwgEp/wD0e/s7b6m6gdNtUUCkxuW/SzTGesZ+gg
- /tnV3G2phccHTMATljMnhmNzKKARW13wdP+FBKX5YPSm3tticL3eCED0xgC+mor+ipjG
- Um+E6oDrh9EVcmfcHDeIq1qNjP1DKvjA1lxXjrDSC+H1UbEPja/4fCHKKM2hbMZbcfBG
- dnwg==
-X-Gm-Message-State: AOAM531VzVMbYsxCA4zKsBWHFvFvokdKAgL0T5lBc2Vys7RnS2OvKoUm
- pdWMJ1f5ASGid879iEgk0doJqkq2wPVqNha3sRqaEw==
-X-Google-Smtp-Source: ABdhPJxWibovrmlX+nW4KlLfNQN5y+/n0cpGK4fLmq/5GvkNGv0NvEq0f6EQqnQZa3H/YJqJNCOOQ0IuE/d+gBI6tto=
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr19075246wrs.273.1595932667516; 
- Tue, 28 Jul 2020 03:37:47 -0700 (PDT)
+ bh=DRhCSmIwi420CrkXUO97I66VCQgr7S8ldVnLi+5FGbg=;
+ b=Po9ByKE2EHRAQqSu9S+DBsM/oxhvUN3DAui2j4NiptnbSr1YHBKZf2xjzKTooQ7Kgc
+ ijYuPe21x681szuc1fgCWCo2sj5xzYTuaLBWdst02vAkEFAkPCWVp9c0iQohU3RYxxjl
+ t9SQrw3ujB2FUFqfQfYqGs4LR3BllLko6PO9D/Gyl5v8zivlAgJO4dVg6umi61bvDdRM
+ hBFOQEuBL+mmWlRZU11jb74uaRjazChWBJKO6wFfeZSaNlDNie8uBnQTSmIFmvYCDwJ7
+ s6eDx4bBaz75uWcBTaTpLEAeAVUuukfGeZ8vD64i1FIZAD8LcS88HJmPuk3dN8JaHYNq
+ VgAA==
+X-Gm-Message-State: AOAM530BVC50Cee3i8ky4VtF1ljo5iPG1Jzq3FeXfLDLLnwNwOWESPgf
+ DW4oZJfpb0qe+7triKCj5ywTc7Sl3YGzHe+fCMNCXw==
+X-Google-Smtp-Source: ABdhPJzMVUhIJzulRUVqA+fy1eEAHCtDW22IaZs5ZYJ9cfXiVcLmQKRVShFpKgdv8QsgsKC0gB+rAu5IHXaapNAg1r8=
+X-Received: by 2002:a7b:cf18:: with SMTP id l24mr3417030wmg.116.1595932723328; 
+ Tue, 28 Jul 2020 03:38:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <1fa32b771828098365162a24654c7bbab805500e.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <1fa32b771828098365162a24654c7bbab805500e.1594230107.git-series.maxime@cerno.tech>
+ <8bfc2e06f1c2a1f01151880e62e816b3ee629a75.1594230107.git-series.maxime@cerno.tech>
+In-Reply-To: <8bfc2e06f1c2a1f01151880e62e816b3ee629a75.1594230107.git-series.maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Jul 2020 11:37:31 +0100
-Message-ID: <CAPY8ntCtj+yMNmnqT+q0AH6sYSLXWa7E=vZoSPGt1Bda1iHEpw@mail.gmail.com>
-Subject: Re: [PATCH v4 24/78] drm/vc4: hvs: Make sure our channel is reset
+Date: Tue, 28 Jul 2020 11:38:26 +0100
+Message-ID: <CAPY8ntBhc1VGj8tJhX6c1JjB8mcu8YfL3=T_8HyFgyznyi+bPA@mail.gmail.com>
+Subject: Re: [PATCH v4 25/78] drm/vc4: crtc: Remove mode_set_nofb
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,35 +77,53 @@ Hi Maxime
 
 On Wed, 8 Jul 2020 at 18:43, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> In order to clear our intermediate FIFOs that might end up with a stale
-> pixel, let's make sure our FIFO channel is reset everytime our channel is
-> setup.
-
-Minor nit pick: s/everytime/every time
-
+> On BCM2711 to avoid stale pixels getting stuck in intermediate FIFOs, the
+> pixelvalve needs to be setup each time there's a mode change or enable /
+> disable sequence.
+>
+> Therefore, we can't really use mode_set_nofb anymore to configure it, but
+> we need to move it to atomic_enable.
+>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_hvs.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/gpu/drm/vc4/vc4_crtc.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-> index c7de77afbf0a..64b9d72471ef 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -205,6 +205,10 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
->         u32 dispbkgndx;
->         u32 dispctrl;
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index 284a85b9d7d4..2eda2e6429ec 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -376,11 +376,6 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
+>         }
+>  }
 >
-> +       HVS_WRITE(SCALER_DISPCTRLX(chan), 0);
-> +       HVS_WRITE(SCALER_DISPCTRLX(chan), SCALER_DISPCTRLX_RESET);
-> +       HVS_WRITE(SCALER_DISPCTRLX(chan), 0);
-> +
->         /* Turn on the scaler, which will wait for vstart to start
->          * compositing.
->          * When feeding the transposer, we should operate in oneshot
+> -static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
+> -{
+> -       vc4_crtc_config_pv(crtc);
+> -}
+> -
+>  static void require_hvs_enabled(struct drm_device *dev)
+>  {
+>         struct vc4_dev *vc4 = to_vc4_dev(dev);
+> @@ -433,6 +428,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
+>         require_hvs_enabled(dev);
+>
+>         vc4_crtc_pixelvalve_reset(crtc);
+> +       vc4_crtc_config_pv(crtc);
+>
+>         CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
+>
+> @@ -791,7 +787,6 @@ static const struct drm_crtc_funcs vc4_crtc_funcs = {
+>  };
+>
+>  static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
+> -       .mode_set_nofb = vc4_crtc_mode_set_nofb,
+>         .mode_valid = vc4_crtc_mode_valid,
+>         .atomic_check = vc4_crtc_atomic_check,
+>         .atomic_flush = vc4_hvs_atomic_flush,
 > --
 > git-series 0.9.1
 _______________________________________________
