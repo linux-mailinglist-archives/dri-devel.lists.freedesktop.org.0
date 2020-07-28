@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C7C231298
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A7E2312B2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 21:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD2156E2E4;
-	Tue, 28 Jul 2020 19:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 209F96E3B5;
+	Tue, 28 Jul 2020 19:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 324 seconds by postgrey-1.36 at gabe;
- Tue, 28 Jul 2020 11:23:53 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6F96E26C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 11:23:53 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 293D589BCD
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 11:18:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1595935431;
- bh=kKz6J2TJMa/GicbvTCv76Ky9V4fO/FV3yZh5V+NhgHA=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=S+wM/wAaXHLNJuOGHR/kmNSo3NzHgl3u4I3Yf+Jctfcu7TqlXDkou7o5QklMv44RX
- p2+1oqqLX3WBUTkhG8C7FGTLaMEMth2EKAgwhLI18tm1IsF/OJ0nmyPMt8Hor0soVO
- ih2LTcB3S+QT8QsH5jepYSQqqPmZ3CGMikFINpE8=
+ s=badeba3b8450; t=1595935101;
+ bh=RjztiQu8bvOyUz2B8+6Y6utG8fBygRMWzsrfRLxaT28=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=PqTJVT5/1DKAUPspO4Fwvu8KXxLwmZT9gxvwKOC/sayrFfCYOGUrAt1kKuLyuV+/2
+ rmV1oZj9libk8OmI/vr47fgm+vwLQ9bE5YsWg4W6ypd68ap6fz8Ixo+NsECqvMjLde
+ DmhoS6b7PQ36PJy1dHsMVQb+2gyklriznJ4flhAk=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([80.208.215.239]) by mail.gmx.com
  (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MEUz4-1jym7135gI-00FzVD; Tue, 28 Jul 2020 13:18:17 +0200
+ 1Mr9Bu-1kX1XH0BMs-00oDrD; Tue, 28 Jul 2020 13:18:21 +0200
 From: Frank Wunderlich <frank-w@public-files.de>
 To: linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 0/5] make hdmi work on bananapi-r2
-Date: Tue, 28 Jul 2020 13:17:55 +0200
-Message-Id: <20200728111800.77641-1-frank-w@public-files.de>
+Subject: [PATCH v2 1/5] drm/mediatek: config component output by device node
+ port
+Date: Tue, 28 Jul 2020 13:17:56 +0200
+Message-Id: <20200728111800.77641-2-frank-w@public-files.de>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200728111800.77641-1-frank-w@public-files.de>
+References: <20200728111800.77641-1-frank-w@public-files.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:+y5CoX8QurDPY0IO98TiGJ9LRNcAE9xACEixzFfMq7Rc9pJV6/F
- VIOEtUITqe74q6u2ezJ4CIbpDVVJNTJugvVeL9HglsnPh8Husf3ag6TligX+Syc5hziPW09
- ER2o83PdhsHrZ1mvkVFnWBMYpn1ixkPjVaA30e4evKXJ+WzDhFbNGkKNRPet6RUPF6aFX69
- ZYJDeR5cZL/ysODW/uUsg==
+X-Provags-ID: V03:K1:YvbDIbRpFNRzU9CUvTdpvNUkk08xUKy8rbwWD1rLNM8UXAoQuK4
+ eICt8UcylHTRfOGkjEX9jjTApIMznChQZ6JLB0JrsjiMAAUXmWoZWVa1uKNNAGYRlIyVrTC
+ IKSqIDP+H57GVEHxo0RDq9SNxAHZIaXwDCy1xq9aaTm2FrJdcG2UEvxzlv5POKDx0mQCuV4
+ VCgz/4H4bnhMAao7exzPA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G3AHFkQI4No=:n7GF6rIqM26MFvWu8OeyUs
- jzEzJcJwCrM+myesS9srOs2eNr2352XSiox3AdhsQaMI6dISjLLNGDO/5xiVCgiDn+z+KSQg7
- SLoGLYTxFynb3JSsJxV2NKvNTff5eEeNoeTzfjBqw32tmUJ00iqZ0hwoGZrrSjVc5rmYN0rVd
- XMxd3ICQj+fF4wzv47BYvnhDns+y1KXXefAzWt3d643SutqCWwlBkfTryNq7aTCljogs01mah
- tTphgY531h1OnmYH8cyDvUQWohE/Etr0ZFgTTHBy9fBudd6KBleQJhX7A3tKp0eVOoJMfjPkC
- 8zix4n/S2k90HRMxvThlRcuN94J7+mR3bL2yUkCSQDkEbRq9miLKHH4mYWDY2fQ7h2hJ2hz/X
- 6uhajgQjHh2cDbcDnGKOFmSHAx4RcutrNkI2mBq66hDVG4VRYSMPzdmia94IgDzpSSboWo+4A
- 0Pm7LxQWzfTYW+O/FplW49cOpbbIOfucxOxCpfSs7TOB1NY0OdX8k1+xONTAFBgZ72vD7/URg
- xrRC4OGIDBmdOAzVEqoTN+PpoDm5Q3sRgizghqqP9ODDY80QDK79HUdi6HBYNZeHLcUH0bzWQ
- cpKyGRzZPlUoz9XPIfHbrlUDqADklwC/QUh715E+gN3QOZ78VctacRLt7IJ8vgLrvtCsBpGvZ
- eUhXF8KwCjMaDy+0/QI5m9u/gdhmnnKl5i60JLS7qQwaeURX0RhpRCcQBLuzpTUUTckbDIJc5
- KAz8kqH6hbImDAW2RbvDNHTQjauKtJEXiDxCDD3OqHvDEbUiS3rEnkE50wIB6c4p/pmre5Szb
- lMilHwxcOOXGvex9ZZ8oistlcvyc/8J3xQR4js5fV0E2jBlgxQAXoCaPq2VMpiQqiQ7EIsO22
- U5NXvPfdeT+pq6RE+mBtV2L91YL22kFSh3PuxK/JsdfmReJxqjdwP6I4bjtSoHKsdgJzPQBYY
- Dd1Drhs5ianhz5vkyYAj6rwfppQdogtQnBLegLowspuR/JRnnA5EmNxG7rtBBAQIPXJGVohV5
- Wj03KT8f0duZbXlNvfuss/M3qKojYAIu3fT1FOyNx+yocHY7NW+fwdGfDEn8T6nMvBxINPTS9
- OeDwC7bqBuAnjsqOKF8LwYJaixJNFCP7WItkbv9lFzpf+2101GIxXY1hcDMkN+ocAfDM8DilV
- A+csLH5mySWd+XHnOcExsgtb2Xrpl5cLsBjhUryOpHiZSFO81GZnGID1X52JvyH+60/2HBERh
- NrjY1e0aFpo1KrLpuvXp2rOf++I3xPaN9rgAX/Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5JI92cNImiA=:IU9/AVKV/YriZTpTu1OE0e
+ O8SnTBpFQJaIKnhNf0ENVS71qiHFJW6fi77esT8+iPhPmyguNpqEi200P15DE396vcSD6HaRy
+ jkK+um62hHmvGVD413t3Td/MBamGeZ0K/OHMaCWx9ZlhRNV3p5ddO85KGWDGbKGl3mIQy1ZDO
+ gYTMhu1k/shkkXPexV8oBEFwrK1sjylI3UcDJhmVj0v7MvmpjrGSfLohzyhggLMiQrWtSXj1s
+ F5lH69pJPnG6XDc6RTp9zCPFR+88z8jqreyd0iU6HGsgSLtteanA1+aosO8ehasnE2LmJs3cq
+ XCQhAot6d9BA5lrJCOx3xPDXpsXRDODPrBq51F3FjzrYm0r+R+673O9haC0BJ3bgICsF0xtcB
+ r68CTlvnknBcp8o/Xlu4r4mQwOP/IXmr3LOV1iBVAy3JR9UVdyiaAwDpLH0ZjmHhNBSf+kYec
+ dil9AXhKdCT17ayWhX6puhITR3fzJONhT9CXwjhzytz+YkWf0A1sLUmXZMriF5HnHqmKo2pBz
+ aXWk5rIooPqsAiK4rTMuZ09SbaOSfOUswgDpAdQw/UCtzfRf5HPXFDOoXiNqi988wHVgPH39d
+ reopSpTbdHOZL5aeLq4WRU2g35bhX4O8jNUsrcK3R8N/USycjc62YiM/EFptwkec+4eMjw9h1
+ nbFEDDoYSLOsPoTl9rzfWc1aiIRq0+Bx+rrfaf23uQPdhRmi8/YF0ZAnar8dhSEhz5Jmct+0I
+ lzyhaHfFgFGPBm2i2iEsyUqzSTPEy2q1nYqtCAFMSB60D6oBkWAbWgtVo0n8KvX9Q7fRmKWo4
+ 9rFBYULsOB0q4GS4C1aZNkk64O39OnVdqHUOOoSVcM7LQU9XVlE35S4gDtIZdqe1EZ8z+smv5
+ /+v2VHEZ4IpAf8jQzlxuEyPHyG2CtXV3AMEoA4e+/Xxxq5IL9Ve3rWkrmwxkPm8+/76Zh67e+
+ +1ZrOvHoyORJHbaEJSnK3KI6l4bQuCAaMDeqcIp/GX2d8au/zlPDwHGAXlrwwhBBTZIiQ1fht
+ 6Hu95C5tCaeveDCNyggV4YE4oP2zSdyO+ItSIBCDFQgWj+QA3SvJGu47HvP2JOIHMXjfwmXXR
+ L4G2ac3jJFcKw0n5l7Gfty4KURDLrGVL0M9vLkoIH87wz83fAxHjWg2jzQjo3foq1YKgx+XB7
+ bV2ZZh1PhCqVaiMTzK6lP4oD/Okofix7b7Ru49cLd353NNBLHoYRY/S8u6Ae6RmYx+SKuRWv6
+ 8/3j9uIxIhbIUCnAws/QvGWYwSOpixhywPWcY6Q==
 X-Mailman-Approved-At: Tue, 28 Jul 2020 19:30:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,54 +80,153 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This Patch-Series adds missing Patches/Bugfixes to get hdmi working
-on BPI-R2
-This is v2 of series https://patchwork.kernel.org/cover/10903309/ after
-getting mmsys done
+From: Bibby Hsieh <bibby.hsieh@mediatek.com>
 
-v1->v2:
- - using get_possible_crtc API instead of hardcoded
- - drop unused dts-nodes
- - refine commit-messages as far as i can :)
-   "config component output by device node port" is needed to fix a WARN_ON()
-   "fix boot up for 720 and 480 but 1080" fixes flickering,
-     which may cause also some resolutions not working on some TFT (had some problems on my smaller TFT)
+We can select output component by decive node port.
+Main path default output component is DSI.
+External path default output component is DPI.
 
-2 Patches were already posted, but not yet merged into mainline
-- config component output by device node port
-  https://patchwork.kernel.org/patch/10609007/
-- add display subsystem related device nodes (resend)
-  https://patchwork.kernel.org/patch/10588951/
+without this Patch i get this warning:
 
-Bibby Hsieh (1):
-  drm/mediatek: config component output by device node port
+WARNING: CPU: 3 PID: 70 at drivers/gpu/drm/drm_mode_config.c:621 drm_mode_config_validate+0x1d8/0x258
 
-Jitao Shi (1):
-  drm/mediatek: dpi/dsi: change the getting possible_crtc way
+Signed-off-by: Bibby Hsieh <bibby.hsieh@mediatek.com>
 
-Ryder Lee (1):
-  arm: dts: mt7623: add display subsystem related device nodes
+added small fixes for warnings
 
-Stu Hsieh (1):
-  drm: Add get_possible_crtc API for dpi, dsi
+Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+Tested-by: Frank Wunderlich <frank-w@public-files.de>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 46 ++++++++++++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h |  4 +--
+ 2 files changed, 42 insertions(+), 8 deletions(-)
 
-chunhui dai (1):
-  drm/mediatek: fix boot up for 720 and 480 but 1080
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 6bd369434d9d..ce7abf2743d9 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -24,6 +24,13 @@
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
++#include <linux/component.h>
++#include <linux/iommu.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/of_graph.h>
++#include <linux/of_platform.h>
++#include <linux/pm_runtime.h>
 
- arch/arm/boot/dts/mt7623.dtsi                 | 177 ++++++++++++++++++
- arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dts |  85 +++++++++
- arch/arm/boot/dts/mt7623n-rfb-emmc.dts        |  85 +++++++++
- drivers/gpu/drm/mediatek/mtk_dpi.c            |   3 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  42 +++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   2 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  46 ++++-
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   4 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c            |   3 +-
- drivers/gpu/drm/mediatek/mtk_hdmi_phy.c       |   3 +
- drivers/gpu/drm/mediatek/mtk_hdmi_phy.h       |   1 +
- .../gpu/drm/mediatek/mtk_mt2701_hdmi_phy.c    |   1 +
- 12 files changed, 442 insertions(+), 10 deletions(-)
+ #include "mtk_drm_crtc.h"
+ #include "mtk_drm_ddp.h"
+@@ -61,7 +68,7 @@ static const struct drm_mode_config_funcs mtk_drm_mode_config_funcs = {
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
 
+-static const enum mtk_ddp_comp_id mt2701_mtk_ddp_main[] = {
++static enum mtk_ddp_comp_id mt2701_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_OVL0,
+ 	DDP_COMPONENT_RDMA0,
+ 	DDP_COMPONENT_COLOR0,
+@@ -69,12 +76,12 @@ static const enum mtk_ddp_comp_id mt2701_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_DSI0,
+ };
+
+-static const enum mtk_ddp_comp_id mt2701_mtk_ddp_ext[] = {
++static enum mtk_ddp_comp_id mt2701_mtk_ddp_ext[] = {
+ 	DDP_COMPONENT_RDMA1,
+ 	DDP_COMPONENT_DPI0,
+ };
+
+-static const enum mtk_ddp_comp_id mt2712_mtk_ddp_main[] = {
++static enum mtk_ddp_comp_id mt2712_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_OVL0,
+ 	DDP_COMPONENT_COLOR0,
+ 	DDP_COMPONENT_AAL0,
+@@ -84,7 +91,7 @@ static const enum mtk_ddp_comp_id mt2712_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_PWM0,
+ };
+
+-static const enum mtk_ddp_comp_id mt2712_mtk_ddp_ext[] = {
++static enum mtk_ddp_comp_id mt2712_mtk_ddp_ext[] = {
+ 	DDP_COMPONENT_OVL1,
+ 	DDP_COMPONENT_COLOR1,
+ 	DDP_COMPONENT_AAL1,
+@@ -100,7 +107,7 @@ static const enum mtk_ddp_comp_id mt2712_mtk_ddp_third[] = {
+ 	DDP_COMPONENT_PWM2,
+ };
+
+-static const enum mtk_ddp_comp_id mt8173_mtk_ddp_main[] = {
++static enum mtk_ddp_comp_id mt8173_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_OVL0,
+ 	DDP_COMPONENT_COLOR0,
+ 	DDP_COMPONENT_AAL0,
+@@ -111,7 +118,7 @@ static const enum mtk_ddp_comp_id mt8173_mtk_ddp_main[] = {
+ 	DDP_COMPONENT_PWM0,
+ };
+
+-static const enum mtk_ddp_comp_id mt8173_mtk_ddp_ext[] = {
++static enum mtk_ddp_comp_id mt8173_mtk_ddp_ext[] = {
+ 	DDP_COMPONENT_OVL1,
+ 	DDP_COMPONENT_COLOR1,
+ 	DDP_COMPONENT_GAMMA,
+@@ -459,6 +466,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
+
+ 	/* Iterate over sibling DISP function blocks */
+ 	for_each_child_of_node(phandle->parent, node) {
++		struct device_node *port, *ep, *remote;
+ 		const struct of_device_id *of_id;
+ 		enum mtk_ddp_comp_type comp_type;
+ 		int comp_id;
+@@ -522,6 +530,32 @@ static int mtk_drm_probe(struct platform_device *pdev)
+
+ 			private->ddp_comp[comp_id] = comp;
+ 		}
++
++		if (comp_type != MTK_DSI && comp_type != MTK_DPI) {
++			port = of_graph_get_port_by_id(node, 0);
++			if (!port)
++				continue;
++			ep = of_get_child_by_name(port, "endpoint");
++			of_node_put(port);
++			if (!ep)
++				continue;
++			remote = of_graph_get_remote_port_parent(ep);
++			of_node_put(ep);
++			if (!remote)
++				continue;
++			of_id = of_match_node(mtk_ddp_comp_dt_ids, remote);
++			if (!of_id)
++				continue;
++			comp_type = (enum mtk_ddp_comp_type)of_id->data;
++			for (i = 0; i < private->data->main_len - 1; i++)
++				if (private->data->main_path[i] == comp_id)
++					private->data->main_path[i + 1] =
++					mtk_ddp_comp_get_id(node, comp_type);
++			for (i = 0; i < private->data->ext_len - 1; i++)
++				if (private->data->ext_path[i] == comp_id)
++					private->data->ext_path[i + 1] =
++					mtk_ddp_comp_get_id(node, comp_type);
++		}
+ 	}
+
+ 	if (!private->mutex_node) {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+index b5be63e53176..7fcaab648bf1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+@@ -21,9 +21,9 @@ struct drm_property;
+ struct regmap;
+
+ struct mtk_mmsys_driver_data {
+-	const enum mtk_ddp_comp_id *main_path;
++	enum mtk_ddp_comp_id *main_path;
+ 	unsigned int main_len;
+-	const enum mtk_ddp_comp_id *ext_path;
++	enum mtk_ddp_comp_id *ext_path;
+ 	unsigned int ext_len;
+ 	const enum mtk_ddp_comp_id *third_path;
+ 	unsigned int third_len;
 --
 2.25.1
 
