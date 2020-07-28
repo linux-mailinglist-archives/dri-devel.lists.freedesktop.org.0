@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6958D230512
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 10:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED4C2305D1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 10:52:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 092E58972D;
-	Tue, 28 Jul 2020 08:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED9A6E21D;
+	Tue, 28 Jul 2020 08:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Tue, 28 Jul 2020 08:16:33 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD048972D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:16:33 +0000 (UTC)
-Received: from mail-qt1-f182.google.com ([209.85.160.182]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1M5fQq-1jt9yH03T8-007ALe for <dri-devel@lists.freedesktop.org>; Tue, 28
- Jul 2020 10:11:27 +0200
-Received: by mail-qt1-f182.google.com with SMTP id s16so14246552qtn.7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 01:11:26 -0700 (PDT)
-X-Gm-Message-State: AOAM5303QoLpcwivmJkjXhTUnHFD81/WadPCcu1Y/wD86FDwF4jLIHh8
- 68uKCH3tGhuSUBFf+zrHCNKYsefIjruFTUL1ZA0=
-X-Google-Smtp-Source: ABdhPJxCGAB7BbsjfSD7bgaCnwv1WyrC1BKE9mDKkcAW39Ma3IJ37NCcsslzqEKXCuFNjQfzfNsrIHGbS8NsRXh+AwY=
-X-Received: by 2002:aed:2946:: with SMTP id s64mr5570242qtd.204.1595923885496; 
- Tue, 28 Jul 2020 01:11:25 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21D2C6E21D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 08:52:49 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id o8so16519355wmh.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 01:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=HGy3jmbnLWtAugJhNyMPmIfpo7WUVn9rkKkQMW0ipLs=;
+ b=M0e+APlLzUzGPEQPb5lfmfSp/o1k5PEssqciRfuFNdb3qha7nkzlBkC5i4JT2rzaO3
+ sVfant5ccFL4AzNOePYhmHnXyZ4waR4H7ygUIgWUkzaFMamybKKUIxUuo6i3HWPBvxGn
+ RoVPbV+rY96rVH4R2kzqG5FARO4ooptQ5407s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HGy3jmbnLWtAugJhNyMPmIfpo7WUVn9rkKkQMW0ipLs=;
+ b=hkFj3cqV06PJkq/lB4IuwvYpKLhEepWVPc6lvGvmbeL7Xb9CAI9Fr2VwDZJnozgGh+
+ 0QUUjmvbYEMG9KM4xrZ853JSgV1etWks7l9Jj06LoqcRvXTVCbR5HGowURvO//RSLXt6
+ HLr/Ovfy9HRiPZWCKE6btWImXA0qD/xbM3R8QMgDpa/tXWHuj7fPWTr4qL7UfOw/IYlU
+ UMQyIfNZ6MchH28PvgrwcX6V3dgrq3uoC70G4JZfvuj8Cq5H3l29ROxxVFeXVx3aIY6f
+ aIMgi/LfC9mSNth38gndlWA/jVJYtLwnZ1gPln4lQLjQ+x5/0/ZE2k1RHySeAbKQ1iJ0
+ e0AQ==
+X-Gm-Message-State: AOAM5305Rg6CK4aByEDaJWxAqqpO8X7A/upLDvl7oAMgfQ7oO8ogjegs
+ NyETyysT9yr0iojcruIwjBB2/Q==
+X-Google-Smtp-Source: ABdhPJyiM85CyXyw1HU6z/kML8IsbJGp9eXAAaJbV6ajj+CHl0qhajof/NwnJjkMBiAqdI6zzfqQxw==
+X-Received: by 2002:a7b:ce0e:: with SMTP id m14mr3189753wmc.160.1595926367684; 
+ Tue, 28 Jul 2020 01:52:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z207sm3317950wmc.2.2020.07.28.01.52.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jul 2020 01:52:46 -0700 (PDT)
+Date: Tue, 28 Jul 2020 10:52:44 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [Freedreno] [PATCH V2] drm: hold gem reference until object is
+ no longer accessed
+Message-ID: <20200728085244.GY6419@phenom.ffwll.local>
+References: <1595284250-31580-1-git-send-email-cohens@codeaurora.org>
+ <20200727195507.GA240123@kroah.com>
+ <20200727201128.GX6419@phenom.ffwll.local>
+ <f035111e7139bdaeb7562afd2415f366@codeaurora.org>
 MIME-Version: 1.0
-References: <20200728014343.341303-1-yepeilin.cs@gmail.com>
-In-Reply-To: <20200728014343.341303-1-yepeilin.cs@gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 28 Jul 2020 10:11:09 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a29=CugbGtZRQc0abGXvexp=gBk+LwOCG3yNCPakup+NQ@mail.gmail.com>
-Message-ID: <CAK8P3a29=CugbGtZRQc0abGXvexp=gBk+LwOCG3yNCPakup+NQ@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/bufs: Prevent kernel-infoleak
- in copy_one_buf()
-To: Peilin Ye <yepeilin.cs@gmail.com>
-X-Provags-ID: V03:K1:B+6BYeOOyZpCFdtyn8Js+L+KYnoty9yDmiNAssDpwvADQIzuOMq
- mMgPap4YD9aqdjjT2KUd8HLIkKBRU3n1j44gBjIfoZD0MlkAq9WXsyuFtjxU6Ils5PYVJv8
- 58PkO6JpGr5pbCz6XzyklykZOxSvTxHO5eaXzaTSoaznNhW7rr9iGkIVA7dphyQabb8dZy6
- Uz855igug00VOreWaUB0Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s6+wc9rkA1c=:nAbCkX8CpYF0Xg736qMPWT
- njHKxRZwmeM/w+WUnIQVHuYyE8m9jZz5eQMk5uZ2pI7cPEh2RCPOlHRDKW14FzGHgGMMOxAlD
- CIk0/zS5I3pS7NjJqeGGVb2OqNGm+7eC/X42ZzcH0v8Tv40dwrJP+TXIa9PigSHungmaqaq4C
- 8nqod/vhJwol8sqY78cBmrRfe3ohNgI8NcZidaxlF2RHpCFgCDB/H3t+vqzCvgLXh+meWu8L0
- Is4xAylTEPcBWlQKl/nIq+ZliFUwjoLEnwKw/GDqOVmWJ6Bh6TPHkqWxtThbPasyQx2uOcHj1
- ZHw2rXGPCQ/ObADLLEldoDYsGze2yqEG3GUJEDJen+C2T3mw3Cu2ijLmkvmAEd7mF+R5eMmFR
- M3zkvacnVn4joi3B/6H0/vmv1rDvna0Ogch6wynpO/eAr4taUMRK/FuLXtZQzewCyiCfunTFg
- jwQbl13INWNofHLDHP29b8rp0JwY5WaWX0BD8cDgbevXCaYCQeMdHG5QHreYzeSyapRLYPryO
- PrAn2DdDswlF/X1CI4IA+Qajg32c/fvcXz8TUkfd9OVTVRGzl9qqTN4tBVqY/uNlu5s6qCge7
- J4znvGbk24DIIcXFSiZn3nhIcvP8DWHaHeMZ/Qk8xhhEpsmAmrRAvJjyL2MEWTOyiGqNKpzaR
- 9GU0uGtxTAIHaimG02Zn9+tWqlmXu/XSSeXjw/cSXvxoOqnVC6fpK/a/NwyUGvKRumqtTbgm1
- BzYZgL9TbwKDcs6oUVnFKEFspfN2GQnPC1WW/KfodJV6BT5fB5i1mJo+X19LD3msXrl3vkkFV
- gGZzdedYUVWTF8b/p1EX7rUGBSyFgxSe6ttpZvJ8bxop7OlpcR83Iv/FfIFYdbxjEzhVTynnM
- QElfQskAIVa+17KLrigkYUINa3v9j1nKVRGDVzsjLfE4/JKHMnlJ/0Y8v497k+t9CT5EYCHzi
- pJC0OjKLCMX3+D+q6vYP4AL7Nw5lfrCTmXAdmf/Ms9ThCsZzXCDSc
+Content-Disposition: inline
+In-Reply-To: <f035111e7139bdaeb7562afd2415f366@codeaurora.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,67 +68,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: adelva@google.com, sam@ravnborg.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, pdhaval@codeaurora.org, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 28, 2020 at 3:45 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
->
-> copy_one_buf() is copying uninitialized stack memory to userspace due to
-> the compiler not initializing holes in statically allocated structures.
-> Fix it by initializing `v` with memset().
+On Mon, Jul 27, 2020 at 05:54:59PM -0400, cohens@codeaurora.org wrote:
+> On 2020-07-27 16:11, daniel@ffwll.ch wrote:
+> > On Mon, Jul 27, 2020 at 09:55:07PM +0200, Greg KH wrote:
+> > > On Mon, Jul 20, 2020 at 06:30:50PM -0400, Steve Cohen wrote:
+> > > > A use-after-free in drm_gem_open_ioctl can happen if the
+> > > > GEM object handle is closed between the idr lookup and
+> > > > retrieving the size from said object since a local reference
+> > > > is not being held at that point. Hold the local reference
+> > > > while the object can still be accessed to fix this and
+> > > > plug the potential security hole.
+> > > >
+> > > > Signed-off-by: Steve Cohen <cohens@codeaurora.org>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_gem.c | 10 ++++------
+> > > >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > > > index 7bf628e..ee2058a 100644
+> > > > --- a/drivers/gpu/drm/drm_gem.c
+> > > > +++ b/drivers/gpu/drm/drm_gem.c
+> > > > @@ -871,9 +871,6 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+> > > >   * @file_priv: drm file-private structure
+> > > >   *
+> > > >   * Open an object using the global name, returning a handle and the size.
+> > > > - *
+> > > > - * This handle (of course) holds a reference to the object, so the object
+> > > > - * will not go away until the handle is deleted.
+> > > >   */
+> > > >  int
+> > > >  drm_gem_open_ioctl(struct drm_device *dev, void *data,
+> > > > @@ -898,14 +895,15 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+> > > >
+> > > >  	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
+> > > >  	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
+> > > > -	drm_gem_object_put_unlocked(obj);
+> > > >  	if (ret)
+> > > > -		return ret;
+> > > > +		goto err;
+> > > >
+> > > >  	args->handle = handle;
+> > > >  	args->size = obj->size;
+> > > >
+> > > > -	return 0;
+> > > > +err:
+> > > > +	drm_gem_object_put_unlocked(obj);
+> > > > +	return ret;
+> > > >  }
+> > > >
+> > > >  /**
+> > > 
+> > > As this seems to fix an important issue, any reason it wasn't cc:
+> > > stable
+> > > on it so that it gets backported properly?
+> > > 
+> > > How about a "Fixes:" tag so that we know what commit id it fixes so we
+> > > know how far back to backport things?
+> > > 
+> > > And a hint to the maintainers that "this is an issue that needs to get
+> > > into 5.8-final, it shouldn't wait around longer please" would have
+> > > also
+> > > been nice to see :)
+> > > 
+> > > And what chagned from v1, aren't you supposed to list that somewhere
+> > > in
+> > > the changelog or below the --- line (never remember what DRM drivers
+> > > want here...)
+> > > 
+> > > Care to send a v3?
+> > 
+> > Don't worry, I'm pushing this to drm-misc-fixes now, should still make
+> > it
+> > to 5.8. Plus cc: stable. I didn't bother with Fixes: since I think the
+> > bug
+> > is rather old. Also, worst case you leak 32bit of some kernel memory
+> > that
+> > got reused already (but yeah I know that's often enough to get the foot
+> > in
+> > somewhere nasty and crack the door open).
+> > 
+> > I think it fell through cracks because Sam said he'll apply, guess that
+> > didn't happen.
+> 
+> Sam added his Reviewed-By on V1 with a comment to rename the goto label,
+> but in V2 I also updated the API documentation and the commit text for
+> a more complete change and thought he would re-add the tag.
+> 
+> > Also yes a changelog, somewhere, for next time around.
+> 
+> Apologies, it won't happen again. Should I still submit a V3?
+> It looks like you've got Greg's concerns covered.
 
-I would add 'potentially' somewhere in that description: it is architecture
-dependent whether there are holes in this structure as 'enum' types
-and 'long' are both dependent on the ABI, and even if there is a hole,
-it is undefined behavior whether the hold gets initialized.
+Uh no, but we need another patch to re-add the kerneldoc you deleted. I
+missed that when merging your patch. Also that's kinda what patch
+changelogs are for, for blind reviewers like me :-)
+-Daniel
 
-Other than that, the patch looks good.
+> 
+> -Steve
+> 
+> > -Daniel
+> > 
+> > 
+> > > 
+> > > thanks,
+> > > 
+> > > greg k-h
 
-> Cc: stable@vger.kernel.org
-> Fixes: 5c7640ab6258 ("switch compat_drm_infobufs() to drm_ioctl_kernel()")
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-
-> ---
->  drivers/gpu/drm/drm_bufs.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-> index a0735fbc144b..f99cd4a3f951 100644
-> --- a/drivers/gpu/drm/drm_bufs.c
-> +++ b/drivers/gpu/drm/drm_bufs.c
-> @@ -1349,10 +1349,14 @@ static int copy_one_buf(void *data, int count, struct drm_buf_entry *from)
->  {
->         struct drm_buf_info *request = data;
->         struct drm_buf_desc __user *to = &request->list[count];
-> -       struct drm_buf_desc v = {.count = from->buf_count,
-> -                                .size = from->buf_size,
-> -                                .low_mark = from->low_mark,
-> -                                .high_mark = from->high_mark};
-> +       struct drm_buf_desc v;
-> +
-> +       memset(&v, 0, sizeof(v));
-> +
-> +       v.count = from->buf_count;
-> +       v.size = from->buf_size;
-> +       v.low_mark = from->low_mark;
-> +       v.high_mark = from->high_mark;
->
->         if (copy_to_user(to, &v, offsetof(struct drm_buf_desc, flags)))
->                 return -EFAULT;
-> --
-> 2.25.1
->
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
