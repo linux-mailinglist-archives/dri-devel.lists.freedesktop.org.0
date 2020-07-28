@@ -2,61 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DDE231514
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 23:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADC7231534
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jul 2020 23:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEE189B60;
-	Tue, 28 Jul 2020 21:43:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3194890A6;
+	Tue, 28 Jul 2020 21:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84FB689B60
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 21:43:32 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id t6so9863641ljk.9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 14:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tfbNz0l1MbsH4OIHzEd/yS8xrSHzYSKRDgluz/33hbI=;
- b=pIsBum39MUs7M6qBCAGMU3mqED4roA/9Cd+chBPRqofTpdCqOgcpal6zZ3PBSs536r
- C3jcgbD0wuNhWhuCP+444k2w8Ysgf5qp3j68VgCQ8nV62oCoyYAbE25IXSI0Ef2Qx9QY
- caF+95hlovUNZ16H+2bVvg0QznZFECd+hpNUV1eEYFrdkGABBhRoKrp4XKIJSTANg0oW
- ipwjmU9CJL+Ht8tfZOBKWe1dZCeFKaHT+NAWnzDh5sqbhZCogeYB159FIZluAAv/iGkF
- qENn8rYjfLooz5zFGURRlUgH5HJK74T9BHZKGgATeZwrxH2vleFwYrl3dxHY2VXKB8h5
- RHsA==
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B06C4890A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 21:51:54 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id r12so19638004wrj.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 14:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=T83NR7EueQnSwb1Gy6X+PMaUZwTIrl6QdKw3ouhJda4=;
+ b=W5wDHp8Jq3riUzMqLzo5KqJoc4cuhXyTicX3qIoErITopUjNkG7NzWeDTroUNJaRJb
+ 1ePc6icSRW9TelyhoFIIkxTmRjjrndu77VviXk7NGoEFVHqbBut2vGTW/qTx5YjKpWss
+ O48aAzMfgs7c7lb1VSgsAvwQYOswPeuFnmmAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tfbNz0l1MbsH4OIHzEd/yS8xrSHzYSKRDgluz/33hbI=;
- b=BiNqwyvAQPpIfGyQrcSn9jv+hxDrPHE7h3Jfmsh6xv+O7i64oGws+JEmbEyvfjk5Pc
- SSEVHcj4uH4dbiOmOMPXzwhiE4X6/EeB4n+6gJOW/5oAXXoniGmBlW1r9+JTT4V8xl7z
- REgNQNdZdrcsAljALigmNGSVtx+qEad2Ve9+Ll1BdYCEJf+27l02dfqSpdWDmFpDMFal
- 7cF99lGVda4guWnl24077/HgYPEKToXkilyNf/DV8VvLN5az2FLruRDSC+Cz6ZZmCzLv
- 7iTBtnih4ANFqtuwkDeMV6U3+2t3uJR6o9Wmyu18e9c8pdCedHxm1WxE8zfLT9gbQ8Da
- Cegw==
-X-Gm-Message-State: AOAM533jOSEukE5vPUtnMr685ZikYvRsOvqCXLFi+Nj0TKZzVF6XEuhH
- Csp7+pXzCrZbHUtO/VpfvnlZ0MTzlyRHkw==
-X-Google-Smtp-Source: ABdhPJyr4Q6UealSTFUHEFhUR7BMIpihg9xrM4RGuHWQhUjBi1U7h7mtQg9YWCvg3HJ3QxlRvE+CQg==
-X-Received: by 2002:a2e:8799:: with SMTP id n25mr13374829lji.416.1595972610396; 
- Tue, 28 Jul 2020 14:43:30 -0700 (PDT)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id y1sm4664921lfb.45.2020.07.28.14.43.29
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=T83NR7EueQnSwb1Gy6X+PMaUZwTIrl6QdKw3ouhJda4=;
+ b=tOyWxPLoL+hQ2Z3s91D+KDW5yvoN4PstdxiPqr+mbBtdSh0Po9rPB+tHcT4fn33YEw
+ rK0WLcGCZny4Zq6d17Qvo5slbgfZjVEmURXgVg7RMPGCtqRx93W+gOLb8GyxDZU2uJYp
+ XTQBCNb37z9c0ycQEkfg0NX8jP+ZFHnWtEdNcP5oqrFoY73rzHK87gbqKesfBI3lcQX6
+ xYDMYoSXchxxMFNLzdlEdkA4XFxdwoY2TvAb+t575D74BJ20TDRmC8+IJqixSlKkux6C
+ dSmPCWBPX2VCdYwBHIGcUHfTVKcHe3nsPClrQk2eVDpigg6upJYYPkdM2g0tMUwPDofr
+ O/GQ==
+X-Gm-Message-State: AOAM530NyWA8DmkXSvoTTI7/l7PJbvXUOxJ1TAsJNB5GyzDWYlbmQqO/
+ hqlPqE7nRlN3bJigq4X60jJRPw==
+X-Google-Smtp-Source: ABdhPJy1sUtymDBgLEyEzEsfvRkxRMTQbhN27koVmo//AfDJ7+MHFddR7YrLxntG+pyoB5yoKgDclw==
+X-Received: by 2002:a5d:4acb:: with SMTP id y11mr26167770wrs.78.1595973112971; 
+ Tue, 28 Jul 2020 14:51:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t2sm388975wmb.25.2020.07.28.14.51.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 14:43:29 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
+ Tue, 28 Jul 2020 14:51:52 -0700 (PDT)
+Date: Tue, 28 Jul 2020 23:51:50 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Kevin Tang <kevin3.tang@gmail.com>
+Subject: Re: [PATCH RFC v6 4/6] drm/sprd: add Unisoc's drm display controller
+ driver
+Message-ID: <CAKMK7uE=86hRWdowXWVrE5184-gS2TYPArC1XcqTXwRQxHRMHg@mail.gmail.com>
+Mail-Followup-To: Kevin Tang <kevin3.tang@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
-Subject: [PATCH 2/2] drm/mcde: Fix display data flow control
-Date: Tue, 28 Jul 2020 23:43:19 +0200
-Message-Id: <20200728214319.143213-2-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200728214319.143213-1-linus.walleij@linaro.org>
-References: <20200728214319.143213-1-linus.walleij@linaro.org>
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dave Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, orsonzhai@gmail.com,
+ zhang.lyra@gmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <1595930879-2478-1-git-send-email-kevin3.tang@gmail.com>
+ <1595930879-2478-5-git-send-email-kevin3.tang@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1595930879-2478-5-git-send-email-kevin3.tang@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,325 +74,1476 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephan Gerhold <stephan@gerhold.net>, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Dave Airlie <airlied@linux.ie>,
+ zhang.lyra@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ orsonzhai@gmail.com, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Revamp the way that the flow of data to the display is
-defined.
+On Tue, Jul 28, 2020 at 12:08 PM Kevin Tang <kevin3.tang@gmail.com> wrote:
+>
+> From: Kevin Tang <kevin.tang@unisoc.com>
+>
+> Adds DPU(Display Processor Unit) support for the Unisoc's display subsystem.
+> It's support multi planes, scaler, rotation, PQ(Picture Quality) and more.
+>
+> RFC v6:
+>   - Access registers via readl/writel
+>   - Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
+>   - Remove always true checks for dpu core ops
+>
+> Cc: Orson Zhai <orsonzhai@gmail.com>
+> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
 
-I realized that the hardware supports something like
-5 different modes of flow: oneshot, command with TE IRQ,
-command with BTA (bus turn around) and TE IRQ, video
-with TE IRQ and video without TE IRQ instead synchronizing
-to the output of the MCDE DSI formatter.
+Quickly scrolled through this, and the entire thing very much leaves a
+midlayer heavy aftertaste. Do we really need stuff like struct dpu_layer
+and struct dpu_core_ops? They only seem to complicate the code base, and
+seem to have no real reason. The indirection with first computing register
+values into a sprd_plane/crtc structure, and then writing it into hardware
+is also a bit much - I recommend to only do that if you have to compute
+values in _check to validate them, so that the computation doesn't have to
+be repeated in the commit phase functions.
 
-Like before the selection of the type of flow is done
-frome the DSI driver when we attach it to the MCDE and we
-get to know what the display wants.
+Also, the layer and pending_flips stuff in sprd_dpu don't work with
+atomic, that races. You have to put all that stuff into state objects, or
+if it's some data shared with interrupt handlers (doesn't seem to be the
+case here), it needs its own locking, and any data you need in the
+interrupt handler must be copied over.
 
-The new video mode synchronization method from the MCDE DSI
-formatter is used on some upstream devices such as Golden
-presumably because the TE IRQ is not working on the display.
-It will likely need some (new) special flag to be passed
-from the display to indicate this mode of operation
-once we make use of it.
+Also no devm_kzalloc for anything containined a drm_* structure, that's
+the wrong lifetime.
 
-The only real semantic change is that we stop sending
-a TE request before every command when sending data to
-a display in command mode: this should only be explicitly
-requested when using BTA, according to the vendor driver.
+So yeah high level review is that I think this driver would benefit a lot
+from a pile of demidlayer.
 
-This has been tested and works fine with the command mode
-displays I have. (All that are supported upstream.)
+Cheers, Daniel
 
-Reported-by: Stephan Gerhold <stephan@gerhold.net>
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/mcde/mcde_display.c | 107 +++++++++++++++++-----------
- drivers/gpu/drm/mcde/mcde_drm.h     |  26 ++++++-
- drivers/gpu/drm/mcde/mcde_drv.c     |   3 -
- drivers/gpu/drm/mcde/mcde_dsi.c     |  18 ++++-
- 4 files changed, 104 insertions(+), 50 deletions(-)
+> ---
+>  drivers/gpu/drm/sprd/Makefile       |   5 +-
+>  drivers/gpu/drm/sprd/dpu/Makefile   |   3 +
+>  drivers/gpu/drm/sprd/dpu/dpu_r2p0.c | 503 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/sprd/sprd_dpu.c     | 646 ++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/sprd/sprd_dpu.h     | 187 +++++++++++
+>  drivers/gpu/drm/sprd/sprd_drm.c     |   1 +
+>  drivers/gpu/drm/sprd/sprd_drm.h     |   2 +
+>  7 files changed, 1346 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/sprd/dpu/Makefile
+>  create mode 100644 drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
+>  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+>  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+>
+> diff --git a/drivers/gpu/drm/sprd/Makefile b/drivers/gpu/drm/sprd/Makefile
+> index 86d95d9..88ab32a 100644
+> --- a/drivers/gpu/drm/sprd/Makefile
+> +++ b/drivers/gpu/drm/sprd/Makefile
+> @@ -2,4 +2,7 @@
+>
+>  subdir-ccflags-y += -I$(srctree)/$(src)
+>
+> -obj-y := sprd_drm.o
+> +obj-y := sprd_drm.o \
+> +       sprd_dpu.o
+> +
+> +obj-y += dpu/
+> diff --git a/drivers/gpu/drm/sprd/dpu/Makefile b/drivers/gpu/drm/sprd/dpu/Makefile
+> new file mode 100644
+> index 0000000..40278b6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sprd/dpu/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-y += dpu_r2p0.o
+> diff --git a/drivers/gpu/drm/sprd/dpu/dpu_r2p0.c b/drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
+> new file mode 100644
+> index 0000000..4b9521d
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sprd/dpu/dpu_r2p0.c
+> @@ -0,0 +1,503 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2020 Unisoc Inc.
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/io.h>
+> +#include <linux/wait.h>
+> +#include <linux/workqueue.h>
+> +
+> +#include "sprd_dpu.h"
+> +
+> +/* DPU registers size, 4 Bytes(32 Bits) */
+> +#define DPU_REG_SIZE   0x04
+> +
+> +/* Layer registers offset */
+> +#define DPU_LAY_REG_OFFSET     0x0C
+> +
+> +#define DPU_LAY_REG(reg, index) \
+> +       (reg + index * DPU_LAY_REG_OFFSET * DPU_REG_SIZE)
+> +
+> +#define DPU_REG_RD(reg) readl_relaxed(reg)
+> +
+> +#define DPU_REG_WR(reg, mask) writel_relaxed(mask, reg)
+> +
+> +#define DPU_REG_SET(reg, mask) \
+> +       writel_relaxed(readl_relaxed(reg) | mask, reg)
+> +
+> +#define DPU_REG_CLR(reg, mask) \
+> +       writel_relaxed(readl_relaxed(reg) & ~mask, reg)
+> +
+> +/* Global control registers */
+> +#define REG_DPU_CTRL   0x04
+> +#define REG_DPU_CFG0   0x08
+> +#define REG_DPU_CFG1   0x0C
+> +#define REG_DPU_CFG2   0x10
+> +#define REG_PANEL_SIZE 0x20
+> +#define REG_BLEND_SIZE 0x24
+> +#define REG_BG_COLOR   0x2C
+> +
+> +/* Layer0 control registers */
+> +#define REG_LAY_BASE_ADDR0     0x30
+> +#define REG_LAY_BASE_ADDR1     0x34
+> +#define REG_LAY_BASE_ADDR2     0x38
+> +#define REG_LAY_CTRL           0x40
+> +#define REG_LAY_SIZE           0x44
+> +#define REG_LAY_PITCH          0x48
+> +#define REG_LAY_POS            0x4C
+> +#define REG_LAY_ALPHA          0x50
+> +#define REG_LAY_PALLETE                0x58
+> +#define REG_LAY_CROP_START     0x5C
+> +
+> +/* Interrupt control registers */
+> +#define REG_DPU_INT_EN         0x1E0
+> +#define REG_DPU_INT_CLR                0x1E4
+> +#define REG_DPU_INT_STS                0x1E8
+> +
+> +/* DPI control registers */
+> +#define REG_DPI_CTRL           0x1F0
+> +#define REG_DPI_H_TIMING       0x1F4
+> +#define REG_DPI_V_TIMING       0x1F8
+> +
+> +/* MMU control registers */
+> +#define REG_MMU_EN                     0x800
+> +#define REG_MMU_VPN_RANGE              0x80C
+> +#define REG_MMU_VAOR_ADDR_RD           0x818
+> +#define REG_MMU_VAOR_ADDR_WR           0x81C
+> +#define REG_MMU_INV_ADDR_RD            0x820
+> +#define REG_MMU_INV_ADDR_WR            0x824
+> +#define REG_MMU_PPN1                   0x83C
+> +#define REG_MMU_RANGE1                 0x840
+> +#define REG_MMU_PPN2                   0x844
+> +#define REG_MMU_RANGE2                 0x848
+> +
+> +/* Global control bits */
+> +#define BIT_DPU_RUN                    BIT(0)
+> +#define BIT_DPU_STOP                   BIT(1)
+> +#define BIT_DPU_REG_UPDATE             BIT(2)
+> +#define BIT_DPU_IF_EDPI                        BIT(0)
+> +#define BIT_DPU_COEF_NARROW_RANGE              BIT(4)
+> +#define BIT_DPU_Y2R_COEF_ITU709_STANDARD       BIT(5)
+> +
+> +/* Layer control bits */
+> +#define BIT_DPU_LAY_EN                         BIT(0)
+> +
+> +/* Interrupt control & status bits */
+> +#define BIT_DPU_INT_DONE               BIT(0)
+> +#define BIT_DPU_INT_TE                 BIT(1)
+> +#define BIT_DPU_INT_ERR                        BIT(2)
+> +#define BIT_DPU_INT_UPDATE_DONE                BIT(4)
+> +#define BIT_DPU_INT_VSYNC              BIT(5)
+> +#define BIT_DPU_INT_FBC_PLD_ERR                BIT(8)
+> +#define BIT_DPU_INT_FBC_HDR_ERR                BIT(9)
+> +#define BIT_DPU_INT_MMU_VAOR_RD                BIT(16)
+> +#define BIT_DPU_INT_MMU_VAOR_WR                BIT(17)
+> +#define BIT_DPU_INT_MMU_INV_RD         BIT(18)
+> +#define BIT_DPU_INT_MMU_INV_WR         BIT(19)
+> +
+> +/* DPI control bits */
+> +#define BIT_DPU_EDPI_TE_EN             BIT(8)
+> +#define BIT_DPU_EDPI_FROM_EXTERNAL_PAD BIT(10)
+> +#define BIT_DPU_DPI_HALT_EN            BIT(16)
+> +
+> +
+> +static u32 check_mmu_isr(struct dpu_context *ctx, u32 reg_val)
+> +{
+> +       u32 mmu_mask = BIT_DPU_INT_MMU_VAOR_RD |
+> +                       BIT_DPU_INT_MMU_VAOR_WR |
+> +                       BIT_DPU_INT_MMU_INV_RD |
+> +                       BIT_DPU_INT_MMU_INV_WR;
+> +       u32 val = reg_val & mmu_mask;
+> +       int i;
+> +
+> +       if (val) {
+> +               DRM_ERROR("--- iommu interrupt err: 0x%04x ---\n", val);
+> +
+> +               if (val & BIT_DPU_INT_MMU_INV_RD)
+> +                       DRM_ERROR("iommu invalid read error, addr: 0x%08x\n",
+> +                               DPU_REG_RD(ctx->base + REG_MMU_INV_ADDR_RD));
+> +               if (val & BIT_DPU_INT_MMU_INV_WR)
+> +                       DRM_ERROR("iommu invalid write error, addr: 0x%08x\n",
+> +                               DPU_REG_RD(ctx->base + REG_MMU_INV_ADDR_WR));
+> +               if (val & BIT_DPU_INT_MMU_VAOR_RD)
+> +                       DRM_ERROR("iommu va out of range read error, addr: 0x%08x\n",
+> +                               DPU_REG_RD(ctx->base + REG_MMU_VAOR_ADDR_RD));
+> +               if (val & BIT_DPU_INT_MMU_VAOR_WR)
+> +                       DRM_ERROR("iommu va out of range write error, addr: 0x%08x\n",
+> +                               DPU_REG_RD(ctx->base + REG_MMU_VAOR_ADDR_WR));
+> +
+> +               for (i = 0; i < 8; i++) {
+> +                       reg_val = DPU_REG_RD(ctx->base + DPU_LAY_REG(REG_LAY_CTRL, i));
+> +                       if (reg_val & 0x1)
+> +                               DRM_INFO("layer%d: 0x%08x 0x%08x 0x%08x ctrl: 0x%08x\n", i,
+> +                                       DPU_REG_RD(ctx->base + DPU_LAY_REG(REG_LAY_BASE_ADDR0, i)),
+> +                                       DPU_REG_RD(ctx->base + DPU_LAY_REG(REG_LAY_BASE_ADDR1, i)),
+> +                                       DPU_REG_RD(ctx->base + DPU_LAY_REG(REG_LAY_BASE_ADDR2, i)),
+> +                                       DPU_REG_RD(ctx->base + DPU_LAY_REG(REG_LAY_CTRL, i)));
+> +               }
+> +       }
+> +
+> +       return val;
+> +}
+> +
+> +static void dpu_clean_all(struct dpu_context *ctx)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < 8; i++)
+> +               DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_CTRL, i), 0x00);
+> +}
+> +
+> +static u32 dpu_isr(struct dpu_context *ctx)
+> +{
+> +       u32 reg_val, int_mask = 0;
+> +
+> +       reg_val = DPU_REG_RD(ctx->base + REG_DPU_INT_STS);
+> +
+> +       /* disable err interrupt */
+> +       if (reg_val & BIT_DPU_INT_ERR)
+> +               int_mask |= BIT_DPU_INT_ERR;
+> +
+> +       /* dpu update done isr */
+> +       if (reg_val & BIT_DPU_INT_UPDATE_DONE) {
+> +               ctx->evt_update = true;
+> +               wake_up_interruptible_all(&ctx->wait_queue);
+> +       }
+> +
+> +       /* dpu stop done isr */
+> +       if (reg_val & BIT_DPU_INT_DONE) {
+> +               ctx->evt_stop = true;
+> +               wake_up_interruptible_all(&ctx->wait_queue);
+> +       }
+> +
+> +       /* dpu ifbc payload error isr */
+> +       if (reg_val & BIT_DPU_INT_FBC_PLD_ERR) {
+> +               int_mask |= BIT_DPU_INT_FBC_PLD_ERR;
+> +               DRM_ERROR("dpu ifbc payload error\n");
+> +       }
+> +
+> +       /* dpu ifbc header error isr */
+> +       if (reg_val & BIT_DPU_INT_FBC_HDR_ERR) {
+> +               int_mask |= BIT_DPU_INT_FBC_HDR_ERR;
+> +               DRM_ERROR("dpu ifbc header error\n");
+> +       }
+> +
+> +       int_mask |= check_mmu_isr(ctx, reg_val);
+> +
+> +       DPU_REG_WR(ctx->base + REG_DPU_INT_CLR, reg_val);
+> +       DPU_REG_CLR(ctx->base + REG_DPU_INT_EN, int_mask);
+> +
+> +       return reg_val;
+> +}
+> +
+> +static int dpu_wait_stop_done(struct dpu_context *ctx)
+> +{
+> +       int rc;
+> +
+> +       if (ctx->stopped)
+> +               return 0;
+> +
+> +       rc = wait_event_interruptible_timeout(ctx->wait_queue, ctx->evt_stop,
+> +                                              msecs_to_jiffies(500));
+> +       ctx->evt_stop = false;
+> +
+> +       ctx->stopped = true;
+> +
+> +       if (!rc) {
+> +               DRM_ERROR("dpu wait for stop done time out!\n");
+> +               return -ETIMEDOUT;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int dpu_wait_update_done(struct dpu_context *ctx)
+> +{
+> +       int rc;
+> +
+> +       ctx->evt_update = false;
+> +
+> +       rc = wait_event_interruptible_timeout(ctx->wait_queue, ctx->evt_update,
+> +                                              msecs_to_jiffies(500));
+> +
+> +       if (!rc) {
+> +               DRM_ERROR("dpu wait for reg update done time out!\n");
+> +               return -ETIMEDOUT;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void dpu_stop(struct dpu_context *ctx)
+> +{
+> +       if (ctx->if_type == SPRD_DPU_IF_DPI)
+> +               DPU_REG_SET(ctx->base + REG_DPU_CTRL, BIT_DPU_STOP);
+> +
+> +       dpu_wait_stop_done(ctx);
+> +}
+> +
+> +static void dpu_run(struct dpu_context *ctx)
+> +{
+> +       DPU_REG_SET(ctx->base + REG_DPU_CTRL, BIT_DPU_RUN);
+> +
+> +       ctx->stopped = false;
+> +}
+> +
+> +static void dpu_init(struct dpu_context *ctx)
+> +{
+> +       u32 reg_val, size;
+> +
+> +       DPU_REG_WR(ctx->base + REG_BG_COLOR, 0x00);
+> +
+> +       size = (ctx->vm.vactive << 16) | ctx->vm.hactive;
+> +
+> +       DPU_REG_WR(ctx->base + REG_PANEL_SIZE, size);
+> +       DPU_REG_WR(ctx->base + REG_BLEND_SIZE, size);
+> +
+> +       reg_val = BIT_DPU_COEF_NARROW_RANGE | BIT_DPU_Y2R_COEF_ITU709_STANDARD;
+> +       DPU_REG_WR(ctx->base + REG_DPU_CFG0, reg_val);
+> +       DPU_REG_WR(ctx->base + REG_DPU_CFG1, 0x004466da);
+> +       DPU_REG_WR(ctx->base + REG_DPU_CFG2, 0x00);
+> +
+> +       if (ctx->stopped)
+> +               dpu_clean_all(ctx);
+> +
+> +       DPU_REG_WR(ctx->base + REG_MMU_EN, 0x00);
+> +       DPU_REG_WR(ctx->base + REG_MMU_PPN1, 0x00);
+> +       DPU_REG_WR(ctx->base + REG_MMU_RANGE1, 0xffff);
+> +       DPU_REG_WR(ctx->base + REG_MMU_PPN2, 0x00);
+> +       DPU_REG_WR(ctx->base + REG_MMU_RANGE2, 0xffff);
+> +       DPU_REG_WR(ctx->base + REG_MMU_VPN_RANGE, 0x1ffff);
+> +
+> +       DPU_REG_WR(ctx->base + REG_DPU_INT_CLR, 0xffff);
+> +}
+> +
+> +static void dpu_fini(struct dpu_context *ctx)
+> +{
+> +       DPU_REG_WR(ctx->base + REG_DPU_INT_EN, 0x00);
+> +       DPU_REG_WR(ctx->base + REG_DPU_INT_CLR, 0xff);
+> +}
+> +
+> +static void dpu_layer(struct dpu_context *ctx,
+> +                   struct dpu_layer *hwlayer)
+> +{
+> +       const struct drm_format_info *info;
+> +       u32 size, offset, ctrl, pitch;
+> +       int i;
+> +
+> +       offset = (hwlayer->dst_x & 0xffff) | ((hwlayer->dst_y) << 16);
+> +
+> +       if (hwlayer->src_w && hwlayer->src_h)
+> +               size = (hwlayer->src_w & 0xffff) | ((hwlayer->src_h) << 16);
+> +       else
+> +               size = (hwlayer->dst_w & 0xffff) | ((hwlayer->dst_h) << 16);
+> +
+> +       for (i = 0; i < hwlayer->planes; i++)
+> +               DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_BASE_ADDR0,
+> +                               hwlayer->index), hwlayer->addr[i]);
+> +
+> +       DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_POS,
+> +                       hwlayer->index), offset);
+> +       DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_SIZE,
+> +                       hwlayer->index), size);
+> +       DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_CROP_START,
+> +                       hwlayer->index), hwlayer->src_y << 16 | hwlayer->src_x);
+> +       DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_ALPHA,
+> +                       hwlayer->index), hwlayer->alpha);
+> +
+> +       info = drm_format_info(hwlayer->format);
+> +       if (hwlayer->planes == 3) {
+> +               /* UV pitch is 1/2 of Y pitch*/
+> +               pitch = (hwlayer->pitch[0] / info->cpp[0]) |
+> +                               (hwlayer->pitch[0] / info->cpp[0] << 15);
+> +               DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_PITCH,
+> +                               hwlayer->index), pitch);
+> +       } else {
+> +               pitch = hwlayer->pitch[0] / info->cpp[0];
+> +               DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_PITCH,
+> +                               hwlayer->index), pitch);
+> +       }
+> +
+> +       ctrl = hwlayer->format |
+> +               hwlayer->blending |
+> +               (hwlayer->rotation & 0x7) << 20;
+> +
+> +       DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_CTRL,
+> +                       hwlayer->index), ctrl);
+> +       DPU_REG_WR(ctx->base + DPU_LAY_REG(REG_LAY_CTRL,
+> +                       hwlayer->index), BIT_DPU_LAY_EN);
+> +
+> +       DRM_DEBUG("dst_x = %d, dst_y = %d, dst_w = %d, dst_h = %d\n",
+> +                               hwlayer->dst_x, hwlayer->dst_y,
+> +                               hwlayer->dst_w, hwlayer->dst_h);
+> +       DRM_DEBUG("start_x = %d, start_y = %d, start_w = %d, start_h = %d\n",
+> +                               hwlayer->src_x, hwlayer->src_y,
+> +                               hwlayer->src_w, hwlayer->src_h);
+> +}
+> +
+> +static void dpu_flip(struct dpu_context *ctx,
+> +                    struct dpu_layer layers[], u8 count)
+> +{
+> +       int i;
+> +       u32 reg_val;
+> +
+> +       /*
+> +        * Make sure the dpu is in stop status. DPU_R2P0 has no shadow
+> +        * registers in EDPI mode. So the config registers can only be
+> +        * updated in the rising edge of DPU_RUN bit.
+> +        */
+> +       if (ctx->if_type == SPRD_DPU_IF_EDPI)
+> +               dpu_wait_stop_done(ctx);
+> +
+> +       /* reset the bgcolor to black */
+> +       DPU_REG_WR(ctx->base + REG_BG_COLOR, 0x00);
+> +
+> +       /* disable all the layers */
+> +       dpu_clean_all(ctx);
+> +
+> +       /* start configure dpu layers */
+> +       for (i = 0; i < count; i++)
+> +               dpu_layer(ctx, &layers[i]);
+> +
+> +       /* update trigger and wait */
+> +       if (ctx->if_type == SPRD_DPU_IF_DPI) {
+> +               if (!ctx->stopped) {
+> +                       DPU_REG_SET(ctx->base + REG_DPU_CTRL, BIT_DPU_REG_UPDATE);
+> +                       dpu_wait_update_done(ctx);
+> +               }
+> +
+> +               DPU_REG_SET(ctx->base + REG_DPU_INT_EN, BIT_DPU_INT_ERR);
+> +       } else if (ctx->if_type == SPRD_DPU_IF_EDPI) {
+> +               DPU_REG_SET(ctx->base + REG_DPU_CTRL, BIT_DPU_RUN);
+> +
+> +               ctx->stopped = false;
+> +       }
+> +
+> +       /*
+> +        * If the following interrupt was disabled in isr,
+> +        * re-enable it.
+> +        */
+> +       reg_val = BIT_DPU_INT_FBC_PLD_ERR |
+> +                 BIT_DPU_INT_FBC_HDR_ERR |
+> +                 BIT_DPU_INT_MMU_VAOR_RD |
+> +                 BIT_DPU_INT_MMU_VAOR_WR |
+> +                 BIT_DPU_INT_MMU_INV_RD |
+> +                 BIT_DPU_INT_MMU_INV_WR;
+> +       DPU_REG_SET(ctx->base + REG_DPU_INT_EN, reg_val);
+> +
+> +}
+> +
+> +static void dpu_dpi_init(struct dpu_context *ctx)
+> +{
+> +       u32 int_mask = 0;
+> +       u32 reg_val;
+> +
+> +       if (ctx->if_type == SPRD_DPU_IF_DPI) {
+> +               /* use dpi as interface */
+> +               DPU_REG_CLR(ctx->base + REG_DPU_CFG0, BIT_DPU_IF_EDPI);
+> +
+> +               /* disable Halt function for SPRD DSI */
+> +               DPU_REG_CLR(ctx->base + REG_DPI_CTRL, BIT_DPU_DPI_HALT_EN);
+> +
+> +               /* select te from external pad */
+> +               DPU_REG_SET(ctx->base + REG_DPI_CTRL, BIT_DPU_EDPI_FROM_EXTERNAL_PAD);
+> +
+> +               /* set dpi timing */
+> +               reg_val = ctx->vm.hsync_len << 0 |
+> +                         ctx->vm.hback_porch << 8 |
+> +                         ctx->vm.hfront_porch << 20;
+> +               DPU_REG_WR(ctx->base + REG_DPI_H_TIMING, reg_val);
+> +
+> +               reg_val = ctx->vm.vsync_len << 0 |
+> +                         ctx->vm.vback_porch << 8 |
+> +                         ctx->vm.vfront_porch << 20;
+> +               DPU_REG_WR(ctx->base + REG_DPI_V_TIMING, reg_val);
+> +
+> +               if (ctx->vm.vsync_len + ctx->vm.vback_porch < 32)
+> +                       DRM_WARN("Warning: (vsync + vbp) < 32, "
+> +                               "underflow risk!\n");
+> +
+> +               /* enable dpu update done INT */
+> +               int_mask |= BIT_DPU_INT_UPDATE_DONE;
+> +               /* enable dpu DONE  INT */
+> +               int_mask |= BIT_DPU_INT_DONE;
+> +               /* enable dpu dpi vsync */
+> +               int_mask |= BIT_DPU_INT_VSYNC;
+> +               /* enable dpu TE INT */
+> +               int_mask |= BIT_DPU_INT_TE;
+> +               /* enable underflow err INT */
+> +               int_mask |= BIT_DPU_INT_ERR;
+> +       } else if (ctx->if_type == SPRD_DPU_IF_EDPI) {
+> +               /* use edpi as interface */
+> +               DPU_REG_SET(ctx->base + REG_DPU_CFG0, BIT_DPU_IF_EDPI);
+> +
+> +               /* use external te */
+> +               DPU_REG_SET(ctx->base + REG_DPI_CTRL, BIT_DPU_EDPI_FROM_EXTERNAL_PAD);
+> +
+> +               /* enable te */
+> +               DPU_REG_SET(ctx->base + REG_DPI_CTRL, BIT_DPU_EDPI_TE_EN);
+> +
+> +               /* enable stop DONE INT */
+> +               int_mask |= BIT_DPU_INT_DONE;
+> +               /* enable TE INT */
+> +               int_mask |= BIT_DPU_INT_TE;
+> +       }
+> +
+> +       /* enable ifbc payload error INT */
+> +       int_mask |= BIT_DPU_INT_FBC_PLD_ERR;
+> +       /* enable ifbc header error INT */
+> +       int_mask |= BIT_DPU_INT_FBC_HDR_ERR;
+> +       /* enable iommu va out of range read error INT */
+> +       int_mask |= BIT_DPU_INT_MMU_VAOR_RD;
+> +       /* enable iommu va out of range write error INT */
+> +       int_mask |= BIT_DPU_INT_MMU_VAOR_WR;
+> +       /* enable iommu invalid read error INT */
+> +       int_mask |= BIT_DPU_INT_MMU_INV_RD;
+> +       /* enable iommu invalid write error INT */
+> +       int_mask |= BIT_DPU_INT_MMU_INV_WR;
+> +
+> +       DPU_REG_WR(ctx->base + REG_DPU_INT_EN, int_mask);
+> +}
+> +
+> +static void enable_vsync(struct dpu_context *ctx)
+> +{
+> +       DPU_REG_SET(ctx->base + REG_DPU_INT_EN, BIT_DPU_INT_VSYNC);
+> +}
+> +
+> +static void disable_vsync(struct dpu_context *ctx)
+> +{
+> +       DPU_REG_CLR(ctx->base + REG_DPU_INT_EN, BIT_DPU_INT_VSYNC);
+> +}
+> +
+> +static const u32 primary_fmts[] = {
+> +       DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
+> +       DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
+> +       DRM_FORMAT_RGBA8888, DRM_FORMAT_BGRA8888,
+> +       DRM_FORMAT_RGBX8888, DRM_FORMAT_RGB565,
+> +       DRM_FORMAT_BGR565, DRM_FORMAT_NV12,
+> +       DRM_FORMAT_NV21, DRM_FORMAT_NV16,
+> +       DRM_FORMAT_NV61, DRM_FORMAT_YUV420,
+> +       DRM_FORMAT_YVU420,
+> +};
+> +
+> +static void dpu_capability(struct dpu_context *ctx,
+> +                       struct dpu_capability *cap)
+> +{
+> +       cap->max_layers = 6;
+> +       cap->fmts_ptr = primary_fmts;
+> +       cap->fmts_cnt = ARRAY_SIZE(primary_fmts);
+> +}
+> +
+> +const struct dpu_core_ops dpu_r2p0_core_ops = {
+> +       .init = dpu_init,
+> +       .fini = dpu_fini,
+> +       .run = dpu_run,
+> +       .stop = dpu_stop,
+> +       .isr = dpu_isr,
+> +       .ifconfig = dpu_dpi_init,
+> +       .capability = dpu_capability,
+> +       .flip = dpu_flip,
+> +       .enable_vsync = enable_vsync,
+> +       .disable_vsync = disable_vsync,
+> +};
+> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
+> new file mode 100644
+> index 0000000..5ec8e7c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
+> @@ -0,0 +1,646 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2020 Unisoc Inc.
+> + */
+> +
+> +#include <linux/component.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_irq.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_crtc_helper.h>
+> +#include <drm/drm_fb_cma_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_plane_helper.h>
+> +
+> +#include "sprd_drm.h"
+> +#include "sprd_dpu.h"
+> +
+> +struct sprd_plane {
+> +       struct drm_plane plane;
+> +       u32 index;
+> +       u32 addr[4];
+> +       u32 pitch[4];
+> +       u32 format;
+> +       u32 rotation;
+> +       u32 blend_mode;
+> +};
+> +
+> +static void sprd_dpu_init(struct sprd_dpu *dpu);
+> +static void sprd_dpu_fini(struct sprd_dpu *dpu);
+> +
+> +static inline struct sprd_plane *to_sprd_plane(struct drm_plane *plane)
+> +{
+> +       return container_of(plane, struct sprd_plane, plane);
+> +}
+> +
+> +static int sprd_plane_format_convert(u32 fourcc, u32 *format)
+> +{
+> +       switch (fourcc) {
+> +       case DRM_FORMAT_BGRA8888:
+> +               /* BGRA8888 -> ARGB8888 */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
+> +               *format |= BIT_DPU_LAY_FORMAT_ARGB8888;
+> +               break;
+> +       case DRM_FORMAT_RGBX8888:
+> +       case DRM_FORMAT_RGBA8888:
+> +               /* RGBA8888 -> ABGR8888 */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
+> +               /* FALLTHRU */
+> +       case DRM_FORMAT_ABGR8888:
+> +               /* RB switch */
+> +               *format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
+> +               /* FALLTHRU */
+> +       case DRM_FORMAT_ARGB8888:
+> +               *format |= BIT_DPU_LAY_FORMAT_ARGB8888;
+> +               break;
+> +       case DRM_FORMAT_XBGR8888:
+> +               /* RB switch */
+> +               *format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
+> +               /* FALLTHRU */
+> +       case DRM_FORMAT_XRGB8888:
+> +               *format |= BIT_DPU_LAY_FORMAT_ARGB8888;
+> +               break;
+> +       case DRM_FORMAT_BGR565:
+> +               /* RB switch */
+> +               *format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
+> +               /* FALLTHRU */
+> +       case DRM_FORMAT_RGB565:
+> +               *format |= BIT_DPU_LAY_FORMAT_RGB565;
+> +               break;
+> +       case DRM_FORMAT_NV12:
+> +               /* 2-Lane: Yuv420 */
+> +               *format |= BIT_DPU_LAY_FORMAT_YUV420_2PLANE;
+> +               /* Y endian */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
+> +               /* UV endian */
+> +               *format |= BIT_DPU_LAY_NO_SWITCH;
+> +               break;
+> +       case DRM_FORMAT_NV21:
+> +               /* 2-Lane: Yuv420 */
+> +               *format |= BIT_DPU_LAY_FORMAT_YUV420_2PLANE;
+> +               /* Y endian */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
+> +               /* UV endian */
+> +               *format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
+> +               break;
+> +       case DRM_FORMAT_NV16:
+> +               /* 2-Lane: Yuv422 */
+> +               *format |= BIT_DPU_LAY_FORMAT_YUV422_2PLANE;
+> +               /* Y endian */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0;
+> +               /* UV endian */
+> +               *format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
+> +               break;
+> +       case DRM_FORMAT_NV61:
+> +               /* 2-Lane: Yuv422 */
+> +               *format |= BIT_DPU_LAY_FORMAT_YUV422_2PLANE;
+> +               /* Y endian */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
+> +               /* UV endian */
+> +               *format |= BIT_DPU_LAY_NO_SWITCH;
+> +               break;
+> +       case DRM_FORMAT_YUV420:
+> +               *format |= BIT_DPU_LAY_FORMAT_YUV420_3PLANE;
+> +               /* Y endian */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
+> +               /* UV endian */
+> +               *format |= BIT_DPU_LAY_NO_SWITCH;
+> +               break;
+> +       case DRM_FORMAT_YVU420:
+> +               *format |= BIT_DPU_LAY_FORMAT_YUV420_3PLANE;
+> +               /* Y endian */
+> +               *format |= BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3;
+> +               /* UV endian */
+> +               *format |= BIT_DPU_LAY_RB_OR_UV_SWITCH;
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int sprd_plane_rotation_convert(u32 angle, u32 *rotation)
+> +{
+> +       switch (angle) {
+> +       case DRM_MODE_ROTATE_0:
+> +               *rotation = DPU_LAYER_ROTATION_0;
+> +               break;
+> +       case DRM_MODE_ROTATE_90:
+> +               *rotation = DPU_LAYER_ROTATION_90;
+> +               break;
+> +       case DRM_MODE_ROTATE_180:
+> +               *rotation = DPU_LAYER_ROTATION_180;
+> +               break;
+> +       case DRM_MODE_ROTATE_270:
+> +               *rotation = DPU_LAYER_ROTATION_270;
+> +               break;
+> +       case DRM_MODE_REFLECT_Y:
+> +               *rotation = DPU_LAYER_ROTATION_180_M;
+> +               break;
+> +       case (DRM_MODE_REFLECT_Y | DRM_MODE_ROTATE_90):
+> +               *rotation = DPU_LAYER_ROTATION_90_M;
+> +               break;
+> +       case DRM_MODE_REFLECT_X:
+> +               *rotation = DPU_LAYER_ROTATION_0_M;
+> +               break;
+> +       case (DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90):
+> +               *rotation = DPU_LAYER_ROTATION_270_M;
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int sprd_plane_atomic_check(struct drm_plane *plane,
+> +                                 struct drm_plane_state *state)
+> +{
+> +       struct sprd_plane *p = to_sprd_plane(plane);
+> +       struct drm_framebuffer *fb = state->fb;
+> +       struct drm_gem_cma_object *cma_obj;
+> +       int i, ret;
+> +       u32 addr;
+> +
+> +       if (!state->fb || !state->crtc)
+> +               return 0;
+> +
+> +       ret = sprd_plane_format_convert(fb->format->format,
+> +                                       &p->format);
+> +       if (ret < 0) {
+> +               DRM_ERROR("Invalid plane format\n");
+> +               return ret;
+> +       }
+> +
+> +       ret = sprd_plane_rotation_convert(state->rotation,
+> +                                       &p->rotation);
+> +       if (ret < 0) {
+> +               DRM_ERROR("Invalid plane rotation\n");
+> +               return ret;
+> +       }
+> +
+> +       switch (state->pixel_blend_mode) {
+> +       case DRM_MODE_BLEND_COVERAGE:
+> +               /* alpha mode select - combo alpha */
+> +               p->blend_mode |= BIT_DPU_LAY_COMBO_ALPHA;
+> +               /* Normal mode */
+> +               p->blend_mode |= BIT_DPU_LAY_MODE_BLEND_NORMAL;
+> +               break;
+> +       case DRM_MODE_BLEND_PREMULTI:
+> +               /* alpha mode select - combo alpha */
+> +               p->blend_mode |= BIT_DPU_LAY_COMBO_ALPHA;
+> +               /* Pre-mult mode */
+> +               p->blend_mode |= BIT_DPU_LAY_MODE_BLEND_PREMULT;
+> +               break;
+> +       case DRM_MODE_BLEND_PIXEL_NONE:
+> +       default:
+> +               /* don't do blending, maybe RGBX */
+> +               /* alpha mode select - layer alpha */
+> +               p->blend_mode |= BIT_DPU_LAY_LAYER_ALPHA;
+> +               break;
+> +       }
+> +
+> +       for (i = 0; i < fb->format->num_planes; i++) {
+> +               cma_obj = drm_fb_cma_get_gem_obj(fb, i);
+> +               addr = cma_obj->paddr + fb->offsets[i];
+> +               if (addr % 16) {
+> +                       DRM_ERROR("layer addr[%d] is not 16 bytes align, it's 0x%08x\n",
+> +                               i, addr);
+> +                       return -EFAULT;
+> +               }
+> +
+> +               p->addr[i] = addr;
+> +               p->pitch[i] = fb->pitches[i];
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void sprd_plane_atomic_update(struct drm_plane *plane,
+> +                                   struct drm_plane_state *old_state)
+> +{
+> +       struct drm_plane_state *state = plane->state;
+> +       struct drm_framebuffer *fb = plane->state->fb;
+> +       struct sprd_plane *p = to_sprd_plane(plane);
+> +       struct sprd_dpu *dpu = crtc_to_dpu(plane->state->crtc);
+> +       struct dpu_layer *layer = &dpu->layers[p->index];
+> +       int i;
+> +
+> +       if (!state->crtc || !state->fb)
+> +               return;
+> +
+> +       layer->index = p->index;
+> +       layer->src_x = state->src_x >> 16;
+> +       layer->src_y = state->src_y >> 16;
+> +       layer->src_w = state->src_w >> 16;
+> +       layer->src_h = state->src_h >> 16;
+> +       layer->dst_x = state->crtc_x;
+> +       layer->dst_y = state->crtc_y;
+> +       layer->dst_w = state->crtc_w;
+> +       layer->dst_h = state->crtc_h;
+> +       layer->alpha = state->alpha;
+> +       layer->format = p->format;
+> +       layer->blending = p->blend_mode;
+> +       layer->rotation = p->rotation;
+> +       layer->planes = fb->format->num_planes;
+> +
+> +       for (i = 0; i < layer->planes; i++) {
+> +               layer->addr[i] = p->addr[i];
+> +               layer->pitch[i] = p->pitch[i];
+> +       }
+> +
+> +       dpu->pending_planes++;
+> +}
+> +
+> +static void sprd_plane_create_properties(struct sprd_plane *p, int index)
+> +{
+> +       unsigned int supported_modes = BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> +                                      BIT(DRM_MODE_BLEND_PREMULTI) |
+> +                                      BIT(DRM_MODE_BLEND_COVERAGE);
+> +
+> +       /* create rotation property */
+> +       drm_plane_create_rotation_property(&p->plane,
+> +                                          DRM_MODE_ROTATE_0,
+> +                                          DRM_MODE_ROTATE_MASK |
+> +                                          DRM_MODE_REFLECT_MASK);
+> +
+> +       /* create alpha property */
+> +       drm_plane_create_alpha_property(&p->plane);
+> +
+> +       /* create blend mode property */
+> +       drm_plane_create_blend_mode_property(&p->plane, supported_modes);
+> +
+> +       /* create zpos property */
+> +       drm_plane_create_zpos_immutable_property(&p->plane, index);
+> +}
+> +
+> +static const struct drm_plane_helper_funcs sprd_plane_helper_funcs = {
+> +       .atomic_check = sprd_plane_atomic_check,
+> +       .atomic_update = sprd_plane_atomic_update,
+> +};
+> +
+> +static const struct drm_plane_funcs sprd_plane_funcs = {
+> +       .update_plane = drm_atomic_helper_update_plane,
+> +       .disable_plane  = drm_atomic_helper_disable_plane,
+> +       .destroy = drm_plane_cleanup,
+> +       .reset = drm_atomic_helper_plane_reset,
+> +       .atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+> +       .atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+> +};
+> +
+> +static struct drm_plane *sprd_plane_init(struct drm_device *drm,
+> +                                       struct sprd_dpu *dpu)
+> +{
+> +       struct drm_plane *primary = NULL;
+> +       struct sprd_plane *p = NULL;
+> +       struct dpu_capability cap = {};
+> +       int ret, i;
+> +
+> +       dpu->core->capability(&dpu->ctx, &cap);
+> +
+> +       dpu->layers = devm_kcalloc(drm->dev, cap.max_layers,
+> +                                 sizeof(struct dpu_layer), GFP_KERNEL);
+> +       if (!dpu->layers)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       for (i = 0; i < cap.max_layers; i++) {
+> +
+> +               p = devm_kzalloc(drm->dev, sizeof(*p), GFP_KERNEL);
+> +               if (!p)
+> +                       return ERR_PTR(-ENOMEM);
+> +
+> +               ret = drm_universal_plane_init(drm, &p->plane, 1,
+> +                                              &sprd_plane_funcs, cap.fmts_ptr,
+> +                                              cap.fmts_cnt, NULL,
+> +                                              DRM_PLANE_TYPE_PRIMARY, NULL);
+> +               if (ret) {
+> +                       DRM_ERROR("fail to init primary plane\n");
+> +                       return ERR_PTR(ret);
+> +               }
+> +
+> +               drm_plane_helper_add(&p->plane, &sprd_plane_helper_funcs);
+> +
+> +               sprd_plane_create_properties(p, i);
+> +
+> +               p->index = i;
+> +               if (i == 0)
+> +                       primary = &p->plane;
+> +       }
+> +
+> +       return primary;
+> +}
+> +
+> +static enum drm_mode_status sprd_crtc_mode_valid(struct drm_crtc *crtc,
+> +                                       const struct drm_display_mode *mode)
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +
+> +       DRM_DEBUG("%s() mode: "DRM_MODE_FMT"\n", __func__, DRM_MODE_ARG(mode));
+> +
+> +       if (mode->type & DRM_MODE_TYPE_PREFERRED) {
+> +               drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
+> +
+> +               if ((mode->hdisplay == mode->htotal) ||
+> +                   (mode->vdisplay == mode->vtotal))
+> +                       dpu->ctx.if_type = SPRD_DPU_IF_EDPI;
+> +               else
+> +                       dpu->ctx.if_type = SPRD_DPU_IF_DPI;
+> +       }
+> +
+> +       return MODE_OK;
+> +}
+> +
+> +static void sprd_crtc_atomic_enable(struct drm_crtc *crtc,
+> +                                  struct drm_crtc_state *old_state)
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +
+> +       sprd_dpu_init(dpu);
+> +
+> +       enable_irq(dpu->ctx.irq);
+> +}
+> +
+> +static void sprd_crtc_atomic_disable(struct drm_crtc *crtc,
+> +                                   struct drm_crtc_state *old_state)
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +       struct drm_device *drm = dpu->crtc.dev;
+> +
+> +       disable_irq(dpu->ctx.irq);
+> +
+> +       sprd_dpu_fini(dpu);
+> +
+> +       spin_lock_irq(&drm->event_lock);
+> +       if (crtc->state->event) {
+> +               drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +               crtc->state->event = NULL;
+> +       }
+> +       spin_unlock_irq(&drm->event_lock);
+> +}
+> +
+> +static int sprd_crtc_atomic_check(struct drm_crtc *crtc,
+> +                                struct drm_crtc_state *state)
+> +{
+> +       DRM_DEBUG("%s()\n", __func__);
+> +
+> +       return 0;
+> +}
+> +
+> +static void sprd_crtc_atomic_begin(struct drm_crtc *crtc,
+> +                                 struct drm_crtc_state *old_state)
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +
+> +       memset(dpu->layers, 0, sizeof(*dpu->layers) * dpu->pending_planes);
+> +
+> +       dpu->pending_planes = 0;
+> +}
+> +
+> +static void sprd_crtc_atomic_flush(struct drm_crtc *crtc,
+> +                                 struct drm_crtc_state *old_state)
+> +
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +       struct drm_device *drm = dpu->crtc.dev;
+> +
+> +       if (dpu->pending_planes)
+> +               dpu->core->flip(&dpu->ctx, dpu->layers, dpu->pending_planes);
+> +
+> +       spin_lock_irq(&drm->event_lock);
+> +       if (crtc->state->event) {
+> +               drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +               crtc->state->event = NULL;
+> +       }
+> +       spin_unlock_irq(&drm->event_lock);
+> +}
+> +
+> +static int sprd_crtc_enable_vblank(struct drm_crtc *crtc)
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +
+> +       dpu->core->enable_vsync(&dpu->ctx);
+> +
+> +       return 0;
+> +}
+> +
+> +static void sprd_crtc_disable_vblank(struct drm_crtc *crtc)
+> +{
+> +       struct sprd_dpu *dpu = crtc_to_dpu(crtc);
+> +
+> +       dpu->core->disable_vsync(&dpu->ctx);
+> +}
+> +
+> +static const struct drm_crtc_helper_funcs sprd_crtc_helper_funcs = {
+> +       .mode_valid     = sprd_crtc_mode_valid,
+> +       .atomic_check   = sprd_crtc_atomic_check,
+> +       .atomic_begin   = sprd_crtc_atomic_begin,
+> +       .atomic_flush   = sprd_crtc_atomic_flush,
+> +       .atomic_enable  = sprd_crtc_atomic_enable,
+> +       .atomic_disable = sprd_crtc_atomic_disable,
+> +};
+> +
+> +static const struct drm_crtc_funcs sprd_crtc_funcs = {
+> +       .destroy        = drm_crtc_cleanup,
+> +       .set_config     = drm_atomic_helper_set_config,
+> +       .page_flip      = drm_atomic_helper_page_flip,
+> +       .reset          = drm_atomic_helper_crtc_reset,
+> +       .atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +       .atomic_destroy_state   = drm_atomic_helper_crtc_destroy_state,
+> +       .enable_vblank  = sprd_crtc_enable_vblank,
+> +       .disable_vblank = sprd_crtc_disable_vblank,
+> +};
+> +
+> +static int sprd_crtc_init(struct drm_device *drm, struct drm_crtc *crtc,
+> +                        struct drm_plane *primary)
+> +{
+> +       struct device_node *port;
+> +       int ret;
+> +
+> +       /*
+> +        * set crtc port so that drm_of_find_possible_crtcs call works
+> +        */
+> +       port = of_parse_phandle(drm->dev->of_node, "ports", 0);
+> +       if (!port) {
+> +               DRM_ERROR("find 'ports' phandle of %s failed\n",
+> +                         drm->dev->of_node->full_name);
+> +               return -EINVAL;
+> +       }
+> +       of_node_put(port);
+> +       crtc->port = port;
+> +
+> +       ret = drm_crtc_init_with_planes(drm, crtc, primary, NULL,
+> +                                       &sprd_crtc_funcs, NULL);
+> +       if (ret) {
+> +               DRM_ERROR("failed to init crtc.\n");
+> +               return ret;
+> +       }
+> +
+> +       drm_mode_crtc_set_gamma_size(crtc, 256);
+> +
+> +       drm_crtc_helper_add(crtc, &sprd_crtc_helper_funcs);
+> +
+> +       return 0;
+> +}
+> +
+> +static void sprd_dpu_init(struct sprd_dpu *dpu)
+> +{
+> +       struct dpu_context *ctx = &dpu->ctx;
+> +
+> +       dpu->core->init(ctx);
+> +       dpu->core->ifconfig(ctx);
+> +}
+> +
+> +static void sprd_dpu_fini(struct sprd_dpu *dpu)
+> +{
+> +       struct dpu_context *ctx = &dpu->ctx;
+> +
+> +       dpu->core->fini(ctx);
+> +}
+> +
+> +static irqreturn_t sprd_dpu_isr(int irq, void *data)
+> +{
+> +       struct sprd_dpu *dpu = data;
+> +       struct dpu_context *ctx = &dpu->ctx;
+> +       u32 int_mask = 0;
+> +
+> +       int_mask = dpu->core->isr(ctx);
+> +
+> +       if (int_mask & BIT_DPU_INT_ERR)
+> +               DRM_WARN("Warning: dpu underflow!\n");
+> +
+> +       if (int_mask & BIT_DPU_INT_VSYNC)
+> +               drm_crtc_handle_vblank(&dpu->crtc);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+> +static int sprd_dpu_bind(struct device *dev, struct device *master, void *data)
+> +{
+> +       struct drm_device *drm = data;
+> +       struct sprd_dpu *dpu = dev_get_drvdata(dev);
+> +       struct drm_plane *plane;
+> +       int ret;
+> +
+> +       plane = sprd_plane_init(drm, dpu);
+> +       if (IS_ERR_OR_NULL(plane)) {
+> +               ret = PTR_ERR(plane);
+> +               return ret;
+> +       }
+> +
+> +       ret = sprd_crtc_init(drm, &dpu->crtc, plane);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return 0;
+> +}
+> +
+> +static void sprd_dpu_unbind(struct device *dev, struct device *master,
+> +       void *data)
+> +{
+> +       struct sprd_dpu *dpu = dev_get_drvdata(dev);
+> +
+> +       drm_crtc_cleanup(&dpu->crtc);
+> +}
+> +
+> +static const struct component_ops dpu_component_ops = {
+> +       .bind = sprd_dpu_bind,
+> +       .unbind = sprd_dpu_unbind,
+> +};
+> +
+> +static int sprd_dpu_context_init(struct sprd_dpu *dpu,
+> +                               struct device *dev)
+> +{
+> +       struct platform_device *pdev = to_platform_device(dev);
+> +       struct dpu_context *ctx = &dpu->ctx;
+> +       struct resource *res;
+> +       int ret;
+> +
+> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       ctx->base = devm_ioremap(dev, res->start, resource_size(res));
+> +       if (!ctx->base) {
+> +               DRM_ERROR("failed to map dpu registers\n");
+> +               return -EFAULT;
+> +       }
+> +
+> +       ctx->irq = platform_get_irq(pdev, 0);
+> +       if (ctx->irq < 0) {
+> +               DRM_ERROR("failed to get dpu irq\n");
+> +               return ctx->irq;
+> +       }
+> +
+> +       irq_set_status_flags(ctx->irq, IRQ_NOAUTOEN);
+> +       ret = devm_request_irq(dev, ctx->irq, sprd_dpu_isr,
+> +                                       0, "DPU", dpu);
+> +       if (ret) {
+> +               DRM_ERROR("failed to register dpu irq handler\n");
+> +               return ret;
+> +       }
+> +
+> +       init_waitqueue_head(&ctx->wait_queue);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct sprd_dpu_ops sharkl3_dpu = {
+> +       .core = &dpu_r2p0_core_ops,
+> +};
+> +
+> +static const struct of_device_id dpu_match_table[] = {
+> +       { .compatible = "sprd,sharkl3-dpu",
+> +         .data = &sharkl3_dpu },
+> +       { /* sentinel */ },
+> +};
+> +
+> +static int sprd_dpu_probe(struct platform_device *pdev)
+> +{
+> +       const struct sprd_dpu_ops *pdata;
+> +       struct sprd_dpu *dpu;
+> +       int ret;
+> +
+> +       dpu = devm_kzalloc(&pdev->dev, sizeof(*dpu), GFP_KERNEL);
+> +       if (!dpu)
+> +               return -ENOMEM;
+> +
+> +       pdata = of_device_get_match_data(&pdev->dev);
+> +       if (pdata) {
+> +               dpu->core = pdata->core;
+> +       } else {
+> +               DRM_ERROR("No matching driver data found\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       ret = sprd_dpu_context_init(dpu, &pdev->dev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       platform_set_drvdata(pdev, dpu);
+> +
+> +       return component_add(&pdev->dev, &dpu_component_ops);
+> +}
+> +
+> +static int sprd_dpu_remove(struct platform_device *pdev)
+> +{
+> +       component_del(&pdev->dev, &dpu_component_ops);
+> +       return 0;
+> +}
+> +
+> +struct platform_driver sprd_dpu_driver = {
+> +       .probe = sprd_dpu_probe,
+> +       .remove = sprd_dpu_remove,
+> +       .driver = {
+> +               .name = "sprd-dpu-drv",
+> +               .of_match_table = dpu_match_table,
+> +       },
+> +};
+> +
+> +MODULE_AUTHOR("Leon He <leon.he@unisoc.com>");
+> +MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
+> +MODULE_DESCRIPTION("Unisoc Display Controller Driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.h b/drivers/gpu/drm/sprd/sprd_dpu.h
+> new file mode 100644
+> index 0000000..7d3c5e4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/sprd/sprd_dpu.h
+> @@ -0,0 +1,187 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2020 Unisoc Inc.
+> + */
+> +
+> +#ifndef __SPRD_DPU_H__
+> +#define __SPRD_DPU_H__
+> +
+> +#include <linux/bug.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/kernel.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/string.h>
+> +#include <video/videomode.h>
+> +
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_vblank.h>
+> +#include <uapi/drm/drm_mode.h>
+> +
+> +#define BIT_DPU_INT_DONE_              BIT(0)
+> +#define BIT_DPU_INT_TE                 BIT(1)
+> +#define BIT_DPU_INT_ERR                        BIT(2)
+> +#define BIT_DPU_INT_EDPI_TE            BIT(3)
+> +#define BIT_DPU_INT_UPDATE_DONE                BIT(4)
+> +#define BIT_DPU_INT_VSYNC              BIT(5)
+> +#define BIT_DPU_INT_WB_DONE            BIT(6)
+> +#define BIT_DPU_INT_WB_ERR             BIT(7)
+> +
+> +#define BIT_DPU_LAY_LAYER_ALPHA                        (0x01 << 2)
+> +#define BIT_DPU_LAY_COMBO_ALPHA                        (0x02 << 2)
+> +#define BIT_DPU_LAY_FORMAT_YUV422_2PLANE               (0x00 << 4)
+> +#define BIT_DPU_LAY_FORMAT_YUV420_2PLANE               (0x01 << 4)
+> +#define BIT_DPU_LAY_FORMAT_YUV420_3PLANE               (0x02 << 4)
+> +#define BIT_DPU_LAY_FORMAT_ARGB8888                    (0x03 << 4)
+> +#define BIT_DPU_LAY_FORMAT_RGB565                      (0x04 << 4)
+> +#define BIT_DPU_LAY_DATA_ENDIAN_B0B1B2B3               (0x00 << 8)
+> +#define BIT_DPU_LAY_DATA_ENDIAN_B3B2B1B0               (0x01 << 8)
+> +#define BIT_DPU_LAY_NO_SWITCH                  (0x00 << 10)
+> +#define BIT_DPU_LAY_RB_OR_UV_SWITCH            (0x01 << 10)
+> +#define BIT_DPU_LAY_MODE_BLEND_NORMAL          (0x00 << 16)
+> +#define BIT_DPU_LAY_MODE_BLEND_PREMULT         (0x01 << 16)
+> +
+> +enum {
+> +       SPRD_DPU_IF_DBI = 0,
+> +       SPRD_DPU_IF_DPI,
+> +       SPRD_DPU_IF_EDPI,
+> +       SPRD_DPU_IF_LIMIT
+> +};
+> +
+> +enum {
+> +       DPU_LAYER_ROTATION_0,
+> +       DPU_LAYER_ROTATION_90,
+> +       DPU_LAYER_ROTATION_180,
+> +       DPU_LAYER_ROTATION_270,
+> +       DPU_LAYER_ROTATION_0_M,
+> +       DPU_LAYER_ROTATION_90_M,
+> +       DPU_LAYER_ROTATION_180_M,
+> +       DPU_LAYER_ROTATION_270_M,
+> +};
+> +
+> +struct dpu_layer {
+> +       u8 index;
+> +       u8 planes;
+> +       u32 addr[4];
+> +       u32 pitch[4];
+> +       s16 src_x;
+> +       s16 src_y;
+> +       s16 src_w;
+> +       s16 src_h;
+> +       s16 dst_x;
+> +       s16 dst_y;
+> +       u16 dst_w;
+> +       u16 dst_h;
+> +       u32 format;
+> +       u32 alpha;
+> +       u32 blending;
+> +       u32 rotation;
+> +};
+> +
+> +/**
+> + * Sprd DPU capability structure
+> + *
+> + * @max_layers: maximum number of layers available
+> + * @fmts_ptr: A pointer to array of supported pixel formats
+> + * @fmts_cnt: the number of format on @fmts_ptr
+> + */
+> +struct dpu_capability {
+> +       u32 max_layers;
+> +       const u32 *fmts_ptr;
+> +       u32 fmts_cnt;
+> +};
+> +
+> +/**
+> + * Sprd DPU core callback ops
+> + *
+> + * This structure decribes the display controller common
+> + * callback ops
+> + *
+> + * @init: initial DPU core
+> + * @fini: cleanup DPU core
+> + * @run: enable DPU output
+> + * @stop: disable DPU output
+> + * @enable_vsync: enable vblank interrupt
+> + * @disable_vsync: disable vblank interrupt
+> + * @isr: function pointer to the isr
+> + * @ifconfig: initial DPI interface
+> + * @flip: commit CRTC planes to DPU
+> + * @capability: callback for DPU capabilities
+> + */
+> +struct dpu_context;
+> +struct dpu_core_ops {
+> +       void (*init)(struct dpu_context *ctx);
+> +       void (*fini)(struct dpu_context *ctx);
+> +       void (*run)(struct dpu_context *ctx);
+> +       void (*stop)(struct dpu_context *ctx);
+> +       void (*enable_vsync)(struct dpu_context *ctx);
+> +       void (*disable_vsync)(struct dpu_context *ctx);
+> +       u32 (*isr)(struct dpu_context *ctx);
+> +       void (*ifconfig)(struct dpu_context *ctx);
+> +       void (*flip)(struct dpu_context *ctx,
+> +                    struct dpu_layer layers[], u8 count);
+> +       void (*capability)(struct dpu_context *ctx,
+> +                       struct dpu_capability *cap);
+> +};
+> +
+> +/**
+> + * Sprd DPU context structure
+> + *
+> + * @base: DPU controller base address
+> + * @irq: IRQ number to install the handler for
+> + * @if_type: The type of DPI interface, default is DPI mode.
+> + * @vm: videomode structure to use for DPU and DPI initialization
+> + * @stopped: indicates whether DPU are stopped
+> + * @wait_queue: wait queue, used to wait for DPU shadow register update done and
+> + * DPU stop register done interrupt signal.
+> + * @evt_update: wait queue condition for DPU shadow register
+> + * @evt_stop: wait queue condition for DPU stop register
+> + */
+> +struct dpu_context {
+> +       void __iomem *base;
+> +       int irq;
+> +       u8 if_type;
+> +       struct videomode vm;
+> +       bool stopped;
+> +       wait_queue_head_t wait_queue;
+> +       bool evt_update;
+> +       bool evt_stop;
+> +};
+> +
+> +/**
+> + * Sprd DPU device structure
+> + *
+> + * @crtc: DRM crtc
+> + * @ctx: A pointer to the DPU's implementation specific context
+> + * @core: pointer to callbacks for DPU core functionality
+> + * @layers: active DPU layers ready to commit
+> + * @pending_planes: the number of layers on @layers
+> + */
+> +struct sprd_dpu {
+> +       struct drm_crtc crtc;
+> +       struct dpu_context ctx;
+> +       const struct dpu_core_ops *core;
+> +       struct dpu_layer *layers;
+> +       u8 pending_planes;
+> +};
+> +
+> +/**
+> + * Sprd DPU H/W callback ops match table structure
+> + * The structure used for matching a specific device callback ops
+> + *
+> + * @core: pointer to callbacks for DPU core functionality
+> + */
+> +struct sprd_dpu_ops {
+> +       const struct dpu_core_ops *core;
+> +};
+> +
+> +static inline struct sprd_dpu *crtc_to_dpu(struct drm_crtc *crtc)
+> +{
+> +       return crtc ? container_of(crtc, struct sprd_dpu, crtc) : NULL;
+> +}
+> +
+> +extern const struct dpu_core_ops dpu_r2p0_core_ops;
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/sprd/sprd_drm.c b/drivers/gpu/drm/sprd/sprd_drm.c
+> index 4706185..200020f 100644
+> --- a/drivers/gpu/drm/sprd/sprd_drm.c
+> +++ b/drivers/gpu/drm/sprd/sprd_drm.c
+> @@ -200,6 +200,7 @@ static struct platform_driver sprd_drm_driver = {
+>
+>  static struct platform_driver *sprd_drm_drivers[]  = {
+>         &sprd_drm_driver,
+> +       &sprd_dpu_driver,
+>  };
+>
+>  static int __init sprd_drm_init(void)
+> diff --git a/drivers/gpu/drm/sprd/sprd_drm.h b/drivers/gpu/drm/sprd/sprd_drm.h
+> index edf0881..3c32f3a 100644
+> --- a/drivers/gpu/drm/sprd/sprd_drm.h
+> +++ b/drivers/gpu/drm/sprd/sprd_drm.h
+> @@ -13,4 +13,6 @@ struct sprd_drm {
+>         struct drm_device *drm;
+>  };
+>
+> +extern struct platform_driver sprd_dpu_driver;
+> +
+>  #endif /* _SPRD_DRM_H_ */
+> --
+> 2.7.4
+>
 
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index a99cc3fd5ef4..897d29e318d3 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -89,7 +89,7 @@ void mcde_display_irq(struct mcde *mcde)
- 		 * the update function is called, then we disable the
- 		 * flow on the channel once we get the TE IRQ.
- 		 */
--		if (mcde->oneshot_mode) {
-+		if (mcde->flow_mode == MCDE_COMMAND_ONESHOT_FLOW) {
- 			spin_lock(&mcde->flow_lock);
- 			if (--mcde->flow_active == 0) {
- 				dev_dbg(mcde->dev, "TE0 IRQ\n");
-@@ -524,19 +524,41 @@ static void mcde_configure_channel(struct mcde *mcde, enum mcde_channel ch,
- 	}
- 
- 	/* Set up channel 0 sync (based on chnl_update_registers()) */
--	if (mcde->video_mode || mcde->te_sync)
-+	switch (mcde->flow_mode) {
-+	case MCDE_COMMAND_ONESHOT_FLOW:
-+		/* Oneshot is achieved with software sync */
-+		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SOFTWARE
-+			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-+		break;
-+	case MCDE_COMMAND_TE_FLOW:
- 		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
- 			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
--	else
--		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SOFTWARE
-+		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_TE0
-+			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-+		break;
-+	case MCDE_COMMAND_BTA_TE_FLOW:
-+		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
- 			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
--
--	if (mcde->te_sync)
- 		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_TE0
- 			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
--	else
-+		break;
-+	case MCDE_VIDEO_TE_FLOW:
-+		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
-+			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-+		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_TE0
-+			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-+		break;
-+	case MCDE_VIDEO_FORMATTER_FLOW:
-+		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
-+			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
- 		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_FORMATTER
- 			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-+		break;
-+	default:
-+		dev_err(mcde->dev, "unknown flow mode %d\n",
-+			mcde->flow_mode);
-+		break;
-+	}
- 
- 	writel(val, mcde->regs + sync);
- 
-@@ -946,7 +968,11 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
- 	mcde_configure_dsi_formatter(mcde, MCDE_DSI_FORMATTER_0,
- 				     formatter_frame, pkt_size);
- 
--	if (mcde->te_sync) {
-+	switch (mcde->flow_mode) {
-+	case MCDE_COMMAND_TE_FLOW:
-+	case MCDE_COMMAND_BTA_TE_FLOW:
-+	case MCDE_VIDEO_TE_FLOW:
-+		/* We are using TE in some comination */
- 		if (mode->flags & DRM_MODE_FLAG_NVSYNC)
- 			val = MCDE_VSCRC_VSPOL;
- 		else
-@@ -956,16 +982,22 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
- 		val = readl(mcde->regs + MCDE_CRC);
- 		val |= MCDE_CRC_SYCEN0;
- 		writel(val, mcde->regs + MCDE_CRC);
-+		break;
-+	default:
-+		/* No TE capture */
-+		break;
- 	}
- 
- 	drm_crtc_vblank_on(crtc);
- 
--	if (mcde->video_mode)
-+	if (mcde_flow_is_video(mcde)) {
- 		/*
- 		 * Keep FIFO permanently enabled in video mode,
- 		 * otherwise MCDE will stop feeding data to the panel.
- 		 */
- 		mcde_enable_fifo(mcde, MCDE_FIFO_A);
-+		dev_dbg(mcde->dev, "started MCDE video FIFO flow\n");
-+	}
- 
- 	dev_info(drm->dev, "MCDE display is enabled\n");
- }
-@@ -996,38 +1028,36 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
- 
- static void mcde_start_flow(struct mcde *mcde)
- {
--	/* Request a TE ACK */
--	if (mcde->te_sync)
-+	/* Request a TE ACK only in TE+BTA mode */
-+	if (mcde->flow_mode == MCDE_COMMAND_BTA_TE_FLOW)
- 		mcde_dsi_te_request(mcde->mdsi);
- 
- 	/* Enable FIFO A flow */
- 	mcde_enable_fifo(mcde, MCDE_FIFO_A);
- 
--	if (mcde->te_sync) {
-+	/*
-+	 * If oneshot mode is enabled, the flow will be disabled
-+	 * when the TE0 IRQ arrives in the interrupt handler. Otherwise
-+	 * updates are continuously streamed to the display after this
-+	 * point.
-+	 */
-+
-+	if (mcde->flow_mode == MCDE_COMMAND_ONESHOT_FLOW) {
-+		/* Trigger a software sync out on channel 0 */
-+		writel(MCDE_CHNLXSYNCHSW_SW_TRIG,
-+		       mcde->regs + MCDE_CHNL0SYNCHSW);
-+
- 		/*
--		 * If oneshot mode is enabled, the flow will be disabled
--		 * when the TE0 IRQ arrives in the interrupt handler. Otherwise
--		 * updates are continuously streamed to the display after this
--		 * point.
-+		 * Disable FIFO A flow again: since we are using TE sync we
-+		 * need to wait for the FIFO to drain before we continue
-+		 * so repeated calls to this function will not cause a mess
-+		 * in the hardware by pushing updates will updates are going
-+		 * on already.
- 		 */
--		dev_dbg(mcde->dev, "sent TE0 framebuffer update\n");
--		return;
-+		mcde_disable_fifo(mcde, MCDE_FIFO_A, true);
- 	}
- 
--	/* Trigger a software sync out on channel 0 */
--	writel(MCDE_CHNLXSYNCHSW_SW_TRIG,
--	       mcde->regs + MCDE_CHNL0SYNCHSW);
--
--	/*
--	 * Disable FIFO A flow again: since we are using TE sync we
--	 * need to wait for the FIFO to drain before we continue
--	 * so repeated calls to this function will not cause a mess
--	 * in the hardware by pushing updates will updates are going
--	 * on already.
--	 */
--	mcde_disable_fifo(mcde, MCDE_FIFO_A, true);
--
--	dev_dbg(mcde->dev, "sent SW framebuffer update\n");
-+	dev_dbg(mcde->dev, "started MCDE FIFO flow\n");
- }
- 
- static void mcde_set_extsrc(struct mcde *mcde, u32 buffer_address)
-@@ -1086,15 +1116,10 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
- 	 */
- 	if (fb) {
- 		mcde_set_extsrc(mcde, drm_fb_cma_get_gem_addr(fb, pstate, 0));
--		if (!mcde->video_mode) {
--			/*
--			 * Send a single frame using software sync if the flow
--			 * is not active yet.
--			 */
--			if (mcde->flow_active == 0)
--				mcde_start_flow(mcde);
--		}
--		dev_info_once(mcde->dev, "sent first display update\n");
-+		dev_info_once(mcde->dev, "first update of display contents\n");
-+		/* The flow is already active in video mode */
-+		if (!mcde_flow_is_video(mcde) && mcde->flow_active == 0)
-+			mcde_start_flow(mcde);
- 	} else {
- 		/*
- 		 * If an update is receieved before the MCDE is enabled
-diff --git a/drivers/gpu/drm/mcde/mcde_drm.h b/drivers/gpu/drm/mcde/mcde_drm.h
-index 679c2c4e6d9d..3e406d783465 100644
---- a/drivers/gpu/drm/mcde/mcde_drm.h
-+++ b/drivers/gpu/drm/mcde/mcde_drm.h
-@@ -9,6 +9,22 @@
- #ifndef _MCDE_DRM_H_
- #define _MCDE_DRM_H_
- 
-+enum mcde_flow_mode {
-+	/* One-shot mode: flow stops after one frame */
-+	MCDE_COMMAND_ONESHOT_FLOW,
-+	/* Command mode with tearing effect (TE) IRQ sync */
-+	MCDE_COMMAND_TE_FLOW,
-+	/*
-+	 * Command mode with bus turn-around (BTA) and tearing effect
-+	 * (TE) IRQ sync.
-+	 */
-+	MCDE_COMMAND_BTA_TE_FLOW,
-+	/* Video mode with tearing effect (TE) sync IRQ */
-+	MCDE_VIDEO_TE_FLOW,
-+	/* Video mode with the formatter itself as sync source */
-+	MCDE_VIDEO_FORMATTER_FLOW,
-+};
-+
- struct mcde {
- 	struct drm_device drm;
- 	struct device *dev;
-@@ -18,9 +34,7 @@ struct mcde {
- 	struct drm_simple_display_pipe pipe;
- 	struct mipi_dsi_device *mdsi;
- 	s16 stride;
--	bool te_sync;
--	bool video_mode;
--	bool oneshot_mode;
-+	enum mcde_flow_mode flow_mode;
- 	unsigned int flow_active;
- 	spinlock_t flow_lock; /* Locks the channel flow control */
- 
-@@ -36,6 +50,12 @@ struct mcde {
- 
- #define to_mcde(dev) container_of(dev, struct mcde, drm)
- 
-+static inline bool mcde_flow_is_video(struct mcde *mcde)
-+{
-+	return (mcde->flow_mode == MCDE_VIDEO_TE_FLOW ||
-+		mcde->flow_mode == MCDE_VIDEO_FORMATTER_FLOW);
-+}
-+
- bool mcde_dsi_irq(struct mipi_dsi_device *mdsi);
- void mcde_dsi_te_request(struct mipi_dsi_device *mdsi);
- extern struct platform_driver mcde_dsi_driver;
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 80082d6dce3a..1671af101cf2 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -315,9 +315,6 @@ static int mcde_probe(struct platform_device *pdev)
- 	mcde->dev = dev;
- 	platform_set_drvdata(pdev, drm);
- 
--	/* Enable continuous updates: this is what Linux' framebuffer expects */
--	mcde->oneshot_mode = false;
--
- 	/* First obtain and turn on the main power */
- 	mcde->epod = devm_regulator_get(dev, "epod");
- 	if (IS_ERR(mcde->epod)) {
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 65b3d6d41456..58e5d07c8a06 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -148,9 +148,21 @@ static void mcde_dsi_attach_to_mcde(struct mcde_dsi *d)
- {
- 	d->mcde->mdsi = d->mdsi;
- 
--	d->mcde->video_mode = !!(d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO);
--	/* Enable use of the TE signal for all command mode panels */
--	d->mcde->te_sync = !d->mcde->video_mode;
-+	/*
-+	 * Select the way the DSI data flow is pushing to the display:
-+	 * currently we just support video or command mode depending
-+	 * on the type of display.
-+	 *
-+	 * FIXME: add flags to struct mipi_dsi_device .flags to indicate
-+	 * displays that require BTA (bus turn around) so we can handle
-+	 * such displays as well. Figure out how to properly handle
-+	 * single frame on-demand updates with DRM for command mode
-+	 * displays (MCDE_COMMAND_ONESHOT_FLOW).
-+	 */
-+	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO)
-+		d->mcde->flow_mode = MCDE_VIDEO_TE_FLOW;
-+	else
-+		d->mcde->flow_mode = MCDE_COMMAND_TE_FLOW;
- }
- 
- static int mcde_dsi_host_attach(struct mipi_dsi_host *host,
+
 -- 
-2.26.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
