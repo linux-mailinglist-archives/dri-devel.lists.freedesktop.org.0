@@ -2,35 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83288231F4C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 15:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BCE231F68
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 15:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB2906E4FF;
-	Wed, 29 Jul 2020 13:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 384A28911B;
+	Wed, 29 Jul 2020 13:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 204DC6E4FF
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 13:27:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id E767AFB05;
- Wed, 29 Jul 2020 15:27:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3xIffyALAbLL; Wed, 29 Jul 2020 15:27:30 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 346BB45341; Wed, 29 Jul 2020 15:27:30 +0200 (CEST)
-Date: Wed, 29 Jul 2020 15:27:30 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Subject: Re: [PATCH v8 5/5] dt-bindings: display: imx: add bindings for DCSS
-Message-ID: <20200729132730.GA266947@bogon.m.sigxcpu.org>
-References: <20200724090736.12228-1-laurentiu.palcu@oss.nxp.com>
- <20200724090736.12228-6-laurentiu.palcu@oss.nxp.com>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54FBF8911B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 13:37:49 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200729133747euoutp020c43e3f0b65a4bb3a78b31b541e9e75c~mPLU8KO0N1707517075euoutp02C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 13:37:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200729133747euoutp020c43e3f0b65a4bb3a78b31b541e9e75c~mPLU8KO0N1707517075euoutp02C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1596029867;
+ bh=5QZzAlz44M8sYevS+mVA+JLffzyNd1liNMejy0cjMGg=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=SnuJpEY45DyIrqBvVltM8bPzATj9neshE42h2KQhIUbjdWWMOooxSMI4i8YqVbI4n
+ zDjmAlGXO+hUcjGMBn3pVfji9YI+3+3lvh3FyAxldnvVJCAod+EyfI7iElEgk+MFqd
+ bWTEcYp9Y1xgzLdwXPHeyfb8e1kNKjXgdXkDDsYU=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200729133746eucas1p2c1752efd5cae4ad9022ca0083739a9f3~mPLUqvyIc1274912749eucas1p2z;
+ Wed, 29 Jul 2020 13:37:46 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id DB.A3.05997.AAB712F5; Wed, 29
+ Jul 2020 14:37:46 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200729133746eucas1p1e779331cfa697b8d821536e58a08a172~mPLUWavK_2841728417eucas1p1r;
+ Wed, 29 Jul 2020 13:37:46 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200729133746eusmtrp26806320807a884ca4074dd4723d95b4c~mPLUP-1uL3268532685eusmtrp27;
+ Wed, 29 Jul 2020 13:37:46 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-d4-5f217baaa900
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id BC.30.06017.AAB712F5; Wed, 29
+ Jul 2020 14:37:46 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200729133745eusmtip225dbd063d8a509c328520fe042b3b699~mPLTkwibR0973809738eusmtip2N;
+ Wed, 29 Jul 2020 13:37:45 +0000 (GMT)
+Subject: Re: [PATCH] vgacon: fix out of bounds write to the scrollback buffer
+To: Jiri Slaby <jslaby@suse.cz>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <7a5fc007-f0dc-bc11-3d04-b987cc98e2bd@samsung.com>
+Date: Wed, 29 Jul 2020 15:37:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200724090736.12228-6-laurentiu.palcu@oss.nxp.com>
+In-Reply-To: <20200729070249.20892-1-jslaby@suse.cz>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SWUwTURTNY6bTgVAcC4QbVNAqJJqIIH5MQFEQkvkxEr+MCZQqI4u0YMtO
+ IqCoWLARMYJVpNEoW8Iu2EY/gMqiUkhYJCyyutBYJKASwKK2UyJ/5957zj3nvjwSEy7x3Mk4
+ WTIrl0kSRIQD3tK5ajhYnbVH7DuYd4AuKOhE9ODP7wRt0JQienldx6PXFnsxeq2qHtHdqkUe
+ PaB7RNBD5nxEv+lUYnRPiT89ozLx6ealYTvaaC4hTjgxlf1KHvN4IZ7Rqif4TJ7exGMaq28R
+ jGk6nOkuXceZyYIuO2b52zif+fR7gmDea/R8ZrnRg/nToMHCBeccjkazCXGprPxQUJRDbG6p
+ nkgq3ps+vfiAyEF5u5SIJIE6Ak33w5TIgRRSlQhWVlU4V/xAMFa/YCuWEbR8fogpkb1VcXW8
+ juAGFQhqRswYV5gQtKmeWlnO1Globh23s2AXyhO0G1+sGKNWMLhX62HBBBUARTerkQULqCDo
+ yjHwLRinvKB4Zc7Kd6XOwtJUB4/jbIeeB3O4Jbf9vxQfhs5wK91gdK7ctt4Trr14aM0DVBkJ
+ reuvCC51KOgqV/gcdgZjV7MN74Q/WovYIqhFYM7/alO3Iqgo3rCpA2HcsEZYnDFqP9TpDnHt
+ YHg20IFxD+kEI6btXAgnuNtSYmsLIP+GkGN7Q/3zemLTVqmtwu4gkXrLZeot56i3nKP+76tB
+ eDVyY1MU0hhWcVjGpvkoJFJFiizG50KitBH9+4nvNrp+vES63+fbEUUikaNgt2yPWMiTpCoy
+ pO0ISEzkIgjpfRcpFERLMjJZeaJYnpLAKtrRDhIXuQn8n8xHCKkYSTJ7iWWTWPnm1I60d89B
+ rtsM6xczixrSxdPGjADvq1nmicDy2XtEqLhMN5agOm40Zp+CvsmWU7WvlMPzIVHX40/W9KX1
+ J5mkeGjVPlXE7PfcyMG2womdr7PfLsTnhTlleymv54umCgMv53ZP/brdm3bU7/hsVZI+1nsq
+ 1f2Kb+do9P0+x4Bzcs1MU/Ax+UcRroiV+B3A5ArJX6KG9sGFAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42I5/e/4Pd1V1YrxBktbBCy6u48xWlz5+p7N
+ 4tyCGYwWn3/vYrX49eEss8WvlRsYLU70fWC1uLxrDpvF1b8djBZHj3UxW5ycbmzxqO8tu8WW
+ T9eYLF79nc7mwOex4kIXq8e8d1keO2fdZfdoOfKW1WPTqk42j7cPAzxOzPjN4nG/+ziTx+c3
+ d9g9nv65y+ZxZsERdo/Pm+Q8/m9cwBzAG6VnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdo
+ bB5rZWSqpG9nk5Kak1mWWqRvl6CX0TjjCFvBZOWKhx9msjUwtsh2MXJySAiYSDTdWc/WxcjF
+ ISSwlFHi3YzXrF2MHEAJGYnj68sgaoQl/lzrgqp5DVSzZi4TSEJYwFdi8f8dbCC2iIC8xM5/
+ z5lAipgFfjJLnN86AaqjnVHiZut0dpAqNgEriYntqxhBbF4BO4njDefA4iwCqhKTvz8Bmyoq
+ ECFxeMcsqBpBiZMzn7CAXMQJdOr1q0EgYWYBdYk/8y4xQ9jiEreezGeCsOUlmrfOZp7AKDQL
+ SfcsJC2zkLTMQtKygJFlFaNIamlxbnpusZFecWJucWleul5yfu4mRmAS2Hbs55YdjF3vgg8x
+ CnAwKvHwKuQpxguxJpYVV+YeYpTgYFYS4XU6ezpOiDclsbIqtSg/vqg0J7X4EKMp0G8TmaVE
+ k/OBCSqvJN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwfEwenVAOjuZ0BZ6b+
+ pVOn99ZIPl05Uat6Vu/1VTsq2uZo/NcL8mc+vnGX7rP/M5KkDQoPv3h0Z+aFaXUt/+0ezlwa
+ Gv4wJpml6GGs7HEjsR97puQ+dLaVN9ixkd8ixC2Vn7mMOXxt3NV/7tt7lr1XbHrIfsIhdZL4
+ dtOXr56kq9pdXlAsfvJuxJYl8h+OKLEUZyQaajEXFScCAEJ1Mw4YAwAA
+X-CMS-MailID: 20200729133746eucas1p1e779331cfa697b8d821536e58a08a172
+X-Msg-Generator: CA
+X-RootMTR: 20200729070257eucas1p1f5841756104301e67907136e45d6e9f5
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200729070257eucas1p1f5841756104301e67907136e45d6e9f5
+References: <CGME20200729070257eucas1p1f5841756104301e67907136e45d6e9f5@eucas1p1.samsung.com>
+ <20200729070249.20892-1-jslaby@suse.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,159 +108,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>, lukas@mntmn.com,
+Cc: Security Officers <security@kernel.org>, Kyungtae Kim <kt0755@gmail.com>,
+ Anthony Liguori <aliguori@amazon.com>, Greg KH <greg@kroah.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>, linux-distros@vs.openwall.org,
+ linux-fbdev@vger.kernel.org, Solar Designer <solar@openwall.com>,
+ Yang Yingliang <yangyingliang@huawei.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Fri, Jul 24, 2020 at 12:07:34PM +0300, Laurentiu Palcu wrote:
-> From: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> 
-> Add bindings for iMX8MQ Display Controller Subsystem.
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/display/imx/nxp,imx8mq-dcss.yaml | 104 ++++++++++++++++++
->  1 file changed, 104 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
-> new file mode 100644
-> index 000000000000..68e4635e4874
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
-> @@ -0,0 +1,104 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2019 NXP
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/display/imx/nxp,imx8mq-dcss.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: iMX8MQ Display Controller Subsystem (DCSS)
-> +
-> +maintainers:
-> +  - Laurentiu Palcu <laurentiu.palcu@nxp.com>
-> +
-> +description:
-> +
-> +  The DCSS (display controller sub system) is used to source up to three
-> +  display buffers, compose them, and drive a display using HDMI 2.0a(with HDCP
-> +  2.2) or MIPI-DSI. The DCSS is intended to support up to 4kp60 displays. HDR10
-> +  image processing capabilities are included to provide a solution capable of
-> +  driving next generation high dynamic range displays.
-> +
-> +properties:
-> +  compatible:
-> +    const: nxp,imx8mq-dcss
-> +
-> +  reg:
-> +    items:
-> +      - description: DCSS base address and size, up to IRQ steer start
-> +      - description: DCSS BLKCTL base address and size
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Context loader completion and error interrupt
-> +      - description: DTG interrupt used to signal context loader trigger time
-> +      - description: DTG interrupt for Vblank
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: ctxld
-> +      - const: ctxld_kick
-> +      - const: vblank
-> +
-> +  clocks:
-> +    items:
-> +      - description: Display APB clock for all peripheral PIO access interfaces
-> +      - description: Display AXI clock needed by DPR, Scaler, RTRAM_CTRL
-> +      - description: RTRAM clock
-> +      - description: Pixel clock, can be driven either by HDMI phy clock or MIPI
-> +      - description: DTRC clock, needed by video decompressor
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb
-> +      - const: axi
-> +      - const: rtrm
-> +      - const: pix
-> +      - const: dtrc
-> +
-> +  assigned-clocks:
-> +    items:
-> +      - description: Phandle and clock specifier of IMX8MQ_CLK_DISP_AXI_ROOT
-> +      - description: Phandle and clock specifier of IMX8MQ_CLK_DISP_RTRM
-> +      - description: Phandle and clock specifier of either IMX8MQ_VIDEO2_PLL1_REF_SEL or
-> +                     IMX8MQ_VIDEO_PLL1_REF_SEL
-> +
-> +  assigned-clock-parents:
-> +    items:
-> +      - description: Phandle and clock specifier of IMX8MQ_SYS1_PLL_800M
-> +      - description: Phandle and clock specifier of IMX8MQ_SYS1_PLL_800M
-> +      - description: Phandle and clock specifier of IMX8MQ_CLK_27M
-> +
-> +  assigned-clock-rates:
-> +    items:
-> +      - description: Must be 800 MHz
-> +      - description: Must be 400 MHz
-> +
-> +  port:
-> +    type: object
-> +    description:
-> +      A port node pointing to the input port of a HDMI/DP or MIPI display bridge.
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-
-it would be nice to
-
-    #include <dt-bindings/clock/imx8mq-clock.h>
-
-here...
-
-> +    dcss: display-controller@32e00000 {
-> +        compatible = "nxp,imx8mq-dcss";
-> +        reg = <0x32e00000 0x2d000>, <0x32e2f000 0x1000>;
-> +        interrupts = <6>, <8>, <9>;
-> +        interrupt-names = "ctxld", "ctxld_kick", "vblank";
-> +        interrupt-parent = <&irqsteer>;
-> +        clocks = <&clk 248>, <&clk 247>, <&clk 249>,
-> +                 <&clk 254>,<&clk 122>;
-> +        clock-names = "apb", "axi", "rtrm", "pix", "dtrc";
-> +        assigned-clocks = <&clk 107>, <&clk 109>, <&clk 266>;
-> +        assigned-clock-parents = <&clk 78>, <&clk 78>, <&clk 3>;
-
-so that clock names like IMX8MQ_CLK_DISP_AXI could be used to make this
-even more useful.
-
-Cheers,
- -- Guido
-
-> +        assigned-clock-rates = <800000000>,
-> +                               <400000000>;
-> +        port {
-> +            dcss_out: endpoint {
-> +                remote-endpoint = <&hdmi_in>;
-> +            };
-> +        };
-> +    };
-> +
-> -- 
-> 2.23.0
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CkhpIEppcmksCgpPbiA3LzI5LzIwIDk6MDIgQU0sIEppcmkgU2xhYnkgd3JvdGU6Cj4gVGhlIGN1
+cnJlbnQgdmdhY29uJ3Mgc2Nyb2xsIHVwIGltcGxlbWVudGF0aW9uIHVzZXMgYSBjaXJjdXJhbCBi
+dWZmZXIKPiBpbiB2Z2Fjb25fc2Nyb2xsYmFja19jdXIuIEl0IGFsd2F5cyBhZHZhbmNlcyB0YWls
+IHRvIHByZXBhcmUgaXQgZm9yIHRoZQo+IG5leHQgd3JpdGUgYW5kIGNhcHMgaXQgdG8gemVybyBp
+ZiB0aGUgbmV4dCAtPnZjX3NpemVfcm93IGJ5dGVzIHdvbid0IGZpdC4KPiAKPiBCdXQgd2hlbiB3
+ZSBjaGFuZ2UgdGhlIFZUIHNpemUgKGUuZy4gYnkgVlRfUkVTSVpFKSBpbiB0aGUgbWVhbnRpbWUs
+IHRoZSBuZXcKPiBsaW5lIG1pZ2h0IG5vdCBmaXQgdG8gdGhlIGVuZCBvZiB0aGUgc2Nyb2xsYmFj
+ayBidWZmZXIgaW4gdGhlIG5leHQKPiBhdHRlbXB0IHRvIHNjcm9sbC4gVGhpcyBsZWFkcyB0byB2
+YXJpb3VzIGNyYXNoZXMgYXMKPiB2Z2Fjb25fc2Nyb2xsYmFja191cGRhdGUgd3JpdGVzIG91dCBv
+ZiB0aGUgYnVmZmVyOgo+ICBCVUc6IHVuYWJsZSB0byBoYW5kbGUgcGFnZSBmYXVsdCBmb3IgYWRk
+cmVzczogZmZmZmM5MDAwMDE3NTJhMAo+ICAjUEY6IHN1cGVydmlzb3Igd3JpdGUgYWNjZXNzIGlu
+IGtlcm5lbCBtb2RlCj4gICNQRjogZXJyb3JfY29kZSgweDAwMDIpIC0gbm90LXByZXNlbnQgcGFn
+ZQo+ICBSSVA6IDAwMTA6bXV0ZXhfdW5sb2NrKzB4MTMvMHgzMAo+IC4uLgo+ICBDYWxsIFRyYWNl
+Ogo+ICAgbl90dHlfd3JpdGUrMHgxYTAvMHg0ZDAKPiAgIHR0eV93cml0ZSsweDFhMC8weDJlMAo+
+IAo+IE9yIHRvIEtBU0FOIHJlcG9ydHM6Cj4gQlVHOiBLQVNBTjogc2xhYi1vdXQtb2YtYm91bmRz
+IGluIHZnYWNvbl9zY3JvbGwrMHg1N2EvMHg4ZWQKPiAKPiBTbyBjaGVjayB3aGV0aGVyIHRoZSBs
+aW5lIGZpdHMgaW4gdGhlIGJ1ZmZlciBhbmQgd3JhcCBpZiBuZWVkZWQuIERvIGl0Cj4gYmVmb3Jl
+IHRoZSBsb29wIGFzIGNvbnNvbGVfc2VtIGlzIGhlbGQgYW5kIC0+dmNfc2l6ZV9yb3cgY2Fubm90
+IGNoYW5nZQo+IGR1cmluZyB0aGUgZXhlY3V0aW9uIG9mIHZnYWNvbl9zY3JvbGxiYWNrX2N1ci4g
+SWYgaXQgZG9lcyBjaGFuZ2UsIHdlCj4gbmVlZCB0byBlbnN1cmUgaXQgZG9lcyBub3QgY2hhbmdl
+IGVsc2V3aGVyZSwgbm90IGhlcmUuCj4gCj4gQWxzbywgd2UgZG8gbm90IHNwbGl0IHRoZSB3cml0
+ZSBvZiBhIGxpbmUgaW50byBjaHVua3MgYXMgdGhhdCB3b3VsZAo+IGJyZWFrIHRoZSBjb25zdW1l
+cnMgb2YgdGhlIGJ1ZmZlci4gVGhleSBleHBlY3QgLT5jbnQsIC0+dGFpbCBhbmQgLT5zaXplCj4g
+dG8gYmUgaW4gaGFybW9ueSBhbmQgYWR2YW5jZWQgYnkgLT52Y19zaXplX3Jvdy4KPiAKPiBJIGZv
+dW5kIGZldyByZXBvcnRzIG9mIHRoaXMgaW4gdGhlIHBhc3QsIHNvbWUgd2l0aCBwYXRjaGVzIGlu
+Y2x1ZGVkLAo+IHNvbWUgZXZlbiAyIHllYXJzIG9sZDoKPiBodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9sa21sL0NBRUFqYW1zSm5HLT1UU093Z1JiYmIzQjlaLVBBNjNvV21OUG9LWVdRPVo9K1g0OWFr
+Z0BtYWlsLmdtYWlsLmNvbS8KClNvcnJ5IGJ1dCBJIGRvbid0IHdvcmsgb24gZml4aW5nIGZiZGV2
+L2NvbnNvbGUgS0FTQU4vc3l6Ym90L2V0Yy4KcmVwb3J0cyAoLUVOT1JFU09VUkNFUykuICBUaGlz
+IGhhcyBiZWVuIG1hZGUgb2ZmaWNpYWwgaW4gdGhlIHBhc3QuCgpJJ20gaGFwcHkgdG8gcmV2aWV3
+L2FwcGx5IHBhdGNoZXMgdGhvdWdoLgoKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzE1
+ODkzMzY5MzItMzU1MDgtMS1naXQtc2VuZC1lbWFpbC15YW5neWluZ2xpYW5nQGh1YXdlaS5jb20v
+CgpUaGlzIHdhcyB0aGUgZmlyc3QgdGltZSB0aGUgcGF0Y2ggZm9yIGlzc3VlIHdhcyBzdWJtaXR0
+ZWQuCgpJIHRyaWVkIHRvIGFwcGx5IGl0IHRvIGRybS1taXNjIGJ1dCB0aGVuIEkgaGF2ZSBub3Rp
+Y2VkIHRoYXQKaXQgaGFzIG5vdCBiZWVuIHBvc3RlZCB0byBsaW51eC1mYmRldiAvIGRyaS1kZXZl
+bCBNTHMgKHNvIGl0CndhcyBub3QgcG9zc2libGUgdG8gbWVyZ2UgaXQgdXNpbmcgZGltIHRvb2wp
+IGFuZCB0aHVzIEkndmUKcmVxdWVzdGVkIHRoZSBhdXRob3IgdG8gcmVzZW5kIGl0OgoKaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC82MjU0NGJkOS1lNDdkLWU3ZjktOTJmMi00OWI4ZGJiMTMy
+YzFAc2Ftc3VuZy5jb20vCgp3aGljaCBoZSBkaWQ6CgpodHRwczovL2xvcmUua2VybmVsLm9yZy9s
+a21sLzIwMjAwNzEzMTA1NzMwLjU1MDMzNC0xLXlhbmd5aW5nbGlhbmdAaHVhd2VpLmNvbS8KCmFu
+ZCB0aGUgcGF0Y2ggaXMgY3VycmVudGx5IHVuZGVyIHJldmlldyBwZXJpb2QgKHRvIGdpdmUgcGVv
+cGxlCmNoYW5jZSB0byBjb21tZW50IG9uIGl0KSBhbmQgaW4gbXkgInRvIGFwcGx5IGlmIG5vIG9i
+amVjdGlvbnMiCmZvbGRlci4KCkkgc2VlIHRoYXQgeW91ci9ZdW5oYWkgcGF0Y2ggYWRkcmVzc2Vz
+IHRoZSByb290IHNvdXJjZSBvZgp0aGUgaXNzdWUgc28gSSdsbCBiZSBoYXBweSB0byBhcHBseS9B
+Q0sgaXQgaW5zdGVhZCBvZiBZYW5nJ3MKcGF0Y2ggb25jZSB0aGUgZmluYWwgdmVyc2lvbiBpcyBw
+b3N0ZWQuCgpUaGFuayB5b3UgZm9yIHdvcmtpbmcgb24gdGhpcy4KCkJlc3QgcmVnYXJkcywKLS0K
+QmFydGxvbWllaiBab2xuaWVya2lld2ljegpTYW1zdW5nIFImRCBJbnN0aXR1dGUgUG9sYW5kClNh
+bXN1bmcgRWxlY3Ryb25pY3MKCj4gVGhpcyBmaXhlcyBDVkUtMjAyMC0xNDMzMS4KPiAKPiBCaWcg
+dGhhbmtzIHRvIGd1eXMgbWVudGlvbmVkIGluIHRoZSBSZXBvcnRlZC1hbmQtZGVidWdnZWQtYnkg
+bGluZXMgYmVsb3cKPiB3aG8gYWN0dWFsbHkgZm91bmQgdGhlIHJvb3QgY2F1c2UuCj4gCj4gU2ln
+bmVkLW9mZi1ieTogSmlyaSBTbGFieSA8anNsYWJ5QHN1c2UuY3o+Cj4gUmVwb3J0ZWQtYW5kLWRl
+YnVnZ2VkLWJ5OiDlvKDkupHmtbcgPHpoYW5neXVuaGFpQG5zZm9jdXMuY29tPgo+IFJlcG9ydGVk
+LWFuZC1kZWJ1Z2dlZC1ieTogWWFuZyBZaW5nbGlhbmcgPHlhbmd5aW5nbGlhbmdAaHVhd2VpLmNv
+bT4KPiBSZXBvcnRlZC1ieTogS3l1bmd0YWUgS2ltIDxrdDA3NTVAZ21haWwuY29tPgo+IEZpeGVz
+OiAxNWJkYWI5NTljOWIgKFtQQVRDSF0gdmdhY29uOiBBZGQgc3VwcG9ydCBmb3Igc29mdCBzY3Jv
+bGxiYWNrKQo+IENjOiBMaW51cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXgtZm91bmRhdGlvbi5v
+cmc+Cj4gQ2M6IEdyZWcgS0ggPGdyZWdAa3JvYWguY29tPgo+IENjOiBTb2xhciBEZXNpZ25lciA8
+c29sYXJAb3BlbndhbGwuY29tPgo+IENjOiAiU3JpdmF0c2EgUy4gQmhhdCIgPHNyaXZhdHNhQGNz
+YWlsLm1pdC5lZHU+Cj4gQ2M6IEFudGhvbnkgTGlndW9yaSA8YWxpZ3VvcmlAYW1hem9uLmNvbT4K
+PiBDYzogU2VjdXJpdHkgT2ZmaWNlcnMgPHNlY3VyaXR5QGtlcm5lbC5vcmc+Cj4gQ2M6IGxpbnV4
+LWRpc3Ryb3NAdnMub3BlbndhbGwub3JnCj4gQ2M6IFlhbmcgWWluZ2xpYW5nIDx5YW5neWluZ2xp
+YW5nQGh1YXdlaS5jb20+Cj4gQ2M6IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmll
+cmtpZUBzYW1zdW5nLmNvbT4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
+IENjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcKPiAtLS0KPiAgZHJpdmVycy92aWRlby9j
+b25zb2xlL3ZnYWNvbi5jIHwgNSArKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25z
+KCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYyBiL2Ry
+aXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYwo+IGluZGV4IGYwZjNkNTczZjg0OC4uMTMxOTRi
+YjI0NmY4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYwo+ICsr
+KyBiL2RyaXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYwo+IEBAIC0yNTAsNiArMjUwLDExIEBA
+IHN0YXRpYyB2b2lkIHZnYWNvbl9zY3JvbGxiYWNrX3VwZGF0ZShzdHJ1Y3QgdmNfZGF0YSAqYywg
+aW50IHQsIGludCBjb3VudCkKPiAgCj4gIAlwID0gKHZvaWQgKikgKGMtPnZjX29yaWdpbiArIHQg
+KiBjLT52Y19zaXplX3Jvdyk7Cj4gIAo+ICsJLyogdmNfc2l6ZV9yb3cgbWlnaHQgaGF2ZSBjaGFu
+Z2VkIGJ5IFZUX1JFU0laRSBpbiB0aGUgbWVhbnRpbWUgKi8KPiArCWlmICgodmdhY29uX3Njcm9s
+bGJhY2tfY3VyLT50YWlsICsgYy0+dmNfc2l6ZV9yb3cpID49Cj4gKwkJCXZnYWNvbl9zY3JvbGxi
+YWNrX2N1ci0+c2l6ZSkKPiArCQl2Z2Fjb25fc2Nyb2xsYmFja19jdXItPnRhaWwgPSAwOwo+ICsK
+PiAgCXdoaWxlIChjb3VudC0tKSB7Cj4gIAkJc2NyX21lbWNweXcodmdhY29uX3Njcm9sbGJhY2tf
+Y3VyLT5kYXRhICsKPiAgCQkJICAgIHZnYWNvbl9zY3JvbGxiYWNrX2N1ci0+dGFpbCwKPiAKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
