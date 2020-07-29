@@ -2,70 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668C0232C68
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DF4232C52
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:17:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E74E6E878;
-	Thu, 30 Jul 2020 07:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5376E86D;
+	Thu, 30 Jul 2020 07:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB0BD6E0A0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 14:42:58 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6A25A5C010E;
- Wed, 29 Jul 2020 10:42:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 29 Jul 2020 10:42:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=GzwVm6BSp1ZpDRDfO3rdNYnD6Uv
- 13RpFnX4V+Vax2sQ=; b=EYN7iWWEksJ77iqIIeKYYbvHG81CngqUXgg3mE536K2
- VPPUvgFbqWXWi5CP9T75H7YVimk9w7RoHk1QYI3y6JPMbhpYU8q/oJXXkObPPRfS
- 50LRisXUN9kDWPi/+D5mxray0jCmRozF+b16goF9hdqjryt9mM/wC7a7LYAK/aNU
- PKw1c7Rw8Aiv9pVx6Ul2Ctp+HAyrJBEAGWTWmkNnULLLYRqQAvszYw9k309Jkqhi
- /sOHd16SCbLQ7YrRqnDyV4dE+SNsBmMCJrmRBtkeZTeNVpd0l9YtOZEBaZMoafEA
- OroAZyKsV6XMSefybgRfQwKmlE6ey+e8udp9ZIQtVuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GzwVm6
- BSp1ZpDRDfO3rdNYnD6Uv13RpFnX4V+Vax2sQ=; b=LyKuQZ/7iYq0YDjnQKy+36
- 8fN88UQprKwp1IxLhrluFXHy4bfISn8IIGFIb0DKmchN2aGHbZvRW2nfdHhqShCG
- 11oXYUxq7WCc1On1RKhYHrYnIwW4LSyE6lYWGuSz4oUvFhri9Etie2DdxhvG4Vnh
- FB1jJJ68Bxb44YLsZOYfJKPr0UpRXXVs4U0kYG159RLjOmi+N/bgf924ppRoMYod
- n1DyHxvOWHBceItDnMypktJhGKlLdoH02qArYKJY/kSSFEMH70XRGUECZfS4NR9J
- LaR8hn8UjmI55kMzLaHnUY6olaO1alM5vS1g+82D9+Y98tZ7Tf3gl/p1vaRAneKw
- ==
-X-ME-Sender: <xms:7YohX4ewiCVAOFMx0l3ZS65cHcBZGaUAvRRYw_1V1qquBtlrJfLJig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrieeggdektdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:7YohX6OPNuAsPXjyPdjNMDGyDSR8oaiRw1kORJ9pvx4RyrjOoCTn0Q>
- <xmx:7YohX5jy6zc7bhZ9wnBcE3fW7kAqJ2jl83RrJJyTDLy7t8DN3DkGzw>
- <xmx:7YohX99GboQKJT7nVsiJsvfMK7O8xdCWFFXx6gihboxqYaY4y4BN8Q>
- <xmx:74ohX4hFr-Ez06vsH64PR9G77XZlo7yKidvmk6pDZ4esocs2x0BBKQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1E63C30600B9;
- Wed, 29 Jul 2020 10:42:53 -0400 (EDT)
-Date: Wed, 29 Jul 2020 16:42:51 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v4 29/78] drm/vc4: crtc: Add a delay after disabling the
- PixelValve output
-Message-ID: <20200729144251.us6a2pgkjjmm53ov@gilmour.lan>
-References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <a1f22aadc60a2f32022831a6348c8bbd6e1954c3.1594230107.git-series.maxime@cerno.tech>
- <CAPY8ntBLWrfagZ5-kQz+5Mkw4_KaaTP63_L3D4owJAfA5kFpzw@mail.gmail.com>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6303C6E52F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 14:54:19 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id a21so24636410ejj.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 07:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=wEw1SR6DPbGGh4PQP13Jf+3gc4eNaUjMsZXlnx4MHz0=;
+ b=OeAZhRpG8SXmO0xhUHWLmIOfjX5gqHikRUyRtfF9A2PWwJwjI5qcOuqW72EONMffjJ
+ /Dmn05J43IkrboZmglA6Lx4LayvTE0dY412xCQU2iN6whDb436pEfIRS86ImKpokbsoB
+ h9h8zDt/UlLsJOaDIeCvIBLZS5+EGx6SnNuG4hevWhI1UY+8gjEHo1vzTu7FdkbIJOEQ
+ /Q94pA7Tunh/YTn/d4hyy/damUyblMZBHkjCsFmC10suHzONjJiHtleWV5seBQRFrFfH
+ bJ/BLesByd2UD5o+BZ2lnQUsCAo0WoK1KCXOjrQesZHtZUBsPDorbxZtg9QOQEpeUQtQ
+ etLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-transfer-encoding:content-language;
+ bh=wEw1SR6DPbGGh4PQP13Jf+3gc4eNaUjMsZXlnx4MHz0=;
+ b=fJoyxWBoguBrh+gP33RpaUW4mpCyGdUGDsayfsFuPfhZQNS5QhcxJSLyQ+5YIj9iMA
+ uYlfgwHmk7YKZYZQjVS/qU1wVWasAmT7hNEvNcQ8asMC/bMlNLRfvqoFCQQuJSKRVwEX
+ CHc6etWkYCnpxARAh3KTsO3R8ggG2MKHbVi5K666S46DAyefYwvRy6BUqKv5h23oO59E
+ m61UaHHkYCl50ePIXlwr+qqsO56VrQr/qwfCedZ8cZVush1y5NucPxQ3jz3AgbaHnGI/
+ ef+ISF9IpLkCSaPQTePl701Rv8IAE0by09LNnc32yjXUFfwRgVXgYhbePst/i+RQ1hXD
+ TeEQ==
+X-Gm-Message-State: AOAM5331cVdxd3gIxV/jMk2Pr3/wNVRL8BchW2lWAiK32sWwitFaauwr
+ EwqXjG2p0qMPT+JtXMxRwX+lL577
+X-Google-Smtp-Source: ABdhPJwS4KempGKvWj/gbyjfByPZqx+iW0+wLylOl+CfhJ3cTxw7vjTXC0JW8cjGXbI2OK4mvT/eZQ==
+X-Received: by 2002:a17:906:c2c8:: with SMTP id
+ ch8mr2570447ejb.161.1596034457671; 
+ Wed, 29 Jul 2020 07:54:17 -0700 (PDT)
+Received: from [192.168.1.104] ([86.125.29.188])
+ by smtp.gmail.com with ESMTPSA id p21sm2199613eds.11.2020.07.29.07.54.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jul 2020 07:54:17 -0700 (PDT)
+To: mripard@kernel.org, dri-devel@lists.freedesktop.org
+From: Marius Iacob <themariusus@gmail.com>
+Subject: [PATCH] Added orientation quirk for ASUS tablet model T103HAF
+Message-ID: <7d86140e-cf6b-ba96-c6fd-02f4d3da246e@gmail.com>
+Date: Wed, 29 Jul 2020 17:54:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntBLWrfagZ5-kQz+5Mkw4_KaaTP63_L3D4owJAfA5kFpzw@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 30 Jul 2020 07:16:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,89 +68,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1247617650=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1247617650==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7egmvjdmvf73mwty"
-Content-Disposition: inline
-
-
---7egmvjdmvf73mwty
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, Jul 29, 2020 at 03:09:21PM +0100, Dave Stevenson wrote:
-> On Wed, 8 Jul 2020 at 18:43, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > In order to avoid pixels getting stuck in the (unflushable) FIFO between
-> > the HVS and the PV, we need to add some delay after disabling the PV ou=
-tput
-> > and before disabling the HDMI controller. 20ms seems to be good enough =
-so
-> > let's use that.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_crtc.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_c=
-rtc.c
-> > index d0b326e1df0a..7b178d67187f 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> > @@ -403,6 +403,8 @@ static void vc4_crtc_atomic_disable(struct drm_crtc=
- *crtc,
-> >         ret =3D wait_for(!(CRTC_READ(PV_V_CONTROL) & PV_VCONTROL_VIDEN)=
-, 1);
-> >         WARN_ONCE(ret, "Timeout waiting for !PV_VCONTROL_VIDEN\n");
-> >
-> > +       mdelay(20);
->=20
-> mdelay for 20ms seems a touch unfriendly as it's a busy wait. Can we
-> not msleep instead?
-
-Since the timing was fairly critical, sleeping didn't seem like a good
-solution since there's definitely some chance you overshoot and end up
-with a higher time than the one you targeted.
-
-Maxime
-
---7egmvjdmvf73mwty
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXyGK6wAKCRDj7w1vZxhR
-xW7BAQDwt5j9Pshu1GKCULxSDv9PS+5o32//+Xr9V03eudzzWgD/ez5A4HPtG6s1
-iaSko1HSa8F3EhSBN2c4qShUyYpkhAI=
-=fvZ0
------END PGP SIGNATURE-----
-
---7egmvjdmvf73mwty--
-
---===============1247617650==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1247617650==--
+IEZyb20gMDZiYTdkM2U2NGU1NTI2MmJmODE4MDg0OTA0ZWVjN2I3MzIwYTJhZCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKRnJvbTogTWFyaXVzIElhY29iIDx0aGVtYXJpdXN1c0BnbWFpbC5jb20+
+CkRhdGU6IFdlZCwgMjkgSnVsIDIwMjAgMTY6NTE6NDEgKzAzMDAKU3ViamVjdDogW1BBVENIXSBB
+ZGRlZCBvcmllbnRhdGlvbiBxdWlyayBmb3IgQVNVUyB0YWJsZXQgbW9kZWwgVDEwM0hBRgoKLS0t
+CiDCoGRyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWxfb3JpZW50YXRpb25fcXVpcmtzLmMgfCA2ICsr
+KysrKwogwqAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3MuYyAKYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jCmluZGV4IGQwMGVhMzg0ZGNiZi4u
+NThmNWRjMmY2ZGQ1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsX29yaWVu
+dGF0aW9uX3F1aXJrcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWxfb3JpZW50YXRp
+b25fcXVpcmtzLmMKQEAgLTEyMSw2ICsxMjEsMTIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkbWlf
+c3lzdGVtX2lkIApvcmllbnRhdGlvbl9kYXRhW10gPSB7CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIERNSV9FWEFDVF9NQVRDSChETUlfUFJPRFVDVF9OQU1FLCAiVDEwMUhBIiks
+CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfSwKIMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAuZHJpdmVyX2RhdGEgPSAodm9pZCAqKSZsY2Q4MDB4MTI4MF9yaWdodHNpZGVf
+dXAsCivCoMKgwqDCoMKgwqAgfSwge8KgwqDCoCAvKiBBc3VzIFQxMDNIQUYgKi8KK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgLm1hdGNoZXMgPSB7CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBETUlfRVhBQ1RfTUFUQ0goRE1JX1NZU19WRU5ET1IsICJBU1VTVGVLIENPTVBV
+VEVSIElOQy4iKSwKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERNSV9FWEFDVF9N
+QVRDSChETUlfUFJPRFVDVF9OQU1FLCAiVDEwM0hBRiIpLAorwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCB9LAorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuZHJpdmVyX2RhdGEgPSAo
+dm9pZCAqKSZsY2Q4MDB4MTI4MF9yaWdodHNpZGVfdXAsCiDCoMKgwqDCoMKgwqDCoCB9LCB7wqDC
+oMKgIC8qIEdQRCBNaWNyb1BDIChnZW5lcmljIHN0cmluZ3MsIGFsc28gbWF0Y2ggb24gYmlvcyAK
+ZGF0ZSkgKi8KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAubWF0Y2hlcyA9IHsKIMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRE1JX0VYQUNUX01BVENIKERNSV9TWVNf
+VkVORE9SLCAiRGVmYXVsdCBzdHJpbmciKSwKLS0KMi4yNy4wCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
