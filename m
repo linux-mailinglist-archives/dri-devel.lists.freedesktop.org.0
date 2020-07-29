@@ -2,45 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37DC231C88
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 12:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36839231D03
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 12:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE816E0F1;
-	Wed, 29 Jul 2020 10:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 184DE6E11A;
+	Wed, 29 Jul 2020 10:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
- [81.169.146.218])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39CAB6E0F1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 10:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1596017424;
- s=strato-dkim-0002; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=6P3lAViPWFDRWI0rnghDQYd4HtB+LSgQi2Egg27e2Og=;
- b=SMUUwd+iUVYnSXH4Vkv4YFkUO4LJa8MSil/+aJPhwfsvH9CcURXGoPRkSTnM2kMjHI
- 1SXjIf5mzaFHRX6muHNT4xmWnVhpbPB0lHLBTjuAS8XkTDKY4HON/YEwyHmGJJNvtIc/
- Ap5K480osZ67YMFpnNJMx+UpJDnKDDQ80XliXUx6KuRmzYmR/bBWz2rkOCS69i5bFnJb
- bFqmBi+KeAXUMbNxbxcojMdfrvgWDTlLqK9m/DlsJ1oBFtA+dnLoJUtTyIJ0pVyxWYQC
- rff6LlUX6FtJ0/qDgT81rd6Ez6FORFLVf1BbF/XewWBx6JI5IhTtfRdWm25VCk8v/Gg+
- tQyQ==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8j8IcrHBg=="
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
- with ESMTPSA id Y0939ew6TAABaYH
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 29 Jul 2020 12:10:11 +0200 (CEST)
-Date: Wed, 29 Jul 2020 12:10:01 +0200
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 2/2 v2] drm/mcde: Fix display data flow control
-Message-ID: <20200729100947.GA880@gerhold.net>
-References: <20200729090915.252730-1-linus.walleij@linaro.org>
- <20200729090915.252730-2-linus.walleij@linaro.org>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47EAE6E11A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 10:55:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KZeCgx7EhQgk0uOhpJLXYEBME0KiCLRpu/Ibhh9hvOYsz03BnYTY4NJ4I9bZfSY7fFjTMfG0tBfgzsXZLvcU76HXwmgQYo92z7CHFuwWfOOK72dhG+dFeTOgIOIzyj8yVZzrNhHqnoDZ6xz0BG/Ma39c7qIm36RWoiPW8dexUwXFNNChWfqNG1EnNVpzKBqVOE+bRvOPDeSscJNKvS1BfARLN8dE3Z2EEWQoX5jAtRbeaowIZdNh9/oqLpvHegbgjQpjyWSsf516hR2S+tO1EmAGef+iGN1dDdbWSDtQWu1pjRLJaA5/hRKzhzbBj/tFi3ZqYDJ8nqmbCboshqpx0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CeaVao+tqNyNku7bLR5KrxaADPV3yS9T7/ysSwraviI=;
+ b=COkZrnh80ELoVnuAt7JZF2RbICzRE5IiT+TlsGcMcDFFHEQn3W+pYGLwgpzgN3kVCLoPrG37h32Nfz5wSEzL3GP8MKG0YcRHrcs5KiarIRkejSsZHwuMudRfJMd5m2OWwxh1vBFLXML9eqSux8bCwBS/p1+0uThLNZzB8NbpgnPYW8vuCJkFxMkXZLNczEUDjrrNYx+H9HwJxhj8us3hBb7ffjrB0iK7GUDWCM4MIco38pGpHu/RZ5i8QjRU6STgA0zPHyE6RPDNZFrGldP4rWJWuJiX1U0c3cDmqvXlKYPa39n44ekKRjewta3SJMwMgqXvl4uft0+Ujj/bsthldA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CeaVao+tqNyNku7bLR5KrxaADPV3yS9T7/ysSwraviI=;
+ b=Pnq/O6npwU36oWDKJ5tVpQH+8BiMz9SjXJc9ygajPoOx3EpslQ4lmz3mc+Iet7xwSU6poQsn1YkHesAkqZNUVJ+i98q+Ri7otVY+pu8Ikgu7RPyC6BgMi4VNXcSgwlpBfuJmMzwE2B6t46405y8yC/nD8TbtksR8eu8YYy+PaRY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4336.namprd12.prod.outlook.com (2603:10b6:208:1df::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.25; Wed, 29 Jul
+ 2020 10:55:43 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3216.034; Wed, 29 Jul 2020
+ 10:55:43 +0000
+Subject: Re: [PATCH] drm/ttm/amdgpu: consolidate ttm reserve paths
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200728191133.28590-1-airlied@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <dd9f8587-feae-e946-8297-52749d30ffcc@amd.com>
+Date: Wed, 29 Jul 2020 12:55:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200728191133.28590-1-airlied@gmail.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM4PR05CA0004.eurprd05.prod.outlook.com (2603:10a6:205::17)
+ To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200729090915.252730-2-linus.walleij@linaro.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM4PR05CA0004.eurprd05.prod.outlook.com (2603:10a6:205::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.16 via Frontend Transport; Wed, 29 Jul 2020 10:55:42 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 58cec102-55c6-4cda-99e3-08d833adf04c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4336:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4336A879A142F74B0FEEB1D383700@MN2PR12MB4336.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8TL2pShrBBSdfG92vJ8sFp1QgsW9luf6OjNhRSyWBhS1zxQ7dwkQ2khB9jFzKPm9wrgo5/ZJS2NWuMxUgJLipoOO6rsJRSinecp4AfRKf8lI6uK5atPBpwB7TiVnF2T90fUfMnzHYa0ABvhoQ+imJ1AbMtXBcojMuPgNTVILhuWJkxCZJqHU26Qxjpkh7gF68IiwpI2vxCVv29B8slzZNs1taMZ8dLUAe8sLcvMNi2mZzNXhyh1CBed6xl6mjcssPDxy4eCD3uslS3lk0i4TZLXwGMtH2oaAtA3/svVAVlGeBUz74mnoA14eTH89BWwJ6uDTziuKOWoG0rpedafuHSF4AUNFxc/lECe42mAqoiuSS3nkdzd3/FkqgmMVnrhT
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(31686004)(36756003)(86362001)(4326008)(8936002)(5660300002)(2906002)(31696002)(6486002)(52116002)(16526019)(66946007)(8676002)(478600001)(66574015)(2616005)(186003)(83380400001)(316002)(6666004)(66476007)(66556008)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: L6vZygDkuvb4ZmDJygwB3P8SJLI8BtYiP6GjnMAxNhR/iTdEZX7GE/NAa3con/EGqOtmHBLvsx+PAGh4FN0DNFimikUufveU4x13s/6BectplcRewCGl8iwP4Zkj0FifUTLPE659FswyUcBrnjrrsqDGsGyzL+2X/afsO3uI/WjXVdejPDpzy18x90MPolxqnQ90XTPJG7PfvvC/jnX2p+f91ltYYfLgmA+zXKo3ERWsxmn0VqxNlR0oD9GH+J4Xrzd9/83G7MAGLy3LG6D6GQzQVES7gGBtqFAxgdZd3YwFZhSz91j2yOBsvNqnks1SgKRVJ9U3xCCv1yXQ4jn/NtKBAUt7mFoANhpxKDANddxUCkllRPux+C1dmEFV5hkQfv5OFWI6gl2ZvMRthyLJfkbdw+UvGWI6EhDKIdoxplrPoohonEMgN4g7xrq9Sbpc8AEYCENMmSGwEEQCG10vI3UcRrEk/zVQ0yThncHNCZFLbTgkrPhYu3Kvut1oSNuC5kCIV9ZHENzgGKqSH0PoEmWWpuFSy1kATchQ5BSU+6ccv4LlQK6oOyCI1x1r9nCi
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58cec102-55c6-4cda-99e3-08d833adf04c
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2020 10:55:42.9614 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MozebD/Scs0ucsNA4Ylj6Fhieinn3fhEVPcjxRftajqlolBDeCVcfHsV8fu3OZMe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4336
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,347 +97,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: bskeggs@redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 29, 2020 at 11:09:15AM +0200, Linus Walleij wrote:
-> Revamp the way that the flow of data to the display is
-> defined.
-> 
-> I realized that the hardware supports something like
-> 5 different modes of flow: oneshot, command with TE IRQ,
-> command with BTA (bus turn around) and TE IRQ, video
-> with TE IRQ and video without TE IRQ instead synchronizing
-> to the output of the MCDE DSI formatter.
-> 
-> Like before the selection of the type of flow is done
-> frome the DSI driver when we attach it to the MCDE and we
-> get to know what the display wants.
-> 
-> The new video mode synchronization method from the MCDE DSI
-> formatter is used on some upstream devices such as Golden.
-> This is the new default for video mode: stateless panels
-> do not as a rule generate TE IRQs.
-> 
-> Another semantic change is that we stop sending
-> a TE request before every command when sending data to
-> a display in command mode: this should only be explicitly
-> requested when using BTA, according to the vendor driver.
-> 
-> This has been tested and works fine with the command mode
-> displays I have. (All that are supported upstream.)
-> 
-> Reported-by: Stephan Gerhold <stephan@gerhold.net>
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v1->v2:
-> - Select the formatter as synchronization source for the
->   video flow, this should be the most common case.
-> - Set the formatter as sync source for BTA+TE mode as in
->   the vendor driver, and insert a comment to help developers.
-> ---
->  drivers/gpu/drm/mcde/mcde_display.c | 113 ++++++++++++++++++----------
->  drivers/gpu/drm/mcde/mcde_drm.h     |  26 ++++++-
->  drivers/gpu/drm/mcde/mcde_drv.c     |   3 -
->  drivers/gpu/drm/mcde/mcde_dsi.c     |  19 ++++-
->  4 files changed, 111 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-> index 363fa5ca4b45..cac660ac8803 100644
-> --- a/drivers/gpu/drm/mcde/mcde_display.c
-> +++ b/drivers/gpu/drm/mcde/mcde_display.c
-> @@ -89,7 +89,7 @@ void mcde_display_irq(struct mcde *mcde)
->  		 * the update function is called, then we disable the
->  		 * flow on the channel once we get the TE IRQ.
->  		 */
-> -		if (mcde->oneshot_mode) {
-> +		if (mcde->flow_mode == MCDE_COMMAND_ONESHOT_FLOW) {
->  			spin_lock(&mcde->flow_lock);
->  			if (--mcde->flow_active == 0) {
->  				dev_dbg(mcde->dev, "TE0 IRQ\n");
-> @@ -498,19 +498,47 @@ static void mcde_configure_channel(struct mcde *mcde, enum mcde_channel ch,
->  	}
->  
->  	/* Set up channel 0 sync (based on chnl_update_registers()) */
-> -	if (mcde->video_mode || mcde->te_sync)
-> +	switch (mcde->flow_mode) {
-> +	case MCDE_COMMAND_ONESHOT_FLOW:
-> +		/* Oneshot is achieved with software sync */
-> +		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SOFTWARE
-> +			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-> +		break;
-> +	case MCDE_COMMAND_TE_FLOW:
->  		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
->  			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-> -	else
-> -		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SOFTWARE
-> +		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_TE0
-> +			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-> +		break;
-> +	case MCDE_COMMAND_BTA_TE_FLOW:
-> +		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
-> +			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-> +		/*
-> +		 * TODO:
-> +		 * The vendor driver uses the formatter as sync source
-> +		 * for BTA TE mode. Test to use TE if you have a panel
-> +		 * that uses this mode.
-> +		 */
-> +		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_FORMATTER
-> +			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-> +		break;
-> +	case MCDE_VIDEO_TE_FLOW:
-> +		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
->  			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
-> -
-> -	if (mcde->te_sync)
->  		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_TE0
->  			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-> -	else
-> +		break;
-> +	case MCDE_VIDEO_FORMATTER_FLOW:
-> +		val = MCDE_CHNLXSYNCHMOD_SRC_SYNCH_HARDWARE
-> +			<< MCDE_CHNLXSYNCHMOD_SRC_SYNCH_SHIFT;
->  		val |= MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_FORMATTER
->  			<< MCDE_CHNLXSYNCHMOD_OUT_SYNCH_SRC_SHIFT;
-> +		break;
-> +	default:
-> +		dev_err(mcde->dev, "unknown flow mode %d\n",
-> +			mcde->flow_mode);
-> +		break;
-> +	}
->  
->  	writel(val, mcde->regs + sync);
->  
-> @@ -920,7 +948,11 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
->  	mcde_configure_dsi_formatter(mcde, MCDE_DSI_FORMATTER_0,
->  				     formatter_frame, pkt_size);
->  
-> -	if (mcde->te_sync) {
-> +	switch (mcde->flow_mode) {
-> +	case MCDE_COMMAND_TE_FLOW:
-> +	case MCDE_COMMAND_BTA_TE_FLOW:
-> +	case MCDE_VIDEO_TE_FLOW:
-> +		/* We are using TE in some comination */
-
-Typo: You meant combination I guess?
-
-Otherwise this looks good to me, feel free to fix this
-when applying the patch:
-
-Reviewed-by: Stephan Gerhold <stephan@gerhold.net>
-
->  		if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->  			val = MCDE_VSCRC_VSPOL;
->  		else
-> @@ -930,16 +962,22 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
->  		val = readl(mcde->regs + MCDE_CRC);
->  		val |= MCDE_CRC_SYCEN0;
->  		writel(val, mcde->regs + MCDE_CRC);
-> +		break;
-> +	default:
-> +		/* No TE capture */
-> +		break;
->  	}
->  
->  	drm_crtc_vblank_on(crtc);
->  
-> -	if (mcde->video_mode)
-> +	if (mcde_flow_is_video(mcde)) {
->  		/*
->  		 * Keep FIFO permanently enabled in video mode,
->  		 * otherwise MCDE will stop feeding data to the panel.
->  		 */
->  		mcde_enable_fifo(mcde, MCDE_FIFO_A);
-> +		dev_dbg(mcde->dev, "started MCDE video FIFO flow\n");
-> +	}
->  
->  	dev_info(drm->dev, "MCDE display is enabled\n");
->  }
-> @@ -970,38 +1008,36 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
->  
->  static void mcde_start_flow(struct mcde *mcde)
->  {
-> -	/* Request a TE ACK */
-> -	if (mcde->te_sync)
-> +	/* Request a TE ACK only in TE+BTA mode */
-> +	if (mcde->flow_mode == MCDE_COMMAND_BTA_TE_FLOW)
->  		mcde_dsi_te_request(mcde->mdsi);
->  
->  	/* Enable FIFO A flow */
->  	mcde_enable_fifo(mcde, MCDE_FIFO_A);
->  
-> -	if (mcde->te_sync) {
-> +	/*
-> +	 * If oneshot mode is enabled, the flow will be disabled
-> +	 * when the TE0 IRQ arrives in the interrupt handler. Otherwise
-> +	 * updates are continuously streamed to the display after this
-> +	 * point.
-> +	 */
-> +
-> +	if (mcde->flow_mode == MCDE_COMMAND_ONESHOT_FLOW) {
-> +		/* Trigger a software sync out on channel 0 */
-> +		writel(MCDE_CHNLXSYNCHSW_SW_TRIG,
-> +		       mcde->regs + MCDE_CHNL0SYNCHSW);
-> +
->  		/*
-> -		 * If oneshot mode is enabled, the flow will be disabled
-> -		 * when the TE0 IRQ arrives in the interrupt handler. Otherwise
-> -		 * updates are continuously streamed to the display after this
-> -		 * point.
-> +		 * Disable FIFO A flow again: since we are using TE sync we
-> +		 * need to wait for the FIFO to drain before we continue
-> +		 * so repeated calls to this function will not cause a mess
-> +		 * in the hardware by pushing updates will updates are going
-> +		 * on already.
->  		 */
-> -		dev_dbg(mcde->dev, "sent TE0 framebuffer update\n");
-> -		return;
-> +		mcde_disable_fifo(mcde, MCDE_FIFO_A, true);
->  	}
->  
-> -	/* Trigger a software sync out on channel 0 */
-> -	writel(MCDE_CHNLXSYNCHSW_SW_TRIG,
-> -	       mcde->regs + MCDE_CHNL0SYNCHSW);
-> -
-> -	/*
-> -	 * Disable FIFO A flow again: since we are using TE sync we
-> -	 * need to wait for the FIFO to drain before we continue
-> -	 * so repeated calls to this function will not cause a mess
-> -	 * in the hardware by pushing updates will updates are going
-> -	 * on already.
-> -	 */
-> -	mcde_disable_fifo(mcde, MCDE_FIFO_A, true);
-> -
-> -	dev_dbg(mcde->dev, "sent SW framebuffer update\n");
-> +	dev_dbg(mcde->dev, "started MCDE FIFO flow\n");
->  }
->  
->  static void mcde_set_extsrc(struct mcde *mcde, u32 buffer_address)
-> @@ -1060,15 +1096,10 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
->  	 */
->  	if (fb) {
->  		mcde_set_extsrc(mcde, drm_fb_cma_get_gem_addr(fb, pstate, 0));
-> -		if (!mcde->video_mode) {
-> -			/*
-> -			 * Send a single frame using software sync if the flow
-> -			 * is not active yet.
-> -			 */
-> -			if (mcde->flow_active == 0)
-> -				mcde_start_flow(mcde);
-> -		}
-> -		dev_info_once(mcde->dev, "sent first display update\n");
-> +		dev_info_once(mcde->dev, "first update of display contents\n");
-> +		/* The flow is already active in video mode */
-> +		if (!mcde_flow_is_video(mcde) && mcde->flow_active == 0)
-> +			mcde_start_flow(mcde);
->  	} else {
->  		/*
->  		 * If an update is receieved before the MCDE is enabled
-> diff --git a/drivers/gpu/drm/mcde/mcde_drm.h b/drivers/gpu/drm/mcde/mcde_drm.h
-> index 679c2c4e6d9d..3e406d783465 100644
-> --- a/drivers/gpu/drm/mcde/mcde_drm.h
-> +++ b/drivers/gpu/drm/mcde/mcde_drm.h
-> @@ -9,6 +9,22 @@
->  #ifndef _MCDE_DRM_H_
->  #define _MCDE_DRM_H_
->  
-> +enum mcde_flow_mode {
-> +	/* One-shot mode: flow stops after one frame */
-> +	MCDE_COMMAND_ONESHOT_FLOW,
-> +	/* Command mode with tearing effect (TE) IRQ sync */
-> +	MCDE_COMMAND_TE_FLOW,
-> +	/*
-> +	 * Command mode with bus turn-around (BTA) and tearing effect
-> +	 * (TE) IRQ sync.
-> +	 */
-> +	MCDE_COMMAND_BTA_TE_FLOW,
-> +	/* Video mode with tearing effect (TE) sync IRQ */
-> +	MCDE_VIDEO_TE_FLOW,
-> +	/* Video mode with the formatter itself as sync source */
-> +	MCDE_VIDEO_FORMATTER_FLOW,
-> +};
-> +
->  struct mcde {
->  	struct drm_device drm;
->  	struct device *dev;
-> @@ -18,9 +34,7 @@ struct mcde {
->  	struct drm_simple_display_pipe pipe;
->  	struct mipi_dsi_device *mdsi;
->  	s16 stride;
-> -	bool te_sync;
-> -	bool video_mode;
-> -	bool oneshot_mode;
-> +	enum mcde_flow_mode flow_mode;
->  	unsigned int flow_active;
->  	spinlock_t flow_lock; /* Locks the channel flow control */
->  
-> @@ -36,6 +50,12 @@ struct mcde {
->  
->  #define to_mcde(dev) container_of(dev, struct mcde, drm)
->  
-> +static inline bool mcde_flow_is_video(struct mcde *mcde)
-> +{
-> +	return (mcde->flow_mode == MCDE_VIDEO_TE_FLOW ||
-> +		mcde->flow_mode == MCDE_VIDEO_FORMATTER_FLOW);
-> +}
-> +
->  bool mcde_dsi_irq(struct mipi_dsi_device *mdsi);
->  void mcde_dsi_te_request(struct mipi_dsi_device *mdsi);
->  extern struct platform_driver mcde_dsi_driver;
-> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-> index 80082d6dce3a..1671af101cf2 100644
-> --- a/drivers/gpu/drm/mcde/mcde_drv.c
-> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
-> @@ -315,9 +315,6 @@ static int mcde_probe(struct platform_device *pdev)
->  	mcde->dev = dev;
->  	platform_set_drvdata(pdev, drm);
->  
-> -	/* Enable continuous updates: this is what Linux' framebuffer expects */
-> -	mcde->oneshot_mode = false;
-> -
->  	/* First obtain and turn on the main power */
->  	mcde->epod = devm_regulator_get(dev, "epod");
->  	if (IS_ERR(mcde->epod)) {
-> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-> index f303369305a3..337c4c5e3947 100644
-> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
-> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-> @@ -148,9 +148,22 @@ static void mcde_dsi_attach_to_mcde(struct mcde_dsi *d)
->  {
->  	d->mcde->mdsi = d->mdsi;
->  
-> -	d->mcde->video_mode = !!(d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO);
-> -	/* Enable use of the TE signal for all command mode panels */
-> -	d->mcde->te_sync = !d->mcde->video_mode;
-> +	/*
-> +	 * Select the way the DSI data flow is pushing to the display:
-> +	 * currently we just support video or command mode depending
-> +	 * on the type of display. Video mode defaults to using the
-> +	 * formatter itself for synchronization (stateless video panel).
-> +	 *
-> +	 * FIXME: add flags to struct mipi_dsi_device .flags to indicate
-> +	 * displays that require BTA (bus turn around) so we can handle
-> +	 * such displays as well. Figure out how to properly handle
-> +	 * single frame on-demand updates with DRM for command mode
-> +	 * displays (MCDE_COMMAND_ONESHOT_FLOW).
-> +	 */
-> +	if (d->mdsi->mode_flags & MIPI_DSI_MODE_VIDEO)
-> +		d->mcde->flow_mode = MCDE_VIDEO_FORMATTER_FLOW;
-> +	else
-> +		d->mcde->flow_mode = MCDE_COMMAND_TE_FLOW;
->  }
->  
->  static int mcde_dsi_host_attach(struct mipi_dsi_host *host,
-> -- 
-> 2.26.2
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjguMDcuMjAgdW0gMjE6MTEgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
+cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gRHJvcCB0aGUgV0FSTl9PTiBhbmQgY29uc29s
+aWRhdGUgdGhlIHR3byBwYXRocyBpbnRvIG9uZS4KPgo+IFVzZSB0aGUgY29uc29saWRhdGUgc2xv
+d3BhdGggaW4gdGhlIGV4ZWNidWYgdXRpbHMgY29kZS4KPgo+IFNpZ25lZC1vZmYtYnk6IERhdmUg
+QWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfb2JqZWN0LmggfCAgMiArLQo+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90
+dG1fZXhlY2J1Zl91dGlsLmMgICAgIHwgMTIgKy0tCj4gICBpbmNsdWRlL2RybS90dG0vdHRtX2Jv
+X2RyaXZlci5oICAgICAgICAgICAgfCA5MSArKysrLS0tLS0tLS0tLS0tLS0tLS0tCj4gICAzIGZp
+bGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDg1IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaCBiL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9vYmplY3QuaAo+IGluZGV4IGFmYTUxODlkYmE3
+ZC4uZTAxZTg5MDM3NDFlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2FtZGdwdV9vYmplY3QuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9vYmplY3QuaAo+IEBAIC0xNjAsNyArMTYwLDcgQEAgc3RhdGljIGlubGluZSBpbnQgYW1kZ3B1
+X2JvX3Jlc2VydmUoc3RydWN0IGFtZGdwdV9ibyAqYm8sIGJvb2wgbm9faW50cikKPiAgIAlzdHJ1
+Y3QgYW1kZ3B1X2RldmljZSAqYWRldiA9IGFtZGdwdV90dG1fYWRldihiby0+dGJvLmJkZXYpOwo+
+ICAgCWludCByOwo+ICAgCj4gLQlyID0gX190dG1fYm9fcmVzZXJ2ZSgmYm8tPnRibywgIW5vX2lu
+dHIsIGZhbHNlLCBOVUxMKTsKPiArCXIgPSB0dG1fYm9fcmVzZXJ2ZSgmYm8tPnRibywgIW5vX2lu
+dHIsIGZhbHNlLCBOVUxMKTsKPiAgIAlpZiAodW5saWtlbHkociAhPSAwKSkgewo+ICAgCQlpZiAo
+ciAhPSAtRVJFU1RBUlRTWVMpCj4gICAJCQlkZXZfZXJyKGFkZXYtPmRldiwgIiVwIHJlc2VydmUg
+ZmFpbGVkXG4iLCBibyk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2V4
+ZWNidWZfdXRpbC5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZXhlY2J1Zl91dGlsLmMKPiBp
+bmRleCAxNzk3ZjA0YzA1MzQuLjhhOGYxYTZhODNhNiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9leGVjYnVmX3V0aWwuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2V4ZWNidWZfdXRpbC5jCj4gQEAgLTkzLDcgKzkzLDcgQEAgaW50IHR0bV9ldV9yZXNlcnZl
+X2J1ZmZlcnMoc3RydWN0IHd3X2FjcXVpcmVfY3R4ICp0aWNrZXQsCj4gICAJbGlzdF9mb3JfZWFj
+aF9lbnRyeShlbnRyeSwgbGlzdCwgaGVhZCkgewo+ICAgCQlzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
+Y3QgKmJvID0gZW50cnktPmJvOwo+ICAgCj4gLQkJcmV0ID0gX190dG1fYm9fcmVzZXJ2ZShibywg
+aW50ciwgKHRpY2tldCA9PSBOVUxMKSwgdGlja2V0KTsKPiArCQlyZXQgPSB0dG1fYm9fcmVzZXJ2
+ZShibywgaW50ciwgKHRpY2tldCA9PSBOVUxMKSwgdGlja2V0KTsKPiAgIAkJaWYgKHJldCA9PSAt
+RUFMUkVBRFkgJiYgZHVwcykgewo+ICAgCQkJc3RydWN0IHR0bV92YWxpZGF0ZV9idWZmZXIgKnNh
+ZmUgPSBlbnRyeTsKPiAgIAkJCWVudHJ5ID0gbGlzdF9wcmV2X2VudHJ5KGVudHJ5LCBoZWFkKTsK
+PiBAQCAtMTE5LDEzICsxMTksNyBAQCBpbnQgdHRtX2V1X3Jlc2VydmVfYnVmZmVycyhzdHJ1Y3Qg
+d3dfYWNxdWlyZV9jdHggKnRpY2tldCwKPiAgIAkJdHRtX2V1X2JhY2tvZmZfcmVzZXJ2YXRpb25f
+cmV2ZXJzZShsaXN0LCBlbnRyeSk7Cj4gICAKPiAgIAkJaWYgKHJldCA9PSAtRURFQURMSykgewo+
+IC0JCQlpZiAoaW50cikgewo+IC0JCQkJcmV0ID0gZG1hX3Jlc3ZfbG9ja19zbG93X2ludGVycnVw
+dGlibGUoYm8tPmJhc2UucmVzdiwKPiAtCQkJCQkJCQkJCSB0aWNrZXQpOwo+IC0JCQl9IGVsc2Ug
+ewo+IC0JCQkJZG1hX3Jlc3ZfbG9ja19zbG93KGJvLT5iYXNlLnJlc3YsIHRpY2tldCk7Cj4gLQkJ
+CQlyZXQgPSAwOwo+IC0JCQl9Cj4gKwkJCXJldCA9IHR0bV9ib19yZXNlcnZlX3Nsb3dwYXRoKGJv
+LCBpbnRyLCB0aWNrZXQpOwo+ICAgCQl9CgpUaGUgZXh0cmEge30gY291bGQgYmUgcmVtb3ZlZCBo
+ZXJlIGFzIHdlbGwsIGFwYXJ0IGZyb20gdGhhdCB0aGUgcGF0Y2ggaXMgClJldmlld2VkLWJ5OiBD
+aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+LgoKUmVnYXJkcywKQ2hy
+aXN0aWFuLgoKPiAgIAo+ICAgCQlpZiAoIXJldCAmJiBlbnRyeS0+bnVtX3NoYXJlZCkKPiBAQCAt
+MTMzLDggKzEyNyw2IEBAIGludCB0dG1fZXVfcmVzZXJ2ZV9idWZmZXJzKHN0cnVjdCB3d19hY3F1
+aXJlX2N0eCAqdGlja2V0LAo+ICAgCQkJCQkJCQllbnRyeS0+bnVtX3NoYXJlZCk7Cj4gICAKPiAg
+IAkJaWYgKHVubGlrZWx5KHJldCAhPSAwKSkgewo+IC0JCQlpZiAocmV0ID09IC1FSU5UUikKPiAt
+CQkJCXJldCA9IC1FUkVTVEFSVFNZUzsKPiAgIAkJCWlmICh0aWNrZXQpIHsKPiAgIAkJCQl3d19h
+Y3F1aXJlX2RvbmUodGlja2V0KTsKPiAgIAkJCQl3d19hY3F1aXJlX2ZpbmkodGlja2V0KTsKPiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCBiL2luY2x1ZGUvZHJt
+L3R0bS90dG1fYm9fZHJpdmVyLmgKPiBpbmRleCA1YTM3ZjFjYzA1N2UuLmJmYTlkMTQ2ZDNkNCAx
+MDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCj4gKysrIGIvaW5j
+bHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+IEBAIC01OTcsMjkgKzU5NywzMCBAQCBpbnQg
+dHRtX21lbV9pb19sb2NrKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLCBib29sIGlu
+dGVycnVwdGlibGUpOwo+ICAgdm9pZCB0dG1fbWVtX2lvX3VubG9jayhzdHJ1Y3QgdHRtX21lbV90
+eXBlX21hbmFnZXIgKm1hbik7Cj4gICAKPiAgIC8qKgo+IC0gKiBfX3R0bV9ib19yZXNlcnZlOgo+
+ICsgKiB0dG1fYm9fcmVzZXJ2ZToKPiAgICAqCj4gICAgKiBAYm86IEEgcG9pbnRlciB0byBhIHN0
+cnVjdCB0dG1fYnVmZmVyX29iamVjdC4KPiAgICAqIEBpbnRlcnJ1cHRpYmxlOiBTbGVlcCBpbnRl
+cnJ1cHRpYmxlIGlmIHdhaXRpbmcuCj4gICAgKiBAbm9fd2FpdDogRG9uJ3Qgc2xlZXAgd2hpbGUg
+dHJ5aW5nIHRvIHJlc2VydmUsIHJhdGhlciByZXR1cm4gLUVCVVNZLgo+ICAgICogQHRpY2tldDog
+dGlja2V0IHVzZWQgdG8gYWNxdWlyZSB0aGUgd3dfbXV0ZXguCj4gICAgKgo+IC0gKiBXaWxsIG5v
+dCByZW1vdmUgcmVzZXJ2ZWQgYnVmZmVycyBmcm9tIHRoZSBscnUgbGlzdHMuCj4gLSAqIE90aGVy
+d2lzZSBpZGVudGljYWwgdG8gdHRtX2JvX3Jlc2VydmUuCj4gKyAqIExvY2tzIGEgYnVmZmVyIG9i
+amVjdCBmb3IgdmFsaWRhdGlvbi4gKE9yIHByZXZlbnRzIG90aGVyIHByb2Nlc3NlcyBmcm9tCj4g
+KyAqIGxvY2tpbmcgaXQgZm9yIHZhbGlkYXRpb24pLCB3aGlsZSB0YWtpbmcgYSBudW1iZXIgb2Yg
+bWVhc3VyZXMgdG8gcHJldmVudAo+ICsgKiBkZWFkbG9ja3MuCj4gICAgKgo+ICAgICogUmV0dXJu
+czoKPiAgICAqIC1FREVBRExLOiBUaGUgcmVzZXJ2YXRpb24gbWF5IGNhdXNlIGEgZGVhZGxvY2su
+Cj4gICAgKiBSZWxlYXNlIGFsbCBidWZmZXIgcmVzZXJ2YXRpb25zLCB3YWl0IGZvciBAYm8gdG8g
+YmVjb21lIHVucmVzZXJ2ZWQgYW5kCj4gLSAqIHRyeSBhZ2Fpbi4gKG9ubHkgaWYgdXNlX3NlcXVl
+bmNlID09IDEpLgo+ICsgKiB0cnkgYWdhaW4uCj4gICAgKiAtRVJFU1RBUlRTWVM6IEEgd2FpdCBm
+b3IgdGhlIGJ1ZmZlciB0byBiZWNvbWUgdW5yZXNlcnZlZCB3YXMgaW50ZXJydXB0ZWQgYnkKPiAg
+ICAqIGEgc2lnbmFsLiBSZWxlYXNlIGFsbCBidWZmZXIgcmVzZXJ2YXRpb25zIGFuZCByZXR1cm4g
+dG8gdXNlci1zcGFjZS4KPiAgICAqIC1FQlVTWTogVGhlIGZ1bmN0aW9uIG5lZWRlZCB0byBzbGVl
+cCwgYnV0IEBub193YWl0IHdhcyB0cnVlCj4gICAgKiAtRUFMUkVBRFk6IEJvIGFscmVhZHkgcmVz
+ZXJ2ZWQgdXNpbmcgQHRpY2tldC4gVGhpcyBlcnJvciBjb2RlIHdpbGwgb25seQo+ICAgICogYmUg
+cmV0dXJuZWQgaWYgQHVzZV90aWNrZXQgaXMgc2V0IHRvIHRydWUuCj4gICAgKi8KPiAtc3RhdGlj
+IGlubGluZSBpbnQgX190dG1fYm9fcmVzZXJ2ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJv
+LAo+IC0JCQkJICAgYm9vbCBpbnRlcnJ1cHRpYmxlLCBib29sIG5vX3dhaXQsCj4gLQkJCQkgICBz
+dHJ1Y3Qgd3dfYWNxdWlyZV9jdHggKnRpY2tldCkKPiArc3RhdGljIGlubGluZSBpbnQgdHRtX2Jv
+X3Jlc2VydmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiArCQkJCSBib29sIGludGVy
+cnVwdGlibGUsIGJvb2wgbm9fd2FpdCwKPiArCQkJCSBzdHJ1Y3Qgd3dfYWNxdWlyZV9jdHggKnRp
+Y2tldCkKPiAgIHsKPiAgIAlpbnQgcmV0ID0gMDsKPiAgIAo+IEBAIC02NDEsNTkgKzY0Miw2IEBA
+IHN0YXRpYyBpbmxpbmUgaW50IF9fdHRtX2JvX3Jlc2VydmUoc3RydWN0IHR0bV9idWZmZXJfb2Jq
+ZWN0ICpibywKPiAgIAlyZXR1cm4gcmV0Owo+ICAgfQo+ICAgCj4gLS8qKgo+IC0gKiB0dG1fYm9f
+cmVzZXJ2ZToKPiAtICoKPiAtICogQGJvOiBBIHBvaW50ZXIgdG8gYSBzdHJ1Y3QgdHRtX2J1ZmZl
+cl9vYmplY3QuCj4gLSAqIEBpbnRlcnJ1cHRpYmxlOiBTbGVlcCBpbnRlcnJ1cHRpYmxlIGlmIHdh
+aXRpbmcuCj4gLSAqIEBub193YWl0OiBEb24ndCBzbGVlcCB3aGlsZSB0cnlpbmcgdG8gcmVzZXJ2
+ZSwgcmF0aGVyIHJldHVybiAtRUJVU1kuCj4gLSAqIEB0aWNrZXQ6IHRpY2tldCB1c2VkIHRvIGFj
+cXVpcmUgdGhlIHd3X211dGV4Lgo+IC0gKgo+IC0gKiBMb2NrcyBhIGJ1ZmZlciBvYmplY3QgZm9y
+IHZhbGlkYXRpb24uIChPciBwcmV2ZW50cyBvdGhlciBwcm9jZXNzZXMgZnJvbQo+IC0gKiBsb2Nr
+aW5nIGl0IGZvciB2YWxpZGF0aW9uKSBhbmQgcmVtb3ZlcyBpdCBmcm9tIGxydSBsaXN0cywgd2hp
+bGUgdGFraW5nCj4gLSAqIGEgbnVtYmVyIG9mIG1lYXN1cmVzIHRvIHByZXZlbnQgZGVhZGxvY2tz
+Lgo+IC0gKgo+IC0gKiBEZWFkbG9ja3MgbWF5IG9jY3VyIHdoZW4gdHdvIHByb2Nlc3NlcyB0cnkg
+dG8gcmVzZXJ2ZSBtdWx0aXBsZSBidWZmZXJzIGluCj4gLSAqIGRpZmZlcmVudCBvcmRlciwgZWl0
+aGVyIGJ5IHdpbGwgb3IgYXMgYSByZXN1bHQgb2YgYSBidWZmZXIgYmVpbmcgZXZpY3RlZAo+IC0g
+KiB0byBtYWtlIHJvb20gZm9yIGEgYnVmZmVyIGFscmVhZHkgcmVzZXJ2ZWQuIChCdWZmZXJzIGFy
+ZSByZXNlcnZlZCBiZWZvcmUKPiAtICogdGhleSBhcmUgZXZpY3RlZCkuIFRoZSBmb2xsb3dpbmcg
+YWxnb3JpdGhtIHByZXZlbnRzIHN1Y2ggZGVhZGxvY2tzIGZyb20KPiAtICogb2NjdXJyaW5nOgo+
+IC0gKiBQcm9jZXNzZXMgYXR0ZW1wdGluZyB0byByZXNlcnZlIG11bHRpcGxlIGJ1ZmZlcnMgb3Ro
+ZXIgdGhhbiBmb3IgZXZpY3Rpb24sCj4gLSAqICh0eXBpY2FsbHkgZXhlY2J1ZiksIHNob3VsZCBm
+aXJzdCBvYnRhaW4gYSB1bmlxdWUgMzItYml0Cj4gLSAqIHZhbGlkYXRpb24gc2VxdWVuY2UgbnVt
+YmVyLAo+IC0gKiBhbmQgY2FsbCB0aGlzIGZ1bmN0aW9uIHdpdGggQHVzZV90aWNrZXQgPT0gMSBh
+bmQgQHRpY2tldC0+c3RhbXAgPT0gdGhlIHVuaXF1ZQo+IC0gKiBzZXF1ZW5jZSBudW1iZXIuIElm
+IHVwb24gY2FsbCBvZiB0aGlzIGZ1bmN0aW9uLCB0aGUgYnVmZmVyIG9iamVjdCBpcyBhbHJlYWR5
+Cj4gLSAqIHJlc2VydmVkLCB0aGUgdmFsaWRhdGlvbiBzZXF1ZW5jZSBpcyBjaGVja2VkIGFnYWlu
+c3QgdGhlIHZhbGlkYXRpb24KPiAtICogc2VxdWVuY2Ugb2YgdGhlIHByb2Nlc3MgY3VycmVudGx5
+IHJlc2VydmluZyB0aGUgYnVmZmVyLAo+IC0gKiBhbmQgaWYgdGhlIGN1cnJlbnQgdmFsaWRhdGlv
+biBzZXF1ZW5jZSBpcyBncmVhdGVyIHRoYW4gdGhhdCBvZiB0aGUgcHJvY2Vzcwo+IC0gKiBob2xk
+aW5nIHRoZSByZXNlcnZhdGlvbiwgdGhlIGZ1bmN0aW9uIHJldHVybnMgLUVERUFETEsuIE90aGVy
+d2lzZSBpdCBzbGVlcHMKPiAtICogd2FpdGluZyBmb3IgdGhlIGJ1ZmZlciB0byBiZWNvbWUgdW5y
+ZXNlcnZlZCwgYWZ0ZXIgd2hpY2ggaXQgcmV0cmllcwo+IC0gKiByZXNlcnZpbmcuCj4gLSAqIFRo
+ZSBjYWxsZXIgc2hvdWxkLCB3aGVuIHJlY2VpdmluZyBhbiAtRURFQURMSyBlcnJvcgo+IC0gKiBy
+ZWxlYXNlIGFsbCBpdHMgYnVmZmVyIHJlc2VydmF0aW9ucywgd2FpdCBmb3IgQGJvIHRvIGJlY29t
+ZSB1bnJlc2VydmVkLCBhbmQKPiAtICogdGhlbiByZXJ1biB0aGUgdmFsaWRhdGlvbiB3aXRoIHRo
+ZSBzYW1lIHZhbGlkYXRpb24gc2VxdWVuY2UuIFRoaXMgcHJvY2VkdXJlCj4gLSAqIHdpbGwgYWx3
+YXlzIGd1YXJhbnRlZSB0aGF0IHRoZSBwcm9jZXNzIHdpdGggdGhlIGxvd2VzdCB2YWxpZGF0aW9u
+IHNlcXVlbmNlCj4gLSAqIHdpbGwgZXZlbnR1YWxseSBzdWNjZWVkLCBwcmV2ZW50aW5nIGJvdGgg
+ZGVhZGxvY2tzIGFuZCBzdGFydmF0aW9uLgo+IC0gKgo+IC0gKiBSZXR1cm5zOgo+IC0gKiAtRURF
+QURMSzogVGhlIHJlc2VydmF0aW9uIG1heSBjYXVzZSBhIGRlYWRsb2NrLgo+IC0gKiBSZWxlYXNl
+IGFsbCBidWZmZXIgcmVzZXJ2YXRpb25zLCB3YWl0IGZvciBAYm8gdG8gYmVjb21lIHVucmVzZXJ2
+ZWQgYW5kCj4gLSAqIHRyeSBhZ2Fpbi4gKG9ubHkgaWYgdXNlX3NlcXVlbmNlID09IDEpLgo+IC0g
+KiAtRVJFU1RBUlRTWVM6IEEgd2FpdCBmb3IgdGhlIGJ1ZmZlciB0byBiZWNvbWUgdW5yZXNlcnZl
+ZCB3YXMgaW50ZXJydXB0ZWQgYnkKPiAtICogYSBzaWduYWwuIFJlbGVhc2UgYWxsIGJ1ZmZlciBy
+ZXNlcnZhdGlvbnMgYW5kIHJldHVybiB0byB1c2VyLXNwYWNlLgo+IC0gKiAtRUJVU1k6IFRoZSBm
+dW5jdGlvbiBuZWVkZWQgdG8gc2xlZXAsIGJ1dCBAbm9fd2FpdCB3YXMgdHJ1ZQo+IC0gKiAtRUFM
+UkVBRFk6IEJvIGFscmVhZHkgcmVzZXJ2ZWQgdXNpbmcgQHRpY2tldC4gVGhpcyBlcnJvciBjb2Rl
+IHdpbGwgb25seQo+IC0gKiBiZSByZXR1cm5lZCBpZiBAdXNlX3RpY2tldCBpcyBzZXQgdG8gdHJ1
+ZS4KPiAtICovCj4gLXN0YXRpYyBpbmxpbmUgaW50IHR0bV9ib19yZXNlcnZlKHN0cnVjdCB0dG1f
+YnVmZmVyX29iamVjdCAqYm8sCj4gLQkJCQkgYm9vbCBpbnRlcnJ1cHRpYmxlLCBib29sIG5vX3dh
+aXQsCj4gLQkJCQkgc3RydWN0IHd3X2FjcXVpcmVfY3R4ICp0aWNrZXQpCj4gLXsKPiAtCVdBUk5f
+T04oIWtyZWZfcmVhZCgmYm8tPmtyZWYpKTsKPiAtCj4gLQlyZXR1cm4gX190dG1fYm9fcmVzZXJ2
+ZShibywgaW50ZXJydXB0aWJsZSwgbm9fd2FpdCwgdGlja2V0KTsKPiAtfQo+IC0KPiAgIC8qKgo+
+ICAgICogdHRtX2JvX3Jlc2VydmVfc2xvd3BhdGg6Cj4gICAgKiBAYm86IEEgcG9pbnRlciB0byBh
+IHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdC4KPiBAQCAtNzA4LDIwICs2NTYsMTUgQEAgc3RhdGlj
+IGlubGluZSBpbnQgdHRtX2JvX3Jlc2VydmVfc2xvd3BhdGgoc3RydWN0IHR0bV9idWZmZXJfb2Jq
+ZWN0ICpibywKPiAgIAkJCQkJICBib29sIGludGVycnVwdGlibGUsCj4gICAJCQkJCSAgc3RydWN0
+IHd3X2FjcXVpcmVfY3R4ICp0aWNrZXQpCj4gICB7Cj4gLQlpbnQgcmV0ID0gMDsKPiAtCj4gLQlX
+QVJOX09OKCFrcmVmX3JlYWQoJmJvLT5rcmVmKSk7Cj4gLQo+IC0JaWYgKGludGVycnVwdGlibGUp
+Cj4gLQkJcmV0ID0gZG1hX3Jlc3ZfbG9ja19zbG93X2ludGVycnVwdGlibGUoYm8tPmJhc2UucmVz
+diwKPiAtCQkJCQkJCQkgdGlja2V0KTsKPiAtCWVsc2UKPiAtCQlkbWFfcmVzdl9sb2NrX3Nsb3co
+Ym8tPmJhc2UucmVzdiwgdGlja2V0KTsKPiAtCj4gLQlpZiAocmV0ID09IC1FSU5UUikKPiAtCQly
+ZXQgPSAtRVJFU1RBUlRTWVM7Cj4gLQo+IC0JcmV0dXJuIHJldDsKPiArCWlmIChpbnRlcnJ1cHRp
+YmxlKSB7Cj4gKwkJaW50IHJldCA9IGRtYV9yZXN2X2xvY2tfc2xvd19pbnRlcnJ1cHRpYmxlKGJv
+LT5iYXNlLnJlc3YsCj4gKwkJCQkJCQkgICB0aWNrZXQpOwo+ICsJCWlmIChyZXQgPT0gLUVJTlRS
+KQo+ICsJCQlyZXQgPSAtRVJFU1RBUlRTWVM7Cj4gKwkJcmV0dXJuIHJldDsKPiArCX0KPiArCWRt
+YV9yZXN2X2xvY2tfc2xvdyhiby0+YmFzZS5yZXN2LCB0aWNrZXQpOwo+ICsJcmV0dXJuIDA7Cj4g
+ICB9Cj4gICAKPiAgIC8qKgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
