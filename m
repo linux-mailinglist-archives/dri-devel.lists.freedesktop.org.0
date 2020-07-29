@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F04C232125
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 17:02:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3BD23213B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 17:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8104C8951B;
-	Wed, 29 Jul 2020 15:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438526E536;
+	Wed, 29 Jul 2020 15:09:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 139DD6E536
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 15:02:24 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id a14so21984527wra.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 08:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WGOW+4ED6By0KB5WrYSp9CvcqoKzYJSfhBgGcHuafBg=;
- b=orYEuU8o/GDPhYnOGzfx57QASwqpEIZoDm/xxfftrzRdtI0uqeCC4iHYKn7NFYTV4f
- KeJmDJjL+Rc2grMpL+jqLp4JEoXEcUBt/yYr+8KjrB/As0pJRdj9NkxcpJCh1QgA21/r
- 0CzGdw+Uf5iqy8NIQapkdVjptLD8AWiaVxdc9F17evrdOWcSRSrnf7Lb1byyXwV2op26
- ecAwye9TLPD7MWudrrHQvAkNOCM7AJWXZ+r12RUpT0slzlQqHjJkOeYZnefZQX4kv/5c
- lLQWxOHM//odrJUMYt/FIBv1r6qGijXMx23gd1nSetLSZOZbrfPi8Rkk67b+lqzB5NV1
- 7cww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WGOW+4ED6By0KB5WrYSp9CvcqoKzYJSfhBgGcHuafBg=;
- b=fzirZ4CarLpo8qsAcalbGSsZ5J2sd8S1GD2XbLVvF8/JdYnJurXpMf7r2lSkS0k9AT
- AZCfbKy07/dG4dyHJqnkTI5XYQ6tzyiG5dkmVM7wMbeywEEVup7dLOsIvVlZ4roqmv2B
- lyeYgEde/ZywlIZQDG4DPJg3YId/XNbwsjeTk+AIA6La2192iIHrN0JO3mjIwsHo7HCZ
- gIgVjEugJa3dWFIZrnu8rcholgWVOMUkzN+N1FW5Ur/48aMtrmxttF05X5TWzViqbJNy
- SHSsTLDOGXmabuaJvJeYoN0nb3M9mX2ApyTYONHqbMtSQHmcZIrVI2iepF/8YcXQ7fYm
- vEBQ==
-X-Gm-Message-State: AOAM531CQHPLPyGIabNLinb+UcMHjUgTeCjEuIPJPdBXOnqowAld/rfF
- qA9CYhJSgilnOLhB4nA416SgcR/UhW5G2Y6XKZxg/g==
-X-Google-Smtp-Source: ABdhPJwAhGfe4OeCtpo2EckPieAyN/CBzAB0X9eafg6qiHj37yAK2qTcWVp20qGk1/k6Ulm7rTvD+Z1zdSQwb2lqJ9k=
-X-Received: by 2002:adf:fdce:: with SMTP id i14mr24624163wrs.273.1596034942775; 
- Wed, 29 Jul 2020 08:02:22 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E196E536;
+ Wed, 29 Jul 2020 15:09:47 +0000 (UTC)
+IronPort-SDR: WppqfxEPtdTwO1OcoUX9sDM34HqlIUaUO6wvZr0RoBwAGEbM51ZCAdC6WZ092h5Wle8j5GZgTy
+ XL9HsmsbwaZw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="148891497"
+X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; d="scan'208";a="148891497"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2020 08:09:46 -0700
+IronPort-SDR: GagSq0xY1JUqlQZztKdqk7dFOdSz71mNIA7WOluPT9cnV24kOa3bJJ9GUtoItbO6dfhKchIAeV
+ fVZnNhtQ+euQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; d="scan'208";a="313057299"
+Received: from irsmsx606.ger.corp.intel.com ([163.33.146.139])
+ by fmsmga004.fm.intel.com with ESMTP; 29 Jul 2020 08:09:45 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ IRSMSX606.ger.corp.intel.com (163.33.146.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 29 Jul 2020 16:09:44 +0100
+Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
+ fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.1713.004;
+ Wed, 29 Jul 2020 08:09:42 -0700
+From: "Tang, CQ" <cq.tang@intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>, Daniel Vetter <daniel@ffwll.ch>, 
+ Dave Airlie <airlied@redhat.com>
+Subject: RE: [PATCH 1/3] drm: Restore driver.preclose() for all to use
+Thread-Topic: [PATCH 1/3] drm: Restore driver.preclose() for all to use
+Thread-Index: AQHWYRW5n+A4jji0YE+tc8HbwEq9WakcTJSAgAFel4CAAQcEIA==
+Date: Wed, 29 Jul 2020 15:09:42 +0000
+Message-ID: <0118a278832d4dde8d8d71e3db635869@intel.com>
+References: <20200723172119.17649-1-chris@chris-wilson.co.uk>
+ <CAKMK7uFt5ViekqBPqdBbJWN4FhfxvF57K58VW8hAZGZwjRDz0w@mail.gmail.com>
+ <159595365380.28639.1774414370144556112@build.alporthouse.com>
+In-Reply-To: <159595365380.28639.1774414370144556112@build.alporthouse.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+x-originating-ip: [10.1.200.100]
 MIME-Version: 1.0
-References: <cover.7a1aa1784976093af26cb31fd283cf5b3ed568bb.1594230107.git-series.maxime@cerno.tech>
- <8af06b31c58ec9745ce13c2aca4e532d6ca340e0.1594230107.git-series.maxime@cerno.tech>
-In-Reply-To: <8af06b31c58ec9745ce13c2aca4e532d6ca340e0.1594230107.git-series.maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 29 Jul 2020 16:02:06 +0100
-Message-ID: <CAPY8ntBpGsak=s8tOmmDA-2kE5mp6+TrqyK3930Ypm7Q9gcUJw@mail.gmail.com>
-Subject: Re: [PATCH v4 13/78] drm/vc4: kms: Convert to for_each_new_crtc_state
-To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,65 +67,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: Gustavo Padovan <gustavo.padovan@collabora.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, stable <stable@vger.kernel.org>,
+ "Vetter, Daniel" <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
 
-On Wed, 8 Jul 2020 at 18:42, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The vc4 atomic commit loop has an handrolled loop that is basically
-> identical to for_each_new_crtc_state, let's convert it to that helper.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_kms.c |  9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 210cc2408087..717673b18132 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -152,14 +152,13 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
->         struct drm_device *dev = state->dev;
->         struct vc4_dev *vc4 = to_vc4_dev(dev);
->         struct vc4_hvs *hvs = vc4->hvs;
-> -       struct vc4_crtc *vc4_crtc;
-> +       struct drm_crtc_state *new_crtc_state;
-> +       struct drm_crtc *crtc;
->         int i;
->
-> -       for (i = 0; i < dev->mode_config.num_crtc; i++) {
-> -               if (!state->crtcs[i].ptr || !state->crtcs[i].commit)
-> -                       continue;
-> +       for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +               struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
 
-for_each_new_crtc_in_state doesn't check !state->crtcs[i].commit as
-the hand rolled loop did. Sorry, this is my lack of knowledge, but
-does that actually make any real difference?
+> -----Original Message-----
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> Sent: Tuesday, July 28, 2020 9:28 AM
+> To: Daniel Vetter <daniel@ffwll.ch>; Dave Airlie <airlied@redhat.com>
+> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>; stable
+> <stable@vger.kernel.org>; Gustavo Padovan
+> <gustavo.padovan@collabora.com>; Tang, CQ <cq.tang@intel.com>; dri-
+> devel <dri-devel@lists.freedesktop.org>; Vetter, Daniel
+> <daniel.vetter@intel.com>
+> Subject: Re: [PATCH 1/3] drm: Restore driver.preclose() for all to use
+> 
+> Quoting Daniel Vetter (2020-07-27 20:32:45)
+> > On Thu, Jul 23, 2020 at 7:21 PM Chris Wilson <chris@chris-wilson.co.uk>
+> wrote:
+> > >
+> > > An unfortunate sequence of events, but it turns out there is a valid
+> > > usecase for being able to free/decouple the driver objects before
+> > > they are freed by the DRM core. In particular, if we have a pointer
+> > > into a drm core object from inside a driver object, that pointer
+> > > needs to be nerfed *before* it is freed so that concurrent access
+> > > (e.g. debugfs) does not following the dangling pointer.
+> > >
+> > > The legacy marker was adding in the code movement from drp_fops.c to
+> > > drm_file.c
+> >
+> > I might fumble a lot, but not this one:
+> >
+> > commit 45c3d213a400c952ab7119f394c5293bb6877e6b
+> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Date:   Mon May 8 10:26:33 2017 +0200
+> >
+> >     drm: Nerf the preclose callback for modern drivers
+> 
+> Gah, when I going through the history it looked like it appeared out of
+> nowhere.
+> 
+> > Also looking at the debugfs hook that has some rather adventurous
+> > stuff going on I think, feels a bit like a kitchensink with batteries
+> > included. If that's really all needed I'd say iterate the contexts by
+> > first going over files, then the ctx (which arent shared anyway) and
+> > the problem should also be gone.
+> 
+> Or we could cut out the middlelayer and put the release under the driver
+> control with a call to the drm_release() when the driver is ready.
 
-I see nothing wrong in calling vc4_hvs_mask_underrun multiple times
-anyway, so it's most likely going to be harmless anyway, but wanted to
-query it.
+Chiris, can explain this idea, or post a patch ?
 
-  Dave
+--CQ
 
->
-> -               vc4_crtc = to_vc4_crtc(state->crtcs[i].ptr);
->                 vc4_hvs_mask_underrun(dev, vc4_crtc->channel);
->         }
->
-> --
-> git-series 0.9.1
+> -Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
