@@ -2,34 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B512319E7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA282319EB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:59:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D932B6E455;
-	Wed, 29 Jul 2020 06:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDF06E45D;
+	Wed, 29 Jul 2020 06:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 411 seconds by postgrey-1.36 at gabe;
- Wed, 29 Jul 2020 05:10:55 UTC
-Received: from mta01.start.ca (mta01.start.ca [162.250.196.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC7B56E43B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 05:10:55 +0000 (UTC)
-Received: from mta01.start.ca (localhost [127.0.0.1])
- by mta01.start.ca (Postfix) with ESMTP id AFC8541E7E;
- Wed, 29 Jul 2020 01:04:03 -0400 (EDT)
-Received: from localhost (dhcp-24-53-240-163.cable.user.start.ca
- [24.53.240.163])
- by mta01.start.ca (Postfix) with ESMTPS id 747A141E12;
- Wed, 29 Jul 2020 01:04:03 -0400 (EDT)
-Date: Wed, 29 Jul 2020 01:04:03 -0400
-From: Nick Bowler <nbowler@draconx.ca>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: PROBLEM: 5.8-rc7 no video output with nouveau on NV36 (regression)
-Message-ID: <20200729050403.jwbgdmvmc3ajdnem@atlas.draconx.ca>
-MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: NeoMutt/20180716
-X-Virus-Scanned: ClamAV using ClamSMTP
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D00E6E440
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 05:30:35 +0000 (UTC)
+Received: from fsav110.sakura.ne.jp (fsav110.sakura.ne.jp [27.133.134.237])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 06T5UUEP052197;
+ Wed, 29 Jul 2020 14:30:30 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav110.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav110.sakura.ne.jp);
+ Wed, 29 Jul 2020 14:30:30 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav110.sakura.ne.jp)
+Received: from localhost.localdomain (M106072142033.v4.enabler.ne.jp
+ [106.72.142.33]) (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 06T5UOZI052019
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 29 Jul 2020 14:30:30 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jslaby@suse.com>
+Subject: [PATCH] vt: Handle recursion in vc_do_resize().
+Date: Wed, 29 Jul 2020 14:30:20 +0900
+Message-Id: <1596000620-4075-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
+X-Mailer: git-send-email 1.8.3.1
 X-Mailman-Approved-At: Wed, 29 Jul 2020 06:58:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,94 +46,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+syzbot is reporting OOB read bug in vc_do_resize() [1] caused by memcpy()
+based on outdated old_{rows,row_size} values, for resize_screen() can
+recurse into vc_do_resize() which changes vc->vc_{cols,rows} that outdates
+old_{rows,row_size} values which were read before calling resize_screen().
 
-After installing Linux 5.8-rc7 I seem to get no video output on my
-NV36 card once the nouveau module is loaded.  The display (connected
-to the digital output) simply reports "No Signal".
+Minimal fix might be to read vc->vc_{rows,size_row} after resize_screen().
+A different fix might be to forbid recursive vc_do_resize() request.
+I can't tell which fix is the better.
 
-I bisected to the following commit, and reverting this commit on
-top of 5.8-rc7 appears to correct the issue.
+But since I guess that new_cols == vc->vc_cols && new_rows == vc->vc_rows
+check could become true after returning from resize_screen(), and I assume
+that not calling clear_selection() when resize_screen() will return error
+is harmless, let's redo the check by moving resize_screen() earlier.
 
-  fa4f4c213f5f7807360c41f2501a3031a9940f3a is the first bad commit
-  commit fa4f4c213f5f7807360c41f2501a3031a9940f3a
-  Author: James Jones <jajones@nvidia.com>
-  Date:   Mon Feb 10 15:15:55 2020 -0800
-  
-      drm/nouveau/kms: Support NVIDIA format modifiers
-      
-      Allow setting the block layout of a nouveau FB
-      object using DRM format modifiers.  When
-      specified, the format modifier block layout and
-      kind overrides the GEM buffer's implicit layout
-      and kind.  The specified format modifier is
-      validated against the list of modifiers supported
-      by the target display hardware.
-      
-      v2: Used Tesla family instead of NV50 chipset compare
-      v4: Do not cache kind, tile_mode in nouveau_framebuffer
-      v5: Resolved against nouveau_framebuffer cleanup
-      
-      Signed-off-by: James Jones <jajones@nvidia.com>
-      Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
-  
-   drivers/gpu/drm/nouveau/dispnv50/wndw.c   | 20 ++++---
-   drivers/gpu/drm/nouveau/nouveau_display.c | 89 ++++++++++++++++++++++++++++++-
-   drivers/gpu/drm/nouveau/nouveau_display.h |  4 ++
-   3 files changed, 104 insertions(+), 9 deletions(-)
+[1] https://syzkaller.appspot.com/bug?id=c70c88cfd16dcf6e1d3c7f0ab8648b3144b5b25e
 
-The dmesg output from loading the driver is identical except several
-lines are missing in the non-working case, which I have marked with
-"XXX" below:
+Reported-by: syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ drivers/tty/vt/vt.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-      [  168.222926] PCI Interrupt Link [LNKE] enabled at IRQ 16
-      [  168.223199] nouveau 0000:01:00.0: vgaarb: deactivate vga console
-      [  168.224379] Console: switching to colour dummy device 80x25
-      [  168.224612] nouveau 0000:01:00.0: NVIDIA NV36 (436200a1)
-      [  168.324779] nouveau 0000:01:00.0: bios: version 04.36.20.21.00
-      [  168.325646] agpgart-amd64 0000:00:00.0: AGP 3.0 bridge
-      [  168.325657] agpgart: modprobe tried to set rate=x12. Setting to AGP3 x8 mode.
-      [  168.325662] agpgart-amd64 0000:00:00.0: putting AGP V3 device into 8x mode
-      [  168.325679] nouveau 0000:01:00.0: putting AGP V3 device into 8x mode
-      [  168.325908] agpgart-amd64 0000:00:00.0: AGP 3.0 bridge
-      [  168.325914] agpgart: modprobe tried to set rate=x12. Setting to AGP3 x8 mode.
-      [  168.325918] agpgart-amd64 0000:00:00.0: putting AGP V3 device into 8x mode
-      [  168.325933] nouveau 0000:01:00.0: putting AGP V3 device into 8x mode
-      [  168.325990] nouveau 0000:01:00.0: tmr: unknown input clock freq
-      [  168.326732] nouveau 0000:01:00.0: fb: 256 MiB DDR1
-      [  168.328174] [TTM] Zone  kernel: Available graphics memory: 1022540 KiB
-      [  168.328175] [TTM] Initializing pool allocator
-      [  168.328181] [TTM] Initializing DMA pool allocator
-      [  168.328200] nouveau 0000:01:00.0: DRM: VRAM: 255 MiB
-      [  168.328201] nouveau 0000:01:00.0: DRM: GART: 128 MiB
-      [  168.328204] nouveau 0000:01:00.0: DRM: BMP version 5.40
-      [  168.328208] nouveau 0000:01:00.0: DRM: DCB version 2.2
-      [  168.328210] nouveau 0000:01:00.0: DRM: DCB outp 00: 01000300 00009c40
-      [  168.328214] nouveau 0000:01:00.0: DRM: DCB outp 01: 02010310 00009c40
-      [  168.328215] nouveau 0000:01:00.0: DRM: DCB outp 02: 04000302 00000000
-      [  168.328217] nouveau 0000:01:00.0: DRM: DCB outp 03: 02020321 00000303
-      [  168.328495] nouveau 0000:01:00.0: DRM: Loading NV17 power sequencing microcode
-      [  168.329691] nouveau 0000:01:00.0: DRM: MM: using M2MF for buffer copies
-      [  168.330258] nouveau 0000:01:00.0: DRM: Saving VGA fonts
-      [  168.389460] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-      [  168.391250] nouveau 0000:01:00.0: DRM: Setting dpms mode 3 on TV encoder (output 3)
-  XXX [  168.487647] nouveau 0000:01:00.0: DRM: allocated 1920x1080 fb: 0x9000, bo 00000000ff426de1
-  XXX [  168.491835] fbcon: nouveaudrmfb (fb0) is primary device
-  XXX [  168.608512] nouveau 0000:01:00.0: DRM: 0xE4FB: Parsing digital output script table
-  XXX [  168.662451] Console: switching to colour frame buffer device 240x67
-  XXX [  168.755987] nouveau 0000:01:00.0: fb0: nouveaudrmfb frame buffer device
-      [  168.763736] [drm] Initialized nouveau 1.3.1 20120801 for 0000:01:00.0 on minor 0
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index 42d8c67..952a067 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -1217,7 +1217,24 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+ 
+ 	if (new_cols == vc->vc_cols && new_rows == vc->vc_rows)
+ 		return 0;
++	if (new_screen_size > KMALLOC_MAX_SIZE || !new_screen_size)
++		return -EINVAL;
+ 
++	/*
++	 * Since fbcon_resize() from resize_screen() can recurse into
++	 * this function via fb_set_var(), handle recursion now.
++	 */
++	err = resize_screen(vc, new_cols, new_rows, user);
++	if (err)
++		return err;
++	/* Reload values in case recursion changed vc->vc_{cols,rows}. */
++	new_cols = (cols ? cols : vc->vc_cols);
++	new_rows = (lines ? lines : vc->vc_rows);
++	new_row_size = new_cols << 1;
++	new_screen_size = new_row_size * new_rows;
++
++	if (new_cols == vc->vc_cols && new_rows == vc->vc_rows)
++		return 0;
+ 	if (new_screen_size > KMALLOC_MAX_SIZE || !new_screen_size)
+ 		return -EINVAL;
+ 	newscreen = kzalloc(new_screen_size, GFP_USER);
+@@ -1238,13 +1255,6 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
+ 	old_rows = vc->vc_rows;
+ 	old_row_size = vc->vc_size_row;
+ 
+-	err = resize_screen(vc, new_cols, new_rows, user);
+-	if (err) {
+-		kfree(newscreen);
+-		vc_uniscr_free(new_uniscr);
+-		return err;
+-	}
+-
+ 	vc->vc_rows = new_rows;
+ 	vc->vc_cols = new_cols;
+ 	vc->vc_size_row = new_row_size;
+-- 
+1.8.3.1
 
-Let me know if you need any more info.
-
-Cheers,
-  Nick
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
