@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F56231F92
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 15:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70192231FA3
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 15:53:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C956E520;
-	Wed, 29 Jul 2020 13:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7276E523;
+	Wed, 29 Jul 2020 13:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E126E51B;
- Wed, 29 Jul 2020 13:49:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id r2so16631173wrs.8;
- Wed, 29 Jul 2020 06:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Et5z1sZLk52/qbAVghdHR+awPZijgneg8JJ3iKi6Rk8=;
- b=kyntGUkyFBHeFFulXmAK7oxUUkHGYZm466Zwno9ogC+/uNaltAeVLdoGuDUWI2FhBv
- /5e9KVb8f5DIKK9utWXmQ+6oX/j4pajp9xcjuyoIxCB7EYNM2lzQLmQinPyI+L76Ork4
- I87E5McdibOS8eYKSE6Do5hYP5MlPH6oHVoLsloXyRa7Ot+awzgAbWVkc63iedz5xHyz
- TrQRxVy7TmyU33DKkbKJ8SK51km7qA6LuVaYvsoaSSBqgwNqIR13NPAsdhlikegwL5Vw
- iBsQLiAwD9wjdRES/NsnSjhyuEeF6stpWTGFfdB9oZJ/FTJ+aojYfTPhWAzmy1zQnPob
- my8Q==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 382206E523
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 13:53:32 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id g8so2805305wmk.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 06:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5pg9/2Qnn5bk9hVwg9f7s8Wg+/2B1XGWjybyTFVX54o=;
+ b=lRqVEqkgsc5rjQOHCvGuZAklnLTy/8hLvb0zf84Rd+2DV3hN+Qy4cse+tDp5EV/7+2
+ 5HDD0yqm/k3XFjEZJmarPeUz15ZneckEcfkJvSTfDQ0gYoiC7DznE8AlNvbcc7y+chCs
+ n6Z0F6R4kpNsrj8FogrwSnhO5Rrjct/ee3WD0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Et5z1sZLk52/qbAVghdHR+awPZijgneg8JJ3iKi6Rk8=;
- b=HJoK+MIzNjp3iiWcbvp/okY7YrkfDFdEh976VE3r5zadNIyo8nVmmJLKNpJkYI/6HR
- MmMm5ck14dMlzpGPeXPk1mVTbFTVNoPUA2IT9DPlT7dR80OhZ/hOoy9zGfzrRJBtgwvk
- ZB8MKUAjDKEhcVxInwijRGxySFxeSOEHfNhcnQUjsqXmjRLKAq6iqeKqGv5YxYl909Wd
- T5YgkIJX66owxloMSV9nJD1z/83u8tKoz7JjYtefs2qD+BSaH0CGDVOYeHz+Nb9xWmvA
- Gu9BMMMftLauEJX4jrdpXd2Gxts2aczzboMzAZZRgVIgL5+Ae5hSm9rXqL/L2VqypZyK
- t/sg==
-X-Gm-Message-State: AOAM5300yRBFwMBuC0JuE+vXggEO8TwTdEPiH3ZKnJA9RO9Ic2ezqOlT
- 4XJ8VzQf+Gf70OSTLbCJYTgljg1dM/uqZ73QNcc=
-X-Google-Smtp-Source: ABdhPJywk6ijppdcoRlKnHHdOxSHVkyV9Agq0nu+FKodR1k6hExLtTGKd/4Lw5IfpryQJdNh1ud1q0KhoQPyi1x1Q0w=
-X-Received: by 2002:adf:a351:: with SMTP id d17mr29291191wrb.111.1596030591452; 
- Wed, 29 Jul 2020 06:49:51 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5pg9/2Qnn5bk9hVwg9f7s8Wg+/2B1XGWjybyTFVX54o=;
+ b=arytfUa039UvPx+/4duNnwkOjWOKdQvACtwL38+TSqxyFNbsTpfDw0er+kljuWF4uz
+ rxz1xToUQFGLnDeSaTMRbdAHZozJgJWrKmWsHqTSzCk7paUS2Ol4gFwvkthGNX5GmThO
+ 2Ua7XMGDvWf6w2mHVmM8lFrQElIdW7J8YAoLMXu9CD8cY/Ioz8dCbzIpEIwuoIU/nxC5
+ XXYBVJ48MGhW0lOpwEiFQ39ksgz44EItmrXjz70FKsfKOYHBH8C9s8z7tYfLBIFv4ogM
+ ilIO2MTJW0BynRCyWkd2yWLIeBAdZHu38TUxppeVdkTMgYr8+uM6QicYSyKoD5ff/DW1
+ gkUA==
+X-Gm-Message-State: AOAM533dk90fyObCHWg9LOepYgPK6SAAlSA265X0zEl3nzUJcmMr3sp4
+ lLkQQRB65xHyUHMCsDu9tgoEBg==
+X-Google-Smtp-Source: ABdhPJxQRB652XqKb+9GvJsRPDdBUrH927WkHXDJNE14SSv3fl9kkOVrqQhpjx0J7aVO3ZShrYln2w==
+X-Received: by 2002:a7b:cc95:: with SMTP id p21mr1377477wma.167.1596030810827; 
+ Wed, 29 Jul 2020 06:53:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v5sm4809239wmh.12.2020.07.29.06.53.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jul 2020 06:53:30 -0700 (PDT)
+Date: Wed, 29 Jul 2020 15:53:28 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH 2/5] fbdev/core: Export framebuffer read and write code
+ as cfb_ function
+Message-ID: <20200729135328.GP6419@phenom.ffwll.local>
+References: <20200729134148.6855-1-tzimmermann@suse.de>
+ <20200729134148.6855-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20200728192924.441570-1-yepeilin.cs@gmail.com>
- <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-In-Reply-To: <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Jul 2020 09:49:40 -0400
-Message-ID: <CADnq5_NXOiAc7q5gQqF_wwtJD1o6nHjXM4O3gY6EwAQe9iOtXw@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent
- kernel-infoleak in amdgpu_info_ioctl()
-To: Christian Koenig <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200729134148.6855-3-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,145 +66,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaojie Yuan <xiaojie.yuan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Hans de Goede <hdegoede@redhat.com>, Trek <trek00@inbox.ru>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Leo Liu <leo.liu@amd.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ jani.nikula@intel.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ airlied@redhat.com, natechancellor@gmail.com, sam@ravnborg.org,
+ peda@axentia.se, dan.carpenter@oracle.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdWwgMjksIDIwMjAgYXQgNDoxMSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
-LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyOC4wNy4yMCB1bSAyMToy
-OSBzY2hyaWViIFBlaWxpbiBZZToKPiA+IENvbXBpbGVyIGxlYXZlcyBhIDQtYnl0ZSBob2xlIG5l
-YXIgdGhlIGVuZCBvZiBgZGV2X2luZm9gLCBjYXVzaW5nCj4gPiBhbWRncHVfaW5mb19pb2N0bCgp
-IHRvIGNvcHkgdW5pbml0aWFsaXplZCBrZXJuZWwgc3RhY2sgbWVtb3J5IHRvIHVzZXJzcGFjZQo+
-ID4gd2hlbiBgc2l6ZWAgaXMgZ3JlYXRlciB0aGFuIDM1Ni4KPiA+Cj4gPiBJbiAyMDE1IHdlIHRy
-aWVkIHRvIGZpeCB0aGlzIGlzc3VlIGJ5IGRvaW5nIGA9IHt9O2Agb24gYGRldl9pbmZvYCwgd2hp
-Y2gKPiA+IHVuZm9ydHVuYXRlbHkgZG9lcyBub3QgaW5pdGlhbGl6ZSB0aGF0IDQtYnl0ZSBob2xl
-LiBGaXggaXQgYnkgdXNpbmcKPiA+IG1lbXNldCgpIGluc3RlYWQuCj4gPgo+ID4gQ2M6IHN0YWJs
-ZUB2Z2VyLmtlcm5lbC5vcmcKPiA+IEZpeGVzOiBjMTkzZmE5MWI5MTggKCJkcm0vYW1kZ3B1OiBp
-bmZvcm1hdGlvbiBsZWFrIGluIGFtZGdwdV9pbmZvX2lvY3RsKCkiKQo+ID4gRml4ZXM6IGQzOGNl
-YWY5OWVkMCAoImRybS9hbWRncHU6IGFkZCBjb3JlIGRyaXZlciAodjQpIikKPiA+IFN1Z2dlc3Rl
-ZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgo+ID4gU2lnbmVk
-LW9mZi1ieTogUGVpbGluIFllIDx5ZXBlaWxpbi5jc0BnbWFpbC5jb20+Cj4KPiBSZXZpZXdlZC1i
-eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+Cj4gSSBjYW4n
-dCBjb3VudCBob3cgbWFueSBvZiB0aG9zZSB3ZSBoYXZlIGZpeGVkIG92ZXIgdGhlIHllYXJzLgo+
-Cj4gQXQgc29tZSBwb2ludCB3ZSBzaG91bGQgcHJvYmFibHkgZG9jdW1lbnQgdGhhdCB1c2luZyAi
-PSB7fSIgb3IgIj0geyAwIH0iCj4gaW4gdGhlIGtlcm5lbCBpcyBhIHJlYWxseSBiYWQgaWRlYSBh
-bmQgc2hvdWxkIGJlIGF2b2lkZWQuCgpNb3Jlb3ZlciwgaXQgc2VlbXMgbGlrZSBkaWZmZXJlbnQg
-Y29tcGlsZXJzIHNlZW0gdG8gYmVoYXZlIHJlbGF0aXZlbHkKZGlmZmVyZW50bHkgd2l0aCB0aGVz
-ZSBhbmQgd2Ugb2Z0ZW4gZ2V0IHJlcG9ydHMgb2Ygd2FybmluZ3Mgd2l0aCB0aGVzZQpvbiBjbGFu
-Zy4gIFdoZW4gaW4gZG91YnQsIG1lbXNldC4KCkFsZXgKCj4KPiBUaGFua3MsCj4gQ2hyaXN0aWFu
-Lgo+Cj4gPiAtLS0KPiA+ICQgcGFob2xlIC1DICJkcm1fYW1kZ3B1X2luZm9fZGV2aWNlIiBkcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLm8KPiA+IHN0cnVjdCBkcm1fYW1kZ3B1
-X2luZm9fZGV2aWNlIHsKPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGRldmlj
-ZV9pZDsgICAgICAgICAgICAvKiAgICAgMCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAg
-ICAgICAgICAgICAgICAgY2hpcF9yZXY7ICAgICAgICAgICAgIC8qICAgICA0ICAgICA0ICovCj4g
-PiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBleHRlcm5hbF9yZXY7ICAgICAgICAg
-LyogICAgIDggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIHBj
-aV9yZXY7ICAgICAgICAgICAgICAvKiAgICAxMiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAg
-ICAgICAgICAgICAgICAgICAgZmFtaWx5OyAgICAgICAgICAgICAgIC8qICAgIDE2ICAgICA0ICov
-Cj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBudW1fc2hhZGVyX2VuZ2luZXM7
-ICAgLyogICAgMjAgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAg
-IG51bV9zaGFkZXJfYXJyYXlzX3Blcl9lbmdpbmU7IC8qICAgIDI0ICAgICA0ICovCj4gPiAgICAg
-ICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBncHVfY291bnRlcl9mcmVxOyAgICAgLyogICAg
-MjggICAgIDQgKi8KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIG1heF9lbmdp
-bmVfY2xvY2s7ICAgICAvKiAgICAzMiAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAg
-ICAgICAgICAgICAgbWF4X21lbW9yeV9jbG9jazsgICAgIC8qICAgIDQwICAgICA4ICovCj4gPiAg
-ICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBjdV9hY3RpdmVfbnVtYmVyOyAgICAgLyog
-ICAgNDggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGN1X2Fv
-X21hc2s7ICAgICAgICAgICAvKiAgICA1MiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAg
-ICAgICAgICAgICAgICAgY3VfYml0bWFwWzRdWzRdOyAgICAgIC8qICAgIDU2ICAgIDY0ICovCj4g
-PiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDEgYm91bmRhcnkgKDY0IGJ5dGVzKSB3YXMgNTYgYnl0
-ZXMgYWdvIC0tLSAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZW5hYmxl
-ZF9yYl9waXBlc19tYXNrOyAvKiAgIDEyMCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAg
-ICAgICAgICAgICAgICAgbnVtX3JiX3BpcGVzOyAgICAgICAgIC8qICAgMTI0ICAgICA0ICovCj4g
-PiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDIgYm91bmRhcnkgKDEyOCBieXRlcykgLS0tICovCj4g
-PiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBudW1faHdfZ2Z4X2NvbnRleHRzOyAg
-LyogICAxMjggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIF9w
-YWQ7ICAgICAgICAgICAgICAgICAvKiAgIDEzMiAgICAgNCAqLwo+ID4gICAgICAgX191NjQgICAg
-ICAgICAgICAgICAgICAgICAgaWRzX2ZsYWdzOyAgICAgICAgICAgIC8qICAgMTM2ICAgICA4ICov
-Cj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICB2aXJ0dWFsX2FkZHJlc3Nfb2Zm
-c2V0OyAvKiAgIDE0NCAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAg
-ICAgdmlydHVhbF9hZGRyZXNzX21heDsgIC8qICAgMTUyICAgICA4ICovCj4gPiAgICAgICBfX3Uz
-MiAgICAgICAgICAgICAgICAgICAgICB2aXJ0dWFsX2FkZHJlc3NfYWxpZ25tZW50OyAvKiAgIDE2
-MCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgcHRlX2ZyYWdt
-ZW50X3NpemU7ICAgIC8qICAgMTY0ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBnYXJ0X3BhZ2Vfc2l6ZTsgICAgICAgLyogICAxNjggICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGNlX3JhbV9zaXplOyAgICAgICAgICAvKiAg
-IDE3MiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgdnJhbV90
-eXBlOyAgICAgICAgICAgIC8qICAgMTc2ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAg
-ICAgICAgICAgICAgICB2cmFtX2JpdF93aWR0aDsgICAgICAgLyogICAxODAgICAgIDQgKi8KPiA+
-ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIHZjZV9oYXJ2ZXN0X2NvbmZpZzsgICAv
-KiAgIDE4NCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZ2Nf
-ZG91YmxlX29mZmNoaXBfbGRzX2J1ZjsgLyogICAxODggICAgIDQgKi8KPiA+ICAgICAgIC8qIC0t
-LSBjYWNoZWxpbmUgMyBib3VuZGFyeSAoMTkyIGJ5dGVzKSAtLS0gKi8KPiA+ICAgICAgIF9fdTY0
-ICAgICAgICAgICAgICAgICAgICAgIHByaW1fYnVmX2dwdV9hZGRyOyAgICAvKiAgIDE5MiAgICAg
-OCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAgICAgcG9zX2J1Zl9ncHVfYWRk
-cjsgICAgIC8qICAgMjAwICAgICA4ICovCj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAg
-ICAgICBjbnRsX3NiX2J1Zl9ncHVfYWRkcjsgLyogICAyMDggICAgIDggKi8KPiA+ICAgICAgIF9f
-dTY0ICAgICAgICAgICAgICAgICAgICAgIHBhcmFtX2J1Zl9ncHVfYWRkcjsgICAvKiAgIDIxNiAg
-ICAgOCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgcHJpbV9idWZfc2l6
-ZTsgICAgICAgIC8qICAgMjI0ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAg
-ICAgICAgICBwb3NfYnVmX3NpemU7ICAgICAgICAgLyogICAyMjggICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGNudGxfc2JfYnVmX3NpemU7ICAgICAvKiAgIDIz
-MiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgcGFyYW1fYnVm
-X3NpemU7ICAgICAgIC8qICAgMjM2ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICB3YXZlX2Zyb250X3NpemU7ICAgICAgLyogICAyNDAgICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51bV9zaGFkZXJfdmlzaWJsZV92Z3Byczsg
-LyogICAyNDQgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51
-bV9jdV9wZXJfc2g7ICAgICAgICAvKiAgIDI0OCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAg
-ICAgICAgICAgICAgICAgICAgbnVtX3RjY19ibG9ja3M7ICAgICAgIC8qICAgMjUyICAgICA0ICov
-Cj4gPiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDQgYm91bmRhcnkgKDI1NiBieXRlcykgLS0tICov
-Cj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBnc192Z3RfdGFibGVfZGVwdGg7
-ICAgLyogICAyNTYgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAg
-IGdzX3ByaW1fYnVmZmVyX2RlcHRoOyAvKiAgIDI2MCAgICAgNCAqLwo+ID4gICAgICAgX191MzIg
-ICAgICAgICAgICAgICAgICAgICAgbWF4X2dzX3dhdmVzX3Blcl92Z3Q7IC8qICAgMjY0ICAgICA0
-ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBfcGFkMTsgICAgICAgICAg
-ICAgICAgLyogICAyNjggICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAg
-ICAgIGN1X2FvX2JpdG1hcFs0XVs0XTsgICAvKiAgIDI3MiAgICA2NCAqLwo+ID4gICAgICAgLyog
-LS0tIGNhY2hlbGluZSA1IGJvdW5kYXJ5ICgzMjAgYnl0ZXMpIHdhcyAxNiBieXRlcyBhZ28gLS0t
-ICovCj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICBoaWdoX3ZhX29mZnNldDsg
-ICAgICAgLyogICAzMzYgICAgIDggKi8KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAg
-ICAgIGhpZ2hfdmFfbWF4OyAgICAgICAgICAvKiAgIDM0NCAgICAgOCAqLwo+ID4gICAgICAgX191
-MzIgICAgICAgICAgICAgICAgICAgICAgcGFfc2NfdGlsZV9zdGVlcmluZ19vdmVycmlkZTsgLyog
-ICAzNTIgICAgIDQgKi8KPiA+Cj4gPiAgICAgICAvKiBYWFggNCBieXRlcyBob2xlLCB0cnkgdG8g
-cGFjayAqLwo+ID4KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIHRjY19kaXNh
-YmxlZF9tYXNrOyAgICAvKiAgIDM2MCAgICAgOCAqLwo+ID4KPiA+ICAgICAgIC8qIHNpemU6IDM2
-OCwgY2FjaGVsaW5lczogNiwgbWVtYmVyczogNDkgKi8KPiA+ICAgICAgIC8qIHN1bSBtZW1iZXJz
-OiAzNjQsIGhvbGVzOiAxLCBzdW0gaG9sZXM6IDQgKi8KPiA+ICAgICAgIC8qIGxhc3QgY2FjaGVs
-aW5lOiA0OCBieXRlcyAqLwo+ID4gfTsKPiA+Cj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9rbXMuYyB8IDMgKystCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2ttcy5jCj4gPiBpbmRleCBhOGM0N2FlY2QzNDIuLjAwNDdkYTA2MDQxZiAxMDA2NDQKPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMuYwo+ID4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jCj4gPiBAQCAtNzA3LDkgKzcw
-NywxMCBAQCBzdGF0aWMgaW50IGFtZGdwdV9pbmZvX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsIHZvaWQgKmRhdGEsIHN0cnVjdCBkcm1fZmlsZQo+ID4gICAgICAgICAgICAgICByZXR1cm4g
-biA/IC1FRkFVTFQgOiAwOwo+ID4gICAgICAgfQo+ID4gICAgICAgY2FzZSBBTURHUFVfSU5GT19E
-RVZfSU5GTzogewo+ID4gLSAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2FtZGdwdV9pbmZvX2Rldmlj
-ZSBkZXZfaW5mbyA9IHt9Owo+ID4gKyAgICAgICAgICAgICBzdHJ1Y3QgZHJtX2FtZGdwdV9pbmZv
-X2RldmljZSBkZXZfaW5mbzsKPiA+ICAgICAgICAgICAgICAgdWludDY0X3Qgdm1fc2l6ZTsKPiA+
-Cj4gPiArICAgICAgICAgICAgIG1lbXNldCgmZGV2X2luZm8sIDAsIHNpemVvZihkZXZfaW5mbykp
-Owo+ID4gICAgICAgICAgICAgICBkZXZfaW5mby5kZXZpY2VfaWQgPSBkZXYtPnBkZXYtPmRldmlj
-ZTsKPiA+ICAgICAgICAgICAgICAgZGV2X2luZm8uY2hpcF9yZXYgPSBhZGV2LT5yZXZfaWQ7Cj4g
-PiAgICAgICAgICAgICAgIGRldl9pbmZvLmV4dGVybmFsX3JldiA9IGFkZXYtPmV4dGVybmFsX3Jl
-dl9pZDsKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Cj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Jul 29, 2020 at 03:41:45PM +0200, Thomas Zimmermann wrote:
+> DRM fb helpers require read and write functions for framebuffer
+> memory. Export the existing code from fbdev.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Hm I'm not super sure whether we want to actually reuse this stuff ... We
+kinda don't care about the sparc special case, and just having an fbdev
+implementation witch has the switch between memcpy and memcpy_to/from_io
+in one single place sounds a lot simpler ...
+
+This way we can have a clean split between the old horrors of real fbdev
+drivers, and a much cleaner world in drm. It would mean a bit of
+copypasting, but I think that's actually a good thing.
+
+In general my idea for drm fbdev emulation is that for any area we have a
+problem we just ignore the entire fbmem.c code and write our own: mmap,
+backlight handling (still unsolved, and horrible), cfb vs sys here. This
+entire fbmem.c stuff is pretty bad midlayer, trying to avoid code
+duplication here doesn't seem worth it imo.
+
+Thoughts?
+-Daniel
+
+> ---
+>  drivers/video/fbdev/core/fbmem.c | 53 ++++++++++++++++++++++----------
+>  include/linux/fb.h               |  5 +++
+>  2 files changed, 41 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index dd0ccf35f7b7..b496ff90db3e 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -759,25 +759,18 @@ static struct fb_info *file_fb_info(struct file *file)
+>  	return info;
+>  }
+>  
+> -static ssize_t
+> -fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+> +ssize_t fb_cfb_read(struct fb_info *info, char __user *buf, size_t count,
+> +		    loff_t *ppos)
+>  {
+>  	unsigned long p = *ppos;
+> -	struct fb_info *info = file_fb_info(file);
+>  	u8 *buffer, *dst;
+>  	u8 __iomem *src;
+>  	int c, cnt = 0, err = 0;
+>  	unsigned long total_size;
+>  
+> -	if (!info || ! info->screen_base)
+> -		return -ENODEV;
+> -
+>  	if (info->state != FBINFO_STATE_RUNNING)
+>  		return -EPERM;
+>  
+> -	if (info->fbops->fb_read)
+> -		return info->fbops->fb_read(info, buf, count, ppos);
+> -
+>  	total_size = info->screen_size;
+>  
+>  	if (total_size == 0)
+> @@ -823,16 +816,12 @@ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+>  
+>  	return (err) ? err : cnt;
+>  }
+> +EXPORT_SYMBOL(fb_cfb_read);
+>  
+>  static ssize_t
+> -fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+> +fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+>  {
+> -	unsigned long p = *ppos;
+>  	struct fb_info *info = file_fb_info(file);
+> -	u8 *buffer, *src;
+> -	u8 __iomem *dst;
+> -	int c, cnt = 0, err = 0;
+> -	unsigned long total_size;
+>  
+>  	if (!info || !info->screen_base)
+>  		return -ENODEV;
+> @@ -840,8 +829,20 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+>  	if (info->state != FBINFO_STATE_RUNNING)
+>  		return -EPERM;
+>  
+> -	if (info->fbops->fb_write)
+> -		return info->fbops->fb_write(info, buf, count, ppos);
+> +	if (info->fbops->fb_read)
+> +		return info->fbops->fb_read(info, buf, count, ppos);
+> +	else
+> +		return fb_cfb_read(info, buf, count, ppos);
+> +}
+> +
+> +ssize_t fb_cfb_write(struct fb_info *info, const char __user *buf,
+> +		     size_t count, loff_t *ppos)
+> +{
+> +	unsigned long p = *ppos;
+> +	u8 *buffer, *src;
+> +	u8 __iomem *dst;
+> +	int c, cnt = 0, err = 0;
+> +	unsigned long total_size;
+>  
+>  	total_size = info->screen_size;
+>  
+> @@ -895,6 +896,24 @@ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+>  
+>  	return (cnt) ? cnt : err;
+>  }
+> +EXPORT_SYMBOL(fb_cfb_write);
+> +
+> +static ssize_t
+> +fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct fb_info *info = file_fb_info(file);
+> +
+> +	if (!info || !info->screen_base)
+> +		return -ENODEV;
+> +
+> +	if (info->state != FBINFO_STATE_RUNNING)
+> +		return -EPERM;
+> +
+> +	if (info->fbops->fb_write)
+> +		return info->fbops->fb_write(info, buf, count, ppos);
+> +	else
+> +		return fb_cfb_write(info, buf, count, ppos);
+> +}
+>  
+>  int
+>  fb_pan_display(struct fb_info *info, struct fb_var_screeninfo *var)
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 714187bc13ac..12ad83963db5 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -593,6 +593,11 @@ extern int fb_blank(struct fb_info *info, int blank);
+>  extern void cfb_fillrect(struct fb_info *info, const struct fb_fillrect *rect);
+>  extern void cfb_copyarea(struct fb_info *info, const struct fb_copyarea *area);
+>  extern void cfb_imageblit(struct fb_info *info, const struct fb_image *image);
+> +extern ssize_t fb_cfb_read(struct fb_info *info, char __user *buf,
+> +			   size_t count, loff_t *ppos);
+> +extern ssize_t fb_cfb_write(struct fb_info *info, const char __user *buf,
+> +			    size_t count, loff_t *ppos);
+> +
+>  /*
+>   * Drawing operations where framebuffer is in system RAM
+>   */
+> -- 
+> 2.27.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
