@@ -2,54 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91038232762
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 00:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51AA523280D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 01:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77046E162;
-	Wed, 29 Jul 2020 22:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8A86E802;
+	Wed, 29 Jul 2020 23:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9636E162;
- Wed, 29 Jul 2020 22:10:54 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id g10so3031599wmc.1;
- Wed, 29 Jul 2020 15:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VRmXX22Ht9Ug7pe7RoctKCZnQAxX1VH0Ou5Q8SMIejk=;
- b=Xt2cZ1tWt2tIeIk0lGFPYBvi2AJQmiptaxJ/IrqrJHsJP0XcurZ7xsprx89qWRSeas
- euW6FnIpxp07vyK+XaFIVryYYhIAN1YBPz3zm3lqJADQ5omnUDX0NP6grbTBUtPnhsdF
- J3TU+Tk7qY+yTiPGhkvo5ja7npziNhpk/3uANV7RSJ0qhUSFxcZcaFPS9YVbbb3ZWKzz
- kC+nHw97kt9XnnF0enP57i1SXtmprwiM9sDxXIHlr2UdMmazSH55332PFuAEcA8lGpD2
- HUsRWoWlUt/ckjME1OdX86A+vCEj4oTXxTKGCUYxq/u3kAikEIkm045zrIeEm5tnz0pe
- lZUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VRmXX22Ht9Ug7pe7RoctKCZnQAxX1VH0Ou5Q8SMIejk=;
- b=q4maFbZjBESWjXhSujIeaUhjxUKSI2BXVD7VPmJnGaFw7Li4RxDTXf85kGAbAEKs8B
- LNiyet4yx4DiOHKrGP6SlSlkt7rkj7K7y385xl7o4Jyqz5TW7Vv8fcpTTdraM4Dn947O
- e1Qy6mLCmt9UNEGVQ99ZMSVhAiewvrQDBTJJzN4r7Xjl6/kUz0N4x7/xIu65taVxaPZY
- dYLhTcO5jpivPeRcJDdh0DzUJpLR4PdAJVJLjtgubP74KA3Gp7sH4R9m7oDv1Q0UB8dE
- PT3crHcsJIqAtqwrX6Psd1YkI1zhd8UP0NTfHkFwmIDYMzSI6cmHULFlT21LhiP8WgB1
- lDqQ==
-X-Gm-Message-State: AOAM533qdvQz1WWpsFs1Mh6wAAqc4I/o10C2y1ZLdjnNtehPYrvjkF93
- a/a1SY4MPGAC9T3FKsFW8cbMgV9TSjMgYToc5FI=
-X-Google-Smtp-Source: ABdhPJy8ks1gVFBsd4+PvZ7RcVx+rmeF3fW3P6eru07cUIBqON0J65m9pkCTSrgJ1mggZhfdeqSwdUdDfuQuzzSeZtw=
-X-Received: by 2002:a1c:2:: with SMTP id 2mr10843270wma.79.1596060652954; Wed,
- 29 Jul 2020 15:10:52 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACC556E802
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 23:26:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fc3omy0PLEChE00f+WcGXW+GU3/ERMfvRuPnG58LEIgFQuSbuCDq2LZR6U1+f8OuiPnEt0FO5YLmNsCvbUit/4jhd4fSBwjN2JihU4B9PsgHuo75c7kkrWLhNtw+e0zd/yui3uAiHcSbMPa87qS0oLRlbkBujnW1LUvWLIT3Qp69TcYdjYxKsQBrzJyGvHs4YyZ2aXlmAb0qX0IAAdPPPmxrAqwT7ZQyqUTSEy2HvbCXNp9NJD/50OwoeZPyP1NP/ePA5vWl3cQrniL/u7vwQLcNbeeKsnKI1ZjBCxx8YTARL44bgiu7L7tlVisDjjH3gvMvCyGFyFLoa+jH2wNWRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q3cdnUT4KfJPxSb7cRibhRger9fPEuCTF5XA4IvzBqw=;
+ b=ABiQJh9UTAvC5RNCn5ptP7mxlS2LmdjFYjqO45BHl8gEe88VxP+LcQPqhXg0v1y7iLHJh1sdNsq+v10Ynk7Tbx7AAfJ7RF28phOoJuUslq4BOctEJSUZ6kl/f2YizTb2JpfV8Mr4lucEjSwus4zrV5kj7MyY3kp5eEj6o9tTdWSVxfwv9tLh703jT3Qz2yPgdNEJuBqIefZM9dqcFac6nYX4z1cANh27cbWiHGuNjTk3qu2hWaxqmGikJW3tioSl2y5VQx19SDQhSXtPIlJq8sN/aCKYCTqTcLQUuirClQOMUmHRnkzvwnLwbbS70qKgoIiCo45WAe4TUNDIfL2D9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=oracle.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q3cdnUT4KfJPxSb7cRibhRger9fPEuCTF5XA4IvzBqw=;
+ b=HAxXsF2SaM6rYs9cshHP2HXk3GTF1d0f2NnxYNqh3L/HNh2Nv6NYi2fwbiPrIK62B+urT+CVLLJVMzx4+JKjpQCDcuXZm3pd9Lj9p8bj1eMPt6u6hvGwXEPLvi0WzwkTYQqfeIzWGsZFc33l/e6Ydav8I0LFmdqXvdGyE7faRnI=
+Received: from SN6PR08CA0010.namprd08.prod.outlook.com (2603:10b6:805:66::23)
+ by DM6PR02MB4890.namprd02.prod.outlook.com (2603:10b6:5:fa::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Wed, 29 Jul
+ 2020 23:26:05 +0000
+Received: from SN1NAM02FT019.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:805:66:cafe::cd) by SN6PR08CA0010.outlook.office365.com
+ (2603:10b6:805:66::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
+ Transport; Wed, 29 Jul 2020 23:26:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT019.mail.protection.outlook.com (10.152.72.130) with Microsoft SMTP
+ Server id 15.20.3239.17 via Frontend Transport; Wed, 29 Jul 2020 23:26:05
+ +0000
+Received: from [149.199.38.66] (port=59225 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1k0vQX-0005jX-Md; Wed, 29 Jul 2020 16:24:01 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1k0vSW-0007DK-PQ; Wed, 29 Jul 2020 16:26:04 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 06TNPsZN006213; 
+ Wed, 29 Jul 2020 16:25:55 -0700
+Received: from [172.19.2.244] (helo=xsjhyunkubuntu)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1k0vSM-0007Bj-U1; Wed, 29 Jul 2020 16:25:54 -0700
+Received: by xsjhyunkubuntu (Postfix, from userid 13638)
+ id CFB242C1BFF; Wed, 29 Jul 2020 16:22:02 -0700 (PDT)
+Date: Wed, 29 Jul 2020 16:22:02 -0700
+From: Hyun Kwon <hyun.kwon@xilinx.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/1] drm: xlnx: zynqmp: Stop the loop at lowest link rate
+ without check
+Message-ID: <20200729232201.GA6469@xilinx.com>
+References: <1596046674-29155-1-git-send-email-hyun.kwon@xilinx.com>
+ <CAKMK7uGBrACy_sP7h35W=6=R94OG3in3E7JiTMp5Kk-hcfkAcw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200727213017.852589-1-daniel.vetter@ffwll.ch>
- <d4e687e9-cf0b-384f-5982-849d0fa11147@amd.com>
-In-Reply-To: <d4e687e9-cf0b-384f-5982-849d0fa11147@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Jul 2020 18:10:42 -0400
-Message-ID: <CADnq5_OdpSD3xRufctNedeiehiA80XcN1YOA7d58nMFcrp8vhg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/dc: Stop dma_resv_lock inversion in commit_tail
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGBrACy_sP7h35W=6=R94OG3in3E7JiTMp5Kk-hcfkAcw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d80b2b7b-28f5-4c29-fd9b-08d83416c3be
+X-MS-TrafficTypeDiagnostic: DM6PR02MB4890:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB489034B3DCED9741CA3C45EED6700@DM6PR02MB4890.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N5eGCgNnz1vWnyHpcZcZhVSmj9MYK8I/7isFZ0J6GUev5DcQcwMnWgdQv6ZICc/lZAtBEF0atMCgSjL8reM6/4tf0dSWkNmQ9xyeLLm1gPnJEo405IAq4HJgxdTBcro+R+7hgXis3cd7BoEJCR0F5+7eYz1qjyvz/QlEvA2sMMBZInHq7zo1zI6GnigayV/XfZkRu2sLZbtwnS8c6acDIuzPvxoH2YK2HEq3q18xfFENKj+Z2V8YT9sEUnOkZGe6Xb4jrIms7ZzreG1GTD3ging3Vdv4f0+762pndZ+fU/VWxbdEU3Cxk4jbl4G3ResV9f9nKTbA2rHNrHaApcZ0WUETv6pEpjmLgfAFJVR7YZQ/TrTzUbeZB108iM8neR+e6kgofdB+k08uNlrLPAnFYMSaryfAw6wsKf4b52WuSZrsVRH4bi3dBxDmQ79oLe1D1pb+EUWMX9YsmyZUxF9SnUqzPfQK8kYzsrGQF8yhSSAHu53emkk8uwOKr6dfpUZb
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(396003)(346002)(136003)(376002)(46966005)(36756003)(6266002)(966005)(5660300002)(6916009)(47076004)(26005)(33656002)(186003)(8936002)(53546011)(83380400001)(54906003)(8676002)(4326008)(70206006)(1076003)(336012)(316002)(82740400003)(82310400002)(70586007)(356005)(2906002)(44832011)(83080400001)(2616005)(81166007)(426003)(478600001)(42186006)(16453002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2020 23:26:05.0863 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d80b2b7b-28f5-4c29-fd9b-08d83416c3be
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT019.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4890
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,89 +120,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dan Carpenter <dan.carpenter@oracle.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFR1ZSwgSnVsIDI4LCAyMDIwIGF0IDI6NTYgQU0g
-Q2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFt
-IDI3LjA3LjIwIHVtIDIzOjMwIHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IFRyeWluZyB0byBn
-cmFiIGRtYV9yZXN2X2xvY2sgd2hpbGUgaW4gY29tbWl0X3RhaWwgYmVmb3JlIHdlJ3ZlIGRvbmUK
-PiA+IGFsbCB0aGUgY29kZSB0aGF0IGxlYWRzIHRvIHRoZSBldmVudHVhbCBzaWduYWxsaW5nIG9m
-IHRoZSB2YmxhbmsgZXZlbnQKPiA+ICh3aGljaCBjYW4gYmUgYSBkbWFfZmVuY2UpIGlzIGRlYWRs
-b2NrLXkuIERvbid0IGRvIHRoYXQuCj4gPgo+ID4gSGVyZSB0aGUgc29sdXRpb24gaXMgZWFzeSBi
-ZWNhdXNlIGp1c3QgZ3JhYmJpbmcgbG9ja3MgdG8gcmVhZAo+ID4gc29tZXRoaW5nIHJhY2VzIGFu
-eXdheS4gV2UgZG9uJ3QgbmVlZCB0byBib3RoZXIsIFJFQURfT05DRSBpcwo+ID4gZXF1aXZhbGVu
-dC4gQW5kIGF2b2lkcyB0aGUgbG9ja2luZyBpc3N1ZS4KPiA+Cj4gPiB2MjogQWxzbyB0YWtlIGlu
-dG8gYWNjb3VudCB0bXpfc3VyZmFjZSBib29sZWFuLCBwbHVzIGp1c3QgZGVsZXRlIHRoZQo+ID4g
-b2xkIGNvZGUuCj4gPgo+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+ID4gQ2M6
-IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+ID4gQ2M6IGxpbnV4LXJkbWFAdmdlci5r
-ZXJuZWwub3JnCj4gPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IENjOiBp
-bnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBDYzogQ2hyaXMgV2lsc29uIDxjaHJp
-c0BjaHJpcy13aWxzb24uY28udWs+Cj4gPiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4u
-bGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KPiA+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiA+IC0tLQo+ID4gREMtZm9sa3MsIEkgdGhpbmsgdGhp
-cyBzcGxpdCBvdXQgcGF0Y2ggZnJvbSBteSBzZXJpZXMgaGVyZQo+ID4KPiA+IGh0dHBzOi8vbmFt
-MTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxv
-cmUua2VybmVsLm9yZyUyRmRyaS1kZXZlbCUyRjIwMjAwNzA3MjAxMjI5LjQ3MjgzNC0xLWRhbmll
-bC52ZXR0ZXIlNDBmZndsbC5jaCUyRiZhbXA7ZGF0YT0wMiU3QzAxJTdDY2hyaXN0aWFuLmtvZW5p
-ZyU0MGFtZC5jb20lN0M4YTRmNTczNjY4MmE0YjVjOTQzZTA4ZDgzMjc0N2FiMSU3QzNkZDg5NjFm
-ZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2MzczMTQ4MjMxNDU1MjE4NDAmYW1w
-O3NkYXRhPXFkN05yb3g2MkxyJTJGWFdiSkpGVnNrZzlSWUw0JTJGb1JWQ0ZqUjZyVURNQTVFJTNE
-JmFtcDtyZXNlcnZlZD0wCj4gPgo+ID4gc2hvdWxkIGJlIHJlYWR5IGZvciByZXZpZXcvbWVyZ2lu
-Zy4gSSBmaXhlZCBpdCB1cCBhIGJpdCBzbyB0aGF0IGl0J3Mgbm90Cj4gPiBqdXN0IGEgZ3Jvc3Mg
-aGFjayA6LSkKPiA+Cj4gPiBDaGVlcnMsIERhbmllbAo+ID4KPiA+Cj4gPiAtLS0KPiA+ICAgLi4u
-L2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jIHwgMTkgKysrKysrLS0t
-LS0tLS0tLS0tLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxMyBkZWxl
-dGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2FtZGdwdV9kbS9hbWRncHVfZG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRn
-cHVfZG0vYW1kZ3B1X2RtLmMKPiA+IGluZGV4IDIxZWM2NGZlNTUyNy4uYTIwYjYyYjFmMmVmIDEw
-MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRn
-cHVfZG0uYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9h
-bWRncHVfZG0uYwo+ID4gQEAgLTY5NTksMjAgKzY5NTksMTMgQEAgc3RhdGljIHZvaWQgYW1kZ3B1
-X2RtX2NvbW1pdF9wbGFuZXMoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlLAo+ID4gICAg
-ICAgICAgICAgICAgICAgICAgIERSTV9FUlJPUigiV2FpdGluZyBmb3IgZmVuY2VzIHRpbWVkIG91
-dCEiKTsKPiA+Cj4gPiAgICAgICAgICAgICAgIC8qCj4gPiAtICAgICAgICAgICAgICAqIFRPRE8g
-VGhpcyBtaWdodCBmYWlsIGFuZCBoZW5jZSBiZXR0ZXIgbm90IHVzZWQsIHdhaXQKPiA+IC0gICAg
-ICAgICAgICAgICogZXhwbGljaXRseSBvbiBmZW5jZXMgaW5zdGVhZAo+ID4gLSAgICAgICAgICAg
-ICAgKiBhbmQgaW4gZ2VuZXJhbCBzaG91bGQgYmUgY2FsbGVkIGZvcgo+ID4gLSAgICAgICAgICAg
-ICAgKiBibG9ja2luZyBjb21taXQgdG8gYXMgcGVyIGZyYW1ld29yayBoZWxwZXJzCj4gPiArICAg
-ICAgICAgICAgICAqIFdlIGNhbm5vdCByZXNlcnZlIGJ1ZmZlcnMgaGVyZSwgd2hpY2ggbWVhbnMg
-dGhlIG5vcm1hbCBmbGFnCj4gPiArICAgICAgICAgICAgICAqIGFjY2VzcyBmdW5jdGlvbnMgZG9u
-J3Qgd29yay4gUGFwZXIgb3ZlciB0aGlzIHdpdGggUkVBRF9PTkNFLAo+ID4gKyAgICAgICAgICAg
-ICAgKiBidXQgbWF5YmUgdGhlIGZsYWdzIGFyZSBpbnZhcmlhbnQgZW5vdWdoIHRoYXQgbm90IGV2
-ZW4gdGhhdAo+ID4gKyAgICAgICAgICAgICAgKiB3b3VsZCBiZSBuZWVkZWQuCj4gPiAgICAgICAg
-ICAgICAgICAqLwo+ID4gLSAgICAgICAgICAgICByID0gYW1kZ3B1X2JvX3Jlc2VydmUoYWJvLCB0
-cnVlKTsKPiA+IC0gICAgICAgICAgICAgaWYgKHVubGlrZWx5KHIgIT0gMCkpCj4gPiAtICAgICAg
-ICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJmYWlsZWQgdG8gcmVzZXJ2ZSBidWZmZXIgYmVmb3Jl
-IGZsaXBcbiIpOwo+ID4gLQo+ID4gLSAgICAgICAgICAgICBhbWRncHVfYm9fZ2V0X3RpbGluZ19m
-bGFncyhhYm8sICZ0aWxpbmdfZmxhZ3MpOwo+ID4gLQo+ID4gLSAgICAgICAgICAgICB0bXpfc3Vy
-ZmFjZSA9IGFtZGdwdV9ib19lbmNyeXB0ZWQoYWJvKTsKPiA+IC0KPiA+IC0gICAgICAgICAgICAg
-YW1kZ3B1X2JvX3VucmVzZXJ2ZShhYm8pOwo+ID4gKyAgICAgICAgICAgICB0aWxpbmdfZmxhZ3Mg
-PSBSRUFEX09OQ0UoYWJvLT50aWxpbmdfZmxhZ3MpOwo+ID4gKyAgICAgICAgICAgICB0bXpfc3Vy
-ZmFjZSA9IFJFQURfT05DRShhYm8tPmZsYWdzKSAmIEFNREdQVV9HRU1fQ1JFQVRFX0VOQ1JZUFRF
-RDsKPgo+IFllYWgsIHRoZSBhYm8tPmZsYWdzIGFyZSBtb3N0bHkgZml4ZWQgYWZ0ZXIgY3JlYXRp
-b24sIGVzcGVjaWFsbHkgdGhlCj4gZW5jcnlwdGVkIGZsYWcgY2FuJ3QgY2hhbmdlIG9yIHdlIGNv
-cnJ1cHQgcGFnZSB0YWJsZSB0YWJsZXMuIFNvIHRoYXQKPiBzaG91bGQgd29yayBmaW5lLgo+Cj4g
-QW55Ym9keSB3aG8gcGlja3MgdGhpcyB1cCBmZWVsIGZyZWUgdG8gYWRkIGFuIFJldmlld2VkLWJ5
-OiBDaHJpc3RpYW4KPiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4uCj4KPiBSZWdh
-cmRzLAo+IENocmlzdGlhbi4KPgo+ID4KPiA+ICAgICAgICAgICAgICAgZmlsbF9kY19wbGFuZV9p
-bmZvX2FuZF9hZGRyKAo+ID4gICAgICAgICAgICAgICAgICAgICAgIGRtLT5hZGV2LCBuZXdfcGxh
-bmVfc3RhdGUsIHRpbGluZ19mbGFncywKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vYW1kLWdmeApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Hi Daniel,
+
+Thanks for the review.
+
+On Wed, Jul 29, 2020 at 02:34:16PM -0700, Daniel Vetter wrote:
+> On Wed, Jul 29, 2020 at 8:21 PM Hyun Kwon <hyun.kwon@xilinx.com> wrote:
+> >
+> > The loop should exit at the lowest link rate, so break the loop
+> > at the lowest link rate without check. The check is always true
+> > because lowest link rate is smaller than current one and maximum
+> > of current display. Otherwise, it may be seen as the loop can
+> > potentially result in negative array offset.
+> >
+> > The patch d76271d22694: "drm: xlnx: DRM/KMS driver for Xilinx ZynqMP
+> > DisplayPort Subsystem" from Jul 7, 2018, leads to the following
+> > static checker warning:
+> >
+> >         drivers/gpu/drm/xlnx/zynqmp_dp.c:594 zynqmp_dp_mode_configure()
+> >         error: iterator underflow 'bws' (-1)-2
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Hyun Kwon <hyun.kwon@xilinx.com>
+> > ---
+> >  drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> > index b735072..1be2b19 100644
+> > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> > @@ -579,7 +579,7 @@ static int zynqmp_dp_mode_configure(struct zynqmp_dp *dp, int pclock,
+> >                 return -EINVAL;
+> >         }
+> >
+> > -       for (i = ARRAY_SIZE(bws) - 1; i >= 0; i--) {
+> > +       for (i = ARRAY_SIZE(bws) - 1; i > 0; i--) {
+> 
+> But now we don't go through the lowest element anymore, which also
+> looks wrong. Or I'm blind.
+> 
+
+Currently, the lowest element always breaks without decrement by the check of
+the loop.
+
+> I think the problem is later on that we should bail out of the loop on
+> the last iteration (when i == 0) before we decrement, since otherwise
+> we then look at bws[-1] in the next loop, which is clearly wrong. I
+> guess your code results in the same, but it's very confusing logic for
+> me ...
+
+Indeed. I can convert the for loop into switch - case in v2. Hope it makes less
+confusing. :)
+
+Thanks,
+-hyun
+
+> -Daniel
+> 
+> >                 if (current_bw && bws[i] >= current_bw)
+> >                         continue;
+> >
+> > --
+> > 2.7.4
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
