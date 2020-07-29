@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F4523195C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C6D23196B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B725F6E43B;
-	Wed, 29 Jul 2020 06:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257FC6E444;
+	Wed, 29 Jul 2020 06:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A866E43B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 06:15:53 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id l63so13695649pge.12
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 23:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lFyM8Vx/5op87Dvz+AvxS1fPZAwbt9pRfprMIWb3YTU=;
- b=NgwSU+sEhHjJFh2Cw54BwrU1T27J2CiPVw2SEjfUpcNPBbzyJ0oj4QKISKIAaLyLvy
- r1mgqbbcHbgwXL3gCzG/ltDrdIBqhajO/Ci6Pyf3zLbh0SM4sXpI89B+XpffIFyi2Cvj
- tBZirVrQuvroukfy5muJly3TYrvUM+VvJmieo=
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D446E444
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 06:20:23 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id v22so5762665edy.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 23:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ia4b/DRy+OghVaxZHcJHUZh7vgLvFo61VOPY5ySdu1k=;
+ b=E06M1u5+/fEyZ5KZW/a0C700hj1M6UVdqb8uhDe+KF5m1nzya51is7/2E0mBsJ9gaQ
+ S2m7GgLpxGUGNNY7DAoWbIY6FlpbFTbnRHX/gosh3DuiDT2cXBuWkf3zMyo9sirZyJ5l
+ QFkORC7exgohfYXzt5niKo49bOwjs7qvBXXR3i7bOsyUKPqX9Qqi/ZGE1PBAwFbO08Z2
+ 7Vj58Ako9V0c3dB6CuK0cSSm6cBoVhZTp03JTJV0HzC9K20b1QiNodHff4JCpFnVwYG+
+ Lms8cIzMWQ7kVkO2lTjEVuNNP3HdLxIdXEHDIKISwNPhaS1LbrYh3UY6JW1n8v6I5guf
+ rSOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lFyM8Vx/5op87Dvz+AvxS1fPZAwbt9pRfprMIWb3YTU=;
- b=PAQ94Qw2tUR8oovPMSqq8mitG32px0fsez1dXnzfUcrnF+gHBp+hNkrMP7MzqvuHWR
- Y4aSpDczVUGo4Y3sSXQKRNFw8EOYaq/UFEVIfgY7uAB5Umvl4yrv4tT2M9WYXRdYV6Rs
- /kErdxCKtZF8ahOZRaZzQ6AmfuI4TKOiyZPqJVhmb/Ey2InrZWA0F8bmLWpxaW+MIsXL
- CGoYL3LuIVl9vw84b8lEJrrmgrpzwhI5Ki7tpulJOENJqB95RX8USV7DcFS94lKHBFGK
- S8H13O5Bxji/YiENbbfTKIMo/qFJk/fptJcEa7iUmYL86wNecavxL/BJFNO55L0+Spa/
- 6wIg==
-X-Gm-Message-State: AOAM5317TM/P1r/UBziDQwuXY7/OgUS25qWisIA3CeHiRlIqLE5JnpY8
- WMQbtARyHpI01Mq+77farLSDPw==
-X-Google-Smtp-Source: ABdhPJz9nsgNNiKNv6uOWtVlB7+pZve0qrQ8QpVeMxYdHqoOpag4NlpS+EpbD63x41HUalOzw8sZJA==
-X-Received: by 2002:a63:c603:: with SMTP id w3mr27695619pgg.284.1596003352877; 
- Tue, 28 Jul 2020 23:15:52 -0700 (PDT)
-Received: from localhost ([2401:fa00:9:15:7220:84ff:fe09:cabc])
- by smtp.gmail.com with ESMTPSA id z25sm1003384pfg.150.2020.07.28.23.15.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jul 2020 23:15:52 -0700 (PDT)
-From: Sam McNally <sammc@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/dp_mst: Add ddc i2c device links for DP MST connectors
-Date: Wed, 29 Jul 2020 16:15:28 +1000
-Message-Id: <20200729161510.1.Iaa9c3d7c4332cf8717653f3d3ae6f2b955aa3fc6@changeid>
-X-Mailer: git-send-email 2.28.0.rc0.142.g3c755180ce-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ia4b/DRy+OghVaxZHcJHUZh7vgLvFo61VOPY5ySdu1k=;
+ b=iBZiodUpBROeiYPH9flMa6X6UUtIvQcNB7xgSlYXvYZQfaLI8fb/ACJM1PNQl92Sb0
+ hSgbpxrY4vORC3/NqOenhCKdAA8ru0TnjOncCToWakAZ8q37dDyDmNzt6JJayj5EthKy
+ 7z/bMXk/gTYqUcbXl0pm1IlOeaill8pQgyTq9w+jnyDMFIMKaKyr06G1/kXLtG5v9wbt
+ 7rZCpeKfk4zTJH3oEX4tBPi9zGbHGC+grivMavO23vtFTbYFROJ6qsAwEncZl6ivAGon
+ Lo5oB7sadrKTdnPWJfvFC6haMkBYTiYYh1zmu+/ShgbU9WNIoacrLGCNZ2Lt2W0PGsOg
+ eYNQ==
+X-Gm-Message-State: AOAM5308NN0iS4IVYas4++zBgEazHQin7EQ6FyLHAzRDuZT16oz/QHVB
+ LWyrExsWSg4ZF54TTl8JTMm71y9oxHIv4htu1m0=
+X-Google-Smtp-Source: ABdhPJwPCJ2xGQhQ+uUCtq7plJb9bkcOyI1MPxc9Cn2uB9FbI4tvruWuM0s5aHn+N2ttJG1LUn7BJ8tnOUoHTaWaxAg=
+X-Received: by 2002:aa7:d047:: with SMTP id n7mr21742107edo.78.1596003622344; 
+ Tue, 28 Jul 2020 23:20:22 -0700 (PDT)
 MIME-Version: 1.0
+References: <201501212056.ACF39099.FLVMFOHOSQtFOJ@I-love.SAKURA.ne.jp>
+ <20200714091305.11255-1-gujx@cn.fujitsu.com>
+ <e63d176e-9258-d35e-78be-cad10c470074@i-love.sakura.ne.jp>
+In-Reply-To: <e63d176e-9258-d35e-78be-cad10c470074@i-love.sakura.ne.jp>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 29 Jul 2020 16:20:10 +1000
+Message-ID: <CAPM=9txvzLfMG1GytVC_47+LF23HaG5TtJfe41MQN0JUp=Ap8w@mail.gmail.com>
+Subject: Re: [drm/ttm] Memory corruption problem when ttm_tt_init() fails.
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,102 +62,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Sam McNally <sammc@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: Gu Jinxiang <gujx@cn.fujitsu.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As of commit d8bd15b37d32 ("drm/dp_mst: Fix the DDC I2C device
-registration of an MST port"), DP MST DDC I2C devices are consistently
-parented to the underlying DRM device, making it challenging to
-associate the ddc i2c device with its connector from userspace.
+On Wed, 15 Jul 2020 at 17:00, Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> On 2020/07/14 18:13, Gu Jinxiang wrote:
+> > I've encountered [BUG: unable to handle kernel NULL pointer dereference at] which has call stack like your pattern2.
+> > And before this happended, I got a lot of memory allocation failure warnings.
+> > And my kernel is 3.10.0-327.62.1.el7.x86_64.
+> >
+> > Since, you mentioned it may be a bug of drm/tmm. So, I checked drm/ttm for possible patch to fix this problem, but found nothing.
+> > Could you please tell me is there any progress of this problem that you detected.
+>
+> I'm not aware of any progress on https://patchwork.kernel.org/patch/5681611/ .
 
-Given the need for further refactoring before the i2c devices can be
-parented to their connectors, in the meantime follow the pattern of
-commit e1a29c6c5955 ("drm: Add ddc link in sysfs created by
-drm_connector"), creating sysfs ddc links to the associated i2c device
-for MST DP connectors.
+Just found this email, I've hopefully fix this issue in my drm-next tree with
 
-If the connector is created and registered before the i2c device, create
-the link when registering the i2c device; otherwise, create the link
-during late connector registration.
+https://patchwork.freedesktop.org/patch/380782/
 
-Signed-off-by: Sam McNally <sammc@chromium.org>
----
-
- drivers/gpu/drm/drm_dp_mst_topology.c | 29 +++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 1ac874e4e7a1..73a2299c2faa 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -2161,11 +2161,23 @@ static void build_mst_prop_path(const struct drm_dp_mst_branch *mstb,
- int drm_dp_mst_connector_late_register(struct drm_connector *connector,
- 				       struct drm_dp_mst_port *port)
- {
-+	int ret;
- 	DRM_DEBUG_KMS("registering %s remote bus for %s\n",
- 		      port->aux.name, connector->kdev->kobj.name);
- 
- 	port->aux.dev = connector->kdev;
--	return drm_dp_aux_register_devnode(&port->aux);
-+	ret = drm_dp_aux_register_devnode(&port->aux);
-+	if (ret)
-+		return ret;
-+
-+	if (port->pdt != DP_PEER_DEVICE_NONE &&
-+	    drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
-+		ret = sysfs_create_link(&port->connector->kdev->kobj,
-+					&port->aux.ddc.dev.kobj, "ddc");
-+		if (ret)
-+			drm_dp_aux_unregister_devnode(&port->aux);
-+	}
-+	return ret;
- }
- EXPORT_SYMBOL(drm_dp_mst_connector_late_register);
- 
-@@ -5490,6 +5502,7 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
- {
- 	struct drm_dp_aux *aux = &port->aux;
- 	struct device *parent_dev = port->mgr->dev->dev;
-+	int ret;
- 
- 	aux->ddc.algo = &drm_dp_mst_i2c_algo;
- 	aux->ddc.algo_data = aux;
-@@ -5504,7 +5517,17 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
- 	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
- 		sizeof(aux->ddc.name));
- 
--	return i2c_add_adapter(&aux->ddc);
-+	ret = i2c_add_adapter(&aux->ddc);
-+	if (ret)
-+		return ret;
-+
-+	if (port->connector && port->connector->kdev) {
-+		ret = sysfs_create_link(&port->connector->kdev->kobj,
-+					&port->aux.ddc.dev.kobj, "ddc");
-+		if (ret)
-+			i2c_del_adapter(&port->aux.ddc);
-+	}
-+	return ret;
- }
- 
- /**
-@@ -5513,6 +5536,8 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
-  */
- static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port)
- {
-+	if (port->connector && port->connector->kdev)
-+		sysfs_remove_link(&port->connector->kdev->kobj, "ddc");
- 	i2c_del_adapter(&port->aux.ddc);
- }
- 
--- 
-2.28.0.rc0.142.g3c755180ce-goog
-
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
