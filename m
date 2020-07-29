@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD86232733
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 23:56:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73342232741
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 00:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 078BD6E7E6;
-	Wed, 29 Jul 2020 21:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B645189ECD;
+	Wed, 29 Jul 2020 22:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 184816E7E5;
- Wed, 29 Jul 2020 21:55:55 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id f18so4391151wml.3;
- Wed, 29 Jul 2020 14:55:55 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D05F89ECD;
+ Wed, 29 Jul 2020 22:00:16 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g10so3017197wmc.1;
+ Wed, 29 Jul 2020 15:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TiiQwPk5+wOcxrYMTcSS5MR4bewjoZWHQZN/jXHtdiY=;
- b=gKqQtSncl3aZQrpCwzujZGt/kEYgdOrn7K97OchbFtV6qAJ+AerT2QZqhONhgsO/BU
- z+eftmao4cxw//G57++dPfV1FINhUppAQQhsT/QrFjwtFMpp0cbQ4Zi23vy1lOABTSfj
- DzemwfZLHraQOvZsxJbCJkPlK9Ony3NEQ3qaXfkuESwBjY9Iq7Bs3wpIq1xs9FgYubT7
- tGqLmMzUrrdj4wIkU08sVubHzFgyX5R57qpvcSNPBUk904JItj1EfOSZ1VlkIXYDUnqF
- bl/Ew4Jtn9PCNpDGKyrYbSdgFV+iWzNy1G+Wj3EKEpi+WNyhKLt/DjD+c7afiDOu4c2v
- 5GEg==
+ :cc; bh=qI9wSg2asXOQShlsyDaWSUNkhHbRsckiehfdXNqAvjs=;
+ b=s40JiM4PNMIQ3UMvDc9YaIViGY5tOJcYGc+8Xwzxz90Bi+5k5TEsMXRH0TIk+FoihL
+ SLwtXNJmL2FxIVPXFnmFBxhaBDb78/Ojaavp7t5t5viVYOy6rf6FiAXFB4626ZgqT0+J
+ QlxSky5YFXC+fkgVkNDMuNjFTGM7xskQfoBT2mj288QBz5a5aDXPmNkt1iaoAZjxvoXW
+ ajrKTzDhDRsVv2KG+oAhZcbupRk54a5wtz4DmOhj6GdgOxJjVJfnDObWcYZecYrkFKdm
+ SMBjVzwBmrPq8b4n9LEyNnmAuYkjTjsbNKn92cO4ps6HU1OdDTI0ujJPTNvLi4BqWX1C
+ /wjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TiiQwPk5+wOcxrYMTcSS5MR4bewjoZWHQZN/jXHtdiY=;
- b=f+cqnLzttCLJfOqUpWKpnnBonypgQXSiKZdqTjO+HCqQGEBAuTQ12xHVI1zi80jXp3
- mN6cjGio2rj61CXOsLU5x9UdVNRmedUE7zAYrLRnbzIi1F2qXQHtBPov4d24U21fqfCh
- gkW4sJrTnhFUM9h1a9DZB7Z9UvEfNysS1nfJ1qpPVcaMOxZAVqZsAWvxJJLLCjOAs8GX
- L5SfCa+B7SmhzlknEr/s587YYfryXCDytW0IbfnuC543VMmJ7imX+hYPymPDnRkI/NAW
- oCzDrSiZz/O56mRblmTK4aAyl9tCsbqz+5yU/L27hMZ3T8qPHhBT3O8P2JqHjgAFoLl5
- A9Ow==
-X-Gm-Message-State: AOAM533w5O8uxemm6/WwhcNY5JGU+MpJ8Epy8LUnmzn4Mpe8/uWN6pRy
- DJeXTPdtHLf9KEhpTWTTjZ52PNEUs3GKHaULeUw=
-X-Google-Smtp-Source: ABdhPJy6xeXbe287qC13KOwKNKQS5Im4azlgXn6R3Xvzb5UezGM3otbEEztVP2ILmuILeliBoMojwbe/rnAUjzLzlrs=
-X-Received: by 2002:a1c:2:: with SMTP id 2mr10798884wma.79.1596059753614; Wed,
- 29 Jul 2020 14:55:53 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=qI9wSg2asXOQShlsyDaWSUNkhHbRsckiehfdXNqAvjs=;
+ b=pZfU1tLi/ogzdm5pu6e2A8dgld/7f9uHCMkfoW+O8j+Fwr0cwImCEWZ5Bv5173nx+8
+ kjrC9bbvGN6WOI1q6wGkLCi13vCkxnd93bZd8VSN3I9X9FymwwPT2PK7fIyG39gD4GvG
+ qayu2DD8fRsxHf2d34t1hj7puzrTEM8rvVRmYR9N5OYzVjjwHaF0oTmg1Ph3BMKLogkv
+ iC9Rc/sXwL3Qs0TZymhwTwUo5fjlo7XEi0TsA3GYWyZybf9/s9koeCT+SuANgRkdxL6N
+ ZWInuOaif496XUL8jPzbnMLVT9alNosyYeaVcm7cEff3BkUqQHdAS7FLnBb1EVBIfGjv
+ Ay9w==
+X-Gm-Message-State: AOAM533cgjXzwShhW+7knGD/E31J6R6WEzDYV1CvtEubQ2u3zUYt05eM
+ iKIgbajbWEVhkfyu+EicsTHKYAnyzV4tLohwOOw=
+X-Google-Smtp-Source: ABdhPJwEvMI7MQ5NEzBqAR8lfhwJBcIJvQe1V7YS+Wrq1KVyRTHsjdl1/t7122nOVAY8jH3mBHGBexurk/WDw9IkX6E=
+X-Received: by 2002:a1c:2:: with SMTP id 2mr10810523wma.79.1596060014118; Wed,
+ 29 Jul 2020 15:00:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200728192924.441570-1-yepeilin.cs@gmail.com>
- <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
-In-Reply-To: <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
+References: <1596011641-9136-1-git-send-email-liheng40@huawei.com>
+In-Reply-To: <1596011641-9136-1-git-send-email-liheng40@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Jul 2020 17:55:42 -0400
-Message-ID: <CADnq5_Pzz5A4kRyF061K+0hjsBEe7GT6j3zrfKZUrbjGcy1GBQ@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent
- kernel-infoleak in amdgpu_info_ioctl()
-To: Christian Koenig <christian.koenig@amd.com>
+Date: Wed, 29 Jul 2020 18:00:03 -0400
+Message-ID: <CADnq5_P7VBe5e1U_e=bfbnhNZg+6matA8urRKUx77bTUPCp+qw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/powerplay: Remove unneeded cast from memory
+ allocation
+To: Li Heng <liheng40@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +61,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaojie Yuan <xiaojie.yuan@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Dave Airlie <airlied@linux.ie>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Hans de Goede <hdegoede@redhat.com>, Trek <trek00@inbox.ru>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Leo Liu <leo.liu@amd.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFdlZCwgSnVsIDI5LCAyMDIwIGF0IDQ6MTEgQU0g
-Q2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3Rl
-Ogo+Cj4gQW0gMjguMDcuMjAgdW0gMjE6Mjkgc2NocmllYiBQZWlsaW4gWWU6Cj4gPiBDb21waWxl
-ciBsZWF2ZXMgYSA0LWJ5dGUgaG9sZSBuZWFyIHRoZSBlbmQgb2YgYGRldl9pbmZvYCwgY2F1c2lu
-Zwo+ID4gYW1kZ3B1X2luZm9faW9jdGwoKSB0byBjb3B5IHVuaW5pdGlhbGl6ZWQga2VybmVsIHN0
-YWNrIG1lbW9yeSB0byB1c2Vyc3BhY2UKPiA+IHdoZW4gYHNpemVgIGlzIGdyZWF0ZXIgdGhhbiAz
-NTYuCj4gPgo+ID4gSW4gMjAxNSB3ZSB0cmllZCB0byBmaXggdGhpcyBpc3N1ZSBieSBkb2luZyBg
-PSB7fTtgIG9uIGBkZXZfaW5mb2AsIHdoaWNoCj4gPiB1bmZvcnR1bmF0ZWx5IGRvZXMgbm90IGlu
-aXRpYWxpemUgdGhhdCA0LWJ5dGUgaG9sZS4gRml4IGl0IGJ5IHVzaW5nCj4gPiBtZW1zZXQoKSBp
-bnN0ZWFkLgo+ID4KPiA+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4gPiBGaXhlczogYzE5
-M2ZhOTFiOTE4ICgiZHJtL2FtZGdwdTogaW5mb3JtYXRpb24gbGVhayBpbiBhbWRncHVfaW5mb19p
-b2N0bCgpIikKPiA+IEZpeGVzOiBkMzhjZWFmOTllZDAgKCJkcm0vYW1kZ3B1OiBhZGQgY29yZSBk
-cml2ZXIgKHY0KSIpCj4gPiBTdWdnZXN0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50
-ZXJAb3JhY2xlLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IFBlaWxpbiBZZSA8eWVwZWlsaW4uY3NA
-Z21haWwuY29tPgo+Cj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbT4KPgo+IEkgY2FuJ3QgY291bnQgaG93IG1hbnkgb2YgdGhvc2Ugd2UgaGF2
-ZSBmaXhlZCBvdmVyIHRoZSB5ZWFycy4KPgo+IEF0IHNvbWUgcG9pbnQgd2Ugc2hvdWxkIHByb2Jh
-Ymx5IGRvY3VtZW50IHRoYXQgdXNpbmcgIj0ge30iIG9yICI9IHsgMCB9Igo+IGluIHRoZSBrZXJu
-ZWwgaXMgYSByZWFsbHkgYmFkIGlkZWEgYW5kIHNob3VsZCBiZSBhdm9pZGVkLgo+Cj4gVGhhbmtz
-LAo+IENocmlzdGlhbi4KPgo+ID4gLS0tCj4gPiAkIHBhaG9sZSAtQyAiZHJtX2FtZGdwdV9pbmZv
-X2RldmljZSIgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5vCj4gPiBzdHJ1
-Y3QgZHJtX2FtZGdwdV9pbmZvX2RldmljZSB7Cj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAg
-ICAgICAgICBkZXZpY2VfaWQ7ICAgICAgICAgICAgLyogICAgIDAgICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGNoaXBfcmV2OyAgICAgICAgICAgICAvKiAgICAg
-NCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZXh0ZXJuYWxf
-cmV2OyAgICAgICAgIC8qICAgICA4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBwY2lfcmV2OyAgICAgICAgICAgICAgLyogICAgMTIgICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGZhbWlseTsgICAgICAgICAgICAgICAvKiAg
-ICAxNiAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgbnVtX3No
-YWRlcl9lbmdpbmVzOyAgIC8qICAgIDIwICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAg
-ICAgICAgICAgICAgICBudW1fc2hhZGVyX2FycmF5c19wZXJfZW5naW5lOyAvKiAgICAyNCAgICAg
-NCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZ3B1X2NvdW50ZXJfZnJl
-cTsgICAgIC8qICAgIDI4ICAgICA0ICovCj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAg
-ICAgICBtYXhfZW5naW5lX2Nsb2NrOyAgICAgLyogICAgMzIgICAgIDggKi8KPiA+ICAgICAgIF9f
-dTY0ICAgICAgICAgICAgICAgICAgICAgIG1heF9tZW1vcnlfY2xvY2s7ICAgICAvKiAgICA0MCAg
-ICAgOCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgY3VfYWN0aXZlX251
-bWJlcjsgICAgIC8qICAgIDQ4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAg
-ICAgICAgICBjdV9hb19tYXNrOyAgICAgICAgICAgLyogICAgNTIgICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIGN1X2JpdG1hcFs0XVs0XTsgICAgICAvKiAgICA1
-NiAgICA2NCAqLwo+ID4gICAgICAgLyogLS0tIGNhY2hlbGluZSAxIGJvdW5kYXJ5ICg2NCBieXRl
-cykgd2FzIDU2IGJ5dGVzIGFnbyAtLS0gKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAg
-ICAgICAgIGVuYWJsZWRfcmJfcGlwZXNfbWFzazsgLyogICAxMjAgICAgIDQgKi8KPiA+ICAgICAg
-IF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51bV9yYl9waXBlczsgICAgICAgICAvKiAgIDEy
-NCAgICAgNCAqLwo+ID4gICAgICAgLyogLS0tIGNhY2hlbGluZSAyIGJvdW5kYXJ5ICgxMjggYnl0
-ZXMpIC0tLSAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgbnVtX2h3X2dm
-eF9jb250ZXh0czsgIC8qICAgMTI4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBfcGFkOyAgICAgICAgICAgICAgICAgLyogICAxMzIgICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIGlkc19mbGFnczsgICAgICAgICAgICAvKiAg
-IDEzNiAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAgICAgdmlydHVh
-bF9hZGRyZXNzX29mZnNldDsgLyogICAxNDQgICAgIDggKi8KPiA+ICAgICAgIF9fdTY0ICAgICAg
-ICAgICAgICAgICAgICAgIHZpcnR1YWxfYWRkcmVzc19tYXg7ICAvKiAgIDE1MiAgICAgOCAqLwo+
-ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgdmlydHVhbF9hZGRyZXNzX2FsaWdu
-bWVudDsgLyogICAxNjAgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAg
-ICAgIHB0ZV9mcmFnbWVudF9zaXplOyAgICAvKiAgIDE2NCAgICAgNCAqLwo+ID4gICAgICAgX191
-MzIgICAgICAgICAgICAgICAgICAgICAgZ2FydF9wYWdlX3NpemU7ICAgICAgIC8qICAgMTY4ICAg
-ICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBjZV9yYW1fc2l6ZTsg
-ICAgICAgICAgLyogICAxNzIgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAg
-ICAgICAgIHZyYW1fdHlwZTsgICAgICAgICAgICAvKiAgIDE3NiAgICAgNCAqLwo+ID4gICAgICAg
-X191MzIgICAgICAgICAgICAgICAgICAgICAgdnJhbV9iaXRfd2lkdGg7ICAgICAgIC8qICAgMTgw
-ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICB2Y2VfaGFydmVz
-dF9jb25maWc7ICAgLyogICAxODQgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAg
-ICAgICAgICAgIGdjX2RvdWJsZV9vZmZjaGlwX2xkc19idWY7IC8qICAgMTg4ICAgICA0ICovCj4g
-PiAgICAgICAvKiAtLS0gY2FjaGVsaW5lIDMgYm91bmRhcnkgKDE5MiBieXRlcykgLS0tICovCj4g
-PiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICBwcmltX2J1Zl9ncHVfYWRkcjsgICAg
-LyogICAxOTIgICAgIDggKi8KPiA+ICAgICAgIF9fdTY0ICAgICAgICAgICAgICAgICAgICAgIHBv
-c19idWZfZ3B1X2FkZHI7ICAgICAvKiAgIDIwMCAgICAgOCAqLwo+ID4gICAgICAgX191NjQgICAg
-ICAgICAgICAgICAgICAgICAgY250bF9zYl9idWZfZ3B1X2FkZHI7IC8qICAgMjA4ICAgICA4ICov
-Cj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAgICAgICBwYXJhbV9idWZfZ3B1X2FkZHI7
-ICAgLyogICAyMTYgICAgIDggKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAg
-IHByaW1fYnVmX3NpemU7ICAgICAgICAvKiAgIDIyNCAgICAgNCAqLwo+ID4gICAgICAgX191MzIg
-ICAgICAgICAgICAgICAgICAgICAgcG9zX2J1Zl9zaXplOyAgICAgICAgIC8qICAgMjI4ICAgICA0
-ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBjbnRsX3NiX2J1Zl9zaXpl
-OyAgICAgLyogICAyMzIgICAgIDQgKi8KPiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAg
-ICAgIHBhcmFtX2J1Zl9zaXplOyAgICAgICAvKiAgIDIzNiAgICAgNCAqLwo+ID4gICAgICAgX191
-MzIgICAgICAgICAgICAgICAgICAgICAgd2F2ZV9mcm9udF9zaXplOyAgICAgIC8qICAgMjQwICAg
-ICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAgICAgICAgICAgICBudW1fc2hhZGVyX3Zp
-c2libGVfdmdwcnM7IC8qICAgMjQ0ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAgICAg
-ICAgICAgICAgICBudW1fY3VfcGVyX3NoOyAgICAgICAgLyogICAyNDggICAgIDQgKi8KPiA+ICAg
-ICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG51bV90Y2NfYmxvY2tzOyAgICAgICAvKiAg
-IDI1MiAgICAgNCAqLwo+ID4gICAgICAgLyogLS0tIGNhY2hlbGluZSA0IGJvdW5kYXJ5ICgyNTYg
-Ynl0ZXMpIC0tLSAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgZ3Nfdmd0
-X3RhYmxlX2RlcHRoOyAgIC8qICAgMjU2ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAgICAg
-ICAgICAgICAgICAgICBnc19wcmltX2J1ZmZlcl9kZXB0aDsgLyogICAyNjAgICAgIDQgKi8KPiA+
-ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIG1heF9nc193YXZlc19wZXJfdmd0OyAv
-KiAgIDI2NCAgICAgNCAqLwo+ID4gICAgICAgX191MzIgICAgICAgICAgICAgICAgICAgICAgX3Bh
-ZDE7ICAgICAgICAgICAgICAgIC8qICAgMjY4ICAgICA0ICovCj4gPiAgICAgICBfX3UzMiAgICAg
-ICAgICAgICAgICAgICAgICBjdV9hb19iaXRtYXBbNF1bNF07ICAgLyogICAyNzIgICAgNjQgKi8K
-PiA+ICAgICAgIC8qIC0tLSBjYWNoZWxpbmUgNSBib3VuZGFyeSAoMzIwIGJ5dGVzKSB3YXMgMTYg
-Ynl0ZXMgYWdvIC0tLSAqLwo+ID4gICAgICAgX191NjQgICAgICAgICAgICAgICAgICAgICAgaGln
-aF92YV9vZmZzZXQ7ICAgICAgIC8qICAgMzM2ICAgICA4ICovCj4gPiAgICAgICBfX3U2NCAgICAg
-ICAgICAgICAgICAgICAgICBoaWdoX3ZhX21heDsgICAgICAgICAgLyogICAzNDQgICAgIDggKi8K
-PiA+ICAgICAgIF9fdTMyICAgICAgICAgICAgICAgICAgICAgIHBhX3NjX3RpbGVfc3RlZXJpbmdf
-b3ZlcnJpZGU7IC8qICAgMzUyICAgICA0ICovCj4gPgo+ID4gICAgICAgLyogWFhYIDQgYnl0ZXMg
-aG9sZSwgdHJ5IHRvIHBhY2sgKi8KPiA+Cj4gPiAgICAgICBfX3U2NCAgICAgICAgICAgICAgICAg
-ICAgICB0Y2NfZGlzYWJsZWRfbWFzazsgICAgLyogICAzNjAgICAgIDggKi8KPiA+Cj4gPiAgICAg
-ICAvKiBzaXplOiAzNjgsIGNhY2hlbGluZXM6IDYsIG1lbWJlcnM6IDQ5ICovCj4gPiAgICAgICAv
-KiBzdW0gbWVtYmVyczogMzY0LCBob2xlczogMSwgc3VtIGhvbGVzOiA0ICovCj4gPiAgICAgICAv
-KiBsYXN0IGNhY2hlbGluZTogNDggYnl0ZXMgKi8KPiA+IH07Cj4gPgo+ID4gICBkcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmMgfCAzICsrLQo+ID4gICAxIGZpbGUgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9rbXMuYwo+ID4gaW5kZXggYThjNDdhZWNkMzQyLi4wMDQ3ZGEwNjA0
-MWYgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21z
-LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9rbXMuYwo+ID4g
-QEAgLTcwNyw5ICs3MDcsMTAgQEAgc3RhdGljIGludCBhbWRncHVfaW5mb19pb2N0bChzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUKPiA+ICAgICAgICAg
-ICAgICAgcmV0dXJuIG4gPyAtRUZBVUxUIDogMDsKPiA+ICAgICAgIH0KPiA+ICAgICAgIGNhc2Ug
-QU1ER1BVX0lORk9fREVWX0lORk86IHsKPiA+IC0gICAgICAgICAgICAgc3RydWN0IGRybV9hbWRn
-cHVfaW5mb19kZXZpY2UgZGV2X2luZm8gPSB7fTsKPiA+ICsgICAgICAgICAgICAgc3RydWN0IGRy
-bV9hbWRncHVfaW5mb19kZXZpY2UgZGV2X2luZm87Cj4gPiAgICAgICAgICAgICAgIHVpbnQ2NF90
-IHZtX3NpemU7Cj4gPgo+ID4gKyAgICAgICAgICAgICBtZW1zZXQoJmRldl9pbmZvLCAwLCBzaXpl
-b2YoZGV2X2luZm8pKTsKPiA+ICAgICAgICAgICAgICAgZGV2X2luZm8uZGV2aWNlX2lkID0gZGV2
-LT5wZGV2LT5kZXZpY2U7Cj4gPiAgICAgICAgICAgICAgIGRldl9pbmZvLmNoaXBfcmV2ID0gYWRl
-di0+cmV2X2lkOwo+ID4gICAgICAgICAgICAgICBkZXZfaW5mby5leHRlcm5hbF9yZXYgPSBhZGV2
-LT5leHRlcm5hbF9yZXZfaWQ7Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2FtZC1nZngKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Applied.  Thanks!
+
+Alex
+
+On Wed, Jul 29, 2020 at 9:11 AM Li Heng <liheng40@huawei.com> wrote:
+>
+> Remove casting the values returned by memory allocation function.
+>
+> Coccinelle emits WARNING:
+>
+> ./drivers/gpu/drm/amd/powerplay/hwmgr/vega20_processpptables.c:893:37-46: WARNING: casting value returned by memory allocation function to (PPTable_t *) is useless.
+>
+> Signed-off-by: Li Heng <liheng40@huawei.com>
+> ---
+>  drivers/gpu/drm/amd/powerplay/hwmgr/vega20_processpptables.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_processpptables.c b/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_processpptables.c
+> index 7a7f15d..f56a3cb 100644
+> --- a/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_processpptables.c
+> +++ b/drivers/gpu/drm/amd/powerplay/hwmgr/vega20_processpptables.c
+> @@ -890,7 +890,7 @@ static int init_powerplay_table_information(
+>                                 power_saving_clock_count);
+>         }
+>
+> -       pptable_information->smc_pptable = (PPTable_t *)kmalloc(sizeof(PPTable_t), GFP_KERNEL);
+> +       pptable_information->smc_pptable = kmalloc(sizeof(PPTable_t), GFP_KERNEL);
+>         if (pptable_information->smc_pptable == NULL)
+>                 return -ENOMEM;
+>
+> --
+> 2.7.4
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
