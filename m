@@ -1,98 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8370232181
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 17:30:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FCDA2321AE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 17:34:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94DAE6E4F4;
-	Wed, 29 Jul 2020 15:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B27B6E544;
+	Wed, 29 Jul 2020 15:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764316E4F4;
- Wed, 29 Jul 2020 15:30:55 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2048.outbound.protection.outlook.com [40.107.92.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 811526E532;
+ Wed, 29 Jul 2020 15:34:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LdhLY4PIf0gdeS28+PUW0ueum+hMkNYeoM8myF2lG6cytBm4/j7RMVIQGfOwHih7DK4AKod7aTYXfx5e+Yh5HLU2Egu70F/9hWGPcb/CeSj0/AuSpmXzdhRXwDUfR1pXIX7i2XCzfsx6DJ9BBQaK8ZKbpqlRHCqpNJzEKDcrNcAdWLX/bSO0o//I3tG4o91xgO3cof4XVKfQl21Cq+BPKFZj7PH3usoE3zD8Mls0N5plCgWZHqPQFBV+vgQ0BVJbsNCa2KLpX6eZSg8Gw7BeKo16+FBDztrLyyogxQZna9NX9fP+aiN7PDSZXv3IUKiBcHMZtO0X+me+oEAzvGyqNw==
+ b=VwDsu/TWfZt/Nda68YjEHsCmtCMOR96+My2qAT5fDD6xn11+ybtOsQ2eKcXQFhVq/ztxDPLen8CZi6TTan/MXMNZYz0c8dgNV0JZsf/KJE0wimx3Q+T0whdPpUewNAOS9jgbDXzQSl9SjTbKUJexOrdWHTwkPl2C7/MgjA+TU2Y1DKEFOHpSWpsrufh6Stn52qV+ZdKX9LkRc2AmlocFGisUuz7lrzcZQXCWe9ILXnQwzjwy5Smu3V2H9ELr1Ryc3ZAESt87yVPNlIkgq7gnA9lFf3gA/kgm9HykneclDkUQzg+eOh9xt4W7iNg+KzODNVsuwAZKgZkxaJ8dR8z8lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oQ1cH3EgNF9xj7bdm1jo5kfVVJDVUSWjBF6a03ura5g=;
- b=jzTzcDOwRqGeyo2u1UQ4cE4caKGt23OBUgrF+sF8i0qVyVyG8YijHq7NhQATm62BIJrUQnBmwQ9QJ7usM/bdWZlGB4KfnDZoVLrGjdPsqEulPxSqTP+bUtZdQl27vCtg0AKUf7Ov9OOdXlMKAVmuSvMGS0Q/z9ES5jdJF0izZXArCoB4RbH4pEahGvrJRLWJ4roJDY2djL8Os93e05LNK8oSavUsDCQUMqH6kRWb9K28yBCQ3KMXyT+erLVxAveew2RQodYCHrRVfD25BAL1bkGoJhxvlXKx7zqjC7WrXrbX65I2bFN9T0PkY9pyj5qRnaYBf9kZRVFieIbm0CIapw==
+ bh=fBsvIovf8WuCPxc+FQPoqTvV2a+KdksvuXexX6TeUeo=;
+ b=b7BlgidJqzvvH0tBx5IK2fc5pyHadte88p8/BT78QPLoBFZrG0as6bsQ3MVL1O/+r/ccuSluKFbw7/tKygoO3U4wGfFvNE2rIdo8a9Mcod5G23vDlTfkvez2zLWsPkxkneSy9a7iUKtrXWC1P9dk+/Le8b1i4ztwkz64fjELEmj8wTRB5PZfe4p2DPAEfokIV/Q96VcmowpbTx8WRC2Gn7YDBbMHfZWXtlDOYEh5YcGyzIiT5isnvaEDCL752fE4g+1CR6G4xB8sPQ9eEWT0Y79m0eY7KO29iwVq9TLJfgHil3oKTzmXWC/l9j8r9VFWOAmSWZhwJrAd8lbwWGHMnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oQ1cH3EgNF9xj7bdm1jo5kfVVJDVUSWjBF6a03ura5g=;
- b=MTgI4uchMlJUNohTlYC6jCv7BrLwYCE6eds8MIQ1G1MRhlLYYTCgw6cyMLhsKZnPVW3Kb+LoQ+NVsXfF1BfP6jrGH86Etkedrw0Q1RagfqkoQG7UNXFtxU3p0bkwVgRczdBMorMirw+13GKFo2uIR/OsLH/wxr8N/mux4KM9lHM=
-Received: from MW3PR12MB4491.namprd12.prod.outlook.com (2603:10b6:303:5c::18)
- by MWHPR1201MB0109.namprd12.prod.outlook.com (2603:10b6:301:52::14)
+ bh=fBsvIovf8WuCPxc+FQPoqTvV2a+KdksvuXexX6TeUeo=;
+ b=1+jPu0T7SkZOq53W9OMEE8RhQXGd7kxySbOwuzfk1ig74nCyeYbD5fJDfH2iis68FTK6bg8rk2ZQtAMUfsIDZK6ymoUrZvHI1Z8GoPui1o07WLjEyIgyMjfm6YQukc+yXyuL8eHjlOK9NCtYw9QBEoArBpDsp4Qo1h43OC8RbDw=
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3952.namprd12.prod.outlook.com (2603:10b6:208:164::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Wed, 29 Jul
- 2020 15:30:53 +0000
-Received: from MW3PR12MB4491.namprd12.prod.outlook.com
- ([fe80::d1a6:5567:82c8:34ad]) by MW3PR12MB4491.namprd12.prod.outlook.com
- ([fe80::d1a6:5567:82c8:34ad%4]) with mapi id 15.20.3239.017; Wed, 29 Jul 2020
- 15:30:53 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
+ 2020 15:33:58 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3216.034; Wed, 29 Jul 2020
+ 15:33:58 +0000
+From: "Koenig, Christian" <Christian.Koenig@amd.com>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
 Subject: Re: [PATCH 1/1] drm/ttm: fix offset in VMAs with a pg_offs in
  ttm_bo_vm_access
 Thread-Topic: [PATCH 1/1] drm/ttm: fix offset in VMAs with a pg_offs in
  ttm_bo_vm_access
-Thread-Index: AQHWZQzg/0f2XkMZ0UGxMjNXKfqe66keNNMAgABmkICAABTaog==
-Date: Wed, 29 Jul 2020 15:30:53 +0000
-Message-ID: <MW3PR12MB4491D68CC4AEC80F9B724E46F7700@MW3PR12MB4491.namprd12.prod.outlook.com>
+Thread-Index: AQHWZbLAdrp11VXrm0ybkP64nkDMG6kerxeAgAAA3V8=
+Date: Wed, 29 Jul 2020 15:33:58 +0000
+Message-ID: <9b384c46-ec71-46be-ac60-1335e9682c05@email.android.com>
 References: <20200728182704.1809-1-Felix.Kuehling@amd.com>
  <9994a650-8065-c51c-6454-47064d20c729@gmail.com>,
- <7c389ab3-4322-ebd5-f042-e80204dbcfbc@amd.com>
-In-Reply-To: <7c389ab3-4322-ebd5-f042-e80204dbcfbc@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
+ <7c389ab3-4322-ebd5-f042-e80204dbcfbc@amd.com>,
+ <MW3PR12MB4491D68CC4AEC80F9B724E46F7700@MW3PR12MB4491.namprd12.prod.outlook.com>
+In-Reply-To: <MW3PR12MB4491D68CC4AEC80F9B724E46F7700@MW3PR12MB4491.namprd12.prod.outlook.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=True;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-07-29T15:30:52.520Z;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=AMD
- Public; MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=0;
- MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged; 
 authentication-results: amd.com; dkim=none (message not signed)
  header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [71.219.66.138]
+x-originating-ip: [2a02:908:1252:fb60:a9b1:7286:e493:7e98]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4bc9766b-ed0c-41bb-66a7-08d833d4615d
-x-ms-traffictypediagnostic: MWHPR1201MB0109:
+x-ms-office365-filtering-correlation-id: a5add2e1-0164-4fcf-bd6f-08d833d4cfc1
+x-ms-traffictypediagnostic: MN2PR12MB3952:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR1201MB01097D748353885C8C6A0450F7700@MWHPR1201MB0109.namprd12.prod.outlook.com>
+x-microsoft-antispam-prvs: <MN2PR12MB395225DAEEE53D810041660483700@MN2PR12MB3952.namprd12.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:5797;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: D48X+5gybgXMu4k7LhgjRSm5HcZe2o39a1PwNJ96kJxiQ586VEGdt6Vsy4Vl/LsGUEqEZukd8dS3ehUKfyXgiz8EEVUKX6mZh2DIuuhaWdTh/8DIP4eDB6OC9ucltUX9EENcubF8NbIuV3sW0Gw/WWQUxOqc3ll2OTJGUgPRpXBE0zXkJtC+TebXCvz2b0kbin3k2BnYR0djN+INqjaLTVQgmWjui2OqksTLR92bS2fbHX6p4Rp+0WkrPjElHjqyQrz2vbod4yu4bCXQNapkzQxO/R3AlkX1RgBiY4W9F1Hdr3iJ96zd8Hk0JyOK1e5RSIRgjcHZ11jATjCx5iCgRg==
+x-microsoft-antispam-message-info: j6eLwURQZxcGxKMocp06qZ0iA8GJuoimFjXJP3yKN/vi8/ZLoX8D8GlPpUrmB/+Vut3cdY7h8FASyc4Zs2NY/I8bUGtywHi58d1P34icMj/AoprCNQ1Jpbr8Ooo8VkoSLo36rL3IqmxrjpRGVDtRjYUuy5hXwP4m+oIIi3SwDX7Bu1/CgEpUPVjqkWF6NVpCc6+OWEOdWOG425pk3jn32LZqS/q6K51URglio3vVDXQIpPI6yTr3dXE7acfkI8CP64n7m7NglfzXWjJvsyUOKTi5nw3+yj0vZ825CIWSqXGSaJcGOhXkVzjxW/44xuqu3VPls/3XkDx66isR357K1w==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR12MB4491.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(366004)(83380400001)(33656002)(19627405001)(110136005)(2906002)(8936002)(8676002)(6506007)(186003)(66574015)(66476007)(64756008)(66446008)(76116006)(52536014)(498600001)(66556008)(71200400001)(66946007)(9686003)(86362001)(4326008)(7696005)(55016002)(53546011)(26005)(450100002)(5660300002);
+ SFS:(4636009)(39860400002)(396003)(346002)(376002)(366004)(136003)(6486002)(478600001)(86362001)(66446008)(5660300002)(6636002)(19627405001)(316002)(8936002)(9686003)(6512007)(4326008)(71200400001)(186003)(450100002)(31686004)(76116006)(66946007)(53546011)(83380400001)(31696002)(6506007)(6862004)(8676002)(2906002)(66574015)(64756008)(54906003)(91956017)(66556008)(66476007);
  DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: clS2kgcSD7A8wyiIzUE8ieIgXB1wPFzG2XHfwbwxKc4ayMWJ3vn/e+pK42GJsn+BYZkwEBizAZg4NVkfnDbrf92dPTtnabK136763W1rnbWCRxG1SFts94IjDD+XkABFy/wwTj0bngMLp8ny0dUCios9Kjie8tGKI1sbkUmGxzKRCQSGCrIuhVEed9hCsSseElpCC/ZoHUbnNKY32QJ9KCb930E9X7m53SmQexy+cm6u1iFPtLznDet049QS6jOrG7OxOydMsSY62rKfKQhaRvGdIr4tkcGyg7AeV4P9zNcVyzxEiFXYS7gNyRvQXbxWDXoUkxna9Z2Wj1DhpHlctMp8WE9SU2H6v9A3md2InBxqVJCuwJwV1sN+30DBGAo/Kt0WSS2p3XOaPIY1/WfI3V1oJ7R0Jab2mQS2oj1DLElT/AWU8JbSPgcIAcSQGsVf+T9D29boO+KxeNo6Jzip7QcEDL/YDCaJ9XZheOw2HBaZm4BUsE+hqg8V9Zcxe1NpalymuSz4LCBcP39vEO6e++f+IdbjIvIel74oAmLYdZa+jansrlZtRIHZ9iMr+xuUNNl76oWb9FwZc48PxfesNKL9Qevx/7F49PAbqRXfb+gp4J3Y+YYOHxblzkFLY6T62UmT2pvJzirOoR3vzbomhA==
+x-ms-exchange-antispam-messagedata: fIYUbEVumqlXieb0nPIiVWC0MJ+EhnImEa3FUYPKxtYfsRjeQFm0nKck0KCptTwUGKMr51vRzh0ve8fCH42aTH9DkFRlbSwx1/klibT1ZeEZYwDKgWfqHir6CZNIU5BGDJR4NrABhb0lhFu/LbcEkT1KOfNvotsrwpW+ldBai27VGmw+3b0kEHtOKv/eVkapdWth3BTSglJn+CvFLM/gtW38Tvo+sk49a0ZCN88DwGjpyiXPqEUopIOX4Q+0B3xSk8h1qeBN0Thn6aTWOtmdmdNfiFNpPk15QaK/7a8dGdS2BpIOUR/1sDNuBsYWUB6mxTSMZ85rFCbxQ1BqD4K2F+WXSKWczRixooJs3XOXlytmF9zwBIMXw2LaKFLdQ/n5P8nPrujIlIzYMoW+C7ogEgorMRSbCrAx002J3n/1q4ExcBh61ucJq2cqZsiOOfQKpkQZPXUAv63ItT8N8J4owZOJrgdrE8prG6sfK5iftJ67HcDWj/etGhAIvIgbtQw9gDw9EvvaVtmnspqnCxNv8bsZSEIIs7JVXQ/xDAqJ9XPl3dIy1fIyMWzFwgsti/JeylhFfEQU4kn21WQ2aFYwnJjmkdep4Fx/BcXtl9obeAK0XTP4Wk98ZcE29rYxzmkdgaAxuhH6ib2zej/ptdKVTJDpCb4g9jZjZ5p7e4FrtZtuR/qYJUl6dNU9tNe5JR0IIxPTHypdKfx7i7xyz1YvjA==
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4491.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4bc9766b-ed0c-41bb-66a7-08d833d4615d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2020 15:30:53.1175 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5add2e1-0164-4fcf-bd6f-08d833d4cfc1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2020 15:33:58.2900 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6ICkzUEfKC/+TrcjG6WEExxO4G98OkBEnhOe0a/bPDycVtH1JvRdPs0EHJGccgWYcJbEfVGlP4/dD0pPR8FjlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0109
+X-MS-Exchange-CrossTenant-userprincipalname: 1jdIHx37vStvWVG8/A56ehx+GPfX5wv85N0rq81P9JdolXzqMw5SU4626m46sSmm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3952
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,19 +97,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Morichetti, Laurent" <Laurent.Morichetti@amd.com>
-Content-Type: multipart/mixed; boundary="===============0633394355=="
+Cc: "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Morichetti,
+ Laurent" <Laurent.Morichetti@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0028915307=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0633394355==
-Content-Language: en-US
+--===============0028915307==
+Content-Language: de-DE
 Content-Type: multipart/alternative;
-	boundary="_000_MW3PR12MB4491D68CC4AEC80F9B724E46F7700MW3PR12MB4491namp_"
+	boundary="_000_9b384c46ec7146beac601335e9682c05emailandroidcom_"
 
---_000_MW3PR12MB4491D68CC4AEC80F9B724E46F7700MW3PR12MB4491namp_
+--_000_9b384c46ec7146beac601335e9682c05emailandroidcom_
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+
+Sure.
+
+Christian.
+
+Am 29.07.2020 17:30 schrieb "Deucher, Alexander" <Alexander.Deucher@amd.com=
+>:
 
 [AMD Public Use]
 
@@ -181,7 +183,7 @@ Regards,
 >>         if (len < 1 || (offset + len) >> PAGE_SHIFT > bo->num_pages)
 >
 
---_000_MW3PR12MB4491D68CC4AEC80F9B724E46F7700MW3PR12MB4491namp_
+--_000_9b384c46ec7146beac601335e9682c05emailandroidcom_
 Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
@@ -189,31 +191,48 @@ Content-Transfer-Encoding: quoted-printable
 <head>
 <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
 1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
+<meta content=3D"text/html; charset=3Diso-8859-1">
+<style type=3D"text/css" style=3D"display:none">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
 </head>
 <body dir=3D"ltr">
-<p style=3D"font-family:Arial;font-size:10pt;color:#317100;margin:15pt;" al=
-ign=3D"Left">
+<div dir=3D"auto">Sure.
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">Christian.</div>
+</div>
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">Am 29.07.2020 17:30 schrieb &quot;Deucher, Alexa=
+nder&quot; &lt;Alexander.Deucher@amd.com&gt;:<br type=3D"attribution">
+</div>
+</div>
+<div>
+<p align=3D"Left" style=3D"font-family:Arial; font-size:10pt; color:#317100=
+; margin:15pt">
 [AMD Public Use]<br>
 </p>
 <br>
 <div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
 Christian, Can you cc stable when you apply it to drm-misc?</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
 <br>
 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
 Alex<br>
 </div>
 <div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Kuehling, Felix &lt;F=
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Kuehling, Felix &lt;F=
 elix.Kuehling@amd.com&gt;<br>
 <b>Sent:</b> Wednesday, July 29, 2020 10:15 AM<br>
 <b>To:</b> Koenig, Christian &lt;Christian.Koenig@amd.com&gt;; dri-devel@li=
@@ -225,8 +244,8 @@ lt;Alexander.Deucher@amd.com&gt;<br>
 in ttm_bo_vm_access</font>
 <div>&nbsp;</div>
 </div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
 <div class=3D"PlainText">Am 2020-07-29 um 4:08 a.m. schrieb Christian K=F6n=
 ig:<br>
 &gt; Am 28.07.20 um 20:27 schrieb Felix Kuehling:<br>
@@ -287,12 +306,13 @@ len) &gt;&gt; PAGE_SHIFT &gt; bo-&gt;num_pages)<br>
 </div>
 </span></font></div>
 </div>
+</div>
 </body>
 </html>
 
---_000_MW3PR12MB4491D68CC4AEC80F9B724E46F7700MW3PR12MB4491namp_--
+--_000_9b384c46ec7146beac601335e9682c05emailandroidcom_--
 
---===============0633394355==
+--===============0028915307==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -303,4 +323,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0633394355==--
+--===============0028915307==--
