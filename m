@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5DF2319E5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF0A2319E6
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D323F6E453;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C320F6E452;
 	Wed, 29 Jul 2020 06:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE176E43B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 05:30:30 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id a34so6866622ybj.9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 22:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=draconx-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=UM1kYq2irrlxJjqvtpleLv5gWB5MEHXw+xU5EXyDcho=;
- b=QvVLsteWDq/bcm+aRVZrp/HPm2+8TlviBBzn6js/05c2LZtlpQY6PLc+RJsT5rZKVn
- br8+9hTY1iPjSfIxTOcFqM3hI+P8M7fj5DI2TcWFyLNKgg1qjMrOcRtGniotCx9fkMBH
- Xxv3jbqH3sWQyQJMg7CF/5r7drllem0TgmScyMT/wXga0hbFyz+WgBccO4y6tKpHdcrA
- uYtloxYQ87vghbl6aNBy9c++bLAFSp3F4HSke18EMJWRCrmS0oy8V2NJvxtQRHYOmzpA
- XaxNUbAQ8rSybLoBSXIRl8fzfVBTdCxRyBsPeMBi1aPaFIoNafR2c87VntjdovyUcCSI
- 096A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=UM1kYq2irrlxJjqvtpleLv5gWB5MEHXw+xU5EXyDcho=;
- b=mdQ07VDhlsLPGbQejZnafcP8L5pprjnU4RnZNGUWfr6lf3BmV7NZuzx1ztiiYUBcWC
- SsmsuKMivYwipVfpVtiReyO7DimGB4WJApHyvdAqT4JA90cz4kuSDrOq2eO3xw6NZvP8
- HiBg51q+BR603M5SqQiEGEzyrR3lboDQCR6kPvCZ9TvHQ09ggp2k+jn3fMuXHkBeQNJ9
- 2WZvx+M9uQtMsm7pWxOhRAjwAkN5oX7gWUTj61j89iJ6Z2IXTUHyOXyz2DJ9Mf/+IBwI
- XzSaRgZ60CIP8vwI0GUk0pyTc+NU5JHyU+Yy4KkZxIk4IA54kEL1U9U98qUo1gufwjuo
- msIQ==
-X-Gm-Message-State: AOAM532PTmGkJo8shmFTkmtTsNNMchhM6VBbGdsN0/dlmyF33MRgjZpj
- U9HSi6keUl4CsMZ+XLTU8wNqX9Z3I+Wt+wHC1JH73Q==
-X-Google-Smtp-Source: ABdhPJwMiRPJlZu73WFTEwZfU6Zfx1DgVK1nD4W414uJDel/riVrRnXW3vqpYLIafNu8UZ2e5C71fPmg+j6u4sm1YfU=
-X-Received: by 2002:a25:3411:: with SMTP id b17mr7330506yba.279.1596000629113; 
- Tue, 28 Jul 2020 22:30:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:9b83:0:0:0:0:0 with HTTP; Tue, 28 Jul 2020 22:30:28
- -0700 (PDT)
-X-Originating-IP: [24.53.240.163]
-In-Reply-To: <CAPM=9twPbHvuu7fOXr+nSuB5GRy1PgY1PR6h5HDvzgUo=bobQQ@mail.gmail.com>
-References: <20200729050403.jwbgdmvmc3ajdnem@atlas.draconx.ca>
- <CAPM=9twPbHvuu7fOXr+nSuB5GRy1PgY1PR6h5HDvzgUo=bobQQ@mail.gmail.com>
-From: Nick Bowler <nbowler@draconx.ca>
-Date: Wed, 29 Jul 2020 01:30:28 -0400
-Message-ID: <CADyTPEytPcj6C6uDuHKAiKsWTLFYMuZvnYZoYQvdoggu7N+MQQ@mail.gmail.com>
-Subject: Re: PROBLEM: 5.8-rc7 no video output with nouveau on NV36 (regression)
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1AE16E43B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 05:36:47 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1596001011; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Nj7EmiVixXrJxeYBB1Hx4fSCI5ncRdynyCsACLKj4pM=;
+ b=ZdiFW3bfZgjADvUXYjj3IfVboMXQ8Xv/bQb8mSIJB6j6mYHHWYbRRFKEMzlLSZgQxpZwGNfv
+ Wb4OH/T8Gv0nTOl0je+wUjOsLvlmq525+gEymB+L/Gsr5t8s7rf9LcbCz8gORskSiKUtLnpF
+ bSuwRA8blIhBB4QKgBllMr0qd/E=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5f210ad3bd0c3f0296714427 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 29 Jul 2020 05:36:19
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 09B68C433CA; Wed, 29 Jul 2020 05:36:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from cohens-linux.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com
+ [129.46.232.65])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: cohens)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 3E98EC433C6;
+ Wed, 29 Jul 2020 05:36:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3E98EC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=cohens@codeaurora.org
+From: Steve Cohen <cohens@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Subject: [PATCH] drm: re-add deleted doc for drm_gem_open_ioctl
+Date: Wed, 29 Jul 2020 01:35:52 -0400
+Message-Id: <1596000952-27621-1-git-send-email-cohens@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Wed, 29 Jul 2020 06:58:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,33 +66,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: adelva@google.com, Steve Cohen <cohens@codeaurora.org>,
+ gregkh@linuxfoundation.org, pdhaval@codeaurora.org, sam@ravnborg.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-29, Dave Airlie <airlied@gmail.com> wrote:
-> On Wed, 29 Jul 2020 at 15:05, Nick Bowler <nbowler@draconx.ca> wrote:
->>
->> Hi,
->>
->> After installing Linux 5.8-rc7 I seem to get no video output on my
->> NV36 card once the nouveau module is loaded.  The display (connected
->> to the digital output) simply reports "No Signal".
->>
->> I bisected to the following commit, and reverting this commit on
->> top of 5.8-rc7 appears to correct the issue.
->
-> Can you test the drm fixes pull I just sent to Linus
->
-> https://patchwork.freedesktop.org/patch/381225/
+Add back the removed documentation for drm_gem_open_ioctl.
+This patch is submitted in response to [1].
 
-Yes, pulling this seems to fix things.
+[1] https://lore.kernel.org/linux-arm-msm/20200728085244.GY6419@phenom.ffwll.local/
 
-Thanks,
-  Nick
+Signed-off-by: Steve Cohen <cohens@codeaurora.org>
+---
+ drivers/gpu/drm/drm_gem.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index ee2058a..fe94122 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -871,6 +871,9 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+  * @file_priv: drm file-private structure
+  *
+  * Open an object using the global name, returning a handle and the size.
++ *
++ * This handle (of course) holds a reference to the object, so the object
++ * will not go away until the handle is deleted.
+  */
+ int
+ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
