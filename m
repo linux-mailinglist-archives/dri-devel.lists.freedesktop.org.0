@@ -1,40 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295CB23232E
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 19:11:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B8F23248A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 20:21:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A606E5B2;
-	Wed, 29 Jul 2020 17:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6FC46E0C6;
+	Wed, 29 Jul 2020 18:21:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBA06E5B0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 17:10:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE22429E;
- Wed, 29 Jul 2020 19:10:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1596042657;
- bh=riwybW52EjlFX38PbzROSyTfxzjJON7hQACGRPsGFqw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aDCiK9ivoRvkZNPZgMRw4Oi/wfssbYvl0JQ9tXWoU+XCfzqRw12iwFb831vGoOPXP
- QVSMzw38dLJLUgqnX2bwFpXgUYFMcKyvFnOCH32VvlumEQvHNDIMd1PbOMWjRBqY29
- qMQialmS1i97H78AOWJdP75VZSsyhyl5nTrTCFAk=
-Date: Wed, 29 Jul 2020 20:10:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 1/6] dt-bindings: display: Document NewVision NV3052C DT
- node
-Message-ID: <20200729171047.GA18755@pendragon.ideasonboard.com>
-References: <20200727164613.19744-1-paul@crapouillou.net>
- <20200727164613.19744-2-paul@crapouillou.net>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2069.outbound.protection.outlook.com [40.107.220.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9BC6E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 18:21:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZwTprVj3r0rjPu0+Mp4MACpg3S5ImKgWW5/0Ey+4rQw1eoLSVdkS0R1Af/gsSAVil4y60WfIGkyVUb9Ot5QBwkpf7TsnsR64sR4pMZ59+3B/1YagJBqu7cIF7Skq69E/a4ycPeDNqxsoHunGYfW/0XYGxav4FqZTQobJFsY8vh+iP/EB9cIvIB19QeiSZP0nlJI30Y5R9QGn+ZX22bNt8EjQvZkyD5gZqtbNYHA9vREf4iLJhDlh7mieeBALp7A/mWNM5auCETcqDpMn1BRz4TBCyf5axu5q918NqIrffMb+8qutTxzEUSbeC5JsUBoFbwFPtgqO80EqXpXwTRj1hA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FWd/MA55JaQ5MJvBrX7QDhqeYzuDM+B+t8Lif2pC15k=;
+ b=OOUfzf9HZI4OTFQpcLS7wDvtevYMUQT8V211UkFA44U25vfzz/tGNTkFOTkUbyqSL+Ti40pXldKDU9Y1GigeQKxpqxULWKdNs1ZmqlHSXQXDL6L98LakfFMJfLYE8pU6z56ExgoVxasFPvMF0HejlmDoZ9JM5yl47LuDg1nm7+ox5noEa2EfhzDCqel7OmvvT0j4d35A7tc0pWWnxyP+EenoIIzkSot70t8asBNIW2FRW7P/K9C6LZbr6C1es0HrUP/zvnNu5E8pAiCMLHNgM1DGurZKqycqt6PZ21CiksnCvF5bHGJb7W+f2AuTmY6vTDMdq6WvAt3NTBVM1wEJ3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=oracle.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FWd/MA55JaQ5MJvBrX7QDhqeYzuDM+B+t8Lif2pC15k=;
+ b=MQnuAqYucYMWGBtTi7RiHkJaR/lacJC5ODqYJJXJAVxt6Tym5aRRyDM4nVk/n/vukVBjJ/0K7y99e3JNXYoiuJLFDiRPre4AyQaqRhYv6yb58yRaI4EHVzp+Zp1JbRzExE+r0Oicdlo6WOhA+l7vGIKMvm6u9IBFJoFrM9xNZqg=
+Received: from MN2PR04CA0019.namprd04.prod.outlook.com (2603:10b6:208:d4::32)
+ by BYAPR02MB4086.namprd02.prod.outlook.com (2603:10b6:a02:f9::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.21; Wed, 29 Jul
+ 2020 18:21:51 +0000
+Received: from BL2NAM02FT039.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:d4:cafe::30) by MN2PR04CA0019.outlook.office365.com
+ (2603:10b6:208:d4::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
+ Transport; Wed, 29 Jul 2020 18:21:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT039.mail.protection.outlook.com (10.152.77.152) with Microsoft SMTP
+ Server id 15.20.3216.10 via Frontend Transport; Wed, 29 Jul 2020 18:21:51
+ +0000
+Received: from [149.199.38.66] (port=34008 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1k0qg8-0008Bw-Ef; Wed, 29 Jul 2020 11:19:48 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <hyun.kwon@xilinx.com>)
+ id 1k0qi7-00088C-5t; Wed, 29 Jul 2020 11:21:51 -0700
+Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 06TILoUe016466; 
+ Wed, 29 Jul 2020 11:21:50 -0700
+Received: from [172.19.2.244] (helo=xsjhyunkubuntu)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <hyunk@smtp.xilinx.com>)
+ id 1k0qi5-000886-V8; Wed, 29 Jul 2020 11:21:49 -0700
+Received: by xsjhyunkubuntu (Postfix, from userid 13638)
+ id BDAA42C238C; Wed, 29 Jul 2020 11:17:58 -0700 (PDT)
+From: Hyun Kwon <hyun.kwon@xilinx.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/1] drm: xlnx: zynqmp: Stop the loop at lowest link rate
+ without check
+Date: Wed, 29 Jul 2020 11:17:54 -0700
+Message-Id: <1596046674-29155-1-git-send-email-hyun.kwon@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200727164613.19744-2-paul@crapouillou.net>
+X-MS-Office365-Filtering-Correlation-Id: 44ea5823-141f-4de3-3b7f-08d833ec43c9
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4086:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB40860F4E6297357DA6F146F0D6700@BYAPR02MB4086.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RajPZ7oVcfTchppVc8DlAL65uus6rnuodI6VDKCwEcGuBD8G/b79z0cMJfbKcEjvSVlg6vT1o0vU6dAKxQEgSTupi2W7eOJmmwa5qQwOqSFnRyMkS3bIavmqWYTa/rV+JeLAyetgHfF1lHGZDGFrSHljls5QvJrx+MIG/33+w8mI8enFUwYOAEzmAH2u4sZHROYGMxam51wwQZ6s5KMoG0tvOh7dgN8Fj3oEMpBajCA1xzyKassXVaClZ9gxTX6so3P9nSV8QLdCmo5wk1LoNvN6GCGKnrGjI5HYqGoRK63c/OBtQsPpYsWQPNu3Uya3bvo8niQN0PDwEzKWSNCCbWI5QHEpMq5yC1YWfUJsyAPvdI26kx1y1EFnvHtfptLon8mS8foiPQCYt1/5rchUa9P+UZBLg+Z9LtyDXBSS/d4=
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(376002)(346002)(136003)(39860400002)(396003)(46966005)(82310400002)(70586007)(6266002)(70206006)(426003)(478600001)(2616005)(44832011)(81166007)(356005)(83380400001)(47076004)(5660300002)(8936002)(54906003)(36756003)(42186006)(8676002)(82740400003)(4326008)(26005)(6666004)(336012)(186003)(316002)(107886003)(2906002)(16453002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2020 18:21:51.5445 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44ea5823-141f-4de3-3b7f-08d833ec43c9
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT039.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,132 +117,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- od@zcrc.me, Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+The loop should exit at the lowest link rate, so break the loop
+at the lowest link rate without check. The check is always true
+because lowest link rate is smaller than current one and maximum
+of current display. Otherwise, it may be seen as the loop can
+potentially result in negative array offset.
 
-Thank you for the patch.
+The patch d76271d22694: "drm: xlnx: DRM/KMS driver for Xilinx ZynqMP
+DisplayPort Subsystem" from Jul 7, 2018, leads to the following
+static checker warning:
 
-On Mon, Jul 27, 2020 at 06:46:08PM +0200, Paul Cercueil wrote:
-> Add documentation for the Device Tree node for LCD panels based on the
-> NewVision NV3052C controller.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  .../display/panel/newvision,nv3052c.yaml      | 69 +++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
-> new file mode 100644
-> index 000000000000..751a28800fc2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3052c.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/newvision,nv3052c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NewVision NV3052C TFT LCD panel driver with SPI control bus
+	drivers/gpu/drm/xlnx/zynqmp_dp.c:594 zynqmp_dp_mode_configure()
+	error: iterator underflow 'bws' (-1)-2
 
-s/driver/driver IC/ (or driver chip, or controller, or any other similar
-term) to avoid confusion with device drivers.
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Hyun Kwon <hyun.kwon@xilinx.com>
+---
+ drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do I understand that the NV3052C also supports control through DSI ?
-Shouldn't this appear in the DT bindings ? Do I assume correctly that
-the panel will be controlled either through SPI or through DSI, but not
-through both ?
-
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +
-> +description: |
-> +  This is a driver for 320x240 TFT panels, accepting a variety of input
-> +  streams that get adapted and scaled to the panel. The panel output has
-> +  960 TFT source driver pins and 240 TFT gate driver pins, VCOM, VCOML and
-> +  VCOMH outputs.
-> +
-> +  The panel must obey the rules for a SPI slave device as specified in
-> +  spi/spi-controller.yaml
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +        - leadtek,ltk035c5444t-spi
-
-According to its datasheet, that panel is 640x480 :-)
-
-I think you need a bit of documentation to explain that two compatible
-strings are needed, one matching the panel type, and a second one
-matching the chip.
-
-> +
-> +      - const: newvision,nv3052c
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios: true
-> +  port: true
-
-The NV3052C requires multiple power supplies, I think this needs to be
-taken into account here.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    spi {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      display@0 {
-> +        compatible = "leadtek,ltk035c5444t-spi", "newvision,nv3052c";
-> +        reg = <0>;
-> +
-> +        spi-max-frequency = <15000000>;
-> +        spi-3wire;
-> +        reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
-> +        backlight = <&backlight>;
-> +        power-supply = <&vcc>;
-> +
-> +        port {
-> +          panel_input: endpoint {
-> +              remote-endpoint = <&panel_output>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+index b735072..1be2b19 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+@@ -579,7 +579,7 @@ static int zynqmp_dp_mode_configure(struct zynqmp_dp *dp, int pclock,
+ 		return -EINVAL;
+ 	}
+ 
+-	for (i = ARRAY_SIZE(bws) - 1; i >= 0; i--) {
++	for (i = ARRAY_SIZE(bws) - 1; i > 0; i--) {
+ 		if (current_bw && bws[i] >= current_bw)
+ 			continue;
+ 
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
