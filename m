@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E07B232C65
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF78C232C5F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA4A6E87C;
-	Thu, 30 Jul 2020 07:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BABC6E87D;
+	Thu, 30 Jul 2020 07:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5AA16E042;
- Wed, 29 Jul 2020 10:54:40 +0000 (UTC)
-IronPort-SDR: hRqC8AsxBy3yyhqkXVJ3ZeGIr6qCXOu6+k+QgCjyxTdWBaT0q2v0LBZL/6OA8zP7OLWCqptahc
- rIA66edcghSQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="131460760"
-X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; d="scan'208";a="131460760"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2020 03:54:40 -0700
-IronPort-SDR: e+5s9P2TRXoi+l+qwUMRp8L5qglmtwzrocxuYCYRWvPfg6jRnjspIUD9UKoalv8PWpTVvFTJyd
- PmBu8DE07N8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,410,1589266800"; d="scan'208";a="464819957"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga005.jf.intel.com with ESMTP; 29 Jul 2020 03:54:36 -0700
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1k0jjI-004fvg-45; Wed, 29 Jul 2020 13:54:36 +0300
-Date: Wed, 29 Jul 2020 13:54:36 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v5 00/16] acpi/pwm/i915: Convert pwm-crc and i915
- driver's PWM code to use the atomic PWM API
-Message-ID: <20200729105436.GT3703480@smile.fi.intel.com>
-References: <20200717133753.127282-1-hdegoede@redhat.com>
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
+ [IPv6:2607:f8b0:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E41FD6E4E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 12:31:34 +0000 (UTC)
+Received: by mail-il1-x141.google.com with SMTP id t4so19212771iln.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 05:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
+ bh=9a/xeULDv3iKWjMGwTvSgnAp9T+r2ekd4KYdMxGKZK4=;
+ b=hiRFAujYF581sMS0DUPUwU/ou3EGY/VZWf3Aqwqwp9DQDgeI/6iYBkfABRlkNEvCVq
+ jJIpQjzNZTQsp4yrZEJzF4zgOuKUaq6oLXFR0h4Xp3IwMxSBkC0kha1vtPy80+DEYq4k
+ OhDtxHN8Hcpn7SqW+cA58wgDOYTp1DYxKJEi1vvU2q9hGLXTxBfxNa8wtEtVkIBHZWXi
+ 27vHuDnpB8mwOEZz2FR+08xhXTwLF+gCWQkxhV8/7jlgsI5IZK9LP6gShxDFUPkg3uba
+ zstsA0LPxGjcng/fV52jYIjXqv5EcBicY1NPB+tWX0crKOXlXQo5Cs22OTVtDTXdsF+I
+ 1Vow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:cc;
+ bh=9a/xeULDv3iKWjMGwTvSgnAp9T+r2ekd4KYdMxGKZK4=;
+ b=ZOvcu0G7K0UeE9YCdsr52JezL+qYJ29vsXhiIJ+6XFylb1kB23PE2yKi+CxFgiUq36
+ UdR+YjjUTvJ6PLHpIKv8raZ1wIjx6LOZUI1+W8Z+aVmY8t3Tzjta9Y61103mGWQoe56b
+ /dReIZ5PtAYWah7xM0hvSmwWeglHWIkPDdNkQ2pbT4NqSt69jIehdvnSUufzyYRswYWf
+ nyuYFcOfckYn9e7q0200uZTDTcV9TCm2muTHb8UXqz9ZCOddVSZWPHz8XVTn3CqZbhHQ
+ EyTCz5IDY4y5u2pkjvk+pZIQOgNw/FPB6I+oViv+eWIhpsCAUIqugUOLYTqQRMaBlTGT
+ /vww==
+X-Gm-Message-State: AOAM530SJc++ewpHWEEbCvlbhTORJOdZI/gbkKxJBxWvyLKg6ygtab8T
+ c5nFXDt0ok5Nm2LawbPYbq6bkSv0DVG+m8n6Xfc=
+X-Received: by 2002:a92:9a84:: with SMTP id c4mt25181688ill.1.1596025893331;
+ Wed, 29 Jul 2020 05:31:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200717133753.127282-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <1594388491-15129-1-git-send-email-simhavcs@gmail.com>
+In-Reply-To: <1594388491-15129-1-git-send-email-simhavcs@gmail.com>
+From: Vinay Simha B N <simhavcs@gmail.com>
+Date: Wed, 29 Jul 2020 18:01:21 +0530
+Message-ID: <CAGWqDJ74bveHPKXqdPhwbZjb=cXPPQLTEng4oi+dkZa-1fRz_Q@mail.gmail.com>
+Subject: Re: [PATCH v8 1/2] dt-binding: Add DSI/LVDS TC358775 bridge bindings
 X-Mailman-Approved-At: Thu, 30 Jul 2020 07:16:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,119 +59,693 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============0708644189=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 17, 2020 at 03:37:37PM +0200, Hans de Goede wrote:
-> Hi All,
-> 
-> Here is v5 of my patch series converting the i915 driver's code for
-> controlling the panel's backlight with an external PWM controller to
-> use the atomic PWM API. See below for the changelog.
-> 
-> This series consists of 4 parts:
-> 
-> 1. acpi_lpss fixes workarounds for Cherry Trail DSTD nastiness
-> 2. various fixes to the pwm-lpss driver
-> 3. convert the pwm-crc driver to support the atomic PWM API and
-> 4. convert the i915 driver's PWM code to use the atomic PWM API
-> 
-> The involved acpi_lpss and pwm drivers do not see a whole lot of churn,
-> so the plan is to merge this all through drm-intel-next-queued (dinq)
-> once all the patches are reviewed / have acks.
-> 
-> Specifically patches 5-9, 11 still need an Acked- / Reviewed-by
-> 
-> Andy, can you please take a look at the unreviewed patches? Specifically
-> patches 5-6 should address your review remarks from v4 of this set
-> and I've addressed your review remarks on patches 7-9 in v3 already.
-> A review of patch 11 would also be welcome
+--===============0708644189==
+Content-Type: multipart/alternative; boundary="0000000000006d036a05ab93bc6c"
 
-Done. Sorry for a delay.
+--0000000000006d036a05ab93bc6c
+Content-Type: text/plain; charset="UTF-8"
 
-One comment to consider, though. There are three channels in that PWM AFAIU.
-One of them is backlight control, another one can be attached to haptics. The
-concern is how this series may (or may not?) affect haptics behaviour.
+Hi All,
 
-> Uwe, can you please take a look at the unreviewed patches?
-> 
-> Uwe, may I have your Acked-by for merging this series through the
-> drm-intel-next-queued branch once all PWM patches have an Acked- or
-> Reviewed-by ?
-> 
-> This series has been tested (and re-tested after adding various bug-fixes)
-> extensively. It has been tested on the following devices:
-> 
-> -Asus T100TA  BYT + CRC-PMIC PWM
-> -Toshiba WT8-A  BYT + CRC-PMIC PWM
-> -Thundersoft TS178 BYT + CRC-PMIC PWM, inverse PWM
-> -Asus T100HA  CHT + CRC-PMIC PWM
-> -Terra Pad 1061  BYT + LPSS PWM
-> -Trekstor Twin 10.1 BYT + LPSS PWM
-> -Asus T101HA  CHT + CRC-PMIC PWM
-> -GPD Pocket  CHT + CRC-PMIC PWM
-> 
-> Changelog:
-> Changes in v5:
-> - Dropped the "pwm: lpss: Correct get_state result for base_unit == 0"
->   patch. The base_unit == 0 condition should never happen and sofar it is
->   unclear what the proper behavior / correct values to store in the
->   pwm_state should be when this does happen.  Since this patch was added as
->   an extra pwm-lpss fix in v4 of this patch-set and otherwise is orthogonal
->   to the of this patch-set just drop it (again).
-> - "[PATCH 04/16] pwm: lpss: Add range limit check for the base_unit register value"
->   - Use clamp_val(... instead of clam_t(unsigned long long, ...
-> - "[PATCH 05/16] pwm: lpss: Add pwm_lpss_prepare_enable() helper"
->   - This is a new patch in v5 of this patchset
-> - [PATCH 06/16] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume
->   - Use the new pwm_lpss_prepare_enable() helper
-> 
-> Changes in v4:
-> - "[PATCH v4 06/16] pwm: lpss: Correct get_state result for base_unit == 0"
->   - This is a new patch in v4 of this patchset
-> - "[PATCH v4 12/16] pwm: crc: Implement get_state() method"
->   - Use DIV_ROUND_UP when calculating the period and duty_cycle values
-> - "[PATCH v4 16/16] drm/i915: panel: Use atomic PWM API for devs with an external PWM controller"
->   - Add a note to the commit message about the changes in pwm_disable_backlight()
->   - Use the pwm_set/get_relative_duty_cycle() helpers
-> 
-> Changes in v3:
-> - "[PATCH v3 04/15] pwm: lpss: Add range limit check for the base_unit register value"
->   - Use base_unit_range - 1 as maximum value for the clamp()
-> - "[PATCH v3 05/15] pwm: lpss: Use pwm_lpss_apply() when restoring state on resume"
->   - This replaces the "pwm: lpss: Set SW_UPDATE bit when enabling the PWM"
->     patch from previous versions of this patch-set, which really was a hack
->     working around the resume issue which this patch fixes properly.
-> - PATCH v3 6 - 11 pwm-crc changes:
->   - Various small changes resulting from the reviews by Andy and Uwe,
->     including some refactoring of the patches to reduce the amount of churn
->     in the patch-set
-> 
-> Changes in v2:
-> - Fix coverletter subject
-> - Drop accidentally included debugging patch
-> - "[PATCH v3 02/15] ACPI / LPSS: Save Cherry Trail PWM ctx registers only once (
->   - Move #define LPSS_SAVE_CTX_ONCE define to group it with LPSS_SAVE_CTX
-> 
-> Regards,
-> 
-> Hans
-> 
+Please Review the patch
+
+On Fri, Jul 10, 2020 at 7:11 PM Vinay Simha BN <simhavcs@gmail.com> wrote:
+
+> - license modified to (GPL-2.0-only OR BSD-2-Clause)
+> - single-link and dual-link lvds description and
+>   examples are added
+> - proper indentation
+> - VESA/JEIDA formats picked from panel-lvds dts
+> - dsi data-lanes property removed, it will be picked
+>   from dsi0 ports
+> - dual-link lvds port added and implemented
+> - converted from .txt to .yaml
+>
+> Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> v1:
+>  Initial version wast .txt file
+>
+> v2:
+>  From txt to yaml file format
+>
+> v3:
+> * Andrzej Hajda review comments incorporated
+>   dual port lvds implemented
+>
+> * Laurent Pinchart review comments incorporated
+>   dsi lanes property removed and it is dynamically
+>   picked from the dsi ports
+>   VESA/JEIDA format picked from panel-lvds dts
+>
+> v4:
+> * Sam Ravnborg review comments incorporated
+>   }' is indented properly in examples data-lanes
+>   description for single-link and dual-link lvds
+>
+> v5:
+> * Sam Ravnborg review comments incorporated
+>   license modified to (GPL-2.0-only OR BSD-2-Clause)
+>   changelog added
+>
+> v6:
+> * No changes, revision version mentioned to inline with
+>   driver file
+>
+> v7:
+> * change log added
+>   Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>
+> v8:
+> * Reviewed-by: Rob Herring <robh@kernel.org>
+> * change log modified in reverse chronological order
+> ---
+>  .../bindings/display/bridge/toshiba,tc358775.yaml  | 215
+> +++++++++++++++++++++
+>  1 file changed, 215 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+>
+> diff --git
+> a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> new file mode 100644
+> index 0000000..31f085d
+> --- /dev/null
+> +++
+> b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> @@ -0,0 +1,215 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358775.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toshiba TC358775 DSI to LVDS bridge bindings
+> +
+> +maintainers:
+> + - Vinay Simha BN <simhavcs@gmail.com>
+> +
+> +description: |
+> + This binding supports DSI to LVDS bridge TC358775
+> +
+> + MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
+> + Video frame size:
+> + Up to 1600x1200 24-bit/pixel resolution for single-link LVDS display
+> panel
+> + limited by 135 MHz LVDS speed
+> + Up to WUXGA (1920x1200 24-bit pixels) resolution for dual-link LVDS
+> display
+> + panel, limited by 270 MHz LVDS speed.
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,tc358775
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: i2c address of the bridge, 0x0f
+> +
+> +  vdd-supply:
+> +    maxItems: 1
+> +    description:  1.2V LVDS Power Supply
+> +
+> +  vddio-supply:
+> +    maxItems: 1
+> +    description: 1.8V IO Power Supply
+> +
+> +  stby-gpios:
+> +    maxItems: 1
+> +    description: Standby pin, Low active
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Hardware reset, Low active
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      A node containing input and output port nodes with endpoint
+> definitions
+> +      as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description: |
+> +          DSI Input. The remote endpoint phandle should be a
+> +          reference to a valid mipi_dsi_host device node.
+> +
+> +      port@1:
+> +        type: object
+> +        description: |
+> +          Video port for LVDS output (panel or connector).
+> +
+> +      port@2:
+> +        type: object
+> +        description: |
+> +          Video port for Dual link LVDS output (panel or connector).
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> + - compatible
+> + - reg
+> + - vdd-supply
+> + - vddio-supply
+> + - stby-gpios
+> + - reset-gpios
+> + - ports
+> +
+> +examples:
+> + - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    /* For single-link LVDS display panel */
+> +
+> +    i2c@78b8000 {
+> +        /* On High speed expansion */
+> +        label = "HS-I2C2";
+> +        reg = <0x078b8000 0x500>;
+> +        clock-frequency = <400000>; /* fastmode operation */
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        tc_bridge: bridge@f {
+> +            compatible = "toshiba,tc358775";
+> +            reg = <0x0f>;
+> +
+> +            vdd-supply = <&pm8916_l2>;
+> +            vddio-supply = <&pm8916_l6>;
+> +
+> +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    d2l_in_test: endpoint {
+> +                        remote-endpoint = <&dsi0_out>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    lvds_out: endpoint {
+> +                        remote-endpoint = <&panel_in>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    dsi@1a98000 {
+> +        reg = <0x1a98000 0x25c>;
+> +        reg-names = "dsi_ctrl";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@1 {
+> +                reg = <1>;
+> +                dsi0_out: endpoint {
+> +                    remote-endpoint = <&d2l_in_test>;
+> +                    data-lanes = <0 1 2 3>;
+> +                };
+> +             };
+> +         };
+> +     };
+> +
+> + - |
+> +    /* For dual-link LVDS display panel */
+> +
+> +    i2c@78b8000 {
+> +        /* On High speed expansion */
+> +        label = "HS-I2C2";
+> +        reg = <0x078b8000 0x500>;
+> +        clock-frequency = <400000>; /* fastmode operation */
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        tc_bridge_dual: bridge@f {
+> +            compatible = "toshiba,tc358775";
+> +            reg = <0x0f>;
+> +
+> +            vdd-supply = <&pm8916_l2>;
+> +            vddio-supply = <&pm8916_l6>;
+> +
+> +            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    d2l_in_dual: endpoint {
+> +                        remote-endpoint = <&dsi0_out_dual>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    lvds0_out: endpoint {
+> +                        remote-endpoint = <&panel_in0>;
+> +                    };
+> +                };
+> +
+> +                port@2 {
+> +                    reg = <2>;
+> +                    lvds1_out: endpoint {
+> +                        remote-endpoint = <&panel_in1>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    dsi@1a98000 {
+> +        reg = <0x1a98000 0x25c>;
+> +        reg-names = "dsi_ctrl";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@1 {
+> +                reg = <1>;
+> +                dsi0_out_dual: endpoint {
+> +                    remote-endpoint = <&d2l_in_dual>;
+> +                    data-lanes = <0 1 2 3>;
+> +                };
+> +             };
+> +         };
+> +     };
+> +...
+> --
+> 2.1.2
+>
+>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+regards,
+vinaysimha
 
+--0000000000006d036a05ab93bc6c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi All,</div><div><br></div><div>Please Review the pa=
+tch<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Fri, Jul 10, 2020 at 7:11 PM Vinay Simha BN &lt;<a href=3D"=
+mailto:simhavcs@gmail.com">simhavcs@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">- license modified to (GPL-2.0=
+-only OR BSD-2-Clause)<br>
+- single-link and dual-link lvds description and<br>
+=C2=A0 examples are added<br>
+- proper indentation<br>
+- VESA/JEIDA formats picked from panel-lvds dts<br>
+- dsi data-lanes property removed, it will be picked<br>
+=C2=A0 from dsi0 ports<br>
+- dual-link lvds port added and implemented<br>
+- converted from .txt to .yaml<br>
+<br>
+Signed-off-by: Vinay Simha BN &lt;<a href=3D"mailto:simhavcs@gmail.com" tar=
+get=3D"_blank">simhavcs@gmail.com</a>&gt;<br>
+Reviewed-by: Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org" target=3D=
+"_blank">sam@ravnborg.org</a>&gt;<br>
+Reviewed-by: Rob Herring &lt;<a href=3D"mailto:robh@kernel.org" target=3D"_=
+blank">robh@kernel.org</a>&gt;<br>
+---<br>
+v1:<br>
+=C2=A0Initial version wast .txt file<br>
+<br>
+v2:<br>
+=C2=A0From txt to yaml file format<br>
+<br>
+v3:<br>
+* Andrzej Hajda review comments incorporated<br>
+=C2=A0 dual port lvds implemented<br>
+<br>
+* Laurent Pinchart review comments incorporated<br>
+=C2=A0 dsi lanes property removed and it is dynamically<br>
+=C2=A0 picked from the dsi ports<br>
+=C2=A0 VESA/JEIDA format picked from panel-lvds dts<br>
+<br>
+v4:<br>
+* Sam Ravnborg review comments incorporated<br>
+=C2=A0 }&#39; is indented properly in examples data-lanes<br>
+=C2=A0 description for single-link and dual-link lvds<br>
+<br>
+v5:<br>
+* Sam Ravnborg review comments incorporated<br>
+=C2=A0 license modified to (GPL-2.0-only OR BSD-2-Clause)<br>
+=C2=A0 changelog added<br>
+<br>
+v6:<br>
+* No changes, revision version mentioned to inline with<br>
+=C2=A0 driver file<br>
+<br>
+v7:<br>
+* change log added<br>
+=C2=A0 Reviewed-by: Sam Ravnborg &lt;<a href=3D"mailto:sam@ravnborg.org" ta=
+rget=3D"_blank">sam@ravnborg.org</a>&gt;<br>
+<br>
+v8:<br>
+* Reviewed-by: Rob Herring &lt;<a href=3D"mailto:robh@kernel.org" target=3D=
+"_blank">robh@kernel.org</a>&gt;<br>
+* change log modified in reverse chronological order<br>
+---<br>
+=C2=A0.../bindings/display/bridge/toshiba,tc358775.yaml=C2=A0 | 215 +++++++=
+++++++++++++++<br>
+=C2=A01 file changed, 215 insertions(+)<br>
+=C2=A0create mode 100644 Documentation/devicetree/bindings/display/bridge/t=
+oshiba,tc358775.yaml<br>
+<br>
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358=
+775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc35877=
+5.yaml<br>
+new file mode 100644<br>
+index 0000000..31f085d<br>
+--- /dev/null<br>
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yam=
+l<br>
+@@ -0,0 +1,215 @@<br>
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)<br>
++%YAML 1.2<br>
++---<br>
++$id: <a href=3D"http://devicetree.org/schemas/display/bridge/toshiba,tc358=
+775.yaml#" rel=3D"noreferrer" target=3D"_blank">http://devicetree.org/schem=
+as/display/bridge/toshiba,tc358775.yaml#</a><br>
++$schema: <a href=3D"http://devicetree.org/meta-schemas/core.yaml#" rel=3D"=
+noreferrer" target=3D"_blank">http://devicetree.org/meta-schemas/core.yaml#=
+</a><br>
++<br>
++title: Toshiba TC358775 DSI to LVDS bridge bindings<br>
++<br>
++maintainers:<br>
++ - Vinay Simha BN &lt;<a href=3D"mailto:simhavcs@gmail.com" target=3D"_bla=
+nk">simhavcs@gmail.com</a>&gt;<br>
++<br>
++description: |<br>
++ This binding supports DSI to LVDS bridge TC358775<br>
++<br>
++ MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.<=
+br>
++ Video frame size:<br>
++ Up to 1600x1200 24-bit/pixel resolution for single-link LVDS display pane=
+l<br>
++ limited by 135 MHz LVDS speed<br>
++ Up to WUXGA (1920x1200 24-bit pixels) resolution for dual-link LVDS displ=
+ay<br>
++ panel, limited by 270 MHz LVDS speed.<br>
++<br>
++properties:<br>
++=C2=A0 compatible:<br>
++=C2=A0 =C2=A0 const: toshiba,tc358775<br>
++<br>
++=C2=A0 reg:<br>
++=C2=A0 =C2=A0 maxItems: 1<br>
++=C2=A0 =C2=A0 description: i2c address of the bridge, 0x0f<br>
++<br>
++=C2=A0 vdd-supply:<br>
++=C2=A0 =C2=A0 maxItems: 1<br>
++=C2=A0 =C2=A0 description:=C2=A0 1.2V LVDS Power Supply<br>
++<br>
++=C2=A0 vddio-supply:<br>
++=C2=A0 =C2=A0 maxItems: 1<br>
++=C2=A0 =C2=A0 description: 1.8V IO Power Supply<br>
++<br>
++=C2=A0 stby-gpios:<br>
++=C2=A0 =C2=A0 maxItems: 1<br>
++=C2=A0 =C2=A0 description: Standby pin, Low active<br>
++<br>
++=C2=A0 reset-gpios:<br>
++=C2=A0 =C2=A0 maxItems: 1<br>
++=C2=A0 =C2=A0 description: Hardware reset, Low active<br>
++<br>
++=C2=A0 ports:<br>
++=C2=A0 =C2=A0 type: object<br>
++=C2=A0 =C2=A0 description:<br>
++=C2=A0 =C2=A0 =C2=A0 A node containing input and output port nodes with en=
+dpoint definitions<br>
++=C2=A0 =C2=A0 =C2=A0 as documented in<br>
++=C2=A0 =C2=A0 =C2=A0 Documentation/devicetree/bindings/media/video-interfa=
+ces.txt<br>
++=C2=A0 =C2=A0 properties:<br>
++=C2=A0 =C2=A0 =C2=A0 &quot;#address-cells&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 const: 1<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 &quot;#size-cells&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 const: 0<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 port@0:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 type: object<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DSI Input. The remote endpoint phandle =
+should be a<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reference to a valid mipi_dsi_host devi=
+ce node.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 port@1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 type: object<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Video port for LVDS output (panel or co=
+nnector).<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 port@2:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 type: object<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Video port for Dual link LVDS output (p=
+anel or connector).<br>
++<br>
++=C2=A0 =C2=A0 required:<br>
++=C2=A0 =C2=A0 =C2=A0 - port@0<br>
++=C2=A0 =C2=A0 =C2=A0 - port@1<br>
++<br>
++required:<br>
++ - compatible<br>
++ - reg<br>
++ - vdd-supply<br>
++ - vddio-supply<br>
++ - stby-gpios<br>
++ - reset-gpios<br>
++ - ports<br>
++<br>
++examples:<br>
++ - |<br>
++=C2=A0 =C2=A0 #include &lt;dt-bindings/gpio/gpio.h&gt;<br>
++<br>
++=C2=A0 =C2=A0 /* For single-link LVDS display panel */<br>
++<br>
++=C2=A0 =C2=A0 i2c@78b8000 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* On High speed expansion */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 label =3D &quot;HS-I2C2&quot;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x078b8000 0x500&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 clock-frequency =3D &lt;400000&gt;; /* fastmod=
+e operation */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D &lt;1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &lt;0&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tc_bridge: bridge@f {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;toshiba,tc3=
+58775&quot;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x0f&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdd-supply =3D &lt;&amp;pm8916_l=
+2&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vddio-supply =3D &lt;&amp;pm8916=
+_l6&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stby-gpios =3D &lt;&amp;msmgpio =
+99 GPIO_ACTIVE_LOW&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reset-gpios =3D &lt;&amp;msmgpio=
+ 72 GPIO_ACTIVE_LOW&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ports {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D=
+ &lt;1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &l=
+t;0&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =
+=3D &lt;0&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d2l_=
+in_test: endpoint {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 remote-endpoint =3D &lt;&amp;dsi0_out&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@1 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =
+=3D &lt;1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lvds=
+_out: endpoint {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 remote-endpoint =3D &lt;&amp;panel_in&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 dsi@1a98000 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x1a98000 0x25c&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg-names =3D &quot;dsi_ctrl&quot;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D &lt;1&gt;;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &lt;0&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@1 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;1&gt;;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dsi0_out: endpoint=
+ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remo=
+te-endpoint =3D &lt;&amp;d2l_in_test&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data=
+-lanes =3D &lt;0 1 2 3&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
++=C2=A0 =C2=A0 =C2=A0};<br>
++<br>
++ - |<br>
++=C2=A0 =C2=A0 /* For dual-link LVDS display panel */<br>
++<br>
++=C2=A0 =C2=A0 i2c@78b8000 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* On High speed expansion */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 label =3D &quot;HS-I2C2&quot;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x078b8000 0x500&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 clock-frequency =3D &lt;400000&gt;; /* fastmod=
+e operation */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D &lt;1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &lt;0&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tc_bridge_dual: bridge@f {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;toshiba,tc3=
+58775&quot;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x0f&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vdd-supply =3D &lt;&amp;pm8916_l=
+2&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vddio-supply =3D &lt;&amp;pm8916=
+_l6&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stby-gpios =3D &lt;&amp;msmgpio =
+99 GPIO_ACTIVE_LOW&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reset-gpios =3D &lt;&amp;msmgpio=
+ 72 GPIO_ACTIVE_LOW&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ports {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D=
+ &lt;1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &l=
+t;0&gt;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =
+=3D &lt;0&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d2l_=
+in_dual: endpoint {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 remote-endpoint =3D &lt;&amp;dsi0_out_dual&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@1 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =
+=3D &lt;1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lvds=
+0_out: endpoint {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 remote-endpoint =3D &lt;&amp;panel_in0&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@2 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =
+=3D &lt;2&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lvds=
+1_out: endpoint {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 remote-endpoint =3D &lt;&amp;panel_in1&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 dsi@1a98000 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x1a98000 0x25c&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg-names =3D &quot;dsi_ctrl&quot;;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D &lt;1&gt;;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &lt;0&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@1 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;1&gt;;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dsi0_out_dual: end=
+point {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remo=
+te-endpoint =3D &lt;&amp;d2l_in_dual&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data=
+-lanes =3D &lt;0 1 2 3&gt;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
++=C2=A0 =C2=A0 =C2=A0};<br>
++...<br>
+-- <br>
+2.1.2<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">regards,<br>vinaysimha</div>
+
+--0000000000006d036a05ab93bc6c--
+
+--===============0708644189==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0708644189==--
