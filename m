@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4082318FD
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 07:16:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F705231946
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jul 2020 08:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 700236E43C;
-	Wed, 29 Jul 2020 05:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E42C6E442;
+	Wed, 29 Jul 2020 06:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F19D06E43C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 05:16:37 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id k71so1338372pje.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 22:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IJt9l6I/NtxzWzpcAmtt5rbjESaZJw7vS/myKKozjx0=;
- b=VnL1jfsXksTVrDQJOr7DSLlMDr5xrc3dajnCE5KyP8XUCcvvCmYGZrUMuMaE/WZz2v
- iv7KT/p8/EO75vduI+dolDVUMaq3cf3xFa4usfSXuZCGTTQ/U8VSBN5lMpOpUXL521b6
- /EA1zYOn5gLIsms8UTe/Nf7qGUeCPk32mkvrvrks/+mOLmFRg744IJUSjzeKILAqH45r
- DMi5smIdEcBxkLdkvE+Ipq7x8vnIE6uxL0OO9na2GOz30xVnH09qoRcqenWZeUn0ZFso
- f/Jy94FFOo2R0amQKYFsA8yJxFmiWp74cbLJRLGc6KS7RE07vC2IP0HM6GRgA6ftsXkn
- bLaQ==
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
+ [IPv6:2607:f8b0:4864:20::b41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 741FF6E442
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 06:01:02 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id a34so6898002ybj.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jul 2020 23:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pPAP8tFVyggCkghU1FLEalFz3aaGvBX3MxeIBkz/wg4=;
+ b=qsnqGtE+/2u2l7YElw+Dkz4JbybI4NxyRG3b/A6OAJM5f6l/W71f70WDzPEK7pdcoX
+ c0hXwyh1izUtDaj7n49AgmZbq9RRIUMxM8V+7arBP/JgcP05WvFL6pvOTSiUwE/12FuJ
+ JlJeFLsXs92fT5fBbnJWImdL0x+vSgbcbi70X01k478GpJHBL2Pwu/jwXEtNlhV5z2c8
+ lb7FTPfioekHnmt+8nuRr7wZ8eF/EM8ULZocASkw7FWqSCwTBnFsOBW1c7Rnz79DfMYr
+ eQa+ugZCPp0HkaldNYESVTqDr3Zj0WlOSUTqG+Uifi5aW07fDf4f+tTVAun11prh5d8V
+ mPaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=IJt9l6I/NtxzWzpcAmtt5rbjESaZJw7vS/myKKozjx0=;
- b=G2XinjMFcf17MxNIfkV4yqVbUjkD3qPGsB0WCOq9NiNyTYyes/vGHgMvJd3OGIh4st
- PO3qXg7jeb0+OocaMsDx7YjumepTWdPuzbB6YY8c/pcEWDCBaVAVwEO6Di+i8su2Cyv4
- BmpADJm4RKC4SkDzL1quv+U/CuBqG7QX9mimZHOPt/zSs2E2fYF7gyBiR0BPbOXNxEOM
- pKGy0xyakaBmYK/GFkxK+I/AW4ez/QZlZppX59WPNVDbJQ1wy5wUXeXx8P7UaRxQ845m
- jlZ2eImi8EK28NPM4IGpgFScNtqF9ngCfNAZOusm3VUFLwaaeti9mi0tBqDN+ZBwmEv9
- fviQ==
-X-Gm-Message-State: AOAM5301I/VSDrf19+CjCCZrA68wyZ+AuM+V17q+G8IjvBMBjg62A30i
- i18n+BgfAQ8hMMcW5s2PbO4Qog==
-X-Google-Smtp-Source: ABdhPJzd3HMuyq/3eZBZ5lHjmZI5C8PbakCFhEkbOS3TSIg8plkY0shqPkYESe6C1DPS1Y8X8JJP/w==
-X-Received: by 2002:a17:90b:378d:: with SMTP id
- mz13mr7793862pjb.98.1595999797447; 
- Tue, 28 Jul 2020 22:16:37 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id q5sm762750pgv.1.2020.07.28.22.16.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jul 2020 22:16:36 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 2/2] dma-heap: Add a system-uncached heap
-Date: Wed, 29 Jul 2020 05:16:32 +0000
-Message-Id: <20200729051632.66040-2-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200729051632.66040-1-john.stultz@linaro.org>
-References: <20200729051632.66040-1-john.stultz@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pPAP8tFVyggCkghU1FLEalFz3aaGvBX3MxeIBkz/wg4=;
+ b=tZUl3qUDldgG2gENqGNerBxMCQafNMcRP24G5HLCiJy6QtIh6nqeMsayfWNIZlvGjY
+ paOhOjEwDdjZ4FL+8FjrwC/w/VixzsjBjVjWUrQVa2z20aQiYYMc2ePW0Nh1/a6eIwgC
+ AlklYbtk4+E023x2Vtq1IbayHmNvx7lL6uEsOMTeFHQxpLIoJlNxZowZ6vMFAIU5XP/5
+ QMCw6qGJd+Fqnb1SDWw+2nHjniAk/hAw3UOfCrgzWIoWAjmaAikSTd1y5RveGGMaFMnj
+ mJuFzFqnzsTbxjIOGge10JZcQTn/j2PixzhYs296naCfZSIRq6BFAlhz8bRUheKCLKl+
+ xbgw==
+X-Gm-Message-State: AOAM530b6CC2PymqjdAtD4an0szVSjtdTaadrx9VXOPJlTaZIviJ3JS+
+ VvT6HDLOVXuJ5qbs+px+3+ZDXHcgZOrzIFIyR5E=
+X-Google-Smtp-Source: ABdhPJwQmBOButyrx6n5MeOUjG5GJ1lj7tp3La8DET0PMqVBmUXPO01BHI+fR71wB5fUDJteRto3PCfv+4WSD/p1my4=
+X-Received: by 2002:a25:cc46:: with SMTP id l67mr17910262ybf.283.1596002461629; 
+ Tue, 28 Jul 2020 23:01:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200728032545.19878-1-airlied@gmail.com>
+ <14063C7AD467DE4B82DEDB5C278E866301245EE4F7@FMSMSX108.amr.corp.intel.com>
+ <CACAvsv6_V4jhKra4wY32h5chheBddyZDzPWZHHOzsQn+UZLfQQ@mail.gmail.com>
+ <14063C7AD467DE4B82DEDB5C278E866301245EEBD6@FMSMSX108.amr.corp.intel.com>
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301245EEBD6@FMSMSX108.amr.corp.intel.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Wed, 29 Jul 2020 16:00:50 +1000
+Message-ID: <CACAvsv7-yt=8oxZXTnjcT-Z9TqwUdf01kzzs0NV8yYG0uA0OyQ@mail.gmail.com>
+Subject: Re: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,487 +63,417 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Liam Mark <lmark@codeaurora.org>,
- "Andrew F . Davis" <afd@ti.com>, Laura Abbott <labbott@kernel.org>,
- Hridya Valsaraju <hridya@google.com>, linux-media@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1526233369=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a heap that allocates non-contiguous buffers that are
-marked as writecombined, so they are not cached by the CPU.
+--===============1526233369==
+Content-Type: multipart/alternative; boundary="000000000000c93f1b05ab8e47ce"
 
-This is useful, as most graphics buffers are usually not touched
-by the CPU or only written into once by the CPU. So when mapping
-the buffer over and over between devices, we can skip the CPU
-syncing, which saves a lot of cache management overhead, greatly
-improving performance.
+--000000000000c93f1b05ab8e47ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For folk using ION, there was a ION_FLAG_CACHED flag, which
-signaled if the returned buffer should be CPU cacheable or not.
-With DMA-BUF heaps, we have no such flag, and by default the
-current heaps (system and cma) produce CPU cachable buffers.
-So for folks transitioning from ION to DMA-BUF Heaps, this fills
-in some of that missing functionality.
+On Wed, 29 Jul 2020 at 06:33, Ruhl, Michael J <michael.j.ruhl@intel.com>
+wrote:
 
-This does have a few "ugly" bits that were required to get
-the buffer properly flushed out initially which I'd like to
-improve. So feedback would be very welcome!
+> >-----Original Message-----
+> >From: Ben Skeggs <skeggsb@gmail.com>
+> >Sent: Tuesday, July 28, 2020 4:16 PM
+> >To: Ruhl, Michael J <michael.j.ruhl@intel.com>
+> >Cc: Dave Airlie <airlied@gmail.com>; dri-devel@lists.freedesktop.org;
+> >bskeggs@redhat.com
+> >Subject: Re: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+> >
+> >On Wed, 29 Jul 2020 at 02:08, Ruhl, Michael J <michael.j.ruhl@intel.com>
+> >wrote:
+> >>
+> >> >-----Original Message-----
+> >> >From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf O=
+f
+> >> >Dave Airlie
+> >> >Sent: Monday, July 27, 2020 11:26 PM
+> >> >To: dri-devel@lists.freedesktop.org
+> >> >Cc: bskeggs@redhat.com
+> >> >Subject: [PATCH] nouveau: use ttm populate mapping functions. (v2)
+> >> >
+> >> >From: Dave Airlie <airlied@redhat.com>
+> >> >
+> >> >Instead of rolling driver copies of them.
+> >> >
+> >> >v2: cleanup return handling (Ben)
+> >> >Signed-off-by: Dave Airlie <airlied@redhat.com>
+> >> >---
+> >> > drivers/gpu/drm/nouveau/nouveau_bo.c | 38 ++------------------------=
+--
+> >> > 1 file changed, 2 insertions(+), 36 deletions(-)
+> >> >
+> >> >diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> >b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> >index 7806278dce57..6ef5085c9a91 100644
+> >> >--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> >+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> >> >@@ -1231,8 +1231,6 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm,
+> >> >struct ttm_operation_ctx *ctx)
+> >> >       struct ttm_dma_tt *ttm_dma =3D (void *)ttm;
+> >> >       struct nouveau_drm *drm;
+> >> >       struct device *dev;
+> >> >-      unsigned i;
+> >> >-      int r;
+> >> >       bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+> >> >
+> >> >       if (ttm->state !=3D tt_unpopulated)
+> >> >@@ -1260,31 +1258,7 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm,
+> >> >struct ttm_operation_ctx *ctx)
+> >> >               return ttm_dma_populate((void *)ttm, dev, ctx);
+> >> >       }
+> >> > #endif
+> >> >-
+> >> >-      r =3D ttm_pool_populate(ttm, ctx);
+> >> >-      if (r) {
+> >> >-              return r;
+> >> >-      }
+> >> >-
+> >> >-      for (i =3D 0; i < ttm->num_pages; i++) {
+> >> >-              dma_addr_t addr;
+> >> >-
+> >> >-              addr =3D dma_map_page(dev, ttm->pages[i], 0, PAGE_SIZE=
+,
+> >> >-                                  DMA_BIDIRECTIONAL);
+> >> >-
+> >> >-              if (dma_mapping_error(dev, addr)) {
+> >> >-                      while (i--) {
+> >> >-                              dma_unmap_page(dev, ttm_dma-
+> >> >>dma_address[i],
+> >> >-                                             PAGE_SIZE,
+> >> >DMA_BIDIRECTIONAL);
+> >> >-                              ttm_dma->dma_address[i] =3D 0;
+> >> >-                      }
+> >> >-                      ttm_pool_unpopulate(ttm);
+> >> >-                      return -EFAULT;
+> >> >-              }
+> >> >-
+> >> >-              ttm_dma->dma_address[i] =3D addr;
+> >> >-      }
+> >> >-      return 0;
+> >> >+      return ttm_populate_and_map_pages(dev, ttm_dma, ctx);
+> >>
+> >> This is not a completely straight code replacement.
+> >>
+> >> ttm_populate_and_map_pages() also has code to deal with pages that are
+> >> contiguous (consolidates them).
+> >>
+> >> Is it possible that the nouveau HW can't handle a contiguous buffer
+> larger
+> >> than PAG_SIZE?
+> >I think it's fine.  The function appears to consolidate the pages for
+> >the dma_map_page() call, but otherwise leave dma_address[] in
+> >PAGE_SIZE chunks, I don't believe anything else in the driver will
+> >care.
+>
+> Ahh..  I misread it.   This is limiting the calls to dma_map_page().
+> Instead
+> of calling it for each page, just do it for the first one...
+>
+> Thanks for setting me straight. =F0=9F=98=8A
+>
+> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>
+Thanks for the review!  I've got the patch in my tree.
 
-Many thanks to Liam Mark for his help to get this working.
+Ben.
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Andrew F. Davis <afd@ti.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/Kconfig                |  10 +
- drivers/dma-buf/heaps/Makefile               |   1 +
- drivers/dma-buf/heaps/system_uncached_heap.c | 392 +++++++++++++++++++
- 3 files changed, 403 insertions(+)
- create mode 100644 drivers/dma-buf/heaps/system_uncached_heap.c
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c4226..420b0ed0a512 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -5,6 +5,16 @@ config DMABUF_HEAPS_SYSTEM
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
- 
-+config DMABUF_HEAPS_SYSTEM_UNCACHED
-+	bool "DMA-BUF Uncached System Heap"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the uncached system dmabuf heap. This
-+	  heap is backed by pages from the buddy allocator, but pages are setup
-+	  for write combining. This avoids cache management overhead, and can
-+	  be faster if pages are mostly untouched by the cpu.  If in doubt,
-+	  say Y.
-+
- config DMABUF_HEAPS_CMA
- 	bool "DMA-BUF CMA Heap"
- 	depends on DMABUF_HEAPS && DMA_CMA
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 6e54cdec3da0..085685ec478f 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-y					+= heap-helpers.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
-+obj-$(CONFIG_DMABUF_HEAPS_SYSTEM_UNCACHED) += system_uncached_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/system_uncached_heap.c b/drivers/dma-buf/heaps/system_uncached_heap.c
-new file mode 100644
-index 000000000000..d23908038376
---- /dev/null
-+++ b/drivers/dma-buf/heaps/system_uncached_heap.c
-@@ -0,0 +1,392 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Uncached System DMA-Heap exporter
-+ *
-+ * Copyright (C) 2020 Linaro Ltd.
-+ *
-+ * Based off of Andrew Davis' SRAM heap:
-+ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com/
-+ *	Andrew F. Davis <afd@ti.com>
-+ */
-+
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/highmem.h>
-+#include <linux/io.h>
-+#include <linux/mm.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+
-+struct uncached_heap {
-+	struct dma_heap *heap;
-+};
-+
-+struct uncached_heap_buffer {
-+	struct dma_heap *heap;
-+	struct list_head attachments;
-+	struct mutex lock;
-+	unsigned long len;
-+	struct sg_table sg_table;
-+	int vmap_cnt;
-+	void *vaddr;
-+};
-+
-+struct dma_heap_attachment {
-+	struct device *dev;
-+	struct sg_table *table;
-+	struct list_head list;
-+};
-+
-+static struct sg_table *dup_sg_table(struct sg_table *table)
-+{
-+	struct sg_table *new_table;
-+	int ret, i;
-+	struct scatterlist *sg, *new_sg;
-+
-+	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
-+	if (!new_table)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
-+	if (ret) {
-+		kfree(new_table);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	new_sg = new_table->sgl;
-+	for_each_sg(table->sgl, sg, table->nents, i) {
-+		memcpy(new_sg, sg, sizeof(*sg));
-+		new_sg->dma_address = 0;
-+		new_sg = sg_next(new_sg);
-+	}
-+
-+	return new_table;
-+}
-+
-+static int dma_heap_attach(struct dma_buf *dmabuf,
-+			   struct dma_buf_attachment *attachment)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a;
-+	struct sg_table *table;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+
-+	table = dup_sg_table(&buffer->sg_table);
-+	if (IS_ERR(table)) {
-+		kfree(a);
-+		return -ENOMEM;
-+	}
-+
-+	a->table = table;
-+	a->dev = attachment->dev;
-+	INIT_LIST_HEAD(&a->list);
-+
-+	attachment->priv = a;
-+
-+	mutex_lock(&buffer->lock);
-+	list_add(&a->list, &buffer->attachments);
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static void dma_heap_detatch(struct dma_buf *dmabuf,
-+			     struct dma_buf_attachment *attachment)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct dma_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	list_del(&a->list);
-+	mutex_unlock(&buffer->lock);
-+
-+	sg_free_table(a->table);
-+	kfree(a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+					     enum dma_data_direction direction)
-+{
-+	struct dma_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = a->table;
-+
-+	if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents, direction,
-+			      DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WRITE_COMBINE))
-+		return ERR_PTR(-ENOMEM);
-+
-+	return table;
-+}
-+
-+static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+				   struct sg_table *table,
-+				   enum dma_data_direction direction)
-+{
-+	dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents, direction,
-+			   DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WRITE_COMBINE);
-+}
-+
-+static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct sg_table *table = &buffer->sg_table;
-+	unsigned long addr = vma->vm_start;
-+	unsigned long offset = vma->vm_pgoff * PAGE_SIZE;
-+	struct scatterlist *sg;
-+	int i;
-+	int ret;
-+
-+	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+
-+	for_each_sg(table->sgl, sg, table->nents, i) {
-+		struct page *page = sg_page(sg);
-+		unsigned long remainder = vma->vm_end - addr;
-+		unsigned long len = sg->length;
-+
-+		if (offset >= sg->length) {
-+			offset -= sg->length;
-+			continue;
-+		} else if (offset) {
-+			page += offset / PAGE_SIZE;
-+			len = sg->length - offset;
-+			offset = 0;
-+		}
-+		len = min(len, remainder);
-+		ret = remap_pfn_range(vma, addr, page_to_pfn(page), len,
-+				      vma->vm_page_prot);
-+		if (ret)
-+			return ret;
-+		addr += len;
-+		if (addr >= vma->vm_end)
-+			return 0;
-+	}
-+	return 0;
-+}
-+
-+static void *dma_heap_do_vmap(struct uncached_heap_buffer *buffer)
-+{
-+	struct sg_table *table = &buffer->sg_table;
-+	int npages = PAGE_ALIGN(buffer->len) / PAGE_SIZE;
-+	struct page **pages = vmalloc(sizeof(struct page *) * npages);
-+	struct page **tmp = pages;
-+	struct scatterlist *sg;
-+	pgprot_t pgprot;
-+	void *vaddr;
-+	int i, j;
-+
-+	if (!pages)
-+		return ERR_PTR(-ENOMEM);
-+
-+	pgprot = pgprot_writecombine(PAGE_KERNEL);
-+
-+	for_each_sg(table->sgl, sg, table->nents, i) {
-+		int npages_this_entry = PAGE_ALIGN(sg->length) / PAGE_SIZE;
-+		struct page *page = sg_page(sg);
-+
-+		WARN_ON(i >= npages);
-+		for (j = 0; j < npages_this_entry; j++)
-+			*(tmp++) = page++;
-+	}
-+	vaddr = vmap(pages, npages, VM_MAP, pgprot);
-+	vfree(pages);
-+
-+	if (!vaddr)
-+		return ERR_PTR(-ENOMEM);
-+
-+	return vaddr;
-+}
-+
-+static void *dma_heap_buffer_vmap_get(struct uncached_heap_buffer *buffer)
-+{
-+	void *vaddr;
-+
-+	if (buffer->vmap_cnt) {
-+		buffer->vmap_cnt++;
-+		return buffer->vaddr;
-+	}
-+
-+	vaddr = dma_heap_do_vmap(buffer);
-+	if (IS_ERR(vaddr))
-+		return vaddr;
-+
-+	buffer->vaddr = vaddr;
-+	buffer->vmap_cnt++;
-+	return vaddr;
-+}
-+
-+static void dma_heap_buffer_vmap_put(struct uncached_heap_buffer *buffer)
-+{
-+	if (!--buffer->vmap_cnt) {
-+		vunmap(buffer->vaddr);
-+		buffer->vaddr = NULL;
-+	}
-+}
-+
-+static void *dma_heap_vmap(struct dma_buf *dmabuf)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	void *vaddr;
-+
-+	mutex_lock(&buffer->lock);
-+	vaddr = dma_heap_buffer_vmap_get(buffer);
-+	mutex_unlock(&buffer->lock);
-+
-+	return vaddr;
-+}
-+
-+static void dma_heap_vunmap(struct dma_buf *dmabuf, void *vaddr)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	dma_heap_buffer_vmap_put(buffer);
-+	mutex_unlock(&buffer->lock);
-+}
-+
-+static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct uncached_heap_buffer *buffer = dmabuf->priv;
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	int i;
-+
-+	table = &buffer->sg_table;
-+	for_each_sg(table->sgl, sg, table->nents, i)
-+		__free_page(sg_page(sg));
-+	sg_free_table(table);
-+	kfree(buffer);
-+}
-+
-+const struct dma_buf_ops uncached_heap_buf_ops = {
-+	.attach = dma_heap_attach,
-+	.detach = dma_heap_detatch,
-+	.map_dma_buf = dma_heap_map_dma_buf,
-+	.unmap_dma_buf = dma_heap_unmap_dma_buf,
-+	.mmap = dma_heap_mmap,
-+	.vmap = dma_heap_vmap,
-+	.vunmap = dma_heap_vunmap,
-+	.release = dma_heap_dma_buf_release,
-+};
-+
-+static int uncached_heap_allocate(struct dma_heap *heap,
-+				  unsigned long len,
-+				  unsigned long fd_flags,
-+				  unsigned long heap_flags)
-+{
-+	struct uncached_heap_buffer *buffer;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *dmabuf;
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	pgoff_t pagecount;
-+	pgoff_t pg;
-+	int i, ret = -ENOMEM;
-+
-+	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-+	if (!buffer)
-+		return -ENOMEM;
-+
-+	INIT_LIST_HEAD(&buffer->attachments);
-+	mutex_init(&buffer->lock);
-+	buffer->heap = heap;
-+	buffer->len = len;
-+
-+	table = &buffer->sg_table;
-+	pagecount = len / PAGE_SIZE;
-+	if (sg_alloc_table(table, pagecount, GFP_KERNEL))
-+		goto free_buffer;
-+
-+	sg = table->sgl;
-+	for (pg = 0; pg < pagecount; pg++) {
-+		struct page *page;
-+		/*
-+		 * Avoid trying to allocate memory if the process
-+		 * has been killed by by SIGKILL
-+		 */
-+		if (fatal_signal_pending(current))
-+			goto free_pages;
-+		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
-+		if (!page)
-+			goto free_pages;
-+		sg_set_page(sg, page, page_size(page), 0);
-+		sg = sg_next(sg);
-+	}
-+
-+	/* create the dmabuf */
-+	exp_info.ops = &uncached_heap_buf_ops;
-+	exp_info.size = buffer->len;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer;
-+	dmabuf = dma_buf_export(&exp_info);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		goto free_pages;
-+	}
-+
-+	ret = dma_buf_fd(dmabuf, fd_flags);
-+	if (ret < 0) {
-+		dma_buf_put(dmabuf);
-+		/* just return, as put will call release and that will free */
-+		return ret;
-+	}
-+
-+	/*
-+	 * XXX This is hackish. While the buffer will be uncached, we need
-+	 * to initially flush cpu cache, since the the __GFP_ZERO on the
-+	 * allocation means the zeroing was done by the cpu and thus it is likely
-+	 * cached. Map & flush it out now so we don't get corruption later on.
-+	 *
-+	 * Ideally we could do this without using the heap device as a dummy dev.
-+	 */
-+	dma_map_sg_attrs(dma_heap_get_dev(heap), table->sgl, table->nents,
-+			 DMA_BIDIRECTIONAL, DMA_ATTR_WRITE_COMBINE);
-+	dma_sync_sg_for_device(dma_heap_get_dev(heap), table->sgl, table->nents,
-+			       DMA_BIDIRECTIONAL);
-+
-+	return ret;
-+
-+free_pages:
-+	for_each_sg(table->sgl, sg, table->nents, i)
-+		__free_page(sg_page(sg));
-+	sg_free_table(table);
-+free_buffer:
-+	kfree(buffer);
-+
-+	return ret;
-+}
-+
-+static struct dma_heap_ops uncached_heap_ops = {
-+	.allocate = uncached_heap_allocate,
-+};
-+
-+static int uncached_heap_create(void)
-+{
-+	struct uncached_heap *heap;
-+	struct dma_heap_export_info exp_info;
-+	static u64 dummy_mask;
-+
-+	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
-+	if (!heap)
-+		return -ENOMEM;
-+
-+	exp_info.name = "system-uncached";
-+	exp_info.ops = &uncached_heap_ops;
-+	exp_info.priv = heap;
-+	heap->heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap->heap)) {
-+		int ret = PTR_ERR(heap->heap);
-+
-+		kfree(heap);
-+		return ret;
-+	}
-+	dma_heap_get_dev(heap->heap)->dma_mask = &dummy_mask;
-+	dma_set_mask(dma_heap_get_dev(heap->heap), DMA_BIT_MASK(64));
-+
-+	return 0;
-+}
-+device_initcall(uncached_heap_create);
--- 
-2.17.1
+>
+> Mike
+>
+>
+> >Ben.
+> >
+> >>
+> >> Thanks,
+> >>
+> >> Mike
+> >>
+> >> > }
+> >> >
+> >> > static void
+> >> >@@ -1293,7 +1267,6 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
+> >> >       struct ttm_dma_tt *ttm_dma =3D (void *)ttm;
+> >> >       struct nouveau_drm *drm;
+> >> >       struct device *dev;
+> >> >-      unsigned i;
+> >> >       bool slave =3D !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+> >> >
+> >> >       if (slave)
+> >> >@@ -1316,14 +1289,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt
+> >*ttm)
+> >> >       }
+> >> > #endif
+> >> >
+> >> >-      for (i =3D 0; i < ttm->num_pages; i++) {
+> >> >-              if (ttm_dma->dma_address[i]) {
+> >> >-                      dma_unmap_page(dev, ttm_dma->dma_address[i],
+> >> >PAGE_SIZE,
+> >> >-                                     DMA_BIDIRECTIONAL);
+> >> >-              }
+> >> >-      }
+> >> >-
+> >> >-      ttm_pool_unpopulate(ttm);
+> >> >+      ttm_unmap_and_unpopulate_pages(dev, ttm_dma);
+> >> > }
+> >> >
+> >> > void
+> >> >--
+> >> >2.26.2
+> >> >
+> >> >_______________________________________________
+> >> >dri-devel mailing list
+> >> >dri-devel@lists.freedesktop.org
+> >> >https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+
+--000000000000c93f1b05ab8e47ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 29 Jul 2020 at 06:33, Ruhl, Micha=
+el J &lt;<a href=3D"mailto:michael.j.ruhl@intel.com">michael.j.ruhl@intel.c=
+om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">&gt;-----Original Message-----<br>
+&gt;From: Ben Skeggs &lt;<a href=3D"mailto:skeggsb@gmail.com" target=3D"_bl=
+ank">skeggsb@gmail.com</a>&gt;<br>
+&gt;Sent: Tuesday, July 28, 2020 4:16 PM<br>
+&gt;To: Ruhl, Michael J &lt;<a href=3D"mailto:michael.j.ruhl@intel.com" tar=
+get=3D"_blank">michael.j.ruhl@intel.com</a>&gt;<br>
+&gt;Cc: Dave Airlie &lt;<a href=3D"mailto:airlied@gmail.com" target=3D"_bla=
+nk">airlied@gmail.com</a>&gt;; <a href=3D"mailto:dri-devel@lists.freedeskto=
+p.org" target=3D"_blank">dri-devel@lists.freedesktop.org</a>;<br>
+&gt;<a href=3D"mailto:bskeggs@redhat.com" target=3D"_blank">bskeggs@redhat.=
+com</a><br>
+&gt;Subject: Re: [PATCH] nouveau: use ttm populate mapping functions. (v2)<=
+br>
+&gt;<br>
+&gt;On Wed, 29 Jul 2020 at 02:08, Ruhl, Michael J &lt;<a href=3D"mailto:mic=
+hael.j.ruhl@intel.com" target=3D"_blank">michael.j.ruhl@intel.com</a>&gt;<b=
+r>
+&gt;wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;-----Original Message-----<br>
+&gt;&gt; &gt;From: dri-devel &lt;<a href=3D"mailto:dri-devel-bounces@lists.=
+freedesktop.org" target=3D"_blank">dri-devel-bounces@lists.freedesktop.org<=
+/a>&gt; On Behalf Of<br>
+&gt;&gt; &gt;Dave Airlie<br>
+&gt;&gt; &gt;Sent: Monday, July 27, 2020 11:26 PM<br>
+&gt;&gt; &gt;To: <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=
+=3D"_blank">dri-devel@lists.freedesktop.org</a><br>
+&gt;&gt; &gt;Cc: <a href=3D"mailto:bskeggs@redhat.com" target=3D"_blank">bs=
+keggs@redhat.com</a><br>
+&gt;&gt; &gt;Subject: [PATCH] nouveau: use ttm populate mapping functions. =
+(v2)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;From: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" ta=
+rget=3D"_blank">airlied@redhat.com</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;Instead of rolling driver copies of them.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;v2: cleanup return handling (Ben)<br>
+&gt;&gt; &gt;Signed-off-by: Dave Airlie &lt;<a href=3D"mailto:airlied@redha=
+t.com" target=3D"_blank">airlied@redhat.com</a>&gt;<br>
+&gt;&gt; &gt;---<br>
+&gt;&gt; &gt; drivers/gpu/drm/nouveau/nouveau_bo.c | 38 ++-----------------=
+---------<br>
+&gt;&gt; &gt; 1 file changed, 2 insertions(+), 36 deletions(-)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c<br>
+&gt;&gt; &gt;b/drivers/gpu/drm/nouveau/nouveau_bo.c<br>
+&gt;&gt; &gt;index 7806278dce57..6ef5085c9a91 100644<br>
+&gt;&gt; &gt;--- a/drivers/gpu/drm/nouveau/nouveau_bo.c<br>
+&gt;&gt; &gt;+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c<br>
+&gt;&gt; &gt;@@ -1231,8 +1231,6 @@ nouveau_ttm_tt_populate(struct ttm_tt *t=
+tm,<br>
+&gt;&gt; &gt;struct ttm_operation_ctx *ctx)<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct ttm_dma_tt *ttm_dma =3D (voi=
+d *)ttm;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct nouveau_drm *drm;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct device *dev;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 unsigned i;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 int r;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool slave =3D !!(ttm-&gt;page_flag=
+s &amp; TTM_PAGE_FLAG_SG);<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ttm-&gt;state !=3D tt_unpopulat=
+ed)<br>
+&gt;&gt; &gt;@@ -1260,31 +1258,7 @@ nouveau_ttm_tt_populate(struct ttm_tt *=
+ttm,<br>
+&gt;&gt; &gt;struct ttm_operation_ctx *ctx)<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return =
+ttm_dma_populate((void *)ttm, dev, ctx);<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; &gt; #endif<br>
+&gt;&gt; &gt;-<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 r =3D ttm_pool_populate(ttm, ctx);<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 if (r) {<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return r;<br=
+>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt;-<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; ttm-&gt;num_pages; =
+i++) {<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_addr_t a=
+ddr;<br>
+&gt;&gt; &gt;-<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D dma=
+_map_page(dev, ttm-&gt;pages[i], 0, PAGE_SIZE,<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DMA_BIDIRECTION=
+AL);<br>
+&gt;&gt; &gt;-<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dma_mapp=
+ing_error(dev, addr)) {<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 while (i--) {<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_unmap_page(dev, ttm_dma-<=
+br>
+&gt;&gt; &gt;&gt;dma_address[i],<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0PAGE_SIZE,<br>
+&gt;&gt; &gt;DMA_BIDIRECTIONAL);<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ttm_dma-&gt;dma_address[i] =
+=3D 0;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ttm_pool_unpopulate(ttm);<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 return -EFAULT;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt;-<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ttm_dma-&gt;=
+dma_address[i] =3D addr;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 return 0;<br>
+&gt;&gt; &gt;+=C2=A0 =C2=A0 =C2=A0 return ttm_populate_and_map_pages(dev, t=
+tm_dma, ctx);<br>
+&gt;&gt;<br>
+&gt;&gt; This is not a completely straight code replacement.<br>
+&gt;&gt;<br>
+&gt;&gt; ttm_populate_and_map_pages() also has code to deal with pages that=
+ are<br>
+&gt;&gt; contiguous (consolidates them).<br>
+&gt;&gt;<br>
+&gt;&gt; Is it possible that the nouveau HW can&#39;t handle a contiguous b=
+uffer larger<br>
+&gt;&gt; than PAG_SIZE?<br>
+&gt;I think it&#39;s fine.=C2=A0 The function appears to consolidate the pa=
+ges for<br>
+&gt;the dma_map_page() call, but otherwise leave dma_address[] in<br>
+&gt;PAGE_SIZE chunks, I don&#39;t believe anything else in the driver will<=
+br>
+&gt;care.<br>
+<br>
+Ahh..=C2=A0 I misread it.=C2=A0 =C2=A0This is limiting the calls to dma_map=
+_page().=C2=A0 Instead<br>
+of calling it for each page, just do it for the first one...<br>
+<br>
+Thanks for setting me straight. =F0=9F=98=8A<br>
+<br>
+Reviewed-by: Michael J. Ruhl &lt;<a href=3D"mailto:michael.j.ruhl@intel.com=
+" target=3D"_blank">michael.j.ruhl@intel.com</a>&gt;<br></blockquote><div>T=
+hanks for the review!=C2=A0 I&#39;ve got the patch in my tree.</div><div><b=
+r></div><div>Ben.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+<br>
+Mike<br>
+<br>
+<br>
+&gt;Ben.<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks,<br>
+&gt;&gt;<br>
+&gt;&gt; Mike<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; }<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; static void<br>
+&gt;&gt; &gt;@@ -1293,7 +1267,6 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt =
+*ttm)<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct ttm_dma_tt *ttm_dma =3D (voi=
+d *)ttm;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct nouveau_drm *drm;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct device *dev;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 unsigned i;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool slave =3D !!(ttm-&gt;page_flag=
+s &amp; TTM_PAGE_FLAG_SG);<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (slave)<br>
+&gt;&gt; &gt;@@ -1316,14 +1289,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt=
+<br>
+&gt;*ttm)<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;&gt; &gt; #endif<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; ttm-&gt;num_pages; =
+i++) {<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ttm_dma-=
+&gt;dma_address[i]) {<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 dma_unmap_page(dev, ttm_dma-&gt;dma_address[i],<br>
+&gt;&gt; &gt;PAGE_SIZE,<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DM=
+A_BIDIRECTIONAL);<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; &gt;-<br>
+&gt;&gt; &gt;-=C2=A0 =C2=A0 =C2=A0 ttm_pool_unpopulate(ttm);<br>
+&gt;&gt; &gt;+=C2=A0 =C2=A0 =C2=A0 ttm_unmap_and_unpopulate_pages(dev, ttm_=
+dma);<br>
+&gt;&gt; &gt; }<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; void<br>
+&gt;&gt; &gt;--<br>
+&gt;&gt; &gt;2.26.2<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;_______________________________________________<br>
+&gt;&gt; &gt;dri-devel mailing list<br>
+&gt;&gt; &gt;<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_=
+blank">dri-devel@lists.freedesktop.org</a><br>
+&gt;&gt; &gt;<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-=
+devel" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/m=
+ailman/listinfo/dri-devel</a><br>
+&gt;&gt; _______________________________________________<br>
+&gt;&gt; dri-devel mailing list<br>
+&gt;&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blan=
+k">dri-devel@lists.freedesktop.org</a><br>
+&gt;&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-deve=
+l" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailm=
+an/listinfo/dri-devel</a><br>
+</blockquote></div></div>
+
+--000000000000c93f1b05ab8e47ce--
+
+--===============1526233369==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1526233369==--
