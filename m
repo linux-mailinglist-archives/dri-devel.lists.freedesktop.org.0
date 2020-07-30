@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C5523400A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A7023402E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7A46E9EC;
-	Fri, 31 Jul 2020 07:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C31676EA13;
+	Fri, 31 Jul 2020 07:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net
- [IPv6:2001:a60:0:28:0:1:25:1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C676E956
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 19:37:53 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4BHgg247Bxz1rwbX;
- Thu, 30 Jul 2020 21:37:50 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4BHgg22p5pz1qxnL;
- Thu, 30 Jul 2020 21:37:50 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id qN7xWSpyjaYq; Thu, 30 Jul 2020 21:37:49 +0200 (CEST)
-X-Auth-Info: 5qJRtwiXFw4qe9sJGcJeVrTbHbUfgVxhwNSX9d6eXI4=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Thu, 30 Jul 2020 21:37:49 +0200 (CEST)
-Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight driver
- for RPi panel
-To: Mark Brown <broonie@kernel.org>
-References: <20200729214645.247185-1-marex@denx.de>
- <20200730155944.GA1477410@ravnborg.org>
- <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
- <20200730191300.GJ5055@sirena.org.uk>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <5cfc1d07-c8ce-47d7-8763-1efa0316d05a@denx.de>
-Date: Thu, 30 Jul 2020 21:37:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B7586E969
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 20:52:04 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id y3so26111714wrl.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 13:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sNQBhS7/TXLnuBaPJWGWRsQsFBSRrqawtzX8JhhIouk=;
+ b=CBoJ2b24vgzFcivcALEjMgSA99rMeCMANwn1Vt2DLSpjaKdWZszhgXW8MtjGenxbMJ
+ BOPMYPR8mlZnVuwZctaGzWvqUTpjCUuXAHK/cmcLrrWh5tW4Z9gxLVXIeQa1on6qNiYj
+ 0XxDW1OM66WUEghPc4g4AJ6FxEV7dlZVNSOMR2c9X1C7PSkG4I/qF9f9r04lgNSkozLO
+ gunC+ioLtfWhVHr1J8k9Xw68bEkYpxCr0A5+T6fbQdtY3uW3ya833H0mrlscYyViUVxS
+ +zsheqI2fMX6LgzTmxQBL5N81TODqu1N6ai0Ph2K52KaNQaum0kYO4ytk6ckfoQx0QWU
+ Bacw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sNQBhS7/TXLnuBaPJWGWRsQsFBSRrqawtzX8JhhIouk=;
+ b=GVw7/YfL06ggpezwjS1SynXc4fSR1J+N0oPe6VkIer5AyeYVQWXT4Q71sNJJsyU4c5
+ 868QZJDHRqSEfg5hEVgOGoYV8NjjFZ51gcz529JIX4Uh+65QQ+Cd/XmkPjPHYgHsWUbT
+ eGVdpjrtmw+/Bpd6rT7R60U/QLBxK1Bc91UxxZPNVHxc4Bom5kcQ4wQjYtWAyTF3bb3l
+ esACWVy15U9RNeJilIiSd7kSv2ptuUsB+/rK5qo3BIXG9MdhZzAYX6iMWzB+VtS+aYVK
+ 8nuDVXL+9SGiE8Q5QI3pfFprlppHZ42QLXOQvQJntA5VLuERpWfbiMEML4OocEsx/UD2
+ X+mQ==
+X-Gm-Message-State: AOAM533e7CD9dbO5Ja7OmJz8SODhqDzFS8wWetsdrVehNWPC49b+9z37
+ JZZq0XgeCFk7SMIcCKGH0kiB6rWofOWjz25CLlbOPA==
+X-Google-Smtp-Source: ABdhPJxDgRl/9ZgCFmOaT5JPiqE/grxj5wZw4lSsGR7jhPrRnIbadzcC+0YX7MIInKKf4u/DcAuREV5aPKnCYc60CVI=
+X-Received: by 2002:adf:a19e:: with SMTP id u30mr460027wru.274.1596142322855; 
+ Thu, 30 Jul 2020 13:52:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200730191300.GJ5055@sirena.org.uk>
-Content-Language: en-US
+References: <1596116336-23147-1-git-send-email-kalyan_t@codeaurora.org>
+In-Reply-To: <1596116336-23147-1-git-send-email-kalyan_t@codeaurora.org>
+From: Kristian Kristensen <hoegsberg@google.com>
+Date: Thu, 30 Jul 2020 13:51:51 -0700
+Message-ID: <CAOPc6T=+Yx=+QzOr+6f3SXZXPqE-FTKkis4a+pODnGM5pxyTVQ@mail.gmail.com>
+Subject: Re: [v1] drm/msm/dpu: Fix scale params in plane validation
+To: Kalyan Thota <kalyan_t@codeaurora.org>
 X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,54 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, mkrishn@codeaurora.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, travitej@codeaurora.org,
+ open list <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Doug Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ hoegsberg <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/30/20 9:13 PM, Mark Brown wrote:
-> On Thu, Jul 30, 2020 at 06:28:07PM +0200, Marek Vasut wrote:
->> On 7/30/20 5:59 PM, Sam Ravnborg wrote:
->>> On Wed, Jul 29, 2020 at 11:46:45PM +0200, Marek Vasut wrote:
-> 
->>>> This regulator/backlight driver handles the ATTINY88 present on the
->>>> RPi 7" touchscreen panel and exposes the power/backlight interfaces.
-> 
->>> It looks strange that the regulator and the backligth are defined in the
->>> same module like this.
-> 
->> It's one chip, attiny with custom firmware, what do you want me to do
->> about it ? I can over-complicate this and split it into multiple
->> drivers, but I don't think it's worth the complexity, considering that
->> this is likely a one-off device which will never be re-used elsewhere,
->> except on this one particular display module for RPi.
-> 
-> Now you've written that you've pretty much guaranteed someone's going to
-> use the same component elsewhere :)
+On Thu, Jul 30, 2020 at 6:39 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
+>
+> Plane validation uses an API drm_calc_scale which will
+> return src/dst value as a scale ratio.
+>
+> when viewing the range on a scale the values should fall in as
+>
+> Upscale ratio < Unity scale < Downscale ratio for src/dst formula
+>
+> Fix the min and max scale ratios to suit the API accordingly.
+>
+> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 6379fe1..e46dcb9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -946,9 +946,9 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>                 crtc_state = drm_atomic_get_new_crtc_state(state->state,
+>                                                            state->crtc);
+>
+> -       min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxdwnscale);
+> +       min_scale = FRAC_16_16(1, pdpu->pipe_sblk->maxupscale);
+>         ret = drm_atomic_helper_check_plane_state(state, crtc_state, min_scale,
+> -                                         pdpu->pipe_sblk->maxupscale << 16,
+> +                                         pdpu->pipe_sblk->maxdwnscale << 16,
+>                                           true, true);
+>         if (ret) {
+>                 DPU_DEBUG_PLANE(pdpu, "Check plane state failed (%d)\n", ret);
 
-How? The firmware is closed and not available, neither is documentation
-for it, sadly.
+Right, I can see how the drm convention of scaling factor being from
+dest to src (ie 2x scaling up src to dst is as scale factor of 0.5).
+Thanks for fixing this,
 
-> I think my main question would be that if this is going to be written
-> like this shouldn't it be a backlight driver rather than a regulator
-> driver?
+Tested-by: Kristian H. Kristensen <hoegsberg@google.com>
+Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
 
-Well no, because it enables power to the display backlight and TC358762
-DSI-to-DPI bridge first, and then also controls some PWM implementation
-in the attiny firmware later on. So I think it has to be regulator, as
-that is the primary function. The backlight is somewhat secondary.
-
-> I don't 100% follow how this would actually get used in a
-> system (perhaps the binding would help) but for these things if there's
-> only one tightly coupled user that's possible it's sometimes simpler to
-> just skip APIs and do things directly.
-
-That's what I'm trying to replace by this patch and tc358762 bridge
-driver and panel driver, the combined version is already in tree:
-drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-but the tc358762 is clearly a generic bridge and the panel is generic
-too, so combining it into one panel driver doesn't seem right.
+> --
+> 1.9.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
