@@ -1,35 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88AF232C64
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:18:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F036A232C54
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:17:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2C16E87B;
-	Thu, 30 Jul 2020 07:18:06 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9CF6E834
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 01:46:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1596073595; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/Od02ztwhZR7+HWXUOfeTO8vPkZfLIWEWfZjF8yhUdY=;
- b=VZwCyelQgx8HOfSNa9jbao/V+Qn0oyzT2z74fpKfZtkgt9GLGh+hK3EpktJZepLYrAnGSy
- CtC3SoqEuxKQAOHBsdAlFclxBuh8bEGrqp3PwnR054bOOkujWpDLPx3Y3xgYt655Og/kRV
- Vqizm968AX4OoRI2vELbh5rd2HyxtGo=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/3] drm/ingenic: ipu: Only enable clock when needed
-Date: Thu, 30 Jul 2020 03:46:26 +0200
-Message-Id: <20200730014626.83895-4-paul@crapouillou.net>
-In-Reply-To: <20200730014626.83895-1-paul@crapouillou.net>
-References: <20200730014626.83895-1-paul@crapouillou.net>
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0CBF6E86A;
+	Thu, 30 Jul 2020 07:17:16 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7721E6E852
+ for <dri-devel@freedesktop.org>; Thu, 30 Jul 2020 05:10:49 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id c6so3271805pje.1
+ for <dri-devel@freedesktop.org>; Wed, 29 Jul 2020 22:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=mA4BZd4kK85fl/B02dB2FxAX7zWjXLAMtkaKMXRlAl8=;
+ b=QeC5Z4o9gUSaBccsjgXcHVRkllpZndKpz8SQFNaDHEdHlyoajM6S2rNTljlpc+BiJI
+ 2w8OfDJUIEXOCuHqrkxDWsVhZ/eoKbd4rbVFTbaxqaK3yaXeMKbO/PmumOF+niR8ZAVN
+ ecVd7mu0QqOi75ElRfD3aSjjbnrDoATXhJ/yypmCBqgAlGcdYpnC/v8VTSISK4ZAU49s
+ hxXK0kmzbG37NsT5PKEdGRMnWARtYMD0WI85tppgoe6x6zkWImbL5A8948ZXJ+s0oIAE
+ Em+uNLDw4H7ULrU3hgS4xndgpLkVbM21ntKMONJmJBRjnExddwEPXMLvxRIsyOYz3BPJ
+ LqRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mA4BZd4kK85fl/B02dB2FxAX7zWjXLAMtkaKMXRlAl8=;
+ b=Lca/8zfs4y+REQaC7cEtOdsbDofyuvVbtCAbx72eQSW9dFYMFOdIZAe3z4rOPT9G6m
+ uqT74StGEnMco8dMI7Hd74CWc36Kna7I0p8kerHCTtXlvsyYJukCZE1x1zWqYrfG22hJ
+ 8kXFAT2SoCmRNDgh3kujykuYeiu52bqSlXNhShHN1ZFoUHepGkEmqbb4bx1GyC2nQCV7
+ kO+iwKAaoLH/aEdIi3NKns5wSzx1YTCHyNr30+LG0HKJJrxPNQFaEtei9199aAOZzInV
+ GpVHvnD5aEa4iZuhWfWMRzCWt86B/1wYdZuiVhoLV3vOf+FSuM8WBTKac61Ot3eSM3q+
+ 8eZg==
+X-Gm-Message-State: AOAM5336e/ET7IAA3vJLFkpnQCe7vsMolqlIJpslyMIzoJojP8V8Tsrn
+ akmbPyf969xJABLgERg+sncoCA==
+X-Google-Smtp-Source: ABdhPJwj9HWHtqAFAKHBCLQOJIrgpN7lsfFwNhMzvnaPW201rcxJCVo3jVRneNq0kLb0y1yqbbw/yw==
+X-Received: by 2002:a17:90b:94f:: with SMTP id
+ dw15mr1393733pjb.209.1596085848986; 
+ Wed, 29 Jul 2020 22:10:48 -0700 (PDT)
+Received: from localhost ([106.201.14.19])
+ by smtp.gmail.com with ESMTPSA id g18sm4341705pfi.141.2020.07.29.22.10.47
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 29 Jul 2020 22:10:48 -0700 (PDT)
+Date: Thu, 30 Jul 2020 10:40:45 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v5 0/6] Add support for GPU DDR BW scaling
+Message-ID: <20200730051045.jejrtkor3b32l2qe@vireshk-mac-ubuntu>
+References: <1594644106-22449-1-git-send-email-akhilpo@codeaurora.org>
+ <CAF6AEGtAEwZbWxLb4MxaWNswvtrFbLK+N0Fez2XYr7odKZffWA@mail.gmail.com>
+ <20200720100131.6ux4zumbwqpa42ye@vireshk-mac-ubuntu>
+ <CAF6AEGurrsd3nrbB=ktZjWfKTNbKwPHYwTFiZdD-NOW1T7gePQ@mail.gmail.com>
+ <20200721032442.hv7l4q6633vnmnfe@vireshk-mac-ubuntu>
+ <CAF6AEGuhQcRskGhrFvmCf5T3EcZ9S+3LRdZBiaDYqF34yZjd+A@mail.gmail.com>
+ <20200722053023.vwaoj5oqh4cazzzz@vireshk-mac-ubuntu>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200722053023.vwaoj5oqh4cazzzz@vireshk-mac-ubuntu>
+User-Agent: NeoMutt/20170609 (1.8.3)
 X-Mailman-Approved-At: Thu, 30 Jul 2020 07:16:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,94 +75,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
+ saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sibi Sankar <sibis@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of keeping the IPU clock enabled constantly, enable and disable
-it on demand, when the IPU plane is used.
+On 22-07-20, 11:00, Viresh Kumar wrote:
+> On 21-07-20, 07:28, Rob Clark wrote:
+> > With your ack, I can add the patch the dev_pm_opp_set_bw patch to my
+> > tree and merge it via msm-next -> drm-next -> linus
+> 
+> I wanted to send it via my tree, but its okay. Pick this patch from
+> linux-next and add my Ack, I will drop it after that.
+> 
+> a8351c12c6c7 OPP: Add and export helper to set bandwidth
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-ipu.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+Oops, sorry for the trouble but this needs to go via my tree only :(
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index f4f0abcd6692..17e682cf1eba 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -49,6 +49,7 @@ struct ingenic_ipu {
- 	struct regmap *map;
- 	struct clk *clk;
- 	const struct soc_info *soc_info;
-+	bool clk_enabled;
- 
- 	unsigned int num_w, num_h, denom_w, denom_h;
- 
-@@ -288,12 +289,23 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
- 	const struct drm_format_info *finfo;
- 	u32 ctrl, stride = 0, coef_index = 0, format = 0;
- 	bool needs_modeset, upscaling_w, upscaling_h;
-+	int err;
- 
- 	if (!state || !state->fb)
- 		return;
- 
- 	finfo = drm_format_info(state->fb->format->format);
- 
-+	if (!ipu->clk_enabled) {
-+		err = clk_enable(ipu->clk);
-+		if (err) {
-+			dev_err(ipu->dev, "Unable to enable clock: %d\n", err);
-+			return;
-+		}
-+
-+		ipu->clk_enabled = true;
-+	}
-+
- 	/* Reset all the registers if needed */
- 	needs_modeset = drm_atomic_crtc_needs_modeset(state->crtc->state);
- 	if (needs_modeset) {
-@@ -578,6 +590,11 @@ static void ingenic_ipu_plane_atomic_disable(struct drm_plane *plane,
- 	regmap_clear_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_CHIP_EN);
- 
- 	ingenic_drm_plane_disable(ipu->master, plane);
-+
-+	if (ipu->clk_enabled) {
-+		clk_disable(ipu->clk);
-+		ipu->clk_enabled = false;
-+	}
- }
- 
- static const struct drm_plane_helper_funcs ingenic_ipu_plane_helper_funcs = {
-@@ -761,9 +778,9 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
- 	drm_object_attach_property(&plane->base, ipu->sharpness_prop,
- 				   ipu->sharpness);
- 
--	err = clk_prepare_enable(ipu->clk);
-+	err = clk_prepare(ipu->clk);
- 	if (err) {
--		dev_err(dev, "Unable to enable clock\n");
-+		dev_err(dev, "Unable to prepare clock\n");
- 		return err;
- 	}
- 
-@@ -775,7 +792,7 @@ static void ingenic_ipu_unbind(struct device *dev,
- {
- 	struct ingenic_ipu *ipu = dev_get_drvdata(dev);
- 
--	clk_disable_unprepare(ipu->clk);
-+	clk_unprepare(ipu->clk);
- }
- 
- static const struct component_ops ingenic_ipu_ops = {
+I maintain two different branches, one for OPP and another one for
+cpufreq. There was no dependency within the OPP branch and so I
+dropped it that day and asked you to take it.
+
+But when I tried to send a pull request today I realised that one of
+the qcom patches in the cpufreq branch is dependent on it and I need
+to keep this patch in my tree.
+
 -- 
-2.27.0
-
+viresh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
