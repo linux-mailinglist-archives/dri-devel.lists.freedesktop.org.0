@@ -2,62 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314672335D7
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 17:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2787323362C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 17:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 596016E915;
-	Thu, 30 Jul 2020 15:45:38 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AF16E918
- for <dri-devel@freedesktop.org>; Thu, 30 Jul 2020 15:45:37 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id a14so3315827edx.7
- for <dri-devel@freedesktop.org>; Thu, 30 Jul 2020 08:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e1J01Oczhd220RAym1LfngVA7OUijoix/GTLOnOq0wQ=;
- b=mYI2K30rokgxWE0w7UBhOkOYryaDcfDKVw60BHk8x3vYQ//HRCVaVYL2FU1hFijMfT
- 8rwLHSUgRg6/W4AvbrMRanJPGCBILdYCXc9SWKUFPRFJy2DEbfn3agkQJvTbPEzwd5hq
- Z7xb4bbxbDLahiPDYZ4URSuz3MQj++4zVmHqM/tXhleHuX4XwfDzWsqa7a3ASLmbqdNw
- PQtvqxQ6Qv1RyiW63qtuPBNmZF21uFplD/0Yigy4RjgHLEr3/XZIdkL6GA62Vw7iCzbH
- ocQCE4wQEl0soppOd8kGhR6nr5YcIrnu8VKQ6oc7usO2cTRWz0ICuZi+gHH8fMD59RgR
- HGRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e1J01Oczhd220RAym1LfngVA7OUijoix/GTLOnOq0wQ=;
- b=SiBsZR7tZzxNU2U862gcpM6odPDruX+MCQ+VUMcMkj3zX0LI80vg8wuAQ700bNnFDL
- 9ZW6jJPGrkoCGmHVH9m47nY9HT6v0bjKR0xJCR7OQnG2GuZovHC3sJi/VkTspE8YcTcD
- qchrMPQAg9WNtbpCRzR8hf3wBa3QlB1uww6CVM4rdF/jJVwcDHYLvCK2Yv7h98v9fiVW
- B5jSEp33iZ7bGkciG9+lEGmMEOxdFQHRKzEi5saTD9G/NzLgqRXX9gbAaFJUcN1qrWGK
- o2I4QZHSSOxRd1AsI4yUTTycLFC6Hib/c3ZOHTfjW4MqOYWJ+SGfHL1AuI8pXLVBcZD4
- ZKgA==
-X-Gm-Message-State: AOAM532IilqfVwNd5s58HQGCJH98YRmvHj8mSpdU5Edb90vONVjgm7yc
- TXpdioZSqZLLRlJeRX99dfKykGx1OCw3xgl8Qu8=
-X-Google-Smtp-Source: ABdhPJxJBzb6IrbCKjuOC0BujTWS0dRylwUyeXRe0DDUCUbkZVlP/EuIVuplkgjxRZfoLFnUlWJiDAFypFhpWjX6r1E=
-X-Received: by 2002:a05:6402:1c10:: with SMTP id
- ck16mr3213692edb.151.1596123935735; 
- Thu, 30 Jul 2020 08:45:35 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B5A6E91D;
+	Thu, 30 Jul 2020 15:59:50 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3DF489338
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 15:59:48 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 1C3E5804DF;
+ Thu, 30 Jul 2020 17:59:46 +0200 (CEST)
+Date: Thu, 30 Jul 2020 17:59:44 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight
+ driver for RPi panel
+Message-ID: <20200730155944.GA1477410@ravnborg.org>
+References: <20200729214645.247185-1-marex@denx.de>
 MIME-Version: 1.0
-References: <1594644106-22449-1-git-send-email-akhilpo@codeaurora.org>
- <CAF6AEGtAEwZbWxLb4MxaWNswvtrFbLK+N0Fez2XYr7odKZffWA@mail.gmail.com>
- <20200720100131.6ux4zumbwqpa42ye@vireshk-mac-ubuntu>
- <CAF6AEGurrsd3nrbB=ktZjWfKTNbKwPHYwTFiZdD-NOW1T7gePQ@mail.gmail.com>
- <20200721032442.hv7l4q6633vnmnfe@vireshk-mac-ubuntu>
- <CAF6AEGuhQcRskGhrFvmCf5T3EcZ9S+3LRdZBiaDYqF34yZjd+A@mail.gmail.com>
- <20200722053023.vwaoj5oqh4cazzzz@vireshk-mac-ubuntu>
- <20200730051045.jejrtkor3b32l2qe@vireshk-mac-ubuntu>
- <CAF6AEGuzff9+Wy4EHx0aDx1gBzSEGh--yqT5rnwLHp=U6amnyA@mail.gmail.com>
- <20200730153722.cnpg6n6tnmvjtuso@vireshk-mac-ubuntu>
-In-Reply-To: <20200730153722.cnpg6n6tnmvjtuso@vireshk-mac-ubuntu>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 30 Jul 2020 08:46:16 -0700
-Message-ID: <CAF6AEGs9=-0YBJpONaXf1wavU5ZpxhAQ19vfOn4JHby1zgPwpg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] Add support for GPU DDR BW scaling
-To: Viresh Kumar <viresh.kumar@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20200729214645.247185-1-marex@denx.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=-VAfIpHNAAAA:8 a=VwQbUJbxAAAA:8
+ a=7gkXJVJtAAAA:8 a=-JzV5Tq_l3BlPLh10nsA:9 a=MpVcz8zqZf903sGu:21
+ a=rmmTCx--u7nqjU03:21 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=srlwD-8ojaedGGhPAyx8:22 a=AjGcO6oz07-iQ99wixmX:22
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +47,311 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
- saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Sibi Sankar <sibis@codeaurora.org>
+Cc: Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 30, 2020 at 8:37 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> On 30-07-20, 08:27, Rob Clark wrote:
-> > Hmm, I've already sent my pull request to Dave, dropping the patch
-> > would require force-push and sending a new PR.  Which I can do if Dave
-> > prefers.  OTOH I guess it isn't the end of the world if the patch is
-> > merged via two different trees.
->
-> I don't think a patch can go via two trees, as that would have two sha
-> keys for the same code.
+Hi Marek
 
-it looks weird in the history, but other than that I think it is
-fine.. at least I see it happen somewhat regularly with fixes in drm
+On Wed, Jul 29, 2020 at 11:46:45PM +0200, Marek Vasut wrote:
+> This regulator/backlight driver handles the ATTINY88 present on the
+> RPi 7" touchscreen panel and exposes the power/backlight interfaces.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> To: dri-devel@lists.freedesktop.org
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 
-> Though it is fine for a patch to go via two different trees if we make
-> sure the same sha key is used for both.
->
-> Will it be possible for you to provide a branch/tag of your branch
-> that I can base stuff of ?
+It looks strange that the regulator and the backligth are defined in the
+same module like this.
 
-You could use https://gitlab.freedesktop.org/drm/msm/-/commits/msm-next/
-(or the tag drm-msm-next-2020-07-29), which already has the OPP patch.
-I've been trying to avoid force-pushing that because downstream trees
-are already pulling from that.
+The usual approach is to have an independent regulator and an
+independent backlight. Each are represented by their own node in the DT.
 
-BR,
--R
+Also the compatible "raspberrypi,7inch-touchscreen-panel-regulator",
+is unknown. We need a binding for the compatible.
+
+For backlight drivers, and modules that includes backlight support it
+would be good to include the backlight gang in cc:
+Jingoo, Lee, Daniel.
+
+One detail below - but I otherwise did not look at the code.
+
+	Sam
+
+
+
+> ---
+>  drivers/regulator/Kconfig                     |  10 +
+>  drivers/regulator/Makefile                    |   1 +
+>  .../regulator/rpi-panel-attiny-regulator.c    | 214 ++++++++++++++++++
+>  3 files changed, 225 insertions(+)
+>  create mode 100644 drivers/regulator/rpi-panel-attiny-regulator.c
+> 
+> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+> index de17ef7e18f0..439cc5226bae 100644
+> --- a/drivers/regulator/Kconfig
+> +++ b/drivers/regulator/Kconfig
+> @@ -864,6 +864,16 @@ config REGULATOR_QCOM_USB_VBUS
+>  	  Say M here if you want to include support for enabling the VBUS output
+>  	  as a module. The module will be named "qcom_usb_vbus_regulator".
+>  
+> +config REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
+> +	tristate "Raspberry Pi 7-inch touchscreen panel ATTINY regulator"
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +	  This driver supports ATTINY regulator on the Raspberry Pi 7-inch
+> +	  touchscreen unit. The regulator is used to enable power to the
+> +	  TC358762, display and to control backlight.
+> +
+>  config REGULATOR_RC5T583
+>  	tristate "RICOH RC5T583 Power regulators"
+>  	depends on MFD_RC5T583
+> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+> index d8d3ecf526a8..6e39ea87901e 100644
+> --- a/drivers/regulator/Makefile
+> +++ b/drivers/regulator/Makefile
+> @@ -107,6 +107,7 @@ obj-$(CONFIG_REGULATOR_TPS51632) += tps51632-regulator.o
+>  obj-$(CONFIG_REGULATOR_PBIAS) += pbias-regulator.o
+>  obj-$(CONFIG_REGULATOR_PCAP) += pcap-regulator.o
+>  obj-$(CONFIG_REGULATOR_PCF50633) += pcf50633-regulator.o
+> +obj-$(CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY)  += rpi-panel-attiny-regulator.o
+>  obj-$(CONFIG_REGULATOR_RC5T583)  += rc5t583-regulator.o
+>  obj-$(CONFIG_REGULATOR_RK808)   += rk808-regulator.o
+>  obj-$(CONFIG_REGULATOR_RN5T618) += rn5t618-regulator.o
+> diff --git a/drivers/regulator/rpi-panel-attiny-regulator.c b/drivers/regulator/rpi-panel-attiny-regulator.c
+> new file mode 100644
+> index 000000000000..ee46bfbf5eee
+> --- /dev/null
+> +++ b/drivers/regulator/rpi-panel-attiny-regulator.c
+> @@ -0,0 +1,214 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2020 Marek Vasut <marex@denx.de>
+> + *
+> + * Based on rpi_touchscreen.c by Eric Anholt <eric@anholt.net>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/driver.h>
+> +#include <linux/regulator/machine.h>
+> +#include <linux/regulator/of_regulator.h>
+> +#include <linux/slab.h>
+> +
+> +/* I2C registers of the Atmel microcontroller. */
+> +#define REG_ID		0x80
+> +#define REG_PORTA	0x81
+> +#define REG_PORTA_HF	BIT(2)
+> +#define REG_PORTA_VF	BIT(3)
+> +#define REG_PORTB	0x82
+> +#define REG_POWERON	0x85
+> +#define REG_PWM		0x86
+> +
+> +static const struct regmap_config attiny_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = REG_PWM,
+> +	.cache_type = REGCACHE_NONE,
+> +};
+> +
+> +static int attiny_lcd_power_enable(struct regulator_dev *rdev)
+> +{
+> +	unsigned int data;
+> +
+> +	regmap_write(rdev->regmap, REG_POWERON, 1);
+> +	/* Wait for nPWRDWN to go low to indicate poweron is done. */
+> +	regmap_read_poll_timeout(rdev->regmap, REG_PORTB, data,
+> +					data & BIT(0), 10, 1000000);
+> +
+> +	/* Default to the same orientation as the closed source
+> +	 * firmware used for the panel.  Runtime rotation
+> +	 * configuration will be supported using VC4's plane
+> +	 * orientation bits.
+> +	 */
+> +	regmap_write(rdev->regmap, REG_PORTA, BIT(2));
+> +
+> +	return 0;
+> +}
+> +
+> +static int attiny_lcd_power_disable(struct regulator_dev *rdev)
+> +{
+> +	regmap_write(rdev->regmap, REG_PWM, 0);
+> +	regmap_write(rdev->regmap, REG_POWERON, 0);
+> +	udelay(1);
+> +	return 0;
+> +}
+> +
+> +static int attiny_lcd_power_is_enabled(struct regulator_dev *rdev)
+> +{
+> +	unsigned int data;
+> +	int ret;
+> +
+> +	ret = regmap_read(rdev->regmap, REG_POWERON, &data);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (!(data & BIT(0)))
+> +		return 0;
+> +
+> +	ret = regmap_read(rdev->regmap, REG_PORTB, &data);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return data & BIT(0);
+> +}
+> +
+> +static const struct regulator_init_data attiny_regulator_default = {
+> +	.constraints = {
+> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+> +	},
+> +};
+> +
+> +static const struct regulator_ops attiny_regulator_ops = {
+> +	.enable = attiny_lcd_power_enable,
+> +	.disable = attiny_lcd_power_disable,
+> +	.is_enabled = attiny_lcd_power_is_enabled,
+> +};
+> +
+> +static const struct regulator_desc attiny_regulator = {
+> +	.name	= "tc358762-power",
+> +	.ops	= &attiny_regulator_ops,
+> +	.type	= REGULATOR_VOLTAGE,
+> +	.owner	= THIS_MODULE,
+> +};
+> +
+> +static int attiny_update_status(struct backlight_device *bl)
+> +{
+> +	struct regmap *regmap = bl_get_data(bl);
+> +	int brightness = bl->props.brightness;
+> +
+> +	if (bl->props.power != FB_BLANK_UNBLANK ||
+> +	    bl->props.fb_blank != FB_BLANK_UNBLANK)
+> +		brightness = 0;
+> +
+We have recently introduced backlight_get_brightness().
+Using this function will make this implemenation much simpler.
+But it is only availabe in the backlight tree for now.
+
+	Sam
+
+> +	return regmap_write(regmap, REG_PWM, brightness);
+> +}
+> +
+> +static int attiny_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct regmap *regmap = bl_get_data(bl);
+> +	int ret, brightness;
+> +
+> +	ret = regmap_read(regmap, REG_PWM, &brightness);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return brightness;
+> +}
+> +
+> +static const struct backlight_ops attiny_bl = {
+> +	.update_status	= attiny_update_status,
+> +	.get_brightness	= attiny_get_brightness,
+> +};
+> +
+> +/*
+> + * I2C driver interface functions
+> + */
+> +static int attiny_i2c_probe(struct i2c_client *i2c,
+> +		const struct i2c_device_id *id)
+> +{
+> +	struct backlight_properties props = { };
+> +	struct regulator_config config = { };
+> +	struct backlight_device *bl;
+> +	struct regulator_dev *rdev;
+> +	struct regmap *regmap;
+> +	unsigned int data;
+> +	int ret;
+> +
+> +	regmap = devm_regmap_init_i2c(i2c, &attiny_regmap_config);
+> +	if (IS_ERR(regmap)) {
+> +		ret = PTR_ERR(regmap);
+> +		dev_err(&i2c->dev, "Failed to allocate register map: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = regmap_read(regmap, REG_ID, &data);
+> +	if (ret < 0) {
+> +		dev_err(&i2c->dev, "Failed to read REG_ID reg: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	switch (data) {
+> +	case 0xde: /* ver 1 */
+> +	case 0xc3: /* ver 2 */
+> +		break;
+> +	default:
+> +		dev_err(&i2c->dev, "Unknown Atmel firmware revision: 0x%02x\n", data);
+> +		return -ENODEV;
+> +	}
+> +
+> +	regmap_write(regmap, REG_POWERON, 0);
+> +	mdelay(1);
+> +
+> +	config.dev = &i2c->dev;
+> +	config.regmap = regmap;
+> +	config.of_node = i2c->dev.of_node;
+> +	config.init_data = &attiny_regulator_default;
+> +
+> +	rdev = devm_regulator_register(&i2c->dev, &attiny_regulator, &config);
+> +	if (IS_ERR(rdev)) {
+> +		dev_err(&i2c->dev, "Failed to register ATTINY regulator\n");
+> +		return PTR_ERR(rdev);
+> +	}
+> +
+> +	props.type = BACKLIGHT_RAW;
+> +	props.max_brightness = 0xff;
+> +	bl = devm_backlight_device_register(&i2c->dev,
+> +					    "7inch-touchscreen-panel-bl",
+> +					    &i2c->dev, regmap, &attiny_bl,
+> +					    &props);
+> +	if (IS_ERR(bl))
+> +		return PTR_ERR(bl);
+> +
+> +	bl->props.brightness = 0xff;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id attiny_dt_ids[] = {
+> +	{ .compatible = "raspberrypi,7inch-touchscreen-panel-regulator" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, attiny_dt_ids);
+> +
+> +static struct i2c_driver attiny_regulator_driver = {
+> +	.driver = {
+> +		.name = "rpi_touchscreen_attiny",
+> +		.of_match_table = of_match_ptr(attiny_dt_ids),
+> +	},
+> +	.probe = attiny_i2c_probe,
+> +};
+> +
+> +module_i2c_driver(attiny_regulator_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
+> +MODULE_DESCRIPTION("Regulator device driver for Raspberry Pi 7-inch touchscreen");
+> +MODULE_LICENSE("GPL v2");
+> -- 
+> 2.27.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
