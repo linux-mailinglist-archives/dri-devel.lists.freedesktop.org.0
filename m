@@ -2,33 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D335E23402C
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB5D234009
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:36:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6646EA0B;
-	Fri, 31 Jul 2020 07:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537EC6E9EB;
+	Fri, 31 Jul 2020 07:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D56D6E92E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 17:29:47 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E91F9AE37;
- Thu, 30 Jul 2020 17:29:57 +0000 (UTC)
-Message-ID: <139dff5fb297ff5441172591bcd765095501beee.camel@suse.de>
-Subject: Re: [PATCH v9 08/12] device core: Introduce DMA range map,
- supplanting dma_pfn_offset
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Jim Quinlan <james.quinlan@broadcom.com>
-Date: Thu, 30 Jul 2020 19:29:39 +0200
-In-Reply-To: <CA+-6iNzWYvX_7G8=EOMt5X5U8_csymyvDwKVUwRBzw_dF_YYjQ@mail.gmail.com>
-References: <20200724203407.16972-1-james.quinlan@broadcom.com>
- <20200724203407.16972-9-james.quinlan@broadcom.com>
- <e0a46f4cd0a603801d343c15d807d0f08c42e900.camel@suse.de>
- <CA+-6iNzWYvX_7G8=EOMt5X5U8_csymyvDwKVUwRBzw_dF_YYjQ@mail.gmail.com>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D75A6E93C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 17:46:43 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id d18so29104482ion.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 10:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KAQxMtrcNtT/qn4VP9i1rWA9WddbB6VGPbgpkMkGrA0=;
+ b=DR65LCOUMQR20BJpxQ9xrmHCoWWhUQ8CIys3obDf+4dsubLWlGYWkVgHK80ueyn9Ht
+ tisBUvDtBMEqouGdnSOotr7ZVXkUYZ5ELYgzRS37so41EvGVV3W5AVVEzbJGu1pqK3xC
+ PALm8nzf7olRFrjBT2UgQleA2wTWMeB/k8HjG9FdODa6BiJTz5MhY6xw1uaqaM+L5XAw
+ sq03qRHMP13q76GoVjPiktV7yUZQ6jBmQVrboaQHDeV5Ie7RAlWXxHYc1fSWC6ZSCmAc
+ v0h8HIGh2upttDFZyv5JL6pMFZuLdl4OkPzftWSje+AOrhg17VWaYN+Ouz6gJDFLG8pl
+ h0qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KAQxMtrcNtT/qn4VP9i1rWA9WddbB6VGPbgpkMkGrA0=;
+ b=syWX7a33JC3je68/GsckH6xuMNv7F0l38MNLtnIQXXJS7UwR0gMG66ivW2j6+Wyg1v
+ NjyDYpx/KOhnOpCjcNBN6gDtNGCgqfFVTCN8LmEOEujnnz3Vhbm+tN0+tAKmq6Eas37V
+ xJhqPMnY9kTrWP+n64l3iLnF2H2HswRnTiz0ltxo5TQXlsx3fW/pnLLKzvy8dkH4UN4E
+ vwEMEBbUxs/T3x/n9p0lVromKn8XwKoLgHu5NFAppN3tj5LdsXdAY/RgD0qNtl1imhNy
+ Ximfe1bu8z5GqPSg4YgOpWxy5YtrPCssNeJr1nn85JCmbWynR+ftbg2Iqj5zH/P2BJFX
+ u5Fg==
+X-Gm-Message-State: AOAM533z+p34MnGAGO10FFZi/JOd2aMKEIk+pzb6p4XUcv8NZkecjste
+ hgAgFqqxmzZdyZvMpLFNdkU4s28sgoEQqam/X2I=
+X-Google-Smtp-Source: ABdhPJyhYSIPo/giDMeelwhangK4RmO8N4BnVkCP2Rskejgr5cQANOAipXRcjsyTeYIcHCvQYRbde9p2WR4m/oKgVd8=
+X-Received: by 2002:a6b:dd12:: with SMTP id f18mr22464031ioc.109.1596131202475; 
+ Thu, 30 Jul 2020 10:46:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <CGME20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981@eucas1p2.samsung.com>
+ <20200713144324.23654-1-a.hajda@samsung.com>
+ <e55a23bf-59bb-43c6-f7d7-467c282b8648@samsung.com>
+ <20200730070832.GA4045592@kroah.com>
+ <CAKdAkRTKjHg2y8yTFgxr4yY98M8D2noutDBfB1mh7wwLLQrYbw@mail.gmail.com>
+ <20200730164845.GE5055@sirena.org.uk>
+In-Reply-To: <20200730164845.GE5055@sirena.org.uk>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date: Thu, 30 Jul 2020 10:46:31 -0700
+Message-ID: <CAKdAkRS+QooavPaKMcsaUQdRJGky_6JYq1EiUbyT_gcU3ZYeJw@mail.gmail.com>
+Subject: Re: [PATCH v9 0/4] driver core: add probe error check helper
+To: Mark Brown <broonie@kernel.org>
 X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,85 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, "H.
- Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>, "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE" <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Florian Fainelli <f.fainelli@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Saravana Kannan <saravanak@google.com>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, "moderated list:BROADCOM
- BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>
+ Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2020-07-30 at 13:25 -0400, Jim Quinlan wrote:
-> On Thu, Jul 30, 2020 at 1:05 PM Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de> wrote:
-> > Hi Jim,
-> > 
-> > On Fri, 2020-07-24 at 16:33 -0400, Jim Quinlan wrote:
-> > >  static void __init of_unittest_pci_dma_ranges(void)
-> > > diff --git a/drivers/pci/controller/pcie-brcmstb.c b/drivers/pci/controller/pcie-brcmstb.c
-> > > index bfc2542d54a8..8dacb9d3b7b6 100644
-> > > --- a/drivers/pci/controller/pcie-brcmstb.c
-> > > +++ b/drivers/pci/controller/pcie-brcmstb.c
-> > > @@ -1197,6 +1197,7 @@ static int brcm_pcie_probe(struct platform_device *pdev)
-> > >       ret = brcm_phy_start(pcie);
-> > >       if (ret) {
-> > >               dev_err(pcie->dev, "failed to start phy\n");
-> > > +             reset_control_assert(pcie->rescal);
-> > >               return ret;
-> > >       }
-> > 
-> > I think this sneaked in from another patch.
-> Thanks Nicolas.  BTW, at some point will you be able to test my
-> patchset on the RP4 to see if I broke anything?
+On Thu, Jul 30, 2020 at 9:49 AM Mark Brown <broonie@kernel.org> wrote:
+>
+> On Thu, Jul 30, 2020 at 09:18:30AM -0700, Dmitry Torokhov wrote:
+>
+> > I believe it still has not been answered why this can't be pushed into
+> > resource providers (clock, regulators, gpio, interrupts, etc),
+> > especially for devm APIs where we know exactly what device we are
+> > requesting a resource for, so that individual drivers do not need to
+> > change anything.
+>
+> The error messages are frequently in the caller rather than the
+> frameworks, it's often helpful for the comprehensibility of the error
+> messages especially in cases where things may be legitimately absent.
 
-Yes of course, I'll have a go at it tomorrow.
+Not for deferral. All you need to know in this case is:
 
-Regards,
-Nicolas
+"device A is attempting to request resource B which is not ready yet"
 
+There is nothing to handle on the caller part except to float the error up.
+
+>
+> >                  We can mark the device as being probed so that probe
+> > deferral is only handled when we actually execute probe() (and for the
+> > bonus points scream loudly if someone tries to return -EPROBE_DEFER
+> > outside of probe path).
+>
+> Is this a big issue?
+
+We do not know ;) Probably not. It will just get reported as an
+ordinary failure and the driver will handle it somehow. Still it would
+be nice to know if we attempt to raise deferrals in code paths where
+they do not make sense.
+
+Thanks.
+
+-- 
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
