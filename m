@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C6B232C58
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88AF232C64
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6926E871;
-	Thu, 30 Jul 2020 07:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2C16E87B;
+	Thu, 30 Jul 2020 07:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0F286E836
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 01:46:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9CF6E834
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 01:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1596073594; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1596073595; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qh2xEZnWkVZc9Q7R8m4BkAmzplfElpQs19VRo4qFZJo=;
- b=SI/T6Qibf5RCEzAaDAEEdJIslQPTjG/5uYyvYef6e9j7RZ3poA/5MbPN/9agTpUHNEcoiz
- aKs8dW888I3xbn2QLiTNVxd7VvW5r1EIHELsRTze6084sCtTYs21txOv4BJtaFOKx+goIx
- Ud8ANEZZURioKd5SkVR9t/XNknPDNyo=
+ bh=/Od02ztwhZR7+HWXUOfeTO8vPkZfLIWEWfZjF8yhUdY=;
+ b=VZwCyelQgx8HOfSNa9jbao/V+Qn0oyzT2z74fpKfZtkgt9GLGh+hK3EpktJZepLYrAnGSy
+ CtC3SoqEuxKQAOHBsdAlFclxBuh8bEGrqp3PwnR054bOOkujWpDLPx3Y3xgYt655Og/kRV
+ Vqizm968AX4OoRI2vELbh5rd2HyxtGo=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/3] drm/ingenic: ipu: Remove YUV422 from supported formats on
- JZ4725B
-Date: Thu, 30 Jul 2020 03:46:25 +0200
-Message-Id: <20200730014626.83895-3-paul@crapouillou.net>
+Subject: [PATCH 3/3] drm/ingenic: ipu: Only enable clock when needed
+Date: Thu, 30 Jul 2020 03:46:26 +0200
+Message-Id: <20200730014626.83895-4-paul@crapouillou.net>
 In-Reply-To: <20200730014626.83895-1-paul@crapouillou.net>
 References: <20200730014626.83895-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -52,46 +51,83 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When configuring the IPU for packed YUV 4:2:2, depending on the scaling
-ratios given by the source and destination resolutions, it is possible
-to crash the IPU block beyond repair, to the point where a software
-reset of the IP does not fix it. This can happen anytime, in the first
-few frames, or after dozens of minutes. The same crash also happens when
-the IPU is fully controlled by the LCD controller (in that case no HW
-register is written at any moment after startup), which points towards a
-hardware bug.
-
-Thanksfully multiplanar YUV is not affected.
-
-Until this bug is fixed or worked around, address this issue by removing
-support for YUV 4:2:2 on the IPU of the JZ4725B.
+Instead of keeping the IPU clock enabled constantly, enable and disable
+it on demand, when the IPU plane is used.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-ipu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 7eae56fa92ea..f4f0abcd6692 100644
+index f4f0abcd6692..17e682cf1eba 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -795,10 +795,16 @@ static int ingenic_ipu_remove(struct platform_device *pdev)
+@@ -49,6 +49,7 @@ struct ingenic_ipu {
+ 	struct regmap *map;
+ 	struct clk *clk;
+ 	const struct soc_info *soc_info;
++	bool clk_enabled;
+ 
+ 	unsigned int num_w, num_h, denom_w, denom_h;
+ 
+@@ -288,12 +289,23 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
+ 	const struct drm_format_info *finfo;
+ 	u32 ctrl, stride = 0, coef_index = 0, format = 0;
+ 	bool needs_modeset, upscaling_w, upscaling_h;
++	int err;
+ 
+ 	if (!state || !state->fb)
+ 		return;
+ 
+ 	finfo = drm_format_info(state->fb->format->format);
+ 
++	if (!ipu->clk_enabled) {
++		err = clk_enable(ipu->clk);
++		if (err) {
++			dev_err(ipu->dev, "Unable to enable clock: %d\n", err);
++			return;
++		}
++
++		ipu->clk_enabled = true;
++	}
++
+ 	/* Reset all the registers if needed */
+ 	needs_modeset = drm_atomic_crtc_needs_modeset(state->crtc->state);
+ 	if (needs_modeset) {
+@@ -578,6 +590,11 @@ static void ingenic_ipu_plane_atomic_disable(struct drm_plane *plane,
+ 	regmap_clear_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_CHIP_EN);
+ 
+ 	ingenic_drm_plane_disable(ipu->master, plane);
++
++	if (ipu->clk_enabled) {
++		clk_disable(ipu->clk);
++		ipu->clk_enabled = false;
++	}
  }
  
- static const u32 jz4725b_ipu_formats[] = {
-+	/*
-+	 * While officially supported, packed YUV 4:2:2 formats can cause
-+	 * random hardware crashes on JZ4725B, beyond repair, under certain
-+	 * circumstances. It seems to happen with some specific resize ratios.
-+	 * Until a proper workaround or fix is found, disable these formats.
- 	DRM_FORMAT_YUYV,
- 	DRM_FORMAT_YVYU,
- 	DRM_FORMAT_UYVY,
- 	DRM_FORMAT_VYUY,
-+	*/
- 	DRM_FORMAT_YUV411,
- 	DRM_FORMAT_YUV420,
- 	DRM_FORMAT_YUV422,
+ static const struct drm_plane_helper_funcs ingenic_ipu_plane_helper_funcs = {
+@@ -761,9 +778,9 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
+ 	drm_object_attach_property(&plane->base, ipu->sharpness_prop,
+ 				   ipu->sharpness);
+ 
+-	err = clk_prepare_enable(ipu->clk);
++	err = clk_prepare(ipu->clk);
+ 	if (err) {
+-		dev_err(dev, "Unable to enable clock\n");
++		dev_err(dev, "Unable to prepare clock\n");
+ 		return err;
+ 	}
+ 
+@@ -775,7 +792,7 @@ static void ingenic_ipu_unbind(struct device *dev,
+ {
+ 	struct ingenic_ipu *ipu = dev_get_drvdata(dev);
+ 
+-	clk_disable_unprepare(ipu->clk);
++	clk_unprepare(ipu->clk);
+ }
+ 
+ static const struct component_ops ingenic_ipu_ops = {
 -- 
 2.27.0
 
