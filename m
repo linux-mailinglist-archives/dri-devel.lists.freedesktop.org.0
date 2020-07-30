@@ -2,43 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50831233722
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 18:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92FB2337A6
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 19:26:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D765A6E926;
-	Thu, 30 Jul 2020 16:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0AC6E934;
+	Thu, 30 Jul 2020 17:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8E86E926
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 16:49:05 +0000 (UTC)
-Received: from localhost (cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
- [82.37.168.47])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BD733207F5;
- Thu, 30 Jul 2020 16:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596127745;
- bh=Wi7LMVSqES6xakVzVVsnmHXkISayOsW7D4YJWLJCn3I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Zmb7afjLpegOR3tGn/JpIIN/p+wE91ap2d1ddBb7IMI4D29F2LSRidnRC4T9hgdRw
- EGR6eiQ12u4hN1uU/fWn95U09rp862CWnpbcBnWPiH/a91DqtXmUFdEl8L3BpclCcu
- 9iOiwe/u77goaNG9p4qTuNVuJKIZUWiBYh2kO0Oc=
-Date: Thu, 30 Jul 2020 17:48:45 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v9 0/4] driver core: add probe error check helper
-Message-ID: <20200730164845.GE5055@sirena.org.uk>
-References: <CGME20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981@eucas1p2.samsung.com>
- <20200713144324.23654-1-a.hajda@samsung.com>
- <e55a23bf-59bb-43c6-f7d7-467c282b8648@samsung.com>
- <20200730070832.GA4045592@kroah.com>
- <CAKdAkRTKjHg2y8yTFgxr4yY98M8D2noutDBfB1mh7wwLLQrYbw@mail.gmail.com>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C8C6E932;
+ Thu, 30 Jul 2020 17:26:18 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f2302ac0000>; Thu, 30 Jul 2020 10:26:04 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Thu, 30 Jul 2020 10:26:17 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Thu, 30 Jul 2020 10:26:17 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Jul
+ 2020 17:26:17 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 30 Jul 2020 17:26:17 +0000
+Received: from jajones-aftershock.nvidia.com (Not Verified[172.20.40.66]) by
+ hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5f2302b80002>; Thu, 30 Jul 2020 10:26:17 -0700
+From: James Jones <jajones@nvidia.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Ben Skeggs <bskeggs@redhat.com>, "Kirill A . Shutemov" <kirill@shutemov.name>
+Subject: [PATCH v3] drm/nouveau: Accept 'legacy' format modifiers
+Date: Thu, 30 Jul 2020 10:26:17 -0700
+Message-ID: <20200730172617.4158-1-jajones@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <CAKdAkRTKjHg2y8yTFgxr4yY98M8D2noutDBfB1mh7wwLLQrYbw@mail.gmail.com>
-X-Cookie: Alex Haley was adopted!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1596129964; bh=yj6I/tswEDZkbNgoWPblFKyTVQJWVK63ClUftv9o7DM=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=eBekScyKvdKlGQktObwIA/rZi22Ou4NWHbLoJJ7vpwJpDgYoJRdeyl154WX5bmazZ
+ cLJB7dvY0vG5WbBZf1OVWHNlzSQ5fDmjeoAFw++GTiqqkM8BPQeLI8/53rd7ea06yT
+ +8pbctqxU/mP2XcQr4DRMGNoonmVJoVgxYGLPGv5y7hUr6QTxOgbaadlViYSIRqEOY
+ kunHhExBEq50Jv+1JsLZYeI7kx1p+ZNVqQzosmOWGC/xhZB2v5eROL2QzjRD/cD5ht
+ UmCyys56aURDYvjLEuTcQbVtSWrvDdhoJqtJpH4P7vm5xxody9exo3HbBvpS12qEy2
+ 0uF/cEnkjJxNg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,78 +61,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: multipart/mixed; boundary="===============1568517149=="
+Cc: Nouveau <nouveau@lists.freedesktop.org>, James Jones <jajones@nvidia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Accept the DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()
+family of modifiers to handle broken userspace
+Xorg modesetting and Mesa drivers. Existing Mesa
+drivers are still aware of only these older
+format modifiers which do not differentiate
+between different variations of the block linear
+layout. When the format modifier support flag was
+flipped in the nouveau kernel driver, the X.org
+modesetting driver began attempting to use its
+format modifier-enabled framebuffer path. Because
+the set of format modifiers advertised by the
+kernel prior to this change do not intersect with
+the set of format modifiers advertised by Mesa,
+allocating GBM buffers using format modifiers
+fails and the modesetting driver falls back to
+non-modifier allocation. However, it still later
+queries the modifier of the GBM buffer when
+creating its DRM-KMS framebuffer object, receives
+the old-format modifier from Mesa, and attempts
+to create a framebuffer with it. Since the kernel
+is still not aware of these formats, this fails.
 
---===============1568517149==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KlAEzMkarCnErv5Q"
-Content-Disposition: inline
+Userspace should not be attempting to query format
+modifiers of GBM buffers allocated with a non-
+format-modifier-aware allocation path, but to
+avoid breaking existing userspace behavior, this
+change accepts the old-style format modifiers when
+creating framebuffers and applying them to planes
+by translating them to the equivalent new-style
+modifier. To accomplish this, some layout
+parameters must be assumed to match properties of
+the device targeted by the relevant ioctls. To
+avoid perpetuating misuse of the old-style
+modifiers, this change does not advertise support
+for them. Doing so would imply compatibility
+between devices with incompatible memory layouts.
 
+Tested with Xorg 1.20 modesetting driver,
+weston@c46c70dac84a4b3030cd05b380f9f410536690fc,
+gnome & KDE wayland desktops from Ubuntu 18.04,
+kmscube hacked to use linear mod, and sway 1.5
 
---KlAEzMkarCnErv5Q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reported-by: Kirill A. Shutemov <kirill@shutemov.name>
+Fixes: fa4f4c213f5f ("drm/nouveau/kms: Support NVIDIA format modifiers")
+Link: https://lkml.org/lkml/2020/6/30/1251
+Signed-off-by: James Jones <jajones@nvidia.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_display.c | 26 +++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
-On Thu, Jul 30, 2020 at 09:18:30AM -0700, Dmitry Torokhov wrote:
-
-> I believe it still has not been answered why this can't be pushed into
-> resource providers (clock, regulators, gpio, interrupts, etc),
-> especially for devm APIs where we know exactly what device we are
-> requesting a resource for, so that individual drivers do not need to
-> change anything.
-
-The error messages are frequently in the caller rather than the
-frameworks, it's often helpful for the comprehensibility of the error
-messages especially in cases where things may be legitimately absent.
-
->                  We can mark the device as being probed so that probe
-> deferral is only handled when we actually execute probe() (and for the
-> bonus points scream loudly if someone tries to return -EPROBE_DEFER
-> outside of probe path).
-
-Is this a big issue?
-
---KlAEzMkarCnErv5Q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl8i+ewACgkQJNaLcl1U
-h9DueQf/QkO4v81CMD7SEApOvQjNBQ1RWfJ8Q/NBYJFxm8NmmOowBWYnNXFzRu1O
-oCF+JukJ6znqRqsocboI/8sUkUQ7hWLi9S53VaUkYdArscPZ0myQ8/lb9nqKXqqi
-NlCnEGNxEUprZBxyD1T/qOnoi1hFGko+shXG59pLoYD9SCA0sODJwONb4ktVuJ7J
-7kG2/jF6y5Qs2tMNcDHklnrXZg9yWPIdD9ppl4K2soYw17TyIiF+UZdunZSlWFZ5
-M3Sz+fbK3xPZodecRz6tqaDm48bAsqe51dFa5DbIt6/DPLBo/+cLzpSONZTCUxxs
-hqEsIHEG2ZQ+9cGRQtCPFGruqG5tvA==
-=SqHC
------END PGP SIGNATURE-----
-
---KlAEzMkarCnErv5Q--
-
---===============1568517149==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index 496c4621cc78..31543086254b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -191,8 +191,14 @@ nouveau_decode_mod(struct nouveau_drm *drm,
+ 		   uint32_t *tile_mode,
+ 		   uint8_t *kind)
+ {
++	struct nouveau_display *disp = nouveau_display(drm->dev);
+ 	BUG_ON(!tile_mode || !kind);
+ 
++	if ((modifier & (0xffull << 12)) == 0ull) {
++		/* Legacy modifier.  Translate to this device's 'kind.' */
++		modifier |= disp->format_modifiers[0] & (0xffull << 12);
++	}
++
+ 	if (modifier == DRM_FORMAT_MOD_LINEAR) {
+ 		/* tile_mode will not be used in this case */
+ 		*tile_mode = 0;
+@@ -227,6 +233,16 @@ nouveau_framebuffer_get_layout(struct drm_framebuffer *fb,
+ 	}
+ }
+ 
++static const u64 legacy_modifiers[] = {
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(0),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(1),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(2),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(3),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(4),
++	DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(5),
++	DRM_FORMAT_MOD_INVALID
++};
++
+ static int
+ nouveau_validate_decode_mod(struct nouveau_drm *drm,
+ 			    uint64_t modifier,
+@@ -247,8 +263,14 @@ nouveau_validate_decode_mod(struct nouveau_drm *drm,
+ 	     (disp->format_modifiers[mod] != modifier);
+ 	     mod++);
+ 
+-	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
+-		return -EINVAL;
++	if (disp->format_modifiers[mod] == DRM_FORMAT_MOD_INVALID) {
++		for (mod = 0;
++		     (legacy_modifiers[mod] != DRM_FORMAT_MOD_INVALID) &&
++		     (legacy_modifiers[mod] != modifier);
++		     mod++);
++		if (legacy_modifiers[mod] == DRM_FORMAT_MOD_INVALID)
++			return -EINVAL;
++	}
+ 
+ 	nouveau_decode_mod(drm, modifier, tile_mode, kind);
+ 
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1568517149==--
