@@ -2,46 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6423401E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02897234024
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E99D6E094;
-	Fri, 31 Jul 2020 07:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A84B6EA00;
+	Fri, 31 Jul 2020 07:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6366E8EC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 13:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1596116471; bh=GofhiWtZo83ZcSwGRix98z4zveLZhyL8LDQJeSZFE5I=;
- h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
- b=iZkcEonxCQQzyGK1LZyT3oh0DfrUWc6bPMjsFRVLCIiNAsKJ8tKncEPFNJv9Nl/pc
- 1c3mp/qj79uELGYcZXENPLcN1S5z4QVZmrPBhOmpT8/3WF0mB9ozYWBCyKyv89+6pE
- dAaRRkoiFvtzkBHs0FQXQ8QZIfut82ivnSo3/7cY=
-Date: Thu, 30 Jul 2020 15:41:11 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH 0/2] Fix st7703 panel initialization failures
-Message-ID: <20200730134111.nayvgw4kcxeg6kft@core.my.home>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Fabio Estevam <festevam@gmail.com>,
- Robert Chiras <robert.chiras@nxp.com>,
- Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200716123753.3552425-1-megous@megous.com>
- <20200716140843.GA359122@bogon.m.sigxcpu.org>
- <20200716143209.ud6ote4q545bo2c7@core.my.home>
- <20200718173124.GA88021@bogon.m.sigxcpu.org>
- <20200718174215.mgjl3klytfa3nf3t@core.my.home>
- <20200729154809.GA435075@bogon.m.sigxcpu.org>
+Received: from crapouillou.net (crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2076E910
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 14:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1596120515; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:references; bh=PQkagFlHg2d5KzpMhd8eaAxlglNrzK6R7YdWS3ZyGw4=;
+ b=sbJRwlRK3mtagHtlYLsdJFIW4k1HPOaVFrpjnzDiEG3pXKa7gEgPCqU7BblfEKlP82y1dC
+ KXbB8FeCnXzylEiIGcay6gw6ErwCczxxP7VDPZ4Z6aMsxiK+ZGbyoEk4txRNoSYdExm8k+
+ wx/gDYHCncKFNc1iSlFn/ZKtqhy+rNg=
+From: Paul Cercueil <paul@crapouillou.net>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 0/3] More IPU cleanups v2
+Date: Thu, 30 Jul 2020 16:48:27 +0200
+Message-Id: <20200730144830.10479-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200729154809.GA435075@bogon.m.sigxcpu.org>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
 X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,96 +40,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
  Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Robert Chiras <robert.chiras@nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpPbiBXZWQsIEp1bCAyOSwgMjAyMCBhdCAwNTo0ODowOVBNICswMjAwLCBHdWlkbyBH
-w7xudGhlciB3cm90ZToKPiBIaSwKPiBPbiBTYXQsIEp1bCAxOCwgMjAyMCBhdCAwNzo0MjoxNVBN
-ICswMjAwLCBPbmTFmWVqIEppcm1hbiB3cm90ZToKPiA+IEhlbGxvLAo+ID4gCj4gPiBPbiBTYXQs
-IEp1bCAxOCwgMjAyMCBhdCAwNzozMToyNFBNICswMjAwLCBHdWlkbyBHw7xudGhlciB3cm90ZToK
-PiA+ID4gSGksCj4gPiA+IE9uIFRodSwgSnVsIDE2LCAyMDIwIGF0IDA0OjMyOjA5UE0gKzAyMDAs
-IE9uZMWZZWogSmlybWFuIHdyb3RlOgo+ID4gPiA+IEhpIEd1aWRvLAo+ID4gPiA+IAo+ID4gPiA+
-IE9uIFRodSwgSnVsIDE2LCAyMDIwIGF0IDA0OjA4OjQzUE0gKzAyMDAsIEd1aWRvIEfDvG50aGVy
-IHdyb3RlOgo+ID4gPiA+ID4gSGkgT25kcmVqLAo+ID4gPiA+ID4gT24gVGh1LCBKdWwgMTYsIDIw
-MjAgYXQgMDI6Mzc6NTFQTSArMDIwMCwgT25kcmVqIEppcm1hbiB3cm90ZToKPiA+ID4gPiA+ID4g
-V2hlbiBleHRlbmRpbmcgdGhlIGRyaXZlciBmb3IgeGJkNTk5IHBhbmVsIHN1cHBvcnQgSSB0cmll
-ZCB0byBkbyBtaW5pbWFsCj4gPiA+ID4gPiA+IGNoYW5nZXMgYW5kIGtlZXAgdGhlIGV4aXN0aW5n
-IGluaXRpYWxpemF0aW9uIHRpbWluZy4KPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+IEl0IHR1cm5l
-ZCBvdXQgdGhhdCBpdCdzIG5vdCBnb29kIGVub3VnaCBhbmQgdGhlIGV4aXN0aW5nIGluaXQgc2Vx
-dWVuY2UKPiA+ID4gPiA+ID4gaXMgdG9vIGFnZ3Jlc3NpdmUgYW5kIGRvZXNuJ3QgZm9sbG93IHRo
-ZSBzcGVjaWZpY2F0aW9uLiBPbiBQaW5lUGhvbmUKPiA+ID4gPiA+ID4gcGFuZWwgaXMgYmVpbmcg
-cG93ZXJlZCBkb3duL3VwIGR1cmluZyBzdXNwZW5kL3Jlc3VtZSBhbmQgd2l0aCBjdXJyZW50Cj4g
-PiA+ID4gPiA+IHRpbWluZ3MgdGhpcyBmcmVxdWVudGx5IGxlYWRzIHRvIGNvcnJ1cHRlZCBkaXNw
-bGF5Lgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBHaXZlbiB0aGUgYW1vdW50IG9mIFNUNzcwMyBsb29r
-IGFsaWtlcyBpIGRvbid0IHRoaW5rIHlvdSBjYW4gZ28gYnkgdGhlCj4gPiA+ID4gPiBkYXRhc2hl
-ZXQgYW5kIGhvcGUgbm90IHRvIGJyZWFrIG90aGVyIHBhbmVscy4gVGhlIGN1cnJlbnQgc2xlZXBz
-IGNhdGVyCj4gPiA+ID4gPiBmb3IgdGhlIHJvY2t0ZWNoIHBhbmVsICh3aGljaCBzdWZmZXJlZCBm
-cm9tIHNpbWlsYXIgaXNzdWVzIHlvdSBkZXNjcmliZQo+ID4gPiA+ID4gd2hlbiB3ZSB0b29rIG90
-aGVyIHBhcmFtZXRlcnMpIHNvIHlvdSBuZWVkIHRvIG1ha2UgdGhvc2UgcGFuZWwgc3BlY2lmaWMu
-Cj4gPiA+ID4gCj4gPiA+ID4gSXQgc2hvdWxkIHdvcmsgb24gcm9ja3RlY2ggdG9vLiBUaGUgcGF0
-Y2ggbW9zdGx5IGluY3JlYXNlcy9yZW9yZGVycyB0aGUgZGVsYXlzCj4gPiA+ID4gc2xpZ2h0bHks
-IHRvIG1hdGNoIHRoZSBjb250cm9sbGVyIGRvY3VtZW50YXRpb24uIEkgZG9uJ3Qgc2VlIGEgcmVh
-c29uIHRvCj4gPiA+ID4gY29tcGxpY2F0ZSB0aGUgZHJpdmVyIHdpdGggcGVyIHBhbmVsIHNwZWNp
-YWwgZGVsYXlzLCB1bmxlc3MgdGhlc2UgcGF0Y2hlcyBkb24ndAo+ID4gPiA+IHdvcmsgb24geW91
-ciBwYW5lbC4KPiA+ID4gCj4gPiA+IFRoYXQncyB3aHkgaSBicm91Z2h0IGl0IHVwLiBJdCBicmVh
-a3MgdGhlIHJvY2t0ZWNoIHBhbmVsIG9uCj4gPiA+IGJsYW5rL3VuYmxhbmsgbG9vcHMgd2hlcmUg
-aXQganVzdCBzdGF5cyBibGFuayBhbmQgdGhlbiBzdGFydHMgaGl0dGluZwo+ID4gPiBEU0kgY29t
-bWFuZCB0aW1lb3V0cy4KPiA+IAo+ID4gR29vZCB0byBrbm93LiBEb2VzIGtlZXBpbmcgdGhlIG1z
-bGVlcCgyMCk7IGFmdGVyIGluaXQgc2VxdWVuY2UgYW5kIGJlZm9yZSBzbGVlcAo+ID4gZXhpdCBt
-YWtlIGl0IHdvcms/Cj4gCj4gV2UgbmVlZCBib3RoIHNsZWVwcyB0byBtYWtlIHRoaXMgd29yayBy
-ZWxpYWJseSBzbyBiYXNpY2FsbHkKPiByZXZlcnRpbmcgeW91ciAnZHJtL3BhbmVsOiBzdDc3MDM6
-IE1ha2UgdGhlIHNsZWVwIGV4aXQgdGltaW5nIG1hdGNoIHRoZQo+IHNwZWMnIG1ha2VzIHRoaW5n
-cyBzdGFibGUgYWdhaW4uCj4gCj4gV2UgZG9uJ3QgbmVlZCB0byBzbGVlcCAxMjBtcyBhZnRlciBz
-bGVlcCBvdXQgdGhvdWdoIHNpbmNlIG91ciBwYW5lbCBvbmx5Cj4gcmVxdWlyZXMgMTVtcyBhcyBw
-ZXIgZGF0YSBzaGVldCB0aGVyZSBzbyBpdCByZWFsbHkgbWFrZXMgc2Vuc2UgdG8gbWFrZQo+IHRo
-ZXNlIGNvbmZpZ3VyYWJsZS4KClRoYW5rIHlvdSBmb3IgY2hlY2tpbmcgaXQuCgpJJ2QgYmUgaGFw
-cHkgd2l0aCBqdXN0IHRoZSBvdGhlciBwYXRjaCBiZWluZyBhcHBsaWVkLiBUaGF0IHdvdWxkIGJl
-IGVub3VnaAp0byBmaXggaXNzdWVzIHdpdGggeGluZ2JhbmdkYSBwYW5lbCB0b28uCgpJbiBteSB0
-ZXN0cyB4YmQgcGFuZWwgZG9lc24ndCBuZWVkIDEyMG1zIGVpdGhlciwgZGVzcGl0ZSB0aGUgZGF0
-YXNoZWV0LgpXaGF0IGJyZWFrcyB4YmQgcGFuZWwgaXMgdGhlIGxhY2sgb2YgcG9zdC1wb3dlcnVw
-IGRlbGF5IGJlZm9yZSBkZWFzc2VydGluZwpyZXNldCBsaW5lLgoKcmVnYXJkcywKCW8uCgo+IENo
-ZWVycywKPiAgLS0gR3VpZG8KPiAKPiA+IAo+ID4gdGhhbmsgeW91IGFuZCByZWdhcmRzLAo+ID4g
-CW8uCj4gPiAKPiA+ID4gQ2hlZXJzLAo+ID4gPiAgLS0gR3VpZG8KPiA+ID4gCj4gPiA+ID4gCj4g
-PiA+ID4gVGhlIGluaXQgc2VxdWVuY2UgaXMgc3RpbGwgc3Vib3B0aW1hbCwgYW5kIGRvZXNuJ3Qg
-Zm9sbG93IHRoZSBrZXJuZWwgZG9jcwo+ID4gPiA+IGNvbXBsZXRlbHksIGV2ZW4gYWZ0ZXIgdGhl
-c2UgcGF0Y2hlcy4gQ29udHJvbGxlciBzcGVjIGFsc28gdGFsa3MgYWJvdXQgYWRkaW5nCj4gPiA+
-ID4gc29tZSBkZWxheSBiZWZvcmUgZW5hYmxpbmcgdGhlIGJhY2tsaWdodCB0byBhdm9pZCB2aXN1
-YWwgZ2xpdGNoZXMuCj4gPiA+ID4gCj4gPiA+ID4gV2hpY2ggaXMgd2hhdCBlbmFibGUgY2FsbGJh
-Y2sgaXMgZG9jdW1lbnRlZCB0byBiZSBmb3IuIEN1cnJlbnRseSBwYXJ0IG9mIHRoZQo+ID4gPiA+
-IGluaXRpYWxpemF0aW9uIHRoYXQgYmVsb25ncyB0byBwcmVwYXJlIGNhbGxiYWNrIGlzIGFsc28g
-ZG9uZSBpbiBlbmFibGUgY2FsbGJhY2suCj4gPiA+ID4gCj4gPiA+ID4gSSBzZWUgdGhlIGdsaXRj
-aCAoc21hbGwgdmVydGljYWwgc2hpZnQgb2YgdGhlIGltYWdlIG9uIHBvd2VydXApLCBidXQgcGVy
-c29uYWxseQo+ID4gPiA+IGRvbid0IGNhcmUgbXVjaCB0byBpbnRyb2R1Y2UgZXZlbiBtb3JlIGRl
-bGF5cyB0byB0aGUgZHJpdmVyLCBqdXN0IGZvciB0aGUKPiA+ID4gPiBjb3NtZXRpYyBpc3N1ZS4K
-PiA+ID4gPiAKPiA+ID4gPiByZWdhcmRzLAo+ID4gPiA+IAlvLgo+ID4gPiA+IAo+ID4gPiA+ID4g
-Q2hlZXJzLAo+ID4gPiA+ID4gIC0tIEd1aWRvCj4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gCj4gPiA+
-ID4gPiA+IFRoaXMgcGF0Y2ggc2VyaWVzIGZpeGVzIHRoZSBwcm9ibGVtcy4KPiA+ID4gPiA+ID4g
-Cj4gPiA+ID4gPiA+IFRoZSBpc3N1ZSB3YXMgcmVwb3J0ZWQgYnkgU2FtdWVsIEhvbGxhbmQuCj4g
-PiA+ID4gPiA+IAo+ID4gPiA+ID4gPiBSZWxldmFudCBzY3JlZW5zaG90cyBmcm9tIHRoZSBkYXRh
-c2hlZXQ6Cj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiAgIFBvd2VyIG9uIHRpbWluZzogaHR0cHM6
-Ly9tZWdvdXMuY29tL2RsL3RtcC8zNWI3MmU2NzRjZTBjYTI3LnBuZwo+ID4gPiA+ID4gPiAgIFBv
-d2VyIG9mZiB0aW1pbmc6IGh0dHBzOi8vbWVnb3VzLmNvbS9kbC90bXAvZGVhMTk1NTE3MTA2ZmYx
-Ny5wbmcKPiA+ID4gPiA+ID4gICBNb3JlIG9wdGltYWwgcmVzZXQgb24gcG93ZXJvbjogaHR0cHM6
-Ly9tZWdvdXMuY29tL2RsL3RtcC9hOWU1Y2FmMTRlMWIwZGM2LnBuZwo+ID4gPiA+ID4gPiAgIExl
-c3Mgb3B0aW1hbCByZXNldCBvbiBwb3dlcm9uOiBodHRwczovL21lZ291cy5jb20vZGwvdG1wLzI0
-Njc2MTAzOTI4M2M0Y2YucG5nCj4gPiA+ID4gPiA+ICAgRGF0YXNoZWV0OiBodHRwczovL21lZ291
-cy5jb20vZGwvdG1wL1NUNzcwM19EU192MDFfMjAxNjAxMjgucGRmCj4gPiA+ID4gPiA+IAo+ID4g
-PiA+ID4gPiBQbGVhc2UgdGFrZSBhIGxvb2suCj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiB0aGFu
-ayB5b3UgYW5kIHJlZ2FyZHMsCj4gPiA+ID4gPiA+ICAgT25kcmVqIEppcm1hbgo+ID4gPiA+ID4g
-PiAKPiA+ID4gPiA+ID4gT25kcmVqIEppcm1hbiAoMik6Cj4gPiA+ID4gPiA+ICAgZHJtL3BhbmVs
-OiBzdDc3MDM6IE1ha2UgdGhlIHNsZWVwIGV4aXQgdGltaW5nIG1hdGNoIHRoZSBzcGVjCj4gPiA+
-ID4gPiA+ICAgZHJtL3BhbmVsOiBzdDc3MDM6IEZpeCB0aGUgcG93ZXIgdXAgc2VxdWVuY2Ugb2Yg
-dGhlIHBhbmVsCj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLXNpdHJvbml4LXN0NzcwMy5jIHwgMjkgKysrKysrKysrKy0tLS0tLS0tLQo+ID4gPiA+
-ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQo+
-ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gLS0gCj4gPiA+ID4gPiA+IDIuMjcuMAo+ID4gPiA+ID4g
-PiAKPiA+ID4gPiAKPiA+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Patch [1/3] unchanged. Patches [2/3] and [3/3] have had their commit
+message slightly modified, but the patches themselves are the same as
+before.
+
+Cheers,
+-Paul
+
+Paul Cercueil (3):
+  drm/ingenic: ipu: Only restart manually on older SoCs
+  drm/ingenic: ipu: Remove YUV422 from supported formats on JZ4725B
+  drm/ingenic: ipu: Only enable clock when needed
+
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 38 +++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 5 deletions(-)
+
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
