@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E93232B09
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 06:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92117232B0A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 06:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB626E84E;
-	Thu, 30 Jul 2020 04:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8C26E84F;
+	Thu, 30 Jul 2020 04:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 854466E84E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 04:47:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE2476E84F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 04:47:29 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208743] suspend and hibernate periodically fail. suspend
  significantly more often than hibernate.
-Date: Thu, 30 Jul 2020 04:47:14 +0000
+Date: Thu, 30 Jul 2020 04:47:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208743-2300-17qyL3zj18@https.bugzilla.kernel.org/>
+Message-ID: <bug-208743-2300-WFOh0v54ov@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208743-2300@https.bugzilla.kernel.org/>
 References: <bug-208743-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208743
 
---- Comment #2 from arjunkc@gmail.com ---
-Created attachment 290689
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290689&action=edit
-lscpi
+--- Comment #3 from arjunkc@gmail.com ---
+Created attachment 290691
+  --> https://bugzilla.kernel.org/attachment.cgi?id=290691&action=edit
+modules
 
 -- 
 You are receiving this mail because:
