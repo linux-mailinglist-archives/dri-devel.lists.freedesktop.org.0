@@ -2,42 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF91232C1A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 08:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFC9232C10
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 08:46:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094FD6E860;
-	Thu, 30 Jul 2020 06:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D09846E85D;
+	Thu, 30 Jul 2020 06:46:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765BA6E860;
- Thu, 30 Jul 2020 06:52:03 +0000 (UTC)
-IronPort-SDR: SOQhpEhqE08K8gBvoGYCYZ3FG1er4800WWG4tXZkGlj1DKPApW5QsZ6GpXxXGGEgzK/o0eJ6rW
- iBAY9rmTH9Cw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9697"; a="152776387"
-X-IronPort-AV: E=Sophos;i="5.75,413,1589266800"; d="scan'208";a="152776387"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2020 23:52:02 -0700
-IronPort-SDR: 2zghKGF/AZVMS8LEGACb/O+AyJrUiWq0fMuhlSGd/5xMVnJHle45MBG1NAhn8uN6s79I/jCM+S
- 7nCe/DF3bR1g==
-X-IronPort-AV: E=Sophos;i="5.75,413,1589266800"; d="scan'208";a="330650977"
-Received: from unknown (HELO intel.com) ([10.223.74.178])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2020 23:51:58 -0700
-Date: Thu, 30 Jul 2020 12:09:53 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Avoid modeset when content
- protection changes
-Message-ID: <20200730063650.GA25561@intel.com>
-References: <20200714160627.1269-1-sean@poorly.run>
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4326E85D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 06:46:35 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id a21so26806791ejj.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jul 2020 23:46:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=VvW/5770zwdEjP0loB0rGyzZeqTV1S8hvb/EOvhH5ns=;
+ b=n2oQkhEiHcjS5iUb3lhcY1mcdwsTr8t6Os4tROKjn80C9BBYEBcN1Ux9TV9Wa7Iivf
+ wkl0nxRdofiOiZjWwN5QZaK9oJIPYzEoZ8trBd4L6RqYMIuzqVaXuLVIUmLc4c+6K35Z
+ DTmn2tAtLdQ8nSQ3WdthZfGrsLoob//DHUvOPgAfs/6T+mSeSYTbI6RbQItPuML3na4E
+ sbwM0Ipv7DdzOrHh/2Or2OBlRgO53oqVQMm+8AARK+KaQul2DPznClUwifYrxOfRhz3M
+ TcuMPWd4szuFRdNY3CXRLOZlIvCVPYDcWSUwAatqU3WmYGap/3MQJumhz8dhYv6otEVK
+ hD3A==
+X-Gm-Message-State: AOAM5336C32nWtSFWn+6sQSRYpVRO7t0gcMUnGV7NOEUvIkwVV+BocDK
+ RwgYlqDNH494R3G1i/u2nck=
+X-Google-Smtp-Source: ABdhPJz9oidJ37cVJXjWt97VdLi7NLqMYVy6XmEAAIyOjANEBvS0Sei67vqcg/JYxg4UqxI6pxM3FA==
+X-Received: by 2002:a17:907:94c9:: with SMTP id
+ dn9mr1149368ejc.355.1596091593696; 
+ Wed, 29 Jul 2020 23:46:33 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
+ by smtp.gmail.com with ESMTPSA id t25sm4480562ejc.34.2020.07.29.23.46.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jul 2020 23:46:32 -0700 (PDT)
+Subject: Re: [PATCH] vgacon: fix out of bounds write to the scrollback buffer
+To: =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>,
+ Solar Designer <solar@openwall.com>
+References: <20200729130710.GA13262@openwall.com>
+ <b764c575-70be-80dd-6718-e84370a7b2b3@nsfocus.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jslaby@suse.cz; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <659f8dcf-7802-1ca1-1372-eb7fefd4d8f4@kernel.org>
+Date: Thu, 30 Jul 2020 08:46:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200714160627.1269-1-sean@poorly.run>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <b764c575-70be-80dd-6718-e84370a7b2b3@nsfocus.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,62 +104,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Kyungtae Kim <kt0755@gmail.com>, b.zolnierkie@samsung.com,
+ Greg KH <greg@kroah.com>,
+ Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ DRI devel <dri-devel@lists.freedesktop.org>,
+ Anthony Liguori <aliguori@amazon.com>,
+ Yang Yingliang <yangyingliang@huawei.com>, xiao.zhang@windriver.com,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+Content-Type: text/plain; charset="gbk"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-07-14 at 21:36:27 +0530, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Instead of doing a full modeset to enable/disable content protection,
-> simply go through the update_pipe flow which was introduced in the
-> related patch below. This avoids flashing the screen every time the user
-> starts viewing protected content.
-> 
-> Related: 634852d1f468 ("drm/i915: HDCP state handling in ddi_update_pipe")
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: intel-gfx@lists.freedesktop.org
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index 89a4d294822d..839ce1715253 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -2191,7 +2191,7 @@ void intel_hdcp_atomic_check(struct drm_connector *connector,
->  			return;
->  	}
->  
-> -	crtc_state->mode_changed = true;
-> +	to_intel_crtc_state(crtc_state)->update_pipe = true;
-IMHO intel_crtc_check_fastset() make sure that every crtc_state->mode_changed
-will not turn up to a modeset. It seems it is already being taken care.
-
-Thanks,
-Anshuman Gupta.
-
->  }
->  
->  /* Handles the CP_IRQ raised from the DP HDCP sink */
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIE9UT0gsIHlvdSBzaG91bGQgaGF2ZSBDQ2VkIGFsbCB0aGUgKHB1YmxpYykgbGlzdHMuCgpP
+biAzMC4gMDcuIDIwLCA0OjUwLCDVxdTGuqMgd3JvdGU6Cj4gWmhhbmcgWGlhbyBwb2ludHMgb3V0
+IHRoYXQgdGhlIGNoZWNrIHNob3VsZCB1c2UgPiBpbnN0ZWFkIG9mID49LAo+IG90aGVyd2lzZSB0
+aGUgbGFzdCBsaW5lIHdpbGwgYmUgc2tpcC4KPiBJIGFncmVlIHdpdGggdGhhdCwgc28gSSBtb2Rp
+ZnkgdGhlIHBhdGNoLgo+IENvdWxkIHlvdSBwbGVhc2UgdmVyaWZ5IHRoYXQgaXQgaXMgc3RpbGwg
+Y29ycmVjdCBhbmQgc3VmZmljaWVudD8KCklNTywgeWVzLCBjb3JyZWN0IC0tIEkgd2FzIHRoaW5r
+aW5nIGFib3V0IHRoaXMgeWVzdGVyZGF5IHRvby4gSnVzdCBhbgpleGFtcGxlOiBoeXBvdGhldGlj
+YWxseSwgaWYgd2UgaGFkOgpzaXplX3JvdyA9IDEKdGFpbCA9IDI5CnNpemUgPSAzMAoKZGF0YVsy
+OV0gd291bGQgYmUgdGhlIGxhc3QgYWNjZXNzaWJsZSBtZW1iZXIuIFdyaXRpbmcgdG8gZGF0YSAr
+IHRhaWwgKGFzCiIyOSArIDEgPiAzMCIgZG9lc24ndCBob2xkLCBzbyB0aGUgbW9kaWZpZWQgY2hl
+Y2sgd291bGQgcGFzcyksIGkuZS4KZGF0YVsyOV0gaXMgc3RpbGwgT0suIFNvIHllcywgPiBpcyBP
+SywgPj0gd291bGQgd2FzdGUgc3BhY2UgYW5kIHdvdWxkIGJlCmFjdHVhbGx5IGluY29ycmVjdC4K
+Cj4gQlRXLCBaaGFuZyBYaWFvIGFsc28gcG9pbnRzIG91dCB0aGF0IHRoZSBjaGVjayBhZnRlciB0
+aGUgbWVtY3B5IGNhbiBiZQo+IHJlbW92ZS4KPiBJIGFsc28gdGhpbmsgdGhhdCB3YXMgcmlnaHQs
+IGJ1dCB2Z2Fjb25fc2Nyb2xsYmFja19jdXItPnRhaWwgbWF5IGtlZXAKPiB0aGUgdmFsdWUgdmdh
+Y29uX3Njcm9sbGJhY2tfY3VyLT5zaXplIGluIHNvbWUgY2FzZS4gVGhhdCBpcyBub3QgYQo+IHBy
+b2JsZW0gaW4gdmdhY29uX3Njcm9sbGJhY2tfdXBkYXRlIGJlY2F1c2Ugb2YgdGhlIGNoZWNrIGJl
+Zm9yZSB0aGUKPiBtZW1jcHkuIEhvd2V2ZXIsIHRoYXQgbWF5IGJyZWFrIHNvbWUgb3RoZXIgY29k
+ZSB3aGljaCBhc3N1bWVzIHRoYXQKPiB2Z2Fjb25fc2Nyb2xsYmFja19jdXItPnRhaWwgd29uJ3Qg
+YmUgdmdhY29uX3Njcm9sbGJhY2tfY3VyLT5zaXplLiBJIGRvCj4gbm90IGtub3cgaWYgdGhlcmUg
+YXJlIHN1Y2ggY29kZSwgYW5kIGlmIGl0IGlzIHRoZSBjb2RlIGFjdHVhbGx5ICBzaG91bGQKPiBj
+aGVjayBpdCB0b28uIEJ1dCBJIHN0aWxsIG5vdCByZW1vdmUgdGhlIGNoZWNrIGluIHRoZSBwYXRj
+aCB0byBtYWtlIHN1cmUKPiBpdCB3b24ndCBicmVha3Mgb3RoZXIgY29kZS4KCkFzIEkgd3JvdGUg
+YWJvdXQgdGhpcyB5ZXN0ZXJkYXk6Cj09PQpJIGFtIGFsc28gbm90IHN1cmUgdGhlIHRlc3QgSSB3
+YXMgcG9pbnRpbmcgb3V0IG9uIHRoZSB0b3Agb2YgdGhpcwptZXNzYWdlIHdvdWxkIGJlIG9mIGFu
+eSB1c2UgYWZ0ZXIgdGhlIGNoYW5nZS4gQnV0IG1heWJlIGxlYXZlIHRoZSBjb2RlCnJlc3QgaW4g
+cGVhY2UuCj09PQoKSSB3b3VsZCBsZXQgaXQgYXMgaXMgaW4gdGhpcyBwYXJ0aWN1bGFyIGNvZGUu
+IEVzcGVjaWFsbHkgYmVjYXVzZQp2Z2Fjb25fc2Nyb2xsZGVsdGEgdGFrZXMgLT50YWlsIGludG8g
+Y29uc2lkZXJhdGlvbiBhbmQgSSB3YXMgdG9vIGxhenkgdG8Kc3R1ZHkgdGhlIGNvZGUgdGhlcmUu
+IEJ1dCBpZiB5b3UgYXJlIHdpbGxpbmcgdG8gc3R1ZHkgdGhlIGNvZGUgdGhlcmUgYW5kCmNvbmZp
+cm0gdGhlIGNoZWNrIGlzIHN1cGVyZmx1b3VzLCBmZWVsIGZyZWUgdG8gcmVtb3ZlIGl0LiBQZXJo
+YXBzIGluIGEKc2VwYXJhdGUgcGF0Y2guIEkgd2FzIGFjdHVhbGx5IHRlc3Rpbmcgd2l0aCB0aGUg
+Y2hlY2sgcmVtb3ZlZCBhbmQgZGlkbid0CmhpdCBhbnkgaXNzdWUgKHdoaWNoIG1lYW5zLCBpbiBm
+YWN0LCBleGFjdGx5IG5vdGhpbmcpLgoKPiBGcm9tIGFkMTQzZWRlMjRmZjRlNjEyOTJjYzljOTYw
+MDAxMDBhYWNkOTcyNTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCj4gRnJvbTogWXVuaGFpIFpo
+YW5nIDx6aGFuZ3l1bmhhaUBuc2ZvY3VzLmNvbT4KPiBEYXRlOiBUdWUsIDI4IEp1bCAyMDIwIDA5
+OjU4OjAzICswODAwCj4gU3ViamVjdDogW1BBVENIXSBGaXggZm9yIG1pc3NpbmcgY2hlY2sgaW4g
+dmdhY29uIHNjcm9sbGJhY2sgaGFuZGxpbmcKPiAKPiB2Z2Fjb25fc2Nyb2xsYmFja191cGRhdGUo
+KSBhbHdheXMgbGVmdCBlbmJvdWdoIHJvb20gaW4gdGhlIHNjcm9sbGJhY2sKCiJsZWF2ZXMgZW5v
+dWdoIgoKPiBidWZmZXIgZm9yIHRoZSBuZXh0IGNhbGwsIGJ1dCBpZiB0aGUgY29uc29sZSBzaXpl
+IGNoYW5nZWQgdGhhdCByb29tCj4gbWlnaHQgbm90IGFjdHVhbGx5IGJlIGVub3VnaCwgYW5kIHNv
+IHdlIG5lZWQgdG8gcmUtY2hlY2suCgpBbHNvLCBjb3VsZCB5b3UgYWRkIHJlYXNvbmluZyB3aHkg
+eW91IGFyZSBhZGRpbmcgdGhlIGNoZWNrIHRvIHRoZSBsb29wCmFuZCBub3Qgb3V0c2lkZSAoZm9y
+IGluc3RhbmNlLCB1c2UgeW91ciByZWFzb25pbmcgd2l0aCBudW1iZXJzIG9yIENTSSBNCmFzIGFu
+IGV4YW1wbGUpLgoKQ291bGQgeW91IGFkZCBhIHNhbXBsZSBvdXRwdXQgaGVyZSwgc29tZXRoaW5n
+IGxpa2UgSSBoYWQ6Cj09PQogICAgVGhpcyBsZWFkcyB0byByYW5kb20gY3Jhc2hlcyBvciBLQVNB
+TiByZXBvcnRzIGxpa2U6CiAgICBCVUc6IEtBU0FOOiBzbGFiLW91dC1vZi1ib3VuZHMgaW4gdmdh
+Y29uX3Njcm9sbCsweDU3YS8weDhlZAo9PT0KCkl0J3MgdGhlbiBlYXNpZXIgdG8gZ29vZ2xlIGZv
+ciB3aGVuIHRoaXMgaGFwcGVucyB0byBzb21lb25lIHdobyBydW5zCm5vbi1wYXRjaGVkIGtlcm5l
+bHMuCgo+IFRoaXMgZml4ZXMgQ1ZFLTIwMjAtMTQzMzEuCj4gCj4gUmVwb3J0ZWQtYW5kLWRlYnVn
+Z2VkLWJ5OiDVxdTGuqMgPHpoYW5neXVuaGFpQG5zZm9jdXMuY29tPgo+IFJlcG9ydGVkLWFuZC1k
+ZWJ1Z2dlZC1ieTogWWFuZyBZaW5nbGlhbmcgPHlhbmd5aW5nbGlhbmdAaHVhd2VpLmNvbT4KPiBS
+ZXBvcnRlZC1ieTogS3l1bmd0YWUgS2ltIDxrdDA3NTVAZ21haWwuY29tPgo+IEZpeGVzOiAxNWJk
+YWI5NTljOWIgKFtQQVRDSF0gdmdhY29uOiBBZGQgc3VwcG9ydCBmb3Igc29mdCBzY3JvbGxiYWNr
+KQo+IENjOiBMaW51cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXgtZm91bmRhdGlvbi5vcmc+Cj4g
+Q2M6IEdyZWcgS0ggPGdyZWdAa3JvYWguY29tPgo+IENjOiBTb2xhciBEZXNpZ25lciA8c29sYXJA
+b3BlbndhbGwuY29tPgo+IENjOiAiU3JpdmF0c2EgUy4gQmhhdCIgPHNyaXZhdHNhQGNzYWlsLm1p
+dC5lZHU+Cj4gQ2M6IEFudGhvbnkgTGlndW9yaSA8YWxpZ3VvcmlAYW1hem9uLmNvbT4KPiBDYzog
+WWFuZyBZaW5nbGlhbmcgPHlhbmd5aW5nbGlhbmdAaHVhd2VpLmNvbT4KPiBDYzogQmFydGxvbWll
+aiBab2xuaWVya2lld2ljeiA8Yi56b2xuaWVya2llQHNhbXN1bmcuY29tPgoKT2gsIGFuZCB3ZSBz
+aG91bGQ6CkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCgo+IFNpZ25lZC1vZmYtYnk6IFl1bmhh
+aSBaaGFuZyA8emhhbmd5dW5oYWlAbnNmb2N1cy5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvdmlkZW8v
+Y29uc29sZS92Z2Fjb24uYyB8IDQgKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25z
+KCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYyBiL2Ry
+aXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYwo+IGluZGV4IDk5OGIwZGUxODEyZi4uMzdiNTcx
+MWNkOTU4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYwo+ICsr
+KyBiL2RyaXZlcnMvdmlkZW8vY29uc29sZS92Z2Fjb24uYwo+IEBAIC0yNTEsNiArMjUxLDEwIEBA
+IHN0YXRpYyB2b2lkIHZnYWNvbl9zY3JvbGxiYWNrX3VwZGF0ZShzdHJ1Y3QgdmNfZGF0YSAqYywg
+aW50IHQsIGludCBjb3VudCkKPiAgCXAgPSAodm9pZCAqKSAoYy0+dmNfb3JpZ2luICsgdCAqIGMt
+PnZjX3NpemVfcm93KTsKPiAgCj4gIAl3aGlsZSAoY291bnQtLSkgewo+ICsJCWlmICgodmdhY29u
+X3Njcm9sbGJhY2tfY3VyLT50YWlsICsgYy0+dmNfc2l6ZV9yb3cpID4gCj4gKwkJICAgIHZnYWNv
+bl9zY3JvbGxiYWNrX2N1ci0+c2l6ZSkKPiArCQkJdmdhY29uX3Njcm9sbGJhY2tfY3VyLT50YWls
+ID0gMDsKPiArCj4gIAkJc2NyX21lbWNweXcodmdhY29uX3Njcm9sbGJhY2tfY3VyLT5kYXRhICsK
+PiAgCQkJICAgIHZnYWNvbl9zY3JvbGxiYWNrX2N1ci0+dGFpbCwKPiAgCQkJICAgIHAsIGMtPnZj
+X3NpemVfcm93KTsKCnRoYW5rcywKLS0gCmpzCnN1c2UgbGFicwpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
