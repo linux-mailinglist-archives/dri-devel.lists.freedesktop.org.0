@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AE82338A8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 21:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60B42338D5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 21:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725B46E951;
-	Thu, 30 Jul 2020 19:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA52C6E952;
+	Thu, 30 Jul 2020 19:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD0C6E951
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 19:06:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB816E952
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 19:13:21 +0000 (UTC)
 Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C1D97206F5;
- Thu, 30 Jul 2020 19:06:54 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7EF14206F5;
+ Thu, 30 Jul 2020 19:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596136015;
- bh=1I8fO+aOE4GM8YnM8qo4Nuupe+/TzUrSp9geRjuPg7k=;
+ s=default; t=1596136401;
+ bh=PV5FODCRSDHxtEwju8WDtbTuTj+tJ1owHOQIbejCcQ8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=zTI8TKPGCH5TvgmEZYVPZIu/SeTLs5dEOoKzcI8T5sGbuA4syJ7F4F59AJtqNkfTN
- IdQBuDXBoqIsIUodnJf8xzVyLbeV+gpv0gLLzRbfnncnFt67La4zr2MkMNS9EdF5DZ
- r05Orm18MH5SwELFo/25PICbJjNRLvMxxJLSm7y8=
-Date: Thu, 30 Jul 2020 20:06:35 +0100
+ b=BkX+IXJ4r7IdH+a+uhOklsUDzzaHzbIiK0/ITYUwqJVHC70xzFUFPC5OhubsDvdvy
+ cNNpMTlFM39b8NAuDkiycPah71AGPiVA0crvSuvGxJG8Mx7slsacnD4VEZ1hQzz0Zz
+ 1KqsRhyiN9Znc7KNj+ulCq6utcocTyryEIk3BpUY=
+Date: Thu, 30 Jul 2020 20:13:00 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v9 0/4] driver core: add probe error check helper
-Message-ID: <20200730190634.GI5055@sirena.org.uk>
-References: <CGME20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981@eucas1p2.samsung.com>
- <20200713144324.23654-1-a.hajda@samsung.com>
- <e55a23bf-59bb-43c6-f7d7-467c282b8648@samsung.com>
- <20200730070832.GA4045592@kroah.com>
- <CAKdAkRTKjHg2y8yTFgxr4yY98M8D2noutDBfB1mh7wwLLQrYbw@mail.gmail.com>
- <20200730164845.GE5055@sirena.org.uk>
- <CAKdAkRS+QooavPaKMcsaUQdRJGky_6JYq1EiUbyT_gcU3ZYeJw@mail.gmail.com>
- <20200730181639.GG5055@sirena.org.uk>
- <CAKdAkRSaF3q1MJ7mteD-4C4O58LL4FP6xpTovVOdu0v2VD=sAQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight
+ driver for RPi panel
+Message-ID: <20200730191300.GJ5055@sirena.org.uk>
+References: <20200729214645.247185-1-marex@denx.de>
+ <20200730155944.GA1477410@ravnborg.org>
+ <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <CAKdAkRSaF3q1MJ7mteD-4C4O58LL4FP6xpTovVOdu0v2VD=sAQ@mail.gmail.com>
+In-Reply-To: <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
 X-Cookie: Alex Haley was adopted!
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,93 +49,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: multipart/mixed; boundary="===============1494899575=="
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1620954852=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1494899575==
+--===============1620954852==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6b3yLyRKT1M6kiA0"
+	protocol="application/pgp-signature"; boundary="1y6imfT/xHuCvpN0"
 Content-Disposition: inline
 
 
---6b3yLyRKT1M6kiA0
+--1y6imfT/xHuCvpN0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Jul 30, 2020 at 11:45:25AM -0700, Dmitry Torokhov wrote:
-> On Thu, Jul 30, 2020 at 11:16 AM Mark Brown <broonie@kernel.org> wrote:
+On Thu, Jul 30, 2020 at 06:28:07PM +0200, Marek Vasut wrote:
+> On 7/30/20 5:59 PM, Sam Ravnborg wrote:
+> > On Wed, Jul 29, 2020 at 11:46:45PM +0200, Marek Vasut wrote:
 
-> > You can sometimes do a better job of explaining what the resource you
-> > were looking for was,
+> >> This regulator/backlight driver handles the ATTINY88 present on the
+> >> RPi 7" touchscreen panel and exposes the power/backlight interfaces.
 
-> I think it is true for very esoteric cases. I.e. your driver uses 2
-> interrupt lines, or something like that. For GPIO, regulators, and
-> clocks we normally have a name/connection ID that provides enough of
+> > It looks strange that the regulator and the backligth are defined in the
+> > same module like this.
 
-*Normally* but not always - some of the older bindings do love their
-arrays of phandles (or mixes of numbers and phandles!) unfortunately.
+> It's one chip, attiny with custom firmware, what do you want me to do
+> about it ? I can over-complicate this and split it into multiple
+> drivers, but I don't think it's worth the complexity, considering that
+> this is likely a one-off device which will never be re-used elsewhere,
+> except on this one particular display module for RPi.
 
-> context. We need to remember, the error messages really only make
-> total sense to a person familiar with the driver to begin with, not
-> for a random person looking at the log.
+Now you've written that you've pretty much guaranteed someone's going to
+use the same component elsewhere :)
 
-Not really, one of the big targets is people doing system integration
-who are writing a DT or possibly producing a highly tuned kernel config.
-They needn't have a strong familiarity with the driver, they're often
-just picking it up off the shelf.
+I think my main question would be that if this is going to be written
+like this shouldn't it be a backlight driver rather than a regulator
+driver?  I don't 100% follow how this would actually get used in a
+system (perhaps the binding would help) but for these things if there's
+only one tightly coupled user that's possible it's sometimes simpler to
+just skip APIs and do things directly.
 
-> > and of course you still need diagnostics in the
-> > non-deferral case.  Whatever happens we'll need a lot of per-driver
-> > churn, either removing existing diagnostics that get factored into cores
-> > or updating to use this new API.
-
-> The point is if you push it into core you'll get the benefit of
-> notifying about the deferral (and can "attach" deferral reason to a
-> device) without changing drivers at all. You can clean them up later
-> if you want, or decide that additional logging in error paths does not
-> hurt. This new API does not do you any good unless you convert
-> drivers, and you need to convert the majority of them to be able to
-> rely on the deferral diagnostic that is being added.
-
-The push for this is that there's already people going around modifying
-drivers whatever happens but at present they're mainly trying to delete
-diagnostics which isn't wonderful.  Besides, even if we push things into
-the subsystems they'd want to use this interface or something quite like
-it anyway - it's more a question of if we go quickly add some users to
-subsystems isn't it?  I'm not against that.
-
---6b3yLyRKT1M6kiA0
+--1y6imfT/xHuCvpN0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl8jGjoACgkQJNaLcl1U
-h9BywAf8C7mJ7xiPFi7qLH/+T9F0CBF3SL6/ubMOaNhmgrWz+rz2qb5TTQ1adyjl
-GiUu7DQbZhoWvWxb/8fqdy4BufqP58KbV53l0Oy6loVslM914RzzWcHv2hRT16wn
-nMTVtBOfXjxT6Dv6UYNQs7a3XxaOLFx6SNDydn5bAoQNxz2r6+lPCIlevPOIVwyV
-W41iFyk6AeACKSDbKSi7R/eP8apDELZTV1JQMv9kFQjPi0Qn+g/BvH6AjtJWlBke
-CssSrTU7H/Ifu0yJqGaCyYWHgb8A7C8A4NOYpHwbkwhJ0q8bT3BbMlc7785n8C08
-MT1LDTbH/SJqhnox2e+FWjcDkEyAJA==
-=Dnzb
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl8jG7sACgkQJNaLcl1U
+h9Dgmgf/RAnBbSVgLzccn0FCMAgiB+Bxg59zrcQvMnVPw1oibOyryZYnEowVmHUT
+ELHHSaZuRaTMAITKDLwa2xaJnkPq0Nh8URrLJKBSpulQD59YWYLe3rKY2/3p2O0e
+AfR8Xo0TEH+e3Gl4EHPSJS/FKNTZNlYhRJM1531MoFcjJZ44ojiw+svpAEPaPLXE
+Wl/rmU+I3UlI/UXNC6Ls6jC/Z4ymZaVHy+9Hy7fyYZIg2Eqj7FT5VK/yHq/l0+WX
+DTClPpQwFw2Wm4sJELCF+CKsAYKlfQOFHeEz46vvvCSK55N2zxhZXPUM6D6W/TOO
+Fbn8jPcLYiBejN2cYJQO7uEQTwVkKQ==
+=TJya
 -----END PGP SIGNATURE-----
 
---6b3yLyRKT1M6kiA0--
+--1y6imfT/xHuCvpN0--
 
---===============1494899575==
+--===============1620954852==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -151,4 +119,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1494899575==--
+--===============1620954852==--
