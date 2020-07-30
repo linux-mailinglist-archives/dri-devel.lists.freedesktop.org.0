@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19B4233373
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 15:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B776D233370
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 15:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 105BD6E8F1;
-	Thu, 30 Jul 2020 13:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE7696E8F5;
+	Thu, 30 Jul 2020 13:52:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88FB66E8F0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD486E8F6
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 13:52:10 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E29F6B12C;
- Thu, 30 Jul 2020 13:52:20 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0ED92B12D;
+ Thu, 30 Jul 2020 13:52:21 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  emil.l.velikov@gmail.com, kraxel@redhat.com, yc_chen@aspeedtech.com
-Subject: [PATCH v2 6/9] drm/ast: Embed struct drm_device in struct ast_private
-Date: Thu, 30 Jul 2020 15:52:03 +0200
-Message-Id: <20200730135206.30239-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/9] drm/ast: Managed release of ast firmware
+Date: Thu, 30 Jul 2020 15:52:04 +0200
+Message-Id: <20200730135206.30239-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730135206.30239-1-tzimmermann@suse.de>
 References: <20200730135206.30239-1-tzimmermann@suse.de>
@@ -45,225 +45,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Turns struct ast_private into a subclass of struct drm_device by
-embedding the latter. This allows for using DRM's managed device
-allocation.
-
-The use of struct drm_device.dev_private is deprecated. The patch
-converts the last remaining users to to_ast_private().
+The ast driver loads firmware for the DP501 display encoder. The
+patch replaces the removal code with a managed release function.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/ast/ast_cursor.c |  6 ++---
- drivers/gpu/drm/ast/ast_drv.c    |  2 +-
- drivers/gpu/drm/ast/ast_drv.h    |  4 +--
- drivers/gpu/drm/ast/ast_main.c   | 42 ++++++++++----------------------
- drivers/gpu/drm/ast/ast_mm.c     |  2 +-
- drivers/gpu/drm/ast/ast_mode.c   |  2 +-
- drivers/gpu/drm/ast/ast_post.c   |  2 +-
- 7 files changed, 22 insertions(+), 38 deletions(-)
+ drivers/gpu/drm/ast/ast_dp501.c | 23 ++++++++++++++---------
+ drivers/gpu/drm/ast/ast_drv.h   |  1 -
+ drivers/gpu/drm/ast/ast_main.c  |  3 ---
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 8d693c8b346f..6c96f74cdb9e 100644
---- a/drivers/gpu/drm/ast/ast_cursor.c
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -57,7 +57,7 @@ static void ast_cursor_release(struct drm_device *dev, void *ptr)
-  */
- int ast_cursor_init(struct ast_private *ast)
- {
--	struct drm_device *dev = ast->dev;
-+	struct drm_device *dev = &ast->base;
- 	size_t size, i;
- 	struct drm_gem_vram_object *gbo;
- 	void __iomem *vaddr;
-@@ -168,7 +168,7 @@ static void update_cursor_image(u8 __iomem *dst, const u8 *src, int width, int h
+diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+index 4b85a504825a..88121c0e0d05 100644
+--- a/drivers/gpu/drm/ast/ast_dp501.c
++++ b/drivers/gpu/drm/ast/ast_dp501.c
+@@ -8,11 +8,24 @@
  
- int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
- {
--	struct drm_device *dev = ast->dev;
-+	struct drm_device *dev = &ast->base;
- 	struct drm_gem_vram_object *gbo;
- 	int ret;
- 	void *src;
-@@ -217,7 +217,7 @@ static void ast_cursor_set_base(struct ast_private *ast, u64 address)
+ MODULE_FIRMWARE("ast_dp501_fw.bin");
  
- void ast_cursor_page_flip(struct ast_private *ast)
++static void ast_release_firmware(void *data)
++{
++	struct ast_private *ast = data;
++
++	release_firmware(ast->dp501_fw);
++	ast->dp501_fw = NULL;
++}
++
+ static int ast_load_dp501_microcode(struct drm_device *dev)
  {
--	struct drm_device *dev = ast->dev;
-+	struct drm_device *dev = &ast->base;
- 	struct drm_gem_vram_object *gbo;
- 	s64 off;
+ 	struct ast_private *ast = to_ast_private(dev);
++	int ret;
++
++	ret = request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev);
++	if (ret)
++		return ret;
  
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index ad93c35b4cf7..c394383a7979 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -124,7 +124,7 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		ret = PTR_ERR(ast);
- 		goto err_drm_dev_put;
+-	return request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev);
++	return devm_add_action_or_reset(dev->dev, ast_release_firmware, ast);
+ }
+ 
+ static void send_ack(struct ast_private *ast)
+@@ -435,11 +448,3 @@ void ast_init_3rdtx(struct drm_device *dev)
+ 		}
  	}
--	dev = ast->dev;
-+	dev = &ast->base;
- 
- 	ret = drm_dev_register(dev, ent->driver_data);
- 	if (ret)
+ }
+-
+-void ast_release_firmware(struct drm_device *dev)
+-{
+-	struct ast_private *ast = to_ast_private(dev);
+-
+-	release_firmware(ast->dp501_fw);
+-	ast->dp501_fw = NULL;
+-}
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 210d62f69fb9..acd9bbfec98e 100644
+index acd9bbfec98e..af26483106bd 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -116,7 +116,7 @@ to_ast_connector(struct drm_connector *connector)
- }
+@@ -312,7 +312,6 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
+ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
+ u8 ast_get_dp501_max_clk(struct drm_device *dev);
+ void ast_init_3rdtx(struct drm_device *dev);
+-void ast_release_firmware(struct drm_device *dev);
  
- struct ast_private {
--	struct drm_device *dev;
-+	struct drm_device base;
- 
- 	void __iomem *regs;
- 	void __iomem *ioregs;
-@@ -156,7 +156,7 @@ struct ast_private {
- 
- static inline struct ast_private *to_ast_private(struct drm_device *dev)
- {
--	return dev->dev_private;
-+	return container_of(dev, struct ast_private, base);
- }
- 
- struct ast_private *ast_device_create(struct drm_driver *drv,
+ /* ast_cursor.c */
+ int ast_cursor_init(struct ast_private *ast);
 diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 8d46166f8462..792fb7f616ec 100644
+index 792fb7f616ec..e3b7748335a3 100644
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -388,25 +388,17 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
- 	bool need_post;
- 	int ret = 0;
- 
--	dev = drm_dev_alloc(drv, &pdev->dev);
--	if (IS_ERR(dev))
--		return ERR_CAST(dev);
-+	ast = devm_drm_dev_alloc(&pdev->dev, drv, struct ast_private, base);
-+	if (IS_ERR(ast))
-+		return ast;
-+	dev = &ast->base;
- 
- 	dev->pdev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 
--	ast = kzalloc(sizeof(struct ast_private), GFP_KERNEL);
--	if (!ast)
--		return ERR_PTR(-ENOMEM);
--
--	dev->dev_private = ast;
--	ast->dev = dev;
--
- 	ast->regs = pci_iomap(dev->pdev, 1, 0);
--	if (!ast->regs) {
--		ret = -EIO;
--		goto out_free;
--	}
-+	if (!ast->regs)
-+		return ERR_PTR(-EIO);
- 
- 	/*
- 	 * If we don't have IO space at all, use MMIO now and
-@@ -421,17 +413,16 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
- 	/* "map" IO regs if the above hasn't done so already */
- 	if (!ast->ioregs) {
- 		ast->ioregs = pci_iomap(dev->pdev, 2, 0);
--		if (!ast->ioregs) {
--			ret = -EIO;
--			goto out_free;
--		}
-+		if (!ast->ioregs)
-+			return ERR_PTR(-EIO);
- 	}
- 
- 	ast_detect_chip(dev, &need_post);
- 
- 	ret = ast_get_dram_info(dev);
- 	if (ret)
--		goto out_free;
-+		return ERR_PTR(ret);
-+
- 	drm_info(dev, "dram MCLK=%u Mhz type=%d bus_width=%d\n",
- 		 ast->mclk, ast->dram_type, ast->dram_bus_width);
- 
-@@ -440,29 +431,22 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
- 
- 	ret = ast_mm_init(ast);
- 	if (ret)
--		goto out_free;
-+		return ERR_PTR(ret);
- 
- 	ret = ast_mode_config_init(ast);
- 	if (ret)
--		goto out_free;
-+		return ERR_PTR(ret);
- 
- 	return ast;
--
--out_free:
--	kfree(ast);
--	dev->dev_private = NULL;
--	return ERR_PTR(ret);
- }
+@@ -442,11 +442,8 @@ struct ast_private *ast_device_create(struct drm_driver *drv,
  
  void ast_device_destroy(struct ast_private *ast)
  {
--	struct drm_device *dev = ast->dev;
-+	struct drm_device *dev = &ast->base;
- 
+-	struct drm_device *dev = &ast->base;
+-
  	/* enable standard VGA decode */
  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
  
- 	ast_release_firmware(dev);
+-	ast_release_firmware(dev);
  	kfree(ast->dp501_fw_addr);
--
--	kfree(ast);
  }
-diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
-index 9186ec3ebbe0..8392ebde504b 100644
---- a/drivers/gpu/drm/ast/ast_mm.c
-+++ b/drivers/gpu/drm/ast/ast_mm.c
-@@ -85,9 +85,9 @@ static void ast_mm_release(struct drm_device *dev, void *ptr)
- 
- int ast_mm_init(struct ast_private *ast)
- {
-+	struct drm_device *dev = &ast->base;
- 	u32 vram_size;
- 	int ret;
--	struct drm_device *dev = ast->dev;
- 
- 	vram_size = ast_get_vram_size(ast);
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 897a1ad2541e..62fe682a7de6 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1063,7 +1063,7 @@ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
- 
- int ast_mode_config_init(struct ast_private *ast)
- {
--	struct drm_device *dev = ast->dev;
-+	struct drm_device *dev = &ast->base;
- 	int ret;
- 
- 	ret = ast_cursor_init(ast);
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index b1d42a639ece..8902c2f84bf9 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -365,8 +365,8 @@ static void ast_init_dram_reg(struct drm_device *dev)
- 
- void ast_post_gpu(struct drm_device *dev)
- {
--	u32 reg;
- 	struct ast_private *ast = to_ast_private(dev);
-+	u32 reg;
- 
- 	pci_read_config_dword(dev->pdev, 0x04, &reg);
- 	reg |= 0x3;
 -- 
 2.27.0
 
