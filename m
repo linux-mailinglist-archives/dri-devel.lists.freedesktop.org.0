@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24682330B3
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 13:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855732330D2
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 13:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C079B6E8D3;
-	Thu, 30 Jul 2020 11:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B51E6E8D1;
+	Thu, 30 Jul 2020 11:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC8046E8D3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 11:04:20 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id kq25so14575864ejb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 04:04:20 -0700 (PDT)
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86CDB6E8D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 11:16:31 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id s144so13480276oie.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 04:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LDbiiFfKtuBxFd870k3GH23jKEqkoS40hdkLsm0b4u0=;
+ b=MW2G1dbCbGNqMXJdESeyof+5APizl5+rWERSLL6laNDtD5a7Lo3BA/8sv4bJo1LFny
+ 7tIJlRj8Z95VnTTJUHI9YPYqCrylfi1RoJj0bTTTcPkS/2ubCkmYTYpbKzNxrWQGzCrG
+ v/CiqvlxWTUixqyk/bRhLbkJXAIYOBC9ABju8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zwiu18VeI3AwF7Mq31CPp3fUZwxix3OSGRZw2/o7hgo=;
- b=HAEjFBhCxtN19MeL1pZ1dkns2q1qsNQgEhrLzjylz3pmInUbLbRwPtZJ4AX3rOEXEh
- dgLl8suv7maule1x8O2Sg86qbvuQyPqGt470Jh2whMdvcZgFH2nZKc8/XCXvhrj1r94F
- BDfVfA9376C2gvXQyuPQToLb2hG4zcR5ezzWPcWIrWC19UYl8rYFQCE9mS7RCj0LfW0w
- xw05jnrzSrMgvl3RQcUz65PtBa687eK62f4JJ+LS75j2FDWtHYMrqBg0rmdCdcKTOIRr
- FRZLgI0pOz/tjuHV42maG0XIe5+yNq5DHfzfez3W9T+cTcidY7wMcYylDv8jJJi59/O3
- TrJw==
-X-Gm-Message-State: AOAM532j+SBhCX1v/vanLY1vE+qwgCVX78GIkjRfWJHLOZpMLITFD7Oq
- KQRpXMMTerF6VkFMDoBQ5mY=
-X-Google-Smtp-Source: ABdhPJzK4O+pWjSZycMb/tNKwLewvzSFulIOo2Z0a0uHVoXKCMkWJchSKrnqKtpcW7GSqHduRUGYlQ==
-X-Received: by 2002:a17:906:95cb:: with SMTP id
- n11mr1968648ejy.506.1596107059516; 
- Thu, 30 Jul 2020 04:04:19 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
- by smtp.gmail.com with ESMTPSA id t2sm5735565eds.60.2020.07.30.04.04.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 04:04:18 -0700 (PDT)
-Subject: Re: [PATCH] vgacon: Fix an out-of-bounds in vgacon_scrollback_update()
-To: Yang Yingliang <yangyingliang@huawei.com>, b.zolnierkie@samsung.com
-References: <20200713105730.550334-1-yangyingliang@huawei.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <220220f1-48f7-46f6-952f-ab41fa57d6a1@kernel.org>
-Date: Thu, 30 Jul 2020 13:04:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LDbiiFfKtuBxFd870k3GH23jKEqkoS40hdkLsm0b4u0=;
+ b=Z9AUX0weIih+WM1IfiNvdmsM+ZAQUvOdLJtCDyMoV//vIwkoUpEh++/d+QqRyQWAU9
+ /1Ew7wm0wfyKoqJKPcqep4IufBA3Mrx2u0KgafxhIGvF0CaKZZkgYL7Ek1na07rX99Rs
+ J3XUHLb/1uiaTUg8XEKxJnCGfubWqR210yXrs4a8qq2M90Ui9lzB2oBvgiVCOib+pDgt
+ L+Kau22FRK0XF3Ne+hE7+WqYhmym67jYGZURTik0o2kao8K6G68Nx2dE8+R7+w3+ARwL
+ 7UBpvGOGAnO/q44ywuO8JnU8zCzPRvmLgAawmB2gTw7s+LXlju3ipN2qyOGC2XQxIidh
+ VcEA==
+X-Gm-Message-State: AOAM530BNNevF1os96aKsdfgxj1Y/2OHgzr1jwlWe/vGyIrasslZbqtK
+ jiTervNWinRwoO6tW9sZkjz5N6ZWpDp/zjtW6xyC3w==
+X-Google-Smtp-Source: ABdhPJzfUiKobckCicQnGet8s1h12wCwGvx9XhS5QDydDKtM5O91UJihBhm6xQH2moRfPRJfpZDnoglFGhUO6YhtxLU=
+X-Received: by 2002:a05:6808:9b6:: with SMTP id
+ e22mr425598oig.101.1596107790721; 
+ Thu, 30 Jul 2020 04:16:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200713105730.550334-1-yangyingliang@huawei.com>
-Content-Language: en-US
+References: <1596000620-4075-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
+ <CAKMK7uHeteS2+rKrZKrAM+zQO==hAX0XaVc9JfHPsdLTCtzKOw@mail.gmail.com>
+ <a3bb6544-064d-54a1-1215-d92188cb4209@i-love.sakura.ne.jp>
+In-Reply-To: <a3bb6544-064d-54a1-1215-d92188cb4209@i-love.sakura.ne.jp>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 30 Jul 2020 13:16:19 +0200
+Message-ID: <CAKMK7uGTL02SHbEazu5YEnEncO6c-+P6DXt1GWSVQ28enqLx2g@mail.gmail.com>
+Subject: Re: [PATCH] fbmem: pull fbcon_update_vcs() out of fb_set_var()
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +60,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jslaby@suse.com>,
+ syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13. 07. 20, 12:57, Yang Yingliang wrote:
-> I got a slab-out-of-bounds report when I doing fuzz test.
-> 
-> [  334.989515] ==================================================================
-> [  334.989577] BUG: KASAN: slab-out-of-bounds in vgacon_scroll+0x57a/0x8ed
-> [  334.989588] Write of size 1766 at addr ffff8883de69ff3e by task test/2658
-> [  334.989593]
-> [  334.989608] CPU: 3 PID: 2658 Comm: test Not tainted 5.7.0-rc5-00005-g152036d1379f #789
-> [  334.989617] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.1-0-ga5cab58e9a3f-prebuilt.qemu.org 04/01/2014
-> [  334.989624] Call Trace:
-> [  334.989646]  dump_stack+0xe4/0x14e
-> [  334.989676]  print_address_description.constprop.5+0x3f/0x60
-> [  334.989699]  ? vgacon_scroll+0x57a/0x8ed
-> [  334.989710]  __kasan_report.cold.8+0x92/0xaf
-> [  334.989735]  ? vgacon_scroll+0x57a/0x8ed
-> [  334.989761]  kasan_report+0x37/0x50
-> [  334.989789]  check_memory_region+0x1c1/0x1e0
-> [  334.989806]  memcpy+0x38/0x60
-> [  334.989824]  vgacon_scroll+0x57a/0x8ed
-> [  334.989876]  con_scroll+0x4ef/0x5e0
-...
-> Because vgacon_scrollback_cur->tail plus memcpy size is greater than
-> vgacon_scrollback_cur->size. Fix this by checking the memcpy size.
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+On Thu, Jul 30, 2020 at 12:47 AM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> syzbot is reporting OOB read bug in vc_do_resize() [1] caused by memcpy()
+> based on outdated old_{rows,row_size} values, for resize_screen() can
+> recurse into vc_do_resize() which changes vc->vc_{cols,rows} that outdates
+> old_{rows,row_size} values which were saved before calling resize_screen().
+>
+> Daniel Vetter explained that resize_screen() should not recurse into
+> fbcon_update_vcs() path due to FBINFO_MISC_USEREVENT being still set
+> when calling resize_screen().
+>
+> Instead of masking FBINFO_MISC_USEREVENT before calling fbcon_update_vcs(),
+> we can remove FBINFO_MISC_USEREVENT by calling fbcon_update_vcs() only if
+> fb_set_var() returned 0. This change assumes that it is harmless to call
+> fbcon_update_vcs() when fb_set_var() returned 0 without reaching
+> fb_notifier_call_chain().
+>
+> [1] https://syzkaller.appspot.com/bug?id=c70c88cfd16dcf6e1d3c7f0ab8648b3144b5b25e
+>
+> Reported-and-tested-by: syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
+> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 > ---
->  drivers/video/console/vgacon.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-> index 998b0de1812f..b51ffb9a208d 100644
-> --- a/drivers/video/console/vgacon.c
-> +++ b/drivers/video/console/vgacon.c
-> @@ -243,6 +243,7 @@ static void vgacon_scrollback_startup(void)
->  static void vgacon_scrollback_update(struct vc_data *c, int t, int count)
+>  drivers/video/fbdev/core/fbmem.c   | 8 ++------
+>  drivers/video/fbdev/core/fbsysfs.c | 4 ++--
+>  drivers/video/fbdev/ps3fb.c        | 4 ++--
+>  include/linux/fb.h                 | 2 --
+>  4 files changed, 6 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 30e73ec..da7c88f 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -957,7 +957,6 @@ static int fb_check_caps(struct fb_info *info, struct fb_var_screeninfo *var,
+>  int
+>  fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
 >  {
->  	void *p;
-> +	int size;
->  
->  	if (!vgacon_scrollback_cur->data || !vgacon_scrollback_cur->size ||
->  	    c->vc_num != fg_console)
-> @@ -251,13 +252,17 @@ static void vgacon_scrollback_update(struct vc_data *c, int t, int count)
->  	p = (void *) (c->vc_origin + t * c->vc_size_row);
->  
->  	while (count--) {
-> +		size = vgacon_scrollback_cur->size - vgacon_scrollback_cur->tail;
-> +		if (size > c->vc_size_row)
-> +			size = c->vc_size_row;
-> +
->  		scr_memcpyw(vgacon_scrollback_cur->data +
->  			    vgacon_scrollback_cur->tail,
-> -			    p, c->vc_size_row);
-> +			    p, size);
+> -       int flags = info->flags;
+>         int ret = 0;
+>         u32 activate;
+>         struct fb_var_screeninfo old_var;
+> @@ -1052,9 +1051,6 @@ static int fb_check_caps(struct fb_info *info, struct fb_var_screeninfo *var,
+>         event.data = &mode;
+>         fb_notifier_call_chain(FB_EVENT_MODE_CHANGE, &event);
+>
+> -       if (flags & FBINFO_MISC_USEREVENT)
+> -               fbcon_update_vcs(info, activate & FB_ACTIVATE_ALL);
+> -
+>         return 0;
+>  }
+>  EXPORT_SYMBOL(fb_set_var);
+> @@ -1105,9 +1101,9 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+>                         return -EFAULT;
+>                 console_lock();
+>                 lock_fb_info(info);
+> -               info->flags |= FBINFO_MISC_USEREVENT;
+>                 ret = fb_set_var(info, &var);
+> -               info->flags &= ~FBINFO_MISC_USEREVENT;
+> +               if (!ret)
+> +                       fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
+>                 unlock_fb_info(info);
+>                 console_unlock();
+>                 if (!ret && copy_to_user(argp, &var, sizeof(var)))
+> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+> index d54c88f..65dae05 100644
+> --- a/drivers/video/fbdev/core/fbsysfs.c
+> +++ b/drivers/video/fbdev/core/fbsysfs.c
+> @@ -91,9 +91,9 @@ static int activate(struct fb_info *fb_info, struct fb_var_screeninfo *var)
+>
+>         var->activate |= FB_ACTIVATE_FORCE;
+>         console_lock();
+> -       fb_info->flags |= FBINFO_MISC_USEREVENT;
+>         err = fb_set_var(fb_info, var);
+> -       fb_info->flags &= ~FBINFO_MISC_USEREVENT;
+> +       if (!err)
+> +               fbcon_update_vcs(fb_info, var->activate & FB_ACTIVATE_ALL);
+>         console_unlock();
+>         if (err)
+>                 return err;
+> diff --git a/drivers/video/fbdev/ps3fb.c b/drivers/video/fbdev/ps3fb.c
+> index 9df78fb..4b4a99f 100644
+> --- a/drivers/video/fbdev/ps3fb.c
+> +++ b/drivers/video/fbdev/ps3fb.c
+> @@ -824,12 +824,12 @@ static int ps3fb_ioctl(struct fb_info *info, unsigned int cmd,
+>                                 var = info->var;
+>                                 fb_videomode_to_var(&var, vmode);
+>                                 console_lock();
+> -                               info->flags |= FBINFO_MISC_USEREVENT;
+>                                 /* Force, in case only special bits changed */
+>                                 var.activate |= FB_ACTIVATE_FORCE;
+>                                 par->new_mode_id = val;
+>                                 retval = fb_set_var(info, &var);
+> -                               info->flags &= ~FBINFO_MISC_USEREVENT;
+> +                               if (!retval)
+> +                                       fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
 
-Are you sure the consumer can handle split lines? As vgacon_scrolldelta
-(soff in particular) looks to me like it doesn't.
+Patch looks good, except ... does this compile? fbcon_update_vcs is
+defined in fbcon.h, and that doesn't seem to be included here ...
+Maybe what we want is an fb_set_var_ioctl in fbmem.c so that the fbcon
+interaction is a bit better hidden (but that's a bikeshed, feel free
+to ignore). Also I have no idea what trickery you need to compile-test
+ps3fb, that's why I'm asking :-)
+-Daniel
 
-Have you tested you patch? I mean with soft scrollback on the vga console?
+>                                 console_unlock();
+>                         }
+>                         break;
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 3b4b2f0..b11eb02 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -400,8 +400,6 @@ struct fb_tile_ops {
+>  #define FBINFO_HWACCEL_YPAN            0x2000 /* optional */
+>  #define FBINFO_HWACCEL_YWRAP           0x4000 /* optional */
+>
+> -#define FBINFO_MISC_USEREVENT          0x10000 /* event request
+> -                                                 from userspace */
+>  #define FBINFO_MISC_TILEBLITTING       0x20000 /* use tile blitting */
+>
+>  /* A driver may set this flag to indicate that it does want a set_par to be
+> --
+> 1.8.3.1
+>
+>
 
->  		vgacon_scrollback_cur->cnt++;
-> -		p += c->vc_size_row;
-> -		vgacon_scrollback_cur->tail += c->vc_size_row;
-> +		p += size;
-> +		vgacon_scrollback_cur->tail += size;
->  
->  		if (vgacon_scrollback_cur->tail >= vgacon_scrollback_cur->size)
->  			vgacon_scrollback_cur->tail = 0;
-> 
 
-thanks,
 -- 
-js
-suse labs
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
