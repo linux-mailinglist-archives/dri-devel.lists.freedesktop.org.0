@@ -1,39 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CEB2335D4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 17:45:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 314672335D7
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 17:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C67D6E8EB;
-	Thu, 30 Jul 2020 15:45:19 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
- [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE476E8EB
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 15:45:18 +0000 (UTC)
-Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
- EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Thu, 30 Jul 2020 08:45:13 -0700
-Received: from [0.0.0.0] (oddjob.vmware.com [10.253.4.32])
- by sc9-mailhost2.vmware.com (Postfix) with ESMTP id A72F3B278D;
- Thu, 30 Jul 2020 11:45:15 -0400 (EDT)
-Subject: Re: [PATCH] ttm: ttm_bo_swapout_all doesn't use it's argument.
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Dave Airlie
- <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20200728034254.20114-1-airlied@gmail.com>
- <976bf436-55aa-bfcf-cf74-1e02c2794d06@amd.com>
-From: Roland Scheidegger <sroland@vmware.com>
-Message-ID: <abe4847a-63a2-5aae-f16d-79d1d8969d8a@vmware.com>
-Date: Thu, 30 Jul 2020 17:45:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.10.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 596016E915;
+	Thu, 30 Jul 2020 15:45:38 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33AF16E918
+ for <dri-devel@freedesktop.org>; Thu, 30 Jul 2020 15:45:37 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id a14so3315827edx.7
+ for <dri-devel@freedesktop.org>; Thu, 30 Jul 2020 08:45:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e1J01Oczhd220RAym1LfngVA7OUijoix/GTLOnOq0wQ=;
+ b=mYI2K30rokgxWE0w7UBhOkOYryaDcfDKVw60BHk8x3vYQ//HRCVaVYL2FU1hFijMfT
+ 8rwLHSUgRg6/W4AvbrMRanJPGCBILdYCXc9SWKUFPRFJy2DEbfn3agkQJvTbPEzwd5hq
+ Z7xb4bbxbDLahiPDYZ4URSuz3MQj++4zVmHqM/tXhleHuX4XwfDzWsqa7a3ASLmbqdNw
+ PQtvqxQ6Qv1RyiW63qtuPBNmZF21uFplD/0Yigy4RjgHLEr3/XZIdkL6GA62Vw7iCzbH
+ ocQCE4wQEl0soppOd8kGhR6nr5YcIrnu8VKQ6oc7usO2cTRWz0ICuZi+gHH8fMD59RgR
+ HGRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e1J01Oczhd220RAym1LfngVA7OUijoix/GTLOnOq0wQ=;
+ b=SiBsZR7tZzxNU2U862gcpM6odPDruX+MCQ+VUMcMkj3zX0LI80vg8wuAQ700bNnFDL
+ 9ZW6jJPGrkoCGmHVH9m47nY9HT6v0bjKR0xJCR7OQnG2GuZovHC3sJi/VkTspE8YcTcD
+ qchrMPQAg9WNtbpCRzR8hf3wBa3QlB1uww6CVM4rdF/jJVwcDHYLvCK2Yv7h98v9fiVW
+ B5jSEp33iZ7bGkciG9+lEGmMEOxdFQHRKzEi5saTD9G/NzLgqRXX9gbAaFJUcN1qrWGK
+ o2I4QZHSSOxRd1AsI4yUTTycLFC6Hib/c3ZOHTfjW4MqOYWJ+SGfHL1AuI8pXLVBcZD4
+ ZKgA==
+X-Gm-Message-State: AOAM532IilqfVwNd5s58HQGCJH98YRmvHj8mSpdU5Edb90vONVjgm7yc
+ TXpdioZSqZLLRlJeRX99dfKykGx1OCw3xgl8Qu8=
+X-Google-Smtp-Source: ABdhPJxJBzb6IrbCKjuOC0BujTWS0dRylwUyeXRe0DDUCUbkZVlP/EuIVuplkgjxRZfoLFnUlWJiDAFypFhpWjX6r1E=
+X-Received: by 2002:a05:6402:1c10:: with SMTP id
+ ck16mr3213692edb.151.1596123935735; 
+ Thu, 30 Jul 2020 08:45:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <976bf436-55aa-bfcf-cf74-1e02c2794d06@amd.com>
-Content-Language: de-DE
-Received-SPF: None (EX13-EDG-OU-002.vmware.com: sroland@vmware.com does not
- designate permitted sender hosts)
+References: <1594644106-22449-1-git-send-email-akhilpo@codeaurora.org>
+ <CAF6AEGtAEwZbWxLb4MxaWNswvtrFbLK+N0Fez2XYr7odKZffWA@mail.gmail.com>
+ <20200720100131.6ux4zumbwqpa42ye@vireshk-mac-ubuntu>
+ <CAF6AEGurrsd3nrbB=ktZjWfKTNbKwPHYwTFiZdD-NOW1T7gePQ@mail.gmail.com>
+ <20200721032442.hv7l4q6633vnmnfe@vireshk-mac-ubuntu>
+ <CAF6AEGuhQcRskGhrFvmCf5T3EcZ9S+3LRdZBiaDYqF34yZjd+A@mail.gmail.com>
+ <20200722053023.vwaoj5oqh4cazzzz@vireshk-mac-ubuntu>
+ <20200730051045.jejrtkor3b32l2qe@vireshk-mac-ubuntu>
+ <CAF6AEGuzff9+Wy4EHx0aDx1gBzSEGh--yqT5rnwLHp=U6amnyA@mail.gmail.com>
+ <20200730153722.cnpg6n6tnmvjtuso@vireshk-mac-ubuntu>
+In-Reply-To: <20200730153722.cnpg6n6tnmvjtuso@vireshk-mac-ubuntu>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 30 Jul 2020 08:46:16 -0700
+Message-ID: <CAF6AEGs9=-0YBJpONaXf1wavU5ZpxhAQ19vfOn4JHby1zgPwpg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] Add support for GPU DDR BW scaling
+To: Viresh Kumar <viresh.kumar@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,58 +70,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-graphics-maintainer@vmware.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jonathan <jonathan@marek.ca>,
+ saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Sibi Sankar <sibis@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGF0Y2ggbG9va3MgZ29vZCB0byBtZSB0b28uClJldmlld2VkLWJ5OiBSb2xhbmQgU2NoZWlkZWdn
-ZXIgPHNyb2xhbmRAdm13YXJlLmNvbT4KClNlZW1zIGluZGVlZCBsaWtlIHdlIHNob3VsZCBkbyBz
-b21lIGNsZWFudXAuCgpSb2xhbmQKCkFtIDI4LjA3LjIwIHVtIDA5OjM3IHNjaHJpZWIgQ2hyaXN0
-aWFuIEvDtm5pZzoKPiBBbSAyOC4wNy4yMCB1bSAwNTo0MiBzY2hyaWViIERhdmUgQWlybGllOgo+
-PiBGcm9tOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Pgo+PiBKdXN0IGRyb3Ag
-dGhlIGFyZ3VtZW50IGZyb20gdGhpcy4KPj4KPj4gVGhpcyBkb2VzIGFzayB0aGUgcXVlc3Rpb24g
-aWYgdGhpcyBpcyB0aGUgZnVuY3Rpb24gdm13Z2Z4Cj4+IHNob3VsZCBiZSB1c2luZyBvciBzaG91
-bGQgaXQgYmUgZG9pbmcgYW4gZXZpY3QgYWxsIGxpa2UKPj4gdGhlIG90aGVyIGRyaXZlcnMuCj4+
-Cj4+IFNpZ25lZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4gCj4g
-UmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
-PiAKPj4gLS0tCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmPCoMKgwqDCoMKgwqDC
-oCB8IDIgKy0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgfCAyICst
-Cj4+IMKgIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmjCoMKgwqDCoMKgwqDCoCB8IDIgKy0K
-Pj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4+
-Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm8uYwo+PiBpbmRleCBiMDM3NDc3MTdlYzcuLmYyOTdmZDVlMDJkNCAx
-MDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4+IEBAIC0xODM4LDcgKzE4MzgsNyBAQCBpbnQgdHRt
-X2JvX3N3YXBvdXQoc3RydWN0IHR0bV9ib19nbG9iYWwgKmdsb2IsCj4+IHN0cnVjdCB0dG1fb3Bl
-cmF0aW9uX2N0eCAqY3R4KQo+PiDCoCB9Cj4+IMKgIEVYUE9SVF9TWU1CT0wodHRtX2JvX3N3YXBv
-dXQpOwo+PiDCoCAtdm9pZCB0dG1fYm9fc3dhcG91dF9hbGwoc3RydWN0IHR0bV9ib19kZXZpY2Ug
-KmJkZXYpCj4+ICt2b2lkIHR0bV9ib19zd2Fwb3V0X2FsbCh2b2lkKQo+PiDCoCB7Cj4+IMKgwqDC
-oMKgwqAgc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4IGN0eCA9IHsKPj4gwqDCoMKgwqDCoMKgwqDC
-oMKgIC5pbnRlcnJ1cHRpYmxlID0gZmFsc2UsCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4
-X2Rydi5jCj4+IGluZGV4IDQ3MDQyODM4Nzg3OC4uZmIzOTgyNmY3MmMxIDEwMDY0NAo+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYwo+PiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYwo+PiBAQCAtMTM1Miw3ICsxMzUyLDcgQEAgc3RhdGlj
-IGludCB2bXdfcG1fZnJlZXplKHN0cnVjdCBkZXZpY2UgKmtkZXYpCj4+IMKgwqDCoMKgwqAgdm13
-X2V4ZWNidWZfcmVsZWFzZV9waW5uZWRfYm8oZGV2X3ByaXYpOwo+PiDCoMKgwqDCoMKgIHZtd19y
-ZXNvdXJjZV9ldmljdF9hbGwoZGV2X3ByaXYpOwo+PiDCoMKgwqDCoMKgIHZtd19yZWxlYXNlX2Rl
-dmljZV9lYXJseShkZXZfcHJpdik7Cj4+IC3CoMKgwqAgdHRtX2JvX3N3YXBvdXRfYWxsKCZkZXZf
-cHJpdi0+YmRldik7Cj4+ICvCoMKgwqAgdHRtX2JvX3N3YXBvdXRfYWxsKCk7Cj4+IMKgwqDCoMKg
-wqAgaWYgKGRldl9wcml2LT5lbmFibGVfZmIpCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB2bXdfZmlm
-b19yZXNvdXJjZV9kZWMoZGV2X3ByaXYpOwo+PiDCoMKgwqDCoMKgIGlmIChhdG9taWNfcmVhZCgm
-ZGV2X3ByaXYtPm51bV9maWZvX3Jlc291cmNlcykgIT0gMCkgewo+PiBkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgK
-Pj4gaW5kZXggYjFjNzA1YTkzNTE3Li5hOWUxM2IyNTI4MjAgMTAwNjQ0Cj4+IC0tLSBhL2luY2x1
-ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKPj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19h
-cGkuaAo+PiBAQCAtNjkyLDcgKzY5Miw3IEBAIHNzaXplX3QgdHRtX2JvX2lvKHN0cnVjdCB0dG1f
-Ym9fZGV2aWNlICpiZGV2LAo+PiBzdHJ1Y3QgZmlsZSAqZmlscCwKPj4gwqAgwqAgaW50IHR0bV9i
-b19zd2Fwb3V0KHN0cnVjdCB0dG1fYm9fZ2xvYmFsICpnbG9iLAo+PiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCk7Cj4+IC12b2lkIHR0bV9i
-b19zd2Fwb3V0X2FsbChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldik7Cj4+ICt2b2lkIHR0bV9i
-b19zd2Fwb3V0X2FsbCh2b2lkKTsKPj4gwqAgwqAgLyoqCj4+IMKgwqAgKiB0dG1fYm9fdXNlc19l
-bWJlZGRlZF9nZW1fb2JqZWN0IC0gY2hlY2sgaWYgdGhlIGdpdmVuIGJvIHVzZXMgdGhlCj4gCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Jul 30, 2020 at 8:37 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 30-07-20, 08:27, Rob Clark wrote:
+> > Hmm, I've already sent my pull request to Dave, dropping the patch
+> > would require force-push and sending a new PR.  Which I can do if Dave
+> > prefers.  OTOH I guess it isn't the end of the world if the patch is
+> > merged via two different trees.
+>
+> I don't think a patch can go via two trees, as that would have two sha
+> keys for the same code.
+
+it looks weird in the history, but other than that I think it is
+fine.. at least I see it happen somewhat regularly with fixes in drm
+
+> Though it is fine for a patch to go via two different trees if we make
+> sure the same sha key is used for both.
+>
+> Will it be possible for you to provide a branch/tag of your branch
+> that I can base stuff of ?
+
+You could use https://gitlab.freedesktop.org/drm/msm/-/commits/msm-next/
+(or the tag drm-msm-next-2020-07-29), which already has the OPP patch.
+I've been trying to avoid force-pushing that because downstream trees
+are already pulling from that.
+
+BR,
+-R
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
