@@ -1,62 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15576233B32
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 00:19:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12709233BF3
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 01:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34AE66E4CF;
-	Thu, 30 Jul 2020 22:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A52B96E973;
+	Thu, 30 Jul 2020 23:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3DF6E4D0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 22:19:36 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id t23so7012776ljc.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 15:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=STwaQ5Ntxsqp6QopFuNsUtbtwpBpMRacm9NK7jlSzDs=;
- b=BMlzv3WPfLQlK0qRWi0Uzt5hMl4vmln1jBZRjdpUk+TB5GTnnVQv3TQ0BDx7GNx74n
- vY1QafdI3+B47V6sJYg4MlL8z1xv/D8H/Ro+BJokbFpqcZvKNUHhgkTViIP5Sj6g04ac
- LNAY+BTu2+4uTtR24BL/au6vOi6h3BIelCQcCzPhkiQn5tzBW2ZpneSKeDD5j/d2jxd5
- ZWFF6QHf2PWuL0vFkTxb12Qsfhs69A+Ip3dHAphiThHY1jzIk7fJWb20QmdO4u8u2Fpb
- v722Oo4ii3oaqQ9SBLy/0ttEHBxBoRWUl0tjMYJLFPWxngKxYpWG2w9Bpzx3fkZUjFG2
- 6Z+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=STwaQ5Ntxsqp6QopFuNsUtbtwpBpMRacm9NK7jlSzDs=;
- b=mysoKZRn/nwBToIqn46k5luHaBxA2y26ZUYy9kl23Le2zc1GhtwP/VJt4Cebc6dqzq
- ZpitD4rwqlNkqz5/e7x3n4GjyZM426TtXkVht4wcRePCOWgnzD2/4Py8d7UTiG6kJ0SQ
- eVtJ2dAqF7urmGl45zpXNnALPIqbOSdtzJfhHeEmhOzMWu3FZN1vCMOm2w1V+e5dN6Eb
- BJi4OHoKB3BxOTrJwIm5VtYNBPAyu1Mh0D5ig4GdueXPujogbYeacdLmaB+Sue5lkCCR
- 95iZ8sgpyrfIhM1ignEfy4EgoY2zsDa6GI3SgaxDaXvOTHRXN6eNIKhiCK7OtbSndF+W
- QWzg==
-X-Gm-Message-State: AOAM531TTYVC7VDEvDz+7V+Cip1wkG05EoCBCQPw8GTp1jKdjJM2Yj1j
- x7ClSIcROTG/ChCaIobrhoQbkw==
-X-Google-Smtp-Source: ABdhPJwwh8VRiV1Iw4Di5s5loy/Yk1hZar+Rf/448yHssNkobl2yrf2gztJQLwI8N40LTl7kLR8lJA==
-X-Received: by 2002:a2e:7d0b:: with SMTP id y11mr559809ljc.134.1596147574606; 
- Thu, 30 Jul 2020 15:19:34 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id h5sm1473132lfm.70.2020.07.30.15.19.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 15:19:32 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id 9C04E1021DB; Fri, 31 Jul 2020 01:19:37 +0300 (+03)
-Date: Fri, 31 Jul 2020 01:19:37 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: James Jones <jajones@nvidia.com>
-Subject: Re: [PATCH v3] drm/nouveau: Accept 'legacy' format modifiers
-Message-ID: <20200730221937.kcy7synseuedn6qf@box>
-References: <20200730172617.4158-1-jajones@nvidia.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95F2C6E973
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 23:13:03 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D285E9B1;
+ Fri, 31 Jul 2020 01:12:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1596150777;
+ bh=U2AhUcM9xOgRljTgW3Ir7sj8Vyh/2BUPnmUtHh6/7hY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nVehFujmy2MNmF9aWy/qBjKtueH9/PbcqtF55T236zWL9omjo7J52V4vi+PCYFkzT
+ IfYTb3/UQ3J9/4w578NQslOxOLZyxSPBLArLgesUHpr8PE8gIjUks02iG/CRTy8fA5
+ 3TLTfsbHI4QtrL1wdMfGEEhXCZWvVEVDJY+5mDCI=
+Date: Fri, 31 Jul 2020 02:12:46 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH v2 1/1] drm: xlnx: zynqmp: Use switch - case for link
+ rate downshift
+Message-ID: <20200730231246.GJ6107@pendragon.ideasonboard.com>
+References: <1596065445-4630-1-git-send-email-hyun.kwon@xilinx.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200730172617.4158-1-jajones@nvidia.com>
+In-Reply-To: <1596065445-4630-1-git-send-email-hyun.kwon@xilinx.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,91 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nouveau <nouveau@lists.freedesktop.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 30, 2020 at 10:26:17AM -0700, James Jones wrote:
-> Accept the DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK()
-> family of modifiers to handle broken userspace
-> Xorg modesetting and Mesa drivers. Existing Mesa
-> drivers are still aware of only these older
-> format modifiers which do not differentiate
-> between different variations of the block linear
-> layout. When the format modifier support flag was
-> flipped in the nouveau kernel driver, the X.org
-> modesetting driver began attempting to use its
-> format modifier-enabled framebuffer path. Because
-> the set of format modifiers advertised by the
-> kernel prior to this change do not intersect with
-> the set of format modifiers advertised by Mesa,
-> allocating GBM buffers using format modifiers
-> fails and the modesetting driver falls back to
-> non-modifier allocation. However, it still later
-> queries the modifier of the GBM buffer when
-> creating its DRM-KMS framebuffer object, receives
-> the old-format modifier from Mesa, and attempts
-> to create a framebuffer with it. Since the kernel
-> is still not aware of these formats, this fails.
+Hi Hyun,
+
+Thank you for the patch.
+
+On Wed, Jul 29, 2020 at 04:30:45PM -0700, Hyun Kwon wrote:
+> Use switch - case to downshift from the current link rate. It's a small
+> loop now, so fine to be replaced with switch - case. With a loop, it is
+> confusing and hard to follow as reported below.
 > 
-> Userspace should not be attempting to query format
-> modifiers of GBM buffers allocated with a non-
-> format-modifier-aware allocation path, but to
-> avoid breaking existing userspace behavior, this
-> change accepts the old-style format modifiers when
-> creating framebuffers and applying them to planes
-> by translating them to the equivalent new-style
-> modifier. To accomplish this, some layout
-> parameters must be assumed to match properties of
-> the device targeted by the relevant ioctls. To
-> avoid perpetuating misuse of the old-style
-> modifiers, this change does not advertise support
-> for them. Doing so would imply compatibility
-> between devices with incompatible memory layouts.
+> The patch d76271d22694: "drm: xlnx: DRM/KMS driver for Xilinx ZynqMP
+> DisplayPort Subsystem" from Jul 7, 2018, leads to the following
+> static checker warning:
 > 
-> Tested with Xorg 1.20 modesetting driver,
-> weston@c46c70dac84a4b3030cd05b380f9f410536690fc,
-> gnome & KDE wayland desktops from Ubuntu 18.04,
-> kmscube hacked to use linear mod, and sway 1.5
+> 	drivers/gpu/drm/xlnx/zynqmp_dp.c:594 zynqmp_dp_mode_configure()
+> 	error: iterator underflow 'bws' (-1)-2
 > 
-> Reported-by: Kirill A. Shutemov <kirill@shutemov.name>
-> Fixes: fa4f4c213f5f ("drm/nouveau/kms: Support NVIDIA format modifiers")
-> Link: https://lkml.org/lkml/2020/6/30/1251
-> Signed-off-by: James Jones <jajones@nvidia.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Hyun Kwon <hyun.kwon@xilinx.com>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_display.c | 26 +++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
+> v2
+> - Convert the for loop into switch - case
+> ---
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c | 29 ++++++++++++++++-------------
+>  1 file changed, 16 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-> index 496c4621cc78..31543086254b 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-> @@ -191,8 +191,14 @@ nouveau_decode_mod(struct nouveau_drm *drm,
->  		   uint32_t *tile_mode,
->  		   uint8_t *kind)
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index b735072..5d6adeaa 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -567,34 +567,37 @@ static int zynqmp_dp_mode_configure(struct zynqmp_dp *dp, int pclock,
+>  				    u8 current_bw)
 >  {
-> +	struct nouveau_display *disp = nouveau_display(drm->dev);
->  	BUG_ON(!tile_mode || !kind);
+>  	int max_rate = dp->link_config.max_rate;
+> -	u8 bws[3] = { DP_LINK_BW_1_62, DP_LINK_BW_2_7, DP_LINK_BW_5_4 };
+> +	u8 bw_code;
+>  	u8 max_lanes = dp->link_config.max_lanes;
+>  	u8 max_link_rate_code = drm_dp_link_rate_to_bw_code(max_rate);
+>  	u8 bpp = dp->config.bpp;
+>  	u8 lane_cnt;
+> -	s8 i;
 >  
-> +	if ((modifier & (0xffull << 12)) == 0ull) {
-> +		/* Legacy modifier.  Translate to this device's 'kind.' */
-> +		modifier |= disp->format_modifiers[0] & (0xffull << 12);
-> +	}
-> +
->  	if (modifier == DRM_FORMAT_MOD_LINEAR) {
->  		/* tile_mode will not be used in this case */
->  		*tile_mode = 0;
+> -	if (current_bw == DP_LINK_BW_1_62) {
+> +	/* Downshift from current one */
 
-Em. I thought Ben's suggestion was to move it under != MOD_LINEAR. I don't
-see it here.
+Maybe "Downshift from the current bandwidth" ?
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	switch (current_bw) {
+> +	case DP_LINK_BW_5_4:
+> +		bw_code = DP_LINK_BW_2_7;
+> +		break;
+> +	case DP_LINK_BW_2_7:
+> +		bw_code = DP_LINK_BW_1_62;
+> +		break;
+> +	case DP_LINK_BW_1_62:
+>  		dev_err(dp->dev, "can't downshift. already lowest link rate\n");
+>  		return -EINVAL;
+> -	}
+> -
+> -	for (i = ARRAY_SIZE(bws) - 1; i >= 0; i--) {
+> -		if (current_bw && bws[i] >= current_bw)
+> -			continue;
+> -
+> -		if (bws[i] <= max_link_rate_code)
+> -			break;
+> +	default:
+> +		/* If not given, start with max supported */
+> +		bw_code = max_link_rate_code;
+> +		break;
+>  	}
+>  
+>  	for (lane_cnt = 1; lane_cnt <= max_lanes; lane_cnt <<= 1) {
+>  		int bw;
+>  		u32 rate;
+>  
+> -		bw = drm_dp_bw_code_to_link_rate(bws[i]);
+> +		bw = drm_dp_bw_code_to_link_rate(bw_code);
+>  		rate = zynqmp_dp_max_rate(bw, lane_cnt, bpp);
+>  		if (pclock <= rate) {
+> -			dp->mode.bw_code = bws[i];
+> +			dp->mode.bw_code = bw_code;
+>  			dp->mode.lane_cnt = lane_cnt;
+>  			dp->mode.pclock = pclock;
+>  			return dp->mode.bw_code;
 
 -- 
- Kirill A. Shutemov
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
