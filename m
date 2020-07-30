@@ -1,61 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFE723401F
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C5523400A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C1F6E9FB;
-	Fri, 31 Jul 2020 07:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7A46E9EC;
+	Fri, 31 Jul 2020 07:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1E86E941
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 18:45:37 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id g19so17199746ioh.8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 11:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1M+mQosS53rR8rnqJ+wOq1od8dF70GSvNLfqjFKtb+w=;
- b=dnn2ECJVDMO+WGWX3kTgDJexFtgoLfprxeNovVCxUtS7jXjzesDr+4uAhaLiU2Ve3U
- Vq0wUFZU8UxDAxoZbCpPs+PAU39psgwwzYlKI1ZYmBSqh3XOywQ3Ddit8RJqOUfsom+S
- DGOPtMLSRb5w2Hd5iEFWqomAwX0q4aoCrnIo2r1w0kTmypujBaHXvKnAOQcdePIPdOjS
- vbP4saDH69ElaTRcJ+xWTL/KnMMtIyPaGNXTS7OVdN4a8Va83V6uwkMbs7DoJvaeJsbR
- N0oTZ0JeyM/ndJWcOS4JEpbaTLhC9b0dccIuTnIwbd3J/CF/n84n+V3P3ENpXirb9I/N
- RWFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1M+mQosS53rR8rnqJ+wOq1od8dF70GSvNLfqjFKtb+w=;
- b=s48OB5QQm7ySs4J8HzgffqpP/RZWQ8ISbELtRE0SOOEdI/OZMd+YC/2cpCRQ6EE2vb
- 6rrK2t1Ro7TJSIjAficyWyxBpmFAqc2TmBiV96guL6vMeMgdeo+ly4q1HX9Fp5/ALa8u
- xdPqnxUgfjm1HITuIDKR7oLGe7sj7h5Ojo9L4a9zL8Jxn+bPZBMLnWjX+Tl7FtOIq41H
- 82LiIqtJHB32LUWr2HTaJoneUMg9aKVcbMQiuX+FyztfNZEtX6GkQ5cLxjGbb6b87vy/
- 5YQDDey2VLmjFI6a7xAM4kXeP78P1faU9C8K4v2YPYE8ofW7GRvndJ2BwJaggUM0NZXX
- KSfQ==
-X-Gm-Message-State: AOAM531UDJUhBlZuixBia5/FYo3hRgjUiHqa8vTjXOZ9k87MbAFirt0k
- RO+fhNckLh6YcfxSh3vPSLCWgPtU1gnbjNOiWUo=
-X-Google-Smtp-Source: ABdhPJyePUmV86fwPoIT2w0lFQuKXuE+2i6wYo+AAjl0IXq3XELDfg7qMjjDf6BiJmMlAYOVZXaDgNcncxLDT9NlbG8=
-X-Received: by 2002:a05:6638:2601:: with SMTP id
- m1mr620541jat.141.1596134736322; 
- Thu, 30 Jul 2020 11:45:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20200713144331eucas1p25911c4ffa9315f632d8f6dd833588981@eucas1p2.samsung.com>
- <20200713144324.23654-1-a.hajda@samsung.com>
- <e55a23bf-59bb-43c6-f7d7-467c282b8648@samsung.com>
- <20200730070832.GA4045592@kroah.com>
- <CAKdAkRTKjHg2y8yTFgxr4yY98M8D2noutDBfB1mh7wwLLQrYbw@mail.gmail.com>
- <20200730164845.GE5055@sirena.org.uk>
- <CAKdAkRS+QooavPaKMcsaUQdRJGky_6JYq1EiUbyT_gcU3ZYeJw@mail.gmail.com>
- <20200730181639.GG5055@sirena.org.uk>
-In-Reply-To: <20200730181639.GG5055@sirena.org.uk>
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Thu, 30 Jul 2020 11:45:25 -0700
-Message-ID: <CAKdAkRSaF3q1MJ7mteD-4C4O58LL4FP6xpTovVOdu0v2VD=sAQ@mail.gmail.com>
-Subject: Re: [PATCH v9 0/4] driver core: add probe error check helper
+Received: from mail-out.m-online.net (mail-out.m-online.net
+ [IPv6:2001:a60:0:28:0:1:25:1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C676E956
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 19:37:53 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BHgg247Bxz1rwbX;
+ Thu, 30 Jul 2020 21:37:50 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4BHgg22p5pz1qxnL;
+ Thu, 30 Jul 2020 21:37:50 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id qN7xWSpyjaYq; Thu, 30 Jul 2020 21:37:49 +0200 (CEST)
+X-Auth-Info: 5qJRtwiXFw4qe9sJGcJeVrTbHbUfgVxhwNSX9d6eXI4=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Thu, 30 Jul 2020 21:37:49 +0200 (CEST)
+Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight driver
+ for RPi panel
 To: Mark Brown <broonie@kernel.org>
+References: <20200729214645.247185-1-marex@denx.de>
+ <20200730155944.GA1477410@ravnborg.org>
+ <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
+ <20200730191300.GJ5055@sirena.org.uk>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <5cfc1d07-c8ce-47d7-8763-1efa0316d05a@denx.de>
+Date: Thu, 30 Jul 2020 21:37:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200730191300.GJ5055@sirena.org.uk>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,65 +58,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonas Karlman <jonas@kwiboo.se>, lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 30, 2020 at 11:16 AM Mark Brown <broonie@kernel.org> wrote:
->
-> On Thu, Jul 30, 2020 at 10:46:31AM -0700, Dmitry Torokhov wrote:
-> > On Thu, Jul 30, 2020 at 9:49 AM Mark Brown <broonie@kernel.org> wrote:
->
-> > > The error messages are frequently in the caller rather than the
-> > > frameworks, it's often helpful for the comprehensibility of the error
-> > > messages especially in cases where things may be legitimately absent.
->
-> > Not for deferral. All you need to know in this case is:
->
-> > "device A is attempting to request resource B which is not ready yet"
->
-> > There is nothing to handle on the caller part except to float the error up.
->
-> You can sometimes do a better job of explaining what the resource you
-> were looking for was,
+On 7/30/20 9:13 PM, Mark Brown wrote:
+> On Thu, Jul 30, 2020 at 06:28:07PM +0200, Marek Vasut wrote:
+>> On 7/30/20 5:59 PM, Sam Ravnborg wrote:
+>>> On Wed, Jul 29, 2020 at 11:46:45PM +0200, Marek Vasut wrote:
+> 
+>>>> This regulator/backlight driver handles the ATTINY88 present on the
+>>>> RPi 7" touchscreen panel and exposes the power/backlight interfaces.
+> 
+>>> It looks strange that the regulator and the backligth are defined in the
+>>> same module like this.
+> 
+>> It's one chip, attiny with custom firmware, what do you want me to do
+>> about it ? I can over-complicate this and split it into multiple
+>> drivers, but I don't think it's worth the complexity, considering that
+>> this is likely a one-off device which will never be re-used elsewhere,
+>> except on this one particular display module for RPi.
+> 
+> Now you've written that you've pretty much guaranteed someone's going to
+> use the same component elsewhere :)
 
-I think it is true for very esoteric cases. I.e. your driver uses 2
-interrupt lines, or something like that. For GPIO, regulators, and
-clocks we normally have a name/connection ID that provides enough of
-context. We need to remember, the error messages really only make
-total sense to a person familiar with the driver to begin with, not
-for a random person looking at the log.
+How? The firmware is closed and not available, neither is documentation
+for it, sadly.
 
-> and of course you still need diagnostics in the
-> non-deferral case.  Whatever happens we'll need a lot of per-driver
-> churn, either removing existing diagnostics that get factored into cores
-> or updating to use this new API.
+> I think my main question would be that if this is going to be written
+> like this shouldn't it be a backlight driver rather than a regulator
+> driver?
 
-The point is if you push it into core you'll get the benefit of
-notifying about the deferral (and can "attach" deferral reason to a
-device) without changing drivers at all. You can clean them up later
-if you want, or decide that additional logging in error paths does not
-hurt. This new API does not do you any good unless you convert
-drivers, and you need to convert the majority of them to be able to
-rely on the deferral diagnostic that is being added.
+Well no, because it enables power to the display backlight and TC358762
+DSI-to-DPI bridge first, and then also controls some PWM implementation
+in the attiny firmware later on. So I think it has to be regulator, as
+that is the primary function. The backlight is somewhat secondary.
 
-Thanks.
+> I don't 100% follow how this would actually get used in a
+> system (perhaps the binding would help) but for these things if there's
+> only one tightly coupled user that's possible it's sometimes simpler to
+> just skip APIs and do things directly.
 
--- 
-Dmitry
+That's what I'm trying to replace by this patch and tc358762 bridge
+driver and panel driver, the combined version is already in tree:
+drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+but the tc358762 is clearly a generic bridge and the panel is generic
+too, so combining it into one panel driver doesn't seem right.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
