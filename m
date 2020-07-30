@@ -2,30 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02897234024
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D48F23402B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A84B6EA00;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11B206EA07;
 	Fri, 31 Jul 2020 07:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2076E910
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 14:48:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8036E914
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 14:48:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1596120515; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1596120516; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=PQkagFlHg2d5KzpMhd8eaAxlglNrzK6R7YdWS3ZyGw4=;
- b=sbJRwlRK3mtagHtlYLsdJFIW4k1HPOaVFrpjnzDiEG3pXKa7gEgPCqU7BblfEKlP82y1dC
- KXbB8FeCnXzylEiIGcay6gw6ErwCczxxP7VDPZ4Z6aMsxiK+ZGbyoEk4txRNoSYdExm8k+
- wx/gDYHCncKFNc1iSlFn/ZKtqhy+rNg=
+ in-reply-to:in-reply-to:references:references;
+ bh=FdoE1nkLDPbTG7FoC1IHhp8tIhNRgkzWtzI0H+/zMgQ=;
+ b=KC3TWDmn1K7+LRoLXGczHqEpdLlgf0dZ/d9rTADan7xOdnYeqYhPcBLLYFkzwyFBVin8aE
+ tMLvBhYZX7m4SZAiBwfjsI4MbjqTwhhApqK21WmODvvyX5AlDKwtm4Hj/nziIaccY8OKNq
+ XLlRe5/RYoIehupCk5crTM7mg5VesCo=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 0/3] More IPU cleanups v2
-Date: Thu, 30 Jul 2020 16:48:27 +0200
-Message-Id: <20200730144830.10479-1-paul@crapouillou.net>
+Subject: [PATCH v2 1/3] drm/ingenic: ipu: Only restart manually on older SoCs
+Date: Thu, 30 Jul 2020 16:48:28 +0200
+Message-Id: <20200730144830.10479-2-paul@crapouillou.net>
+In-Reply-To: <20200730144830.10479-1-paul@crapouillou.net>
+References: <20200730144830.10479-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,21 +51,68 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Patch [1/3] unchanged. Patches [2/3] and [3/3] have had their commit
-message slightly modified, but the patches themselves are the same as
-before.
+On older SoCs, it is necessary to restart manually the IPU when a frame
+is done processing. Doing so on newer SoCs (JZ4760/70) kinds of work
+too, until the input or output resolutions or the framerate are too
+high.
 
-Cheers,
--Paul
+Make it work properly on newer SoCs by letting the LCD controller
+trigger the IPU frame restart signal.
 
-Paul Cercueil (3):
-  drm/ingenic: ipu: Only restart manually on older SoCs
-  drm/ingenic: ipu: Remove YUV422 from supported formats on JZ4725B
-  drm/ingenic: ipu: Only enable clock when needed
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/ingenic/ingenic-ipu.c | 38 +++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index 7a0a8bd865d3..7eae56fa92ea 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -35,6 +35,7 @@ struct soc_info {
+ 	const u32 *formats;
+ 	size_t num_formats;
+ 	bool has_bicubic;
++	bool manual_restart;
+ 
+ 	void (*set_coefs)(struct ingenic_ipu *ipu, unsigned int reg,
+ 			  unsigned int sharpness, bool downscale,
+@@ -645,7 +646,8 @@ static irqreturn_t ingenic_ipu_irq_handler(int irq, void *arg)
+ 	unsigned int dummy;
+ 
+ 	/* dummy read allows CPU to reconfigure IPU */
+-	regmap_read(ipu->map, JZ_REG_IPU_STATUS, &dummy);
++	if (ipu->soc_info->manual_restart)
++		regmap_read(ipu->map, JZ_REG_IPU_STATUS, &dummy);
+ 
+ 	/* ACK interrupt */
+ 	regmap_write(ipu->map, JZ_REG_IPU_STATUS, 0);
+@@ -656,7 +658,8 @@ static irqreturn_t ingenic_ipu_irq_handler(int irq, void *arg)
+ 	regmap_write(ipu->map, JZ_REG_IPU_V_ADDR, ipu->addr_v);
+ 
+ 	/* Run IPU for the new frame */
+-	regmap_set_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_RUN);
++	if (ipu->soc_info->manual_restart)
++		regmap_set_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_RUN);
+ 
+ 	drm_crtc_handle_vblank(crtc);
+ 
+@@ -806,6 +809,7 @@ static const struct soc_info jz4725b_soc_info = {
+ 	.formats	= jz4725b_ipu_formats,
+ 	.num_formats	= ARRAY_SIZE(jz4725b_ipu_formats),
+ 	.has_bicubic	= false,
++	.manual_restart	= true,
+ 	.set_coefs	= jz4725b_set_coefs,
+ };
+ 
+@@ -831,6 +835,7 @@ static const struct soc_info jz4760_soc_info = {
+ 	.formats	= jz4760_ipu_formats,
+ 	.num_formats	= ARRAY_SIZE(jz4760_ipu_formats),
+ 	.has_bicubic	= true,
++	.manual_restart	= false,
+ 	.set_coefs	= jz4760_set_coefs,
+ };
+ 
 -- 
 2.27.0
 
