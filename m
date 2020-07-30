@@ -1,38 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB5F232BF5
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 08:33:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF91232C1A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 08:52:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B4D6E85C;
-	Thu, 30 Jul 2020 06:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 094FD6E860;
+	Thu, 30 Jul 2020 06:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE9E86E85C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 06:33:43 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 8631E2001E;
- Thu, 30 Jul 2020 08:33:40 +0200 (CEST)
-Date: Thu, 30 Jul 2020 08:33:39 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH V2 1/2] dt-bindings: Add DT bindings for Toshiba TC358762
- DSI-to-DPI bridge
-Message-ID: <20200730063339.GA1434697@ravnborg.org>
-References: <20200729164554.114735-1-marex@denx.de>
- <20200729165904.GB1372716@ravnborg.org>
- <81d8eed6-bac7-4e84-ff42-d158941d6620@denx.de>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765BA6E860;
+ Thu, 30 Jul 2020 06:52:03 +0000 (UTC)
+IronPort-SDR: SOQhpEhqE08K8gBvoGYCYZ3FG1er4800WWG4tXZkGlj1DKPApW5QsZ6GpXxXGGEgzK/o0eJ6rW
+ iBAY9rmTH9Cw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9697"; a="152776387"
+X-IronPort-AV: E=Sophos;i="5.75,413,1589266800"; d="scan'208";a="152776387"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2020 23:52:02 -0700
+IronPort-SDR: 2zghKGF/AZVMS8LEGACb/O+AyJrUiWq0fMuhlSGd/5xMVnJHle45MBG1NAhn8uN6s79I/jCM+S
+ 7nCe/DF3bR1g==
+X-IronPort-AV: E=Sophos;i="5.75,413,1589266800"; d="scan'208";a="330650977"
+Received: from unknown (HELO intel.com) ([10.223.74.178])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2020 23:51:58 -0700
+Date: Thu, 30 Jul 2020 12:09:53 +0530
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Avoid modeset when content
+ protection changes
+Message-ID: <20200730063650.GA25561@intel.com>
+References: <20200714160627.1269-1-sean@poorly.run>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <81d8eed6-bac7-4e84-ff42-d158941d6620@denx.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=WzHobfHSo-pyJhVskOMA:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <20200714160627.1269-1-sean@poorly.run>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,41 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 29, 2020 at 11:36:27PM +0200, Marek Vasut wrote:
-> On 7/29/20 6:59 PM, Sam Ravnborg wrote:
+On 2020-07-14 at 21:36:27 +0530, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Hi,
+> Instead of doing a full modeset to enable/disable content protection,
+> simply go through the update_pipe flow which was introduced in the
+> related patch below. This avoids flashing the screen every time the user
+> starts viewing protected content.
 > 
-> [...]
-> >> +      port@0:
-> >> +        type: object
-> >> +        additionalProperties: false
-> >> +
-> >> +        description: |
-> >> +          Video port for MIPI DSI input
-> >> +
-> >> +        properties:
-> >> +          reg:
-> >> +            const: 0
-> >> +
-> >> +        patternProperties:
-> > Not happy with the use of "patternProperties" when there is no pattern.
+> Related: 634852d1f468 ("drm/i915: HDCP state handling in ddi_update_pipe")
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: intel-gfx@lists.freedesktop.org
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> So how should this be changed ?
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 89a4d294822d..839ce1715253 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2191,7 +2191,7 @@ void intel_hdcp_atomic_check(struct drm_connector *connector,
+>  			return;
+>  	}
+>  
+> -	crtc_state->mode_changed = true;
+> +	to_intel_crtc_state(crtc_state)->update_pipe = true;
+IMHO intel_crtc_check_fastset() make sure that every crtc_state->mode_changed
+will not turn up to a modeset. It seems it is already being taken care.
 
-Delete the "patternProperties" line and adjust indent on the following
-lines. Then this should continue to be valid syntax and validate the
-example.
+Thanks,
+Anshuman Gupta.
 
-	Sam
-
+>  }
+>  
+>  /* Handles the CP_IRQ raised from the DP HDCP sink */
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
