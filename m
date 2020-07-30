@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8B52339C3
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 22:37:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78FC2339CF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 22:37:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5E66E964;
-	Thu, 30 Jul 2020 20:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD5F6E970;
+	Thu, 30 Jul 2020 20:37:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2045.outbound.protection.outlook.com [40.107.94.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 106F86E961;
- Thu, 30 Jul 2020 20:37:35 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 934416E967;
+ Thu, 30 Jul 2020 20:37:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l6O1LUBEyLMRdlYKL96fSeBcBwwHkRjFz7CiqiTEn97y2Qb7sKOpHiniGEFqwSdViNl5HxkK5/C3CFsuDEHQftecGs04OTck8k7/d3Qy64gfzem7WQtV1iKtC/py3J1FMB7CCvCGzIzTvZuHmZclaDNog2qfvYiMhFCzIB8si9xNe077PeZwYtNlX0MbLqFd7AZPXKrx9/XNzPUqGSuReky9yAXi+VAKvU6kyDfR0dhkH2C0rYjshSkOH9fDHgwyxN49yFfVg2i6TbqXvI9+F8A2i/xaMxSdgkU0U4quRTAVSrDF/zGcksn5XeVZT3FEGRTbfgEifZkvYMFNIgh8WQ==
+ b=Us10SLwZMQQ8zodDG+/f5f7j2tI2kOYNkbBy6IN9WuO/ZeIYEAvbtIU742gvTA8D1z2kqfGJLlm2qzLziPROjvBqMAP+4CLkxKKBqyvYHtVR9SSf1sUt/XH1MxxIwtUo8MhoRGaP8gMvKSfaWsI33TNzELKF6Ssx/e2OWUS3dhMZ+rtpo/FEOXuWPIPzqDzFloSsYywhptNcT3mBa6eQMdWBU3awafaSwatIO0YWXDzRBipxj1592s1c2F1A5VNftvTkoxA4R6TYt57SWKkdC9nTQURK2NF2dvnW49ehvKK0TaU0O6J2lMZoGt+WskZ+6gWW8510p6t4FJS0lBS7Dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IZGWHxanRQbCIa8Xr11eHsHLmI/EsV7KHeb/qXNY5qc=;
- b=HmmgwJX0BM9Q/EinfNIeWNKz5rnIkNHaorEaB658GhP/8H1z0+Nesi/S+vIyTup3hRwEYezWTRz2DnblsJPPrTucCh+T0EXqMTd3hc3GOkmFN5wCc/UNSHrBtKA7WJKY80wKkhSJECebnLrpd0/Hi/8sn+ICm2k1Br5AhjBeWwwibmPB6eq++q7GlFvZL8jNbrWNiGZuzeKZcP+KWwGITSNfsIX4I/WXvNuBXH6W3CgD+n1WOTp9JJyCTsPS9G0iNkyioLpgLSNjl2zAunLQUzX8aVGIThr2FatTwlqeRnnixBw6wglle5KpMEnlZOZv5V6XsojCmKN0EbtvpqQAfA==
+ bh=GF0OwY5H9q+6V2tAxWB5b0Pe8xUd77HhnIMjZCsb+7U=;
+ b=QcxGcYNIEzPsd6o8c1kH8Tu1eZ95AOlGpj+l7DoJClHuOqOjvPcQm0wb8aToXxbJgvii9/oSwfQGwFFJTa/lQG1UtK+sLSJ+V+OmfRfbHbXi2RLugg0eFDtr8TvoTlnv5zjk5bzxpKHqUa14F5tKRs3JgEqs9LDFBR2IQS6kcvsSI8fGgfRWcIC8Iw8nFcSxrLkmbxfYgD80awTYUm1jCXDdCFkzXBGSWBm8yJualzghQfWZRZdEO0wzjMR3OFTxDWlXb6YiNllDX1Ms0AV/AKi+WcSvG/+65Y+FDtn2zbZVC1h8TxdPOMlHF6pYqH0lyH4mV23ukqQ4XHVxnqHmDw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=permerror action=none header.from=amd.com; dkim=none (message not
@@ -27,45 +27,45 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IZGWHxanRQbCIa8Xr11eHsHLmI/EsV7KHeb/qXNY5qc=;
- b=zHuyMIyzKUhCruvoR2J0mXdj4u3kpm8Sijm+juD2tlLHvITfStQiKUT3uWmE3vUsyLrNyZ8fGDefdf7da0jZDRD/RAfk5WnlfLEk6fR50z7W05P9RGxOxtpTpxfDpc/MB3CdAtygC7xCpgGxEiFXE5wi27E3YEVFgcc43Vszm58=
-Received: from CO2PR04CA0132.namprd04.prod.outlook.com (2603:10b6:104:7::34)
- by BN6PR1201MB0116.namprd12.prod.outlook.com (2603:10b6:405:56::19) with
+ bh=GF0OwY5H9q+6V2tAxWB5b0Pe8xUd77HhnIMjZCsb+7U=;
+ b=K5ZapqBvz/q/nK7PL1aZOi8dTicxDF6dmxI73JUekYbPKtzClkroDZWTJPWi/60FrJj5X+IvpJvBNislXzFAgfrX5t1wUph7LRn0lFELcXsQjkoCoqemiLRGSzVEiTV4tQp0xCmhrUipzIPBGKXLnKqUM5ebXNmJ/7vcdJa6m+A=
+Received: from MWHPR19CA0094.namprd19.prod.outlook.com (2603:10b6:320:1f::32)
+ by MW2PR12MB2570.namprd12.prod.outlook.com (2603:10b6:907:a::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Thu, 30 Jul
- 2020 20:37:33 +0000
-Received: from CO1NAM11FT067.eop-nam11.prod.protection.outlook.com
- (2603:10b6:104:7:cafe::c0) by CO2PR04CA0132.outlook.office365.com
- (2603:10b6:104:7::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
- Transport; Thu, 30 Jul 2020 20:37:33 +0000
+ 2020 20:37:35 +0000
+Received: from CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:320:1f:cafe::17) by MWHPR19CA0094.outlook.office365.com
+ (2603:10b6:320:1f::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.17 via Frontend
+ Transport; Thu, 30 Jul 2020 20:37:34 +0000
 X-MS-Exchange-Authentication-Results: spf=none (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
  header.d=none;lists.freedesktop.org; dmarc=permerror action=none
  header.from=amd.com;
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
-Received: from SATLEXMB02.amd.com (165.204.84.17) by
- CO1NAM11FT067.mail.protection.outlook.com (10.13.174.212) with Microsoft SMTP
+Received: from SATLEXMB01.amd.com (165.204.84.17) by
+ CO1NAM11FT025.mail.protection.outlook.com (10.13.175.232) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3239.20 via Frontend Transport; Thu, 30 Jul 2020 20:37:32 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB02.amd.com
- (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.3239.17 via Frontend Transport; Thu, 30 Jul 2020 20:37:34 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 30 Jul
- 2020 15:37:31 -0500
+ 2020 15:37:32 -0500
 Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB05.amd.com
  (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 30 Jul
- 2020 15:37:31 -0500
+ 2020 15:37:32 -0500
 Received: from DESKTOP-3JO4JG6.localdomain (10.180.168.240) by
  SATLEXMB01.amd.com (10.181.40.142) with Microsoft SMTP Server id 15.1.1713.5
- via Frontend Transport; Thu, 30 Jul 2020 15:37:30 -0500
+ via Frontend Transport; Thu, 30 Jul 2020 15:37:31 -0500
 From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 4/7] drm/amd/display: Use validated tiling_flags and
- tmz_surface in commit_tail
-Date: Thu, 30 Jul 2020 16:36:39 -0400
-Message-ID: <20200730203642.17553-5-nicholas.kazlauskas@amd.com>
+Subject: [PATCH 5/7] drm/amd/display: Reset plane for anything that's not a
+ FAST update
+Date: Thu, 30 Jul 2020 16:36:40 -0400
+Message-ID: <20200730203642.17553-6-nicholas.kazlauskas@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
 References: <20200730203642.17553-1-nicholas.kazlauskas@amd.com>
@@ -73,28 +73,28 @@ MIME-Version: 1.0
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7d34c66-204a-4b09-f12d-08d834c8629e
-X-MS-TrafficTypeDiagnostic: BN6PR1201MB0116:
-X-Microsoft-Antispam-PRVS: <BN6PR1201MB0116BDADA5FB0B1693278E13EC710@BN6PR1201MB0116.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 9c912bef-2eab-4e8b-ff6f-08d834c863fe
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2570:
+X-Microsoft-Antispam-PRVS: <MW2PR12MB257067E7C08C1481B140157CEC710@MW2PR12MB2570.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zbhyhPLIcTrklb7Dv3ggWOHRTb4+tH00Nj8IAmWWtyQFBFrh9GkCqCxEJQre2cD4UCLc66Lmv7HGRAIqZjjXw6AIYp2GPmdptf8LiPcgjLkNz4uaOjz1AwsA8rYTG0/aQhnwRvW0D062QiqdtoVTVEll3FF4zbntkz95cQZygAnvIdmfg2UN8/e36oLJsuGU7D99C6+nCasnA4sOE/NAGlybKF6PXftZu1JCvUB1CO+td99LQpHTjmPjvmWNEemen5fQRLWIcT8kDHbxTof0/haSDBfZpWR/wvEh52BMjwoqTWdkWedQJCfp2CvV7b12zKkB+y6Z2QROJ+MbBnkJ7YMERi4zGsc96iKCWYqS3ivBWFFshemmB4Svy7Gzdy04tJuYahwnAeeFvPhjovUnXQ==
+X-Microsoft-Antispam-Message-Info: lsDqLDZUSLJDGFB6zyRUTAFcEra2UNyYF1IMnH5z7e7xvMgA/Iy7HfTWT/YTLFtLgFkwTYLzj1QNjCOWjHVhWWey3NI9YKuGkZjV2hB1XtAg/fgXFSn/UnhC2H87TRW35ycxB0bJUTWYbVFo/UD64WoA7u6SqKooFNirFQdysXoGb/nw0/or25pu3x0WnT0y2tPM4IGq5Y9hUl3MVfEM89606fWoEDk1BFYg9qEpPt+bICe4ZeXjvApjQbKKnHyL2xiF6cn4wqpIROk76MpV4sm2HQZMkKFZzjCw/MqNDDj8Ed/vmkJ2KMPNx8KBC7VHO6p7iT54BAwTF9j7MDUDXYm+mGC5m4TzxhNMXc7l+xvEbxMrUHRxpQMxj4kwATuT6uvizyMpIgkpN3bLaptYlA==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB02.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ IPV:NLI; SFV:NSPM; H:SATLEXMB01.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39860400002)(396003)(136003)(346002)(376002)(46966005)(15650500001)(47076004)(81166007)(426003)(82740400003)(82310400002)(316002)(8936002)(8676002)(2616005)(44832011)(336012)(1076003)(186003)(70586007)(83380400001)(26005)(356005)(54906003)(5660300002)(4326008)(36756003)(70206006)(478600001)(86362001)(110136005)(2906002);
+ SFS:(4636009)(376002)(39860400002)(346002)(396003)(136003)(46966005)(478600001)(8936002)(36756003)(316002)(86362001)(6666004)(1076003)(450100002)(4326008)(44832011)(83380400001)(2616005)(54906003)(186003)(70206006)(82740400003)(356005)(336012)(81166007)(15650500001)(47076004)(426003)(82310400002)(70586007)(2906002)(110136005)(5660300002)(8676002)(26005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2020 20:37:32.4003 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7d34c66-204a-4b09-f12d-08d834c8629e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2020 20:37:34.7045 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c912bef-2eab-4e8b-ff6f-08d834c863fe
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB02.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT067.eop-nam11.prod.protection.outlook.com
+ Helo=[SATLEXMB01.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT025.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0116
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2570
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,8 +107,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: Hersen Wu <hersenxs.wu@amd.com>,
  Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
  Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -117,58 +116,85 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 [Why]
-So we're not racing with userspace or deadlocking DM.
+MEDIUM or FULL updates can require global validation or affect
+bandwidth. By treating these all simply as surface updates we aren't
+actually passing this through DC global validation.
 
 [How]
-These flags are now stored on dm_plane_state itself and acquried and
-validated during commit_check, so just use those instead.
+There's currently no way to pass surface updates through DC global
+validation, nor do I think it's a good idea to change the interface
+to accept these.
 
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+DC global validation itself is currently stateless, and we can move
+our update type checking to be stateless as well by duplicating DC
+surface checks in DM based on DRM properties.
+
+We wanted to rely on DC automatically determining this since DC knows
+best, but DM is ultimately what fills in everything into DC plane
+state so it does need to know as well.
+
+There are basically only three paths that we exercise in DM today:
+
+1) Cursor (async update)
+2) Pageflip (fast update)
+3) Full pipe programming (medium/full updates)
+
+Which means that anything that's more than a pageflip really needs to
+go down path #3.
+
+So this change duplicates all the surface update checks based on DRM
+state instead inside of should_reset_plane().
+
+Next step is dropping dm_determine_update_type_for_commit and we no
+longer require the old DC state at all for global validation.
+
+Optimization can come later so we don't reset DC planes at all for
+MEDIUM udpates and avoid validation, but we might require some extra
+checks in DM to achieve this.
+
 Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Hersen Wu <hersenxs.wu@amd.com>
 Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f78c09c9585e..0d5f45742bb5 100644
+index 0d5f45742bb5..2cbb29199e61 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7094,8 +7094,6 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 	long r;
- 	unsigned long flags;
- 	struct amdgpu_bo *abo;
--	uint64_t tiling_flags;
--	bool tmz_surface = false;
- 	uint32_t target_vblank, last_flip_vblank;
- 	bool vrr_active = amdgpu_dm_vrr_active(acrtc_state);
- 	bool pflip_present = false;
-@@ -7179,20 +7177,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 		if (unlikely(r <= 0))
- 			DRM_ERROR("Waiting for fences timed out!");
+@@ -8336,6 +8336,31 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+ 		if (old_other_state->crtc != new_other_state->crtc)
+ 			return true;
  
--		/*
--		 * We cannot reserve buffers here, which means the normal flag
--		 * access functions don't work. Paper over this with READ_ONCE,
--		 * but maybe the flags are invariant enough that not even that
--		 * would be needed.
--		 */
--		tiling_flags = READ_ONCE(abo->tiling_flags);
--		tmz_surface = READ_ONCE(abo->flags) & AMDGPU_GEM_CREATE_ENCRYPTED;
--
- 		fill_dc_plane_info_and_addr(
--			dm->adev, new_plane_state, tiling_flags,
-+			dm->adev, new_plane_state,
-+			dm_new_plane_state->tiling_flags,
- 			&bundle->plane_infos[planes_count],
--			&bundle->flip_addrs[planes_count].address, tmz_surface,
--			false);
-+			&bundle->flip_addrs[planes_count].address,
-+			dm_new_plane_state->tmz_surface, false);
- 
- 		DRM_DEBUG_DRIVER("plane: id=%d dcc_en=%d\n",
- 				 new_plane_state->plane->index,
++		/* Src/dst size and scaling updates. */
++		if (old_other_state->src_w != new_other_state->src_w ||
++		    old_other_state->src_h != new_other_state->src_h ||
++		    old_other_state->crtc_w != new_other_state->crtc_w ||
++		    old_other_state->crtc_h != new_other_state->crtc_h)
++			return true;
++
++		/* Rotation / mirroring updates. */
++		if (old_other_state->rotation != new_other_state->rotation)
++			return true;
++
++		/* Blending updates. */
++		if (old_other_state->pixel_blend_mode !=
++		    new_other_state->pixel_blend_mode)
++			return true;
++
++		/* Alpha updates. */
++		if (old_other_state->alpha != new_other_state->alpha)
++			return true;
++
++		/* Colorspace changes. */
++		if (old_other_state->color_range != new_other_state->color_range ||
++		    old_other_state->color_encoding != new_other_state->color_encoding)
++			return true;
++
+ 		/* Framebuffer checks fall at the end. */
+ 		if (!old_other_state->fb || !new_other_state->fb)
+ 			continue;
 -- 
 2.25.1
 
