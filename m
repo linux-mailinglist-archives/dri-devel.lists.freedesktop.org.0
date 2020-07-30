@@ -1,56 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8FD233FEC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:21:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4971234014
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21856E9EA;
-	Fri, 31 Jul 2020 07:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D22E6E9F4;
+	Fri, 31 Jul 2020 07:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81386E9EA
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 07:21:50 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id d6so16619140ejr.5
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 00:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q+wgF+A41fHE0qyuzyev6ggC9UX3UHueqdJil8s4P20=;
- b=jv8tGYaTgWbD2Rprqk3AArwOe0GTj0RkDTDlCwTr07KBbZl5/RrwnfUT5r9SDIUv6H
- O7d8MMQAtHuiLN6+wUJUfvfk3hJmOe/0aryF4GOXKdHIHZBdQzD9/zoIZ0pS1WqJfEFP
- sTF3rDdA+qRi7v8qinV/1o6TMXEchHXmci8BVVNdI/Vf6ABHv6TG3XcjxpwCgyuSRZRI
- 63agJupDCkZZDXd4/P4BB1dF9OrGHRDhvBuBC0g+f626ibneSTDr8SngItYNkQ3CtqMJ
- 1eI12OXEizuyTedBNM98O8FwLQ/2qqzZ/TsTzS8vDwZjGb9XokZqnhacBOSVaHSaX8kE
- DaRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q+wgF+A41fHE0qyuzyev6ggC9UX3UHueqdJil8s4P20=;
- b=HohvxyOXawJXwXt2CdGL9NkrXf/+LY6489zQCud1jsXhhLH7EIzwDZbIe4N0386aVm
- 0COKj3JtJnEXZjPT+zS0K93nyRh+S8Nn8IYhhUBEMRrLz5I+13EF16W5bGmrqGPeT/Zh
- XmV+4Nek69MnMdK+hspIi/m6L88iCKs4nae/v350o6L8dQkGwqSYQptH9ltgVohmgnT1
- J+TM+gTV2rtIIJeGS/l+W9ph2aEI5+r64Aqd2JhVu8PE8t8wnM8s7bykxj/B/pTqg8eg
- M0hSBEzTBWAqMfjpwvdBRKyS05O/htoFT/dAh5RMzS96U4AkZLU9VRyWvavxngT5KE1n
- shdg==
-X-Gm-Message-State: AOAM532Jcwhfv+AK+9x4hCl1ZUIhmcsXfktEpnrvRYvtuPW1PKcvkxwF
- kyMvItekbNM4MthioaXy6lNKwDIiDwA9TyPzBj8=
-X-Google-Smtp-Source: ABdhPJwmYB/XGI5FlP+L5WZbAOulnzMRfBv9yfB3EuOAfi01mHQYbwyNTSMBfLVcqTxXp6V7Sq5++ujBZaQMNzr9hD0=
-X-Received: by 2002:a17:906:8782:: with SMTP id
- za2mr2645848ejb.419.1596180109555; 
- Fri, 31 Jul 2020 00:21:49 -0700 (PDT)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793C56E169
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 09:35:26 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8E2845803D1;
+ Thu, 30 Jul 2020 05:35:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 30 Jul 2020 05:35:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=JhmDU/H53yjm/GLpBmlQQFXIqh
+ S4PzEIc+njySpKR2M=; b=DQ1hbYVep/s2sBYcbcNr35ycMeb40Oi4niM1Aih3vv
+ Z5CdzN05Zd6xT0UOFL4bEGDrTpht25WoXX6Bsq7QNw4KyIwRFY2yoMnt7ALsUeA6
+ LpUNQBY7HFoFV3NDF/Y00MlARftwf26Gds8nBwxVWiscmMQ3hqc1d6x2dvZt6TbW
+ XT6VfdQ1dSpVH9X2sCXWg3u5PyFvNyUWd9QV1oXgv5LU+WsVlACKMG/fU8GTEG7q
+ /VRCzjWaxFwZQBVeU+SEvWU8Mt6ABg2+LV3usNOUXjnDDKK2XBwpBw8AA8RCVvGn
+ tbdCFLwQHxBWbDo8ZNSEpULs5s53+IK24mtc6Y01WMvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=JhmDU/H53yjm/GLpB
+ mlQQFXIqhS4PzEIc+njySpKR2M=; b=fBRVXkDeOVu2FeIDe4JgEBJ87V8T3ZdmE
+ GFBHB70IHYu7D6T4aTtdQXHohNb8cAI6XaoEK4495NPWUcYR5/669/LyAMtkioqC
+ mmldtTvV9RutAHiG21BMkbJFxDVkStDSRI2gn7xEp4iLd6kkVDh/oGeaP0d1sdAf
+ Sngj0/tAoh9msiQDdUFaeBSI3wBBydpiMmTuKwO7em1Ll8HbyQHgTT+iZtRYq1d5
+ 24WMSnF1DDHGSUWRLOMkXxrk6vKGg/SPe/APD+qStSDeWvJqD7eBcZYBwfNQDpiU
+ Ydno7XH/VbLCLzRthWRJQqQIy+CH4dpIM0RvuQ0h3/xLnwJHMo2HQ==
+X-ME-Sender: <xms:W5QiX4NRs2eRVWq5FgWMjZJd1SzQ1EkTePFLfUTxwUB1hZrNq5lTrg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrieeigddukecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:W5QiX--CT0lohwpjLcZt8Z6QPf2oDZA3SUnInO-2efdD8U6j9po_Vg>
+ <xmx:W5QiX_TRMZSxXszij0XFDD1mEPB9KJM4VXc2SVgtYZvQ1NeD6rq5Eg>
+ <xmx:W5QiXwsJq0Ws8uXcNfNVVQrutXQbG5PoO-vla-r6hs0OGbFN3cZRiw>
+ <xmx:XJQiX46CkFwZ9M3wJhaHWuIJT7Dy5ZBPTvtkizT9YT7c2idk77usGQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id ED99B3280059;
+ Thu, 30 Jul 2020 05:35:22 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/4] drm/sun4i: Add support for dual-link LVDS on the A20
+Date: Thu, 30 Jul 2020 11:35:00 +0200
+Message-Id: <cover.7029eefe5c5350920f91d4cd4cbc061466752f3c.1596101672.git-series.maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200731040520.3701599-1-airlied@gmail.com>
- <20200731040520.3701599-27-airlied@gmail.com>
- <43f848a2-579a-873f-4271-7bff0968888b@suse.de>
-In-Reply-To: <43f848a2-579a-873f-4271-7bff0968888b@suse.de>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 31 Jul 2020 17:21:38 +1000
-Message-ID: <CAPM=9twAMwKsx_nSYz5tSFAb=Pp0m_SVWt+rewMk3RFVoUM4+A@mail.gmail.com>
-Subject: Re: [PATCH 26/49] drm/ttm: add wrapper to get manager from bdev.
-To: Thomas Zimmermann <tzimmermann@suse.de>
+X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,32 +75,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Roland Scheidegger <sroland@vmware.com>,
- "Koenig, Christian" <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 Jul 2020 at 17:14, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 31.07.20 um 06:04 schrieb Dave Airlie:
-> > From: Dave Airlie <airlied@redhat.com>
-> >
-> > This will allow different abstractions later.
->
-> You should consider moving this patch to the beginning of the series, so
-> that patches 1 to 25 can benefit from it.
+Hi,
 
-I did consider it, but I'd have to move all the follow on patches as
-well, and it got messy in rebase land, and I started introducing
-errors, so I left it alone, and it's not necessary until the patch
-that changes it's definition anyways.
+This is a second attempt at supporting the LVDS dual-link output on the
+Allwinner A20.
 
-Dave.
+Let me know what you think,
+Maxime
+
+Changes from v1:
+  - Reworked the DT bindings
+  - Refactored a bit the panel registration in the tcon code.
+
+Maxime Ripard (4):
+  drm/of: Change the prototype of drm_of_lvds_get_dual_link_pixel_order
+  drm/sun4i: tcon: Refactor the LVDS and panel probing
+  drm/sun4i: tcon: Support the LVDS Dual-Link on the A20
+  [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS Dual-Link on the Cubieboard
+
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts |  69 ++++++++-
+ drivers/gpu/drm/drm_of.c                    |  98 ++++++------
+ drivers/gpu/drm/rcar-du/rcar_lvds.c         |   8 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c          | 175 ++++++++++++---------
+ drivers/gpu/drm/sun4i/sun4i_tcon.h          |   4 +-
+ include/drm/drm_of.h                        |  16 +-
+ 6 files changed, 242 insertions(+), 128 deletions(-)
+
+base-commit: d113dbba9a18f9ac71edb1a66ae552c9407355f4
+-- 
+git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
