@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4F3234025
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC26F23402A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A52216EA04;
-	Fri, 31 Jul 2020 07:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83C926EA0C;
+	Fri, 31 Jul 2020 07:37:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697646E091
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 09:35:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB746E8AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 09:35:29 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id D0C235803DF;
- Thu, 30 Jul 2020 05:35:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 30 Jul 2020 05:35:27 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4009E5803E1;
+ Thu, 30 Jul 2020 05:35:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 30 Jul 2020 05:35:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=XW1cJZ5QsKEOB
- +Ltal+2UQAjqNTRc+bz0avXmWKWqAE=; b=eJ9bqIAXEKA7b0KLcid7+BE36kpgt
- 5VRyAaV+/TeOi5Ar472rHiyvnCdTTkIA8ZkOZyHn4Fbjj/GNLwJArR8Umwjr3Mzu
- DMw2gz+v3Bz3S2tC6tb/T/PoTGBoo5o/J22p5hWCyPsKX0mXYahBXToRPhN+pn+D
- 0NNheGz4CpKf4tBSWxIqVEwyd4TGtdTWnMWzrkd9yPGOTk34fDb+yehcecjsvY4I
- vBUGKaYAF4KwwgPPUc874Zrp913M4vS9kk/vQquZNlDU0bc4jbW8FxXkM6eWM48M
- xjfQAMlY+oRfalvmYx7SDBQs9+LRJJqkG09jC6W6njZ/iEciT8m+qWK2A==
+ :mime-version:content-transfer-encoding; s=fm3; bh=Ut3ZT+W4+yvZB
+ ml4M9YqRFh4J0n6Jv0UFC/16UuzKdY=; b=KFlJEgPGwRR2vjF0Q+fs8WD5ootQt
+ hfzR4ffcWWrBRiergQgLJrKzOI3qxt/Em54M68T9w1cWD4J43FRyaIeq+ZY+f7l6
+ +jjtodTVelkQhYaUilqC8wSTz5Xlo0dCaQVXsGm/BHtx/ga+JSy7isz52KWljpG8
+ oc/S88ZziRnfdk+0GE6mVcwZCYLqoXRn5Y0+Tn7uexo59+B/xQdO9a/4Z3Tcc2Ze
+ z5z8fJvBdEjrgunBTHB0JckOy/riYMn62GH2ErbjivTxtCEkrGSc+/PXgUzClpm7
+ 6Uu/w9hNdv+2yx16rPQobuXYFGHWhWbZl4UIBw5AwH0p+OEpkTPztvO2A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=XW1cJZ5QsKEOB+Ltal+2UQAjqNTRc+bz0avXmWKWqAE=; b=oTeN+aY3
- SmkE8twMMZcicTQvv6T7IpTL5oltmZEHAJgWKT4Y1q3aKBLcZrPbtRZ6OIJZlaCj
- IIXCERft9X8A/Ov6YS0nO6SH8BmZ1O7a1A5r5XlZrqnosvBNLTXe4IwJIThMYYpW
- xLJB1+41Efs5k2yeaCRMmhLgS6iyZQ0znbLLOQCYC4ehBfA8L9GJN8dSWIbBqN37
- 77PcySt13OCSbdZhF2R2DE8pzJ11xnrXO9sXV7Vm2YsvdyOQR9KSEWkGJxgE7wNE
- ZUnSrz5ysbKUfIxPfOmMguiDsc1vCkJW4NZBgiqTez7H6MqY6NW8kWG6C8IHraaK
- DYv0bhDv1mjZ6g==
-X-ME-Sender: <xms:X5QiX2dNHPvBtywqah48tSFX-DPdSi8urTYtJdlx_YY2MAL-O-wErw>
+ fm3; bh=Ut3ZT+W4+yvZBml4M9YqRFh4J0n6Jv0UFC/16UuzKdY=; b=fjTot1oz
+ CZm/loUuLwTOf0Xfikhwh/ZO2+/IQs51WirESIfZjNE2IuGUQVZJfcYkD3VNpU65
+ 4RCy85uxDVmGsRfJsLwvlzajTYSO5kMBgbF6iT1ulDBbEQaLWGWRbDwe3VOGgMJO
+ mMc/ZluGrOVyHrcMXCwHTVGXdUvRXyLP5BSI2XTquaxmHTfuFnFaTB88QHHn7Ako
+ v2T3aiDc76uVtEaRiEcUFL001gG+MsvBGYg25jfkDpJ8h5N24s6mG0ExrSgbn0zZ
+ i58hFmU5BNNEiCo3smOwzFqCnsOvAWE+TcRGtJnM/7tyrsOj3wQYv+aAw8vgSPNz
+ pa85ZsHRaditRQ==
+X-ME-Sender: <xms:YZQiX0o5WY-1gULOk4Mlb87TvnfdSTSr_c5G-BLg_5YYjzCGWKZEOw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrieeigddukecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -47,20 +47,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrieeigddukecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedunecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:X5QiXwObgU2yIyEnT_tKtDHvaM26kpGVXmvezEltn3pU2iRCvbn_cg>
- <xmx:X5QiX3gKmOkuSbh25yH2bgqSW9egPZquOaGdN6lGkLxRNb-r20SdAw>
- <xmx:X5QiXz-xpwrXtmjjmsq4be5zV7yeFIPY5mmIbxT1_1DNXv03nZbUgg>
- <xmx:X5QiX8KflxFI8u5mBm32SevGXjxCgpyHL_bsZdsrbQBvm6GKi-aQ3A>
+X-ME-Proxy: <xmx:YZQiX6r8o3ZdGDBFBQKvl2YbKTvNt2WmoXjiSg0RqKdR6MojgZMV6Q>
+ <xmx:YZQiX5Oo6yjuL4Ilb6Zc7sRrqGz6jAJXnZviA01pRzVen4lfPCoKoA>
+ <xmx:YZQiX75EMkxVaIOokm1p-WJ06rHAlc0tH_2s7SmruAOjF7Sp7m0jtQ>
+ <xmx:YZQiXwERekDBNxOMoFeA2m6g5Wd5RNnyn2ns5kQ4vNE1UVExhebczQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 716B23060067;
- Thu, 30 Jul 2020 05:35:27 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id CD5843280065;
+ Thu, 30 Jul 2020 05:35:28 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/4] drm/sun4i: tcon: Support the LVDS Dual-Link on the A20
-Date: Thu, 30 Jul 2020 11:35:03 +0200
-Message-Id: <100f5fe3391366e9bbc76ebec1edbf8c0aeb715a.1596101672.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 4/4] [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS Dual-Link
+ on the Cubieboard
+Date: Thu, 30 Jul 2020 11:35:04 +0200
+Message-Id: <da488b254cfed95796561873f9b400c40f290796.1596101672.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.7029eefe5c5350920f91d4cd4cbc061466752f3c.1596101672.git-series.maxime@cerno.tech>
 References: <cover.7029eefe5c5350920f91d4cd4cbc061466752f3c.1596101672.git-series.maxime@cerno.tech>
@@ -89,107 +90,101 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The A20 can use its second TCON as the secondary LVDS link in a dual-link
-setup, with the TCON0 being the main link. Extend a bit the parsing code to
-leverage the DRM dual-link code, register only the LVDS output on the
-primary TCON, and add the needed bits to setup the TCON properly.
+For the sake of the example, let's enable an LVDS Dual-Link display on a
+Cubieboard.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++++++++++++++++-
- drivers/gpu/drm/sun4i/sun4i_tcon.h |  4 +++-
- 2 files changed, 40 insertions(+)
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts | 69 ++++++++++++++++++++++-
+ 1 file changed, 69 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index d03ad75f9900..ed2abf6eb18b 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -487,6 +487,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 	else
- 		reg |= SUN4I_TCON0_LVDS_IF_DATA_POL_NORMAL;
- 
-+	if (tcon->lvds_dual_link)
-+		reg |= SUN4I_TCON0_LVDS_IF_DUAL_LINK;
+diff --git a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+index b8203e4ef21c..20278a27ec16 100644
+--- a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
++++ b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+@@ -85,6 +85,49 @@
+ 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
 +
- 	if (sun4i_tcon_get_pixel_depth(encoder) == 24)
- 		reg |= SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS;
- 	else
-@@ -896,6 +899,16 @@ static int sun4i_tcon_register_panel(struct drm_device *drm,
- 		return sun4i_rgb_init(drm, tcon);
- 
- 	/*
-+	 * Only the TCON0 will be relevant for the LVDS output, so if
-+	 * our ID is something else, let's prevent our TCON from
-+	 * registering its own LVDS output
-+	 */
-+	if (tcon->id) {
-+		dev_info(dev, "Secondary TCON, disabling panel output");
-+		return 0;
-+	}
++	panel: panel {
++		compatible = "panel-lvds";
++		width-mm = <153>;
++		height-mm = <90>;
++		data-mapping = "vesa-24";
 +
-+	/*
- 	 * This can only be made optional since we've had DT
- 	 * nodes without the LVDS reset properties.
- 	 *
-@@ -941,6 +954,28 @@ static int sun4i_tcon_register_panel(struct drm_device *drm,
- 		return -ENODEV;
- 	}
- 
-+	/*
-+	 * If we don't have a second TCON, we will never be able to do
-+	 * dual-link LVDS, so we don't have much more to do.
-+	 */
-+	companion = of_parse_phandle(dev->of_node, "allwinner,lvds-companion", 0);
-+	if (!companion)
-+		return 0;
++		panel-timing {
++			clock-frequency = <148500000>;
++			hfront-porch = <88>;
++			hactive = <1920>;
++			hback-porch = <148>;
++			hsync-len = <44>;
 +
-+	/*
-+	 * Let's do a sanity check on the dual-link setup to make sure
-+	 * everything is properly described.
-+	 */
-+	ret = drm_of_lvds_get_dual_link_pixel_order(dev->of_node, 1, 0,
-+						    companion, 1, 0);
-+	if (ret < 0) {
-+		dev_err(dev, "Invalid Dual-Link Configuration.\n");
-+		return ret;
-+	}
++			vfront-porch = <4>;
++			vactive = <1080>;
++			vback-porch = <36>;
++			vsync-len = <5>;
++		};
 +
-+	dev_info(dev, "Primary TCON, enabling LVDS Dual-Link");
-+	tcon->lvds_dual_link = true;
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
- 	return sun4i_lvds_init(drm, tcon);
- }
- 
-@@ -1500,6 +1535,7 @@ static const struct sun4i_tcon_quirks sun7i_a20_tcon0_quirks = {
++			port@0 {
++				reg = <0>;
++				dual-lvds-even-pixels;
++
++				panel_input_0: endpoint {
++					remote-endpoint = <&tcon0_out_panel>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				dual-lvds-odd-pixels;
++
++				panel_input_1: endpoint {
++					remote-endpoint = <&tcon1_out_panel>;
++				};
++			};
++		};
++	};
  };
  
- static const struct sun4i_tcon_quirks sun7i_a20_quirks = {
-+	.supports_lvds		= true,
- 	.has_channel_0		= true,
- 	.has_channel_1		= true,
- 	.dclk_min_div		= 4,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index cfbf4e6c1679..51c4e09cdd13 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -98,6 +98,7 @@
+ &ahci {
+@@ -218,6 +261,32 @@
+ 	status = "okay";
+ };
  
- #define SUN4I_TCON0_LVDS_IF_REG			0x84
- #define SUN4I_TCON0_LVDS_IF_EN				BIT(31)
-+#define SUN4I_TCON0_LVDS_IF_DUAL_LINK			BIT(30)
- #define SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK		BIT(26)
- #define SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS		(1 << 26)
- #define SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS		(0 << 26)
-@@ -274,6 +275,9 @@ struct sun4i_tcon {
- 	/* Associated crtc */
- 	struct sun4i_crtc		*crtc;
- 
-+	/* Is the LVDS link a dual-channel link? */
-+	bool				lvds_dual_link;
++&tcon0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_lvds0_pins>;
++	allwinner,lvds-companion = <&tcon1>;
++	status = "okay";
++};
 +
- 	int				id;
- 
- 	/* TCON list management */
++&tcon0_out {
++	tcon0_out_panel: endpoint@0 {
++		remote-endpoint = <&panel_input_0>;
++	};
++};
++
++&tcon1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_lvds1_pins>;
++	allwinner,lvds-companion = <&tcon0>;
++	status = "okay";
++};
++
++&tcon1_out {
++	tcon1_out_panel: endpoint@0 {
++		remote-endpoint = <&panel_input_1>;
++	};
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pb_pins>;
 -- 
 git-series 0.9.1
 _______________________________________________
