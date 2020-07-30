@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431DC233369
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 15:52:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1873A23336D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 15:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09B56E8F7;
-	Thu, 30 Jul 2020 13:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1BB6E8F2;
+	Thu, 30 Jul 2020 13:52:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2805A6E8F0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423FE6E8F4
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 13:52:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 39DBEAD75;
+ by mx2.suse.de (Postfix) with ESMTP id 4DF10B11F;
  Thu, 30 Jul 2020 13:52:20 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  emil.l.velikov@gmail.com, kraxel@redhat.com, yc_chen@aspeedtech.com
-Subject: [PATCH v2 1/9] drm/ast: Embed CRTC and connector in struct ast_private
-Date: Thu, 30 Jul 2020 15:51:58 +0200
-Message-Id: <20200730135206.30239-2-tzimmermann@suse.de>
+Subject: [PATCH v2 2/9] drm/ast: Separate DRM driver from PCI code
+Date: Thu, 30 Jul 2020 15:51:59 +0200
+Message-Id: <20200730135206.30239-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730135206.30239-1-tzimmermann@suse.de>
 References: <20200730135206.30239-1-tzimmermann@suse.de>
@@ -45,173 +45,132 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only single instances of CRTC and connector are supported per
-device. Embed both in ast's structure and remove the individual
-memory allocations. DRM's CRTC cleanup helpers replace the rsp.
-destroy function in ast.
-
-While at it, also convert to_ast_connector() to a function.
+Putting the DRM driver to the top of the file and the PCI code to the
+bottom makes ast_drv.c more readable. While at it, the patch prefixes
+file-scope variables with ast_.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/ast/ast_drv.h  | 33 +++++++++++++++++++--------------
- drivers/gpu/drm/ast/ast_mode.c | 34 +++++++---------------------------
- 2 files changed, 26 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.c | 59 ++++++++++++++++++-----------------
+ 1 file changed, 31 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index e3a264ac7ee2..e7564055fa70 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -98,6 +98,22 @@ enum ast_tx_chip {
- #define AST_HWC_SIGNATURE_HOTSPOTX	0x14
- #define AST_HWC_SIGNATURE_HOTSPOTY	0x18
+diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+index 0b58f7aee6b0..9d04f2b5225c 100644
+--- a/drivers/gpu/drm/ast/ast_drv.c
++++ b/drivers/gpu/drm/ast/ast_drv.c
+@@ -43,9 +43,33 @@ int ast_modeset = -1;
+ MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+ module_param_named(modeset, ast_modeset, int, 0400);
  
-+struct ast_i2c_chan {
-+	struct i2c_adapter adapter;
-+	struct drm_device *dev;
-+	struct i2c_algo_bit_data bit;
+-#define PCI_VENDOR_ASPEED 0x1a03
++/*
++ * DRM driver
++ */
++
++DEFINE_DRM_GEM_FOPS(ast_fops);
++
++static struct drm_driver ast_driver = {
++	.driver_features = DRIVER_ATOMIC |
++			   DRIVER_GEM |
++			   DRIVER_MODESET,
++
++	.fops = &ast_fops,
++	.name = DRIVER_NAME,
++	.desc = DRIVER_DESC,
++	.date = DRIVER_DATE,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
++	.patchlevel = DRIVER_PATCHLEVEL,
+ 
+-static struct drm_driver driver;
++	DRM_GEM_VRAM_DRIVER
 +};
 +
-+struct ast_connector {
-+	struct drm_connector base;
-+	struct ast_i2c_chan *i2c;
-+};
++/*
++ * PCI driver
++ */
 +
-+static inline struct ast_connector *
-+to_ast_connector(struct drm_connector *connector)
-+{
-+	return container_of(connector, struct ast_connector, base);
-+}
++#define PCI_VENDOR_ASPEED 0x1a03
  
- struct ast_private {
- 	struct drm_device *dev;
-@@ -119,9 +135,11 @@ struct ast_private {
- 		unsigned int next_index;
- 	} cursor;
+ #define AST_VGA_DEVICE(id, info) {		\
+ 	.class = PCI_BASE_CLASS_DISPLAY << 16,	\
+@@ -56,13 +80,13 @@ static struct drm_driver driver;
+ 	.subdevice = PCI_ANY_ID,		\
+ 	.driver_data = (unsigned long) info }
  
--	struct drm_encoder encoder;
- 	struct drm_plane primary_plane;
- 	struct drm_plane cursor_plane;
-+	struct drm_crtc crtc;
-+	struct drm_encoder encoder;
-+	struct ast_connector connector;
+-static const struct pci_device_id pciidlist[] = {
++static const struct pci_device_id ast_pciidlist[] = {
+ 	AST_VGA_DEVICE(PCI_CHIP_AST2000, NULL),
+ 	AST_VGA_DEVICE(PCI_CHIP_AST2100, NULL),
+ 	{0, 0, 0},
+ };
  
- 	bool support_wide_screen;
- 	enum {
-@@ -226,19 +244,6 @@ static inline void ast_open_key(struct ast_private *ast)
+-MODULE_DEVICE_TABLE(pci, pciidlist);
++MODULE_DEVICE_TABLE(pci, ast_pciidlist);
  
- #define AST_VIDMEM_DEFAULT_SIZE AST_VIDMEM_SIZE_8M
- 
--struct ast_i2c_chan {
--	struct i2c_adapter adapter;
--	struct drm_device *dev;
--	struct i2c_algo_bit_data bit;
--};
--
--struct ast_connector {
--	struct drm_connector base;
--	struct ast_i2c_chan *i2c;
--};
--
--#define to_ast_connector(x) container_of(x, struct ast_connector, base)
--
- struct ast_vbios_stdtable {
- 	u8 misc;
- 	u8 seq[4];
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 154cd877d9d1..78f28a4e6ed8 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -831,12 +831,6 @@ static void ast_crtc_reset(struct drm_crtc *crtc)
- 	__drm_atomic_helper_crtc_reset(crtc, &ast_state->base);
- }
- 
--static void ast_crtc_destroy(struct drm_crtc *crtc)
--{
--	drm_crtc_cleanup(crtc);
--	kfree(crtc);
--}
--
- static struct drm_crtc_state *
- ast_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+ static void ast_kick_out_firmware_fb(struct pci_dev *pdev)
  {
-@@ -872,7 +866,7 @@ static void ast_crtc_atomic_destroy_state(struct drm_crtc *crtc,
- static const struct drm_crtc_funcs ast_crtc_funcs = {
- 	.reset = ast_crtc_reset,
- 	.gamma_set = drm_atomic_helper_legacy_gamma_set,
--	.destroy = ast_crtc_destroy,
-+	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.atomic_duplicate_state = ast_crtc_atomic_duplicate_state,
-@@ -882,27 +876,19 @@ static const struct drm_crtc_funcs ast_crtc_funcs = {
- static int ast_crtc_init(struct drm_device *dev)
- {
- 	struct ast_private *ast = to_ast_private(dev);
--	struct drm_crtc *crtc;
-+	struct drm_crtc *crtc = &ast->crtc;
- 	int ret;
- 
--	crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
--	if (!crtc)
--		return -ENOMEM;
--
- 	ret = drm_crtc_init_with_planes(dev, crtc, &ast->primary_plane,
- 					&ast->cursor_plane, &ast_crtc_funcs,
- 					NULL);
+@@ -94,7 +118,7 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
  	if (ret)
--		goto err_kfree;
-+		return ret;
+ 		return ret;
  
- 	drm_mode_crtc_set_gamma_size(crtc, 256);
- 	drm_crtc_helper_add(crtc, &ast_crtc_helper_funcs);
+-	dev = drm_dev_alloc(&driver, &pdev->dev);
++	dev = drm_dev_alloc(&ast_driver, &pdev->dev);
+ 	if (IS_ERR(dev))
+ 		return  PTR_ERR(dev);
  
- 	return 0;
+@@ -118,11 +142,9 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ err_drm_dev_put:
+ 	drm_dev_put(dev);
+ 	return ret;
 -
--err_kfree:
--	kfree(crtc);
--	return ret;
  }
  
- /*
-@@ -1021,7 +1007,6 @@ static void ast_connector_destroy(struct drm_connector *connector)
- 	struct ast_connector *ast_connector = to_ast_connector(connector);
- 	ast_i2c_destroy(ast_connector->i2c);
- 	drm_connector_cleanup(connector);
--	kfree(connector);
- }
- 
- static const struct drm_connector_helper_funcs ast_connector_helper_funcs = {
-@@ -1039,15 +1024,11 @@ static const struct drm_connector_funcs ast_connector_funcs = {
- 
- static int ast_connector_init(struct drm_device *dev)
+-static void
+-ast_pci_remove(struct pci_dev *pdev)
++static void ast_pci_remove(struct pci_dev *pdev)
  {
--	struct ast_connector *ast_connector;
--	struct drm_connector *connector;
--	struct drm_encoder *encoder;
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
+ 
+@@ -217,30 +239,12 @@ static const struct dev_pm_ops ast_pm_ops = {
+ 
+ static struct pci_driver ast_pci_driver = {
+ 	.name = DRIVER_NAME,
+-	.id_table = pciidlist,
++	.id_table = ast_pciidlist,
+ 	.probe = ast_pci_probe,
+ 	.remove = ast_pci_remove,
+ 	.driver.pm = &ast_pm_ops,
+ };
+ 
+-DEFINE_DRM_GEM_FOPS(ast_fops);
 -
--	ast_connector = kzalloc(sizeof(struct ast_connector), GFP_KERNEL);
--	if (!ast_connector)
--		return -ENOMEM;
-+	struct ast_private *ast = to_ast_private(dev);
-+	struct ast_connector *ast_connector = &ast->connector;
-+	struct drm_connector *connector = &ast_connector->base;
-+	struct drm_encoder *encoder = &ast->encoder;
- 
--	connector = &ast_connector->base;
- 	ast_connector->i2c = ast_i2c_create(dev);
- 	if (!ast_connector->i2c)
- 		drm_err(dev, "failed to add ddc bus for connector\n");
-@@ -1064,7 +1045,6 @@ static int ast_connector_init(struct drm_device *dev)
- 
- 	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
- 
--	encoder = list_first_entry(&dev->mode_config.encoder_list, struct drm_encoder, head);
- 	drm_connector_attach_encoder(connector, encoder);
- 
- 	return 0;
+-static struct drm_driver driver = {
+-	.driver_features = DRIVER_ATOMIC |
+-			   DRIVER_GEM |
+-			   DRIVER_MODESET,
+-
+-	.fops = &ast_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-
+-	DRM_GEM_VRAM_DRIVER
+-};
+-
+ static int __init ast_init(void)
+ {
+ 	if (vgacon_text_force() && ast_modeset == -1)
+@@ -261,4 +265,3 @@ module_exit(ast_exit);
+ MODULE_AUTHOR(DRIVER_AUTHOR);
+ MODULE_DESCRIPTION(DRIVER_DESC);
+ MODULE_LICENSE("GPL and additional rights");
+-
 -- 
 2.27.0
 
