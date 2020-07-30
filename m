@@ -2,36 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28EAF234030
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C4E234026
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0276EA09;
-	Fri, 31 Jul 2020 07:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80DA86EA01;
+	Fri, 31 Jul 2020 07:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2996E920
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 16:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1596126074; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GLywFInFbZpsDWDDgkVCtHSQx1nOq8RfSg1sbqqGqrc=;
- b=lcmdvNQVbj+DlLOZwcGS+JUlh+v7lQJ4ZPJYFbLEiFzficmHr7lqicyHxRIoYnw1sxvJnG
- 8C89/bQKHAB5fus62ESfN6xAf3mB0oYeUC3qHMlnspX5TE5/2d2pwZiX5gSLtoLHdz+B/D
- ayrjUH08OFO7gTXOYbfdHFP1v4cbv7U=
-Date: Thu, 30 Jul 2020 18:21:05 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 3/3] drm/ingenic: ipu: Only enable clock when needed
+X-Greylist: delayed 159318 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Jul 2020 16:28:10 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net
+ [IPv6:2001:a60:0:28:0:1:25:1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40036E920
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 16:28:10 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BHbS9292bz1rsXc;
+ Thu, 30 Jul 2020 18:28:09 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4BHbS90wMTz1qspJ;
+ Thu, 30 Jul 2020 18:28:09 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id uUNSfkwkvont; Thu, 30 Jul 2020 18:28:08 +0200 (CEST)
+X-Auth-Info: ifWBBodGONwSplkvX+4rvwmmHS9lEFcwfU9O6WpLOuU=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Thu, 30 Jul 2020 18:28:07 +0200 (CEST)
+Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight driver
+ for RPi panel
 To: Sam Ravnborg <sam@ravnborg.org>
-Message-Id: <6RIAEQ.2KRLCE1YRKKB1@crapouillou.net>
-In-Reply-To: <20200730152958.GB1474381@ravnborg.org>
-References: <20200730144830.10479-1-paul@crapouillou.net>
- <20200730144830.10479-4-paul@crapouillou.net>
- <20200730152958.GB1474381@ravnborg.org>
+References: <20200729214645.247185-1-marex@denx.de>
+ <20200730155944.GA1477410@ravnborg.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
+Date: Thu, 30 Jul 2020 18:28:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200730155944.GA1477410@ravnborg.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 31 Jul 2020 07:36:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,146 +58,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/30/20 5:59 PM, Sam Ravnborg wrote:
+> Hi Marek
 
+Hi,
 
-Le jeu. 30 juil. 2020 =E0 17:29, Sam Ravnborg <sam@ravnborg.org> a =
+> On Wed, Jul 29, 2020 at 11:46:45PM +0200, Marek Vasut wrote:
+>> This regulator/backlight driver handles the ATTINY88 present on the
+>> RPi 7" touchscreen panel and exposes the power/backlight interfaces.
+[...]
+> It looks strange that the regulator and the backligth are defined in the
+> same module like this.
 
-=E9crit :
-> On Thu, Jul 30, 2020 at 04:48:30PM +0200, Paul Cercueil wrote:
->>  Instead of keeping the IPU clock enabled constantly, enable and =
+It's one chip, attiny with custom firmware, what do you want me to do
+about it ? I can over-complicate this and split it into multiple
+drivers, but I don't think it's worth the complexity, considering that
+this is likely a one-off device which will never be re-used elsewhere,
+except on this one particular display module for RPi.
 
->> disable
->>  it on demand, when the IPU plane is used. That way, we won't use any
->>  extra power when the IPU is not used.
->> =
+> The usual approach is to have an independent regulator and an
+> independent backlight. Each are represented by their own node in the DT.
+> 
+> Also the compatible "raspberrypi,7inch-touchscreen-panel-regulator",
+> is unknown. We need a binding for the compatible.
 
->>  v2: Explain the reason of this patch
->> =
+I submitted the patch as RFC to get feedback on how to handle this, so
+yes, there are no DT bindings, that's on the todo.
 
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> =
+> For backlight drivers, and modules that includes backlight support it
+> would be good to include the backlight gang in cc:
+> Jingoo, Lee, Daniel.
 
-> And thanks for the quick update!
-
-Pushed to drm-misc-next. Thanks!
-
-Cheers,
--Paul
-
-> =
-
-> 	Sam
-> =
-
->>  ---
->>   drivers/gpu/drm/ingenic/ingenic-ipu.c | 23 ++++++++++++++++++++---
->>   1 file changed, 20 insertions(+), 3 deletions(-)
->> =
-
->>  diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c =
-
->> b/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>  index 7dd2a6ae4994..fc8c6e970ee3 100644
->>  --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>  +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
->>  @@ -49,6 +49,7 @@ struct ingenic_ipu {
->>   	struct regmap *map;
->>   	struct clk *clk;
->>   	const struct soc_info *soc_info;
->>  +	bool clk_enabled;
->> =
-
->>   	unsigned int num_w, num_h, denom_w, denom_h;
->> =
-
->>  @@ -288,12 +289,23 @@ static void =
-
->> ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
->>   	const struct drm_format_info *finfo;
->>   	u32 ctrl, stride =3D 0, coef_index =3D 0, format =3D 0;
->>   	bool needs_modeset, upscaling_w, upscaling_h;
->>  +	int err;
->> =
-
->>   	if (!state || !state->fb)
->>   		return;
->> =
-
->>   	finfo =3D drm_format_info(state->fb->format->format);
->> =
-
->>  +	if (!ipu->clk_enabled) {
->>  +		err =3D clk_enable(ipu->clk);
->>  +		if (err) {
->>  +			dev_err(ipu->dev, "Unable to enable clock: %d\n", err);
->>  +			return;
->>  +		}
->>  +
->>  +		ipu->clk_enabled =3D true;
->>  +	}
->>  +
->>   	/* Reset all the registers if needed */
->>   	needs_modeset =3D drm_atomic_crtc_needs_modeset(state->crtc->state);
->>   	if (needs_modeset) {
->>  @@ -578,6 +590,11 @@ static void =
-
->> ingenic_ipu_plane_atomic_disable(struct drm_plane *plane,
->>   	regmap_clear_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_CHIP_EN);
->> =
-
->>   	ingenic_drm_plane_disable(ipu->master, plane);
->>  +
->>  +	if (ipu->clk_enabled) {
->>  +		clk_disable(ipu->clk);
->>  +		ipu->clk_enabled =3D false;
->>  +	}
->>   }
->> =
-
->>   static const struct drm_plane_helper_funcs =
-
->> ingenic_ipu_plane_helper_funcs =3D {
->>  @@ -761,9 +778,9 @@ static int ingenic_ipu_bind(struct device *dev, =
-
->> struct device *master, void *d)
->>   	drm_object_attach_property(&plane->base, ipu->sharpness_prop,
->>   				   ipu->sharpness);
->> =
-
->>  -	err =3D clk_prepare_enable(ipu->clk);
->>  +	err =3D clk_prepare(ipu->clk);
->>   	if (err) {
->>  -		dev_err(dev, "Unable to enable clock\n");
->>  +		dev_err(dev, "Unable to prepare clock\n");
->>   		return err;
->>   	}
->> =
-
->>  @@ -775,7 +792,7 @@ static void ingenic_ipu_unbind(struct device =
-
->> *dev,
->>   {
->>   	struct ingenic_ipu *ipu =3D dev_get_drvdata(dev);
->> =
-
->>  -	clk_disable_unprepare(ipu->clk);
->>  +	clk_unprepare(ipu->clk);
->>   }
->> =
-
->>   static const struct component_ops ingenic_ipu_ops =3D {
->>  --
->>  2.27.0
-
-
+[...]
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
