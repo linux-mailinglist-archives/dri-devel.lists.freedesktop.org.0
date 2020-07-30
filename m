@@ -2,31 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC78A232C4B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C6B232C58
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 09:17:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BDC76E864;
-	Thu, 30 Jul 2020 07:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6926E871;
+	Thu, 30 Jul 2020 07:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12226E835
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 01:46:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0F286E836
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 01:46:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
  s=mail; t=1596073594; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9xEUuTkj78lEWK4O56Tw/kmALvuCP1DLvcLRgltdNFE=;
- b=Btel6k6ieEyqOpWRjY9NIiHWwMHX5N+ApkW3CzMYSREZaC273j49OqXEht66guiZaEmcsV
- JENPSd0apS1KAabRFG2askFx1BD9zuJRa4rVS7yzrkSdLMT+VKInizC2FRHYdCq8OtSbpo
- SwFS8RZD2fg8Q/gzmebNSQ7W2jHEnYA=
+ bh=qh2xEZnWkVZc9Q7R8m4BkAmzplfElpQs19VRo4qFZJo=;
+ b=SI/T6Qibf5RCEzAaDAEEdJIslQPTjG/5uYyvYef6e9j7RZ3poA/5MbPN/9agTpUHNEcoiz
+ aKs8dW888I3xbn2QLiTNVxd7VvW5r1EIHELsRTze6084sCtTYs21txOv4BJtaFOKx+goIx
+ Ud8ANEZZURioKd5SkVR9t/XNknPDNyo=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/3] drm/ingenic: ipu: Only restart manually on older SoCs
-Date: Thu, 30 Jul 2020 03:46:24 +0200
-Message-Id: <20200730014626.83895-2-paul@crapouillou.net>
+Subject: [PATCH 2/3] drm/ingenic: ipu: Remove YUV422 from supported formats on
+ JZ4725B
+Date: Thu, 30 Jul 2020 03:46:25 +0200
+Message-Id: <20200730014626.83895-3-paul@crapouillou.net>
 In-Reply-To: <20200730014626.83895-1-paul@crapouillou.net>
 References: <20200730014626.83895-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -51,67 +52,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On older SoCs, it is necessary to restart manually the IPU when a frame
-is done processing. Doing so on newer SoCs (JZ4760/70) kinds of work
-too, until the input or output resolutions or the framerate are too
-high.
+When configuring the IPU for packed YUV 4:2:2, depending on the scaling
+ratios given by the source and destination resolutions, it is possible
+to crash the IPU block beyond repair, to the point where a software
+reset of the IP does not fix it. This can happen anytime, in the first
+few frames, or after dozens of minutes. The same crash also happens when
+the IPU is fully controlled by the LCD controller (in that case no HW
+register is written at any moment after startup), which points towards a
+hardware bug.
 
-Make it work properly on newer SoCs by letting the LCD controller
-trigger the IPU frame restart signal.
+Thanksfully multiplanar YUV is not affected.
+
+Until this bug is fixed or worked around, address this issue by removing
+support for YUV 4:2:2 on the IPU of the JZ4725B.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-ipu.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 7a0a8bd865d3..7eae56fa92ea 100644
+index 7eae56fa92ea..f4f0abcd6692 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -35,6 +35,7 @@ struct soc_info {
- 	const u32 *formats;
- 	size_t num_formats;
- 	bool has_bicubic;
-+	bool manual_restart;
+@@ -795,10 +795,16 @@ static int ingenic_ipu_remove(struct platform_device *pdev)
+ }
  
- 	void (*set_coefs)(struct ingenic_ipu *ipu, unsigned int reg,
- 			  unsigned int sharpness, bool downscale,
-@@ -645,7 +646,8 @@ static irqreturn_t ingenic_ipu_irq_handler(int irq, void *arg)
- 	unsigned int dummy;
- 
- 	/* dummy read allows CPU to reconfigure IPU */
--	regmap_read(ipu->map, JZ_REG_IPU_STATUS, &dummy);
-+	if (ipu->soc_info->manual_restart)
-+		regmap_read(ipu->map, JZ_REG_IPU_STATUS, &dummy);
- 
- 	/* ACK interrupt */
- 	regmap_write(ipu->map, JZ_REG_IPU_STATUS, 0);
-@@ -656,7 +658,8 @@ static irqreturn_t ingenic_ipu_irq_handler(int irq, void *arg)
- 	regmap_write(ipu->map, JZ_REG_IPU_V_ADDR, ipu->addr_v);
- 
- 	/* Run IPU for the new frame */
--	regmap_set_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_RUN);
-+	if (ipu->soc_info->manual_restart)
-+		regmap_set_bits(ipu->map, JZ_REG_IPU_CTRL, JZ_IPU_CTRL_RUN);
- 
- 	drm_crtc_handle_vblank(crtc);
- 
-@@ -806,6 +809,7 @@ static const struct soc_info jz4725b_soc_info = {
- 	.formats	= jz4725b_ipu_formats,
- 	.num_formats	= ARRAY_SIZE(jz4725b_ipu_formats),
- 	.has_bicubic	= false,
-+	.manual_restart	= true,
- 	.set_coefs	= jz4725b_set_coefs,
- };
- 
-@@ -831,6 +835,7 @@ static const struct soc_info jz4760_soc_info = {
- 	.formats	= jz4760_ipu_formats,
- 	.num_formats	= ARRAY_SIZE(jz4760_ipu_formats),
- 	.has_bicubic	= true,
-+	.manual_restart	= false,
- 	.set_coefs	= jz4760_set_coefs,
- };
- 
+ static const u32 jz4725b_ipu_formats[] = {
++	/*
++	 * While officially supported, packed YUV 4:2:2 formats can cause
++	 * random hardware crashes on JZ4725B, beyond repair, under certain
++	 * circumstances. It seems to happen with some specific resize ratios.
++	 * Until a proper workaround or fix is found, disable these formats.
+ 	DRM_FORMAT_YUYV,
+ 	DRM_FORMAT_YVYU,
+ 	DRM_FORMAT_UYVY,
+ 	DRM_FORMAT_VYUY,
++	*/
+ 	DRM_FORMAT_YUV411,
+ 	DRM_FORMAT_YUV420,
+ 	DRM_FORMAT_YUV422,
 -- 
 2.27.0
 
