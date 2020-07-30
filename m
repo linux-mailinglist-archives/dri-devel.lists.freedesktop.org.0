@@ -2,27 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295C323305C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 12:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6259223305B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jul 2020 12:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53906E8CC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 212916E8C9;
 	Thu, 30 Jul 2020 10:29:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 865CF6E8C7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7FB66E8CB
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 10:28:51 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3F926B021;
+ by mx2.suse.de (Postfix) with ESMTP id 6F9E8B023;
  Thu, 30 Jul 2020 10:29:02 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@redhat.com, lyude@redhat.com, sam@ravnborg.org,
  emil.velikov@collabora.com, krzk@kernel.org, john.p.donnelly@Oracle.com,
  rong.a.chen@intel.com, kraxel@redhat.com, eich@suse.com, tiwai@suse.de
-Subject: [PATCH v2 6/8] drm/mgag200: Clear <page> field during MM init
-Date: Thu, 30 Jul 2020 12:28:42 +0200
-Message-Id: <20200730102844.10995-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/8] drm/mgag200: Move G200SE's unique id into
+ model-specific data
+Date: Thu, 30 Jul 2020 12:28:43 +0200
+Message-Id: <20200730102844.10995-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730102844.10995-1-tzimmermann@suse.de>
 References: <20200730102844.10995-1-tzimmermann@suse.de>
@@ -45,53 +46,149 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The modesetting code initialized the memory-related register CRTCEXT4.
-Move this code to MM initialization.
+The unique revision id is only useful for G200SE devices. Store the
+value in model-specific data within struct mga_device. While at it,
+the patch also adds an init helper for the value.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/mgag200/mgag200_mm.c   | 2 ++
- drivers/gpu/drm/mgag200/mgag200_mode.c | 6 +-----
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.c  | 19 +++++++++++++------
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  8 ++++++--
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 18 +++++++++++-------
+ 3 files changed, 30 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mm.c b/drivers/gpu/drm/mgag200/mgag200_mm.c
-index 1b1918839e1e..641f1aa992be 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mm.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mm.c
-@@ -94,6 +94,8 @@ int mgag200_mm_init(struct mga_device *mdev)
- 	resource_size_t start, len;
- 	int ret;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index ac9ac5b6d587..f7652e16365c 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -115,6 +115,17 @@ static int mgag200_regs_init(struct mga_device *mdev)
+ 	return 0;
+ }
  
-+	WREG_ECRT(0x04, 0x00);
++static void mgag200_g200se_init_unique_id(struct mga_device *mdev)
++{
++	struct drm_device *dev = &mdev->base;
 +
- 	misc = RREG8(MGA_MISC_IN);
- 	misc |= MGAREG_MISC_RAMMAPEN |
- 		MGAREG_MISC_HIGH_PG_SEL;
++	/* stash G200 SE model number for later use */
++	mdev->model.g200se.unique_rev_id = RREG32(0x1e24);
++
++	drm_dbg(dev, "G200 SE unique revision id is 0x%x\n",
++		mdev->model.g200se.unique_rev_id);
++}
++
+ static int mgag200_device_init(struct mga_device *mdev, unsigned long flags)
+ {
+ 	struct drm_device *dev = &mdev->base;
+@@ -127,12 +138,8 @@ static int mgag200_device_init(struct mga_device *mdev, unsigned long flags)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* stash G200 SE model number for later use */
+-	if (IS_G200_SE(mdev)) {
+-		mdev->unique_rev_id = RREG32(0x1e24);
+-		drm_dbg(dev, "G200 SE unique revision id is 0x%x\n",
+-			mdev->unique_rev_id);
+-	}
++	if (IS_G200_SE(mdev))
++		mgag200_g200se_init_unique_id(mdev);
+ 
+ 	ret = mgag200_mm_init(mdev);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index 819c03cc626b..048efe635aff 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -166,8 +166,12 @@ struct mga_device {
+ 
+ 	int fb_mtrr;
+ 
+-	/* SE model number stored in reg 0x1e24 */
+-	u32 unique_rev_id;
++	union {
++		struct {
++			/* SE model number stored in reg 0x1e24 */
++			u32 unique_rev_id;
++		} g200se;
++	} model;
+ 
+ 	struct mga_connector connector;
+ 	struct drm_simple_display_pipe display_pipe;
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 66818ee10694..4fa64cf884cb 100644
+index 4fa64cf884cb..752409c7f326 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -946,7 +946,7 @@ static void mgag200_set_dac_regs(struct mga_device *mdev)
+@@ -112,6 +112,7 @@ static inline void mga_wait_busy(struct mga_device *mdev)
  
- static void mgag200_init_regs(struct mga_device *mdev)
+ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
  {
--	u8 crtc11, crtcext4, misc;
-+	u8 crtc11, misc;
++	u32 unique_rev_id = mdev->model.g200se.unique_rev_id;
+ 	unsigned int vcomax, vcomin, pllreffreq;
+ 	unsigned int delta, tmpdelta, permitteddelta;
+ 	unsigned int testp, testm, testn;
+@@ -121,7 +122,7 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int fvv;
+ 	unsigned int i;
  
- 	mgag200_set_dac_regs(mdev);
+-	if (mdev->unique_rev_id <= 0x03) {
++	if (unique_rev_id <= 0x03) {
  
-@@ -961,10 +961,6 @@ static void mgag200_init_regs(struct mga_device *mdev)
- 	WREG_CRT(14, 0);
- 	WREG_CRT(15, 0);
+ 		m = n = p = 0;
+ 		vcomax = 320000;
+@@ -219,7 +220,7 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+ 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+ 	WREG_DAC(MGA1064_PIX_PLLC_P, p);
  
--	crtcext4 = 0x00;
--
--	WREG_ECRT(0x04, crtcext4);
--
- 	RREG_CRT(0x11, crtc11);
- 	crtc11 &= ~(MGAREG_CRTC11_CRTCPROTECT |
- 		    MGAREG_CRTC11_VINTEN |
+-	if (mdev->unique_rev_id >= 0x04) {
++	if (unique_rev_id >= 0x04) {
+ 		WREG_DAC(0x1a, 0x09);
+ 		msleep(20);
+ 		WREG_DAC(0x1a, 0x01);
+@@ -1183,12 +1184,13 @@ static void mgag200_g200se_set_hiprilvl(struct mga_device *mdev,
+ 					const struct drm_display_mode *mode,
+ 					const struct drm_framebuffer *fb)
+ {
++	u32 unique_rev_id = mdev->model.g200se.unique_rev_id;
+ 	unsigned int hiprilvl;
+ 	u8 crtcext6;
+ 
+-	if  (mdev->unique_rev_id >= 0x04) {
++	if  (unique_rev_id >= 0x04) {
+ 		hiprilvl = 0;
+-	} else if (mdev->unique_rev_id >= 0x02) {
++	} else if (unique_rev_id >= 0x02) {
+ 		unsigned int bpp;
+ 		unsigned long mb;
+ 
+@@ -1213,7 +1215,7 @@ static void mgag200_g200se_set_hiprilvl(struct mga_device *mdev,
+ 		else
+ 			hiprilvl = 5;
+ 
+-	} else if (mdev->unique_rev_id >= 0x01) {
++	} else if (unique_rev_id >= 0x01) {
+ 		hiprilvl = 3;
+ 	} else {
+ 		hiprilvl = 4;
+@@ -1337,7 +1339,9 @@ static enum drm_mode_status mga_vga_mode_valid(struct drm_connector *connector,
+ 	int bpp = 32;
+ 
+ 	if (IS_G200_SE(mdev)) {
+-		if (mdev->unique_rev_id == 0x01) {
++		u32 unique_rev_id = mdev->model.g200se.unique_rev_id;
++
++		if (unique_rev_id == 0x01) {
+ 			if (mode->hdisplay > 1600)
+ 				return MODE_VIRTUAL_X;
+ 			if (mode->vdisplay > 1200)
+@@ -1345,7 +1349,7 @@ static enum drm_mode_status mga_vga_mode_valid(struct drm_connector *connector,
+ 			if (mga_vga_calculate_mode_bandwidth(mode, bpp)
+ 				> (24400 * 1024))
+ 				return MODE_BANDWIDTH;
+-		} else if (mdev->unique_rev_id == 0x02) {
++		} else if (unique_rev_id == 0x02) {
+ 			if (mode->hdisplay > 1920)
+ 				return MODE_VIRTUAL_X;
+ 			if (mode->vdisplay > 1200)
 -- 
 2.27.0
 
