@@ -2,31 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DC1233F46
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 08:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C89233F70
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 08:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 179D36E9E5;
-	Fri, 31 Jul 2020 06:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712E96E9E1;
+	Fri, 31 Jul 2020 06:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF4A66E9E1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 06:43:24 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4D308AC5E;
- Fri, 31 Jul 2020 06:43:36 +0000 (UTC)
-Subject: Re: [PATCH 02/49] drm/vram-helper: call the ttm manager debug function
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200731040520.3701599-1-airlied@gmail.com>
- <20200731040520.3701599-3-airlied@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a4488286-9761-f1d6-5096-013ca955ecb0@suse.de>
-Date: Fri, 31 Jul 2020 08:43:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC0116E9E1;
+ Fri, 31 Jul 2020 06:53:34 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 000FD207F5;
+ Fri, 31 Jul 2020 06:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1596178414;
+ bh=fNT75IpsFv23vL5vXayzc9tXmlPArXQFzFYd85vUNc4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=wHsdC/0fAKiD9YbaIfsbFj8p03yJkr9qnBoWo/Ix5UbCr1RLfihp7pEzhGtHbguq1
+ /+FDpBO2nfeS+ZtSS/W9SOgSdCKVKLvWJj7x0Qj3xcRhHThBaXQK9DVnnYL5tnK/Bu
+ baaUYQoJUnWUKqyyFkdRXWivQ8nvj9uuW3vAVtas=
+Date: Fri, 31 Jul 2020 08:53:22 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent
+ kernel-infoleak in amdgpu_info_ioctl()
+Message-ID: <20200731065322.GA1518178@kroah.com>
+References: <20200728192924.441570-1-yepeilin.cs@gmail.com>
+ <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
+ <CADnq5_NXOiAc7q5gQqF_wwtJD1o6nHjXM4O3gY6EwAQe9iOtXw@mail.gmail.com>
+ <8c5cf518-12d2-7495-7822-c7ebf8e61972@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20200731040520.3701599-3-airlied@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <8c5cf518-12d2-7495-7822-c7ebf8e61972@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,119 +50,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com, sroland@vmware.com, christian.koenig@amd.com,
- bskeggs@redhat.com
-Content-Type: multipart/mixed; boundary="===============1168479775=="
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Felix Kuehling <Felix.Kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, Trek <trek00@inbox.ru>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Leo Liu <leo.liu@amd.com>, Christian Koenig <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Xiaojie Yuan <xiaojie.yuan@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1168479775==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="rBVvIsiJgOt8xc4l5oxxqniHOZnwCqGGN"
+On Thu, Jul 30, 2020 at 05:09:07PM -0400, Luben Tuikov wrote:
+> On 2020-07-29 9:49 a.m., Alex Deucher wrote:
+> > On Wed, Jul 29, 2020 at 4:11 AM Christian K=F6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>
+> >> Am 28.07.20 um 21:29 schrieb Peilin Ye:
+> >>> Compiler leaves a 4-byte hole near the end of `dev_info`, causing
+> >>> amdgpu_info_ioctl() to copy uninitialized kernel stack memory to user=
+space
+> >>> when `size` is greater than 356.
+> >>>
+> >>> In 2015 we tried to fix this issue by doing `=3D {};` on `dev_info`, =
+which
+> >>> unfortunately does not initialize that 4-byte hole. Fix it by using
+> >>> memset() instead.
+> >>>
+> >>> Cc: stable@vger.kernel.org
+> >>> Fixes: c193fa91b918 ("drm/amdgpu: information leak in amdgpu_info_ioc=
+tl()")
+> >>> Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+> >>> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> >>> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> >>
+> >> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+> >>
+> >> I can't count how many of those we have fixed over the years.
+> >>
+> >> At some point we should probably document that using "=3D {}" or "=3D =
+{ 0 }"
+> >> in the kernel is a really bad idea and should be avoided.
+> > =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rBVvIsiJgOt8xc4l5oxxqniHOZnwCqGGN
-Content-Type: multipart/mixed; boundary="AIgcFaoHNtmuDcNxQjmHRcxHURYmSx2DF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: christian.koenig@amd.com, sroland@vmware.com, bskeggs@redhat.com,
- kraxel@redhat.com
-Message-ID: <a4488286-9761-f1d6-5096-013ca955ecb0@suse.de>
-Subject: Re: [PATCH 02/49] drm/vram-helper: call the ttm manager debug
- function
-References: <20200731040520.3701599-1-airlied@gmail.com>
- <20200731040520.3701599-3-airlied@gmail.com>
-In-Reply-To: <20200731040520.3701599-3-airlied@gmail.com>
+> > Moreover, it seems like different compilers seem to behave relatively
+> > differently with these and we often get reports of warnings with these
+> > on clang.  When in doubt, memset.
+> =
 
---AIgcFaoHNtmuDcNxQjmHRcxHURYmSx2DF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> There are quite a few of those under drivers/gpu/drm, for "amd/", "schedu=
+ler/"
+> drm*.c files,
+> =
 
-Hi
+> $find . \( -regex "./drm.*\.c" -or -regex "./amd/.*\.c" -or -regex "./sch=
+eduler/.*\.c" \) -exec egrep -n -- " *=3D *{ *(|NULL|0) *}" \{\} \+ | wc -l
+> 374
+> $_
+> =
 
-Am 31.07.20 um 06:04 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
->=20
-> This code was assuming there was a drm_mm here, don't do
-> that call the correct API.
+> Out of which only 16 are of the non-ISO C variety, "=3D {}",
+> =
 
-Maybe put a semicolon after 'that' for readability.
+> $find . \( -regex "./drm.*\.c" -or -regex "./amd/.*\.c" -or -regex "./sch=
+eduler/.*\.c" \) -exec egrep -n -- " *=3D *{ *}" \{\} \+ | wc -l
+> 16
+> $_
+> =
 
->=20
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> Perhaps the latter are the more pressing ones, since it is a C++ initiali=
+zer and not a ISO C one.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+It only matters when we care copying the data to userspace, if it all
+stays in the kernel, all is fine.
 
-> ---
->  drivers/gpu/drm/drm_gem_vram_helper.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
-m_gem_vram_helper.c
-> index a93a00966f3a..b6f158ab0f5a 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -1075,12 +1075,10 @@ static int drm_vram_mm_debugfs(struct seq_file =
-*m, void *data)
->  {
->  	struct drm_info_node *node =3D (struct drm_info_node *) m->private;
->  	struct drm_vram_mm *vmm =3D node->minor->dev->vram_mm;
-> -	struct drm_mm *mm =3D vmm->bdev.man[TTM_PL_VRAM].priv;
-> +	struct ttm_mem_type_manager *man =3D &vmm->bdev.man[TTM_PL_VRAM];
->  	struct drm_printer p =3D drm_seq_file_printer(m);
-> =20
-> -	spin_lock(&ttm_bo_glob.lru_lock);
-> -	drm_mm_print(mm, &p);
-> -	spin_unlock(&ttm_bo_glob.lru_lock);
-> +	man->func->debug(man, &p);
->  	return 0;
->  }
-> =20
->=20
+thanks,
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---AIgcFaoHNtmuDcNxQjmHRcxHURYmSx2DF--
-
---rBVvIsiJgOt8xc4l5oxxqniHOZnwCqGGN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8jvYoUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPC6Af/QQgTbfQNETokSaVsG4yp5m6ofzJx
-qqXSXgM2azmMQABE2UnJhkAW5sBAsvz9Y/AwnVWGX31pE5mp2KcbuN7NBBOyUBUw
-QkSIboo5aJx3aNYsij4iIgs+IlDoJk8ZtyOuPIabrzkis2ErYBp725MR8GUgSNBH
-Dsg/pRZBVmjhcfV8GhDEskp6j97BZeVrQGoLlBQElu0jXHWzG2rrPVbnKHHIxsjC
-HU603duhAHR+5foetPUbplEx5fr9F340Y4SEJdFEUpFC3tOTz6fZfm6p7aIgxJOz
-3XQq/mkP5qtqxJEnJdMNFClNXaTxSS6wP7DhvW3iaXZD2WGmCRsLhQ+l3Q==
-=+ubm
------END PGP SIGNATURE-----
-
---rBVvIsiJgOt8xc4l5oxxqniHOZnwCqGGN--
-
---===============1168479775==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1168479775==--
