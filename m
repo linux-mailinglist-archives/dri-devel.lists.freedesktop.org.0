@@ -2,37 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA84233EBA
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 07:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6E0233EC6
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 07:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDE16E09A;
-	Fri, 31 Jul 2020 05:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9980F6E9CA;
+	Fri, 31 Jul 2020 05:51:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 323E66E09A
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 05:44:37 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 4E0E880444;
- Fri, 31 Jul 2020 07:44:33 +0200 (CEST)
-Date: Fri, 31 Jul 2020 07:44:31 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 03/49] drm/ttm: split the mm manager init code
-Message-ID: <20200731054431.GA1544844@ravnborg.org>
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 677396E9CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 05:51:24 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id m20so12086199eds.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 22:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bFZGMaQueiguDGF/ZWxZSzfJrZysU8qJdsUQ7aJVczQ=;
+ b=Y1rj47xhgBVHodqq7ouSyQbv4C9/SSHOz84zjtJAByni/5thM2PewecDxE0mvcfvdW
+ cs/Ml30VfXb6wyRuK4ZpfQyfhJxZINeaVEQTjWJ3wLFK8d1dKpfCHOvS9SxV+TaJ0zyX
+ sLGfA+9lFqJo5jM/Xy/FRUV1pNocobgzS4EHPIPa32koLCbBBc7LaUU/PScTC/aQBrs7
+ fWcjvvoBGKVWzbfp3xxVuyXqPZjA5fpKIaIgKoKFdnh/sLfgSwUxRGZ9WQs2QPBgR0yu
+ YVfyo4582GXuQ8eqjfxVnj+jyjtskzwrzdhwUyCcZ36URvyC75mRBjNfdf3Z3PWuBkHG
+ Vpbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bFZGMaQueiguDGF/ZWxZSzfJrZysU8qJdsUQ7aJVczQ=;
+ b=l0qwOhQOOJyBRoKv8MdZyy1D3ku1YvXPFu2e00P97U/jUZJqCN5JhmzU4RxyyX+OCK
+ lcC0Om/hQFXEIm8FGjjVDEgk+mfNOd/F48Lm5hqPA8XfJF3hWNFlnR+ttz15Ks8IX9y2
+ JM/AFc2rO5zNC8j/59mvIlE1AiJ/9ILJzNPYkNPI3I7fHpMVT8LnvrpHIKJpY8RGY39d
+ mNcJGWdgJRj5ajmwA0j2eUz6ZJQnLytWnXrI8TVmcdJl3ajCERxa0aqMcHOPchhrelZp
+ VhdpmWbKeD0uAJv8n/LKBtTDKAWWu0HpgNEMuuYGFTGiubSS+04pcyMf8LcqlfPffy3R
+ /b/g==
+X-Gm-Message-State: AOAM533Omh3mewW2AVG4sl1NkhxoDsH47vzx9D0tPbq+7nBKSQh30hN1
+ qXTu9ZAOWHAPskerk05z2XlbP96EtWStoFKVhx0=
+X-Google-Smtp-Source: ABdhPJymAFRpgyhvmItcle0VrzZzJkUFr4YUo19gTj6QK91VjVwUl6xCP5Vv/L2adQpnIyDE0GgylwWqQGA5lDY4uvw=
+X-Received: by 2002:a05:6402:3ca:: with SMTP id
+ t10mr2267867edw.298.1596174683011; 
+ Thu, 30 Jul 2020 22:51:23 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200731040520.3701599-1-airlied@gmail.com>
  <20200731040520.3701599-4-airlied@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200731040520.3701599-4-airlied@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8 a=e5mUnYsNAAAA:8
- a=ue1qatrXy6fBFkQhKEEA:9 a=QQ1XJDZRuU3PgwsB:21 a=fPsYbN3QKkGywonc:21
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ <20200731054431.GA1544844@ravnborg.org>
+In-Reply-To: <20200731054431.GA1544844@ravnborg.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 31 Jul 2020 15:51:11 +1000
+Message-ID: <CAPM=9txyaTd5H3bKvO1Uiz2WaoGWyxYQD0dGnV5HQukkZm8WBQ@mail.gmail.com>
+Subject: Re: [PATCH 03/49] drm/ttm: split the mm manager init code
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,139 +63,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com, sroland@vmware.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, bskeggs@redhat.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Roland Scheidegger <sroland@vmware.com>,
+ "Koenig, Christian" <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave.
+On Fri, 31 Jul 2020 at 15:44, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Dave.
+>
+> On Fri, Jul 31, 2020 at 02:04:34PM +1000, Dave Airlie wrote:
+> > From: Dave Airlie <airlied@redhat.com>
+> >
+> > This will allow the driver to control the ordering here better.
+> >
+> > Eventually the old path will be removed.
+> >
+> > Signed-off-by: Dave Airlie <airlied@redhat.com>
+> > ---
+> >  drivers/gpu/drm/ttm/ttm_bo.c    | 34 +++++++++++++++++++--------------
+> >  include/drm/ttm/ttm_bo_api.h    |  4 ++++
+> >  include/drm/ttm/ttm_bo_driver.h |  6 ++++++
+> >  3 files changed, 30 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> > index 041a0e73cd1b..a658fd584c6d 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > @@ -1503,35 +1503,41 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+> >  }
+> >  EXPORT_SYMBOL(ttm_bo_evict_mm);
+> >
+> > -int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
+> > -                     unsigned long p_size)
+> > +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
+> > +                      struct ttm_mem_type_manager *man,
+> > +                      unsigned long p_size)
+> >  {
+>
+> General comment for all the ttm/* changes.
+> It would be very nice with some nice explanations for the exported
+> functions, preferably in kernel-doc style.
+> In case someone that are more or less clueless (like me) would like
+> to understand how a function is to be used or maybe reviewing some
+> random code.
 
-On Fri, Jul 31, 2020 at 02:04:34PM +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> This will allow the driver to control the ordering here better.
-> 
-> Eventually the old path will be removed.
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_bo.c    | 34 +++++++++++++++++++--------------
->  include/drm/ttm/ttm_bo_api.h    |  4 ++++
->  include/drm/ttm/ttm_bo_driver.h |  6 ++++++
->  3 files changed, 30 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 041a0e73cd1b..a658fd584c6d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -1503,35 +1503,41 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
->  }
->  EXPORT_SYMBOL(ttm_bo_evict_mm);
->  
-> -int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
-> -			unsigned long p_size)
-> +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
-> +			 struct ttm_mem_type_manager *man,
-> +			 unsigned long p_size)
->  {
+Good point, I just need to make sure I don't add anything for
+something I remove later, but I should definitely add some for the new
+interfaces.
 
-General comment for all the ttm/* changes.
-It would be very nice with some nice explanations for the exported
-functions, preferably in kernel-doc style.
-In case someone that are more or less clueless (like me) would like
-to understand how a function is to be used or maybe reviewing some
-random code.
-
-	Sam
-
-
-> -	int ret;
-> -	struct ttm_mem_type_manager *man;
->  	unsigned i;
->  
-> -	BUG_ON(type >= TTM_NUM_MEM_TYPES);
-> -	man = &bdev->man[type];
->  	BUG_ON(man->has_type);
->  	man->use_io_reserve_lru = false;
->  	mutex_init(&man->io_reserve_mutex);
->  	spin_lock_init(&man->move_lock);
->  	INIT_LIST_HEAD(&man->io_reserve_lru);
->  	man->bdev = bdev;
-> -
-> -	if (type != TTM_PL_SYSTEM) {
-> -		ret = (*man->func->init)(man, p_size);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -	man->has_type = true;
-> -	man->use_type = true;
->  	man->size = p_size;
->  
->  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->  		INIT_LIST_HEAD(&man->lru[i]);
->  	man->move = NULL;
-> +}
-> +EXPORT_SYMBOL(ttm_bo_init_mm_base);
->  
-> +int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
-> +			unsigned long p_size)
-> +{
-> +	int ret;
-> +	struct ttm_mem_type_manager *man;
-> +
-> +	BUG_ON(type >= TTM_NUM_MEM_TYPES);
-> +	ttm_bo_init_mm_base(bdev, &bdev->man[type], p_size);
-> +
-> +	if (type != TTM_PL_SYSTEM) {
-> +		ret = (*man->func->init)(man, p_size);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +	ttm_bo_use_mm(man);
->  	return 0;
->  }
->  EXPORT_SYMBOL(ttm_bo_init_mm);
-> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> index a9e13b252820..0060925f507a 100644
-> --- a/include/drm/ttm/ttm_bo_api.h
-> +++ b/include/drm/ttm/ttm_bo_api.h
-> @@ -546,6 +546,10 @@ int ttm_bo_create(struct ttm_bo_device *bdev, unsigned long size,
->   * -ENOMEM: Not enough memory.
->   * May also return driver-specified errors.
->   */
-> +struct ttm_mem_type_manager;
-> +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
-> +			 struct ttm_mem_type_manager *man,
-> +			 unsigned long p_size);
->  int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
->  		   unsigned long p_size);
->  
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index 7958e411269a..68e75c3b8c7a 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -678,6 +678,12 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
->  	dma_resv_unlock(bo->base.resv);
->  }
->  
-> +static inline void ttm_bo_use_mm(struct ttm_mem_type_manager *man)
-> +{
-> +	man->has_type = true;
-> +	man->use_type = true;
-> +}
-> +
->  /*
->   * ttm_bo_util.c
->   */
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
