@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5CA233DF3
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 813E1233DF6
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2B76E9AC;
-	Fri, 31 Jul 2020 04:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC23E6E9B1;
+	Fri, 31 Jul 2020 04:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7206E9A9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:19 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48C46E9A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:23 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-K_OTRTArPvujC_OA9nJukQ-1; Fri, 31 Jul 2020 00:06:16 -0400
-X-MC-Unique: K_OTRTArPvujC_OA9nJukQ-1
+ us-mta-256-vCdtc8auOvaknygMYVuLzQ-1; Fri, 31 Jul 2020 00:06:18 -0400
+X-MC-Unique: vCdtc8auOvaknygMYVuLzQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B38E8015CE;
- Fri, 31 Jul 2020 04:06:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32D8010059C0;
+ Fri, 31 Jul 2020 04:06:17 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCECE100238C;
- Fri, 31 Jul 2020 04:06:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA1A71001281;
+ Fri, 31 Jul 2020 04:06:15 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 21/49] drm/radeon/ttm: use new takedown paths
-Date: Fri, 31 Jul 2020 14:04:52 +1000
-Message-Id: <20200731040520.3701599-22-airlied@gmail.com>
+Subject: [PATCH 22/49] drm/qxl/ttm: use new takedown path
+Date: Fri, 31 Jul 2020 14:04:53 +1000
+Message-Id: <20200731040520.3701599-23-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,24 +61,24 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
+ drivers/gpu/drm/qxl/qxl_ttm.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index a5043a5b7d89..e65297b4b678 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -826,8 +826,8 @@ void radeon_ttm_fini(struct radeon_device *rdev)
- 		}
- 		radeon_bo_unref(&rdev->stolen_vga_memory);
- 	}
--	ttm_bo_clean_mm(&rdev->mman.bdev, TTM_PL_VRAM);
--	ttm_bo_clean_mm(&rdev->mman.bdev, TTM_PL_TT);
-+	ttm_bo_man_takedown(&rdev->mman.bdev, &rdev->mman.bdev.man[TTM_PL_VRAM]);
-+	ttm_bo_man_takedown(&rdev->mman.bdev, &rdev->mman.bdev.man[TTM_PL_TT]);
- 	ttm_bo_device_release(&rdev->mman.bdev);
- 	radeon_gart_fini(rdev);
- 	rdev->mman.initialized = false;
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index ac22971cd20b..acc4497887a6 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -266,8 +266,8 @@ int qxl_ttm_init(struct qxl_device *qdev)
+ 
+ void qxl_ttm_fini(struct qxl_device *qdev)
+ {
+-	ttm_bo_clean_mm(&qdev->mman.bdev, TTM_PL_VRAM);
+-	ttm_bo_clean_mm(&qdev->mman.bdev, TTM_PL_PRIV);
++	ttm_bo_man_takedown(&qdev->mman.bdev, &qdev->mman.bdev.man[TTM_PL_VRAM]);
++	ttm_bo_man_takedown(&qdev->mman.bdev, &qdev->mman.bdev.man[TTM_PL_PRIV]);
+ 	ttm_bo_device_release(&qdev->mman.bdev);
+ 	DRM_INFO("qxl: ttm finalized\n");
+ }
 -- 
 2.26.2
 
