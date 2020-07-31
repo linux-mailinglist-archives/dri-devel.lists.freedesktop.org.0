@@ -1,52 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982E2234C2F
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 22:26:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1AF234C68
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 22:42:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 786F46E040;
-	Fri, 31 Jul 2020 20:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C556EB4D;
+	Fri, 31 Jul 2020 20:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
- [209.85.166.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB8D6EB47;
- Fri, 31 Jul 2020 20:26:32 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id q75so24743206iod.1;
- Fri, 31 Jul 2020 13:26:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AiMGdmCb+bz6YVV8Hxa7igAvU6qudkwfV+tj6X7dOh4=;
- b=AzyhknaABwGLhDgc6A0rmC6YAJXE0XtUH78ck1eyXafcZsILpBt7CbmzOT/IiB8RX7
- cUYxxJAV8wa3j1cxSgK3MxLbbh9bOkD3xtpC+MJoplnJCdtp6672D93pM7uSiin0agD1
- 7RZrXH3C9ZNHnzs5dZq+yAFGsE5c8IZ/aGHb8cssNB1GYpZeATzwjeDgyGSjwKtw9at9
- VqKo5vJ/WNy9OO2ztLgr/IB83vjZJYqCmKZ8VshIYISbGS2S7L4Idz8Oc+9fjUaZyZui
- AeP+1IQ9qIBmxt3GQ5HaYN8thqbikNEQyZFnAryMEM90lvTSmAzqthq4EiYVwCJ7sJmI
- bm7g==
-X-Gm-Message-State: AOAM533CxZDpwExiebzoiA1AFtAoQxe43jau+XBIWDNINIGq+iNmqR1D
- h9pcGtyZkdUN+uE0RcJpIQ==
-X-Google-Smtp-Source: ABdhPJxPe/ccy6ODQW2ezEBqzYMhTdtl0ygSHo9crgD2bv3oq38Q3L9HvFzQgv5RMZ2ASGAI4iFJsg==
-X-Received: by 2002:a6b:b74b:: with SMTP id h72mr2738365iof.52.1596227192057; 
- Fri, 31 Jul 2020 13:26:32 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id d125sm4827878iof.32.2020.07.31.13.26.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 13:26:31 -0700 (PDT)
-Received: (nullmailer pid 723736 invoked by uid 1000);
- Fri, 31 Jul 2020 20:26:28 -0000
-Date: Fri, 31 Jul 2020 14:26:28 -0600
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konradybcio@gmail.com>
-Subject: Re: [PATCH 3/9] drivers: usb: dwc3-qcom: Add sdm660 compatible
-Message-ID: <20200731202628.GA723682@bogus>
-References: <20200726111215.22361-1-konradybcio@gmail.com>
- <20200726111215.22361-4-konradybcio@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB5CD6EB4D
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 20:42:17 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB6D353C;
+ Fri, 31 Jul 2020 22:42:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1596228136;
+ bh=TGDv3Frj4rCMmzqFPlTvoVIycIJIp6yYmbKH/jOE9mc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Im3+k8u+Yxa3c9UDV4VQq4DNQKg69ugyaC0/L5DmB2fFrkduhebVB6KTRG6iVWOXa
+ egFJ/d36EO5mvPkd5KwvF3DNugdzJwhUdIkiLFzsp02rX3vkq8SC/KwnGOV1ia4eVw
+ Bs2wh5kDTRDxiPEdhX1Rhc3bov2XSPe5p41MPOfk=
+Date: Fri, 31 Jul 2020 23:42:06 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v2 0/3] Fix Kconfig dependency issue with DMAENGINES
+ selection
+Message-ID: <20200731204206.GC24315@pendragon.ideasonboard.com>
+References: <20200731152433.1297-1-laurent.pinchart@ideasonboard.com>
+ <20200731164744.GF12965@vkoul-mobl>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200726111215.22361-4-konradybcio@gmail.com>
+In-Reply-To: <20200731164744.GF12965@vkoul-mobl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +47,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Wilczynski <kw@linux.com>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, AngeloGioacchino Del Regno <kholk11@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
- Kishon Vijay Abraham I <kishon@ti.com>, martin.botka1@gmail.com,
- Andy Gross <agross@kernel.org>, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Xiaozhe Shi <xiaozhes@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Ben Dooks <ben.dooks@codethink.co.uk>, Felipe Balbi <balbi@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Harigovindan P <harigovi@codeaurora.org>, zhengbin <zhengbin13@huawei.com>,
- Manu Gautam <mgautam@codeaurora.org>, Vinod Koul <vkoul@kernel.org>,
- freedreno@lists.freedesktop.org
+Cc: alsa-devel@alsa-project.org, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel@lists.freedesktop.org, Michal Simek <michal.simek@xilinx.com>,
+ Alexandre Bounine <alex.bou9@gmail.com>, Mark Brown <broonie@kernel.org>,
+ dmaengine@vger.kernel.org, Matt Porter <mporter@kernel.crashing.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 Jul 2020 13:12:00 +0200, Konrad Dybcio wrote:
-> Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
-> ---
->  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
->  drivers/usb/dwc3/dwc3-qcom.c                         | 1 +
->  2 files changed, 2 insertions(+)
-> 
+Hi Vinod,
 
-Acked-by: Rob Herring <robh@kernel.org>
+On Fri, Jul 31, 2020 at 10:17:44PM +0530, Vinod Koul wrote:
+> On 31-07-20, 18:24, Laurent Pinchart wrote:
+> > Hello,
+> > 
+> > This small series fixes a Kconfig dependency issue with the recently
+> > merged Xilixn DPSUB DRM/KMS driver. The fix is in patch 3/3, but
+> > requires a separate fixes in patches 1/3 and 2/3 to avoid circular
+> > dependencies:
+> > 
+> >         drivers/i2c/Kconfig:8:error: recursive dependency detected!
+> >         drivers/i2c/Kconfig:8:  symbol I2C is selected by FB_DDC
+> >         drivers/video/fbdev/Kconfig:63: symbol FB_DDC depends on FB
+> >         drivers/video/fbdev/Kconfig:12: symbol FB is selected by DRM_KMS_FB_HELPER
+> >         drivers/gpu/drm/Kconfig:80:     symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
+> >         drivers/gpu/drm/Kconfig:74:     symbol DRM_KMS_HELPER is selected by DRM_ZYNQMP_DPSUB
+> >         drivers/gpu/drm/xlnx/Kconfig:1: symbol DRM_ZYNQMP_DPSUB depends on DMA_ENGINE
+> >         drivers/dma/Kconfig:44: symbol DMA_ENGINE depends on DMADEVICES
+> >         drivers/dma/Kconfig:6:  symbol DMADEVICES is selected by SND_SOC_SH4_SIU
+> >         sound/soc/sh/Kconfig:30:        symbol SND_SOC_SH4_SIU is selected by SND_SIU_MIGOR
+> >         sound/soc/sh/Kconfig:60:        symbol SND_SIU_MIGOR depends on I2C
+> >         For a resolution refer to Documentation/kbuild/kconfig-language.rst
+> >         subsection "Kconfig recursive dependency limitations"
+> > 
+> > Due to the DPSUB driver being merged in v5.9, this is a candidate fix
+> > for v5.9 as well. 1/3 and 2/3 can be merged independently, 3/3 depends
+> > on the first two. What's the best course of action, can I merge this all
+> > in a single tree, or should the rapidio and ASoC patches be merged
+> > independently early in the -rc cycle, and the DRM patch later on top ? I
+> > don't expect conflicts (especially in 2/3 and 3/3), so merging the whole
+> > series in one go would be simpler in my opinion.
+> 
+> Acked-By: Vinod Koul <vkoul@kernel.org>
+
+Thank you.
+
+As Mark as queued the sound fix in his for-next branch for v5.9, could
+you queue the dmaengine fix for v5.9 too ?
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
