@@ -2,90 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CDD234217
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 11:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A586023422F
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 11:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF0AA6EA3A;
-	Fri, 31 Jul 2020 09:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D066EA3D;
+	Fri, 31 Jul 2020 09:16:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE6286EA3A
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 09:13:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N5a1blQEvlidbL37aA3qm5/GrG9sywtfVTepMhf0ai1blvSCz7kbInoO9LCKZIV/9CW9rkw8f82KTGC3XZBxwompa7hZlTBQofRsvTgJQnbTuHMPN2vzHqCdrJSh8MgCdK3g0x9J52Iu0nxfYAwnH8GSzlMtdxqo67nA9nIjpYD++tmYdth/3qhXjt0VUx0/YKgasdw4vXMH9bSd13dd8o7YwX3FioFrjxUqKmw8ev1MnkigZ20mpXTlsToVXZoWXZPhuq1StMPzJRETEeT2/zmHdWW1n/usCw2Ccqja7WtrvdMWd/bua4/6J62seQhv04m5au64i/bzZzPqvYQMhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GClbth7bIndxdM0NTX5eaT9A3YTaWtOsJ/uaQptepII=;
- b=l74/qXb/lkv7w8s9Ey9Uavs2+m4cb/IMhncbMFt3CLBCfQpVZNNNJr97HrOFICMljbxZ52reBVApaauaU0T9EqU80U3u9H0QTGxUz3r3XDCR+RsAzsWfzJS3Gm90HtMvKg2V10docx1y2GnzRE914MenNwUlD4QXiDjJzYCv2KlN4CAproaSvyFqYRu4txynQGfYmUqrG0bBYJJ9j+2b0HZ4K/d9oRX7xngwzzY4W7uXfD04LUt9teRWybIQvfuqk5d6o9lDCx4kcH6W7TZPVNWR6dAexG2iRXFCsw1gUW1HJ0+o5oc0eY6pJevaLGuoWY7sSaegUdw5jkCT3QLdAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GClbth7bIndxdM0NTX5eaT9A3YTaWtOsJ/uaQptepII=;
- b=KcHuhaOoq3ol1kfziN87q9BBKZhbW955fVAUGJpmyLYqt2VaujXGM5nlpYCFnnXmKOyx+E7OTyTEbb/MJhdssLI2e9XtRqPi7UYC0jB3OfxFsNDRsTcHSM7RBrcNVj287jrEGuCxz/n248yneuAkQKWsGazwOGBe4g1VmhuHmgo=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2356.namprd12.prod.outlook.com (2603:10b6:207:4d::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.17; Fri, 31 Jul
- 2020 09:12:58 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3239.020; Fri, 31 Jul 2020
- 09:12:58 +0000
-Subject: Re: [PATCH 03/49] drm/ttm: split the mm manager init code
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200731040520.3701599-1-airlied@gmail.com>
- <20200731040520.3701599-4-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <6b901fc4-b7ef-87bb-b803-cbd5c65f49da@amd.com>
-Date: Fri, 31 Jul 2020 11:12:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200731040520.3701599-4-airlied@gmail.com>
-Content-Language: en-US
-X-ClientProxiedBy: FRYP281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::21)
- To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE9C86EA3D
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 09:16:20 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id x5so7960737wmi.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 02:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AD9ra3s741SusHQvBD58yDoSLwB6ibItA/JZ5rUpWZM=;
+ b=YyrjWU957sbgA+bSImrS/y4+1gPZSQYg5lQ5Byp8OBaoljCbUKTakRzgMMEml7VFaE
+ LQvbIhs89KgMKTNrlmPvEsOUPIa5W4l+zU/3ql6Qcs6xKd2+rNSJItA3XdT0FQ7iwkeD
+ xttwmawqApwC6Ql9w0UxVj7+CDkgaW7C0m9bk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=AD9ra3s741SusHQvBD58yDoSLwB6ibItA/JZ5rUpWZM=;
+ b=hPp1LevyQ7/6JwgtVG3zvC3E0WUWDenuAjtMIoLLyRQfp+PJVHJxhZ3EhXokwHiaoE
+ vsEPYo1BX7yWPHl46yV3D6ltOcTt7AwF8sRJqDG5hNBz+1ym3LwSGrty7bDmxmxgfJUp
+ taEmbejSjbSk2Df2WUuKCrfIu0XYRTggltPlnrsIW+NGBmQp8/FtfGBm7ZGF1gcA8Rrc
+ pBeskH+fA7sJoGuRWGtF3U3ziqcLf+gzaypF2AquzSKT3EIcwWbOFR9zOSooq4SkOMCp
+ kbCVALnBdrQeLEqIQyI0a8QhZwbXh7RdU/Sq7VCGN53eSXRvCUK4yBJ7pveRwjvpS/t4
+ X9Gg==
+X-Gm-Message-State: AOAM531jy2TSGx+sZ+6/rLipg+kNHUH/oPWQxtIm2i2BRJ+nylY3jPZJ
+ l8Iz1s8tEuysH67DlhlARcKzDA==
+X-Google-Smtp-Source: ABdhPJz71Cb65fT3V6TACgpzgxtg13Yn+Z4C+SJfPfyQFAH9JQIF8TDTSXZE6Zr8uUvRtMlOGcWzUQ==
+X-Received: by 2002:a1c:a513:: with SMTP id o19mr2957505wme.119.1596186979261; 
+ Fri, 31 Jul 2020 02:16:19 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i66sm12870567wma.35.2020.07.31.02.16.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Jul 2020 02:16:18 -0700 (PDT)
+Date: Fri, 31 Jul 2020 11:16:16 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH] drm/vkms: Fix soft lockup.
+Message-ID: <20200731091616.GT6419@phenom.ffwll.local>
+Mail-Followup-To: Xu Qiang <xuqiang36@huawei.com>,
+ <rodrigosiqueiramelo@gmail.com>, <hamohammed.sa@gmail.com>,
+ <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lizefan@huawei.com>,
+ <rui.xiang@huawei.com>
+References: <20200729022315.18716-1-xuqiang36@huawei.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- FRYP281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3239.9 via Frontend Transport; Fri, 31 Jul 2020 09:12:57 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5287dced-c072-4e12-30d4-08d83531ead8
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2356:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB23569BBAA14D4AD7560B525C834E0@BL0PR12MB2356.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K4L2+bmImqTFJ9Pc1nKR2f7WOuD5wSD+XJmkfOS8sfelUgmn8hitvV+gyNnZDg1C/Z0fYvNOfRJeB9bOb5DPCnFus6bu2Rm+3huzhrKMLvg7bYIA8zW5pDKMtfypQHH2AOA8q6JfYjg7Aqs0qqcrmT7VMk2G3s5nUBNxkqo7yb81qCVSye9G/cS3F/A0NqjU+C+yXaau6pmJPztL7ZZwiY6KXUdto9dGWgscB3PCOSIBRIypGzyMXnPgZc/Obz90FaucDUzigHUvF5Xs4IF/ENXr9wYYLRkLigNwZZ+eZKsnaCSTxjUp3XHi9SXoghYUWfkj/SrWedg97Q6kesHDvk7jL1u6B37ueS7I2xRncRXhsyvwNc5jl78jMhtIQxHh15fhWkcp3mmetSOpZ1JpGg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(376002)(366004)(136003)(396003)(39860400002)(8936002)(86362001)(4326008)(5660300002)(66946007)(31696002)(66476007)(6486002)(36756003)(478600001)(66556008)(8676002)(186003)(16526019)(2906002)(31686004)(6666004)(83380400001)(52116002)(316002)(2616005)(87944003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: Wc/IVJLyzCxVwNUJStx4gGx+LG8cWk5BtYnE10dFPizhaNvdL3vkgBGXmTixPOjBc9NOYXdsWxU4f7I44aEhDo65Ch+9QptPpLe8wB4kbPE//dO7zCHkolFSV5BXqIWh5i18uHQ+Fe2FOUa/77oRpyPgNB1kt9UDK1Xv32pulbGc4MPbwJ26TwJuFvSAFw74Z52Y02EQnK6+SUHEBtR7ZLksmlcyCJjwAGvwpGePcFec5KF054aTMmqtQUVaA4VwjffXrGbeIWIAiHC/re4tTj7De27F5/jV/Cbi6wXPwPg/tMXkLv1EyjI9pESQX1ohazd/zvE7nv4ycKOuUmp74mIIVD11EFdzNEZhtQSRSx2HOKJyIUI5SbfKRpNLiNquFzWx5n8MMCL6xg9Pw4Myq+ci0HYDZ1DY1V5fNml3TK9XvXvVUfDepq3e9LbFS2bMnaLLw3QFvKcH6use0L0Iu26NpxaYEUYoGVnWS1l5uKOe/QbJfUOMnn6/vLGE8KhmIZq8GLbjVBtslpZpOwgWACXIkx53AEMBqa+qXDpLk5koyUxkJlBL9TYKR4xx4LnFgraJgkzocbTzCfqBUTT2o2bUQXWFEWF2BTV2IGX6/ZAXSajwpRuB/iVqnlmGT6qe5+Krb0dsFLChvVr3VRcdm7PUApSgI4KsDxlPx0QqkGnp8hMz2e4lTSCmvGJojJaqnxKXMiBBnL/4fN0c/kqGyA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5287dced-c072-4e12-30d4-08d83531ead8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2020 09:12:58.5589 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QXu2yIg7YsAhtK8okC6tGaFQJoHWfgMat4wRMwGBPLYJGHmOx7+BzcYpeVXqWcBE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2356
+Content-Disposition: inline
+In-Reply-To: <20200729022315.18716-1-xuqiang36@huawei.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,128 +70,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sroland@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rui.xiang@huawei.com, lizefan@huawei.com
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 31.07.20 um 06:04 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
->
-> This will allow the driver to control the ordering here better.
->
-> Eventually the old path will be removed.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+On Wed, Jul 29, 2020 at 02:23:15AM +0000, Xu Qiang wrote:
+> A soft deadlock occurs when call hrtimer_cancel in softirq context:
+> 
+> 	a) The main frequency of the machine is very slow
+> 	b) output->period_ns is very small, even only 1 ns
+> 
+> The problem can be solved in the following way: Setting a hrtimer exit flag
+> in the vkms_disable_vblank function and checking the flag in the
+> vkms_vblank_simulate function. If the flag is set, the hrtimer is not added
+> to hrtimer queue again,the hrtimer_cancel function can exit quickly
+> without deadlock.
+> 
+> watchdog: BUG: soft lockup - CPU#2 stuck for 134s! [syz-executor.2:18027]
+> Modules linked in:
+> CPU: 2 PID: 18027 Comm: syz-executor.2 Tainted: G        W         5.8.0-rc2-csan #2
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Ubuntu-1.8.2-1ubuntu1 04/01/2014
+> RIP: 0010:csd_lock_wait kernel/smp.c:108 [inline]
+> RIP: 0010:smp_call_function_many_cond+0x40c/0x470 kernel/smp.c:555
+> RSP: 0018:ffffc900028d3a88 EFLAGS: 00000297
+> RAX: 0000000000000002 RBX: ffff888237cacc80 RCX: ffffffff813240fc
+> RDX: 0000000000000001 RSI: 0000000000000000 RDI: 0000000000000005
+> RBP: 0000000000000001 R08: ffff8881f497d000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000100 R12: ffff888237cf6fc0
+> R13: 0000000000000003 R14: ffff888237cacc88 R15: 0000000000000001
+> FS:  00007fa6314a9700(0000) GS:ffff888237c80000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000513c80 CR3: 00000001e3df3002 CR4: 00000000000626e0
+> Call Trace:
+>  smp_call_function_many kernel/smp.c:577 [inline]
+>  smp_call_function+0x40/0x80 kernel/smp.c:599
+>  on_each_cpu+0x2a/0xc0 kernel/smp.c:717
+>  __purge_vmap_area_lazy+0x7c/0xbc0 mm/vmalloc.c:1367
+>  _vm_unmap_aliases.part.0+0x126/0x180 mm/vmalloc.c:1800
+>  _vm_unmap_aliases mm/vmalloc.c:1769 [inline]
+>  vm_unmap_aliases+0x2f/0x40 mm/vmalloc.c:1823
+>  change_page_attr_set_clr+0x10a/0x4a0 arch/x86/mm/pat/set_memory.c:1732
+>  change_page_attr_clear arch/x86/mm/pat/set_memory.c:1789 [inline]
+>  set_memory_ro+0x2b/0x40 arch/x86/mm/pat/set_memory.c:1935
+>  bpf_jit_binary_lock_ro include/linux/filter.h:815 [inline]
+>  bpf_int_jit_compile+0x54f/0x663 arch/x86/net/bpf_jit_comp.c:1929
+>  bpf_prog_select_runtime+0x1cc/0x2c0 kernel/bpf/core.c:1807
+>  bpf_migrate_filter net/core/filter.c:1264 [inline]
+>  bpf_prepare_filter net/core/filter.c:1312 [inline]
+>  bpf_prepare_filter+0x518/0x620 net/core/filter.c:1278
+>  __get_filter+0x107/0x160 net/core/filter.c:1481
+>  sk_attach_filter+0x19/0xa0 net/core/filter.c:1496
+>  sock_setsockopt+0x1208/0x1230 net/core/sock.c:1080
+>  __sys_setsockopt+0x248/0x270 net/socket.c:2123
+>  __do_sys_setsockopt net/socket.c:2143 [inline]
+>  __se_sys_setsockopt net/socket.c:2140 [inline]
+>  __x64_sys_setsockopt+0x22/0x30 net/socket.c:2140
+>  do_syscall_64+0x48/0xb0 arch/x86/entry/common.c:359
+>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> Sending NMI from CPU 2 to CPUs 0-1,3-5:
+> NMI backtrace for cpu 4 skipped: idling at native_safe_halt+0xe/0x10 arch/x86/include/asm/irqflags.h:60
+> NMI backtrace for cpu 0 skipped: idling at native_safe_halt+0xe/0x10 arch/x86/include/asm/irqflags.h:60
+> NMI backtrace for cpu 1
+> NMI backtrace for cpu 3
+> CPU: 3 PID: 0 Comm: swapper/3 Tainted: G        W         5.8.0-rc2-csan #2
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Ubuntu-1.8.2-1ubuntu1 04/01/2014
+> RIP: 0010:preempt_count arch/x86/include/asm/preempt.h:26 [inline]
+> RIP: 0010:preempt_count_sub+0xa/0x90 kernel/sched/core.c:3874
+> RSP: 0018:ffffc9000012cdd0 EFLAGS: 00000046
+> RAX: 0000000000000001 RBX: ffff88822ecb8fb0 RCX: 0000000000000000
+> RDX: 0000000000000000 RSI: 0000000000000086 RDI: 0000000000000001
+> RBP: ffff888237d5edc0 R08: ffff888236ddc000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000000 R12: 00000000ffffffff
+> R13: 0000000000000086 R14: ffff888237d5edc0 R15: ffffffff85bc6d60
+> FS:  0000000000000000(0000) GS:ffff888237cc0000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f35cc47adb8 CR3: 0000000005a23006 CR4: 00000000000626e0
+> Call Trace:
+>  <IRQ>
+>  __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:161 [inline]
+>  _raw_spin_unlock_irqrestore+0x2f/0x50 kernel/locking/spinlock.c:191
+>  unlock_hrtimer_base kernel/time/hrtimer.c:898 [inline]
+>  hrtimer_try_to_cancel kernel/time/hrtimer.c:1171 [inline]
+>  hrtimer_try_to_cancel+0xbd/0x1b0 kernel/time/hrtimer.c:1151
+>  hrtimer_cancel+0x13/0x40 kernel/time/hrtimer.c:1278
+>  __disable_vblank drivers/gpu/drm/drm_vblank.c:429 [inline]
+>  drm_vblank_disable_and_save+0x122/0x140 drivers/gpu/drm/drm_vblank.c:470
+>  vblank_disable_fn+0x96/0xa0 drivers/gpu/drm/drm_vblank.c:487
+>  call_timer_fn+0x3a/0x230 kernel/time/timer.c:1404
+>  expire_timers kernel/time/timer.c:1449 [inline]
+>  __run_timers kernel/time/timer.c:1773 [inline]
+>  __run_timers kernel/time/timer.c:1740 [inline]
+>  run_timer_softirq+0x2b8/0x840 kernel/time/timer.c:1786
+>  __do_softirq+0x118/0x344 kernel/softirq.c:292
+>  asm_call_on_stack+0xf/0x20 arch/x86/entry/entry_64.S:711
+>  </IRQ>
+>  __run_on_irqstack arch/x86/include/asm/irq_stack.h:22 [inline]
+>  run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:48 [inline]
+>  do_softirq_own_stack+0x5a/0x70 arch/x86/kernel/irq_64.c:77
+>  invoke_softirq kernel/softirq.c:387 [inline]
+>  __irq_exit_rcu kernel/softirq.c:417 [inline]
+>  irq_exit_rcu+0xb1/0xd0 kernel/softirq.c:429
+>  sysvec_apic_timer_interrupt+0x42/0xd0 arch/x86/kernel/apic/apic.c:1091
+>  asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:596
+> ------------[ cut here ]------------
+> WARNING: CPU: 5 PID: 8121 at drivers/gpu/drm/vkms/vkms_crtc.c:21 vkms_vblank_simulate+0x19a/0x1b0 drivers/gpu/drm/vkms/vkms_crtc.c:21
+> Modules linked in:
+> CPU: 5 PID: 8121 Comm: syslog-ng Tainted: G        W         5.8.0-rc2-csan #2
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Ubuntu-1.8.2-1ubuntu1 04/01/2014
+> RIP: 0010:vkms_vblank_simulate+0x19a/0x1b0 drivers/gpu/drm/vkms/vkms_crtc.c:21
+> RSP: 0018:ffffc90000184ee8 EFLAGS: 00010046
+> RAX: ffff88822864a080 RBX: ffff88822ecb8fb0 RCX: ffffffff826cd2b0
+> RDX: 0000000080010000 RSI: ffffffff826cd40a RDI: 0000000000000007
+> RBP: 00000000001f058d R08: ffff88822864a080 R09: 7fffffffffffffff
+> R10: 0000000000000000 R11: 0000000000000000 R12: ffff88822ecb8630
+> R13: 0000000000000000 R14: 0000017998a35917 R15: ffff888237d5ed80
+> FS:  00007f8dcbde0700(0000) GS:ffff888237d40000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffffffff600400 CR3: 000000022575f002 CR4: 00000000000626e0
+> Call Trace:
+>  <IRQ>
+>  __run_hrtimer kernel/time/hrtimer.c:1520 [inline]
+>  __hrtimer_run_queues+0x14c/0x410 kernel/time/hrtimer.c:1584
+>  hrtimer_interrupt+0x141/0x2c0 kernel/time/hrtimer.c:1646
+>  local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1080 [inline]
+>  __sysvec_apic_timer_interrupt+0x6e/0x170 arch/x86/kernel/apic/apic.c:1097
+>  asm_call_on_stack+0xf/0x20 arch/x86/entry/entry_64.S:711
+>  </IRQ>
+>  __run_on_irqstack arch/x86/include/asm/irq_stack.h:22 [inline]
+>  run_on_irqstack_cond arch/x86/include/asm/irq_stack.h:48 [inline]
+>  sysvec_apic_timer_interrupt+0xa9/0xd0 arch/x86/kernel/apic/apic.c:1091
+>  asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:596
+> RIP: 0010:con_should_update drivers/tty/vt/vt.c:291 [inline]
+> RIP: 0010:do_con_write.part.0+0xad6/0xfa0 drivers/tty/vt/vt.c:2790
+> ---[ end trace d6a6c6a9ecb73597 ]---
+> NMI backtrace for cpu 5 skipped: idling at native_halt+0xd/0x10 arch/x86/include/asm/irqflags.h:66
+> 
+> Cc: stable@vger.kernel.org
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Xu Qiang <xuqiang36@huawei.com>
 > ---
->   drivers/gpu/drm/ttm/ttm_bo.c    | 34 +++++++++++++++++++--------------
->   include/drm/ttm/ttm_bo_api.h    |  4 ++++
->   include/drm/ttm/ttm_bo_driver.h |  6 ++++++
->   3 files changed, 30 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 041a0e73cd1b..a658fd584c6d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -1503,35 +1503,41 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
->   }
->   EXPORT_SYMBOL(ttm_bo_evict_mm);
->   
-> -int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
-> -			unsigned long p_size)
-> +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
-> +			 struct ttm_mem_type_manager *man,
-> +			 unsigned long p_size)
->   {
-> -	int ret;
-> -	struct ttm_mem_type_manager *man;
->   	unsigned i;
->   
-> -	BUG_ON(type >= TTM_NUM_MEM_TYPES);
-> -	man = &bdev->man[type];
->   	BUG_ON(man->has_type);
->   	man->use_io_reserve_lru = false;
->   	mutex_init(&man->io_reserve_mutex);
->   	spin_lock_init(&man->move_lock);
->   	INIT_LIST_HEAD(&man->io_reserve_lru);
->   	man->bdev = bdev;
-> -
-> -	if (type != TTM_PL_SYSTEM) {
-> -		ret = (*man->func->init)(man, p_size);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -	man->has_type = true;
-> -	man->use_type = true;
->   	man->size = p_size;
->   
->   	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
->   		INIT_LIST_HEAD(&man->lru[i]);
->   	man->move = NULL;
-> +}
-> +EXPORT_SYMBOL(ttm_bo_init_mm_base);
->   
-> +int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
-> +			unsigned long p_size)
-> +{
-> +	int ret;
-> +	struct ttm_mem_type_manager *man;
+>  drivers/gpu/drm/vkms/vkms_crtc.c | 5 ++++-
+>  drivers/gpu/drm/vkms/vkms_drv.h  | 1 +
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index ac85e17428f8..655294f11bb8 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -49,7 +49,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+>  			DRM_DEBUG_DRIVER("Composer worker already queued\n");
+>  	}
+>  
+> -	return HRTIMER_RESTART;
+> +	return output->hrtimer_exit ? HRTIMER_NORESTART : HRTIMER_RESTART;
+
+Hm don't we need some locking for this? Or at least a bit of thought about
+ordering and stuff, maybe a comment about what's going on. Or are we
+covered already by a different lock (but then maybe the check here should
+be moved, and a comment added about which spinlock protects this).
+
+The other question: How did you even end up in here? I think the better
+fix would be to make sure the mode we're setting is reasonable, i.e. maybe
+a refresh rate between 10Hz and 1000Hz or so. Even slow machines should
+then be able to stop the timer ... That would be a lot more reasonable
+fix, refresh rate with just a few ns never happen on real displays :-)
+
+Cheers, Daniel
+
+
+>  }
+>  
+>  static int vkms_enable_vblank(struct drm_crtc *crtc)
+> @@ -66,6 +66,8 @@ static int vkms_enable_vblank(struct drm_crtc *crtc)
+>  	out->period_ns = ktime_set(0, vblank->framedur_ns);
+>  	hrtimer_start(&out->vblank_hrtimer, out->period_ns, HRTIMER_MODE_REL);
+>  
+> +	out->hrtimer_exit = false;
 > +
-> +	BUG_ON(type >= TTM_NUM_MEM_TYPES);
-> +	ttm_bo_init_mm_base(bdev, &bdev->man[type], p_size);
-> +
-> +	if (type != TTM_PL_SYSTEM) {
-> +		ret = (*man->func->init)(man, p_size);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +	ttm_bo_use_mm(man);
->   	return 0;
->   }
->   EXPORT_SYMBOL(ttm_bo_init_mm);
-> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> index a9e13b252820..0060925f507a 100644
-> --- a/include/drm/ttm/ttm_bo_api.h
-> +++ b/include/drm/ttm/ttm_bo_api.h
-> @@ -546,6 +546,10 @@ int ttm_bo_create(struct ttm_bo_device *bdev, unsigned long size,
->    * -ENOMEM: Not enough memory.
->    * May also return driver-specified errors.
->    */
-> +struct ttm_mem_type_manager;
-> +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
-> +			 struct ttm_mem_type_manager *man,
-> +			 unsigned long p_size);
+>  	return 0;
+>  }
+>  
+> @@ -73,6 +75,7 @@ static void vkms_disable_vblank(struct drm_crtc *crtc)
+>  {
+>  	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>  
+> +	out->hrtimer_exit = true;
+>  	hrtimer_cancel(&out->vblank_hrtimer);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index f4036bb0b9a8..4d4323dc2cfd 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -65,6 +65,7 @@ struct vkms_output {
+>  	struct drm_connector connector;
+>  	struct hrtimer vblank_hrtimer;
+>  	ktime_t period_ns;
+> +	bool	hrtimer_exit;
+>  	struct drm_pending_vblank_event *event;
+>  	/* ordered wq for composer_work */
+>  	struct workqueue_struct *composer_workq;
+> -- 
+> 2.25.0
+> 
 
-As I wrote before I would completely rename the backend functions to 
-ttm_resource_* since this is not related to the buffer objects in any way.
-
-Moving a good bunch of the handling into a separate file might be a good 
-idea as well. But that can obviously come later as well.
-
-Christian.
-
->   int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
->   		   unsigned long p_size);
->   
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index 7958e411269a..68e75c3b8c7a 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -678,6 +678,12 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
->   	dma_resv_unlock(bo->base.resv);
->   }
->   
-> +static inline void ttm_bo_use_mm(struct ttm_mem_type_manager *man)
-> +{
-> +	man->has_type = true;
-> +	man->use_type = true;
-> +}
-> +
->   /*
->    * ttm_bo_util.c
->    */
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
