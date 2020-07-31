@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F802234038
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85928234031
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03EE76E9FD;
-	Fri, 31 Jul 2020 07:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 044E66EA0E;
+	Fri, 31 Jul 2020 07:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D25916E9FD
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 07:39:36 +0000 (UTC)
-Received: from mail-qk1-f173.google.com ([209.85.222.173]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MQeDw-1kNunA2mZi-00NkUb; Fri, 31 Jul 2020 09:34:30 +0200
-Received: by mail-qk1-f173.google.com with SMTP id 11so28028779qkn.2;
- Fri, 31 Jul 2020 00:34:30 -0700 (PDT)
-X-Gm-Message-State: AOAM533AUa0rfZ2B4KJCmAV+YIXw27vjNHzfGjNT8d4nOmWwuTxdEIx9
- wMlRVKM92S87BrJS0Zt9ZtCfnexO2Z+jotZ0+o4=
-X-Google-Smtp-Source: ABdhPJxYk3wIyoxiO9LUCf/QsYM6dUKOpKBu16SsDD6IATmeJ5ingRMD/m8u2OxTjlKcCpmR5ojXc2QcoL/2khVzoU8=
-X-Received: by 2002:a37:b942:: with SMTP id j63mr2753181qkf.138.1596180869243; 
- Fri, 31 Jul 2020 00:34:29 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762BE6E094
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 07:36:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 13C23AE17;
+ Fri, 31 Jul 2020 07:37:05 +0000 (UTC)
+Subject: Re: [PATCH drm/hisilicon 1/2] drm/hisilicon: Remove the unnecessary
+ header files
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1596157521-49996-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <af9ed180-21dc-711b-1beb-04b35e4c7fb1@suse.de>
+Date: Fri, 31 Jul 2020 09:36:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200728192924.441570-1-yepeilin.cs@gmail.com>
- <30b2a31f-77c2-56c1-ecde-875c6eea99d5@gmail.com>
- <CADnq5_NXOiAc7q5gQqF_wwtJD1o6nHjXM4O3gY6EwAQe9iOtXw@mail.gmail.com>
- <8c5cf518-12d2-7495-7822-c7ebf8e61972@amd.com>
-In-Reply-To: <8c5cf518-12d2-7495-7822-c7ebf8e61972@amd.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 31 Jul 2020 09:34:13 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2+Vv5=bKDR=NU8jcNgAoZRk+EKG11NU7bQSetyVDvn=w@mail.gmail.com>
-Message-ID: <CAK8P3a2+Vv5=bKDR=NU8jcNgAoZRk+EKG11NU7bQSetyVDvn=w@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] drm/amdgpu: Prevent
- kernel-infoleak in amdgpu_info_ioctl()
-To: Luben Tuikov <luben.tuikov@amd.com>
-X-Provags-ID: V03:K1:3WMwR6CLz5y7u7uyoi3mXVJWx8GritRDl8U568YTSDkaz+nZBbG
- WnGMP5JdrjfGgi7QYyVkth5zE3mUvJ5GTLYKhgUXbJKSRG0aVF3/QCK5mNVtUbQgZZFcijc
- +LWdfZOkwZmB8di5KiM7uw7Mr2kiGCWKFwwRxtvIdpPW2n+2uoQz05d+EYW7Q1rn6ni4udD
- feNTWJJQ65ytBk4+wnWNw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1oPfPocfRSc=:HRgK6333mW7wdsMxbFlKm7
- PX5kPrleLAq8F4RJzmofYQGJRa+2E8iw4LMDRZ5/GCkF4oGCFgPMf0Ldc8S8wnRGw2wVpg1VJ
- Qe9o/J0VHyfbbPRpIVk3pSBLx3B3CApH8Xi/24d//OVAjWbR0xHJKnycQMQcgFXnoZ1ghjJYj
- LzThlWYYpl8MvdHZCEE+JVlO6wspF6F2CUL6/s7Pc3y005bBlaHLhJC5HgR/twxWDFDL6d6Ac
- HXCp5o35tizNjD/sYwtk1qGPEgQpdHpMJ02+twuBQFHRb1yBe7GE7ooFFh4i3DbqejQ5FjIAz
- rqFBlUPRow7W2G2pNkCf3LLCUWi/fSMdU+PqkmN+hG2Nn4CGpXdKHTEAtLajXHLeeW9l+mWCS
- /XpLX5siNXuPGd1O728eYyKXLWIPEvTDmnOEIcNNgs5lIEpJEjJYrcpfsd76Fqzk0401TAzHl
- pQogAlBUYizGn4RvjayWBw6bZoaAa58sGcimKmENH92Z+lbvCSkjut8OQjU6raUuUam4BWmdF
- 1CNLCa4aSpLn/jvKXjD1dMA9wISrnsospirBQlvCj9yMpCdLZnSpZTHuIVXHBcpdCp1i5Ve5c
- EJIlelMirnbLGrEzTAVOiUa7AvXTrWt9Z2+fZRjukPW5idriVNKV78uvPPDwtdcy3YFBG/ijd
- f8pdeT8lleOu+b/z+6L74XCgcoyytSsLsEToVp0Uh2/OOjS/bVNdv2y7r6Kzz68ziweG/aF0h
- InH15qt+n+ar2TJo5cDlE9j5aM+sQ4XsMCg1k1PbU8u7pBgUy6YENXnrdATFDF8LV2gNN3SXP
- i/u1wLl2WHjP1r4hd7y1G6OvatxMnC4N8O65qV1FhSLHXy98T7ovbhzv3eQtiyGCgJN7bNQl8
- H2ibZSShk95KC9EyvJzxUVrkKhvWb74OoF36SsoS1vnchtYGurG54oIxXeETJOjK2N+XiYP7a
- 465mONOcSmI7Ube7nYY8tTjGhA5BXSmWjA7GdtOPNhpoyH/QUbHOq
+In-Reply-To: <1596157521-49996-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,64 +42,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, Trek <trek00@inbox.ru>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Peilin Ye <yepeilin.cs@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Leo Liu <leo.liu@amd.com>, Christian Koenig <christian.koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Xiaojie Yuan <xiaojie.yuan@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============2088362795=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMzAsIDIwMjAgYXQgMTE6MDkgUE0gTHViZW4gVHVpa292IDxsdWJlbi50dWlr
-b3ZAYW1kLmNvbT4gd3JvdGU6Cj4gT24gMjAyMC0wNy0yOSA5OjQ5IGEubS4sIEFsZXggRGV1Y2hl
-ciB3cm90ZToKPiA+IE9uIFdlZCwgSnVsIDI5LCAyMDIwIGF0IDQ6MTEgQU0gQ2hyaXN0aWFuIEvD
-tm5pZwo+ID4gPGNrb2VuaWcubGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPiA+Pgo+
-ID4+IEFtIDI4LjA3LjIwIHVtIDIxOjI5IHNjaHJpZWIgUGVpbGluIFllOgo+ID4+PiBDb21waWxl
-ciBsZWF2ZXMgYSA0LWJ5dGUgaG9sZSBuZWFyIHRoZSBlbmQgb2YgYGRldl9pbmZvYCwgY2F1c2lu
-Zwo+ID4+PiBhbWRncHVfaW5mb19pb2N0bCgpIHRvIGNvcHkgdW5pbml0aWFsaXplZCBrZXJuZWwg
-c3RhY2sgbWVtb3J5IHRvIHVzZXJzcGFjZQo+ID4+PiB3aGVuIGBzaXplYCBpcyBncmVhdGVyIHRo
-YW4gMzU2Lgo+ID4+Pgo+ID4+PiBJbiAyMDE1IHdlIHRyaWVkIHRvIGZpeCB0aGlzIGlzc3VlIGJ5
-IGRvaW5nIGA9IHt9O2Agb24gYGRldl9pbmZvYCwgd2hpY2gKPiA+Pj4gdW5mb3J0dW5hdGVseSBk
-b2VzIG5vdCBpbml0aWFsaXplIHRoYXQgNC1ieXRlIGhvbGUuIEZpeCBpdCBieSB1c2luZwo+ID4+
-PiBtZW1zZXQoKSBpbnN0ZWFkLgo+ID4+Pgo+ID4+PiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9y
-Zwo+ID4+PiBGaXhlczogYzE5M2ZhOTFiOTE4ICgiZHJtL2FtZGdwdTogaW5mb3JtYXRpb24gbGVh
-ayBpbiBhbWRncHVfaW5mb19pb2N0bCgpIikKPiA+Pj4gRml4ZXM6IGQzOGNlYWY5OWVkMCAoImRy
-bS9hbWRncHU6IGFkZCBjb3JlIGRyaXZlciAodjQpIikKPiA+Pj4gU3VnZ2VzdGVkLWJ5OiBEYW4g
-Q2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6
-IFBlaWxpbiBZZSA8eWVwZWlsaW4uY3NAZ21haWwuY29tPgo+ID4+Cj4gPj4gUmV2aWV3ZWQtYnk6
-IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+Pgo+ID4+IEkg
-Y2FuJ3QgY291bnQgaG93IG1hbnkgb2YgdGhvc2Ugd2UgaGF2ZSBmaXhlZCBvdmVyIHRoZSB5ZWFy
-cy4KPiA+Pgo+ID4+IEF0IHNvbWUgcG9pbnQgd2Ugc2hvdWxkIHByb2JhYmx5IGRvY3VtZW50IHRo
-YXQgdXNpbmcgIj0ge30iIG9yICI9IHsgMCB9Igo+ID4+IGluIHRoZSBrZXJuZWwgaXMgYSByZWFs
-bHkgYmFkIGlkZWEgYW5kIHNob3VsZCBiZSBhdm9pZGVkLgo+ID4KPiA+IE1vcmVvdmVyLCBpdCBz
-ZWVtcyBsaWtlIGRpZmZlcmVudCBjb21waWxlcnMgc2VlbSB0byBiZWhhdmUgcmVsYXRpdmVseQo+
-ID4gZGlmZmVyZW50bHkgd2l0aCB0aGVzZSBhbmQgd2Ugb2Z0ZW4gZ2V0IHJlcG9ydHMgb2Ygd2Fy
-bmluZ3Mgd2l0aCB0aGVzZQo+ID4gb24gY2xhbmcuICBXaGVuIGluIGRvdWJ0LCBtZW1zZXQuCj4K
-PiBUaGVyZSBhcmUgcXVpdGUgYSBmZXcgb2YgdGhvc2UgdW5kZXIgZHJpdmVycy9ncHUvZHJtLCBm
-b3IgImFtZC8iLCAic2NoZWR1bGVyLyIKPiBkcm0qLmMgZmlsZXMsCj4KPiAkZmluZCAuIFwoIC1y
-ZWdleCAiLi9kcm0uKlwuYyIgLW9yIC1yZWdleCAiLi9hbWQvLipcLmMiIC1vciAtcmVnZXggIi4v
-c2NoZWR1bGVyLy4qXC5jIiBcKSAtZXhlYyBlZ3JlcCAtbiAtLSAiICo9ICp7ICoofE5VTEx8MCkg
-Kn0iIFx7XH0gXCsgfCB3YyAtbAo+IDM3NAo+ICRfCj4KPiBPdXQgb2Ygd2hpY2ggb25seSAxNiBh
-cmUgb2YgdGhlIG5vbi1JU08gQyB2YXJpZXR5LCAiPSB7fSIsCj4KPiAkZmluZCAuIFwoIC1yZWdl
-eCAiLi9kcm0uKlwuYyIgLW9yIC1yZWdleCAiLi9hbWQvLipcLmMiIC1vciAtcmVnZXggIi4vc2No
-ZWR1bGVyLy4qXC5jIiBcKSAtZXhlYyBlZ3JlcCAtbiAtLSAiICo9ICp7ICp9IiBce1x9IFwrIHwg
-d2MgLWwKPiAxNgo+ICRfCgpUaGF0IGlzIGFuIHVucmVsYXRlZCBpc3N1ZSwgdGhvc2Ugd2VyZSBp
-bnRyb2R1Y2VkIHRvIGRlYWwgd2l0aCBvbGRlciBjb21waWxlcnMKdGhhdCBkbyBub3QgYWNjZXB0
-ICd7MH0nIGFzIGFuIGluaXRpYWxpemVyIGZvciBhbiBhZ2dyZWdhdGUgd2hvc2UKZmlyc3QgbWVt
-YmVyIGlzCmFub3RoZXIgYWdncmVnYXRlLiBHZW5lcmFsbHkgc3BlYWtpbmcsICc9IHsgfScgaXMg
-YmV0dGVyIHRvIHVzZSBpbiB0aGUKa2VybmVsIHRoYW4KJz0geyAwIH0nIGJlY2F1c2UgYWxsIHN1
-cHBvcnRlZCBjb21waWxlcnMgaW50ZXJwcmV0IHRoYXQgdGhlIHNhbWUgd2F5IGZvciBhbGwKc3Ry
-dWN0dXJlcy4KCiAgICAgQXJuZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============2088362795==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="bf8SP8wvhyZN5O7n5iD4Fce1VpPUABDzH"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--bf8SP8wvhyZN5O7n5iD4Fce1VpPUABDzH
+Content-Type: multipart/mixed; boundary="H8T87kdNyTcGFKUjmSu9DpZsyLlEv4YgN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <af9ed180-21dc-711b-1beb-04b35e4c7fb1@suse.de>
+Subject: Re: [PATCH drm/hisilicon 1/2] drm/hisilicon: Remove the unnecessary
+ header files
+References: <1596157521-49996-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1596157521-49996-1-git-send-email-tiantao6@hisilicon.com>
+
+--H8T87kdNyTcGFKUjmSu9DpZsyLlEv4YgN
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Am 31.07.20 um 03:05 schrieb Tian Tao:
+> Remove some unused header files.
+
+maybe say that you're removing the include statements. Because you're
+not removing the actual header files. :)
+
+Best regards
+Thomas
+
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 3 ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 5 -----
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 2 --
+>  3 files changed, 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/g=
+pu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> index cc70e83..66132eb 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> @@ -17,9 +17,6 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem_vram_helper.h>
+> -#include <drm/drm_plane_helper.h>
+> -#include <drm/drm_print.h>
+> -#include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+> =20
+>  #include "hibmc_drm_drv.h"
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index b8d839a..54f6144 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -11,18 +11,13 @@
+>   *	Jianhua Li <lijianhua@huawei.com>
+>   */
+> =20
+> -#include <linux/console.h>
+> -#include <linux/module.h>
+>  #include <linux/pci.h>
+> =20
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_fb_helper.h>
+>  #include <drm/drm_gem_vram_helper.h>
+>  #include <drm/drm_irq.h>
+>  #include <drm/drm_managed.h>
+> -#include <drm/drm_print.h>
+> -#include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+> =20
+>  #include "hibmc_drm_drv.h"
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers=
+/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index 2ca69c3..ed12f61 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -11,10 +11,8 @@
+>   *	Jianhua Li <lijianhua@huawei.com>
+>   */
+> =20
+> -#include <drm/drm_gem_vram_helper.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_probe_helper.h>
+> -#include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_print.h>
+> =20
+>  #include "hibmc_drm_drv.h"
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--H8T87kdNyTcGFKUjmSu9DpZsyLlEv4YgN--
+
+--bf8SP8wvhyZN5O7n5iD4Fce1VpPUABDzH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl8jyhAUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiM4Ggf6AvJtVsPiB5V81l1cAPicNVHxa5br
+MEPOdArInz4RX3R3kLjESKq3zM3d9nBjPK9CwhGj1Ec5W8yBZBL062E7fnIENVkW
+itwtN7Uq6lSM8BfvFskzu2hXskF/E7KJ9KfgClMxsjxbMMIauWzY2x3Z3Iv0tCwf
+9/xBBXT0nfT40OzYqcJp2tZjyH4G/+rU5mTihIsudZ24yMcbExBiF13IaVjW6wpK
+VtlV3DdsTD086/XxQ9hhJ7jLC2RVRien5zEArTwyCrujpE6OKz8bacnchVF2s6ho
+vxHRM5xGnZG/Ys9SwUDJcbl77La8Uy1NlFsNhkL/oj36vsrmDU8A+TSzJw==
+=4y/9
+-----END PGP SIGNATURE-----
+
+--bf8SP8wvhyZN5O7n5iD4Fce1VpPUABDzH--
+
+--===============2088362795==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2088362795==--
