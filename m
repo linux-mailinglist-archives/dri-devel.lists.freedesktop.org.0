@@ -1,43 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA50233E14
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47214233E0D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89B606E9D0;
-	Fri, 31 Jul 2020 04:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31ECE6E9C0;
+	Fri, 31 Jul 2020 04:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797666E9C0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:06 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9714D6E9BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:11 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-G2iJat6BPRWpGMKZpzfbDw-1; Fri, 31 Jul 2020 00:07:03 -0400
-X-MC-Unique: G2iJat6BPRWpGMKZpzfbDw-1
+ us-mta-210-G5p97TIaPP2TQ9COQ1L_iw-1; Fri, 31 Jul 2020 00:07:07 -0400
+X-MC-Unique: G5p97TIaPP2TQ9COQ1L_iw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CDD4106B249;
- Fri, 31 Jul 2020 04:07:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52C08800461;
+ Fri, 31 Jul 2020 04:07:06 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E87D100238C;
- Fri, 31 Jul 2020 04:06:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBCCC100238C;
+ Fri, 31 Jul 2020 04:07:01 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 43/49] drm/nouveau/ttm: move to driver allocated manager
-Date: Fri, 31 Jul 2020 14:05:14 +1000
-Message-Id: <20200731040520.3701599-44-airlied@gmail.com>
+Subject: [PATCH 44/49] drm/ttm: drop priv pointer in memory manager
+Date: Fri, 31 Jul 2020 14:05:15 +1000
+Message-Id: <20200731040520.3701599-45-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,108 +59,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
+This isn't needed anymore by any drivers.
+
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 41 ++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 13 deletions(-)
+ include/drm/ttm/ttm_bo_driver.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 225f9af2eaa1..5b0af2065ad9 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -157,12 +157,12 @@ static int
- nouveau_ttm_init_vram(struct nouveau_drm *drm)
- {
- 	struct nvif_mmu *mmu = &drm->client.mmu;
--
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
--		struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
--
- 		/* Some BARs do not support being ioremapped WC */
- 		const u8 type = mmu->type[drm->ttm.type_vram].type;
-+		struct ttm_mem_type_manager *man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
-+		if (!man)
-+			return -ENOMEM;
- 
- 		man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
- 		man->default_caching = TTM_PL_FLAG_WC;
-@@ -176,6 +176,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 		man->use_io_reserve_lru = true;
- 		ttm_bo_init_mm_base(&drm->ttm.bdev, man,
- 				    drm->gem.vram_available >> PAGE_SHIFT);
-+		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
- 		ttm_bo_use_mm(man);
- 		return 0;
- 	} else {
-@@ -195,6 +196,8 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
- 		ttm_bo_disable_mm(man);
- 		ttm_bo_force_list_clean(&drm->ttm.bdev, man);
- 		ttm_bo_man_cleanup(man);
-+		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
-+		kfree(man);
- 	} else
- 		ttm_bo_man_takedown(&drm->ttm.bdev, TTM_PL_VRAM);
- }
-@@ -202,30 +205,40 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
- static int
- nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
-+	struct ttm_mem_type_manager *man;
- 	unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
--	man->use_tt = true;
-+	unsigned available_caching, default_caching;
-+	const struct ttm_mem_type_manager_func *func = NULL;
- 	if (drm->agp.bridge) {
--		man->available_caching = TTM_PL_FLAG_UNCACHED |
-+		available_caching = TTM_PL_FLAG_UNCACHED |
- 			TTM_PL_FLAG_WC;
--		man->default_caching = TTM_PL_FLAG_WC;
-+		default_caching = TTM_PL_FLAG_WC;
- 	} else {
--		man->available_caching = TTM_PL_MASK_CACHING;
--		man->default_caching = TTM_PL_FLAG_CACHED;
-+		available_caching = TTM_PL_MASK_CACHING;
-+		default_caching = TTM_PL_FLAG_CACHED;
- 	}
- 
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
--		man->func = &nouveau_gart_manager;
-+		func = &nouveau_gart_manager;
- 	else if (!drm->agp.bridge)
--		man->func = &nv04_gart_manager;
-+		func = &nv04_gart_manager;
- 	else
- 		return ttm_bo_man_init(&drm->ttm.bdev, TTM_PL_TT,
--				       TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
--				       TTM_PL_FLAG_WC, true,
-+				       available_caching, default_caching,
-+				       true,
- 				       size_pages);
- 
-+	man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
-+	if (!man)
-+		return -ENOMEM;
-+
-+	man->func = func;
-+	man->available_caching = available_caching;
-+	man->default_caching = default_caching;
-+	man->use_tt = true;
- 	ttm_bo_init_mm_base(&drm->ttm.bdev, man,
- 			    size_pages);
-+	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
- 	ttm_bo_use_mm(man);
- 	return 0;
- }
-@@ -242,6 +255,8 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
- 		ttm_bo_disable_mm(man);
- 		ttm_bo_force_list_clean(&drm->ttm.bdev, man);
- 		ttm_bo_man_cleanup(man);
-+		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
-+		kfree(man);
- 	}
- }
- 
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 6319d85d7270..a38704fe0737 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -123,7 +123,6 @@ struct ttm_mem_type_manager_func {
+  * @default_caching: The default caching policy used for a buffer object
+  * placed in this memory type if the user doesn't provide one.
+  * @func: structure pointer implementing the range manager. See above
+- * @priv: Driver private closure for @func.
+  * @io_reserve_mutex: Mutex optionally protecting shared io_reserve structures
+  * @use_io_reserve_lru: Use an lru list to try to unreserve io_mem_regions
+  * reserved by the TTM vm system.
+@@ -152,7 +151,6 @@ struct ttm_mem_type_manager {
+ 	uint32_t available_caching;
+ 	uint32_t default_caching;
+ 	const struct ttm_mem_type_manager_func *func;
+-	void *priv;
+ 	struct mutex io_reserve_mutex;
+ 	bool use_io_reserve_lru;
+ 	spinlock_t move_lock;
 -- 
 2.26.2
 
