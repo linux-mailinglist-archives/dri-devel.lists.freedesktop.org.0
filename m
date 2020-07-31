@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74985233E0B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EFB233DF0
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7B856E9BD;
-	Fri, 31 Jul 2020 04:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F32CF6E9AA;
+	Fri, 31 Jul 2020 04:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50A056E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:22 +0000 (UTC)
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E3C6E9A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:14 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-jkiC6XTJMBWr0_5ZPPMXCw-1; Fri, 31 Jul 2020 00:06:04 -0400
-X-MC-Unique: jkiC6XTJMBWr0_5ZPPMXCw-1
+ us-mta-282-lyYG9nJAMLe8vRG-jXy6bQ-1; Fri, 31 Jul 2020 00:06:09 -0400
+X-MC-Unique: lyYG9nJAMLe8vRG-jXy6bQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30D2318839C0;
- Fri, 31 Jul 2020 04:06:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFD9E10059A7;
+ Fri, 31 Jul 2020 04:06:07 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B67A0100238C;
- Fri, 31 Jul 2020 04:06:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FB75100238C;
+ Fri, 31 Jul 2020 04:06:03 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 16/49] drm/ttm: start allowing drivers to use new takedown path
-Date: Fri, 31 Jul 2020 14:04:47 +1000
-Message-Id: <20200731040520.3701599-17-airlied@gmail.com>
+Subject: [PATCH 17/49] drm/amdgpu/ttm: use new takedown path
+Date: Fri, 31 Jul 2020 14:04:48 +1000
+Message-Id: <20200731040520.3701599-18-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,115 +59,133 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-Allow the takedown path callback to be optional as well.
-
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c         |  8 +++++---
- drivers/gpu/drm/ttm/ttm_bo_manager.c | 21 +++++++++++++++++++--
- include/drm/ttm/ttm_bo_driver.h      |  5 ++++-
- 3 files changed, 28 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 15 +++++++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c      | 10 +++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h      |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 15 +++++++++++----
+ 4 files changed, 29 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index f584e5e94383..f0f0f3101bd1 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1401,8 +1401,8 @@ int ttm_bo_create(struct ttm_bo_device *bdev,
- }
- EXPORT_SYMBOL(ttm_bo_create);
- 
--static int ttm_bo_force_list_clean(struct ttm_bo_device *bdev,
--				   struct ttm_mem_type_manager *man)
-+int ttm_bo_force_list_clean(struct ttm_bo_device *bdev,
-+			    struct ttm_mem_type_manager *man)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 5f58aa2eac4a..f4c870b2f348 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -133,10 +133,18 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+  * Destroy and free the GTT manager, returns -EBUSY if ranges are still
+  * allocated inside it.
+  */
+-static int amdgpu_gtt_mgr_fini(struct ttm_mem_type_manager *man)
++void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
  {
- 	struct ttm_operation_ctx ctx = {
- 		.interruptible = false,
-@@ -1444,6 +1444,7 @@ static int ttm_bo_force_list_clean(struct ttm_bo_device *bdev,
- 
- 	return 0;
- }
-+EXPORT_SYMBOL(ttm_bo_force_list_clean);
- 
- int ttm_bo_clean_mm(struct ttm_bo_device *bdev, unsigned mem_type)
- {
-@@ -1472,7 +1473,8 @@ int ttm_bo_clean_mm(struct ttm_bo_device *bdev, unsigned mem_type)
- 			return ret;
- 		}
- 
--		ret = (*man->func->takedown)(man);
-+		if (man->func->takedown)
-+			ret = (*man->func->takedown)(man);
- 	}
- 
- 	ttm_bo_man_cleanup(man);
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_manager.c b/drivers/gpu/drm/ttm/ttm_bo_manager.c
-index 1877425abdf0..1127868274b3 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_manager.c
-@@ -129,7 +129,7 @@ int ttm_bo_man_init(struct ttm_bo_device *bdev,
- }
- EXPORT_SYMBOL(ttm_bo_man_init);
- 
--static int ttm_bo_man_takedown(struct ttm_mem_type_manager *man)
-+static int ttm_bo_man_takedown_private(struct ttm_mem_type_manager *man)
- {
- 	struct ttm_range_manager *rman = (struct ttm_range_manager *) man->priv;
- 	struct drm_mm *mm = &rman->mm;
-@@ -146,6 +146,23 @@ static int ttm_bo_man_takedown(struct ttm_mem_type_manager *man)
- 	return -EBUSY;
- }
- 
-+int ttm_bo_man_takedown(struct ttm_bo_device *bdev,
-+			struct ttm_mem_type_manager *man)
-+{
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(man->bdev);
++	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_TT];
+ 	struct amdgpu_gtt_mgr *mgr = man->priv;
 +	int ret;
 +
 +	ttm_bo_disable_mm(man);
 +
-+	ret = ttm_bo_force_list_clean(bdev, man);
++	ret = ttm_bo_force_list_clean(&adev->mman.bdev, man);
 +	if (ret)
-+		return ret;
++		return;
 +
-+	ttm_bo_man_takedown_private(man);
+ 	spin_lock(&mgr->lock);
+ 	drm_mm_takedown(&mgr->mm);
+ 	spin_unlock(&mgr->lock);
+@@ -146,7 +154,7 @@ static int amdgpu_gtt_mgr_fini(struct ttm_mem_type_manager *man)
+ 	device_remove_file(adev->dev, &dev_attr_mem_info_gtt_total);
+ 	device_remove_file(adev->dev, &dev_attr_mem_info_gtt_used);
+ 
+-	return 0;
 +	ttm_bo_man_cleanup(man);
-+	return 0;
-+}
-+EXPORT_SYMBOL(ttm_bo_man_takedown);
-+
- static void ttm_bo_man_debug(struct ttm_mem_type_manager *man,
- 			     struct drm_printer *printer)
- {
-@@ -157,7 +174,7 @@ static void ttm_bo_man_debug(struct ttm_mem_type_manager *man,
  }
  
- static const struct ttm_mem_type_manager_func ttm_bo_manager_func = {
--	.takedown = ttm_bo_man_takedown,
-+	.takedown = ttm_bo_man_takedown_private,
- 	.get_node = ttm_bo_man_get_node,
- 	.put_node = ttm_bo_man_put_node,
- 	.debug = ttm_bo_man_debug
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 92bb54cce633..2ef33b407167 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -683,6 +683,8 @@ static inline void ttm_bo_man_cleanup(struct ttm_mem_type_manager *man)
- 	man->move = NULL;
+ /**
+@@ -307,7 +315,6 @@ static void amdgpu_gtt_mgr_debug(struct ttm_mem_type_manager *man,
  }
  
-+int ttm_bo_force_list_clean(struct ttm_bo_device *bdev,
-+			    struct ttm_mem_type_manager *man);
- /*
-  * ttm_bo_util.c
+ static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func = {
+-	.takedown = amdgpu_gtt_mgr_fini,
+ 	.get_node = amdgpu_gtt_mgr_new,
+ 	.put_node = amdgpu_gtt_mgr_del,
+ 	.debug = amdgpu_gtt_mgr_debug
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index f1bf86b8de14..b1452df8fce9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -2012,11 +2012,11 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+ 		iounmap(adev->mman.aper_base_kaddr);
+ 	adev->mman.aper_base_kaddr = NULL;
+ 
+-	ttm_bo_clean_mm(&adev->mman.bdev, TTM_PL_VRAM);
+-	ttm_bo_clean_mm(&adev->mman.bdev, TTM_PL_TT);
+-	ttm_bo_clean_mm(&adev->mman.bdev, AMDGPU_PL_GDS);
+-	ttm_bo_clean_mm(&adev->mman.bdev, AMDGPU_PL_GWS);
+-	ttm_bo_clean_mm(&adev->mman.bdev, AMDGPU_PL_OA);
++	amdgpu_vram_mgr_fini(adev);
++	amdgpu_gtt_mgr_fini(adev);
++	ttm_bo_man_takedown(&adev->mman.bdev, &adev->mman.bdev.man[AMDGPU_PL_GDS]);
++	ttm_bo_man_takedown(&adev->mman.bdev, &adev->mman.bdev.man[AMDGPU_PL_GWS]);
++	ttm_bo_man_takedown(&adev->mman.bdev, &adev->mman.bdev.man[AMDGPU_PL_OA]);
+ 	ttm_bo_device_release(&adev->mman.bdev);
+ 	adev->mman.initialized = false;
+ 	DRM_INFO("amdgpu: ttm finalized\n");
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index fb45c0a323b0..c01fdb3f0458 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -68,7 +68,9 @@ struct amdgpu_copy_mem {
+ };
+ 
+ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size);
++void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev);
+ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
++void amdgpu_vram_mgr_fini(struct amdgpu_device *adev);
+ 
+ bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem);
+ uint64_t amdgpu_gtt_mgr_usage(struct ttm_mem_type_manager *man);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 1bc04835c24f..cc45be8ccb0f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -205,10 +205,17 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+  * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
+  * allocated inside it.
   */
-@@ -801,5 +803,6 @@ pgprot_t ttm_io_prot(uint32_t caching_flags, pgprot_t tmp);
- int ttm_bo_man_init(struct ttm_bo_device *bdev,
- 		    struct ttm_mem_type_manager *man,
- 		    unsigned long p_size);
--
-+int ttm_bo_man_takedown(struct ttm_bo_device *bdev,
-+			struct ttm_mem_type_manager *man);
- #endif
+-static int amdgpu_vram_mgr_fini(struct ttm_mem_type_manager *man)
++void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+ {
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(man->bdev);
++	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_VRAM];
+ 	struct amdgpu_vram_mgr *mgr = man->priv;
++	int ret;
++
++	ttm_bo_disable_mm(man);
++
++	ret = ttm_bo_force_list_clean(&adev->mman.bdev, man);
++	if (ret)
++		return;
+ 
+ 	spin_lock(&mgr->lock);
+ 	drm_mm_takedown(&mgr->mm);
+@@ -216,7 +223,8 @@ static int amdgpu_vram_mgr_fini(struct ttm_mem_type_manager *man)
+ 	kfree(mgr);
+ 	man->priv = NULL;
+ 	sysfs_remove_files(&adev->dev->kobj, amdgpu_vram_mgr_attributes);
+-	return 0;
++
++	ttm_bo_man_cleanup(man);
+ }
+ 
+ /**
+@@ -596,7 +604,6 @@ static void amdgpu_vram_mgr_debug(struct ttm_mem_type_manager *man,
+ }
+ 
+ static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func = {
+-	.takedown	= amdgpu_vram_mgr_fini,
+ 	.get_node	= amdgpu_vram_mgr_new,
+ 	.put_node	= amdgpu_vram_mgr_del,
+ 	.debug		= amdgpu_vram_mgr_debug
 -- 
 2.26.2
 
