@@ -1,43 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF276233DF8
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9E6233DFD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCF76E9AE;
-	Fri, 31 Jul 2020 04:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB4A6E9B3;
+	Fri, 31 Jul 2020 04:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
  [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7036B6E9A9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7C26E9B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:41 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-vEaCvUjNNNGU5eO9JSr8OA-1; Fri, 31 Jul 2020 00:06:32 -0400
-X-MC-Unique: vEaCvUjNNNGU5eO9JSr8OA-1
+ us-mta-493-172UrkfuNEOAjZGiMYMtmA-1; Fri, 31 Jul 2020 00:06:34 -0400
+X-MC-Unique: 172UrkfuNEOAjZGiMYMtmA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1850010059A8;
- Fri, 31 Jul 2020 04:06:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E552D80183C;
+ Fri, 31 Jul 2020 04:06:32 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DE9B1002393;
- Fri, 31 Jul 2020 04:06:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7898D100EBA4;
+ Fri, 31 Jul 2020 04:06:31 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 28/49] drm/vram-helper: use wrapper to access memory managers
-Date: Fri, 31 Jul 2020 14:04:59 +1000
-Message-Id: <20200731040520.3701599-29-airlied@gmail.com>
+Subject: [PATCH 29/49] drm/nouveau/ttm: use wrapper to access memory managers
+Date: Fri, 31 Jul 2020 14:05:00 +1000
+Message-Id: <20200731040520.3701599-30-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,40 +61,49 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_ttm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index c6cc90d42f56..08fbfa32540a 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -1075,7 +1075,7 @@ static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index 2ccfdf203c52..ed651d7679fe 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -165,7 +165,7 @@ nouveau_ttm_init_host(struct nouveau_drm *drm, u8 kind)
+ static int
+ nouveau_ttm_init_vram(struct nouveau_drm *drm)
  {
- 	struct drm_info_node *node = (struct drm_info_node *) m->private;
- 	struct drm_vram_mm *vmm = node->minor->dev->vram_mm;
--	struct ttm_mem_type_manager *man = &vmm->bdev.man[TTM_PL_VRAM];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
- 	struct drm_printer p = drm_seq_file_printer(m);
+-	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
+ 	struct nvif_mmu *mmu = &drm->client.mmu;
  
- 	man->func->debug(man, &p);
-@@ -1103,7 +1103,7 @@ EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
- static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
- 			    uint64_t vram_base, size_t vram_size)
+ 	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+@@ -195,7 +195,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+ static void
+ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
  {
--	struct ttm_mem_type_manager *man = &vmm->bdev.man[TTM_PL_VRAM];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
- 	int ret;
+-	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
  
- 	vmm->vram_base = vram_base;
-@@ -1127,7 +1127,7 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
- 
- static void drm_vram_mm_cleanup(struct drm_vram_mm *vmm)
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+ 		ttm_bo_disable_mm(man);
+@@ -208,7 +208,7 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+ static int
+ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
  {
--	ttm_bo_man_takedown(&vmm->bdev, &vmm->bdev.man[TTM_PL_VRAM]);
-+	ttm_bo_man_takedown(&vmm->bdev, ttm_manager_type(&vmm->bdev, TTM_PL_VRAM));
- 	ttm_bo_device_release(&vmm->bdev);
- }
+-	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_TT];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
+ 	unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
+ 	man->use_tt = true;
+ 	if (drm->agp.bridge) {
+@@ -237,7 +237,7 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+ static void
+ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+ {
+-	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_TT];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
  
+ 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA &&
+ 	    drm->agp.bridge)
 -- 
 2.26.2
 
