@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA734233EFA
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 08:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798B4233F10
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 08:26:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8057A6E9D7;
-	Fri, 31 Jul 2020 06:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AB16E9DD;
+	Fri, 31 Jul 2020 06:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 196F16E9D7
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 06:17:31 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id v13so9235207oiv.13
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 23:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5EDF6E9DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 06:26:21 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id di22so14448191edb.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 23:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=66o0OMFmlbFpLFWMFNrEoa+yOxFl93bjoU+tv4t23Nw=;
- b=LXMvrDdAbnjAMTPQL1+TXLcIQnzZOiALJbcpVyb7IcoGbbKn9CBDz8kVcjt8yEHnAt
- 2SQCS2Ark4lH/yVr4iq32vXSkGmu7qCx3nUbiJiZS/oUQaN/lZNBZzDF+RzgNwE7QuaO
- RFN92Q6982qO2rilh0mZ56KXTQJnv5hp+r+vw=
+ :cc; bh=+ksZo/oUSg7rHqTtnj3Pdczm3thCECxVp5kxV9dWwfk=;
+ b=jGn1NH8EbRzLSAdIK4BUB3h3UDNRKx/TAhSmIdOVUANmAd+PymsLmRKIHDnBikKYUj
+ Fprh/tEoSQAN1U47l/OlNGCLTusI4taMsLX1QcO7rbmJfvI09G9dMeOSCvhYxY1B5gZn
+ rZN/mOL1QkpW88936MSWgqsw7wqYwvakMKOc6hOU1VcG0nVTLWZK6mVv9FcqlTB0JY7X
+ SG91o4y8D5Ez6rDeck2B3WEWmLGgYYyN9aTwWC2kWVFPv6SZJjoiCDDsp+LVZFaVSeH+
+ G92rPE53pp0u57XVe0GnNa8IVjBBhLAi/BUZB0nZQruAaL1Mn29BRiattsUr4AyTbYg8
+ EHPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=66o0OMFmlbFpLFWMFNrEoa+yOxFl93bjoU+tv4t23Nw=;
- b=pA8DtMjW+az8D5OeH5cJ799ODP2s8KD/QGsBQwEU26QoozyZrpdOT/P7jlBFXpXCtJ
- JhAiajbINjthx3Ag99UuIKl1giNggpV8Lu6L/lqK4FIUcfMJ1LNdpxRDKq3EAaxGGaUB
- AJIWm78+nvj+WFwpj8yqc/nmAx0WpPcawW/GrVFNocCn4dnMk0XgVoJ/seQY1mpygaWI
- fodMwnQ9s71PJVSet77RNfJS1Tgb+t3CLQpKhz/hrniT0lA8ezLHeg9x06S1BNSKpVdE
- Jmrtr0FJeBqYvDpoeYvfQ7ZY032nH5RE23+PGqdBgb/1dJPphzqdv69eC7JCV/HF+4Di
- Aqvg==
-X-Gm-Message-State: AOAM531p3wImVJDr2WhJUTsEVrUsRrBn1w1yNnHHbSZW1tp0FAvLDKsZ
- 1AXYoiD7VKP7bbPpSEKXvSrSmOl9oknKLH+o9nAWYQ==
-X-Google-Smtp-Source: ABdhPJx8PtLtmc2rRopFwO3W50YwSFnbvzJo3D8EAy1O84zrWGMG2bTe22gAmCbwKmvyJGKwez3Mv2EURO6CGn36T60=
-X-Received: by 2002:aca:ab87:: with SMTP id u129mr1861262oie.128.1596176250399; 
- Thu, 30 Jul 2020 23:17:30 -0700 (PDT)
+ bh=+ksZo/oUSg7rHqTtnj3Pdczm3thCECxVp5kxV9dWwfk=;
+ b=PdH5x+bmvgwxA8xl/g7Lpr6VUqkiMbiRkZH4kbsHAl4lwdu0erWAJbi5KoDJ6NZ2y5
+ HR+7/+0m5ENF2dPhI8VphSvZPg5xs0Co/lJjvtOp5G/v6MQAnQvjmtYSvZZDnG35auPm
+ MX8aPBz5T4Rfb07J3Dq71dZW7oqliWuexz/EYj1GfSplxgd7h0OVMiEEtgG1eT9kO5UN
+ v6XZgVhhL+sIxFUWjep5h1xkEB+EUPGFILN6NnpnQizFmJEjhqSJ9zAzwmJjWS0bMUBC
+ cQLyCorcExOt51spHBN9p7s59/ncEh5GjhN7aZLEKzc1tvUIKsS2l1zlxCNcn1Xhqs6W
+ smsA==
+X-Gm-Message-State: AOAM533LWfaZSFMuB+zcUGtIILsc0TzcY8uMD6K8VrNbtSllnQfBtagQ
+ cAZPQktIHoilg1xH43X6eFjdw1PUBASHgN3rro0fsg==
+X-Google-Smtp-Source: ABdhPJzcFl5+xSGjGOEujbvOIHC3095RFtJqk/4Kk5qnbKORemv5/z4TWbgGocmxosVwg6WvqzwBuTM+xQYsNLShCVE=
+X-Received: by 2002:a50:f396:: with SMTP id g22mr2220395edm.220.1596176780407; 
+ Thu, 30 Jul 2020 23:26:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200703094506.22527-1-andy.yan@rock-chips.com>
- <3359f775-ba70-c116-e9b9-29b9ba692400@rock-chips.com>
-In-Reply-To: <3359f775-ba70-c116-e9b9-29b9ba692400@rock-chips.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 31 Jul 2020 08:17:19 +0200
-Message-ID: <CAKMK7uFLPOkv_WkBbcJicqEWP9FFqHJ=0xt+SHwgghTSTuXgbg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/connector: Add of_drm_find_connector
-To: Andy Yan <andy.yan@rock-chips.com>
+References: <20200731040520.3701599-1-airlied@gmail.com>
+ <20200731040520.3701599-4-airlied@gmail.com>
+ <20200731054431.GA1544844@ravnborg.org>
+ <CAPM=9txyaTd5H3bKvO1Uiz2WaoGWyxYQD0dGnV5HQukkZm8WBQ@mail.gmail.com>
+In-Reply-To: <CAPM=9txyaTd5H3bKvO1Uiz2WaoGWyxYQD0dGnV5HQukkZm8WBQ@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 31 Jul 2020 16:26:08 +1000
+Message-ID: <CAPM=9tw13EY2-Aqbp8Q12k7EnM0s8PkBBdkvZWPQt4KB=b3PLw@mail.gmail.com>
+Subject: Re: [PATCH 03/49] drm/ttm: split the mm manager init code
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,126 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Roland Scheidegger <sroland@vmware.com>,
+ "Koenig, Christian" <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 31, 2020 at 4:33 AM Andy Yan <andy.yan@rock-chips.com> wrote:
+On Fri, 31 Jul 2020 at 15:51, Dave Airlie <airlied@gmail.com> wrote:
 >
-> ping
+> On Fri, 31 Jul 2020 at 15:44, Sam Ravnborg <sam@ravnborg.org> wrote:
+> >
+> > Hi Dave.
+> >
+> > On Fri, Jul 31, 2020 at 02:04:34PM +1000, Dave Airlie wrote:
+> > > From: Dave Airlie <airlied@redhat.com>
+> > >
+> > > This will allow the driver to control the ordering here better.
+> > >
+> > > Eventually the old path will be removed.
+> > >
+> > > Signed-off-by: Dave Airlie <airlied@redhat.com>
+> > > ---
+> > >  drivers/gpu/drm/ttm/ttm_bo.c    | 34 +++++++++++++++++++--------------
+> > >  include/drm/ttm/ttm_bo_api.h    |  4 ++++
+> > >  include/drm/ttm/ttm_bo_driver.h |  6 ++++++
+> > >  3 files changed, 30 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > index 041a0e73cd1b..a658fd584c6d 100644
+> > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > @@ -1503,35 +1503,41 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+> > >  }
+> > >  EXPORT_SYMBOL(ttm_bo_evict_mm);
+> > >
+> > > -int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
+> > > -                     unsigned long p_size)
+> > > +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
+> > > +                      struct ttm_mem_type_manager *man,
+> > > +                      unsigned long p_size)
+> > >  {
+> >
+> > General comment for all the ttm/* changes.
+> > It would be very nice with some nice explanations for the exported
+> > functions, preferably in kernel-doc style.
+> > In case someone that are more or less clueless (like me) would like
+> > to understand how a function is to be used or maybe reviewing some
+> > random code.
 >
-> On 7/3/20 5:45 PM, Andy Yan wrote:
-> > Add a function to look up a connector by
-> > device tree node, like what of_drm_find_bridge/panel
-> > does.
-> >
-> > Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
+> Good point, I just need to make sure I don't add anything for
+> something I remove later, but I should definitely add some for the new
+> interfaces.
 
-I'm pretty sure the answer is "no", but without a user for this it's
-impossible to tell I guess. Always send out the patches using new
-stuff together with the new stuff.
--Daniel
+The version in my git branch has docs for all the new apis now.
 
-> >
-> > ---
-> >
-> > Changes in v2:
-> > - Add function declaration
-> >
-> >   drivers/gpu/drm/drm_connector.c | 33 +++++++++++++++++++++++++++++++++
-> >   include/drm/drm_connector.h     | 14 ++++++++++++++
-> >   2 files changed, 47 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > index d877ddc6dc57..516376cd1868 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -743,6 +743,39 @@ void drm_connector_list_iter_end(struct drm_connector_list_iter *iter)
-> >   }
-> >   EXPORT_SYMBOL(drm_connector_list_iter_end);
-> >
-> > +#ifdef CONFIG_OF
-> > +/**
-> > + * of_drm_find_connector - look up a connector using a device tree node
-> > + * @np: device tree node of the connector
-> > + *
-> > + *
-> > + * Return: A pointer to the connector which match the specified device tree
-> > + * node or NULL if no panel matching the device tree node can be found, or
-> > + * -ENODEV: the device is not available (status != "okay" or "ok")
-> > + */
-> > +struct drm_connector *of_drm_find_connector(struct drm_device *dev, const struct device_node *np)
-> > +{
-> > +     struct drm_connector *connector;
-> > +     struct drm_connector_list_iter conn_iter;
-> > +
-> > +     if (!of_device_is_available(np))
-> > +             return ERR_PTR(-ENODEV);
-> > +
-> > +     drm_connector_list_iter_begin(dev, &conn_iter);
-> > +     drm_for_each_connector_iter(connector, &conn_iter) {
-> > +             if (connector->of_node == np) {
-> > +                     drm_connector_list_iter_end(&conn_iter);
-> > +                     return connector;
-> > +             }
-> > +     }
-> > +     drm_connector_list_iter_end(&conn_iter);
-> > +
-> > +     return NULL;
-> > +}
-> > +EXPORT_SYMBOL(of_drm_find_connector);
-> > +#endif
-> > +
-> > +
-> >   static const struct drm_prop_enum_list drm_subpixel_enum_list[] = {
-> >       { SubPixelUnknown, "Unknown" },
-> >       { SubPixelHorizontalRGB, "Horizontal RGB" },
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index fd543d1db9b2..d249e0498375 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -1129,6 +1129,9 @@ struct drm_connector {
-> >       /** @attr: sysfs attributes */
-> >       struct device_attribute *attr;
-> >
-> > +     /** @of_node: device tree node */
-> > +     struct device_node *of_node;
-> > +
-> >       /**
-> >        * @head:
-> >        *
-> > @@ -1647,6 +1650,17 @@ void drm_connector_list_iter_end(struct drm_connector_list_iter *iter);
-> >   bool drm_connector_has_possible_encoder(struct drm_connector *connector,
-> >                                       struct drm_encoder *encoder);
-> >
-> > +#if defined(CONFIG_OF)
-> > +struct drm_connector *
-> > +of_drm_find_connector(struct drm_device *dev, const struct device_node *np);
-> > +#else
-> > +static inline struct drm_connector *
-> > +of_drm_find_connector(struct drm_device *dev, const struct device_node *np)
-> > +{
-> > +     return ERR_PTR(-ENODEV);
-> > +}
-> > +#endif
-> > +
-> >   /**
-> >    * drm_for_each_connector_iter - connector_list iterator macro
-> >    * @connector: &struct drm_connector pointer used as cursor
->
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
