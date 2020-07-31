@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D6A233E11
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB53B233E0E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6616E9CD;
-	Fri, 31 Jul 2020 04:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C76CD6E9C2;
+	Fri, 31 Jul 2020 04:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD3A6E9C1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:07 +0000 (UTC)
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D05156E9BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:08 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-o8TUky9yOrSfibbmK5uppQ-1; Fri, 31 Jul 2020 00:06:58 -0400
-X-MC-Unique: o8TUky9yOrSfibbmK5uppQ-1
+ us-mta-315--rfiGSrcPNy_I8nWSvPbKQ-1; Fri, 31 Jul 2020 00:07:00 -0400
+X-MC-Unique: -rfiGSrcPNy_I8nWSvPbKQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C85D5800685;
- Fri, 31 Jul 2020 04:06:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A33D6800471;
+ Fri, 31 Jul 2020 04:06:59 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B3B1100238C;
- Fri, 31 Jul 2020 04:06:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 349EB1001281;
+ Fri, 31 Jul 2020 04:06:58 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 41/49] drm/vmwgfx/ttm: move thp to driver managed
-Date: Fri, 31 Jul 2020 14:05:12 +1000
-Message-Id: <20200731040520.3701599-42-airlied@gmail.com>
+Subject: [PATCH 42/49] drm/vmwgfx/gmrid: convert to driver controlled
+ allocation.
+Date: Fri, 31 Jul 2020 14:05:13 +1000
+Message-Id: <20200731040520.3701599-43-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,107 +62,104 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_thp.c | 33 +++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 33 +++++++++++--------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-index 0dd619c9d207..d2dde8159c3d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-@@ -16,10 +16,16 @@
-  * @lock: Manager lock.
-  */
- struct vmw_thp_manager {
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index 2db99f0449b0..14430c243ce5 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -37,6 +37,7 @@
+ #include <linux/kernel.h>
+ 
+ struct vmwgfx_gmrid_man {
 +	struct ttm_mem_type_manager manager;
- 	struct drm_mm mm;
  	spinlock_t lock;
+ 	struct ida gmr_ida;
+ 	uint32_t max_gmr_ids;
+@@ -44,13 +45,17 @@ struct vmwgfx_gmrid_man {
+ 	uint32_t used_gmr_pages;
  };
  
-+static struct vmw_thp_manager *to_thp_manager(struct ttm_mem_type_manager *man)
++static struct vmwgfx_gmrid_man *to_gmrid_manager(struct ttm_mem_type_manager *man)
 +{
-+	return container_of(man, struct vmw_thp_manager, manager);
++	return container_of(man, struct vmwgfx_gmrid_man, manager);
 +}
 +
- static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
- 				  unsigned long align_pages,
+ static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
+ 				  struct ttm_buffer_object *bo,
  				  const struct ttm_place *place,
-@@ -43,7 +49,7 @@ static int vmw_thp_get_node(struct ttm_mem_type_manager *man,
- 			    const struct ttm_place *place,
- 			    struct ttm_mem_reg *mem)
+ 				  struct ttm_mem_reg *mem)
  {
--	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
-+	struct vmw_thp_manager *rman = to_thp_manager(man);
- 	struct drm_mm *mm = &rman->mm;
- 	struct drm_mm_node *node;
- 	unsigned long align_pages;
-@@ -103,7 +109,7 @@ static int vmw_thp_get_node(struct ttm_mem_type_manager *man,
- static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
- 			     struct ttm_mem_reg *mem)
+-	struct vmwgfx_gmrid_man *gman =
+-		(struct vmwgfx_gmrid_man *)man->priv;
++	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
+ 	int id;
+ 
+ 	id = ida_alloc_max(&gman->gmr_ida, gman->max_gmr_ids - 1, GFP_KERNEL);
+@@ -82,8 +87,7 @@ static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
+ static void vmw_gmrid_man_put_node(struct ttm_mem_type_manager *man,
+ 				   struct ttm_mem_reg *mem)
  {
--	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
-+	struct vmw_thp_manager *rman = to_thp_manager(man);
+-	struct vmwgfx_gmrid_man *gman =
+-		(struct vmwgfx_gmrid_man *)man->priv;
++	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
  
  	if (mem->mm_node) {
- 		spin_lock(&rman->lock);
-@@ -117,20 +123,25 @@ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
+ 		ida_free(&gman->gmr_ida, mem->start);
+@@ -98,13 +102,15 @@ static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
  
- int vmw_thp_init(struct vmw_private *dev_priv)
+ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
 +	struct ttm_mem_type_manager *man;
- 	struct vmw_thp_manager *rman;
+ 	struct vmwgfx_gmrid_man *gman =
+ 		kzalloc(sizeof(*gman), GFP_KERNEL);
+ 
+ 	if (unlikely(!gman))
+ 		return -ENOMEM;
+ 
++	man = &gman->manager;
 +
-+	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
-+	if (!rman)
-+		return -ENOMEM;
-+
-+	man = &rman->manager;
+ 	man->func = &vmw_gmrid_manager_func;
  	man->available_caching = TTM_PL_FLAG_CACHED;
  	man->default_caching = TTM_PL_FLAG_CACHED;
- 
- 	ttm_bo_init_mm_base(&dev_priv->bdev, man,
- 			    dev_priv->vram_size >> PAGE_SHIFT);
--	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
--	if (!rman)
--		return -ENOMEM;
+@@ -127,26 +133,27 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
+ 	default:
+ 		BUG();
+ 	}
+-	man->priv = (void *) gman;
 +
- 
- 	drm_mm_init(&rman->mm, 0, man->size);
- 	spin_lock_init(&rman->lock);
--	man->priv = rman;
-+
-+	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, &rman->manager);
- 	ttm_bo_use_mm(man);
++	ttm_set_driver_manager(&dev_priv->bdev, type, &gman->manager);
++	ttm_bo_use_mm(man);
  	return 0;
  }
-@@ -138,7 +149,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
- void vmw_thp_takedown(struct vmw_private *dev_priv)
- {
- 	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
--	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
-+	struct vmw_thp_manager *rman = to_thp_manager(man);
- 	struct drm_mm *mm = &rman->mm;
- 	int ret;
  
-@@ -151,15 +162,15 @@ void vmw_thp_takedown(struct vmw_private *dev_priv)
- 	drm_mm_clean(mm);
- 	drm_mm_takedown(mm);
- 	spin_unlock(&rman->lock);
--	kfree(rman);
--	man->priv = NULL;
+ void vmw_gmrid_man_takedown(struct vmw_private *dev_priv, int type)
+ {
+ 	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
+-	struct vmwgfx_gmrid_man *gman =
+-		(struct vmwgfx_gmrid_man *)man->priv;
++	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
+ 
+ 	ttm_bo_disable_mm(man);
+ 
+ 	ttm_bo_force_list_clean(&dev_priv->bdev, man);
+ 
+-	if (gman) {
+-		ida_destroy(&gman->gmr_ida);
+-		kfree(gman);
+-	}
+-
  	ttm_bo_man_cleanup(man);
-+	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, NULL);
-+	kfree(rman);
++
++	ttm_set_driver_manager(&dev_priv->bdev, type, NULL);
++	ida_destroy(&gman->gmr_ida);
++	kfree(gman);
++
  }
  
- static void vmw_thp_debug(struct ttm_mem_type_manager *man,
- 			  struct drm_printer *printer)
- {
--	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
-+	struct vmw_thp_manager *rman = to_thp_manager(man);
- 
- 	spin_lock(&rman->lock);
- 	drm_mm_print(&rman->mm, printer);
+ static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
 -- 
 2.26.2
 
