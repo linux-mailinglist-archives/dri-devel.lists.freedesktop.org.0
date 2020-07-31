@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0634223429A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 11:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4EE234315
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 11:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 248886EA49;
-	Fri, 31 Jul 2020 09:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D142C6EA4A;
+	Fri, 31 Jul 2020 09:28:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3DC36EA49
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 09:25:26 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id f18so27359051wrs.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 02:25:26 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B16E16EA4A
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 09:28:16 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id 88so27329849wrh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 02:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=W7elt/3QM3fA/Gme2KdbanyGQczEnz6cPgRVDqnh0MQ=;
- b=iMis5uSMJZ4dxy7sNg9hqQtMhwfW6UIBNGE5Tmsubd35OsnleyjQWHDMfPl54TnEN/
- Ltll5XcOEpMjU0lKNB4Bl2ipt8IdKEeoxTb+mHJghXoSUadN82rdnFRtuEOgdXfwr3XZ
- hUty4Iq24nw9YDP9mpV7Ytuh+sur9vX1s5JwI=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=z+0/zjHSuK4YpkaJOtgZNG0mGoncCgYB5r2C7+VJ3D4=;
+ b=R4eDvdiyjZiAS2M0ScI5ZgcMF2tJ0yokw3apO8UqhsoNlAdBSFkzqPNOIw8Dvrr2Yc
+ wkKkHQFTK73G30dhhTnlZmx5u0RV5cVW6DSgBvmw6PTYQLyxf2dGVEyPKsehu4QW0ifI
+ QQkcZ0RtsuPJQ70TR3ADt+mbAAgIDlzU2ytSY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=W7elt/3QM3fA/Gme2KdbanyGQczEnz6cPgRVDqnh0MQ=;
- b=tjoVq32XhBgYouvR/0Fd80ImhSEMC42Fo7oIZVwcTe+3GZI/FTrgkzW1n8vlgiIotn
- RxsAV8qleDg3wL4zPIjoizxAYkWXzHHt+xvRetAr60n0VVwHhDJN2bHqdSNyLgT7T7AI
- xqRgGUtdKXcdSEySISiBIY/NEeHQFW1NUBzos8c/Y0tEsaTed66aG0Gb2EKUWL2TunWX
- cq2UL/yVf8pIz5iJQZ0E6aZ/UjnlkmtbkQFrkP4PImG7z0XG0RJeepFEbg5ZyXt1J34B
- m5FEXXm9oT60f0Wrm6bGFWKZipJOEXd8lH/dk32/dlMnCJhe20MdctEAooVE0BQq+hqs
- CqWg==
-X-Gm-Message-State: AOAM532HdfcjKdj1p7zf6CAIhNqY7G3AuEH+FtYu9vl4R2kCrRzq9xOj
- YRanochj71S6/iSBcSzb5qA8Kw==
-X-Google-Smtp-Source: ABdhPJwMBKf4Rrzu6gmQ0/yuvOxsHQU8Z2SyuuqOGMVzWz+zdAF7XTahzEp8A1WVZsOxRGcM7U4QIA==
-X-Received: by 2002:a5d:6a42:: with SMTP id t2mr2583103wrw.13.1596187525597;
- Fri, 31 Jul 2020 02:25:25 -0700 (PDT)
+ bh=z+0/zjHSuK4YpkaJOtgZNG0mGoncCgYB5r2C7+VJ3D4=;
+ b=i0wi2wDuc6/YOTNz3RGQNIk6IROHO7D/UyUgIznhdV7MJkF+zAKse4LfuBnVIb/IvW
+ NEIPOrNLIcFkmLM0KsXc4VGf3POOZQigYWHsVp5IzNkKM4DObyqGfnccwJBS66OLXndU
+ W695HKghAO/IFMpdcbiUyw6lpfT2NvkE2e70ptipPZOQZZZBBlkFt7fjA6805/TSHFD6
+ tN1ecr68Gdk3dVJL/JKgrKGMsxfELZsDIEuclDdeoDLxY/0tf37bOsRJ3oZT4tCQxbpK
+ /eoJ31BZ4LKDjY5/VQiEKUnE0MCcUqSQ9G0lF72Fe4MEyhFXbUNFOcjS4bCRmw7F2eoy
+ /nrQ==
+X-Gm-Message-State: AOAM532ZAMKkG/yNE7fYFEoui5e09oQGPpyP/hOxkSqX4xibijUEMTbr
+ RuJBcU7mtq9+I84LFpr6V3ihAA==
+X-Google-Smtp-Source: ABdhPJwT64W6SQNoeOQa1Euw8GGqxxmHPhkx0/MtFqznd2l1BYwFVsr8TCLtYQNzfpRxEdkGA4k+IA==
+X-Received: by 2002:a5d:4907:: with SMTP id x7mr2890544wrq.166.1596187695348; 
+ Fri, 31 Jul 2020 02:28:15 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z11sm12149342wrw.93.2020.07.31.02.25.24
+ by smtp.gmail.com with ESMTPSA id z8sm11660814wmf.42.2020.07.31.02.28.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 02:25:25 -0700 (PDT)
-Date: Fri, 31 Jul 2020 11:25:23 +0200
+ Fri, 31 Jul 2020 02:28:14 -0700 (PDT)
+Date: Fri, 31 Jul 2020 11:28:12 +0200
 From: daniel@ffwll.ch
 To: 
-Subject: Re: [PATCH] Added orientation quirk for ASUS tablet model T103HAF
-Message-ID: <20200731092523.GX6419@phenom.ffwll.local>
-References: <7d86140e-cf6b-ba96-c6fd-02f4d3da246e@gmail.com>
+Subject: Re: [PATCH] drm/vkms: fix xrgb on compute crc
+Message-ID: <20200731092812.GY6419@phenom.ffwll.local>
+Mail-Followup-To: Melissa Wen <melissa.srw@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, twoerner@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-usp@googlegroups.com
+References: <20200730202524.5upzuh4irboru7my@smtp.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7d86140e-cf6b-ba96-c6fd-02f4d3da246e@gmail.com>
+In-Reply-To: <20200730202524.5upzuh4irboru7my@smtp.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,74 +72,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-usp@googlegroups.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 29, 2020 at 05:54:16PM +0300, Marius Iacob wrote:
-> From 06ba7d3e64e55262bf818084904eec7b7320a2ad Mon Sep 17 00:00:00 2001
-> From: Marius Iacob <themariusus@gmail.com>
-> Date: Wed, 29 Jul 2020 16:51:41 +0300
-> Subject: [PATCH] Added orientation quirk for ASUS tablet model T103HAF
+On Thu, Jul 30, 2020 at 05:25:24PM -0300, Melissa Wen wrote:
+> The previous memset operation was not correctly zeroing the alpha
+> channel to compute the crc, and as a result, the IGT subtest
+> kms_cursor_crc/pipe-A-cursor-alpha-transparent fails.
+> 
+> Fixes: db7f419c06d7c ("drm/vkms: Compute CRC with Cursor Plane")
+> 
+> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
 
-Please format the patch per
-
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-
-- subject needs drm: prefix
-- signed-off-by missing
-- git apply-mbox fails to parse this, don't just paste the output of
-  something like git show, that doesn't work
-
-Yes I know the kernel process isn't very friendly for newbies, apologies.
--Daniel
-> =
+Applied to drm-misc-next, thanks for your patch.
 
 > ---
-> =A0drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
-> =A01 file changed, 6 insertions(+)
-> =
+>  drivers/gpu/drm/vkms/vkms_composer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 4af2f19480f4..b8b060354667 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -33,7 +33,7 @@ static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *composer)
+>  				     + (i * composer->pitch)
+>  				     + (j * composer->cpp);
+>  			/* XRGB format ignores Alpha channel */
+> -			memset(vaddr_out + src_offset + 24, 0,  8);
+> +			bitmap_clear(vaddr_out + src_offset, 24, 8);
 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index d00ea384dcbf..58f5dc2f6dd5 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -121,6 +121,12 @@ static const struct dmi_system_id orientation_data[]=
- =3D
-> {
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DMI_EXACT_MATCH(DMI_P=
-RODUCT_NAME, "T101HA"),
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 },
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .driver_data =3D (void *)&l=
-cd800x1280_rightside_up,
-> +=A0=A0=A0=A0=A0=A0 }, {=A0=A0=A0 /* Asus T103HAF */
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .matches =3D {
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DMI_EXACT_MATCH(DMI_SYS=
-_VENDOR, "ASUSTeK COMPUTER INC."),
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DMI_EXACT_MATCH(DMI_PRO=
-DUCT_NAME, "T103HAF"),
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 },
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .driver_data =3D (void *)&lcd=
-800x1280_rightside_up,
-> =A0=A0=A0=A0=A0=A0=A0 }, {=A0=A0=A0 /* GPD MicroPC (generic strings, also=
- match on bios date) */
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .matches =3D {
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 DMI_EXACT_MATCH(DMI_S=
-YS_VENDOR, "Default string"),
-> --
+Yeah that's a pretty good "oops" oversight on review, nice catch!
+
+Cheers, Daniel
+>  			crc = crc32_le(crc, vaddr_out + src_offset,
+>  				       sizeof(u32));
+>  		}
+> -- 
 > 2.27.0
-> =
+> 
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
