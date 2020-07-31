@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACD2233DF5
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDA4233DF2
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674646E9AB;
-	Fri, 31 Jul 2020 04:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4586E9A8;
+	Fri, 31 Jul 2020 04:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
  [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0C56E9AC
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A38C36E9A8
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:19 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-GmtS_37nP8eGWLQ-BWvV6w-1; Fri, 31 Jul 2020 00:06:12 -0400
-X-MC-Unique: GmtS_37nP8eGWLQ-BWvV6w-1
+ us-mta-32-rntvlfxNMvC21UhlE-Hm2A-1; Fri, 31 Jul 2020 00:06:14 -0400
+X-MC-Unique: rntvlfxNMvC21UhlE-Hm2A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A35F310059B2;
- Fri, 31 Jul 2020 04:06:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CE7880183C;
+ Fri, 31 Jul 2020 04:06:13 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34EBA100238C;
- Fri, 31 Jul 2020 04:06:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DD77100238C;
+ Fri, 31 Jul 2020 04:06:11 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/49] drm/vram_helper: call explicit mm takedown
-Date: Fri, 31 Jul 2020 14:04:50 +1000
-Message-Id: <20200731040520.3701599-20-airlied@gmail.com>
+Subject: [PATCH 20/49] drm/nouveau: use new cleanup paths
+Date: Fri, 31 Jul 2020 14:04:51 +1000
+Message-Id: <20200731040520.3701599-21-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,20 +63,102 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/nouveau/nouveau_ttm.c | 41 ++++++++++++++++++++-------
+ 1 file changed, 30 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 8a5d45a55ac7..c6cc90d42f56 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -1127,6 +1127,7 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index e3c57c612765..2ccfdf203c52 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -31,12 +31,6 @@
  
- static void drm_vram_mm_cleanup(struct drm_vram_mm *vmm)
+ #include <core/tegra.h>
+ 
+-static int
+-nouveau_manager_fini(struct ttm_mem_type_manager *man)
+-{
+-	return 0;
+-}
+-
+ static void
+ nouveau_manager_del(struct ttm_mem_type_manager *man, struct ttm_mem_reg *reg)
  {
-+	ttm_bo_man_takedown(&vmm->bdev, &vmm->bdev.man[TTM_PL_VRAM]);
- 	ttm_bo_device_release(&vmm->bdev);
+@@ -76,7 +70,6 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
  }
+ 
+ const struct ttm_mem_type_manager_func nouveau_vram_manager = {
+-	.takedown = nouveau_manager_fini,
+ 	.get_node = nouveau_vram_manager_new,
+ 	.put_node = nouveau_manager_del,
+ 	.debug = nouveau_manager_debug,
+@@ -101,7 +94,6 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
+ }
+ 
+ const struct ttm_mem_type_manager_func nouveau_gart_manager = {
+-	.takedown = nouveau_manager_fini,
+ 	.get_node = nouveau_gart_manager_new,
+ 	.put_node = nouveau_manager_del,
+ 	.debug = nouveau_manager_debug
+@@ -135,7 +127,6 @@ nv04_gart_manager_new(struct ttm_mem_type_manager *man,
+ }
+ 
+ const struct ttm_mem_type_manager_func nv04_gart_manager = {
+-	.takedown = nouveau_manager_fini,
+ 	.get_node = nv04_gart_manager_new,
+ 	.put_node = nouveau_manager_del,
+ 	.debug = nouveau_manager_debug
+@@ -201,6 +192,19 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+ 	}
+ }
+ 
++static void
++nouveau_ttm_fini_vram(struct nouveau_drm *drm)
++{
++	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_VRAM];
++
++	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
++		ttm_bo_disable_mm(man);
++		ttm_bo_force_list_clean(&drm->ttm.bdev, man);
++		ttm_bo_man_cleanup(man);
++	} else
++		ttm_bo_man_takedown(&drm->ttm.bdev, man);
++}
++
+ static int
+ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+ {
+@@ -230,6 +234,21 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+ 	return 0;
+ }
+ 
++static void
++nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
++{
++	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_TT];
++
++	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA &&
++	    drm->agp.bridge)
++		ttm_bo_man_takedown(&drm->ttm.bdev, man);
++	else {
++		ttm_bo_disable_mm(man);
++		ttm_bo_force_list_clean(&drm->ttm.bdev, man);
++		ttm_bo_man_cleanup(man);
++	}
++}
++
+ int
+ nouveau_ttm_init(struct nouveau_drm *drm)
+ {
+@@ -319,8 +338,8 @@ nouveau_ttm_fini(struct nouveau_drm *drm)
+ {
+ 	struct nvkm_device *device = nvxx_device(&drm->client.device);
+ 
+-	ttm_bo_clean_mm(&drm->ttm.bdev, TTM_PL_VRAM);
+-	ttm_bo_clean_mm(&drm->ttm.bdev, TTM_PL_TT);
++	nouveau_ttm_fini_vram(drm);
++	nouveau_ttm_fini_gtt(drm);
+ 
+ 	ttm_bo_device_release(&drm->ttm.bdev);
  
 -- 
 2.26.2
