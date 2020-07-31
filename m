@@ -2,89 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A79B234810
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 16:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15046234819
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 16:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57D426EAD8;
-	Fri, 31 Jul 2020 14:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE1596EADA;
+	Fri, 31 Jul 2020 14:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700050.outbound.protection.outlook.com [40.107.70.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CED126EADB
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 14:57:17 +0000 (UTC)
+ (mail-eopbgr700074.outbound.protection.outlook.com [40.107.70.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37416EADB
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 14:59:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WwlZGjNqCeKr2v4mgeoXhuY0azgqhESLWEdYc4J81eg9v7oLGGwrOUIA396f8dK5FAVbjIDnzjWAykJ4ua6J32gG6/gmfZpVSLRiTsqM1ZGp+bhfJXPYXvYWMjVm5xMK7/TWiaWgvtqdO2dO5+i+ViA+yo0m/1/XsfR8qXtxCUm7+NbdbKP3k/ep1Q0GLT2A9domI2pCM7wF1/2jkQZfeNklqYQNvRsZTkKe2UzfelIC7IOQYjChSxgtOroU/+VW77e1TZwkNmkZo/ulSy4atuAFmhJV2fv+R2WLgtY12dpAcDeti+DnF3XOl+H/ls28jKFN8yMyWhWoY93ZnLTPuA==
+ b=UNYttvwUcMIip2yR5E1gV4fbwxC1v/0A+UXrePgBmkxVfEItMwhYyXeVvrd4MeqhgRvbetV75mzx9p45gZsADkKX6rshobhlYpB6dRU+mEGNx1QLtHsBdOwlmE7eC9Mx3R977flFMCvhaZUNfF9fhpKsPCJzQsLH1eoJ8j1ZxCMSNEUylOMkqh7lAH+mpD2MuU5/x76RRvp+Fh4ddMmvlbjXoL8oSO8tX7hOEYWFDQo3XjOj2ZGNBWA6B4S3lPUrTwU46P7HVexBT8gRZ4kAz5UBvRM1+Y3VUm72gOVpyaeqgG1UK4vGJ9fgpc4dUzVxf4QbaFWbUdfBVSNzjoEgsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7STvWS3LSQMTKR3rir3CyrMSKXMqXyFyIrpdDM1/lus=;
- b=LEH4Ao8Aai9pV0wCCIUN9NHoP4K+0vLoP9K1Nf01yfkRgjeifVKSS5nOVEmxSJtDl9P+os6XZaOyU4BIXl4V9dNKnDwLDqzlwQ7hzEoNPfP1QbcQ4m7c7WFV5WfgK2o82N/4QIvh0BY3PjD07v3zSyFG3K6DC7xfJ8+8CuDIV+GliJiICoTKq6T2ATk9OmU/yq9eWh4VuxHA0D93V26WeI/PLFqmpF59vLFSlugPTQi7eQxaA4gqX4krHhg+3ulg2iWv+lJZQtSFGqo0NK2sSnffsO1IfV10prBC3a+G4WynZaYJ1KXyugnpLorouIqNnEzBSjDz8hNIPTfo/JcrTA==
+ bh=pFDumJKoO0O7I5b00ZoiYIxAeU0aFGFhmcPHAmjMCeg=;
+ b=MYgaBXLzAnuPjyubbCJvnRDqkCYuYK+JSn+2HooObwBRgUTe8pcrWfhQRsRdgXF2vegjgNW/mSYVRxbgoGQrfnqETSNstLpGI1xhGfIZOhVi1lbRTcVwhBqxRpw7Yzstwn5GB691m8MYSPkj+7n19ETms9tGyMtF91ppkpdbY6vue+h2OrXWeJJXtGn3HZaiS1blxxmiIJHgsMPUP0LEWhrxUTmIeLJuroof5clQGWEiFuANWrvwfPUQ4HDc1nR3sQYcNBOTPEaCHtBM7B2cZCcRkBXNrAHtYiWvLlfXCnG8p/4XQQgSaIqirEG4X0aGtIQMPmNZtMksWc5916r+hw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7STvWS3LSQMTKR3rir3CyrMSKXMqXyFyIrpdDM1/lus=;
- b=jPYHafGnD1DF+ysvYnqQGcXLgmTzx6Fwff+t/WIVCZEYPwE5fy13z5ZfruQ5uhJMs1skyi6AU19uQ0W3rd1qlyEmtS4vGnhCNwG5jCPbHRF+nQrBeKcFxGrHvG+y94mpLGGwuCUsGBhAarygZI12gfYZrc7XpwGyvjS9c1o3RQo=
+ bh=pFDumJKoO0O7I5b00ZoiYIxAeU0aFGFhmcPHAmjMCeg=;
+ b=e3V/BC3BRQDNBMuUHU5iQBwY27ef3j5EOtYqdIcF1YewtCziHzqWsH1Oa1hIM7jlelhqjyYq0KrVJ+/Kn31d9QHYuwjskhBKTEGphkhUHIQtCK/yOh/rx7LsyWnKknVor0jofbZFwQ2v2CcISbnKUwlezPCsVX2uSpJRIGLyRDM=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
  by MN2PR12MB3998.namprd12.prod.outlook.com (2603:10b6:208:16d::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Fri, 31 Jul
- 2020 14:57:12 +0000
+ 2020 14:59:22 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3239.020; Fri, 31 Jul 2020
- 14:57:12 +0000
-Subject: Re: [PATCH 47/49] drm/ttm: drop list of memory managers from device.
+ 14:59:21 +0000
+Subject: Re: [PATCH 49/49] drm/ttm: consolidate manager used apis into a set
+ and get.
 To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20200731040520.3701599-1-airlied@gmail.com>
- <20200731040520.3701599-48-airlied@gmail.com>
+ <20200731040520.3701599-50-airlied@gmail.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <78e6327b-6b72-2ef2-f8b7-77e6515bca99@amd.com>
-Date: Fri, 31 Jul 2020 16:57:05 +0200
+Message-ID: <260649c2-daad-fa0f-6b7b-132087abec18@amd.com>
+Date: Fri, 31 Jul 2020 16:59:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20200731040520.3701599-48-airlied@gmail.com>
+In-Reply-To: <20200731040520.3701599-50-airlied@gmail.com>
 Content-Language: en-US
-X-ClientProxiedBy: AM3PR05CA0099.eurprd05.prod.outlook.com
- (2603:10a6:207:1::25) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM4PR0202CA0004.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::14) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
  (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM3PR05CA0099.eurprd05.prod.outlook.com (2603:10a6:207:1::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3239.17 via Frontend Transport; Fri, 31 Jul 2020 14:57:11 +0000
+ AM4PR0202CA0004.eurprd02.prod.outlook.com (2603:10a6:200:89::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.17 via Frontend
+ Transport; Fri, 31 Jul 2020 14:59:20 +0000
 X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 91e5bfb1-5ced-430e-d0cb-08d83562017f
+X-MS-Office365-Filtering-Correlation-Id: 4fa212be-09d7-41e5-805a-08d835624eab
 X-MS-TrafficTypeDiagnostic: MN2PR12MB3998:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3998B6C4A0A6C4B7137B4DD4834E0@MN2PR12MB3998.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3998FA7E5E5EF3D9ECE210C4834E0@MN2PR12MB3998.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: INXXe8JxSw4KV56M5JxJBFZYtMye1XP1w+/AVMakOAN3dS+akxeH6gr+uGyPcNOigAAp7IGVen3GlRHU93bQSJgjJSeTrxf7p1FhUDh1ND6pZCWBMQ9wwtFXUou3qUCaHRvWGnz5dwmk1JB3CwlY4OsjQh3rheuFV8BzrHgGR5iZMR3xm9t5UJ/GfjJ5qKWRjPE3dIai2O8Z3HxdyBhib3z5c+tWUCvRNNz3z/H2pFMgeP+8qCIEDXSmkPavBXgy62NaMSeazcgXhOHfLZlnZI8oX0gh20F7MnFWtaZG+FKV0263o88F77cNomKKv4IwMvqeE+Viu3HqSAKklcqFYIxZ5eUK0WG/0v1uWNgXe+6hy0k/PYxtbvm45Oskks3Q
+X-Microsoft-Antispam-Message-Info: Yrr3Zz8UV/hCRC3q+HMnn0SAdjkj/FePMDG+kekcpYflOV+XK01/8cZ9wtqa8yXlmmQNsQiEUlhA9nP8JNHZMQ9YnYriKHJOPUBa1Mtbn8O7cbl4MzxoPyfb79g1dakuK8D3TXAf/Mxp5aGiZd/9wIlcjBjHyhxqyODf3KcI96IxZevIRYD5bk77oZlVnz9z/TPQazcv0l4oFnwMqNWINcRUi/e9Qqd6fBJDgBLtyoUEcQyqF7OuuCyZiMRKen7FRRvT/uUPikHUhSuFOtON32Q2gz2ZxEtRMKCM9BpqkkkttEeSYwTPyO0jwJSGQ+OQRNVfYirFfVyUfeEU4Zh8LDp8dUY9uKyOEFU9NFT26K/ZbrEXmFb2ZAfGyrc2+TOf
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39860400002)(396003)(376002)(366004)(346002)(136003)(478600001)(186003)(31696002)(16526019)(36756003)(316002)(52116002)(66946007)(66476007)(66556008)(86362001)(5660300002)(31686004)(8936002)(2906002)(6666004)(4326008)(2616005)(83380400001)(8676002)(6486002)(43740500002);
+ SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(2906002)(31686004)(8936002)(6486002)(4326008)(6666004)(2616005)(8676002)(83380400001)(31696002)(16526019)(478600001)(186003)(36756003)(30864003)(66946007)(66476007)(66556008)(86362001)(52116002)(316002)(5660300002)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 3DJ7mpv+88XkRj+LYYlTzOAO1l8/hcm2SBEhzB5wcGyZoi9nF1kNaUotXBCqYCwdJ1AxR4I3/sXavB5ZlvXMMZ7tN4m61sbxNqa6uduG+4jwHURFoYovVyk5kL1MPODD69K48kTJAl68hoS4QrhRY3sYvc8Nq2NCsIqrEzuYkfQ4KAsf/HEA851p9DdHRueoKkP3G5g/w3+icS22S76Y6DrOltxHIcTooRyJ7fkIevpNofznaYtXZz540GfIBaTzZehANT3Pg5VLo3VRyrZPMHOsj4imzK9Yg3Kzqrgu5YnXL0zUq1X3kMYvnjM2P1JrnK831Sjublc/ZncnA+/Ln1glfckNZVVSrpl/MWBqiBPelyQJs+s5qUS43NYib42vKaBG+Y97pBMzgbdugNAGF8TgYY7MoCuqFPDvBK2iVsGGBF816eOy7iQuYt2m7mzBM1jaD0jUyk78nOC23nNK8VB0BkkUyFcxfqauj+eHaqrHvmAQYQYLrvsW3ApG4sfT5t379Cppb6qo/YPiBzRO/xqEcCiNN3oizNsBP/uNeSPyRWp5xUuyfKCk03Uv9O9vYHd0nI1f+7lkeGS/xnJZJ3CF6124QT5eSBjmWLYnta5WmvOz/2hVtMJg72EtnvdySdzgq3EUSw6gPhLixduUdPHWZO8uxaqGj4qga2HGXpGEUBGIOUmw2nb/cjfTKJ2nrM1/xmr+j098JMBjwIMAbg==
+X-MS-Exchange-AntiSpam-MessageData: 7JTsuHbWCDdDu8cdNqxiwzoNJwshQyfr2jlEdAX8Yob+Nbtw8xb19Tix6ihqqPe5js2H/nvH8mlvrDv+S4jdmcSh1Yyw1KwetqU/363IxfFcwG3eUI7MiocTdCj1qbH+Elt1TOYIwwnrrtVXNA42ldmcqQzJMf4l1dL/ctjtuOf07IT+IAC4R4mLPymUDkPzqXaH4tgJD86e8kvDIe6sESWtc10y0aTI2BjeaaWZwg/gOg6bFwszgobBcUJ1Ig7p8Ee2EovXF8ltLCauh9cCH4O1FSM8Dsc8VlFRuwQvT0Pj9AqRpZ2iqbX5LMgrQaX6GYWciTWFWLC/71XeR2N2hGLXJpHxWf83oZ2Qo0drr0YxlhUBqcMGajRIyz4T89xv50LNFAv2QXOONv50uRHdxyuhOU94OBZQ2n/eAbX0IDyNS+kRrrqESwmUWd53d8oaAsjje/pgnbC1jQI+4HvvJKGc5g5fzSJ5DTQiDvBOLpDEu/nrJdqOAcEWJux0OqxYUkN9uFdA6+pnsTM2BPXbc38SGuBSOCc5xjDnXJIiIx+fiAm+ANSQhPqzCD3OJbWF0tJiomjq41yLyL8QVwtFCujSxAiX22D5rWX3SjrWf5FDhqqOBanE4O7q+ZM+qrkRWwcmFS8Y7frhPVB6kUR3ECQHL4BnvLrx1IQgyHaELi4Ie9tEj2rzgtUuvALfVCXlO7/3rbUYjqJ78MEbNPLGiw==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91e5bfb1-5ced-430e-d0cb-08d83562017f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fa212be-09d7-41e5-805a-08d835624eab
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2020 14:57:12.3015 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2020 14:59:21.7723 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ibQBu/HnGjzU+RkRvFje7j17oSWiTh0WVUyfkRjUACLxGCJ3Bf53LYawq/glWj6Z
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rdk8bpIjywb7BIw185IGpL9gWO5YGjmTUIle/PIdO6z/JNLAU5vypx3Z3lKkd8Um
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3998
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,60 +109,283 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Am 31.07.20 um 06:05 schrieb Dave Airlie:
 > From: Dave Airlie <airlied@redhat.com>
 >
-> The driver now controls these, the core just controls the system
-> memory one.
+> This is probably something we could consider removing, vmwgfx
+> is the only user, and we might be able to faciliate it another way
 >
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c    | 2 --
->   include/drm/ttm/ttm_bo_driver.h | 6 ++++--
->   2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index f2b41c4d7d51..f35548ff17e8 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -1608,8 +1608,6 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
->   
->   	bdev->driver = driver;
->   
-> -	memset(bdev->man_priv, 0, sizeof(bdev->man_priv));
-> -
->   	ttm_bo_init_sysman(bdev);
->   
->   	bdev->vma_manager = vma_manager;
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index bfc549782775..b2ffeaed94e7 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -414,7 +414,7 @@ struct ttm_bo_device {
->   	/*
->   	 * access via ttm_manager_type.
->   	 */
-> -	struct ttm_mem_type_manager man_priv[TTM_NUM_MEM_TYPES];
-> +	struct ttm_mem_type_manager sysman; /* move to global */
->   	struct ttm_mem_type_manager *man_drv[TTM_NUM_MEM_TYPES];
->   	/*
->   	 * Protected by internal locks.
-> @@ -446,9 +446,11 @@ struct ttm_bo_device {
->   static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
->   							    int mem_type)
->   {
-> +	if (mem_type == TTM_PL_SYSTEM)
-> +		return &bdev->sysman;
->   	if (bdev->man_drv[mem_type])
->   		return bdev->man_drv[mem_type];
-> -	return &bdev->man_priv[mem_type];
-> +	return NULL;
+> but for now just consolidate it all into accessors.
 
-Could be simplified to "return bdev->man_drv[mem_type];" if we just 
-assign bdev->man_drv[TTM_PL_SYSTEM] during driver init.
+I always found the "use_type" wording confusing and this set_use() name 
+even more confusing.
+
+Why not call it "enabled"?
 
 Christian.
 
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |  4 ++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  4 ++--
+>   drivers/gpu/drm/nouveau/nouveau_ttm.c         |  8 ++++----
+>   drivers/gpu/drm/ttm/ttm_bo.c                  |  6 +++---
+>   drivers/gpu/drm/ttm/ttm_bo_manager.c          |  4 ++--
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 14 +++++++-------
+>   drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 ++--
+>   drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           |  4 ++--
+>   include/drm/ttm/ttm_bo_driver.h               |  8 ++++----
+>   9 files changed, 28 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index b4480ca30988..7e84aa2c0064 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -128,7 +128,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>   	}
+>   
+>   	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   	return 0;
 >   }
 >   
->   static inline void ttm_set_driver_manager(struct ttm_bo_device *bdev,
+> @@ -146,7 +146,7 @@ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
+>   	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
+>   	int ret;
+>   
+> -	ttm_bo_disable_mm(man);
+> +	ttm_mm_set_use(man, false);
+>   
+>   	ret = ttm_bo_force_list_clean(&adev->mman.bdev, man);
+>   	if (ret)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index f0e65a6fdf88..50949aa968fd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -205,7 +205,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+>   		DRM_ERROR("Failed to register sysfs\n");
+>   
+>   	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_VRAM, &mgr->manager);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   	return 0;
+>   }
+>   
+> @@ -223,7 +223,7 @@ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+>   	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
+>   	int ret;
+>   
+> -	ttm_bo_disable_mm(man);
+> +	ttm_mm_set_use(man, false);
+>   
+>   	ret = ttm_bo_force_list_clean(&adev->mman.bdev, man);
+>   	if (ret)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> index 89521d3ed9da..32ce930d1bd8 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> @@ -176,7 +176,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+>   		man->use_io_reserve_lru = true;
+>   		ttm_bo_init_mm_base(man, drm->gem.vram_available >> PAGE_SHIFT);
+>   		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
+> -		ttm_bo_use_mm(man);
+> +		ttm_mm_set_use(man, true);
+>   		return 0;
+>   	} else {
+>   		return ttm_bo_man_init(&drm->ttm.bdev, TTM_PL_VRAM,
+> @@ -192,7 +192,7 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+>   	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
+>   
+>   	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+> -		ttm_bo_disable_mm(man);
+> +		ttm_mm_set_use(man, false);
+>   		ttm_bo_force_list_clean(&drm->ttm.bdev, man);
+>   		ttm_bo_man_cleanup(man);
+>   		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
+> @@ -237,7 +237,7 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+>   	man->use_tt = true;
+>   	ttm_bo_init_mm_base(man, size_pages);
+>   	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   	return 0;
+>   }
+>   
+> @@ -250,7 +250,7 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+>   	    drm->agp.bridge)
+>   		ttm_bo_man_takedown(&drm->ttm.bdev, TTM_PL_TT);
+>   	else {
+> -		ttm_bo_disable_mm(man);
+> +		ttm_mm_set_use(man, false);
+>   		ttm_bo_force_list_clean(&drm->ttm.bdev, man);
+>   		ttm_bo_man_cleanup(man);
+>   		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index bfc20cb27ed6..3bec6e4bc87d 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -996,7 +996,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+>   		return ret;
+>   
+>   	man = ttm_manager_type(bdev, mem_type);
+> -	if (!man || !man->use_type)
+> +	if (!man || !ttm_mm_used(man))
+>   		return -EBUSY;
+>   
+>   	if (!ttm_bo_mt_compatible(man, mem_type, place, &cur_flags))
+> @@ -1548,7 +1548,7 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
+>   	struct ttm_mem_type_manager *man;
+>   
+>   	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
+> -	ttm_bo_disable_mm(man);
+> +	ttm_mm_set_use(man, false);
+>   
+>   	mutex_lock(&ttm_global_mutex);
+>   	list_del(&bdev->device_list);
+> @@ -1585,7 +1585,7 @@ static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
+>   	man->default_caching = TTM_PL_FLAG_CACHED;
+>   
+>   	ttm_bo_init_mm_base(man, 0);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   }
+>   
+>   int ttm_bo_device_init(struct ttm_bo_device *bdev,
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_manager.c b/drivers/gpu/drm/ttm/ttm_bo_manager.c
+> index 6c6eedf84ca6..5ed4e4317789 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_manager.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_manager.c
+> @@ -139,7 +139,7 @@ int ttm_bo_man_init(struct ttm_bo_device *bdev,
+>   	spin_lock_init(&rman->lock);
+>   
+>   	ttm_set_driver_manager(bdev, type, &rman->manager);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(ttm_bo_man_init);
+> @@ -152,7 +152,7 @@ int ttm_bo_man_takedown(struct ttm_bo_device *bdev,
+>   	struct drm_mm *mm = &rman->mm;
+>   	int ret;
+>   
+> -	ttm_bo_disable_mm(man);
+> +	ttm_mm_set_use(man, false);
+>   
+>   	ret = ttm_bo_force_list_clean(bdev, man);
+>   	if (ret)
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index 1849d913d521..9b9cc3b57a24 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -630,7 +630,7 @@ static int vmw_init_vram_manager(struct vmw_private *dev_priv)
+>   			      TTM_PL_FLAG_CACHED, TTM_PL_FLAG_CACHED,
+>   			      false, dev_priv->vram_size >> PAGE_SHIFT);
+>   #endif
+> -	ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM)->use_type = false;
+> +	ttm_mm_set_use(ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM), false);
+>   	return ret;
+>   }
+>   
+> @@ -1190,9 +1190,9 @@ static void __vmw_svga_enable(struct vmw_private *dev_priv)
+>   	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+>   
+>   	spin_lock(&dev_priv->svga_lock);
+> -	if (!man->use_type) {
+> +	if (!ttm_mm_used(man)) {
+>   		vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE);
+> -		man->use_type = true;
+> +		ttm_mm_set_use(man, true);
+>   	}
+>   	spin_unlock(&dev_priv->svga_lock);
+>   }
+> @@ -1221,8 +1221,8 @@ static void __vmw_svga_disable(struct vmw_private *dev_priv)
+>   	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+>   
+>   	spin_lock(&dev_priv->svga_lock);
+> -	if (man->use_type) {
+> -		man->use_type = false;
+> +	if (ttm_mm_used(man)) {
+> +		ttm_mm_set_use(man, false);
+>   		vmw_write(dev_priv, SVGA_REG_ENABLE,
+>   			  SVGA_REG_ENABLE_HIDE |
+>   			  SVGA_REG_ENABLE_ENABLE);
+> @@ -1255,8 +1255,8 @@ void vmw_svga_disable(struct vmw_private *dev_priv)
+>   	vmw_kms_lost_device(dev_priv->dev);
+>   	ttm_write_lock(&dev_priv->reservation_sem, false);
+>   	spin_lock(&dev_priv->svga_lock);
+> -	if (man->use_type) {
+> -		man->use_type = false;
+> +	if (ttm_mm_used(man)) {
+> +		ttm_mm_set_use(man, false);
+>   		spin_unlock(&dev_priv->svga_lock);
+>   		if (ttm_bo_evict_mm(&dev_priv->bdev, TTM_PL_VRAM))
+>   			DRM_ERROR("Failed evicting VRAM buffers.\n");
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+> index 2b60957f7c4a..aff7767762ed 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+> @@ -135,7 +135,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
+>   	}
+>   
+>   	ttm_set_driver_manager(&dev_priv->bdev, type, &gman->manager);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   	return 0;
+>   }
+>   
+> @@ -144,7 +144,7 @@ void vmw_gmrid_man_takedown(struct vmw_private *dev_priv, int type)
+>   	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
+>   	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
+>   
+> -	ttm_bo_disable_mm(man);
+> +	ttm_mm_set_use(man, false);
+>   
+>   	ttm_bo_force_list_clean(&dev_priv->bdev, man);
+>   
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+> index d5a3eb709384..5a7b9b09785c 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+> @@ -142,7 +142,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
+>   	spin_lock_init(&rman->lock);
+>   
+>   	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, &rman->manager);
+> -	ttm_bo_use_mm(man);
+> +	ttm_mm_set_use(man, true);
+>   	return 0;
+>   }
+>   
+> @@ -153,7 +153,7 @@ void vmw_thp_takedown(struct vmw_private *dev_priv)
+>   	struct drm_mm *mm = &rman->mm;
+>   	int ret;
+>   
+> -	ttm_bo_disable_mm(man);
+> +	ttm_mm_set_use(man, false);
+>   
+>   	ret = ttm_bo_force_list_clean(&dev_priv->bdev, man);
+>   	if (ret)
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> index 702b3b056eda..6210acd5c651 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -668,14 +668,14 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
+>   	dma_resv_unlock(bo->base.resv);
+>   }
+>   
+> -static inline void ttm_bo_use_mm(struct ttm_mem_type_manager *man)
+> +static inline void ttm_mm_set_use(struct ttm_mem_type_manager *man, bool use)
+>   {
+> -	man->use_type = true;
+> +	man->use_type = use;
+>   }
+>   
+> -static inline void ttm_bo_disable_mm(struct ttm_mem_type_manager *man)
+> +static inline bool ttm_mm_used(struct ttm_mem_type_manager *man)
+>   {
+> -	man->use_type = false;
+> +	return man->use_type;
+>   }
+>   
+>   static inline void ttm_bo_man_cleanup(struct ttm_mem_type_manager *man)
 
 _______________________________________________
 dri-devel mailing list
