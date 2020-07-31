@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BA5233E0F
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A06233E13
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644106E9C3;
-	Fri, 31 Jul 2020 04:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E74D6E9CB;
+	Fri, 31 Jul 2020 04:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CADA6E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:18 +0000 (UTC)
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470326E9BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:07:20 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-QoFxzx_ZPhu-2JMclL3vnw-1; Fri, 31 Jul 2020 00:07:13 -0400
-X-MC-Unique: QoFxzx_ZPhu-2JMclL3vnw-1
+ us-mta-480-c0xHUuuNMLK3N-S1FNsWyQ-1; Fri, 31 Jul 2020 00:07:14 -0400
+X-MC-Unique: c0xHUuuNMLK3N-S1FNsWyQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D276557;
- Fri, 31 Jul 2020 04:07:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA4AB8015CE;
+ Fri, 31 Jul 2020 04:07:13 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65AC5100238C;
- Fri, 31 Jul 2020 04:07:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D8B7100238C;
+ Fri, 31 Jul 2020 04:07:12 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 47/49] drm/ttm: drop list of memory managers from device.
-Date: Fri, 31 Jul 2020 14:05:18 +1000
-Message-Id: <20200731040520.3701599-48-airlied@gmail.com>
+Subject: [PATCH 48/49] drm/ttm: drop type manager has_type
+Date: Fri, 31 Jul 2020 14:05:19 +1000
+Message-Id: <20200731040520.3701599-49-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,54 +59,87 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-The driver now controls these, the core just controls the system
-memory one.
+under driver control, this flag isn't needed anymore
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c    | 2 --
- include/drm/ttm/ttm_bo_driver.h | 6 ++++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c    | 6 ++----
+ include/drm/ttm/ttm_bo_driver.h | 5 -----
+ 2 files changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index f2b41c4d7d51..f35548ff17e8 100644
+index f35548ff17e8..bfc20cb27ed6 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1608,8 +1608,6 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
+@@ -82,7 +82,6 @@ static void ttm_mem_type_debug(struct ttm_bo_device *bdev, struct drm_printer *p
+ {
+ 	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem_type);
  
- 	bdev->driver = driver;
+-	drm_printf(p, "    has_type: %d\n", man->has_type);
+ 	drm_printf(p, "    use_type: %d\n", man->use_type);
+ 	drm_printf(p, "    use_tt: %d\n", man->use_tt);
+ 	drm_printf(p, "    size: %llu\n", man->size);
+@@ -997,7 +996,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+ 		return ret;
  
--	memset(bdev->man_priv, 0, sizeof(bdev->man_priv));
--
- 	ttm_bo_init_sysman(bdev);
+ 	man = ttm_manager_type(bdev, mem_type);
+-	if (!man->has_type || !man->use_type)
++	if (!man || !man->use_type)
+ 		return -EBUSY;
  
- 	bdev->vma_manager = vma_manager;
+ 	if (!ttm_bo_mt_compatible(man, mem_type, place, &cur_flags))
+@@ -1455,7 +1454,7 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!man->has_type) {
++	if (!man) {
+ 		pr_err("Memory type %u has not been initialized\n", mem_type);
+ 		return 0;
+ 	}
+@@ -1469,7 +1468,6 @@ void ttm_bo_init_mm_base(struct ttm_mem_type_manager *man,
+ {
+ 	unsigned i;
+ 
+-	BUG_ON(man->has_type);
+ 	man->use_io_reserve_lru = false;
+ 	mutex_init(&man->io_reserve_mutex);
+ 	spin_lock_init(&man->move_lock);
 diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index bfc549782775..b2ffeaed94e7 100644
+index b2ffeaed94e7..702b3b056eda 100644
 --- a/include/drm/ttm/ttm_bo_driver.h
 +++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -414,7 +414,7 @@ struct ttm_bo_device {
+@@ -111,7 +111,6 @@ struct ttm_mem_type_manager_func {
+ /**
+  * struct ttm_mem_type_manager
+  *
+- * @has_type: The memory type has been initialized.
+  * @use_type: The memory type is enabled.
+  * @flags: TTM_MEMTYPE_XX flags identifying the traits of the memory
+  * managed by this memory type.
+@@ -141,8 +140,6 @@ struct ttm_mem_type_manager {
  	/*
- 	 * access via ttm_manager_type.
+ 	 * No protection. Constant from start.
  	 */
--	struct ttm_mem_type_manager man_priv[TTM_NUM_MEM_TYPES];
-+	struct ttm_mem_type_manager sysman; /* move to global */
- 	struct ttm_mem_type_manager *man_drv[TTM_NUM_MEM_TYPES];
- 	/*
- 	 * Protected by internal locks.
-@@ -446,9 +446,11 @@ struct ttm_bo_device {
- static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
- 							    int mem_type)
+-
+-	bool has_type;
+ 	bool use_type;
+ 	bool use_tt;
+ 	uint64_t size;
+@@ -673,13 +670,11 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
+ 
+ static inline void ttm_bo_use_mm(struct ttm_mem_type_manager *man)
  {
-+	if (mem_type == TTM_PL_SYSTEM)
-+		return &bdev->sysman;
- 	if (bdev->man_drv[mem_type])
- 		return bdev->man_drv[mem_type];
--	return &bdev->man_priv[mem_type];
-+	return NULL;
+-	man->has_type = true;
+ 	man->use_type = true;
  }
  
- static inline void ttm_set_driver_manager(struct ttm_bo_device *bdev,
+ static inline void ttm_bo_disable_mm(struct ttm_mem_type_manager *man)
+ {
+-	man->has_type = false;
+ 	man->use_type = false;
+ }
+ 
 -- 
 2.26.2
 
