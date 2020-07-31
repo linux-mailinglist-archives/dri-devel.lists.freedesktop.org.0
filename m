@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553D723A0C8
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:20:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EBB23A0CA
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB4C89105;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F28828919A;
 	Mon,  3 Aug 2020 08:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D16B26EABA
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 17:35:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 067D96EB2E
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 18:09:12 +0000 (UTC)
 Received: from [IPv6:2804:431:e7dc:23eb::994] (unknown
  [IPv6:2804:431:e7dc:23eb::994])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: leandrohrb)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E2BBE2988BB;
- Fri, 31 Jul 2020 18:35:04 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DCB8F2991CE;
+ Fri, 31 Jul 2020 19:09:06 +0100 (BST)
 Subject: Re: [PATCH] drm/vkms: add missing drm_crtc_vblank_put to the get/put
  pair on flush
 To: Melissa Wen <melissa.srw@gmail.com>, Sidong Yang <realwakka@gmail.com>
@@ -33,8 +33,8 @@ References: <CAKMK7uHWCnJ+3YnP2FwVGH6cEDkmPnH9ALjY_1R51QVs0HPG0Q@mail.gmail.com>
  <20200731090834.GR6419@phenom.ffwll.local> <20200731161314.GA21381@realwakka>
  <20200731164706.r62jjqu7nu3spyhx@smtp.gmail.com>
 From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Message-ID: <e145d9c9-2fa5-68b3-a227-3666fd201255@collabora.com>
-Date: Fri, 31 Jul 2020 14:36:26 -0300
+Message-ID: <75e0ea68-ff66-fea8-c6dc-5bf06c655f0b@collabora.com>
+Date: Fri, 31 Jul 2020 15:10:28 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Firefox/68.0 Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -66,34 +66,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hello everybody!
 
 I'm currently working on a writeback connector screenshooter for Weston. 
-In order
-to test it, I'm using VKMS with Rodrigo's writeback connector patch:
-https://lkml.org/lkml/2020/5/11/449
+In order to test it, I'm using VKMS with Rodrigo's writeback connector 
+patch: https://lkml.org/lkml/2020/5/11/449
 
 Here is the link with the MR in Weston with more details of how I've 
-tested it:
+tested it: 
 https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/458
 
 The reason why I'm writing this is that in the first writeback connector 
-screenshot
-VKMSgets stuck. And I believe (from what I've tried to debug) that what 
-happens is
-that thewriteback job gets stuck in the queue waiting for a vsync 
-signal. Then from
-the second screenshot on everything works fine. So I believe this is 
-related to this
-issue somehow.
+screenshot VKMS gets stuck. And I believe (from what I've tried to 
+debug) that what happens is that the writeback job gets stuck in the 
+queue waiting for a vsync signal. Then from the second screenshot on 
+everything works fine. So I believe this is related to this issue somehow.
 
-Melissa's idea to add drm_crtc_vblank_put(crtc) made it work, although 
-VKMS started
-to print this warn message:
+Melissa's idea to add `drm_crtc_vblank_put(crtc)` made it work, although 
+VKMS started to print this warn message:
 
 WARNING: CPU: 0 PID: 168 at drivers/gpu/drm/vkms/vkms_crtc.c:21 
 vkms_vblank_simulate+0x101/0x110
 
-I've decided to share this info with you, as it may help you somehow. 
-I'm also
-investigating to help understand what is happening.
+ From what I've read from this thread it seems like this is not the 
+right fix, but I've decided to share this info with you anyway, as it 
+may help. I'm also trying to understand what is happening.
 
 Thanks,
 Leandro Ribeiro
@@ -104,14 +98,19 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>> On Thu, Jul 30, 2020 at 07:09:25AM -0300, Melissa Wen wrote:
 >>>> On 07/29, Daniel Vetter wrote:
 >>>>> On Wed, Jul 29, 2020 at 9:09 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+>>>>>>
 >>>>>> Melissa Wen
 >>>>>>
 >>>>>> On Sat, Jul 25, 2020 at 3:12 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>>>>
 >>>>>>> On Sat, Jul 25, 2020 at 7:45 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+>>>>>>>>
 >>>>>>>> On 07/25, Daniel Vetter wrote:
 >>>>>>>>> On Sat, Jul 25, 2020 at 5:12 AM Sidong Yang <realwakka@gmail.com> wrote:
+>>>>>>>>>>
 >>>>>>>>>> On Wed, Jul 22, 2020 at 05:17:05PM +0200, Daniel Vetter wrote:
 >>>>>>>>>>> On Wed, Jul 22, 2020 at 4:06 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+>>>>>>>>>>>>
 >>>>>>>>>>>> On 07/22, daniel@ffwll.ch wrote:
 >>>>>>>>>>>>> On Wed, Jul 22, 2020 at 08:04:11AM -0300, Melissa Wen wrote:
 >>>>>>>>>>>>>> This patch adds a missing drm_crtc_vblank_put op to the pair
@@ -167,6 +166,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>>>>>              spin_unlock(&crtc->dev->event_lock);
 >>>>>>>>>>>>>>
 >>>>>>>>>>>>>> +           drm_crtc_vblank_put(crtc);
+>>>>>>>>>>>>>
 >>>>>>>>>>>>> Uh so I reviewed this a bit more carefully now, and I dont think this is
 >>>>>>>>>>>>> the correct bugfix. From the kerneldoc of drm_crtc_arm_vblank_event():
 >>>>>>>>>>>>>
@@ -190,6 +190,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>>>> what changes? Maybe print out the vblank->refcount at various points in
 >>>>>>>>>>>>> the driver, and maybe also trace when exactly the fake vkms vblank hrtimer
 >>>>>>>>>>>>> is enabled/disabled ...
+>>>>>>>>>>>>
 >>>>>>>>>>>> :(
 >>>>>>>>>>>>
 >>>>>>>>>>>> I can check these, but I also have other suspicions. When I place the
@@ -200,6 +201,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>>> vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
 >>>>>>>>>>>>
 >>>>>>>>>>>> looks like there is something stuck around here.
+>>>>>>>>>>>
 >>>>>>>>>>> Hm do you have the full WARNING for this? Maybe this gives me an idea
 >>>>>>>>>>> what's going wrong.
 >>>>>>>>>>>
@@ -212,6 +214,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>>>
 >>>>>>>>>>>> that seems to be released on atomic_flush and make me suspect something
 >>>>>>>>>>>> missing on the composer update.
+>>>>>>>>>>>
 >>>>>>>>>>> atomic_begin/atomic_flush are symmetric functions an always called
 >>>>>>>>>>> around all the plane updates. So having the spin_lock in _begin and
 >>>>>>>>>>> the spin_unlock in _flush should be symmetric and correct.
@@ -221,16 +224,20 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>> unbalanced with locking.
 >>>>>>>>>>>
 >>>>>>>>>>>> I'll check all these things and come back with news (hope) :)
+>>>>>>>>>>>
 >>>>>>>>>>> Have fun chasing stuff :-)
 >>>>>>>>>>>
 >>>>>>>>>>> Cheers, Daniel
 >>>>>>>>>>>
 >>>>>>>>>>>
+>>>>>>>>>>>>
 >>>>>>>>>>>> Thanks,
 >>>>>>>>>>>>
 >>>>>>>>>>>> Melissa
+>>>>>>>>>>>>>
 >>>>>>>>>>>>> I'm totally confused about what's going on here now.
 >>>>>>>>>>>>> -Daniel
+>>>>>>>>>>
 >>>>>>>>>> Hi Daniel, Melissa.
 >>>>>>>>>> I found something about this problem.
 >>>>>>>>>> I traced vblank->refcount that it's important in the problem.
@@ -248,6 +255,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>
 >>>>>>>>>> I think this is why this problem happen. don't know how to fix this correctly.
 >>>>>>>>>> should we force to enable vblank after enabling crtc?
+>>>>>>>>>
 >>>>>>>>> Hm, between drm_crtc_vblank_off and drm_crtc_vblank_on
 >>>>>>>>> drm_crtc_vblank_get should fail (and leave the refcount unchanged).
 >>>>>>>>> It's convoluted logic, but the check for vblank->enabled should catch
@@ -280,6 +288,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>> reset timestamp.
 >>>>>>>> ** This warning also appears in this very first running:
 >>>>>>>> WARNING: CPU: 0 PID: 708 at drivers/gpu/drm/vkms/vkms_crtc.c:91 vkms_get_vblank_timestamp+0x41/0x50 [vkms]
+>>>>>>>
 >>>>>>> Hm yeah I guess that's something we should paper over a bit, but maybe
 >>>>>>> the bugfix will take care of that.
 >>>>>>>
@@ -297,8 +306,10 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>> I tried different things, but the only relatively stable result was
 >>>>>>>> putting the sequence modeset_disable + modeset_enables + commit_planes in
 >>>>>>>> the commit_tail. That didn't convince me and then I keep trying things.
+>>>>>>>
 >>>>>>> This actually sounds like a good idea, I had the same one. Doing it
 >>>>>>> this way should also resolve the WARNING you've pointed out I think?
+>>>>>>
 >>>>>> Hi Daniel,
 >>>>>>
 >>>>>> My uncertainty in this idea was related to a subtest, the cursor-suspend.
@@ -311,12 +322,14 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>> Would be the case to develop a specific feature of suspend/resume in vkms?
 >>>>>> I mean, something to enable vblank when resume. I am trying to figure out how
 >>>>>> to develop it, but still without success.
+>>>>>
 >>>>> Hm since it's all software I expected that the hrtimer will simply
 >>>>> continue to run as if nothing happened. For real hw we'd need to use
 >>>>> drm_mode_config_helper_suspend/resume, but for vkms I dont think
 >>>>> that's required. Is the vblank hrtimer not working after resume? Or is
 >>>>> it simply reporting a garbage timestamp and that's why the testcase
 >>>>> fails?
+>>>>
 >>>> The testcase fails for the same timeout in waiting the first crc
 >>>> (already applying the change in the commit_tail sequence):
 >>>>
@@ -333,6 +346,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>> vkms_disable_vblank), and when resume, the testcase fails and only after
 >>>> the failure vblanks are enabled (vkms_enable_vblank) and
 >>>> hrtimer_init/starts.
+>>>
 >>> Hm, what is disabling the vblank there? Can you grab a full backtrace for
 >>> that? I have no idea why that's even happening ...
 >>>
@@ -348,7 +362,9 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>> was unsure if my attempt in fix by reordering commit_tail would be enough.
 >>>> But maybe they are different situations that deserve different treats.
 >>>> Do you think restarting a vblank in resume can make sense for vkms?
+>>>
 >>> tbh I'm just really confused what's going on :-/
+>>
 >> Hi Daniel, Mellisa.
 >> I made up the situation Melissa said, and thought about what's going on now.
 >> What pipe-A-cursor-suspend different from size-change is that it has some
@@ -361,11 +377,12 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >> wakup command takes more than 5 seconds, vblank will disabled and also crc
 >> command is failed from polling crc file. the test are passed if I make my
 >> environment wake up earlier.
+> 
 > Oh, nice! I tested what you say extending the offdelay, and the test goes well.
 > But what would be the right way to fix?
->
+> 
 > Melissa
->
+> 
 >> In the same way, if there is the code delaying crc command in igt test, it make
 >> same problem even if it's in simple size-change.
 >>
@@ -373,33 +390,42 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>
 >>> -Daniel
 >>>
+>>>>
 >>>> Melissa
+>>>>>
 >>>>> Not sure how to wire it up for fake drivers like vkms, but maybe doing
 >>>>> the suspend/resume like for real drivers helps. I think ideally we'd
 >>>>> try to attach a platform driver to our platform device we create (but
 >>>>> not sure how to do that).
 >>>>> -Daniel
 >>>>>
+>>>>>>
 >>>>>> Melissa
+>>>>>>>
 >>>>>>> But I'm still wondering why after step 3 we don't get -EINVAL from
 >>>>>>> vblank_get() - after vblank_off() vblank->enabled should be false
 >>>>>>> again, getting us back to the same state as after 1. Is that not
 >>>>>>> happening?
 >>>>>>> -Daniel
 >>>>>>>
+>>>>>>>>
+>>>>>>>>>>
 >>>>>>>>>> Thanks
 >>>>>>>>>> -Sidong
 >>>>>>>>>>
+>>>>>>>>>>>>>
 >>>>>>>>>>>>>>              crtc->state->event = NULL;
 >>>>>>>>>>>>>>      }
 >>>>>>>>>>>>>>
 >>>>>>>>>>>>>> --
 >>>>>>>>>>>>>> 2.27.0
 >>>>>>>>>>>>>>
+>>>>>>>>>>>>>
 >>>>>>>>>>>>> --
 >>>>>>>>>>>>> Daniel Vetter
 >>>>>>>>>>>>> Software Engineer, Intel Corporation
 >>>>>>>>>>>>> http://blog.ffwll.ch
+>>>>>>>>>>>
 >>>>>>>>>>>
 >>>>>>>>>>>
 >>>>>>>>>>> --
@@ -412,10 +438,12 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >>>>>>>>>
 >>>>>>>>>
+>>>>>>>>>
 >>>>>>>>> --
 >>>>>>>>> Daniel Vetter
 >>>>>>>>> Software Engineer, Intel Corporation
 >>>>>>>>> http://blog.ffwll.ch
+>>>>>>>
 >>>>>>>
 >>>>>>>
 >>>>>>> --
@@ -424,10 +452,12 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 >>>>>>> http://blog.ffwll.ch
 >>>>>
 >>>>>
+>>>>>
 >>>>> -- 
 >>>>> Daniel Vetter
 >>>>> Software Engineer, Intel Corporation
 >>>>> http://blog.ffwll.ch
+>>>
 >>> -- 
 >>> Daniel Vetter
 >>> Software Engineer, Intel Corporation
@@ -436,7 +466,7 @@ On 7/31/20 1:47 PM, Melissa Wen wrote:
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
