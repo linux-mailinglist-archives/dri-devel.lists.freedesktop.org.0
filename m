@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C354233E03
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEE4233DFE
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C26F6E9B6;
-	Fri, 31 Jul 2020 04:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00D556E9B2;
+	Fri, 31 Jul 2020 04:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB976E9A0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:42 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8952E6E9AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:37 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-D4lwhKukNiy2x27eft3eUQ-1; Fri, 31 Jul 2020 00:06:28 -0400
-X-MC-Unique: D4lwhKukNiy2x27eft3eUQ-1
+ us-mta-112-K6CmWFv5M4SaQ-BoECRC-A-1; Fri, 31 Jul 2020 00:06:30 -0400
+X-MC-Unique: K6CmWFv5M4SaQ-BoECRC-A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62F678015CE;
- Fri, 31 Jul 2020 04:06:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ED831005510;
+ Fri, 31 Jul 2020 04:06:29 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D946100238C;
- Fri, 31 Jul 2020 04:06:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C39261002393;
+ Fri, 31 Jul 2020 04:06:27 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 26/49] drm/ttm: add wrapper to get manager from bdev.
-Date: Fri, 31 Jul 2020 14:04:57 +1000
-Message-Id: <20200731040520.3701599-27-airlied@gmail.com>
+Subject: [PATCH 27/49] drm/amdgfx/ttm: use wrapper to get ttm memory managers
+Date: Fri, 31 Jul 2020 14:04:58 +1000
+Message-Id: <20200731040520.3701599-28-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,283 +59,315 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This will allow different abstractions later.
-
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c      | 34 +++++++++++++++----------------
- drivers/gpu/drm/ttm/ttm_bo_util.c | 20 +++++++++---------
- drivers/gpu/drm/ttm/ttm_bo_vm.c   |  2 +-
- include/drm/ttm/ttm_bo_driver.h   |  6 ++++++
- 4 files changed, 34 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c   |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c       |  6 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   |  5 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 12 +++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c      | 21 +++++++++++---------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c   |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c      | 12 +++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 12 +++++------
+ 8 files changed, 39 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 07c653374f15..7c6389ea067f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -80,7 +80,7 @@ static inline int ttm_mem_type_from_place(const struct ttm_place *place,
- static void ttm_mem_type_debug(struct ttm_bo_device *bdev, struct drm_printer *p,
- 			       int mem_type)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+index 1b865fed74ca..e24f421e5553 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+@@ -517,8 +517,9 @@ int amdgpu_amdkfd_get_dmabuf_info(struct kgd_dev *kgd, int dma_buf_fd,
+ uint64_t amdgpu_amdkfd_get_vram_usage(struct kgd_dev *kgd)
  {
--	struct ttm_mem_type_manager *man = &bdev->man[mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem_type);
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)kgd;
++	struct ttm_mem_type_manager *vram_man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
  
- 	drm_printf(p, "    has_type: %d\n", man->has_type);
- 	drm_printf(p, "    use_type: %d\n", man->use_type);
-@@ -156,7 +156,7 @@ static void ttm_bo_add_mem_to_lru(struct ttm_buffer_object *bo,
- 	if (mem->placement & TTM_PL_FLAG_NO_EVICT)
- 		return;
+-	return amdgpu_vram_mgr_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++	return amdgpu_vram_mgr_usage(vram_man);
+ }
  
--	man = &bdev->man[mem->mem_type];
-+	man = ttm_manager_type(bdev, mem->mem_type);
- 	list_add_tail(&bo->lru, &man->lru[bo->priority]);
- 
- 	if (man->use_tt && bo->ttm &&
-@@ -231,7 +231,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
- 		dma_resv_assert_held(pos->first->base.resv);
- 		dma_resv_assert_held(pos->last->base.resv);
- 
--		man = &pos->first->bdev->man[TTM_PL_TT];
-+		man = ttm_manager_type(pos->first->bdev, TTM_PL_TT);
- 		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
- 				    &pos->last->lru);
+ uint64_t amdgpu_amdkfd_get_hive_id(struct kgd_dev *kgd)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index a512ccbc4dea..9829640e1769 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -299,7 +299,7 @@ static void amdgpu_cs_get_threshold_for_moves(struct amdgpu_device *adev,
+ {
+ 	s64 time_us, increment_us;
+ 	u64 free_vram, total_vram, used_vram;
+-
++	struct ttm_mem_type_manager *vram_man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 	/* Allow a maximum of 200 accumulated ms. This is basically per-IB
+ 	 * throttling.
+ 	 *
+@@ -316,7 +316,7 @@ static void amdgpu_cs_get_threshold_for_moves(struct amdgpu_device *adev,
  	}
-@@ -246,7 +246,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
- 		dma_resv_assert_held(pos->first->base.resv);
- 		dma_resv_assert_held(pos->last->base.resv);
  
--		man = &pos->first->bdev->man[TTM_PL_VRAM];
-+		man = ttm_manager_type(pos->first->bdev, TTM_PL_VRAM);
- 		list_bulk_move_tail(&man->lru[i], &pos->first->lru,
- 				    &pos->last->lru);
- 	}
-@@ -272,8 +272,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 				  struct ttm_operation_ctx *ctx)
+ 	total_vram = adev->gmc.real_vram_size - atomic64_read(&adev->vram_pin_size);
+-	used_vram = amdgpu_vram_mgr_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++	used_vram = amdgpu_vram_mgr_usage(vram_man);
+ 	free_vram = used_vram >= total_vram ? 0 : total_vram - used_vram;
+ 
+ 	spin_lock(&adev->mm_stats.lock);
+@@ -363,7 +363,7 @@ static void amdgpu_cs_get_threshold_for_moves(struct amdgpu_device *adev,
+ 	if (!amdgpu_gmc_vram_full_visible(&adev->gmc)) {
+ 		u64 total_vis_vram = adev->gmc.visible_vram_size;
+ 		u64 used_vis_vram =
+-			amdgpu_vram_mgr_vis_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++		  amdgpu_vram_mgr_vis_usage(vram_man);
+ 
+ 		if (used_vis_vram < total_vis_vram) {
+ 			u64 free_vis_vram = total_vis_vram - used_vis_vram;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index aa5b54e5a1d7..d551e7c5e69d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3880,7 +3880,7 @@ static int amdgpu_device_reset_sriov(struct amdgpu_device *adev,
+ 
+ 	amdgpu_virt_init_data_exchange(adev);
+ 	/* we need recover gart prior to run SMC/CP/SDMA resume */
+-	amdgpu_gtt_mgr_recover(&adev->mman.bdev.man[TTM_PL_TT]);
++	amdgpu_gtt_mgr_recover(ttm_manager_type(&adev->mman.bdev, TTM_PL_TT));
+ 
+ 	r = amdgpu_device_fw_loading(adev);
+ 	if (r)
+@@ -4079,8 +4079,7 @@ static int amdgpu_do_asic_reset(struct amdgpu_hive_info *hive,
+ 					amdgpu_inc_vram_lost(tmp_adev);
+ 				}
+ 
+-				r = amdgpu_gtt_mgr_recover(
+-					&tmp_adev->mman.bdev.man[TTM_PL_TT]);
++				r = amdgpu_gtt_mgr_recover(ttm_manager_type(&tmp_adev->mman.bdev, TTM_PL_TT));
+ 				if (r)
+ 					goto out;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index f4c870b2f348..0b0d09d19b4f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -48,9 +48,9 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
  {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *old_man = &bdev->man[bo->mem.mem_type];
--	struct ttm_mem_type_manager *new_man = &bdev->man[mem->mem_type];
-+	struct ttm_mem_type_manager *old_man = ttm_manager_type(bdev, bo->mem.mem_type);
-+	struct ttm_mem_type_manager *new_man = ttm_manager_type(bdev, mem->mem_type);
- 	int ret;
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = ddev->dev_private;
+-
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ 	return snprintf(buf, PAGE_SIZE, "%llu\n",
+-			(adev->mman.bdev.man[TTM_PL_TT].size) * PAGE_SIZE);
++			man->size * PAGE_SIZE);
+ }
  
- 	ret = ttm_mem_io_lock(old_man, true);
-@@ -338,7 +338,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 	return 0;
- 
- out_err:
--	new_man = &bdev->man[bo->mem.mem_type];
-+	new_man = ttm_manager_type(bdev, bo->mem.mem_type);
- 	if (!new_man->use_tt) {
- 		ttm_tt_destroy(bo->ttm);
- 		bo->ttm = NULL;
-@@ -550,7 +550,7 @@ static void ttm_bo_release(struct kref *kref)
- 	struct ttm_buffer_object *bo =
- 	    container_of(kref, struct ttm_buffer_object, kref);
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = &bdev->man[bo->mem.mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
- 	size_t acc_size = bo->acc_size;
- 	int ret;
- 
-@@ -838,7 +838,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
- 			  const struct ttm_place *place,
- 			  struct ttm_mem_reg *mem)
- {
--	struct ttm_mem_type_manager *man = &bo->bdev->man[mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
- 
- 	mem->mm_node = NULL;
- 	if (!man->func || !man->func->get_node)
-@@ -849,7 +849,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
- 
- void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_mem_reg *mem)
- {
--	struct ttm_mem_type_manager *man = &bo->bdev->man[mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
- 
- 	if (!man->func || !man->func->put_node)
- 		return;
-@@ -906,7 +906,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
- 				  struct ttm_operation_ctx *ctx)
- {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
- 	struct ww_acquire_ctx *ticket;
- 	int ret;
- 
-@@ -996,7 +996,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
- 	if (ret)
- 		return ret;
- 
--	man = &bdev->man[mem_type];
-+	man = ttm_manager_type(bdev, mem_type);
- 	if (!man->has_type || !man->use_type)
- 		return -EBUSY;
- 
-@@ -1059,7 +1059,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 		if (unlikely(ret))
- 			goto error;
- 
--		man = &bdev->man[mem->mem_type];
-+		man = ttm_manager_type(bdev, mem->mem_type);
- 		ret = ttm_bo_add_move_fence(bo, man, mem, ctx->no_wait_gpu);
- 		if (unlikely(ret)) {
- 			ttm_bo_mem_put(bo, mem);
-@@ -1448,7 +1448,7 @@ EXPORT_SYMBOL(ttm_bo_force_list_clean);
- 
- int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
- {
--	struct ttm_mem_type_manager *man = &bdev->man[mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem_type);
- 
- 	if (mem_type == 0 || mem_type >= TTM_NUM_MEM_TYPES) {
- 		pr_err("Illegal memory manager memory type %u\n", mem_type);
-@@ -1551,7 +1551,7 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
- 	unsigned i;
- 	struct ttm_mem_type_manager *man;
- 
--	man = &bdev->man[TTM_PL_SYSTEM];
-+	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
- 	ttm_bo_disable_mm(man);
- 
- 	mutex_lock(&ttm_global_mutex);
-@@ -1578,7 +1578,7 @@ EXPORT_SYMBOL(ttm_bo_device_release);
- 
- static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
- {
--	struct ttm_mem_type_manager *man = &bdev->man[TTM_PL_SYSTEM];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
- 
- 	/*
- 	 * Initialize the system memory buffer type.
-@@ -1642,7 +1642,7 @@ void ttm_bo_unmap_virtual_locked(struct ttm_buffer_object *bo)
- void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo)
- {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = &bdev->man[bo->mem.mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
- 
- 	ttm_mem_io_lock(man, false);
- 	ttm_bo_unmap_virtual_locked(bo);
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 1f502be0b646..879c8ded0cd8 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -129,7 +129,7 @@ static int ttm_mem_io_evict(struct ttm_mem_type_manager *man)
- int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
- 		       struct ttm_mem_reg *mem)
- {
--	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
- 	int ret;
- 
- 	if (mem->bus.io_reserved_count++)
-@@ -162,7 +162,7 @@ void ttm_mem_io_free(struct ttm_bo_device *bdev,
- 
- int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
- {
--	struct ttm_mem_type_manager *man = &bo->bdev->man[bo->mem.mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
- 	struct ttm_mem_reg *mem = &bo->mem;
- 	int ret;
- 
-@@ -195,7 +195,7 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
- 			       struct ttm_mem_reg *mem,
- 			       void **virtual)
- {
--	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
- 	int ret;
- 	void *addr;
- 
-@@ -232,7 +232,7 @@ static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev,
- {
- 	struct ttm_mem_type_manager *man;
- 
--	man = &bdev->man[mem->mem_type];
-+	man = ttm_manager_type(bdev, mem->mem_type);
- 
- 	if (virtual && mem->bus.addr == NULL)
- 		iounmap(virtual);
-@@ -303,7 +303,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 		       struct ttm_mem_reg *new_mem)
- {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = &bdev->man[new_mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
- 	struct ttm_tt *ttm = bo->ttm;
- 	struct ttm_mem_reg *old_mem = &bo->mem;
- 	struct ttm_mem_reg old_copy = *old_mem;
-@@ -571,7 +571,7 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
- 		struct ttm_bo_kmap_obj *map)
- {
- 	struct ttm_mem_type_manager *man =
--		&bo->bdev->man[bo->mem.mem_type];
-+		ttm_manager_type(bo->bdev, bo->mem.mem_type);
- 	unsigned long offset, size;
- 	int ret;
- 
-@@ -601,7 +601,7 @@ void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map)
- {
- 	struct ttm_buffer_object *bo = map->bo;
- 	struct ttm_mem_type_manager *man =
--		&bo->bdev->man[bo->mem.mem_type];
-+		ttm_manager_type(bo->bdev, bo->mem.mem_type);
- 
- 	if (!map->virtual)
- 		return;
-@@ -634,7 +634,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
- 			      struct ttm_mem_reg *new_mem)
- {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = &bdev->man[new_mem->mem_type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
- 	struct ttm_mem_reg *old_mem = &bo->mem;
- 	int ret;
- 	struct ttm_buffer_object *ghost_obj;
-@@ -697,8 +697,8 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
- 	struct ttm_bo_device *bdev = bo->bdev;
- 	struct ttm_mem_reg *old_mem = &bo->mem;
- 
--	struct ttm_mem_type_manager *from = &bdev->man[old_mem->mem_type];
--	struct ttm_mem_type_manager *to = &bdev->man[new_mem->mem_type];
-+	struct ttm_mem_type_manager *from = ttm_manager_type(bdev, old_mem->mem_type);
-+	struct ttm_mem_type_manager *to = ttm_manager_type(bdev, new_mem->mem_type);
- 
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 468a0eb9e632..5ae679184eb5 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -282,7 +282,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
- 	vm_fault_t ret = VM_FAULT_NOPAGE;
- 	unsigned long address = vmf->address;
- 	struct ttm_mem_type_manager *man =
--		&bdev->man[bo->mem.mem_type];
-+		ttm_manager_type(bdev, bo->mem.mem_type);
- 
- 	/*
- 	 * Refuse to fault imported pages. This should be handled
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 9d066529ca61..ec25451b503f 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -444,6 +444,12 @@ struct ttm_bo_device {
- 	bool no_retry;
- };
- 
-+static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
-+							    int mem_type)
-+{
-+	return &bdev->man[mem_type];
-+}
-+
  /**
-  * struct ttm_lru_bulk_move_pos
-  *
+@@ -66,9 +66,9 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = ddev->dev_private;
+-
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ 	return snprintf(buf, PAGE_SIZE, "%llu\n",
+-			amdgpu_gtt_mgr_usage(&adev->mman.bdev.man[TTM_PL_TT]));
++			amdgpu_gtt_mgr_usage(man));
+ }
+ 
+ static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
+@@ -87,7 +87,7 @@ static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func;
+  */
+ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+ {
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_TT];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ 	struct amdgpu_gtt_mgr *mgr;
+ 	uint64_t start, size;
+ 	int ret;
+@@ -135,7 +135,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+  */
+ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
+ {
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_TT];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ 	struct amdgpu_gtt_mgr *mgr = man->priv;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index a8c47aecd342..594687cc99ac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -594,13 +594,13 @@ static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file
+ 		ui64 = atomic64_read(&adev->num_vram_cpu_page_faults);
+ 		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
+ 	case AMDGPU_INFO_VRAM_USAGE:
+-		ui64 = amdgpu_vram_mgr_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++		ui64 = amdgpu_vram_mgr_usage(ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM));
+ 		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
+ 	case AMDGPU_INFO_VIS_VRAM_USAGE:
+-		ui64 = amdgpu_vram_mgr_vis_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++		ui64 = amdgpu_vram_mgr_vis_usage(ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM));
+ 		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
+ 	case AMDGPU_INFO_GTT_USAGE:
+-		ui64 = amdgpu_gtt_mgr_usage(&adev->mman.bdev.man[TTM_PL_TT]);
++		ui64 = amdgpu_gtt_mgr_usage(ttm_manager_type(&adev->mman.bdev, TTM_PL_TT));
+ 		return copy_to_user(out, &ui64, min(size, 8u)) ? -EFAULT : 0;
+ 	case AMDGPU_INFO_GDS_CONFIG: {
+ 		struct drm_amdgpu_info_gds gds_info;
+@@ -623,7 +623,7 @@ static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file
+ 			min(adev->gmc.visible_vram_size -
+ 			    atomic64_read(&adev->visible_pin_size),
+ 			    vram_gtt.vram_size);
+-		vram_gtt.gtt_size = adev->mman.bdev.man[TTM_PL_TT].size;
++		vram_gtt.gtt_size = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT)->size;
+ 		vram_gtt.gtt_size *= PAGE_SIZE;
+ 		vram_gtt.gtt_size -= atomic64_read(&adev->gart_pin_size);
+ 		return copy_to_user(out, &vram_gtt,
+@@ -631,14 +631,17 @@ static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file
+ 	}
+ 	case AMDGPU_INFO_MEMORY: {
+ 		struct drm_amdgpu_memory_info mem;
+-
++		struct ttm_mem_type_manager *vram_man =
++			ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
++		struct ttm_mem_type_manager *gtt_man =
++			ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ 		memset(&mem, 0, sizeof(mem));
+ 		mem.vram.total_heap_size = adev->gmc.real_vram_size;
+ 		mem.vram.usable_heap_size = adev->gmc.real_vram_size -
+ 			atomic64_read(&adev->vram_pin_size) -
+ 			AMDGPU_VM_RESERVED_VRAM;
+ 		mem.vram.heap_usage =
+-			amdgpu_vram_mgr_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++			amdgpu_vram_mgr_usage(vram_man);
+ 		mem.vram.max_allocation = mem.vram.usable_heap_size * 3 / 4;
+ 
+ 		mem.cpu_accessible_vram.total_heap_size =
+@@ -648,16 +651,16 @@ static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file
+ 			    atomic64_read(&adev->visible_pin_size),
+ 			    mem.vram.usable_heap_size);
+ 		mem.cpu_accessible_vram.heap_usage =
+-			amdgpu_vram_mgr_vis_usage(&adev->mman.bdev.man[TTM_PL_VRAM]);
++			amdgpu_vram_mgr_vis_usage(vram_man);
+ 		mem.cpu_accessible_vram.max_allocation =
+ 			mem.cpu_accessible_vram.usable_heap_size * 3 / 4;
+ 
+-		mem.gtt.total_heap_size = adev->mman.bdev.man[TTM_PL_TT].size;
++		mem.gtt.total_heap_size = gtt_man->size;
+ 		mem.gtt.total_heap_size *= PAGE_SIZE;
+ 		mem.gtt.usable_heap_size = mem.gtt.total_heap_size -
+ 			atomic64_read(&adev->gart_pin_size);
+ 		mem.gtt.heap_usage =
+-			amdgpu_gtt_mgr_usage(&adev->mman.bdev.man[TTM_PL_TT]);
++			amdgpu_gtt_mgr_usage(gtt_man);
+ 		mem.gtt.max_allocation = mem.gtt.usable_heap_size * 3 / 4;
+ 
+ 		return copy_to_user(out, &mem,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 5ac7b5561475..ced418cba2f7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -449,7 +449,7 @@ static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
+ 	 * allow fall back to GTT
+ 	 */
+ 	if (domain & AMDGPU_GEM_DOMAIN_GTT) {
+-		man = &adev->mman.bdev.man[TTM_PL_TT];
++		man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+ 
+ 		if (size < (man->size << PAGE_SHIFT))
+ 			return true;
+@@ -458,7 +458,7 @@ static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
+ 	}
+ 
+ 	if (domain & AMDGPU_GEM_DOMAIN_VRAM) {
+-		man = &adev->mman.bdev.man[TTM_PL_VRAM];
++		man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 
+ 		if (size < (man->size << PAGE_SHIFT))
+ 			return true;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index b1452df8fce9..4beec1c4e037 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -67,7 +67,7 @@ static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
+ 				    unsigned int type,
+ 				    uint64_t size)
+ {
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, type);
+ 
+ 	man->available_caching = TTM_PL_FLAG_UNCACHED;
+ 	man->default_caching = TTM_PL_FLAG_UNCACHED;
+@@ -2014,9 +2014,9 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+ 
+ 	amdgpu_vram_mgr_fini(adev);
+ 	amdgpu_gtt_mgr_fini(adev);
+-	ttm_bo_man_takedown(&adev->mman.bdev, &adev->mman.bdev.man[AMDGPU_PL_GDS]);
+-	ttm_bo_man_takedown(&adev->mman.bdev, &adev->mman.bdev.man[AMDGPU_PL_GWS]);
+-	ttm_bo_man_takedown(&adev->mman.bdev, &adev->mman.bdev.man[AMDGPU_PL_OA]);
++	ttm_bo_man_takedown(&adev->mman.bdev, ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_GDS));
++	ttm_bo_man_takedown(&adev->mman.bdev, ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_GWS));
++	ttm_bo_man_takedown(&adev->mman.bdev, ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_OA));
+ 	ttm_bo_device_release(&adev->mman.bdev);
+ 	adev->mman.initialized = false;
+ 	DRM_INFO("amdgpu: ttm finalized\n");
+@@ -2033,7 +2033,7 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+  */
+ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+ {
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 	uint64_t size;
+ 	int r;
+ 
+@@ -2255,7 +2255,7 @@ static int amdgpu_mm_dump_table(struct seq_file *m, void *data)
+ 	unsigned ttm_pl = (uintptr_t)node->info_ent->data;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct amdgpu_device *adev = dev->dev_private;
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[ttm_pl];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, ttm_pl);
+ 	struct drm_printer p = drm_seq_file_printer(m);
+ 
+ 	man->func->debug(man, &p);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index cc45be8ccb0f..d33a750e07a8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -82,9 +82,9 @@ static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = ddev->dev_private;
+-
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 	return snprintf(buf, PAGE_SIZE, "%llu\n",
+-		amdgpu_vram_mgr_usage(&adev->mman.bdev.man[TTM_PL_VRAM]));
++			amdgpu_vram_mgr_usage(man));
+ }
+ 
+ /**
+@@ -100,9 +100,9 @@ static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = ddev->dev_private;
+-
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 	return snprintf(buf, PAGE_SIZE, "%llu\n",
+-		amdgpu_vram_mgr_vis_usage(&adev->mman.bdev.man[TTM_PL_VRAM]));
++			amdgpu_vram_mgr_vis_usage(man));
+ }
+ 
+ static ssize_t amdgpu_mem_info_vram_vendor(struct device *dev,
+@@ -170,7 +170,7 @@ static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func;
+  */
+ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+ {
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 	struct amdgpu_vram_mgr *mgr;
+ 	int ret;
+ 
+@@ -207,7 +207,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+  */
+ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+ {
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+ 	struct amdgpu_vram_mgr *mgr = man->priv;
+ 	int ret;
+ 
 -- 
 2.26.2
 
