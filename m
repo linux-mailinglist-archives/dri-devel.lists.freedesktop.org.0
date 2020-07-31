@@ -1,60 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4F82346B0
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 15:18:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF872346B5
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 15:19:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8C136EA9A;
-	Fri, 31 Jul 2020 13:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3181A6EA9B;
+	Fri, 31 Jul 2020 13:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A73DE6EA9A
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 13:18:09 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r2so22897440wrs.8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 06:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9uRwfVGee9z4gDePaB/iWGL6DLKzkkwcOKMgo2dfRkE=;
- b=DOSytCciSHME/c0tQQp2S3zY3t1yf/zkVKuztdxuHlxOJ+LupGx/KT8BQlgcd3cF9C
- ZJOhE3MmQqV4vL9nh0unXADaOnKb6v7S27c2VLEeWF6+fJUlHY4PXdXmN54B0aATyZKk
- zjXtuwiTsePmBrTVvJ+CeIl5vnBtux5+67Q0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9uRwfVGee9z4gDePaB/iWGL6DLKzkkwcOKMgo2dfRkE=;
- b=mPaeDOhEj3bw2+1shRLM55xFYEUrL2op97mEUtoaa4lwVVNvo/gNu9GZrutCaJUiXW
- DmuABc2+VlsyROBQ7gmXLSEicZgc9/N4Hwh9cd7PBglSAvdEUZu6HZfwDTv0IUoC84zv
- b21xmEzQfvkk4trbIg3nwfMZx01MnJaDJwcwvTPsXYkhf4qHjrg6zgcP4j/R8i5IzWPg
- /KLpmLn8y5jRjOhr37s2LjoImziOwY9b2t/30l0iXv80N+kB5jAH3lG8duFKwOpi7xcM
- X+o8bPX2oFtK4sAcy7bctz5emQ69IeWUde03gm5C5ZihnEJ9XzlKA7RJbNTDxOh2wVhF
- mVFA==
-X-Gm-Message-State: AOAM531LdlV6iVTxtFlp+6iZv641mPXxdjPEi1hZa01pSQKplbM5H8CF
- Pnt7M2kiARjGgBw2dSjfW9JekA==
-X-Google-Smtp-Source: ABdhPJzJzzng7GsXStbODXQYeEtc9yyc+9/R5XjKD0lT0kYVbRdzKRKf/RVWN62F1qfE2iAlUX2qUw==
-X-Received: by 2002:adf:f341:: with SMTP id e1mr3749588wrp.207.1596201488371; 
- Fri, 31 Jul 2020 06:18:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h23sm11985829wmb.3.2020.07.31.06.18.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jul 2020 06:18:07 -0700 (PDT)
-Date: Fri, 31 Jul 2020 15:18:05 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH 26/49] drm/ttm: add wrapper to get manager from bdev.
-Message-ID: <20200731131805.GD6419@phenom.ffwll.local>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2083.outbound.protection.outlook.com [40.107.220.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05BD26EA9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 13:19:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mljAHnyw8YfWwBrYTcxN9oOHIB8lY60zX/rvZ3ribq6XJdhCgSWu5FYjs5QVpW5IaJ/eeJ3Ek8gfO/sxhc5wlN0IySoiknnVE3Wx7O+l0nAnd5w4IqDwEzTpTmsvwAPQlMEF+0nF5ZBMrI6u25EdT0wVaXaC5g2KGYajnBHFUpJ6el+pzgHYebgJey9zcvAmc0gm7SrXbfP6H6TuJLWIKLObf7d1nYjQ5mlev+2TQjEGTcFucs1SnvOblHGilhmyrM1rj77pvtrIOflGj+qdYNyDlM1ZE2aLMeJfwoRNzcnb1J6GiErC2vbwjIfhBnIgrkdYb9KwlSERuKIkWL7NNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2rcQYl5JQSfUcuzZVcfjUEjNnQ7GPttqko3F7CLMBuI=;
+ b=G6Ot3TK/sK/OjK9QUPoL/c2dGqeqZgwWfGGz3GppY+CkAH8gaS1aLSIO0dx01AEXMXeqsL/9v7ZnAPfX0loV/nkyTwhg2r2Ts+lWI98kF5EZfX65CA8dxq1ilRBdA69lBjNhcArpB9JLpzKTbpuxDbR2zwZaQ+aQmZaOd7ib2XBSEFYnFF9Ulp+ryxjiEPhHq/nQsqJBDyOKgZ0CA9e2frw5wbfqq3F0y8IyN9+3shkEp/z05TDud1QNOJsxTuXifez5382+Xfk2V1CcNDOiiiGMxeRu6TrByHdaB2ESSCdCuPeDVXutPVDhEROI7NtHE5T+m3LK2HoMBv2T65zBwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2rcQYl5JQSfUcuzZVcfjUEjNnQ7GPttqko3F7CLMBuI=;
+ b=WxGA7jvbD+fb2/2i/qOTPW9lg1Lsq/j9TjyqzSDdx/kfkhyIz45rLX0RiaIhOkNQtrsnkuZxjLGULWvXlxk0XD+8iR60WkZ45H2KGpdGyUm3y0nv6SrnJJtpMDM9+JuQVwhT2jA7FuAiWoLHtRmqRPMEKO/IMuf6ci2NSsesx4A=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4208.namprd12.prod.outlook.com (2603:10b6:208:1d0::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.19; Fri, 31 Jul
+ 2020 13:19:05 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::a16e:8812:b4c0:918d%6]) with mapi id 15.20.3239.020; Fri, 31 Jul 2020
+ 13:19:05 +0000
+Subject: Re: [PATCH 25/49] drm/ttm: make TTM responsible for cleaning system
+ only.
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20200731040520.3701599-1-airlied@gmail.com>
- <20200731040520.3701599-27-airlied@gmail.com>
- <43f848a2-579a-873f-4271-7bff0968888b@suse.de>
- <CAPM=9twAMwKsx_nSYz5tSFAb=Pp0m_SVWt+rewMk3RFVoUM4+A@mail.gmail.com>
+ <20200731040520.3701599-26-airlied@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <edd9860d-4965-fdff-acdc-bb723b401455@amd.com>
+Date: Fri, 31 Jul 2020 15:19:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200731040520.3701599-26-airlied@gmail.com>
+Content-Language: en-US
+X-ClientProxiedBy: FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19)
+ To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPM=9twAMwKsx_nSYz5tSFAb=Pp0m_SVWt+rewMk3RFVoUM4+A@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3239.10 via Frontend Transport; Fri, 31 Jul 2020 13:19:04 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: bfdc8ed4-f33e-4a22-9cf0-08d835544ca6
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4208:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4208AFC6FD9616BC895CAEBF834E0@MN2PR12MB4208.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8GDPLPNTLazdFJbdfcMZ1AlDCfDFHpO0YCYEhy6EYrxI4fYJVfBEIogLgLNqM3pshOZAxKXOnR3bE64gEUZPrWC9/CFIaiH3jxRGQyIWQBze69OQmmEHJ7553hp1fiDtZ5yoRVFt70SGrVve5nI78sRyFUHMGRgAX9UifnD0n8LEI/1rFEiRgdmosKm1SpG0p29X3qrw5beNhuLmtZi1NVOMD7KDp03QGqneNxC37Nm+oicS3/6qJ98BnsAkMiRBkH97/9c2OdXXIZyEfjy5NyWa9rO+qQrO9YG+aq7PLtvlF9s0fFudi+pm1+R+1JxRlqiKmQWbJNB2LIl52Iz2VAewMzmw3pZOSVNy0D2HlocDV/glFBXQ1A3KL+Hx4/kw
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(376002)(136003)(366004)(396003)(346002)(5660300002)(8676002)(52116002)(6486002)(316002)(2616005)(83380400001)(31696002)(16526019)(31686004)(4326008)(66574015)(478600001)(66476007)(66556008)(186003)(86362001)(6666004)(2906002)(36756003)(66946007)(8936002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 8gG+VptB8EQA2On392XBPFsE5fwyCLxbnIzRwR4PEbdixJn1BsBJf7mIfRkrTVrj3+lCAv1eGrgGOAXKdhYjFoSUBuLTbL/30sWLjuwM2Q4OxxJX8449/ZTnb+jNXMcO7FOOjSQj0O4SRRIWw5A3MvUJMRkADWXLCA4Z3/+vm7Qwat1xUu13r1jru7lvw8PfZ/GFE9pNT4QmvDHSe6bErZZM9vn1BfzeQx8VlCGJWrt3R6pH8I0SvMHIpcw5o7jPLFiq8c3aIyDXeLNuugpvigPuU+XTN2WFajstt1uterkYdzTGxCGfSloUmumrRytnBiiDP+7FoAi6n4+poriFfmMlo3mPbN3HitNCiZQm5ThREW3mV4xsZ9zoIHo4wTaQKpGZVFLWdnC0cIIGzvlBD8aujugeDJ4XphD91l6EAJBBcvX636RpV863a3rBMJ/BP2/DuuOB+gd677/7LtrWmv658ZIkC1X9IY8XYN6ZaqH0xVuD/hE/dOYBMc4Fsx54rDonPx3uOP7UwGG5StAy9c+GieKmZKFUwu76w5dg9xdMNaxdCIHZ1zjPmJ9s6RtZHjd80X7dX0uZwIBnWKCmhcxiUm7ysmSOtHKk4QanzXD9KzHe/KLiqdvwBzEWscKjp3BxIAzB24eaiFdvTs4HVxsP6olexQ+LQcb0bHEW6LhGr6vQHbfj6Xo2bKHTR1tdfPfdCQdq4OoxF/t4UUA3kw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfdc8ed4-f33e-4a22-9cf0-08d835544ca6
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2020 13:19:05.5216 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ypOGCLWFMavnQAy7o4HUhMp5qD4EWqORi5234BhNM/wpka6kn1Z/QQoeEGdMTvwp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4208
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +99,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roland Scheidegger <sroland@vmware.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Koenig,
- Christian" <christian.koenig@amd.com>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sroland@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 31, 2020 at 05:21:38PM +1000, Dave Airlie wrote:
-> On Fri, 31 Jul 2020 at 17:14, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >
-> > Hi
-> >
-> > Am 31.07.20 um 06:04 schrieb Dave Airlie:
-> > > From: Dave Airlie <airlied@redhat.com>
-> > >
-> > > This will allow different abstractions later.
-> >
-> > You should consider moving this patch to the beginning of the series, so
-> > that patches 1 to 25 can benefit from it.
-> 
-> I did consider it, but I'd have to move all the follow on patches as
-> well, and it got messy in rebase land, and I started introducing
-> errors, so I left it alone, and it's not necessary until the patch
-> that changes it's definition anyways.
-
-I like this ordering a lot better, it gives a clear separation between the
-different steps. Some code gets touched multiple times, but interleaving
-the demidlayering would only make this worse I think.
--Daniel
-> 
-> Dave.
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMzEuMDcuMjAgdW0gMDY6MDQgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
+cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gZHJpdmVycyBzaG91bGQgYWxsIGJlIGNsZWFu
+aW5nIHVwIHRoZWlyIG1lbW9yeSBtYW5hZ2Vycwo+IHRoZW1zZWx2ZXMgbm93LCBzbyBsZXQgdGhl
+IGNvcmUganVzdCBjbGVhbiB0aGUgc3lzdGVtIG9uZSB1cC4KPgo+IFJlbW92ZSB0aGUgbGVnYWN5
+IGNsZWFuaW5nIGludGVyZmFjZS4KPgo+IFNpZ25lZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJs
+aWVkQHJlZGhhdC5jb20+CgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
+LmtvZW5pZ0BhbWQuY29tPgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMg
+ICAgfCA1NSArKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgIGluY2x1ZGUvZHJt
+L3R0bS90dG1fYm9fYXBpLmggICAgfCAyOCAtLS0tLS0tLS0tLS0tLS0tLQo+ICAgaW5jbHVkZS9k
+cm0vdHRtL3R0bV9ib19kcml2ZXIuaCB8IDEwIC0tLS0tLQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCA0
+IGluc2VydGlvbnMoKyksIDg5IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4gaW5k
+ZXggZjBmMGYzMTAxYmQxLi4wN2M2NTMzNzRmMTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3R0bS90dG1fYm8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiBA
+QCAtMTQ0Niw0MyArMTQ0Niw2IEBAIGludCB0dG1fYm9fZm9yY2VfbGlzdF9jbGVhbihzdHJ1Y3Qg
+dHRtX2JvX2RldmljZSAqYmRldiwKPiAgIH0KPiAgIEVYUE9SVF9TWU1CT0wodHRtX2JvX2ZvcmNl
+X2xpc3RfY2xlYW4pOwo+ICAgCj4gLWludCB0dG1fYm9fY2xlYW5fbW0oc3RydWN0IHR0bV9ib19k
+ZXZpY2UgKmJkZXYsIHVuc2lnbmVkIG1lbV90eXBlKQo+IC17Cj4gLQlzdHJ1Y3QgdHRtX21lbV90
+eXBlX21hbmFnZXIgKm1hbjsKPiAtCWludCByZXQgPSAtRUlOVkFMOwo+IC0KPiAtCWlmIChtZW1f
+dHlwZSA+PSBUVE1fTlVNX01FTV9UWVBFUykgewo+IC0JCXByX2VycigiSWxsZWdhbCBtZW1vcnkg
+dHlwZSAlZFxuIiwgbWVtX3R5cGUpOwo+IC0JCXJldHVybiByZXQ7Cj4gLQl9Cj4gLQltYW4gPSAm
+YmRldi0+bWFuW21lbV90eXBlXTsKPiAtCj4gLQlpZiAoIW1hbi0+aGFzX3R5cGUpIHsKPiAtCQlw
+cl9lcnIoIlRyeWluZyB0byB0YWtlIGRvd24gdW5pbml0aWFsaXplZCBtZW1vcnkgbWFuYWdlciB0
+eXBlICV1XG4iLAo+IC0JCSAgICAgICBtZW1fdHlwZSk7Cj4gLQkJcmV0dXJuIHJldDsKPiAtCX0K
+PiAtCj4gLQl0dG1fYm9fZGlzYWJsZV9tbShtYW4pOwo+IC0KPiAtCXJldCA9IDA7Cj4gLQlpZiAo
+bWVtX3R5cGUgPiAwKSB7Cj4gLQkJcmV0ID0gdHRtX2JvX2ZvcmNlX2xpc3RfY2xlYW4oYmRldiwg
+bWFuKTsKPiAtCQlpZiAocmV0KSB7Cj4gLQkJCXByX2VycigiQ2xlYW51cCBldmljdGlvbiBmYWls
+ZWRcbiIpOwo+IC0JCQlyZXR1cm4gcmV0Owo+IC0JCX0KPiAtCj4gLQkJaWYgKG1hbi0+ZnVuYy0+
+dGFrZWRvd24pCj4gLQkJCXJldCA9ICgqbWFuLT5mdW5jLT50YWtlZG93bikobWFuKTsKPiAtCX0K
+PiAtCj4gLQl0dG1fYm9fbWFuX2NsZWFudXAobWFuKTsKPiAtCj4gLQlyZXR1cm4gcmV0Owo+IC19
+Cj4gLUVYUE9SVF9TWU1CT0wodHRtX2JvX2NsZWFuX21tKTsKPiAtCj4gICBpbnQgdHRtX2JvX2V2
+aWN0X21tKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1bnNpZ25lZCBtZW1fdHlwZSkKPiAg
+IHsKPiAgIAlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiA9ICZiZGV2LT5tYW5bbWVt
+X3R5cGVdOwo+IEBAIC0xNTg1LDIxICsxNTQ4LDExIEBAIGludCB0dG1fYm9fZGV2aWNlX3JlbGVh
+c2Uoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpCj4gICB7Cj4gICAJc3RydWN0IHR0bV9ib19n
+bG9iYWwgKmdsb2IgPSAmdHRtX2JvX2dsb2I7Cj4gICAJaW50IHJldCA9IDA7Cj4gLQl1bnNpZ25l
+ZCBpID0gVFRNX05VTV9NRU1fVFlQRVM7Cj4gKwl1bnNpZ25lZCBpOwo+ICAgCXN0cnVjdCB0dG1f
+bWVtX3R5cGVfbWFuYWdlciAqbWFuOwo+ICAgCj4gLQl3aGlsZSAoaS0tKSB7Cj4gLQkJbWFuID0g
+JmJkZXYtPm1hbltpXTsKPiAtCQlpZiAobWFuLT5oYXNfdHlwZSkgewo+IC0JCQltYW4tPnVzZV90
+eXBlID0gZmFsc2U7Cj4gLQkJCWlmICgoaSAhPSBUVE1fUExfU1lTVEVNKSAmJiB0dG1fYm9fY2xl
+YW5fbW0oYmRldiwgaSkpIHsKPiAtCQkJCXJldCA9IC1FQlVTWTsKPiAtCQkJCXByX2VycigiRFJN
+IG1lbW9yeSBtYW5hZ2VyIHR5cGUgJWQgaXMgbm90IGNsZWFuXG4iLAo+IC0JCQkJICAgICAgIGkp
+Owo+IC0JCQl9Cj4gLQkJCW1hbi0+aGFzX3R5cGUgPSBmYWxzZTsKPiAtCQl9Cj4gLQl9Cj4gKwlt
+YW4gPSAmYmRldi0+bWFuW1RUTV9QTF9TWVNURU1dOwo+ICsJdHRtX2JvX2Rpc2FibGVfbW0obWFu
+KTsKPiAgIAo+ICAgCW11dGV4X2xvY2soJnR0bV9nbG9iYWxfbXV0ZXgpOwo+ICAgCWxpc3RfZGVs
+KCZiZGV2LT5kZXZpY2VfbGlzdCk7Cj4gQEAgLTE2MTIsNyArMTU2NSw3IEBAIGludCB0dG1fYm9f
+ZGV2aWNlX3JlbGVhc2Uoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYpCj4gICAKPiAgIAlzcGlu
+X2xvY2soJmdsb2ItPmxydV9sb2NrKTsKPiAgIAlmb3IgKGkgPSAwOyBpIDwgVFRNX01BWF9CT19Q
+UklPUklUWTsgKytpKQo+IC0JCWlmIChsaXN0X2VtcHR5KCZiZGV2LT5tYW5bMF0ubHJ1WzBdKSkK
+PiArCQlpZiAobGlzdF9lbXB0eSgmbWFuLT5scnVbMF0pKQo+ICAgCQkJcHJfZGVidWcoIlN3YXAg
+bGlzdCAlZCB3YXMgY2xlYW5cbiIsIGkpOwo+ICAgCXNwaW5fdW5sb2NrKCZnbG9iLT5scnVfbG9j
+ayk7Cj4gICAKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaCBiL2lu
+Y2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmgKPiBpbmRleCA2NTYyZDFjNWFjNTkuLjI3ZGRlMTM3
+MTM3NiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCj4gKysrIGIv
+aW5jbHVkZS9kcm0vdHRtL3R0bV9ib19hcGkuaAo+IEBAIC01NTEsMzQgKzU1MSw2IEBAIHZvaWQg
+dHRtX2JvX2luaXRfbW1fYmFzZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPiAgIAkJCSBz
+dHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKPiAgIAkJCSB1bnNpZ25lZCBsb25nIHBf
+c2l6ZSk7Cj4gICAKPiAtLyoqCj4gLSAqIHR0bV9ib19jbGVhbl9tbQo+IC0gKgo+IC0gKiBAYmRl
+djogUG9pbnRlciB0byBhIHR0bV9ib19kZXZpY2Ugc3RydWN0Lgo+IC0gKiBAbWVtX3R5cGU6IFRo
+ZSBtZW1vcnkgdHlwZS4KPiAtICoKPiAtICogVGFrZSBkb3duIGEgbWFuYWdlciBmb3IgYSBnaXZl
+biBtZW1vcnkgdHlwZSBhZnRlciBmaXJzdCB3YWxraW5nCj4gLSAqIHRoZSBMUlUgbGlzdCB0byBl
+dmljdCBhbnkgYnVmZmVycyBsZWZ0IGFsaXZlLgo+IC0gKgo+IC0gKiBOb3JtYWxseSwgdGhpcyBm
+dW5jdGlvbiBpcyBwYXJ0IG9mIGxhc3RjbG9zZSgpIG9yIHVubG9hZCgpLCBhbmQgYXQgdGhhdAo+
+IC0gKiBwb2ludCB0aGVyZSBzaG91bGRuJ3QgYmUgYW55IGJ1ZmZlcnMgbGVmdCBjcmVhdGVkIGJ5
+IHVzZXItc3BhY2UsIHNpbmNlCj4gLSAqIHRoZXJlIHNob3VsZCd2ZSBiZWVuIHJlbW92ZWQgYnkg
+dGhlIGZpbGUgZGVzY3JpcHRvciByZWxlYXNlKCkgbWV0aG9kLgo+IC0gKiBIb3dldmVyLCBiZWZv
+cmUgdGhpcyBmdW5jdGlvbiBpcyBydW4sIG1ha2Ugc3VyZSB0byBzaWduYWwgYWxsIHN5bmMgb2Jq
+ZWN0cywKPiAtICogYW5kIHZlcmlmeSB0aGF0IHRoZSBkZWxheWVkIGRlbGV0ZSBxdWV1ZSBpcyBl
+bXB0eS4gVGhlIGRyaXZlciBtdXN0IGFsc28KPiAtICogbWFrZSBzdXJlIHRoYXQgdGhlcmUgYXJl
+IG5vIE5PX0VWSUNUIGJ1ZmZlcnMgcHJlc2VudCBpbiB0aGlzIG1lbW9yeSB0eXBlCj4gLSAqIHdo
+ZW4gdGhlIGNhbGwgaXMgbWFkZS4KPiAtICoKPiAtICogSWYgdGhpcyBmdW5jdGlvbiBpcyBwYXJ0
+IG9mIGEgVlQgc3dpdGNoLCB0aGUgY2FsbGVyIG11c3QgbWFrZSBzdXJlIHRoYXQKPiAtICogdGhl
+cmUgYXJlIG5vIGFwcGljYXRpb25zIGN1cnJlbnRseSB2YWxpZGF0aW5nIGJ1ZmZlcnMgYmVmb3Jl
+IHRoaXMKPiAtICogZnVuY3Rpb24gaXMgY2FsbGVkLiBUaGUgY2FsbGVyIGNhbiBkbyB0aGF0IGJ5
+IGZpcnN0IHRha2luZyB0aGUKPiAtICogc3RydWN0IHR0bV9ib19kZXZpY2U6OnR0bV9sb2NrIGlu
+IHdyaXRlIG1vZGUuCj4gLSAqCj4gLSAqIFJldHVybnM6Cj4gLSAqIC1FSU5WQUw6IGludmFsaWQg
+b3IgdW5pbml0aWFsaXplZCBtZW1vcnkgdHlwZS4KPiAtICogLUVCVVNZOiBUaGVyZSBhcmUgc3Rp
+bGwgYnVmZmVycyBsZWZ0IGluIHRoaXMgbWVtb3J5IHR5cGUuCj4gLSAqLwo+IC1pbnQgdHRtX2Jv
+X2NsZWFuX21tKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LCB1bnNpZ25lZCBtZW1fdHlwZSk7
+Cj4gLQo+ICAgLyoqCj4gICAgKiB0dG1fYm9fZXZpY3RfbW0KPiAgICAqCj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2Jv
+X2RyaXZlci5oCj4gaW5kZXggMmVmMzNiNDA3MTY3Li45ZDA2NjUyOWNhNjEgMTAwNjQ0Cj4gLS0t
+IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL3R0
+bS90dG1fYm9fZHJpdmVyLmgKPiBAQCAtNDgsMTYgKzQ4LDYgQEAKPiAgIHN0cnVjdCB0dG1fbWVt
+X3R5cGVfbWFuYWdlcjsKPiAgIAo+ICAgc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyX2Z1bmMg
+ewo+IC0JLyoqCj4gLQkgKiBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgbWVtYmVyIHRha2Vk
+b3duCj4gLQkgKgo+IC0JICogQG1hbjogUG9pbnRlciB0byBhIG1lbW9yeSB0eXBlIG1hbmFnZXIu
+Cj4gLQkgKgo+IC0JICogQ2FsbGVkIHRvIHVuZG8gdGhlIHNldHVwIGRvbmUgaW4gaW5pdC4gQWxs
+IGFsbG9jYXRlZCByZXNvdXJjZXMKPiAtCSAqIHNob3VsZCBiZSBmcmVlZC4KPiAtCSAqLwo+IC0J
+aW50ICAoKnRha2Vkb3duKShzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbik7Cj4gLQo+
+ICAgCS8qKgo+ICAgCSAqIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciBtZW1iZXIgZ2V0X25v
+ZGUKPiAgIAkgKgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
