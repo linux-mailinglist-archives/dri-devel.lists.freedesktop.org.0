@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2993E234021
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:37:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 473D223401A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 09:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3A676EA05;
-	Fri, 31 Jul 2020 07:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6DD6E9F9;
+	Fri, 31 Jul 2020 07:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768706E984
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 01:07:24 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 186BD6CC6D8090BA4EFC;
- Fri, 31 Jul 2020 09:07:22 +0800 (CST)
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB239896F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 01:07:35 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id C16B7AFCA5300A5F34C7;
+ Fri, 31 Jul 2020 09:07:33 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 31 Jul 2020 09:07:14 +0800
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 31 Jul 2020 09:07:26 +0800
 From: Tian Tao <tiantao6@hisilicon.com>
 To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm/hisilicon 1/2] drm/hisilicon: Remove the unnecessary
- header files
-Date: Fri, 31 Jul 2020 09:05:21 +0800
-Message-ID: <1596157521-49996-1-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon 2/2] drm/hisilicon: Code refactoring for
+ hibmc_drv_de
+Date: Fri, 31 Jul 2020 09:05:32 +0800
+Message-ID: <1596157532-50049-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.56]
@@ -50,67 +50,105 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove some unused header files.
+code refactoring for hibmc_drv_de.c, no actual function changes.
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 3 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 5 -----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 2 --
- 3 files changed, 10 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c  | 55 ++++++-------------------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  2 +
+ 2 files changed, 15 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index cc70e83..66132eb 100644
+index 66132eb..af24c72 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
 +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -17,9 +17,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_plane_helper.h>
--#include <drm/drm_print.h>
--#include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
+@@ -157,37 +157,6 @@ static const struct drm_plane_helper_funcs hibmc_plane_helper_funcs = {
+ 	.atomic_update = hibmc_plane_atomic_update,
+ };
  
- #include "hibmc_drm_drv.h"
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index b8d839a..54f6144 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -11,18 +11,13 @@
-  *	Jianhua Li <lijianhua@huawei.com>
-  */
+-static struct drm_plane *hibmc_plane_init(struct hibmc_drm_private *priv)
+-{
+-	struct drm_device *dev = priv->dev;
+-	struct drm_plane *plane;
+-	int ret = 0;
+-
+-	plane = devm_kzalloc(dev->dev, sizeof(*plane), GFP_KERNEL);
+-	if (!plane) {
+-		DRM_ERROR("failed to alloc memory when init plane\n");
+-		return ERR_PTR(-ENOMEM);
+-	}
+-	/*
+-	 * plane init
+-	 * TODO: Now only support primary plane, overlay planes
+-	 * need to do.
+-	 */
+-	ret = drm_universal_plane_init(dev, plane, 1, &hibmc_plane_funcs,
+-				       channel_formats1,
+-				       ARRAY_SIZE(channel_formats1),
+-				       NULL,
+-				       DRM_PLANE_TYPE_PRIMARY,
+-				       NULL);
+-	if (ret) {
+-		DRM_ERROR("failed to init plane: %d\n", ret);
+-		return ERR_PTR(ret);
+-	}
+-
+-	drm_plane_helper_add(plane, &hibmc_plane_helper_funcs);
+-	return plane;
+-}
+-
+ static void hibmc_crtc_dpms(struct drm_crtc *crtc, int dpms)
+ {
+ 	struct hibmc_drm_private *priv = crtc->dev->dev_private;
+@@ -534,22 +503,24 @@ static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs = {
+ int hibmc_de_init(struct hibmc_drm_private *priv)
+ {
+ 	struct drm_device *dev = priv->dev;
+-	struct drm_crtc *crtc;
+-	struct drm_plane *plane;
++	struct drm_crtc *crtc = &priv->crtc;
++	struct drm_plane *plane = &priv->plane;
+ 	int ret;
  
--#include <linux/console.h>
--#include <linux/module.h>
- #include <linux/pci.h>
+-	plane = hibmc_plane_init(priv);
+-	if (IS_ERR(plane)) {
+-		DRM_ERROR("failed to create plane: %ld\n", PTR_ERR(plane));
+-		return PTR_ERR(plane);
+-	}
++	ret = drm_universal_plane_init(dev, plane, 1, &hibmc_plane_funcs,
++				       channel_formats1,
++				       ARRAY_SIZE(channel_formats1),
++				       NULL,
++				       DRM_PLANE_TYPE_PRIMARY,
++				       NULL);
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
--#include <drm/drm_print.h>
--#include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
+-	crtc = devm_kzalloc(dev->dev, sizeof(*crtc), GFP_KERNEL);
+-	if (!crtc) {
+-		DRM_ERROR("failed to alloc memory when init crtc\n");
+-		return -ENOMEM;
++	if (ret) {
++		DRM_ERROR("failed to init plane: %d\n", ret);
++		return ret;
+ 	}
  
- #include "hibmc_drm_drv.h"
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 2ca69c3..ed12f61 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -11,10 +11,8 @@
-  *	Jianhua Li <lijianhua@huawei.com>
-  */
++	drm_plane_helper_add(plane, &hibmc_plane_helper_funcs);
++
+ 	ret = drm_crtc_init_with_planes(dev, crtc, plane,
+ 					NULL, &hibmc_crtc_funcs, NULL);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+index a683763..91ef15c 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+@@ -28,6 +28,8 @@ struct hibmc_drm_private {
  
--#include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_probe_helper.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_print.h>
- 
- #include "hibmc_drm_drv.h"
+ 	/* drm */
+ 	struct drm_device  *dev;
++	struct drm_plane plane;
++	struct drm_crtc crtc;
+ 	struct drm_encoder encoder;
+ 	struct drm_connector connector;
+ 	bool mode_config_initialized;
 -- 
 2.7.4
 
