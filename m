@@ -1,57 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6EF233E82
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:56:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA84233EBA
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 07:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D42D6E9C1;
-	Fri, 31 Jul 2020 04:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDE16E09A;
+	Fri, 31 Jul 2020 05:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6110D6E9C1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:56:18 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id df16so5167276edb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jul 2020 21:56:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4H+oRSmTvEm6CIUgIK4P0aR3vjANz1UROQflSVQivnc=;
- b=j+wI7zTOgiUIhOaDRJiZJCdlHZA1k8m82lSrCAxb83C/pGkTjSETgRRpJ6iRvAZmgS
- ZgPyWIV2PcQtuTPB8ZYY9thT9z/6Xl47Iu/4gDg0j6/hbZIrA7yCNNqA1EpBh4weDo3c
- RbQ5J6+4KG1Z9+WhdkPUqw7IrhqOg+Rd1Jlbw58VUjlc2m+8knbS8JoSLPQDiGoBRBS2
- 9NxEmihuhuSQmMaHC58tkme81wlbp2lZhRpB0zSjtO+Xmez9nkJh3eENMa3QLdWw9cG5
- UzYyyCw7k6NkM37uCPeqm7miFGCEwXjGReHHIWVFN5LT04J93dbsvLGa9m1AYbNblhCa
- bMhw==
-X-Gm-Message-State: AOAM532EhElGq5+X1OAthKkYmN6Tv53yJ/BjF/dIRzmN8iCnxkvmaRLR
- wtcpF6JOJ8Nqjk38e17XSCw=
-X-Google-Smtp-Source: ABdhPJyEGl1t8oZSMXGGJywcFvB6YfHnbZsZ2I+VAQnNpB4AzoQ2ukdWZucjy94em1xriCvhfy3x4A==
-X-Received: by 2002:a05:6402:3110:: with SMTP id
- dc16mr2202194edb.218.1596171377036; 
- Thu, 30 Jul 2020 21:56:17 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
- by smtp.gmail.com with ESMTPSA id c7sm8096414ejr.77.2020.07.30.21.56.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jul 2020 21:56:16 -0700 (PDT)
-Subject: Re: [PATCH] vgacon: Fix an out-of-bounds in vgacon_scrollback_update()
-To: Yang Yingliang <yangyingliang@huawei.com>, b.zolnierkie@samsung.com
-References: <20200713105730.550334-1-yangyingliang@huawei.com>
- <220220f1-48f7-46f6-952f-ab41fa57d6a1@kernel.org>
- <c3714d73-d5fe-c77a-e554-bb1ff4fd6980@huawei.com>
- <9aecd7ac-5060-6b8d-61f8-393431eb243f@kernel.org>
- <3df26fed-5ade-df26-6417-380401b9650b@huawei.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <42bd14e3-ae2f-0c14-5d42-e3e7aeb11c78@kernel.org>
-Date: Fri, 31 Jul 2020 06:56:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 323E66E09A
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 05:44:37 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 4E0E880444;
+ Fri, 31 Jul 2020 07:44:33 +0200 (CEST)
+Date: Fri, 31 Jul 2020 07:44:31 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 03/49] drm/ttm: split the mm manager init code
+Message-ID: <20200731054431.GA1544844@ravnborg.org>
+References: <20200731040520.3701599-1-airlied@gmail.com>
+ <20200731040520.3701599-4-airlied@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <3df26fed-5ade-df26-6417-380401b9650b@huawei.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200731040520.3701599-4-airlied@gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8 a=e5mUnYsNAAAA:8
+ a=ue1qatrXy6fBFkQhKEEA:9 a=QQ1XJDZRuU3PgwsB:21 a=fPsYbN3QKkGywonc:21
+ a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +45,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?5byg5LqR5rW3?= <zhangyunhai@nsfocus.com>
+Cc: kraxel@redhat.com, sroland@vmware.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave.
 
-On 31. 07. 20, 5:23, Yang Yingliang wrote:
-> void execute_one(void)
-> {
-> 		intptr_t res = 0;
-> 	res = syz_open_dev(0xc, 4, 1);
+On Fri, Jul 31, 2020 at 02:04:34PM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This will allow the driver to control the ordering here better.
+> 
+> Eventually the old path will be removed.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c    | 34 +++++++++++++++++++--------------
+>  include/drm/ttm/ttm_bo_api.h    |  4 ++++
+>  include/drm/ttm/ttm_bo_driver.h |  6 ++++++
+>  3 files changed, 30 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 041a0e73cd1b..a658fd584c6d 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -1503,35 +1503,41 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+>  }
+>  EXPORT_SYMBOL(ttm_bo_evict_mm);
+>  
+> -int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
+> -			unsigned long p_size)
+> +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
+> +			 struct ttm_mem_type_manager *man,
+> +			 unsigned long p_size)
+>  {
 
-open(/dev/tty1)
+General comment for all the ttm/* changes.
+It would be very nice with some nice explanations for the exported
+functions, preferably in kernel-doc style.
+In case someone that are more or less clueless (like me) would like
+to understand how a function is to be used or maybe reviewing some
+random code.
 
-> 	if (res != -1)
-> 		r[0] = res;
-> *(uint16_t*)0x20000000 = 0xc;
-> *(uint16_t*)0x20000002 = 0x373;
-> *(uint16_t*)0x20000004 = 0x1442;
-> 	syscall(__NR_ioctl, r[0], 0x5609ul, 0x20000000ul);
+	Sam
 
-VT_RESIZE(12, 883)
 
-> memcpy((void*)0x20003500, "\x7f\x45\x4c\x46\x00\x00\x00...
-> 	syscall(__NR_write, r[0], 0x20003500ul, 0x381ul);
-
-Write 381 bytes of some ELF to the tty.
-
-OK, that's it. Thanks.
-
--- 
-js
+> -	int ret;
+> -	struct ttm_mem_type_manager *man;
+>  	unsigned i;
+>  
+> -	BUG_ON(type >= TTM_NUM_MEM_TYPES);
+> -	man = &bdev->man[type];
+>  	BUG_ON(man->has_type);
+>  	man->use_io_reserve_lru = false;
+>  	mutex_init(&man->io_reserve_mutex);
+>  	spin_lock_init(&man->move_lock);
+>  	INIT_LIST_HEAD(&man->io_reserve_lru);
+>  	man->bdev = bdev;
+> -
+> -	if (type != TTM_PL_SYSTEM) {
+> -		ret = (*man->func->init)(man, p_size);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -	man->has_type = true;
+> -	man->use_type = true;
+>  	man->size = p_size;
+>  
+>  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>  		INIT_LIST_HEAD(&man->lru[i]);
+>  	man->move = NULL;
+> +}
+> +EXPORT_SYMBOL(ttm_bo_init_mm_base);
+>  
+> +int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
+> +			unsigned long p_size)
+> +{
+> +	int ret;
+> +	struct ttm_mem_type_manager *man;
+> +
+> +	BUG_ON(type >= TTM_NUM_MEM_TYPES);
+> +	ttm_bo_init_mm_base(bdev, &bdev->man[type], p_size);
+> +
+> +	if (type != TTM_PL_SYSTEM) {
+> +		ret = (*man->func->init)(man, p_size);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	ttm_bo_use_mm(man);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(ttm_bo_init_mm);
+> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+> index a9e13b252820..0060925f507a 100644
+> --- a/include/drm/ttm/ttm_bo_api.h
+> +++ b/include/drm/ttm/ttm_bo_api.h
+> @@ -546,6 +546,10 @@ int ttm_bo_create(struct ttm_bo_device *bdev, unsigned long size,
+>   * -ENOMEM: Not enough memory.
+>   * May also return driver-specified errors.
+>   */
+> +struct ttm_mem_type_manager;
+> +void ttm_bo_init_mm_base(struct ttm_bo_device *bdev,
+> +			 struct ttm_mem_type_manager *man,
+> +			 unsigned long p_size);
+>  int ttm_bo_init_mm(struct ttm_bo_device *bdev, unsigned type,
+>  		   unsigned long p_size);
+>  
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> index 7958e411269a..68e75c3b8c7a 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -678,6 +678,12 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
+>  	dma_resv_unlock(bo->base.resv);
+>  }
+>  
+> +static inline void ttm_bo_use_mm(struct ttm_mem_type_manager *man)
+> +{
+> +	man->has_type = true;
+> +	man->use_type = true;
+> +}
+> +
+>  /*
+>   * ttm_bo_util.c
+>   */
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
