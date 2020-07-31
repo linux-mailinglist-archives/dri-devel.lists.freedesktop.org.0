@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E189B233DE9
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 748F5233DEA
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDEBE6E99F;
-	Fri, 31 Jul 2020 04:06:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079356E9A1;
+	Fri, 31 Jul 2020 04:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2122A6E99F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86F376E9A1
  for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:00 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-VhPbuxtsPz2k7uMlEgVyIw-1; Fri, 31 Jul 2020 00:05:53 -0400
-X-MC-Unique: VhPbuxtsPz2k7uMlEgVyIw-1
+ us-mta-503-f8pvF-TlNLarEeSVwFTvig-1; Fri, 31 Jul 2020 00:05:55 -0400
+X-MC-Unique: f8pvF-TlNLarEeSVwFTvig-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2610118839C0;
- Fri, 31 Jul 2020 04:05:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F244F107ACCA;
+ Fri, 31 Jul 2020 04:05:53 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BDC6100238C;
- Fri, 31 Jul 2020 04:05:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8592B100238C;
+ Fri, 31 Jul 2020 04:05:52 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/49] drm/vmwgfx/ttm: convert vram mm init to new code paths
-Date: Fri, 31 Jul 2020 14:04:41 +1000
-Message-Id: <20200731040520.3701599-11-airlied@gmail.com>
+Subject: [PATCH 11/49] drm/vmwgfx/ttm: switch gmrid allocator to new init
+ paths.
+Date: Fri, 31 Jul 2020 14:04:42 +1000
+Message-Id: <20200731040520.3701599-12-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,116 +60,111 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-Split out the vram thp init path vs the range manager init.
-
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 25 +++++++++++++++++++------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  4 +---
- drivers/gpu/drm/vmwgfx/vmwgfx_thp.c | 12 ++++++++----
- 3 files changed, 28 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 17 ++++-------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 19 ++++++++++++-------
+ 3 files changed, 17 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index e43f887cafb5..e11c20150ff6 100644
+index e11c20150ff6..5ee5aa0aaa6a 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -620,6 +620,23 @@ static int vmw_dma_masks(struct vmw_private *dev_priv)
- 	return ret;
- }
- 
-+static int vmw_init_vram_manager(struct vmw_private *dev_priv)
-+{
-+	int ret;
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	ret = vmw_thp_init(dev_priv);
-+#else
-+	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
-+
-+	man->available_caching = TTM_PL_FLAG_CACHED;
-+	man->default_caching = TTM_PL_FLAG_CACHED;
-+
-+	ret = ttm_bo_man_init(&dev_priv->bdev, man,
-+			      dev_priv->vram_size >> PAGE_SHIFT);
-+#endif
-+	dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
-+	return ret;
-+}
- static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- {
- 	struct vmw_private *dev_priv;
-@@ -864,16 +881,12 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	 * Enable VRAM, but initially don't use it until SVGA is enabled and
- 	 * unhidden.
+@@ -894,14 +894,10 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
+ 	 *  slots as well as the bo size.
  	 */
--	dev_priv->bdev.man[TTM_PL_VRAM].func = &vmw_thp_func;
--	dev_priv->bdev.man[TTM_PL_VRAM].available_caching = TTM_PL_FLAG_CACHED;
--	dev_priv->bdev.man[TTM_PL_VRAM].default_caching = TTM_PL_FLAG_CACHED;
--	ret = ttm_bo_init_mm(&dev_priv->bdev, TTM_PL_VRAM,
--			     (dev_priv->vram_size >> PAGE_SHIFT));
-+
-+	ret = vmw_init_vram_manager(dev_priv);
- 	if (unlikely(ret != 0)) {
- 		DRM_ERROR("Failed initializing memory manager for VRAM.\n");
- 		goto out_no_vram;
- 	}
--	dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
+ 	dev_priv->has_gmr = true;
+-	dev_priv->bdev.man[VMW_PL_GMR].func = &vmw_gmrid_manager_func;
+-	dev_priv->bdev.man[VMW_PL_GMR].available_caching = TTM_PL_FLAG_CACHED;
+-	dev_priv->bdev.man[VMW_PL_GMR].default_caching = TTM_PL_FLAG_CACHED;
+ 	/* TODO: This is most likely not correct */
+-	dev_priv->bdev.man[VMW_PL_GMR].use_tt = true;
+ 	if (((dev_priv->capabilities & (SVGA_CAP_GMR | SVGA_CAP_GMR2)) == 0) ||
+-	    refuse_dma || ttm_bo_init_mm(&dev_priv->bdev, VMW_PL_GMR,
+-					 VMW_PL_GMR) != 0) {
++	    refuse_dma ||
++	    vmw_gmrid_man_init(dev_priv, VMW_PL_GMR) != 0) {
+ 		DRM_INFO("No GMR memory available. "
+ 			 "Graphics memory resources are very limited.\n");
+ 		dev_priv->has_gmr = false;
+@@ -909,13 +905,8 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
  
- 	/*
- 	 * "Guest Memory Regions" is an aperture like feature with
+ 	if (dev_priv->capabilities & SVGA_CAP_GBOBJECTS && !refuse_dma) {
+ 		dev_priv->has_mob = true;
+-		dev_priv->bdev.man[VMW_PL_MOB].func = &vmw_gmrid_manager_func;
+-		dev_priv->bdev.man[VMW_PL_MOB].available_caching = TTM_PL_FLAG_CACHED;
+-		dev_priv->bdev.man[VMW_PL_MOB].default_caching = TTM_PL_FLAG_CACHED;
+-		/* TODO: This is most likely not correct */
+-		dev_priv->bdev.man[VMW_PL_MOB].use_tt = true;
+-		if (ttm_bo_init_mm(&dev_priv->bdev, VMW_PL_MOB,
+-				   VMW_PL_MOB) != 0) {
++
++		if (vmw_gmrid_man_init(dev_priv, VMW_PL_MOB) != 0) {
+ 			DRM_INFO("No MOB memory available. "
+ 				 "3D will be disabled.\n");
+ 			dev_priv->has_mob = false;
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 65c414f119c0..10b681725a53 100644
+index 10b681725a53..8f319dd6cdb4 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -1520,9 +1520,7 @@ vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
+@@ -1221,7 +1221,7 @@ int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
+  * GMR Id manager
+  */
  
- /* Transparent hugepage support - vmwgfx_thp.c */
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--extern const struct ttm_mem_type_manager_func vmw_thp_func;
--#else
--#define vmw_thp_func ttm_bo_manager_func
-+extern int vmw_thp_init(struct vmw_private *dev_priv);
- #endif
+-extern const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
++int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
  
  /**
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-index b7c816ba7166..c4a9bee932c9 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-@@ -115,18 +115,23 @@ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
+  * Prime - vmwgfx_prime.c
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index 4a76fc7114ad..e79d2c8abad2 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -94,22 +94,28 @@ static void vmw_gmrid_man_put_node(struct ttm_mem_type_manager *man,
  	}
  }
  
--static int vmw_thp_init(struct ttm_mem_type_manager *man,
--			unsigned long p_size)
-+int vmw_thp_init(struct vmw_private *dev_priv)
+-static int vmw_gmrid_man_init(struct ttm_mem_type_manager *man,
+-			      unsigned long p_size)
++static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
++
++int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
  {
-+	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
- 	struct vmw_thp_manager *rman;
-+	man->available_caching = TTM_PL_FLAG_CACHED;
-+	man->default_caching = TTM_PL_FLAG_CACHED;
+-	struct vmw_private *dev_priv =
+-		container_of(man->bdev, struct vmw_private, bdev);
++	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[type];
+ 	struct vmwgfx_gmrid_man *gman =
+ 		kzalloc(sizeof(*gman), GFP_KERNEL);
  
-+	ttm_bo_init_mm_base(&dev_priv->bdev, man,
-+			    dev_priv->vram_size >> PAGE_SHIFT);
- 	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
- 	if (!rman)
+ 	if (unlikely(!gman))
  		return -ENOMEM;
  
--	drm_mm_init(&rman->mm, 0, p_size);
-+	drm_mm_init(&rman->mm, 0, man->size);
- 	spin_lock_init(&rman->lock);
- 	man->priv = rman;
-+	ttm_bo_use_mm(man);
- 	return 0;
++	man->func = &vmw_gmrid_manager_func;
++	man->available_caching = TTM_PL_FLAG_CACHED;
++	man->default_caching = TTM_PL_FLAG_CACHED;
++	/* TODO: This is most likely not correct */
++	man->use_tt = true;
++	ttm_bo_init_mm_base(&dev_priv->bdev, man, 0);
+ 	spin_lock_init(&gman->lock);
+ 	gman->used_gmr_pages = 0;
+ 	ida_init(&gman->gmr_ida);
+ 
+-	switch (p_size) {
++	switch (type) {
+ 	case VMW_PL_GMR:
+ 		gman->max_gmr_ids = dev_priv->max_gmr_ids;
+ 		gman->max_gmr_pages = dev_priv->max_gmr_pages;
+@@ -143,8 +149,7 @@ static void vmw_gmrid_man_debug(struct ttm_mem_type_manager *man,
+ 	drm_printf(printer, "No debug info available for the GMR id manager\n");
  }
  
-@@ -158,7 +163,6 @@ static void vmw_thp_debug(struct ttm_mem_type_manager *man,
- }
- 
- const struct ttm_mem_type_manager_func vmw_thp_func = {
--	.init = vmw_thp_init,
- 	.takedown = vmw_thp_takedown,
- 	.get_node = vmw_thp_get_node,
- 	.put_node = vmw_thp_put_node,
+-const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
+-	.init = vmw_gmrid_man_init,
++static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
+ 	.takedown = vmw_gmrid_man_takedown,
+ 	.get_node = vmw_gmrid_man_get_node,
+ 	.put_node = vmw_gmrid_man_put_node,
 -- 
 2.26.2
 
