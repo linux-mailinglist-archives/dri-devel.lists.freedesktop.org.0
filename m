@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0603233E09
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC76233E06
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B746E9C4;
-	Fri, 31 Jul 2020 04:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADEC6E9B9;
+	Fri, 31 Jul 2020 04:07:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
  [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7EEB6E9B6
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27F66E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:55 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-72kcxMW7P7KJahouoGPgXQ-1; Fri, 31 Jul 2020 00:06:49 -0400
-X-MC-Unique: 72kcxMW7P7KJahouoGPgXQ-1
+ us-mta-440-exeAjFD4Mvmr6vOA8w0wkQ-1; Fri, 31 Jul 2020 00:06:51 -0400
+X-MC-Unique: exeAjFD4Mvmr6vOA8w0wkQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93A25106B243;
- Fri, 31 Jul 2020 04:06:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EDCB107ACCA;
+ Fri, 31 Jul 2020 04:06:50 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 255901001281;
- Fri, 31 Jul 2020 04:06:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F28ED100238C;
+ Fri, 31 Jul 2020 04:06:48 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 36/49] drm/vmwgfx/gmrid: don't provide pointless ttm debug
- callback
-Date: Fri, 31 Jul 2020 14:05:07 +1000
-Message-Id: <20200731040520.3701599-37-airlied@gmail.com>
+Subject: [PATCH 37/49] drm/ttm: allow drivers to provide their own manager
+ subclasses
+Date: Fri, 31 Jul 2020 14:05:08 +1000
+Message-Id: <20200731040520.3701599-38-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,30 +60,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
+This will get removed eventually and all drivers will use this.
+
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 7 -------
- 1 file changed, 7 deletions(-)
+ include/drm/ttm/ttm_bo_driver.h | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-index 3fa809b5e3bd..2db99f0449b0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-@@ -149,14 +149,7 @@ void vmw_gmrid_man_takedown(struct vmw_private *dev_priv, int type)
- 	ttm_bo_man_cleanup(man);
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 419b088253cf..723171fd94da 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -419,7 +419,7 @@ struct ttm_bo_device {
+ 	 * access via ttm_manager_type.
+ 	 */
+ 	struct ttm_mem_type_manager man_priv[TTM_NUM_MEM_TYPES];
+-
++	struct ttm_mem_type_manager *man_drv[TTM_NUM_MEM_TYPES];
+ 	/*
+ 	 * Protected by internal locks.
+ 	 */
+@@ -450,9 +450,18 @@ struct ttm_bo_device {
+ static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
+ 							    int mem_type)
+ {
++	if (bdev->man_drv[mem_type])
++		return bdev->man_drv[mem_type];
+ 	return &bdev->man_priv[mem_type];
  }
  
--static void vmw_gmrid_man_debug(struct ttm_mem_type_manager *man,
--				struct drm_printer *printer)
--{
--	drm_printf(printer, "No debug info available for the GMR id manager\n");
--}
--
- static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
- 	.get_node = vmw_gmrid_man_get_node,
- 	.put_node = vmw_gmrid_man_put_node,
--	.debug = vmw_gmrid_man_debug
- };
++static inline void ttm_set_driver_manager(struct ttm_bo_device *bdev,
++					  int type,
++					  struct ttm_mem_type_manager *manager)
++{
++	bdev->man_drv[type] = manager;
++}
++
+ /**
+  * struct ttm_lru_bulk_move_pos
+  *
 -- 
 2.26.2
 
