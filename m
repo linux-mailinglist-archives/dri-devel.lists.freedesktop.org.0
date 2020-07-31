@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270D2233E01
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0603233E09
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8643E6E9AD;
-	Fri, 31 Jul 2020 04:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B746E9C4;
+	Fri, 31 Jul 2020 04:07:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B4E6E9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:55 +0000 (UTC)
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7EEB6E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:52 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-dNmFyYFHNuqlQJq1MHcY2w-1; Fri, 31 Jul 2020 00:06:47 -0400
-X-MC-Unique: dNmFyYFHNuqlQJq1MHcY2w-1
+ us-mta-342-72kcxMW7P7KJahouoGPgXQ-1; Fri, 31 Jul 2020 00:06:49 -0400
+X-MC-Unique: 72kcxMW7P7KJahouoGPgXQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA22410059A7;
- Fri, 31 Jul 2020 04:06:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93A25106B243;
+ Fri, 31 Jul 2020 04:06:48 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8389D100238C;
- Fri, 31 Jul 2020 04:06:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 255901001281;
+ Fri, 31 Jul 2020 04:06:46 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 35/49] drm/nouveau/ttm: don't fill in blank ttm debug callback
-Date: Fri, 31 Jul 2020 14:05:06 +1000
-Message-Id: <20200731040520.3701599-36-airlied@gmail.com>
+Subject: [PATCH 36/49] drm/vmwgfx/gmrid: don't provide pointless ttm debug
+ callback
+Date: Fri, 31 Jul 2020 14:05:07 +1000
+Message-Id: <20200731040520.3701599-37-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,50 +62,28 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index ed651d7679fe..1b9d9362132d 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -37,12 +37,6 @@ nouveau_manager_del(struct ttm_mem_type_manager *man, struct ttm_mem_reg *reg)
- 	nouveau_mem_del(reg);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index 3fa809b5e3bd..2db99f0449b0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -149,14 +149,7 @@ void vmw_gmrid_man_takedown(struct vmw_private *dev_priv, int type)
+ 	ttm_bo_man_cleanup(man);
  }
  
--static void
--nouveau_manager_debug(struct ttm_mem_type_manager *man,
--		      struct drm_printer *printer)
+-static void vmw_gmrid_man_debug(struct ttm_mem_type_manager *man,
+-				struct drm_printer *printer)
 -{
+-	drm_printf(printer, "No debug info available for the GMR id manager\n");
 -}
 -
- static int
- nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
- 			 struct ttm_buffer_object *bo,
-@@ -72,7 +66,6 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
- const struct ttm_mem_type_manager_func nouveau_vram_manager = {
- 	.get_node = nouveau_vram_manager_new,
- 	.put_node = nouveau_manager_del,
--	.debug = nouveau_manager_debug,
+ static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
+ 	.get_node = vmw_gmrid_man_get_node,
+ 	.put_node = vmw_gmrid_man_put_node,
+-	.debug = vmw_gmrid_man_debug
  };
- 
- static int
-@@ -96,7 +89,6 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
- const struct ttm_mem_type_manager_func nouveau_gart_manager = {
- 	.get_node = nouveau_gart_manager_new,
- 	.put_node = nouveau_manager_del,
--	.debug = nouveau_manager_debug
- };
- 
- static int
-@@ -129,7 +121,6 @@ nv04_gart_manager_new(struct ttm_mem_type_manager *man,
- const struct ttm_mem_type_manager_func nv04_gart_manager = {
- 	.get_node = nv04_gart_manager_new,
- 	.put_node = nouveau_manager_del,
--	.debug = nouveau_manager_debug
- };
- 
- int
 -- 
 2.26.2
 
