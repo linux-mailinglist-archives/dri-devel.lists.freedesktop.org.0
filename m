@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC15233E00
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898BD233DFF
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jul 2020 06:06:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776E46E9A2;
-	Fri, 31 Jul 2020 04:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36AD16E9B5;
+	Fri, 31 Jul 2020 04:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BA46E9A0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:47 +0000 (UTC)
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400906E9A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jul 2020 04:06:44 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-k0SelrAAOHGHcVd3mGDj_Q-1; Fri, 31 Jul 2020 00:06:37 -0400
-X-MC-Unique: k0SelrAAOHGHcVd3mGDj_Q-1
+ us-mta-296-OnOBxfHQP7mazKC7ys4iFg-1; Fri, 31 Jul 2020 00:06:39 -0400
+X-MC-Unique: OnOBxfHQP7mazKC7ys4iFg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9910A1DE0;
- Fri, 31 Jul 2020 04:06:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7021F10059AC;
+ Fri, 31 Jul 2020 04:06:38 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B8361001281;
- Fri, 31 Jul 2020 04:06:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03CBF100238C;
+ Fri, 31 Jul 2020 04:06:36 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 31/49] drm/radeon/ttm: use wrapper to access memory manager
-Date: Fri, 31 Jul 2020 14:05:02 +1000
-Message-Id: <20200731040520.3701599-32-airlied@gmail.com>
+Subject: [PATCH 32/49] drm/vmwgfx/ttm: use wrapper to access memory manager
+Date: Fri, 31 Jul 2020 14:05:03 +1000
+Message-Id: <20200731040520.3701599-33-airlied@gmail.com>
 In-Reply-To: <20200731040520.3701599-1-airlied@gmail.com>
 References: <20200731040520.3701599-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,82 +61,125 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/radeon/radeon_gem.c |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c | 13 ++++++-------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 21 ++++++++++++-------
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           |  4 ++--
+ 3 files changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 44157ada9b0e..3ec028dba739 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -226,7 +226,7 @@ int radeon_gem_info_ioctl(struct drm_device *dev, void *data,
- 	struct drm_radeon_gem_info *args = data;
- 	struct ttm_mem_type_manager *man;
- 
--	man = &rdev->mman.bdev.man[TTM_PL_VRAM];
-+	man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
- 
- 	args->vram_size = (u64)man->size << PAGE_SHIFT;
- 	args->vram_visible = rdev->mc.visible_vram_size;
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index e65297b4b678..3849d0e852bc 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -68,7 +68,7 @@ struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
- 
- static int radeon_ttm_init_vram(struct radeon_device *rdev)
- {
--	struct ttm_mem_type_manager *man = &rdev->mman.bdev.man[TTM_PL_VRAM];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
- 
- 	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
- 	man->default_caching = TTM_PL_FLAG_WC;
-@@ -79,7 +79,7 @@ static int radeon_ttm_init_vram(struct radeon_device *rdev)
- 
- static int radeon_ttm_init_gtt(struct radeon_device *rdev)
- {
--	struct ttm_mem_type_manager *man = &rdev->mman.bdev.man[TTM_PL_TT];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT);
- 
- 	man->available_caching = TTM_PL_MASK_CACHING;
- 	man->default_caching = TTM_PL_FLAG_CACHED;
-@@ -379,7 +379,6 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 
- static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg *mem)
- {
--	struct ttm_mem_type_manager *man = &bdev->man[mem->mem_type];
- 	struct radeon_device *rdev = radeon_get_rdev(bdev);
- 
- 	mem->bus.addr = NULL;
-@@ -826,8 +825,8 @@ void radeon_ttm_fini(struct radeon_device *rdev)
- 		}
- 		radeon_bo_unref(&rdev->stolen_vga_memory);
- 	}
--	ttm_bo_man_takedown(&rdev->mman.bdev, &rdev->mman.bdev.man[TTM_PL_VRAM]);
--	ttm_bo_man_takedown(&rdev->mman.bdev, &rdev->mman.bdev.man[TTM_PL_TT]);
-+	ttm_bo_man_takedown(&rdev->mman.bdev, ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM));
-+	ttm_bo_man_takedown(&rdev->mman.bdev, ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT));
- 	ttm_bo_device_release(&rdev->mman.bdev);
- 	radeon_gart_fini(rdev);
- 	rdev->mman.initialized = false;
-@@ -843,7 +842,7 @@ void radeon_ttm_set_active_vram_size(struct radeon_device *rdev, u64 size)
- 	if (!rdev->mman.initialized)
- 		return;
- 
--	man = &rdev->mman.bdev.man[TTM_PL_VRAM];
-+	man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
- 	/* this just adjusts TTM size idea, which sets lpfn to the correct value */
- 	man->size = size >> PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index b27f8b3699cf..dff6990ff9ed 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -634,7 +634,7 @@ static int vmw_init_vram_manager(struct vmw_private *dev_priv)
+ 	ret = ttm_bo_man_init(&dev_priv->bdev, man,
+ 			      dev_priv->vram_size >> PAGE_SHIFT);
+ #endif
+-	dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
++	ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM)->use_type = false;
+ 	return ret;
  }
-@@ -897,7 +896,7 @@ static int radeon_mm_dump_table(struct seq_file *m, void *data)
- 	unsigned ttm_pl = *(int*)node->info_ent->data;
- 	struct drm_device *dev = node->minor->dev;
- 	struct radeon_device *rdev = dev->dev_private;
--	struct ttm_mem_type_manager *man = &rdev->mman.bdev.man[ttm_pl];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, ttm_pl);
- 	struct drm_printer p = drm_seq_file_printer(m);
  
- 	man->func->debug(man, &p);
+@@ -644,7 +644,7 @@ static void vmw_takedown_vram_manager(struct vmw_private *dev_priv)
+ 	vmw_thp_takedown(dev_priv);
+ #else
+ 	ttm_bo_man_takedown(&dev_priv->bdev,
+-			    &dev_priv->bdev.man[TTM_PL_VRAM]);
++			    ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM));
+ #endif
+ }
+ 
+@@ -1192,10 +1192,12 @@ static void vmw_master_drop(struct drm_device *dev,
+  */
+ static void __vmw_svga_enable(struct vmw_private *dev_priv)
+ {
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
++
+ 	spin_lock(&dev_priv->svga_lock);
+-	if (!dev_priv->bdev.man[TTM_PL_VRAM].use_type) {
++	if (!man->use_type) {
+ 		vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE);
+-		dev_priv->bdev.man[TTM_PL_VRAM].use_type = true;
++		man->use_type = true;
+ 	}
+ 	spin_unlock(&dev_priv->svga_lock);
+ }
+@@ -1221,9 +1223,11 @@ void vmw_svga_enable(struct vmw_private *dev_priv)
+  */
+ static void __vmw_svga_disable(struct vmw_private *dev_priv)
+ {
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
++
+ 	spin_lock(&dev_priv->svga_lock);
+-	if (dev_priv->bdev.man[TTM_PL_VRAM].use_type) {
+-		dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
++	if (man->use_type) {
++		man->use_type = false;
+ 		vmw_write(dev_priv, SVGA_REG_ENABLE,
+ 			  SVGA_REG_ENABLE_HIDE |
+ 			  SVGA_REG_ENABLE_ENABLE);
+@@ -1240,6 +1244,7 @@ static void __vmw_svga_disable(struct vmw_private *dev_priv)
+  */
+ void vmw_svga_disable(struct vmw_private *dev_priv)
+ {
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+ 	/*
+ 	 * Disabling SVGA will turn off device modesetting capabilities, so
+ 	 * notify KMS about that so that it doesn't cache atomic state that
+@@ -1255,8 +1260,8 @@ void vmw_svga_disable(struct vmw_private *dev_priv)
+ 	vmw_kms_lost_device(dev_priv->dev);
+ 	ttm_write_lock(&dev_priv->reservation_sem, false);
+ 	spin_lock(&dev_priv->svga_lock);
+-	if (dev_priv->bdev.man[TTM_PL_VRAM].use_type) {
+-		dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
++	if (man->use_type) {
++		man->use_type = false;
+ 		spin_unlock(&dev_priv->svga_lock);
+ 		if (ttm_bo_evict_mm(&dev_priv->bdev, TTM_PL_VRAM))
+ 			DRM_ERROR("Failed evicting VRAM buffers.\n");
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index 2522927b75da..3fa809b5e3bd 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -98,7 +98,7 @@ static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
+ 
+ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
+ {
+-	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
+ 	struct vmwgfx_gmrid_man *gman =
+ 		kzalloc(sizeof(*gman), GFP_KERNEL);
+ 
+@@ -133,7 +133,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
+ 
+ void vmw_gmrid_man_takedown(struct vmw_private *dev_priv, int type)
+ {
+-	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[type];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
+ 	struct vmwgfx_gmrid_man *gman =
+ 		(struct vmwgfx_gmrid_man *)man->priv;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+index 3591a93dad37..0dd619c9d207 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+@@ -117,7 +117,7 @@ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
+ 
+ int vmw_thp_init(struct vmw_private *dev_priv)
+ {
+-	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+ 	struct vmw_thp_manager *rman;
+ 	man->available_caching = TTM_PL_FLAG_CACHED;
+ 	man->default_caching = TTM_PL_FLAG_CACHED;
+@@ -137,7 +137,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
+ 
+ void vmw_thp_takedown(struct vmw_private *dev_priv)
+ {
+-	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+ 	struct vmw_thp_manager *rman = (struct vmw_thp_manager *) man->priv;
+ 	struct drm_mm *mm = &rman->mm;
+ 	int ret;
 -- 
 2.26.2
 
