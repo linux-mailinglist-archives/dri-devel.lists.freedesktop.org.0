@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE882351D4
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 13:04:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E36FB2351F8
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 14:04:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 426FE6EB72;
-	Sat,  1 Aug 2020 11:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B836EB76;
+	Sat,  1 Aug 2020 12:04:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05366EB72
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 11:04:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 8A07EFB03;
- Sat,  1 Aug 2020 13:04:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id v8GME70E-d7a; Sat,  1 Aug 2020 13:04:09 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 8636D4537D; Sat,  1 Aug 2020 13:04:09 +0200 (CEST)
-Date: Sat, 1 Aug 2020 13:04:09 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Fabio Estevam <festevam@gmail.com>,
- Robert Chiras <robert.chiras@nxp.com>,
- Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fix st7703 panel initialization failures
-Message-ID: <20200801110409.GA6351@bogon.m.sigxcpu.org>
-References: <20200716123753.3552425-1-megous@megous.com>
- <20200716140843.GA359122@bogon.m.sigxcpu.org>
- <20200716143209.ud6ote4q545bo2c7@core.my.home>
- <20200718173124.GA88021@bogon.m.sigxcpu.org>
- <20200718174215.mgjl3klytfa3nf3t@core.my.home>
- <20200729154809.GA435075@bogon.m.sigxcpu.org>
- <20200730134111.nayvgw4kcxeg6kft@core.my.home>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6BD6EB76
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 12:04:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
+Date: Sat, 01 Aug 2020 12:04:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kunal.bhat2001@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-203905-2300-gOShG1G6D0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
+References: <bug-203905-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200730134111.nayvgw4kcxeg6kft@core.my.home>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,108 +51,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgT25kxZllaiwKT24gVGh1LCBKdWwgMzAsIDIwMjAgYXQgMDM6NDE6MTFQTSArMDIwMCwgT25k
-xZllaiBKaXJtYW4gd3JvdGU6Cj4gSGVsbG8sCj4gCj4gT24gV2VkLCBKdWwgMjksIDIwMjAgYXQg
-MDU6NDg6MDlQTSArMDIwMCwgR3VpZG8gR8O8bnRoZXIgd3JvdGU6Cj4gPiBIaSwKPiA+IE9uIFNh
-dCwgSnVsIDE4LCAyMDIwIGF0IDA3OjQyOjE1UE0gKzAyMDAsIE9uZMWZZWogSmlybWFuIHdyb3Rl
-Ogo+ID4gPiBIZWxsbywKPiA+ID4gCj4gPiA+IE9uIFNhdCwgSnVsIDE4LCAyMDIwIGF0IDA3OjMx
-OjI0UE0gKzAyMDAsIEd1aWRvIEfDvG50aGVyIHdyb3RlOgo+ID4gPiA+IEhpLAo+ID4gPiA+IE9u
-IFRodSwgSnVsIDE2LCAyMDIwIGF0IDA0OjMyOjA5UE0gKzAyMDAsIE9uZMWZZWogSmlybWFuIHdy
-b3RlOgo+ID4gPiA+ID4gSGkgR3VpZG8sCj4gPiA+ID4gPiAKPiA+ID4gPiA+IE9uIFRodSwgSnVs
-IDE2LCAyMDIwIGF0IDA0OjA4OjQzUE0gKzAyMDAsIEd1aWRvIEfDvG50aGVyIHdyb3RlOgo+ID4g
-PiA+ID4gPiBIaSBPbmRyZWosCj4gPiA+ID4gPiA+IE9uIFRodSwgSnVsIDE2LCAyMDIwIGF0IDAy
-OjM3OjUxUE0gKzAyMDAsIE9uZHJlaiBKaXJtYW4gd3JvdGU6Cj4gPiA+ID4gPiA+ID4gV2hlbiBl
-eHRlbmRpbmcgdGhlIGRyaXZlciBmb3IgeGJkNTk5IHBhbmVsIHN1cHBvcnQgSSB0cmllZCB0byBk
-byBtaW5pbWFsCj4gPiA+ID4gPiA+ID4gY2hhbmdlcyBhbmQga2VlcCB0aGUgZXhpc3RpbmcgaW5p
-dGlhbGl6YXRpb24gdGltaW5nLgo+ID4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+IEl0IHR1cm5l
-ZCBvdXQgdGhhdCBpdCdzIG5vdCBnb29kIGVub3VnaCBhbmQgdGhlIGV4aXN0aW5nIGluaXQgc2Vx
-dWVuY2UKPiA+ID4gPiA+ID4gPiBpcyB0b28gYWdncmVzc2l2ZSBhbmQgZG9lc24ndCBmb2xsb3cg
-dGhlIHNwZWNpZmljYXRpb24uIE9uIFBpbmVQaG9uZQo+ID4gPiA+ID4gPiA+IHBhbmVsIGlzIGJl
-aW5nIHBvd2VyZWQgZG93bi91cCBkdXJpbmcgc3VzcGVuZC9yZXN1bWUgYW5kIHdpdGggY3VycmVu
-dAo+ID4gPiA+ID4gPiA+IHRpbWluZ3MgdGhpcyBmcmVxdWVudGx5IGxlYWRzIHRvIGNvcnJ1cHRl
-ZCBkaXNwbGF5Lgo+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gR2l2ZW4gdGhlIGFtb3VudCBvZiBT
-VDc3MDMgbG9vayBhbGlrZXMgaSBkb24ndCB0aGluayB5b3UgY2FuIGdvIGJ5IHRoZQo+ID4gPiA+
-ID4gPiBkYXRhc2hlZXQgYW5kIGhvcGUgbm90IHRvIGJyZWFrIG90aGVyIHBhbmVscy4gVGhlIGN1
-cnJlbnQgc2xlZXBzIGNhdGVyCj4gPiA+ID4gPiA+IGZvciB0aGUgcm9ja3RlY2ggcGFuZWwgKHdo
-aWNoIHN1ZmZlcmVkIGZyb20gc2ltaWxhciBpc3N1ZXMgeW91IGRlc2NyaWJlCj4gPiA+ID4gPiA+
-IHdoZW4gd2UgdG9vayBvdGhlciBwYXJhbWV0ZXJzKSBzbyB5b3UgbmVlZCB0byBtYWtlIHRob3Nl
-IHBhbmVsIHNwZWNpZmljLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBJdCBzaG91bGQgd29yayBvbiBy
-b2NrdGVjaCB0b28uIFRoZSBwYXRjaCBtb3N0bHkgaW5jcmVhc2VzL3Jlb3JkZXJzIHRoZSBkZWxh
-eXMKPiA+ID4gPiA+IHNsaWdodGx5LCB0byBtYXRjaCB0aGUgY29udHJvbGxlciBkb2N1bWVudGF0
-aW9uLiBJIGRvbid0IHNlZSBhIHJlYXNvbiB0bwo+ID4gPiA+ID4gY29tcGxpY2F0ZSB0aGUgZHJp
-dmVyIHdpdGggcGVyIHBhbmVsIHNwZWNpYWwgZGVsYXlzLCB1bmxlc3MgdGhlc2UgcGF0Y2hlcyBk
-b24ndAo+ID4gPiA+ID4gd29yayBvbiB5b3VyIHBhbmVsLgo+ID4gPiA+IAo+ID4gPiA+IFRoYXQn
-cyB3aHkgaSBicm91Z2h0IGl0IHVwLiBJdCBicmVha3MgdGhlIHJvY2t0ZWNoIHBhbmVsIG9uCj4g
-PiA+ID4gYmxhbmsvdW5ibGFuayBsb29wcyB3aGVyZSBpdCBqdXN0IHN0YXlzIGJsYW5rIGFuZCB0
-aGVuIHN0YXJ0cyBoaXR0aW5nCj4gPiA+ID4gRFNJIGNvbW1hbmQgdGltZW91dHMuCj4gPiA+IAo+
-ID4gPiBHb29kIHRvIGtub3cuIERvZXMga2VlcGluZyB0aGUgbXNsZWVwKDIwKTsgYWZ0ZXIgaW5p
-dCBzZXF1ZW5jZSBhbmQgYmVmb3JlIHNsZWVwCj4gPiA+IGV4aXQgbWFrZSBpdCB3b3JrPwo+ID4g
-Cj4gPiBXZSBuZWVkIGJvdGggc2xlZXBzIHRvIG1ha2UgdGhpcyB3b3JrIHJlbGlhYmx5IHNvIGJh
-c2ljYWxseQo+ID4gcmV2ZXJ0aW5nIHlvdXIgJ2RybS9wYW5lbDogc3Q3NzAzOiBNYWtlIHRoZSBz
-bGVlcCBleGl0IHRpbWluZyBtYXRjaCB0aGUKPiA+IHNwZWMnIG1ha2VzIHRoaW5ncyBzdGFibGUg
-YWdhaW4uCj4gPiAKPiA+IFdlIGRvbid0IG5lZWQgdG8gc2xlZXAgMTIwbXMgYWZ0ZXIgc2xlZXAg
-b3V0IHRob3VnaCBzaW5jZSBvdXIgcGFuZWwgb25seQo+ID4gcmVxdWlyZXMgMTVtcyBhcyBwZXIg
-ZGF0YSBzaGVldCB0aGVyZSBzbyBpdCByZWFsbHkgbWFrZXMgc2Vuc2UgdG8gbWFrZQo+ID4gdGhl
-c2UgY29uZmlndXJhYmxlLgo+IAo+IFRoYW5rIHlvdSBmb3IgY2hlY2tpbmcgaXQuCj4gCj4gSSdk
-IGJlIGhhcHB5IHdpdGgganVzdCB0aGUgb3RoZXIgcGF0Y2ggYmVpbmcgYXBwbGllZC4gVGhhdCB3
-b3VsZCBiZSBlbm91Z2gKPiB0byBmaXggaXNzdWVzIHdpdGggeGluZ2JhbmdkYSBwYW5lbCB0b28u
-CgpUaGF0J3MgZmluZSBzaW5jZSB0aGF0IGNhc2Ugd29ya3MgaGVyZSB0b28uIFRoZSBjb21taXQg
-bWVzc2FnZQpzaG91bGQgYmUgYWRqdXN0ZWQgdGhvdWdoIHNpbmNlIHRoZSBTVDc3MDMgZGF0YSBz
-aGVldCBpJ20gbG9va2luZyBhdCBzYXlzCnRoZXJlJ3Mgbm8gcmVzdHJpY3Rpb24gYWJvdXQgYXBw
-bHlpbmcgSU9WQ0MgYW5kIFZDSSAodFJQVz0gKy8tIG5vCmxpbWl0KS4gWW91J3JlIGJhc2ljYWxs
-eSBhbHNvIHN3aXRjaGluZyB0byBhbm90aGVyIHJlc2V0IHBhdHRlcm4gKHRoZQpkYXRhIHNoZWV0
-IGRlc2NyaWJlcyB0d28pLiBTbyBpbnN0ZWFkIG9mIHNheWluZzoKCiJGaXggdGhlIHBvd2VyIHVw
-IHNlcXVlbmNlIG9mIHRoZSBwYW5lbCIKCmknZCByYXRoZXIgc2F5CgoiUGljayBhIHJlc2V0IHNl
-cXVlbmNlIHRoYXQgd29ya3MgZm9yIGluZ2JhbmdkYSx4YmQ1OTkgcGFuZWwgdG9vIgoKYW5kIHRo
-ZW4gZGVzY3JpYmUgdGhlIGNoYW5nZXMgc2luY2UgdGhhdCBoZWxwcyB1cyB0byBpZGVudGlmeSBs
-YXRlcgpvbiB3aHkgd2UgbWFkZSB0aGF0IGNoYW5nZS4gV2l0aCB0aGF0IGFuZCAxLzIgZHJvcHBl
-ZCB0aGF0IGxvb2tzIGdvb2QgdG8KbWUuCgpDaGVlcnMsCiAtLSBHdWlkbwoKPgoKPiBJbiBteSB0
-ZXN0cyB4YmQgcGFuZWwgZG9lc24ndCBuZWVkIDEyMG1zIGVpdGhlciwgZGVzcGl0ZSB0aGUgZGF0
-YXNoZWV0Lgo+IFdoYXQgYnJlYWtzIHhiZCBwYW5lbCBpcyB0aGUgbGFjayBvZiBwb3N0LXBvd2Vy
-dXAgZGVsYXkgYmVmb3JlIGRlYXNzZXJ0aW5nCj4gcmVzZXQgbGluZS4KPiAKPiByZWdhcmRzLAo+
-IAlvLgo+IAo+ID4gQ2hlZXJzLAo+ID4gIC0tIEd1aWRvCj4gPiAKPiA+ID4gCj4gPiA+IHRoYW5r
-IHlvdSBhbmQgcmVnYXJkcywKPiA+ID4gCW8uCj4gPiA+IAo+ID4gPiA+IENoZWVycywKPiA+ID4g
-PiAgLS0gR3VpZG8KPiA+ID4gPiAKPiA+ID4gPiA+IAo+ID4gPiA+ID4gVGhlIGluaXQgc2VxdWVu
-Y2UgaXMgc3RpbGwgc3Vib3B0aW1hbCwgYW5kIGRvZXNuJ3QgZm9sbG93IHRoZSBrZXJuZWwgZG9j
-cwo+ID4gPiA+ID4gY29tcGxldGVseSwgZXZlbiBhZnRlciB0aGVzZSBwYXRjaGVzLiBDb250cm9s
-bGVyIHNwZWMgYWxzbyB0YWxrcyBhYm91dCBhZGRpbmcKPiA+ID4gPiA+IHNvbWUgZGVsYXkgYmVm
-b3JlIGVuYWJsaW5nIHRoZSBiYWNrbGlnaHQgdG8gYXZvaWQgdmlzdWFsIGdsaXRjaGVzLgo+ID4g
-PiA+ID4gCj4gPiA+ID4gPiBXaGljaCBpcyB3aGF0IGVuYWJsZSBjYWxsYmFjayBpcyBkb2N1bWVu
-dGVkIHRvIGJlIGZvci4gQ3VycmVudGx5IHBhcnQgb2YgdGhlCj4gPiA+ID4gPiBpbml0aWFsaXph
-dGlvbiB0aGF0IGJlbG9uZ3MgdG8gcHJlcGFyZSBjYWxsYmFjayBpcyBhbHNvIGRvbmUgaW4gZW5h
-YmxlIGNhbGxiYWNrLgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBJIHNlZSB0aGUgZ2xpdGNoIChzbWFs
-bCB2ZXJ0aWNhbCBzaGlmdCBvZiB0aGUgaW1hZ2Ugb24gcG93ZXJ1cCksIGJ1dCBwZXJzb25hbGx5
-Cj4gPiA+ID4gPiBkb24ndCBjYXJlIG11Y2ggdG8gaW50cm9kdWNlIGV2ZW4gbW9yZSBkZWxheXMg
-dG8gdGhlIGRyaXZlciwganVzdCBmb3IgdGhlCj4gPiA+ID4gPiBjb3NtZXRpYyBpc3N1ZS4KPiA+
-ID4gPiA+IAo+ID4gPiA+ID4gcmVnYXJkcywKPiA+ID4gPiA+IAlvLgo+ID4gPiA+ID4gCj4gPiA+
-ID4gPiA+IENoZWVycywKPiA+ID4gPiA+ID4gIC0tIEd1aWRvCj4gPiA+ID4gPiA+IAo+ID4gPiA+
-ID4gPiA+IAo+ID4gPiA+ID4gPiA+IFRoaXMgcGF0Y2ggc2VyaWVzIGZpeGVzIHRoZSBwcm9ibGVt
-cy4KPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiBUaGUgaXNzdWUgd2FzIHJlcG9ydGVkIGJ5
-IFNhbXVlbCBIb2xsYW5kLgo+ID4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiA+IFJlbGV2YW50IHNj
-cmVlbnNob3RzIGZyb20gdGhlIGRhdGFzaGVldDoKPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4g
-PiAgIFBvd2VyIG9uIHRpbWluZzogaHR0cHM6Ly9tZWdvdXMuY29tL2RsL3RtcC8zNWI3MmU2NzRj
-ZTBjYTI3LnBuZwo+ID4gPiA+ID4gPiA+ICAgUG93ZXIgb2ZmIHRpbWluZzogaHR0cHM6Ly9tZWdv
-dXMuY29tL2RsL3RtcC9kZWExOTU1MTcxMDZmZjE3LnBuZwo+ID4gPiA+ID4gPiA+ICAgTW9yZSBv
-cHRpbWFsIHJlc2V0IG9uIHBvd2Vyb246IGh0dHBzOi8vbWVnb3VzLmNvbS9kbC90bXAvYTllNWNh
-ZjE0ZTFiMGRjNi5wbmcKPiA+ID4gPiA+ID4gPiAgIExlc3Mgb3B0aW1hbCByZXNldCBvbiBwb3dl
-cm9uOiBodHRwczovL21lZ291cy5jb20vZGwvdG1wLzI0Njc2MTAzOTI4M2M0Y2YucG5nCj4gPiA+
-ID4gPiA+ID4gICBEYXRhc2hlZXQ6IGh0dHBzOi8vbWVnb3VzLmNvbS9kbC90bXAvU1Q3NzAzX0RT
-X3YwMV8yMDE2MDEyOC5wZGYKPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiBQbGVhc2UgdGFr
-ZSBhIGxvb2suCj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gdGhhbmsgeW91IGFuZCByZWdh
-cmRzLAo+ID4gPiA+ID4gPiA+ICAgT25kcmVqIEppcm1hbgo+ID4gPiA+ID4gPiA+IAo+ID4gPiA+
-ID4gPiA+IE9uZHJlaiBKaXJtYW4gKDIpOgo+ID4gPiA+ID4gPiA+ICAgZHJtL3BhbmVsOiBzdDc3
-MDM6IE1ha2UgdGhlIHNsZWVwIGV4aXQgdGltaW5nIG1hdGNoIHRoZSBzcGVjCj4gPiA+ID4gPiA+
-ID4gICBkcm0vcGFuZWw6IHN0NzcwMzogRml4IHRoZSBwb3dlciB1cCBzZXF1ZW5jZSBvZiB0aGUg
-cGFuZWwKPiA+ID4gPiA+ID4gPiAKPiA+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLXNpdHJvbml4LXN0NzcwMy5jIHwgMjkgKysrKysrKysrKy0tLS0tLS0tLQo+ID4gPiA+
-ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0p
-Cj4gPiA+ID4gPiA+ID4gCj4gPiA+ID4gPiA+ID4gLS0gCj4gPiA+ID4gPiA+ID4gMi4yNy4wCj4g
-PiA+ID4gPiA+ID4gCj4gPiA+ID4gPiAKPiA+ID4gCj4gCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+https://bugzilla.kernel.org/show_bug.cgi?id=203905
+
+Kunal Bhat (kunal.bhat2001@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |kunal.bhat2001@gmail.com
+
+--- Comment #9 from Kunal Bhat (kunal.bhat2001@gmail.com) ---
+(In reply to Flo Bock from comment #8)
+> With recent systemd changes, the 16 bit values in actual_brightness break
+> saving and restoring the backlight values using AMDGPU. According to a
+> closed issue on Github, Lennart Poettering sees this as a kernel issue[1].
+> Is there any good reason for actual_brightness to be 16bit, whereas both
+> max_brightness and brightness are 8bit?
+> 
+> [1]: https://github.com/systemd/systemd/issues/16600
+
+
+
+I believe it's there to provide a higher range of precision for the backlight.
+Not sure why they never extended the range for max_brightness. 
+
+The systemd devs are adamant that this is a driver issue, and aren't ready to
+implement a work around for it. 
+I believe this is the open issue with the discussions right now:
+https://github.com/systemd/systemd/issues/16630
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
