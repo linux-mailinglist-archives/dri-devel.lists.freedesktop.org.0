@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF205235282
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 15:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C7B2352B9
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 16:27:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3C36EB7B;
-	Sat,  1 Aug 2020 13:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DAD86EB85;
+	Sat,  1 Aug 2020 14:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 396 seconds by postgrey-1.36 at gabe;
- Sat, 01 Aug 2020 13:03:22 UTC
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8966EB79;
- Sat,  1 Aug 2020 13:03:22 +0000 (UTC)
-Received: from nazgul.tnic (unknown [78.130.214.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B8CAE1EC02FA;
- Sat,  1 Aug 2020 14:56:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1596286602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=NfmlZOrLaBmBGlzbXE5z6x4RKpqqJJmlzC4+91fmYUA=;
- b=n/7VNWjNwrVYldmM5JNyqQEVZd3Vp3hpjJSMuFhfSkrW8mQhIHtpfasKy9w1BEromsKKyZ
- /CdJ8nlcvZTCqyn05aBVgUH+WGtmqEhe61zMEoDcH8PmujGuHYORgBg9sVbSuZSh5qLljK
- uihuEhdcnAWg6tPbjyrRXoOKhqTEw/0=
-Date: Sat, 1 Aug 2020 14:56:57 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
-Subject: Re: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
-Message-ID: <20200801125657.GA25391@nazgul.tnic>
-References: <20200801112446.149549-1-refactormyself@gmail.com>
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB386EB85
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 14:27:45 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id b30so18281222lfj.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Aug 2020 07:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AFX3q5UL/Hekj1Owrf1DlrLYV1j+LXmw4rViBH4wBA0=;
+ b=m3RvS7W1RMIL7cIUF/3oGEnko2s0QlxcPiKEWwofhtIxpE1+qlBQSh5JhXkMo5E1bj
+ tMGKBKPrEnDTY8rkKLiA9xqA6g4RsyuVDoEHdoGGLEC+o8cbU2pO+it0l8ZYhpd+9qVt
+ GNcBM4ewwLtLPM7mLA5mtNiloJxl9rxL4480BgpKuW6V6z4NdUgTtlHPCwM5S/8/NTXh
+ ro5xhj5HGhSRljkaCuLbwrXTAxhQ2NxEt9HyAGGgAMONfWfD/eoWNh0mQjQJGac2ki4p
+ ZL8UwPAd45dsSpy9e1NrQ/fcthLHkik0/YAtDL5jZuS9BrpxcIZRxGPfRhlVJgWa9PGw
+ fDMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AFX3q5UL/Hekj1Owrf1DlrLYV1j+LXmw4rViBH4wBA0=;
+ b=sGNDFTJSY3SjC74oTaSTiRn+T01hP0rrPf/P29k8g4WB9hFvcYpGKwVvpJ74r7n6hZ
+ bhyV1nkrNu1FOVEgTdBaAMFpV6gbmcU7hiOnPVdPgla08dSoWSqxWBVfMA6U/tMw6hQZ
+ FTbtOuPDMeBf20T8Zerp0Ti6b89WsUmULzN9rFSMsIyJJEKqQF0gJxywIp/a8lF2r9AK
+ FTfLOPmImJ4pRCulS96WTVd5GCBmXPf8I2eBJCbAYlST86TmBTovc0rMjEe8OYW+GW/m
+ v0igTi2T3i37uDNRk5p/6ASE0TGtQgFg1r4dv5nS7wiSDa80fixHmMdOSVrCflDCGPPg
+ zLRA==
+X-Gm-Message-State: AOAM532Izp2kNhtk4JcXrVj5+Lae2RBgeZqeJAO7ZcLyAPeLwk+OXu3d
+ e1ipWXidLIzJRCCpAIAu1zLAR35YFx8oorcHMdK3ZQ==
+X-Google-Smtp-Source: ABdhPJyCsygFe37NY/t6SmyWsmcsVwZV/zyocjXdCnPbtYirvRY3A/8Zv0rdYuwoHTtlhA5YN9mBudELMfm1uUYdesU=
+X-Received: by 2002:ac2:5e26:: with SMTP id o6mr4425871lfg.194.1596292063603; 
+ Sat, 01 Aug 2020 07:27:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200801112446.149549-1-refactormyself@gmail.com>
+References: <20200801120216.8488-1-bernard@vivo.com>
+In-Reply-To: <20200801120216.8488-1-bernard@vivo.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 1 Aug 2020 16:27:32 +0200
+Message-ID: <CACRpkdasUurLu_zvUQ7jwyGDsGhFqeDA9oJ0qsTHVOXx0NT2rQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: remove return value of function drm_panel_add
+To: Bernard Zhao <bernard@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,52 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-pci@vger.kernel.org,
- linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
- Joerg Roedel <joro@8bytes.org>, linux-atm-general@lists.sourceforge.net,
- helgaas@kernel.org, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
- skhan@linuxfoundation.org, bjorn@helgaas.com,
- Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
- linux-hwmon@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
- dmaengine@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+Cc: opensource.kernel@vivo.com,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Stefan Mavrodiev <stefan@olimex.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robert Chiras <robert.chiras@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 01, 2020 at 01:24:29PM +0200, Saheed O. Bolarinwa wrote:
-> The return value of pci_read_config_*() may not indicate a device error.
-> However, the value read by these functions is more likely to indicate
-> this kind of error. This presents two overlapping ways of reporting
-> errors and complicates error checking.
+On Sat, Aug 1, 2020 at 2:02 PM Bernard Zhao <bernard@vivo.com> wrote:
 
-So why isn't the *value check done in the pci_read_config_* functions
-instead of touching gazillion callers?
+> The function "int drm_panel_add(struct drm_panel *panel)"
+> always returns 0, this return value is meaningless.
+> Also, there is no need to check return value which calls
+> "drm_panel_add and", error branch code will never run.
+>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
-For example, pci_conf{1,2}_read() could check whether the u32 *value it
-just read depending on the access method, whether that value is ~0 and
-return proper PCIBIOS_ error in that case.
+Makes sense.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-The check you're replicating
-
-	if (val32 == (u32)~0)
-
-everywhere, instead, is just ugly and tests a naked value ~0 which
-doesn't mean anything...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
