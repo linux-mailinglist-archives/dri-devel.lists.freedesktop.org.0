@@ -1,41 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DE9235013
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 05:43:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE36223516C
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 11:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8A06EB5C;
-	Sat,  1 Aug 2020 03:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D546EB69;
+	Sat,  1 Aug 2020 09:26:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E576EB5C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 03:43:25 +0000 (UTC)
-IronPort-SDR: rykK0kBDR2MnPIS/nPrJo1IaGcPf3rMCdOR7jmcqIlWTFWSGH01/+nAzDbHCfeePzZSh8cNSp5
- H6r0KeehrsKQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9699"; a="216341349"
-X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="216341349"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2020 20:43:25 -0700
-IronPort-SDR: 3tc/gl+Ukhwb9k/89dnYCY1jX8bmF0P6xAPx5J16Wse/Ii4OkO5eOj/7spk8hjCUuDHr53hy7+
- 2RDkF1VglSSg==
-X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="395520056"
-Received: from dwillia2-desk3.jf.intel.com (HELO
- dwillia2-desk3.amr.corp.intel.com) ([10.54.39.16])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2020 20:43:24 -0700
-Subject: [PATCH v3 23/23] device-dax: Add a range mapping allocation attribute
-From: Dan Williams <dan.j.williams@intel.com>
-To: akpm@linux-foundation.org
-Date: Fri, 31 Jul 2020 20:27:06 -0700
-Message-ID: <159625242681.3040297.14551750051856153463.stgit@dwillia2-desk3.amr.corp.intel.com>
-In-Reply-To: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
-References: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
-User-Agent: StGit/0.18-3-g996c
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7430D6EB69
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 09:26:37 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a14so29975433wra.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Aug 2020 02:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4YLCP8wVSVqxGYamKuMAhb4NgrNqZuvLwDDnSltj2vg=;
+ b=IBlDbmo6i5/yA3gM7oMn8j/KbJ/yrAZIE9zs0yot1xEtTipgLQlqtjkPq7TRZoojYt
+ HXTf+jSJnTZxt/t/mMu5SrRk/fRT/tD+K7TV5eXWOQU3MOME3QAmb7dPNipdOuhrH2OV
+ oI0jNbXdAg8BM5Z4Cu6HDEfWt6dm/iVmnr5TE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4YLCP8wVSVqxGYamKuMAhb4NgrNqZuvLwDDnSltj2vg=;
+ b=b8gP+bzubEVt8Fkxgk6mfIcTRaW+HQbaMn8A0U+TBxaCCrKuDIP9qmHWtmgj7IDLfZ
+ grmyuGlS8BU7bkiT+F/k2+Y4QHYNNpqd4mhcA2ufCX3i67gvjClCGsPXOLv8bPNp536W
+ WifwIBmxEVLJ0IbO1Wd1giH8zE0qilvDmD0DFAMZeuBKwMaQ0oXTPPjz+ZgcNxaSnSyh
+ goxvlZqbx1qLO5IcOLgaVtpMU9zUVrOQcRJhc/qh9To2mckI/UuiMOqW+xtczpfkYK4W
+ FsCmgsimlZLh4MQb7JvAMpWoh+Q3c8q9wIQ+4+r2Z7nIbFw3lWU6M6CQoiD1xX4uk/yL
+ hILg==
+X-Gm-Message-State: AOAM532PVVR7MtHq6QF6ST94Eykl1Elbc6AwtqVGGHfHugVszTic3QKf
+ qIJ+82OYPtY6f8xSx+nYQXABapsopws=
+X-Google-Smtp-Source: ABdhPJxGjsr8G3Xjac1E7hbR07w4oMMgBwQSTZgeC55/BUmuJd4QwTBeDXuS7MuqzKf6XMWBxMS0Ww==
+X-Received: by 2002:adf:b34a:: with SMTP id k10mr6708220wrd.402.1596273995858; 
+ Sat, 01 Aug 2020 02:26:35 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n18sm17037889wrw.45.2020.08.01.02.26.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Aug 2020 02:26:35 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/syncobj: Tune down unordered timeline DRM_ERROR
+Date: Sat,  1 Aug 2020 11:26:25 +0200
+Message-Id: <20200801092625.1107609-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,134 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, ard.biesheuvel@linaro.org, peterz@infradead.org,
- vishal.l.verma@intel.com, dave.hansen@linux.intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, joao.m.martins@oracle.com, linux-nvdimm@lists.01.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joao Martins <joao.m.martins@oracle.com>
-
-Add a sysfs attribute which denotes a range from the dax region
-to be allocated. It's an write only @mapping sysfs attribute in
-the format of '<start>-<end>' to allocate a range. @start and
-@end use hexadecimal values and the @pgoff is implicitly ordered
-wrt to previous writes to @mapping sysfs e.g. a write of a range
-of length 1G the pgoff is 0..1G(-4K), a second write will use
-@pgoff for 1G+4K..<size>.
-
-This range mapping interface is useful for:
-
- 1) Application which want to implement its own allocation logic,
- and thus pick the desired ranges from dax_region.
-
- 2) For use cases like VMM fast restart[0] where after kexec we
- want to the same gpa<->phys mappings (as originally created
- before kexec).
-
-[0] https://static.sched.com/hosted_files/kvmforum2019/66/VMM-fast-restart_kvmforum2019.pdf
-
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Link: https://lore.kernel.org/r/20200716172913.19658-5-joao.m.martins@oracle.com
-Signed-off-by: Dan Williams <dan.j.williams@intel.com>
----
- drivers/dax/bus.c |   64 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
-
-diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 7a9439132573..aa67555ba183 100644
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -1040,6 +1040,67 @@ static ssize_t size_store(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR_RW(size);
- 
-+static ssize_t range_parse(const char *opt, size_t len, struct range *range)
-+{
-+	unsigned long long addr = 0;
-+	char *start, *end, *str;
-+	ssize_t rc = EINVAL;
-+
-+	str = kstrdup(opt, GFP_KERNEL);
-+	if (!str)
-+		return rc;
-+
-+	end = str;
-+	start = strsep(&end, "-");
-+	if (!start || !end)
-+		goto err;
-+
-+	rc = kstrtoull(start, 16, &addr);
-+	if (rc)
-+		goto err;
-+	range->start = addr;
-+
-+	rc = kstrtoull(end, 16, &addr);
-+	if (rc)
-+		goto err;
-+	range->end = addr;
-+
-+err:
-+	kfree(str);
-+	return rc;
-+}
-+
-+static ssize_t mapping_store(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t len)
-+{
-+	struct dev_dax *dev_dax = to_dev_dax(dev);
-+	struct dax_region *dax_region = dev_dax->region;
-+	size_t to_alloc;
-+	struct range r;
-+	ssize_t rc;
-+
-+	rc = range_parse(buf, len, &r);
-+	if (rc)
-+		return rc;
-+
-+	rc = -ENXIO;
-+	device_lock(dax_region->dev);
-+	if (!dax_region->dev->driver) {
-+		device_unlock(dax_region->dev);
-+		return rc;
-+	}
-+	device_lock(dev);
-+
-+	to_alloc = range_len(&r);
-+	if (alloc_is_aligned(dev_dax, to_alloc))
-+		rc = alloc_dev_dax_range(dev_dax, r.start, to_alloc);
-+	device_unlock(dev);
-+	device_unlock(dax_region->dev);
-+
-+	return rc == 0 ? len : rc;
-+}
-+static DEVICE_ATTR_WO(mapping);
-+
- static ssize_t align_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
-@@ -1181,6 +1242,8 @@ static umode_t dev_dax_visible(struct kobject *kobj, struct attribute *a, int n)
- 		return 0;
- 	if (a == &dev_attr_numa_node.attr && !IS_ENABLED(CONFIG_NUMA))
- 		return 0;
-+	if (a == &dev_attr_mapping.attr && is_static(dax_region))
-+		return 0;
- 	if ((a == &dev_attr_align.attr ||
- 	     a == &dev_attr_size.attr) && is_static(dax_region))
- 		return 0444;
-@@ -1190,6 +1253,7 @@ static umode_t dev_dax_visible(struct kobject *kobj, struct attribute *a, int n)
- static struct attribute *dev_dax_attributes[] = {
- 	&dev_attr_modalias.attr,
- 	&dev_attr_size.attr,
-+	&dev_attr_mapping.attr,
- 	&dev_attr_target_node.attr,
- 	&dev_attr_align.attr,
- 	&dev_attr_resource.attr,
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VXNlcnNwYWNlIGNhbiBwcm92b2tlIHRoaXMsIHdlIGdlbmVyYWxseSBkb24ndCBhbGxvdyB1c2Vy
+c3BhY2UgdG8gc3BhbQpkbWVzZy4gVHVuZSBpdCBkb3duIHRvIGRlYnVnLiBVbmZvcnR1bmF0ZWx5
+IHdlIGRvbid0IGhhdmUgZWFzeSBhY2Nlc3MKdG8gdGhlIGRybV9kZXZpY2UgaGVyZSAobm90IGF0
+IGFsbCB3aXRob3V0IGNoYW5naW5nIGEgZmV3IHRoaW5ncyksIHNvCmxlYXZlIGl0IGFzIG9sZCBz
+dHlsZSBkbWVzZyBvdXRwdXQgZm9yIG5vdy4KClJlZmVyZW5jZXM6IGh0dHBzOi8vcGF0Y2h3b3Jr
+LmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvODAxNDYvClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpDYzogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJp
+cy13aWxzb24uY28udWs+CkNjOiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcubGFuZHdlcmxp
+bkBpbnRlbC5jb20+CkNjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1k
+LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYyB8IDIgKy0KIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fc3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMK
+aW5kZXggM2JmNzM5NzFkYWYzLi42ZTc0ZTY3NDVlY2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fc3luY29iai5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCkBA
+IC0yOTcsNyArMjk3LDcgQEAgdm9pZCBkcm1fc3luY29ial9hZGRfcG9pbnQoc3RydWN0IGRybV9z
+eW5jb2JqICpzeW5jb2JqLAogCXByZXYgPSBkcm1fc3luY29ial9mZW5jZV9nZXQoc3luY29iaik7
+CiAJLyogWW91IGFyZSBhZGRpbmcgYW4gdW5vcmRlciBwb2ludCB0byB0aW1lbGluZSwgd2hpY2gg
+Y291bGQgY2F1c2UgcGF5bG9hZCByZXR1cm5lZCBmcm9tIHF1ZXJ5X2lvY3RsIGlzIDAhICovCiAJ
+aWYgKHByZXYgJiYgcHJldi0+c2Vxbm8gPj0gcG9pbnQpCi0JCURSTV9FUlJPUigiWW91IGFyZSBh
+ZGRpbmcgYW4gdW5vcmRlciBwb2ludCB0byB0aW1lbGluZSFcbiIpOworCQlEUk1fREVCVUcoIllv
+dSBhcmUgYWRkaW5nIGFuIHVub3JkZXIgcG9pbnQgdG8gdGltZWxpbmUhXG4iKTsKIAlkbWFfZmVu
+Y2VfY2hhaW5faW5pdChjaGFpbiwgcHJldiwgZmVuY2UsIHBvaW50KTsKIAlyY3VfYXNzaWduX3Bv
+aW50ZXIoc3luY29iai0+ZmVuY2UsICZjaGFpbi0+YmFzZSk7CiAKLS0gCjIuMjcuMAoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
