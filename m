@@ -1,115 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3430234F5E
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 04:04:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC4D234FBF
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 05:41:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C2A6EB52;
-	Sat,  1 Aug 2020 02:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8A26E106;
+	Sat,  1 Aug 2020 03:41:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E70276EB52
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 02:04:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z0YGUGB97lBVHBpU4b+fueUBggzLmiV6fbamzSbiVPjZc+AeL1i2AOzcUCtnDoig9+MtTELY3iYjzhuWnTifHHJ4nXpQuCDWELseUBIpoJNcyXZVNh7DKcsVGkObHWXY7795Yg7C3MoHWpXtabYslBVNJnFu06CdBCo/5psRA4Sxvz5irsfBBDXXwAkUYgm4B1iL+J2bBYcaarzYLWmdlql4kdL7ik1akLwYPoGSYwCfSLHwuzVpKvFKZb2W/HvG5XZV82MNCKkJWhHgeKp8hpFBHNnWsBn3IcoEehbLyYJDhGYQl4Bjh6dsW3uGcVbIcqtO2TPmks9c7f4ZAM5stw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lx+GoULuWvlAXC/kBXa1l22NZHhr72ro3bKdHfgzW2M=;
- b=Dg2LGImigdvmtu0UqrMFUsRL39ycUJkVbS98T6/MNFARQG9fIOK1cG4YfX6/XrO1EkUNSGrR9Y1YuT7xKN8Dw4s7zUv+LY/gt/PUeWZaiKNI0z+BxWsbOxWgwOm787QGuqc7UMuLmiaEOI8ASvH3vaxujjFcV1QLKeCiLYsKkkosPwEFs22XlbgexeiH1fG4Tox2DldN8OCY4hsVsEK8eCcGbiICh0eEVL+xkg1XbuNjVKaEMO34FcslrIQWzn6f7pAnNSSn1d/+NH5AkWrjz4mzx+zdY14EXEiQapJKgCdAmO/ojtuwRbcu6vgGhVrj+CaLurZvhDMHdt7nNP8tAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lx+GoULuWvlAXC/kBXa1l22NZHhr72ro3bKdHfgzW2M=;
- b=OiisoJSuzK1kHjuxdCW8dLFNXFBtwcnpZgVumzdk5KA+MgMoqJC21hG0zmQPjaNIiQdTVJbbdk2qWmMGSGlaimHqW/2UAStADgg+NjCYZQU3pWJlAOAkmyV5D8ImejcGYhDA6aRq/x8NUaiCK5uRltTzsf2skHBYlk4WAWrQofg=
-Received: from MN2PR20CA0062.namprd20.prod.outlook.com (2603:10b6:208:235::31)
- by BYAPR02MB4136.namprd02.prod.outlook.com (2603:10b6:a02:fb::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Sat, 1 Aug
- 2020 02:04:03 +0000
-Received: from BL2NAM02FT003.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:235::4) by MN2PR20CA0062.outlook.office365.com
- (2603:10b6:208:235::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16 via Frontend
- Transport; Sat, 1 Aug 2020 02:04:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT003.mail.protection.outlook.com (10.152.76.204) with Microsoft SMTP
- Server id 15.20.3239.17 via Frontend Transport; Sat, 1 Aug 2020 02:04:02
- +0000
-Received: from [149.199.38.66] (port=38176 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1k1gqR-0004K9-Po; Fri, 31 Jul 2020 19:01:55 -0700
-Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1k1gsT-0004Gi-UA; Fri, 31 Jul 2020 19:04:01 -0700
-Received: from [172.19.2.244] (helo=xsjhyunkubuntu)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <hyunk@smtp.xilinx.com>)
- id 1k1gsT-0004Gb-M3; Fri, 31 Jul 2020 19:04:01 -0700
-Received: by xsjhyunkubuntu (Postfix, from userid 13638)
- id A3D332C2337; Fri, 31 Jul 2020 19:00:00 -0700 (PDT)
-Date: Fri, 31 Jul 2020 19:00:00 -0700
-To: Hyun Kwon <hyun.kwon@xilinx.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v2 1/1] drm: xlnx: zynqmp: Use switch - case for link
- rate downshift
-Message-ID: <20200801015959.GA27681@xilinx.com>
-References: <1596065445-4630-1-git-send-email-hyun.kwon@xilinx.com>
- <20200730231246.GJ6107@pendragon.ideasonboard.com>
- <20200731023301.GB20223@xilinx.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED67C6E106
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 03:41:20 +0000 (UTC)
+IronPort-SDR: 9lJO/U11X3zrP/2oscsZXpXgb8OlmXdmnjBsLyOZWGB6vQq5B7qx0th7JLezfqZZHSwbRxkp1B
+ brb3wzUVBgZw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9699"; a="170007788"
+X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="170007788"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2020 20:41:20 -0700
+IronPort-SDR: TxwR/M8d52bA9HGOPqqFlTAEflpVkTxN+rc4KBs0C5ON7Y0dcqLOWDQTZ+sqfDFBr701ElUs7E
+ MjR7k/BVmPdw==
+X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="329492534"
+Received: from dwillia2-desk3.jf.intel.com (HELO
+ dwillia2-desk3.amr.corp.intel.com) ([10.54.39.16])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2020 20:41:19 -0700
+Subject: [PATCH v3 00/23] device-dax: Support sub-dividing soft-reserved ranges
+From: Dan Williams <dan.j.williams@intel.com>
+To: akpm@linux-foundation.org
+Date: Fri, 31 Jul 2020 20:24:58 -0700
+Message-ID: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
+User-Agent: StGit/0.18-3-g996c
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200731023301.GB20223@xilinx.com>
-Thread-Topic: [PATCH v2 1/1] drm: xlnx: zynqmp: Use switch - case for link
- rate downshift
-Thread-Index: AQHWZgBIX+AOHIRwJE6gKYBkXIY/w6kgwd4A///CmoCAAf7lEA==
-Content-Language: en-US
-User-Agent: Mutt/1.5.24 (2015-08-30)
-From: hyun.kwon@xilinx.com (Hyun Kwon)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db2bb08a-4803-4efa-0f8f-08d835bf2978
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4136:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB4136A7E3430BF3194E6E4790D64F0@BYAPR02MB4136.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iWQe19gMI0tY8n0HJPLseFV6JqIF1L5NnRBgGwujW2qjFSYeZT6BEJuSJwi8ssSFjzo1sQmMP4ndagNy0YC3PanLsYvhxHGimcdotCQMFrW+Xt5Fy+DjHoGsB6dd7juovnNcphlYEB63SZp1H+f4p8Tn06NQWFV7X5e72ipD2tog+SuEx0obvbCOVnd6cozWE1lVCVKtIy8LrLhAP1C8ojuSRMVkU3Wgs0tbPfo2ujHe49lMcyxrVgywXc+Y38uROz3Mdl/bADW4ndhuopl97jVYm7fJQB9ILEyMsHLNrdTBUv2qv9o8mhNMSbn5c3Njz0bVUmdzai70E60HmX6oPaZzLAXWsPHblJFc90tephf9CddkPzJbU1on/Ml1+qh95k0PT0LP5FtZOOGQpfN5rFJkUy+bo/SBhNW0Ut9dKIEbtiMstZ8uxMbKP27t5EiD
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(376002)(346002)(396003)(136003)(39860400002)(46966005)(8676002)(110136005)(83170400001)(83380400001)(70586007)(5660300002)(54906003)(53546011)(70206006)(26005)(4326008)(81166007)(356005)(82310400002)(186003)(47076004)(82740400003)(316002)(6266002)(8936002)(426003)(336012)(966005)(2906002)(9686003)(42186006)(42882007)(33656002)(36756003)(1076003)(478600001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2020 02:04:02.3645 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: db2bb08a-4803-4efa-0f8f-08d835bf2978
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT003.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,140 +47,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: x86@kernel.org, David Hildenbrand <david@redhat.com>,
+ David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Paul Mackerras <paulus@ozlabs.org>, linux-mm@kvack.org,
+ Michael Ellerman <mpe@ellerman.id.au>, "H. Peter Anvin" <hpa@zytor.com>,
+ joao.m.martins@oracle.com, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org,
+ vishal.l.verma@intel.com, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Mike Rapoport <rppt@linux.ibm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Jeff Moyer <jmoyer@redhat.com>, Jason Gunthorpe <jgg@mellanox.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Pavel Tatashin <pasha.tatashin@soleen.com>, Ira Weiny <ira.weiny@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jia He <justin.he@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ Wei Yang <richardw.yang@linux.intel.com>, Brice Goglin <Brice.Goglin@inria.fr>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes since v2 [1]:
+- Rebase on next/master to resolve conflicts with pending mem-hotplug
+  and memremap_pages() changes in -mm
 
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Hyun
-> Kwon
-> Sent: Thursday, July 30, 2020 7:33 PM
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Dan Carpenter <dan.carpenter@oracle.com>; dri-
-> devel@lists.freedesktop.org; Daniel Vetter <daniel.vetter@ffwll.ch.ch>
-> Subject: Re: [PATCH v2 1/1] drm: xlnx: zynqmp: Use switch - case for link rate
-> downshift
-> 
-> Hi Laurent,
-> 
-> Thanks for the comment.
-> 
-> On Thu, Jul 30, 2020 at 04:12:46PM -0700, Laurent Pinchart wrote:
-> > Hi Hyun,
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Jul 29, 2020 at 04:30:45PM -0700, Hyun Kwon wrote:
-> > > Use switch - case to downshift from the current link rate. It's a small
-> > > loop now, so fine to be replaced with switch - case. With a loop, it is
-> > > confusing and hard to follow as reported below.
-> > >
-> > > The patch d76271d22694: "drm: xlnx: DRM/KMS driver for Xilinx ZynqMP
-> > > DisplayPort Subsystem" from Jul 7, 2018, leads to the following
-> > > static checker warning:
-> > >
-> > > 	drivers/gpu/drm/xlnx/zynqmp_dp.c:594 zynqmp_dp_mode_configure()
-> > > 	error: iterator underflow 'bws' (-1)-2
-> > >
-> > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > Signed-off-by: Hyun Kwon <hyun.kwon@xilinx.com>
-> > > ---
-> > > v2
-> > > - Convert the for loop into switch - case
-> > > ---
-> > > ---
-> > >  drivers/gpu/drm/xlnx/zynqmp_dp.c | 29 ++++++++++++++++-------------
-> > >  1 file changed, 16 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > index b735072..5d6adeaa 100644
-> > > --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> > > @@ -567,34 +567,37 @@ static int zynqmp_dp_mode_configure(struct
-> zynqmp_dp *dp, int pclock,
-> > >  				    u8 current_bw)
-> > >  {
-> > >  	int max_rate = dp->link_config.max_rate;
-> > > -	u8 bws[3] = { DP_LINK_BW_1_62, DP_LINK_BW_2_7,
-> DP_LINK_BW_5_4 };
-> > > +	u8 bw_code;
-> > >  	u8 max_lanes = dp->link_config.max_lanes;
-> > >  	u8 max_link_rate_code = drm_dp_link_rate_to_bw_code(max_rate);
-> > >  	u8 bpp = dp->config.bpp;
-> > >  	u8 lane_cnt;
-> > > -	s8 i;
-> > >
-> > > -	if (current_bw == DP_LINK_BW_1_62) {
-> > > +	/* Downshift from current one */
-> >
-> > Maybe "Downshift from the current bandwidth" ?
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> 
-> I agree. I'll fix and add the tag.
-> 
+- Drop attempt at a generic phys_to_target_node() implementation and
+  just follow the default fallback approach taken with
+  memory_add_physaddr_to_nid() (Mike)
 
-Applied to drm-misc-next-fixes.
+- Fix test_hmm and other compilation fixups (Ralph)
 
-Thanks,
--hyun
+- Integrate Joao's extensions to the device-dax sub-division interface
+  (per-device align, user-directed extent allocation). (Joao)
 
-> Thanks!
-> 
-> -hyun
-> 
-> > > +	switch (current_bw) {
-> > > +	case DP_LINK_BW_5_4:
-> > > +		bw_code = DP_LINK_BW_2_7;
-> > > +		break;
-> > > +	case DP_LINK_BW_2_7:
-> > > +		bw_code = DP_LINK_BW_1_62;
-> > > +		break;
-> > > +	case DP_LINK_BW_1_62:
-> > >  		dev_err(dp->dev, "can't downshift. already lowest link rate\n");
-> > >  		return -EINVAL;
-> > > -	}
-> > > -
-> > > -	for (i = ARRAY_SIZE(bws) - 1; i >= 0; i--) {
-> > > -		if (current_bw && bws[i] >= current_bw)
-> > > -			continue;
-> > > -
-> > > -		if (bws[i] <= max_link_rate_code)
-> > > -			break;
-> > > +	default:
-> > > +		/* If not given, start with max supported */
-> > > +		bw_code = max_link_rate_code;
-> > > +		break;
-> > >  	}
-> > >
-> > >  	for (lane_cnt = 1; lane_cnt <= max_lanes; lane_cnt <<= 1) {
-> > >  		int bw;
-> > >  		u32 rate;
-> > >
-> > > -		bw = drm_dp_bw_code_to_link_rate(bws[i]);
-> > > +		bw = drm_dp_bw_code_to_link_rate(bw_code);
-> > >  		rate = zynqmp_dp_max_rate(bw, lane_cnt, bpp);
-> > >  		if (pclock <= rate) {
-> > > -			dp->mode.bw_code = bws[i];
-> > > +			dp->mode.bw_code = bw_code;
-> > >  			dp->mode.lane_cnt = lane_cnt;
-> > >  			dp->mode.pclock = pclock;
-> > >  			return dp->mode.bw_code;
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+[1]: http://lore.kernel.org/r/159457116473.754248.7879464730875147365.stgit@dwillia2-desk3.amr.corp.intel.com
+
+---
+Merge notes:
+
+Andrew, this series is rebased on today's next/master to resolve
+conflicts with some pending patches in -mm. I'd like to take it through
+your tree given the intersections with memremap_pages() and memory
+hotplug. If at all possible I'd like to see it in v5.10, but I realize
+time is short. Outside of the Intel identified use cases for this Joao
+has identified a use case for Oracle as well.
+
+I would have sent this earlier save for the fact I am mostly offline
+tending to a newborn these days. Vishal has stepped up to take on care
+and feeding of this patchset if additional review / integration fixups
+are needed.
+
+The one test feedback this wants is from Justin (justin.he@arm.com), and
+whether this lights up dax_kmem and now dax_hmem for him on arm64.
+Otherwise, Joao has written unit tests for this in his enabling of the
+daxctl userspace utility [2].
+
+---
+Cover:
+
+The device-dax facility allows an address range to be directly mapped
+through a chardev, or optionally hotplugged to the core kernel page
+allocator as System-RAM. It is the mechanism for converting persistent
+memory (pmem) to be used as another volatile memory pool i.e. the
+current Memory Tiering hot topic on linux-mm.
+
+In the case of pmem the nvdimm-namespace-label mechanism can sub-divide
+it, but that labeling mechanism is not available / applicable to
+soft-reserved ("EFI specific purpose") memory [3]. This series provides
+a sysfs-mechanism for the daxctl utility to enable provisioning of
+volatile-soft-reserved memory ranges.
+
+The motivations for this facility are:
+
+1/ Allow performance differentiated memory ranges to be split between
+   kernel-managed and directly-accessed use cases.
+
+2/ Allow physical memory to be provisioned along performance relevant
+   address boundaries. For example, divide a memory-side cache [4] along
+   cache-color boundaries.
+
+3/ Parcel out soft-reserved memory to VMs using device-dax as a security
+   / permissions boundary [5]. Specifically I have seen people (ab)using
+   memmap=nn!ss (mark System-RAM as Persistent Memory) just to get the
+   device-dax interface on custom address ranges. A follow-on for the VM
+   use case is to teach device-dax to dynamically allocate 'struct page' at
+   runtime to reduce the duplication of 'struct page' space in both the
+   guest and the host kernel for the same physical pages.
+
+[2]: http://lore.kernel.org/r/20200713160837.13774-11-joao.m.martins@oracle.com
+[3]: http://lore.kernel.org/r/157309097008.1579826.12818463304589384434.stgit@dwillia2-desk3.amr.corp.intel.com
+[4]: http://lore.kernel.org/r/154899811738.3165233.12325692939590944259.stgit@dwillia2-desk3.amr.corp.intel.com
+[5]: http://lore.kernel.org/r/20200110190313.17144-1-joao.m.martins@oracle.com
+
+---
+
+Dan Williams (19):
+      x86/numa: Cleanup configuration dependent command-line options
+      x86/numa: Add 'nohmat' option
+      efi/fake_mem: Arrange for a resource entry per efi_fake_mem instance
+      ACPI: HMAT: Refactor hmat_register_target_device to hmem_register_device
+      resource: Report parent to walk_iomem_res_desc() callback
+      mm/memory_hotplug: Introduce default phys_to_target_node() implementation
+      ACPI: HMAT: Attach a device for each soft-reserved range
+      device-dax: Drop the dax_region.pfn_flags attribute
+      device-dax: Move instance creation parameters to 'struct dev_dax_data'
+      device-dax: Make pgmap optional for instance creation
+      device-dax: Kill dax_kmem_res
+      device-dax: Add an allocation interface for device-dax instances
+      device-dax: Introduce 'seed' devices
+      drivers/base: Make device_find_child_by_name() compatible with sysfs inputs
+      device-dax: Add resize support
+      mm/memremap_pages: Convert to 'struct range'
+      mm/memremap_pages: Support multiple ranges per invocation
+      device-dax: Add dis-contiguous resource support
+      device-dax: Introduce 'mapping' devices
+
+Joao Martins (4):
+      device-dax: Make align a per-device property
+      device-dax: Add an 'align' attribute
+      dax/hmem: Introduce dax_hmem.region_idle parameter
+      device-dax: Add a range mapping allocation attribute
+
+
+ arch/powerpc/kvm/book3s_hv_uvmem.c     |   14 
+ arch/x86/include/asm/numa.h            |    8 
+ arch/x86/kernel/e820.c                 |   16 
+ arch/x86/mm/numa.c                     |   11 
+ arch/x86/mm/numa_emulation.c           |    3 
+ arch/x86/xen/enlighten_pv.c            |    2 
+ drivers/acpi/numa/hmat.c               |   76 --
+ drivers/acpi/numa/srat.c               |    9 
+ drivers/base/core.c                    |    2 
+ drivers/dax/Kconfig                    |    4 
+ drivers/dax/Makefile                   |    3 
+ drivers/dax/bus.c                      | 1055 ++++++++++++++++++++++++++++++--
+ drivers/dax/bus.h                      |   28 +
+ drivers/dax/dax-private.h              |   40 +
+ drivers/dax/device.c                   |  132 ++--
+ drivers/dax/hmem.c                     |   56 --
+ drivers/dax/hmem/Makefile              |    6 
+ drivers/dax/hmem/device.c              |  100 +++
+ drivers/dax/hmem/hmem.c                |   65 ++
+ drivers/dax/kmem.c                     |  199 +++---
+ drivers/dax/pmem/compat.c              |    2 
+ drivers/dax/pmem/core.c                |   22 -
+ drivers/firmware/efi/x86_fake_mem.c    |   12 
+ drivers/gpu/drm/nouveau/nouveau_dmem.c |   15 
+ drivers/nvdimm/badrange.c              |   26 -
+ drivers/nvdimm/claim.c                 |   13 
+ drivers/nvdimm/nd.h                    |    3 
+ drivers/nvdimm/pfn_devs.c              |   13 
+ drivers/nvdimm/pmem.c                  |   27 -
+ drivers/nvdimm/region.c                |   21 -
+ drivers/pci/p2pdma.c                   |   12 
+ include/acpi/acpi_numa.h               |   14 
+ include/linux/dax.h                    |    8 
+ include/linux/memory_hotplug.h         |    5 
+ include/linux/memremap.h               |   11 
+ include/linux/range.h                  |    6 
+ kernel/resource.c                      |   11 
+ lib/test_hmm.c                         |   15 
+ mm/memory_hotplug.c                    |   10 
+ mm/memremap.c                          |  299 +++++----
+ tools/testing/nvdimm/dax-dev.c         |   22 -
+ tools/testing/nvdimm/test/iomap.c      |    2 
+ 42 files changed, 1810 insertions(+), 588 deletions(-)
+ delete mode 100644 drivers/dax/hmem.c
+ create mode 100644 drivers/dax/hmem/Makefile
+ create mode 100644 drivers/dax/hmem/device.c
+ create mode 100644 drivers/dax/hmem/hmem.c
+
+base-commit: 01830e6c042e8eb6eb202e05d7df8057135b4c26
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
