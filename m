@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B09235420
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 21:20:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2069623542D
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 21:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372346EC03;
-	Sat,  1 Aug 2020 19:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A082A8902A;
+	Sat,  1 Aug 2020 19:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A87F6EC03
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 19:20:00 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id x5so11094498wmi.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Aug 2020 12:20:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=DwMdwJNuGqH14xSny5IewSTmQ+L5ClGvkT7BqQpshcI=;
- b=X/yADJH6W+WcpFPMt8nhBPO5k50T82DtANbGRgYBxap/xl/05WQ670GoNPT1RLkTqa
- bfHsHFkdAOW5LRxV0IbIlh4jaME6xFz2cVzq0Ip53nRJNJ2FZLe8rIA+cBCSnDM2jDCE
- IP0h59fWtCvxbDH4fBfZNyDcCghBX4BdHtDfo=
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D654882AF
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 19:30:36 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id w25so257991ljo.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Aug 2020 12:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SlN9/S+aNdC6sddgxbiMaYF2Yz0R+ULiccy0Ba778V0=;
+ b=P7EDzTSg73QoN3lZ0AoPLC9cx19Vl1Jl7kYRTK/Q71lxHcBph/vO0pOWVEg6YXCg3/
+ 1MmqL9O5Msal7fj4bshj17XurZpbZsErvnck6JiYho+Kta1ped8Rmbvg3kXXh74Vy0B8
+ 7SA40X0sczsUcnwVhlsRNZpn0JIsEkl8AV/yWDrErFwwcrLKTNOPUCETLoAWdzT2WNo1
+ E4ZbGeR0ZaX4o0ce1bnttKKc5290Ls9AWJWeNP3QIoarfFSDflby4UvoWE8iUqIicsos
+ 1XWlX+Uq10bwI6F109IFN1M0WdD64NpAlpDwCJ0Pbm8VV8zamytYVSvEqcxcUPI95a3L
+ /IOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DwMdwJNuGqH14xSny5IewSTmQ+L5ClGvkT7BqQpshcI=;
- b=mbhI8P/g6IL4IRPqfd7DR/g+9wd+4YY5/j6q3VX+xk4P+9qYVxGO30uixA6i6sDatu
- +eMwuu1wjKefzx70wvPYtLJREgPM5AW8jIaFNao54CKPnZtsvcla64kJkmdbT4nvTeNo
- nyuFxoV48g9BFRYnP5cxd3iRf1JRD2HWQFKvfhYtXuKL2phyQrlIrD2AUkbD3pNT9gKE
- crLtv5FjpVpFEIHLEqEQ1csFgE0zFVgTw8WTD/ThRwx029nFe5+ThPO5w9KseXnG7SSA
- RjRJcK7YBburRUNU66sNF5o0B5ls7loaAUjbSHJ2NV44VCYAE9MXImPxfj9DP+xwz1Nn
- KYfg==
-X-Gm-Message-State: AOAM533p73KimE241ChaylmTFeVeLLxk1/h4MjAOwYIGthZiQWxEivEb
- Jfk+zyzFjQip933NeTMWvoVCBg==
-X-Google-Smtp-Source: ABdhPJyhxRzXh0oseHu84RlWufogYVVVy7gM4c5UxeL8tyk8UN+QerG6L/YkiLk2wcp9dCwQ0AfOsA==
-X-Received: by 2002:a1c:bc54:: with SMTP id m81mr8916052wmf.60.1596309598862; 
- Sat, 01 Aug 2020 12:19:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j145sm3775140wmj.12.2020.08.01.12.19.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Aug 2020 12:19:58 -0700 (PDT)
-Date: Sat, 1 Aug 2020 21:19:56 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH] drm/syncobj: Tune down unordered timeline DRM_ERROR
-Message-ID: <20200801191956.GF6419@phenom.ffwll.local>
-References: <20200801092625.1107609-1-daniel.vetter@ffwll.ch>
- <6c320fd4-81d4-1a96-e83e-ecbdedfbd7f8@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SlN9/S+aNdC6sddgxbiMaYF2Yz0R+ULiccy0Ba778V0=;
+ b=k53mlf5WKr+ZBZ8eHHkQBJreVTgOIss/pShYBwjpX5xY6hGWT9Z/IMGUOnYkDsUyoa
+ V+yy8xQ/qY1xeYUvSd/H18suQxJkKIxiegnUxamFBW22vTyZ+a5M5QH8EzxH9m0lrnpt
+ vWptcnNSo0kb7eTCAUNr/lpuFcSaWldqHWSjym6kpymjcpGVJYjgcYZHGYNRswbHMtWR
+ LlNqvUYwsmAS8lruUaNGQN/md5ch4xeVa6NO5I7ZcZUYU7EMgw6ovvutsQ8BpzcY7LtU
+ SfnS9bMwKjgOlGRpNMyEZNV4K7MZQvTrFJrx7ZYtoFrqFDXkxsh8PM5iW2Y9xRIgsPRA
+ qE3w==
+X-Gm-Message-State: AOAM533K6QN3u7M7jVikodQYhsysBWO/ElPFUnOBhFzvWQs662vWk0eT
+ lDbXFeU2HvJe1QK4xEbef8polI+eRKUdLMv9nIM=
+X-Google-Smtp-Source: ABdhPJxeKPTnUhdR8Rn6HnsdvsqA85nyB3c5n3E3GiD3AUsCCD2lZrgS1aEmHrHP54o8XOhQMaSaYCJhRuzcMsRegpM=
+X-Received: by 2002:a2e:9859:: with SMTP id e25mr1034219ljj.410.1596310234519; 
+ Sat, 01 Aug 2020 12:30:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6c320fd4-81d4-1a96-e83e-ecbdedfbd7f8@intel.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20200729152231.13249-1-realwakka@gmail.com>
+In-Reply-To: <20200729152231.13249-1-realwakka@gmail.com>
+From: Melissa Wen <melissa.srw@gmail.com>
+Date: Sat, 1 Aug 2020 16:30:23 -0300
+Message-ID: <CAJeY4oEAHmY5icF_EPpojW5U+ryt3-guuvGQfj_S=XskO_xyRA@mail.gmail.com>
+Subject: Re: [PATCH] drm/vkms: modify sequence disable/plane/enable in
+ commit_tail
+To: Sidong Yang <realwakka@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,64 +62,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 01, 2020 at 05:39:50PM +0300, Lionel Landwerlin wrote:
-> On 01/08/2020 12:26, Daniel Vetter wrote:
-> > Userspace can provoke this, we generally don't allow userspace to spam
-> > dmesg. Tune it down to debug. Unfortunately we don't have easy access
-> > to the drm_device here (not at all without changing a few things), so
-> > leave it as old style dmesg output for now.
-> > =
-
-> > References: https://patchwork.freedesktop.org/series/80146/
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > ---
-> >   drivers/gpu/drm/drm_syncobj.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncob=
-j.c
-> > index 3bf73971daf3..6e74e6745eca 100644
-> > --- a/drivers/gpu/drm/drm_syncobj.c
-> > +++ b/drivers/gpu/drm/drm_syncobj.c
-> > @@ -297,7 +297,7 @@ void drm_syncobj_add_point(struct drm_syncobj *sync=
-obj,
-> >   	prev =3D drm_syncobj_fence_get(syncobj);
-> >   	/* You are adding an unorder point to timeline, which could cause pa=
-yload returned from query_ioctl is 0! */
-> >   	if (prev && prev->seqno >=3D point)
-> > -		DRM_ERROR("You are adding an unorder point to timeline!\n");
-> > +		DRM_DEBUG("You are adding an unorder point to timeline!\n");
-> >   	dma_fence_chain_init(chain, prev, fence, point);
-> >   	rcu_assign_pointer(syncobj->fence, &chain->base);
-> =
-
-> Thanks,
-> =
-
-> Acked-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-
-Thanks for taking a look, applied it now.
--Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBKdWwgMjksIDIwMjAgYXQgMTI6MjIgUE0gU2lkb25nIFlhbmcgPHJlYWx3YWtrYUBn
+bWFpbC5jb20+IHdyb3RlOgo+Cj4gVGhpcyBwYXRjaCBtb2RpZmllcyBmdW5jdGlvbiBjYWxsIHNl
+cXVlbmNlIGluIGNvbW1pdCB0YWlsLiBUaGlzIGlzIGZvcgo+IHRoZSBwcm9ibGVtIHRoYXQgcmFp
+c2VkIHdoZW4ga21zX2N1cnNvcl9jcmMgdGVzdCBpcyB0ZXN0ZWQgcmVwZWF0ZWRseS4KPiBJbiBz
+ZWNvbmQgdGVzdCwgdGhlcmUgaXMgYW4gYnVnIHRoYXQgY3J0YyBjb21taXQgZG9lc24ndCBzdGFy
+dCB2YmxhbmsgZXZlbnRzLgo+IEJlY2F1c2UgdGhlcmUgaXMgc29tZSBlcnJvciBhYm91dCB2Ymxh
+bmsncyByZWZjb3VudC4gaW4gY29tbWl0X2ZsdXNoKCkgdGhhdAo+IGNhbGxlZCBmcm9tIGNvbW1p
+dF9wbGFuZSwgZHJtX3ZibGFua19nZXQoKSBpcyBjYWxsZWQgYW5kIHZibGFuayBpcyBlbmFibGVk
+Cj4gaW4gbm9ybWFsIGNhc2UuIEJ1dCBpbiBzZWNvbmQgdGVzdCwgdmJsYW5rIGlzbid0IGVuYWJs
+ZSBmb3IgdmJsYW5rLT5yZWZjb3VudAo+IGlzIGFscmVhZHkgaW5jcmVhc2VkIGluIHByZXZpb3Vz
+IHRlc3QuIEluY3JlYXNlZCByZWZjb3VudCB3aWxsIGJlIGRlY3JlYXNlZAo+IGluIGRybV9hdG9t
+aWNfaGVscGVyX2NvbW1pdF9tb2Rlc2V0X2VuYWJsZXMoKSBhZnRlciBjb21taXRfcGxhbmUuCj4g
+VGhlcmVmb3JlLCBjb21taXRfcGxhbmUgc2hvdWxkIGJlIGNhbGxlZCBhZnRlciBjb21taXRfbW9k
+ZXNldF9lbmFibGUuCj4KPiBJbiB0aGlzIHNpdHVhdGlvbiwgdGhlcmUgaXMgYSB3YXJuaW5nIHJh
+aXNlZCBpbiBnZXRfdmJsYW5rX3RpbWVzdGFtcCgpLgo+IGhydGltZXIubm9kZS5leHBpcmVzIGFu
+ZCB2YmxhbmstPnRpbWUgYXJlIHplcm8gZm9yIG5vIHZibGFuayBldmVudHMgYmVmb3JlLgo+IFRo
+aXMgcGF0Y2ggcmV0dXJucyBjdXJyZW50IHRpbWUgd2hlbiB2YmxhbmsgaXMgbm90IGVuYWJsZWQu
+Cj4KSGkgU2lkb25nLAoKSSB0aGluayB0aGlzIHBhdGNoIHRyaWVzIHRvIHNvbHZlIHR3byBkaWZm
+ZXJlbnQgaXNzdWVzLgoKSSBhbSBub3QgYSBtYWludGFpbmVyLCBidXQgSSBiZWxpZXZlIHlvdSBj
+YW4gc3BsaXQgaXQuCgpFdmVyeXRoaW5nIGluZGljYXRlcyB0aGF0IGNoYW5naW5nIHRoZSBjb21t
+aXQgdGFpbCBzZXF1ZW5jZSBkb2VzIG5vdAppZGVhbGx5IHNvbHZlIHRoZSBwcm9ibGVtIG9mIHN1
+YnRlc3RzIGdldHRpbmcgc3R1Y2sgKGFzIHdlIGhhdmUgZGljdXNzZWQpOwpob3dldmVyLCBmb3Ig
+bWUsIHRoZSB0cmVhdG1lbnQgb2YgdGhlIHdhcm5pbmcgaXMgdmFsaWQgYW5kIGl0IGlzIGFsc28g
+cmVsYXRlZAp0byBvdGhlciBJR1QgdGVzdHMgdXNpbmcgVktNUy4KCk9uZSBvcHRpb24gaXMgdG8g
+c2VuZCBhIHBhdGNoIHRoYXQgb25seSB0cmVhdHMgdGhlIHdhcm5pbmcuIEkgYmVsaWV2ZSB0aGF0
+CmluIHRoZSBib2R5IG9mIHRoZSBjb21taXQgbWVzc2FnZSwgaXQgd291bGQgYmUgbmljZSB0byBo
+YXZlIHRoZSB3YXJuaW5nCnRoYXQgdGhpcyBwYXRjaCBhZGRyZXNzZXMsIGFuZCB3aGVuIGl0IGFw
+cGVhcnMgYnkgcnVubmluZyBhbiBJR1QgdGVzdC4KQWxzbywgc2F5IHdoeSBpdCBzaG91bGQgYmUg
+ZG9uZSB0aGlzIHdheSBpbiB2a21zLgpUaGlzIGluZm8gY291bGQgaGVscCBmdXR1cmUgZGVidWdn
+aW5nLgoKT2ZmLXRvcGljOiBJIHJlbW92ZWQgdGhlIGdyb3VwJ3MgbWFpbGluZyBsaXN0IG9mIHRo
+ZSBVbml2ZXJzaXR5IG9mIFPDo28KUGF1bG8gKGtlcm5lbC11c3ApIGZyb20gdGhlIGNjLCBzaW5j
+ZSBJIGJlbGlldmUgeW91IGhhZCBubyBpbnRlbnRpb24gb2YKc2VuZGluZyB0aGUgcGF0Y2ggdG8g
+dGhlbS4KCkJlc3QgcmVnYXJkcywKCk1lbGlzc2EKCj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bEBmZndsbC5jaD4KPiBDYzogUm9kcmlnbyBTaXF1ZWlyYSA8cm9kcmlnb3NpcXVlaXJhbWVsb0Bn
+bWFpbC5jb20+Cj4gQ2M6IEhhbmVlbiBNb2hhbW1lZCA8aGFtb2hhbW1lZC5zYUBnbWFpbC5jb20+
+Cj4KPiBTaWduZWQtb2ZmLWJ5OiBTaWRvbmcgWWFuZyA8cmVhbHdha2thQGdtYWlsLmNvbT4KPiAt
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcnRjLmMgfCA1ICsrKysrCj4gIGRyaXZl
+cnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmMgIHwgNCArKy0tCj4gIDIgZmlsZXMgY2hhbmdlZCwg
+NyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS92a21zL3ZrbXNfY3J0Yy5jIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcnRj
+LmMKPiBpbmRleCBhYzg1ZTE3NDI4ZjguLjA5YzAxMmQ1NGQ1OCAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdmttcy92a21zX2NydGMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92a21z
+L3ZrbXNfY3J0Yy5jCj4gQEAgLTg2LDYgKzg2LDExIEBAIHN0YXRpYyBib29sIHZrbXNfZ2V0X3Zi
+bGFua190aW1lc3RhbXAoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICAgICAgICAgc3RydWN0IHZr
+bXNfb3V0cHV0ICpvdXRwdXQgPSAmdmttc2Rldi0+b3V0cHV0Owo+ICAgICAgICAgc3RydWN0IGRy
+bV92YmxhbmtfY3J0YyAqdmJsYW5rID0gJmRldi0+dmJsYW5rW3BpcGVdOwo+Cj4gKyAgICAgICBp
+ZiAoIVJFQURfT05DRSh2YmxhbmstPmVuYWJsZWQpKSB7Cj4gKyAgICAgICAgICAgICAgICp2Ymxh
+bmtfdGltZSA9IGt0aW1lX2dldCgpOwo+ICsgICAgICAgICAgICAgICByZXR1cm4gdHJ1ZTsKPiAr
+ICAgICAgIH0KPiArCj4gICAgICAgICAqdmJsYW5rX3RpbWUgPSBSRUFEX09OQ0Uob3V0cHV0LT52
+YmxhbmtfaHJ0aW1lci5ub2RlLmV4cGlyZXMpOwo+Cj4gICAgICAgICBpZiAoV0FSTl9PTigqdmJs
+YW5rX3RpbWUgPT0gdmJsYW5rLT50aW1lKSkKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3ZrbXMvdmttc19kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmMKPiBpbmRl
+eCAxZThiMjE2OWQ4MzQuLmMyYzgzYTAxZDRhNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vdmttcy92a21zX2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYu
+Ywo+IEBAIC03NiwxMCArNzYsMTAgQEAgc3RhdGljIHZvaWQgdmttc19hdG9taWNfY29tbWl0X3Rh
+aWwoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKm9sZF9zdGF0ZSkKPgo+ICAgICAgICAgZHJtX2F0
+b21pY19oZWxwZXJfY29tbWl0X21vZGVzZXRfZGlzYWJsZXMoZGV2LCBvbGRfc3RhdGUpOwo+Cj4g
+LSAgICAgICBkcm1fYXRvbWljX2hlbHBlcl9jb21taXRfcGxhbmVzKGRldiwgb2xkX3N0YXRlLCAw
+KTsKPiAtCj4gICAgICAgICBkcm1fYXRvbWljX2hlbHBlcl9jb21taXRfbW9kZXNldF9lbmFibGVz
+KGRldiwgb2xkX3N0YXRlKTsKPgo+ICsgICAgICAgZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X3Bs
+YW5lcyhkZXYsIG9sZF9zdGF0ZSwgMCk7Cj4gKwo+ICAgICAgICAgZHJtX2F0b21pY19oZWxwZXJf
+ZmFrZV92Ymxhbmsob2xkX3N0YXRlKTsKPgo+ICAgICAgICAgZHJtX2F0b21pY19oZWxwZXJfY29t
+bWl0X2h3X2RvbmUob2xkX3N0YXRlKTsKPiAtLQo+IDIuMTcuMQo+Cj4gLS0KPiBZb3UgcmVjZWl2
+ZWQgdGhpcyBtZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVkIHRvIHRoZSBHb29nbGUg
+R3JvdXBzICJLZXJuZWwgVVNQIiBncm91cC4KPiBUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3Jv
+dXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRvIGtl
+cm5lbC11c3ArdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KPiBUbyB2aWV3IHRoaXMgZGlz
+Y3Vzc2lvbiBvbiB0aGUgd2ViIHZpc2l0IGh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9tc2dp
+ZC9rZXJuZWwtdXNwLzIwMjAwNzI5MTUyMjMxLjEzMjQ5LTEtcmVhbHdha2thJTQwZ21haWwuY29t
+LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
