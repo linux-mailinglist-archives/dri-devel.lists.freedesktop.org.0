@@ -1,43 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283A423A0D8
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:21:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE0C23A0D7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6E3789BAF;
-	Mon,  3 Aug 2020 08:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF7BA89DE1;
+	Mon,  3 Aug 2020 08:20:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF85E6E1B3
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 03:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=D0ZAEeULLhO0dRSJEKdMB4o06gOWrXsNB6Gpl1foU8s=; b=pQTyMwSyTafkhb+jmPKcsik00L
- 3yiCd+U6Dsxcu/6ZwkRbRshAcdqWfIKRKl7V92jF1sKArZQrBcQftbTUoZyeV19ifYFQ1vtvgvhVS
- 65t1agBt63lSovRXk/ENK5dil2ddKJq3fA5MFWRwtpRdpmklsW8CoN6lSLJnyydg3O5UZXxshVSc9
- NXyJI5tzTsbS5RFXKI4vzwStTz+nVDQ1eE0K4ffhg5HxcDI3q3hxfN9zpE6bOWoavDyKQmlWxGpB2
- 3fRjrdzxtEQYXXbQLgzGCFFJZOs/8GQPFm17WxmCqZpAbE7YZlchM/5Z8godf4cjZ6PMLCWzAsc1B
- 2U9qZGRA==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1k1iYC-00057S-O2; Sat, 01 Aug 2020 03:51:14 +0000
-Subject: Re: [PATCH v3 02/23] x86/numa: Add 'nohmat' option
-To: Dan Williams <dan.j.williams@intel.com>, akpm@linux-foundation.org
-References: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
- <159625231266.3040297.2759117253481288037.stgit@dwillia2-desk3.amr.corp.intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <545078f8-d6d3-5db7-02f6-648218513752@infradead.org>
-Date: Fri, 31 Jul 2020 20:51:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 338686EB79;
+ Sat,  1 Aug 2020 12:24:25 +0000 (UTC)
+Received: by mail-ej1-x642.google.com with SMTP id a26so8220640ejc.2;
+ Sat, 01 Aug 2020 05:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T7aPF82SA5wWWFZavl8BJzxoy0LUNqXZ1nMb9d5sWLA=;
+ b=j66cZ0STMIZTim+8iu9l4yKXtG8ZTanGI8z+X1wR0aquCIkjlSQ3uq144NXbHFRqYq
+ pryOrLm0Tk4WjXIpQPSZ9hc5epP0b8/seyPyQa+oa84ubNQfoqeMdFAeOwHM5c7f8gs6
+ iw1UY5HeZyBDIl6k0tfTCuIswWS1yzXqU96nzIlAzw9U72XKPoXpyeW/y8zsFeP4eni7
+ u92WbfkYX/y3wS58Nh5M614LPj1IL5Sgqlo04ji1dBuFIvc+ym23L2TB1sTW89cBJDl5
+ Jm1eicn/zIgYkq2QWzqabG/A92wScoWb3O1Q68yCp6is3jqAAXrCric1VJ3YyUqhFsVs
+ VMzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T7aPF82SA5wWWFZavl8BJzxoy0LUNqXZ1nMb9d5sWLA=;
+ b=SmZxXnHtv05Jb62rZngYrhtDXn9ge8giSbmQ9U9P+Q8HfgK4Q3nM1n4dTvy0wX13UK
+ r9kvzGRctrMM1hXRSDyZ2NnOE3GlvkwlLbB20xlFNgPW8HiV+J8hIrW2IVTXbm0l2F+u
+ beFNa81SuCeOzLNqxb+pFPkUdmDxNksWPs6L4eYNsY3okPy6XcimDJt2vwTdzmtmvF6B
+ ypm0DzBxXLY1IitoYRG8srpS5mF9laoP9+893apwTs8f9oVav1yDgHE6/S/yqQe+/kHI
+ A5ZGzreXm+W3zLkAvaguuiWR2sgoPQziRrUXvIj+0ibME06eYxkXJ/K4u2g/NyMLLDpc
+ /BZw==
+X-Gm-Message-State: AOAM530H7dwKZnb6/AANf7bdoKr55IQlJfsoeNOQnk5YUFLTbglgBSyJ
+ C8Z3OjQOlOaSWZmtkRbhbRc=
+X-Google-Smtp-Source: ABdhPJzoUNKtZROrtg5oRTHrqWYi9kdFEI+ce31VxUN0Y2Yt/rL0DBWkJLpuSAyDhwqGzfm7zy5ymA==
+X-Received: by 2002:a17:906:b146:: with SMTP id
+ bt6mr8432804ejb.138.1596284663809; 
+ Sat, 01 Aug 2020 05:24:23 -0700 (PDT)
+Received: from net.saheed (95C84E0A.dsl.pool.telekom.hu. [149.200.78.10])
+ by smtp.gmail.com with ESMTPSA id a101sm12083131edf.76.2020.08.01.05.24.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Aug 2020 05:24:22 -0700 (PDT)
+From: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
+To: helgaas@kernel.org, Kalle Valo <kvalo@codeaurora.org>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Joerg Roedel <joro@8bytes.org>
+Subject: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
+Date: Sat,  1 Aug 2020 13:24:29 +0200
+Message-Id: <20200801112446.149549-1-refactormyself@gmail.com>
+X-Mailer: git-send-email 2.18.4
 MIME-Version: 1.0
-In-Reply-To: <159625231266.3040297.2759117253481288037.stgit@dwillia2-desk3.amr.corp.intel.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Mon, 03 Aug 2020 08:20:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,51 +72,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, linux-acpi@vger.kernel.org, ard.biesheuvel@linaro.org,
- Peter Zijlstra <peterz@infradead.org>, vishal.l.verma@intel.com,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- Thomas Gleixner <tglx@linutronix.de>, joao.m.martins@oracle.com,
- linux-nvdimm@lists.01.org
+Cc: linux-pci@vger.kernel.org, linux-fpga@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+ skhan@linuxfoundation.org, bjorn@helgaas.com, linux-edac@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, "Saheed O. Bolarinwa" <refactormyself@gmail.com>,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/31/20 8:25 PM, Dan Williams wrote:
-> Disable parsing of the HMAT for debug, to workaround broken platform
-> instances, or cases where it is otherwise not wanted.
-> 
-> ---
->  arch/x86/mm/numa.c       |    2 ++
->  drivers/acpi/numa/hmat.c |    8 +++++++-
->  include/acpi/acpi_numa.h |    8 ++++++++
->  3 files changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
-> index 87c52822cc44..f3805bbaa784 100644
-> --- a/arch/x86/mm/numa.c
-> +++ b/arch/x86/mm/numa.c
-> @@ -41,6 +41,8 @@ static __init int numa_setup(char *opt)
->  		return numa_emu_cmdline(opt + 5);
->  	if (!strncmp(opt, "noacpi", 6))
->  		disable_srat();
-> +	if (!strncmp(opt, "nohmat", 6))
-> +		disable_hmat();
+The return value of pci_read_config_*() may not indicate a device error.
+However, the value read by these functions is more likely to indicate
+this kind of error. This presents two overlapping ways of reporting
+errors and complicates error checking.
 
-Hopefully that will be documented in
-Documentation/x86/x86_64/boot-options.rst.
+It is possible to move to one single way of checking for error if the 
+dependencies on the return value of these functions are removed, then it
+can later be made to return void.
 
->  	return 0;
->  }
->  early_param("numa", numa_setup);
+Remove all uses of the return value of pci_read_config_*().
+Check the actual value read for ~0. In this case, ~0 is an invalid value
+thus it indicates some kind of error.
 
-thanks.
+In some cases it madkes sence to make the calling function return void
+without causing any bug. Future callers can use the value obtained from
+these functions for validation. This case pertain to cs5536_read() and 
+edac_pci_read_dword()
+
+MERGE:
+There is no dependency.
+Merge individually
+
+Saheed O. Bolarinwa (17):
+  ata: Drop uses of pci_read_config_*() return value
+  atm: Drop uses of pci_read_config_*() return value
+  bcma: Drop uses of pci_read_config_*() return value
+  hwrng: Drop uses of pci_read_config_*() return value
+  dmaengine: ioat: Drop uses of pci_read_config_*() return value
+  edac: Drop uses of pci_read_config_*() return value
+  fpga: altera-cvp: Drop uses of pci_read_config_*() return value
+  gpio: Drop uses of pci_read_config_*() return value
+  drm/i915/vga: Drop uses of pci_read_config_*() return value
+  hwmon: Drop uses of pci_read_config_*() return value
+  intel_th: pci: Drop uses of pci_read_config_*() return value
+  i2c: Drop uses of pci_read_config_*() return value
+  ide: Drop uses of pci_read_config_*() return value
+  IB: Drop uses of pci_read_config_*() return value
+  iommu/vt-d: Drop uses of pci_read_config_*() return value
+  mtd: Drop uses of pci_read_config_*() return value
+  net: Drop uses of pci_read_config_*() return value
+
+ drivers/ata/pata_cs5536.c                     |  6 +--
+ drivers/ata/pata_rz1000.c                     |  3 +-
+ drivers/atm/eni.c                             |  3 +-
+ drivers/atm/he.c                              | 12 +++--
+ drivers/atm/idt77252.c                        |  9 ++--
+ drivers/atm/iphase.c                          | 46 ++++++++++---------
+ drivers/atm/lanai.c                           |  4 +-
+ drivers/atm/nicstar.c                         |  3 +-
+ drivers/atm/zatm.c                            |  9 ++--
+ drivers/bcma/host_pci.c                       |  6 ++-
+ drivers/char/hw_random/amd-rng.c              |  6 +--
+ drivers/dma/ioat/dma.c                        |  6 +--
+ drivers/edac/amd64_edac.c                     |  8 ++--
+ drivers/edac/amd8111_edac.c                   | 16 ++-----
+ drivers/edac/amd8131_edac.c                   |  6 +--
+ drivers/edac/i82443bxgx_edac.c                |  3 +-
+ drivers/edac/sb_edac.c                        | 12 +++--
+ drivers/edac/skx_common.c                     | 18 +++++---
+ drivers/fpga/altera-cvp.c                     |  8 ++--
+ drivers/gpio/gpio-amd8111.c                   |  7 ++-
+ drivers/gpio/gpio-rdc321x.c                   | 21 +++++----
+ drivers/gpu/drm/i915/display/intel_vga.c      |  3 +-
+ drivers/hwmon/i5k_amb.c                       | 12 +++--
+ drivers/hwmon/vt8231.c                        |  8 ++--
+ drivers/hwtracing/intel_th/pci.c              | 12 ++---
+ drivers/i2c/busses/i2c-ali15x3.c              |  6 ++-
+ drivers/i2c/busses/i2c-elektor.c              |  3 +-
+ drivers/i2c/busses/i2c-nforce2.c              |  4 +-
+ drivers/i2c/busses/i2c-sis5595.c              | 17 ++++---
+ drivers/i2c/busses/i2c-sis630.c               |  7 +--
+ drivers/i2c/busses/i2c-viapro.c               | 11 +++--
+ drivers/ide/cs5536.c                          |  6 +--
+ drivers/ide/rz1000.c                          |  3 +-
+ drivers/ide/setup-pci.c                       | 26 +++++++----
+ drivers/infiniband/hw/hfi1/pcie.c             | 38 +++++++--------
+ drivers/infiniband/hw/mthca/mthca_reset.c     | 19 ++++----
+ drivers/iommu/intel/iommu.c                   |  6 ++-
+ drivers/mtd/maps/ichxrom.c                    |  4 +-
+ drivers/net/can/peak_canfd/peak_pciefd_main.c |  6 ++-
+ drivers/net/can/sja1000/peak_pci.c            |  6 ++-
+ drivers/net/ethernet/agere/et131x.c           | 11 +++--
+ .../ethernet/broadcom/bnx2x/bnx2x_ethtool.c   |  5 +-
+ .../cavium/liquidio/cn23xx_pf_device.c        |  4 +-
+ drivers/net/ethernet/marvell/sky2.c           |  5 +-
+ drivers/net/ethernet/mellanox/mlx4/catas.c    |  7 +--
+ drivers/net/ethernet/mellanox/mlx4/reset.c    | 10 ++--
+ .../net/ethernet/myricom/myri10ge/myri10ge.c  |  4 +-
+ drivers/net/wan/farsync.c                     |  5 +-
+ .../broadcom/brcm80211/brcmfmac/pcie.c        |  4 +-
+ .../net/wireless/intel/iwlwifi/pcie/trans.c   | 15 ++++--
+ 50 files changed, 270 insertions(+), 209 deletions(-)
+
 -- 
-~Randy
+2.18.4
 
 _______________________________________________
 dri-devel mailing list
