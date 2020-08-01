@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C177235410
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 20:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B09235420
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 21:20:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 931BF6EC00;
-	Sat,  1 Aug 2020 18:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 372346EC03;
+	Sat,  1 Aug 2020 19:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75D856EC00
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 18:49:39 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id 184so12021823wmb.0
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Aug 2020 11:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=MxpRTOZ+a9Yk8BaelNAvYzSAx53X3UQsDpK+3T01PFk=;
- b=tieGcHAUi5zaeQVURRe2RYpMe1e61SVS/e8Cnuf+0wtR7Fk11ZyWKs787++NVY67/7
- hZ+IpG5kTZ7aPOQEQClYgToiGaMQSgYLFa3HKUqKfqtCtkLyTvzqvn/QlkHEyDWutOsy
- tqL8qudVO/2RWkr3/lBBqHQPQeCWpiQ1dQobjYp7zYLw3WFUtjJxrGcpoqKFzx9L/Wqb
- TL2rlGXkGsX9RKa+PfmlYwz3FbEthxjsw72rsF37Kf1n/wLZ0IBy3u8jqTuxMPjmAiFf
- 6SsHl5ItKPNGMClsv00zvktKC3uGYFzxgJoCwL+ut41yIcYDk/I3ltxgfgBcteo1WHkl
- HP5A==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A87F6EC03
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 19:20:00 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id x5so11094498wmi.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Aug 2020 12:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=DwMdwJNuGqH14xSny5IewSTmQ+L5ClGvkT7BqQpshcI=;
+ b=X/yADJH6W+WcpFPMt8nhBPO5k50T82DtANbGRgYBxap/xl/05WQ670GoNPT1RLkTqa
+ bfHsHFkdAOW5LRxV0IbIlh4jaME6xFz2cVzq0Ip53nRJNJ2FZLe8rIA+cBCSnDM2jDCE
+ IP0h59fWtCvxbDH4fBfZNyDcCghBX4BdHtDfo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=MxpRTOZ+a9Yk8BaelNAvYzSAx53X3UQsDpK+3T01PFk=;
- b=UJBTbxb+v3d6lE9MfgV4c7iSV6ua7R/UqtIEcVM7voPxYvHt737Dg6TIL/+7MBKOM3
- FT6r0ja8TOpxnYgKgbk7Bra9/dsQ2f+s/tyF59mExWw5YUQyvfVpqZvifwIeFANTtUKd
- Z8CLPxqqp4CCmZHZv7DH+KukuVBC0+fq8xklzWWHxCm2HYQ7VzghrvZ/qn2k+3w9nuHS
- 8CbsWhk14o/ECYwrTRi4Ow2oeAsWMOlfbc956hJJ1MUJL4xNaLnzEf/8rp0IIUyRgtdk
- Xr9/RsLSNp4yUb87fLcGtzHGqhUGt4duVtQUBvh1VO9ZyiZFrnrOanyVHYXGCABTiyQL
- aRAA==
-X-Gm-Message-State: AOAM530iXzVsfqfsXH5NOg8jFTNEFIrzpHP2EOKa7v/MhsF7ASPASdPH
- y8wH47PE44u/U9RDGCtvI7g=
-X-Google-Smtp-Source: ABdhPJxdXVLKSbEh46C6FdcV3pFdoQMjxG1UfSDRcGPjlrNW6T1XLmE0B9rMRQ7e4vGdfQ1fICHBZQ==
-X-Received: by 2002:a1c:484:: with SMTP id 126mr8844477wme.9.1596307778064;
- Sat, 01 Aug 2020 11:49:38 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id s19sm20089660wrb.54.2020.08.01.11.49.36
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=DwMdwJNuGqH14xSny5IewSTmQ+L5ClGvkT7BqQpshcI=;
+ b=mbhI8P/g6IL4IRPqfd7DR/g+9wd+4YY5/j6q3VX+xk4P+9qYVxGO30uixA6i6sDatu
+ +eMwuu1wjKefzx70wvPYtLJREgPM5AW8jIaFNao54CKPnZtsvcla64kJkmdbT4nvTeNo
+ nyuFxoV48g9BFRYnP5cxd3iRf1JRD2HWQFKvfhYtXuKL2phyQrlIrD2AUkbD3pNT9gKE
+ crLtv5FjpVpFEIHLEqEQ1csFgE0zFVgTw8WTD/ThRwx029nFe5+ThPO5w9KseXnG7SSA
+ RjRJcK7YBburRUNU66sNF5o0B5ls7loaAUjbSHJ2NV44VCYAE9MXImPxfj9DP+xwz1Nn
+ KYfg==
+X-Gm-Message-State: AOAM533p73KimE241ChaylmTFeVeLLxk1/h4MjAOwYIGthZiQWxEivEb
+ Jfk+zyzFjQip933NeTMWvoVCBg==
+X-Google-Smtp-Source: ABdhPJyhxRzXh0oseHu84RlWufogYVVVy7gM4c5UxeL8tyk8UN+QerG6L/YkiLk2wcp9dCwQ0AfOsA==
+X-Received: by 2002:a1c:bc54:: with SMTP id m81mr8916052wmf.60.1596309598862; 
+ Sat, 01 Aug 2020 12:19:58 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j145sm3775140wmj.12.2020.08.01.12.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Aug 2020 11:49:37 -0700 (PDT)
-Date: Sat, 1 Aug 2020 15:49:29 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Sidong Yang <realwakka@gmail.com>
-Subject: [PATCH] drm/vkms: guarantee vblank when capturing crc
-Message-ID: <20200801184929.2eaxyoq6fm3nk4ey@smtp.gmail.com>
+ Sat, 01 Aug 2020 12:19:58 -0700 (PDT)
+Date: Sat, 1 Aug 2020 21:19:56 +0200
+From: daniel@ffwll.ch
+To: 
+Subject: Re: [PATCH] drm/syncobj: Tune down unordered timeline DRM_ERROR
+Message-ID: <20200801191956.GF6419@phenom.ffwll.local>
+References: <20200801092625.1107609-1-daniel.vetter@ffwll.ch>
+ <6c320fd4-81d4-1a96-e83e-ecbdedfbd7f8@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <6c320fd4-81d4-1a96-e83e-ecbdedfbd7f8@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,85 +66,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-usp@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VKMS needs vblank interrupts enabled to capture CRC. When vblank is
-disabled, tests like kms_cursor_crc and kms_pipe_crc_basic getting stuck
-waiting for a capture that will not occur until vkms wakes up. This
-patch ensures that vblank remains enabled as long as the CRC capture is
-needed.
+On Sat, Aug 01, 2020 at 05:39:50PM +0300, Lionel Landwerlin wrote:
+> On 01/08/2020 12:26, Daniel Vetter wrote:
+> > Userspace can provoke this, we generally don't allow userspace to spam
+> > dmesg. Tune it down to debug. Unfortunately we don't have easy access
+> > to the drm_device here (not at all without changing a few things), so
+> > leave it as old style dmesg output for now.
+> > =
 
-It clears the execution of the following kms_cursor_crc subtests:
-1. pipe-A-cursor-[size,alpha-opaque, NxN-(on-screen, off-screen, sliding,
-random, fast-moving])] - successful when running individually.
-2. pipe-A-cursor-dpms passes again
-3. pipe-A-cursor-suspend also passes
+> > References: https://patchwork.freedesktop.org/series/80146/
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > ---
+> >   drivers/gpu/drm/drm_syncobj.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
 
-The issue was initially tracked in the sequential execution of IGT
-kms_cursor_crc subtest: when running the test sequence or one of its
-subtests twice, the odd execs complete and the pairs get stuck in an
-endless wait. In the IGT code, calling a wait_for_vblank on preparing
-for CRC capture prevented the busy-wait. But the problem persisted in
-the pipe-A-cursor-dpms and -suspend subtests.
+> > diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncob=
+j.c
+> > index 3bf73971daf3..6e74e6745eca 100644
+> > --- a/drivers/gpu/drm/drm_syncobj.c
+> > +++ b/drivers/gpu/drm/drm_syncobj.c
+> > @@ -297,7 +297,7 @@ void drm_syncobj_add_point(struct drm_syncobj *sync=
+obj,
+> >   	prev =3D drm_syncobj_fence_get(syncobj);
+> >   	/* You are adding an unorder point to timeline, which could cause pa=
+yload returned from query_ioctl is 0! */
+> >   	if (prev && prev->seqno >=3D point)
+> > -		DRM_ERROR("You are adding an unorder point to timeline!\n");
+> > +		DRM_DEBUG("You are adding an unorder point to timeline!\n");
+> >   	dma_fence_chain_init(chain, prev, fence, point);
+> >   	rcu_assign_pointer(syncobj->fence, &chain->base);
+> =
 
-Checking the history, the pipe-A-cursor-dpms subtest was successful
-when, in vkms_atomic_commit_tail, instead of using the flip_done op, it
-used wait_for_vblanks. Another way to prevent blocking was
-wait_one_vblank when enabling crtc. However, in both cases,
-pipe-A-cursor-suspend persisted blocking in the 2nd start of CRC
-capture, which may indicate that something got stuck in the step of CRC
-setup. Indeed, wait_one_vblank in the crc setup was able to sync things
-and free all kms_cursor_crc subtests.
+> Thanks,
+> =
 
-Besides, other alternatives to force enabling vblanks or prevent
-disabling them such as calling drm_crtc_put_vblank or modeset_enables
-before commit_planes + offdelay = 0, also unlock all subtests
-executions. These facts together converge on the lack of vblank to
-unblock the crc capture.
+> Acked-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 
-Finally, considering the vkms's dependence on vblank interruptions to
-perform tasks, this patch acquires a vblank ref when setup CRC source
-and releases ref when disabling crc capture, ensuring vblanks happen to
-compute CRC.
+Thanks for taking a look, applied it now.
+-Daniel
+-- =
 
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Co-developed-by: Sidong Yang <realwakka@gmail.com>
-Signed-off-by: Sidong Yang <realwakka@gmail.com>
-Co-developed-by: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 4af2f19480f4..1161eaa383f1 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -241,6 +241,14 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
- 
- 	ret = vkms_crc_parse_source(src_name, &enabled);
- 
-+	/* Ensure that vblank interruptions are enabled for crc capture */
-+	/* Enabling CRC: acquire vblank ref */
-+	if (enabled)
-+		drm_crtc_vblank_get(crtc);
-+	/* Disabling CRC: release vblank ref */
-+	if (!src_name)
-+		drm_crtc_vblank_put(crtc);
-+
- 	spin_lock_irq(&out->lock);
- 	out->composer_enabled = enabled;
- 	spin_unlock_irq(&out->lock);
--- 
-2.27.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
