@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F55234FD7
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 05:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4777234FD8
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 05:42:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D3A6E1A2;
-	Sat,  1 Aug 2020 03:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E9C6E14D;
+	Sat,  1 Aug 2020 03:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81786E184
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 03:42:26 +0000 (UTC)
-IronPort-SDR: Twd5Sj+jgIUzJIHcoCCZp/S5vBTlFFegNMxy9GWSHByW9jGAxPcPUVR26PvM5YfHhxUaeHk+Qb
- c+TVIEMzwQnA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9699"; a="151872465"
-X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="151872465"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F28416E14D
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 03:42:31 +0000 (UTC)
+IronPort-SDR: Um+i51vLSCX9LCN9jFa5mrN1RDbFSu+LNwepuXpIUr4Q1jqQm+Ej9Xuc+5gO1FUDfub64U/FtV
+ jMk0+wLvzUMw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9699"; a="216341315"
+X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="216341315"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2020 20:42:26 -0700
-IronPort-SDR: WN2pCyMvgE2vrw7jPS+jLEehLFfycB5EHlAVLVVhv7u4JRXLX7XvPyzYcL3JEzf2BjnoFMr5Lt
- CsDNq08+ziWQ==
-X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="314062844"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2020 20:42:31 -0700
+IronPort-SDR: dUXqp8qomai8r/67wZTeriijLHrtH2KCliioset2nCaINAd06EfOjJV1ysZtilVYHZAybhXqX+
+ TfJgKykN5Cig==
+X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; d="scan'208";a="291466105"
 Received: from dwillia2-desk3.jf.intel.com (HELO
  dwillia2-desk3.amr.corp.intel.com) ([10.54.39.16])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2020 20:42:25 -0700
-Subject: [PATCH v3 12/23] device-dax: Add an allocation interface for
- device-dax instances
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2020 20:42:31 -0700
+Subject: [PATCH v3 13/23] device-dax: Introduce 'seed' devices
 From: Dan Williams <dan.j.williams@intel.com>
 To: akpm@linux-foundation.org
-Date: Fri, 31 Jul 2020 20:26:07 -0700
-Message-ID: <159625236734.3040297.3978733632879451507.stgit@dwillia2-desk3.amr.corp.intel.com>
+Date: Fri, 31 Jul 2020 20:26:13 -0700
+Message-ID: <159625237316.3040297.17183519752637060780.stgit@dwillia2-desk3.amr.corp.intel.com>
 In-Reply-To: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
 References: <159625229779.3040297.11363509688097221416.stgit@dwillia2-desk3.amr.corp.intel.com>
 User-Agent: StGit/0.18-3-g996c
@@ -59,344 +58,623 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for a facility that enables dax regions to be
-sub-divided, introduce infrastructure to track and allocate region
-capacity.
+Add a seed device concept for dynamic dax regions to be able to split
+the region amongst multiple sub-instances. The seed device, similar to
+libnvdimm seed devices, is a device that starts with zero capacity
+allocated and unbound to a driver. In contrast to libnvdimm seed devices
+explicit 'create' and 'delete' interfaces are added to the region to
+trigger seeds to be created and unused devices to be reclaimed. The
+explicit create and delete replaces implicit create as a side effect of
+probe and implicit delete when writing 0 to the size that libnvdimm
+implements.
 
-The new dax_region/available_size attribute is only enabled for volatile
-hmem devices, not pmem devices that are defined by nvdimm namespace
-boundaries. This is per Jeff's feedback the last time dynamic device-dax
-capacity allocation support was discussed.
+Delete can be performed on any 0-sized and idle device.  This avoids the
+gymnastics of needing to move device_unregister() to its own async
+context.  Specifically, it avoids the deadlock of deleting a device via
+one of its own attributes. It is also less surprising to userspace which
+never sees an extra device it did not request.
 
-Link: https://lore.kernel.org/linux-nvdimm/x49shpp3zn8.fsf@segfault.boston.devel.redhat.com
+For now just add the device creation, teardown, and ->probe()
+prevention. A later patch will arrange for the 'dax/size' attribute to
+be writable to allocate capacity from the region.
+
 Cc: Vishal Verma <vishal.l.verma@intel.com>
 Signed-off-by: Dan Williams <dan.j.williams@intel.com>
 ---
- drivers/dax/bus.c         |  120 +++++++++++++++++++++++++++++++++++++++++----
- drivers/dax/bus.h         |    7 ++-
- drivers/dax/dax-private.h |    2 -
- drivers/dax/hmem/hmem.c   |    7 +--
- drivers/dax/pmem/core.c   |    8 +--
- 5 files changed, 121 insertions(+), 23 deletions(-)
+ drivers/dax/bus.c         |  317 ++++++++++++++++++++++++++++++++++++++++-----
+ drivers/dax/bus.h         |    4 -
+ drivers/dax/dax-private.h |    9 +
+ drivers/dax/device.c      |   12 +-
+ drivers/dax/hmem/hmem.c   |    2 
+ drivers/dax/kmem.c        |   14 +-
+ drivers/dax/pmem/compat.c |    2 
+ 7 files changed, 304 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 96bd64ba95a5..0a48ce378686 100644
+index 0a48ce378686..dce9413a4394 100644
 --- a/drivers/dax/bus.c
 +++ b/drivers/dax/bus.c
-@@ -130,6 +130,11 @@ ATTRIBUTE_GROUPS(dax_drv);
+@@ -135,10 +135,46 @@ static bool is_static(struct dax_region *dax_region)
+ 	return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
+ }
  
- static int dax_bus_match(struct device *dev, struct device_driver *drv);
- 
-+static bool is_static(struct dax_region *dax_region)
++static int dax_bus_probe(struct device *dev)
 +{
-+	return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
++	struct dax_device_driver *dax_drv = to_dax_drv(dev->driver);
++	struct dev_dax *dev_dax = to_dev_dax(dev);
++	struct dax_region *dax_region = dev_dax->region;
++	struct range *range = &dev_dax->range;
++	int rc;
++
++	if (range_len(range) == 0 || dev_dax->id < 0)
++		return -ENXIO;
++
++	rc = dax_drv->probe(dev_dax);
++
++	if (rc || is_static(dax_region))
++		return rc;
++
++	/*
++	 * Track new seed creation only after successful probe of the
++	 * previous seed.
++	 */
++	if (dax_region->seed == dev)
++		dax_region->seed = NULL;
++
++	return 0;
++}
++
++static int dax_bus_remove(struct device *dev)
++{
++	struct dax_device_driver *dax_drv = to_dax_drv(dev->driver);
++	struct dev_dax *dev_dax = to_dev_dax(dev);
++
++	return dax_drv->remove(dev_dax);
 +}
 +
  static struct bus_type dax_bus_type = {
  	.name = "dax",
  	.uevent = dax_bus_uevent,
-@@ -185,7 +190,48 @@ static ssize_t align_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(align);
+ 	.match = dax_bus_match,
++	.probe = dax_bus_probe,
++	.remove = dax_bus_remove,
+ 	.drv_groups = dax_drv_groups,
+ };
  
-+#define for_each_dax_region_resource(dax_region, res) \
-+	for (res = (dax_region)->res.child; res; res = res->sibling)
-+
-+static unsigned long long dax_region_avail_size(struct dax_region *dax_region)
-+{
-+	resource_size_t size = resource_size(&dax_region->res);
-+	struct resource *res;
-+
-+	device_lock_assert(dax_region->dev);
-+
-+	for_each_dax_region_resource(dax_region, res)
-+		size -= resource_size(res);
-+	return size;
-+}
-+
-+static ssize_t available_size_show(struct device *dev,
+@@ -219,14 +255,216 @@ static ssize_t available_size_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(available_size);
+ 
++static ssize_t seed_show(struct device *dev,
 +		struct device_attribute *attr, char *buf)
 +{
 +	struct dax_region *dax_region = dev_get_drvdata(dev);
-+	unsigned long long size;
++	struct device *seed;
++	ssize_t rc;
++
++	if (is_static(dax_region))
++		return -EINVAL;
 +
 +	device_lock(dev);
-+	size = dax_region_avail_size(dax_region);
++	seed = dax_region->seed;
++	rc = sprintf(buf, "%s\n", seed ? dev_name(seed) : "");
 +	device_unlock(dev);
 +
-+	return sprintf(buf, "%llu\n", size);
++	return rc;
 +}
-+static DEVICE_ATTR_RO(available_size);
++static DEVICE_ATTR_RO(seed);
 +
-+static umode_t dax_region_visible(struct kobject *kobj, struct attribute *a,
-+		int n)
++static ssize_t create_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
 +{
-+	struct device *dev = container_of(kobj, struct device, kobj);
 +	struct dax_region *dax_region = dev_get_drvdata(dev);
++	struct device *youngest;
++	ssize_t rc;
 +
-+	if (is_static(dax_region) && a == &dev_attr_available_size.attr)
-+		return 0;
-+	return a->mode;
++	if (is_static(dax_region))
++		return -EINVAL;
++
++	device_lock(dev);
++	youngest = dax_region->youngest;
++	rc = sprintf(buf, "%s\n", youngest ? dev_name(youngest) : "");
++	device_unlock(dev);
++
++	return rc;
 +}
 +
- static struct attribute *dax_region_attributes[] = {
-+	&dev_attr_available_size.attr,
- 	&dev_attr_region_size.attr,
- 	&dev_attr_align.attr,
- 	&dev_attr_id.attr,
-@@ -195,6 +241,7 @@ static struct attribute *dax_region_attributes[] = {
- static const struct attribute_group dax_region_attribute_group = {
- 	.name = "dax_region",
- 	.attrs = dax_region_attributes,
-+	.is_visible = dax_region_visible,
- };
- 
- static const struct attribute_group *dax_region_attribute_groups[] = {
-@@ -226,7 +273,8 @@ static void dax_region_unregister(void *region)
- }
- 
- struct dax_region *alloc_dax_region(struct device *parent, int region_id,
--		struct resource *res, int target_node, unsigned int align)
-+		struct resource *res, int target_node, unsigned int align,
-+		unsigned long flags)
- {
- 	struct dax_region *dax_region;
- 
-@@ -249,12 +297,17 @@ struct dax_region *alloc_dax_region(struct device *parent, int region_id,
- 		return NULL;
- 
- 	dev_set_drvdata(parent, dax_region);
--	memcpy(&dax_region->res, res, sizeof(*res));
- 	kref_init(&dax_region->kref);
- 	dax_region->id = region_id;
- 	dax_region->align = align;
- 	dax_region->dev = parent;
- 	dax_region->target_node = target_node;
-+	dax_region->res = (struct resource) {
-+		.start = res->start,
-+		.end = res->end,
-+		.flags = IORESOURCE_MEM | flags,
-+	};
-+
- 	if (sysfs_create_groups(&parent->kobj, dax_region_attribute_groups)) {
- 		kfree(dax_region);
- 		return NULL;
-@@ -267,6 +320,32 @@ struct dax_region *alloc_dax_region(struct device *parent, int region_id,
- }
- EXPORT_SYMBOL_GPL(alloc_dax_region);
- 
-+static int alloc_dev_dax_range(struct dev_dax *dev_dax, resource_size_t size)
++static ssize_t create_store(struct device *dev, struct device_attribute *attr,
++		const char *buf, size_t len)
 +{
-+	struct dax_region *dax_region = dev_dax->region;
-+	struct resource *res = &dax_region->res;
-+	struct device *dev = &dev_dax->dev;
-+	struct resource *alloc;
++	struct dax_region *dax_region = dev_get_drvdata(dev);
++	unsigned long long avail;
++	ssize_t rc;
++	int val;
 +
-+	device_lock_assert(dax_region->dev);
++	if (is_static(dax_region))
++		return -EINVAL;
 +
-+	/* TODO: handle multiple allocations per region */
-+	if (res->child)
-+		return -ENOMEM;
++	rc = kstrtoint(buf, 0, &val);
++	if (rc)
++		return rc;
++	if (val != 1)
++		return -EINVAL;
 +
-+	alloc = __request_region(res, res->start, size, dev_name(dev), 0);
++	device_lock(dev);
++	avail = dax_region_avail_size(dax_region);
++	if (avail == 0)
++		rc = -ENOSPC;
++	else {
++		struct dev_dax_data data = {
++			.dax_region = dax_region,
++			.size = 0,
++			.id = -1,
++		};
++		struct dev_dax *dev_dax = devm_create_dev_dax(&data);
 +
-+	if (!alloc)
-+		return -ENOMEM;
++		if (IS_ERR(dev_dax))
++			rc = PTR_ERR(dev_dax);
++		else {
++			/*
++			 * In support of crafting multiple new devices
++			 * simultaneously multiple seeds can be created,
++			 * but only the first one that has not been
++			 * successfully bound is tracked as the region
++			 * seed.
++			 */
++			if (!dax_region->seed)
++				dax_region->seed = &dev_dax->dev;
++			dax_region->youngest = &dev_dax->dev;
++			rc = len;
++		}
++	}
++	device_unlock(dev);
 +
-+	dev_dax->range = (struct range) {
-+		.start = alloc->start,
-+		.end = alloc->end,
-+	};
-+
-+	return 0;
++	return rc;
 +}
++static DEVICE_ATTR_RW(create);
 +
- static ssize_t size_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
- {
-@@ -361,6 +440,15 @@ void kill_dev_dax(struct dev_dax *dev_dax)
- }
- EXPORT_SYMBOL_GPL(kill_dev_dax);
- 
++void kill_dev_dax(struct dev_dax *dev_dax)
++{
++	struct dax_device *dax_dev = dev_dax->dax_dev;
++	struct inode *inode = dax_inode(dax_dev);
++
++	kill_dax(dax_dev);
++	unmap_mapping_range(inode->i_mapping, 0, 0, 1);
++}
++EXPORT_SYMBOL_GPL(kill_dev_dax);
++
 +static void free_dev_dax_range(struct dev_dax *dev_dax)
 +{
 +	struct dax_region *dax_region = dev_dax->region;
 +	struct range *range = &dev_dax->range;
 +
 +	device_lock_assert(dax_region->dev);
-+	__release_region(&dax_region->res, range->start, range_len(range));
++	if (range_len(range))
++		__release_region(&dax_region->res, range->start,
++				range_len(range));
 +}
 +
++static void unregister_dev_dax(void *dev)
++{
++	struct dev_dax *dev_dax = to_dev_dax(dev);
++
++	dev_dbg(dev, "%s\n", __func__);
++
++	kill_dev_dax(dev_dax);
++	free_dev_dax_range(dev_dax);
++	device_del(dev);
++	put_device(dev);
++}
++
++/* a return value >= 0 indicates this invocation invalidated the id */
++static int __free_dev_dax_id(struct dev_dax *dev_dax)
++{
++	struct dax_region *dax_region = dev_dax->region;
++	struct device *dev = &dev_dax->dev;
++	int rc = dev_dax->id;
++
++	device_lock_assert(dev);
++
++	if (is_static(dax_region) || dev_dax->id < 0)
++		return -1;
++	ida_free(&dax_region->ida, dev_dax->id);
++	dev_dax->id = -1;
++	return rc;
++}
++
++static int free_dev_dax_id(struct dev_dax *dev_dax)
++{
++	struct device *dev = &dev_dax->dev;
++	int rc;
++
++	device_lock(dev);
++	rc = __free_dev_dax_id(dev_dax);
++	device_unlock(dev);
++	return rc;
++}
++
++static ssize_t delete_store(struct device *dev, struct device_attribute *attr,
++		const char *buf, size_t len)
++{
++	struct dax_region *dax_region = dev_get_drvdata(dev);
++	struct dev_dax *dev_dax;
++	struct device *victim;
++	bool do_del = false;
++	int rc;
++
++	if (is_static(dax_region))
++		return -EINVAL;
++
++	victim = device_find_child_by_name(dax_region->dev, buf);
++	if (!victim)
++		return -ENXIO;
++
++	device_lock(dev);
++	device_lock(victim);
++	dev_dax = to_dev_dax(victim);
++	if (victim->driver || range_len(&dev_dax->range))
++		rc = -EBUSY;
++	else {
++		/*
++		 * Invalidate the device so it does not become active
++		 * again, but always preserve device-id-0 so that
++		 * /sys/bus/dax/ is guaranteed to be populated while any
++		 * dax_region is registered.
++		 */
++		if (dev_dax->id > 0) {
++			do_del = __free_dev_dax_id(dev_dax) >= 0;
++			rc = len;
++			if (dax_region->seed == victim)
++				dax_region->seed = NULL;
++			if (dax_region->youngest == victim)
++				dax_region->youngest = NULL;
++		} else
++			rc = -EBUSY;
++	}
++	device_unlock(victim);
++
++	/* won the race to invalidate the device, clean it up */
++	if (do_del)
++		devm_release_action(dev, unregister_dev_dax, victim);
++	device_unlock(dev);
++	put_device(victim);
++
++	return rc;
++}
++static DEVICE_ATTR_WO(delete);
++
+ static umode_t dax_region_visible(struct kobject *kobj, struct attribute *a,
+ 		int n)
+ {
+ 	struct device *dev = container_of(kobj, struct device, kobj);
+ 	struct dax_region *dax_region = dev_get_drvdata(dev);
+ 
+-	if (is_static(dax_region) && a == &dev_attr_available_size.attr)
+-		return 0;
++	if (is_static(dax_region))
++		if (a == &dev_attr_available_size.attr
++				|| a == &dev_attr_create.attr
++				|| a == &dev_attr_seed.attr
++				|| a == &dev_attr_delete.attr)
++			return 0;
+ 	return a->mode;
+ }
+ 
+@@ -234,6 +472,9 @@ static struct attribute *dax_region_attributes[] = {
+ 	&dev_attr_available_size.attr,
+ 	&dev_attr_region_size.attr,
+ 	&dev_attr_align.attr,
++	&dev_attr_create.attr,
++	&dev_attr_seed.attr,
++	&dev_attr_delete.attr,
+ 	&dev_attr_id.attr,
+ 	NULL,
+ };
+@@ -302,6 +543,7 @@ struct dax_region *alloc_dax_region(struct device *parent, int region_id,
+ 	dax_region->align = align;
+ 	dax_region->dev = parent;
+ 	dax_region->target_node = target_node;
++	ida_init(&dax_region->ida);
+ 	dax_region->res = (struct resource) {
+ 		.start = res->start,
+ 		.end = res->end,
+@@ -329,6 +571,15 @@ static int alloc_dev_dax_range(struct dev_dax *dev_dax, resource_size_t size)
+ 
+ 	device_lock_assert(dax_region->dev);
+ 
++	/* handle the seed alloc special case */
++	if (!size) {
++		dev_dax->range = (struct range) {
++			.start = res->start,
++			.end = res->start - 1,
++		};
++		return 0;
++	}
++
+ 	/* TODO: handle multiple allocations per region */
+ 	if (res->child)
+ 		return -ENOMEM;
+@@ -430,33 +681,15 @@ static const struct attribute_group *dax_attribute_groups[] = {
+ 	NULL,
+ };
+ 
+-void kill_dev_dax(struct dev_dax *dev_dax)
+-{
+-	struct dax_device *dax_dev = dev_dax->dax_dev;
+-	struct inode *inode = dax_inode(dax_dev);
+-
+-	kill_dax(dax_dev);
+-	unmap_mapping_range(inode->i_mapping, 0, 0, 1);
+-}
+-EXPORT_SYMBOL_GPL(kill_dev_dax);
+-
+-static void free_dev_dax_range(struct dev_dax *dev_dax)
+-{
+-	struct dax_region *dax_region = dev_dax->region;
+-	struct range *range = &dev_dax->range;
+-
+-	device_lock_assert(dax_region->dev);
+-	__release_region(&dax_region->res, range->start, range_len(range));
+-}
+-
  static void dev_dax_release(struct device *dev)
  {
  	struct dev_dax *dev_dax = to_dev_dax(dev);
-@@ -385,6 +473,7 @@ static void unregister_dev_dax(void *dev)
- 	dev_dbg(dev, "%s\n", __func__);
+ 	struct dax_region *dax_region = dev_dax->region;
+ 	struct dax_device *dax_dev = dev_dax->dax_dev;
  
- 	kill_dev_dax(dev_dax);
-+	free_dev_dax_range(dev_dax);
- 	device_del(dev);
- 	put_device(dev);
+-	dax_region_put(dax_region);
+ 	put_dax(dax_dev);
++	free_dev_dax_id(dev_dax);
++	dax_region_put(dax_region);
+ 	kfree(dev_dax->pgmap);
+ 	kfree(dev_dax);
  }
-@@ -397,7 +486,7 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
- 	struct dev_dax *dev_dax;
- 	struct inode *inode;
- 	struct device *dev;
--	int rc = -ENOMEM;
-+	int rc;
+@@ -466,18 +699,6 @@ static const struct device_type dev_dax_type = {
+ 	.groups = dax_attribute_groups,
+ };
  
- 	if (data->id < 0)
- 		return ERR_PTR(-EINVAL);
-@@ -406,11 +495,25 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
+-static void unregister_dev_dax(void *dev)
+-{
+-	struct dev_dax *dev_dax = to_dev_dax(dev);
+-
+-	dev_dbg(dev, "%s\n", __func__);
+-
+-	kill_dev_dax(dev_dax);
+-	free_dev_dax_range(dev_dax);
+-	device_del(dev);
+-	put_device(dev);
+-}
+-
+ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
+ {
+ 	struct dax_region *dax_region = data->dax_region;
+@@ -488,17 +709,35 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
+ 	struct device *dev;
+ 	int rc;
+ 
+-	if (data->id < 0)
+-		return ERR_PTR(-EINVAL);
+-
+ 	dev_dax = kzalloc(sizeof(*dev_dax), GFP_KERNEL);
  	if (!dev_dax)
  		return ERR_PTR(-ENOMEM);
  
-+	dev_dax->region = dax_region;
-+	dev = &dev_dax->dev;
-+	device_initialize(dev);
-+	dev_set_name(dev, "dax%d.%d", dax_region->id, data->id);
-+
-+	rc = alloc_dev_dax_range(dev_dax, data->size);
-+	if (rc)
-+		goto err_range;
-+
- 	if (data->pgmap) {
-+		dev_WARN_ONCE(parent, !is_static(dax_region),
-+			"custom dev_pagemap requires a static dax_region\n");
-+
- 		dev_dax->pgmap = kmemdup(data->pgmap,
- 				sizeof(struct dev_pagemap), GFP_KERNEL);
--		if (!dev_dax->pgmap)
-+		if (!dev_dax->pgmap) {
-+			rc = -ENOMEM;
- 			goto err_pgmap;
++	if (is_static(dax_region)) {
++		if (dev_WARN_ONCE(parent, data->id < 0,
++				"dynamic id specified to static region\n")) {
++			rc = -EINVAL;
++			goto err_id;
 +		}
- 	}
- 
- 	/*
-@@ -427,12 +530,7 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
- 	kill_dax(dax_dev);
- 
- 	/* from here on we're committed to teardown via dev_dax_release() */
--	dev = &dev_dax->dev;
--	device_initialize(dev);
--
- 	dev_dax->dax_dev = dax_dev;
--	dev_dax->region = dax_region;
--	dev_dax->range = data->range;
- 	dev_dax->target_node = dax_region->target_node;
- 	kref_get(&dax_region->kref);
- 
-@@ -444,7 +542,6 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
- 		dev->class = dax_class;
- 	dev->parent = parent;
- 	dev->type = &dev_dax_type;
--	dev_set_name(dev, "dax%d.%d", dax_region->id, data->id);
- 
- 	rc = device_add(dev);
- 	if (rc) {
-@@ -458,9 +555,12 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
- 		return ERR_PTR(rc);
- 
- 	return dev_dax;
 +
- err_alloc_dax:
- 	kfree(dev_dax->pgmap);
++		dev_dax->id = data->id;
++	} else {
++		if (dev_WARN_ONCE(parent, data->id >= 0,
++				"static id specified to dynamic region\n")) {
++			rc = -EINVAL;
++			goto err_id;
++		}
++
++		rc = ida_alloc(&dax_region->ida, GFP_KERNEL);
++		if (rc < 0)
++			goto err_id;
++		dev_dax->id = rc;
++	}
++
+ 	dev_dax->region = dax_region;
+ 	dev = &dev_dax->dev;
+ 	device_initialize(dev);
+-	dev_set_name(dev, "dax%d.%d", dax_region->id, data->id);
++	dev_set_name(dev, "dax%d.%d", dax_region->id, dev_dax->id);
+ 
+ 	rc = alloc_dev_dax_range(dev_dax, data->size);
+ 	if (rc)
+@@ -561,6 +800,8 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
  err_pgmap:
-+	free_dev_dax_range(dev_dax);
-+err_range:
+ 	free_dev_dax_range(dev_dax);
+ err_range:
++	free_dev_dax_id(dev_dax);
++err_id:
  	kfree(dev_dax);
  
  	return ERR_PTR(rc);
 diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-index 4aeb36da83a4..44592a8cac0f 100644
+index 44592a8cac0f..da27ea70a19a 100644
 --- a/drivers/dax/bus.h
 +++ b/drivers/dax/bus.h
-@@ -10,8 +10,11 @@ struct resource;
- struct dax_device;
- struct dax_region;
- void dax_region_put(struct dax_region *dax_region);
-+
-+#define IORESOURCE_DAX_STATIC (1UL << 0)
- struct dax_region *alloc_dax_region(struct device *parent, int region_id,
--		struct resource *res, int target_node, unsigned int align);
-+		struct resource *res, int target_node, unsigned int align,
-+		unsigned long flags);
- 
- enum dev_dax_subsys {
- 	DEV_DAX_BUS = 0, /* zeroed dev_dax_data picks this by default */
-@@ -22,7 +25,7 @@ struct dev_dax_data {
- 	struct dax_region *dax_region;
- 	struct dev_pagemap *pgmap;
- 	enum dev_dax_subsys subsys;
--	struct range range;
-+	resource_size_t size;
- 	int id;
+@@ -38,6 +38,8 @@ struct dax_device_driver {
+ 	struct device_driver drv;
+ 	struct list_head ids;
+ 	int match_always;
++	int (*probe)(struct dev_dax *dev);
++	int (*remove)(struct dev_dax *dev);
  };
  
+ int __dax_driver_register(struct dax_device_driver *dax_drv,
+@@ -48,7 +50,7 @@ void dax_driver_unregister(struct dax_device_driver *dax_drv);
+ void kill_dev_dax(struct dev_dax *dev_dax);
+ 
+ #if IS_ENABLED(CONFIG_DEV_DAX_PMEM_COMPAT)
+-int dev_dax_probe(struct device *dev);
++int dev_dax_probe(struct dev_dax *dev_dax);
+ #endif
+ 
+ /*
 diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
-index 12a2dbc43b40..99b1273bb232 100644
+index 99b1273bb232..b81a1494d82b 100644
 --- a/drivers/dax/dax-private.h
 +++ b/drivers/dax/dax-private.h
-@@ -22,7 +22,7 @@ void dax_bus_exit(void);
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/device.h>
+ #include <linux/cdev.h>
++#include <linux/idr.h>
+ 
+ /* private routines between core files */
+ struct dax_device;
+@@ -22,7 +23,10 @@ void dax_bus_exit(void);
   * @kref: to pin while other agents have a need to do lookups
   * @dev: parent device backing this region
   * @align: allocation and mapping alignment for child dax devices
-- * @res: physical address range of the region
-+ * @res: resource tree to track instance allocations
++ * @ida: instance id allocator
+  * @res: resource tree to track instance allocations
++ * @seed: allow userspace to find the first unbound seed device
++ * @youngest: allow userspace to find the most recently created device
   */
  struct dax_region {
  	int id;
+@@ -30,7 +34,10 @@ struct dax_region {
+ 	struct kref kref;
+ 	struct device *dev;
+ 	unsigned int align;
++	struct ida ida;
+ 	struct resource res;
++	struct device *seed;
++	struct device *youngest;
+ };
+ 
+ /**
+@@ -39,6 +46,7 @@ struct dax_region {
+  * @region - parent region
+  * @dax_dev - core dax functionality
+  * @target_node: effective numa node if dev_dax memory range is onlined
++ * @id: ida allocated id
+  * @dev - device core
+  * @pgmap - pgmap for memmap setup / lifetime (driver owned)
+  * @range: resource range for the instance
+@@ -47,6 +55,7 @@ struct dev_dax {
+ 	struct dax_region *region;
+ 	struct dax_device *dax_dev;
+ 	int target_node;
++	int id;
+ 	struct device dev;
+ 	struct dev_pagemap *pgmap;
+ 	struct range range;
+diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+index a86b2c9788c5..5496331f6eb6 100644
+--- a/drivers/dax/device.c
++++ b/drivers/dax/device.c
+@@ -392,11 +392,11 @@ static void dev_dax_kill(void *dev_dax)
+ 	kill_dev_dax(dev_dax);
+ }
+ 
+-int dev_dax_probe(struct device *dev)
++int dev_dax_probe(struct dev_dax *dev_dax)
+ {
+-	struct dev_dax *dev_dax = to_dev_dax(dev);
+ 	struct dax_device *dax_dev = dev_dax->dax_dev;
+ 	struct range *range = &dev_dax->range;
++	struct device *dev = &dev_dax->dev;
+ 	struct dev_pagemap *pgmap;
+ 	struct inode *inode;
+ 	struct cdev *cdev;
+@@ -446,17 +446,15 @@ int dev_dax_probe(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(dev_dax_probe);
+ 
+-static int dev_dax_remove(struct device *dev)
++static int dev_dax_remove(struct dev_dax *dev_dax)
+ {
+ 	/* all probe actions are unwound by devm */
+ 	return 0;
+ }
+ 
+ static struct dax_device_driver device_dax_driver = {
+-	.drv = {
+-		.probe = dev_dax_probe,
+-		.remove = dev_dax_remove,
+-	},
++	.probe = dev_dax_probe,
++	.remove = dev_dax_remove,
+ 	.match_always = 1,
+ };
+ 
 diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
-index af82d6ba820a..e7b64539e23e 100644
+index e7b64539e23e..aa260009dfc7 100644
 --- a/drivers/dax/hmem/hmem.c
 +++ b/drivers/dax/hmem/hmem.c
-@@ -20,17 +20,14 @@ static int dax_hmem_probe(struct platform_device *pdev)
- 
- 	mri = dev->platform_data;
- 	dax_region = alloc_dax_region(dev, pdev->id, res, mri->target_node,
--			PMD_SIZE);
-+			PMD_SIZE, 0);
- 	if (!dax_region)
- 		return -ENOMEM;
+@@ -26,7 +26,7 @@ static int dax_hmem_probe(struct platform_device *pdev)
  
  	data = (struct dev_dax_data) {
  		.dax_region = dax_region,
- 		.id = 0,
--		.range = {
--			.start = res->start,
--			.end = res->end,
--		},
-+		.size = resource_size(res),
+-		.id = 0,
++		.id = -1,
+ 		.size = resource_size(res),
  	};
  	dev_dax = devm_create_dev_dax(&data);
- 	if (IS_ERR(dev_dax))
-diff --git a/drivers/dax/pmem/core.c b/drivers/dax/pmem/core.c
-index 4fa81d3d2f65..4fe700884338 100644
---- a/drivers/dax/pmem/core.c
-+++ b/drivers/dax/pmem/core.c
-@@ -54,7 +54,8 @@ struct dev_dax *__dax_pmem_probe(struct device *dev, enum dev_dax_subsys subsys)
- 	memcpy(&res, &pgmap.res, sizeof(res));
- 	res.start += offset;
- 	dax_region = alloc_dax_region(dev, region_id, &res,
--			nd_region->target_node, le32_to_cpu(pfn_sb->align));
-+			nd_region->target_node, le32_to_cpu(pfn_sb->align),
-+			IORESOURCE_DAX_STATIC);
- 	if (!dax_region)
- 		return ERR_PTR(-ENOMEM);
+diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
+index 77e25361fbeb..b1be8a53b26a 100644
+--- a/drivers/dax/kmem.c
++++ b/drivers/dax/kmem.c
+@@ -30,11 +30,11 @@ static struct range dax_kmem_range(struct dev_dax *dev_dax)
+ 	return range;
+ }
  
-@@ -63,10 +64,7 @@ struct dev_dax *__dax_pmem_probe(struct device *dev, enum dev_dax_subsys subsys)
- 		.id = id,
- 		.pgmap = &pgmap,
- 		.subsys = subsys,
--		.range = {
--			.start = res.start,
--			.end = res.end,
--		},
-+		.size = resource_size(&res),
- 	};
- 	dev_dax = devm_create_dev_dax(&data);
+-int dev_dax_kmem_probe(struct device *dev)
++int dev_dax_kmem_probe(struct dev_dax *dev_dax)
+ {
+-	struct dev_dax *dev_dax = to_dev_dax(dev);
+ 	struct range range = dax_kmem_range(dev_dax);
+ 	int numa_node = dev_dax->target_node;
++	struct device *dev = &dev_dax->dev;
+ 	struct resource *res;
+ 	char *res_name;
+ 	int rc;
+@@ -127,17 +127,15 @@ static void dax_kmem_release(struct dev_dax *dev_dax)
+ }
+ #endif /* CONFIG_MEMORY_HOTREMOVE */
  
+-static int dev_dax_kmem_remove(struct device *dev)
++static int dev_dax_kmem_remove(struct dev_dax *dev_dax)
+ {
+-	dax_kmem_release(to_dev_dax(dev));
++	dax_kmem_release(dev_dax);
+ 	return 0;
+ }
+ 
+ static struct dax_device_driver device_dax_kmem_driver = {
+-	.drv = {
+-		.probe = dev_dax_kmem_probe,
+-		.remove = dev_dax_kmem_remove,
+-	},
++	.probe = dev_dax_kmem_probe,
++	.remove = dev_dax_kmem_remove,
+ };
+ 
+ static int __init dax_kmem_init(void)
+diff --git a/drivers/dax/pmem/compat.c b/drivers/dax/pmem/compat.c
+index d7b15e6f30c5..863c114fd88c 100644
+--- a/drivers/dax/pmem/compat.c
++++ b/drivers/dax/pmem/compat.c
+@@ -22,7 +22,7 @@ static int dax_pmem_compat_probe(struct device *dev)
+ 		return -ENOMEM;
+ 
+ 	device_lock(&dev_dax->dev);
+-	rc = dev_dax_probe(&dev_dax->dev);
++	rc = dev_dax_probe(dev_dax);
+ 	device_unlock(&dev_dax->dev);
+ 
+ 	devres_close_group(&dev_dax->dev, dev_dax);
 
 _______________________________________________
 dri-devel mailing list
