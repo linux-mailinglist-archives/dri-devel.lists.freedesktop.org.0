@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36FB2351F8
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 14:04:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF205235282
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Aug 2020 15:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B836EB76;
-	Sat,  1 Aug 2020 12:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3C36EB7B;
+	Sat,  1 Aug 2020 13:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6BD6EB76
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Aug 2020 12:04:54 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203905] amdgpu:actual_brightness has unreal/wrong value
-Date: Sat, 01 Aug 2020 12:04:53 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kunal.bhat2001@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-203905-2300-gOShG1G6D0@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203905-2300@https.bugzilla.kernel.org/>
-References: <bug-203905-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 396 seconds by postgrey-1.36 at gabe;
+ Sat, 01 Aug 2020 13:03:22 UTC
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF8966EB79;
+ Sat,  1 Aug 2020 13:03:22 +0000 (UTC)
+Received: from nazgul.tnic (unknown [78.130.214.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B8CAE1EC02FA;
+ Sat,  1 Aug 2020 14:56:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1596286602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=NfmlZOrLaBmBGlzbXE5z6x4RKpqqJJmlzC4+91fmYUA=;
+ b=n/7VNWjNwrVYldmM5JNyqQEVZd3Vp3hpjJSMuFhfSkrW8mQhIHtpfasKy9w1BEromsKKyZ
+ /CdJ8nlcvZTCqyn05aBVgUH+WGtmqEhe61zMEoDcH8PmujGuHYORgBg9sVbSuZSh5qLljK
+ uihuEhdcnAWg6tPbjyrRXoOKhqTEw/0=
+Date: Sat, 1 Aug 2020 14:56:57 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Saheed O. Bolarinwa" <refactormyself@gmail.com>
+Subject: Re: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
+Message-ID: <20200801125657.GA25391@nazgul.tnic>
+References: <20200801112446.149549-1-refactormyself@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200801112446.149549-1-refactormyself@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,42 +49,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ Joerg Roedel <joro@8bytes.org>, linux-atm-general@lists.sourceforge.net,
+ helgaas@kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+ skhan@linuxfoundation.org, bjorn@helgaas.com,
+ Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=203905
+On Sat, Aug 01, 2020 at 01:24:29PM +0200, Saheed O. Bolarinwa wrote:
+> The return value of pci_read_config_*() may not indicate a device error.
+> However, the value read by these functions is more likely to indicate
+> this kind of error. This presents two overlapping ways of reporting
+> errors and complicates error checking.
 
-Kunal Bhat (kunal.bhat2001@gmail.com) changed:
+So why isn't the *value check done in the pci_read_config_* functions
+instead of touching gazillion callers?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kunal.bhat2001@gmail.com
+For example, pci_conf{1,2}_read() could check whether the u32 *value it
+just read depending on the access method, whether that value is ~0 and
+return proper PCIBIOS_ error in that case.
 
---- Comment #9 from Kunal Bhat (kunal.bhat2001@gmail.com) ---
-(In reply to Flo Bock from comment #8)
-> With recent systemd changes, the 16 bit values in actual_brightness break
-> saving and restoring the backlight values using AMDGPU. According to a
-> closed issue on Github, Lennart Poettering sees this as a kernel issue[1].
-> Is there any good reason for actual_brightness to be 16bit, whereas both
-> max_brightness and brightness are 8bit?
-> 
-> [1]: https://github.com/systemd/systemd/issues/16600
+The check you're replicating
 
+	if (val32 == (u32)~0)
 
-
-I believe it's there to provide a higher range of precision for the backlight.
-Not sure why they never extended the range for max_brightness. 
-
-The systemd devs are adamant that this is a driver issue, and aren't ready to
-implement a work around for it. 
-I believe this is the open issue with the discussions right now:
-https://github.com/systemd/systemd/issues/16630
+everywhere, instead, is just ugly and tests a naked value ~0 which
+doesn't mean anything...
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
