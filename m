@@ -1,41 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F92223579F
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 16:33:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3C82357B9
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 16:54:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 787FC6E081;
-	Sun,  2 Aug 2020 14:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22DC6E14B;
+	Sun,  2 Aug 2020 14:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3148B6E081
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 14:33:04 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 3EEEB80511;
- Sun,  2 Aug 2020 16:33:01 +0200 (CEST)
-Date: Sun, 2 Aug 2020 16:32:59 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
- Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH v1 16/22] drm/bridge: parade-ps8622: Backlight update
-Message-ID: <20200802143259.GA1264750@ravnborg.org>
-References: <20200802110636.1018743-1-sam@ravnborg.org>
- <20200802110636.1018743-17-sam@ravnborg.org>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F8B96E14E
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 14:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596380036;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1kkoTewt7Fx4Q+2DDC1UGcR4JlqqtBcQK2oUP1r3rTc=;
+ b=bRPIsyWnloZkdZRHDy0i9n0nNz0wo9wOUfYMrFvsHFF0SW1nGffiYUSQX7E86ZL43uD/bw
+ qQ7J4qBJ8WQVcGfPX5Yk7Gh4JbYj9aka+QyPU0PO8FJYGB8peUMWjNwWV2EBlBC6PaUTcY
+ DZ9nElbxC7tZ0i47YDdcNDqCvvosjBw=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-l1a15ZkyMCOkzx7nt0JK3A-1; Sun, 02 Aug 2020 10:53:51 -0400
+X-MC-Unique: l1a15ZkyMCOkzx7nt0JK3A-1
+Received: by mail-qv1-f70.google.com with SMTP id k17so10382290qvj.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 07:53:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=1kkoTewt7Fx4Q+2DDC1UGcR4JlqqtBcQK2oUP1r3rTc=;
+ b=SSRPShhi2N33ntNxU0zPTXEHan6AwszBOeXiJdg8H12AcKdNPsCWVQpL2JBR1S9bSJ
+ G0pJMKBJcGQfhFaq9FV6wvaPLFXiUZfbNcyMTqcJDnKG/WvaMoVnQjFJ9afRMMm1p1wr
+ Fmy8JDXTbizLNhj6KjXJ6jsJPKfP+bXlmHOy01zlVrnv0vC0qdOP5S1tIHmzOOb0Cd8X
+ r5A6ohPCh73oz8YAA+D6b8jQ/Dj8P2A3tJFeSrURv3L6QNCbiXQBUXCwu7XrewQ1mP8i
+ c/zTTsc3mgB72lFfmi/6WNduYfncmjVdoCZZ0SAMvZdoNzrUZoqDmbiM9KrE91SOlOPL
+ AiwA==
+X-Gm-Message-State: AOAM532uTb+F4Da5q3gIxYFc0PpUuf9Ez6EHbvskC+EMts/ogfqfg7K+
+ T89yiKZkMMT6c0vgMPbeeLZVsWsCGuhWKElsS062tI/NmQJROtPtz85s9NhHWZtUsDj309pXsxW
+ 64S0+qoFkh+hLUg14yTNiOo79n7Ui
+X-Received: by 2002:a0c:f007:: with SMTP id z7mr12711385qvk.53.1596380031306; 
+ Sun, 02 Aug 2020 07:53:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsaj772ZR8xxDSmSbCv1i3DbzhNyKSnnIAtdh3ZvECGhzafck69cLoHqLTgfamrb5jJgzXtg==
+X-Received: by 2002:a0c:f007:: with SMTP id z7mr12711349qvk.53.1596380031093; 
+ Sun, 02 Aug 2020 07:53:51 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
+ [75.142.250.213])
+ by smtp.gmail.com with ESMTPSA id t127sm16326265qkc.100.2020.08.02.07.53.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Aug 2020 07:53:50 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
+To: Borislav Petkov <bp@alien8.de>,
+ "Saheed O. Bolarinwa" <refactormyself@gmail.com>
+References: <20200801112446.149549-1-refactormyself@gmail.com>
+ <20200801125657.GA25391@nazgul.tnic>
+From: Tom Rix <trix@redhat.com>
+Message-ID: <6ecce8f3-350a-b5d5-82c9-4609f2298e61@redhat.com>
+Date: Sun, 2 Aug 2020 07:53:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200802110636.1018743-17-sam@ravnborg.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=hD80L64hAAAA:8 a=IpJZQVW2AAAA:8
- a=P1BnusSwAAAA:8 a=RwHePtW7AAAA:8 a=6EamX4xhOt02RnpUPrMA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=IawgGOuG5U0WyFbmm1f5:22
- a=D0XLA9XvdZm18NrgonBM:22 a=FqraQwd7dyEg5dwJgZJs:22
+In-Reply-To: <20200801125657.GA25391@nazgul.tnic>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,125 +81,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-pci@vger.kernel.org,
+ linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ Joerg Roedel <joro@8bytes.org>, linux-atm-general@lists.sourceforge.net,
+ helgaas@kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+ skhan@linuxfoundation.org, bjorn@helgaas.com,
+ Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 02, 2020 at 01:06:30PM +0200, Sam Ravnborg wrote:
-> - Use blacklight_get_brightness() helper
-> - Use devm_ variant to register backlight device and drop explicit
->   unregister
-> - Use macro for initialization
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 
-Build errors fixed, will be included in v2.
+On 8/1/20 5:56 AM, Borislav Petkov wrote:
+> On Sat, Aug 01, 2020 at 01:24:29PM +0200, Saheed O. Bolarinwa wrote:
+>> The return value of pci_read_config_*() may not indicate a device error.
+>> However, the value read by these functions is more likely to indicate
+>> this kind of error. This presents two overlapping ways of reporting
+>> errors and complicates error checking.
+> So why isn't the *value check done in the pci_read_config_* functions
+> instead of touching gazillion callers?
+>
+> For example, pci_conf{1,2}_read() could check whether the u32 *value it
+> just read depending on the access method, whether that value is ~0 and
+> return proper PCIBIOS_ error in that case.
+>
+> The check you're replicating
+>
+> 	if (val32 == (u32)~0)
+>
+> everywhere, instead, is just ugly and tests a naked value ~0 which
+> doesn't mean anything...
+>
+I agree, if there is a change, it should be in the pci_read_* functions.
 
-	Sam
+Anything returning void should not fail and likely future users of the proposed change will not do the extra checks.
 
-> ---
->  drivers/gpu/drm/bridge/parade-ps8622.c | 43 +++++++++++++-------------
->  1 file changed, 21 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
-> index d789ea2a7fb9..9304484e7f71 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8622.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8622.c
-> @@ -284,8 +284,7 @@ static int ps8622_send_config(struct ps8622_bridge *ps8622)
->  			goto error;
->  
->  		/* FFh for 100% brightness, 0h for 0% brightness */
-> -		err = ps8622_set(cl, 0x01, 0xa7,
-> -				ps8622->bl->props.brightness);
-> +		err = ps8622_set(cl, 0x01, 0xa7, backlight_get_brightness(ps8622->bl));
->  		if (err)
->  			goto error;
->  	} else {
-> @@ -331,18 +330,11 @@ static int ps8622_send_config(struct ps8622_bridge *ps8622)
->  static int ps8622_backlight_update(struct backlight_device *bl)
->  {
->  	struct ps8622_bridge *ps8622 = dev_get_drvdata(&bl->dev);
-> -	int ret, brightness = bl->props.brightness;
-> -
-> -	if (bl->props.power != FB_BLANK_UNBLANK ||
-> -	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-> -		brightness = 0;
->  
->  	if (!ps8622->enabled)
->  		return -EINVAL;
->  
-> -	ret = ps8622_set(ps8622->client, 0x01, 0xa7, brightness);
-> -
-> -	return ret;
-> +	return ps8622_set(ps8622->client, 0x01, 0xa7, blacklight_get_brightness(bl));
->  }
->  
->  static const struct backlight_ops ps8622_backlight_ops = {
-> @@ -521,7 +513,23 @@ static const struct drm_bridge_funcs ps8622_bridge_funcs = {
->  	.attach = ps8622_attach,
->  };
->  
-> -static const struct of_device_id ps8622_devices[] = {
-> +static int ps8622_register_blacklight(struct ps8622_bridge *ps8622)
-> +{
-> +	DECLARE_BACKLIGHT_INIT_RAW(props, PS8622_MAX_BRIGHTNESS, PS8622_MAX_BRIGHTNESS);
-> +	backlight_device *bl;
-> +
-> +	bl = devm_backlight_device_register(dev, dev_name(dev), dev,
-> +					    ps8622, &ps8622_backlight_ops, &props);
-> +	if (IS_ERR(bl)) {
-> +		DRM_ERROR("failed to register backlight\n");
-> +		return PTR_ERR(bl);
-> +	}
-> +
-> +	ps8622->bl = bl;
-> +	return 0;
-> +}
-> +
-> +const struct of_device_id ps8622_devices[] = {
->  	{.compatible = "parade,ps8622",},
->  	{.compatible = "parade,ps8625",},
->  	{}
-> @@ -581,17 +589,9 @@ static int ps8622_probe(struct i2c_client *client,
->  	}
->  
->  	if (!of_find_property(dev->of_node, "use-external-pwm", NULL)) {
-> -		ps8622->bl = backlight_device_register("ps8622-backlight",
-> -				dev, ps8622, &ps8622_backlight_ops,
-> -				NULL);
-> -		if (IS_ERR(ps8622->bl)) {
-> -			DRM_ERROR("failed to register backlight\n");
-> -			ret = PTR_ERR(ps8622->bl);
-> -			ps8622->bl = NULL;
-> +		ret = ps8622_register_blacklight(ps8622);
-> +		if (ret)
->  			return ret;
-> -		}
-> -		ps8622->bl->props.max_brightness = PS8622_MAX_BRIGHTNESS;
-> -		ps8622->bl->props.brightness = PS8622_MAX_BRIGHTNESS;
->  	}
->  
->  	ps8622->bridge.funcs = &ps8622_bridge_funcs;
-> @@ -607,7 +607,6 @@ static int ps8622_remove(struct i2c_client *client)
->  {
->  	struct ps8622_bridge *ps8622 = i2c_get_clientdata(client);
->  
-> -	backlight_device_unregister(ps8622->bl);
->  	drm_bridge_remove(&ps8622->bridge);
->  
->  	return 0;
-> -- 
-> 2.25.1
+Tom
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
