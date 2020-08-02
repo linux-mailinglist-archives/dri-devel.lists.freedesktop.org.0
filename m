@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E67235675
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 13:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA33A235677
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 13:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECAE6E0FC;
-	Sun,  2 Aug 2020 11:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57DD6E0FE;
+	Sun,  2 Aug 2020 11:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57FBD6E0F5
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 11:07:32 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id t23so13223459ljc.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 04:07:32 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7276E0FE
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 11:07:33 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id q7so36743918ljm.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 04:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yLGfPCSGFzX1pfjLnt4+4gCxp0y0iHIPZ/xyetvHNEI=;
- b=fkFQcpqsUIJWzziJajDk7wSX4nUaaSj0bqXqtc9LeULjE01vqHFaTiLBCQ/FLouThR
- nkype2yYBuPCpl/YCImE2SWGJwi5+xV20q12S4rD+GcqPXwdFzkqKtzHFLnP8UqGn5yR
- 6MG32nAHwsnxDSO3fdskOMPjO/+4WDPWqvsFxobti7DGwhli3Itd+vtdDVkNODvO3Kwx
- 1nXJHK2NFTyFQwqx78PQD7/L2nJiGDXg+YVUI0+tU4kES2HW//bZeDgUuxM9KOdKs2Z6
- RGUhjWAHNYKI3/5V38wQtf5KQ+tXRJCnFH72l3icFPE3k9C+64egZmTZQoztM38MUK2Y
- BPoQ==
+ bh=FqxvCt1rOGIFQUkck0vmFvnXIHbaio+eX45vsaOvh/A=;
+ b=k8gz6ZkJZgnN0o263g+WRon91K2JnYLku48dG7VchwoNsWv2wbeyo4VU7z0wN9QG8w
+ 3NcqMHc3KJJ8iikngdNsEG9wMgd2vU+MVLdm/3T/hqDfv1B7mk1bZkhX5rDx229wpwt9
+ VSsYlZedcqF/Q2BUOVo8JWOuo6JoWs9tQskYp6RPIGIs0rRwqpP/e1j4wFFH4uoT7sga
+ 2fCOhBR/vG5wPbDCyezGgyN3mMrAwkNrecJStX3bQYNqPI8lGUi/79a/TZdaF3F+N3Mq
+ /WrIES1RRaw4rDD68ntVbN2M9/ECy3M40z46aikO5wO8e2QHegWk+cSj330lsrj79rNA
+ jkGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yLGfPCSGFzX1pfjLnt4+4gCxp0y0iHIPZ/xyetvHNEI=;
- b=a4eJoI3ZBul5K6Mv/+REJz264Q+sQIu8hATBhnaDXdvWVEJYj+y3LZfZCHKwpqxNEA
- UQU5rUSJHyg5Vex3Ts4ZE8SxgTurfsl2SrYZ4wIj+0EmlbPPPQs7McPRb13Zs9hPDOdF
- RVex4fhaXpbBVHAJC66qMtsz5xBarGo75FAN5cUYJCHCtGesM4oxIGzJ1AUaTn34Fm8/
- hRL+iUN2iLGmKYfeQJh+EDcvSfQF1zxqIKaCiw8KWVe15nZz0dVZv+SxFtXimy7u8zKJ
- xT9l2Gjzf4USwOAF31or7t07dZ/YerpBGkkJ5Z1ErXp5UC5T86a25t30XWtXQ/Vd3uaz
- H2ZQ==
-X-Gm-Message-State: AOAM532SfILeN8AQN5rK3EzYnzo/Z+Hq7RGOceVOP+mgvLJgzI5xvaPv
- dknsCk8ai26aTt78by6GOk4SLVOOpDw=
-X-Google-Smtp-Source: ABdhPJzxi7fz52DERq/CMav6EPIMsEQsGo8HcVr2O12zysf4L554P54JOjLZOM9aaLealJ1lYQkXgw==
-X-Received: by 2002:a05:651c:c5:: with SMTP id 5mr5696050ljr.443.1596366450595; 
- Sun, 02 Aug 2020 04:07:30 -0700 (PDT)
+ bh=FqxvCt1rOGIFQUkck0vmFvnXIHbaio+eX45vsaOvh/A=;
+ b=N7nQYfP2zluuqz2NkBINmwgYiOoDNx+ostNERPnmtmKb6b5mbJsO+kutAIHaATYYlm
+ RRnkbXx1me8mFWBBQQV/L40344gDKzqCvEu9S6ojLxJesoAJtPUtRAWgRxlh0NuH0yqP
+ MRrwsaMO1nOOIuHb/F4+oJTJXt9kEBPUND/xmBaEhmYaHnfpB15u3jt3fhNsL/yeDK/S
+ ecmnEYBgaBpAgMMz9kHeLOuVNQXEC3YAnv0G6wn9pLX5NsVwpna0bCDuqv4WTfoPO2DV
+ L9jfzSp7E3dS5nl/XJPJTBLDkrJgwKmTmkIFQLNanMRO723ny1lmQ0pTs1QAxz4jYxfb
+ nrkw==
+X-Gm-Message-State: AOAM5302GhMXpFa/z2LeUuMkltkm3zVlcK6HwzDNQUu4r9lC3k9rYLCx
+ VfKyJY8+50ETvo0WS1aoE6Gx3GAkO/E=
+X-Google-Smtp-Source: ABdhPJytNAsELnub4Rc5jK8zot96H4TGw6wAUYFxaQP5kz9SnSWQjdsFLBrGTJn+ah454yIJLSdNYQ==
+X-Received: by 2002:a2e:545c:: with SMTP id y28mr5220801ljd.448.1596366452009; 
+ Sun, 02 Aug 2020 04:07:32 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:b9d6:7e3c:5453:a61c])
- by smtp.gmail.com with ESMTPSA id l3sm3045520lji.115.2020.08.02.04.07.29
+ by smtp.gmail.com with ESMTPSA id l3sm3045520lji.115.2020.08.02.04.07.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Aug 2020 04:07:30 -0700 (PDT)
+ Sun, 02 Aug 2020 04:07:31 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v1 14/22] drm/panel: sony-acx424akp: Backlight update
-Date: Sun,  2 Aug 2020 13:06:28 +0200
-Message-Id: <20200802110636.1018743-15-sam@ravnborg.org>
+Subject: [PATCH v1 15/22] drm/panel: sony-acx565akm: Backlight update
+Date: Sun,  2 Aug 2020 13:06:29 +0200
+Message-Id: <20200802110636.1018743-16-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200802110636.1018743-1-sam@ravnborg.org>
 References: <20200802110636.1018743-1-sam@ravnborg.org>
@@ -69,129 +69,119 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Use get method to read brightness
-- Use drm_panel support for backlight
-  - This drops enable/disable operations as they are no longer needed.
-    The enable/disable operations had some backlight related comments
-    that are no longer valid. The only correct way to enable/disable
-    backlight is using the backlight enable/disable helpers.
-- Use macro for backlight initialization
+- Use backlight_get_brightness() helper
+- Use backlight_is_blank() helper
+- Use macro for initialization
+- Drop direct access to backlight properties
+- Use the devm_ variant for registering backlight device, and drop
+  all explicit unregistering of the backlight device.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Linus Walleij <linus.walleij@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-sony-acx424akp.c | 49 ++++----------------
- 1 file changed, 9 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c | 44 +++++++-------------
+ 1 file changed, 15 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-index c91e55b2d7a3..ce9ae8f1f5d7 100644
---- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-+++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-@@ -99,7 +99,7 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
- 	struct acx424akp *acx = bl_get_data(bl);
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
- 	int period_ns = 1023;
--	int duty_ns = bl->props.brightness;
-+	int duty_ns = backlight_get_brightness(bl);
- 	u8 pwm_ratio;
- 	u8 pwm_div;
- 	u8 par;
-@@ -332,8 +332,6 @@ static int acx424akp_prepare(struct drm_panel *panel)
- 		}
- 	}
- 
--	acx->bl->props.power = FB_BLANK_NORMAL;
--
- 	return 0;
- 
- err_power_off:
-@@ -376,34 +374,6 @@ static int acx424akp_unprepare(struct drm_panel *panel)
- 	msleep(85);
- 
- 	acx424akp_power_off(acx);
--	acx->bl->props.power = FB_BLANK_POWERDOWN;
--
--	return 0;
--}
--
--static int acx424akp_enable(struct drm_panel *panel)
--{
--	struct acx424akp *acx = panel_to_acx424akp(panel);
--
--	/*
--	 * The backlight is on as long as the display is on
--	 * so no use to call backlight_enable() here.
--	 */
--	acx->bl->props.power = FB_BLANK_UNBLANK;
--
--	return 0;
--}
--
--static int acx424akp_disable(struct drm_panel *panel)
--{
--	struct acx424akp *acx = panel_to_acx424akp(panel);
--
--	/*
--	 * The backlight is on as long as the display is on
--	 * so no use to call backlight_disable() here.
--	 */
--	acx->bl->props.power = FB_BLANK_NORMAL;
--
- 	return 0;
- }
- 
-@@ -435,18 +405,18 @@ static int acx424akp_get_modes(struct drm_panel *panel,
- }
- 
- static const struct drm_panel_funcs acx424akp_drm_funcs = {
--	.disable = acx424akp_disable,
- 	.unprepare = acx424akp_unprepare,
- 	.prepare = acx424akp_prepare,
--	.enable = acx424akp_enable,
- 	.get_modes = acx424akp_get_modes,
- };
- 
- static int acx424akp_probe(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+index 5c4b6f6e5c2d..3fc572d1de13 100644
+--- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
++++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+@@ -298,13 +298,7 @@ static void acx565akm_set_brightness(struct acx565akm_panel *lcd, int level)
+ static int acx565akm_bl_update_status_locked(struct backlight_device *dev)
  {
-+	struct backlight_device *bd;
- 	struct device *dev = &dsi->dev;
- 	struct acx424akp *acx;
+ 	struct acx565akm_panel *lcd = dev_get_drvdata(&dev->dev);
+-	int level;
+-
+-	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+-	    dev->props.power == FB_BLANK_UNBLANK)
+-		level = dev->props.brightness;
+-	else
+-		level = 0;
++	int level = backlight_get_brightness(dev);
+ 
+ 	acx565akm_set_brightness(lcd, level);
+ 
+@@ -330,8 +324,7 @@ static int acx565akm_bl_get_intensity(struct backlight_device *dev)
+ 
+ 	mutex_lock(&lcd->mutex);
+ 
+-	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+-	    dev->props.power == FB_BLANK_UNBLANK)
++	if (backlight_is_blank(dev))
+ 		intensity = acx565akm_get_actual_brightness(lcd);
+ 	else
+ 		intensity = 0;
+@@ -348,39 +341,34 @@ static const struct backlight_ops acx565akm_bl_ops = {
+ 
+ static int acx565akm_backlight_init(struct acx565akm_panel *lcd)
+ {
+-	struct backlight_properties props = {
+-		.fb_blank = FB_BLANK_UNBLANK,
+-		.power = FB_BLANK_UNBLANK,
+-		.type = BACKLIGHT_RAW,
+-	};
  	int ret;
-+	DECLARE_BACKLIGHT_INIT_RAW(props, 512, 1023);
- 
- 	acx = devm_kzalloc(dev, sizeof(struct acx424akp), GFP_KERNEL);
- 	if (!acx)
-@@ -496,15 +466,14 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
- 	drm_panel_init(&acx->panel, dev, &acx424akp_drm_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
--	acx->bl = devm_backlight_device_register(dev, "acx424akp", dev, acx,
--						 &acx424akp_bl_ops, NULL);
--	if (IS_ERR(acx->bl)) {
-+	bd = devm_backlight_device_register(dev, "acx424akp", dev, acx,
-+					    &acx424akp_bl_ops, &props);
-+	if (IS_ERR(bd)) {
- 		DRM_DEV_ERROR(dev, "failed to register backlight device\n");
--		return PTR_ERR(acx->bl);
-+		return PTR_ERR(bd);
- 	}
--	acx->bl->props.max_brightness = 1023;
--	acx->bl->props.brightness = 512;
--	acx->bl->props.power = FB_BLANK_POWERDOWN;
+-
+-	lcd->backlight = backlight_device_register(lcd->name, &lcd->spi->dev,
+-						   lcd, &acx565akm_bl_ops,
+-						   &props);
+-	if (IS_ERR(lcd->backlight)) {
+-		ret = PTR_ERR(lcd->backlight);
+-		lcd->backlight = NULL;
++	struct backlight_device *bd;
++	DECLARE_BACKLIGHT_INIT_RAW(props, 0, 255);
 +
-+	acx->panel.backlight = bd;
++	bd = devm_backlight_device_register(&lcd->spi->dev, lcd->name,
++					    &lcd->spi->dev, lcd,
++					    &acx565akm_bl_ops, &props);
++	if (IS_ERR(bd)) {
++		ret = PTR_ERR(bd);
+ 		return ret;
+ 	}
  
- 	ret = drm_panel_add(&acx->panel);
- 	if (ret < 0)
++	lcd->backlight = bd;
+ 	if (lcd->has_cabc) {
+-		ret = sysfs_create_group(&lcd->backlight->dev.kobj,
++		ret = sysfs_create_group(&bd->dev.kobj,
+ 					 &acx565akm_cabc_attr_group);
+ 		if (ret < 0) {
+ 			dev_err(&lcd->spi->dev,
+ 				"%s failed to create sysfs files\n", __func__);
+-			backlight_device_unregister(lcd->backlight);
+ 			return ret;
+ 		}
+ 
+ 		lcd->cabc_mode = acx565akm_get_hw_cabc_mode(lcd);
+ 	}
+ 
+-	lcd->backlight->props.max_brightness = 255;
+-	lcd->backlight->props.brightness = acx565akm_get_actual_brightness(lcd);
+-
+-	acx565akm_bl_update_status_locked(lcd->backlight);
++	backlight_set_brightness(bd, acx565akm_get_actual_brightness(lcd));
++	backlight_set_power_on(bd);
++	backlight_update_status(bd);
+ 
+ 	return 0;
+ }
+@@ -390,8 +378,6 @@ static void acx565akm_backlight_cleanup(struct acx565akm_panel *lcd)
+ 	if (lcd->has_cabc)
+ 		sysfs_remove_group(&lcd->backlight->dev.kobj,
+ 				   &acx565akm_cabc_attr_group);
+-
+-	backlight_device_unregister(lcd->backlight);
+ }
+ 
+ /* -----------------------------------------------------------------------------
 -- 
 2.25.1
 
