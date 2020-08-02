@@ -2,37 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71352235A22
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 21:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6AF235A42
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 21:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 903816E046;
-	Sun,  2 Aug 2020 19:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E86C6E192;
+	Sun,  2 Aug 2020 19:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6ADA6E046;
- Sun,  2 Aug 2020 19:14:08 +0000 (UTC)
-Received: from localhost (mobile-166-175-186-42.mycingular.net
- [166.175.186.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E9B0F206E9;
- Sun,  2 Aug 2020 19:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596395648;
- bh=8BmtM5Wz6njp3alR4dE4/v12QyDF8IHMxGR5An5fCEM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=i/jHSvTUizuVlNBRmQdxRNPe6coho/ATL8nGKi/xOmyBYjKmz9+xWg85IsgGxSgIS
- dL1yfc+oHKYsaeZL0AE3OSX+Y10i5fuMEzdWvutU18j1LA95jrbDgF15+X0v94hhxC
- 1mNVxGQqYc9cBpDxqrC9KNkOyCMbtt1kU/iMoM8s=
-Date: Sun, 2 Aug 2020 14:14:06 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Subject: Re: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
-Message-ID: <20200802191406.GA248232@bjorn-Precision-5520>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E56B6E192
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 19:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1596397387;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U4/Mw3KkAAcPCK4zYXwpvO5LLtv+hmKDZL07Q/dYPuw=;
+ b=gs24Kwr2cuXfGZopPInP9zPTHjYq5/zYWU8aonpwh4ZzUR/Cjg5eq0/5w47rvFymoebUyD
+ bTvZ+4lTODe3FcX+iLGEGlL/wSzOAvjxCAJcaRqHNVaGdjwl4fn/yFbpexvv58XPNhHMc0
+ 7X5WPRemuBYq7WtOsB+9hZpagSAIcFc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-QnKUCc79NwGcccu3OwOnWw-1; Sun, 02 Aug 2020 15:43:05 -0400
+X-MC-Unique: QnKUCc79NwGcccu3OwOnWw-1
+Received: by mail-ed1-f71.google.com with SMTP id i3so12152770edq.21
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 12:43:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=U4/Mw3KkAAcPCK4zYXwpvO5LLtv+hmKDZL07Q/dYPuw=;
+ b=UXDtP/6/oeHZXgYcYVIMCwQcpt7QNxCQt350/D/ycm49vm8Fuw4y3TkkxvBTnHmWAA
+ +d9Je1ap4Ks4IZazxqnWdiJqtmqTr6uLI6o6gvkw8GB+4EPyaWmtMXSG8jJm4v6O/NVQ
+ ilYalfqsdFZId1J7XlJlalziCoaf9Ex2qQwOZS6zbTu6hSiSypRkgp2J4+JLlvAKdY9+
+ 6QUhgkN6dUUalopGX4WtcsOt7XB1T4TnvOZzzKeEimhjzWmowGShJ+d8ZEuU1hSVO/cT
+ yRjWICgKqnXdQlvqJf0BFTRYUzY1cLjosFABVaFDYeRxgPWbiSpPBomk8vH34BqtcNIa
+ q6Ng==
+X-Gm-Message-State: AOAM530O+5qHrqCI6w0dSDodSDO4vW2FrGEzmRvNy1VbKtRD/qqjJmVx
+ 0ifYgxHDHiC7PcArtFb8ZRplIYrhlLpqyth/Rka9QaENy8TQxJJqV/p/qQK9jpMkws6H4E1SkLJ
+ Ljk0npk8hw1nQUV9P1BUE88XK1flJ
+X-Received: by 2002:a50:ef0a:: with SMTP id m10mr13098226eds.226.1596397384488; 
+ Sun, 02 Aug 2020 12:43:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJynUhl0t0uuVDdTx6s58FiK7ReUpSYAlLkZ1s/9i/K4l82iijURkAOZIpAIJo7qPwgJDtnWkQ==
+X-Received: by 2002:a50:ef0a:: with SMTP id m10mr13098209eds.226.1596397384275; 
+ Sun, 02 Aug 2020 12:43:04 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id ay5sm14253189edb.2.2020.08.02.12.43.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Aug 2020 12:43:03 -0700 (PDT)
+Subject: Re: [PATCH v5 00/16] acpi/pwm/i915: Convert pwm-crc and i915 driver's
+ PWM code to use the atomic PWM API
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20200717133753.127282-1-hdegoede@redhat.com>
+ <20200729105436.GT3703480@smile.fi.intel.com>
+ <e8f93474-1775-b20c-f9f2-e33592a02028@redhat.com>
+ <20200802112524.GS3703480@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <3d66505a-3550-e81f-d6dc-250dba87e820@redhat.com>
+Date: Sun, 2 Aug 2020 21:43:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200802184648.GA23190@nazgul.tnic>
+In-Reply-To: <20200802112524.GS3703480@smile.fi.intel.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,48 +84,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-pci@vger.kernel.org,
- linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
- Joerg Roedel <joro@8bytes.org>, linux-atm-general@lists.sourceforge.net,
- trix@redhat.com, Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
- skhan@linuxfoundation.org, bjorn@helgaas.com,
- Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
- linux-hwmon@vger.kernel.org, Saheed Bolarinwa <refactormyself@gmail.com>,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 02, 2020 at 08:46:48PM +0200, Borislav Petkov wrote:
-> On Sun, Aug 02, 2020 at 07:28:00PM +0200, Saheed Bolarinwa wrote:
-> > Because the value ~0 has a meaning to some drivers and only
+Hi,
+
+On 8/2/20 1:25 PM, Andy Shevchenko wrote:
+> On Sat, Aug 01, 2020 at 04:38:16PM +0200, Hans de Goede wrote:
+>> On 7/29/20 12:54 PM, Andy Shevchenko wrote:
+>>> On Fri, Jul 17, 2020 at 03:37:37PM +0200, Hans de Goede wrote:
 > 
-> No, ~0 means that the PCI read failed. For *every* PCI device I know.
+> ...
+> 
+>>> One comment to consider, though. There are three channels in that PWM AFAIU.
+>>> One of them is backlight control, another one can be attached to haptics. The
+>>> concern is how this series may (or may not?) affect haptics behaviour.
+>>
+>> When you say "in that PWM" do you mean the LPSS one or the CRC one ?
+> 
+> CRC one. I have read it from PMIC spec, that's why the question.
 
-Wait, I'm not convinced yet.  I know that if a PCI read fails, you
-normally get ~0 data because the host bridge fabricates it to complete
-the CPU load.
+Ah I see, well the kernel driver only implements support for 1 PWM output,
+the one which is used for the backlight brighness control.
 
-But what guarantees that a PCI config register cannot contain ~0?
-If there's something about that in the spec I'd love to know where it
-is because it would simplify a lot of things.
+So this series should not affect haptics behavior, since it looks like
+the haptic functionality is not supported in the mainline kernel at all.
 
-I don't think we should merge any of these patches as-is.  If we *do*
-want to go this direction, we at least need some kind of macro or
-function that tests for ~0 so we have a clue about what's happening
-and can grep for it.
+And I'm also not aware of any tablets with a CRC PMIC which have
+(non working) haptic support.
 
-Bjorn
+Regards,
+
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
