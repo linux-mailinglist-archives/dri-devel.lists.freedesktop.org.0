@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACB02359BD
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 20:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437A8235A04
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 20:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFAE6E185;
-	Sun,  2 Aug 2020 18:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E506E18F;
+	Sun,  2 Aug 2020 18:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A462D6E136
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 18:18:57 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id t14so8298181wmi.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 11:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pgcXrt5aoVBJOcD8ilQRl/gH8mVEoQGHI/SopWr+QuE=;
- b=Buap1iYLmxQl821OjI2X1Xsqk3Xi2nvDr8UwzzmF3I5uFBCEF7qpQThXqoUwp9rtrR
- m2I2oLhgm3ZYlzzLmxK/grwfcqPcUV4F3In2A314uT4LcgHjErLn3Z0UVMlWL4yL2tXt
- qCqwy0zzFL4UvYQqAB9S9f5dRFah0l9vha7O4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pgcXrt5aoVBJOcD8ilQRl/gH8mVEoQGHI/SopWr+QuE=;
- b=MXXe9jji4bDhbdW22OxtKDXG5z/A4voqX5o2JZgfYNQoXm7io0aiL67Ia5pwgHXKTL
- zb96Fmfu+ixM/Z1z2demzH5tzc7b7Z3GLXB+OI+4Wpq7+eDaFzF+csvXJwB1pHkR2hvn
- XcE5XxX8jCWonhKlWFLBxdAA2Ma+xP4wb+Id8Yf0NamzyvhITeJTLy5pqLUEz1gCk+tF
- qMrcd/oXXNA1r4D4ywti7w73RIM0teNdG0K8ytIE0RvZG/zzCNEGABK6nkgux2LSOwbq
- 5le1GPQISzhF5gOIQo3zBl/RShKvfNxDz9GHACD/ycjiEf3eZulk6l3KTrGX6b0KqV4u
- GI5w==
-X-Gm-Message-State: AOAM5308YQTu8F7jh5T9EYpZZKlBeuR+NhPxPSRWOyirERkZG/35rDz4
- 0fQV97vekNUwkzx2c9c9gZxiXK5jngc=
-X-Google-Smtp-Source: ABdhPJwm8dmeEFHr57enbo9c/cYgaiTu25roRjbPt5f0rOZoZdps6mCBhqDbj7pudp4bPMYboDagkQ==
-X-Received: by 2002:a7b:c205:: with SMTP id x5mr13437744wmi.161.1596392335999; 
- Sun, 02 Aug 2020 11:18:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e16sm19884398wrx.30.2020.08.02.11.18.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Aug 2020 11:18:55 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/nouveau: Drop mutex_lock_nested for atomic
-Date: Sun,  2 Aug 2020 20:18:49 +0200
-Message-Id: <20200802181849.1586281-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.27.0
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C2A89E50;
+ Sun,  2 Aug 2020 18:47:23 +0000 (UTC)
+Received: from nazgul.tnic (unknown [78.130.214.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6060E1EC027B;
+ Sun,  2 Aug 2020 20:47:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1596394040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=6tNJPljLjNx2x9QEIVJnns37NMBlLLp4EAbpTzGkx/k=;
+ b=km2ppJ9W1lKPkeogNByCZRPPB90pQ77y1xFpzqsz5v2Gw4jUrJuG2BUGC6FlwifBWKp5xA
+ i/pwFuidiFCe1IAhyK7PX67NxCd1gqUPGlQREtpW/WPoHky93LT53Q3Zqf5RRY0CErhAu0
+ 8YCnO7sm9NOsIwnrSCtwGhnf6GzAdAw=
+Date: Sun, 2 Aug 2020 20:46:48 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Saheed Bolarinwa <refactormyself@gmail.com>
+Subject: Re: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
+Message-ID: <20200802184648.GA23190@nazgul.tnic>
+References: <20200801112446.149549-1-refactormyself@gmail.com>
+ <20200801125657.GA25391@nazgul.tnic>
+ <b720aa44-895a-203b-e220-ecdb3acd9278@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <b720aa44-895a-203b-e220-ecdb3acd9278@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +49,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, trix@redhat.com,
+ linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ Joerg Roedel <joro@8bytes.org>, linux-atm-general@lists.sourceforge.net,
+ helgaas@kernel.org, linux-pci@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+ skhan@linuxfoundation.org, bjorn@helgaas.com,
+ Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Purely conjecture, but I think the original locking inversion with the
-legacy page flip code between flipping and ttm's bo move function
-shoudn't exist anymore with atomic: With atomic the bo pinning and
-actual modeset commit is completely separated in the code patsh.
+On Sun, Aug 02, 2020 at 07:28:00PM +0200, Saheed Bolarinwa wrote:
+> Because the value ~0 has a meaning to some drivers and only
 
-This annotation was originally added in
+No, ~0 means that the PCI read failed. For *every* PCI device I know.
 
-commit 060810d7abaabcab282e062c595871d661561400
-Author: Ben Skeggs <bskeggs@redhat.com>
-Date:   Mon Jul 8 14:15:51 2013 +1000
+Here's me reading from 0xf0 offset of my hostbridge:
 
-    drm/nouveau: fix locking issues in page flipping paths
+# setpci -s 00:00.0 0xf0.l
+01000000
 
-due to
+That device doesn't have extended config space, so the last valid byte
+is 0xff. Let's read beyond that:
 
-commit b580c9e2b7ba5030a795aa2fb73b796523d65a78
-Author: Maarten Lankhorst <m.b.lankhorst@gmail.com>
-Date:   Thu Jun 27 13:48:18 2013 +0200
+# setpci -s 00:00.0 0x100.l
+ffffffff
 
-    drm/nouveau: make flipping lockdep safe
+> Again, only the drivers can determine if ~0 is a valid value. This
+> information is not available inside pci_config_read*().
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: nouveau@lists.freedesktop.org
----
-I might be totally wrong, so this definitely needs testing :-)
+Of course it is.
 
-Cheers, Daniel
----
- drivers/gpu/drm/nouveau/nouveau_bo.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+*every* change you've done in 6/17 - this is the only patch I have
+received - checks for == ~0. So that check can just as well be moved
+inside pci_config_read_*().
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 7806278dce57..a7b2a9bb0ffe 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -776,7 +776,11 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict, bool intr,
- 			return ret;
- 	}
- 
--	mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
-+	if (drm_drv_uses_atomic_modeset(drm->dev))
-+		mutex_lock(&cli->mutex);
-+	else
-+		mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
-+
- 	ret = nouveau_fence_sync(nouveau_bo(bo), chan, true, intr);
- 	if (ret == 0) {
- 		ret = drm->ttm.move(chan, bo, &bo->mem, new_reg);
+Here's how one could do it:
+
+#define PCI_OP_READ(size, type, len) \
+int noinline pci_bus_read_config_##size \
+	(struct pci_bus *bus, unsigned int devfn, int pos, type *value)	\
+{									\
+	int res;							\
+	unsigned long flags;						\
+	u32 data = 0;							\
+	if (PCI_##size##_BAD) return PCIBIOS_BAD_REGISTER_NUMBER;	\
+	pci_lock_config(flags);						\
+	res = bus->ops->read(bus, devfn, pos, len, &data);		\
+
+	/* Check we actually read something which is not all 1s.*/
+	if (data == ~0)
+		return PCIBIOS_READ_FAILED;
+
+	*value = (type)data;						\
+	pci_unlock_config(flags);					\
+	return res;							\
+}
+
+Also, I'd prefer a function to *not* return void but return either
+an error or success. In the success case, the @value argument can be
+consumed by the caller and otherwise not.
+
+In any case, that change is a step in the wrong direction and I don't
+like it, sorry.
+
 -- 
-2.27.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
