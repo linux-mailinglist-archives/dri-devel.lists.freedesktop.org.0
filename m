@@ -1,42 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1DD239CDF
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 00:48:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 346F5239CFB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 01:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1DC89FA0;
-	Sun,  2 Aug 2020 22:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22F7C89DBD;
+	Sun,  2 Aug 2020 23:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2050A89FA0
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 22:48:33 +0000 (UTC)
-Received: from earth.universe (unknown [185.213.155.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C124D89DBD
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 23:38:30 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6E2332083B;
- Sun,  2 Aug 2020 22:48:32 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1BD0C2083B
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 23:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596408512;
- bh=k4gm9OOTMgavfyeGdzFhdQx2WD5tKDe0Vrnh+3mA0bY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wCrKxAAigGpUB3/sQ8qmxvQESPTkJN40Is6ieH8PMpebniizrxwsA72rLlclbxQU3
- Dycyf60/1+5wueflmluDocURjbNhr0FwEE4R5lBc86Rkp4/+UC/1xtdaIwEOuP556Z
- xpGYjTIrkx5aBmuOvtZNTW9U1q6+LHWMYXinI4dQ=
-Received: by earth.universe (Postfix, from userid 1000)
- id 6E72A3C0B95; Mon,  3 Aug 2020 00:48:30 +0200 (CEST)
-Date: Mon, 3 Aug 2020 00:48:30 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 21/22] drm/omap: display: Backlight update
-Message-ID: <20200802224830.lxsk5lybdbxk4l3t@earth.universe>
-References: <20200802110636.1018743-1-sam@ravnborg.org>
- <20200802110636.1018743-22-sam@ravnborg.org>
- <20200802142605.ih6hwhnjxnqhaflt@earth.universe>
- <20200802143207.GA1175585@ravnborg.org>
+ s=default; t=1596411509;
+ bh=AbG/PXAqhgPVuIkQmoLq+95PIZjq2tZT6mMRiYuDpWA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=EanpZdFeb8rYupCfIPn6Fs/UavWempboc9Wa9k0ebsXRsV2H9jeABwmXiYO6CnaYH
+ gyz8NtTLsPx94fS5ljo9Z1mH1kGafsh3r2+NXKbLtPuckKFideuy0iXvdqQ3tHuz8f
+ jsOo28LALgxXoVrxFp4UU+SlG+lfPQ3VJHVWCpDQ=
+Received: by mail-ed1-f41.google.com with SMTP id df16so9629112edb.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 16:38:29 -0700 (PDT)
+X-Gm-Message-State: AOAM531PE85hK8W7KSKqx4fjeY19OmWOH27kwu6We6pIyYvfloKKaggP
+ q3tSS/mLmc6NyzpqAZzEP1HdVfHaqLdFOmNamg==
+X-Google-Smtp-Source: ABdhPJyFe20LlQFIDpRDCTfuWW+wEB+O/g/9f02O9oqUGPkMHjgGv4vDDhGCFULSLVE//K2Ox0J9Smx9kWnqwXl3DME=
+X-Received: by 2002:aa7:c606:: with SMTP id h6mr713213edq.288.1596411507931;
+ Sun, 02 Aug 2020 16:38:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200802143207.GA1175585@ravnborg.org>
+References: <20200728111800.77641-1-frank-w@public-files.de>
+ <20200728111800.77641-3-frank-w@public-files.de>
+ <CAAOTY__7wCeTm0OY0P1VKZp-r7+d7yj=LLb79Nzr1pVVkOjy2g@mail.gmail.com>
+ <6F0FD8AA-A582-45FC-BE1A-06B3812B3DEF@public-files.de>
+In-Reply-To: <6F0FD8AA-A582-45FC-BE1A-06B3812B3DEF@public-files.de>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 3 Aug 2020 07:38:15 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9PZQLNFNfOPVL-YnvPNG6WjY7pcwK+wO0vEFkR=19txA@mail.gmail.com>
+Message-ID: <CAAOTY_9PZQLNFNfOPVL-YnvPNG6WjY7pcwK+wO0vEFkR=19txA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] drm/mediatek: fix boot up for 720 and 480 but 1080
+To: Frank Wunderlich <frank-w@public-files.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,125 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
- Zheng Bin <zhengbin13@huawei.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Lee Jones <lee.jones@linaro.org>
-Content-Type: multipart/mixed; boundary="===============0116241191=="
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ chunhui dai <chunhui.dai@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0116241191==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ufj3vmlrjscuwjfw"
-Content-Disposition: inline
-
-
---ufj3vmlrjscuwjfw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Sun, Aug 02, 2020 at 04:32:07PM +0200, Sam Ravnborg wrote:
-> On Sun, Aug 02, 2020 at 04:26:05PM +0200, Sebastian Reichel wrote:
-> > On Sun, Aug 02, 2020 at 01:06:35PM +0200, Sam Ravnborg wrote:
-> > > - Introduce backlight_{enable/disable)
-> > > - Use get/set methods for backlight_properties
-> > > - Drop redundant get_brightness() implementation
-> > >   The default implementation return the current brightness value
-> > > - Use macro for backlight initialization
-> > >=20
-> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > > Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Zheng Bin <zhengbin13@huawei.com>
-> > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > ---
-> > >  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 35 ++++-------------=
---
-> > >  1 file changed, 6 insertions(+), 29 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/driver=
-s/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> > > index 3484b5d4a91c..433e240896b3 100644
-> > > --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> > > +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> > > @@ -110,15 +110,10 @@ static void dsicm_bl_power(struct panel_drv_dat=
-a *ddata, bool enable)
-> > >  	else
-> > >  		return;
-> > > =20
-> > > -	if (enable) {
-> > > -		backlight->props.fb_blank =3D FB_BLANK_UNBLANK;
-> > > -		backlight->props.state =3D ~(BL_CORE_FBBLANK | BL_CORE_SUSPENDED);
-> > > -		backlight->props.power =3D FB_BLANK_UNBLANK;
-> > > -	} else {
-> > > -		backlight->props.fb_blank =3D FB_BLANK_NORMAL;
-> > > -		backlight->props.power =3D FB_BLANK_POWERDOWN;
-> > > -		backlight->props.state |=3D BL_CORE_FBBLANK | BL_CORE_SUSPENDED;
-> > > -	}
-> > > +	if (enable)
-> > > +		backlight_enable(backlight);
-> > > +	else
-> > > +		backlight_disable(backlight);
-> > > =20
-> > >  	backlight_update_status(backlight);
-> >=20
-> > backlight_update_status() is already called by backlight_enable/disable.
->=20
-> Right, thanks.
-> Dropped in v2.
->=20
-> Let me know if you already have a similar patch and if I shall
-> drop this.
-
-I did not touch the backlight bits and I can easily rebase my patches. I th=
-ink
-this should be kept.
-
-> It would be nice to have the panel parts of omapdrm migrated in
-> this cycle. I recall you have 50+ patches pending.
-
-I plan to send only the first part and go step by step.
-
--- Sebastian
-
---ufj3vmlrjscuwjfw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl8nQrsACgkQ2O7X88g7
-+pr8bxAAninlST+fVFd4gXQLEep4F1TxU0OzzlWzLo4zm0CqPIMWSQtZRfhpmZy7
-94S4FWd5qZw2KJDyVVKSUqNsQxReH0/TsYAmhIxa786Z4jI+4gbxesDIXEULRRVm
-QupxyfsFQlerjvdtfK1MIeSLRWGzC+29xV7vbk4HA2OGzMKPX9nSxX7eoysUQ1ud
-Yg3QrxJALkL+waaX9plko9H6zYEMCNRcz21HB/3NKyqQVFA8/PBVv2OAO4bu0Bbm
-YgmINQonyZ4cIVSveNX92LgxG1VqaOXymI+GGtOBM1EVL1WklHKXXPZSdopFnIzd
-ejlIP6BABPsN3gQ9JcaqAUvoFcTd/bfBTiLDqY/WSeHZILDlz3483C3YuXCj/QA3
-Pg7a262UCV9ZcYi3nRBhpKF8FLw5UD9efdeztWfXo4O4L+rPY59k4w+jO7DS/58K
-olaLGkOWFmxt8PFm0CF71q2XiH2UfeGr5H0lOJ7EkO8D9bCGmEvpvRnFN6zCcPMU
-WdHlcXeB701iQJaNU+G4KAkcDjq6T8VUcLo+xYMasqgQpdJwytaJR/Qb2y1jU2O/
-2HQrFcuSdojnPHrOw5kCWo37hLY2KUW4DqtK91Md4X7Spmc1rzabZLjrCTPGUtsy
-9pZ+Y7ISCKJ2hNI3TzLKXS7qY5atK0OgbLJUMXmsxGWIECLgtMs=
-=oQt2
------END PGP SIGNATURE-----
-
---ufj3vmlrjscuwjfw--
-
---===============0116241191==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0116241191==--
+SGksIEZyYW5rOgoKRnJhbmsgV3VuZGVybGljaCA8ZnJhbmstd0BwdWJsaWMtZmlsZXMuZGU+IOaW
+vCAyMDIw5bm0OOaciDLml6Ug6YCx5pelIOS4i+WNiDEyOjQ05a+r6YGT77yaCj4KPiBIaSwKPgo+
+IEFtIDIuIEF1Z3VzdCAyMDIwIDAyOjA4OjQ0IE1FU1ogc2NocmllYiBDaHVuLUt1YW5nIEh1IDxj
+aHVua3VhbmcuaHVAa2VybmVsLm9yZz46Cj4gPkhpLCBGcmFuazoKPiA+PiAtIGRpc2FibGUgdG1k
+cyBvbiBwaHkgb24gbXQyNzAxCj4gPj4gLSBzdXBwb3J0IG90aGVyIHJlc29sdXRpb25zIGxpa2Ug
+MTI4MHgxMDI0Cj4gPgo+ID5JZiB0aGlzIHBhdGNoIGRvZXMgdHdvIHRoaW5ncywgaXQgc2hvdWxk
+IGJlIGJyb2tlbiBpbnRvIHR3byBwYXRjaGVzLgo+IEFzIGZhciBhcyBpIHNlZSxpdCBvbmx5IGRp
+c2FibGUgdG1kcyBhbmQgc28gZml4IHNwZWNpZmljIHJlc29sdXRpb25zIGxpa2UgdGhlIHRoZSBv
+bmUgYmVsb3cuc29tZSBvdGhlciAobGlrZSAxMDgwcCkgZG9lcyBub3QgaGF2ZSB0aGlzIFByb2Js
+ZW0uCgpPSywgdGhpcyBpcyBvbmUgdGhpbmcsICJkaXNhYmxlIHRtZHMgb24gcGh5IG9uIG10Mjcw
+MSB0byBzdXBwb3J0IG90aGVyCnJlc29sdXRpb25zIGxpa2UgMTI4MHgxMDI0IgoKPgo+ID4gSSB0
+aGluayBldmVyeSBwbGwgaXMgZGVmYXVsdCBvZmYsIHNvIHlvdSBzaG91bGQgdHVybiBvbiBwbGwg
+cmF0aGVyCj4gPiB0aGFuIGRpc2FibGUgdG1kcwo+Cj4gSXMgZGlzYWJsaW5nIHRtZHMgd3Jvbmcg
+aGVyZT8gV2hpY2ggcGxsIGlzIG5lZWRlZCBoZXJlPyBXaGF0IGRvZXMgdG1kcz8gSSBnb3Qgb25s
+eSB0aGUgUGF0Y2hlcyBmb3IgdGVzdGluZy4uLi4KCkkgZG9uJ3Qga25vdyBob3cgZG9lcyB0aGlz
+IHBsbCBhbmQgdG1kcyB3b3JrLiBJIHRoaW5rIHlvdSBhbmQgbWUgYXJlCmJvdGggbm90IGZhbWls
+aWFyIHdpdGggdGhpcyBoZG1pIHBoeS4gSSBhZ3JlZSB0aGlzIG1vZGlmaWNhdGlvbiBjb3VsZApm
+aXggc29tZSBwcm9ibGVtLCBidXQgZG9lcyB0aGlzIHBhdGNoIGhhdmUgc2lkZSBlZmZlY3Qgd2hp
+Y2ggdHJpZ2dlcgphbm90aGVyIHByb2JsZW0/IEkgbmVlZCBzb21lIHJlYXNvbmFibGUgZGVzY3Jp
+cHRpb24gc28gSSBjb3VsZCBoYXZlCmNvbmZpZGVuY2Ugb24gdGhpcyBwYXRjaC4gdG1kcyBpcyBh
+IGZ1bmN0aW9uIGluIG10MjcwMSBidXQgeW91IGRpc2FibGUKaXQuIFRoaXMgbWVhbiB5b3UgZGlz
+YWJsZSBzb21lIGZ1bmN0aW9uIG9mIHRoaXMgaGFyZHdhcmUuIFdoeSBtdDI3MDEKZG9lcyBub3Qg
+bmVlZCBpdD8KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gPj4gd2l0aG91dCB0aGlzIFBhdGNo
+IGkgc2VlIGZsaWNrZXJpbmcgb24gbXkgVEZUICgxMjgweDEwMjQpLAo+ID4+IHNvIGkgZ3Vlc3Mg
+Y2xvY2sgaXMgd3JvbmcuCj4KPiByZWdhcmRzIEZyYW5rCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
