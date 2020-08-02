@@ -2,32 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35532356BC
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 13:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B095D2356F9
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 15:06:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED8456E12A;
-	Sun,  2 Aug 2020 11:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E767689FA5;
+	Sun,  2 Aug 2020 13:06:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC6326E0F2;
- Sun,  2 Aug 2020 11:51:50 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 22008785-1500050 for multiple; Sun, 02 Aug 2020 12:51:23 +0100
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB3689FA5
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 13:06:52 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
+ amdgpu_atomic_commit_tail
+Date: Sun, 02 Aug 2020 13:06:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: jeremy@kescher.at
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207383-2300-7mM8q7Waz3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
+References: <bug-207383-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200802114044.GD4705@intel.intel>
-References: <20200802111534.5155-1-tianjia.zhang@linux.alibaba.com>
- <20200802114044.GD4705@intel.intel>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix wrong return value
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Andi Shyti <andi.shyti@intel.com>,
- Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Date: Sun, 02 Aug 2020 12:51:22 +0100
-Message-ID: <159636908251.23037.6183292610375916917@build.alporthouse.com>
-User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,34 +52,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tianjia.zhang@alibaba.com, matthew.auld@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Andi Shyti (2020-08-02 12:40:44)
-> Hi Tianjia,
-> 
-> > diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> > index d960d0be5bd2..cc017e3cc9c5 100644
-> > --- a/drivers/gpu/drm/i915/i915_active.c
-> > +++ b/drivers/gpu/drm/i915/i915_active.c
-> > @@ -758,7 +758,7 @@ int i915_active_acquire_preallocate_barrier(struct i915_active *ref,
-> >       intel_engine_mask_t tmp, mask = engine->mask;
-> >       struct llist_node *first = NULL, *last = NULL;
-> >       struct intel_gt *gt = engine->gt;
-> > -     int err;
-> > +     int err = 0;
-> 
-> you don't need the initialization here.
-
-But it's close enough that I can munge the patch inline.
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
--Chris
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDczODMKCi0tLSBD
+b21tZW50ICMxMTQgZnJvbSBKZXJlbXkgS2VzY2hlciAoamVyZW15QGtlc2NoZXIuYXQpIC0tLQoo
+SW4gcmVwbHkgdG8gRHVuY2FuIGZyb20gY29tbWVudCAjMTA4KQo+IChJbiByZXBseSB0byBQYXVs
+IE1lbnplbCBmcm9tIGNvbW1lbnQgIzEwNykKPiA+IEV2ZXJ5b25lIHNlZWluZyB0aGlzLCBpdOKA
+mWQgYmUgZ3JlYXQsIGlmIHlvdSB0ZXN0ZWQKPiA+IAo+ID4gICAgIFtQQVRDSF0gZHJtL2FtZC9k
+aXNwbGF5OiBDbGVhciBkbV9zdGF0ZSBmb3IgZmFzdCB1cGRhdGVzCj4gCgoKSXQgZml4ZXMgdGhl
+IGlzc3VlIGZvciBtZS4gTXkgc3lzdGVtIHdvdWxkLCB3aXRob3V0IGFueSBwYXRjaGVzLCBjcmFz
+aCBpbiBhCm1hdHRlciBvZiBtaW51dGVzIChwZXJoYXBzIGEgbWl4IG9mIDE0NCBIeiBhbmQgNjAg
+SHogbW9uaXRvcnMgY2F1c2VzIHRoaXMgY3Jhc2gKdG8gaGFwcGVuIGZhc3Rlcj8pLCBidXQgaXQg
+aGFzIGJlZW4gcnVubmluZyBmb3IgbXVsdGlwbGUgaG91cnMgb24gaW50ZW5zZQp3b3JrbG9hZHMg
+bm93LCB3aXRob3V0IGFueSBoaWNjdXBzIG9yIGFueXRoaW5nLgoKLS0gCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
