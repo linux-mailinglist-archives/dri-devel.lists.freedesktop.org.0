@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B095D2356F9
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 15:06:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE65523570C
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 15:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E767689FA5;
-	Sun,  2 Aug 2020 13:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 302D289FC5;
+	Sun,  2 Aug 2020 13:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB3689FA5
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 13:06:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7 amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Sun, 02 Aug 2020 13:06:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: jeremy@kescher.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-7mM8q7Waz3@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF4789DD5;
+ Sun,  2 Aug 2020 13:18:13 +0000 (UTC)
+IronPort-SDR: Mil/R7c9MTdfGovtWFmdLaTHtYlOkOTjz945LzBbkwkcxCCtai+uGM/o0wCc16KV0xlakJI90b
+ 5DWfVLkXkGgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9700"; a="149804418"
+X-IronPort-AV: E=Sophos;i="5.75,426,1589266800"; d="scan'208";a="149804418"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2020 06:18:13 -0700
+IronPort-SDR: D0XnYzrieY4fJFknkIn+xxzWKYgbCdjdSTI2rYUnCxaJcO5PpvCPzo7wH34w0rjIiMQc6QlL9A
+ RF1kyDOpmLqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,426,1589266800"; d="scan'208";a="331622703"
+Received: from cahanley-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.10.182])
+ by orsmga007.jf.intel.com with ESMTP; 02 Aug 2020 06:18:09 -0700
+Date: Sun, 2 Aug 2020 16:18:09 +0300
+From: Andi Shyti <andi.shyti@intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix wrong return value
+Message-ID: <20200802131809.GE4705@intel.intel>
+References: <20200802111534.5155-1-tianjia.zhang@linux.alibaba.com>
+ <20200802114044.GD4705@intel.intel>
+ <159636908251.23037.6183292610375916917@build.alporthouse.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <159636908251.23037.6183292610375916917@build.alporthouse.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,23 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tianjia.zhang@alibaba.com,
+ matthew.auld@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDczODMKCi0tLSBD
-b21tZW50ICMxMTQgZnJvbSBKZXJlbXkgS2VzY2hlciAoamVyZW15QGtlc2NoZXIuYXQpIC0tLQoo
-SW4gcmVwbHkgdG8gRHVuY2FuIGZyb20gY29tbWVudCAjMTA4KQo+IChJbiByZXBseSB0byBQYXVs
-IE1lbnplbCBmcm9tIGNvbW1lbnQgIzEwNykKPiA+IEV2ZXJ5b25lIHNlZWluZyB0aGlzLCBpdOKA
-mWQgYmUgZ3JlYXQsIGlmIHlvdSB0ZXN0ZWQKPiA+IAo+ID4gICAgIFtQQVRDSF0gZHJtL2FtZC9k
-aXNwbGF5OiBDbGVhciBkbV9zdGF0ZSBmb3IgZmFzdCB1cGRhdGVzCj4gCgoKSXQgZml4ZXMgdGhl
-IGlzc3VlIGZvciBtZS4gTXkgc3lzdGVtIHdvdWxkLCB3aXRob3V0IGFueSBwYXRjaGVzLCBjcmFz
-aCBpbiBhCm1hdHRlciBvZiBtaW51dGVzIChwZXJoYXBzIGEgbWl4IG9mIDE0NCBIeiBhbmQgNjAg
-SHogbW9uaXRvcnMgY2F1c2VzIHRoaXMgY3Jhc2gKdG8gaGFwcGVuIGZhc3Rlcj8pLCBidXQgaXQg
-aGFzIGJlZW4gcnVubmluZyBmb3IgbXVsdGlwbGUgaG91cnMgb24gaW50ZW5zZQp3b3JrbG9hZHMg
-bm93LCB3aXRob3V0IGFueSBoaWNjdXBzIG9yIGFueXRoaW5nLgoKLS0gCllvdSBhcmUgcmVjZWl2
-aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
-aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+> > > diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+> > > index d960d0be5bd2..cc017e3cc9c5 100644
+> > > --- a/drivers/gpu/drm/i915/i915_active.c
+> > > +++ b/drivers/gpu/drm/i915/i915_active.c
+> > > @@ -758,7 +758,7 @@ int i915_active_acquire_preallocate_barrier(struct i915_active *ref,
+> > >       intel_engine_mask_t tmp, mask = engine->mask;
+> > >       struct llist_node *first = NULL, *last = NULL;
+> > >       struct intel_gt *gt = engine->gt;
+> > > -     int err;
+> > > +     int err = 0;
+> > 
+> > you don't need the initialization here.
+> 
+> But it's close enough that I can munge the patch inline.
+> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+
+sure... you can also remove it before merging it and it might
+also need:
+
+Fixes: d8af05ff38ae7 ("drm/i915: Allow sharing the idle-barrier from other kernel requests)
+
+but, yeah...
+
+Reviewed-by: Andi Shyti <andi.shyti@intel.com>
+
+... as well :)
+
+Andi
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
