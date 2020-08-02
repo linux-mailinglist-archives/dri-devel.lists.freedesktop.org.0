@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA33A235677
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 13:07:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BCA23567C
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Aug 2020 13:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A57DD6E0FE;
-	Sun,  2 Aug 2020 11:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239D26E109;
+	Sun,  2 Aug 2020 11:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7276E0FE
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 11:07:33 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id q7so36743918ljm.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 04:07:33 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 314F96E108
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 11:07:35 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id d2so13392042lfj.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 04:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FqxvCt1rOGIFQUkck0vmFvnXIHbaio+eX45vsaOvh/A=;
- b=k8gz6ZkJZgnN0o263g+WRon91K2JnYLku48dG7VchwoNsWv2wbeyo4VU7z0wN9QG8w
- 3NcqMHc3KJJ8iikngdNsEG9wMgd2vU+MVLdm/3T/hqDfv1B7mk1bZkhX5rDx229wpwt9
- VSsYlZedcqF/Q2BUOVo8JWOuo6JoWs9tQskYp6RPIGIs0rRwqpP/e1j4wFFH4uoT7sga
- 2fCOhBR/vG5wPbDCyezGgyN3mMrAwkNrecJStX3bQYNqPI8lGUi/79a/TZdaF3F+N3Mq
- /WrIES1RRaw4rDD68ntVbN2M9/ECy3M40z46aikO5wO8e2QHegWk+cSj330lsrj79rNA
- jkGg==
+ bh=LwqL/6dA2WivZzHXrLFmLgyo2veGKlDyO6+rhntNF54=;
+ b=Zt6dIqXKD2+4LYX23pfa9VmdU3+NitbSwxSkCGmy2Au8PwadTqaM/HRr7nK4LEWbHJ
+ qws7wORkHRXyX87767Rvf1NqfAyzYiMWUw1ZPSniUY1G/wA+TVLNhhf5K1shRZCzYrNU
+ NfY5jy8m/K8ybT4DBIK+UK7ECKw6Rjx4FrE42srfdrHXRbl0CZyFfMP/dksKf6Fnhlhg
+ 3XTgfdI3ATDJ++H4Vs+4zyEEPpoKE5t8IaKlaAI6uSwGPpg0+iJVBIfWbXx5lvMCd9SC
+ m67s8ICvMj7MkXWcjDslYlmCRTv6oPsZFY393imMhkPQw9NNFj25TjLDY96uxW6QJRVA
+ UOjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FqxvCt1rOGIFQUkck0vmFvnXIHbaio+eX45vsaOvh/A=;
- b=N7nQYfP2zluuqz2NkBINmwgYiOoDNx+ostNERPnmtmKb6b5mbJsO+kutAIHaATYYlm
- RRnkbXx1me8mFWBBQQV/L40344gDKzqCvEu9S6ojLxJesoAJtPUtRAWgRxlh0NuH0yqP
- MRrwsaMO1nOOIuHb/F4+oJTJXt9kEBPUND/xmBaEhmYaHnfpB15u3jt3fhNsL/yeDK/S
- ecmnEYBgaBpAgMMz9kHeLOuVNQXEC3YAnv0G6wn9pLX5NsVwpna0bCDuqv4WTfoPO2DV
- L9jfzSp7E3dS5nl/XJPJTBLDkrJgwKmTmkIFQLNanMRO723ny1lmQ0pTs1QAxz4jYxfb
- nrkw==
-X-Gm-Message-State: AOAM5302GhMXpFa/z2LeUuMkltkm3zVlcK6HwzDNQUu4r9lC3k9rYLCx
- VfKyJY8+50ETvo0WS1aoE6Gx3GAkO/E=
-X-Google-Smtp-Source: ABdhPJytNAsELnub4Rc5jK8zot96H4TGw6wAUYFxaQP5kz9SnSWQjdsFLBrGTJn+ah454yIJLSdNYQ==
-X-Received: by 2002:a2e:545c:: with SMTP id y28mr5220801ljd.448.1596366452009; 
- Sun, 02 Aug 2020 04:07:32 -0700 (PDT)
+ bh=LwqL/6dA2WivZzHXrLFmLgyo2veGKlDyO6+rhntNF54=;
+ b=NLaltoO53HZ0vIGnJBXyarssIqtIAa5GEnlKhmVa5ChYh3QfegvNf7d7jRbR+oqtR8
+ BTo+3/Aa+e2u7DCb057/hKy3VE6SeuZVAkPoALE4LU7HrRhN/0vgXUgM0UA64yXWi93O
+ Wp15NsO/Kasy6mlR+vhANwVhbfM/TSMyRtYldmOIJokUPZRYVV/rOKY1U9OJ4xQxffOF
+ ky/ZgDgdP3hnRWtC06rwv3K+cmvg5PwVTN4QsljxYhzNl9XfC9Qn6fxLgCRIm+f4ruCc
+ 1PuOOvgoK2VkkGb5qxtacnhZgp/FczGHHoEivKNTC+UoIOYI5qUmpae9N2mJyFpEv/Ce
+ 3Iqg==
+X-Gm-Message-State: AOAM530JZLQodKwtbftc0O0b2o722v2O2ca/0QcPaq0kcvmGmqghdgaI
+ IJ6btsjxVkYO+O1DqreXJMtn+cYjbTE=
+X-Google-Smtp-Source: ABdhPJxIwdOq0VoD7ms+A4D+hap55co35bLSR3HuFChSKkFucJFiwfBHnjw401ecGhqoheRf/7dGaw==
+X-Received: by 2002:a19:654c:: with SMTP id c12mr6249010lfj.132.1596366453439; 
+ Sun, 02 Aug 2020 04:07:33 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:b9d6:7e3c:5453:a61c])
- by smtp.gmail.com with ESMTPSA id l3sm3045520lji.115.2020.08.02.04.07.30
+ by smtp.gmail.com with ESMTPSA id l3sm3045520lji.115.2020.08.02.04.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Aug 2020 04:07:31 -0700 (PDT)
+ Sun, 02 Aug 2020 04:07:32 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v1 15/22] drm/panel: sony-acx565akm: Backlight update
-Date: Sun,  2 Aug 2020 13:06:29 +0200
-Message-Id: <20200802110636.1018743-16-sam@ravnborg.org>
+Subject: [PATCH v1 16/22] drm/bridge: parade-ps8622: Backlight update
+Date: Sun,  2 Aug 2020 13:06:30 +0200
+Message-Id: <20200802110636.1018743-17-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200802110636.1018743-1-sam@ravnborg.org>
 References: <20200802110636.1018743-1-sam@ravnborg.org>
@@ -68,120 +68,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Use backlight_get_brightness() helper
-- Use backlight_is_blank() helper
+- Use blacklight_get_brightness() helper
+- Use devm_ variant to register backlight device and drop explicit
+  unregister
 - Use macro for initialization
-- Drop direct access to backlight properties
-- Use the devm_ variant for registering backlight device, and drop
-  all explicit unregistering of the backlight device.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/gpu/drm/panel/panel-sony-acx565akm.c | 44 +++++++-------------
- 1 file changed, 15 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8622.c | 43 +++++++++++++-------------
+ 1 file changed, 21 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-index 5c4b6f6e5c2d..3fc572d1de13 100644
---- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-+++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-@@ -298,13 +298,7 @@ static void acx565akm_set_brightness(struct acx565akm_panel *lcd, int level)
- static int acx565akm_bl_update_status_locked(struct backlight_device *dev)
+diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
+index d789ea2a7fb9..9304484e7f71 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8622.c
++++ b/drivers/gpu/drm/bridge/parade-ps8622.c
+@@ -284,8 +284,7 @@ static int ps8622_send_config(struct ps8622_bridge *ps8622)
+ 			goto error;
+ 
+ 		/* FFh for 100% brightness, 0h for 0% brightness */
+-		err = ps8622_set(cl, 0x01, 0xa7,
+-				ps8622->bl->props.brightness);
++		err = ps8622_set(cl, 0x01, 0xa7, backlight_get_brightness(ps8622->bl));
+ 		if (err)
+ 			goto error;
+ 	} else {
+@@ -331,18 +330,11 @@ static int ps8622_send_config(struct ps8622_bridge *ps8622)
+ static int ps8622_backlight_update(struct backlight_device *bl)
  {
- 	struct acx565akm_panel *lcd = dev_get_drvdata(&dev->dev);
--	int level;
+ 	struct ps8622_bridge *ps8622 = dev_get_drvdata(&bl->dev);
+-	int ret, brightness = bl->props.brightness;
 -
--	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
--	    dev->props.power == FB_BLANK_UNBLANK)
--		level = dev->props.brightness;
--	else
--		level = 0;
-+	int level = backlight_get_brightness(dev);
+-	if (bl->props.power != FB_BLANK_UNBLANK ||
+-	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
+-		brightness = 0;
  
- 	acx565akm_set_brightness(lcd, level);
+ 	if (!ps8622->enabled)
+ 		return -EINVAL;
  
-@@ -330,8 +324,7 @@ static int acx565akm_bl_get_intensity(struct backlight_device *dev)
- 
- 	mutex_lock(&lcd->mutex);
- 
--	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
--	    dev->props.power == FB_BLANK_UNBLANK)
-+	if (backlight_is_blank(dev))
- 		intensity = acx565akm_get_actual_brightness(lcd);
- 	else
- 		intensity = 0;
-@@ -348,39 +341,34 @@ static const struct backlight_ops acx565akm_bl_ops = {
- 
- static int acx565akm_backlight_init(struct acx565akm_panel *lcd)
- {
--	struct backlight_properties props = {
--		.fb_blank = FB_BLANK_UNBLANK,
--		.power = FB_BLANK_UNBLANK,
--		.type = BACKLIGHT_RAW,
--	};
- 	int ret;
+-	ret = ps8622_set(ps8622->client, 0x01, 0xa7, brightness);
 -
--	lcd->backlight = backlight_device_register(lcd->name, &lcd->spi->dev,
--						   lcd, &acx565akm_bl_ops,
--						   &props);
--	if (IS_ERR(lcd->backlight)) {
--		ret = PTR_ERR(lcd->backlight);
--		lcd->backlight = NULL;
-+	struct backlight_device *bd;
-+	DECLARE_BACKLIGHT_INIT_RAW(props, 0, 255);
+-	return ret;
++	return ps8622_set(ps8622->client, 0x01, 0xa7, blacklight_get_brightness(bl));
+ }
+ 
+ static const struct backlight_ops ps8622_backlight_ops = {
+@@ -521,7 +513,23 @@ static const struct drm_bridge_funcs ps8622_bridge_funcs = {
+ 	.attach = ps8622_attach,
+ };
+ 
+-static const struct of_device_id ps8622_devices[] = {
++static int ps8622_register_blacklight(struct ps8622_bridge *ps8622)
++{
++	DECLARE_BACKLIGHT_INIT_RAW(props, PS8622_MAX_BRIGHTNESS, PS8622_MAX_BRIGHTNESS);
++	backlight_device *bl;
 +
-+	bd = devm_backlight_device_register(&lcd->spi->dev, lcd->name,
-+					    &lcd->spi->dev, lcd,
-+					    &acx565akm_bl_ops, &props);
-+	if (IS_ERR(bd)) {
-+		ret = PTR_ERR(bd);
- 		return ret;
++	bl = devm_backlight_device_register(dev, dev_name(dev), dev,
++					    ps8622, &ps8622_backlight_ops, &props);
++	if (IS_ERR(bl)) {
++		DRM_ERROR("failed to register backlight\n");
++		return PTR_ERR(bl);
++	}
++
++	ps8622->bl = bl;
++	return 0;
++}
++
++const struct of_device_id ps8622_devices[] = {
+ 	{.compatible = "parade,ps8622",},
+ 	{.compatible = "parade,ps8625",},
+ 	{}
+@@ -581,17 +589,9 @@ static int ps8622_probe(struct i2c_client *client,
  	}
  
-+	lcd->backlight = bd;
- 	if (lcd->has_cabc) {
--		ret = sysfs_create_group(&lcd->backlight->dev.kobj,
-+		ret = sysfs_create_group(&bd->dev.kobj,
- 					 &acx565akm_cabc_attr_group);
- 		if (ret < 0) {
- 			dev_err(&lcd->spi->dev,
- 				"%s failed to create sysfs files\n", __func__);
--			backlight_device_unregister(lcd->backlight);
+ 	if (!of_find_property(dev->of_node, "use-external-pwm", NULL)) {
+-		ps8622->bl = backlight_device_register("ps8622-backlight",
+-				dev, ps8622, &ps8622_backlight_ops,
+-				NULL);
+-		if (IS_ERR(ps8622->bl)) {
+-			DRM_ERROR("failed to register backlight\n");
+-			ret = PTR_ERR(ps8622->bl);
+-			ps8622->bl = NULL;
++		ret = ps8622_register_blacklight(ps8622);
++		if (ret)
  			return ret;
- 		}
- 
- 		lcd->cabc_mode = acx565akm_get_hw_cabc_mode(lcd);
+-		}
+-		ps8622->bl->props.max_brightness = PS8622_MAX_BRIGHTNESS;
+-		ps8622->bl->props.brightness = PS8622_MAX_BRIGHTNESS;
  	}
  
--	lcd->backlight->props.max_brightness = 255;
--	lcd->backlight->props.brightness = acx565akm_get_actual_brightness(lcd);
--
--	acx565akm_bl_update_status_locked(lcd->backlight);
-+	backlight_set_brightness(bd, acx565akm_get_actual_brightness(lcd));
-+	backlight_set_power_on(bd);
-+	backlight_update_status(bd);
+ 	ps8622->bridge.funcs = &ps8622_bridge_funcs;
+@@ -607,7 +607,6 @@ static int ps8622_remove(struct i2c_client *client)
+ {
+ 	struct ps8622_bridge *ps8622 = i2c_get_clientdata(client);
+ 
+-	backlight_device_unregister(ps8622->bl);
+ 	drm_bridge_remove(&ps8622->bridge);
  
  	return 0;
- }
-@@ -390,8 +378,6 @@ static void acx565akm_backlight_cleanup(struct acx565akm_panel *lcd)
- 	if (lcd->has_cabc)
- 		sysfs_remove_group(&lcd->backlight->dev.kobj,
- 				   &acx565akm_cabc_attr_group);
--
--	backlight_device_unregister(lcd->backlight);
- }
- 
- /* -----------------------------------------------------------------------------
 -- 
 2.25.1
 
