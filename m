@@ -2,35 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCF123A0E2
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFD323A0D1
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:21:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 204086E214;
-	Mon,  3 Aug 2020 08:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B6E892F6;
+	Mon,  3 Aug 2020 08:20:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5250B6E20D
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 06:52:09 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id E53E63ACB7A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 06:47:11 +0000 (UTC)
-X-Originating-IP: 91.224.148.103
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id AB251FF804;
- Mon,  3 Aug 2020 06:46:46 +0000 (UTC)
-Date: Mon, 3 Aug 2020 08:46:45 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [PATCH][next] drm/rockchip: lvds: ensure ret is assigned before
- checking for an error
-Message-ID: <20200803084645.442b5178@xps13>
-In-Reply-To: <20200714190003.744069-1-colin.king@canonical.com>
-References: <20200714190003.744069-1-colin.king@canonical.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail-out.m-online.net (mail-out.m-online.net
+ [IPv6:2001:a60:0:28:0:1:25:1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C09C56E213
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 07:23:14 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BKq9V5zt9z1rtjS;
+ Mon,  3 Aug 2020 09:23:10 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4BKq9V4bqgz1r17V;
+ Mon,  3 Aug 2020 09:23:10 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id AQdAicsk8cKc; Mon,  3 Aug 2020 09:23:09 +0200 (CEST)
+X-Auth-Info: VbxUOCNC5k0FCeyHUUC65DDgP9aDNWXtdyTiPutvOXc=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Mon,  3 Aug 2020 09:23:09 +0200 (CEST)
+Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight driver
+ for RPi panel
+To: Mark Brown <broonie@kernel.org>
+References: <20200729214645.247185-1-marex@denx.de>
+ <20200730155944.GA1477410@ravnborg.org>
+ <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
+ <20200730191300.GJ5055@sirena.org.uk>
+ <5cfc1d07-c8ce-47d7-8763-1efa0316d05a@denx.de>
+ <20200801011653.GD4510@sirena.org.uk>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <20116f3c-64d7-0f52-b38a-56c62398a5e9@denx.de>
+Date: Mon, 3 Aug 2020 09:21:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <20200801011653.GD4510@sirena.org.uk>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 03 Aug 2020 08:20:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,40 +60,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpDb2xpbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+IHdyb3RlIG9uIFR1
-ZSwgMTQgSnVsIDIwMjAKMjA6MDA6MDMgKzAxMDA6Cgo+IEZyb206IENvbGluIElhbiBLaW5nIDxj
-b2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Cj4gCj4gQ3VycmVudGx5IHRoZXJlIGFyZSB0d28gcGxh
-Y2VzIHdoZXJlIHRoZSByZXR1cm4gc3RhdHVzIGluIHJldCBpcyBiZWluZwo+IGNoZWNrZWQgZm9y
-IGFuIGVycm9yIGhvd2V2ZXIgdGhlIGFzc2lnbm1lbnQgb2YgcmV0IGhhcyBiZWVuIG9taXR0ZWQK
-PiBtYWtpbmcgdGhlIGNoZWNrcyByZWR1bmRhbnQuICBGaXggdGhpcyBieSBhZGRpbmcgaW4gdGhl
-IG1pc3NpbmcgYXNzaWdubWVudHMKPiBvZiByZXQuCj4gCj4gQWRkcmVzc2VzLUNvdmVyaXR5OiAo
-IkxvZ2ljYWxseSBkZWFkIGNvZGUiKQo+IEZpeGVzOiBjY2ExNzA1YzNkODkgKCJkcm0vcm9ja2No
-aXA6IGx2ZHM6IEFkZCBQWDMwIHN1cHBvcnQiKQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBL
-aW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9yb2NrY2hpcF9sdmRzLmMgfCA0ICsrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9y
-b2NrY2hpcF9sdmRzLmMKPiBpbmRleCA2M2Y5Njc5MDJjMmQuLmI0NWM2MThiOTc5MyAxMDA2NDQK
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfbHZkcy5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2x2ZHMuYwo+IEBAIC00OTksMTEgKzQ5
-OSwxMSBAQCBzdGF0aWMgaW50IHB4MzBfbHZkc19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
-ICpwZGV2LAo+ICAJaWYgKElTX0VSUihsdmRzLT5kcGh5KSkKPiAgCQlyZXR1cm4gUFRSX0VSUihs
-dmRzLT5kcGh5KTsKPiAgCj4gLQlwaHlfaW5pdChsdmRzLT5kcGh5KTsKPiArCXJldCA9IHBoeV9p
-bml0KGx2ZHMtPmRwaHkpOwo+ICAJaWYgKHJldCkKPiAgCQlyZXR1cm4gcmV0Owo+ICAKPiAtCXBo
-eV9zZXRfbW9kZShsdmRzLT5kcGh5LCBQSFlfTU9ERV9MVkRTKTsKPiArCXJldCA9IHBoeV9zZXRf
-bW9kZShsdmRzLT5kcGh5LCBQSFlfTU9ERV9MVkRTKTsKPiAgCWlmIChyZXQpCj4gIAkJcmV0dXJu
-IHJldDsKPiAgCgpJIHRob3VnaHQgSSAob3IgSGVpa28pIGFscmVhZHkgc2VudCBhIHBhdGNoIGZv
-ciB0aGF0IGJ1dCBhcHBhcmVudGx5Cm5vdC4uLgoKUmV2aWV3ZWQtYnk6IE1pcXVlbCBSYXluYWwg
-PG1pcXVlbC5yYXluYWxAYm9vdGxpbi5jb20+CgpUaGFua3MsCk1pcXXDqGwKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 8/1/20 3:16 AM, Mark Brown wrote:
+> On Thu, Jul 30, 2020 at 09:37:48PM +0200, Marek Vasut wrote:
+>> On 7/30/20 9:13 PM, Mark Brown wrote:
+>>> On Thu, Jul 30, 2020 at 06:28:07PM +0200, Marek Vasut wrote:
+> 
+>>>> about it ? I can over-complicate this and split it into multiple
+>>>> drivers, but I don't think it's worth the complexity, considering that
+>>>> this is likely a one-off device which will never be re-used elsewhere,
+>>>> except on this one particular display module for RPi.
+> 
+>>> Now you've written that you've pretty much guaranteed someone's going to
+>>> use the same component elsewhere :)
+> 
+>> How? The firmware is closed and not available, neither is documentation
+>> for it, sadly.
+> 
+> Companies often find other markets for their one off things, the
+> original RPi is a great example of this!
+
+I suspect the firmware in this ATTINY88 is written specifically for this
+board, so I doubt re-use in its current form will happen. If there is
+ever another display board, the firmware will likely be different to
+match the new board. But that's all pure speculation.
+
+>>> I don't 100% follow how this would actually get used in a
+>>> system (perhaps the binding would help) but for these things if there's
+>>> only one tightly coupled user that's possible it's sometimes simpler to
+>>> just skip APIs and do things directly.
+> 
+>> That's what I'm trying to replace by this patch and tc358762 bridge
+>> driver and panel driver, the combined version is already in tree:
+>> drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+>> but the tc358762 is clearly a generic bridge and the panel is generic
+>> too, so combining it into one panel driver doesn't seem right.
+> 
+> I see, so this is the remaining bits.  Perhaps the binding might help me
+> see how things fit together - I don't know anything about the system
+> really.  It's not doing anything that looks like it should cause the
+> framework too many problems so I'm not overly worried from that point of
+> view but equally well it's obviously not ideal.
+
+See below:
+
+/ {
+  panel: panel {
+    compatible = "powertip,ph800480t013-idf02";
+    power-supply = <&attiny>;
+    backlight = <&attiny>;
+    port {
+      panel_in: endpoint {
+        remote-endpoint = <&bridge_out>;
+      };
+    };
+  };
+};
+
+&i2c {
+  attiny: regulator@45 {
+    compatible = "raspberrypi,7inch-touchscreen-panel-regulator";
+    reg = <0x45>;
+  };
+};
+
+&ltdc {
+  status = "okay";
+
+  port {
+    ltdc_ep0_out: endpoint@0 {
+      reg = <0>;
+      remote-endpoint = <&dsi_in>;
+    };
+  };
+};
+
+&dsi {
+  #address-cells = <1>;
+  #size-cells = <0>;
+  status = "okay";
+  phy-dsi-supply = <&reg18>;
+
+  bridge@0 {
+    compatible = "toshiba,tc358762";
+    reg = <0>;
+    vddc-supply = <&attiny>;
+    #address-cells = <1>;
+    #size-cells = <0>;
+    status = "okay";
+
+    ports {
+      #address-cells = <1>;
+      #size-cells = <0>;
+
+      port@0 {
+        reg = <0>;
+        bridge_in: endpoint {
+          remote-endpoint = <&dsi_out>;
+        };
+      };
+
+      port@1 {
+        reg = <1>;
+        bridge_out: endpoint {
+          remote-endpoint = <&panel_in>;
+        };
+      };
+    };
+  };
+
+  ports {
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    port@0 {
+      reg = <0>;
+      dsi_in: endpoint {
+        remote-endpoint = <&ltdc_ep0_out>;
+      };
+    };
+
+    port@1 {
+      reg = <1>;
+      dsi_out: endpoint {
+        remote-endpoint = <&bridge_in>;
+      };
+    };
+  };
+};
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
