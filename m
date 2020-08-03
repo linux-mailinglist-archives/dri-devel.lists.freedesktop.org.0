@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B089123B5B8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E04D423B59C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33966E448;
-	Tue,  4 Aug 2020 07:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08BB6E431;
+	Tue,  4 Aug 2020 07:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D176E2C8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 16:33:39 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id o2so631534vkn.9
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Aug 2020 09:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ZrsVGmEonw8RlzrjbIL0se7EVy203/PdgKAT5NhYH9U=;
- b=EuzrSyZx2O9WjU4B/dBgt6g2qnGt7FmJ53XV6UBNMRexm1Ii6XSUrrzJfGvy9OTU2M
- maTa4Wp9YJ6b092D3ecVEcnbxlzAw8DQNSe0Q3FWUkv9MNnOJ3ZQCyzbb+RqTe4lDjAK
- BFQv+NKZWB6TsIq/7yvND0QeQJuyi7NhAlvCWMNm0RWKm3nj5cxYRwzRaV/Lyox20Tz+
- wRv2i+kklqMQsKooBSZBjLGXFsB5Mo2/GHH25ZE1OPOhcqz8AAgxCC0DliJWesp2J6FO
- +fzW6YY9JgId7v7deB+ExovkiaIRNHeZ8FdhLAsQnDy3WC5Uf5ots1Bt+c04iZnJsy8g
- QoTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZrsVGmEonw8RlzrjbIL0se7EVy203/PdgKAT5NhYH9U=;
- b=Vao780ffJGIodUejm7bwfkhsZ7jWCY3x7N/Zq8MprSZr/IDNhvjnIfxKw75Z76v7ls
- e074Ii4MZIGSQGL/XPeALc6aGhL4Epf6dWvu6jX0vBQJmRdkEGznYC3onejMHY/eIPdx
- 5PrTkWbjbYbvGozX0FRXM0amV1YpRaXIb8yR9e1lpCuOQ7aKVdabSZSqx59vQSclXGa6
- JosZqpWIR0QHnAq3cfS5sQjGnLd5xmfxH4TuNhVBBXD8U5dSta5NBSoI2SXWrG0hoNlo
- yweoBBajFYQmTDJPz98X1A9wbLT/JuGrMR4OmZdH6BiqHXjeJIqGB+dKNF81GnWI/bOF
- 8HOg==
-X-Gm-Message-State: AOAM5310R4Ur/ufXwwQItH2Bl5lT+FEqQd4An0rcet8QGy7omoOS32Fc
- Bhi9lDKSjRH0od9q+Jh+UuewEFV0FqO0ig==
-X-Google-Smtp-Source: ABdhPJxNZWf6OwoaN9iiZETX6lkFT97KzJHntHF276HRslkmU5htJ72jrlMz9cB9lP3tWNZIEV7w6g==
-X-Received: by 2002:a05:6122:1353:: with SMTP id
- f19mr12642301vkp.38.1596472418034; 
- Mon, 03 Aug 2020 09:33:38 -0700 (PDT)
-Received: from google.com (182.71.196.35.bc.googleusercontent.com.
- [35.196.71.182])
- by smtp.gmail.com with ESMTPSA id k74sm2802571vka.16.2020.08.03.09.33.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 09:33:37 -0700 (PDT)
-Date: Mon, 3 Aug 2020 16:33:34 +0000
-From: Kalesh Singh <kaleshsingh@google.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200803163334.GA3212137@google.com>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803113239.194eb86f@oasis.local.home>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3587689274
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 18:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1596477768;
+ bh=BBa3NSjXaC3TQAHSDrvm2A0DeRZLmH0CWpxHTLdlYjs=;
+ h=X-UI-Sender-Class:Date:In-Reply-To:References:Subject:Reply-to:To:
+ CC:From;
+ b=UTAFAQAzApPZZ0flsN9S1yEnccWgfdgX7V9WZUnOsUBFIqOuXwq3VHF97JnHS2iUf
+ kG+viCGPchkFkwExep2S5/u0UME9TcEfaeyT1JeSfrM1uBULYdrccAGh9PS7OOO5RT
+ 543q1lHNvfC35ZsMYpalHjQ4lz9/DkIeEjLRi02I=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from frank-s9 ([217.61.148.26]) by mail.gmx.com (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MmlXK-1kUsso2yBS-00juVp; Mon, 03
+ Aug 2020 20:02:48 +0200
+Date: Mon, 03 Aug 2020 20:02:38 +0200
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAAOTY_-H3L=uJNJRF1VedbwXNwY2N-q4F6A-NsdNwbQswG0D-Q@mail.gmail.com>
+References: <20200728111800.77641-1-frank-w@public-files.de>
+ <20200728111800.77641-2-frank-w@public-files.de>
+ <CAAOTY_8nm0KDHFzOX9+qTTHOUd0Vik063J+rScu_y-hTBTkrCQ@mail.gmail.com>
+ <trinity-2bdb3521-256a-4d4d-928a-be9b8c179d4c-1596355539029@3c-app-gmx-bs58>
+ <CAAOTY__TsqrfRX-z+DE0+X_UzxBqChJ+VdyQG6z9N6Qr4bn2Kg@mail.gmail.com>
+ <trinity-b0ca2ee2-259a-4a1e-86ee-63b093202060-1596451368067@3c-app-gmx-bap36>
+ <CAAOTY_-H3L=uJNJRF1VedbwXNwY2N-q4F6A-NsdNwbQswG0D-Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200803113239.194eb86f@oasis.local.home>
+Subject: Re: Re: Re: [PATCH v2 1/5] drm/mediatek: config component output by
+ device node port
+To: linux-mediatek@lists.infradead.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ ryder.lee@mediatek.com
+From: Frank Wunderlich <frank-w@public-files.de>
+Message-ID: <D0A969BC-1BB3-4EBB-8D03-DAA610E62EBE@public-files.de>
+X-Provags-ID: V03:K1:WAQfzGVjSkS/16yz9r7IpNOuSlMl2BMKsoaMRRAoP3sVBH84qNq
+ wD261Oq8/ov+9nxyiq1n/yjiI8bous5siv81EUe0lDdC9apZwvIfi//d2RQVhmg/5lFA683
+ eKifWM6puhV8WX6izdjWHwl8PERQlm8PXD7uwIsSjbGuzFloLAdV9Z2Zd1l8AbB9pcv2dZN
+ 6qiuH0R+YQg36uqjHpCsA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bv0vMe1HGgs=:Ot2Dri9B6JRi7gkA5+I8B+
+ PkMBVJDfumgzFBC3CAldXejaKPq/gpCzWuT3RtgtVVFXdmR5m3flZOp6k5exj3VBkPa8JxIA9
+ DrQrWK6khzrvwaWTrGJOEmFAfUhnickZo96K9r8xubioKh6F1+NQw+raMXePuDtkFHP0uy/au
+ 0PdQ5f+q2IUCXAOVfUwTeyCDuMSmIDSBIoezxbnZFHc1SiuJ3yuty8m8eA0OKGiO69fyfDlPW
+ SBTzkzznB1IVSMoOizir+Nn7RFwKtIvGyGOXLD1v871lz9baNXqH3pLUY8cY/eOFPZslwoVCL
+ QgIZ8CjC04iP2GPLpWDGmyzPbyGuqnwgdFJIh2TM1cxX10TlBYssqjlLMIUhn4bVOEfIRRAU3
+ gd7TuYa4x4EyLnrWkl3Las+b1DjIlbwkYrH1mIn68uAQjblxXziZpAaR6YHryS8jo1FCGzRg2
+ gyVkyclaURvX1y7AM0ZBDSLsetp7N3gfgfHm2nekEQuFDbi+PN6gK5m2604vYrPi7w0XivnDd
+ 3kYUfi17Zn7Xgq74Et16bhWi3o626NdEC2FfQNPc6v2ltiVsZXNpcuxeZCgpjqVlj0rvYiyDi
+ n8c/VlUmFSipPoNIQMZA2rLkAjY9dXkS5UzW6KRHt5JZSSE0ahio5T+YkR+MJowQ0std6ESSR
+ w6CowPHmidjF6E1/Ch0jooaRnn1424QJZ1MBy1/X6/k/yhteMzr8Uu/GBzUjnctHY7SLFTR+x
+ mLzcvIg7Lidvw0UaPqz5yRWKeSlxA4ATOwigXDVgqx/ucoWQPriOTfHYML2qgENx+pVH+sRDr
+ c06+FvRlOEZfC0Br91IBXyZ77BsJgBkA3nWlfAAQJlSkjRF0KEAJNdd1MP/KHVnjEapH8ppdp
+ MXR0CjgycbAui4PWvs6m27hG/8KU31mHdOaqhMLS8xT6E24GL6iuRREeU+58q2OlMKGxrjDBs
+ pLi8jD6lsNgP5/TQjeFeYtBE8Y5D4U2SL0YGPK6L9U3KAjwr7nSKlGAFXvmS/Kn3y4j/YJ+7p
+ EDCpkFfnMeFSDksEWqRJIX6H1l0K647GOBnEwBf++o2RMRnTW2i8HfAqm/37Y0amCkm9xxIOO
+ TyLihjFr4r4WBP/33uFJmuhTSn5Vsar624OOJYh4D3mCXEhx8+C07YScahCH8kQ4Dva9Omt7T
+ 31rYgmi+/nYkeJ5y2uOa8kVGdGV0Dg0T+tH1v/coBnzCk1tbua9LopdHd64z8Schp2vR8IrYa
+ oZ9Y6BN43P46iOgYzXsiLhiIHGEF/sddtg029cw==
 X-Mailman-Approved-At: Tue, 04 Aug 2020 07:27:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,82 +78,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, kernel-team@android.com,
- Jonathan Corbet <corbet@lwn.net>, Ioannis Ilkos <ilkos@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Hridya Valsaraju <hridya@google.com>,
- Ingo Molnar <mingo@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-fsdevel@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- linux-media@vger.kernel.org
+Reply-To: frank-w@public-files.de
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 03, 2020 at 11:32:39AM -0400, Steven Rostedt wrote:
-> On Mon,  3 Aug 2020 14:47:19 +0000
-> Kalesh Singh <kaleshsingh@google.com> wrote:
-> 
-> > +DECLARE_EVENT_CLASS(dma_buf_ref_template,
-> > +
-> > +	TP_PROTO(struct task_struct *task, struct file *filp),
-> > +
-> > +	TP_ARGS(task,  filp),
-> > +
-> > +	TP_STRUCT__entry(
-> > +		__field(u32, tgid)
-> > +		__field(u32, pid)
-> 
-> I only see "current" passed in as "task". Why are you recording the pid
-> and tgid as these are available by the tracing infrastructure.
-> 
-> At least the pid is saved at every event. You can see the tgid when
-> enabling the "record_tgid".
-> 
->  # trace-cmd start -e all -O record_tgid
->  # trace-cmd show
-> 
-> # tracer: nop
-> #
-> # entries-in-buffer/entries-written: 39750/39750   #P:8
-> #
-> #                                      _-----=> irqs-off
-> #                                     / _----=> need-resched
-> #                                    | / _---=> hardirq/softirq
-> #                                    || / _--=> preempt-depth
-> #                                    ||| /     delay
-> #           TASK-PID    TGID   CPU#  ||||    TIMESTAMP  FUNCTION
-> #              | |        |      |   ||||       |         |
->        trace-cmd-28284 (28284) [005] .... 240338.934671: sys_exit: NR 1 = 1
->      kworker/3:2-27891 (27891) [003] d... 240338.934671: timer_start: timer=00000000d643debd function=delayed_work_timer_fn expires=4535008893 [timeout=1981] cpu=3 idx=186 flags=I
->        trace-cmd-28284 (28284) [005] .... 240338.934672: sys_write -> 0x1
->      kworker/3:2-27891 (27891) [003] .... 240338.934672: workqueue_execute_end: work struct 000000008fddd403: function psi_avgs_work
->      kworker/3:2-27891 (27891) [003] .... 240338.934673: workqueue_execute_start: work struct 00000000111c941e: function dbs_work_handler
->      kworker/3:2-27891 (27891) [003] .... 240338.934673: workqueue_execute_end: work struct 00000000111c941e: function dbs_work_handler
->      kworker/3:2-27891 (27891) [003] d... 240338.934673: rcu_utilization: Start context switch
->      kworker/3:2-27891 (27891) [003] d... 240338.934673: rcu_utilization: End context switch
-> 
-> -- Steve
-> 
-Thanks for the comments Steve. I'll remove the task arg.
 
-> > +		__field(u64, size)
-> > +		__field(s64, count)
-> > +		__string(exp_name, dma_buffer(filp)->exp_name)
-> > +		__string(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN)
-> > +		__field(u64, i_ino)
-> > +	),
-> > +
-> > +	TP_fast_assign(
-> > +		__entry->tgid = task->tgid;
-> > +		__entry->pid = task->pid;
-> > +		__entry->size = dma_buffer(filp)->size;
-> > +		__entry->count = file_count(filp);
-> > +		__assign_str(exp_name, dma_buffer(filp)->exp_name);
-> > +		__assign_str(name, dma_buffer(filp)->name ? dma_buffer(filp)->name : UNKNOWN);
-> > +		__entry->i_ino = filp->f_inode->i_ino;
-> > +	),
-> > +
+
+Am 3. August 2020 18:27:02 MESZ schrieb Chun-Kuang Hu <chunkuang.hu@kernel.org>:
+
+>But now I have a solution that you need not to modify binding document.
+>Because now mt7623 has a different routing than mt2701, and this
+>patch's approach is to use different port setting in each device tree.
+>My solution is that these two SoC has different compatible string:
+>"mediatek,mt7623-mmsys" and "mediatek,mt2701-mmsys". For now,
+>"mediatek,mt2701-mmsys" has its data as
+>
+>static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+>.main_path = mt2701_mtk_ddp_main,
+>.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
+>.ext_path = mt2701_mtk_ddp_ext,
+>.ext_len = ARRAY_SIZE(mt2701_mtk_ddp_ext),
+>.shadow_register = true,
+>};
+>
+>I think you could create a data for "mediatek,mt7623-mmsys" which has
+>a different routing.
+
+The paths are defined as this:
+
+static enum mtk_ddp_comp_id mt2701_mtk_ddp_main[] = {	DDP_COMPONENT_OVL0,	DDP_COMPONENT_RDMA0,	DDP_COMPONENT_COLOR0,	DDP_COMPONENT_BLS,	DDP_COMPONENT_DSI0,};
+
+static enum mtk_ddp_comp_id mt2701_mtk_ddp_ext[] = {	DDP_COMPONENT_RDMA1,	DDP_COMPONENT_DPI0,};
+
+First thing i notice is that main=dsi and ext=dpi (hdmi). I guess dpi should be main,right? And bls is actually routed to dpi...how about the other components?
+
+The 2 loops are not really clear to me (except 1st overwrites mt2701 main-path and second ext_path based on ports/endpoints) but this only applies from bls-dpi-hdmi-connector,not xdma/color or similar.
+Or should be main-path (or external) only bls and dpi? It looks like it only swappes dpi and dsi in my case.
+
+@Ryder Lee can you explain it?
+regards Frank
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
