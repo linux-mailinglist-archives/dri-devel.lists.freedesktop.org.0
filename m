@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1950239EC2
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 07:19:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5936239EC4
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 07:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C66506E1E9;
-	Mon,  3 Aug 2020 05:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40416E1EC;
+	Mon,  3 Aug 2020 05:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3BF06E1E9
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 05:19:16 +0000 (UTC)
-IronPort-SDR: +fFuAW3B+MmpwhUPZ+XjknflccE5DUfZFm2h4jdjRRhduNLSl738vPnCYp7FHqdIejq2kWNpJL
- bCHDVIxupu0Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="236912234"
-X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; d="scan'208";a="236912234"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426D16E1E8
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 05:19:22 +0000 (UTC)
+IronPort-SDR: iF18zWC1kpz+rKCjO4Sv7vb4aAn1CHt8M6cD+NsPlcIBMI0MFalhTS6Qw9SclYfd/5yXriIoiQ
+ M9xku656brLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="131611113"
+X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; d="scan'208";a="131611113"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2020 22:19:16 -0700
-IronPort-SDR: tRc5FfBYtgkxrQasf2CoiKdYkaJgZ+TQxSo7NSUfVXubARTu0J1yE4qGSRKMMSvMAxCbfefDHy
- ylgtynKOm6zA==
-X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; d="scan'208";a="291927658"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2020 22:19:21 -0700
+IronPort-SDR: Bf8V6g2L1auHJzH78LC49D2bN1y5zY1ENkS7gVgamn40maMCkeKjWz4yWkdrDemY6dWcNPbzOt
+ r9bDWU0JZASQ==
+X-IronPort-AV: E=Sophos;i="5.75,429,1589266800"; d="scan'208";a="287876643"
 Received: from dwillia2-desk3.jf.intel.com (HELO
  dwillia2-desk3.amr.corp.intel.com) ([10.54.39.16])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2020 22:19:16 -0700
-Subject: [PATCH v4 06/23] mm/memory_hotplug: Introduce default
- phys_to_target_node() implementation
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2020 22:19:21 -0700
+Subject: [PATCH v4 07/23] ACPI: HMAT: Attach a device for each soft-reserved
+ range
 From: Dan Williams <dan.j.williams@intel.com>
 To: akpm@linux-foundation.org
-Date: Sun, 02 Aug 2020 22:02:57 -0700
-Message-ID: <159643097768.4062302.3135192588966888630.stgit@dwillia2-desk3.amr.corp.intel.com>
+Date: Sun, 02 Aug 2020 22:03:03 -0700
+Message-ID: <159643098298.4062302.17587338161136144730.stgit@dwillia2-desk3.amr.corp.intel.com>
 In-Reply-To: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
 References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
 User-Agent: StGit/0.18-3-g996c
@@ -50,132 +50,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ard.biesheuvel@linaro.org, Jia He <justin.he@arm.com>,
- linux-acpi@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- peterz@infradead.org, vishal.l.verma@intel.com, dave.hansen@linux.intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
- joao.m.martins@oracle.com, linux-nvdimm@lists.01.org
+Cc: dave.hansen@linux.intel.com, linux-acpi@vger.kernel.org,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>, peterz@infradead.org,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org, vishal.l.verma@intel.com,
+ Jeff Moyer <jmoyer@redhat.com>, Brice Goglin <Brice.Goglin@inria.fr>,
+ joao.m.martins@oracle.com, Will Deacon <will@kernel.org>,
+ linux-nvdimm@lists.01.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation to set a fallback value for dev_dax->target_node,
-introduce generic fallback helpers for phys_to_target_node()
+The hmem enabling in commit 'cf8741ac57ed ("ACPI: NUMA: HMAT: Register
+"soft reserved" memory as an "hmem" device")' only registered ranges to
+the hmem driver for each soft-reservation that also appeared in the
+HMAT. While this is meant to encourage platform firmware to "do the
+right thing" and publish an HMAT, the corollary is that platforms that
+fail to publish an accurate HMAT will strand memory from Linux usage.
+Additionally, the "efi_fake_mem" kernel command line option enabling
+will strand memory by default without an HMAT.
 
-A generic implementation based on node-data or memblock was proposed,
-but as noted by Mike:
+Arrange for "soft reserved" memory that goes unclaimed by HMAT entries
+to be published as raw resource ranges for the hmem driver to consume.
 
-    "Here again, I would prefer to add a weak default for
-     phys_to_target_node() because the "generic" implementation is not really
-     generic.
+Include a module parameter to disable either this fallback behavior, or
+the hmat enabling from creating hmem devices. The module parameter
+requires the hmem device enabling to have unique name in the module
+namespace: "device_hmem".
 
-     The fallback to reserved ranges is x86 specfic because on x86 most of
-     the reserved areas is not in memblock.memory. AFAIK, no other
-     architecture does this."
+The driver depends on the architecture providing phys_to_target_node()
+which is only x86 via numa_meminfo() and arm64 via a generic memblock
+implementation.
 
-The info message in the generic memory_add_physaddr_to_nid()
-implementation is fixed up to properly reflect that
-memory_add_physaddr_to_nid() communicates "online" node info and
-phys_to_target_node() indicates "target / to-be-onlined" node info.
-
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: Jia He <justin.he@arm.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Brice Goglin <Brice.Goglin@inria.fr>
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Jeff Moyer <jmoyer@redhat.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: Dan Williams <dan.j.williams@intel.com>
 ---
- arch/x86/mm/numa.c             |    1 -
- include/linux/memory_hotplug.h |    5 +++++
- include/linux/numa.h           |   11 -----------
- mm/memory_hotplug.c            |   10 +++++++++-
- 4 files changed, 14 insertions(+), 13 deletions(-)
+ drivers/dax/hmem/Makefile |    3 ++-
+ drivers/dax/hmem/device.c |   35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/mm/numa.c b/arch/x86/mm/numa.c
-index f3805bbaa784..c62e274d52d0 100644
---- a/arch/x86/mm/numa.c
-+++ b/arch/x86/mm/numa.c
-@@ -917,7 +917,6 @@ int phys_to_target_node(phys_addr_t start)
+diff --git a/drivers/dax/hmem/Makefile b/drivers/dax/hmem/Makefile
+index a9d353d0c9ed..57377b4c3d47 100644
+--- a/drivers/dax/hmem/Makefile
++++ b/drivers/dax/hmem/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_DEV_DAX_HMEM) += dax_hmem.o
+-obj-$(CONFIG_DEV_DAX_HMEM_DEVICES) += device.o
++obj-$(CONFIG_DEV_DAX_HMEM_DEVICES) += device_hmem.o
  
- 	return meminfo_to_nid(&numa_reserved_meminfo, start);
- }
--EXPORT_SYMBOL_GPL(phys_to_target_node);
++device_hmem-y := device.o
+ dax_hmem-y := hmem.o
+diff --git a/drivers/dax/hmem/device.c b/drivers/dax/hmem/device.c
+index b9dd6b27745c..cb6401c9e9a4 100644
+--- a/drivers/dax/hmem/device.c
++++ b/drivers/dax/hmem/device.c
+@@ -5,6 +5,9 @@
+ #include <linux/dax.h>
+ #include <linux/mm.h>
  
- int memory_add_physaddr_to_nid(u64 start)
- {
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index 375515803cd8..dcdc7d6206d5 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -151,11 +151,16 @@ int add_pages(int nid, unsigned long start_pfn, unsigned long nr_pages,
- 
- #ifdef CONFIG_NUMA
- extern int memory_add_physaddr_to_nid(u64 start);
-+extern int phys_to_target_node(u64 start);
- #else
- static inline int memory_add_physaddr_to_nid(u64 start)
- {
- 	return 0;
- }
-+static inline int phys_to_target_node(u64 start)
-+{
-+	return 0;
-+}
- #endif
- 
- #ifdef CONFIG_HAVE_ARCH_NODEDATA_EXTENSION
-diff --git a/include/linux/numa.h b/include/linux/numa.h
-index a42df804679e..8cb33ccfb671 100644
---- a/include/linux/numa.h
-+++ b/include/linux/numa.h
-@@ -23,22 +23,11 @@
- #ifdef CONFIG_NUMA
- /* Generic implementation available */
- int numa_map_to_online_node(int node);
--
--/*
-- * Optional architecture specific implementation, users need a "depends
-- * on $ARCH"
-- */
--int phys_to_target_node(phys_addr_t addr);
- #else
- static inline int numa_map_to_online_node(int node)
- {
- 	return NUMA_NO_NODE;
- }
--
--static inline int phys_to_target_node(phys_addr_t addr)
--{
--	return NUMA_NO_NODE;
--}
- #endif
- 
- #endif /* _LINUX_NUMA_H */
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index dcdf3271f87e..426b79adf529 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -353,11 +353,19 @@ int __ref __add_pages(int nid, unsigned long pfn, unsigned long nr_pages,
- #ifdef CONFIG_NUMA
- int __weak memory_add_physaddr_to_nid(u64 start)
- {
--	pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-+	pr_info_once("Unknown online node for memory at 0x%llx, assuming node 0\n",
- 			start);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(memory_add_physaddr_to_nid);
++static bool nohmem;
++module_param_named(disable, nohmem, bool, 0444);
 +
-+int __weak phys_to_target_node(u64 start)
+ void hmem_register_device(int target_nid, struct resource *r)
+ {
+ 	/* define a clean / non-busy resource for the platform device */
+@@ -17,6 +20,9 @@ void hmem_register_device(int target_nid, struct resource *r)
+ 	struct memregion_info info;
+ 	int rc, id;
+ 
++	if (nohmem)
++		return;
++
+ 	rc = region_intersects(res.start, resource_size(&res), IORESOURCE_MEM,
+ 			IORES_DESC_SOFT_RESERVED);
+ 	if (rc != REGION_INTERSECTS)
+@@ -63,3 +69,32 @@ void hmem_register_device(int target_nid, struct resource *r)
+ out_pdev:
+ 	memregion_free(id);
+ }
++
++static __init int hmem_register_one(struct resource *res, void *data)
 +{
-+	pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-+			start);
++	/*
++	 * If the resource is not a top-level resource it was already
++	 * assigned to a device by the HMAT parsing.
++	 */
++	if (res->parent != &iomem_resource) {
++		pr_info("HMEM: skip %pr, already claimed\n", res);
++		return 0;
++	}
++
++	hmem_register_device(phys_to_target_node(res->start), res);
++
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(phys_to_target_node);
- #endif
- 
- /* find the smallest valid pfn in the range [start_pfn, end_pfn) */
++
++static __init int hmem_init(void)
++{
++	walk_iomem_res_desc(IORES_DESC_SOFT_RESERVED,
++			IORESOURCE_MEM, 0, -1, NULL, hmem_register_one);
++	return 0;
++}
++
++/*
++ * As this is a fallback for address ranges unclaimed by the ACPI HMAT
++ * parsing it must be at an initcall level greater than hmat_init().
++ */
++late_initcall(hmem_init);
 
 _______________________________________________
 dri-devel mailing list
