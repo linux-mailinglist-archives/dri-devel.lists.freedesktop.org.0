@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D093123B5AB
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BEE23B5B5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B38C6E445;
-	Tue,  4 Aug 2020 07:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90ADB6E44B;
+	Tue,  4 Aug 2020 07:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADBE6E24B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 10:43:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1596451368;
- bh=6ZdvDRYWWS7W/6/oWpKYAUXrrNsMjE9GC1lFAPjaEbw=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=YgFQOIXpoeE0isYRbE+//h9fGfSrM8aL7YJADOrNEOolBREQDdrjYWZgecMGW2XZb
- 0VnfeCrPgyOO4/yLsmGWWlAgaYqFj+dktiNElbM6ZxNilnTrh6W8CQMZBkxMVpHq8O
- EcrdV2wZY/LIQzwVm4qp4DtoT5U/3NqukT++M8hg=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.148.26] ([217.61.148.26]) by web-mail.gmx.net
- (3c-app-gmx-bap36.server.lan [172.19.172.106]) (via HTTP); Mon, 3 Aug 2020
- 12:42:48 +0200
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42AD6E265
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 12:49:43 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a5so24125665wrm.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Aug 2020 05:49:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QKxUE+IKc+CK6EjCxCtoVE9UcF8T06WWbBk1xPjWCfI=;
+ b=WxR8Ckv7PNATR8wTQvtma/bt+eBiXA2gwq5116AOGhNJUjDUydXyNQX5MiN8YUDh5E
+ sbGs1vSeMHyyugbd/nnFZQJiv5e8Uh841QVKzBwSH1jujBoeF13SwXbt58ZxvSY/FGs5
+ 32wLeyqMA9spOmJ+A3uTgBEL25bHKk9Ru9/uc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QKxUE+IKc+CK6EjCxCtoVE9UcF8T06WWbBk1xPjWCfI=;
+ b=iR7m/qnnAcBtXqNaQ7QcsLDpemAAIpElo1pYqWmZVrzxLmrZ1UPCpiW0qqHXz07pzq
+ wGCQy9OjglnN2bQV2yXAz96T/Zu7TrdPSfY+53y+ECIe4FQTV1PXMXoszKxBHCrE6os6
+ VcBXvwihoxKvCHsqBOfzveoi5f+17hphj17lGOEAG6M8A605LGhRSknXqpX2zAxqzzUp
+ pj965ZOvKqnU+l7aBgzWYvMLerYrUcAesTkHGLNgkPngHjKpi3zt80Sc9HtcpyfTr7gW
+ okR+JvCYbrreCVcoSPZ36psuLI4XJvHSpnJfsh4EDFYte+vcbwcSfXYU59h5OwkJx0eM
+ 5gUg==
+X-Gm-Message-State: AOAM532hQ4xZmHc2ouA220MAltQberjOUjuAqxze0Vz5dtIb76KhXnEA
+ DJGYvZMfu9Qqh2E1U5z7Jo5HB5VjDB101aDltl6Tsg==
+X-Google-Smtp-Source: ABdhPJw2sfvdWakANswiw+kFKuUbfyHSkhusPzzyDFMYa/ISYVGsjNBt5TwbOzk7crmIMvJlieMaBdbsJjkeU4EkzIM=
+X-Received: by 2002:adf:ebc5:: with SMTP id v5mr14987088wrn.100.1596458982058; 
+ Mon, 03 Aug 2020 05:49:42 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <trinity-b0ca2ee2-259a-4a1e-86ee-63b093202060-1596451368067@3c-app-gmx-bap36>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Aw: Re: Re: [PATCH v2 1/5] drm/mediatek: config component output by
- device node port
-Date: Mon, 3 Aug 2020 12:42:48 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <CAAOTY__TsqrfRX-z+DE0+X_UzxBqChJ+VdyQG6z9N6Qr4bn2Kg@mail.gmail.com>
-References: <20200728111800.77641-1-frank-w@public-files.de>
- <20200728111800.77641-2-frank-w@public-files.de>
- <CAAOTY_8nm0KDHFzOX9+qTTHOUd0Vik063J+rScu_y-hTBTkrCQ@mail.gmail.com>
- <trinity-2bdb3521-256a-4d4d-928a-be9b8c179d4c-1596355539029@3c-app-gmx-bs58>
- <CAAOTY__TsqrfRX-z+DE0+X_UzxBqChJ+VdyQG6z9N6Qr4bn2Kg@mail.gmail.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:9vlPvrNuItAQckw+6Ztr8lZ2c93kbfFS161DRt6sRjSdDULNAQlBMNQB3GV/A6BxYIa+v
- 0wTqKAVV/0jzVQPBNcW0QKpI8hY0RaP73QzX4DpYLEFzxg5do1dVhrUZZMRaGDDUMWIueRHUlTU8
- I8kQ69OzYmW5ViqJ8J2jSM+k1Q+z19cHIrSuC9bR2diMxNvC4nhekLn41fYjAnG1kO5EkmLO6zLR
- RHumKNb7xPc8lspeBR96Xz/qavYqtpJBM6ZjIZLoFxpmtqsRtVau9sZbJT7FTbu+AgKwRU9KZvCM
- 64=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LmNch36Mr4A=:JD93BKiMGIJiXySOkV52id
- N6pKQF65QAVqSn9LU7LQEgkFHs84FX758r47lR3woRap5WbCDsfWaHk1ajDGlpUQMZeEUBOkr
- /CXLr+XW4q5Cw+/voF+S08eF+3mH9gfkiwESM4dbO+WleliG7YY6zguuOTuRtIRgH585NtCML
- E2CjEQ6mzHQfFIMeFSabZnn0/6R/qcSCNNmJX2D3BvTrem1I8gRS3FGix5OT8KNmkBb65Bn2u
- X3xMEnCYZEqIoA+3UHlAlNWyObtxLumQw0lAXqalFnBt8iEAIJju8/qglfgRvnanEvkpZcS+I
- uH81zKy1/XlqfhY/63qGbx0GpwnRgKnPmvXohJLgNooKDKC59kFah8G//BcA5kvxBdhwCZtRt
- 8fXByWsWTTKHRD0sUKPFyU0EzTv3675AWMYeDzk334tAGim1t5+LRG4h1akxkT3+UJzcypy62
- 2A5EvKQIMV6nMuWNUraGLmJ6zEuwhyYPC6VsEVPzAq2xB3SOn7nU+Y+2FqFdLWbq7Fob4PJca
- CEo/btnLGCfLwrtjRZhp9YkEnPXXf3/xg9ZhklsRFj9KeLYLQOwvuiW6lXK0g2QF/gkzRUXuW
- yeSp30plsVMwxJQJyAw0PJtyopinMrbnaFlbjKTU7Xi1aO0Dp2P+0Wjb+CSCivXbYeRDthqLP
- gzLaSccrtNvAfSVL69W8m3OOtEHw0Oo56mu5ZwjmvWD0UzHr6lgPHjmVhRPQ8jdoZJOU=
+References: <20200724203407.16972-1-james.quinlan@broadcom.com>
+ <20200724203407.16972-9-james.quinlan@broadcom.com>
+ <649c37347138ecf4d0bca9825fba989151757d02.camel@suse.de>
+In-Reply-To: <649c37347138ecf4d0bca9825fba989151757d02.camel@suse.de>
+From: Jim Quinlan <james.quinlan@broadcom.com>
+Date: Mon, 3 Aug 2020 08:49:30 -0400
+Message-ID: <CA+-6iNxT+xrDCAzPNfs2dXH7d5MTL8Bb+_MBbrvjHddsZHKKGQ@mail.gmail.com>
+Subject: Re: [PATCH v9 08/12] device core: Introduce DMA range map,
+ supplanting dma_pfn_offset
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 X-Mailman-Approved-At: Tue, 04 Aug 2020 07:27:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,49 +61,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Borislav Petkov <bp@alien8.de>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Florian Fainelli <f.fainelli@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-> Gesendet: Montag, 03. August 2020 um 01:47 Uhr
-> Von: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
+On Sat, Aug 1, 2020 at 1:17 PM Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> Hi Jim, here's some comments after testing your series against RPi4.
+>
+> On Fri, 2020-07-24 at 16:33 -0400, Jim Quinlan wrote:
+> > The new field 'dma_range_map' in struct device is used to facilitate the
+> > use of single or multiple offsets between mapping regions of cpu addrs and
+> > dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
+> > capable of holding a single uniform offset and had no region bounds
+> > checking.
+> >
+> > The function of_dma_get_range() has been modified so that it takes a single
+> > argument -- the device node -- and returns a map, NULL, or an error code.
+> > The map is an array that holds the information regarding the DMA regions.
+> > Each range entry contains the address offset, the cpu_start address, the
+> > dma_start address, and the size of the region.
+> >
+> > of_dma_configure() is the typical manner to set range offsets but there are
+> > a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
+> > driver code.  These cases now invoke the function
+> > dma_attach_offset_range(dev, cpu_addr, dma_addr, size).
+> >
+> > Signed-off-by: Jim Quinlan <james.quinlan@broadcom.com>
+> > ---
+>
+> [...]
+>
+> > diff --git a/drivers/of/address.c b/drivers/of/address.c
+> > index 8eea3f6e29a4..4b718d199efe 100644
+> > --- a/drivers/of/address.c
+> > +++ b/drivers/of/address.c
+> > @@ -918,33 +918,33 @@ void __iomem *of_io_request_and_map(struct device_node *np, int index,
+> >  }
+> >  EXPORT_SYMBOL(of_io_request_and_map);
+> >
+> > +#ifdef CONFIG_HAS_DMA
+> >  /**
+> > - * of_dma_get_range - Get DMA range info
+> > + * of_dma_get_range - Get DMA range info and put it into a map array
+> >   * @np:              device node to get DMA range info
+> > - * @dma_addr:        pointer to store initial DMA address of DMA range
+> > - * @paddr:   pointer to store initial CPU address of DMA range
+> > - * @size:    pointer to store size of DMA range
+> > + * @map:     dma range structure to return
+> >   *
+> >   * Look in bottom up direction for the first "dma-ranges" property
+> > - * and parse it.
+> > - *  dma-ranges format:
+> > + * and parse it.  Put the information into a DMA offset map array.
+> > + *
+> > + * dma-ranges format:
+> >   *   DMA addr (dma_addr)     : naddr cells
+> >   *   CPU addr (phys_addr_t)  : pna cells
+> >   *   size                    : nsize cells
+> >   *
+> > - * It returns -ENODEV if "dma-ranges" property was not found
+> > - * for this device in DT.
+> > + * It returns -ENODEV if "dma-ranges" property was not found for this
+> > + * device in the DT.
+> >   */
+> > -int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *size)
+> > +int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
+> >  {
+> >       struct device_node *node = of_node_get(np);
+> >       const __be32 *ranges = NULL;
+> > -     int len;
+> > -     int ret = 0;
+> >       bool found_dma_ranges = false;
+> >       struct of_range_parser parser;
+> >       struct of_range range;
+> > -     u64 dma_start = U64_MAX, dma_end = 0, dma_offset = 0;
+> > +     struct bus_dma_region *r;
+> > +     int len, num_ranges = 0;
+> > +     int ret;
+> >
+> >       while (node) {
+> >               ranges = of_get_property(node, "dma-ranges", &len);
+> > @@ -970,44 +970,35 @@ int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *siz
+> >       }
+> >
+> >       of_dma_range_parser_init(&parser, node);
+> > +     for_each_of_range(&parser, &range)
+> > +             num_ranges++;
+> > +
+> > +     of_dma_range_parser_init(&parser, node);
+> > +
+> > +     ret = -ENOMEM;
+> > +     r = kcalloc(num_ranges + 1, sizeof(*r), GFP_KERNEL);
+> > +     if (!r)
+> > +             goto out;
+> >
+> > +     /*
+> > +      * Record all info in the generic DMA ranges array for struct device.
+> > +      */
+> > +     *map = r;
+> >       for_each_of_range(&parser, &range) {
+> >               pr_debug("dma_addr(%llx) cpu_addr(%llx) size(%llx)\n",
+> >                        range.bus_addr, range.cpu_addr, range.size);
+> > -
+> > -             if (dma_offset && range.cpu_addr - range.bus_addr != dma_offset) {
+> > -                     pr_warn("Can't handle multiple dma-ranges with different offsets on node(%pOF)\n", node);
+> > -                     /* Don't error out as we'd break some existing DTs */
+> > -                     continue;
+> > -             }
+> > -             dma_offset = range.cpu_addr - range.bus_addr;
+> > -
+> > -             /* Take lower and upper limits */
+> > -             if (range.bus_addr < dma_start)
+> > -                     dma_start = range.bus_addr;
+> > -             if (range.bus_addr + range.size > dma_end)
+> > -                     dma_end = range.bus_addr + range.size;
+> > -     }
+> > -
+> > -     if (dma_start >= dma_end) {
+> > -             ret = -EINVAL;
+> > -             pr_debug("Invalid DMA ranges configuration on node(%pOF)\n",
+> > -                      node);
+> > -             goto out;
+> > +             r->cpu_start = range.cpu_addr;
+> > +             r->dma_start = range.bus_addr;
+> > +             r->size = range.size;
+> > +             r->offset = (u64)range.cpu_addr - (u64)range.bus_addr;
+> > +             r++;
+> >       }
+> >
+> > -     *dma_addr = dma_start;
+> > -     *size = dma_end - dma_start;
+> > -     *paddr = dma_start + dma_offset;
+> > -
+> > -     pr_debug("final: dma_addr(%llx) cpu_addr(%llx) size(%llx)\n",
+> > -              *dma_addr, *paddr, *size);
+> > -
+>
+> I think you're missing here:
+>
+>         ret = 0;
+Yes.  It somehow passed my tests because it still sets dev->dma_range_map.
 
-> Now I just care about the bls to dpi. So in mediatek,disp.txt, you
-> just need to add a Optional properties - port (input and output), and
-> modify mediatek,dpi.txt for its input port.
+Thanks again,
+Jiom
 
-you mean something like this is enough:
-
-Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-
-   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-   for details.
-
-+Optional properties:
-+- port (input and output) see ../../media/video-interfaces.txt
-+
- Examples:
-
-Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt:
-
- Optional properties:
- - pinctrl-names: Contain "default" and "sleep".
-+- port: Input port node with endpoint definition, this can be connected to <chipid>-disp-pwm
-
- Example:
-
-should i link to pwm/pwm-mtk-disp.txt in doc?
-
-regards Frank
+>
+> >  out:
+> >       of_node_put(node);
+> > -
+> >       return ret;
+> >  }
+>
+> Regards,
+> Nicolas
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
