@@ -1,52 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFD323A0D1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:21:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E1923A0E5
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 10:21:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B6E892F6;
-	Mon,  3 Aug 2020 08:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E616E216;
+	Mon,  3 Aug 2020 08:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net
- [IPv6:2001:a60:0:28:0:1:25:1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C09C56E213
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 07:23:14 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4BKq9V5zt9z1rtjS;
- Mon,  3 Aug 2020 09:23:10 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4BKq9V4bqgz1r17V;
- Mon,  3 Aug 2020 09:23:10 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id AQdAicsk8cKc; Mon,  3 Aug 2020 09:23:09 +0200 (CEST)
-X-Auth-Info: VbxUOCNC5k0FCeyHUUC65DDgP9aDNWXtdyTiPutvOXc=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Mon,  3 Aug 2020 09:23:09 +0200 (CEST)
-Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight driver
- for RPi panel
-To: Mark Brown <broonie@kernel.org>
-References: <20200729214645.247185-1-marex@denx.de>
- <20200730155944.GA1477410@ravnborg.org>
- <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
- <20200730191300.GJ5055@sirena.org.uk>
- <5cfc1d07-c8ce-47d7-8763-1efa0316d05a@denx.de>
- <20200801011653.GD4510@sirena.org.uk>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <20116f3c-64d7-0f52-b38a-56c62398a5e9@denx.de>
-Date: Mon, 3 Aug 2020 09:21:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB2736E213
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 07:54:17 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id p16so19547530ile.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Aug 2020 00:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GQLxqT4ni03eXSRPLJWqfG5xqozbiQOJVTEAEw4Fwy4=;
+ b=hSaUOWGI+WEmDxX/T3i7CGQ9FB6urwnshGStOCSUu2SmfQonrsHYlTgdQBbkL5r3Zc
+ 235A+7Wb4PvOk/+dS5VyS2IB8xxFYlTo0ZLyUDe3ZRkVr0MYpe8WOY5MWjU/WIboSDei
+ Z6IcSNUbw317Sbtx9eZYo/Dz6uScHhwcKXr0x62IAFLLW/xcF4d8w7d7/A19hl58M+PH
+ 8oyP+J9loE+FOAqzvhTMoKwPZY8iF0YbYmuSBc5V0oETi/JBkWJij6vs4oL2QBe9f2eY
+ ribLVcU+6dz3L3pJh9p+Rd6dLE3SZoyaG6gpqNGDAXPg9P6QOy9fj3IXp5gRrgl7Cb/n
+ KogA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GQLxqT4ni03eXSRPLJWqfG5xqozbiQOJVTEAEw4Fwy4=;
+ b=CaaPpPIM4c7jRxmpQHW5kw8u6yyfC+ow/Y/Tv7BOhFUGzUSEcTxZxq/dlKE0c/rTXU
+ C5KlPFBDpAQyAC0So9F1LN/g2CgwBniUg1f48Ziwk0+GfDguu0QxjGw59JIv2c4I8ByB
+ +2dM7tcy+5mGl8H+TLoX2YfLjndRIDx77riNfxOP9r12ULex9Z0+XtCyErUA2Rr9hIs1
+ k3x+NDgVhxSQoZO3u/0Xf1qgzXGhhvbuKmFtTwVO2NJJwYdqhAyXb+i5IueVx2DZJ12X
+ mxh9secrDIgM584MrSO3CN9jgJLXKs/XPW9x7Hv3s15hrLq6KBhZGZHDsq4zIQIjM2yp
+ cXxg==
+X-Gm-Message-State: AOAM530sff8CtagkBgu+Ur3PavRhc1hOsmNTIAfiFHd9NDJq2/JbMUrG
+ lx1IQCzwhawy0AFSYR3CWUAF4/ysk+ZWRmGjB4M=
+X-Google-Smtp-Source: ABdhPJwv61TeQ6BHwfjaACxfXRuJH4GchXif5JWWPN+CXKui0ri/OkxuqfOvaK3WhH3jy4MVrO8q3SkHQYJDZpITGd8=
+X-Received: by 2002:a92:da10:: with SMTP id z16mr16256239ilm.293.1596441256892; 
+ Mon, 03 Aug 2020 00:54:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200801011653.GD4510@sirena.org.uk>
-Content-Language: en-US
+References: <20200704102535.189647-1-peron.clem@gmail.com>
+ <20200704102535.189647-14-peron.clem@gmail.com>
+ <20200704121301.jfd3m3jnlghmddg4@gilmour.lan>
+ <CAJiuCceMS__bNVO54E2OYnqnaOAL9pGkxRo4XAABiyqagaEtmw@mail.gmail.com>
+In-Reply-To: <CAJiuCceMS__bNVO54E2OYnqnaOAL9pGkxRo4XAABiyqagaEtmw@mail.gmail.com>
+From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date: Mon, 3 Aug 2020 09:54:05 +0200
+Message-ID: <CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+47htg2bA@mail.gmail.com>
+Subject: Re: [PATCH v2 13/14] [DO NOT MERGE] arm64: dts: allwinner: h6: Add
+ GPU OPP table
+To: Maxime Ripard <maxime@cerno.tech>
 X-Mailman-Approved-At: Mon, 03 Aug 2020 08:20:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,140 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Nishanth Menon <nm@ti.com>, Ondrej Jirman <megous@megous.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>, linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/1/20 3:16 AM, Mark Brown wrote:
-> On Thu, Jul 30, 2020 at 09:37:48PM +0200, Marek Vasut wrote:
->> On 7/30/20 9:13 PM, Mark Brown wrote:
->>> On Thu, Jul 30, 2020 at 06:28:07PM +0200, Marek Vasut wrote:
-> 
->>>> about it ? I can over-complicate this and split it into multiple
->>>> drivers, but I don't think it's worth the complexity, considering that
->>>> this is likely a one-off device which will never be re-used elsewhere,
->>>> except on this one particular display module for RPi.
-> 
->>> Now you've written that you've pretty much guaranteed someone's going to
->>> use the same component elsewhere :)
-> 
->> How? The firmware is closed and not available, neither is documentation
->> for it, sadly.
-> 
-> Companies often find other markets for their one off things, the
-> original RPi is a great example of this!
-
-I suspect the firmware in this ATTINY88 is written specifically for this
-board, so I doubt re-use in its current form will happen. If there is
-ever another display board, the firmware will likely be different to
-match the new board. But that's all pure speculation.
-
->>> I don't 100% follow how this would actually get used in a
->>> system (perhaps the binding would help) but for these things if there's
->>> only one tightly coupled user that's possible it's sometimes simpler to
->>> just skip APIs and do things directly.
-> 
->> That's what I'm trying to replace by this patch and tc358762 bridge
->> driver and panel driver, the combined version is already in tree:
->> drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
->> but the tc358762 is clearly a generic bridge and the panel is generic
->> too, so combining it into one panel driver doesn't seem right.
-> 
-> I see, so this is the remaining bits.  Perhaps the binding might help me
-> see how things fit together - I don't know anything about the system
-> really.  It's not doing anything that looks like it should cause the
-> framework too many problems so I'm not overly worried from that point of
-> view but equally well it's obviously not ideal.
-
-See below:
-
-/ {
-  panel: panel {
-    compatible = "powertip,ph800480t013-idf02";
-    power-supply = <&attiny>;
-    backlight = <&attiny>;
-    port {
-      panel_in: endpoint {
-        remote-endpoint = <&bridge_out>;
-      };
-    };
-  };
-};
-
-&i2c {
-  attiny: regulator@45 {
-    compatible = "raspberrypi,7inch-touchscreen-panel-regulator";
-    reg = <0x45>;
-  };
-};
-
-&ltdc {
-  status = "okay";
-
-  port {
-    ltdc_ep0_out: endpoint@0 {
-      reg = <0>;
-      remote-endpoint = <&dsi_in>;
-    };
-  };
-};
-
-&dsi {
-  #address-cells = <1>;
-  #size-cells = <0>;
-  status = "okay";
-  phy-dsi-supply = <&reg18>;
-
-  bridge@0 {
-    compatible = "toshiba,tc358762";
-    reg = <0>;
-    vddc-supply = <&attiny>;
-    #address-cells = <1>;
-    #size-cells = <0>;
-    status = "okay";
-
-    ports {
-      #address-cells = <1>;
-      #size-cells = <0>;
-
-      port@0 {
-        reg = <0>;
-        bridge_in: endpoint {
-          remote-endpoint = <&dsi_out>;
-        };
-      };
-
-      port@1 {
-        reg = <1>;
-        bridge_out: endpoint {
-          remote-endpoint = <&panel_in>;
-        };
-      };
-    };
-  };
-
-  ports {
-    #address-cells = <1>;
-    #size-cells = <0>;
-
-    port@0 {
-      reg = <0>;
-      dsi_in: endpoint {
-        remote-endpoint = <&ltdc_ep0_out>;
-      };
-    };
-
-    port@1 {
-      reg = <1>;
-      dsi_out: endpoint {
-        remote-endpoint = <&bridge_in>;
-      };
-    };
-  };
-};
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTWF4aW1lIGFuZCBBbGwsCgpPbiBTYXQsIDQgSnVsIDIwMjAgYXQgMTY6NTYsIENsw6ltZW50
+IFDDqXJvbiA8cGVyb24uY2xlbUBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gSGkgTWF4aW1lLAo+Cj4g
+T24gU2F0LCA0IEp1bCAyMDIwIGF0IDE0OjEzLCBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8u
+dGVjaD4gd3JvdGU6Cj4gPgo+ID4gSGksCj4gPgo+ID4gT24gU2F0LCBKdWwgMDQsIDIwMjAgYXQg
+MTI6MjU6MzRQTSArMDIwMCwgQ2zDqW1lbnQgUMOpcm9uIHdyb3RlOgo+ID4gPiBBZGQgYW4gT3Bl
+cmF0aW5nIFBlcmZvcm1hbmNlIFBvaW50cyB0YWJsZSBmb3IgdGhlIEdQVSB0bwo+ID4gPiBlbmFi
+bGUgRHluYW1pYyBWb2x0YWdlICYgRnJlcXVlbmN5IFNjYWxpbmcgb24gdGhlIEg2Lgo+ID4gPgo+
+ID4gPiBUaGUgdm9sdGFnZSByYW5nZSBpcyBzZXQgd2l0aCBtaW5pdmFsIHZvbHRhZ2Ugc2V0IHRv
+IHRoZSB0YXJnZXQKPiA+ID4gYW5kIHRoZSBtYXhpbWFsIHZvbHRhZ2Ugc2V0IHRvIDEuMlYuIFRo
+aXMgYWxsb3cgRFZGUyBmcmFtZXdvcmsgdG8KPiA+ID4gd29yayBwcm9wZXJseSBvbiBib2FyZCB3
+aXRoIGZpeGVkIHJlZ3VsYXRvci4KPiA+ID4KPiA+ID4gU2lnbmVkLW9mZi1ieTogQ2zDqW1lbnQg
+UMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KPiA+Cj4gPiBUaGF0IHBhdGNoIHNlZW1zIHJl
+YXNvbmFibGUsIHdoeSBzaG91bGRuJ3Qgd2UgbWVyZ2UgaXQ/Cj4KPiBJIGRpZG4ndCB0ZXN0IGl0
+IGEgbG90IGFuZCBsYXN0IHRpbWUgSSBkaWQsIHNvbWUgZnJlcXVlbmNpZXMgbG9va2VkIHVuc3Rh
+YmxlLgo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29yay9jb3Zlci8xMjM5NzM5Lwo+
+Cj4gVGhpcyBzZXJpZXMgYWRkcyByZWd1bGF0b3Igc3VwcG9ydCB0byBQYW5mcm9zdCBkZXZmcmVx
+LCBJIHdpbGwgc2VuZCBhCj4gbmV3IG9uZSBpZiBEVkZTIG9uIHRoZSBINiBHUFUgaXMgc3RhYmxl
+Lgo+Cj4gSSBnb3QgdGhpcyBydW5uaW5nIGdsbWFyazIgbGFzdCB0aW1lCj4gIyBnbG1hcmsyLWVz
+Mi1kcm0KPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09Cj4gICAgIGdsbWFyazIgMjAxNy4wNwo+ID09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiAgICAgT3BlbkdMIEluZm9ybWF0aW9uCj4g
+ICAgIEdMX1ZFTkRPUjogICAgIFBhbmZyb3N0Cj4gICAgIEdMX1JFTkRFUkVSOiAgIE1hbGkgVDcy
+MCAoUGFuZnJvc3QpCj4gICAgIEdMX1ZFUlNJT046ICAgIE9wZW5HTCBFUyAyLjAgTWVzYSAyMC4w
+LjUKPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09Cj4KPiBbICAgOTMuNTUwMDYzXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogR1BVIEZhdWx0IDB4
+MDAwMDAwODggKFVOS05PV04pIGF0Cj4gMHgwMDAwMDAwMDgwMTE3MTAwCj4gWyAgIDk0LjA0NTQw
+MV0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0wLAo+IGNvbmZp
+Zz0weDM3MDAsIHN0YXR1cz0weDgsIGhlYWQ9MHgyMWQ2YzAwLCB0YWlsPTB4MjFkNmMwMCwKPiBz
+Y2hlZF9qb2I9MDAwMDAwMDBlM2MyMTMyZgo+Cj4gWyAgMzI4Ljg3MTA3MF0gcGFuZnJvc3QgMTgw
+MDAwMC5ncHU6IFVuaGFuZGxlZCBQYWdlIGZhdWx0IGluIEFTMCBhdCBWQQo+IDB4MDAwMDAwMDAw
+MDAwMDAwMAo+IFsgIDMyOC44NzEwNzBdIFJlYXNvbjogVE9ETwo+IFsgIDMyOC44NzEwNzBdIHJh
+dyBmYXVsdCBzdGF0dXM6IDB4QUEwMDAzQzIKPiBbICAzMjguODcxMDcwXSBkZWNvZGVkIGZhdWx0
+IHN0YXR1czogU0xBVkUgRkFVTFQKPiBbICAzMjguODcxMDcwXSBleGNlcHRpb24gdHlwZSAweEMy
+OiBUUkFOU0xBVElPTl9GQVVMVF9MRVZFTDIKPiBbICAzMjguODcxMDcwXSBhY2Nlc3MgdHlwZSAw
+eDM6IFdSSVRFCj4gWyAgMzI4Ljg3MTA3MF0gc291cmNlIGlkIDB4QUEwMAo+IFsgIDMyOS4zNzMz
+MjddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBncHUgc2NoZWQgdGltZW91dCwganM9MSwKPiBjb25m
+aWc9MHgzNzAwLCBzdGF0dXM9MHg4LCBoZWFkPTB4YTFhNDkwMCwgdGFpbD0weGExYTQ5MDAsCj4g
+c2NoZWRfam9iPTAwMDAwMDAwN2FjMzEwOTcKPiBbICAzMjkuMzg2NTI3XSBwYW5mcm9zdCAxODAw
+MDAwLmdwdToganMgZmF1bHQsIGpzPTAsCj4gc3RhdHVzPURBVEFfSU5WQUxJRF9GQVVMVCwgaGVh
+ZD0weGExYTRjMDAsIHRhaWw9MHhhMWE0YzAwCj4gWyAgMzI5LjM5NjI5M10gcGFuZnJvc3QgMTgw
+MDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0wLAo+IGNvbmZpZz0weDM3MDAsIHN0YXR1
+cz0weDU4LCBoZWFkPTB4YTFhNGMwMCwgdGFpbD0weGExYTRjMDAsCj4gc2NoZWRfam9iPTAwMDAw
+MDAwMDRjOTAzODEKPiBbICAzMjkuNDExNTIxXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogVW5oYW5k
+bGVkIFBhZ2UgZmF1bHQgaW4gQVMwIGF0IFZBCj4gMHgwMDAwMDAwMDAwMDAwMDAwCj4gWyAgMzI5
+LjQxMTUyMV0gUmVhc29uOiBUT0RPCj4gWyAgMzI5LjQxMTUyMV0gcmF3IGZhdWx0IHN0YXR1czog
+MHhBQTAwMDNDMgo+IFsgIDMyOS40MTE1MjFdIGRlY29kZWQgZmF1bHQgc3RhdHVzOiBTTEFWRSBG
+QVVMVAo+IFsgIDMyOS40MTE1MjFdIGV4Y2VwdGlvbiB0eXBlIDB4QzI6IFRSQU5TTEFUSU9OX0ZB
+VUxUX0xFVkVMMgo+IFsgIDMyOS40MTE1MjFdIGFjY2VzcyB0eXBlIDB4MzogV1JJVEUKPiBbICAz
+MjkuNDExNTIxXSBzb3VyY2UgaWQgMHhBQTAwCgpKdXN0IHRvIGtlZXAgYSB0cmFjayBvZiB0aGlz
+IGlzc3VlLgoKUGlvdHIgT25pc3pjenVrIGdpdmUgbW9yZSB0ZXN0IGFuZCBzZWVtcyB0byBiZSBz
+b2Z0d2FyZSByZWxhdGVkOgpodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9kcmktZGV2ZWwv
+bXNnMjY0Mjc5Lmh0bWwKCk9uZHJlaiBnYXZlIGEgZ3JlYXQgZXhwbGFuYXRpb24gYWJvdXQgYSBw
+b3NzaWJsZSBvcmlnaW4gb2YgdGhpcyBpc3N1ZToKaHR0cHM6Ly9mcmVlbm9kZS5pcmNsb2cud2hp
+dGVxdWFyay5vcmcvbGludXgtc3VueGkvMjAyMC0wNy0xMQoKMjA6MTIgPG1lZ2k+IGxvb2tzIGxp
+a2UgZ3B1IHBsbCBvbiBINiBpcyBOS01QIGNsb2NrLCBhbmQgdGhvc2UgYXJlCmltcGxlbWVudGVk
+IGluIHN1Y2ggYSB3YXkgaW4gbWFpbmxpbmUgdGhhdCB0aGV5IGFyZSBwcm9uZSB0bwpvdmVyc2hv
+b3RpbmcgdGhlIGZyZXF1ZW5jeSBkdXJpbmcgb3V0cHV0IGRpdmlkZXIgcmVkdWN0aW9uCjIwOjEz
+IDxtZWdpPiBzbyBkaXNhYmxpbmcgUCBkaXZpZGVyIG1heSBoZWxwCjIwOjEzIDxtZWdpPiBvciBm
+aXhpbmcgdGhlIGRpdmlkZXJzCjIwOjE0IDxtZWdpPiBhbmQganVzdCBhbGxvd2luZyBOIHRvIGNo
+YW5nZQoyMDoyMiA8bWVnaT4gaG1tLCBJIGhhdmVuJ3QgbG9va2VkIGF0IHRoaXMgZm9yIHF1aXRl
+IHNvbWUgdGltZSwgYnV0IEg2CkJTUCB3YXkgb2Ygc2V0dGluZyBQTEwgZmFjdG9ycyBhY3R1YWxs
+eSBtYWtlcyB0aGUgbW9zdCBzZW5zZSBvdXQgb2YKZXZlcnl0aGluZyBJJ3ZlIHNlZW4vdGVzdGVk
+IHNvIGZhcgoyMDoyMyA8bWVnaT4gaXQgd2FpdHMgZm9yIGxvY2sgbm90IGFmdGVyIHNldHRpbmcg
+TksgZmFjdG9ycywgYnV0IGFmdGVyCnJlZHVjaW5nIHRoZSBNIGZhY3RvciAocHJlLWRpdmlkZXIp
+CjIwOjI0IDxtZWdpPiBJIG1pZ2h0IGFzIHdlbGwgcmUtcnVuIG15IENQVSBQTEwgdGVzdGVyIHdp
+dGggdGhpcwphbGdvcml0aG0sIHRvIHNlZSBpZiBpdCBmaXhlcyB0aGUgbG9ja3VwcwoyMDoyNiA8
+bWVnaT4gaXQgbWFrZXMgc2Vuc2UgdG8gd2FpdCBmb3IgUExMIHRvIHN0YWJpbGl6ZSAiYWZ0ZXIi
+CmNoYW5naW5nIGFsbCB0aGUgZmFjdG9ycyB0aGF0IGFjdHVhbGx5IGFmZmVjdCB0aGUgVkNPLCBh
+bmQgbm90IGp1c3QKc29tZSBvZiB0aGVtCjIwOjI3IDxtZWdpPiB3YXJwbWVfOiBeCjIwOjI4IDxt
+ZWdpPiBpdCBtYXkgYmUgdGhlIHNhbWUgdGhpbmcgdGhhdCBwbGFndWVzIHRoZSBDUFUgUExMIHJh
+dGUKY2hhbmdlcyBhdCBydW50aW1lCgpSZWdhcmRzLApDbGVtZW50Cgo+Cj4gUmVnYXJkcywKPiBD
+bGVtZW50Cj4KPiA+Cj4gPiA+IC0tLQo+ID4gPiAgYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5u
+ZXIvc3VuNTBpLWg2LmR0c2kgfCA4MCArKysrKysrKysrKysrKysrKysrKwo+ID4gPiAgMSBmaWxl
+IGNoYW5nZWQsIDgwIGluc2VydGlvbnMoKykKPiA+ID4KPiA+ID4gZGlmZiAtLWdpdCBhL2FyY2gv
+YXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi5kdHNpIGIvYXJjaC9hcm02NC9ib290
+L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2LmR0c2kKPiA+ID4gaW5kZXggOGY1MTRhMjE2OWFhLi5h
+NjlmOWUwOWE4MjkgMTAwNjQ0Cj4gPiA+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lu
+bmVyL3N1bjUwaS1oNi5kdHNpCj4gPiA+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lu
+bmVyL3N1bjUwaS1oNi5kdHNpCj4gPiA+IEBAIC0xNzQsNiArMTc0LDcgQEAgZ3B1OiBncHVAMTgw
+MDAwMCB7Cj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICBjbG9ja3MgPSA8JmNjdSBDTEtfR1BV
+PiwgPCZjY3UgQ0xLX0JVU19HUFU+Owo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgY2xvY2st
+bmFtZXMgPSAiY29yZSIsICJidXMiOwo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgcmVzZXRz
+ID0gPCZjY3UgUlNUX0JVU19HUFU+Owo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgb3BlcmF0
+aW5nLXBvaW50cy12MiA9IDwmZ3B1X29wcF90YWJsZT47Cj4gPiA+ICAgICAgICAgICAgICAgICAg
+ICAgICAjY29vbGluZy1jZWxscyA9IDwyPjsKPiA+ID4gICAgICAgICAgICAgICAgICAgICAgIHN0
+YXR1cyA9ICJkaXNhYmxlZCI7Cj4gPiA+ICAgICAgICAgICAgICAgfTsKPiA+ID4gQEAgLTEwMzYs
+NCArMTAzNyw4MyBAQCBtYXAwIHsKPiA+ID4gICAgICAgICAgICAgICAgICAgICAgIH07Cj4gPiA+
+ICAgICAgICAgICAgICAgfTsKPiA+ID4gICAgICAgfTsKPiA+ID4gKwo+ID4gPiArICAgICBncHVf
+b3BwX3RhYmxlOiBncHUtb3BwLXRhYmxlIHsKPiA+ID4gKyAgICAgICAgICAgICBjb21wYXRpYmxl
+ID0gIm9wZXJhdGluZy1wb2ludHMtdjIiOwo+ID4gPiArCj4gPiA+ICsgICAgICAgICAgICAgb3Bw
+QDIxNjAwMDAwMCB7Cj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBvcHAtaHogPSAvYml0cy8g
+NjQgPDIxNjAwMDAwMD47Cj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICBvcHAtbWljcm92b2x0
+ID0gPDgxMDAwMCA4MTAwMDAgMTIwMDAwMD47Cj4gPiA+ICsgICAgICAgICAgICAgfTsKPiA+Cj4g
+PiBBbGwgdGhvc2Ugbm9kZXMgd2lsbCBjcmVhdGUgRFRDIHdhcm5pbmdzIHRob3VnaC4KPiA+Cj4g
+PiBNYXhpbWUKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
