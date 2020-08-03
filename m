@@ -2,50 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B8D239D00
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 01:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F3E239E56
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Aug 2020 06:34:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B926E0DF;
-	Sun,  2 Aug 2020 23:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B4226E112;
+	Mon,  3 Aug 2020 04:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576C06E0DF
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 23:47:16 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A20B520738
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Aug 2020 23:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596412035;
- bh=H6xs6d3dgK+96AhAZfXFX14NGYOEMH4Vnh+W+8vKrRM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CbX1Vq0dV9eP9b/mhUJB9UQPhoIxMhukuHjRemSl0NuMpm97ysyVwo9ADqqW9timx
- 9mocM9uwc9Z/Qvc+ARM2EPlv38tMZ04smxjp8dTNb6MZZP2tFDX9J9zPUS/qjka6hJ
- 1yKMsVdRm70L325t4/RXujKW+5NECg7lJWKq/MyU=
-Received: by mail-ej1-f52.google.com with SMTP id a21so36777724ejj.10
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Aug 2020 16:47:15 -0700 (PDT)
-X-Gm-Message-State: AOAM532jHWy3focfgiAzFOKcfoGGhKNS+qTpmYqt8ltSB+jcTIJFCrdb
- 408eXUlyNUjkuWD0k8Q+QoycGAm5wf7lFy6etQ==
-X-Google-Smtp-Source: ABdhPJyL2FRZjVaVXf05r+Yl7rsuKM/lyGziOQXjYfTFU+c3+d5hQt1lqNUv6jMUYMcrdqrwKRXBJ0KXCVGRZuVao9A=
-X-Received: by 2002:a17:906:60d5:: with SMTP id
- f21mr663711ejk.94.1596412034498; 
- Sun, 02 Aug 2020 16:47:14 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB5E89DFC;
+ Mon,  3 Aug 2020 04:34:38 +0000 (UTC)
+IronPort-SDR: TiVq+omSaxYjaQehOA9eiLHJufD3qT9nrrJFTLsNTNasYZmQ1hEwOF66KsWrc+2Md3H7T8lYMO
+ VQ9bneMZkkgw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9701"; a="151248499"
+X-IronPort-AV: E=Sophos;i="5.75,428,1589266800"; d="scan'208";a="151248499"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2020 21:34:37 -0700
+IronPort-SDR: Xvufpy/50NWvjwQfJQXk+j5OG54+DjOh+7UGmYZsHWombfm/n/48v/Ee1d/OApjppSupOY6KFl
+ lQrIcr/tDyTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,428,1589266800"; d="scan'208";a="314528971"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga004.fm.intel.com with ESMTP; 02 Aug 2020 21:34:34 -0700
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, daniels@collabora.com,
+ sameer.lattannavar@intel.com
+Subject: [PATCH v5 0/5] Introduce drm scaling filter property
+Date: Mon,  3 Aug 2020 09:59:48 +0530
+Message-Id: <20200803042953.7626-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200728111800.77641-1-frank-w@public-files.de>
- <20200728111800.77641-2-frank-w@public-files.de>
- <CAAOTY_8nm0KDHFzOX9+qTTHOUd0Vik063J+rScu_y-hTBTkrCQ@mail.gmail.com>
- <trinity-2bdb3521-256a-4d4d-928a-be9b8c179d4c-1596355539029@3c-app-gmx-bs58>
-In-Reply-To: <trinity-2bdb3521-256a-4d4d-928a-be9b8c179d4c-1596355539029@3c-app-gmx-bs58>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 3 Aug 2020 07:47:01 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__TsqrfRX-z+DE0+X_UzxBqChJ+VdyQG6z9N6Qr4bn2Kg@mail.gmail.com>
-Message-ID: <CAAOTY__TsqrfRX-z+DE0+X_UzxBqChJ+VdyQG6z9N6Qr4bn2Kg@mail.gmail.com>
-Subject: Re: Re: [PATCH v2 1/5] drm/mediatek: config component output by
- device node port
-To: Frank Wunderlich <frank-w@public-files.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,105 +49,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: pankaj.laxminarayan.bharadiya@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEZyYW5rOgoKRnJhbmsgV3VuZGVybGljaCA8ZnJhbmstd0BwdWJsaWMtZmlsZXMuZGU+IOaW
-vCAyMDIw5bm0OOaciDLml6Ug6YCx5pelIOS4i+WNiDQ6MDblr6vpgZPvvJoKPgo+ID4gR2VzZW5k
-ZXQ6IFNvbm50YWcsIDAyLiBBdWd1c3QgMjAyMCB1bSAwMjowMyBVaHIKPiA+IFZvbjogIkNodW4t
-S3VhbmcgSHUiIDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4KPiA+IEFuOiAiRnJhbmsgV3VuZGVy
-bGljaCIgPGZyYW5rLXdAcHVibGljLWZpbGVzLmRlPgo+ID4gQ2M6ICJDaHVuLUt1YW5nIEh1IiA8
-Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+LCAiUGhpbGlwcCBaYWJlbCIgPHAuemFiZWxAcGVuZ3V0
-cm9uaXguZGU+LCAiRGF2aWQgQWlybGllIiA8YWlybGllZEBsaW51eC5pZT4sICJsaW51eC1rZXJu
-ZWwiIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPiwgIkRSSSBEZXZlbG9wbWVudCIgPGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+LCAibW9kZXJhdGVkIGxpc3Q6QVJNL01lZGlh
-dGVrIFNvQyBzdXBwb3J0IiA8bGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZz4sICJE
-YW5pZWwgVmV0dGVyIiA8ZGFuaWVsQGZmd2xsLmNoPiwgIk1hdHRoaWFzIEJydWdnZXIiIDxtYXR0
-aGlhcy5iZ2dAZ21haWwuY29tPiwgIkJpYmJ5IEhzaWVoIiA8YmliYnkuaHNpZWhAbWVkaWF0ZWsu
-Y29tPiwgIkxpbnV4IEFSTSIgPGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZz4K
-PiA+IEJldHJlZmY6IFJlOiBbUEFUQ0ggdjIgMS81XSBkcm0vbWVkaWF0ZWs6IGNvbmZpZyBjb21w
-b25lbnQgb3V0cHV0IGJ5IGRldmljZSBub2RlIHBvcnQKPiA+ID4gKwo+ID4gPiArICAgICAgICAg
-ICAgICAgaWYgKGNvbXBfdHlwZSAhPSBNVEtfRFNJICYmIGNvbXBfdHlwZSAhPSBNVEtfRFBJKSB7
-Cj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHBvcnQgPSBvZl9ncmFwaF9nZXRfcG9ydF9i
-eV9pZChub2RlLCAwKTsKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgaWYgKCFwb3J0KQo+
-ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnRpbnVlOwo+ID4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICBlcCA9IG9mX2dldF9jaGlsZF9ieV9uYW1lKHBvcnQsICJlbmRw
-b2ludCIpOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICBvZl9ub2RlX3B1dChwb3J0KTsK
-PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgaWYgKCFlcCkKPiA+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgcmVtb3RlID0gb2ZfZ3JhcGhfZ2V0X3JlbW90ZV9wb3J0X3BhcmVudChlcCk7Cj4gPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICAgIG9mX25vZGVfcHV0KGVwKTsKPiA+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgaWYgKCFyZW1vdGUpCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgY29udGludWU7Cj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIG9mX2lkID0gb2Zf
-bWF0Y2hfbm9kZShtdGtfZGRwX2NvbXBfZHRfaWRzLCByZW1vdGUpOwo+ID4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICBpZiAoIW9mX2lkKQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGNvbnRpbnVlOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICBjb21wX3R5cGUg
-PSAoZW51bSBtdGtfZGRwX2NvbXBfdHlwZSlvZl9pZC0+ZGF0YTsKPiA+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IHByaXZhdGUtPmRhdGEtPm1haW5fbGVuIC0gMTsg
-aSsrKQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChwcml2YXRlLT5k
-YXRhLT5tYWluX3BhdGhbaV0gPT0gY29tcF9pZCkKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHByaXZhdGUtPmRhdGEtPm1haW5fcGF0aFtpICsgMV0gPQo+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbXRrX2RkcF9jb21wX2dl
-dF9pZChub2RlLCBjb21wX3R5cGUpOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICBmb3Ig
-KGkgPSAwOyBpIDwgcHJpdmF0ZS0+ZGF0YS0+ZXh0X2xlbiAtIDE7IGkrKykKPiA+ID4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAocHJpdmF0ZS0+ZGF0YS0+ZXh0X3BhdGhbaV0g
-PT0gY29tcF9pZCkKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHByaXZhdGUtPmRhdGEtPmV4dF9wYXRoW2kgKyAxXSA9Cj4gPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBtdGtfZGRwX2NvbXBfZ2V0X2lkKG5vZGUsIGNvbXBfdHlw
-ZSk7Cj4gPiA+ICsgICAgICAgICAgICAgICB9Cj4gPgo+ID4gVGhlIHBvcnQgcHJvcGVydHkgaXMg
-bm90IGRlZmluZWQgaW4gYmluZGluZyBkb2N1bWVudCBbMV0sIHNvIGRlZmluZSBpdAo+ID4gaW4g
-YmluZGluZyBkb2N1bWVudCBmaXJzdC4KPiA+Cj4gPiBbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9y
-Zy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlz
-cC50eHQ/aD12NS44LXJjNwo+Cj4gaGksCj4gd291bGQgYmUgdGhlIGZvbGxvd2luZyBlbm91Z2gg
-Zm9yIGRlc2NyaWJpbmcgdGhlIHBvcnRzPwo+Cj4gUG9ydCBiaW5kaW5nCj4gPT09PT09PT09PT09
-PQo+Cj4gc29tZSBub2RlcyBsaWtlCj4KPiAtIGNvbm5lY3RvciAoZS5nLiBoZG1pLWNvbm5lY3Rv
-cikKPiAtIGJscyAobWVkaWF0ZWssbXQ3NjIzLWRpc3AtcHdtKQo+IC0gaGRtaXggKG1lZGlhdGVr
-LG10NzYyMy1oZG1pKQoKTm93IEkganVzdCBjYXJlIGFib3V0IHRoZSBibHMgdG8gZHBpLiBTbyBp
-biBtZWRpYXRlayxkaXNwLnR4dCwgeW91Cmp1c3QgbmVlZCB0byBhZGQgYSBPcHRpb25hbCBwcm9w
-ZXJ0aWVzIC0gcG9ydCAoaW5wdXQgYW5kIG91dHB1dCksIGFuZAptb2RpZnkgbWVkaWF0ZWssZHBp
-LnR4dCBmb3IgaXRzIGlucHV0IHBvcnQuCgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPgo+IGNhbiBo
-YXZlIHBvcnQgYmluZGluZ3MgdG8gY29ubmVjdCBlYWNoIG90aGVyLiBFYWNoIHBvcnQgY2FuIGhh
-dmUgb25seSAxIGVuZHBvaW50Cj4KPiBtb3JlIGRldGFpbCBhYm91dCBwb3J0cy9lbmRwb2ludHMg
-aW4gLi4vLi4vbWVkaWEvdmlkZW8taW50ZXJmYWNlcy50eHQKPiBoZG1pLWNvbm5lY3RvciBpcyBk
-ZXNjcmliZWQgaGVyZTogLi4vY29ubmVjdG9yL2hkbWktY29ubmVjdG9yLnR4dAo+Cj4gZXhhbXBs
-ZToKPgo+IGNvbm5lY3RvciB7Cj4gICAgICAgICBjb21wYXRpYmxlID0gImhkbWktY29ubmVjdG9y
-IjsKPgo+ICAgICAgICAgcG9ydCB7Cj4gICAgICAgICAgICAgICAgIGhkbWlfY29ubmVjdG9yX2lu
-OiBlbmRwb2ludCB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0g
-PCZoZG1pMF9vdXQ+Owo+ICAgICAgICAgICAgICAgICB9Owo+ICAgICAgICAgfTsKPiB9Owo+Cj4K
-PiAmYmxzIHsKPiAgICAgICAgIHN0YXR1cyA9ICJva2F5IjsKPgo+ICAgICAgICAgcG9ydCB7Cj4g
-ICAgICAgICAgICAgICAgIGJsc19vdXQ6IGVuZHBvaW50IHsKPiAgICAgICAgICAgICAgICAgICAg
-ICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmRwaTBfaW4+Owo+ICAgICAgICAgICAgICAgICB9Owo+
-ICAgICAgICAgfTsKPiB9Owo+Cj4gJmRwaTAgewo+ICAgICAgICAgc3RhdHVzID0gIm9rYXkiOwo+
-Cj4gICAgICAgICBwb3J0cyB7Cj4gICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+
-Owo+ICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKPiAgICAgICAgICAgICAgICAg
-cG9ydEAwIHsKPiAgICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MD47Cj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgZHBpMF9vdXQ6IGVuZHBvaW50IHsKPiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmaGRtaTBfaW4+Owo+ICAgICAgICAgICAg
-ICAgICAgICAgICAgIH07Cj4gICAgICAgICAgICAgICAgIH07Cj4KPiAgICAgICAgICAgICAgICAg
-cG9ydEAxIHsKPiAgICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MT47Cj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgZHBpMF9pbjogZW5kcG9pbnQgewo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZibHNfb3V0PjsKPiAgICAgICAgICAgICAg
-ICAgICAgICAgICB9Owo+ICAgICAgICAgICAgICAgICB9Owo+ICAgICAgICAgfTsKPiB9Owo+Cj4g
-JmhkbWkwIHsKPgo+ICAgICAgICAgcG9ydHMgewo+ICAgICAgICAgICAgICAgICAjYWRkcmVzcy1j
-ZWxscyA9IDwxPjsKPiAgICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47Cj4gICAgICAg
-ICAgICAgICAgIHBvcnRAMCB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+Owo+
-ICAgICAgICAgICAgICAgICAgICAgICAgIGhkbWkwX2luOiBlbmRwb2ludCB7Cj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmRwaTBfb3V0PjsKPiAg
-ICAgICAgICAgICAgICAgICAgICAgICB9Owo+ICAgICAgICAgICAgICAgICB9Owo+Cj4gICAgICAg
-ICAgICAgICAgIHBvcnRAMSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDE+Owo+
-ICAgICAgICAgICAgICAgICAgICAgICAgIGhkbWkwX291dDogZW5kcG9pbnQgewo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZoZG1pX2Nvbm5lY3Rv
-cl9pbj47Cj4gICAgICAgICAgICAgICAgICAgICAgICAgfTsKPiAgICAgICAgICAgICAgICAgfTsK
-PiAgICAgICAgIH07Cj4gfTsKPgo+IHJlZ2FyZHMgRnJhbmsKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Earlier, I kept this series on hold since we wanted to have a 
+reference userspace implementation in place.
+
+Now, Sameer has implemented Integer scaling in Kodi Retro gaming
+framework which demonstrate how Integer scaling gives distinctive
+look to pixel art games when played on higher resolution monitors. 
+
+Kodi patches are almost reviewed and closer to merge now.
+Here is the userspace patch series link:
+https://github.com/xbmc/xbmc/pull/18194
+
+Background on Integer scaling:
+
+Integer scaling (IS) is a nearest-neighbor upscaling technique that
+simply scales up the existing pixels by an integer (i.e., whole
+number) multiplier. Nearest-neighbor (NN) interpolation works by
+filling in the missing color values in the upscaled image with that of
+the coordinate-mapped nearest source pixel value.
+
+Both IS and NN preserve the clarity of the original image. In
+contrast, traditional upscaling algorithms, such as bilinear or
+bicubic interpolation, result in blurry upscaled images because they
+employ interpolation techniques that smooth out the transition from
+one pixel to another.  Therefore, integer scaling is particularly
+useful for pixel art games that rely on sharp, blocky images to
+deliver their distinctive look.
+
+Many gaming communities have been asking for integer-mode scaling
+support, some links and background:
+
+https://software.intel.com/en-us/articles/integer-scaling-support-on-intel-graphics
+http://tanalin.com/en/articles/lossless-scaling/
+https://community.amd.com/thread/209107
+https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1002/feature-request-nonblurry-upscaling-at-integer-rat/
+
+* Changes in v5:
+ - Rebase to latest drm-tip.
+
+Pankaj Bharadiya (5):
+  drm: Introduce plane and CRTC scaling filter properties
+  drm/drm-kms.rst: Add plane and CRTC scaling filter property
+    documentation
+  drm/i915: Introduce scaling filter related registers and bit fields.
+  drm/i915/display: Add Nearest-neighbor based integer scaling support
+  drm/i915: Enable scaling filter for plane and CRTC
+
+ Documentation/gpu/drm-kms.rst                 |  12 ++
+ drivers/gpu/drm/drm_atomic_uapi.c             |   8 ++
+ drivers/gpu/drm/drm_crtc.c                    |  48 +++++++
+ drivers/gpu/drm/drm_crtc_internal.h           |   3 +
+ drivers/gpu/drm/drm_plane.c                   |  90 ++++++++++++++
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   1 +
+ drivers/gpu/drm/i915/display/intel_display.c  | 117 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_display.h  |   4 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  15 ++-
+ drivers/gpu/drm/i915/i915_reg.h               |  22 ++++
+ include/drm/drm_crtc.h                        |  16 +++
+ include/drm/drm_plane.h                       |  21 ++++
+ 13 files changed, 355 insertions(+), 4 deletions(-)
+
+-- 
+2.23.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
