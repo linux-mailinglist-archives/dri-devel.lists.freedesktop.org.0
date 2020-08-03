@@ -2,34 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822F223B5A9
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8219023B5B2
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 09:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB07F6E43B;
-	Tue,  4 Aug 2020 07:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 775AE6E447;
+	Tue,  4 Aug 2020 07:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 567 seconds by postgrey-1.36 at gabe;
- Mon, 03 Aug 2020 22:28:46 UTC
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7448D6E162
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 22:28:46 +0000 (UTC)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1k2iwZ-008hXp-IY; Mon, 03 Aug 2020 22:28:31 +0000
-Date: Mon, 3 Aug 2020 23:28:31 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [PATCH 2/2] dmabuf/tracing: Add dma-buf trace events
-Message-ID: <20200803222831.GI1236603@ZenIV.linux.org.uk>
-References: <20200803144719.3184138-1-kaleshsingh@google.com>
- <20200803144719.3184138-3-kaleshsingh@google.com>
- <20200803154125.GA23808@casper.infradead.org>
- <CAJuCfpFLikjaoopvt+vGN3W=m9auoK+DLQNgUf-xUbYfC=83Mw@mail.gmail.com>
- <20200803161230.GB23808@casper.infradead.org>
- <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9DA76E162
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Aug 2020 22:29:54 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4BLCHg2wKCz1rt4X;
+ Tue,  4 Aug 2020 00:29:51 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4BLCHg1VBcz1qql0;
+ Tue,  4 Aug 2020 00:29:51 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id uTl9Mx1IYAvV; Tue,  4 Aug 2020 00:29:50 +0200 (CEST)
+X-Auth-Info: wpsgAEGoEh2o5gk1ooVL8xJ6UNHvBNUjSL6JH4mrbhI=
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Tue,  4 Aug 2020 00:29:50 +0200 (CEST)
+Subject: Re: [RFC][PATCH] regulator: rpi-panel: Add regulator/backlight driver
+ for RPi panel
+To: Mark Brown <broonie@kernel.org>
+References: <20200729214645.247185-1-marex@denx.de>
+ <20200730155944.GA1477410@ravnborg.org>
+ <87447ebd-2838-c6bb-1dd4-28104f09dbb9@denx.de>
+ <20200730191300.GJ5055@sirena.org.uk>
+ <5cfc1d07-c8ce-47d7-8763-1efa0316d05a@denx.de>
+ <20200801011653.GD4510@sirena.org.uk>
+ <20116f3c-64d7-0f52-b38a-56c62398a5e9@denx.de>
+ <20200803194831.GF4502@sirena.org.uk>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <9512f1f4-d3a0-8306-4765-1efde5259ba9@denx.de>
+Date: Tue, 4 Aug 2020 00:29:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpGot1Lr+eS_AU30gqrrjc0aFWikxySe0667_GTJNsGTMw@mail.gmail.com>
+In-Reply-To: <20200803194831.GF4502@sirena.org.uk>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 04 Aug 2020 07:27:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,62 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>, linux-doc@vger.kernel.org,
- Ioannis Ilkos <ilkos@google.com>, LKML <linux-kernel@vger.kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, linaro-mm-sig@lists.linaro.org,
- Hridya Valsaraju <hridya@google.com>, Ingo Molnar <mingo@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Kalesh Singh <kaleshsingh@google.com>,
- linux-fsdevel@vger.kernel.org, kernel-team <kernel-team@android.com>,
- linux-media@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 03, 2020 at 09:22:53AM -0700, Suren Baghdasaryan wrote:
-> On Mon, Aug 3, 2020 at 9:12 AM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > On Mon, Aug 03, 2020 at 09:00:00AM -0700, Suren Baghdasaryan wrote:
-> > > On Mon, Aug 3, 2020 at 8:41 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > >
-> > > > On Mon, Aug 03, 2020 at 02:47:19PM +0000, Kalesh Singh wrote:
-> > > > > +static void dma_buf_fd_install(int fd, struct file *filp)
-> > > > > +{
-> > > > > +     trace_dma_buf_fd_ref_inc(current, filp);
-> > > > > +}
-> > > >
-> > > > You're adding a new file_operation in order to just add a new tracepoint?
-> > > > NACK.
-> > >
-> > > Hi Matthew,
-> > > The plan is to attach a BPF to this tracepoint in order to track
-> > > dma-buf users. If you feel this is an overkill, what would you suggest
-> > > as an alternative?
-> >
-> > I'm sure BPF can attach to fd_install and filter on file->f_ops belonging
-> > to dma_buf, for example.
+On 8/3/20 9:48 PM, Mark Brown wrote:
+> On Mon, Aug 03, 2020 at 09:21:25AM +0200, Marek Vasut wrote:
+>> On 8/1/20 3:16 AM, Mark Brown wrote:
 > 
-> Sounds like a workable solution. Will explore that direction. Thanks Matthew!
+>>> I see, so this is the remaining bits.  Perhaps the binding might help me
+>>> see how things fit together - I don't know anything about the system
+>>> really.  It's not doing anything that looks like it should cause the
+>>> framework too many problems so I'm not overly worried from that point of
+>>> view but equally well it's obviously not ideal.
+> 
+>> See below:
+> 
+> OK, basically I've got no real objection from a regulator point of view
+> - it's not ideal but not the end of the world.
 
-No, it is not a solution at all.
-
-What kind of locking would you use?  With _any_ of those approaches.
-
-How would you use the information that is hopelessly out of date/incoherent/whatnot
-at the very moment you obtain it?
-
-IOW, what the hell is that horror for?  You do realize, for example, that there's
-such thing as dup(), right?  And dup2() as well.  And while we are at it, how
-do you keep track of removals, considering the fact that you can stick a file
-reference into SCM_RIGHTS datagram sent to yourself, close descriptors and an hour
-later pick that datagram, suddenly getting descriptor back?
-
-Besides, "I have no descriptors left" != "I can't be currently sitting in the middle
-of syscall on that sucker"; close() does *NOT* terminate ongoing operations.
-
-You are looking at the drastically wrong abstraction level.  Please, describe what
-it is that you are trying to achieve.
+Then, how shall we proceed ?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
