@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64C123B30B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E25823B30A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E33D6E3F2;
-	Tue,  4 Aug 2020 02:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C5B36E3EF;
+	Tue,  4 Aug 2020 02:58:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
  [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5986E3F2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3682F6E3EF
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:32 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-nqLBGJkMMk-vMBXQwnlMLw-1; Mon, 03 Aug 2020 22:58:27 -0400
-X-MC-Unique: nqLBGJkMMk-vMBXQwnlMLw-1
+ us-mta-324-S_f7hVsAMIGrIsOxkvOg2Q-1; Mon, 03 Aug 2020 22:58:29 -0400
+X-MC-Unique: S_f7hVsAMIGrIsOxkvOg2Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FBE38017FB;
- Tue,  4 Aug 2020 02:58:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5913F8015F4;
+ Tue,  4 Aug 2020 02:58:28 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5D228AD1C;
- Tue,  4 Aug 2020 02:58:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE56F90E68;
+ Tue,  4 Aug 2020 02:58:26 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 43/59] drm/ttm: rename manager variable to make sure wrapper
- is used.
-Date: Tue,  4 Aug 2020 12:56:16 +1000
-Message-Id: <20200804025632.3868079-44-airlied@gmail.com>
+Subject: [PATCH 44/59] drm/ttm: allow drivers to provide their own manager
+ subclasses
+Date: Tue,  4 Aug 2020 12:56:17 +1000
+Message-Id: <20200804025632.3868079-45-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,52 +60,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-Other users of this should notice this change and switch to wrapper.
+This will get removed eventually and all drivers will use this.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c    | 2 +-
- include/drm/ttm/ttm_bo_driver.h | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ include/drm/ttm/ttm_bo_driver.h | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 8777c323e7de..3a3a4dfb0fff 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1617,7 +1617,7 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
- 
- 	bdev->driver = driver;
- 
--	memset(bdev->man, 0, sizeof(bdev->man));
-+	memset(bdev->man_priv, 0, sizeof(bdev->man_priv));
- 
- 	ttm_bo_init_sysman(bdev);
- 
 diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index e80deee3ae99..03b253d14e6a 100644
+index 03b253d14e6a..6940d85a531a 100644
 --- a/include/drm/ttm/ttm_bo_driver.h
 +++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -415,7 +415,10 @@ struct ttm_bo_device {
+@@ -419,7 +419,7 @@ struct ttm_bo_device {
+ 	 * access via ttm_manager_type.
  	 */
- 	struct list_head device_list;
- 	struct ttm_bo_driver *driver;
--	struct ttm_mem_type_manager man[TTM_NUM_MEM_TYPES];
-+	/*
-+	 * access via ttm_manager_type.
-+	 */
-+	struct ttm_mem_type_manager man_priv[TTM_NUM_MEM_TYPES];
- 
+ 	struct ttm_mem_type_manager man_priv[TTM_NUM_MEM_TYPES];
+-
++	struct ttm_mem_type_manager *man_drv[TTM_NUM_MEM_TYPES];
  	/*
  	 * Protected by internal locks.
-@@ -447,7 +450,7 @@ struct ttm_bo_device {
+ 	 */
+@@ -450,9 +450,18 @@ struct ttm_bo_device {
  static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
  							    int mem_type)
  {
--	return &bdev->man[mem_type];
-+	return &bdev->man_priv[mem_type];
++	if (bdev->man_drv[mem_type])
++		return bdev->man_drv[mem_type];
+ 	return &bdev->man_priv[mem_type];
  }
  
++static inline void ttm_set_driver_manager(struct ttm_bo_device *bdev,
++					  int type,
++					  struct ttm_mem_type_manager *manager)
++{
++	bdev->man_drv[type] = manager;
++}
++
  /**
+  * struct ttm_lru_bulk_move_pos
+  *
 -- 
 2.26.2
 
