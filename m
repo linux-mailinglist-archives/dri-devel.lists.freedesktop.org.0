@@ -2,43 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4CC23C6B0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A22223C6C8
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 09:14:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0998F6E4FE;
-	Wed,  5 Aug 2020 07:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70CE76E50C;
+	Wed,  5 Aug 2020 07:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6065A6E1A7
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 11:15:54 +0000 (UTC)
-Received: from fsav104.sakura.ne.jp (fsav104.sakura.ne.jp [27.133.134.231])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 074BFkur012924;
- Tue, 4 Aug 2020 20:15:46 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav104.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav104.sakura.ne.jp);
- Tue, 04 Aug 2020 20:15:46 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav104.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 074BFkWK012916
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Tue, 4 Aug 2020 20:15:46 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Subject: Re: [PATCH] vt: defer kfree() of vc_screenbuf in vc_do_resize()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jslaby@suse.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <1596034621-4714-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
-Message-ID: <0c9d8003-ba3f-8f2d-7c5a-56c5ca7db750@i-love.sakura.ne.jp>
-Date: Tue, 4 Aug 2020 20:15:43 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <1596034621-4714-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
-Content-Language: en-US
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB8389E9E;
+ Tue,  4 Aug 2020 11:32:58 +0000 (UTC)
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 04 Aug 2020 04:32:58 -0700
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 04 Aug 2020 04:32:56 -0700
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 04 Aug 2020 17:02:29 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id F05E44BA0; Tue,  4 Aug 2020 17:02:26 +0530 (IST)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm/dpu: update reservations in commit path
+Date: Tue,  4 Aug 2020 17:02:24 +0530
+Message-Id: <1596540744-6902-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Wed, 05 Aug 2020 07:13:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,64 +41,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzbot <syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
+ abhinavk@codeaurora.org, linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, ddavenport@chromium.org,
+ hoegsberg@chromium.org, swboyd@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do you think this approach is acceptable? Or, do we need to modify set_origin() ?
+DPU resources reserved in the atomic_check path gets unwinded
+during modeset operation before commit happens in a non seamless
+transition.
 
-On 2020/07/29 23:57, Tetsuo Handa wrote:
-> syzbot is reporting UAF bug in set_origin() from vc_do_resize() [1], for
-> vc_do_resize() calls kfree(vc->vc_screenbuf) before calling set_origin().
-> 
-> Unfortunately, in set_origin(), vc->vc_sw->con_set_origin() might access
-> vc->vc_pos when scroll is involved in order to manipulate cursor, but
-> vc->vc_pos refers already released vc->vc_screenbuf until vc->vc_pos gets
-> updated based on the result of vc->vc_sw->con_set_origin().
-> 
-> Preserving old buffer and tolerating outdated vc members until set_origin()
-> completes would be easier than preventing vc->vc_sw->con_set_origin() from
-> accessing outdated vc members.
-> 
-> [1] https://syzkaller.appspot.com/bug?id=6649da2081e2ebdc65c0642c214b27fe91099db3
-> 
-> Reported-by: syzbot <syzbot+9116ecc1978ca3a12f43@syzkaller.appspotmail.com>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> ---
->  drivers/tty/vt/vt.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-> index 42d8c67..c9ee8e9 100644
-> --- a/drivers/tty/vt/vt.c
-> +++ b/drivers/tty/vt/vt.c
-> @@ -1196,7 +1196,7 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
->  	unsigned int old_rows, old_row_size, first_copied_row;
->  	unsigned int new_cols, new_rows, new_row_size, new_screen_size;
->  	unsigned int user;
-> -	unsigned short *newscreen;
-> +	unsigned short *oldscreen, *newscreen;
->  	struct uni_screen *new_uniscr = NULL;
->  
->  	WARN_CONSOLE_UNLOCKED();
-> @@ -1294,10 +1294,11 @@ static int vc_do_resize(struct tty_struct *tty, struct vc_data *vc,
->  	if (new_scr_end > new_origin)
->  		scr_memsetw((void *)new_origin, vc->vc_video_erase_char,
->  			    new_scr_end - new_origin);
-> -	kfree(vc->vc_screenbuf);
-> +	oldscreen = vc->vc_screenbuf;
->  	vc->vc_screenbuf = newscreen;
->  	vc->vc_screenbuf_size = new_screen_size;
->  	set_origin(vc);
-> +	kfree(oldscreen);
->  
->  	/* do part of a reset_terminal() */
->  	vc->vc_top = 0;
-> 
+Update the reservations in the commit path to avoid resource
+failures. Secondly have dummy reservations in atomic_check path
+so that we can gracefully fail the composition if resources are
+not available.
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 63976dc..c6b8254 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -565,7 +565,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	const struct drm_display_mode *mode;
+ 	struct drm_display_mode *adj_mode;
+ 	struct msm_display_topology topology;
+-	struct dpu_global_state *global_state;
++	struct dpu_global_state tmp_resv_state;
+ 	int i = 0;
+ 	int ret = 0;
+ 
+@@ -582,7 +582,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	dpu_kms = to_dpu_kms(priv->kms);
+ 	mode = &crtc_state->mode;
+ 	adj_mode = &crtc_state->adjusted_mode;
+-	global_state = dpu_kms_get_existing_global_state(dpu_kms);
++	memset(&tmp_resv_state, 0, sizeof(tmp_resv_state));
+ 	trace_dpu_enc_atomic_check(DRMID(drm_enc));
+ 
+ 	/*
+@@ -621,7 +621,7 @@ static int dpu_encoder_virt_atomic_check(
+ 		 * info may not be available to complete reservation.
+ 		 */
+ 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+-			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
++			ret = dpu_rm_reserve(&dpu_kms->rm, &tmp_resv_state,
+ 					drm_enc, crtc_state, topology);
+ 		}
+ 	}
+@@ -966,7 +966,7 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+ 	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+ 	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
+ 	int num_lm, num_ctl, num_pp, num_dspp;
+-	int i, j;
++	int i, j, rc;
+ 
+ 	if (!drm_enc) {
+ 		DPU_ERROR("invalid encoder\n");
+@@ -1006,6 +1006,13 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+ 
+ 	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
+ 
++	rc = dpu_rm_reserve(&dpu_kms->rm, global_state, drm_enc,
++		drm_crtc->state, topology);
++	if (rc) {
++		DPU_ERROR_ENC(dpu_enc, "Failed to reserve resources\n");
++		return;
++	}
++
+ 	/* Query resource that have been reserved in atomic check step. */
+ 	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+ 		drm_enc->base.id, DPU_HW_BLK_PINGPONG, hw_pp,
+-- 
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
