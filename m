@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B7923C1C4
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 00:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA8E23C1CA
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Aug 2020 00:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8E16E0C8;
-	Tue,  4 Aug 2020 22:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C0F6E0EE;
+	Tue,  4 Aug 2020 22:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F266E0C8
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 22:00:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEC36E0EE
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 22:04:42 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 208811] AMDGPU on-load null pointer dereference
-Date: Tue, 04 Aug 2020 22:00:59 +0000
+Date: Tue, 04 Aug 2020 22:04:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-208811-2300-3I0LgEe8Z5@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208811-2300-8HLHaqtdgl@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-208811-2300@https.bugzilla.kernel.org/>
 References: <bug-208811-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=208811
 
---- Comment #5 from R0b0t1 (sid@aeam.us) ---
-Created attachment 290777
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290777&action=edit
-dmesg 5.4.48 APU
+--- Comment #6 from R0b0t1 (sid@aeam.us) ---
+To clarify, there is one machine with an APU (3700U) and one machine with a GPU
+(RX 5700XT). I have a machine with an older Picasso APU that works on 5.4.48. I
+am unsure if it is a regression, but I have messed with some settings to ensure
+it is not a configuration issue. As I understand these devices work for most
+users.
+
+BIOS has no settings I can recognize as DMA protection. Both devices are ASUS
+platforms, the desktop is a TUF X570-PLUS (WiFi) and the laptop is a ZenBook
+UM433D.
 
 -- 
 You are receiving this mail because:
