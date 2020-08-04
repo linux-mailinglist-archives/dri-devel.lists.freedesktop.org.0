@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F5423B30C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A39323B30D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5296E3F4;
-	Tue,  4 Aug 2020 02:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 773416E3F9;
+	Tue,  4 Aug 2020 02:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
  [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D136E3F4
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A7F6E3F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:43 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-q237yZD8Ol2GyHGxhSAbeA-1; Mon, 03 Aug 2020 22:58:31 -0400
-X-MC-Unique: q237yZD8Ol2GyHGxhSAbeA-1
+ us-mta-223-ksDyfsAOOPCwuQsdRXyYfQ-1; Mon, 03 Aug 2020 22:58:36 -0400
+X-MC-Unique: ksDyfsAOOPCwuQsdRXyYfQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65D2F100CD00;
- Tue,  4 Aug 2020 02:58:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 615DC1005504;
+ Tue,  4 Aug 2020 02:58:35 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA61B8AD1C;
- Tue,  4 Aug 2020 02:58:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C63808AD1C;
+ Tue,  4 Aug 2020 02:58:30 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 45/59] drm/amdgpu/ttm: use bo manager subclassing for vram/gtt
- mgrs
-Date: Tue,  4 Aug 2020 12:56:18 +1000
-Message-Id: <20200804025632.3868079-46-airlied@gmail.com>
+Subject: [PATCH 46/59] drm/ttm: make ttm_range_man_init/takedown take type +
+ args
+Date: Tue,  4 Aug 2020 12:56:19 +1000
+Message-Id: <20200804025632.3868079-47-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -53,171 +53,376 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClJldmlld2VkLWJ5OiBDaHJp
-c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IERh
-dmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X2d0dF9tZ3IuYyAgfCAzNSArKysrKysrKysrKy0tLS0tLS0tCiBkcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYyB8IDM2ICsrKysrKysrKysrKyst
-LS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ndHRfbWdy
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ3R0X21nci5jCmluZGV4IGYw
-Yjc4ZTg4YmI1NS4uYjY2NGM1Y2IxM2NlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9hbWRncHVfZ3R0X21nci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV9ndHRfbWdyLmMKQEAgLTI1LDExICsyNSwxNyBAQAogI2luY2x1ZGUgImFtZGdwdS5o
-IgogCiBzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgeworCXN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdl
-ciBtYW5hZ2VyOwogCXN0cnVjdCBkcm1fbW0gbW07CiAJc3BpbmxvY2tfdCBsb2NrOwogCWF0b21p
-YzY0X3QgYXZhaWxhYmxlOwogfTsKIAorc3RhdGljIGlubGluZSBzdHJ1Y3QgYW1kZ3B1X2d0dF9t
-Z3IgKnRvX2d0dF9tZ3Ioc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCit7CisJcmV0
-dXJuIGNvbnRhaW5lcl9vZihtYW4sIHN0cnVjdCBhbWRncHVfZ3R0X21nciwgbWFuYWdlcik7Cit9
-CisKIHN0cnVjdCBhbWRncHVfZ3R0X25vZGUgewogCXN0cnVjdCBkcm1fbW1fbm9kZSBub2RlOwog
-CXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqdGJvOwpAQCAtODcsMTEgKzkzLDE2IEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXJfZnVuYyBhbWRncHVfZ3R0X21ncl9m
-dW5jOwogICovCiBpbnQgYW1kZ3B1X2d0dF9tZ3JfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAq
-YWRldiwgdWludDY0X3QgZ3R0X3NpemUpCiB7Ci0Jc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-ICptYW4gPSB0dG1fbWFuYWdlcl90eXBlKCZhZGV2LT5tbWFuLmJkZXYsIFRUTV9QTF9UVCk7CisJ
-c3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW47CiAJc3RydWN0IGFtZGdwdV9ndHRfbWdy
-ICptZ3I7CiAJdWludDY0X3Qgc3RhcnQsIHNpemU7CiAJaW50IHJldDsKIAorCW1nciA9IGt6YWxs
-b2Moc2l6ZW9mKCptZ3IpLCBHRlBfS0VSTkVMKTsKKwlpZiAoIW1ncikKKwkJcmV0dXJuIC1FTk9N
-RU07CisKKwltYW4gPSAmbWdyLT5tYW5hZ2VyOwogCW1hbi0+dXNlX3R0ID0gdHJ1ZTsKIAltYW4t
-PmZ1bmMgPSAmYW1kZ3B1X2d0dF9tZ3JfZnVuYzsKIAltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0g
-VFRNX1BMX01BU0tfQ0FDSElORzsKQEAgLTk5LDE2ICsxMTAsMTEgQEAgaW50IGFtZGdwdV9ndHRf
-bWdyX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHVpbnQ2NF90IGd0dF9zaXplKQog
-CiAJdHRtX21lbV90eXBlX21hbmFnZXJfaW5pdCgmYWRldi0+bW1hbi5iZGV2LCBtYW4sIGd0dF9z
-aXplID4+IFBBR0VfU0hJRlQpOwogCi0JbWdyID0ga3phbGxvYyhzaXplb2YoKm1nciksIEdGUF9L
-RVJORUwpOwotCWlmICghbWdyKQotCQlyZXR1cm4gLUVOT01FTTsKLQogCXN0YXJ0ID0gQU1ER1BV
-X0dUVF9NQVhfVFJBTlNGRVJfU0laRSAqIEFNREdQVV9HVFRfTlVNX1RSQU5TRkVSX1dJTkRPV1M7
-CiAJc2l6ZSA9IChhZGV2LT5nbWMuZ2FydF9zaXplID4+IFBBR0VfU0hJRlQpIC0gc3RhcnQ7CiAJ
-ZHJtX21tX2luaXQoJm1nci0+bW0sIHN0YXJ0LCBzaXplKTsKIAlzcGluX2xvY2tfaW5pdCgmbWdy
-LT5sb2NrKTsKIAlhdG9taWM2NF9zZXQoJm1nci0+YXZhaWxhYmxlLCBndHRfc2l6ZSA+PiBQQUdF
-X1NISUZUKTsKLQltYW4tPnByaXYgPSBtZ3I7CiAKIAlyZXQgPSBkZXZpY2VfY3JlYXRlX2ZpbGUo
-YWRldi0+ZGV2LCAmZGV2X2F0dHJfbWVtX2luZm9fZ3R0X3RvdGFsKTsKIAlpZiAocmV0KSB7CkBA
-IC0xMjEsNiArMTI3LDcgQEAgaW50IGFtZGdwdV9ndHRfbWdyX2luaXQoc3RydWN0IGFtZGdwdV9k
-ZXZpY2UgKmFkZXYsIHVpbnQ2NF90IGd0dF9zaXplKQogCQlyZXR1cm4gcmV0OwogCX0KIAorCXR0
-bV9zZXRfZHJpdmVyX21hbmFnZXIoJmFkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1RULCAmbWdyLT5t
-YW5hZ2VyKTsKIAl0dG1fbWVtX3R5cGVfbWFuYWdlcl9zZXRfdXNlZChtYW4sIHRydWUpOwogCXJl
-dHVybiAwOwogfQpAQCAtMTM2LDcgKzE0Myw3IEBAIGludCBhbWRncHVfZ3R0X21ncl9pbml0KHN0
-cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LCB1aW50NjRfdCBndHRfc2l6ZSkKIHZvaWQgYW1kZ3B1
-X2d0dF9tZ3JfZmluaShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIHsKIAlzdHJ1Y3QgdHRt
-X21lbV90eXBlX21hbmFnZXIgKm1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoJmFkZXYtPm1tYW4uYmRl
-diwgVFRNX1BMX1RUKTsKLQlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IG1hbi0+cHJpdjsK
-KwlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IHRvX2d0dF9tZ3IobWFuKTsKIAlpbnQgcmV0
-OwogCiAJdHRtX21lbV90eXBlX21hbmFnZXJfZGlzYWJsZShtYW4pOwpAQCAtMTQ4LDEzICsxNTUs
-MTMgQEAgdm9pZCBhbWRncHVfZ3R0X21ncl9maW5pKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2
-KQogCXNwaW5fbG9jaygmbWdyLT5sb2NrKTsKIAlkcm1fbW1fdGFrZWRvd24oJm1nci0+bW0pOwog
-CXNwaW5fdW5sb2NrKCZtZ3ItPmxvY2spOwotCWtmcmVlKG1ncik7Ci0JbWFuLT5wcml2ID0gTlVM
-TDsKIAogCWRldmljZV9yZW1vdmVfZmlsZShhZGV2LT5kZXYsICZkZXZfYXR0cl9tZW1faW5mb19n
-dHRfdG90YWwpOwogCWRldmljZV9yZW1vdmVfZmlsZShhZGV2LT5kZXYsICZkZXZfYXR0cl9tZW1f
-aW5mb19ndHRfdXNlZCk7CiAKIAl0dG1fbWVtX3R5cGVfbWFuYWdlcl9jbGVhbnVwKG1hbik7CisJ
-dHRtX3NldF9kcml2ZXJfbWFuYWdlcigmYWRldi0+bW1hbi5iZGV2LCBUVE1fUExfVFQsIE5VTEwp
-OworCWtmcmVlKG1ncik7CiB9CiAKIC8qKgpAQCAtMTg0LDcgKzE5MSw3IEBAIHN0YXRpYyBpbnQg
-YW1kZ3B1X2d0dF9tZ3JfbmV3KHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAogCQkJ
-ICAgICAgY29uc3Qgc3RydWN0IHR0bV9wbGFjZSAqcGxhY2UsCiAJCQkgICAgICBzdHJ1Y3QgdHRt
-X21lbV9yZWcgKm1lbSkKIHsKLQlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IG1hbi0+cHJp
-djsKKwlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IHRvX2d0dF9tZ3IobWFuKTsKIAlzdHJ1
-Y3QgYW1kZ3B1X2d0dF9ub2RlICpub2RlOwogCWludCByOwogCkBAIC0yNDUsNyArMjUyLDcgQEAg
-c3RhdGljIGludCBhbWRncHVfZ3R0X21ncl9uZXcoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-ICptYW4sCiBzdGF0aWMgdm9pZCBhbWRncHVfZ3R0X21ncl9kZWwoc3RydWN0IHR0bV9tZW1fdHlw
-ZV9tYW5hZ2VyICptYW4sCiAJCQkgICAgICAgc3RydWN0IHR0bV9tZW1fcmVnICptZW0pCiB7Ci0J
-c3RydWN0IGFtZGdwdV9ndHRfbWdyICptZ3IgPSBtYW4tPnByaXY7CisJc3RydWN0IGFtZGdwdV9n
-dHRfbWdyICptZ3IgPSB0b19ndHRfbWdyKG1hbik7CiAJc3RydWN0IGFtZGdwdV9ndHRfbm9kZSAq
-bm9kZSA9IG1lbS0+bW1fbm9kZTsKIAogCWlmIChub2RlKSB7CkBAIC0yNjcsNyArMjc0LDcgQEAg
-c3RhdGljIHZvaWQgYW1kZ3B1X2d0dF9tZ3JfZGVsKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdl
-ciAqbWFuLAogICovCiB1aW50NjRfdCBhbWRncHVfZ3R0X21ncl91c2FnZShzdHJ1Y3QgdHRtX21l
-bV90eXBlX21hbmFnZXIgKm1hbikKIHsKLQlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IG1h
-bi0+cHJpdjsKKwlzdHJ1Y3QgYW1kZ3B1X2d0dF9tZ3IgKm1nciA9IHRvX2d0dF9tZ3IobWFuKTsK
-IAlzNjQgcmVzdWx0ID0gbWFuLT5zaXplIC0gYXRvbWljNjRfcmVhZCgmbWdyLT5hdmFpbGFibGUp
-OwogCiAJcmV0dXJuIChyZXN1bHQgPiAwID8gcmVzdWx0IDogMCkgKiBQQUdFX1NJWkU7CkBAIC0y
-NzUsNyArMjgyLDcgQEAgdWludDY0X3QgYW1kZ3B1X2d0dF9tZ3JfdXNhZ2Uoc3RydWN0IHR0bV9t
-ZW1fdHlwZV9tYW5hZ2VyICptYW4pCiAKIGludCBhbWRncHVfZ3R0X21ncl9yZWNvdmVyKHN0cnVj
-dCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQogewotCXN0cnVjdCBhbWRncHVfZ3R0X21nciAq
-bWdyID0gbWFuLT5wcml2OworCXN0cnVjdCBhbWRncHVfZ3R0X21nciAqbWdyID0gdG9fZ3R0X21n
-cihtYW4pOwogCXN0cnVjdCBhbWRncHVfZ3R0X25vZGUgKm5vZGU7CiAJc3RydWN0IGRybV9tbV9u
-b2RlICptbV9ub2RlOwogCWludCByID0gMDsKQEAgLTMwMyw3ICszMTAsNyBAQCBpbnQgYW1kZ3B1
-X2d0dF9tZ3JfcmVjb3ZlcihzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbikKIHN0YXRp
-YyB2b2lkIGFtZGdwdV9ndHRfbWdyX2RlYnVnKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAq
-bWFuLAogCQkJCSBzdHJ1Y3QgZHJtX3ByaW50ZXIgKnByaW50ZXIpCiB7Ci0Jc3RydWN0IGFtZGdw
-dV9ndHRfbWdyICptZ3IgPSBtYW4tPnByaXY7CisJc3RydWN0IGFtZGdwdV9ndHRfbWdyICptZ3Ig
-PSB0b19ndHRfbWdyKG1hbik7CiAKIAlzcGluX2xvY2soJm1nci0+bG9jayk7CiAJZHJtX21tX3By
-aW50KCZtZ3ItPm1tLCBwcmludGVyKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV92cmFtX21nci5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X3ZyYW1fbWdyLmMKaW5kZXggYmM3NzZiOGYxMDYzLi4yYjM3ZjQyNjZkY2IgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92cmFtX21nci5jCisrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92cmFtX21nci5jCkBAIC0yOSwxMiArMjks
-MTggQEAKICNpbmNsdWRlICJhdG9tLmgiCiAKIHN0cnVjdCBhbWRncHVfdnJhbV9tZ3IgeworCXN0
-cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciBtYW5hZ2VyOwogCXN0cnVjdCBkcm1fbW0gbW07CiAJ
-c3BpbmxvY2tfdCBsb2NrOwogCWF0b21pYzY0X3QgdXNhZ2U7CiAJYXRvbWljNjRfdCB2aXNfdXNh
-Z2U7CiB9OwogCitzdGF0aWMgaW5saW5lIHN0cnVjdCBhbWRncHVfdnJhbV9tZ3IgKnRvX3ZyYW1f
-bWdyKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQoreworCXJldHVybiBjb250YWlu
-ZXJfb2YobWFuLCBzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyLCBtYW5hZ2VyKTsKK30KKwogLyoqCiAg
-KiBET0M6IG1lbV9pbmZvX3ZyYW1fdG90YWwKICAqCkBAIC0xNzAsMjkgKzE3NiwzMiBAQCBzdGF0
-aWMgY29uc3Qgc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyX2Z1bmMgYW1kZ3B1X3ZyYW1fbWdy
-X2Z1bmM7CiAgKi8KIGludCBhbWRncHVfdnJhbV9tZ3JfaW5pdChzdHJ1Y3QgYW1kZ3B1X2Rldmlj
-ZSAqYWRldikKIHsKLQlzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiA9IHR0bV9tYW5h
-Z2VyX3R5cGUoJmFkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1ZSQU0pOworCXN0cnVjdCB0dG1fbWVt
-X3R5cGVfbWFuYWdlciAqbWFuOwogCXN0cnVjdCBhbWRncHVfdnJhbV9tZ3IgKm1ncjsKIAlpbnQg
-cmV0OwogCisJbWdyID0ga3phbGxvYyhzaXplb2YoKm1nciksIEdGUF9LRVJORUwpOworCWlmICgh
-bWdyKQorCQlyZXR1cm4gLUVOT01FTTsKKworCW1hbiA9ICZtZ3ItPm1hbmFnZXI7CisKIAltYW4t
-PmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfVU5DQUNIRUQgfCBUVE1fUExfRkxBR19X
-QzsKIAltYW4tPmRlZmF1bHRfY2FjaGluZyA9IFRUTV9QTF9GTEFHX1dDOwogCiAJdHRtX21lbV90
-eXBlX21hbmFnZXJfaW5pdCgmYWRldi0+bW1hbi5iZGV2LCBtYW4sIGFkZXYtPmdtYy5yZWFsX3Zy
-YW1fc2l6ZSA+PiBQQUdFX1NISUZUKTsKIAogCW1hbi0+ZnVuYyA9ICZhbWRncHVfdnJhbV9tZ3Jf
-ZnVuYzsKLQltZ3IgPSBremFsbG9jKHNpemVvZigqbWdyKSwgR0ZQX0tFUk5FTCk7Ci0JaWYgKCFt
-Z3IpCi0JCXJldHVybiAtRU5PTUVNOwogCiAJZHJtX21tX2luaXQoJm1nci0+bW0sIDAsIG1hbi0+
-c2l6ZSk7CiAJc3Bpbl9sb2NrX2luaXQoJm1nci0+bG9jayk7Ci0JbWFuLT5wcml2ID0gbWdyOwog
-CiAJLyogQWRkIHRoZSB0d28gVlJBTS1yZWxhdGVkIHN5c2ZzIGZpbGVzICovCiAJcmV0ID0gc3lz
-ZnNfY3JlYXRlX2ZpbGVzKCZhZGV2LT5kZXYtPmtvYmosIGFtZGdwdV92cmFtX21ncl9hdHRyaWJ1
-dGVzKTsKIAlpZiAocmV0KQogCQlEUk1fRVJST1IoIkZhaWxlZCB0byByZWdpc3RlciBzeXNmc1xu
-Iik7CiAKKwl0dG1fc2V0X2RyaXZlcl9tYW5hZ2VyKCZhZGV2LT5tbWFuLmJkZXYsIFRUTV9QTF9W
-UkFNLCAmbWdyLT5tYW5hZ2VyKTsKIAl0dG1fbWVtX3R5cGVfbWFuYWdlcl9zZXRfdXNlZChtYW4s
-IHRydWUpOwogCXJldHVybiAwOwogfQpAQCAtMjA4LDcgKzIxNyw3IEBAIGludCBhbWRncHVfdnJh
-bV9tZ3JfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIHZvaWQgYW1kZ3B1X3ZyYW1f
-bWdyX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCiB7CiAJc3RydWN0IHR0bV9tZW1f
-dHlwZV9tYW5hZ2VyICptYW4gPSB0dG1fbWFuYWdlcl90eXBlKCZhZGV2LT5tbWFuLmJkZXYsIFRU
-TV9QTF9WUkFNKTsKLQlzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyICptZ3IgPSBtYW4tPnByaXY7CisJ
-c3RydWN0IGFtZGdwdV92cmFtX21nciAqbWdyID0gdG9fdnJhbV9tZ3IobWFuKTsKIAlpbnQgcmV0
-OwogCiAJdHRtX21lbV90eXBlX21hbmFnZXJfZGlzYWJsZShtYW4pOwpAQCAtMjIwLDExICsyMjks
-MTIgQEAgdm9pZCBhbWRncHVfdnJhbV9tZ3JfZmluaShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRl
-dikKIAlzcGluX2xvY2soJm1nci0+bG9jayk7CiAJZHJtX21tX3Rha2Vkb3duKCZtZ3ItPm1tKTsK
-IAlzcGluX3VubG9jaygmbWdyLT5sb2NrKTsKLQlrZnJlZShtZ3IpOwotCW1hbi0+cHJpdiA9IE5V
-TEw7CisKIAlzeXNmc19yZW1vdmVfZmlsZXMoJmFkZXYtPmRldi0+a29iaiwgYW1kZ3B1X3ZyYW1f
-bWdyX2F0dHJpYnV0ZXMpOwogCiAJdHRtX21lbV90eXBlX21hbmFnZXJfY2xlYW51cChtYW4pOwor
-CXR0bV9zZXRfZHJpdmVyX21hbmFnZXIoJmFkZXYtPm1tYW4uYmRldiwgVFRNX1BMX1ZSQU0sIE5V
-TEwpOworCWtmcmVlKG1ncik7CiB9CiAKIC8qKgpAQCAtMzE0LDcgKzMyNCw3IEBAIHN0YXRpYyBp
-bnQgYW1kZ3B1X3ZyYW1fbWdyX25ldyhzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwK
-IAkJCSAgICAgICBzdHJ1Y3QgdHRtX21lbV9yZWcgKm1lbSkKIHsKIAlzdHJ1Y3QgYW1kZ3B1X2Rl
-dmljZSAqYWRldiA9IGFtZGdwdV90dG1fYWRldihtYW4tPmJkZXYpOwotCXN0cnVjdCBhbWRncHVf
-dnJhbV9tZ3IgKm1nciA9IG1hbi0+cHJpdjsKKwlzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyICptZ3Ig
-PSB0b192cmFtX21ncihtYW4pOwogCXN0cnVjdCBkcm1fbW0gKm1tID0gJm1nci0+bW07CiAJc3Ry
-dWN0IGRybV9tbV9ub2RlICpub2RlczsKIAllbnVtIGRybV9tbV9pbnNlcnRfbW9kZSBtb2RlOwpA
-QCAtNDMwLDcgKzQ0MCw3IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV92cmFtX21ncl9kZWwoc3RydWN0
-IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4sCiAJCQkJc3RydWN0IHR0bV9tZW1fcmVnICptZW0p
-CiB7CiAJc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSBhbWRncHVfdHRtX2FkZXYobWFuLT5i
-ZGV2KTsKLQlzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyICptZ3IgPSBtYW4tPnByaXY7CisJc3RydWN0
-IGFtZGdwdV92cmFtX21nciAqbWdyID0gdG9fdnJhbV9tZ3IobWFuKTsKIAlzdHJ1Y3QgZHJtX21t
-X25vZGUgKm5vZGVzID0gbWVtLT5tbV9ub2RlOwogCXVpbnQ2NF90IHVzYWdlID0gMCwgdmlzX3Vz
-YWdlID0gMDsKIAl1bnNpZ25lZCBwYWdlcyA9IG1lbS0+bnVtX3BhZ2VzOwpAQCAtNTYyLDcgKzU3
-Miw3IEBAIHZvaWQgYW1kZ3B1X3ZyYW1fbWdyX2ZyZWVfc2d0KHN0cnVjdCBhbWRncHVfZGV2aWNl
-ICphZGV2LAogICovCiB1aW50NjRfdCBhbWRncHVfdnJhbV9tZ3JfdXNhZ2Uoc3RydWN0IHR0bV9t
-ZW1fdHlwZV9tYW5hZ2VyICptYW4pCiB7Ci0Jc3RydWN0IGFtZGdwdV92cmFtX21nciAqbWdyID0g
-bWFuLT5wcml2OworCXN0cnVjdCBhbWRncHVfdnJhbV9tZ3IgKm1nciA9IHRvX3ZyYW1fbWdyKG1h
-bik7CiAKIAlyZXR1cm4gYXRvbWljNjRfcmVhZCgmbWdyLT51c2FnZSk7CiB9CkBAIC01NzYsNyAr
-NTg2LDcgQEAgdWludDY0X3QgYW1kZ3B1X3ZyYW1fbWdyX3VzYWdlKHN0cnVjdCB0dG1fbWVtX3R5
-cGVfbWFuYWdlciAqbWFuKQogICovCiB1aW50NjRfdCBhbWRncHVfdnJhbV9tZ3JfdmlzX3VzYWdl
-KHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQogewotCXN0cnVjdCBhbWRncHVfdnJh
-bV9tZ3IgKm1nciA9IG1hbi0+cHJpdjsKKwlzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyICptZ3IgPSB0
-b192cmFtX21ncihtYW4pOwogCiAJcmV0dXJuIGF0b21pYzY0X3JlYWQoJm1nci0+dmlzX3VzYWdl
-KTsKIH0KQEAgLTU5Miw3ICs2MDIsNyBAQCB1aW50NjRfdCBhbWRncHVfdnJhbV9tZ3JfdmlzX3Vz
-YWdlKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuKQogc3RhdGljIHZvaWQgYW1kZ3B1
-X3ZyYW1fbWdyX2RlYnVnKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAogCQkJCSAg
-c3RydWN0IGRybV9wcmludGVyICpwcmludGVyKQogewotCXN0cnVjdCBhbWRncHVfdnJhbV9tZ3Ig
-Km1nciA9IG1hbi0+cHJpdjsKKwlzdHJ1Y3QgYW1kZ3B1X3ZyYW1fbWdyICptZ3IgPSB0b192cmFt
-X21ncihtYW4pOwogCiAJc3Bpbl9sb2NrKCZtZ3ItPmxvY2spOwogCWRybV9tbV9wcmludCgmbWdy
-LT5tbSwgcHJpbnRlcik7Ci0tIAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+From: Dave Airlie <airlied@redhat.com>
+
+This makes it easier to move these to a driver allocated system
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 15 +++++-------
+ drivers/gpu/drm/drm_gem_vram_helper.c   | 10 ++++----
+ drivers/gpu/drm/nouveau/nouveau_ttm.c   | 22 +++++++++++-------
+ drivers/gpu/drm/qxl/qxl_ttm.c           | 13 ++++-------
+ drivers/gpu/drm/radeon/radeon_ttm.c     | 31 ++++++++++++-------------
+ drivers/gpu/drm/ttm/ttm_bo_manager.c    | 19 +++++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 13 ++++-------
+ include/drm/ttm/ttm_bo_driver.h         | 12 +++++++---
+ 8 files changed, 70 insertions(+), 65 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 1bd860877f1e..b190d50dc9bb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -67,12 +67,9 @@ static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
+ 				    unsigned int type,
+ 				    uint64_t size)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, type);
+-
+-	man->available_caching = TTM_PL_FLAG_UNCACHED;
+-	man->default_caching = TTM_PL_FLAG_UNCACHED;
+-
+-	return ttm_range_man_init(&adev->mman.bdev, man, size >> PAGE_SHIFT);
++	return ttm_range_man_init(&adev->mman.bdev, type,
++				  TTM_PL_FLAG_UNCACHED, TTM_PL_FLAG_UNCACHED,
++				  false, size >> PAGE_SHIFT);
+ }
+ 
+ /**
+@@ -2014,9 +2011,9 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+ 
+ 	amdgpu_vram_mgr_fini(adev);
+ 	amdgpu_gtt_mgr_fini(adev);
+-	ttm_range_man_fini(&adev->mman.bdev, ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_GDS));
+-	ttm_range_man_fini(&adev->mman.bdev, ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_GWS));
+-	ttm_range_man_fini(&adev->mman.bdev, ttm_manager_type(&adev->mman.bdev, AMDGPU_PL_OA));
++	ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_GDS);
++	ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_GWS);
++	ttm_range_man_fini(&adev->mman.bdev, AMDGPU_PL_OA);
+ 	ttm_bo_device_release(&adev->mman.bdev);
+ 	adev->mman.initialized = false;
+ 	DRM_INFO("amdgpu: ttm finalized\n");
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index a01768adb96d..2187787f397e 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -1103,7 +1103,6 @@ EXPORT_SYMBOL(drm_vram_mm_debugfs_init);
+ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
+ 			    uint64_t vram_base, size_t vram_size)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
+ 	int ret;
+ 
+ 	vmm->vram_base = vram_base;
+@@ -1116,9 +1115,10 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+-	man->default_caching = TTM_PL_FLAG_WC;
+-	ret = ttm_range_man_init(&vmm->bdev, man, vram_size >> PAGE_SHIFT);
++	ret = ttm_range_man_init(&vmm->bdev, TTM_PL_VRAM,
++				 TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
++				 TTM_PL_FLAG_WC, false,
++				 vram_size >> PAGE_SHIFT);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1127,7 +1127,7 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
+ 
+ static void drm_vram_mm_cleanup(struct drm_vram_mm *vmm)
+ {
+-	ttm_range_man_fini(&vmm->bdev, ttm_manager_type(&vmm->bdev, TTM_PL_VRAM));
++	ttm_range_man_fini(&vmm->bdev, TTM_PL_VRAM);
+ 	ttm_bo_device_release(&vmm->bdev);
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index cc6cf04553dd..1c636723823c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -156,16 +156,17 @@ nouveau_ttm_init_host(struct nouveau_drm *drm, u8 kind)
+ static int
+ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
+ 	struct nvif_mmu *mmu = &drm->client.mmu;
+ 
+-	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+-	man->default_caching = TTM_PL_FLAG_WC;
+-
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
++		struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
++
+ 		/* Some BARs do not support being ioremapped WC */
+ 		const u8 type = mmu->type[drm->ttm.type_vram].type;
+ 
++		man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
++		man->default_caching = TTM_PL_FLAG_WC;
++
+ 		if (type & NVIF_MEM_UNCACHED) {
+ 			man->available_caching = TTM_PL_FLAG_UNCACHED;
+ 			man->default_caching = TTM_PL_FLAG_UNCACHED;
+@@ -178,7 +179,9 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
+ 		ttm_mem_type_manager_set_used(man, true);
+ 		return 0;
+ 	} else {
+-		return ttm_range_man_init(&drm->ttm.bdev, man,
++		return ttm_range_man_init(&drm->ttm.bdev, TTM_PL_VRAM,
++					  TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
++					  TTM_PL_FLAG_WC, false,
+ 					  drm->gem.vram_available >> PAGE_SHIFT);
+ 	}
+ }
+@@ -193,7 +196,7 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+ 		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+ 		ttm_mem_type_manager_cleanup(man);
+ 	} else
+-		ttm_range_man_fini(&drm->ttm.bdev, man);
++		ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_VRAM);
+ }
+ 
+ static int
+@@ -216,9 +219,10 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+ 	else if (!drm->agp.bridge)
+ 		man->func = &nv04_gart_manager;
+ 	else
+-		return ttm_range_man_init(&drm->ttm.bdev, man,
++		return ttm_range_man_init(&drm->ttm.bdev, TTM_PL_TT,
++					  TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
++					  TTM_PL_FLAG_WC, true,
+ 					  size_pages);
+-
+ 	ttm_mem_type_manager_init(&drm->ttm.bdev, man,
+ 				  size_pages);
+ 	ttm_mem_type_manager_set_used(man, true);
+@@ -232,7 +236,7 @@ nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+ 
+ 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA &&
+ 	    drm->agp.bridge)
+-		ttm_range_man_fini(&drm->ttm.bdev, man);
++		ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_TT);
+ 	else {
+ 		ttm_mem_type_manager_disable(man);
+ 		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index 57c96f7271db..b7365b2e4c7f 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -219,12 +219,8 @@ static int qxl_ttm_init_mem_type(struct qxl_device *qdev,
+ 				 unsigned int type,
+ 				 uint64_t size)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&qdev->mman.bdev, type);
+-
+-	man->available_caching = TTM_PL_MASK_CACHING;
+-	man->default_caching = TTM_PL_FLAG_CACHED;
+-
+-	return ttm_range_man_init(&qdev->mman.bdev, man, size);
++	return ttm_range_man_init(&qdev->mman.bdev, type, TTM_PL_MASK_CACHING,
++				  TTM_PL_FLAG_CACHED, false, size);
+ }
+ 
+ int qxl_ttm_init(struct qxl_device *qdev)
+@@ -266,9 +262,8 @@ int qxl_ttm_init(struct qxl_device *qdev)
+ 
+ void qxl_ttm_fini(struct qxl_device *qdev)
+ {
+-
+-	ttm_range_man_fini(&qdev->mman.bdev, ttm_manager_type(&qdev->mman.bdev, TTM_PL_VRAM));
+-	ttm_range_man_fini(&qdev->mman.bdev, ttm_manager_type(&qdev->mman.bdev, TTM_PL_PRIV));
++	ttm_range_man_fini(&qdev->mman.bdev, TTM_PL_VRAM);
++	ttm_range_man_fini(&qdev->mman.bdev, TTM_PL_PRIV);
+ 	ttm_bo_device_release(&qdev->mman.bdev);
+ 	DRM_INFO("qxl: ttm finalized\n");
+ }
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 03c0a24e74c4..474d2161da1e 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -68,35 +68,34 @@ struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
+ 
+ static int radeon_ttm_init_vram(struct radeon_device *rdev)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
+-
+-	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+-	man->default_caching = TTM_PL_FLAG_WC;
+-
+-	return ttm_range_man_init(&rdev->mman.bdev, man,
++	return ttm_range_man_init(&rdev->mman.bdev, TTM_PL_VRAM,
++				  TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC,
++				  TTM_PL_FLAG_WC, false,
+ 				  rdev->mc.real_vram_size >> PAGE_SHIFT);
+ }
+ 
+ static int radeon_ttm_init_gtt(struct radeon_device *rdev)
+ {
+-	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT);
++	uint32_t available_caching, default_caching;
++
++	available_caching = TTM_PL_MASK_CACHING;
++	default_caching = TTM_PL_FLAG_CACHED;
+ 
+-	man->available_caching = TTM_PL_MASK_CACHING;
+-	man->default_caching = TTM_PL_FLAG_CACHED;
+-	man->use_tt = true;
+ #if IS_ENABLED(CONFIG_AGP)
+ 	if (rdev->flags & RADEON_IS_AGP) {
+ 		if (!rdev->ddev->agp) {
+ 			DRM_ERROR("AGP is not enabled\n");
+ 			return -EINVAL;
+ 		}
+-		man->available_caching = TTM_PL_FLAG_UNCACHED |
+-					 TTM_PL_FLAG_WC;
+-		man->default_caching = TTM_PL_FLAG_WC;
++		available_caching = TTM_PL_FLAG_UNCACHED |
++			TTM_PL_FLAG_WC;
++		default_caching = TTM_PL_FLAG_WC;
+ 	}
+ #endif
+ 
+-	return ttm_range_man_init(&rdev->mman.bdev, man,
++	return ttm_range_man_init(&rdev->mman.bdev, TTM_PL_TT,
++				  available_caching,
++				  default_caching, true,
+ 				  rdev->mc.gtt_size >> PAGE_SHIFT);
+ }
+ 
+@@ -825,8 +824,8 @@ void radeon_ttm_fini(struct radeon_device *rdev)
+ 		}
+ 		radeon_bo_unref(&rdev->stolen_vga_memory);
+ 	}
+-	ttm_range_man_fini(&rdev->mman.bdev, ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM));
+-	ttm_range_man_fini(&rdev->mman.bdev, ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT));
++	ttm_range_man_fini(&rdev->mman.bdev, TTM_PL_VRAM);
++	ttm_range_man_fini(&rdev->mman.bdev, TTM_PL_TT);
+ 	ttm_bo_device_release(&rdev->mman.bdev);
+ 	radeon_gart_fini(rdev);
+ 	rdev->mman.initialized = false;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_manager.c b/drivers/gpu/drm/ttm/ttm_bo_manager.c
+index 86bf5e71e959..d83cb967a107 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_manager.c
+@@ -107,19 +107,27 @@ static void ttm_bo_man_put_node(struct ttm_mem_type_manager *man,
+ static const struct ttm_mem_type_manager_func ttm_bo_manager_func;
+ 
+ int ttm_range_man_init(struct ttm_bo_device *bdev,
+-		       struct ttm_mem_type_manager *man,
++		       unsigned type,
++		       uint32_t available_caching,
++		       uint32_t default_caching,
++		       bool use_tt,
+ 		       unsigned long p_size)
+ {
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, type);
+ 	struct ttm_range_manager *rman;
+ 
+-	man->func = &ttm_bo_manager_func;
+-
+-	ttm_mem_type_manager_init(bdev, man, p_size);
++	man->available_caching = available_caching;
++	man->default_caching = default_caching;
++	man->use_tt = use_tt;
+ 
+ 	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
+ 	if (!rman)
+ 		return -ENOMEM;
+ 
++	man->func = &ttm_bo_manager_func;
++
++	ttm_mem_type_manager_init(bdev, man, p_size);
++
+ 	drm_mm_init(&rman->mm, 0, p_size);
+ 	spin_lock_init(&rman->lock);
+ 	man->priv = rman;
+@@ -130,8 +138,9 @@ int ttm_range_man_init(struct ttm_bo_device *bdev,
+ EXPORT_SYMBOL(ttm_range_man_init);
+ 
+ int ttm_range_man_fini(struct ttm_bo_device *bdev,
+-		       struct ttm_mem_type_manager *man)
++		       unsigned type)
+ {
++	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, type);
+ 	struct ttm_range_manager *rman = (struct ttm_range_manager *) man->priv;
+ 	struct drm_mm *mm = &rman->mm;
+ 	int ret;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 6ed92f38b54b..7168403fb4f8 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -626,13 +626,9 @@ static int vmw_vram_manager_init(struct vmw_private *dev_priv)
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 	ret = vmw_thp_init(dev_priv);
+ #else
+-	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
+-
+-	man->available_caching = TTM_PL_FLAG_CACHED;
+-	man->default_caching = TTM_PL_FLAG_CACHED;
+-
+-	ret = ttm_range_man_init(&dev_priv->bdev, man,
+-				 dev_priv->vram_size >> PAGE_SHIFT);
++	ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM,
++				 TTM_PL_FLAG_CACHED, TTM_PL_FLAG_CACHED,
++				 false, dev_priv->vram_size >> PAGE_SHIFT);
+ #endif
+ 	ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM)->use_type = false;
+ 	return ret;
+@@ -643,8 +639,7 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 	vmw_thp_fini(dev_priv);
+ #else
+-	ttm_bo_man_fini(&dev_priv->bdev,
+-			ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM));
++	ttm_bo_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
+ #endif
+ }
+ 
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 6940d85a531a..789c1eb26859 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -845,14 +845,20 @@ pgprot_t ttm_io_prot(uint32_t caching_flags, pgprot_t tmp);
+  * ttm_range_man_init
+  *
+  * @bdev: ttm device
+- * @man: the manager to initialise with the range manager.
++ * @type: memory manager type
++ * @available_caching: TTM_PL_FLAG_* for allowed caching modes
++ * @default_caching: default caching mode
++ * @use_tt: if the memory manager uses tt
+  * @p_size: size of area to be managed in pages.
+  *
+  * Initialise a generic range manager for the selected memory type.
+  * The range manager is installed for this device in the type slot.
+  */
+ int ttm_range_man_init(struct ttm_bo_device *bdev,
+-		       struct ttm_mem_type_manager *man,
++		       unsigned type,
++		       uint32_t available_caching,
++		       uint32_t default_caching,
++		       bool use_tt,
+ 		       unsigned long p_size);
+ 
+ /**
+@@ -864,7 +870,7 @@ int ttm_range_man_init(struct ttm_bo_device *bdev,
+  * Remove the generic range manager from a slot and tear it down.
+  */
+ int ttm_range_man_fini(struct ttm_bo_device *bdev,
+-		       struct ttm_mem_type_manager *man);
++		       unsigned type);
+ 
+ /**
+  * ttm_mem_type_manager_debug
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
