@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB6923B905
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 12:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B242F23B90B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 12:48:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1833A89C16;
-	Tue,  4 Aug 2020 10:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E489089E0E;
+	Tue,  4 Aug 2020 10:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0C389B68
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 10:46:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D64DE89DD8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 10:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1596537974;
+ s=mimecast20190719; t=1596538111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=meLeDl5rF7wUL9XXA6YZokyLYlIEQKD8rS890rQ1nuc=;
- b=SZ4DOPch/TROTFYGAzaEaNzgV+QlzhoXbfN2NIbmxxq8vY/sGRluaGIjC6BdHh/FRhuAhv
- 2mZbqUj9ASlAbRzDC0Smd5r/wRs5xL7OwdlRhYN+mtvqyGLuoOPCnDVZKfhemZPgP2ILW0
- 2Z6bw/xze+PymdYoxYjIqFAaNNvvRDU=
+ bh=EGVLAjSZwHirR1P15NOQ8tOa0yoKc8vFcsCrp/sT7vs=;
+ b=IAD8Tc/DdTWNkuqF/ackyBfV7zajumouCZwRb6iNGktF3Biq360SRyA82aX3KpJbllV8KG
+ H/DhmShoANNofVnKMHdTWjAuV6s7lzKl7HtR+3w1aEViBu60LJMJv471iEp8dya3qxWdpX
+ s8JcX/ubHwcaZNf4VPElz5rOP6QdvPM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-yHoVhXAHMxy5WypVkRojVQ-1; Tue, 04 Aug 2020 06:46:10 -0400
-X-MC-Unique: yHoVhXAHMxy5WypVkRojVQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-247-7PMIpJooNw-27ol2b0iIbA-1; Tue, 04 Aug 2020 06:48:28 -0400
+X-MC-Unique: 7PMIpJooNw-27ol2b0iIbA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 790B21005504;
- Tue,  4 Aug 2020 10:46:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19B4C8015FB;
+ Tue,  4 Aug 2020 10:48:27 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-89.ams2.redhat.com
  [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CD7F19C58;
- Tue,  4 Aug 2020 10:46:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B878A5DA73;
+ Tue,  4 Aug 2020 10:48:26 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5513111AB5; Tue,  4 Aug 2020 12:46:08 +0200 (CEST)
-Date: Tue, 4 Aug 2020 12:46:08 +0200
+ id B891D11AB5; Tue,  4 Aug 2020 12:48:25 +0200 (CEST)
+Date: Tue, 4 Aug 2020 12:48:25 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 04/59] qxl/ttm: drop the unusued no wait flag to reserve
- function
-Message-ID: <20200804104608.nw2ewvnxkiokdiph@sirius.home.kraxel.org>
+Subject: Re: [PATCH 11/59] drm/qxl/ttm: call ttm manager debug (v2)
+Message-ID: <20200804104825.jdz7yn3rm4353rvt@sirius.home.kraxel.org>
 References: <20200804025632.3868079-1-airlied@gmail.com>
- <20200804025632.3868079-5-airlied@gmail.com>
+ <20200804025632.3868079-12-airlied@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200804025632.3868079-5-airlied@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200804025632.3868079-12-airlied@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
@@ -71,10 +70,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 04, 2020 at 12:55:37PM +1000, Dave Airlie wrote:
+On Tue, Aug 04, 2020 at 12:55:44PM +1000, Dave Airlie wrote:
 > From: Dave Airlie <airlied@redhat.com>
 > 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> v2: use the new exported interface.
+> This code was poking inside a struct and assuming it was a drm_mm
+> at the start. Call the proper API.
+
+[ also adds some debug info about the ttm manager to the file ]
 
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 
