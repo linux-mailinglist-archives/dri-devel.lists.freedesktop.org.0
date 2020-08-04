@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBB923B2EB
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD7223B2EC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55CD66E3A2;
-	Tue,  4 Aug 2020 02:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFCE6E3A6;
+	Tue,  4 Aug 2020 02:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3EB26E3A6
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:20 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D3F6E3A6
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:25 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-NNSj8g1OM2eWwHwhPiTl9Q-1; Mon, 03 Aug 2020 22:57:15 -0400
-X-MC-Unique: NNSj8g1OM2eWwHwhPiTl9Q-1
+ us-mta-264-6UThaINGNFm7v8O2KT_OKg-1; Mon, 03 Aug 2020 22:57:20 -0400
+X-MC-Unique: 6UThaINGNFm7v8O2KT_OKg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8770C91270;
- Tue,  4 Aug 2020 02:57:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D240800461;
+ Tue,  4 Aug 2020 02:57:19 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE3EA8AD1C;
- Tue,  4 Aug 2020 02:57:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E648E8AD1C;
+ Tue,  4 Aug 2020 02:57:14 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/59] drm/ttm: provide a driver-led init path for range mm
- manager. (v2)
-Date: Tue,  4 Aug 2020 12:55:47 +1000
-Message-Id: <20200804025632.3868079-15-airlied@gmail.com>
+Subject: [PATCH 15/59] drm/amdgpu/ttm: init managers from the driver side.
+Date: Tue,  4 Aug 2020 12:55:48 +1000
+Message-Id: <20200804025632.3868079-16-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -53,61 +52,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KClRoaXMgbGV0cyB0aGUgZ2Vu
-ZXJpYyByYW5nZSBtbSBtYW5hZ2VyIGJlIGluaXRpYWxpc2VkIGJ5IHRoZSBkcml2ZXIuCgp2Mjog
-YWRkIGRvY3MuCnJlbmFtZSBhcGkgdG8gcmFuZ2VfbWFuX2luaXQgZm9yIG5vdy4KCnYxLVJldmll
-d2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClNpZ25l
-ZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jIHwgMjMgKysrKysrKysrKysrKysrKysrKystLS0K
-IGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggICAgICB8IDE0ICsrKysrKysrKysrKysr
-CiAyIGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jIGIvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCmluZGV4IGZhY2QzMDQ5YzNhYS4uZWI4NmM4Njk0
-ZjQ3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib19tYW5hZ2VyLmMKKysr
-IGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCkBAIC0xMDQsOCArMTA0LDgg
-QEAgc3RhdGljIHZvaWQgdHRtX2JvX21hbl9wdXRfbm9kZShzdHJ1Y3QgdHRtX21lbV90eXBlX21h
-bmFnZXIgKm1hbiwKIAl9CiB9CiAKLXN0YXRpYyBpbnQgdHRtX2JvX21hbl9pbml0KHN0cnVjdCB0
-dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAotCQkJICAgdW5zaWduZWQgbG9uZyBwX3NpemUpCitz
-dGF0aWMgaW50IHR0bV9ib19tYW5faW5pdF9wcml2YXRlKHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFu
-YWdlciAqbWFuLAorCQkJCSAgIHVuc2lnbmVkIGxvbmcgcF9zaXplKQogewogCXN0cnVjdCB0dG1f
-cmFuZ2VfbWFuYWdlciAqcm1hbjsKIApAQCAtMTE5LDYgKzExOSwyMyBAQCBzdGF0aWMgaW50IHR0
-bV9ib19tYW5faW5pdChzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFnZXIgKm1hbiwKIAlyZXR1cm4g
-MDsKIH0KIAoraW50IHR0bV9yYW5nZV9tYW5faW5pdChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
-diwKKwkJICAgICAgIHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlciAqbWFuLAorCQkgICAgICAg
-dW5zaWduZWQgbG9uZyBwX3NpemUpCit7CisJaW50IHJldDsKKworCW1hbi0+ZnVuYyA9ICZ0dG1f
-Ym9fbWFuYWdlcl9mdW5jOworCisJdHRtX21lbV90eXBlX21hbmFnZXJfaW5pdChiZGV2LCBtYW4s
-IHBfc2l6ZSk7CisJcmV0ID0gdHRtX2JvX21hbl9pbml0X3ByaXZhdGUobWFuLCBwX3NpemUpOwor
-CWlmIChyZXQpCisJCXJldHVybiByZXQ7CisJdHRtX21lbV90eXBlX21hbmFnZXJfc2V0X3VzZWQo
-bWFuLCB0cnVlKTsKKwlyZXR1cm4gMDsKK30KK0VYUE9SVF9TWU1CT0wodHRtX3JhbmdlX21hbl9p
-bml0KTsKKwogc3RhdGljIGludCB0dG1fYm9fbWFuX3Rha2Vkb3duKHN0cnVjdCB0dG1fbWVtX3R5
-cGVfbWFuYWdlciAqbWFuKQogewogCXN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqcm1hbiA9IChz
-dHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKikgbWFuLT5wcml2OwpAQCAtMTQ3LDcgKzE2NCw3IEBA
-IHN0YXRpYyB2b2lkIHR0bV9ib19tYW5fZGVidWcoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2Vy
-ICptYW4sCiB9CiAKIGNvbnN0IHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlcl9mdW5jIHR0bV9i
-b19tYW5hZ2VyX2Z1bmMgPSB7Ci0JLmluaXQgPSB0dG1fYm9fbWFuX2luaXQsCisJLmluaXQgPSB0
-dG1fYm9fbWFuX2luaXRfcHJpdmF0ZSwKIAkudGFrZWRvd24gPSB0dG1fYm9fbWFuX3Rha2Vkb3du
-LAogCS5nZXRfbm9kZSA9IHR0bV9ib19tYW5fZ2V0X25vZGUsCiAJLnB1dF9ub2RlID0gdHRtX2Jv
-X21hbl9wdXRfbm9kZSwKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVy
-LmggYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oCmluZGV4IDZiNDljMDM1NjM0My4u
-MzY3MmRlYTNlZGNhIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5o
-CisrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKQEAgLTgwOCw2ICs4MDgsMjAg
-QEAgaW50IHR0bV9ib19waXBlbGluZV9ndXR0aW5nKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
-Ym8pOwogICovCiBwZ3Byb3RfdCB0dG1faW9fcHJvdCh1aW50MzJfdCBjYWNoaW5nX2ZsYWdzLCBw
-Z3Byb3RfdCB0bXApOwogCisvKioKKyAqIHR0bV9yYW5nZV9tYW5faW5pdAorICoKKyAqIEBiZGV2
-OiB0dG0gZGV2aWNlCisgKiBAbWFuOiB0aGUgbWFuYWdlciB0byBpbml0aWFsaXNlIHdpdGggdGhl
-IHJhbmdlIG1hbmFnZXIuCisgKiBAcF9zaXplOiBzaXplIG9mIGFyZWEgdG8gYmUgbWFuYWdlZCBp
-biBwYWdlcy4KKyAqCisgKiBJbml0aWFsaXNlIGEgZ2VuZXJpYyByYW5nZSBtYW5hZ2VyIGZvciB0
-aGUgc2VsZWN0ZWQgbWVtb3J5IHR5cGUuCisgKiBUaGUgcmFuZ2UgbWFuYWdlciBpcyBpbnN0YWxs
-ZWQgZm9yIHRoaXMgZGV2aWNlIGluIHRoZSB0eXBlIHNsb3QuCisgKi8KK2ludCB0dG1fcmFuZ2Vf
-bWFuX2luaXQoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCisJCSAgICAgICBzdHJ1Y3QgdHRt
-X21lbV90eXBlX21hbmFnZXIgKm1hbiwKKwkJICAgICAgIHVuc2lnbmVkIGxvbmcgcF9zaXplKTsK
-KwogZXh0ZXJuIGNvbnN0IHN0cnVjdCB0dG1fbWVtX3R5cGVfbWFuYWdlcl9mdW5jIHR0bV9ib19t
-YW5hZ2VyX2Z1bmM7CiAKIC8qKgotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Dave Airlie <airlied@redhat.com>
+
+Use new init calls to unwrap manager init
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 19 ++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c      | 37 +++-----------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h      |  4 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 19 ++++++----
+ 4 files changed, 33 insertions(+), 46 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 77fae40197ab..9d05e1ab2048 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -76,6 +76,7 @@ static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
+ static DEVICE_ATTR(mem_info_gtt_used, S_IRUGO,
+ 	           amdgpu_mem_info_gtt_used_show, NULL);
+ 
++static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func;
+ /**
+  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
+  *
+@@ -84,14 +85,20 @@ static DEVICE_ATTR(mem_info_gtt_used, S_IRUGO,
+  *
+  * Allocate and initialize the GTT manager.
+  */
+-static int amdgpu_gtt_mgr_init(struct ttm_mem_type_manager *man,
+-			       unsigned long p_size)
++int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+ {
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(man->bdev);
++	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_TT];
+ 	struct amdgpu_gtt_mgr *mgr;
+ 	uint64_t start, size;
+ 	int ret;
+ 
++	man->use_tt = true;
++	man->func = &amdgpu_gtt_mgr_func;
++	man->available_caching = TTM_PL_MASK_CACHING;
++	man->default_caching = TTM_PL_FLAG_CACHED;
++
++	ttm_mem_type_manager_init(&adev->mman.bdev, man, gtt_size >> PAGE_SHIFT);
++
+ 	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
+ 	if (!mgr)
+ 		return -ENOMEM;
+@@ -100,7 +107,7 @@ static int amdgpu_gtt_mgr_init(struct ttm_mem_type_manager *man,
+ 	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
+ 	drm_mm_init(&mgr->mm, start, size);
+ 	spin_lock_init(&mgr->lock);
+-	atomic64_set(&mgr->available, p_size);
++	atomic64_set(&mgr->available, gtt_size >> PAGE_SHIFT);
+ 	man->priv = mgr;
+ 
+ 	ret = device_create_file(adev->dev, &dev_attr_mem_info_gtt_total);
+@@ -114,6 +121,7 @@ static int amdgpu_gtt_mgr_init(struct ttm_mem_type_manager *man,
+ 		return ret;
+ 	}
+ 
++	ttm_mem_type_manager_set_used(man, true);
+ 	return 0;
+ }
+ 
+@@ -298,8 +306,7 @@ static void amdgpu_gtt_mgr_debug(struct ttm_mem_type_manager *man,
+ 		   amdgpu_gtt_mgr_usage(man) >> 20);
+ }
+ 
+-const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func = {
+-	.init = amdgpu_gtt_mgr_init,
++static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func = {
+ 	.takedown = amdgpu_gtt_mgr_fini,
+ 	.get_node = amdgpu_gtt_mgr_new,
+ 	.put_node = amdgpu_gtt_mgr_del,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index d3e3cad4d0cb..4a09a625e748 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -63,43 +63,16 @@
+ 
+ #define AMDGPU_TTM_VRAM_MAX_DW_READ	(size_t)128
+ 
+-static int amdgpu_ttm_init_vram(struct amdgpu_device *adev)
+-{
+-
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_VRAM];
+-
+-	man->func = &amdgpu_vram_mgr_func;
+-	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+-	man->default_caching = TTM_PL_FLAG_WC;
+-
+-	return ttm_bo_init_mm(&adev->mman.bdev, TTM_PL_VRAM,
+-			      adev->gmc.real_vram_size >> PAGE_SHIFT);
+-}
+-
+-static int amdgpu_ttm_init_gtt(struct amdgpu_device *adev, uint64_t gtt_size)
+-{
+-	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_TT];
+-
+-	man->use_tt = true;
+-	man->func = &amdgpu_gtt_mgr_func;
+-	man->available_caching = TTM_PL_MASK_CACHING;
+-	man->default_caching = TTM_PL_FLAG_CACHED;
+-
+-	return ttm_bo_init_mm(&adev->mman.bdev, TTM_PL_TT,
+-			      gtt_size >> PAGE_SHIFT);
+-}
+-
+ static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
+-				   unsigned int type,
+-				   uint64_t size)
++				    unsigned int type,
++				    uint64_t size)
+ {
+ 	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[type];
+ 
+-	man->func = &ttm_bo_manager_func;
+ 	man->available_caching = TTM_PL_FLAG_UNCACHED;
+ 	man->default_caching = TTM_PL_FLAG_UNCACHED;
+ 
+-	return ttm_bo_init_mm(&adev->mman.bdev, type, size);
++	return ttm_range_man_init(&adev->mman.bdev, man, size >> PAGE_SHIFT);
+ }
+ 
+ /**
+@@ -1915,7 +1888,7 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+ 	adev->mman.bdev.no_retry = true;
+ 
+ 	/* Initialize VRAM pool with all of VRAM divided into pages */
+-	r = amdgpu_ttm_init_vram(adev);
++	r = amdgpu_vram_mgr_init(adev);
+ 	if (r) {
+ 		DRM_ERROR("Failed initializing VRAM heap.\n");
+ 		return r;
+@@ -1982,7 +1955,7 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+ 		gtt_size = (uint64_t)amdgpu_gtt_size << 20;
+ 
+ 	/* Initialize GTT memory pool */
+-	r = amdgpu_ttm_init_gtt(adev, gtt_size);
++	r = amdgpu_gtt_mgr_init(adev, gtt_size);
+ 	if (r) {
+ 		DRM_ERROR("Failed initializing GTT heap.\n");
+ 		return r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index 17c8d0d7bcc3..fb45c0a323b0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -67,8 +67,8 @@ struct amdgpu_copy_mem {
+ 	unsigned long			offset;
+ };
+ 
+-extern const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func;
+-extern const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func;
++int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size);
++int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
+ 
+ bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem);
+ uint64_t amdgpu_gtt_mgr_usage(struct ttm_mem_type_manager *man);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 134cc36e30c5..bef3497de2ae 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -158,6 +158,8 @@ static const struct attribute *amdgpu_vram_mgr_attributes[] = {
+ 	NULL
+ };
+ 
++static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func;
++
+ /**
+  * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
+  *
+@@ -166,18 +168,23 @@ static const struct attribute *amdgpu_vram_mgr_attributes[] = {
+  *
+  * Allocate and initialize the VRAM manager.
+  */
+-static int amdgpu_vram_mgr_init(struct ttm_mem_type_manager *man,
+-				unsigned long p_size)
++int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+ {
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(man->bdev);
++	struct ttm_mem_type_manager *man = &adev->mman.bdev.man[TTM_PL_VRAM];
+ 	struct amdgpu_vram_mgr *mgr;
+ 	int ret;
+ 
++	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
++	man->default_caching = TTM_PL_FLAG_WC;
++
++	ttm_mem_type_manager_init(&adev->mman.bdev, man, adev->gmc.real_vram_size >> PAGE_SHIFT);
++
++	man->func = &amdgpu_vram_mgr_func;
+ 	mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
+ 	if (!mgr)
+ 		return -ENOMEM;
+ 
+-	drm_mm_init(&mgr->mm, 0, p_size);
++	drm_mm_init(&mgr->mm, 0, man->size);
+ 	spin_lock_init(&mgr->lock);
+ 	man->priv = mgr;
+ 
+@@ -186,6 +193,7 @@ static int amdgpu_vram_mgr_init(struct ttm_mem_type_manager *man,
+ 	if (ret)
+ 		DRM_ERROR("Failed to register sysfs\n");
+ 
++	ttm_mem_type_manager_set_used(man, true);
+ 	return 0;
+ }
+ 
+@@ -587,8 +595,7 @@ static void amdgpu_vram_mgr_debug(struct ttm_mem_type_manager *man,
+ 		   amdgpu_vram_mgr_vis_usage(man) >> 20);
+ }
+ 
+-const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func = {
+-	.init		= amdgpu_vram_mgr_init,
++static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func = {
+ 	.takedown	= amdgpu_vram_mgr_fini,
+ 	.get_node	= amdgpu_vram_mgr_new,
+ 	.put_node	= amdgpu_vram_mgr_del,
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
