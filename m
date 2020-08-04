@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3809123C105
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 22:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F14223C13C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C1B6E4B6;
-	Tue,  4 Aug 2020 20:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 191A16E09C;
+	Tue,  4 Aug 2020 21:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 826AE6E4B6
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 20:51:10 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208811] New: AMDGPU on-load null pointer dereference
-Date: Tue, 04 Aug 2020 20:51:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: sid@aeam.us
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-208811-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.connotech.com (connotech.com [76.10.176.241])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C63CD6E09C
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:14:44 +0000 (UTC)
+Received: from [192.168.1.27] (unknown [192.168.1.27])
+ by mail.connotech.com (Postfix) with ESMTPA id A43E5196E53;
+ Tue,  4 Aug 2020 21:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=connotech.com; s=key3;
+ t=1596575193; bh=bgj64oCyjvh5UkL9/kGZhxuxB/Mg5O48OjNfc1hk3H4=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=H/ygaoMfz7/7k7/NLOVaieWApHW2Ahb2+RQTn79njV3LYnREz6tojFSFyKgXgW+bP
+ 1EZs2ZMb9eSmXzfFYMS8v2uVevvs9vztxMT2RL3yIvGD+HNr+gAsh1QGGyyGabq6N8
+ ixQ5JIUwlRy9UFB4+XQZrdtftmxr8i05tBQnK65E=
+Subject: Re: SOLVED, gma500: monitor-dependent failure to boot FB console
+ (psbdrmfb)
+To: daniel@ffwll.ch
+References: <e8669c15-e54f-5226-a53e-1615f8574c39@connotech.com>
+ <20200804171705.GQ6419@phenom.ffwll.local>
+From: Thierry Moreau <thierry.moreau@connotech.com>
+Message-ID: <ee2d43c0-b03b-368b-ce7c-16a84a8174a4@connotech.com>
+Date: Tue, 4 Aug 2020 21:06:52 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200804171705.GQ6419@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,281 +46,654 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208811
+Good news:
 
-            Bug ID: 208811
-           Summary: AMDGPU on-load null pointer dereference
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.8.0
-          Hardware: Intel
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: high
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: sid@aeam.us
-        Regression: No
+Solved by upgrading the kernel from 4.19.48 to 4.19.136 (the latest in 
+the 4.19 series).
 
-Created attachment 290771
-  --> https://bugzilla.kernel.org/attachment.cgi?id=290771&action=edit
-kernel config
+Thanks for the hint that the work on gma500 has, in a sense, come to an 
+end, reminding me that the latest kernel tarballs come with a long 
+history of bug chasing efforts.
 
-Originally encountered on 5.4.48, updated to 5.8 to see if persists.
+Another strange issue has been solved with the upgrade: previously the 
+geeqie application worked OK, but displayed absolutely nothing. I 
+actually mean the two contradictory statements: "geeqie --debug 4" 
+traces were looking quite alike the traces from another system (other 
+GPU, same O/S) in a simple session (alt-F4 after loading an image); 
+absolutely no window was showing up from the geeqie application (with 
+GMA500 / kernel 4.19.48), the X11 system nonetheless keeping trace of 
+the current focus to this invisible window.
 
-03:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Picasso (rev c1)
+Thanks for making this good work available to us mortals!
 
-I receive a similar error with a NAVI10 device. Possible relation to #206519.
+- Thierry
 
-[  104.139682] [drm] amdgpu kernel modesetting enabled.
-[  104.139754] checking generic (e0000000 7f0000) vs hw (e0000000 10000000)
-[  104.139755] fb0: switching to amdgpudrmfb from EFI VGA
-[  104.139952] Console: switching to colour dummy device 80x25
-[  104.139985] amdgpu 0000:03:00.0: vgaarb: deactivate vga console
-[  104.140073] amdgpu 0000:03:00.0: enabling device (0006 -> 0007)
-[  104.140237] [drm] initializing kernel modesetting (RAVEN 0x1002:0x15D8
-0x1043:0x1B71 0xC1).
-[  104.140241] amdgpu 0000:03:00.0: amdgpu: Trusted Memory Zone (TMZ) feature
-disabled as experimental (default)
-[  104.140330] [drm] register mmio base: 0xFE700000
-[  104.140331] [drm] register mmio size: 524288
-[  104.140345] [drm] add ip block number 0 <soc15_common>
-[  104.140346] [drm] add ip block number 1 <gmc_v9_0>
-[  104.140347] [drm] add ip block number 2 <vega10_ih>
-[  104.140348] [drm] add ip block number 3 <psp>
-[  104.140349] [drm] add ip block number 4 <gfx_v9_0>
-[  104.140349] [drm] add ip block number 5 <sdma_v4_0>
-[  104.140350] [drm] add ip block number 6 <powerplay>
-[  104.140351] [drm] add ip block number 7 <dm>
-[  104.140351] [drm] add ip block number 8 <vcn_v1_0>
-[  104.141800] amdgpu: ATOM BIOS: 113-PICASSO-116
-[  104.142877] [drm] VCN decode is enabled in VM mode
-[  104.142878] [drm] VCN encode is enabled in VM mode
-[  104.142878] [drm] JPEG decode is enabled in VM mode
-[  104.142907] [drm] vm size is 262144 GB, 4 levels, block size is 9-bit,
-fragment size is 9-bit
-[  104.142913] amdgpu 0000:03:00.0: amdgpu: VRAM: 2048M 0x000000F400000000 -
-0x000000F47FFFFFFF (2048M used)
-[  104.142915] amdgpu 0000:03:00.0: amdgpu: GART: 1024M 0x0000000000000000 -
-0x000000003FFFFFFF
-[  104.142916] amdgpu 0000:03:00.0: amdgpu: AGP: 267419648M 0x000000F800000000
-- 0x0000FFFFFFFFFFFF
-[  104.142919] [drm] Detected VRAM RAM=2048M, BAR=2048M
-[  104.142920] [drm] RAM width 128bits DDR4
-[  104.142974] [TTM] Zone  kernel: Available graphics memory: 7134942 KiB
-[  104.142975] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
-[  104.142975] [TTM] Initializing pool allocator
-[  104.142979] [TTM] Initializing DMA pool allocator
-[  104.143038] [drm] amdgpu: 2048M of VRAM memory ready
-[  104.143041] [drm] amdgpu: 3072M of GTT memory ready.
-[  104.143042] software IO TLB: Memory encryption is active and system is using
-DMA bounce buffers
-[  104.143044] [drm] GART: num cpu pages 262144, num gpu pages 262144
-[  104.143290] [drm] PCIE GART of 1024M enabled (table at 0x000000F400900000).
-[  104.162120] amdgpu: hwmgr_sw_init smu backed is smu10_smu
-[  104.166452] [drm] Found VCN firmware Version ENC: 1.9 DEC: 1 VEP: 0
-Revision: 28
-[  104.166465] [drm] PSP loading VCN firmware
-[  104.207801] [drm] reserve 0x400000 from 0xf47fc00000 for PSP TMR
-[  104.219109] [drm] failed to load ucode id (0) 
-[  104.219110] [drm] psp command (0x6) failed and response status is
-(0xFFFF300F)
-[  104.222108] [drm] failed to load ucode id (8) 
-[  104.222109] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.225109] [drm] failed to load ucode id (9) 
-[  104.225110] [drm] psp command (0x6) failed and response status is
-(0xFFFF300F)
-[  104.228108] [drm] failed to load ucode id (10) 
-[  104.228109] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.234110] [drm] failed to load ucode id (11) 
-[  104.234111] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.237109] [drm] failed to load ucode id (12) 
-[  104.237110] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.243111] [drm] failed to load ucode id (13) 
-[  104.243112] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.246109] [drm] failed to load ucode id (14) 
-[  104.246110] [drm] psp command (0x6) failed and response status is
-(0xFFFF300F)
-[  104.249109] [drm] failed to load ucode id (17) 
-[  104.249110] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.252110] [drm] failed to load ucode id (18) 
-[  104.252111] [drm] psp command (0x6) failed and response status is
-(0xFFFF300F)
-[  104.255109] [drm] failed to load ucode id (19) 
-[  104.255110] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.258109] [drm] failed to load ucode id (20) 
-[  104.258110] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.264104] [drm] failed to load ucode id (26) 
-[  104.264105] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.267109] [drm] failed to load ucode id (28) 
-[  104.267110] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.270109] [drm] failed to load ucode id (29) 
-[  104.270110] [drm] psp command (0x6) failed and response status is
-(0xFFFF000F)
-[  104.318109] [drm] psp command (0x4) failed and response status is (0x34)
-[  104.318113] amdgpu 0000:03:00.0: amdgpu: RAS: optional ras ta ucode is not
-available
-[  104.324110] [drm] psp command (0x1) failed and response status is (0x34)
-[  104.327106] [drm] psp command (0x1) failed and response status is (0x34)
-[  104.328567] amdgpu 0000:03:00.0: amdgpu: [gfxhub0] no-retry page fault
-(src_id:0 ring:221 vmid:0 pasid:0, for process  pid 0 thread  pid 0)
-[  104.328569] amdgpu 0000:03:00.0: amdgpu:   in page starting at address
-0x0000000000000000 from client 27
-[  104.328570] amdgpu 0000:03:00.0: amdgpu:
-VM_L2_PROTECTION_FAULT_STATUS:0x00000BBA
-[  104.328571] amdgpu 0000:03:00.0: amdgpu:      Faulty UTCL2 client ID: 0x5
-[  104.328572] amdgpu 0000:03:00.0: amdgpu:      MORE_FAULTS: 0x0
-[  104.328572] amdgpu 0000:03:00.0: amdgpu:      WALKER_ERROR: 0x5
-[  104.328573] amdgpu 0000:03:00.0: amdgpu:      PERMISSION_FAULTS: 0xb
-[  104.328574] amdgpu 0000:03:00.0: amdgpu:      MAPPING_ERROR: 0x1
-[  104.328574] amdgpu 0000:03:00.0: amdgpu:      RW: 0x0
-[  104.328630] amdgpu 0000:03:00.0: amdgpu: [gfxhub0] no-retry page fault
-(src_id:0 ring:72 vmid:0 pasid:0, for process  pid 0 thread  pid 0)
-[  104.328631] amdgpu 0000:03:00.0: amdgpu:   in page starting at address
-0x0000000000001000 from client 27
-[  104.328632] amdgpu 0000:03:00.0: amdgpu:
-VM_L2_PROTECTION_FAULT_STATUS:0x00000A90
-[  104.328633] amdgpu 0000:03:00.0: amdgpu:      Faulty UTCL2 client ID: 0x5
-[  104.328633] amdgpu 0000:03:00.0: amdgpu:      MORE_FAULTS: 0x0
-[  104.328634] amdgpu 0000:03:00.0: amdgpu:      WALKER_ERROR: 0x0
-[  104.328635] amdgpu 0000:03:00.0: amdgpu:      PERMISSION_FAULTS: 0x9
-[  104.328635] amdgpu 0000:03:00.0: amdgpu:      MAPPING_ERROR: 0x0
-[  104.328636] amdgpu 0000:03:00.0: amdgpu:      RW: 0x0
-[  104.328687] [drm] kiq ring mec 2 pipe 1 q 0
-[  105.364077] amdgpu 0000:03:00.0: [drm:amdgpu_ring_test_helper [amdgpu]]
-*ERROR* ring kiq_2.1.0 test failed (-110)
-[  105.364154] [drm:amdgpu_gfx_enable_kcq.cold [amdgpu]] *ERROR* KCQ enable
-failed
-[  105.364233] [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* hw_init of IP
-block <gfx_v9_0> failed -110
-[  105.364235] amdgpu 0000:03:00.0: amdgpu: amdgpu_device_ip_init failed
-[  105.364237] amdgpu 0000:03:00.0: amdgpu: Fatal error during GPU init
-[  105.364256] [drm] amdgpu: finishing device.
-[  105.367111] [drm] psp command (0x2) failed and response status is (0x11A)
-[  105.370114] [drm] psp command (0x2) failed and response status is (0x11A)
-[  105.373116] [drm] psp command (0x2) failed and response status is (0x11A)
-[  105.373117] [drm] free PSP TMR buffer
-[  105.459143] [TTM] Finalizing pool allocator
-[  105.459147] [TTM] Finalizing DMA pool allocator
-[  105.459250] [TTM] Zone  kernel: Used memory at exit: 0 KiB
-[  105.459253] [TTM] Zone   dma32: Used memory at exit: 0 KiB
-[  105.459254] [drm] amdgpu: ttm finalized
-[  105.459414] [drm] Initialized amdgpu 3.38.0 20150101 for 0000:03:00.0 on
-minor 0
-[  105.459420] BUG: kernel NULL pointer dereference, address: 0000000000000008
-[  105.459425] #PF: supervisor read access in kernel mode
-[  105.459427] #PF: error_code(0x0000) - not-present page
-[  105.459429] PGD 0 P4D 0 
-[  105.459432] Oops: 0000 [#1] SMP NOPTI
-[  105.459435] CPU: 3 PID: 2936 Comm: modprobe Not tainted 5.8.0-gentoo-r1 #1
-[  105.459437] Hardware name: ASUSTeK COMPUTER INC. ZenBook
-UX434DA_UM433DA/UX434DA, BIOS UX434DA_UM433DA.302 09/05/2019
-[  105.459528] RIP: 0010:amdgpu_debugfs_init+0x7/0x2b0 [amdgpu]
-[  105.459531] Code: 74 04 85 db 74 b2 48 89 84 dd 28 03 00 00 83 fa 08 75 c4
-5b 31 c0 5d 41 5c c3 66 0f 1f 84 00 00 00 00 00 41 54 55 48 89 fd 53 <48> 8b 45
-08 48 89 e9 49 c7 c0 40 fd 9c c0 be 80 01 00 00 48 c7 c7
-[  105.459536] RSP: 0018:ffffa2a742a57af0 EFLAGS: 00010246
-[  105.459538] RAX: 0000000000000000 RBX: ffffffffc09ccf00 RCX:
-0000000000000000
-[  105.459541] RDX: ffff9c6a8957aac0 RSI: 0000000000000092 RDI:
-0000000000000000
-[  105.459543] RBP: 0000000000000000 R08: 0000000000000001 R09:
-00000000000003be
-[  105.459546] R10: 0000000000013754 R11: 0000000000000001 R12:
-0000000000000000
-[  105.459549] R13: 0000000000000000 R14: ffff9c6a8a3c5000 R15:
-ffffffffc0b99fd0
-[  105.459553] FS:  00007f07d2140740(0000) GS:ffff9c6a90ec0000(0000)
-knlGS:0000000000000000
-[  105.459556] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  105.459559] CR2: 0000000000000008 CR3: 00008003c613a000 CR4:
-00000000003406e0
-[  105.459562] Call Trace:
-[  105.459660]  amdgpu_pci_probe+0x14e/0x170 [amdgpu]
-[  105.459668]  local_pci_probe+0x3d/0x70
-[  105.459673]  pci_device_probe+0xd0/0x150
-[  105.459678]  really_probe+0xd9/0x2a0
-[  105.459682]  driver_probe_device+0x4a/0xa0
-[  105.459685]  device_driver_attach+0x4e/0x60
-[  105.459689]  __driver_attach+0x4d/0xc0
-[  105.459692]  ? device_driver_attach+0x60/0x60
-[  105.459695]  bus_for_each_dev+0x75/0xc0
-[  105.459699]  bus_add_driver+0x172/0x1c0
-[  105.459703]  driver_register+0x68/0xc0
-[  105.459706]  ? 0xffffffffc05c3000
-[  105.459711]  do_one_initcall+0x44/0x1e0
-[  105.459715]  ? _cond_resched+0x10/0x20
-[  105.459720]  ? kmem_cache_alloc_trace+0x196/0x220
-[  105.459724]  do_init_module+0x56/0x200
-[  105.459728]  load_module+0x2424/0x26b0
-[  105.459733]  ? __do_sys_finit_module+0xc6/0xe0
-[  105.459737]  __do_sys_finit_module+0xc6/0xe0
-[  105.459742]  do_syscall_64+0x42/0x70
-[  105.459746]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  105.459750] RIP: 0033:0x7f07d2239789
-[  105.459753] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89
-f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01
-f0 ff ff 73 01 c3 48 8b 0d d7 06 0c 00 f7 d8 64 89 01 48
-[  105.459760] RSP: 002b:00007fff5e8f9c48 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[  105.459764] RAX: ffffffffffffffda RBX: 000055dac6747a80 RCX:
-00007f07d2239789
-[  105.459767] RDX: 0000000000000000 RSI: 000055dac504d390 RDI:
-0000000000000006
-[  105.459770] RBP: 0000000000040000 R08: 0000000000000000 R09:
-0000000000000000
-[  105.459773] R10: 0000000000000006 R11: 0000000000000246 R12:
-000055dac504d390
-[  105.459775] R13: 0000000000000000 R14: 000055dac6747b00 R15:
-000055dac6747a80
-[  105.459779] Modules linked in: amdgpu(+) mfd_core gpu_sched ttm iwlmvm
-uvcvideo kvm_amd videobuf2_vmalloc videobuf2_memops videobuf2_v4l2
-videobuf2_common kvm videodev ax88179_178a mc irqbypass usbnet
-snd_hda_codec_realtek snd_hda_codec_hdmi iwlwifi efivarfs
-[  105.459797] CR2: 0000000000000008
-[  105.459800] ---[ end trace 2525194e592c9997 ]---
-[  105.459904] RIP: 0010:amdgpu_debugfs_init+0x7/0x2b0 [amdgpu]
-[  105.459908] Code: 74 04 85 db 74 b2 48 89 84 dd 28 03 00 00 83 fa 08 75 c4
-5b 31 c0 5d 41 5c c3 66 0f 1f 84 00 00 00 00 00 41 54 55 48 89 fd 53 <48> 8b 45
-08 48 89 e9 49 c7 c0 40 fd 9c c0 be 80 01 00 00 48 c7 c7
-[  105.459914] RSP: 0018:ffffa2a742a57af0 EFLAGS: 00010246
-[  105.459917] RAX: 0000000000000000 RBX: ffffffffc09ccf00 RCX:
-0000000000000000
-[  105.459920] RDX: ffff9c6a8957aac0 RSI: 0000000000000092 RDI:
-0000000000000000
-[  105.459922] RBP: 0000000000000000 R08: 0000000000000001 R09:
-00000000000003be
-[  105.459924] R10: 0000000000013754 R11: 0000000000000001 R12:
-0000000000000000
-[  105.459927] R13: 0000000000000000 R14: ffff9c6a8a3c5000 R15:
-ffffffffc0b99fd0
-[  105.459930] FS:  00007f07d2140740(0000) GS:ffff9c6a90ec0000(0000)
-knlGS:0000000000000000
-[  105.459933] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  105.459935] CR2: 0000000000000008 CR3: 00008003c613a000 CR4:
-00000000003406e0
+On 2020-08-04 5:17 p.m., daniel@ffwll.ch wrote:
+> On Tue, Aug 04, 2020 at 01:43:29AM +0000, Thierry Moreau wrote:
+>> Dear kernel / GPU enthusiasts!
+>>
+>> This list is listed in the kernel MAINTAINERS file for GMA500 GPU kernel
+>> module.
+> 
+> Just to avoid disappointment later on: For the gma500 driver it's
+> essentially unmaintained, but we do take patches if they show up.
+> 
+>> My message is either a call for help (not a mission-critical issue) or
+>> troubleshooting information useful to fix an outstanding issue in the GMA500
+>> kernel driver?
+>>
+>> This GMA3650-GPU-based system with a self-supported Linux distribution boots
+>> OK in all cases (ssh access fine when no console).
+>>
+>> With the HAI monitor (actually a 7 inches monitor marketed for the cinema
+>> industry, the edid information reporting a wrong display size), the frame
+>> buffer console is fine, i.e. from the boot log:
+>>
+>> [    1.506269] fbcon: psbdrmfb (fb0) is primary device
+>>
+>> Accordingly, there are two entries in the /sys/class/vtconsole/ directory,
+>> names "(S) dummy device" and "(M) frame buffer device".
+>>
+>> Unfortunately, with two ASUS monitors, the above line in the boot log never
+>> appears. And the console turns blank early in the boot process. A single
+>> entry appears in
+>> /sys/class/vtconsole/, i.e. vtcon0/name -> "(S) VGA+".
+>>
+>> In either case Xorg starts fine and switching between ctrl-alt-f7 and
+>> ctrl-alt-f1..6 (either console for HAI or blank for ASUS) works fine.
+>>
+>> Looking in the kernel source tree, 'psbdrmfb' is a frame buffer name
+>> appearing once in the GMA500 GPU source code.
+>>
+>> This what I found in my patient troubleshooting.
+> 
+> Uh this is strange, the gma500 driver should still load all fine and
+> register that framebuffer driver. I think the only case where gma500 loads
+> but psbdrmfb isn't set up is if it doesn't detect any outputs. I'd test
+> these monitors with some other linux system first (they might be simply
+> too broken), if that doesn't work you can quirk your system with the video
+> boot parameter perhaps:
+> 
+> 
+> https://dri.freedesktop.org/docs/drm/fb/modedb.html
+> 
+> Cheers, Daniel
+> 
+>>
+>> See below:
+>>
+>> two boot log excerpts (grep'ing gcc\|drm\|gma5\|console\|fbcon\|D2550 -C 2)
+>> for the 'pass' and 'fail' boot sequences;
+>>
+>> three edid reports for the (pass) HAI monitor and two (fail) ASUS monitors.
+>>
+>> Thanks in advance, and best regards!
+>>
+>> - Thierry Moreau
+>>
+>> ============================ boot sequence, 'pass'
+>> pass:[    0.000000] Linux version 4.19.48 (root@dodeca1er) (gcc version
+>> 8.4.0 (CRUX-x86_64-multilib)) #5 SMP Fri Jul 31 03:17:03 UTC 2020
+>> pass-[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-05 root=/dev/sda1
+>> ro
+>> pass-[    0.000000] Disabled fast string operations
+>> --
+>> pass-[    0.582174] spurious 8259A interrupt: IRQ7.
+>> pass-[    0.584782] Console: colour VGA+ 80x25
+>> pass:[    0.595503] console [tty0] enabled
+>> pass-[    0.595635] ACPI: Core revision 20180810
+>> pass-[    0.596080] clocksource: hpet: mask: 0xffffffff max_cycles:
+>> 0xffffffff, max_idle_ns: 133484882848 ns
+>> --
+>> pass-[    0.858339] sched_clock: Marking stable (843780572,
+>> 14317326)->(964648975, -106551077)
+>> pass-[    0.858737] Loading compiled-in X.509 certificates
+>> pass:[    0.859638] gma500 0000:00:02.0: GPU: power management timed out.
+>> pass-[    0.880497] ACPI: Video Device [GFX0] (multi-head: yes  rom: no
+>> post: no)
+>> pass-[    0.881183] acpi device:27: registered as cooling_device5
+>> pass-[    0.881423] input: Video Bus as
+>> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input3
+>> pass:[    0.881699] [drm] Supports vblank timestamp caching Rev 2
+>> (21.10.2013).
+>> pass:[    0.881817] [drm] No driver support for vblank timestamp query.
+>> pass-[    0.885525] hdaudio hdaudioC0D0: Unable to bind the codec
+>> pass-[    0.889340] snd_hda_codec_hdmi hdaudioC0D1: HDMI: Unknown ELD
+>> version 1
+>> --
+>> pass-[    1.361611]  sda: sda1 sda2 sda3 sda4 sda5 sda6 sda7 sda8 sda9 sda10
+>> sda11
+>> pass-[    1.362977] sd 0:0:0:0: [sda] Attached SCSI disk
+>> pass:[    1.506269] fbcon: psbdrmfb (fb0) is primary device
+>> pass-[    1.599775] ata2: SATA link down (SStatus 0 SControl 300)
+>> pass-[    1.640569] snd_hda_codec_hdmi hdaudioC0D1: HDMI: Unknown ELD
+>> version 1
+>> --
+>> pass-[    2.279237] snd_hda_codec_hdmi hdaudioC0D1: HDMI: Unknown ELD
+>> version 1
+>> pass-[    2.342558] Console: switching to colour frame buffer device 128x45
+>> pass:[    2.352243] gma500 0000:00:02.0: fb0: psbdrmfb frame buffer device
+>> pass:[    2.352451] [drm] Initialized gma500 1.0.0 20140314 for 0000:00:02.0
+>> on minor 0
+>> pass:[    2.352666] console [netcon0] enabled
+>> pass:[    2.352730] netconsole: network logging started
+>> pass-[    2.354784] cfg80211: Loading compiled-in X.509 certificates for
+>> regulatory database
+>> pass-[    2.357110] kworker/u8:3 (98) used greatest stack depth: 14760 bytes
+>> left
+>> ============================ boot sequence, 'fail'
+>> fail:[    0.000000] Linux version 4.19.48 (root@dodeca1er) (gcc version
+>> 8.4.0 (CRUX-x86_64-multilib)) #5 SMP Fri Jul 31 03:17:03 UTC 2020
+>> fail-[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-05 root=/dev/sda1
+>> ro
+>> fail-[    0.000000] Disabled fast string operations
+>> --
+>> fail-[    0.581688] spurious 8259A interrupt: IRQ7.
+>> fail-[    0.584292] Console: colour VGA+ 80x25
+>> fail:[    0.595033] console [tty0] enabled
+>> fail-[    0.595165] ACPI: Core revision 20180810
+>> fail-[    0.595608] clocksource: hpet: mask: 0xffffffff max_cycles:
+>> 0xffffffff, max_idle_ns: 133484882848 ns
+>> --
+>> fail-[    0.857783] sched_clock: Marking stable (843222107,
+>> 14331799)->(964122675, -106568769)
+>> fail-[    0.858180] Loading compiled-in X.509 certificates
+>> fail:[    0.859077] gma500 0000:00:02.0: GPU: power management timed out.
+>> fail-[    0.879977] ACPI: Video Device [GFX0] (multi-head: yes  rom: no
+>> post: no)
+>> fail-[    0.880671] acpi device:27: registered as cooling_device5
+>> fail-[    0.880917] input: Video Bus as
+>> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input3
+>> fail:[    0.881204] [drm] Supports vblank timestamp caching Rev 2
+>> (21.10.2013).
+>> fail:[    0.881322] [drm] No driver support for vblank timestamp query.
+>> fail-[    0.885009] hdaudio hdaudioC0D0: Unable to bind the codec
+>> fail-[    0.888879] snd_hda_codec_hdmi hdaudioC0D1: HDMI: Unknown ELD
+>> version 1
+>> --
+>> fail-[    1.361075]  sda: sda1 sda2 sda3 sda4 sda5 sda6 sda7 sda8 sda9 sda10
+>> sda11
+>> fail-[    1.362448] sd 0:0:0:0: [sda] Attached SCSI disk
+>> fail:[    1.504605] [drm] Initialized gma500 1.0.0 20140314 for 0000:00:02.0
+>> on minor 0
+>> fail:[    1.504958] console [netcon0] enabled
+>> fail:[    1.505074] netconsole: network logging started
+>> fail-[    1.505320] cfg80211: Loading compiled-in X.509 certificates for
+>> regulatory database
+>> fail-[    1.505626] kworker/u8:4 (97) used greatest stack depth: 14760 bytes
+>> left
+>> ============================ edid report, 'pass' monitor (HAI)
+>> edid-decode (hex):
+>>
+>> 00 ff ff ff ff ff ff 00 20 29 54 4c 01 00 00 00
+>> 01 19 01 03 81 46 27 78 8a a5 8e a6 54 4a 9c 26
+>> 12 45 46 ad ce 00 81 40 01 01 01 01 01 01 01 01
+>> 01 01 01 01 01 01 01 1d 00 72 51 d0 1e 20 6e 28
+>> 55 00 b9 88 21 00 00 1e 9a 29 a0 d0 51 84 22 30
+>> 50 98 36 00 b9 88 21 00 00 1c 00 00 00 fd 00 32
+>> 4b 18 3c 0b 00 0a 20 20 20 20 20 20 00 00 00 fc
+>> 00 37 35 39 0a 20 20 20 20 20 20 20 20 20 01 2f
+>>
+>> 02 03 21 71 4e 06 07 02 03 15 96 11 12 13 04 14
+>> 05 1f 90 23 09 07 07 83 01 00 00 65 03 0c 00 10
+>> 00 8c 0a d0 90 20 40 31 20 0c 40 55 00 b9 88 21
+>> 00 00 18 01 1d 80 18 71 1c 16 20 58 2c 25 00 b9
+>> 88 21 00 00 9e 01 1d 80 d0 72 1c 16 20 10 2c 25
+>> 80 b9 88 21 00 00 9e 01 1d 00 bc 52 d0 1e 20 b8
+>> 28 55 40 b9 88 21 00 00 1e 02 3a 80 d0 72 38 2d
+>> 40 10 2c 45 80 b9 88 21 00 00 1e 00 00 00 00 d0
+>>
+>> ----------------
+>>
+>> Block 0, Base EDID:
+>>    EDID Structure Version & Revision: 1.3
+>>    Vendor & Product Identification:
+>>      Manufacturer: HAI
+>>      Model: 19540
+>>      Serial Number: 1
+>>      Made in: week 1 of 2015
+>>    Basic Display Parameters & Features:
+>>      Digital display
+>>      DFP 1.x compatible TMDS
+>>      Maximum image size: 70 cm x 39 cm
+>>      Gamma: 2.20
+>>      DPMS levels: Standby
+>>      RGB color display
+>>      First detailed timing is the preferred timing
+>>    Color Characteristics:
+>>      Red  : 0.6503, 0.3300
+>>      Green: 0.2900, 0.6103
+>>      Blue : 0.1503, 0.0703
+>>      White: 0.2724, 0.2753
+>>    Established Timings I & II:
+>>      IBM     :   720x400    70.082 Hz   9:5    31.467 kHz  28.320 MHz
+>>      DMT 0x04:   640x480    59.940 Hz   4:3    31.469 kHz  25.175 MHz
+>>      DMT 0x05:   640x480    72.809 Hz   4:3    37.861 kHz  31.500 MHz
+>>      DMT 0x06:   640x480    75.000 Hz   4:3    37.500 kHz  31.500 MHz
+>>      DMT 0x09:   800x600    60.317 Hz   4:3    37.879 kHz  40.000 MHz
+>>      DMT 0x0a:   800x600    72.188 Hz   4:3    48.077 kHz  50.000 MHz
+>>      DMT 0x0b:   800x600    75.000 Hz   4:3    46.875 kHz  49.500 MHz
+>>      DMT 0x10:  1024x768    60.004 Hz   4:3    48.363 kHz  65.000 MHz
+>>      DMT 0x11:  1024x768    70.069 Hz   4:3    56.476 kHz  75.000 MHz
+>>      DMT 0x12:  1024x768    75.029 Hz   4:3    60.023 kHz  78.750 MHz
+>>    Standard Timings:
+>>      DMT 0x20:  1280x960    60.000 Hz   4:3    60.000 kHz 108.000 MHz
+>>    Detailed Timing Descriptors:
+>>      DTD 1:  1280x720    60.000 Hz  16:9    45.000 kHz  74.250 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront  110 Hsync  40 Hback 220 Hpol P
+>>                   Vfront    5 Vsync   5 Vback  20 Vpol P
+>>      DTD 2:  1440x900    59.887 Hz   8:5    55.935 kHz 106.500 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront   80 Hsync 152 Hback 232 Hpol N
+>>                   Vfront    3 Vsync   6 Vback  25 Vpol P
+>>    Display Range Limits:
+>>      Monitor ranges (GTF): 50-75 Hz V, 24-60 kHz H, max dotclock 110 MHz
+>>      Display Product Name: '759'
+>>    Extension blocks: 1
+>> Checksum: 0x2f
+>>
+>> ----------------
+>>
+>> Block 1, CTA-861 Extension Block:
+>>    Revision: 3
+>>    Basic audio support
+>>    Supports YCbCr 4:4:4
+>>    Supports YCbCr 4:2:2
+>>    Native detailed modes: 1
+>>    Video Data Block:
+>>      VIC   6:  1440x480i   59.940 Hz   4:3    15.734 kHz  27.000 MHz
+>>      VIC   7:  1440x480i   59.940 Hz  16:9    15.734 kHz  27.000 MHz
+>>      VIC   2:   720x480    59.940 Hz   4:3    31.469 kHz  27.000 MHz
+>>      VIC   3:   720x480    59.940 Hz  16:9    31.469 kHz  27.000 MHz
+>>      VIC  21:  1440x576i   50.000 Hz   4:3    15.625 kHz  27.000 MHz
+>>      VIC  22:  1440x576i   50.000 Hz  16:9    15.625 kHz  27.000 MHz (native)
+>>      VIC  17:   720x576    50.000 Hz   4:3    31.250 kHz  27.000 MHz
+>>      VIC  18:   720x576    50.000 Hz  16:9    31.250 kHz  27.000 MHz
+>>      VIC  19:  1280x720    50.000 Hz  16:9    37.500 kHz  74.250 MHz
+>>      VIC   4:  1280x720    60.000 Hz  16:9    45.000 kHz  74.250 MHz
+>>      VIC  20:  1920x1080i  50.000 Hz  16:9    28.125 kHz  74.250 MHz
+>>      VIC   5:  1920x1080i  60.000 Hz  16:9    33.750 kHz  74.250 MHz
+>>      VIC  31:  1920x1080   50.000 Hz  16:9    56.250 kHz 148.500 MHz
+>>      VIC  16:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (native)
+>>    Audio Data Block:
+>>      Linear PCM:
+>>        Max channels: 2
+>>        Supported sample rates (kHz): 48 44.1 32
+>>        Supported sample sizes (bits): 24 20 16
+>>    Speaker Allocation Data Block:
+>>      FL/FR - Front Left/Right
+>>    Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+>>      Source physical address: 1.0.0.0
+>>    Detailed Timing Descriptors:
+>>      DTD 3:   720x576    50.000 Hz   5:4    31.250 kHz  27.000 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront   12 Hsync  64 Hback  68 Hpol N
+>>                   Vfront    5 Vsync   5 Vback  39 Vpol N
+>>      DTD 4:  1920x1080i  60.000 Hz  16:9    33.750 kHz  74.250 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront   88 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vfront +0.5 Odd
+>> Field
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vback  +0.5 Even
+>> Field
+>>      DTD 5:  1920x1080i  50.000 Hz  16:9    28.125 kHz  74.250 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront  528 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vfront +0.5 Odd
+>> Field
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vback  +0.5 Even
+>> Field
+>>      DTD 6:  1280x720    50.000 Hz  16:9    37.500 kHz  74.250 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront  440 Hsync  40 Hback 220 Hpol P
+>>                   Vfront    5 Vsync   5 Vback  20 Vpol P
+>>      DTD 7:  1920x1080   50.000 Hz  16:9    56.250 kHz 148.500 MHz (697 mm x
+>> 392 mm)
+>>                   Hfront  528 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    4 Vsync   5 Vback  36 Vpol P
+>> Checksum: 0xd0
+>>
+>> ----------------
+>>
+>> edid-decode SHA: 56dd103a0c20724ee956950f5bcb8cc1c8667af9
+>>
+>> Warnings:
+>>
+>> Block 1, CTA-861 Extension Block:
+>>    Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop
+>> issues.
+>>
+>> Failures:
+>>
+>> EDID:
+>>    Base EDID: Some timings are out of range of the Monitor Ranges:
+>>      Horizontal Freq: 15.625 - 67.500 kHz (Monitor: 24.000 - 60.000 kHz)
+>>      Maximum Clock: 148.500 MHz (Monitor: 110.000 MHz)
+>>    CTA-861: Native progressive timings are a mix of several resolutions.
+>>
+>> EDID conformity: FAIL
+>> ============================ edid report, 'fail' monitor 1/2 (ASUS VE248)
+>> edid-decode (hex):
+>>
+>> 00 ff ff ff ff ff ff 00 04 69 94 24 01 01 01 01
+>> 13 1e 01 03 80 35 1e 78 ea 92 65 a6 55 55 9f 28
+>> 0d 50 54 bf ef 00 71 4f 81 80 81 40 95 00 a9 40
+>> b3 00 d1 c0 01 01 02 3a 80 18 71 38 2d 40 58 2c
+>> 45 00 13 2b 21 00 00 1e 00 00 00 fd 00 32 4c 1e
+>> 53 11 00 0a 20 20 20 20 20 20 00 00 00 fc 00 56
+>> 45 32 34 38 0a 20 20 20 20 20 20 20 00 00 00 ff
+>> 00 4c 35 4c 4d 51 53 30 34 36 38 31 36 0a 01 a9
+>>
+>> 02 03 1e f1 4b 90 05 04 03 02 01 11 12 13 14 1f
+>> 23 09 07 07 83 01 00 00 65 03 0c 00 10 00 1a 36
+>> 80 a0 70 38 1e 40 30 20 35 00 13 2b 21 00 00 1a
+>> 66 21 56 aa 51 00 1e 30 46 8f 33 00 13 2b 21 00
+>> 00 1e 01 1d 00 72 51 d0 1e 20 6e 28 55 00 13 2b
+>> 21 00 00 1e 8c 0a d0 8a 20 e0 2d 10 10 3e 96 00
+>> 13 2b 21 00 00 18 01 1d 80 18 71 1c 16 20 58 2c
+>> 25 00 13 2b 21 00 00 9f 00 00 00 00 00 00 00 39
+>>
+>> ----------------
+>>
+>> Block 0, Base EDID:
+>>    EDID Structure Version & Revision: 1.3
+>>    Vendor & Product Identification:
+>>      Manufacturer: ACI
+>>      Model: 9364
+>>      Serial Number: 16843009
+>>      Made in: week 19 of 2020
+>>    Basic Display Parameters & Features:
+>>      Digital display
+>>      Maximum image size: 53 cm x 30 cm
+>>      Gamma: 2.20
+>>      DPMS levels: Standby Suspend Off
+>>      RGB color display
+>>      First detailed timing is the preferred timing
+>>    Color Characteristics:
+>>      Red  : 0.6503, 0.3330
+>>      Green: 0.3320, 0.6230
+>>      Blue : 0.1572, 0.0527
+>>      White: 0.3134, 0.3291
+>>    Established Timings I & II:
+>>      IBM     :   720x400    70.082 Hz   9:5    31.467 kHz  28.320 MHz
+>>      DMT 0x04:   640x480    59.940 Hz   4:3    31.469 kHz  25.175 MHz
+>>      Apple   :   640x480    66.667 Hz   4:3    35.000 kHz  30.240 MHz
+>>      DMT 0x05:   640x480    72.809 Hz   4:3    37.861 kHz  31.500 MHz
+>>      DMT 0x06:   640x480    75.000 Hz   4:3    37.500 kHz  31.500 MHz
+>>      DMT 0x08:   800x600    56.250 Hz   4:3    35.156 kHz  36.000 MHz
+>>      DMT 0x09:   800x600    60.317 Hz   4:3    37.879 kHz  40.000 MHz
+>>      DMT 0x0a:   800x600    72.188 Hz   4:3    48.077 kHz  50.000 MHz
+>>      DMT 0x0b:   800x600    75.000 Hz   4:3    46.875 kHz  49.500 MHz
+>>      Apple   :   832x624    74.551 Hz   4:3    49.726 kHz  57.284 MHz
+>>      DMT 0x10:  1024x768    60.004 Hz   4:3    48.363 kHz  65.000 MHz
+>>      DMT 0x11:  1024x768    70.069 Hz   4:3    56.476 kHz  75.000 MHz
+>>      DMT 0x12:  1024x768    75.029 Hz   4:3    60.023 kHz  78.750 MHz
+>>      DMT 0x24:  1280x1024   75.025 Hz   5:4    79.976 kHz 135.000 MHz
+>>    Standard Timings:
+>>      DMT 0x15:  1152x864    75.000 Hz   4:3    67.500 kHz 108.000 MHz
+>>      DMT 0x23:  1280x1024   60.020 Hz   5:4    63.981 kHz 108.000 MHz
+>>      DMT 0x20:  1280x960    60.000 Hz   4:3    60.000 kHz 108.000 MHz
+>>      DMT 0x2f:  1440x900    59.887 Hz  16:10   55.935 kHz 106.500 MHz
+>>      DMT 0x33:  1600x1200   60.000 Hz   4:3    75.000 kHz 162.000 MHz
+>>      DMT 0x3a:  1680x1050   59.954 Hz  16:10   65.290 kHz 146.250 MHz
+>>      DMT 0x52:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz
+>>    Detailed Timing Descriptors:
+>>      DTD 1:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (531 mm x
+>> 299 mm)
+>>                   Hfront   88 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    4 Vsync   5 Vback  36 Vpol P
+>>    Display Range Limits:
+>>      Monitor ranges (GTF): 50-76 Hz V, 30-83 kHz H, max dotclock 170 MHz
+>>      Display Product Name: 'VE248'
+>>      Display Product Serial Number: 'L5LMQS046816'
+>>    Extension blocks: 1
+>> Checksum: 0xa9
+>>
+>> ----------------
+>>
+>> Block 1, CTA-861 Extension Block:
+>>    Revision: 3
+>>    Underscans PC formats by default
+>>    Basic audio support
+>>    Supports YCbCr 4:4:4
+>>    Supports YCbCr 4:2:2
+>>    Native detailed modes: 1
+>>    Video Data Block:
+>>      VIC  16:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (native)
+>>      VIC   5:  1920x1080i  60.000 Hz  16:9    33.750 kHz  74.250 MHz
+>>      VIC   4:  1280x720    60.000 Hz  16:9    45.000 kHz  74.250 MHz
+>>      VIC   3:   720x480    59.940 Hz  16:9    31.469 kHz  27.000 MHz
+>>      VIC   2:   720x480    59.940 Hz   4:3    31.469 kHz  27.000 MHz
+>>      VIC   1:   640x480    59.940 Hz   4:3    31.469 kHz  25.175 MHz
+>>      VIC  17:   720x576    50.000 Hz   4:3    31.250 kHz  27.000 MHz
+>>      VIC  18:   720x576    50.000 Hz  16:9    31.250 kHz  27.000 MHz
+>>      VIC  19:  1280x720    50.000 Hz  16:9    37.500 kHz  74.250 MHz
+>>      VIC  20:  1920x1080i  50.000 Hz  16:9    28.125 kHz  74.250 MHz
+>>      VIC  31:  1920x1080   50.000 Hz  16:9    56.250 kHz 148.500 MHz
+>>    Audio Data Block:
+>>      Linear PCM:
+>>        Max channels: 2
+>>        Supported sample rates (kHz): 48 44.1 32
+>>        Supported sample sizes (bits): 24 20 16
+>>    Speaker Allocation Data Block:
+>>      FL/FR - Front Left/Right
+>>    Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+>>      Source physical address: 1.0.0.0
+>>    Detailed Timing Descriptors:
+>>      DTD 2:  1920x1080   59.988 Hz  16:9    66.587 kHz 138.500 MHz (531 mm x
+>> 299 mm)
+>>                   Hfront   48 Hsync  32 Hback  80 Hpol P
+>>                   Vfront    3 Vsync   5 Vback  22 Vpol N
+>>      DTD 3:  1366x768    59.790 Hz 683:384  47.712 kHz  85.500 MHz (531 mm x
+>> 299 mm)
+>>                   Hfront   70 Hsync 143 Hback 213 Hpol P
+>>                   Vfront    3 Vsync   3 Vback  24 Vpol P
+>>      DTD 4:  1280x720    60.000 Hz  16:9    45.000 kHz  74.250 MHz (531 mm x
+>> 299 mm)
+>>                   Hfront  110 Hsync  40 Hback 220 Hpol P
+>>                   Vfront    5 Vsync   5 Vback  20 Vpol P
+>>      DTD 5:   720x480    59.940 Hz   3:2    31.469 kHz  27.000 MHz (531 mm x
+>> 299 mm)
+>>                   Hfront   16 Hsync  62 Hback  60 Hpol N
+>>                   Vfront    9 Vsync   6 Vback  30 Vpol N
+>>      DTD 6:  1920x1080i  60.000 Hz  16:9    33.750 kHz  74.250 MHz (531 mm x
+>> 299 mm)
+>>                   Hfront   88 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vfront +0.5 Odd
+>> Field
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vback  +0.5 Even
+>> Field
+>> Checksum: 0x39
+>>
+>> ----------------
+>>
+>> edid-decode SHA: 56dd103a0c20724ee956950f5bcb8cc1c8667af9
+>>
+>> Warnings:
+>>
+>> Block 1, CTA-861 Extension Block:
+>>    Display Product Serial Number is set, so the Serial Number in the Base
+>> EDID should be 0.
+>>    Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop
+>> issues.
+>> EDID:
+>>    CTA-861: Multiple native progressive timings are defined.
+>>
+>> Failures:
+>>
+>> EDID:
+>>    Base EDID: Some timings are out of range of the Monitor Ranges:
+>>      Horizontal Freq: 28.125 - 79.976 kHz (Monitor: 30.000 - 83.000 kHz)
+>>
+>> EDID conformity: FAIL
+>> ============================ edid report, 'fail' monitor 2/2 (ASUS VE228)
+>> edid-decode (hex):
+>>
+>> 00 ff ff ff ff ff ff 00 04 69 fa 22 01 01 01 01
+>> 1a 1c 01 03 80 30 1b 78 ea 3d 25 a3 59 51 a0 25
+>> 0f 50 54 bf ef 00 71 4f 81 80 81 40 95 00 a9 40
+>> b3 00 d1 c0 01 01 02 3a 80 18 71 38 2d 40 58 2c
+>> 45 00 dd 0c 11 00 00 1e 00 00 00 fd 00 32 4c 1e
+>> 53 11 00 0a 20 20 20 20 20 20 00 00 00 fc 00 56
+>> 45 32 32 38 0a 20 20 20 20 20 20 20 00 00 00 ff
+>> 00 4a 36 4c 4d 51 53 31 30 38 34 30 31 0a 01 53
+>>
+>> 02 03 1e f1 4b 90 05 04 03 02 01 11 12 13 14 1f
+>> 23 09 07 07 83 01 00 00 65 03 0c 00 10 00 1a 36
+>> 80 a0 70 38 1e 40 30 20 35 00 dd 0c 11 00 00 1a
+>> 66 21 56 aa 51 00 1e 30 46 8f 33 00 dd 0c 11 00
+>> 00 1e 01 1d 00 72 51 d0 1e 20 6e 28 55 00 dd 0c
+>> 11 00 00 1e 8c 0a d0 8a 20 e0 2d 10 10 3e 96 00
+>> dd 0c 11 00 00 18 01 1d 80 18 71 1c 16 20 58 2c
+>> 25 00 dd 0c 11 00 00 9f 00 00 00 00 00 00 00 32
+>>
+>> ----------------
+>>
+>> Block 0, Base EDID:
+>>    EDID Structure Version & Revision: 1.3
+>>    Vendor & Product Identification:
+>>      Manufacturer: ACI
+>>      Model: 8954
+>>      Serial Number: 16843009
+>>      Made in: week 26 of 2018
+>>    Basic Display Parameters & Features:
+>>      Digital display
+>>      Maximum image size: 48 cm x 27 cm
+>>      Gamma: 2.20
+>>      DPMS levels: Standby Suspend Off
+>>      RGB color display
+>>      First detailed timing is the preferred timing
+>>    Color Characteristics:
+>>      Red  : 0.6367, 0.3505
+>>      Green: 0.3193, 0.6259
+>>      Blue : 0.1445, 0.0605
+>>      White: 0.3134, 0.3291
+>>    Established Timings I & II:
+>>      IBM     :   720x400    70.082 Hz   9:5    31.467 kHz  28.320 MHz
+>>      DMT 0x04:   640x480    59.940 Hz   4:3    31.469 kHz  25.175 MHz
+>>      Apple   :   640x480    66.667 Hz   4:3    35.000 kHz  30.240 MHz
+>>      DMT 0x05:   640x480    72.809 Hz   4:3    37.861 kHz  31.500 MHz
+>>      DMT 0x06:   640x480    75.000 Hz   4:3    37.500 kHz  31.500 MHz
+>>      DMT 0x08:   800x600    56.250 Hz   4:3    35.156 kHz  36.000 MHz
+>>      DMT 0x09:   800x600    60.317 Hz   4:3    37.879 kHz  40.000 MHz
+>>      DMT 0x0a:   800x600    72.188 Hz   4:3    48.077 kHz  50.000 MHz
+>>      DMT 0x0b:   800x600    75.000 Hz   4:3    46.875 kHz  49.500 MHz
+>>      Apple   :   832x624    74.551 Hz   4:3    49.726 kHz  57.284 MHz
+>>      DMT 0x10:  1024x768    60.004 Hz   4:3    48.363 kHz  65.000 MHz
+>>      DMT 0x11:  1024x768    70.069 Hz   4:3    56.476 kHz  75.000 MHz
+>>      DMT 0x12:  1024x768    75.029 Hz   4:3    60.023 kHz  78.750 MHz
+>>      DMT 0x24:  1280x1024   75.025 Hz   5:4    79.976 kHz 135.000 MHz
+>>    Standard Timings:
+>>      DMT 0x15:  1152x864    75.000 Hz   4:3    67.500 kHz 108.000 MHz
+>>      DMT 0x23:  1280x1024   60.020 Hz   5:4    63.981 kHz 108.000 MHz
+>>      DMT 0x20:  1280x960    60.000 Hz   4:3    60.000 kHz 108.000 MHz
+>>      DMT 0x2f:  1440x900    59.887 Hz  16:10   55.935 kHz 106.500 MHz
+>>      DMT 0x33:  1600x1200   60.000 Hz   4:3    75.000 kHz 162.000 MHz
+>>      DMT 0x3a:  1680x1050   59.954 Hz  16:10   65.290 kHz 146.250 MHz
+>>      DMT 0x52:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz
+>>    Detailed Timing Descriptors:
+>>      DTD 1:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (477 mm x
+>> 268 mm)
+>>                   Hfront   88 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    4 Vsync   5 Vback  36 Vpol P
+>>    Display Range Limits:
+>>      Monitor ranges (GTF): 50-76 Hz V, 30-83 kHz H, max dotclock 170 MHz
+>>      Display Product Name: 'VE228'
+>>      Display Product Serial Number: 'J6LMQS108401'
+>>    Extension blocks: 1
+>> Checksum: 0x53
+>>
+>> ----------------
+>>
+>> Block 1, CTA-861 Extension Block:
+>>    Revision: 3
+>>    Underscans PC formats by default
+>>    Basic audio support
+>>    Supports YCbCr 4:4:4
+>>    Supports YCbCr 4:2:2
+>>    Native detailed modes: 1
+>>    Video Data Block:
+>>      VIC  16:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (native)
+>>      VIC   5:  1920x1080i  60.000 Hz  16:9    33.750 kHz  74.250 MHz
+>>      VIC   4:  1280x720    60.000 Hz  16:9    45.000 kHz  74.250 MHz
+>>      VIC   3:   720x480    59.940 Hz  16:9    31.469 kHz  27.000 MHz
+>>      VIC   2:   720x480    59.940 Hz   4:3    31.469 kHz  27.000 MHz
+>>      VIC   1:   640x480    59.940 Hz   4:3    31.469 kHz  25.175 MHz
+>>      VIC  17:   720x576    50.000 Hz   4:3    31.250 kHz  27.000 MHz
+>>      VIC  18:   720x576    50.000 Hz  16:9    31.250 kHz  27.000 MHz
+>>      VIC  19:  1280x720    50.000 Hz  16:9    37.500 kHz  74.250 MHz
+>>      VIC  20:  1920x1080i  50.000 Hz  16:9    28.125 kHz  74.250 MHz
+>>      VIC  31:  1920x1080   50.000 Hz  16:9    56.250 kHz 148.500 MHz
+>>    Audio Data Block:
+>>      Linear PCM:
+>>        Max channels: 2
+>>        Supported sample rates (kHz): 48 44.1 32
+>>        Supported sample sizes (bits): 24 20 16
+>>    Speaker Allocation Data Block:
+>>      FL/FR - Front Left/Right
+>>    Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+>>      Source physical address: 1.0.0.0
+>>    Detailed Timing Descriptors:
+>>      DTD 2:  1920x1080   59.988 Hz  16:9    66.587 kHz 138.500 MHz (477 mm x
+>> 268 mm)
+>>                   Hfront   48 Hsync  32 Hback  80 Hpol P
+>>                   Vfront    3 Vsync   5 Vback  22 Vpol N
+>>      DTD 3:  1366x768    59.790 Hz 683:384  47.712 kHz  85.500 MHz (477 mm x
+>> 268 mm)
+>>                   Hfront   70 Hsync 143 Hback 213 Hpol P
+>>                   Vfront    3 Vsync   3 Vback  24 Vpol P
+>>      DTD 4:  1280x720    60.000 Hz  16:9    45.000 kHz  74.250 MHz (477 mm x
+>> 268 mm)
+>>                   Hfront  110 Hsync  40 Hback 220 Hpol P
+>>                   Vfront    5 Vsync   5 Vback  20 Vpol P
+>>      DTD 5:   720x480    59.940 Hz   3:2    31.469 kHz  27.000 MHz (477 mm x
+>> 268 mm)
+>>                   Hfront   16 Hsync  62 Hback  60 Hpol N
+>>                   Vfront    9 Vsync   6 Vback  30 Vpol N
+>>      DTD 6:  1920x1080i  60.000 Hz  16:9    33.750 kHz  74.250 MHz (477 mm x
+>> 268 mm)
+>>                   Hfront   88 Hsync  44 Hback 148 Hpol P
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vfront +0.5 Odd
+>> Field
+>>                   Vfront    2 Vsync   5 Vback  15 Vpol P Vback  +0.5 Even
+>> Field
+>> Checksum: 0x32
+>>
+>> ----------------
+>>
+>> edid-decode SHA: 56dd103a0c20724ee956950f5bcb8cc1c8667af9
+>>
+>> Warnings:
+>>
+>> Block 1, CTA-861 Extension Block:
+>>    Display Product Serial Number is set, so the Serial Number in the Base
+>> EDID should be 0.
+>>    Missing VCDB, needed for Set Selectable RGB Quantization to avoid interop
+>> issues.
+>> EDID:
+>>    CTA-861: Multiple native progressive timings are defined.
+>>
+>> Failures:
+>>
+>> EDID:
+>>    Base EDID: Some timings are out of range of the Monitor Ranges:
+>>      Horizontal Freq: 28.125 - 79.976 kHz (Monitor: 30.000 - 83.000 kHz)
+>>
+>> EDID conformity: FAIL
+>> ============================ end-of-message
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
