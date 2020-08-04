@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF92C23B484
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 07:38:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 455BC23B496
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 07:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2781B6E3EE;
-	Tue,  4 Aug 2020 05:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52366E3F5;
+	Tue,  4 Aug 2020 05:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C09566E3EE
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 05:38:18 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d190so1476307wmd.4
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Aug 2020 22:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Cv9dwVi/Wv30ZWHkdUpxmHaYyxiCbxozjhCWMQldsSA=;
- b=hid86rnu5RdeUriBzIBEf2/tA0fNBYdk6DhoKMlhiCAMpSXUwfxj3XLOQYGYor+YKh
- obVBT6XDDh/nIOP/LLJHUDkolrw4gukhJtqws5Ae8PJmgsBp4SXJvioc/neeKpv+QxUx
- OCjfoxlE59A4ZzmPaytbEqYfW9PwqrL1k/rk0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Cv9dwVi/Wv30ZWHkdUpxmHaYyxiCbxozjhCWMQldsSA=;
- b=YCT9iHT4Zy1Iagq6sNdL/gFFGtXMBUiGteBhw1KPGiIllWX/AGn+d4W+ETG8hS8lmX
- Zha9AJ0LmNovb/AP5kEMtucdS7I49iGnTmgQuwSzt8ec2/+05e0iVtyulsi6+dcrIP33
- MkuCDJsG8mBs0H8+zjtAW9vZFtveQ1mCE4t4DgdY1ttoXYdHaOJxBvd/H2FKV1eMLb36
- OA4+lrj0AznHrw5s8lyaMybO2SIi7aZK6Q4kmqQpy9gEnXUwMNcO3bek+MKHFE33BiHv
- R7bjMxYcJugHsX+PGL33L9O68iiwt2p5Uq9tlAgh0+tpRfIVLPM5Hlq/EUFNGioD7dqZ
- Nk+w==
-X-Gm-Message-State: AOAM5333oVZuajx6xMHE/kL/s8kD8LTG032CmjteRfO9MkP2rIPidzZf
- Xa4pEwTKZ39XFXtCh9xGpyGFgQ==
-X-Google-Smtp-Source: ABdhPJwNiZT+/GhP9T5Q5Ir4jlWN4SHDiYp7jXO8IwDtD5pgMdueTFiD3HJLFoEgCPNyMnmX+I4egQ==
-X-Received: by 2002:a7b:c257:: with SMTP id b23mr2251985wmj.164.1596519497267; 
- Mon, 03 Aug 2020 22:38:17 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f63sm3156762wmf.9.2020.08.03.22.38.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Aug 2020 22:38:16 -0700 (PDT)
-Date: Tue, 4 Aug 2020 07:38:14 +0200
-From: daniel@ffwll.ch
-To: 
-Subject: Re: [PATCH v2] fbmem: pull fbcon_update_vcs() out of fb_set_var()
-Message-ID: <20200804053814.GG6419@phenom.ffwll.local>
-Mail-Followup-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jslaby@suse.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
-References: <1596000620-4075-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
- <CAKMK7uHeteS2+rKrZKrAM+zQO==hAX0XaVc9JfHPsdLTCtzKOw@mail.gmail.com>
- <a3bb6544-064d-54a1-1215-d92188cb4209@i-love.sakura.ne.jp>
- <075b7e37-3278-cd7d-31ab-c5073cfa8e92@i-love.sakura.ne.jp>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E3C6E3BC;
+ Tue,  4 Aug 2020 05:49:55 +0000 (UTC)
+IronPort-SDR: Lh66lTmEIoIt9sdswRBKJsqMJ6PbMHECfF/PlzojShYs6p511+rEsJREMiPiQAFXyVM93WXFwK
+ xn3UnzGA33lg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9702"; a="132313645"
+X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; d="scan'208";a="132313645"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2020 22:49:54 -0700
+IronPort-SDR: gdrudahZ5Y1iH7hK+2y1WfGrBe2vnx1EdX4d8GKsx0Wa5yfuGdDxc8IL1G+hin6KULMNf4i0Pu
+ MDfVAb3BlRuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,433,1589266800"; d="scan'208";a="330491015"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2020 22:49:54 -0700
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 3 Aug 2020 22:49:53 -0700
+Received: from fmsmsx121.amr.corp.intel.com (10.18.125.36) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 3 Aug 2020 22:49:53 -0700
+Received: from bgsmsx151.gar.corp.intel.com (10.224.48.42) by
+ fmsmsx121.amr.corp.intel.com (10.18.125.36) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 3 Aug 2020 22:49:52 -0700
+Received: from bgsmsx152.gar.corp.intel.com ([169.254.6.230]) by
+ BGSMSX151.gar.corp.intel.com ([169.254.3.196]) with mapi id 14.03.0439.000;
+ Tue, 4 Aug 2020 11:19:48 +0530
+From: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>
+To: =?utf-8?B?TWljaGVsIETDpG56ZXI=?= <michel@daenzer.net>, "Zanoni, Paulo R"
+ <paulo.r.zanoni@intel.com>, "Vetter, Daniel" <daniel.vetter@intel.com>, "B S, 
+ Karthik" <karthik.b.s@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v5 0/5] Asynchronous flip implementation for i915
+Thread-Topic: [PATCH v5 0/5] Asynchronous flip implementation for i915
+Thread-Index: AQHWXoyF0I+Yv7gbOU2b76Vu8RIWKqkXCk8AgAcHqLD//8nwAIAJqTLw
+Date: Tue, 4 Aug 2020 05:49:48 +0000
+Message-ID: <57510F3E2013164E925CD03ED7512A3B916F1058@BGSMSX152.gar.corp.intel.com>
+References: <20200720113117.16131-1-karthik.b.s@intel.com>
+ <9e43a819525424c36438329222fa1a3946c57c89.camel@intel.com>
+ <57510F3E2013164E925CD03ED7512A3B86351230@BGSMSX102.gar.corp.intel.com>
+ <f439795a-6a95-2e96-b511-42b4f5725e04@daenzer.net>
+In-Reply-To: <f439795a-6a95-2e96-b511-42b4f5725e04@daenzer.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.10]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <075b7e37-3278-cd7d-31ab-c5073cfa8e92@i-love.sakura.ne.jp>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,151 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jslaby@suse.com>,
- syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Shankar, Uma" <uma.shankar@intel.com>,
+ "nicholas.kazlauskas@amd.com" <nicholas.kazlauskas@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 30, 2020 at 07:47:14PM +0900, Tetsuo Handa wrote:
-> syzbot is reporting OOB read bug in vc_do_resize() [1] caused by memcpy()
-> based on outdated old_{rows,row_size} values, for resize_screen() can
-> recurse into vc_do_resize() which changes vc->vc_{cols,rows} that outdates
-> old_{rows,row_size} values which were saved before calling resize_screen().
-> 
-> Daniel Vetter explained that resize_screen() should not recurse into
-> fbcon_update_vcs() path due to FBINFO_MISC_USEREVENT being still set
-> when calling resize_screen().
-> 
-> Instead of masking FBINFO_MISC_USEREVENT before calling fbcon_update_vcs(),
-> we can remove FBINFO_MISC_USEREVENT by calling fbcon_update_vcs() only if
-> fb_set_var() returned 0. This change assumes that it is harmless to call
-> fbcon_update_vcs() when fb_set_var() returned 0 without reaching
-> fb_notifier_call_chain().
-> 
-> [1] https://syzkaller.appspot.com/bug?id=c70c88cfd16dcf6e1d3c7f0ab8648b3144b5b25e
-> 
-> Reported-and-tested-by: syzbot <syzbot+c37a14770d51a085a520@syzkaller.appspotmail.com>
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Reported-by: kernel test robot <lkp@intel.com> for missing #include
-
-Thanks a lot for your patch, queued up to hopefully still make it for
-5.9-rc1.
-
-Cheers, Daniel
-
-> ---
->  drivers/video/fbdev/core/fbmem.c   | 8 ++------
->  drivers/video/fbdev/core/fbsysfs.c | 4 ++--
->  drivers/video/fbdev/ps3fb.c        | 5 +++--
->  include/linux/fb.h                 | 2 --
->  4 files changed, 7 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 30e73ec..da7c88f 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -957,7 +957,6 @@ static int fb_check_caps(struct fb_info *info, struct fb_var_screeninfo *var,
->  int
->  fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
->  {
-> -	int flags = info->flags;
->  	int ret = 0;
->  	u32 activate;
->  	struct fb_var_screeninfo old_var;
-> @@ -1052,9 +1051,6 @@ static int fb_check_caps(struct fb_info *info, struct fb_var_screeninfo *var,
->  	event.data = &mode;
->  	fb_notifier_call_chain(FB_EVENT_MODE_CHANGE, &event);
->  
-> -	if (flags & FBINFO_MISC_USEREVENT)
-> -		fbcon_update_vcs(info, activate & FB_ACTIVATE_ALL);
-> -
->  	return 0;
->  }
->  EXPORT_SYMBOL(fb_set_var);
-> @@ -1105,9 +1101,9 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
->  			return -EFAULT;
->  		console_lock();
->  		lock_fb_info(info);
-> -		info->flags |= FBINFO_MISC_USEREVENT;
->  		ret = fb_set_var(info, &var);
-> -		info->flags &= ~FBINFO_MISC_USEREVENT;
-> +		if (!ret)
-> +			fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
->  		unlock_fb_info(info);
->  		console_unlock();
->  		if (!ret && copy_to_user(argp, &var, sizeof(var)))
-> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-> index d54c88f..65dae05 100644
-> --- a/drivers/video/fbdev/core/fbsysfs.c
-> +++ b/drivers/video/fbdev/core/fbsysfs.c
-> @@ -91,9 +91,9 @@ static int activate(struct fb_info *fb_info, struct fb_var_screeninfo *var)
->  
->  	var->activate |= FB_ACTIVATE_FORCE;
->  	console_lock();
-> -	fb_info->flags |= FBINFO_MISC_USEREVENT;
->  	err = fb_set_var(fb_info, var);
-> -	fb_info->flags &= ~FBINFO_MISC_USEREVENT;
-> +	if (!err)
-> +		fbcon_update_vcs(fb_info, var->activate & FB_ACTIVATE_ALL);
->  	console_unlock();
->  	if (err)
->  		return err;
-> diff --git a/drivers/video/fbdev/ps3fb.c b/drivers/video/fbdev/ps3fb.c
-> index 9df78fb..203c254 100644
-> --- a/drivers/video/fbdev/ps3fb.c
-> +++ b/drivers/video/fbdev/ps3fb.c
-> @@ -29,6 +29,7 @@
->  #include <linux/freezer.h>
->  #include <linux/uaccess.h>
->  #include <linux/fb.h>
-> +#include <linux/fbcon.h>
->  #include <linux/init.h>
->  
->  #include <asm/cell-regs.h>
-> @@ -824,12 +825,12 @@ static int ps3fb_ioctl(struct fb_info *info, unsigned int cmd,
->  				var = info->var;
->  				fb_videomode_to_var(&var, vmode);
->  				console_lock();
-> -				info->flags |= FBINFO_MISC_USEREVENT;
->  				/* Force, in case only special bits changed */
->  				var.activate |= FB_ACTIVATE_FORCE;
->  				par->new_mode_id = val;
->  				retval = fb_set_var(info, &var);
-> -				info->flags &= ~FBINFO_MISC_USEREVENT;
-> +				if (!retval)
-> +					fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
->  				console_unlock();
->  			}
->  			break;
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 3b4b2f0..b11eb02 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -400,8 +400,6 @@ struct fb_tile_ops {
->  #define FBINFO_HWACCEL_YPAN		0x2000 /* optional */
->  #define FBINFO_HWACCEL_YWRAP		0x4000 /* optional */
->  
-> -#define FBINFO_MISC_USEREVENT          0x10000 /* event request
-> -						  from userspace */
->  #define FBINFO_MISC_TILEBLITTING       0x20000 /* use tile blitting */
->  
->  /* A driver may set this flag to indicate that it does want a set_par to be
-> -- 
-> 1.8.3.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNaWNoZWwgRMOkbnplciA8bWlj
+aGVsQGRhZW56ZXIubmV0Pg0KPiBTZW50OiBXZWRuZXNkYXksIEp1bHkgMjksIDIwMjAgMTowNCBQ
+TQ0KPiBUbzogS3Vsa2FybmksIFZhbmRpdGEgPHZhbmRpdGEua3Vsa2FybmlAaW50ZWwuY29tPjsg
+WmFub25pLCBQYXVsbyBSDQo+IDxwYXVsby5yLnphbm9uaUBpbnRlbC5jb20+OyBWZXR0ZXIsIERh
+bmllbCA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+OyBCIFMsDQo+IEthcnRoaWsgPGthcnRoaWsu
+Yi5zQGludGVsLmNvbT47IGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gQ2M6IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IFNoYW5rYXIsIFVtYQ0KPiA8dW1hLnNoYW5r
+YXJAaW50ZWwuY29tPjsgbmljaG9sYXMua2F6bGF1c2thc0BhbWQuY29tDQo+IFN1YmplY3Q6IFJl
+OiBbUEFUQ0ggdjUgMC81XSBBc3luY2hyb25vdXMgZmxpcCBpbXBsZW1lbnRhdGlvbiBmb3IgaTkx
+NQ0KPiANCj4gT24gMjAyMC0wNy0yOSA5OjIzIGEubS4sIEt1bGthcm5pLCBWYW5kaXRhIHdyb3Rl
+Og0KPiA+DQo+ID4gT24gYXN5bmMgZmxpcHMsIHRoZXJlIG5lZWRzIHRvIGJlIHNvbWUgY2xhcml0
+eS9ndWlkZWxpbmUgb24gdGhlDQo+ID4gYmVoYXZpb3VyIGFuZCBldmVudCBleHBlY3RhdGlvbiBm
+cm9tIHRoZSBkcml2ZXIgYnkgdXNlciBzcGFjZS4NCj4gPiBIZXJlIGFyZSBmZXcgYXNzdW1wdGlv
+bnMgdGhhdCB3ZSBoYXZlLCAxLiBPdXIgdW5kZXJzdGFuZGluZyBpcyB0aGF0DQo+ID4gdGhlIHVz
+ZXIgc3BhY2UgZG9lc27igJl0IGV4cGVjdCB0aGUgdGltZXN0YW1wIGZvciBhc3luYyBmbGlwcyAo
+YnV0IHN0aWxsDQo+ID4gZXhwZWN0cyB2YmxhbmsgdGltZXN0YW1wKSAsIG9yIGRvZXNu4oCZdCBk
+byBhbnl0aGluZyB3aXRoIHRoYXQsIHNhbWUgaXMgdGhlDQo+IGFzc3VtcHRpb24gd3J0IHRoZSBm
+bGlwIHNlcXVlbmNlLCBwbGVhc2UgY29ycmVjdCB1cyBpZiB3ZSBhcmUgd3JvbmcuDQo+ID4gMi4g
+SW4gdGhlIHNlcXVlbmNlIHRoZSB1c2VyIHNwYWNlIHN0aWxsIGV4cGVjdHMgdGhlIGNvdW50ZXIg
+dGhhdCBtYXJrcw0KPiB2YmxhbmtzLg0KPiA+IDMuIFRoZSB1c2VyIHNwYWNlIGNhbiB1c2UgZGlm
+ZmVyZW50IGV2ZW50IHR5cGVzIGxpa2UgRFJNX0VWRU5UX1ZCTEFOSw0KPiA+IG9yIERSTV9FVkVO
+VF9GTElQX0NPTVBMRVRFIGZvciBnZXR0aW5nIHRoZSBjb3JyZXNwb25kaW5nIGV2ZW50LiBBbmQN
+Cj4gdGhlaXIgZGVzaWducyBhcmUgc3RpbGwgYWxpZ25lZCB0byB0aGlzIGV2ZW4gaW4gY2FzZSBv
+ZiBhc3luYy4NCj4gPg0KPiA+IElmIHRoZXJlIGFyZSBhbnkgbW9yZSBleHBlY3RhdGlvbnMgZnJv
+bSB0aGUgdXNlciBzcGFjZSB3cnQgdG8gdGhlDQo+ID4gZXZlbnQgdGhhdCBpcyBiZWluZyBzZW50
+IGZyb20gdGhlIGRyaXZlciBpbiBjYXNlIG9mIGFzeW5jIGZsaXAsIHBsZWFzZSBsZXQgdXMNCj4g
+a25vdy4NCj4gPg0KPiA+IElmIHRoZSB1c2VyIHNwYWNlIGRvZXNu4oCZdCBjYXJlIG11Y2ggYWJv
+dXQgdGhlIGZsaXAgc2VxdWVuY2UgdGhlbiwgd2UNCj4gPiBjYW4ganVzdCBub3QgZG8gYW55dGhp
+bmcgbGlrZSByZXR1cm5pbmcgdGhlIGZsaXAgY291bnRlciBsaWtlIHRoaXMgdmVyc2lvbiBpcw0K
+PiBkb2luZyBhbmQganVzdCBzdGljayB0byByZXR1cm5pbmcgb2YgdGhlIGZyYW1lIGNvdW50ZXIg
+dmFsdWUod2hpY2ggbWFya3MNCj4gdmJsYW5rcykuDQo+IA0KPiBUaGVyZSdzIG5vIHN1Y2ggdGhp
+bmcgYXMgYSAiZmxpcCBzZXF1ZW5jZSIgaW4gdGhlIEtNUyBBUEkuIFRoZXJlJ3Mgb25seSB0aGUN
+Cj4gcGVyLUNSVEMgdmJsYW5rIGNvdW50ZXIuIEVhY2ggZmxpcCBjb21wbGV0aW9uIGV2ZW50IG5l
+ZWRzIHRvIGNvbnRhaW4gdGhlDQo+IHZhbHVlIG9mIHRoYXQgY291bnRlciB3aGVuIHRoZSBoYXJk
+d2FyZSBjb21wbGV0ZWQgdGhlIGZsaXAsIHJlZ2FyZGxlc3Mgb2YNCj4gd2hldGhlciBpdCB3YXMg
+YW4gYXN5bmMgZmxpcCBvciBub3QuDQo+IA0KPiBBcyBmb3IgdGhlIHRpbWVzdGFtcCBpbiB0aGUg
+ZXZlbnQsIEknbSBub3Qgc3VyZSB3aGF0IHRoZSBleHBlY3RhdGlvbnMgYXJlIGZvcg0KPiBhc3lu
+YyBmbGlwcywgYnV0IEkgc3VzcGVjdCBpdCBtYXkgbm90IHJlYWxseSBtYXR0ZXIuIEUuZy4gdGhl
+IHRpbWVzdGFtcA0KPiBjYWxjdWxhdGVkIHRvIGNvcnJlc3BvbmQgdG8gdGhlIGVuZCBvZiB0aGUg
+cHJldmlvdXMgdmVydGljYWwgYmxhbmsgcGVyaW9kDQo+IG1pZ2h0IGJlIGZpbmUuDQoNClRoYW5r
+cyBNaWNoZWwsIFBhdWxvLCBEYW5pZWwsIE5pY2hvbGFzLCBWaWxsZSBmb3IgeW91ciBpbnB1dHMu
+DQpBZnRlciBhbGwgdGhlIGRpc2N1c3Npb25zLCBsb29rcyBsaWtlIHRoZSBhc3luYyBmbGlwIHRp
+bWUgc3RhbXAgaXMgbm90IG9mIG11Y2gNCnVzZSB0byB0aGUgdXNlcnNwYWNlIGFuZCB0aGUgYXN5
+bmMgZmxpcCBzZXF1ZW5jZTsgaGVuY2Ugd2Ugd2lsbCBzdGljayB0byB0aGUgYXBwcm9hY2ggb2Yg
+c2VuZGluZyB2YmxhbmsgdGltZSBzdGFtcA0KaXRzZWxmIGFuZCBoYXZlIGEgdGVzdCBjYXNlIGlu
+IHRoZSBpZ3QgdG8gY292ZXIgdGhlIGFzeW5jIGZsaXBzIGNhc2VzIGluIGEgc2xpZ2h0bHkgZGlm
+ZmVyZW50IHdheS4NCkFuZCB1cGRhdGUgdGhlIGRvY3VtZW50YXRpb24uDQoNClRoYW5rcywNClZh
+bmRpdGENCj4gDQo+IA0KPiAtLQ0KPiBFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAgICAg
+ICAgICB8ICAgICAgICAgICAgICAgaHR0cHM6Ly9yZWRoYXQuY29tDQo+IExpYnJlIHNvZnR3YXJl
+IGVudGh1c2lhc3QgICAgICAgICAgICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3Bl
+cg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
