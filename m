@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC11123B308
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFDD23B31C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1606E3EC;
-	Tue,  4 Aug 2020 02:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3CC6E41A;
+	Tue,  4 Aug 2020 02:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09DA86E3EC
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F07C06E426
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:59:28 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-qrRDVCqFNQqfOf4wmSvzPg-1; Mon, 03 Aug 2020 22:58:21 -0400
-X-MC-Unique: qrRDVCqFNQqfOf4wmSvzPg-1
+ us-mta-489-L9uN0kJrP-q1_DWw_5DK7Q-1; Mon, 03 Aug 2020 22:58:23 -0400
+X-MC-Unique: L9uN0kJrP-q1_DWw_5DK7Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DE2D100CD0B;
- Tue,  4 Aug 2020 02:58:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A1E11005504;
+ Tue,  4 Aug 2020 02:58:22 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84FC590E68;
- Tue,  4 Aug 2020 02:58:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D6C78AD1C;
+ Tue,  4 Aug 2020 02:58:20 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 40/59] drm/qxl/ttm: use wrapper to access memory manager
-Date: Tue,  4 Aug 2020 12:56:13 +1000
-Message-Id: <20200804025632.3868079-41-airlied@gmail.com>
+Subject: [PATCH 41/59] drm/radeon/ttm: use wrapper to access memory manager
+Date: Tue,  4 Aug 2020 12:56:14 +1000
+Message-Id: <20200804025632.3868079-42-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -61,46 +61,74 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/qxl/qxl_ttm.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/radeon/radeon_gem.c |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index 0f7071829056..57c96f7271db 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -219,7 +219,7 @@ static int qxl_ttm_init_mem_type(struct qxl_device *qdev,
- 				 unsigned int type,
- 				 uint64_t size)
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index 44157ada9b0e..3ec028dba739 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -226,7 +226,7 @@ int radeon_gem_info_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_radeon_gem_info *args = data;
+ 	struct ttm_mem_type_manager *man;
+ 
+-	man = &rdev->mman.bdev.man[TTM_PL_VRAM];
++	man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
+ 
+ 	args->vram_size = (u64)man->size << PAGE_SHIFT;
+ 	args->vram_visible = rdev->mc.visible_vram_size;
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 76b409af9476..03c0a24e74c4 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -68,7 +68,7 @@ struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
+ 
+ static int radeon_ttm_init_vram(struct radeon_device *rdev)
  {
--	struct ttm_mem_type_manager *man = &qdev->mman.bdev.man[type];
-+	struct ttm_mem_type_manager *man = ttm_manager_type(&qdev->mman.bdev, type);
+-	struct ttm_mem_type_manager *man = &rdev->mman.bdev.man[TTM_PL_VRAM];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
+ 
+ 	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
+ 	man->default_caching = TTM_PL_FLAG_WC;
+@@ -79,7 +79,7 @@ static int radeon_ttm_init_vram(struct radeon_device *rdev)
+ 
+ static int radeon_ttm_init_gtt(struct radeon_device *rdev)
+ {
+-	struct ttm_mem_type_manager *man = &rdev->mman.bdev.man[TTM_PL_TT];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT);
  
  	man->available_caching = TTM_PL_MASK_CACHING;
  	man->default_caching = TTM_PL_FLAG_CACHED;
-@@ -266,8 +266,9 @@ int qxl_ttm_init(struct qxl_device *qdev)
- 
- void qxl_ttm_fini(struct qxl_device *qdev)
- {
--	ttm_range_man_fini(&qdev->mman.bdev, &qdev->mman.bdev.man[TTM_PL_VRAM]);
--	ttm_range_man_fini(&qdev->mman.bdev, &qdev->mman.bdev.man[TTM_PL_PRIV]);
-+
-+	ttm_range_man_fini(&qdev->mman.bdev, ttm_manager_type(&qdev->mman.bdev, TTM_PL_VRAM));
-+	ttm_range_man_fini(&qdev->mman.bdev, ttm_manager_type(&qdev->mman.bdev, TTM_PL_PRIV));
- 	ttm_bo_device_release(&qdev->mman.bdev);
- 	DRM_INFO("qxl: ttm finalized\n");
- }
-@@ -302,9 +303,9 @@ void qxl_ttm_debugfs_init(struct qxl_device *qdev)
- 		qxl_mem_types_list[i].show = &qxl_mm_dump_table;
- 		qxl_mem_types_list[i].driver_features = 0;
- 		if (i == 0)
--			qxl_mem_types_list[i].data = &qdev->mman.bdev.man[TTM_PL_VRAM];
-+			qxl_mem_types_list[i].data = ttm_manager_type(&qdev->mman.bdev, TTM_PL_VRAM);
- 		else
--			qxl_mem_types_list[i].data = &qdev->mman.bdev.man[TTM_PL_PRIV];
-+			qxl_mem_types_list[i].data = ttm_manager_type(&qdev->mman.bdev, TTM_PL_PRIV);
- 
+@@ -825,8 +825,8 @@ void radeon_ttm_fini(struct radeon_device *rdev)
+ 		}
+ 		radeon_bo_unref(&rdev->stolen_vga_memory);
  	}
- 	qxl_debugfs_add_files(qdev, qxl_mem_types_list, i);
+-	ttm_range_man_fini(&rdev->mman.bdev, &rdev->mman.bdev.man[TTM_PL_VRAM]);
+-	ttm_range_man_fini(&rdev->mman.bdev, &rdev->mman.bdev.man[TTM_PL_TT]);
++	ttm_range_man_fini(&rdev->mman.bdev, ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM));
++	ttm_range_man_fini(&rdev->mman.bdev, ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT));
+ 	ttm_bo_device_release(&rdev->mman.bdev);
+ 	radeon_gart_fini(rdev);
+ 	rdev->mman.initialized = false;
+@@ -842,7 +842,7 @@ void radeon_ttm_set_active_vram_size(struct radeon_device *rdev, u64 size)
+ 	if (!rdev->mman.initialized)
+ 		return;
+ 
+-	man = &rdev->mman.bdev.man[TTM_PL_VRAM];
++	man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
+ 	/* this just adjusts TTM size idea, which sets lpfn to the correct value */
+ 	man->size = size >> PAGE_SHIFT;
+ }
+@@ -896,7 +896,7 @@ static int radeon_mm_dump_table(struct seq_file *m, void *data)
+ 	unsigned ttm_pl = *(int*)node->info_ent->data;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct radeon_device *rdev = dev->dev_private;
+-	struct ttm_mem_type_manager *man = &rdev->mman.bdev.man[ttm_pl];
++	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, ttm_pl);
+ 	struct drm_printer p = drm_seq_file_printer(m);
+ 
+ 	man->func->debug(man, &p);
 -- 
 2.26.2
 
