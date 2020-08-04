@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A70723B2F1
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9798723B2EF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36EA96E3AC;
-	Tue,  4 Aug 2020 02:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE8036E3AE;
+	Tue,  4 Aug 2020 02:57:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0A9D6E3AE
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB3B6E3AC
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:57:33 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-shATg-JyPrGQetEO0v9QUg-1; Mon, 03 Aug 2020 22:57:28 -0400
-X-MC-Unique: shATg-JyPrGQetEO0v9QUg-1
+ us-mta-335-VsBfuwyIOiiLqH9Eafm_3g-1; Mon, 03 Aug 2020 22:57:30 -0400
+X-MC-Unique: VsBfuwyIOiiLqH9Eafm_3g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 950AB100AA23;
- Tue,  4 Aug 2020 02:57:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C55C91270;
+ Tue,  4 Aug 2020 02:57:29 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9AC890E68;
- Tue,  4 Aug 2020 02:57:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F37F38AD1C;
+ Tue,  4 Aug 2020 02:57:27 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/59] drm/nouveau: use new memory manager init paths
-Date: Tue,  4 Aug 2020 12:55:52 +1000
-Message-Id: <20200804025632.3868079-20-airlied@gmail.com>
+Subject: [PATCH 20/59] drm/vmwgfx/ttm: convert vram mm init to new code paths
+Date: Tue,  4 Aug 2020 12:55:53 +1000
+Message-Id: <20200804025632.3868079-21-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,108 +59,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
+Split out the vram thp init path vs the range manager init.
+
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_ttm.c | 43 ++++++++++++---------------
- 1 file changed, 19 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 25 +++++++++++++++++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  4 +---
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c | 12 ++++++++----
+ 3 files changed, 28 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 6de762a0c229..cfcbecd332ef 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -31,12 +31,6 @@
- 
- #include <core/tegra.h>
- 
--static int
--nouveau_manager_init(struct ttm_mem_type_manager *man, unsigned long psize)
--{
--	return 0;
--}
--
- static int
- nouveau_manager_fini(struct ttm_mem_type_manager *man)
- {
-@@ -76,7 +70,6 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 1e4c2c6119c3..5a889df2de03 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -620,6 +620,23 @@ static int vmw_dma_masks(struct vmw_private *dev_priv)
+ 	return ret;
  }
  
- const struct ttm_mem_type_manager_func nouveau_vram_manager = {
--	.init = nouveau_manager_init,
- 	.takedown = nouveau_manager_fini,
- 	.get_node = nouveau_vram_manager_new,
- 	.put_node = nouveau_manager_del,
-@@ -101,7 +94,6 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
- }
- 
- const struct ttm_mem_type_manager_func nouveau_gart_manager = {
--	.init = nouveau_manager_init,
- 	.takedown = nouveau_manager_fini,
- 	.get_node = nouveau_gart_manager_new,
- 	.put_node = nouveau_manager_del,
-@@ -135,7 +127,6 @@ nv04_gart_manager_new(struct ttm_mem_type_manager *man,
- }
- 
- const struct ttm_mem_type_manager_func nv04_gart_manager = {
--	.init = nouveau_manager_init,
- 	.takedown = nouveau_manager_fini,
- 	.get_node = nv04_gart_manager_new,
- 	.put_node = nouveau_manager_del,
-@@ -191,27 +182,21 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 
- 		man->func = &nouveau_vram_manager;
- 		man->use_io_reserve_lru = true;
-+		ttm_mem_type_manager_init(&drm->ttm.bdev, man,
-+					  drm->gem.vram_available >> PAGE_SHIFT);
-+		ttm_mem_type_manager_set_used(man, true);
-+		return 0;
- 	} else {
--		man->func = &ttm_bo_manager_func;
-+		return ttm_range_man_init(&drm->ttm.bdev, man,
-+					  drm->gem.vram_available >> PAGE_SHIFT);
- 	}
--
--	return ttm_bo_init_mm(&drm->ttm.bdev, TTM_PL_VRAM,
--			      drm->gem.vram_available >> PAGE_SHIFT);
- }
- 
- static int
- nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- {
- 	struct ttm_mem_type_manager *man = &drm->ttm.bdev.man[TTM_PL_TT];
--
--	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
--		man->func = &nouveau_gart_manager;
--	else
--	if (!drm->agp.bridge)
--		man->func = &nv04_gart_manager;
--	else
--		man->func = &ttm_bo_manager_func;
--
-+	unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
- 	man->use_tt = true;
- 	if (drm->agp.bridge) {
- 		man->available_caching = TTM_PL_FLAG_UNCACHED |
-@@ -222,8 +207,18 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- 		man->default_caching = TTM_PL_FLAG_CACHED;
- 	}
- 
--	return ttm_bo_init_mm(&drm->ttm.bdev, TTM_PL_TT,
--			      drm->gem.gart_available >> PAGE_SHIFT);
-+	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA)
-+		man->func = &nouveau_gart_manager;
-+	else if (!drm->agp.bridge)
-+		man->func = &nv04_gart_manager;
-+	else
-+		return ttm_range_man_init(&drm->ttm.bdev, man,
-+					  size_pages);
++static int vmw_vram_manager_init(struct vmw_private *dev_priv)
++{
++	int ret;
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	ret = vmw_thp_init(dev_priv);
++#else
++	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
 +
-+	ttm_mem_type_manager_init(&drm->ttm.bdev, man,
-+				  size_pages);
-+	ttm_mem_type_manager_set_used(man, true);
-+	return 0;
++	man->available_caching = TTM_PL_FLAG_CACHED;
++	man->default_caching = TTM_PL_FLAG_CACHED;
++
++	ret = ttm_range_man_init(&dev_priv->bdev, man,
++				 dev_priv->vram_size >> PAGE_SHIFT);
++#endif
++	dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
++	return ret;
++}
+ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
+ {
+ 	struct vmw_private *dev_priv;
+@@ -866,16 +883,12 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
+ 	 * Enable VRAM, but initially don't use it until SVGA is enabled and
+ 	 * unhidden.
+ 	 */
+-	dev_priv->bdev.man[TTM_PL_VRAM].func = &vmw_thp_func;
+-	dev_priv->bdev.man[TTM_PL_VRAM].available_caching = TTM_PL_FLAG_CACHED;
+-	dev_priv->bdev.man[TTM_PL_VRAM].default_caching = TTM_PL_FLAG_CACHED;
+-	ret = ttm_bo_init_mm(&dev_priv->bdev, TTM_PL_VRAM,
+-			     (dev_priv->vram_size >> PAGE_SHIFT));
++
++	ret = vmw_vram_manager_init(dev_priv);
+ 	if (unlikely(ret != 0)) {
+ 		DRM_ERROR("Failed initializing memory manager for VRAM.\n");
+ 		goto out_no_vram;
+ 	}
+-	dev_priv->bdev.man[TTM_PL_VRAM].use_type = false;
+ 
+ 	/*
+ 	 * "Guest Memory Regions" is an aperture like feature with
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 65c414f119c0..10b681725a53 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1520,9 +1520,7 @@ vm_fault_t vmw_bo_vm_huge_fault(struct vm_fault *vmf,
+ 
+ /* Transparent hugepage support - vmwgfx_thp.c */
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+-extern const struct ttm_mem_type_manager_func vmw_thp_func;
+-#else
+-#define vmw_thp_func ttm_bo_manager_func
++extern int vmw_thp_init(struct vmw_private *dev_priv);
+ #endif
+ 
+ /**
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+index b7c816ba7166..0292c931c265 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+@@ -115,18 +115,23 @@ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
+ 	}
  }
  
- int
+-static int vmw_thp_init(struct ttm_mem_type_manager *man,
+-			unsigned long p_size)
++int vmw_thp_init(struct vmw_private *dev_priv)
+ {
++	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[TTM_PL_VRAM];
+ 	struct vmw_thp_manager *rman;
++	man->available_caching = TTM_PL_FLAG_CACHED;
++	man->default_caching = TTM_PL_FLAG_CACHED;
+ 
++	ttm_mem_type_manager_init(&dev_priv->bdev, man,
++				  dev_priv->vram_size >> PAGE_SHIFT);
+ 	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
+ 	if (!rman)
+ 		return -ENOMEM;
+ 
+-	drm_mm_init(&rman->mm, 0, p_size);
++	drm_mm_init(&rman->mm, 0, man->size);
+ 	spin_lock_init(&rman->lock);
+ 	man->priv = rman;
++	ttm_mem_type_manager_set_used(man, true);
+ 	return 0;
+ }
+ 
+@@ -158,7 +163,6 @@ static void vmw_thp_debug(struct ttm_mem_type_manager *man,
+ }
+ 
+ const struct ttm_mem_type_manager_func vmw_thp_func = {
+-	.init = vmw_thp_init,
+ 	.takedown = vmw_thp_takedown,
+ 	.get_node = vmw_thp_get_node,
+ 	.put_node = vmw_thp_put_node,
 -- 
 2.26.2
 
