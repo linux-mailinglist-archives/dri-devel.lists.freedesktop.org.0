@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACC823B319
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6894423B31A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 913766E413;
-	Tue,  4 Aug 2020 02:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DEF06E40F;
+	Tue,  4 Aug 2020 02:59:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 345DB6E40D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:59:08 +0000 (UTC)
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A71666E40F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:59:12 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-OEQEfE8SPgGH6l0UVVrjlw-1; Mon, 03 Aug 2020 22:59:04 -0400
-X-MC-Unique: OEQEfE8SPgGH6l0UVVrjlw-1
+ us-mta-336-YVuH0wcWOrGY8cKdrPH26w-1; Mon, 03 Aug 2020 22:59:07 -0400
+X-MC-Unique: YVuH0wcWOrGY8cKdrPH26w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20CE0100CD00;
- Tue,  4 Aug 2020 02:59:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D439D100CD01;
+ Tue,  4 Aug 2020 02:59:05 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 131CB8AD1C;
- Tue,  4 Aug 2020 02:59:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81E058AD1C;
+ Tue,  4 Aug 2020 02:59:03 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 58/59] drm/ttm: rename ttm_mem_type_manager ->
- ttm_resource_manager.
-Date: Tue,  4 Aug 2020 12:56:31 +1000
-Message-Id: <20200804025632.3868079-59-airlied@gmail.com>
+Subject: [PATCH 59/59] drm/ttm: rename ttm_mem_reg to ttm_resource.
+Date: Tue,  4 Aug 2020 12:56:32 +1000
+Message-Id: <20200804025632.3868079-60-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,1707 +59,1814 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This name makes a lot more sense, since these are about managing
-driver resources rather than just memory ranges.
+This name better reflects what the object does. I didn't rename
+all the pointers it seemed too messy.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   | 36 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  8 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  | 36 +++++-----
- drivers/gpu/drm/drm_gem_vram_helper.c         |  4 +-
- drivers/gpu/drm/nouveau/nouveau_ttm.c         | 46 ++++++-------
- drivers/gpu/drm/nouveau/nouveau_ttm.h         |  6 +-
- drivers/gpu/drm/qxl/qxl_ttm.c                 |  4 +-
- drivers/gpu/drm/radeon/radeon_gem.c           |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c           |  4 +-
- drivers/gpu/drm/ttm/ttm_bo.c                  | 66 +++++++++----------
- drivers/gpu/drm/ttm/ttm_bo_util.c             | 26 ++++----
- drivers/gpu/drm/ttm/ttm_bo_vm.c               |  2 +-
- drivers/gpu/drm/ttm/ttm_range_manager.c       | 28 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 20 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 26 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           | 26 ++++----
- include/drm/ttm/ttm_bo_api.h                  |  6 +-
- include/drm/ttm/ttm_bo_driver.h               | 60 ++++++++---------
- 23 files changed, 210 insertions(+), 210 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |  6 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 46 +++++++++----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       | 10 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  | 12 ++---
+ drivers/gpu/drm/drm_gem_vram_helper.c         |  6 +--
+ drivers/gpu/drm/nouveau/nouveau_bo.c          | 28 +++++------
+ drivers/gpu/drm/nouveau/nouveau_bo.h          | 14 +++---
+ drivers/gpu/drm/nouveau/nouveau_bo0039.c      |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_bo5039.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo74c1.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo85b5.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo9039.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo90b5.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_boa0b5.c      |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_drv.h         |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_mem.c         |  8 ++--
+ drivers/gpu/drm/nouveau/nouveau_mem.h         | 10 ++--
+ drivers/gpu/drm/nouveau/nouveau_sgdma.c       |  4 +-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |  8 ++--
+ drivers/gpu/drm/nouveau/nv17_fence.c          |  2 +-
+ drivers/gpu/drm/nouveau/nv50_fence.c          |  2 +-
+ drivers/gpu/drm/qxl/qxl_drv.h                 |  2 +-
+ drivers/gpu/drm/qxl/qxl_ttm.c                 | 14 +++---
+ drivers/gpu/drm/radeon/radeon.h               |  2 +-
+ drivers/gpu/drm/radeon/radeon_object.c        |  2 +-
+ drivers/gpu/drm/radeon/radeon_object.h        |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           | 28 +++++------
+ drivers/gpu/drm/radeon/radeon_vm.c            |  2 +-
+ drivers/gpu/drm/ttm/ttm_agp_backend.c         |  2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  | 26 +++++------
+ drivers/gpu/drm/ttm/ttm_bo_util.c             | 46 +++++++++----------
+ drivers/gpu/drm/ttm/ttm_range_manager.c       |  4 +-
+ drivers/gpu/drm/ttm/ttm_tt.c                  |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           |  6 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    |  8 ++--
+ include/drm/ttm/ttm_bo_api.h                  | 10 ++--
+ include/drm/ttm/ttm_bo_driver.h               | 42 ++++++++---------
+ include/drm/ttm/ttm_tt.h                      | 10 ++--
+ 45 files changed, 202 insertions(+), 202 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-index e24f421e5553..478f67498a17 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-@@ -517,7 +517,7 @@ int amdgpu_amdkfd_get_dmabuf_info(struct kgd_dev *kgd, int dma_buf_fd,
- uint64_t amdgpu_amdkfd_get_vram_usage(struct kgd_dev *kgd)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)kgd;
--	struct ttm_mem_type_manager *vram_man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *vram_man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 
- 	return amdgpu_vram_mgr_usage(vram_man);
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 9829640e1769..ecd051976bce 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -299,7 +299,7 @@ static void amdgpu_cs_get_threshold_for_moves(struct amdgpu_device *adev,
- {
- 	s64 time_us, increment_us;
- 	u64 free_vram, total_vram, used_vram;
--	struct ttm_mem_type_manager *vram_man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *vram_man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 	/* Allow a maximum of 200 accumulated ms. This is basically per-IB
- 	 * throttling.
- 	 *
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 71461d652fcc..8b600b804f34 100644
+index 8b600b804f34..fb1415488579 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -25,13 +25,13 @@
- #include "amdgpu.h"
- 
- struct amdgpu_gtt_mgr {
--	struct ttm_mem_type_manager manager;
-+	struct ttm_resource_manager manager;
- 	struct drm_mm mm;
- 	spinlock_t lock;
- 	atomic64_t available;
- };
- 
--static inline struct amdgpu_gtt_mgr *to_gtt_mgr(struct ttm_mem_type_manager *man)
-+static inline struct amdgpu_gtt_mgr *to_gtt_mgr(struct ttm_resource_manager *man)
- {
- 	return container_of(man, struct amdgpu_gtt_mgr, manager);
- }
-@@ -54,7 +54,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = ddev->dev_private;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
- 	return snprintf(buf, PAGE_SIZE, "%llu\n",
- 			man->size * PAGE_SIZE);
- }
-@@ -72,7 +72,7 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = ddev->dev_private;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
- 	return snprintf(buf, PAGE_SIZE, "%llu\n",
- 			amdgpu_gtt_mgr_usage(man));
- }
-@@ -82,7 +82,7 @@ static DEVICE_ATTR(mem_info_gtt_total, S_IRUGO,
- static DEVICE_ATTR(mem_info_gtt_used, S_IRUGO,
- 	           amdgpu_mem_info_gtt_used_show, NULL);
- 
--static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func;
-+static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
- /**
-  * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
+@@ -171,7 +171,7 @@ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
   *
-@@ -93,7 +93,7 @@ static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func;
+  * Check if a mem object has already address space allocated.
   */
- int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+-bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem)
++bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *mem)
  {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	struct amdgpu_gtt_mgr *mgr;
- 	uint64_t start, size;
- 	int ret;
-@@ -108,7 +108,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- 	man->available_caching = TTM_PL_MASK_CACHING;
- 	man->default_caching = TTM_PL_FLAG_CACHED;
- 
--	ttm_mem_type_manager_init(man, gtt_size >> PAGE_SHIFT);
-+	ttm_resource_manager_init(man, gtt_size >> PAGE_SHIFT);
- 
- 	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
- 	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-@@ -128,7 +128,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- 	}
- 
- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
- 	return 0;
+ 	return mem->mm_node != NULL;
  }
- 
-@@ -142,13 +142,13 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
-  */
- void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 	int ret;
- 
--	ttm_mem_type_manager_set_used(man, false);
-+	ttm_resource_manager_set_used(man, false);
- 
--	ret = ttm_mem_type_manager_force_list_clean(&adev->mman.bdev, man);
-+	ret = ttm_resource_manager_force_list_clean(&adev->mman.bdev, man);
- 	if (ret)
- 		return;
- 
-@@ -159,7 +159,7 @@ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev)
- 	device_remove_file(adev->dev, &dev_attr_mem_info_gtt_total);
- 	device_remove_file(adev->dev, &dev_attr_mem_info_gtt_used);
- 
--	ttm_mem_type_manager_cleanup(man);
-+	ttm_resource_manager_cleanup(man);
- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, NULL);
- 	kfree(mgr);
- }
-@@ -186,7 +186,7 @@ bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem)
-  *
-  * Dummy, allocate the node but no space for it yet.
-  */
--static int amdgpu_gtt_mgr_new(struct ttm_mem_type_manager *man,
-+static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+@@ -189,7 +189,7 @@ bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem)
+ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
  			      struct ttm_buffer_object *tbo,
  			      const struct ttm_place *place,
- 			      struct ttm_mem_reg *mem)
-@@ -249,7 +249,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_mem_type_manager *man,
-  *
-  * Free the allocated GTT again.
-  */
--static void amdgpu_gtt_mgr_del(struct ttm_mem_type_manager *man,
-+static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 			       struct ttm_mem_reg *mem)
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
-@@ -272,7 +272,7 @@ static void amdgpu_gtt_mgr_del(struct ttm_mem_type_manager *man,
-  *
-  * Return how many bytes are used in the GTT domain
-  */
--uint64_t amdgpu_gtt_mgr_usage(struct ttm_mem_type_manager *man)
-+uint64_t amdgpu_gtt_mgr_usage(struct ttm_resource_manager *man)
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 	s64 result = man->size - atomic64_read(&mgr->available);
-@@ -280,7 +280,7 @@ uint64_t amdgpu_gtt_mgr_usage(struct ttm_mem_type_manager *man)
- 	return (result > 0 ? result : 0) * PAGE_SIZE;
- }
- 
--int amdgpu_gtt_mgr_recover(struct ttm_mem_type_manager *man)
-+int amdgpu_gtt_mgr_recover(struct ttm_resource_manager *man)
+-			      struct ttm_mem_reg *mem)
++			      struct ttm_resource *mem)
  {
  	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
  	struct amdgpu_gtt_node *node;
-@@ -307,7 +307,7 @@ int amdgpu_gtt_mgr_recover(struct ttm_mem_type_manager *man)
-  *
-  * Dump the table content using printk.
+@@ -250,7 +250,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+  * Free the allocated GTT again.
   */
--static void amdgpu_gtt_mgr_debug(struct ttm_mem_type_manager *man,
-+static void amdgpu_gtt_mgr_debug(struct ttm_resource_manager *man,
- 				 struct drm_printer *printer)
+ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
+-			       struct ttm_mem_reg *mem)
++			       struct ttm_resource *mem)
  {
  	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
-@@ -321,7 +321,7 @@ static void amdgpu_gtt_mgr_debug(struct ttm_mem_type_manager *man,
- 		   amdgpu_gtt_mgr_usage(man) >> 20);
- }
- 
--static const struct ttm_mem_type_manager_func amdgpu_gtt_mgr_func = {
-+static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func = {
- 	.get_node = amdgpu_gtt_mgr_new,
- 	.put_node = amdgpu_gtt_mgr_del,
- 	.debug = amdgpu_gtt_mgr_debug
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 594687cc99ac..2763bca163e3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -631,9 +631,9 @@ static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file
- 	}
- 	case AMDGPU_INFO_MEMORY: {
- 		struct drm_amdgpu_memory_info mem;
--		struct ttm_mem_type_manager *vram_man =
-+		struct ttm_resource_manager *vram_man =
- 			ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
--		struct ttm_mem_type_manager *gtt_man =
-+		struct ttm_resource_manager *gtt_man =
- 			ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
- 		memset(&mem, 0, sizeof(mem));
- 		mem.vram.total_heap_size = adev->gmc.real_vram_size;
+ 	struct amdgpu_gtt_node *node = mem->mm_node;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index ced418cba2f7..ce98df5b0c21 100644
+index ce98df5b0c21..43f4966331dd 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -442,7 +442,7 @@ void amdgpu_bo_free_kernel(struct amdgpu_bo **bo, u64 *gpu_addr,
- static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
- 					  unsigned long size, u32 domain)
+@@ -1268,11 +1268,11 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
+  */
+ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
+ 			   bool evict,
+-			   struct ttm_mem_reg *new_mem)
++			   struct ttm_resource *new_mem)
  {
--	struct ttm_mem_type_manager *man = NULL;
-+	struct ttm_resource_manager *man = NULL;
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+ 	struct amdgpu_bo *abo;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
  
- 	/*
- 	 * If GTT is part of requested domains the check must succeed to
+ 	if (!amdgpu_bo_is_amdgpu_bo(bo))
+ 		return;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+index e01e8903741e..5ddb6cf96030 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+@@ -283,7 +283,7 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
+ 			   uint64_t *flags);
+ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
+ 			   bool evict,
+-			   struct ttm_mem_reg *new_mem);
++			   struct ttm_resource *new_mem);
+ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo);
+ int amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
+ void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index b190d50dc9bb..cae7eada7215 100644
+index cae7eada7215..682172d59f60 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -2030,7 +2030,7 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+@@ -183,9 +183,9 @@ static int amdgpu_verify_access(struct ttm_buffer_object *bo, struct file *filp)
+  * Assign the memory from new_mem to the memory of the buffer object bo.
   */
- void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+ static void amdgpu_move_null(struct ttm_buffer_object *bo,
+-			     struct ttm_mem_reg *new_mem)
++			     struct ttm_resource *new_mem)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 	uint64_t size;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
+ 
+ 	BUG_ON(old_mem->mm_node != NULL);
+ 	*old_mem = *new_mem;
+@@ -202,7 +202,7 @@ static void amdgpu_move_null(struct ttm_buffer_object *bo,
+  */
+ static uint64_t amdgpu_mm_node_addr(struct ttm_buffer_object *bo,
+ 				    struct drm_mm_node *mm_node,
+-				    struct ttm_mem_reg *mem)
++				    struct ttm_resource *mem)
+ {
+ 	uint64_t addr = 0;
+ 
+@@ -222,7 +222,7 @@ static uint64_t amdgpu_mm_node_addr(struct ttm_buffer_object *bo,
+  * @offset: The offset that drm_mm_node is used for finding.
+  *
+  */
+-static struct drm_mm_node *amdgpu_find_mm_node(struct ttm_mem_reg *mem,
++static struct drm_mm_node *amdgpu_find_mm_node(struct ttm_resource *mem,
+ 					       uint64_t *offset)
+ {
+ 	struct drm_mm_node *mm_node = mem->mm_node;
+@@ -250,7 +250,7 @@ static struct drm_mm_node *amdgpu_find_mm_node(struct ttm_mem_reg *mem,
+  * the physical address for local memory.
+  */
+ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
+-				 struct ttm_mem_reg *mem,
++				 struct ttm_resource *mem,
+ 				 struct drm_mm_node *mm_node,
+ 				 unsigned num_pages, uint64_t offset,
+ 				 unsigned window, struct amdgpu_ring *ring,
+@@ -474,8 +474,8 @@ int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+  */
+ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ 			    bool evict, bool no_wait_gpu,
+-			    struct ttm_mem_reg *new_mem,
+-			    struct ttm_mem_reg *old_mem)
++			    struct ttm_resource *new_mem,
++			    struct ttm_resource *old_mem)
+ {
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+ 	struct amdgpu_bo *abo = ttm_to_amdgpu_bo(bo);
+@@ -534,10 +534,10 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+  */
+ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
+ 				struct ttm_operation_ctx *ctx,
+-				struct ttm_mem_reg *new_mem)
++				struct ttm_resource *new_mem)
+ {
+-	struct ttm_mem_reg *old_mem = &bo->mem;
+-	struct ttm_mem_reg tmp_mem;
++	struct ttm_resource *old_mem = &bo->mem;
++	struct ttm_resource tmp_mem;
+ 	struct ttm_place placements;
+ 	struct ttm_placement placement;
+ 	int r;
+@@ -590,10 +590,10 @@ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
+  */
+ static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
+ 				struct ttm_operation_ctx *ctx,
+-				struct ttm_mem_reg *new_mem)
++				struct ttm_resource *new_mem)
+ {
+-	struct ttm_mem_reg *old_mem = &bo->mem;
+-	struct ttm_mem_reg tmp_mem;
++	struct ttm_resource *old_mem = &bo->mem;
++	struct ttm_resource tmp_mem;
+ 	struct ttm_placement placement;
+ 	struct ttm_place placements;
+ 	int r;
+@@ -636,7 +636,7 @@ static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
+  * Called by amdgpu_bo_move()
+  */
+ static bool amdgpu_mem_visible(struct amdgpu_device *adev,
+-			       struct ttm_mem_reg *mem)
++			       struct ttm_resource *mem)
+ {
+ 	struct drm_mm_node *nodes = mem->mm_node;
+ 
+@@ -646,7 +646,7 @@ static bool amdgpu_mem_visible(struct amdgpu_device *adev,
+ 	if (mem->mem_type != TTM_PL_VRAM)
+ 		return false;
+ 
+-	/* ttm_mem_reg_ioremap only supports contiguous memory */
++	/* ttm_resource_ioremap only supports contiguous memory */
+ 	if (nodes->size != mem->num_pages)
+ 		return false;
+ 
+@@ -661,11 +661,11 @@ static bool amdgpu_mem_visible(struct amdgpu_device *adev,
+  */
+ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 			  struct ttm_operation_ctx *ctx,
+-			  struct ttm_mem_reg *new_mem)
++			  struct ttm_resource *new_mem)
+ {
+ 	struct amdgpu_device *adev;
+ 	struct amdgpu_bo *abo;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
  	int r;
  
-@@ -2252,7 +2252,7 @@ static int amdgpu_mm_dump_table(struct seq_file *m, void *data)
- 	unsigned ttm_pl = (uintptr_t)node->info_ent->data;
- 	struct drm_device *dev = node->minor->dev;
- 	struct amdgpu_device *adev = dev->dev_private;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, ttm_pl);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, ttm_pl);
- 	struct drm_printer p = drm_seq_file_printer(m);
+ 	/* Can't move a pinned BO */
+@@ -747,7 +747,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+  *
+  * Called by ttm_mem_io_reserve() ultimately via ttm_bo_vm_fault()
+  */
+-static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg *mem)
++static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *mem)
+ {
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+ 	struct drm_mm_node *mm_node = mem->mm_node;
+@@ -771,7 +771,7 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_
+ 			return -EINVAL;
+ 		/* Only physically contiguous buffers apply. In a contiguous
+ 		 * buffer, size of the first mm_node would match the number of
+-		 * pages in ttm_mem_reg.
++		 * pages in ttm_resource.
+ 		 */
+ 		if (adev->mman.aper_base_kaddr &&
+ 		    (mm_node->size == mem->num_pages))
+@@ -1116,7 +1116,7 @@ static int amdgpu_ttm_gart_bind(struct amdgpu_device *adev,
+  * This handles binding GTT memory to the device address space.
+  */
+ static int amdgpu_ttm_backend_bind(struct ttm_tt *ttm,
+-				   struct ttm_mem_reg *bo_mem)
++				   struct ttm_resource *bo_mem)
+ {
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(ttm->bdev);
+ 	struct amdgpu_ttm_tt *gtt = (void*)ttm;
+@@ -1167,7 +1167,7 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+ 	struct ttm_operation_ctx ctx = { false, false };
+ 	struct amdgpu_ttm_tt *gtt = (void*)bo->ttm;
+-	struct ttm_mem_reg tmp;
++	struct ttm_resource tmp;
+ 	struct ttm_placement placement;
+ 	struct ttm_place placements;
+ 	uint64_t addr, flags;
+@@ -1507,7 +1507,7 @@ bool amdgpu_ttm_tt_is_readonly(struct ttm_tt *ttm)
+  *
+  * Figure out the flags to use for a VM PDE (Page Directory Entry).
+  */
+-uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_mem_reg *mem)
++uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_resource *mem)
+ {
+ 	uint64_t flags = 0;
  
- 	man->func->debug(man, &p);
+@@ -1533,7 +1533,7 @@ uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_mem_reg *mem)
+  * Figure out the flags to use for a VM PTE (Page Table Entry).
+  */
+ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
+-				 struct ttm_mem_reg *mem)
++				 struct ttm_resource *mem)
+ {
+ 	uint64_t flags = amdgpu_ttm_tt_pde_flags(ttm, mem);
+ 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index c01fdb3f0458..3db29ae1f802 100644
+index 3db29ae1f802..36b024fd077e 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -73,8 +73,8 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
+@@ -63,7 +63,7 @@ struct amdgpu_mman {
+ 
+ struct amdgpu_copy_mem {
+ 	struct ttm_buffer_object	*bo;
+-	struct ttm_mem_reg		*mem;
++	struct ttm_resource		*mem;
+ 	unsigned long			offset;
+ };
+ 
+@@ -72,13 +72,13 @@ void amdgpu_gtt_mgr_fini(struct amdgpu_device *adev);
+ int amdgpu_vram_mgr_init(struct amdgpu_device *adev);
  void amdgpu_vram_mgr_fini(struct amdgpu_device *adev);
  
- bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem);
--uint64_t amdgpu_gtt_mgr_usage(struct ttm_mem_type_manager *man);
--int amdgpu_gtt_mgr_recover(struct ttm_mem_type_manager *man);
-+uint64_t amdgpu_gtt_mgr_usage(struct ttm_resource_manager *man);
-+int amdgpu_gtt_mgr_recover(struct ttm_resource_manager *man);
+-bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_mem_reg *mem);
++bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *mem);
+ uint64_t amdgpu_gtt_mgr_usage(struct ttm_resource_manager *man);
+ int amdgpu_gtt_mgr_recover(struct ttm_resource_manager *man);
  
  u64 amdgpu_vram_mgr_bo_visible_size(struct amdgpu_bo *bo);
  int amdgpu_vram_mgr_alloc_sgt(struct amdgpu_device *adev,
-@@ -86,8 +86,8 @@ void amdgpu_vram_mgr_free_sgt(struct amdgpu_device *adev,
+-			      struct ttm_mem_reg *mem,
++			      struct ttm_resource *mem,
  			      struct device *dev,
  			      enum dma_data_direction dir,
- 			      struct sg_table *sgt);
--uint64_t amdgpu_vram_mgr_usage(struct ttm_mem_type_manager *man);
--uint64_t amdgpu_vram_mgr_vis_usage(struct ttm_mem_type_manager *man);
-+uint64_t amdgpu_vram_mgr_usage(struct ttm_resource_manager *man);
-+uint64_t amdgpu_vram_mgr_vis_usage(struct ttm_resource_manager *man);
+ 			      struct sg_table **sgt);
+@@ -142,9 +142,9 @@ bool amdgpu_ttm_tt_userptr_invalidated(struct ttm_tt *ttm,
+ 				       int *last_invalidated);
+ bool amdgpu_ttm_tt_is_userptr(struct ttm_tt *ttm);
+ bool amdgpu_ttm_tt_is_readonly(struct ttm_tt *ttm);
+-uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_mem_reg *mem);
++uint64_t amdgpu_ttm_tt_pde_flags(struct ttm_tt *ttm, struct ttm_resource *mem);
+ uint64_t amdgpu_ttm_tt_pte_flags(struct amdgpu_device *adev, struct ttm_tt *ttm,
+-				 struct ttm_mem_reg *mem);
++				 struct ttm_resource *mem);
  
- int amdgpu_ttm_init(struct amdgpu_device *adev);
- void amdgpu_ttm_late_init(struct amdgpu_device *adev);
+ int amdgpu_ttm_debugfs_init(struct amdgpu_device *adev);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 71e005cf2952..8bc2253939be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -1765,7 +1765,7 @@ int amdgpu_vm_bo_update(struct amdgpu_device *adev, struct amdgpu_bo_va *bo_va,
+ 	struct amdgpu_vm *vm = bo_va->base.vm;
+ 	struct amdgpu_bo_va_mapping *mapping;
+ 	dma_addr_t *pages_addr = NULL;
+-	struct ttm_mem_reg *mem;
++	struct ttm_resource *mem;
+ 	struct drm_mm_node *nodes;
+ 	struct dma_fence **last_update;
+ 	struct dma_resv *resv;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 8cc44c3d2fdd..b227e380094f 100644
+index b227e380094f..44f20b30420e 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -29,7 +29,7 @@
- #include "atom.h"
- 
- struct amdgpu_vram_mgr {
--	struct ttm_mem_type_manager manager;
-+	struct ttm_resource_manager manager;
- 	struct drm_mm mm;
- 	spinlock_t lock;
- 	atomic64_t usage;
-@@ -37,7 +37,7 @@ struct amdgpu_vram_mgr {
- 	struct amdgpu_device *adev;
- };
- 
--static inline struct amdgpu_vram_mgr *to_vram_mgr(struct ttm_mem_type_manager *man)
-+static inline struct amdgpu_vram_mgr *to_vram_mgr(struct ttm_resource_manager *man)
+@@ -272,7 +272,7 @@ static u64 amdgpu_vram_mgr_vis_size(struct amdgpu_device *adev,
+ u64 amdgpu_vram_mgr_bo_visible_size(struct amdgpu_bo *bo)
  {
- 	return container_of(man, struct amdgpu_vram_mgr, manager);
- }
-@@ -89,7 +89,7 @@ static ssize_t amdgpu_mem_info_vram_used_show(struct device *dev,
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = ddev->dev_private;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 	return snprintf(buf, PAGE_SIZE, "%llu\n",
- 			amdgpu_vram_mgr_usage(man));
- }
-@@ -107,7 +107,7 @@ static ssize_t amdgpu_mem_info_vis_vram_used_show(struct device *dev,
- {
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = ddev->dev_private;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 	return snprintf(buf, PAGE_SIZE, "%llu\n",
- 			amdgpu_vram_mgr_vis_usage(man));
- }
-@@ -165,7 +165,7 @@ static const struct attribute *amdgpu_vram_mgr_attributes[] = {
- 	NULL
- };
- 
--static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func;
-+static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
- 
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+-	struct ttm_mem_reg *mem = &bo->tbo.mem;
++	struct ttm_resource *mem = &bo->tbo.mem;
+ 	struct drm_mm_node *nodes = mem->mm_node;
+ 	unsigned pages = mem->num_pages;
+ 	u64 usage;
+@@ -292,13 +292,13 @@ u64 amdgpu_vram_mgr_bo_visible_size(struct amdgpu_bo *bo)
  /**
-  * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
-@@ -177,7 +177,7 @@ static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func;
-  */
- int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	struct amdgpu_vram_mgr *mgr;
- 	int ret;
- 
-@@ -190,7 +190,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- 	man->available_caching = TTM_PL_FLAG_UNCACHED | TTM_PL_FLAG_WC;
- 	man->default_caching = TTM_PL_FLAG_WC;
- 
--	ttm_mem_type_manager_init(man, adev->gmc.real_vram_size >> PAGE_SHIFT);
-+	ttm_resource_manager_init(man, adev->gmc.real_vram_size >> PAGE_SHIFT);
- 
- 	man->func = &amdgpu_vram_mgr_func;
- 
-@@ -205,7 +205,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- 		DRM_ERROR("Failed to register sysfs\n");
- 
- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_VRAM, &mgr->manager);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
- 	return 0;
- }
- 
-@@ -219,13 +219,13 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
-  */
- void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
- 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
- 	int ret;
- 
--	ttm_mem_type_manager_set_used(man, false);
-+	ttm_resource_manager_set_used(man, false);
- 
--	ret = ttm_mem_type_manager_force_list_clean(&adev->mman.bdev, man);
-+	ret = ttm_resource_manager_force_list_clean(&adev->mman.bdev, man);
- 	if (ret)
- 		return;
- 
-@@ -235,7 +235,7 @@ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
- 
- 	sysfs_remove_files(&adev->dev->kobj, amdgpu_vram_mgr_attributes);
- 
--	ttm_mem_type_manager_cleanup(man);
-+	ttm_resource_manager_cleanup(man);
- 	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_VRAM, NULL);
- 	kfree(mgr);
- }
-@@ -321,7 +321,7 @@ static void amdgpu_vram_mgr_virt_start(struct ttm_mem_reg *mem,
+  * amdgpu_vram_mgr_virt_start - update virtual start address
   *
-  * Allocate VRAM for the given BO.
+- * @mem: ttm_mem_reg to update
++ * @mem: ttm_resource to update
+  * @node: just allocated node
+  *
+  * Calculate a virtual BO start address to easily check if everything is CPU
+  * accessible.
   */
--static int amdgpu_vram_mgr_new(struct ttm_mem_type_manager *man,
-+static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
+-static void amdgpu_vram_mgr_virt_start(struct ttm_mem_reg *mem,
++static void amdgpu_vram_mgr_virt_start(struct ttm_resource *mem,
+ 				       struct drm_mm_node *node)
+ {
+ 	unsigned long start;
+@@ -324,7 +324,7 @@ static void amdgpu_vram_mgr_virt_start(struct ttm_mem_reg *mem,
+ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
  			       struct ttm_buffer_object *tbo,
  			       const struct ttm_place *place,
- 			       struct ttm_mem_reg *mem)
-@@ -439,7 +439,7 @@ static int amdgpu_vram_mgr_new(struct ttm_mem_type_manager *man,
-  *
+-			       struct ttm_mem_reg *mem)
++			       struct ttm_resource *mem)
+ {
+ 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
+ 	struct amdgpu_device *adev = mgr->adev;
+@@ -440,7 +440,7 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
   * Free the allocated VRAM again.
   */
--static void amdgpu_vram_mgr_del(struct ttm_mem_type_manager *man,
-+static void amdgpu_vram_mgr_del(struct ttm_resource_manager *man,
- 				struct ttm_mem_reg *mem)
+ static void amdgpu_vram_mgr_del(struct ttm_resource_manager *man,
+-				struct ttm_mem_reg *mem)
++				struct ttm_resource *mem)
  {
  	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
-@@ -573,7 +573,7 @@ void amdgpu_vram_mgr_free_sgt(struct amdgpu_device *adev,
-  *
-  * Returns how many bytes are used in this domain.
+ 	struct amdgpu_device *adev = mgr->adev;
+@@ -480,7 +480,7 @@ static void amdgpu_vram_mgr_del(struct ttm_resource_manager *man,
+  * Allocate and fill a sg table from a VRAM allocation.
   */
--uint64_t amdgpu_vram_mgr_usage(struct ttm_mem_type_manager *man)
-+uint64_t amdgpu_vram_mgr_usage(struct ttm_resource_manager *man)
- {
- 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
- 
-@@ -587,7 +587,7 @@ uint64_t amdgpu_vram_mgr_usage(struct ttm_mem_type_manager *man)
-  *
-  * Returns how many bytes are used in the visible part of VRAM
-  */
--uint64_t amdgpu_vram_mgr_vis_usage(struct ttm_mem_type_manager *man)
-+uint64_t amdgpu_vram_mgr_vis_usage(struct ttm_resource_manager *man)
- {
- 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
- 
-@@ -602,7 +602,7 @@ uint64_t amdgpu_vram_mgr_vis_usage(struct ttm_mem_type_manager *man)
-  *
-  * Dump the table content using printk.
-  */
--static void amdgpu_vram_mgr_debug(struct ttm_mem_type_manager *man,
-+static void amdgpu_vram_mgr_debug(struct ttm_resource_manager *man,
- 				  struct drm_printer *printer)
- {
- 	struct amdgpu_vram_mgr *mgr = to_vram_mgr(man);
-@@ -616,7 +616,7 @@ static void amdgpu_vram_mgr_debug(struct ttm_mem_type_manager *man,
- 		   amdgpu_vram_mgr_vis_usage(man) >> 20);
- }
- 
--static const struct ttm_mem_type_manager_func amdgpu_vram_mgr_func = {
-+static const struct ttm_resource_manager_func amdgpu_vram_mgr_func = {
- 	.get_node	= amdgpu_vram_mgr_new,
- 	.put_node	= amdgpu_vram_mgr_del,
- 	.debug		= amdgpu_vram_mgr_debug
+ int amdgpu_vram_mgr_alloc_sgt(struct amdgpu_device *adev,
+-			      struct ttm_mem_reg *mem,
++			      struct ttm_resource *mem,
+ 			      struct device *dev,
+ 			      enum dma_data_direction dir,
+ 			      struct sg_table **sgt)
 diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 2187787f397e..e3660d00987d 100644
+index e3660d00987d..b410930d94a0 100644
 --- a/drivers/gpu/drm/drm_gem_vram_helper.c
 +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -1075,10 +1075,10 @@ static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
- {
- 	struct drm_info_node *node = (struct drm_info_node *) m->private;
- 	struct drm_vram_mm *vmm = node->minor->dev->vram_mm;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
- 	struct drm_printer p = drm_seq_file_printer(m);
+@@ -653,7 +653,7 @@ static void drm_gem_vram_bo_driver_evict_flags(struct drm_gem_vram_object *gbo,
  
--	ttm_mem_type_manager_debug(man, &p);
-+	ttm_resource_manager_debug(man, &p);
- 	return 0;
+ static void drm_gem_vram_bo_driver_move_notify(struct drm_gem_vram_object *gbo,
+ 					       bool evict,
+-					       struct ttm_mem_reg *new_mem)
++					       struct ttm_resource *new_mem)
+ {
+ 	struct ttm_bo_kmap_obj *kmap = &gbo->kmap;
+ 
+@@ -1020,7 +1020,7 @@ static void bo_driver_evict_flags(struct ttm_buffer_object *bo,
+ 
+ static void bo_driver_move_notify(struct ttm_buffer_object *bo,
+ 				  bool evict,
+-				  struct ttm_mem_reg *new_mem)
++				  struct ttm_resource *new_mem)
+ {
+ 	struct drm_gem_vram_object *gbo;
+ 
+@@ -1034,7 +1034,7 @@ static void bo_driver_move_notify(struct ttm_buffer_object *bo,
  }
  
+ static int bo_driver_io_mem_reserve(struct ttm_bo_device *bdev,
+-				    struct ttm_mem_reg *mem)
++				    struct ttm_resource *mem)
+ {
+ 	struct drm_vram_mm *vmm = drm_vram_mm_of_bdev(bdev);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index aebec45b8416..80d22a98950b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -666,7 +666,7 @@ nouveau_bo_evict_flags(struct ttm_buffer_object *bo, struct ttm_placement *pl)
+ 
+ static int
+ nouveau_bo_move_prep(struct nouveau_drm *drm, struct ttm_buffer_object *bo,
+-		     struct ttm_mem_reg *reg)
++		     struct ttm_resource *reg)
+ {
+ 	struct nouveau_mem *old_mem = nouveau_mem(&bo->mem);
+ 	struct nouveau_mem *new_mem = nouveau_mem(reg);
+@@ -698,7 +698,7 @@ nouveau_bo_move_prep(struct nouveau_drm *drm, struct ttm_buffer_object *bo,
+ 
+ static int
+ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict, bool intr,
+-		     bool no_wait_gpu, struct ttm_mem_reg *new_reg)
++		     bool no_wait_gpu, struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+ 	struct nouveau_channel *chan = drm->ttm.chan;
+@@ -708,7 +708,7 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict, bool intr,
+ 
+ 	/* create temporary vmas for the transfer and attach them to the
+ 	 * old nvkm_mem node, these will get cleaned up after ttm has
+-	 * destroyed the ttm_mem_reg
++	 * destroyed the ttm_resource
+ 	 */
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
+ 		ret = nouveau_bo_move_prep(drm, bo, new_reg);
+@@ -744,7 +744,7 @@ nouveau_bo_move_init(struct nouveau_drm *drm)
+ 		s32 oclass;
+ 		int (*exec)(struct nouveau_channel *,
+ 			    struct ttm_buffer_object *,
+-			    struct ttm_mem_reg *, struct ttm_mem_reg *);
++			    struct ttm_resource *, struct ttm_resource *);
+ 		int (*init)(struct nouveau_channel *, u32 handle);
+ 	} _methods[] = {
+ 		{  "COPY", 4, 0xc5b5, nve0_bo_move_copy, nve0_bo_move_init },
+@@ -805,7 +805,7 @@ nouveau_bo_move_init(struct nouveau_drm *drm)
+ 
+ static int
+ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict, bool intr,
+-		      bool no_wait_gpu, struct ttm_mem_reg *new_reg)
++		      bool no_wait_gpu, struct ttm_resource *new_reg)
+ {
+ 	struct ttm_operation_ctx ctx = { intr, no_wait_gpu };
+ 	struct ttm_place placement_memtype = {
+@@ -814,7 +814,7 @@ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict, bool intr,
+ 		.flags = TTM_PL_FLAG_TT | TTM_PL_MASK_CACHING
+ 	};
+ 	struct ttm_placement placement;
+-	struct ttm_mem_reg tmp_reg;
++	struct ttm_resource tmp_reg;
+ 	int ret;
+ 
+ 	placement.num_placement = placement.num_busy_placement = 1;
+@@ -842,7 +842,7 @@ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict, bool intr,
+ 
+ static int
+ nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict, bool intr,
+-		      bool no_wait_gpu, struct ttm_mem_reg *new_reg)
++		      bool no_wait_gpu, struct ttm_resource *new_reg)
+ {
+ 	struct ttm_operation_ctx ctx = { intr, no_wait_gpu };
+ 	struct ttm_place placement_memtype = {
+@@ -851,7 +851,7 @@ nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict, bool intr,
+ 		.flags = TTM_PL_FLAG_TT | TTM_PL_MASK_CACHING
+ 	};
+ 	struct ttm_placement placement;
+-	struct ttm_mem_reg tmp_reg;
++	struct ttm_resource tmp_reg;
+ 	int ret;
+ 
+ 	placement.num_placement = placement.num_busy_placement = 1;
+@@ -878,7 +878,7 @@ nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict, bool intr,
+ 
+ static void
+ nouveau_bo_move_ntfy(struct ttm_buffer_object *bo, bool evict,
+-		     struct ttm_mem_reg *new_reg)
++		     struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_mem *mem = new_reg ? nouveau_mem(new_reg) : NULL;
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+@@ -910,7 +910,7 @@ nouveau_bo_move_ntfy(struct ttm_buffer_object *bo, bool evict,
+ }
+ 
+ static int
+-nouveau_bo_vm_bind(struct ttm_buffer_object *bo, struct ttm_mem_reg *new_reg,
++nouveau_bo_vm_bind(struct ttm_buffer_object *bo, struct ttm_resource *new_reg,
+ 		   struct nouveau_drm_tile **new_tile)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+@@ -946,11 +946,11 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
+ static int
+ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 		struct ttm_operation_ctx *ctx,
+-		struct ttm_mem_reg *new_reg)
++		struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+-	struct ttm_mem_reg *old_reg = &bo->mem;
++	struct ttm_resource *old_reg = &bo->mem;
+ 	struct nouveau_drm_tile *new_tile = NULL;
+ 	int ret = 0;
+ 
+@@ -1019,7 +1019,7 @@ nouveau_bo_verify_access(struct ttm_buffer_object *bo, struct file *filp)
+ }
+ 
+ static int
+-nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg *reg)
++nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *reg)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(bdev);
+ 	struct nvkm_device *device = nvxx_device(&drm->client.device);
+@@ -1099,7 +1099,7 @@ nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg *reg)
+ }
+ 
+ static void
+-nouveau_ttm_io_mem_free(struct ttm_bo_device *bdev, struct ttm_mem_reg *reg)
++nouveau_ttm_io_mem_free(struct ttm_bo_device *bdev, struct ttm_resource *reg)
+ {
+ 	struct nouveau_drm *drm = nouveau_bdev(bdev);
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
+index 52489ce7d029..aecb7481df0d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.h
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
+@@ -139,28 +139,28 @@ nouveau_bo_new_pin_map(struct nouveau_cli *cli, u64 size, int align, u32 flags,
+ 
+ int nv04_bo_move_init(struct nouveau_channel *, u32);
+ int nv04_bo_move_m2mf(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ int nv50_bo_move_init(struct nouveau_channel *, u32);
+ int nv50_bo_move_m2mf(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ int nv84_bo_move_exec(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ int nva3_bo_move_copy(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ int nvc0_bo_move_init(struct nouveau_channel *, u32);
+ int nvc0_bo_move_m2mf(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ int nvc0_bo_move_copy(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ int nve0_bo_move_init(struct nouveau_channel *, u32);
+ int nve0_bo_move_copy(struct nouveau_channel *, struct ttm_buffer_object *,
+-		      struct ttm_mem_reg *, struct ttm_mem_reg *);
++		      struct ttm_resource *, struct ttm_resource *);
+ 
+ #define NVBO_WR32_(b,o,dr,f) nouveau_bo_wr32((b), (o)/4 + (dr), (f))
+ #define NVBO_RD32_(b,o,dr)   nouveau_bo_rd32((b), (o)/4 + (dr))
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo0039.c b/drivers/gpu/drm/nouveau/nouveau_bo0039.c
+index bf7ae2cecaf6..7390132129fe 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo0039.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo0039.c
+@@ -36,7 +36,7 @@
+ 
+ static inline uint32_t
+ nouveau_bo_mem_ctxdma(struct ttm_buffer_object *bo,
+-		      struct nouveau_channel *chan, struct ttm_mem_reg *reg)
++		      struct nouveau_channel *chan, struct ttm_resource *reg)
+ {
+ 	if (reg->mem_type == TTM_PL_TT)
+ 		return NvDmaTT;
+@@ -45,7 +45,7 @@ nouveau_bo_mem_ctxdma(struct ttm_buffer_object *bo,
+ 
+ int
+ nv04_bo_move_m2mf(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nvif_push *push = chan->chan.push;
+ 	u32 src_ctxdma = nouveau_bo_mem_ctxdma(bo, chan, old_reg);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo5039.c b/drivers/gpu/drm/nouveau/nouveau_bo5039.c
+index f9b9b85abe44..4c75c7b3804c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo5039.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo5039.c
+@@ -37,7 +37,7 @@
+ 
+ int
+ nv50_bo_move_m2mf(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(old_reg);
+ 	struct nvif_push *push = chan->chan.push;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo74c1.c b/drivers/gpu/drm/nouveau/nouveau_bo74c1.c
+index 1b5fd78ddcba..ed6c09d67840 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo74c1.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo74c1.c
+@@ -34,7 +34,7 @@
+ 
+ int
+ nv84_bo_move_exec(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(old_reg);
+ 	struct nvif_push *push = chan->chan.push;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo85b5.c b/drivers/gpu/drm/nouveau/nouveau_bo85b5.c
+index f0df172b029e..dec29b2d8bb2 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo85b5.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo85b5.c
+@@ -38,7 +38,7 @@
+ 
+ int
+ nva3_bo_move_copy(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(old_reg);
+ 	struct nvif_push *push = chan->chan.push;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo9039.c b/drivers/gpu/drm/nouveau/nouveau_bo9039.c
+index 52fefb37064c..776b04976cdf 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo9039.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo9039.c
+@@ -36,7 +36,7 @@
+ 
+ int
+ nvc0_bo_move_m2mf(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nvif_push *push = chan->chan.push;
+ 	struct nouveau_mem *mem = nouveau_mem(old_reg);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo90b5.c b/drivers/gpu/drm/nouveau/nouveau_bo90b5.c
+index 34b79d561c7f..8499f58213e3 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo90b5.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo90b5.c
+@@ -31,7 +31,7 @@
+ 
+ int
+ nvc0_bo_move_copy(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(old_reg);
+ 	struct nvif_push *push = chan->chan.push;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_boa0b5.c b/drivers/gpu/drm/nouveau/nouveau_boa0b5.c
+index 394e29012e50..575212472e7a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_boa0b5.c
++++ b/drivers/gpu/drm/nouveau/nouveau_boa0b5.c
+@@ -36,7 +36,7 @@
+ 
+ int
+ nve0_bo_move_copy(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+-		  struct ttm_mem_reg *old_reg, struct ttm_mem_reg *new_reg)
++		  struct ttm_resource *old_reg, struct ttm_resource *new_reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(old_reg);
+ 	struct nvif_push *push = chan->chan.push;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index ae76a5865a5a..f63ac72aa556 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -157,7 +157,7 @@ struct nouveau_drm {
+ 		atomic_t validate_sequence;
+ 		int (*move)(struct nouveau_channel *,
+ 			    struct ttm_buffer_object *,
+-			    struct ttm_mem_reg *, struct ttm_mem_reg *);
++			    struct ttm_resource *, struct ttm_resource *);
+ 		struct nouveau_channel *chan;
+ 		struct nvif_object copy;
+ 		int mtrr;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.c b/drivers/gpu/drm/nouveau/nouveau_mem.c
+index b1bb542d3115..269d8707acc3 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.c
+@@ -92,7 +92,7 @@ nouveau_mem_fini(struct nouveau_mem *mem)
+ }
+ 
+ int
+-nouveau_mem_host(struct ttm_mem_reg *reg, struct ttm_dma_tt *tt)
++nouveau_mem_host(struct ttm_resource *reg, struct ttm_dma_tt *tt)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+ 	struct nouveau_cli *cli = mem->cli;
+@@ -130,7 +130,7 @@ nouveau_mem_host(struct ttm_mem_reg *reg, struct ttm_dma_tt *tt)
+ }
+ 
+ int
+-nouveau_mem_vram(struct ttm_mem_reg *reg, bool contig, u8 page)
++nouveau_mem_vram(struct ttm_resource *reg, bool contig, u8 page)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+ 	struct nouveau_cli *cli = mem->cli;
+@@ -173,7 +173,7 @@ nouveau_mem_vram(struct ttm_mem_reg *reg, bool contig, u8 page)
+ }
+ 
+ void
+-nouveau_mem_del(struct ttm_mem_reg *reg)
++nouveau_mem_del(struct ttm_resource *reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+ 	nouveau_mem_fini(mem);
+@@ -183,7 +183,7 @@ nouveau_mem_del(struct ttm_mem_reg *reg)
+ 
+ int
+ nouveau_mem_new(struct nouveau_cli *cli, u8 kind, u8 comp,
+-		struct ttm_mem_reg *reg)
++		struct ttm_resource *reg)
+ {
+ 	struct nouveau_mem *mem;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.h b/drivers/gpu/drm/nouveau/nouveau_mem.h
+index f6d039e73812..3fe1cfed57a1 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.h
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.h
+@@ -7,7 +7,7 @@ struct ttm_dma_tt;
+ #include <nvif/vmm.h>
+ 
+ static inline struct nouveau_mem *
+-nouveau_mem(struct ttm_mem_reg *reg)
++nouveau_mem(struct ttm_resource *reg)
+ {
+ 	return reg->mm_node;
+ }
+@@ -21,10 +21,10 @@ struct nouveau_mem {
+ };
+ 
+ int nouveau_mem_new(struct nouveau_cli *, u8 kind, u8 comp,
+-		    struct ttm_mem_reg *);
+-void nouveau_mem_del(struct ttm_mem_reg *);
+-int nouveau_mem_vram(struct ttm_mem_reg *, bool contig, u8 page);
+-int nouveau_mem_host(struct ttm_mem_reg *, struct ttm_dma_tt *);
++		    struct ttm_resource *);
++void nouveau_mem_del(struct ttm_resource *);
++int nouveau_mem_vram(struct ttm_resource *, bool contig, u8 page);
++int nouveau_mem_host(struct ttm_resource *, struct ttm_dma_tt *);
+ void nouveau_mem_fini(struct nouveau_mem *);
+ int nouveau_mem_map(struct nouveau_mem *, struct nvif_vmm *, struct nvif_vma *);
+ #endif
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sgdma.c b/drivers/gpu/drm/nouveau/nouveau_sgdma.c
+index c3ccf661b7a6..eef75c53a197 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sgdma.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sgdma.c
+@@ -26,7 +26,7 @@ nouveau_sgdma_destroy(struct ttm_tt *ttm)
+ }
+ 
+ static int
+-nv04_sgdma_bind(struct ttm_tt *ttm, struct ttm_mem_reg *reg)
++nv04_sgdma_bind(struct ttm_tt *ttm, struct ttm_resource *reg)
+ {
+ 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
+@@ -60,7 +60,7 @@ static struct ttm_backend_func nv04_sgdma_backend = {
+ };
+ 
+ static int
+-nv50_sgdma_bind(struct ttm_tt *ttm, struct ttm_mem_reg *reg)
++nv50_sgdma_bind(struct ttm_tt *ttm, struct ttm_resource *reg)
+ {
+ 	struct nouveau_sgdma_be *nvbe = (struct nouveau_sgdma_be *)ttm;
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
 diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-index 38a0e4bd16f7..d6ad0977dc7d 100644
+index d6ad0977dc7d..9e96b6ff24cf 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
-@@ -32,13 +32,13 @@
+@@ -32,7 +32,7 @@
  #include <core/tegra.h>
  
  static void
--nouveau_manager_del(struct ttm_mem_type_manager *man, struct ttm_mem_reg *reg)
-+nouveau_manager_del(struct ttm_resource_manager *man, struct ttm_mem_reg *reg)
+-nouveau_manager_del(struct ttm_resource_manager *man, struct ttm_mem_reg *reg)
++nouveau_manager_del(struct ttm_resource_manager *man, struct ttm_resource *reg)
  {
  	nouveau_mem_del(reg);
  }
- 
- static int
--nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
-+nouveau_vram_manager_new(struct ttm_resource_manager *man,
+@@ -41,7 +41,7 @@ static int
+ nouveau_vram_manager_new(struct ttm_resource_manager *man,
  			 struct ttm_buffer_object *bo,
  			 const struct ttm_place *place,
- 			 struct ttm_mem_reg *reg)
-@@ -63,13 +63,13 @@ nouveau_vram_manager_new(struct ttm_mem_type_manager *man,
- 	return 0;
- }
- 
--const struct ttm_mem_type_manager_func nouveau_vram_manager = {
-+const struct ttm_resource_manager_func nouveau_vram_manager = {
- 	.get_node = nouveau_vram_manager_new,
- 	.put_node = nouveau_manager_del,
- };
- 
- static int
--nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
-+nouveau_gart_manager_new(struct ttm_resource_manager *man,
+-			 struct ttm_mem_reg *reg)
++			 struct ttm_resource *reg)
+ {
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+@@ -72,7 +72,7 @@ static int
+ nouveau_gart_manager_new(struct ttm_resource_manager *man,
  			 struct ttm_buffer_object *bo,
  			 const struct ttm_place *place,
- 			 struct ttm_mem_reg *reg)
-@@ -86,13 +86,13 @@ nouveau_gart_manager_new(struct ttm_mem_type_manager *man,
- 	return 0;
- }
- 
--const struct ttm_mem_type_manager_func nouveau_gart_manager = {
-+const struct ttm_resource_manager_func nouveau_gart_manager = {
- 	.get_node = nouveau_gart_manager_new,
- 	.put_node = nouveau_manager_del,
- };
- 
- static int
--nv04_gart_manager_new(struct ttm_mem_type_manager *man,
-+nv04_gart_manager_new(struct ttm_resource_manager *man,
+-			 struct ttm_mem_reg *reg)
++			 struct ttm_resource *reg)
+ {
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+@@ -95,7 +95,7 @@ static int
+ nv04_gart_manager_new(struct ttm_resource_manager *man,
  		      struct ttm_buffer_object *bo,
  		      const struct ttm_place *place,
- 		      struct ttm_mem_reg *reg)
-@@ -118,7 +118,7 @@ nv04_gart_manager_new(struct ttm_mem_type_manager *man,
- 	return 0;
- }
- 
--const struct ttm_mem_type_manager_func nv04_gart_manager = {
-+const struct ttm_resource_manager_func nv04_gart_manager = {
- 	.get_node = nv04_gart_manager_new,
- 	.put_node = nouveau_manager_del,
- };
-@@ -160,7 +160,7 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
- 		/* Some BARs do not support being ioremapped WC */
- 		const u8 type = mmu->type[drm->ttm.type_vram].type;
--		struct ttm_mem_type_manager *man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
-+		struct ttm_resource_manager *man = kzalloc(sizeof(struct ttm_resource_manager), GFP_KERNEL);
- 		if (!man)
- 			return -ENOMEM;
- 
-@@ -175,10 +175,10 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- 		man->func = &nouveau_vram_manager;
- 		man->use_io_reserve_lru = true;
- 
--		ttm_mem_type_manager_init(man,
-+		ttm_resource_manager_init(man,
- 					  drm->gem.vram_available >> PAGE_SHIFT);
- 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, man);
--		ttm_mem_type_manager_set_used(man, true);
-+		ttm_resource_manager_set_used(man, true);
- 		return 0;
- 	} else {
- 		return ttm_range_man_init(&drm->ttm.bdev, TTM_PL_VRAM,
-@@ -191,12 +191,12 @@ nouveau_ttm_init_vram(struct nouveau_drm *drm)
- static void
- nouveau_ttm_fini_vram(struct nouveau_drm *drm)
+-		      struct ttm_mem_reg *reg)
++		      struct ttm_resource *reg)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_VRAM);
- 
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA) {
--		ttm_mem_type_manager_set_used(man, false);
--		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
--		ttm_mem_type_manager_cleanup(man);
-+		ttm_resource_manager_set_used(man, false);
-+		ttm_resource_manager_force_list_clean(&drm->ttm.bdev, man);
-+		ttm_resource_manager_cleanup(man);
- 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_VRAM, NULL);
- 		kfree(man);
- 	} else
-@@ -206,10 +206,10 @@ nouveau_ttm_fini_vram(struct nouveau_drm *drm)
- static int
- nouveau_ttm_init_gtt(struct nouveau_drm *drm)
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+diff --git a/drivers/gpu/drm/nouveau/nv17_fence.c b/drivers/gpu/drm/nouveau/nv17_fence.c
+index cd1e87a528a4..6b697ee6bc0e 100644
+--- a/drivers/gpu/drm/nouveau/nv17_fence.c
++++ b/drivers/gpu/drm/nouveau/nv17_fence.c
+@@ -78,7 +78,7 @@ nv17_fence_context_new(struct nouveau_channel *chan)
  {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	unsigned long size_pages = drm->gem.gart_available >> PAGE_SHIFT;
- 	unsigned available_caching, default_caching;
--	const struct ttm_mem_type_manager_func *func = NULL;
-+	const struct ttm_resource_manager_func *func = NULL;
- 	if (drm->agp.bridge) {
- 		available_caching = TTM_PL_FLAG_UNCACHED |
- 			TTM_PL_FLAG_WC;
-@@ -229,7 +229,7 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- 					  true,
- 					  size_pages);
- 
--	man = kzalloc(sizeof(struct ttm_mem_type_manager), GFP_KERNEL);
-+	man = kzalloc(sizeof(struct ttm_resource_manager), GFP_KERNEL);
- 	if (!man)
- 		return -ENOMEM;
- 
-@@ -237,24 +237,24 @@ nouveau_ttm_init_gtt(struct nouveau_drm *drm)
- 	man->available_caching = available_caching;
- 	man->default_caching = default_caching;
- 	man->use_tt = true;
--	ttm_mem_type_manager_init(man, size_pages);
-+	ttm_resource_manager_init(man, size_pages);
- 	ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, man);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
- 	return 0;
- }
- 
- static void
- nouveau_ttm_fini_gtt(struct nouveau_drm *drm)
+ 	struct nv10_fence_priv *priv = chan->drm->fence;
+ 	struct nv10_fence_chan *fctx;
+-	struct ttm_mem_reg *reg = &priv->bo->bo.mem;
++	struct ttm_resource *reg = &priv->bo->bo.mem;
+ 	u32 start = reg->start * PAGE_SIZE;
+ 	u32 limit = start + reg->size - 1;
+ 	int ret = 0;
+diff --git a/drivers/gpu/drm/nouveau/nv50_fence.c b/drivers/gpu/drm/nouveau/nv50_fence.c
+index ebb740686b44..49b46f51073c 100644
+--- a/drivers/gpu/drm/nouveau/nv50_fence.c
++++ b/drivers/gpu/drm/nouveau/nv50_fence.c
+@@ -37,7 +37,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
-+	struct ttm_resource_manager *man = ttm_manager_type(&drm->ttm.bdev, TTM_PL_TT);
+ 	struct nv10_fence_priv *priv = chan->drm->fence;
+ 	struct nv10_fence_chan *fctx;
+-	struct ttm_mem_reg *reg = &priv->bo->bo.mem;
++	struct ttm_resource *reg = &priv->bo->bo.mem;
+ 	u32 start = reg->start * PAGE_SIZE;
+ 	u32 limit = start + reg->size - 1;
+ 	int ret;
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index 9691449aefdb..aae90a9ee1db 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -350,7 +350,7 @@ int qxl_mode_dumb_mmap(struct drm_file *filp,
+ int qxl_ttm_init(struct qxl_device *qdev);
+ void qxl_ttm_fini(struct qxl_device *qdev);
+ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
+-			   struct ttm_mem_reg *mem);
++			   struct ttm_resource *mem);
  
- 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA &&
- 	    drm->agp.bridge)
- 		ttm_range_man_fini(&drm->ttm.bdev, TTM_PL_TT);
- 	else {
--		ttm_mem_type_manager_set_used(man, false);
--		ttm_mem_type_manager_force_list_clean(&drm->ttm.bdev, man);
--		ttm_mem_type_manager_cleanup(man);
-+		ttm_resource_manager_set_used(man, false);
-+		ttm_resource_manager_force_list_clean(&drm->ttm.bdev, man);
-+		ttm_resource_manager_cleanup(man);
- 		ttm_set_driver_manager(&drm->ttm.bdev, TTM_PL_TT, NULL);
- 		kfree(man);
- 	}
-diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.h b/drivers/gpu/drm/nouveau/nouveau_ttm.h
-index 085280754b3e..eaf25461cd91 100644
---- a/drivers/gpu/drm/nouveau/nouveau_ttm.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_ttm.h
-@@ -8,9 +8,9 @@ nouveau_bdev(struct ttm_bo_device *bd)
- 	return container_of(bd, struct nouveau_drm, ttm.bdev);
- }
+ /* qxl image */
  
--extern const struct ttm_mem_type_manager_func nouveau_vram_manager;
--extern const struct ttm_mem_type_manager_func nouveau_gart_manager;
--extern const struct ttm_mem_type_manager_func nv04_gart_manager;
-+extern const struct ttm_resource_manager_func nouveau_vram_manager;
-+extern const struct ttm_resource_manager_func nouveau_gart_manager;
-+extern const struct ttm_resource_manager_func nv04_gart_manager;
- 
- struct ttm_tt *nouveau_sgdma_create_ttm(struct ttm_buffer_object *bo,
- 					u32 page_flags);
 diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index b7365b2e4c7f..1c06fe780815 100644
+index 1c06fe780815..dc31f3fea33c 100644
 --- a/drivers/gpu/drm/qxl/qxl_ttm.c
 +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -274,10 +274,10 @@ void qxl_ttm_fini(struct qxl_device *qdev)
- static int qxl_mm_dump_table(struct seq_file *m, void *data)
- {
- 	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct ttm_mem_type_manager *man = (struct ttm_mem_type_manager *)node->info_ent->data;
-+	struct ttm_resource_manager *man = (struct ttm_resource_manager *)node->info_ent->data;
- 	struct drm_printer p = drm_seq_file_printer(m);
- 
--	ttm_mem_type_manager_debug(man, &p);
-+	ttm_resource_manager_debug(man, &p);
- 	return 0;
+@@ -71,7 +71,7 @@ static void qxl_evict_flags(struct ttm_buffer_object *bo,
  }
- #endif
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 3ec028dba739..7f5dfe04789e 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -224,7 +224,7 @@ int radeon_gem_info_ioctl(struct drm_device *dev, void *data,
+ 
+ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
+-			   struct ttm_mem_reg *mem)
++			   struct ttm_resource *mem)
  {
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_radeon_gem_info *args = data;
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
+ 	struct qxl_device *qdev = qxl_get_qdev(bdev);
  
- 	man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
+@@ -111,7 +111,7 @@ struct qxl_ttm_tt {
+ };
  
+ static int qxl_ttm_backend_bind(struct ttm_tt *ttm,
+-				struct ttm_mem_reg *bo_mem)
++				struct ttm_resource *bo_mem)
+ {
+ 	struct qxl_ttm_tt *gtt = (void *)ttm;
+ 
+@@ -163,9 +163,9 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
+ }
+ 
+ static void qxl_move_null(struct ttm_buffer_object *bo,
+-			     struct ttm_mem_reg *new_mem)
++			     struct ttm_resource *new_mem)
+ {
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
+ 
+ 	BUG_ON(old_mem->mm_node != NULL);
+ 	*old_mem = *new_mem;
+@@ -174,9 +174,9 @@ static void qxl_move_null(struct ttm_buffer_object *bo,
+ 
+ static int qxl_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 		       struct ttm_operation_ctx *ctx,
+-		       struct ttm_mem_reg *new_mem)
++		       struct ttm_resource *new_mem)
+ {
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
+ 	int ret;
+ 
+ 	ret = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
+@@ -192,7 +192,7 @@ static int qxl_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 
+ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
+ 			       bool evict,
+-			       struct ttm_mem_reg *new_mem)
++			       struct ttm_resource *new_mem)
+ {
+ 	struct qxl_bo *qbo;
+ 	struct qxl_device *qdev;
+diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+index b7c3fb2bfb54..cc4f58d16589 100644
+--- a/drivers/gpu/drm/radeon/radeon.h
++++ b/drivers/gpu/drm/radeon/radeon.h
+@@ -2857,7 +2857,7 @@ int radeon_vm_clear_invalids(struct radeon_device *rdev,
+ 			     struct radeon_vm *vm);
+ int radeon_vm_bo_update(struct radeon_device *rdev,
+ 			struct radeon_bo_va *bo_va,
+-			struct ttm_mem_reg *mem);
++			struct ttm_resource *mem);
+ void radeon_vm_bo_invalidate(struct radeon_device *rdev,
+ 			     struct radeon_bo *bo);
+ struct radeon_bo_va *radeon_vm_bo_find(struct radeon_vm *vm,
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index f3dee01250da..bb7582afd803 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -775,7 +775,7 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ 
+ void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+ 			   bool evict,
+-			   struct ttm_mem_reg *new_mem)
++			   struct ttm_resource *new_mem)
+ {
+ 	struct radeon_bo *rbo;
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+index 60275b822f79..44b47241ee42 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.h
++++ b/drivers/gpu/drm/radeon/radeon_object.h
+@@ -165,7 +165,7 @@ extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ 				bool force_drop);
+ extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+ 				  bool evict,
+-				  struct ttm_mem_reg *new_mem);
++				  struct ttm_resource *new_mem);
+ extern int radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
+ extern int radeon_bo_get_surface_reg(struct radeon_bo *bo);
+ extern void radeon_bo_fence(struct radeon_bo *bo, struct radeon_fence *fence,
 diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 474d2161da1e..05b5f29f2b61 100644
+index 05b5f29f2b61..a068d6960c23 100644
 --- a/drivers/gpu/drm/radeon/radeon_ttm.c
 +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -836,7 +836,7 @@ void radeon_ttm_fini(struct radeon_device *rdev)
-  * isn't running */
- void radeon_ttm_set_active_vram_size(struct radeon_device *rdev, u64 size)
+@@ -166,9 +166,9 @@ static int radeon_verify_access(struct ttm_buffer_object *bo, struct file *filp)
+ }
+ 
+ static void radeon_move_null(struct ttm_buffer_object *bo,
+-			     struct ttm_mem_reg *new_mem)
++			     struct ttm_resource *new_mem)
  {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
  
- 	if (!rdev->mman.initialized)
- 		return;
-@@ -895,7 +895,7 @@ static int radeon_mm_dump_table(struct seq_file *m, void *data)
- 	unsigned ttm_pl = *(int*)node->info_ent->data;
- 	struct drm_device *dev = node->minor->dev;
- 	struct radeon_device *rdev = dev->dev_private;
--	struct ttm_mem_type_manager *man = ttm_manager_type(&rdev->mman.bdev, ttm_pl);
-+	struct ttm_resource_manager *man = ttm_manager_type(&rdev->mman.bdev, ttm_pl);
- 	struct drm_printer p = drm_seq_file_printer(m);
+ 	BUG_ON(old_mem->mm_node != NULL);
+ 	*old_mem = *new_mem;
+@@ -177,8 +177,8 @@ static void radeon_move_null(struct ttm_buffer_object *bo,
  
- 	man->func->debug(man, &p);
+ static int radeon_move_blit(struct ttm_buffer_object *bo,
+ 			bool evict, bool no_wait_gpu,
+-			struct ttm_mem_reg *new_mem,
+-			struct ttm_mem_reg *old_mem)
++			struct ttm_resource *new_mem,
++			struct ttm_resource *old_mem)
+ {
+ 	struct radeon_device *rdev;
+ 	uint64_t old_start, new_start;
+@@ -233,11 +233,11 @@ static int radeon_move_blit(struct ttm_buffer_object *bo,
+ static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
+ 				bool evict, bool interruptible,
+ 				bool no_wait_gpu,
+-				struct ttm_mem_reg *new_mem)
++				struct ttm_resource *new_mem)
+ {
+ 	struct ttm_operation_ctx ctx = { interruptible, no_wait_gpu };
+-	struct ttm_mem_reg *old_mem = &bo->mem;
+-	struct ttm_mem_reg tmp_mem;
++	struct ttm_resource *old_mem = &bo->mem;
++	struct ttm_resource tmp_mem;
+ 	struct ttm_place placements;
+ 	struct ttm_placement placement;
+ 	int r;
+@@ -278,11 +278,11 @@ static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
+ static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
+ 				bool evict, bool interruptible,
+ 				bool no_wait_gpu,
+-				struct ttm_mem_reg *new_mem)
++				struct ttm_resource *new_mem)
+ {
+ 	struct ttm_operation_ctx ctx = { interruptible, no_wait_gpu };
+-	struct ttm_mem_reg *old_mem = &bo->mem;
+-	struct ttm_mem_reg tmp_mem;
++	struct ttm_resource *old_mem = &bo->mem;
++	struct ttm_resource tmp_mem;
+ 	struct ttm_placement placement;
+ 	struct ttm_place placements;
+ 	int r;
+@@ -315,11 +315,11 @@ static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
+ 
+ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 			  struct ttm_operation_ctx *ctx,
+-			  struct ttm_mem_reg *new_mem)
++			  struct ttm_resource *new_mem)
+ {
+ 	struct radeon_device *rdev;
+ 	struct radeon_bo *rbo;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
+ 	int r;
+ 
+ 	r = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
+@@ -376,7 +376,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	return 0;
+ }
+ 
+-static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg *mem)
++static int radeon_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *mem)
+ {
+ 	struct radeon_device *rdev = radeon_get_rdev(bdev);
+ 
+@@ -544,7 +544,7 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_tt *ttm)
+ }
+ 
+ static int radeon_ttm_backend_bind(struct ttm_tt *ttm,
+-				   struct ttm_mem_reg *bo_mem)
++				   struct ttm_resource *bo_mem)
+ {
+ 	struct radeon_ttm_tt *gtt = (void*)ttm;
+ 	uint32_t flags = RADEON_GART_PAGE_VALID | RADEON_GART_PAGE_READ |
+diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
+index f60fae0aed11..71e2c3785ab9 100644
+--- a/drivers/gpu/drm/radeon/radeon_vm.c
++++ b/drivers/gpu/drm/radeon/radeon_vm.c
+@@ -911,7 +911,7 @@ static void radeon_vm_fence_pts(struct radeon_vm *vm,
+  */
+ int radeon_vm_bo_update(struct radeon_device *rdev,
+ 			struct radeon_bo_va *bo_va,
+-			struct ttm_mem_reg *mem)
++			struct ttm_resource *mem)
+ {
+ 	struct radeon_vm *vm = bo_va->vm;
+ 	struct radeon_ib ib;
+diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+index 38f1351140e2..09fe80e215c5 100644
+--- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
++++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+@@ -48,7 +48,7 @@ struct ttm_agp_backend {
+ 	struct agp_bridge_data *bridge;
+ };
+ 
+-static int ttm_agp_bind(struct ttm_tt *ttm, struct ttm_mem_reg *bo_mem)
++static int ttm_agp_bind(struct ttm_tt *ttm, struct ttm_resource *bo_mem)
+ {
+ 	struct ttm_agp_backend *agp_be = container_of(ttm, struct ttm_agp_backend, ttm);
+ 	struct page *dummy_read_page = ttm_bo_glob.dummy_read_page;
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 7d10abae9a60..48840a3cf4c4 100644
+index 48840a3cf4c4..1ea5de976ec3 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -77,7 +77,7 @@ static inline int ttm_mem_type_from_place(const struct ttm_place *place,
- 	return 0;
+@@ -145,7 +145,7 @@ static inline uint32_t ttm_bo_type_flags(unsigned type)
  }
  
--void ttm_mem_type_manager_debug(struct ttm_mem_type_manager *man,
-+void ttm_resource_manager_debug(struct ttm_resource_manager *man,
- 				struct drm_printer *p)
- {
- 	drm_printf(p, "    use_type: %d\n", man->use_type);
-@@ -88,14 +88,14 @@ void ttm_mem_type_manager_debug(struct ttm_mem_type_manager *man,
- 	if (man->func && man->func->debug)
- 		(*man->func->debug)(man, p);
- }
--EXPORT_SYMBOL(ttm_mem_type_manager_debug);
-+EXPORT_SYMBOL(ttm_resource_manager_debug);
- 
- static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
- 					struct ttm_placement *placement)
- {
- 	struct drm_printer p = drm_debug_printer(TTM_PFX);
- 	int i, ret, mem_type;
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 
- 	drm_printf(&p, "No space for %p (%lu pages, %luK, %luM)\n",
- 		   bo, bo->mem.num_pages, bo->mem.size >> 10,
-@@ -108,7 +108,7 @@ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
- 		drm_printf(&p, "  placement[%d]=0x%08X (%d)\n",
- 			   i, placement->placement[i].flags, mem_type);
- 		man = ttm_manager_type(bo->bdev, mem_type);
--		ttm_mem_type_manager_debug(man, &p);
-+		ttm_resource_manager_debug(man, &p);
- 	}
- }
- 
-@@ -148,7 +148,7 @@ static void ttm_bo_add_mem_to_lru(struct ttm_buffer_object *bo,
- 				  struct ttm_mem_reg *mem)
+ static void ttm_bo_add_mem_to_lru(struct ttm_buffer_object *bo,
+-				  struct ttm_mem_reg *mem)
++				  struct ttm_resource *mem)
  {
  	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
+ 	struct ttm_resource_manager *man;
+@@ -268,7 +268,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
+ EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
  
- 	if (!list_empty(&bo->lru))
- 		return;
-@@ -223,7 +223,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
- 
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
- 		struct ttm_lru_bulk_move_pos *pos = &bulk->tt[i];
--		struct ttm_mem_type_manager *man;
-+		struct ttm_resource_manager *man;
- 
- 		if (!pos->first)
- 			continue;
-@@ -238,7 +238,7 @@ void ttm_bo_bulk_move_lru_tail(struct ttm_lru_bulk_move *bulk)
- 
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
- 		struct ttm_lru_bulk_move_pos *pos = &bulk->vram[i];
--		struct ttm_mem_type_manager *man;
-+		struct ttm_resource_manager *man;
- 
- 		if (!pos->first)
- 			continue;
-@@ -272,8 +272,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+-				  struct ttm_mem_reg *mem, bool evict,
++				  struct ttm_resource *mem, bool evict,
  				  struct ttm_operation_ctx *ctx)
  {
  	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *old_man = ttm_manager_type(bdev, bo->mem.mem_type);
--	struct ttm_mem_type_manager *new_man = ttm_manager_type(bdev, mem->mem_type);
-+	struct ttm_resource_manager *old_man = ttm_manager_type(bdev, bo->mem.mem_type);
-+	struct ttm_resource_manager *new_man = ttm_manager_type(bdev, mem->mem_type);
- 	int ret;
- 
- 	ret = ttm_mem_io_lock(old_man, true);
-@@ -551,7 +551,7 @@ static void ttm_bo_release(struct kref *kref)
- 	struct ttm_buffer_object *bo =
- 	    container_of(kref, struct ttm_buffer_object, kref);
+@@ -642,7 +642,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ 			struct ttm_operation_ctx *ctx)
+ {
  	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
- 	size_t acc_size = bo->acc_size;
- 	int ret;
+-	struct ttm_mem_reg evict_mem;
++	struct ttm_resource evict_mem;
+ 	struct ttm_placement placement;
+ 	int ret = 0;
  
-@@ -768,7 +768,7 @@ static int ttm_mem_evict_wait_busy(struct ttm_buffer_object *busy_bo,
+@@ -841,7 +841,7 @@ static int ttm_mem_evict_first(struct ttm_bo_device *bdev,
+ 
+ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
+ 			  const struct ttm_place *place,
+-			  struct ttm_mem_reg *mem)
++			  struct ttm_resource *mem)
+ {
+ 	struct ttm_resource_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
+ 
+@@ -852,7 +852,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
+ 	return man->func->get_node(man, bo, place, mem);
  }
  
- static int ttm_mem_evict_first(struct ttm_bo_device *bdev,
--			       struct ttm_mem_type_manager *man,
-+			       struct ttm_resource_manager *man,
- 			       const struct ttm_place *place,
- 			       struct ttm_operation_ctx *ctx,
- 			       struct ww_acquire_ctx *ticket)
-@@ -843,7 +843,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
- 			  const struct ttm_place *place,
- 			  struct ttm_mem_reg *mem)
+-void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_mem_reg *mem)
++void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_resource *mem)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
+ 	struct ttm_resource_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
  
- 	mem->mm_node = NULL;
- 	if (!man->func || !man->func->get_node)
-@@ -854,7 +854,7 @@ static int ttm_bo_mem_get(struct ttm_buffer_object *bo,
- 
- void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_mem_reg *mem)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bo->bdev, mem->mem_type);
- 
- 	if (!man->func || !man->func->put_node)
- 		return;
-@@ -869,7 +869,7 @@ EXPORT_SYMBOL(ttm_bo_mem_put);
-  * Add the last move fence to the BO and reserve a new shared slot.
+@@ -870,7 +870,7 @@ EXPORT_SYMBOL(ttm_bo_mem_put);
   */
  static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
--				 struct ttm_mem_type_manager *man,
-+				 struct ttm_resource_manager *man,
- 				 struct ttm_mem_reg *mem,
+ 				 struct ttm_resource_manager *man,
+-				 struct ttm_mem_reg *mem,
++				 struct ttm_resource *mem,
  				 bool no_wait_gpu)
  {
-@@ -911,7 +911,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+ 	struct dma_fence *fence;
+@@ -907,7 +907,7 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+  */
+ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+ 				  const struct ttm_place *place,
+-				  struct ttm_mem_reg *mem,
++				  struct ttm_resource *mem,
  				  struct ttm_operation_ctx *ctx)
  {
  	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
- 	struct ww_acquire_ctx *ticket;
- 	int ret;
- 
-@@ -931,7 +931,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
- 	return ttm_bo_add_move_fence(bo, man, mem, ctx->no_wait_gpu);
- }
- 
--static uint32_t ttm_bo_select_caching(struct ttm_mem_type_manager *man,
-+static uint32_t ttm_bo_select_caching(struct ttm_resource_manager *man,
- 				      uint32_t cur_placement,
- 				      uint32_t proposed_placement)
- {
-@@ -956,7 +956,7 @@ static uint32_t ttm_bo_select_caching(struct ttm_mem_type_manager *man,
- 	return result;
- }
- 
--static bool ttm_bo_mt_compatible(struct ttm_mem_type_manager *man,
-+static bool ttm_bo_mt_compatible(struct ttm_resource_manager *man,
- 				 uint32_t mem_type,
- 				 const struct ttm_place *place,
- 				 uint32_t *masked_placement)
-@@ -993,7 +993,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+@@ -988,7 +988,7 @@ static bool ttm_bo_mt_compatible(struct ttm_resource_manager *man,
+  */
+ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+ 				const struct ttm_place *place,
+-				struct ttm_mem_reg *mem,
++				struct ttm_resource *mem,
+ 				struct ttm_operation_ctx *ctx)
  {
  	struct ttm_bo_device *bdev = bo->bdev;
- 	uint32_t mem_type = TTM_PL_SYSTEM;
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	uint32_t cur_flags = 0;
- 	int ret;
- 
-@@ -1002,7 +1002,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
- 		return ret;
- 
- 	man = ttm_manager_type(bdev, mem_type);
--	if (!man || !ttm_mem_type_manager_used(man))
-+	if (!man || !ttm_resource_manager_used(man))
- 		return -EBUSY;
- 
- 	if (!ttm_bo_mt_compatible(man, mem_type, place, &cur_flags))
-@@ -1049,7 +1049,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
- 
- 	for (i = 0; i < placement->num_placement; ++i) {
- 		const struct ttm_place *place = &placement->placement[i];
--		struct ttm_mem_type_manager *man;
-+		struct ttm_resource_manager *man;
- 
- 		ret = ttm_bo_mem_placement(bo, place, mem, ctx);
- 		if (ret == -EBUSY)
-@@ -1406,8 +1406,8 @@ int ttm_bo_create(struct ttm_bo_device *bdev,
- }
- EXPORT_SYMBOL(ttm_bo_create);
- 
--int ttm_mem_type_manager_force_list_clean(struct ttm_bo_device *bdev,
--					  struct ttm_mem_type_manager *man)
-+int ttm_resource_manager_force_list_clean(struct ttm_bo_device *bdev,
-+					  struct ttm_resource_manager *man)
+@@ -1036,7 +1036,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+  */
+ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 			struct ttm_placement *placement,
+-			struct ttm_mem_reg *mem,
++			struct ttm_resource *mem,
+ 			struct ttm_operation_ctx *ctx)
  {
- 	struct ttm_operation_ctx ctx = {
- 		.interruptible = false,
-@@ -1449,12 +1449,12 @@ int ttm_mem_type_manager_force_list_clean(struct ttm_bo_device *bdev,
- 
- 	return 0;
- }
--EXPORT_SYMBOL(ttm_mem_type_manager_force_list_clean);
-+EXPORT_SYMBOL(ttm_resource_manager_force_list_clean);
- 
- 
- int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
+ 	struct ttm_bo_device *bdev = bo->bdev;
+@@ -1114,7 +1114,7 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+ 			      struct ttm_operation_ctx *ctx)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem_type);
- 
- 	if (mem_type == 0 || mem_type >= TTM_NUM_MEM_TYPES) {
- 		pr_err("Illegal memory manager memory type %u\n", mem_type);
-@@ -1466,11 +1466,11 @@ int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type)
- 		return 0;
- 	}
- 
--	return ttm_mem_type_manager_force_list_clean(bdev, man);
-+	return ttm_resource_manager_force_list_clean(bdev, man);
- }
- EXPORT_SYMBOL(ttm_bo_evict_mm);
- 
--void ttm_mem_type_manager_init(struct ttm_mem_type_manager *man,
-+void ttm_resource_manager_init(struct ttm_resource_manager *man,
- 			       unsigned long p_size)
- {
- 	unsigned i;
-@@ -1485,7 +1485,7 @@ void ttm_mem_type_manager_init(struct ttm_mem_type_manager *man,
- 		INIT_LIST_HEAD(&man->lru[i]);
- 	man->move = NULL;
- }
--EXPORT_SYMBOL(ttm_mem_type_manager_init);
-+EXPORT_SYMBOL(ttm_resource_manager_init);
- 
- static void ttm_bo_global_kobj_release(struct kobject *kobj)
- {
-@@ -1552,10 +1552,10 @@ int ttm_bo_device_release(struct ttm_bo_device *bdev)
- 	struct ttm_bo_global *glob = &ttm_bo_glob;
  	int ret = 0;
- 	unsigned i;
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
+-	struct ttm_mem_reg mem;
++	struct ttm_resource mem;
  
- 	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
--	ttm_mem_type_manager_set_used(man, false);
-+	ttm_resource_manager_set_used(man, false);
- 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
+ 	dma_resv_assert_held(bo->base.resv);
  
- 	mutex_lock(&ttm_global_mutex);
-@@ -1582,7 +1582,7 @@ EXPORT_SYMBOL(ttm_bo_device_release);
+@@ -1140,7 +1140,7 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
  
- static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
+ static bool ttm_bo_places_compat(const struct ttm_place *places,
+ 				 unsigned num_placement,
+-				 struct ttm_mem_reg *mem,
++				 struct ttm_resource *mem,
+ 				 uint32_t *new_flags)
  {
--	struct ttm_mem_type_manager *man = &bdev->sysman;
-+	struct ttm_resource_manager *man = &bdev->sysman;
- 
- 	/*
- 	 * Initialize the system memory buffer type.
-@@ -1592,9 +1592,9 @@ static void ttm_bo_init_sysman(struct ttm_bo_device *bdev)
- 	man->available_caching = TTM_PL_MASK_CACHING;
- 	man->default_caching = TTM_PL_FLAG_CACHED;
- 
--	ttm_mem_type_manager_init(man, 0);
-+	ttm_resource_manager_init(man, 0);
- 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, man);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
+ 	unsigned i;
+@@ -1163,7 +1163,7 @@ static bool ttm_bo_places_compat(const struct ttm_place *places,
  }
  
- int ttm_bo_device_init(struct ttm_bo_device *bdev,
-@@ -1645,7 +1645,7 @@ void ttm_bo_unmap_virtual_locked(struct ttm_buffer_object *bo)
- void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo)
+ bool ttm_bo_mem_compat(struct ttm_placement *placement,
+-		       struct ttm_mem_reg *mem,
++		       struct ttm_resource *mem,
+ 		       uint32_t *new_flags)
  {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, bo->mem.mem_type);
+ 	if (ttm_bo_places_compat(placement->placement, placement->num_placement,
+@@ -1732,7 +1732,7 @@ int ttm_bo_swapout(struct ttm_bo_global *glob, struct ttm_operation_ctx *ctx)
+ 	if (bo->mem.mem_type != TTM_PL_SYSTEM ||
+ 	    bo->ttm->caching_state != tt_cached) {
+ 		struct ttm_operation_ctx ctx = { false, false };
+-		struct ttm_mem_reg evict_mem;
++		struct ttm_resource evict_mem;
  
- 	ttm_mem_io_lock(man, false);
- 	ttm_bo_unmap_virtual_locked(bo);
+ 		evict_mem = bo->mem;
+ 		evict_mem.mm_node = NULL;
 diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 879c8ded0cd8..8ef0de8e36c5 100644
+index 8ef0de8e36c5..496158acd5b9 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -91,7 +91,7 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
- }
- EXPORT_SYMBOL(ttm_bo_move_ttm);
+@@ -52,10 +52,10 @@ void ttm_bo_free_old_node(struct ttm_buffer_object *bo)
  
--int ttm_mem_io_lock(struct ttm_mem_type_manager *man, bool interruptible)
-+int ttm_mem_io_lock(struct ttm_resource_manager *man, bool interruptible)
+ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
+ 		   struct ttm_operation_ctx *ctx,
+-		    struct ttm_mem_reg *new_mem)
++		    struct ttm_resource *new_mem)
  {
- 	if (likely(!man->use_io_reserve_lru))
- 		return 0;
-@@ -103,7 +103,7 @@ int ttm_mem_io_lock(struct ttm_mem_type_manager *man, bool interruptible)
- 	return 0;
- }
- 
--void ttm_mem_io_unlock(struct ttm_mem_type_manager *man)
-+void ttm_mem_io_unlock(struct ttm_resource_manager *man)
- {
- 	if (likely(!man->use_io_reserve_lru))
- 		return;
-@@ -111,7 +111,7 @@ void ttm_mem_io_unlock(struct ttm_mem_type_manager *man)
- 	mutex_unlock(&man->io_reserve_mutex);
- }
- 
--static int ttm_mem_io_evict(struct ttm_mem_type_manager *man)
-+static int ttm_mem_io_evict(struct ttm_resource_manager *man)
- {
- 	struct ttm_buffer_object *bo;
- 
-@@ -129,7 +129,7 @@ static int ttm_mem_io_evict(struct ttm_mem_type_manager *man)
- int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
- 		       struct ttm_mem_reg *mem)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
+ 	struct ttm_tt *ttm = bo->ttm;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
  	int ret;
  
- 	if (mem->bus.io_reserved_count++)
-@@ -162,7 +162,7 @@ void ttm_mem_io_free(struct ttm_bo_device *bdev,
+ 	if (old_mem->mem_type != TTM_PL_SYSTEM) {
+@@ -127,7 +127,7 @@ static int ttm_mem_io_evict(struct ttm_resource_manager *man)
+ }
  
+ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+-		       struct ttm_mem_reg *mem)
++		       struct ttm_resource *mem)
+ {
+ 	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
+ 	int ret;
+@@ -149,7 +149,7 @@ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+ }
+ 
+ void ttm_mem_io_free(struct ttm_bo_device *bdev,
+-		     struct ttm_mem_reg *mem)
++		     struct ttm_resource *mem)
+ {
+ 	if (--mem->bus.io_reserved_count)
+ 		return;
+@@ -163,7 +163,7 @@ void ttm_mem_io_free(struct ttm_bo_device *bdev,
  int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
- 	struct ttm_mem_reg *mem = &bo->mem;
+ 	struct ttm_resource_manager *man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
+-	struct ttm_mem_reg *mem = &bo->mem;
++	struct ttm_resource *mem = &bo->mem;
  	int ret;
  
-@@ -195,7 +195,7 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
- 			       struct ttm_mem_reg *mem,
+ 	if (mem->bus.io_reserved_vm)
+@@ -181,7 +181,7 @@ int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo)
+ 
+ void ttm_mem_io_free_vm(struct ttm_buffer_object *bo)
+ {
+-	struct ttm_mem_reg *mem = &bo->mem;
++	struct ttm_resource *mem = &bo->mem;
+ 
+ 	if (!mem->bus.io_reserved_vm)
+ 		return;
+@@ -191,8 +191,8 @@ void ttm_mem_io_free_vm(struct ttm_buffer_object *bo)
+ 	ttm_mem_io_free(bo->bdev, mem);
+ }
+ 
+-static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
+-			       struct ttm_mem_reg *mem,
++static int ttm_resource_ioremap(struct ttm_bo_device *bdev,
++			       struct ttm_resource *mem,
  			       void **virtual)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
- 	int ret;
- 	void *addr;
- 
-@@ -230,7 +230,7 @@ static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev,
- 				struct ttm_mem_reg *mem,
- 				void *virtual)
- {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 
- 	man = ttm_manager_type(bdev, mem->mem_type);
- 
-@@ -303,7 +303,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 		       struct ttm_mem_reg *new_mem)
- {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
- 	struct ttm_tt *ttm = bo->ttm;
- 	struct ttm_mem_reg *old_mem = &bo->mem;
- 	struct ttm_mem_reg old_copy = *old_mem;
-@@ -570,7 +570,7 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
- 		unsigned long start_page, unsigned long num_pages,
- 		struct ttm_bo_kmap_obj *map)
- {
--	struct ttm_mem_type_manager *man =
-+	struct ttm_resource_manager *man =
- 		ttm_manager_type(bo->bdev, bo->mem.mem_type);
- 	unsigned long offset, size;
- 	int ret;
-@@ -600,7 +600,7 @@ EXPORT_SYMBOL(ttm_bo_kmap);
- void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map)
- {
- 	struct ttm_buffer_object *bo = map->bo;
--	struct ttm_mem_type_manager *man =
-+	struct ttm_resource_manager *man =
- 		ttm_manager_type(bo->bdev, bo->mem.mem_type);
- 
- 	if (!map->virtual)
-@@ -634,7 +634,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
- 			      struct ttm_mem_reg *new_mem)
- {
- 	struct ttm_bo_device *bdev = bo->bdev;
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
- 	struct ttm_mem_reg *old_mem = &bo->mem;
- 	int ret;
- 	struct ttm_buffer_object *ghost_obj;
-@@ -697,8 +697,8 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
- 	struct ttm_bo_device *bdev = bo->bdev;
- 	struct ttm_mem_reg *old_mem = &bo->mem;
- 
--	struct ttm_mem_type_manager *from = ttm_manager_type(bdev, old_mem->mem_type);
--	struct ttm_mem_type_manager *to = ttm_manager_type(bdev, new_mem->mem_type);
-+	struct ttm_resource_manager *from = ttm_manager_type(bdev, old_mem->mem_type);
-+	struct ttm_resource_manager *to = ttm_manager_type(bdev, new_mem->mem_type);
- 
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 5ae679184eb5..c8efceef015d 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -281,7 +281,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
- 	pgoff_t i;
- 	vm_fault_t ret = VM_FAULT_NOPAGE;
- 	unsigned long address = vmf->address;
--	struct ttm_mem_type_manager *man =
-+	struct ttm_resource_manager *man =
- 		ttm_manager_type(bdev, bo->mem.mem_type);
- 
- 	/*
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index 52d9a0ed7165..22de9f209449 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -44,17 +44,17 @@
-  */
- 
- struct ttm_range_manager {
--	struct ttm_mem_type_manager manager;
-+	struct ttm_resource_manager manager;
- 	struct drm_mm mm;
- 	spinlock_t lock;
- };
- 
--static inline struct ttm_range_manager *to_range_manager(struct ttm_mem_type_manager *man)
-+static inline struct ttm_range_manager *to_range_manager(struct ttm_resource_manager *man)
- {
- 	return container_of(man, struct ttm_range_manager, manager);
- }
- 
--static int ttm_range_man_get_node(struct ttm_mem_type_manager *man,
-+static int ttm_range_man_get_node(struct ttm_resource_manager *man,
- 				  struct ttm_buffer_object *bo,
- 				  const struct ttm_place *place,
- 				  struct ttm_mem_reg *mem)
-@@ -95,7 +95,7 @@ static int ttm_range_man_get_node(struct ttm_mem_type_manager *man,
- 	return ret;
- }
- 
--static void ttm_range_man_put_node(struct ttm_mem_type_manager *man,
-+static void ttm_range_man_put_node(struct ttm_resource_manager *man,
- 				   struct ttm_mem_reg *mem)
- {
- 	struct ttm_range_manager *rman = to_range_manager(man);
-@@ -110,7 +110,7 @@ static void ttm_range_man_put_node(struct ttm_mem_type_manager *man,
- 	}
- }
- 
--static const struct ttm_mem_type_manager_func ttm_range_manager_func;
-+static const struct ttm_resource_manager_func ttm_range_manager_func;
- 
- int ttm_range_man_init(struct ttm_bo_device *bdev,
- 		       unsigned type,
-@@ -119,7 +119,7 @@ int ttm_range_man_init(struct ttm_bo_device *bdev,
- 		       bool use_tt,
- 		       unsigned long p_size)
- {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	struct ttm_range_manager *rman;
- 
- 	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
-@@ -133,13 +133,13 @@ int ttm_range_man_init(struct ttm_bo_device *bdev,
- 
- 	man->func = &ttm_range_manager_func;
- 
--	ttm_mem_type_manager_init(man, p_size);
-+	ttm_resource_manager_init(man, p_size);
- 
- 	drm_mm_init(&rman->mm, 0, p_size);
- 	spin_lock_init(&rman->lock);
- 
- 	ttm_set_driver_manager(bdev, type, &rman->manager);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
+ 	struct ttm_resource_manager *man = ttm_manager_type(bdev, mem->mem_type);
+@@ -226,8 +226,8 @@ static int ttm_mem_reg_ioremap(struct ttm_bo_device *bdev,
  	return 0;
  }
- EXPORT_SYMBOL(ttm_range_man_init);
-@@ -147,14 +147,14 @@ EXPORT_SYMBOL(ttm_range_man_init);
- int ttm_range_man_fini(struct ttm_bo_device *bdev,
- 		       unsigned type)
+ 
+-static void ttm_mem_reg_iounmap(struct ttm_bo_device *bdev,
+-				struct ttm_mem_reg *mem,
++static void ttm_resource_iounmap(struct ttm_bo_device *bdev,
++				struct ttm_resource *mem,
+ 				void *virtual)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(bdev, type);
-+	struct ttm_resource_manager *man = ttm_manager_type(bdev, type);
- 	struct ttm_range_manager *rman = to_range_manager(man);
- 	struct drm_mm *mm = &rman->mm;
+ 	struct ttm_resource_manager *man;
+@@ -300,13 +300,13 @@ static int ttm_copy_ttm_io_page(struct ttm_tt *ttm, void *dst,
+ 
+ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 		       struct ttm_operation_ctx *ctx,
+-		       struct ttm_mem_reg *new_mem)
++		       struct ttm_resource *new_mem)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+ 	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
+ 	struct ttm_tt *ttm = bo->ttm;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
+-	struct ttm_mem_reg old_copy = *old_mem;
++	struct ttm_resource *old_mem = &bo->mem;
++	struct ttm_resource old_copy = *old_mem;
+ 	void *old_iomap;
+ 	void *new_iomap;
  	int ret;
- 
--	ttm_mem_type_manager_set_used(man, false);
-+	ttm_resource_manager_set_used(man, false);
- 
--	ret = ttm_mem_type_manager_force_list_clean(bdev, man);
-+	ret = ttm_resource_manager_force_list_clean(bdev, man);
+@@ -319,10 +319,10 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
  	if (ret)
  		return ret;
  
-@@ -163,14 +163,14 @@ int ttm_range_man_fini(struct ttm_bo_device *bdev,
- 	drm_mm_takedown(mm);
- 	spin_unlock(&rman->lock);
+-	ret = ttm_mem_reg_ioremap(bdev, old_mem, &old_iomap);
++	ret = ttm_resource_ioremap(bdev, old_mem, &old_iomap);
+ 	if (ret)
+ 		return ret;
+-	ret = ttm_mem_reg_ioremap(bdev, new_mem, &new_iomap);
++	ret = ttm_resource_ioremap(bdev, new_mem, &new_iomap);
+ 	if (ret)
+ 		goto out;
  
--	ttm_mem_type_manager_cleanup(man);
-+	ttm_resource_manager_cleanup(man);
- 	ttm_set_driver_manager(bdev, type, NULL);
- 	kfree(rman);
- 	return 0;
- }
- EXPORT_SYMBOL(ttm_range_man_fini);
- 
--static void ttm_range_man_debug(struct ttm_mem_type_manager *man,
-+static void ttm_range_man_debug(struct ttm_resource_manager *man,
- 			     struct drm_printer *printer)
- {
- 	struct ttm_range_manager *rman = to_range_manager(man);
-@@ -180,7 +180,7 @@ static void ttm_range_man_debug(struct ttm_mem_type_manager *man,
- 	spin_unlock(&rman->lock);
- }
- 
--static const struct ttm_mem_type_manager_func ttm_range_manager_func = {
-+static const struct ttm_resource_manager_func ttm_range_manager_func = {
- 	.get_node = ttm_range_man_get_node,
- 	.put_node = ttm_range_man_put_node,
- 	.debug = ttm_range_man_debug
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index b2f1e7a3b048..7645d67aa6b6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -630,7 +630,7 @@ static int vmw_vram_manager_init(struct vmw_private *dev_priv)
- 				 TTM_PL_FLAG_CACHED, TTM_PL_FLAG_CACHED,
- 				 false, dev_priv->vram_size >> PAGE_SHIFT);
- #endif
--	ttm_mem_type_manager_set_used(ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM), false);
-+	ttm_resource_manager_set_used(ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM), false);
- 	return ret;
- }
- 
-@@ -1189,12 +1189,12 @@ static void vmw_master_drop(struct drm_device *dev,
-  */
- static void __vmw_svga_enable(struct vmw_private *dev_priv)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
- 
- 	spin_lock(&dev_priv->svga_lock);
--	if (!ttm_mem_type_manager_used(man)) {
-+	if (!ttm_resource_manager_used(man)) {
- 		vmw_write(dev_priv, SVGA_REG_ENABLE, SVGA_REG_ENABLE);
--		ttm_mem_type_manager_set_used(man, true);
-+		ttm_resource_manager_set_used(man, true);
+@@ -390,9 +390,9 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
  	}
- 	spin_unlock(&dev_priv->svga_lock);
- }
-@@ -1220,11 +1220,11 @@ void vmw_svga_enable(struct vmw_private *dev_priv)
-  */
- static void __vmw_svga_disable(struct vmw_private *dev_priv)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
  
- 	spin_lock(&dev_priv->svga_lock);
--	if (ttm_mem_type_manager_used(man)) {
--		ttm_mem_type_manager_set_used(man, false);
-+	if (ttm_resource_manager_used(man)) {
-+		ttm_resource_manager_set_used(man, false);
- 		vmw_write(dev_priv, SVGA_REG_ENABLE,
- 			  SVGA_REG_ENABLE_HIDE |
- 			  SVGA_REG_ENABLE_ENABLE);
-@@ -1241,7 +1241,7 @@ static void __vmw_svga_disable(struct vmw_private *dev_priv)
-  */
- void vmw_svga_disable(struct vmw_private *dev_priv)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
+ out1:
+-	ttm_mem_reg_iounmap(bdev, old_mem, new_iomap);
++	ttm_resource_iounmap(bdev, old_mem, new_iomap);
+ out:
+-	ttm_mem_reg_iounmap(bdev, &old_copy, old_iomap);
++	ttm_resource_iounmap(bdev, &old_copy, old_iomap);
+ 
  	/*
- 	 * Disabling SVGA will turn off device modesetting capabilities, so
- 	 * notify KMS about that so that it doesn't cache atomic state that
-@@ -1257,8 +1257,8 @@ void vmw_svga_disable(struct vmw_private *dev_priv)
- 	vmw_kms_lost_device(dev_priv->dev);
- 	ttm_write_lock(&dev_priv->reservation_sem, false);
- 	spin_lock(&dev_priv->svga_lock);
--	if (ttm_mem_type_manager_used(man)) {
--		ttm_mem_type_manager_set_used(man, false);
-+	if (ttm_resource_manager_used(man)) {
-+		ttm_resource_manager_set_used(man, false);
- 		spin_unlock(&dev_priv->svga_lock);
- 		if (ttm_bo_evict_mm(&dev_priv->bdev, TTM_PL_VRAM))
- 			DRM_ERROR("Failed evicting VRAM buffers.\n");
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-index ca5037184814..c8fe6e9cf092 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-@@ -37,7 +37,7 @@
- #include <linux/kernel.h>
- 
- struct vmwgfx_gmrid_man {
--	struct ttm_mem_type_manager manager;
-+	struct ttm_resource_manager manager;
- 	spinlock_t lock;
- 	struct ida gmr_ida;
- 	uint32_t max_gmr_ids;
-@@ -45,12 +45,12 @@ struct vmwgfx_gmrid_man {
- 	uint32_t used_gmr_pages;
- };
- 
--static struct vmwgfx_gmrid_man *to_gmrid_manager(struct ttm_mem_type_manager *man)
-+static struct vmwgfx_gmrid_man *to_gmrid_manager(struct ttm_resource_manager *man)
+ 	 * On error, keep the mm node!
+@@ -502,7 +502,7 @@ static int ttm_bo_ioremap(struct ttm_buffer_object *bo,
+ 			  unsigned long size,
+ 			  struct ttm_bo_kmap_obj *map)
  {
- 	return container_of(man, struct vmwgfx_gmrid_man, manager);
- }
+-	struct ttm_mem_reg *mem = &bo->mem;
++	struct ttm_resource *mem = &bo->mem;
  
--static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
-+static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
+ 	if (bo->mem.bus.addr) {
+ 		map->bo_kmap_type = ttm_bo_map_premapped;
+@@ -526,7 +526,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+ 			   unsigned long num_pages,
+ 			   struct ttm_bo_kmap_obj *map)
+ {
+-	struct ttm_mem_reg *mem = &bo->mem;
++	struct ttm_resource *mem = &bo->mem;
+ 	struct ttm_operation_ctx ctx = {
+ 		.interruptible = false,
+ 		.no_wait_gpu = false
+@@ -631,11 +631,11 @@ EXPORT_SYMBOL(ttm_bo_kunmap);
+ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+ 			      struct dma_fence *fence,
+ 			      bool evict,
+-			      struct ttm_mem_reg *new_mem)
++			      struct ttm_resource *new_mem)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+ 	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
+ 	int ret;
+ 	struct ttm_buffer_object *ghost_obj;
+ 
+@@ -692,10 +692,10 @@ EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
+ 
+ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
+ 			 struct dma_fence *fence, bool evict,
+-			 struct ttm_mem_reg *new_mem)
++			 struct ttm_resource *new_mem)
+ {
+ 	struct ttm_bo_device *bdev = bo->bdev;
+-	struct ttm_mem_reg *old_mem = &bo->mem;
++	struct ttm_resource *old_mem = &bo->mem;
+ 
+ 	struct ttm_resource_manager *from = ttm_manager_type(bdev, old_mem->mem_type);
+ 	struct ttm_resource_manager *to = ttm_manager_type(bdev, new_mem->mem_type);
+diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+index 22de9f209449..7442d811f867 100644
+--- a/drivers/gpu/drm/ttm/ttm_range_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+@@ -57,7 +57,7 @@ static inline struct ttm_range_manager *to_range_manager(struct ttm_resource_man
+ static int ttm_range_man_get_node(struct ttm_resource_manager *man,
  				  struct ttm_buffer_object *bo,
  				  const struct ttm_place *place,
- 				  struct ttm_mem_reg *mem)
-@@ -84,7 +84,7 @@ static int vmw_gmrid_man_get_node(struct ttm_mem_type_manager *man,
- 	return -ENOSPC;
+-				  struct ttm_mem_reg *mem)
++				  struct ttm_resource *mem)
+ {
+ 	struct ttm_range_manager *rman = to_range_manager(man);
+ 	struct drm_mm *mm = &rman->mm;
+@@ -96,7 +96,7 @@ static int ttm_range_man_get_node(struct ttm_resource_manager *man,
  }
  
--static void vmw_gmrid_man_put_node(struct ttm_mem_type_manager *man,
-+static void vmw_gmrid_man_put_node(struct ttm_resource_manager *man,
- 				   struct ttm_mem_reg *mem)
+ static void ttm_range_man_put_node(struct ttm_resource_manager *man,
+-				   struct ttm_mem_reg *mem)
++				   struct ttm_resource *mem)
  {
- 	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
-@@ -98,11 +98,11 @@ static void vmw_gmrid_man_put_node(struct ttm_mem_type_manager *man,
+ 	struct ttm_range_manager *rman = to_range_manager(man);
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 9d1c7177384c..1ccf1ef050d6 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -316,7 +316,7 @@ void ttm_tt_unbind(struct ttm_tt *ttm)
  	}
  }
  
--static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func;
-+static const struct ttm_resource_manager_func vmw_gmrid_manager_func;
- 
- int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
+-int ttm_tt_bind(struct ttm_tt *ttm, struct ttm_mem_reg *bo_mem,
++int ttm_tt_bind(struct ttm_tt *ttm, struct ttm_resource *bo_mem,
+ 		struct ttm_operation_ctx *ctx)
  {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	struct vmwgfx_gmrid_man *gman =
- 		kzalloc(sizeof(*gman), GFP_KERNEL);
+ 	int ret = 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 1e59c019affa..3229451d0706 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -1135,14 +1135,14 @@ void vmw_bo_swap_notify(struct ttm_buffer_object *bo)
+  * vmw_bo_move_notify - TTM move_notify_callback
+  *
+  * @bo: The TTM buffer object about to move.
+- * @mem: The struct ttm_mem_reg indicating to what memory
++ * @mem: The struct ttm_resource indicating to what memory
+  *       region the move is taking place.
+  *
+  * Detaches cached maps and device bindings that require that the
+  * buffer doesn't move.
+  */
+ void vmw_bo_move_notify(struct ttm_buffer_object *bo,
+-			struct ttm_mem_reg *mem)
++			struct ttm_resource *mem)
+ {
+ 	struct vmw_buffer_object *vbo;
  
-@@ -116,7 +116,7 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- 	man->default_caching = TTM_PL_FLAG_CACHED;
- 	/* TODO: This is most likely not correct */
- 	man->use_tt = true;
--	ttm_mem_type_manager_init(man, 0);
-+	ttm_resource_manager_init(man, 0);
- 	spin_lock_init(&gman->lock);
- 	gman->used_gmr_pages = 0;
- 	ida_init(&gman->gmr_ida);
-@@ -134,20 +134,20 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- 		BUG();
- 	}
- 	ttm_set_driver_manager(&dev_priv->bdev, type, &gman->manager);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
- 	return 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index aa763c6b1146..871ad738dadb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -793,7 +793,7 @@ extern void vmw_resource_unreserve(struct vmw_resource *res,
+ 				   struct vmw_buffer_object *new_backup,
+ 				   unsigned long new_backup_offset);
+ extern void vmw_query_move_notify(struct ttm_buffer_object *bo,
+-				  struct ttm_mem_reg *mem);
++				  struct ttm_resource *mem);
+ extern int vmw_query_readback_all(struct vmw_buffer_object *dx_query_mob);
+ extern void vmw_resource_evict_all(struct vmw_private *dev_priv);
+ extern void vmw_resource_unbind_list(struct vmw_buffer_object *vbo);
+@@ -878,7 +878,7 @@ extern void vmw_bo_fence_single(struct ttm_buffer_object *bo,
+ extern void *vmw_bo_map_and_cache(struct vmw_buffer_object *vbo);
+ extern void vmw_bo_unmap(struct vmw_buffer_object *vbo);
+ extern void vmw_bo_move_notify(struct ttm_buffer_object *bo,
+-			       struct ttm_mem_reg *mem);
++			       struct ttm_resource *mem);
+ extern void vmw_bo_swap_notify(struct ttm_buffer_object *bo);
+ extern struct vmw_buffer_object *
+ vmw_user_bo_noref_lookup(struct ttm_object_file *tfile, u32 handle);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index c8fe6e9cf092..3fea7a6c7cfa 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -53,7 +53,7 @@ static struct vmwgfx_gmrid_man *to_gmrid_manager(struct ttm_resource_manager *ma
+ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
+ 				  struct ttm_buffer_object *bo,
+ 				  const struct ttm_place *place,
+-				  struct ttm_mem_reg *mem)
++				  struct ttm_resource *mem)
+ {
+ 	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
+ 	int id;
+@@ -85,7 +85,7 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
  }
  
- void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type)
+ static void vmw_gmrid_man_put_node(struct ttm_resource_manager *man,
+-				   struct ttm_mem_reg *mem)
++				   struct ttm_resource *mem)
  {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, type);
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev, type);
  	struct vmwgfx_gmrid_man *gman = to_gmrid_manager(man);
  
--	ttm_mem_type_manager_set_used(man, false);
-+	ttm_resource_manager_set_used(man, false);
- 
--	ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
-+	ttm_resource_manager_force_list_clean(&dev_priv->bdev, man);
- 
--	ttm_mem_type_manager_cleanup(man);
-+	ttm_resource_manager_cleanup(man);
- 
- 	ttm_set_driver_manager(&dev_priv->bdev, type, NULL);
- 	ida_destroy(&gman->gmr_ida);
-@@ -155,7 +155,7 @@ void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type)
- 
- }
- 
--static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
-+static const struct ttm_resource_manager_func vmw_gmrid_manager_func = {
- 	.get_node = vmw_gmrid_man_get_node,
- 	.put_node = vmw_gmrid_man_put_node,
- };
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+index c8441030637a..c0f156078dda 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+@@ -855,7 +855,7 @@ int vmw_query_readback_all(struct vmw_buffer_object *dx_query_mob)
+  * states from the device.
+  */
+ void vmw_query_move_notify(struct ttm_buffer_object *bo,
+-			   struct ttm_mem_reg *mem)
++			   struct ttm_resource *mem)
+ {
+ 	struct vmw_buffer_object *dx_query_mob;
+ 	struct ttm_bo_device *bdev = bo->bdev;
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-index 4110e8309188..6cac7b091205 100644
+index 6cac7b091205..f594e2e6ab7e 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-@@ -16,12 +16,12 @@
-  * @lock: Manager lock.
-  */
- struct vmw_thp_manager {
--	struct ttm_mem_type_manager manager;
-+	struct ttm_resource_manager manager;
- 	struct drm_mm mm;
- 	spinlock_t lock;
- };
- 
--static struct vmw_thp_manager *to_thp_manager(struct ttm_mem_type_manager *man)
-+static struct vmw_thp_manager *to_thp_manager(struct ttm_resource_manager *man)
+@@ -29,7 +29,7 @@ static struct vmw_thp_manager *to_thp_manager(struct ttm_resource_manager *man)
+ static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
+ 				  unsigned long align_pages,
+ 				  const struct ttm_place *place,
+-				  struct ttm_mem_reg *mem,
++				  struct ttm_resource *mem,
+ 				  unsigned long lpfn,
+ 				  enum drm_mm_insert_mode mode)
  {
- 	return container_of(man, struct vmw_thp_manager, manager);
- }
-@@ -44,7 +44,7 @@ static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
- 	return -ENOSPC;
- }
- 
--static int vmw_thp_get_node(struct ttm_mem_type_manager *man,
-+static int vmw_thp_get_node(struct ttm_resource_manager *man,
+@@ -47,7 +47,7 @@ static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
+ static int vmw_thp_get_node(struct ttm_resource_manager *man,
  			    struct ttm_buffer_object *bo,
  			    const struct ttm_place *place,
- 			    struct ttm_mem_reg *mem)
-@@ -106,7 +106,7 @@ static int vmw_thp_get_node(struct ttm_mem_type_manager *man,
- 
- 
- 
--static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
-+static void vmw_thp_put_node(struct ttm_resource_manager *man,
- 			     struct ttm_mem_reg *mem)
+-			    struct ttm_mem_reg *mem)
++			    struct ttm_resource *mem)
  {
- 	struct vmw_thp_manager *rman = to_thp_manager(man);
-@@ -123,7 +123,7 @@ static void vmw_thp_put_node(struct ttm_mem_type_manager *man,
- 
- int vmw_thp_init(struct vmw_private *dev_priv)
- {
--	struct ttm_mem_type_manager *man;
-+	struct ttm_resource_manager *man;
- 	struct vmw_thp_manager *rman;
- 
- 	rman = kzalloc(sizeof(*rman), GFP_KERNEL);
-@@ -134,39 +134,39 @@ int vmw_thp_init(struct vmw_private *dev_priv)
- 	man->available_caching = TTM_PL_FLAG_CACHED;
- 	man->default_caching = TTM_PL_FLAG_CACHED;
- 
--	ttm_mem_type_manager_init(man,
-+	ttm_resource_manager_init(man,
- 				  dev_priv->vram_size >> PAGE_SHIFT);
- 
- 	drm_mm_init(&rman->mm, 0, man->size);
- 	spin_lock_init(&rman->lock);
- 
- 	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, &rman->manager);
--	ttm_mem_type_manager_set_used(man, true);
-+	ttm_resource_manager_set_used(man, true);
- 	return 0;
- }
- 
- void vmw_thp_fini(struct vmw_private *dev_priv)
- {
--	struct ttm_mem_type_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM);
  	struct vmw_thp_manager *rman = to_thp_manager(man);
  	struct drm_mm *mm = &rman->mm;
- 	int ret;
+@@ -107,7 +107,7 @@ static int vmw_thp_get_node(struct ttm_resource_manager *man,
  
--	ttm_mem_type_manager_set_used(man, false);
-+	ttm_resource_manager_set_used(man, false);
  
--	ret = ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
-+	ret = ttm_resource_manager_force_list_clean(&dev_priv->bdev, man);
- 	if (ret)
- 		return;
- 	spin_lock(&rman->lock);
- 	drm_mm_clean(mm);
- 	drm_mm_takedown(mm);
- 	spin_unlock(&rman->lock);
--	ttm_mem_type_manager_cleanup(man);
-+	ttm_resource_manager_cleanup(man);
- 	ttm_set_driver_manager(&dev_priv->bdev, TTM_PL_VRAM, NULL);
- 	kfree(rman);
- }
- 
--static void vmw_thp_debug(struct ttm_mem_type_manager *man,
-+static void vmw_thp_debug(struct ttm_resource_manager *man,
- 			  struct drm_printer *printer)
+ static void vmw_thp_put_node(struct ttm_resource_manager *man,
+-			     struct ttm_mem_reg *mem)
++			     struct ttm_resource *mem)
  {
  	struct vmw_thp_manager *rman = to_thp_manager(man);
-@@ -176,7 +176,7 @@ static void vmw_thp_debug(struct ttm_mem_type_manager *man,
- 	spin_unlock(&rman->lock);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 3a141a08d4bd..7247347a9bca 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -539,7 +539,7 @@ const struct vmw_sg_table *vmw_bo_sg_table(struct ttm_buffer_object *bo)
  }
  
--const struct ttm_mem_type_manager_func vmw_thp_func = {
-+const struct ttm_resource_manager_func vmw_thp_func = {
- 	.get_node = vmw_thp_get_node,
- 	.put_node = vmw_thp_put_node,
- 	.debug = vmw_thp_debug
+ 
+-static int vmw_ttm_bind(struct ttm_tt *ttm, struct ttm_mem_reg *bo_mem)
++static int vmw_ttm_bind(struct ttm_tt *ttm, struct ttm_resource *bo_mem)
+ {
+ 	struct vmw_ttm_tt *vmw_be =
+ 		container_of(ttm, struct vmw_ttm_tt, dma_ttm.ttm);
+@@ -711,7 +711,7 @@ static int vmw_verify_access(struct ttm_buffer_object *bo, struct file *filp)
+ 	return vmw_user_bo_verify_access(bo, tfile);
+ }
+ 
+-static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg *mem)
++static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_resource *mem)
+ {
+ 	struct vmw_private *dev_priv = container_of(bdev, struct vmw_private, bdev);
+ 
+@@ -741,7 +741,7 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg
+  * vmw_move_notify - TTM move_notify_callback
+  *
+  * @bo: The TTM buffer object about to move.
+- * @mem: The struct ttm_mem_reg indicating to what memory
++ * @mem: The struct ttm_resource indicating to what memory
+  *       region the move is taking place.
+  *
+  * Calls move_notify for all subsystems needing it.
+@@ -749,7 +749,7 @@ static int vmw_ttm_io_mem_reserve(struct ttm_bo_device *bdev, struct ttm_mem_reg
+  */
+ static void vmw_move_notify(struct ttm_buffer_object *bo,
+ 			    bool evict,
+-			    struct ttm_mem_reg *mem)
++			    struct ttm_resource *mem)
+ {
+ 	vmw_bo_move_notify(bo, mem);
+ 	vmw_query_move_notify(bo, mem);
 diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index eb465e9ca0c1..15958dff11d2 100644
+index 15958dff11d2..247d4f803443 100644
 --- a/include/drm/ttm/ttm_bo_api.h
 +++ b/include/drm/ttm/ttm_bo_api.h
-@@ -54,7 +54,7 @@ struct ttm_place;
+@@ -81,7 +81,7 @@ struct ttm_bus_placement {
  
- struct ttm_lru_bulk_move;
- 
--struct ttm_mem_type_manager;
-+struct ttm_resource_manager;
  
  /**
-  * struct ttm_bus_placement
-@@ -534,14 +534,14 @@ int ttm_bo_create(struct ttm_bo_device *bdev, unsigned long size,
- 		  struct ttm_buffer_object **p_bo);
- 
- /**
-- * ttm_mem_type_manager_init
-+ * ttm_resource_manager_init
+- * struct ttm_mem_reg
++ * struct ttm_resource
   *
-  * @man: memory manager object to init
-  * @p_size: size managed area in pages.
-  *
-  * Initialise core parts of a manager object.
+  * @mm_node: Memory manager node.
+  * @size: Requested size of memory region.
+@@ -94,7 +94,7 @@ struct ttm_bus_placement {
+  * buffer object.
   */
--void ttm_mem_type_manager_init(struct ttm_mem_type_manager *man,
-+void ttm_resource_manager_init(struct ttm_resource_manager *man,
- 			       unsigned long p_size);
+ 
+-struct ttm_mem_reg {
++struct ttm_resource {
+ 	void *mm_node;
+ 	unsigned long start;
+ 	unsigned long size;
+@@ -187,7 +187,7 @@ struct ttm_buffer_object {
+ 	 * Members protected by the bo::resv::reserved lock.
+ 	 */
+ 
+-	struct ttm_mem_reg mem;
++	struct ttm_resource mem;
+ 	struct file *persistent_swap_storage;
+ 	struct ttm_tt *ttm;
+ 	bool evicted;
+@@ -316,12 +316,12 @@ int ttm_bo_wait(struct ttm_buffer_object *bo, bool interruptible, bool no_wait);
+  * ttm_bo_mem_compat - Check if proposed placement is compatible with a bo
+  *
+  * @placement:  Return immediately if buffer is busy.
+- * @mem:  The struct ttm_mem_reg indicating the region where the bo resides
++ * @mem:  The struct ttm_resource indicating the region where the bo resides
+  * @new_flags: Describes compatible placement found
+  *
+  * Returns true if the placement is compatible
+  */
+-bool ttm_bo_mem_compat(struct ttm_placement *placement, struct ttm_mem_reg *mem,
++bool ttm_bo_mem_compat(struct ttm_placement *placement, struct ttm_resource *mem,
+ 		       uint32_t *new_flags);
  
  /**
 diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index f231fe34e744..d1eff7de4fa3 100644
+index d1eff7de4fa3..576c91c85a6b 100644
 --- a/include/drm/ttm/ttm_bo_driver.h
 +++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -45,11 +45,11 @@
- 
- #define TTM_MAX_BO_PRIORITY	4U
- 
--struct ttm_mem_type_manager;
-+struct ttm_resource_manager;
- 
--struct ttm_mem_type_manager_func {
-+struct ttm_resource_manager_func {
- 	/**
--	 * struct ttm_mem_type_manager member get_node
-+	 * struct ttm_resource_manager member get_node
- 	 *
- 	 * @man: Pointer to a memory type manager.
+@@ -55,7 +55,7 @@ struct ttm_resource_manager_func {
  	 * @bo: Pointer to the buffer object we're allocating space for.
-@@ -69,20 +69,20 @@ struct ttm_mem_type_manager_func {
- 	 * the function should return a negative error code.
+ 	 * @placement: Placement details.
+ 	 * @flags: Additional placement flags.
+-	 * @mem: Pointer to a struct ttm_mem_reg to be filled in.
++	 * @mem: Pointer to a struct ttm_resource to be filled in.
  	 *
- 	 * Note that @mem::mm_node will only be dereferenced by
--	 * struct ttm_mem_type_manager functions and optionally by the driver,
-+	 * struct ttm_resource_manager functions and optionally by the driver,
- 	 * which has knowledge of the underlying type.
- 	 *
- 	 * This function may not be called from within atomic context, so
- 	 * an implementation can and must use either a mutex or a spinlock to
- 	 * protect any data structures managing the space.
- 	 */
--	int  (*get_node)(struct ttm_mem_type_manager *man,
-+	int  (*get_node)(struct ttm_resource_manager *man,
+ 	 * This function should allocate space in the memory type managed
+ 	 * by @man. Placement details if
+@@ -79,20 +79,20 @@ struct ttm_resource_manager_func {
+ 	int  (*get_node)(struct ttm_resource_manager *man,
  			 struct ttm_buffer_object *bo,
  			 const struct ttm_place *place,
- 			 struct ttm_mem_reg *mem);
+-			 struct ttm_mem_reg *mem);
++			 struct ttm_resource *mem);
  
  	/**
--	 * struct ttm_mem_type_manager member put_node
-+	 * struct ttm_resource_manager member put_node
+ 	 * struct ttm_resource_manager member put_node
  	 *
  	 * @man: Pointer to a memory type manager.
- 	 * @mem: Pointer to a struct ttm_mem_reg to be filled in.
-@@ -91,11 +91,11 @@ struct ttm_mem_type_manager_func {
+-	 * @mem: Pointer to a struct ttm_mem_reg to be filled in.
++	 * @mem: Pointer to a struct ttm_resource to be filled in.
+ 	 *
+ 	 * This function frees memory type resources previously allocated
  	 * and that are identified by @mem::mm_node and @mem::start. May not
  	 * be called from within atomic context.
  	 */
--	void (*put_node)(struct ttm_mem_type_manager *man,
-+	void (*put_node)(struct ttm_resource_manager *man,
- 			 struct ttm_mem_reg *mem);
+ 	void (*put_node)(struct ttm_resource_manager *man,
+-			 struct ttm_mem_reg *mem);
++			 struct ttm_resource *mem);
  
  	/**
--	 * struct ttm_mem_type_manager member debug
-+	 * struct ttm_resource_manager member debug
+ 	 * struct ttm_resource_manager member debug
+@@ -251,7 +251,7 @@ struct ttm_bo_driver {
+ 	 */
+ 	int (*move)(struct ttm_buffer_object *bo, bool evict,
+ 		    struct ttm_operation_ctx *ctx,
+-		    struct ttm_mem_reg *new_mem);
++		    struct ttm_resource *new_mem);
+ 
+ 	/**
+ 	 * struct ttm_bo_driver_member verify_access
+@@ -277,7 +277,7 @@ struct ttm_bo_driver {
+ 	 */
+ 	void (*move_notify)(struct ttm_buffer_object *bo,
+ 			    bool evict,
+-			    struct ttm_mem_reg *new_mem);
++			    struct ttm_resource *new_mem);
+ 	/* notify the driver we are taking a fault on this BO
+ 	 * and have reserved it */
+ 	int (*fault_reserve_notify)(struct ttm_buffer_object *bo);
+@@ -294,9 +294,9 @@ struct ttm_bo_driver {
+ 	 * are balanced.
+ 	 */
+ 	int (*io_mem_reserve)(struct ttm_bo_device *bdev,
+-			      struct ttm_mem_reg *mem);
++			      struct ttm_resource *mem);
+ 	void (*io_mem_free)(struct ttm_bo_device *bdev,
+-			    struct ttm_mem_reg *mem);
++			    struct ttm_resource *mem);
+ 
+ 	/**
+ 	 * Return the pfn for a given page_offset inside the BO.
+@@ -508,7 +508,7 @@ ttm_flag_masked(uint32_t *old, uint32_t new, uint32_t mask)
+  * @bo: Pointer to a struct ttm_buffer_object. the data of which
+  * we want to allocate space for.
+  * @proposed_placement: Proposed new placement for the buffer object.
+- * @mem: A struct ttm_mem_reg.
++ * @mem: A struct ttm_resource.
+  * @interruptible: Sleep interruptible when sliping.
+  * @no_wait_gpu: Return immediately if the GPU is busy.
+  *
+@@ -523,10 +523,10 @@ ttm_flag_masked(uint32_t *old, uint32_t new, uint32_t mask)
+  */
+ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ 		     struct ttm_placement *placement,
+-		     struct ttm_mem_reg *mem,
++		     struct ttm_resource *mem,
+ 		     struct ttm_operation_ctx *ctx);
+ 
+-void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_mem_reg *mem);
++void ttm_bo_mem_put(struct ttm_buffer_object *bo, struct ttm_resource *mem);
+ 
+ int ttm_bo_device_release(struct ttm_bo_device *bdev);
+ 
+@@ -722,16 +722,16 @@ int ttm_resource_manager_force_list_clean(struct ttm_bo_device *bdev,
+  */
+ 
+ int ttm_mem_io_reserve(struct ttm_bo_device *bdev,
+-		       struct ttm_mem_reg *mem);
++		       struct ttm_resource *mem);
+ void ttm_mem_io_free(struct ttm_bo_device *bdev,
+-		     struct ttm_mem_reg *mem);
++		     struct ttm_resource *mem);
+ /**
+  * ttm_bo_move_ttm
+  *
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @interruptible: Sleep interruptible if waiting.
+  * @no_wait_gpu: Return immediately if the GPU is busy.
+- * @new_mem: struct ttm_mem_reg indicating where to move.
++ * @new_mem: struct ttm_resource indicating where to move.
+  *
+  * Optimized move function for a buffer object with both old and
+  * new placement backed by a TTM. The function will, if successful,
+@@ -745,7 +745,7 @@ void ttm_mem_io_free(struct ttm_bo_device *bdev,
+ 
+ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
+ 		    struct ttm_operation_ctx *ctx,
+-		    struct ttm_mem_reg *new_mem);
++		    struct ttm_resource *new_mem);
+ 
+ /**
+  * ttm_bo_move_memcpy
+@@ -753,7 +753,7 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @interruptible: Sleep interruptible if waiting.
+  * @no_wait_gpu: Return immediately if the GPU is busy.
+- * @new_mem: struct ttm_mem_reg indicating where to move.
++ * @new_mem: struct ttm_resource indicating where to move.
+  *
+  * Fallback move function for a mappable buffer object in mappable memory.
+  * The function will, if successful,
+@@ -767,7 +767,7 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
+ 
+ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+ 		       struct ttm_operation_ctx *ctx,
+-		       struct ttm_mem_reg *new_mem);
++		       struct ttm_resource *new_mem);
+ 
+ /**
+  * ttm_bo_free_old_node
+@@ -784,7 +784,7 @@ void ttm_bo_free_old_node(struct ttm_buffer_object *bo);
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @fence: A fence object that signals when moving is complete.
+  * @evict: This is an evict move. Don't return until the buffer is idle.
+- * @new_mem: struct ttm_mem_reg indicating where to move.
++ * @new_mem: struct ttm_resource indicating where to move.
+  *
+  * Accelerated move function to be called when an accelerated move
+  * has been scheduled. The function will create a new temporary buffer object
+@@ -795,7 +795,7 @@ void ttm_bo_free_old_node(struct ttm_buffer_object *bo);
+  */
+ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+ 			      struct dma_fence *fence, bool evict,
+-			      struct ttm_mem_reg *new_mem);
++			      struct ttm_resource *new_mem);
+ 
+ /**
+  * ttm_bo_pipeline_move.
+@@ -803,14 +803,14 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @fence: A fence object that signals when moving is complete.
+  * @evict: This is an evict move. Don't return until the buffer is idle.
+- * @new_mem: struct ttm_mem_reg indicating where to move.
++ * @new_mem: struct ttm_resource indicating where to move.
+  *
+  * Function for pipelining accelerated moves. Either free the memory
+  * immediately or hang it on a temporary buffer object.
+  */
+ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
+ 			 struct dma_fence *fence, bool evict,
+-			 struct ttm_mem_reg *new_mem);
++			 struct ttm_resource *new_mem);
+ 
+ /**
+  * ttm_bo_pipeline_gutting.
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index 5e2393fe42c6..241cc40839ed 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -30,7 +30,7 @@
+ #include <linux/types.h>
+ 
+ struct ttm_tt;
+-struct ttm_mem_reg;
++struct ttm_resource;
+ struct ttm_buffer_object;
+ struct ttm_operation_ctx;
+ 
+@@ -53,14 +53,14 @@ struct ttm_backend_func {
+ 	 * struct ttm_backend_func member bind
  	 *
- 	 * @man: Pointer to a memory type manager.
- 	 * @printer: Prefix to be used in printout to identify the caller.
-@@ -104,12 +104,12 @@ struct ttm_mem_type_manager_func {
- 	 * type manager to aid debugging of out-of-memory conditions.
- 	 * It may not be called from within atomic context.
+ 	 * @ttm: Pointer to a struct ttm_tt.
+-	 * @bo_mem: Pointer to a struct ttm_mem_reg describing the
++	 * @bo_mem: Pointer to a struct ttm_resource describing the
+ 	 * memory type and location for binding.
+ 	 *
+ 	 * Bind the backend pages into the aperture in the location
+ 	 * indicated by @bo_mem. This function should be able to handle
+ 	 * differences between aperture and system page sizes.
  	 */
--	void (*debug)(struct ttm_mem_type_manager *man,
-+	void (*debug)(struct ttm_resource_manager *man,
- 		      struct drm_printer *printer);
- };
+-	int (*bind) (struct ttm_tt *ttm, struct ttm_mem_reg *bo_mem);
++	int (*bind) (struct ttm_tt *ttm, struct ttm_resource *bo_mem);
  
- /**
-- * struct ttm_mem_type_manager
-+ * struct ttm_resource_manager
+ 	/**
+ 	 * struct ttm_backend_func member unbind
+@@ -179,11 +179,11 @@ void ttm_dma_tt_fini(struct ttm_dma_tt *ttm_dma);
+  * ttm_ttm_bind:
   *
-  * @use_type: The memory type is enabled.
-  * @flags: TTM_MEMTYPE_XX flags identifying the traits of the memory
-@@ -136,7 +136,7 @@ struct ttm_mem_type_manager_func {
- 
- 
- 
--struct ttm_mem_type_manager {
-+struct ttm_resource_manager {
- 	/*
- 	 * No protection. Constant from start.
- 	 */
-@@ -145,7 +145,7 @@ struct ttm_mem_type_manager {
- 	uint64_t size;
- 	uint32_t available_caching;
- 	uint32_t default_caching;
--	const struct ttm_mem_type_manager_func *func;
-+	const struct ttm_resource_manager_func *func;
- 	struct mutex io_reserve_mutex;
- 	bool use_io_reserve_lru;
- 	spinlock_t move_lock;
-@@ -390,7 +390,7 @@ extern struct ttm_bo_global {
-  * struct ttm_bo_device - Buffer object driver device-specific data.
+  * @ttm: The struct ttm_tt containing backing pages.
+- * @bo_mem: The struct ttm_mem_reg identifying the binding location.
++ * @bo_mem: The struct ttm_resource identifying the binding location.
   *
-  * @driver: Pointer to a struct ttm_bo_driver struct setup by the driver.
-- * @man: An array of mem_type_managers.
-+ * @man: An array of resource_managers.
-  * @vma_manager: Address space manager (pointer)
-  * lru_lock: Spinlock that protects the buffer+device lru lists and
-  * ddestroy lists.
-@@ -411,8 +411,8 @@ struct ttm_bo_device {
- 	/*
- 	 * access via ttm_manager_type.
- 	 */
--	struct ttm_mem_type_manager sysman;
--	struct ttm_mem_type_manager *man_drv[TTM_NUM_MEM_TYPES];
-+	struct ttm_resource_manager sysman;
-+	struct ttm_resource_manager *man_drv[TTM_NUM_MEM_TYPES];
- 	/*
- 	 * Protected by internal locks.
- 	 */
-@@ -440,7 +440,7 @@ struct ttm_bo_device {
- 	bool no_retry;
- };
- 
--static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device *bdev,
-+static inline struct ttm_resource_manager *ttm_manager_type(struct ttm_bo_device *bdev,
- 							    int mem_type)
- {
- 	return bdev->man_drv[mem_type];
-@@ -448,7 +448,7 @@ static inline struct ttm_mem_type_manager *ttm_manager_type(struct ttm_bo_device
- 
- static inline void ttm_set_driver_manager(struct ttm_bo_device *bdev,
- 					  int type,
--					  struct ttm_mem_type_manager *manager)
-+					  struct ttm_resource_manager *manager)
- {
- 	bdev->man_drv[type] = manager;
- }
-@@ -570,8 +570,8 @@ void ttm_bo_unmap_virtual_locked(struct ttm_buffer_object *bo);
- 
- int ttm_mem_io_reserve_vm(struct ttm_buffer_object *bo);
- void ttm_mem_io_free_vm(struct ttm_buffer_object *bo);
--int ttm_mem_io_lock(struct ttm_mem_type_manager *man, bool interruptible);
--void ttm_mem_io_unlock(struct ttm_mem_type_manager *man);
-+int ttm_mem_io_lock(struct ttm_resource_manager *man, bool interruptible);
-+void ttm_mem_io_unlock(struct ttm_resource_manager *man);
- 
- /**
-  * ttm_bo_reserve:
-@@ -665,7 +665,7 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
- }
- 
- /**
-- * ttm_mem_type_manager_set_used
-+ * ttm_resource_manager_set_used
-  *
-  * @man: A memory manager object.
-  * @used: usage state to set.
-@@ -673,13 +673,13 @@ static inline void ttm_bo_unreserve(struct ttm_buffer_object *bo)
-  * Set the manager in use flag. If disabled the manager is no longer
-  * used for object placement.
+  * Bind the pages of @ttm to an aperture location identified by @bo_mem
   */
--static inline void ttm_mem_type_manager_set_used(struct ttm_mem_type_manager *man, bool used)
-+static inline void ttm_resource_manager_set_used(struct ttm_resource_manager *man, bool used)
- {
- 	man->use_type = used;
- }
+-int ttm_tt_bind(struct ttm_tt *ttm, struct ttm_mem_reg *bo_mem,
++int ttm_tt_bind(struct ttm_tt *ttm, struct ttm_resource *bo_mem,
+ 		struct ttm_operation_ctx *ctx);
  
  /**
-- * ttm_mem_type_manager_used
-+ * ttm_resource_manager_used
-  *
-  * @man: Manager to get used state for
-  *
-@@ -687,26 +687,26 @@ static inline void ttm_mem_type_manager_set_used(struct ttm_mem_type_manager *ma
-  * Returns:
-  * true is used, false if not.
-  */
--static inline bool ttm_mem_type_manager_used(struct ttm_mem_type_manager *man)
-+static inline bool ttm_resource_manager_used(struct ttm_resource_manager *man)
- {
- 	return man->use_type;
- }
- 
- /**
-- * ttm_mem_type_manager_cleanup
-+ * ttm_resource_manager_cleanup
-  *
-  * @man: A memory manager object.
-  *
-  * Cleanup the move fences from the memory manager object.
-  */
--static inline void ttm_mem_type_manager_cleanup(struct ttm_mem_type_manager *man)
-+static inline void ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
- {
- 	dma_fence_put(man->move);
- 	man->move = NULL;
- }
- 
- /*
-- * ttm_mem_type_manager_force_list_clean
-+ * ttm_resource_manager_force_list_clean
-  *
-  * @bdev - device to use
-  * @man - manager to use
-@@ -714,8 +714,8 @@ static inline void ttm_mem_type_manager_cleanup(struct ttm_mem_type_manager *man
-  * Force all the objects out of a memory manager until clean.
-  * Part of memory manager cleanup sequence.
-  */
--int ttm_mem_type_manager_force_list_clean(struct ttm_bo_device *bdev,
--					  struct ttm_mem_type_manager *man);
-+int ttm_resource_manager_force_list_clean(struct ttm_bo_device *bdev,
-+					  struct ttm_resource_manager *man);
- 
- /*
-  * ttm_bo_util.c
-@@ -864,12 +864,12 @@ int ttm_range_man_fini(struct ttm_bo_device *bdev,
- 		       unsigned type);
- 
- /**
-- * ttm_mem_type_manager_debug
-+ * ttm_resource_manager_debug
-  *
-  * @man: manager type to dump.
-  * @p: printer to use for debug.
-  */
--void ttm_mem_type_manager_debug(struct ttm_mem_type_manager *man,
-+void ttm_resource_manager_debug(struct ttm_resource_manager *man,
- 				struct drm_printer *p);
- 
- #endif
 -- 
 2.26.2
 
