@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD21D23C186
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:32:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC60823C188
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 23:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16E2E6E4C5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF6A16E40B;
 	Tue,  4 Aug 2020 21:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5E136E0C8
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:32:13 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id p20so3834114wrf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 14:32:13 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98ACF6E4BB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 21:32:15 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id p20so3834174wrf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Aug 2020 14:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=basnieuwenhuizen-nl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1Ibsv6ddruejSLjMuLYQayhLrwfsZ1tQEXkqPyUvVh4=;
- b=gKxfLUy/lKPX4S4xYsfN+BObvDziui4iI6Hqj7mwkA1Ka19HaNwcITq+rG+KXXPG5d
- jtm77tyAnyYiOH8tNJJeT4AvngYSaPVX7KEkj8wKcCz7DCqV8xsQ9s6rAe4AQEFvyNTT
- sPf9huY8cxSMTtuAHSAKJrWrwvA2c1O5F/CtyUemG1tQX8aJRn96eYIGKXyF3uZkAn0i
- hYwjcKdcAY83HjQFfdRIQdvbI++82GZGMiB2siRPLnFCzSltg8G1e8a08QKl/+uHOAeS
- FElB/TUbPxgykmOYuy8SUKZ2/97EzjkhooqdKmmy43s5Xpug22Y+J8XkCUmG6izdHbH3
- mRVw==
+ bh=rSnwHskuU/Vn9BNsX5dnhQU6rXCRh5IhIHhSUzqHOeM=;
+ b=jbayXORG9F5nTq7s7WpepT6j/9ziHT9fNxd+HPpNppCmxU1Al//cWR/bkcplgFzMpB
+ QHRY3uDcKnZ2wxxA4qhJllOVkqPSUYsYeb9UJcZgPUwcRs34SM1rwwhuVQZCDZMZwX1l
+ AQlQnOipdLgPtK55RBy/AjaJeMgbY+PzrS/T+grp81O64AZLuKxqHWpSbHkv1Ohs8Ltb
+ kTDfXBdzp/K1TYu8VscQV2nnhPwz3ufgajoB/GzEXSHvf85hoOtal4aQAkEaoSUZ9RN4
+ AwQpKc+zzeWaTdvH1xs7wHo4+W8bAjhUFHsC7BBtdJj59SsVnRWyctiCpeEAP+pIzB2w
+ TgJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1Ibsv6ddruejSLjMuLYQayhLrwfsZ1tQEXkqPyUvVh4=;
- b=Ldgf3xU1ny8DXGbWGgT0hQn01Q2zj5OlNSLcjk1JsIgPSmVhnKE8tNvDaw0u8sB29/
- /JbOJjPO3z9ADr3ODR+e8HhOTJcZAy3zJlHlH7wqfiw+rxdmV8maH2PkIAGWD6NGMEXn
- dqmJsTpDKxCw0yW2VkObiVW2ojV38NrWCs7YcG8Lf6IdmXQveqPOy/PqdAOM74p0Ri1a
- t+w4Mif59G6Snf1tUOUpUHYKEWDOwMwHEcsg/TdxY5KJIpry8r7reqY1rp8NOdt1fF53
- 9p5ytldQXW7MzReXqqGDrH4V2zhroROV3oV8Q10+O7l/6wqo5Kt+FUuNGjjLKDUpVWfb
- k2HQ==
-X-Gm-Message-State: AOAM533sT8+7VED3+kAtY5kpu3QVG7eyytmFCT+mXI0EwmkOI2UxmpwV
- kLpEHwZNKmqIO8uhY22VbStaL6QNg1lMJQ==
-X-Google-Smtp-Source: ABdhPJx4OojwTGhAKMWvH90js3fLA5+gPYtJTsAxXqqVYnV/LrjyHBJ51zlDojjtQCfKkI3hhn/pdw==
-X-Received: by 2002:adf:f48d:: with SMTP id l13mr20462277wro.43.1596576732051; 
- Tue, 04 Aug 2020 14:32:12 -0700 (PDT)
+ bh=rSnwHskuU/Vn9BNsX5dnhQU6rXCRh5IhIHhSUzqHOeM=;
+ b=VSqiF9D5N21HpR/udjKVShJat13k6Znd6JpzZkrwah435qHeJmra1RDXSZihCD0pg5
+ rhqkn2LnFRCzMLU1zX7XjXlXJYBCujs4OyWRNBcILhcGxG3OSywGGh17TkvxrFcminFQ
+ 45Cvp0ZJii1/3Uns52QL4+gjRZ7iiJ8KziXQjc+jJy7IUEtqz1VwrxgTyAyJ3vXgiy9h
+ gtNRpVsYXOjRuyGzM1U1j1g6G2wLgREzON0nN0jg0x0p8pllX8R1dtqFtXkRfDahs/Nf
+ LGf1rSsP+BcII59WwAtSTGJP+BFc+DMRuqzRG+BXXitgFA1yC2nOoauDs0/jCWfoBluz
+ VNqA==
+X-Gm-Message-State: AOAM53166ZgpoaY+qVdve+v0KbV0JIy1JLnJVolPvcRqXzcut3+SlZkV
+ DwWnDDJIkbPTRAjWkNjivrGN0Q==
+X-Google-Smtp-Source: ABdhPJy7FsMKebDEqXaMWNmixRclpQybN+eiEC7d/BFnZttNzm/XpZGbyFdkD5V0vpLWOuvZ1cwq+Q==
+X-Received: by 2002:adf:dfc7:: with SMTP id q7mr21153180wrn.80.1596576733337; 
+ Tue, 04 Aug 2020 14:32:13 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:aa12:a77f:2000:ce92:471f:873f:fc56])
- by smtp.gmail.com with ESMTPSA id x11sm97612wmc.33.2020.08.04.14.32.11
+ by smtp.gmail.com with ESMTPSA id x11sm97612wmc.33.2020.08.04.14.32.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Aug 2020 14:32:11 -0700 (PDT)
+ Tue, 04 Aug 2020 14:32:12 -0700 (PDT)
 From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH 4/8] drm/fourcc:  Add AMD DRM modifiers.
-Date: Tue,  4 Aug 2020 23:31:15 +0200
-Message-Id: <20200804213119.25091-5-bas@basnieuwenhuizen.nl>
+Subject: [PATCH 5/8] drm/amd/display: Refactor surface tiling setup.
+Date: Tue,  4 Aug 2020 23:31:16 +0200
+Message-Id: <20200804213119.25091-6-bas@basnieuwenhuizen.nl>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
 References: <20200804213119.25091-1-bas@basnieuwenhuizen.nl>
@@ -74,183 +74,273 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds modifiers for GFX9+ AMD GPUs.
-
-As the modifiers need a lot of parameters I split things out in
-getters and setters.
-  - Advantage: simplifies the code a lot
-  - Disadvantage: Makes it harder to check that you're setting all
-                  the required fields.
-
-The tiling modes seem to change every generatio, but the structure
-of what each tiling mode is good for stays really similar. As such
-the core of the modifier is
- - the tiling mode
- - a version. Not explicitly a GPU generation, but splitting out
-   a new set of tiling equations.
-
-Sometimes one or two tiling modes stay the same and for those we
-specify a canonical version.
-
-Then we have a bunch of parameters on how the compression works.
-Different HW units have different requirements for these and we
-actually have some conflicts here.
-
-e.g. the render backends need a specific alignment but the display
-unit only works with unaligned compression surfaces. To work around
-that we have a DCC_RETILE option where both an aligned and unaligned
-compression surface are allocated and a writer has to sync the
-aligned surface to the unaligned surface on handoff.
-
-Finally there are some GPU parameters that participate in the tiling
-equations. These are constant for each GPU on the rendering/texturing
-side. The display unit is very flexible however and supports all
-of them :|
-
-Some estimates:
- - Single GPU, render+texture: ~10 modifiers
- - All possible configs in a gen, display: ~1000 modifiers
- - Configs of actually existing GPUs in a gen: ~100 modifiers
-
-For formats with a single plane everything gets put in a separate
-DRM plane. However, this doesn't fit for some YUV formats, so if
-the format has >1 plane, we let the driver pack the surfaces into
-1 DRM plane per format plane.
-
-This way we avoid X11 rendering onto the frontbuffer with DCC, but
-still fit into 4 DRM planes.
+Prepare for inserting modifiers based configuration, while sharing
+a bunch of DCC validation & initializing the device-based configuration.
 
 Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 ---
- include/uapi/drm/drm_fourcc.h | 115 ++++++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 209 ++++++++++--------
+ 1 file changed, 116 insertions(+), 93 deletions(-)
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 8bc0b31597d8..2f8d2b717285 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -804,6 +804,121 @@ extern "C" {
-  */
- #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, 1)
- 
-+/*
-+ * AMD modifiers
-+ *
-+ * Memory layout:
-+ *
-+ * without DCC:
-+ *   - main surface
-+ *
-+ * with DCC & without DCC_RETILE:
-+ *   - main surface in plane 0
-+ *   - DCC surface in plane 1 (RB-aligned, pipe-aligned if DCC_PIPE_ALIGN is set)
-+ *
-+ * with DCC & DCC_RETILE:
-+ *   - main surface in plane 0
-+ *   - displayable DCC surface in plane 1 (not RB-aligned & not pipe-aligned)
-+ *   - pipe-aligned DCC surface in plane 2 (RB-aligned & pipe-aligned)
-+ *
-+ * For multi-plane formats the above surfaces get merged into one plane for
-+ * each for format plane, based on the required alignment only.
-+ */
-+#define AMD_FMT_MOD fourcc_mod_code(AMD, 0)
-+
-+#define IS_AMD_FMT_MOD(val) (((val) >> 56) == DRM_FORMAT_MOD_VENDOR_AMD)
-+
-+/* Reserve 0 for GFX8 and older */
-+#define AMD_FMT_MOD_TILE_VER_GFX9 1
-+#define AMD_FMT_MOD_TILE_VER_GFX10 2
-+#define AMD_FMT_MOD_TILE_VER_GFX10_RBPLUS 3
-+
-+/*
-+ * 64K_S is the same for GFX9/GFX10/GFX10_RBPLUS and hence has GFX9 as canonical
-+ * version.
-+ */
-+#define AMD_FMT_MOD_TILE_GFX9_64K_S 9
-+
-+/*
-+ * 64K_D for non-32 bpp is the same for GFX9/GFX10/GFX10_RBPLUS and hence has
-+ * GFX9 as canonical version.
-+ */
-+#define AMD_FMT_MOD_TILE_GFX9_64K_D 10
-+#define AMD_FMT_MOD_TILE_GFX9_64K_S_X 25
-+#define AMD_FMT_MOD_TILE_GFX9_64K_D_X 26
-+#define AMD_FMT_MOD_TILE_GFX9_64K_R_X 27
-+
-+#define AMD_FMT_MOD_DCC_BLOCK_64B 0
-+#define AMD_FMT_MOD_DCC_BLOCK_128B 1
-+#define AMD_FMT_MOD_DCC_BLOCK_256B 2
-+
-+#define AMD_FMT_MOD_TILE_VERSION_SHIFT 0
-+#define AMD_FMT_MOD_TILE_VERSION_MASK 0xFF
-+#define AMD_FMT_MOD_TILE_SHIFT 8
-+#define AMD_FMT_MOD_TILE_MASK 0x1F
-+
-+/* Whether DCC compression is enabled. */
-+#define AMD_FMT_MOD_DCC_SHIFT 13
-+#define AMD_FMT_MOD_DCC_MASK 0x1
-+
-+/*
-+ * Whether to include two DCC surfaces, one which is rb & pipe aligned, and
-+ * one which is not-aligned.
-+ */
-+#define AMD_FMT_MOD_DCC_RETILE_SHIFT 14
-+#define AMD_FMT_MOD_DCC_RETILE_MASK 0x1
-+
-+/* Only set if DCC_RETILE = false */
-+#define AMD_FMT_MOD_DCC_PIPE_ALIGN_SHIFT 15
-+#define AMD_FMT_MOD_DCC_PIPE_ALIGN_MASK 0x1
-+
-+#define AMD_FMT_MOD_DCC_INDEPENDENT_64B_SHIFT 16
-+#define AMD_FMT_MOD_DCC_INDEPENDENT_64B_MASK 0x1
-+#define AMD_FMT_MOD_DCC_INDEPENDENT_128B_SHIFT 17
-+#define AMD_FMT_MOD_DCC_INDEPENDENT_128B_MASK 0x1
-+#define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_SHIFT 18
-+#define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_MASK 0x1
-+
-+/*
-+ * DCC supports embedding some clear colors directly in the DCC surface.
-+ * However, on older GPUs the rendering HW ignores the embedded clear color
-+ * and prefers the driver provided color. This necessitates doing a fastclear
-+ * eliminate operation before a process transfers control.
-+ *
-+ * If this bit is set that means the fastclear eliminate is not needed for these
-+ * embeddable colors.
-+ */
-+#define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_SHIFT 19
-+#define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_MASK 0x1
-+
-+/*
-+ * The below fields are for accounting for per GPU differences. These are only
-+ * relevant for GFX9 and later and if the tile field is *_X/_T.
-+ *
-+ * PIPE_XOR_BITS = always needed
-+ * BANK_XOR_BITS = only for TILE_VER_GFX9
-+ * PACKERS = only for TILE_VER_GFX10_RBPLUS
-+ * RB = only for TILE_VER_GFX9 & DCC
-+ * PIPE = only for TILE_VER_GFX9 & DCC & (DCC_RETILE | DCC_PIPE_ALIGN)
-+ */
-+#define AMD_FMT_MOD_PIPE_XOR_BITS_SHIFT 20
-+#define AMD_FMT_MOD_PIPE_XOR_BITS_MASK 0x7
-+#define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 23
-+#define AMD_FMT_MOD_BANK_XOR_BITS_MASK 0x7
-+#define AMD_FMT_MOD_PACKERS_SHIFT 26 /* aliases with BANK_XOR_BITS */
-+#define AMD_FMT_MOD_PACKERS_MASK 0x7
-+#define AMD_FMT_MOD_RB_SHIFT 29
-+#define AMD_FMT_MOD_RB_MASK 0x7
-+#define AMD_FMT_MOD_PIPE_SHIFT 32
-+#define AMD_FMT_MOD_PIPE_MASK 0x7
-+
-+#define AMD_FMT_MOD_SET(field, value) \
-+	((uint64_t)(value) << AMD_FMT_MOD_##field##_SHIFT)
-+#define AMD_FMT_MOD_GET(field, value) \
-+	(((value) >> AMD_FMT_MOD_##field##_SHIFT) & AMD_FMT_MOD_##field##_MASK)
-+#define AMD_FMT_MOD_CLEAR(field) \
-+	(~((uint64_t)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
-+
- #if defined(__cplusplus)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index abc70fbe176d..6ef7f2f8acab 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3601,46 +3601,83 @@ static int get_fb_info(const struct amdgpu_framebuffer *amdgpu_fb,
+ 	return r;
  }
- #endif
+ 
+-static inline uint64_t get_dcc_address(uint64_t address, uint64_t tiling_flags)
++static void
++fill_gfx8_tiling_info_from_flags(union dc_tiling_info *tiling_info,
++				 uint64_t tiling_flags)
+ {
+-	uint32_t offset = AMDGPU_TILING_GET(tiling_flags, DCC_OFFSET_256B);
++	/* Fill GFX8 params */
++	if (AMDGPU_TILING_GET(tiling_flags, ARRAY_MODE) == DC_ARRAY_2D_TILED_THIN1) {
++		unsigned int bankw, bankh, mtaspect, tile_split, num_banks;
++
++		bankw = AMDGPU_TILING_GET(tiling_flags, BANK_WIDTH);
++		bankh = AMDGPU_TILING_GET(tiling_flags, BANK_HEIGHT);
++		mtaspect = AMDGPU_TILING_GET(tiling_flags, MACRO_TILE_ASPECT);
++		tile_split = AMDGPU_TILING_GET(tiling_flags, TILE_SPLIT);
++		num_banks = AMDGPU_TILING_GET(tiling_flags, NUM_BANKS);
+ 
+-	return offset ? (address + offset * 256) : 0;
++		/* XXX fix me for VI */
++		tiling_info->gfx8.num_banks = num_banks;
++		tiling_info->gfx8.array_mode =
++				DC_ARRAY_2D_TILED_THIN1;
++		tiling_info->gfx8.tile_split = tile_split;
++		tiling_info->gfx8.bank_width = bankw;
++		tiling_info->gfx8.bank_height = bankh;
++		tiling_info->gfx8.tile_aspect = mtaspect;
++		tiling_info->gfx8.tile_mode =
++				DC_ADDR_SURF_MICRO_TILING_DISPLAY;
++	} else if (AMDGPU_TILING_GET(tiling_flags, ARRAY_MODE)
++			== DC_ARRAY_1D_TILED_THIN1) {
++		tiling_info->gfx8.array_mode = DC_ARRAY_1D_TILED_THIN1;
++	}
++
++	tiling_info->gfx8.pipe_config =
++			AMDGPU_TILING_GET(tiling_flags, PIPE_CONFIG);
++}
++
++static void
++fill_gfx9_tiling_info_from_device(const struct amdgpu_device *adev,
++				  union dc_tiling_info *tiling_info)
++{
++	tiling_info->gfx9.num_pipes =
++		adev->gfx.config.gb_addr_config_fields.num_pipes;
++	tiling_info->gfx9.num_banks =
++		adev->gfx.config.gb_addr_config_fields.num_banks;
++	tiling_info->gfx9.pipe_interleave =
++		adev->gfx.config.gb_addr_config_fields.pipe_interleave_size;
++	tiling_info->gfx9.num_shader_engines =
++		adev->gfx.config.gb_addr_config_fields.num_se;
++	tiling_info->gfx9.max_compressed_frags =
++		adev->gfx.config.gb_addr_config_fields.max_compress_frags;
++	tiling_info->gfx9.num_rb_per_se =
++		adev->gfx.config.gb_addr_config_fields.num_rb_per_se;
++	tiling_info->gfx9.shaderEnable = 1;
++#ifdef CONFIG_DRM_AMD_DC_DCN3_0
++	if (adev->asic_type == CHIP_SIENNA_CICHLID)
++		tiling_info->gfx9.num_pkrs = adev->gfx.config.gb_addr_config_fields.num_pkrs;
++#endif
+ }
+ 
+ static int
+-fill_plane_dcc_attributes(struct amdgpu_device *adev,
+-			  const struct amdgpu_framebuffer *afb,
+-			  const enum surface_pixel_format format,
+-			  const enum dc_rotation_angle rotation,
+-			  const struct plane_size *plane_size,
+-			  const union dc_tiling_info *tiling_info,
+-			  const uint64_t info,
+-			  struct dc_plane_dcc_param *dcc,
+-			  struct dc_plane_address *address,
+-			  bool force_disable_dcc)
++validate_dcc(struct amdgpu_device *adev,
++	     const enum surface_pixel_format format,
++	     const enum dc_rotation_angle rotation,
++	     const union dc_tiling_info *tiling_info,
++	     const struct dc_plane_dcc_param *dcc,
++	     const struct dc_plane_address *address,
++	     const struct plane_size *plane_size)
+ {
+ 	struct dc *dc = adev->dm.dc;
+ 	struct dc_dcc_surface_param input;
+ 	struct dc_surface_dcc_cap output;
+-	uint64_t plane_address = afb->address + afb->base.offsets[0];
+-	uint32_t offset = AMDGPU_TILING_GET(info, DCC_OFFSET_256B);
+-	uint32_t i64b = AMDGPU_TILING_GET(info, DCC_INDEPENDENT_64B) != 0;
+-	uint64_t dcc_address;
+ 
+ 	memset(&input, 0, sizeof(input));
+ 	memset(&output, 0, sizeof(output));
+ 
+-	if (force_disable_dcc)
+-		return 0;
+-
+-	if (!offset)
++	if (!dcc->enable)
+ 		return 0;
+ 
+-	if (format >= SURFACE_PIXEL_FORMAT_VIDEO_BEGIN)
+-		return -EINVAL;
+-
+-	if (!dc->cap_funcs.get_dcc_compression_cap)
++	if (format >= SURFACE_PIXEL_FORMAT_VIDEO_BEGIN ||
++	    !dc->cap_funcs.get_dcc_compression_cap)
+ 		return -EINVAL;
+ 
+ 	input.format = format;
+@@ -3659,17 +3696,60 @@ fill_plane_dcc_attributes(struct amdgpu_device *adev,
+ 	if (!output.capable)
+ 		return -EINVAL;
+ 
+-	if (i64b == 0 && output.grph.rgb.independent_64b_blks != 0)
++	if (dcc->independent_64b_blks == 0 &&
++	    output.grph.rgb.independent_64b_blks != 0)
+ 		return -EINVAL;
+ 
++	return 0;
++}
++
++static void
++fill_dcc_params_from_flags(const struct amdgpu_framebuffer *afb,
++			   struct dc_plane_dcc_param *dcc,
++			   struct dc_plane_address *address,
++			   const uint64_t flags, bool force_disable_dcc)
++{
++	uint64_t dcc_address;
++	uint64_t plane_address = afb->address + afb->base.offsets[0];
++	uint32_t offset = AMDGPU_TILING_GET(flags, DCC_OFFSET_256B);
++	uint32_t i64b = AMDGPU_TILING_GET(flags, DCC_INDEPENDENT_64B) != 0;
++
++	if (!offset || force_disable_dcc)
++		return;
++
+ 	dcc->enable = 1;
+-	dcc->meta_pitch =
+-		AMDGPU_TILING_GET(info, DCC_PITCH_MAX) + 1;
++	dcc->meta_pitch = AMDGPU_TILING_GET(flags, DCC_PITCH_MAX) + 1;
+ 	dcc->independent_64b_blks = i64b;
+ 
+-	dcc_address = get_dcc_address(plane_address, info);
++	dcc_address = plane_address + (uint64_t)offset * 256;
+ 	address->grph.meta_addr.low_part = lower_32_bits(dcc_address);
+ 	address->grph.meta_addr.high_part = upper_32_bits(dcc_address);
++}
++
++
++static int
++fill_gfx9_plane_attributes_from_flags(struct amdgpu_device *adev,
++				      const struct amdgpu_framebuffer *afb,
++				      const enum surface_pixel_format format,
++				      const enum dc_rotation_angle rotation,
++				      const struct plane_size *plane_size,
++				      union dc_tiling_info *tiling_info,
++				      struct dc_plane_dcc_param *dcc,
++				      struct dc_plane_address *address,
++				      uint64_t tiling_flags,
++				      bool force_disable_dcc)
++{
++	int ret;
++
++	fill_gfx9_tiling_info_from_device(adev, tiling_info);
++
++	tiling_info->gfx9.swizzle =
++		AMDGPU_TILING_GET(tiling_flags, SWIZZLE_MODE);
++
++	fill_dcc_params_from_flags(afb, dcc, address, tiling_flags, force_disable_dcc);
++	ret = validate_dcc(adev, format, rotation, tiling_info, dcc, address, plane_size);
++	if (ret)
++		return ret;
+ 
+ 	return 0;
+ }
+@@ -3741,73 +3821,16 @@ fill_plane_buffer_attributes(struct amdgpu_device *adev,
+ 			upper_32_bits(chroma_addr);
+ 	}
+ 
+-	/* Fill GFX8 params */
+-	if (AMDGPU_TILING_GET(tiling_flags, ARRAY_MODE) == DC_ARRAY_2D_TILED_THIN1) {
+-		unsigned int bankw, bankh, mtaspect, tile_split, num_banks;
+-
+-		bankw = AMDGPU_TILING_GET(tiling_flags, BANK_WIDTH);
+-		bankh = AMDGPU_TILING_GET(tiling_flags, BANK_HEIGHT);
+-		mtaspect = AMDGPU_TILING_GET(tiling_flags, MACRO_TILE_ASPECT);
+-		tile_split = AMDGPU_TILING_GET(tiling_flags, TILE_SPLIT);
+-		num_banks = AMDGPU_TILING_GET(tiling_flags, NUM_BANKS);
+-
+-		/* XXX fix me for VI */
+-		tiling_info->gfx8.num_banks = num_banks;
+-		tiling_info->gfx8.array_mode =
+-				DC_ARRAY_2D_TILED_THIN1;
+-		tiling_info->gfx8.tile_split = tile_split;
+-		tiling_info->gfx8.bank_width = bankw;
+-		tiling_info->gfx8.bank_height = bankh;
+-		tiling_info->gfx8.tile_aspect = mtaspect;
+-		tiling_info->gfx8.tile_mode =
+-				DC_ADDR_SURF_MICRO_TILING_DISPLAY;
+-	} else if (AMDGPU_TILING_GET(tiling_flags, ARRAY_MODE)
+-			== DC_ARRAY_1D_TILED_THIN1) {
+-		tiling_info->gfx8.array_mode = DC_ARRAY_1D_TILED_THIN1;
+-	}
+-
+-	tiling_info->gfx8.pipe_config =
+-			AMDGPU_TILING_GET(tiling_flags, PIPE_CONFIG);
+ 
+-	if (adev->asic_type == CHIP_VEGA10 ||
+-	    adev->asic_type == CHIP_VEGA12 ||
+-	    adev->asic_type == CHIP_VEGA20 ||
+-	    adev->asic_type == CHIP_NAVI10 ||
+-	    adev->asic_type == CHIP_NAVI14 ||
+-	    adev->asic_type == CHIP_NAVI12 ||
+-#if defined(CONFIG_DRM_AMD_DC_DCN3_0)
+-		adev->asic_type == CHIP_SIENNA_CICHLID ||
+-#endif
+-	    adev->asic_type == CHIP_RENOIR ||
+-	    adev->asic_type == CHIP_RAVEN) {
+-		/* Fill GFX9 params */
+-		tiling_info->gfx9.num_pipes =
+-			adev->gfx.config.gb_addr_config_fields.num_pipes;
+-		tiling_info->gfx9.num_banks =
+-			adev->gfx.config.gb_addr_config_fields.num_banks;
+-		tiling_info->gfx9.pipe_interleave =
+-			adev->gfx.config.gb_addr_config_fields.pipe_interleave_size;
+-		tiling_info->gfx9.num_shader_engines =
+-			adev->gfx.config.gb_addr_config_fields.num_se;
+-		tiling_info->gfx9.max_compressed_frags =
+-			adev->gfx.config.gb_addr_config_fields.max_compress_frags;
+-		tiling_info->gfx9.num_rb_per_se =
+-			adev->gfx.config.gb_addr_config_fields.num_rb_per_se;
+-		tiling_info->gfx9.swizzle =
+-			AMDGPU_TILING_GET(tiling_flags, SWIZZLE_MODE);
+-		tiling_info->gfx9.shaderEnable = 1;
+-
+-#ifdef CONFIG_DRM_AMD_DC_DCN3_0
+-		if (adev->asic_type == CHIP_SIENNA_CICHLID)
+-			tiling_info->gfx9.num_pkrs = adev->gfx.config.gb_addr_config_fields.num_pkrs;
+-
+-#endif
+-		ret = fill_plane_dcc_attributes(adev, afb, format, rotation,
+-						plane_size, tiling_info,
+-						tiling_flags, dcc, address,
+-						force_disable_dcc);
++	if (adev->family >= AMDGPU_FAMILY_AI) {
++		ret = fill_gfx9_plane_attributes_from_flags(adev, afb, format, rotation,
++							    plane_size, tiling_info, dcc,
++							    address, tiling_flags,
++							    force_disable_dcc);
+ 		if (ret)
+ 			return ret;
++	} else {
++		fill_gfx8_tiling_info_from_flags(tiling_info, tiling_flags);
+ 	}
+ 
+ 	return 0;
 -- 
 2.28.0
 
