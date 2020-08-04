@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62C123B300
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B797723B2FF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Aug 2020 04:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 751696E3D8;
-	Tue,  4 Aug 2020 02:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A79056E3D6;
+	Tue,  4 Aug 2020 02:58:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
  [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B736E3D6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE326E3D2
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Aug 2020 02:58:08 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-mG0gubqdORqy_YVhnD5_Tg-1; Mon, 03 Aug 2020 22:58:04 -0400
-X-MC-Unique: mG0gubqdORqy_YVhnD5_Tg-1
+ us-mta-285-5g-3C7aINk2UE5u7eoPzUg-1; Mon, 03 Aug 2020 22:58:06 -0400
+X-MC-Unique: 5g-3C7aINk2UE5u7eoPzUg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4794100CD00;
- Tue,  4 Aug 2020 02:58:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEEEF18FF662;
+ Tue,  4 Aug 2020 02:58:04 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-17.bne.redhat.com
  [10.64.54.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 337EA8AD1C;
- Tue,  4 Aug 2020 02:58:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40C108AD1C;
+ Tue,  4 Aug 2020 02:58:03 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 33/59] drm/vmwgfx: fix gmrid takedown paths to new interface
-Date: Tue,  4 Aug 2020 12:56:06 +1000
-Message-Id: <20200804025632.3868079-34-airlied@gmail.com>
+Subject: [PATCH 34/59] drm/ttm: remove range manager legacy takedown path
+Date: Tue,  4 Aug 2020 12:56:07 +1000
+Message-Id: <20200804025632.3868079-35-airlied@gmail.com>
 In-Reply-To: <20200804025632.3868079-1-airlied@gmail.com>
 References: <20200804025632.3868079-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -52,100 +52,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sroland@vmware.com, christian.koenig@amd.com,
  linux-graphics-maintainer@vmware.com, bskeggs@redhat.com, kraxel@redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  9 ++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |  1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 11 ++++++++---
- 3 files changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 4f4d22bac477..f368a9cc0c2a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -996,9 +996,9 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	vmw_kms_close(dev_priv);
- out_no_kms:
- 	if (dev_priv->has_mob)
--		(void) ttm_bo_clean_mm(&dev_priv->bdev, VMW_PL_MOB);
-+		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
- 	if (dev_priv->has_gmr)
--		(void) ttm_bo_clean_mm(&dev_priv->bdev, VMW_PL_GMR);
-+		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
- 	vmw_vram_manager_fini(dev_priv);
- out_no_vram:
- 	(void)ttm_bo_device_release(&dev_priv->bdev);
-@@ -1047,12 +1047,11 @@ static void vmw_driver_unload(struct drm_device *dev)
- 	vmw_overlay_close(dev_priv);
- 
- 	if (dev_priv->has_gmr)
--		(void)ttm_bo_clean_mm(&dev_priv->bdev, VMW_PL_GMR);
--	(void)ttm_bo_clean_mm(&dev_priv->bdev, TTM_PL_VRAM);
-+		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
- 
- 	vmw_release_device_early(dev_priv);
- 	if (dev_priv->has_mob)
--		(void) ttm_bo_clean_mm(&dev_priv->bdev, VMW_PL_MOB);
-+		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
- 	vmw_vram_manager_fini(dev_priv);
- 	(void) ttm_bo_device_release(&dev_priv->bdev);
- 	drm_vma_offset_manager_destroy(&dev_priv->vma_manager);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index c6530d7b6d51..aa763c6b1146 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -1222,6 +1222,7 @@ int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
-  */
- 
- int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
-+void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type);
- 
- /**
-  * Prime - vmwgfx_prime.c
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-index 141fb14e3583..ec1b5bb01a93 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-@@ -133,20 +133,25 @@ int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type)
- 	return 0;
- }
- 
--static int vmw_gmrid_man_takedown(struct ttm_mem_type_manager *man)
-+void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type)
- {
-+	struct ttm_mem_type_manager *man = &dev_priv->bdev.man[type];
- 	struct vmwgfx_gmrid_man *gman =
- 		(struct vmwgfx_gmrid_man *)man->priv;
- 
-+	ttm_mem_type_manager_disable(man);
-+
-+	ttm_mem_type_manager_force_list_clean(&dev_priv->bdev, man);
-+
- 	if (gman) {
- 		ida_destroy(&gman->gmr_ida);
- 		kfree(gman);
- 	}
--	return 0;
-+
-+	ttm_mem_type_manager_cleanup(man);
- }
- 
- static const struct ttm_mem_type_manager_func vmw_gmrid_manager_func = {
--	.takedown = vmw_gmrid_man_takedown,
- 	.get_node = vmw_gmrid_man_get_node,
- 	.put_node = vmw_gmrid_man_put_node,
- };
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KCk5vdyBhbGwgZHJpdmVycyBo
+YXZlIGJlZW4gY29udmVydGVkLCBkcm9wIHRoZSBub24tZHJpdmVyIHBhdGguCgpSZXZpZXdlZC1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpTaWduZWQtb2Zm
+LWJ5OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS90dG0vdHRtX2JvX21hbmFnZXIuYyB8IDI4ICsrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0K
+IDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQoKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYyBiL2RyaXZlcnMvZ3B1
+L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwppbmRleCA5NmRhMjJiZTY3MmIuLjg2YmY1ZTcxZTk1
+OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fbWFuYWdlci5jCisrKyBi
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYwpAQCAtMTI5LDI2ICsxMjksMTEg
+QEAgaW50IHR0bV9yYW5nZV9tYW5faW5pdChzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKIH0K
+IEVYUE9SVF9TWU1CT0wodHRtX3JhbmdlX21hbl9pbml0KTsKIAotc3RhdGljIGludCB0dG1fYm9f
+bWFuX3Rha2Vkb3duX3ByaXZhdGUoc3RydWN0IHR0bV9tZW1fdHlwZV9tYW5hZ2VyICptYW4pCi17
+Ci0Jc3RydWN0IHR0bV9yYW5nZV9tYW5hZ2VyICpybWFuID0gKHN0cnVjdCB0dG1fcmFuZ2VfbWFu
+YWdlciAqKSBtYW4tPnByaXY7Ci0Jc3RydWN0IGRybV9tbSAqbW0gPSAmcm1hbi0+bW07Ci0KLQlz
+cGluX2xvY2soJnJtYW4tPmxvY2spOwotCWlmIChkcm1fbW1fY2xlYW4obW0pKSB7Ci0JCWRybV9t
+bV90YWtlZG93bihtbSk7Ci0JCXNwaW5fdW5sb2NrKCZybWFuLT5sb2NrKTsKLQkJa2ZyZWUocm1h
+bik7Ci0JCW1hbi0+cHJpdiA9IE5VTEw7Ci0JCXJldHVybiAwOwotCX0KLQlzcGluX3VubG9jaygm
+cm1hbi0+bG9jayk7Ci0JcmV0dXJuIC1FQlVTWTsKLX0KLQogaW50IHR0bV9yYW5nZV9tYW5fZmlu
+aShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKIAkJICAgICAgIHN0cnVjdCB0dG1fbWVtX3R5
+cGVfbWFuYWdlciAqbWFuKQogeworCXN0cnVjdCB0dG1fcmFuZ2VfbWFuYWdlciAqcm1hbiA9IChz
+dHJ1Y3QgdHRtX3JhbmdlX21hbmFnZXIgKikgbWFuLT5wcml2OworCXN0cnVjdCBkcm1fbW0gKm1t
+ID0gJnJtYW4tPm1tOwogCWludCByZXQ7CiAKIAl0dG1fbWVtX3R5cGVfbWFuYWdlcl9kaXNhYmxl
+KG1hbik7CkBAIC0xNTcsNyArMTQyLDEzIEBAIGludCB0dG1fcmFuZ2VfbWFuX2Zpbmkoc3RydWN0
+IHR0bV9ib19kZXZpY2UgKmJkZXYsCiAJaWYgKHJldCkKIAkJcmV0dXJuIHJldDsKIAotCXR0bV9i
+b19tYW5fdGFrZWRvd25fcHJpdmF0ZShtYW4pOworCXNwaW5fbG9jaygmcm1hbi0+bG9jayk7CisJ
+ZHJtX21tX2NsZWFuKG1tKTsKKwlkcm1fbW1fdGFrZWRvd24obW0pOworCXNwaW5fdW5sb2NrKCZy
+bWFuLT5sb2NrKTsKKwlrZnJlZShybWFuKTsKKwltYW4tPnByaXYgPSBOVUxMOworCiAJdHRtX21l
+bV90eXBlX21hbmFnZXJfY2xlYW51cChtYW4pOwogCXJldHVybiAwOwogfQpAQCAtMTc0LDcgKzE2
+NSw2IEBAIHN0YXRpYyB2b2lkIHR0bV9ib19tYW5fZGVidWcoc3RydWN0IHR0bV9tZW1fdHlwZV9t
+YW5hZ2VyICptYW4sCiB9CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgdHRtX21lbV90eXBlX21hbmFn
+ZXJfZnVuYyB0dG1fYm9fbWFuYWdlcl9mdW5jID0gewotCS50YWtlZG93biA9IHR0bV9ib19tYW5f
+dGFrZWRvd25fcHJpdmF0ZSwKIAkuZ2V0X25vZGUgPSB0dG1fYm9fbWFuX2dldF9ub2RlLAogCS5w
+dXRfbm9kZSA9IHR0bV9ib19tYW5fcHV0X25vZGUsCiAJLmRlYnVnID0gdHRtX2JvX21hbl9kZWJ1
+ZwotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
